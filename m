@@ -2,161 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E84FDD87
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Apr 2019 10:17:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AF8BDE19
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Apr 2019 10:39:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727564AbfD2IRx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Apr 2019 04:17:53 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:32876 "EHLO
-        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727477AbfD2IRx (ORCPT
+        id S1727517AbfD2IjF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Apr 2019 04:39:05 -0400
+Received: from mail-ua1-f66.google.com ([209.85.222.66]:43845 "EHLO
+        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727554AbfD2IjF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Apr 2019 04:17:53 -0400
-Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 2276925B783;
-        Mon, 29 Apr 2019 18:17:50 +1000 (AEST)
-Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id 1D1BC940376; Mon, 29 Apr 2019 10:17:48 +0200 (CEST)
-Date:   Mon, 29 Apr 2019 10:17:48 +0200
-From:   Simon Horman <horms@verge.net.au>
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     Spyridon Papageorgiou <spapageorgiou@de.adit-jv.com>,
-        magnus.damm@gmail.com, robh+dt@kernel.org, mark.rutland@arm.com,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, tfranzen@de.adit-jv.com,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH] arm64: dts: ulcb-kf: Add support for TI WL1837
-Message-ID: <20190429081747.irznig7yrvztuc5x@verge.net.au>
-References: <20190411124102.22442-1-spapageorgiou@de.adit-jv.com>
- <20190425111245.GA7258@vmlxhi-102.adit-jv.com>
- <20190426095012.xzyzevvmom4fzdcd@verge.net.au>
+        Mon, 29 Apr 2019 04:39:05 -0400
+Received: by mail-ua1-f66.google.com with SMTP id n16so3203490uae.10;
+        Mon, 29 Apr 2019 01:39:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GnxBF0jspOG3+YYITdmvIXsHWEoXG/JoFXQLoO8H8mc=;
+        b=srgQGvQehvcNGo79mnScNogUk0PH0TNCI0NSawmAZfQO4EEiG00MdvB4XBE2xayz5x
+         3ILGh4Md7Xs/bE651MY20QYdogRUy8pBaSEFXGIrYPiQOwK8dpLDT51BFr4US9xyeRSh
+         vapIg2nW8jHNx5ZThcNQnCNQ+i6Buy0ESkhrCDRl4Z9Lf9apdlZamwKuecFsN6k3hKOa
+         m9p8YVt91QsGZnYevC/6kDxOiMFBy2c2bzJrDv/TaRoi29NM/gB62FegisUEjyaTAkB5
+         W+0F2vtxukmL8z5+J+V48QUahrl9n/+AUS+fVae34bcC1oHDD5+HAm0WH8vI6c4DQKja
+         m8yA==
+X-Gm-Message-State: APjAAAWVZdm2n9feWdmX1nNWF0hIh07kSLUvP9SLjHrTRyA9ERmgpRU6
+        jgYdlAuIMTXFShwZmpa54IRQ7B0cOge8HKHzBULyYA==
+X-Google-Smtp-Source: APXvYqySuVBKCjsg0ITcy7+yxJ3DC3BYWPSchTC5XaksWQRt8ozQndvhm8zNOSD/SVZZ38Cn3ZD+1AMaB2GP+5HxDsg=
+X-Received: by 2002:ab0:6419:: with SMTP id x25mr30526721uao.86.1556527143965;
+ Mon, 29 Apr 2019 01:39:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190426095012.xzyzevvmom4fzdcd@verge.net.au>
-Organisation: Horms Solutions BV
-User-Agent: NeoMutt/20170113 (1.7.2)
+References: <20190425095542.726-1-geert+renesas@glider.be> <20190425095542.726-2-geert+renesas@glider.be>
+ <20190426092139.5mwjtmm5fnpek6bb@verge.net.au>
+In-Reply-To: <20190426092139.5mwjtmm5fnpek6bb@verge.net.au>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 29 Apr 2019 10:38:52 +0200
+Message-ID: <CAMuHMdXMeaO8uTT1thMGp+rfk=pcy-ejEU1EPNc_z+0Gw1GF5w@mail.gmail.com>
+Subject: Re: [PATCH 1/4] pinctrl: sh-pfc: Correct printk level of group
+ referral warning
+To:     Simon Horman <horms@verge.net.au>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi again,
+Hi Simon,
 
-I have been able to solicit a limited private review of this patch and
-have gone ahead and applied it for inclusion in v5.2.
+On Fri, Apr 26, 2019 at 11:21 AM Simon Horman <horms@verge.net.au> wrote:
+> On Thu, Apr 25, 2019 at 11:55:39AM +0200, Geert Uytterhoeven wrote:
+> > Fixes: 6161b39a14380815 ("pinctrl: sh-pfc: Validate pinmux tables at runtime when debugging")
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> This looks good to me
+>
+> Reviewed-by: Simon Horman <simon.horman@netronome.com>
 
-On Fri, Apr 26, 2019 at 11:50:12AM +0200, Simon Horman wrote:
-> Hi,
-> 
-> from my point of view what is required is a review.
-> I will try to find someone to do so.
-> I apologise for not doing so earlier.
-> 
-> On Thu, Apr 25, 2019 at 01:12:45PM +0200, Eugeniu Rosca wrote:
-> > Hi Simon,
-> > 
-> > Do we have any chance getting this upstream? If so, would you kindly
-> > list the acceptance criteria we have to conform to?
-> > 
-> > Many thanks.
-> > 
-> > On Thu, Apr 11, 2019 at 02:41:03PM +0200, Spyridon Papageorgiou wrote:
-> > > This patch adds description of TI WL1837 and links interfaces
-> > > to communicate with the IC, namely the SDIO interface to WLAN.
-> > > 
-> > > Signed-off-by: Spyridon Papageorgiou <spapageorgiou@de.adit-jv.com>
-> > > ---
-> > >  arch/arm64/boot/dts/renesas/ulcb-kf.dtsi | 49 ++++++++++++++++++++++++++++++++
-> > >  1 file changed, 49 insertions(+)
-> > > 
-> > > diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-> > > index 7a09576..27851a7 100644
-> > > --- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-> > > +++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-> > > @@ -38,6 +38,18 @@
-> > >  		regulator-min-microvolt = <5000000>;
-> > >  		regulator-max-microvolt = <5000000>;
-> > >  	};
-> > > +
-> > > +	wlan_en: regulator-wlan_en {
-> > > +		compatible = "regulator-fixed";
-> > > +		regulator-name = "wlan-en-regulator";
-> > > +
-> > > +		regulator-min-microvolt = <3300000>;
-> > > +		regulator-max-microvolt = <3300000>;
-> > > +
-> > > +		gpio = <&gpio_exp_74 4 GPIO_ACTIVE_HIGH>;
-> > > +		startup-delay-us = <70000>;
-> > > +		enable-active-high;
-> > > +	};
-> > >  };
-> > >  
-> > >  &can0 {
-> > > @@ -88,6 +100,13 @@
-> > >  			line-name = "Audio_Out_OFF";
-> > >  		};
-> > >  
-> > > +		sd-wifi-mux {
-> > > +			gpio-hog;
-> > > +			gpios = <5 GPIO_ACTIVE_HIGH>;
-> > > +			output-low;	/* Connect WL1837 */
-> > > +			line-name = "SD WiFi mux";
-> > > +		};
-> > > +
-> > >  		hub_pwen {
-> > >  			gpio-hog;
-> > >  			gpios = <6 GPIO_ACTIVE_HIGH>;
-> > > @@ -254,6 +273,12 @@
-> > >  		function = "scif1";
-> > >  	};
-> > >  
-> > > +	sdhi3_pins: sdhi3 {
-> > > +		groups = "sdhi3_data4", "sdhi3_ctrl";
-> > > +		function = "sdhi3";
-> > > +		power-source = <3300>;
-> > > +	};
-> > > +
-> > >  	usb0_pins: usb0 {
-> > >  		groups = "usb0";
-> > >  		function = "usb0";
-> > > @@ -273,6 +298,30 @@
-> > >  	status = "okay";
-> > >  };
-> > >  
-> > > +&sdhi3 {
-> > > +	pinctrl-0 = <&sdhi3_pins>;
-> > > +	pinctrl-names = "default";
-> > > +
-> > > +	vmmc-supply = <&wlan_en>;
-> > > +	vqmmc-supply = <&wlan_en>;
-> > > +	bus-width = <4>;
-> > > +	no-1-8-v;
-> > > +	non-removable;
-> > > +	cap-power-off-card;
-> > > +	keep-power-in-suspend;
-> > > +	max-frequency = <26000000>;
-> > > +	status = "okay";
-> > > +
-> > > +	#address-cells = <1>;
-> > > +	#size-cells = <0>;
-> > > +	wlcore: wlcore@2 {
-> > > +		compatible = "ti,wl1837";
-> > > +		reg = <2>;
-> > > +		interrupt-parent = <&gpio1>;
-> > > +		interrupts = <25 IRQ_TYPE_EDGE_FALLING>;
-> > > +	};
-> > > +};
-> > > +
-> > >  &usb2_phy0 {
-> > >  	pinctrl-0 = <&usb0_pins>;
-> > >  	pinctrl-names = "default";
-> > > -- 
-> > > 2.7.4
-> > > 
-> > 
-> > -- 
-> > Best regards,
-> > Eugeniu.
-> > 
-> 
+Thanks!
+
+Is the atypical email address for sh-pfc reviews intentional?
+
+> But I do wonder if "referred" should be "referenced"
+
+Yes, sounds better.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
