@@ -2,94 +2,161 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BE9F3DC59
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Apr 2019 08:56:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E84FDD87
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Apr 2019 10:17:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727439AbfD2G4Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Apr 2019 02:56:24 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:45625 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726846AbfD2G4Y (ORCPT
+        id S1727564AbfD2IRx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Apr 2019 04:17:53 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:32876 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727477AbfD2IRx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Apr 2019 02:56:24 -0400
-Received: by mail-lf1-f66.google.com with SMTP id t11so6944553lfl.12
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 28 Apr 2019 23:56:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lixom-net.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=FZF9cclvG1CqpNtldd8ZIhldVBCl60ciGNHvB39t0uc=;
-        b=lo14Wc2Eg1Qi8meppjp0KyQGfysNNICoj9ch2e7uHw6xOrq81MEuyO9xTT/mHsMN2m
-         xJp7Z17zglqrJ1DTrnX5pbMnEHbcm0CI3keQsq0V0eIsQC8r8jUaz/+U0eyYcf10pEmf
-         TNrvBGfXuXL8tYxBMC6S2+EGap75HrEb2E61lIRKDgegOg917vkT0QSeH0xl8reDrlRv
-         rPB8YhpNoRd80l3e/ojmXuV8xJlMgKGfvxpUPF1SWt6xEIJWd8hkvMinz8jvNSrbV3Xe
-         S3ghZzyUuHOKEOHNCiNdGcQ2rqC1uUDG4r0J6kWAfACgGDWrOkX+rplGNf/5hWWvNIA7
-         LvIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=FZF9cclvG1CqpNtldd8ZIhldVBCl60ciGNHvB39t0uc=;
-        b=SDbaO5zTy8D8iIMc6rrRTmfvUjc6a38smp/qUwpn5TY+hKroiSxrdNaf/BLKaVjO1J
-         QqRoBR8JziwwyxQgwZYiCOckiI6goWUcjSehUvUXgokgaWhd1YwV/fgYVU5B2pJccCq3
-         4/DC2lZP5CeEg//E/DV4RDX7k/a7Z0ljjAyv9H4pnB7yxVlvR78wDHMU1jFNmAg7wpNU
-         8AqBqUtOANa+2sUE4CdCRJELpN4+hN+dcwr2GH9F/oP1HIgT8F0k4+UsimGRRuSOeMlH
-         wi1XYk5VdFJXA61n3tD9KQCoKQ8+RBXJr8L366JeXgKXDhQa0C1IsI/YSQMPqlhGy4QB
-         jlvw==
-X-Gm-Message-State: APjAAAVMmO64YwvqHbiGbqBpuJUY3eLckxnDUoYBW4zICyCvXOnI6v+l
-        7MvJof1cuT89N8gXPYn3W7q0Rw==
-X-Google-Smtp-Source: APXvYqwzGE51HGTtXUl9Bpo6Hc+hD2rJqxX71kFcBhlSTT+F5FFBRXU3fDN+aRKucBTdkfYfBvSx8g==
-X-Received: by 2002:a19:f24c:: with SMTP id d12mr31555491lfk.163.1556520982572;
-        Sun, 28 Apr 2019 23:56:22 -0700 (PDT)
-Received: from localhost (h85-30-9-151.cust.a3fiber.se. [85.30.9.151])
-        by smtp.gmail.com with ESMTPSA id v14sm4088827ljj.44.2019.04.28.23.56.21
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sun, 28 Apr 2019 23:56:21 -0700 (PDT)
-Date:   Sun, 28 Apr 2019 23:41:11 -0700
-From:   Olof Johansson <olof@lixom.net>
-To:     Simon Horman <horms+renesas@verge.net.au>
-Cc:     arm@kernel.org, linux-renesas-soc@vger.kernel.org,
-        Kevin Hilman <khilman@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        linux-arm-kernel@lists.infradead.org,
-        Magnus Damm <magnus.damm@gmail.com>
-Subject: Re: [GIT PULL] Renesas ARM Based SoC Drivers Updates for v5.2
-Message-ID: <20190429064111.yccbizwdbmby47sn@localhost>
-References: <cover.1555684066.git.horms+renesas@verge.net.au>
+        Mon, 29 Apr 2019 04:17:53 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 2276925B783;
+        Mon, 29 Apr 2019 18:17:50 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id 1D1BC940376; Mon, 29 Apr 2019 10:17:48 +0200 (CEST)
+Date:   Mon, 29 Apr 2019 10:17:48 +0200
+From:   Simon Horman <horms@verge.net.au>
+To:     Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc:     Spyridon Papageorgiou <spapageorgiou@de.adit-jv.com>,
+        magnus.damm@gmail.com, robh+dt@kernel.org, mark.rutland@arm.com,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, tfranzen@de.adit-jv.com,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [PATCH] arm64: dts: ulcb-kf: Add support for TI WL1837
+Message-ID: <20190429081747.irznig7yrvztuc5x@verge.net.au>
+References: <20190411124102.22442-1-spapageorgiou@de.adit-jv.com>
+ <20190425111245.GA7258@vmlxhi-102.adit-jv.com>
+ <20190426095012.xzyzevvmom4fzdcd@verge.net.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1555684066.git.horms+renesas@verge.net.au>
+In-Reply-To: <20190426095012.xzyzevvmom4fzdcd@verge.net.au>
+Organisation: Horms Solutions BV
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Apr 19, 2019 at 04:35:20PM +0200, Simon Horman wrote:
-> Hi Olof, Hi Kevin, Hi Arnd,
-> 
-> Please consider these Renesas ARM based SoC drivers updates for v5.2.
-> 
-> 
-> The following changes since commit 9e98c678c2d6ae3a17cb2de55d17f69dddaa231b:
-> 
->   Linux 5.1-rc1 (2019-03-17 14:22:26 -0700)
-> 
-> are available in the git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas.git tags/renesas-drivers-for-v5.2
-> 
-> for you to fetch changes up to 15160f6de0bba712fcea078c5ac7571fe33fcd5d:
-> 
->   soc: renesas: Identify R-Car M3-W ES1.3 (2019-03-18 10:33:42 +0100)
-> 
-> ----------------------------------------------------------------
-> Renesas ARM Based SoC Drivers Updates for v5.2
-> 
-> * Identify R-Car M3-W ES1.3
+Hi again,
 
-Merged, thanks!
+I have been able to solicit a limited private review of this patch and
+have gone ahead and applied it for inclusion in v5.2.
 
-
--Olof
+On Fri, Apr 26, 2019 at 11:50:12AM +0200, Simon Horman wrote:
+> Hi,
+> 
+> from my point of view what is required is a review.
+> I will try to find someone to do so.
+> I apologise for not doing so earlier.
+> 
+> On Thu, Apr 25, 2019 at 01:12:45PM +0200, Eugeniu Rosca wrote:
+> > Hi Simon,
+> > 
+> > Do we have any chance getting this upstream? If so, would you kindly
+> > list the acceptance criteria we have to conform to?
+> > 
+> > Many thanks.
+> > 
+> > On Thu, Apr 11, 2019 at 02:41:03PM +0200, Spyridon Papageorgiou wrote:
+> > > This patch adds description of TI WL1837 and links interfaces
+> > > to communicate with the IC, namely the SDIO interface to WLAN.
+> > > 
+> > > Signed-off-by: Spyridon Papageorgiou <spapageorgiou@de.adit-jv.com>
+> > > ---
+> > >  arch/arm64/boot/dts/renesas/ulcb-kf.dtsi | 49 ++++++++++++++++++++++++++++++++
+> > >  1 file changed, 49 insertions(+)
+> > > 
+> > > diff --git a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
+> > > index 7a09576..27851a7 100644
+> > > --- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
+> > > +++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
+> > > @@ -38,6 +38,18 @@
+> > >  		regulator-min-microvolt = <5000000>;
+> > >  		regulator-max-microvolt = <5000000>;
+> > >  	};
+> > > +
+> > > +	wlan_en: regulator-wlan_en {
+> > > +		compatible = "regulator-fixed";
+> > > +		regulator-name = "wlan-en-regulator";
+> > > +
+> > > +		regulator-min-microvolt = <3300000>;
+> > > +		regulator-max-microvolt = <3300000>;
+> > > +
+> > > +		gpio = <&gpio_exp_74 4 GPIO_ACTIVE_HIGH>;
+> > > +		startup-delay-us = <70000>;
+> > > +		enable-active-high;
+> > > +	};
+> > >  };
+> > >  
+> > >  &can0 {
+> > > @@ -88,6 +100,13 @@
+> > >  			line-name = "Audio_Out_OFF";
+> > >  		};
+> > >  
+> > > +		sd-wifi-mux {
+> > > +			gpio-hog;
+> > > +			gpios = <5 GPIO_ACTIVE_HIGH>;
+> > > +			output-low;	/* Connect WL1837 */
+> > > +			line-name = "SD WiFi mux";
+> > > +		};
+> > > +
+> > >  		hub_pwen {
+> > >  			gpio-hog;
+> > >  			gpios = <6 GPIO_ACTIVE_HIGH>;
+> > > @@ -254,6 +273,12 @@
+> > >  		function = "scif1";
+> > >  	};
+> > >  
+> > > +	sdhi3_pins: sdhi3 {
+> > > +		groups = "sdhi3_data4", "sdhi3_ctrl";
+> > > +		function = "sdhi3";
+> > > +		power-source = <3300>;
+> > > +	};
+> > > +
+> > >  	usb0_pins: usb0 {
+> > >  		groups = "usb0";
+> > >  		function = "usb0";
+> > > @@ -273,6 +298,30 @@
+> > >  	status = "okay";
+> > >  };
+> > >  
+> > > +&sdhi3 {
+> > > +	pinctrl-0 = <&sdhi3_pins>;
+> > > +	pinctrl-names = "default";
+> > > +
+> > > +	vmmc-supply = <&wlan_en>;
+> > > +	vqmmc-supply = <&wlan_en>;
+> > > +	bus-width = <4>;
+> > > +	no-1-8-v;
+> > > +	non-removable;
+> > > +	cap-power-off-card;
+> > > +	keep-power-in-suspend;
+> > > +	max-frequency = <26000000>;
+> > > +	status = "okay";
+> > > +
+> > > +	#address-cells = <1>;
+> > > +	#size-cells = <0>;
+> > > +	wlcore: wlcore@2 {
+> > > +		compatible = "ti,wl1837";
+> > > +		reg = <2>;
+> > > +		interrupt-parent = <&gpio1>;
+> > > +		interrupts = <25 IRQ_TYPE_EDGE_FALLING>;
+> > > +	};
+> > > +};
+> > > +
+> > >  &usb2_phy0 {
+> > >  	pinctrl-0 = <&usb0_pins>;
+> > >  	pinctrl-names = "default";
+> > > -- 
+> > > 2.7.4
+> > > 
+> > 
+> > -- 
+> > Best regards,
+> > Eugeniu.
+> > 
+> 
