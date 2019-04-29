@@ -2,116 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 13871E38F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Apr 2019 15:19:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1D42E5E0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Apr 2019 17:15:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728207AbfD2NTX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Apr 2019 09:19:23 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:59997 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725838AbfD2NTV (ORCPT
+        id S1728427AbfD2PPS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Apr 2019 11:15:18 -0400
+Received: from baptiste.telenet-ops.be ([195.130.132.51]:53462 "EHLO
+        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728253AbfD2PPS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Apr 2019 09:19:21 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1hL6BZ-0008Nm-Kv; Mon, 29 Apr 2019 15:19:09 +0200
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1hL6BX-0008Ne-87; Mon, 29 Apr 2019 15:19:07 +0200
-Date:   Mon, 29 Apr 2019 15:19:07 +0200
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-watchdog@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Fabio Estevam <festevam@gmail.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH v3 08/16] watchdog: imx_sc_wdt: drop warning after
- calling watchdog_init_timeout
-Message-ID: <20190429131907.xpl6duf4cvtwbmud@pengutronix.de>
-References: <20190419181601.7412-1-wsa+renesas@sang-engineering.com>
- <20190419181601.7412-9-wsa+renesas@sang-engineering.com>
- <20190429101558.6vyiospb6oqsstt7@pengutronix.de>
- <616a9d4e-7050-a6c2-727d-f62e08d3d98c@roeck-us.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <616a9d4e-7050-a6c2-727d-f62e08d3d98c@roeck-us.net>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+        Mon, 29 Apr 2019 11:15:18 -0400
+Received: from ramsan ([84.194.111.163])
+        by baptiste.telenet-ops.be with bizsmtp
+        id 6FFG200063XaVaC01FFGzZ; Mon, 29 Apr 2019 17:15:16 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hL7zw-0002Sb-1U; Mon, 29 Apr 2019 17:15:16 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hL7zv-0005m0-Vk; Mon, 29 Apr 2019 17:15:16 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] irqchip/renesas-intc-irqpin: Remove devm_kzalloc() error printing
+Date:   Mon, 29 Apr 2019 17:15:14 +0200
+Message-Id: <20190429151514.22150-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
+There is no need to print a message if devm_kzalloc() fails, as the
+memory allocation core already takes care of that.
 
-On Mon, Apr 29, 2019 at 05:37:12AM -0700, Guenter Roeck wrote:
-> On 4/29/19 3:15 AM, Uwe Kleine-König wrote:
-> > On Fri, Apr 19, 2019 at 08:15:53PM +0200, Wolfram Sang wrote:
-> > > The core will print out details now.
-> > > 
-> > > Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-> > > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > > ---
-> > >   drivers/watchdog/imx_sc_wdt.c | 5 +----
-> > >   1 file changed, 1 insertion(+), 4 deletions(-)
-> > > 
-> > > diff --git a/drivers/watchdog/imx_sc_wdt.c b/drivers/watchdog/imx_sc_wdt.c
-> > > index 86c2722f2a09..6dc24ceb1b2c 100644
-> > > --- a/drivers/watchdog/imx_sc_wdt.c
-> > > +++ b/drivers/watchdog/imx_sc_wdt.c
-> > 
-> > This driver isn't in next, and I don't know where to look for it.
-> > 
-> 
-> Branch watchdog-next of
-> git://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ drivers/irqchip/irq-renesas-intc-irqpin.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Thanks, found it now.
+diff --git a/drivers/irqchip/irq-renesas-intc-irqpin.c b/drivers/irqchip/irq-renesas-intc-irqpin.c
+index 8c039525703f7c9a..04c05a18600cf71f 100644
+--- a/drivers/irqchip/irq-renesas-intc-irqpin.c
++++ b/drivers/irqchip/irq-renesas-intc-irqpin.c
+@@ -389,10 +389,8 @@ static int intc_irqpin_probe(struct platform_device *pdev)
+ 	int k;
  
-> > > @@ -117,10 +117,7 @@ static int imx_sc_wdt_probe(struct platform_device *pdev)
-> > >   	imx_sc_wdd->parent = &pdev->dev;
-> > >   	imx_sc_wdd->timeout = DEFAULT_TIMEOUT;
-> > > -	ret = watchdog_init_timeout(imx_sc_wdd, 0, &pdev->dev);
-> > > -	if (ret)
-> > > -		dev_warn(&pdev->dev, "Failed to set timeout value, using default\n");
-> > > -
-> > > +	watchdog_init_timeout(imx_sc_wdd, 0, &pdev->dev);
-> > 
-> > One side effect is however that ret isn't set any more. So I wonder if a
-> > failure in watchdog_init_timeout() really makes the core print the
-> > details as expected.
-> > 
-> 
-> Sorry, I don't understand. The warning is printed in watchdog_init_timeout().
-> What does that have to do with setting ret here or not ?
-
-Ah, I thought the warning is done in the caller of the modified
-function. Maybe this means the commit log can be improved to for
-example:
-
-	The function watchdog_init_timeout() itself already emits a
-	more informative warning on failure. So drop the driver specific
-	one.
-
-Otherwise my concerns are eliminated.
-
-Thanks
-Uwe
-
+ 	p = devm_kzalloc(dev, sizeof(*p), GFP_KERNEL);
+-	if (!p) {
+-		dev_err(dev, "failed to allocate driver data\n");
++	if (!p)
+ 		return -ENOMEM;
+-	}
+ 
+ 	/* deal with driver instance configuration */
+ 	of_property_read_u32(dev->of_node, "sense-bitfield-width",
 -- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+2.17.1
+
