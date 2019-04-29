@@ -2,74 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B049DE49
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Apr 2019 10:49:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2878DDE58
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Apr 2019 10:51:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727576AbfD2ItZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Apr 2019 04:49:25 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:34810 "EHLO
-        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727539AbfD2ItZ (ORCPT
+        id S1727591AbfD2Ivi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Apr 2019 04:51:38 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:9204 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727572AbfD2Ivi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Apr 2019 04:49:25 -0400
-Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 640B025B263;
-        Mon, 29 Apr 2019 18:49:23 +1000 (AEST)
-Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id 6F6F3940376; Mon, 29 Apr 2019 10:49:21 +0200 (CEST)
-Date:   Mon, 29 Apr 2019 10:49:21 +0200
-From:   Simon Horman <horms@verge.net.au>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Subject: Re: [PATCH 1/4] pinctrl: sh-pfc: Correct printk level of group
- referral warning
-Message-ID: <20190429084921.nywiq6w3qcad3w4s@verge.net.au>
-References: <20190425095542.726-1-geert+renesas@glider.be>
- <20190425095542.726-2-geert+renesas@glider.be>
- <20190426092139.5mwjtmm5fnpek6bb@verge.net.au>
- <CAMuHMdXMeaO8uTT1thMGp+rfk=pcy-ejEU1EPNc_z+0Gw1GF5w@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXMeaO8uTT1thMGp+rfk=pcy-ejEU1EPNc_z+0Gw1GF5w@mail.gmail.com>
-Organisation: Horms Solutions BV
-User-Agent: NeoMutt/20170113 (1.7.2)
+        Mon, 29 Apr 2019 04:51:38 -0400
+X-IronPort-AV: E=Sophos;i="5.60,408,1549897200"; 
+   d="scan'208";a="14559589"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 29 Apr 2019 17:51:33 +0900
+Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id C9A93401700E;
+        Mon, 29 Apr 2019 17:51:29 +0900 (JST)
+From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] dt-bindings: usb-xhci: Add r8a774c0 support
+Date:   Mon, 29 Apr 2019 09:51:24 +0100
+Message-Id: <1556527884-11640-1-git-send-email-fabrizio.castro@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Apr 29, 2019 at 10:38:52AM +0200, Geert Uytterhoeven wrote:
-> Hi Simon,
-> 
-> On Fri, Apr 26, 2019 at 11:21 AM Simon Horman <horms@verge.net.au> wrote:
-> > On Thu, Apr 25, 2019 at 11:55:39AM +0200, Geert Uytterhoeven wrote:
+Document RZ/G2E (R8A774C0) SoC bindings.
 
-...
-
-> Thanks!
-> 
-> Is the atypical email address for sh-pfc reviews intentional?
-
-Sorry about that, I meant this:
-
+Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+ Documentation/devicetree/bindings/usb/usb-xhci.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-> > But I do wonder if "referred" should be "referenced"
-> 
-> Yes, sounds better.
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-> 
+diff --git a/Documentation/devicetree/bindings/usb/usb-xhci.txt b/Documentation/devicetree/bindings/usb/usb-xhci.txt
+index fea8b15..97400e8 100644
+--- a/Documentation/devicetree/bindings/usb/usb-xhci.txt
++++ b/Documentation/devicetree/bindings/usb/usb-xhci.txt
+@@ -10,6 +10,7 @@ Required properties:
+     - "renesas,xhci-r8a7743" for r8a7743 SoC
+     - "renesas,xhci-r8a7744" for r8a7744 SoC
+     - "renesas,xhci-r8a774a1" for r8a774a1 SoC
++    - "renesas,xhci-r8a774c0" for r8a774c0 SoC
+     - "renesas,xhci-r8a7790" for r8a7790 SoC
+     - "renesas,xhci-r8a7791" for r8a7791 SoC
+     - "renesas,xhci-r8a7793" for r8a7793 SoC
+-- 
+2.7.4
+
