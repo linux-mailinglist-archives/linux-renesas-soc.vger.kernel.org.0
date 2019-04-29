@@ -2,96 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 74EFDE688
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Apr 2019 17:31:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BDD5E902
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Apr 2019 19:28:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728609AbfD2Pay (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Apr 2019 11:30:54 -0400
-Received: from foss.arm.com ([217.140.101.70]:60640 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728761AbfD2Pay (ORCPT
+        id S1729028AbfD2R17 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Apr 2019 13:27:59 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:44643 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728997AbfD2R17 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Apr 2019 11:30:54 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 67D7980D;
-        Mon, 29 Apr 2019 08:30:53 -0700 (PDT)
-Received: from [10.1.196.92] (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 507163F5C1;
-        Mon, 29 Apr 2019 08:30:52 -0700 (PDT)
-Subject: Re: [PATCH] irqchip/renesas-intc-irqpin: Remove devm_kzalloc() error
- printing
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190429151514.22150-1-geert+renesas@glider.be>
-From:   Marc Zyngier <marc.zyngier@arm.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=marc.zyngier@arm.com; prefer-encrypt=mutual; keydata=
- mQINBE6Jf0UBEADLCxpix34Ch3kQKA9SNlVQroj9aHAEzzl0+V8jrvT9a9GkK+FjBOIQz4KE
- g+3p+lqgJH4NfwPm9H5I5e3wa+Scz9wAqWLTT772Rqb6hf6kx0kKd0P2jGv79qXSmwru28vJ
- t9NNsmIhEYwS5eTfCbsZZDCnR31J6qxozsDHpCGLHlYym/VbC199Uq/pN5gH+5JHZyhyZiNW
- ozUCjMqC4eNW42nYVKZQfbj/k4W9xFfudFaFEhAf/Vb1r6F05eBP1uopuzNkAN7vqS8XcgQH
- qXI357YC4ToCbmqLue4HK9+2mtf7MTdHZYGZ939OfTlOGuxFW+bhtPQzsHiW7eNe0ew0+LaL
- 3wdNzT5abPBscqXWVGsZWCAzBmrZato+Pd2bSCDPLInZV0j+rjt7MWiSxEAEowue3IcZA++7
- ifTDIscQdpeKT8hcL+9eHLgoSDH62SlubO/y8bB1hV8JjLW/jQpLnae0oz25h39ij4ijcp8N
- t5slf5DNRi1NLz5+iaaLg4gaM3ywVK2VEKdBTg+JTg3dfrb3DH7ctTQquyKun9IVY8AsxMc6
- lxl4HxrpLX7HgF10685GG5fFla7R1RUnW5svgQhz6YVU33yJjk5lIIrrxKI/wLlhn066mtu1
- DoD9TEAjwOmpa6ofV6rHeBPehUwMZEsLqlKfLsl0PpsJwov8TQARAQABtCNNYXJjIFp5bmdp
- ZXIgPG1hcmMuenluZ2llckBhcm0uY29tPokCOwQTAQIAJQIbAwYLCQgHAwIGFQgCCQoLBBYC
- AwECHgECF4AFAk6NvYYCGQEACgkQI9DQutE9ekObww/+NcUATWXOcnoPflpYG43GZ0XjQLng
- LQFjBZL+CJV5+1XMDfz4ATH37cR+8gMO1UwmWPv5tOMKLHhw6uLxGG4upPAm0qxjRA/SE3LC
- 22kBjWiSMrkQgv5FDcwdhAcj8A+gKgcXBeyXsGBXLjo5UQOGvPTQXcqNXB9A3ZZN9vS6QUYN
- TXFjnUnzCJd+PVI/4jORz9EUVw1q/+kZgmA8/GhfPH3xNetTGLyJCJcQ86acom2liLZZX4+1
- 6Hda2x3hxpoQo7pTu+XA2YC4XyUstNDYIsE4F4NVHGi88a3N8yWE+Z7cBI2HjGvpfNxZnmKX
- 6bws6RQ4LHDPhy0yzWFowJXGTqM/e79c1UeqOVxKGFF3VhJJu1nMlh+5hnW4glXOoy/WmDEM
- UMbl9KbJUfo+GgIQGMp8mwgW0vK4HrSmevlDeMcrLdfbbFbcZLNeFFBn6KqxFZaTd+LpylIH
- bOPN6fy1Dxf7UZscogYw5Pt0JscgpciuO3DAZo3eXz6ffj2NrWchnbj+SpPBiH4srfFmHY+Y
- LBemIIOmSqIsjoSRjNEZeEObkshDVG5NncJzbAQY+V3Q3yo9og/8ZiaulVWDbcpKyUpzt7pv
- cdnY3baDE8ate/cymFP5jGJK++QCeA6u6JzBp7HnKbngqWa6g8qDSjPXBPCLmmRWbc5j0lvA
- 6ilrF8m5Ag0ETol/RQEQAM/2pdLYCWmf3rtIiP8Wj5NwyjSL6/UrChXtoX9wlY8a4h3EX6E3
- 64snIJVMLbyr4bwdmPKULlny7T/R8dx/mCOWu/DztrVNQiXWOTKJnd/2iQblBT+W5W8ep/nS
- w3qUIckKwKdplQtzSKeE+PJ+GMS+DoNDDkcrVjUnsoCEr0aK3cO6g5hLGu8IBbC1CJYSpple
- VVb/sADnWF3SfUvJ/l4K8Uk4B4+X90KpA7U9MhvDTCy5mJGaTsFqDLpnqp/yqaT2P7kyMG2E
- w+eqtVIqwwweZA0S+tuqput5xdNAcsj2PugVx9tlw/LJo39nh8NrMxAhv5aQ+JJ2I8UTiHLX
- QvoC0Yc/jZX/JRB5r4x4IhK34Mv5TiH/gFfZbwxd287Y1jOaD9lhnke1SX5MXF7eCT3cgyB+
- hgSu42w+2xYl3+rzIhQqxXhaP232t/b3ilJO00ZZ19d4KICGcakeiL6ZBtD8TrtkRiewI3v0
- o8rUBWtjcDRgg3tWx/PcJvZnw1twbmRdaNvsvnlapD2Y9Js3woRLIjSAGOijwzFXSJyC2HU1
- AAuR9uo4/QkeIrQVHIxP7TJZdJ9sGEWdeGPzzPlKLHwIX2HzfbdtPejPSXm5LJ026qdtJHgz
- BAb3NygZG6BH6EC1NPDQ6O53EXorXS1tsSAgp5ZDSFEBklpRVT3E0NrDABEBAAGJAh8EGAEC
- AAkFAk6Jf0UCGwwACgkQI9DQutE9ekMLBQ//U+Mt9DtFpzMCIHFPE9nNlsCm75j22lNiw6mX
- mx3cUA3pl+uRGQr/zQC5inQNtjFUmwGkHqrAw+SmG5gsgnM4pSdYvraWaCWOZCQCx1lpaCOl
- MotrNcwMJTJLQGc4BjJyOeSH59HQDitKfKMu/yjRhzT8CXhys6R0kYMrEN0tbe1cFOJkxSbV
- 0GgRTDF4PKyLT+RncoKxQe8lGxuk5614aRpBQa0LPafkirwqkUtxsPnarkPUEfkBlnIhAR8L
- kmneYLu0AvbWjfJCUH7qfpyS/FRrQCoBq9QIEcf2v1f0AIpA27f9KCEv5MZSHXGCdNcbjKw1
- 39YxYZhmXaHFKDSZIC29YhQJeXWlfDEDq6nIhvurZy3mSh2OMQgaIoFexPCsBBOclH8QUtMk
- a3jW/qYyrV+qUq9Wf3SKPrXf7B3xB332jFCETbyZQXqmowV+2b3rJFRWn5hK5B+xwvuxKyGq
- qDOGjof2dKl2zBIxbFgOclV7wqCVkhxSJi/QaOj2zBqSNPXga5DWtX3ekRnJLa1+ijXxmdjz
- hApihi08gwvP5G9fNGKQyRETePEtEAWt0b7dOqMzYBYGRVr7uS4uT6WP7fzOwAJC4lU7ZYWZ
- yVshCa0IvTtp1085RtT3qhh9mobkcZ+7cQOY+Tx2RGXS9WeOh2jZjdoWUv6CevXNQyOUXMM=
-Organization: ARM Ltd
-Message-ID: <a7af20e0-5bb5-24c2-c4b6-69885df2e214@arm.com>
-Date:   Mon, 29 Apr 2019 16:30:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Mon, 29 Apr 2019 13:27:59 -0400
+Received: by mail-oi1-f195.google.com with SMTP id t184so6449431oie.11;
+        Mon, 29 Apr 2019 10:27:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=lTqzq9hf+Gl0VGUp28DMpfMmMtzIgbFsNlr+xXKeUYk=;
+        b=LHdJmysK1crFCrbn0zzO61akPkTaBYfg+UfftfGmCVE3p50BZOHgt6jdaFgp1bC1EX
+         yCX9gTY29SyVDt0F/3WHPxFxXwsBmYJ550OxbC4/mpHHN52RYTaAHHN7nECfpRP7srEQ
+         4SOC9ZKuU+pRGoNmbVACe/CgzCt13+pLfBGkcEqHsVn5u2gBwx30Ireqt6Z5Yi51i4zq
+         v1JkQ0ltXd2nE0jQ+bMOIAcfChQV8kt2wm75cHTbgSyccXM1jcD8VMX61T0IbJBP1hEV
+         Rf3AxNIjFEnMX++5AsbT3xjzr8cHTCb4LILxkWd2/riqZLvzP1DvOwO0/fAhqkt1Ywy0
+         T/XQ==
+X-Gm-Message-State: APjAAAWgNERHYuc+WcrNn8ilgAgNNlRm6T6Vks+TiwCqwzjwXgL0mxbS
+        xWqAF/eKrMrkgNGQjPdEYA==
+X-Google-Smtp-Source: APXvYqzXSgF/c7kSEHBDaDU9mWHoTED/PKxAU/BIXyhy6IEOlSRWZJqsGNtigpquzLZZqkqhlM+RVw==
+X-Received: by 2002:aca:1e17:: with SMTP id m23mr130799oic.102.1556558878729;
+        Mon, 29 Apr 2019 10:27:58 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id y9sm13636043otk.20.2019.04.29.10.27.57
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 29 Apr 2019 10:27:57 -0700 (PDT)
+Date:   Mon, 29 Apr 2019 12:27:57 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Cao Van Dong <cv-dong@jinso.co.jp>
+Cc:     broonie@kernel.org, geert+renesas@glider.be,
+        horms+renesas@verge.net.au, devicetree@vger.kernel.org,
+        yoshihiro.shimoda.uh@renesas.com, kuninori.morimoto.gx@renesas.com,
+        linux-renesas-soc@vger.kernel.org, h-inayoshi@jinso.co.jp,
+        nv-dung@jinso.co.jp, na-hoan@jinso.co.jp
+Subject: Re: [PATCH 4/4] dt-bindings: timer: renesas, cmt: Document
+ r8a779{5|65|90} CMT support
+Message-ID: <20190429172757.GA22159@bogus>
+References: <1554443049-25127-1-git-send-email-cv-dong@jinso.co.jp>
+ <1554443049-25127-5-git-send-email-cv-dong@jinso.co.jp>
 MIME-Version: 1.0
-In-Reply-To: <20190429151514.22150-1-geert+renesas@glider.be>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1554443049-25127-5-git-send-email-cv-dong@jinso.co.jp>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 29/04/2019 16:15, Geert Uytterhoeven wrote:
-> There is no need to print a message if devm_kzalloc() fails, as the
-> memory allocation core already takes care of that.
+On Fri,  5 Apr 2019 14:44:09 +0900, Cao Van Dong wrote:
+> Document SoC specific bindings for R-Car H3/M3-N/E3 SoCs.
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Cao Van Dong <cv-dong@jinso.co.jp>
+> ---
+>  Documentation/devicetree/bindings/timer/renesas,cmt.txt | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
 
-Applied, thanks.
-
-	M.
--- 
-Jazz is not dead. It just smells funny...
+Reviewed-by: Rob Herring <robh@kernel.org>
