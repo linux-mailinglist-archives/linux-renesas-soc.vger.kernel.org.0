@@ -2,78 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4985DF465
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 12:43:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95C49F507
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 13:03:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727106AbfD3Knp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Apr 2019 06:43:45 -0400
-Received: from mail-vs1-f67.google.com ([209.85.217.67]:33798 "EHLO
-        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726262AbfD3Knp (ORCPT
+        id S1726436AbfD3LDS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Apr 2019 07:03:18 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:60982 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726294AbfD3LDS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Apr 2019 06:43:45 -0400
-Received: by mail-vs1-f67.google.com with SMTP id b23so45633vso.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Apr 2019 03:43:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=U9/sGkrZikh2vap29yZ+1oQ0nficCe+bKD0aIyQ/tw0=;
-        b=pkBIvgCubDZFXsAElljRowHob9k4YnJyz20x6txtiw27dZX5x9NeKxCE+cdNnMZFar
-         g0QF3A2SSFtvBYgwDSdI6csGqmhQqOKYo3ZM6vhgvu6k60juoUB1ChO15caofg3QmtKY
-         aRmNPde/Vl+tL9E+h4oUFeyELh+cXtc87//5nePaW7C80Qi+IL3YkuomJt0qHHekzZfK
-         LziyoGLXlVo0nRUGNU0IG1XAmprYXcCMHWs0c6/GWDTt7I+bw9yPKAhSqjAxzHryQqN3
-         3BebUjnGLSJyT2PztJ07agGk7RsnjR5qWTK9UIyOYwdQvyMt9ph+hAfhXbuFNCQPYDuc
-         3oXw==
-X-Gm-Message-State: APjAAAUmrkzaO0NcJnO8EMTifxVbPXRAp3WUO4H8huRP/bQtqkqLYBCL
-        7OSaGKZDwN+LqEq6os25hN6Edt6FoT/vS9j2zOw=
-X-Google-Smtp-Source: APXvYqzbY88dgUgROLLwXHN1i+1g1VqVZopRKmWCJXJerEoVahE8WsKAmtlAFqqBMbrtTJGSD/8FkBm9wTFQdSgLeSw=
-X-Received: by 2002:a67:8e03:: with SMTP id q3mr24752557vsd.152.1556621023832;
- Tue, 30 Apr 2019 03:43:43 -0700 (PDT)
+        Tue, 30 Apr 2019 07:03:18 -0400
+Received: from pendragon.ideasonboard.com (net-37-182-44-227.cust.vodafonedsl.it [37.182.44.227])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C2B6431D;
+        Tue, 30 Apr 2019 13:03:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1556622196;
+        bh=S2wj4AnFY5oatIjhMymkOVe+UlU9ch29SvrYJCY5LBM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ToniJYI3INwm/1L6Q3yCSrKo8atiyBsK03vqk2EXKo07vdhF3WqSRfDeYORlAuDIt
+         ZL1uXuIGTOprrWekSGbUVGVkCsb8JGJWq7oxjHxidXxGjMO/rI64rEBTtyiqeI88bk
+         qmJk383PCSwReL3RWfs/i+tho6d5qAktA7SzrGms=
+Date:   Tue, 30 Apr 2019 14:03:04 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [GIT PULL FOR renesas-drivers] DU -next branch
+Message-ID: <20190430110304.GB4678@pendragon.ideasonboard.com>
+References: <4714815.IyZ5WZzCdP@avalon>
+ <CAMuHMdUiGNbTpQ-kSYFyu5c=ktFSO+FO-K5C9UPDGOgzBfSbZA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20190317200953.16323-1-kieran.bingham+renesas@ideasonboard.com>
-In-Reply-To: <20190317200953.16323-1-kieran.bingham+renesas@ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 30 Apr 2019 12:43:32 +0200
-Message-ID: <CAMuHMdXvy_Vo33XYy=bmGE6wVzpsW5FK3n5Du9YiF66mVksMAQ@mail.gmail.com>
-Subject: Re: [GIT PULL FOR renesas-drivers] du/for-renesas-drivers
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUiGNbTpQ-kSYFyu5c=ktFSO+FO-K5C9UPDGOgzBfSbZA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
+Hi Geert,
 
-On Sun, Mar 17, 2019 at 9:09 PM Kieran Bingham
-<kieran.bingham+renesas@ideasonboard.com> wrote:
+On Tue, Apr 30, 2019 at 12:38:40PM +0200, Geert Uytterhoeven wrote:
+> On Sun, Dec 16, 2018 at 6:11 PM Laurent Pinchart wrote:
+> > The following changes since commit 272c1a9b493986a95219dce674c49877d98cf90f:
+> >
+> >   Merge tag 'exynos-drm-next-for-v4.21-v2' of git://git.kernel.org/pub/scm/
+> > linux/kernel/git/daeinki/drm-exynos into drm-next (2018-12-14 11:27:24 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://linuxtv.org/pinchartl/media.git drm/du/next
+> 
+> Please rebase your branch. It conflicts due to newer versions of some commits
+> having been accepted in an upstream integration tree.
 
-> Please consider including this release in renesas-drivers.
->
-> The following changes since commit 0f1d37e65a59e9db33ab85f6e2c9784768ef80f4:
->
->   Merge branch 'drm-next-5.1' of git://people.freedesktop.org/~agd5f/linux into drm-next (2019-03-14 12:15:02 +1000)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/kbingham/rcar.git du/for-renesas-drivers
-
-Please rebase your branch. It conflicts due to newer versions of some commits
-having been accepted in an upstream integration tree.
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
+Thank you for the notification. v5.1 is about to be released, I plan to
+rebase then.
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Regards,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Laurent Pinchart
