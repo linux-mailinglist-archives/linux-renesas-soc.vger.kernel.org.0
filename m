@@ -2,111 +2,143 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CD30BF1DA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 10:12:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E915F216
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 10:33:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726496AbfD3IMr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Apr 2019 04:12:47 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:43851 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726012AbfD3IMq (ORCPT
+        id S1726736AbfD3IdJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Apr 2019 04:33:09 -0400
+Received: from mail-vk1-f196.google.com ([209.85.221.196]:33551 "EHLO
+        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726119AbfD3IdJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Apr 2019 04:12:46 -0400
-Received: by mail-lf1-f65.google.com with SMTP id i68so9973477lfi.10
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Apr 2019 01:12:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=9ozURogrBkqi6N/9N92/2fxrEWVZwyBMFji8R7JKkYU=;
-        b=M7/9voiOZsA0i1tciJ1pUBbgPG/0StQIPxDKbDg1g11ZPSQamC313AwO8BFToT/wgy
-         jG5v7Jaa1HuDkspbMSzWg4k/0BPxqnWvC7d0HkRJXvOE+JgIfSQ/HrDd2aKFR8RoBjyw
-         hc10L4REu9iSGrekmG8BkHY/7uXuiagFhqAR4tpIikdIw026IAXARahgOqOjL8SJLwYe
-         cajE7QCavHx+j0JgCM7Yj7oy9Tit01jlFZIBFKrIWEF6Viw+CYaGg6488w6erNBKtIQh
-         dRqHKyhDfAXQ7K43g2i74TUI40bO0jJXM8JkJmXXkgbOS9whCTc2J9jGj1ybM6iLdH7c
-         Aviw==
+        Tue, 30 Apr 2019 04:33:09 -0400
+Received: by mail-vk1-f196.google.com with SMTP id x194so2923604vke.0;
+        Tue, 30 Apr 2019 01:33:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=9ozURogrBkqi6N/9N92/2fxrEWVZwyBMFji8R7JKkYU=;
-        b=f32x/6l+LDITlem6hYuHP+zr5it2KoQs3BWqinPxcCrevy7N0vtqeaLlnirScvZWWL
-         nUoMbQB3DW27SQRIrBrqGz6nL5Z2ow9PpFm6ya0ra/nADBhw5hGCEQf9L/VFs/0+h8CZ
-         4xFdATMeaHQpoMAmDe5KAFuA7wPcU5kQzVR0g7O29KI3GIzhPyB4+xXzdlLwgHLACQ3B
-         6DuP+YqkgOS1VS5tT7dTHJwcNrcE5+DQ/eMpUXKykuqBPs6Tr46D7FMrIMt/0NCjun5w
-         CvH1Yqo8DCvMqMNWwtzcLnpFOnEW4fGggsjzk/EHD0phszVh0v+x5MFEX9hJXykI55Cz
-         3mYg==
-X-Gm-Message-State: APjAAAVVph7p7eTaMVWEQO7bueSI6zhNgsC3sOSVn0uugxm78KtHsW7T
-        wiJaGva8SHVten9WwFxUfX6OJA==
-X-Google-Smtp-Source: APXvYqyi6TzPSwc+vP/6cCmv5b05hWr4xC/ARTHKOTUqoAS7o4TuMr/9HAqCRgURLMrWPpVgpHblvA==
-X-Received: by 2002:a19:f801:: with SMTP id a1mr36540071lff.150.1556611964646;
-        Tue, 30 Apr 2019 01:12:44 -0700 (PDT)
-Received: from [192.168.0.199] ([31.173.80.195])
-        by smtp.gmail.com with ESMTPSA id h21sm3290136ljf.16.2019.04.30.01.12.43
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 30 Apr 2019 01:12:43 -0700 (PDT)
-Subject: Re: [PATCH 2/5] irqchip/renesas-irqc: Remove
- devm_kzalloc()/ioremap_nocache() error printing
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <marc.zyngier@arm.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190429152006.22593-1-geert+renesas@glider.be>
- <20190429152006.22593-3-geert+renesas@glider.be>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <3ecf87e2-4e70-9159-a364-d41f1b744f7b@cogentembedded.com>
-Date:   Tue, 30 Apr 2019 11:12:38 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UbtPc15q7GKjPaxpVvUWLOqg1VlSL3zdcDHBknplqUM=;
+        b=KKF66LvB4hXLT/pNgPl7J03Aedbn8lzAfCc1BGXMSc1JuJmgtJKVmwbIxmyfRUWuRu
+         qN/jKZBfH20DI73zPN/gPi6tvRscsLu3flzxpqpfvn+Re4ZqNlIJR4muOFqSPWYxTIoX
+         +7LgXlarYAfAr7fcKAtl6/tR8Ym4YMDkbcDKBQwmjc0k89xgEbnABKZ9JE5VA0L3uUlx
+         4zzopcMkgkYFYTM8K/nLa4G/4fRZ6lbDKeIkLMbgR0rILJLU/vjjtWYZKubr7Io0pwGB
+         Vli5VNvmZrCvozlzuK+c+nHEgQ8sQcrqfTOmfiNAuThB/oJLM3/7LbbPTiERGUQkalfC
+         eiWQ==
+X-Gm-Message-State: APjAAAUS7Tks5VqVEvfF8TlLbm8i0ozNd8xgdMAvZF91KnlIGoXkdzY7
+        ArMkY4SnXhWMnthqpOfb3C+RCbAd4knN+ZBDmdk=
+X-Google-Smtp-Source: APXvYqwNJvA/cUF1NB0m6pyWsl9CyCvHUJUiwZKEfQfVXdBF7uE7d6duKg78DxzSZJkgPLe13xRctlVB0lkGA9a5OhY=
+X-Received: by 2002:a1f:17cd:: with SMTP id 196mr219315vkx.83.1556613188159;
+ Tue, 30 Apr 2019 01:33:08 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190429152006.22593-3-geert+renesas@glider.be>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <1554969262-15028-20-git-send-email-cv-dong@jinso.co.jp> <20190415085333.91F9A1127B60@debutante.sirena.org.uk>
+In-Reply-To: <20190415085333.91F9A1127B60@debutante.sirena.org.uk>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 30 Apr 2019 10:32:56 +0200
+Message-ID: <CAMuHMdXnZjND2f9dfrq=0+TuS3ZpAgmpAspBfbH-VvtsH=6TYg@mail.gmail.com>
+Subject: Re: Applied "spi: sh-msiof: Document r8a77470 bindings" to the spi tree
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Biju Das <biju.das@bp.renesas.com>,
+        =?UTF-8?B?44Kr44Kq44O744O044Kh44Oz44O744OJ44Oz?= 
+        <cv-dong@jinso.co.jp>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?B?56iy5ZCJ?= <h-inayoshi@jinso.co.jp>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Hoan Nguyen An <na-hoan@jinso.co.jp>,
+        =?UTF-8?B?RHVuZ++8muS6uuOCvQ==?= <nv-dung@jinso.co.jp>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hi Mark,
 
-On 29.04.2019 18:20, Geert Uytterhoeven wrote:
+On Mon, Apr 15, 2019 at 10:53 AM Mark Brown <broonie@kernel.org> wrote:
+> The patch
+>
+>    spi: sh-msiof: Document r8a77470 bindings
+>
+> has been applied to the spi tree at
+>
+>    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-5.2
+>
+> All being well this means that it will be integrated into the linux-next
+> tree (usually sometime in the next 24 hours) and sent to Linus during
+> the next merge window (or sooner if it is a bug fix), however if
+> problems are discovered then the patch may be dropped or reverted.
+>
+> You may get further e-mails resulting from automated or manual testing
+> and review of the tree, please engage with people reporting problems and
+> send followup patches addressing any issues that are reported if needed.
+>
+> If any updates are required or you are submitting further changes they
+> should be sent as incremental updates against current git, existing
+> patches will not be replaced.
+>
+> Please add any relevant lists and maintainers to the CCs when replying
+> to this mail.
+>
+> Thanks,
+> Mark
+>
+> From efc3d5b2e79bd5470fa4a333933867d7b934a3e6 Mon Sep 17 00:00:00 2001
+> From: Cao Van Dong <cv-dong@jinso.co.jp>
+> Date: Thu, 11 Apr 2019 16:54:21 +0900
+> Subject: [PATCH] spi: sh-msiof: Document r8a77470 bindings
+>
+> Document SoC specific bindings for R-Car RZ/G1C(r8a77470) SoC.
+>
+> Signed-off-by: Cao Van Dong <cv-dong@jinso.co.jp>
+> Signed-off-by: Mark Brown <broonie@kernel.org>
 
-> There is no need to print a message if devm_kzalloc() or
+Is their any specific reason this was dropped from spi/for-next again?
+Upon closer look, the following seem to have been dropped as well, compared
+to last week:
 
-    Just kzalloc() in this case.
+$ git cherry -v spi/for-next 96a9209ae8ebb4e8
++ 0e530e4eba5e9003af83c6afda833c64c7fcae08 spi: spi-mem: Fix build
+error without CONFIG_SPI_MEM
++ d4a91044e241d8f87fb990b673549a7d2f9cacc4 spi: spi-mem: Make
+spi_mem_default_supports_op() static inline
++ 2c54c4a640ed4dc9db03693641a1a651535f05f1 spi: pxa2xx: use a module
+softdep for dw_dmac
++ bf0c999f7f0e8934c8db8261fb67a38770fffac2 spi: pxa2xx: fix SCR
+(divisor) calculation
++ efc3d5b2e79bd5470fa4a333933867d7b934a3e6 spi: sh-msiof: Document
+r8a77470 bindings
++ ac533755d3cb2db003785f9f770646295643bee1 spi: Remove one needless
+transfer speed fall back case
++ 179f7949c0663f1923564acf0e626d459ea80047 spi: Remove warning in
+spi_split_transfers_maxsize()
++ 8ed2e1a50e74a08adce3fe0207be1649b2b13a83 spi: Release spi_res after
+finalizing message
++ 316e60af88bc81780a01c0f5b431affe0e679686 spi/trace: Cap buffer
+contents at 64 bytes
++ 3f6e3f7843a6a1667ed890ca51a1388fc7bf3429 spi: tegra114: fix PIO transfer
++ 5127b4d69f96793dfabb602b133dc19d1aa36880 spi: pxa2xx: Add support
+for Intel Comet Lake
++ bee5c20b7323a7af027d1b4ba538137b518ad232 dt-bindings: spi:
+spi-mt65xx: add support for MT8516
++ 4b490710d4d24f95e95a07baac6f3f98bb94cf3b spi: expand mode support
++ ad1ac1fa0b24b40281eeccdc1d7b085e77639357 spi/spi-bcm2835: Split
+transfers that exceed DLEN
 
-> ioremap_nocache() fails, as the memory allocation core already takes
-> care of that.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->   drivers/irqchip/irq-renesas-irqc.c | 2 --
->   1 file changed, 2 deletions(-)
-> 
-> diff --git a/drivers/irqchip/irq-renesas-irqc.c b/drivers/irqchip/irq-renesas-irqc.c
-> index 438a063c76156d98..0955ffe12b32eb36 100644
-> --- a/drivers/irqchip/irq-renesas-irqc.c
-> +++ b/drivers/irqchip/irq-renesas-irqc.c
-> @@ -133,7 +133,6 @@ static int irqc_probe(struct platform_device *pdev)
->   
->   	p = kzalloc(sizeof(*p), GFP_KERNEL);
->   	if (!p) {
-> -		dev_err(&pdev->dev, "failed to allocate driver data\n");
->   		ret = -ENOMEM;
->   		goto err0;
->   	}
-> @@ -173,7 +172,6 @@ static int irqc_probe(struct platform_device *pdev)
->   	/* ioremap IOMEM and setup read/write callbacks */
->   	p->iomem = ioremap_nocache(io->start, resource_size(io));
->   	if (!p->iomem) {
-> -		dev_err(&pdev->dev, "failed to remap IOMEM\n");
->   		ret = -ENXIO;
+Thanks!
 
-    -ENOMEM?
+Gr{oetje,eeting}s,
 
-[...]
+                        Geert
 
-MBR, Sergei
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
