@@ -2,63 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 532FCF972
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 15:02:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02A0AF990
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 15:10:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726819AbfD3NCY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Apr 2019 09:02:24 -0400
-Received: from mail-vs1-f68.google.com ([209.85.217.68]:37550 "EHLO
-        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726264AbfD3NCX (ORCPT
+        id S1726614AbfD3NKI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Apr 2019 09:10:08 -0400
+Received: from mail-vs1-f67.google.com ([209.85.217.67]:38560 "EHLO
+        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726264AbfD3NKI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Apr 2019 09:02:23 -0400
-Received: by mail-vs1-f68.google.com with SMTP id w13so7923957vsc.4;
-        Tue, 30 Apr 2019 06:02:23 -0700 (PDT)
+        Tue, 30 Apr 2019 09:10:08 -0400
+Received: by mail-vs1-f67.google.com with SMTP id v141so1137136vsc.5;
+        Tue, 30 Apr 2019 06:10:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=7ZgXWjGA2+oynirdc+UKqVVThOlZkZc8Fr5YvnjsD+I=;
-        b=CFyCa6tQtQzrXUe+tq+mXI7ownngI3HvrO+amw1kgcI7l2KM4yFHabdodFPEchh3i9
-         BLVj/sPaGY7iRX7285CmA60P+9B/Tt6thN931VMzdL5x2ISommaUt6lRcJC6jj9E63/I
-         sbJ4JesoG9Nf8kdix054rptsB1QwS5qGQa+IA2WmtnW1iUDVtJK2D1jSZ1bWeLGK4v+N
-         KfvdtQosm9wKQd0uWILWLvmyF8Z4DrLDQYJmAcFXYdWhfMFSgzyS6xJYG+eUxoxZ+Ts5
-         3m1VfV4K9sZt/43C8FCMt7up9u4aByOfJQiWAWZpZcYEt4VXG+pLrna30m8CJ48yXeDc
-         WIFw==
-X-Gm-Message-State: APjAAAV883K63HtPn9Bqbom6ZgAx3nswPiELHnCdHUG3QD8HoqhAEpgL
-        mrnFZ88yne5wF/rfAGgQpAtsYoM7nPIUAAFRGSk=
-X-Google-Smtp-Source: APXvYqzV0GL7wdo+ItscXD9ijDcO5VLiQotfwdYJMoIYhsdfGnMlZHPnUQM1YRafUrjCFM/cBN6Ka9heOEEmpmRN+cU=
-X-Received: by 2002:a67:83cf:: with SMTP id f198mr6738776vsd.63.1556629342711;
- Tue, 30 Apr 2019 06:02:22 -0700 (PDT)
+        bh=JmP5YZqer+G6WA8veaKczWZ02ILPF+TdPn0Cgq3lY24=;
+        b=oxmI9w5Bjwi2+Ryk5DUR1MCLonA1BaE1F9YtEy3y4CF2UctEgHjTIfeUctRjFJQPaW
+         OV6v6Wy0SUXPn7BSr3Bs2FZpIh+bRnKMdd01uciJMPE68day8Ao8KkUXAi24yLLljvQU
+         qijltS0gDBSFrIpJzcHJObWSw+Tie3/HiHLoa4xqbUsTt3LIfFMcHjOc5skefbEILcFD
+         26N6wWU0mmyKYUkDuY+jdGHTQIwSnu82bFyqZAC/93hrljPqdRHXAssDzznCVJfuHW7Y
+         MseIjyv6CFFT/d3BvHwzb3TOYWOsqIj5fH98oK/6yt/wXE/Pb7XydQa0D1PsYizM9ads
+         aQgQ==
+X-Gm-Message-State: APjAAAXj/V8JQv3qTY57tVvYodZ1BMtPuhlCHLLeLQR2eMwKDmm4qCCT
+        fxyCe2a4wKqjlTvTYEK8IUBNtUF9giipfziRbMw=
+X-Google-Smtp-Source: APXvYqx0vwdYxx8vWiQocO6kVEfSaRD4UkV/MhiVodQ4V1vE/X9E+GzqemxhBhdKTE6cjEUFOc0Kl0Edl5pwoVdX+JA=
+X-Received: by 2002:a67:7d58:: with SMTP id y85mr5533111vsc.96.1556629806892;
+ Tue, 30 Apr 2019 06:10:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <1554799912-24764-1-git-send-email-cv-dong@jinso.co.jp> <1554799912-24764-6-git-send-email-cv-dong@jinso.co.jp>
-In-Reply-To: <1554799912-24764-6-git-send-email-cv-dong@jinso.co.jp>
+References: <1555428717-18376-1-git-send-email-biju.das@bp.renesas.com> <1555428717-18376-5-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1555428717-18376-5-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 30 Apr 2019 15:02:10 +0200
-Message-ID: <CAMuHMdUe-dbwyvF3B4NrvCwsaZgOYqwzpvVphPVjyk4Ubr7Ljg@mail.gmail.com>
-Subject: Re: [PATCH 05/11] ARM: dts: r8a77470: Add VIN support
-To:     Cao Van Dong <cv-dong@jinso.co.jp>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms+renesas@verge.net.au>,
+Date:   Tue, 30 Apr 2019 15:09:55 +0200
+Message-ID: <CAMuHMdVinMfepPYmVvwY_Ow-qoTH6_A3+7swJgMQ5FOzoMLAqQ@mail.gmail.com>
+Subject: Re: [PATCH 4/6] arm64: dts: renesas: r8a774a1: Tie SYS-DMAC to IPMMU-DS0/1
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        =?UTF-8?B?56iy5ZCJ?= <h-inayoshi@jinso.co.jp>,
-        =?UTF-8?B?RHVuZ++8muS6uuOCvQ==?= <nv-dung@jinso.co.jp>,
-        Hoan Nguyen An <na-hoan@jinso.co.jp>
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Apr 9, 2019 at 10:52 AM Cao Van Dong <cv-dong@jinso.co.jp> wrote:
-> Add vin{0|1} nodes to dtsi for VIN support on the RZ/G1C (r8a77470) SoC.
+On Tue, Apr 16, 2019 at 5:38 PM Biju Das <biju.das@bp.renesas.com> wrote:
+> Hook up r8a774a1 DMAC nodes to the IPMMUs. In particular SYS-DMAC0
+> gets tied to IPMMU-DS0, and SYS-DMAC1 and SYS-DMAC2 get tied to IPMMU-DS1.
 >
-> Signed-off-by: Cao Van Dong <cv-dong@jinso.co.jp>
+> Based on work for the r8a7796 by Magnus Damm.
+>
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
