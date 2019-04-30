@@ -2,68 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E135AF457
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 12:39:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4985DF465
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 12:43:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726294AbfD3Kjx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Apr 2019 06:39:53 -0400
-Received: from mail-vk1-f196.google.com ([209.85.221.196]:40482 "EHLO
-        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726129AbfD3Kjx (ORCPT
+        id S1727106AbfD3Knp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Apr 2019 06:43:45 -0400
+Received: from mail-vs1-f67.google.com ([209.85.217.67]:33798 "EHLO
+        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726262AbfD3Knp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Apr 2019 06:39:53 -0400
-Received: by mail-vk1-f196.google.com with SMTP id l17so2980362vke.7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Apr 2019 03:39:52 -0700 (PDT)
+        Tue, 30 Apr 2019 06:43:45 -0400
+Received: by mail-vs1-f67.google.com with SMTP id b23so45633vso.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Apr 2019 03:43:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mR/0Mb/Fl5mcPDAiOBxP6dZhPg+wmfrKW8KS3zZERkE=;
-        b=q8OuNU2e4SgNN+zhcvqAwZc5mbVp1XLfod3++403AtIF/z0EhMigPnJidqGpXbF1ob
-         sdCpu0GJMvFhjGUYfcKnCvgmPn/LhZz2MFCNI7aoFpG6n1+zRAsLhI5vTdtD2DRPTWsT
-         0L0ReMrPERH28pbY2RaNj76MDM06WpWVvcF041ab5RaJOLXtYRJt1I35yPFR1Cf9lg3s
-         BxujR0hIiSZZrclfNtPsPBmHMrkgwNIXTPgyrxLlCShw+E+gDR2K8Jnu7Ck/qk1rSAnx
-         gePyCFN70TZMSEAR3RD4AGGdbK/dYn1ms/WFhuzEUJUKD9jLZkliBrNXlt2ydBJlkqcm
-         S0iA==
-X-Gm-Message-State: APjAAAWhbIUHddwFkPiszX6PvDug4uSEgfMUQLzUuzilOo4PmH1N+7GK
-        vbYMc3m+fw8C0iEFpm1l7aSJczRPYUNqGujL/htqsOoB
-X-Google-Smtp-Source: APXvYqw4m7dmYnq6inQkI3pgwDlYlx2JLxadQdLG8Lo1zidMECsHB1GwO5CwlyTNkuLsdX58H12HYjaxT4c2G2fwAhs=
-X-Received: by 2002:a1f:1284:: with SMTP id 126mr35051277vks.72.1556620792028;
- Tue, 30 Apr 2019 03:39:52 -0700 (PDT)
+        bh=U9/sGkrZikh2vap29yZ+1oQ0nficCe+bKD0aIyQ/tw0=;
+        b=pkBIvgCubDZFXsAElljRowHob9k4YnJyz20x6txtiw27dZX5x9NeKxCE+cdNnMZFar
+         g0QF3A2SSFtvBYgwDSdI6csGqmhQqOKYo3ZM6vhgvu6k60juoUB1ChO15caofg3QmtKY
+         aRmNPde/Vl+tL9E+h4oUFeyELh+cXtc87//5nePaW7C80Qi+IL3YkuomJt0qHHekzZfK
+         LziyoGLXlVo0nRUGNU0IG1XAmprYXcCMHWs0c6/GWDTt7I+bw9yPKAhSqjAxzHryQqN3
+         3BebUjnGLSJyT2PztJ07agGk7RsnjR5qWTK9UIyOYwdQvyMt9ph+hAfhXbuFNCQPYDuc
+         3oXw==
+X-Gm-Message-State: APjAAAUmrkzaO0NcJnO8EMTifxVbPXRAp3WUO4H8huRP/bQtqkqLYBCL
+        7OSaGKZDwN+LqEq6os25hN6Edt6FoT/vS9j2zOw=
+X-Google-Smtp-Source: APXvYqzbY88dgUgROLLwXHN1i+1g1VqVZopRKmWCJXJerEoVahE8WsKAmtlAFqqBMbrtTJGSD/8FkBm9wTFQdSgLeSw=
+X-Received: by 2002:a67:8e03:: with SMTP id q3mr24752557vsd.152.1556621023832;
+ Tue, 30 Apr 2019 03:43:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190317021954.GA4912@pendragon.ideasonboard.com>
-In-Reply-To: <20190317021954.GA4912@pendragon.ideasonboard.com>
+References: <20190317200953.16323-1-kieran.bingham+renesas@ideasonboard.com>
+In-Reply-To: <20190317200953.16323-1-kieran.bingham+renesas@ideasonboard.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 30 Apr 2019 12:39:40 +0200
-Message-ID: <CAMuHMdULgs_s4Ba+hqBwZfqMJQfQt9muepiJON1U+V0ka7XG=A@mail.gmail.com>
-Subject: Re: [GIT PULL FOR renesas-drivers] DU LVDS dual-link mode support
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Tue, 30 Apr 2019 12:43:32 +0200
+Message-ID: <CAMuHMdXvy_Vo33XYy=bmGE6wVzpsW5FK3n5Du9YiF66mVksMAQ@mail.gmail.com>
+Subject: Re: [GIT PULL FOR renesas-drivers] du/for-renesas-drivers
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Hi Kieran,
 
-On Sun, Mar 17, 2019 at 3:20 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> The following changes since commit 3a7d2f4f4427f4b241f8240e370099e2ec1fd307:
+On Sun, Mar 17, 2019 at 9:09 PM Kieran Bingham
+<kieran.bingham+renesas@ideasonboard.com> wrote:
+
+> Please consider including this release in renesas-drivers.
 >
->   Merge branch 'etnaviv/next' of https://git.pengutronix.de/git/lst/linux into drm-next (2019-03-12 15:20:57 +1000)
+> The following changes since commit 0f1d37e65a59e9db33ab85f6e2c9784768ef80f4:
+>
+>   Merge branch 'drm-next-5.1' of git://people.freedesktop.org/~agd5f/linux into drm-next (2019-03-14 12:15:02 +1000)
 >
 > are available in the Git repository at:
 >
->   git://linuxtv.org/pinchartl/media.git b3ddd36a2b05
->
-> for you to fetch changes up to b3ddd36a2b05074db0810a0f6508562f80045323:
->
->   arm64: dts: renesas: r8a7799[05]: Point LVDS0 to its companion LVDS1 (2019-03-13 03:42:41 +0200)
->
-> The above commit is part of a branch name drm/du/lvds/dual-link in the
-> same tree. The two top-most commits of the branch are hacks meant for
-> testing only, so I didn't want to include them in this pull request.
+>   git://git.kernel.org/pub/scm/linux/kernel/git/kbingham/rcar.git du/for-renesas-drivers
 
 Please rebase your branch. It conflicts due to newer versions of some commits
 having been accepted in an upstream integration tree.
