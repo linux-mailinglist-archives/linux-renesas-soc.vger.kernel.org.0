@@ -2,115 +2,172 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EA320FAC9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 15:49:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8C70FB13
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 16:09:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726916AbfD3Nt3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Apr 2019 09:49:29 -0400
-Received: from mail-eopbgr1410098.outbound.protection.outlook.com ([40.107.141.98]:15042
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725938AbfD3Nt3 (ORCPT
+        id S1725938AbfD3OJ4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Apr 2019 10:09:56 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:35818 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726819AbfD3OJ4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Apr 2019 09:49:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0KlGZI9LbJj7v1ZC79OXk8337NblloNeEn3yMBRRBdE=;
- b=j7cQUJU8fR7sM2V0v2msrW797PrNVi24163plr0aarUuasMI65gqbJs/nXvCA6YCFHoOwuT/HFd5ifUkMTiPhao2Ubab4Sau54hE144CqxZDjMcqtXWDzJHrSRq7KBlhkT8zoqdC8DxSMfpgUwzdKKUmLVPAMjT1i+QuRUmU73E=
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com (52.133.163.12) by
- TY1PR01MB1497.jpnprd01.prod.outlook.com (52.133.162.149) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1835.13; Tue, 30 Apr 2019 13:49:25 +0000
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::99cf:c94c:d11f:c2f0]) by TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::99cf:c94c:d11f:c2f0%5]) with mapi id 15.20.1835.018; Tue, 30 Apr 2019
- 13:49:25 +0000
-From:   Chris Brandt <Chris.Brandt@renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>
-CC:     "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v2 2/5] irqchip: Add Renesas RZ/A1 Interrupt Controller
- driver
-Thread-Topic: [PATCH v2 2/5] irqchip: Add Renesas RZ/A1 Interrupt Controller
- driver
-Thread-Index: AQHU/04ThImkNB9kiUWbCASTclIWoKZUtrGg
-Date:   Tue, 30 Apr 2019 13:49:24 +0000
-Message-ID: <TY1PR01MB1562FF2E949141B569DA32F88A3A0@TY1PR01MB1562.jpnprd01.prod.outlook.com>
-References: <20190430121254.3737-1-geert+renesas@glider.be>
- <20190430121254.3737-3-geert+renesas@glider.be>
-In-Reply-To: <20190430121254.3737-3-geert+renesas@glider.be>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Chris.Brandt@renesas.com; 
-x-originating-ip: [75.60.247.61]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8dda09cf-5141-4482-cf33-08d6cd72a83e
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:TY1PR01MB1497;
-x-ms-traffictypediagnostic: TY1PR01MB1497:
-x-microsoft-antispam-prvs: <TY1PR01MB1497C6A02068E12E1837D4C28A3A0@TY1PR01MB1497.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4714;
-x-forefront-prvs: 00235A1EEF
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(346002)(136003)(396003)(376002)(366004)(199004)(189003)(478600001)(76176011)(6506007)(110136005)(99286004)(66556008)(54906003)(186003)(66446008)(76116006)(73956011)(66946007)(26005)(14454004)(476003)(102836004)(74316002)(446003)(64756008)(86362001)(66476007)(7416002)(316002)(486006)(7696005)(11346002)(4744005)(7736002)(305945005)(25786009)(66066001)(53936002)(6246003)(33656002)(55016002)(71200400001)(229853002)(71190400001)(9686003)(81156014)(8676002)(81166006)(6116002)(5660300002)(4326008)(3846002)(2906002)(8936002)(256004)(72206003)(97736004)(6436002)(52536014)(68736007);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1497;H:TY1PR01MB1562.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 4rdIsCig8ETAKU5PcUH8RqblHGAraRpeXBexSTU2S2RM/uHMNTQG8xTqxBaadFzURMoRfnZ76RDmnZWfjeI5XT1NxdRwmvo1MIqX8iXAIw4MVcJL2+Hx9VzI4XxwZn/UoSBL8hgCIyDQfGfL2vY9tprcIiczyj7t4A4POohk89SnbWYoqvZ9julJlN9ja/KSHajQ1YdvdWHRz6anbO1lH0uaE0wGA6pU3Cn4gyDGn1rY7dVbpWbmar7xNNbw11lmhEHBpzSZ/9MbKESIWMgCQ4oeZcjvYjin034a4C2eDuqKcIwsHaaLoMxi2cUkZd7UjmLRlBpf62va/vrb2A+MAwK6L8Z+0KLzwsUC5fENLS1vKh+b0NlMj8GW3nJ7WF8dvAeEHev6wQuYUmEKZG30Rlymrg4S4tpbX38AZaIy7c0=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Tue, 30 Apr 2019 10:09:56 -0400
+Received: by mail-ed1-f65.google.com with SMTP id y67so12463245ede.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Apr 2019 07:09:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=dki91hVx4zF9gdJqla6Ju+k7ja5YNKTEsa0FVVoBFzU=;
+        b=uKrryGYMVYS0f/hipvWsbIZJ6zPwUB5+lwSRyBZRXcsZ4b/AhyzD/G+nTWONGiGNwg
+         J6Z75M0W5tNF3CSYv7QBIMsDHlhKyrDQkc52vcs5UTMSEMn5pEPeOECkCDP426YBwke1
+         LefKKcDZCAzbzA/JIRmGe73Zci01vxdbirQninMKYZLhKRvxvfGnUHUhzM3G0eaXJv1d
+         4ZhekDEslHtLyjLQOZ+qAh4r8BgFjwrAf00Knf5c/S9tD8bcNuaH3LsIGPivRqDKhjmR
+         YLrOF5yIVgd9yN6D/X7tDFAVs+vqZUbqc4Fo4hNLTfkvzMxbWxQJ57zXiF8EMEe4wjjk
+         IF9Q==
+X-Gm-Message-State: APjAAAWSE/e60UMtsHTaaKkBifpla5Jz0Qp49yuNVvMOS5AfjyoXfztG
+        P5ktlSMMZH3/TFSr7n5+q4Q+ENPA1Q8=
+X-Google-Smtp-Source: APXvYqyVLT8q77cl0N1X1u4xPfjloqbl1VWEdAjoaU1w6n8/ZX9tD4SoNpylJbzAMgPcggbHiTnUBw==
+X-Received: by 2002:a50:a704:: with SMTP id h4mr26922621edc.7.1556633393780;
+        Tue, 30 Apr 2019 07:09:53 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:4f8:1c0c:6c86:46e0:a7ad:5246:f04d])
+        by smtp.gmail.com with ESMTPSA id f15sm6352517eja.39.2019.04.30.07.09.51
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Tue, 30 Apr 2019 07:09:52 -0700 (PDT)
+Subject: Re: [PATCH RFT] i2c: designware: ratelimit 'transfer when suspended'
+ errors
+To:     skidnik <skidnik@gmail.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-i2c@vger.kernel.org
+Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        linux-renesas-soc@vger.kernel.org
+References: <20190424161632.4994-1-wsa+renesas@sang-engineering.com>
+ <1a8172c8-3d2e-1897-88dd-d86aa0130ed8@gmail.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <56faab09-c2ec-047a-886e-669d0a106e7b@redhat.com>
+Date:   Tue, 30 Apr 2019 16:09:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8dda09cf-5141-4482-cf33-08d6cd72a83e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2019 13:49:25.0827
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1497
+In-Reply-To: <1a8172c8-3d2e-1897-88dd-d86aa0130ed8@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Apr 30, 2019, Geert Uytterhoeven wrote:
-> Add a driver for the Renesas RZ/A1 Interrupt Controller.
->=20
-> This supports using up to 8 external interrupts on RZ/A1, with
-> configurable sense select.
->=20
-> NMI edge select is not yet supported.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi,
+
+On 4/25/19 9:21 PM, skidnik wrote:
+> On 4/24/19 7:16 PM, Wolfram Sang wrote:
+>> There are two problems with dev_err() here. One: It is not ratelimited.
+>> Two: We don't see which driver tried to transfer something with a
+>> suspended adapter. Switch to dev_WARN_ONCE to fix both issues. Drawback
+>> is that we don't see if multiple drivers are trying to transfer while
+>> suspended. They need to be discovered one after the other now. This is
+>> better than a high CPU load because a really broken driver might try to
+>> resend endlessly.
+>>
+>> Link: https://bugs.archlinux.org/task/62391
+>> Fixes: 275154155538 ("i2c: designware: Do not allow i2c_dw_xfer() calls while suspended")
+>> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+>> ---
+>>
+>> skdnik: Would you be so kind and test this patch? I can only build-test here.
+>>
+>> I have a prototype to fix the similar issue in the core, but this needs more
+>> testing first, so I am sending this one out already.
+>>
+>>   drivers/i2c/busses/i2c-designware-master.c | 3 +--
+>>   1 file changed, 1 insertion(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/i2c/busses/i2c-designware-master.c b/drivers/i2c/busses/i2c-designware-master.c
+>> index bb8e3f149979..d464799e40a3 100644
+>> --- a/drivers/i2c/busses/i2c-designware-master.c
+>> +++ b/drivers/i2c/busses/i2c-designware-master.c
+>> @@ -426,8 +426,7 @@ i2c_dw_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
+>>       pm_runtime_get_sync(dev->dev);
+>> -    if (dev->suspended) {
+>> -        dev_err(dev->dev, "Error %s call while suspended\n", __func__);
+>> +    if (dev_WARN_ONCE(dev->dev, dev->suspended, "Transfer while suspended\n")) {
+>>           ret = -ESHUTDOWN;
+>>           goto done_nolock;
+>>       }
+>>
+> Patched, biult and tested. This is the new output:
 > ---
-> v2:
->   - Use u16 for register values,
->   - Use relaxed I/O accessors,
->   - Use "rza1-irqc" as irq_chip class name,
->   - Replace gic_spi_base in OF match data by renesas,gic-spi-base in DT.
+> [  285.441552] i2c_designware 808622C1:00: Transfer while suspended
+> [  285.441595] WARNING: CPU: 2 PID: 1966 at drivers/i2c/busses/i2c-designware-master.c:429 i2c_dw_xfer+0x23b/0x290
+> [  285.441597] Modules linked in: 8021q garp mrp stp llc ccm snd_hda_codec_hdmi snd_hda_codec_realtek snd_hda_codec_generic hid_sensor_gyro_3d hid_sensor_incl_3d hid_sens
+> or_magn_3d hid_sensor_accel_3d hid_sensor_rotation hid_sensor_trigger industrialio_triggered_buffer kfifo_buf hid_sensor_iio_common industrialio btusb btrtl btbcm btintel
+>   bluetooth uvcvideo ecdh_generic joydev mousedev intel_rapl intel_powerclamp kvm_intel hid_rmi rmi_core kvm videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 arc4 videobu
+> f2_common ofpart cmdlinepart videodev intel_spi_platform iwlmvm intel_spi mac80211 spi_nor media irqbypass iTCO_wdt iTCO_vendor_support i915 mtd nls_iso8859_1 crct10dif_p
+> clmul nls_cp437 iwlwifi crc32_pclmul vfat fat ghash_clmulni_intel wmi_bmof dell_wmi i2c_algo_bit snd_hda_intel drm_kms_helper dell_laptop ledtrig_audio snd_hda_codec dell
+> _smbios cfg80211 snd_hda_core aesni_intel dell_wmi_descriptor dcdbas snd_hwdep dell_smm_hwmon aes_x86_64 snd_pcm crypto_simd drm cryptd snd_timer glue_helper
+> [  285.441696]  intel_cstate psmouse pcspkr input_leds snd mei_txe tpm_crb soundcore intel_gtt mei agpgart lpc_ich i2c_i801 tpm_tis tpm_tis_core syscopyarea sysfillrect s
+> ysimgblt fb_sys_fops processor_thermal_device intel_xhci_usb_role_switch roles intel_soc_dts_iosf tpm wmi battery rng_core i2c_hid dell_rbtn evdev rfkill mac_hid pcc_cpuf
+> req ac soc_button_array intel_vbtn int3403_thermal int3400_thermal acpi_thermal_rel int340x_thermal_zone sparse_keymap coretemp msr crypto_user ip_tables x_tables ext4 cr
+> c32c_generic crc16 mbcache jbd2 sd_mod hid_sensor_hub hid_multitouch hid_generic usbhid hid serio_raw atkbd libps2 ahci libahci xhci_pci libata sdhci_pci crc32c_intel xhc
+> i_hcd cqhci scsi_mod sdhci mmc_core i8042 serio
+> [  285.441784] CPU: 2 PID: 1966 Comm: kworker/u8:56 Not tainted 5.1.0-rc6-mainline-master-00064-gcd8dead0c394 #1
+> [  285.441788] Hardware name: Dell Inc. Inspiron 11-3168/0G70RP, BIOS 2.3.0 01/31/2018
+> [  285.441796] Workqueue: events_unbound async_run_entry_fn
+> [  285.441804] RIP: 0010:i2c_dw_xfer+0x23b/0x290
+> [  285.441810] Code: 05 be 32 ca 00 01 48 85 ed 75 05 49 8b 6c 24 10 4c 89 e7 e8 f7 b5 f4 ff 48 89 ea 48 c7 c7 90 a7 b1 86 48 89 c6 e8 3f 6a a1 ff <0f> 0b bd 94 ff ff ff
+> 4c 8b 23 e9 49 fe ff ff 83 f8 01 74 14 8b 83
+> [  285.441814] RSP: 0000:ffffb40a44d9fc70 EFLAGS: 00010282
+> [  285.441819] RAX: 0000000000000000 RBX: ffff9e313a4d8818 RCX: 0000000000000000
+> [  285.441822] RDX: 0000000000000000 RSI: 0000000000000096 RDI: 00000000ffffffff
+> [  285.441824] RBP: ffff9e313a4bc640 R08: 0000000000000000 R09: 0000000000021500
+> [  285.441828] R10: 000000097a05f1bc R11: 0000000000010148 R12: ffff9e313a4ea810
+> [  285.441831] R13: ffff9e313a4d88c8 R14: 00000000ffffee52 R15: ffff9e313a4fb000
+> [  285.441835] FS:  0000000000000000(0000) GS:ffff9e313bb00000(0000) knlGS:0000000000000000
+> [  285.441838] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [  285.441840] CR2: 0000000000000000 CR3: 000000002b60e000 CR4: 00000000001006e0
+> [  285.441844] Call Trace:
+> [  285.441860]  __i2c_transfer+0x153/0x4a0
+> [  285.441868]  i2c_transfer+0x51/0xc0
+> [  285.441881]  __i2c_hid_command+0x1ed/0x2c0 [i2c_hid]
+> [  285.441889]  ? finish_wait+0x2f/0x60
+> [  285.441897]  ? _raw_spin_unlock_irqrestore+0x20/0x40
+> [  285.441902]  ? async_synchronize_cookie_domain+0xdf/0x150
+> [  285.441907]  ? wait_woken+0x80/0x80
+> [  285.441915]  ? chv_gpio_irq_mask_unmask+0x2b/0xb0
+> [  285.441923]  i2c_hid_set_power+0x6c/0x100 [i2c_hid]
+> [  285.441931]  i2c_hid_resume+0x85/0x100 [i2c_hid]
+> [  285.441939]  ? i2c_hid_runtime_resume+0x30/0x30 [i2c_hid]
+> [  285.441945]  dpm_run_callback+0x4f/0x180
+> [  285.441953]  device_resume+0xac/0x1f0
+> [  285.441959]  async_resume+0x19/0x30
+> [  285.441964]  async_run_entry_fn+0x37/0x140
+> [  285.441972]  process_one_work+0x1eb/0x410
+> [  285.441980]  worker_thread+0x2d/0x3d0
+> [  285.441986]  ? process_one_work+0x410/0x410
+> [  285.441991]  kthread+0x112/0x130
+> [  285.441997]  ? kthread_park+0x80/0x80
+> [  285.442003]  ret_from_fork+0x35/0x40
+> [  285.442013] ---[ end trace c98b327600d4a21b ]---
+> [  285.442042] i2c_hid i2c-DELL074D:00: failed to change power setting.
+> [  285.442051] PM: dpm_run_callback(): i2c_hid_resume+0x0/0x100 [i2c_hid] returns -108
+> [  285.442063] PM: Device i2c-DELL074D:00 failed to restore async: error -108
 > ---
->  drivers/irqchip/Kconfig            |   4 +
->  drivers/irqchip/Makefile           |   1 +
->  drivers/irqchip/irq-renesas-rza1.c | 235 +++++++++++++++++++++++++++++
->  3 files changed, 240 insertions(+)
->  create mode 100644 drivers/irqchip/irq-renesas-rza1.c
+> outputs this once.
+> Full dmesg from boot to resume from hibernation: https://pastebin.com/raw/9akVTHL4
+> sorry for the weird kernel naming.
+> This solves system journal flooding, but I still have one core under full load after resume from hibernation. The touchpad attached to that bus works perfectly fine after resume.
 
-Tested on RZ/A1H RSK and RZ/A2M EVB (push buttons and LCD
-touchscreen controller).
+Ah, this is on a resume from hibernate, in that case I think this patch will fix this:
 
-Thanks!
+https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/commit/?id=c8afd03486c26accdda4846e5561aa3f8e862a9d
 
-Tested-by: Chris Brandt <chris.brandt@renesas.com>
+Can you build a kernel with that patch added?
+
+Regards,
+
+Hans
 
