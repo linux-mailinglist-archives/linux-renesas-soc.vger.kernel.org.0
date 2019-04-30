@@ -2,70 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DDE8FCE6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 17:30:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 604EFFCF5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 17:35:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726101AbfD3Pa2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Apr 2019 11:30:28 -0400
-Received: from mail-vs1-f65.google.com ([209.85.217.65]:33042 "EHLO
-        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725995AbfD3Pa2 (ORCPT
+        id S1726014AbfD3PfA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Apr 2019 11:35:00 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:49272 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725906AbfD3Pe7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Apr 2019 11:30:28 -0400
-Received: by mail-vs1-f65.google.com with SMTP id s11so8273953vsn.0;
-        Tue, 30 Apr 2019 08:30:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=J3XpssCaaRIdY7okL1peQ2px2hJ+XExe2uf8ZFq4b1Q=;
-        b=d2YO5yQI1d9ZCS6DdnetE/XMChMVM3fQ9MPPhvYhHoafe9arRw8RurXx7Eow14WhZA
-         /E2SZKEco7Bu1/X5Jij1lxLsMz6FdjaYCELuB4xow6Qmr1lZjBsfucR7irEikmmCj1o9
-         SUo46BGfPEZ/UzQFEruvsxEtbbaNdgxM3i77QZZVi0YcBew6eIO96DP+G+fHRTcBEZpp
-         y03KQJb1iPsromu13l1/oV9CQ9W525/5oOgdegA4e7Q8OStzqlePSuQ3OZbPpv6g99gj
-         ccy19N1CLKlUGyKwf026+cWLf6LtCKmVUYDh0K5s9WcT42EDK7nl0gqb9OqpkUsk01Dh
-         n/Aw==
-X-Gm-Message-State: APjAAAVkM9OMJewWMMabFqQ/Ue2Vi395rgW4Zbz3SEhNxkhQ/yfCVH57
-        n4qLS6rY+h23reW3MGFMkvsMDaO/TEzL9jxcdvphzkbH
-X-Google-Smtp-Source: APXvYqwZIP/Hv2ipeHx0fPMI4fny2wArCoXj0oVTs0i9ek3R+/gp4gAkcJ0ix2h/lnbLkzxNJyxT507o1S4duct3byc=
-X-Received: by 2002:a67:ba07:: with SMTP id l7mr8510846vsn.11.1556638227276;
- Tue, 30 Apr 2019 08:30:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190430132309.12473-1-chris.brandt@renesas.com> <20190430132309.12473-8-chris.brandt@renesas.com>
-In-Reply-To: <20190430132309.12473-8-chris.brandt@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 30 Apr 2019 17:30:15 +0200
-Message-ID: <CAMuHMdUSqFQXfbrp9_PxY1a0ieH8AWr6Dh-SY1ULzOXd2h0-Xg@mail.gmail.com>
-Subject: Re: [PATCH 7/7] ARM: dts: r7s9210-rza2mevb: Add SDHI support
-To:     Chris Brandt <chris.brandt@renesas.com>
-Cc:     Simon Horman <horms@verge.net.au>,
-        Rob Herring <robh+dt@kernel.org>,
+        Tue, 30 Apr 2019 11:34:59 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0A538374;
+        Tue, 30 Apr 2019 08:34:59 -0700 (PDT)
+Received: from [10.1.196.92] (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E52C43F719;
+        Tue, 30 Apr 2019 08:34:56 -0700 (PDT)
+Subject: Re: [PATCH v2 1/5] dt-bindings: interrupt-controller: Add Renesas
+ RZ/A1 Interrupt Controller
+To:     Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
         Mark Rutland <mark.rutland@arm.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        devicetree@vger.kernel.org,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20190430121254.3737-1-geert+renesas@glider.be>
+ <20190430121254.3737-2-geert+renesas@glider.be>
+ <CAL_Jsq+KwOLqd=ZqT-bdM5mp8jfPHu=XingBb6kBsUqHvO=m+g@mail.gmail.com>
+From:   Marc Zyngier <marc.zyngier@arm.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=marc.zyngier@arm.com; prefer-encrypt=mutual; keydata=
+ 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
+Organization: ARM Ltd
+Message-ID: <29e95406-b9fb-fbb6-9240-c3914d885e88@arm.com>
+Date:   Tue, 30 Apr 2019 16:34:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <CAL_Jsq+KwOLqd=ZqT-bdM5mp8jfPHu=XingBb6kBsUqHvO=m+g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Apr 30, 2019 at 3:33 PM Chris Brandt <chris.brandt@renesas.com> wrote:
-> The RZ/A2M EVB supports 2 SD card slots. A micro SD slot on the CPU
-> board, and a full SD card slot on the sub board.
->
-> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+On 30/04/2019 16:02, Rob Herring wrote:
+> On Tue, Apr 30, 2019 at 7:13 AM Geert Uytterhoeven
+> <geert+renesas@glider.be> wrote:
+>>
+>> Add DT bindings for the Renesas RZ/A1 Interrupt Controller.
+>>
+>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>> ---
+>> v2:
+>>   - Add "renesas,gic-spi-base",
+>>   - Document RZ/A2M.
+>> ---
+>>  .../renesas,rza1-irqc.txt                     | 30 +++++++++++++++++++
+>>  1 file changed, 30 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
+>>
+>> diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt b/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
+>> new file mode 100644
+>> index 0000000000000000..ea8ddb6955338ccd
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
+>> @@ -0,0 +1,30 @@
+>> +DT bindings for the Renesas RZ/A1 Interrupt Controller
+>> +
+>> +The RZ/A1 Interrupt Controller is a front-end for the GIC found on Renesas
+>> +RZ/A1 and RZ/A2 SoCs:
+>> +  - IRQ sense select for 8 external interrupts, 1:1-mapped to 8 GIC SPI
+>> +    interrupts,
+>> +  - NMI edge select.
+>> +
+>> +Required properties:
+>> +  - compatible: Must be "renesas,<soctype>-irqc", and "renesas,rza1-irqc" as
+>> +               fallback.
+>> +               Examples with soctypes are:
+>> +                 - "renesas,r7s72100-irqc" (RZ/A1H)
+>> +                 - "renesas,r7s9210-irqc" (RZ/A2M)
+>> +  - #interrupt-cells: Must be 2 (an interrupt index and flags, as defined
+>> +                                in interrupts.txt in this directory)
+>> +  - interrupt-controller: Marks the device as an interrupt controller
+>> +  - reg: Base address and length of the memory resource used by the interrupt
+>> +         controller
+>> +  - renesas,gic-spi-base: Lowest GIC SPI interrupt number this block maps to.
+> 
+> Why isn't this just an 'interrupts' property?
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+That's likely because of kernel limitations. The DT code does an
+of_populate() on any device that it finds, parse the "interrupts"
+propertiy, resulting in the irq_descs being populated.
 
-Gr{oetje,eeting}s,
+That creates havoc, as these interrupts are not for this device, but for
+something that is connected to it. This is merely a bridge of some sort.
 
-                        Geert
+Furthermore, this is a rather long established practice: gic-v2m,
+gic-v3-mbi, mediatek,sysirq, mediatek,cirq... All the bits of glue that
+for one reason or another plug onto the GIC use the same method.
 
+> Plus, without 'interrupts' walking the hierarchy is broken.
+
+Erm... Which hierarchy?
+
+Thanks,
+	
+	M.
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Jazz is not dead. It just smells funny...
