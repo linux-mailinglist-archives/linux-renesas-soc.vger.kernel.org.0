@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 826CCF997
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 15:11:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07058F9A5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 15:15:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727163AbfD3NLT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Apr 2019 09:11:19 -0400
-Received: from mail-vs1-f65.google.com ([209.85.217.65]:33312 "EHLO
-        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726264AbfD3NLS (ORCPT
+        id S1727164AbfD3NNu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Apr 2019 09:13:50 -0400
+Received: from mail-vs1-f66.google.com ([209.85.217.66]:37105 "EHLO
+        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726614AbfD3NNt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Apr 2019 09:11:18 -0400
-Received: by mail-vs1-f65.google.com with SMTP id s11so7963869vsn.0;
-        Tue, 30 Apr 2019 06:11:18 -0700 (PDT)
+        Tue, 30 Apr 2019 09:13:49 -0400
+Received: by mail-vs1-f66.google.com with SMTP id w13so7947144vsc.4;
+        Tue, 30 Apr 2019 06:13:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=D9YsNJppqtMDT4XWRsgonXu8BU8QdntrTpZKHe7t7IM=;
-        b=NutGINbwzERHRRgdedxXv6/mzcpXqCkh8oeukd2iiH3I4uD0kfvV3yAU6ybDK2+z5p
-         425uwXotfDxzyxiDfK9/uxppbCafiInBLqdH5uDzGq9LRfAZSQ7EWUxwMc+hPA+rr3pf
-         f8WQJqqIwwurYeamVEy5DqDD351XxGm4BajtMDvMk9vVuhyaxGOjHm4Yzx/ZSclgTSnr
-         Tok3AnJyvH2vEhlA0RKeD2LyuDjw2Kw+lXYJsvaUY8UhTMCqaP0gqu/Mv2TW3IoM4v3D
-         RRyZuYA0bNbJweju5OUWrv2NbYS3OiXV6ZSnZO5B73IQpuafP4D9kxtj2DsQfAvwbfuW
-         MqDw==
-X-Gm-Message-State: APjAAAXTjANlovJFdYmVbZEjSG5KzhxcGyJgErtpZOsawGTXSkA6+3FT
-        akcJcTvIiFnnyNZOGInLzjIPM6tx1/pYs2Cdk+s=
-X-Google-Smtp-Source: APXvYqxkZzbDooR+xrYTWOUXaOBfYgk6GAArvBRuu4emVk5FYBNI8gWjZc+dBGxVsuXMfn9DbKzVnAqNxHSJf9nMXAw=
-X-Received: by 2002:a67:83cf:: with SMTP id f198mr6773594vsd.63.1556629877516;
- Tue, 30 Apr 2019 06:11:17 -0700 (PDT)
+        bh=er7EckL6+6bkOj0tZCrbXDBFgyjsoHetY5yTY57HWvo=;
+        b=iK335Dh8eOlUS4V/ZsbxCvK+0QjxXbjZR974sTv/EY+mg1nQ6X496FZiHJHlR9i8ut
+         WEhtErZpMZLNl0rSc9NjPW0lSrDy3hXAyJiUuANwkRGxULUoBYkEEzdPCowC4z/3+b9r
+         8rL0D5Eg6MbB6byevYqx9+KnURXOIyNS3VKt9JQ/8nQcNt7zCiLDFTp1wam5akUNseth
+         pnfQOuTViaF9+kDT0rtuKXMyyxA8AynTv7T63YsM4H0wJA5cZ+D25ujXhToEh189Idho
+         1D+o3J7aIHKqf55f4oagQ/Tw8hl8DcMQCEJ4TDKvUf+X5PiaYtBx/CBnkVPvPaQOc2nJ
+         9ACw==
+X-Gm-Message-State: APjAAAVQTazMTAJqzQafC0CIfMsVyO49xp4iOxltcQB444HLp3yv5ilp
+        djI0FHJsPOzt/S7nIdde1+t/ReAWcTzcu7pZPXg=
+X-Google-Smtp-Source: APXvYqxP5htn7FvKeq/XRyaVbkzlyoHKRhw9z9bhJwCCGm/yob2SD33V4iStIkQhgFZeGiVPmpZRADUhSnHEeoF/f+g=
+X-Received: by 2002:a05:6102:113:: with SMTP id z19mr5228282vsq.166.1556630028627;
+ Tue, 30 Apr 2019 06:13:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <1555428717-18376-1-git-send-email-biju.das@bp.renesas.com> <1555428717-18376-6-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1555428717-18376-6-git-send-email-biju.das@bp.renesas.com>
+References: <1555428717-18376-1-git-send-email-biju.das@bp.renesas.com> <1555428717-18376-4-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1555428717-18376-4-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 30 Apr 2019 15:11:06 +0200
-Message-ID: <CAMuHMdVostrVZA-_g1Kpxn4hRrJL73eh7TCjmgKm3ju2v6WaJw@mail.gmail.com>
-Subject: Re: [PATCH 5/6] arm64: dts: renesas: r8a774a1: Tie Audio-DMAC to IPMMU-MP
+Date:   Tue, 30 Apr 2019 15:13:37 +0200
+Message-ID: <CAMuHMdWKgLn-4DWYqkS5Go7yi_ngowi1TdjeXQA_YDxiOon3SQ@mail.gmail.com>
+Subject: Re: [PATCH 3/6] arm64: dts: renesas: r8a774a1: Add FDP1 instance
 To:     Biju Das <biju.das@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -55,9 +55,7 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Tue, Apr 16, 2019 at 5:38 PM Biju Das <biju.das@bp.renesas.com> wrote:
-> Hook up r8a774a1 Audio-DMAC nodes to the IPMMU-MP.
->
-> Based on work for the r8a7795 by Magnus Damm.
+> The r8a774a1 has a single FDP1 instance similar to r8a7796.
 >
 > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
