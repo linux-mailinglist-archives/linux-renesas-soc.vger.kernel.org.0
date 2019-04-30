@@ -2,160 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 604EFFCF5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 17:35:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DD59FD67
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 18:03:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726014AbfD3PfA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Apr 2019 11:35:00 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:49272 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725906AbfD3Pe7 (ORCPT
+        id S1726105AbfD3QDn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Apr 2019 12:03:43 -0400
+Received: from mail-eopbgr1400121.outbound.protection.outlook.com ([40.107.140.121]:2272
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726048AbfD3QDn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Apr 2019 11:34:59 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0A538374;
-        Tue, 30 Apr 2019 08:34:59 -0700 (PDT)
-Received: from [10.1.196.92] (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E52C43F719;
-        Tue, 30 Apr 2019 08:34:56 -0700 (PDT)
-Subject: Re: [PATCH v2 1/5] dt-bindings: interrupt-controller: Add Renesas
- RZ/A1 Interrupt Controller
-To:     Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
+        Tue, 30 Apr 2019 12:03:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WL910Zm3vbAVF4hEiB9Gn9Auqa/HBef4dYo8tgno/h0=;
+ b=NAKsiPdl7XAGlMJLzQYfjRzY7WHjUibfXE756k4JeagvFS7iZOqijvKwiLPdfNg5v5Vf6fZOQp08T3nyT+66x1wVfGKJrMmcHfGcmh3A81QJI5EmvU9Sd4aABYhq8/U+mr4lVssO3uCt8eQQ6JnMfX2iEfmI/8feUSv780JqLZ0=
+Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com (52.133.163.12) by
+ TY1PR01MB1738.jpnprd01.prod.outlook.com (52.133.162.10) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1835.12; Tue, 30 Apr 2019 16:03:39 +0000
+Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com
+ ([fe80::99cf:c94c:d11f:c2f0]) by TY1PR01MB1562.jpnprd01.prod.outlook.com
+ ([fe80::99cf:c94c:d11f:c2f0%5]) with mapi id 15.20.1835.018; Tue, 30 Apr 2019
+ 16:03:39 +0000
+From:   Chris Brandt <Chris.Brandt@renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Simon Horman <horms@verge.net.au>,
+        Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        devicetree@vger.kernel.org,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20190430121254.3737-1-geert+renesas@glider.be>
- <20190430121254.3737-2-geert+renesas@glider.be>
- <CAL_Jsq+KwOLqd=ZqT-bdM5mp8jfPHu=XingBb6kBsUqHvO=m+g@mail.gmail.com>
-From:   Marc Zyngier <marc.zyngier@arm.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=marc.zyngier@arm.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: ARM Ltd
-Message-ID: <29e95406-b9fb-fbb6-9240-c3914d885e88@arm.com>
-Date:   Tue, 30 Apr 2019 16:34:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <CAL_Jsq+KwOLqd=ZqT-bdM5mp8jfPHu=XingBb6kBsUqHvO=m+g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH 6/7] ARM: dts: r7s9210-rza2mevb: Add Ethernet support
+Thread-Topic: [PATCH 6/7] ARM: dts: r7s9210-rza2mevb: Add Ethernet support
+Thread-Index: AQHU/1fmL3U0ISDuWUqmKHJ9vTOOFKZU0jaAgAAI7RA=
+Date:   Tue, 30 Apr 2019 16:03:39 +0000
+Message-ID: <TY1PR01MB156277831BBAD3BF0E0EE52D8A3A0@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+References: <20190430132309.12473-1-chris.brandt@renesas.com>
+ <20190430132309.12473-7-chris.brandt@renesas.com>
+ <CAMuHMdWzN_1XmO8w_otDseJ+bxk+AKNouk-ycPPyM2XWMWritQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdWzN_1XmO8w_otDseJ+bxk+AKNouk-ycPPyM2XWMWritQ@mail.gmail.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Chris.Brandt@renesas.com; 
+x-originating-ip: [75.60.247.61]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2b73dc88-d31b-4dda-6bba-08d6cd85691c
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:TY1PR01MB1738;
+x-ms-traffictypediagnostic: TY1PR01MB1738:
+x-microsoft-antispam-prvs: <TY1PR01MB1738A5433FFEA7C9C50BEC038A3A0@TY1PR01MB1738.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 00235A1EEF
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(39860400002)(346002)(136003)(376002)(396003)(189003)(199004)(6246003)(7696005)(102836004)(14454004)(229853002)(55016002)(68736007)(9686003)(3846002)(6506007)(305945005)(8676002)(72206003)(6116002)(4744005)(53936002)(4326008)(7736002)(25786009)(2906002)(52536014)(316002)(54906003)(33656002)(26005)(6916009)(81156014)(8936002)(11346002)(446003)(73956011)(66066001)(478600001)(66946007)(76116006)(76176011)(66556008)(71200400001)(256004)(66476007)(64756008)(66446008)(99286004)(6436002)(486006)(186003)(74316002)(5660300002)(81166006)(476003)(71190400001)(97736004)(86362001);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1738;H:TY1PR01MB1562.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: tU37aG7YWDXoA7U0ZCvi+VQ1w5539fF7xLzbKf4vHYHmOyeWwzsi6j5GKlq64HLt4i93GycMJsnTZO7wmDDcyNQBadxRnoms0jpKx4laKBIF8kyO/FNcr7OGLzAhG61sxo3nPyjGkx2dmRoG1ShxmcEjJchHQYzSAIRkJHO9HeB/yudF0BSS7aVaWZvCB3zpFZ9SZR8FeSW+IvAWNvT13sh35X15eqFeM4H3iDu2FieGkeiPUrREHIpjM9nj3GiC8+SS6NggcbR4kUy2e5SQ85DWLADqvBIvQ/FBde7gRUMU9q1vNFOb0my5rv1yDFBEKft3TkXq0DZ8XukH0FHRM0qsJdlp8jyNsTc9Cm8YsgN/ZwrN/5vwBjPajcUZ7J3BtFoP68MfgZYudPbwkHHmsmCDwusYSzxzi9UgGzca5mU=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b73dc88-d31b-4dda-6bba-08d6cd85691c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2019 16:03:39.5197
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1738
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 30/04/2019 16:02, Rob Herring wrote:
-> On Tue, Apr 30, 2019 at 7:13 AM Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
->>
->> Add DT bindings for the Renesas RZ/A1 Interrupt Controller.
->>
->> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->> ---
->> v2:
->>   - Add "renesas,gic-spi-base",
->>   - Document RZ/A2M.
->> ---
->>  .../renesas,rza1-irqc.txt                     | 30 +++++++++++++++++++
->>  1 file changed, 30 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
->>
->> diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt b/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
->> new file mode 100644
->> index 0000000000000000..ea8ddb6955338ccd
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
->> @@ -0,0 +1,30 @@
->> +DT bindings for the Renesas RZ/A1 Interrupt Controller
->> +
->> +The RZ/A1 Interrupt Controller is a front-end for the GIC found on Renesas
->> +RZ/A1 and RZ/A2 SoCs:
->> +  - IRQ sense select for 8 external interrupts, 1:1-mapped to 8 GIC SPI
->> +    interrupts,
->> +  - NMI edge select.
->> +
->> +Required properties:
->> +  - compatible: Must be "renesas,<soctype>-irqc", and "renesas,rza1-irqc" as
->> +               fallback.
->> +               Examples with soctypes are:
->> +                 - "renesas,r7s72100-irqc" (RZ/A1H)
->> +                 - "renesas,r7s9210-irqc" (RZ/A2M)
->> +  - #interrupt-cells: Must be 2 (an interrupt index and flags, as defined
->> +                                in interrupts.txt in this directory)
->> +  - interrupt-controller: Marks the device as an interrupt controller
->> +  - reg: Base address and length of the memory resource used by the interrupt
->> +         controller
->> +  - renesas,gic-spi-base: Lowest GIC SPI interrupt number this block maps to.
-> 
-> Why isn't this just an 'interrupts' property?
-
-That's likely because of kernel limitations. The DT code does an
-of_populate() on any device that it finds, parse the "interrupts"
-propertiy, resulting in the irq_descs being populated.
-
-That creates havoc, as these interrupts are not for this device, but for
-something that is connected to it. This is merely a bridge of some sort.
-
-Furthermore, this is a rather long established practice: gic-v2m,
-gic-v3-mbi, mediatek,sysirq, mediatek,cirq... All the bits of glue that
-for one reason or another plug onto the GIC use the same method.
-
-> Plus, without 'interrupts' walking the hierarchy is broken.
-
-Erm... Which hierarchy?
-
-Thanks,
-	
-	M.
--- 
-Jazz is not dead. It just smells funny...
+SGkgR2VlcnQsDQoNCk9uIFR1ZSwgQXByIDMwLCAyMDE5IDEsIEdlZXJ0IFV5dHRlcmhvZXZlbiB3
+cm90ZToNCj4gUGVyaGFwcyB5b3Ugd2FudCB0byBhZGQgYW4gImV0aGVybmV0MCIgYWxpYXMsIHNv
+IFUtQm9vdCBjYW4gZmluZCB0aGUNCj4gZGV2aWNlLW5vZGUgYW5kIGFkZCBhbiBhcHByb3ByaWF0
+ZSAibG9jYWwtbWFjLWFkZHJlc3MiIHByb3BlcnR5Pw0KDQpTaW5jZSBJIGhhdmUgMiBFdGhlcm5l
+dHMsIHdvdWxkIHlvdXIgcmVjb21tZW5kYXRpb24gYmUgSSBhZGQgYW4gYWxpYXMgZm9yDQplYWNo
+Pw0KDQpIb25lc3RseSwgSSd2ZSBuZXZlciBkb25lIGl0IHRoYXQgd2F5LiBJdCBoYXMgYWx3YXlz
+IGJlZW4gdGhhdCB1LWJvb3QgDQpwcmVsb2FkcyB0aGUgTUFDIGFkZHJlc3MgcmVnaXN0ZXJzIGFu
+ZCB0aGVuIHRoZSBzaF9ldGggZHJpdmVyIGp1c3QgdXNlcyANCndoYXQncyBhbHJlYWR5IGxvYWRl
+ZC4NCkJ1dCwgaWYgdXNpbmcgRFQgaXMgdGhlIG1vcmUgcmVjb21tZW5kZWQgbWV0aG9kLCBJIGNh
+biBtaWdyYXRlIHRvd2FyZHMNCnRoYXQuDQoNClRoYW5rcywNCkNocmlzDQoNCg==
