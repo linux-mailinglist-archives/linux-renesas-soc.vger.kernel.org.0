@@ -2,69 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EF30FFBEA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 16:53:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA051FC17
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 17:03:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726568AbfD3Ox3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Apr 2019 10:53:29 -0400
-Received: from mail-ua1-f66.google.com ([209.85.222.66]:41185 "EHLO
-        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726053AbfD3Ox3 (ORCPT
+        id S1726053AbfD3PDI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Apr 2019 11:03:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33086 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725976AbfD3PDI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Apr 2019 10:53:29 -0400
-Received: by mail-ua1-f66.google.com with SMTP id s30so1620727uas.8;
-        Tue, 30 Apr 2019 07:53:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pTLeDmf40HKyuygAD04IjYkWSGll1fsdZzZH9HwXX+w=;
-        b=g2UWEuLiOrM+pijkQRVZo9+nkREwNOSluuEV3GQ6mH/MYCGGiyLevyXCmYptmxxhT/
-         sSZAVzBydEF/lSgsbxmej97lowHXMTHkiwo+OVJzN3JtuCPXYRkaVfa7rLwUfAm25zBm
-         S3EUOnDTsEH1Pna/mvKLQQ26CywKqAzILoDDaUmQsBXm5zt3x8dzEHPxXPfRJfssr2CR
-         yIvs9L9RXNIaJ0LA6FZRKXQ9Tsfgh/S/6zCx5vGhs3ihrPuV4Us3/qpVfd5HHZy0mexQ
-         f/2ZLKGCc8c8hCfdHUwLrVg7U7EyCHPtr6sWX0Qe2h79/QUuUtwui2wbmZEh36g/qFdZ
-         gscg==
-X-Gm-Message-State: APjAAAUqt7TNsKBt0O5RhIXa8ihIqPHGhwED0/+9cDb7MpGvBHFDt3Fk
-        w2gvErnEcHaXnBkzxKhgc9uoNeHKnCt6QcoAzaI=
-X-Google-Smtp-Source: APXvYqwF0Zbtifq6u8tBBo2RW3XLYNv7pCPith08+k0vO8l3qrEdgc5Ka0pNcs3HfC21rFBjLCYphaQSO9o1caCaH5o=
-X-Received: by 2002:a9f:352a:: with SMTP id o39mr6828806uao.78.1556636008367;
- Tue, 30 Apr 2019 07:53:28 -0700 (PDT)
+        Tue, 30 Apr 2019 11:03:08 -0400
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E46072173E;
+        Tue, 30 Apr 2019 15:03:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1556636587;
+        bh=8MpnfmbxbWON+YaQJhPpIxR+u+gi4GYsXY//k2+p4jk=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=j5aHZ1SGuXp2YjXyEJ74IOk5NLAO2taCwCmaV3hmKnRHPi3ch84NkoCHNZgA8anZY
+         Tx84mxFlpdbdOHeHRIY0A6pIy8jeGPo889AVNL0126rEoLQMIyNecOsgiytnvEHIBR
+         Bg2vJyJ8JdsyDbYcNSwfbF42g9/i2tN7Yfx4pc6Y=
+Received: by mail-qt1-f171.google.com with SMTP id e2so15750156qtb.4;
+        Tue, 30 Apr 2019 08:03:06 -0700 (PDT)
+X-Gm-Message-State: APjAAAXyhhFg8sttnalh1ibSTR+VcDII/1/IH7l/qXAghmOSM5mRfns8
+        /Tdz2VQ4qgcC4TVwp9bt3u+a2d2uvGaxxtnVfQ==
+X-Google-Smtp-Source: APXvYqylk98wBAwLu1LD8MCtWw20sYmJ/f29BlQrMHENBok32t1FLmdUTxXI1XStyAjsNRySLw4QDnVWsWVC1SCXmfM=
+X-Received: by 2002:ac8:641:: with SMTP id e1mr17661759qth.76.1556636586095;
+ Tue, 30 Apr 2019 08:03:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190430132309.12473-1-chris.brandt@renesas.com> <20190430132309.12473-6-chris.brandt@renesas.com>
-In-Reply-To: <20190430132309.12473-6-chris.brandt@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 30 Apr 2019 16:53:17 +0200
-Message-ID: <CAMuHMdXYfemNCfzci9fAcPWpdHOeKJNkTirrrB+97t5Aj2Bzxg@mail.gmail.com>
-Subject: Re: [PATCH 5/7] ARM: dts: r7s9210: Add SDHI support
-To:     Chris Brandt <chris.brandt@renesas.com>
-Cc:     Simon Horman <horms@verge.net.au>,
-        Rob Herring <robh+dt@kernel.org>,
+References: <20190430121254.3737-1-geert+renesas@glider.be> <20190430121254.3737-2-geert+renesas@glider.be>
+In-Reply-To: <20190430121254.3737-2-geert+renesas@glider.be>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 30 Apr 2019 10:02:54 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+KwOLqd=ZqT-bdM5mp8jfPHu=XingBb6kBsUqHvO=m+g@mail.gmail.com>
+Message-ID: <CAL_Jsq+KwOLqd=ZqT-bdM5mp8jfPHu=XingBb6kBsUqHvO=m+g@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] dt-bindings: interrupt-controller: Add Renesas
+ RZ/A1 Interrupt Controller
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <marc.zyngier@arm.com>,
         Mark Rutland <mark.rutland@arm.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        devicetree@vger.kernel.org,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Apr 30, 2019 at 3:33 PM Chris Brandt <chris.brandt@renesas.com> wrote:
-> Add SDHI support for the R7S9210 (RZ/A2) SoC.
+On Tue, Apr 30, 2019 at 7:13 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 >
-> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+> Add DT bindings for the Renesas RZ/A1 Interrupt Controller.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v2:
+>   - Add "renesas,gic-spi-base",
+>   - Document RZ/A2M.
+> ---
+>  .../renesas,rza1-irqc.txt                     | 30 +++++++++++++++++++
+>  1 file changed, 30 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
+>
+> diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt b/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
+> new file mode 100644
+> index 0000000000000000..ea8ddb6955338ccd
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
+> @@ -0,0 +1,30 @@
+> +DT bindings for the Renesas RZ/A1 Interrupt Controller
+> +
+> +The RZ/A1 Interrupt Controller is a front-end for the GIC found on Renesas
+> +RZ/A1 and RZ/A2 SoCs:
+> +  - IRQ sense select for 8 external interrupts, 1:1-mapped to 8 GIC SPI
+> +    interrupts,
+> +  - NMI edge select.
+> +
+> +Required properties:
+> +  - compatible: Must be "renesas,<soctype>-irqc", and "renesas,rza1-irqc" as
+> +               fallback.
+> +               Examples with soctypes are:
+> +                 - "renesas,r7s72100-irqc" (RZ/A1H)
+> +                 - "renesas,r7s9210-irqc" (RZ/A2M)
+> +  - #interrupt-cells: Must be 2 (an interrupt index and flags, as defined
+> +                                in interrupts.txt in this directory)
+> +  - interrupt-controller: Marks the device as an interrupt controller
+> +  - reg: Base address and length of the memory resource used by the interrupt
+> +         controller
+> +  - renesas,gic-spi-base: Lowest GIC SPI interrupt number this block maps to.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Why isn't this just an 'interrupts' property? Plus, without
+'interrupts' walking the hierarchy is broken.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Rob
