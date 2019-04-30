@@ -2,105 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA051FC17
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 17:03:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08859FCAA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 17:22:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726053AbfD3PDI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Apr 2019 11:03:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33086 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725976AbfD3PDI (ORCPT
+        id S1726017AbfD3PWK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Apr 2019 11:22:10 -0400
+Received: from mail-vs1-f66.google.com ([209.85.217.66]:44966 "EHLO
+        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725906AbfD3PWK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Apr 2019 11:03:08 -0400
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E46072173E;
-        Tue, 30 Apr 2019 15:03:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1556636587;
-        bh=8MpnfmbxbWON+YaQJhPpIxR+u+gi4GYsXY//k2+p4jk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=j5aHZ1SGuXp2YjXyEJ74IOk5NLAO2taCwCmaV3hmKnRHPi3ch84NkoCHNZgA8anZY
-         Tx84mxFlpdbdOHeHRIY0A6pIy8jeGPo889AVNL0126rEoLQMIyNecOsgiytnvEHIBR
-         Bg2vJyJ8JdsyDbYcNSwfbF42g9/i2tN7Yfx4pc6Y=
-Received: by mail-qt1-f171.google.com with SMTP id e2so15750156qtb.4;
-        Tue, 30 Apr 2019 08:03:06 -0700 (PDT)
-X-Gm-Message-State: APjAAAXyhhFg8sttnalh1ibSTR+VcDII/1/IH7l/qXAghmOSM5mRfns8
-        /Tdz2VQ4qgcC4TVwp9bt3u+a2d2uvGaxxtnVfQ==
-X-Google-Smtp-Source: APXvYqylk98wBAwLu1LD8MCtWw20sYmJ/f29BlQrMHENBok32t1FLmdUTxXI1XStyAjsNRySLw4QDnVWsWVC1SCXmfM=
-X-Received: by 2002:ac8:641:: with SMTP id e1mr17661759qth.76.1556636586095;
- Tue, 30 Apr 2019 08:03:06 -0700 (PDT)
+        Tue, 30 Apr 2019 11:22:10 -0400
+Received: by mail-vs1-f66.google.com with SMTP id j184so8188949vsd.11;
+        Tue, 30 Apr 2019 08:22:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=R2svcNMtHHNUl5TnbjQhyWeAeujJoUOh21meiL4jUDk=;
+        b=ieWy6vjERj+fT4MVZ6h+LYnBbOg+jeJKUDjQagNEF6qAg8D3uiXafCsjA1Q4S0r+8D
+         c/xc69Amvm2dtJnXuGRTPyupt5V3OQFvQC7Rsi/5NjmVtRJS+e6bbfQ3ScO4YuuiA5DG
+         pAAoni9ltUilxb2Bit6KRJNHgCc7z25iQ004t4hpuh1gN8wUMebG0MpuWrF1MD5zYnVw
+         Gx6Ns9hvv7nCf5UwPLUEzDG7DRBo6JbY3gYiSzEj9XidcO15e9NokI/UqS+6zZN3UKPz
+         A3BcuPYxLm+mHZ22OxeY3bjw9aDAZFuK2dNlAIK2Dj6nUXFOeKbwVOfwLyhJRoa51QTi
+         dE0A==
+X-Gm-Message-State: APjAAAUkATzEKVefNM1pZR+zYYlBy+tzmDXJlzUpXrzFQZlNAMWqRQjZ
+        EdXvvJZ06PEXyl/v+PaRBfQEPFGNN0Gj68Le2WY=
+X-Google-Smtp-Source: APXvYqycXJCO1qpyG1TRYg64mS4XPWpfu87kuLjylx9qIE9m6qABJUJRWshJoHBNSshdedCHIIp22ogarKfu6mjneAo=
+X-Received: by 2002:a67:ba07:: with SMTP id l7mr8481280vsn.11.1556637728763;
+ Tue, 30 Apr 2019 08:22:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190430121254.3737-1-geert+renesas@glider.be> <20190430121254.3737-2-geert+renesas@glider.be>
-In-Reply-To: <20190430121254.3737-2-geert+renesas@glider.be>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Tue, 30 Apr 2019 10:02:54 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+KwOLqd=ZqT-bdM5mp8jfPHu=XingBb6kBsUqHvO=m+g@mail.gmail.com>
-Message-ID: <CAL_Jsq+KwOLqd=ZqT-bdM5mp8jfPHu=XingBb6kBsUqHvO=m+g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] dt-bindings: interrupt-controller: Add Renesas
- RZ/A1 Interrupt Controller
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <marc.zyngier@arm.com>,
+References: <20190430132309.12473-1-chris.brandt@renesas.com> <20190430132309.12473-7-chris.brandt@renesas.com>
+In-Reply-To: <20190430132309.12473-7-chris.brandt@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 30 Apr 2019 17:21:57 +0200
+Message-ID: <CAMuHMdWzN_1XmO8w_otDseJ+bxk+AKNouk-ycPPyM2XWMWritQ@mail.gmail.com>
+Subject: Re: [PATCH 6/7] ARM: dts: r7s9210-rza2mevb: Add Ethernet support
+To:     Chris Brandt <chris.brandt@renesas.com>
+Cc:     Simon Horman <horms@verge.net.au>,
+        Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        devicetree@vger.kernel.org,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Apr 30, 2019 at 7:13 AM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> Add DT bindings for the Renesas RZ/A1 Interrupt Controller.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v2:
->   - Add "renesas,gic-spi-base",
->   - Document RZ/A2M.
-> ---
->  .../renesas,rza1-irqc.txt                     | 30 +++++++++++++++++++
->  1 file changed, 30 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
->
-> diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt b/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
-> new file mode 100644
-> index 0000000000000000..ea8ddb6955338ccd
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
-> @@ -0,0 +1,30 @@
-> +DT bindings for the Renesas RZ/A1 Interrupt Controller
-> +
-> +The RZ/A1 Interrupt Controller is a front-end for the GIC found on Renesas
-> +RZ/A1 and RZ/A2 SoCs:
-> +  - IRQ sense select for 8 external interrupts, 1:1-mapped to 8 GIC SPI
-> +    interrupts,
-> +  - NMI edge select.
-> +
-> +Required properties:
-> +  - compatible: Must be "renesas,<soctype>-irqc", and "renesas,rza1-irqc" as
-> +               fallback.
-> +               Examples with soctypes are:
-> +                 - "renesas,r7s72100-irqc" (RZ/A1H)
-> +                 - "renesas,r7s9210-irqc" (RZ/A2M)
-> +  - #interrupt-cells: Must be 2 (an interrupt index and flags, as defined
-> +                                in interrupts.txt in this directory)
-> +  - interrupt-controller: Marks the device as an interrupt controller
-> +  - reg: Base address and length of the memory resource used by the interrupt
-> +         controller
-> +  - renesas,gic-spi-base: Lowest GIC SPI interrupt number this block maps to.
+Hi Chris,
 
-Why isn't this just an 'interrupts' property? Plus, without
-'interrupts' walking the hierarchy is broken.
+On Tue, Apr 30, 2019 at 3:33 PM Chris Brandt <chris.brandt@renesas.com> wrote:
+> The RZ/A2M EVB sub board has 2 Ethernet jacks on it.
+>
+> Set switch SW6_4        to ON to use Ethernet Ch-0
+> Set switch SW6_5        to ON to use Ethernet Ch-1
+>
+> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
 
-Rob
+Thanks for your patch!
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+> --- a/arch/arm/boot/dts/r7s9210-rza2mevb.dts
+> +++ b/arch/arm/boot/dts/r7s9210-rza2mevb.dts
+
+Perhaps you want to add an "ethernet0" alias, so U-Boot can find the
+device-node and add an appropriate "local-mac-address" property?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
