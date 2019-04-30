@@ -2,148 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E6FB100AB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 22:16:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13C0E100BF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 22:26:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726372AbfD3UQl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Apr 2019 16:16:41 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:33053 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726030AbfD3UQl (ORCPT
+        id S1726053AbfD3U0B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Apr 2019 16:26:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35792 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726028AbfD3U0B (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Apr 2019 16:16:41 -0400
-Received: by mail-lj1-f196.google.com with SMTP id f23so14036666ljc.0;
-        Tue, 30 Apr 2019 13:16:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=B8reHkuIqjZZzeoD65y6KLq1gTHu9jNtA3g0IFRbx/c=;
-        b=uYDaBudsEZvTpxVhkVz4jHPYJhET0ZEnzxU/AVJ9EBN9ApoCiqiuackPf23wUUQqZu
-         /MMpphf/5GImubqoQoMp2z8DJ2QdWMQMQMrSjHQNKeB+VOcuDyAazY9fUmibDoP5WnNV
-         /a5bDzIJN5EbEDWuNzU2sgsw41v0iWwLLoe3NblwHq+Zo6+AKJq+RQq1hABOvl64+lmM
-         oz2gDsyDywL9v3zZQFG+078DqALNBotcXU0TRv7i7zgeaP/kGgmOXQ5iKQtK88X1eDCG
-         +wenayQ+dzRmtdKpW2iEgHFgk5Rib8Q0YIenEWAGV/tjGDRn+kah4Via/L86BGMkbiAp
-         lr9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=B8reHkuIqjZZzeoD65y6KLq1gTHu9jNtA3g0IFRbx/c=;
-        b=MaKlNeqmBeVx4q518xQUWrj/GXYdI8bMqrp/6q+Ek9wDntFQ4LSk2eMtAIbiTdC6nc
-         XJZpvdFCNZ4xiII/KRQGQs9vdeEHvkBdX3cEttaPs6SsW6818Q59qYK/K/Be2QXS+4o8
-         JKN0xjCgDKVvF5oU03OfWmL9OopODjmcapjRRGomb37sebjyEiIR+NO0FFCr3r6iyPwJ
-         AiL4kYstcAdClcIbMy1UX7ttrM3xcFWahBC5IHSlPuBAz1HgXHrRjV8nL02VWKtQoIRY
-         lxjg79D+ryWIRNnl2B9y30Lgy6BgHhj5NgV4gTB5uuCJZ7tn/T1a6oHlgU+eb3mEpSW5
-         5FIA==
-X-Gm-Message-State: APjAAAVIUHhtM5bIgAsc3t8EyNcpQxfjP6g3CpXfZbjG62KheVUIIH/z
-        0gWqbjiq1MN0Nejmra5jEXMeMGjcIRY=
-X-Google-Smtp-Source: APXvYqyo+jG2w3BDdgmT0B3aMuxzZVO8jkOL+oCFKXrGF+pOZC/fnkaMYvRNdRkf8brE/cJPrxwFeQ==
-X-Received: by 2002:a2e:5c49:: with SMTP id q70mr7728889ljb.16.1556655398352;
-        Tue, 30 Apr 2019 13:16:38 -0700 (PDT)
-Received: from [192.168.88.248] ([77.222.156.95])
-        by smtp.gmail.com with ESMTPSA id x25sm4222882ljj.95.2019.04.30.13.16.36
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Tue, 30 Apr 2019 13:16:37 -0700 (PDT)
-Subject: Re: [PATCH RFT] i2c: designware: ratelimit 'transfer when suspended'
- errors
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c@vger.kernel.org
-Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-        linux-renesas-soc@vger.kernel.org
-References: <20190424161632.4994-1-wsa+renesas@sang-engineering.com>
- <1a8172c8-3d2e-1897-88dd-d86aa0130ed8@gmail.com>
- <56faab09-c2ec-047a-886e-669d0a106e7b@redhat.com>
-From:   skidnik <skidnik@gmail.com>
-Message-ID: <39b2ddc1-0f96-8977-f57f-840025aff4f2@gmail.com>
-Date:   Tue, 30 Apr 2019 23:15:42 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Tue, 30 Apr 2019 16:26:01 -0400
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F216F21744;
+        Tue, 30 Apr 2019 20:25:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1556655960;
+        bh=DSxEhAEipVnpxa4FsOU9wQm9HGZcB8UKp6vsmLFKzKI=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=hWGNDLin8Jv7R3octK9+WNK6NDkFYqRon781t/+3Uaohgl5JBv0p8/YLze24pXZPA
+         BnB/vbFXRIBB3+ftQnARjE7ILIkYGn0fJVbShd9VrtK0ZNVoNzckTnIRx6vAWjIOJm
+         rFyC/x1QpMlMO7dUwXT7s/gVuO/syR9PmXkZqYb0=
+Received: by mail-qt1-f171.google.com with SMTP id p20so17849432qtc.9;
+        Tue, 30 Apr 2019 13:25:59 -0700 (PDT)
+X-Gm-Message-State: APjAAAW9W6gIt7cWbGdE8J/vRA1Wbb7iJ4DK1LMNGN5/IRc6el4VWDNX
+        bR8fQy/A/UWS+VPoB9sFBmhDJ/ogRqN5KqHnzw==
+X-Google-Smtp-Source: APXvYqxCFou195GvOeGCcRlljrl+D9VyKQ+Gjb47JpcOdGhFwHx38K3aZX9kIiEUbEXlzu2ItILlnXJhN99f9b9CsTY=
+X-Received: by 2002:aed:306c:: with SMTP id 99mr1000209qte.38.1556655959214;
+ Tue, 30 Apr 2019 13:25:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <56faab09-c2ec-047a-886e-669d0a106e7b@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20190430121254.3737-1-geert+renesas@glider.be>
+ <20190430121254.3737-2-geert+renesas@glider.be> <CAL_Jsq+KwOLqd=ZqT-bdM5mp8jfPHu=XingBb6kBsUqHvO=m+g@mail.gmail.com>
+ <29e95406-b9fb-fbb6-9240-c3914d885e88@arm.com>
+In-Reply-To: <29e95406-b9fb-fbb6-9240-c3914d885e88@arm.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 30 Apr 2019 15:25:47 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+FJDdka9BMcXvGveBHiUf=YUU=3gz3e2wxjtXZ+K+NEA@mail.gmail.com>
+Message-ID: <CAL_Jsq+FJDdka9BMcXvGveBHiUf=YUU=3gz3e2wxjtXZ+K+NEA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] dt-bindings: interrupt-controller: Add Renesas
+ RZ/A1 Interrupt Controller
+To:     Marc Zyngier <marc.zyngier@arm.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        devicetree@vger.kernel.org,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 4/30/19 5:09 PM, Hans de Goede wrote:
-> Hi,
-> 
-> On 4/25/19 9:21 PM, skidnik wrote:
->> On 4/24/19 7:16 PM, Wolfram Sang wrote:
->>> There are two problems with dev_err() here. One: It is not ratelimited.
->>> Two: We don't see which driver tried to transfer something with a
->>> suspended adapter. Switch to dev_WARN_ONCE to fix both issues. Drawback
->>> is that we don't see if multiple drivers are trying to transfer while
->>> suspended. They need to be discovered one after the other now. This is
->>> better than a high CPU load because a really broken driver might try to
->>> resend endlessly.
->>>
->>> Link: https://bugs.archlinux.org/task/62391
->>> Fixes: 275154155538 ("i2c: designware: Do not allow i2c_dw_xfer() 
->>> calls while suspended")
->>> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
->>> ---
->>>
->>> skdnik: Would you be so kind and test this patch? I can only 
->>> build-test here.
->>>
->>> I have a prototype to fix the similar issue in the core, but this 
->>> needs more
->>> testing first, so I am sending this one out already.
->>>
->>>   drivers/i2c/busses/i2c-designware-master.c | 3 +--
->>>   1 file changed, 1 insertion(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/i2c/busses/i2c-designware-master.c 
->>> b/drivers/i2c/busses/i2c-designware-master.c
->>> index bb8e3f149979..d464799e40a3 100644
->>> --- a/drivers/i2c/busses/i2c-designware-master.c
->>> +++ b/drivers/i2c/busses/i2c-designware-master.c
->>> @@ -426,8 +426,7 @@ i2c_dw_xfer(struct i2c_adapter *adap, struct 
->>> i2c_msg msgs[], int num)
->>>       pm_runtime_get_sync(dev->dev);
->>> -    if (dev->suspended) {
->>> -        dev_err(dev->dev, "Error %s call while suspended\n", __func__);
->>> +    if (dev_WARN_ONCE(dev->dev, dev->suspended, "Transfer while 
->>> suspended\n")) {
->>>           ret = -ESHUTDOWN;
->>>           goto done_nolock;
->>>       }
->>>
->> This solves system journal flooding, but I still have one core under 
->> full load after resume from hibernation. The touchpad attached to that 
->> bus works perfectly fine after resume.
-> 
-> Ah, this is on a resume from hibernate, in that case I think this patch 
-> will fix this:
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/commit/?id=c8afd03486c26accdda4846e5561aa3f8e862a9d 
-> 
-> 
-> Can you build a kernel with that patch added?
-> 
-> Regards,
-> 
-> Hans
-> 
-Built linux-5.1.0-rc7 (linux-mainline PKGBUILD from aur) with both 
-patches applied.
+On Tue, Apr 30, 2019 at 10:34 AM Marc Zyngier <marc.zyngier@arm.com> wrote:
+>
+> On 30/04/2019 16:02, Rob Herring wrote:
+> > On Tue, Apr 30, 2019 at 7:13 AM Geert Uytterhoeven
+> > <geert+renesas@glider.be> wrote:
+> >>
+> >> Add DT bindings for the Renesas RZ/A1 Interrupt Controller.
+> >>
+> >> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> >> ---
+> >> v2:
+> >>   - Add "renesas,gic-spi-base",
+> >>   - Document RZ/A2M.
+> >> ---
+> >>  .../renesas,rza1-irqc.txt                     | 30 +++++++++++++++++++
+> >>  1 file changed, 30 insertions(+)
+> >>  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt b/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
+> >> new file mode 100644
+> >> index 0000000000000000..ea8ddb6955338ccd
+> >> --- /dev/null
+> >> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
+> >> @@ -0,0 +1,30 @@
+> >> +DT bindings for the Renesas RZ/A1 Interrupt Controller
+> >> +
+> >> +The RZ/A1 Interrupt Controller is a front-end for the GIC found on Renesas
+> >> +RZ/A1 and RZ/A2 SoCs:
+> >> +  - IRQ sense select for 8 external interrupts, 1:1-mapped to 8 GIC SPI
+> >> +    interrupts,
+> >> +  - NMI edge select.
+> >> +
+> >> +Required properties:
+> >> +  - compatible: Must be "renesas,<soctype>-irqc", and "renesas,rza1-irqc" as
+> >> +               fallback.
+> >> +               Examples with soctypes are:
+> >> +                 - "renesas,r7s72100-irqc" (RZ/A1H)
+> >> +                 - "renesas,r7s9210-irqc" (RZ/A2M)
+> >> +  - #interrupt-cells: Must be 2 (an interrupt index and flags, as defined
+> >> +                                in interrupts.txt in this directory)
+> >> +  - interrupt-controller: Marks the device as an interrupt controller
+> >> +  - reg: Base address and length of the memory resource used by the interrupt
+> >> +         controller
+> >> +  - renesas,gic-spi-base: Lowest GIC SPI interrupt number this block maps to.
+> >
+> > Why isn't this just an 'interrupts' property?
+>
+> That's likely because of kernel limitations. The DT code does an
+> of_populate() on any device that it finds, parse the "interrupts"
+> propertiy, resulting in the irq_descs being populated.
+>
+> That creates havoc, as these interrupts are not for this device, but for
+> something that is connected to it. This is merely a bridge of some sort.
 
-This has fixed the issue. After resume from hibernation idle CPU usage 
-goes back to normal (around 1%). The i2c_designware related error 
-doesn't appear in kernel log.
+'interrupt-map' would avoid that problem I think.
 
-I'm going to report back to Archlinux bug tracker that the issue has 
-been fixed. Please can you tell which kernel release will have these 
-fixes so that I can provide relevant information.
+> Furthermore, this is a rather long established practice: gic-v2m,
+> gic-v3-mbi, mediatek,sysirq, mediatek,cirq... All the bits of glue that
+> for one reason or another plug onto the GIC use the same method.
 
-Thanks for the great work, regards
-skidnik
+All handling the mapping to the parent in their own way...
+
+> > Plus, without 'interrupts' walking the hierarchy is broken.
+>
+> Erm... Which hierarchy?
+
+of_irq_init() expects that an interrupt-controller without an
+interrupt-parent is the root controller. So you're right. We only need
+to have an 'interrupt-parent', but not 'interrupts'.
+
+Rob
