@@ -2,72 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 07058F9A5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 15:15:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75EACFA6A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Apr 2019 15:32:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727164AbfD3NNu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Apr 2019 09:13:50 -0400
-Received: from mail-vs1-f66.google.com ([209.85.217.66]:37105 "EHLO
-        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726614AbfD3NNt (ORCPT
+        id S1727394AbfD3NcN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Apr 2019 09:32:13 -0400
+Received: from pbmsgap01.intersil.com ([192.157.179.201]:60252 "EHLO
+        pbmsgap01.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725838AbfD3NcN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Apr 2019 09:13:49 -0400
-Received: by mail-vs1-f66.google.com with SMTP id w13so7947144vsc.4;
-        Tue, 30 Apr 2019 06:13:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=er7EckL6+6bkOj0tZCrbXDBFgyjsoHetY5yTY57HWvo=;
-        b=iK335Dh8eOlUS4V/ZsbxCvK+0QjxXbjZR974sTv/EY+mg1nQ6X496FZiHJHlR9i8ut
-         WEhtErZpMZLNl0rSc9NjPW0lSrDy3hXAyJiUuANwkRGxULUoBYkEEzdPCowC4z/3+b9r
-         8rL0D5Eg6MbB6byevYqx9+KnURXOIyNS3VKt9JQ/8nQcNt7zCiLDFTp1wam5akUNseth
-         pnfQOuTViaF9+kDT0rtuKXMyyxA8AynTv7T63YsM4H0wJA5cZ+D25ujXhToEh189Idho
-         1D+o3J7aIHKqf55f4oagQ/Tw8hl8DcMQCEJ4TDKvUf+X5PiaYtBx/CBnkVPvPaQOc2nJ
-         9ACw==
-X-Gm-Message-State: APjAAAVQTazMTAJqzQafC0CIfMsVyO49xp4iOxltcQB444HLp3yv5ilp
-        djI0FHJsPOzt/S7nIdde1+t/ReAWcTzcu7pZPXg=
-X-Google-Smtp-Source: APXvYqxP5htn7FvKeq/XRyaVbkzlyoHKRhw9z9bhJwCCGm/yob2SD33V4iStIkQhgFZeGiVPmpZRADUhSnHEeoF/f+g=
-X-Received: by 2002:a05:6102:113:: with SMTP id z19mr5228282vsq.166.1556630028627;
- Tue, 30 Apr 2019 06:13:48 -0700 (PDT)
+        Tue, 30 Apr 2019 09:32:13 -0400
+X-Greylist: delayed 522 seconds by postgrey-1.27 at vger.kernel.org; Tue, 30 Apr 2019 09:32:12 EDT
+Received: from pps.filterd (pbmsgap01.intersil.com [127.0.0.1])
+        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x3UDNIB7013557;
+        Tue, 30 Apr 2019 09:23:18 -0400
+Received: from pbmxdp01.intersil.corp (pbmxdp01.pb.intersil.com [132.158.200.222])
+        by pbmsgap01.intersil.com with ESMTP id 2s4jky2hfv-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+        Tue, 30 Apr 2019 09:23:18 -0400
+Received: from pbmxdp03.intersil.corp (132.158.200.224) by
+ pbmxdp01.intersil.corp (132.158.200.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
+ 15.1.1531.3; Tue, 30 Apr 2019 09:23:16 -0400
+Received: from localhost.localdomain (132.158.202.108) by
+ pbmxdp03.intersil.corp (132.158.200.224) with Microsoft SMTP Server id
+ 15.1.1531.3 via Frontend Transport; Tue, 30 Apr 2019 09:23:16 -0400
+From:   Chris Brandt <chris.brandt@renesas.com>
+To:     Simon Horman <horms@verge.net.au>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Mark Rutland" <mark.rutland@arm.com>
+CC:     <devicetree@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>
+Subject: [PATCH 0/7] dts: r7s9210: Add RZ/A2 devices
+Date:   Tue, 30 Apr 2019 08:23:02 -0500
+Message-ID: <20190430132309.12473-1-chris.brandt@renesas.com>
+X-Mailer: git-send-email 2.16.1
 MIME-Version: 1.0
-References: <1555428717-18376-1-git-send-email-biju.das@bp.renesas.com> <1555428717-18376-4-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1555428717-18376-4-git-send-email-biju.das@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 30 Apr 2019 15:13:37 +0200
-Message-ID: <CAMuHMdWKgLn-4DWYqkS5Go7yi_ngowi1TdjeXQA_YDxiOon3SQ@mail.gmail.com>
-Subject: Re: [PATCH 3/6] arm64: dts: renesas: r8a774a1: Add FDP1 instance
-To:     Biju Das <biju.das@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-04-30_06:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=junk_notspam policy=junk score=0 suspectscore=2 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=617
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1810050000 definitions=main-1904300086
+X-Proofpoint-Spam-Reason: mlx
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Apr 16, 2019 at 5:38 PM Biju Das <biju.das@bp.renesas.com> wrote:
-> The r8a774a1 has a single FDP1 instance similar to r8a7796.
->
-> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+So while I added RZ/A2 drivers a while back, I never actually added them
+all to the device tree.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+This series adds everything that is currently supported.
 
-Gr{oetje,eeting}s,
+Chris Brandt (7):
+  ARM: dts: r7s9210: Add RSPI
+  ARM: dts: r7s9210: Add Ethernet support
+  dt-bindings: i2c: riic: document r7s9210 support
+  ARM: dts: r7s9210: Add RIIC support
+  ARM: dts: r7s9210: Add SDHI support
+  ARM: dts: r7s9210-rza2mevb: Add Ethernet support
+  ARM: dts: r7s9210-rza2mevb: Add SDHI support
 
-                        Geert
+ Documentation/devicetree/bindings/i2c/i2c-riic.txt |   5 +-
+ arch/arm/boot/dts/r7s9210-rza2mevb.dts             |  74 +++++++++
+ arch/arm/boot/dts/r7s9210.dtsi                     | 170 +++++++++++++++++++++
+ 3 files changed, 248 insertions(+), 1 deletion(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.16.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
