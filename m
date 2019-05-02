@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D54D11924
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2019 14:33:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D22FA1191B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2019 14:32:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726562AbfEBMct (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 May 2019 08:32:49 -0400
-Received: from albert.telenet-ops.be ([195.130.137.90]:56512 "EHLO
-        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726455AbfEBMc1 (ORCPT
+        id S1726466AbfEBMc2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 May 2019 08:32:28 -0400
+Received: from andre.telenet-ops.be ([195.130.132.53]:37696 "EHLO
+        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726449AbfEBMc1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Thu, 2 May 2019 08:32:27 -0400
 Received: from ramsan ([84.194.111.163])
-        by albert.telenet-ops.be with bizsmtp
-        id 7QYP200013XaVaC06QYPKk; Thu, 02 May 2019 14:32:26 +0200
+        by andre.telenet-ops.be with bizsmtp
+        id 7QYP200023XaVaC01QYPMH; Thu, 02 May 2019 14:32:26 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hMAsw-0007e4-Ul; Thu, 02 May 2019 14:32:22 +0200
+        id 1hMAsw-0007e7-Vi; Thu, 02 May 2019 14:32:22 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hMAsw-0000ng-Sk; Thu, 02 May 2019 14:32:22 +0200
+        id 1hMAsw-0000nj-UF; Thu, 02 May 2019 14:32:22 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Thomas Gleixner <tglx@linutronix.de>,
         Jason Cooper <jason@lakedaemon.net>,
@@ -34,9 +34,9 @@ To:     Thomas Gleixner <tglx@linutronix.de>,
 Cc:     devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v3 4/5] ARM: dts: r7s72100: Add IRQC device node
-Date:   Thu,  2 May 2019 14:32:19 +0200
-Message-Id: <20190502123220.3016-5-geert+renesas@glider.be>
+Subject: [PATCH v3 5/5] ARM: dts: rskrza1: Add input switches
+Date:   Thu,  2 May 2019 14:32:20 +0200
+Message-Id: <20190502123220.3016-6-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190502123220.3016-1-geert+renesas@glider.be>
 References: <20190502123220.3016-1-geert+renesas@glider.be>
@@ -45,54 +45,92 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable support for the IRQC on RZ/A1H, which is a small front-end to the
-GIC.  This allows to use up to 8 external interrupts with configurable
-sense select.
+Add support for input switches SW1-3 on the Renesas RZ/A1 RSK+RZA1
+development board.
+
+Note that this uses the IRQ interrupts, as the RZ/A1 GPIO controller
+does not include interrupt support.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
 ---
 v3:
-  - Use interrupt-map (+ #address-cells and interrupt-map-mask) instead
-    of renesas,gic-spi-base,
+  - No changes,
 
 v2:
-  - Add Reviewed-by,
-  - Add "renesas,gic-spi-base".
----
- arch/arm/boot/dts/r7s72100.dtsi | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+  - No changes,
 
-diff --git a/arch/arm/boot/dts/r7s72100.dtsi b/arch/arm/boot/dts/r7s72100.dtsi
-index 2211f88ede2ad351..d03dcd919d6f5cfb 100644
---- a/arch/arm/boot/dts/r7s72100.dtsi
-+++ b/arch/arm/boot/dts/r7s72100.dtsi
-@@ -670,6 +670,25 @@
- 			status = "disabled";
- 		};
+v1:
+  - Use rza1-irqc instead of gic.
+
+v0:
+  - Sent as an RFC in a reply to another thread.
+---
+ arch/arm/boot/dts/r7s72100-rskrza1.dts | 38 ++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
+
+diff --git a/arch/arm/boot/dts/r7s72100-rskrza1.dts b/arch/arm/boot/dts/r7s72100-rskrza1.dts
+index ff24301dc1be54de..99acfe4fe11aaed9 100644
+--- a/arch/arm/boot/dts/r7s72100-rskrza1.dts
++++ b/arch/arm/boot/dts/r7s72100-rskrza1.dts
+@@ -8,6 +8,7 @@
+ /dts-v1/;
+ #include "r7s72100.dtsi"
+ #include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/input/input.h>
+ #include <dt-bindings/pinctrl/r7s72100-pinctrl.h>
  
-+		irqc: interrupt-controller@fcfef800 {
-+			compatible = "renesas,r7s72100-irqc",
-+				     "renesas,rza1-irqc";
-+			#interrupt-cells = <2>;
-+			#address-cells = <0>;
-+			interrupt-controller;
-+			reg = <0xfcfef800 0x6>;
-+			interrupt-map =
-+				<0 0 &gic GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
-+				<1 0 &gic GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>,
-+				<2 0 &gic GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>,
-+				<3 0 &gic GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>,
-+				<4 0 &gic GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
-+				<5 0 &gic GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
-+				<6 0 &gic GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
-+				<7 0 &gic GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-map-mask = <7 0>;
+ / {
+@@ -28,6 +29,37 @@
+ 		reg = <0x08000000 0x02000000>;
+ 	};
+ 
++	keyboard {
++		compatible = "gpio-keys";
++
++		pinctrl-names = "default";
++		pinctrl-0 = <&keyboard_pins>;
++
++		key-1 {
++			interrupt-parent = <&irqc>;
++			interrupts = <3 IRQ_TYPE_EDGE_BOTH>;
++			linux,code = <KEY_1>;
++			label = "SW1";
++			wakeup-source;
 +		};
 +
- 		mtu2: timer@fcff0000 {
- 			compatible = "renesas,mtu2-r7s72100", "renesas,mtu2";
- 			reg = <0xfcff0000 0x400>;
++		key-2 {
++			interrupt-parent = <&irqc>;
++			interrupts = <2 IRQ_TYPE_EDGE_BOTH>;
++			linux,code = <KEY_2>;
++			label = "SW2";
++			wakeup-source;
++		};
++
++		key-3 {
++			interrupt-parent = <&irqc>;
++			interrupts = <5 IRQ_TYPE_EDGE_BOTH>;
++			linux,code = <KEY_3>;
++			label = "SW3";
++			wakeup-source;
++		};
++	};
++
+ 	lbsc {
+ 		#address-cells = <1>;
+ 		#size-cells = <1>;
+@@ -101,6 +133,12 @@
+ 			 <RZA1_PINMUX(1, 7, 1)>;	/* RIIC3SDA */
+ 	};
+ 
++	keyboard_pins: keyboard {
++		pinmux = <RZA1_PINMUX(1, 9, 3)>,	/* IRQ3 */
++			 <RZA1_PINMUX(1, 8, 3)>,	/* IRQ2 */
++			 <RZA1_PINMUX(1, 11, 3)>;	/* IRQ5 */
++	};
++
+ 	/* Serial Console */
+ 	scif2_pins: serial2 {
+ 		pinmux = <RZA1_PINMUX(3, 0, 6)>,	/* TxD2 */
 -- 
 2.17.1
 
