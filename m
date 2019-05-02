@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5680C11928
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2019 14:33:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB4C71191F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2019 14:32:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726571AbfEBMcx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 May 2019 08:32:53 -0400
-Received: from xavier.telenet-ops.be ([195.130.132.52]:60516 "EHLO
+        id S1726335AbfEBMce (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 May 2019 08:32:34 -0400
+Received: from xavier.telenet-ops.be ([195.130.132.52]:60522 "EHLO
         xavier.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726424AbfEBMc1 (ORCPT
+        with ESMTP id S1726278AbfEBMc3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 May 2019 08:32:27 -0400
+        Thu, 2 May 2019 08:32:29 -0400
 Received: from ramsan ([84.194.111.163])
         by xavier.telenet-ops.be with bizsmtp
-        id 7QYN2000F3XaVaC01QYNGw; Thu, 02 May 2019 14:32:25 +0200
+        id 7QYN2000E3XaVaC01QYNGv; Thu, 02 May 2019 14:32:25 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hMAsw-0007dt-QJ; Thu, 02 May 2019 14:32:22 +0200
+        id 1hMAsw-0007du-QX; Thu, 02 May 2019 14:32:22 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hMAsw-0000nU-Np; Thu, 02 May 2019 14:32:22 +0200
+        id 1hMAsw-0000nX-PA; Thu, 02 May 2019 14:32:22 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Thomas Gleixner <tglx@linutronix.de>,
         Jason Cooper <jason@lakedaemon.net>,
@@ -34,91 +34,82 @@ To:     Thomas Gleixner <tglx@linutronix.de>,
 Cc:     devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v3 0/5] ARM: rskrza1: Add RZ/A1 IRQC and input switches
-Date:   Thu,  2 May 2019 14:32:15 +0200
-Message-Id: <20190502123220.3016-1-geert+renesas@glider.be>
+Subject: [PATCH v3 1/5] dt-bindings: interrupt-controller: Add Renesas RZ/A1 Interrupt Controller
+Date:   Thu,  2 May 2019 14:32:16 +0200
+Message-Id: <20190502123220.3016-2-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190502123220.3016-1-geert+renesas@glider.be>
+References: <20190502123220.3016-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi all,
+Add DT bindings for the Renesas RZ/A1 Interrupt Controller.
 
-Unlike on most other Renesas SoCs, the GPIO controller block on RZ/A1
-and RZ/A2 SoCs lack interrupt functionality.  While the GPIOs can be
-routed to the GIC as pin interrupts, this is of limited use, as the
-PL390 or GIC-400 supports rising edge and high-level interrupts only.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+v3:
+  - Use interrupt-map (+ #address-cells and interrupt-map-mask) instead
+    of renesas,gic-spi-base,
 
-Fortunately RZ/A1 and RZ/A2 SoCs contain a small front-end for the GIC,
-allowing to use up to 8 external interrupts, with configurable sense
-select.
-
-Hence this patch series adds DT bindings and a driver for this
-front-end, adds a device node for it in the RZ/A1H DTS, and uses it to
-enable support for the 3 input switches on the Renesas RSK+RZA1
-development board.
-
-Changes compared to v2:
-  - Add Tested-by,
-  - Use standard interrupt-map instead of custom renesas,gic-spi-base.
-    I'm still a bit puzzled by the confusing semantics (double meaning)
-    of child and parent unit addresses in interrupt-map.
-
-Changes compared to v1:
-  - Add Reviewed-by,
-  - Replace gic_spi_base in OF match data by renesas,gic-spi-base in DT,
-  - Document RZ/A2M,
-  - Use u16 for register values,
-  - Use relaxed I/O accessors,
-  - Use "rza1-irqc" as irq_chip class name,
-  - Enable driver on RZ/A2M.
-
-Dependencies:
-  - Patch 3 depends on patch 2,
-  - Patch 4 can be applied as soon as the DT bindings in patch 1 have
-    been accepted,
-  - Patch 5 depends on patch 4.
-
-Upstream strategy:
-  - Patches 1-2 are intended to be applied to the irqchip tree,
-  - Patches 3-5 are meant for the Renesas tree.
-
-This has been tested on RSK+RZA1 with evtest and s2ram wake-up.
-I have verified proper operation of low-level and rising/falling sense
-select, too.
-
-Thanks!
-
-Geert Uytterhoeven (5):
-  dt-bindings: interrupt-controller: Add Renesas RZ/A1 Interrupt
-    Controller
-  irqchip: Add Renesas RZ/A1 Interrupt Controller driver
-  soc: renesas: Enable RZ/A1 IRQC on RZ/A1H and RZ/A2M
-  ARM: dts: r7s72100: Add IRQC device node
-  ARM: dts: rskrza1: Add input switches
-
- .../renesas,rza1-irqc.txt                     |  43 +++
- arch/arm/boot/dts/r7s72100-rskrza1.dts        |  38 +++
- arch/arm/boot/dts/r7s72100.dtsi               |  19 ++
- drivers/irqchip/Kconfig                       |   4 +
- drivers/irqchip/Makefile                      |   1 +
- drivers/irqchip/irq-renesas-rza1.c            | 283 ++++++++++++++++++
- drivers/soc/renesas/Kconfig                   |   4 +-
- 7 files changed, 391 insertions(+), 1 deletion(-)
+v2:
+  - Add "renesas,gic-spi-base",
+  - Document RZ/A2M.
+---
+ .../renesas,rza1-irqc.txt                     | 43 +++++++++++++++++++
+ 1 file changed, 43 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
- create mode 100644 drivers/irqchip/irq-renesas-rza1.c
 
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt b/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
+new file mode 100644
+index 0000000000000000..727b7e4cd6e01110
+--- /dev/null
++++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
+@@ -0,0 +1,43 @@
++DT bindings for the Renesas RZ/A1 Interrupt Controller
++
++The RZ/A1 Interrupt Controller is a front-end for the GIC found on Renesas
++RZ/A1 and RZ/A2 SoCs:
++  - IRQ sense select for 8 external interrupts, 1:1-mapped to 8 GIC SPI
++    interrupts,
++  - NMI edge select.
++
++Required properties:
++  - compatible: Must be "renesas,<soctype>-irqc", and "renesas,rza1-irqc" as
++		fallback.
++		Examples with soctypes are:
++		  - "renesas,r7s72100-irqc" (RZ/A1H)
++		  - "renesas,r7s9210-irqc" (RZ/A2M)
++  - #interrupt-cells: Must be 2 (an interrupt index and flags, as defined
++				 in interrupts.txt in this directory)
++  - #address-cells: Must be zero
++  - interrupt-controller: Marks the device as an interrupt controller
++  - reg: Base address and length of the memory resource used by the interrupt
++         controller
++  - interrupt-map: Specifies the mapping from external interrupts to GIC
++		   interrupts
++  - interrupt-map-mask: Must be <7 0>
++
++Example:
++
++	irqc: interrupt-controller@fcfef800 {
++		compatible = "renesas,r7s72100-irqc", "renesas,rza1-irqc";
++		#interrupt-cells = <2>;
++		#address-cells = <0>;
++		interrupt-controller;
++		reg = <0xfcfef800 0x6>;
++		interrupt-map =
++			<0 0 &gic GIC_SPI 0 IRQ_TYPE_LEVEL_HIGH>,
++			<1 0 &gic GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>,
++			<2 0 &gic GIC_SPI 2 IRQ_TYPE_LEVEL_HIGH>,
++			<3 0 &gic GIC_SPI 3 IRQ_TYPE_LEVEL_HIGH>,
++			<4 0 &gic GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>,
++			<5 0 &gic GIC_SPI 5 IRQ_TYPE_LEVEL_HIGH>,
++			<6 0 &gic GIC_SPI 6 IRQ_TYPE_LEVEL_HIGH>,
++			<7 0 &gic GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
++		interrupt-map-mask = <7 0>;
++	};
 -- 
 2.17.1
 
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
