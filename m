@@ -2,108 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A33511AD7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2019 16:08:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 935D812029
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2019 18:29:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726267AbfEBOI4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 May 2019 10:08:56 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:45464 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726197AbfEBOI4 (ORCPT
+        id S1726423AbfEBQ3S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 May 2019 12:29:18 -0400
+Received: from sauhun.de ([88.99.104.3]:55620 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726303AbfEBQ3R (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 May 2019 10:08:56 -0400
-Received: by mail-wr1-f66.google.com with SMTP id s15so3535195wra.12
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 02 May 2019 07:08:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=kygBrnbyyUIh06s/hyc0OhhB1Y6TkH3Yrp9X9NpJCW4=;
-        b=b7WOqPHHITgk/LEMlqnA8E9YrsHCJOmgZ+bsAwZgNGbQwwnzFpfWOfWzb6fYGwFwz6
-         ANSPvVz5X9C3ofDYbAhPofd1jRxllj+9jLbsOJpKXMdisvQia0fP8aeNLf1HR1YLh9kj
-         wECKNy1oMRnot/P+KKRnTYxKCVwdN9DJftxlurba3no7w2nAcBJsNVM9Y1FaEm4OImj0
-         7N+/98ptMPw9pxFdzPFvKSYc1wPk7V/DVo7dKn/dQGmv5AysjwOpQ1n5b925CL0BJ74m
-         4uooqhaEbU2FB0U8+AzFkMrKO0R71Y5Z+CXrN9beLwmxmjABopEzfFLC8oxIp9DB3bZi
-         qO5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=kygBrnbyyUIh06s/hyc0OhhB1Y6TkH3Yrp9X9NpJCW4=;
-        b=Y8kVOqtM80TQUSj0U15p0Ah5/qBdsBnHJSCYCqg++BtGKiGgv4Ah/gId7lg+dC89k5
-         Kj8euWlvNO964HaFozSldhheGI+0IKvyhfsRlXNBSjIqsvCGaao0JsUqEXpxPkkT3Fxb
-         BR8ExwcBtoFpLcYaI5VNbpE399Gr1q7TUh/sUeAKipmJUEcf3PLrF1GKQFV/zH+Fxxtn
-         1Tuwply/H4wp44RWkee9zw2BVbK/eHTnmfZP8AFGe3XM7HUTvte5vdH90Bel0pRMe6sk
-         BCA0QqJcPDEZAwHipzoJ996w20wtIuMprFHRQFYxPyfBnDxh8Rna5cdYfzuz36nRqbFj
-         y5Hg==
-X-Gm-Message-State: APjAAAWHeG/ncdMT/ONVyycEj+bXdlr+Tb8w1eqGogwAHXtagg78Hnge
-        oRkrACdR3Q8KYaGKApqZPPV96qiP
-X-Google-Smtp-Source: APXvYqwyGwkkGawbX2FelP9+u3J6EFtdwnuGMnfCrSFayOUrbY46hGOSr5ZE3x1bWHN6HfAkyzFnuQ==
-X-Received: by 2002:adf:e309:: with SMTP id b9mr2977875wrj.165.1556806134209;
-        Thu, 02 May 2019 07:08:54 -0700 (PDT)
-Received: from [192.168.42.184] (cst-prg-80-10.cust.vodafone.cz. [46.135.80.10])
-        by smtp.gmail.com with ESMTPSA id m22sm4711438wrb.15.2019.05.02.07.08.52
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Thu, 02 May 2019 07:08:53 -0700 (PDT)
-Subject: Re: [PATCH] ARM: dts: r8a7792: blanche: Add IIC3 and DA9063 PMIC node
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <20190304195958.8383-1-marek.vasut@gmail.com>
- <CAMuHMdV1K+0yCbdDD37oeOCQRs7n2-06SQi=6pX_NY0cVcPcWw@mail.gmail.com>
-From:   Marek Vasut <marek.vasut@gmail.com>
-Openpgp: preference=signencrypt
-Message-ID: <d7455e6c-f2b7-3bfc-29a1-78ee632c050e@gmail.com>
-Date:   Thu, 2 May 2019 16:07:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Thu, 2 May 2019 12:29:17 -0400
+Received: from localhost (p5486CF77.dip0.t-ipconnect.de [84.134.207.119])
+        by pokefinder.org (Postfix) with ESMTPSA id 2D3BF2CF690;
+        Thu,  2 May 2019 18:29:15 +0200 (CEST)
+Date:   Thu, 2 May 2019 18:29:14 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-i2c@vger.kernel.org, skidnik <skidnik@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH RFT] i2c: designware: ratelimit 'transfer when suspended'
+ errors
+Message-ID: <20190502162914.GA11535@kunai>
+References: <20190424161632.4994-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdV1K+0yCbdDD37oeOCQRs7n2-06SQi=6pX_NY0cVcPcWw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="J2SCkAp4GZ/dPZZf"
+Content-Disposition: inline
+In-Reply-To: <20190424161632.4994-1-wsa+renesas@sang-engineering.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 3/19/19 11:26 AM, Geert Uytterhoeven wrote:
-> Hi Marek,
-> 
-> On Mon, Mar 4, 2019 at 9:00 PM <marek.vasut@gmail.com> wrote:
->> From: Marek Vasut <marek.vasut+renesas@gmail.com>
->>
->> Add IIC3 node to R8A7792 SoC device tree and a DA9063 PMIC node
->> to V2H Blanche board device tree.
->>
->> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-> 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> 
->> --- a/arch/arm/boot/dts/r8a7792-blanche.dts
->> +++ b/arch/arm/boot/dts/r8a7792-blanche.dts
->> @@ -308,6 +308,26 @@
->>         };
->>  };
->>
->> +&iic3 {
->> +       status = "okay";
->> +
->> +       pmic@58 {
->> +               compatible = "dlg,da9063";
->> +               reg = <0x58>;
->> +               interrupt-parent = <&irqc>;
->> +               interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
-> 
-> I've just realized none of the R-Car Gen2 boards configure pinctrl for the
-> IRQC2 line (intc_irq2/intc), so they all rely on the boot loader doing that.
 
-I just sent out a patch
+--J2SCkAp4GZ/dPZZf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Best regards,
-Marek Vasut
+On Wed, Apr 24, 2019 at 06:16:32PM +0200, Wolfram Sang wrote:
+> There are two problems with dev_err() here. One: It is not ratelimited.
+> Two: We don't see which driver tried to transfer something with a
+> suspended adapter. Switch to dev_WARN_ONCE to fix both issues. Drawback
+> is that we don't see if multiple drivers are trying to transfer while
+> suspended. They need to be discovered one after the other now. This is
+> better than a high CPU load because a really broken driver might try to
+> resend endlessly.
+>=20
+> Link: https://bugs.archlinux.org/task/62391
+> Fixes: 275154155538 ("i2c: designware: Do not allow i2c_dw_xfer() calls w=
+hile suspended")
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+Applied to for-current-fixed, thanks!
+
+
+--J2SCkAp4GZ/dPZZf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAlzLGtYACgkQFA3kzBSg
+KbaSrg//dMkuxn7hTSFYPxUA/UxmqfAmhFcRp8ceOAhqiI7xvuPFlqridTi4jBN/
+VI134YslZ/pArL8bi9xfdAfQS/YFQ11kx6TSHODXWI3FbKwOPaEPvcfrvDsXuDZL
+kbOQKucHZuvGiCwpYj+q9VRxHMVWG9rkW6qNuSRG1k0t9JKMgDtpNdGqtklaejtB
+XrlDd7SAhG8rzH6Da/DX8JDR09MVpBYd+6RwdDnZpnz7nb/kPurKbEjc7aATUoCk
+w5gCi3IHLfCmP7z+4VNNNDixork0FqWuDlRTRQdAxUswBDvSZK9jSFVoAl7VmBqP
+RNDBUaVvQzdWavWDcZo3af04m/AUU8k8Mft3w8Qgf2Bmm1r1NEwkAvsb9V/CfbfH
+cvNaZB5uNVwXtL2QO55PeRtsga1q5ukl8VJZ4+TSGNvW0mVhE2nFQtzz25YM6Ajz
+h79+sCn9M4WPRx4PAE1MhjaQ4ksiIMnFMX+0fmTaCDPfwuV1eUXqygqLKSGJO4J/
+KMjFrKJ1vva8CqLXEAatgSBiqbMPQB3VzK1sq15GOekQKo1FhtV1NAKYgnRji4nd
+cR+yQu9Vpa5tZox1mbv6JO7x6DtrvkrRA17NGsCu/Elr2xZnWOadB34SG7PiJnat
+DtL2/4Ryff6p10dUmIjAjK0V6KlejhbZVfmu3CqihwqrsH7IwGg=
+=YJdQ
+-----END PGP SIGNATURE-----
+
+--J2SCkAp4GZ/dPZZf--
