@@ -2,69 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E8B010DAC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 May 2019 22:02:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60851110E9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2019 03:37:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726106AbfEAUCL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 May 2019 16:02:11 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:42299 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726088AbfEAUCL (ORCPT
+        id S1726152AbfEBBhK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 1 May 2019 21:37:10 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:42178 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726139AbfEBBhK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 May 2019 16:02:11 -0400
-Received: by mail-ot1-f67.google.com with SMTP id f23so48346otl.9;
-        Wed, 01 May 2019 13:02:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=sf6T5zaarCPnRg01Bb8+3bdzz7Kp6vp/hH5XwDud8lM=;
-        b=fTU7uRp5Iww3PxY71T0aoUOJ5UPGkTXev1NH9K+uaU9JbDpsRiwF3Com1Ras1Ia2Qi
-         CS6mkmHuos8ez/8qPIK3fFR8Y/HoNrSuRZIhGkGF4DiVyevauFRNsxY7/bDNUe/4ZMKP
-         pSgBy6WCcjYFgDkOfspGRjkAgA3o/cqq53ZCxqUJ0E3IqwwyqSpXkAZT4YuWjWdlyHit
-         fsevFh7bGz9uncUcx0l9rhQo1bI6yZHq20QreeeOkv5mTaFCuhgXRbkoH0JFCWt/PLAq
-         hvBw3qnlcn13KjU9dNSuscZ7TvuzRYpNU8iPZbYECjYc85iBj9Aeuhf9IaFlVn6WK8VT
-         t4gA==
-X-Gm-Message-State: APjAAAXFTD1hoPsb1+WGCJUwpEz1o1TPUjrhTqfvkcQDKuhBO7JO9kWx
-        NAIoaCN9hL+WriLsZk9eLA==
-X-Google-Smtp-Source: APXvYqxeB1IerOkBJXeqIDNStJcKxuCBqmTOrcYySbWcplm8iOJLCQdgOy8j49v0dutk2TJlVM1C6Q==
-X-Received: by 2002:a9d:6a54:: with SMTP id h20mr14661876otn.334.1556740930119;
-        Wed, 01 May 2019 13:02:10 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id u127sm3417936oif.14.2019.05.01.13.02.09
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 01 May 2019 13:02:09 -0700 (PDT)
-Date:   Wed, 1 May 2019 15:02:09 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Cao Van Dong <cv-dong@jinso.co.jp>
-Cc:     linux-renesas-soc@vger.kernel.org, horms+renesas@verge.net.au,
-        geert+renesas@glider.be, broonie@kernel.org,
-        devicetree@vger.kernel.org, mark.rutland@arm.com,
-        daniel.lezcano@linaro.org, tglx@linutronix.de, robh@kernel.org,
-        yoshihiro.shimoda.uh@renesas.com, kuninori.morimoto.gx@renesas.com,
-        h-inayoshi@jinso.co.jp, na-hoan@jinso.co.jp, cv-dong@jinso.co.jp
-Subject: Re: [PATCH v2 5/5] dt-bindings: pwm: renesas: tpu: Document
- R8A779{5|6|65} bindings
-Message-ID: <20190501200209.GA31101@bogus>
-References: <1556155517-5054-1-git-send-email-cv-dong@jinso.co.jp>
- <1556155517-5054-6-git-send-email-cv-dong@jinso.co.jp>
+        Wed, 1 May 2019 21:37:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=B74oEz6Zyi4A3qj/GnMkNoxhfJvB10eGTzpY3gvfLHc=; b=l7asGuNT9Bom5ZFUNNIFx3vbi
+        P0dDdDduyXRWBVgP6mcbcM80m6laOmbpJOi3QzJmsPmZHhPyGHqdf3plWayQ5wLw+kyNrCCv4VAgx
+        XeX0wJbbEKEjYU3VQknIBlgPws8MF86m+OHVCc+PvT5O3VDBG1vpjs9IwO8jWXQ/dkva0=;
+Received: from [211.55.52.15] (helo=finisterre.ee.mobilebroadband)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1hM0ec-0005az-EI; Thu, 02 May 2019 01:36:54 +0000
+Received: by finisterre.ee.mobilebroadband (Postfix, from userid 1000)
+        id 33F9A441D3B; Thu,  2 May 2019 02:36:51 +0100 (BST)
+Date:   Thu, 2 May 2019 10:36:51 +0900
+From:   Mark Brown <broonie@kernel.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Biju Das <biju.das@bp.renesas.com>,
+        =?utf-8?B?44Kr44Kq44O744O044Kh44Oz44O744OJ44Oz?= 
+        <cv-dong@jinso.co.jp>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?utf-8?B?56iy5ZCJ?= <h-inayoshi@jinso.co.jp>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Hoan Nguyen An <na-hoan@jinso.co.jp>,
+        =?utf-8?B?RHVuZ++8muS6uuOCvQ==?= <nv-dung@jinso.co.jp>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: Applied "spi: sh-msiof: Document r8a77470 bindings" to the spi
+ tree
+Message-ID: <20190502013651.GP14916@sirena.org.uk>
+References: <1554969262-15028-20-git-send-email-cv-dong@jinso.co.jp>
+ <20190415085333.91F9A1127B60@debutante.sirena.org.uk>
+ <CAMuHMdXnZjND2f9dfrq=0+TuS3ZpAgmpAspBfbH-VvtsH=6TYg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="aMDdG8xNveJz2ruI"
 Content-Disposition: inline
-In-Reply-To: <1556155517-5054-6-git-send-email-cv-dong@jinso.co.jp>
+In-Reply-To: <CAMuHMdXnZjND2f9dfrq=0+TuS3ZpAgmpAspBfbH-VvtsH=6TYg@mail.gmail.com>
+X-Cookie: -- I have seen the FUN --
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 25 Apr 2019 10:25:17 +0900, Cao Van Dong wrote:
-> Document the R-Car H3/M3-W/M3-N (R8A779{5|6|65}) SoC in the Renesas TPU bindings.
-> 
-> Signed-off-by: Cao Van Dong <cv-dong@jinso.co.jp>
-> ---
->  Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.txt | 3 +++
->  1 file changed, 3 insertions(+)
-> 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+--aMDdG8xNveJz2ruI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Tue, Apr 30, 2019 at 10:32:56AM +0200, Geert Uytterhoeven wrote:
+
+> Is their any specific reason this was dropped from spi/for-next again?
+> Upon closer look, the following seem to have been dropped as well, compared
+> to last week:
+
+No...   something seems to have been eaten by the scripting at some
+point which is a bit worrying, especially since git didn't notice a
+forced push anywhere.
+
+--aMDdG8xNveJz2ruI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAlzKSbIACgkQJNaLcl1U
+h9CgZAf/R/CagC1hqxjsWcXRC/Wf+TE2BHH84MLfgsiXuaLhk3oB23KpeJd8MK/2
+9fWaGoUYnOSW9mkCtF0oQzmfFHUGqBV033wOqdntmMzS08ex2uYOEM9r705e6yDu
+H8dDYCQ+PO8k4UINgNViPwcli2hhwaaVWSmDbaRMtpf5KvkHm/JLuQgMZOiGohHD
+V7bKQj8AQI8mGU2zO54O892J4X4/y7PxrUlUqzKQDtBMn0IbfW3NLJxhN1EuXWOK
+18JPESkfSpybQHsD0ZX1zIJsfLIFyZmDPxjqVhuerRxqv6MaNYmPrVLfKPHAvr09
+vgyICe0zZnAhQ6q9OxNnGLTyN8aiVA==
+=p7YA
+-----END PGP SIGNATURE-----
+
+--aMDdG8xNveJz2ruI--
