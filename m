@@ -2,211 +2,180 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 85C8711164
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2019 04:20:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69D74116CD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2019 12:01:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726546AbfEBCTE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 May 2019 22:19:04 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:56486 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726544AbfEBCTE (ORCPT
+        id S1726270AbfEBKBm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 May 2019 06:01:42 -0400
+Received: from mail-vs1-f65.google.com ([209.85.217.65]:37692 "EHLO
+        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726268AbfEBKBl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 May 2019 22:19:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
-        Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-        List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
-        List-Archive; bh=4fhd/0syLJHO39pBd25DiW4kVIh2bbJroccFTqLRB8s=; b=c9sEe6AueoLh
-        gyB3gQFzi7qMehbkzRuT7jLIdkiQskoifwsAZeHkJNWGutpxyIiSaeQf+eJDKUMUAdbyrL8ntvDNk
-        2eEsq3UZNxjyLbuF8oHjH90+jgp8v6YvE9cNFa0CZlrv077jULrilgXL6ULSOKMTslSFQFfqRnnBP
-        2XusI=;
-Received: from [211.55.52.15] (helo=finisterre.ee.mobilebroadband)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <broonie@sirena.org.uk>)
-        id 1hM1JI-0005uQ-Kk; Thu, 02 May 2019 02:18:57 +0000
-Received: by finisterre.ee.mobilebroadband (Postfix, from userid 1000)
-        id B91EA441D56; Thu,  2 May 2019 03:18:53 +0100 (BST)
-From:   Mark Brown <broonie@kernel.org>
-To:     Hoan Nguyen An <na-hoan@jinso.co.jp>
-Cc:     broonie@kernel.org, cv-dong@jinso.co.jp, geert+renesas@glider.be,
-        h-inayoshi@jinso.co.jp, kuninori.morimoto.gx@renesas.com,
-        linux-renesas-soc@vger.kernel.org, linux-spi@vger.kernel.org,
-        magnus.damm@gmail.com, Mark Brown <broonie@kernel.org>,
-        na-hoan@jinso.co.jp, yoshihiro.shimoda.uh@renesas.com
-Subject: Applied "spi: rspi: Fix handling of QSPI code when transmit and receive" to the spi tree
-In-Reply-To: <1556011161-10847-1-git-send-email-na-hoan@jinso.co.jp>
-X-Patchwork-Hint: ignore
-Message-Id: <20190502021853.B91EA441D56@finisterre.ee.mobilebroadband>
-Date:   Thu,  2 May 2019 03:18:53 +0100 (BST)
+        Thu, 2 May 2019 06:01:41 -0400
+Received: by mail-vs1-f65.google.com with SMTP id w13so1016122vsc.4;
+        Thu, 02 May 2019 03:01:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lY4wqimi6KIXhDTp2FMcmT5sWThlsbCODtZxfIHA9lc=;
+        b=iR1rXZJMI2CEfKPWalFIjgoE0c5H54etWT/l40e4O/nfET5rPe+9nn+yY4Z37dujSe
+         nVCH4nQ8uNL3TSVasoK26HIwa/vkJnNvx8AZ6yd5oXvBfDAyAAJW/w2OxmETXLTnH6Mi
+         QM2RwmW5fyH+CUDaxPX5+LqHDGgVsdUyqHXfu+pcqPQTsi37g8KRHva91/tb21LSuyni
+         I8gl59iO6E9iGn8/Yajw6p0HOY1EATl8nWeBIcqFK/tsDwIcXP5ylL+tBA5wYx9MX0wd
+         3InIUzo1nR/rofyzproUfDer6y2am/Txe7B4xFHkDy9AvH5V4PUgaNA8AeiipLOkLPuY
+         qHwg==
+X-Gm-Message-State: APjAAAXJBEyHTE/rB4uInCeOSTpkEB3TiujmF8icolbEJKg7NcigLuxd
+        BYfAYa2gIzH2A4m1NZwnmeNLNtCAAAFoe2ua6EE=
+X-Google-Smtp-Source: APXvYqwdUxeifpdKXX2YgxZlWqXfwu1RGJmGof+iP52hIj3a7jIVA7vCJgbOEQ5ZhF1zWSsjZwt7ANfUh43DSiG9wDw=
+X-Received: by 2002:a67:83cf:: with SMTP id f198mr1349911vsd.63.1556791299969;
+ Thu, 02 May 2019 03:01:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190430121254.3737-1-geert+renesas@glider.be>
+ <20190430121254.3737-2-geert+renesas@glider.be> <CAL_Jsq+KwOLqd=ZqT-bdM5mp8jfPHu=XingBb6kBsUqHvO=m+g@mail.gmail.com>
+ <29e95406-b9fb-fbb6-9240-c3914d885e88@arm.com> <CAL_Jsq+FJDdka9BMcXvGveBHiUf=YUU=3gz3e2wxjtXZ+K+NEA@mail.gmail.com>
+ <CAMuHMdWgrcfABOVZti+BYn6ujcYjUHNL7oeyJLgaxB8uPp5hwg@mail.gmail.com> <CAL_JsqKq0KP9H4DumyxJTjD=7rqwgOM=+5jHhkUxQqamrA3h7g@mail.gmail.com>
+In-Reply-To: <CAL_JsqKq0KP9H4DumyxJTjD=7rqwgOM=+5jHhkUxQqamrA3h7g@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 2 May 2019 12:01:27 +0200
+Message-ID: <CAMuHMdVWG4LDAAht-6Rendt8L96vW+VEJK4tGnOCMJ38pRDybA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] dt-bindings: interrupt-controller: Add Renesas
+ RZ/A1 Interrupt Controller
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     Marc Zyngier <marc.zyngier@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The patch
+Hi Rob,
 
-   spi: rspi: Fix handling of QSPI code when transmit and receive
+On Wed, May 1, 2019 at 9:38 PM Rob Herring <robh+dt@kernel.org> wrote:
+> On Wed, May 1, 2019 at 2:16 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Tue, Apr 30, 2019 at 10:26 PM Rob Herring <robh+dt@kernel.org> wrote:
+> > > On Tue, Apr 30, 2019 at 10:34 AM Marc Zyngier <marc.zyngier@arm.com> wrote:
+> > > > On 30/04/2019 16:02, Rob Herring wrote:
+> > > > > On Tue, Apr 30, 2019 at 7:13 AM Geert Uytterhoeven
+> > > > > <geert+renesas@glider.be> wrote:
+> > > > >>
+> > > > >> Add DT bindings for the Renesas RZ/A1 Interrupt Controller.
+> > > > >>
+> > > > >> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > >> ---
+> > > > >> v2:
+> > > > >>   - Add "renesas,gic-spi-base",
+> > > > >>   - Document RZ/A2M.
+> > > > >> ---
+> > > > >>  .../renesas,rza1-irqc.txt                     | 30 +++++++++++++++++++
+> > > > >>  1 file changed, 30 insertions(+)
+> > > > >>  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
+> > > > >>
+> > > > >> diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt b/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
+> > > > >> new file mode 100644
+> > > > >> index 0000000000000000..ea8ddb6955338ccd
+> > > > >> --- /dev/null
+> > > > >> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
+> > > > >> @@ -0,0 +1,30 @@
+> > > > >> +DT bindings for the Renesas RZ/A1 Interrupt Controller
+> > > > >> +
+> > > > >> +The RZ/A1 Interrupt Controller is a front-end for the GIC found on Renesas
+> > > > >> +RZ/A1 and RZ/A2 SoCs:
+> > > > >> +  - IRQ sense select for 8 external interrupts, 1:1-mapped to 8 GIC SPI
+> > > > >> +    interrupts,
+> > > > >> +  - NMI edge select.
+> > > > >> +
+> > > > >> +Required properties:
+> > > > >> +  - compatible: Must be "renesas,<soctype>-irqc", and "renesas,rza1-irqc" as
+> > > > >> +               fallback.
+> > > > >> +               Examples with soctypes are:
+> > > > >> +                 - "renesas,r7s72100-irqc" (RZ/A1H)
+> > > > >> +                 - "renesas,r7s9210-irqc" (RZ/A2M)
+> > > > >> +  - #interrupt-cells: Must be 2 (an interrupt index and flags, as defined
+> > > > >> +                                in interrupts.txt in this directory)
+> > > > >> +  - interrupt-controller: Marks the device as an interrupt controller
+> > > > >> +  - reg: Base address and length of the memory resource used by the interrupt
+> > > > >> +         controller
+> > > > >> +  - renesas,gic-spi-base: Lowest GIC SPI interrupt number this block maps to.
+> > > > >
+> > > > > Why isn't this just an 'interrupts' property?
+> > > >
+> > > > That's likely because of kernel limitations. The DT code does an
+> > > > of_populate() on any device that it finds, parse the "interrupts"
+> > > > propertiy, resulting in the irq_descs being populated.
+> > > >
+> > > > That creates havoc, as these interrupts are not for this device, but for
+> > > > something that is connected to it. This is merely a bridge of some sort.
+> > >
+> > > 'interrupt-map' would avoid that problem I think.
+> >
+> > "interrupt-map" seems to be meant for translation on a bus?
+> > What to do with the child and parent unit addresses fields?
+> > The parent unit address size depends on the #address-cells of the parent
+> > interrupt-controller (i.e. GIC, so it's zero).
+> > But the child unit address size depends on the #address-cells of the bus node
+> > on which the child is located, so that's a (non-zero) bus #address-cells
+> > (from the root node), not an interrupt-controller #address-cells.
+>
+> The #address-cells is always retrieved from the interrupt-parent node
+> (or its parent). The interrupt-parent can implicitly be the child's
+> parent, but that is rarely used in modern systems.
 
-has been applied to the spi tree at
+That's not what Devicetree Specification, Release v0.2 says:
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-5.1
+    child unit address The unit address of the child node being mapped.
+    The number of 32-bit cells required to specify this is described by
+    the #address-cells property of the bus node on which the child is
+    located.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.  
+2.4.4 Interrupt Mapping Example (for PCI) says the bus node is the PCI
+bridge, with #address-cells = <3>.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+But in the RZ/A1 case the child unit address is irrelevant, as its an
+external interrupt input not related to a specific bus.  It could be
+used by a device without unit address (e.g. gpio-keys), or some device
+on an external local bus (root #adress-cells is <1> on 32-bit without
+LPAE, but this block could be reused in a future LPAE or arm64 SoCs),
+or on e.g. an SPI or i2c bus, with its own #adress-cells value
+(coincidentally <1>, too).
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+I see of_irq_parse_raw() does use the address-cells of the parent
+interrupt controller (which is usually 0) when iterating its way up,
+following interrupt-map.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+So the child unit address does have two different meanings?
 
-Thanks,
-Mark
+> > Each line in an interrupt-map also contains a child interrupt specifier.
+> > As the RZ/A1 IRQC supports 8 interrupt inputs with 4 sense types,
+> > that would mean 32 lines? Or should I just ignore the senses here,
+> > and specify 0?
+>
+> You can ignore parts of the child cells with interrupt-map-mask, so
+> you should just need 8 entries.
 
-From 7e95b16625a3659a75c0ba4d5b0802324d16be13 Mon Sep 17 00:00:00 2001
-From: Hoan Nguyen An <na-hoan@jinso.co.jp>
-Date: Tue, 23 Apr 2019 18:19:21 +0900
-Subject: [PATCH] spi: rspi: Fix handling of QSPI code when transmit and
- receive
+Right, thanks.
 
-Process handling QSPI when transmit/receive at qspi_trigger_transfer_out_in() as follows:
-Setting the trigger, is the number of bytes in the FIFO buffer to determine
-when there is an interrupt. Then check if the value of triggering number is
-32-bytes or 1-byte, there will be corresponding processing
-Handling (if (n == QSPI_BUFFER_SIZE) esle) this is unnecessary, leads to the
-same processing of data transmission or reception, The difference here are with
-ret = rspi_wait_for_tx_empty(rspi);
-ret = rspi_wait_for_rx_full(rspi);
 
-When the nummber trigger is 32 bytes, we only write into FIFO when the FIFO is completely empty
-(interrupt transmission), and only receive if FIFO is full of 32 bytes of data.
 
-In the case of a nummber trigger that is 1 byte, in principle we still need to process
-rspi_wait_for_tx_empty/full so that FIFO is empty only with the amount of data we need to write to
-or equal to the number of bytes we need to receive, There is currently no processing of this.
-And in the current case with this patch, at this time it only needs at least 1 byte received in
-FIFO that has interrupt received, or FIFO at least 1bytes free can be written into FIFO,
-This patch therefore does not affect this processing.
-So we need to eliminate unnecessary waste processing (if (n == QSPI_BUFFER_SIZE) esle),
-more precisely in waiting for FIFO status.
-The same with handling in qspi_transfer_out()/qspi_transfer_in().
+Gr{oetje,eeting}s,
 
-Signed-off-by: Hoan Nguyen An <na-hoan@jinso.co.jp>
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- drivers/spi/spi-rspi.c | 71 +++++++++++++++++-------------------------
- 1 file changed, 28 insertions(+), 43 deletions(-)
+                        Geert
 
-diff --git a/drivers/spi/spi-rspi.c b/drivers/spi/spi-rspi.c
-index 3be8fbe80b08..15f5723d9f95 100644
---- a/drivers/spi/spi-rspi.c
-+++ b/drivers/spi/spi-rspi.c
-@@ -739,27 +739,22 @@ static int qspi_trigger_transfer_out_in(struct rspi_data *rspi, const u8 *tx,
- 	while (len > 0) {
- 		n = qspi_set_send_trigger(rspi, len);
- 		qspi_set_receive_trigger(rspi, len);
--		if (n == QSPI_BUFFER_SIZE) {
--			ret = rspi_wait_for_tx_empty(rspi);
--			if (ret < 0) {
--				dev_err(&rspi->ctlr->dev, "transmit timeout\n");
--				return ret;
--			}
--			for (i = 0; i < n; i++)
--				rspi_write_data(rspi, *tx++);
-+		ret = rspi_wait_for_tx_empty(rspi);
-+		if (ret < 0) {
-+			dev_err(&rspi->ctlr->dev, "transmit timeout\n");
-+			return ret;
-+		}
-+		for (i = 0; i < n; i++)
-+			rspi_write_data(rspi, *tx++);
- 
--			ret = rspi_wait_for_rx_full(rspi);
--			if (ret < 0) {
--				dev_err(&rspi->ctlr->dev, "receive timeout\n");
--				return ret;
--			}
--			for (i = 0; i < n; i++)
--				*rx++ = rspi_read_data(rspi);
--		} else {
--			ret = rspi_pio_transfer(rspi, tx, rx, n);
--			if (ret < 0)
--				return ret;
-+		ret = rspi_wait_for_rx_full(rspi);
-+		if (ret < 0) {
-+			dev_err(&rspi->ctlr->dev, "receive timeout\n");
-+			return ret;
- 		}
-+		for (i = 0; i < n; i++)
-+			*rx++ = rspi_read_data(rspi);
-+
- 		len -= n;
- 	}
- 
-@@ -796,19 +791,14 @@ static int qspi_transfer_out(struct rspi_data *rspi, struct spi_transfer *xfer)
- 
- 	while (n > 0) {
- 		len = qspi_set_send_trigger(rspi, n);
--		if (len == QSPI_BUFFER_SIZE) {
--			ret = rspi_wait_for_tx_empty(rspi);
--			if (ret < 0) {
--				dev_err(&rspi->ctlr->dev, "transmit timeout\n");
--				return ret;
--			}
--			for (i = 0; i < len; i++)
--				rspi_write_data(rspi, *tx++);
--		} else {
--			ret = rspi_pio_transfer(rspi, tx, NULL, len);
--			if (ret < 0)
--				return ret;
-+		ret = rspi_wait_for_tx_empty(rspi);
-+		if (ret < 0) {
-+			dev_err(&rspi->ctlr->dev, "transmit timeout\n");
-+			return ret;
- 		}
-+		for (i = 0; i < len; i++)
-+			rspi_write_data(rspi, *tx++);
-+
- 		n -= len;
- 	}
- 
-@@ -833,19 +823,14 @@ static int qspi_transfer_in(struct rspi_data *rspi, struct spi_transfer *xfer)
- 
- 	while (n > 0) {
- 		len = qspi_set_receive_trigger(rspi, n);
--		if (len == QSPI_BUFFER_SIZE) {
--			ret = rspi_wait_for_rx_full(rspi);
--			if (ret < 0) {
--				dev_err(&rspi->ctlr->dev, "receive timeout\n");
--				return ret;
--			}
--			for (i = 0; i < len; i++)
--				*rx++ = rspi_read_data(rspi);
--		} else {
--			ret = rspi_pio_transfer(rspi, NULL, rx, len);
--			if (ret < 0)
--				return ret;
-+		ret = rspi_wait_for_rx_full(rspi);
-+		if (ret < 0) {
-+			dev_err(&rspi->ctlr->dev, "receive timeout\n");
-+			return ret;
- 		}
-+		for (i = 0; i < len; i++)
-+			*rx++ = rspi_read_data(rspi);
-+
- 		n -= len;
- 	}
- 
--- 
-2.20.1
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
