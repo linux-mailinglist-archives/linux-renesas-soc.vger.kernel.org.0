@@ -2,175 +2,236 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 67C2211AAF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2019 16:02:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA02711AD0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 May 2019 16:06:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726403AbfEBOCL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 May 2019 10:02:11 -0400
-Received: from foss.arm.com ([217.140.101.70]:46278 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726197AbfEBOCK (ORCPT
+        id S1726310AbfEBOGs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 May 2019 10:06:48 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:55503 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726282AbfEBOGs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 May 2019 10:02:10 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 61D84374;
-        Thu,  2 May 2019 07:02:10 -0700 (PDT)
-Received: from [10.1.197.61] (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7849C3F220;
-        Thu,  2 May 2019 07:02:08 -0700 (PDT)
-Subject: Re: [PATCH v2 1/5] dt-bindings: interrupt-controller: Add Renesas
- RZ/A1 Interrupt Controller
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        devicetree@vger.kernel.org,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20190430121254.3737-1-geert+renesas@glider.be>
- <20190430121254.3737-2-geert+renesas@glider.be>
- <CAL_Jsq+KwOLqd=ZqT-bdM5mp8jfPHu=XingBb6kBsUqHvO=m+g@mail.gmail.com>
- <29e95406-b9fb-fbb6-9240-c3914d885e88@arm.com>
- <CAL_Jsq+FJDdka9BMcXvGveBHiUf=YUU=3gz3e2wxjtXZ+K+NEA@mail.gmail.com>
-From:   Marc Zyngier <marc.zyngier@arm.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=marc.zyngier@arm.com; prefer-encrypt=mutual; keydata=
- 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
-Organization: ARM Ltd
-Message-ID: <506a3763-62c4-6381-c0d2-d5c5ecacd333@arm.com>
-Date:   Thu, 2 May 2019 15:02:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Thu, 2 May 2019 10:06:48 -0400
+Received: by mail-wm1-f65.google.com with SMTP id y2so2704209wmi.5
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 02 May 2019 07:06:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rvLXOgtsoKyORI6UV06ucWVqWeG0EvZKDx3T+a6oXjE=;
+        b=TOCR+LouXmGE6yBg6AOSogcSwwhuNa893u94KhQrC2F3UaQTKaFgRnXLFlK0WoxpiS
+         xvo1ZlWGgOr4hPuSMeVc4YESBmNowKadSxZGY9JltsJkfX+I1pk2F5wxufUgLc26ELvC
+         LfF63yJ3g4B1jFp89ci83dPuf6dUFXT2D4I9JDARmo9TlpRHDBaxoOhb9pnR1xKnGv9B
+         eDw92y2imM5695zsBBiNSg7rjUhy0QChwBg5yL2jMQkfgBFF7rqjQwPsTMgpbvkUXnvU
+         x7kv0A8+jFnNZCheAZw8D5WCrX6RWEil9VGZOk5G5SpsvzbjZjh6fxCJhOiU5BL3g902
+         5Yfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rvLXOgtsoKyORI6UV06ucWVqWeG0EvZKDx3T+a6oXjE=;
+        b=Y71Y5MO3utZEwPVKBlebfvJsrIZ0lX2x2aiFhc8wzUBtK5WWXjKDjJJvd+SKUga1zb
+         D+j2jEF8g0VQduRB114EwaVMaLRqOqc8N9E6BWSl7AB8r4bWYhRagOjaw/uqF7WffABA
+         Wbt5cza8SsXFD0CDyJvhnDLWp1n6XylI16lF+tebgL66/v/4JcV00JbauLsgGtIZ6syD
+         jdIw5YkxAxrY/mSbphiW7UtsbGYToh6eElRhSLxxB5kYrwTFE6ykljnMsasxYBtA87Y/
+         RoIf2jWDEr7aQBxmckIgQymCALmyy37RuACQ2AzyWNdKwDOpgQRqej1JSJZBQMPDK9/L
+         g45A==
+X-Gm-Message-State: APjAAAXGO3LJ/O5jR8Q7hJUb8+Vw+Z7edcspviLrLhon0zMERu8YzVFn
+        /jgPwq+PE4ZoB2N3SAWtcnI=
+X-Google-Smtp-Source: APXvYqyd3UGceOx/s9OVjIUn0NDg9Ced/63IpolYqJ3NuH7zUpvAMq2dQtYdmEkz9zz1YTXRgecf/A==
+X-Received: by 2002:a1c:4602:: with SMTP id t2mr2471965wma.120.1556806006260;
+        Thu, 02 May 2019 07:06:46 -0700 (PDT)
+Received: from localhost.localdomain (cst-prg-80-10.cust.vodafone.cz. [46.135.80.10])
+        by smtp.gmail.com with ESMTPSA id u11sm10396979wrg.35.2019.05.02.07.06.44
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 02 May 2019 07:06:45 -0700 (PDT)
+From:   marek.vasut@gmail.com
+To:     linux-arm-kernel@lists.infradead.org
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] ARM: dts: r8a779x: Configure PMIC IRQ pinmux
+Date:   Thu,  2 May 2019 16:06:34 +0200
+Message-Id: <20190502140634.4529-1-marek.vasut@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAL_Jsq+FJDdka9BMcXvGveBHiUf=YUU=3gz3e2wxjtXZ+K+NEA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 30/04/2019 21:25, Rob Herring wrote:
-> On Tue, Apr 30, 2019 at 10:34 AM Marc Zyngier <marc.zyngier@arm.com> wrote:
->>
->> On 30/04/2019 16:02, Rob Herring wrote:
->>> On Tue, Apr 30, 2019 at 7:13 AM Geert Uytterhoeven
->>> <geert+renesas@glider.be> wrote:
->>>>
->>>> Add DT bindings for the Renesas RZ/A1 Interrupt Controller.
->>>>
->>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->>>> ---
->>>> v2:
->>>>   - Add "renesas,gic-spi-base",
->>>>   - Document RZ/A2M.
->>>> ---
->>>>  .../renesas,rza1-irqc.txt                     | 30 +++++++++++++++++++
->>>>  1 file changed, 30 insertions(+)
->>>>  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt b/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
->>>> new file mode 100644
->>>> index 0000000000000000..ea8ddb6955338ccd
->>>> --- /dev/null
->>>> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
->>>> @@ -0,0 +1,30 @@
->>>> +DT bindings for the Renesas RZ/A1 Interrupt Controller
->>>> +
->>>> +The RZ/A1 Interrupt Controller is a front-end for the GIC found on Renesas
->>>> +RZ/A1 and RZ/A2 SoCs:
->>>> +  - IRQ sense select for 8 external interrupts, 1:1-mapped to 8 GIC SPI
->>>> +    interrupts,
->>>> +  - NMI edge select.
->>>> +
->>>> +Required properties:
->>>> +  - compatible: Must be "renesas,<soctype>-irqc", and "renesas,rza1-irqc" as
->>>> +               fallback.
->>>> +               Examples with soctypes are:
->>>> +                 - "renesas,r7s72100-irqc" (RZ/A1H)
->>>> +                 - "renesas,r7s9210-irqc" (RZ/A2M)
->>>> +  - #interrupt-cells: Must be 2 (an interrupt index and flags, as defined
->>>> +                                in interrupts.txt in this directory)
->>>> +  - interrupt-controller: Marks the device as an interrupt controller
->>>> +  - reg: Base address and length of the memory resource used by the interrupt
->>>> +         controller
->>>> +  - renesas,gic-spi-base: Lowest GIC SPI interrupt number this block maps to.
->>>
->>> Why isn't this just an 'interrupts' property?
->>
->> That's likely because of kernel limitations. The DT code does an
->> of_populate() on any device that it finds, parse the "interrupts"
->> propertiy, resulting in the irq_descs being populated.
->>
->> That creates havoc, as these interrupts are not for this device, but for
->> something that is connected to it. This is merely a bridge of some sort.
-> 
-> 'interrupt-map' would avoid that problem I think.
+From: Marek Vasut <marek.vasut+renesas@gmail.com>
 
-I'm afraid it doesn't scale at all. Case in point, the GICv3 ITS. Up to
-32bit worth of IDs. How do you represent that using an interrupt-map?
-Agreed, that's the extreme case, but representing more than a handful of
-interrupts using an interrupt-map is a pain.
+The PMIC IRQ line pin multiplexing configuration is missing from the DTs.
+Since the line is configured correctly by default, the system works fine.
+However, add the IRQ line pin multiplexing configuration for completeness.
 
-> 
->> Furthermore, this is a rather long established practice: gic-v2m,
->> gic-v3-mbi, mediatek,sysirq, mediatek,cirq... All the bits of glue that
->> for one reason or another plug onto the GIC use the same method.
-> 
-> All handling the mapping to the parent in their own way...
+Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Simon Horman <horms+renesas@verge.net.au>
+Cc: linux-renesas-soc@vger.kernel.org
+To: linux-arm-kernel@lists.infradead.org
+---
+ arch/arm/boot/dts/r8a7790-lager.dts   | 7 +++++++
+ arch/arm/boot/dts/r8a7790-stout.dts   | 7 ++++++-
+ arch/arm/boot/dts/r8a7791-koelsch.dts | 7 +++++++
+ arch/arm/boot/dts/r8a7791-porter.dts  | 7 +++++++
+ arch/arm/boot/dts/r8a7792-blanche.dts | 7 +++++++
+ arch/arm/boot/dts/r8a7793-gose.dts    | 7 +++++++
+ 6 files changed, 41 insertions(+), 1 deletion(-)
 
-Yes, and that's the problem. We need a scalable way to describe ranges
-of interrupts that are "forwarded" (for the lack of a better term), but
-now "owned" by the the interrupt controller.
-
-Thanks,
-
-	M.
+diff --git a/arch/arm/boot/dts/r8a7790-lager.dts b/arch/arm/boot/dts/r8a7790-lager.dts
+index 7b9508e83d46..d637b9727808 100644
+--- a/arch/arm/boot/dts/r8a7790-lager.dts
++++ b/arch/arm/boot/dts/r8a7790-lager.dts
+@@ -423,6 +423,8 @@
+ 	 */
+ 	i2cpwr: i2c-13 {
+ 		compatible = "i2c-demux-pinctrl";
++		pinctrl-names = "default";
++		pinctrl-0 = <&pmic_irq_pins>;
+ 		i2c-parent = <&iic3>, <&i2c3>;
+ 		i2c-bus-name = "i2c-pwr";
+ 		#address-cells = <1>;
+@@ -615,6 +617,11 @@
+ 		function = "iic3";
+ 	};
+ 
++	pmic_irq_pins: pmicirq {
++		groups = "intc_irq2";
++		function = "intc";
++	};
++
+ 	hsusb_pins: hsusb {
+ 		groups = "usb0_ovc_vbus";
+ 		function = "usb0";
+diff --git a/arch/arm/boot/dts/r8a7790-stout.dts b/arch/arm/boot/dts/r8a7790-stout.dts
+index 7a7d3b84d1a6..ad68e6034b43 100644
+--- a/arch/arm/boot/dts/r8a7790-stout.dts
++++ b/arch/arm/boot/dts/r8a7790-stout.dts
+@@ -179,6 +179,11 @@
+ 		function = "iic3";
+ 	};
+ 
++	pmic_irq_pins: pmicirq {
++		groups = "intc_irq2";
++		function = "intc";
++	};
++
+ 	usb0_pins: usb0 {
+ 		groups = "usb0";
+ 		function = "usb0";
+@@ -317,7 +322,7 @@
+ 
+ &iic3 {
+ 	pinctrl-names = "default";
+-	pinctrl-0 = <&iic3_pins>;
++	pinctrl-0 = <&iic3_pins &pmic_irq_pins>;
+ 	status = "okay";
+ 
+ 	pmic@58 {
+diff --git a/arch/arm/boot/dts/r8a7791-koelsch.dts b/arch/arm/boot/dts/r8a7791-koelsch.dts
+index e6580aa0cea3..a116bfc11f0b 100644
+--- a/arch/arm/boot/dts/r8a7791-koelsch.dts
++++ b/arch/arm/boot/dts/r8a7791-koelsch.dts
+@@ -540,6 +540,11 @@
+ 		function = "intc";
+ 	};
+ 
++	pmic_irq_pins: pmicirq {
++		groups = "intc_irq2";
++		function = "intc";
++	};
++
+ 	sdhi0_pins: sd0 {
+ 		groups = "sdhi0_data4", "sdhi0_ctrl";
+ 		function = "sdhi0";
+@@ -776,6 +781,8 @@
+ };
+ 
+ &i2c6 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pmic_irq_pins>;
+ 	status = "okay";
+ 	clock-frequency = <100000>;
+ 
+diff --git a/arch/arm/boot/dts/r8a7791-porter.dts b/arch/arm/boot/dts/r8a7791-porter.dts
+index fefdf8238bbe..e08d257f5d0c 100644
+--- a/arch/arm/boot/dts/r8a7791-porter.dts
++++ b/arch/arm/boot/dts/r8a7791-porter.dts
+@@ -228,6 +228,11 @@
+ 		function = "intc";
+ 	};
+ 
++	pmic_irq_pins: pmicirq {
++		groups = "intc_irq2";
++		function = "intc";
++	};
++
+ 	sdhi0_pins: sd0 {
+ 		groups = "sdhi0_data4", "sdhi0_ctrl";
+ 		function = "sdhi0";
+@@ -373,6 +378,8 @@
+ };
+ 
+ &i2c6 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pmic_irq_pins>;
+ 	status = "okay";
+ 	clock-frequency = <100000>;
+ 
+diff --git a/arch/arm/boot/dts/r8a7792-blanche.dts b/arch/arm/boot/dts/r8a7792-blanche.dts
+index b6fa80c3b07e..7b0d17ee87fb 100644
+--- a/arch/arm/boot/dts/r8a7792-blanche.dts
++++ b/arch/arm/boot/dts/r8a7792-blanche.dts
+@@ -234,6 +234,11 @@
+ 		groups = "du1_rgb666", "du1_sync", "du1_disp";
+ 		function = "du1";
+ 	};
++
++	pmic_irq_pins: pmicirq {
++		groups = "intc_irq2";
++		function = "intc";
++	};
+ };
+ 
+ &rwdt {
+@@ -309,6 +314,8 @@
+ };
+ 
+ &iic3 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pmic_irq_pins>;
+ 	status = "okay";
+ 
+ 	pmic@58 {
+diff --git a/arch/arm/boot/dts/r8a7793-gose.dts b/arch/arm/boot/dts/r8a7793-gose.dts
+index f51601af89a2..9984ebf06695 100644
+--- a/arch/arm/boot/dts/r8a7793-gose.dts
++++ b/arch/arm/boot/dts/r8a7793-gose.dts
+@@ -514,6 +514,11 @@
+ 		function = "intc";
+ 	};
+ 
++	pmic_irq_pins: pmicirq {
++		groups = "intc_irq2";
++		function = "intc";
++	};
++
+ 	sdhi0_pins: sd0 {
+ 		groups = "sdhi0_data4", "sdhi0_ctrl";
+ 		function = "sdhi0";
+@@ -711,6 +716,8 @@
+ };
+ 
+ &i2c6 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pmic_irq_pins>;
+ 	status = "okay";
+ 	clock-frequency = <100000>;
+ 
 -- 
-Jazz is not dead. It just smells funny...
+2.20.1
+
