@@ -2,136 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 980D812C8C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 May 2019 13:39:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0670A12C95
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 May 2019 13:43:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727667AbfECLi5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 May 2019 07:38:57 -0400
-Received: from mail-ua1-f66.google.com ([209.85.222.66]:39680 "EHLO
-        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726377AbfECLi4 (ORCPT
+        id S1727153AbfECLnI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 May 2019 07:43:08 -0400
+Received: from albert.telenet-ops.be ([195.130.137.90]:60010 "EHLO
+        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726377AbfECLnI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 May 2019 07:38:56 -0400
-Received: by mail-ua1-f66.google.com with SMTP id 88so1885986uau.6;
-        Fri, 03 May 2019 04:38:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FvqZ/fQUnKqtTENumzYLYcCbYX7oGb9GDcUl0ClcFis=;
-        b=UnpbDTizDlNXjxbGLpg7eQtmTnIy0/PfKqgqwFucQHPI2DDxNhfKlf/UXqG0yQ9NvN
-         dwVy6I07yGHeq7tBdlAYBy0+4hYr1o4e+YwE+8w74uggdoPt0jZ+eJonPJAuVkALfdlB
-         SmHnjHl4vm+GHlzBFHFz9QOqjhcABTNRhMoPXnL1Cm8cK9SaJ8XSZqe8xY6UMGXuu1ep
-         bHYtWUD+nl24knwb/zK95oPFSowOlNrzEMtQCAEGn+4NNs4WxNO7WdUvwV1H6HhBcgUA
-         qHcKIuUktd/l0ri8mf72MD883QJ5K0X3zbJj8S05+BOPV4bPX+wIhB5dgFVery4oqXOp
-         JiIA==
-X-Gm-Message-State: APjAAAXa3zuJmeSxj1zWfKcPBMak3jscQTwZMp4KUdlLezUijgO6BJyw
-        4JFNwL3ipeEVbbd9aTMedVIOieivu8+dffzETk/Yu2DC
-X-Google-Smtp-Source: APXvYqwvxMEGmN+05vhczm0D2Rwg1KLtmbn0eGLmZc26G8TzEjlkd065DbCBKz/hao2kh5PwvFcbplRQhvjGWR0zK+A=
-X-Received: by 2002:a9f:352a:: with SMTP id o39mr4938847uao.78.1556883534530;
- Fri, 03 May 2019 04:38:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <1556882268-27451-1-git-send-email-olekstysh@gmail.com>
-In-Reply-To: <1556882268-27451-1-git-send-email-olekstysh@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 3 May 2019 13:38:42 +0200
-Message-ID: <CAMuHMdVYff-YsGxJykT_p31iyw9f4yVY967_i166TSm__WRG9g@mail.gmail.com>
-Subject: Re: [PATCH V2] ARM: mach-shmobile: Don't init CNTVOFF if PSCI is available
-To:     Oleksandr Tyshchenko <olekstysh@gmail.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Julien Grall <julien.grall@arm.com>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
-Content-Type: text/plain; charset="UTF-8"
+        Fri, 3 May 2019 07:43:08 -0400
+Received: from ramsan ([84.194.111.163])
+        by albert.telenet-ops.be with bizsmtp
+        id 7nj6200073XaVaC06nj6Ur; Fri, 03 May 2019 13:43:06 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hMWan-0004Sg-UF; Fri, 03 May 2019 13:43:05 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hMWan-0005K0-S9; Fri, 03 May 2019 13:43:05 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] pinctrl: sh-pfc: r8a77970: Remove MMC_{CD,WP}
+Date:   Fri,  3 May 2019 13:43:04 +0200
+Message-Id: <20190503114304.20412-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Oleksandr,
+Hardware Manual Errata for rev. 15.0 of March 26, 2019 removed the bit
+definitions for MMC_CD and MMC_WP in the documentation for the IPSR6
+register, as these pin functionalities do not exist on R-Car V3M.
 
-On Fri, May 3, 2019 at 1:21 PM Oleksandr Tyshchenko <olekstysh@gmail.com> wrote:
-> From: Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
->
-> If PSCI is available then most likely we are running on PSCI-enabled
-> U-Boot which, we assume, has already taken care of resetting CNTVOFF
-> before switching to non-secure mode and we don't need to.
->
-> Also, don't init CNTVOFF if we are running on top of Xen hypervisor,
-> as CNTVOFF is controlled by hypervisor itself and shouldn't be touched
-> by Dom0 in such case.
->
-> Signed-off-by: Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
-> CC: Julien Grall <julien.grall@arm.com>
+Remove the definitions, and the corrresponding pins and groups.
 
-Thanks for your patch!
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued in sh-pfc-for-v5.3.
 
-> ---
->    You can find previous discussion here:
->    https://lkml.org/lkml/2019/4/17/810
->
->    Changes in v2:
->       - Clarify patch subject/description
->       - Don't use CONFIG_ARM_PSCI option, check whether the PSCI is available,
->         by using psci_smp_available()
->       - Check whether we are running on top of Xen, by using xen_domain()
-> ---
->  arch/arm/mach-shmobile/setup-rcar-gen2.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
->
-> diff --git a/arch/arm/mach-shmobile/setup-rcar-gen2.c b/arch/arm/mach-shmobile/setup-rcar-gen2.c
-> index eea60b2..bc8537b 100644
-> --- a/arch/arm/mach-shmobile/setup-rcar-gen2.c
-> +++ b/arch/arm/mach-shmobile/setup-rcar-gen2.c
-> @@ -17,7 +17,9 @@
->  #include <linux/of.h>
->  #include <linux/of_fdt.h>
->  #include <linux/of_platform.h>
-> +#include <xen/xen.h>
->  #include <asm/mach/arch.h>
-> +#include <asm/psci.h>
->  #include <asm/secure_cntvoff.h>
->  #include "common.h"
->  #include "rcar-gen2.h"
-> @@ -63,7 +65,16 @@ void __init rcar_gen2_timer_init(void)
->         void __iomem *base;
->         u32 freq;
->
-> -       secure_cntvoff_init();
-> +       /*
-> +        * If PSCI is available then most likely we are running on PSCI-enabled
-> +        * U-Boot which, we assume, has already taken care of resetting CNTVOFF
-> +        * before switching to non-secure mode and we don't need to.
-> +        * Another check is to be sure that we are not running on top of Xen
-> +        * hypervisor, as CNTVOFF is controlled by hypervisor itself and
-> +        * shouldn't be touched by Dom0 in such case.
-> +        */
-> +       if (!psci_smp_available() && !xen_domain())
-> +               secure_cntvoff_init();
->
->         if (of_machine_is_compatible("renesas,r8a7745") ||
->             of_machine_is_compatible("renesas,r8a77470") ||
+ drivers/pinctrl/sh-pfc/pfc-r8a77970.c | 24 ++----------------------
+ 1 file changed, 2 insertions(+), 22 deletions(-)
 
-How do you prevent secure_cntvoff_init() from being called for secondary
-CPUs in arch/arm/mach-shmobile/headsmp-apmu.S?
-
-With PSCI, it is not called if "enable-method" in DT is "psci"', so that case
-is covered, I guess.
-
-What about XEN? Do you override the "enable-method"?
-If yes, perhaps a check for "renesas,apmu" is more appropriate?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/pinctrl/sh-pfc/pfc-r8a77970.c b/drivers/pinctrl/sh-pfc/pfc-r8a77970.c
+index 8473a83bd4ca6570..25e27b6bee89366f 100644
+--- a/drivers/pinctrl/sh-pfc/pfc-r8a77970.c
++++ b/drivers/pinctrl/sh-pfc/pfc-r8a77970.c
+@@ -205,8 +205,8 @@
+ #define IP6_19_16	FM(VI1_DATA8)			F_(0, 0)		FM(CTS4_N)	FM(D11)		FM(MMC_D5)		F_(0, 0)	F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0)
+ #define IP6_23_20	FM(VI1_DATA9)			F_(0, 0)		FM(RTS4_N)	FM(D12)		FM(MMC_D6)		FM(SCL3_B)	F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0)
+ #define IP6_27_24	FM(VI1_DATA10)			F_(0, 0)		F_(0, 0)	FM(D13)		FM(MMC_D7)		FM(SDA3_B)	F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0)
+-#define IP6_31_28	FM(VI1_DATA11)			FM(SCL4)		FM(IRQ4)	FM(D14)		FM(MMC_WP)		F_(0, 0)	F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0)
+-#define IP7_3_0		FM(VI1_FIELD)			FM(SDA4)		FM(IRQ5)	FM(D15)		FM(MMC_CD)		F_(0, 0)	F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0)
++#define IP6_31_28	FM(VI1_DATA11)			FM(SCL4)		FM(IRQ4)	FM(D14)		F_(0, 0)		F_(0, 0)	F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0)
++#define IP7_3_0		FM(VI1_FIELD)			FM(SDA4)		FM(IRQ5)	FM(D15)		F_(0, 0)		F_(0, 0)	F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0)
+ #define IP7_7_4		FM(SCL0)			FM(DU_DR0)		FM(TPU0TO0)	FM(CLKOUT)	F_(0, 0)		FM(MSIOF0_RXD)	F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0)
+ #define IP7_11_8	FM(SDA0)			FM(DU_DR1)		FM(TPU0TO1)	FM(BS_N)	FM(SCK0)		FM(MSIOF0_TXD)	F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0)
+ #define IP7_15_12	FM(SCL1)			FM(DU_DG0)		FM(TPU0TO2)	FM(RD_N)	FM(CTS0_N)		FM(MSIOF0_SCK)	F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0)
+@@ -631,14 +631,12 @@ static const u16 pinmux_data[] = {
+ 	PINMUX_IPSR_GPSR(IP6_31_28,	SCL4),
+ 	PINMUX_IPSR_GPSR(IP6_31_28,	IRQ4),
+ 	PINMUX_IPSR_GPSR(IP6_31_28,	D14),
+-	PINMUX_IPSR_GPSR(IP6_31_28,	MMC_WP),
+ 
+ 	/* IPSR7 */
+ 	PINMUX_IPSR_GPSR(IP7_3_0,	VI1_FIELD),
+ 	PINMUX_IPSR_GPSR(IP7_3_0,	SDA4),
+ 	PINMUX_IPSR_GPSR(IP7_3_0,	IRQ5),
+ 	PINMUX_IPSR_GPSR(IP7_3_0,	D15),
+-	PINMUX_IPSR_GPSR(IP7_3_0,	MMC_CD),
+ 
+ 	PINMUX_IPSR_GPSR(IP7_7_4,	SCL0),
+ 	PINMUX_IPSR_GPSR(IP7_7_4,	DU_DR0),
+@@ -1121,20 +1119,6 @@ static const unsigned int mmc_ctrl_pins[] = {
+ static const unsigned int mmc_ctrl_mux[] = {
+ 	MMC_CLK_MARK, MMC_CMD_MARK,
+ };
+-static const unsigned int mmc_cd_pins[] = {
+-	/* CD */
+-	RCAR_GP_PIN(3, 16),
+-};
+-static const unsigned int mmc_cd_mux[] = {
+-	MMC_CD_MARK,
+-};
+-static const unsigned int mmc_wp_pins[] = {
+-	/* WP */
+-	RCAR_GP_PIN(3, 15),
+-};
+-static const unsigned int mmc_wp_mux[] = {
+-	MMC_WP_MARK,
+-};
+ 
+ /* - MSIOF0 ----------------------------------------------------------------- */
+ static const unsigned int msiof0_clk_pins[] = {
+@@ -1726,8 +1710,6 @@ static const struct sh_pfc_pin_group pinmux_groups[] = {
+ 	SH_PFC_PIN_GROUP(mmc_data4),
+ 	SH_PFC_PIN_GROUP(mmc_data8),
+ 	SH_PFC_PIN_GROUP(mmc_ctrl),
+-	SH_PFC_PIN_GROUP(mmc_cd),
+-	SH_PFC_PIN_GROUP(mmc_wp),
+ 	SH_PFC_PIN_GROUP(msiof0_clk),
+ 	SH_PFC_PIN_GROUP(msiof0_sync),
+ 	SH_PFC_PIN_GROUP(msiof0_ss1),
+@@ -1897,8 +1879,6 @@ static const char * const mmc_groups[] = {
+ 	"mmc_data4",
+ 	"mmc_data8",
+ 	"mmc_ctrl",
+-	"mmc_cd",
+-	"mmc_wp",
+ };
+ 
+ static const char * const msiof0_groups[] = {
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.17.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
