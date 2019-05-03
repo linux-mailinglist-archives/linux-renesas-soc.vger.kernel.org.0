@@ -2,76 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4970312A7A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 May 2019 11:28:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88F4F12B08
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 May 2019 11:49:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726572AbfECJ2m (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 May 2019 05:28:42 -0400
-Received: from mail-vs1-f66.google.com ([209.85.217.66]:44893 "EHLO
-        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725804AbfECJ2m (ORCPT
+        id S1727005AbfECJtb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 May 2019 05:49:31 -0400
+Received: from baptiste.telenet-ops.be ([195.130.132.51]:46280 "EHLO
+        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726495AbfECJtb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 May 2019 05:28:42 -0400
-Received: by mail-vs1-f66.google.com with SMTP id j184so3148728vsd.11;
-        Fri, 03 May 2019 02:28:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EvKw68jMK2eDsWxVRqOtlnx8B1f8dGcMlPF+TnAfRsQ=;
-        b=cFGRwbWcFvQIB88pk2K1PWzpKno92ySBvc/3ncXacfRvhkB1q+I4skRg8E9k0Bt4iy
-         55l7Negj8kHedVDlRGwKUkmHT3SB4Pv8d0OtslXKymvFevryii7xA79RVcRwOOBIpznB
-         kjy7abQeL7NXAIbo3hha3Ca1bqmyACtlu+yWMHDqSvyvub/bfIXCMg2ZaEZDJUrb0o9Y
-         HeotUPAVn/pmJHgllvruyg1tDTRlCY3IkH/mL3S9k09u4Y7ilM5K7priLyUW//MuJDSH
-         5xAldjvssNHQe2B0FXFjZQF7k43eAffEjrIQ2E1gY8zC4qVeSivoLI8apfLZ+AUtvGVM
-         FcWA==
-X-Gm-Message-State: APjAAAUX9QqtX/RYNqzdIDy8/ZIPbGeFeg1lcm3OHUV7J8yykIulYkJo
-        za+tzptm3DtQe93cWuK6BD+6WLtL4sV/ejGBQ8I=
-X-Google-Smtp-Source: APXvYqzvcCpnZZHmYadtKA97equNJmiCauvATqWDHHcaEcLdwzyZBnlDLQVW4NSZNk/nEE+utx+c0+iWQBeKuVFjgIE=
-X-Received: by 2002:a67:83cf:: with SMTP id f198mr4830491vsd.63.1556875721239;
- Fri, 03 May 2019 02:28:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <1556155517-5054-1-git-send-email-cv-dong@jinso.co.jp> <1556155517-5054-5-git-send-email-cv-dong@jinso.co.jp>
-In-Reply-To: <1556155517-5054-5-git-send-email-cv-dong@jinso.co.jp>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 3 May 2019 11:28:30 +0200
-Message-ID: <CAMuHMdVtmn-mDMXZh8F6C6oC_Qd809VvZHFyBN-SATXNJ9_T8w@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] arm64: dts: renesas: r8a77965: Add TPU support
-To:     Cao Van Dong <cv-dong@jinso.co.jp>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Mark Brown <broonie@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Rob Herring <robh@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        =?UTF-8?B?56iy5ZCJ?= <h-inayoshi@jinso.co.jp>,
-        Hoan Nguyen An <na-hoan@jinso.co.jp>
-Content-Type: text/plain; charset="UTF-8"
+        Fri, 3 May 2019 05:49:31 -0400
+Received: from ramsan ([84.194.111.163])
+        by baptiste.telenet-ops.be with bizsmtp
+        id 7lpT200043XaVaC01lpTVQ; Fri, 03 May 2019 11:49:28 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hMUop-0003se-7P; Fri, 03 May 2019 11:49:27 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hMUop-0003Bh-4u; Fri, 03 May 2019 11:49:27 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Cao Van Dong <cv-dong@jinso.co.jp>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/4] pinctrl: sh-pfc: r8a7795/6/65: Add TPU pins, groups and functions
+Date:   Fri,  3 May 2019 11:49:22 +0200
+Message-Id: <20190503094926.12208-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Apr 25, 2019 at 3:25 AM Cao Van Dong <cv-dong@jinso.co.jp> wrote:
-> Add tpu device node to dtsi for TPU support on r8a77965 SoC.
->
-> Signed-off-by: Cao Van Dong <cv-dong@jinso.co.jp>
+	Hi Linus,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+This patch series adds pins, groups and functions for the 16-Bit Timer
+Pulse Unit (TPU) outputs on the R-Car H3/M3-W/M3-N and RZ/G2M SoCs.
+
+This has been tested on the Salvator-XS development board with R-Car
+M3-N.  As the TPU parts of the R-Car H3/M3-W and RZ/G2M SoCs are very
+similar, I expect this to work on those SoCs, too.
+
+I intend to queue this up in sh-pfc-for-v5.3.
+
+Test procedure:
+  - Apply Cao Van Dong's series "[PATCH v2 0/5] Add TPU support for R-Car
+    H3/M3-W/M3-N"
+    (https://lore.kernel.org/linux-renesas-soc/1556155517-5054-1-git-send-email-cv-dong@jinso.co.jp/),
+  - Make sure switches SW31-[1-4] are switched off,
+  - Enable TPU and pin control in DTS:
+
+	--- a/arch/arm64/boot/dts/renesas/salvator-xs.dtsi
+	+++ b/arch/arm64/boot/dts/renesas/salvator-xs.dtsi
+	@@ -27,3 +27,18 @@
+			clock-names = "xin";
+		};
+	 };
+	+
+	+&tpu {
+	+       // SW31-[1-4] OFF
+	+       pinctrl-0 = <&tpu_pins>;
+	+       pinctrl-names = "default";
+	+
+	+       status = "okay";
+	+};
+	+
+	+&pfc {
+	+       tpu_pins: tpu {
+	+               groups = "tpu_to2", "tpu_to3";
+	+               function = "tpu";
+	+       };
+	+};
+
+  - Exercise userspace PWM control for pwm[23] of
+    /sys/class/pwm/pwmchip1/,
+  - Inspect PWM signals on the input side of SW31-[12] using an
+    oscilloscope,
+  - Disable TPU and pin control in DTS, and restore SW31 switch
+    settings.
+
+Thanks!
+
+Geert Uytterhoeven (4):
+  pinctrl: sh-pfc: r8a7795-es1: Add TPU pins, groups and functions
+  pinctrl: sh-pfc: r8a7795: Add TPU pins, groups and functions
+  pinctrl: sh-pfc: r8a7796: Add TPU pins, groups and functions
+  pinctrl: sh-pfc: r8a77965: Add TPU pins, groups and functions
+
+ drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c | 42 ++++++++++++++++++++++++
+ drivers/pinctrl/sh-pfc/pfc-r8a7795.c     | 42 ++++++++++++++++++++++++
+ drivers/pinctrl/sh-pfc/pfc-r8a7796.c     | 42 ++++++++++++++++++++++++
+ drivers/pinctrl/sh-pfc/pfc-r8a77965.c    | 42 ++++++++++++++++++++++++
+ 4 files changed, 168 insertions(+)
+
+-- 
+2.17.1
 
 Gr{oetje,eeting}s,
 
-                        Geert
+						Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+							    -- Linus Torvalds
