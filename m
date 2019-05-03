@@ -2,123 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 807DA12DBC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 May 2019 14:37:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4A5C130A0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 May 2019 16:45:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727577AbfECMhI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 May 2019 08:37:08 -0400
-Received: from mail-vs1-f65.google.com ([209.85.217.65]:33829 "EHLO
-        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726047AbfECMhI (ORCPT
+        id S1726267AbfECOpE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 May 2019 10:45:04 -0400
+Received: from sauhun.de ([88.99.104.3]:34224 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725283AbfECOpE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 May 2019 08:37:08 -0400
-Received: by mail-vs1-f65.google.com with SMTP id b23so3480773vso.1
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 03 May 2019 05:37:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jDCEaUKwzXmAEfj30fOgoVtiP8zX20N3JlYslFBSUKs=;
-        b=hFfEZpoVFf06W8MCGo41VhLSmNVaGunt2vC4/Dtk4YN8Aoynvd/z5UrQ4oLX8SKvTW
-         OrBhbQ8v5fGELOk/UcGvwYyceDnyBmTmzn2kJ4DyWFU3qmCKh1KUdhF3rK8mVgGKmzPr
-         XsJRxxeeRlhXUxrY3qb1DT4ZY5mYKA19BBBSWwHMp82pQunMYPppBCwnRqQrEFTTmKbw
-         pL/plRXm4OJX0iPPCOuwXoQc6fuCI+5eYF4P2FguPESiD7jZOYcsiRr6Iplbf3Sm7zbg
-         jSlZc6Bi7bLNYtyc5zgJ5UiuOnnu8ai9l41kRfaOcO4zSMUMLZu0ehY4kcrk4pBlNERh
-         E4HA==
-X-Gm-Message-State: APjAAAXfwy7qt5veC2vdNoWPwlyUknPvn4eQcpfVRfLgMzRTm6St4n72
-        4f0yeVRYmQnG1SVkv1v3Y3ZC+7tWM6feeGx2NzE=
-X-Google-Smtp-Source: APXvYqxZ8ehBgdn2BB6Bd6C/MNFHr+UaTZDJZf7alyfEwt7exeQ8PhOBcwpgZYVJqiE6wI0Vtja3AjgibQWul/g0lKU=
-X-Received: by 2002:a67:ba07:: with SMTP id l7mr5107913vsn.11.1556887027407;
- Fri, 03 May 2019 05:37:07 -0700 (PDT)
+        Fri, 3 May 2019 10:45:04 -0400
+Received: from localhost (p54B33153.dip0.t-ipconnect.de [84.179.49.83])
+        by pokefinder.org (Postfix) with ESMTPSA id 249062C2868;
+        Fri,  3 May 2019 16:45:02 +0200 (CEST)
+Date:   Fri, 3 May 2019 16:45:01 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-i2c@vger.kernel.org, Peter Rosin <peda@axentia.se>,
+        linux-renesas-soc@vger.kernel.org,
+        Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v2 1/2] i2c: core: ratelimit 'transfer when suspended'
+ errors
+Message-ID: <20190503144501.GC24385@kunai>
+References: <20190425141948.29255-1-wsa+renesas@sang-engineering.com>
+ <20190425141948.29255-2-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-References: <20190502140634.4529-1-marek.vasut@gmail.com>
-In-Reply-To: <20190502140634.4529-1-marek.vasut@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 3 May 2019 14:36:55 +0200
-Message-ID: <CAMuHMdVGAq1XgSohBjc8i4c_o-N-yWGedS_LLS_Apr4Bx10xGQ@mail.gmail.com>
-Subject: Re: [PATCH] ARM: dts: r8a779x: Configure PMIC IRQ pinmux
-To:     Marek Vasut <marek.vasut@gmail.com>
-Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="Pk6IbRAofICFmK5e"
+Content-Disposition: inline
+In-Reply-To: <20190425141948.29255-2-wsa+renesas@sang-engineering.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marek,
 
-On Thu, May 2, 2019 at 4:06 PM <marek.vasut@gmail.com> wrote:
-> From: Marek Vasut <marek.vasut+renesas@gmail.com>
->
-> The PMIC IRQ line pin multiplexing configuration is missing from the DTs.
-> Since the line is configured correctly by default, the system works fine.
-> However, add the IRQ line pin multiplexing configuration for completeness.
->
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+--Pk6IbRAofICFmK5e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for your patch!
+On Thu, Apr 25, 2019 at 04:19:47PM +0200, Wolfram Sang wrote:
+> There are two problems with WARN_ON() here. One: It is not ratelimited.
+> Two: We don't see which adapter was used when trying to transfer
+> something when already suspended. Implement a custom ratelimit once per
+> adapter and use dev_WARN there. This fixes both issues. Drawback is that
+> we don't see if multiple drivers are trying to transfer with the same
+> adapter while suspended. They need to be discovered one after the other
+> now. This is better than a high CPU load because a really broken driver
+> might try to resend endlessly.
+>=20
+> Fixes: 9ac6cb5fbb17 ("i2c: add suspended flag and accessors for i2c adapt=
+ers")
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-> --- a/arch/arm/boot/dts/r8a7790-lager.dts
-> +++ b/arch/arm/boot/dts/r8a7790-lager.dts
-> @@ -423,6 +423,8 @@
->          */
->         i2cpwr: i2c-13 {
->                 compatible = "i2c-demux-pinctrl";
-> +               pinctrl-names = "default";
-> +               pinctrl-0 = <&pmic_irq_pins>;
->                 i2c-parent = <&iic3>, <&i2c3>;
->                 i2c-bus-name = "i2c-pwr";
->                 #address-cells = <1>;
-> @@ -615,6 +617,11 @@
->                 function = "iic3";
->         };
->
-> +       pmic_irq_pins: pmicirq {
-> +               groups = "intc_irq2";
-> +               function = "intc";
-> +       };
+Applied to for-next, with stable tag for 5.1.
 
-Please insert according to alphabetical sort order.
-Oh, we don't have the R-Car Gen2 entries sorted yet. Nevermind...
 
-> --- a/arch/arm/boot/dts/r8a7792-blanche.dts
-> +++ b/arch/arm/boot/dts/r8a7792-blanche.dts
-> @@ -234,6 +234,11 @@
->                 groups = "du1_rgb666", "du1_sync", "du1_disp";
->                 function = "du1";
->         };
-> +
-> +       pmic_irq_pins: pmicirq {
-> +               groups = "intc_irq2";
-> +               function = "intc";
-> +       };
->  };
->
->  &rwdt {
-> @@ -309,6 +314,8 @@
->  };
->
->  &iic3 {
-> +       pinctrl-names = "default";
-> +       pinctrl-0 = <&pmic_irq_pins>;
+--Pk6IbRAofICFmK5e
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Given Blanche has a single device connected to irq2, I think it makes
-sense to move the pinctrl properties to the pmic node below.
+-----BEGIN PGP SIGNATURE-----
 
-With that fixed:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAlzMU+gACgkQFA3kzBSg
+Kbb0tw/8Ct8Nacl2VVwH0HLsrqFxkapX8AqMiPO8leV6AaHW/sdK00tXbB6A78jt
+OZIfAJTUyt9rRvlYJbK9BHuhvcRiqOQ3fmyl8V6k1mqxWUeqywTe3DJi9FsCVXIZ
+f7+jm8OlZCFNOPVBVG/5qjTuP51hwHPSkfAOJSK0L0yhYhCKi+dGMXcOGp/5MnwL
+HVxRDJHONXIlkosfeQq3VjyZk2j56PiBQu1RcYDc57hZmiHRtp+dtMHjKKFIxDPw
+flvsj2/p2JN9Kj0FskBGS1CM25qUhblkHcIJCqZA9Z1xbF0c18MQTqOC8G+9X37k
+7TriPWskXjNYRwViVKslwEVu389RWYtokBy7zvnLZ5b6uLuhy8vMsvZNabO5nzNG
+/O9wfv9nYha0Wysb0M+eWSiqxTcQ6llYzx3zW+Tn9q/TpNaNTQnyxHZ03DJfrioP
+N+VDr2Giy4aw8FHB5TRdgqq7Tj40Yb/5K88TZXVAS/gmJgh7sZpTJD3pmTriPtRa
+hi5k8eP7uwfyim0eTydUCWr/corCEi+30LRVfULSbjc+MrWdqq7BoB+EOABrk7PF
+KRQ2852MDAwwqqAGZheDwoFethFFk7ynS7zDsRmP2aVVWDqudkFQrz5/N+ZI1ku4
+9GM6+RPQV5wEwInCEC0f7OlzHDJ4h2OIFJYngQmwSulbNJkANYc=
+=hQK7
+-----END PGP SIGNATURE-----
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--Pk6IbRAofICFmK5e--
