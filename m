@@ -2,176 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2952415282
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 May 2019 19:12:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35DAF153CF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 May 2019 20:46:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727071AbfEFRMc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 May 2019 13:12:32 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:57457 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726462AbfEFRMb (ORCPT
+        id S1726370AbfEFSqE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 May 2019 14:46:04 -0400
+Received: from mail-lj1-f174.google.com ([209.85.208.174]:36304 "EHLO
+        mail-lj1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726280AbfEFSqD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 May 2019 13:12:31 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 843383C00C6;
-        Mon,  6 May 2019 19:12:27 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id tK9ZBC8iMECS; Mon,  6 May 2019 19:12:19 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 863563C004C;
-        Mon,  6 May 2019 19:12:19 +0200 (CEST)
-Received: from vmlxhi-102.adit-jv.com (10.72.93.184) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.439.0; Mon, 6 May 2019
- 19:12:19 +0200
-Date:   Mon, 6 May 2019 19:12:16 +0200
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Simon Horman <horms@verge.net.au>
-CC:     Simon Horman <horms@verge.net.au>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Ulrich Hecht <ulrich.hecht+renesas@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "George G . Davis" <george_davis@mentor.com>,
-        Andy Lowe <andy_lowe@mentor.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Christophe Leroy <christophe.leroy@c-s.fr>,
-        Helge Deller <deller@gmx.de>,
-        Michael Neuling <mikey@neuling.org>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Philip Yang <Philip.Yang@amd.com>,
-        Matthew Wilcox <mawilcox@microsoft.com>,
-        Borislav Petkov <bp@suse.de>,
-        "Darrick J. Wong" <darrick.wong@oracle.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>
-Subject: Re: [PATCH 1/6] serial: sh-sci: Reveal ptrval in dev_dbg
-Message-ID: <20190506171216.GA2181@vmlxhi-102.adit-jv.com>
-References: <20190504004258.23574-1-erosca@de.adit-jv.com>
- <20190504004258.23574-2-erosca@de.adit-jv.com>
- <20190506134700.ya565idfzzc3enbm@verge.net.au>
- <20190506152433.GA22769@vmlxhi-102.adit-jv.com>
- <CAMuHMdXJzEYL48qwHAxrRsurQLBipZsQpv+w8i=+B2XCM_CZng@mail.gmail.com>
+        Mon, 6 May 2019 14:46:03 -0400
+Received: by mail-lj1-f174.google.com with SMTP id y8so11784517ljd.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 06 May 2019 11:46:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=KTKnnbRWy6aWPbBF6uXyIYDuEHVk6sXErNkxiIQl7a8=;
+        b=IIoszxVTRVBMRTmGHJ+cUCn7I6OWazK1BIyQ80jVSTK81UVv0G0NhxsLOjQY6+rAqr
+         yKk8NHh9njbZWwui/dUZ44RRY7QPYSnYfZ9yQdYVTAJkEcIuCVgE6VCVeJBJeB1FZZ/Y
+         2FpUI15YXm7J7JbioKpfrcepd28gwqaun59VyO8qO2A/QGzvriCMpYwa70kne4dHldQd
+         SKDBWQa6MYvoWq1pYuRflQ0Bzwo7TWAeZifByOp1Lkoa4vyQIwfL2xyV52fq5Z8FsaL2
+         ncPo+vi9gQA9ulmo9cfnXBUYligdLih4fVOxrCx2KQY8nmx9zEy2oESvzfVlJhEn6ssx
+         Puew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=KTKnnbRWy6aWPbBF6uXyIYDuEHVk6sXErNkxiIQl7a8=;
+        b=fnB+FDjsZ47VUQLjoQAok6sZphoYryho70qki+yRR96R3FBT8+GHh/CepCSGNfoswO
+         zzYcPQTFvTg1Pk5Rv7J+OvpV3ZxV5qrHdSmCdnu6GKzmVh2sUUsDDoI2RfDoW06nKUIm
+         5DiP2YjrPbK7uKma4d/EYesOjUUlBn0J8245NqEmMmhqYrjseGVnfMKDXbMn/R+HAhgT
+         oWrbtgO3aS641675mgmAC08LwdZ8YCU9amAEscgcWDM16n6xuNitdfeTjoZ1lxpMsVoS
+         geHHEw/W/ARQqqweAPGpazMA/X0zL+pAhlINbBzFXhb3kbu9H+3Mq1K7RdKoFhqhS5J0
+         JIIg==
+X-Gm-Message-State: APjAAAV/oQXOw+NzOPcFTXNTjZsyDTB8cg6CfIcsFSgsR3wcPSNi7l+M
+        9D8Wv6dV3MxlTSMdtWnoPFlOLw==
+X-Google-Smtp-Source: APXvYqwNBjQ5A85/g3klXWww6qZehcNmuyAGnTsB3asGTw4PbpjwFPTxeTathJYv2YCLKV8t4fXTdQ==
+X-Received: by 2002:a2e:3a0a:: with SMTP id h10mr12552045lja.1.1557168361740;
+        Mon, 06 May 2019 11:46:01 -0700 (PDT)
+Received: from wasted.cogentembedded.com ([31.173.80.83])
+        by smtp.gmail.com with ESMTPSA id q17sm2561030lji.22.2019.05.06.11.46.00
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 06 May 2019 11:46:00 -0700 (PDT)
+Subject: Re: [PATCH] pinctrl: sh-pfc: r8a77970: Remove MMC_{CD,WP}
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
+References: <20190503114304.20412-1-geert+renesas@glider.be>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Organization: Cogent Embedded
+Message-ID: <7b8155bd-94da-8bc5-ab64-3847dc30e9a0@cogentembedded.com>
+Date:   Mon, 6 May 2019 21:45:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXJzEYL48qwHAxrRsurQLBipZsQpv+w8i=+B2XCM_CZng@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.72.93.184]
+In-Reply-To: <20190503114304.20412-1-geert+renesas@glider.be>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, May 06, 2019 at 06:46:57PM +0200, Geert Uytterhoeven wrote:
-> Hi Eugeniu,
-> 
-> On Mon, May 6, 2019 at 5:24 PM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
-> > On Mon, May 06, 2019 at 03:47:05PM +0200, Simon Horman wrote:
-> > > On Sat, May 04, 2019 at 02:42:53AM +0200, Eugeniu Rosca wrote:
-> > > > Starting with v4.15-rc2 commit ad67b74d2469d9 ("printk: hash addresses
-> > > > printed with %p"), enabling debug prints in sh-sci.c would generate
-> > > > output like below confusing the users who try to sneak into the
-> > > > internals of the driver:
-> > > >
-> > > > sh-sci e6e88000.serial: sci_request_dma: TX: got channel (____ptrval____)
-> > > > sh-sci e6e88000.serial: sci_request_dma: mapped 4096@(____ptrval____) to 0x00000006798bf000
-> > > > sh-sci e6e88000.serial: sci_request_dma: RX: got channel (____ptrval____)
-> > > > sh-sci e6e88000.serial: sci_dma_tx_work_fn: (____ptrval____): 0...2, cookie 2
-> > > >
-> > > > There are two possible fixes for that:
-> > > >  - get rid of '%p' prints if they don't reveal any useful information
-> > > >  - s/%p/%px/, since it is unlikely we have any concerns leaking the
-> > > >    pointer values when running a debug/non-production kernel
-> > >
-> > > I am concerned that this may expose information in circumstances
-> > > where it is undesirable. Is it generally accepted practice to
-> > > use %px in conjunction with dev_dbg() ?
-> > >
-> > > ...
-> >
-> > Below commits performed a similar s/%p/%px/ update in debug context:
-> >
-> > Authors (CC-ed)   Commit         Subject
-> > ----------------------------------------
-> > Christophe Leroy  b18f0ae92b0a1d ("powerpc/prom: fix early DEBUG messages")
-> > Helge Deller      3847dab7742186 ("parisc: Add alternative coding infrastructure")
-> > Michael Neuling   51c3c62b58b357 ("powerpc: Avoid code patching freed init sections")
-> > Kuninori Morimoto dabdbe3ae0cb9a ("ASoC: rsnd: don't use %p for dev_dbg()")
-> > Philip Yang       fa7e65147e5dca ("drm/amdkfd: use %px to print user space address instead of %p")
-> > Matthew Wilcox    68c1f08203f2b0 ("lib/list_debug.c: print unmangled addresses")
-> > Borislav Petkov   0e6c16c652cada ("x86/alternative: Print unadorned pointers")
-> > Darrick J. Wong   c96900435fa9fd ("xfs: use %px for data pointers when debugging")
-> > Helge Deller      04903c06b4854d ("parisc: Show unhashed HPA of Dino chip")
-> >
-> > To quote Matthew, with respect to any debug prints:
-> > If an attacker can force this message to be printed, we've already lost.
-> 
-> I think the issue with using %px in debug code is that a distro may enable
-> CONFIG_DYNAMIC_DEBUG (it is enabled in several defconfigs), after which
-> an attacker just has to convince/trick the system into enabling debug for that
-> particular driver.
+Hello!
 
-How about going the route of commit c96900435fa9fd ("xfs: use %px for
-data pointers when debugging"), i.e. s/%p/"PTR_FMT"/ like below (this
-would enable the expected debug output only on manually defining DEBUG
-in the *.c file, while still keeping the output hashed on
-DYNAMIC_DEBUG=y if DEBUG is undefined).
+On 05/03/2019 02:43 PM, Geert Uytterhoeven wrote:
 
-diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-index 3cd139752d3f..69cd87c5ef0c 100644
---- a/drivers/tty/serial/sh-sci.c
-+++ b/drivers/tty/serial/sh-sci.c
-@@ -56,6 +56,12 @@
- #include <asm/sh_bios.h>
- #endif
- 
-+#ifdef DEBUG
-+#define PTR_FMT "%px"
-+#else
-+#define PTR_FMT "%p"
-+#endif
-+
- #include "serial_mctrl_gpio.h"
- #include "sh-sci.h"
- 
-@@ -1434,7 +1440,7 @@ static void sci_dma_tx_work_fn(struct work_struct *work)
- 		goto switch_to_pio;
- 	}
- 
--	dev_dbg(port->dev, "%s: %p: %d...%d, cookie %d\n",
-+	dev_dbg(port->dev, "%s: "PTR_FMT": %d...%d, cookie %d\n",
- 		__func__, xmit->buf, xmit->tail, xmit->head, s->cookie_tx);
- 
- 	dma_async_issue_pending(chan);
+> Hardware Manual Errata for rev. 15.0 of March 26, 2019 removed the bit
 
-> 
-> > In any case, I won't be affected much if the change is not accepted,
-> > since it doesn't resolve any major issue on my end. Thanks!
-> 
-> OK.
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+   1.50 perhaps? :-)
 
--- 
-Best Regards,
-Eugeniu.
+> definitions for MMC_CD and MMC_WP in the documentation for the IPSR6
+
+   ... and IPSR7. ;-)
+
+> register, as these pin functionalities do not exist on R-Car V3M.
+> 
+> Remove the definitions, and the corrresponding pins and groups.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> To be queued in sh-pfc-for-v5.3.
+
+   With these small issues fixed:
+
+Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+
+[...]
+
+MBR, Sergei
