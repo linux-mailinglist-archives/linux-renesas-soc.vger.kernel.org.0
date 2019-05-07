@@ -2,106 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 577B815FA7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 May 2019 10:44:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE42215FEB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 May 2019 10:58:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727015AbfEGIo1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 May 2019 04:44:27 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:43515 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726991AbfEGIo0 (ORCPT
+        id S1726791AbfEGI6s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 May 2019 04:58:48 -0400
+Received: from mail-eopbgr1410098.outbound.protection.outlook.com ([40.107.141.98]:34231
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726236AbfEGI6r (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 May 2019 04:44:26 -0400
-Received: by mail-lf1-f68.google.com with SMTP id u27so10932755lfg.10
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 May 2019 01:44:25 -0700 (PDT)
+        Tue, 7 May 2019 04:58:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=/TEtUQerbzNDbMApQnE7fl+aZhcChUfXzq2vTK+1alo=;
-        b=rleNqMilhRe8NeGJMI+BO9fCS+ffEQ67uAkRxjGiOdxjSPWcez+9tkZM15saLCKg6w
-         kPGWP55+pgj/RfYSZ18V0kEPJldHVbn4oqdP2iBjImM/jWzSGfYN+9LvlBhkrTzH10cL
-         xgG4iLArIvj/qzZ+6AIjXGjo8akwrAq9iNf2N3sQ9sXAyISKxNwjr3BK8ya7jrm9kPTM
-         IXkir3jZiHnnVQmzdRbcz4IK2cK3JgnYZ5jy4uZ1/drblBsjLl6PXYm7L44ylVeulZiQ
-         UGQZDj95k8HFfvo1aQNk2OhqKclIVGs2seUp7jto/lSSCF+JUXKj+xz/btwItZUKH1uk
-         3DKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=/TEtUQerbzNDbMApQnE7fl+aZhcChUfXzq2vTK+1alo=;
-        b=W1ftyWSRX2SJr35guqD/eB1SBW7U8b38r08K/uYDg7fMoKDvMlxoARsJ2w5i1RCui8
-         6PF3+0c8CAWVOcXJGerZMdHEFTqLMeIVCtTPKlt6Qg6WXZSBTxPaS2m9E8BLtbAR08XE
-         EkDVIaf3bj84chDS3LFdt5Kh33qeNpGibJzT8rKyaVuMf3aMONW8lVuCp3oXn0Wx8QmI
-         d2VskgmeDoEuu6ohqZJr5CG+3Os7llrUfFwW7PS6HBCP7TsOd1kr6eqFn+5uOQkn8vj4
-         RFrJ3w1ELQh7CN241YD9SmYozAtCzdRfeUSd8ezcRonq8VERATA7SpacN1E/RtMEoZCz
-         B39w==
-X-Gm-Message-State: APjAAAU5f7JWmimzoxpKj7IbxyTrPMVP8HKV1mPkN5/7FWezzCQIzWTT
-        ORTCyOE4Lo995qsxS1TYmLosDXPJ8PM=
-X-Google-Smtp-Source: APXvYqxC+QeOdrtkp6TrZlboNRyLGXETMNNFl2nkB0L5/jul5uT14641232atp2qgsYTdPPE0H4uIg==
-X-Received: by 2002:ac2:52b1:: with SMTP id r17mr15541907lfm.39.1557218664064;
-        Tue, 07 May 2019 01:44:24 -0700 (PDT)
-Received: from [192.168.0.199] ([31.173.80.92])
-        by smtp.gmail.com with ESMTPSA id 63sm3170991lfz.2.2019.05.07.01.44.22
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 07 May 2019 01:44:23 -0700 (PDT)
-Subject: Re: [PATCH 09/10] ARM: dts: r7s9210: Add USB Device support
-To:     Chris Brandt <chris.brandt@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Simon Horman <horms@verge.net.au>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <20190506234631.113226-1-chris.brandt@renesas.com>
- <20190506234631.113226-10-chris.brandt@renesas.com>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <8182b7b7-c447-b0ba-2654-ac71f9c86dbb@cogentembedded.com>
-Date:   Tue, 7 May 2019 11:44:18 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DuX1xzOZAbbjL7qnnYMXgAHEZwpA/UI/InQYoOsTpx0=;
+ b=IaST4m/cbQJimvxlBKPnrHOz69AovT578IrzY61cJ2UUJcq6DioBEn/SC25F688xW6XLKjDYaV0DRsc/CM6/ctBWSCZg7Np8ToFvhXmFVIA/zJgsFIYeAvLUrqkaEM8MVu8yBjBy+YzZrJLjJYXZ7N+MeAMsOorjbC4iklSQDMY=
+Received: from OSBPR01MB3174.jpnprd01.prod.outlook.com (20.176.240.146) by
+ OSBPR01MB4757.jpnprd01.prod.outlook.com (20.179.184.83) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1856.10; Tue, 7 May 2019 08:58:44 +0000
+Received: from OSBPR01MB3174.jpnprd01.prod.outlook.com
+ ([fe80::4d29:3383:d67d:d562]) by OSBPR01MB3174.jpnprd01.prod.outlook.com
+ ([fe80::4d29:3383:d67d:d562%3]) with mapi id 15.20.1856.012; Tue, 7 May 2019
+ 08:58:44 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Wolfram Sang <wsa@the-dreams.de>
+CC:     "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH 0/3] mmc: renesas_sdhi_internal_dmac: improve performance
+ by using IOMMU
+Thread-Topic: [PATCH 0/3] mmc: renesas_sdhi_internal_dmac: improve performance
+ by using IOMMU
+Thread-Index: AQHU+/AkeRAaf76f8Ei+7P3pmBCRuaZOMeKAgBEqOVA=
+Date:   Tue, 7 May 2019 08:58:43 +0000
+Message-ID: <OSBPR01MB3174BFC6487E29AF4EA5E150D8310@OSBPR01MB3174.jpnprd01.prod.outlook.com>
+References: <1556255930-18188-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <20190426094611.GD1031@kunai>
+In-Reply-To: <20190426094611.GD1031@kunai>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [118.238.235.108]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c4ee9a9f-5d87-4180-3491-08d6d2ca3565
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB4757;
+x-ms-traffictypediagnostic: OSBPR01MB4757:
+x-microsoft-antispam-prvs: <OSBPR01MB475733D030F18A1F3505CF77D8310@OSBPR01MB4757.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 0030839EEE
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(376002)(39860400002)(346002)(136003)(366004)(189003)(199004)(54906003)(71200400001)(68736007)(74316002)(99286004)(52536014)(81166006)(81156014)(7736002)(8936002)(305945005)(9686003)(66066001)(316002)(5660300002)(25786009)(478600001)(6246003)(53936002)(4326008)(6916009)(14454004)(33656002)(14444005)(256004)(229853002)(76116006)(64756008)(66556008)(66446008)(66946007)(73956011)(66476007)(446003)(8676002)(3846002)(6506007)(26005)(486006)(71190400001)(6436002)(6116002)(186003)(476003)(102836004)(2906002)(55016002)(7696005)(86362001)(4744005)(76176011)(11346002);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB4757;H:OSBPR01MB3174.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: TyqOe9YB8l2R9L94XnNVPAKWoB8UQZO3HJ5h5Og1z2YarP5Yi6ETD2soudeVP1lKDGKhjmsaqsbmnYo7lY8l9jhdEBRCz60FWNByBFNnZU0CMEFvoLTJ2BqD0O/23Mulk9zkN95K2Yo4RCmulkSw6VgwST+ablXIVlQkBpn67sNU7aLWz19B+wf+tzCJf9tpB9EUJM5B6mxmFwV5xiuMh3qjMouOl5QTDKloLDC3M5YQaSoay99h54c5slEkz3gekzLwdsscc4SnJIuCPIOAVKcx8vfFQWt//ucr8/vmdkrF1bxUevvZQMXI3Hu4zM0prlF0tUxFDHgYkvkUujeDyUUEVfsZaseB1UUguiWZ3u/6T9wvndFr/2p4kfNovQ01KmkiFVvwLlDk60JZSBfOTlcUER5gOvwS0KA/lGncWMA=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <20190506234631.113226-10-chris.brandt@renesas.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4ee9a9f-5d87-4180-3491-08d6d2ca3565
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 May 2019 08:58:43.7703
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB4757
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 07.05.2019 2:46, Chris Brandt wrote:
+Hi Wolfram-san,
 
-> Add USB Device support for RZ/A2.
-> 
-> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
-> ---
->   arch/arm/boot/dts/r7s9210.dtsi | 24 ++++++++++++++++++++++++
->   1 file changed, 24 insertions(+)
-> 
-> diff --git a/arch/arm/boot/dts/r7s9210.dtsi b/arch/arm/boot/dts/r7s9210.dtsi
-> index 1a992e6197c3..67ac746142d0 100644
-> --- a/arch/arm/boot/dts/r7s9210.dtsi
-> +++ b/arch/arm/boot/dts/r7s9210.dtsi
-> @@ -354,6 +354,18 @@
->   			status = "disabled";
->   		};
->   
-> +		usbhs0: usbhs@e8219000 {
+> From: Wolfram Sang, Sent: Friday, April 26, 2019 6:46 PM
+>=20
+> Hi Shimoda-san,
+>=20
+> thanks for working on this!
+>=20
+> > Please refer to the end of this email about the performance.
+>=20
+> Yes, nice improvements, great!
 
-   The node names should be generic, i.e. "usb@e8219000".
+Thanks!
 
-[...]
-> @@ -386,6 +398,18 @@
->   			status = "disabled";
->   		};
->   
-> +		usbhs1: usbhs@e821b000 {
+> > (I beleive if the performance is improved, the CPU load is also increas=
+ed.)
+>=20
+> I do wonder about this a bit, though. IPMMU and DMA shouldn't be that
+> much expensive for the CPU, or? Am I overlooking something?
 
-    Same here.
+I'm guessing that a user land app (in this case bonnie++) consumes CPU load=
+ for some reason.
+I'll experiment whether my guess is correct or not by using usb 3.0 host li=
+ke below tomorrow:
+ - case 1: usb 3.0 host + usb SSD as SuperSpeed (IOMMU is disabled).
+ - case 2: usb 3.0 host + usb SSD via a usb2.0 hub as high-speed (IOMMU is =
+disabled).
 
-[...]
+Best regards,
+Yoshihiro Shimoda
 
-MBR, Sergei
+> Kind regards,
+>=20
+>    Wolfram
+
