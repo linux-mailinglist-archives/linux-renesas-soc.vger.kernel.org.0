@@ -2,155 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D0137162A4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 May 2019 13:14:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EB8D162C5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 May 2019 13:26:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726682AbfEGLOC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 May 2019 07:14:02 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:46368 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725844AbfEGLOB (ORCPT
+        id S1725859AbfEGL05 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 May 2019 07:26:57 -0400
+Received: from mail-ua1-f65.google.com ([209.85.222.65]:45883 "EHLO
+        mail-ua1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725843AbfEGL05 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 May 2019 07:14:01 -0400
-Received: by mail-lj1-f194.google.com with SMTP id h21so13896178ljk.13
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 May 2019 04:14:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=norrbonn-se.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fr3vVn+oweMugLS8/jeaJuQnWyQkFbMOMxTckpCBdBk=;
-        b=M+0buRHQVu6DimA19bSbeWMveoG1+aO/R/TFPANMunLbaA+fZWyo4H643NoWjoyTso
-         Ckn3JKbpl5aBmaN8EDg/YhCGwxMl1EMB7GtW4hpaXU4OyEROXiwgaCAE1d0NXOm8mY8P
-         UTdgPeQVgtlkCUSz/awJhqdrAO7jmmrfI67fvMBKeVbzKxKX89LSkBAXBy8pJCiPVi2c
-         KcAD7DJU5JZIZBpx8PLzLZroeSgc1V4NkKSwRBRbwX/dltOaYoXIvXtdDUTZDI3B01Lm
-         5P5eNqIOI9W0584Tx+2VvojIcWtC+hFZUA1iHm4XXZ97MD/MYS9gTFH+W5gg31ZdbaIo
-         MgHw==
+        Tue, 7 May 2019 07:26:57 -0400
+Received: by mail-ua1-f65.google.com with SMTP id o33so5853169uae.12;
+        Tue, 07 May 2019 04:26:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=fr3vVn+oweMugLS8/jeaJuQnWyQkFbMOMxTckpCBdBk=;
-        b=tgZ+OZEjRGn+H+ov32L7AMNC1UX6m/mxYksv1svbZZOVe0a+gjfeKGLL2sR6Ali5OL
-         iWIaQ0cPMHjSNMjMJMxSAhDt4liIVLI6w0BzQaWYofmOCf27mKPqDku5hyb4vfpOeCoZ
-         edHUFQB3LIoXL6PcAWsx6YmY04RGVy/6UDUZRq//WVXZmdx9LLzb4YiI3eabcK5CB9bK
-         JKZeTAA3YLbFefTs3Dhfu6qBCtV/vHPt+b/DdpUde4/r9zwywDE3Em4/uS6ehd+roiRV
-         iwpCfbSYXkAJyV9IC9j4N83ZJKQKYpzzHdGYuicNWwVQYPcpXosEcdYk4/RZAilZByYc
-         T1RA==
-X-Gm-Message-State: APjAAAW+1gtVyTQNDljZzs0VFi0TF8o9pPkZQZzPfbV4Ut4bAzZFc23p
-        kvWnCq9ra1KPOrEcq1XiC6ZJmqgaGm6m+g==
-X-Google-Smtp-Source: APXvYqyuU6WupvU+Etjx7HXolNuuS90yj0op6CzYncR+RcIZxcsJGFz25eXZaMtgXlnSQOUoY47n1Q==
-X-Received: by 2002:a2e:8957:: with SMTP id b23mr5056705ljk.30.1557227639179;
-        Tue, 07 May 2019 04:13:59 -0700 (PDT)
-Received: from [10.42.2.174] (78-69-122-97-no54.tbcn.telia.com. [78.69.122.97])
-        by smtp.gmail.com with ESMTPSA id o7sm1505603lfl.13.2019.05.07.04.13.57
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 07 May 2019 04:13:58 -0700 (PDT)
-Subject: Re: [PATCH v4 2/3] spi-nor: s25fl512s supports region locking
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Tudor Ambarus <Tudor.Ambarus@microchip.com>
-Cc:     MTD Maling List <linux-mtd@lists.infradead.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <20190320071605.4289-1-jonas@norrbonn.se>
- <20190320071605.4289-3-jonas@norrbonn.se>
- <CAMuHMdVH85iFJngkU6W61ybwR2j3YQ7=cugPxgC57hUgBOc5KA@mail.gmail.com>
- <1f33e1e5-d7bf-76a0-c4d3-ecbc35fbfd4f@microchip.com>
- <CAMuHMdU83vLeVSqMZuJwR4yd382mau-OE1saMAOC2+6HodsHvg@mail.gmail.com>
-From:   Jonas Bonn <jonas@norrbonn.se>
-Message-ID: <fac5fa6d-95e9-cfb0-4d5a-6b16d4470190@norrbonn.se>
-Date:   Tue, 7 May 2019 13:13:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GzIbaBNYhvg73WNlQRNk3CzE4k84hRDE8fYSBPKxE40=;
+        b=GVgN56dBDlnFf/BdrtJmS0ZJONzE+aycMAePNyliE70cc02SHz5+WVKTsQDtNDBi1I
+         QL1daimOdvsoDh2xYNfrkvlMMS0OtBUAW0vW4OzakRmL9eWsrMXrZ/TXU1PCcrwxFuFd
+         ELbdCvuiXLqsP1IItGQtc6DBTEDDOWdTq+10FU+uiBGDGYEP5wT4EtAMorQ288AGcyDQ
+         SV+oGeVRTXu4kUT0hCVlDrv+OqTYwjB89o1nahIoTLXRDidn+s5cAjWNqvo1RJnV7LFA
+         HMXY28B4jlk9JmqslG0Su8xXHP9/74t6woVvCsW7bFyjsAUvG/rbysY9NhhY5mU/+5pB
+         /b7Q==
+X-Gm-Message-State: APjAAAVKAj8ZrX0q9g6Enx5HoRDoBL64aRMgXKeKnnVJT/JBiJXTdgzy
+        H40auGKIu84AKquJuE0zQDjNSKSpq+bDGDwdL+4=
+X-Google-Smtp-Source: APXvYqxTyUhJ/Hdo8EsC8xxMOq+d9o8jfyQHdB8O8C1WedZ2N/j7SQlvc68hbfmmLxXJgjTyJEb3+QqWuoJvl2277Ws=
+X-Received: by 2002:ab0:1646:: with SMTP id l6mr437972uae.75.1557228415873;
+ Tue, 07 May 2019 04:26:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdU83vLeVSqMZuJwR4yd382mau-OE1saMAOC2+6HodsHvg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20190506234631.113226-1-chris.brandt@renesas.com>
+ <20190506234631.113226-2-chris.brandt@renesas.com> <CAMuHMdV3yW44Y1D2Vn1mNJK8pNF3db20An9Sde8=18r8y7m9LQ@mail.gmail.com>
+ <TY1PR01MB1562D08E4F5A6C635024BE718A310@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY1PR01MB1562D08E4F5A6C635024BE718A310@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 7 May 2019 13:26:44 +0200
+Message-ID: <CAMuHMdX0KyLcftYp9bP=SBr1KRncUAh1Ua=OmvpFjaTFy=gbOw@mail.gmail.com>
+Subject: Re: [PATCH 01/10] phy: renesas: rcar-gen3-usb2: Add uses_usb_x1 option
+To:     Chris Brandt <Chris.Brandt@renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Simon Horman <horms@verge.net.au>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        USB list <linux-usb@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Chris,
 
-On 07/05/2019 12:50, Geert Uytterhoeven wrote:
-> Hi Tudor,
-> 
-> On Tue, May 7, 2019 at 12:42 PM <Tudor.Ambarus@microchip.com> wrote:
->> On 05/07/2019 12:53 PM, Geert Uytterhoeven wrote:
->>> On Wed, Mar 20, 2019 at 8:16 AM Jonas Bonn <jonas@norrbonn.se> wrote:
->>>> Both the BP[0-2] bits and the TBPROT bit are supported on this chip.
->>>> Tested and verified on a Cypress s25fl512s.
->>>>
->>>> Signed-off-by: Jonas Bonn <jonas@norrbonn.se>
->>>
->>> This is now commit dcb4b22eeaf44f91 ("spi-nor: s25fl512s supports region
->>> locking") in mtd/next.
->>>
->>>> --- a/drivers/mtd/spi-nor/spi-nor.c
->>>> +++ b/drivers/mtd/spi-nor/spi-nor.c
->>>> @@ -1898,7 +1898,9 @@ static const struct flash_info spi_nor_ids[] = {
->>>>                          SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ | USE_CLSR) },
->>>>          { "s25fl256s0", INFO(0x010219, 0x4d00, 256 * 1024, 128, USE_CLSR) },
->>>>          { "s25fl256s1", INFO(0x010219, 0x4d01,  64 * 1024, 512, SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ | USE_CLSR) },
->>>> -       { "s25fl512s",  INFO6(0x010220, 0x4d0080, 256 * 1024, 256, SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ | USE_CLSR) },
->>>> +       { "s25fl512s",  INFO6(0x010220, 0x4d0080, 256 * 1024, 256,
->>>> +                       SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ |
->>>> +                       SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | USE_CLSR) },
->>>
->>> Setting SPI_NOR_HAS_LOCK causes the QSPI FLASH on r8a7791/koelsch to fail
->>> probing.
->>>
->>> Before/after:
->>>
->>>      -m25p80 spi0.0: s25fl512s (65536 Kbytes)
->>>      -3 fixed-partitions partitions found on MTD device spi0.0
->>>      -Creating 3 MTD partitions on "spi0.0":
->>>      -0x000000000000-0x000000080000 : "loader"
->>>      -0x000000080000-0x000000600000 : "user"
->>>      -0x000000600000-0x000004000000 : "flash"
->>>      +m25p80 spi0.0: Erase Error occurred
->>>      +m25p80 spi0.0: Erase Error occurred
->>>      +m25p80 spi0.0: timeout while writing configuration register
->>>      +m25p80 spi0.0: quad mode not supported
->>>      +m25p80: probe of spi0.0 failed with error -5
->>>
+On Tue, May 7, 2019 at 1:00 PM Chris Brandt <Chris.Brandt@renesas.com> wrote:
+> On Tue, May 07, 2019, Geert Uytterhoeven wrote:
+> > > +       if (of_property_read_bool(dev->of_node, "renesas,uses_usb_x1"))
+> > > +               channel->uses_usb_x1 = true;
+> > > +
+> >
+> > Perhaps this can be checked some other way (e.g. by checking for a non-
+> > zero
+> > clock rate of the USB_X1 clock referenced from DT), thus removing the need
+> > for
+> > adding a custom property?
+>
+> Good point. I've done that for other drivers before and it worked well.
+>
+> I'll take this out...one less property to set :)
+>
+> Question: Since the driver depends on this, should I mention this in the
+> dt-bindings documentation ?
 
-In drivers/mtd/spi-nor/spi-nor.c you have:
+Yes, this should be described in the section about the clocks property.
 
-static int spi_nor_init(struct spi_nor *nor)
-{
-         int err;
+Gr{oetje,eeting}s,
 
-         /*
-          * Atmel, SST, Intel/Numonyx, and others serial NOR tend to 
-power up
-          * with the software protection bits set
-          */
-         if (JEDEC_MFR(nor->info) == SNOR_MFR_ATMEL ||
-             JEDEC_MFR(nor->info) == SNOR_MFR_INTEL ||
-             JEDEC_MFR(nor->info) == SNOR_MFR_SST ||
-             nor->info->flags & SPI_NOR_HAS_LOCK) {
-                 write_enable(nor);
-                 write_sr(nor, 0);
-                 spi_nor_wait_till_ready(nor);
-         }
+                        Geert
 
-         if (nor->quad_enable) {
-                 err = nor->quad_enable(nor);
-                 if (err) {
-                         dev_err(nor->dev, "quad mode not supported\n");
-                         return err;
-                 }
-         }
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-This is the only meaningful thing that I can see may have changed with 
-this flag.  We now have an additional write_enable before quad_enable. 
-What happens if you swap those two blocks above so that quad_enable is 
-called first?
-
-If it's not that, I can't see how the extra flags can have any effect.
-
-Regards,
-Jonas
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
