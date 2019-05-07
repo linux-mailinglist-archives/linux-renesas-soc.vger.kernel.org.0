@@ -2,88 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A986616290
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 May 2019 13:05:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0137162A4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 May 2019 13:14:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726415AbfEGLFn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 May 2019 07:05:43 -0400
-Received: from mail-eopbgr1410122.outbound.protection.outlook.com ([40.107.141.122]:26592
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726280AbfEGLFn (ORCPT
+        id S1726682AbfEGLOC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 May 2019 07:14:02 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:46368 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725844AbfEGLOB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 May 2019 07:05:43 -0400
+        Tue, 7 May 2019 07:14:01 -0400
+Received: by mail-lj1-f194.google.com with SMTP id h21so13896178ljk.13
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 May 2019 04:14:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=d4w1JciM/vXlpVU/BEx6jXIP+YR5qxRQfUBODk9/API=;
- b=lCw7W9A10GIeP0XYs2Owe0Qx3gBrOJs7JNKv07XQzBBYpSbHZiSoy5tVwd3bLlXQRC+k2iqBrKGMFbtLXsNbGYLEe6KG45LULJDMIBKJhrgq+BFdVVOcJt3G03E4aAOZXFg+n2CCCVHGG3SI/8ZvI3QSTwCzmMBZSl7AphJtIN8=
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com (52.133.163.12) by
- TY1PR01MB1499.jpnprd01.prod.outlook.com (52.133.161.11) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1856.12; Tue, 7 May 2019 11:05:38 +0000
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::99cf:c94c:d11f:c2f0]) by TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::99cf:c94c:d11f:c2f0%5]) with mapi id 15.20.1856.012; Tue, 7 May 2019
- 11:05:38 +0000
-From:   Chris Brandt <Chris.Brandt@renesas.com>
-To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Simon Horman <horms@verge.net.au>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 09/10] ARM: dts: r7s9210: Add USB Device support
-Thread-Topic: [PATCH 09/10] ARM: dts: r7s9210: Add USB Device support
-Thread-Index: AQHVBGY7HeLCsOXtzUGu0g3yTltSAaZfWVAAgAAm7FA=
-Date:   Tue, 7 May 2019 11:05:38 +0000
-Message-ID: <TY1PR01MB1562E0C04902FFF938AA123A8A310@TY1PR01MB1562.jpnprd01.prod.outlook.com>
-References: <20190506234631.113226-1-chris.brandt@renesas.com>
- <20190506234631.113226-10-chris.brandt@renesas.com>
- <8182b7b7-c447-b0ba-2654-ac71f9c86dbb@cogentembedded.com>
-In-Reply-To: <8182b7b7-c447-b0ba-2654-ac71f9c86dbb@cogentembedded.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Chris.Brandt@renesas.com; 
-x-originating-ip: [75.60.247.61]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 831dc0f8-5b41-4dda-56e8-08d6d2dbf011
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:TY1PR01MB1499;
-x-ms-traffictypediagnostic: TY1PR01MB1499:
-x-microsoft-antispam-prvs: <TY1PR01MB1499169B01BC7D69A2CAC6A88A310@TY1PR01MB1499.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3968;
-x-forefront-prvs: 0030839EEE
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(366004)(39860400002)(136003)(346002)(376002)(199004)(189003)(6506007)(7696005)(102836004)(76176011)(71200400001)(71190400001)(446003)(26005)(186003)(4326008)(6246003)(55016002)(53936002)(99286004)(11346002)(476003)(486006)(6436002)(86362001)(66946007)(66556008)(3846002)(66476007)(110136005)(64756008)(66446008)(73956011)(52536014)(2906002)(316002)(256004)(6116002)(33656002)(54906003)(76116006)(25786009)(558084003)(9686003)(8936002)(229853002)(8676002)(81156014)(5660300002)(81166006)(72206003)(6636002)(14454004)(478600001)(7736002)(66066001)(68736007)(74316002)(305945005);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1499;H:TY1PR01MB1562.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: qRMKEUIlqNxoGyKsWxpdwgxlqaKigsbX3tkvOC+figjnOvcJtQuOAgEpLYvtEaYZ772pV6VZ7bMSm0oy3wmpr4xiZbuNYZu4K6l5NzOz05oSMbn353ukkq4Q7G4W3/bl1k8x+STCgSG4HMmuo2UVkEIhHmzCTpN24fz7xXGvohyPYaK48ThFZ2hjfkrWAA/9ZPIJc8lK75pGOwz8+wXfO92Vgj4QmWFfkmiJp1OvXY3YcCLfI63NORmyr+pmO79KqeV8RUZ2X8wTeK0U/dd+eOgFdOTwteJUMCrY0HMwnu7gLhhKYhhAWFZXEsv2T346/MtmVMadc+pilCT4oAY22jZx2fHAKyqJtKOBlak5JIgQ1kepvUd9sWl2hTCBBo8GVzYzxPBldCEYRNV2RPIE2x46tUw1wCmxomRm8ji74o0=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        d=norrbonn-se.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=fr3vVn+oweMugLS8/jeaJuQnWyQkFbMOMxTckpCBdBk=;
+        b=M+0buRHQVu6DimA19bSbeWMveoG1+aO/R/TFPANMunLbaA+fZWyo4H643NoWjoyTso
+         Ckn3JKbpl5aBmaN8EDg/YhCGwxMl1EMB7GtW4hpaXU4OyEROXiwgaCAE1d0NXOm8mY8P
+         UTdgPeQVgtlkCUSz/awJhqdrAO7jmmrfI67fvMBKeVbzKxKX89LSkBAXBy8pJCiPVi2c
+         KcAD7DJU5JZIZBpx8PLzLZroeSgc1V4NkKSwRBRbwX/dltOaYoXIvXtdDUTZDI3B01Lm
+         5P5eNqIOI9W0584Tx+2VvojIcWtC+hFZUA1iHm4XXZ97MD/MYS9gTFH+W5gg31ZdbaIo
+         MgHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=fr3vVn+oweMugLS8/jeaJuQnWyQkFbMOMxTckpCBdBk=;
+        b=tgZ+OZEjRGn+H+ov32L7AMNC1UX6m/mxYksv1svbZZOVe0a+gjfeKGLL2sR6Ali5OL
+         iWIaQ0cPMHjSNMjMJMxSAhDt4liIVLI6w0BzQaWYofmOCf27mKPqDku5hyb4vfpOeCoZ
+         edHUFQB3LIoXL6PcAWsx6YmY04RGVy/6UDUZRq//WVXZmdx9LLzb4YiI3eabcK5CB9bK
+         JKZeTAA3YLbFefTs3Dhfu6qBCtV/vHPt+b/DdpUde4/r9zwywDE3Em4/uS6ehd+roiRV
+         iwpCfbSYXkAJyV9IC9j4N83ZJKQKYpzzHdGYuicNWwVQYPcpXosEcdYk4/RZAilZByYc
+         T1RA==
+X-Gm-Message-State: APjAAAW+1gtVyTQNDljZzs0VFi0TF8o9pPkZQZzPfbV4Ut4bAzZFc23p
+        kvWnCq9ra1KPOrEcq1XiC6ZJmqgaGm6m+g==
+X-Google-Smtp-Source: APXvYqyuU6WupvU+Etjx7HXolNuuS90yj0op6CzYncR+RcIZxcsJGFz25eXZaMtgXlnSQOUoY47n1Q==
+X-Received: by 2002:a2e:8957:: with SMTP id b23mr5056705ljk.30.1557227639179;
+        Tue, 07 May 2019 04:13:59 -0700 (PDT)
+Received: from [10.42.2.174] (78-69-122-97-no54.tbcn.telia.com. [78.69.122.97])
+        by smtp.gmail.com with ESMTPSA id o7sm1505603lfl.13.2019.05.07.04.13.57
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 07 May 2019 04:13:58 -0700 (PDT)
+Subject: Re: [PATCH v4 2/3] spi-nor: s25fl512s supports region locking
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Tudor Ambarus <Tudor.Ambarus@microchip.com>
+Cc:     MTD Maling List <linux-mtd@lists.infradead.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20190320071605.4289-1-jonas@norrbonn.se>
+ <20190320071605.4289-3-jonas@norrbonn.se>
+ <CAMuHMdVH85iFJngkU6W61ybwR2j3YQ7=cugPxgC57hUgBOc5KA@mail.gmail.com>
+ <1f33e1e5-d7bf-76a0-c4d3-ecbc35fbfd4f@microchip.com>
+ <CAMuHMdU83vLeVSqMZuJwR4yd382mau-OE1saMAOC2+6HodsHvg@mail.gmail.com>
+From:   Jonas Bonn <jonas@norrbonn.se>
+Message-ID: <fac5fa6d-95e9-cfb0-4d5a-6b16d4470190@norrbonn.se>
+Date:   Tue, 7 May 2019 13:13:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 831dc0f8-5b41-4dda-56e8-08d6d2dbf011
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 May 2019 11:05:38.5241
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1499
+In-Reply-To: <CAMuHMdU83vLeVSqMZuJwR4yd382mau-OE1saMAOC2+6HodsHvg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-T24gVHVlLCBNYXkgMDcsIDIwMTksIFNlcmdlaSBTaHR5bHlvdiB3cm90ZToNCj4gPiArCQl1c2Jo
-czA6IHVzYmhzQGU4MjE5MDAwIHsNCj4gDQo+ICAgIFRoZSBub2RlIG5hbWVzIHNob3VsZCBiZSBn
-ZW5lcmljLCBpLmUuICJ1c2JAZTgyMTkwMDAiLg0KPiANCg0KR29vZCBwb2ludC4NCg0KQWx0aG91
-Z2ggaXQgc2VlbXMgbGlrZSB1c2ItcGh5IGlzIHN0aWxsIGNvcnJlY3QuDQoNClRoYW5rcywNCkNo
-cmlzDQo=
+Hi Geert,
+
+On 07/05/2019 12:50, Geert Uytterhoeven wrote:
+> Hi Tudor,
+> 
+> On Tue, May 7, 2019 at 12:42 PM <Tudor.Ambarus@microchip.com> wrote:
+>> On 05/07/2019 12:53 PM, Geert Uytterhoeven wrote:
+>>> On Wed, Mar 20, 2019 at 8:16 AM Jonas Bonn <jonas@norrbonn.se> wrote:
+>>>> Both the BP[0-2] bits and the TBPROT bit are supported on this chip.
+>>>> Tested and verified on a Cypress s25fl512s.
+>>>>
+>>>> Signed-off-by: Jonas Bonn <jonas@norrbonn.se>
+>>>
+>>> This is now commit dcb4b22eeaf44f91 ("spi-nor: s25fl512s supports region
+>>> locking") in mtd/next.
+>>>
+>>>> --- a/drivers/mtd/spi-nor/spi-nor.c
+>>>> +++ b/drivers/mtd/spi-nor/spi-nor.c
+>>>> @@ -1898,7 +1898,9 @@ static const struct flash_info spi_nor_ids[] = {
+>>>>                          SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ | USE_CLSR) },
+>>>>          { "s25fl256s0", INFO(0x010219, 0x4d00, 256 * 1024, 128, USE_CLSR) },
+>>>>          { "s25fl256s1", INFO(0x010219, 0x4d01,  64 * 1024, 512, SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ | USE_CLSR) },
+>>>> -       { "s25fl512s",  INFO6(0x010220, 0x4d0080, 256 * 1024, 256, SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ | USE_CLSR) },
+>>>> +       { "s25fl512s",  INFO6(0x010220, 0x4d0080, 256 * 1024, 256,
+>>>> +                       SPI_NOR_DUAL_READ | SPI_NOR_QUAD_READ |
+>>>> +                       SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | USE_CLSR) },
+>>>
+>>> Setting SPI_NOR_HAS_LOCK causes the QSPI FLASH on r8a7791/koelsch to fail
+>>> probing.
+>>>
+>>> Before/after:
+>>>
+>>>      -m25p80 spi0.0: s25fl512s (65536 Kbytes)
+>>>      -3 fixed-partitions partitions found on MTD device spi0.0
+>>>      -Creating 3 MTD partitions on "spi0.0":
+>>>      -0x000000000000-0x000000080000 : "loader"
+>>>      -0x000000080000-0x000000600000 : "user"
+>>>      -0x000000600000-0x000004000000 : "flash"
+>>>      +m25p80 spi0.0: Erase Error occurred
+>>>      +m25p80 spi0.0: Erase Error occurred
+>>>      +m25p80 spi0.0: timeout while writing configuration register
+>>>      +m25p80 spi0.0: quad mode not supported
+>>>      +m25p80: probe of spi0.0 failed with error -5
+>>>
+
+In drivers/mtd/spi-nor/spi-nor.c you have:
+
+static int spi_nor_init(struct spi_nor *nor)
+{
+         int err;
+
+         /*
+          * Atmel, SST, Intel/Numonyx, and others serial NOR tend to 
+power up
+          * with the software protection bits set
+          */
+         if (JEDEC_MFR(nor->info) == SNOR_MFR_ATMEL ||
+             JEDEC_MFR(nor->info) == SNOR_MFR_INTEL ||
+             JEDEC_MFR(nor->info) == SNOR_MFR_SST ||
+             nor->info->flags & SPI_NOR_HAS_LOCK) {
+                 write_enable(nor);
+                 write_sr(nor, 0);
+                 spi_nor_wait_till_ready(nor);
+         }
+
+         if (nor->quad_enable) {
+                 err = nor->quad_enable(nor);
+                 if (err) {
+                         dev_err(nor->dev, "quad mode not supported\n");
+                         return err;
+                 }
+         }
+
+This is the only meaningful thing that I can see may have changed with 
+this flag.  We now have an additional write_enable before quad_enable. 
+What happens if you swap those two blocks above so that quad_enable is 
+called first?
+
+If it's not that, I can't see how the extra flags can have any effect.
+
+Regards,
+Jonas
