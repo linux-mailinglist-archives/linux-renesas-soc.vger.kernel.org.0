@@ -2,109 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8362016026
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 May 2019 11:07:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D94231607F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 May 2019 11:17:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726249AbfEGJHv convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 May 2019 05:07:51 -0400
-Received: from mail-vs1-f66.google.com ([209.85.217.66]:38890 "EHLO
-        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726063AbfEGJHu (ORCPT
+        id S1727197AbfEGJRV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 May 2019 05:17:21 -0400
+Received: from mail-eopbgr1410109.outbound.protection.outlook.com ([40.107.141.109]:20625
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726824AbfEGJRV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 May 2019 05:07:50 -0400
-Received: by mail-vs1-f66.google.com with SMTP id v9so2115025vse.5;
-        Tue, 07 May 2019 02:07:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=8lThRAo28vQwCl4DV4/hRXs4pusVcLZ06vXVXU+ReNg=;
-        b=UApIQqVvCdCdwez208QOX/KvpZdg45Aw0SyxZfCSaIKvmTC3Ti92Vq/UATMBa5SBu0
-         aVW7JcE570usIfzi+EPhs6sES83dCX9JdSYqlMIgYmEWEZsWJ5pXlpBz2amqrOqKmn2S
-         HRCKgtsXudML+kN1HaP80O+jVUcisFVihF4Tm7kZvmSNHnEV8YqrMFa7sW69rmvFKXxq
-         I6WGi8bLazGmTgL0CMoJdGpH8sZWKbkugn22iU/ZleACG/dEdE/qGqK5ddMFUT3oZCSU
-         00uw5rwkoi8GboV2rX2qPUyuKgB9cOnkl4Jm3FRCvyDKwxinyWXBlvF4/wBgIMqscTxB
-         kBTg==
-X-Gm-Message-State: APjAAAUheCQC4ZgSDlgnc5srBkUJAB+BMsNuBYUBsDbZ7vV/0EFOmtcR
-        g+RR9/U/tsRKERARt6wI2blc7Fgu1o84vm3y1KY=
-X-Google-Smtp-Source: APXvYqyd0GOgX82w7/Ps0Lm4sBbfBrQV34Mg2L46fkooG6+5Z29jjbCP+ChBPEI7uLyAXz7jM3WBzg+6K0S1grth8pg=
-X-Received: by 2002:a67:8e03:: with SMTP id q3mr15845324vsd.152.1557220063399;
- Tue, 07 May 2019 02:07:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <1557177887-30446-1-git-send-email-ynezz@true.cz>
-In-Reply-To: <1557177887-30446-1-git-send-email-ynezz@true.cz>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 7 May 2019 11:07:31 +0200
-Message-ID: <CAMuHMdVra2h00OUCxZ1s=ExpkgkN_SGZdUtdohBapjNHf6hesQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v2 0/4] of_get_mac_address ERR_PTR fixes
-To:     =?UTF-8?Q?Petr_=C5=A0tetiar?= <ynezz@true.cz>
-Cc:     netdev <netdev@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        driverdevel <devel@driverdev.osuosl.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Tue, 7 May 2019 05:17:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4qTrQJ/Q34mEUbcNc2+6OxdWHpu9YjWZHxyTd27UTMY=;
+ b=Jx83/KmVKv4n7QMmxusBr4hRZIZ9W5eg+SSK/A4vzKWTo2u2lXZVKfed1XsLd+olEb8wpo3sdqttLwHNSm9cHrTuEmRgB6EVczdEFxzmtkKcCMSduv+xjCvT1Afu3vB8YjNOJK2fq4HZBWucIUF/YdqnX1LxycFJ3rXv2gJiK8k=
+Received: from OSBPR01MB3174.jpnprd01.prod.outlook.com (20.176.240.146) by
+ OSBPR01MB3174.jpnprd01.prod.outlook.com (20.176.240.146) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1856.11; Tue, 7 May 2019 09:17:17 +0000
+Received: from OSBPR01MB3174.jpnprd01.prod.outlook.com
+ ([fe80::4d29:3383:d67d:d562]) by OSBPR01MB3174.jpnprd01.prod.outlook.com
+ ([fe80::4d29:3383:d67d:d562%3]) with mapi id 15.20.1856.012; Tue, 7 May 2019
+ 09:17:17 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Chris Brandt <Chris.Brandt@renesas.com>
+CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Chris Brandt <Chris.Brandt@renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-mediatek@lists.infradead.org,
-        Frank Rowand <frowand.list@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+        Simon Horman <horms@verge.net.au>
+Subject: RE: [PATCH 00/10] usb: Add host and device support for RZ/A2
+Thread-Topic: [PATCH 00/10] usb: Add host and device support for RZ/A2
+Thread-Index: AQHVBGYHqBe7JTZ/4k2vKamrKGugU6ZfYQSw
+Date:   Tue, 7 May 2019 09:17:16 +0000
+Message-ID: <OSBPR01MB317442B092744C8D312682DCD8310@OSBPR01MB3174.jpnprd01.prod.outlook.com>
+References: <20190506234631.113226-1-chris.brandt@renesas.com>
+In-Reply-To: <20190506234631.113226-1-chris.brandt@renesas.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [118.238.235.108]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c51c267f-b69d-4c08-2bb0-08d6d2cccd4c
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB3174;
+x-ms-traffictypediagnostic: OSBPR01MB3174:
+x-microsoft-antispam-prvs: <OSBPR01MB3174E3D2D70EFCF0D2D88299D8310@OSBPR01MB3174.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4714;
+x-forefront-prvs: 0030839EEE
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(136003)(39860400002)(346002)(396003)(366004)(199004)(189003)(76116006)(6436002)(4326008)(6636002)(305945005)(9686003)(25786009)(64756008)(66446008)(73956011)(229853002)(66556008)(66476007)(66946007)(11346002)(476003)(7736002)(4744005)(446003)(86362001)(6116002)(52536014)(74316002)(3846002)(316002)(54906003)(71200400001)(71190400001)(486006)(6862004)(6506007)(99286004)(66066001)(68736007)(102836004)(53936002)(76176011)(7696005)(55016002)(478600001)(81166006)(81156014)(8676002)(14454004)(8936002)(14444005)(26005)(186003)(6246003)(33656002)(256004)(2906002)(5660300002);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB3174;H:OSBPR01MB3174.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: qDl3W9fa35g7ubNRHL7NJ8Cv/MRtDTXBNRWjMexuPLXSVvi3/WSa+MJRDwNiudQ/CbouxAm+RuApf7u0i22/fB2WQhX4XVM5irvVaqbFU7DrVP1dGF/fMUB08srx/6OV/o8XQvCyeFCY+1z7r6MiN2bSRUUhsNyTfakCrumu9AKGN4TK2fAUNIUzZ4RvhF8t03xwUQPzABKA4pqvFqzet6fnjx3UYcU72xo0FWXZfFk50bA0B0YxRFWTCyrPd1cPNOqqa5X5OzCa9ffGoqXBjbQGh67sRCnSaCSCGqgN8t74dH1XtF7QLeDV9cnh//zT+OW4j5DlGhOjQSzY+Cyu+0n1+a5zmlxuhP54z0GKLCMbUyzdcQ/9hGKVVD6EsoztT4gqDSgu9TzFihRhSlHwCZ8aXewrjicUy1onEvT3R4o=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c51c267f-b69d-4c08-2bb0-08d6d2cccd4c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 May 2019 09:17:17.4343
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB3174
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Petr,
+Hi Chris-san,
 
-On Mon, May 6, 2019 at 11:25 PM Petr Štetiar <ynezz@true.cz> wrote:
-> this patch series is an attempt to fix the mess, I've somehow managed to
-> introduce.
->
-> First patch in this series is defacto v5 of the previous 05/10 patch in the
-> series, but since the v4 of this 05/10 patch wasn't picked up by the
-> patchwork for some unknown reason, this patch wasn't applied with the other
-> 9 patches in the series, so I'm resending it as a separate patch of this
-> fixup series again.
->
-> Second patch is a result of this rebase against net-next tree, where I was
-> checking again all current users of of_get_mac_address and found out, that
-> there's new one in DSA, so I've converted this user to the new ERR_PTR
-> encoded error value as well.
->
-> Third patch which was sent as v5 wasn't considered for merge, but I still
-> think, that we need to check for possible NULL value, thus current IS_ERR
-> check isn't sufficient and we need to use IS_ERR_OR_NULL instead.
->
-> Fourth patch fixes warning reported by kbuild test robot.
->
-> Cheers,
->
-> Petr
->
-> Petr Štetiar (4):
->   net: ethernet: support of_get_mac_address new ERR_PTR error
+> From: Chris Brandt, Sent: Tuesday, May 7, 2019 8:46 AM
+>=20
+> For the most part, the RZ/A2 has the same USB 2.0 host and device
+> HW as the R-Car Gen3, so we can reuse a lot of the code.
+>=20
+> However, there are a couple extra register bits, and the CFIFO
+> register 8-bit access works a little different (weird, no idea why).
 
-I didn't receive the patch through email, but patchwork does have it:
-https://patchwork.ozlabs.org/patch/1096054/
+This is just my gut feeling, but if we set the BIGEND bit in the CFIFOSEL
+of RZ/A2M (R-Car Gen3 doesn't have such a bit though), could the original
+code work correctly?
 
-This fixes the crash ("Unable to handle kernel paging request atvirtual
-address fffffffe") I'm seeing with sh_eth on r8a7791/koelsch, so
+Best regards,
+Yoshihiro Shimoda
 
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
