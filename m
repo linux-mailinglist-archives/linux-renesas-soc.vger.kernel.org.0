@@ -2,110 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 32397162CA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 May 2019 13:27:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CA3E16303
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 May 2019 13:45:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725843AbfEGL1A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 May 2019 07:27:00 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:43723 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726491AbfEGL1A (ORCPT
+        id S1726145AbfEGLpI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 May 2019 07:45:08 -0400
+Received: from mail-eopbgr1410132.outbound.protection.outlook.com ([40.107.141.132]:45664
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725859AbfEGLpI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 May 2019 07:27:00 -0400
-Received: by mail-lj1-f193.google.com with SMTP id z5so8867127lji.10
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 May 2019 04:26:59 -0700 (PDT)
+        Tue, 7 May 2019 07:45:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=xV8FmRO0mWj0sIWzs8w528CN5pgK4MkoZyjFAB8G938=;
-        b=VBZH/ntr8Lrq0CS1e8dKbZ1fl/tEiwIzVzUI5J4bVKg/Dsa39Mv9BAGsEEzap6xfHK
-         Qb6INYm7uQ9IbwR4f5K6D7WreCssqyadlmnFYBQXM3xoioUcQirSlYe7h4Ov1t69tB7f
-         PUd2qJ3n7Im+/0fPzs1oSWnAVNiXGwBejxugiJ7Q0YiuQ5YuoH3S2TONda2rXryJXNH8
-         chhUpcIP1SBWX6jWrHIXOthiwx0xSg7D8zGftWoi874SOvEGq+WHk1Ni6exqrk8zsWKC
-         bfYguGs5N4CgKxV4hQPiOiUEVTk8N8Z2pj3XnnejNFOaorPSr4Nq3hbhNlI8Yphs1cVZ
-         IGzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=xV8FmRO0mWj0sIWzs8w528CN5pgK4MkoZyjFAB8G938=;
-        b=kEW9z94Z1QDmMWl3I9VXT87y8R54vZXQr/zUoKy8PvoLGO8PBXawkuCAo/kqHtv6Rd
-         399sta/JqVYNQ6h7Um7a7MY78ctO0BqAGnMBSd0JOTIan+8AwR5kQl8niQ9kEwuL1hss
-         8vpxND2kh1kjPnpOyuutrH5a41GKmLmZQKXEyA85DHS444XwiW6YoO8rOKNgOYS9K9EX
-         +HKNK37Y8w9oSvAOh7iSId+bNxjjSiZp2JOuBuzJqDVzLGFzSaTvBXea7o4VS91VomUO
-         ffx3anDEI364d8tbLMr0SbNyiywCnpTBB2xkxyj3G2N/NcMn7+U9s8nDS0wrFUcnunXK
-         JZiw==
-X-Gm-Message-State: APjAAAV10W6+r257eTZs3NhCkR3A5CQY49Y/+/v7E/KfvXMxWtV9LmV1
-        OoY25N9fVKsB21zj/CzFH4KfTs0ro9Q=
-X-Google-Smtp-Source: APXvYqz7/q0HrA+enq57C03Bh8QEwF/xYs+9MirAZyg5MZwpUjo0uGaletHd+B7eTbtcq4vvCIhYLw==
-X-Received: by 2002:a2e:834d:: with SMTP id l13mr17754067ljh.97.1557228418531;
-        Tue, 07 May 2019 04:26:58 -0700 (PDT)
-Received: from wasted.cogentembedded.com ([31.173.80.88])
-        by smtp.gmail.com with ESMTPSA id r5sm3402837ljh.27.2019.05.07.04.26.57
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 07 May 2019 04:26:57 -0700 (PDT)
-Subject: Re: [PATCH 03/10] phy: renesas: rcar-gen3-usb2: Check dr_mode when
- not using OTG
-To:     Chris Brandt <chris.brandt@renesas.com>,
+ d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zKqeSS0GluXOv71G3LAm6YEFWzUueL6NboLE9ADue84=;
+ b=L0HNKINqh+HfsIDPftcgVwuXaBokJDW3ZflSA2hiAYrM9/BjCXKq1J1bTUHhlnwgRx9egOrMp6AAKmCWumOK3inUNKwK6/YGaoLWXPoCGtWWzL4MVfWitLErYO9YvDuT5OeAsFU5Npufszb+qbeyiNaYS346b9jVxLtfSh7M9zI=
+Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com (52.133.163.12) by
+ TY1PR01MB1577.jpnprd01.prod.outlook.com (52.133.162.21) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1856.12; Tue, 7 May 2019 11:45:04 +0000
+Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com
+ ([fe80::99cf:c94c:d11f:c2f0]) by TY1PR01MB1562.jpnprd01.prod.outlook.com
+ ([fe80::99cf:c94c:d11f:c2f0%5]) with mapi id 15.20.1856.012; Tue, 7 May 2019
+ 11:45:04 +0000
+From:   Chris Brandt <Chris.Brandt@renesas.com>
+To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Simon Horman <horms@verge.net.au>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
+CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH 03/10] phy: renesas: rcar-gen3-usb2: Check dr_mode when
+ not using OTG
+Thread-Topic: [PATCH 03/10] phy: renesas: rcar-gen3-usb2: Check dr_mode when
+ not using OTG
+Thread-Index: AQHVBGYbvpIQ5ioroEGpDalH9Ovnd6ZfhsEAgAAEBrA=
+Date:   Tue, 7 May 2019 11:45:04 +0000
+Message-ID: <TY1PR01MB1562550164C7977D28C90F128A310@TY1PR01MB1562.jpnprd01.prod.outlook.com>
 References: <20190506234631.113226-1-chris.brandt@renesas.com>
  <20190506234631.113226-4-chris.brandt@renesas.com>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Organization: Cogent Embedded
-Message-ID: <17bcc673-5fed-ce4f-3d61-af34bfa5d769@cogentembedded.com>
-Date:   Tue, 7 May 2019 14:26:56 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
+ <17bcc673-5fed-ce4f-3d61-af34bfa5d769@cogentembedded.com>
+In-Reply-To: <17bcc673-5fed-ce4f-3d61-af34bfa5d769@cogentembedded.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Chris.Brandt@renesas.com; 
+x-originating-ip: [75.60.247.61]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 496594e5-7082-4b6b-55b5-08d6d2e17258
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:TY1PR01MB1577;
+x-ms-traffictypediagnostic: TY1PR01MB1577:
+x-microsoft-antispam-prvs: <TY1PR01MB1577035F7D1D9E577531B35C8A310@TY1PR01MB1577.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 0030839EEE
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(346002)(136003)(396003)(376002)(39860400002)(199004)(189003)(256004)(4744005)(86362001)(186003)(6506007)(73956011)(66446008)(7736002)(6116002)(64756008)(66946007)(66556008)(66476007)(14454004)(76116006)(99286004)(55016002)(476003)(71190400001)(26005)(76176011)(7696005)(446003)(102836004)(71200400001)(11346002)(66066001)(9686003)(486006)(72206003)(25786009)(33656002)(6246003)(54906003)(110136005)(6436002)(478600001)(68736007)(2906002)(4326008)(316002)(74316002)(229853002)(305945005)(3846002)(53936002)(81156014)(81166006)(8936002)(52536014)(8676002)(6636002)(5660300002);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1577;H:TY1PR01MB1562.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: WgF3bYDr3rSQUvVUJ2hqGVvD5dBeEGUrdvgrcD+HYdSyHXn4t8VNNZGZMLQkIvlNuBtwBibEkPkkqyadDgxtt00Rqh6lDrPadorj5QiEvdUJPN/KxT/y5je0NuU+4fNsBYS0GSoqzviUbOw597u0NN5mFyhWfEyKkap5tmgG9TrqyHfFiWHWWFPFevRWDA+1bRBuQeDy6tYyJ8G3bhMopTry2fPYadhf0d5Y3IPbm3VvTFyTIvjpqum01FUpnVVRMxI6MWsxFvOsM+oqIRAZoE2AJiBzplPZ/7Bw804sga0JJqP6akqHhafLPN/Rsz81buemW5TGqc2gF6ynXd7JAgBouIUm4k3JbEqV5DVnuAa0/AKrYOL5RK7Pvvl5OTGOaQpuvHMytVIv6CcsSxbPZa24DU9LBGhvl/GEd0LYAq8=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <20190506234631.113226-4-chris.brandt@renesas.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 496594e5-7082-4b6b-55b5-08d6d2e17258
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 May 2019 11:45:04.4087
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1577
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 05/07/2019 02:46 AM, Chris Brandt wrote:
-
-> When not using OTG, the PHY will need to know if it should function as
-> host or peripheral by checking dr_mode in the PHY node (not the parent
-> controller node).
-> 
-> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
-> ---
->  drivers/phy/renesas/phy-rcar-gen3-usb2.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-> index 218b32e458cb..4eaa228ebd30 100644
-> --- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-> +++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-> @@ -408,7 +408,12 @@ static int rcar_gen3_phy_usb2_init(struct phy *p)
->  		if (rcar_gen3_needs_init_otg(channel))
->  			rcar_gen3_init_otg(channel);
->  		rphy->otg_initialized = true;
-> -	}
-> +	} else
-
-   Wait, don't we neeed {} here?
-
-> +		/* Not OTG, so dr_mode should be set in PHY node */
-> +		if (usb_get_dr_mode(channel->dev) == USB_DR_MODE_PERIPHERAL)
-> +			writel(0x80000000, usb2_base + USB2_COMMCTRL);
-> +		else
-> +			writel(0x00000000, usb2_base + USB2_COMMCTRL);
->  
->  	rphy->initialized = true;
->  
-
-MBR, Sergei
+T24gVHVlLCBNYXkgMDcsIDIwMTksIFNlcmdlaSBTaHR5bHlvdiB3cm90ZToNCj4gPiAtLS0gYS9k
+cml2ZXJzL3BoeS9yZW5lc2FzL3BoeS1yY2FyLWdlbjMtdXNiMi5jDQo+ID4gKysrIGIvZHJpdmVy
+cy9waHkvcmVuZXNhcy9waHktcmNhci1nZW4zLXVzYjIuYw0KPiA+IEBAIC00MDgsNyArNDA4LDEy
+IEBAIHN0YXRpYyBpbnQgcmNhcl9nZW4zX3BoeV91c2IyX2luaXQoc3RydWN0IHBoeSAqcCkNCj4g
+PiAgCQlpZiAocmNhcl9nZW4zX25lZWRzX2luaXRfb3RnKGNoYW5uZWwpKQ0KPiA+ICAJCQlyY2Fy
+X2dlbjNfaW5pdF9vdGcoY2hhbm5lbCk7DQo+ID4gIAkJcnBoeS0+b3RnX2luaXRpYWxpemVkID0g
+dHJ1ZTsNCj4gPiAtCX0NCj4gPiArCX0gZWxzZQ0KPiANCj4gICAgV2FpdCwgZG9uJ3Qgd2UgbmVl
+ZWQge30gaGVyZT8NCj4gDQo+ID4gKwkJLyogTm90IE9URywgc28gZHJfbW9kZSBzaG91bGQgYmUg
+c2V0IGluIFBIWSBub2RlICovDQo+ID4gKwkJaWYgKHVzYl9nZXRfZHJfbW9kZShjaGFubmVsLT5k
+ZXYpID09IFVTQl9EUl9NT0RFX1BFUklQSEVSQUwpDQo+ID4gKwkJCXdyaXRlbCgweDgwMDAwMDAw
+LCB1c2IyX2Jhc2UgKyBVU0IyX0NPTU1DVFJMKTsNCj4gPiArCQllbHNlDQo+ID4gKwkJCXdyaXRl
+bCgweDAwMDAwMDAwLCB1c2IyX2Jhc2UgKyBVU0IyX0NPTU1DVFJMKTsNCg0KVGVjaG5pY2FsbHkg
+dGhlcmUgaXMgb25seSAxIHN0YXRlbWVudCBhZnRlciB0aGUgZWxzZSAodGhlICdpZicgd2hpY2gg
+DQp3aWxsIGFsc28gaW5jbHVkZSB0aGUgJ2Vsc2UnKSBzdGF0ZW1lbnQuIFRoZSBjb2RpbmcgcnVs
+ZXMgc2F5IG5vdCB0byB1c2UNCnsgfSBpZiB0aGVyZSBpcyBvbmx5IDEgc3RhdGVtZW50Lg0KDQoN
+CkNocmlzDQo=
