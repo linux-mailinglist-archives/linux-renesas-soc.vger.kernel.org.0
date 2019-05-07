@@ -2,98 +2,144 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D9EE1670E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 May 2019 17:43:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB3E316736
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 May 2019 17:53:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726420AbfEGPnl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 May 2019 11:43:41 -0400
-Received: from mail-eopbgr1400127.outbound.protection.outlook.com ([40.107.140.127]:24255
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726197AbfEGPnk (ORCPT
+        id S1726000AbfEGPxX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 May 2019 11:53:23 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:36175 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726438AbfEGPxW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 May 2019 11:43:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dKMtoATgtUcoCWs1l/eRd/Zu8c9ZUUvOIhhYQocvYCM=;
- b=nxyfQQ7EiZmfFDhi4pU0o//gw8bDY0yqr81HpdfR/SYCfg1EEysTGGeD3Mutr55Uo9rgz8Wwca44A1DDE0racP4hGeT9WGHu9N3dSi41pANzt/rPhrFRCjnlhtmUsfW995QjJp6QsPLXuq8cia+6XLzi2FNp241zOLpPe0yYLVI=
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com (52.133.163.12) by
- TY1PR01MB1625.jpnprd01.prod.outlook.com (52.133.162.147) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1856.10; Tue, 7 May 2019 15:43:32 +0000
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::99cf:c94c:d11f:c2f0]) by TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::99cf:c94c:d11f:c2f0%5]) with mapi id 15.20.1856.012; Tue, 7 May 2019
- 15:43:32 +0000
-From:   Chris Brandt <Chris.Brandt@renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Simon Horman <horms@verge.net.au>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        USB list <linux-usb@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 01/10] phy: renesas: rcar-gen3-usb2: Add uses_usb_x1
- option
-Thread-Topic: [PATCH 01/10] phy: renesas: rcar-gen3-usb2: Add uses_usb_x1
- option
-Thread-Index: AQHVBGYQ+cfCaNX+ik+H7Wxy1mef+qZfTXmAgAB2sVA=
-Date:   Tue, 7 May 2019 15:43:32 +0000
-Message-ID: <TY1PR01MB15621F21D3A3F1F550D85CD68A310@TY1PR01MB1562.jpnprd01.prod.outlook.com>
-References: <20190506234631.113226-1-chris.brandt@renesas.com>
- <20190506234631.113226-2-chris.brandt@renesas.com>
- <CAMuHMdV3yW44Y1D2Vn1mNJK8pNF3db20An9Sde8=18r8y7m9LQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdV3yW44Y1D2Vn1mNJK8pNF3db20An9Sde8=18r8y7m9LQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Chris.Brandt@renesas.com; 
-x-originating-ip: [24.206.39.126]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 893746e1-148b-43cf-bc97-08d6d302c276
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:TY1PR01MB1625;
-x-ms-traffictypediagnostic: TY1PR01MB1625:
-x-microsoft-antispam-prvs: <TY1PR01MB16250015BBCFAF9335E54EA18A310@TY1PR01MB1625.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0030839EEE
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(136003)(396003)(366004)(376002)(346002)(39860400002)(199004)(189003)(5660300002)(76116006)(52536014)(8676002)(81156014)(81166006)(55016002)(9686003)(6436002)(73956011)(229853002)(54906003)(71200400001)(71190400001)(25786009)(66946007)(8936002)(11346002)(102836004)(6506007)(68736007)(53936002)(486006)(66476007)(66556008)(64756008)(4326008)(66446008)(6246003)(446003)(476003)(26005)(186003)(478600001)(3846002)(6116002)(72206003)(66066001)(4744005)(316002)(256004)(7736002)(14454004)(2906002)(7696005)(6916009)(74316002)(305945005)(33656002)(99286004)(76176011)(86362001);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1625;H:TY1PR01MB1562.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: JVQSi1TO9szOJE09e7dY7jQJ+6p7wuacx6/tzAbtUzLMH3oRY5FGwLcQyxCyzXbWmvitT8dNKmsfP7nj9iuaXplUP4wveOToPvNQd2YjWnCVmLHUx7y+c1ysF9GfJFOlGjFABpn+Uhu/8pbliUDveKpgKUR3tVgmUloA8TSH3F/hFpvLkAm4hdsyEnYmeGKm6GYspvawTCuRJHhJB8eWRyWufnDqiHl3KJ0QaVZtEZMs+vaQaEpiFULJxENngfzlNq+wfvU+VdRGPDKaIVeJrtnGNLLvJD8XgZvDQGMOulVZWugIytGfsRqWCa/J8WMqAnRi+zY01hSwxfGLLgonBnjLSZS9fEY7xQ8+UzkHZqGsTo+LNM4bPpiMZTV/cEjPvmiI/OYzb9EGQSXe/FkHHZ9/nopM78xPTLoLps2hopY=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Tue, 7 May 2019 11:53:22 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 1E7563C00C6;
+        Tue,  7 May 2019 17:53:19 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id x2Q3CB0eSUnE; Tue,  7 May 2019 17:53:12 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 09FA93C004C;
+        Tue,  7 May 2019 17:53:12 +0200 (CEST)
+Received: from vmlxhi-102.adit-jv.com (10.72.93.184) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.439.0; Tue, 7 May 2019
+ 17:53:11 +0200
+Date:   Tue, 7 May 2019 17:53:08 +0200
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Marek Vasut <marek.vasut@gmail.com>
+CC:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        <u-boot@lists.denx.de>, <linux-renesas-soc@vger.kernel.org>,
+        Michael Dege <michael.dege@renesas.com>,
+        Gotthard Voellmeke <gotthard.voellmeke@renesas.com>,
+        Adam Bass <adam.bass@renesas.com>,
+        Bastian Farkas <bfarkas@de.adit-jv.com>,
+        Tobias Franzen <tfranzen@de.adit-jv.com>,
+        Philipp Ahmann <pahmann@de.adit-jv.com>,
+        Simon Maleyka <smaleyka@de.adit-jv.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>
+Subject: Re: Automated/remote flashing of R-Car3
+Message-ID: <20190507155308.GA1600@vmlxhi-102.adit-jv.com>
+References: <20190507104115.GA27355@vmlxhi-102.adit-jv.com>
+ <79ae01fb-6945-05c5-a08d-92aaffeaa6f0@gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 893746e1-148b-43cf-bc97-08d6d302c276
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 May 2019 15:43:32.3349
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1625
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <79ae01fb-6945-05c5-a08d-92aaffeaa6f0@gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.72.93.184]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgR2VlcnQsDQoNCk9uIFR1ZSwgTWF5IDA3LCAyMDE5LCBHZWVydCBVeXR0ZXJob2V2ZW4gd3Jv
-dGU6DQo+ID4gKyAgICAgICBpZiAob2ZfcHJvcGVydHlfcmVhZF9ib29sKGRldi0+b2Zfbm9kZSwg
-InJlbmVzYXMsdXNlc191c2JfeDEiKSkNCj4gPiArICAgICAgICAgICAgICAgY2hhbm5lbC0+dXNl
-c191c2JfeDEgPSB0cnVlOw0KPiA+ICsNCj4gDQo+IFBlcmhhcHMgdGhpcyBjYW4gYmUgY2hlY2tl
-ZCBzb21lIG90aGVyIHdheSAoZS5nLiBieSBjaGVja2luZyBmb3IgYSBub24tDQo+IHplcm8NCj4g
-Y2xvY2sgcmF0ZSBvZiB0aGUgVVNCX1gxIGNsb2NrIHJlZmVyZW5jZWQgZnJvbSBEVCksIHRodXMg
-cmVtb3ZpbmcgdGhlIG5lZWQNCj4gZm9yDQo+IGFkZGluZyBhIGN1c3RvbSBwcm9wZXJ0eT8NCg0K
-Q3VycmVudGx5LCB0aGVyZSBpcyBubyBVU0JfWDEgaW4gRFQgbGlrZSB0aGVyZSBpcyBmb3IgUlov
-QTEuDQoNCkZvciBSWi9BMiwgdGhvc2UgYXJlIGRlZGljYXRlZCBwaW5zIHRoYXQgYmVsb25nIHRv
-IHRoZSBVU0IgSFcgYmxvY2sgDQppdHNlbGYuIFRoZXkgZG8gbm90IGZlZWQgaW50byB0aGUgc3lz
-dGVtIENQRyBvciBhbnkgZGl2aWRlcnMsIHNvIEkNCm5ldmVyIGluY2x1ZGVkIGl0IGluIHRoZSAu
-ZHRzaS4NCg0KU28gd2l0aCB0aGF0IHNhaWQsIGRvZXMgYSB1c2VzLXVzYi14MSBwcm9wZXJ0eSBt
-YWtlIG1vcmUgc2Vuc2U/DQoNCg0KQ2hyaXMNCg==
+Hi Marek,
+
+Thanks for the swift reply and for the useful references/links.
+
+On Tue, May 07, 2019 at 03:23:12PM +0200, Marek Vasut wrote:
+> On 5/7/19 12:41 PM, Eugeniu Rosca wrote:
+> > Dear Marek, dear Kieran,
+> 
+> Hi,
+> 
+> [...]
+> 
+> > 1.c Use OpenOCD
+> > + Presumably same advantages as using a Lauterbach
+> > + Based on Kieran's https://github.com/kbingham/renesas-jtag
+> >   and on Adam's https://github.com/ntfreak/openocd/commit/1afec4f561392
+> >   the solution is currently in use.
+> > ? Any ideas on the model/price of the JTAG adapter?
+> 
+> Any FT2232H (the H is important, due to MPSSE) works.
+> I like Flyswatter2 from TinCanTools.
+> 
+> > ? Not tested. Any patches needed on top of vanilla OpenOCD?
+> 
+> http://openocd.zylin.com/5149 and related ones, it adds RPC HF support.
+> However, there are two problems with this:
+> 1) Even with buffered write, the programming is slow
+>    - This could be improved by running code on one of the Gen3 CPUs
+>      instead of whacking registers via JTAG adapter. I believe that's
+>      what lauterbach and everyone else does too. The data upload to
+>      SRAM/DRAM is fast via JTAG, register IO is not great.
+> 2) LifeC locks the RPC HF access
+>    - This is a problem, since the JTAG probe cannot access it once
+>      it's locked. There might be a way around it, but it's rather
+>      nasty -- use boundary scan test mode to either flip MD pins or
+>      access the HF bus directly and bitbang at least erase command
+>      to wipe the first few sectors, then reset the CPU and have it
+>      drop to SCIF loader mode, then stop the CPU and reprogram the
+>      HF (since the SCIF loader runs in EL3 and does not touch the
+>      lifec settings.
+> 
+> Neither of 1) and 2) is implemented, but can be implemented if there is
+> interest.
+
+1) looks like a performance issue to me (suboptimal flashing time).
+To be honest, I don't think this is a deal-breaker, assuming that
+erasing/re-writing the whole 64MiB HF doesn't exceed ~10-15min.
+It is also my understanding this is subject of future optimization.
+
+2) looks like a functional issue (insufficient permission to
+write-access HF). To make things clear, could you please stress if
+http://openocd.zylin.com/5149 already allows updating ATF/U-Boot/OPTEE
+on HF of R-Car Gen3 or is it still awaiting some fixes?
+
+> 
+> > 1.d. Use CPLD Configurator
+> > + H3_M3_StarterKit_Configurator.exe is a Windows tool shipped by
+> >   Renesas, hence readily available, which allows to modify the MD
+> >   pins, to conveniently switch between QSPI/Hyperflash/SCIF
+> >   boot mode from a GUI
+> > + Most of the advantages pointed out above
+> > - ULCB-only solution (i.e. does not apply to Salvator-X)
+> > - Requires a Windows host
+> 
+> Where can I obtain this and are there sources / documentation available?
+
+I am able to find below related package freely available:
+https://elinux.org/File:H3_StarterKit_CPLD_Update_20190408.zip
+
+Unfortunately, it doesn't include H3_M3_StarterKit_Configurator.exe.
+The user who uploaded the file is https://elinux.org/User:RenesasJa.
+Are you aware of any messaging/commenting feature on elinux.org?
+If not, I hope Michael (CC-ed) can answer your question. Hopefully
+he sees this message. If not, I can forward your question to him via
+mantis.
+
+Thank you!
+
+> 
+> -- 
+> Best regards,
+> Marek Vasut
+
+-- 
+Best Regards,
+Eugeniu.
