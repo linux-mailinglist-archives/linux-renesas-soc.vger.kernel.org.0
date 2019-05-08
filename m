@@ -2,84 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 415F917CF7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2019 17:21:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5266517D9F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2019 17:59:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726545AbfEHPVm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 May 2019 11:21:42 -0400
-Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.216]:13560 "EHLO
-        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726163AbfEHPVm (ORCPT
+        id S1727133AbfEHP7G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 May 2019 11:59:06 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:36628 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726703AbfEHP7G (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 May 2019 11:21:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1557328900;
-        s=strato-dkim-0002; d=fpond.eu;
-        h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
-        Subject:Sender;
-        bh=PqBZE6NhWzosKKTY8fgyr23SwEQXuP4OhdOutYbtHlU=;
-        b=HOv8Yx4sy1h+yO0vk80Yw3KE7UyfOgLTFm3TfTAWUXrlvBSW107JBnTnlZyWrfoAyp
-        saQuNqjkhDHygZ9otVFeIZxmKEPK1b9UX94VjwpOv/vsYxTV6T5X02JQ+SD6H8TkSr0s
-        A/GRpO4BCkzcrGG0HwxLtkjA6U+vlMGnevxsuyfrsE15iLlF+9OnLScSQmbW14fmrz6n
-        dtzl4eW8uefKLhIvkA7DRdFj7+h1yKF2j2BCjsTic/R/jHdBoBg+3aMhkI3nb8QLGnUF
-        /G808NiP1r4KNWlpPrQ/e1LXfX3Ni3yjME+MqE6saTs2L1offJLuW8W1rj5Sgv6sAO0/
-        xN/A==
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73dmm4I5W0/AvA67Ot4fvR82Fdd8U4C/c="
-X-RZG-CLASS-ID: mo00
-Received: from groucho.site
-        by smtp.strato.de (RZmta 44.18 DYNA|AUTH)
-        with ESMTPSA id y08c83v48FLNUG2
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA (curve secp521r1 with 521 ECDH bits, eq. 15360 bits RSA))
-        (Client did not present a certificate);
-        Wed, 8 May 2019 17:21:23 +0200 (CEST)
-From:   Ulrich Hecht <uli+renesas@fpond.eu>
-To:     linux-renesas-soc@vger.kernel.org
+        Wed, 8 May 2019 11:59:06 -0400
+Received: by mail-lf1-f67.google.com with SMTP id y10so8255886lfl.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 May 2019 08:59:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=D4tDI8tlLsvbZ7IxR+qMD+wAbYd3MY+S7ZR3jjkUEmg=;
+        b=0AYB0WqhHteO8x7C6zgnenXbebeWGk1MzVTGXvdQqIim5JlCNkyeSyR81iHDabWImd
+         ZRI3AshOafrAsfCctHw9TabnVGnry0cRl6X9DKj0FjtEoHbuNo0Xopg9f3cvbyjkBM6S
+         +7w505lxuEj3giayIWKa/gSL4PTxoQKGoJBvdd2dxHbGt9ag1GEkFS3Uawnimc1ABcLs
+         Zyc/zw+YyGubronE1pr9EUVzF8FfcSJtS/QJjzjqrvYbi0Bbe4+zcTtr3wEAQvzAa22z
+         N4gtU48/SbHnYIjChpnMisnGJmM+2ptdgLk4zr8weQR+G2tfDugH7RslY0hRBl/g4Xkx
+         2/Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=D4tDI8tlLsvbZ7IxR+qMD+wAbYd3MY+S7ZR3jjkUEmg=;
+        b=HTPwHOE+Kw1sg2kQT43XpsopxkiOpJjiFhQbFzdgmvDg9P9xApwi+Kk3o1hVzkk1uS
+         GBDcaMHm4lqc7PT5DDVIKrrNXC5DxHc+qVuO4QcrrgtHyDy9M/DZu+A8a61cfWrTUS1J
+         KoyXL/1nJJpom3gegXrQTAiEkccvoYzwRpdCPGK9ldFq7v0cW4qgOE6NttNPLQINYY0/
+         1hjnjTm7CYmWUzUahsYOKn6yt62/LFwpYz8z+uUdu1ciGPe2uSiVhTVZc01U7Zk0uyhs
+         rUINkiMS/AWgUL2gfRWDfe5GnjjBQQq5j/i/FTp14Yvw544mDAXD839BmO/0XuI5QEb8
+         ZeVw==
+X-Gm-Message-State: APjAAAWCyuXRL4MIXoDWl2iTm+JP9u2TiK92esf4K3RLGL8gUER2LUpq
+        K4P8pYHg01bbvfkckjd/UcSzOA==
+X-Google-Smtp-Source: APXvYqxqrWzjM77lxJkaDBxNKVASpMWaQcjEGGNDHPmRAymV58YFRd0Vu/eo16cZVgtCWOlXHQDQ6g==
+X-Received: by 2002:a19:e619:: with SMTP id d25mr9994771lfh.66.1557331144272;
+        Wed, 08 May 2019 08:59:04 -0700 (PDT)
+Received: from wasted.cogentembedded.com ([31.173.83.184])
+        by smtp.gmail.com with ESMTPSA id q6sm4090376lff.26.2019.05.08.08.59.02
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 08 May 2019 08:59:02 -0700 (PDT)
+Subject: Re: [PATCH] ravb: implement MTU change while device is up
+To:     Ulrich Hecht <uli+renesas@fpond.eu>,
+        linux-renesas-soc@vger.kernel.org
 Cc:     netdev@vger.kernel.org, davem@davemloft.net, wsa@the-dreams.de,
-        horms@verge.net.au, magnus.damm@gmail.com,
-        Ulrich Hecht <uli+renesas@fpond.eu>
-Subject: [PATCH] ravb: implement MTU change while device is up
-Date:   Wed,  8 May 2019 17:21:22 +0200
-Message-Id: <1557328882-24307-1-git-send-email-uli+renesas@fpond.eu>
-X-Mailer: git-send-email 2.7.4
+        horms@verge.net.au, magnus.damm@gmail.com
+References: <1557328882-24307-1-git-send-email-uli+renesas@fpond.eu>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Organization: Cogent Embedded
+Message-ID: <1f7be29e-c85a-d63d-c83f-357a76e8ca45@cogentembedded.com>
+Date:   Wed, 8 May 2019 18:59:01 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <1557328882-24307-1-git-send-email-uli+renesas@fpond.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Uses the same method as various other drivers: shut the device down,
-change the MTU, then bring it back up again.
+Hello!
 
-Tested on Renesas D3 Draak board.
+On 05/08/2019 06:21 PM, Ulrich Hecht wrote:
 
-Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
----
- drivers/net/ethernet/renesas/ravb_main.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+> Uses the same method as various other drivers: shut the device down,
+> change the MTU, then bring it back up again.
+> 
+> Tested on Renesas D3 Draak board.
+> 
+> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index ef8f089..02c247c 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -1810,13 +1810,16 @@ static int ravb_do_ioctl(struct net_device *ndev, struct ifreq *req, int cmd)
- 
- static int ravb_change_mtu(struct net_device *ndev, int new_mtu)
- {
--	if (netif_running(ndev))
--		return -EBUSY;
-+	if (!netif_running(ndev)) {
-+		ndev->mtu = new_mtu;
-+		netdev_update_features(ndev);
-+		return 0;
-+	}
- 
-+	ravb_close(ndev);
+   You should have CC'ed me (as an reviewer for the Renesas drivers).
+
+> ---
+>  drivers/net/ethernet/renesas/ravb_main.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+
+   What about sh_eth?
+
+> 
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
+> index ef8f089..02c247c 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -1810,13 +1810,16 @@ static int ravb_do_ioctl(struct net_device *ndev, struct ifreq *req, int cmd)
+>  
+>  static int ravb_change_mtu(struct net_device *ndev, int new_mtu)
+>  {
+> -	if (netif_running(ndev))
+> -		return -EBUSY;
+> +	if (!netif_running(ndev)) {
+> +		ndev->mtu = new_mtu;
+> +		netdev_update_features(ndev);
+> +		return 0;
+> +	}
+>  
+> +	ravb_close(ndev);
+>  	ndev->mtu = new_mtu;
+> -	netdev_update_features(ndev);
+>  
+> -	return 0;
+> +	return ravb_open(ndev);
+
+   How about the code below instead?
+
+	if (netif_running(ndev))
+		ravb_close(ndev);
+
  	ndev->mtu = new_mtu;
--	netdev_update_features(ndev);
- 
--	return 0;
-+	return ravb_open(ndev);
- }
- 
- static void ravb_set_rx_csum(struct net_device *ndev, bool enable)
--- 
-2.7.4
+	netdev_update_features(ndev);
 
+	if (netif_running(ndev))
+		return ravb_open(ndev);
+
+	return 0;
+
+[...]
+
+MBR, Sergei
