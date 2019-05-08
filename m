@@ -2,21 +2,21 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 049C717F20
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2019 19:33:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AB9217F21
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2019 19:33:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728982AbfEHRdu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 May 2019 13:33:50 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:58361 "EHLO
+        id S1729002AbfEHRdv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 May 2019 13:33:51 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:57131 "EHLO
         relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728655AbfEHRdt (ORCPT
+        with ESMTP id S1728887AbfEHRdv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 May 2019 13:33:49 -0400
+        Wed, 8 May 2019 13:33:51 -0400
 X-Originating-IP: 93.56.79.2
 Received: from uno.localdomain (unknown [93.56.79.2])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id E09FA1BF203;
-        Wed,  8 May 2019 17:33:46 +0000 (UTC)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 31D361BF20A;
+        Wed,  8 May 2019 17:33:48 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
 To:     laurent.pinchart@ideasonboard.com,
         linux-renesas-soc@vger.kernel.org
@@ -24,9 +24,9 @@ Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         VenkataRajesh.Kalakodima@in.bosch.com,
         Harsha.ManjulaMallikarjun@in.bosch.com,
         Jacopo Mondi <jacopo@jmondi.org>
-Subject: [RFC 3/9] [TODO] drm: rcar-du: Add basic support for CMM
-Date:   Wed,  8 May 2019 19:34:22 +0200
-Message-Id: <20190508173428.22054-4-jacopo+renesas@jmondi.org>
+Subject: [RFC 4/9] drm: rcar-du: kms: Create CMM instances
+Date:   Wed,  8 May 2019 19:34:23 +0200
+Message-Id: <20190508173428.22054-5-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190508173428.22054-1-jacopo+renesas@jmondi.org>
 References: <20190508173428.22054-1-jacopo+renesas@jmondi.org>
@@ -37,172 +37,167 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add a driver skeleton for the R-Car Display Unit Color Correction
-Module.
+Implement device tree parsing to collect the available CMM units and
+store them in the group to be later enabled at start up time.
 
-Each DU output channel is provided with a CMM unit to perform image
-enhancement and color correction.
+Define a new feature to let each SoC claim support for CMM.
 
-Add support for CMM through a skeleton driver to be later expanded to
-support setting color correction tables through the DRM/KMS properties
-framework.
-
-As of now, the driver is only useful to demonstrate the integration with
-the DU driver.
-
-Not-Yet-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 ---
- drivers/gpu/drm/rcar-du/Kconfig       |  7 +++
- drivers/gpu/drm/rcar-du/Makefile      |  1 +
- drivers/gpu/drm/rcar-du/rcar_du_cmm.c | 78 +++++++++++++++++++++++++++
- drivers/gpu/drm/rcar-du/rcar_du_cmm.h | 23 ++++++++
- 4 files changed, 109 insertions(+)
- create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_cmm.c
- create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_cmm.h
+ drivers/gpu/drm/rcar-du/rcar_du_drv.h   |  4 ++
+ drivers/gpu/drm/rcar-du/rcar_du_group.h |  2 +
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c   | 68 +++++++++++++++++++++++++
+ 3 files changed, 74 insertions(+)
 
-diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-index 1529849e217e..820f2b85a073 100644
---- a/drivers/gpu/drm/rcar-du/Kconfig
-+++ b/drivers/gpu/drm/rcar-du/Kconfig
-@@ -13,6 +13,13 @@ config DRM_RCAR_DU
- 	  Choose this option if you have an R-Car chipset.
- 	  If M is selected the module will be called rcar-du-drm.
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+index 1327cd0df90a..aac916a7a46c 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+@@ -13,6 +13,7 @@
+ #include <linux/kernel.h>
+ #include <linux/wait.h>
  
-+config DRM_RCAR_CMM
-+	bool "R-Car DU Color Correction Module Support"
-+	depends on DRM && OF
-+	depends on DRM_RCAR_DU && ARCH_RCAR_GEN3
-+	help
-+	  Enable support for R-Car Gen3 Color Correction Module (CMM).
-+
- config DRM_RCAR_DW_HDMI
- 	tristate "R-Car DU Gen3 HDMI Encoder Support"
- 	depends on DRM && OF
-diff --git a/drivers/gpu/drm/rcar-du/Makefile b/drivers/gpu/drm/rcar-du/Makefile
-index 6c2ed9c46467..ae26d465d421 100644
---- a/drivers/gpu/drm/rcar-du/Makefile
-+++ b/drivers/gpu/drm/rcar-du/Makefile
-@@ -15,6 +15,7 @@ rcar-du-drm-$(CONFIG_DRM_RCAR_LVDS)	+= rcar_du_of.o \
- rcar-du-drm-$(CONFIG_DRM_RCAR_VSP)	+= rcar_du_vsp.o
- rcar-du-drm-$(CONFIG_DRM_RCAR_WRITEBACK) += rcar_du_writeback.o
- 
-+obj-$(CONFIG_DRM_RCAR_CMM)		+= rcar_du_cmm.o
- obj-$(CONFIG_DRM_RCAR_DU)		+= rcar-du-drm.o
- obj-$(CONFIG_DRM_RCAR_DW_HDMI)		+= rcar_dw_hdmi.o
- obj-$(CONFIG_DRM_RCAR_LVDS)		+= rcar_lvds.o
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_cmm.c b/drivers/gpu/drm/rcar-du/rcar_du_cmm.c
-new file mode 100644
-index 000000000000..63f545830bb9
---- /dev/null
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_cmm.c
-@@ -0,0 +1,78 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * rcar_du_cmm.c -- R-Car Display Unit Color Management Module
-+ *
-+ * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/io.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+
 +#include "rcar_du_cmm.h"
-+#include "rcar_du_crtc.h"
-+
-+struct rcar_cmm {
-+	struct clk *clk;
-+	void __iomem *base;
-+};
-+
-+int rcar_du_cmm_setup(struct platform_device *pdev, struct rcar_du_crtc *rcrtc)
+ #include "rcar_du_crtc.h"
+ #include "rcar_du_group.h"
+ #include "rcar_du_vsp.h"
+@@ -28,6 +29,7 @@ struct rcar_du_encoder;
+ #define RCAR_DU_FEATURE_VSP1_SOURCE	BIT(1)	/* Has inputs from VSP1 */
+ #define RCAR_DU_FEATURE_INTERLACED	BIT(2)	/* HW supports interlaced */
+ #define RCAR_DU_FEATURE_TVM_SYNC	BIT(3)	/* Has TV switch/sync modes */
++#define RCAR_DU_FEATURE_CMM		BIT(4)	/* Has CCM */
+ 
+ #define RCAR_DU_QUIRK_ALIGN_128B	BIT(0)	/* Align pitches to 128 bytes */
+ 
+@@ -69,6 +71,7 @@ struct rcar_du_device_info {
+ 
+ #define RCAR_DU_MAX_CRTCS		4
+ #define RCAR_DU_MAX_GROUPS		DIV_ROUND_UP(RCAR_DU_MAX_CRTCS, 2)
++#define RCAR_DU_MAX_CMMS		4
+ #define RCAR_DU_MAX_VSPS		4
+ 
+ struct rcar_du_device {
+@@ -85,6 +88,7 @@ struct rcar_du_device {
+ 	struct rcar_du_encoder *encoders[RCAR_DU_OUTPUT_MAX];
+ 
+ 	struct rcar_du_group groups[RCAR_DU_MAX_GROUPS];
++	struct rcar_du_cmm cmms[RCAR_DU_MAX_CMMS];
+ 	struct rcar_du_vsp vsps[RCAR_DU_MAX_VSPS];
+ 
+ 	struct {
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.h b/drivers/gpu/drm/rcar-du/rcar_du_group.h
+index 87950c1f6a52..b0c1466593a3 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_group.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_group.h
+@@ -22,6 +22,7 @@ struct rcar_du_device;
+  * @mmio_offset: registers offset in the device memory map
+  * @index: group index
+  * @channels_mask: bitmask of populated DU channels in this group
++ * @cmms_mask: bitmask of enabled CMMs in this group
+  * @num_crtcs: number of CRTCs in this group (1 or 2)
+  * @use_count: number of users of the group (rcar_du_group_(get|put))
+  * @used_crtcs: number of CRTCs currently in use
+@@ -37,6 +38,7 @@ struct rcar_du_group {
+ 	unsigned int index;
+ 
+ 	unsigned int channels_mask;
++	unsigned int cmms_mask;
+ 	unsigned int num_crtcs;
+ 	unsigned int use_count;
+ 	unsigned int used_crtcs;
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+index adbc4f5d8fc5..684a60feac5c 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+@@ -614,6 +614,64 @@ static int rcar_du_vsps_init(struct rcar_du_device *rcdu)
+ 	return ret;
+ }
+ 
++static int rcar_du_cmm_init(struct rcar_du_device *rcdu)
 +{
-+	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
++	const struct device_node *np = rcdu->dev->of_node;
++	unsigned int cells;
++	unsigned int i;
 +	int ret;
 +
-+	ret = clk_prepare_enable(rcmm->clk);
-+	if (ret)
-+		return ret;
++	/*
++	 * Make sure the DT 'cmms' property is well formed and populate
++	 * the list of enabled CMM.
++	 */
++	cells = of_property_count_u32_elems(np, "cmms");
++	if (cells % 2 || cells > rcdu->num_crtcs * 2) {
++		dev_err(rcdu->dev, "invalid 'cmms' property format\n");
++		return -EINVAL;
++	}
 +
-+	return 0;
-+}
++	for (i = 0; i < cells / 2; ++i) {
++		struct of_phandle_args args;
++		struct rcar_du_group *rgrp;
++		unsigned int crtc;
 +
-+static int rcar_cmm_probe(struct platform_device *pdev)
-+{
-+	struct rcar_cmm *rcmm;
-+	struct resource *res;
++		ret = of_parse_phandle_with_fixed_args(np, "cmms", 1, i,
++						       &args);
++		if (ret < 0) {
++			dev_err(rcdu->dev, "failed to parse 'cmms' property\n");
++			goto error;
++		}
 +
-+	rcmm = devm_kzalloc(&pdev->dev, sizeof(*rcmm), GFP_KERNEL);
-+	if (!rcmm)
-+		return -ENOMEM;
++		crtc = args.args[0];
++		if (crtc >= rcdu->num_crtcs ||
++		    !(rcdu->info->channels_mask & BIT(crtc))) {
++			dev_err(rcdu->dev,
++				"invalid DU channel %u in 'cmms' property\n",
++				crtc);
++			goto error;
++		}
 +
-+	platform_set_drvdata(pdev, rcmm);
++		rcdu->cmms[i].np = args.np;
++		rcdu->cmms[i].crtc = crtc;
 +
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	rcmm->base = devm_ioremap_resource(&pdev->dev, res);
-+	if (IS_ERR(rcmm->base))
-+		return PTR_ERR(rcmm->base);
-+
-+	rcmm->clk = devm_clk_get(&pdev->dev, NULL);
-+	if (IS_ERR(rcmm->clk)) {
-+		dev_err(&pdev->dev, "Failed to get CMM clock");
-+		return PTR_ERR(rcmm->clk);
++		/*
++		 * CMMs are activated by the DU group: store the active CMMs
++		 * indexes in the group.
++		 */
++		rgrp = &rcdu->groups[crtc / 2];
++		rgrp->cmms_mask |= BIT(crtc % 2);
 +	}
 +
 +	return 0;
++
++error:
++	for (; i > 0; --i)
++		of_node_put(rcdu->cmms[i - 1].np);
++
++	return ret;
 +}
 +
-+static const struct of_device_id rcar_cmm_of_table[] = {
-+	{ .compatible = "renesas,cmm" },
-+	{ },
-+};
+ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
+ {
+ 	static const unsigned int mmio_offsets[] = {
+@@ -680,6 +738,9 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
+ 				   & GENMASK(1, 0);
+ 		rgrp->num_crtcs = hweight8(rgrp->channels_mask);
+ 
++		/* The active CMMs mask will be later populated. */
++		rgrp->cmms_mask = 0;
 +
-+MODULE_DEVICE_TABLE(of, rcar_cmm_of_table);
+ 		/*
+ 		 * If we have more than one CRTCs in this group pre-associate
+ 		 * the low-order planes with CRTC 0 and the high-order planes
+@@ -704,6 +765,13 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
+ 			return ret;
+ 	}
+ 
++	/* Initialize the Color Management Modules. */
++	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_CMM)) {
++		ret = rcar_du_cmm_init(rcdu);
++		if (ret < 0)
++			return ret;
++	}
 +
-+static struct platform_driver rcar_cmm_platform_driver = {
-+	.probe		= rcar_cmm_probe,
-+	.driver		= {
-+		.name	= "rcar-cmm",
-+		.of_match_table = rcar_cmm_of_table,
-+	},
-+};
-+
-+module_platform_driver(rcar_cmm_platform_driver);
-+
-+MODULE_AUTHOR("Jacopo Mondi <jacopo+renesas@jmondi.org");
-+MODULE_DESCRIPTION("Renesas R-Car CMM Driver");
-+MODULE_LICENSE("GPL v2");
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_cmm.h b/drivers/gpu/drm/rcar-du/rcar_du_cmm.h
-new file mode 100644
-index 000000000000..be9ac1a091b0
---- /dev/null
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_cmm.h
-@@ -0,0 +1,23 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/*
-+ * rcar_du_cmm.c -- R-Car Display Unit Color Management Module
-+ *
-+ * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
-+ */
-+
-+#ifndef __RCAR_DU_CMM_H_
-+#define __RCAR_DU_CMM_H_
-+
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+
-+struct rcar_du_crtc;
-+
-+struct rcar_du_cmm {
-+	struct device_node *np;
-+	unsigned int crtc;
-+};
-+
-+int rcar_du_cmm_setup(struct platform_device *, struct rcar_du_crtc *);
-+
-+#endif /* __RCAR_DU_CMM_H_ */
+ 	/* Create the CRTCs. */
+ 	for (swindex = 0, hwindex = 0; swindex < rcdu->num_crtcs; ++hwindex) {
+ 		struct rcar_du_group *rgrp;
 -- 
 2.21.0
 
