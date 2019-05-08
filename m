@@ -2,113 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D94217A14
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2019 15:12:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA1A317A53
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2019 15:20:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725910AbfEHNL5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 May 2019 09:11:57 -0400
-Received: from mail-ua1-f65.google.com ([209.85.222.65]:43041 "EHLO
+        id S1727978AbfEHNUQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 May 2019 09:20:16 -0400
+Received: from mail-ua1-f65.google.com ([209.85.222.65]:43362 "EHLO
         mail-ua1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726776AbfEHNL5 (ORCPT
+        with ESMTP id S1727453AbfEHNUQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 May 2019 09:11:57 -0400
-Received: by mail-ua1-f65.google.com with SMTP id 94so5077792uaf.10
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 May 2019 06:11:56 -0700 (PDT)
+        Wed, 8 May 2019 09:20:16 -0400
+Received: by mail-ua1-f65.google.com with SMTP id 94so5088056uaf.10
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 May 2019 06:20:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=p4suxyOeYY7YF8NJlBucfgasWMidvZty5HNK0l9NOMs=;
-        b=hmIwpDJckgkEvzU1KrjQKmCQP6NQcQchabJSwzo0csKCi7WCKxWL06DcqYo4eW4STt
-         3iGdik76rxwWvU4O19YrHjTZRr8qZOCLuEdqw/ii3uetKcl3AMUrpqh4RUvDoZxWj7Bf
-         TF0J1m24SL7dPHgPMxtCOIBkYW66H7Uk3mrJR/LKfJ3xRE0mLXq8h+KjqOXAHQgxfAGm
-         gQRSpcWDXZaZRSikhfjoJ8hMMjWMAPifBJSB4BvNcaGBLodYDcEhsad1NYCEN/3wTn1g
-         /PliK7m31aBwYERqK+AWXHOwqAyQghAXz3ikPDopuuUcP5+BKTgBZYn5lSUe4FWNuYAR
-         4wIw==
-X-Gm-Message-State: APjAAAV7cu/yOpG7fgVlqpPjV51Rf2Iv9V/RIIDqEvKlunjs3wPL+MGc
-        ZeMmpvo2XXgSUiQSZgoABiNPPQwxieK8e7N8/zc=
-X-Google-Smtp-Source: APXvYqzQAVH/7hNvRuVsT2UoCtHA9NuQmI6bThtezzUSzCnNOY6KBvWo1f5eGePMIHM0tub0nAtXL0476G15j4SCLRQ=
-X-Received: by 2002:a9f:2b84:: with SMTP id y4mr16973368uai.28.1557321115724;
- Wed, 08 May 2019 06:11:55 -0700 (PDT)
+        bh=vxge8c0Vxi1T7nYlAa9OeuDqJOUYQ8h5Blla0Ehqg7E=;
+        b=Iq7fXlnSwrq4/Fm0nyx6mRFJ0advACBnk0slGtI2vYkX2GUhSIP5HWnwGzSO4iE0vG
+         YqH9C6g4FSBfNA7zN7YKrz5dYX8Bbirb5PxJHfe4sxUtv3bSjA3cb5PObEIARJUOEcNj
+         /O95jq+meUacKMYEOXCVJQSaYqSQcJbx8kIGyeyILTpiIrTm4bv7je4+fmXkqhu40Cb/
+         c5tWl4D08elI07NgB0534wWPoEpQrhhR5OWryEtGlabRl0cnuUDd9ecRcjh6TqD0yP7l
+         zWiPJ9ovct9fgLhfSTlvtHv/L6d5miCX6ROABsLiLwql/mB93gdC1qjd87orqfvRm2Rd
+         Bkig==
+X-Gm-Message-State: APjAAAX8KQHyPXdQmX33c7E2vbGwEsqOGkgZmJejipZ1E55HuOQs9uLi
+        GdOhhJrB0HADUQlyl77IEjBLdu3ZDom90a6VZB6nC81d
+X-Google-Smtp-Source: APXvYqy+09oDA6eSEwjGV6Rz9PrI3l7+/XyTg9qu8kZL5oMBtXA2c1sxJqcGdTAXRBoweyGt8q0Y42wLZllZYVVloJY=
+X-Received: by 2002:ab0:d89:: with SMTP id i9mr19771477uak.96.1557321615237;
+ Wed, 08 May 2019 06:20:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190320071605.4289-1-jonas@norrbonn.se> <20190320071605.4289-3-jonas@norrbonn.se>
- <CAMuHMdVH85iFJngkU6W61ybwR2j3YQ7=cugPxgC57hUgBOc5KA@mail.gmail.com>
- <1f33e1e5-d7bf-76a0-c4d3-ecbc35fbfd4f@microchip.com> <CAMuHMdU83vLeVSqMZuJwR4yd382mau-OE1saMAOC2+6HodsHvg@mail.gmail.com>
- <fac5fa6d-95e9-cfb0-4d5a-6b16d4470190@norrbonn.se> <CAMuHMdUEdNr5rgCdaGAFJ-WK4oL2DC419smk+QYOJ7qJvkWA8A@mail.gmail.com>
- <a9ad3641-1eb8-782c-9dfd-0db41256d3f1@microchip.com> <ad49240c-2073-4045-c11c-fb6bad231321@microchip.com>
- <CAMuHMdVcp--qRo3m8kSQ=++Vx33kvxBWEHFVHfh-j=pq1x-GPQ@mail.gmail.com> <898831ba-b8bb-7c2b-e623-2e6c26da91b5@microchip.com>
-In-Reply-To: <898831ba-b8bb-7c2b-e623-2e6c26da91b5@microchip.com>
+References: <20190508115605.13726-1-horms+renesas@verge.net.au>
+In-Reply-To: <20190508115605.13726-1-horms+renesas@verge.net.au>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 8 May 2019 15:11:32 +0200
-Message-ID: <CAMuHMdXFwFAPzYPKqj+FZgSq01VAD0izS3ELyOg1YBwTAQ_QkQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] spi-nor: s25fl512s supports region locking
-To:     Tudor Ambarus <Tudor.Ambarus@microchip.com>
-Cc:     Jonas Bonn <jonas@norrbonn.se>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        MTD Maling List <linux-mtd@lists.infradead.org>
+Date:   Wed, 8 May 2019 15:20:03 +0200
+Message-ID: <CAMuHMdX3YW0NaDXvN1WjWeNrCH366LALa3UT41REqAHNJk-9JA@mail.gmail.com>
+Subject: Re: [PATCH v2] arm64: dts: renesas: r8a7795: Create thermal zone to
+ support IPA
+To:     Simon Horman <horms+renesas@verge.net.au>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Yoshihiro Kaneko <ykaneko0929@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Tudor,
+Hi Simon,
 
-On Wed, May 8, 2019 at 12:44 PM <Tudor.Ambarus@microchip.com> wrote:
-> Would you run this debug patch on top of mtd/next? I dumped the SR and CR before
-> and after the operations in cause.
+Thanks for your patch!
 
-Thanks, giving it a try...
-
-> diff --git a/drivers/mtd/spi-nor/spi-nor.c b/drivers/mtd/spi-nor/spi-nor.c
-> index 73172d7f512b..20d0fdb1dc92 100644
-> --- a/drivers/mtd/spi-nor/spi-nor.c
-> +++ b/drivers/mtd/spi-nor/spi-nor.c
-> @@ -22,6 +22,8 @@
->  #include <linux/spi/flash.h>
->  #include <linux/mtd/spi-nor.h>
+On Wed, May 8, 2019 at 1:56 PM Simon Horman <horms+renesas@verge.net.au> wrote:
+> From: Dien Pham <dien.pham.ry@renesas.com>
 >
-> +#define DEBUG
+> Setup a thermal zone driven by SoC temperature sensor.
+> Create passive trip points and bind them to CPUFreq cooling
+> device that supports power extension.
+>
+> In R-Car Gen3, IPA is supported for only one channel
+>  (on H3/M3/M3N board, it is channel THS3). Reason:
+>   Currently, IPA controls base on only CPU temperature.
+>   And only one thermal channel is assembled closest
+>   CPU cores is selected as target of IPA.
+>   If other channels are used, IPA controlling is not properly.
+>
+> The device supports 5 cooling states which can be categorised as follows:
+>
+> 0 & 1) boost (clocking up)
+> 2)     default
+> 3 & 4) cooling (clocking down)
+>
+> Currently the thermal framework assumes that the default is the minimum,
+> or in other words there is no provision for handling boost states.
+> So this patch only describes the upper 3 states, default and cooling.
+>
+> A single cooling device is described for all A57 CPUs as this
+> reflects that physically there is only one cooling device present.
+>
+> This patch improves on an earlier version by:
+>
+> * Omitting cooling-max-level and cooling-min-level properties which
+>   are no longer present in mainline as of v4.17
+> * Removing an unused trip-point0 node sub-property from the trips
+>   property.
+> * Using cooling-device indexes such that maximum refers to maximum cooling
+>   rather than the inverse.
+>
+> The long signed-off by chain below reflects many revisions, mainly
+> internal, that this patch has been through.
+>
+> Signed-off-by: Keita Kobayashi <keita.kobayashi.ym@renesas.com>
+> Signed-off-by: Gaku Inami <gaku.inami.xw@bp.renesas.com>
+> Signed-off-by: Hien Dang <hien.dang.eb@rvc.renesas.com>
+> Signed-off-by: An Huynh <an.huynh.uj@rvc.renesas.com>
+> Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
+> Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
+> Signed-off-by: Simon Horman <simon.horman@netronome.com>
 
-Should be moved to the top of the file, before dev_dbg() is defined.
+Did you intend to use this SoB value?
 
-Result is:
+> --- a/arch/arm64/boot/dts/renesas/r8a7795.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
+> @@ -155,6 +155,7 @@
+>                         power-domains = <&sysc R8A7795_PD_CA57_CPU0>;
+>                         next-level-cache = <&L2_CA57>;
+>                         enable-method = "psci";
+> +                       dynamic-power-coefficient = <854>;
 
-m25p80 spi0.0: bfpt.dwords[1] = ffffffff
-m25p80 spi0.0: bfpt.dwords[2] = ffffffff
-m25p80 spi0.0: bfpt.dwords[3] = ffffffff
-m25p80 spi0.0: bfpt.dwords[4] = ffffffff
-m25p80 spi0.0: bfpt.dwords[5] = ffffffff
-m25p80 spi0.0: bfpt.dwords[6] = ffffffff
-m25p80 spi0.0: bfpt.dwords[7] = ffffffff
-m25p80 spi0.0: bfpt.dwords[8] = ffffffff
-m25p80 spi0.0: bfpt.dwords[9] = ffffffff
-m25p80 spi0.0: bfpt.dwords[10] = 00000000
-m25p80 spi0.0: bfpt.dwords[11] = 00000000
-m25p80 spi0.0: bfpt.dwords[12] = 00000000
-m25p80 spi0.0: bfpt.dwords[13] = 00000000
-m25p80 spi0.0: bfpt.dwords[14] = 00000000
-m25p80 spi0.0: bfpt.dwords[15] = 00000000
-m25p80 spi0.0: bfpt.dwords[16] = 00000000
-m25p80 spi0.0: failed to parse BFPT: err = -22
-m25p80 spi0.0: spi_nor_init_params sfdp parse failed, ret =-22
-m25p80 spi0.0: SR = 00000000
-m25p80 spi0.0: CR = 00000002
-m25p80 spi0.0: Erase Error occurred
-m25p80 spi0.0: timeout while writing SR, ret = -5
-m25p80 spi0.0: SR = 000000ff
-m25p80 spi0.0: CR = 000000ff
-m25p80 spi0.0: SR and CR before quad_enable:
-m25p80 spi0.0: SR = 000000ff
-m25p80 spi0.0: CR = 000000ff
-m25p80 spi0.0: Erase Error occurred
-m25p80 spi0.0: timeout while writing configuration register
-m25p80 spi0.0: SR and CR after quad_enable:
-m25p80 spi0.0: SR = 000000ff
-m25p80 spi0.0: CR = 000000ff
-m25p80 spi0.0: quad mode not supported, err = -5
-m25p80: probe of spi0.0 failed with error -5
+The dynamic-power-coefficient property is a property of the CPU,
+documented in Documentation/devicetree/bindings/arm/cpus.yaml,
+and not directly related to thermal zones.
+
+Hence I think its addition should be done in a separate patch.
+
+>                         clocks = <&cpg CPG_CORE R8A7795_CLK_Z>;
+>                         operating-points-v2 = <&cluster0_opp>;
+>                         capacity-dmips-mhz = <1024>;
+> @@ -207,6 +208,8 @@
+>                         power-domains = <&sysc R8A7795_PD_CA53_CPU0>;
+>                         next-level-cache = <&L2_CA53>;
+>                         enable-method = "psci";
+> +                       #cooling-cells = <2>;
+> +                       dynamic-power-coefficient = <277>;
+
+Likewise.
+
+>                         clocks = <&cpg CPG_CORE R8A7795_CLK_Z2>;
+>                         operating-points-v2 = <&cluster1_opp>;
+>                         capacity-dmips-mhz = <535>;
 
 Gr{oetje,eeting}s,
 
