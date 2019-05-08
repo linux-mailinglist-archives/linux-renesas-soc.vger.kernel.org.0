@@ -2,39 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 239C41755D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2019 11:45:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B98617565
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2019 11:47:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726487AbfEHJpE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 May 2019 05:45:04 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:46470 "EHLO
+        id S1726455AbfEHJrB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 May 2019 05:47:01 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:46544 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725778AbfEHJpE (ORCPT
+        with ESMTP id S1726221AbfEHJrB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 May 2019 05:45:04 -0400
+        Wed, 8 May 2019 05:47:01 -0400
 Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 397C425AF6B;
-        Wed,  8 May 2019 19:45:02 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 502B625AF6B;
+        Wed,  8 May 2019 19:46:59 +1000 (AEST)
 Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id 40F7F9403E0; Wed,  8 May 2019 11:45:00 +0200 (CEST)
-Date:   Wed, 8 May 2019 11:45:00 +0200
+        id 37FD59403E0; Wed,  8 May 2019 11:46:57 +0200 (CEST)
+Date:   Wed, 8 May 2019 11:46:57 +0200
 From:   Simon Horman <horms@verge.net.au>
-To:     Chris Brandt <chris.brandt@renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Chris Brandt <chris.brandt@renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 09/10] ARM: dts: r7s9210: Add USB Device support
-Message-ID: <20190508094459.aqb4qmnh4qw56a5k@verge.net.au>
-References: <20190506234631.113226-1-chris.brandt@renesas.com>
- <20190506234631.113226-10-chris.brandt@renesas.com>
- <20190508094313.f7h6b2mwb6ghangp@verge.net.au>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] ARM: dts: r7s9210-rza2mevb: add ethernet aliases
+Message-ID: <20190508094656.gc32w5l2a22aatav@verge.net.au>
+References: <20190506201236.110281-1-chris.brandt@renesas.com>
+ <CAMuHMdXZVLj1NmFJLowDBiLFqeNogqSJamZAysmQ4gMeboRpSg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190508094313.f7h6b2mwb6ghangp@verge.net.au>
+In-Reply-To: <CAMuHMdXZVLj1NmFJLowDBiLFqeNogqSJamZAysmQ4gMeboRpSg@mail.gmail.com>
 Organisation: Horms Solutions BV
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -42,68 +41,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, May 08, 2019 at 11:43:13AM +0200, Simon Horman wrote:
-> On Mon, May 06, 2019 at 06:46:30PM -0500, Chris Brandt wrote:
-> > Add USB Device support for RZ/A2.
-> > 
+On Tue, May 07, 2019 at 08:50:51AM +0200, Geert Uytterhoeven wrote:
+> On Mon, May 6, 2019 at 10:13 PM Chris Brandt <chris.brandt@renesas.com> wrote:
+> > Add ethernet aliases so u-boot can find the device nodes.
+> >
 > > Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
-> > ---
-> >  arch/arm/boot/dts/r7s9210.dtsi | 24 ++++++++++++++++++++++++
-> >  1 file changed, 24 insertions(+)
-> > 
-> > diff --git a/arch/arm/boot/dts/r7s9210.dtsi b/arch/arm/boot/dts/r7s9210.dtsi
-> > index 1a992e6197c3..67ac746142d0 100644
-> > --- a/arch/arm/boot/dts/r7s9210.dtsi
-> > +++ b/arch/arm/boot/dts/r7s9210.dtsi
-> > @@ -354,6 +354,18 @@
-> >  			status = "disabled";
-> >  		};
-> >  
-> > +		usbhs0: usbhs@e8219000 {
-> > +			compatible = "renesas,usbhs-r7s9210","renesas,rza2-usbhs";
 > 
-> Hi Chris,
-> 
-> please add a space after ",". Likewise below.
-> 
-> Otherwise this patch looks good to me.
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-I meant to say, that it looks good but please address Sergei's feedback.
-
-> 
-> > +			reg = <0xe8219000 0x724>;
-> > +			interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 61>;
-> > +			renesas,buswait = <7>;
-> > +			phys = <&usb2_phy0>;
-> > +			phy-names = "usb";
-> > +			power-domains = <&cpg>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> >  		ohci1: usbhcd@e821a000 {
-> >  			compatible = "generic-ohci";
-> >  			reg = <0xe821a000 0x100>;
-> > @@ -386,6 +398,18 @@
-> >  			status = "disabled";
-> >  		};
-> >  
-> > +		usbhs1: usbhs@e821b000 {
-> > +			compatible = "renesas,usbhs-r7s9210","renesas,rza2-usbhs";
-> > +			reg = <0xe821b000 0x724>;
-> > +			interrupts = <GIC_SPI 37 IRQ_TYPE_LEVEL_HIGH>;
-> > +			clocks = <&cpg CPG_MOD 60>;
-> > +			renesas,buswait = <7>;
-> > +			phys = <&usb2_phy1>;
-> > +			phy-names = "usb";
-> > +			power-domains = <&cpg>;
-> > +			status = "disabled";
-> > +		};
-> > +
-> >  		sdhi0: sd@e8228000 {
-> >  			compatible = "renesas,sdhi-r7s9210";
-> >  			reg = <0xe8228000 0x8c0>;
-> > -- 
-> > 2.16.1
-> > 
-> 
+Thanks, applied for v5.3.
