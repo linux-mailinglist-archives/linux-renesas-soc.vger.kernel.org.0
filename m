@@ -2,120 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A803517EA9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2019 19:00:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4800B17F1C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2019 19:33:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728886AbfEHRAW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 May 2019 13:00:22 -0400
-Received: from mail-vs1-f66.google.com ([209.85.217.66]:41559 "EHLO
-        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728376AbfEHRAW (ORCPT
+        id S1728700AbfEHRdn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 May 2019 13:33:43 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:53261 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728655AbfEHRdm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 May 2019 13:00:22 -0400
-Received: by mail-vs1-f66.google.com with SMTP id g187so13093744vsc.8
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 May 2019 10:00:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UQpdS2BoEXavGkDkQ8SZu1pVpvwtdePVG1xQzZyqCT4=;
-        b=okcPhIZtULRl8k2vYhNvSd0SlhyeZ+X6G8RNclUDbQjsxBiuxvtUYFc6GTvdlMDEF5
-         JX0IYB1nOmMzX2RpbCUbGamC24WxKtdYJb3G7VgP+5nmpXkfRvrPmiiBMHDNI22le2et
-         6wQchR/QQ4b0UJGbFptbK/bDilArJJjKKINs053R0yfnN6bTArhilZM5Hoyx2e0al2d0
-         tEOh7TROWmy1wBsoAoiNeVi2HLhVQrNC1K9At827FO66ti/zIH6BTJzJcrBmrHvQBxFM
-         iqTOauwEnV1flwRUWfEhP0vQ9NHd44H2/zFfRN+RZnuWLJNetrR+QVDijcF0a5GRPO01
-         u90w==
-X-Gm-Message-State: APjAAAXY0B5Gss39YiUcKqTiLeczX32tLr0OjG0euBTfnFPKim5XU2bv
-        UjtyiawxZ4OZGfixC7qJDM6iYfP2slr0All+POc=
-X-Google-Smtp-Source: APXvYqyU8GkdyLjbtfeyP0LPWxT1gdAL1M98hPFoTiogs2t4uJWzeKkD4ZHOi1UFIw89Yy4Iya6YxZ3GsHXerDyo8go=
-X-Received: by 2002:a67:e2ca:: with SMTP id i10mr12858004vsm.96.1557334820955;
- Wed, 08 May 2019 10:00:20 -0700 (PDT)
+        Wed, 8 May 2019 13:33:42 -0400
+X-Originating-IP: 93.56.79.2
+Received: from uno.localdomain (unknown [93.56.79.2])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 1DEC21BF207;
+        Wed,  8 May 2019 17:33:38 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     laurent.pinchart@ideasonboard.com,
+        linux-renesas-soc@vger.kernel.org
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        VenkataRajesh.Kalakodima@in.bosch.com,
+        Harsha.ManjulaMallikarjun@in.bosch.com,
+        Jacopo Mondi <jacopo@jmondi.org>
+Subject: [RFC 0/9] drm: rcar-du: Add CMM support to M3-W (plumbing only)
+Date:   Wed,  8 May 2019 19:34:19 +0200
+Message-Id: <20190508173428.22054-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20190320071605.4289-1-jonas@norrbonn.se> <20190320071605.4289-3-jonas@norrbonn.se>
- <CAMuHMdVH85iFJngkU6W61ybwR2j3YQ7=cugPxgC57hUgBOc5KA@mail.gmail.com>
- <1f33e1e5-d7bf-76a0-c4d3-ecbc35fbfd4f@microchip.com> <CAMuHMdU83vLeVSqMZuJwR4yd382mau-OE1saMAOC2+6HodsHvg@mail.gmail.com>
- <fac5fa6d-95e9-cfb0-4d5a-6b16d4470190@norrbonn.se> <CAMuHMdUEdNr5rgCdaGAFJ-WK4oL2DC419smk+QYOJ7qJvkWA8A@mail.gmail.com>
- <a9ad3641-1eb8-782c-9dfd-0db41256d3f1@microchip.com> <ad49240c-2073-4045-c11c-fb6bad231321@microchip.com>
- <CAMuHMdVcp--qRo3m8kSQ=++Vx33kvxBWEHFVHfh-j=pq1x-GPQ@mail.gmail.com>
- <898831ba-b8bb-7c2b-e623-2e6c26da91b5@microchip.com> <CAMuHMdXFwFAPzYPKqj+FZgSq01VAD0izS3ELyOg1YBwTAQ_QkQ@mail.gmail.com>
- <8b004a57-0fd9-04fe-d031-1d98d890f826@microchip.com>
-In-Reply-To: <8b004a57-0fd9-04fe-d031-1d98d890f826@microchip.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 8 May 2019 19:00:06 +0200
-Message-ID: <CAMuHMdXghAWmNJLUq_uOUVPrrNTAcFq=QqCGjLU51FchvOu3=g@mail.gmail.com>
-Subject: Re: [PATCH v4 2/3] spi-nor: s25fl512s supports region locking
-To:     Tudor Ambarus <Tudor.Ambarus@microchip.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Jonas Bonn <jonas@norrbonn.se>,
-        MTD Maling List <linux-mtd@lists.infradead.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Tudor,
+Hello,
+   this patches add the plumbing to integrate CMM support in Renesas R-Car
+Display Unit.
 
-On Wed, May 8, 2019 at 4:23 PM <Tudor.Ambarus@microchip.com> wrote:
-> On 05/08/2019 04:11 PM, Geert Uytterhoeven wrote:
-> > On Wed, May 8, 2019 at 12:44 PM <Tudor.Ambarus@microchip.com> wrote:
-> >> Would you run this debug patch on top of mtd/next? I dumped the SR and CR before
-> >> and after the operations in cause.
-> >
-> > Thanks, giving it a try...
-> >
-> >> diff --git a/drivers/mtd/spi-nor/spi-nor.c b/drivers/mtd/spi-nor/spi-nor.c
-> >> index 73172d7f512b..20d0fdb1dc92 100644
-> >> --- a/drivers/mtd/spi-nor/spi-nor.c
-> >> +++ b/drivers/mtd/spi-nor/spi-nor.c
-> >> @@ -22,6 +22,8 @@
-> >>  #include <linux/spi/flash.h>
-> >>  #include <linux/mtd/spi-nor.h>
-> >>
-> >> +#define DEBUG
-> >
-> > Should be moved to the top of the file, before dev_dbg() is defined.
-> >
-> > Result is:
-> >
-> > m25p80 spi0.0: bfpt.dwords[1] = ffffffff
-> > m25p80 spi0.0: bfpt.dwords[2] = ffffffff
-> > m25p80 spi0.0: bfpt.dwords[3] = ffffffff
-> > m25p80 spi0.0: bfpt.dwords[4] = ffffffff
-> > m25p80 spi0.0: bfpt.dwords[5] = ffffffff
-> > m25p80 spi0.0: bfpt.dwords[6] = ffffffff
-> > m25p80 spi0.0: bfpt.dwords[7] = ffffffff
-> > m25p80 spi0.0: bfpt.dwords[8] = ffffffff
-> > m25p80 spi0.0: bfpt.dwords[9] = ffffffff
-> > m25p80 spi0.0: bfpt.dwords[10] = 00000000
-> > m25p80 spi0.0: bfpt.dwords[11] = 00000000
-> > m25p80 spi0.0: bfpt.dwords[12] = 00000000
-> > m25p80 spi0.0: bfpt.dwords[13] = 00000000
-> > m25p80 spi0.0: bfpt.dwords[14] = 00000000
-> > m25p80 spi0.0: bfpt.dwords[15] = 00000000
-> > m25p80 spi0.0: bfpt.dwords[16] = 00000000
-> > m25p80 spi0.0: failed to parse BFPT: err = -22
-> > m25p80 spi0.0: spi_nor_init_params sfdp parse failed, ret =-22
-> > m25p80 spi0.0: SR = 00000000
-> > m25p80 spi0.0: CR = 00000002
-> > m25p80 spi0.0: Erase Error occurred
-> > m25p80 spi0.0: timeout while writing SR, ret = -5
-> > m25p80 spi0.0: SR = 000000ff
-> > m25p80 spi0.0: CR = 000000ff
->
-> ff can mean that the lines are "in air", maybe the flash resets when we
-> write_sr(nor, 0)? How about adding a delay here to let the flash reset?
+CMM unit performs color correction and image enhancement on the DU channels
+output pixels, before they get displayed through the connector they attach to.
 
-No difference after adding msleep(1000).
+Support for CMM has been added in Renesas BSP v4.19 and re-sent a few weeks ago
+to upstream in the series: "[PATCH 0/8] v4.19.0 Added Color Management Module"
+in a form not consumable by mainline.
 
-Gr{oetje,eeting}s,
+In order to ease support for implementing CMM support in the mainline DU driver
+I took care with this series of addressing the plumbing between DU and CMM,
+providing support in device tree and core DU driver.
 
-                        Geert
+I'm keeping the submission internal to the renesas-soc list and I'm not
+including yet DT and DRM people as the scope of the series is limited and should
+not be considered for inclusion, but I would like to start collecting feedbacks.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+The series is in RFC as:
+- The CMM driver is actually empty. Both BSP and Bosh have working
+  implementations of CMM driver which actually does something (I assume so, at
+  least). Once the here proposed design is accepted, we can start
+  discussing how better expose and control the tables used by the CMM to
+  perform color correction.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+- It only supports M3-W, mostly because that's what I'm developing on.
+  Once the here proposed design is accepted, a patch to add the CMM clock
+  definitions will be required for each SoC with CMM support. The same applies
+  to device tree updating and DU feature expansion.
+
+I have verified the DU output is still operational with CMM enabled, but again,
+this is not the real target of the series, which mostly addresses the necessary
+plumbing to have CMM integrated in the DU driver.
+
+Knowing very few things about DRM/KMS I welcome suggestions on how to expose
+the CMM tables and controls with DRM/KMS properties, which in my opinion should
+be done on top of this series.
+
+Not-Yet-Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+
+Thanks
+   j
+
+Jacopo Mondi (9):
+  dt-bindings: display: renesas,cmm: Add R-Car CMM documentation
+  dt-bindings: display, renesas,du: Document cmms property
+  [TODO] drm: rcar-du: Add basic support for CMM
+  drm: rcar-du: kms: Create CMM instances
+  drm: rcar-du: Add CMM support for M3-W
+  drm: rcar-du: crtc: Setup the CMM
+  drm: rcar-du: group: Enable CMM unit
+  clk: renesas: r8a7796: Add CMM clocks
+  arm64: dts: renesas: r8a7796: Add CMM units
+
+ .../bindings/display/renesas,cmm.txt          | 24 ++++++
+ .../bindings/display/renesas,du.txt           |  4 +
+ arch/arm64/boot/dts/renesas/r8a7796.dtsi      | 25 ++++++
+ drivers/clk/renesas/r8a7796-cpg-mssr.c        |  3 +
+ drivers/gpu/drm/rcar-du/Kconfig               |  7 ++
+ drivers/gpu/drm/rcar-du/Makefile              |  1 +
+ drivers/gpu/drm/rcar-du/rcar_du_cmm.c         | 78 +++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_cmm.h         | 23 ++++++
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c        | 38 ++++++++-
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.h        |  2 +
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c         |  3 +-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.h         |  4 +
+ drivers/gpu/drm/rcar-du/rcar_du_group.c       |  8 ++
+ drivers/gpu/drm/rcar-du/rcar_du_group.h       |  2 +
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c         | 68 ++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_regs.h        |  5 ++
+ 16 files changed, 292 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/renesas,cmm.txt
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_cmm.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_du_cmm.h
+
+--
+2.21.0
+
