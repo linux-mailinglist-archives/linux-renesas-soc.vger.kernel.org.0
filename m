@@ -2,178 +2,152 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1189516D6F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2019 00:14:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6600116FAF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2019 05:52:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726411AbfEGWOu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 May 2019 18:14:50 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:33689 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726371AbfEGWOu (ORCPT
+        id S1726767AbfEHDwV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 May 2019 23:52:21 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:39797 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726727AbfEHDwU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 May 2019 18:14:50 -0400
-Received: by mail-lf1-f67.google.com with SMTP id x132so2073083lfd.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 May 2019 15:14:48 -0700 (PDT)
+        Tue, 7 May 2019 23:52:20 -0400
+Received: by mail-wr1-f68.google.com with SMTP id v10so12873287wrt.6;
+        Tue, 07 May 2019 20:52:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=mFHlOpzADIsLrMHX2bCJUB1TTgI0AYRZ5LSjKxTsWv8=;
-        b=iN/QF2cYDVLZHPrKeWMr/UiSOrZL2wO2/u7+gIWaQlrcPX5k/lOZJMoMyxbMhsINjX
-         o/kk9wcuj74xiewm/PN9DnCIGa1cKH0N+0tsoiUvFKoui1xHYOu+6N7uqnfaURKuRekE
-         yAaXW2P0oKF09OOnAcNoJPoZYthzIZKX3qxRgOCh6GusIgYjJIodVDCbrgxeIMfdSY0T
-         VngU6u8u3yIAH4xzloHNa3sBvVth4mes4HsFlE6DOzm7L+XlOFe1QqnhMeqfDZqbIWhA
-         C8ikZTi/3NqGLqrUiA9iIMJiEuMDYNLhDGS+dbYDBXDtjQ7/SZI2Wpz+x72PIM2X/ncc
-         VGBg==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=DcGjXeg0eS0q2STrcadngNVQ19GQsSpa7hlcxfI3B4w=;
+        b=SEz3TTQ7P2fSn4ugPwi0u6SQOWHqRtYz8f4ZGwYieVz5K3SjWGJPrErDMJS4stvwSZ
+         OARjhZ/OIEnr/3bpPLKh1WdHeShbiiDh2Phc6T95Mvoy95VOozlZq83lh/nhZ2lFwwgv
+         FY7RLe/HvYIrtxBiIUT7WHXwkc5BIq+y8gPKOhbUjUCuRoVp1sKpDUMWAVZ4BE5oEXmx
+         LqzyZkO+JuyK+QWYm0vu41jP2fo6aE1SIutPDQ9ioZlHg2Lf+7NpRcwoxRMowNl+9Qj2
+         7Pqtbi5NB5z/Ksy4IWy+171sqFjP0wuUymU15ayk+m/PLl7ijHxHPudc/qzpVcekQdgQ
+         Tz/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=mFHlOpzADIsLrMHX2bCJUB1TTgI0AYRZ5LSjKxTsWv8=;
-        b=bQp7IzGTBbi1qZqFHwotMkYvZXkhVnQForaz8i62Du0AK13W2RCiQvdfTRtKG9rdB9
-         7oNkGMFStVzGLWJ/rvbITojEhhH9Hr2K+7kXX9t8KRkvHjBL5AqTUQecvflyMPGWQf0W
-         BDgIlfV5aIO9bRM6wLulzJNVKoLvMEBLWc7+71Wo/vtMjbRH77nbrjl4GtQZja+56fpd
-         mWOF2FeTZuzffG/r27B3D1QI3ji2SXc7N8Wt/U2VHuwO8HVFkv57QLj+JzBS1jiDXNLr
-         2liv0MXjJk4Z4f5gHmjCcKvujB0m7IpdnQquJ425fLSw60ZUCxdCaSg8NbN43O4TqZ34
-         3szQ==
-X-Gm-Message-State: APjAAAX0N/9mzwao0Fif2UDSJk48SE2veKz/Z0RKXHlyKUgp4XuuLxl+
-        56NaEPexJ+a5QD6xoMUKuhgfNQ==
-X-Google-Smtp-Source: APXvYqxYobQnx20Gdvpbk7T26X5A6p73Pw8k4/eFtH0prJyY57De4FlGE/wYJiCSLt4JsFDFnqWtpQ==
-X-Received: by 2002:ac2:554a:: with SMTP id l10mr16320812lfk.45.1557267287737;
-        Tue, 07 May 2019 15:14:47 -0700 (PDT)
-Received: from localhost (89-233-230-99.cust.bredband2.com. [89.233.230.99])
-        by smtp.gmail.com with ESMTPSA id v11sm3621141lfb.68.2019.05.07.15.14.46
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 07 May 2019 15:14:46 -0700 (PDT)
-Date:   Wed, 8 May 2019 00:14:46 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Simon Horman <horms@verge.net.au>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Kaneko <ykaneko0929@gmail.com>
-Subject: Re: [PATCH repost] thermal: rcar_thermal: update calculation formula
- for E3
-Message-ID: <20190507221446.GB16573@bigcity.dyn.berto.se>
-References: <20190418071514.13027-1-horms+renesas@verge.net.au>
- <20190418081209.GT28515@bigcity.dyn.berto.se>
- <CAMuHMdVX5t-Q5tM5bj95muAZ+8+phohtQSsAO-rCeCofiqVMKQ@mail.gmail.com>
- <20190426095511.tkgbxkf43psesgkv@verge.net.au>
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=DcGjXeg0eS0q2STrcadngNVQ19GQsSpa7hlcxfI3B4w=;
+        b=Ab9VB9MXum2uRXCpIp+FxXKGTnsn+TAodLapPr5bfjmVreqyW3g/gbnubmHfdC+/cI
+         9ERbgxGpPGVWwK53hZ9+NmPrGBsEk3a5daVxwpzOI2IwUF7kk2weG8DArwWDmxO1lcsp
+         VFnP9zK1Kl5ymitm0fcHw2PzZJkh3+DXAor8r9I2/A7S5fncebhH2+qjajYZ0pfgkLd9
+         qmIIMbVdA5uGpNexgIplGyyhtmLTIGtuJwe2Kd9l3j7XMQvXCazjmKMdr9GQIxnnA9ga
+         CkKrB6h1bPhsjvTDE1Sc5ff7e2Dab9EsXMZ6JQys0Cq7gHO+PglR4EeXNSHzVk8BLON4
+         n4dA==
+X-Gm-Message-State: APjAAAVL8KzmaaAIiFlHUvt8Tx9YEYCm9aFYx2dXCWisf017XxL+r8wH
+        0ZAO1qNmF5WSYvPgIyrPDmr0FgWx
+X-Google-Smtp-Source: APXvYqx/aEcgcunoBQTZXNUA4Wom6qxK/g7oa+Sgks4LYMYFspUoBy8SPjla86B/3DjIchWkMU6L4Q==
+X-Received: by 2002:adf:c6c3:: with SMTP id c3mr25955128wrh.267.1557287538368;
+        Tue, 07 May 2019 20:52:18 -0700 (PDT)
+Received: from [192.168.1.4] (ip-86-49-110-70.net.upcbroadband.cz. [86.49.110.70])
+        by smtp.gmail.com with ESMTPSA id b124sm875376wmg.21.2019.05.07.20.52.16
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Tue, 07 May 2019 20:52:17 -0700 (PDT)
+Subject: Re: [PATCH v12 3/3] dt-bindings: mfd: Document Renesas R-Car Gen3
+ RPC-IF MFD bindings
+To:     masonccyang@mxic.com.tw, Lee Jones <lee.jones@linaro.org>
+Cc:     bbrezillon@kernel.org, broonie@kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms@verge.net.au>, juliensu@mxic.com.tw,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-spi@vger.kernel.org, mark.rutland@arm.com,
+        Rob Herring <robh@kernel.org>,
+        sergei.shtylyov@cogentembedded.com, zhengxunli@mxic.com.tw
+References: <1556092536-17095-1-git-send-email-masonccyang@mxic.com.tw>
+ <1556092536-17095-4-git-send-email-masonccyang@mxic.com.tw>
+ <20190424212356.GA27103@bogus>
+ <65853dc2-6f3c-1494-7e72-54877797cdd2@gmail.com>
+ <20190507125730.GD29524@dell>
+ <OF08A5650B.8AE8977C-ON482583F4.000E5B1E-482583F4.000F7215@mxic.com.tw>
+From:   Marek Vasut <marek.vasut@gmail.com>
+Openpgp: preference=signencrypt
+Message-ID: <d229b19e-351c-c576-b5c4-716d10dad1a0@gmail.com>
+Date:   Wed, 8 May 2019 05:52:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <OF08A5650B.8AE8977C-ON482583F4.000E5B1E-482583F4.000F7215@mxic.com.tw>
+Content-Type: text/plain; charset=UTF-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190426095511.tkgbxkf43psesgkv@verge.net.au>
-User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
-
-On 2019-04-26 11:55:11 +0200, Simon Horman wrote:
-> On Wed, Apr 24, 2019 at 09:10:56AM +0200, Geert Uytterhoeven wrote:
-> > Hi Niklas,
-> > 
-> > On Thu, Apr 18, 2019 at 10:12 AM Niklas S�derlund
-> > <niklas.soderlund@ragnatech.se> wrote:
-> > > On 2019-04-18 09:15:14 +0200, Simon Horman wrote:
-> > > > From: Yoshihiro Kaneko <ykaneko0929@gmail.com>
-> > > >
-> > > > HW manual changes temperature calculation formula for E3:
-> > >
-> > > Is this not also true for V3M and D3?
-> > >
-> > > > - When CTEMP is less than 24
-> > > >    T = CTEMP[5:0] * 5.5 - 72
-> > > > - When CTEMP is equal to/greater than 24
-> > > >    T = CTEMP[5:0] * 5 - 60
-> > > >
-> > > > This was inspired by a patch in the BSP by Van Do <van.do.xw@renesas.com>
-> > > >
-> > > > Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
-> > > > Tested-by: Simon Horman <horms+renesas@verge.net.au>
-> > > > Acked-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > > > Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
-> > > > ---
-> > > >  drivers/thermal/rcar_thermal.c | 11 ++++++++++-
-> > > >  1 file changed, 10 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
-> > > > index 97462e9b40d8..11df0cc63bed 100644
-> > > > --- a/drivers/thermal/rcar_thermal.c
-> > > > +++ b/drivers/thermal/rcar_thermal.c
-> > > > @@ -52,6 +52,7 @@ struct rcar_thermal_chip {
-> > > >       unsigned int irq_per_ch : 1;
-> > > >       unsigned int needs_suspend_resume : 1;
-> > > >       unsigned int nirqs;
-> > > > +     unsigned int ctemp_bands;
-> > >
-> > > Would it be possible to rename this to something indicating that this is
-> > > a gen3 thing? Maybe move it to the bit fields above and name it gen3 ?
-> > 
-> > Is that really a good thing to do? This structure describes features of
-> > the thermal module, and we're already beyond the point where a simple
-> > check  for gen2 or gen3 was sufficient.
-> > Here the feature is having multiple temperature bands.
-> > What if some other Gen3 SoC starts having 3 temperature bands?
-
-Good point, after reviewing your comment I now agree with the original 
-patch.
-
-> > 
-> > > > @@ -263,7 +267,12 @@ static int rcar_thermal_get_current_temp(struct rcar_thermal_priv *priv,
-> > > >               return ret;
-> > > >
-> > > >       mutex_lock(&priv->lock);
-> > > > -     tmp =  MCELSIUS((priv->ctemp * 5) - 65);
-> > > > +     if (priv->chip->ctemp_bands == 1)
-> > > > +             tmp =  MCELSIUS((priv->ctemp * 5) - 65);
-> > > > +     else if (priv->ctemp < 24)
-> > > > +             tmp = MCELSIUS(((priv->ctemp * 55) - 720) / 10);
-> > > > +     else
-> > > > +             tmp = MCELSIUS((priv->ctemp * 5) - 60);
-> > >
-> > > I confirm that the calculations here are correct, but hard to read ;-)
-> > > With the rename about how about.
-> > >
-> > >     if (priv->chip->gen3) {
-> > >         if (priv->ctemp < 24)
-> > >                 tmp = MCELSIUS(((priv->ctemp * 55) - 720) / 10);
-> > >         else
-> > >                 tmp = MCELSIUS((priv->ctemp * 5) - 60);
-> > >     } else {
-> > >             tmp =  MCELSIUS((priv->ctemp * 5) - 65);
-> > >     }
-> > 
-> > _Iff_ we decide on going for the rename, I'd still write it as:
-> > 
-> >     if (!priv->chip->gen3)
-> >             tmp =  MCELSIUS((priv->ctemp * 5) - 65);
-> >     else if (priv->ctemp < 24)
-> >             tmp = MCELSIUS(((priv->ctemp * 55) - 720) / 10);
-> >     else
-> >             tmp = MCELSIUS((priv->ctemp * 5) - 60);
-> > 
-> > Always fold your if/else if/else constructs to minimize the need for indentation
-> > and braces ;-)
+On 5/8/19 4:48 AM, masonccyang@mxic.com.tw wrote:
+> Hi Jones,
 > 
-> From my PoV I think the patch is fine in its current form.
-> Niklas do you feel particularly strongly about changing it?
+>> "Lee Jones" <lee.jones@linaro.org>
+>> 2019/05/07 下午 08:58
+>>
+>> To
+>>
+>> "Marek Vasut" <marek.vasut@gmail.com>,
+>>
+>> cc
+>>
+>> "Rob Herring" <robh@kernel.org>, "Mason Yang"
+>> <masonccyang@mxic.com.tw>, broonie@kernel.org, linux-
+>> kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+>> bbrezillon@kernel.org, linux-renesas-soc@vger.kernel.org, "Geert
+>> Uytterhoeven" <geert+renesas@glider.be>,
+>> sergei.shtylyov@cogentembedded.com, mark.rutland@arm.com,
+>> devicetree@vger.kernel.org, juliensu@mxic.com.tw, "Simon Horman"
+>> <horms@verge.net.au>, zhengxunli@mxic.com.tw
+>>
+>> Subject
+>>
+>> Re: [PATCH v12 3/3] dt-bindings: mfd: Document Renesas R-Car Gen3
+>> RPC-IF MFD bindings
+>>
+>> On Wed, 24 Apr 2019, Marek Vasut wrote:
+>>
+>> > On 4/24/19 11:23 PM, Rob Herring wrote:
+>> > > On Wed, Apr 24, 2019 at 03:55:36PM +0800, Mason Yang wrote:
+>> > >> Document the bindings used by the Renesas R-Car Gen3 RPC-IF MFD.
+>> > >>
+>> > >> Signed-off-by: Mason Yang <masonccyang@mxic.com.tw>
+>> > >> ---
+>> > >>  .../devicetree/bindings/mfd/mfd-renesas-rpc.txt    | 40 ++++++
+>> ++++++++++++++++
+>> > >>  1 file changed, 40 insertions(+)
+>> > >>  create mode 100644 Documentation/devicetree/bindings/mfd/mfd-
+>> renesas-rpc.txt
+>> > >>
+>> > >> diff --git a/Documentation/devicetree/bindings/mfd/mfd-renesas-
+>> rpc.txt b/Documentation/devicetree/bindings/mfd/mfd-renesas-rpc.txt
+>> > >> new file mode 100644
+>> > >> index 0000000..668b822
+>> > >> --- /dev/null
+>> > >> +++ b/Documentation/devicetree/bindings/mfd/mfd-renesas-rpc.txt
+>> > >> @@ -0,0 +1,40 @@
+>> > >> +Renesas R-Car Gen3 RPC-IF MFD Device Tree Bindings
+>> > >> +--------------------------------------------------
+>> > >
+>> > > Looks like a SPI flash controller from the example. What makes it an
+>> > > MFD?
+>> >
+>> > It supports both SPI NOR and HyperFlash (CFI-compliant flash with
+>> > different bus interface).
+>>
+>> Looks like you're registering one OR the other.
+>>
+>> Why don't you just do this from DT?
+>>
+>> No reason for this to be an MFD IMHO.
+> 
+> 
+> okay, I will patch it back to SPI mode only.
 
-No I do not feel strongly about this and would be fine with the patch in 
-it's current form. With and update commit message to mention V3M and D3 
-feel free to add
-
-Reviewed-by: Niklas S�derlund <niklas.soderlund+renesas@ragnatech.se>
+I don't think that's what Lee meant . The controller supports _both_
+modes , hence it would have the same compatible string. You just need to
+extract the mode of operation from the DT.
 
 -- 
-Regards,
-Niklas S�derlund
+Best regards,
+Marek Vasut
