@@ -2,99 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DB9D179B9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2019 14:48:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D94217A14
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 May 2019 15:12:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728582AbfEHMsk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 May 2019 08:48:40 -0400
-Received: from mail-eopbgr1410091.outbound.protection.outlook.com ([40.107.141.91]:29568
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726444AbfEHMsk (ORCPT
+        id S1725910AbfEHNL5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 May 2019 09:11:57 -0400
+Received: from mail-ua1-f65.google.com ([209.85.222.65]:43041 "EHLO
+        mail-ua1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726776AbfEHNL5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 May 2019 08:48:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3OOqSGnnYTF3iY5GuKym2WzLYHUoAxLbuRfA7pFfLqg=;
- b=eg/90kF/6717ygiX93sbUMaAOmWvxqNxJy+h9qH6B4CRfuMx28JDYMAEE1mm93ogCTeli3b5mBeHOEgdOsqDwQkXBRQdMh7V/yyAR1/ARsjltozauHWbBSsr3dNCr0vEUhLmnWYgChNUXayIqwROKIxLm+h2p3UuTg0KfJknuxY=
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com (52.133.163.12) by
- TY1PR01MB1787.jpnprd01.prod.outlook.com (52.133.164.10) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1856.12; Wed, 8 May 2019 12:48:36 +0000
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::99cf:c94c:d11f:c2f0]) by TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::99cf:c94c:d11f:c2f0%5]) with mapi id 15.20.1856.012; Wed, 8 May 2019
- 12:48:36 +0000
-From:   Chris Brandt <Chris.Brandt@renesas.com>
-To:     Simon Horman <horms@verge.net.au>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 10/10] ARM: dts: r7s9210-rza2mevb: Add USB host support
-Thread-Topic: [PATCH 10/10] ARM: dts: r7s9210-rza2mevb: Add USB host support
-Thread-Index: AQHVBGY/mP4xZNO/3kWcH4UIHFLGMKZg++mAgAAyy1A=
-Date:   Wed, 8 May 2019 12:48:36 +0000
-Message-ID: <TY1PR01MB15624892AE0A749A63053DA98A320@TY1PR01MB1562.jpnprd01.prod.outlook.com>
-References: <20190506234631.113226-1-chris.brandt@renesas.com>
- <20190506234631.113226-11-chris.brandt@renesas.com>
- <20190508094230.5j2skmmlkzlmy2ls@verge.net.au>
-In-Reply-To: <20190508094230.5j2skmmlkzlmy2ls@verge.net.au>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Chris.Brandt@renesas.com; 
-x-originating-ip: [75.60.247.61]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 67433bd4-d960-4df0-752e-08d6d3b37ca3
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:TY1PR01MB1787;
-x-ms-traffictypediagnostic: TY1PR01MB1787:
-x-microsoft-antispam-prvs: <TY1PR01MB17878523225A394FEEF328328A320@TY1PR01MB1787.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 0031A0FFAF
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(136003)(346002)(376002)(396003)(39860400002)(366004)(189003)(199004)(6246003)(4744005)(66946007)(66446008)(76116006)(26005)(74316002)(14454004)(66476007)(33656002)(2906002)(66556008)(64756008)(4326008)(73956011)(72206003)(99286004)(478600001)(7736002)(25786009)(9686003)(55016002)(53936002)(7696005)(76176011)(54906003)(71200400001)(71190400001)(316002)(229853002)(6916009)(52536014)(186003)(102836004)(6506007)(68736007)(3846002)(305945005)(486006)(8936002)(6116002)(256004)(81166006)(66066001)(81156014)(86362001)(6436002)(8676002)(446003)(476003)(5660300002)(11346002)(21314003);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1787;H:TY1PR01MB1562.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: GzuBOPrUwT0x7jVZwnMYOxmnaA7P/TMYDLdRrghMkXw3zSp7ZQQTeqTJxsE8Lr8XqETKqMF++jfgBWOHE3NL7FzrLGq0qAWiUYPkbO9tSWffHDe0Wu2OM3m+umDVedF8t9GSfTGn9mYQ20uGT4+ox7UuF41Y2Wcob/eHo47FjEzCDWFyVw4nBuJkagY63ZwT3k6yu3zILdFDou4QDXWugxffCg91uzdoVuangFQVH3UFs2czqcaibMIa/rUkQ8OjEDihvzzx3xjwVg2RgJzcqpbfGs9kK05wTBEjBNnhk9rgtbwI2tJ0ST7o7CTIvuzmQyV21P3ygqdGTucCXimVCRFr9Skgl7NY5qK7vUVDIta93jcLKbY0hfu9TK6n+fa8ilerpH8vQAjbNUAwKf837JwuUw8/v4BS594hcZybfz8=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Wed, 8 May 2019 09:11:57 -0400
+Received: by mail-ua1-f65.google.com with SMTP id 94so5077792uaf.10
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 May 2019 06:11:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=p4suxyOeYY7YF8NJlBucfgasWMidvZty5HNK0l9NOMs=;
+        b=hmIwpDJckgkEvzU1KrjQKmCQP6NQcQchabJSwzo0csKCi7WCKxWL06DcqYo4eW4STt
+         3iGdik76rxwWvU4O19YrHjTZRr8qZOCLuEdqw/ii3uetKcl3AMUrpqh4RUvDoZxWj7Bf
+         TF0J1m24SL7dPHgPMxtCOIBkYW66H7Uk3mrJR/LKfJ3xRE0mLXq8h+KjqOXAHQgxfAGm
+         gQRSpcWDXZaZRSikhfjoJ8hMMjWMAPifBJSB4BvNcaGBLodYDcEhsad1NYCEN/3wTn1g
+         /PliK7m31aBwYERqK+AWXHOwqAyQghAXz3ikPDopuuUcP5+BKTgBZYn5lSUe4FWNuYAR
+         4wIw==
+X-Gm-Message-State: APjAAAV7cu/yOpG7fgVlqpPjV51Rf2Iv9V/RIIDqEvKlunjs3wPL+MGc
+        ZeMmpvo2XXgSUiQSZgoABiNPPQwxieK8e7N8/zc=
+X-Google-Smtp-Source: APXvYqzQAVH/7hNvRuVsT2UoCtHA9NuQmI6bThtezzUSzCnNOY6KBvWo1f5eGePMIHM0tub0nAtXL0476G15j4SCLRQ=
+X-Received: by 2002:a9f:2b84:: with SMTP id y4mr16973368uai.28.1557321115724;
+ Wed, 08 May 2019 06:11:55 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 67433bd4-d960-4df0-752e-08d6d3b37ca3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 May 2019 12:48:36.1896
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1787
+References: <20190320071605.4289-1-jonas@norrbonn.se> <20190320071605.4289-3-jonas@norrbonn.se>
+ <CAMuHMdVH85iFJngkU6W61ybwR2j3YQ7=cugPxgC57hUgBOc5KA@mail.gmail.com>
+ <1f33e1e5-d7bf-76a0-c4d3-ecbc35fbfd4f@microchip.com> <CAMuHMdU83vLeVSqMZuJwR4yd382mau-OE1saMAOC2+6HodsHvg@mail.gmail.com>
+ <fac5fa6d-95e9-cfb0-4d5a-6b16d4470190@norrbonn.se> <CAMuHMdUEdNr5rgCdaGAFJ-WK4oL2DC419smk+QYOJ7qJvkWA8A@mail.gmail.com>
+ <a9ad3641-1eb8-782c-9dfd-0db41256d3f1@microchip.com> <ad49240c-2073-4045-c11c-fb6bad231321@microchip.com>
+ <CAMuHMdVcp--qRo3m8kSQ=++Vx33kvxBWEHFVHfh-j=pq1x-GPQ@mail.gmail.com> <898831ba-b8bb-7c2b-e623-2e6c26da91b5@microchip.com>
+In-Reply-To: <898831ba-b8bb-7c2b-e623-2e6c26da91b5@microchip.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 8 May 2019 15:11:32 +0200
+Message-ID: <CAMuHMdXFwFAPzYPKqj+FZgSq01VAD0izS3ELyOg1YBwTAQ_QkQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/3] spi-nor: s25fl512s supports region locking
+To:     Tudor Ambarus <Tudor.Ambarus@microchip.com>
+Cc:     Jonas Bonn <jonas@norrbonn.se>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        MTD Maling List <linux-mtd@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Simon,
+Hi Tudor,
 
-On Wed, May 08, 2019, Simon Horman wrote:
-> Please add a space between the usb2_phy0 and ehci0 nodes.
-> Likewise below between the usb2_phy1 and ehci1 nodes.
->=20
-> Otherwise this patch looks good to me.
+On Wed, May 8, 2019 at 12:44 PM <Tudor.Ambarus@microchip.com> wrote:
+> Would you run this debug patch on top of mtd/next? I dumped the SR and CR before
+> and after the operations in cause.
 
-I also see that you renamed some patch titles from
-  "ARM: dts: r7s9210-rza2mevb: xxx"=20
-to
-  "ARM: dts: rza2mevb: xxx"
+Thanks, giving it a try...
 
-when you applied them.
-So I will make that change as well.
+> diff --git a/drivers/mtd/spi-nor/spi-nor.c b/drivers/mtd/spi-nor/spi-nor.c
+> index 73172d7f512b..20d0fdb1dc92 100644
+> --- a/drivers/mtd/spi-nor/spi-nor.c
+> +++ b/drivers/mtd/spi-nor/spi-nor.c
+> @@ -22,6 +22,8 @@
+>  #include <linux/spi/flash.h>
+>  #include <linux/mtd/spi-nor.h>
+>
+> +#define DEBUG
 
-Chris
+Should be moved to the top of the file, before dev_dbg() is defined.
+
+Result is:
+
+m25p80 spi0.0: bfpt.dwords[1] = ffffffff
+m25p80 spi0.0: bfpt.dwords[2] = ffffffff
+m25p80 spi0.0: bfpt.dwords[3] = ffffffff
+m25p80 spi0.0: bfpt.dwords[4] = ffffffff
+m25p80 spi0.0: bfpt.dwords[5] = ffffffff
+m25p80 spi0.0: bfpt.dwords[6] = ffffffff
+m25p80 spi0.0: bfpt.dwords[7] = ffffffff
+m25p80 spi0.0: bfpt.dwords[8] = ffffffff
+m25p80 spi0.0: bfpt.dwords[9] = ffffffff
+m25p80 spi0.0: bfpt.dwords[10] = 00000000
+m25p80 spi0.0: bfpt.dwords[11] = 00000000
+m25p80 spi0.0: bfpt.dwords[12] = 00000000
+m25p80 spi0.0: bfpt.dwords[13] = 00000000
+m25p80 spi0.0: bfpt.dwords[14] = 00000000
+m25p80 spi0.0: bfpt.dwords[15] = 00000000
+m25p80 spi0.0: bfpt.dwords[16] = 00000000
+m25p80 spi0.0: failed to parse BFPT: err = -22
+m25p80 spi0.0: spi_nor_init_params sfdp parse failed, ret =-22
+m25p80 spi0.0: SR = 00000000
+m25p80 spi0.0: CR = 00000002
+m25p80 spi0.0: Erase Error occurred
+m25p80 spi0.0: timeout while writing SR, ret = -5
+m25p80 spi0.0: SR = 000000ff
+m25p80 spi0.0: CR = 000000ff
+m25p80 spi0.0: SR and CR before quad_enable:
+m25p80 spi0.0: SR = 000000ff
+m25p80 spi0.0: CR = 000000ff
+m25p80 spi0.0: Erase Error occurred
+m25p80 spi0.0: timeout while writing configuration register
+m25p80 spi0.0: SR and CR after quad_enable:
+m25p80 spi0.0: SR = 000000ff
+m25p80 spi0.0: CR = 000000ff
+m25p80 spi0.0: quad mode not supported, err = -5
+m25p80: probe of spi0.0 failed with error -5
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
