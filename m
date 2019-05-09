@@ -2,187 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 333BA185D8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 May 2019 09:14:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B540E18642
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 May 2019 09:38:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726549AbfEIHOq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 May 2019 03:14:46 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:43140 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726492AbfEIHOq (ORCPT
+        id S1726476AbfEIHi3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 May 2019 03:38:29 -0400
+Received: from mail-vk1-f193.google.com ([209.85.221.193]:36112 "EHLO
+        mail-vk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725991AbfEIHi3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 May 2019 03:14:46 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 84D87301;
-        Thu,  9 May 2019 09:14:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1557386084;
-        bh=x9Un++H/drOY7OJNwjpvEPaIKIJUIoZ5hPVWywMt5so=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SS2UEhcU0Mx/7C4kEgVfZZ9SIe0Pxq7zk+5dOsV3Na5B7Fxiif79h5NNGfOrcemzp
-         JCcjUmqlufMgzrMC3VWpIaun1QBXpdPCJpP3bS1aGFlVlBowWhm3GKv9ivKL1aUcgv
-         wBVNi0bueaPU9IPC6Z4tYLA2l3pSYlur62XNl4sc=
-Date:   Thu, 9 May 2019 10:14:29 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomohito Esaki <etom@igel.co.jp>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] drm: rcar-du: add modifiers support
-Message-ID: <20190509071429.GA4773@pendragon.ideasonboard.com>
-References: <20190509054518.10781-1-etom@igel.co.jp>
+        Thu, 9 May 2019 03:38:29 -0400
+Received: by mail-vk1-f193.google.com with SMTP id d74so359117vka.3;
+        Thu, 09 May 2019 00:38:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RFFtFtnGCiEoABcKzwA6B0N/JB84yDVwmoWMMtkiI/I=;
+        b=eaFYPa9Gbu2mKRpyeZyYyUM3/KtOdnoanSl9sjA4ZQkTsCHoXEk5O3k3AranQgrX9U
+         sIx/0CnRd+kAG7MMv2vUq8U6Hu83iO1STnGtxyQpSXCXjWTGEaLMcK0cLJl0nxjldRMI
+         VuLqjsld2FK4/EiOEfjoiLTD7D/udBt3lBNiiXM06T/PWp3LxwQS6jb8kCMyrYAAbMQ1
+         zcMpE073LI8LA0+kUh2IE0w6ocPAB3qkkVDTZ7vL+5qm4HfyHkteBfnsSv6OGfdhzsGb
+         cAGAfKW3G+1YS8ipu06Nr/LCsSZL8n/wwdwREUslcBA0rQPlXXAwD3wcnuN8vNRg4JJ/
+         zYpg==
+X-Gm-Message-State: APjAAAXQId43jJeUaC+vI+6fajANyBpt0JnBZXQeeJqE20ojBqqJ5VV6
+        XNPhMCYf9Fpq4vkJyvP4qM8pYxcG5g2dj1EjHW0wOxQh
+X-Google-Smtp-Source: APXvYqy8hEQZsTLJzSM1aW7xVNJq5avq36M4SD72JyUpbX85mzGfZfCi74GMMghpGHG2qiotH4HPGiy/i/CZKaE34Ps=
+X-Received: by 2002:a1f:b297:: with SMTP id b145mr855213vkf.74.1557387508454;
+ Thu, 09 May 2019 00:38:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190509054518.10781-1-etom@igel.co.jp>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190415105201.2078-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20190415105201.2078-1-wsa+renesas@sang-engineering.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 9 May 2019 09:38:16 +0200
+Message-ID: <CAMuHMdUxBaO0xw3EyW4nT=wXsJsJLphFH0FoFYZi2EO2fx=r1w@mail.gmail.com>
+Subject: Re: [RFC PATCH] watchdog: renesas_wdt: support handover from bootloader
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Tomohito-san,
+Hi Wolfram,
 
-On Thu, May 09, 2019 at 02:45:18PM +0900, Tomohito Esaki wrote:
-> Add support for the linear modifier. Since the rcar-du device supports
-> only linear modifier, this driver doesn't support other modifiers.
-
-What's the purpose of this, as it adds no new functionality to the
-driver ? Why is this change needed ?
-
-> Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
+On Mon, Apr 15, 2019 at 12:52 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Support an already running watchdog by checking its enable bit and set
+> up the status accordingly before registering the device.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
->  drivers/gpu/drm/rcar-du/rcar_du_kms.c   | 11 +++++++++++
->  drivers/gpu/drm/rcar-du/rcar_du_plane.c | 15 ++++++++++++++-
->  drivers/gpu/drm/rcar-du/rcar_du_vsp.c   | 15 ++++++++++++++-
->  3 files changed, 39 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> index 3b7d50a8fb9b..9c5e15a5ab1c 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> @@ -214,6 +214,16 @@ rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
->  		return ERR_PTR(-EINVAL);
->  	}
->  
-> +	/*
-> +	 * Support only LINEAR modifier.
-> +	 */
-> +	if ((mode_cmd->flags & DRM_MODE_FB_MODIFIERS) &&
-> +	    mode_cmd->modifier[0] != DRM_FORMAT_MOD_LINEAR) {
-> +		dev_dbg(dev->dev, "unsupported fb modifier 0x%llx\n",
-> +			mode_cmd->modifier[0]);
-> +		return ERR_PTR(-EINVAL);
-> +	}
-> +
->  	if (rcdu->info->gen < 3) {
->  		/*
->  		 * On Gen2 the DU limits the pitch to 4095 pixels and requires
-> @@ -529,6 +539,7 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
->  	dev->mode_config.min_width = 0;
->  	dev->mode_config.min_height = 0;
->  	dev->mode_config.normalize_zpos = true;
-> +	dev->mode_config.allow_fb_modifiers = true;
->  	dev->mode_config.funcs = &rcar_du_mode_config_funcs;
->  	dev->mode_config.helper_private = &rcar_du_mode_config_helper;
->  
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-> index c6430027169f..32135ad387fa 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-> @@ -726,6 +726,13 @@ static int rcar_du_plane_atomic_get_property(struct drm_plane *plane,
->  	return 0;
->  }
->  
-> +static bool rcar_du_plane_format_mod_supported(struct drm_plane *plane,
-> +					       uint32_t format,
-> +					       uint64_t modifier)
-> +{
-> +	return modifier == DRM_FORMAT_MOD_LINEAR;
-> +}
-> +
->  static const struct drm_plane_funcs rcar_du_plane_funcs = {
->  	.update_plane = drm_atomic_helper_update_plane,
->  	.disable_plane = drm_atomic_helper_disable_plane,
-> @@ -735,6 +742,7 @@ static const struct drm_plane_funcs rcar_du_plane_funcs = {
->  	.atomic_destroy_state = rcar_du_plane_atomic_destroy_state,
->  	.atomic_set_property = rcar_du_plane_atomic_set_property,
->  	.atomic_get_property = rcar_du_plane_atomic_get_property,
-> +	.format_mod_supported = rcar_du_plane_format_mod_supported,
->  };
->  
->  static const uint32_t formats[] = {
-> @@ -750,6 +758,11 @@ static const uint32_t formats[] = {
->  	DRM_FORMAT_NV16,
->  };
->  
-> +static const uint64_t modifiers[] = {
-> +	DRM_FORMAT_MOD_LINEAR,
-> +	DRM_FORMAT_MOD_INVALID,
-> +};
-> +
->  int rcar_du_planes_init(struct rcar_du_group *rgrp)
->  {
->  	struct rcar_du_device *rcdu = rgrp->dev;
-> @@ -776,7 +789,7 @@ int rcar_du_planes_init(struct rcar_du_group *rgrp)
->  		ret = drm_universal_plane_init(rcdu->ddev, &plane->plane, crtcs,
->  					       &rcar_du_plane_funcs, formats,
->  					       ARRAY_SIZE(formats),
-> -					       NULL, type, NULL);
-> +					       modifiers, type, NULL);
->  		if (ret < 0)
->  			return ret;
->  
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> index 0878accbd134..9d1382b02717 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-> @@ -139,6 +139,11 @@ static const u32 formats_kms[] = {
->  	DRM_FORMAT_YVU444,
->  };
->  
-> +static const uint64_t modifiers_kms[] = {
-> +	DRM_FORMAT_MOD_LINEAR,
-> +	DRM_FORMAT_MOD_INVALID,
-> +};
-> +
->  static const u32 formats_v4l2[] = {
->  	V4L2_PIX_FMT_RGB332,
->  	V4L2_PIX_FMT_ARGB444,
-> @@ -344,6 +349,13 @@ static void rcar_du_vsp_plane_reset(struct drm_plane *plane)
->  	state->state.zpos = plane->type == DRM_PLANE_TYPE_PRIMARY ? 0 : 1;
->  }
->  
-> +static bool rcar_du_vsp_plane_format_mod_supported(struct drm_plane *plane,
-> +						   uint32_t format,
-> +						   uint64_t modifier)
-> +{
-> +	return modifier == DRM_FORMAT_MOD_LINEAR;
-> +}
-> +
->  static const struct drm_plane_funcs rcar_du_vsp_plane_funcs = {
->  	.update_plane = drm_atomic_helper_update_plane,
->  	.disable_plane = drm_atomic_helper_disable_plane,
-> @@ -351,6 +363,7 @@ static const struct drm_plane_funcs rcar_du_vsp_plane_funcs = {
->  	.destroy = drm_plane_cleanup,
->  	.atomic_duplicate_state = rcar_du_vsp_plane_atomic_duplicate_state,
->  	.atomic_destroy_state = rcar_du_vsp_plane_atomic_destroy_state,
-> +	.format_mod_supported = rcar_du_vsp_plane_format_mod_supported,
->  };
->  
->  int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
-> @@ -397,7 +410,7 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
->  					       &rcar_du_vsp_plane_funcs,
->  					       formats_kms,
->  					       ARRAY_SIZE(formats_kms),
-> -					       NULL, type, NULL);
-> +					       modifiers_kms, type, NULL);
->  		if (ret < 0)
->  			return ret;
->  
-> -- 
-> 2.17.1
-> 
+>
+> This patch was tested using a Renesas Salvator XS board (R-Car M3N). It works.
+> However, there is a small window where the watchdog clock is disabled, namely
+> after the MSSR clock driver initializes it until RuntimePM of the watchdog
+> driver takes over. If the system hangs in this window, bad luck. So, I'd think
+> it makes sense to have this clock either always-on or to keep the state which
+> came from the firmware. Geert, what do you think?
+
+The MSSR clock driver does not disable the clock. The clock's core
+clk_disable_unused() does, which is a late initcall.
+So if the handover code calls rwdt_start() before that (i.e. no deferred
+probing happens), the clock would never be disabled.
+
+Note that pm_runtime_put() in rwdt_probe() queues a power down request,
+but as it is not the _sync variant, it is delayed by some time, so
+probably it would never happen if rwdt_start() is called by the handover
+code in probe.
+
+Now, if we would mark the clock always-on (CLK_IS_CRITICAL),
+we can never disable it, even if the wdt is not used or the driver is
+not compiled-in.
+
+I don't think there's a way to mark a clock as "keep the state which
+came from the firmware", CLK_IS_CRITICAL enables the clock in
+__clk_core_init().
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
