@@ -2,160 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A459018D74
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 May 2019 17:57:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C90A18DE5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 May 2019 18:21:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726611AbfEIP5g (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 May 2019 11:57:36 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:53826 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726187AbfEIP5g (ORCPT
+        id S1726644AbfEIQUv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 May 2019 12:20:51 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:37861 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726469AbfEIQUu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 May 2019 11:57:36 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x49FvGPP027849;
-        Thu, 9 May 2019 10:57:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1557417436;
-        bh=/nK4v/rXZbjA+CJzACVkSB/BxokCaylpclLxpBzH4BY=;
-        h=From:Subject:To:CC:References:Date:In-Reply-To;
-        b=f8IIe6G9nEO2+h/tijYerw8stbv05TIhl8lyZwJw/79Qarm5YJWmeHElQTYNonCHB
-         Gm4fkKTaGBp81JCbNWVRBuR8LsemS0Dpd0fEXpzX00yHU+X1wSpnS+LKgEyeczzwtk
-         /b23ldjLKv31j9fjiQCmQsHiWPFD/XkKHA8nfOQg=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x49FvGeG019441
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 9 May 2019 10:57:16 -0500
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 9 May
- 2019 10:57:16 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Thu, 9 May 2019 10:57:16 -0500
-Received: from [172.22.216.122] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x49FvEaF109386;
-        Thu, 9 May 2019 10:57:14 -0500
-From:   Vignesh Raghavendra <vigneshr@ti.com>
-Subject: Re: [PATCH v4 2/3] spi-nor: s25fl512s supports region locking
-To:     <Tudor.Ambarus@microchip.com>, <geert@linux-m68k.org>
-CC:     <linux-renesas-soc@vger.kernel.org>, <jonas@norrbonn.se>,
-        <linux-mtd@lists.infradead.org>, <marek.vasut+renesas@gmail.com>
-References: <20190320071605.4289-1-jonas@norrbonn.se>
- <CAMuHMdVH85iFJngkU6W61ybwR2j3YQ7=cugPxgC57hUgBOc5KA@mail.gmail.com>
- <1f33e1e5-d7bf-76a0-c4d3-ecbc35fbfd4f@microchip.com>
- <CAMuHMdU83vLeVSqMZuJwR4yd382mau-OE1saMAOC2+6HodsHvg@mail.gmail.com>
- <fac5fa6d-95e9-cfb0-4d5a-6b16d4470190@norrbonn.se>
- <CAMuHMdUEdNr5rgCdaGAFJ-WK4oL2DC419smk+QYOJ7qJvkWA8A@mail.gmail.com>
- <a9ad3641-1eb8-782c-9dfd-0db41256d3f1@microchip.com>
- <ad49240c-2073-4045-c11c-fb6bad231321@microchip.com>
- <CAMuHMdVcp--qRo3m8kSQ=++Vx33kvxBWEHFVHfh-j=pq1x-GPQ@mail.gmail.com>
- <898831ba-b8bb-7c2b-e623-2e6c26da91b5@microchip.com>
- <CAMuHMdXFwFAPzYPKqj+FZgSq01VAD0izS3ELyOg1YBwTAQ_QkQ@mail.gmail.com>
- <8b004a57-0fd9-04fe-d031-1d98d890f826@microchip.com>
- <CAMuHMdXghAWmNJLUq_uOUVPrrNTAcFq=QqCGjLU51FchvOu3=g@mail.gmail.com>
- <6a8d9a6c-5281-88d2-51ae-e2afad847a8f@microchip.com>
- <CAMuHMdVBguF4ZQHTqwr6GAJKuUcvBGu-5p0GeYRmZ3dG8tXa2g@mail.gmail.com>
- <7649e84f-debb-cec8-d6d6-d33d9dce4259@microchip.com>
-Message-ID: <1d2929b4-3228-437a-b2d7-2126e2e47880@ti.com>
-Date:   Thu, 9 May 2019 21:27:13 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Thu, 9 May 2019 12:20:50 -0400
+Received: by mail-lj1-f195.google.com with SMTP id n4so2550862ljg.4
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 09 May 2019 09:20:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=oh41XTRfQ2hEQxbfWj77USA9ai+rN4+FYJEIHIYPQ50=;
+        b=MSCEu1Aud2SLjXb7CPRb2JObZCwCz2T2wncAxxSLqNI+P3ZJnyYzj3LXqosy/DW9ck
+         SZAQhMPo16TiwBKKf8okUSLDX/Hm1n91JYrYGiEZhydTMGNp2nlrnfV+i9+JTn+W72TY
+         n2/8ImX3xbYgn3emRAen2SATySzPT9lGy8gfQpElm2W5WEr9+Vbz/XSAWCwzeZYxH8sS
+         cNPRQtqo1FoCHuklAaWddmLT/arNK7bm5lZIumHgs8BbIm8OzQ6yzCx6OQilBBKlTzZ2
+         mEWlYiT9255k2hQkp2z6eP0Aos4XHGjRffm85Y8fUaqZDkhdiHDVPIgeMHptgj5JfERK
+         nAUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=oh41XTRfQ2hEQxbfWj77USA9ai+rN4+FYJEIHIYPQ50=;
+        b=L06p1gVbTJBAWoEP1coj7OObSTbP8+Am3DhZ66l5hHhvYLROVDqSQ6iMnq6XjI6B1h
+         M3m3WWycPIXK+ghs6a/m4QnIoqu2velEdfv9xbEGKfKZVVZdC1r/aGE2CeLgc/Y03t/a
+         5ePMvY2Mg8ob38IFRl1UccnBnu+6ouy22Z1HmgUjPsxwjku/SOr/Lt9a5XkHc1hE42Tq
+         a7D+bYXoVwDj8lpp7vVrPa0B2kVJZaiVWUAbdBJUGFOo7b0Jewsfs4WRFpvVnGPoioFS
+         4y4NratFs7LZEqCstoflqnAS6eUY5/4Jts8UhL2//Pd0zU+HuWLghtrsMOrKwLkR9QIO
+         CD+g==
+X-Gm-Message-State: APjAAAU6cpF8KRFBMggW0D4f5VZBDt+PgxFAWe3h9ejppxmm+/YgryyV
+        lnWkbszN828KK0/TbvljG5amOA==
+X-Google-Smtp-Source: APXvYqxGSg/jkWz4uW+fNqpxwMK3znRd6PASiue1jnbHzmriv4EAToS24KtCkbili18pFdfHiv+CWQ==
+X-Received: by 2002:a2e:888d:: with SMTP id k13mr2879671lji.18.1557418848703;
+        Thu, 09 May 2019 09:20:48 -0700 (PDT)
+Received: from wasted.cogentembedded.com ([31.173.83.188])
+        by smtp.gmail.com with ESMTPSA id d1sm426826ljc.89.2019.05.09.09.20.47
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 09 May 2019 09:20:47 -0700 (PDT)
+Subject: Re: [PATCH] dmaengine: sudmac: remove unused driver
+To:     Simon Horman <horms+renesas@verge.net.au>,
+        Vinod Koul <vinod.koul@intel.com>
+Cc:     dmaengine@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+References: <20190509125211.324-1-horms+renesas@verge.net.au>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Organization: Cogent Embedded
+Message-ID: <522c16db-be05-524b-70cf-eb0dcc3c53bb@cogentembedded.com>
+Date:   Thu, 9 May 2019 19:20:46 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <7649e84f-debb-cec8-d6d6-d33d9dce4259@microchip.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+In-Reply-To: <20190509125211.324-1-horms+renesas@verge.net.au>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
 Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Tudor,
+On 05/09/2019 03:52 PM, Simon Horman wrote:
 
-On 09/05/19 4:01 PM, Tudor.Ambarus@microchip.com wrote:
+> SUDMAC driver was introduced in v3.10 but was never integrated for use
+> by any platform. As it unused remove it.
+
+   "It's unused" perhaps? :-)
+
+> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
 [...]
->>
->>> --- a/drivers/mtd/spi-nor/spi-nor.c
->>> +++ b/drivers/mtd/spi-nor/spi-nor.c
->>
->>> +static int spi_nor_clear_block_protection(struct spi_nor *nor)
->>> +{
->>> +       int ret;
->>> +       u8 sr, cr, sr_cr[2] = {0};
->>> +       u8 mask = SR_BP2 | SR_BP1 | SR_BP0;
->>> +
->>> +       ret = read_cr(nor);
->>> +       dev_dbg(nor->dev, "CR = %08x\n", ret);
->>> +        if (ret < 0) {
->>> +                dev_err(nor->dev, "error while reading CR\n");
->>> +               return ret;
->>> +       }
->>> +       cr = ret;
->>> +
->>> +       if (cr & CR_QUAD_EN_SPAN) {
->>> +               /* disable quad if already set, must do it with 16-bit WRR */
->>> +               ret = write_sr_cr(nor, sr_cr);
->>> +               if (ret) {
->>> +                       dev_err(nor->dev, "error diasbling quad mode\n");
->>
->> disabling
->>
->>> +                       return ret;
->>> +               }
->>
->> renesas_spi e6b10000.spi: DMA available
->> renesas_spi e6b10000.spi: registered master spi0
->> spi spi0.0: setup mode 3, 8 bits/w, 30000000 Hz max --> 0
->> m25p80 spi0.0: bfpt.dwords[1] = ffffffff
->> m25p80 spi0.0: bfpt.dwords[2] = ffffffff
->> m25p80 spi0.0: bfpt.dwords[3] = ffffffff
->> m25p80 spi0.0: bfpt.dwords[4] = ffffffff
->> m25p80 spi0.0: bfpt.dwords[5] = ffffffff
->> m25p80 spi0.0: bfpt.dwords[6] = ffffffff
->> m25p80 spi0.0: bfpt.dwords[7] = ffffffff
->> m25p80 spi0.0: bfpt.dwords[8] = ffffffff
->> m25p80 spi0.0: bfpt.dwords[9] = ffffffff
->> m25p80 spi0.0: bfpt.dwords[10] = 00000000
->> m25p80 spi0.0: bfpt.dwords[11] = 00000000
->> m25p80 spi0.0: bfpt.dwords[12] = 00000000
->> m25p80 spi0.0: bfpt.dwords[13] = 00000000
->> m25p80 spi0.0: bfpt.dwords[14] = 00000000
->> m25p80 spi0.0: bfpt.dwords[15] = 00000000
->> m25p80 spi0.0: bfpt.dwords[16] = 00000000
->> m25p80 spi0.0: failed to parse BFPT: err = -22
->> m25p80 spi0.0: spi_nor_init_params sfdp parse failed, ret =-22
->> m25p80 spi0.0: SR and CR before quad_enable:
->> m25p80 spi0.0: SR = 00000000
->> m25p80 spi0.0: CR = 00000002
->> m25p80 spi0.0: SR and CR after quad_enable:
->> m25p80 spi0.0: SR = 00000000
->> m25p80 spi0.0: CR = 00000002
->> m25p80 spi0.0: s25fl512s (65536 Kbytes)
->> m25p80 spi0.0: mtd .name = spi0.0, .size = 0x4000000 (64MiB),
->> .erasesize = 0x00040000 (256KiB) .numeraseregions = 0
->> 3 fixed-partitions partitions found on MTD device spi0.0
->> Creating 3 MTD partitions on "spi0.0":
->> 0x000000000000-0x000000080000 : "loader"
->> 0x000000080000-0x000000600000 : "user"
->> 0x000000600000-0x000004000000 : "flash"
->> renesas_spi e6b10000.spi: registered child spi0.0
->> renesas_spi e6b10000.spi: probed
->>
->> And /dev/mtd0 reading works fine.
->> Thanks!
->>
-> 
-> I'm glad that it worked, thanks for the help. I'll do a patch to fix this case,
-> but probably it will qualify for -next. Is -next ok for you?
 
-I think this fix should be forwarded to v5.2-rc1 (or -rc2 at least) as
-patch in question ("spi-nor: s25fl512s supports region locking") is part
-of SPI NOR pull request for v5.2-rc1 and therefore would end up in
-mainline v5.2-rc1 during the merge window.
-
--- 
-Regards
-Vignesh
+MBR, Sergei
