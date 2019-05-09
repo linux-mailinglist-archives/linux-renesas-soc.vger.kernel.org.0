@@ -2,192 +2,166 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 839CA184EF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 May 2019 07:47:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7DD018565
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 May 2019 08:23:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726713AbfEIFrH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 May 2019 01:47:07 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:33772 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726219AbfEIFrH (ORCPT
+        id S1726771AbfEIGXn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 May 2019 02:23:43 -0400
+Received: from mail-eopbgr1400094.outbound.protection.outlook.com ([40.107.140.94]:6077
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726683AbfEIGXm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 May 2019 01:47:07 -0400
-Received: by mail-pl1-f195.google.com with SMTP id y3so580109plp.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 08 May 2019 22:47:06 -0700 (PDT)
+        Thu, 9 May 2019 02:23:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=igel-co-jp.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id;
-        bh=lwNz168KjUZWyiHLGZCJglYcp7ouOwdKzpPYb4dLQGo=;
-        b=ubXFkuBZxcrkM42gyzXEfO8daFy+3hCNYDLt0MFCoDKQhor5bBmu9gu5UmXl4KtiVp
-         4uDNoHaW8d3/7nRI/yrxmtxlFiW0J8ERl+ZQdr4SH1/MRgak3xrbCX14/FRBfXRvR6hL
-         f6r2C1k4vRrrvmgl4IxgtC6RyquEVjmGVktYGbqePtlZgv0u56yLwPm6bGLxoFf2AW1s
-         vLPw/62kAmUPgp7c5WXsXgxLhmLcTlhA6vsqS7OQbwte4sRrj1muoaGqi5cPMS24jrQW
-         pCyjVhATMDK9eEcx2UEVMHirJ+WvM+JPwkWrqJRyafUKiulVNgYjKOwiei+7cgScVuYI
-         HeOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=lwNz168KjUZWyiHLGZCJglYcp7ouOwdKzpPYb4dLQGo=;
-        b=kSAFlUc2K9feRI7qFQNZ5G5rnkISi7PM1l33OLXYeI1gI6EN0OSnIZxDUu7AI4nvDL
-         +/Mlns+av9HFxrRlnPgEdl5z84k5wapuQZZx/+YkCLkU91UxMtXJLVqLgIhvTizZ2yL2
-         i/r6mjt2YstWlIY0lPI04WP8E/4MUcx07gTRKIVW//RMx2TWET3uGafMsgKjXc7XEeFS
-         8EFpEthFECDB7pBKGuKAxhKh9ngmutFoAUg1TtgAJPTxG8svimsXkDWH6c1kziLUwK5s
-         BvGPJ5ybePCWfSfLXUQms9v3HLbAt0E+YQ6gr9eDqK1WGcqcl9Ud6ikwv/5Vy2L4nEJq
-         QCgw==
-X-Gm-Message-State: APjAAAUrRrqgp6CzZva6hDESs5U9klg8rrvtnnrh1tIzW6aHgItbJFeq
-        j2XlPVK29zdVWHx34F2o5T2UnG8BN2A=
-X-Google-Smtp-Source: APXvYqxMSiGUtjgFm+7Zvs305OPoTNrtVVXiDX/2FgaJDaEIbKkNzxt29UdoPqB/9L+2Xg6F2pLHyw==
-X-Received: by 2002:a17:902:8bc3:: with SMTP id r3mr2645720plo.53.1557380826153;
-        Wed, 08 May 2019 22:47:06 -0700 (PDT)
-Received: from aqua.hq.igel.co.jp (napt.igel.co.jp. [219.106.231.132])
-        by smtp.gmail.com with ESMTPSA id q17sm1962038pfi.185.2019.05.08.22.47.04
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 08 May 2019 22:47:05 -0700 (PDT)
-From:   Tomohito Esaki <etom@igel.co.jp>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, etom@igel.co.jp
-Subject: [PATCH] drm: rcar-du: add modifiers support
-Date:   Thu,  9 May 2019 14:45:18 +0900
-Message-Id: <20190509054518.10781-1-etom@igel.co.jp>
-X-Mailer: git-send-email 2.17.1
+ d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WBBThbzzBZhrySEVZWkmkes7KaA/DSkhPMh+Otfsm38=;
+ b=RTM43DUZaplDZ5uCNwI2HeRV5neNUuhbxORq0EgUG9urgpiJmP9kK/URY+ir/F1f5+YYIfsCc2uhpdqO1Hm7vpo1nbMZYmE63X/DOO341GJSczIHWq446wpjRXud4otJmZ28BU4DxoqFjMNEl93Fr+AzAIhBcZi3mPSoBEtlgok=
+Received: from OSBPR01MB3174.jpnprd01.prod.outlook.com (20.176.240.146) by
+ OSBPR01MB3591.jpnprd01.prod.outlook.com (20.178.5.215) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1878.20; Thu, 9 May 2019 06:23:38 +0000
+Received: from OSBPR01MB3174.jpnprd01.prod.outlook.com
+ ([fe80::4d29:3383:d67d:d562]) by OSBPR01MB3174.jpnprd01.prod.outlook.com
+ ([fe80::4d29:3383:d67d:d562%3]) with mapi id 15.20.1856.012; Thu, 9 May 2019
+ 06:23:38 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Chris Brandt <Chris.Brandt@renesas.com>
+CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Simon Horman <horms@verge.net.au>
+Subject: RE: [PATCH 00/10] usb: Add host and device support for RZ/A2
+Thread-Topic: [PATCH 00/10] usb: Add host and device support for RZ/A2
+Thread-Index: AQHVBGYHqBe7JTZ/4k2vKamrKGugU6ZfYQSwgAIoCQCAAMOq8A==
+Date:   Thu, 9 May 2019 06:23:37 +0000
+Message-ID: <OSBPR01MB3174EB1DCBEB9C7CDB3EC3D6D8330@OSBPR01MB3174.jpnprd01.prod.outlook.com>
+References: <20190506234631.113226-1-chris.brandt@renesas.com>
+ <OSBPR01MB317442B092744C8D312682DCD8310@OSBPR01MB3174.jpnprd01.prod.outlook.com>
+ <TY1PR01MB1562C5FCC551A2857A6D15E78A320@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY1PR01MB1562C5FCC551A2857A6D15E78A320@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [118.238.235.108]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6d08fc73-23e3-4513-63a5-08d6d446df82
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB3591;
+x-ms-traffictypediagnostic: OSBPR01MB3591:
+x-microsoft-antispam-prvs: <OSBPR01MB3591A5CA5E818F8328785EC3D8330@OSBPR01MB3591.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 003245E729
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(136003)(366004)(376002)(346002)(396003)(39860400002)(189003)(199004)(8676002)(81156014)(81166006)(76116006)(446003)(11346002)(478600001)(316002)(66476007)(68736007)(476003)(8936002)(86362001)(486006)(74316002)(14454004)(6116002)(26005)(3846002)(6636002)(66066001)(229853002)(2906002)(9686003)(53936002)(54906003)(6506007)(7696005)(6862004)(4326008)(76176011)(52536014)(99286004)(71200400001)(71190400001)(66946007)(55016002)(186003)(66556008)(73956011)(66446008)(64756008)(7736002)(305945005)(33656002)(14444005)(6246003)(256004)(25786009)(6436002)(102836004)(5660300002);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB3591;H:OSBPR01MB3174.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: vKS4Qsb790L9cleSqww6DVcVBBh8Hl9EpbCbH0rQLQPExyWVMq41XDUx0oWW0hvs2vyJ9uY5jxqopWle9YacB0QBR62CK4ePTqJEO6jqPERp4+TISEADuU3xr3B4lr0AGINjxFE7X+4XeafcTAPEB4TEc5qlMimR0hAjPdTKwPDSKmAS069wI/JyUd64NVb7UhnrcIzm22Q4Sp29N1yQwuC9ms5J47yj0FQktX4W5oHyZ8SedzKoY1blgW8fZu/kf+oCEGkMzgjptejB7dNSv7fuqlTGGb0pFDZAOQR8nt0wbpUPWYZzYay/T7z+3kMdmE/QkQADP1dFZGp6PnclUwtzv3BqlxTDnUQ5kFoD6IzJVnT2LT17beIAvo/5Yedj8W6bU3SUvwOuW4rA/ClirHcGvQt4LoJiNoU82zFgUr0=
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d08fc73-23e3-4513-63a5-08d6d446df82
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 May 2019 06:23:38.0386
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB3591
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add support for the linear modifier. Since the rcar-du device supports
-only linear modifier, this driver doesn't support other modifiers.
+Hi Chris=1B$B$5$s=1B(B
 
-Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
----
- drivers/gpu/drm/rcar-du/rcar_du_kms.c   | 11 +++++++++++
- drivers/gpu/drm/rcar-du/rcar_du_plane.c | 15 ++++++++++++++-
- drivers/gpu/drm/rcar-du/rcar_du_vsp.c   | 15 ++++++++++++++-
- 3 files changed, 39 insertions(+), 2 deletions(-)
+> From: Chris Brandt, Sent: Thursday, May 9, 2019 3:08 AM
+>=20
+> Hi Shimoda=1B$B$5$s=1B(B
+>=20
+> > From: Yoshihiro Shimoda
+> > Sent: Tuesday, May 07, 2019 5:17 AM
+> > > For the most part, the RZ/A2 has the same USB 2.0 host and device
+> > > HW as the R-Car Gen3, so we can reuse a lot of the code.
+> > >
+> > > However, there are a couple extra register bits, and the CFIFO
+> > > register 8-bit access works a little different (weird, no idea why).
+> >
+> > This is just my gut feeling, but if we set the BIGEND bit in the CFIFOS=
+EL
+> > of RZ/A2M (R-Car Gen3 doesn't have such a bit though), could the origin=
+al
+> > code work correctly?
+>=20
+> I just tried to set CFIFOSEL.BIGEND =3D 1
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-index 3b7d50a8fb9b..9c5e15a5ab1c 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-@@ -214,6 +214,16 @@ rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
- 		return ERR_PTR(-EINVAL);
- 	}
- 
-+	/*
-+	 * Support only LINEAR modifier.
-+	 */
-+	if ((mode_cmd->flags & DRM_MODE_FB_MODIFIERS) &&
-+	    mode_cmd->modifier[0] != DRM_FORMAT_MOD_LINEAR) {
-+		dev_dbg(dev->dev, "unsupported fb modifier 0x%llx\n",
-+			mode_cmd->modifier[0]);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
- 	if (rcdu->info->gen < 3) {
- 		/*
- 		 * On Gen2 the DU limits the pitch to 4095 pixels and requires
-@@ -529,6 +539,7 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
- 	dev->mode_config.min_width = 0;
- 	dev->mode_config.min_height = 0;
- 	dev->mode_config.normalize_zpos = true;
-+	dev->mode_config.allow_fb_modifiers = true;
- 	dev->mode_config.funcs = &rcar_du_mode_config_funcs;
- 	dev->mode_config.helper_private = &rcar_du_mode_config_helper;
- 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-index c6430027169f..32135ad387fa 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
-@@ -726,6 +726,13 @@ static int rcar_du_plane_atomic_get_property(struct drm_plane *plane,
- 	return 0;
- }
- 
-+static bool rcar_du_plane_format_mod_supported(struct drm_plane *plane,
-+					       uint32_t format,
-+					       uint64_t modifier)
-+{
-+	return modifier == DRM_FORMAT_MOD_LINEAR;
-+}
-+
- static const struct drm_plane_funcs rcar_du_plane_funcs = {
- 	.update_plane = drm_atomic_helper_update_plane,
- 	.disable_plane = drm_atomic_helper_disable_plane,
-@@ -735,6 +742,7 @@ static const struct drm_plane_funcs rcar_du_plane_funcs = {
- 	.atomic_destroy_state = rcar_du_plane_atomic_destroy_state,
- 	.atomic_set_property = rcar_du_plane_atomic_set_property,
- 	.atomic_get_property = rcar_du_plane_atomic_get_property,
-+	.format_mod_supported = rcar_du_plane_format_mod_supported,
- };
- 
- static const uint32_t formats[] = {
-@@ -750,6 +758,11 @@ static const uint32_t formats[] = {
- 	DRM_FORMAT_NV16,
- };
- 
-+static const uint64_t modifiers[] = {
-+	DRM_FORMAT_MOD_LINEAR,
-+	DRM_FORMAT_MOD_INVALID,
-+};
-+
- int rcar_du_planes_init(struct rcar_du_group *rgrp)
- {
- 	struct rcar_du_device *rcdu = rgrp->dev;
-@@ -776,7 +789,7 @@ int rcar_du_planes_init(struct rcar_du_group *rgrp)
- 		ret = drm_universal_plane_init(rcdu->ddev, &plane->plane, crtcs,
- 					       &rcar_du_plane_funcs, formats,
- 					       ARRAY_SIZE(formats),
--					       NULL, type, NULL);
-+					       modifiers, type, NULL);
- 		if (ret < 0)
- 			return ret;
- 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-index 0878accbd134..9d1382b02717 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
-@@ -139,6 +139,11 @@ static const u32 formats_kms[] = {
- 	DRM_FORMAT_YVU444,
- };
- 
-+static const uint64_t modifiers_kms[] = {
-+	DRM_FORMAT_MOD_LINEAR,
-+	DRM_FORMAT_MOD_INVALID,
-+};
-+
- static const u32 formats_v4l2[] = {
- 	V4L2_PIX_FMT_RGB332,
- 	V4L2_PIX_FMT_ARGB444,
-@@ -344,6 +349,13 @@ static void rcar_du_vsp_plane_reset(struct drm_plane *plane)
- 	state->state.zpos = plane->type == DRM_PLANE_TYPE_PRIMARY ? 0 : 1;
- }
- 
-+static bool rcar_du_vsp_plane_format_mod_supported(struct drm_plane *plane,
-+						   uint32_t format,
-+						   uint64_t modifier)
-+{
-+	return modifier == DRM_FORMAT_MOD_LINEAR;
-+}
-+
- static const struct drm_plane_funcs rcar_du_vsp_plane_funcs = {
- 	.update_plane = drm_atomic_helper_update_plane,
- 	.disable_plane = drm_atomic_helper_disable_plane,
-@@ -351,6 +363,7 @@ static const struct drm_plane_funcs rcar_du_vsp_plane_funcs = {
- 	.destroy = drm_plane_cleanup,
- 	.atomic_duplicate_state = rcar_du_vsp_plane_atomic_duplicate_state,
- 	.atomic_destroy_state = rcar_du_vsp_plane_atomic_destroy_state,
-+	.format_mod_supported = rcar_du_vsp_plane_format_mod_supported,
- };
- 
- int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
-@@ -397,7 +410,7 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
- 					       &rcar_du_vsp_plane_funcs,
- 					       formats_kms,
- 					       ARRAY_SIZE(formats_kms),
--					       NULL, type, NULL);
-+					       modifiers_kms, type, NULL);
- 		if (ret < 0)
- 			return ret;
- 
--- 
-2.17.1
+Thank you for trying it!
+
+>  * Set CFIFOSEL.BIGEND =3D 1
+>  * Write 8-bit values to CFIFO (same method as R-Car)
+>  * Set CFIFOSEL.BIGEND =3D 0
+>=20
+> The result is bad.
+
+I got it...
+
+> But, then I tried this:
+>  * Set CFIFOSEL.MBW =3D 0   (CFIFO port access =3D 8-bit)
+>  * Write 8-bit values to CFIFO
+>  * Set CFIFOSEL.MBW =3D 2   (CFIFO port access =3D 32-bit)
+>=20
+> Code:
+> u16 cfifosel =3D usbhs_read(priv, fifo->sel);
+>=20
+> usbhs_write(priv, fifo->sel, cfifosel & 0xF3FF); // MBW =3D 8-bit
+>=20
+> 		for (i =3D 0; i < len; i++)
+> 			iowrite8(buf[i], addr); //same address each time
+>=20
+> usbhs_write(priv, fifo->sel, cfifosel);	// MBW =3D 32-bit
+>=20
+>=20
+> This method works good.
+
+I got it.
+
+>   (I assume this method would work with R-Car also)
+
+Unfortunately, R-Car cannot work with this method...
+But, "iowrite8(buf[i], addr + 3);" or "iowrite32(buf[i], addr);" works on t=
+he R-Car.
+And then, I realized that R-Car CFIFO register allows 32-bit access only...
+# So, I'm asking HW guy whether the 8-bit access can be allowed or not now.=
+..
+
+> But...then we have extra register reads and writes.
+> Register accesses are slower, so performance is lower.
+>=20
+> So, I prefer my original method:
+> 	if (usbhsc_flags_has(priv, USBHSF_CFIFO_BYTE_ADDR))
+> 		for (i =3D 0; i < len; i++)
+> 			iowrite8(buf[i], addr + (i & 0x03));
+> 	else
+> 		for (i =3D 0; i < len; i++)
+> 			iowrite8(buf[i], addr + (0x03 - (i & 0x03)));
+>=20
+>=20
+> Do you agree?
+
+I agree.
+However, I have some comments about the patch. So, I'll reply on the patch =
+later.
+
+Best regards,
+Yoshihiro Shimoda
+
+> Chris
 
