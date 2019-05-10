@@ -2,104 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F50719F00
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 May 2019 16:21:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FAC319FF3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 May 2019 17:16:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727996AbfEJOU4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 May 2019 10:20:56 -0400
-Received: from mail-eopbgr1410130.outbound.protection.outlook.com ([40.107.141.130]:45960
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727896AbfEJOUz (ORCPT
+        id S1727374AbfEJPQc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 May 2019 11:16:32 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:40999 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727353AbfEJPQc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 May 2019 10:20:55 -0400
+        Fri, 10 May 2019 11:16:32 -0400
+Received: by mail-lj1-f195.google.com with SMTP id k8so5394672lja.8;
+        Fri, 10 May 2019 08:16:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qcNoVX6FrHMPEVfeEiYBjv6VdFmDSe793jDQDXxkvT0=;
- b=PbSfdmRRUCbSc/QQ7fqaTgFWzPDAuNCCvcaY76MM4r7C0f2QbkbXeUMM/5hEsBag6qdvy8dILK+LS1NsJcLS7RR2B0/rq4dlVxixTfnf607p6mAWtglbhGOD+psvl36OuvpV5RwHar+W8wgi6HvEactpASeuiCDRGsAOFUzAn5o=
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com (52.133.163.12) by
- TY1PR01MB1772.jpnprd01.prod.outlook.com (52.133.164.20) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1878.21; Fri, 10 May 2019 14:20:51 +0000
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::99cf:c94c:d11f:c2f0]) by TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::99cf:c94c:d11f:c2f0%5]) with mapi id 15.20.1878.022; Fri, 10 May 2019
- 14:20:50 +0000
-From:   Chris Brandt <Chris.Brandt@renesas.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Simon Horman <horms@verge.net.au>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        USB list <linux-usb@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v2 11/15] usb: renesas_usbhs: Add support for RZ/A2
-Thread-Topic: [PATCH v2 11/15] usb: renesas_usbhs: Add support for RZ/A2
-Thread-Index: AQHVBqPALgaZA5gQ3UyQXy3OztR526Zj8K2AgAATPwCAAC3qAIAANNKQ
-Date:   Fri, 10 May 2019 14:20:50 +0000
-Message-ID: <TY1PR01MB15628F7CF651279C59FE864D8A0C0@TY1PR01MB1562.jpnprd01.prod.outlook.com>
-References: <20190509201142.10543-1-chris.brandt@renesas.com>
- <20190509201142.10543-12-chris.brandt@renesas.com>
- <CAMuHMdV7aQd-g1t_t27d8ge69e3VZnG7nQ7Lzre=qrJ1UrUuuA@mail.gmail.com>
- <OSBPR01MB3174FA32BADD2B97A6003ADCD80C0@OSBPR01MB3174.jpnprd01.prod.outlook.com>
- <OSBPR01MB317441157A3BFA9148FFF558D80C0@OSBPR01MB3174.jpnprd01.prod.outlook.com>
-In-Reply-To: <OSBPR01MB317441157A3BFA9148FFF558D80C0@OSBPR01MB3174.jpnprd01.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Chris.Brandt@renesas.com; 
-x-originating-ip: [75.60.247.61]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9fbb7157-7a6f-44f6-8740-08d6d552b461
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:TY1PR01MB1772;
-x-ms-traffictypediagnostic: TY1PR01MB1772:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <TY1PR01MB1772CED39F29B0530B1225748A0C0@TY1PR01MB1772.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3276;
-x-forefront-prvs: 0033AAD26D
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(366004)(39860400002)(376002)(346002)(136003)(51444003)(199004)(189003)(446003)(4744005)(66446008)(966005)(76116006)(73956011)(229853002)(55016002)(486006)(66946007)(66476007)(66556008)(64756008)(11346002)(5660300002)(186003)(305945005)(7736002)(6246003)(76176011)(53936002)(8936002)(476003)(4326008)(6436002)(86362001)(81156014)(81166006)(66066001)(6306002)(8676002)(26005)(9686003)(478600001)(316002)(68736007)(52536014)(7696005)(256004)(6506007)(25786009)(54906003)(110136005)(14454004)(33656002)(102836004)(72206003)(74316002)(2906002)(71200400001)(71190400001)(3846002)(6116002)(99286004);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1772;H:TY1PR01MB1562.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: rWT5gXIEVmN7SttfVEzic9dTshQ1Tjk9G1vfiUX5+JnGFDqT/fzrxo17jyIL95SG2KRwizHEQhgi5qb/rDQvxM9r1CrdOxaGRbBsR00TTXPvaTUu53u8kLCuY6ecG/ZU1iBME68MjJ7W/Z+pCDREbfMw/JMWab/XzUg7cOi2OcY+dj5ayOroCXzLSlugyRfBI3GjQppZLcgpjyEX05J/vsZRegSPh4PXSonHfYQvjF1cC0kEKdQI3sQd1plcbl+6olBcpvob11O2xhXyD5/L0eODnSxmqjJQ9sH+6ORsCxDL/BElbntuOxiaclrXUIXXJaX6xr0S++imN2xn7G58z9Y0H+AHEASvaARP/pkMz9IrH+w6nzdzgCSFGsgdmeY6kWlHzV8fTMvdZarSpUwAolKAXgBO3hbaq5lczkzf77c=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9fbb7157-7a6f-44f6-8740-08d6d552b461
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 May 2019 14:20:50.8638
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1772
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=UovbodiAPH01A7Tcpc/52cdJYhzSVeuvrSUyXwSIGMY=;
+        b=VO6jPCKVOzfVew1boUYMZmskgf/NPM6AOJJgSWYT8GFFTi8BhTiuQNARiiL6Eox+ou
+         N+ZgQAn4i6pxl4IDUFQXnHwrsQGHRIAevMbQe4Cw+TilhZS8R83yYKmGZKNnkbPA79g4
+         II8RqwVOaX7tOFIUe5uu3S6CJifz7cnJTSZzd3pYC8eBISgoe6f3ovH/3FC9SbupqBYO
+         6GRy4u3z6jY6eX7gcfgY8UbzRsMaJXQK6YgpugtgWgDT/peEoG6/yxCTUHCdm2QShCiC
+         Gv3THVJUIOw/IprvmZk9fi8E0++qHqYfvlyeLCqksZC4VaNafDWtxVvUUDrTRTQumS0S
+         wWOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=UovbodiAPH01A7Tcpc/52cdJYhzSVeuvrSUyXwSIGMY=;
+        b=iZBui+f/6cpLPse/AA4ORd1AkuvPagKRuENFSMUK0nnSNJ0Q6ywgMvkuL4z+6nAyg6
+         Xj9jKt543/i+43exDdn/XYP6lRC+8CHer7e3eD8EvukZwN7MhgOKpK/Cnvc2Uz/OtOdN
+         0XmIw0KqYKHCNuvWk/sEB0owI7+zlYHSVhxy6DTQIXibEezJe43loipN+KnQePx7WA3A
+         aBfhggwWKxi5H9u329k3gQdwq35f3QvEVRX+LYdPXG+6rVjTKpn9sfDmxk0CXlJpzIid
+         3RZEjDRBStbpOhfpohGPg4I+EfajTBi8SmGlcf45QCbDcB44+r4LA/OUCsbI5Xo8/WnM
+         Q7jw==
+X-Gm-Message-State: APjAAAV44eBvdUCqLfl0qys7mRSVqQ/juRXPytLXfYODyYiIzigRrNUa
+        ltnENjt5sJyir+Nr2AVLrKTDMG4QNl0=
+X-Google-Smtp-Source: APXvYqzjQ3HAbAY4NbU911V5cjC+7qK7izvPshyPKb7zQM66e0eMF385k1F5NRT8GAnsIpLCSa2s3w==
+X-Received: by 2002:a2e:8141:: with SMTP id t1mr6369926ljg.122.1557501389839;
+        Fri, 10 May 2019 08:16:29 -0700 (PDT)
+Received: from otyshchenko.kyiv.epam.com (ll-22.209.223.85.sovam.net.ua. [85.223.209.22])
+        by smtp.gmail.com with ESMTPSA id k3sm1291830ljj.73.2019.05.10.08.16.28
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Fri, 10 May 2019 08:16:29 -0700 (PDT)
+From:   Oleksandr Tyshchenko <olekstysh@gmail.com>
+To:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     julien.grall@arm.com, horms@verge.net.au, magnus.damm@gmail.com,
+        linux@armlinux.org.uk, biju.das@bp.renesas.com,
+        geert@linux-m68k.org,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
+Subject: [PATCH V3] ARM: mach-shmobile: Don't init CNTVOFF if PSCI is available
+Date:   Fri, 10 May 2019 18:16:13 +0300
+Message-Id: <1557501373-24436-1-git-send-email-olekstysh@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgU2hpbW9kYeOBleOCkw0KDQo+IEZyb206IFlvc2hpaGlybyBTaGltb2RhDQo+IFNlbnQ6IEZy
-aWRheSwgTWF5IDEwLCAyMDE5IDc6MDAgQU0NCg0KPiBJIGhhdmUgc3VibWl0dGVkIHN1Y2ggYSBw
-YXRjaCBhcyBmb2xsb3dpbmc6DQo+IGh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcGF0Y2gv
-MTA5Mzg1NzUvDQoNCk9LLg0KSSB3aWxsIHJlYmFzZSBteSBwYXRjaGVzIG9uIHRvcCBvZiB5b3Vy
-IHBhdGNoLg0KSSB3aWxsIHNheSBteSBwYXRjaCBzZXJpZXMgZGVwZW5kcyBvbiB5b3VyIHBhdGNo
-Lg0KDQo+IEFib3V0IFNvQyBwYXJhbWV0ZXJzLCBJIHRoaW5rIGl0IGlzIGJldHRlciB0byBhZGQg
-bWVtYmVycyBpbnRvIHN0cnVjdA0KPiByZW5lc2FzX3VzYmhzX2RyaXZlcl9wYXJhbSBsaWtlDQo+
-IGhhc191c2JfZG1hYyBpbnN0ZWFkIG9mIFVTQkhTRl8qIGRlZmluaXRpb25zLiBJbiBvdGhlciB3
-b3Jkcywgd2UgZG9uJ3QNCj4gbmVlZCB0aGUgcGF0Y2ggMDgvMTUgYW5kDQo+IHBhdGNoIDA5LzE1
-IGFuZCAxMC8xNSBzaG91bGQgYWRkIGVhY2ggbWVtYmVyIGZvciBpdC4gQ2hyaXMtc2FuLCB3aGF0
-IGRvDQo+IHlvdSB0aGluaz8NCg0KSSB0aGluayB0aGF0IGlzIGdvb2QuDQoNCk5ldyBQYXRjaCAw
-OC8xNToNCiAqIEFkZCB0byBzdHJ1Y3QgcmVuZXNhc191c2Joc19kcml2ZXJfcGFyYW06DQogICAg
-ICB1MzIgaGFzX3J1bnRpbWVfcHdjdHJsOjE7DQogKiBSZW1vdmUgVVNCSFNGXyoNCiAqIFJlbW92
-ZSB1c2Joc2NfZmxhZ3NfKg0KDQpOZXcgUGF0Y2ggMDkvMTU6DQoqIEFkZCB0byBzdHJ1Y3QgcmVu
-ZXNhc191c2Joc19kcml2ZXJfcGFyYW06DQogICAgIHUzMiBoYXNfY25lbjoxOw0KDQpOZXcgUGF0
-Y2ggMTAvMTU6DQoqIEFkZCB0byBzdHJ1Y3QgcmVuZXNhc191c2Joc19kcml2ZXJfcGFyYW06DQog
-ICAgIHUzMiBjZmlmb19ieXRlX2FkZHI6MTsNCg0KDQpDaHJpcw0KDQo=
+From: Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
+
+If PSCI is available then most likely we are running on PSCI-enabled
+U-Boot which, we assume, has already taken care of resetting CNTVOFF
+before switching to non-secure mode and we don't need to.
+
+Please note, an extra check to prevent secure_cntvoff_init() from
+being called for secondary CPUs in headsmp-apmu.S is not needed,
+as SMP code for APMU based system is not executed if PSCI is in use.
+
+Signed-off-by: Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
+CC: Julien Grall <julien.grall@arm.com>
+
+---
+   You can find previous discussions here:
+   [v1] https://lkml.org/lkml/2019/4/17/810
+   [v2] https://lkml.org/lkml/2019/5/3/338
+
+   Changes in v2:
+      - Clarify patch subject/description
+      - Don't use CONFIG_ARM_PSCI option, check whether the PSCI is available,
+        by using psci_smp_available()
+      - Check whether we are running on top of Xen, by using xen_domain()
+
+   Changes in v3:
+      - Don't check for the presence of Xen
+---
+ arch/arm/mach-shmobile/setup-rcar-gen2.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/mach-shmobile/setup-rcar-gen2.c b/arch/arm/mach-shmobile/setup-rcar-gen2.c
+index eea60b2..35dda21 100644
+--- a/arch/arm/mach-shmobile/setup-rcar-gen2.c
++++ b/arch/arm/mach-shmobile/setup-rcar-gen2.c
+@@ -18,6 +18,7 @@
+ #include <linux/of_fdt.h>
+ #include <linux/of_platform.h>
+ #include <asm/mach/arch.h>
++#include <asm/psci.h>
+ #include <asm/secure_cntvoff.h>
+ #include "common.h"
+ #include "rcar-gen2.h"
+@@ -63,7 +64,13 @@ void __init rcar_gen2_timer_init(void)
+ 	void __iomem *base;
+ 	u32 freq;
+ 
+-	secure_cntvoff_init();
++	/*
++	 * If PSCI is available then most likely we are running on PSCI-enabled
++	 * U-Boot which, we assume, has already taken care of resetting CNTVOFF
++	 * before switching to non-secure mode and we don't need to.
++	 */
++	if (!psci_smp_available())
++		secure_cntvoff_init();
+ 
+ 	if (of_machine_is_compatible("renesas,r8a7745") ||
+ 	    of_machine_is_compatible("renesas,r8a77470") ||
+-- 
+2.7.4
+
