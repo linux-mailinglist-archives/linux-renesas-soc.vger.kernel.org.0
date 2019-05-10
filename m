@@ -2,154 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 990B319C4F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 May 2019 13:16:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61B6F19C68
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 May 2019 13:20:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727353AbfEJLP6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 May 2019 07:15:58 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:36406 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727324AbfEJLP5 (ORCPT
+        id S1727216AbfEJLU2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 May 2019 07:20:28 -0400
+Received: from mail-vs1-f68.google.com ([209.85.217.68]:41814 "EHLO
+        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727052AbfEJLU1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 May 2019 07:15:57 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CB970330;
-        Fri, 10 May 2019 13:15:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1557486954;
-        bh=WmunaI8oHw7jhEazGcE81sTya3SO/IDt3fOyyPmna48=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=dZxJdtZ6h2ahIcyyEJWzaM8CpeDqecUcdlDmko5vaWELUX1ncflvIFK6UIC/4UUtl
-         fk+BYN4ds5wudlFSbkbkC5OHYQ6aSAki1yU7j/EmTO5R/ZxwqYMlgZoSO0EIQ2sFEP
-         PA8OHKXGRtbtzgCM2j80HlOLZxLcZWBBqlwYnhUs=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH v3 4/5] media: vsp1: Split out pre-filter multiplier
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
-References: <20190411161256.19607-1-kieran.bingham+renesas@ideasonboard.com>
- <20190411161256.19607-5-kieran.bingham+renesas@ideasonboard.com>
- <20190418063754.GH4806@pendragon.ideasonboard.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <c6222a3f-ea53-e147-7269-e6113be38520@ideasonboard.com>
-Date:   Fri, 10 May 2019 12:15:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Fri, 10 May 2019 07:20:27 -0400
+Received: by mail-vs1-f68.google.com with SMTP id g187so3393152vsc.8;
+        Fri, 10 May 2019 04:20:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bpl+GABBJxA+Kr7oBEa/hdv666xDR+CyNVHhFPUzG40=;
+        b=ocE4CWMNk49X/UxrjmwmztVJuSwP5OKjlJmxq16P8TRya2m+RJv5T2fOJdvu36+ilP
+         dz8ojNlw+U4hBx6FDpDNG05ybiZwCIyTYXjjVCh4HVhSBfx2tK0DK6ZWaTULKgXSYFLF
+         ONHltC7RtKDeJ6FWm0Y1g8DjsBegSWEKhW27lvKREPNGOtTq3zFO5dn3HDPhtAwJZU0j
+         13wcTFH+PpPu23FocH7ug9XZCduy5RV3b283wp4uqPopoxg7zNrmQognoYXNrVPCmuhS
+         5BvwgZz+E//OBYRV6zGtOchqimAyN25kFNp8QlAtgm32D9YSAYWVHOJjo3e3jxn+nt6O
+         Kk6w==
+X-Gm-Message-State: APjAAAXqf+KS6hNZ4f8k/XQThBrBo6WxfsIhHqSn/RtYwH0uI4nYeLMF
+        bg8WOcWtXFweVkiAzfsc1cuu3e8B+nkFQHUa4AoBeKev
+X-Google-Smtp-Source: APXvYqzJ28NMKZ604PjwMg3iTHnq092re2GHqDFc1mh204yXQsdqkTnUalJi+rKlo2b1KyAh43jqQOE6efKZ53jl+Ys=
+X-Received: by 2002:a67:fdd4:: with SMTP id l20mr2326295vsq.63.1557487226847;
+ Fri, 10 May 2019 04:20:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190418063754.GH4806@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <1557485323-3349-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1557485323-3349-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 10 May 2019 13:20:14 +0200
+Message-ID: <CAMuHMdVO3jLUP4HrAYJ8vxtSDfcK61G95ZzeQWQBEam+9_ycUA@mail.gmail.com>
+Subject: Re: [PATCH] usb: renesas_usbhs: Use specific struct instead of
+ USBHS_TYPE_* enums
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent
+Hi Shimoda-san,
 
-On 18/04/2019 07:37, Laurent Pinchart wrote:
-> Hi Kieran,
-> 
-> Thank you for the patch.
-> 
-> On Thu, Apr 11, 2019 at 05:12:55PM +0100, Kieran Bingham wrote:
->> The 'mp' value is used through many calculations in determining the scaling
->> factors of the UDS. Factor this out so that it can be reused in further
->> calculations, and also ensure that if the BLADV control is ever changed only a
->> single function needs to be modified.
->>
->> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->> ---
->>  drivers/media/platform/vsp1/vsp1_uds.c | 22 ++++++++++++++--------
->>  1 file changed, 14 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/media/platform/vsp1/vsp1_uds.c b/drivers/media/platform/vsp1/vsp1_uds.c
->> index 27012af973b2..c71c24363d54 100644
->> --- a/drivers/media/platform/vsp1/vsp1_uds.c
->> +++ b/drivers/media/platform/vsp1/vsp1_uds.c
->> @@ -46,6 +46,18 @@ void vsp1_uds_set_alpha(struct vsp1_entity *entity, struct vsp1_dl_body *dlb,
->>  		       alpha << VI6_UDS_ALPVAL_VAL0_SHIFT);
->>  }
->>  
->> +/*
->> + * Determine the pre-filter multiplication value.
-> 
-> This would benefit from a more detailed description, and in particular a
-> definition of what "pre-filter" means.
+On Fri, May 10, 2019 at 12:53 PM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> This patch adds a specific struct "usbhs_of_data" to add a new SoC
+> data easily instead of code basis in the future.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-There is a pre-filter processing stage to the scaling filter. I think it
-does some form of pixel binning. The specifics are not documented.
+Thanks for your patch!
 
-I could update this to:
+Looks correct to me, so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+with a few suggestions/questions below...
 
-/*
- * Determine the pre-filter binning divider
- *
- * The UDS uses a two stage filter scaler process. This determines the
- * rate at which pixels are reduced for large down-scaling ratios before
- * being fed into the bicubic filter.
- */
+> --- a/drivers/usb/renesas_usbhs/common.c
+> +++ b/drivers/usb/renesas_usbhs/common.c
 
->> + *
->> + * This calculation assumes that the BLADV control is unset.
-> 
-> s/control/bit/ ?
-> s/unset/not set/ ?
-> 
+> @@ -598,8 +638,15 @@ static struct renesas_usbhs_platform_info *usbhs_parse_dt(struct device *dev)
+>         if (!info)
+>                 return NULL;
+>
+> +       data = of_device_get_match_data(dev);
+> +       if (!data)
+> +               return NULL;
+> +
+>         dparam = &info->driver_param;
+> -       dparam->type = (uintptr_t)of_device_get_match_data(dev);
+> +       memcpy(dparam, &data->param, sizeof(struct renesas_usbhs_driver_param));
 
-Sure.
+sizeof(data->param), for increased safety?
 
->> + */
->> +static unsigned int uds_multiplier(int ratio)
-> 
-> Should the function be renamed to uds_pre_multiplier() ? And isn't it a
-> divisor ? :-)
+> +       memcpy(&info->platform_callback, data->platform_callback,
+> +              sizeof(struct renesas_usbhs_platform_callback));
 
-Indeed in the pipeline, the component is used when  downscaling, and so
-I believe it is part of a pre-filter divider.
+sizeof(data->platform_callback)?
 
-How about: uds_binning_ratio() ?
+I'm not really familiar with this driver and with the USB subsystem, but
+why is this driver copying so many structs around, instead of just
+keeping pointers to the originals?
+Is all of that done just so .notify_hotplug() can be overridden, or am I
+missing something?
 
+Thanks again!
 
+Gr{oetje,eeting}s,
 
+                        Geert
 
->> +{
->> +	unsigned int mp = ratio / 4096;
->> +
->> +	return mp < 4 ? 1 : (mp < 8 ? 2 : 4);
->> +}
->> +
->>  /*
->>   * uds_output_size - Return the output size for an input size and scaling ratio
->>   * @input: input size in pixels
->> @@ -55,10 +67,7 @@ static unsigned int uds_output_size(unsigned int input, unsigned int ratio)
->>  {
->>  	if (ratio > 4096) {
->>  		/* Down-scaling */
->> -		unsigned int mp;
->> -
->> -		mp = ratio / 4096;
->> -		mp = mp < 4 ? 1 : (mp < 8 ? 2 : 4);
->> +		unsigned int mp = uds_multiplier(ratio);
->>  
->>  		return (input - 1) / mp * mp * 4096 / ratio + 1;
->>  	} else {
->> @@ -88,10 +97,7 @@ static unsigned int uds_passband_width(unsigned int ratio)
->>  {
->>  	if (ratio >= 4096) {
->>  		/* Down-scaling */
->> -		unsigned int mp;
->> -
->> -		mp = ratio / 4096;
->> -		mp = mp < 4 ? 1 : (mp < 8 ? 2 : 4);
->> +		unsigned int mp = uds_multiplier(ratio);
->>  
->>  		return 64 * 4096 * mp / ratio;
->>  	} else {
-> 
---
-Regards
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Kieran
-
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
