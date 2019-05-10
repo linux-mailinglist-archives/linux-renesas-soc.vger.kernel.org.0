@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B4F8219DDF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 May 2019 15:10:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6FBD19DFC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 May 2019 15:17:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727598AbfEJNK5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 May 2019 09:10:57 -0400
-Received: from mail-eopbgr1400128.outbound.protection.outlook.com ([40.107.140.128]:55648
+        id S1727488AbfEJNRq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 10 May 2019 09:17:46 -0400
+Received: from mail-eopbgr1400120.outbound.protection.outlook.com ([40.107.140.120]:51815
         "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727465AbfEJNK5 (ORCPT
+        id S1727446AbfEJNRq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 May 2019 09:10:57 -0400
+        Fri, 10 May 2019 09:17:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=D6tbqA8Lgo5JUP9GeHJ2L6lcjwN5n3yX3WNOWHQrHK4=;
- b=lrjeP5lbtK/kyGZMnNISFRmkUxfp6H2SlnNwNR2bLX9FWCVn9pr0NgSDG7U8ztQY1/B3GtflWjq0MebLSJvi7hqDHiTeQDNvWkjXetCJDe5HFe1hcQBM/WQv/9lE4juysw9y/JY8PKuQ0iUI8M/soaI7ITT0j/OvTwqdb17TNFc=
+ bh=cJKfg6EBhHtdnhnPW5GpqDCU3D0l2L87obgGQL6dcVE=;
+ b=XMKw2g23EVDqVUGuDoOqEKJWa+y/f9VFOPgN5WnZUmXv4wxLDGTjlF8WENd7/H1uhI2g+ZrhezSskkpUXBLva5xOKS64bfYgtzz2IJy/DlFIwEu1/1llpzL1cJTAVwIHnNxzhVqgxm6VE9stCgNKHBVNrZ2kXHd4OTbSZKJz56s=
 Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com (52.133.163.12) by
- TY1PR01MB1545.jpnprd01.prod.outlook.com (52.133.161.12) with Microsoft SMTP
+ TY1PR01MB1498.jpnprd01.prod.outlook.com (52.133.161.143) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1878.22; Fri, 10 May 2019 13:10:52 +0000
+ 15.20.1878.22; Fri, 10 May 2019 13:17:43 +0000
 Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com
  ([fe80::99cf:c94c:d11f:c2f0]) by TY1PR01MB1562.jpnprd01.prod.outlook.com
  ([fe80::99cf:c94c:d11f:c2f0%5]) with mapi id 15.20.1878.022; Fri, 10 May 2019
- 13:10:52 +0000
+ 13:17:43 +0000
 From:   Chris Brandt <Chris.Brandt@renesas.com>
 To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
 CC:     Rob Herring <robh+dt@kernel.org>,
@@ -39,15 +39,17 @@ CC:     Rob Herring <robh+dt@kernel.org>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v2 11/15] usb: renesas_usbhs: Add support for RZ/A2
-Thread-Topic: [PATCH v2 11/15] usb: renesas_usbhs: Add support for RZ/A2
-Thread-Index: AQHVBqPALgaZA5gQ3UyQXy3OztR526ZjmQYAgAC8dKA=
-Date:   Fri, 10 May 2019 13:10:51 +0000
-Message-ID: <TY1PR01MB15620169FA7D402A0E33D1528A0C0@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+Subject: RE: [PATCH v2 03/15] phy: renesas: rcar-gen3-usb2: detect usb_x1
+ clock
+Thread-Topic: [PATCH v2 03/15] phy: renesas: rcar-gen3-usb2: detect usb_x1
+ clock
+Thread-Index: AQHVBqOSuXhbAXzGc0O5ptRUADQCsaZjmg8AgAC9qvA=
+Date:   Fri, 10 May 2019 13:17:42 +0000
+Message-ID: <TY1PR01MB1562B69695378551F93D71BF8A0C0@TY1PR01MB1562.jpnprd01.prod.outlook.com>
 References: <20190509201142.10543-1-chris.brandt@renesas.com>
-         <20190509201142.10543-12-chris.brandt@renesas.com>
- <1557453204.10179.275.camel@mhfsdcap03>
-In-Reply-To: <1557453204.10179.275.camel@mhfsdcap03>
+         <20190509201142.10543-4-chris.brandt@renesas.com>
+ <1557453426.10179.278.camel@mhfsdcap03>
+In-Reply-To: <1557453426.10179.278.camel@mhfsdcap03>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -56,35 +58,35 @@ authentication-results: spf=none (sender IP is )
  smtp.mailfrom=Chris.Brandt@renesas.com; 
 x-originating-ip: [75.60.247.61]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4cbef884-87d7-4f1f-e880-08d6d548ed97
+x-ms-office365-filtering-correlation-id: a018f1a6-43e8-4831-9bfe-08d6d549e2b1
 x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:TY1PR01MB1545;
-x-ms-traffictypediagnostic: TY1PR01MB1545:
-x-microsoft-antispam-prvs: <TY1PR01MB15453595942542B993157C538A0C0@TY1PR01MB1545.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:792;
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:TY1PR01MB1498;
+x-ms-traffictypediagnostic: TY1PR01MB1498:
+x-microsoft-antispam-prvs: <TY1PR01MB149866DC0C44136C0BAC5BEC8A0C0@TY1PR01MB1498.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2150;
 x-forefront-prvs: 0033AAD26D
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(396003)(376002)(346002)(136003)(366004)(189003)(199004)(102836004)(6506007)(476003)(6246003)(53936002)(4326008)(55016002)(446003)(5660300002)(26005)(11346002)(558084003)(7416002)(66066001)(25786009)(54906003)(486006)(186003)(6436002)(14454004)(2906002)(71190400001)(71200400001)(6916009)(229853002)(6116002)(72206003)(3846002)(478600001)(256004)(9686003)(33656002)(81166006)(81156014)(68736007)(66556008)(305945005)(8936002)(7736002)(66446008)(66946007)(64756008)(76116006)(8676002)(66476007)(73956011)(76176011)(316002)(74316002)(86362001)(52536014)(7696005)(99286004);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1545;H:TY1PR01MB1562.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(136003)(376002)(366004)(39860400002)(396003)(346002)(199004)(189003)(66446008)(66476007)(64756008)(66556008)(6246003)(73956011)(66946007)(53936002)(52536014)(76116006)(256004)(558084003)(102836004)(6916009)(186003)(11346002)(446003)(476003)(486006)(6506007)(229853002)(54906003)(86362001)(26005)(316002)(5660300002)(8936002)(3846002)(6116002)(2906002)(25786009)(81156014)(81166006)(4326008)(7416002)(7696005)(305945005)(7736002)(6436002)(76176011)(71190400001)(71200400001)(55016002)(68736007)(9686003)(99286004)(478600001)(72206003)(8676002)(14454004)(66066001)(74316002)(33656002);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1498;H:TY1PR01MB1562.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: renesas.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: sACLxXRdxQzpnwrijPJeKfzdtGB7sy6gm8Jbvmyj9/Aoka+tzuWy72IV1NtSncwy7KOFR/7I0t8k0UsOaE+7CNCBRUh7BgHpeOMvgwDuNSJw4McLgpfWKWNkKoRgz0i8UU2+uCJv0GfzIQ9HlVQtmaUCUsv5maHns2ydnFdB1rhWTo9ysam/IXn5H8z29IoY2m5hOMVzBJtjhK4t4cyllzt9gelbwTnfhDs+IYil5wF5F/VRE2Ogf+zKAJTQ+CzHtMHu+NOx51moBOTqRfV8ZB3tKzd1HNKkbhzk2xTe0jBjFVNGaywTrnYp/ybDudKAQd29V2kTT85QAHJiz6fZmZJ4v5filCWfutw6NPxpj+fp5xOZTGr9mQloJOzsJIX2D/poVMzU5xtUSwRcfPbTHyJqU0f22IUEidgtUU/FA4s=
+x-microsoft-antispam-message-info: z5JMh8fXxruQAVSRyKkH01D19OQWlU5xrNsvIKIM8tYopv5Meym9O7CH4hM1lLP32zIZs8JekaplSWp0NJwN4kfipRdnhnyV+OJMTFr3R1ojMbKaFXyyZtadN2j2SSnZmLhiZjoZVIBgQ8GJTCCVxZ3QJirz7zsmzVJzyx14nI26ihrZjiz6baxm+kKE7fqoVH4litRp50UaspK7Illf3GxCM5lC1t1c7bC8fUXeGJFAyQ/tqgnkq67LYw3GovzCTTKYp9o4UzVpf1FcgO08p3jifopt925DRbMesGsT1L4TGekNe+wr37CYkblyjnIKXhiPoC02nLanb6rS6HL1rWtqgB5o+0f8niCrU64a02XVZz+gURzdpyt3KW8UGXnXzzG4Cq8+NDC6nWG8C7MDxTj261vFtbZ/M0gLrWfhCjI=
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 MIME-Version: 1.0
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4cbef884-87d7-4f1f-e880-08d6d548ed97
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 May 2019 13:10:51.8970
+X-MS-Exchange-CrossTenant-Network-Message-Id: a018f1a6-43e8-4831-9bfe-08d6d549e2b1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 May 2019 13:17:43.1322
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1545
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1498
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-T24gVGh1LCBNYXkgMDksIDIwMTksIENodW5mZW5nIFl1biB3cm90ZToNCj4gPiArCWlmIChJU19F
-TkFCTEVEKENPTkZJR19HRU5FUklDX1BIWSkpIHsNCj4gbm8gbmVlZCBjaGVjayBpdCwgaWYgaXQn
-cyBub3QgZW5hYmxlZCwgcGh5X2dldCgpIHdpbGwgcmV0dXJuIGFuIGVycm9yDQo+IG51bWJlci4N
-Cg0KR29vZCBwb2ludC4NClRoYW5rIHlvdS4NCg0KQ2hyaXMNCg==
+T24gVGh1LCBNYXkgMDksIDIwMTksIENodW5mZW5nIFl1biB3cm90ZToNCj4gPiArCWlmIChjaGFu
+bmVsLT51c2VzX3VzYl94MSkNCj4gPiArCQl3cml0ZWwoMHgwMDAwMDAwMSwgdXNiMl9iYXNlICsg
+VVNCMl9QSFlDTEtfQ1RSTCk7DQo+ICAgICAgICAgICAgICAgICAgICAgICAgICBeXl5eIGF2b2lk
+IG1hZ2ljIG51bWJlcj8NCg0KT0suDQoNCkNocmlzDQoNCg==
