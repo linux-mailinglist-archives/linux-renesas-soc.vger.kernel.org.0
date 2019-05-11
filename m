@@ -2,42 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AD721A901
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 May 2019 20:16:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65C8F1A907
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 May 2019 20:22:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726038AbfEKSQg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 11 May 2019 14:16:36 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:57000 "EHLO
+        id S1725911AbfEKSWI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 11 May 2019 14:22:08 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:57018 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725911AbfEKSQg (ORCPT
+        with ESMTP id S1725928AbfEKSWI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 11 May 2019 14:16:36 -0400
+        Sat, 11 May 2019 14:22:08 -0400
 Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A15B1D5;
-        Sat, 11 May 2019 20:16:34 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 833B5D5;
+        Sat, 11 May 2019 20:22:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1557598594;
-        bh=Kr04MM9lJmSdj809aI84vsTDqNZ1JuvQC3abMC/R/9Q=;
+        s=mail; t=1557598926;
+        bh=5hztJzP9X78F964TlQyj1V1q7FLYo5XqrrzbS0s+afY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QpDYFcoLCkUWvh/oeemPj4/2KvjPyJLqpPQhF9/u4MfvHDI3q2TDbSgBStryvqtG3
-         5gyvK0QO/q6p/BOp0yaPSjolIlHpCuY8/uhxC3+XGP4FvUmC7CrzJPRg/V+nbgDy2w
-         tQPV3InqkSS1R8YQWkmfRwzxIIr/Y4SjCSXmjutQ=
-Date:   Sat, 11 May 2019 21:16:18 +0300
+        b=ERMjP9I+pP/ewh6A6vSGoXJJ3UCwEzh0NHFZfIfa5Kb/PzL9L5bWCMRNMISIydJVO
+         fbUppCfu8eJPUqTm7D3rRGc6WmNoRUgGuMe2sN7b99vSkyOydEzfrX+6Yg8ZyvgbQb
+         v11vN8b1EYaDVP6tPX6LqpupK6NJ+pfs+ETnn3yE=
+Date:   Sat, 11 May 2019 21:21:50 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
 Cc:     linux-renesas-soc@vger.kernel.org,
         VenkataRajesh.Kalakodima@in.bosch.com,
         Harsha.ManjulaMallikarjun@in.bosch.com,
         Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [RFC 1/9] dt-bindings: display: renesas,cmm: Add R-Car CMM
- documentation
-Message-ID: <20190511181618.GD13043@pendragon.ideasonboard.com>
+Subject: Re: [RFC 8/9] clk: renesas: r8a7796: Add CMM clocks
+Message-ID: <20190511182150.GE13043@pendragon.ideasonboard.com>
 References: <20190508173428.22054-1-jacopo+renesas@jmondi.org>
- <20190508173428.22054-2-jacopo+renesas@jmondi.org>
+ <20190508173428.22054-9-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190508173428.22054-2-jacopo+renesas@jmondi.org>
+In-Reply-To: <20190508173428.22054-9-jacopo+renesas@jmondi.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -48,60 +47,34 @@ Hi Jacopo,
 
 Thank you for the patch.
 
-On Wed, May 08, 2019 at 07:34:20PM +0200, Jacopo Mondi wrote:
-> Add device tree bindings documentation for the Renesas R-Car Display
-> Unit Color Management Module.
+On Wed, May 08, 2019 at 07:34:27PM +0200, Jacopo Mondi wrote:
+> Add clock defintions for CMM units on Renesas R-Car Gen3 M3-W.
 > 
-> CMM is the image enhancement module available on each R-Car DU video
-> channel.
-
-Not on all of them, V3M and V3H don't include a CMM module.
-
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+
+We have no clear confirmation that the parent clock is S2D1, but this
+assumption makes sense given that the DU uses that clock.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 > ---
->  .../bindings/display/renesas,cmm.txt          | 24 +++++++++++++++++++
->  1 file changed, 24 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/renesas,cmm.txt
+>  drivers/clk/renesas/r8a7796-cpg-mssr.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/renesas,cmm.txt b/Documentation/devicetree/bindings/display/renesas,cmm.txt
-> new file mode 100644
-> index 000000000000..d7674417edb4
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/renesas,cmm.txt
-> @@ -0,0 +1,24 @@
-> +* Renesas R-Car Color Management Unit (CMM)
-
-It's called Color Management Module in the documentation (hence the CMM
-abbreviation)
-
-> +
-> +Renesas R-Car image enhancement module connected to R-Car DU video channels.
-> +
-> +Required properties:
-> + - compatible: shall be:
-> +   - "renesas,cmm"
-
-There's a CMM in R-Car Gen2 with a different feature set, so I think you
-need at least two compatible strings. As far as I can tell SoC-specific
-compatible strings are required.
-
-> +
-> + - reg: the address base and length of the memory area where CMM control
-> +   registers are mapped to.
-> +
-> + - clocks: phandle and clock-specifier pair to the CMM functional clock
-> +   supplier.
-> +
-> +Example:
-> +--------
-> +
-> +	cmm0: cmm@fea40000 {
-> +		compatible = "renesas,cmm";
-> +		reg = <0 0xfea40000 0 0x1000>;
-> +		power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
-> +		clocks = <&cpg CPG_MOD 711>;
-> +		resets = <&cpg 711>;
-> +	};
+> diff --git a/drivers/clk/renesas/r8a7796-cpg-mssr.c b/drivers/clk/renesas/r8a7796-cpg-mssr.c
+> index 12c455859f2c..6044aeda0f83 100644
+> --- a/drivers/clk/renesas/r8a7796-cpg-mssr.c
+> +++ b/drivers/clk/renesas/r8a7796-cpg-mssr.c
+> @@ -179,6 +179,9 @@ static const struct mssr_mod_clk r8a7796_mod_clks[] __initconst = {
+>  	DEF_MOD("ehci1",		 702,	R8A7796_CLK_S3D4),
+>  	DEF_MOD("ehci0",		 703,	R8A7796_CLK_S3D4),
+>  	DEF_MOD("hsusb",		 704,	R8A7796_CLK_S3D4),
+> +	DEF_MOD("cmm2",			 709,	R8A7796_CLK_S2D1),
+> +	DEF_MOD("cmm1",			 710,	R8A7796_CLK_S2D1),
+> +	DEF_MOD("cmm0",			 711,	R8A7796_CLK_S2D1),
+>  	DEF_MOD("csi20",		 714,	R8A7796_CLK_CSI0),
+>  	DEF_MOD("csi40",		 716,	R8A7796_CLK_CSI0),
+>  	DEF_MOD("du2",			 722,	R8A7796_CLK_S2D1),
 
 -- 
 Regards,
