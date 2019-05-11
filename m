@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EF2D91A922
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 May 2019 21:00:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61EB61A926
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 May 2019 21:02:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726038AbfEKTAJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 11 May 2019 15:00:09 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:57264 "EHLO
+        id S1726033AbfEKTCg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 11 May 2019 15:02:36 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:57282 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725911AbfEKTAJ (ORCPT
+        with ESMTP id S1725911AbfEKTCg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 11 May 2019 15:00:09 -0400
+        Sat, 11 May 2019 15:02:36 -0400
 Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 76DF1D5;
-        Sat, 11 May 2019 21:00:07 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B8E80D5;
+        Sat, 11 May 2019 21:02:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1557601207;
-        bh=cCQVDFTpU0B0Pl+h0O58Yw/KKmsNxAZbYUq6W7gAn3M=;
+        s=mail; t=1557601353;
+        bh=eZlahVy6ni/o8E8Jqx9yzwqtMo2LAUwZYF8Mm+pIx1M=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jFsT5kU+NAXy8WlAQiVn6cNIoufyKVJlN5/RyeDcfapN/Mn1eRs9coZim1/rhZNQR
-         PrjglNeQx4K1alusK6gIiQ9zKaXwZxPt08Qq4V/dxERKnJkQTUQQMMQlALzcKrOVOB
-         SqcmkwIJRFjqkgjXMXYWU9hETbF6vmVvEC1CyAQk=
-Date:   Sat, 11 May 2019 21:59:51 +0300
+        b=kLwBMRb8xKU06G62Th8xv0bBq4oI4SmErtOIzOslIro+AhcaGOQ7sA6/VtI1oqyWp
+         mvN3yJwg+d2lO7TIpGLJi0rIuVAAeDYDQOGnYYWEvX/Tb8pb8nF7HHuS0wOxU0DBP8
+         ihe910k84H6dg0rkyIZP7Wa3N0ZS5kbVngYa/2so=
+Date:   Sat, 11 May 2019 22:02:17 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
 Cc:     linux-renesas-soc@vger.kernel.org,
         VenkataRajesh.Kalakodima@in.bosch.com,
         Harsha.ManjulaMallikarjun@in.bosch.com,
         Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [RFC 6/9] drm: rcar-du: crtc: Setup the CMM
-Message-ID: <20190511185951.GJ13043@pendragon.ideasonboard.com>
+Subject: Re: [RFC 7/9] drm: rcar-du: group: Enable CMM unit
+Message-ID: <20190511190217.GB16838@pendragon.ideasonboard.com>
 References: <20190508173428.22054-1-jacopo+renesas@jmondi.org>
- <20190508173428.22054-7-jacopo+renesas@jmondi.org>
+ <20190508173428.22054-8-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190508173428.22054-7-jacopo+renesas@jmondi.org>
+In-Reply-To: <20190508173428.22054-8-jacopo+renesas@jmondi.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -47,131 +47,61 @@ Hi Jacopo,
 
 Thank you for the patch.
 
-On Wed, May 08, 2019 at 07:34:25PM +0200, Jacopo Mondi wrote:
-> Save a reference to the CMM unit associated with the CRTC and set it up
-> at rcar_du_crtc_setup() time, just after having enabled the compositor.
+On Wed, May 08, 2019 at 07:34:26PM +0200, Jacopo Mondi wrote:
+> Enable the CMM units present in the group through the display unit
+> extensional function control group register DEFR7.
 > 
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 38 ++++++++++++++++++++++++--
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.h |  2 ++
->  2 files changed, 38 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/rcar-du/rcar_du_group.c | 8 ++++++++
+>  drivers/gpu/drm/rcar-du/rcar_du_regs.h  | 5 +++++
+>  2 files changed, 13 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> index 2da46e3dc4ae..b5a9af8e4df0 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> @@ -9,6 +9,7 @@
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+> index 9eee47969e77..ce25e41b04bc 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+> @@ -147,6 +147,14 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
 >  
->  #include <linux/clk.h>
->  #include <linux/mutex.h>
-> +#include <linux/of_platform.h>
->  #include <linux/platform_device.h>
->  #include <linux/sys_soc.h>
+>  	rcar_du_group_setup_pins(rgrp);
 >  
-> @@ -21,6 +22,7 @@
->  #include <drm/drm_plane_helper.h>
->  #include <drm/drm_vblank.h>
+> +	if (rgrp->cmms_mask) {
+> +		u32 defr7 = DEFR7_CODE;
+> +		defr7 |= rgrp->cmms_mask & BIT(1) ? DEFR7_CMME1 : 0;
+> +		defr7 |= rgrp->cmms_mask & BIT(0) ? DEFR7_CMME0 : 0;
+> +
+> +		rcar_du_group_write(rgrp, DEFR7, defr7);
+> +	}
+> +
+
+I would guard this with the CMM feature bit instead of cmms_mask, in
+order to write the register with 0 if CMMs are not supported, just in
+case it maye have been written to another value by the boot loader (or
+before a warm reboot).
+
+Apart from that,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>  	if (rcdu->info->gen >= 2) {
+>  		rcar_du_group_setup_defr8(rgrp);
+>  		rcar_du_group_setup_didsr(rgrp);
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_regs.h b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+> index bc87f080b170..fb9964949368 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+> @@ -197,6 +197,11 @@
+>  #define DEFR6_MLOS1		(1 << 2)
+>  #define DEFR6_DEFAULT		(DEFR6_CODE | DEFR6_TCNE1)
 >  
-> +#include "rcar_du_cmm.h"
->  #include "rcar_du_crtc.h"
->  #include "rcar_du_drv.h"
->  #include "rcar_du_encoder.h"
-> @@ -478,7 +480,7 @@ static void rcar_du_crtc_wait_page_flip(struct rcar_du_crtc *rcrtc)
->   * Start/Stop and Suspend/Resume
+> +#define DEFR7			0x000ec
+> +#define DEFR7_CODE		(0x7779 << 16)
+> +#define DEFR7_CMME1		BIT(6)
+> +#define DEFR7_CMME0		BIT(4)
+> +
+>  /* -----------------------------------------------------------------------------
+>   * R8A7790-only Control Registers
 >   */
->  
-> -static void rcar_du_crtc_setup(struct rcar_du_crtc *rcrtc)
-> +static int rcar_du_crtc_setup(struct rcar_du_crtc *rcrtc)
->  {
->  	/* Set display off and background to black */
->  	rcar_du_crtc_write(rcrtc, DOOR, DOOR_RGB(0, 0, 0));
-> @@ -495,8 +497,24 @@ static void rcar_du_crtc_setup(struct rcar_du_crtc *rcrtc)
->  	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
->  		rcar_du_vsp_enable(rcrtc);
->  
-> +	/* Enable CMM, if present. */
-> +	if (rcrtc->cmm) {
-> +		struct platform_device *pdev;
-> +		int ret;
-> +
-> +		pdev = of_find_device_by_node(rcrtc->cmm->np);
-> +		if (!pdev)
-> +			return PTR_ERR(pdev);
-
-This should go to init time, in order to defer probing of the DU if CMM
-isn't probed yet.
-
-> +
-> +		ret = rcar_du_cmm_setup(pdev, rcrtc);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
->  	/* Turn vertical blanking interrupt reporting on. */
->  	drm_crtc_vblank_on(&rcrtc->crtc);
-> +
-> +	return 0;
->  }
->  
->  static int rcar_du_crtc_get(struct rcar_du_crtc *rcrtc)
-> @@ -522,7 +540,10 @@ static int rcar_du_crtc_get(struct rcar_du_crtc *rcrtc)
->  	if (ret < 0)
->  		goto error_group;
->  
-> -	rcar_du_crtc_setup(rcrtc);
-> +	ret = rcar_du_crtc_setup(rcrtc);
-> +	if (ret < 0)
-> +		goto error_group;
-> +
->  	rcrtc->initialized = true;
->  
->  	return 0;
-> @@ -1182,6 +1203,19 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
->  	rcrtc->index = hwindex;
->  	rcrtc->dsysr = (rcrtc->index % 2 ? 0 : DSYSR_DRES) | DSYSR_TVM_TVSYNC;
->  
-> +	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_CMM)) {
-> +		unsigned int i;
-> +
-> +		for (i = 0; i < RCAR_DU_MAX_CMMS; ++i) {
-> +			struct rcar_du_cmm *cmm = &rcdu->cmms[i];
-> +
-> +			if (cmm->crtc != hwindex)
-> +				continue;
-> +
-> +			rcrtc->cmm = cmm;
-
-Let's just store the CMM instances in the same order as the CRTCs, and
-this can becomre rcrtc->cmm = &rcdu->cmms[swindex]; (and should be moved
-to the previous patch I think).
-
-> +		}
-> +	}
-> +
->  	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_VSP1_SOURCE))
->  		primary = &rcrtc->vsp->planes[rcrtc->vsp_pipe].plane;
->  	else
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> index 3b7fc668996f..8b31406bd11b 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> @@ -19,6 +19,7 @@
->  
->  #include <media/vsp1.h>
->  
-> +struct rcar_du_cmm;
->  struct rcar_du_group;
->  struct rcar_du_vsp;
->  
-> @@ -64,6 +65,7 @@ struct rcar_du_crtc {
->  	unsigned int vblank_count;
->  
->  	struct rcar_du_group *group;
-> +	struct rcar_du_cmm *cmm;
->  	struct rcar_du_vsp *vsp;
->  	unsigned int vsp_pipe;
->  
 
 -- 
 Regards,
