@@ -2,33 +2,33 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 298091A985
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 May 2019 23:07:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 679FC1A987
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 May 2019 23:07:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726414AbfEKVHj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 11 May 2019 17:07:39 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58306 "EHLO
+        id S1726415AbfEKVHk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 11 May 2019 17:07:40 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:58288 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726294AbfEKVHj (ORCPT
+        with ESMTP id S1726362AbfEKVHk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 11 May 2019 17:07:39 -0400
+        Sat, 11 May 2019 17:07:40 -0400
 Received: from pendragon.bb.dnainternet.fi (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7D154D50;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E40989F9;
         Sat, 11 May 2019 23:07:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1557608854;
-        bh=LaqJQT6TEqzcvHGeZpP78ao6L1MaaEzUsxmXK7DkUpc=;
+        s=mail; t=1557608855;
+        bh=1B7dAooCfZpIkl+dK29uGYb9y0qALr5WKOWOQ2/nL+M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UlFNRkKns+6amkU71I+chDhVQbrtu52/qwYmxZsvfG+03xaPLIJFtl33YjLJbFefJ
-         sdgLFiHSJi+O0JpjOFZ2nHXKoBxRC/2MgSdYGaQoP3NWExTtOG0LVEY0klg41VpiSH
-         rYdskH5LYkQvCuNtO6+fbt8tUWAZ30e0Xoq7JzIs=
+        b=p3ns6Do9pj/WAIEMvZK2n+fuNMkt4x5nyX//mrN7C71aBGjsCRMzXZ6zWX8wCgqYU
+         SF4kZJFaFpmfNStXG3CABEsKFsWKeVQ17znfQ46oy1Q4039KOIFI9LCwxehCwA+Sub
+         kkWBc59NIb5cyTDpccDMSXtKTqHaHwwiEaOjInlI=
 From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To:     dri-devel@lists.freedesktop.org
 Cc:     linux-renesas-soc@vger.kernel.org,
         Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH v2 07/10] drm: rcar-du: Skip LVDS1 output on Gen3 when using dual-link LVDS mode
-Date:   Sun, 12 May 2019 00:06:59 +0300
-Message-Id: <20190511210702.18394-8-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v2 08/10] arm64: dts: renesas: r8a7799[05]: Point LVDS0 to its companion LVDS1
+Date:   Sun, 12 May 2019 00:07:00 +0300
+Message-Id: <20190511210702.18394-9-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190511210702.18394-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20190511210702.18394-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -39,60 +39,41 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-In dual-link LVDS mode, the LVDS1 encoder is used as a companion for
-LVDS0, and both encoders transmit data from DU0. The LVDS1 output of DU1
-can't be used in that case, don't create an encoder and connector for
-it.
+Add the new renesas,companion property to the LVDS0 node to point to the
+companion LVDS encoder LVDS1.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_encoder.c | 12 ++++++++++++
- drivers/gpu/drm/rcar-du/rcar_du_kms.c     |  2 +-
- 2 files changed, 13 insertions(+), 1 deletion(-)
+ arch/arm64/boot/dts/renesas/r8a77990.dtsi | 2 ++
+ arch/arm64/boot/dts/renesas/r8a77995.dtsi | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-index 6c91753af7bc..fe046d194944 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_encoder.c
-@@ -16,6 +16,7 @@
- #include "rcar_du_drv.h"
- #include "rcar_du_encoder.h"
- #include "rcar_du_kms.h"
-+#include "rcar_lvds.h"
+diff --git a/arch/arm64/boot/dts/renesas/r8a77990.dtsi b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+index d2ad665fe2d9..b52e3fdb5fca 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77990.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+@@ -1731,6 +1731,8 @@
+ 			resets = <&cpg 727>;
+ 			status = "disabled";
  
- /* -----------------------------------------------------------------------------
-  * Encoder
-@@ -97,6 +98,17 @@ int rcar_du_encoder_init(struct rcar_du_device *rcdu,
- 		}
- 	}
- 
-+	/*
-+	 * On Gen3 skip the LVDS1 output if the LVDS1 encoder is used as a
-+	 * companion for LVDS0 in dual-link mode.
-+	 */
-+	if (rcdu->info->gen >= 3 && output == RCAR_DU_OUTPUT_LVDS1) {
-+		if (bridge && rcar_lvds_dual_link(bridge)) {
-+			ret = -ENOLINK;
-+			goto done;
-+		}
-+	}
++			renesas,companion = <&lvds1>;
 +
- 	ret = drm_encoder_init(rcdu->ddev, encoder, &encoder_funcs,
- 			       DRM_MODE_ENCODER_NONE, NULL);
- 	if (ret < 0)
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-index f8f7fff34dff..95c81e59e2f1 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-@@ -378,7 +378,7 @@ static int rcar_du_encoders_init_one(struct rcar_du_device *rcdu,
- 	}
+ 			ports {
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+index 5bf3af246e14..94b5177eb152 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+@@ -1038,6 +1038,8 @@
+ 			resets = <&cpg 727>;
+ 			status = "disabled";
  
- 	ret = rcar_du_encoder_init(rcdu, output, entity);
--	if (ret && ret != -EPROBE_DEFER)
-+	if (ret && ret != -EPROBE_DEFER && ret != -ENOLINK)
- 		dev_warn(rcdu->dev,
- 			 "failed to initialize encoder %pOF on output %u (%d), skipping\n",
- 			 entity, output, ret);
++			renesas,companion = <&lvds1>;
++
+ 			ports {
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
 -- 
 Regards,
 
