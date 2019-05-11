@@ -2,92 +2,210 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B0D51A7C6
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 May 2019 14:05:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C58A31A8FA
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 11 May 2019 20:10:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728526AbfEKMFo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 11 May 2019 08:05:44 -0400
-Received: from mail-eopbgr1400119.outbound.protection.outlook.com ([40.107.140.119]:35493
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725861AbfEKMFo (ORCPT
+        id S1725939AbfEKSKq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 11 May 2019 14:10:46 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:56824 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725928AbfEKSKp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 11 May 2019 08:05:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gCBbvpQUcD69vuX98q9yRmFQDson6LPl4W6+Vgj6zfc=;
- b=XppD+0UfsT9P1oL18lsfEO0XnjEiCMJZSCxS7vu9AKWgORDiWuntLRrPZwywcX8UkFAu7TqaNLj+AOwlE1gYsx96HLa0StmLjbq+N+LyjS9NB9eYtQL/RldcBt6kUqa0Sqb1S6SiHKCxDN2omeaQpgZkQwy1iRUheeg9neteVE0=
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com (52.133.163.12) by
- TY1PR01MB1802.jpnprd01.prod.outlook.com (52.133.164.13) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1878.21; Sat, 11 May 2019 12:05:35 +0000
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::99cf:c94c:d11f:c2f0]) by TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::99cf:c94c:d11f:c2f0%5]) with mapi id 15.20.1878.022; Sat, 11 May 2019
- 12:05:35 +0000
-From:   Chris Brandt <Chris.Brandt@renesas.com>
-To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Simon Horman <horms@verge.net.au>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v2 05/15] phy: renesas: rcar-gen3-usb2: Check dr_mode when
- not using OTG
-Thread-Topic: [PATCH v2 05/15] phy: renesas: rcar-gen3-usb2: Check dr_mode
- when not using OTG
-Thread-Index: AQHVBqOe6pcDFSgi+kib0k09CW4w2aZkCZeAgABXf8CAASsEAIAASbRA
-Date:   Sat, 11 May 2019 12:05:35 +0000
-Message-ID: <TY1PR01MB156253600A81FD44964B56658A0D0@TY1PR01MB1562.jpnprd01.prod.outlook.com>
-References: <20190509201142.10543-1-chris.brandt@renesas.com>
- <20190509201142.10543-6-chris.brandt@renesas.com>
- <e987df36-eca6-f05f-d1bf-7dc43fc9d4b4@cogentembedded.com>
- <TY1PR01MB15628A94DA371A7636984A708A0C0@TY1PR01MB1562.jpnprd01.prod.outlook.com>
- <711839c7-930f-938e-4626-8a7524f5b82e@cogentembedded.com>
-In-Reply-To: <711839c7-930f-938e-4626-8a7524f5b82e@cogentembedded.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Chris.Brandt@renesas.com; 
-x-originating-ip: [75.60.247.61]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4e26c54a-877a-41ac-ab22-08d6d608f9b8
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:TY1PR01MB1802;
-x-ms-traffictypediagnostic: TY1PR01MB1802:
-x-microsoft-antispam-prvs: <TY1PR01MB180284D196022A7249E26FA48A0D0@TY1PR01MB1802.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2887;
-x-forefront-prvs: 00342DD5BC
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(136003)(346002)(39850400004)(366004)(376002)(199004)(189003)(476003)(7696005)(5660300002)(66446008)(81166006)(76176011)(8936002)(86362001)(4326008)(66066001)(81156014)(6636002)(64756008)(66556008)(25786009)(6246003)(316002)(486006)(305945005)(256004)(8676002)(186003)(7736002)(71190400001)(99286004)(229853002)(71200400001)(53936002)(26005)(54906003)(6436002)(2906002)(3846002)(6116002)(68736007)(478600001)(52536014)(102836004)(74316002)(72206003)(66946007)(558084003)(110136005)(66476007)(55016002)(76116006)(14454004)(73956011)(446003)(11346002)(6506007)(33656002)(9686003);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1802;H:TY1PR01MB1562.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: /EMR5YXRXskiblYmCLSiZ6Kv3bRJRpX/wuEGfb/F+71V3nkvkn/jrFTH1MgXAfDA7s+c5Q+8RywH+A5TC7ntNzPaPAlyzJeQZucDzb0AOaNvTCNJfLcia3dKAuYhQx9SWzsypHL3S43Sc+HfwDc1Nbhwojb8EePlNE0oqLhmMJe4CZXDR7B8XIrqfrvUAcns7BpSY/IiHw9alBdjqrMjyhqadgnHmwSxszkKlfeHRr87wtNN5HQqbPWU9n03kGwXUrLQ00B7q7nFv+OZiWPe2t2+n1P4EIpSMHyi1on3uc9dSgqzwA8ALIQcRYJqQ90a10r/6EqqJDn8k3vdU8JDLOEY86GCtEt66a+1v2BZWqIZz3lHxDhaMhEauL4bBVSB47HPo/IHyHQ7iYsnu61zEPIBqnjWAQr4VoC4jEUDqio=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Sat, 11 May 2019 14:10:45 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1D08DD5;
+        Sat, 11 May 2019 20:10:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1557598243;
+        bh=tXXsMV8MngFD+RJ6/ms5P8JhrsgEl9NfaJiIFm15bNw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=leS0t5LR4NFKUPSJ3CJ/GQxdUiFRxSJWwajrGk3DLth+gSbLUhAOPD4PcG8nD6HWS
+         EPHoyiMnOulErCx0kzyQ0QmlHsK9NFhW9q9Nbvk7V6RcqaDxXXREkdQ3TX30kxF8yD
+         TpS4o+xG+MFQEORRFzIsWGi8k+zjqQnl+lvaj03Q=
+Date:   Sat, 11 May 2019 21:10:27 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Esaki Tomohito <etom@igel.co.jp>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] drm: rcar-du: add modifiers support
+Message-ID: <20190511181027.GC13043@pendragon.ideasonboard.com>
+References: <20190509054518.10781-1-etom@igel.co.jp>
+ <20190509071429.GA4773@pendragon.ideasonboard.com>
+ <20217791-f912-0864-48a9-dfacadfb3650@igel.co.jp>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e26c54a-877a-41ac-ab22-08d6d608f9b8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 May 2019 12:05:35.5454
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1802
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20217791-f912-0864-48a9-dfacadfb3650@igel.co.jp>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-T24gU2F0LCBNYXkgMTEsIDIwMTksIFNlcmdlaSBTaHR5bHlvdiB3cm90ZToNCj4gPiAJCWNhc2Ug
-VVNCX0RSX01PREVfVU5LTk9XTjoNCj4gPiAJCWNhc2UgVVNCX0RSX01PREVfT1RHOg0KPiANCj4g
-ICAgIE1heWJlIGRlZmF1bHQ6IGluc3RlYWQ/DQoNClllcywgdXNpbmcgZGVmYXVsdCBpbnN0ZWFk
-IHdvcmtzLg0KDQpUaGFuayB5b3UhDQoNCkNocmlzDQo=
+Hello Esaki-san,
+
+On Thu, May 09, 2019 at 06:25:19PM +0900, Esaki Tomohito wrote:
+> Hi Laurent-san
+> 
+> > What's the purpose of this, as it adds no new functionality to the
+> > driver ? Why is this change needed ?
+> 
+> Weston compositor (v5.0.0 or later) uses the DRM API to get the
+> supported modifiers and determines if the sprite plane can be used by
+> comparing the modifiers with the client specified modifier.
+> In currently driver, since the weston doesn't know supported modifiers,
+> that cannot determine if the received dmabuf can be passed through to
+> sprite plane.
+> Since there are R-Car GPU which support linear modifier, the sprite
+> plane cannot be used in a compositor similar to the weston if client
+> specify linear modifier.
+
+I don't think the right solution is to expose the linear modifier from
+all drivers that don't otherwise support modifiers. We should instead
+fix it either in Weston, and treat drivers that don't support the
+modifiers API as supporting the linear modifier only, or in the DRM/KMS
+core by reporting the linear modifier for drivers that don't explicitly
+support modifiers.
+
+> On 2019/05/09 16:14, Laurent Pinchart wrote:
+> > On Thu, May 09, 2019 at 02:45:18PM +0900, Tomohito Esaki wrote:
+> >> Add support for the linear modifier. Since the rcar-du device supports
+> >> only linear modifier, this driver doesn't support other modifiers.
+> > 
+> > What's the purpose of this, as it adds no new functionality to the
+> > driver ? Why is this change needed ?
+> > 
+> >> Signed-off-by: Tomohito Esaki <etom@igel.co.jp>
+> >> ---
+> >>  drivers/gpu/drm/rcar-du/rcar_du_kms.c   | 11 +++++++++++
+> >>  drivers/gpu/drm/rcar-du/rcar_du_plane.c | 15 ++++++++++++++-
+> >>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c   | 15 ++++++++++++++-
+> >>  3 files changed, 39 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> >> index 3b7d50a8fb9b..9c5e15a5ab1c 100644
+> >> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> >> @@ -214,6 +214,16 @@ rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
+> >>  		return ERR_PTR(-EINVAL);
+> >>  	}
+> >>  
+> >> +	/*
+> >> +	 * Support only LINEAR modifier.
+> >> +	 */
+> >> +	if ((mode_cmd->flags & DRM_MODE_FB_MODIFIERS) &&
+> >> +	    mode_cmd->modifier[0] != DRM_FORMAT_MOD_LINEAR) {
+> >> +		dev_dbg(dev->dev, "unsupported fb modifier 0x%llx\n",
+> >> +			mode_cmd->modifier[0]);
+> >> +		return ERR_PTR(-EINVAL);
+> >> +	}
+> >> +
+> >>  	if (rcdu->info->gen < 3) {
+> >>  		/*
+> >>  		 * On Gen2 the DU limits the pitch to 4095 pixels and requires
+> >> @@ -529,6 +539,7 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
+> >>  	dev->mode_config.min_width = 0;
+> >>  	dev->mode_config.min_height = 0;
+> >>  	dev->mode_config.normalize_zpos = true;
+> >> +	dev->mode_config.allow_fb_modifiers = true;
+> >>  	dev->mode_config.funcs = &rcar_du_mode_config_funcs;
+> >>  	dev->mode_config.helper_private = &rcar_du_mode_config_helper;
+> >>  
+> >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> >> index c6430027169f..32135ad387fa 100644
+> >> --- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> >> @@ -726,6 +726,13 @@ static int rcar_du_plane_atomic_get_property(struct drm_plane *plane,
+> >>  	return 0;
+> >>  }
+> >>  
+> >> +static bool rcar_du_plane_format_mod_supported(struct drm_plane *plane,
+> >> +					       uint32_t format,
+> >> +					       uint64_t modifier)
+> >> +{
+> >> +	return modifier == DRM_FORMAT_MOD_LINEAR;
+> >> +}
+> >> +
+> >>  static const struct drm_plane_funcs rcar_du_plane_funcs = {
+> >>  	.update_plane = drm_atomic_helper_update_plane,
+> >>  	.disable_plane = drm_atomic_helper_disable_plane,
+> >> @@ -735,6 +742,7 @@ static const struct drm_plane_funcs rcar_du_plane_funcs = {
+> >>  	.atomic_destroy_state = rcar_du_plane_atomic_destroy_state,
+> >>  	.atomic_set_property = rcar_du_plane_atomic_set_property,
+> >>  	.atomic_get_property = rcar_du_plane_atomic_get_property,
+> >> +	.format_mod_supported = rcar_du_plane_format_mod_supported,
+> >>  };
+> >>  
+> >>  static const uint32_t formats[] = {
+> >> @@ -750,6 +758,11 @@ static const uint32_t formats[] = {
+> >>  	DRM_FORMAT_NV16,
+> >>  };
+> >>  
+> >> +static const uint64_t modifiers[] = {
+> >> +	DRM_FORMAT_MOD_LINEAR,
+> >> +	DRM_FORMAT_MOD_INVALID,
+> >> +};
+> >> +
+> >>  int rcar_du_planes_init(struct rcar_du_group *rgrp)
+> >>  {
+> >>  	struct rcar_du_device *rcdu = rgrp->dev;
+> >> @@ -776,7 +789,7 @@ int rcar_du_planes_init(struct rcar_du_group *rgrp)
+> >>  		ret = drm_universal_plane_init(rcdu->ddev, &plane->plane, crtcs,
+> >>  					       &rcar_du_plane_funcs, formats,
+> >>  					       ARRAY_SIZE(formats),
+> >> -					       NULL, type, NULL);
+> >> +					       modifiers, type, NULL);
+> >>  		if (ret < 0)
+> >>  			return ret;
+> >>  
+> >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> >> index 0878accbd134..9d1382b02717 100644
+> >> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> >> @@ -139,6 +139,11 @@ static const u32 formats_kms[] = {
+> >>  	DRM_FORMAT_YVU444,
+> >>  };
+> >>  
+> >> +static const uint64_t modifiers_kms[] = {
+> >> +	DRM_FORMAT_MOD_LINEAR,
+> >> +	DRM_FORMAT_MOD_INVALID,
+> >> +};
+> >> +
+> >>  static const u32 formats_v4l2[] = {
+> >>  	V4L2_PIX_FMT_RGB332,
+> >>  	V4L2_PIX_FMT_ARGB444,
+> >> @@ -344,6 +349,13 @@ static void rcar_du_vsp_plane_reset(struct drm_plane *plane)
+> >>  	state->state.zpos = plane->type == DRM_PLANE_TYPE_PRIMARY ? 0 : 1;
+> >>  }
+> >>  
+> >> +static bool rcar_du_vsp_plane_format_mod_supported(struct drm_plane *plane,
+> >> +						   uint32_t format,
+> >> +						   uint64_t modifier)
+> >> +{
+> >> +	return modifier == DRM_FORMAT_MOD_LINEAR;
+> >> +}
+> >> +
+> >>  static const struct drm_plane_funcs rcar_du_vsp_plane_funcs = {
+> >>  	.update_plane = drm_atomic_helper_update_plane,
+> >>  	.disable_plane = drm_atomic_helper_disable_plane,
+> >> @@ -351,6 +363,7 @@ static const struct drm_plane_funcs rcar_du_vsp_plane_funcs = {
+> >>  	.destroy = drm_plane_cleanup,
+> >>  	.atomic_duplicate_state = rcar_du_vsp_plane_atomic_duplicate_state,
+> >>  	.atomic_destroy_state = rcar_du_vsp_plane_atomic_destroy_state,
+> >> +	.format_mod_supported = rcar_du_vsp_plane_format_mod_supported,
+> >>  };
+> >>  
+> >>  int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+> >> @@ -397,7 +410,7 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+> >>  					       &rcar_du_vsp_plane_funcs,
+> >>  					       formats_kms,
+> >>  					       ARRAY_SIZE(formats_kms),
+> >> -					       NULL, type, NULL);
+> >> +					       modifiers_kms, type, NULL);
+> >>  		if (ret < 0)
+> >>  			return ret;
+> >>  
+
+-- 
+Regards,
+
+Laurent Pinchart
