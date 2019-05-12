@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CBE291AC67
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 12 May 2019 15:35:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F2591AC81
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 12 May 2019 15:49:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726442AbfELNfw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 12 May 2019 09:35:52 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:56936 "EHLO
+        id S1726529AbfELNtC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 12 May 2019 09:49:02 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:57046 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726415AbfELNfv (ORCPT
+        with ESMTP id S1726488AbfELNtC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 12 May 2019 09:35:51 -0400
+        Sun, 12 May 2019 09:49:02 -0400
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07B052B6;
-        Sun, 12 May 2019 15:35:49 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EF2412B6;
+        Sun, 12 May 2019 15:48:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1557668150;
-        bh=zolNMCRQP9CsOD1EJ2sLNp4MGIGXNTFYv6ci/HE00hs=;
+        s=mail; t=1557668940;
+        bh=S9q3cQX9PUs99WoceG4adVTm2IYoq1o8VisSrgnbI04=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=s9JlnEryuJi2G2MXIA1M6Fcqpq37XXM12Z9vNKsPi41dss9TiBhoKmh6cupT3D6nX
-         uaVndxhd0aMsr3v4q/ZCRa4kecKMUf06DP5txtRyHp+lV4nAL+Qchv8LT8Zknw3YMc
-         hx2M+Dv+Ueuhl7KRGY3bKWiqam80Qg5XDMG/LpqE=
-Date:   Sun, 12 May 2019 16:35:33 +0300
+        b=beZsSotvqBL+n9M1P7HnuGY+biyEoOXYgeX3/h9sJ073eRoyg7KEBOKGbhgtwYT5e
+         vSGDjwqhw/AHFjXgnATycIRrVG2FUMsahdA+dFlXLyWhZHf4TT3p28RszcNjpXHKT3
+         shJFT7S0AVG8V3kRqrVWrBFyHycP8Lm//ButjOq0=
+Date:   Sun, 12 May 2019 16:48:43 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Cc:     linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
         David Airlie <airlied@linux.ie>,
         open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 3/6] drm: rcar-du: Add pre/post commit CRTC helpers
-Message-ID: <20190512133533.GD4960@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 4/6] drm: rcar-du: Provide for_each_group helper
+Message-ID: <20190512134843.GE4960@pendragon.ideasonboard.com>
 References: <20190315170110.23280-1-kieran.bingham+renesas@ideasonboard.com>
- <20190315170110.23280-4-kieran.bingham+renesas@ideasonboard.com>
+ <20190315170110.23280-5-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190315170110.23280-4-kieran.bingham+renesas@ideasonboard.com>
+In-Reply-To: <20190315170110.23280-5-kieran.bingham+renesas@ideasonboard.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -44,119 +44,89 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Kieran,
 
-Thank you for the patch.
+Thank you for the patch?
 
-On Fri, Mar 15, 2019 at 05:01:07PM +0000, Kieran Bingham wrote:
-> Provide helpers to allow CRTC configuration to be separated from the power
-> state handling. rcar_du_crtc_atomic_post_commit() is a no-op, but maintained
-> for API symmetry.
-
-Do you think we will need to fill rcar_du_crtc_atomic_post_commit()
-later ? If not I wouldn't add it, and I may even rename
-rcar_du_crtc_atomic_pre_commit() to rcar_du_crtc_atomic_setup() to make
-its purpose clearer.
-
+On Fri, Mar 15, 2019 at 05:01:08PM +0000, Kieran Bingham wrote:
+> Refactoring of the group control code will soon require more iteration
+> over the available groups. Simplify this process by introducing a group
+> iteration helper.
 > 
-
-Missing SoB line ?
-
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > ---
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 25 +++++++++++++++++++++++--
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.h |  5 +++++
->  drivers/gpu/drm/rcar-du/rcar_du_kms.c  |  2 ++
->  3 files changed, 30 insertions(+), 2 deletions(-)
+> v2:
+>  - no change
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> index 6109a97b0bb9..2606de788688 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> @@ -515,8 +515,6 @@ static int rcar_du_crtc_enable(struct rcar_du_crtc *rcrtc)
->  	if (ret < 0)
->  		goto error_group;
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.h |  5 +++++
+>  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 10 ++--------
+>  2 files changed, 7 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> index 1327cd0df90a..1e9dd494e8ac 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> @@ -96,6 +96,11 @@ struct rcar_du_device {
+>  	unsigned int vspd1_sink;
+>  };
 >  
-> -	rcar_du_crtc_setup(rcrtc);
-> -
->  	return 0;
->  
->  error_group:
-> @@ -683,6 +681,29 @@ int rcar_du_crtc_atomic_enter_standby(struct drm_device *dev,
->  	return 0;
->  }
->  
-> +int rcar_du_crtc_atomic_pre_commit(struct drm_device *dev,
-> +				   struct drm_atomic_state *state)
-> +{
-> +	struct drm_crtc *crtc;
-> +	struct drm_crtc_state *crtc_state;
-> +	unsigned int i;
-> +
-> +	for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
-> +		struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-> +
-> +		if (crtc_state->active_changed && crtc_state->active)
-> +			rcar_du_crtc_setup(rcrtc);
+> +#define for_each_rcdu_group(__rcdu, __group, __i) \
+> +	for ((__i) = 0; (__group = &(rcdu)->groups[__i]), \
+> +	     (__i) < DIV_ROUND_UP((rcdu)->num_crtcs, 2); \
+> +	     __i++)
 
-I wondered why you didn't merge this with the existing
-rcar_du_crtc_atomic_exit_standby() function, and saw in a later patch
-that you have to introduce another operation in-between. I would explain
-this in the commit message.
+s/(rcdu)/(__rcdu)/
 
-> +	}
-> +
-> +	return 0;
+Assigning __group in the condition part of the for statement seems
+weird, even if it should work. How about writing it as
 
-As this function and the next one are called in a context that can never
-fail, and as the functions never return a failure, I would make them
-void.
+#define for_each_rcdu_group(__rcdu, __group, __i) \
+	for ((__i) = 0, (__group) = &(__rcdu)->groups[0]; \
+	     (__i) < DIV_ROUND_UP((__rcdu)->num_crtcs, 2); \
+	     __i++, __group++)
+
+Apart from this,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> +}
-> +
-> +int rcar_du_crtc_atomic_post_commit(struct drm_device *dev,
-> +				    struct drm_atomic_state *state)
-> +{
-> +	return 0;
-> +}
-> +
->  static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
->  				       struct drm_crtc_state *old_state)
+>  static inline bool rcar_du_has(struct rcar_du_device *rcdu,
+>  			       unsigned int feature)
 >  {
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> index d12d4a788e9f..0b60a6e0b753 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> @@ -105,6 +105,11 @@ int rcar_du_crtc_atomic_exit_standby(struct drm_device *dev,
->  int rcar_du_crtc_atomic_enter_standby(struct drm_device *dev,
->  				      struct drm_atomic_state *state);
->  
-> +int rcar_du_crtc_atomic_pre_commit(struct drm_device *dev,
-> +				   struct drm_atomic_state *state);
-> +int rcar_du_crtc_atomic_post_commit(struct drm_device *dev,
-> +				    struct drm_atomic_state *state);
-> +
->  void rcar_du_crtc_dsysr_clr_set(struct rcar_du_crtc *rcrtc, u32 clr, u32 set);
->  
->  #endif /* __RCAR_DU_CRTC_H__ */
 > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> index b8da4dfc79d2..e4befb1937f8 100644
+> index e4befb1937f8..ece92cff2137 100644
 > --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
 > +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> @@ -304,12 +304,14 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
+> @@ -522,9 +522,9 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
 >  
->  	/* Apply the atomic update. */
->  	rcar_du_crtc_atomic_exit_standby(dev, old_state);
-> +	rcar_du_crtc_atomic_pre_commit(dev, old_state);
+>  	struct drm_device *dev = rcdu->ddev;
+>  	struct drm_encoder *encoder;
+> +	struct rcar_du_group *rgrp;
+>  	unsigned int dpad0_sources;
+>  	unsigned int num_encoders;
+> -	unsigned int num_groups;
+>  	unsigned int swindex;
+>  	unsigned int hwindex;
+>  	unsigned int i;
+> @@ -565,11 +565,7 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
+>  		return ret;
 >  
->  	drm_atomic_helper_commit_modeset_disables(dev, old_state);
->  	drm_atomic_helper_commit_planes(dev, old_state,
->  					DRM_PLANE_COMMIT_ACTIVE_ONLY);
->  	drm_atomic_helper_commit_modeset_enables(dev, old_state);
+>  	/* Initialize the groups. */
+> -	num_groups = DIV_ROUND_UP(rcdu->num_crtcs, 2);
+> -
+> -	for (i = 0; i < num_groups; ++i) {
+> -		struct rcar_du_group *rgrp = &rcdu->groups[i];
+> -
+> +	for_each_rcdu_group(rcdu, rgrp, i) {
+>  		mutex_init(&rgrp->lock);
 >  
-> +	rcar_du_crtc_atomic_post_commit(dev, old_state);
->  	rcar_du_crtc_atomic_enter_standby(dev, old_state);
+>  		rgrp->dev = rcdu;
+> @@ -606,8 +602,6 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
 >  
->  	drm_atomic_helper_commit_hw_done(old_state);
+>  	/* Create the CRTCs. */
+>  	for (swindex = 0, hwindex = 0; swindex < rcdu->num_crtcs; ++hwindex) {
+> -		struct rcar_du_group *rgrp;
+> -
+>  		/* Skip unpopulated DU channels. */
+>  		if (!(rcdu->info->channels_mask & BIT(hwindex)))
+>  			continue;
 
 -- 
 Regards,
