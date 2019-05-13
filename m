@@ -2,100 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 489B01B2BC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 May 2019 11:19:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 450AE1B326
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 May 2019 11:46:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727837AbfEMJT4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 May 2019 05:19:56 -0400
-Received: from foss.arm.com ([217.140.101.70]:49932 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727576AbfEMJT4 (ORCPT
+        id S1728086AbfEMJqO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 May 2019 05:46:14 -0400
+Received: from mail-eopbgr1410090.outbound.protection.outlook.com ([40.107.141.90]:37001
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727848AbfEMJqN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 May 2019 05:19:56 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E3836341;
-        Mon, 13 May 2019 02:19:55 -0700 (PDT)
-Received: from [10.37.12.148] (unknown [10.37.12.148])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 370653F703;
-        Mon, 13 May 2019 02:19:54 -0700 (PDT)
-Subject: Re: [RFC PATCH] ARM: mach-shmobile: Parse DT to get ARCH timer memory
- region
-To:     Oleksandr Tyshchenko <olekstysh@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     horms@verge.net.au, magnus.damm@gmail.com, linux@armlinux.org.uk,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
-References: <1557505377-28577-1-git-send-email-olekstysh@gmail.com>
-From:   Julien Grall <julien.grall@arm.com>
-Message-ID: <e64d7f2f-209e-cf7d-6ddc-88d338b1c010@arm.com>
-Date:   Mon, 13 May 2019 10:19:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Mon, 13 May 2019 05:46:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QdnBwz2fcK4NnNm0pJXEtSp7TxCbROigNJeM/fX2gKg=;
+ b=RcGtCyzrqP19YJmRZbfq3LvicX3ZriiyGHH1khWLb6F8t1Aorr6DV/Sb0uGZRk9Q/qpyXCJHihZFbrYw3/eFpFwb6VA1S+Xc+RlF+0JXtjOUWfO9Dbe9yImeK8DEL3Ulc7RKeexurC8j6fC7tLISinncbwdTC9bf4hzC+oNmZ+c=
+Received: from OSBPR01MB3174.jpnprd01.prod.outlook.com (20.176.240.146) by
+ OSBPR01MB2440.jpnprd01.prod.outlook.com (52.134.254.138) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1878.22; Mon, 13 May 2019 09:46:08 +0000
+Received: from OSBPR01MB3174.jpnprd01.prod.outlook.com
+ ([fe80::f873:6332:738d:7213]) by OSBPR01MB3174.jpnprd01.prod.outlook.com
+ ([fe80::f873:6332:738d:7213%3]) with mapi id 15.20.1878.024; Mon, 13 May 2019
+ 09:46:08 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Wolfram Sang <wsa@the-dreams.de>
+CC:     "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v2 2/2] mmc: renesas_sdhi: use multiple segments if
+ possible
+Thread-Topic: [PATCH v2 2/2] mmc: renesas_sdhi: use multiple segments if
+ possible
+Thread-Index: AQHVCUUKmVh+8cTBr0GLk/9Xe/IGjKZowjMAgAAKVjA=
+Date:   Mon, 13 May 2019 09:46:08 +0000
+Message-ID: <OSBPR01MB3174B96296BFFA408F1C901FD80F0@OSBPR01MB3174.jpnprd01.prod.outlook.com>
+References: <1557721744-30545-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1557721744-30545-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <20190513090054.GA15744@kunai>
+In-Reply-To: <20190513090054.GA15744@kunai>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [118.238.235.108]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2cedbd18-da97-4b7b-ce6f-08d6d787d366
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB2440;
+x-ms-traffictypediagnostic: OSBPR01MB2440:
+x-microsoft-antispam-prvs: <OSBPR01MB24408B6C80EA020ED0381723D80F0@OSBPR01MB2440.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0036736630
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(136003)(396003)(346002)(366004)(376002)(39860400002)(189003)(199004)(52314003)(54094003)(4326008)(55016002)(186003)(14454004)(2906002)(74316002)(9686003)(33656002)(478600001)(486006)(86362001)(6116002)(3846002)(54906003)(6916009)(25786009)(476003)(11346002)(446003)(71190400001)(26005)(81166006)(102836004)(66066001)(316002)(81156014)(68736007)(71200400001)(7696005)(8936002)(6246003)(256004)(76176011)(52536014)(66946007)(73956011)(66446008)(64756008)(66556008)(66476007)(76116006)(14444005)(99286004)(305945005)(53936002)(6506007)(5660300002)(6436002)(8676002)(229853002)(7736002);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB2440;H:OSBPR01MB3174.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: lF50DJs9RsBs5GxB0QprtVPCMayYUQYHgDRYaMmBJxGjLvzO9A2FhnPKEh5kR3kw8k9nnr+6JA0wTKbMcCpMWkPl25++le5L5+jnNy2nZ5EJOA04Rmp225IyPxnF6qMmgm0qH54VWV0QN9JpOYLNbnbNLHGBSDCX0LVIn1bHOGlDMBgggukLGLCRTZgcLr6e+5QHHx95fN9H/WmBO/mF2zf/tzqK6ntaB3baz+/rmXpRfw0OwK3hJf9O0R79QOL+Tae7+9J8Puy1S9XmlSwA6IRMK6jQqAHfTnQe/+IG2XIeywkPnx3MtvDwcyUzAcMoPNDkyB0AQPAO0BJGCa3riehqaj+zPn+//dpERbn7FxVSnghCsEhi+jqi6P1GTGWA2qchbFP9p9qBZKV59+yGPxMyrHS8g8l4vJt2tJjXkTg=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <1557505377-28577-1-git-send-email-olekstysh@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2cedbd18-da97-4b7b-ce6f-08d6d787d366
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2019 09:46:08.5131
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB2440
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+Hi Wolfram-san,
 
-On 5/10/19 5:22 PM, Oleksandr Tyshchenko wrote:
-> From: Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
-> 
-> Don't use hardcoded address, retrieve it from device-tree instead.
-> 
-> And besides, this patch fixes the memory error when running
-> on top of Xen hypervisor:
-> 
-> (XEN) traps.c:1999:d0v0 HSR=0x93830007 pc=0xc0b097f8 gva=0xf0805000
->        gpa=0x000000e6080000
-> 
-> Which shows that VCPU0 in Dom0 is trying to access an address in memory
-> it is not allowed to access (0x000000e6080000).
-> Put simply, Xen doesn't know that it is a device's register memory
-> since it wasn't described in a host device tree (which Xen parses)
-> and as the result this memory region wasn't assigned to Dom0 at
-> domain creation time.
-> 
-> Signed-off-by: Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
-> 
-> ---
-> 
-> This patch is meant to get feedback from the community before
-> proceeding further. If we decide to go this direction, all Gen2
-> device-trees should be updated (add memory region) before
-> this patch going in.
-> 
-> e.g. r8a7790.dtsi:
-> 
-> ...
-> timer {
-> 	compatible = "arm,armv7-timer";
-> 	interrupts-extended = <&gic GIC_PPI 13 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
-> 			      <&gic GIC_PPI 14 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
-> 			      <&gic GIC_PPI 11 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>,
-> 			      <&gic GIC_PPI 10 (GIC_CPU_MASK_SIMPLE(8) | IRQ_TYPE_LEVEL_LOW)>;
-> +	 reg = <0 0xe6080000 0 0x1000>;
+> From: Wolfram Sang, Sent: Monday, May 13, 2019 6:01 PM
+>=20
+> Hi Shimoda-san,
+>=20
+> thank you for this update!
+>=20
+> > +static void renesas_sdhi_init_card(struct mmc_host *mmc, struct mmc_ca=
+rd *card)
+> > +{
+> > +	struct tmio_mmc_host *host =3D mmc_priv(mmc);
+> > +
+> > +	if (host->pdev->dev.iommu_group &&
+>=20
+> I wonder if I am too cautious, but maybe we should have another
+> condition here to be checked first, namely "host->mmc->max_segs < 512"?
 
-This looks incorrect, the "arm,armv7-timer" bindings doesn't offer you 
-the possibility to specify an MMIO region. This makes sense because it 
-is meant to describe the Arch timer that is only access via co-processor 
-registers.
+I got it. I'll fix it on v3 patch.
 
-Looking at the code, I think the MMIO region corresponds to the 
-coresight (based on the register name). So you may want to describe the 
-coresight in the Device-Tree.
+> > +	    (mmc_card_mmc(card) || mmc_card_sd(card)))
+> > +		host->mmc->max_segs =3D 512;
+> > +	else
+> > +		host->mmc->max_segs =3D host->pdata->max_segs;
+>=20
+> max_segs can be 0, so we should probably have:
+>=20
+>  +		host->mmc->max_segs =3D host->pdata->max_segs ?: 32;
 
-Also, AFAICT, the code is configuring and turning on the timer if it has 
-not been done yet. If you are here running on Xen, then you have 
-probably done something wrong. Indeed, it means Xen would not be able to 
-use the timer until Dom0 has booted. But, shouldn't newer U-boot do it 
-for you?
+Thank you for the point! I'll fix it on v3 patch.
 
-Cheers,
+> That also means, for the sys-dmac and Gen2, we then use 512 for the
+> IOMMU case and 32 (default TMIO value) for the non IOMMU case. My
+> understanding is that SYS DMAC can handle 512 in both cases. Maybe it
+> makes sense then to make an incremental patch setting the max_segs value
+> explicitly to 512 in the sys-dmac driver for Gen2?
 
--- 
-Julien Grall
+I also think SYS DMAC can handle 512 segments. However, I'm not sure
+it can improve the performance or not though. Anyway, an incremental patch
+makes sense if needed, I think.
+
+Best regards,
+Yoshihiro Shimoda
+
+> Kind regards,
+>=20
+>    Wolfram
+
