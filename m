@@ -2,41 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E0681B5AE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 May 2019 14:18:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E3201B5B8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 May 2019 14:20:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727413AbfEMMSL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 May 2019 08:18:11 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:57826 "EHLO
+        id S1729812AbfEMMUR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 May 2019 08:20:17 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:57918 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727414AbfEMMSL (ORCPT
+        with ESMTP id S1727414AbfEMMUR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 May 2019 08:18:11 -0400
+        Mon, 13 May 2019 08:20:17 -0400
 Received: from penelope.horms.nl (ip4dab7138.direct-adsl.nl [77.171.113.56])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 58D1D25AD63;
-        Mon, 13 May 2019 22:18:09 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 5782725AD63;
+        Mon, 13 May 2019 22:20:15 +1000 (AEST)
 Received: by penelope.horms.nl (Postfix, from userid 7100)
-        id 37659E22B88; Mon, 13 May 2019 14:18:07 +0200 (CEST)
-Date:   Mon, 13 May 2019 14:18:07 +0200
+        id 3C962E22B88; Mon, 13 May 2019 14:20:13 +0200 (CEST)
+Date:   Mon, 13 May 2019 14:20:13 +0200
 From:   Simon Horman <horms@verge.net.au>
-To:     Ulrich Hecht <uli@fpond.eu>
-Cc:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-        davem@davemloft.net, wsa@the-dreams.de, magnus.damm@gmail.com
-Subject: Re: [PATCH] ravb: implement MTU change while device is up
-Message-ID: <20190513121807.cutayiact3qdbxt4@verge.net.au>
-References: <1557328882-24307-1-git-send-email-uli+renesas@fpond.eu>
- <1f7be29e-c85a-d63d-c83f-357a76e8ca45@cogentembedded.com>
- <20190508165219.GA26309@bigcity.dyn.berto.se>
- <434070244.1141414.1557385064484@webmail.strato.com>
- <20190509101020.4ozvazptoy53gh55@verge.net.au>
- <344020243.1186987.1557415941124@webmail.strato.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        HIROYUKI YOKOYAMA <hiroyuki.yokoyama.vx@renesas.com>,
+        Vinod Koul <vkoul@kernel.org>
+Subject: Re: [PATCH] dmaengine: rcar-dmac: Update copyright information
+Message-ID: <20190513122012.kv7q2krvq3dlzij4@verge.net.au>
+References: <20190410182657.23034-1-niklas.soderlund+renesas@ragnatech.se>
+ <20190411084937.y5m6vzcwtkqqun7s@verge.net.au>
+ <20190411151756.GC30887@bigcity.dyn.berto.se>
+ <CAMuHMdXLM0hkUva4AukBpYy+=mRQ_tWT4XCGb=ZGbuT5nYMzjA@mail.gmail.com>
+ <OSBPR01MB1733615712FC0F8271580D8BD83D0@OSBPR01MB1733.jpnprd01.prod.outlook.com>
+ <20190426115343.GY28103@vkoul-mobl>
+ <20190509125528.d7eryp5iv45yn2mp@verge.net.au>
+ <OSBPR01MB31747DA6369AD1C240972FBBD80C0@OSBPR01MB3174.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <344020243.1186987.1557415941124@webmail.strato.com>
+In-Reply-To: <OSBPR01MB31747DA6369AD1C240972FBBD80C0@OSBPR01MB3174.jpnprd01.prod.outlook.com>
 Organisation: Horms Solutions BV
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -44,52 +47,20 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, May 09, 2019 at 05:32:21PM +0200, Ulrich Hecht wrote:
+On Fri, May 10, 2019 at 11:03:48AM +0000, Yoshihiro Shimoda wrote:
+> Hi Simon-san,
 > 
-> > On May 9, 2019 at 12:10 PM Simon Horman <horms@verge.net.au> wrote:
+> > From: Simon Horman, Sent: Thursday, May 9, 2019 9:55 PM
 > > 
+> <snip>
+> > Shimoda-san, can we go further and also:
 > > 
-> > On Thu, May 09, 2019 at 08:57:44AM +0200, Ulrich Hecht wrote:
-> > > 
-> > > > On May 8, 2019 at 6:52 PM Niklas Söderlund <niklas.soderlund@ragnatech.se> wrote:
-> > > > 
-> > > > 
-> > > > Hi Sergei,
-> > > > 
-> > > > On 2019-05-08 18:59:01 +0300, Sergei Shtylyov wrote:
-> > > > > Hello!
-> > > > > 
-> > > > > On 05/08/2019 06:21 PM, Ulrich Hecht wrote:
-> > > > > 
-> > > > > > Uses the same method as various other drivers: shut the device down,
-> > > > > > change the MTU, then bring it back up again.
-> > > > > > 
-> > > > > > Tested on Renesas D3 Draak board.
-> > > > > > 
-> > > > > > Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> > > > > 
-> > > > >    You should have CC'ed me (as an reviewer for the Renesas drivers).
-> > > 
-> > > Sorry, will do next time.
-> > > 
-> > > > > 
-> > > > >    How about the code below instead?
-> > > > > 
-> > > > > 	if (netif_running(ndev))
-> > > > > 		ravb_close(ndev);
-> > > > > 
-> > > > >  	ndev->mtu = new_mtu;
-> > > > > 	netdev_update_features(ndev);
-> > > > 
-> > > > Is there a need to call netdev_update_features() even if the if is not 
-> > > > running?
-> > > 
-> > > In my testing, it didn't seem so.
-> > 
-> > That may be because your testing doesn't cover cases where it would make
-> > any difference.
+> > 1. Remove the r8a66597-udc driver, which also seems unused
+> > 2. Remove (minimal) sudmac integration from usbhs ?
 > 
-> Cases other than changing the MTU while the device is up?
+> I think so. I'll do both.
+> About the 2, I'll do it when adding RZ/A2 support from Chris-san is applied.
 
-I was thinking of cases where listeners are registered for the
-notifier that netdev_update_features() triggers.
+Thanks Shimoda-san,
+
+much appreciated.
