@@ -2,176 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9809F1B0E8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 May 2019 09:11:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46D301B108
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 May 2019 09:14:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727764AbfEMHLe convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 May 2019 03:11:34 -0400
-Received: from mail-vs1-f66.google.com ([209.85.217.66]:36200 "EHLO
-        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726841AbfEMHLd (ORCPT
+        id S1727796AbfEMHOX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 May 2019 03:14:23 -0400
+Received: from mail-eopbgr1400124.outbound.protection.outlook.com ([40.107.140.124]:5536
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727791AbfEMHOX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 May 2019 03:11:33 -0400
-Received: by mail-vs1-f66.google.com with SMTP id c76so7358097vsd.3;
-        Mon, 13 May 2019 00:11:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=AwLnfNDWLBJHzIjiUSN0rlrxnWBlC6Tvjo4enXu1mhg=;
-        b=Egg7OwyxiZAhSSAOSbKVmc/SO5wdRM76/aQcvV1MdkP5n+zmM4uULUGS0k1vsllcVr
-         dfYF5kU28zxa9slh0/orKuPuzRaL+l4e1H2SjDQRB1yP622RjdtdNq47e+6mdeiARbBR
-         sFMs39d4c+gk0mgIyq3f9M07ec7apZMgEi+XrUbODCR03cT3VIeiNcP/zamnVmpo/5Xw
-         ILDXHv38owiMCxOkDdGR2e0jvwJoAy+CvsXOn9h9QtFdfwu1ZxekcVG3PjwM0VILzhCs
-         QPxVawQdo11AG/rVuN+oa7Lb1485MjqB7HD7D4AxVzpe+cCkk0r0tCMxQg1gWn+eD4W/
-         iWfQ==
-X-Gm-Message-State: APjAAAXZxWtUOgsugJ5+3qV1dC5J+nBtaKMlivG2AeneO1kQkW7aUMli
-        nk+2QoKKB2AO5h4EOnunjRhvBqAwI0prIU76FVA=
-X-Google-Smtp-Source: APXvYqzanTyYBb7c5ZEsyF0TeIoVR+0s3dXHYolBKBYY7ZsmE8E+iJt4sQJSjNZ8KUmEOmvsdnDYYZrEq2u+9BrrhNU=
-X-Received: by 2002:a67:f303:: with SMTP id p3mr1137935vsf.166.1557731491713;
- Mon, 13 May 2019 00:11:31 -0700 (PDT)
+        Mon, 13 May 2019 03:14:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N8IbShBiUUMqsLHq8zLs4GcfmMmDXTcYRsPTqh9a1HE=;
+ b=MQSqRIYp1k+HoFcUvhMAuXtYuBrFE+T7JWe/5o6vVPo1LY7knA7TugmbH2e0Powq4hhVs+COQvRAYAhTinT1qJ81a2+ixn7HxB2zy2GBev7OfFyH9prxpUbKsg1GtEQWcZ7XgyPTj6g1gFXBslw92WAdFCpN0QaUZHU9NJD+OOs=
+Received: from OSBPR01MB3174.jpnprd01.prod.outlook.com (20.176.240.146) by
+ OSBPR01MB3654.jpnprd01.prod.outlook.com (20.178.98.11) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1878.21; Mon, 13 May 2019 07:14:18 +0000
+Received: from OSBPR01MB3174.jpnprd01.prod.outlook.com
+ ([fe80::f873:6332:738d:7213]) by OSBPR01MB3174.jpnprd01.prod.outlook.com
+ ([fe80::f873:6332:738d:7213%3]) with mapi id 15.20.1878.024; Mon, 13 May 2019
+ 07:14:18 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Joerg Roedel <joro@8bytes.org>,
+        Magnus Damm <damm+renesas@opensource.se>
+CC:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v3 0/6] iommu/ipmmu-vmsa: Suspend/resume support and
+ assorted cleanups
+Thread-Topic: [PATCH v3 0/6] iommu/ipmmu-vmsa: Suspend/resume support and
+ assorted cleanups
+Thread-Index: AQHU+qVfgHhw80AXGkWyDL+Z8to0hKZovY3Q
+Date:   Mon, 13 May 2019 07:14:18 +0000
+Message-ID: <OSBPR01MB3174406C91CC4E63C99A359DD80F0@OSBPR01MB3174.jpnprd01.prod.outlook.com>
+References: <20190424135518.25150-1-geert+renesas@glider.be>
+In-Reply-To: <20190424135518.25150-1-geert+renesas@glider.be>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [118.238.235.108]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5ff36edb-5243-4406-2727-08d6d7729d46
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB3654;
+x-ms-traffictypediagnostic: OSBPR01MB3654:
+x-microsoft-antispam-prvs: <OSBPR01MB3654497F68480743590BBBA2D80F0@OSBPR01MB3654.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 0036736630
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(136003)(366004)(39860400002)(346002)(396003)(189003)(199004)(66946007)(71200400001)(4326008)(229853002)(53936002)(15650500001)(3846002)(6116002)(6246003)(478600001)(52536014)(5660300002)(14454004)(8936002)(8676002)(33656002)(71190400001)(74316002)(73956011)(81166006)(110136005)(102836004)(54906003)(25786009)(186003)(99286004)(86362001)(81156014)(66066001)(11346002)(446003)(486006)(68736007)(7696005)(7736002)(2906002)(66556008)(66476007)(476003)(6436002)(6506007)(76116006)(9686003)(316002)(305945005)(26005)(256004)(66446008)(14444005)(64756008)(76176011)(66574012)(55016002);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB3654;H:OSBPR01MB3174.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 65ihUsKBZ3iftfnn4ln5WI0t+BdvpgXRE8xVCThZ8vrfJQbDCpWFXqN276JZUoE/P2D/NHVJe3v4KoucQEoaPxff1cE+ijh3pnEcBpHSWOfnrQoEGNfDFjFufOIDx17gsSOKPRE0qCt39vnZXsgqluCZzBPk6rpV2NXDAD1ZmsRhanboFQluhNxcovf3y+0mvyWBpUz1FSbUtJNuUDAVErkODN0REwooGnOUFMXwBiWGU+WGZYngCWxFqz2ncV9uYcYH375vyn8BZ8N/HT10EttnqdGUE+2ClvykZstQsE7XbfhIdQe6XHDooc1FTpgSsfUplzh9Z75O0E0brA0b8kRX/T286rph9giLeGkeAKXuI8WkLvh2qD5JDpIxmChe8vIe5Daz4VCOjvS2UrgcxdqPIjOjS5Rn5kXp8sjx1xo=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <1556092536-17095-1-git-send-email-masonccyang@mxic.com.tw>
- <1556092536-17095-4-git-send-email-masonccyang@mxic.com.tw>
- <20190424212356.GA27103@bogus> <65853dc2-6f3c-1494-7e72-54877797cdd2@gmail.com>
- <20190507125730.GD29524@dell> <OF08A5650B.8AE8977C-ON482583F4.000E5B1E-482583F4.000F7215@mxic.com.tw>
- <d229b19e-351c-c576-b5c4-716d10dad1a0@gmail.com> <20190508061119.GB7627@dell>
- <OFE86674B9.06D723A0-ON482583F5.000AD50C-482583F5.000BA075@mxic.com.tw>
- <a05cff8f-7df2-1938-c0e7-f9366bece607@cogentembedded.com> <OFB19BCE91.6EBBAA77-ON482583F6.000234E2-482583F6.00061290@mxic.com.tw>
-In-Reply-To: <OFB19BCE91.6EBBAA77-ON482583F6.000234E2-482583F6.00061290@mxic.com.tw>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 13 May 2019 09:11:19 +0200
-Message-ID: <CAMuHMdUP8KU3Dbv6cwOvrY0hWOcm1xqVcsi20+GvazYMDLGGZg@mail.gmail.com>
-Subject: Re: [PATCH v12 3/3] dt-bindings: mfd: Document Renesas R-Car Gen3
- RPC-IF MFD bindings
-To:     Mason Yang <masonccyang@mxic.com.tw>
-Cc:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Mark Brown <broonie@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms@verge.net.au>, juliensu@mxic.com.tw,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Rob Herring <robh@kernel.org>, zhengxunli@mxic.com.tw
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ff36edb-5243-4406-2727-08d6d7729d46
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2019 07:14:18.3208
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB3654
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Mason,
-
-On Fri, May 10, 2019 at 3:09 AM <masonccyang@mxic.com.tw> wrote:
-> > "Sergei Shtylyov" <sergei.shtylyov@cogentembedded.com>
-> > 2019/05/10 上午 03:24
-> > mark.rutland@arm.com, "Rob Herring" <robh@kernel.org>, zhengxunli@mxic.com.tw
-> > On 05/09/2019 05:06 AM, masonccyang@mxic.com.tw wrote:
-> >
-> > [...]
-> > >> > >> > On 4/24/19 11:23 PM, Rob Herring wrote:
-> > >> > >> > > On Wed, Apr 24, 2019 at 03:55:36PM +0800, Mason Yang wrote:
-> > >> > >> > >> Document the bindings used by the Renesas R-Car Gen3 RPC-IF MFD.
-> > >> > >> > >>
-> > >> > >> > >> Signed-off-by: Mason Yang <masonccyang@mxic.com.tw>
-> > >> > >> > >> ---
-> > >> > >> > >>  .../devicetree/bindings/mfd/mfd-renesas-rpc.txt    | 40 ++++++
-> > >> > >> ++++++++++++++++
-> > >> > >> > >>  1 file changed, 40 insertions(+)
-> > >> > >> > >>  create mode 100644 Documentation/devicetree/bindings/mfd/mfd-
-> > >> > >> renesas-rpc.txt
-> > >> > >> > >>
-> > >> > >> > >> diff --git a/Documentation/devicetree/bindings/mfd/mfd-renesas-
-> > >> > >> rpc.txt b/Documentation/devicetree/bindings/mfd/mfd-renesas-rpc.txt
-> > >> > >> > >> new file mode 100644
-> > >> > >> > >> index 0000000..668b822
-> > >> > >> > >> --- /dev/null
-> > >> > >> > >> +++ b/Documentation/devicetree/bindings/mfd/mfd-renesas-rpc.txt
-> > >> > >> > >> @@ -0,0 +1,40 @@
-> > >> > >> > >> +Renesas R-Car Gen3 RPC-IF MFD Device Tree Bindings
-> > >> > >> > >> +--------------------------------------------------
-> > >> > >> > >
-> > >> > >> > > Looks like a SPI flash controller from the example. What
-> > makes it an
-> > >> > >> > > MFD?
-> > >> > >> >
-> > >> > >> > It supports both SPI NOR and HyperFlash (CFI-compliant flash with
-> > >> > >> > different bus interface).
-> > >> > >>
-> > >> > >> Looks like you're registering one OR the other.
-> > >> > >>
-> > >> > >> Why don't you just do this from DT?
-> > >> > >>
-> > >> > >> No reason for this to be an MFD IMHO.
-> > >> > >
-> > >> > >
-> > >> > > okay, I will patch it back to SPI mode only.
-> > >> >
-> > >> > I don't think that's what Lee meant . The controller supports _both_
-> > >> > modes , hence it would have the same compatible string. You just need to
-> > >> > extract the mode of operation from the DT.
-> > >>
-> > >> HiSilicon attempted to upstream something similar, only their
-> > >> controller provided NAND and NOR functionality.  They used different
-> > >> compatible strings to differentiate between the varying
-> > >> technologies.
-> > >>
-> > >> They too tried to use MFD as a means to select between them (which was
-> > >> also NACKed).  Not sure what they ended up doing, but the original
-> > >> submission and (half of) the conversation can be found at [0].  Some
-> > >> more of the thread continues at [1].
-> > >>
-> > >> Hope that helps.
-> > >>
-> > >> [0] https://groups.google.com/forum/#!topic/fa.linux.kernel/F6i9o8sfOIw
-> > >> [1] https://marc.info/?l=devicetree&m=147669165104431&w=2
-> > >
-> > >
-> > > Hi Marek,
-> > >
-> > > By Jones's comments:
-> > > --------------------------------------------------------------------------
-> > >> From: Shunquan Lin <linshunquan1@hisilicon.com>
-> > >>
-> > >> This patch adds driver support for HiSilicon Flash Memory
-> > >> Controller(FMC). HiSilicon FMC is a multi-functions device which
-> > >> supports SPI Nor flash controller, SPI nand Flash controller and
-> > >> parallel nand flash controller.
-> > >
-> > > MFDs are for devices which span multiple subsystems.
-> >
-> >    And we do! One of the subdrivers will live under drivers/spi/, the other
-> > under drivers/mtd/...
-> >
->
-> From my point of view, I think Jones mean to MFD's subsystems are working simultaneously
-> at the run-time, one period of time is working for sub-device-1 and later period of time
-> is working for sub-device-2 and so on.
->
-> But for RPC-IF, SPI or HF mode is decided at boot time by pins configure and later in kernel
-> by dtb, RPC-IF can't switch SPI and HF mode at the run time.
-
-> So far, Jones seems don't agree RPC-IF to MFD and then RPC MFD will not applied
-> to mfd tree by him !
-
-There's precedence for such constructs being an MFD: please see
-drivers/mfd/at91-usart.c, which registers a single MFD cell for either
-serial or SPI.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+SGkgR2VlcnQtc2FuLA0KDQo+IEZyb206IEdlZXJ0IFV5dHRlcmhvZXZlbiwgU2VudDogV2VkbmVz
+ZGF5LCBBcHJpbCAyNCwgMjAxOSAxMDo1NSBQTQ0KPiANCj4gCUhpIErDtnJnLCBNYWdudXMsDQo+
+IA0KPiBPbiBSLUNhciBHZW4zIHN5c3RlbXMgd2l0aCBQU0NJLCBQU0NJIG1heSBwb3dlciBkb3du
+IHRoZSBTb0MgZHVyaW5nDQo+IHN5c3RlbSBzdXNwZW5kLCB0aHVzIGxvc2luZyBhbGwgSU9NTVUg
+c3RhdGUuICBIZW5jZSBhZnRlciBzMnJhbSwgZGV2aWNlcw0KPiBiZWhpbmQgYW4gSVBNTVUgKGUu
+Zy4gU0FUQSksIGFuZCBjb25maWd1cmVkIHRvIHVzZSBpdCwgd2lsbCBmYWlsIHRvDQo+IGNvbXBs
+ZXRlIHRoZWlyIEkvTyBvcGVyYXRpb25zLg0KPiANCj4gVGhpcyBwYXRjaCBzZXJpZXMgYWRkcyBz
+dXNwZW5kL3Jlc3VtZSBzdXBwb3J0IHRvIHRoZSBSZW5lc2FzIElQTU1VLVZNU0ENCj4gSU9NTVUg
+ZHJpdmVyLCBhbmQgcGVyZm9ybXMgc29tZSBzbWFsbGVyIGNsZWFudXBzIGFuZCBmaXhlcyBkdXJp
+bmcgdGhlDQo+IHByb2Nlc3MuICBNb3N0IHBhdGNoZXMgYXJlIGZhaXJseSBpbmRlcGVuZGVudCwg
+ZXhjZXB0IGZvciBwYXRjaCA2LzYsDQo+IHdoaWNoIGRlcGVuZHMgb24gcGF0Y2hlcyA0LzYgYW5k
+IDUvNi4NCj4gDQo+IENoYW5nZXMgY29tcGFyZWQgdG8gdjI6DQo+ICAgLSBGaXggc3lzZnMgcGF0
+aCB0eXBvIGluIHBhdGNoIGRlc2NyaXB0aW9uLA0KPiAgIC0gQWRkIFJldmlld2VkLWJ5Lg0KPiAN
+Cj4gQ2hhbmdlcyBjb21wYXJlZCB0byB2MToNCj4gICAtIERyb3BwZWQgImlvbW11L2lwbW11LXZt
+c2E6IENhbGwgaXBtbXVfY3R4X3dyaXRlX3Jvb3QoKSBpbnN0ZWFkIG9mDQo+ICAgICBvcGVuIGNv
+ZGluZyIsDQo+ICAgLSBBZGQgUmV2aWV3ZWQtYnksDQo+ICAgLSBNZXJnZSBJTUVBUi9JTUVMQVIs
+DQo+ICAgLSBzL2lwbW11X2NvbnRleHRfaW5pdC9pcG1tdV9kb21haW5fc2V0dXBfY29udGV4dC8s
+DQo+ICAgLSBEcm9wIFBTQ0kgY2hlY2tzLg0KPiANCj4gVGhpcyBoYXMgYmVlbiB0ZXN0ZWQgb24g
+U2FsdmF0b3ItWFMgd2l0aCBSLUNhciBIMyBFUzIuMCwgd2l0aCBJUE1NVQ0KPiBzdXBvcnQgZm9y
+IFNBVEEgZW5hYmxlZC4gIFRvIHBsYXkgc2FmZSwgdGhlIHJlc3VtZSBvcGVyYXRpb24gaGFzIGFs
+c28NCj4gYmVlbiB0ZXN0ZWQgb24gUi1DYXIgTTItVy4NCg0KVGhhbmsgeW91IGZvciB0aGUgcGF0
+Y2ghIEkgcmV2aWV3ZWQgdGhpcyBwYXRjaCBzZXJpZXMgYW5kIHRlc3RlZCBpdCBvbg0KUi1DYXIg
+SDMgRVMzLjAgd2l0aCBJUE1NVSBzdXBwb3J0IGZvciBVU0IzLjAgaG9zdCBhbmQgU0RISS4gU28s
+DQoNClJldmlld2VkLWJ5OiBZb3NoaWhpcm8gU2hpbW9kYSA8eW9zaGloaXJvLnNoaW1vZGEudWhA
+cmVuZXNhcy5jb20+DQpUZXN0ZWQtYnk6IFlvc2hpaGlybyBTaGltb2RhIDx5b3NoaWhpcm8uc2hp
+bW9kYS51aEByZW5lc2FzLmNvbT4NCg0KQmVzdCByZWdhcmRzLA0KWW9zaGloaXJvIFNoaW1vZGEN
+Cg0K
