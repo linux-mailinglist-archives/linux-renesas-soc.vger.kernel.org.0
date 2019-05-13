@@ -2,48 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 46D301B108
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 May 2019 09:14:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 505EB1B194
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 May 2019 09:57:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727796AbfEMHOX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 May 2019 03:14:23 -0400
-Received: from mail-eopbgr1400124.outbound.protection.outlook.com ([40.107.140.124]:5536
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        id S1728238AbfEMH5K (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 May 2019 03:57:10 -0400
+Received: from mail-eopbgr1410139.outbound.protection.outlook.com ([40.107.141.139]:40573
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727791AbfEMHOX (ORCPT
+        id S1727914AbfEMH5K (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 May 2019 03:14:23 -0400
+        Mon, 13 May 2019 03:57:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N8IbShBiUUMqsLHq8zLs4GcfmMmDXTcYRsPTqh9a1HE=;
- b=MQSqRIYp1k+HoFcUvhMAuXtYuBrFE+T7JWe/5o6vVPo1LY7knA7TugmbH2e0Powq4hhVs+COQvRAYAhTinT1qJ81a2+ixn7HxB2zy2GBev7OfFyH9prxpUbKsg1GtEQWcZ7XgyPTj6g1gFXBslw92WAdFCpN0QaUZHU9NJD+OOs=
+ bh=ZCubA7wcxUXNDADIJ7ouIewx9sQQyGE+5bjOBZHeyOA=;
+ b=R5HI3sIFxxvqcJqLn83WMVq5kUH7nwxZvdAr66eUaGIHdZrXb0kAyM/ols1eILpXDMSvgI5gTi9MxQJJKA1hhoulZXYi+pZQo0NfHpcopY3kCARhIaBMfKTvMxMXwZ5warzNVMC+vGMn/GaCVD0tPsXyDi/B4UiX9xmcMimjeYc=
 Received: from OSBPR01MB3174.jpnprd01.prod.outlook.com (20.176.240.146) by
- OSBPR01MB3654.jpnprd01.prod.outlook.com (20.178.98.11) with Microsoft SMTP
+ OSBPR01MB3333.jpnprd01.prod.outlook.com (20.178.5.150) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1878.21; Mon, 13 May 2019 07:14:18 +0000
+ 15.20.1878.22; Mon, 13 May 2019 07:57:07 +0000
 Received: from OSBPR01MB3174.jpnprd01.prod.outlook.com
  ([fe80::f873:6332:738d:7213]) by OSBPR01MB3174.jpnprd01.prod.outlook.com
  ([fe80::f873:6332:738d:7213%3]) with mapi id 15.20.1878.024; Mon, 13 May 2019
- 07:14:18 +0000
+ 07:57:07 +0000
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Joerg Roedel <joro@8bytes.org>,
-        Magnus Damm <damm+renesas@opensource.se>
-CC:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+To:     Simon Horman <horms+renesas@verge.net.au>,
+        Vinod Koul <vinod.koul@intel.com>
+CC:     "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v3 0/6] iommu/ipmmu-vmsa: Suspend/resume support and
- assorted cleanups
-Thread-Topic: [PATCH v3 0/6] iommu/ipmmu-vmsa: Suspend/resume support and
- assorted cleanups
-Thread-Index: AQHU+qVfgHhw80AXGkWyDL+Z8to0hKZovY3Q
-Date:   Mon, 13 May 2019 07:14:18 +0000
-Message-ID: <OSBPR01MB3174406C91CC4E63C99A359DD80F0@OSBPR01MB3174.jpnprd01.prod.outlook.com>
-References: <20190424135518.25150-1-geert+renesas@glider.be>
-In-Reply-To: <20190424135518.25150-1-geert+renesas@glider.be>
+        Magnus Damm <magnus.damm@gmail.com>
+Subject: RE: [PATCH] dmaengine: sudmac: remove unused driver
+Thread-Topic: [PATCH] dmaengine: sudmac: remove unused driver
+Thread-Index: AQHVBmYUs4O0Dq2sV0yGUFPTpg0f96ZoterA
+Date:   Mon, 13 May 2019 07:57:07 +0000
+Message-ID: <OSBPR01MB3174C44D415A0748033AD2A1D80F0@OSBPR01MB3174.jpnprd01.prod.outlook.com>
+References: <20190509125211.324-1-horms+renesas@verge.net.au>
+In-Reply-To: <20190509125211.324-1-horms+renesas@verge.net.au>
 Accept-Language: ja-JP, en-US
 Content-Language: ja-JP
 X-MS-Has-Attach: 
@@ -52,58 +48,47 @@ authentication-results: spf=none (sender IP is )
  smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
 x-originating-ip: [118.238.235.108]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5ff36edb-5243-4406-2727-08d6d7729d46
+x-ms-office365-filtering-correlation-id: ffe73c73-bd87-456e-2f19-08d6d7789898
 x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB3654;
-x-ms-traffictypediagnostic: OSBPR01MB3654:
-x-microsoft-antispam-prvs: <OSBPR01MB3654497F68480743590BBBA2D80F0@OSBPR01MB3654.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB3333;
+x-ms-traffictypediagnostic: OSBPR01MB3333:
+x-microsoft-antispam-prvs: <OSBPR01MB33330839A649E03D03A7E6E6D80F0@OSBPR01MB3333.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
 x-forefront-prvs: 0036736630
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(136003)(366004)(39860400002)(346002)(396003)(189003)(199004)(66946007)(71200400001)(4326008)(229853002)(53936002)(15650500001)(3846002)(6116002)(6246003)(478600001)(52536014)(5660300002)(14454004)(8936002)(8676002)(33656002)(71190400001)(74316002)(73956011)(81166006)(110136005)(102836004)(54906003)(25786009)(186003)(99286004)(86362001)(81156014)(66066001)(11346002)(446003)(486006)(68736007)(7696005)(7736002)(2906002)(66556008)(66476007)(476003)(6436002)(6506007)(76116006)(9686003)(316002)(305945005)(26005)(256004)(66446008)(14444005)(64756008)(76176011)(66574012)(55016002);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB3654;H:OSBPR01MB3174.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(376002)(366004)(136003)(396003)(346002)(199004)(189003)(86362001)(478600001)(186003)(74316002)(6436002)(5660300002)(476003)(26005)(486006)(81166006)(6116002)(99286004)(14454004)(81156014)(76116006)(256004)(3846002)(4744005)(33656002)(53936002)(6246003)(4326008)(25786009)(8676002)(71190400001)(71200400001)(8936002)(66946007)(7736002)(316002)(73956011)(102836004)(305945005)(2906002)(7696005)(66066001)(110136005)(54906003)(11346002)(6506007)(55016002)(68736007)(9686003)(76176011)(64756008)(66446008)(229853002)(66556008)(66476007)(446003)(52536014);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB3333;H:OSBPR01MB3174.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: renesas.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 65ihUsKBZ3iftfnn4ln5WI0t+BdvpgXRE8xVCThZ8vrfJQbDCpWFXqN276JZUoE/P2D/NHVJe3v4KoucQEoaPxff1cE+ijh3pnEcBpHSWOfnrQoEGNfDFjFufOIDx17gsSOKPRE0qCt39vnZXsgqluCZzBPk6rpV2NXDAD1ZmsRhanboFQluhNxcovf3y+0mvyWBpUz1FSbUtJNuUDAVErkODN0REwooGnOUFMXwBiWGU+WGZYngCWxFqz2ncV9uYcYH375vyn8BZ8N/HT10EttnqdGUE+2ClvykZstQsE7XbfhIdQe6XHDooc1FTpgSsfUplzh9Z75O0E0brA0b8kRX/T286rph9giLeGkeAKXuI8WkLvh2qD5JDpIxmChe8vIe5Daz4VCOjvS2UrgcxdqPIjOjS5Rn5kXp8sjx1xo=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+x-microsoft-antispam-message-info: tpKX9O9u7VkzdQ/cTrL/GC9TgeL1AzaTa41fRzewN5l0MrkgPPVPUOFldSAQvsyKSMX/hpAb0OzMaV2AC8GrdmcFT1QaokBGnqt/worOmOz1AzcB/ZgbzYqL4wuOb6UUXOiF69/XQbEXpGRxKUJdYrfvbJL6BfyhnuVdN/+47WqJg9J+puxikXlEgUHq/nMoyTLzMYjYSCGbJGJXr6gd4awpqHNFcbL3KbCm9Dr6ekVZzhw0toffy6WuAU7jrKMXvbYZZqy4nl4rDhGDx1yHGLC7RZ053zn9TajX33qZrrJavM34i4/umfd+71w2cPylwYhmaUqXXZ0A3/b6Vdl5s9t7SbzOy+XPvcXmYQPxA6o+GwVg7+pCegLCn0Mo9ye1VNTeSeY8Jn/rK/jU3lMlEmnlKRcjuB7+GRUhGujeZWo=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ff36edb-5243-4406-2727-08d6d7729d46
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2019 07:14:18.3208
+X-MS-Exchange-CrossTenant-Network-Message-Id: ffe73c73-bd87-456e-2f19-08d6d7789898
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2019 07:57:07.3912
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB3654
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB3333
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgR2VlcnQtc2FuLA0KDQo+IEZyb206IEdlZXJ0IFV5dHRlcmhvZXZlbiwgU2VudDogV2VkbmVz
-ZGF5LCBBcHJpbCAyNCwgMjAxOSAxMDo1NSBQTQ0KPiANCj4gCUhpIErDtnJnLCBNYWdudXMsDQo+
-IA0KPiBPbiBSLUNhciBHZW4zIHN5c3RlbXMgd2l0aCBQU0NJLCBQU0NJIG1heSBwb3dlciBkb3du
-IHRoZSBTb0MgZHVyaW5nDQo+IHN5c3RlbSBzdXNwZW5kLCB0aHVzIGxvc2luZyBhbGwgSU9NTVUg
-c3RhdGUuICBIZW5jZSBhZnRlciBzMnJhbSwgZGV2aWNlcw0KPiBiZWhpbmQgYW4gSVBNTVUgKGUu
-Zy4gU0FUQSksIGFuZCBjb25maWd1cmVkIHRvIHVzZSBpdCwgd2lsbCBmYWlsIHRvDQo+IGNvbXBs
-ZXRlIHRoZWlyIEkvTyBvcGVyYXRpb25zLg0KPiANCj4gVGhpcyBwYXRjaCBzZXJpZXMgYWRkcyBz
-dXNwZW5kL3Jlc3VtZSBzdXBwb3J0IHRvIHRoZSBSZW5lc2FzIElQTU1VLVZNU0ENCj4gSU9NTVUg
-ZHJpdmVyLCBhbmQgcGVyZm9ybXMgc29tZSBzbWFsbGVyIGNsZWFudXBzIGFuZCBmaXhlcyBkdXJp
-bmcgdGhlDQo+IHByb2Nlc3MuICBNb3N0IHBhdGNoZXMgYXJlIGZhaXJseSBpbmRlcGVuZGVudCwg
-ZXhjZXB0IGZvciBwYXRjaCA2LzYsDQo+IHdoaWNoIGRlcGVuZHMgb24gcGF0Y2hlcyA0LzYgYW5k
-IDUvNi4NCj4gDQo+IENoYW5nZXMgY29tcGFyZWQgdG8gdjI6DQo+ICAgLSBGaXggc3lzZnMgcGF0
-aCB0eXBvIGluIHBhdGNoIGRlc2NyaXB0aW9uLA0KPiAgIC0gQWRkIFJldmlld2VkLWJ5Lg0KPiAN
-Cj4gQ2hhbmdlcyBjb21wYXJlZCB0byB2MToNCj4gICAtIERyb3BwZWQgImlvbW11L2lwbW11LXZt
-c2E6IENhbGwgaXBtbXVfY3R4X3dyaXRlX3Jvb3QoKSBpbnN0ZWFkIG9mDQo+ICAgICBvcGVuIGNv
-ZGluZyIsDQo+ICAgLSBBZGQgUmV2aWV3ZWQtYnksDQo+ICAgLSBNZXJnZSBJTUVBUi9JTUVMQVIs
-DQo+ICAgLSBzL2lwbW11X2NvbnRleHRfaW5pdC9pcG1tdV9kb21haW5fc2V0dXBfY29udGV4dC8s
-DQo+ICAgLSBEcm9wIFBTQ0kgY2hlY2tzLg0KPiANCj4gVGhpcyBoYXMgYmVlbiB0ZXN0ZWQgb24g
-U2FsdmF0b3ItWFMgd2l0aCBSLUNhciBIMyBFUzIuMCwgd2l0aCBJUE1NVQ0KPiBzdXBvcnQgZm9y
-IFNBVEEgZW5hYmxlZC4gIFRvIHBsYXkgc2FmZSwgdGhlIHJlc3VtZSBvcGVyYXRpb24gaGFzIGFs
-c28NCj4gYmVlbiB0ZXN0ZWQgb24gUi1DYXIgTTItVy4NCg0KVGhhbmsgeW91IGZvciB0aGUgcGF0
-Y2ghIEkgcmV2aWV3ZWQgdGhpcyBwYXRjaCBzZXJpZXMgYW5kIHRlc3RlZCBpdCBvbg0KUi1DYXIg
-SDMgRVMzLjAgd2l0aCBJUE1NVSBzdXBwb3J0IGZvciBVU0IzLjAgaG9zdCBhbmQgU0RISS4gU28s
-DQoNClJldmlld2VkLWJ5OiBZb3NoaWhpcm8gU2hpbW9kYSA8eW9zaGloaXJvLnNoaW1vZGEudWhA
-cmVuZXNhcy5jb20+DQpUZXN0ZWQtYnk6IFlvc2hpaGlybyBTaGltb2RhIDx5b3NoaWhpcm8uc2hp
-bW9kYS51aEByZW5lc2FzLmNvbT4NCg0KQmVzdCByZWdhcmRzLA0KWW9zaGloaXJvIFNoaW1vZGEN
-Cg0K
+Hi Simon-san,
+
+> From: Simon Horman, Sent: Thursday, May 9, 2019 9:52 PM
+>=20
+> SUDMAC driver was introduced in v3.10 but was never integrated for use
+> by any platform. As it unused remove it.
+>=20
+> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+
+Thank you for the patch!
+
+Acked-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+
+Best regards,
+Yoshihiro Shimoda
+
