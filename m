@@ -2,48 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CC5BF1B762
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 May 2019 15:51:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B353A1B772
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 May 2019 15:54:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729543AbfEMNvR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 May 2019 09:51:17 -0400
-Received: from sauhun.de ([88.99.104.3]:40712 "EHLO pokefinder.org"
+        id S1729142AbfEMNyX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 May 2019 09:54:23 -0400
+Received: from sauhun.de ([88.99.104.3]:40754 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729465AbfEMNvR (ORCPT
+        id S1729040AbfEMNyW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 May 2019 09:51:17 -0400
+        Mon, 13 May 2019 09:54:22 -0400
 Received: from localhost (p54B3324F.dip0.t-ipconnect.de [84.179.50.79])
-        by pokefinder.org (Postfix) with ESMTPSA id 745163E42F7;
-        Mon, 13 May 2019 15:51:14 +0200 (CEST)
-Date:   Mon, 13 May 2019 15:51:14 +0200
+        by pokefinder.org (Postfix) with ESMTPSA id A950E3E42F7;
+        Mon, 13 May 2019 15:54:20 +0200 (CEST)
+Date:   Mon, 13 May 2019 15:54:20 +0200
 From:   Wolfram Sang <wsa@the-dreams.de>
-To:     "George G. Davis" <ggdavisiv@gmail.com>
-Cc:     Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Ulrich Hecht <ulrich.hecht+renesas@gmail.com>,
-        Andy Lowe <andy_lowe@mentor.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS 
-        <devicetree@vger.kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "George G. Davis" <george_davis@mentor.com>
-Subject: Re: [PATCH] serial: sh-sci: disable DMA for uart_console
-Message-ID: <20190513135114.GA20443@kunai>
-References: <20190506194233.GA32430@vmlxhi-102.adit-jv.com>
- <1557413011-1662-1-git-send-email-george_davis@mentor.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v2 2/2] mmc: renesas_sdhi: use multiple segments if
+ possible
+Message-ID: <20190513135420.GB20443@kunai>
+References: <1557721744-30545-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1557721744-30545-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <20190513090054.GA15744@kunai>
+ <OSBPR01MB3174B96296BFFA408F1C901FD80F0@OSBPR01MB3174.jpnprd01.prod.outlook.com>
+ <OSBPR01MB3174B39C9BE0A725D4945D78D80F0@OSBPR01MB3174.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="d6Gm4EdcadzBjdND"
+        protocol="application/pgp-signature"; boundary="TakKZr9L6Hm6aLOc"
 Content-Disposition: inline
-In-Reply-To: <1557413011-1662-1-git-send-email-george_davis@mentor.com>
+In-Reply-To: <OSBPR01MB3174B39C9BE0A725D4945D78D80F0@OSBPR01MB3174.jpnprd01.prod.outlook.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -51,69 +43,62 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---d6Gm4EdcadzBjdND
+--TakKZr9L6Hm6aLOc
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 09, 2019 at 10:43:30AM -0400, George G. Davis wrote:
-> As noted in commit 84b40e3b57ee ("serial: 8250: omap: Disable DMA for
-> console UART"), UART console lines use low-level PIO only access functions
-> which will conflict with use of the line when DMA is enabled, e.g. when
-> the console line is also used for systemd messages. So disable DMA
-> support for UART console lines.
+Hi Shimoda-san,
+
+> > > That also means, for the sys-dmac and Gen2, we then use 512 for the
+> > > IOMMU case and 32 (default TMIO value) for the non IOMMU case. My
+> > > understanding is that SYS DMAC can handle 512 in both cases. Maybe it
+> > > makes sense then to make an incremental patch setting the max_segs va=
+lue
+> > > explicitly to 512 in the sys-dmac driver for Gen2?
+> >=20
+> > I also think SYS DMAC can handle 512 segments. However, I'm not sure
+> > it can improve the performance or not though. Anyway, an incremental pa=
+tch
+> > makes sense if needed, I think.
 >=20
-> Fixes: https://patchwork.kernel.org/patch/10929511/
-> Reported-by: Michael Rodin <mrodin@de.adit-jv.com>
-> Cc: Eugeniu Rosca <erosca@de.adit-jv.com>
-> Signed-off-by: George G. Davis <george_davis@mentor.com>
-> ---
->  drivers/tty/serial/sh-sci.c | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
-> index 3cd139752d3f..885b56b1d4e4 100644
-> --- a/drivers/tty/serial/sh-sci.c
-> +++ b/drivers/tty/serial/sh-sci.c
-> @@ -1557,6 +1557,9 @@ static void sci_request_dma(struct uart_port *port)
-> =20
->  	dev_dbg(port->dev, "%s: port %d\n", __func__, port->line);
-> =20
-> +	if (uart_console(port))
-> +		return; /* Cannot use DMA on console */
+> I measured the performance on R-Car H2 Lager. It seems 512 segments impro=
+ve
+> the sequential input to 5%. May I make an incremental patch on the patch =
+series?
+> What do you think?
 
-Minor nit: maybe the comment can be made more specific?
+Cool! I didn't expect that much of a performance improvement. My main
+concern was understandable code because there was no "real reason" that
+we once use 32 and once 512.
 
-/*
- * DMA on console may interfere with Kernel log messages which use
- * plain putchar(). So, simply don't use it with a console.
- */
+But if it causes even a performance improvement, even better :)
 
-Other than that:
+Yes, an incremental patch is a good idea.
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Thanks for the work,
 
-Much better than dropping the properties, as Geert noted.
+   Wolfram
 
 
---d6Gm4EdcadzBjdND
+--TakKZr9L6Hm6aLOc
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIyBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAlzZdk0ACgkQFA3kzBSg
-KbbUJg/0D+EF6AyzLCGEPsV3puYcRKlpa9CGvd9V4bDHTn0Ft4v3pq+VR8CZg8Xc
-GGERKTh4+uu5SAFeYT9ZamkFLTBcyrzJ+qJWVuSmkZROJg6OlRn10tMV5Vw1L5PY
-O4IHapY707vQb6c9Sey6xoF15n7sKWD3HeoNyTDKwncPPwdDulsri2Q0WLIwrq3T
-L5T+wDTVlAW+Vbw4TA3FBZVjWjWthT85hpTZW802YWyA+ZJMwS678BU6eL7UZFwN
-+/raK/zqcTfyoY3vk03nG82BIQeZ4IVenLo7F9eXSYUY2d0JBzBbPqJOqINy2pbD
-j1eaOap+xS4TmlDNRSI9mIJb75AQXNaVz47P/tCQmLvJnNsFXREtzTlKT5pk489k
-FNQ0S1wpAf2clOUr+of53LKKnK2nS5vtWnoTcIE+g8dOztRDn2WkW20Ly0TgF8e1
-UPPOeoNkdGzeHHOQh0CA4yOlaKef0CV/WpxLTtRmlP+hPkyQOSbyYeVkipVd7TWu
-wwVBCSkIzUPnv6Ybmrrp0B0T6F5pZ3+c0Gy9SZH895dzYZF3ybnAqrRQ/T62UBvV
-7birU3vYq5sr4pyoQtnsrF2pAfcJecMcGem5WeQlbAlhRUkq7k89BJ91FNf73blL
-QsZr8CAATc7aCb/7Cj8O38Ify07O45dNe/djQ25GyP+rfrL+OA==
-=7vLz
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAlzZdwwACgkQFA3kzBSg
+KbYZlQ//d8HN99ysATnSIUFh/qOo7UMZw4lDeHTwqPUYMEEvzWBMJ1ZOrCpDMqXc
+lx53Z/Tj8nYR7Fwe5UOTL33EIvDz5wjFg0IsF05dBTf+WN1i8Z9hSAtqkvBuMWYR
+nMbK4TGGAwNDKrWaqlxMq8iZsmz6v8EVU3flcNBXue9cvUc0CZo+2aYgT+lSlHQ4
+bp/Jm73jXIJTCI1fkZZtvkK4xpb5KvwHd6mhvBidpkJoMBDwkLj50LQYBSFy0Uiu
+/n6x+seX3xcdcWhr3JnILvcdna8PpLuNBy3CNWn3McyJ6h5Ovx/vrhtNCfDateR6
+9YMrF1POwCNujbiK7JAw5D3T2b2MVcCMaUK6mD6Z1bRC3V/Q5v9BfvExwucwH8cc
+tGUwIrTXMS6kjpgnynV1LMkMbeLozmOwA+FChv3xGTaB/QL6hZ2UQ5jR8f5TQof8
+DXPSQ3HNdnASyOZWdOyPTTEcpSdk5EL3OwlImk4i4jq9YfLP3E3H+xSwxbp2IOb+
+wMkqHZ5rJhzTHBfLEtuL5BqMMptwx1U56UUfTsBTdTkZNi85anYtYwZmWUHh8Z/W
+BPpKvAYlUJ9aO/eYkfvmzO/FkA2qppRbaPy7OrX12PhHkeeV7acAH7YJa7XYaxBe
+K97oqnHuyRbRj0jYPiDM//XIWYTpXduBD5wMWRGwpcTsmykbyGE=
+=/6WD
 -----END PGP SIGNATURE-----
 
---d6Gm4EdcadzBjdND--
+--TakKZr9L6Hm6aLOc--
