@@ -2,123 +2,556 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 90FDE1B506
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 May 2019 13:34:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C04E21B526
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 May 2019 13:40:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728109AbfEMLeF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 May 2019 07:34:05 -0400
-Received: from mail-eopbgr1400109.outbound.protection.outlook.com ([40.107.140.109]:12320
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727838AbfEMLeF (ORCPT
+        id S1728116AbfEMLkD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 May 2019 07:40:03 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:56606 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729208AbfEMLkD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 May 2019 07:34:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4y4Ip7zOXuqrS2Exm99mlZjKd8zdXkfmeRQJRcottyA=;
- b=e8Z4tW7pKl9wQphUFUG/3KQpenGbdzXxQmoDys8+THESHpPzpjmYGT5mKUnoIHo5smGIiN4m34T2NwJeRKk0o1mtMW4WjqItn/rHPoo2UKHn9mWlYii96IPXPfxqZoJjQyWPnIQESgbfhp7ZKeiRQJtyfu8dYi3QVqrdTnwUuoM=
-Received: from OSBPR01MB3174.jpnprd01.prod.outlook.com (20.176.240.146) by
- OSBPR01MB2965.jpnprd01.prod.outlook.com (52.134.254.11) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1878.22; Mon, 13 May 2019 11:34:02 +0000
-Received: from OSBPR01MB3174.jpnprd01.prod.outlook.com
- ([fe80::f873:6332:738d:7213]) by OSBPR01MB3174.jpnprd01.prod.outlook.com
- ([fe80::f873:6332:738d:7213%3]) with mapi id 15.20.1878.024; Mon, 13 May 2019
- 11:34:02 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Wolfram Sang <wsa@the-dreams.de>
-CC:     "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
-        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v2 2/2] mmc: renesas_sdhi: use multiple segments if
- possible
-Thread-Topic: [PATCH v2 2/2] mmc: renesas_sdhi: use multiple segments if
- possible
-Thread-Index: AQHVCUUKmVh+8cTBr0GLk/9Xe/IGjKZowjMAgAAKVjCAAB+lcA==
-Date:   Mon, 13 May 2019 11:34:02 +0000
-Message-ID: <OSBPR01MB3174B39C9BE0A725D4945D78D80F0@OSBPR01MB3174.jpnprd01.prod.outlook.com>
-References: <1557721744-30545-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1557721744-30545-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <20190513090054.GA15744@kunai>
- <OSBPR01MB3174B96296BFFA408F1C901FD80F0@OSBPR01MB3174.jpnprd01.prod.outlook.com>
-In-Reply-To: <OSBPR01MB3174B96296BFFA408F1C901FD80F0@OSBPR01MB3174.jpnprd01.prod.outlook.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
-x-originating-ip: [118.238.235.108]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 069484d9-2ec0-4b19-ec94-08d6d796e64a
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB2965;
-x-ms-traffictypediagnostic: OSBPR01MB2965:
-x-microsoft-antispam-prvs: <OSBPR01MB2965533901E522D1357F999AD80F0@OSBPR01MB2965.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-forefront-prvs: 0036736630
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(346002)(136003)(396003)(39860400002)(366004)(376002)(52314003)(199004)(189003)(486006)(66066001)(54906003)(11346002)(446003)(71190400001)(71200400001)(8676002)(81166006)(76116006)(316002)(8936002)(66476007)(73956011)(66946007)(66556008)(64756008)(66446008)(74316002)(81156014)(3846002)(2906002)(186003)(305945005)(6116002)(33656002)(2940100002)(256004)(26005)(14444005)(7736002)(6916009)(476003)(55016002)(99286004)(7696005)(76176011)(9686003)(25786009)(14454004)(6246003)(102836004)(6436002)(53936002)(5660300002)(86362001)(229853002)(478600001)(68736007)(6506007)(52536014)(4326008);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB2965;H:OSBPR01MB3174.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: hw7lUaam/f/t9O47kK9r62zKspIzBo6KFEx+7cpfBheZGy4YsGcWoedK5b/zHef0TZ1tQHvlzd5IFdU1E4L0VQ/qBgMw67j2Pk6kj3CD7Z5zyhAw8txV7WEOGrf7ujLSWMqzPD3stJljqk1VlLmiKQ/ttDNMjpZ2M4oafUR20br7E5zqHsL3sAPnTpE5l4KrghTg00eEiM5tQ0boi14XcT/jH67+RD5gqzG4/9+KIelHzp2w/+UtITUmk4ZZ9Oj7FrbEiOoHz2paisNMQXXNizbWPVYCfMVbD9/kq6ygt3z6rEMCQ9Oj6e53Kjv9sDQ+u4UFwK5CB3Ho5hw2m+Ejk1piMzJRr7LMZcHy39Fhii7Fjg7LqWOmPR7b7hH7xW/6YyIPgKH89WQUqnP5BjEb7uGGSyXOYvU7cupDotXKTD4=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 069484d9-2ec0-4b19-ec94-08d6d796e64a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2019 11:34:02.7040
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB2965
+        Mon, 13 May 2019 07:40:03 -0400
+Received: from penelope.horms.nl (ip4dab7138.direct-adsl.nl [77.171.113.56])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id BD03A25AD63;
+        Mon, 13 May 2019 21:39:58 +1000 (AEST)
+Received: by penelope.horms.nl (Postfix, from userid 7100)
+        id A3119E2232E; Mon, 13 May 2019 13:39:56 +0200 (CEST)
+From:   Simon Horman <horms+renesas@verge.net.au>
+To:     Vinod Koul <vkoul@kernel.org>
+Cc:     dmaengine@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        Simon Horman <horms+renesas@verge.net.au>
+Subject: [PATCH v2] dmaengine: sudmac: remove unused driver
+Date:   Mon, 13 May 2019 13:39:51 +0200
+Message-Id: <20190513113951.14817-1-horms+renesas@verge.net.au>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram-san,
+SUDMAC driver was introduced in v3.10 but was never integrated for use
+by any platform. As it is unused remove it.
 
-> From: Yoshihiro Shimoda, Sent: Monday, May 13, 2019 6:46 PM
-<snip>
-> > That also means, for the sys-dmac and Gen2, we then use 512 for the
-> > IOMMU case and 32 (default TMIO value) for the non IOMMU case. My
-> > understanding is that SYS DMAC can handle 512 in both cases. Maybe it
-> > makes sense then to make an incremental patch setting the max_segs valu=
-e
-> > explicitly to 512 in the sys-dmac driver for Gen2?
->=20
-> I also think SYS DMAC can handle 512 segments. However, I'm not sure
-> it can improve the performance or not though. Anyway, an incremental patc=
-h
-> makes sense if needed, I think.
+Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+Acked-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+v2
+* Update changelog
+* Add Shimoda-san's Ack
+---
+ drivers/dma/sh/Kconfig  |   6 -
+ drivers/dma/sh/Makefile |   1 -
+ drivers/dma/sh/sudmac.c | 414 ------------------------------------------------
+ include/linux/sudmac.h  |  52 ------
+ 4 files changed, 473 deletions(-)
+ delete mode 100644 drivers/dma/sh/sudmac.c
+ delete mode 100644 include/linux/sudmac.h
 
-I measured the performance on R-Car H2 Lager. It seems 512 segments improve
-the sequential input to 5%. May I make an incremental patch on the patch se=
-ries?
-What do you think?
-
-Best regards,
-Yoshihiro Shimoda
-
---
-kernel v5.1-rc7 + local patches + sdr104,,,,,,,,,,,,,,,,,,,,,,,,,,
-Buildroot 2019.02.1,,,,,,,,,,,,,,,,,,,,,,,,,,
-Bonnie++ 1.03e : bonnie\+\+ -d ./ -s 2048 -r 1024 -b -u root,,,,,,,,,,,,,,,=
-,,,,,,,,,,,
-,,,,,,,,,,,,,,,,,,,,,,,,,,
-environment,Size,Sequential Output - per char (K/sec),<- (CPU %),Sequential=
- Output - block (K/sec),<- (CPU %),Sequential Output - rewrite (K/sec),<- (=
-CPU %),Sequential Input - per char (K/sec),<- (CPU %),Sequential Input ? bl=
-ock (K/sec),<- (CPU %),Random seeks,<- (CPU %),files,Sequential Create,<- (=
-CPU %),Sequential Read,<- (CPU %),Sequential Delete,<- (CPU %),Random Creat=
-e,<- (CPU %),Random Read,<- (CPU %),Random Delete,<- (CPU %)
-max_segs_32_sys_dmac,2G,19651,45,18122,7,11612,5,31417,56,34344,6,20.9,0,16=
-,183,1,+++++,+++,195,1,198,2,+++++,+++,195,2
-max_segs_512_sys_dmac,2G,18728,43,18273,8,12405,5,33524,61,34158,6,21.0,0,1=
-6,184,1,+++++,+++,189,1,198,2,+++++,+++,194,2
+diff --git a/drivers/dma/sh/Kconfig b/drivers/dma/sh/Kconfig
+index 4d6b02b3b1f1..54d5d0369d3c 100644
+--- a/drivers/dma/sh/Kconfig
++++ b/drivers/dma/sh/Kconfig
+@@ -47,9 +47,3 @@ config RENESAS_USB_DMAC
+ 	help
+ 	  This driver supports the USB-DMA controller found in the Renesas
+ 	  SoCs.
+-
+-config SUDMAC
+-	tristate "Renesas SUDMAC support"
+-	depends on SH_DMAE_BASE
+-	help
+-	  Enable support for the Renesas SUDMAC controllers.
+diff --git a/drivers/dma/sh/Makefile b/drivers/dma/sh/Makefile
+index 42110dd57a56..112fbd22bb3f 100644
+--- a/drivers/dma/sh/Makefile
++++ b/drivers/dma/sh/Makefile
+@@ -15,4 +15,3 @@ obj-$(CONFIG_SH_DMAE) += shdma.o
+ 
+ obj-$(CONFIG_RCAR_DMAC) += rcar-dmac.o
+ obj-$(CONFIG_RENESAS_USB_DMAC) += usb-dmac.o
+-obj-$(CONFIG_SUDMAC) += sudmac.o
+diff --git a/drivers/dma/sh/sudmac.c b/drivers/dma/sh/sudmac.c
+deleted file mode 100644
+index 30cc3553cb8b..000000000000
+--- a/drivers/dma/sh/sudmac.c
++++ /dev/null
+@@ -1,414 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * Renesas SUDMAC support
+- *
+- * Copyright (C) 2013 Renesas Solutions Corp.
+- *
+- * based on drivers/dma/sh/shdma.c:
+- * Copyright (C) 2011-2012 Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+- * Copyright (C) 2009 Nobuhiro Iwamatsu <iwamatsu.nobuhiro@renesas.com>
+- * Copyright (C) 2009 Renesas Solutions, Inc. All rights reserved.
+- * Copyright (C) 2007 Freescale Semiconductor, Inc. All rights reserved.
+- */
+-
+-#include <linux/dmaengine.h>
+-#include <linux/err.h>
+-#include <linux/init.h>
+-#include <linux/interrupt.h>
+-#include <linux/module.h>
+-#include <linux/platform_device.h>
+-#include <linux/slab.h>
+-#include <linux/sudmac.h>
+-
+-struct sudmac_chan {
+-	struct shdma_chan shdma_chan;
+-	void __iomem *base;
+-	char dev_id[16];	/* unique name per DMAC of channel */
+-
+-	u32 offset;		/* for CFG, BA, BBC, CA, CBC, DEN */
+-	u32 cfg;
+-	u32 dint_end_bit;
+-};
+-
+-struct sudmac_device {
+-	struct shdma_dev shdma_dev;
+-	struct sudmac_pdata *pdata;
+-	void __iomem *chan_reg;
+-};
+-
+-struct sudmac_regs {
+-	u32 base_addr;
+-	u32 base_byte_count;
+-};
+-
+-struct sudmac_desc {
+-	struct sudmac_regs hw;
+-	struct shdma_desc shdma_desc;
+-};
+-
+-#define to_chan(schan) container_of(schan, struct sudmac_chan, shdma_chan)
+-#define to_desc(sdesc) container_of(sdesc, struct sudmac_desc, shdma_desc)
+-#define to_sdev(sc) container_of(sc->shdma_chan.dma_chan.device, \
+-				 struct sudmac_device, shdma_dev.dma_dev)
+-
+-/* SUDMAC register */
+-#define SUDMAC_CH0CFG		0x00
+-#define SUDMAC_CH0BA		0x10
+-#define SUDMAC_CH0BBC		0x18
+-#define SUDMAC_CH0CA		0x20
+-#define SUDMAC_CH0CBC		0x28
+-#define SUDMAC_CH0DEN		0x30
+-#define SUDMAC_DSTSCLR		0x38
+-#define SUDMAC_DBUFCTRL		0x3C
+-#define SUDMAC_DINTCTRL		0x40
+-#define SUDMAC_DINTSTS		0x44
+-#define SUDMAC_DINTSTSCLR	0x48
+-#define SUDMAC_CH0SHCTRL	0x50
+-
+-/* Definitions for the sudmac_channel.config */
+-#define SUDMAC_SENDBUFM	0x1000 /* b12: Transmit Buffer Mode */
+-#define SUDMAC_RCVENDM	0x0100 /* b8: Receive Data Transfer End Mode */
+-#define SUDMAC_LBA_WAIT	0x0030 /* b5-4: Local Bus Access Wait */
+-
+-/* Definitions for the sudmac_channel.dint_end_bit */
+-#define SUDMAC_CH1ENDE	0x0002 /* b1: Ch1 DMA Transfer End Int Enable */
+-#define SUDMAC_CH0ENDE	0x0001 /* b0: Ch0 DMA Transfer End Int Enable */
+-
+-#define SUDMAC_DRV_NAME "sudmac"
+-
+-static void sudmac_writel(struct sudmac_chan *sc, u32 data, u32 reg)
+-{
+-	iowrite32(data, sc->base + reg);
+-}
+-
+-static u32 sudmac_readl(struct sudmac_chan *sc, u32 reg)
+-{
+-	return ioread32(sc->base + reg);
+-}
+-
+-static bool sudmac_is_busy(struct sudmac_chan *sc)
+-{
+-	u32 den = sudmac_readl(sc, SUDMAC_CH0DEN + sc->offset);
+-
+-	if (den)
+-		return true; /* working */
+-
+-	return false; /* waiting */
+-}
+-
+-static void sudmac_set_reg(struct sudmac_chan *sc, struct sudmac_regs *hw,
+-			   struct shdma_desc *sdesc)
+-{
+-	sudmac_writel(sc, sc->cfg, SUDMAC_CH0CFG + sc->offset);
+-	sudmac_writel(sc, hw->base_addr, SUDMAC_CH0BA + sc->offset);
+-	sudmac_writel(sc, hw->base_byte_count, SUDMAC_CH0BBC + sc->offset);
+-}
+-
+-static void sudmac_start(struct sudmac_chan *sc)
+-{
+-	u32 dintctrl = sudmac_readl(sc, SUDMAC_DINTCTRL);
+-
+-	sudmac_writel(sc, dintctrl | sc->dint_end_bit, SUDMAC_DINTCTRL);
+-	sudmac_writel(sc, 1, SUDMAC_CH0DEN + sc->offset);
+-}
+-
+-static void sudmac_start_xfer(struct shdma_chan *schan,
+-			      struct shdma_desc *sdesc)
+-{
+-	struct sudmac_chan *sc = to_chan(schan);
+-	struct sudmac_desc *sd = to_desc(sdesc);
+-
+-	sudmac_set_reg(sc, &sd->hw, sdesc);
+-	sudmac_start(sc);
+-}
+-
+-static bool sudmac_channel_busy(struct shdma_chan *schan)
+-{
+-	struct sudmac_chan *sc = to_chan(schan);
+-
+-	return sudmac_is_busy(sc);
+-}
+-
+-static void sudmac_setup_xfer(struct shdma_chan *schan, int slave_id)
+-{
+-}
+-
+-static const struct sudmac_slave_config *sudmac_find_slave(
+-	struct sudmac_chan *sc, int slave_id)
+-{
+-	struct sudmac_device *sdev = to_sdev(sc);
+-	struct sudmac_pdata *pdata = sdev->pdata;
+-	const struct sudmac_slave_config *cfg;
+-	int i;
+-
+-	for (i = 0, cfg = pdata->slave; i < pdata->slave_num; i++, cfg++)
+-		if (cfg->slave_id == slave_id)
+-			return cfg;
+-
+-	return NULL;
+-}
+-
+-static int sudmac_set_slave(struct shdma_chan *schan, int slave_id,
+-			    dma_addr_t slave_addr, bool try)
+-{
+-	struct sudmac_chan *sc = to_chan(schan);
+-	const struct sudmac_slave_config *cfg = sudmac_find_slave(sc, slave_id);
+-
+-	if (!cfg)
+-		return -ENODEV;
+-
+-	return 0;
+-}
+-
+-static inline void sudmac_dma_halt(struct sudmac_chan *sc)
+-{
+-	u32 dintctrl = sudmac_readl(sc, SUDMAC_DINTCTRL);
+-
+-	sudmac_writel(sc, 0, SUDMAC_CH0DEN + sc->offset);
+-	sudmac_writel(sc, dintctrl & ~sc->dint_end_bit, SUDMAC_DINTCTRL);
+-	sudmac_writel(sc, sc->dint_end_bit, SUDMAC_DINTSTSCLR);
+-}
+-
+-static int sudmac_desc_setup(struct shdma_chan *schan,
+-			     struct shdma_desc *sdesc,
+-			     dma_addr_t src, dma_addr_t dst, size_t *len)
+-{
+-	struct sudmac_chan *sc = to_chan(schan);
+-	struct sudmac_desc *sd = to_desc(sdesc);
+-
+-	dev_dbg(sc->shdma_chan.dev, "%s: src=%pad, dst=%pad, len=%zu\n",
+-		__func__, &src, &dst, *len);
+-
+-	if (*len > schan->max_xfer_len)
+-		*len = schan->max_xfer_len;
+-
+-	if (dst)
+-		sd->hw.base_addr = dst;
+-	else if (src)
+-		sd->hw.base_addr = src;
+-	sd->hw.base_byte_count = *len;
+-
+-	return 0;
+-}
+-
+-static void sudmac_halt(struct shdma_chan *schan)
+-{
+-	struct sudmac_chan *sc = to_chan(schan);
+-
+-	sudmac_dma_halt(sc);
+-}
+-
+-static bool sudmac_chan_irq(struct shdma_chan *schan, int irq)
+-{
+-	struct sudmac_chan *sc = to_chan(schan);
+-	u32 dintsts = sudmac_readl(sc, SUDMAC_DINTSTS);
+-
+-	if (!(dintsts & sc->dint_end_bit))
+-		return false;
+-
+-	/* DMA stop */
+-	sudmac_dma_halt(sc);
+-
+-	return true;
+-}
+-
+-static size_t sudmac_get_partial(struct shdma_chan *schan,
+-				 struct shdma_desc *sdesc)
+-{
+-	struct sudmac_chan *sc = to_chan(schan);
+-	struct sudmac_desc *sd = to_desc(sdesc);
+-	u32 current_byte_count = sudmac_readl(sc, SUDMAC_CH0CBC + sc->offset);
+-
+-	return sd->hw.base_byte_count - current_byte_count;
+-}
+-
+-static bool sudmac_desc_completed(struct shdma_chan *schan,
+-				  struct shdma_desc *sdesc)
+-{
+-	struct sudmac_chan *sc = to_chan(schan);
+-	struct sudmac_desc *sd = to_desc(sdesc);
+-	u32 current_addr = sudmac_readl(sc, SUDMAC_CH0CA + sc->offset);
+-
+-	return sd->hw.base_addr + sd->hw.base_byte_count == current_addr;
+-}
+-
+-static int sudmac_chan_probe(struct sudmac_device *su_dev, int id, int irq,
+-			     unsigned long flags)
+-{
+-	struct shdma_dev *sdev = &su_dev->shdma_dev;
+-	struct platform_device *pdev = to_platform_device(sdev->dma_dev.dev);
+-	struct sudmac_chan *sc;
+-	struct shdma_chan *schan;
+-	int err;
+-
+-	sc = devm_kzalloc(&pdev->dev, sizeof(struct sudmac_chan), GFP_KERNEL);
+-	if (!sc)
+-		return -ENOMEM;
+-
+-	schan = &sc->shdma_chan;
+-	schan->max_xfer_len = 64 * 1024 * 1024 - 1;
+-
+-	shdma_chan_probe(sdev, schan, id);
+-
+-	sc->base = su_dev->chan_reg;
+-
+-	/* get platform_data */
+-	sc->offset = su_dev->pdata->channel->offset;
+-	if (su_dev->pdata->channel->config & SUDMAC_TX_BUFFER_MODE)
+-		sc->cfg |= SUDMAC_SENDBUFM;
+-	if (su_dev->pdata->channel->config & SUDMAC_RX_END_MODE)
+-		sc->cfg |= SUDMAC_RCVENDM;
+-	sc->cfg |= (su_dev->pdata->channel->wait << 4) & SUDMAC_LBA_WAIT;
+-
+-	if (su_dev->pdata->channel->dint_end_bit & SUDMAC_DMA_BIT_CH0)
+-		sc->dint_end_bit |= SUDMAC_CH0ENDE;
+-	if (su_dev->pdata->channel->dint_end_bit & SUDMAC_DMA_BIT_CH1)
+-		sc->dint_end_bit |= SUDMAC_CH1ENDE;
+-
+-	/* set up channel irq */
+-	if (pdev->id >= 0)
+-		snprintf(sc->dev_id, sizeof(sc->dev_id), "sudmac%d.%d",
+-			 pdev->id, id);
+-	else
+-		snprintf(sc->dev_id, sizeof(sc->dev_id), "sudmac%d", id);
+-
+-	err = shdma_request_irq(schan, irq, flags, sc->dev_id);
+-	if (err) {
+-		dev_err(sdev->dma_dev.dev,
+-			"DMA channel %d request_irq failed %d\n", id, err);
+-		goto err_no_irq;
+-	}
+-
+-	return 0;
+-
+-err_no_irq:
+-	/* remove from dmaengine device node */
+-	shdma_chan_remove(schan);
+-	return err;
+-}
+-
+-static void sudmac_chan_remove(struct sudmac_device *su_dev)
+-{
+-	struct shdma_chan *schan;
+-	int i;
+-
+-	shdma_for_each_chan(schan, &su_dev->shdma_dev, i) {
+-		BUG_ON(!schan);
+-
+-		shdma_chan_remove(schan);
+-	}
+-}
+-
+-static dma_addr_t sudmac_slave_addr(struct shdma_chan *schan)
+-{
+-	/* SUDMAC doesn't need the address */
+-	return 0;
+-}
+-
+-static struct shdma_desc *sudmac_embedded_desc(void *buf, int i)
+-{
+-	return &((struct sudmac_desc *)buf)[i].shdma_desc;
+-}
+-
+-static const struct shdma_ops sudmac_shdma_ops = {
+-	.desc_completed = sudmac_desc_completed,
+-	.halt_channel = sudmac_halt,
+-	.channel_busy = sudmac_channel_busy,
+-	.slave_addr = sudmac_slave_addr,
+-	.desc_setup = sudmac_desc_setup,
+-	.set_slave = sudmac_set_slave,
+-	.setup_xfer = sudmac_setup_xfer,
+-	.start_xfer = sudmac_start_xfer,
+-	.embedded_desc = sudmac_embedded_desc,
+-	.chan_irq = sudmac_chan_irq,
+-	.get_partial = sudmac_get_partial,
+-};
+-
+-static int sudmac_probe(struct platform_device *pdev)
+-{
+-	struct sudmac_pdata *pdata = dev_get_platdata(&pdev->dev);
+-	int err, i;
+-	struct sudmac_device *su_dev;
+-	struct dma_device *dma_dev;
+-	struct resource *chan, *irq_res;
+-
+-	/* get platform data */
+-	if (!pdata)
+-		return -ENODEV;
+-
+-	irq_res = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
+-	if (!irq_res)
+-		return -ENODEV;
+-
+-	err = -ENOMEM;
+-	su_dev = devm_kzalloc(&pdev->dev, sizeof(struct sudmac_device),
+-			      GFP_KERNEL);
+-	if (!su_dev)
+-		return err;
+-
+-	dma_dev = &su_dev->shdma_dev.dma_dev;
+-
+-	chan = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	su_dev->chan_reg = devm_ioremap_resource(&pdev->dev, chan);
+-	if (IS_ERR(su_dev->chan_reg))
+-		return PTR_ERR(su_dev->chan_reg);
+-
+-	dma_cap_set(DMA_SLAVE, dma_dev->cap_mask);
+-
+-	su_dev->shdma_dev.ops = &sudmac_shdma_ops;
+-	su_dev->shdma_dev.desc_size = sizeof(struct sudmac_desc);
+-	err = shdma_init(&pdev->dev, &su_dev->shdma_dev, pdata->channel_num);
+-	if (err < 0)
+-		return err;
+-
+-	/* platform data */
+-	su_dev->pdata = dev_get_platdata(&pdev->dev);
+-
+-	platform_set_drvdata(pdev, su_dev);
+-
+-	/* Create DMA Channel */
+-	for (i = 0; i < pdata->channel_num; i++) {
+-		err = sudmac_chan_probe(su_dev, i, irq_res->start, IRQF_SHARED);
+-		if (err)
+-			goto chan_probe_err;
+-	}
+-
+-	err = dma_async_device_register(&su_dev->shdma_dev.dma_dev);
+-	if (err < 0)
+-		goto chan_probe_err;
+-
+-	return err;
+-
+-chan_probe_err:
+-	sudmac_chan_remove(su_dev);
+-
+-	shdma_cleanup(&su_dev->shdma_dev);
+-
+-	return err;
+-}
+-
+-static int sudmac_remove(struct platform_device *pdev)
+-{
+-	struct sudmac_device *su_dev = platform_get_drvdata(pdev);
+-	struct dma_device *dma_dev = &su_dev->shdma_dev.dma_dev;
+-
+-	dma_async_device_unregister(dma_dev);
+-	sudmac_chan_remove(su_dev);
+-	shdma_cleanup(&su_dev->shdma_dev);
+-
+-	return 0;
+-}
+-
+-static struct platform_driver sudmac_driver = {
+-	.driver		= {
+-		.name	= SUDMAC_DRV_NAME,
+-	},
+-	.probe		= sudmac_probe,
+-	.remove		= sudmac_remove,
+-};
+-module_platform_driver(sudmac_driver);
+-
+-MODULE_AUTHOR("Yoshihiro Shimoda");
+-MODULE_DESCRIPTION("Renesas SUDMAC driver");
+-MODULE_LICENSE("GPL v2");
+-MODULE_ALIAS("platform:" SUDMAC_DRV_NAME);
+diff --git a/include/linux/sudmac.h b/include/linux/sudmac.h
+deleted file mode 100644
+index 377b8a5788fa..000000000000
+--- a/include/linux/sudmac.h
++++ /dev/null
+@@ -1,52 +0,0 @@
+-/*
+- * Header for the SUDMAC driver
+- *
+- * Copyright (C) 2013 Renesas Solutions Corp.
+- *
+- * This is free software; you can redistribute it and/or modify
+- * it under the terms of version 2 of the GNU General Public License as
+- * published by the Free Software Foundation.
+- */
+-#ifndef SUDMAC_H
+-#define SUDMAC_H
+-
+-#include <linux/dmaengine.h>
+-#include <linux/shdma-base.h>
+-#include <linux/types.h>
+-
+-/* Used by slave DMA clients to request DMA to/from a specific peripheral */
+-struct sudmac_slave {
+-	struct shdma_slave	shdma_slave;	/* Set by the platform */
+-};
+-
+-/*
+- * Supplied by platforms to specify, how a DMA channel has to be configured for
+- * a certain peripheral
+- */
+-struct sudmac_slave_config {
+-	int		slave_id;
+-};
+-
+-struct sudmac_channel {
+-	unsigned long	offset;
+-	unsigned long	config;
+-	unsigned long	wait;		/* The configuable range is 0 to 3 */
+-	unsigned long	dint_end_bit;
+-};
+-
+-struct sudmac_pdata {
+-	const struct sudmac_slave_config *slave;
+-	int slave_num;
+-	const struct sudmac_channel *channel;
+-	int channel_num;
+-};
+-
+-/* Definitions for the sudmac_channel.config */
+-#define SUDMAC_TX_BUFFER_MODE	BIT(0)
+-#define SUDMAC_RX_END_MODE	BIT(1)
+-
+-/* Definitions for the sudmac_channel.dint_end_bit */
+-#define SUDMAC_DMA_BIT_CH0	BIT(0)
+-#define SUDMAC_DMA_BIT_CH1	BIT(1)
+-
+-#endif
+-- 
+2.11.0
 
