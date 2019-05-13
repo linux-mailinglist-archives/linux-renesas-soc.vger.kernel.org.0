@@ -2,93 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 505EB1B194
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 May 2019 09:57:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29DAA1B233
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 May 2019 11:00:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728238AbfEMH5K (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 13 May 2019 03:57:10 -0400
-Received: from mail-eopbgr1410139.outbound.protection.outlook.com ([40.107.141.139]:40573
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727914AbfEMH5K (ORCPT
+        id S1728432AbfEMJA5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 13 May 2019 05:00:57 -0400
+Received: from sauhun.de ([88.99.104.3]:37648 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727401AbfEMJA5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 13 May 2019 03:57:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZCubA7wcxUXNDADIJ7ouIewx9sQQyGE+5bjOBZHeyOA=;
- b=R5HI3sIFxxvqcJqLn83WMVq5kUH7nwxZvdAr66eUaGIHdZrXb0kAyM/ols1eILpXDMSvgI5gTi9MxQJJKA1hhoulZXYi+pZQo0NfHpcopY3kCARhIaBMfKTvMxMXwZ5warzNVMC+vGMn/GaCVD0tPsXyDi/B4UiX9xmcMimjeYc=
-Received: from OSBPR01MB3174.jpnprd01.prod.outlook.com (20.176.240.146) by
- OSBPR01MB3333.jpnprd01.prod.outlook.com (20.178.5.150) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1878.22; Mon, 13 May 2019 07:57:07 +0000
-Received: from OSBPR01MB3174.jpnprd01.prod.outlook.com
- ([fe80::f873:6332:738d:7213]) by OSBPR01MB3174.jpnprd01.prod.outlook.com
- ([fe80::f873:6332:738d:7213%3]) with mapi id 15.20.1878.024; Mon, 13 May 2019
- 07:57:07 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Simon Horman <horms+renesas@verge.net.au>,
-        Vinod Koul <vinod.koul@intel.com>
-CC:     "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>
-Subject: RE: [PATCH] dmaengine: sudmac: remove unused driver
-Thread-Topic: [PATCH] dmaengine: sudmac: remove unused driver
-Thread-Index: AQHVBmYUs4O0Dq2sV0yGUFPTpg0f96ZoterA
-Date:   Mon, 13 May 2019 07:57:07 +0000
-Message-ID: <OSBPR01MB3174C44D415A0748033AD2A1D80F0@OSBPR01MB3174.jpnprd01.prod.outlook.com>
-References: <20190509125211.324-1-horms+renesas@verge.net.au>
-In-Reply-To: <20190509125211.324-1-horms+renesas@verge.net.au>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
-x-originating-ip: [118.238.235.108]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ffe73c73-bd87-456e-2f19-08d6d7789898
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB3333;
-x-ms-traffictypediagnostic: OSBPR01MB3333:
-x-microsoft-antispam-prvs: <OSBPR01MB33330839A649E03D03A7E6E6D80F0@OSBPR01MB3333.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
-x-forefront-prvs: 0036736630
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(376002)(366004)(136003)(396003)(346002)(199004)(189003)(86362001)(478600001)(186003)(74316002)(6436002)(5660300002)(476003)(26005)(486006)(81166006)(6116002)(99286004)(14454004)(81156014)(76116006)(256004)(3846002)(4744005)(33656002)(53936002)(6246003)(4326008)(25786009)(8676002)(71190400001)(71200400001)(8936002)(66946007)(7736002)(316002)(73956011)(102836004)(305945005)(2906002)(7696005)(66066001)(110136005)(54906003)(11346002)(6506007)(55016002)(68736007)(9686003)(76176011)(64756008)(66446008)(229853002)(66556008)(66476007)(446003)(52536014);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB3333;H:OSBPR01MB3174.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: tpKX9O9u7VkzdQ/cTrL/GC9TgeL1AzaTa41fRzewN5l0MrkgPPVPUOFldSAQvsyKSMX/hpAb0OzMaV2AC8GrdmcFT1QaokBGnqt/worOmOz1AzcB/ZgbzYqL4wuOb6UUXOiF69/XQbEXpGRxKUJdYrfvbJL6BfyhnuVdN/+47WqJg9J+puxikXlEgUHq/nMoyTLzMYjYSCGbJGJXr6gd4awpqHNFcbL3KbCm9Dr6ekVZzhw0toffy6WuAU7jrKMXvbYZZqy4nl4rDhGDx1yHGLC7RZ053zn9TajX33qZrrJavM34i4/umfd+71w2cPylwYhmaUqXXZ0A3/b6Vdl5s9t7SbzOy+XPvcXmYQPxA6o+GwVg7+pCegLCn0Mo9ye1VNTeSeY8Jn/rK/jU3lMlEmnlKRcjuB7+GRUhGujeZWo=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 13 May 2019 05:00:57 -0400
+Received: from localhost (p54B3324F.dip0.t-ipconnect.de [84.179.50.79])
+        by pokefinder.org (Postfix) with ESMTPSA id DB76F2CF610;
+        Mon, 13 May 2019 11:00:54 +0200 (CEST)
+Date:   Mon, 13 May 2019 11:00:54 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     ulf.hansson@linaro.org, wsa+renesas@sang-engineering.com,
+        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] mmc: renesas_sdhi: use multiple segments if
+ possible
+Message-ID: <20190513090054.GA15744@kunai>
+References: <1557721744-30545-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1557721744-30545-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ffe73c73-bd87-456e-2f19-08d6d7789898
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 May 2019 07:57:07.3912
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB3333
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="UugvWAfsgieZRqgk"
+Content-Disposition: inline
+In-Reply-To: <1557721744-30545-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Simon-san,
 
-> From: Simon Horman, Sent: Thursday, May 9, 2019 9:52 PM
->=20
-> SUDMAC driver was introduced in v3.10 but was never integrated for use
-> by any platform. As it unused remove it.
->=20
-> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+--UugvWAfsgieZRqgk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thank you for the patch!
+Hi Shimoda-san,
 
-Acked-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+thank you for this update!
 
-Best regards,
-Yoshihiro Shimoda
+> +static void renesas_sdhi_init_card(struct mmc_host *mmc, struct mmc_card *card)
+> +{
+> +	struct tmio_mmc_host *host = mmc_priv(mmc);
+> +
+> +	if (host->pdev->dev.iommu_group &&
 
+I wonder if I am too cautious, but maybe we should have another
+condition here to be checked first, namely "host->mmc->max_segs < 512"?
+
+> +	    (mmc_card_mmc(card) || mmc_card_sd(card)))
+> +		host->mmc->max_segs = 512;
+> +	else
+> +		host->mmc->max_segs = host->pdata->max_segs;
+
+max_segs can be 0, so we should probably have:
+
+ +		host->mmc->max_segs = host->pdata->max_segs ?: 32;
+
+That also means, for the sys-dmac and Gen2, we then use 512 for the
+IOMMU case and 32 (default TMIO value) for the non IOMMU case. My
+understanding is that SYS DMAC can handle 512 in both cases. Maybe it
+makes sense then to make an incremental patch setting the max_segs value
+explicitly to 512 in the sys-dmac driver for Gen2?
+
+Kind regards,
+
+   Wolfram
+
+
+--UugvWAfsgieZRqgk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAlzZMj0ACgkQFA3kzBSg
+KbZwTA//ZGgR4/1JbeNPKQ++DerCafySilftu/RpG5KKFZAIY+0ecC0BiC+MSrN3
+Pr7CfCLf4AwgR9RwBRRAVQTEPpNhVpbVwpGIarv7k61dSU2fFz9Mr93qSrD8S4s+
+kPMBNAW49O5M4ausIO1gzrCsSaApR/DR4BEjJgejREuGTvJtazDWDI3rAROwGBr5
+g3hRSBVAEBYvECfk2Q01xLZZqZQuHa1qa/4DrwNN7qLEIfmR0kpPmmEWiexmBp0z
+EBvkQ5mawK74ehjWSS7y4gNhWp/E344TN5UoiEOkfcYqIvAmAK0DiG0LbrE+Jn4y
+jNt7SuqAWsc/rk5y4y7qTxQQuHktUj5C+AyHJ08xXrR6PSJuMOdS9lAB8QgYwrAK
+YZ8Hc8GHlrfylQQO/5EWX01SEBBrcDhVcbwq7sILiwt3HBbP5LQSFKZ13uNJjUke
+A+5PP5AoiHU6JqnrxOBAkXu2IIvOLBvOJj57YbwrnOYi6RT2CtrfNAv+skMvHggT
+Uv2UArHZjvoi6/EW9qgMkha/oXipGNHAFaZhC2tvpGCFQwR/xk3Faolcs4rdMCHh
+8MmRigEyKBN4oJIq8y106MSQ5OBXlUMVW5DjBqs2LnVLSNiSUcpTDXnrXMMhMI/y
+dtA+BWLogsXmhZTxFHdfHqpWU0N3UO+WzQpWQBSF5o3euXzaJ9I=
+=JmKS
+-----END PGP SIGNATURE-----
+
+--UugvWAfsgieZRqgk--
