@@ -2,158 +2,207 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FAE21C2C5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 May 2019 08:05:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E41131C372
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 May 2019 08:52:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726103AbfENGFj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 May 2019 02:05:39 -0400
-Received: from mail-eopbgr1410135.outbound.protection.outlook.com ([40.107.141.135]:54592
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726078AbfENGFi (ORCPT
+        id S1726283AbfENGwW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 May 2019 02:52:22 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:54137 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726319AbfENGwV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 May 2019 02:05:38 -0400
+        Tue, 14 May 2019 02:52:21 -0400
+Received: by mail-wm1-f67.google.com with SMTP id 198so1536430wme.3
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 13 May 2019 23:52:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SvogcAkBTPnuYrxBc73FQfVRNGZnz/+09NANc92kLV8=;
- b=V9deiaLk9ONLGL/SscHGO7S2zDzKGt6uqNOavcLbuJnr0M3fVf93gge2KRPckjTtS4do4j/EACngVqoy9p+6Z0Dnv1wGXt0PMv2X8MCtX4+9QQIF+KhMs9V4yXGzn9APMj6yiCQl9+8Lztg9pecQPmFg8S9Lt142G6nfBXEp9Vk=
-Received: from OSBPR01MB3174.jpnprd01.prod.outlook.com (20.176.240.146) by
- OSBPR01MB1477.jpnprd01.prod.outlook.com (52.134.228.19) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1878.22; Tue, 14 May 2019 06:05:34 +0000
-Received: from OSBPR01MB3174.jpnprd01.prod.outlook.com
- ([fe80::f873:6332:738d:7213]) by OSBPR01MB3174.jpnprd01.prod.outlook.com
- ([fe80::f873:6332:738d:7213%3]) with mapi id 15.20.1878.024; Tue, 14 May 2019
- 06:05:34 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Wolfram Sang <wsa@the-dreams.de>
-CC:     "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
-        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v2 2/2] mmc: renesas_sdhi: use multiple segments if
- possible
-Thread-Topic: [PATCH v2 2/2] mmc: renesas_sdhi: use multiple segments if
- possible
-Thread-Index: AQHVCUUKmVh+8cTBr0GLk/9Xe/IGjKZowjMAgAAKVjCAAVMEkA==
-Date:   Tue, 14 May 2019 06:05:34 +0000
-Message-ID: <OSBPR01MB3174B26541C20C2951509DC8D8080@OSBPR01MB3174.jpnprd01.prod.outlook.com>
-References: <1557721744-30545-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1557721744-30545-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <20190513090054.GA15744@kunai>
- <OSBPR01MB3174B96296BFFA408F1C901FD80F0@OSBPR01MB3174.jpnprd01.prod.outlook.com>
-In-Reply-To: <OSBPR01MB3174B96296BFFA408F1C901FD80F0@OSBPR01MB3174.jpnprd01.prod.outlook.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
-x-originating-ip: [118.238.235.108]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 25f6b558-7046-4a82-3d1f-08d6d8322d97
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB1477;
-x-ms-traffictypediagnostic: OSBPR01MB1477:
-x-microsoft-antispam-prvs: <OSBPR01MB1477B6932023A1A6FD6359A3D8080@OSBPR01MB1477.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0037FD6480
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(396003)(136003)(376002)(346002)(366004)(54094003)(52314003)(189003)(199004)(476003)(102836004)(76176011)(446003)(2906002)(99286004)(54906003)(486006)(6506007)(9686003)(66476007)(66946007)(66556008)(64756008)(66446008)(11346002)(86362001)(7696005)(53936002)(76116006)(73956011)(8936002)(186003)(4326008)(68736007)(81166006)(81156014)(55016002)(6116002)(6246003)(8676002)(52536014)(305945005)(5660300002)(7736002)(316002)(26005)(3846002)(71190400001)(25786009)(71200400001)(14454004)(74316002)(478600001)(33656002)(66066001)(6916009)(14444005)(256004)(6436002)(229853002);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB1477;H:OSBPR01MB3174.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: L8oOXuhfeddIyofs6FM4p8V5q5VC35Ig5h+8JilsbIpsaYKqgH1QX9bC0JIw0NiXs+7TZpU8hpRu75S6NRNvYibutl9oIXRqU5mabn56UNDbg+0zoiaYb/uVgiAAVkTp47C42j84mUp+VqmzsL9gX9LeycjzL/7KwXsm2BIYBuBpgu7XyF9mxHGO/HUhxahLSsnjIuvEOs1tTL1Dct93kK8Qa91ZYOVopdYI/iVB9H+lbvdc5CfNhsGdCs0mMJBGms+5TtkURWH7SpNIUMdgynZIjWzcnPV3ss5ZCPExo4qQiuH4k1r8cpp7iw9grXJZTKJ/JwSx7L1q1HdesSWTMffrrX5NEFmTzt89CNfQittq2S1QWEnms1HFcI7X8dQY+spQf7K0SgU5KUnzAVQRBen39i/T8dB5Ll/MFM2kJ4I=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=nc1AT9QHLViQtI9mMaQ7ovxvK7zuTsBcT1i7PoGDlCc=;
+        b=xrd1sHia8e0xNr+dj/10VK2b7xJdS4fagL8pZaGgZoB/KsMend2rW8Ymg1FNDGFq6x
+         QfRlGS8MIL/M67sPSr3LgA0N1+ZHjbFSElo0EK+yPRSEWK+GlugW9WNxmPXcjPZdTctZ
+         joAeBYnfxHVQw7GHykIsK4rRbJA8v1YwiljMVXyvIqxuAaXzXCSIKOWcD9wbXtBvSWyV
+         lcRT4QRyiQYGekFi92x10zoo6IIGZQX4AK/JfcLHbi8NoKT0ZMLYxNGrmY/ZFo80vWlG
+         f8kbw2HtTjua7Id8c92QCQxy/Z+7/Gus3Ws6aQAuLKRfChB8te92czBAEA/1kdaROMZ9
+         uOIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=nc1AT9QHLViQtI9mMaQ7ovxvK7zuTsBcT1i7PoGDlCc=;
+        b=psE3j4R49nPEvV0u82rZUeMeR4rKP8A9/rIDyMOZNpEZR9t407/Zrw1lYF4d1VDM1c
+         fHzmLOA0dUtLQuVshZMXk1Ckq/fSGswcoruWud/4luMaNZpjjUYWF1RlLYr9LHjq/yS3
+         Of4O75pK8HO2NM31T64CpsqEXOUU0zlSaLbivOMnmI36jUvQnSHes+S8ATLo35S5rCIs
+         Uy4YhZwM6XpWsSbEIjRc7q6g+jycq5Z+hXCtWQMo0Ku0lO/DfCUszlhTqDizp6JAmc+Q
+         Rn1wI57SNRNudiGBYsH/cEg0AwGunMFR2sporITfyxSe1Ld+wNrNdJaJ+z5rzfwVMo59
+         dD8A==
+X-Gm-Message-State: APjAAAXnW38Iej6c6uNzBdcPs2rtODBIqcHzEOK0L0neQjPxtxXPeoAN
+        BGgGcmAAT+U+IuYQKUJFriDDbg==
+X-Google-Smtp-Source: APXvYqyxzx7+zkK9CsHaTlkS3oQgg2TaUpQ5iJps/9Iep8Joa7x7rdKPDOe/37WF/phHJvAynRfjKw==
+X-Received: by 2002:a05:600c:22cc:: with SMTP id 12mr6410903wmg.141.1557816738473;
+        Mon, 13 May 2019 23:52:18 -0700 (PDT)
+Received: from dell ([2.27.167.43])
+        by smtp.gmail.com with ESMTPSA id h8sm1859415wmf.5.2019.05.13.23.52.17
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 13 May 2019 23:52:17 -0700 (PDT)
+Date:   Tue, 14 May 2019 07:52:16 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Mason Yang <masonccyang@mxic.com.tw>
+Cc:     broonie@kernel.org, marek.vasut@gmail.com,
+        linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+        bbrezillon@kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        sergei.shtylyov@cogentembedded.com, robh+dt@kernel.org,
+        mark.rutland@arm.com, devicetree@vger.kernel.org,
+        juliensu@mxic.com.tw, Simon Horman <horms@verge.net.au>,
+        zhengxunli@mxic.com.tw
+Subject: Re: [PATCH v12 2/3] spi: Add Renesas R-Car Gen3 RPC-IF SPI
+ controller driver
+Message-ID: <20190514065216.GL4319@dell>
+References: <1556092536-17095-1-git-send-email-masonccyang@mxic.com.tw>
+ <1556092536-17095-3-git-send-email-masonccyang@mxic.com.tw>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 25f6b558-7046-4a82-3d1f-08d6d8322d97
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 May 2019 06:05:34.3475
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB1477
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1556092536-17095-3-git-send-email-masonccyang@mxic.com.tw>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram-san again,
+On Wed, 24 Apr 2019, Mason Yang wrote:
 
-> From: Yoshihiro Shimoda, Sent: Monday, May 13, 2019 6:46 PM
->=20
-> Hi Wolfram-san,
->=20
-> > From: Wolfram Sang, Sent: Monday, May 13, 2019 6:01 PM
-> >
-> > Hi Shimoda-san,
-> >
-> > thank you for this update!
-> >
-> > > +static void renesas_sdhi_init_card(struct mmc_host *mmc, struct mmc_=
-card *card)
-> > > +{
-> > > +	struct tmio_mmc_host *host =3D mmc_priv(mmc);
-> > > +
-> > > +	if (host->pdev->dev.iommu_group &&
-> >
-> > I wonder if I am too cautious, but maybe we should have another
-> > condition here to be checked first, namely "host->mmc->max_segs < 512"?
->=20
-> I got it. I'll fix it on v3 patch.
+> Add a driver for Renesas R-Car Gen3 RPC-IF SPI controller.
+> 
+> Signed-off-by: Mason Yang <masonccyang@mxic.com.tw>
+> Signed-off-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+> ---
+>  drivers/spi/Kconfig           |   6 +
+>  drivers/spi/Makefile          |   1 +
+>  drivers/spi/spi-renesas-rpc.c | 571 ++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 578 insertions(+)
+>  create mode 100644 drivers/spi/spi-renesas-rpc.c
+> 
+> diff --git a/drivers/spi/Kconfig b/drivers/spi/Kconfig
+> index f761655..1f52bcf 100644
+> --- a/drivers/spi/Kconfig
+> +++ b/drivers/spi/Kconfig
+> @@ -564,6 +564,12 @@ config SPI_RSPI
+>  	help
+>  	  SPI driver for Renesas RSPI and QSPI blocks.
+>  
+> +config SPI_RENESAS_RPC
+> +	tristate "Renesas R-Car Gen3 RPC-IF controller"
+> +	depends on ARCH_RENESAS || COMPILE_TEST
+> +	help
+> +	  SPI driver for Renesas R-Car Gen3 RPC-IF.
+> +
+>  config SPI_QCOM_QSPI
+>  	tristate "QTI QSPI controller"
+>  	depends on ARCH_QCOM
+> diff --git a/drivers/spi/Makefile b/drivers/spi/Makefile
+> index d8fc03c..b3a3deb 100644
+> --- a/drivers/spi/Makefile
+> +++ b/drivers/spi/Makefile
+> @@ -86,6 +86,7 @@ obj-$(CONFIG_SPI_QUP)			+= spi-qup.o
+>  obj-$(CONFIG_SPI_ROCKCHIP)		+= spi-rockchip.o
+>  obj-$(CONFIG_SPI_RB4XX)			+= spi-rb4xx.o
+>  obj-$(CONFIG_SPI_RSPI)			+= spi-rspi.o
+> +obj-$(CONFIG_SPI_RENESAS_RPC)		+= spi-renesas-rpc.o
+>  obj-$(CONFIG_SPI_S3C24XX)		+= spi-s3c24xx-hw.o
+>  spi-s3c24xx-hw-y			:= spi-s3c24xx.o
+>  spi-s3c24xx-hw-$(CONFIG_SPI_S3C24XX_FIQ) += spi-s3c24xx-fiq.o
+> diff --git a/drivers/spi/spi-renesas-rpc.c b/drivers/spi/spi-renesas-rpc.c
+> new file mode 100644
+> index 0000000..c2202d4
+> --- /dev/null
+> +++ b/drivers/spi/spi-renesas-rpc.c
+> @@ -0,0 +1,571 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +//
+> +// Copyright (C) 2018 ~ 2019 Renesas Solutions Corp.
+> +// Copyright (C) 2019 Macronix International Co., Ltd.
+> +//
+> +// R-Car Gen3 RPC-IF SPI/QSPI/Octa driver
+> +//
+> +// Author:
+> +//	Mason Yang <masonccyang@mxic.com.tw>
+> +//
+> +
+> +#include <linux/clk.h>
+> +#include <linux/io.h>
+> +#include <linux/log2.h>
+> +#include <linux/iopoll.h>
+> +#include <linux/mfd/renesas-rpc.h>
+> +#include <linux/module.h>
+> +#include <linux/mtd/mtd.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/regmap.h>
+> +#include <linux/reset.h>
+> +#include <linux/spi/spi.h>
+> +#include <linux/spi/spi-mem.h>
+> +
+> +#include <asm/unaligned.h>
+> +
+> +struct rpc_spi {
+> +	struct rpc_mfd *mfd;
 
-I'm afraid but I misunderstood this condition is "host->pdata->max_segs", n=
-ot "host->mmc->max_segs",
-to avoid small max_segs value than pdata->max_segs? (No one has such max_se=
-gs value at the moment though.)
+The term MFD isn't a real thing.  What you're obtaining below is
+driver data and is normally articulated as 'ddata' in drivers.
 
-If we use "host->mmc->max_segs", the max_segments value will be toggled by =
-connecting/disconnecting a card like below:
+> +	u32 cur_speed_hz;
+> +	u32 cmd;
+> +	u32 addr;
+> +	u32 dummy;
+> +	u32 smcr;
+> +	u32 smenr;
+> +	u32 xferlen;
+> +	u32 totalxferlen;
+> +	enum spi_mem_data_dir xfer_dir;
+> +};
 
-(a card is connected)
-# cat /sys/block/mmcblk0/queue/max_segments
-512
-(a card is disconnected and connected again)
-# cat /sys/block/mmcblk0/queue/max_segments
-1
-(a card is disconnected and connected again)
-# cat /sys/block/mmcblk0/queue/max_segments
-512
-...
+[...]
 
-Best regards,
-Yoshihiro Shimoda
+> +static void rpc_spi_hw_init(struct rpc_spi *rpc)
+> +{
+> +	//
+> +	// NOTE: The 0x260 are undocumented bits, but they must be set.
+> +	//	 RPC_PHYCNT_STRTIM is strobe timing adjustment bit,
+> +	//	 0x0 : the delay is biggest,
+> +	//	 0x1 : the delay is 2nd biggest,
+> +	//	 On H3 ES1.x, the value should be 0, while on others,
+> +	//	 the value should be 6.
+> +	//
 
-> > > +	    (mmc_card_mmc(card) || mmc_card_sd(card)))
-> > > +		host->mmc->max_segs =3D 512;
-> > > +	else
-> > > +		host->mmc->max_segs =3D host->pdata->max_segs;
-> >
-> > max_segs can be 0, so we should probably have:
-> >
-> >  +		host->mmc->max_segs =3D host->pdata->max_segs ?: 32;
->=20
-> Thank you for the point! I'll fix it on v3 patch.
->=20
-> > That also means, for the sys-dmac and Gen2, we then use 512 for the
-> > IOMMU case and 32 (default TMIO value) for the non IOMMU case. My
-> > understanding is that SYS DMAC can handle 512 in both cases. Maybe it
-> > makes sense then to make an incremental patch setting the max_segs valu=
-e
-> > explicitly to 512 in the sys-dmac driver for Gen2?
->=20
-> I also think SYS DMAC can handle 512 segments. However, I'm not sure
-> it can improve the performance or not though. Anyway, an incremental patc=
-h
-> makes sense if needed, I think.
->=20
-> Best regards,
-> Yoshihiro Shimoda
->=20
-> > Kind regards,
-> >
-> >    Wolfram
+C++ style comments?  Is that a thing now?
 
+> +	regmap_write(rpc->mfd->regmap, RPC_PHYCNT, RPC_PHYCNT_CAL |
+> +				  RPC_PHYCNT_STRTIM(6) | 0x260);
+> +
+> +	//
+> +	// NOTE: The 0x1511144 are undocumented bits, but they must be set
+> +	//       for RPC_PHYOFFSET1.
+> +	//	 The 0x31 are undocumented bits, but they must be set
+> +	//	 for RPC_PHYOFFSET2.
+> +	//
+> +	regmap_write(rpc->mfd->regmap, RPC_PHYOFFSET1,
+> +		     RPC_PHYOFFSET1_DDRTMG(3) | 0x1511144);
+> +	regmap_write(rpc->mfd->regmap, RPC_PHYOFFSET2, 0x31 |
+> +		     RPC_PHYOFFSET2_OCTTMG(4));
+> +	regmap_write(rpc->mfd->regmap, RPC_SSLDR, RPC_SSLDR_SPNDL(7) |
+> +		     RPC_SSLDR_SLNDL(7) | RPC_SSLDR_SCKDL(7));
+> +	regmap_write(rpc->mfd->regmap, RPC_CMNCR, RPC_CMNCR_MD |
+> +		     RPC_CMNCR_SFDE | RPC_CMNCR_MOIIO_HIZ | RPC_CMNCR_IOFV_HIZ |
+> +		     RPC_CMNCR_BSZ(0));
+> +}
+
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
