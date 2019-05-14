@@ -2,73 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 685891CFEC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 May 2019 21:30:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7D751D067
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 May 2019 22:17:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726248AbfENTaT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 May 2019 15:30:19 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:36230 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726013AbfENTaT (ORCPT
+        id S1726148AbfENURP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 May 2019 16:17:15 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:36983 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726044AbfENURP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 May 2019 15:30:19 -0400
-Received: by mail-ot1-f65.google.com with SMTP id c3so16361790otr.3;
-        Tue, 14 May 2019 12:30:18 -0700 (PDT)
+        Tue, 14 May 2019 16:17:15 -0400
+Received: by mail-oi1-f196.google.com with SMTP id f4so106100oib.4;
+        Tue, 14 May 2019 13:17:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=HIMR+DIH6rdR6Yw4tErlWybT9HlSjqfGRbrJTH3k/h4=;
-        b=opSVGUh1B9RSpMBIcejkW4Rv47rIBS1RCUQcd91T4yAIbtndH0sp6+OhIXpLaU/pM0
-         6kx+ZmnEQEmQZjnvRwGyWQa7sbH4Aj/WPDRhe0Uias7XVaZUYBxiUMJ/m+2rRrZA/TXx
-         y2yn/AuYpD1Bqyw8ThqHenxtpCXpemiHgBHEKihhZyWP0mhqCQ9DLQ0ziZsG6EoOxqCo
-         PnnzHZXfuS+0sAeHLh8b/zSr8KjYXtMuOhG488DE+Xh1S7DFRPehuRKIqyZiV3r0yxwW
-         2/RTAgKhrbfY2AFdzUFci0CFjqfDw950lj6VKIJTJznO/thGz8U+biyC/G0kfwcsEAeO
-         rGsA==
-X-Gm-Message-State: APjAAAXKW0ODYhhfCMt+BOBCPm6cBWgoUfICprHKyA3jvQLdG28N+8vn
-        /A4SFQjbR+rxMl6Cy4kAMA==
-X-Google-Smtp-Source: APXvYqzibAk/BZZeWuxQo95q5VLAhTtdp4PBSpp7c4gjshxKhd5T0HuqjAKwUjgZTZ8lKg0i+LtrTw==
-X-Received: by 2002:a9d:6116:: with SMTP id i22mr21988439otj.13.1557862218171;
-        Tue, 14 May 2019 12:30:18 -0700 (PDT)
+        bh=vCIo0PtXohxKjB0d7BJFUlaniBQb1hXlIxL8AXnKx2s=;
+        b=uQxCUp6qCAnbP0LaPEe7DBmr24q0hQ25b6tG6y9/sGc256kAyZor18SqBilWYfGSAD
+         PrP12M/a/uegOWeUpvpBaDxWvU2a3FmLWLy8X0CrL8OHBOrQWtK+g1tY1EsYbimfZhQt
+         tYNh5Bu34LvALWhhUARY6y8VZuD3pFqFcGzDxoGvOhyrNsMxBPbBefbz5bJiZY7rTVQl
+         U05ziQztiHP48muHkjohxRcZ3LUonmogCar08BLMguAAmHMcQhLy3iU5TNISz43JEXrg
+         AtyA9gPWyiw6JXfjbEGqy8wtKQ88ZzDM143fxMfU82DOxj9bWLRlACOE5qIE5Be1gVHJ
+         4eSw==
+X-Gm-Message-State: APjAAAVkMo0f+ZHTpJJvQzzB+QYwSxj4ZnY+sqGolVYTaPkS+jNsujJF
+        jIV+1kHl+BJ1WqSaLpafaw==
+X-Google-Smtp-Source: APXvYqxlzufSIdi94CYyBDo86DA3MUke7A1hx6ju2bPmafSngpVcnhTslU8xbt70Z6gVCOZxeByWsg==
+X-Received: by 2002:aca:6086:: with SMTP id u128mr44867oib.79.1557865033944;
+        Tue, 14 May 2019 13:17:13 -0700 (PDT)
 Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id k65sm6608306oia.16.2019.05.14.12.30.17
+        by smtp.gmail.com with ESMTPSA id c24sm1979892otm.75.2019.05.14.13.17.13
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 14 May 2019 12:30:17 -0700 (PDT)
-Date:   Tue, 14 May 2019 14:30:17 -0500
+        Tue, 14 May 2019 13:17:13 -0700 (PDT)
+Date:   Tue, 14 May 2019 15:17:12 -0500
 From:   Rob Herring <robh@kernel.org>
-To:     Chris Brandt <chris.brandt@renesas.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Simon Horman <horms@verge.net.au>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Chris Brandt <chris.brandt@renesas.com>
-Subject: Re: [PATCH v3 12/15] dt-bindings: usb: renesas_usbhs: Add support
- for r7s9210
-Message-ID: <20190514193017.GA18012@bogus>
-References: <20190514145605.19112-1-chris.brandt@renesas.com>
- <20190514145605.19112-13-chris.brandt@renesas.com>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        devicetree@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Subject: Re: [PATCH v2 02/10] dt-bindings: display: bridge: thc63lvd1024:
+ Document dual-link operation
+Message-ID: <20190514201712.GA1742@bogus>
+References: <20190511210702.18394-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20190511210702.18394-3-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190514145605.19112-13-chris.brandt@renesas.com>
+In-Reply-To: <20190511210702.18394-3-laurent.pinchart+renesas@ideasonboard.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 14 May 2019 09:56:02 -0500, Chris Brandt wrote:
-> Add support for r7s9210 (RZ/A2M) SoC
+On Sun, 12 May 2019 00:06:54 +0300, Laurent Pinchart wrote:
+> The THC63LVD1024 LVDS decoder can operate in two modes, single-link or
+> dual-link. In dual-link mode both input ports are used to carry even-
+> and odd-numbered pixels separately. Document this in the DT bindings,
+> along with the related rules governing port and usage.
 > 
-> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
->  Documentation/devicetree/bindings/usb/renesas_usbhs.txt | 2 ++
->  1 file changed, 2 insertions(+)
+>  .../bindings/display/bridge/thine,thc63lvd1024.txt          | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
