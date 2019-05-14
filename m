@@ -2,75 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 39E351CCAE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 May 2019 18:13:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D5EA1CCBD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 May 2019 18:16:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725901AbfENQNy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 May 2019 12:13:54 -0400
-Received: from foss.arm.com ([217.140.101.70]:58378 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725980AbfENQNy (ORCPT
+        id S1726200AbfENQQL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 May 2019 12:16:11 -0400
+Received: from relay1.mentorg.com ([192.94.38.131]:44543 "EHLO
+        relay1.mentorg.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725901AbfENQQL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 May 2019 12:13:54 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B9B77374;
-        Tue, 14 May 2019 09:13:53 -0700 (PDT)
-Received: from [10.1.196.50] (e108454-lin.cambridge.arm.com [10.1.196.50])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 615C33F703;
-        Tue, 14 May 2019 09:13:52 -0700 (PDT)
-Subject: Re: [PATCH V4] ARM: mach-shmobile: Don't init CNTVOFF/counter if PSCI
- is available
-To:     Oleksandr Tyshchenko <olekstysh@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     horms@verge.net.au, magnus.damm@gmail.com, linux@armlinux.org.uk,
-        geert@linux-m68k.org,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
-References: <1557850012-16612-1-git-send-email-olekstysh@gmail.com>
-From:   Julien Grall <julien.grall@arm.com>
-Message-ID: <4e712484-d6a4-e358-ea66-51dfcee18b0d@arm.com>
-Date:   Tue, 14 May 2019 17:13:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Tue, 14 May 2019 12:16:11 -0400
+Received: from svr-orw-mbx-01.mgc.mentorg.com ([147.34.90.201])
+        by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
+        id 1hQa63-0006ru-LN from George_Davis@mentor.com ; Tue, 14 May 2019 09:16:07 -0700
+Received: from localhost (147.34.91.1) by svr-orw-mbx-01.mgc.mentorg.com
+ (147.34.90.201) with Microsoft SMTP Server (TLS) id 15.0.1320.4; Tue, 14 May
+ 2019 09:16:05 -0700
+Date:   Tue, 14 May 2019 12:16:04 -0400
+From:   "George G. Davis" <george_davis@mentor.com>
+To:     Wolfram Sang <wsa@the-dreams.de>
+CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Ulrich Hecht <ulrich.hecht+renesas@gmail.com>,
+        Andy Lowe <andy_lowe@mentor.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS 
+        <devicetree@vger.kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        stable <stable@vger.kernel.org>
+Subject: Re: [PATCH v2] serial: sh-sci: disable DMA for uart_console
+Message-ID: <20190514161604.GD18528@mam-gdavis-lt>
+References: <1557762446-23811-1-git-send-email-george_davis@mentor.com>
+ <CAMuHMdVaNWa=Q-7K-+_rM-8yYWB0-+4_o4hgACK6o-4BOrY07A@mail.gmail.com>
+ <20190514153021.GC18528@mam-gdavis-lt>
+ <20190514155450.GB6508@kunai>
 MIME-Version: 1.0
-In-Reply-To: <1557850012-16612-1-git-send-email-olekstysh@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20190514155450.GB6508@kunai>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-ClientProxiedBy: svr-orw-mbx-04.mgc.mentorg.com (147.34.90.204) To
+ svr-orw-mbx-01.mgc.mentorg.com (147.34.90.201)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+Hello Wolfram,
 
-On 14/05/2019 17:06, Oleksandr Tyshchenko wrote:
-> diff --git a/arch/arm/mach-shmobile/setup-rcar-gen2.c b/arch/arm/mach-shmobile/setup-rcar-gen2.c
-> index eea60b2..64e3abd 100644
-> --- a/arch/arm/mach-shmobile/setup-rcar-gen2.c
-> +++ b/arch/arm/mach-shmobile/setup-rcar-gen2.c
-> @@ -17,6 +17,7 @@
->   #include <linux/of.h>
->   #include <linux/of_fdt.h>
->   #include <linux/of_platform.h>
-> +#include <linux/psci.h>
->   #include <asm/mach/arch.h>
->   #include <asm/secure_cntvoff.h>
->   #include "common.h"
-> @@ -63,6 +64,15 @@ void __init rcar_gen2_timer_init(void)
->   	void __iomem *base;
->   	u32 freq;
->   
-> +	/*
-> +	 * If PSCI is available then most likely we are running on PSCI-enabled
-> +	 * U-Boot which, we assume, has already taken care of resetting CNTVOFF
-> +	 * and updating counter module before switching to non-secure mode
-> +	 * and we don't need to.
-> +	 */
-> +	if (psci_ops.cpu_on) > +		goto skip_update;
-Are you sure this is working when ARM_PSCI_FW is not selected? Is it possible to 
-have a .config for RCAR without ARM_PSCI_FW?
+On Tue, May 14, 2019 at 05:54:51PM +0200, Wolfram Sang wrote:
+> 
+> > > > Fixes: https://patchwork.kernel.org/patch/10929511/
+> > > 
+> > > I don't think this is an appropriate reference, as it points to a patch that
+> > > was never applied.
+> > 
+> > I included it as a link to an upstream problem report similar to other commits
+> > that I previewed. The link provides the extra context that I was perhaps to
+> > lazy to note in the commit header.
+> 
+> We have a "Link:" tag for things like this, e.g.:
+> 
+> Link: https://patchwork.kernel.org/patch/10929511/
 
-Cheers,
+Right, I've changed it to a Link instead.
+
+Thanks!
 
 -- 
-Julien Grall
+Regards,
+George
