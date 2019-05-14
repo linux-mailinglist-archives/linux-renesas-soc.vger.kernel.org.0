@@ -2,124 +2,180 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 779491CD3F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 May 2019 18:51:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEF5C1CF98
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 May 2019 21:06:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726036AbfENQve (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 May 2019 12:51:34 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:39181 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726044AbfENQve (ORCPT
+        id S1726261AbfENTGn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 May 2019 15:06:43 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:42738 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727689AbfENTGm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 May 2019 12:51:34 -0400
-Received: by mail-lj1-f196.google.com with SMTP id a10so7000882ljf.6;
-        Tue, 14 May 2019 09:51:32 -0700 (PDT)
+        Tue, 14 May 2019 15:06:42 -0400
+Received: by mail-lf1-f66.google.com with SMTP id y13so32073lfh.9
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 May 2019 12:06:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=pSrbjSgq+dDmZOF6wxf9ya7W/nk/pOt4k1xQAWNm2h0=;
-        b=FaJ7RuokSxb694vs9RYQ3CdbXCt+vX680coDFf5OKzeC/S5qLy6bQnQXPAiJz1sGP7
-         wPEVrtZxPHAaNBdyLedE/y3Dm74q73EbK/I9mcKPjXFN4vcZMXtGoBt4xhHIdANS2ELH
-         aTC8FLMlmuJ2+GXrio8IhJEhbns3L/tw6rNak3DIlAx/xt9dhm+DL2/zVM5S3S4CtsbQ
-         wTtXfpYJZHJ+HPWCQklJRiyyh8L4F18f8+mGeOfcguv/qGlIZ0jrw3DLqK6rN80lz2xk
-         ezHT0inH1nDogg+CN5h3xkcFlJzMibVJTZ6stAhDaGytVfTSezv+tt6v3g5pNaGfX5C4
-         p2aQ==
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=SPWmKpq6VDGUfyOzmQTA3tI7BJu0RPpA6WUx4ql1p0M=;
+        b=MeFq+tmDozlVwHUa/pirnaQUyzHzhiC922oLEAd3VZSh7SQs/8lTjYBKazPc8OI/3f
+         aD8IoPZ8mJx5iLrL+MCV/S9RnL1ffUq9tgdO6ubADK0wQj3lx2tIb2T9eO5FVg9jcnEV
+         l48gJnNLj8cFsXg356nvAolyYevr0DwKfyW0dhSkz3vR3T0wCBP7RPDLfxZt50xi69l5
+         u5zLWcDHJcPmasR54xK+MBfniS3Mh21UfWPTl7N6KLj8pwkK/rhJg8/W7QjH7+ex66Dm
+         OamrI2TSVd9HUuywpc6pkUClP5OK0UHg6vlo0K4S2IF+L5a4DN5OMKLT2ucSF52OXx9s
+         Sxkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=pSrbjSgq+dDmZOF6wxf9ya7W/nk/pOt4k1xQAWNm2h0=;
-        b=pv3fHxUM43lNPax5CfM+J0+KzTWmUnmOKyBfeM5qHCbq+vj3+fOTNQSB1XDZodoqZT
-         24rT1EKsTqd6/ABfuAf1g++J5g3X5bjRFY9DbSdpTD9CORSxXO33B0jJRTQ+preHZ1gj
-         JiLKqEZP++sJ7ADjHGM90NRCxp2E5W4V7tcYCLCjoVjzNeHlG+qcZG/wHGvwn9xkgThY
-         A2GVzaSqfl3kaev9/EtFh/NMyld9VAUfWKqFkEOgn87AxjfrO0fbrEEg4z5G86Wq4jiD
-         LdpjkMFLQvquNEIwUdR0y1KDm20IobRHO5KWAE2utcY5n5sXPaKXOXpEVvWZuTy7TZn/
-         Qh+w==
-X-Gm-Message-State: APjAAAU18qW7lcXev7nlIr7SZ1FaYJTUgVVfPPHWlOFhNvYPbSL0ouoU
-        M/qjwIwoc80hbnYQA9yr5+Y=
-X-Google-Smtp-Source: APXvYqwqcDNBmiFzjMEaT5HuLqs76kVQf9BpRqrod5VaQC5I8VDdpCAwmR/r0SOk/D4yViP4ZtNtQQ==
-X-Received: by 2002:a2e:9756:: with SMTP id f22mr17568259ljj.30.1557852691941;
-        Tue, 14 May 2019 09:51:31 -0700 (PDT)
-Received: from [10.17.182.120] (ll-22.209.223.85.sovam.net.ua. [85.223.209.22])
-        by smtp.gmail.com with ESMTPSA id l15sm3784600lji.5.2019.05.14.09.51.30
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=SPWmKpq6VDGUfyOzmQTA3tI7BJu0RPpA6WUx4ql1p0M=;
+        b=ugsSYvTe5kNy9UMmUeUwiAuNYdQ7KUuooL2KnmjpVgNYiR8rfYMiyKq4TDavoDVDBe
+         B10RAxQ3JrxJPjAm9lbNX/VU/+bTF/XYiFYxE+8OppdDW113dSwT8OlsXCt1dVdPUvTA
+         eiGy+edHdmMqscv1erH6BdoLc72fsabVYkpUuBjwUTHRrZEXojyhp8JG5QZfIW4GIMCe
+         f0cDczB/QK5kyqSy+Raw2/zAwKVxyE91XLVbEZ5LydFt6me0B1FvQR4sVw091PBt92S9
+         m3Aegc5MQsk3LtnPod6+A5MnSDOcauAb9NrptoeYbedlCDcrrd24224xGv06u450fn2i
+         yuJg==
+X-Gm-Message-State: APjAAAVbX2QxKfBVz+Bse6qMRDklh8c8fW+zQL2MYhq/ZqjmwGOl3cOR
+        rXSsxv+HyMRPclut/pgegmtINg==
+X-Google-Smtp-Source: APXvYqwRZdUgwLeaMIdAgHuhbJILXHkJsRzfX0+TBZ94IjzXws/h3v/fHnQlT4e7PoL8NqcM0zp2iA==
+X-Received: by 2002:a19:1dc3:: with SMTP id d186mr17340891lfd.101.1557860800826;
+        Tue, 14 May 2019 12:06:40 -0700 (PDT)
+Received: from wasted.cogentembedded.com ([31.173.86.127])
+        by smtp.gmail.com with ESMTPSA id j19sm3969610lfj.52.2019.05.14.12.06.38
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 14 May 2019 09:51:31 -0700 (PDT)
-Subject: Re: [PATCH V4] ARM: mach-shmobile: Don't init CNTVOFF/counter if PSCI
- is available
-To:     Julien Grall <julien.grall@arm.com>,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     horms@verge.net.au, magnus.damm@gmail.com, linux@armlinux.org.uk,
-        geert@linux-m68k.org,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
-References: <1557850012-16612-1-git-send-email-olekstysh@gmail.com>
- <4e712484-d6a4-e358-ea66-51dfcee18b0d@arm.com>
-From:   Oleksandr <olekstysh@gmail.com>
-Message-ID: <c45a056f-80d5-187d-e865-fb66d514830a@gmail.com>
-Date:   Tue, 14 May 2019 19:51:30 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Tue, 14 May 2019 12:06:40 -0700 (PDT)
+Subject: Re: [PATCH v9 2/3] spi: Add Renesas R-Car Gen3 RPC-IF SPI controller
+ driver
+To:     masonccyang@mxic.com.tw
+Cc:     bbrezillon@kernel.org, broonie@kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms@verge.net.au>, juliensu@mxic.com.tw,
+        lee.jones@linaro.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-spi@vger.kernel.org,
+        marek.vasut@gmail.com, mark.rutland@arm.com, robh+dt@kernel.org,
+        zhengxunli@mxic.com.tw
+References: <1553847606-18122-1-git-send-email-masonccyang@mxic.com.tw>
+ <1553847606-18122-3-git-send-email-masonccyang@mxic.com.tw>
+ <1e2bf23d-db39-0d1d-0bcc-6d9cd2935a82@cogentembedded.com>
+ <cdee3d53-6ee3-4435-117e-8ba4a58ca72b@cogentembedded.com>
+ <OF82CE76E9.E6395EF7-ON482583DD.000E37D7-482583DD.000E5077@mxic.com.tw>
+ <3d334751-8fd4-7db1-9deb-e6c94936df13@cogentembedded.com>
+ <OF4ABCC306.B053BA23-ON482583E0.000F480C-482583E0.000FAD4A@mxic.com.tw>
+ <3971c669-9095-9d18-d029-37f9663a54b2@cogentembedded.com>
+ <OF58AAFF49.C4593DEB-ON482583E1.001D551E-482583E1.001F089D@mxic.com.tw>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Organization: Cogent Embedded
+Message-ID: <9014077e-2648-adad-72c1-baf834f5a511@cogentembedded.com>
+Date:   Tue, 14 May 2019 22:06:37 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <4e712484-d6a4-e358-ea66-51dfcee18b0d@arm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+In-Reply-To: <OF58AAFF49.C4593DEB-ON482583E1.001D551E-482583E1.001F089D@mxic.com.tw>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hello!
 
-On 14.05.19 19:13, Julien Grall wrote:
-> Hi,
+On 04/19/2019 08:38 AM, masonccyang@mxic.com.tw wrote:
 
-Hi Julien
+>> >> >> >> Add a driver for Renesas R-Car Gen3 RPC-IF SPI controller.
+>> >> >> >>
+>> >> >> >> Signed-off-by: Mason Yang <masonccyang@mxic.com.tw>
+>> >> >> >> Signed-off-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+>> >> >> > [...]
+>> >> >> >> diff --git a/drivers/spi/spi-renesas-rpc.c b/drivers/spi/spi-
+>> >> renesas-rpc.c
+>> >> >> >> new file mode 100644
+>> >> >> >> index 0000000..037f273
+>> >> >> >> --- /dev/null
+>> >> >> >> +++ b/drivers/spi/spi-renesas-rpc.c
+>> >> >> > [...]
+>> >> >> >> +static int rpc_spi_probe(struct platform_device *pdev)
+>> >> >> >> +{
+>> >> >> >> +   struct spi_controller *ctlr;
+>> >> >> >> +   struct rpc_mfd *rpc_mfd = dev_get_drvdata(pdev->dev.parent);
+>> >> >> >> +   struct rpc_spi *rpc;
+>> >> >> >> +   int ret;
+>> >> >> >> +
+>> >> >> >> +   ctlr = spi_alloc_master(&pdev->dev, sizeof(*rpc));
+>> >> >> >> +   if (!ctlr)
+>> >> >> >> +      return -ENOMEM;
+>> >> >> >> +
+>> >> >> >> +   platform_set_drvdata(pdev, ctlr);
+>> >> >> >> +
+>> >> >> >> +   rpc = spi_controller_get_devdata(ctlr);
+>> >> >> >> +
+>> >> >> >> +   ctlr->dev.of_node = pdev->dev.of_node;
+>> >> >> > [...]
+>> >> >> >> +
+>> >> >> >> +   pm_runtime_enable(&pdev->dev);
+>> >> >> >> +   ctlr->auto_runtime_pm = true;
+>> >> >> >
+>> >> >> >    I think this line no longer works as expected with the new
+>> >> >> probing scheme.
+>> >>
+>> >>    That's because we added another (SPI) device under our MFD.
+>> >
+>> > Do you mean just to remove one line
+>> > ctlr->auto_runtime_pm = true;
+>> > ?
+> 
+> how did you test it ?
+> what is your testing flow ?
+> 
+>>    No, you should explicitly call RPM for the MFD (not the SPI device).
+> 
+> okay, patch RPM to RPC MFD and will remove SPI RPM enable part.
+> 
+>>
+>> >> >> > Have you tested reading? v8 patch still works while v9 patches
+>> >> >> > hang on doing:
+>> >> >> >
+>> >> >> > $ cat /dev/mtd<n>...
+>> >> >>
+>> >> >>    Sorry, 'od -x', not 'cat'.
+>> >> >
+>> >> > root@draak:/# cat /proc/mtd
+>> >> > dev:    size   erasesize  name
+>> >> > mtd0: 00040000 00001000 "Bank 1 - Boot parameter"
+>> >> > mtd1: 00140000 00001000 "Bank 1 - Loader-BL2"
+>> >> > mtd2: 00040000 00001000 "Bank 1 - Certification"
+>> >> > mtd3: 00080000 00001000 "Bank 1 - ARM Trusted FW"
+>> >> > mtd4: 00400000 00001000 "Bank 1 - Reserved-1"
+>> >> > mtd5: 00300000 00001000 "Bank 1 - U-Boot"
+>> >> > mtd6: 00200000 00001000 "Bank 1 - Reserved-2"
+>> >> > mtd7: 00480000 00001000 "Bank 1 - Splash"
+>> >> > mtd8: 00040000 00001000 "Bank 1 - Device Tree"
+>> >> > root@draak:/# od -x /dev/mtd1
+>> >> > 0000000 0000 d280 0001 d280 0002 d280 0003 d280
+>> >> > 0000020 0004 d280 0005 d280 0006 d280 0007 d280
+>> >> > 0000040 0008 d280 0009 d280 000a d280 000b d280
+>> >> > 0000060 000c d280 000d d280 000e d280 000f d280
+>> >> > 0000100 0010 d280 0011 d280 0012 d280 0013 d280
+>> >> > 0000120 0014 d280 0015 d280 0016 d280 0017 d280
+>> >> > 0000140 0018 d280 0019 d280 001a d280 001b d280
+>> >> > 0000160 001c d280 001d d280 001e d280 1000 d53e
+>> >> > 0000200 f800 9266 1000 d51e 3fdf d503 3ba0 1005
+>> >>
+>> >>    Still hangs for me. After I patches spi-mem.c and the driver to
+>> >> call RPM for the MFD, it started working again. Perhaps, that clock>> >> is still enabled on your target. What does the following print (for
 
+   Even with these issues worked around, I still see strange behavior on
+writes, e.g. after I mount JFFS2 partition, remove 1 file, unmount, re-mount,
+and mount again, the removed file is back! :-/
 
->
-> On 14/05/2019 17:06, Oleksandr Tyshchenko wrote:
->> diff --git a/arch/arm/mach-shmobile/setup-rcar-gen2.c 
->> b/arch/arm/mach-shmobile/setup-rcar-gen2.c
->> index eea60b2..64e3abd 100644
->> --- a/arch/arm/mach-shmobile/setup-rcar-gen2.c
->> +++ b/arch/arm/mach-shmobile/setup-rcar-gen2.c
->> @@ -17,6 +17,7 @@
->>   #include <linux/of.h>
->>   #include <linux/of_fdt.h>
->>   #include <linux/of_platform.h>
->> +#include <linux/psci.h>
->>   #include <asm/mach/arch.h>
->>   #include <asm/secure_cntvoff.h>
->>   #include "common.h"
->> @@ -63,6 +64,15 @@ void __init rcar_gen2_timer_init(void)
->>       void __iomem *base;
->>       u32 freq;
->>   +    /*
->> +     * If PSCI is available then most likely we are running on 
->> PSCI-enabled
->> +     * U-Boot which, we assume, has already taken care of resetting 
->> CNTVOFF
->> +     * and updating counter module before switching to non-secure mode
->> +     * and we don't need to.
->> +     */
->> +    if (psci_ops.cpu_on) > +        goto skip_update;
-> Are you sure this is working when ARM_PSCI_FW is not selected? Is it 
-> possible to have a .config for RCAR without ARM_PSCI_FW?
+[...]
 
-Oh, my fault. Mainline shmobile_defconfig has PSCI stuff disabled.
+> thanks & best regards,
+> Mason
 
-I should have checked for the PSCI operation to be available only if 
-CONFIG_ARM_PSCI_FW is defined.
-
-Thank you for pointing this out.
-
-
->
-> Cheers,
->
--- 
-Regards,
-
-Oleksandr Tyshchenko
-
+MBR, Sergei
