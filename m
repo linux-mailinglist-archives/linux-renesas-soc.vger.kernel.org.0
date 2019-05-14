@@ -2,130 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 92C4C1CB7E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 May 2019 17:12:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CAC61CBE7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 May 2019 17:30:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726174AbfENPMb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 May 2019 11:12:31 -0400
-Received: from pbmsgap01.intersil.com ([192.157.179.201]:51672 "EHLO
-        pbmsgap01.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725980AbfENPMb (ORCPT
+        id S1726025AbfENPab (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 May 2019 11:30:31 -0400
+Received: from relay1.mentorg.com ([192.94.38.131]:42752 "EHLO
+        relay1.mentorg.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725901AbfENPab (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 May 2019 11:12:31 -0400
-Received: from pps.filterd (pbmsgap01.intersil.com [127.0.0.1])
-        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4EEqouL026060;
-        Tue, 14 May 2019 10:58:33 -0400
-Received: from pbmxdp01.intersil.corp (pbmxdp01.pb.intersil.com [132.158.200.222])
-        by pbmsgap01.intersil.com with ESMTP id 2sdswyjjrt-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Tue, 14 May 2019 10:58:33 -0400
-Received: from pbmxdp02.intersil.corp (132.158.200.223) by
- pbmxdp01.intersil.corp (132.158.200.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.1531.3; Tue, 14 May 2019 10:58:32 -0400
-Received: from localhost.localdomain (132.158.202.108) by
- pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server id
- 15.1.1531.3 via Frontend Transport; Tue, 14 May 2019 10:58:31 -0400
-From:   Chris Brandt <chris.brandt@renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
+        Tue, 14 May 2019 11:30:31 -0400
+Received: from svr-orw-mbx-01.mgc.mentorg.com ([147.34.90.201])
+        by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
+        id 1hQZNp-0002lK-D1 from George_Davis@mentor.com ; Tue, 14 May 2019 08:30:25 -0700
+Received: from localhost (147.34.91.1) by svr-orw-mbx-01.mgc.mentorg.com
+ (147.34.90.201) with Microsoft SMTP Server (TLS) id 15.0.1320.4; Tue, 14 May
+ 2019 08:30:23 -0700
+Date:   Tue, 14 May 2019 11:30:22 -0400
+From:   "George G. Davis" <george_davis@mentor.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Simon Horman <horms@verge.net.au>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>,
-        "Chris Brandt" <chris.brandt@renesas.com>
-Subject: [PATCH v3 15/15] ARM: dts: rza2mevb: Add USB host support
-Date:   Tue, 14 May 2019 09:56:05 -0500
-Message-ID: <20190514145605.19112-16-chris.brandt@renesas.com>
-X-Mailer: git-send-email 2.16.1
-In-Reply-To: <20190514145605.19112-1-chris.brandt@renesas.com>
-References: <20190514145605.19112-1-chris.brandt@renesas.com>
+        Jiri Slaby <jslaby@suse.com>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Ulrich Hecht <ulrich.hecht+renesas@gmail.com>,
+        Andy Lowe <andy_lowe@mentor.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS 
+        <devicetree@vger.kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        stable <stable@vger.kernel.org>
+Subject: Re: [PATCH v2] serial: sh-sci: disable DMA for uart_console
+Message-ID: <20190514153021.GC18528@mam-gdavis-lt>
+References: <1557762446-23811-1-git-send-email-george_davis@mentor.com>
+ <CAMuHMdVaNWa=Q-7K-+_rM-8yYWB0-+4_o4hgACK6o-4BOrY07A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-14_09:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=junk_notspam policy=junk score=0 suspectscore=2 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=547
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1810050000 definitions=main-1905140106
-X-Proofpoint-Spam-Reason: mlx
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdVaNWa=Q-7K-+_rM-8yYWB0-+4_o4hgACK6o-4BOrY07A@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-ClientProxiedBy: svr-orw-mbx-01.mgc.mentorg.com (147.34.90.201) To
+ svr-orw-mbx-01.mgc.mentorg.com (147.34.90.201)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable USB Host support for both the Type-C connector on the CPU board
-and the Type-A plug on the sub board.
+Hello Geert,
 
-Both boards are also capable of USB Device operation as well after the
-appropriate Device Tree modifications.
+On Tue, May 14, 2019 at 10:28:34AM +0200, Geert Uytterhoeven wrote:
+> Hi George,
+> 
+> On Mon, May 13, 2019 at 5:48 PM George G. Davis <george_davis@mentor.com> wrote:
+> > As noted in commit 84b40e3b57ee ("serial: 8250: omap: Disable DMA for
+> > console UART"), UART console lines use low-level PIO only access functions
+> > which will conflict with use of the line when DMA is enabled, e.g. when
+> > the console line is also used for systemd messages. So disable DMA
+> > support for UART console lines.
+> >
+> > Fixes: https://patchwork.kernel.org/patch/10929511/
+> 
+> I don't think this is an appropriate reference, as it points to a patch that
+> was never applied.
 
-Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
----
-v2:
- * added blank line between nodes
- * removed 'r7s9210-' from patch title
- * removed 'renesas,uses_usb_x1' property
----
- arch/arm/boot/dts/r7s9210-rza2mevb.dts | 37 ++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+I included it as a link to an upstream problem report similar to other commits
+that I previewed. The link provides the extra context that I was perhaps to
+lazy to note in the commit header.
 
-diff --git a/arch/arm/boot/dts/r7s9210-rza2mevb.dts b/arch/arm/boot/dts/r7s9210-rza2mevb.dts
-index 7da409170db5..c0a4484a0bde 100644
---- a/arch/arm/boot/dts/r7s9210-rza2mevb.dts
-+++ b/arch/arm/boot/dts/r7s9210-rza2mevb.dts
-@@ -107,6 +107,18 @@
- 		pinmux = <RZA2_PINMUX(PORT5, 4, 3)>,	/* SD1_CD */
- 			 <RZA2_PINMUX(PORT5, 5, 3)>;	/* SD1_WP */
- 	};
-+
-+	usb0_pins: usb0 {
-+		pinmux = <RZA2_PINMUX(PORT5, 2, 3)>,	/* VBUSIN0 */
-+			 <RZA2_PINMUX(PORTC, 6, 1)>,	/* VBUSEN0 */
-+			 <RZA2_PINMUX(PORTC, 7, 1)>;	/* OVRCUR0 */
-+	};
-+
-+	usb1_pins: usb1 {
-+		pinmux = <RZA2_PINMUX(PORTC, 0, 1)>,	/* VBUSIN1 */
-+			 <RZA2_PINMUX(PORTC, 5, 1)>,	/* VBUSEN1 */
-+			 <RZA2_PINMUX(PORT7, 5, 5)>;	/* OVRCUR1 */
-+	};
- };
- 
- /* High resolution System tick timers */
-@@ -161,3 +173,28 @@
- 	bus-width = <4>;
- 	status = "okay";
- };
-+
-+/* USB-0 as Host */
-+/* NOTE: Requires JP3 to be fitted */
-+&usb2_phy0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&usb0_pins>;
-+	dr_mode = "host";
-+	status = "okay";
-+};
-+
-+&ehci0 {
-+	status = "okay";
-+};
-+
-+/* USB-1 as Host */
-+&usb2_phy1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&usb1_pins>;
-+	dr_mode = "host";
-+	status = "okay";
-+};
-+
-+&ehci1 {
-+	status = "okay";
-+};
+> As the problem has basically existed forever,
+
+Agreed
+
+> IMHO no Fixes tag
+> is needed.
+
+I've dropped the Fixes line.
+
+> > Reported-by: Michael Rodin <mrodin@de.adit-jv.com>
+> > Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+> > Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+> > Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: George G. Davis <george_davis@mentor.com>
+> > ---
+> > v2: Clarify comment regarding DMA support on kernel console,
+> >     add {Tested,Reviewed}-by:, and Cc: linux-stable lines.
+> 
+> Thanks for the update!
+
+Thanks!
+
+
+I'll submit v3 later today.
+
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+
 -- 
-2.16.1
-
+Regards,
+George
