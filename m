@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B2961CB92
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 May 2019 17:15:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70C261CB59
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 May 2019 17:07:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726279AbfENPPf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 May 2019 11:15:35 -0400
-Received: from pbmsgap01.intersil.com ([192.157.179.201]:51940 "EHLO
-        pbmsgap01.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726060AbfENPPf (ORCPT
+        id S1726009AbfENPHN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 May 2019 11:07:13 -0400
+Received: from pbmsgap02.intersil.com ([192.157.179.202]:35404 "EHLO
+        pbmsgap02.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725854AbfENPHN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 May 2019 11:15:35 -0400
-Received: from pps.filterd (pbmsgap01.intersil.com [127.0.0.1])
-        by pbmsgap01.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4EEqbkc026036;
-        Tue, 14 May 2019 10:56:38 -0400
-Received: from pbmxdp02.intersil.corp (pbmxdp02.pb.intersil.com [132.158.200.223])
-        by pbmsgap01.intersil.com with ESMTP id 2sdswyjjq9-1
+        Tue, 14 May 2019 11:07:13 -0400
+Received: from pps.filterd (pbmsgap02.intersil.com [127.0.0.1])
+        by pbmsgap02.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4EEqp1a023055;
+        Tue, 14 May 2019 10:56:56 -0400
+Received: from pbmxdp03.intersil.corp (pbmxdp03.pb.intersil.com [132.158.200.224])
+        by pbmsgap02.intersil.com with ESMTP id 2sdrjcabxh-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Tue, 14 May 2019 10:56:38 -0400
+        Tue, 14 May 2019 10:56:56 -0400
 Received: from pbmxdp02.intersil.corp (132.158.200.223) by
- pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server
+ pbmxdp03.intersil.corp (132.158.200.224) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.1531.3; Tue, 14 May 2019 10:56:36 -0400
+ 15.1.1531.3; Tue, 14 May 2019 10:56:55 -0400
 Received: from localhost.localdomain (132.158.202.108) by
  pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server id
- 15.1.1531.3 via Frontend Transport; Tue, 14 May 2019 10:56:36 -0400
+ 15.1.1531.3 via Frontend Transport; Tue, 14 May 2019 10:56:54 -0400
 From:   Chris Brandt <chris.brandt@renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -38,9 +38,9 @@ CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-renesas-soc@vger.kernel.org>,
         "Chris Brandt" <chris.brandt@renesas.com>
-Subject: [PATCH v3 01/15] ARM: dts: r7s9210: Add USB clock
-Date:   Tue, 14 May 2019 09:55:51 -0500
-Message-ID: <20190514145605.19112-2-chris.brandt@renesas.com>
+Subject: [PATCH v3 02/15] ARM: dts: rza2mevb: Add 48MHz USB clock
+Date:   Tue, 14 May 2019 09:55:52 -0500
+Message-ID: <20190514145605.19112-3-chris.brandt@renesas.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20190514145605.19112-1-chris.brandt@renesas.com>
 References: <20190514145605.19112-1-chris.brandt@renesas.com>
@@ -49,7 +49,7 @@ Content-Type: text/plain
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-14_09:,,
  signatures=0
 X-Proofpoint-Spam-Details: rule=junk_notspam policy=junk score=0 suspectscore=2 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=877
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.0.1-1810050000 definitions=main-1905140106
 X-Proofpoint-Spam-Reason: mlx
@@ -58,7 +58,7 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add USB clock node. If present, this clock input must be 48MHz.
+The RZ/A2M EVB has a 48MHz clock attached to USB_X1.
 
 Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
 Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
@@ -66,27 +66,25 @@ Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
 v2:
  * added reviewed-by
 ---
- arch/arm/boot/dts/r7s9210.dtsi | 7 +++++++
- 1 file changed, 7 insertions(+)
+ arch/arm/boot/dts/r7s9210-rza2mevb.dts | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/arch/arm/boot/dts/r7s9210.dtsi b/arch/arm/boot/dts/r7s9210.dtsi
-index 2eaa5eeba509..73041f04fef5 100644
---- a/arch/arm/boot/dts/r7s9210.dtsi
-+++ b/arch/arm/boot/dts/r7s9210.dtsi
-@@ -30,6 +30,13 @@
- 		clock-frequency = <0>;
- 	};
+diff --git a/arch/arm/boot/dts/r7s9210-rza2mevb.dts b/arch/arm/boot/dts/r7s9210-rza2mevb.dts
+index 7795066d82cb..7da409170db5 100644
+--- a/arch/arm/boot/dts/r7s9210-rza2mevb.dts
++++ b/arch/arm/boot/dts/r7s9210-rza2mevb.dts
+@@ -58,6 +58,11 @@
+ 	clock-frequency = <32768>;
+ };
  
-+	usb_x1_clk: usb_x1 {
-+		#clock-cells = <0>;
-+		compatible = "fixed-clock";
-+		/* If clk present, value (48000000) must be set by board */
-+		clock-frequency = <0>;
-+	};
++/* USB_X1 */
++&usb_x1_clk {
++	clock-frequency = <48000000>;
++};
 +
- 	cpus {
- 		#address-cells = <1>;
- 		#size-cells = <0>;
+ &pinctrl {
+ 	/* Serial Console */
+ 	scif4_pins: serial4 {
 -- 
 2.16.1
 
