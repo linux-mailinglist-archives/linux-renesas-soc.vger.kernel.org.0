@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DBD61F8B8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2019 18:35:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A70E21F8BA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2019 18:35:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726891AbfEOQfD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 May 2019 12:35:03 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:42418 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726283AbfEOQfC (ORCPT
+        id S1727069AbfEOQfH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 May 2019 12:35:07 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:25920 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726283AbfEOQfH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 May 2019 12:35:02 -0400
-X-IronPort-AV: E=Sophos;i="5.60,473,1549897200"; 
-   d="scan'208";a="16030494"
+        Wed, 15 May 2019 12:35:07 -0400
+X-IronPort-AV: E=Sophos;i="5.60,472,1549897200"; 
+   d="scan'208";a="15828894"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 16 May 2019 01:35:00 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 16 May 2019 01:35:05 +0900
 Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 68A2440158D2;
-        Thu, 16 May 2019 01:34:56 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id F349D40158D2;
+        Thu, 16 May 2019 01:35:00 +0900 (JST)
 From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -37,9 +37,9 @@ Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>, xu_shunji@hoperun.com
-Subject: [PATCH v2 1/2] dt-bindings: Add vendor prefix for HopeRun
-Date:   Wed, 15 May 2019 17:34:42 +0100
-Message-Id: <1557938083-25423-2-git-send-email-fabrizio.castro@bp.renesas.com>
+Subject: [PATCH v2 2/2] dt-bindings: arm: renesas: Add HopeRun RZ/G2[M] boards
+Date:   Wed, 15 May 2019 17:34:43 +0100
+Message-Id: <1557938083-25423-3-git-send-email-fabrizio.castro@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1557938083-25423-1-git-send-email-fabrizio.castro@bp.renesas.com>
 References: <1557938083-25423-1-git-send-email-fabrizio.castro@bp.renesas.com>
@@ -48,33 +48,49 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add "Jiangsu HopeRun Software Co., Ltd." to the list of devicetree
-vendor prefixes as "hoperun".
+This patch adds board HiHope RZ/G2M (the main board, powered by
+the R8A774A1) and board HiHope RZ/G2 EX (the expansion board
+that sits on top of the HiHope RZ/G2M). Both boards are made
+by Jiangsu HopeRun Software Co., Ltd. (a.k.a. HopeRun).
 
-Website: http://www.hoperun.com/en
+Useful links:
+http://hihope.org/product/detail/rzg2
+https://item.taobao.com/item.htm?spm=a2oq0.12575281.0.0.6bcf1debQpzkRS&ft=t&id=592177498472
+http://www.hoperun.com/Cn/news/id/379
+
+We already know that the HiHope RZ/G2 EX will also sit on the
+HiHope RZ/G2N, even though the HiHope RZ/G2N doesn't exist just
+yet.
 
 Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
 
 ---
 v1->v2:
-* No change
+* Fixed according to Rob's comments
 
- Documentation/devicetree/bindings/vendor-prefixes.txt | 1 +
- 1 file changed, 1 insertion(+)
+ Documentation/devicetree/bindings/arm/renesas.yaml | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.txt b/Documentation/devicetree/bindings/vendor-prefixes.txt
-index e9034a6..dc492f0 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.txt
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.txt
-@@ -177,6 +177,7 @@ hit	Hitachi Ltd.
- hitex	Hitex Development Tools
- holt	Holt Integrated Circuits, Inc.
- honeywell	Honeywell
-+hoperun	Jiangsu HopeRun Software Co., Ltd.
- hp	Hewlett Packard
- holtek	Holtek Semiconductor, Inc.
- hwacom	HwaCom Systems Inc.
+diff --git a/Documentation/devicetree/bindings/arm/renesas.yaml b/Documentation/devicetree/bindings/arm/renesas.yaml
+index 19f3798..08c923f 100644
+--- a/Documentation/devicetree/bindings/arm/renesas.yaml
++++ b/Documentation/devicetree/bindings/arm/renesas.yaml
+@@ -106,6 +106,14 @@ properties:
+ 
+       - description: RZ/G2M (R8A774A1)
+         items:
++          - enum:
++              - hoperun,hihope-rzg2m # HopeRun HiHope RZ/G2M platform
++          - const: renesas,r8a774a1
++
++      - items:
++          - enum:
++              - hoperun,hihope-rzg2-ex # HopeRun expansion board for HiHope RZ/G2 platforms
++          - const: hoperun,hihope-rzg2m
+           - const: renesas,r8a774a1
+ 
+       - description: RZ/G2E (R8A774C0)
 -- 
 2.7.4
 
