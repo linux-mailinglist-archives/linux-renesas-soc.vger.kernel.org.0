@@ -2,136 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A72231F63A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2019 16:11:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3992F1F661
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2019 16:18:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726292AbfEOOLf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 May 2019 10:11:35 -0400
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:45931 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725953AbfEOOLe (ORCPT
+        id S1727138AbfEOOSW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 May 2019 10:18:22 -0400
+Received: from mail-eopbgr1400122.outbound.protection.outlook.com ([40.107.140.122]:59173
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725953AbfEOOSW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 May 2019 10:11:34 -0400
-X-Originating-IP: 95.125.122.220
-Received: from uno.localdomain (220.red-95-125-122.dynamicip.rima-tde.net [95.125.122.220])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 6FD6040006;
-        Wed, 15 May 2019 14:11:27 +0000 (UTC)
-Date:   Wed, 15 May 2019 16:12:20 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        linux-renesas-soc@vger.kernel.org,
-        VenkataRajesh.Kalakodima@in.bosch.com,
-        Harsha.ManjulaMallikarjun@in.bosch.com
-Subject: Re: [RFC 2/9] dt-bindings: display, renesas,du: Document cmms
- property
-Message-ID: <20190515141220.xgyfqt6iyfgdgqd7@uno.localdomain>
-References: <20190508173428.22054-1-jacopo+renesas@jmondi.org>
- <20190508173428.22054-3-jacopo+renesas@jmondi.org>
- <20190511182330.GF13043@pendragon.ideasonboard.com>
+        Wed, 15 May 2019 10:18:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cLTD93r+R7LeBUO+/zvFX3naY2sFL/83QQ0hqbimby0=;
+ b=Po1PO9ctEiD6GTrimBEDElQ1EnI30fJ1K9l0eUPEfihPlN+4vrgAzxKzAAZdynH88KfC36VZhSLhYRdck4OktIE7rcTeZY7/GDNLAZr97j7/yK+sRpjR5hDjRK0JvXOJFPvErXTnxqy4Sq2kEzUZCuUMCoqB7A0S11YuK8B26gM=
+Received: from TYXPR01MB1568.jpnprd01.prod.outlook.com (52.133.166.145) by
+ TYXPR01MB1664.jpnprd01.prod.outlook.com (52.133.167.141) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1900.16; Wed, 15 May 2019 14:18:18 +0000
+Received: from TYXPR01MB1568.jpnprd01.prod.outlook.com
+ ([fe80::c989:cb4d:b41e:2045]) by TYXPR01MB1568.jpnprd01.prod.outlook.com
+ ([fe80::c989:cb4d:b41e:2045%7]) with mapi id 15.20.1900.010; Wed, 15 May 2019
+ 14:18:18 +0000
+From:   Chris Brandt <Chris.Brandt@renesas.com>
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+CC:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Simon Horman <horms@verge.net.au>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v3 11/15] usb: renesas_usbhs: Add support for RZ/A2
+Thread-Topic: [PATCH v3 11/15] usb: renesas_usbhs: Add support for RZ/A2
+Thread-Index: AQHVCmVwqsbIgol6iEKvZrJ46ECCEKZr2uSAgABfriA=
+Date:   Wed, 15 May 2019 14:18:18 +0000
+Message-ID: <TYXPR01MB15687A77DA9CEC27D214B17E8A090@TYXPR01MB1568.jpnprd01.prod.outlook.com>
+References: <20190514145605.19112-1-chris.brandt@renesas.com>
+        <20190514145605.19112-12-chris.brandt@renesas.com>
+ <871s106ssi.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <871s106ssi.wl-kuninori.morimoto.gx@renesas.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Chris.Brandt@renesas.com; 
+x-originating-ip: [75.60.247.61]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: fbe930bf-fabe-4ea6-82e6-08d6d9402d75
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:TYXPR01MB1664;
+x-ms-traffictypediagnostic: TYXPR01MB1664:
+x-microsoft-antispam-prvs: <TYXPR01MB16647739086FDF906E75CB358A090@TYXPR01MB1664.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3383;
+x-forefront-prvs: 0038DE95A2
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(346002)(376002)(39860400002)(396003)(366004)(136003)(199004)(189003)(6246003)(6862004)(486006)(66476007)(476003)(86362001)(53936002)(8676002)(81156014)(73956011)(66946007)(76116006)(4326008)(74316002)(316002)(558084003)(72206003)(6636002)(7416002)(66446008)(64756008)(66556008)(14454004)(446003)(26005)(52536014)(8936002)(11346002)(256004)(25786009)(71190400001)(71200400001)(5660300002)(68736007)(81166006)(7736002)(186003)(305945005)(6116002)(3846002)(99286004)(102836004)(9686003)(229853002)(7696005)(76176011)(33656002)(6506007)(54906003)(2906002)(66066001)(478600001)(6436002)(55016002);DIR:OUT;SFP:1102;SCL:1;SRVR:TYXPR01MB1664;H:TYXPR01MB1568.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: TSdEIvpPwj3isQgkAUncP2xZV7WJfP+rmoHaj5tHQRo4G9uHkFPg7Ux19loQ3wO5sKIZ2F43tebmX7B5JZfRuGsdoyll0+/7ZQn6Xls6UVjyRAzynN7aJJPYdta/nPhU5VyllMxOZ8tPVpkKf16Ppe7vT3MPRKRBbZ1imO5pdDd1+PqvTQ8a6TKVs7b/sfGNiZXdvV2BKNQ1x5CXfrXOIuEsMQh0NkxKm0cH8Yjn2bFb2zIuQwGFOlKEU27zhHhPPk01i0Bt8pXUWM5Z6wZlLKr6fm4Ip0xnTsW1mQRLGv9Ao7dF4C8xSNLxVxX3qTdKwkYREauUILigi63aNRbMXNY0DblqAPsLtexSwRYTC0AbWEJTw6v6D+6gNBE/blU5YcWDFy7oPl3QRctwuFhk2wdPNuAbTf7h5yYbH0X/S48=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="z6pmujz2uiqv2u4r"
-Content-Disposition: inline
-In-Reply-To: <20190511182330.GF13043@pendragon.ideasonboard.com>
-User-Agent: NeoMutt/20180716
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fbe930bf-fabe-4ea6-82e6-08d6d9402d75
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 May 2019 14:18:18.2364
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYXPR01MB1664
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Morimoto-san,
 
---z6pmujz2uiqv2u4r
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
-Hi Laurent,
-   thanks for the comments
-
-On Sat, May 11, 2019 at 09:23:30PM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> Thank you for the patch.
->
-> On Wed, May 08, 2019 at 07:34:21PM +0200, Jacopo Mondi wrote:
-> > Document the newly added 'cmms' property which accepts a list of phandle
-> > and channel index pairs that point to the CMM units available for each
-> > Display Unit output video channel.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  Documentation/devicetree/bindings/display/renesas,du.txt | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/renesas,du.txt b/Documentation/devicetree/bindings/display/renesas,du.txt
-> > index aedb22b4d161..2ccf78bf9a18 100644
-> > --- a/Documentation/devicetree/bindings/display/renesas,du.txt
-> > +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
-> > @@ -44,6 +44,10 @@ Required Properties:
-> >      instance that serves the DU channel, and the channel index identifies the
-> >      LIF instance in that VSP.
-> >
-> > +  - cmms: A list of phandle and channel index tuples to the CMM modules
-> > +    connected to DU channels. The phandle identifies the CMM instance that
-> > +    serves the DU channel identified by the index.
->
-> Do we need the index ?
->
-
-Well, I struggled a bit at deciding if this was a good idea or not.
-In the end I decided to use the index, as in this version, by just
-providing the cmm phandle, the CMM gets enabled for the DU channel it
-is associated to. It is true I could just enumerate them, and assign
-the CMM corresponding to the first phandle to channel #0, the second
-to channel #1 and so on, but in the (very unlikely?) case where a
-developer what to enable CMM for, say, channel #0 and #2 but not #1,
-this scheme would break, as I have then decided to have a mandatory
-channel index to make the association stable. True that a CMM unit is
-associated to a DU channel only, and I could derive this from the base
-address or a custom property (like 'renesa,du-channel) in the CMM
-device node, but this seems better handled here.
-
-Now that I wrote this, I wonder if I actually need to know which
-channel a CMM is associated to, or I could just go and enable the ones
-listed in the 'cmms' property and that's it. Was this the idea behind
-your question?
-
-Thanks
-   j
-> It should also be noted that the property is optional for SoCs that
-> don't have any CMM.
->
+> > +	if (priv->phy) {
+> > +		phy_put(priv->phy);
+> > +		priv->phy =3D NULL;
+> > +	}
 > > +
-> >  Required nodes:
-> >
-> >  The connections to the DU output video ports are modeled using the OF graph
->
-> Could you update the example ?
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> > +	return 0;
+> > +}
+>=20
+> phy_put() will do nothing if priv->phy was NULL.
+> We can remove if() here ?
 
---z6pmujz2uiqv2u4r
-Content-Type: application/pgp-signature; name="signature.asc"
+OK. I will remove 'if'.
 
------BEGIN PGP SIGNATURE-----
+#I copied Shimoda-san's code from rcar.2  :)
 
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAlzcHkQACgkQcjQGjxah
-Vjy+JQ/9FEb5x54/H4i7dRuYpUczE0yQ4MwpL8DQB4DhngerVGkrJH5kCcQQim0S
-HVYdl8nrT8LUaiJNSXwqhjgDaERQ3qaX2BjRmA3yYtzYScTXvHRJ4KpnpglumlTS
-/aT0fRnOnVHvPecw8QeIvjznIQi6STAwn8bJeVrCUykwCCpC6jCDAj2bIH6FMUDX
-umOH4uyysHKyHz71hIICQL6HMm+t07OsQFc2LYrhC5KX0iV/MkC5C2ggV4QOuz3I
-qB52Jn3kh3UON0ZH08ecEGC1fh20D+F4YoTuw4haAT9zxhHB8JLGuXc6bKZgUdqU
-DsgbbkL+ULHos8+VRevuEgAkwSaASlM9lyY+J/3s3LRT8wD1DOF39E50zGgY8oZs
-n5JZ9o5r7UdsvE/3L7PpG8nobpFKKqyVnuWQrRFQh2OdFZszofY7/c7u5s8bVRtH
-rzZFmQtb/QxiUJUTydAzSKANkHrtx4a4wumKKITySOrZlOBJ3LP11MldjxcvmZez
-wZe/ZK9pW/0uLOEtxjZdOjiis0VZHIpFB5CxtL8QAD9nDFK025Lf2e+PhSr+jI6G
-lNYKa8ORd2Y26TGjZ5tc1qDmq0UIvCUOntT3OWMQ8rgYLL0YsDYo1EuCQgzoRzZP
-ATOqh5ht9fw9e7BXXTCXPog2Fd07zS4WbDXKcNYXksoJComlAro=
-=swdz
------END PGP SIGNATURE-----
 
---z6pmujz2uiqv2u4r--
+Chris
+
