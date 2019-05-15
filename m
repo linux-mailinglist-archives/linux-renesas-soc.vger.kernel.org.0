@@ -2,45 +2,33 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B34801F69B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2019 16:33:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86F3D1F6FA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2019 16:54:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727059AbfEOOdQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 May 2019 10:33:16 -0400
-Received: from mail-vk1-f194.google.com ([209.85.221.194]:41475 "EHLO
-        mail-vk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726676AbfEOOdQ (ORCPT
+        id S1726407AbfEOOyR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 May 2019 10:54:17 -0400
+Received: from mail-eopbgr1410118.outbound.protection.outlook.com ([40.107.141.118]:9440
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726392AbfEOOyQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 May 2019 10:33:16 -0400
-Received: by mail-vk1-f194.google.com with SMTP id l73so62740vkl.8;
-        Wed, 15 May 2019 07:33:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jdr5AlkyYTyX76jZhGX+zwCh2jGBkaaQqRMD1/60QEU=;
-        b=ACVA6tFldYaJ8U5bwzVYcLCGo5zZrB857DnDFdiYcqlgmdtMKIVdMBN95D05vvn3Ue
-         ZavD1rBc4w48xMvN1wzouKtqN2c3WMimQ0WtXLpLAVRHwQ9n+ewGoLSh8OtEWL74mdHe
-         nKGAnEy01tkSrf7P1cQY52ZXgO6u0P0qYNG6sUkTRPCctYuHrAoUD2HuY6JFZPJGnPtK
-         f0S7dJc09o/gDhJ8dCp+VvpybX9Yn1+wYb0UfY5FttXylcCfMbCW0h0Ns76CpilI2a/B
-         gFIL2kzWNdMpvfvpeeZFu/U1bEV4wXFJnEt9kDoUy7kjR2ME41YDSV45dGWvy16OpFUX
-         qFWA==
-X-Gm-Message-State: APjAAAUD3QJIjm+Ui8oYtQXQakGbiX8B5D7Wxg67/jQYi37baS44A3y4
-        y3yM5LfiVMWylnol0bkWyiEh9dANFeTsVwm9zek=
-X-Google-Smtp-Source: APXvYqy6447nz448r8vyvplsmvGD3gCEygHbvqvb+gG5z4RfN8t9qZVEOIhVI0pFdWRBnbWOIlA0SDVtlSlHyxYUw1A=
-X-Received: by 2002:a1f:2fd2:: with SMTP id v201mr8382789vkv.83.1557930795092;
- Wed, 15 May 2019 07:33:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190514145605.19112-1-chris.brandt@renesas.com>
- <20190514145605.19112-16-chris.brandt@renesas.com> <CAMuHMdXx=7v5v3tHwS-01eNnzz6NSfs=M02jU1tNJMdcRbGScg@mail.gmail.com>
- <TYXPR01MB15689E3664801057DFCA09EA8A090@TYXPR01MB1568.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYXPR01MB15689E3664801057DFCA09EA8A090@TYXPR01MB1568.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 15 May 2019 16:33:03 +0200
-Message-ID: <CAMuHMdWLB-JE=2f=Mq9np_b5Wuj6=nB2ywWquBFheoBVxPaAfQ@mail.gmail.com>
-Subject: Re: [PATCH v3 15/15] ARM: dts: rza2mevb: Add USB host support
-To:     Chris Brandt <Chris.Brandt@renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+        Wed, 15 May 2019 10:54:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8BFrdef01VgfyTVRQ/GchLoLBjcJ14VYKb4K+NzL1wQ=;
+ b=E5juylMqUPNBNRyWfCZTmrJMiKv+XQW+KQGEO2Nle4vLzAI508AisZmn+kced1afrFqFrVc7jxIWWFtER04/8YRjgdErxIZGchEjM6G54XqjzHVNd4UIHqoBHnPuq8lRmB+ki4qDd2e4bvnqy/VnHRviZZ5KCkAJaxJpxdDSwF4=
+Received: from TYXPR01MB1568.jpnprd01.prod.outlook.com (52.133.166.145) by
+ TYXPR01MB1677.jpnprd01.prod.outlook.com (52.133.167.142) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1878.22; Wed, 15 May 2019 14:54:12 +0000
+Received: from TYXPR01MB1568.jpnprd01.prod.outlook.com
+ ([fe80::c989:cb4d:b41e:2045]) by TYXPR01MB1568.jpnprd01.prod.outlook.com
+ ([fe80::c989:cb4d:b41e:2045%7]) with mapi id 15.20.1900.010; Wed, 15 May 2019
+ 14:54:12 +0000
+From:   Chris Brandt <Chris.Brandt@renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Simon Horman <horms@verge.net.au>,
@@ -51,58 +39,70 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: RE: [PATCH v3 15/15] ARM: dts: rza2mevb: Add USB host support
+Thread-Topic: [PATCH v3 15/15] ARM: dts: rza2mevb: Add USB host support
+Thread-Index: AQHVCmWCnsI2dzmQpU69erLMQyE+h6Zr2ZoAgABbaPCAAAxngIAAAQwA
+Date:   Wed, 15 May 2019 14:54:11 +0000
+Message-ID: <TYXPR01MB15684FF367D694BD5C203BB68A090@TYXPR01MB1568.jpnprd01.prod.outlook.com>
+References: <20190514145605.19112-1-chris.brandt@renesas.com>
+ <20190514145605.19112-16-chris.brandt@renesas.com>
+ <CAMuHMdXx=7v5v3tHwS-01eNnzz6NSfs=M02jU1tNJMdcRbGScg@mail.gmail.com>
+ <TYXPR01MB15689E3664801057DFCA09EA8A090@TYXPR01MB1568.jpnprd01.prod.outlook.com>
+ <CAMuHMdWLB-JE=2f=Mq9np_b5Wuj6=nB2ywWquBFheoBVxPaAfQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdWLB-JE=2f=Mq9np_b5Wuj6=nB2ywWquBFheoBVxPaAfQ@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Chris.Brandt@renesas.com; 
+x-originating-ip: [75.60.247.61]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d47543ef-b632-4291-b6d9-08d6d9453133
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:TYXPR01MB1677;
+x-ms-traffictypediagnostic: TYXPR01MB1677:
+x-microsoft-antispam-prvs: <TYXPR01MB1677529A852BAF100E4F97008A090@TYXPR01MB1677.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0038DE95A2
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(346002)(396003)(376002)(366004)(39860400002)(136003)(199004)(189003)(85664002)(66446008)(64756008)(66476007)(66556008)(6116002)(316002)(55016002)(7736002)(305945005)(4326008)(74316002)(3846002)(8936002)(81166006)(7416002)(8676002)(81156014)(14454004)(68736007)(478600001)(2906002)(86362001)(72206003)(66066001)(9686003)(53936002)(6436002)(6246003)(5024004)(14444005)(256004)(7696005)(476003)(446003)(11346002)(52536014)(229853002)(54906003)(6916009)(186003)(102836004)(6506007)(26005)(33656002)(73956011)(66946007)(76116006)(25786009)(71190400001)(71200400001)(5660300002)(76176011)(486006)(99286004);DIR:OUT;SFP:1102;SCL:1;SRVR:TYXPR01MB1677;H:TYXPR01MB1568.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 2vNMjUDVzvhqX9gm1CW428vBodV/SmSDczE9dSDZdW2Y6kRn0cfHyJQ1mz9oqQPrTocljX+fKtk33nJzA6ephnS3bghsn1P2QNJx2FXhzXY63CNQruLVtyylrRdgfTK38j5660No/NfLQPTHPwh8ZrEhhVOmEF9q/Yo/tBMhxyoiyMyvLYI5OPxLL47C7FkW+pdb66L5r+wWRXeEm5urkK/BvrlHJzkaj5ropiaqXMQdX/0O1j0Gkwdf0dLTHMEuU9M0wkpjav5qrL7pqGNrP8Au+opQFssVU51crO7zRKuNBY6lLhvAQtQoJ42vGrzmk6mi1WFR2Q4/v5z3QmUFcyVOzChBlqM9V8QzUqrvjMK7ezv94ubU3dyWekAhlTiHOqMNuTSaQDiy9Swg9C2dyZolU3jYdg3ZS6vnQEMo2h8=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d47543ef-b632-4291-b6d9-08d6d9453133
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 May 2019 14:54:11.9038
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYXPR01MB1677
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Chris,
-
-On Wed, May 15, 2019 at 4:03 PM Chris Brandt <Chris.Brandt@renesas.com> wrote:
-> On Wed, May 15, 2019, Geert Uytterhoeven wrote:
-> > > +/* USB-0 as Host */
-> > > +/* NOTE: Requires JP3 to be fitted */
-> >
-> > This not applies to the dr_mode property below, right?
-> > So perhaps it should be moved there...
-> >
-> > > +&usb2_phy0 {
-> > > +       pinctrl-names = "default";
-> > > +       pinctrl-0 = <&usb0_pins>;
-> > > +       dr_mode = "host";
-> >
-> > ... like:
-> >
-> >     dr_mode = "host";    /* Requires JP3 to be fitted */
->
-> OK, if you think it makes more sense there.
->
-> > Does resistor R78 need to be mounted, too?
->
-> By default, R78 and R79 are not populated on these boards, and both Host
-> and Function work fine without board modification, so I would say
-> populating R78 is not a requirement as far as I can tell.
-
-I asked because after reading Section 2.4 USB Interface in the RZ/A2M CPU
-Board  User's Manual, it's not clear to me when one needs to
-populate one of these resistors. Especially in relation to JP3, which
-talks about 2 possible modes (host vs. function), while the resistor
-paragraph talks about 3 possible modes (dual-role vs. host vs.
-function).
-
-Perhaps I just need to drink more USB Kool-Aid?
-(no Kool-Aid sold in local shops, though; we live on Coke ;-)
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+SGkgR2VlcnQsDQoNCk9uIFdlZCwgTWF5IDE1LCAyMDE5IDEsIEdlZXJ0IFV5dHRlcmhvZXZlbiB3
+cm90ZToNCj4gPiA+IERvZXMgcmVzaXN0b3IgUjc4IG5lZWQgdG8gYmUgbW91bnRlZCwgdG9vPw0K
+PiA+DQo+ID4gQnkgZGVmYXVsdCwgUjc4IGFuZCBSNzkgYXJlIG5vdCBwb3B1bGF0ZWQgb24gdGhl
+c2UgYm9hcmRzLCBhbmQgYm90aCBIb3N0DQo+ID4gYW5kIEZ1bmN0aW9uIHdvcmsgZmluZSB3aXRo
+b3V0IGJvYXJkIG1vZGlmaWNhdGlvbiwgc28gSSB3b3VsZCBzYXkNCj4gPiBwb3B1bGF0aW5nIFI3
+OCBpcyBub3QgYSByZXF1aXJlbWVudCBhcyBmYXIgYXMgSSBjYW4gdGVsbC4NCj4gDQo+IEkgYXNr
+ZWQgYmVjYXVzZSBhZnRlciByZWFkaW5nIFNlY3Rpb24gMi40IFVTQiBJbnRlcmZhY2UgaW4gdGhl
+IFJaL0EyTSBDUFUNCj4gQm9hcmQgIFVzZXIncyBNYW51YWwsIGl0J3Mgbm90IGNsZWFyIHRvIG1l
+IHdoZW4gb25lIG5lZWRzIHRvDQo+IHBvcHVsYXRlIG9uZSBvZiB0aGVzZSByZXNpc3RvcnMuIEVz
+cGVjaWFsbHkgaW4gcmVsYXRpb24gdG8gSlAzLCB3aGljaA0KPiB0YWxrcyBhYm91dCAyIHBvc3Np
+YmxlIG1vZGVzIChob3N0IHZzLiBmdW5jdGlvbiksIHdoaWxlIHRoZSByZXNpc3Rvcg0KPiBwYXJh
+Z3JhcGggdGFsa3MgYWJvdXQgMyBwb3NzaWJsZSBtb2RlcyAoZHVhbC1yb2xlIHZzLiBob3N0IHZz
+Lg0KPiBmdW5jdGlvbikuDQoNCkhvbmVzdGx5LCBJJ20gbm90IHN1cmUgd2hhdCB0aGV5IHdlcmUg
+dGhpbmtpbmcuDQpUaGV5IHB1dCBvbiBhIFVTQi1DIGNvbm5lY3RvciwgYW5kIHB1dCBvbiBjaXJj
+dWl0cnkgdG8gZGV0ZWN0IGlmIGEgSG9zdCANCm9yIGRldmljZSB3YXMgYXR0YWNoZWQuLi4uYnV0
+IHRoZW4gcHV0IGEgcGh5c2ljYWwganVtcGVyIG9uIHRoZSBib2FyZCB0bw0KY29ubmVjdC9kaXNj
+b25uZWN0IFZCVVMgcG93ZXIuDQoNCg0KPiBQZXJoYXBzIEkganVzdCBuZWVkIHRvIGRyaW5rIG1v
+cmUgVVNCIEtvb2wtQWlkPw0KPiAobm8gS29vbC1BaWQgc29sZCBpbiBsb2NhbCBzaG9wcywgdGhv
+dWdoOyB3ZSBsaXZlIG9uIENva2UgOy0pDQoNCk1heWJlIG5vdCBLb29sLUFpZCBhcyBpdCBzZWVt
+IHRoZXkgd2VyZSAnc21va2luZyBzb21ldGhpbmcnIGluc3RlYWQuIDpvDQoNCg0KQ2hyaXMNCg==
