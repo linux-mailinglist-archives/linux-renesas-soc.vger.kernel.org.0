@@ -2,60 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 25A9C1D12F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 May 2019 23:19:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7865D1E721
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2019 05:29:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726490AbfENVTf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 May 2019 17:19:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53642 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726134AbfENVTe (ORCPT
+        id S1726254AbfEOD3y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 May 2019 23:29:54 -0400
+Received: from relay1.mentorg.com ([192.94.38.131]:61222 "EHLO
+        relay1.mentorg.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726201AbfEOD3y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 May 2019 17:19:34 -0400
-Received: from localhost (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A504C20873;
-        Tue, 14 May 2019 21:19:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1557868773;
-        bh=+KDMoLaxjjfTgrLza0xRM2hNVZ4vloQuz//YOp2frGM=;
-        h=In-Reply-To:References:From:Subject:Cc:To:Date:From;
-        b=pTPVRQNTaJojaQ0GqBt/fEENNLqPRrXJxWTCL/0pVycdw/ItgYUTeECXfmnuDzOq/
-         ILAA/qtQ7RokSpwdkr2pc9dhBTTS7OSxTu3H6xwzsPF8Q+S9CPrrV1om52Xe1bWJlY
-         b1Z7yHqOUND7mtrRQvNE/NBbUVPs1FgWSOAmvH9s=
-Content-Type: text/plain; charset="utf-8"
+        Tue, 14 May 2019 23:29:54 -0400
+Received: from svr-orw-mbx-01.mgc.mentorg.com ([147.34.90.201])
+        by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
+        id 1hQkbw-0006UV-Ol from George_Davis@mentor.com ; Tue, 14 May 2019 20:29:44 -0700
+Received: from localhost (147.34.91.1) by svr-orw-mbx-01.mgc.mentorg.com
+ (147.34.90.201) with Microsoft SMTP Server (TLS) id 15.0.1320.4; Tue, 14 May
+ 2019 20:29:42 -0700
+From:   "George G. Davis" <george_davis@mentor.com>
+To:     Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+CC:     Chris Brandt <chris.brandt@renesas.com>,
+        Ulrich Hecht <ulrich.hecht+renesas@gmail.com>,
+        Andy Lowe <andy_lowe@mentor.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS 
+        <devicetree@vger.kernel.org>, Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "George G. Davis" <george_davis@mentor.com>,
+        <stable@vger.kernel.org>
+Subject: [PATCH v3] serial: sh-sci: disable DMA for uart_console
+Date:   Tue, 14 May 2019 23:29:34 -0400
+Message-ID: <1557890974-21179-1-git-send-email-george_davis@mentor.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20190514153341.22540-1-chris.paterson2@renesas.com>
-References: <20190514153341.22540-1-chris.paterson2@renesas.com>
-From:   Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [PATCH] scripts/spelling.txt: Add spelling fix for prohibited
-Cc:     Biju Das <biju.das@bp.renesas.com>, linux-clk@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Chris Paterson <chris.paterson2@renesas.com>
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Chris Paterson <chris.paterson2@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Message-ID: <155786877257.14659.6751252865489860937@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.8
-Date:   Tue, 14 May 2019 14:19:32 -0700
+Content-Type: text/plain
+X-ClientProxiedBy: SVR-ORW-MBX-09.mgc.mentorg.com (147.34.90.209) To
+ svr-orw-mbx-01.mgc.mentorg.com (147.34.90.201)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Chris Paterson (2019-05-14 08:33:41)
-> Misspelling 'prohibited' is quite common in the real world, although
-> surprisingly not so much in the Linux Kernel. In addition to fixing the
-> typo we may as well add it to the spelling checker.
->=20
-> Also adding the present participle (prohibiting).
->=20
-> Fixes: 5bf2fbbef50c ("clk: renesas: cpg-mssr: Add r8a77470 support")
->=20
-> Signed-off-by: Chris Paterson <chris.paterson2@renesas.com>
-> ---
+As noted in commit 84b40e3b57ee ("serial: 8250: omap: Disable DMA for
+console UART"), UART console lines use low-level PIO only access functions
+which will conflict with use of the line when DMA is enabled, e.g. when
+the console line is also used for systemd messages. So disable DMA
+support for UART console lines.
 
-Acked-by: Stephen Boyd <sboyd@kernel.org>
+Reported-by: Michael Rodin <mrodin@de.adit-jv.com>
+Link: https://patchwork.kernel.org/patch/10929511/
+Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: stable@vger.kernel.org
+Signed-off-by: George G. Davis <george_davis@mentor.com>
+---
+v2: Clarify comment regarding DMA support on kernel console,
+    add {Tested,Reviewed}-by:, and Cc: linux-stable lines.
+v3: Change Fixes: reference to Link: reference and add another Reviewed-by.
+---
+ drivers/tty/serial/sh-sci.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+index 3cd139752d3f..abc705716aa0 100644
+--- a/drivers/tty/serial/sh-sci.c
++++ b/drivers/tty/serial/sh-sci.c
+@@ -1557,6 +1557,13 @@ static void sci_request_dma(struct uart_port *port)
+ 
+ 	dev_dbg(port->dev, "%s: port %d\n", __func__, port->line);
+ 
++	/*
++	 * DMA on console may interfere with Kernel log messages which use
++	 * plain putchar(). So, simply don't use it with a console.
++	 */
++	if (uart_console(port))
++		return;
++
+ 	if (!port->dev->of_node)
+ 		return;
+ 
+-- 
+2.7.4
 
