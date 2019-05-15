@@ -2,199 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 717A81E9DD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2019 10:10:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00DDD1E9F7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2019 10:21:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725939AbfEOIKz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 May 2019 04:10:55 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:57870 "EHLO
-        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725902AbfEOIKy (ORCPT
+        id S1726136AbfEOIVn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 May 2019 04:21:43 -0400
+Received: from mail-vs1-f65.google.com ([209.85.217.65]:33140 "EHLO
+        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725871AbfEOIVn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 May 2019 04:10:54 -0400
-Received: from penelope.horms.nl (ip4dab7138.direct-adsl.nl [77.171.113.56])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id AA83625AEAD;
-        Wed, 15 May 2019 18:10:52 +1000 (AEST)
-Received: by penelope.horms.nl (Postfix, from userid 7100)
-        id 72119E21335; Wed, 15 May 2019 10:10:50 +0200 (CEST)
-Date:   Wed, 15 May 2019 10:10:50 +0200
-From:   Simon Horman <horms@verge.net.au>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v2] usb: renesas_usbhs: Use specific struct instead of
- USBHS_TYPE_* enums
-Message-ID: <20190515081049.7pr556t73mm4f3oe@verge.net.au>
-References: <1557715229-13102-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <20190513120124.72pyg5hileurtkry@verge.net.au>
- <OSBPR01MB3174C65FDF208431F988068DD8090@OSBPR01MB3174.jpnprd01.prod.outlook.com>
+        Wed, 15 May 2019 04:21:43 -0400
+Received: by mail-vs1-f65.google.com with SMTP id y6so1143959vsb.0;
+        Wed, 15 May 2019 01:21:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QQ7CuFfcK6T5K16afMKd2BR4xgi0R5jLtN70np9Dx74=;
+        b=PhfnFkWBZzWj/Es1Xt2TkK5ZENcyvO7XTYSz6B7p6ISmVmr9l/HPGJCKQVqz/v0UcB
+         1T42QtJA5rC0WQYg1bwWZhuV0hfp1MeYi3PICg5UvbcNi/fSzC4ZfgW1FHpP3QnfGK49
+         n7P+fGNhh/52zDeYWCmqev3n21pL4z/oh7Aw0T9UI/3XWHRs8f0X5BKr7nbeiwnEZ0DT
+         3mO2hS+ijcu/YJYy3njenxTDLDqnZHOuf29fABVlt/BG80htfE8KgryA8H7w30WEILrm
+         9QLrYtRWo+LNDuMxIP22lIATwjz2T82wpA6OaLW136jruYeFFoYLPLyFhue6iBnDDuoP
+         QVtQ==
+X-Gm-Message-State: APjAAAW0SA7fwNd8ZXpZeHxY0BiOJdEbbRWxzXuSZgxGKbegyF/LKJ24
+        pSQPX6fMnY9QTuqz8p9LO+mHuMarvD7+lojVzrU=
+X-Google-Smtp-Source: APXvYqzDBqvI2NtOjS81btHiHLLO9lZSqulQg4i4TJCnXLKAV6ezf5jvEpgHoE4eepfRC6148Uscx8VcZj8WcdSDhBA=
+X-Received: by 2002:a67:f303:: with SMTP id p3mr8121197vsf.166.1557908501768;
+ Wed, 15 May 2019 01:21:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <OSBPR01MB3174C65FDF208431F988068DD8090@OSBPR01MB3174.jpnprd01.prod.outlook.com>
-Organisation: Horms Solutions BV
-User-Agent: NeoMutt/20170113 (1.7.2)
+References: <20190514145605.19112-1-chris.brandt@renesas.com> <20190514145605.19112-16-chris.brandt@renesas.com>
+In-Reply-To: <20190514145605.19112-16-chris.brandt@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 15 May 2019 10:21:30 +0200
+Message-ID: <CAMuHMdXx=7v5v3tHwS-01eNnzz6NSfs=M02jU1tNJMdcRbGScg@mail.gmail.com>
+Subject: Re: [PATCH v3 15/15] ARM: dts: rza2mevb: Add USB host support
+To:     Chris Brandt <chris.brandt@renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Simon Horman <horms@verge.net.au>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        USB list <linux-usb@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, May 15, 2019 at 06:57:17AM +0000, Yoshihiro Shimoda wrote:
-> Hi Simon-san,
-> 
-> > From: Simon Horman, Sent: Monday, May 13, 2019 9:01 PM
-> > 
-> > On Mon, May 13, 2019 at 11:40:29AM +0900, Yoshihiro Shimoda wrote:
-> > > This patch adds a specific struct "usbhs_of_data" to add a new SoC
-> > > data easily instead of code basis in the future.
-> > >
-> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > 
-> > Hi Shimoda-san,
-> > 
-> > the minor suggestion below not withstanding this looks good to me.
-> > 
-> > Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
-> 
-> Thank you for your review!
-> 
-> > > ---
-> > >  Changes from v1 [1]:
-> > >  - Use sizeof(variable) instead of sizeof(type).
-> > >  - Add Geert-san's reviewed-by (thanks!).
-> > >
-> > > [1]
-> > > https://patchwork.kernel.org/patch/10938575/
-> > >
-> > >  drivers/usb/renesas_usbhs/common.c | 112 +++++++++++++++++++++----------------
-> > >  drivers/usb/renesas_usbhs/common.h |   5 ++
-> > >  2 files changed, 70 insertions(+), 47 deletions(-)
-> > >
-> > > diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
-> > > index 249fbee..0ca89de 100644
-> > > --- a/drivers/usb/renesas_usbhs/common.c
-> > > +++ b/drivers/usb/renesas_usbhs/common.c
-> <snip>
-> > > @@ -598,8 +638,15 @@ static struct renesas_usbhs_platform_info *usbhs_parse_dt(struct device *dev)
-> > >  	if (!info)
-> > >  		return NULL;
-> > >
-> > > +	data = of_device_get_match_data(dev);
-> > > +	if (!data)
-> > > +		return NULL;
-> > > +
-> > >  	dparam = &info->driver_param;
-> > > -	dparam->type = (uintptr_t)of_device_get_match_data(dev);
-> > > +	memcpy(dparam, &data->param, sizeof(data->param));
-> > > +	memcpy(&info->platform_callback, data->platform_callback,
-> > > +	       sizeof(*data->platform_callback));
-> > 
-> > Can we avoid the error-proneness of calls to sizeof() as follows?
-> > 
-> >         *dparam = data->param;
-> >         info->platform_callback = *data->platform_callback;
-> 
-> Since Chris-san has submitted a patch series [1] that is based on this patch today,
-> I'd like to submit an incremental patch to avoid the error-proneness in the renesas_usbhs
-> (common.c and mod_host.c) later, if possible.
-> 
-> Greg-san, is it acceptable?
+Hi Chris,
 
-FWIIW that sounds entirely reasonable to me as
-my suggestion is a cleanup.
+On Tue, May 14, 2019 at 4:58 PM Chris Brandt <chris.brandt@renesas.com> wrote:
+> Enable USB Host support for both the Type-C connector on the CPU board
+> and the Type-A plug on the sub board.
+>
+> Both boards are also capable of USB Device operation as well after the
+> appropriate Device Tree modifications.
+>
+> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
 
-> [1]
-> https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=117459
-> 
-> Best regards,
-> Yoshihiro Shimoda
-> 
-> > > +
-> > >  	if (!of_property_read_u32(dev->of_node, "renesas,buswait", &tmp))
-> > >  		dparam->buswait_bwait = tmp;
-> > >  	gpio = of_get_named_gpio_flags(dev->of_node, "renesas,enable-gpio", 0,
-> > > @@ -607,19 +654,6 @@ static struct renesas_usbhs_platform_info *usbhs_parse_dt(struct device *dev)
-> > >  	if (gpio > 0)
-> > >  		dparam->enable_gpio = gpio;
-> > >
-> > > -	if (dparam->type == USBHS_TYPE_RCAR_GEN2 ||
-> > > -	    dparam->type == USBHS_TYPE_RCAR_GEN3 ||
-> > > -	    dparam->type == USBHS_TYPE_RCAR_GEN3_WITH_PLL) {
-> > > -		dparam->has_usb_dmac = 1;
-> > > -		dparam->pipe_configs = usbhsc_new_pipe;
-> > > -		dparam->pipe_size = ARRAY_SIZE(usbhsc_new_pipe);
-> > > -	}
-> > > -
-> > > -	if (dparam->type == USBHS_TYPE_RZA1) {
-> > > -		dparam->pipe_configs = usbhsc_new_pipe;
-> > > -		dparam->pipe_size = ARRAY_SIZE(usbhsc_new_pipe);
-> > > -	}
-> > > -
-> > >  	return info;
-> > >  }
-> > >
-> > > @@ -676,29 +710,13 @@ static int usbhs_probe(struct platform_device *pdev)
-> > >  	       &info->driver_param,
-> > >  	       sizeof(struct renesas_usbhs_driver_param));
-> > 
-> > Likewise in the (otherwise unchanged) use of memcpy above.
-> > 
-> > >
-> > > -	switch (priv->dparam.type) {
-> > > -	case USBHS_TYPE_RCAR_GEN2:
-> > > -		priv->pfunc = usbhs_rcar2_ops;
-> > > -		break;
-> > > -	case USBHS_TYPE_RCAR_GEN3:
-> > > -		priv->pfunc = usbhs_rcar3_ops;
-> > > -		break;
-> > > -	case USBHS_TYPE_RCAR_GEN3_WITH_PLL:
-> > > -		priv->pfunc = usbhs_rcar3_with_pll_ops;
-> > > -		break;
-> > > -	case USBHS_TYPE_RZA1:
-> > > -		priv->pfunc = usbhs_rza1_ops;
-> > > -		break;
-> > > -	default:
-> > > -		if (!info->platform_callback.get_id) {
-> > > -			dev_err(&pdev->dev, "no platform callbacks");
-> > > -			return -EINVAL;
-> > > -		}
-> > > -		memcpy(&priv->pfunc,
-> > > -		       &info->platform_callback,
-> > > -		       sizeof(struct renesas_usbhs_platform_callback));
-> > > -		break;
-> > > +	if (!info->platform_callback.get_id) {
-> > > +		dev_err(&pdev->dev, "no platform callbacks");
-> > > +		return -EINVAL;
-> > >  	}
-> > > +	memcpy(&priv->pfunc,
-> > > +	       &info->platform_callback,
-> > > +	       sizeof(struct renesas_usbhs_platform_callback));
-> > 
-> > And here too.
-> > 
-> > >
-> > >  	/* set driver callback functions for platform */
-> > >  	dfunc			= &info->driver_callback;
-> > > diff --git a/drivers/usb/renesas_usbhs/common.h b/drivers/usb/renesas_usbhs/common.h
-> > > index 3777af8..de1a663 100644
-> > > --- a/drivers/usb/renesas_usbhs/common.h
-> > > +++ b/drivers/usb/renesas_usbhs/common.h
-> > > @@ -282,6 +282,11 @@ struct usbhs_priv {
-> > >  	struct clk *clks[2];
-> > >  };
-> > >
-> > > +struct usbhs_of_data {
-> > > +	const struct renesas_usbhs_platform_callback	*platform_callback;
-> > > +	const struct renesas_usbhs_driver_param		param;
-> > > +};
-> > > +
-> > >  /*
-> > >   * common
-> > >   */
-> > > --
-> > > 2.7.4
-> > >
-> 
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+One question below.
+
+> --- a/arch/arm/boot/dts/r7s9210-rza2mevb.dts
+> +++ b/arch/arm/boot/dts/r7s9210-rza2mevb.dts
+
+> @@ -161,3 +173,28 @@
+>         bus-width = <4>;
+>         status = "okay";
+>  };
+> +
+> +/* USB-0 as Host */
+> +/* NOTE: Requires JP3 to be fitted */
+
+This not applies to the dr_mode property below, right?
+So perhaps it should be moved there...
+
+> +&usb2_phy0 {
+> +       pinctrl-names = "default";
+> +       pinctrl-0 = <&usb0_pins>;
+> +       dr_mode = "host";
+
+... like:
+
+    dr_mode = "host";    /* Requires JP3 to be fitted */
+
+Does resistor R78 need to be mounted, too?
+
+> +       status = "okay";
+> +};
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
