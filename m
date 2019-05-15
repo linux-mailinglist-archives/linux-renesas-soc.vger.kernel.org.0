@@ -2,95 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A70E21F8BA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2019 18:35:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A06B01F9DA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2019 20:24:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727069AbfEOQfH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 May 2019 12:35:07 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:25920 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726283AbfEOQfH (ORCPT
+        id S1726466AbfEOSYA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 May 2019 14:24:00 -0400
+Received: from sauhun.de ([88.99.104.3]:57916 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726084AbfEOSYA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 May 2019 12:35:07 -0400
-X-IronPort-AV: E=Sophos;i="5.60,472,1549897200"; 
-   d="scan'208";a="15828894"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 16 May 2019 01:35:05 +0900
-Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id F349D40158D2;
-        Thu, 16 May 2019 01:35:00 +0900 (JST)
-From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Simon Horman <horms@verge.net.au>
-Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Thierry Reding <treding@nvidia.com>,
-        =?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>, xu_shunji@hoperun.com
-Subject: [PATCH v2 2/2] dt-bindings: arm: renesas: Add HopeRun RZ/G2[M] boards
-Date:   Wed, 15 May 2019 17:34:43 +0100
-Message-Id: <1557938083-25423-3-git-send-email-fabrizio.castro@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1557938083-25423-1-git-send-email-fabrizio.castro@bp.renesas.com>
-References: <1557938083-25423-1-git-send-email-fabrizio.castro@bp.renesas.com>
+        Wed, 15 May 2019 14:24:00 -0400
+Received: from localhost (p54B332CD.dip0.t-ipconnect.de [84.179.50.205])
+        by pokefinder.org (Postfix) with ESMTPSA id E7D862C009E;
+        Wed, 15 May 2019 20:23:57 +0200 (CEST)
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-mmc@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Takeshi Saito <takeshi.saito.xv@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] mmc: tmio: fix SCC error handling to avoid false positive CRC error
+Date:   Wed, 15 May 2019 20:23:46 +0200
+Message-Id: <20190515182346.5292-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch adds board HiHope RZ/G2M (the main board, powered by
-the R8A774A1) and board HiHope RZ/G2 EX (the expansion board
-that sits on top of the HiHope RZ/G2M). Both boards are made
-by Jiangsu HopeRun Software Co., Ltd. (a.k.a. HopeRun).
+From: Takeshi Saito <takeshi.saito.xv@renesas.com>
 
-Useful links:
-http://hihope.org/product/detail/rzg2
-https://item.taobao.com/item.htm?spm=a2oq0.12575281.0.0.6bcf1debQpzkRS&ft=t&id=592177498472
-http://www.hoperun.com/Cn/news/id/379
+If an SCC error occurs during a read/write command execution, a false
+positive CRC error message is output.
 
-We already know that the HiHope RZ/G2 EX will also sit on the
-HiHope RZ/G2N, even though the HiHope RZ/G2N doesn't exist just
-yet.
+mmcblk0: response CRC error sending r/w cmd command, card status 0x900
 
-Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
+check_scc_error() checks SCC_RVSREQ.RVSERR bit. RVSERR detects a
+correction error in the next (up or down) delay tap position. However,
+since the command is successful, only retuning needs to be executed.
+This has been confirmed by HW engineers.
 
+Thus, on SCC error, set retuning flag instead of setting an error code.
+
+Fixes: b85fb0a1c8ae ("mmc: tmio: Fix SCC error detection")
+Signed-off-by: Takeshi Saito <takeshi.saito.xv@renesas.com>
+[wsa: updated comment and commit message, removed some braces]
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
-v1->v2:
-* Fixed according to Rob's comments
 
- Documentation/devicetree/bindings/arm/renesas.yaml | 8 ++++++++
- 1 file changed, 8 insertions(+)
+This patch was suggested by the BSP team because they were seeing CRC errors
+with a hardware I don't have access to. I tested this with my R-Car H3-ES2.0
+and M3-N (both Salvator-XS), and things were still running fine. But I suggest
+to wait for a final ack from Shimoda-san or someone from the BSP team.
 
-diff --git a/Documentation/devicetree/bindings/arm/renesas.yaml b/Documentation/devicetree/bindings/arm/renesas.yaml
-index 19f3798..08c923f 100644
---- a/Documentation/devicetree/bindings/arm/renesas.yaml
-+++ b/Documentation/devicetree/bindings/arm/renesas.yaml
-@@ -106,6 +106,14 @@ properties:
+
+ drivers/mmc/host/tmio_mmc_core.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
+index 595949f1f001..78cc2a928efe 100644
+--- a/drivers/mmc/host/tmio_mmc_core.c
++++ b/drivers/mmc/host/tmio_mmc_core.c
+@@ -842,8 +842,9 @@ static void tmio_mmc_finish_request(struct tmio_mmc_host *host)
+ 	if (mrq->cmd->error || (mrq->data && mrq->data->error))
+ 		tmio_mmc_abort_dma(host);
  
-       - description: RZ/G2M (R8A774A1)
-         items:
-+          - enum:
-+              - hoperun,hihope-rzg2m # HopeRun HiHope RZ/G2M platform
-+          - const: renesas,r8a774a1
-+
-+      - items:
-+          - enum:
-+              - hoperun,hihope-rzg2-ex # HopeRun expansion board for HiHope RZ/G2 platforms
-+          - const: hoperun,hihope-rzg2m
-           - const: renesas,r8a774a1
++	/* SCC error means retune, but executed command was still successful */
+ 	if (host->check_scc_error && host->check_scc_error(host))
+-		mrq->cmd->error = -EILSEQ;
++		mmc_retune_needed(host->mmc);
  
-       - description: RZ/G2E (R8A774C0)
+ 	/* If SET_BLOCK_COUNT, continue with main command */
+ 	if (host->mrq && !mrq->cmd->error) {
 -- 
-2.7.4
+2.11.0
 
