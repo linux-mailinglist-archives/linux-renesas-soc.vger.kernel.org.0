@@ -2,39 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C098E1F3B1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2019 14:16:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 484A71F3B4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2019 14:16:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727929AbfEOMQq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 May 2019 08:16:46 -0400
+        id S1728274AbfEOMQu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 May 2019 08:16:50 -0400
 Received: from relmlor2.renesas.com ([210.160.252.172]:22171 "EHLO
         relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728279AbfEOMQq (ORCPT
+        by vger.kernel.org with ESMTP id S1728561AbfEOMQt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 May 2019 08:16:46 -0400
+        Wed, 15 May 2019 08:16:49 -0400
 X-IronPort-AV: E=Sophos;i="5.60,472,1549897200"; 
-   d="scan'208";a="15816005"
+   d="scan'208";a="15816038"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 15 May 2019 21:16:44 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 15 May 2019 21:16:47 +0900
 Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 1A7574003864;
-        Wed, 15 May 2019 21:16:40 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 9537A4003864;
+        Wed, 15 May 2019 21:16:44 +0900 (JST)
 From:   Biju Das <biju.das@bp.renesas.com>
-To:     Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc:     Biju Das <biju.das@bp.renesas.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        linux-usb@vger.kernel.org, Simon Horman <horms@verge.net.au>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Kees Cook <keescook@chromium.org>, linux-usb@vger.kernel.org,
+        Simon Horman <horms@verge.net.au>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v6 3/7] usb: typec: driver for TI HD3SS3220 USB Type-C DRP port controller
-Date:   Wed, 15 May 2019 13:09:08 +0100
-Message-Id: <1557922152-16449-4-git-send-email-biju.das@bp.renesas.com>
+Subject: [PATCH v6 4/7] usb: gadget: udc: renesas_usb3: Add dual role switch support
+Date:   Wed, 15 May 2019 13:09:09 +0100
+Message-Id: <1557922152-16449-5-git-send-email-biju.das@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1557922152-16449-1-git-send-email-biju.das@bp.renesas.com>
 References: <1557922152-16449-1-git-send-email-biju.das@bp.renesas.com>
@@ -43,341 +43,229 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Driver for TI HD3SS3220 USB Type-C DRP port controller.
-
-The driver currently registers the port and supports data role swapping.
+The RZ/G2E cat874 board has a type-c connector connected to hd3ss3220 usb
+type-c drp port controller. This patch adds dual role switch support for
+the type-c connector using the usb role switch class framework.
 
 Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 ---
  V5-->V6
-   * No change
-   Note: This patch depend on [1]
-   [1]: [v5,4/6] usb: roles: add API to get usb_role_switch by node
-   https://patchwork.kernel.org/patch/10942499/
+   * Added graph api's to find the role supported by the connector.
  V4-->V5
-   * Incorporated Heikki's review comment
-     (https://patchwork.kernel.org/patch/10902531/)
-   * Added Heikki's Reviewed-by tag
+   * Incorporated Shimoda-san's review comment
+    (https://patchwork.kernel.org/patch/10902537/)
  V3-->V4
-   * Incorporated Chunfeng Yun's review comment
-   * Used fwnode API's to get usb role switch handle.
- 
+   * No Change
  V2-->V3
-   * Used the new api "usb_role_switch by node" for getting
-     remote endpoint associated with Type-C USB DRP port
-     controller devices.
+   * Incorporated Shimoda-san's review comment
+     (https://patchwork.kernel.org/patch/10852507/)
+   * Used renesas,usb-role-switch property for differentiating USB
+     role switch associated with Type-C port controller driver.
  V1-->V2
-   * Driver uses usb role class instead of extcon for dual role switch
-     and also handles connect/disconnect events.
+   * Driver uses usb role clas for handling dual role switch and handling
+     connect/disconnect events instead of extcon.
 ---
- drivers/usb/typec/Kconfig     |  10 ++
- drivers/usb/typec/Makefile    |   1 +
- drivers/usb/typec/hd3ss3220.c | 263 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 274 insertions(+)
- create mode 100644 drivers/usb/typec/hd3ss3220.c
+ drivers/usb/gadget/udc/renesas_usb3.c | 121 ++++++++++++++++++++++++++++++++--
+ 1 file changed, 114 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/usb/typec/Kconfig b/drivers/usb/typec/Kconfig
-index 89d9193..92a3717 100644
---- a/drivers/usb/typec/Kconfig
-+++ b/drivers/usb/typec/Kconfig
-@@ -50,6 +50,16 @@ source "drivers/usb/typec/tcpm/Kconfig"
+diff --git a/drivers/usb/gadget/udc/renesas_usb3.c b/drivers/usb/gadget/udc/renesas_usb3.c
+index 7dc2485..1d41998 100644
+--- a/drivers/usb/gadget/udc/renesas_usb3.c
++++ b/drivers/usb/gadget/udc/renesas_usb3.c
+@@ -24,6 +24,7 @@
+ #include <linux/usb/ch9.h>
+ #include <linux/usb/gadget.h>
+ #include <linux/usb/of.h>
++#include <linux/of_graph.h>
+ #include <linux/usb/role.h>
  
- source "drivers/usb/typec/ucsi/Kconfig"
+ /* register definitions */
+@@ -351,6 +352,8 @@ struct renesas_usb3 {
+ 	int disabled_count;
  
-+config TYPEC_HD3SS3220
-+	tristate "TI HD3SS3220 Type-C DRP Port controller driver"
-+	depends on I2C
-+	help
-+	  Say Y or M here if your system has TI HD3SS3220 Type-C DRP Port
-+	  controller driver.
+ 	struct usb_request *ep0_req;
 +
-+	  If you choose to build this driver as a dynamically linked module, the
-+	  module will be called hd3ss3220.ko.
-+
- config TYPEC_TPS6598X
- 	tristate "TI TPS6598x USB Power Delivery controller driver"
- 	depends on I2C
-diff --git a/drivers/usb/typec/Makefile b/drivers/usb/typec/Makefile
-index 6696b72..7753a5c3 100644
---- a/drivers/usb/typec/Makefile
-+++ b/drivers/usb/typec/Makefile
-@@ -4,5 +4,6 @@ typec-y				:= class.o mux.o bus.o
- obj-$(CONFIG_TYPEC)		+= altmodes/
- obj-$(CONFIG_TYPEC_TCPM)	+= tcpm/
- obj-$(CONFIG_TYPEC_UCSI)	+= ucsi/
-+obj-$(CONFIG_TYPEC_HD3SS3220)	+= hd3ss3220.o
- obj-$(CONFIG_TYPEC_TPS6598X)	+= tps6598x.o
- obj-$(CONFIG_TYPEC)		+= mux/
-diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss3220.c
-new file mode 100644
-index 0000000..7ef7e85
---- /dev/null
-+++ b/drivers/usb/typec/hd3ss3220.c
-@@ -0,0 +1,263 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * TI HD3SS3220 Type-C DRP Port Controller Driver
-+ *
-+ * Copyright (C) 2019 Renesas Electronics Corp.
-+ */
-+
-+#include <linux/module.h>
-+#include <linux/i2c.h>
-+#include <linux/usb/role.h>
-+#include <linux/irqreturn.h>
-+#include <linux/interrupt.h>
-+#include <linux/module.h>
-+#include <linux/regmap.h>
-+#include <linux/slab.h>
-+#include <linux/usb/typec.h>
-+#include <linux/delay.h>
-+
-+#define HD3SS3220_REG_CN_STAT_CTRL	0x09
-+#define HD3SS3220_REG_GEN_CTRL		0x0A
-+#define HD3SS3220_REG_DEV_REV		0xA0
-+
-+/* Register HD3SS3220_REG_CN_STAT_CTRL*/
-+#define HD3SS3220_REG_CN_STAT_CTRL_ATTACHED_STATE_MASK	(BIT(7) | BIT(6))
-+#define HD3SS3220_REG_CN_STAT_CTRL_AS_DFP		BIT(6)
-+#define HD3SS3220_REG_CN_STAT_CTRL_AS_UFP		BIT(7)
-+#define HD3SS3220_REG_CN_STAT_CTRL_TO_ACCESSORY		(BIT(7) | BIT(6))
-+#define HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS		BIT(4)
-+
-+/* Register HD3SS3220_REG_GEN_CTRL*/
-+#define HD3SS3220_REG_GEN_CTRL_SRC_PREF_MASK		(BIT(2) | BIT(1))
-+#define HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_DEFAULT	0x00
-+#define HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_TRY_SNK	BIT(1)
-+#define HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_TRY_SRC	(BIT(2) | BIT(1))
-+
-+struct hd3ss3220 {
-+	struct device *dev;
-+	struct regmap *regmap;
-+	struct usb_role_switch	*role_sw;
-+	struct typec_port *port;
-+	struct typec_capability typec_cap;
-+};
-+
-+static int hd3ss3220_set_source_pref(struct hd3ss3220 *hd3ss3220, int src_pref)
-+{
-+	return regmap_update_bits(hd3ss3220->regmap, HD3SS3220_REG_GEN_CTRL,
-+				  HD3SS3220_REG_GEN_CTRL_SRC_PREF_MASK,
-+				  src_pref);
-+}
-+
-+static enum usb_role hd3ss3220_get_attached_state(struct hd3ss3220 *hd3ss3220)
-+{
-+	unsigned int reg_val;
-+	enum usb_role attached_state;
-+	int ret;
-+
-+	ret = regmap_read(hd3ss3220->regmap, HD3SS3220_REG_CN_STAT_CTRL,
-+			  &reg_val);
-+	if (ret < 0)
-+		return ret;
-+
-+	switch (reg_val & HD3SS3220_REG_CN_STAT_CTRL_ATTACHED_STATE_MASK) {
-+	case HD3SS3220_REG_CN_STAT_CTRL_AS_DFP:
-+		attached_state = USB_ROLE_HOST;
-+		break;
-+	case HD3SS3220_REG_CN_STAT_CTRL_AS_UFP:
-+		attached_state = USB_ROLE_DEVICE;
-+		break;
-+	default:
-+		attached_state = USB_ROLE_NONE;
-+		break;
++	enum usb_role connection_state;
+ 	u16 test_mode;
+ 	u8 ep0_buf[USB3_EP0_BUF_SIZE];
+ 	bool softconnect;
+@@ -359,6 +362,7 @@ struct renesas_usb3 {
+ 	bool extcon_usb;		/* check vbus and set EXTCON_USB */
+ 	bool forced_b_device;
+ 	bool start_to_connect;
++	bool dual_role_sw;
+ };
+ 
+ #define gadget_to_renesas_usb3(_gadget)	\
+@@ -699,8 +703,10 @@ static void usb3_mode_config(struct renesas_usb3 *usb3, bool host, bool a_dev)
+ 	unsigned long flags;
+ 
+ 	spin_lock_irqsave(&usb3->lock, flags);
+-	usb3_set_mode_by_role_sw(usb3, host);
+-	usb3_vbus_out(usb3, a_dev);
++	if (!usb3->dual_role_sw || usb3->connection_state != USB_ROLE_NONE) {
++		usb3_set_mode_by_role_sw(usb3, host);
++		usb3_vbus_out(usb3, a_dev);
 +	}
-+
-+	return attached_state;
-+}
-+
-+static int hd3ss3220_dr_set(const struct typec_capability *cap,
-+			    enum typec_data_role role)
+ 	/* for A-Peripheral or forced B-device mode */
+ 	if ((!host && a_dev) || usb3->start_to_connect)
+ 		usb3_connect(usb3);
+@@ -716,7 +722,8 @@ static void usb3_check_id(struct renesas_usb3 *usb3)
+ {
+ 	usb3->extcon_host = usb3_is_a_device(usb3);
+ 
+-	if (usb3->extcon_host && !usb3->forced_b_device)
++	if ((!usb3->dual_role_sw && usb3->extcon_host && !usb3->forced_b_device)
++	    || usb3->connection_state == USB_ROLE_HOST)
+ 		usb3_mode_config(usb3, true, true);
+ 	else
+ 		usb3_mode_config(usb3, false, false);
+@@ -2343,14 +2350,65 @@ static enum usb_role renesas_usb3_role_switch_get(struct device *dev)
+ 	return cur_role;
+ }
+ 
+-static int renesas_usb3_role_switch_set(struct device *dev,
+-					enum usb_role role)
++static void handle_ext_role_switch_states(struct device *dev,
++					    enum usb_role role)
 +{
-+	struct hd3ss3220 *hd3ss3220 = container_of(cap, struct hd3ss3220,
-+						   typec_cap);
-+	enum usb_role role_val;
-+	int pref, ret = 0;
++	struct renesas_usb3 *usb3 = dev_get_drvdata(dev);
++	struct device *host = usb3->host_dev;
++	enum usb_role cur_role = renesas_usb3_role_switch_get(dev);
 +
-+	if (role == TYPEC_HOST) {
-+		role_val = USB_ROLE_HOST;
-+		pref = HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_TRY_SRC;
-+	} else {
-+		role_val = USB_ROLE_DEVICE;
-+		pref = HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_TRY_SNK;
-+	}
-+
-+	ret = hd3ss3220_set_source_pref(hd3ss3220, pref);
-+	usleep_range(10, 100);
-+
-+	usb_role_switch_set_role(hd3ss3220->role_sw, role_val);
-+	typec_set_data_role(hd3ss3220->port, role);
-+
-+	return ret;
-+}
-+
-+static void hd3ss3220_set_role(struct hd3ss3220 *hd3ss3220)
-+{
-+	enum usb_role role_state = hd3ss3220_get_attached_state(hd3ss3220);
-+
-+	usb_role_switch_set_role(hd3ss3220->role_sw, role_state);
-+	if (role_state == USB_ROLE_NONE)
-+		hd3ss3220_set_source_pref(hd3ss3220,
-+				HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_DEFAULT);
-+
-+	switch (role_state) {
-+	case USB_ROLE_HOST:
-+		typec_set_data_role(hd3ss3220->port, TYPEC_HOST);
++	switch (role) {
++	case USB_ROLE_NONE:
++		usb3->connection_state = USB_ROLE_NONE;
++		if (usb3->driver)
++			usb3_disconnect(usb3);
++		usb3_vbus_out(usb3, false);
 +		break;
 +	case USB_ROLE_DEVICE:
-+		typec_set_data_role(hd3ss3220->port, TYPEC_DEVICE);
++		if (usb3->connection_state == USB_ROLE_NONE) {
++			usb3->connection_state = USB_ROLE_DEVICE;
++			usb3_set_mode(usb3, false);
++			if (usb3->driver)
++				usb3_connect(usb3);
++		} else if (cur_role == USB_ROLE_HOST)  {
++			device_release_driver(host);
++			usb3_set_mode(usb3, false);
++			if (usb3->driver)
++				usb3_connect(usb3);
++		}
++		usb3_vbus_out(usb3, false);
++		break;
++	case USB_ROLE_HOST:
++		if (usb3->connection_state == USB_ROLE_NONE) {
++			if (usb3->driver)
++				usb3_disconnect(usb3);
++
++			usb3->connection_state = USB_ROLE_HOST;
++			usb3_set_mode(usb3, true);
++			usb3_vbus_out(usb3, true);
++			if (device_attach(host) < 0)
++				dev_err(dev, "device_attach(host) failed\n");
++		} else if (cur_role == USB_ROLE_DEVICE) {
++			usb3_disconnect(usb3);
++			/* Must set the mode before device_attach of the host */
++			usb3_set_mode(usb3, true);
++			/* This device_attach() might sleep */
++			if (device_attach(host) < 0)
++				dev_err(dev, "device_attach(host) failed\n");
++		}
 +		break;
 +	default:
 +		break;
 +	}
 +}
 +
-+irqreturn_t hd3ss3220_irq(struct hd3ss3220 *hd3ss3220)
-+{
-+	int err;
-+
-+	hd3ss3220_set_role(hd3ss3220);
-+	err = regmap_update_bits_base(hd3ss3220->regmap,
-+				      HD3SS3220_REG_CN_STAT_CTRL,
-+				      HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS,
-+				      HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS,
-+				      NULL, false, true);
-+	if (err < 0)
-+		return IRQ_NONE;
-+
-+	return IRQ_HANDLED;
++static void handle_role_switch_states(struct device *dev,
++					    enum usb_role role)
+ {
+ 	struct renesas_usb3 *usb3 = dev_get_drvdata(dev);
+ 	struct device *host = usb3->host_dev;
+ 	enum usb_role cur_role = renesas_usb3_role_switch_get(dev);
+ 
+-	pm_runtime_get_sync(dev);
+ 	if (cur_role == USB_ROLE_HOST && role == USB_ROLE_DEVICE) {
+ 		device_release_driver(host);
+ 		usb3_set_mode(usb3, false);
+@@ -2361,6 +2419,20 @@ static int renesas_usb3_role_switch_set(struct device *dev,
+ 		if (device_attach(host) < 0)
+ 			dev_err(dev, "device_attach(host) failed\n");
+ 	}
 +}
 +
-+static irqreturn_t hd3ss3220_irq_handler(int irq, void *data)
++static int renesas_usb3_role_switch_set(struct device *dev,
++					enum usb_role role)
 +{
-+	struct i2c_client *client = to_i2c_client(data);
-+	struct hd3ss3220 *hd3ss3220 = i2c_get_clientdata(client);
++	struct renesas_usb3 *usb3 = dev_get_drvdata(dev);
 +
-+	return hd3ss3220_irq(hd3ss3220);
-+}
++	pm_runtime_get_sync(dev);
 +
-+static const struct regmap_config config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = 0x0A,
-+};
++	if (usb3->dual_role_sw)
++		handle_ext_role_switch_states(dev, role);
++	else
++		handle_role_switch_states(dev, role);
 +
-+static int hd3ss3220_probe(struct i2c_client *client,
-+		const struct i2c_device_id *id)
+ 	pm_runtime_put(dev);
+ 
+ 	return 0;
+@@ -2650,12 +2722,41 @@ static const unsigned int renesas_usb3_cable[] = {
+ 	EXTCON_NONE,
+ };
+ 
+-static const struct usb_role_switch_desc renesas_usb3_role_switch_desc = {
++static struct usb_role_switch_desc renesas_usb3_role_switch_desc = {
+ 	.set = renesas_usb3_role_switch_set,
+ 	.get = renesas_usb3_role_switch_get,
+ 	.allow_userspace_control = true,
+ };
+ 
++static bool is_usb_dual_role_switch(struct device *dev)
 +{
-+	struct hd3ss3220 *hd3ss3220;
-+	struct fwnode_handle *parent, *child;
-+	int ret;
-+	unsigned int data;
++	struct device_node *np = dev->of_node;
++	struct device_node *parent;
++	struct device_node *child;
++	bool ret = false;
++	const char *role_type = NULL;
 +
-+	hd3ss3220 = devm_kzalloc(&client->dev, sizeof(struct hd3ss3220),
-+				 GFP_KERNEL);
-+	if (!hd3ss3220)
-+		return -ENOMEM;
++	child = of_graph_get_endpoint_by_regs(np, -1, -1);
++	if (!child)
++		return ret;
 +
-+	i2c_set_clientdata(client, hd3ss3220);
++	parent = of_graph_get_remote_port_parent(child);
++	of_node_put(child);
++	child = of_get_child_by_name(parent, "connector");
++	of_node_put(parent);
++	if (!child)
++		return ret;
 +
-+	hd3ss3220->dev = &client->dev;
-+	hd3ss3220->regmap = devm_regmap_init_i2c(client, &config);
-+	if (IS_ERR(hd3ss3220->regmap))
-+		return PTR_ERR(hd3ss3220->regmap);
-+
-+	hd3ss3220_set_source_pref(hd3ss3220,
-+				  HD3SS3220_REG_GEN_CTRL_SRC_PREF_DRP_DEFAULT);
-+	child = fwnode_graph_get_next_endpoint(dev_fwnode(hd3ss3220->dev),
-+					       NULL);
-+	parent = fwnode_graph_get_remote_port_parent(child);
-+	hd3ss3220->role_sw = fwnode_usb_role_switch_get(parent);
-+	if (IS_ERR_OR_NULL(hd3ss3220->role_sw)) {
-+		fwnode_handle_put(child);
-+		fwnode_handle_put(parent);
-+		return PTR_ERR(hd3ss3220->role_sw);
++	if (of_device_is_compatible(child, "usb-c-connector")) {
++		of_property_read_string(child, "data-role", &role_type);
++		if (role_type && (!strncmp(role_type, "dual", strlen("dual"))))
++			ret = true;
 +	}
 +
-+	fwnode_handle_put(child);
-+	fwnode_handle_put(parent);
-+
-+	hd3ss3220->typec_cap.prefer_role = TYPEC_NO_PREFERRED_ROLE;
-+	hd3ss3220->typec_cap.dr_set = hd3ss3220_dr_set;
-+	hd3ss3220->typec_cap.type = TYPEC_PORT_DRP;
-+	hd3ss3220->typec_cap.data = TYPEC_PORT_DRD;
-+
-+	hd3ss3220->port = typec_register_port(&client->dev,
-+					      &hd3ss3220->typec_cap);
-+	if (IS_ERR(hd3ss3220->port))
-+		return PTR_ERR(hd3ss3220->port);
-+
-+	hd3ss3220_set_role(hd3ss3220);
-+	ret = regmap_read(hd3ss3220->regmap, HD3SS3220_REG_CN_STAT_CTRL, &data);
-+	if (ret < 0)
-+		goto error;
-+
-+	if (data & HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS) {
-+		ret = regmap_write(hd3ss3220->regmap,
-+				HD3SS3220_REG_CN_STAT_CTRL,
-+				data | HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS);
-+		if (ret < 0)
-+			goto error;
-+	}
-+
-+	if (client->irq > 0) {
-+		ret = devm_request_threaded_irq(&client->dev, client->irq, NULL,
-+					hd3ss3220_irq_handler,
-+					IRQF_TRIGGER_FALLING | IRQF_ONESHOT,
-+					"hd3ss3220", &client->dev);
-+		if (ret)
-+			goto error;
-+	}
-+
-+	ret = i2c_smbus_read_byte_data(client, HD3SS3220_REG_DEV_REV);
-+	if (ret < 0)
-+		goto error;
-+
-+	dev_info(&client->dev, "probed revision=0x%x\n", ret);
-+
-+	return 0;
-+error:
-+	typec_unregister_port(hd3ss3220->port);
-+	usb_role_switch_put(hd3ss3220->role_sw);
-+
++	of_node_put(child);
 +	return ret;
 +}
 +
-+static int hd3ss3220_remove(struct i2c_client *client)
-+{
-+	struct hd3ss3220 *hd3ss3220 = i2c_get_clientdata(client);
+ static int renesas_usb3_probe(struct platform_device *pdev)
+ {
+ 	struct renesas_usb3 *usb3;
+@@ -2741,6 +2842,12 @@ static int renesas_usb3_probe(struct platform_device *pdev)
+ 	if (ret < 0)
+ 		goto err_dev_create;
+ 
++	if (device_property_read_bool(&pdev->dev, "usb-role-switch") &&
++	    is_usb_dual_role_switch(&pdev->dev)) {
++		usb3->dual_role_sw = true;
++		renesas_usb3_role_switch_desc.fwnode = dev_fwnode(&pdev->dev);
++	}
 +
-+	typec_unregister_port(hd3ss3220->port);
-+	usb_role_switch_put(hd3ss3220->role_sw);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id dev_ids[] = {
-+	{ .compatible = "ti,hd3ss3220"},
-+	{}
-+};
-+MODULE_DEVICE_TABLE(of, dev_ids);
-+
-+static struct i2c_driver hd3ss3220_driver = {
-+	.driver = {
-+		.name = "hd3ss3220",
-+		.of_match_table = of_match_ptr(dev_ids),
-+	},
-+	.probe = hd3ss3220_probe,
-+	.remove =  hd3ss3220_remove,
-+};
-+
-+module_i2c_driver(hd3ss3220_driver);
-+
-+MODULE_AUTHOR("Biju Das <biju.das@bp.renesas.com>");
-+MODULE_DESCRIPTION("TI HD3SS3220 DRP Port Controller Driver");
-+MODULE_LICENSE("GPL");
+ 	INIT_WORK(&usb3->role_work, renesas_usb3_role_work);
+ 	usb3->role_sw = usb_role_switch_register(&pdev->dev,
+ 					&renesas_usb3_role_switch_desc);
 -- 
 2.7.4
 
