@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A2F0A1F7ED
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2019 17:46:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A44DC1F7BF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2019 17:39:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728484AbfEOPqF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 May 2019 11:46:05 -0400
-Received: from pbmsgap02.intersil.com ([192.157.179.202]:51974 "EHLO
+        id S1728231AbfEOPjU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 May 2019 11:39:20 -0400
+Received: from pbmsgap02.intersil.com ([192.157.179.202]:51544 "EHLO
         pbmsgap02.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726335AbfEOPqF (ORCPT
+        with ESMTP id S1726335AbfEOPjU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 May 2019 11:46:05 -0400
+        Wed, 15 May 2019 11:39:20 -0400
 Received: from pps.filterd (pbmsgap02.intersil.com [127.0.0.1])
-        by pbmsgap02.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4FFCHJt019290;
-        Wed, 15 May 2019 11:22:28 -0400
+        by pbmsgap02.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x4FFDKbA019725;
+        Wed, 15 May 2019 11:22:34 -0400
 Received: from pbmxdp02.intersil.corp (pbmxdp02.pb.intersil.com [132.158.200.223])
-        by pbmsgap02.intersil.com with ESMTP id 2sdrjcb6hk-1
+        by pbmsgap02.intersil.com with ESMTP id 2sdrjcb6hp-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Wed, 15 May 2019 11:22:28 -0400
+        Wed, 15 May 2019 11:22:34 -0400
 Received: from pbmxdp01.intersil.corp (132.158.200.222) by
  pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.1531.3; Wed, 15 May 2019 11:22:27 -0400
+ 15.1.1531.3; Wed, 15 May 2019 11:22:33 -0400
 Received: from localhost.localdomain (132.158.202.108) by
  pbmxdp01.intersil.corp (132.158.200.222) with Microsoft SMTP Server id
- 15.1.1531.3 via Frontend Transport; Wed, 15 May 2019 11:22:26 -0400
+ 15.1.1531.3 via Frontend Transport; Wed, 15 May 2019 11:22:32 -0400
 From:   Chris Brandt <chris.brandt@renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -39,9 +39,9 @@ CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
         <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-renesas-soc@vger.kernel.org>,
         "Chris Brandt" <chris.brandt@renesas.com>
-Subject: [PATCH v4 11/13] ARM: dts: r7s9210: Add USB Host support
-Date:   Wed, 15 May 2019 10:20:46 -0500
-Message-ID: <20190515152048.42363-12-chris.brandt@renesas.com>
+Subject: [PATCH v4 12/13] ARM: dts: r7s9210: Add USB Device support
+Date:   Wed, 15 May 2019 10:20:47 -0500
+Message-ID: <20190515152048.42363-13-chris.brandt@renesas.com>
 X-Mailer: git-send-email 2.16.1
 In-Reply-To: <20190515152048.42363-1-chris.brandt@renesas.com>
 References: <20190515152048.42363-1-chris.brandt@renesas.com>
@@ -59,96 +59,56 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add EHCI and OHCI host support for RZ/A2.
+Add USB Device support for RZ/A2.
 
 Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-v4:
- * "fclk" to "fck"
- * changed phy reg size 0x10 -> 0x700
- * added reviewed-by
 v3:
- * add usb_x1 as a clock source
- * add clock-names
+ * added reviewed-by
 v2:
-  * changed to generic name usb@xxx
-  * Add space between compatible strings
+ * changed to generic name usb@xxx
+ * Add space between compatible strings
 ---
- arch/arm/boot/dts/r7s9210.dtsi | 66 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
+ arch/arm/boot/dts/r7s9210.dtsi | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
 diff --git a/arch/arm/boot/dts/r7s9210.dtsi b/arch/arm/boot/dts/r7s9210.dtsi
-index 73041f04fef5..066e6fed11aa 100644
+index 066e6fed11aa..3d0bbc1f4543 100644
 --- a/arch/arm/boot/dts/r7s9210.dtsi
 +++ b/arch/arm/boot/dts/r7s9210.dtsi
-@@ -329,6 +329,72 @@
+@@ -362,6 +362,18 @@
  			status = "disabled";
  		};
  
-+		ohci0: usb@e8218000 {
-+			compatible = "generic-ohci";
-+			reg = <0xe8218000 0x100>;
-+			interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
++		usbhs0: usb@e8219000 {
++			compatible = "renesas,usbhs-r7s9210", "renesas,rza2-usbhs";
++			reg = <0xe8219000 0x724>;
++			interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
 +			clocks = <&cpg CPG_MOD 61>;
++			renesas,buswait = <7>;
 +			phys = <&usb2_phy0>;
 +			phy-names = "usb";
 +			power-domains = <&cpg>;
 +			status = "disabled";
 +		};
 +
-+		ehci0: usb@e8218100 {
-+			compatible = "generic-ehci";
-+			reg = <0xe8218100 0x100>;
-+			interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 61>;
-+			phys = <&usb2_phy0>;
-+			phy-names = "usb";
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
-+
-+		usb2_phy0: usb-phy@e8218200 {
-+			compatible = "renesas,usb2-phy-r7s9210", "renesas,rcar-gen3-usb2-phy";
-+			reg = <0xe8218200 0x700>;
-+			interrupts = <GIC_SPI 31 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 61>, <&usb_x1_clk>;
-+			clock-names = "fck", "usb_x1";
-+			power-domains = <&cpg>;
-+			#phy-cells = <0>;
-+			status = "disabled";
-+		};
-+
-+		ohci1: usb@e821a000 {
-+			compatible = "generic-ohci";
-+			reg = <0xe821a000 0x100>;
-+			interrupts = <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>;
+ 		ohci1: usb@e821a000 {
+ 			compatible = "generic-ohci";
+ 			reg = <0xe821a000 0x100>;
+@@ -395,6 +407,18 @@
+ 			status = "disabled";
+ 		};
+ 
++		usbhs1: usb@e821b000 {
++			compatible = "renesas,usbhs-r7s9210", "renesas,rza2-usbhs";
++			reg = <0xe821b000 0x724>;
++			interrupts = <GIC_SPI 37 IRQ_TYPE_LEVEL_HIGH>;
 +			clocks = <&cpg CPG_MOD 60>;
++			renesas,buswait = <7>;
 +			phys = <&usb2_phy1>;
 +			phy-names = "usb";
 +			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
-+
-+		ehci1: usb@e821a100 {
-+			compatible = "generic-ehci";
-+			reg = <0xe821a100 0x100>;
-+			interrupts = <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 60>;
-+			phys = <&usb2_phy1>;
-+			phy-names = "usb";
-+			power-domains = <&cpg>;
-+			status = "disabled";
-+		};
-+
-+		usb2_phy1: usb-phy@e821a200 {
-+			compatible = "renesas,usb2-phy-r7s9210", "renesas,rcar-gen3-usb2-phy";
-+			reg = <0xe821a200 0x700>;
-+			interrupts = <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 60>, <&usb_x1_clk>;
-+			clock-names = "fck", "usb_x1";
-+			power-domains = <&cpg>;
-+			#phy-cells = <0>;
 +			status = "disabled";
 +		};
 +
