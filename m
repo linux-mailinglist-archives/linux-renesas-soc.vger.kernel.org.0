@@ -2,202 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FF541F5B1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2019 15:38:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E5871F5B4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2019 15:38:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727722AbfEONia (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 May 2019 09:38:30 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:39576 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726653AbfEONia (ORCPT
+        id S1727734AbfEONiv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 May 2019 09:38:51 -0400
+Received: from mail-eopbgr1410109.outbound.protection.outlook.com ([40.107.141.109]:32169
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726635AbfEONiv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 May 2019 09:38:30 -0400
-Received: by mail-lj1-f194.google.com with SMTP id a10so2547928ljf.6
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 May 2019 06:38:28 -0700 (PDT)
+        Wed, 15 May 2019 09:38:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=+6q+E6Xgh/2YMnAMUKEGO13bSID45p2F6up8jNsuSBA=;
-        b=TXyl7/X9g3HmH7DrqfEtAvyTNfbM3qGuKqfLaWLCSVnQSx7dM2y4INIQdpGzrlc8T5
-         nM2WxyPVLZYCMyP8hDhmfaSeLFkzZ4lD2UltR3BTnP9c7S3ToxK8bWuvNvDqX5z5YCjT
-         v9NNtyttDIweW+4OX7y4tYFAfvxHQFAgJiYvZZZkAPXiB6gFKxqAHja6kwmfjPxFVyEE
-         Uxf+Og3s3R1EMXvvi5tXGD7rTtBaPpsEFpyTkAUmNnJLQ1iRkaT4Y4BHv1oVnNqK2t91
-         +o3FoIVFAtBqjK7CA6bdeR0lzf+238IXVijuRGbQi6PK3hDGMJ0cvFjvt/Qeri60K2KO
-         zLBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=+6q+E6Xgh/2YMnAMUKEGO13bSID45p2F6up8jNsuSBA=;
-        b=K4pCT0kwO31Cfr/VH2FAOp6vWocCypNESE10TopOPBJPCPXUFh1PuRCXkY+s1NkJe/
-         Nk0FUJBGCt622zwWOyLZ3TvXVnwJbVSp7zUMZl/mY1R6fLQRBuTHfnctgliT09lS6yC2
-         jTZDigbylNFAAFYKato4w0FeHDl+esqAJIBU1DgvggZv7pzSf9FuUJ7H0gyY/Qh/b97o
-         TLNX4q+LwLbpy2peE34eHMNANsnCfrXGLOkdB9xVbFM/H5ilb4huYwHz8sVRQd2E2d/T
-         ta7t3f6rIiSgxbZ2aYW3QY+PM1FjOPjsqK8muha1nvpvmAsmE1orElEB2wpkAjKoEt/d
-         xWuw==
-X-Gm-Message-State: APjAAAV1P4KJqcFxflOeRprQPB/sgF6BUOBONmW4uMMh2Ahksivn6ueY
-        f4n1BJ/vMqyg7AnSbZRm0h+2OQ==
-X-Google-Smtp-Source: APXvYqxH42jFUOqto8p0z9OgrL+vm86ip0vW7Jlu9HPB9BWRMi/1L47cdVAMicwDNKhohV6rbMzp4Q==
-X-Received: by 2002:a2e:2d02:: with SMTP id t2mr18486916ljt.148.1557927507537;
-        Wed, 15 May 2019 06:38:27 -0700 (PDT)
-Received: from localhost (89-233-230-99.cust.bredband2.com. [89.233.230.99])
-        by smtp.gmail.com with ESMTPSA id l76sm389351lfe.77.2019.05.15.06.38.25
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 15 May 2019 06:38:26 -0700 (PDT)
-From:   "Niklas =?iso-8859-1?Q?S=F6derlund?=" <niklas.soderlund@ragnatech.se>
-X-Google-Original-From: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Date:   Wed, 15 May 2019 15:38:25 +0200
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Chris Paterson <chris.paterson2@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH 00/11] pinctrl: sh-pfc: Convert to new non-GPIO helper
- macros
-Message-ID: <20190515133825.GB31788@bigcity.dyn.berto.se>
-References: <20190513152857.13122-1-geert+renesas@glider.be>
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=arqU6Lvr5Sf26j9WAvt51gRgxm6iQ07EzJ2VtoyC/wU=;
+ b=gzXE6cCDY4X7cKH/qyJGoO32qdZ62Ulfx/WG1IwwhWxW3YyzQo1iSpdNGLKUOvKpc78OgY0CyOF1nrdgV21xVudmUOtIvf68F8L6RZoFYn8ebfNE1XPt80P7jLuV62D+TtTTR2UUfgaDYk7D++7ApjU3+sISHpN0OGfwCSAWVJA=
+Received: from TYXPR01MB1568.jpnprd01.prod.outlook.com (52.133.166.145) by
+ TYXPR01MB1485.jpnprd01.prod.outlook.com (52.133.165.142) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1900.16; Wed, 15 May 2019 13:38:46 +0000
+Received: from TYXPR01MB1568.jpnprd01.prod.outlook.com
+ ([fe80::c989:cb4d:b41e:2045]) by TYXPR01MB1568.jpnprd01.prod.outlook.com
+ ([fe80::c989:cb4d:b41e:2045%7]) with mapi id 15.20.1900.010; Wed, 15 May 2019
+ 13:38:46 +0000
+From:   Chris Brandt <Chris.Brandt@renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Simon Horman <horms@verge.net.au>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        USB list <linux-usb@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v3 13/15] ARM: dts: r7s9210: Add USB Host support
+Thread-Topic: [PATCH v3 13/15] ARM: dts: r7s9210: Add USB Host support
+Thread-Index: AQHVCmV5GV5gsTt0ME28rd2ixcAosqZr02QAgABcqCA=
+Date:   Wed, 15 May 2019 13:38:46 +0000
+Message-ID: <TYXPR01MB1568E1D79AFDB6FF4F5329568A090@TYXPR01MB1568.jpnprd01.prod.outlook.com>
+References: <20190514145605.19112-1-chris.brandt@renesas.com>
+ <20190514145605.19112-14-chris.brandt@renesas.com>
+ <CAMuHMdUU3EBFXHpvw8y_yYf3L1qNNH6HJw+RHP_ioSFwJcd3Vg@mail.gmail.com>
+In-Reply-To: <CAMuHMdUU3EBFXHpvw8y_yYf3L1qNNH6HJw+RHP_ioSFwJcd3Vg@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Chris.Brandt@renesas.com; 
+x-originating-ip: [75.60.247.61]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9bfea68c-3133-4fdf-1405-08d6d93aa7b8
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:TYXPR01MB1485;
+x-ms-traffictypediagnostic: TYXPR01MB1485:
+x-microsoft-antispam-prvs: <TYXPR01MB14858D5C930DD82BB6185D968A090@TYXPR01MB1485.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3631;
+x-forefront-prvs: 0038DE95A2
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(396003)(346002)(376002)(366004)(136003)(189003)(199004)(8936002)(316002)(8676002)(81166006)(81156014)(68736007)(4326008)(25786009)(86362001)(52536014)(446003)(11346002)(476003)(55016002)(9686003)(478600001)(2906002)(486006)(14454004)(3846002)(66066001)(6116002)(256004)(72206003)(5660300002)(26005)(71200400001)(54906003)(71190400001)(186003)(229853002)(305945005)(7736002)(6506007)(76176011)(7696005)(102836004)(7416002)(6246003)(99286004)(66946007)(76116006)(73956011)(66476007)(66556008)(64756008)(33656002)(66446008)(53936002)(558084003)(74316002)(6436002)(6916009);DIR:OUT;SFP:1102;SCL:1;SRVR:TYXPR01MB1485;H:TYXPR01MB1568.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: dTW7m6QCxsp/HUUwxQTgdeUu3E4PRB3f+qYQw+EdiHfr2o/mpc75AObdJ+yzxYWYyJBK02sxYtdd/BxVYeGYvZIsjpVq1VZUKy1TPVoLR2kaP3KcgTWFlCRwhekyYBH+hFKLQ8f6tb1sstxmpdfQ4JHuegeozKiKJtQP9+lfaYSbdozBexoawGVkADmQjwPmQ3V4lSIHmQKrkTCr+vLgP7T5xqxkQpSZQZiCPPyOjPwLkTr7mOlhHaRFHy3KCt6u2mIGUpIS9qk1IwM6kt/GokfqptLjJpYK3Ym6bpmBeL8Rd+6iZzARcoiDqzhDCvmM7AoI6pHtOXhx2OCAyctDMSmsPRFAIYZ53J2dgA8DFkqlnI/MDOIS83AGpDyJIHLLS9lOhKSt6+OzGHBo/Vc8g8/v6lAOKfK2yPMegeMbtOM=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190513152857.13122-1-geert+renesas@glider.be>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9bfea68c-3133-4fdf-1405-08d6d93aa7b8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 May 2019 13:38:46.3813
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYXPR01MB1485
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
-
-Thanks for your work.
-
-On 2019-05-13 17:28:46 +0200, Geert Uytterhoeven wrote:
-> 	Hi all,
-> 
-> On many Renesas ARM SoCs, there exist pins that are not associated with
-> a GPIO port, but still need configuration (e.g. drive strength or
-> pull-up).  While pins with GPIO functionality are indexed by their
-> GPIO number, no such number exists for non-GPIO pins.  Hence for the
-> latter, the pin control driver uses numbers outside the GPIO number
-> space, derived from the row and column numbers of the physical pins.
-> 
-> For R-Car H3 (and later M3-W and M3-N), the choice was made to use the
-> SiP (System-in-Package, i.e. SoC + RAM + HyperFlash in a BGA package)
-> physical pin numbers, as the SiP was what was mounted on the
-> Salvator-X(S) and ULCB development boards available at that time.
-> 
-> In hindsight, it would have been better to settle on the SoC physical
-> pin numbers, though: the pin control driver for R-Car M3-W was reused
-> for the RZ/G2M SoC, which is only available as an SoC, not SiP, thus
-> making it hard to match the driver with the documentation.
-> 
-> But even for SoCs there can be confusion: several SoCs are available in
-> multiple packages, with the same or different number of pins, leading to
-> different pin numberings.
-> 
-> As this numbering is used only internal to the driver, and pin control
-> configuration from DT refers to these pins by signal name, not pin
-> number (usually, see exceptions below[*]), I started wondering if we
-> could get rid of the SoC/SiP pin numbers instead.  As the actual numbers
-> don't matter, all that is needed for the driver is a unique number for
-> each pin.
-> 
-> Hence this patch series converts the affected drivers to use new macros
-> that allow to describe pins without GPIO functionality, and refer to
-> them by auto-generated symbolic enum values, similar in spirit to the
-> existing scheme for handling pins with GPIO functionality.
-> 
-> This series consists of three parts:
->   - Patch 1 introduces new macros to describe and handle pins without
->     GPIO functionality,
->   - Patches 2-10 convert the pin control drivers for the individual SoCs
->     to use the new macros,
->   - Patch 11 removes the now unused old macros.
-> 
-> There should be no functional changes induced by this patch series,
-> which has been tested on Salvator-X(S) (with R-Car H3 ES1.0 and ES2.0,
-> M3-W, and M3-N), Ebisu (R-Car E3), and KZM-A9-GT (SH-Mobile AG5).
-> 
-> [*] The user-visible names of pins without GPIO functionality are based
->     on pin numbers (e.g. "B25") instead of signal names ("CLKOUT") on
->     EMMA Mobile EV2, R-Car M1A, R-Car H2, and SH-Mobile AG5.
->     I didn't change these to preserve DT backwards compatibility.
-> 
-> The "name" parameters of the PIN_NOGP_CFG() and PIN_NOGP() macros could
-> be removed, if these macros would generate the names from the "pin"
-> parameters.  However, that would:
->   1. Require replacing the "#" suffices in pin names for active-low
->      signals by "_N",
->      R-Car H3/M3-W/M3-N use a "#" suffix, R-Car E3 use a "_N" suffix.
->   2. Replace the names based on pin numbers on older SoCs by signal
->      names.
-> Both changes could affect DT backwards compatibility.  None of these are
-> currently used in (upstream) DTS files, though.
-> Do you think it would be worthwhile to make this consistent?
-> 
-> Thanks for your comments!
-
-I really like how this is used, much better then SH_PFC_PIN_NAMED 
-approach!
-
-I have not reviewed all renames of PIN_NUMBER() to their more 
-descriptive names, but did spot checks to make sure it made sens. I 
-trust you for the rest ;-) For the whole series,
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-I tested this on
-- r8a7795
-- r8a7796
-- r8a77965
-
-Feel free to add to those patches,
-
-Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> 
-> Geert Uytterhoeven (11):
->   pinctrl: sh-pfc: Add new non-GPIO helper macros
->   pinctrl: sh-pfc: emev2: Use new macros for non-GPIO pins
->   pinctrl: sh-pfc: r8a7778: Use new macros for non-GPIO pins
->   pinctrl: sh-pfc: r8a7790: Use new macros for non-GPIO pins
->   pinctrl: sh-pfc: r8a7795-es1: Use new macros for non-GPIO pins
->   pinctrl: sh-pfc: r8a7795: Use new macros for non-GPIO pins
->   pinctrl: sh-pfc: r8a7796: Use new macros for non-GPIO pins
->   pinctrl: sh-pfc: r8a77965: Use new macros for non-GPIO pins
->   pinctrl: sh-pfc: r8a77990: Use new macros for non-GPIO pins
->   pinctrl: sh-pfc: sh73a0: Use new macros for non-GPIO pins
->   pinctrl: sh-pfc: Remove obsolete SH_PFC_PIN_NAMED*() macros
-> 
->  drivers/pinctrl/sh-pfc/pfc-emev2.c       |  70 +++--
->  drivers/pinctrl/sh-pfc/pfc-r8a7778.c     |  29 +-
->  drivers/pinctrl/sh-pfc/pfc-r8a7790.c     |  34 ++-
->  drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c | 333 +++++++++++------------
->  drivers/pinctrl/sh-pfc/pfc-r8a7795.c     | 313 +++++++++++----------
->  drivers/pinctrl/sh-pfc/pfc-r8a7796.c     | 307 ++++++++++-----------
->  drivers/pinctrl/sh-pfc/pfc-r8a77965.c    | 307 ++++++++++-----------
->  drivers/pinctrl/sh-pfc/pfc-r8a77990.c    |  87 +++---
->  drivers/pinctrl/sh-pfc/pfc-sh73a0.c      |  19 +-
->  drivers/pinctrl/sh-pfc/sh_pfc.h          |  72 +++--
->  10 files changed, 797 insertions(+), 774 deletions(-)
-> 
-> -- 
-> 2.17.1
-> 
-> Gr{oetje,eeting}s,
-> 
-> 						Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
-> 							    -- Linus Torvalds
-
--- 
-Regards,
-Niklas Söderlund
+SGkgR2VlcnQsDQoNCk9uIFdlZCwgTWF5IDE1LCAyMDE5LCBHZWVydCBVeXR0ZXJob2V2ZW4gd3Jv
+dGU6DQoNCj4gPiArICAgICAgICAgICAgICAgICAgICAgICByZWcgPSA8MHhlODIxODIwMCAweDEw
+PjsNCj4gDQo+IFdoYXQgYWJvdXQgdGhlIG90aGVyIHJlZ2lzdGVycz8NCj4gT24gUi1DYXIgR2Vu
+Mywgc2l6ZSBpcyAweDcwMC4NCj4gU2FtZSBmb3IgdXNiMl9waHkxLg0KDQpBaGhoLCBnb29kIGNh
+dGNoLg0KDQpDaHJpcw0KDQo=
