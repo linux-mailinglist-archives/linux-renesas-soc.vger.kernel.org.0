@@ -2,100 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 90E431E8C8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2019 09:16:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 866881E902
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2019 09:32:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726290AbfEOHQG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 May 2019 03:16:06 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:53437 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725876AbfEOHQG (ORCPT
+        id S1726098AbfEOHcL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 May 2019 03:32:11 -0400
+Received: from mail-eopbgr1410123.outbound.protection.outlook.com ([40.107.141.123]:30420
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725929AbfEOHcL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 May 2019 03:16:06 -0400
-Received: by mail-wm1-f66.google.com with SMTP id 198so1422816wme.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 May 2019 00:16:05 -0700 (PDT)
+        Wed, 15 May 2019 03:32:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=bmyHjZNyHivUvoK23ukxv4Nj9Dp9vXFDiA73FJcaCvw=;
-        b=Nx5hfMDZKgnefIIAgQs8SbUtsBCrRfHUUmK1JNJVo0XJCP3elPtIQ6RSayZ/oFUTRo
-         7/AtzjH3EswrK4+R7pP5bEiH+g09w0ptv1SJB7g1VvDQhOa5ULSmouhI70Rv4KtRdvF9
-         ma4Wp88E+xiD5YYSA6QV8rrqIQORAZN/w9cvwCJND5j6Hnn5V30UaYeGUaKnsSsCVQcb
-         j0en7BYL45JLvOLpaBmH7FP1mQY4+PRs+LiIUfVm0HL/65tmJeJ2mjOD8+kmjpJF/adj
-         6xFahwnhKyE+Wbd3vI6nS1OTdlZv2CluVIECy2Nmng5uvw1dVQjFGlz5vAuPQWpN2r4o
-         kR/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=bmyHjZNyHivUvoK23ukxv4Nj9Dp9vXFDiA73FJcaCvw=;
-        b=gU/7WmSSQYGlSz5aWi05lDSGWQerSIp9gwmAOFviqNx9mAphFGN+MeOQhPOlOgLZ04
-         stwjaBSUdcgjyI8xV9HV8IO9LfccwrIEtJym3G15LQTbusg/3fjInPKPdNSfGPdGxh9E
-         jGzQ8RP7bHUukss32gAATgz6mpQQn6CDCWSyQdagFhYPp6LxH6frnIJ1I8iWFCzpY7Ao
-         SORDEEdJCkBwMf3Di3+xidFXkBn6u7VULtTBuHveBlFQL+iELAdqqMttKQWhC/PTXRla
-         vZQjEtDs3q/dEhK9E3eVGuxK7nrdld/89PQLp+P93qprzlA4ZB0Mf8QAmftogUoUdkfs
-         A+cw==
-X-Gm-Message-State: APjAAAWaZO9xpbm21LinAlZhcOGRgCMic6io+n1ypfi2Os+svuY/t2Zb
-        +cb6gTDbi+pjKh37ftqZ+95NFw==
-X-Google-Smtp-Source: APXvYqz7FxqoIBKKh2LSGlm3FW2p5aY8FKk6NC9YycD5Y1bD0YcUqRnXzXKoCONX8MhljKE5ZywNMg==
-X-Received: by 2002:a1c:c5c3:: with SMTP id v186mr17138769wmf.60.1557904564394;
-        Wed, 15 May 2019 00:16:04 -0700 (PDT)
-Received: from dell ([2.27.167.43])
-        by smtp.gmail.com with ESMTPSA id i15sm1290359wre.30.2019.05.15.00.16.03
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 15 May 2019 00:16:03 -0700 (PDT)
-Date:   Wed, 15 May 2019 08:16:01 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     masonccyang@mxic.com.tw
-Cc:     bbrezillon@kernel.org, broonie@kernel.org,
-        devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms@verge.net.au>, juliensu@mxic.com.tw,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-spi@vger.kernel.org, marek.vasut@gmail.com,
-        mark.rutland@arm.com, robh+dt@kernel.org,
-        sergei.shtylyov@cogentembedded.com, zhengxunli@mxic.com.tw
-Subject: Re: [PATCH v12 2/3] spi: Add Renesas R-Car Gen3 RPC-IF SPI
- controller driver
-Message-ID: <20190515071601.GQ4319@dell>
-References: <1556092536-17095-1-git-send-email-masonccyang@mxic.com.tw>
- <1556092536-17095-3-git-send-email-masonccyang@mxic.com.tw>
- <20190514065216.GL4319@dell>
- <OF794FCFCD.155B914B-ON482583FB.001EDBB3-482583FB.0020821B@mxic.com.tw>
+ d=renesasgroup.onmicrosoft.com; s=selector1-renesas-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wseJNiSFw+2UsN4gIq6FNfAtVDQxbo9tUVaOiGB0htA=;
+ b=iSsFhyCQ6odf7a4Xor5XZcEc0GWYUd6iKc1v/j5opQvv0izdCeTX92aaGUNvnAU3sRf1PQ9moLbKpJ45NGL6R4HdJ37tRzL9ojFONWZUyMpnlJX1zDhIPYKUlezT1tJWeADNviUYlrcMy3Q3ldFxqV1dIFp8hbxFI51tGz66BjU=
+Received: from OSBPR01MB3174.jpnprd01.prod.outlook.com (20.176.240.146) by
+ OSBPR01MB4934.jpnprd01.prod.outlook.com (20.179.180.202) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1878.22; Wed, 15 May 2019 07:32:04 +0000
+Received: from OSBPR01MB3174.jpnprd01.prod.outlook.com
+ ([fe80::f873:6332:738d:7213]) by OSBPR01MB3174.jpnprd01.prod.outlook.com
+ ([fe80::f873:6332:738d:7213%3]) with mapi id 15.20.1878.024; Wed, 15 May 2019
+ 07:32:04 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Chris Brandt <Chris.Brandt@renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Simon Horman <horms@verge.net.au>
+CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Chris Brandt <Chris.Brandt@renesas.com>
+Subject: RE: [PATCH v3 03/15] phy: renesas: rcar-gen3-usb2: detect usb_x1
+ clock
+Thread-Topic: [PATCH v3 03/15] phy: renesas: rcar-gen3-usb2: detect usb_x1
+ clock
+Thread-Index: AQHVCmVMxbiW+OgpNUCzYvtYChDVdKZry5Zg
+Date:   Wed, 15 May 2019 07:32:04 +0000
+Message-ID: <OSBPR01MB3174601B890703A6BF1A080AD8090@OSBPR01MB3174.jpnprd01.prod.outlook.com>
+References: <20190514145605.19112-1-chris.brandt@renesas.com>
+ <20190514145605.19112-4-chris.brandt@renesas.com>
+In-Reply-To: <20190514145605.19112-4-chris.brandt@renesas.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [118.238.235.108]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 64c40346-65f3-45c2-4ec2-08d6d9076d85
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB4934;
+x-ms-traffictypediagnostic: OSBPR01MB4934:
+x-microsoft-antispam-prvs: <OSBPR01MB49343CB7E38C0045699FD77ED8090@OSBPR01MB4934.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 0038DE95A2
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(396003)(39860400002)(366004)(346002)(136003)(199004)(189003)(7696005)(486006)(33656002)(81166006)(81156014)(4744005)(6116002)(3846002)(86362001)(8676002)(6506007)(71190400001)(229853002)(52536014)(6436002)(54906003)(11346002)(102836004)(55016002)(8936002)(68736007)(7736002)(9686003)(256004)(305945005)(71200400001)(76176011)(99286004)(446003)(5660300002)(26005)(476003)(110136005)(66946007)(66446008)(53936002)(66066001)(66556008)(7416002)(76116006)(2906002)(186003)(25786009)(4326008)(107886003)(6246003)(74316002)(478600001)(64756008)(66476007)(14454004)(73956011)(316002);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB4934;H:OSBPR01MB3174.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: xsrk7KvGGrkvqlFkAHlMQU07z765jMRm4/qIzpbbewWcX1j7+rYATi/XBQPtdinvxHBKzpGZV2/xQRqnhMaFMaqUTwRKWMdRmm41O8NtTYWO0Sd7fudaa454dETXHzGHi5XHf7p4plLemIF0443uBwgu6sHe+MkMxlvBm1kSQCwcEJTsr9NNzWgbd3Q1ziqZ4CVYfRjKdh1uJ0MhJoizgmbQth7gCIO7xFizFiTEualUm+IhPydB764vIvnqOobybn/72xXUl/s6CNkdsVowA8VqvxcvRnSqjTmXhEtK9wAfbL4uZwAEFaC6UoHBYRZAwh6sgyv81cD/TpwrFK0YLqgYZyo/d4+Yvf64DYzGxya7AEx/5YZrxr/a/H9R8nmRjn5C8PkEE0LaavPH1dqQihEGmpyKvRXB9c1brmmW0/Y=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <OF794FCFCD.155B914B-ON482583FB.001EDBB3-482583FB.0020821B@mxic.com.tw>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64c40346-65f3-45c2-4ec2-08d6d9076d85
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 May 2019 07:32:04.3776
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB4934
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 15 May 2019, masonccyang@mxic.com.tw wrote:
+Hi Chris-san,
 
-> Hi Jones,
-> 
-> 
-> > > +
-> > > +struct rpc_spi {
-> > > +   struct rpc_mfd *mfd;
-> > 
-> > The term MFD isn't a real thing.  What you're obtaining below is
-> > driver data and is normally articulated as 'ddata' in drivers.
-> 
-> yes, it's just imply that data is from MFD.
-> 
-> Should I rename "mfd" ?
+> From: Chris Brandt, Sent: Tuesday, May 14, 2019 11:56 PM
+>=20
+> The RZ/A2 has an optional dedicated 48MHz clock input for the PLL.
+> If a clock node named 'usb_x1' exists and set to non-zero, then we can
+> assume we want it use it.
+>=20
+> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
 
-Yes please.
+Thank you for the patch!
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+
+Best regards,
+Yoshihiro Shimoda
+
