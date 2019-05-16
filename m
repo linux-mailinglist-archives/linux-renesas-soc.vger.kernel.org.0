@@ -2,198 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 25BF620779
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 May 2019 15:01:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A337C2078E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 May 2019 15:03:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726801AbfEPNBB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 May 2019 09:01:01 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:43699 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726389AbfEPNBA (ORCPT
+        id S1727061AbfEPND5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 May 2019 09:03:57 -0400
+Received: from mail-eopbgr1410121.outbound.protection.outlook.com ([40.107.141.121]:15392
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726623AbfEPND5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 May 2019 09:01:00 -0400
-Received: by mail-lj1-f195.google.com with SMTP id z5so2994215lji.10
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 May 2019 06:00:59 -0700 (PDT)
+        Thu, 16 May 2019 09:03:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=4JQ0cAkm/H+WCmXGpjQHXu6SVKneQy0K3H4IOCbSexI=;
-        b=vnZPXK73jhhfloxa0nmgb4TyoBFzZKYnOSDuq6+fwdBe3iklUIDK/w/IZapy1cf/GF
-         xVGYVvLfXwir/Z/o+mTYDLGYkvpF9p5Kx+iVDxFaqJ9XQuCHC9TtJXumyLcZN3R1R6Pc
-         3akI3hu6SPIEd+aIn/mhBl1ynuO1uOkuXvApnHJ/h4MXgrCIU4Vm5bo9JQgSahViUFAq
-         g1m/2ulyo5hO09pN0ZqG4cunuKxQRWWSTUaGhmL+3XYH5cAn1sO91xr4rBrwVK15yT/+
-         62uyc0if+NVae18S+2xlqXUUIKcqy7chON+anf0yBZuaLBQdpgOGJDw+6g9hbQe293bs
-         Jxvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=4JQ0cAkm/H+WCmXGpjQHXu6SVKneQy0K3H4IOCbSexI=;
-        b=sh+y42F4us2YfRwxJb0qe7z3wX+uqvvrIJfOQ8RXcJy6/NVzWU75DSz1peB9Pgcj3Y
-         Jrw6z/VNsIi4G0KjADvrCHX637d+FLbN/YeaZqw+ZHFS/PGVqQr8hPDhud1ZCCQIopsM
-         r3EGomFsv3oHy4g3xG9sll9LHaw7qjUw3kNau9E622YdogQLHBcxIJs/CzydVL0B+Dl2
-         mUdsud2dNLBPYbiQeMzRxenONmUF73dA85/96w/tjuPMAtrqhC0Jt6Tu4C03/F8C4bN9
-         xBgQ8APWndPSVxlpH/jroy3BLeUwYsDotOqZHVQRhduqMIe0TFRqRLlS2eQR2G4QdN40
-         IARg==
-X-Gm-Message-State: APjAAAWD3BkxEKtHbHXFAbmrwucvBYmdqDLScr1HnEUZ20n6ND6GCGGp
-        QRHG9Mg3rrxpGlGA2u/9jURqqw==
-X-Google-Smtp-Source: APXvYqzalSNSTN5MrqGzlp7ZZ956b+RJC5qohYwGb94Qs84rvqSYrX+nK7hKCjo+COUtsp5u9of6KQ==
-X-Received: by 2002:a2e:85c9:: with SMTP id h9mr11278859ljj.110.1558011658748;
-        Thu, 16 May 2019 06:00:58 -0700 (PDT)
-Received: from localhost (89-233-230-99.cust.bredband2.com. [89.233.230.99])
-        by smtp.gmail.com with ESMTPSA id d23sm892502ljj.38.2019.05.16.06.00.57
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 16 May 2019 06:00:57 -0700 (PDT)
-From:   "Niklas =?iso-8859-1?Q?S=F6derlund?=" <niklas.soderlund@ragnatech.se>
-X-Google-Original-From: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Date:   Thu, 16 May 2019 15:00:57 +0200
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 3/3] rcar-vin: Add support for RGB formats with alpha
- component
-Message-ID: <20190516130057.GC31788@bigcity.dyn.berto.se>
-References: <20190516004746.3794-1-niklas.soderlund+renesas@ragnatech.se>
- <20190516004746.3794-4-niklas.soderlund+renesas@ragnatech.se>
- <20190516100822.GC4995@pendragon.ideasonboard.com>
+ d=renesasgroup.onmicrosoft.com; s=selector1-bp-renesas-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PQJ0mumZwp3bkDOD0To3Pf/auTnRQSxHC6Ub6/weG0Y=;
+ b=aM4hNsu3RgprdcTg6DqhLyPOZqXeDQo3NoUQ8v6hzdRF8jg+znrG5R4ck8QI4gBe04tvFGnfvKpJ/M7c4otdsaiQ9TYn7Pz2qHyaGbN6KKHZa8gsLle/odjgLcrsaVK7yqk/QPsK19rKCmFMC6Gv/0CvnJY9V2zzHvhoMoFIVpM=
+Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com (52.134.242.17) by
+ OSBPR01MB4808.jpnprd01.prod.outlook.com (20.179.182.145) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1878.24; Thu, 16 May 2019 13:03:51 +0000
+Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com
+ ([fe80::a146:39f0:5df9:11bc]) by OSBPR01MB2103.jpnprd01.prod.outlook.com
+ ([fe80::a146:39f0:5df9:11bc%7]) with mapi id 15.20.1878.024; Thu, 16 May 2019
+ 13:03:51 +0000
+From:   Biju Das <biju.das@bp.renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Kishon Vijay Abraham I <kishon@ti.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH] phy: renesas: phy-rcar-gen2: Fix the array off by one
+ warning
+Thread-Topic: [PATCH] phy: renesas: phy-rcar-gen2: Fix the array off by one
+ warning
+Thread-Index: AQHVCyUpvBbBPGrYP0S5NxoVhRdkraZtsr4AgAAAtVA=
+Date:   Thu, 16 May 2019 13:03:51 +0000
+Message-ID: <OSBPR01MB21033D45103D667F4EFD7877B80A0@OSBPR01MB2103.jpnprd01.prod.outlook.com>
+References: <1557927786-29557-1-git-send-email-biju.das@bp.renesas.com>
+ <CAMuHMdUnMhDyEoFDs05WKU=0PtV2FmAxuGWFhf7ekxfK=Y5gSg@mail.gmail.com>
+In-Reply-To: <CAMuHMdUnMhDyEoFDs05WKU=0PtV2FmAxuGWFhf7ekxfK=Y5gSg@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=biju.das@bp.renesas.com; 
+x-originating-ip: [193.141.220.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a26bebb2-09ab-4177-7ee1-08d6d9fef194
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB4808;
+x-ms-traffictypediagnostic: OSBPR01MB4808:
+x-microsoft-antispam-prvs: <OSBPR01MB4808C52EFBD0103D397506ECB80A0@OSBPR01MB4808.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-forefront-prvs: 0039C6E5C5
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(396003)(366004)(376002)(136003)(346002)(189003)(199004)(51914003)(76116006)(486006)(6436002)(478600001)(68736007)(71190400001)(71200400001)(86362001)(52536014)(446003)(14454004)(99286004)(54906003)(476003)(7696005)(316002)(74316002)(5660300002)(7736002)(55016002)(305945005)(11346002)(66446008)(9686003)(25786009)(66476007)(66556008)(64756008)(6916009)(14444005)(229853002)(73956011)(66946007)(44832011)(256004)(6116002)(2906002)(186003)(81156014)(6246003)(81166006)(3846002)(4326008)(26005)(53936002)(8936002)(8676002)(66066001)(76176011)(6506007)(53546011)(33656002)(102836004);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB4808;H:OSBPR01MB2103.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
+received-spf: None (protection.outlook.com: bp.renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: zr1STlDdICoBN7U45JeDPHhMfYMYdDLPWEXPgauiD/UocaXTFWFbZ+LBJ7MItuO/mkrVSj/Y72cdTxgaUn4ng1QThFWPOvT/EqlorXVLQqTm3j4BykFnI9zp8QOS2vTGeyv4JkFGOPQTmtyCNveerXV8H0AeW1RO/SS3+s2mq0BYHR1guCyFadYqA4YuWKvHjrkOn5YVqxojNV/zAQXwb6M0vIynKjnUOCs+ea7APws3rN40172LSy9YMx8Dn4M13vhJYw71TVF4JHUdwJtIeB7Zoa5mgug3y1rm+BRcgxodbyz3pbiDj3ton6veqZijB8EuxMv7OhNThpNfbky8ayHKPMwo9MtXEuiSgS0XbBtOVj14pXpTcr/jTFbjB6wmSXTgMZ9B3hIRQboHv+pqBO7W2Zm6rrx0CmirlLe9RUM=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190516100822.GC4995@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a26bebb2-09ab-4177-7ee1-08d6d9fef194
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 May 2019 13:03:51.5346
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB4808
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
-
-Thanks for your feedback.
-
-On 2019-05-16 13:08:22 +0300, Laurent Pinchart wrote:
-> Hi Niklas,
-> 
-> Thank you for the patch.
-> 
-> On Thu, May 16, 2019 at 02:47:46AM +0200, Niklas Söderlund wrote:
-> > The R-Car VIN module supports V4L2_PIX_FMT_ARGB555 and
-> > V4L2_PIX_FMT_ABGR32 pixel formats. Add the hardware register setup and
-> > allow the alpha component to be changed while streaming using the
-> > V4L2_CID_ALPHA_COMPONENT control.
-> > 
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > ---
-> >  drivers/media/platform/rcar-vin/rcar-dma.c  | 30 +++++++++++++++++++++
-> >  drivers/media/platform/rcar-vin/rcar-v4l2.c |  8 ++++++
-> >  2 files changed, 38 insertions(+)
-> > 
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > index 4e991cce5fb56a90..5c0ed27c5d05dd45 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > @@ -111,8 +111,11 @@
-> >  #define VNIE_EFE		(1 << 1)
-> >  
-> >  /* Video n Data Mode Register bits */
-> > +#define VNDMR_A8BIT(n)		((n & 0xff) << 24)
-> > +#define VNDMR_A8BIT_MASK	(0xff << 24)
-> >  #define VNDMR_EXRGB		(1 << 8)
-> >  #define VNDMR_BPSM		(1 << 4)
-> > +#define VNDMR_ABIT		(1 << 2)
-> >  #define VNDMR_DTMD_YCSEP	(1 << 1)
-> >  #define VNDMR_DTMD_ARGB		(1 << 0)
-> >  
-> > @@ -730,6 +733,12 @@ static int rvin_setup(struct rvin_dev *vin)
-> >  		/* Note: not supported on M1 */
-> >  		dmr = VNDMR_EXRGB;
-> >  		break;
-> > +	case V4L2_PIX_FMT_ARGB555:
-> > +		dmr = (vin->alpha ? VNDMR_ABIT : 0) | VNDMR_DTMD_ARGB;
-> > +		break;
-> > +	case V4L2_PIX_FMT_ABGR32:
-> > +		dmr = VNDMR_A8BIT(vin->alpha) | VNDMR_EXRGB | VNDMR_DTMD_ARGB;
-> > +		break;
-> >  	default:
-> >  		vin_err(vin, "Invalid pixelformat (0x%x)\n",
-> >  			vin->format.pixelformat);
-> > @@ -1346,5 +1355,26 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
-> >  
-> >  void rvin_set_alpha(struct rvin_dev *vin, unsigned int alpha)
-> 
-> OK, I now see why you added a rvin_set_alpha() function. It makes sense,
-> but I think you need to protect this with a lock to avoid races between
-> stream start and control set. Or are we already protected by a lock the
-> serialises all V4L2 ioctls for the VIN video node ?
-
-Yes we are protected by the ioctls lock in __video_do_ioctl(), at least 
-that is my interpretation of the code I have not tried to force a race.
-
-> 
-> >  {
-> > +	u32 dmr;
-> > +
-> >  	vin->alpha = alpha;
-> > +
-> > +	if (vin->state == STOPPED)
-> > +		return;
-> > +
-> > +	switch (vin->format.pixelformat) {
-> > +	case V4L2_PIX_FMT_ARGB555:
-> > +		dmr = rvin_read(vin, VNDMR_REG) & ~VNDMR_ABIT;
-> > +		if (vin->alpha)
-> > +			dmr |= VNDMR_ABIT;
-> > +		break;
-> 
-> Should you cache the DNDMR valid to avoid a hardware read ?
-
-It is one possibility, as VNDMR is written to at other locations I would 
-feel better to to this at a later point in time.
-
-I'm currently trying to clean up the rcar-vin driver with regard to how 
-it handles formats a bit different in the devnode and media centric code 
-paths. Once that work is complete a generic way to cache register values 
-could be added on top. I suspect there are other registers then VNDMR 
-which could benefit from such a solution.
-
-> 
-> > +	case V4L2_PIX_FMT_ABGR32:
-> > +		dmr = rvin_read(vin, VNDMR_REG) & ~VNDMR_A8BIT_MASK;
-> > +		dmr |= VNDMR_A8BIT(vin->alpha);
-> > +		break;
-> > +	default:
-> > +		return;
-> > +	}
-> > +
-> > +	rvin_write(vin, dmr,  VNDMR_REG);
-> >  }
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > index 7cbdcbf9b090c638..bb2900f5d000f9a6 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > @@ -54,6 +54,14 @@ static const struct rvin_video_format rvin_formats[] = {
-> >  		.fourcc			= V4L2_PIX_FMT_XBGR32,
-> >  		.bpp			= 4,
-> >  	},
-> > +	{
-> > +		.fourcc			= V4L2_PIX_FMT_ARGB555,
-> > +		.bpp			= 2,
-> > +	},
-> > +	{
-> > +		.fourcc			= V4L2_PIX_FMT_ABGR32,
-> > +		.bpp			= 4,
-> > +	},
-> >  };
-> >  
-> >  const struct rvin_video_format *rvin_format_from_pixel(u32 pixelformat)
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-
--- 
-Regards,
-Niklas Söderlund
+SGkgR2VlcnQsIA0KDQpUaGFua3MgZm9yIHRoZSBmZWVkYmFjay4NCg0KPiBTdWJqZWN0OiBSZTog
+W1BBVENIXSBwaHk6IHJlbmVzYXM6IHBoeS1yY2FyLWdlbjI6IEZpeCB0aGUgYXJyYXkgb2ZmIGJ5
+IG9uZQ0KPiB3YXJuaW5nDQo+IA0KPiBIaSBCaWp1LA0KPiANCj4gT24gV2VkLCBNYXkgMTUsIDIw
+MTkgYXQgMzo1MCBQTSBCaWp1IERhcyA8YmlqdS5kYXNAYnAucmVuZXNhcy5jb20+DQo+IHdyb3Rl
+Og0KPiA+IEZpeCB0aGUgYmVsb3cgc21hdGNoIHdhcm5pbmcgYnkgYWRkaW5nIHZhcmlhYmxlIGNo
+ZWNrIHJhdGhlciB0aGFuIHRoZQ0KPiA+IGhhcmRjb2RlZCB2YWx1ZS4NCj4gPiB3YXJuOiBhcnJh
+eSBvZmYgYnkgb25lPyAnZGF0YS0+c2VsZWN0X3ZhbHVlW2NoYW5uZWxfbnVtXScNCj4gPg0KPiA+
+IFJlcG9ydGVkLWJ5OiBEYW4gQ2FycGVudGVyIDxkYW4uY2FycGVudGVyQG9yYWNsZS5jb20+DQo+
+ID4gU2lnbmVkLW9mZi1ieTogQmlqdSBEYXMgPGJpanUuZGFzQGJwLnJlbmVzYXMuY29tPg0KPiAN
+Cj4gVGhhbmtzIGZvciB5b3VyIHBhdGNoIQ0KPiANCj4gUmV2aWV3ZWQtYnk6IEdlZXJ0IFV5dHRl
+cmhvZXZlbiA8Z2VlcnQrcmVuZXNhc0BnbGlkZXIuYmU+DQo+IA0KPiBXaGlsZSB5b3VyIHBhdGNo
+IGlzIGNvcnJlY3QgKHRvIHRoZSBiZXN0IG9mIG15IGtub3dsZWRnZSksIEkgdGhpbmsgdGhlIGNv
+ZGUNCj4gY2FuIGJlIG1hZGUgbW9yZSBtYWludGFpbmFibGUgYnkgdXNpbmcgQVJSQVlfU0laRSgp
+Lg0KDQpPay4gSSB3aWxsIHNlbmQgVjIuDQoNCj4gPiAtLS0gYS9kcml2ZXJzL3BoeS9yZW5lc2Fz
+L3BoeS1yY2FyLWdlbjIuYw0KPiA+ICsrKyBiL2RyaXZlcnMvcGh5L3JlbmVzYXMvcGh5LXJjYXIt
+Z2VuMi5jDQo+ID4gQEAgLTcxLDYgKzcxLDcgQEAgc3RydWN0IHJjYXJfZ2VuMl9waHlfZHJpdmVy
+IHsgIHN0cnVjdA0KPiA+IHJjYXJfZ2VuMl9waHlfZGF0YSB7DQo+ID4gICAgICAgICBjb25zdCBz
+dHJ1Y3QgcGh5X29wcyAqZ2VuMl9waHlfb3BzOw0KPiA+ICAgICAgICAgY29uc3QgdTMyICgqc2Vs
+ZWN0X3ZhbHVlKVtQSFlTX1BFUl9DSEFOTkVMXTsNCj4gPiArICAgICAgIGNvbnN0IHUzMiBsYXN0
+X2NoYW5uZWw7DQo+IA0KPiBudW1fY2hhbm5lbHM/ICh3aGljaCBpcyBvbmUgbW9yZSB0aGFuIGxh
+c3RfY2hhbm5lbCkNCk9LLg0KDQo+ID4gIH07DQo+ID4NCj4gPiAgc3RhdGljIGludCByY2FyX2dl
+bjJfcGh5X2luaXQoc3RydWN0IHBoeSAqcCkgQEAgLTI3MSwxMSArMjcyLDEzIEBADQo+ID4gc3Rh
+dGljIGNvbnN0IHUzMiB1c2IyMF9zZWxlY3RfdmFsdWVbXVtQSFlTX1BFUl9DSEFOTkVMXSA9IHsg
+IHN0YXRpYw0KPiA+IGNvbnN0IHN0cnVjdCByY2FyX2dlbjJfcGh5X2RhdGEgcmNhcl9nZW4yX3Vz
+Yl9waHlfZGF0YSA9IHsNCj4gPiAgICAgICAgIC5nZW4yX3BoeV9vcHMgPSAmcmNhcl9nZW4yX3Bo
+eV9vcHMsDQo+ID4gICAgICAgICAuc2VsZWN0X3ZhbHVlID0gcGNpX3NlbGVjdF92YWx1ZSwNCj4g
+PiArICAgICAgIC5sYXN0X2NoYW5uZWwgPSAyLA0KPiANCj4gLm51bV9jaGFubmVscyA9IEFSUkFZ
+X1NJWkUocGNpX3NlbGVjdF92YWx1ZSkNCk9LLg0KDQo+ID4gIH07DQo+ID4NCj4gPiAgc3RhdGlj
+IGNvbnN0IHN0cnVjdCByY2FyX2dlbjJfcGh5X2RhdGEgcnpfZzFjX3VzYl9waHlfZGF0YSA9IHsN
+Cj4gPiAgICAgICAgIC5nZW4yX3BoeV9vcHMgPSAmcnpfZzFjX3BoeV9vcHMsDQo+ID4gICAgICAg
+ICAuc2VsZWN0X3ZhbHVlID0gdXNiMjBfc2VsZWN0X3ZhbHVlLA0KPiA+ICsgICAgICAgLmxhc3Rf
+Y2hhbm5lbCA9IDAsDQo+IA0KPiAubnVtX2NoYW5uZWxzID0gQVJSQVlfU0laRSh1c2IyMF9zZWxl
+Y3RfdmFsdWUpDQoNCk9LLg0KPiA+ICB9Ow0KPiA+DQo+ID4gIHN0YXRpYyBjb25zdCBzdHJ1Y3Qg
+b2ZfZGV2aWNlX2lkIHJjYXJfZ2VuMl9waHlfbWF0Y2hfdGFibGVbXSA9IHsgQEANCj4gPiAtMzg5
+LDcgKzM5Miw3IEBAIHN0YXRpYyBpbnQgcmNhcl9nZW4yX3BoeV9wcm9iZShzdHJ1Y3QgcGxhdGZv
+cm1fZGV2aWNlDQo+ICpwZGV2KQ0KPiA+ICAgICAgICAgICAgICAgICBjaGFubmVsLT5zZWxlY3Rl
+ZF9waHkgPSAtMTsNCj4gPg0KPiA+ICAgICAgICAgICAgICAgICBlcnJvciA9IG9mX3Byb3BlcnR5
+X3JlYWRfdTMyKG5wLCAicmVnIiwgJmNoYW5uZWxfbnVtKTsNCj4gPiAtICAgICAgICAgICAgICAg
+aWYgKGVycm9yIHx8IGNoYW5uZWxfbnVtID4gMikgew0KPiA+ICsgICAgICAgICAgICAgICBpZiAo
+ZXJyb3IgfHwgY2hhbm5lbF9udW0gPiBkYXRhLT5sYXN0X2NoYW5uZWwpIHsNCj4gDQo+ID49IGRh
+dGEtPm51bV9jaGFubmVscw0KT0suDQoNCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICBkZXZf
+ZXJyKGRldiwgIkludmFsaWQgXCJyZWdcIiBwcm9wZXJ0eVxuIik7DQo+ID4gICAgICAgICAgICAg
+ICAgICAgICAgICAgcmV0dXJuIGVycm9yOw0KPiA+ICAgICAgICAgICAgICAgICB9DQoNClJlZ2Fy
+ZHMsDQpCaWp1DQo=
