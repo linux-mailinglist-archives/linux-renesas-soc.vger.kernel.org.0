@@ -2,128 +2,198 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AACB820714
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 May 2019 14:40:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25BF620779
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 May 2019 15:01:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726528AbfEPMkb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 May 2019 08:40:31 -0400
-Received: from mail-vk1-f196.google.com ([209.85.221.196]:36011 "EHLO
-        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726389AbfEPMka (ORCPT
+        id S1726801AbfEPNBB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 May 2019 09:01:01 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:43699 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726389AbfEPNBA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 May 2019 08:40:30 -0400
-Received: by mail-vk1-f196.google.com with SMTP id l199so982031vke.3
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 May 2019 05:40:30 -0700 (PDT)
+        Thu, 16 May 2019 09:01:00 -0400
+Received: by mail-lj1-f195.google.com with SMTP id z5so2994215lji.10
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 May 2019 06:00:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=4JQ0cAkm/H+WCmXGpjQHXu6SVKneQy0K3H4IOCbSexI=;
+        b=vnZPXK73jhhfloxa0nmgb4TyoBFzZKYnOSDuq6+fwdBe3iklUIDK/w/IZapy1cf/GF
+         xVGYVvLfXwir/Z/o+mTYDLGYkvpF9p5Kx+iVDxFaqJ9XQuCHC9TtJXumyLcZN3R1R6Pc
+         3akI3hu6SPIEd+aIn/mhBl1ynuO1uOkuXvApnHJ/h4MXgrCIU4Vm5bo9JQgSahViUFAq
+         g1m/2ulyo5hO09pN0ZqG4cunuKxQRWWSTUaGhmL+3XYH5cAn1sO91xr4rBrwVK15yT/+
+         62uyc0if+NVae18S+2xlqXUUIKcqy7chON+anf0yBZuaLBQdpgOGJDw+6g9hbQe293bs
+         Jxvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=btagSI9Gl2/GwBYAPxz9nOxdN5Hj6wET211aITJqodo=;
-        b=S5qhUDQohTOPUEfBGF3gv4PM2hTGzLK/tC2EqCOJGH7G+bDAMVyiz+EDXRWPbzaqy2
-         MFKELpGcDWY7CFYkGs51S/YqlG6EMNia84BWwx3EXFr3NIK5yfPqNvBn7HfbOmzbQYX7
-         43VwbFTUCWUhfPiDn7FxoNjwQa7scUe3FPLFzoBbUh6adjlKojOCYbyaNbZYJFiUM58u
-         cHjAuF4+9TMqLWCT4FTOu9f7aurwTmwL8pi5uoRWTzuTW7K/s8M8gPS5Q6lCmcBn9Kzp
-         w0wYm+1f09CkoA1UgptflnK0UfQmOEjDcRto7dFyUnOm7QpjjdzsZDlRoaPCL1vWCYHz
-         hG2w==
-X-Gm-Message-State: APjAAAVmDf22tzH4697cd7njHz0dWquZnjR4xhC9Xuwv4E1dlv8o9yf9
-        FO23tcrEroIlxLVV21rWD9gkzvhkoC/wgXU9pbPR8rc4
-X-Google-Smtp-Source: APXvYqyyCL8f4vLcCQsduopGb3kyZKqIXSekfaRxdQEcg5jVshpH4W3aBC2PzClodQh1iYsLgyyWgc1CA77F6+++6UY=
-X-Received: by 2002:a1f:c2c1:: with SMTP id s184mr22907966vkf.65.1558010429748;
- Thu, 16 May 2019 05:40:29 -0700 (PDT)
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=4JQ0cAkm/H+WCmXGpjQHXu6SVKneQy0K3H4IOCbSexI=;
+        b=sh+y42F4us2YfRwxJb0qe7z3wX+uqvvrIJfOQ8RXcJy6/NVzWU75DSz1peB9Pgcj3Y
+         Jrw6z/VNsIi4G0KjADvrCHX637d+FLbN/YeaZqw+ZHFS/PGVqQr8hPDhud1ZCCQIopsM
+         r3EGomFsv3oHy4g3xG9sll9LHaw7qjUw3kNau9E622YdogQLHBcxIJs/CzydVL0B+Dl2
+         mUdsud2dNLBPYbiQeMzRxenONmUF73dA85/96w/tjuPMAtrqhC0Jt6Tu4C03/F8C4bN9
+         xBgQ8APWndPSVxlpH/jroy3BLeUwYsDotOqZHVQRhduqMIe0TFRqRLlS2eQR2G4QdN40
+         IARg==
+X-Gm-Message-State: APjAAAWD3BkxEKtHbHXFAbmrwucvBYmdqDLScr1HnEUZ20n6ND6GCGGp
+        QRHG9Mg3rrxpGlGA2u/9jURqqw==
+X-Google-Smtp-Source: APXvYqzalSNSTN5MrqGzlp7ZZ956b+RJC5qohYwGb94Qs84rvqSYrX+nK7hKCjo+COUtsp5u9of6KQ==
+X-Received: by 2002:a2e:85c9:: with SMTP id h9mr11278859ljj.110.1558011658748;
+        Thu, 16 May 2019 06:00:58 -0700 (PDT)
+Received: from localhost (89-233-230-99.cust.bredband2.com. [89.233.230.99])
+        by smtp.gmail.com with ESMTPSA id d23sm892502ljj.38.2019.05.16.06.00.57
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 16 May 2019 06:00:57 -0700 (PDT)
+From:   "Niklas =?iso-8859-1?Q?S=F6derlund?=" <niklas.soderlund@ragnatech.se>
+X-Google-Original-From: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Date:   Thu, 16 May 2019 15:00:57 +0200
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 3/3] rcar-vin: Add support for RGB formats with alpha
+ component
+Message-ID: <20190516130057.GC31788@bigcity.dyn.berto.se>
+References: <20190516004746.3794-1-niklas.soderlund+renesas@ragnatech.se>
+ <20190516004746.3794-4-niklas.soderlund+renesas@ragnatech.se>
+ <20190516100822.GC4995@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <1557927786-29557-1-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1557927786-29557-1-git-send-email-biju.das@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 16 May 2019 14:40:18 +0200
-Message-ID: <CAMuHMdUnMhDyEoFDs05WKU=0PtV2FmAxuGWFhf7ekxfK=Y5gSg@mail.gmail.com>
-Subject: Re: [PATCH] phy: renesas: phy-rcar-gen2: Fix the array off by one warning
-To:     Biju Das <biju.das@bp.renesas.com>
-Cc:     Kishon Vijay Abraham I <kishon@ti.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190516100822.GC4995@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hi Laurent,
 
-On Wed, May 15, 2019 at 3:50 PM Biju Das <biju.das@bp.renesas.com> wrote:
-> Fix the below smatch warning by adding variable check rather than the
-> hardcoded value.
-> warn: array off by one? 'data->select_value[channel_num]'
->
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+Thanks for your feedback.
 
-Thanks for your patch!
+On 2019-05-16 13:08:22 +0300, Laurent Pinchart wrote:
+> Hi Niklas,
+> 
+> Thank you for the patch.
+> 
+> On Thu, May 16, 2019 at 02:47:46AM +0200, Niklas Söderlund wrote:
+> > The R-Car VIN module supports V4L2_PIX_FMT_ARGB555 and
+> > V4L2_PIX_FMT_ABGR32 pixel formats. Add the hardware register setup and
+> > allow the alpha component to be changed while streaming using the
+> > V4L2_CID_ALPHA_COMPONENT control.
+> > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >  drivers/media/platform/rcar-vin/rcar-dma.c  | 30 +++++++++++++++++++++
+> >  drivers/media/platform/rcar-vin/rcar-v4l2.c |  8 ++++++
+> >  2 files changed, 38 insertions(+)
+> > 
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> > index 4e991cce5fb56a90..5c0ed27c5d05dd45 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> > @@ -111,8 +111,11 @@
+> >  #define VNIE_EFE		(1 << 1)
+> >  
+> >  /* Video n Data Mode Register bits */
+> > +#define VNDMR_A8BIT(n)		((n & 0xff) << 24)
+> > +#define VNDMR_A8BIT_MASK	(0xff << 24)
+> >  #define VNDMR_EXRGB		(1 << 8)
+> >  #define VNDMR_BPSM		(1 << 4)
+> > +#define VNDMR_ABIT		(1 << 2)
+> >  #define VNDMR_DTMD_YCSEP	(1 << 1)
+> >  #define VNDMR_DTMD_ARGB		(1 << 0)
+> >  
+> > @@ -730,6 +733,12 @@ static int rvin_setup(struct rvin_dev *vin)
+> >  		/* Note: not supported on M1 */
+> >  		dmr = VNDMR_EXRGB;
+> >  		break;
+> > +	case V4L2_PIX_FMT_ARGB555:
+> > +		dmr = (vin->alpha ? VNDMR_ABIT : 0) | VNDMR_DTMD_ARGB;
+> > +		break;
+> > +	case V4L2_PIX_FMT_ABGR32:
+> > +		dmr = VNDMR_A8BIT(vin->alpha) | VNDMR_EXRGB | VNDMR_DTMD_ARGB;
+> > +		break;
+> >  	default:
+> >  		vin_err(vin, "Invalid pixelformat (0x%x)\n",
+> >  			vin->format.pixelformat);
+> > @@ -1346,5 +1355,26 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
+> >  
+> >  void rvin_set_alpha(struct rvin_dev *vin, unsigned int alpha)
+> 
+> OK, I now see why you added a rvin_set_alpha() function. It makes sense,
+> but I think you need to protect this with a lock to avoid races between
+> stream start and control set. Or are we already protected by a lock the
+> serialises all V4L2 ioctls for the VIN video node ?
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Yes we are protected by the ioctls lock in __video_do_ioctl(), at least 
+that is my interpretation of the code I have not tried to force a race.
 
-While your patch is correct (to the best of my knowledge), I think the
-code can be made more maintainable by using ARRAY_SIZE().
+> 
+> >  {
+> > +	u32 dmr;
+> > +
+> >  	vin->alpha = alpha;
+> > +
+> > +	if (vin->state == STOPPED)
+> > +		return;
+> > +
+> > +	switch (vin->format.pixelformat) {
+> > +	case V4L2_PIX_FMT_ARGB555:
+> > +		dmr = rvin_read(vin, VNDMR_REG) & ~VNDMR_ABIT;
+> > +		if (vin->alpha)
+> > +			dmr |= VNDMR_ABIT;
+> > +		break;
+> 
+> Should you cache the DNDMR valid to avoid a hardware read ?
 
-> --- a/drivers/phy/renesas/phy-rcar-gen2.c
-> +++ b/drivers/phy/renesas/phy-rcar-gen2.c
-> @@ -71,6 +71,7 @@ struct rcar_gen2_phy_driver {
->  struct rcar_gen2_phy_data {
->         const struct phy_ops *gen2_phy_ops;
->         const u32 (*select_value)[PHYS_PER_CHANNEL];
-> +       const u32 last_channel;
+It is one possibility, as VNDMR is written to at other locations I would 
+feel better to to this at a later point in time.
 
-num_channels? (which is one more than last_channel)
+I'm currently trying to clean up the rcar-vin driver with regard to how 
+it handles formats a bit different in the devnode and media centric code 
+paths. Once that work is complete a generic way to cache register values 
+could be added on top. I suspect there are other registers then VNDMR 
+which could benefit from such a solution.
 
->  };
->
->  static int rcar_gen2_phy_init(struct phy *p)
-> @@ -271,11 +272,13 @@ static const u32 usb20_select_value[][PHYS_PER_CHANNEL] = {
->  static const struct rcar_gen2_phy_data rcar_gen2_usb_phy_data = {
->         .gen2_phy_ops = &rcar_gen2_phy_ops,
->         .select_value = pci_select_value,
-> +       .last_channel = 2,
-
-.num_channels = ARRAY_SIZE(pci_select_value)
-
->  };
->
->  static const struct rcar_gen2_phy_data rz_g1c_usb_phy_data = {
->         .gen2_phy_ops = &rz_g1c_phy_ops,
->         .select_value = usb20_select_value,
-> +       .last_channel = 0,
-
-.num_channels = ARRAY_SIZE(usb20_select_value)
-
->  };
->
->  static const struct of_device_id rcar_gen2_phy_match_table[] = {
-> @@ -389,7 +392,7 @@ static int rcar_gen2_phy_probe(struct platform_device *pdev)
->                 channel->selected_phy = -1;
->
->                 error = of_property_read_u32(np, "reg", &channel_num);
-> -               if (error || channel_num > 2) {
-> +               if (error || channel_num > data->last_channel) {
-
->= data->num_channels
-
->                         dev_err(dev, "Invalid \"reg\" property\n");
->                         return error;
->                 }
-
-Gr{oetje,eeting}s,
-
-                        Geert
+> 
+> > +	case V4L2_PIX_FMT_ABGR32:
+> > +		dmr = rvin_read(vin, VNDMR_REG) & ~VNDMR_A8BIT_MASK;
+> > +		dmr |= VNDMR_A8BIT(vin->alpha);
+> > +		break;
+> > +	default:
+> > +		return;
+> > +	}
+> > +
+> > +	rvin_write(vin, dmr,  VNDMR_REG);
+> >  }
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > index 7cbdcbf9b090c638..bb2900f5d000f9a6 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > @@ -54,6 +54,14 @@ static const struct rvin_video_format rvin_formats[] = {
+> >  		.fourcc			= V4L2_PIX_FMT_XBGR32,
+> >  		.bpp			= 4,
+> >  	},
+> > +	{
+> > +		.fourcc			= V4L2_PIX_FMT_ARGB555,
+> > +		.bpp			= 2,
+> > +	},
+> > +	{
+> > +		.fourcc			= V4L2_PIX_FMT_ABGR32,
+> > +		.bpp			= 4,
+> > +	},
+> >  };
+> >  
+> >  const struct rvin_video_format *rvin_format_from_pixel(u32 pixelformat)
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Regards,
+Niklas Söderlund
