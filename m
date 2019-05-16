@@ -2,81 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AFBF82080D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 May 2019 15:25:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 013DF20816
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 May 2019 15:27:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727069AbfEPNZg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 May 2019 09:25:36 -0400
-Received: from sauhun.de ([88.99.104.3]:41868 "EHLO pokefinder.org"
+        id S1726923AbfEPN1E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 May 2019 09:27:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59574 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726717AbfEPNZg (ORCPT
+        id S1726742AbfEPN1E (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 May 2019 09:25:36 -0400
-Received: from localhost (p54B334EA.dip0.t-ipconnect.de [84.179.52.234])
-        by pokefinder.org (Postfix) with ESMTPSA id 880F82C04C2;
-        Thu, 16 May 2019 15:25:34 +0200 (CEST)
-Date:   Thu, 16 May 2019 15:25:34 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Biju Das <biju.das@bp.renesas.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Thu, 16 May 2019 09:27:04 -0400
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3031C21734;
+        Thu, 16 May 2019 13:27:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558013223;
+        bh=zEFdoInrSu3w4wszosiHwA5hrPeEyDrnKLKZLKu+oow=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=FKFchKCzGYAA0qrYlNLrhBBoLziA8Qm8XW1eejQ/Pic/iSQAYvB/TY66dKlaTeEXz
+         rDSgI+u5JM5pCPch1jMH59NVvH2xn51LD4UT7xpOWZBwNQJJlXbajjbu0W8WxlxvkL
+         yddx0cPeXRg2I1W02zMw9L94lwdQtuMSLLzjqTL0=
+Received: by mail-qk1-f177.google.com with SMTP id d10so2231839qko.4;
+        Thu, 16 May 2019 06:27:03 -0700 (PDT)
+X-Gm-Message-State: APjAAAXyHIJAA20Z1Td0+Ytqi9E+itTtX/CnQQoBQLN7h/8+KslAw79n
+        nTI5QAdbMfNh8/Lu9xIKvT+9i/0c8lbfGCVRzA==
+X-Google-Smtp-Source: APXvYqz882BYvIjG1PBCKdxbGNuYx/9DtP7e/wTxIKnWhMHtvFhKWfNav3sowYfhMHzDpQ7AFfYuV8thXD8HGlRsEbU=
+X-Received: by 2002:a05:620a:16c8:: with SMTP id a8mr25728481qkn.4.1558013222345;
+ Thu, 16 May 2019 06:27:02 -0700 (PDT)
+MIME-Version: 1.0
+References: <1557938083-25423-1-git-send-email-fabrizio.castro@bp.renesas.com> <1557938083-25423-3-git-send-email-fabrizio.castro@bp.renesas.com>
+In-Reply-To: <1557938083-25423-3-git-send-email-fabrizio.castro@bp.renesas.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Thu, 16 May 2019 08:26:51 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKZNPGwTp3OR7E-05cA5Kh5+2TmaP5c3ryOoX_V-FbmLw@mail.gmail.com>
+Message-ID: <CAL_JsqKZNPGwTp3OR7E-05cA5Kh5+2TmaP5c3ryOoX_V-FbmLw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] dt-bindings: arm: renesas: Add HopeRun RZ/G2[M] boards
+To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
         Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Thierry Reding <treding@nvidia.com>,
+        =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>, devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] phy: renesas: phy-rcar-gen2: Fix the array off by one
- warning
-Message-ID: <20190516132534.GB2832@kunai>
-References: <1557927786-29557-1-git-send-email-biju.das@bp.renesas.com>
- <20190516121659.GA2832@kunai>
- <CAMuHMdUpqbQ=3hBzt9nYfy-jwSbPQ9kF8Q-org=fecR_RiDN4A@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="3lcZGd9BuhuYXNfi"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUpqbQ=3hBzt9nYfy-jwSbPQ9kF8Q-org=fecR_RiDN4A@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Biju Das <biju.das@bp.renesas.com>, xu_shunji@hoperun.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Wed, May 15, 2019 at 11:35 AM Fabrizio Castro
+<fabrizio.castro@bp.renesas.com> wrote:
+>
+> This patch adds board HiHope RZ/G2M (the main board, powered by
+> the R8A774A1) and board HiHope RZ/G2 EX (the expansion board
+> that sits on top of the HiHope RZ/G2M). Both boards are made
+> by Jiangsu HopeRun Software Co., Ltd. (a.k.a. HopeRun).
+>
+> Useful links:
+> http://hihope.org/product/detail/rzg2
+> https://item.taobao.com/item.htm?spm=a2oq0.12575281.0.0.6bcf1debQpzkRS&ft=t&id=592177498472
+> http://www.hoperun.com/Cn/news/id/379
+>
+> We already know that the HiHope RZ/G2 EX will also sit on the
+> HiHope RZ/G2N, even though the HiHope RZ/G2N doesn't exist just
+> yet.
+>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
+>
+> ---
+> v1->v2:
+> * Fixed according to Rob's comments
+>
+>  Documentation/devicetree/bindings/arm/renesas.yaml | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 
---3lcZGd9BuhuYXNfi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-
-> SoC-specific structs differ, and at this point in the code, we just have a
-> pointer, not a fixed-size array. So you cannot use ARRAY_SIZE().
-
-Right, just a pointer. But well, you found a middle path for ARRAY_SIZE.
-Thanks!
-
-
---3lcZGd9BuhuYXNfi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAlzdZMoACgkQFA3kzBSg
-KbZb/BAAgprGb31sBOakW/CJSDtTglT1A2SR6MisiZ6fm6Oeki9SuTZ5QB4dhmnJ
-Qj6FbnUGlDF+ZDfz0XeQw5+Qh1WtTQPFtNwl/Xiqn8dqCcGFxsrF9bK2GwNS3yp7
-z6/QSlqCxS5qVKv+ccWPoWWny9wYC2p9lTMhErJxsKHqNW3melywtEYMvVSt2624
-vQtrdeCBu3FCEh0eEaX5LGys95zGsIc3SNbMpx5Oeh6y53UCiA8DDimNKKK1T4Hi
-s4kqvCpamPUgnHiQnaneqZt5UEg2ySuDj/6LlGdtZJF67RlI3XzZYEKlnfrp3rYs
-3o1ZHQydLpQAI3fnPxKz24pkZJugzn6gWJJMLF/ThJW+T/n7Tjdy6LS54/Yvr/Qd
-eUzY78pNZlOopX+6PJWGa1TtmTPl05dnI9DInl7yQonQmwNlcfJ9rQJKTlEdhKL9
-z8C3HPDYZRADQ+nMJcDUe+jZb7y6eMZYzITZhR1V5rT7+Dv3s8P65PXnEf9aDpHv
-6jzU0xu5mhzY8VrnfNY1QxdeYSXHH9gEvnNix1TKOPWD3FaKvntUGb87Oxf4rtwu
-HEG2Y5V9XKe6gCx81O3rDR9UJBDHVssJw93sLPbGF18fMDOe/K32RedAjiUp5vRq
-a1aJBp0Hob0PxZiwza6xXLdBZVpCxqnYCOrUPk/Woeb+9fcmhfI=
-=lmbc
------END PGP SIGNATURE-----
-
---3lcZGd9BuhuYXNfi--
+Reviewed-by: Rob Herring <robh@kernel.org>
