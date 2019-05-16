@@ -2,79 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A06B01F9DA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 May 2019 20:24:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4DC11FD41
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 May 2019 03:48:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726466AbfEOSYA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 May 2019 14:24:00 -0400
-Received: from sauhun.de ([88.99.104.3]:57916 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726084AbfEOSYA (ORCPT
+        id S1727525AbfEPBqf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 May 2019 21:46:35 -0400
+Received: from vsp-unauthed02.binero.net ([195.74.38.227]:30864 "EHLO
+        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726790AbfEPAfx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 May 2019 14:24:00 -0400
-Received: from localhost (p54B332CD.dip0.t-ipconnect.de [84.179.50.205])
-        by pokefinder.org (Postfix) with ESMTPSA id E7D862C009E;
-        Wed, 15 May 2019 20:23:57 +0200 (CEST)
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-mmc@vger.kernel.org
+        Wed, 15 May 2019 20:35:53 -0400
+X-Halon-ID: 863493b3-7772-11e9-8601-0050569116f7
+Authorized-sender: niklas@soderlund.pp.se
+Received: from bismarck.berto.se (unknown [89.233.230.99])
+        by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
+        id 863493b3-7772-11e9-8601-0050569116f7;
+        Thu, 16 May 2019 02:35:47 +0200 (CEST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
 Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Takeshi Saito <takeshi.saito.xv@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH] mmc: tmio: fix SCC error handling to avoid false positive CRC error
-Date:   Wed, 15 May 2019 20:23:46 +0200
-Message-Id: <20190515182346.5292-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.11.0
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        kbuild test robot <lkp@intel.com>
+Subject: [PATCH] rcar-csi2: Fix coccinelle warning for PTR_ERR_OR_ZERO()
+Date:   Thu, 16 May 2019 02:35:38 +0200
+Message-Id: <20190516003538.32172-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Takeshi Saito <takeshi.saito.xv@renesas.com>
+Use the PTR_ERR_OR_ZERO() macro instead of construct:
 
-If an SCC error occurs during a read/write command execution, a false
-positive CRC error message is output.
+    if (IS_ERR(foo))
+        return PTR_ERR(foo);
 
-mmcblk0: response CRC error sending r/w cmd command, card status 0x900
+    return 0;
 
-check_scc_error() checks SCC_RVSREQ.RVSERR bit. RVSERR detects a
-correction error in the next (up or down) delay tap position. However,
-since the command is successful, only retuning needs to be executed.
-This has been confirmed by HW engineers.
-
-Thus, on SCC error, set retuning flag instead of setting an error code.
-
-Fixes: b85fb0a1c8ae ("mmc: tmio: Fix SCC error detection")
-Signed-off-by: Takeshi Saito <takeshi.saito.xv@renesas.com>
-[wsa: updated comment and commit message, removed some braces]
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reported-by: kbuild test robot <lkp@intel.com>
+Fixes: 3ae854cafd76 ("rcar-csi2: Use standby mode instead of resetting")
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
+ drivers/media/platform/rcar-vin/rcar-csi2.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-This patch was suggested by the BSP team because they were seeing CRC errors
-with a hardware I don't have access to. I tested this with my R-Car H3-ES2.0
-and M3-N (both Salvator-XS), and things were still running fine. But I suggest
-to wait for a final ack from Shimoda-san or someone from the BSP team.
-
-
- drivers/mmc/host/tmio_mmc_core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
-index 595949f1f001..78cc2a928efe 100644
---- a/drivers/mmc/host/tmio_mmc_core.c
-+++ b/drivers/mmc/host/tmio_mmc_core.c
-@@ -842,8 +842,9 @@ static void tmio_mmc_finish_request(struct tmio_mmc_host *host)
- 	if (mrq->cmd->error || (mrq->data && mrq->data->error))
- 		tmio_mmc_abort_dma(host);
+diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+index 8f097e514900307f..c14af1b929dffd34 100644
+--- a/drivers/media/platform/rcar-vin/rcar-csi2.c
++++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+@@ -1019,10 +1019,8 @@ static int rcsi2_probe_resources(struct rcar_csi2 *priv,
+ 		return ret;
  
-+	/* SCC error means retune, but executed command was still successful */
- 	if (host->check_scc_error && host->check_scc_error(host))
--		mrq->cmd->error = -EILSEQ;
-+		mmc_retune_needed(host->mmc);
+ 	priv->rstc = devm_reset_control_get(&pdev->dev, NULL);
+-	if (IS_ERR(priv->rstc))
+-		return PTR_ERR(priv->rstc);
  
- 	/* If SET_BLOCK_COUNT, continue with main command */
- 	if (host->mrq && !mrq->cmd->error) {
+-	return 0;
++	return PTR_ERR_OR_ZERO(priv->rstc);
+ }
+ 
+ static const struct rcar_csi2_info rcar_csi2_info_r8a7795 = {
 -- 
-2.11.0
+2.21.0
 
