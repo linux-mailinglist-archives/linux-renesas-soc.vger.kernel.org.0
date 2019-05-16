@@ -2,129 +2,268 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A337C2078E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 May 2019 15:03:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDA252078F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 May 2019 15:04:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727061AbfEPND5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 May 2019 09:03:57 -0400
-Received: from mail-eopbgr1410121.outbound.protection.outlook.com ([40.107.141.121]:15392
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726623AbfEPND5 (ORCPT
+        id S1726692AbfEPNEe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 May 2019 09:04:34 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:38591 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726389AbfEPNEe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 May 2019 09:03:57 -0400
+        Thu, 16 May 2019 09:04:34 -0400
+Received: by mail-lf1-f66.google.com with SMTP id y19so2587935lfy.5
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 16 May 2019 06:04:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector1-bp-renesas-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PQJ0mumZwp3bkDOD0To3Pf/auTnRQSxHC6Ub6/weG0Y=;
- b=aM4hNsu3RgprdcTg6DqhLyPOZqXeDQo3NoUQ8v6hzdRF8jg+znrG5R4ck8QI4gBe04tvFGnfvKpJ/M7c4otdsaiQ9TYn7Pz2qHyaGbN6KKHZa8gsLle/odjgLcrsaVK7yqk/QPsK19rKCmFMC6Gv/0CvnJY9V2zzHvhoMoFIVpM=
-Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com (52.134.242.17) by
- OSBPR01MB4808.jpnprd01.prod.outlook.com (20.179.182.145) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1878.24; Thu, 16 May 2019 13:03:51 +0000
-Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com
- ([fe80::a146:39f0:5df9:11bc]) by OSBPR01MB2103.jpnprd01.prod.outlook.com
- ([fe80::a146:39f0:5df9:11bc%7]) with mapi id 15.20.1878.024; Thu, 16 May 2019
- 13:03:51 +0000
-From:   Biju Das <biju.das@bp.renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Kishon Vijay Abraham I <kishon@ti.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH] phy: renesas: phy-rcar-gen2: Fix the array off by one
- warning
-Thread-Topic: [PATCH] phy: renesas: phy-rcar-gen2: Fix the array off by one
- warning
-Thread-Index: AQHVCyUpvBbBPGrYP0S5NxoVhRdkraZtsr4AgAAAtVA=
-Date:   Thu, 16 May 2019 13:03:51 +0000
-Message-ID: <OSBPR01MB21033D45103D667F4EFD7877B80A0@OSBPR01MB2103.jpnprd01.prod.outlook.com>
-References: <1557927786-29557-1-git-send-email-biju.das@bp.renesas.com>
- <CAMuHMdUnMhDyEoFDs05WKU=0PtV2FmAxuGWFhf7ekxfK=Y5gSg@mail.gmail.com>
-In-Reply-To: <CAMuHMdUnMhDyEoFDs05WKU=0PtV2FmAxuGWFhf7ekxfK=Y5gSg@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=biju.das@bp.renesas.com; 
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a26bebb2-09ab-4177-7ee1-08d6d9fef194
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB4808;
-x-ms-traffictypediagnostic: OSBPR01MB4808:
-x-microsoft-antispam-prvs: <OSBPR01MB4808C52EFBD0103D397506ECB80A0@OSBPR01MB4808.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 0039C6E5C5
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(396003)(366004)(376002)(136003)(346002)(189003)(199004)(51914003)(76116006)(486006)(6436002)(478600001)(68736007)(71190400001)(71200400001)(86362001)(52536014)(446003)(14454004)(99286004)(54906003)(476003)(7696005)(316002)(74316002)(5660300002)(7736002)(55016002)(305945005)(11346002)(66446008)(9686003)(25786009)(66476007)(66556008)(64756008)(6916009)(14444005)(229853002)(73956011)(66946007)(44832011)(256004)(6116002)(2906002)(186003)(81156014)(6246003)(81166006)(3846002)(4326008)(26005)(53936002)(8936002)(8676002)(66066001)(76176011)(6506007)(53546011)(33656002)(102836004);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB4808;H:OSBPR01MB2103.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
-received-spf: None (protection.outlook.com: bp.renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: zr1STlDdICoBN7U45JeDPHhMfYMYdDLPWEXPgauiD/UocaXTFWFbZ+LBJ7MItuO/mkrVSj/Y72cdTxgaUn4ng1QThFWPOvT/EqlorXVLQqTm3j4BykFnI9zp8QOS2vTGeyv4JkFGOPQTmtyCNveerXV8H0AeW1RO/SS3+s2mq0BYHR1guCyFadYqA4YuWKvHjrkOn5YVqxojNV/zAQXwb6M0vIynKjnUOCs+ea7APws3rN40172LSy9YMx8Dn4M13vhJYw71TVF4JHUdwJtIeB7Zoa5mgug3y1rm+BRcgxodbyz3pbiDj3ton6veqZijB8EuxMv7OhNThpNfbky8ayHKPMwo9MtXEuiSgS0XbBtOVj14pXpTcr/jTFbjB6wmSXTgMZ9B3hIRQboHv+pqBO7W2Zm6rrx0CmirlLe9RUM=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=QmYIA/bPPfJ5nYfReI91DNvI6fTYoBR5zHF++KGo7ME=;
+        b=nIbyg0XFxHaLbZPsvZRKM+PonaSRycdwm6iL0UY9N/ERxbrB3oPc0R3vIEHlYFCsTD
+         NwI1d74u2yAgf56C9T5DGq8h4+oLD87YW0Q5snzeUtx3luMlbNISgQdwcnkqdbBVOkWo
+         k2RTsA5nxfiJbpoosX+PKVI+EcgiE/mKPWkfxo3K/JsP/cREJeFu+fR5+3b8gedUZHRY
+         PwIB8Ag8I33N4D/lGlu15WktgCQDAj3iWo6mOZQzwcFqswPDL0WH761+j5Oty8l+n/7z
+         0VqZ8WnbNggLk227V7UzI+LLAsBrqYeYTOeoFzEm0CbU/0NrzJhzwurDCor4duJ3HNE/
+         h97A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=QmYIA/bPPfJ5nYfReI91DNvI6fTYoBR5zHF++KGo7ME=;
+        b=qPQEFqBd4eZH4nLPjPgc9nZHiHLq4GaHeEZyn0ZX+4NXc7+Nw4UrAMayyBZjijMVeQ
+         UOwFuznidQUm8GRFpAIkLHO7q5/v85oRT5MT6GY2uEpbgxshHFgxVid2kqacZUipTJ7n
+         KSEaX9GLuc40M4I/7tBTQ0e3xfVK9QjzPl1kU6jtLysivk5ciYeJ8aK6pOvnyfGuYvbA
+         TJVcVlvY5idio1AcYxjlI+asWqWCmnhY0VKkpAlparDgJJe5j1ZgZnEQItBqL93MAm5S
+         ya/lkAkn67XjcxxvbCMvQlBpThrLrM/AkSBbV4xP17WYQWq3zyfet7M5omy10R90SNth
+         uLZg==
+X-Gm-Message-State: APjAAAXLm7FE7N+M7ULW9tumfImwll0RWV9Qr1CeWWS8ESkMkE4DN8xU
+        ADrOAtgwRD2yD+/URGg5zpvUkg==
+X-Google-Smtp-Source: APXvYqwDbpUJ/DrOxZitsTSTcx9JCIZK4sqvQioDBeIuF+JNPxz3DCq5SeDzlStI3CIL3X6U7eZ1+w==
+X-Received: by 2002:ac2:5505:: with SMTP id j5mr19953711lfk.60.1558011871113;
+        Thu, 16 May 2019 06:04:31 -0700 (PDT)
+Received: from localhost (89-233-230-99.cust.bredband2.com. [89.233.230.99])
+        by smtp.gmail.com with ESMTPSA id k18sm869760ljk.70.2019.05.16.06.04.30
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 16 May 2019 06:04:30 -0700 (PDT)
+From:   "Niklas =?iso-8859-1?Q?S=F6derlund?=" <niklas.soderlund@ragnatech.se>
+X-Google-Original-From: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Date:   Thu, 16 May 2019 15:04:30 +0200
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/3] rcar-vin: Add control for alpha component
+Message-ID: <20190516130430.GD31788@bigcity.dyn.berto.se>
+References: <20190516004746.3794-1-niklas.soderlund+renesas@ragnatech.se>
+ <20190516004746.3794-3-niklas.soderlund+renesas@ragnatech.se>
+ <20190516100138.GB4995@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a26bebb2-09ab-4177-7ee1-08d6d9fef194
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 May 2019 13:03:51.5346
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB4808
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190516100138.GB4995@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgR2VlcnQsIA0KDQpUaGFua3MgZm9yIHRoZSBmZWVkYmFjay4NCg0KPiBTdWJqZWN0OiBSZTog
-W1BBVENIXSBwaHk6IHJlbmVzYXM6IHBoeS1yY2FyLWdlbjI6IEZpeCB0aGUgYXJyYXkgb2ZmIGJ5
-IG9uZQ0KPiB3YXJuaW5nDQo+IA0KPiBIaSBCaWp1LA0KPiANCj4gT24gV2VkLCBNYXkgMTUsIDIw
-MTkgYXQgMzo1MCBQTSBCaWp1IERhcyA8YmlqdS5kYXNAYnAucmVuZXNhcy5jb20+DQo+IHdyb3Rl
-Og0KPiA+IEZpeCB0aGUgYmVsb3cgc21hdGNoIHdhcm5pbmcgYnkgYWRkaW5nIHZhcmlhYmxlIGNo
-ZWNrIHJhdGhlciB0aGFuIHRoZQ0KPiA+IGhhcmRjb2RlZCB2YWx1ZS4NCj4gPiB3YXJuOiBhcnJh
-eSBvZmYgYnkgb25lPyAnZGF0YS0+c2VsZWN0X3ZhbHVlW2NoYW5uZWxfbnVtXScNCj4gPg0KPiA+
-IFJlcG9ydGVkLWJ5OiBEYW4gQ2FycGVudGVyIDxkYW4uY2FycGVudGVyQG9yYWNsZS5jb20+DQo+
-ID4gU2lnbmVkLW9mZi1ieTogQmlqdSBEYXMgPGJpanUuZGFzQGJwLnJlbmVzYXMuY29tPg0KPiAN
-Cj4gVGhhbmtzIGZvciB5b3VyIHBhdGNoIQ0KPiANCj4gUmV2aWV3ZWQtYnk6IEdlZXJ0IFV5dHRl
-cmhvZXZlbiA8Z2VlcnQrcmVuZXNhc0BnbGlkZXIuYmU+DQo+IA0KPiBXaGlsZSB5b3VyIHBhdGNo
-IGlzIGNvcnJlY3QgKHRvIHRoZSBiZXN0IG9mIG15IGtub3dsZWRnZSksIEkgdGhpbmsgdGhlIGNv
-ZGUNCj4gY2FuIGJlIG1hZGUgbW9yZSBtYWludGFpbmFibGUgYnkgdXNpbmcgQVJSQVlfU0laRSgp
-Lg0KDQpPay4gSSB3aWxsIHNlbmQgVjIuDQoNCj4gPiAtLS0gYS9kcml2ZXJzL3BoeS9yZW5lc2Fz
-L3BoeS1yY2FyLWdlbjIuYw0KPiA+ICsrKyBiL2RyaXZlcnMvcGh5L3JlbmVzYXMvcGh5LXJjYXIt
-Z2VuMi5jDQo+ID4gQEAgLTcxLDYgKzcxLDcgQEAgc3RydWN0IHJjYXJfZ2VuMl9waHlfZHJpdmVy
-IHsgIHN0cnVjdA0KPiA+IHJjYXJfZ2VuMl9waHlfZGF0YSB7DQo+ID4gICAgICAgICBjb25zdCBz
-dHJ1Y3QgcGh5X29wcyAqZ2VuMl9waHlfb3BzOw0KPiA+ICAgICAgICAgY29uc3QgdTMyICgqc2Vs
-ZWN0X3ZhbHVlKVtQSFlTX1BFUl9DSEFOTkVMXTsNCj4gPiArICAgICAgIGNvbnN0IHUzMiBsYXN0
-X2NoYW5uZWw7DQo+IA0KPiBudW1fY2hhbm5lbHM/ICh3aGljaCBpcyBvbmUgbW9yZSB0aGFuIGxh
-c3RfY2hhbm5lbCkNCk9LLg0KDQo+ID4gIH07DQo+ID4NCj4gPiAgc3RhdGljIGludCByY2FyX2dl
-bjJfcGh5X2luaXQoc3RydWN0IHBoeSAqcCkgQEAgLTI3MSwxMSArMjcyLDEzIEBADQo+ID4gc3Rh
-dGljIGNvbnN0IHUzMiB1c2IyMF9zZWxlY3RfdmFsdWVbXVtQSFlTX1BFUl9DSEFOTkVMXSA9IHsg
-IHN0YXRpYw0KPiA+IGNvbnN0IHN0cnVjdCByY2FyX2dlbjJfcGh5X2RhdGEgcmNhcl9nZW4yX3Vz
-Yl9waHlfZGF0YSA9IHsNCj4gPiAgICAgICAgIC5nZW4yX3BoeV9vcHMgPSAmcmNhcl9nZW4yX3Bo
-eV9vcHMsDQo+ID4gICAgICAgICAuc2VsZWN0X3ZhbHVlID0gcGNpX3NlbGVjdF92YWx1ZSwNCj4g
-PiArICAgICAgIC5sYXN0X2NoYW5uZWwgPSAyLA0KPiANCj4gLm51bV9jaGFubmVscyA9IEFSUkFZ
-X1NJWkUocGNpX3NlbGVjdF92YWx1ZSkNCk9LLg0KDQo+ID4gIH07DQo+ID4NCj4gPiAgc3RhdGlj
-IGNvbnN0IHN0cnVjdCByY2FyX2dlbjJfcGh5X2RhdGEgcnpfZzFjX3VzYl9waHlfZGF0YSA9IHsN
-Cj4gPiAgICAgICAgIC5nZW4yX3BoeV9vcHMgPSAmcnpfZzFjX3BoeV9vcHMsDQo+ID4gICAgICAg
-ICAuc2VsZWN0X3ZhbHVlID0gdXNiMjBfc2VsZWN0X3ZhbHVlLA0KPiA+ICsgICAgICAgLmxhc3Rf
-Y2hhbm5lbCA9IDAsDQo+IA0KPiAubnVtX2NoYW5uZWxzID0gQVJSQVlfU0laRSh1c2IyMF9zZWxl
-Y3RfdmFsdWUpDQoNCk9LLg0KPiA+ICB9Ow0KPiA+DQo+ID4gIHN0YXRpYyBjb25zdCBzdHJ1Y3Qg
-b2ZfZGV2aWNlX2lkIHJjYXJfZ2VuMl9waHlfbWF0Y2hfdGFibGVbXSA9IHsgQEANCj4gPiAtMzg5
-LDcgKzM5Miw3IEBAIHN0YXRpYyBpbnQgcmNhcl9nZW4yX3BoeV9wcm9iZShzdHJ1Y3QgcGxhdGZv
-cm1fZGV2aWNlDQo+ICpwZGV2KQ0KPiA+ICAgICAgICAgICAgICAgICBjaGFubmVsLT5zZWxlY3Rl
-ZF9waHkgPSAtMTsNCj4gPg0KPiA+ICAgICAgICAgICAgICAgICBlcnJvciA9IG9mX3Byb3BlcnR5
-X3JlYWRfdTMyKG5wLCAicmVnIiwgJmNoYW5uZWxfbnVtKTsNCj4gPiAtICAgICAgICAgICAgICAg
-aWYgKGVycm9yIHx8IGNoYW5uZWxfbnVtID4gMikgew0KPiA+ICsgICAgICAgICAgICAgICBpZiAo
-ZXJyb3IgfHwgY2hhbm5lbF9udW0gPiBkYXRhLT5sYXN0X2NoYW5uZWwpIHsNCj4gDQo+ID49IGRh
-dGEtPm51bV9jaGFubmVscw0KT0suDQoNCj4gPiAgICAgICAgICAgICAgICAgICAgICAgICBkZXZf
-ZXJyKGRldiwgIkludmFsaWQgXCJyZWdcIiBwcm9wZXJ0eVxuIik7DQo+ID4gICAgICAgICAgICAg
-ICAgICAgICAgICAgcmV0dXJuIGVycm9yOw0KPiA+ICAgICAgICAgICAgICAgICB9DQoNClJlZ2Fy
-ZHMsDQpCaWp1DQo=
+Hi Laurent,
+
+Thanks for your feedback.
+
+On 2019-05-16 13:01:38 +0300, Laurent Pinchart wrote:
+> Hi Niklas,
+> 
+> Thank you for the patch.
+> 
+> On Thu, May 16, 2019 at 02:47:45AM +0200, Niklas Söderlund wrote:
+> > In preparation to adding support for RGB pixel formats with an alpha
+> > component add a control to allow the user to control which alpha value
+> > should be used.
+> > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >  drivers/media/platform/rcar-vin/rcar-core.c | 53 ++++++++++++++++++++-
+> >  drivers/media/platform/rcar-vin/rcar-dma.c  |  5 ++
+> >  drivers/media/platform/rcar-vin/rcar-vin.h  |  5 ++
+> >  3 files changed, 61 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+> > index 64f9cf790445d14e..ee6e6cb39c749675 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> > @@ -389,6 +389,28 @@ static void rvin_group_put(struct rvin_dev *vin)
+> >  	kref_put(&group->refcount, rvin_group_release);
+> >  }
+> >  
+> > +/* -----------------------------------------------------------------------------
+> > + * Controls
+> > + */
+> > +
+> > +static int rvin_s_ctrl(struct v4l2_ctrl *ctrl)
+> > +{
+> > +	struct rvin_dev *vin =
+> > +		container_of(ctrl->handler, struct rvin_dev, ctrl_handler);
+> > +
+> > +	switch (ctrl->id) {
+> > +	case V4L2_CID_ALPHA_COMPONENT:
+> > +		rvin_set_alpha(vin, ctrl->val);
+> 
+> You can set vin->alpha here directly, no need for a rvin_set_alpha()
+> function.
+
+I think you discovers the reason for this in 3/3. I could set vin->alpha 
+directly here and introduce rvin_set_alpha() in 3/3. I opted for this 
+approach as the reason form not margin 2/3 and 3/3 into a single patch 
+is that I only want the register writes in 3/3.
+
+> 
+> > +		break;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct v4l2_ctrl_ops rvin_ctrl_ops = {
+> > +	.s_ctrl = rvin_s_ctrl,
+> > +};
+> > +
+> >  /* -----------------------------------------------------------------------------
+> >   * Async notifier
+> >   */
+> > @@ -478,6 +500,15 @@ static int rvin_parallel_subdevice_attach(struct rvin_dev *vin,
+> >  	if (ret < 0)
+> >  		return ret;
+> >  
+> > +	v4l2_ctrl_new_std(&vin->ctrl_handler, &rvin_ctrl_ops,
+> > +			  V4L2_CID_ALPHA_COMPONENT, 0, 255, 1, 255);
+> > +
+> > +	if (vin->ctrl_handler.error) {
+> > +		ret = vin->ctrl_handler.error;
+> > +		v4l2_ctrl_handler_free(&vin->ctrl_handler);
+> > +		return ret;
+> > +	}
+> > +
+> >  	ret = v4l2_ctrl_add_handler(&vin->ctrl_handler, subdev->ctrl_handler,
+> >  				    NULL, true);
+> >  	if (ret < 0) {
+> > @@ -870,6 +901,21 @@ static int rvin_mc_init(struct rvin_dev *vin)
+> >  	if (ret)
+> >  		rvin_group_put(vin);
+> >  
+> > +	ret = v4l2_ctrl_handler_init(&vin->ctrl_handler, 1);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	v4l2_ctrl_new_std(&vin->ctrl_handler, &rvin_ctrl_ops,
+> > +			  V4L2_CID_ALPHA_COMPONENT, 0, 255, 1, 255);
+> > +
+> > +	if (vin->ctrl_handler.error) {
+> > +		ret = vin->ctrl_handler.error;
+> > +		v4l2_ctrl_handler_free(&vin->ctrl_handler);
+> > +		return ret;
+> > +	}
+> > +
+> > +	vin->vdev.ctrl_handler = &vin->ctrl_handler;
+> > +
+> >  	return ret;
+> >  }
+> >  
+> > @@ -1245,6 +1291,7 @@ static int rcar_vin_probe(struct platform_device *pdev)
+> >  
+> >  	vin->dev = &pdev->dev;
+> >  	vin->info = of_device_get_match_data(&pdev->dev);
+> > +	vin->alpha = 0xff;
+> >  
+> >  	/*
+> >  	 * Special care is needed on r8a7795 ES1.x since it
+> > @@ -1288,6 +1335,8 @@ static int rcar_vin_probe(struct platform_device *pdev)
+> >  	return 0;
+> >  
+> >  error_group_unregister:
+> > +	v4l2_ctrl_handler_free(&vin->ctrl_handler);
+> > +
+> >  	if (vin->info->use_mc) {
+> >  		mutex_lock(&vin->group->lock);
+> >  		if (&vin->v4l2_dev == vin->group->notifier.v4l2_dev) {
+> > @@ -1323,10 +1372,10 @@ static int rcar_vin_remove(struct platform_device *pdev)
+> >  		}
+> >  		mutex_unlock(&vin->group->lock);
+> >  		rvin_group_put(vin);
+> > -	} else {
+> > -		v4l2_ctrl_handler_free(&vin->ctrl_handler);
+> >  	}
+> >  
+> > +	v4l2_ctrl_handler_free(&vin->ctrl_handler);
+> > +
+> >  	rvin_dma_unregister(vin);
+> >  
+> >  	return 0;
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> > index 2d146ecf93d66ad5..4e991cce5fb56a90 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> > @@ -1343,3 +1343,8 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
+> >  
+> >  	return 0;
+> >  }
+> > +
+> > +void rvin_set_alpha(struct rvin_dev *vin, unsigned int alpha)
+> > +{
+> > +	vin->alpha = alpha;
+> > +}
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
+> > index 0b13b34d03e3dce4..365dfde06ec25add 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-vin.h
+> > +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
+> > @@ -178,6 +178,8 @@ struct rvin_info {
+> >   * @compose:		active composing
+> >   * @source:		active size of the video source
+> >   * @std:		active video standard of the video source
+> > + *
+> 
+> Do you need a blank line here ?
+
+I don't need it, but it make sens in my head on how I group variables in 
+sturct rvin_info. There already exists blank lines in the structure for 
+this grouping of variables thinking. If you are OK with it I would 
+prefer to keep it, but I do not feel strongly about it.
+
+> 
+> Apart from that the patch looks good to me.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Thanks!
+
+> 
+> > + * @alpha:		Alpha component to fill in for supported pixel formats
+> >   */
+> >  struct rvin_dev {
+> >  	struct device *dev;
+> > @@ -215,6 +217,8 @@ struct rvin_dev {
+> >  	struct v4l2_rect compose;
+> >  	struct v4l2_rect source;
+> >  	v4l2_std_id std;
+> > +
+> > +	unsigned int alpha;
+> >  };
+> >  
+> >  #define vin_to_source(vin)		((vin)->parallel->subdev)
+> > @@ -266,5 +270,6 @@ const struct rvin_video_format *rvin_format_from_pixel(u32 pixelformat);
+> >  void rvin_crop_scale_comp(struct rvin_dev *vin);
+> >  
+> >  int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel);
+> > +void rvin_set_alpha(struct rvin_dev *vin, unsigned int alpha);
+> >  
+> >  #endif
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+
+-- 
+Regards,
+Niklas Söderlund
