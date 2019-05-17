@@ -2,92 +2,145 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A448B2141B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 May 2019 09:17:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 037E821443
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 May 2019 09:30:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728061AbfEQHRq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 May 2019 03:17:46 -0400
-Received: from mail-eopbgr00096.outbound.protection.outlook.com ([40.107.0.96]:39809
-        "EHLO EUR02-AM5-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727871AbfEQHRq (ORCPT
+        id S1727528AbfEQHaF convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 May 2019 03:30:05 -0400
+Received: from mail-vs1-f66.google.com ([209.85.217.66]:46790 "EHLO
+        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727361AbfEQHaF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 May 2019 03:17:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axentia.se;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a+Ev3aeldcYp3Ime/XU0oYRAe6YFo0HkPDvHyD63T70=;
- b=l0R2d8XW7dtziid+0Zf28Z4aTlPfZ8qWgUEXgzSfpZxQitopzqnLv5kZjOBPc5vhJH6422E700GXUDge/+c2P5iv0hrI+wYRiD+wu0lwZeOEt+oNFgDZayA8aJ9wUdzgCPTwA2PEEFfneu0gNo8oWT24o7CdMsfx+KSfEZf7v5U=
-Received: from DB3PR0202MB3434.eurprd02.prod.outlook.com (52.134.66.158) by
- DB3PR0202MB3289.eurprd02.prod.outlook.com (52.134.65.22) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1900.17; Fri, 17 May 2019 07:17:33 +0000
-Received: from DB3PR0202MB3434.eurprd02.prod.outlook.com
- ([fe80::49ac:3a71:a3ec:d6bf]) by DB3PR0202MB3434.eurprd02.prod.outlook.com
- ([fe80::49ac:3a71:a3ec:d6bf%5]) with mapi id 15.20.1900.010; Fri, 17 May 2019
- 07:17:33 +0000
-From:   Peter Rosin <peda@axentia.se>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
-CC:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Bartosz Golaszewski <brgl@bgdev.pl>,
-        Kieran Bingham <kieran@ksquared.org.uk>
-Subject: Re: [PATCH v8 3/3] mfd: da9063: occupy second I2C address, too
-Thread-Topic: [PATCH v8 3/3] mfd: da9063: occupy second I2C address, too
-Thread-Index: AQHVDCwzB+v1LblhiEqH3oWwq+tPbKZu6NOA
-Date:   Fri, 17 May 2019 07:17:33 +0000
-Message-ID: <bf407cdd-b266-0173-e9cc-6eac2985b159@axentia.se>
-References: <20190516211310.22277-1-wsa+renesas@sang-engineering.com>
- <20190516211310.22277-4-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20190516211310.22277-4-wsa+renesas@sang-engineering.com>
-Accept-Language: en-US, sv-SE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-x-originating-ip: [213.112.138.100]
-x-clientproxiedby: HE1PR0902CA0029.eurprd09.prod.outlook.com
- (2603:10a6:7:15::18) To DB3PR0202MB3434.eurprd02.prod.outlook.com
- (2603:10a6:8:5::30)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=peda@axentia.se; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: cc920127-cd5c-4a1b-6fe0-08d6da97bb35
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(7021145)(8989299)(4534185)(7022145)(4603075)(4627221)(201702281549075)(8990200)(7048125)(7024125)(7027125)(7023125)(5600141)(711020)(4605104)(2017052603328)(7193020);SRVR:DB3PR0202MB3289;
-x-ms-traffictypediagnostic: DB3PR0202MB3289:
-x-microsoft-antispam-prvs: <DB3PR0202MB3289B7F6BF7F2F8E359B0978BC0B0@DB3PR0202MB3289.eurprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3968;
-x-forefront-prvs: 0040126723
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(346002)(396003)(136003)(366004)(376002)(39830400003)(189003)(199004)(64756008)(68736007)(65826007)(6436002)(66556008)(66446008)(2501003)(66946007)(73956011)(11346002)(476003)(66476007)(6512007)(54906003)(486006)(316002)(7736002)(53546011)(8936002)(3846002)(6116002)(52116002)(26005)(386003)(8676002)(81156014)(81166006)(99286004)(446003)(76176011)(6486002)(229853002)(186003)(110136005)(305945005)(58126008)(2616005)(6506007)(2906002)(102836004)(65806001)(65956001)(66066001)(25786009)(4326008)(6246003)(86362001)(53936002)(71190400001)(64126003)(558084003)(31696002)(31686004)(71200400001)(256004)(508600001)(36756003)(74482002)(5660300002)(14454004);DIR:OUT;SFP:1102;SCL:1;SRVR:DB3PR0202MB3289;H:DB3PR0202MB3434.eurprd02.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: axentia.se does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: b935KU9zgqJFGiUknsVx7gQY00YyANH56fTg2q+ezd/PCPSwJK9+aqtZgx/Uc6A5cRLXi6jpTL6xX8ZMCy2L2k7J1SayVd9P6eZXTE+mqsDg/NYOP4Jrb7KTqZWBNojaFhUFmutnUGnspXH4OwLBlbAvyIP26iKL8MRP9cHr36/UCQ9IEDLGiD7p1yUrJtedEaJL4X/NECGlTClcsdbUnhZGPYjZRLr+7y5BsEkAPD4I4nO7238whv4qo22ETAhR0zJO1QGHYAAr1VX06NSQ1TPQ2Xynx0rn+xvXp39rM0yhUmbzLrspxpJ8K5j1iF9veCHTQ0aQZDrRzU8hzGug3pL9njP4Pr6Jg6UXlqZ4JzaMXp22LKAxjjBlm+0wkuuPtWIKyY0axiHixxMz+fPViZdPBdNWV5ba3g02clrdUgs=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <F9F1A3CD4ED8E440B10FD5D08A14BAD8@eurprd02.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        Fri, 17 May 2019 03:30:05 -0400
+Received: by mail-vs1-f66.google.com with SMTP id x8so86531vsx.13;
+        Fri, 17 May 2019 00:30:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=uqYvT0fX5boAJ2BWwVHLad1jFrLXQXEWx3E0EMxp+QY=;
+        b=cfysPMiCD+VZlQ0yPMaiZg4J5sMpS4KQgnZmXpMH9QpsE+j+m3DSYqmzdTa2aX5Mnk
+         SOXjcmtYkqeLmZ1ccmeuK8J1MvLU3oEiKA7oEtytqMqxb09E9va1L8mOvQ4rS0sNYVdO
+         scZE/asxYU0bM600bJPFelOOZFj8y7fcx2XJhZldaK3V4CRDyy8VAubR+3nhDRSsiO1W
+         4ls4wV8ZXNgXC6LRtWnAy/qgj2lj/HzKcifykUBTxN+2dATEcdEhqSIMpvF5uu0iiU/F
+         MaahFJcdpLh046dbgCPOQZ7RwWfJJg2Rj1hyM9ExEFRkCfWWDa0JSh0UdWSQVm44CovZ
+         HrAg==
+X-Gm-Message-State: APjAAAXhf38ngkG+efOkJZKIM4Nhd7IhV60BzWMn1BQUnxYSDpPQBwW3
+        rV4F5qoNozAFhI4iiY9v4ClFxE0CrO64d7hvPy9SUg==
+X-Google-Smtp-Source: APXvYqzAZXgg2bBzc3RAHqjDwfK9RVE3SmKCLCgjgG7qHky2owvqD36+vj7X7In6eQeVo5Vpzjd5h700/y59el1clQ8=
+X-Received: by 2002:a67:770f:: with SMTP id s15mr17610411vsc.11.1558078203564;
+ Fri, 17 May 2019 00:30:03 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: axentia.se
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc920127-cd5c-4a1b-6fe0-08d6da97bb35
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 May 2019 07:17:33.7660
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4ee68585-03e1-4785-942a-df9c1871a234
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR0202MB3289
+References: <20190410222240.5800-1-niklas.soderlund+renesas@ragnatech.se>
+ <20190415111003.6rryld6rfounopho@ninjato> <CAMuHMdVx_b8M2Gc_vn2_FS8xwf0ux=qYkH1ZfbWnTO0kBoLuPA@mail.gmail.com>
+ <20190516230258.GG31788@bigcity.dyn.berto.se>
+In-Reply-To: <20190516230258.GG31788@bigcity.dyn.berto.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 17 May 2019 09:29:51 +0200
+Message-ID: <CAMuHMdV8OFkYxzE-cre4q45t8PRLO6Lm49EFGKp36xJvhQKq0A@mail.gmail.com>
+Subject: Re: [PATCH v2] mmc: tmio: move runtime PM enablement to the driver implementations
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-T24gMjAxOS0wNS0xNiAyMzoxMywgV29sZnJhbSBTYW5nIHdyb3RlOg0KPiBFdmVuIHRob3VnaCB3
-ZSBkb24ndCB1c2UgaXQgeWV0LCB3ZSBzaG91bGQgbWFyayB0aGUgc2Vjb25kIEkyQyBhZGRyZXNz
-DQo+IHRoaXMgZGV2aWNlIGlzIGxpc3RlbmluZyB0byBhcyB1c2VkLg0KPiANCj4gTm90IHlldCBm
-b3IgdXBzdHJlYW0gdW50aWwgYWxsIGRlcGVuZGVuY2llcyBhcmUgbWVyZ2VkIQ0KPiANCj4gU2ln
-bmVkLW9mZi1ieTogV29sZnJhbSBTYW5nIDx3c2ErcmVuZXNhc0BzYW5nLWVuZ2luZWVyaW5nLmNv
-bT4NCg0KUmV2aWV3ZWQtYnk6IFBldGVyIFJvc2luIDxwZWRhQGF4ZW50aWEuc2U+DQoNCkNoZWVy
-cywNClBldGVyDQoNCg==
+Hi Niklas,
+
+On Fri, May 17, 2019 at 1:03 AM Niklas Söderlund
+<niklas.soderlund@ragnatech.se> wrote:
+> On 2019-05-08 11:03:05 +0200, Geert Uytterhoeven wrote:
+> > On Mon, Apr 15, 2019 at 1:10 PM Wolfram Sang <wsa@the-dreams.de> wrote:
+> > > On Thu, Apr 11, 2019 at 12:22:40AM +0200, Niklas Söderlund wrote:
+> > > > Both the Renesas and Uniphier implementations perform actions which
+> > > > affect runtime PM before calling into the core tmio_mmc_host_probe()
+
+> > > > which enabled runtime PM. Move pm_runtime_enable() from the core and
+> > > > tmio_mmc_host_probe() into each drivers probe() so it can be called
+> > > > before any clocks or other resources are switched on.
+> > > >
+> > > > Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > > > ---
+> > >
+> > > Thanks for keeping at this. Setting up the APE6 board for further tests
+> > > was painful, I understood that.
+> > >
+> > > Since you lost the cover-letter from the last series, I think it should
+> > > be mentioned that this fixes a clock imbalance problem (at least on
+> > > Gen3).
+> > >
+> > > For the APE6 tests, we need to wait until Geert comes back. I surely
+> > > would like his input. And Yamada-san's, too, to make sure his platform
+> > > also benefits.
+> >
+> > Thanks, but I still see a clock imbalances in /sys/kernel/debug/clk/clk_summary
+> > when comparing before/after s2ram.
+> >
+> > On ape6evm:
+> >
+> > -   mmcif0   2   2   0   100000000   0     0  50000
+> > +   mmcif0   1   1   0   100000000   0     0  50000
+>
+> This is unrelated to this patch, this clock is handled by the sh_mmcif
+> driver. I get the same diff of the mmcif0 clock with a suspend cycle
+> even if i do not include the renesas_sdhi_* drivers in the system.
+
+OK.
+
+> I had a quick look at the issue and it's related to that the MCC core do
+> not call MMC_POWER_UP after suspend while it do call it during boot. Why
+> it does so I'm not sure. Also if I mock convert sh_mmcif to require PM
+> the imbalance is gone which perplexes me a bit and wonder if I converted
+> it wrong somehow.
+
+Weird... To be investigated further?
+
+> > On r8a77965/salvator-xs:
+> >
+> > -   s0d3   1   2   0   266240000   0     0  50000
+> > +   s0d3   2   2   0   266240000   0     0  50000
+> >
+> > -   sys-dmac0   0   1   0   266240000   0     0  50000
+> > +   sys-dmac0   1   1   0   266240000   0     0  50000
+>
+> Even these are unrelated to this patch. If I test without renesas_sdhi_*
+> driver in the system I get the same clock differences, in fact I get one
+> more for sys-dmac1 (both with and without the shdi drivers).
+>
+> -    s0d3                  2        6        0   266240000          0     0  50000
+> +    s0d3                  4        6        0   266240000          0     0  50000
+>
+> -       sys-dmac0          0        1        0   266240000          0     0  50000
+> +       sys-dmac0          1        1        0   266240000          0     0  50000
+>
+> -       sys-dmac1          0        1        0   266240000          0     0  50000
+> +       sys-dmac1          1        1        0   266240000          0     0  50000
+
+Please ignore. I must have misread "s0d3" as "sd3" ;-)
+
+> I have not investigate this further as I wish to make sens of this patch
+> first ;-) Would you agree that with this information we should move
+> forward with this patch as it solves the issue for the sdhi clocks on
+> all effected SoCs ?
+
+Yes please, and thanks again!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
