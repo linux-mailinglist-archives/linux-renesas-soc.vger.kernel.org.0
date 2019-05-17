@@ -2,124 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EF20D2191F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 May 2019 15:25:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBAD221945
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 May 2019 15:38:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728456AbfEQNZu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 May 2019 09:25:50 -0400
-Received: from mo4-p01-ob.smtp.rzone.de ([81.169.146.167]:35512 "EHLO
-        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728333AbfEQNZu (ORCPT
+        id S1728351AbfEQNi1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 May 2019 09:38:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60534 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726556AbfEQNi1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 May 2019 09:25:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1558099546;
-        s=strato-dkim-0002; d=fpond.eu;
-        h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:
-        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=25UD9iI7zNHSpTnOzoI4qzXICN+AB2At4WQ+Y/l6aak=;
-        b=ooIk7YTztQ8gseYjZZ7IOSdP5qnoQPOrqh7lwqT3Gx7mlhX5h/lTwAp/Qu8x4jbEMi
-        z0s6snm0+5sSaRDG0JyExId26EWSUwfKt+XBn6ymt176Z0HeTfeHzaaw5cVkmS5vZSCC
-        3Id0m9zxCuZZuef1/sPEUIlCPxI9tES1+rbJLqZubKm5HVl3VZW5QFKreqmYnE09hYSy
-        BSLO4rFHr/2dNw1xtpq2XnftPYXPnlnwLCxXn8mUQ4En201mLeXtfXLbOk447nW0bss8
-        NeThSuDK1dKfFzrv1t356TQOEkjTnorRN+3R0AdcuYDf+z6rZVswTpVlRrnT7tJ5FAHd
-        piMw==
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzmt2bYDnKIKaws6YXTsc4="
-X-RZG-CLASS-ID: mo00
-Received: from oxapp01-01.back.ox.d0m.de
-        by smtp-ox.front (RZmta 44.18 AUTH)
-        with ESMTPSA id y08c83v4HDPjxsu
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-        (Client did not present a certificate);
-        Fri, 17 May 2019 15:25:45 +0200 (CEST)
-Date:   Fri, 17 May 2019 15:25:45 +0200 (CEST)
-From:   Ulrich Hecht <uli@fpond.eu>
-To:     Biju Das <biju.das@bp.renesas.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>
-Cc:     Simon Horman <horms+renesas@verge.net.au>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Fri, 17 May 2019 09:38:27 -0400
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 468BF217D8;
+        Fri, 17 May 2019 13:38:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1558100306;
+        bh=pbTJr359FJMy2WUUMG/Lf2r9Lyuh9YLPUqwHd+Wo8VM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=vctqqeOF41AfIjkmUkCBWXAfSnm+p9DUxehsXrNwgZAO+bPS1LO55NQyEIHxaHsZ3
+         q0XwJDhm1LJR1gHfXandcOp+J48YmQ1h8XDDzfB9Bdz0s6z+dtY+vRQWe+IMTcLE3+
+         gOV+gjRdPhi5Mt9rQmcaiKsQ4Wkqht4HyISHWfCs=
+Received: by mail-qk1-f174.google.com with SMTP id j20so4462731qke.1;
+        Fri, 17 May 2019 06:38:26 -0700 (PDT)
+X-Gm-Message-State: APjAAAX6gQ9xJI3N8LfZ34dD2sVtHWf5Wm/7pveoZ2C81XyBQ8S5GhKJ
+        ePazCP5gVnp02sJoDSnWX6PtdP+S/vmPIVnREQ==
+X-Google-Smtp-Source: APXvYqw49ctY7vjhM+4Z3JnlL9CMKiUL4zKvRdQ04InbXYUNxCMkL8zusPDA6stSF8Q6Xj2NjoygEZEuDR3YGpWMxGY=
+X-Received: by 2002:a05:620a:1107:: with SMTP id o7mr36956035qkk.184.1558100305381;
+ Fri, 17 May 2019 06:38:25 -0700 (PDT)
+MIME-Version: 1.0
+References: <1558085189-22061-1-git-send-email-fabrizio.castro@bp.renesas.com> <1558085189-22061-2-git-send-email-fabrizio.castro@bp.renesas.com>
+In-Reply-To: <1558085189-22061-2-git-send-email-fabrizio.castro@bp.renesas.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Fri, 17 May 2019 08:38:14 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJCJyRBX+08UriNeYZ01ow0yLv=VjK3sNbjVi1GB5=MQA@mail.gmail.com>
+Message-ID: <CAL_JsqJCJyRBX+08UriNeYZ01ow0yLv=VjK3sNbjVi1GB5=MQA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: Add vendor prefix for HopeRun
+To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
         Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Thierry Reding <treding@nvidia.com>,
+        =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>, devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Message-ID: <393903256.22544.1558099545054@webmail.strato.com>
-In-Reply-To: <1558012923-29081-1-git-send-email-biju.das@bp.renesas.com>
-References: <1558012923-29081-1-git-send-email-biju.das@bp.renesas.com>
-Subject: Re: [PATCH v2] phy: renesas: phy-rcar-gen2: Fix the array off by
- one warning
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Medium
-X-Mailer: Open-Xchange Mailer v7.8.4-Rev58
-X-Originating-IP: 85.212.135.150
-X-Originating-Client: open-xchange-appsuite
+        Biju Das <biju.das@bp.renesas.com>, xu_shunji@hoperun.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
-> On May 16, 2019 at 3:22 PM Biju Das <biju.das@bp.renesas.com> wrote:
-> 
-> 
-> Fix the below smatch warning by adding variable check rather than the
-> hardcoded value.
-> warn: array off by one? 'data->select_value[channel_num]'
-> 
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> V1-->V2 
->   * Incorporated Geert's review comments.
->     (https://patchwork.kernel.org/patch/10944837/)
-> ---
->  drivers/phy/renesas/phy-rcar-gen2.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/phy/renesas/phy-rcar-gen2.c b/drivers/phy/renesas/phy-rcar-gen2.c
-> index 8dc5710..8dbdc5b 100644
-> --- a/drivers/phy/renesas/phy-rcar-gen2.c
-> +++ b/drivers/phy/renesas/phy-rcar-gen2.c
-> @@ -71,6 +71,7 @@ struct rcar_gen2_phy_driver {
->  struct rcar_gen2_phy_data {
->  	const struct phy_ops *gen2_phy_ops;
->  	const u32 (*select_value)[PHYS_PER_CHANNEL];
-> +	const u32 num_channels;
->  };
->  
->  static int rcar_gen2_phy_init(struct phy *p)
-> @@ -271,11 +272,13 @@ static const u32 usb20_select_value[][PHYS_PER_CHANNEL] = {
->  static const struct rcar_gen2_phy_data rcar_gen2_usb_phy_data = {
->  	.gen2_phy_ops = &rcar_gen2_phy_ops,
->  	.select_value = pci_select_value,
-> +	.num_channels = ARRAY_SIZE(pci_select_value),
->  };
->  
->  static const struct rcar_gen2_phy_data rz_g1c_usb_phy_data = {
->  	.gen2_phy_ops = &rz_g1c_phy_ops,
->  	.select_value = usb20_select_value,
-> +	.num_channels = ARRAY_SIZE(usb20_select_value),
->  };
->  
->  static const struct of_device_id rcar_gen2_phy_match_table[] = {
-> @@ -389,7 +392,7 @@ static int rcar_gen2_phy_probe(struct platform_device *pdev)
->  		channel->selected_phy = -1;
->  
->  		error = of_property_read_u32(np, "reg", &channel_num);
-> -		if (error || channel_num > 2) {
-> +		if (error || channel_num >= data->num_channels) {
->  			dev_err(dev, "Invalid \"reg\" property\n");
->  			return error;
->  		}
-> -- 
-> 2.7.4
+On Fri, May 17, 2019 at 4:27 AM Fabrizio Castro
+<fabrizio.castro@bp.renesas.com> wrote:
 >
+> Add "Jiangsu HopeRun Software Co., Ltd." to the list of devicetree
+> vendor prefixes as "hoperun".
+>
+> Website: http://www.hoperun.com/en
+>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
+>
+> ---
+> v2->v3:
+> * Moved to vendor-prefixes.yaml
+> * Dropped Reviewed-by Simon as this is a completely new patch and as
+>   such it needs a brand new review
+> v1->v2:
+> * No change
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 
-Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-
-CU
-Uli
+Reviewed-by: Rob Herring <robh@kernel.org>
