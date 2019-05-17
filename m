@@ -2,47 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B7C6217D3
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 May 2019 13:41:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8D9C21800
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 May 2019 14:09:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727847AbfEQLlw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 May 2019 07:41:52 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:33026 "EHLO
+        id S1728047AbfEQMJw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 May 2019 08:09:52 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:33508 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727727AbfEQLlw (ORCPT
+        with ESMTP id S1727221AbfEQMJv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 May 2019 07:41:52 -0400
+        Fri, 17 May 2019 08:09:51 -0400
 Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 947BE25AD7D;
-        Fri, 17 May 2019 21:41:49 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id AA5C125AD7D;
+        Fri, 17 May 2019 22:09:49 +1000 (AEST)
 Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id 9383B94048B; Fri, 17 May 2019 13:41:47 +0200 (CEST)
-Date:   Fri, 17 May 2019 13:41:47 +0200
+        id B05CF94048B; Fri, 17 May 2019 14:09:47 +0200 (CEST)
+Date:   Fri, 17 May 2019 14:09:47 +0200
 From:   Simon Horman <horms@verge.net.au>
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
+To:     Yoshihiro Kaneko <ykaneko0929@gmail.com>
+Cc:     linux-pm@vger.kernel.org, Zhang Rui <rui.zhang@intel.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Thierry Reding <treding@nvidia.com>,
-        Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>, xu_shunji@hoperun.com
-Subject: Re: [PATCH v3 1/2] dt-bindings: Add vendor prefix for HopeRun
-Message-ID: <20190517114147.l547h3276nm4sn5c@verge.net.au>
-References: <1558085189-22061-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1558085189-22061-2-git-send-email-fabrizio.castro@bp.renesas.com>
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH/RFT v3 0/3] thermal: rcar_gen3_thermal: Update
+ calculation formula due to HW evaluation
+Message-ID: <20190517120946.2losrmjowl6uuqeq@verge.net.au>
+References: <1557777835-19454-1-git-send-email-ykaneko0929@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1558085189-22061-2-git-send-email-fabrizio.castro@bp.renesas.com>
+In-Reply-To: <1557777835-19454-1-git-send-email-ykaneko0929@gmail.com>
 Organisation: Horms Solutions BV
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -50,14 +40,19 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, May 17, 2019 at 10:26:28AM +0100, Fabrizio Castro wrote:
-> Add "Jiangsu HopeRun Software Co., Ltd." to the list of devicetree
-> vendor prefixes as "hoperun".
+On Tue, May 14, 2019 at 05:03:52AM +0900, Yoshihiro Kaneko wrote:
+> This series was inspired by a patch in the BSP by Dien Pham <dien.pham.ry@renesas.com>.
 > 
-> Website: http://www.hoperun.com/en
-> 
-> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
+> This series is based on the master branch of Linus Torvalds's linux tree.
+
+Thanks Kaneko-san,
+
+this looks good to me.
+
+For all patches:
 
 Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+Tested-by: Simon Horman <horms+renesas@verge.net.au>
+
+
 
