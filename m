@@ -2,74 +2,150 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9574F22431
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 May 2019 19:11:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3898C2250E
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 May 2019 23:28:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729163AbfERRL4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 18 May 2019 13:11:56 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:53210 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728037AbfERRL4 (ORCPT
+        id S1729196AbfERV2L (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 18 May 2019 17:28:11 -0400
+Received: from sauhun.de ([88.99.104.3]:35758 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728283AbfERV2L (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 18 May 2019 13:11:56 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 33A34D5;
-        Sat, 18 May 2019 19:11:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1558199514;
-        bh=YASLlYaoRZMlOBjxaNZY8+vdFHleDHp1QavyehIFddc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rB9siV/LwO7KQBvZQrmGQG76KsI44UZMSHe2yXJvwm226TqVaxHY8dIhFPL1uQWiB
-         VcWPmV21XVCHT97OlCTGiHZuMllZWY8nKf17AU647T7sqsjPmnvyzYvj89iCZuM88u
-         FVT5PT2TiuAGB0w94X11QT7lxOw4YKwNzDgOjrb0=
-Date:   Sat, 18 May 2019 20:11:29 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm: rcar-du: writeback: include interface header
-Message-ID: <20190518171129.GA4995@pendragon.ideasonboard.com>
-References: <20190517212050.3561-1-kieran.bingham+renesas@ideasonboard.com>
- <a61ab53c-4e05-991c-f74f-802bd6222d8a@cogentembedded.com>
+        Sat, 18 May 2019 17:28:11 -0400
+Received: from localhost (p5486CE4C.dip0.t-ipconnect.de [84.134.206.76])
+        by pokefinder.org (Postfix) with ESMTPSA id E8DD52C051A;
+        Sat, 18 May 2019 23:28:07 +0200 (CEST)
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-watchdog@vger.kernel.org
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 00/46] watchdog: move 'registration failed' messages into core
+Date:   Sat, 18 May 2019 23:27:15 +0200
+Message-Id: <20190518212801.31010-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <a61ab53c-4e05-991c-f74f-802bd6222d8a@cogentembedded.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sergei,
+Similar to my recently merged series doing the same for
+watchdog_init_timeout(), here is a series moving all error messages
+after a failed {devm_}watchdog_register_device() into the core. Guenter
+was right, this was even more worth it. For some cases, this also
+resulted in neat code simplifications.
 
-On Sat, May 18, 2019 at 11:42:28AM +0300, Sergei Shtylyov wrote:
-> Hello!
-> 
-> On 18.05.2019 0:20, Kieran Bingham wrote:
-> 
-> > The new writeback feature is exports functions so that they can
->                              ^^ not needed?
+The core changes were tested with a Renesas Lager (R-Car H2) board. The
+driver changes were created using a coccinelle script and build-tested
+by buildbot.
 
-Good catch. I'll fix it in my branch.
+This series is based on Linus' tree as of today which should be close
+enough to -rc1, I guess. A branch can be found here:
 
-> > integrate into the rcar_du_kms module.
-> > 
-> > The interface functions are defined in the rcar_du_writeback header, but
-> > it is not included in the object file itself leading to compiler
-> > warnings for missing prototypes.
-> > 
-> > Include the header as appropriate.
-> > 
-> > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> [...]
-> 
-> MBR, Sergei
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/wdt/register_device
+
+Looking forward to comments.
+
+Happy hacking,
+
+   Wolfram
+
+Wolfram Sang (46):
+  watchdog: make watchdog_deferred_registration_add() void
+  watchdog: let core print error message when registering device fails
+  watchdog: aspeed_wdt: drop warning after registering device
+  watchdog: bcm2835_wdt: drop warning after registering device
+  watchdog: bcm7038_wdt: drop warning after registering device
+  watchdog: bcm_kona_wdt: drop warning after registering device
+  watchdog: cadence_wdt: drop warning after registering device
+  watchdog: da9052_wdt: drop warning after registering device
+  watchdog: da9062_wdt: drop warning after registering device
+  watchdog: davinci_wdt: drop warning after registering device
+  watchdog: digicolor_wdt: drop warning after registering device
+  watchdog: ftwdt010_wdt: drop warning after registering device
+  watchdog: hpwdt: drop warning after registering device
+  watchdog: i6300esb: drop warning after registering device
+  watchdog: ie6xx_wdt: drop warning after registering device
+  watchdog: imx2_wdt: drop warning after registering device
+  watchdog: imx_sc_wdt: drop warning after registering device
+  watchdog: intel-mid_wdt: drop warning after registering device
+  watchdog: jz4740_wdt: drop warning after registering device
+  watchdog: loongson1_wdt: drop warning after registering device
+  watchdog: max77620_wdt: drop warning after registering device
+  watchdog: mei_wdt: drop warning after registering device
+  watchdog: mena21_wdt: drop warning after registering device
+  watchdog: menf21bmc_wdt: drop warning after registering device
+  watchdog: mpc8xxx_wdt: drop warning after registering device
+  watchdog: ni903x_wdt: drop warning after registering device
+  watchdog: nic7018_wdt: drop warning after registering device
+  watchdog: npcm_wdt: drop warning after registering device
+  watchdog: of_xilinx_wdt: drop warning after registering device
+  watchdog: pic32-dmt: drop warning after registering device
+  watchdog: pic32-wdt: drop warning after registering device
+  watchdog: pnx4008_wdt: drop warning after registering device
+  watchdog: qcom-wdt: drop warning after registering device
+  watchdog: rave-sp-wdt: drop warning after registering device
+  watchdog: s3c2410_wdt: drop warning after registering device
+  watchdog: sama5d4_wdt: drop warning after registering device
+  watchdog: sp5100_tco: drop warning after registering device
+  watchdog: sp805_wdt: drop warning after registering device
+  watchdog: sprd_wdt: drop warning after registering device
+  watchdog: st_lpc_wdt: drop warning after registering device
+  watchdog: stm32_iwdg: drop warning after registering device
+  watchdog: stmp3xxx_rtc_wdt: drop warning after registering device
+  watchdog: tegra_wdt: drop warning after registering device
+  watchdog: ts4800_wdt: drop warning after registering device
+  watchdog: wm831x_wdt: drop warning after registering device
+  watchdog: xen_wdt: drop warning after registering device
+
+ drivers/watchdog/aspeed_wdt.c       |  8 +-------
+ drivers/watchdog/bcm2835_wdt.c      |  4 +---
+ drivers/watchdog/bcm7038_wdt.c      |  4 +---
+ drivers/watchdog/bcm_kona_wdt.c     |  4 +---
+ drivers/watchdog/cadence_wdt.c      |  4 +---
+ drivers/watchdog/da9052_wdt.c       |  9 +--------
+ drivers/watchdog/da9062_wdt.c       |  5 +----
+ drivers/watchdog/davinci_wdt.c      |  8 +-------
+ drivers/watchdog/digicolor_wdt.c    |  8 +-------
+ drivers/watchdog/ftwdt010_wdt.c     |  4 +---
+ drivers/watchdog/hpwdt.c            |  4 +---
+ drivers/watchdog/i6300esb.c         |  5 +----
+ drivers/watchdog/ie6xx_wdt.c        |  6 +-----
+ drivers/watchdog/imx2_wdt.c         |  4 +---
+ drivers/watchdog/imx_sc_wdt.c       |  8 +-------
+ drivers/watchdog/intel-mid_wdt.c    |  4 +---
+ drivers/watchdog/jz4740_wdt.c       |  6 +-----
+ drivers/watchdog/loongson1_wdt.c    |  4 +---
+ drivers/watchdog/max77620_wdt.c     |  8 +-------
+ drivers/watchdog/mei_wdt.c          |  4 +---
+ drivers/watchdog/mena21_wdt.c       |  4 +---
+ drivers/watchdog/menf21bmc_wdt.c    |  4 +---
+ drivers/watchdog/mpc8xxx_wdt.c      |  5 +----
+ drivers/watchdog/ni903x_wdt.c       |  4 +---
+ drivers/watchdog/nic7018_wdt.c      |  1 -
+ drivers/watchdog/npcm_wdt.c         |  4 +---
+ drivers/watchdog/of_xilinx_wdt.c    |  4 +---
+ drivers/watchdog/pic32-dmt.c        |  4 +---
+ drivers/watchdog/pic32-wdt.c        |  4 +---
+ drivers/watchdog/pnx4008_wdt.c      |  4 +---
+ drivers/watchdog/qcom-wdt.c         |  4 +---
+ drivers/watchdog/rave-sp-wdt.c      |  1 -
+ drivers/watchdog/s3c2410_wdt.c      |  4 +---
+ drivers/watchdog/sama5d4_wdt.c      |  4 +---
+ drivers/watchdog/sp5100_tco.c       |  4 +---
+ drivers/watchdog/sp805_wdt.c        |  5 +----
+ drivers/watchdog/sprd_wdt.c         |  1 -
+ drivers/watchdog/st_lpc_wdt.c       |  4 +---
+ drivers/watchdog/stm32_iwdg.c       |  4 +---
+ drivers/watchdog/stmp3xxx_rtc_wdt.c |  4 +---
+ drivers/watchdog/tegra_wdt.c        |  4 +---
+ drivers/watchdog/ts4800_wdt.c       |  4 +---
+ drivers/watchdog/watchdog_core.c    | 16 ++++++++++++----
+ drivers/watchdog/wm831x_wdt.c       |  9 +--------
+ drivers/watchdog/xen_wdt.c          |  4 +---
+ 45 files changed, 53 insertions(+), 168 deletions(-)
 
 -- 
-Regards,
+2.19.1
 
-Laurent Pinchart
