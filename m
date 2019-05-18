@@ -2,89 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EDF762224A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 May 2019 10:42:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C0D9222FA
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 18 May 2019 12:02:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726056AbfERImb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 18 May 2019 04:42:31 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:40347 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726105AbfERImb (ORCPT
+        id S1728531AbfERKCb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 18 May 2019 06:02:31 -0400
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:35255 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725468AbfERKCb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 18 May 2019 04:42:31 -0400
-Received: by mail-lf1-f66.google.com with SMTP id h13so6948158lfc.7
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 18 May 2019 01:42:30 -0700 (PDT)
+        Sat, 18 May 2019 06:02:31 -0400
+Received: by mail-pl1-f193.google.com with SMTP id g5so4496254plt.2
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 18 May 2019 03:02:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=MB+am46zdrQ7/8By7GZdXoN/QVRGNRe/Mkw8jGEPF3g=;
-        b=waXbbgrfqxraHh9Df3iHVcwsQFar+ZalY+dY2SXbBvPF8SudNcrTRizlwedQCPBadz
-         oRQTvD1gFAIfKaeSaRzIXu74cJk31iFPIQ+tJUFUIBO25QLEEENYoCAW9aBdjPshnTsM
-         qS/56tdXwf0UqZaGZ4M7ylSBHkwUQ58wByLMEnrICDKUA1ss+4xkhIvtFeHXUBWllYsr
-         +lUDsDXexV+CyYTgejJAjxGsXD+2Bt6j4excRQxMjawHc/mGIczXkDLHeAl8ktGKGo0t
-         /JU2yVfagMBoK1uZLdDKq+3e2s0QLyu/QvVud0kg5YXXdrue6aq8EKf7WphQvYVVzcpe
-         RFYQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:date:message-id:subject;
+        bh=GDAKeJ9jUdIyQwbJpwCXHt6OAnSal3pFpCPTwdmu7fg=;
+        b=oS0nMTQAfmkMAXbY0PZLssbiTKHYMjI4rE0x66AgruqYwldhQ85wFfDuajhhJr9Vpu
+         h/qLuTjQT4wtLBzjZUh+vLmn0EUI4cEHXNqYw+flw5Hqpgkc0H95SnnzcJ6m4ilauwCY
+         PQTFdxMfdTTCHiFUOjudJzQIiNjaiBdahxm6O55Ax997NpeandQNM/T/YRFDuRkrn43T
+         YIn7arI8eeeWwi2gb8Awm4Gmxp7gTleQAzL1iOnqvflN+9Q0JspkKqfch9BR7fFC0QDG
+         83Y2ozhxwxogFXGUwA8kotz9LIhW8TxguWjRvSFiezYGAXg0jTPDvd1Zz9N1D/e3wx8L
+         41Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=MB+am46zdrQ7/8By7GZdXoN/QVRGNRe/Mkw8jGEPF3g=;
-        b=PlwvAH65yY82+QMzUy8vOBtBGA9+lBiyd58TFlCk1w4cArjnVV/i+F/fj0RdSU5M1I
-         R2JFJ4kgf3EMfT2zlbc2/sCnrTujiG56C06XMeUXxMvEq36u9h0FclnonRJUv14KheSq
-         2U+A5atL8OpyEFORw2mcUiNlSpSKyfpUKslbY6r3w/4shHUJH73ztwmwsZ8vycKAfYpV
-         9rqSR5uc0Fn+hWrkv8Oy/GuoDeyyJ6xBfozF9dpyu6mJ/0gYfzhogyYhVuJlflh5ZgHE
-         XNfarX04tU3l83RBOF0EuMGJxYXzisK+kIJcgBlYNyz8O5gO441iecnncu5Sud4yE+xs
-         nq+w==
-X-Gm-Message-State: APjAAAXkycD6g50JNZSRyHkrQ2Y2+JvrnPvfnuNOywtbxfqjckYf2drm
-        7nuHFSoB1lgFOyvhSnZZ34nhQg==
-X-Google-Smtp-Source: APXvYqyAUNwCfxMxjD9aODqmbrWMY8YATK25Yvddy6GpZFjK4p+l+3r/sZKd8A9gpxU3B/IQIqhQDA==
-X-Received: by 2002:a19:e34c:: with SMTP id c12mr8691523lfk.145.1558168949709;
-        Sat, 18 May 2019 01:42:29 -0700 (PDT)
-Received: from [192.168.0.199] ([31.173.86.130])
-        by smtp.gmail.com with ESMTPSA id z6sm2205931ljh.61.2019.05.18.01.42.28
+        h=x-gm-message-state:from:to:cc:date:message-id:subject;
+        bh=GDAKeJ9jUdIyQwbJpwCXHt6OAnSal3pFpCPTwdmu7fg=;
+        b=VKN/k0ULrHd8FPrTVZ1zD2jEGlVg4UWTPsFMJKpnOQuCsoJMI0XzSMJ0qSM0MVsnsP
+         toNtqsKdUJIptZLEGPgPmOxjmFlGLGYOnoOgTkJhKfelkTQqGjW3zEYVR8GB5DX68qhg
+         FUP44BhPCp/17k+TrOvxQHEdbC/CGFZBUsJi//WyeD9ot4ksED2vdkPj88We8X0GwVUW
+         drw/6tZ3dbpvHP9WcqYDacOvSvM4XQadyQauPWe5rODIrsimTvPbO4Hu77o3qGvch2cd
+         ZbOQareHs/KMhaYwPhyJFmw2w8kq6gGhbNU6VoI3qcrOYxsqELtoaLyzp7fxAOkUmNEB
+         WubQ==
+X-Gm-Message-State: APjAAAXsjaQ42/1cFHmb0+bOX2pZ/jlLyIUmCvnubL3PwihRatL4AXcX
+        s2XgbwuPihSvugOsVdoIuVBXJd7m
+X-Google-Smtp-Source: APXvYqz4RH7qoiYlK430HDQdif1b4QeF9aBg0CSVIlowxzePU1Y7bYQF4CYRCVdFkenOF20n9umFbQ==
+X-Received: by 2002:a17:902:6b81:: with SMTP id p1mr61557198plk.207.1558173750522;
+        Sat, 18 May 2019 03:02:30 -0700 (PDT)
+Received: from [127.0.0.1] (l193216.ppp.asahi-net.or.jp. [218.219.193.216])
+        by smtp.gmail.com with ESMTPSA id j64sm13814749pfb.126.2019.05.18.03.02.28
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 18 May 2019 01:42:29 -0700 (PDT)
-Subject: Re: [PATCH] drm: rcar-du: writeback: include interface header
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org
-Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20190517212050.3561-1-kieran.bingham+renesas@ideasonboard.com>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <a61ab53c-4e05-991c-f74f-802bd6222d8a@cogentembedded.com>
-Date:   Sat, 18 May 2019 11:42:28 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190517212050.3561-1-kieran.bingham+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Sat, 18 May 2019 03:02:29 -0700 (PDT)
+From:   Magnus Damm <magnus.damm@gmail.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Magnus Damm <magnus.damm@gmail.com>
+Date:   Sat, 18 May 2019 19:03:48 +0900
+Message-Id: <155817382883.14383.9127828804463512592.sendpatchset@octo>
+Subject: [PATCH 0/2] arm/arm64: dts: Use ip=on for bootargs
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+arm/arm64: dts: Use ip=on for bootargs
 
-On 18.05.2019 0:20, Kieran Bingham wrote:
+[PATCH 1/2] arm: dts: Use ip=on for bootargs
+[PATCH 2/2] arm64: dts: renesas: Use ip=on for bootargs
 
-> The new writeback feature is exports functions so that they can
-                             ^^ not needed?
+These patches convert boards from Renesas that use ip=dhcp in bootargs to
+ip=on to allow more flexible network protocol auto configuration support.
 
-> integrate into the rcar_du_kms module.
-> 
-> The interface functions are defined in the rcar_du_writeback header, but
-> it is not included in the object file itself leading to compiler
-> warnings for missing prototypes.
-> 
-> Include the header as appropriate.
-> 
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-[...]
+The supported network protocols used for auto configuration depend both
+on the ip= boot argument and the kernel configuration.
 
-MBR, Sergei
+The arm64 defconfig currently contains the following Kconfig symbols:
+CONFIG_IP_PNP=y
+CONFIG_IP_PNP_DHCP=y
+CONFIG_IP_PNP_BOOTP=y
+# CONFIG_IP_PNP_RARP is not set
+
+Unless overridden by the user the above kernel configuration with ip=on
+results in that the kernel will perform auto configuration with both BOOTP
+and DHCP during boot. Compared to DHCP the user will not experience any
+real difference unless he/she also has a BOOTP server on the same network
+and relies on ip=dhcp to pick the desired protocol.
+
+I recall the ISC DHCP server being a helpful tool to test BOOTP and DHCP.
+
+Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
+---
+
+ Developed on top of renesas-devel-20190516-v5.1
+
+ arch/arm/boot/dts/emev2-kzm9d.dts                |    2 +-
+ arch/arm/boot/dts/r7s72100-genmai.dts            |    2 +-
+ arch/arm/boot/dts/r8a73a4-ape6evm.dts            |    2 +-
+ arch/arm/boot/dts/r8a7740-armadillo800eva.dts    |    2 +-
+ arch/arm/boot/dts/r8a7743-sk-rzg1m.dts           |    2 +-
+ arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts      |    2 +-
+ arch/arm/boot/dts/r8a7745-sk-rzg1e.dts           |    2 +-
+ arch/arm/boot/dts/r8a77470-iwg23s-sbc.dts        |    2 +-
+ arch/arm/boot/dts/r8a7778-bockw.dts              |    2 +-
+ arch/arm/boot/dts/r8a7779-marzen.dts             |    2 +-
+ arch/arm/boot/dts/r8a7790-lager.dts              |    2 +-
+ arch/arm/boot/dts/r8a7790-stout.dts              |    2 +-
+ arch/arm/boot/dts/r8a7791-koelsch.dts            |    2 +-
+ arch/arm/boot/dts/r8a7791-porter.dts             |    2 +-
+ arch/arm/boot/dts/r8a7792-blanche.dts            |    2 +-
+ arch/arm/boot/dts/r8a7792-wheat.dts              |    2 +-
+ arch/arm/boot/dts/r8a7793-gose.dts               |    2 +-
+ arch/arm/boot/dts/r8a7794-alt.dts                |    2 +-
+ arch/arm/boot/dts/r8a7794-silk.dts               |    2 +-
+ arch/arm/boot/dts/sh73a0-kzm9g.dts               |    2 +-
+ arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts  |    2 +-
+ arch/arm64/boot/dts/renesas/r8a77970-eagle.dts   |    2 +-
+ arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts   |    2 +-
+ arch/arm64/boot/dts/renesas/r8a77995-draak.dts   |    2 +-
+ arch/arm64/boot/dts/renesas/salvator-common.dtsi |    2 +-
+ arch/arm64/boot/dts/renesas/ulcb.dtsi            |    2 +-
+ 26 files changed, 26 insertions(+), 26 deletions(-)
+
