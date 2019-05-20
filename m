@@ -2,263 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D260B22CD4
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 May 2019 09:24:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 590DF22D3F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 May 2019 09:38:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726120AbfETHYH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 May 2019 03:24:07 -0400
-Received: from twhmllg3.macronix.com ([211.75.127.131]:27617 "EHLO
-        TWHMLLG3.macronix.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726114AbfETHYG (ORCPT
+        id S1729314AbfETHh5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 May 2019 03:37:57 -0400
+Received: from mail-vs1-f66.google.com ([209.85.217.66]:43088 "EHLO
+        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725983AbfETHh5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 May 2019 03:24:06 -0400
-Received: from twhfmlp1.macronix.com (twhfm1p1.macronix.com [172.17.20.91])
-        by TWHMLLG3.macronix.com with ESMTP id x4K7NvO7058232;
-        Mon, 20 May 2019 15:23:57 +0800 (GMT-8)
-        (envelope-from masonccyang@mxic.com.tw)
-Received: from MXML06C.mxic.com.tw (mxml06c.macronix.com [172.17.14.55])
-        by Forcepoint Email with ESMTP id 7AACD5EAB919A0026F8D;
-        Mon, 20 May 2019 15:23:57 +0800 (CST)
-In-Reply-To: <44bc8f0a-cbdc-db4a-9a46-b8bae5cc37a2@cogentembedded.com>
-References: <1556092536-17095-1-git-send-email-masonccyang@mxic.com.tw> <20190424212356.GA27103@bogus> <65853dc2-6f3c-1494-7e72-54877797cdd2@gmail.com> <20190507125730.GD29524@dell> <OF08A5650B.8AE8977C-ON482583F4.000E5B1E-482583F4.000F7215@mxic.com.tw> <d229b19e-351c-c576-b5c4-716d10dad1a0@gmail.com> <20190508061119.GB7627@dell> <OFE86674B9.06D723A0-ON482583F5.000AD50C-482583F5.000BA075@mxic.com.tw> <a05cff8f-7df2-1938-c0e7-f9366bece607@cogentembedded.com> <OFB19BCE91.6EBBAA77-ON482583F6.000234E2-482583F6.00061290@mxic.com.tw> <CAMuHMdUP8KU3Dbv6cwOvrY0hWOcm1xqVcsi20+GvazYMDLGGZg@mail.gmail.com> <OFD932ABFC.E3FFCEB8-ON482583F9.003412B1-482583F9.0034D5CA@mxic.com.tw> <b51d1cb7-b3b5-208f-ab4c-145ecb57805d@cogentembedded.com> <OFAD9AA573.86373
- <44bc8f0a-cbdc-db4a-9a46-b8bae5cc37a2@cogentembedded.com>
-To:     "Sergei Shtylyov" <sergei.shtylyov@cogentembedded.com>,
-        "Geert Uytterhoeven" <geert@linux-m68k.org>,
-        "Lee Jones" <lee.jones@linaro.org>
-Cc:     "Boris Brezillon" <bbrezillon@kernel.org>,
-        "Mark Brown" <broonie@kernel.org>,
+        Mon, 20 May 2019 03:37:57 -0400
+Received: by mail-vs1-f66.google.com with SMTP id d128so8304606vsc.10;
+        Mon, 20 May 2019 00:37:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZzFqnIOsi8p6z+3XrmxUiH+3WXG0rfBF0N579QptVnw=;
+        b=XHlzanKfUZa49Qnj7RTchm/p+lSZvbWxzVhVGdoDtEEfmSlQnhMxXxtEMjbfIpOfQJ
+         cPK3Sf6EWE72eSHCTDJD6hWY/CC1gFkRNFwoWOhgUP69M3n6lJdCcyqc6QWN3h4fqxzg
+         IJnJM3S478GUZq1QwJn/TmjlJuAjz6tNiBm4VandNuz2qfnek2vSW4L2nvDLELzMFDrg
+         qMg4C5Bvpj9+QDDQq/GeZDCXxqyJB+HrTModIDBUeXKSBkWyhagZoBSQqPNsdJJYtTm/
+         K0ZV4Wi/EhAmQu9a6Ker0LLJUSr0cPbxo0wPo4yBm6Rc9tG0JUzYXF2WQFxDnhxarntK
+         qpnw==
+X-Gm-Message-State: APjAAAVFF04Nikw+/bnoHdVrVEO8xI2dnLQZXfuQYLo1/G7rilI4cDES
+        249i1nOnYzyG0CH4W4SCNyuI+U+QtHE/oICDB4o=
+X-Google-Smtp-Source: APXvYqyUussoat3RoiVGfWvPbqvmfPyaaXxlv6lPx8B2T1BSZy0HJO2KEIQH+Mu9ccoM18jhu0wEOGioz6Sr2M5lBWk=
+X-Received: by 2002:a67:fdd4:: with SMTP id l20mr28417242vsq.63.1558337876203;
+ Mon, 20 May 2019 00:37:56 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190504004258.23574-1-erosca@de.adit-jv.com> <20190504004258.23574-3-erosca@de.adit-jv.com>
+ <CAMuHMdWnuvQvugqfMjE1R_QDvf-Pma8POb1x5YjRr97+M-=HHg@mail.gmail.com>
+ <20190506194233.GA32430@vmlxhi-102.adit-jv.com> <OSBPR01MB3174C93C0A49701EC72F9D82D8060@OSBPR01MB3174.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSBPR01MB3174C93C0A49701EC72F9D82D8060@OSBPR01MB3174.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 20 May 2019 09:37:43 +0200
+Message-ID: <CAMuHMdVR4idTqOiNWMi3GAS0D-V+SMsYSsukgEMYyz5zDcuPbw@mail.gmail.com>
+Subject: Re: [PATCH 2/6] Revert "arm64: dts: renesas: r8a7796: Enable DMA for SCIF2"
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "REE erosca@DE.ADIT-JV.COM" <erosca@de.adit-jv.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Chris Brandt <Chris.Brandt@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Ulrich Hecht <ulrich.hecht+renesas@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "George G . Davis" <george_davis@mentor.com>,
+        Andy Lowe <andy_lowe@mentor.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        "Geert Uytterhoeven" <geert@linux-m68k.org>,
-        "Geert Uytterhoeven" <geert+renesas@glider.be>,
-        "Simon Horman" <horms@verge.net.au>, juliensu@mxic.com.tw,
-        "Lee Jones" <lee.jones@linaro.org>,
-        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
-        "Linux-Renesas" <linux-renesas-soc@vger.kernel.org>,
-        "linux-spi" <linux-spi@vger.kernel.org>,
-        "Marek Vasut" <marek.vasut@gmail.com>,
-        "Mark Rutland" <mark.rutland@arm.com>,
-        "Rob Herring" <robh@kernel.org>, zhengxunli@mxic.com.tw,
-        "Miquel Raynal" <miquel.raynal@bootlin.com>
-Subject: Re: [PATCH v12 3/3] dt-bindings: mfd: Document Renesas R-Car Gen3 RPC-IF
- MFD bindings
-MIME-Version: 1.0
-X-KeepSent: 5AF00898:3CE87C98-48258400:00259B16;
- type=4; name=$KeepSent
-X-Mailer: Lotus Notes Release 8.5.3FP4 SHF90 June 10, 2013
-Message-ID: <OF5AF00898.3CE87C98-ON48258400.00259B16-48258400.0028A4F5@mxic.com.tw>
-From:   masonccyang@mxic.com.tw
-Date:   Mon, 20 May 2019 15:23:57 +0800
-X-MIMETrack: Serialize by Router on MXML06C/TAIWAN/MXIC(Release 9.0.1FP10 HF265|July 25, 2018) at
- 2019/05/20 PM 03:23:57,
-        Serialize complete at 2019/05/20 PM 03:23:57
-Content-Type: text/plain; charset="US-ASCII"
-X-MAIL: TWHMLLG3.macronix.com x4K7NvO7058232
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michael Rodin <mrodin@de.adit-jv.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Shimoda-san,
 
-Hi Sergei, 
+Thanks for your analysis!
 
-> >>> -------------------------------------------------------------->
-> >>>
-> >>> Renesas R-Car Gen3 RPC-IF controller Device Tree Bindings
-> >>> ---------------------------------------------------------
-> >>>
-> >>>   RPC-IF supports both SPI NOR and HyperFlash (CFI-compliant flash)
-> >>>
-> >>>   Required properties:
-> >>>   - compatible: should be an SoC-specific compatible value, followed 
+On Mon, May 20, 2019 at 4:18 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> > From: Eugeniu Rosca, Sent: Tuesday, May 7, 2019 4:43 AM
+> <snip>
+> > > > [0] v5.0-rc6 commit 97f26702bc95b5 ("arm64: dts: renesas: r8a7796: Enable DMA for SCIF2")
+> > > > [1] v4.14.106 commit 703db5d1b1759f ("arm64: dts: renesas: r8a7796: Enable DMA for SCIF2")
+> > > > [2] scif (DEBUG) and rcar-dmac logs:
+> > > >     https://gist.github.com/erosca/132cce76a619724a9e4fa61d1db88c66
+> <snip>
+> > Enabling DEBUG in drivers/dma/sh/rcar-dmac.c, I can notice that one of
+> > the symptoms is a NULL dst_addr revealed by:
+> >
+> > rcar-dmac e7300000.dma-controller: chan0: queue chunk (____ptrval____): 0@0xffff800639eb8090 -> 0x0000000000000000
+> >
+> > In working scenarios, dst_addr is never zero. Does it give any hints?
+>
+> Thank you for the report! It's very helpful to me.
+> I think we should fix the sh-sci driver at least.
+>
+> According to the [2] log above,
+>
+> [    4.379716] sh-sci e6e88000.serial: sci_dma_tx_work_fn: ffff800639b55000: 0...0, cookie 126
+>
+> This "0...0" means the s->tx_dma_len on the sci_dma_tx_work_fn will be zero. And,
 
-> > by
-> >>>                   "renesas,rcar-gen3-rpc" as a fallback.
-> >>>                   supported SoC-specific values are:
-> >>>                   "renesas,r8a77995-rpc"  (R-Car D3)
-> >>>   - reg: should contain three register areas:
-> >>>           first for the base address of RPC-IF registers,
-> >>
-> >>    I'd drop "the base address" here.
-> > 
-> > okay.
-> > 
-> >>>           second for the direct mapping read mode and
-> >>>           third for the write buffer area.
-> >>>   - reg-names: should contain "regs", "dirmap" and "wbuf"
-> >>>   - clocks: should contain 1 entries for the module's clock
-> >>>   - clock-names: should contain "rpc"
-> >>
-> >>    I suspect we'd need the RPC/RPCD2 clocks mentioned as well (not 
-sure 
-> > yet)...
-> > 
-> > Need it ?
-> 
->    You seem to call clk_get_rate() on the module clock, I doubt that's
-> correct topologically...
+How can this happen? schedule_work(&s->work_tx) is called only if
+!uart_circ_empty(), and while holding the port lock? So the circular
+buffer must be made empty in between the call to schedule_work() and the
+work function sci_dma_tx_work_fn() being called.
 
-I think it's correct but just like Geert mentioned that there is no any 
-patch
-in drivers/clk/renesas/r8a77995-cpg-mssr.c adding RPC-related clocks.
+I think this can happen if uart_flush_buffer() is called at the right
+moment?
 
+> > rcar-dmac e7300000.dma-controller: chan0: queue chunk (____ptrval____): 0@0xffff800639eb8090 -> 0x0000000000000000
+>
+> This means the chunk->dst_addr is not set to the "dst_addr" for SCIF because the len on rcar_dmac_chan_prep_sg is zero.
+> So, I'm thinking:
+>  - we have to fix the sh_sci driver to avoid "tx_dma_len = 0" transferring.
 
-I patched dt-bindings/clock/r8a77995-cpg-mssr.h for some simple testing
+That sounds like just a simple check for !s->tx_dma_len in
+sci_dma_tx_work_fn(), to return early, _and_ reset s->cookie_tx to
+-EINVAL.
 
--#define R8A77995_CLK_RPC               29
--#define R8A77995_CLK_RPCD2             30
-+#define R8A77995_CLK_RPC               31
-+#define R8A77995_CLK_RPCD2             32
+However, uart_flush_buffer() may still be called in between the check
+and the calls to dmaengine_prep_slave_single() /
+dma_sync_single_for_device(), clearing s->tx_dma_len again.
+Unless something has changed recently, these two calls cannot be moved
+inside the spinlock-protected section?
+Using a cached value of s->tx_dma_len for the dmaengine calls might
+work, though.
 
-by clk_prepare_enable() & clk_disable_unprepare() with CPG_MOD 917 
-on D3 draak board, it is working fine.
+> and
+>
+>  - also we have to fix the rcar-dmac driver to avoid this issue because the DMA Engine API
+>    guide doesn't prevent the len = 0.
 
+I guess returning an error makes most sense?
+Else we have to fix it deeper into the driver, where handling becomes
+more complex.
 
-> >>
-> >>>   - SPI mode:git
-> >>>
-> >>>           rpc: rpc-if@ee200000 {
-> >>
-> >>    The node names should be generic, based on the device class. And 
-in 
-> > this
-> >> case I'd like to use "spi@ee200000" as otherwise dtc keeps bitching 
-like 
-> > below:
-> > 
-> > okay, patch to
-> > 
-> > rpc_if: spi@<...>
-> 
->    That, or just keep the node label.
+Gr{oetje,eeting}s,
 
-okay.
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-> >>>   - HF mode:
-> >>>           rpc: rpc-if@ee200000 {
-> >>
-> >>    Again, spi@<...>.
-> > 
-> > what about rpc_if: hf@<...>
-> 
->    Can't change the node name, as it's declared in the .dtsi files, not 
-*.dts
-> ones. And "spi" works for the HF case as well -- no complaints from dtc. 
-:-)
-
-okay,
-
- 
-Patch DTS to
-===============================================================> 
-+Renesas R-Car Gen3 RPC-IF controller Device Tree Bindings
-+---------------------------------------------------------
-+
-+RPC-IF supports both SPI NOR and HyperFlash (CFI-compliant flash)
-+
-+Required properties:
-+- compatible: should be an SoC-specific compatible value, followed by
-+                                "renesas,rcar-gen3-rpc" as a fallback.
-+                                supported SoC-specific values are:
-+                                "renesas,r8a77995-rpc"          (R-Car 
-D3)
-+- reg: should contain three register areas:
-+                first for RPC-IF registers,
-+                second for the direct mapping read mode and
-+                third for the write buffer area.
-+- reg-names: should contain "regs", "dirmap" and "wbuf"
-+- clocks: should contain 1 entries for the module's clock
-+- clock-names: should contain "rpc"
-+- power-domains: should contain system-controller(sysc) for 
-power-domain-cell
-+- resets: should contain clock pulse generator(cpg) for reset-cell,
-+                  power-domain-cell and clock-cell
-+- #address-cells: should be 1
-+- #size-cells: should be 0
-+
-+Example:
-+- SPI mode:
-+
-+                rpc: spi@ee200000 {
-+                                compatible = "renesas,r8a77995-rpc", 
-"renesas,rcar-gen3-rpc";
-+                                reg = <0 0xee200000 0 0x200>, <0 
-0x08000000 0 0x4000000>,
-+                                      <0 0xee208000 0 0x100>;
-+                                reg-names = "regs", "dirmap", "wbuf";
-+                                clocks = <&cpg CPG_MOD 917>;
-+                                clock-names = "rpc";
-+                                power-domains = <&sysc 
-R8A77995_PD_ALWAYS_ON>;
-+                                resets = <&cpg 917>;
-+                                #address-cells = <1>;
-+                                #size-cells = <0>;
-+
-+                                flash@0 {
-+                                                compatible = 
-"jedec,spi-nor";
-+                                                reg = <0>;
-+                                                spi-max-frequency = 
-<40000000>;
-+                                                spi-tx-bus-width = <1>;
-+                                                spi-rx-bus-width = <1>;
-+                                };
-+                };
-+
-+- HF mode:
-+                rpc: spi@ee200000 {
-+                                compatible = "renesas,r8a77995-rpc", 
-"renesas,rcar-gen3-rpc";
-+                                reg = <0 0xee200000 0 0x200>, <0 
-0x08000000 0 0x4000000>,
-+                                      <0 0xee208000 0 0x100>;
-+                                reg-names = "regs", "dirmap", "wbuf";
-+                                clocks = <&cpg CPG_MOD 917>;
-+                                clock-names = "rpc";
-+                                power-domains = <&sysc 
-R8A77995_PD_ALWAYS_ON>;
-+                                resets = <&cpg 917>;
-+                                #address-cells = <1>;
-+                                #size-cells = <0>;
-+
-+                                flash@0 {
-+                                                compatible = 
-"cypress,hyperflash", "cfi-flash";
-+                                                reg = <0>;
-+                                };
-+                };
-===============================================================<
-
-thanks & best regards,
-Mason
-
-
-CONFIDENTIALITY NOTE:
-
-This e-mail and any attachments may contain confidential information 
-and/or personal data, which is protected by applicable laws. Please be 
-reminded that duplication, disclosure, distribution, or use of this e-mail 
-(and/or its attachments) or any part thereof is prohibited. If you receive 
-this e-mail in error, please notify us immediately and delete this mail as 
-well as its attachment(s) from your system. In addition, please be 
-informed that collection, processing, and/or use of personal data is 
-prohibited unless expressly permitted by personal data protection laws. 
-Thank you for your attention and cooperation.
-
-Macronix International Co., Ltd.
-
-=====================================================================
-
-
-
-============================================================================
-
-CONFIDENTIALITY NOTE:
-
-This e-mail and any attachments may contain confidential information and/or personal data, which is protected by applicable laws. Please be reminded that duplication, disclosure, distribution, or use of this e-mail (and/or its attachments) or any part thereof is prohibited. If you receive this e-mail in error, please notify us immediately and delete this mail as well as its attachment(s) from your system. In addition, please be informed that collection, processing, and/or use of personal data is prohibited unless expressly permitted by personal data protection laws. Thank you for your attention and cooperation.
-
-Macronix International Co., Ltd.
-
-=====================================================================
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
