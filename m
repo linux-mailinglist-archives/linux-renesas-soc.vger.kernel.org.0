@@ -2,45 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A7F362324A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 May 2019 13:26:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2F382324F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 May 2019 13:27:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731141AbfETL02 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 May 2019 07:26:28 -0400
-Received: from mail-vs1-f67.google.com ([209.85.217.67]:39566 "EHLO
-        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730431AbfETL02 (ORCPT
+        id S1731669AbfETL1J (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 May 2019 07:27:09 -0400
+Received: from mail-vk1-f196.google.com ([209.85.221.196]:37549 "EHLO
+        mail-vk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730727AbfETL1J (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 May 2019 07:26:28 -0400
-Received: by mail-vs1-f67.google.com with SMTP id m1so8647991vsr.6;
-        Mon, 20 May 2019 04:26:28 -0700 (PDT)
+        Mon, 20 May 2019 07:27:09 -0400
+Received: by mail-vk1-f196.google.com with SMTP id j124so265416vkb.4;
+        Mon, 20 May 2019 04:27:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=eYh3p3HOpcT4lqNgMmCyvjbW7kHHw9/gDlHs2k58eGw=;
-        b=TReJRrOBIrjYzIgLhpEvlRRuL2kGPQ66n47k8mK3e7Jb0HJzfC/DoPb/tFPUPJBl1r
-         3yQneYCiGLsMtED0F8c8iQnaMtanV7f2JB8wYP6Di9noZ1g15MV6IdpWUmgso3iCp+sR
-         jWs/hd7cjMIgym2wuoNfsbZowfny5snrw/EQlzO9IGnHrp02FAP8KxdkdlS2/UeAbU34
-         2PwNUw8e2lZQODjD2obCQycQdwURkujP3FLVWS8ntByELmKy4fdKPzeV7yYSeQkC/ccU
-         d+io7Bg3AfGiy76mFj1xYaINEnCP1sR/ZGuGGDcn9ExQPn+l3k9jVOXR/nUzxEatcpI0
-         cxbg==
-X-Gm-Message-State: APjAAAWUq86GrFhfG3WI8MYXiBUgwuaL+3YmcWFqw1dWwD122slcALfP
-        e4lQiQHN5QhS7IOlpF2qkaqtcD3211A95cjvJBQ=
-X-Google-Smtp-Source: APXvYqx2/1lpRKgbhti/JX9ovB4TCThYW3GOJfDwqfHbDDKQrIgtEUROBuRz9N303BnNhhdNUvfE+7TC7XDQ0wuG1Cc=
-X-Received: by 2002:a67:f589:: with SMTP id i9mr3259018vso.152.1558351587535;
- Mon, 20 May 2019 04:26:27 -0700 (PDT)
+        bh=JVn4f0QCPxxczdD4sYl+3GS6XZA54vG4TuK18txcbfw=;
+        b=AOJ5xs1k5ehUwUzO/35xbAQtR7M35QEJWlfvj1iYNwglB7kyvtI42Gw/rFjl49L0l7
+         es/SC8wduoxkIuJArNb90Ry8EWOKADukwjKstrlSUidfhEMMeQMkkAlzjZm0yHn/ne8j
+         V9ZjAIWte3CcvQtuMqaamSubXbUEhNNhl7wRsKvt7EqbkXg9XRUs7RfiCKW18uHnfNqV
+         K7jXxVJCEgNR+gpM64oIaLBln6LurH8gl1YCbTRuHtNVB0SbqFhw1RqRuUDcsHy/OaaB
+         W1+07a4SFkRvV6lRTGSVFY5v5g3nZp2Vr8tUzy1J+sNNJT06e8ol6TduStflRNkuJhhd
+         xiVg==
+X-Gm-Message-State: APjAAAV1zzvSjJ4TBtQ16rMxVpBav6AgTyK5EPzQ4XyE7gzxfxFKvxvY
+        0wTResYyumovpDk013yyR26aH6CBONGIK+KO8kA=
+X-Google-Smtp-Source: APXvYqwaApm9b1VrKDSgVewLUKxJ8c2EuhZdOLeZqAKZjmD1Bq5Nav2CMje3OBpVPTrW2u0KAp/tU72M1XsuZ5N2K5w=
+X-Received: by 2002:a1f:2fd2:: with SMTP id v201mr6271659vkv.83.1558351628028;
+ Mon, 20 May 2019 04:27:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190520092711.30662-1-wsa+renesas@sang-engineering.com> <20190520092711.30662-2-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20190520092711.30662-2-wsa+renesas@sang-engineering.com>
+References: <20190520093446.30895-1-wsa+renesas@sang-engineering.com> <20190520093446.30895-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20190520093446.30895-2-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 20 May 2019 13:26:15 +0200
-Message-ID: <CAMuHMdXAgvW4aZc7LmjNSrK3F2RCSC=QtOtDGS_xAu7SFAjFBw@mail.gmail.com>
-Subject: Re: [PATCH RESEND 1/2] input: da9063_onkey: remove platform_data support
+Date:   Mon, 20 May 2019 13:26:56 +0200
+Message-ID: <CAMuHMdVh4Vry1OMYhBc-oGSHEwyeLtydoJEc8VPThXiMsp9rWw@mail.gmail.com>
+Subject: Re: [PATCH RESEND 1/3] regulator: da9063: remove platform_data support
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-input@vger.kernel.org,
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mark Brown <broonie@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Steve Twiss <stwiss.opensource@diasemi.com>,
         Simon Horman <horms+renesas@verge.net.au>
 Content-Type: text/plain; charset="UTF-8"
@@ -49,7 +49,7 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, May 20, 2019 at 12:40 PM Wolfram Sang
+On Mon, May 20, 2019 at 12:47 PM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
 > There are no in-kernel users anymore, so remove this outdated interface.
 >
@@ -64,8 +64,7 @@ Gr{oetje,eeting}s,
 
                         Geert
 
-
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
