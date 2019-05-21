@@ -2,125 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A1581255C7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 May 2019 18:39:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3716B255EA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 May 2019 18:44:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728103AbfEUQjN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 May 2019 12:39:13 -0400
-Received: from mail-vs1-f67.google.com ([209.85.217.67]:35130 "EHLO
-        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727946AbfEUQjN (ORCPT
+        id S1728581AbfEUQog (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 May 2019 12:44:36 -0400
+Received: from foss.arm.com ([217.140.101.70]:38628 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728103AbfEUQof (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 May 2019 12:39:13 -0400
-Received: by mail-vs1-f67.google.com with SMTP id q13so11537973vso.2;
-        Tue, 21 May 2019 09:39:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=d3r+vtHOni2ql6K8KUyHYDwXA6dbsBBCMW+a9jJjXY0=;
-        b=ptSGQht4/1Z682C+yPxpLx8zmsnzKrrvEctI3mcXgdYD5nxhJ3QzrJfKHBGlZlNGQw
-         Kq3u596/OJ1U3gXi50oj4mBNLD0X5CJbDyj5WpUIE9bo/mCNICw7oBjr+wejRs7abfhv
-         KLp8TZzGOP8k7czbRIRZkCfRRms1phJe9jN9OH9yjKlbKAeiJMZsOhK+Bh76zdYNxNr+
-         XwlgnHrFo8DxRzPveBpf9FHO83WY/pVIb7Aw5j7Avszp71P6HtPfjwBE7U9hNChjlVDQ
-         y0dZ/o2WeCf/Dm1TY1h3mr5pApM99jobAu3trlhOAXEs481+V6Vu0v6LYSTe0nE4ilCa
-         2FFA==
-X-Gm-Message-State: APjAAAVy0ZYDzHKUrB3yR+8AFbHeJ2sQ2lbDoyYN7rafdU/9o2r93GsF
-        2s162tCYlKoYRmSN/WVEaOj598kS9QwiykJzviQFhbAq
-X-Google-Smtp-Source: APXvYqwCQIckTpeBswbXwCcMWkbVVy9WAUMEJsw8Zbz08S2CXrenseFMa2ivFFBrrmH68j06jfFotolazbcgC2VSxME=
-X-Received: by 2002:a67:f589:: with SMTP id i9mr9021336vso.152.1558456752226;
- Tue, 21 May 2019 09:39:12 -0700 (PDT)
+        Tue, 21 May 2019 12:44:35 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8B95C374;
+        Tue, 21 May 2019 09:44:35 -0700 (PDT)
+Received: from e110467-lin.cambridge.arm.com (e110467-lin.cambridge.arm.com [10.1.196.75])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 2BC663F718;
+        Tue, 21 May 2019 09:44:34 -0700 (PDT)
+From:   Robin Murphy <robin.murphy@arm.com>
+To:     robh+dt@kernel.org, mark.rutland@arm.com
+Cc:     devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 1/2] arm64: dts: renesas: r8a774c0: Clean up CPU compatibles
+Date:   Tue, 21 May 2019 17:44:26 +0100
+Message-Id: <50fbe259ee5951e32221af457737b7d970be9f32.1558456785.git.robin.murphy@arm.com>
+X-Mailer: git-send-email 2.21.0.dirty
 MIME-Version: 1.0
-References: <git-mailbomb-linux-master-c4741b23059794bd99beef0f700103b0d983b3fd@kernel.org>
-In-Reply-To: <git-mailbomb-linux-master-c4741b23059794bd99beef0f700103b0d983b3fd@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 21 May 2019 18:39:00 +0200
-Message-ID: <CAMuHMdWSUMOh1uG1g+cipup86ZpiVYuHDpPJtp+gSmmUyjB6eA@mail.gmail.com>
-Subject: Re: crypto: run initcalls for generic implementations earlier
-To:     Eric Biggers <ebiggers@google.com>
-Cc:     Herbert Xu <herbert@gondor.apana.org.au>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Eric,
+Apparently this DTS crossed over with commit 31af04cd60d3 ("arm64: dts:
+Remove inconsistent use of 'arm,armv8' compatible string") and missed
+out on the cleanup, so put it right.
 
-On Tue, May 7, 2019 at 5:26 AM Linux Kernel Mailing List
-<linux-kernel@vger.kernel.org> wrote:
-> Commit:     c4741b23059794bd99beef0f700103b0d983b3fd
-> Parent:     40153b10d91c9e25f912344ba6ce1f0874400659
-> Refname:    refs/heads/master
-> Web:        https://git.kernel.org/torvalds/c/c4741b23059794bd99beef0f700103b0d983b3fd
-> Author:     Eric Biggers <ebiggers@google.com>
-> AuthorDate: Thu Apr 11 21:57:42 2019 -0700
-> Committer:  Herbert Xu <herbert@gondor.apana.org.au>
-> CommitDate: Thu Apr 18 22:15:03 2019 +0800
->
->     crypto: run initcalls for generic implementations earlier
->
->     Use subsys_initcall for registration of all templates and generic
->     algorithm implementations, rather than module_init.  Then change
->     cryptomgr to use arch_initcall, to place it before the subsys_initcalls.
->
->     This is needed so that when both a generic and optimized implementation
->     of an algorithm are built into the kernel (not loadable modules), the
->     generic implementation is registered before the optimized one.
->     Otherwise, the self-tests for the optimized implementation are unable to
->     allocate the generic implementation for the new comparison fuzz tests.
->
->     Note that on arm, a side effect of this change is that self-tests for
->     generic implementations may run before the unaligned access handler has
->     been installed.  So, unaligned accesses will crash the kernel.  This is
->     arguably a good thing as it makes it easier to detect that type of bug.
->
->     Signed-off-by: Eric Biggers <ebiggers@google.com>
->     Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
+CC: Simon Horman <horms@verge.net.au>
+CC: Magnus Damm <magnus.damm@gmail.com>
+CC: linux-renesas-soc@vger.kernel.org
+Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+---
+ arch/arm64/boot/dts/renesas/r8a774c0.dtsi | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> --- a/crypto/jitterentropy-kcapi.c
-> +++ b/crypto/jitterentropy-kcapi.c
-> @@ -198,7 +198,7 @@ static void __exit jent_mod_exit(void)
->         crypto_unregister_rng(&jent_alg);
->  }
->
-> -module_init(jent_mod_init);
-> +subsys_initcall(jent_mod_init);
->  module_exit(jent_mod_exit);
->
->  MODULE_LICENSE("Dual BSD/GPL");
+diff --git a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
+index 3f86db199dbf..500b7bd58022 100644
+--- a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
+@@ -70,7 +70,7 @@
+ 		#size-cells = <0>;
+ 
+ 		a53_0: cpu@0 {
+-			compatible = "arm,cortex-a53", "arm,armv8";
++			compatible = "arm,cortex-a53";
+ 			reg = <0>;
+ 			device_type = "cpu";
+ 			power-domains = <&sysc R8A774C0_PD_CA53_CPU0>;
+@@ -81,7 +81,7 @@
+ 		};
+ 
+ 		a53_1: cpu@1 {
+-			compatible = "arm,cortex-a53", "arm,armv8";
++			compatible = "arm,cortex-a53";
+ 			reg = <1>;
+ 			device_type = "cpu";
+ 			power-domains = <&sysc R8A774C0_PD_CA53_CPU1>;
+-- 
+2.21.0.dirty
 
-This change causes jitterentropy to fail on Renesas SoCs based on
-single-core Cortex A9 with:
-
-    jitterentropy: Initialization failed with host not compliant with
-requirements: 2
-
-This happens because jitterentropy is now initialized before the main
-clocksource is activated, i.e. before
-
-    clocksource: Switched to clocksource ostm timer (on RZ/A1)
-    clocksource: Switched to clocksource fff80000.timer (on R-Mobile A1)
-
-is printed.
-RZ/A1 and R-Mobile A1 SoCs rely on the OSTM resp. TMU timers.
-
-The issue does not happen on SoCs with Cortex A15 cores (with ARM
-architectured timer) or Cortex A9 multicore (with ARM global timer).
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
