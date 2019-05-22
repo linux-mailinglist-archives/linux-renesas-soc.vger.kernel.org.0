@@ -2,143 +2,289 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C0E326737
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 May 2019 17:49:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 789BC2684F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 May 2019 18:32:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729402AbfEVPtK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 May 2019 11:49:10 -0400
-Received: from esa1.microchip.iphmx.com ([68.232.147.91]:25675 "EHLO
-        esa1.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729375AbfEVPtK (ORCPT
+        id S1728527AbfEVQcL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 May 2019 12:32:11 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:44202 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729572AbfEVQcL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 May 2019 11:49:10 -0400
-Received-SPF: Pass (esa1.microchip.iphmx.com: domain of
-  Tudor.Ambarus@microchip.com designates 198.175.253.82 as
-  permitted sender) identity=mailfrom;
-  client-ip=198.175.253.82; receiver=esa1.microchip.iphmx.com;
-  envelope-from="Tudor.Ambarus@microchip.com";
-  x-sender="Tudor.Ambarus@microchip.com";
-  x-conformance=spf_only; x-record-type="v=spf1";
-  x-record-text="v=spf1 mx a:ushub1.microchip.com
-  a:smtpout.microchip.com a:mx1.microchip.iphmx.com
-  a:mx2.microchip.iphmx.com include:servers.mcsv.net
-  include:mktomail.com include:spf.protection.outlook.com ~all"
-Received-SPF: None (esa1.microchip.iphmx.com: no sender
-  authenticity information available from domain of
-  postmaster@email.microchip.com) identity=helo;
-  client-ip=198.175.253.82; receiver=esa1.microchip.iphmx.com;
-  envelope-from="Tudor.Ambarus@microchip.com";
-  x-sender="postmaster@email.microchip.com";
-  x-conformance=spf_only
-Authentication-Results: esa1.microchip.iphmx.com; spf=Pass smtp.mailfrom=Tudor.Ambarus@microchip.com; spf=None smtp.helo=postmaster@email.microchip.com; dkim=pass (signature verified) header.i=@microchiptechnology.onmicrosoft.com; dmarc=pass (p=none dis=none) d=microchip.com
-X-IronPort-AV: E=Sophos;i="5.60,499,1549954800"; 
-   d="scan'208";a="35738324"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/DHE-RSA-AES256-SHA; 22 May 2019 08:49:09 -0700
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.76.49) with Microsoft SMTP Server (TLS) id
- 14.3.352.0; Wed, 22 May 2019 08:49:09 -0700
+        Wed, 22 May 2019 12:32:11 -0400
+Received: by mail-lf1-f67.google.com with SMTP id n134so2157486lfn.11
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 22 May 2019 09:32:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector1-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wXLok7OLeBekE5+jfpi6DXMEkhHl0IvhDcNZIqI4THM=;
- b=VSnt2oroCYGfwDfJciSLb7ACM7TUEmNGwByWJi3J16Fnp1N3YP3F9pm11NSseEBU7fNgu+bKY4m67rBAaOC5Z50xl0oXsmEbObh0bXJEANsTLyADb/qfrVxFvD9xg5hgPvxhyI/zajh9MseDYgOYGu8I0kvYSwv9fcLowogbZ2M=
-Received: from BN6PR11MB1842.namprd11.prod.outlook.com (10.175.98.146) by
- BN6PR11MB1299.namprd11.prod.outlook.com (10.173.32.135) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1922.15; Wed, 22 May 2019 15:49:04 +0000
-Received: from BN6PR11MB1842.namprd11.prod.outlook.com
- ([fe80::35b3:7af:7216:8808]) by BN6PR11MB1842.namprd11.prod.outlook.com
- ([fe80::35b3:7af:7216:8808%10]) with mapi id 15.20.1922.017; Wed, 22 May 2019
- 15:49:04 +0000
-From:   <Tudor.Ambarus@microchip.com>
-To:     <geert@linux-m68k.org>
-CC:     <linux-renesas-soc@vger.kernel.org>, <jonas@norrbonn.se>,
-        <linux-mtd@lists.infradead.org>, <marek.vasut+renesas@gmail.com>
-Subject: Re: [PATCH v4 2/3] spi-nor: s25fl512s supports region locking
-Thread-Topic: [PATCH v4 2/3] spi-nor: s25fl512s supports region locking
-Thread-Index: AQHU3uz1n9sAm8MvGUei5wsE+JArGKZft50AgAANmoCAAAIxgIAABqiAgAAbqwCAAAZdgIAAApsAgAATIoCAAVI2gIAAKTcAgAAUAICAACvcAIAA6X4AgAAl0YCAABZ5gIAAC36AgBS7dwA=
-Date:   Wed, 22 May 2019 15:49:03 +0000
-Message-ID: <c57fe97b-ad4a-874e-663f-7f3a737824c9@microchip.com>
-References: <20190320071605.4289-1-jonas@norrbonn.se>
- <1f33e1e5-d7bf-76a0-c4d3-ecbc35fbfd4f@microchip.com>
- <CAMuHMdU83vLeVSqMZuJwR4yd382mau-OE1saMAOC2+6HodsHvg@mail.gmail.com>
- <fac5fa6d-95e9-cfb0-4d5a-6b16d4470190@norrbonn.se>
- <CAMuHMdUEdNr5rgCdaGAFJ-WK4oL2DC419smk+QYOJ7qJvkWA8A@mail.gmail.com>
- <a9ad3641-1eb8-782c-9dfd-0db41256d3f1@microchip.com>
- <ad49240c-2073-4045-c11c-fb6bad231321@microchip.com>
- <CAMuHMdVcp--qRo3m8kSQ=++Vx33kvxBWEHFVHfh-j=pq1x-GPQ@mail.gmail.com>
- <898831ba-b8bb-7c2b-e623-2e6c26da91b5@microchip.com>
- <CAMuHMdXFwFAPzYPKqj+FZgSq01VAD0izS3ELyOg1YBwTAQ_QkQ@mail.gmail.com>
- <8b004a57-0fd9-04fe-d031-1d98d890f826@microchip.com>
- <CAMuHMdXghAWmNJLUq_uOUVPrrNTAcFq=QqCGjLU51FchvOu3=g@mail.gmail.com>
- <6a8d9a6c-5281-88d2-51ae-e2afad847a8f@microchip.com>
- <CAMuHMdVBguF4ZQHTqwr6GAJKuUcvBGu-5p0GeYRmZ3dG8tXa2g@mail.gmail.com>
- <7649e84f-debb-cec8-d6d6-d33d9dce4259@microchip.com>
- <CAMuHMdVPrR=58_+P+D9Gos89n4Yv7wYzLORXmY=JKxZZ2ydKPg@mail.gmail.com>
-In-Reply-To: <CAMuHMdVPrR=58_+P+D9Gos89n4Yv7wYzLORXmY=JKxZZ2ydKPg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: LO2P265CA0398.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:f::26) To BN6PR11MB1842.namprd11.prod.outlook.com
- (2603:10b6:404:101::18)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [94.177.32.154]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d2a06a82-cc73-431e-aace-08d6decd0414
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);SRVR:BN6PR11MB1299;
-x-ms-traffictypediagnostic: BN6PR11MB1299:
-x-microsoft-antispam-prvs: <BN6PR11MB129911643FB02073898253FAF0000@BN6PR11MB1299.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
-x-forefront-prvs: 0045236D47
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(376002)(366004)(396003)(39860400002)(346002)(189003)(199004)(61684003)(51914003)(86362001)(6246003)(31696002)(316002)(305945005)(2906002)(54906003)(478600001)(7736002)(25786009)(6512007)(4326008)(6486002)(72206003)(53936002)(256004)(14444005)(5660300002)(71200400001)(71190400001)(8676002)(14454004)(8936002)(81166006)(6116002)(99286004)(3846002)(81156014)(66446008)(64756008)(66556008)(53546011)(6506007)(386003)(26005)(66476007)(229853002)(486006)(36756003)(186003)(68736007)(2616005)(476003)(102836004)(11346002)(52116002)(76176011)(31686004)(446003)(6436002)(6916009)(73956011)(66946007)(66066001);DIR:OUT;SFP:1101;SCL:1;SRVR:BN6PR11MB1299;H:BN6PR11MB1842.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: microchip.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 4Wr71RuYsuyhh+t7oY8NWECJVwYN/18KcKD5md1Z/06RnLmQCiOE/ylPXrXtnUA9c+JEM4IrcO4F1YEi3VM+V7ZCWpgry5vgJgug+gP2GSMQ1JcnNScSh35z+QoRi+gaJowW0r/sXf7z1sWwsAZaX7aWjZ8AxwWz1q2Li7G9Vk5bslkD7erXrtacPBuFlDF6xWfKtbq0iDH4AmEUNnO93cvUeG8O71TN7oMrKFL6AdEc4Y9iooJr81OH+cO02vbH0HqwhQ/AlIvcQ5Ttt+9YfdI+bgozpT7TR4c9j32/kT0XfmM+FS+BTyePn4oqJDSDR7mmUva+39M3hdX4sQeApahHCloZecanWMoDtu0gJsxupsErWMQLq/FZU6n427lQtSrYkqzBjTy0bj/TpJUw2IUIyjpFamLAHQLtOWVRPWg=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <1F512B49FAE7A14794DE8E4B8B969F0B@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=qThinqX735sf8pV9gEurKexsu6v0KDCesOpmYS6C1nU=;
+        b=LfaGikSQzkfp3MTtTD2riyljAlYtgygqiQ76isa3QiDIAdNTkg9Psw2gEp57lgcaC9
+         hXjQYzoyg9a+kq67pScg7J/emNvgOW+2y1jaoct/Ur1ocYSI/5NGNGEnCvBMlFnuc8qM
+         lqKrn9Z35znXep5iHwzzV/gWqSWLC03boR0VrVXI/ZZAxTHijH+tSNR77NkL0BQmma0J
+         UlJBJA2OYAQDSaD24DiicMLJe5rNn8y7PyzLUjbfBzxl+K90QZJntGOyARexDhDr8VY9
+         s5FIGIA2dcOxR+igryXgPdS8i7Ypz9fLC10KN/KPb79JvSeIzU9NX9xqEZI5E8OhqCPa
+         86lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=qThinqX735sf8pV9gEurKexsu6v0KDCesOpmYS6C1nU=;
+        b=tlAjPfV11+PY70RcZCw6qLjcnSD9dU7hN6xXkbWHZkj4eCy6+OFIlZx9/uBhKKovOf
+         pSHoFpt873X8Y1UwM/ZUloQK0rL5t9P6RRr+1Ndt5JOzvqe3Qy490uvD0sRfgBPbwX5M
+         2bv9UUi9sRJ92cMuUSB6UV+KHKtAsgHvOobubKCPsfS5o6UcbthuIvGT98/w/5Snsru0
+         eY4/N2zqNwiN5ilQ4AEWVSgVbbnqo/p1VqnJzdoGeCC5cB4lfy7/J46OPdKguFXXKW46
+         9f+cM02A6pf6zVBIqLOhpPPGsiSyf+5F2hAgcufxfYSx5PNqUIdqaJXsiHOllqG49y/h
+         GfcA==
+X-Gm-Message-State: APjAAAVJThhDanqXe+KXGFk8dQxq9deJXtynEtEpoaSTqghJTfZAd/Po
+        4JcP4H9DRunMoXbQuqA9IHiEOw==
+X-Google-Smtp-Source: APXvYqz93Mn96ebEH/DifbwBhBmr7sSu/xHP7uqRK6cUNes/iTbCorNF+sUo3nfTvqTFfsHOIWVLUA==
+X-Received: by 2002:ac2:4213:: with SMTP id y19mr35566420lfh.66.1558542727839;
+        Wed, 22 May 2019 09:32:07 -0700 (PDT)
+Received: from wasted.cogentembedded.com ([31.173.81.14])
+        by smtp.gmail.com with ESMTPSA id x16sm5367958lji.3.2019.05.22.09.32.06
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 22 May 2019 09:32:07 -0700 (PDT)
+Subject: Re: [PATCH v12 3/3] dt-bindings: mfd: Document Renesas R-Car Gen3
+ RPC-IF MFD bindings
+To:     masonccyang@mxic.com.tw, Geert Uytterhoeven <geert@linux-m68k.org>,
+        Lee Jones <lee.jones@linaro.org>
+Cc:     Boris Brezillon <bbrezillon@kernel.org>,
+        Mark Brown <broonie@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms@verge.net.au>, juliensu@mxic.com.tw,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Rob Herring <robh@kernel.org>, zhengxunli@mxic.com.tw,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+References: <1556092536-17095-1-git-send-email-masonccyang@mxic.com.tw>
+ <20190424212356.GA27103@bogus>
+ <65853dc2-6f3c-1494-7e72-54877797cdd2@gmail.com>
+ <20190507125730.GD29524@dell>
+ <OF08A5650B.8AE8977C-ON482583F4.000E5B1E-482583F4.000F7215@mxic.com.tw>
+ <d229b19e-351c-c576-b5c4-716d10dad1a0@gmail.com> <20190508061119.GB7627@dell>
+ <OFE86674B9.06D723A0-ON482583F5.000AD50C-482583F5.000BA075@mxic.com.tw>
+ <a05cff8f-7df2-1938-c0e7-f9366bece607@cogentembedded.com>
+ <OFB19BCE91.6EBBAA77-ON482583F6.000234E2-482583F6.00061290@mxic.com.tw>
+ <CAMuHMdUP8KU3Dbv6cwOvrY0hWOcm1xqVcsi20+GvazYMDLGGZg@mail.gmail.com>
+ <OFD932ABFC.E3FFCEB8-ON482583F9.003412B1-482583F9.0034D5CA@mxic.com.tw>
+ <b51d1cb7-b3b5-208f-ab4c-145ecb57805d@cogentembedded.com> <OFAD9AA573.86373
+ <44bc8f0a-cbdc-db4a-9a46-b8bae5cc37a2@cogentembedded.com>
+ <OF5AF00898.3CE87C98-ON48258400.00259B16-48258400.0028A4F5@mxic.com.tw>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Organization: Cogent Embedded
+Message-ID: <5e718d9f-3aeb-c2ef-0723-400497b2b98f@cogentembedded.com>
+Date:   Wed, 22 May 2019 19:32:05 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: d2a06a82-cc73-431e-aace-08d6decd0414
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 May 2019 15:49:03.9770
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: tudor.ambarus@microchip.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB1299
-X-OriginatorOrg: microchip.com
+In-Reply-To: <OF5AF00898.3CE87C98-ON48258400.00259B16-48258400.0028A4F5@mxic.com.tw>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGksIEdlZXJ0LA0KDQpPbiAwNS8wOS8yMDE5IDAyOjEyIFBNLCBHZWVydCBVeXR0ZXJob2V2ZW4g
-d3JvdGU6DQo+IEV4dGVybmFsIEUtTWFpbA0KPiANCj4gDQo+IEhpIFR1ZG9yLA0KPiANCj4gT24g
-VGh1LCBNYXkgOSwgMjAxOSBhdCAxMjozMSBQTSA8VHVkb3IuQW1iYXJ1c0BtaWNyb2NoaXAuY29t
-PiB3cm90ZToNCj4+IE9uIDA1LzA5LzIwMTkgMTI6MTEgUE0sIEdlZXJ0IFV5dHRlcmhvZXZlbiB3
-cm90ZToNCj4+PiBPbiBUaHUsIE1heSA5LCAyMDE5IGF0IDg6NTYgQU0gPFR1ZG9yLkFtYmFydXNA
-bWljcm9jaGlwLmNvbT4gd3JvdGU6DQo+Pj4+IFdoZW4gdGhlIGNvbmZpZ3VyYXRpb24gcmVnaXN0
-ZXIgUVVBRCBiaXQgQ1JbMV0gaXMgMSwgb25seSB0aGUgV1JSIGNvbW1hbmQgZm9ybWF0DQo+Pj4+
-IHdpdGggMTYgZGF0YSBiaXRzIG1heSBiZSB1c2VkLCBXUlIgd2l0aCA4IGJpdHMgaXMgbm90IHJl
-Y29nbml6ZWQgYW5kIGhlbmNlIHRoZQ0KPj4+PiBGRnMuIFlvdSBwcm9iYWJseSBzZXQgcXVhZCBi
-aXQgaW4gdS1ib290LCB3aGlsZSBvdGhlcnMgZG9uJ3QuIFdlIGNhbiB2ZXJpZnkgdGhpcw0KPj4+
-PiBhc3N1bXB0aW9uIHdpdGggdGhlIHBhdGNoIGZvcm0gYmVsb3cuIENhbiB5b3UgdHJ5IGl0Pw0K
-Pj4+DQo+Pj4gQW5kIC9kZXYvbXRkMCByZWFkaW5nIHdvcmtzIGZpbmUuDQo+Pj4gVGhhbmtzIQ0K
-Pj4+DQo+Pg0KPj4gSSdtIGdsYWQgdGhhdCBpdCB3b3JrZWQsIHRoYW5rcyBmb3IgdGhlIGhlbHAu
-IEknbGwgZG8gYSBwYXRjaCB0byBmaXggdGhpcyBjYXNlLA0KPj4gYnV0IHByb2JhYmx5IGl0IHdp
-bGwgcXVhbGlmeSBmb3IgLW5leHQuIElzIC1uZXh0IG9rIGZvciB5b3U/DQo+IA0KPiBHaXZlbiB0
-aGUgaXNzdWUgaXMgcHJlc2VudCBvbmx5IGluIC1uZXh0LCBmaXhpbmcgaXQgaW4gLW5leHQgaXMg
-ZmluZSBmb3IgbWUuDQo+IFRoYW5rcyENCj4gDQoNCkkndmUgc3RhcnRlZCB3b3JraW5nIHRvIHNx
-dWFzaCB0aGUgYnVnIGRpc2NvdmVyZWQgYnkgdGhpcyBwYXRjaC4gc3BpLW5vciBmbGFzaGVzDQpm
-cm9tIGRpZmZlcmVudCBtYW51ZmFjdHVyZXJzIGhhdmUgd2lkZWx5IGRpZmZlcmVudCBjb25maWd1
-cmF0aW9ucyBmb3Igc3RhdHVzIGFuZA0KY29uZmlndXJhdGlvbiByZWdpc3RlcnMuIEkgaGF2ZSBh
-IHdvcmsgaW4gcHJvZ3Jlc3MgcGF0Y2gsIGJhY2t3YXJkIGNvbXBhdGliaWxpdHkNCnJlcXVpcmVt
-ZW50cyBpbmNyZWFzZWQgY29kZSBjb21wbGV4aXR5LiBJJ2xsIGJlIG91dCBvZiBvZmZpY2UgYW5k
-IHdpbGwgcmV0dXJuIG9uDQozcmQgb2YgSnVuZS4gUHJvYmFibHkgSSB3aWxsIG5vdCBmaW5pc2gg
-aXQgdG9kYXksIHRoaXMgaXMgdG8gaW5mb3JtIHlvdSAoYW5kDQpvdGhlcnMpIHRoYXQgSSdsbCBi
-ZSBpbmFjdGl2ZSBuZXh0IHdlZWsuDQoNCkNoZWVycywNCnRhDQoNCg==
+On 05/20/2019 10:23 AM, masonccyang@mxic.com.tw wrote:
+
+>>>>> -------------------------------------------------------------->
+>>>>>
+>>>>> Renesas R-Car Gen3 RPC-IF controller Device Tree Bindings
+>>>>> ---------------------------------------------------------
+>>>>>
+>>>>>   RPC-IF supports both SPI NOR and HyperFlash (CFI-compliant flash)
+>>>>>
+>>>>>   Required properties:
+>>>>>   - compatible: should be an SoC-specific compatible value, followed 
+> 
+>>> by
+>>>>>                   "renesas,rcar-gen3-rpc" as a fallback.
+>>>>>                   supported SoC-specific values are:
+>>>>>                   "renesas,r8a77995-rpc"  (R-Car D3)
+>>>>>   - reg: should contain three register areas:
+>>>>>           first for the base address of RPC-IF registers,
+>>>>
+>>>>    I'd drop "the base address" here.
+>>>
+>>> okay.
+>>>
+>>>>>           second for the direct mapping read mode and
+>>>>>           third for the write buffer area.
+>>>>>   - reg-names: should contain "regs", "dirmap" and "wbuf"
+>>>>>   - clocks: should contain 1 entries for the module's clock
+>>>>>   - clock-names: should contain "rpc"
+>>>>
+>>>>    I suspect we'd need the RPC/RPCD2 clocks mentioned as well (not 
+> sure 
+>>> yet)...
+>>>
+>>> Need it ?
+>>
+>>    You seem to call clk_get_rate() on the module clock, I doubt that's
+>> correct topologically...
+
+   clk_set_rate(), sorry.
+
+> 
+> I think it's correct but just like Geert mentioned that there is no any 
+> patch
+> in drivers/clk/renesas/r8a77995-cpg-mssr.c adding RPC-related clocks.
+> 
+> 
+> I patched dt-bindings/clock/r8a77995-cpg-mssr.h for some simple testing
+> 
+> -#define R8A77995_CLK_RPC               29
+> -#define R8A77995_CLK_RPCD2             30
+> +#define R8A77995_CLK_RPC               31
+> +#define R8A77995_CLK_RPCD2             32
+
+   Hm, what does this do?
+
+> by clk_prepare_enable() & clk_disable_unprepare() with CPG_MOD 917 
+> on D3 draak board, it is working fine.
+
+>>>>>   - SPI mode:git
+>>>>>
+>>>>>           rpc: rpc-if@ee200000 {
+>>>>
+>>>>    The node names should be generic, based on the device class. And in 
+>>>> this
+>>>> case I'd like to use "spi@ee200000" as otherwise dtc keeps bitching like 
+>>>> below:
+>>>
+>>> okay, patch to
+>>>
+>>> rpc_if: spi@<...>
+>>
+>>    That, or just keep the node label.
+> 
+> okay.
+> 
+>>>>>   - HF mode:
+>>>>>           rpc: rpc-if@ee200000 {
+>>>>
+>>>>    Again, spi@<...>.
+>>>
+>>> what about rpc_if: hf@<...>
+>>
+>>    Can't change the node name, as it's declared in the .dtsi files, not *.dts
+>> ones. And "spi" works for the HF case as well -- no complaints from dtc. 
+> :-)
+
+   Maybe it's possible using the "name" prop, don't know...
+
+> okay,
+>  
+> Patch DTS to
+> ===============================================================> 
+> +Renesas R-Car Gen3 RPC-IF controller Device Tree Bindings
+> +---------------------------------------------------------
+> +
+> +RPC-IF supports both SPI NOR and HyperFlash (CFI-compliant flash)
+> +
+> +Required properties:
+> +- compatible: should be an SoC-specific compatible value, followed by
+> +                                "renesas,rcar-gen3-rpc" as a fallback.
+> +                                supported SoC-specific values are:
+> +                                "renesas,r8a77995-rpc"          (R-Car 
+> D3)
+> +- reg: should contain three register areas:
+> +                first for RPC-IF registers,
+> +                second for the direct mapping read mode and
+> +                third for the write buffer area.
+> +- reg-names: should contain "regs", "dirmap" and "wbuf"
+> +- clocks: should contain 1 entries for the module's clock
+
+   1 entry (clock node phandle and specifier).
+
+> +- clock-names: should contain "rpc"
+> +- power-domains: should contain system-controller(sysc) for 
+> power-domain-cell
+
+   What's "power-domain-cell"? I know "#power-domain-cells". I'd like this
+to be "the power domain node's phandle and specifier".
+
+> +- resets: should contain clock pulse generator(cpg) for reset-cell,
+
+   It's "#reset-cells" again. I'd like this to be "the reset node's phandle
+and specifier".
+
+> +                  power-domain-cell and clock-cell
+
+   Why mntion clock-cell at all here?
+
+> +- #address-cells: should be 1
+> +- #size-cells: should be 0
+> +
+> +Example:
+> +- SPI mode:
+> +
+> +                rpc: spi@ee200000 {
+> +                                compatible = "renesas,r8a77995-rpc", 
+> "renesas,rcar-gen3-rpc";
+> +                                reg = <0 0xee200000 0 0x200>, <0 
+> 0x08000000 0 0x4000000>,
+> +                                      <0 0xee208000 0 0x100>;
+> +                                reg-names = "regs", "dirmap", "wbuf";
+> +                                clocks = <&cpg CPG_MOD 917>;
+> +                                clock-names = "rpc";
+> +                                power-domains = <&sysc 
+> R8A77995_PD_ALWAYS_ON>;
+> +                                resets = <&cpg 917>;
+> +                                #address-cells = <1>;
+> +                                #size-cells = <0>;
+> +
+> +                                flash@0 {
+> +                                                compatible = 
+> "jedec,spi-nor";
+> +                                                reg = <0>;
+> +                                                spi-max-frequency = 
+> <40000000>;
+> +                                                spi-tx-bus-width = <1>;
+> +                                                spi-rx-bus-width = <1>;
+> +                                };
+> +                };
+> +
+> +- HF mode:
+
+   HyperFlash, please.
+
+> +                rpc: spi@ee200000 {
+> +                                compatible = "renesas,r8a77995-rpc", 
+> "renesas,rcar-gen3-rpc";
+> +                                reg = <0 0xee200000 0 0x200>, <0 
+> 0x08000000 0 0x4000000>,
+> +                                      <0 0xee208000 0 0x100>;
+> +                                reg-names = "regs", "dirmap", "wbuf";
+> +                                clocks = <&cpg CPG_MOD 917>;
+> +                                clock-names = "rpc";
+> +                                power-domains = <&sysc 
+> R8A77995_PD_ALWAYS_ON>;
+> +                                resets = <&cpg 917>;
+> +                                #address-cells = <1>;
+> +                                #size-cells = <0>;
+
+   And I don't think duplicating the same device node is a good idea...
+
+> +                                flash@0 {
+> +                                                compatible = 
+> "cypress,hyperflash", "cfi-flash";
+> +                                                reg = <0>;
+> +                                };
+> +                };
+> ===============================================================<
+> 
+> thanks & best regards,
+> Mason
+[...]
+
+MBR, Sergei
