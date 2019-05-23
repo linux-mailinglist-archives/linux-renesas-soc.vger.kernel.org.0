@@ -2,50 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 27B55274FA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 May 2019 06:16:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8866C2755F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 May 2019 07:18:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725848AbfEWEQD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 May 2019 00:16:03 -0400
-Received: from mail-eopbgr1410138.outbound.protection.outlook.com ([40.107.141.138]:39232
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        id S1726070AbfEWFSL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 May 2019 01:18:11 -0400
+Received: from mail-eopbgr1400124.outbound.protection.outlook.com ([40.107.140.124]:15790
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725792AbfEWEQC (ORCPT
+        id S1725848AbfEWFSK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 May 2019 00:16:02 -0400
+        Thu, 23 May 2019 01:18:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zt/uipm5zsh9iKCQro4Z9mxBbevRldG5Tm9VcGcOszQ=;
- b=KJOSpINmRY3/KT5V/ebO7qGabPmLxuNQ9eXfxP+qJos506xTbDjQZdFWTtDMkeWWBKM/9py+pQl6BNVVdJ6R/Arm3+yEzt3+on/px312Q1mpNBjfOqPo7r1ODR82u1ceRSoS+FCNPc4AacRxAG2piz+2mSPYV9+XJVmB3Otnd5E=
+ bh=zUGPJSZVv61in7g1sqVPQdmLPCzjRU/Zi9ZkgZH88VU=;
+ b=dbGbLIDEDeBoVpTy63QYSQij2IzJZmHBbQ8nVXdAGxH4VDAy36Sn7FrTpH9oBL9wT2EH8hoLh4bu5RsmTR2ZynbXVvEmk7sCU/QuFBvvz6JK6aeQamCN9sRJl+YfvFkNoGxoUb5azZGu3IZWZH1V9C2WkqFO/n/jxDaJsaMRuAo=
 Received: from OSAPR01MB3089.jpnprd01.prod.outlook.com (52.134.247.150) by
- OSAPR01MB4690.jpnprd01.prod.outlook.com (20.179.176.142) with Microsoft SMTP
+ OSAPR01MB1793.jpnprd01.prod.outlook.com (52.134.233.10) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1922.16; Thu, 23 May 2019 04:15:58 +0000
+ 15.20.1900.19; Thu, 23 May 2019 05:18:05 +0000
 Received: from OSAPR01MB3089.jpnprd01.prod.outlook.com
  ([fe80::4597:5353:28fb:cfd8]) by OSAPR01MB3089.jpnprd01.prod.outlook.com
  ([fe80::4597:5353:28fb:cfd8%7]) with mapi id 15.20.1922.017; Thu, 23 May 2019
- 04:15:58 +0000
+ 05:18:05 +0000
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Christoph Hellwig <hch@infradead.org>
-CC:     "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
-        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+To:     Biju Das <biju.das@bp.renesas.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+CC:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
         "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>
-Subject: RE: [PATCH v3 3/3] mmc: renesas_sdhi: use multiple segments if
- possible
-Thread-Topic: [PATCH v3 3/3] mmc: renesas_sdhi: use multiple segments if
- possible
-Thread-Index: AQHVEIhjlypG6+YeLUuqUYoEqb9HzqZ3Es6AgAD9d8A=
-Date:   Thu, 23 May 2019 04:15:58 +0000
-Message-ID: <OSAPR01MB30890D412403BE3DF5C34D6BD8010@OSAPR01MB3089.jpnprd01.prod.outlook.com>
-References: <1558520319-16452-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1558520319-16452-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <20190522122901.GA4583@infradead.org>
-In-Reply-To: <20190522122901.GA4583@infradead.org>
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v6 1/7] dt-bindings: usb: hd3ss3220 device tree binding
+ document
+Thread-Topic: [PATCH v6 1/7] dt-bindings: usb: hd3ss3220 device tree binding
+ document
+Thread-Index: AQHVCxgMa5SFoB4ScU+YblO0KwTthKZ1PzwggAADYYCAAcIiAIABMR2w
+Date:   Thu, 23 May 2019 05:18:05 +0000
+Message-ID: <OSAPR01MB308947DD6A61047728A1BFEDD8010@OSAPR01MB3089.jpnprd01.prod.outlook.com>
+References: <1557922152-16449-1-git-send-email-biju.das@bp.renesas.com>
+        <1557922152-16449-2-git-send-email-biju.das@bp.renesas.com>
+        <OSAPR01MB30899C8C3E0F316FF37DAE3AD8070@OSAPR01MB3089.jpnprd01.prod.outlook.com>
+ <877eaktf8i.wl-kuninori.morimoto.gx@renesas.com>
+ <OSBPR01MB2103B7A7CF5F9CDDC40B9A2BB8000@OSBPR01MB2103.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSBPR01MB2103B7A7CF5F9CDDC40B9A2BB8000@OSBPR01MB2103.jpnprd01.prod.outlook.com>
 Accept-Language: ja-JP, en-US
 Content-Language: ja-JP
 X-MS-Has-Attach: 
@@ -54,82 +63,64 @@ authentication-results: spf=none (sender IP is )
  smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
 x-originating-ip: [118.238.235.108]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 16908ba5-2fb9-4f96-dee5-08d6df355bc4
+x-ms-office365-filtering-correlation-id: bf1d80c7-a952-4a37-25e9-08d6df3e0946
 x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:OSAPR01MB4690;
-x-ms-traffictypediagnostic: OSAPR01MB4690:
-x-microsoft-antispam-prvs: <OSAPR01MB4690B3BFDCA0D55FA0821676D8010@OSAPR01MB4690.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:OSAPR01MB1793;
+x-ms-traffictypediagnostic: OSAPR01MB1793:
+x-microsoft-antispam-prvs: <OSAPR01MB179357F895997F73BB1E1BE9D8010@OSAPR01MB1793.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
 x-forefront-prvs: 00462943DE
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(136003)(376002)(39860400002)(396003)(346002)(199004)(189003)(4326008)(66556008)(66446008)(73956011)(8676002)(76116006)(64756008)(66476007)(9686003)(6246003)(14454004)(53936002)(8936002)(81166006)(33656002)(81156014)(66946007)(52536014)(478600001)(305945005)(186003)(7736002)(74316002)(229853002)(6436002)(55016002)(6916009)(68736007)(446003)(476003)(76176011)(7696005)(316002)(11346002)(6116002)(3846002)(99286004)(2906002)(54906003)(5660300002)(256004)(86362001)(66066001)(102836004)(486006)(26005)(6506007)(71190400001)(71200400001)(14444005)(25786009);DIR:OUT;SFP:1102;SCL:1;SRVR:OSAPR01MB4690;H:OSAPR01MB3089.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(136003)(39860400002)(366004)(376002)(346002)(396003)(199004)(189003)(8936002)(102836004)(81166006)(81156014)(6636002)(33656002)(4326008)(186003)(68736007)(6436002)(26005)(6246003)(5660300002)(53936002)(14454004)(54906003)(7696005)(86362001)(229853002)(478600001)(71190400001)(110136005)(76176011)(55016002)(6506007)(9686003)(316002)(71200400001)(99286004)(52536014)(73956011)(2906002)(486006)(66476007)(7416002)(66066001)(66446008)(64756008)(305945005)(66556008)(3846002)(25786009)(74316002)(6116002)(66946007)(76116006)(256004)(8676002)(446003)(7736002)(11346002)(476003);DIR:OUT;SFP:1102;SCL:1;SRVR:OSAPR01MB1793;H:OSAPR01MB3089.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: renesas.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: c85yS6krjVsz/Q5aF6wxgUNhPHVzNLBUbTkAxyKqjrz8vnsHz3InNvOX1SC0nQXtsgDrq34Uu4rr+yT7BCvMjJ8KrpyP4Fn033GyHix37ebYQ4yf+HtCAQykcVK8kzRDBXdK08t8NQQWfkFAa+T4ScGc/UvoZF/3xgJo2sfZA7jfinFLWIRbKFQYwsFxJliqDnNXtcmWjjhIEziqOwTr5bxor64i1aD7vMygFixZG3mlOckQESw4BOZdRz+Y/cyt35HjIK0tmBUcIF466b8ZrkKpXrZ7ejsFzvnQPLCs68Dz5nhRcCVlm2p1/wdtgp4bGJofscd86PrGW+kAAG/mFgzMI2F1hiMubtu5dVS5PCTjtZKV5RM1SXwAoNb02dwimUSYipqkRkX24/CueeskgU3Lku7IwCc20zMRBBw+vFI=
+x-microsoft-antispam-message-info: 5NRHhIpgsNAbGEH6CYYhHCe6r42rAmCWzSI2FL3Sf8h0uRDW7np8b6lAIqOrxoMBgIhz5bkWmS63ed19s1ZrLCqf/57GevuXobb7NZrym9rrTOuf1WiduNJ1pb/3ZjdIwBSIcIc8FYll64T+1bsKyjEMpUJxbdtTUh+6AUO6avppl9QYt8W6IPhKv+8liyVzIqZ2RD4bgOlLhUWYgsRUvUsj/CHgtM9Rjv57CFDX9PiFH2SYlj0NVtIarmMq2EGBNe13scL7BQA1n3KUHmNLNUn598wdeIsOPcM5ss1v0hdrUZM8ragluoVks5mxXIOP2IRBcJ6FyIQ+dIPrVqkb/BetZlcIMAPNUn83vMehxJ+QbtvfuWL7S7E4RlAWHnNlFw6C5axfsFKiYAzMxzIa6g==
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 16908ba5-2fb9-4f96-dee5-08d6df355bc4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 May 2019 04:15:58.3484
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf1d80c7-a952-4a37-25e9-08d6df3e0946
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 May 2019 05:18:05.4083
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yoshihiro.shimoda.uh@renesas.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB4690
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB1793
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Christoph,
+Hi Biju-san, Morimoto-san,
 
-Thank you for your review!
-
-> From: Christoph Hellwig, Sent: Wednesday, May 22, 2019 9:29 PM
+> From: Biju Das, Sent: Wednesday, May 22, 2019 8:00 PM
+<snip>
+> > > According to the connector/usb-connector.txt, should the connector
+> > > node have ports, port@1 and an endpoint nodes like below?
+> >
+> > "ports" is needed if it has multiple "port", otherwise, single port is =
+allowed
+> > from OF-graph point of view.
 >=20
-> On Wed, May 22, 2019 at 07:18:39PM +0900, Yoshihiro Shimoda wrote:
-> > In IOMMU environment, since it's possible to merge scatter gather
-> > buffers of memory requests to one iova, this patch changes the max_segs
-> > value when init_card of mmc_host timing to improve the transfer
-> > performance on renesas_sdhi_internal_dmac.
->=20
-> Well, you can't merge everything with an IOMMU.  For one not every
-> IOMMU can merge multiple scatterlist segments,
+> OK. I will use single port on  the next patch series.
 
-I didn't know such IOMMU exists. But, since R-Car Gen3 IOMMU device
-(handled by ipmmu-vmsa.c) can merge multiple scatterlist segments,
-should this mmc driver check whether the IOMMU device is used or not someho=
-w?
+According to the connector/usb-connector.txt [1], even if this device uses =
+a single port,
+we should describe ports node and port@1 (for SuperSpeed) subnode like usb/=
+typec-tcpci.txt.
 
-> second even it can merge
-> segements the segments need to be aligned to the IOMMU page size.
-
-If this driver checks whether the segments are aligned to the IOMMU
-page size before DMA API is called every time, is it acceptable?
-If one of the segments is not aligned, this driver should not use
-the DMAC.
-
->  And
-> then of course we might have an upper limit on the total mapping.
-
-IIUC, if such a case, DMA API will fail. What do you think?
-
-> > +	if (host->pdata->max_segs < SDHI_MAX_SEGS_IN_IOMMU &&
-> > +	    host->pdev->dev.iommu_group &&
-> > +	    (mmc_card_mmc(card) || mmc_card_sd(card)))
-> > +		host->mmc->max_segs =3D SDHI_MAX_SEGS_IN_IOMMU;
->=20
-> This is way to magic.  We'll need a proper DMA layer API to expose
-> this information, and preferably a block layer helper to increase
-> max_segs instead of hacking that up in the driver.
-
-I think I should have described the detail somewhere. This can expose
-this information to a block layer by using blk_queue_max_segments()
-that mmc_setup_queue() calls. In other words, this init_card() ops
-is called before a block device is created. Is this acceptable if
-such a comment is described here?
+[1]
+Required nodes:
+- any data bus to the connector should be modeled using the OF graph bindin=
+gs
+  specified in bindings/graph.txt, unless the bus is between parent node an=
+d
+  the connector. Since single connector can have multiple data buses every =
+bus
+  has assigned OF graph port number as follows:
+    0: High Speed (HS), present in all connectors,
+    1: Super Speed (SS), present in SS capable connectors,
+    2: Sideband use (SBU), present in USB-C.
 
 Best regards,
 Yoshihiro Shimoda
