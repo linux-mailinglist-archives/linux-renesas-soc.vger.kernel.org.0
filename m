@@ -2,100 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C17027BBC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 May 2019 13:26:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E404227D7F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 May 2019 15:02:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730499AbfEWL0U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 May 2019 07:26:20 -0400
-Received: from mail-vk1-f195.google.com ([209.85.221.195]:35223 "EHLO
-        mail-vk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730323AbfEWL0U (ORCPT
+        id S1729698AbfEWNC6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 May 2019 09:02:58 -0400
+Received: from www62.your-server.de ([213.133.104.62]:45150 "EHLO
+        www62.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726310AbfEWNC5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 May 2019 07:26:20 -0400
-Received: by mail-vk1-f195.google.com with SMTP id k1so1275313vkb.2;
-        Thu, 23 May 2019 04:26:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9M1Q/18bMOxXAFcUWm9FFtZY2S5AMqHXp/QrrMgUcKU=;
-        b=ImLy1icdjwE4xL016rCAxUwXAF2zyKmYysWInYd+m6GtKX0dJZaPkslubYCtuWaZoc
-         MEmsIAt116O3vee4A5bhUYyNzF2ofGjmEm+aJAzyqao1WyEhhEkqopE4Mkw1F9P976Hp
-         KZooUEWTkTOPex0Q48WW6kJZ1Q0ts/AzVclCp6uFXTwpgMzBIYMQucMr9CzDdY9tQNey
-         askItGzxRe7zRxFqZCyC9YrEEVTrnP9OI580B5BHBxraNr64JH7oSIRQ1Pu3x8gnZj9p
-         zs6yiTOU6An8DzeM/4H9QK4C3XQvqMRR9aoxeAlRh/k6pM3FxCpfUW2zqx9R4zbWCKwH
-         kknw==
-X-Gm-Message-State: APjAAAXT56X/+k1NnweBO2Q3akDnCCJ4SnMDMgMym+53K4JFAdCDriJa
-        c1jqKbHhSJq7c8hYMclwaaFVaxooUdV04Kzz+5w=
-X-Google-Smtp-Source: APXvYqyNDKWfLtKYBG3qX16musbNBl1CNetH5JO5LOVb5jxSLa0nL5ANb2p1QHKOkgim8WcmdOTBAFKgSMCuVEr143o=
-X-Received: by 2002:a1f:62c7:: with SMTP id w190mr1308273vkb.72.1558610779191;
- Thu, 23 May 2019 04:26:19 -0700 (PDT)
+        Thu, 23 May 2019 09:02:57 -0400
+Received: from [78.46.172.3] (helo=sslproxy06.your-server.de)
+        by www62.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.89_1)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1hTnMy-0007hK-PU; Thu, 23 May 2019 15:02:52 +0200
+Received: from [178.197.249.12] (helo=linux.home)
+        by sslproxy06.your-server.de with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.89)
+        (envelope-from <daniel@iogearbox.net>)
+        id 1hTnMy-000Pss-ID; Thu, 23 May 2019 15:02:52 +0200
+Subject: Re: [PATCH/RFC] arm64: fix build warning from
+ __AARCH64_INSN_FUNCS(ldadd, ...)
+To:     Will Deacon <will.deacon@arm.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     catalin.marinas@arm.com, kuninori.morimoto.gx@renesas.com,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, jean-philippe.brucker@arm.com
+References: <1558599120-29394-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <20190523103602.GJ26646@fuggles.cambridge.arm.com>
+From:   Daniel Borkmann <daniel@iogearbox.net>
+Message-ID: <4b35cc15-9e35-eb67-3cfc-3a8eff8c462e@iogearbox.net>
+Date:   Thu, 23 May 2019 15:02:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.3.0
 MIME-Version: 1.0
-References: <1558603778-20848-1-git-send-email-na-hoan@jinso.co.jp> <20190523110451.GA3979@kunai>
-In-Reply-To: <20190523110451.GA3979@kunai>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 23 May 2019 13:26:07 +0200
-Message-ID: <CAMuHMdVMzMUM08aRWH=Sx+hmO7Woiqz-QmZ-Rrzk2wtExw=XsA@mail.gmail.com>
-Subject: Re: [PATCH] watchdog: renesas_wdt: Fix interrupt enable for timer
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     Nguyen An Hoan <na-hoan@jinso.co.jp>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        =?UTF-8?B?56iy5ZCJ?= <h-inayoshi@jinso.co.jp>,
-        =?UTF-8?B?44Kr44Kq44O744O044Kh44Oz44O744OJ44Oz?= 
-        <cv-dong@jinso.co.jp>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190523103602.GJ26646@fuggles.cambridge.arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Authenticated-Sender: daniel@iogearbox.net
+X-Virus-Scanned: Clear (ClamAV 0.100.3/25458/Thu May 23 09:58:32 2019)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+On 05/23/2019 12:36 PM, Will Deacon wrote:
+> [+Daniel and Jean-Philippe]
+> 
+> On Thu, May 23, 2019 at 05:12:00PM +0900, Yoshihiro Shimoda wrote:
+>> The following build warning happens on gcc 8.1.0.
+>>
+>>  linux/arch/arm64/include/asm/insn.h: In function 'aarch64_insn_is_ldadd':
+>>  linux/arch/arm64/include/asm/insn.h:280:257: warning: bitwise comparison always evaluates to false [-Wtautological-compare]
+>>  __AARCH64_INSN_FUNCS(ldadd, 0x3F20FC00, 0xB8200000)
+>>
+>> Since the second argument is mask value and compare with the third
+>> argument value, the bit 31 is always masked and then this macro is
+>> always false. So, this patch fixes the issue.
+>>
+>> Reported-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+>> Fixes: 34b8ab091f9ef57a ("bpf, arm64: use more scalable stadd over ldxr / stxr loop in xadd")
+>> Tested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+>> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>> ---
+>>  I'm not sure the second argument "0xBF20FC00" is OK or not (we can set
+>>  to 0xFF20FC00 instead). So, I marked RFC on this patch.
+>>
+>>  arch/arm64/include/asm/insn.h | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/arch/arm64/include/asm/insn.h b/arch/arm64/include/asm/insn.h
+>> index ec894de..c9e3cdc 100644
+>> --- a/arch/arm64/include/asm/insn.h
+>> +++ b/arch/arm64/include/asm/insn.h
+>> @@ -277,7 +277,7 @@ __AARCH64_INSN_FUNCS(adrp,	0x9F000000, 0x90000000)
+>>  __AARCH64_INSN_FUNCS(prfm,	0x3FC00000, 0x39800000)
+>>  __AARCH64_INSN_FUNCS(prfm_lit,	0xFF000000, 0xD8000000)
+>>  __AARCH64_INSN_FUNCS(str_reg,	0x3FE0EC00, 0x38206800)
+>> -__AARCH64_INSN_FUNCS(ldadd,	0x3F20FC00, 0xB8200000)
+>> +__AARCH64_INSN_FUNCS(ldadd,	0xBF20FC00, 0xB8200000)
+> 
+> Looking at the ISA encoding, I think that top digit should indeed be 'B',
+> but I haven't checked the rest of the instruction.
+> 
+> However, I'm fairly sure we tested this so now I'm a bit worried that I'm
+> missing something :/
 
-On Thu, May 23, 2019 at 1:04 PM Wolfram Sang <wsa@the-dreams.de> wrote:
-> On Thu, May 23, 2019 at 06:29:37PM +0900, Nguyen An Hoan wrote:
-> > From: Hoan Nguyen An <na-hoan@jinso.co.jp>
-> >
-> > Fix setting for bit WOVFE of RWTCSRA. Keep it enable follow hardware document.
+Hmm, good catch, the mask aka aarch64_insn_is_ldadd() is not used anywhere
+in the tree, just the aarch64_insn_get_ldadd_value(). Latter was runtime
+tested via BPF JIT as well as through disassembler that it emits ldadd. I
+initially had a different mask value than Jean-Philippe, but that was probably
+due to confusion on my side. In any case, value should be correct though.
 
-> >       rwdt_write(priv, 0, RWTCSRB);
-> >
-> >       while (readb_relaxed(priv->base + RWTCSRA) & RWTCSRA_WRFLG)
-> >               cpu_relax();
-> > -
-> > -     rwdt_write(priv, priv->cks | RWTCSRA_TME, RWTCSRA);
-> > +     /* Enable interrupt and timer */
-> > +     rwdt_write(priv, val | RWTCSRA_WOVFE | RWTCSRA_TME, RWTCSRA);
->
-> What is the use of enabling an interrupt without having an interrupt
-> handler?
-
-Exactly.
-
-> (And I never understood why there is an interrupt for an
-> overflowing watchdog. We won't have time to serve it, or am I
-> overlooking something obvious?)
-
-I guess it (the hardware, not the Linux watchdog driver) might be used
-as a generic timer? Or the interrupt may signal the RT core that the
-application cores have been restarted?
-
-But in the context of (the current) Linux watchdog driver, this doesn't
-make much sense.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks,
+Daniel
