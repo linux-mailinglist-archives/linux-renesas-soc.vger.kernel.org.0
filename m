@@ -2,67 +2,141 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 15D392858E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 May 2019 20:06:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D75A289E9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 May 2019 21:43:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387408AbfEWSGD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 May 2019 14:06:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57258 "EHLO mail.kernel.org"
+        id S2389554AbfEWTSP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 May 2019 15:18:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53580 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387459AbfEWSGD (ORCPT
+        id S2389124AbfEWTSM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 May 2019 14:06:03 -0400
-Received: from kernel.org (unknown [104.132.0.74])
+        Thu, 23 May 2019 15:18:12 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4F1392075B;
-        Thu, 23 May 2019 18:06:02 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 05928217D7;
+        Thu, 23 May 2019 19:18:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558634762;
-        bh=Gyx2hArJLhSjz8DFDz06LPHgB6UT6k+TTjBqkTmyTZM=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=OpVambGhn6bJsp9ZAVnPRB0WbFaf8jNrcQN3R9dJaqkyld2pYHQ7NHRBHv2uMEzYl
-         5XYImRKY7ZGYIb3+jt4g6wF+xPpAwHDfdt05VHfYMWlTCtGepdLw8IOFu6uKVR72fB
-         TGrv9sCqwZ4ytqyDpga8exUn/tCbUbH1YPH+MP+A=
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <TYAPR01MB2285F1CD8540CBC4795D8708B7010@TYAPR01MB2285.jpnprd01.prod.outlook.com>
-References: <20190514153341.22540-1-chris.paterson2@renesas.com> <155786877257.14659.6751252865489860937@swboyd.mtv.corp.google.com> <CAMuHMdWPSyrhYx5Z5mgmKrR68cHL6owcRT=B3+DD3GhhxuG4zw@mail.gmail.com> <20190516215406.75E5D2082E@mail.kernel.org> <CAMuHMdVOKDRYjzmyRq-KXW8d+dYmAxnM+=y2yOh85YDcCEDMuw@mail.gmail.com> <20190521180137.A7A30217D7@mail.kernel.org> <TYAPR01MB2285F1CD8540CBC4795D8708B7010@TYAPR01MB2285.jpnprd01.prod.outlook.com>
-Subject: RE: [PATCH] scripts/spelling.txt: Add spelling fix for prohibited
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        s=default; t=1558639091;
+        bh=+t0u5GOucS63bRMTYhnfoDgwbCZ7hpJlC0pSSCGnqdA=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=HTVMFP7sc+56JRgcNRLMLzJVrka+nyVwDIiZ1Xbq6Na3JK1CpprEd9+W/ERRolTa0
+         OoKtKiXva8oKSAOiKGQLt/AEHsGzVG7NEKXhzxYQv4mj9Bw8UsX3ZtcMk9mBJ4qOiL
+         K7qSnNqktT48gVRWa6iVYIyMBqBG/VIZ278ruagM=
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, Kazufumi Ikeda <kaz-ikeda@xc.jp.nec.com>,
+        Gaku Inami <gaku.inami.xw@bp.renesas.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Biju Das <biju.das@bp.renesas.com>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-To:     Chris Paterson <Chris.Paterson2@renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-User-Agent: alot/0.8.1
-Date:   Thu, 23 May 2019 11:06:01 -0700
-Message-Id: <20190523180602.4F1392075B@mail.kernel.org>
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 4.19 074/114] PCI: rcar: Add the initialization of PCIe link in resume_noirq()
+Date:   Thu, 23 May 2019 21:06:13 +0200
+Message-Id: <20190523181738.447719138@linuxfoundation.org>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190523181731.372074275@linuxfoundation.org>
+References: <20190523181731.372074275@linuxfoundation.org>
+User-Agent: quilt/0.66
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Chris Paterson (2019-05-23 02:07:51)
-> > From: Stephen Boyd <sboyd@kernel.org>
-> >=20
-> > Ok. Or Chris can split the patch into the clk part and the scripts/
-> > part?  They're only loosely related to each other, so I'm not sure why
-> > they were sent in one patch besides for ease of transport.
->=20
-> Happy to split the patch if you want. I combined the patch as I saw that =
-done in a couple of examples in the git log.
->=20
-> However, I got an automated email from akpm saying that this patch was ad=
-ded to the -mm tree; so I don't know if you still want me to split up this =
-patch or not.
-> Let me know.
->=20
+From: Kazufumi Ikeda <kaz-ikeda@xc.jp.nec.com>
 
-Everything still looks fine to me so I dont' think you need to do
-anything.
+commit be20bbcb0a8cb5597cc62b3e28d275919f3431df upstream.
+
+Reestablish the PCIe link very early in the resume process in case it
+went down to prevent PCI accesses from hanging the bus. Such accesses
+can happen early in the PCI resume process, as early as the
+SUSPEND_RESUME_NOIRQ step, thus the link must be reestablished in the
+driver resume_noirq() callback.
+
+Fixes: e015f88c368d ("PCI: rcar: Add support for R-Car H3 to pcie-rcar")
+Signed-off-by: Kazufumi Ikeda <kaz-ikeda@xc.jp.nec.com>
+Signed-off-by: Gaku Inami <gaku.inami.xw@bp.renesas.com>
+Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+[lorenzo.pieralisi@arm.com: reformatted commit log]
+Signed-off-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: stable@vger.kernel.org
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Phil Edworthy <phil.edworthy@renesas.com>
+Cc: Simon Horman <horms+renesas@verge.net.au>
+Cc: Wolfram Sang <wsa@the-dreams.de>
+Cc: linux-renesas-soc@vger.kernel.org
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+---
+ drivers/pci/controller/pcie-rcar.c |   21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+--- a/drivers/pci/controller/pcie-rcar.c
++++ b/drivers/pci/controller/pcie-rcar.c
+@@ -46,6 +46,7 @@
+ 
+ /* Transfer control */
+ #define PCIETCTLR		0x02000
++#define  DL_DOWN		BIT(3)
+ #define  CFINIT			1
+ #define PCIETSTR		0x02004
+ #define  DATA_LINK_ACTIVE	1
+@@ -94,6 +95,7 @@
+ #define MACCTLR			0x011058
+ #define  SPEED_CHANGE		BIT(24)
+ #define  SCRAMBLE_DISABLE	BIT(27)
++#define PMSR			0x01105c
+ #define MACS2R			0x011078
+ #define MACCGSPSETR		0x011084
+ #define  SPCNGRSN		BIT(31)
+@@ -1130,6 +1132,7 @@ static int rcar_pcie_probe(struct platfo
+ 	pcie = pci_host_bridge_priv(bridge);
+ 
+ 	pcie->dev = dev;
++	platform_set_drvdata(pdev, pcie);
+ 
+ 	err = pci_parse_request_of_pci_ranges(dev, &pcie->resources, NULL);
+ 	if (err)
+@@ -1221,10 +1224,28 @@ err_free_bridge:
+ 	return err;
+ }
+ 
++static int rcar_pcie_resume_noirq(struct device *dev)
++{
++	struct rcar_pcie *pcie = dev_get_drvdata(dev);
++
++	if (rcar_pci_read_reg(pcie, PMSR) &&
++	    !(rcar_pci_read_reg(pcie, PCIETCTLR) & DL_DOWN))
++		return 0;
++
++	/* Re-establish the PCIe link */
++	rcar_pci_write_reg(pcie, CFINIT, PCIETCTLR);
++	return rcar_pcie_wait_for_dl(pcie);
++}
++
++static const struct dev_pm_ops rcar_pcie_pm_ops = {
++	.resume_noirq = rcar_pcie_resume_noirq,
++};
++
+ static struct platform_driver rcar_pcie_driver = {
+ 	.driver = {
+ 		.name = "rcar-pcie",
+ 		.of_match_table = rcar_pcie_of_match,
++		.pm = &rcar_pcie_pm_ops,
+ 		.suppress_bind_attrs = true,
+ 	},
+ 	.probe = rcar_pcie_probe,
+
 
