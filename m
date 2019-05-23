@@ -2,135 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F205027938
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 May 2019 11:30:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D4AF27ABE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 May 2019 12:36:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729962AbfEWJa3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 May 2019 05:30:29 -0400
-Received: from www3345.sakura.ne.jp ([49.212.235.55]:11199 "EHLO
-        www3345.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728518AbfEWJa2 (ORCPT
+        id S1728277AbfEWKgH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 May 2019 06:36:07 -0400
+Received: from foss.arm.com ([217.140.101.70]:43228 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730749AbfEWKgH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 May 2019 05:30:28 -0400
-Received: from fsav405.sakura.ne.jp (fsav405.sakura.ne.jp [133.242.250.104])
-        by www3345.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id x4N9TooG043808;
-        Thu, 23 May 2019 18:29:50 +0900 (JST)
-        (envelope-from na-hoan@jinso.co.jp)
-Received: from www3345.sakura.ne.jp (49.212.235.55)
- by fsav405.sakura.ne.jp (F-Secure/fsigk_smtp/530/fsav405.sakura.ne.jp);
- Thu, 23 May 2019 18:29:50 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/530/fsav405.sakura.ne.jp)
-Received: from localhost (p14010-ipadfx41marunouchi.tokyo.ocn.ne.jp [61.118.107.10])
-        (authenticated bits=0)
-        by www3345.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id x4N9Ti5e043748
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Thu, 23 May 2019 18:29:50 +0900 (JST)
-        (envelope-from na-hoan@jinso.co.jp)
-From:   Nguyen An Hoan <na-hoan@jinso.co.jp>
-To:     linux-renesas-soc@vger.kernel.org, geert+renesas@glider.be,
-        linux-watchdog@vger.kernel.org, wim@linux-watchdog.org,
-        linux@roeck-us.net, wsa+renesas@sang-engineering.com
-Cc:     kuninori.morimoto.gx@renesas.com, yoshihiro.shimoda.uh@renesas.com,
-        h-inayoshi@jinso.co.jp, cv-dong@jinso.co.jp
-Subject: [PATCH] watchdog: renesas_wdt: Use 'dev' instead of dereferencing it repeatedly
-Date:   Thu, 23 May 2019 18:29:38 +0900
-Message-Id: <1558603778-20848-2-git-send-email-na-hoan@jinso.co.jp>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1558603778-20848-1-git-send-email-na-hoan@jinso.co.jp>
-References: <1558603778-20848-1-git-send-email-na-hoan@jinso.co.jp>
+        Thu, 23 May 2019 06:36:07 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7E5B3341;
+        Thu, 23 May 2019 03:36:06 -0700 (PDT)
+Received: from fuggles.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 272DB3F718;
+        Thu, 23 May 2019 03:36:05 -0700 (PDT)
+Date:   Thu, 23 May 2019 11:36:02 +0100
+From:   Will Deacon <will.deacon@arm.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     catalin.marinas@arm.com, kuninori.morimoto.gx@renesas.com,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, daniel@iogearbox.net,
+        jean-philippe.brucker@arm.com
+Subject: Re: [PATCH/RFC] arm64: fix build warning from
+ __AARCH64_INSN_FUNCS(ldadd, ...)
+Message-ID: <20190523103602.GJ26646@fuggles.cambridge.arm.com>
+References: <1558599120-29394-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1558599120-29394-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+User-Agent: Mutt/1.11.1+86 (6f28e57d73f2) ()
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Hoan Nguyen An <na-hoan@jinso.co.jp>
+[+Daniel and Jean-Philippe]
 
-Add helper variable dev = &pdev->dev
+On Thu, May 23, 2019 at 05:12:00PM +0900, Yoshihiro Shimoda wrote:
+> The following build warning happens on gcc 8.1.0.
+> 
+>  linux/arch/arm64/include/asm/insn.h: In function 'aarch64_insn_is_ldadd':
+>  linux/arch/arm64/include/asm/insn.h:280:257: warning: bitwise comparison always evaluates to false [-Wtautological-compare]
+>  __AARCH64_INSN_FUNCS(ldadd, 0x3F20FC00, 0xB8200000)
+> 
+> Since the second argument is mask value and compare with the third
+> argument value, the bit 31 is always masked and then this macro is
+> always false. So, this patch fixes the issue.
+> 
+> Reported-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Fixes: 34b8ab091f9ef57a ("bpf, arm64: use more scalable stadd over ldxr / stxr loop in xadd")
+> Tested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  I'm not sure the second argument "0xBF20FC00" is OK or not (we can set
+>  to 0xFF20FC00 instead). So, I marked RFC on this patch.
+> 
+>  arch/arm64/include/asm/insn.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/include/asm/insn.h b/arch/arm64/include/asm/insn.h
+> index ec894de..c9e3cdc 100644
+> --- a/arch/arm64/include/asm/insn.h
+> +++ b/arch/arm64/include/asm/insn.h
+> @@ -277,7 +277,7 @@ __AARCH64_INSN_FUNCS(adrp,	0x9F000000, 0x90000000)
+>  __AARCH64_INSN_FUNCS(prfm,	0x3FC00000, 0x39800000)
+>  __AARCH64_INSN_FUNCS(prfm_lit,	0xFF000000, 0xD8000000)
+>  __AARCH64_INSN_FUNCS(str_reg,	0x3FE0EC00, 0x38206800)
+> -__AARCH64_INSN_FUNCS(ldadd,	0x3F20FC00, 0xB8200000)
+> +__AARCH64_INSN_FUNCS(ldadd,	0xBF20FC00, 0xB8200000)
 
-Signed-off-by: Hoan Nguyen An <na-hoan@jinso.co.jp>
----
- drivers/watchdog/renesas_wdt.c | 21 +++++++++++----------
- 1 file changed, 11 insertions(+), 10 deletions(-)
+Looking at the ISA encoding, I think that top digit should indeed be 'B',
+but I haven't checked the rest of the instruction.
 
-diff --git a/drivers/watchdog/renesas_wdt.c b/drivers/watchdog/renesas_wdt.c
-index 565dbc1..d8ac229 100644
---- a/drivers/watchdog/renesas_wdt.c
-+++ b/drivers/watchdog/renesas_wdt.c
-@@ -175,15 +175,16 @@ static inline bool rwdt_blacklisted(struct device *dev) { return false; }
- 
- static int rwdt_probe(struct platform_device *pdev)
- {
-+	struct device *dev = &pdev->dev;
- 	struct rwdt_priv *priv;
- 	struct clk *clk;
- 	unsigned long clks_per_sec;
- 	int ret, i;
- 
--	if (rwdt_blacklisted(&pdev->dev))
-+	if (rwdt_blacklisted(dev))
- 		return -ENODEV;
- 
--	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
- 	if (!priv)
- 		return -ENOMEM;
- 
-@@ -191,16 +192,16 @@ static int rwdt_probe(struct platform_device *pdev)
- 	if (IS_ERR(priv->base))
- 		return PTR_ERR(priv->base);
- 
--	clk = devm_clk_get(&pdev->dev, NULL);
-+	clk = devm_clk_get(dev, NULL);
- 	if (IS_ERR(clk))
- 		return PTR_ERR(clk);
- 
--	pm_runtime_enable(&pdev->dev);
--	pm_runtime_get_sync(&pdev->dev);
-+	pm_runtime_enable(dev);
-+	pm_runtime_get_sync(dev);
- 	priv->clk_rate = clk_get_rate(clk);
- 	priv->wdev.bootstatus = (readb_relaxed(priv->base + RWTCSRA) &
- 				RWTCSRA_WOVF) ? WDIOF_CARDRESET : 0;
--	pm_runtime_put(&pdev->dev);
-+	pm_runtime_put(dev);
- 
- 	if (!priv->clk_rate) {
- 		ret = -ENOENT;
-@@ -216,14 +217,14 @@ static int rwdt_probe(struct platform_device *pdev)
- 	}
- 
- 	if (i < 0) {
--		dev_err(&pdev->dev, "Can't find suitable clock divider\n");
-+		dev_err(dev, "Can't find suitable clock divider\n");
- 		ret = -ERANGE;
- 		goto out_pm_disable;
- 	}
- 
- 	priv->wdev.info = &rwdt_ident;
- 	priv->wdev.ops = &rwdt_ops;
--	priv->wdev.parent = &pdev->dev;
-+	priv->wdev.parent = dev;
- 	priv->wdev.min_timeout = 1;
- 	priv->wdev.max_timeout = DIV_BY_CLKS_PER_SEC(priv, 65536);
- 	priv->wdev.timeout = min(priv->wdev.max_timeout, RWDT_DEFAULT_TIMEOUT);
-@@ -235,7 +236,7 @@ static int rwdt_probe(struct platform_device *pdev)
- 	watchdog_stop_on_unregister(&priv->wdev);
- 
- 	/* This overrides the default timeout only if DT configuration was found */
--	watchdog_init_timeout(&priv->wdev, 0, &pdev->dev);
-+	watchdog_init_timeout(&priv->wdev, 0, dev);
- 
- 	ret = watchdog_register_device(&priv->wdev);
- 	if (ret < 0)
-@@ -244,7 +245,7 @@ static int rwdt_probe(struct platform_device *pdev)
- 	return 0;
- 
-  out_pm_disable:
--	pm_runtime_disable(&pdev->dev);
-+	pm_runtime_disable(dev);
- 	return ret;
- }
- 
--- 
-2.7.4
+However, I'm fairly sure we tested this so now I'm a bit worried that I'm
+missing something :/
 
+Will
