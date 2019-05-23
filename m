@@ -2,101 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC7A727561
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 May 2019 07:19:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93CEB277CF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 May 2019 10:16:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726299AbfEWFTV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 May 2019 01:19:21 -0400
-Received: from www3345.sakura.ne.jp ([49.212.235.55]:35668 "EHLO
-        www3345.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725848AbfEWFTV (ORCPT
+        id S1729971AbfEWIQq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 May 2019 04:16:46 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:3177 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726070AbfEWIQq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 May 2019 01:19:21 -0400
-Received: from fsav101.sakura.ne.jp (fsav101.sakura.ne.jp [27.133.134.228])
-        by www3345.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id x4N5J6wA010165;
-        Thu, 23 May 2019 14:19:06 +0900 (JST)
-        (envelope-from cv-dong@jinso.co.jp)
-Received: from www3345.sakura.ne.jp (49.212.235.55)
- by fsav101.sakura.ne.jp (F-Secure/fsigk_smtp/530/fsav101.sakura.ne.jp);
- Thu, 23 May 2019 14:19:06 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/530/fsav101.sakura.ne.jp)
-Received: from [192.168.1.225] (p14010-ipadfx41marunouchi.tokyo.ocn.ne.jp [61.118.107.10])
-        (authenticated bits=0)
-        by www3345.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id x4N5J68X010152
-        (version=TLSv1.2 cipher=AES256-SHA bits=256 verify=NO);
-        Thu, 23 May 2019 14:19:06 +0900 (JST)
-        (envelope-from cv-dong@jinso.co.jp)
-Subject: Re: [PATCH v2] pwm: renesas-tpu: Add suspend/resume function
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     linux-renesas-soc@vger.kernel.org, thierry.reding@gmail.com,
-        horms+renesas@verge.net.au, geert+renesas@glider.be,
-        broonie@kernel.org, linux-pwm@vger.kernel.org,
-        yoshihiro.shimoda.uh@renesas.com, h-inayoshi@jinso.co.jp,
-        na-hoan@jinso.co.jp
-References: <1558575210-28112-1-git-send-email-cv-dong@jinso.co.jp>
- <878suyuejo.wl-kuninori.morimoto.gx@renesas.com>
- <519f8d16-da5e-1904-ec02-ce9331f2b223@jinso.co.jp>
- <877eahvncc.wl-kuninori.morimoto.gx@renesas.com>
-From:   Cao Van Dong <cv-dong@jinso.co.jp>
-Message-ID: <810fe28e-366e-5c96-e684-6cc46c3a2270@jinso.co.jp>
-Date:   Thu, 23 May 2019 14:19:06 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <877eahvncc.wl-kuninori.morimoto.gx@renesas.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+        Thu, 23 May 2019 04:16:46 -0400
+X-IronPort-AV: E=Sophos;i="5.60,502,1549897200"; 
+   d="scan'208";a="16752253"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 23 May 2019 17:16:44 +0900
+Received: from localhost.localdomain (unknown [10.166.17.210])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id C3EB74009BE3;
+        Thu, 23 May 2019 17:16:44 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     catalin.marinas@arm.com, will.deacon@arm.com
+Cc:     kuninori.morimoto.gx@renesas.com,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH/RFC] arm64: fix build warning from __AARCH64_INSN_FUNCS(ldadd, ...)
+Date:   Thu, 23 May 2019 17:12:00 +0900
+Message-Id: <1558599120-29394-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dear Morimoto-san,
+The following build warning happens on gcc 8.1.0.
 
-Thank for your feedback!
+ linux/arch/arm64/include/asm/insn.h: In function 'aarch64_insn_is_ldadd':
+ linux/arch/arm64/include/asm/insn.h:280:257: warning: bitwise comparison always evaluates to false [-Wtautological-compare]
+ __AARCH64_INSN_FUNCS(ldadd, 0x3F20FC00, 0xB8200000)
 
-On 2019/05/23 13:07, Kuninori Morimoto wrote:
-> Hi
->
->>>> +static int tpu_pwm_suspend(struct device *dev)
->>>> +{
->>>> +	struct tpu_device *tpu = dev_get_drvdata(dev);
->>>> +	struct pwm_chip *chip = &tpu->chip;
->>>> +	struct pwm_device *pwm;
->>>> +	int i;
->>>> +
->>>> +	for (i = 0; i <= 3; i++) {
->>>> +		if ((pwm_get_chip_data(&chip->pwms[i])) != NULL) {
->>>> +			pwm = &chip->pwms[i];
->>>> +			if (!test_bit(PWMF_REQUESTED, &pwm->flags))
->>>> +				return 0;
->>>> +		}
->>>> +	}
->>> why 3 ?
->> According to Hardware manual, 16-Bit Timer Pulse Unit (TPU)
->> supports four 16-bit timers for both R-car GEN2 and GEN3.
-> Hmm...
-> You need to use chip->npwm or TPU_CHANNEL_MAX then ?
+Since the second argument is mask value and compare with the third
+argument value, the bit 31 is always masked and then this macro is
+always false. So, this patch fixes the issue.
 
-Thank for your opinion!
-I will resubmit v3 to change 3 to TPU_CHANNEL_MAX.
+Reported-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Fixes: 34b8ab091f9ef57a ("bpf, arm64: use more scalable stadd over ldxr / stxr loop in xadd")
+Tested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ I'm not sure the second argument "0xBF20FC00" is OK or not (we can set
+ to 0xFF20FC00 instead). So, I marked RFC on this patch.
 
->>>> +	pm_runtime_put(dev);
->>>> +
->>>> +	return 0;
->>>> +}
->>> Do we need to call pm_runtime_xxx here ?
->> "pm_runtime_put(dev);" function is called for runtime idle operations.
-> I know.
-> I'm asking do we need to call it here ?
+ arch/arm64/include/asm/insn.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I think we should have it here better.
+diff --git a/arch/arm64/include/asm/insn.h b/arch/arm64/include/asm/insn.h
+index ec894de..c9e3cdc 100644
+--- a/arch/arm64/include/asm/insn.h
++++ b/arch/arm64/include/asm/insn.h
+@@ -277,7 +277,7 @@ __AARCH64_INSN_FUNCS(adrp,	0x9F000000, 0x90000000)
+ __AARCH64_INSN_FUNCS(prfm,	0x3FC00000, 0x39800000)
+ __AARCH64_INSN_FUNCS(prfm_lit,	0xFF000000, 0xD8000000)
+ __AARCH64_INSN_FUNCS(str_reg,	0x3FE0EC00, 0x38206800)
+-__AARCH64_INSN_FUNCS(ldadd,	0x3F20FC00, 0xB8200000)
++__AARCH64_INSN_FUNCS(ldadd,	0xBF20FC00, 0xB8200000)
+ __AARCH64_INSN_FUNCS(ldr_reg,	0x3FE0EC00, 0x38606800)
+ __AARCH64_INSN_FUNCS(ldr_lit,	0xBF000000, 0x18000000)
+ __AARCH64_INSN_FUNCS(ldrsw_lit,	0xFF000000, 0x98000000)
+-- 
+2.7.4
 
-Thank you,
-Dong
-
-> Thank you for your help !!
-> Best regards
-> ---
-> Kuninori Morimoto
