@@ -2,107 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 105E1278D4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 May 2019 11:08:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30B59278FE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 May 2019 11:16:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725814AbfEWJIC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 May 2019 05:08:02 -0400
-Received: from mail-eopbgr1400138.outbound.protection.outlook.com ([40.107.140.138]:57081
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726913AbfEWJH7 (ORCPT
+        id S1726310AbfEWJQM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 May 2019 05:16:12 -0400
+Received: from twhmllg4.macronix.com ([122.147.135.202]:52249 "EHLO
+        TWHMLLG4.macronix.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726230AbfEWJQM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 May 2019 05:07:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dKlZX0NW+Mpk7xn/91gSke3ikCObMEoYmqB8hkK1mdM=;
- b=r8KD3LFrB5UKwZkiqz/FsaRzUWjvCUjbWTgn7kX7ywkyroyL1UG7ycgZbdtMUiuRxXZS0fh6eH2E0D9FL2Vg01Dp89a/YmJvZHTM11Va53HqZYbFeX0dRndtiEZ6XEBTgelMqwd0/p9uj6S5FaR4pw2CnvWAzuNz2CHoDK8W6jI=
-Received: from TYAPR01MB2285.jpnprd01.prod.outlook.com (52.133.177.145) by
- TYAPR01MB3151.jpnprd01.prod.outlook.com (20.177.104.138) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1922.17; Thu, 23 May 2019 09:07:52 +0000
-Received: from TYAPR01MB2285.jpnprd01.prod.outlook.com
- ([fe80::3ccf:1aef:8f88:693d]) by TYAPR01MB2285.jpnprd01.prod.outlook.com
- ([fe80::3ccf:1aef:8f88:693d%2]) with mapi id 15.20.1922.017; Thu, 23 May 2019
- 09:07:52 +0000
-From:   Chris Paterson <Chris.Paterson2@renesas.com>
-To:     Stephen Boyd <sboyd@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Biju Das <biju.das@bp.renesas.com>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] scripts/spelling.txt: Add spelling fix for prohibited
-Thread-Topic: [PATCH] scripts/spelling.txt: Add spelling fix for prohibited
-Thread-Index: AQHVCmp0joBlvnu+SEWH+n+koSlr5qZrIJwAgACrVgCAAoL7gIAHAqMAgACYEQCAAo7IgA==
-Date:   Thu, 23 May 2019 09:07:51 +0000
-Message-ID: <TYAPR01MB2285F1CD8540CBC4795D8708B7010@TYAPR01MB2285.jpnprd01.prod.outlook.com>
-References: <20190514153341.22540-1-chris.paterson2@renesas.com>
- <155786877257.14659.6751252865489860937@swboyd.mtv.corp.google.com>
- <CAMuHMdWPSyrhYx5Z5mgmKrR68cHL6owcRT=B3+DD3GhhxuG4zw@mail.gmail.com>
- <20190516215406.75E5D2082E@mail.kernel.org>
- <CAMuHMdVOKDRYjzmyRq-KXW8d+dYmAxnM+=y2yOh85YDcCEDMuw@mail.gmail.com>
- <20190521180137.A7A30217D7@mail.kernel.org>
-In-Reply-To: <20190521180137.A7A30217D7@mail.kernel.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Chris.Paterson2@renesas.com; 
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e8337eaf-8308-46c3-7ad6-08d6df5e22ab
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:TYAPR01MB3151;
-x-ms-traffictypediagnostic: TYAPR01MB3151:
-x-microsoft-antispam-prvs: <TYAPR01MB3151C64E8056E6366A796929B7010@TYAPR01MB3151.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 00462943DE
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(346002)(39860400002)(396003)(136003)(366004)(376002)(199004)(189003)(5660300002)(256004)(7736002)(14444005)(110136005)(4326008)(52536014)(99286004)(54906003)(33656002)(25786009)(26005)(2906002)(305945005)(81166006)(8936002)(53936002)(8676002)(316002)(76176011)(81156014)(68736007)(3846002)(6116002)(186003)(74316002)(7696005)(76116006)(73956011)(66946007)(66066001)(66476007)(66556008)(66446008)(64756008)(6246003)(102836004)(9686003)(478600001)(71200400001)(71190400001)(229853002)(11346002)(55016002)(6436002)(6506007)(86362001)(486006)(53546011)(14454004)(446003)(476003)(72206003);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB3151;H:TYAPR01MB2285.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: XykWFxLjdyFDsow7Sg3vuAqLiDJ5QRjSB19rKXQi4VJqB6UxvZE236t8ITwmMv4RzEr3lLtyjVUjtrPDIU1rRMi1xk4KaAQU+w4Z6fSk1I58eAWnkh/ToThmga5Okc0rA8vrxtSCIFEAN6JB4iQYu/vGQToSPvnd3ZnQ3PG4blVW0L6zMHUk6QP0bx1pMX1Iu8jRaYfv0cJbf6UXQRxEissabGAEY7e1nz7HOOWWwAceZwkw0+UGv9JE91LG7ZPpbUzxOW3KwwU5vHQLcK5RN5cNBFfMM/TRybWsB/NOXEAh4dC0njprWcjfi0NQGd9B20HxKzMBEXjZdgC4nsF+nsyavEsAaaiNY4Ay6N5KUPvRBRtZIhUHKMLHn91NJ1vzaR6QxuuD0OwGJMhGw+tRwP3vbRZLxSfTfRSkTqN8qJE=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Thu, 23 May 2019 05:16:12 -0400
+Received: from twhfmnt1.mxic.com.tw (twhfm1p2.macronix.com [172.17.20.92])
+        by TWHMLLG4.macronix.com with ESMTP id x4N9G2se058184;
+        Thu, 23 May 2019 17:16:02 +0800 (GMT-8)
+        (envelope-from masonccyang@mxic.com.tw)
+Received: from MXML06C.mxic.com.tw (mxml06c.macronix.com [172.17.14.55])
+        by Forcepoint Email with ESMTP id 9068031A9482045BD690;
+        Thu, 23 May 2019 17:16:02 +0800 (CST)
+In-Reply-To: <0e2994d6-6efc-9f36-f681-609199f20b9f@cogentembedded.com>
+References: <1558423174-10748-1-git-send-email-masonccyang@mxic.com.tw> <1558423174-10748-4-git-send-email-masonccyang@mxic.com.tw> <0e2994d6-6efc-9f36-f681-609199f20b9f@cogentembedded.com>
+To:     "Sergei Shtylyov" <sergei.shtylyov@cogentembedded.com>
+Cc:     bbrezillon@kernel.org, broonie@kernel.org,
+        devicetree@vger.kernel.org,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
+        "Simon Horman" <horms@verge.net.au>, juliensu@mxic.com.tw,
+        lee.jones@linaro.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-spi@vger.kernel.org,
+        marek.vasut@gmail.com, mark.rutland@arm.com,
+        miquel.raynal@bootlin.com, robh+dt@kernel.org
+Subject: Re: [PATCH v13 3/3] dt-bindings: mfd: Document Renesas R-Car Gen3 RPC-IF
+ controller bindings
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e8337eaf-8308-46c3-7ad6-08d6df5e22ab
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 May 2019 09:07:51.9668
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Chris.Paterson2@renesas.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB3151
+X-KeepSent: B9416C97:8812436C-48258403:00329D12;
+ type=4; name=$KeepSent
+X-Mailer: Lotus Notes Release 8.5.3FP4 SHF90 June 10, 2013
+Message-ID: <OFB9416C97.8812436C-ON48258403.00329D12-48258403.0032E82E@mxic.com.tw>
+From:   masonccyang@mxic.com.tw
+Date:   Thu, 23 May 2019 17:16:03 +0800
+X-MIMETrack: Serialize by Router on MXML06C/TAIWAN/MXIC(Release 9.0.1FP10 HF265|July 25, 2018) at
+ 2019/05/23 PM 05:16:02,
+        Serialize complete at 2019/05/23 PM 05:16:02
+Content-Type: text/plain; charset="US-ASCII"
+X-MAIL: TWHMLLG4.macronix.com x4N9G2se058184
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGVsbG8gU3RlcGhlbiwNCg0KPiBGcm9tOiBTdGVwaGVuIEJveWQgPHNib3lkQGtlcm5lbC5vcmc+
-DQo+IFNlbnQ6IDIxIE1heSAyMDE5IDE5OjAyDQo+IA0KPiBRdW90aW5nIEdlZXJ0IFV5dHRlcmhv
-ZXZlbiAoMjAxOS0wNS0yMSAwMTo1NzoyMCkNCj4gPiBIaSBTdGVwaGVuLCBBbmRyZXcsDQo+ID4N
-Cj4gPiBPbiBUaHUsIE1heSAxNiwgMjAxOSBhdCAxMTo1NCBQTSBTdGVwaGVuIEJveWQgPHNib3lk
-QGtlcm5lbC5vcmc+DQo+IHdyb3RlOg0KPiA+ID4NCj4gPiA+IEd1ZXNzIHNvISBPciBBbmRyZXcg
-ZG9lcyBpdC4NCj4gPg0KPiA+IEdpdmVuIHRoZSBjaGFuZ2UgdG8gc2NyaXB0cy9zcGVsbGluZy50
-eHQgY29uZmxpY3RzIHdpdGggYjkzNzg1NmE1ZGIyY2I3YQ0KPiA+ICgic2NyaXB0cy9zcGVsbGlu
-Zy50eHQ6IGFkZCBtb3JlIHR5cG9zIHRvIHNwZWxsaW5nLnR4dCBhbmQgc29ydCIpIGluDQo+ID4g
-bGludXgtbmV4dCwgYW5kIHRoZSByaXNrIG9mIGNvbmZsaWN0IHdpdGggZnV0dXJlIGNoYW5nZXMg
-dG8NCj4gPiBkcml2ZXJzL2Nsay9yZW5lc2FzL3I4YTc3NDcwLWNwZy1tc3NyLmMgaXMgc2xpbSwg
-SSdkIGxpa2UgdG8gZGVmZXIgdGhpcw0KPiA+IHRvIEFuZHJldy4NCj4gPg0KPiA+IEFja2VkLWJ5
-OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0K3JlbmVzYXNAZ2xpZGVyLmJlPg0KPiANCj4gT2su
-IE9yIENocmlzIGNhbiBzcGxpdCB0aGUgcGF0Y2ggaW50byB0aGUgY2xrIHBhcnQgYW5kIHRoZSBz
-Y3JpcHRzLw0KPiBwYXJ0PyAgVGhleSdyZSBvbmx5IGxvb3NlbHkgcmVsYXRlZCB0byBlYWNoIG90
-aGVyLCBzbyBJJ20gbm90IHN1cmUgd2h5DQo+IHRoZXkgd2VyZSBzZW50IGluIG9uZSBwYXRjaCBi
-ZXNpZGVzIGZvciBlYXNlIG9mIHRyYW5zcG9ydC4NCg0KSGFwcHkgdG8gc3BsaXQgdGhlIHBhdGNo
-IGlmIHlvdSB3YW50LiBJIGNvbWJpbmVkIHRoZSBwYXRjaCBhcyBJIHNhdyB0aGF0IGRvbmUgaW4g
-YSBjb3VwbGUgb2YgZXhhbXBsZXMgaW4gdGhlIGdpdCBsb2cuDQoNCkhvd2V2ZXIsIEkgZ290IGFu
-IGF1dG9tYXRlZCBlbWFpbCBmcm9tIGFrcG0gc2F5aW5nIHRoYXQgdGhpcyBwYXRjaCB3YXMgYWRk
-ZWQgdG8gdGhlIC1tbSB0cmVlOyBzbyBJIGRvbid0IGtub3cgaWYgeW91IHN0aWxsIHdhbnQgbWUg
-dG8gc3BsaXQgdXAgdGhpcyBwYXRjaCBvciBub3QuDQpMZXQgbWUga25vdy4NCg0KS2luZCByZWdh
-cmRzLCBDaHJpcw0K
+
+Hi Sergei,
+
+> On 05/21/2019 10:19 AM, Mason Yang wrote:
+> 
+> > Document the bindings used by the Renesas R-Car Gen3 RPC-IF 
+controller.
+> > 
+> > Signed-off-by: Mason Yang <masonccyang@mxic.com.tw>
+> > ---
+> >  .../devicetree/bindings/mfd/renesas-rpc-if.txt     | 65 
+++++++++++++++++++++++
+> >  1 file changed, 65 insertions(+)
+> >  create mode 100644 
+Documentation/devicetree/bindings/mfd/renesas-rpc-if.txt
+> > 
+> > diff --git a/Documentation/devicetree/bindings/mfd/renesas-rpc-if.txt 
+b/
+> Documentation/devicetree/bindings/mfd/renesas-rpc-if.txt
+> > new file mode 100644
+> > index 0000000..20ec85b
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/mfd/renesas-rpc-if.txt
+> > @@ -0,0 +1,65 @@
+> > +Renesas R-Car Gen3 RPC-IF controller Device Tree Bindings
+> > +---------------------------------------------------------
+> > +
+> > +RPC-IF supports both SPI NOR and HyperFlash (CFI-compliant flash)
+> > +
+> > +Required properties:
+> > +- compatible: should be an SoC-specific compatible value, followed by
+> > +      "renesas,rcar-gen3-rpc" as a fallback.
+> > +      supported SoC-specific values are:
+> > +      "renesas,r8a77995-rpc"   (R-Car D3)
+> > +- reg: should contain three register areas:
+> > +   first for RPC-IF registers,
+> > +   second for the direct mapping read mode and
+> > +   third for the write buffer area.
+> > +- reg-names: should contain "regs", "dirmap" and "wbuf"
+> > +- clocks: should contain 1 entries for the module's clock
+> > +- clock-names: should contain "rpc"
+> > +- power-domains: should contain system-controller(sysc) for 
+power-domain-cell
+> > +- resets: should contain clock pulse generator(cpg) for reset-cell,
+> > +     power-domain-cell and clock-cell
+> 
+>    That's just some nonsense, sorry...
+>    I suggest that you stop reposting your patches as I'm going to post
+> my version of this patchset RSN (based on your patches, of course) and 
+I'm
+> going to take care of fixing this file as well.
+
+okay, just let me know your patch then.
+
+thanks & best regards,
+Mason
+
+CONFIDENTIALITY NOTE:
+
+This e-mail and any attachments may contain confidential information 
+and/or personal data, which is protected by applicable laws. Please be 
+reminded that duplication, disclosure, distribution, or use of this e-mail 
+(and/or its attachments) or any part thereof is prohibited. If you receive 
+this e-mail in error, please notify us immediately and delete this mail as 
+well as its attachment(s) from your system. In addition, please be 
+informed that collection, processing, and/or use of personal data is 
+prohibited unless expressly permitted by personal data protection laws. 
+Thank you for your attention and cooperation.
+
+Macronix International Co., Ltd.
+
+=====================================================================
+
+
+
+============================================================================
+
+CONFIDENTIALITY NOTE:
+
+This e-mail and any attachments may contain confidential information and/or personal data, which is protected by applicable laws. Please be reminded that duplication, disclosure, distribution, or use of this e-mail (and/or its attachments) or any part thereof is prohibited. If you receive this e-mail in error, please notify us immediately and delete this mail as well as its attachment(s) from your system. In addition, please be informed that collection, processing, and/or use of personal data is prohibited unless expressly permitted by personal data protection laws. Thank you for your attention and cooperation.
+
+Macronix International Co., Ltd.
+
+=====================================================================
+
