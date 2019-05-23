@@ -2,82 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D4AF27ABE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 May 2019 12:36:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FCDD27B4E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 May 2019 13:04:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728277AbfEWKgH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 May 2019 06:36:07 -0400
-Received: from foss.arm.com ([217.140.101.70]:43228 "EHLO foss.arm.com"
+        id S1729698AbfEWLEz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 May 2019 07:04:55 -0400
+Received: from sauhun.de ([88.99.104.3]:53208 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730749AbfEWKgH (ORCPT
+        id S1726429AbfEWLEy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 May 2019 06:36:07 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7E5B3341;
-        Thu, 23 May 2019 03:36:06 -0700 (PDT)
-Received: from fuggles.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.72.51.249])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 272DB3F718;
-        Thu, 23 May 2019 03:36:05 -0700 (PDT)
-Date:   Thu, 23 May 2019 11:36:02 +0100
-From:   Will Deacon <will.deacon@arm.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     catalin.marinas@arm.com, kuninori.morimoto.gx@renesas.com,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, daniel@iogearbox.net,
-        jean-philippe.brucker@arm.com
-Subject: Re: [PATCH/RFC] arm64: fix build warning from
- __AARCH64_INSN_FUNCS(ldadd, ...)
-Message-ID: <20190523103602.GJ26646@fuggles.cambridge.arm.com>
-References: <1558599120-29394-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Thu, 23 May 2019 07:04:54 -0400
+Received: from localhost (p54B333B6.dip0.t-ipconnect.de [84.179.51.182])
+        by pokefinder.org (Postfix) with ESMTPSA id D0CC12C0398;
+        Thu, 23 May 2019 13:04:51 +0200 (CEST)
+Date:   Thu, 23 May 2019 13:04:51 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Nguyen An Hoan <na-hoan@jinso.co.jp>
+Cc:     linux-renesas-soc@vger.kernel.org, geert+renesas@glider.be,
+        linux-watchdog@vger.kernel.org, wim@linux-watchdog.org,
+        linux@roeck-us.net, wsa+renesas@sang-engineering.com,
+        kuninori.morimoto.gx@renesas.com, yoshihiro.shimoda.uh@renesas.com,
+        h-inayoshi@jinso.co.jp, cv-dong@jinso.co.jp
+Subject: Re: [PATCH] watchdog: renesas_wdt: Fix interrupt enable for timer
+Message-ID: <20190523110451.GA3979@kunai>
+References: <1558603778-20848-1-git-send-email-na-hoan@jinso.co.jp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="tKW2IUtsqtDRztdT"
 Content-Disposition: inline
-In-Reply-To: <1558599120-29394-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-User-Agent: Mutt/1.11.1+86 (6f28e57d73f2) ()
+In-Reply-To: <1558603778-20848-1-git-send-email-na-hoan@jinso.co.jp>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-[+Daniel and Jean-Philippe]
 
-On Thu, May 23, 2019 at 05:12:00PM +0900, Yoshihiro Shimoda wrote:
-> The following build warning happens on gcc 8.1.0.
-> 
->  linux/arch/arm64/include/asm/insn.h: In function 'aarch64_insn_is_ldadd':
->  linux/arch/arm64/include/asm/insn.h:280:257: warning: bitwise comparison always evaluates to false [-Wtautological-compare]
->  __AARCH64_INSN_FUNCS(ldadd, 0x3F20FC00, 0xB8200000)
-> 
-> Since the second argument is mask value and compare with the third
-> argument value, the bit 31 is always masked and then this macro is
-> always false. So, this patch fixes the issue.
-> 
-> Reported-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Fixes: 34b8ab091f9ef57a ("bpf, arm64: use more scalable stadd over ldxr / stxr loop in xadd")
-> Tested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  I'm not sure the second argument "0xBF20FC00" is OK or not (we can set
->  to 0xFF20FC00 instead). So, I marked RFC on this patch.
-> 
->  arch/arm64/include/asm/insn.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/include/asm/insn.h b/arch/arm64/include/asm/insn.h
-> index ec894de..c9e3cdc 100644
-> --- a/arch/arm64/include/asm/insn.h
-> +++ b/arch/arm64/include/asm/insn.h
-> @@ -277,7 +277,7 @@ __AARCH64_INSN_FUNCS(adrp,	0x9F000000, 0x90000000)
->  __AARCH64_INSN_FUNCS(prfm,	0x3FC00000, 0x39800000)
->  __AARCH64_INSN_FUNCS(prfm_lit,	0xFF000000, 0xD8000000)
->  __AARCH64_INSN_FUNCS(str_reg,	0x3FE0EC00, 0x38206800)
-> -__AARCH64_INSN_FUNCS(ldadd,	0x3F20FC00, 0xB8200000)
-> +__AARCH64_INSN_FUNCS(ldadd,	0xBF20FC00, 0xB8200000)
+--tKW2IUtsqtDRztdT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Looking at the ISA encoding, I think that top digit should indeed be 'B',
-but I haven't checked the rest of the instruction.
+Hi,
 
-However, I'm fairly sure we tested this so now I'm a bit worried that I'm
-missing something :/
+On Thu, May 23, 2019 at 06:29:37PM +0900, Nguyen An Hoan wrote:
+> From: Hoan Nguyen An <na-hoan@jinso.co.jp>
+>=20
+> Fix setting for bit WOVFE of RWTCSRA. Keep it enable follow hardware docu=
+ment.
 
-Will
+Hmm, I can't find it in the docs. Which version of the documentation do
+you use?
+
+
+> -	rwdt_write(priv, priv->cks, RWTCSRA);
+> +	val |=3D priv->cks;
+> +	rwdt_write(priv, val, RWTCSRA);
+
+Have you tested this successfully? According to the docs, CKS bits are
+all 1 by default. So, your |=3D operation should be a NOP and we can't
+select a CKS value anymore if I am not mistaken.
+
+>  	rwdt_write(priv, 0, RWTCSRB);
+> =20
+>  	while (readb_relaxed(priv->base + RWTCSRA) & RWTCSRA_WRFLG)
+>  		cpu_relax();
+> -
+> -	rwdt_write(priv, priv->cks | RWTCSRA_TME, RWTCSRA);
+> +	/* Enable interrupt and timer */
+> +	rwdt_write(priv, val | RWTCSRA_WOVFE | RWTCSRA_TME, RWTCSRA);
+
+What is the use of enabling an interrupt without having an interrupt
+handler? (And I never understood why there is an interrupt for an
+overflowing watchdog. We won't have time to serve it, or am I
+overlooking something obvious?)
+
+Kind regards,
+
+   Wolfram
+
+
+--tKW2IUtsqtDRztdT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAlzmfk8ACgkQFA3kzBSg
+Kbavhg//fYTO7jvzinLCh+cVNLmhCpeufWNaUmCKaAAfFWsjbPaPMqqAzem6yOLB
+RFWoaucO/TW+s0/s/xrdDD5OGawk9AKgr5m8224cUPUvddvJHkOCRKaMjOP97d32
+hTyHrSmtwNpZdbbGHUj7e1nzGddSuCEr3ztTcqQ5vmyC3JEHGYgzC7ik/p7M2PV2
+W1d4ZgaOzRkK/VV8D0iU2CjLkSIGj6cNpqswyw7VcblImLNZxMOAxD+I9zWwLCZa
+z0vahSdRQaIaHtcxwbjh9owdUMQ8URagSmf3hHzXexH4dHamEHMT4tIvh9QgQKrV
+3H00biv+Ib8KwbgnaHLJGm9BKMBEgQHYr+Jud9qvbFjNVkKspU+M+wtIwHXDqxXP
+cdiXes9nSMEoOxjo5GA42lufMCi3pInwTqU9viVYzxJRkP8huAuaA0/Wuq4g3tlk
+QoWTsKdHOaVlddgptSnDvI1O5SjT3TTsTBhkLpYNW+wAqoH3498CB0dsFwTt5Fl8
+FIJjitct1jIC8rCgLKTI5xt5tlyl4GN+0F8Fy1d0YgJ/+uGdT4iDczuDdfCTWp9V
+juW7j3nH2NwMohYvduyxqYdmxuDpLUByK8UqYj6tv21z/sGlzssnaAosq1vRrKUH
+op+PsDnh21ESq0WTkyKED2cS4nP0oSfC/AjLfvZKqZ/Wdo7gj0c=
+=D6oR
+-----END PGP SIGNATURE-----
+
+--tKW2IUtsqtDRztdT--
