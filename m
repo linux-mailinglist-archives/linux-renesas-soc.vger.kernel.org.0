@@ -2,145 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8639328E6D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2019 02:56:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D7BA28E83
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2019 03:14:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731608AbfEXA4v (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 May 2019 20:56:51 -0400
-Received: from www3345.sakura.ne.jp ([49.212.235.55]:14362 "EHLO
+        id S1731632AbfEXBN7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 May 2019 21:13:59 -0400
+Received: from www3345.sakura.ne.jp ([49.212.235.55]:25752 "EHLO
         www3345.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726501AbfEXA4v (ORCPT
+        with ESMTP id S1731608AbfEXBN7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 May 2019 20:56:51 -0400
-Received: from fsav404.sakura.ne.jp (fsav404.sakura.ne.jp [133.242.250.103])
-        by www3345.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id x4O0uXti091715;
-        Fri, 24 May 2019 09:56:33 +0900 (JST)
-        (envelope-from cv-dong@jinso.co.jp)
+        Thu, 23 May 2019 21:13:59 -0400
+Received: from fsav405.sakura.ne.jp (fsav405.sakura.ne.jp [133.242.250.104])
+        by www3345.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id x4O1DuIj002595;
+        Fri, 24 May 2019 10:13:56 +0900 (JST)
+        (envelope-from na-hoan@jinso.co.jp)
 Received: from www3345.sakura.ne.jp (49.212.235.55)
- by fsav404.sakura.ne.jp (F-Secure/fsigk_smtp/530/fsav404.sakura.ne.jp);
- Fri, 24 May 2019 09:56:33 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/530/fsav404.sakura.ne.jp)
-Received: from localhost (p14010-ipadfx41marunouchi.tokyo.ocn.ne.jp [61.118.107.10])
+ by fsav405.sakura.ne.jp (F-Secure/fsigk_smtp/530/fsav405.sakura.ne.jp);
+ Fri, 24 May 2019 10:13:55 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/530/fsav405.sakura.ne.jp)
+Received: from nat.cybozu.com (nat.cybozu.com [103.79.14.78])
         (authenticated bits=0)
-        by www3345.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id x4O0uUSZ091687
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Fri, 24 May 2019 09:56:33 +0900 (JST)
-        (envelope-from cv-dong@jinso.co.jp)
-From:   Cao Van Dong <cv-dong@jinso.co.jp>
-To:     linux-renesas-soc@vger.kernel.org, thierry.reding@gmail.com,
-        horms+renesas@verge.net.au, geert+renesas@glider.be,
-        broonie@kernel.org, linux-pwm@vger.kernel.org
-Cc:     yoshihiro.shimoda.uh@renesas.com, kuninori.morimoto.gx@renesas.com,
-        h-inayoshi@jinso.co.jp, na-hoan@jinso.co.jp, cv-dong@jinso.co.jp
-Subject: [PATCH v3] pwm: renesas-tpu: Add suspend/resume function
-Date:   Fri, 24 May 2019 09:56:29 +0900
-Message-Id: <1558659389-4397-1-git-send-email-cv-dong@jinso.co.jp>
-X-Mailer: git-send-email 2.7.4
+        by www3345.sakura.ne.jp (8.15.2/8.15.2) with ESMTPA id x4O1DtGR002590;
+        Fri, 24 May 2019 10:13:55 +0900 (JST)
+        (envelope-from na-hoan@jinso.co.jp)
+Date:   Fri, 24 May 2019 10:13:55 +0900
+From:   =?ISO-2022-JP?B?IhskQiUwJSclcyEmJSIlcyEmJVslISVzGyhCIg==?= 
+        <na-hoan@jinso.co.jp>
+To:     Wolfram Sang <wsa@the-dreams.de>
+Cc:     linux-renesas-soc@vger.kernel.org, geert+renesas@glider.be,
+        linux-watchdog@vger.kernel.org, wim@linux-watchdog.org,
+        linux@roeck-us.net, wsa+renesas@sang-engineering.com,
+        kuninori.morimoto.gx@renesas.com, yoshihiro.shimoda.uh@renesas.com,
+        h-inayoshi@jinso.co.jp, cv-dong@jinso.co.jp
+Message-ID: <155866043594663500007f86@nat.cybozu.com>
+References: <20190523110451.GA3979@kunai>
+In-Reply-To: <20190523110451.GA3979@kunai>
+Subject: Re: [PATCH] watchdog: renesas_wdt: Fix interrupt enable for timer
+X-Mailer: Cybozu Office 10.8
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-2022-JP
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch adds suspend/resume function support for Renesas the 16-Bit Timer
-Pulse Unit (TPU) driver. This has been tested on the Salvator-XS board 
-with R-Car M3-N and H3 at renesas-drivers-2019-05-21-v5.2-rc1 tag.
-I expect this to work on other SoCs.
+Dear Wolfram-san
+Dear Geert- san
 
-Test procedure:
-  - Enable TPU and pin control in DTS.
-  - Make sure switches { SW29-[1-2] are switched off or 
-    SW31-[1-4] are switched off(only for Salvator-xs) }.
-  - Exercise userspace PWM control for pwm[2,3] 
-    of /sys/class/pwm/pwmchip1/ .
-  - Inspect PWM signals on the input side of { CN29-[58,60] 
-    or SW31-[1,2] (only for Salvator-xs) }
-    before and after suspend/resume using an oscilloscope. 
+Thank you very much
+Wolfram Sang wrote:
+> Hi,
+> 
+> On Thu, May 23, 2019 at 06:29:37PM +0900, Nguyen An Hoan wrote:
+> > From: Hoan Nguyen An <na-hoan@jinso.co.jp>
+> > 
+> > Fix setting for bit WOVFE of RWTCSRA. Keep it enable follow hardware document.
+> 
+> Hmm, I can't find it in the docs. Which version of the documentation do
+> you use?
+> 
+> 
+> > -	rwdt_write(priv, priv->cks, RWTCSRA);
+> > +	val |= priv->cks;
+> > +	rwdt_write(priv, val, RWTCSRA);
+> 
+> Have you tested this successfully? According to the docs, CKS bits are
+> all 1 by default. So, your |= operation should be a NOP and we can't
+> select a CKS value anymore if I am not mistaken.
+> 
+I tested and can confirm WOVFE was be disable by command 
+rwdt_write(priv, priv->cks, RWTCSRA);
+I don't understand why this bit is turned off but the watchdog can still reset, but 
+according to the document it will be 1.
 
-Signed-off-by: Cao Van Dong <cv-dong@jinso.co.jp>
-Tested-by: Cao Van Dong <cv-dong@jinso.co.jp>
-Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
----
-Changes v2 -> v3:
-  - Changes '3' -> TPU_CHANNEL_MAX in loop.
-  - Remove pm_runtime_put() function in tpu_pwm_suspend() function.
----
-Changes v1 -> v2:
-  - Repair the handling code to cover case of using multiple timers.
----
- drivers/pwm/pwm-renesas-tpu.c | 53 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+> >  	rwdt_write(priv, 0, RWTCSRB);
+> >  
+> >  	while (readb_relaxed(priv->base + RWTCSRA) & RWTCSRA_WRFLG)
+> >  		cpu_relax();
+> > -
+> > -	rwdt_write(priv, priv->cks | RWTCSRA_TME, RWTCSRA);
+> > +	/* Enable interrupt and timer */
+> > +	rwdt_write(priv, val | RWTCSRA_WOVFE | RWTCSRA_TME, RWTCSRA);
+> 
+> What is the use of enabling an interrupt without having an interrupt
+> handler? (And I never understood why there is an interrupt for an
+> overflowing watchdog. We won't have time to serve it, or am I
+> overlooking something obvious?)
 
-diff --git a/drivers/pwm/pwm-renesas-tpu.c b/drivers/pwm/pwm-renesas-tpu.c
-index 4a855a2..cb97252 100644
---- a/drivers/pwm/pwm-renesas-tpu.c
-+++ b/drivers/pwm/pwm-renesas-tpu.c
-@@ -366,6 +366,58 @@ static void tpu_pwm_disable(struct pwm_chip *chip, struct pwm_device *_pwm)
- 	tpu_pwm_timer_stop(pwm);
- }
- 
-+#ifdef CONFIG_PM_SLEEP
-+static int tpu_pwm_restart_timer(struct pwm_device *pwm)
-+{
-+	if (!test_bit(PWMF_REQUESTED, &pwm->flags))
-+		return 0;
-+
-+	/* Restart timer */
-+	tpu_pwm_disable(pwm->chip,pwm);
-+	tpu_pwm_enable(pwm->chip,pwm);
-+
-+	return 0;
-+}
-+
-+static int tpu_pwm_suspend(struct device *dev)
-+{
-+	struct tpu_device *tpu = dev_get_drvdata(dev);
-+	struct pwm_chip *chip = &tpu->chip;
-+	struct pwm_device *pwm;
-+	int i;
-+
-+	for (i = 0; i < TPU_CHANNEL_MAX; i++) {
-+		if ((pwm_get_chip_data(&chip->pwms[i])) != NULL) {
-+			pwm = &chip->pwms[i];
-+			if (!test_bit(PWMF_REQUESTED, &pwm->flags))
-+				return 0;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int tpu_pwm_resume(struct device *dev)
-+{
-+	struct tpu_device *tpu = dev_get_drvdata(dev);
-+	struct pwm_chip *chip = &tpu->chip;
-+	struct pwm_device *pwm;
-+	int i;
-+
-+	pm_runtime_get_sync(dev);
-+
-+	for (i = 0; i < TPU_CHANNEL_MAX; i++) {
-+		if ((pwm_get_chip_data(&chip->pwms[i])) != NULL) {
-+			pwm = &chip->pwms[i];
-+			tpu_pwm_restart_timer(pwm);
-+		}
-+	}
-+
-+	return 0;
-+}
-+#endif /* CONFIG_PM_SLEEP */
-+static SIMPLE_DEV_PM_OPS(tpu_pwm_pm_ops, tpu_pwm_suspend, tpu_pwm_resume);
-+
- static const struct pwm_ops tpu_pwm_ops = {
- 	.request = tpu_pwm_request,
- 	.free = tpu_pwm_free,
-@@ -459,6 +511,7 @@ static struct platform_driver tpu_driver = {
- 	.remove		= tpu_remove,
- 	.driver		= {
- 		.name	= "renesas-tpu-pwm",
-+		.pm	= &tpu_pwm_pm_ops,
- 		.of_match_table = of_match_ptr(tpu_of_table),
- 	}
- };
--- 
-2.7.4
+I have added the interrupt node to dtsi and created the interrupt handler to successfully handle the Secure watchdog Gen2, but this is not documented.  With Gen 3, I am also thinking whether it is necessary or not.  Thank you!!!
+With Gen3, after reset by WDT, then restart will have an interrupt when probe timer(), but we can do this no reset, after this,  timer operate normally. 
+Problaly this patch should RFC
 
+Thank you for your helps!!!
+
+
+> 
+> Kind regards,
+> 
+>    Wolfram
+> 
