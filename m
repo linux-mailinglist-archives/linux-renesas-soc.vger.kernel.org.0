@@ -2,109 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B0212982D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2019 14:39:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0775298E3
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2019 15:28:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390946AbfEXMjW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 May 2019 08:39:22 -0400
-Received: from mail-ua1-f68.google.com ([209.85.222.68]:42436 "EHLO
-        mail-ua1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390781AbfEXMjV (ORCPT
+        id S2391359AbfEXN2N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 May 2019 09:28:13 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:58592 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391361AbfEXN2N (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 May 2019 08:39:21 -0400
-Received: by mail-ua1-f68.google.com with SMTP id e9so3432958uar.9;
-        Fri, 24 May 2019 05:39:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=p8BS7qBD61gkszF8TETLiaJ/w6Ke2fe/2O4AZ5tzxRU=;
-        b=o1uvkEeNppHFpCZVqzwhbol+HGvzckfdDXfqBd0rf80gIyNxU52j7el7kw2Hvz+BhQ
-         IO7OTHXny6cpvFWFGFnuxU+AapRmtntuNgGIP10DqXQIr67ut4/7WLxlxlYaC6hV5VmR
-         nyDYtf9D5popSoRIuzrB0uQjbfHSSZPwSerpL+hWM7Eut8b99Zq/abBN+Lk9aiCCpCx4
-         pt4stsdmbH8RYK8JP/m5fKoLnbQoP4BtquLbwLr0a4GdKCbt1Lu4IjJArtFPoecuYwuN
-         Mj5G1AkpSrqM4tC8qjTACHioA/+ktASmbppd6lkitFwzarIfl87SFit3Vg1vaNUai9sR
-         9ozA==
-X-Gm-Message-State: APjAAAVgZNwV8Ft146y1t/BqiCOuxmM414aRDRvOYXGiAHWc7e9ZO+02
-        a8oPgv3tX2rqvrr8lWCi6nqYawJmTETIlgdzsSA=
-X-Google-Smtp-Source: APXvYqxCD+59NtWoY2L+uV9CXk4yN4AziG3UcCB1/CcRvwjxyNk9G1Yz3/qTWfZSWNEOSMvGkzSHwss5D0pmmtH6T5g=
-X-Received: by 2002:ab0:1849:: with SMTP id j9mr3942524uag.75.1558701560479;
- Fri, 24 May 2019 05:39:20 -0700 (PDT)
+        Fri, 24 May 2019 09:28:13 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 018B925AD7D;
+        Fri, 24 May 2019 23:28:12 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id 00D6C9404D5; Fri, 24 May 2019 15:28:09 +0200 (CEST)
+Date:   Fri, 24 May 2019 15:28:09 +0200
+From:   Simon Horman <horms@verge.net.au>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Takeshi Kihara <takeshi.kihara.df@renesas.com>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH] arm64: dts: renesas: ebisu: Remove renesas,
+ no-ether-link property
+Message-ID: <20190524132809.v7b4o4jk3t3ziusu@verge.net.au>
+References: <20181121160808.13374-1-horms+renesas@verge.net.au>
 MIME-Version: 1.0
-References: <1558442111-10599-1-git-send-email-gareth.williams.jx@renesas.com>
- <CAMuHMdWGwfDtRcfdzPCpQaM8X=x+s0uT7j+EnRP4Yta+4Nx9Gg@mail.gmail.com> <TYAPR01MB40157EF547D93D3B98330CBCDF020@TYAPR01MB4015.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYAPR01MB40157EF547D93D3B98330CBCDF020@TYAPR01MB4015.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 24 May 2019 14:39:07 +0200
-Message-ID: <CAMuHMdXqehwg9Nng8jzVY0Evj6hsvnad1dmgWU02Dc4vGGsTCQ@mail.gmail.com>
-Subject: Re: [PATCH v2] clk: renesas: r9a06g032: Add clock domain support
-To:     Gareth Williams <gareth.williams.jx@renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20181121160808.13374-1-horms+renesas@verge.net.au>
+Organisation: Horms Solutions BV
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Gareth,
+On Wed, Nov 21, 2018 at 08:08:08AM -0800, Simon Horman wrote:
+> From: Takeshi Kihara <takeshi.kihara.df@renesas.com>
+> 
+> It is incorrect to specify the no-ether-link property for the AVB device on
+> the Ebisu board. This is because the property should only be used when a
+> board does not provide a proper AVB_LINK signal. However, the Ebisu board
+> does provide this signal.
+> 
+> As per 87c059e9c39d ("arm64: dts: renesas: salvator-x: Remove renesas,
+> no-ether-link property") this fixes a bug:
+> 
+>     Steps to reproduce:
+>     - start AVB TX stream (Using aplay via MSE),
+>     - disconnect+reconnect the eth cable,
+>     - after a reconnection the eth connection goes iteratively up/down
+>       without user interaction,
+>     - this may heal after some seconds or even stay for minutes.
+> 
+>     As the documentation specifies, the "renesas,no-ether-link" option
+>     should be used when a board does not provide a proper AVB_LINK signal.
+>     There is no need for this option enabled on RCAR H3/M3 Salvator-X/XS
+>     and ULCB starter kits since the AVB_LINK is correctly handled by HW.
+> 
+>     Choosing to keep or remove the "renesas,no-ether-link" option will have
+>     impact on the code flow in the following ways:
+>     - keeping this option enabled may lead to unexpected behavior since the
+>       RX & TX are enabled/disabled directly from adjust_link function
+>       without any HW interrogation,
+>     - removing this option, the RX & TX will only be enabled/disabled after
+>       HW interrogation. The HW check is made through the LMON pin in PSR
+>       register which specifies AVB_LINK signal value (0 - at low level;
+>       1 - at high level).
+> 
+>     In conclusion, the present change is also a safety improvement because
+>     it removes the "renesas,no-ether-link" option leading to a proper way
+>     of detecting the link state based on HW interrogation and not on
+>     software heuristic.
+> 
+> Fixes: 8441ef643d7d ("arm64: dts: renesas: r8a77990: ebisu: Enable EthernetAVB")
+> Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
+> [simon: updated changelog]
+> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
 
-On Fri, May 24, 2019 at 2:28 PM Gareth Williams
-<gareth.williams.jx@renesas.com> wrote:
-> On Tue, May 22, 2019 at 1:02 PM Gareth Williams
-> <geert@linux-m68k.org> wrote:
-> > On Tue, May 21, 2019 at 2:35 PM Gareth Williams
-> > <gareth.williams.jx@renesas.com> wrote:
-> > > There are several clocks on the r9ag032 which are currently not
-> > > enabled in their drivers that can be delegated to clock domain system
-> > > for power management. Therefore add support for clock domain
-> > > functionality to the
-> > > r9a06g032 clock driver.
-> > >
-> > > Signed-off-by: Gareth Williams <gareth.williams.jx@renesas.com>
-> > > ---
-> > > v2:
-> > >  - Rebased onto kernel/git/geert/renesas-drivers.git
-> >
-> > Thanks for the update!
-> >
-> > >  drivers/clk/renesas/r9a06g032-clocks.c | 243
-> > > ++++++++++++++++++++++++---------
-> > >  1 file changed, 176 insertions(+), 67 deletions(-)
-> >
-> > Please also update
-> > Documentation/devicetree/bindings/clock/renesas,r9a06g032-sysctrl.txt,
-> > to describe #power-domain-cells (must be 0), and to update the provider
-> > and consumer examples.
-> >
-> > > --- a/drivers/clk/renesas/r9a06g032-clocks.c
-> > > +++ b/drivers/clk/renesas/r9a06g032-clocks.c
-
-> > > +int __init r9a06g032_attach_dev(struct generic_pm_domain *unused,
-> >
-> > Missing static.
-> > Please drop the __init, as devices can be attached anytime (no section
-> > mismatch warnings?).
-> Because the clock array used __initconst, I only got a section mismatch warning
-> without __init in the attach function. I will remove both so it compiles cleanly
-> without expecting devices to be attached at one point.
-
-Oh right, r9a06g032_attach_dev() uses r9a06g032_clocks[].
-So the __initconst must be indeed dropped from the latter, unless you find some
-way to store the managed flag elsewhere.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+This seems to have fallen through the cracks.
+I have applied it for inclusion in v5.3.
