@@ -2,131 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9430D29496
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2019 11:25:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8C41294F9
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2019 11:39:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390099AbfEXJYk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 May 2019 05:24:40 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:37802 "EHLO
-        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390097AbfEXJYk (ORCPT
+        id S2390162AbfEXJjo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 May 2019 05:39:44 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:46785 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389841AbfEXJjo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 May 2019 05:24:40 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 02084A78;
-        Fri, 24 May 2019 02:24:40 -0700 (PDT)
-Received: from [10.1.196.129] (ostrya.cambridge.arm.com [10.1.196.129])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B18DB3F703;
-        Fri, 24 May 2019 02:24:38 -0700 (PDT)
-Subject: Re: [PATCH/RFC] arm64: fix build warning from
- __AARCH64_INSN_FUNCS(ldadd, ...)
-To:     Daniel Borkmann <daniel@iogearbox.net>,
-        Will Deacon <will.deacon@arm.com>
-Cc:     linux-renesas-soc@vger.kernel.org, catalin.marinas@arm.com,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        kuninori.morimoto.gx@renesas.com,
-        linux-arm-kernel@lists.infradead.org
-References: <1558599120-29394-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <20190523103602.GJ26646@fuggles.cambridge.arm.com>
- <4b35cc15-9e35-eb67-3cfc-3a8eff8c462e@iogearbox.net>
- <1daf0c3e-745b-386b-4a8d-bfb18f987239@arm.com>
- <20190523141639.GA31896@fuggles.cambridge.arm.com>
- <e94cb569-3460-8df1-f675-d5a9aae8abdf@iogearbox.net>
-From:   Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
-Message-ID: <01f21d2a-f01b-ac9c-41c7-bef0a646eb2e@arm.com>
-Date:   Fri, 24 May 2019 10:24:13 +0100
+        Fri, 24 May 2019 05:39:44 -0400
+Received: by mail-lj1-f195.google.com with SMTP id m15so8035372ljg.13;
+        Fri, 24 May 2019 02:39:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=pLG4HwSPDeFqFoO0sL50L7Vp6hlITsqcMm3GOLkhZSg=;
+        b=S1rw7AVxIco9LK6fEnDYEhZWjhsLjsaf0KZWWwQgI2dj/4gnOotXrrFy63e0XqGHZU
+         /r6jKDGcZcYZY2VXAc7UxTXaHrk/LwFPWNGlp51jgXUsH6MLebUBW482GONEdj2G0PIW
+         63ROnxduLs5ZSa6Uf3++Chm8Clp9XI9YOnpkjBMM4tTuZAt5a2nA2iQix2e5mU2rLjkc
+         FTjyhptESjaXpN0JlWkaOEDjzdAcplXds5nEWT7PN9k4qq/3hr8F0AelWMFcE9x4SM9l
+         G9lJqE10DJcWmq8IIsLRiC7sB6TUh8nHgId65ZBTVjfxAl/OpJ5Ow3F7fjIdY+qvFEy4
+         XpuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=pLG4HwSPDeFqFoO0sL50L7Vp6hlITsqcMm3GOLkhZSg=;
+        b=sb2yVv23p6ymlu9NbcyXk0u5WgkuJYJz21nh7ZCkdw1PGyGEPMZuju8cWOuN0zgKts
+         q1hlG7X7iz2/bTv2jUAbJ30r3zwAREpNM5JpqX90tRPvjbpWA1eDjTWJp6tFPAjPtkOQ
+         MLIXC9a4A/bXk7UTcDpuE0cIGiwd0pvP+qpg7Y2YF7zpqnXlLg9GP7zL9ZNNEDbFUTTA
+         9bbJgbUHRekjom0UKwOl5r7/U3y0bzPEfR2x83xhUPqWNcmZT1fp+1dljbiwnH5R1wcm
+         dwJR++W3nyi+Jt18AQVFbkNjjYLWFEmpAtIK8jpAqyR4iz7NOmy7VZQpNf17aAUBNj++
+         X4iw==
+X-Gm-Message-State: APjAAAVhaU2Whpjzevai+vXwIWMuQXV6Gz7Su3o0Zvy/smMlIg4EU+T5
+        ikrFN45+qOHqGloh+vXcyBs=
+X-Google-Smtp-Source: APXvYqyIjCahILMqH7knW6yLej57c4Hug7DNGZ788l61rXSXB7+g5mLd36evjocxtJLNdYcZLGOzjQ==
+X-Received: by 2002:a2e:9b46:: with SMTP id o6mr14898732ljj.76.1558690782127;
+        Fri, 24 May 2019 02:39:42 -0700 (PDT)
+Received: from [10.17.182.120] (ll-22.209.223.85.sovam.net.ua. [85.223.209.22])
+        by smtp.gmail.com with ESMTPSA id f189sm497368lfe.66.2019.05.24.02.39.40
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 24 May 2019 02:39:41 -0700 (PDT)
+Subject: Re: [PATCH V5] ARM: mach-shmobile: Don't init CNTVOFF/counter if PSCI
+ is available
+From:   Oleksandr <olekstysh@gmail.com>
+To:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     julien.grall@arm.com, horms@verge.net.au, magnus.damm@gmail.com,
+        linux@armlinux.org.uk, geert@linux-m68k.org,
+        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
+References: <1558087093-22113-1-git-send-email-olekstysh@gmail.com>
+Message-ID: <b51b7d40-0023-0ddb-c00c-02ad8c5a0529@gmail.com>
+Date:   Fri, 24 May 2019 12:39:40 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <e94cb569-3460-8df1-f675-d5a9aae8abdf@iogearbox.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <1558087093-22113-1-git-send-email-olekstysh@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 23/05/2019 15:26, Daniel Borkmann wrote:
-> On 05/23/2019 04:16 PM, Will Deacon wrote:
->> On Thu, May 23, 2019 at 02:54:54PM +0100, Jean-Philippe Brucker wrote:
->>> On 23/05/2019 14:02, Daniel Borkmann wrote:
->>>> On 05/23/2019 12:36 PM, Will Deacon wrote:
->>>>> [+Daniel and Jean-Philippe]
->>>>> On Thu, May 23, 2019 at 05:12:00PM +0900, Yoshihiro Shimoda wrote:
->>>>>> The following build warning happens on gcc 8.1.0.
->>>>>>
->>>>>>  linux/arch/arm64/include/asm/insn.h: In function 'aarch64_insn_is_ldadd':
->>>>>>  linux/arch/arm64/include/asm/insn.h:280:257: warning: bitwise comparison always evaluates to false [-Wtautological-compare]
->>>>>>  __AARCH64_INSN_FUNCS(ldadd, 0x3F20FC00, 0xB8200000)
->>>>>>
->>>>>> Since the second argument is mask value and compare with the third
->>>>>> argument value, the bit 31 is always masked and then this macro is
->>>>>> always false. So, this patch fixes the issue.
->>>>>>
->>>>>> Reported-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
->>>>>> Fixes: 34b8ab091f9ef57a ("bpf, arm64: use more scalable stadd over ldxr / stxr loop in xadd")
->>>>>> Tested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
->>>>>> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
->>>>>> ---
->>>>>>  I'm not sure the second argument "0xBF20FC00" is OK or not (we can set
->>>>>>  to 0xFF20FC00 instead). So, I marked RFC on this patch.
->>>>>>
->>>>>>  arch/arm64/include/asm/insn.h | 2 +-
->>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>>
->>>>>> diff --git a/arch/arm64/include/asm/insn.h b/arch/arm64/include/asm/insn.h
->>>>>> index ec894de..c9e3cdc 100644
->>>>>> --- a/arch/arm64/include/asm/insn.h
->>>>>> +++ b/arch/arm64/include/asm/insn.h
->>>>>> @@ -277,7 +277,7 @@ __AARCH64_INSN_FUNCS(adrp,	0x9F000000, 0x90000000)
->>>>>>  __AARCH64_INSN_FUNCS(prfm,	0x3FC00000, 0x39800000)
->>>>>>  __AARCH64_INSN_FUNCS(prfm_lit,	0xFF000000, 0xD8000000)
->>>>>>  __AARCH64_INSN_FUNCS(str_reg,	0x3FE0EC00, 0x38206800)
->>>>>> -__AARCH64_INSN_FUNCS(ldadd,	0x3F20FC00, 0xB8200000)
->>>>>> +__AARCH64_INSN_FUNCS(ldadd,	0xBF20FC00, 0xB8200000)
->>>>>
->>>>> Looking at the ISA encoding, I think that top digit should indeed be 'B',
->>>>> but I haven't checked the rest of the instruction.
->>>>>
->>>>> However, I'm fairly sure we tested this so now I'm a bit worried that I'm
->>>>> missing something :/
->>>>
->>>> Hmm, good catch, the mask aka aarch64_insn_is_ldadd() is not used anywhere
->>>> in the tree, just the aarch64_insn_get_ldadd_value(). Latter was runtime
->>>> tested via BPF JIT as well as through disassembler that it emits ldadd. I
->>>> initially had a different mask value than Jean-Philippe, but that was probably
->>>> due to confusion on my side. In any case, value should be correct though.
->>>
->>> I suggested that mask and forgot to change val, sorry about that. My
->>> intent was to stay consistent with ldr_reg and str_reg, which mask out
->>> the two size bits [31:30]. The proposed fix works but won't take into
->>> account ldaddb and ldaddh, so maybe we could change val to 0x38200000
->>> instead?
->>>
->>> diff --git a/arch/arm64/include/asm/insn.h b/arch/arm64/include/asm/insn.h
->>> index ec894de0ed4e..f71b84d9f294 100644
->>> --- a/arch/arm64/include/asm/insn.h
->>> +++ b/arch/arm64/include/asm/insn.h
->>> @@ -279,3 +279,3 @@ __AARCH64_INSN_FUNCS(prfm_lit,      0xFF000000,
->>> 0xD8000000)
->>>  __AARCH64_INSN_FUNCS(str_reg,  0x3FE0EC00, 0x38206800)
->>> -__AARCH64_INSN_FUNCS(ldadd,    0x3F20FC00, 0xB8200000)
->>> +__AARCH64_INSN_FUNCS(ldadd,    0x3F20FC00, 0x38200000)
->>
->> Yes, this is better. I didn't realise we wanted to catch the sub-word
->> instructions as well, but that's what we do for other memory access
->> instructions so we should be consistent.
->>
->> If you post this as a proper patch, I can queue it as a fix in the arm64
->> tree.
-> 
-> If you're at it, it might also be good to add a comment to document such
-> conventions for the mask right above the __AARCH64_INSN_FUNCS() definition
-> or such. Would definitely be helpful for adding other insns there in future.
 
-Hmm, I couldn't come up with anything generic and useful to say here,
-sorry. I'll send the patch so we can have it in -rc2
+Hello, all
 
-Thanks,
-Jean
+
+Gentle reminder...
+
+-- 
+Regards,
+
+Oleksandr Tyshchenko
+
