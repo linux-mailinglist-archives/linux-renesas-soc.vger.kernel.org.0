@@ -2,141 +2,145 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 903E92891E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 May 2019 21:42:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8639328E6D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2019 02:56:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392198AbfEWTay (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 May 2019 15:30:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44450 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392192AbfEWTav (ORCPT
+        id S1731608AbfEXA4v (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 May 2019 20:56:51 -0400
+Received: from www3345.sakura.ne.jp ([49.212.235.55]:14362 "EHLO
+        www3345.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726501AbfEXA4v (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 May 2019 15:30:51 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A808020879;
-        Thu, 23 May 2019 19:30:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1558639850;
-        bh=+t0u5GOucS63bRMTYhnfoDgwbCZ7hpJlC0pSSCGnqdA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dZGsfRO2rRI0hBylfHkvqO43wy2ApuhZlRAajdyMR67ZpTbeuCPEGL3qZS5QK8yyM
-         eOTOFxMKEHcHT9NkqsCOsJdmx+S3S9Rh5F6y9++uBMW5GubfVEMFwD9/RjaxsSN+gE
-         RAyUjOPbDyoPd6lBDB5R7qrdpFyBoA73OS77TAUY=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Kazufumi Ikeda <kaz-ikeda@xc.jp.nec.com>,
-        Gaku Inami <gaku.inami.xw@bp.renesas.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 5.1 099/122] PCI: rcar: Add the initialization of PCIe link in resume_noirq()
-Date:   Thu, 23 May 2019 21:07:01 +0200
-Message-Id: <20190523181718.354018681@linuxfoundation.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190523181705.091418060@linuxfoundation.org>
-References: <20190523181705.091418060@linuxfoundation.org>
-User-Agent: quilt/0.66
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        Thu, 23 May 2019 20:56:51 -0400
+Received: from fsav404.sakura.ne.jp (fsav404.sakura.ne.jp [133.242.250.103])
+        by www3345.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id x4O0uXti091715;
+        Fri, 24 May 2019 09:56:33 +0900 (JST)
+        (envelope-from cv-dong@jinso.co.jp)
+Received: from www3345.sakura.ne.jp (49.212.235.55)
+ by fsav404.sakura.ne.jp (F-Secure/fsigk_smtp/530/fsav404.sakura.ne.jp);
+ Fri, 24 May 2019 09:56:33 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/530/fsav404.sakura.ne.jp)
+Received: from localhost (p14010-ipadfx41marunouchi.tokyo.ocn.ne.jp [61.118.107.10])
+        (authenticated bits=0)
+        by www3345.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id x4O0uUSZ091687
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+        Fri, 24 May 2019 09:56:33 +0900 (JST)
+        (envelope-from cv-dong@jinso.co.jp)
+From:   Cao Van Dong <cv-dong@jinso.co.jp>
+To:     linux-renesas-soc@vger.kernel.org, thierry.reding@gmail.com,
+        horms+renesas@verge.net.au, geert+renesas@glider.be,
+        broonie@kernel.org, linux-pwm@vger.kernel.org
+Cc:     yoshihiro.shimoda.uh@renesas.com, kuninori.morimoto.gx@renesas.com,
+        h-inayoshi@jinso.co.jp, na-hoan@jinso.co.jp, cv-dong@jinso.co.jp
+Subject: [PATCH v3] pwm: renesas-tpu: Add suspend/resume function
+Date:   Fri, 24 May 2019 09:56:29 +0900
+Message-Id: <1558659389-4397-1-git-send-email-cv-dong@jinso.co.jp>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Kazufumi Ikeda <kaz-ikeda@xc.jp.nec.com>
+This patch adds suspend/resume function support for Renesas the 16-Bit Timer
+Pulse Unit (TPU) driver. This has been tested on the Salvator-XS board 
+with R-Car M3-N and H3 at renesas-drivers-2019-05-21-v5.2-rc1 tag.
+I expect this to work on other SoCs.
 
-commit be20bbcb0a8cb5597cc62b3e28d275919f3431df upstream.
+Test procedure:
+  - Enable TPU and pin control in DTS.
+  - Make sure switches { SW29-[1-2] are switched off or 
+    SW31-[1-4] are switched off(only for Salvator-xs) }.
+  - Exercise userspace PWM control for pwm[2,3] 
+    of /sys/class/pwm/pwmchip1/ .
+  - Inspect PWM signals on the input side of { CN29-[58,60] 
+    or SW31-[1,2] (only for Salvator-xs) }
+    before and after suspend/resume using an oscilloscope. 
 
-Reestablish the PCIe link very early in the resume process in case it
-went down to prevent PCI accesses from hanging the bus. Such accesses
-can happen early in the PCI resume process, as early as the
-SUSPEND_RESUME_NOIRQ step, thus the link must be reestablished in the
-driver resume_noirq() callback.
-
-Fixes: e015f88c368d ("PCI: rcar: Add support for R-Car H3 to pcie-rcar")
-Signed-off-by: Kazufumi Ikeda <kaz-ikeda@xc.jp.nec.com>
-Signed-off-by: Gaku Inami <gaku.inami.xw@bp.renesas.com>
-Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-[lorenzo.pieralisi@arm.com: reformatted commit log]
-Signed-off-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: stable@vger.kernel.org
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Phil Edworthy <phil.edworthy@renesas.com>
-Cc: Simon Horman <horms+renesas@verge.net.au>
-Cc: Wolfram Sang <wsa@the-dreams.de>
-Cc: linux-renesas-soc@vger.kernel.org
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
+Signed-off-by: Cao Van Dong <cv-dong@jinso.co.jp>
+Tested-by: Cao Van Dong <cv-dong@jinso.co.jp>
+Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- drivers/pci/controller/pcie-rcar.c |   21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+Changes v2 -> v3:
+  - Changes '3' -> TPU_CHANNEL_MAX in loop.
+  - Remove pm_runtime_put() function in tpu_pwm_suspend() function.
+---
+Changes v1 -> v2:
+  - Repair the handling code to cover case of using multiple timers.
+---
+ drivers/pwm/pwm-renesas-tpu.c | 53 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
 
---- a/drivers/pci/controller/pcie-rcar.c
-+++ b/drivers/pci/controller/pcie-rcar.c
-@@ -46,6 +46,7 @@
- 
- /* Transfer control */
- #define PCIETCTLR		0x02000
-+#define  DL_DOWN		BIT(3)
- #define  CFINIT			1
- #define PCIETSTR		0x02004
- #define  DATA_LINK_ACTIVE	1
-@@ -94,6 +95,7 @@
- #define MACCTLR			0x011058
- #define  SPEED_CHANGE		BIT(24)
- #define  SCRAMBLE_DISABLE	BIT(27)
-+#define PMSR			0x01105c
- #define MACS2R			0x011078
- #define MACCGSPSETR		0x011084
- #define  SPCNGRSN		BIT(31)
-@@ -1130,6 +1132,7 @@ static int rcar_pcie_probe(struct platfo
- 	pcie = pci_host_bridge_priv(bridge);
- 
- 	pcie->dev = dev;
-+	platform_set_drvdata(pdev, pcie);
- 
- 	err = pci_parse_request_of_pci_ranges(dev, &pcie->resources, NULL);
- 	if (err)
-@@ -1221,10 +1224,28 @@ err_free_bridge:
- 	return err;
+diff --git a/drivers/pwm/pwm-renesas-tpu.c b/drivers/pwm/pwm-renesas-tpu.c
+index 4a855a2..cb97252 100644
+--- a/drivers/pwm/pwm-renesas-tpu.c
++++ b/drivers/pwm/pwm-renesas-tpu.c
+@@ -366,6 +366,58 @@ static void tpu_pwm_disable(struct pwm_chip *chip, struct pwm_device *_pwm)
+ 	tpu_pwm_timer_stop(pwm);
  }
  
-+static int rcar_pcie_resume_noirq(struct device *dev)
++#ifdef CONFIG_PM_SLEEP
++static int tpu_pwm_restart_timer(struct pwm_device *pwm)
 +{
-+	struct rcar_pcie *pcie = dev_get_drvdata(dev);
-+
-+	if (rcar_pci_read_reg(pcie, PMSR) &&
-+	    !(rcar_pci_read_reg(pcie, PCIETCTLR) & DL_DOWN))
++	if (!test_bit(PWMF_REQUESTED, &pwm->flags))
 +		return 0;
 +
-+	/* Re-establish the PCIe link */
-+	rcar_pci_write_reg(pcie, CFINIT, PCIETCTLR);
-+	return rcar_pcie_wait_for_dl(pcie);
++	/* Restart timer */
++	tpu_pwm_disable(pwm->chip,pwm);
++	tpu_pwm_enable(pwm->chip,pwm);
++
++	return 0;
 +}
 +
-+static const struct dev_pm_ops rcar_pcie_pm_ops = {
-+	.resume_noirq = rcar_pcie_resume_noirq,
-+};
++static int tpu_pwm_suspend(struct device *dev)
++{
++	struct tpu_device *tpu = dev_get_drvdata(dev);
++	struct pwm_chip *chip = &tpu->chip;
++	struct pwm_device *pwm;
++	int i;
 +
- static struct platform_driver rcar_pcie_driver = {
- 	.driver = {
- 		.name = "rcar-pcie",
- 		.of_match_table = rcar_pcie_of_match,
-+		.pm = &rcar_pcie_pm_ops,
- 		.suppress_bind_attrs = true,
- 	},
- 	.probe = rcar_pcie_probe,
-
++	for (i = 0; i < TPU_CHANNEL_MAX; i++) {
++		if ((pwm_get_chip_data(&chip->pwms[i])) != NULL) {
++			pwm = &chip->pwms[i];
++			if (!test_bit(PWMF_REQUESTED, &pwm->flags))
++				return 0;
++		}
++	}
++
++	return 0;
++}
++
++static int tpu_pwm_resume(struct device *dev)
++{
++	struct tpu_device *tpu = dev_get_drvdata(dev);
++	struct pwm_chip *chip = &tpu->chip;
++	struct pwm_device *pwm;
++	int i;
++
++	pm_runtime_get_sync(dev);
++
++	for (i = 0; i < TPU_CHANNEL_MAX; i++) {
++		if ((pwm_get_chip_data(&chip->pwms[i])) != NULL) {
++			pwm = &chip->pwms[i];
++			tpu_pwm_restart_timer(pwm);
++		}
++	}
++
++	return 0;
++}
++#endif /* CONFIG_PM_SLEEP */
++static SIMPLE_DEV_PM_OPS(tpu_pwm_pm_ops, tpu_pwm_suspend, tpu_pwm_resume);
++
+ static const struct pwm_ops tpu_pwm_ops = {
+ 	.request = tpu_pwm_request,
+ 	.free = tpu_pwm_free,
+@@ -459,6 +511,7 @@ static struct platform_driver tpu_driver = {
+ 	.remove		= tpu_remove,
+ 	.driver		= {
+ 		.name	= "renesas-tpu-pwm",
++		.pm	= &tpu_pwm_pm_ops,
+ 		.of_match_table = of_match_ptr(tpu_of_table),
+ 	}
+ };
+-- 
+2.7.4
 
