@@ -2,170 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3249F28EF6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2019 04:01:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9430D29496
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 May 2019 11:25:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731684AbfEXCBr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 May 2019 22:01:47 -0400
-Received: from mail-eopbgr1410101.outbound.protection.outlook.com ([40.107.141.101]:8352
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1731617AbfEXCBr (ORCPT
+        id S2390099AbfEXJYk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 May 2019 05:24:40 -0400
+Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:37802 "EHLO
+        foss.arm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2390097AbfEXJYk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 May 2019 22:01:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HFEypbH7VAfzitD9tP6j7T3ee6e6j0C0GTxOUfwSxXc=;
- b=NOOETi6fKuebatfZCaaDWirpLokbS5bmjB5mtippk63wDtVMBv4I5KFuLwMiovDT8I0k8MMAQsbYN+hlyNDVJSYaZEaVu8J1zm5/NK8LQkZGbs9Df9mQLfJoAbmg06z5/6PtfeBNNB71Ekl3l/qXImlSVcxBHGwaJfDR+zea5CU=
-Received: from OSAPR01MB3089.jpnprd01.prod.outlook.com (52.134.247.150) by
- OSAPR01MB1826.jpnprd01.prod.outlook.com (52.134.233.19) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1922.18; Fri, 24 May 2019 02:01:41 +0000
-Received: from OSAPR01MB3089.jpnprd01.prod.outlook.com
- ([fe80::4597:5353:28fb:cfd8]) by OSAPR01MB3089.jpnprd01.prod.outlook.com
- ([fe80::4597:5353:28fb:cfd8%7]) with mapi id 15.20.1922.017; Fri, 24 May 2019
- 02:01:41 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     =?iso-2022-jp?B?IhskQiUwJSclcyEmJSIlcyEmJVslISVzGyhCIg==?= 
-        <na-hoan@jinso.co.jp>, Wolfram Sang <wsa@the-dreams.de>
-CC:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "linux-watchdog@vger.kernel.org" <linux-watchdog@vger.kernel.org>,
-        "wim@linux-watchdog.org" <wim@linux-watchdog.org>,
-        "linux@roeck-us.net" <linux@roeck-us.net>,
-        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        hideo inayoshi <h-inayoshi@jinso.co.jp>,
-        "cv-dong@jinso.co.jp" <cv-dong@jinso.co.jp>
-Subject: RE: [PATCH] watchdog: renesas_wdt: Fix interrupt enable for timer
-Thread-Topic: [PATCH] watchdog: renesas_wdt: Fix interrupt enable for timer
-Thread-Index: AQHVEUoUId3jLXaZb0WHj/Ry6OAuaKZ4jBuAgADtOoCAAAlyoA==
-Date:   Fri, 24 May 2019 02:01:40 +0000
-Message-ID: <OSAPR01MB308993D3F0959966DE599E58D8020@OSAPR01MB3089.jpnprd01.prod.outlook.com>
-References: <20190523110451.GA3979@kunai>
- <155866043594663500007f86@nat.cybozu.com>
-In-Reply-To: <155866043594663500007f86@nat.cybozu.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
-x-originating-ip: [118.238.235.108]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 8a5a0a6f-89b5-4872-57a1-08d6dfebc38c
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);SRVR:OSAPR01MB1826;
-x-ms-traffictypediagnostic: OSAPR01MB1826:
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-microsoft-antispam-prvs: <OSAPR01MB1826E5367660CC60F882C32BD8020@OSAPR01MB1826.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0047BC5ADE
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(396003)(39860400002)(346002)(136003)(376002)(199004)(189003)(40764003)(76116006)(11346002)(446003)(8676002)(81166006)(81156014)(66946007)(73956011)(6116002)(14454004)(7416002)(305945005)(26005)(8936002)(68736007)(316002)(102836004)(86362001)(76176011)(7696005)(54906003)(3846002)(66446008)(64756008)(66476007)(66556008)(6246003)(413944005)(110136005)(6506007)(5660300002)(9686003)(476003)(71190400001)(4326008)(71200400001)(6436002)(55016002)(486006)(229853002)(33656002)(7736002)(99286004)(256004)(53936002)(14444005)(25786009)(74316002)(478600001)(186003)(52536014)(66066001)(2906002);DIR:OUT;SFP:1102;SCL:1;SRVR:OSAPR01MB1826;H:OSAPR01MB3089.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: QrJn6ay3h6S9iHGepiNbw5FQzKo2//ZgBe6NAwozmTPL7CKy7VpPB7O/W5PYvTVUGegAL9FWcjL7QbLtA8G5BhVX8sclB4ARjsucQvs+qA+c0T//N+iOo6daRtiRRpSSVw9AuyunKZHAzIRlCwIL4jaOBI2Fi7AvOgm7XqZ5TlKR5tx19DTp/cz3Yo9hmxLJ+bosprt303wwgiXyx96Jjm/D6mHy8fjflEQb3ixa3zwNfp6hOSlgt77R0Wu81n27rqRUR7PiUpmll1KthhfiVzU7AhXvf2Ece5x6fTaP3E6Q20ubGbz5p9bXtIiJ8J9oPWQ27cdwdxpK51JXKhHEYSgZXo4PhG4STTGLskLCaq5W0ruI5IM/E4OQ3SzOH8Kl/ffrzMWNse++H2W848d3jxmb7E+2LA96K4iwY17Upxw=
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: quoted-printable
+        Fri, 24 May 2019 05:24:40 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 02084A78;
+        Fri, 24 May 2019 02:24:40 -0700 (PDT)
+Received: from [10.1.196.129] (ostrya.cambridge.arm.com [10.1.196.129])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B18DB3F703;
+        Fri, 24 May 2019 02:24:38 -0700 (PDT)
+Subject: Re: [PATCH/RFC] arm64: fix build warning from
+ __AARCH64_INSN_FUNCS(ldadd, ...)
+To:     Daniel Borkmann <daniel@iogearbox.net>,
+        Will Deacon <will.deacon@arm.com>
+Cc:     linux-renesas-soc@vger.kernel.org, catalin.marinas@arm.com,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        kuninori.morimoto.gx@renesas.com,
+        linux-arm-kernel@lists.infradead.org
+References: <1558599120-29394-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <20190523103602.GJ26646@fuggles.cambridge.arm.com>
+ <4b35cc15-9e35-eb67-3cfc-3a8eff8c462e@iogearbox.net>
+ <1daf0c3e-745b-386b-4a8d-bfb18f987239@arm.com>
+ <20190523141639.GA31896@fuggles.cambridge.arm.com>
+ <e94cb569-3460-8df1-f675-d5a9aae8abdf@iogearbox.net>
+From:   Jean-Philippe Brucker <jean-philippe.brucker@arm.com>
+Message-ID: <01f21d2a-f01b-ac9c-41c7-bef0a646eb2e@arm.com>
+Date:   Fri, 24 May 2019 10:24:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a5a0a6f-89b5-4872-57a1-08d6dfebc38c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 May 2019 02:01:40.8668
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yoshihiro.shimoda.uh@renesas.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB1826
+In-Reply-To: <e94cb569-3460-8df1-f675-d5a9aae8abdf@iogearbox.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dear Hoan-san,
+On 23/05/2019 15:26, Daniel Borkmann wrote:
+> On 05/23/2019 04:16 PM, Will Deacon wrote:
+>> On Thu, May 23, 2019 at 02:54:54PM +0100, Jean-Philippe Brucker wrote:
+>>> On 23/05/2019 14:02, Daniel Borkmann wrote:
+>>>> On 05/23/2019 12:36 PM, Will Deacon wrote:
+>>>>> [+Daniel and Jean-Philippe]
+>>>>> On Thu, May 23, 2019 at 05:12:00PM +0900, Yoshihiro Shimoda wrote:
+>>>>>> The following build warning happens on gcc 8.1.0.
+>>>>>>
+>>>>>>  linux/arch/arm64/include/asm/insn.h: In function 'aarch64_insn_is_ldadd':
+>>>>>>  linux/arch/arm64/include/asm/insn.h:280:257: warning: bitwise comparison always evaluates to false [-Wtautological-compare]
+>>>>>>  __AARCH64_INSN_FUNCS(ldadd, 0x3F20FC00, 0xB8200000)
+>>>>>>
+>>>>>> Since the second argument is mask value and compare with the third
+>>>>>> argument value, the bit 31 is always masked and then this macro is
+>>>>>> always false. So, this patch fixes the issue.
+>>>>>>
+>>>>>> Reported-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+>>>>>> Fixes: 34b8ab091f9ef57a ("bpf, arm64: use more scalable stadd over ldxr / stxr loop in xadd")
+>>>>>> Tested-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+>>>>>> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>>>>>> ---
+>>>>>>  I'm not sure the second argument "0xBF20FC00" is OK or not (we can set
+>>>>>>  to 0xFF20FC00 instead). So, I marked RFC on this patch.
+>>>>>>
+>>>>>>  arch/arm64/include/asm/insn.h | 2 +-
+>>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git a/arch/arm64/include/asm/insn.h b/arch/arm64/include/asm/insn.h
+>>>>>> index ec894de..c9e3cdc 100644
+>>>>>> --- a/arch/arm64/include/asm/insn.h
+>>>>>> +++ b/arch/arm64/include/asm/insn.h
+>>>>>> @@ -277,7 +277,7 @@ __AARCH64_INSN_FUNCS(adrp,	0x9F000000, 0x90000000)
+>>>>>>  __AARCH64_INSN_FUNCS(prfm,	0x3FC00000, 0x39800000)
+>>>>>>  __AARCH64_INSN_FUNCS(prfm_lit,	0xFF000000, 0xD8000000)
+>>>>>>  __AARCH64_INSN_FUNCS(str_reg,	0x3FE0EC00, 0x38206800)
+>>>>>> -__AARCH64_INSN_FUNCS(ldadd,	0x3F20FC00, 0xB8200000)
+>>>>>> +__AARCH64_INSN_FUNCS(ldadd,	0xBF20FC00, 0xB8200000)
+>>>>>
+>>>>> Looking at the ISA encoding, I think that top digit should indeed be 'B',
+>>>>> but I haven't checked the rest of the instruction.
+>>>>>
+>>>>> However, I'm fairly sure we tested this so now I'm a bit worried that I'm
+>>>>> missing something :/
+>>>>
+>>>> Hmm, good catch, the mask aka aarch64_insn_is_ldadd() is not used anywhere
+>>>> in the tree, just the aarch64_insn_get_ldadd_value(). Latter was runtime
+>>>> tested via BPF JIT as well as through disassembler that it emits ldadd. I
+>>>> initially had a different mask value than Jean-Philippe, but that was probably
+>>>> due to confusion on my side. In any case, value should be correct though.
+>>>
+>>> I suggested that mask and forgot to change val, sorry about that. My
+>>> intent was to stay consistent with ldr_reg and str_reg, which mask out
+>>> the two size bits [31:30]. The proposed fix works but won't take into
+>>> account ldaddb and ldaddh, so maybe we could change val to 0x38200000
+>>> instead?
+>>>
+>>> diff --git a/arch/arm64/include/asm/insn.h b/arch/arm64/include/asm/insn.h
+>>> index ec894de0ed4e..f71b84d9f294 100644
+>>> --- a/arch/arm64/include/asm/insn.h
+>>> +++ b/arch/arm64/include/asm/insn.h
+>>> @@ -279,3 +279,3 @@ __AARCH64_INSN_FUNCS(prfm_lit,      0xFF000000,
+>>> 0xD8000000)
+>>>  __AARCH64_INSN_FUNCS(str_reg,  0x3FE0EC00, 0x38206800)
+>>> -__AARCH64_INSN_FUNCS(ldadd,    0x3F20FC00, 0xB8200000)
+>>> +__AARCH64_INSN_FUNCS(ldadd,    0x3F20FC00, 0x38200000)
+>>
+>> Yes, this is better. I didn't realise we wanted to catch the sub-word
+>> instructions as well, but that's what we do for other memory access
+>> instructions so we should be consistent.
+>>
+>> If you post this as a proper patch, I can queue it as a fix in the arm64
+>> tree.
+> 
+> If you're at it, it might also be good to add a comment to document such
+> conventions for the mask right above the __AARCH64_INSN_FUNCS() definition
+> or such. Would definitely be helpful for adding other insns there in future.
 
-> From: "=1B$B%0%'%s!&%"%s!&%[%!%s=1B(B", Sent: Friday, May 24, 2019 10:14 =
-AM
->=20
-> Dear Wolfram-san
-> Dear Geert- san
->=20
-> Thank you very much
-> Wolfram Sang wrote:
-> > Hi,
-> >
-> > On Thu, May 23, 2019 at 06:29:37PM +0900, Nguyen An Hoan wrote:
-> > > From: Hoan Nguyen An <na-hoan@jinso.co.jp>
-> > >
-> > > Fix setting for bit WOVFE of RWTCSRA. Keep it enable follow hardware =
-document.
-> >
-> > Hmm, I can't find it in the docs. Which version of the documentation do
-> > you use?
+Hmm, I couldn't come up with anything generic and useful to say here,
+sorry. I'll send the patch so we can have it in -rc2
 
-Do you have any comment about this question?
-
-> > > -	rwdt_write(priv, priv->cks, RWTCSRA);
-> > > +	val |=3D priv->cks;
-> > > +	rwdt_write(priv, val, RWTCSRA);
-> >
-> > Have you tested this successfully? According to the docs, CKS bits are
-> > all 1 by default. So, your |=3D operation should be a NOP and we can't
-> > select a CKS value anymore if I am not mistaken.
-> >
-> I tested and can confirm WOVFE was be disable by command
-> rwdt_write(priv, priv->cks, RWTCSRA);
-> I don't understand why this bit is turned off but the watchdog can still =
-reset, but
-> according to the document it will be 1.
-
-Your answer doesn't have CKS bits things. As Wolfram-san mentioned, the def=
-ault CKS bits
-value is b'111 and then the code "val |=3D priv->cks" can be not set to the=
- priv->cks value.
-In other words, if the priv->cks is set to 0, the driver should set the CKS=
- bits to 0,
-but your code will be set to b'111.
-
-> > >  	rwdt_write(priv, 0, RWTCSRB);
-> > >
-> > >  	while (readb_relaxed(priv->base + RWTCSRA) & RWTCSRA_WRFLG)
-> > >  		cpu_relax();
-> > > -
-> > > -	rwdt_write(priv, priv->cks | RWTCSRA_TME, RWTCSRA);
-> > > +	/* Enable interrupt and timer */
-> > > +	rwdt_write(priv, val | RWTCSRA_WOVFE | RWTCSRA_TME, RWTCSRA);
-> >
-> > What is the use of enabling an interrupt without having an interrupt
-> > handler? (And I never understood why there is an interrupt for an
-> > overflowing watchdog. We won't have time to serve it, or am I
-> > overlooking something obvious?)
->=20
-> I have added the interrupt node to dtsi and created the interrupt handler=
- to successfully handle the Secure watchdog Gen2,
-> but this is not documented.  With Gen 3, I am also thinking whether it is=
- necessary or not.  Thank you!!!
-> With Gen3, after reset by WDT, then restart will have an interrupt when p=
-robe timer(), but we can do this no reset, after
-> this,  timer operate normally.
-> Problaly this patch should RFC
-
-I'm afraid I could not understand these comments well, but if you have the =
-interrupt handler for this renesas_wdt driver,
-you should contain it on this patch :)  To be honest, I have no idea how to=
- use the interrupt though.
-
-Best regards,
-Yoshihiro Shimoda
-
-> Thank you for your helps!!!
->=20
->=20
-> >
-> > Kind regards,
-> >
-> >    Wolfram
-> >
+Thanks,
+Jean
