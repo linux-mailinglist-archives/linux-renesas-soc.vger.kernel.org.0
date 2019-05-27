@@ -2,187 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BAB502B431
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2019 14:05:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D50C02B4C4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2019 14:17:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727125AbfE0MEp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 May 2019 08:04:45 -0400
-Received: from baptiste.telenet-ops.be ([195.130.132.51]:41510 "EHLO
-        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726702AbfE0MER (ORCPT
+        id S1726998AbfE0MRR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 May 2019 08:17:17 -0400
+Received: from albert.telenet-ops.be ([195.130.137.90]:33506 "EHLO
+        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726883AbfE0MRR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 May 2019 08:04:17 -0400
+        Mon, 27 May 2019 08:17:17 -0400
 Received: from ramsan ([84.194.111.163])
-        by baptiste.telenet-ops.be with bizsmtp
-        id HQ4D2000T3XaVaC01Q4DLD; Mon, 27 May 2019 14:04:13 +0200
+        by albert.telenet-ops.be with bizsmtp
+        id HQHF2000d3XaVaC06QHFcc; Mon, 27 May 2019 14:17:16 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hVEMP-0001Pm-Ks; Mon, 27 May 2019 14:04:13 +0200
+        id 1hVEZ1-0001Sy-Oa; Mon, 27 May 2019 14:17:15 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hVEMP-00015l-Jh; Mon, 27 May 2019 14:04:13 +0200
+        id 1hVEZ1-0001Le-Mb; Mon, 27 May 2019 14:17:15 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Thomas Gleixner <tglx@linutronix.de>,
         Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <marc.zyngier@arm.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Cc:     Chris Brandt <chris.brandt@renesas.com>,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 5/5] irqchip/renesas-irqc: Convert to managed initializations
-Date:   Mon, 27 May 2019 14:04:12 +0200
-Message-Id: <20190527120412.4071-6-geert+renesas@glider.be>
+Subject: [PATCH v4 0/2] irqchip/renesas: Add RZ/A1 IRQC support
+Date:   Mon, 27 May 2019 14:17:09 +0200
+Message-Id: <20190527121711.5138-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190527120412.4071-1-geert+renesas@glider.be>
-References: <20190527120412.4071-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Simplify error handling by converting the driver to use managed
-allocations and initializations.
+	Hi all,
 
-Note that platform_get_resource() and ioremap_nocache() are combined in
-devm_platform_ioremap_resource().
+Unlike on most other Renesas SoCs, the GPIO controller blocks on RZ/A1
+and RZ/A2 SoCs lack interrupt functionality.  While the GPIOs can be
+routed to the GIC as pin interrupts, this is of limited use, as the
+PL390 or GIC-400 supports rising edge and high-level interrupts only.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
----
-v2:
-  - Add Reviewed-by.
----
- drivers/irqchip/irq-renesas-irqc.c | 54 +++++++++---------------------
- 1 file changed, 15 insertions(+), 39 deletions(-)
+Fortunately RZ/A1 and RZ/A2 SoCs contain a small front-end for the GIC,
+allowing to use up to 8 external interrupts, with configurable sense
+select.  This patch series adds DT bindings and a driver for this
+front-end.
 
-diff --git a/drivers/irqchip/irq-renesas-irqc.c b/drivers/irqchip/irq-renesas-irqc.c
-index af03ee31a87bb11d..cde9f9c0687e94a4 100644
---- a/drivers/irqchip/irq-renesas-irqc.c
-+++ b/drivers/irqchip/irq-renesas-irqc.c
-@@ -126,16 +126,13 @@ static int irqc_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	const char *name = dev_name(dev);
- 	struct irqc_priv *p;
--	struct resource *io;
- 	struct resource *irq;
- 	int ret;
- 	int k;
- 
--	p = kzalloc(sizeof(*p), GFP_KERNEL);
--	if (!p) {
--		ret = -ENOMEM;
--		goto err0;
--	}
-+	p = devm_kzalloc(dev, sizeof(*p), GFP_KERNEL);
-+	if (!p)
-+		return -ENOMEM;
- 
- 	p->dev = dev;
- 	platform_set_drvdata(pdev, p);
-@@ -143,14 +140,6 @@ static int irqc_probe(struct platform_device *pdev)
- 	pm_runtime_enable(dev);
- 	pm_runtime_get_sync(dev);
- 
--	/* get hold of manadatory IOMEM */
--	io = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (!io) {
--		dev_err(dev, "not enough IOMEM resources\n");
--		ret = -EINVAL;
--		goto err1;
--	}
--
- 	/* allow any number of IRQs between 1 and IRQC_IRQ_MAX */
- 	for (k = 0; k < IRQC_IRQ_MAX; k++) {
- 		irq = platform_get_resource(pdev, IORESOURCE_IRQ, k);
-@@ -166,14 +155,14 @@ static int irqc_probe(struct platform_device *pdev)
- 	if (p->number_of_irqs < 1) {
- 		dev_err(dev, "not enough IRQ resources\n");
- 		ret = -EINVAL;
--		goto err1;
-+		goto err_runtime_pm_disable;
- 	}
- 
- 	/* ioremap IOMEM and setup read/write callbacks */
--	p->iomem = ioremap_nocache(io->start, resource_size(io));
--	if (!p->iomem) {
--		ret = -ENXIO;
--		goto err2;
-+	p->iomem = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(p->iomem)) {
-+		ret = PTR_ERR(p->iomem);
-+		goto err_runtime_pm_disable;
- 	}
- 
- 	p->cpu_int_base = p->iomem + IRQC_INT_CPU_BASE(0); /* SYS-SPI */
-@@ -183,7 +172,7 @@ static int irqc_probe(struct platform_device *pdev)
- 	if (!p->irq_domain) {
- 		ret = -ENXIO;
- 		dev_err(dev, "cannot initialize irq domain\n");
--		goto err2;
-+		goto err_runtime_pm_disable;
- 	}
- 
- 	ret = irq_alloc_domain_generic_chips(p->irq_domain, p->number_of_irqs,
-@@ -191,7 +180,7 @@ static int irqc_probe(struct platform_device *pdev)
- 					     0, 0, IRQ_GC_INIT_NESTED_LOCK);
- 	if (ret) {
- 		dev_err(dev, "cannot allocate generic chip\n");
--		goto err3;
-+		goto err_remove_domain;
- 	}
- 
- 	p->gc = irq_get_domain_generic_chip(p->irq_domain, 0);
-@@ -206,46 +195,33 @@ static int irqc_probe(struct platform_device *pdev)
- 
- 	/* request interrupts one by one */
- 	for (k = 0; k < p->number_of_irqs; k++) {
--		if (request_irq(p->irq[k].requested_irq, irqc_irq_handler,
--				0, name, &p->irq[k])) {
-+		if (devm_request_irq(dev, p->irq[k].requested_irq,
-+				     irqc_irq_handler, 0, name, &p->irq[k])) {
- 			dev_err(dev, "failed to request IRQ\n");
- 			ret = -ENOENT;
--			goto err4;
-+			goto err_remove_domain;
- 		}
- 	}
- 
- 	dev_info(dev, "driving %d irqs\n", p->number_of_irqs);
- 
- 	return 0;
--err4:
--	while (--k >= 0)
--		free_irq(p->irq[k].requested_irq, &p->irq[k]);
- 
--err3:
-+err_remove_domain:
- 	irq_domain_remove(p->irq_domain);
--err2:
--	iounmap(p->iomem);
--err1:
-+err_runtime_pm_disable:
- 	pm_runtime_put(dev);
- 	pm_runtime_disable(dev);
--	kfree(p);
--err0:
- 	return ret;
- }
- 
- static int irqc_remove(struct platform_device *pdev)
- {
- 	struct irqc_priv *p = platform_get_drvdata(pdev);
--	int k;
--
--	for (k = 0; k < p->number_of_irqs; k++)
--		free_irq(p->irq[k].requested_irq, &p->irq[k]);
- 
- 	irq_domain_remove(p->irq_domain);
--	iounmap(p->iomem);
- 	pm_runtime_put(&pdev->dev);
- 	pm_runtime_disable(&pdev->dev);
--	kfree(p);
- 	return 0;
- }
- 
+Changes compared to v3:
+  - Add Reviewed-by,
+  - Split off drivers/soc/renesas and DTS changes.
+
+Changes compared to v2:
+  - Add Tested-by,
+  - Use standard interrupt-map instead of custom renesas,gic-spi-base.
+    I'm still a bit puzzled by the confusing semantics (double meaning)
+    of child and parent unit addresses in interrupt-map.
+
+Changes compared to v1:
+  - Add Reviewed-by,
+  - Replace gic_spi_base in OF match data by renesas,gic-spi-base in DT,
+  - Document RZ/A2M,
+  - Use u16 for register values,
+  - Use relaxed I/O accessors,
+  - Use "rza1-irqc" as irq_chip class name,
+  - Enable driver on RZ/A2M.
+
+This has been tested using the input switches on the Renesas RSK+RZA1
+development board, with evtest and s2ram wake-up.  I have verified
+proper operation of low-level and rising/falling sense select, too.
+Chris Brandt has tested this driver on RZ/A2M.
+
+Thanks for applying!
+
+Geert Uytterhoeven (2):
+  dt-bindings: interrupt-controller: Add Renesas RZ/A1 Interrupt
+    Controller
+  irqchip: Add Renesas RZ/A1 Interrupt Controller driver
+
+ .../renesas,rza1-irqc.txt                     |  43 +++
+ drivers/irqchip/Kconfig                       |   4 +
+ drivers/irqchip/Makefile                      |   1 +
+ drivers/irqchip/irq-renesas-rza1.c            | 283 ++++++++++++++++++
+ 4 files changed, 331 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,rza1-irqc.txt
+ create mode 100644 drivers/irqchip/irq-renesas-rza1.c
+
 -- 
 2.17.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
