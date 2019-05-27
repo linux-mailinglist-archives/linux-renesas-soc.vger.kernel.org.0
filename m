@@ -2,126 +2,231 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76B5F2B587
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2019 14:40:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 115CD2B61A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2019 15:15:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726476AbfE0Mkz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 May 2019 08:40:55 -0400
-Received: from laurent.telenet-ops.be ([195.130.137.89]:40416 "EHLO
-        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726544AbfE0Mkz (ORCPT
+        id S1726276AbfE0NPO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 May 2019 09:15:14 -0400
+Received: from mail-vs1-f67.google.com ([209.85.217.67]:33614 "EHLO
+        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726063AbfE0NPO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 May 2019 08:40:55 -0400
-Received: from ramsan ([84.194.111.163])
-        by laurent.telenet-ops.be with bizsmtp
-        id HQgu200063XaVaC01Qguwp; Mon, 27 May 2019 14:40:54 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1hVEvu-0001Ww-1E; Mon, 27 May 2019 14:40:54 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1hVEvu-0001zh-0D; Mon, 27 May 2019 14:40:54 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Mon, 27 May 2019 09:15:14 -0400
+Received: by mail-vs1-f67.google.com with SMTP id y6so10508836vsb.0
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 27 May 2019 06:15:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=NhDgIjQecm43Aeqru46wCfw5KqrKfyQymUggZm4C5PI=;
+        b=ZfvpuoyEZ3zplcdh3ostkQNCxyvtGAAg7YRS/NZi8ogMiDbGlZEHaN0/hmzYnDEosA
+         +6Fw/HuJjDFOjqxgTdavDuuTvlNHjuhfOgiAxxL5keD82zvw1cxL0LmU4+D2UVvw8dHE
+         U9MuK8yHsgFJGM7MpKj6n2EyrYkHJL9YVTRnGjtzhk0qo2Bbct3ACUMkCM4sKeboveFO
+         sI9GadwaVPHauWDoKxsdOoekJpPp1n1Ge8ETyZiWm/GRai0+tDvjc9wtp4L6zH6lFCYA
+         c5/Q9/5354zzsZL+pVcrPahaoSdorAT6XsCyUNfzPn/QsWSDPO3Q0yBtEl83BfJbXrGg
+         W1Tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=NhDgIjQecm43Aeqru46wCfw5KqrKfyQymUggZm4C5PI=;
+        b=NiQmaGDbxh4XOc5LnWFOXLY0X3ekwGEcWesDzrzDsS6dU94PyFcjeY6s/xIN0hey2+
+         8LCL2UyStsjbNxXnTZWCc1T+K567KzNN1yN8DI/DVoJ5kXP0gQ0+irOXv++i/1MzFO+D
+         A1c6RWq6uwSHkxlUZOimRCo7do2sDy5mVe8hwpx9f9jS2I5bn0hNv0OE6CyzsHi0WOPT
+         GQav9BN6F2vMXcxpXVo8lsixGF8qrVg28A/pEOihy6CswjrCcLwTZdMZNqveqfglkjx0
+         bXrEBW43JG52q7454+AdGo+28au1sJiRO2ZddBZx7+G/ckbi+HdgvNhAjF5uwsqWy0WF
+         +Stg==
+X-Gm-Message-State: APjAAAWpdXWZrx0hKX2gp3N5v7jS+k5hn7cEIEoAlo4bz90101PnVpL4
+        q25XvoXE5vHfrFBZA38mOJIiLVRpNQW4G+WlNm6Y4mgibnM=
+X-Google-Smtp-Source: APXvYqyU8rMycDog6VRIrcxVcadV+Xiz0eJScBU/Sa0PVmUK3netOUaDwEYmIvsqAYoRgPBIlzXh7FQQUz7iuCnmPKg=
+X-Received: by 2002:a67:ebc5:: with SMTP id y5mr65483974vso.34.1558962912889;
+ Mon, 27 May 2019 06:15:12 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190410222240.5800-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20190410222240.5800-1-niklas.soderlund+renesas@ragnatech.se>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Mon, 27 May 2019 15:14:36 +0200
+Message-ID: <CAPDyKFrhrmxKvH-LOO1u+aYGs5-HnqtO9kFibKsAKthOUdjStg@mail.gmail.com>
+Subject: Re: [PATCH v2] mmc: tmio: move runtime PM enablement to the driver implementations
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 2/2] gpio: em: Return early on error in em_gio_probe()
-Date:   Mon, 27 May 2019 14:40:51 +0200
-Message-Id: <20190527124051.7615-3-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190527124051.7615-1-geert+renesas@glider.be>
-References: <20190527124051.7615-1-geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-em_gio_probe() uses managed initializations for everything but creating
-the IRQ domain.  Hence in most failure cases, no cleanup needs to be
-performed at all.
+On Thu, 11 Apr 2019 at 00:29, Niklas S=C3=B6derlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+>
+> Both the Renesas and Uniphier implementations perform actions which
+> affect runtime PM before calling into the core tmio_mmc_host_probe()
+> which enabled runtime PM. Move pm_runtime_enable() from the core and
+> tmio_mmc_host_probe() into each drivers probe() so it can be called
+> before any clocks or other resources are switched on.
+>
+> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
+se>
 
-Make this clearer for the casual reviewer by returning early, instead of
-jumping to an out-of-sight label.
+Niklas, Wolfram,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/gpio/gpio-em.c | 28 +++++++++-------------------
- 1 file changed, 9 insertions(+), 19 deletions(-)
+Can I apply this for next?
 
-diff --git a/drivers/gpio/gpio-em.c b/drivers/gpio/gpio-em.c
-index 18937a9b1a14a72c..40f8c38bec1c24af 100644
---- a/drivers/gpio/gpio-em.c
-+++ b/drivers/gpio/gpio-em.c
-@@ -282,10 +282,8 @@ static int em_gio_probe(struct platform_device *pdev)
- 	int ret;
- 
- 	p = devm_kzalloc(&pdev->dev, sizeof(*p), GFP_KERNEL);
--	if (!p) {
--		ret = -ENOMEM;
--		goto err0;
--	}
-+	if (!p)
-+		return -ENOMEM;
- 
- 	p->pdev = pdev;
- 	platform_set_drvdata(pdev, p);
-@@ -298,28 +296,22 @@ static int em_gio_probe(struct platform_device *pdev)
- 
- 	if (!io[0] || !io[1] || !irq[0] || !irq[1]) {
- 		dev_err(&pdev->dev, "missing IRQ or IOMEM\n");
--		ret = -EINVAL;
--		goto err0;
-+		return -EINVAL;
- 	}
- 
- 	p->base0 = devm_ioremap_nocache(&pdev->dev, io[0]->start,
- 					resource_size(io[0]));
--	if (!p->base0) {
--		ret = -ENOMEM;
--		goto err0;
--	}
-+	if (!p->base0)
-+		return -ENOMEM;
- 
- 	p->base1 = devm_ioremap_nocache(&pdev->dev, io[1]->start,
- 				   resource_size(io[1]));
--	if (!p->base1) {
--		ret = -ENOMEM;
--		goto err0;
--	}
-+	if (!p->base1)
-+		return -ENOMEM;
- 
- 	if (of_property_read_u32(pdev->dev.of_node, "ngpios", &ngpios)) {
- 		dev_err(&pdev->dev, "Missing ngpios OF property\n");
--		ret = -EINVAL;
--		goto err0;
-+		return -EINVAL;
- 	}
- 
- 	gpio_chip = &p->gpio_chip;
-@@ -349,9 +341,8 @@ static int em_gio_probe(struct platform_device *pdev)
- 	p->irq_domain = irq_domain_add_simple(pdev->dev.of_node, ngpios, 0,
- 					      &em_gio_irq_domain_ops, p);
- 	if (!p->irq_domain) {
--		ret = -ENXIO;
- 		dev_err(&pdev->dev, "cannot initialize irq domain\n");
--		goto err0;
-+		return -ENXIO;
- 	}
- 
- 	if (devm_request_irq(&pdev->dev, irq[0]->start,
-@@ -378,7 +369,6 @@ static int em_gio_probe(struct platform_device *pdev)
- 
- err1:
- 	irq_domain_remove(p->irq_domain);
--err0:
- 	return ret;
- }
- 
--- 
-2.17.1
+Kind regards
+Uffe
 
+> ---
+>  drivers/mmc/host/renesas_sdhi_core.c |  6 ++++++
+>  drivers/mmc/host/tmio_mmc.c          |  5 +++++
+>  drivers/mmc/host/tmio_mmc_core.c     | 11 +++++++++--
+>  drivers/mmc/host/uniphier-sd.c       |  3 +++
+>  4 files changed, 23 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/rene=
+sas_sdhi_core.c
+> index 5e9e36ed2107a01c..db73f9f1b186f0ff 100644
+> --- a/drivers/mmc/host/renesas_sdhi_core.c
+> +++ b/drivers/mmc/host/renesas_sdhi_core.c
+> @@ -770,6 +770,8 @@ int renesas_sdhi_probe(struct platform_device *pdev,
+>         /* All SDHI have SDIO status bits which must be 1 */
+>         mmc_data->flags |=3D TMIO_MMC_SDIO_STATUS_SETBITS;
+>
+> +       pm_runtime_enable(&pdev->dev);
+> +
+>         ret =3D renesas_sdhi_clk_enable(host);
+>         if (ret)
+>                 goto efree;
+> @@ -850,6 +852,8 @@ int renesas_sdhi_probe(struct platform_device *pdev,
+>  efree:
+>         tmio_mmc_host_free(host);
+>
+> +       pm_runtime_disable(&pdev->dev);
+> +
+>         return ret;
+>  }
+>  EXPORT_SYMBOL_GPL(renesas_sdhi_probe);
+> @@ -861,6 +865,8 @@ int renesas_sdhi_remove(struct platform_device *pdev)
+>         tmio_mmc_host_remove(host);
+>         renesas_sdhi_clk_disable(host);
+>
+> +       pm_runtime_disable(&pdev->dev);
+> +
+>         return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(renesas_sdhi_remove);
+> diff --git a/drivers/mmc/host/tmio_mmc.c b/drivers/mmc/host/tmio_mmc.c
+> index 93e83ad25976e756..8539e10784b40961 100644
+> --- a/drivers/mmc/host/tmio_mmc.c
+> +++ b/drivers/mmc/host/tmio_mmc.c
+> @@ -172,6 +172,8 @@ static int tmio_mmc_probe(struct platform_device *pde=
+v)
+>         host->mmc->f_max =3D pdata->hclk;
+>         host->mmc->f_min =3D pdata->hclk / 512;
+>
+> +       pm_runtime_enable(&pdev->dev);
+> +
+>         ret =3D tmio_mmc_host_probe(host);
+>         if (ret)
+>                 goto host_free;
+> @@ -191,6 +193,7 @@ static int tmio_mmc_probe(struct platform_device *pde=
+v)
+>         tmio_mmc_host_remove(host);
+>  host_free:
+>         tmio_mmc_host_free(host);
+> +       pm_runtime_disable(&pdev->dev);
+>  cell_disable:
+>         if (cell->disable)
+>                 cell->disable(pdev);
+> @@ -207,6 +210,8 @@ static int tmio_mmc_remove(struct platform_device *pd=
+ev)
+>         if (cell->disable)
+>                 cell->disable(pdev);
+>
+> +       pm_runtime_disable(&pdev->dev);
+> +
+>         return 0;
+>  }
+>
+> diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc=
+_core.c
+> index 130b91cb0f8a3fd1..26c148d3c8a2e655 100644
+> --- a/drivers/mmc/host/tmio_mmc_core.c
+> +++ b/drivers/mmc/host/tmio_mmc_core.c
+> @@ -1152,6 +1152,15 @@ void tmio_mmc_host_free(struct tmio_mmc_host *host=
+)
+>  }
+>  EXPORT_SYMBOL_GPL(tmio_mmc_host_free);
+>
+> +/**
+> + * tmio_mmc_host_probe() - Common probe for all implementations
+> + * @_host: Host to probe
+> + *
+> + * Perform tasks common to all implementations probe functions.
+> + *
+> + * The caller should have called pm_runtime_enable() prior to calling
+> + * the common probe function.
+> + */
+>  int tmio_mmc_host_probe(struct tmio_mmc_host *_host)
+>  {
+>         struct platform_device *pdev =3D _host->pdev;
+> @@ -1260,7 +1269,6 @@ int tmio_mmc_host_probe(struct tmio_mmc_host *_host=
+)
+>         pm_runtime_set_active(&pdev->dev);
+>         pm_runtime_set_autosuspend_delay(&pdev->dev, 50);
+>         pm_runtime_use_autosuspend(&pdev->dev);
+> -       pm_runtime_enable(&pdev->dev);
+>
+>         ret =3D mmc_add_host(mmc);
+>         if (ret)
+> @@ -1296,7 +1304,6 @@ void tmio_mmc_host_remove(struct tmio_mmc_host *hos=
+t)
+>
+>         pm_runtime_dont_use_autosuspend(&pdev->dev);
+>         pm_runtime_put_sync(&pdev->dev);
+> -       pm_runtime_disable(&pdev->dev);
+>  }
+>  EXPORT_SYMBOL_GPL(tmio_mmc_host_remove);
+>
+> diff --git a/drivers/mmc/host/uniphier-sd.c b/drivers/mmc/host/uniphier-s=
+d.c
+> index 91a2be41edf6196b..49aad9a79c18d24a 100644
+> --- a/drivers/mmc/host/uniphier-sd.c
+> +++ b/drivers/mmc/host/uniphier-sd.c
+> @@ -631,6 +631,7 @@ static int uniphier_sd_probe(struct platform_device *=
+pdev)
+>         host->clk_disable =3D uniphier_sd_clk_disable;
+>         host->set_clock =3D uniphier_sd_set_clock;
+>
+> +       pm_runtime_enable(&pdev->dev);
+>         ret =3D uniphier_sd_clk_enable(host);
+>         if (ret)
+>                 goto free_host;
+> @@ -652,6 +653,7 @@ static int uniphier_sd_probe(struct platform_device *=
+pdev)
+>
+>  free_host:
+>         tmio_mmc_host_free(host);
+> +       pm_runtime_disable(&pdev->dev);
+>
+>         return ret;
+>  }
+> @@ -662,6 +664,7 @@ static int uniphier_sd_remove(struct platform_device =
+*pdev)
+>
+>         tmio_mmc_host_remove(host);
+>         uniphier_sd_clk_disable(host);
+> +       pm_runtime_disable(&pdev->dev);
+>
+>         return 0;
+>  }
+> --
+> 2.21.0
+>
