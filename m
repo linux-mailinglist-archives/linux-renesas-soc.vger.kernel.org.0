@@ -2,135 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F30112ACF1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2019 04:23:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E879A2B39C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2019 13:53:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726005AbfE0CXM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 26 May 2019 22:23:12 -0400
-Received: from www3345.sakura.ne.jp ([49.212.235.55]:47039 "EHLO
-        www3345.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725923AbfE0CXM (ORCPT
+        id S1726867AbfE0LxC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 May 2019 07:53:02 -0400
+Received: from albert.telenet-ops.be ([195.130.137.90]:41730 "EHLO
+        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726071AbfE0LxB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 26 May 2019 22:23:12 -0400
-Received: from fsav402.sakura.ne.jp (fsav402.sakura.ne.jp [133.242.250.101])
-        by www3345.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id x4R2N05I022033;
-        Mon, 27 May 2019 11:23:00 +0900 (JST)
-        (envelope-from cv-dong@jinso.co.jp)
-Received: from www3345.sakura.ne.jp (49.212.235.55)
- by fsav402.sakura.ne.jp (F-Secure/fsigk_smtp/530/fsav402.sakura.ne.jp);
- Mon, 27 May 2019 11:23:00 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/530/fsav402.sakura.ne.jp)
-Received: from localhost (p14010-ipadfx41marunouchi.tokyo.ocn.ne.jp [61.118.107.10])
-        (authenticated bits=0)
-        by www3345.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id x4R2Mbfh021811
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-        Mon, 27 May 2019 11:23:00 +0900 (JST)
-        (envelope-from cv-dong@jinso.co.jp)
-From:   Cao Van Dong <cv-dong@jinso.co.jp>
-To:     linux-renesas-soc@vger.kernel.org, thierry.reding@gmail.com,
-        horms+renesas@verge.net.au, geert+renesas@glider.be,
-        broonie@kernel.org, linux-pwm@vger.kernel.org
-Cc:     yoshihiro.shimoda.uh@renesas.com, kuninori.morimoto.gx@renesas.com,
-        h-inayoshi@jinso.co.jp, na-hoan@jinso.co.jp, cv-dong@jinso.co.jp
-Subject: [PATCH v5] pwm: renesas-tpu: Add suspend/resume function
-Date:   Mon, 27 May 2019 11:22:37 +0900
-Message-Id: <1558923757-9843-1-git-send-email-cv-dong@jinso.co.jp>
-X-Mailer: git-send-email 2.7.4
+        Mon, 27 May 2019 07:53:01 -0400
+Received: from ramsan ([84.194.111.163])
+        by albert.telenet-ops.be with bizsmtp
+        id HPsy2000F3XaVaC06PsyAS; Mon, 27 May 2019 13:52:59 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hVEBW-0001O0-Ca; Mon, 27 May 2019 13:52:58 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hVEBW-0000aj-AI; Mon, 27 May 2019 13:52:58 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Joerg Roedel <joro@8bytes.org>,
+        Magnus Damm <damm+renesas@opensource.se>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        iommu@lists.linux-foundation.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v4 0/6] iommu/ipmmu-vmsa: Suspend/resume support and assorted cleanups
+Date:   Mon, 27 May 2019 13:52:47 +0200
+Message-Id: <20190527115253.2114-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch adds suspend/resume function support for Renesas the 16-Bit Timer
-Pulse Unit (TPU) driver. This has been tested on the Salvator-XS board 
-with R-Car M3-N and H3 at renesas-drivers-2019-05-21-v5.2-rc1 tag.
-I expect this to work on other SoCs.
+	Hi Jörg, Magnus,
 
-Test procedure:
-  - Enable TPU and pin control in DTS.
-  - Make sure switches { SW29-[1-2] are switched off or 
-    SW31-[1-4] are switched off(only for Salvator-xs) }.
-  - Exercise userspace PWM control for pwm[2,3] 
-    of /sys/class/pwm/pwmchip1/ .
-  - Inspect PWM signals on the input side of { CN29-[58,60] 
-    or SW31-[1,2] (only for Salvator-xs) }
-    before and after suspend/resume using an oscilloscope. 
+On R-Car Gen3 systems with PSCI, PSCI may power down the SoC during
+system suspend, thus losing all IOMMU state.  Hence after s2ram, devices
+behind an IPMMU (e.g. SATA), and configured to use it, will fail to
+complete their I/O operations.
 
-Signed-off-by: Cao Van Dong <cv-dong@jinso.co.jp>
-Tested-by: Cao Van Dong <cv-dong@jinso.co.jp>
----
-Changes v4 -> v5:
-  - Remove test_bit(PWMF_REQUESTED, &pwm->flags) check.
----
-Changes v3 -> v4:
-  - Use pwm_is_enabled(pwm) to check channel instead of pwm_get_chip_data(&chip->pwms[i]).
-  - Move tpu_pwm_disable() to tpu_pwm_suspend(), tpu_pwm_enable() to tpu_pwm_resume().
-  - Remove tpu_pwm_restart_timer() function and remove pm_runtime_get_sync() in tpu_pwm_resume().
----
-Changes v2 -> v3:
-  - Changes '3' -> TPU_CHANNEL_MAX in loop.
-  - Remove pm_runtime_put() function in tpu_pwm_suspend() function.
----
-Changes v1 -> v2:
-  - Repair the handling code to cover case of using multiple timers.
----
- drivers/pwm/pwm-renesas-tpu.c | 36 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+This patch series adds suspend/resume support to the Renesas IPMMU-VMSA
+IOMMU driver, and performs some smaller cleanups and fixes during the
+process.  Most patches are fairly independent, except for patch 6/6,
+which depends on patches 4/6 and 5/6.
 
-diff --git a/drivers/pwm/pwm-renesas-tpu.c b/drivers/pwm/pwm-renesas-tpu.c
-index 4a855a2..86b7da4 100644
---- a/drivers/pwm/pwm-renesas-tpu.c
-+++ b/drivers/pwm/pwm-renesas-tpu.c
-@@ -366,6 +366,41 @@ static void tpu_pwm_disable(struct pwm_chip *chip, struct pwm_device *_pwm)
- 	tpu_pwm_timer_stop(pwm);
- }
- 
-+#ifdef CONFIG_PM_SLEEP
-+static int tpu_pwm_suspend(struct device *dev)
-+{
-+	struct tpu_device *tpu = dev_get_drvdata(dev);
-+	struct pwm_chip *chip = &tpu->chip;
-+	struct pwm_device *pwm;
-+	int i;
-+
-+	for (i = 0; i < TPU_CHANNEL_MAX; i++) {
-+		pwm = &chip->pwms[i];
-+		if (pwm_is_enabled(pwm))
-+			tpu_pwm_disable(pwm->chip, pwm);
-+	}
-+
-+	return 0;
-+}
-+
-+static int tpu_pwm_resume(struct device *dev)
-+{
-+	struct tpu_device *tpu = dev_get_drvdata(dev);
-+	struct pwm_chip *chip = &tpu->chip;
-+	struct pwm_device *pwm;
-+	int i;
-+
-+	for (i = 0; i < TPU_CHANNEL_MAX; i++) {
-+		pwm = &chip->pwms[i];
-+		if (pwm_is_enabled(pwm))
-+			tpu_pwm_enable(pwm->chip, pwm);
-+	}
-+
-+	return 0;
-+}
-+#endif /* CONFIG_PM_SLEEP */
-+static SIMPLE_DEV_PM_OPS(tpu_pwm_pm_ops, tpu_pwm_suspend, tpu_pwm_resume);
-+
- static const struct pwm_ops tpu_pwm_ops = {
- 	.request = tpu_pwm_request,
- 	.free = tpu_pwm_free,
-@@ -459,6 +494,7 @@ static struct platform_driver tpu_driver = {
- 	.remove		= tpu_remove,
- 	.driver		= {
- 		.name	= "renesas-tpu-pwm",
-+		.pm	= &tpu_pwm_pm_ops,
- 		.of_match_table = of_match_ptr(tpu_of_table),
- 	}
- };
+Changes compared to v3:
+  - Add Reviewed-by, Tested-by.
+
+Changes compared to v2:
+  - Fix sysfs path typo in patch description,
+  - Add Reviewed-by.
+
+Changes compared to v1:
+  - Dropped "iommu/ipmmu-vmsa: Call ipmmu_ctx_write_root() instead of
+    open coding",
+  - Add Reviewed-by,
+  - Merge IMEAR/IMELAR,
+  - s/ipmmu_context_init/ipmmu_domain_setup_context/,
+  - Drop PSCI checks.
+
+This has been tested on Salvator-XS with R-Car H3 ES2.0, with IPMMU
+suport for SATA enabled.  To play safe, the resume operation has also
+been tested on R-Car M2-W.
+
+Is there anything still blocking the integration of this patch series?
+If not, please apply.
+
+Thanks!
+
+Geert Uytterhoeven (6):
+  iommu/ipmmu-vmsa: Link IOMMUs and devices in sysfs
+  iommu/ipmmu-vmsa: Prepare to handle 40-bit error addresses
+  iommu/ipmmu-vmsa: Make IPMMU_CTX_MAX unsigned
+  iommu/ipmmu-vmsa: Move num_utlbs to SoC-specific features
+  iommu/ipmmu-vmsa: Extract hardware context initialization
+  iommu/ipmmu-vmsa: Add suspend/resume support
+
+ drivers/iommu/ipmmu-vmsa.c | 185 +++++++++++++++++++++++++------------
+ 1 file changed, 124 insertions(+), 61 deletions(-)
+
 -- 
-2.7.4
+2.17.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
