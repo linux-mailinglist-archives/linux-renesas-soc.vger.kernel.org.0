@@ -2,74 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 23A172B571
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2019 14:35:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 774C62B583
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2019 14:40:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726338AbfE0MfQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 May 2019 08:35:16 -0400
-Received: from michel.telenet-ops.be ([195.130.137.88]:37444 "EHLO
+        id S1726497AbfE0Mky (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 May 2019 08:40:54 -0400
+Received: from michel.telenet-ops.be ([195.130.137.88]:50610 "EHLO
         michel.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726115AbfE0MfQ (ORCPT
+        with ESMTP id S1726106AbfE0Mky (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 May 2019 08:35:16 -0400
+        Mon, 27 May 2019 08:40:54 -0400
 Received: from ramsan ([84.194.111.163])
         by michel.telenet-ops.be with bizsmtp
-        id HQbF2000V3XaVaC06QbF75; Mon, 27 May 2019 14:35:15 +0200
+        id HQgs2000C3XaVaC06Qgs0t; Mon, 27 May 2019 14:40:52 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hVEqR-0001Vf-Gu; Mon, 27 May 2019 14:35:15 +0200
+        id 1hVEvs-0001Wq-7s; Mon, 27 May 2019 14:40:52 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hVEqR-0001sq-Ec; Mon, 27 May 2019 14:35:15 +0200
+        id 1hVEvs-0001za-4u; Mon, 27 May 2019 14:40:52 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] clk: renesas: mstp: Remove error messages on out-of-memory conditions
-Date:   Mon, 27 May 2019 14:35:14 +0200
-Message-Id: <20190527123514.7198-1-geert+renesas@glider.be>
+Subject: [PATCH 0/2] gpio: em: Miscellaneous probe cleanups
+Date:   Mon, 27 May 2019 14:40:49 +0200
+Message-Id: <20190527124051.7615-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-pm_clk_create() and pm_clk_add_clk() can fail only when running out of
-memory.  Hence there is no need to print error messages on failure, as
-the memory allocation core already takes care of that.
+	Hi Linus, Bartosz,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-To be queued in clk-renesas-for-v5.3.
+This small series contains two cleanups for the GPIO driver for the
+venerable Renesas EMMA Mobile EV2 SoC.
 
- drivers/clk/renesas/clk-mstp.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+These are compile-tested only, due to lack of hardware.
 
-diff --git a/drivers/clk/renesas/clk-mstp.c b/drivers/clk/renesas/clk-mstp.c
-index ebd5cd74ca0733d8..a5e9f9edf04079c7 100644
---- a/drivers/clk/renesas/clk-mstp.c
-+++ b/drivers/clk/renesas/clk-mstp.c
-@@ -298,16 +298,12 @@ int cpg_mstp_attach_dev(struct generic_pm_domain *unused, struct device *dev)
- 		return PTR_ERR(clk);
- 
- 	error = pm_clk_create(dev);
--	if (error) {
--		dev_err(dev, "pm_clk_create failed %d\n", error);
-+	if (error)
- 		goto fail_put;
--	}
- 
- 	error = pm_clk_add_clk(dev, clk);
--	if (error) {
--		dev_err(dev, "pm_clk_add_clk %pC failed %d\n", clk, error);
-+	if (error)
- 		goto fail_destroy;
--	}
- 
- 	return 0;
- 
+Thanks!
+
+Geert Uytterhoeven (2):
+  gpio: em: Remove error messages on out-of-memory conditions
+  gpio: em: Return early on error in em_gio_probe()
+
+ drivers/gpio/gpio-em.c | 30 +++++++++---------------------
+ 1 file changed, 9 insertions(+), 21 deletions(-)
+
 -- 
 2.17.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
