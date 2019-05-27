@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 66A472B39F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2019 13:53:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7777E2B391
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2019 13:53:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726803AbfE0LxB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 May 2019 07:53:01 -0400
-Received: from laurent.telenet-ops.be ([195.130.137.89]:35140 "EHLO
+        id S1726902AbfE0LxD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 May 2019 07:53:03 -0400
+Received: from laurent.telenet-ops.be ([195.130.137.89]:35122 "EHLO
         laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726689AbfE0LxB (ORCPT
+        with ESMTP id S1726697AbfE0LxC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 May 2019 07:53:01 -0400
+        Mon, 27 May 2019 07:53:02 -0400
 Received: from ramsan ([84.194.111.163])
         by laurent.telenet-ops.be with bizsmtp
-        id HPsy2000W3XaVaC01PsyfX; Mon, 27 May 2019 13:52:59 +0200
+        id HPsy2000X3XaVaC01PsyfY; Mon, 27 May 2019 13:52:59 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hVEBW-0001OE-Hh; Mon, 27 May 2019 13:52:58 +0200
+        id 1hVEBW-0001OH-Il; Mon, 27 May 2019 13:52:58 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hVEBW-0000b8-G7; Mon, 27 May 2019 13:52:58 +0200
+        id 1hVEBW-0000bB-HV; Mon, 27 May 2019 13:52:58 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Joerg Roedel <joro@8bytes.org>,
         Magnus Damm <damm+renesas@opensource.se>
@@ -29,9 +29,9 @@ Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
         iommu@lists.linux-foundation.org,
         linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v4 5/6] iommu/ipmmu-vmsa: Extract hardware context initialization
-Date:   Mon, 27 May 2019 13:52:52 +0200
-Message-Id: <20190527115253.2114-6-geert+renesas@glider.be>
+Subject: [PATCH v4 6/6] iommu/ipmmu-vmsa: Add suspend/resume support
+Date:   Mon, 27 May 2019 13:52:53 +0200
+Message-Id: <20190527115253.2114-7-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190527115253.2114-1-geert+renesas@glider.be>
 References: <20190527115253.2114-1-geert+renesas@glider.be>
@@ -40,142 +40,129 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-ipmmu_domain_init_context() takes care of (1) initializing the software
-domain, and (2) initializing the hardware context for the domain.
+During PSCI system suspend, R-Car Gen3 SoCs are powered down, and all
+IPMMU state is lost.  Hence after s2ram, devices wired behind an IPMMU,
+and configured to use it, will see their DMA operations hang.
 
-Extract the code to initialize the hardware context into a new subroutine
-ipmmu_domain_setup_context(), to prepare for later reuse.
+To fix this, restore all IPMMU contexts, and re-enable all active
+micro-TLBs during system resume.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
 Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 ---
+This patch takes a different approach than the BSP, which implements a
+bulk save/restore of all registers during system suspend/resume.
+
 v4:
   - Add Reviewed-by, Tested-by,
 
 v3:
-  - Add Reviewed-by,
+  - No changes,
 
 v2:
-  - s/ipmmu_context_init/ipmmu_domain_setup_context/.
+  - Drop PSCI checks.
 ---
- drivers/iommu/ipmmu-vmsa.c | 91 ++++++++++++++++++++------------------
- 1 file changed, 48 insertions(+), 43 deletions(-)
+ drivers/iommu/ipmmu-vmsa.c | 47 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 46 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
-index 3fa57627b1e35562..56e84bcc9532e1ce 100644
+index 56e84bcc9532e1ce..408ad0b2591925e0 100644
 --- a/drivers/iommu/ipmmu-vmsa.c
 +++ b/drivers/iommu/ipmmu-vmsa.c
-@@ -404,52 +404,10 @@ static void ipmmu_domain_free_context(struct ipmmu_vmsa_device *mmu,
- 	spin_unlock_irqrestore(&mmu->lock, flags);
+@@ -36,7 +36,10 @@
+ #define arm_iommu_detach_device(...)	do {} while (0)
+ #endif
+ 
+-#define IPMMU_CTX_MAX 8U
++#define IPMMU_CTX_MAX		8U
++#define IPMMU_CTX_INVALID	-1
++
++#define IPMMU_UTLB_MAX		48U
+ 
+ struct ipmmu_features {
+ 	bool use_ns_alias_offset;
+@@ -58,6 +61,7 @@ struct ipmmu_vmsa_device {
+ 	spinlock_t lock;			/* Protects ctx and domains[] */
+ 	DECLARE_BITMAP(ctx, IPMMU_CTX_MAX);
+ 	struct ipmmu_vmsa_domain *domains[IPMMU_CTX_MAX];
++	s8 utlb_ctx[IPMMU_UTLB_MAX];
+ 
+ 	struct iommu_group *group;
+ 	struct dma_iommu_mapping *mapping;
+@@ -335,6 +339,7 @@ static void ipmmu_utlb_enable(struct ipmmu_vmsa_domain *domain,
+ 	ipmmu_write(mmu, IMUCTR(utlb),
+ 		    IMUCTR_TTSEL_MMU(domain->context_id) | IMUCTR_FLUSH |
+ 		    IMUCTR_MMUEN);
++	mmu->utlb_ctx[utlb] = domain->context_id;
  }
  
--static int ipmmu_domain_init_context(struct ipmmu_vmsa_domain *domain)
-+static void ipmmu_domain_setup_context(struct ipmmu_vmsa_domain *domain)
- {
- 	u64 ttbr;
- 	u32 tmp;
--	int ret;
--
--	/*
--	 * Allocate the page table operations.
--	 *
--	 * VMSA states in section B3.6.3 "Control of Secure or Non-secure memory
--	 * access, Long-descriptor format" that the NStable bit being set in a
--	 * table descriptor will result in the NStable and NS bits of all child
--	 * entries being ignored and considered as being set. The IPMMU seems
--	 * not to comply with this, as it generates a secure access page fault
--	 * if any of the NStable and NS bits isn't set when running in
--	 * non-secure mode.
--	 */
--	domain->cfg.quirks = IO_PGTABLE_QUIRK_ARM_NS;
--	domain->cfg.pgsize_bitmap = SZ_1G | SZ_2M | SZ_4K;
--	domain->cfg.ias = 32;
--	domain->cfg.oas = 40;
--	domain->cfg.tlb = &ipmmu_gather_ops;
--	domain->io_domain.geometry.aperture_end = DMA_BIT_MASK(32);
--	domain->io_domain.geometry.force_aperture = true;
--	/*
--	 * TODO: Add support for coherent walk through CCI with DVM and remove
--	 * cache handling. For now, delegate it to the io-pgtable code.
--	 */
--	domain->cfg.iommu_dev = domain->mmu->root->dev;
--
--	/*
--	 * Find an unused context.
--	 */
--	ret = ipmmu_domain_allocate_context(domain->mmu->root, domain);
--	if (ret < 0)
--		return ret;
--
--	domain->context_id = ret;
--
--	domain->iop = alloc_io_pgtable_ops(ARM_32_LPAE_S1, &domain->cfg,
--					   domain);
--	if (!domain->iop) {
--		ipmmu_domain_free_context(domain->mmu->root,
--					  domain->context_id);
--		return -EINVAL;
--	}
+ /*
+@@ -346,6 +351,7 @@ static void ipmmu_utlb_disable(struct ipmmu_vmsa_domain *domain,
+ 	struct ipmmu_vmsa_device *mmu = domain->mmu;
  
- 	/* TTBR0 */
- 	ttbr = domain->cfg.arm_lpae_s1_cfg.ttbr[0];
-@@ -495,7 +453,54 @@ static int ipmmu_domain_init_context(struct ipmmu_vmsa_domain *domain)
- 	 */
- 	ipmmu_ctx_write_all(domain, IMCTR,
- 			    IMCTR_INTEN | IMCTR_FLUSH | IMCTR_MMUEN);
-+}
-+
-+static int ipmmu_domain_init_context(struct ipmmu_vmsa_domain *domain)
-+{
-+	int ret;
-+
-+	/*
-+	 * Allocate the page table operations.
-+	 *
-+	 * VMSA states in section B3.6.3 "Control of Secure or Non-secure memory
-+	 * access, Long-descriptor format" that the NStable bit being set in a
-+	 * table descriptor will result in the NStable and NS bits of all child
-+	 * entries being ignored and considered as being set. The IPMMU seems
-+	 * not to comply with this, as it generates a secure access page fault
-+	 * if any of the NStable and NS bits isn't set when running in
-+	 * non-secure mode.
-+	 */
-+	domain->cfg.quirks = IO_PGTABLE_QUIRK_ARM_NS;
-+	domain->cfg.pgsize_bitmap = SZ_1G | SZ_2M | SZ_4K;
-+	domain->cfg.ias = 32;
-+	domain->cfg.oas = 40;
-+	domain->cfg.tlb = &ipmmu_gather_ops;
-+	domain->io_domain.geometry.aperture_end = DMA_BIT_MASK(32);
-+	domain->io_domain.geometry.force_aperture = true;
-+	/*
-+	 * TODO: Add support for coherent walk through CCI with DVM and remove
-+	 * cache handling. For now, delegate it to the io-pgtable code.
-+	 */
-+	domain->cfg.iommu_dev = domain->mmu->root->dev;
-+
-+	/*
-+	 * Find an unused context.
-+	 */
-+	ret = ipmmu_domain_allocate_context(domain->mmu->root, domain);
-+	if (ret < 0)
-+		return ret;
-+
-+	domain->context_id = ret;
-+
-+	domain->iop = alloc_io_pgtable_ops(ARM_32_LPAE_S1, &domain->cfg,
-+					   domain);
-+	if (!domain->iop) {
-+		ipmmu_domain_free_context(domain->mmu->root,
-+					  domain->context_id);
-+		return -EINVAL;
-+	}
+ 	ipmmu_write(mmu, IMUCTR(utlb), 0);
++	mmu->utlb_ctx[utlb] = IPMMU_CTX_INVALID;
+ }
  
-+	ipmmu_domain_setup_context(domain);
+ static void ipmmu_tlb_flush_all(void *cookie)
+@@ -1043,6 +1049,7 @@ static int ipmmu_probe(struct platform_device *pdev)
+ 	spin_lock_init(&mmu->lock);
+ 	bitmap_zero(mmu->ctx, IPMMU_CTX_MAX);
+ 	mmu->features = of_device_get_match_data(&pdev->dev);
++	memset(mmu->utlb_ctx, IPMMU_CTX_INVALID, mmu->features->num_utlbs);
+ 	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(40));
+ 
+ 	/* Map I/O memory and request IRQ. */
+@@ -1158,10 +1165,48 @@ static int ipmmu_remove(struct platform_device *pdev)
  	return 0;
  }
  
++#ifdef CONFIG_PM_SLEEP
++static int ipmmu_resume_noirq(struct device *dev)
++{
++	struct ipmmu_vmsa_device *mmu = dev_get_drvdata(dev);
++	unsigned int i;
++
++	/* Reset root MMU and restore contexts */
++	if (ipmmu_is_root(mmu)) {
++		ipmmu_device_reset(mmu);
++
++		for (i = 0; i < mmu->num_ctx; i++) {
++			if (!mmu->domains[i])
++				continue;
++
++			ipmmu_domain_setup_context(mmu->domains[i]);
++		}
++	}
++
++	/* Re-enable active micro-TLBs */
++	for (i = 0; i < mmu->features->num_utlbs; i++) {
++		if (mmu->utlb_ctx[i] == IPMMU_CTX_INVALID)
++			continue;
++
++		ipmmu_utlb_enable(mmu->root->domains[mmu->utlb_ctx[i]], i);
++	}
++
++	return 0;
++}
++
++static const struct dev_pm_ops ipmmu_pm  = {
++	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(NULL, ipmmu_resume_noirq)
++};
++#define DEV_PM_OPS	&ipmmu_pm
++#else
++#define DEV_PM_OPS	NULL
++#endif /* CONFIG_PM_SLEEP */
++
+ static struct platform_driver ipmmu_driver = {
+ 	.driver = {
+ 		.name = "ipmmu-vmsa",
+ 		.of_match_table = of_match_ptr(ipmmu_of_ids),
++		.pm = DEV_PM_OPS,
+ 	},
+ 	.probe = ipmmu_probe,
+ 	.remove	= ipmmu_remove,
 -- 
 2.17.1
 
