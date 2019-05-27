@@ -2,83 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F18EC2B562
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2019 14:33:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E6D42B56F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 May 2019 14:34:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726879AbfE0Md0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 May 2019 08:33:26 -0400
-Received: from michel.telenet-ops.be ([195.130.137.88]:37446 "EHLO
+        id S1727117AbfE0MeW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 May 2019 08:34:22 -0400
+Received: from michel.telenet-ops.be ([195.130.137.88]:37444 "EHLO
         michel.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727112AbfE0MdZ (ORCPT
+        with ESMTP id S1726837AbfE0MeW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 May 2019 08:33:25 -0400
+        Mon, 27 May 2019 08:34:22 -0400
 Received: from ramsan ([84.194.111.163])
         by michel.telenet-ops.be with bizsmtp
-        id HQZQ2000R3XaVaC06QZQlf; Mon, 27 May 2019 14:33:24 +0200
+        id HQaM2000h3XaVaC06QaMut; Mon, 27 May 2019 14:34:22 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hVEoe-0001VO-Di; Mon, 27 May 2019 14:33:24 +0200
+        id 1hVEpZ-0001VV-Rp; Mon, 27 May 2019 14:34:21 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hVEoe-0001oD-CK; Mon, 27 May 2019 14:33:24 +0200
+        id 1hVEpZ-0001qZ-QS; Mon, 27 May 2019 14:34:21 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>
 Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-pm@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] clk: renesas: cpg-mssr: Use genpd of_node instead of local copy
-Date:   Mon, 27 May 2019 14:33:23 +0200
-Message-Id: <20190527123323.6912-1-geert+renesas@glider.be>
+Subject: [PATCH] clk: renesas: cpg-mssr: Remove error messages on out-of-memory conditions
+Date:   Mon, 27 May 2019 14:34:20 +0200
+Message-Id: <20190527123420.7057-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Since commit 6a0ae73d95956f7e ("PM / Domain: Add support to parse
-domain's OPP table"), of_genpd_add_provider_simple() fills in
-the dev.of_node field in the generic_pm_domain structure.
-
-Hence cpg_mssr_is_pm_clk() can use that instead of its own copy in the
-driver-private cpg_mssr_clk_domain structure.
+pm_clk_create() and pm_clk_add_clk() can fail only when running out of
+memory.  Hence there is no need to print error messages on failure, as
+the memory allocation core already takes care of that.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 To be queued in clk-renesas-for-v5.3.
 
- drivers/clk/renesas/renesas-cpg-mssr.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/clk/renesas/renesas-cpg-mssr.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
-index 0201809bbd377df4..d1054204f3a75022 100644
+index d1054204f3a75022..082d0bf12ea7f219 100644
 --- a/drivers/clk/renesas/renesas-cpg-mssr.c
 +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
-@@ -447,7 +447,6 @@ static void __init cpg_mssr_register_mod_clk(const struct mssr_mod_clk *mod,
+@@ -509,16 +509,12 @@ int cpg_mssr_attach_dev(struct generic_pm_domain *unused, struct device *dev)
+ 		return PTR_ERR(clk);
  
- struct cpg_mssr_clk_domain {
- 	struct generic_pm_domain genpd;
--	struct device_node *np;
- 	unsigned int num_core_pm_clks;
- 	unsigned int core_pm_clks[0];
- };
-@@ -459,7 +458,7 @@ static bool cpg_mssr_is_pm_clk(const struct of_phandle_args *clkspec,
- {
- 	unsigned int i;
+ 	error = pm_clk_create(dev);
+-	if (error) {
+-		dev_err(dev, "pm_clk_create failed %d\n", error);
++	if (error)
+ 		goto fail_put;
+-	}
  
--	if (clkspec->np != pd->np || clkspec->args_count != 2)
-+	if (clkspec->np != pd->genpd.dev.of_node || clkspec->args_count != 2)
- 		return false;
+ 	error = pm_clk_add_clk(dev, clk);
+-	if (error) {
+-		dev_err(dev, "pm_clk_add_clk %pC failed %d\n", clk, error);
++	if (error)
+ 		goto fail_destroy;
+-	}
  
- 	switch (clkspec->args[0]) {
-@@ -549,7 +548,6 @@ static int __init cpg_mssr_add_clk_domain(struct device *dev,
- 	if (!pd)
- 		return -ENOMEM;
- 
--	pd->np = np;
- 	pd->num_core_pm_clks = num_core_pm_clks;
- 	memcpy(pd->core_pm_clks, core_pm_clks, pm_size);
+ 	return 0;
  
 -- 
 2.17.1
