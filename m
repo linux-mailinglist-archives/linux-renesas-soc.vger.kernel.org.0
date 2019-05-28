@@ -2,230 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CD2042C1BC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2019 10:53:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED7112C1BE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2019 10:53:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726702AbfE1Ixc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 May 2019 04:53:32 -0400
-Received: from mail-ua1-f68.google.com ([209.85.222.68]:42242 "EHLO
-        mail-ua1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726735AbfE1Ixc (ORCPT
+        id S1726532AbfE1Ixg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 May 2019 04:53:36 -0400
+Received: from mail-vs1-f65.google.com ([209.85.217.65]:43327 "EHLO
+        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726735AbfE1Ixf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 May 2019 04:53:32 -0400
-Received: by mail-ua1-f68.google.com with SMTP id e9so7517000uar.9
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 May 2019 01:53:31 -0700 (PDT)
+        Tue, 28 May 2019 04:53:35 -0400
+Received: by mail-vs1-f65.google.com with SMTP id d128so12271006vsc.10
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 May 2019 01:53:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Xchp1Fh0EF7XuLzS0G/bR655Y1y9gCu7TStLp1bR9ZY=;
-        b=n0buMJ40YR10Yjp/ZspVoheRtegFp4v0i+wRs+E8mIxuMw9nUUg/BxXMadwapa+DuI
-         NwLbkQ39AWeETt3ig+0B60SNN40KdEo3ETsBhoclhV0t10DBpL3iObAjmNQ9JNigRiAp
-         uRNLvqtbm4adMbgsfuHi3TzaKOsIZUh8EYvZE9JTvvKwIuIBMdKDiNtnNqcdXIGKtwuO
-         KL4lGraCieDjCA1/4gHtbERypY3oB3E502V71365Q2LuMasyH34E2/wRQnusFI+LwoWi
-         7zXY4ImUljWsiU53rNpI3mxKgU/zylP149EZKJl0zs6DqxZEZLhtEgB2zAOyTFsrPit1
-         WkpQ==
+         :cc;
+        bh=w46wmn45pRWKdWx2S/E0/q503Ba5x6+lr995sSFplTc=;
+        b=n/v/lcWRjTbYolV2E7WI0eI+lHIWgRlJgCeQGZnvC/4D7KfrkEWRUAOqrFEtv9ajfp
+         CjXeruOMk9hnA5hQ+yKzCZWeooDWgKCf1VQNgax20zCHtvPJ1fcCDINKbIIabnNgl8P4
+         2PHsrvm1eci92Adh6MrmCmbjz/2eh534mmqmqpobSD6w/49LJZ4CCY5yjcI1Fk4wHvmg
+         zu5QR9656jfm00avoNT6Si4pn8UivZhESMyh5EwnwojKma4v4hXCsCZ4zuK5yvtz7CVa
+         tPUpaKb0Mv/U+r1M7hKyu5ehHaSZItzlmj6QoPLe35u7m9UAln9FrOPaGDXJx8uFKVZd
+         05/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Xchp1Fh0EF7XuLzS0G/bR655Y1y9gCu7TStLp1bR9ZY=;
-        b=QZeSiZ71yrL23EcoZjt/Ng7cBBJUG73FAcUm4oJ8jeCH9exZAZebKuTZDhYlekxo2E
-         EBTPGYpGb/HrzGLyuSi6jUis+/R7vjB0wAXovCJugf6YdjQO/637sYZxbkcT0cCJQXS6
-         azYehAdY/t/OwkWsBqylIsbCb+5gXX0kYie1d9kKvf5US6S6q4nCU6wAukc7lUz1ydvO
-         XFNgHEjYaVtehtUimjGxQlcX7B3JMfUJzAKSFhj0mffErRgWPvqhBNw6uReWElkkbzLw
-         vjXX53WxaQTJZ+4cjQBzozt0b+NKVh1j/2EThedwmnFDXz9FlJssg1UENZmgwOudSchV
-         AEeg==
-X-Gm-Message-State: APjAAAWl/OdbN9Lh6pGlWbkAmYv1RLZsDxDrqu6tZ29y5euz6iEQMKcJ
-        9F7Hxm0KVOyuaiP9UcjWy+H2fqssTd83SSVMnInC1SiG
-X-Google-Smtp-Source: APXvYqwLMyZj9OM4jkhOUFNJZiiMsWMgM69CKybhUQBlfDVqkkXDEWLMlDOpkA+I0mZRhkFp/BeHDjRvwEDTVU4S7o4=
-X-Received: by 2002:ab0:7453:: with SMTP id p19mr23974458uaq.15.1559033610738;
- Tue, 28 May 2019 01:53:30 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=w46wmn45pRWKdWx2S/E0/q503Ba5x6+lr995sSFplTc=;
+        b=aGChDMEd48p/vm+M+v504EnoUD3uN5Y3gOCyiFhV6S0YjCNMSVbYkRWSi84D3/Geym
+         cQ2LqBrzMoXKVzRyXaQYV4sMIdWlXuONwymHnAt/mjPSZK6CBMr/j33srIXqTjwba5yd
+         D14znDEzYpV/7WhZQZYWG/UiNWkmWxevBhZFLPe+eUntuaaIO5HvdyW+sDXJWB5ghkiF
+         ldCifplkuwlFgqlt8yjROcCQw4G6ZtetBve/TV5H5jYz8KQIEVVgKyFpDDyMQejfwcZl
+         a7oW/36aHOshyv/Ugc3v9hy+MyHg12DQ6bkqBniq5vIoTleMURwBM5jcemp1c28Kkai3
+         tfvg==
+X-Gm-Message-State: APjAAAUjYoQWAsTtHA8XsQismyo7svUB/J+c3wTRkFIn9i6sbECEw/Sp
+        8LH/l3pQzje+NOwBi7JoFG8ZxqiS+zHb7nk9aA40SGKn
+X-Google-Smtp-Source: APXvYqxYJVYarsSusvqhMycm49apuqHN0JcEAC+UGXcuEP316L7ch39AwNmnVwmDukrEsEJFhW0F27NkX0LDwxIS/vo=
+X-Received: by 2002:a67:f99a:: with SMTP id b26mr29207404vsq.200.1559033614951;
+ Tue, 28 May 2019 01:53:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190410222240.5800-1-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20190410222240.5800-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20190515182346.5292-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20190515182346.5292-1-wsa+renesas@sang-engineering.com>
 From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Tue, 28 May 2019 10:52:54 +0200
-Message-ID: <CAPDyKFq9eynLBSK0QhW01rjndNWLeq7ZMaj8nJwv66oBQtRy1Q@mail.gmail.com>
-Subject: Re: [PATCH v2] mmc: tmio: move runtime PM enablement to the driver implementations
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+Date:   Tue, 28 May 2019 10:52:59 +0200
+Message-ID: <CAPDyKFrhXLMFwvxqvEAFOtaK4YSz08QQnm_fUo1h2jf+38s9rQ@mail.gmail.com>
+Subject: Re: [PATCH] mmc: tmio: fix SCC error handling to avoid false positive
+ CRC error
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Takeshi Saito <takeshi.saito.xv@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 11 Apr 2019 at 00:29, Niklas S=C3=B6derlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
+On Wed, 15 May 2019 at 20:24, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
 >
-> Both the Renesas and Uniphier implementations perform actions which
-> affect runtime PM before calling into the core tmio_mmc_host_probe()
-> which enabled runtime PM. Move pm_runtime_enable() from the core and
-> tmio_mmc_host_probe() into each drivers probe() so it can be called
-> before any clocks or other resources are switched on.
+> From: Takeshi Saito <takeshi.saito.xv@renesas.com>
 >
-> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
-se>
+> If an SCC error occurs during a read/write command execution, a false
+> positive CRC error message is output.
+>
+> mmcblk0: response CRC error sending r/w cmd command, card status 0x900
+>
+> check_scc_error() checks SCC_RVSREQ.RVSERR bit. RVSERR detects a
+> correction error in the next (up or down) delay tap position. However,
+> since the command is successful, only retuning needs to be executed.
+> This has been confirmed by HW engineers.
+>
+> Thus, on SCC error, set retuning flag instead of setting an error code.
+>
+> Fixes: b85fb0a1c8ae ("mmc: tmio: Fix SCC error detection")
+> Signed-off-by: Takeshi Saito <takeshi.saito.xv@renesas.com>
+> [wsa: updated comment and commit message, removed some braces]
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Applied for next, thanks!
+Applied for fixes and by adding a stable tag, thanks!
 
 Kind regards
 Uffe
 
 
 > ---
->  drivers/mmc/host/renesas_sdhi_core.c |  6 ++++++
->  drivers/mmc/host/tmio_mmc.c          |  5 +++++
->  drivers/mmc/host/tmio_mmc_core.c     | 11 +++++++++--
->  drivers/mmc/host/uniphier-sd.c       |  3 +++
->  4 files changed, 23 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/rene=
-sas_sdhi_core.c
-> index 5e9e36ed2107a01c..db73f9f1b186f0ff 100644
-> --- a/drivers/mmc/host/renesas_sdhi_core.c
-> +++ b/drivers/mmc/host/renesas_sdhi_core.c
-> @@ -770,6 +770,8 @@ int renesas_sdhi_probe(struct platform_device *pdev,
->         /* All SDHI have SDIO status bits which must be 1 */
->         mmc_data->flags |=3D TMIO_MMC_SDIO_STATUS_SETBITS;
+> This patch was suggested by the BSP team because they were seeing CRC errors
+> with a hardware I don't have access to. I tested this with my R-Car H3-ES2.0
+> and M3-N (both Salvator-XS), and things were still running fine. But I suggest
+> to wait for a final ack from Shimoda-san or someone from the BSP team.
 >
-> +       pm_runtime_enable(&pdev->dev);
-> +
->         ret =3D renesas_sdhi_clk_enable(host);
->         if (ret)
->                 goto efree;
-> @@ -850,6 +852,8 @@ int renesas_sdhi_probe(struct platform_device *pdev,
->  efree:
->         tmio_mmc_host_free(host);
 >
-> +       pm_runtime_disable(&pdev->dev);
-> +
->         return ret;
->  }
->  EXPORT_SYMBOL_GPL(renesas_sdhi_probe);
-> @@ -861,6 +865,8 @@ int renesas_sdhi_remove(struct platform_device *pdev)
->         tmio_mmc_host_remove(host);
->         renesas_sdhi_clk_disable(host);
+>  drivers/mmc/host/tmio_mmc_core.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> +       pm_runtime_disable(&pdev->dev);
-> +
->         return 0;
->  }
->  EXPORT_SYMBOL_GPL(renesas_sdhi_remove);
-> diff --git a/drivers/mmc/host/tmio_mmc.c b/drivers/mmc/host/tmio_mmc.c
-> index 93e83ad25976e756..8539e10784b40961 100644
-> --- a/drivers/mmc/host/tmio_mmc.c
-> +++ b/drivers/mmc/host/tmio_mmc.c
-> @@ -172,6 +172,8 @@ static int tmio_mmc_probe(struct platform_device *pde=
-v)
->         host->mmc->f_max =3D pdata->hclk;
->         host->mmc->f_min =3D pdata->hclk / 512;
->
-> +       pm_runtime_enable(&pdev->dev);
-> +
->         ret =3D tmio_mmc_host_probe(host);
->         if (ret)
->                 goto host_free;
-> @@ -191,6 +193,7 @@ static int tmio_mmc_probe(struct platform_device *pde=
-v)
->         tmio_mmc_host_remove(host);
->  host_free:
->         tmio_mmc_host_free(host);
-> +       pm_runtime_disable(&pdev->dev);
->  cell_disable:
->         if (cell->disable)
->                 cell->disable(pdev);
-> @@ -207,6 +210,8 @@ static int tmio_mmc_remove(struct platform_device *pd=
-ev)
->         if (cell->disable)
->                 cell->disable(pdev);
->
-> +       pm_runtime_disable(&pdev->dev);
-> +
->         return 0;
->  }
->
-> diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc=
-_core.c
-> index 130b91cb0f8a3fd1..26c148d3c8a2e655 100644
+> diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
+> index 595949f1f001..78cc2a928efe 100644
 > --- a/drivers/mmc/host/tmio_mmc_core.c
 > +++ b/drivers/mmc/host/tmio_mmc_core.c
-> @@ -1152,6 +1152,15 @@ void tmio_mmc_host_free(struct tmio_mmc_host *host=
-)
->  }
->  EXPORT_SYMBOL_GPL(tmio_mmc_host_free);
+> @@ -842,8 +842,9 @@ static void tmio_mmc_finish_request(struct tmio_mmc_host *host)
+>         if (mrq->cmd->error || (mrq->data && mrq->data->error))
+>                 tmio_mmc_abort_dma(host);
 >
-> +/**
-> + * tmio_mmc_host_probe() - Common probe for all implementations
-> + * @_host: Host to probe
-> + *
-> + * Perform tasks common to all implementations probe functions.
-> + *
-> + * The caller should have called pm_runtime_enable() prior to calling
-> + * the common probe function.
-> + */
->  int tmio_mmc_host_probe(struct tmio_mmc_host *_host)
->  {
->         struct platform_device *pdev =3D _host->pdev;
-> @@ -1260,7 +1269,6 @@ int tmio_mmc_host_probe(struct tmio_mmc_host *_host=
-)
->         pm_runtime_set_active(&pdev->dev);
->         pm_runtime_set_autosuspend_delay(&pdev->dev, 50);
->         pm_runtime_use_autosuspend(&pdev->dev);
-> -       pm_runtime_enable(&pdev->dev);
+> +       /* SCC error means retune, but executed command was still successful */
+>         if (host->check_scc_error && host->check_scc_error(host))
+> -               mrq->cmd->error = -EILSEQ;
+> +               mmc_retune_needed(host->mmc);
 >
->         ret =3D mmc_add_host(mmc);
->         if (ret)
-> @@ -1296,7 +1304,6 @@ void tmio_mmc_host_remove(struct tmio_mmc_host *hos=
-t)
->
->         pm_runtime_dont_use_autosuspend(&pdev->dev);
->         pm_runtime_put_sync(&pdev->dev);
-> -       pm_runtime_disable(&pdev->dev);
->  }
->  EXPORT_SYMBOL_GPL(tmio_mmc_host_remove);
->
-> diff --git a/drivers/mmc/host/uniphier-sd.c b/drivers/mmc/host/uniphier-s=
-d.c
-> index 91a2be41edf6196b..49aad9a79c18d24a 100644
-> --- a/drivers/mmc/host/uniphier-sd.c
-> +++ b/drivers/mmc/host/uniphier-sd.c
-> @@ -631,6 +631,7 @@ static int uniphier_sd_probe(struct platform_device *=
-pdev)
->         host->clk_disable =3D uniphier_sd_clk_disable;
->         host->set_clock =3D uniphier_sd_set_clock;
->
-> +       pm_runtime_enable(&pdev->dev);
->         ret =3D uniphier_sd_clk_enable(host);
->         if (ret)
->                 goto free_host;
-> @@ -652,6 +653,7 @@ static int uniphier_sd_probe(struct platform_device *=
-pdev)
->
->  free_host:
->         tmio_mmc_host_free(host);
-> +       pm_runtime_disable(&pdev->dev);
->
->         return ret;
->  }
-> @@ -662,6 +664,7 @@ static int uniphier_sd_remove(struct platform_device =
-*pdev)
->
->         tmio_mmc_host_remove(host);
->         uniphier_sd_clk_disable(host);
-> +       pm_runtime_disable(&pdev->dev);
->
->         return 0;
->  }
+>         /* If SET_BLOCK_COUNT, continue with main command */
+>         if (host->mrq && !mrq->cmd->error) {
 > --
-> 2.21.0
+> 2.11.0
 >
