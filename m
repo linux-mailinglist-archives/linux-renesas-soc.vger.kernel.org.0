@@ -2,118 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 92B552C99C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2019 17:07:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A194E2CA94
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2019 17:47:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726313AbfE1PH3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 May 2019 11:07:29 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:43550 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727296AbfE1PH3 (ORCPT
+        id S1726511AbfE1Prm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 May 2019 11:47:42 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:33710 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726313AbfE1Prm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 May 2019 11:07:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
-        Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-        List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
-        List-Archive; bh=LoZEWGcak24f+2R8BSnDVZaJoSe5u7tIU54xxb61pjk=; b=lVMVifvy8qRU
-        HQ36W9DZRRRfMc6MRaTrRKwZKo++pYkdrUF7BX8C01jv7YIVGLalDRUwvpG7qnRNv9AuDDbRLbeHQ
-        iTUyVEbHQAQPXM48oOmiyLp8bBI/NYZJAck+xkpSofr45TfxAVjpLQS5SWTn3EUo9i1aWjmus4eVR
-        5UTxM=;
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=finisterre.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <broonie@sirena.org.uk>)
-        id 1hVdhE-0002qV-3i; Tue, 28 May 2019 15:07:24 +0000
-Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
-        id 46DD7440046; Tue, 28 May 2019 16:07:23 +0100 (BST)
-From:   Mark Brown <broonie@kernel.org>
+        Tue, 28 May 2019 11:47:42 -0400
+Received: by mail-ot1-f68.google.com with SMTP id n18so977355otq.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 May 2019 08:47:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=cpA6X30q1WwappNH8AvwqpCneggPzg+rTJDIacCPxPI=;
+        b=M9tB4eZ4GxBhxNQzU1FOBJ/E9KxvDRpoItlOTGlwPFD6ot9vWqEgqgPNbCt2dNt8Fc
+         uID3CxHyDqsRSinQ73RrJNpBf//pQUWFCFt7UHAXGtaMRB+nCiOFzRV8gHzoXl2NZie2
+         +xf/2ylphafW5+uyyenJgXuDGd1wCy7B6/T7M2INAJ3WbMpfIqXL18XTbUTEae3cGxQm
+         7Xrxnz5RRRoqjHwfkinUyQJKl1I/UudFbeFkMCsygmgLPNPjYZyGfm8R1v5VzF3Yj+rE
+         BSFfBJIPm8zFkwdnHAk48h2fA7T36IQwSZnyiU1UGDqmkvedkMiLovqd4+PlTpCoESg2
+         NRDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=cpA6X30q1WwappNH8AvwqpCneggPzg+rTJDIacCPxPI=;
+        b=MnRFSfUbbWDay1KRthUPtjFXJZ8Ldahh1tRa3rRJI4Cdtjm/rLpNClMw2P8tjFZM7X
+         JZsJklSP5wJQelUPgNxsQVjIgMYuzzQfJwGsewiaNQgQ62Ag1/GUUOUvA3tp140I3NLA
+         YdsKiRJPOvA492+eTeRXxhU+qQuiV4sv1CsEr5A+8q9vY194Sdo+hdVJkhOVJvz1P0Dv
+         KQgRSh88iPMbuE4xgyzXG3CExDgOHl05vFUGwuXEWEU8EgVpmw15biTxZLEEowwkOxeQ
+         MJte0I74Kre6pBqYW0g5MTIY8EH18ClOLSgLdY9wUTix+uF5qbUlEfuexZWt6oLtBjU8
+         B/AQ==
+X-Gm-Message-State: APjAAAVpNG3m6G7ucO2HH9iwOB6Mmg034KP3c/bUOheiDrElkrY+x12k
+        1JqKNeCxn686vrYfboex+0fq/54N0LtfUoSwxOH5Hg==
+X-Google-Smtp-Source: APXvYqw2g8eQ+TWa0dz85vWomepOYgqQbUrqvakcMXYxYcdbN1O9VI0OANLrQI6q1MzETTBh8sK2gP8kO4BfLOzck5o=
+X-Received: by 2002:a9d:6259:: with SMTP id i25mr15617766otk.250.1559058460066;
+ Tue, 28 May 2019 08:47:40 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190527124051.7615-1-geert+renesas@glider.be>
+In-Reply-To: <20190527124051.7615-1-geert+renesas@glider.be>
+From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date:   Tue, 28 May 2019 17:47:28 +0200
+Message-ID: <CAMpxmJUDx7hF8+XqamMkMdX_w27-FyFkNKhQoVCpPa6jUXrwdg@mail.gmail.com>
+Subject: Re: [PATCH 0/2] gpio: em: Miscellaneous probe cleanups
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-spi@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: Applied "spi: sh-msiof: Reduce delays in sh_msiof_modify_ctr_wait()" to the spi tree
-In-Reply-To: <20190527121935.5370-1-geert+renesas@glider.be>
-X-Patchwork-Hint: ignore
-Message-Id: <20190528150723.46DD7440046@finisterre.sirena.org.uk>
-Date:   Tue, 28 May 2019 16:07:23 +0100 (BST)
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        linux-gpio <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The patch
+pon., 27 maj 2019 o 14:40 Geert Uytterhoeven <geert+renesas@glider.be>
+napisa=C5=82(a):
+>
+>         Hi Linus, Bartosz,
+>
+> This small series contains two cleanups for the GPIO driver for the
+> venerable Renesas EMMA Mobile EV2 SoC.
+>
+> These are compile-tested only, due to lack of hardware.
+>
+> Thanks!
+>
+> Geert Uytterhoeven (2):
+>   gpio: em: Remove error messages on out-of-memory conditions
+>   gpio: em: Return early on error in em_gio_probe()
+>
+>  drivers/gpio/gpio-em.c | 30 +++++++++---------------------
+>  1 file changed, 9 insertions(+), 21 deletions(-)
+>
+> --
+> 2.17.1
+>
+> Gr{oetje,eeting}s,
+>
+>                                                 Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                                             -- Linus Torv=
+alds
 
-   spi: sh-msiof: Reduce delays in sh_msiof_modify_ctr_wait()
+Hi Geert,
 
-has been applied to the spi tree at
+applied both and also sent a follow-up that makes this driver use the
+managed variant of gpiochip_add_data().
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-5.3
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.  
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
-From 635bdb7a3e1fe1531573ff87b92c2506adafe7f7 Mon Sep 17 00:00:00 2001
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-Date: Mon, 27 May 2019 14:19:35 +0200
-Subject: [PATCH] spi: sh-msiof: Reduce delays in sh_msiof_modify_ctr_wait()
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-While the Hardware User Manual does not document the maximum time needed
-for modifying bits in the MSIOF Control Register, experiments on R-Car
-Gen2/Gen3 and SH-Mobile AG5 revealed the following typical modification
-times for the various bits:
-  - CTR.TXE and CTR.RXE: no delay,
-  - CTR.TSCKE: less than 10 ns,
-  - CTR.TFSE: up to a few hundred ns (depending on SPI transfer clock,
-    i.e. less for faster transfers).
-There are no reasons to believe these figures are different for
-SH-MobileR2 SoCs (SH7723/SH7724).
-
-Hence the minimum busy-looping delay of 10 µs is excessive.
-Reduce the delay per loop iteration from 10 to 1 us, and the maximum
-delay from 1000 to 100 µs.
-
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- drivers/spi/spi-sh-msiof.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
-index 6aab7b2136db..b50bdbc27e58 100644
---- a/drivers/spi/spi-sh-msiof.c
-+++ b/drivers/spi/spi-sh-msiof.c
-@@ -229,7 +229,7 @@ static int sh_msiof_modify_ctr_wait(struct sh_msiof_spi_priv *p,
- 	sh_msiof_write(p, CTR, data);
- 
- 	return readl_poll_timeout_atomic(p->mapbase + CTR, data,
--					 (data & mask) == set, 10, 1000);
-+					 (data & mask) == set, 1, 100);
- }
- 
- static irqreturn_t sh_msiof_spi_irq(int irq, void *data)
--- 
-2.20.1
-
+Bart
