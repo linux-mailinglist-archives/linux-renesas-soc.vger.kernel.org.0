@@ -2,128 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CEE7A2C023
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2019 09:34:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D2952C02C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2019 09:38:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726879AbfE1Hen (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 May 2019 03:34:43 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:38305 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726203AbfE1Hem (ORCPT
+        id S1727364AbfE1HiX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 May 2019 03:38:23 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:41535 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726203AbfE1HiX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 May 2019 03:34:42 -0400
-Received: by mail-lj1-f193.google.com with SMTP id 14so16695311ljj.5;
-        Tue, 28 May 2019 00:34:41 -0700 (PDT)
+        Tue, 28 May 2019 03:38:23 -0400
+Received: by mail-lj1-f194.google.com with SMTP id q16so8303856ljj.8;
+        Tue, 28 May 2019 00:38:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=trapB6GCH6DrFYhLqm2TbydlBbFBOqjrTPKFBvYve8U=;
-        b=UL/Alc6+GYMD9p6SduN+9qtTmrRUYk5N+x4HcCJti7iMA/2gV42kZoU2D6H2sBaPej
-         4hReoi49Nny0v7Of7JQDRX6zxgXIltUS6Aup5b2MMdA1xYEas1kEGiDJlEHAZN+OGBRV
-         9wo+U6SZD860sJ/4eR625xPKnxtijIVkHoyJzkzmZOoK/hoNpcMuYy/o/cxwqrSmB+ja
-         tsLXG4c2D4lx1LUNvjEseuYR5wgjDbSa5kGFxP59muP7hLt5qJq3SrC62r3OEYlI3mUq
-         TNAzwxHai6PqBaFyMaQt0s7E27NZ6GXoLPKV0a4EfIzDJa3o89cfYSL/P/z9uh9pdOmo
-         d94A==
-X-Gm-Message-State: APjAAAWriTG2h8h7NICWKtd02a4zF/IQQvEqWZeiXXSmqhQDqliLBteg
-        yGzn1VDs4BLRM+4/odPFFMIWBBbmOxPhr2rYAss=
-X-Google-Smtp-Source: APXvYqy2qQI+pzVbL0x7gFnfPgU8bYHNW5+5eXWGv1zv7eVDWBC5pYEB/0mszyVJkiZmsuOWedYDfj78KMwjiypaGvY=
-X-Received: by 2002:a2e:249:: with SMTP id 70mr60692698ljc.178.1559028880499;
- Tue, 28 May 2019 00:34:40 -0700 (PDT)
+        bh=mVDZ2sO2sqP5WMDwhimUTnT2H3QkF6r6ChuK7DfUixc=;
+        b=ituWSajAt4SKnTYsbDRGlfDPeW4I+2KTSuCXl6Bk7VjKvFim/4Krrl82AxxI4eGAkz
+         VeSRZe22O4kQBKnDL/a7eG6jvhquPCwKH7B3BqSaKSRPDCv2VDTaMfP+RbL69X5jE2NB
+         tYz5jQlalwvlmwb89SHLbyRhb9PVTQmYusXlBBC81nPwk3kQsel13sKnDgcN3w2WGvvi
+         xv+6ljjdjb/2XO7LhamTXVdKp6ufC0Ki4FB20ma/lrGXMHSRDKMJIc/sp1HFPW4w255j
+         q8Uk74A7/CvyaBJTF07Sa3XstToPJo3bbf5530vM/Vd2hRwVfL4xeZo/Xs7ahKKG5gFx
+         u1iQ==
+X-Gm-Message-State: APjAAAXMXLz6y+j4FYPk4NmZpldeJ35gFX5gSoDUiiM4i6n9QC2x3iD1
+        whvaMqLTF7Cjy1/7UPqu2y0Uy4Vmma1+mIwcvoI=
+X-Google-Smtp-Source: APXvYqyN2Lo0a/qVm+JK77QAVe12CO7SdZMdxGmXB3bKf1lrdGvOh7u2/JOVMFUCqRh0c3k0oPpaEidOAmlIAK94Vx0=
+X-Received: by 2002:a2e:960e:: with SMTP id v14mr12606553ljh.31.1559029100779;
+ Tue, 28 May 2019 00:38:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <1558711904-27278-1-git-send-email-gareth.williams.jx@renesas.com> <1558711904-27278-3-git-send-email-gareth.williams.jx@renesas.com>
-In-Reply-To: <1558711904-27278-3-git-send-email-gareth.williams.jx@renesas.com>
+References: <1558603778-20848-1-git-send-email-na-hoan@jinso.co.jp> <1558603778-20848-2-git-send-email-na-hoan@jinso.co.jp>
+In-Reply-To: <1558603778-20848-2-git-send-email-na-hoan@jinso.co.jp>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 28 May 2019 09:34:29 +0200
-Message-ID: <CAMuHMdU_+U0iW+35OVZ-ExquE1s0bUtjM5e63zaOU9WFy8j_UA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] clk: renesas: r9a06g032: Add clock domain support
-To:     Gareth Williams <gareth.williams.jx@renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Tue, 28 May 2019 09:38:09 +0200
+Message-ID: <CAMuHMdXMcu6+TOj7AZKe2gENjQH16q0J=P1pzGu6NUGwEMAx5Q@mail.gmail.com>
+Subject: Re: [PATCH] watchdog: renesas_wdt: Use 'dev' instead of dereferencing
+ it repeatedly
+To:     Nguyen An Hoan <na-hoan@jinso.co.jp>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        =?UTF-8?B?56iy5ZCJ?= <h-inayoshi@jinso.co.jp>,
+        =?UTF-8?B?44Kr44Kq44O744O044Kh44Oz44O744OJ44Oz?= 
+        <cv-dong@jinso.co.jp>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Gareth,
-
-On Fri, May 24, 2019 at 5:32 PM Gareth Williams
-<gareth.williams.jx@renesas.com> wrote:
-> There are several clocks on the r9ag032 which are currently not enabled
-> in their drivers that can be delegated to clock domain system for power
-> management. Therefore add support for clock domain functionality to the
-> r9a06g032 clock driver.
+On Thu, May 23, 2019 at 11:30 AM Nguyen An Hoan <na-hoan@jinso.co.jp> wrote:
+> From: Hoan Nguyen An <na-hoan@jinso.co.jp>
 >
-> Signed-off-by: Gareth Williams <gareth.williams.jx@renesas.com>
-
-Thanks for the update!
-
-> --- a/drivers/clk/renesas/r9a06g032-clocks.c
-> +++ b/drivers/clk/renesas/r9a06g032-clocks.c
-
-> @@ -344,6 +351,86 @@ struct r9a06g032_clk_gate {
+> Add helper variable dev = &pdev->dev
 >
->  #define to_r9a06g032_gate(_hw) container_of(_hw, struct r9a06g032_clk_gate, hw)
->
-> +static int create_add_module_clock(struct of_phandle_args *clkspec,
-> +                                  struct device *dev)
-> +{
-> +       struct clk *clk;
-> +       int error = 0;
+> Signed-off-by: Hoan Nguyen An <na-hoan@jinso.co.jp>
 
-No need to initialize to 0.
-
-> +
-> +       clk = of_clk_get_from_provider(clkspec);
-> +       if (IS_ERR(clk))
-> +               return PTR_ERR(clk);
-> +
-> +       error = pm_clk_create(dev);
-
-> +static int r9a06g032_attach_dev(struct generic_pm_domain *pd,
-> +                               struct device *dev)
-> +{
-> +       struct device_node *np = dev->of_node;
-> +       struct of_phandle_args clkspec;
-> +       int i = 0;
-> +       int error;
-> +
-> +       while (!of_parse_phandle_with_args(np, "clocks", "#clock-cells", i,
-> +                                          &clkspec)) {
-> +               int index;
-
-scripts/checkpatch.pl says a blank line is missing.
-Alternatively, you can move the declaration of index to the top of the
-function, together with error and i.
-
-> +               if (clkspec.np != pd->dev.of_node)
-> +                       continue;
-> +
-> +               index = clkspec.args[0];
-> +
-> +               if (index < R9A06G032_CLOCK_COUNT &&
-> +                   r9a06g032_clocks[index].managed) {
-> +                       of_node_put(clkspec.np);
-
-As the call below uses clkspec.np, the call to of_node_put() should be
-after it, just before the error check.
-
-> +
-> +                       error = create_add_module_clock(&clkspec, dev);
-> +                       if (error)
-> +                               return error;
-> +               }
-> +               i++;
-> +       }
-> +
-> +       return 0;
-> +}
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
