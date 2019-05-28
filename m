@@ -2,89 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AB25C2CB9F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2019 18:17:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73C0F2CC33
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2019 18:37:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726736AbfE1QRc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 May 2019 12:17:32 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:43171 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726371AbfE1QRc (ORCPT
+        id S1726650AbfE1Qhk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 May 2019 12:37:40 -0400
+Received: from asavdk4.altibox.net ([109.247.116.15]:45898 "EHLO
+        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726579AbfE1Qhk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 May 2019 12:17:32 -0400
-Received: by mail-lf1-f66.google.com with SMTP id u27so15058780lfg.10;
-        Tue, 28 May 2019 09:17:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=0mCOvPTQFt06F/boW4vTUbBF7nJMno4atGIvwcskOpo=;
-        b=kj6ZrRo1HJLZsUgUXJnuRb8eNZE1GMLEFbPyLa2GNepvLvteouHbmc4f0/q867Iy38
-         V0u7l8xEbnAb/y/urqyqBNkm/sqOs3qjgxGyGBkkQ6ej2RkqaiejUiShHSKN8UQi8SLv
-         H3wwPlSOmo+SsSxVgb/hX2F56KYcTW4LaFVpdxT9CmhrnWJqyBR4d+VIAm9fz8PoRzhi
-         XlFmyuN0aV2VLYxcHXHialTBfq/0AVa+2ICL7KX/QAiAggqmKugXbgOP3yl+6mKsO2s9
-         8vCDMro65rnkazT4LLI0HD03ntEe/CBiCGvhN7FPB3z9rVdnxz6lI0pyH773tnqOFsvi
-         oKMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=0mCOvPTQFt06F/boW4vTUbBF7nJMno4atGIvwcskOpo=;
-        b=qdwFgCBDqsd5uZHfutJtHGk1yf6m9GSaglSYFlsK3w3ViI7lembLBfspLgbu5oXPaE
-         +ouhL4+1ZF0GsMcBuEeQXDm8PlQlaE7KCG4VAADuZWjfLZh7V14hWLcEdi64oKjqFCkS
-         XH4PxIPKV/7gvjXJ8rXPDS9TuQw1y66XG7018WgGM+Wehxy5DxQIwK2JZi6NJs+LeC2i
-         KBx1equTjE3kA01vCWzznvjC+Pmvjl7nd/ScSU3N69KddIWKrHaPr5KRYBHnSpm/GuXz
-         0izna/lThl/7GMd439jmnVerVqOf16BJBS5rjeDsNqrwEp23ZZ9OHS3rYE4mViPt+wRx
-         hqRQ==
-X-Gm-Message-State: APjAAAWH3GRtBB3AkXC3ZbZONJLbJ3/RwTxnWuROv40pbDPBMntF25ld
-        J/lNab5/5QNzaMP1TlCDKYw=
-X-Google-Smtp-Source: APXvYqzidImAk0jrnotbs+JaG3aAxRd0IUUyMuMdd3z8pk3Igq9cdLgxNRlfKUbza70ckuuscZ7yxQ==
-X-Received: by 2002:a19:6517:: with SMTP id z23mr11104789lfb.98.1559060250080;
-        Tue, 28 May 2019 09:17:30 -0700 (PDT)
-Received: from [10.17.182.120] (ll-22.209.223.85.sovam.net.ua. [85.223.209.22])
-        by smtp.gmail.com with ESMTPSA id o184sm802131lfo.37.2019.05.28.09.17.28
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 28 May 2019 09:17:29 -0700 (PDT)
-Subject: Re: [PATCH V5] ARM: mach-shmobile: Don't init CNTVOFF/counter if PSCI
- is available
-To:     Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Julien Grall <julien.grall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
-References: <1558087093-22113-1-git-send-email-olekstysh@gmail.com>
- <CAMuHMdVC=aNQTZ0r+7qpiWEyEaoQ587pm1FxhWqR3pwHwv2ARg@mail.gmail.com>
- <20190528160509.5vunuxxxcjduobpb@verge.net.au>
-From:   Oleksandr <olekstysh@gmail.com>
-Message-ID: <95324d18-651b-4b9c-1016-5d669b1c810a@gmail.com>
-Date:   Tue, 28 May 2019 19:17:28 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Tue, 28 May 2019 12:37:40 -0400
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk4.altibox.net (Postfix) with ESMTPS id C48D4803EF;
+        Tue, 28 May 2019 18:37:36 +0200 (CEST)
+Date:   Tue, 28 May 2019 18:37:30 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH v3 04/10] dt-bindings: display: renesas: lvds: Add
+ renesas, companion property
+Message-ID: <20190528163730.GA9610@ravnborg.org>
+References: <20190528141234.15425-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20190528141234.15425-5-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20190528160509.5vunuxxxcjduobpb@verge.net.au>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190528141234.15425-5-laurent.pinchart+renesas@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=P1BnusSwAAAA:8
+        a=xIEnxEUKAAAA:8 a=r9HNN9kqRSi6j70AMfAA:9 a=CjuIK1q_8ugA:10
+        a=D0XLA9XvdZm18NrgonBM:22 a=JpDqF-G6Ufas406PgLIE:22
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-> Oleksandr, could I trouble you to respin with the
-> changes suggested by Geert?
+Hi Laurent.
 
-Hi, Simon.
+Reading through this nice series.
 
-Sure, will send an updated patch tomorrow.
+On Tue, May 28, 2019 at 05:12:28PM +0300, Laurent Pinchart wrote:
+> Add a new optional renesas,companion property to point to the companion
+> LVDS encoder. This is used to support dual-link operation where the main
+> LVDS encoder splits even-numbered and odd-numbered pixels between the
+> two LVDS encoders.
+> 
+> The new property doesn't control the mode of operation, it only
+> describes the relationship between the master and companion LVDS
+> encoders.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+> Tested-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+> Changes since v2:
+> 
+> - Clarify when the companion property is required or not allowed
+> 
+> Changes since v1:
+> 
+> - Fixed typo
+> ---
+>  .../devicetree/bindings/display/bridge/renesas,lvds.txt    | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
+> index 900a884ad9f5..2d24bd8cbec5 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
+> @@ -45,6 +45,13 @@ OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
+>  
+>  Each port shall have a single endpoint.
+>  
+> +Optional properties:
+> +
+> +- renesas,companion : phandle to the companion LVDS encoder. This property is
+> +  mandatory for the first LVDS encoder on D3 and E3 SoCs, and shall point to
+> +  the second encoder to be used as a companion in dual-link mode. It shall not
+> +  be set for any other LVDS encoder.
 
+If the D3 and E3 socs do not mandate the use of dual-link, then what to
+do in the DT? Because according to the above this property must be
+specified for D3 and E3 SOC's.
 
->
--- 
-Regards,
+> +
+>  
+>  Example:
 
-Oleksandr Tyshchenko
+Always good with examples, maybe it comes later.
 
+	Sam
