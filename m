@@ -2,303 +2,159 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A8B892C6F0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2019 14:47:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7ABEA2C864
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2019 16:13:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727141AbfE1MrJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 May 2019 08:47:09 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:48130 "EHLO
+        id S1726437AbfE1ONI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 May 2019 10:13:08 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:48880 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727195AbfE1MrJ (ORCPT
+        with ESMTP id S1726527AbfE1ONI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 May 2019 08:47:09 -0400
+        Tue, 28 May 2019 10:13:08 -0400
 Received: from pendragon.ideasonboard.com (85-76-65-42-nat.elisa-mobile.fi [85.76.65.42])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 57979D85;
-        Tue, 28 May 2019 14:47:05 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 67861D85;
+        Tue, 28 May 2019 16:13:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1559047626;
-        bh=nnAz8+XkS/sgSzYgWk0RaoOvi7WtJ6ZQ/a38HYAaJ9I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iQXzIXXEr341hhkLkr47Kqld1aludjV91QMv5fyZx1AvlMCYdRRv06E9LrdIVFp++
-         n+moj3b3yZxCun9fh6WE9KI7VOnpUq/ajt+DieG3N/4WGaGHR5kICWWfOyIpIFdUCe
-         FOQrZbJLHiZRiisZbNeGv7D72OZZmoqS464W6+mg=
-Date:   Tue, 28 May 2019 15:46:47 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        s=mail; t=1559052785;
+        bh=/OJ6uuEbh2pjUlDn0QffI7KAufmZ1tyECPU5E9HGb1s=;
+        h=From:To:Cc:Subject:Date:From;
+        b=nkKd2QNeyK2vkCRmMfKjr4TtVLVeGQRY7u/H8RatACav9wsYBpQimsPtLtiWEFX+o
+         sOmc/TtcACAgC6ee5uw9QcVLeFJ0wUq8wwiulM4c8blSDYUWlapX2SJUw906zU+K1c
+         k+WhQaC+RgHNhSqQ3MSnD86DwwGKmgna+RBc27no=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     linux-renesas-soc@vger.kernel.org,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: Re: [PATCH v2 06/10] drm: rcar-du: lvds: Add support for dual-link
- mode
-Message-ID: <20190528124647.GC5916@pendragon.ideasonboard.com>
-References: <20190511210702.18394-1-laurent.pinchart+renesas@ideasonboard.com>
- <20190511210702.18394-7-laurent.pinchart+renesas@ideasonboard.com>
- <20190528093550.iwei6kpcx5hyb2nb@uno.localdomain>
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        devicetree@vger.kernel.org, Andrzej Hajda <a.hajda@samsung.com>
+Subject: [PATCH v3 00/10] R-Car DU: LVDS dual-link mode support
+Date:   Tue, 28 May 2019 17:12:24 +0300
+Message-Id: <20190528141234.15425-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190528093550.iwei6kpcx5hyb2nb@uno.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+Hello everybody,
 
-On Tue, May 28, 2019 at 11:35:50AM +0200, Jacopo Mondi wrote:
-> Hi Laurent,
->  a small note.
-> 
-> On Sun, May 12, 2019 at 12:06:58AM +0300, Laurent Pinchart wrote:
-> > In dual-link mode the LVDS0 encoder transmits even-numbered pixels, and
-> > sends odd-numbered pixels to the LVDS1 encoder for transmission on a
-> > separate link.
-> >
-> > To implement support for this mode of operation, determine if the LVDS
-> > connection operates in dual-link mode by querying the next device in the
-> > pipeline, locate the companion encoder, and control it directly through
-> > its bridge operations.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  drivers/gpu/drm/rcar-du/rcar_lvds.c | 104 ++++++++++++++++++++++++----
-> >  drivers/gpu/drm/rcar-du/rcar_lvds.h |   5 ++
-> >  2 files changed, 96 insertions(+), 13 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > index a331f0c32187..f7e4710fe33f 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > @@ -66,6 +66,9 @@ struct rcar_lvds {
-> >
-> >  	struct drm_display_mode display_mode;
-> >  	enum rcar_lvds_mode mode;
-> > +
-> > +	struct drm_bridge *companion;
-> > +	bool dual_link;
-> >  };
-> >
-> >  #define bridge_to_rcar_lvds(bridge) \
-> > @@ -400,11 +403,6 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
-> >  {
-> >  	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
-> >  	const struct drm_display_mode *mode = &lvds->display_mode;
-> > -	/*
-> > -	 * FIXME: We should really retrieve the CRTC through the state, but how
-> > -	 * do we get a state pointer?
-> > -	 */
-> > -	struct drm_crtc *crtc = lvds->bridge.encoder->crtc;
-> >  	u32 lvdhcr;
-> >  	u32 lvdcr0;
-> >  	int ret;
-> > @@ -413,6 +411,10 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
-> >  	if (ret < 0)
-> >  		return;
-> >
-> > +	/* Enable the companion LVDS encoder in dual-link mode. */
-> > +	if (lvds->dual_link && lvds->companion)
-> > +		lvds->companion->funcs->enable(lvds->companion);
-> > +
-> >  	/*
-> >  	 * Hardcode the channels and control signals routing for now.
-> >  	 *
-> > @@ -435,17 +437,33 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
-> >  	rcar_lvds_write(lvds, LVDCHCR, lvdhcr);
-> >
-> >  	if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK) {
-> > -		/* Disable dual-link mode. */
-> > -		rcar_lvds_write(lvds, LVDSTRIPE, 0);
-> > +		/*
-> > +		 * Configure vertical stripe based on the mode of operation of
-> > +		 * the connected device.
-> > +		 */
-> > +		rcar_lvds_write(lvds, LVDSTRIPE,
-> > +				lvds->dual_link ? LVDSTRIPE_ST_ON : 0);
-> >  	}
-> >
-> > -	/* PLL clock configuration. */
-> > -	lvds->info->pll_setup(lvds, mode->clock * 1000);
-> > +	/*
-> > +	 * PLL clock configuration on all instances but the companion in
-> > +	 * dual-link mode.
-> > +	 */
-> > +	if (!lvds->dual_link || lvds->companion)
-> > +		lvds->info->pll_setup(lvds, mode->clock * 1000);
-> >
-> >  	/* Set the LVDS mode and select the input. */
-> >  	lvdcr0 = lvds->mode << LVDCR0_LVMD_SHIFT;
-> > -	if (drm_crtc_index(crtc) == 2)
-> > -		lvdcr0 |= LVDCR0_DUSEL;
-> > +
-> > +	if (lvds->bridge.encoder) {
-> > +		/*
-> > +		 * FIXME: We should really retrieve the CRTC through the state,
-> > +		 * but how do we get a state pointer?
-> > +		 */
-> > +		if (drm_crtc_index(lvds->bridge.encoder->crtc) == 2)
-> > +			lvdcr0 |= LVDCR0_DUSEL;
-> > +	}
-> > +
-> >  	rcar_lvds_write(lvds, LVDCR0, lvdcr0);
-> >
-> >  	/* Turn all the channels on. */
-> > @@ -512,6 +530,10 @@ static void rcar_lvds_disable(struct drm_bridge *bridge)
-> >  	rcar_lvds_write(lvds, LVDCR1, 0);
-> >  	rcar_lvds_write(lvds, LVDPLLCR, 0);
-> >
-> > +	/* Disable the companion LVDS encoder in dual-link mode. */
-> > +	if (lvds->dual_link && lvds->companion)
-> > +		lvds->companion->funcs->disable(lvds->companion);
-> > +
-> >  	clk_disable_unprepare(lvds->clocks.mod);
-> >  }
-> >
-> > @@ -628,10 +650,54 @@ static const struct drm_bridge_funcs rcar_lvds_bridge_ops = {
-> >  	.mode_set = rcar_lvds_mode_set,
-> >  };
-> >
-> > +bool rcar_lvds_dual_link(struct drm_bridge *bridge)
-> > +{
-> > +	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
-> > +
-> > +	return lvds->dual_link;
-> > +}
-> > +EXPORT_SYMBOL_GPL(rcar_lvds_dual_link);
-> > +
-> >  /* -----------------------------------------------------------------------------
-> >   * Probe & Remove
-> >   */
-> >
-> > +static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
-> > +{
-> > +	const struct of_device_id *match;
-> > +	struct device_node *companion;
-> > +	struct device *dev = lvds->dev;
-> > +	int ret = 0;
-> > +
-> > +	/* Locate the companion LVDS encoder for dual-link operation, if any. */
-> > +	companion = of_parse_phandle(dev->of_node, "renesas,companion", 0);
-> > +	if (!companion)
-> > +		return -ENODEV;
-> > +
-> > +	/*
-> > +	 * Sanity check: the companion encoder must have the same compatible
-> > +	 * string.
-> > +	 */
-> > +	match = of_match_device(dev->driver->of_match_table, dev);
-> > +	if (!of_device_is_compatible(companion, match->compatible)) {
-> > +		ret = -ENODEV;
-> > +		goto done;
-> > +	}
-> > +
-> > +	lvds->companion = of_drm_find_bridge(companion);
-> > +	if (!lvds->companion) {
-> > +		ret = -EPROBE_DEFER;
-> > +		goto done;
-> > +	}
-> > +
-> > +	dev_dbg(dev, "Found companion encoder %pOF\n", companion);
-> > +
-> > +done:
-> > +	of_node_put(companion);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> >  static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
-> >  {
-> >  	struct device_node *local_output = NULL;
-> > @@ -682,14 +748,26 @@ static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
-> >
-> >  	if (is_bridge) {
-> >  		lvds->next_bridge = of_drm_find_bridge(remote);
-> > -		if (!lvds->next_bridge)
-> > +		if (!lvds->next_bridge) {
-> >  			ret = -EPROBE_DEFER;
-> > +			goto done;
-> > +		}
-> > +
-> > +		if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK)
-> > +			lvds->dual_link = lvds->next_bridge->timings
-> > +					? lvds->next_bridge->timings->dual_link
-> > +					: false;
-> >  	} else {
-> >  		lvds->panel = of_drm_find_panel(remote);
-> > -		if (IS_ERR(lvds->panel))
-> > +		if (IS_ERR(lvds->panel)) {
-> >  			ret = PTR_ERR(lvds->panel);
-> > +			goto done;
-> > +		}
-> >  	}
-> >
-> > +	if (lvds->dual_link)
-> > +		ret = rcar_lvds_parse_dt_companion(lvds);
-> 
-> Looking at the error path here below, for E3/D3, -ENODEV gets
-> sanitized to return 0 as we want this method to return success even if
-> no endpoint is there, when using the LVDS encoder provided clock to
-> back-feed the DU.
-> 
-> This is not the case for the companion property imho. If the property is
-> specified, it should be sane and -ENODEV is worth being propagated to
-> the caller.
+This patch series implements support for LVDS dual-link mode in the
+R-Car DU and R-Car LVDS encoder drivers, and well as in the thc63lvd1024
+LVDS decoder driver.
 
-But in that case the LVDS encoder will fail to probe, and so the DU
-channel will not be able to output on the DPAD. Isn't it worth
-supporting that ? Otherwise I can simply make
-rcar_lvds_parse_dt_companion() return -EINVAL or -ENXIO and it should be
-fine with the existing error handling path.
+LVDS dual-link is a mode of operation where two individual LVDS links
+are operated together to carry even- and odd-numbered pixels separately.
+This doubles the possible bandwidth of the video transmission. Both the
+transmitter and the receiver need to support this mode of operation.
 
-> You could move the error handling bits in the error path:
-> 
-> 	/*
-> 	 * On D3/E3 the LVDS encoder provides a clock to the DU, which can be
-> 	 * used for the DPAD output even when the LVDS output is not connected.
-> 	 * Don't fail probe in that case as the DU will need the bridge to
-> 	 * control the clock.
-> 	 */
-> 	if (lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)
-> 		return ret == -ENODEV ? 0 : ret;
-> 
-> before the of_node_put() sequences, and add one more label, to skip
-> the above part in case parse_dt_companion() fails.
-> 
-> Apart from this you can retain my tag if you like.
-> Thanks
->    j
-> 
-> > +
-> >  done:
-> >  	of_node_put(local_output);
-> >  	of_node_put(remote_input);
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.h b/drivers/gpu/drm/rcar-du/rcar_lvds.h
-> > index a709cae1bc32..222ec0e60785 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_lvds.h
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.h
-> > @@ -15,6 +15,7 @@ struct drm_bridge;
-> >  #if IS_ENABLED(CONFIG_DRM_RCAR_LVDS)
-> >  int rcar_lvds_clk_enable(struct drm_bridge *bridge, unsigned long freq);
-> >  void rcar_lvds_clk_disable(struct drm_bridge *bridge);
-> > +bool rcar_lvds_dual_link(struct drm_bridge *bridge);
-> >  #else
-> >  static inline int rcar_lvds_clk_enable(struct drm_bridge *bridge,
-> >  				       unsigned long freq)
-> > @@ -22,6 +23,10 @@ static inline int rcar_lvds_clk_enable(struct drm_bridge *bridge,
-> >  	return -ENOSYS;
-> >  }
-> >  static inline void rcar_lvds_clk_disable(struct drm_bridge *bridge) { }
-> > +static inline bool rcar_lvds_dual_link(struct drm_bridge *bridge)
-> > +{
-> > +	return false;
-> > +}
-> >  #endif /* CONFIG_DRM_RCAR_LVDS */
-> >
-> >  #endif /* __RCAR_LVDS_H__ */
+The R-Car D3 and E3 SoCs include two independent LVDS encoders that can
+be grouped together to operate in dual-link mode. When used separately,
+the LVDS encoders are connected to two different CRTCs and transmit
+independent video streams. When used in dual-link mode, the first LVDS
+encoder is connected to the first CRTC, and split even- and odd-numbered
+pixels. It transmits half of the pixels on its LVDS output, and sends
+the other half to the second LVDS encoder for transmittion over the
+second LVDS link. The second LVDS encoder thus operates under control of
+the first one, and isn't connected directly to a CRTC.
+
+On the receiving side, the THC63LVD1024 LVDS-to-parallel bridge has two
+LVDS inputs and two parallel outputs. It can operate in four different
+modes:
+
+- Single-in, single-out: The first LVDS input receives the video stream,
+  and the bridge outputs it on the first parallel output. The second
+  LVDS input and the second parallel output are not used.
+
+- Single-in, dual-out: The first LVDS input receives the video stream,
+  and the bridge splits even- and odd-numbered pixels and outputs them
+  on the first and second parallel outputs. The second LVDS input is not
+  used.
+
+- Dual-in, single-out: The two LVDS inputs are used in dual-link mode,
+  and the bridge combines the even- and odd-numbered pixels and outputs
+  them on the first parallel output. The second parallel output is not
+  used.
+
+- Dual-in, dual-out: The two LVDS inputs are used in dual-link mode,
+  and the bridge outputs the even- and odd-numbered pixels on the first
+  parallel output.
+
+The operating mode is selected by two input pins of the bridge, which
+are connected to DIP switches on the development boards I use. The mode
+is thus fixed from a Linux point of view.
+
+Patch 01/10 adds a new dual_link boolen field to the drm_bridge_timings
+structure to let bridges report their LVDS mode of operation. Patch
+02/10 clarifies the THC63LVD1024 DT bindings to document dual-link
+operation, and patch 03/10 implements dual-link support in the
+thc64lvd1024 bridge driver by setting the drm_bridge_timings dual_link
+field according to the mode selected through DT.
+
+Patch 04/10 extends the R-Car LVDS DT bindings to specify the companion
+LVDS encoder for dual-link operation. Patches 05/10 then performs a
+small cleanup in the LVDS encoder driver. Patch 06/10 implements
+dual-link support in the LVDS encoder driver, which involves retrieving
+the operation mode from the LVDS receiver, locating the companion LVDS
+encoder, and configuring both encoders when dual-link operation is
+desired. The API towards the DU driver is also extended to report the
+mode of operation.
+
+Patch 07/10 implements dual-link mode support in the DU driver. There is
+no specific configuration to be performed there, as dual-link is fully
+implemented in the LVDS encoder driver, but the DU driver has to skip
+creation of the DRM encoder and connector related to the second LVDS
+encoder when dual-link is used, as the second LVDS encoder operates as a
+slave of the first one, transparently from a CRTC (and thus userspace)
+perspective.
+
+Patch 08/10 specifies the companion LVDS encoder in the D3 and E3 DT
+bindings. This by itself doesn't enable dual-link mode, the LVDS0
+encoder is still connected to the HDMI output through LVDS receiver, and
+the LVDS1 encoder is not used. Patches 09/10 and 10/10, not intended to
+be merged, enable dual-link operation for the D3 and E3 boards for
+testing and require flipping DIP switches on the boards.
+
+The patches are based on top of my drm/du/next branch, and are available
+for convenience at
+
+        git://linuxtv.org/pinchartl/media.git drm/du/lvds/dual-link
+
+They have been tested successfully on the D3 Draak board. I expect them
+to work on E3 as well, but I don't have access to an Ebisu board to test
+this.
+
+Laurent Pinchart (10):
+  drm: bridge: Add dual_link field to the drm_bridge_timings structure
+  dt-bindings: display: bridge: thc63lvd1024: Document dual-link
+    operation
+  drm: bridge: thc63: Report input bus mode through bridge timings
+  dt-bindings: display: renesas: lvds: Add renesas,companion property
+  drm: rcar-du: lvds: Remove LVDS double-enable checks
+  drm: rcar-du: lvds: Add support for dual-link mode
+  drm: rcar-du: Skip LVDS1 output on Gen3 when using dual-link LVDS mode
+  arm64: dts: renesas: r8a7799[05]: Point LVDS0 to its companion LVDS1
+  [HACK] arm64: dts: renesas: draak: Enable LVDS dual-link operation
+  [HACK] arm64: dts: renesas: ebisu: Enable LVDS dual-link operation
+
+ .../bindings/display/bridge/renesas,lvds.txt  |   7 +
+ .../display/bridge/thine,thc63lvd1024.txt     |   6 +
+ .../arm64/boot/dts/renesas/r8a77990-ebisu.dts |  24 +++-
+ arch/arm64/boot/dts/renesas/r8a77990.dtsi     |   2 +
+ .../arm64/boot/dts/renesas/r8a77995-draak.dts |  24 +++-
+ arch/arm64/boot/dts/renesas/r8a77995.dtsi     |   2 +
+ drivers/gpu/drm/bridge/thc63lvd1024.c         |  54 ++++++--
+ drivers/gpu/drm/rcar-du/rcar_du_encoder.c     |  12 ++
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c         |   2 +-
+ drivers/gpu/drm/rcar-du/rcar_lvds.c           | 126 +++++++++++++-----
+ drivers/gpu/drm/rcar-du/rcar_lvds.h           |   5 +
+ include/drm/drm_bridge.h                      |   8 ++
+ 12 files changed, 214 insertions(+), 58 deletions(-)
 
 -- 
 Regards,
 
 Laurent Pinchart
+
