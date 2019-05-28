@@ -2,204 +2,147 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CA0D22C26B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2019 11:04:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F3BD2C2F7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2019 11:19:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726734AbfE1JEs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 May 2019 05:04:48 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:33289 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727457AbfE1JEr (ORCPT
+        id S1726532AbfE1JTS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 May 2019 05:19:18 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:34767 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725943AbfE1JTS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 May 2019 05:04:47 -0400
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 6C0F9100008;
-        Tue, 28 May 2019 09:04:42 +0000 (UTC)
-Date:   Tue, 28 May 2019 11:05:51 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: Re: [PATCH v2 03/10] drm: bridge: thc63: Report input bus mode
- through bridge timings
-Message-ID: <20190528090551.swt6ovalcadateht@uno.localdomain>
-References: <20190511210702.18394-1-laurent.pinchart+renesas@ideasonboard.com>
- <20190511210702.18394-4-laurent.pinchart+renesas@ideasonboard.com>
+        Tue, 28 May 2019 05:19:18 -0400
+Received: by mail-lf1-f66.google.com with SMTP id v18so14002976lfi.1;
+        Tue, 28 May 2019 02:19:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Dt6xkTlYLLzspF5sWEy/VH41bbc6zw6jc+Wa8i9f9a4=;
+        b=JaHn5ULYYfT8Za5dRYDWXNqjhmoeUxR2S4wNB4JIggoZam3mijAcjcqKPBoFkmBXVM
+         01jgpp+sbmzRFLmLm/Mkss71m29AheffTJEHLZ1p62AOy2HFsj3ju4swltIFzqTOx/V+
+         CcLQDIHBRcYwZJyA07xR19AJP6pj5N4irv5MPkrioWc/ifYO+7RwiG0IKx4PpShsY6BV
+         sRGIRL7uuT2zm+moZFP2diiIAO+la8savTi9eZjoKC83xHM6hq4SdPnt608cg22abRrP
+         IkdgeAZj8pW6Xh/iHaCic12COGPzBOaAkL9ti+BP9qPIgaRnk8u6rDdJv5C4WwgQTNfM
+         cjlw==
+X-Gm-Message-State: APjAAAXnJYdUafOOT/Tq/L3N8l59HlL9aquILCOhUPzZJ3iKua2RHmNW
+        2TJspp5+83pe6d8LWKGOzIGSUu/Eq2c/SyvP3VlB42oa
+X-Google-Smtp-Source: APXvYqxdS7TZcdfg35HdLOUa9xz527T4tZBXNDpzCsjV01tnhK+R7oNl2pgZnAKQNyFTnkQYZpn9wkC/dbA14taDQss=
+X-Received: by 2002:ac2:546a:: with SMTP id e10mr6776442lfn.75.1559035156588;
+ Tue, 28 May 2019 02:19:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="hpp6knvdq33m7ccs"
-Content-Disposition: inline
-In-Reply-To: <20190511210702.18394-4-laurent.pinchart+renesas@ideasonboard.com>
-User-Agent: NeoMutt/20180716
+References: <20190411124102.22442-1-spapageorgiou@de.adit-jv.com>
+In-Reply-To: <20190411124102.22442-1-spapageorgiou@de.adit-jv.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 28 May 2019 11:19:04 +0200
+Message-ID: <CAMuHMdVfDd_1gHnX=WvkHnF33fG2sWy7F5bTh-DghoKSt-vLCA@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: ulcb-kf: Add support for TI WL1837
+To:     Spyridon Papageorgiou <spapageorgiou@de.adit-jv.com>
+Cc:     Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Tobias Franzen <tfranzen@de.adit-jv.com>,
+        Biju Das <biju.das@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Spyridon,
 
---hpp6knvdq33m7ccs
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+On Thu, Apr 11, 2019 at 2:42 PM Spyridon Papageorgiou
+<spapageorgiou@de.adit-jv.com> wrote:
+> This patch adds description of TI WL1837 and links interfaces
+> to communicate with the IC, namely the SDIO interface to WLAN.
+>
+> Signed-off-by: Spyridon Papageorgiou <spapageorgiou@de.adit-jv.com>
 
-Hi Laurent,
+Thanks for your patch!
 
-On Sun, May 12, 2019 at 12:06:55AM +0300, Laurent Pinchart wrote:
-> Set a drm_bridge_timings in the drm_bridge, and use it to report the
-> input bus mode (single-link or dual-link). The other fields of the
-> timings structure are kept to 0 as they do not apply to LVDS buses.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
-> Changes since v1:
->
-> - Ignore disabled remote device
-> ---
->  drivers/gpu/drm/bridge/thc63lvd1024.c | 54 +++++++++++++++++++++------
->  1 file changed, 43 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/gpu/drm/bridge/thc63lvd1024.c b/drivers/gpu/drm/bridge/thc63lvd1024.c
-> index b083a740565c..709dd28b43d6 100644
-> --- a/drivers/gpu/drm/bridge/thc63lvd1024.c
-> +++ b/drivers/gpu/drm/bridge/thc63lvd1024.c
-> @@ -31,6 +31,8 @@ struct thc63_dev {
->
->  	struct drm_bridge bridge;
->  	struct drm_bridge *next;
+> --- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
+> @@ -38,6 +38,18 @@
+>                 regulator-min-microvolt = <5000000>;
+>                 regulator-max-microvolt = <5000000>;
+>         };
 > +
-> +	struct drm_bridge_timings timings;
+> +       wlan_en: regulator-wlan_en {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "wlan-en-regulator";
+> +
+> +               regulator-min-microvolt = <3300000>;
+> +               regulator-max-microvolt = <3300000>;
+
+So this is a 3.3V regulator...
+
+> +
+> +               gpio = <&gpio_exp_74 4 GPIO_ACTIVE_HIGH>;
+> +               startup-delay-us = <70000>;
+> +               enable-active-high;
+> +       };
 >  };
 >
->  static inline struct thc63_dev *to_thc63(struct drm_bridge *bridge)
-> @@ -48,15 +50,28 @@ static int thc63_attach(struct drm_bridge *bridge)
->  static enum drm_mode_status thc63_mode_valid(struct drm_bridge *bridge,
->  					const struct drm_display_mode *mode)
->  {
-> +	struct thc63_dev *thc63 = to_thc63(bridge);
-> +	unsigned int min_freq;
-> +	unsigned int max_freq;
+>  &can0 {
+
+> @@ -273,6 +298,30 @@
+>         status = "okay";
+>  };
+>
+> +&sdhi3 {
+> +       pinctrl-0 = <&sdhi3_pins>;
+> +       pinctrl-names = "default";
 > +
->  	/*
-> -	 * The THC63LVD1024 clock frequency range is 8 to 135 MHz in single-in
-> -	 * mode. Note that the limits are different in dual-in, single-out mode,
-> -	 * and will need to be adjusted accordingly.
-> +	 * The THC63LVD1024 pixel rate range is 8 to 135 MHz in all modes but
-> +	 * dual-in, single-out where it is 40 to 150 MHz. As dual-in, dual-out
-> +	 * isn't supported by the driver yet, simply derive the limits from the
-> +	 * input mode.
->  	 */
-> -	if (mode->clock < 8000)
-> +	if (thc63->timings.dual_link) {
-> +		min_freq = 40000;
-> +		max_freq = 150000;
-> +	} else {
-> +		min_freq = 8000;
-> +		max_freq = 135000;
-> +	}
+> +       vmmc-supply = <&wlan_en>;
+> +       vqmmc-supply = <&wlan_en>;
+
+... used for both card and I/O line power...
+
+> +       bus-width = <4>;
+> +       no-1-8-v;
+
+... hence no 1.8V I/O.
+
+However, VIO of WL1837 is provided by W1.8V of regulator U55,
+which is 1.8V?
+
+> +       non-removable;
+> +       cap-power-off-card;
+> +       keep-power-in-suspend;
+> +       max-frequency = <26000000>;
+> +       status = "okay";
 > +
-> +	if (mode->clock < min_freq)
->  		return MODE_CLOCK_LOW;
->
-> -	if (mode->clock > 135000)
-> +	if (mode->clock > max_freq)
->  		return MODE_CLOCK_HIGH;
+> +       #address-cells = <1>;
+> +       #size-cells = <0>;
+> +       wlcore: wlcore@2 {
+> +               compatible = "ti,wl1837";
+> +               reg = <2>;
+> +               interrupt-parent = <&gpio1>;
+> +               interrupts = <25 IRQ_TYPE_EDGE_FALLING>;
 
-I would have made a separate patch for this bit, anyway, verified
-against the THC631024 manual, and this matches my understanding.
+I'm also a bit puzzled by the interrupt type.
+On Cat 874, it's IRQ_TYPE_LEVEL_HIGH, cfr.
+https://lore.kernel.org/linux-renesas-soc/1557997166-63351-2-git-send-email-biju.das@bp.renesas.com/
 
->
->  	return MODE_OK;
-> @@ -101,19 +116,19 @@ static const struct drm_bridge_funcs thc63_bridge_func = {
->
->  static int thc63_parse_dt(struct thc63_dev *thc63)
->  {
-> -	struct device_node *thc63_out;
-> +	struct device_node *endpoint;
->  	struct device_node *remote;
->
-> -	thc63_out = of_graph_get_endpoint_by_regs(thc63->dev->of_node,
-> -						  THC63_RGB_OUT0, -1);
-> -	if (!thc63_out) {
-> +	endpoint = of_graph_get_endpoint_by_regs(thc63->dev->of_node,
-> +						 THC63_RGB_OUT0, -1);
-> +	if (!endpoint) {
->  		dev_err(thc63->dev, "Missing endpoint in port@%u\n",
->  			THC63_RGB_OUT0);
->  		return -ENODEV;
->  	}
->
-> -	remote = of_graph_get_remote_port_parent(thc63_out);
-> -	of_node_put(thc63_out);
-> +	remote = of_graph_get_remote_port_parent(endpoint);
-> +	of_node_put(endpoint);
->  	if (!remote) {
->  		dev_err(thc63->dev, "Endpoint in port@%u unconnected\n",
->  			THC63_RGB_OUT0);
-> @@ -132,6 +147,22 @@ static int thc63_parse_dt(struct thc63_dev *thc63)
->  	if (!thc63->next)
->  		return -EPROBE_DEFER;
->
-> +	endpoint = of_graph_get_endpoint_by_regs(thc63->dev->of_node,
-> +						 THC63_LVDS_IN1, -1);
-> +	if (endpoint) {
-> +		remote = of_graph_get_remote_port_parent(endpoint);
-> +		of_node_put(endpoint);
-> +
-> +		if (remote) {
-> +			if (of_device_is_available(remote))
-> +				thc63->timings.dual_link = true;
-> +			of_node_put(remote);
-> +		}
-> +	}
-> +
-> +	dev_dbg(thc63->dev, "operating in %s-link mode\n",
-> +		thc63->timings.dual_link ? "dual" : "single");
-> +
+On Kingfisher, the IRQ signal is inverted by U104, so I'd expect
+IRQ_TYPE_LEVEL_LOW instead of IRQ_TYPE_EDGE_FALLING?
 
-Fine, thanks for having addressed comments on the RFC.
+Apart from the above two comments:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+Gr{oetje,eeting}s,
 
-Thanks
-   j
+                        Geert
 
->  	return 0;
->  }
->
-> @@ -188,6 +219,7 @@ static int thc63_probe(struct platform_device *pdev)
->  	thc63->bridge.driver_private = thc63;
->  	thc63->bridge.of_node = pdev->dev.of_node;
->  	thc63->bridge.funcs = &thc63_bridge_func;
-> +	thc63->bridge.timings = &thc63->timings;
->
->  	drm_bridge_add(&thc63->bridge);
->
-> --
-> Regards,
->
-> Laurent Pinchart
->
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---hpp6knvdq33m7ccs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAlzs+e8ACgkQcjQGjxah
-VjxGBQ//QaejbAKf4w1iPov+CyMt01/OwqyLdI2pfSvTF6118ZDWONgYY62kqpMb
-BFrDILszA2My2FPdBMxD777GWpaDGCGCUxES4aB3+qFGL6EsOvRurxk1ERiZ1r6F
-hbbINoOpit4BG0Qy3Ac3Yi1XwNRRmhaN6Ne5IMyYKil6zDy8kEA7Pl658cgc+kaR
-VxZfma9bsCe6lHZ/Tq2BcDhHFiI46FyHiuZ0enaJrPxbUxkxRv7eYJQemhzFXvG0
-iOYFUC+1CXh0XqiQYDaNifWIb4fryMt1NwVs0UF9WJJYUKqcIMIDP69v8fLhRcPc
-Xrs9zZYKgHH9a3w68Q97F8sKBHmhIPoAtTjwpg+LL52htKZEIWbAfyLZmL3zikQH
-YiTZX7grMD1caSfXNEoRRYsezQ4MW0ph+oVgp3+xnCVmt11BU5N9wnZVj3mE4/L3
-7CTUcWUbwHYOg/8h3kH2ubstMGKfrwYcRSubJGjbgjI1YBLXleWoRwfEIe/X26K5
-XXOC8Dfhz9MpUCtfLEk/juTEYSUniIJRUtKTSaE0JTy+Cy3L7datbETgSR/c+eQg
-V8t3YefLGljB/oeY+3dj+Evy9OgvmDbGjatCfhlTVsCNaf5M2M1jotMz82v76TVj
-zIXLw8d2QuggC45YG7HaFH05zp8zvfy2RwQ4/z80y7NRmywDfjc=
-=k+Tn
------END PGP SIGNATURE-----
-
---hpp6knvdq33m7ccs--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
