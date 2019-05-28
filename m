@@ -2,116 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CDFC2C942
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2019 16:50:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92B552C99C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2019 17:07:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726522AbfE1Oud (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 May 2019 10:50:33 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:34033 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726439AbfE1Oud (ORCPT
+        id S1726313AbfE1PH3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 May 2019 11:07:29 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:43550 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727296AbfE1PH3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 May 2019 10:50:33 -0400
-Received: by mail-lf1-f65.google.com with SMTP id v18so14835513lfi.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 May 2019 07:50:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TN8TOqdAy6MiE2ShAqIty/eimVfaIzRomPHmS/Hvs9c=;
-        b=ZoXQ5TJNadOiwFbTo1pRLUOd56s2wGxIiHNWGpxVq04D5brNfcwxMvPJB8oOS2KV66
-         ovcWRUMRk26asBS8gDZSRd7fs5b7ebY/C7UTXeopjE9vqBUtMXLf/E6/yPnmk8/s9aWf
-         0BCdVNN2f91qS1xkMuHsC2ryCO04t219yfTsWjT+JddIZrZQ+LElEbeEYW/7ekz74Cqv
-         +FfQAwcghOWxt1nn3WPSnaMFD+vISEWvS4HiboIImPCOLVVS7Le6wp4zG5nTdVZGznyB
-         SSHnr+e5d0gkQuGwdeAmj2GEs+8OOxTKS7G3B3DteRojqxUGwRijj2QMx6DkH7468fR4
-         hFYw==
-X-Gm-Message-State: APjAAAXCYSYLYjK9+Xji3YyGQTQncX3cV4/BIewc4S2F4CgC4weID9Nk
-        lFC9jwjLuipz43pcjYkrjGg8Xmhr0ZQfonKrFns=
-X-Google-Smtp-Source: APXvYqwjR+Kwpt8Vf5glMiEHl51oJry2gLDyca0YNP8hP+BKjiE4LjrW7YdY6CKppg45BRulGNh4TljYkXnTdm3oEic=
-X-Received: by 2002:ac2:44b1:: with SMTP id c17mr10773310lfm.87.1559055031101;
- Tue, 28 May 2019 07:50:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190508173428.22054-1-jacopo+renesas@jmondi.org>
- <20190508173428.22054-2-jacopo+renesas@jmondi.org> <20190511181618.GD13043@pendragon.ideasonboard.com>
- <20190528123725.bqyutp4lxny4sraa@uno.localdomain> <20190528142520.GA14336@pendragon.ideasonboard.com>
-In-Reply-To: <20190528142520.GA14336@pendragon.ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 28 May 2019 16:50:18 +0200
-Message-ID: <CAMuHMdV3ar8JnPo0S-MEUgPdNSDp8jKG95Tq_483ydn0swZqqA@mail.gmail.com>
-Subject: Re: [RFC 1/9] dt-bindings: display: renesas,cmm: Add R-Car CMM documentation
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        VenkataRajesh.Kalakodima@in.bosch.com,
-        Harsha.ManjulaMallikarjun@in.bosch.com
-Content-Type: text/plain; charset="UTF-8"
+        Tue, 28 May 2019 11:07:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
+        Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
+        List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
+        List-Archive; bh=LoZEWGcak24f+2R8BSnDVZaJoSe5u7tIU54xxb61pjk=; b=lVMVifvy8qRU
+        HQ36W9DZRRRfMc6MRaTrRKwZKo++pYkdrUF7BX8C01jv7YIVGLalDRUwvpG7qnRNv9AuDDbRLbeHQ
+        iTUyVEbHQAQPXM48oOmiyLp8bBI/NYZJAck+xkpSofr45TfxAVjpLQS5SWTn3EUo9i1aWjmus4eVR
+        5UTxM=;
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=finisterre.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1hVdhE-0002qV-3i; Tue, 28 May 2019 15:07:24 +0000
+Received: by finisterre.sirena.org.uk (Postfix, from userid 1000)
+        id 46DD7440046; Tue, 28 May 2019 16:07:23 +0100 (BST)
+From:   Mark Brown <broonie@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-spi@vger.kernel.org,
+        Mark Brown <broonie@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: Applied "spi: sh-msiof: Reduce delays in sh_msiof_modify_ctr_wait()" to the spi tree
+In-Reply-To: <20190527121935.5370-1-geert+renesas@glider.be>
+X-Patchwork-Hint: ignore
+Message-Id: <20190528150723.46DD7440046@finisterre.sirena.org.uk>
+Date:   Tue, 28 May 2019 16:07:23 +0100 (BST)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+The patch
 
-On Tue, May 28, 2019 at 4:31 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Tue, May 28, 2019 at 02:37:25PM +0200, Jacopo Mondi wrote:
-> > On Sat, May 11, 2019 at 09:16:18PM +0300, Laurent Pinchart wrote:
-> > > On Wed, May 08, 2019 at 07:34:20PM +0200, Jacopo Mondi wrote:
-> > >> Add device tree bindings documentation for the Renesas R-Car Display
-> > >> Unit Color Management Module.
-> > >>
-> > >> CMM is the image enhancement module available on each R-Car DU video
-> > >> channel.
-> > >
-> > > Not on all of them, V3M and V3H don't include a CMM module.
-> > >
-> > >> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+   spi: sh-msiof: Reduce delays in sh_msiof_modify_ctr_wait()
 
-> > >> --- /dev/null
-> > >> +++ b/Documentation/devicetree/bindings/display/renesas,cmm.txt
-> > >> @@ -0,0 +1,24 @@
-> > >> +* Renesas R-Car Color Management Unit (CMM)
-> > >
-> > > It's called Color Management Module in the documentation (hence the CMM
-> > > abbreviation)
-> > >
-> > >> +
-> > >> +Renesas R-Car image enhancement module connected to R-Car DU video channels.
-> > >> +
-> > >> +Required properties:
-> > >> + - compatible: shall be:
-> > >> +   - "renesas,cmm"
-> > >
-> > > There's a CMM in R-Car Gen2 with a different feature set, so I think you
-> > > need at least two compatible strings. As far as I can tell SoC-specific
-> > > compatible strings are required.
-> >
-> > I assume you meant "SoC-specific compatible strings are NOT required" ?
->
-> Correct, sorry.
->
-> > Could you otherwise specify why do you think we need a per-SoC
-> > compatible, since there are no platform specific data (for now, at
-> > least, but considering the CMM seems identical in all SoCs I hardly
-> > think we will have any in the near future).
-> >
-> > Ack on the gen2/gen3 specific strings though.
+has been applied to the spi tree at
 
-Usually we do define SoC-specific compatible values in the DT bindings,
-unless there is a version register, like on the VPSs.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-5.3
 
-Why would we want to deviate from that practice for the CMM?
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.  
 
-Thanks!
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-Gr{oetje,eeting}s,
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-                        Geert
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
+Thanks,
+Mark
+
+From 635bdb7a3e1fe1531573ff87b92c2506adafe7f7 Mon Sep 17 00:00:00 2001
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+Date: Mon, 27 May 2019 14:19:35 +0200
+Subject: [PATCH] spi: sh-msiof: Reduce delays in sh_msiof_modify_ctr_wait()
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+While the Hardware User Manual does not document the maximum time needed
+for modifying bits in the MSIOF Control Register, experiments on R-Car
+Gen2/Gen3 and SH-Mobile AG5 revealed the following typical modification
+times for the various bits:
+  - CTR.TXE and CTR.RXE: no delay,
+  - CTR.TSCKE: less than 10 ns,
+  - CTR.TFSE: up to a few hundred ns (depending on SPI transfer clock,
+    i.e. less for faster transfers).
+There are no reasons to believe these figures are different for
+SH-MobileR2 SoCs (SH7723/SH7724).
+
+Hence the minimum busy-looping delay of 10 µs is excessive.
+Reduce the delay per loop iteration from 10 to 1 us, and the maximum
+delay from 1000 to 100 µs.
+
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ drivers/spi/spi-sh-msiof.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/spi/spi-sh-msiof.c b/drivers/spi/spi-sh-msiof.c
+index 6aab7b2136db..b50bdbc27e58 100644
+--- a/drivers/spi/spi-sh-msiof.c
++++ b/drivers/spi/spi-sh-msiof.c
+@@ -229,7 +229,7 @@ static int sh_msiof_modify_ctr_wait(struct sh_msiof_spi_priv *p,
+ 	sh_msiof_write(p, CTR, data);
+ 
+ 	return readl_poll_timeout_atomic(p->mapbase + CTR, data,
+-					 (data & mask) == set, 10, 1000);
++					 (data & mask) == set, 1, 100);
+ }
+ 
+ static irqreturn_t sh_msiof_spi_irq(int irq, void *data)
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.20.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
