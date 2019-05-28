@@ -2,149 +2,303 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 64D342C6A0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2019 14:36:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8B892C6F0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2019 14:47:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727105AbfE1MgV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 May 2019 08:36:21 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:39455 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726999AbfE1MgV (ORCPT
+        id S1727141AbfE1MrJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 May 2019 08:47:09 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:48130 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727195AbfE1MrJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 May 2019 08:36:21 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id B75DB20008;
-        Tue, 28 May 2019 12:36:16 +0000 (UTC)
-Date:   Tue, 28 May 2019 14:37:25 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        linux-renesas-soc@vger.kernel.org,
-        VenkataRajesh.Kalakodima@in.bosch.com,
-        Harsha.ManjulaMallikarjun@in.bosch.com
-Subject: Re: [RFC 1/9] dt-bindings: display: renesas,cmm: Add R-Car CMM
- documentation
-Message-ID: <20190528123725.bqyutp4lxny4sraa@uno.localdomain>
-References: <20190508173428.22054-1-jacopo+renesas@jmondi.org>
- <20190508173428.22054-2-jacopo+renesas@jmondi.org>
- <20190511181618.GD13043@pendragon.ideasonboard.com>
+        Tue, 28 May 2019 08:47:09 -0400
+Received: from pendragon.ideasonboard.com (85-76-65-42-nat.elisa-mobile.fi [85.76.65.42])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 57979D85;
+        Tue, 28 May 2019 14:47:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1559047626;
+        bh=nnAz8+XkS/sgSzYgWk0RaoOvi7WtJ6ZQ/a38HYAaJ9I=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=iQXzIXXEr341hhkLkr47Kqld1aludjV91QMv5fyZx1AvlMCYdRRv06E9LrdIVFp++
+         n+moj3b3yZxCun9fh6WE9KI7VOnpUq/ajt+DieG3N/4WGaGHR5kICWWfOyIpIFdUCe
+         FOQrZbJLHiZRiisZbNeGv7D72OZZmoqS464W6+mg=
+Date:   Tue, 28 May 2019 15:46:47 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Subject: Re: [PATCH v2 06/10] drm: rcar-du: lvds: Add support for dual-link
+ mode
+Message-ID: <20190528124647.GC5916@pendragon.ideasonboard.com>
+References: <20190511210702.18394-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20190511210702.18394-7-laurent.pinchart+renesas@ideasonboard.com>
+ <20190528093550.iwei6kpcx5hyb2nb@uno.localdomain>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="fballeotxoxi74yj"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190511181618.GD13043@pendragon.ideasonboard.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20190528093550.iwei6kpcx5hyb2nb@uno.localdomain>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Jacopo,
 
---fballeotxoxi74yj
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
-Hi Laurent,
-
-On Sat, May 11, 2019 at 09:16:18PM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> Thank you for the patch.
->
-> On Wed, May 08, 2019 at 07:34:20PM +0200, Jacopo Mondi wrote:
-> > Add device tree bindings documentation for the Renesas R-Car Display
-> > Unit Color Management Module.
+On Tue, May 28, 2019 at 11:35:50AM +0200, Jacopo Mondi wrote:
+> Hi Laurent,
+>  a small note.
+> 
+> On Sun, May 12, 2019 at 12:06:58AM +0300, Laurent Pinchart wrote:
+> > In dual-link mode the LVDS0 encoder transmits even-numbered pixels, and
+> > sends odd-numbered pixels to the LVDS1 encoder for transmission on a
+> > separate link.
 > >
-> > CMM is the image enhancement module available on each R-Car DU video
-> > channel.
->
-> Not on all of them, V3M and V3H don't include a CMM module.
->
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > To implement support for this mode of operation, determine if the LVDS
+> > connection operates in dual-link mode by querying the next device in the
+> > pipeline, locate the companion encoder, and control it directly through
+> > its bridge operations.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > > ---
-> >  .../bindings/display/renesas,cmm.txt          | 24 +++++++++++++++++++
-> >  1 file changed, 24 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/renesas,cmm.txt
+> >  drivers/gpu/drm/rcar-du/rcar_lvds.c | 104 ++++++++++++++++++++++++----
+> >  drivers/gpu/drm/rcar-du/rcar_lvds.h |   5 ++
+> >  2 files changed, 96 insertions(+), 13 deletions(-)
 > >
-> > diff --git a/Documentation/devicetree/bindings/display/renesas,cmm.txt b/Documentation/devicetree/bindings/display/renesas,cmm.txt
-> > new file mode 100644
-> > index 000000000000..d7674417edb4
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/renesas,cmm.txt
-> > @@ -0,0 +1,24 @@
-> > +* Renesas R-Car Color Management Unit (CMM)
->
-> It's called Color Management Module in the documentation (hence the CMM
-> abbreviation)
->
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> > index a331f0c32187..f7e4710fe33f 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> > @@ -66,6 +66,9 @@ struct rcar_lvds {
+> >
+> >  	struct drm_display_mode display_mode;
+> >  	enum rcar_lvds_mode mode;
 > > +
-> > +Renesas R-Car image enhancement module connected to R-Car DU video channels.
+> > +	struct drm_bridge *companion;
+> > +	bool dual_link;
+> >  };
+> >
+> >  #define bridge_to_rcar_lvds(bridge) \
+> > @@ -400,11 +403,6 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
+> >  {
+> >  	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
+> >  	const struct drm_display_mode *mode = &lvds->display_mode;
+> > -	/*
+> > -	 * FIXME: We should really retrieve the CRTC through the state, but how
+> > -	 * do we get a state pointer?
+> > -	 */
+> > -	struct drm_crtc *crtc = lvds->bridge.encoder->crtc;
+> >  	u32 lvdhcr;
+> >  	u32 lvdcr0;
+> >  	int ret;
+> > @@ -413,6 +411,10 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
+> >  	if (ret < 0)
+> >  		return;
+> >
+> > +	/* Enable the companion LVDS encoder in dual-link mode. */
+> > +	if (lvds->dual_link && lvds->companion)
+> > +		lvds->companion->funcs->enable(lvds->companion);
 > > +
-> > +Required properties:
-> > + - compatible: shall be:
-> > +   - "renesas,cmm"
->
-> There's a CMM in R-Car Gen2 with a different feature set, so I think you
-> need at least two compatible strings. As far as I can tell SoC-specific
-> compatible strings are required.
-
-I assume you meant "SoC-specific compatible strings are NOT required" ?
-
-Could you otherwise specify why do you think we need a per-SoC
-compatible, since there are no platform specific data (for now, at
-least, but considering the CMM seems identical in all SoCs I hardly
-think we will have any in the near future).
-
-Ack on the gen2/gen3 specific strings though.
-
-Thanks
-   j
-
-
->
+> >  	/*
+> >  	 * Hardcode the channels and control signals routing for now.
+> >  	 *
+> > @@ -435,17 +437,33 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
+> >  	rcar_lvds_write(lvds, LVDCHCR, lvdhcr);
+> >
+> >  	if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK) {
+> > -		/* Disable dual-link mode. */
+> > -		rcar_lvds_write(lvds, LVDSTRIPE, 0);
+> > +		/*
+> > +		 * Configure vertical stripe based on the mode of operation of
+> > +		 * the connected device.
+> > +		 */
+> > +		rcar_lvds_write(lvds, LVDSTRIPE,
+> > +				lvds->dual_link ? LVDSTRIPE_ST_ON : 0);
+> >  	}
+> >
+> > -	/* PLL clock configuration. */
+> > -	lvds->info->pll_setup(lvds, mode->clock * 1000);
+> > +	/*
+> > +	 * PLL clock configuration on all instances but the companion in
+> > +	 * dual-link mode.
+> > +	 */
+> > +	if (!lvds->dual_link || lvds->companion)
+> > +		lvds->info->pll_setup(lvds, mode->clock * 1000);
+> >
+> >  	/* Set the LVDS mode and select the input. */
+> >  	lvdcr0 = lvds->mode << LVDCR0_LVMD_SHIFT;
+> > -	if (drm_crtc_index(crtc) == 2)
+> > -		lvdcr0 |= LVDCR0_DUSEL;
 > > +
-> > + - reg: the address base and length of the memory area where CMM control
-> > +   registers are mapped to.
+> > +	if (lvds->bridge.encoder) {
+> > +		/*
+> > +		 * FIXME: We should really retrieve the CRTC through the state,
+> > +		 * but how do we get a state pointer?
+> > +		 */
+> > +		if (drm_crtc_index(lvds->bridge.encoder->crtc) == 2)
+> > +			lvdcr0 |= LVDCR0_DUSEL;
+> > +	}
 > > +
-> > + - clocks: phandle and clock-specifier pair to the CMM functional clock
-> > +   supplier.
+> >  	rcar_lvds_write(lvds, LVDCR0, lvdcr0);
+> >
+> >  	/* Turn all the channels on. */
+> > @@ -512,6 +530,10 @@ static void rcar_lvds_disable(struct drm_bridge *bridge)
+> >  	rcar_lvds_write(lvds, LVDCR1, 0);
+> >  	rcar_lvds_write(lvds, LVDPLLCR, 0);
+> >
+> > +	/* Disable the companion LVDS encoder in dual-link mode. */
+> > +	if (lvds->dual_link && lvds->companion)
+> > +		lvds->companion->funcs->disable(lvds->companion);
 > > +
-> > +Example:
-> > +--------
+> >  	clk_disable_unprepare(lvds->clocks.mod);
+> >  }
+> >
+> > @@ -628,10 +650,54 @@ static const struct drm_bridge_funcs rcar_lvds_bridge_ops = {
+> >  	.mode_set = rcar_lvds_mode_set,
+> >  };
+> >
+> > +bool rcar_lvds_dual_link(struct drm_bridge *bridge)
+> > +{
+> > +	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
 > > +
-> > +	cmm0: cmm@fea40000 {
-> > +		compatible = "renesas,cmm";
-> > +		reg = <0 0xfea40000 0 0x1000>;
-> > +		power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
-> > +		clocks = <&cpg CPG_MOD 711>;
-> > +		resets = <&cpg 711>;
-> > +	};
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> > +	return lvds->dual_link;
+> > +}
+> > +EXPORT_SYMBOL_GPL(rcar_lvds_dual_link);
+> > +
+> >  /* -----------------------------------------------------------------------------
+> >   * Probe & Remove
+> >   */
+> >
+> > +static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
+> > +{
+> > +	const struct of_device_id *match;
+> > +	struct device_node *companion;
+> > +	struct device *dev = lvds->dev;
+> > +	int ret = 0;
+> > +
+> > +	/* Locate the companion LVDS encoder for dual-link operation, if any. */
+> > +	companion = of_parse_phandle(dev->of_node, "renesas,companion", 0);
+> > +	if (!companion)
+> > +		return -ENODEV;
+> > +
+> > +	/*
+> > +	 * Sanity check: the companion encoder must have the same compatible
+> > +	 * string.
+> > +	 */
+> > +	match = of_match_device(dev->driver->of_match_table, dev);
+> > +	if (!of_device_is_compatible(companion, match->compatible)) {
+> > +		ret = -ENODEV;
+> > +		goto done;
+> > +	}
+> > +
+> > +	lvds->companion = of_drm_find_bridge(companion);
+> > +	if (!lvds->companion) {
+> > +		ret = -EPROBE_DEFER;
+> > +		goto done;
+> > +	}
+> > +
+> > +	dev_dbg(dev, "Found companion encoder %pOF\n", companion);
+> > +
+> > +done:
+> > +	of_node_put(companion);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> >  static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
+> >  {
+> >  	struct device_node *local_output = NULL;
+> > @@ -682,14 +748,26 @@ static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
+> >
+> >  	if (is_bridge) {
+> >  		lvds->next_bridge = of_drm_find_bridge(remote);
+> > -		if (!lvds->next_bridge)
+> > +		if (!lvds->next_bridge) {
+> >  			ret = -EPROBE_DEFER;
+> > +			goto done;
+> > +		}
+> > +
+> > +		if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK)
+> > +			lvds->dual_link = lvds->next_bridge->timings
+> > +					? lvds->next_bridge->timings->dual_link
+> > +					: false;
+> >  	} else {
+> >  		lvds->panel = of_drm_find_panel(remote);
+> > -		if (IS_ERR(lvds->panel))
+> > +		if (IS_ERR(lvds->panel)) {
+> >  			ret = PTR_ERR(lvds->panel);
+> > +			goto done;
+> > +		}
+> >  	}
+> >
+> > +	if (lvds->dual_link)
+> > +		ret = rcar_lvds_parse_dt_companion(lvds);
+> 
+> Looking at the error path here below, for E3/D3, -ENODEV gets
+> sanitized to return 0 as we want this method to return success even if
+> no endpoint is there, when using the LVDS encoder provided clock to
+> back-feed the DU.
+> 
+> This is not the case for the companion property imho. If the property is
+> specified, it should be sane and -ENODEV is worth being propagated to
+> the caller.
 
---fballeotxoxi74yj
-Content-Type: application/pgp-signature; name="signature.asc"
+But in that case the LVDS encoder will fail to probe, and so the DU
+channel will not be able to output on the DPAD. Isn't it worth
+supporting that ? Otherwise I can simply make
+rcar_lvds_parse_dt_companion() return -EINVAL or -ENXIO and it should be
+fine with the existing error handling path.
 
------BEGIN PGP SIGNATURE-----
+> You could move the error handling bits in the error path:
+> 
+> 	/*
+> 	 * On D3/E3 the LVDS encoder provides a clock to the DU, which can be
+> 	 * used for the DPAD output even when the LVDS output is not connected.
+> 	 * Don't fail probe in that case as the DU will need the bridge to
+> 	 * control the clock.
+> 	 */
+> 	if (lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)
+> 		return ret == -ENODEV ? 0 : ret;
+> 
+> before the of_node_put() sequences, and add one more label, to skip
+> the above part in case parse_dt_companion() fails.
+> 
+> Apart from this you can retain my tag if you like.
+> Thanks
+>    j
+> 
+> > +
+> >  done:
+> >  	of_node_put(local_output);
+> >  	of_node_put(remote_input);
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.h b/drivers/gpu/drm/rcar-du/rcar_lvds.h
+> > index a709cae1bc32..222ec0e60785 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_lvds.h
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.h
+> > @@ -15,6 +15,7 @@ struct drm_bridge;
+> >  #if IS_ENABLED(CONFIG_DRM_RCAR_LVDS)
+> >  int rcar_lvds_clk_enable(struct drm_bridge *bridge, unsigned long freq);
+> >  void rcar_lvds_clk_disable(struct drm_bridge *bridge);
+> > +bool rcar_lvds_dual_link(struct drm_bridge *bridge);
+> >  #else
+> >  static inline int rcar_lvds_clk_enable(struct drm_bridge *bridge,
+> >  				       unsigned long freq)
+> > @@ -22,6 +23,10 @@ static inline int rcar_lvds_clk_enable(struct drm_bridge *bridge,
+> >  	return -ENOSYS;
+> >  }
+> >  static inline void rcar_lvds_clk_disable(struct drm_bridge *bridge) { }
+> > +static inline bool rcar_lvds_dual_link(struct drm_bridge *bridge)
+> > +{
+> > +	return false;
+> > +}
+> >  #endif /* CONFIG_DRM_RCAR_LVDS */
+> >
+> >  #endif /* __RCAR_LVDS_H__ */
 
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAlztK4UACgkQcjQGjxah
-Vjz33Q/9FoUITutIDRdIGQMPkq9EzzRK0zC5+lIEWUD7GRR2fiNL8VhTaqCYhdCh
-9LZu6/Zkf9zwA7jMGO8W2UU2atS/jPXP64/SorR827nqIL0c1tozbND0jX6FiZ6c
-lNm8GqlBaXHTFWL21kZ/yMN10OycV5zGrZ4SL81qm5QZjt/+bo4WfaqpW41D/DCC
-49dgNi7pMbMOXQOk2RyimF1fF4c1ARbRn3FAudIyCPfVyOiCOXvI5kbT/HgJodZZ
-PmeIY0zbNiFjoPKtdb2ZRyaJp5v+XuCMNyvZtQL9d2TV0dT6W9iJC17an5mQobK0
-o8IKBLUqqXlYJsGGp1lJYkduudFpCQMRAw1I9jALZpEaN5ql8qsPGDCFEciMBSVc
-L6qMDmrbykk2U6l7hYP0PRLqVj7Zj8hQonYdSUtsx1ppftWASn8iYWtYj0MnXfWb
-O4x00aOMCdRVq40NiktPk+OBuUFSFeH+j/1VbGdoFYtmdwiKgIo70Lwr5m4Frg6j
-GA2GeHeRfR88Qv7VbKL+i7O6sz8BasOEbpdRckQU7ZfoDg7onqAh9VutgKDc2pZQ
-qyf5H8liZweXQPnCF5U+gtkOHkBgiYHGrArm9jOr4lZZlzTRKhJZ/svTB2tgSddM
-b7yYmVTbDXglqzJXewH6uBjYAuVVdkFEcJwfzqLLSCohJ8K7POI=
-=dlIV
------END PGP SIGNATURE-----
+-- 
+Regards,
 
---fballeotxoxi74yj--
+Laurent Pinchart
