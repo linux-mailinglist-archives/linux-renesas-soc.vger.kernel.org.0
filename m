@@ -2,147 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F3BD2C2F7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2019 11:19:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49D212C331
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2019 11:27:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726532AbfE1JTS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 May 2019 05:19:18 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:34767 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725943AbfE1JTS (ORCPT
+        id S1726889AbfE1J1n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 May 2019 05:27:43 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:35819 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726888AbfE1J1n (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 May 2019 05:19:18 -0400
-Received: by mail-lf1-f66.google.com with SMTP id v18so14002976lfi.1;
-        Tue, 28 May 2019 02:19:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Dt6xkTlYLLzspF5sWEy/VH41bbc6zw6jc+Wa8i9f9a4=;
-        b=JaHn5ULYYfT8Za5dRYDWXNqjhmoeUxR2S4wNB4JIggoZam3mijAcjcqKPBoFkmBXVM
-         01jgpp+sbmzRFLmLm/Mkss71m29AheffTJEHLZ1p62AOy2HFsj3ju4swltIFzqTOx/V+
-         CcLQDIHBRcYwZJyA07xR19AJP6pj5N4irv5MPkrioWc/ifYO+7RwiG0IKx4PpShsY6BV
-         sRGIRL7uuT2zm+moZFP2diiIAO+la8savTi9eZjoKC83xHM6hq4SdPnt608cg22abRrP
-         IkdgeAZj8pW6Xh/iHaCic12COGPzBOaAkL9ti+BP9qPIgaRnk8u6rDdJv5C4WwgQTNfM
-         cjlw==
-X-Gm-Message-State: APjAAAXnJYdUafOOT/Tq/L3N8l59HlL9aquILCOhUPzZJ3iKua2RHmNW
-        2TJspp5+83pe6d8LWKGOzIGSUu/Eq2c/SyvP3VlB42oa
-X-Google-Smtp-Source: APXvYqxdS7TZcdfg35HdLOUa9xz527T4tZBXNDpzCsjV01tnhK+R7oNl2pgZnAKQNyFTnkQYZpn9wkC/dbA14taDQss=
-X-Received: by 2002:ac2:546a:: with SMTP id e10mr6776442lfn.75.1559035156588;
- Tue, 28 May 2019 02:19:16 -0700 (PDT)
+        Tue, 28 May 2019 05:27:43 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 49BAF20010;
+        Tue, 28 May 2019 09:27:38 +0000 (UTC)
+Date:   Tue, 28 May 2019 11:28:47 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 04/10] dt-bindings: display: renesas: lvds: Add
+ renesas,companion property
+Message-ID: <20190528092847.kxhhq7hevforddb6@uno.localdomain>
+References: <20190511210702.18394-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20190511210702.18394-5-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-References: <20190411124102.22442-1-spapageorgiou@de.adit-jv.com>
-In-Reply-To: <20190411124102.22442-1-spapageorgiou@de.adit-jv.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 28 May 2019 11:19:04 +0200
-Message-ID: <CAMuHMdVfDd_1gHnX=WvkHnF33fG2sWy7F5bTh-DghoKSt-vLCA@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: ulcb-kf: Add support for TI WL1837
-To:     Spyridon Papageorgiou <spapageorgiou@de.adit-jv.com>
-Cc:     Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Tobias Franzen <tfranzen@de.adit-jv.com>,
-        Biju Das <biju.das@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="o263536bpxeaqxlm"
+Content-Disposition: inline
+In-Reply-To: <20190511210702.18394-5-laurent.pinchart+renesas@ideasonboard.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Spyridon,
 
-On Thu, Apr 11, 2019 at 2:42 PM Spyridon Papageorgiou
-<spapageorgiou@de.adit-jv.com> wrote:
-> This patch adds description of TI WL1837 and links interfaces
-> to communicate with the IC, namely the SDIO interface to WLAN.
+--o263536bpxeaqxlm
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+Hi Laurent,
+
+On Sun, May 12, 2019 at 12:06:56AM +0300, Laurent Pinchart wrote:
+> Add a new optional renesas,companion property to point to the companion
+> LVDS encoder. This is used to support dual-link operation where the main
+> LVDS encoder splits even-numbered and odd-numbered pixels between the
+> two LVDS encoders.
 >
-> Signed-off-by: Spyridon Papageorgiou <spapageorgiou@de.adit-jv.com>
-
-Thanks for your patch!
-
-> --- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-> @@ -38,6 +38,18 @@
->                 regulator-min-microvolt = <5000000>;
->                 regulator-max-microvolt = <5000000>;
->         };
-> +
-> +       wlan_en: regulator-wlan_en {
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "wlan-en-regulator";
-> +
-> +               regulator-min-microvolt = <3300000>;
-> +               regulator-max-microvolt = <3300000>;
-
-So this is a 3.3V regulator...
-
-> +
-> +               gpio = <&gpio_exp_74 4 GPIO_ACTIVE_HIGH>;
-> +               startup-delay-us = <70000>;
-> +               enable-active-high;
-> +       };
->  };
+> The new property doesn't control the mode of operation, it only
+> describes the relationship between the master and companion LVDS
+> encoders.
 >
->  &can0 {
-
-> @@ -273,6 +298,30 @@
->         status = "okay";
->  };
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> Changes since v1:
 >
-> +&sdhi3 {
-> +       pinctrl-0 = <&sdhi3_pins>;
-> +       pinctrl-names = "default";
+> - Fixed typo
+> ---
+>  .../devicetree/bindings/display/bridge/renesas,lvds.txt     | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
+> index 900a884ad9f5..f2cc01d54cbd 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
+> @@ -45,6 +45,12 @@ OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
+>
+>  Each port shall have a single endpoint.
+>
+> +Optional properties:
 > +
-> +       vmmc-supply = <&wlan_en>;
-> +       vqmmc-supply = <&wlan_en>;
-
-... used for both card and I/O line power...
-
-> +       bus-width = <4>;
-> +       no-1-8-v;
-
-... hence no 1.8V I/O.
-
-However, VIO of WL1837 is provided by W1.8V of regulator U55,
-which is 1.8V?
-
-> +       non-removable;
-> +       cap-power-off-card;
-> +       keep-power-in-suspend;
-> +       max-frequency = <26000000>;
-> +       status = "okay";
+> +- renesas,companion : phandle to the companion LVDS encoder. This property is
+> +  valid for the first LVDS encoder on D3 and E3 SoCs only, and points to the
+> +  second encoder to be used as a companion in dual-link mode.
 > +
-> +       #address-cells = <1>;
-> +       #size-cells = <0>;
-> +       wlcore: wlcore@2 {
-> +               compatible = "ti,wl1837";
-> +               reg = <2>;
-> +               interrupt-parent = <&gpio1>;
-> +               interrupts = <25 IRQ_TYPE_EDGE_FALLING>;
 
-I'm also a bit puzzled by the interrupt type.
-On Cat 874, it's IRQ_TYPE_LEVEL_HIGH, cfr.
-https://lore.kernel.org/linux-renesas-soc/1557997166-63351-2-git-send-email-biju.das@bp.renesas.com/
+If I got this right, the property does not enable dual-link
+operations by itself, but it needs the next bridge to be operating in
+dual link mode (ie. has both LVDS0 and LVDS1 output connected to its
+input ports). Is it worth describing it here (or at least clarify the
+the property alone does not enable dual link operations).
 
-On Kingfisher, the IRQ signal is inverted by U104, so I'd expect
-IRQ_TYPE_LEVEL_LOW instead of IRQ_TYPE_EDGE_FALLING?
+Apart from that
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-Apart from the above two comments:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thanks
+   j
 
-Gr{oetje,eeting}s,
 
-                        Geert
+>
+>  Example:
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+--o263536bpxeaqxlm
+Content-Type: application/pgp-signature; name="signature.asc"
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAlzs/08ACgkQcjQGjxah
+VjwbRg//Xq8IhU73P6ciYEg0LzEj7uZQhWGQW8t5c0/ccUU/Db+fzYvMxaW2UwFl
+wEv8PPxfmBUkObeu5hKRXFi1NoZuOx7fXYQFloMIzkDZTq/6cSfOqO1SHhg+n9QP
+Gms+aJ8bmU9epGw5jHt6PvUvAmO//X7VSgzocvIOG9YnWA15bBw3HkjiH9gsmUTl
+54/YaRKbdTEk9zgEvDvYkal+fz2l27P/askcy9yN35wKkIhxGWeQOTXt3RnoT289
+yP7gOUBnk9PB4bct2IOh3LwMQaH1OIqn5eIfbL/5FotnsGfiYNHu+mbFLcH+K67x
+RWlC++O/j6DjGtQ2k33068GaIfMcgDDhVwgUHGKxt0JNoovsdeUwq8Wy7HZjhrHs
+UzDSPIgtQ5zrq0hyNJYjQ7QbENwTUxplGWX5fd6QAz+A+YHMRCjZvS/kkzqKucb2
+hf3gIkWQDVSgYzxAp7pmZT5xKt61IbHpqhBdJVPduzifjGRLL20NbPXxGr5igWFC
+eHCeVvjohdj9mDAlTmFJ3/Yunbe8T6STHFRrtqEodDComF6XQZSc5nG8ejD6lKTi
+SfpQq+2HCjmN/M9Vfyrg0bfi/vmXDOihxY+4M0PX8Qe37B6iwvogX9cFDOC55Tqu
+eEGJAKW6y+jFDWI//qswELADsN7nqa0Ik5//ZQF2/Y7vgwn1S2s=
+=j2sp
+-----END PGP SIGNATURE-----
+
+--o263536bpxeaqxlm--
