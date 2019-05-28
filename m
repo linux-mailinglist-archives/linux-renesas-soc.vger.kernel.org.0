@@ -2,68 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D2952C02C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2019 09:38:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 584DE2C0E2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 28 May 2019 10:08:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727364AbfE1HiX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 28 May 2019 03:38:23 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:41535 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726203AbfE1HiX (ORCPT
+        id S1726282AbfE1IIn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 28 May 2019 04:08:43 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:33213 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726576AbfE1IIn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 28 May 2019 03:38:23 -0400
-Received: by mail-lj1-f194.google.com with SMTP id q16so8303856ljj.8;
-        Tue, 28 May 2019 00:38:21 -0700 (PDT)
+        Tue, 28 May 2019 04:08:43 -0400
+Received: by mail-lj1-f195.google.com with SMTP id w1so16798929ljw.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 28 May 2019 01:08:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mVDZ2sO2sqP5WMDwhimUTnT2H3QkF6r6ChuK7DfUixc=;
-        b=ituWSajAt4SKnTYsbDRGlfDPeW4I+2KTSuCXl6Bk7VjKvFim/4Krrl82AxxI4eGAkz
-         VeSRZe22O4kQBKnDL/a7eG6jvhquPCwKH7B3BqSaKSRPDCv2VDTaMfP+RbL69X5jE2NB
-         tYz5jQlalwvlmwb89SHLbyRhb9PVTQmYusXlBBC81nPwk3kQsel13sKnDgcN3w2WGvvi
-         xv+6ljjdjb/2XO7LhamTXVdKp6ufC0Ki4FB20ma/lrGXMHSRDKMJIc/sp1HFPW4w255j
-         q8Uk74A7/CvyaBJTF07Sa3XstToPJo3bbf5530vM/Vd2hRwVfL4xeZo/Xs7ahKKG5gFx
-         u1iQ==
-X-Gm-Message-State: APjAAAXMXLz6y+j4FYPk4NmZpldeJ35gFX5gSoDUiiM4i6n9QC2x3iD1
-        whvaMqLTF7Cjy1/7UPqu2y0Uy4Vmma1+mIwcvoI=
-X-Google-Smtp-Source: APXvYqyN2Lo0a/qVm+JK77QAVe12CO7SdZMdxGmXB3bKf1lrdGvOh7u2/JOVMFUCqRh0c3k0oPpaEidOAmlIAK94Vx0=
-X-Received: by 2002:a2e:960e:: with SMTP id v14mr12606553ljh.31.1559029100779;
- Tue, 28 May 2019 00:38:20 -0700 (PDT)
+        bh=jxRdLO81GaMwi25+pHF6tyabtHcRY5PiY9DnX9mbDaE=;
+        b=TaJdaojEUW/+CS9FzUqxW2BLPd5uKNOFnksO/8iLWRSkzm+lUetKQev2JFt0Wytk2/
+         QQ8Y9kJKv62FlPA0wODRlMueyJPT2ZUb7lmLvGiKePyWfdUVI8KE5fXG+AJVQUlNcU96
+         WSrSxpSGL85df3AzNifzM4VcFz4t6je44xIEwAYBgtZ1KXAOLzsfXE+X3QCeMdSYJ4gw
+         rJRhd1KzoZehkI/KcX7D3SIhLO3MX+zdNkNYtxw1rxT9J730k90EGNb3dSohPcqVj+2K
+         2/EJB28n2R0F2AIzyKcacjRNmb55DwoRPWq+QpgzbRpiQXC9bHaEEOXiPtj55q/1JlfD
+         JioA==
+X-Gm-Message-State: APjAAAXSbDALv4wnsjTIva0ohIJOtbFRFcJ1Qx9s3ov5g2Is3w5/5L5v
+        Y2et6p9kHufQ/91EIGsF6TAjH3wXUcedhnfC/Ts=
+X-Google-Smtp-Source: APXvYqymnIsHnIptohD+ZvCPE/vzwdkhqMTohAuXSeeplJGZYPhUDn5vCS9XnIBXws7SNfPGmO24LuOyutztcv2tv38=
+X-Received: by 2002:a2e:249:: with SMTP id 70mr60782672ljc.178.1559030921424;
+ Tue, 28 May 2019 01:08:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <1558603778-20848-1-git-send-email-na-hoan@jinso.co.jp> <1558603778-20848-2-git-send-email-na-hoan@jinso.co.jp>
-In-Reply-To: <1558603778-20848-2-git-send-email-na-hoan@jinso.co.jp>
+References: <1558104187-2842-1-git-send-email-ykaneko0929@gmail.com>
+In-Reply-To: <1558104187-2842-1-git-send-email-ykaneko0929@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 28 May 2019 09:38:09 +0200
-Message-ID: <CAMuHMdXMcu6+TOj7AZKe2gENjQH16q0J=P1pzGu6NUGwEMAx5Q@mail.gmail.com>
-Subject: Re: [PATCH] watchdog: renesas_wdt: Use 'dev' instead of dereferencing
- it repeatedly
-To:     Nguyen An Hoan <na-hoan@jinso.co.jp>
+Date:   Tue, 28 May 2019 10:08:29 +0200
+Message-ID: <CAMuHMdUmmwmm2bx+g=G-py5FiQ5Ynrmxr262j61P5=y5GTA6OQ@mail.gmail.com>
+Subject: Re: [PATCH/RFT] arm: dts: renesas: r7s9210-rza2mevb: sort nodes of
+ rza2mevb board
+To:     Yoshihiro Kaneko <ykaneko0929@gmail.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        =?UTF-8?B?56iy5ZCJ?= <h-inayoshi@jinso.co.jp>,
-        =?UTF-8?B?44Kr44Kq44O744O044Kh44Oz44O744OJ44Oz?= 
-        <cv-dong@jinso.co.jp>
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, May 23, 2019 at 11:30 AM Nguyen An Hoan <na-hoan@jinso.co.jp> wrote:
-> From: Hoan Nguyen An <na-hoan@jinso.co.jp>
->
-> Add helper variable dev = &pdev->dev
->
-> Signed-off-by: Hoan Nguyen An <na-hoan@jinso.co.jp>
+Hi Kaneko-san,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Fri, May 17, 2019 at 4:43 PM Yoshihiro Kaneko <ykaneko0929@gmail.com> wrote:
+> This patch sorts the nodes of arch/arm/boot/dts/r7s9210-rza2mevb.dts.
+>
+> * Sort subnodes of root ("/") node alphabetically
+> * Sort following top-level nodes alphabetically
+> * Sort subnodes of pinctrl alphabetically
+>
+> Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
+
+Thanks for your patch!
+
+> This patch is based on the devel branch of Simon Horman's renesas tree.
+
+This looks good to me, but in the mean time renesas-devel has progressed.
+Can you please respin?
+
+Thanks!
 
 Gr{oetje,eeting}s,
 
