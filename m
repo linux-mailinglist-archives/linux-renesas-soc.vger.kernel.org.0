@@ -2,36 +2,33 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD5E12DAE2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2019 12:35:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6165B2DAF9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 May 2019 12:43:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725956AbfE2KfZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 May 2019 06:35:25 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:49864 "EHLO
+        id S1726015AbfE2Knb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 May 2019 06:43:31 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:50112 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725874AbfE2KfZ (ORCPT
+        with ESMTP id S1725914AbfE2Knb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 May 2019 06:35:25 -0400
+        Wed, 29 May 2019 06:43:31 -0400
 Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 7883525AEEC;
-        Wed, 29 May 2019 20:35:23 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 7D62D25AEEC;
+        Wed, 29 May 2019 20:43:29 +1000 (AEST)
 Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id 6F5C6940361; Wed, 29 May 2019 12:35:21 +0200 (CEST)
-Date:   Wed, 29 May 2019 12:35:21 +0200
+        id 78F2C940361; Wed, 29 May 2019 12:43:27 +0200 (CEST)
+Date:   Wed, 29 May 2019 12:43:27 +0200
 From:   Simon Horman <horms@verge.net.au>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH] clk: renesas: mstp: Remove error messages on
- out-of-memory conditions
-Message-ID: <20190529103521.owcbusdsl6coq52d@verge.net.au>
-References: <20190527123514.7198-1-geert+renesas@glider.be>
- <20190529102939.ssdpktlqldexwgkv@verge.net.au>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     magnus.damm@gmail.com, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: renesas: Revise usb2_phy nodes and phys
+ properties
+Message-ID: <20190529104326.cpe42awjjdxfl2tj@verge.net.au>
+References: <1558609616-10438-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190529102939.ssdpktlqldexwgkv@verge.net.au>
+In-Reply-To: <1558609616-10438-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 Organisation: Horms Solutions BV
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -39,15 +36,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, May 29, 2019 at 12:29:39PM +0200, Simon Horman wrote:
-> On Mon, May 27, 2019 at 02:35:14PM +0200, Geert Uytterhoeven wrote:
-> > pm_clk_create() and pm_clk_add_clk() can fail only when running out of
-> > memory.  Hence there is no need to print error messages on failure, as
-> > the memory allocation core already takes care of that.
-> > 
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Thu, May 23, 2019 at 08:06:56PM +0900, Yoshihiro Shimoda wrote:
+> Since the commit 233da2c9ec22 ("dt-bindings: phy: rcar-gen3-phy-usb2:
+> Revise #phy-cells property") revised the #phy-cells, this patch follows
+> the updated document for R-Car Gen3 and RZ/A2 SoCs.
 > 
-> Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-On a closer look, I see that pm_clk_add_clk() can return
-errors for other reasons. Can they never occur in this use-case?
+Thanks Shimoda-san,
+
+applied for v5.3.
