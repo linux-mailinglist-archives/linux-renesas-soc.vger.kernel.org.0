@@ -2,67 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 78A272FC8F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2019 15:43:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B91EF2FED7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2019 17:05:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727099AbfE3Nmw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 May 2019 09:42:52 -0400
-Received: from helcar.hmeau.com ([216.24.177.18]:38062 "EHLO deadmen.hmeau.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725913AbfE3Nmw (ORCPT
+        id S1726045AbfE3PF2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 May 2019 11:05:28 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:52746 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725440AbfE3PF2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 May 2019 09:42:52 -0400
-Received: from gondobar.mordor.me.apana.org.au ([192.168.128.4] helo=gondobar)
-        by deadmen.hmeau.com with esmtps (Exim 4.89 #2 (Debian))
-        id 1hWLKM-0005dG-Lx; Thu, 30 May 2019 21:42:42 +0800
-Received: from herbert by gondobar with local (Exim 4.89)
-        (envelope-from <herbert@gondor.apana.org.au>)
-        id 1hWLKI-0003fX-HI; Thu, 30 May 2019 21:42:38 +0800
-Date:   Thu, 30 May 2019 21:42:38 +0800
-From:   Herbert Xu <herbert@gondor.apana.org.au>
-To:     Eric Biggers <ebiggers@kernel.org>
-Cc:     linux-crypto@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH] crypto: jitterentropy - change back to module_init()
-Message-ID: <20190530134238.y6pwi2ybib5vdk4p@gondor.apana.org.au>
-References: <20190521183417.GA121164@gmail.com>
- <20190521184622.37202-1-ebiggers@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190521184622.37202-1-ebiggers@kernel.org>
-User-Agent: NeoMutt/20170113 (1.7.2)
+        Thu, 30 May 2019 11:05:28 -0400
+X-IronPort-AV: E=Sophos;i="5.60,531,1549897200"; 
+   d="scan'208";a="17188366"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 31 May 2019 00:05:26 +0900
+Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id AE6DD4289E1C;
+        Fri, 31 May 2019 00:05:23 +0900 (JST)
+From:   Biju Das <biju.das@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Cc:     Biju Das <biju.das@bp.renesas.com>,
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>, xu_shunji@hoperun.com,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Subject: [PATCH 0/3] Add basic HiHope RZ/G2M board support
+Date:   Thu, 30 May 2019 15:57:43 +0100
+Message-Id: <1559228266-16724-1-git-send-email-biju.das@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, May 21, 2019 at 11:46:22AM -0700, Eric Biggers wrote:
-> From: Eric Biggers <ebiggers@google.com>
-> 
-> "jitterentropy_rng" doesn't have any other implementations, nor is it
-> tested by the crypto self-tests.  So it was unnecessary to change it to
-> subsys_initcall.  Also it depends on the main clocksource being
-> initialized, which may happen after subsys_initcall, causing this error:
-> 
->     jitterentropy: Initialization failed with host not compliant with requirements: 2
-> 
-> Change it back to module_init().
-> 
-> Fixes: c4741b230597 ("crypto: run initcalls for generic implementations earlier")
-> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Signed-off-by: Eric Biggers <ebiggers@google.com>
-> ---
->  crypto/jitterentropy-kcapi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+The HiHope RZ/G2M board from HopeRun consists of main board
+(HopeRun HiHope RZ/G2M main board) and sub board(HopeRun 
+HiHope RZ/G2M sub board). The HiHope RZ/G2M sub board sits
+below the HiHope RZ/G2M main board.
 
-Patch applied.  Thanks.
+This series adds the device trees to describe the HW configuration
+of the HiHope RZ/G2M, with some basic support.
+
+This patch series based on linux-next next-20190528.
+
+Biju Das (3):
+  arm64: dts: renesas: Add HiHope RZ/G2M main board support
+  arm64: dts: renesas: hihope-common: Add pincontrol support to
+    scif2/scif clock
+  arm64: dts: renesas: Add HiHope RZ/G2M sub board support
+
+ arch/arm64/boot/dts/renesas/Makefile               |  2 +
+ arch/arm64/boot/dts/renesas/hihope-common.dtsi     | 53 +++++++++++++++++++++
+ arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi    | 55 ++++++++++++++++++++++
+ .../boot/dts/renesas/r8a774a1-hihope-rzg2m-ex.dts  | 15 ++++++
+ .../boot/dts/renesas/r8a774a1-hihope-rzg2m.dts     | 26 ++++++++++
+ 5 files changed, 151 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/hihope-common.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex.dts
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m.dts
+
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+2.7.4
+
