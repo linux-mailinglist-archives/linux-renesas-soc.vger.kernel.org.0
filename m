@@ -2,165 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ED2172FEDD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 May 2019 17:05:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CFB03093F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 May 2019 09:20:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726885AbfE3PFg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 May 2019 11:05:36 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:11260 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725440AbfE3PFg (ORCPT
+        id S1726330AbfEaHUU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 31 May 2019 03:20:20 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:34733 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725963AbfEaHUU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 May 2019 11:05:36 -0400
-X-IronPort-AV: E=Sophos;i="5.60,531,1549897200"; 
-   d="scan'208";a="17391779"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 31 May 2019 00:05:34 +0900
-Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5DEC54289E1C;
-        Fri, 31 May 2019 00:05:32 +0900 (JST)
-From:   Biju Das <biju.das@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     Biju Das <biju.das@bp.renesas.com>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>, xu_shunji@hoperun.com,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Subject: [PATCH 3/3] arm64: dts: renesas: Add HiHope RZ/G2M sub board support
-Date:   Thu, 30 May 2019 15:57:46 +0100
-Message-Id: <1559228266-16724-4-git-send-email-biju.das@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1559228266-16724-1-git-send-email-biju.das@bp.renesas.com>
-References: <1559228266-16724-1-git-send-email-biju.das@bp.renesas.com>
+        Fri, 31 May 2019 03:20:20 -0400
+Received: by mail-lj1-f196.google.com with SMTP id j24so8607079ljg.1;
+        Fri, 31 May 2019 00:20:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9jXZlTN/tiOKjaoNuJyBeyNNRI0OLDr8cxIPqp/wd1M=;
+        b=beJtUwK/ZHm8UuJ38J1EkXcsUWEi7kpYZMJGVlNyBL131coWkt2I/GYzIf2A7lF824
+         GrVaErsMrtnPdi8lpZ3SuG9Gvm1m80VJxDTpEvf35u8rnLIwAeMn2qke0U3YfY00zhri
+         X6S6vZMbW2vqBWIXbpH5WkABhIC/o8eHOmzXihbw6Cy2Gkzx3iKKP7YIr8WNSAl0nsy8
+         KE1ezB4ySlEg9rc98xsmme+6+1uC1v+VqAKkb+lXV8vUnHedOcMir9V12EzR345wI4O5
+         ZMjVPIVdPKoq8h/PNR552SFu+LvHgFUmWtDdkU8iK7eBP/ti1QcSmjUM7eL/VGgjOosC
+         7zYg==
+X-Gm-Message-State: APjAAAUTQrygpHj8YR5h3ip83gzrj4QPRTZUuM42kp9qC/cFq2LXeAlD
+        bgX9Mheu5il6LGcVJF4KfZ1LWYTy0T3L58/rwuA=
+X-Google-Smtp-Source: APXvYqy6ygRoYPG6/kTbM5lCE2988kpz8i4vpTTTxOR6JEzh3aHGuTB2fum5nUyIcPyyvft3LPymZPtGDa23DZ4NrPg=
+X-Received: by 2002:a2e:249:: with SMTP id 70mr4383095ljc.178.1559287218129;
+ Fri, 31 May 2019 00:20:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <1559211367-25106-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1559211367-25106-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1559211367-25106-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 31 May 2019 09:20:06 +0200
+Message-ID: <CAMuHMdVjOuvUyX3QJP-DOmYt3wzt3NOioDfm_CQhyZvOnGgy6Q@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] pwm: Add power management descriptions
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The HiHope RZ/G2M sub board sits below the HiHope RZ/G2M main board.
-This patch also adds ethernet support along with a dtsi common to
-both HiHope RZ/G2M and RZ/G2N sub boards.
+Hi Shimoda-san,
 
-Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
----
- arch/arm64/boot/dts/renesas/Makefile               |  1 +
- arch/arm64/boot/dts/renesas/hihope-common.dtsi     |  2 +
- arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi    | 55 ++++++++++++++++++++++
- .../boot/dts/renesas/r8a774a1-hihope-rzg2m-ex.dts  | 15 ++++++
- 4 files changed, 73 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
- create mode 100644 arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex.dts
+On Thu, May 30, 2019 at 12:21 PM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> This patch adds power management descriptions that consumers should
+> implement it.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index aa33074..42b74c2 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -1,5 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- dtb-$(CONFIG_ARCH_R8A774A1) += r8a774a1-hihope-rzg2m.dtb
-+dtb-$(CONFIG_ARCH_R8A774A1) += r8a774a1-hihope-rzg2m-ex.dtb
- dtb-$(CONFIG_ARCH_R8A774C0) += r8a774c0-cat874.dtb r8a774c0-ek874.dtb
- dtb-$(CONFIG_ARCH_R8A7795) += r8a7795-salvator-x.dtb r8a7795-h3ulcb.dtb
- dtb-$(CONFIG_ARCH_R8A7795) += r8a7795-h3ulcb-kf.dtb
-diff --git a/arch/arm64/boot/dts/renesas/hihope-common.dtsi b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
-index de206b7..4cc924d 100644
---- a/arch/arm64/boot/dts/renesas/hihope-common.dtsi
-+++ b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
-@@ -5,6 +5,8 @@
-  * Copyright (C) 2019 Renesas Electronics Corp.
-  */
- 
-+#include <dt-bindings/gpio/gpio.h>
-+
- / {
- 	aliases {
- 		serial0 = &scif2;
-diff --git a/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi b/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
-new file mode 100644
-index 0000000..b1e45944
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
-@@ -0,0 +1,55 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Device Tree Source for the RZ/G2[MN] HiHope sub board common parts
-+ *
-+ * Copyright (C) 2019 Renesas Electronics Corp.
-+ */
-+
-+/ {
-+	aliases {
-+		ethernet0 = &avb;
-+	};
-+
-+	chosen {
-+		bootargs = "ignore_loglevel rw root=/dev/nfs ip=on";
-+	};
-+};
-+
-+&avb {
-+	pinctrl-0 = <&avb_pins>;
-+	pinctrl-names = "default";
-+	phy-handle = <&phy0>;
-+	phy-mode = "rgmii-txid";
-+	status = "okay";
-+
-+	phy0: ethernet-phy@0 {
-+		rxc-skew-ps = <1500>;
-+		reg = <0>;
-+		interrupt-parent = <&gpio2>;
-+		interrupts = <11 IRQ_TYPE_LEVEL_LOW>;
-+		reset-gpios = <&gpio2 10 GPIO_ACTIVE_LOW>;
-+	};
-+};
-+
-+&pfc {
-+	pinctrl-0 = <&scif_clk_pins>;
-+	pinctrl-names = "default";
-+
-+	avb_pins: avb {
-+		mux {
-+			groups = "avb_link", "avb_mdio", "avb_mii";
-+			function = "avb";
-+		};
-+
-+		pins_mdio {
-+			groups = "avb_mdio";
-+			drive-strength = <24>;
-+		};
-+
-+		pins_mii_tx {
-+			pins = "PIN_AVB_TX_CTL", "PIN_AVB_TXC", "PIN_AVB_TD0",
-+			       "PIN_AVB_TD1", "PIN_AVB_TD2", "PIN_AVB_TD3";
-+			drive-strength = <12>;
-+		};
-+	};
-+};
-diff --git a/arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex.dts b/arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex.dts
-new file mode 100644
-index 0000000..6e33a3b
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex.dts
-@@ -0,0 +1,15 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Device Tree Source for the HiHope RZ/G2M sub board
-+ *
-+ * Copyright (C) 2019 Renesas Electronics Corp.
-+ */
-+
-+#include "r8a774a1-hihope-rzg2m.dts"
-+#include "hihope-rzg2-ex.dtsi"
-+
-+/ {
-+	model = "HopeRun HiHope RZ/G2M with sub board";
-+	compatible = "hoperun,hihope-rzg2-ex", "hoperun,hihope-rzg2m",
-+		     "renesas,r8a774a1";
-+};
+Thanks for your patch!
+
+> --- a/Documentation/pwm.txt
+> +++ b/Documentation/pwm.txt
+
+> @@ -141,6 +145,9 @@ The implementation of ->get_state() (a method used to retrieve initial PWM
+>  state) is also encouraged for the same reason: letting the PWM user know
+>  about the current PWM state would allow him to avoid glitches.
+>
+> +Drivers should not implement any power management. In other words,
+> +consumers should implement it as described as the "Using PWMs" section.
+
+s/as/in/
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.7.4
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
