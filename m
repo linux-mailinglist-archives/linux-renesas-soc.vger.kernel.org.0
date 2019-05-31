@@ -2,64 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 27A6630BCC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 May 2019 11:40:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AF8030C39
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 May 2019 11:59:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726515AbfEaJkE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 31 May 2019 05:40:04 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:44420 "EHLO
-        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726485AbfEaJkE (ORCPT
+        id S1726403AbfEaJ74 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 31 May 2019 05:59:56 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:26010 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726233AbfEaJ74 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 31 May 2019 05:40:04 -0400
-Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 5A05625AE77;
-        Fri, 31 May 2019 19:40:02 +1000 (AEST)
-Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id 52B429401DB; Fri, 31 May 2019 11:40:00 +0200 (CEST)
-Date:   Fri, 31 May 2019 11:40:00 +0200
-From:   Simon Horman <horms@verge.net.au>
-To:     Oleksandr Tyshchenko <olekstysh@gmail.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        julien.grall@arm.com, magnus.damm@gmail.com, linux@armlinux.org.uk,
-        geert@linux-m68k.org,
-        Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
-Subject: Re: [PATCH V6] ARM: mach-shmobile: Don't init CNTVOFF/counter if
- PSCI is available
-Message-ID: <20190531094000.7l32vuvslsijzgxb@verge.net.au>
-References: <1559145900-5757-1-git-send-email-olekstysh@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1559145900-5757-1-git-send-email-olekstysh@gmail.com>
-Organisation: Horms Solutions BV
-User-Agent: NeoMutt/20170113 (1.7.2)
+        Fri, 31 May 2019 05:59:56 -0400
+X-IronPort-AV: E=Sophos;i="5.60,534,1549897200"; 
+   d="scan'208";a="17275312"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 31 May 2019 18:59:54 +0900
+Received: from localhost.localdomain (unknown [10.166.17.210])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id F39794218D59;
+        Fri, 31 May 2019 18:59:53 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     thierry.reding@gmail.com
+Cc:     linux-pwm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v3 0/4] pwm: add power management on sysfs and switch to SPDX
+Date:   Fri, 31 May 2019 18:54:57 +0900
+Message-Id: <1559296501-30620-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, May 29, 2019 at 07:05:00PM +0300, Oleksandr Tyshchenko wrote:
-> From: Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
-> 
-> If PSCI is available then most likely we are running on PSCI-enabled
-> U-Boot which, we assume, has already taken care of resetting CNTVOFF
-> and updating counter module before switching to non-secure mode
-> and we don't need to.
-> 
-> As the psci_smp_available() helper always returns false if CONFIG_SMP
-> is disabled, it can't be used safely as an indicator of PSCI usage.
-> For that reason, we check for the mandatory PSCI operation to be
-> available.
-> 
-> Please note, an extra check to prevent secure_cntvoff_init() from
-> being called for secondary CPUs in headsmp-apmu.S is not needed,
-> as SMP code for APMU based system is not executed if PSCI is in use.
-> 
-> Signed-off-by: Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>
-> CC: Julien Grall <julien.grall@arm.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+This patch series is affected from the following email:
+https://marc.info/?l=linux-renesas-soc&m=155896668906609&w=2
 
-Thanks Oleksandr,
+- The patch 1 adds descriptions into Documentation/pwm.txt.
+- The patch 2 is not related to the topic though, switches to
+  SPDX identifier of sysfs.c.
+- The patch 3 adds suspend/resume support into sysfs.c.
+- The patch 4 removes suspend/resume support from pwm-rcar.c.
 
-applied for inclusion in v5.3.
+I'll make for other PWM drivers to remove suspend/resume support
+after this patch series is applied.
+
+Changes from v2 [1]:
+ - Fix typo in the patch 1.
+ - Add comments in the patch 3.
+ - Add Reviewed-by Geert-san on the all patches.
+
+Changes from v1 [2]:
+ - Save pwm_state of suspend instead of own bool value on the patch 3.
+ - Separate functions for suspend and resume on the patch 3.
+ - Remove unnecessary condition of child_to_pwm_export() on the patch 3.
+ - Add helper functions for suspend/resume into sysfs.c on the patch 3.
+ - Add comment about the "roll back" on the patch 3.
+
+[1]
+https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=125103
+
+[2]
+https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=124235
+
+
+Yoshihiro Shimoda (4):
+  pwm: Add power management descriptions
+  pwm: sysfs: Switch to SPDX identifier
+  pwm: sysfs: Add suspend/resume support
+  pwm: rcar: Remove suspend/resume support
+
+ Documentation/pwm.txt  |   7 +++
+ drivers/pwm/pwm-rcar.c |  39 -----------------
+ drivers/pwm/sysfs.c    | 113 ++++++++++++++++++++++++++++++++++++++++++++-----
+ 3 files changed, 110 insertions(+), 49 deletions(-)
+
+-- 
+2.7.4
+
