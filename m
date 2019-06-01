@@ -2,173 +2,151 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 80A0D311EA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 31 May 2019 18:04:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E959B31947
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 Jun 2019 05:30:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726666AbfEaQEt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 31 May 2019 12:04:49 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:5602 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726550AbfEaQEs (ORCPT
+        id S1726531AbfFADab (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 31 May 2019 23:30:31 -0400
+Received: from condef-04.nifty.com ([202.248.20.69]:35768 "EHLO
+        condef-04.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726485AbfFADab (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 31 May 2019 12:04:48 -0400
-X-IronPort-AV: E=Sophos;i="5.60,535,1549897200"; 
-   d="scan'208";a="17505292"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 01 Jun 2019 01:04:46 +0900
-Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id E4DB84007F2C;
-        Sat,  1 Jun 2019 01:04:43 +0900 (JST)
-From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-To:     Simon Horman <horms@verge.net.au>,
+        Fri, 31 May 2019 23:30:31 -0400
+Received: from conuserg-12.nifty.com ([10.126.8.75])by condef-04.nifty.com with ESMTP id x513Q8SK004197;
+        Sat, 1 Jun 2019 12:26:08 +0900
+Received: from grover.flets-west.jp (softbank126125154139.bbtec.net [126.125.154.139]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id x513MrHC023003;
+        Sat, 1 Jun 2019 12:22:53 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com x513MrHC023003
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1559359374;
+        bh=r3qAVs3xM8MaSXiqlFioeBt+ecKWRRFeKPnE+XTAM3A=;
+        h=From:To:Cc:Subject:Date:From;
+        b=xw0YwrrAPeAY0OlcTa3SqAJKQnezXQoI2+/7rrH2CfETfalYjs1oPY4aVPA7tr9gd
+         PRENg4z1TGu6XcME/fQNuRRNr/MWUyJDUA9g6NOMDBnSEuZOGzvFEhQ27AUfnIO3sa
+         i1YAFJSzyn2RPF7OIZdKRk5sifWn4Jnc1sOFY9daWmqQyNbN9Bv7WwR1Z0r2TcU1q8
+         wYJjAACezYFAKTQmvSn0Nxg8GYX4RN/YnoLhUfVK+VO0x+7E0OfO0bRe/S3bJLJByI
+         R2uRHaeHgFubi/04LIXnk9kFNomJCl9TkcTXqn7fOzIIxpVKdpGhv5s4zM4BOfsM7g
+         mqkobRgO/jTHA==
+X-Nifty-SrcIP: [126.125.154.139]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-spdx@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        linux-kernel@vger.kernel.org, Kees Cook <keescook@chromium.org>,
+        Joe Perches <joe@perches.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Jaroslav Kysela <perex@perex.cz>, alsa-devel@alsa-project.org,
+        Mark Brown <broonie@kernel.org>, linux-gpio@vger.kernel.org,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-renesas-soc@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-Subject: [PATCH] arm64: dts: renesas: r8a774a1: Add operating points
-Date:   Fri, 31 May 2019 16:58:53 +0100
-Message-Id: <1559318333-27306-1-git-send-email-fabrizio.castro@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Russell King <linux@armlinux.org.uk>,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] treewide: fix typos of SPDX-License-Identifier
+Date:   Sat,  1 Jun 2019 12:22:42 +0900
+Message-Id: <20190601032242.10405-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The RZ/G2M (a.k.a. r8a774a1) comes with two clusters of
-processors, similarly to the r8a7796.
-The first cluster is made of A57s, the second cluster is
-made of A53s.
+Prior to the adoption of SPDX, it was difficult for tools to determine
+the correct license due to incomplete or badly formatted license text.
+The SPDX solves this issue, assuming people can correctly spell
+"SPDX-License-Identifier" although this assumption is broken in some
+places.
 
-The operating points for the cluster with the A57s are:
+Since scripts/spdxcheck.py parses only lines that exactly matches to
+the correct tag, it cannot (should not) detect this kind of error.
 
- Frequency | Voltage
------------|---------
- 500 MHz   | 0.82V
- 1.0 GHz   | 0.82V
- 1.5 GHz   | 0.82V
+If the correct tag is missing, scripts/checkpatch.pl warns like this:
 
-The operating points for the cluster with the A53s are:
+ WARNING: Missing or malformed SPDX-License-Identifier tag in line *
 
- Frequency | Voltage
------------|---------
- 800 MHz   | 0.82V
- 1.0 GHz   | 0.82V
- 1.2 GHz   | 0.82V
+So, people should notice it before the patch submission, but in reality
+broken tags sometimes slip in. The checkpatch warning is not useful for
+checking the committed files globally since large number of files still
+have no SPDX tag.
 
-This patch adds the definitions for the operating points
-to the SoC specific DT.
+Also, I am not sure about the legal effect when the SPDX tag is broken.
 
-Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
+Anyway, these typos are absolutely worth fixing. It is pretty easy to
+find suspicious lines by grep.
+
+  $ git grep --not -e SPDX-License-Identifier --and -e SPDX- -- \
+    :^LICENSES :^scripts/spdxcheck.py :^*/license-rules.rst
+  arch/arm/kernel/bugs.c:// SPDX-Identifier: GPL-2.0
+  drivers/phy/st/phy-stm32-usbphyc.c:// SPDX-Licence-Identifier: GPL-2.0
+  drivers/pinctrl/sh-pfc/pfc-r8a77980.c:// SPDX-Lincense-Identifier: GPL 2.0
+  lib/test_stackinit.c:// SPDX-Licenses: GPLv2
+  sound/soc/codecs/max9759.c:// SPDX-Licence-Identifier: GPL-2.0
+
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
 ---
- arch/arm64/boot/dts/renesas/r8a774a1.dtsi | 48 +++++++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-index c2d99f5..4b1332f 100644
---- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-@@ -56,6 +56,48 @@
- 		clock-frequency = <0>;
- 	};
- 
-+	cluster0_opp: opp_table0 {
-+		compatible = "operating-points-v2";
-+		opp-shared;
-+
-+		opp-500000000 {
-+			opp-hz = /bits/ 64 <500000000>;
-+			opp-microvolt = <820000>;
-+			clock-latency-ns = <300000>;
-+		};
-+		opp-1000000000 {
-+			opp-hz = /bits/ 64 <1000000000>;
-+			opp-microvolt = <820000>;
-+			clock-latency-ns = <300000>;
-+		};
-+		opp-1500000000 {
-+			opp-hz = /bits/ 64 <1500000000>;
-+			opp-microvolt = <820000>;
-+			clock-latency-ns = <300000>;
-+		};
-+	};
-+
-+	cluster1_opp: opp_table1 {
-+		compatible = "operating-points-v2";
-+		opp-shared;
-+
-+		opp-800000000 {
-+			opp-hz = /bits/ 64 <800000000>;
-+			opp-microvolt = <820000>;
-+			clock-latency-ns = <300000>;
-+		};
-+		opp-1000000000 {
-+			opp-hz = /bits/ 64 <1000000000>;
-+			opp-microvolt = <820000>;
-+			clock-latency-ns = <300000>;
-+		};
-+		opp-1200000000 {
-+			opp-hz = /bits/ 64 <1200000000>;
-+			opp-microvolt = <820000>;
-+			clock-latency-ns = <300000>;
-+		};
-+	};
-+
- 	cpus {
- 		#address-cells = <1>;
- 		#size-cells = <0>;
-@@ -68,6 +110,7 @@
- 			next-level-cache = <&L2_CA57>;
- 			enable-method = "psci";
- 			clocks = <&cpg CPG_CORE R8A774A1_CLK_Z>;
-+			operating-points-v2 = <&cluster0_opp>;
- 		};
- 
- 		a57_1: cpu@1 {
-@@ -78,6 +121,7 @@
- 			next-level-cache = <&L2_CA57>;
- 			enable-method = "psci";
- 			clocks = <&cpg CPG_CORE R8A774A1_CLK_Z>;
-+			operating-points-v2 = <&cluster0_opp>;
- 		};
- 
- 		a53_0: cpu@100 {
-@@ -88,6 +132,7 @@
- 			next-level-cache = <&L2_CA53>;
- 			enable-method = "psci";
- 			clocks = <&cpg CPG_CORE R8A774A1_CLK_Z2>;
-+			operating-points-v2 = <&cluster1_opp>;
- 		};
- 
- 		a53_1: cpu@101 {
-@@ -98,6 +143,7 @@
- 			next-level-cache = <&L2_CA53>;
- 			enable-method = "psci";
- 			clocks = <&cpg CPG_CORE R8A774A1_CLK_Z2>;
-+			operating-points-v2 = <&cluster1_opp>;
- 		};
- 
- 		a53_2: cpu@102 {
-@@ -108,6 +154,7 @@
- 			next-level-cache = <&L2_CA53>;
- 			enable-method = "psci";
- 			clocks = <&cpg CPG_CORE R8A774A1_CLK_Z2>;
-+			operating-points-v2 = <&cluster1_opp>;
- 		};
- 
- 		a53_3: cpu@103 {
-@@ -118,6 +165,7 @@
- 			next-level-cache = <&L2_CA53>;
- 			enable-method = "psci";
- 			clocks = <&cpg CPG_CORE R8A774A1_CLK_Z2>;
-+			operating-points-v2 = <&cluster1_opp>;
- 		};
- 
- 		L2_CA57: cache-controller-0 {
+ arch/arm/kernel/bugs.c                | 2 +-
+ drivers/phy/st/phy-stm32-usbphyc.c    | 2 +-
+ drivers/pinctrl/sh-pfc/pfc-r8a77980.c | 2 +-
+ lib/test_stackinit.c                  | 2 +-
+ sound/soc/codecs/max9759.c            | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/arch/arm/kernel/bugs.c b/arch/arm/kernel/bugs.c
+index d41d3598e5e5..14c8dbbb7d2d 100644
+--- a/arch/arm/kernel/bugs.c
++++ b/arch/arm/kernel/bugs.c
+@@ -1,4 +1,4 @@
+-// SPDX-Identifier: GPL-2.0
++// SPDX-License-Identifier: GPL-2.0
+ #include <linux/init.h>
+ #include <asm/bugs.h>
+ #include <asm/proc-fns.h>
+diff --git a/drivers/phy/st/phy-stm32-usbphyc.c b/drivers/phy/st/phy-stm32-usbphyc.c
+index 1255cd1d9a60..56bdea4b0bd9 100644
+--- a/drivers/phy/st/phy-stm32-usbphyc.c
++++ b/drivers/phy/st/phy-stm32-usbphyc.c
+@@ -1,4 +1,4 @@
+-// SPDX-Licence-Identifier: GPL-2.0
++// SPDX-License-Identifier: GPL-2.0
+ /*
+  * STMicroelectronics STM32 USB PHY Controller driver
+  *
+diff --git a/drivers/pinctrl/sh-pfc/pfc-r8a77980.c b/drivers/pinctrl/sh-pfc/pfc-r8a77980.c
+index 473da65890a7..9ed4ead2dafb 100644
+--- a/drivers/pinctrl/sh-pfc/pfc-r8a77980.c
++++ b/drivers/pinctrl/sh-pfc/pfc-r8a77980.c
+@@ -1,4 +1,4 @@
+-// SPDX-Lincense-Identifier: GPL 2.0
++// SPDX-License-Identifier: GPL-2.0
+ /*
+  * R8A77980 processor support - PFC hardware block.
+  *
+diff --git a/lib/test_stackinit.c b/lib/test_stackinit.c
+index 13115b6f2b88..e97dc54b4fdf 100644
+--- a/lib/test_stackinit.c
++++ b/lib/test_stackinit.c
+@@ -1,4 +1,4 @@
+-// SPDX-Licenses: GPLv2
++// SPDX-License-Identifier: GPL-2.0
+ /*
+  * Test cases for compiler-based stack variable zeroing via future
+  * compiler flags or CONFIG_GCC_PLUGIN_STRUCTLEAK*.
+diff --git a/sound/soc/codecs/max9759.c b/sound/soc/codecs/max9759.c
+index ecfb4a80424b..00e9d4fd1651 100644
+--- a/sound/soc/codecs/max9759.c
++++ b/sound/soc/codecs/max9759.c
+@@ -1,4 +1,4 @@
+-// SPDX-Licence-Identifier: GPL-2.0
++// SPDX-License-Identifier: GPL-2.0
+ /*
+  * MAX9759 Amplifier Driver
+  *
 -- 
-2.7.4
+2.17.1
 
