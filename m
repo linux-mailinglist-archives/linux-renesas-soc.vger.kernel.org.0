@@ -2,52 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 296DC32038
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 Jun 2019 19:48:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE5833203A
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  1 Jun 2019 19:49:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726211AbfFARsB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 1 Jun 2019 13:48:01 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:42707 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726143AbfFARsB (ORCPT
+        id S1726246AbfFARtE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 1 Jun 2019 13:49:04 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:44678 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726143AbfFARtE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 1 Jun 2019 13:48:01 -0400
-Received: by mail-lj1-f195.google.com with SMTP id t28so1439353lje.9
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 01 Jun 2019 10:47:59 -0700 (PDT)
+        Sat, 1 Jun 2019 13:49:04 -0400
+Received: by mail-lf1-f66.google.com with SMTP id r15so10440590lfm.11
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 01 Jun 2019 10:49:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=nDFWOamDcwclWQ44b4W8wXrrwx4uqY/RgBjU1iNelu8=;
-        b=ReIJPFAl33oDUp+o8LjcGF+2oUpFciOZZ26gu2yTUCnCDRM6QCWW5WXKnwx01MPzE7
-         b4Y6sXxYUYwY2MZrOoKoKLxzRl9fMloY0B9P/RW04S288V3Jcfk+JxAvH4Uy0UlStfgj
-         ZiZ49jxXdNX9Za4kixvZ8dmGH2sRJ2taxlKOXydasxLlO3tPdK4RQw1UhG3R1UZUKOX+
-         Z9eTLYVKkENQ8GGUNKK147+xlstt3xQmvEQau8IeooieyaKhtSiL9yoUMXXyt+ilpKIX
-         bU19lZelNxeKz+Oo0oGrEWZwl2VGZcJDsaVHJWnbwCZaaGsLPLsWst73Nb1ToWzb2enV
-         9aNQ==
+        bh=Qo0+ueJv/aJTWlBAJydFHhGp+OjN3tsRRuz9/0epPIQ=;
+        b=p7slmxGplfKpVqpg89DZmqNY3zX6aMXgXEo6pld3GgkCVTWHjXat8Tr+EZnVJkmFXz
+         bPgHceCmVhDyK5x4b2UE+eD1/W+0btWiQY27OG9oaq/G8l4z810BzhjOWHGyqfXb893M
+         ARJdFlMGmfx/Br2/XtGGTcgfFL5mQ5WLZOQoJhbKE1dUwbNCP59V9bhuASndyUYnNhwa
+         8eZCBFRZKLbwaaAGjVlo2bxxwSKoF1I0l5QTiMyBvj22JjjK6DYS9VgjnlFDjF9SoE50
+         r3DoXN5xt6scKG6FaHR0mNpgVIxbQMdkaih0jqN6iNgUKtRV1Ws8xgRy+Osjeik4K+vi
+         jkaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=nDFWOamDcwclWQ44b4W8wXrrwx4uqY/RgBjU1iNelu8=;
-        b=Dd93d7c+fJryQumV90MZWohKdK6J72WgCKjkB7no+/h3dvILHzmDzgFtOyEp10xmQG
-         KEOC2pJHsi3wpeMKU9CgyA++cPOi0dVngwqaQdaHl7R3Kt4FHV/pJO9NOUR4K8r2uBkw
-         A25Be0IQNz0e5LC5AoO1grj9KeBTNusn+N5/FJWYbk0GrQsoDQ2gYDT4C7pyH3pX0BLn
-         omncRvaz2dB6H7j9bFYmxNmgj86xqGURlGKWipRLVQfwkv/53hA2mLyHvjegIrqFbUu8
-         ge2YGpjRuxzP1clwBlManiClHMok4MwmiGcWRinUoy74rRU+ABW+CdjeIaEf6+AyDtoC
-         MeBQ==
-X-Gm-Message-State: APjAAAUEHRXfGazNg1MEF3pnTfPB53yF9HoR0mbemQrfsburOiwK+HoC
-        BYWV8tOmbmnLYIQZ09l2Qt0zqDPfzvFdvVh/nbm5SR9Z
-X-Google-Smtp-Source: APXvYqy5OpP0IGZrGerI3GIBoPyhV7Km+3aotWslvdxyxcZf0Rb/AYL1m/dQfTtRm33uDghRZao7uhN5aYvLTK/5l3g=
-X-Received: by 2002:a2e:5bdd:: with SMTP id m90mr310625lje.46.1559411279300;
- Sat, 01 Jun 2019 10:47:59 -0700 (PDT)
+        bh=Qo0+ueJv/aJTWlBAJydFHhGp+OjN3tsRRuz9/0epPIQ=;
+        b=aZ0sEVsQJusy91OCWsSXhz6/C1DnTFGIEZOezxqqNaz6rOPuB/c1bUsy46z+TZtDSy
+         PeaLK0xNcIqGV7nOthJmDx6ITHS/83uvdnLEqj8Wl+Qlq1hch4j0rJOpvaQydVb6m+NO
+         Ro7Oi3zROJreTpqN2CMjpR3/2JIGyLYG3zW6fQ1XNgRuFcYE1iK2mWeyK8hsJpbcbzA2
+         jFCs6E6cLLuKcZXXBGeelhgDUhxDLotNCJIWUBOrXhIZY25PXj1waVbAXrejCcmvKETP
+         96l79V/A+CnrZGPZfBeOZLrakzZGorHQn8iwquF4nuFeVSDnP4Tu/LfQK8XSBjrEL8OQ
+         uOPg==
+X-Gm-Message-State: APjAAAVJ5VrJ0ENxsNBrR0TcSFSBYwpD6MHoyV8jenRlQC8v8gDHGyw+
+        byyqT1F0PcQb0JHclhhDLt6cj3gzGziOM9WLt9lUQA==
+X-Google-Smtp-Source: APXvYqwv0jWGV4BMtWQTcGLMEUlFaSUlJ/eW4uXxjl+y7Xj0xYXGg60k+K2V2O1AZftPbLrmQ9hmGHJI7cqMILC9PpQ=
+X-Received: by 2002:a19:ae09:: with SMTP id f9mr9147805lfc.60.1559411342738;
+ Sat, 01 Jun 2019 10:49:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190527124051.7615-1-geert+renesas@glider.be> <20190527124051.7615-2-geert+renesas@glider.be>
-In-Reply-To: <20190527124051.7615-2-geert+renesas@glider.be>
+References: <20190527124051.7615-1-geert+renesas@glider.be> <20190527124051.7615-3-geert+renesas@glider.be>
+In-Reply-To: <20190527124051.7615-3-geert+renesas@glider.be>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Sat, 1 Jun 2019 19:47:48 +0200
-Message-ID: <CACRpkdbLfKqs-kwS0NZgU2_k6H53u7B5cJ9VSoHvsxLQEtTdbQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] gpio: em: Remove error messages on out-of-memory conditions
+Date:   Sat, 1 Jun 2019 19:48:51 +0200
+Message-ID: <CACRpkdbsfm-CU41Gj1b6-WhZBgkBDjtOUn8=W1YXe5p0EG=RAA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] gpio: em: Return early on error in em_gio_probe()
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
@@ -62,11 +62,12 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 On Mon, May 27, 2019 at 2:40 PM Geert Uytterhoeven
 <geert+renesas@glider.be> wrote:
 
-> There is no need to print error messages when memory allocations or
-> related operations fail, as the core will take care of that.
+> em_gio_probe() uses managed initializations for everything but creating
+> the IRQ domain.  Hence in most failure cases, no cleanup needs to be
+> performed at all.
 >
-> Change the returned error codes to -ENOMEM to match the failure cause
-> while at it.
+> Make this clearer for the casual reviewer by returning early, instead of
+> jumping to an out-of-sight label.
 >
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
