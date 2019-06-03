@@ -2,107 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D5CD32D47
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jun 2019 11:59:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E76E32D49
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jun 2019 11:59:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726822AbfFCJ64 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Jun 2019 05:58:56 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:43272 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726708AbfFCJ6x (ORCPT
+        id S1727493AbfFCJ66 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Jun 2019 05:58:58 -0400
+Received: from mail-eopbgr1410101.outbound.protection.outlook.com ([40.107.141.101]:47712
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726840AbfFCJ6w (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Jun 2019 05:58:53 -0400
-Received: by mail-lj1-f193.google.com with SMTP id 16so1973310ljv.10;
-        Mon, 03 Jun 2019 02:58:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=A+8iFUYMRf82laSy70rtphYPR3+h4zBYoCxM1Yh2xGE=;
-        b=DoblRd0L1mqL9KLbMvJb/odd/5JPt807iCzVTpvrR9GsvodURD9Vl9eNOEpz6TELH/
-         iSn12MI9X+X7t9e+EUr3DbpXSzsxR5IeEYYwYO/lYab3E/zvz8OR6foildw/iWKUWDDG
-         9LE9M/M7QZKp0+/hAUlCkH6VU8JuYJYgNd0DcqMnCMb936ZRbuBlfooP/VIbDqceWmMm
-         w9DXFQLckkUNoIZnia6N6lg87S0bedNAthtH3m0RTbaKCf6e1ur8iRplEn30kDDVdD1v
-         KYtJYowXvLEEhs9Xc93a4TWeGuUuw736y4a5dfzBfAs7w/d0slDMGYXaFObEQ3K257RX
-         Vl6g==
-X-Gm-Message-State: APjAAAVPd0hk9n9qh1R0S6k3LS/UUdpcSqCXz25ztjo2J075MfnvvAeE
-        GP5gvB3Vnqfk0dytx1xh03mOZwGvgpl6pIo5fiw=
-X-Google-Smtp-Source: APXvYqyhGZgt4CxDyLu0p2YMv/9RZPaRVwZQgWnDFl64lEC2bKLoljxhY3ZyTl60SE+L7JLJlSpceEFAAsMGOTkxaac=
-X-Received: by 2002:a2e:960e:: with SMTP id v14mr13394862ljh.31.1559555931071;
- Mon, 03 Jun 2019 02:58:51 -0700 (PDT)
+        Mon, 3 Jun 2019 05:58:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ob+WLqKgX/2PZkVEICjV3gZpoh6yN5vnFUHSClKWNzc=;
+ b=ESfENHqFGO0oLxegs2ZOGlTCOh1neWpVRob62g2unrpHmH+/yBVoJAOYH85oahYP1uwjV+PLCrU/3Qfg8DDpiYfBYUkJnO2izBL7Q/NqMB73uL8px3u0pZb+8X1nCGLXkKRvhrV29wsLVnkn+D9yM4qVmARPy8aqZDjJF25Bvp0=
+Received: from OSAPR01MB3089.jpnprd01.prod.outlook.com (52.134.247.150) by
+ OSAPR01MB1748.jpnprd01.prod.outlook.com (52.134.229.19) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1943.22; Mon, 3 Jun 2019 09:58:47 +0000
+Received: from OSAPR01MB3089.jpnprd01.prod.outlook.com
+ ([fe80::19ad:b6ce:a287:dc85]) by OSAPR01MB3089.jpnprd01.prod.outlook.com
+ ([fe80::19ad:b6ce:a287:dc85%7]) with mapi id 15.20.1943.018; Mon, 3 Jun 2019
+ 09:58:47 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Biju Das <biju.das@bp.renesas.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>
+CC:     Biju Das <biju.das@bp.renesas.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Kees Cook <keescook@chromium.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v7 4/7] usb: gadget: udc: renesas_usb3: Enhance role
+ switch support
+Thread-Topic: [PATCH v7 4/7] usb: gadget: udc: renesas_usb3: Enhance role
+ switch support
+Thread-Index: AQHVF5i57Zv2hIpNeUePiIjjDcVGPqaJtgOg
+Date:   Mon, 3 Jun 2019 09:58:47 +0000
+Message-ID: <OSAPR01MB3089D7928E6B857B382C1DBDD8140@OSAPR01MB3089.jpnprd01.prod.outlook.com>
+References: <1559296800-5610-1-git-send-email-biju.das@bp.renesas.com>
+ <1559296800-5610-5-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1559296800-5610-5-git-send-email-biju.das@bp.renesas.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [118.238.235.108]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c2896dac-fef2-4634-48fe-08d6e80a128d
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:OSAPR01MB1748;
+x-ms-traffictypediagnostic: OSAPR01MB1748:
+x-microsoft-antispam-prvs: <OSAPR01MB1748704EBF2EF681EED52177D8140@OSAPR01MB1748.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-forefront-prvs: 0057EE387C
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(376002)(136003)(366004)(396003)(346002)(189003)(199004)(5660300002)(4744005)(71190400001)(2906002)(3846002)(6116002)(71200400001)(6246003)(81156014)(8676002)(11346002)(486006)(7416002)(316002)(81166006)(4326008)(25786009)(476003)(53936002)(8936002)(446003)(186003)(52536014)(33656002)(256004)(7696005)(54906003)(64756008)(99286004)(66446008)(66556008)(66476007)(68736007)(6506007)(74316002)(66066001)(102836004)(55016002)(9686003)(7736002)(76176011)(229853002)(14454004)(478600001)(26005)(73956011)(66946007)(110136005)(76116006)(86362001)(6436002)(305945005);DIR:OUT;SFP:1102;SCL:1;SRVR:OSAPR01MB1748;H:OSAPR01MB3089.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: F/7WBLXTu03lr9IABbJD6aD2lixqbQMzT0WgRVWAYi8+QwGsILBQUn9e6DkF8D7x+mLRzF45MwBtNa9B2QqC7I/lbXnPeb6D6EouJsl/OWbo5ZjwLQnQwAPooSPcVJsA9qdhJaQiBG1EvBQeROTVJGD3gkfWy/oXo5/QNy58KhFfJTHmdW2CR5h7Vtf8092gF4B9+ZCgqgfbaQL0kvA/NkiXKcMS0iboSCd/aVy54Ur8EITvlp5LDZHhcvYNZIHbqSo3Z70jemy5DBdzu3fKOxOX3IZKxdzFV6m9jI78tQL/tcsdoLxob0Q0fJWuw/KpIhwgdSuPFxsi5mdVlT8ZnNU0KYCJQVmlIm18hC/UD7z5cFBX1aF9vz8WTWET7aJHXxhJFh3nPkX8xu/KRULuhS0CmuoSbjACYlhivKm1wYY=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <1559553957-5764-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1559553957-5764-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 3 Jun 2019 11:58:38 +0200
-Message-ID: <CAMuHMdWGBr+kwY18o657J_SCTONSJLZMUs2qMBvBU84p-UNfYA@mail.gmail.com>
-Subject: Re: [PATCH] watchdog: renesas_wdt: Add a few cycles delay
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c2896dac-fef2-4634-48fe-08d6e80a128d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Jun 2019 09:58:47.6131
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yoshihiro.shimoda.uh@renesas.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB1748
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+Hi Biju-san,
 
-On Mon, Jun 3, 2019 at 11:31 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> According to the hardware manual of R-Car Gen2 and Gen3,
-> software should wait a few RLCK cycles as following:
->  - Delay 2 cycles before setting watchdog counter.
->  - Delay 3 cycles before disabling module clock.
->
-> So, this patch adds such delays.
->
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> From: Biju Das, Sent: Friday, May 31, 2019 7:00 PM
+>=20
+> The RZ/G2E cat874 board has a type-c connector connected to hd3ss3220 usb
+> type-c drp port controller. Enhance role switch support to assign the rol=
+e
+> requested by connector device using the usb role switch class framework.
+>=20
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
-Thanks for your patch!
+Thank you for the patch! I tested this patch on R-Car H3 Salvator-X and
+it seems no regressions. So,
 
-> --- a/drivers/watchdog/renesas_wdt.c
-> +++ b/drivers/watchdog/renesas_wdt.c
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-> @@ -70,6 +71,16 @@ static int rwdt_init_timeout(struct watchdog_device *wdev)
->         return 0;
->  }
->
-> +static void rwdt_wait(struct rwdt_priv *priv, unsigned long cycles)
+Best regards,
+Yoshihiro Shimoda
 
-"unsigned int" should be sufficiently large.
-
-> +{
-> +       unsigned long periods, delays;
-> +
-> +       periods = DIV_ROUND_UP(priv->clk_rate, cycles);
-
-Shouldn't the above be a division with rounding down (i.e. a plain C
-division), instead of a division with rounding up?
-
-> +       delays = DIV_ROUND_UP(1000000UL, periods);
-
-Given cycles is always a small number, accuracy can be improved, and one
-division can be avoided, by calculation this as:
-
-    delays = DIV_ROUND_UP(cycles * 1000000 /  priv->clk_rate);
-
-> +
-> +       usleep_range(delays, 2 * delays);
-> +}
-
-The rest looks good to me, so
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
