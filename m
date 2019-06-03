@@ -2,124 +2,51 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 054A632E29
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jun 2019 13:05:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 710F632ED5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jun 2019 13:40:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727756AbfFCLFB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Jun 2019 07:05:01 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:35059 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727589AbfFCLFA (ORCPT
+        id S1726798AbfFCLkw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Jun 2019 07:40:52 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:56012 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728476AbfFCLkt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Jun 2019 07:05:00 -0400
-Received: by mail-lj1-f195.google.com with SMTP id h11so15783186ljb.2;
-        Mon, 03 Jun 2019 04:04:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XY6x7wElLRELybiA3dUH5o7XF7+hg1cYM1kQQXOPTY4=;
-        b=COqUzarSEq1RhN9seOB3dX/9L0ztEBKVhJvu2+7yffuKbMtrZBYVt1j+oHwOs+YyNW
-         3CAyQQb1/1MswAgx1UqTXtTZ/sUaWZvjm/jaf7qcobtSfGaSgBaTctUg2T4qNIsZZWxu
-         b41erdyZQbNf2nU6hEpmvF4clX3D5C33lYf9LeOWV0MidFp+rLp6gvdJaxjqmCEGfxTe
-         GoofNlBEqzY2ZFWq7X1i5j5Ap2rR3eczGt8j23ZMNvwvc2OSWTAQbkoUyS5XORi4AtHr
-         17qcX2skIiYqtcF9T8ptaFJlxkiLisFvAor0QG1hHkVT0hoh1lt3hOgWN2DUmwe3pkFM
-         CKdg==
-X-Gm-Message-State: APjAAAWk9YvLsaajENWuXL5kWFA5+GesyJQ9AVr7g84xNKdWWZfZfgqt
-        CIVFqPEvTaYZ+8KtQ5utAXWttmKyx+JkT8ubyS0=
-X-Google-Smtp-Source: APXvYqyzlbaH1PKUCSmcRzjG8rU1vnEs776p+VDoY6vOfBv/IKZXqSMgp/aOJjqZWZ/9rcY84ieuvr0s0k1IPeL7qOU=
-X-Received: by 2002:a2e:6e01:: with SMTP id j1mr13207945ljc.135.1559559898548;
- Mon, 03 Jun 2019 04:04:58 -0700 (PDT)
+        Mon, 3 Jun 2019 07:40:49 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id DE69C25AECE;
+        Mon,  3 Jun 2019 21:40:47 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id DD4C19403CA; Mon,  3 Jun 2019 13:40:45 +0200 (CEST)
+Date:   Mon, 3 Jun 2019 13:40:45 +0200
+From:   Simon Horman <horms@verge.net.au>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Subject: Re: [PATCH v3 08/10] arm64: dts: renesas: r8a7799[05]: Point LVDS0
+ to its companion LVDS1
+Message-ID: <20190603114045.jusjfo3tswro4xbm@verge.net.au>
+References: <20190528141234.15425-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20190528141234.15425-9-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
-References: <1559553957-5764-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <CAMuHMdWGBr+kwY18o657J_SCTONSJLZMUs2qMBvBU84p-UNfYA@mail.gmail.com> <OSAPR01MB3089AE3893A8DA4D77F34413D8140@OSAPR01MB3089.jpnprd01.prod.outlook.com>
-In-Reply-To: <OSAPR01MB3089AE3893A8DA4D77F34413D8140@OSAPR01MB3089.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 3 Jun 2019 13:04:46 +0200
-Message-ID: <CAMuHMdUKugUiqAi=o14BTG5Tihq_H04DOs0ixkGEHxc7vo9uCQ@mail.gmail.com>
-Subject: Re: [PATCH] watchdog: renesas_wdt: Add a few cycles delay
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190528141234.15425-9-laurent.pinchart+renesas@ideasonboard.com>
+Organisation: Horms Solutions BV
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+On Tue, May 28, 2019 at 05:12:32PM +0300, Laurent Pinchart wrote:
+> Add the new renesas,companion property to the LVDS0 node to point to the
+> companion LVDS encoder LVDS1.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Tested-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-On Mon, Jun 3, 2019 at 12:28 PM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> > From: Geert Uytterhoeven, Sent: Monday, June 3, 2019 6:59 PM
-> > On Mon, Jun 3, 2019 at 11:31 AM Yoshihiro Shimoda
-> > <yoshihiro.shimoda.uh@renesas.com> wrote:
-> > > According to the hardware manual of R-Car Gen2 and Gen3,
-> > > software should wait a few RLCK cycles as following:
-> > >  - Delay 2 cycles before setting watchdog counter.
-> > >  - Delay 3 cycles before disabling module clock.
-> > >
-> > > So, this patch adds such delays.
-> > >
-> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> >
-> > Thanks for your patch!
->
-> Thank you for your review!
->
-> > > --- a/drivers/watchdog/renesas_wdt.c
-> > > +++ b/drivers/watchdog/renesas_wdt.c
-> >
-> > > @@ -70,6 +71,16 @@ static int rwdt_init_timeout(struct watchdog_device *wdev)
-> > >         return 0;
-> > >  }
-> > >
-> > > +static void rwdt_wait(struct rwdt_priv *priv, unsigned long cycles)
-> >
-> > "unsigned int" should be sufficiently large.
->
-> I got it.
->
-> > > +{
-> > > +       unsigned long periods, delays;
-> > > +
-> > > +       periods = DIV_ROUND_UP(priv->clk_rate, cycles);
-> >
-> > Shouldn't the above be a division with rounding down (i.e. a plain C
-> > division), instead of a division with rounding up?
->
-> I have no idea which is the correct way (rounding down vs rounding up here).
-> At least, I tried to use rounding down before submitting patch and then
-> the result seemed the same. So, I submitted this patch with rounding up
-> (because the next step also used rounding up...).
+Hi Laurent,
 
-If you round up periods, it will decrease the delay, which may become
-too small.
-If you round up delays, it will increase the delay, which doesn't hurt.
-
-> > > +       delays = DIV_ROUND_UP(1000000UL, periods);
-> >
-> > Given cycles is always a small number, accuracy can be improved, and one
-> > division can be avoided, by calculation this as:
-> >
-> >     delays = DIV_ROUND_UP(cycles * 1000000 /  priv->clk_rate);
->
-> Thank you for your suggest! I think so.
-> It should be "s/ \//,/" like below though :)
-
->         delays = DIV_ROUND_UP(cycles * 1000000, priv->clk_rate);
-
-Oops, indeed. Sorry for that silly mistake.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+is this patch ready to be merged?
