@@ -2,139 +2,152 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 648B9332C8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jun 2019 16:55:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5FD7334D8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Jun 2019 18:23:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729038AbfFCOza (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Jun 2019 10:55:30 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:36267 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729124AbfFCOza (ORCPT
+        id S1728311AbfFCQXa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Jun 2019 12:23:30 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:34122 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727611AbfFCQXa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Jun 2019 10:55:30 -0400
-Received: by mail-lf1-f65.google.com with SMTP id q26so13855739lfc.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 03 Jun 2019 07:55:28 -0700 (PDT)
+        Mon, 3 Jun 2019 12:23:30 -0400
+Received: by mail-lj1-f194.google.com with SMTP id j24so16846835ljg.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 03 Jun 2019 09:23:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=AiUmShF1TFYfEnrTnq8ylFOCc8dwqFIR5n8ciUX6ZDc=;
-        b=FWlAv2oqofC0HveTPQj6pgKA0ODgfWTyOkHD73zXbNOpwew2u01CEccwDMbg8xOfwj
-         qoIf5IZsX45ZIQ/SN/YWv9kUfblvIEwAA15+glum6UxU9WxNEU4kb+v+JMgJxzrqiaXm
-         SN/rdCeNy33F72WpsBA28F8AYn6jlw3xqZukqbu/oux1AHxZnE2bomRGvr+4kg8386L8
-         c/YC4bQe7OLMB98aaLZajOxXPr76r+KBBZvOr0hb8lYhyqkxpKIG9hIuznFqisty+Kgb
-         k1hMNVn9joBhJO8bAyUvLYy54VCo9t3JvufuY7tH1oPLAcY+46wX72sc6LsqdEtepfvW
-         COoQ==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=n/cV/sVRlbUOo7FHenLjAJ9QBv6k5clmgCApf8xm7Pk=;
+        b=TYUrm50t4FfyqocOab488anoZ/p22Pq8r1lSVO3LkeQCxVoymxN/DHITnK01ydQLPK
+         UM4MpxiyIsKv6UplPMaBe8+BfY8U7oeptIzVOPt3hBAam1zfnXIKXbvcV/Sx7UtAgEbZ
+         PMFJm+YLyRJ1tpaCEEmD/3/8vTzOL6K8O4Ceji5wzctve+670ra0dPBzL+kp2+QTllsy
+         oEUAlgOBvkDFfAlXwcVnJaJJwt9BKL6hGBCgTbtkZSp+gxiOywtMxytMG1YjyL+94+Tg
+         WAu/1/Sgxi7PwV1I1ZSUk/wSY8SQx+e8B01n1DoFdW8kCIDEud/M+wOJ5zEcZq0ZFHzA
+         /OIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=AiUmShF1TFYfEnrTnq8ylFOCc8dwqFIR5n8ciUX6ZDc=;
-        b=pF7XnRI8XLSeV0BzQgf8uNWGjFAvDJ5MbDdHhl3JvAG8+LjMSGWaC45G9zZXQPg6uS
-         SrOTq/uukVZInhm93au2HDrstJ92oskx4XQkidInTxb/GFlB/YVU60Ux1sVpU1PnlRXo
-         //nUTLykV6H/UrcRZyVwEtivqaFMfmOf0SHxh4hbn/+sunzHH/lCAPcQRXd4LT2ZwM3M
-         EhtkO3KR5bgIzoqUCORG8MX9HmNMo0XnbkISzr20WodEoD4C24Ng4XhISjR1glW32zHt
-         mWzyd6gp4YDqGM6QmsGpKQgrk9hGF3QYSrktN1z+DIdv3EAHnSLw6BtGyY79nLIYhJOB
-         rNxg==
-X-Gm-Message-State: APjAAAXJWvmXphjtoCyQP06ZQfZBZCr6RRir87MLGzO9ghv9bvWbQxOj
-        Slh/FQL4eZB2a/4oRU59OcAhgg==
-X-Google-Smtp-Source: APXvYqw9F4Sn8LW63elkx8IeVf8s9Dj+/X4dQVCrdVlmRuu3411BzVexm1RAj/M0H+0Tv+juZWmcXQ==
-X-Received: by 2002:ac2:424b:: with SMTP id m11mr13396166lfl.163.1559573728137;
-        Mon, 03 Jun 2019 07:55:28 -0700 (PDT)
-Received: from wasted.cogentembedded.com ([31.173.87.227])
-        by smtp.gmail.com with ESMTPSA id q22sm1236395lje.75.2019.06.03.07.55.26
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 03 Jun 2019 07:55:27 -0700 (PDT)
-Subject: Re: [PATCH v13 3/3] dt-bindings: mfd: Document Renesas R-Car Gen3
- RPC-IF controller bindings
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     Mason Yang <masonccyang@mxic.com.tw>, broonie@kernel.org,
-        marek.vasut@gmail.com, linux-kernel@vger.kernel.org,
-        linux-spi@vger.kernel.org, bbrezillon@kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        robh+dt@kernel.org, mark.rutland@arm.com,
-        devicetree@vger.kernel.org, juliensu@mxic.com.tw,
-        Simon Horman <horms@verge.net.au>, miquel.raynal@bootlin.com
-References: <1558423174-10748-1-git-send-email-masonccyang@mxic.com.tw>
- <1558423174-10748-4-git-send-email-masonccyang@mxic.com.tw>
- <0e2994d6-6efc-9f36-f681-609199f20b9f@cogentembedded.com>
- <20190603130428.GX4797@dell>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Organization: Cogent Embedded
-Message-ID: <02addf64-9f6e-ccc1-2f94-8983456e3ebc@cogentembedded.com>
-Date:   Mon, 3 Jun 2019 17:55:25 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=n/cV/sVRlbUOo7FHenLjAJ9QBv6k5clmgCApf8xm7Pk=;
+        b=b2WUfzsijk2Usc3ADkmB8wApUvJqPPKpBW/Y2lcEq873IfTyhzad7axthSRJ+QD1ro
+         OmiSFDfHkfEdXS5W7dHZWnCDDUC+5LEp9cXu1E4bPudQykZCUFT4iO1n3FL/LHcC110U
+         3BaE/HPzW2RaVGbr3CTVczz1oxEb8RR1V3jHuyfmZevye4IZz2xGJhwqLDziVxNp4fzu
+         znrZsdWpfpmGlUpT/gMZyQWdh51RedQhXZTZ3I+kVian5xEOJp7aFb7yaE2HCV/kHVmR
+         UpRdGnbh2ezPTxcmP4w58gj49tya8dWCs2qTubpnxbbVJbQhm7V6LKM9gzjKuLCInrqi
+         SW4A==
+X-Gm-Message-State: APjAAAWH9UgNe/6G5yeQNJrHpxTbPP6hqNImX8aePYZ1Yq+ayNp5LS7z
+        RjPop7dw76bLBkoemXPrmW/EsVEMsts=
+X-Google-Smtp-Source: APXvYqzJShOEiF2qfsDNhzKzUYClff2WG6xsLkpEzyCIUZzc89YV5zSludYA++2vD+Pw2E55IB8v1w==
+X-Received: by 2002:a2e:8954:: with SMTP id b20mr14492777ljk.10.1559579008755;
+        Mon, 03 Jun 2019 09:23:28 -0700 (PDT)
+Received: from localhost (89-233-230-99.cust.bredband2.com. [89.233.230.99])
+        by smtp.gmail.com with ESMTPSA id d2sm3183876ljc.84.2019.06.03.09.23.27
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 03 Jun 2019 09:23:27 -0700 (PDT)
+Date:   Mon, 3 Jun 2019 18:23:26 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     wim@linux-watchdog.org, linux@roeck-us.net,
+        linux-watchdog@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2] watchdog: renesas_wdt: Add a few cycles delay
+Message-ID: <20190603162326.GB2960@bigcity.dyn.berto.se>
+References: <1559558161-31244-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-In-Reply-To: <20190603130428.GX4797@dell>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1559558161-31244-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hi Shimoda-san,
 
-On 06/03/2019 04:04 PM, Lee Jones wrote:
+Thanks for your work.
 
->>> Document the bindings used by the Renesas R-Car Gen3 RPC-IF controller.
->>>
->>> Signed-off-by: Mason Yang <masonccyang@mxic.com.tw>
->>> ---
->>>  .../devicetree/bindings/mfd/renesas-rpc-if.txt     | 65 ++++++++++++++++++++++
->>>  1 file changed, 65 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/mfd/renesas-rpc-if.txt
->>>
->>> diff --git a/Documentation/devicetree/bindings/mfd/renesas-rpc-if.txt b/Documentation/devicetree/bindings/mfd/renesas-rpc-if.txt
->>> new file mode 100644
->>> index 0000000..20ec85b
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/mfd/renesas-rpc-if.txt
->>> @@ -0,0 +1,65 @@
->>> +Renesas R-Car Gen3 RPC-IF controller Device Tree Bindings
->>> +---------------------------------------------------------
->>> +
->>> +RPC-IF supports both SPI NOR and HyperFlash (CFI-compliant flash)
->>> +
->>> +Required properties:
->>> +- compatible: should be an SoC-specific compatible value, followed by
->>> +		"renesas,rcar-gen3-rpc" as a fallback.
->>> +		supported SoC-specific values are:
->>> +		"renesas,r8a77995-rpc"	(R-Car D3)
->>> +- reg: should contain three register areas:
->>> +	first for RPC-IF registers,
->>> +	second for the direct mapping read mode and
->>> +	third for the write buffer area.
->>> +- reg-names: should contain "regs", "dirmap" and "wbuf"
->>> +- clocks: should contain 1 entries for the module's clock
->>> +- clock-names: should contain "rpc"
->>> +- power-domains: should contain system-controller(sysc) for power-domain-cell
->>> +- resets: should contain clock pulse generator(cpg) for reset-cell,
->>> +	  power-domain-cell and clock-cell
->>
->>    That's just some nonsense, sorry...
->>    I suggest that you stop reposting your patches as I'm going to post
->> my version of this patchset RSN (based on your patches, of course) and I'm
->> going to take care of fixing this file as well.
+On 2019-06-03 19:36:01 +0900, Yoshihiro Shimoda wrote:
+> According to the hardware manual of R-Car Gen2 and Gen3,
+> software should wait a few RLCK cycles as following:
+>  - Delay 2 cycles before setting watchdog counter.
+>  - Delay 3 cycles before disabling module clock.
 > 
-> Why is this necessary?
+> So, this patch adds such delays.
+> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-   Because Mason doesn't want to develop the HyperFlash driver (or even move his code
-in preparation to this driver being developed). I must develop this driver, and I'd
-like to avoid the extra churn of mving the code between the MFD and SPI drivers.
+Small nit bellow, with or without that addressed.
 
-> Why not just provide some constructive feedback instead?
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-   I was providing the feedback during these 13 revisions... unfortunately, it wasn't
-fully considered.
+> ---
+>  Changes from v1 (https://patchwork.kernel.org/patch/10972641/):
+>  - Change formula to improve accuracy.
+>  - Add Geert-san's Reviewed-by.
+> 
+>  drivers/watchdog/renesas_wdt.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/drivers/watchdog/renesas_wdt.c b/drivers/watchdog/renesas_wdt.c
+> index 565dbc1..525a1fe 100644
+> --- a/drivers/watchdog/renesas_wdt.c
+> +++ b/drivers/watchdog/renesas_wdt.c
+> @@ -7,6 +7,7 @@
+>   */
+>  #include <linux/bitops.h>
+>  #include <linux/clk.h>
+> +#include <linux/delay.h>
+>  #include <linux/io.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+> @@ -70,6 +71,15 @@ static int rwdt_init_timeout(struct watchdog_device *wdev)
+>  	return 0;
+>  }
+>  
+> +static void rwdt_wait(struct rwdt_priv *priv, unsigned int cycles)
+> +{
+> +	unsigned long delays;
 
->>> +- #address-cells: should be 1
->>> +- #size-cells: should be 0
->> [...]
+Could this be unsigned int? It would still fit for a cycles number 
+around 2000 and this change use 2 and 3 cycles.
 
-MBR, Sergei
+> +
+> +	delays = DIV_ROUND_UP(cycles * 1000000, priv->clk_rate);
+> +
+> +	usleep_range(delays, 2 * delays);
+> +}
+> +
+>  static int rwdt_start(struct watchdog_device *wdev)
+>  {
+>  	struct rwdt_priv *priv = watchdog_get_drvdata(wdev);
+> @@ -80,6 +90,8 @@ static int rwdt_start(struct watchdog_device *wdev)
+>  	/* Stop the timer before we modify any register */
+>  	val = readb_relaxed(priv->base + RWTCSRA) & ~RWTCSRA_TME;
+>  	rwdt_write(priv, val, RWTCSRA);
+> +	/* Delay 2 cycles before setting watchdog counter */
+> +	rwdt_wait(priv, 2);
+>  
+>  	rwdt_init_timeout(wdev);
+>  	rwdt_write(priv, priv->cks, RWTCSRA);
+> @@ -98,6 +110,8 @@ static int rwdt_stop(struct watchdog_device *wdev)
+>  	struct rwdt_priv *priv = watchdog_get_drvdata(wdev);
+>  
+>  	rwdt_write(priv, priv->cks, RWTCSRA);
+> +	/* Delay 3 cycles before disabling module clock */
+> +	rwdt_wait(priv, 3);
+>  	pm_runtime_put(wdev->parent);
+>  
+>  	return 0;
+> -- 
+> 2.7.4
+> 
+
+-- 
+Regards,
+Niklas Söderlund
