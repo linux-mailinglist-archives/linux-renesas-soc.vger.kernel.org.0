@@ -2,82 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E7D7F34120
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2019 10:06:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE471342E4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Jun 2019 11:14:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726828AbfFDIGb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 4 Jun 2019 04:06:31 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:43703 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726873AbfFDIGa (ORCPT
+        id S1726992AbfFDJOG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 4 Jun 2019 05:14:06 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:35607 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726965AbfFDJOF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 4 Jun 2019 04:06:30 -0400
-Received: by mail-lf1-f67.google.com with SMTP id j29so1797536lfk.10
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 04 Jun 2019 01:06:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=diUImPVKSDroDl/EYnZb2TDAFgd3lKZwBg50Nf+cDD0=;
-        b=TyoZd3k8g6vTsWe11bh+pcJ1AzA4iBJM2T6GclYLbrxU1n8Zfc15vyCwNAJ2avbN8Y
-         pEOoMvkG55fr6ByU64QaW4NwvESf4joiL6m0sblXTilXuOjGb7YSmAZYn7YZJ7X2nB3W
-         h+sNhhBLTCyzC6M1869UF7/XnJhlS7e2CMk+bG1BceNF3OBPyt3jdjsQeRDaN7X/38if
-         6m4f0WvQ0bRHeC4dP3EZbkSrVfjuzHvalVjJlxHeFDaKPtnuh0u5o+woAKzKw5bQ4OTV
-         DYwI10/00zSGYKm9mrCU+syv6aqSnM+o1Y6phV+lM0vL59MpbM8b0KCAfVnwC8y/uQoa
-         gjtw==
+        Tue, 4 Jun 2019 05:14:05 -0400
+Received: by mail-lj1-f194.google.com with SMTP id h11so18975165ljb.2;
+        Tue, 04 Jun 2019 02:14:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=diUImPVKSDroDl/EYnZb2TDAFgd3lKZwBg50Nf+cDD0=;
-        b=GXQs25j+7GusiJ9iXmOmYQlQ54Z3wryVzrebllqHnzP7/Bq6b4Rlo66I08PR3orrqs
-         bv2esieiuHZsVMwEKN7wVQogKGfpM0vEsRcPXNBkU3B9uS4VL308sUw4F3Z/NF2SaBCs
-         8Tqf7dRF0RqesvybKJfTnH3VhHgEkSO+IQ5NU0KDVGpT8D6Ip2vkz0ktY3HBpz1dZQkK
-         Zm5KZR3h7DMvD1vj4T00Ir4MZYHmqGwsInGtiQkj36elvfEmTlXFu2CXvz9NQBS0vNUV
-         9Ve5gMDjrp/V3uS7SR2vqEHtH/BzdhND5EnW3r6J+8WgqryCCcMG0/TMmnNfOlMkl2Wt
-         S7YA==
-X-Gm-Message-State: APjAAAW82JJ4h+7x6IqZN4Asitbgnwxr4t7CUnCuCoR/TcstL5pyvH1R
-        d/xUHiOXNTEyES7JZeRxaMc6qEK5Qs/VMw==
-X-Google-Smtp-Source: APXvYqxYwUl6s/NaY9LzVTMxo/TgqrmzbRR1nMiVp8zBdpHlDptDLmDc610fsCwP6MLHTkFK6gUH0w==
-X-Received: by 2002:a19:4a49:: with SMTP id x70mr3469049lfa.151.1559635588630;
-        Tue, 04 Jun 2019 01:06:28 -0700 (PDT)
-Received: from [192.168.0.199] ([31.173.84.112])
-        by smtp.gmail.com with ESMTPSA id 25sm2265611ljg.69.2019.06.04.01.06.27
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 04 Jun 2019 01:06:27 -0700 (PDT)
-Subject: Re: [PATCH 1/2] usb: renesas_usbhs: remove sudmac support
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <1559621375-5436-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1559621375-5436-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <c5ef1e44-10a9-a736-8578-05f45f34a598@cogentembedded.com>
-Date:   Tue, 4 Jun 2019 11:06:22 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=c6YWx7c2KFkFnqdn20PxgRAA7aQNfcdM/X+FMuxKK/o=;
+        b=hGUhr8rqRJVjO5t1cZcwTFQNbIxnpLwstRvr3wcXJXrf0QiM/Fom2u/dRgu2JUy+PV
+         SnPWSKeg1PZzxa6kmBg8q8zXFjLpiPrd/3FayVmr/NNthJ8Az+dqkqmee/FcaHXPwQxG
+         oZJDDdWaHbMLN2P+dL3bDY5P9CeBe/5twYDNV/VK6rPB8qhy/JWry+ZU1Ui8lUgMwmV6
+         lXqEg292S8E7fBsjyarQYfIEAzTSEEWt5SPs0AUWvqjjMlcoXUsUt1PAQeWxA9jlICPS
+         UBNxJGLAwt26NCIfYcCfy5+DkFSJL1Cw0mds3oJSQ8C9qpOQtmL/nn46Crjoa644Ki0X
+         V+Nw==
+X-Gm-Message-State: APjAAAVtoi5z6SPYo7Nf800BYgJRrUumm8LDvGmswPAVVKscPASdwDeE
+        s2CObOnh/oVeu4aglNtVRlQI1c9vcHxhPzNAx85z2shM
+X-Google-Smtp-Source: APXvYqwVWGFsI7Jlyz6rDNBveu7Mo860uc+ajf2GmNkr2kryUlWFAKtU/GfrxAKv5PAPCpDrUrrcAM91c/r3BdKaPKk=
+X-Received: by 2002:a2e:6e01:: with SMTP id j1mr15988864ljc.135.1559639643627;
+ Tue, 04 Jun 2019 02:14:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1559621375-5436-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <1559621375-5436-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1559621375-5436-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1559621375-5436-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 4 Jun 2019 11:13:51 +0200
+Message-ID: <CAMuHMdXqYkaAh5ZaNF7GtrCCjd2=GD4PPmrrL5x1pK2H5BkUcg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] usb: renesas_usbhs: remove controlling PWEN/EXTLP support
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hi Shimoda-san,
 
-On 04.06.2019 7:09, Yoshihiro Shimoda wrote:
+On Tue, Jun 4, 2019 at 6:14 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Controlling PWMEN/EXTLP (named as "has_otg") was supported in v3.2,
+> but was never used by any platform. So, this patch remove it.
 
-> SUDMAC featurer was supported in v3.10, but was never used by
+Actually it was used, by legacy (pre-DT) board support for kzm9g and
+mackerel.
+The last user was removed by commit 30f8925a57d8ad49 ("ARM: shmobile:
+Remove legacy board code for KZM-A9-GT").
 
-    Feature?
-
-> any platform. So, this patch removes it.
-> 
 > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-[...]
 
-MBR, Sergei
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
