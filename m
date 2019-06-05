@@ -2,69 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DA3436279
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2019 19:27:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4A3F36343
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2019 20:19:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726691AbfFER1E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Jun 2019 13:27:04 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:39461 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726604AbfFER1E (ORCPT
+        id S1726280AbfFESTN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Jun 2019 14:19:13 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:36480 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725950AbfFESTN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Jun 2019 13:27:04 -0400
-Received: by mail-lj1-f196.google.com with SMTP id v18so2761583ljh.6
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Jun 2019 10:27:03 -0700 (PDT)
+        Wed, 5 Jun 2019 14:19:13 -0400
+Received: by mail-lf1-f65.google.com with SMTP id q26so19827391lfc.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Jun 2019 11:19:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
         h=subject:to:cc:references:from:organization:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=uPR5ZsfuFUf9C+Xfxa0HBx/qqmGHuh9ku3HhTnzm9SE=;
-        b=JBhhYcbz3yRLzCbu5Yx9QYNdhM5zCDK+k75RCW/Lsgy6Essr24xS7r0J0CEiNKkkPL
-         sA3bueboQ2lIeIzoMvQCylo9mo9b8fphwMoGvE/v2ev1Ek6fT0IHGvjFccn3/ACOQcjJ
-         IJGd1mVTZ2BUj9kNUpvWwO+VlUP60DQlrVZy0Wp3VqeR4QeOUhS11GwuUUqJPZN0I0qW
-         KdryzK+LC44q71QMqA6eKfKjT0fojptEJRQS341XiVUms9iD8vSpjwD8CHV2ZWhLQZwu
-         cMA48LMNOJNvqCMYkWbUf2oEUUdpbyLwuXFA7aTvYDBm7d2CwqOSjsJ7jgw5iPxjIrSm
-         fl0w==
+        bh=Ioxq6ackk7T4k8ldqHW70CLxvDfXrnWwaJ3D/ZfF94Y=;
+        b=wbKv1Gyp4Mblw7ZDI5tFqNuGbeNZTkHhrEaYqYmebEqLHF+VvyDKuHc/DjoZrrVKka
+         NP4Paoh0SSEWwIdD7zNvtSndDm8bHZclpEqQFf+FCjAozvMhhiGS1jNZNEs+HPUJrJX0
+         5HbXrZAmC4POk94/6jPW5iAd+eiyxo9MKSxtMyZlKjnDrPbTQW5WinvPrL6H0m1hCEKx
+         VRiA4c98nu9OPvlacwZVi23Ewqvpjynz2iX+SRCDgb7D2xc1ci+r00VM+MjClcYV+IFR
+         VV4bjF0njpB+w+TZTiVzJtpaLc0QeaqntEDqRoadT6qt9oD9zncH5ZPQdq8Nfxiicbt5
+         gXjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:organization
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=uPR5ZsfuFUf9C+Xfxa0HBx/qqmGHuh9ku3HhTnzm9SE=;
-        b=kThNMhhArl0ldsG7UlhgvoPwginJO38622m5akYgnbGNlJkKZIvqIoaiRUF5yZG8Ub
-         m+I+bXP5JrvS9ukhXBXLeVPUNBDbZZjnAUP/lxVHryaKXiF/dzhR+jUxN5LYbOsp8cSG
-         kd98xZUu841Kfunxfvqr1v+xqP3Q4z+2oJFcxKf+QKzxs6HevUkxv17eEhvpeNqpeADF
-         8yNT80EGamq2gsTbAHfzvd61os/6aoB6wA7iH1lYGLZcVenqCw6t0YUdgisZEaVtSqP+
-         7Pst4BTX0H2a63x9JtE8QGjvBked2yXVJmKNLjJ9Tl3NLDnuvkRj1QAGTeoXeZ/aJhds
-         RPSg==
-X-Gm-Message-State: APjAAAW9uQLH0nT6SAVbpWn0oKqnZh01NDnS7lhkUpxg5Q1PB/t3KcAH
-        G06sggqfp5zEIgQe8t6dRYrxgDR4W7k=
-X-Google-Smtp-Source: APXvYqzi33O8O+NqvuKNhyi36qg2WWf4gwQroIUxY2/SjrPHN3kXuBdIP9OeLaaBFLx1cAu9uPwHrg==
-X-Received: by 2002:a2e:8116:: with SMTP id d22mr9941237ljg.8.1559755622358;
-        Wed, 05 Jun 2019 10:27:02 -0700 (PDT)
+        bh=Ioxq6ackk7T4k8ldqHW70CLxvDfXrnWwaJ3D/ZfF94Y=;
+        b=uTHWIiGd8udjywTYC6d8hphgrtyVb9caXI+0MDcSOTVe3mekosftTgKZ4TaBlHvJhP
+         kmysy99XbhtPe1AIZKVpbdrkxo+MATVZ9SeliIEBicWLufV7M3Ijemj8ASX9Ej5XZY7R
+         CNMJpuT7dAll93TRLdSrbnbnl4DNb9HEReeKOtwIfq7unVh3P85GgYdkUUrdPlO9Mp5c
+         2pTVI+aqpDc/6mckUg9jXlr4Af7mxTZBBlt9HbhPNbHgLXjXQkBdc2g6Y6aQQeJcDBVK
+         WPA7JwvZ49+8RGqNZrJ/MVQuLOyvQ5c4cLl+S/R7az3xQdD5qsGiDgw+VSfOVhhm4uCt
+         5INw==
+X-Gm-Message-State: APjAAAUYNyFApvmQRHmSYFx5mxIdJdfCirPe+E0U36xRuqp08AgInGKA
+        XQ/Y1qaW0JnB+w9ez/cd9N9zxCadl8Y=
+X-Google-Smtp-Source: APXvYqxoYf0L/vunsEB/D7FShIXZECvvscq6VbVMj7ivUZYzMOoPJVlYalJvCV/Nqfm8TBi3hvbo2g==
+X-Received: by 2002:a19:fc1d:: with SMTP id a29mr22327508lfi.35.1559758750858;
+        Wed, 05 Jun 2019 11:19:10 -0700 (PDT)
 Received: from wasted.cogentembedded.com ([31.173.84.82])
-        by smtp.gmail.com with ESMTPSA id z26sm1501850ljz.64.2019.06.05.10.27.01
+        by smtp.gmail.com with ESMTPSA id s6sm4452945lje.89.2019.06.05.11.19.09
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 05 Jun 2019 10:27:01 -0700 (PDT)
-Subject: Re: [PATCH v2] ravb: implement MTU change while device is up
-To:     Ulrich Hecht <uli+renesas@fpond.eu>,
-        linux-renesas-soc@vger.kernel.org
-Cc:     netdev@vger.kernel.org, davem@davemloft.net,
-        niklas.soderlund@ragnatech.se, wsa@the-dreams.de,
-        horms@verge.net.au, magnus.damm@gmail.com
-References: <1559747660-17875-1-git-send-email-uli+renesas@fpond.eu>
+        Wed, 05 Jun 2019 11:19:09 -0700 (PDT)
+Subject: Re: [PATCH v2] net: sh_eth: fix mdio access in sh_eth_close() for
+ R-Car Gen2 and RZ/A1 SoCs
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        davem@davemloft.net
+Cc:     netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <1559016646-7293-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
 Organization: Cogent Embedded
-Message-ID: <dab9e22e-446f-b08a-86df-4ffa22a107c1@cogentembedded.com>
-Date:   Wed, 5 Jun 2019 20:27:00 +0300
+Message-ID: <2ae6d8c6-372f-4708-8bd4-f461b403b986@cogentembedded.com>
+Date:   Wed, 5 Jun 2019 21:19:08 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <1559747660-17875-1-git-send-email-uli+renesas@fpond.eu>
+In-Reply-To: <1559016646-7293-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-MW
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -72,16 +71,61 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hello!
 
-On 06/05/2019 06:14 PM, Ulrich Hecht wrote:
+   I've been meaning to look around this issue before replying to this respin
+but didn't notify DaveM, so he finally merged it...
 
-> Uses the same method as various other drivers: shut the device down,
-> change the MTU, then bring it back up again.
-> 
-> Tested on Renesas D3 Draak board.
-> 
-> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+On 05/28/2019 07:10 AM, Yoshihiro Shimoda wrote:
 
-Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+> The sh_eth_close() resets the MAC and then calls phy_stop()
+> so that mdio read access result is incorrect without any error
+> according to kernel trace like below:
+> 
+> ifconfig-216   [003] .n..   109.133124: mdio_access: ee700000.ethernet-ffffffff read  phy:0x01 reg:0x00 val:0xffff
+> 
+> According to the hardware manual, the RMII mode should be set to 1
+> before operation the Ethernet MAC. However, the previous code was not
+> set to 1 after the driver issued the soft_reset in sh_eth_dev_exit()
+> so that the mdio read access result seemed incorrect. To fix the issue,
+> this patch adds a condition and set the RMII mode register in
+> sh_eth_dev_exit() for R-Car Gen2 and RZ/A1 SoCs.
+
+   I told you RZ/G1, not RZ/A1. The latter has its own data structure
+ and different register layout.
+
+> Note that when I have tried to move the sh_eth_dev_exit() calling
+> after phy_stop() on sh_eth_close(), but it gets worse (kernel panic
+> happened and it seems that a register is accessed while the clock is
+> off).
+
+  I've reproduced it but still don't know why that happens.
+
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  Changes from v1 (https://patchwork.kernel.org/patch/10944265/):
+>  - Revise the subject, commit log and the comment of the code.
+>  - Move the RMII setting to right after soft_reset.
+> 
+>  drivers/net/ethernet/renesas/sh_eth.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
+> index 6354f19..7ba35a0 100644
+> --- a/drivers/net/ethernet/renesas/sh_eth.c
+> +++ b/drivers/net/ethernet/renesas/sh_eth.c
+> @@ -1594,6 +1594,10 @@ static void sh_eth_dev_exit(struct net_device *ndev)
+>  	sh_eth_get_stats(ndev);
+>  	mdp->cd->soft_reset(ndev);
+>  
+> +	/* Set the RMII mode again if required */
+
+   When I asked for more details, I was meaning this comment. Thanks for telling me
+about the gory details anyway. :-)
+
+> +	if (mdp->cd->rmiimode)
+> +		sh_eth_write(ndev, 0x1, RMIIMODE);
+> +
+>  	/* Set MAC address again */
+>  	update_mac_address(ndev);
+>  }
 
 MBR, Sergei
