@@ -2,76 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 28FD33602A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2019 17:17:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E362C36100
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2019 18:17:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728175AbfFEPRH convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Jun 2019 11:17:07 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:33804 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728089AbfFEPRH (ORCPT
+        id S1728421AbfFEQRr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Jun 2019 12:17:47 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:38819 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728573AbfFEQRq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Jun 2019 11:17:07 -0400
-Received: by mail-lf1-f65.google.com with SMTP id y198so8894799lfa.1;
-        Wed, 05 Jun 2019 08:17:05 -0700 (PDT)
+        Wed, 5 Jun 2019 12:17:46 -0400
+Received: by mail-lf1-f68.google.com with SMTP id b11so19553712lfa.5
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 05 Jun 2019 09:17:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=INpfTRXsx/ERh1DGBQzxYmwH3X7MJEUMkIUVZyxdfjI=;
+        b=AUPZGFVJuGGoWX4JkXEWzQ4Ca5JpLMAYEQlnWcEOrLpLWVi8BCDdjz4H+V9svJ3zM8
+         d7p8N9WzKRzG6tgEl8OFj2OEKsneuHpCcgk3lBv9eL1IE+fhLYBo5f98rv/bJ1mB9noh
+         mZ3zywdBQgeARjzYDviYLHZ0EURs4p6H5gsnEGx2gPEtlg6HxYz9HmRjxPI8a8+5zcej
+         9sYJrfG+ay8XIcUJ73tInI5Nkz9CIP10gaOhIwXP1gTQvozIjS62KJuBGlg6poc4w7rh
+         qvy1j84u3uMQb9QrEehh7EovRZVGqXJF0ZgYk1CXrNZuTPd+euKUlze/zkKiIuUFyUJl
+         oNnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=2ZDwihMraH0/UeXMGo6VxX/h+FGTCHAr18lAotP3W/o=;
-        b=EMyFJ9Fm50n5fMj2Uwl+/MzyCU1Hpss0wfXITPTe0r2+sNWQ5L5tq8ZWAhP34FRDRD
-         WKQVS/p2n7w+py/9nFT84A80tp0oKd2WrZ8aFyMyUEnkHS6gFgbzZqc8IOlbRGbOIAsM
-         g7T8KGSfdBRwdRh1+ldDsXpjTUpOZgvTPx0/OA2qU5E5mm+9PSUF5VDC3elk+CujrAZd
-         0nW/sAA5ia549CABKnjEzlwx0q50F3DaCJICJoDqpwj4izGayVSAk46p+e+ReX7JzDwW
-         xjJupANV9Cy8JJhdhJLwAqgiJNZuuzm/yjShgdW1oiLW0Oa2kms0UVFSbfcazQ7v3lyc
-         IOVg==
-X-Gm-Message-State: APjAAAXSnCX0IZHjKvfr+NxhpUg3b0fRZIyjk5nw/GETex/vavKKgYlc
-        iQDbNZ2Bmg5/2ZEP10Dwb0Ebmybu2pr/I0ngHKc=
-X-Google-Smtp-Source: APXvYqwnahJWRbBNqZloWzQgYOc8LotxrUUSMRWrJGEacaPDeMBX02rjSlhg9N1zdQ1iLajO5cX9nUc2wicrIbTApGo=
-X-Received: by 2002:a19:6e41:: with SMTP id q1mr12977958lfk.20.1559747825230;
- Wed, 05 Jun 2019 08:17:05 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=INpfTRXsx/ERh1DGBQzxYmwH3X7MJEUMkIUVZyxdfjI=;
+        b=bFWP9SjouNsHLGjmtES4XZR8eZ+4Vez8/YELjF8x7UlC4TCQUPDJhHg8YoS/9M7IEi
+         pFvMDub1eB6+F4UtoxCgtGhkeMMaIf0Amv6PpV8IVhAP4WHcX/748D4qWg7nYO0hJ+Jo
+         viFvSNgumUD77Ejw1Ay6RR7lrvIV9t6mbim58TFzU+IKTcX2GavaGL/K6e52U1yW56BD
+         EnQIwlMNMbH6mjr2xjM6TykPYIze+MTscuJem/fj+8P+3VWe3597d1RMLqRs8cafF78U
+         7Z8rT0mByXZRcFJ17wSnOWZfsP2pJ8jAAGq9T1MwsERQk9ynHgavjiDeLVKHBrXw3Ajz
+         g39g==
+X-Gm-Message-State: APjAAAWvCGSOfC2C+GR+ysn3DNNn2jAC7LhBjWws2URWKnaU7wSa9Ujc
+        Nows1prN0OKzTeOWJnzvitv8CUkwMoo=
+X-Google-Smtp-Source: APXvYqw5hdVCwy5gFQZPJeHntxyHuMeSYJHFFKduDzX2eKKxfZUS7DZaah4XpCwx9LGzEtiN4fKfQw==
+X-Received: by 2002:ac2:4202:: with SMTP id y2mr3595252lfh.178.1559751464942;
+        Wed, 05 Jun 2019 09:17:44 -0700 (PDT)
+Received: from wasted.cogentembedded.com ([31.173.84.82])
+        by smtp.gmail.com with ESMTPSA id k17sm352187ljk.5.2019.06.05.09.17.43
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 05 Jun 2019 09:17:44 -0700 (PDT)
+Subject: Re: [RFC PATCH v5 3/8] iommu: add a new capable IOMMU_CAP_MERGING
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        ulf.hansson@linaro.org, wsa+renesas@sang-engineering.com,
+        hch@lst.de, m.szyprowski@samsung.com, robin.murphy@arm.com,
+        joro@8bytes.org
+Cc:     linux-mmc@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-renesas-soc@vger.kernel.org
+References: <1559733114-4221-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1559733114-4221-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Organization: Cogent Embedded
+Message-ID: <35f63f36-ea4d-850f-8a59-805e67c06b68@cogentembedded.com>
+Date:   Wed, 5 Jun 2019 19:17:42 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-References: <1559747660-17875-1-git-send-email-uli+renesas@fpond.eu>
-In-Reply-To: <1559747660-17875-1-git-send-email-uli+renesas@fpond.eu>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 5 Jun 2019 17:16:52 +0200
-Message-ID: <CAMuHMdWi2F5K9yf009F-6wj_5eqZ-9ueyhKpAVZvEUheWS-4Zw@mail.gmail.com>
-Subject: Re: [PATCH v2] ravb: implement MTU change while device is up
-To:     Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+In-Reply-To: <1559733114-4221-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jun 5, 2019 at 5:15 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
-> Uses the same method as various other drivers: shut the device down,
-> change the MTU, then bring it back up again.
->
-> Tested on Renesas D3 Draak board.
->
-> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+On 06/05/2019 02:11 PM, Yoshihiro Shimoda wrote:
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> This patch adds a new capable IOMMU_CAP_MERGING to check whether
+> the IOVA would be contiguous strictly if a device requires and
+> the IOMMU driver has the capable.
 
-Gr{oetje,eeting}s,
+   s/has/is/? Or capable what?
 
-                        Geert
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  drivers/iommu/dma-iommu.c | 26 ++++++++++++++++++++++++--
+>  include/linux/iommu.h     |  1 +
+>  2 files changed, 25 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+> index 034caae..ecf1a04 100644
+> --- a/drivers/iommu/dma-iommu.c
+> +++ b/drivers/iommu/dma-iommu.c
+[...]
+> @@ -867,6 +872,13 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
+>  		sg_dma_len(s) = s_length;
+>  		s->offset -= s_iova_off;
+>  		s_length = iova_align(iovad, s_length + s_iova_off);
+> +		/*
+> +		 * Check whether the IOVA would be contiguous strictly if
+> +		 * a device requires and the IOMMU driver has the capable.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+   Same question here...
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> +		 */
+> +		if (iova_contiguous && i > 0 &&
+> +		    (s_iova_off || s->length != s_length))
+> +			return 0;
+>  		s->length = s_length;
+>  
+>  		/*
+> @@ -902,8 +914,18 @@ static int iommu_dma_map_sg(struct device *dev, struct scatterlist *sg,
+>  	if (iommu_map_sg(domain, iova, sg, nents, prot) < iova_len)
+>  		goto out_free_iova;
+>  
+> -	return __finalise_sg(dev, sg, nents, iova);
+> +	ret = __finalise_sg(dev, sg, nents, iova);
+> +	/*
+> +	 * Check whether the sg entry is single if a device requires and
+> +	 * the IOMMU driver has the capable.
+
+   You  meant capability perhaps?
+
+[...]
+
+MBR, Sergei
