@@ -2,136 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 30A3E35608
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2019 06:54:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B93B73560D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2019 06:56:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726179AbfFEEyC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Jun 2019 00:54:02 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:41927 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726119AbfFEEyC (ORCPT
+        id S1726561AbfFEE4p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Jun 2019 00:56:45 -0400
+Received: from mail-eopbgr1400092.outbound.protection.outlook.com ([40.107.140.92]:23571
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725268AbfFEE4p (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Jun 2019 00:54:02 -0400
-X-IronPort-AV: E=Sophos;i="5.60,550,1549897200"; 
-   d="scan'208";a="17849831"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 05 Jun 2019 13:53:59 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id BF4E44004950;
-        Wed,  5 Jun 2019 13:53:59 +0900 (JST)
+        Wed, 5 Jun 2019 00:56:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LJPPycBznKxJLkOKwutPF332d45GfWJZXuNpSyXdk7s=;
+ b=tLSKxH9i6H4dXlLurfZxoXoHnHcvJ5KAE+brwRiFS0QJDyRXWG4fTsI623302yOkYDah36iHdvdXobIso9czLQ3WOqwpBTCk0MJSntChXFN1SkZ3baT2mpuBf1ADWD8qz624FyeswKpaMOHulaL9W9iocodT7EvYEdh6NwXlDZA=
+Received: from OSAPR01MB3089.jpnprd01.prod.outlook.com (52.134.247.150) by
+ OSAPR01MB3986.jpnprd01.prod.outlook.com (20.178.103.211) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1965.12; Wed, 5 Jun 2019 04:56:41 +0000
+Received: from OSAPR01MB3089.jpnprd01.prod.outlook.com
+ ([fe80::19ad:b6ce:a287:dc85]) by OSAPR01MB3089.jpnprd01.prod.outlook.com
+ ([fe80::19ad:b6ce:a287:dc85%7]) with mapi id 15.20.1943.018; Wed, 5 Jun 2019
+ 04:56:41 +0000
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     kishon@ti.com
-Cc:     geert+renesas@glider.be, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH] phy: renesas: rcar-gen3-usb2: fix imbalance powered flag
-Date:   Wed,  5 Jun 2019 13:49:02 +0900
-Message-Id: <1559710142-29161-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH] watchdog: renesas_wdt: Add a few cycles delay
+Thread-Topic: [PATCH] watchdog: renesas_wdt: Add a few cycles delay
+Thread-Index: AQHVGe8P7w1/Z0ffD0aoOp2Q4vSn46aJsfYAgAAFHACAAA1eAIACvXxQ
+Date:   Wed, 5 Jun 2019 04:56:41 +0000
+Message-ID: <OSAPR01MB30890CB262FD70117707600ED8160@OSAPR01MB3089.jpnprd01.prod.outlook.com>
+References: <1559553957-5764-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <CAMuHMdWGBr+kwY18o657J_SCTONSJLZMUs2qMBvBU84p-UNfYA@mail.gmail.com>
+ <OSAPR01MB3089AE3893A8DA4D77F34413D8140@OSAPR01MB3089.jpnprd01.prod.outlook.com>
+ <CAMuHMdUKugUiqAi=o14BTG5Tihq_H04DOs0ixkGEHxc7vo9uCQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdUKugUiqAi=o14BTG5Tihq_H04DOs0ixkGEHxc7vo9uCQ@mail.gmail.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [118.238.235.108]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: cd8e6dc5-e8ae-4c3b-12a3-08d6e972334b
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:OSAPR01MB3986;
+x-ms-traffictypediagnostic: OSAPR01MB3986:
+x-microsoft-antispam-prvs: <OSAPR01MB3986D730690D7AC05399D879D8160@OSAPR01MB3986.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4941;
+x-forefront-prvs: 00594E8DBA
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(346002)(396003)(136003)(39860400002)(366004)(199004)(189003)(8936002)(6246003)(81166006)(52536014)(73956011)(81156014)(66946007)(14454004)(8676002)(66556008)(66446008)(64756008)(66476007)(76116006)(5660300002)(74316002)(71190400001)(2906002)(4326008)(478600001)(316002)(71200400001)(33656002)(7696005)(256004)(54906003)(305945005)(6916009)(7736002)(25786009)(6436002)(486006)(66066001)(6506007)(3846002)(9686003)(68736007)(6116002)(11346002)(86362001)(186003)(446003)(99286004)(26005)(476003)(102836004)(229853002)(55016002)(53936002)(76176011)(4744005);DIR:OUT;SFP:1102;SCL:1;SRVR:OSAPR01MB3986;H:OSAPR01MB3089.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: fDXyASHJg+U9yoWdLdAAXNwBcAWY+9QoMpBolU2sml84nkXE2bgHmEJw7RdF0Gs6b09Mu8meKQ2EsOcEcIb1w5zddI+oGoj3vru3/WBumgtblJs1mJxLzo+dQ4UlvmiviAkQYL3Gtf8doEHuUH1eUAyxQT5pKiRyplcsTPuVFBEriXX09scXH9koSHmKw5PMicoj/Ywr0qvYQtTfm/A+7/k2IuZXojaTw34R4Nh6uMzPYJUknKEqoosbhdVLZ+VVTb1ajKKm4vJi8NlFNLZzGnevsrG5tTG3u42Jey9Bfgmrb5HzidSC3Uc9fQu8wZ8Qnfk1FeSj+39G069b3dt8MyMGYTI7Xx94n2swvLBmpigh3YuWpYwfXShsi6+a5sQwxewY6SBiW1MYd7T1XvBi/PFVOvGZkzB2jm3pNniDzqA=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd8e6dc5-e8ae-4c3b-12a3-08d6e972334b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jun 2019 04:56:41.3226
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yoshihiro.shimoda.uh@renesas.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB3986
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The powered flag should be set for any other phys anyway. Otherwise,
-after we have revised the device tree for the usb phy, the following
-warning happened during a second system suspend. So, this patch fixes
-the issue.
-
-[   56.026531] unbalanced disables for USB20_VBUS0
-[   56.031108] WARNING: CPU: 3 PID: 513 at drivers/regulator/core.c:2593 _regula
-tor_disable+0xe0/0x1c0
-[   56.040146] Modules linked in: rcar_du_drm rcar_lvds drm_kms_helper drm drm_p
-anel_orientation_quirks vsp1 videobuf2_vmalloc videobuf2_dma_contig videobuf2_me
-mops videobuf2_v4l2 videobuf2_common videodev snd_soc_rcar renesas_usbhs snd_soc
-_audio_graph_card media snd_soc_simple_card_utils crct10dif_ce renesas_usb3 snd_
-soc_ak4613 rcar_fcp pwm_rcar usb_dmac phy_rcar_gen3_usb3 pwm_bl ipv6
-[   56.074047] CPU: 3 PID: 513 Comm: kworker/u16:19 Not tainted 5.2.0-rc3-00001-
-g5f20a19 #6
-[   56.082129] Hardware name: Renesas Salvator-X board based on r8a7795 ES2.0+ (
-DT)
-[   56.089524] Workqueue: events_unbound async_run_entry_fn
-[   56.094832] pstate: 40000005 (nZcv daif -PAN -UAO)
-[   56.099617] pc : _regulator_disable+0xe0/0x1c0
-[   56.104054] lr : _regulator_disable+0xe0/0x1c0
-[   56.108489] sp : ffff0000121c3ae0
-[   56.111796] x29: ffff0000121c3ae0 x28: 0000000000000000
-[   56.117102] x27: 0000000000000000 x26: ffff000010fe0e60
-[   56.122407] x25: 0000000000000002 x24: 0000000000000001
-[   56.127712] x23: 0000000000000002 x22: ffff8006f99d4000
-[   56.133017] x21: ffff8006f99cc000 x20: ffff8006f9846800
-[   56.138322] x19: ffff8006f9846800 x18: ffffffffffffffff
-[   56.143626] x17: 0000000000000000 x16: 0000000000000000
-[   56.148931] x15: ffff0000112f96c8 x14: ffff0000921c37f7
-[   56.154235] x13: ffff0000121c3805 x12: ffff000011312000
-[   56.159540] x11: 0000000005f5e0ff x10: ffff0000112f9f20
-[   56.164844] x9 : ffff0000112d3018 x8 : 00000000000001ad
-[   56.170149] x7 : 00000000ffffffcc x6 : ffff8006ff768180
-[   56.175453] x5 : ffff8006ff768180 x4 : 0000000000000000
-[   56.180758] x3 : ffff8006ff76ef10 x2 : ffff8006ff768180
-[   56.186062] x1 : 3d2eccbaead8fb00 x0 : 0000000000000000
-[   56.191367] Call trace:
-[   56.193808]  _regulator_disable+0xe0/0x1c0
-[   56.197899]  regulator_disable+0x40/0x78
-[   56.201820]  rcar_gen3_phy_usb2_power_off+0x3c/0x50
-[   56.206692]  phy_power_off+0x48/0xd8
-[   56.210263]  usb_phy_roothub_power_off+0x30/0x50
-[   56.214873]  usb_phy_roothub_suspend+0x1c/0x50
-[   56.219311]  hcd_bus_suspend+0x13c/0x168
-[   56.223226]  generic_suspend+0x4c/0x58
-[   56.226969]  usb_suspend_both+0x1ac/0x238
-[   56.230972]  usb_suspend+0xcc/0x170
-[   56.234455]  usb_dev_suspend+0x10/0x18
-[   56.238199]  dpm_run_callback.isra.6+0x20/0x68
-[   56.242635]  __device_suspend+0x110/0x308
-[   56.246637]  async_suspend+0x24/0xa8
-[   56.250205]  async_run_entry_fn+0x40/0xf8
-[   56.254210]  process_one_work+0x1e0/0x320
-[   56.258211]  worker_thread+0x40/0x450
-[   56.261867]  kthread+0x124/0x128
-[   56.265094]  ret_from_fork+0x10/0x18
-[   56.268661] ---[ end trace 86d7ec5de5c517af ]---
-[   56.273290] phy phy-ee080200.usb-phy.10: phy poweroff failed --> -5
-
-Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Fixes: 549b6b55b005 ("phy: renesas: rcar-gen3-usb2: enable/disable independent irqs")
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/phy/renesas/phy-rcar-gen3-usb2.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-index 1322185..dd2d7290 100644
---- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-+++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-@@ -437,15 +437,15 @@ static int rcar_gen3_phy_usb2_power_on(struct phy *p)
- 	struct rcar_gen3_chan *channel = rphy->ch;
- 	void __iomem *usb2_base = channel->base;
- 	u32 val;
--	int ret;
-+	int ret = 0;
- 
- 	if (!rcar_gen3_are_all_rphys_power_off(channel))
--		return 0;
-+		goto out;
- 
- 	if (channel->vbus) {
- 		ret = regulator_enable(channel->vbus);
- 		if (ret)
--			return ret;
-+			goto out;
- 	}
- 
- 	val = readl(usb2_base + USB2_USBCTR);
-@@ -454,6 +454,8 @@ static int rcar_gen3_phy_usb2_power_on(struct phy *p)
- 	val &= ~USB2_USBCTR_PLL_RST;
- 	writel(val, usb2_base + USB2_USBCTR);
- 
-+out:
-+	/* The powered flag should be set for any other phys anyway */
- 	rphy->powered = true;
- 
- 	return 0;
--- 
-2.7.4
-
+SGkgR2VlcnQtc2FuLA0KDQo+IEZyb206IEdlZXJ0IFV5dHRlcmhvZXZlbiwgU2VudDogTW9uZGF5
+LCBKdW5lIDMsIDIwMTkgODowNSBQTQ0KPHNuaXA+DQo+ID4gPiA+ICt7DQo+ID4gPiA+ICsgICAg
+ICAgdW5zaWduZWQgbG9uZyBwZXJpb2RzLCBkZWxheXM7DQo+ID4gPiA+ICsNCj4gPiA+ID4gKyAg
+ICAgICBwZXJpb2RzID0gRElWX1JPVU5EX1VQKHByaXYtPmNsa19yYXRlLCBjeWNsZXMpOw0KPiA+
+ID4NCj4gPiA+IFNob3VsZG4ndCB0aGUgYWJvdmUgYmUgYSBkaXZpc2lvbiB3aXRoIHJvdW5kaW5n
+IGRvd24gKGkuZS4gYSBwbGFpbiBDDQo+ID4gPiBkaXZpc2lvbiksIGluc3RlYWQgb2YgYSBkaXZp
+c2lvbiB3aXRoIHJvdW5kaW5nIHVwPw0KPiA+DQo+ID4gSSBoYXZlIG5vIGlkZWEgd2hpY2ggaXMg
+dGhlIGNvcnJlY3Qgd2F5IChyb3VuZGluZyBkb3duIHZzIHJvdW5kaW5nIHVwIGhlcmUpLg0KPiA+
+IEF0IGxlYXN0LCBJIHRyaWVkIHRvIHVzZSByb3VuZGluZyBkb3duIGJlZm9yZSBzdWJtaXR0aW5n
+IHBhdGNoIGFuZCB0aGVuDQo+ID4gdGhlIHJlc3VsdCBzZWVtZWQgdGhlIHNhbWUuIFNvLCBJIHN1
+Ym1pdHRlZCB0aGlzIHBhdGNoIHdpdGggcm91bmRpbmcgdXANCj4gPiAoYmVjYXVzZSB0aGUgbmV4
+dCBzdGVwIGFsc28gdXNlZCByb3VuZGluZyB1cC4uLikuDQo+IA0KPiBJZiB5b3Ugcm91bmQgdXAg
+cGVyaW9kcywgaXQgd2lsbCBkZWNyZWFzZSB0aGUgZGVsYXksIHdoaWNoIG1heSBiZWNvbWUNCj4g
+dG9vIHNtYWxsLg0KPiBJZiB5b3Ugcm91bmQgdXAgZGVsYXlzLCBpdCB3aWxsIGluY3JlYXNlIHRo
+ZSBkZWxheSwgd2hpY2ggZG9lc24ndCBodXJ0Lg0KDQpUaGFuayB5b3UgZm9yIHlvdXIgZXhwbGFu
+YXRpb24gaW4gZGV0YWlsISBJIHVuZGVyc3Rvb2QgaXQuDQoNCkJlc3QgcmVnYXJkcywNCllvc2hp
+aGlybyBTaGltb2RhDQoNCg==
