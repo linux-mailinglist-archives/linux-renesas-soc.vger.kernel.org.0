@@ -2,44 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9709F35C51
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2019 14:09:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E973F35C5E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  5 Jun 2019 14:12:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727420AbfFEMJO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 5 Jun 2019 08:09:14 -0400
-Received: from mail-eopbgr1410127.outbound.protection.outlook.com ([40.107.141.127]:27472
+        id S1726305AbfFEMML (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 5 Jun 2019 08:12:11 -0400
+Received: from mail-eopbgr1410123.outbound.protection.outlook.com ([40.107.141.123]:5024
         "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726305AbfFEMJO (ORCPT
+        id S1727343AbfFEMML (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 5 Jun 2019 08:09:14 -0400
+        Wed, 5 Jun 2019 08:12:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z04kfF10zxZdWzkt2V/e/SFELaUpasJPu/wRWdJJIpg=;
- b=E3Ss5OAs9rT4c4bYVlkvTATj53uE8Hsh+DTmmAE9G3kmAb0k6YN60hmScyEJ2A+uHnAH3IiOzh9gTIVqzVRIv8NxrcDjmYPO8Fug1sstQMcs8i1MIVyRrysh41PEQvCounhEDTdomULAxh8QAFQ4LFX3jVSkjlhztxzH7UBDMrk=
+ bh=x0n5lmzdb+ILPEV62bCBwyWy9NnxFf3sF89ZpPDV5zU=;
+ b=ATatBIiBLhOZ7l4GzuIijkyFdt+1fPG/TBdQrxrPMNro2hjuaDkXL9y+OOyyYu+LMQ55FA55CmX7BNgagIqe3Z/g8SjWFXONeyZy5nIfr7+ke0FVAtv40QLsAiTyrN8LXdlPphvFCbPYrMI9A8d2nmGoFwb4ZGM56sYSFp6AWsQ=
 Received: from OSAPR01MB3089.jpnprd01.prod.outlook.com (52.134.247.150) by
  OSAPR01MB1683.jpnprd01.prod.outlook.com (52.134.232.142) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1965.12; Wed, 5 Jun 2019 12:09:10 +0000
+ 15.20.1965.12; Wed, 5 Jun 2019 12:12:08 +0000
 Received: from OSAPR01MB3089.jpnprd01.prod.outlook.com
  ([fe80::19ad:b6ce:a287:dc85]) by OSAPR01MB3089.jpnprd01.prod.outlook.com
  ([fe80::19ad:b6ce:a287:dc85%7]) with mapi id 15.20.1943.018; Wed, 5 Jun 2019
- 12:09:10 +0000
+ 12:12:08 +0000
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: RE: rcar_gen3_phy_usb2: unbalanced disables for USB20_VBUS0
-Thread-Topic: rcar_gen3_phy_usb2: unbalanced disables for USB20_VBUS0
-Thread-Index: AQHVGwA/6yZMGZVP4EW1AZzw0OBf96aMbWQggAA2D4CAAFUo0A==
-Date:   Wed, 5 Jun 2019 12:09:10 +0000
-Message-ID: <OSAPR01MB30895B18E4874231396BFEBED8160@OSAPR01MB3089.jpnprd01.prod.outlook.com>
-References: <CAMuHMdUObtKUVDohLT501TarPRC6eDnxBqqB5Tj_Tb+-4fwbkw@mail.gmail.com>
- <OSAPR01MB30890E4B76F9605F3726C676D8160@OSAPR01MB3089.jpnprd01.prod.outlook.com>
- <CAMuHMdXWsNfj1UYXDyh4ZJ0E2Z0jobug4jJ4uTpUa1X4d+Hocw@mail.gmail.com>
-In-Reply-To: <CAMuHMdXWsNfj1UYXDyh4ZJ0E2Z0jobug4jJ4uTpUa1X4d+Hocw@mail.gmail.com>
+CC:     Kishon Vijay Abraham I <kishon@ti.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH] phy: renesas: rcar-gen3-usb2: fix imbalance powered flag
+Thread-Topic: [PATCH] phy: renesas: rcar-gen3-usb2: fix imbalance powered flag
+Thread-Index: AQHVG1qxx9ucB2mLPUSYOHggZ3+zpqaMymmAgAAt5MA=
+Date:   Wed, 5 Jun 2019 12:12:07 +0000
+Message-ID: <OSAPR01MB30897161EF40942B1E561232D8160@OSAPR01MB3089.jpnprd01.prod.outlook.com>
+References: <1559710142-29161-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <CAMuHMdUqajM2yR72AYE5ppp-RJumfoG2+YArEzLiJvt55_1k4g@mail.gmail.com>
+In-Reply-To: <CAMuHMdUqajM2yR72AYE5ppp-RJumfoG2+YArEzLiJvt55_1k4g@mail.gmail.com>
 Accept-Language: ja-JP, en-US
 Content-Language: ja-JP
 X-MS-Has-Attach: 
@@ -48,25 +48,24 @@ authentication-results: spf=none (sender IP is )
  smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
 x-originating-ip: [118.238.235.108]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 0404256c-d93a-4aaf-c1e7-08d6e9ae9e21
+x-ms-office365-filtering-correlation-id: df842f99-7a47-4de6-616a-08d6e9af07f1
 x-ms-office365-filtering-ht: Tenant
 x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:OSAPR01MB1683;
 x-ms-traffictypediagnostic: OSAPR01MB1683:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <OSAPR01MB16831065A7320FFA716DBA71D8160@OSAPR01MB1683.jpnprd01.prod.outlook.com>
+x-microsoft-antispam-prvs: <OSAPR01MB1683B170B5E945A57142EBC5D8160@OSAPR01MB1683.jpnprd01.prod.outlook.com>
 x-ms-oob-tlc-oobclassifiers: OLM:8273;
 x-forefront-prvs: 00594E8DBA
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(346002)(366004)(376002)(396003)(39860400002)(136003)(189003)(199004)(102836004)(86362001)(53936002)(26005)(74316002)(53546011)(5660300002)(6506007)(66946007)(71200400001)(71190400001)(6916009)(9686003)(52536014)(476003)(66556008)(73956011)(66476007)(64756008)(66446008)(6436002)(305945005)(7736002)(99286004)(486006)(478600001)(76116006)(7696005)(446003)(256004)(14444005)(6306002)(76176011)(966005)(11346002)(55016002)(186003)(68736007)(14454004)(4326008)(3846002)(54906003)(66066001)(6116002)(6246003)(81166006)(81156014)(8676002)(8936002)(229853002)(25786009)(33656002)(2906002)(316002);DIR:OUT;SFP:1102;SCL:1;SRVR:OSAPR01MB1683;H:OSAPR01MB3089.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(346002)(366004)(376002)(396003)(39860400002)(136003)(189003)(199004)(102836004)(86362001)(53936002)(26005)(74316002)(5660300002)(6506007)(66946007)(71200400001)(71190400001)(6916009)(9686003)(52536014)(476003)(66556008)(73956011)(66476007)(64756008)(66446008)(6436002)(305945005)(7736002)(99286004)(486006)(478600001)(76116006)(7696005)(446003)(256004)(14444005)(76176011)(11346002)(55016002)(186003)(68736007)(14454004)(4326008)(4744005)(3846002)(54906003)(66066001)(6116002)(6246003)(81166006)(81156014)(8676002)(8936002)(229853002)(25786009)(33656002)(2906002)(316002);DIR:OUT;SFP:1102;SCL:1;SRVR:OSAPR01MB1683;H:OSAPR01MB3089.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
 received-spf: None (protection.outlook.com: renesas.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 7dOCbNDgYqLQacF9KeqSQuLqcFAioDrMplazg9qo0RfFOD4ocHlgyGIkJb6lMC3h2ohcdX1aXiE43jxGLE+w99TZKlxF7JTHIDd97totQvYjJ449+5xl9kTpZL0DxHT2Ttp9UTfpawq5cHZxmAVb3vENZeMKI+/iaDG1MZC57UupkjbA/VxviiY5kQzJWX4LwUQRSjU8JniBRqJF7p0REhzZXrAl8i4GA4oEhN+3ubxBDPsD4xK4/xZ9N3YXjXboTG1a6/Z6vxe9P1+TW3qRbJicVX9Z5HHF710innOQl3ceh0Y2lMVG4j45jVy6UdkE1UmTnVP3//p2CG5kMOuep+WTgpQ+TcWBgBhkoDqvvgRUj5fRbzQYWWNPGvjfyDZ9SYbpEbfNKB/jeQR2sVcZP4ljvEGZ0SQVS/iOL0WDEUI=
+x-microsoft-antispam-message-info: LsjFjOahFp796PF8TsgMhAyBu9zp5Ff/ZBEEWKN5qjEfISXFqKgQ1gBY/KHHHGk7Q7XEmimvq414OQKESNUBf7RDYtawZaV3xtsV18DPU/an7a1gn+qKEl5XecREDGI/ZJNxp/aA+hXGVTxQ4XieupZiLoIXIcyNs42EPZMFGbmWkz0+kOqFdKG7261vkFtk0LiYzBr1ieZ0IPsylAARrUw36Q4d+06dNoXPqTYYKCkCcjnAIHnJn6fzsrNNC1mnBLqIBzI2E26NCJGtU53GYSTVg2ceYtIaTBWlCldw90TyMZmVKzKI+IiwTjATXoUl7zIFIMmiRXRvtAc7AbGeG1IQAA67ckkWGZgsJ5Tib9YrmW+nj6DbAuG8pcYudu/uK0lJoo8i6NsiNQeqFvYUaGpz+rzKXg2bsMtHhio+PpI=
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
 MIME-Version: 1.0
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0404256c-d93a-4aaf-c1e7-08d6e9ae9e21
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jun 2019 12:09:10.4768
+X-MS-Exchange-CrossTenant-Network-Message-Id: df842f99-7a47-4de6-616a-08d6e9af07f1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jun 2019 12:12:07.9942
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
@@ -79,23 +78,12 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 SGkgR2VlcnQtc2FuLA0KDQo+IEZyb206IEdlZXJ0IFV5dHRlcmhvZXZlbiwgU2VudDogV2VkbmVz
-ZGF5LCBKdW5lIDUsIDIwMTkgNDowMyBQTQ0KPiANCj4gSGkgU2hpbW9kYS1zYW4sDQo+IA0KPiBP
-biBXZWQsIEp1biA1LCAyMDE5IGF0IDY6MDYgQU0gWW9zaGloaXJvIFNoaW1vZGENCj4gPHlvc2hp
-aGlyby5zaGltb2RhLnVoQHJlbmVzYXMuY29tPiB3cm90ZToNCj4gPiA+IEZyb206IEdlZXJ0IFV5
-dHRlcmhvZXZlbiwgU2VudDogV2VkbmVzZGF5LCBKdW5lIDUsIDIwMTkgMzowNiBBTQ0KPiA+ID4g
-VXNpbmcgYSB0cmVlIGJhc2VkIG9uIHJlbmVzYXMtZHJpdmVycy0yMDE5LTA2LTA0LXY1LjItcmMz
-LCBJIHN0YXJ0ZWQgc2VlaW5nDQo+ID4gPiB0aGUgZm9sbG93aW5nIHdhcm5pbmcgZHVyaW5nIGEg
-c2Vjb25kIHN5c3RlbSBzdXNwZW5kIChzMmlkbGUpOg0KPiA+IDxzbmlwPg0KPiA+ID4gU28gZmFy
-IEkndmUgc2VlbiB0aGlzIG9uIFNhbHZhdG9yLVggd2l0aCBSLUNhciBIMyBFUzEuMCBvciBNMy1X
-LCBhbmQNCj4gPiA+IG9uIFNhbHZhdG9yLVhTIHdpdGggUi1DYXIgTTMtTiwgYnV0IG5vdCAoeWV0
-Pykgb24gSDMgRVMyLjAuDQo+ID4NCj4gPiBJIGNvdWxkIHJlcHJvZHVjZSB0aGlzIGlzc3VlIG9u
-IFItQ2FyIEgzIEVTMy4wIHdpdGggU3VzcGVuZC10by1SQU0uDQo+ID4gIyBJJ20gc2lsbHkgYnV0
-IEkgY291bGQgbm90IHVzZSBzMmlkbGUgdGhhdCBkaWRuJ3Qgd2FrZSB1cCBieSByYXZiLg0KPiA+
-ICMgaHR0cHM6Ly9lbGludXgub3JnL1ItQ2FyL0JvYXJkcy9TYWx2YXRvci1YI1N1c3BlbmQtdG8t
-SWRsZQ0KPiANCj4gV2l0aCBDT05GSUdfUE1fREVCVUc9eSBhbmQgQ09ORklHX1BNX1RFU1RfU1VT
-UEVORD15LCB5b3UgY2FuIHVzZQ0KPiANCj4gICAgICBlY2hvIHBsYXRmb3JtID4gL3N5cy9wb3dl
-ci9wbV90ZXN0DQo+IA0KPiB0byBjb25maWd1cmUgdGhlIHN5c3RlbSB0byB3YWtlIHVwIGZyb20g
-czJpZGxlIGFmdGVyIDUgc2Vjb25kcy4NCj4gVGhpcyBhbGxvd3MgdG8gbG9vcCBzMmlkbGUgd2l0
-aG91dCB1c2VyIGludGVydmVudGlvbi4NCg0KVGhhbmsgeW91IGZvciBleHBsYW5hdGlvbiEgSSBj
-b3VsZCB1c2UgaXQgb24gbXkgZW52aXJvbm1lbnQuDQoNCkJlc3QgcmVnYXJkcywNCllvc2hpaGly
-byBTaGltb2RhDQoNCg==
+ZGF5LCBKdW5lIDUsIDIwMTkgNjoyNSBQTQ0KPHNuaXA+DQo+IFRoYW5rIHlvdSwgdGhpcyBzZWVt
+cyB0byBmaXggdGhlIHdhcm5pbmcsIHNvDQo+IFRlc3RlZC1ieTogR2VlcnQgVXl0dGVyaG9ldmVu
+IDxnZWVydCtyZW5lc2FzQGdsaWRlci5iZT4NCg0KVGhhbmsgeW91IGZvciB0aGUgdGVzdGluZyEN
+Cg0KPiBIb3dldmVyLCB0aGUgb3RoZXIgaW1iYWxhbmNlIChwaHktZWUwODAyMDAudXNiLXBoeS42
+IGVuYWJsaW5nIGl0cw0KPiByZWd1bGF0b3IgZHVyaW5nIGVhY2ggc3lzdGVtIHJlc3VtZSBwaGFz
+ZSwgYnV0IG5ldmVyIHRvdWNoaW5nIGl0DQo+IG90aGVyd2lzZSkgaXMgc3RpbGwgcHJlc2VudC4N
+Cg0KVW1tLCBzaW5jZSBJJ2QgbGlrZSB0byBpbnZlc3RpZ2F0ZSB0aGlzLA0Kd291bGQgeW91IHNo
+YXJlIHlvdXIgZGVidWcgcHJpbnQgcGF0Y2g/DQoNCkJlc3QgcmVnYXJkcywNCllvc2hpaGlybyBT
+aGltb2RhDQoNCg==
