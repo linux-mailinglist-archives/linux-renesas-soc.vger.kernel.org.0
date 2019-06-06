@@ -2,44 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 638F137A8F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2019 19:08:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1837F37BD4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2019 20:06:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729920AbfFFRIS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 Jun 2019 13:08:18 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45308 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729905AbfFFRIR (ORCPT
+        id S1730414AbfFFSGm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 Jun 2019 14:06:42 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:40556 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727559AbfFFSGm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 6 Jun 2019 13:08:17 -0400
-Received: from pendragon.ideasonboard.com (unknown [IPv6:2a02:a03f:44f0:8500:ca05:8177:199c:fed4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59FB433B;
-        Thu,  6 Jun 2019 19:08:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1559840896;
-        bh=MnSu6i10WmQXXK8idR8J8iA4SFx8Pgt+jsvqJyMXAi8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ksMQxRdtqDkHjOhLIOnPxyEkxrJr/sKU27HPkDcLlX2ZfidqchsMLajbp02xhJL97
-         LlvsaRG27UsXRJK2hMcpLn3JO9axz+C3PAnuHEnmxx/NIY/geHntMgVMQW64zomN3W
-         qxJzvxt+MCn/zISOJ5y0FWXk8nxSow73jU+0ANZ4=
-Date:   Thu, 6 Jun 2019 20:08:02 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Thu, 6 Jun 2019 14:06:42 -0400
+Received: by mail-lf1-f66.google.com with SMTP id a9so837592lff.7;
+        Thu, 06 Jun 2019 11:06:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UEd66WheiI8yyTRsEa+z8oLhtOyljtbH2T2dZCHUna8=;
+        b=s5Wv1Fb7WHdpwRtST/K+oqN85JaYjOiLZAeQI5877b1aZeORAslVYsdZssg9Y4HYjN
+         lszdFGdIlpTUzV4NGuRrHUfUzog4ZdkwYI8S8CwV76roAly5envW3I4LMm+Lg5iWznEA
+         blYhmeQp1O7kZaGZBwyO2dZSnLN3tCpss8JsEbG95rWWNeeGz/JhCE0mUgscizXrZJG7
+         GArP1emPG2QI96blnaErB7qBkj8XSARSpy4pUTJr3YbpfCPRLyz8ciHXqHg8XZKiXi6Z
+         SpW/EqxpJ0mksibx0bZNSsKjsG+1YccnltFpDBOwtLmZf0RaTt3LFzz+7naU/OQdKuJD
+         OWmQ==
+X-Gm-Message-State: APjAAAWaAi+2IZcQYKktRk3ZflY/7imRVmdYQK+DEHEoofXhzDUoBOgV
+        u5Vpus1+7ijdJOjGkvkDqp2l1+NfQgKnG8Y2yuo=
+X-Google-Smtp-Source: APXvYqw2DQ1hkk9NGbrMoCpxPWvvSrGluX46vvZioEEIXVAu80TMiNPQs4dgaO2PEUOJN7DoCJlk4qvMl+vqvSMGZvQ=
+X-Received: by 2002:ac2:597c:: with SMTP id h28mr414494lfp.90.1559844400270;
+ Thu, 06 Jun 2019 11:06:40 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190606142220.1392-1-jacopo+renesas@jmondi.org> <20190606142220.1392-2-jacopo+renesas@jmondi.org>
+In-Reply-To: <20190606142220.1392-2-jacopo+renesas@jmondi.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 6 Jun 2019 20:06:28 +0200
+Message-ID: <CAMuHMdXcsxnqxpQLundZq9rCTHBTN4bP4gSpUrYBCOP8NN7TXQ@mail.gmail.com>
+Subject: Re: [PATCH 01/20] dt-bindings: display: renesas,cmm: Add R-Car CMM documentation
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
-        daniel@ffwll.ch, koji.matsuoka.xm@renesas.com, muroya@ksk.co.jp,
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>, muroya@ksk.co.jp,
         VenkataRajesh.Kalakodima@in.bosch.com,
         Harsha.ManjulaMallikarjun@in.bosch.com,
-        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 13/20] arm64: dts: renesas: r8a77995: Add CMM units
-Message-ID: <20190606170802.GB27525@pendragon.ideasonboard.com>
-References: <20190606142220.1392-1-jacopo+renesas@jmondi.org>
- <20190606142220.1392-14-jacopo+renesas@jmondi.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190606142220.1392-14-jacopo+renesas@jmondi.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -47,65 +56,44 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Jacopo,
 
-Thank you for the patch.
+On Thu, Jun 6, 2019 at 4:21 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
+> Add device tree bindings documentation for the Renesas R-Car Display
+> Unit Color Management Module.
+>
+> CMM is the image enhancement module available on each R-Car DU video
+> channel on Gen2 and Gen3 SoCs (V3H and V3M excluded).
 
-On Thu, Jun 06, 2019 at 04:22:13PM +0200, Jacopo Mondi wrote:
-> Add CMM units to Renesas R-Car D3 device tree and reference them from
-> the Display Unit they are connected to.
-> 
-> While at it, re-sort the du device node properties to match the ordering
-> found in other SoCs.
-> 
+R-Car Gen2 ...
+
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Thanks for your patch!
 
-> ---
->  arch/arm64/boot/dts/renesas/r8a77995.dtsi | 20 +++++++++++++++++++-
->  1 file changed, 19 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-> index 5bf3af246e14..c52d73068304 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-> @@ -993,6 +993,22 @@
->  			iommus = <&ipmmu_vi0 9>;
->  		};
->  
-> +		cmm0: cmm@fea40000 {
-> +			compatible = "renesas,cmm-gen3";
-> +			reg = <0 0xfea40000 0 0x1000>;
-> +			clocks = <&cpg CPG_MOD 711>;
-> +			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
-> +			resets = <&cpg 711>;
-> +		};
+> index 000000000000..d8d3cf9ce2ce
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/renesas,cmm.txt
+> @@ -0,0 +1,25 @@
+> +* Renesas R-Car Color Management Module (CMM)
 > +
-> +		cmm1: cmm@fea50000 {
-> +			compatible = "renesas,cmm-gen3";
-> +			reg = <0 0xfea50000 0 0x1000>;
-> +			clocks = <&cpg CPG_MOD 710>;
-> +			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
-> +			resets = <&cpg 710>;
-> +		};
+> +Renesas R-Car image enhancement module connected to R-Car DU video channels.
 > +
->  		du: display@feb00000 {
->  			compatible = "renesas,du-r8a77995";
->  			reg = <0 0xfeb00000 0 0x80000>;
-> @@ -1001,9 +1017,11 @@
->  			clocks = <&cpg CPG_MOD 724>,
->  				 <&cpg CPG_MOD 723>;
->  			clock-names = "du.0", "du.1";
-> -			vsps = <&vspd0 0 &vspd1 0>;
->  			status = "disabled";
->  
-> +			vsps = <&vspd0 0 &vspd1 0>;
-> +			cmms = <&cmm0 &cmm1>;
-> +
->  			ports {
->  				#address-cells = <1>;
->  				#size-cells = <0>;
+> +Required properties:
+> + - compatible: shall be one of:
+> +   - "renesas,cmm-gen3"
+> +   - "renesas,cmm-gen2"
+
+"gen3" and "gen2" don't carry much meaning on their own (SH2 is gen2 of
+SuperH?). Furthermore, revision info should immediately follow the comma.
+
+"renesas,rcar-gen3-cmm" and "renesas,rcar-gen2-cmm"?
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
