@@ -2,80 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FA2536FD7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2019 11:30:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89482370CF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2019 11:50:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727540AbfFFJaD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 Jun 2019 05:30:03 -0400
-Received: from asavdk4.altibox.net ([109.247.116.15]:54620 "EHLO
-        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727509AbfFFJaD (ORCPT
+        id S1727966AbfFFJuW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 Jun 2019 05:50:22 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:41584 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727540AbfFFJuW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 6 Jun 2019 05:30:03 -0400
-Received: from ravnborg.org (unknown [158.248.194.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk4.altibox.net (Postfix) with ESMTPS id B7D1580522;
-        Thu,  6 Jun 2019 11:30:00 +0200 (CEST)
-Date:   Thu, 6 Jun 2019 11:29:59 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3 07/10] drm: rcar-du: Skip LVDS1 output on Gen3 when
- using dual-link LVDS mode
-Message-ID: <20190606092959.GB17442@ravnborg.org>
-References: <20190528141234.15425-1-laurent.pinchart+renesas@ideasonboard.com>
- <20190528141234.15425-8-laurent.pinchart+renesas@ideasonboard.com>
- <20190528164213.GB9610@ravnborg.org>
- <20190528165052.GB17874@pendragon.ideasonboard.com>
- <20190528170242.GB10262@ravnborg.org>
- <20190606075750.GE4931@pendragon.ideasonboard.com>
+        Thu, 6 Jun 2019 05:50:22 -0400
+Received: by mail-lj1-f194.google.com with SMTP id s21so1368925lji.8;
+        Thu, 06 Jun 2019 02:50:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DlT+OZRl/u5RNKPi8dNkZHp/9V+UR86IhXUtkw0pwO4=;
+        b=SslU/4I+BNclA4QwGXsLgXQL9Q/jmKyxkkUNZ+G4y69S/l25TnKH64dXgFfyCJ4sLl
+         cUAK4fJpIw2A/DNd/GcI3et6QT9IV+Cc1TCxNg3h6qwViCShCMlyvvMcwwBX/2wHVKox
+         bzP6KDzZYm1L07wQHcEMhxfgrHhRKpOkc6Nv1qT4CrrGM9azylcg3k0c8vN3zyuuMIn2
+         ABGvEzKoyS/MrFnl3hyEdSNFnBLr1D4uyPuC7u7/QaV3aMGHdhr9emU9La6NA6Yyrwha
+         PNQocrqWB0Nd+YOdrqC1oeT8g+l36Wde7NSWc/jymJzoZ3ASBShmGNA0e6aNxrGVK5mu
+         Slkg==
+X-Gm-Message-State: APjAAAX1+FzBuDbehtJpgShFds2h2Ha86XvX8x40Z7roZjttBPnh4DtJ
+        QNKwFDEtSfxoLvSgOlOQuSTD4KjB2ZZtEKufTDY=
+X-Google-Smtp-Source: APXvYqwcMSsDaCC9OEBJ3Xw8K5dT8oEpHsRIg/lwLvtokXUMGCsjL8s+jZpsWSGJETJIdJoV9+VVxFUo703Q+71eqKE=
+X-Received: by 2002:a2e:751c:: with SMTP id q28mr570757ljc.178.1559814619925;
+ Thu, 06 Jun 2019 02:50:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190606075750.GE4931@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
-        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
-        a=gi-eZXJGFL57LBb4nr0A:9 a=CjuIK1q_8ugA:10
+References: <1559228266-16724-1-git-send-email-biju.das@bp.renesas.com> <1559228266-16724-2-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1559228266-16724-2-git-send-email-biju.das@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 6 Jun 2019 11:50:07 +0200
+Message-ID: <CAMuHMdUDZbpAOCoDiGwxW=VpQRtS9u6KFV72=JrHm0HRsncpZw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] arm64: dts: renesas: Add HiHope RZ/G2M main board support
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>, xu_shunji@hoperun.com,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent.
+On Thu, May 30, 2019 at 5:05 PM Biju Das <biju.das@bp.renesas.com> wrote:
+> Basic support for the HiHope RZ/G2M main board:
+>   - Memory,
+>   - Main crystal,
+>   - Serial console
+>
+> This patch also includes a dtsi common to both HiHope RZ/G2M
+> and RZ/G2N main boards.
+>
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
 
-> > > Gen3 is the newest generation :-) We thus use >= through the DU and LVDS
-> > > drivers to prepare for support of Gen4, just in case.
-> >
-> > OK, but I guess we agree that the comment needs a small update them.
-> > 
-> > Actually I implicitly reads that it is only from Gen3 onwards that the
-> > LVDS1 encoder can be used as a companion.
-> > My initial understanding reading the comment was that this implmented a
-> > workaround for Gen3 - but it is a workarounf for missing features in
-> > older than Gen3.
-> 
-> I wouldn't say workaround, it just makes sure that we don't try to
-> support LVDS dual-mode on older SoCs as the feature was added in Gen3
-> hardware.
-> 
-> > So, assuming this is correct, when trying to specify a companion on
-> > older then Gen3 should result in some kind of error/warning?
-> > (Maybe it does).
-> 
-> The property is ignored in that case. I could add an error message, but
-> I'm not sure I should, as we don't usually check that DT nodes don't
-> contain any other property than the ones specified in the DT bindings
-> (an automatic DT runtime validator based on the YAML bindings could be
-> interesting ;-)).
-Again, thanks for taking your time.
-This clarifies it nicely.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-	Sam
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
