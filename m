@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E9E3B37A2A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2019 18:54:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB30837A5D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2019 18:59:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727163AbfFFQyJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 Jun 2019 12:54:09 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:44962 "EHLO
+        id S1728551AbfFFQ7N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 Jun 2019 12:59:13 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:45024 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727445AbfFFQyI (ORCPT
+        with ESMTP id S1725267AbfFFQ7N (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 6 Jun 2019 12:54:08 -0400
+        Thu, 6 Jun 2019 12:59:13 -0400
 Received: from pendragon.ideasonboard.com (unknown [IPv6:2a02:a03f:44f0:8500:ca05:8177:199c:fed4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 349BF33B;
-        Thu,  6 Jun 2019 18:54:06 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D541333B;
+        Thu,  6 Jun 2019 18:59:11 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1559840046;
-        bh=KU7bynOWQxEsZF9wVZ4WjYDe60zWXjq617V0v2YLhFM=;
+        s=mail; t=1559840352;
+        bh=XDx8nCiqiYqSjm6geqOh75YZZTdb04aCc3T8YidISPg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=INHNwSelSFh4Y1SFZvTpHkfgSSQEgu3FcYWWbske5+W9Bsp2Mng4FCL31uLPgKlxm
-         kT+x0kfvzqYOTCozj78CSliiv2JT1NpAlsJO1+mj9S8VIxNj9r+doIiLUs7mUh0l+r
-         SOhLOwmFYYKzSS5lJe7hCIanuqB4IWc0sNJKFx4k=
-Date:   Thu, 6 Jun 2019 19:53:52 +0300
+        b=ut/qrx1h0uk4GGyPirmjpOsBDdj0ByH5fFxjf7XKO9fHkKLj6K7NJ3Cfk7vOxFYns
+         Iv+k3M4VgrxNhkQBLPNt0uTs9+7zBw8qIaNmuMPfGO5OOUE+TV095gB8otzT0pISsx
+         4gGhckbNQvtIw4C8IR3hPJqD6RpacJCsCx8Idpc0=
+Date:   Thu, 6 Jun 2019 19:58:57 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
 Cc:     kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
@@ -31,15 +31,14 @@ Cc:     kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
         Harsha.ManjulaMallikarjun@in.bosch.com,
         linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 03/20] dt-bindings: display, renesas,du: Update 'vsps' in
- example
-Message-ID: <20190606165352.GK12825@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 05/20] clk: renesas: r8a7795: Add CMM clocks
+Message-ID: <20190606165857.GL12825@pendragon.ideasonboard.com>
 References: <20190606142220.1392-1-jacopo+renesas@jmondi.org>
- <20190606142220.1392-4-jacopo+renesas@jmondi.org>
+ <20190606142220.1392-6-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190606142220.1392-4-jacopo+renesas@jmondi.org>
+In-Reply-To: <20190606142220.1392-6-jacopo+renesas@jmondi.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -50,32 +49,35 @@ Hi Jacopo,
 
 Thank you for the patch.
 
-On Thu, Jun 06, 2019 at 04:22:03PM +0200, Jacopo Mondi wrote:
-> Update the 'vsps' property structure in the documentation example to
-> reflect what's actually implemented in the device tree sources.
+On Thu, Jun 06, 2019 at 04:22:05PM +0200, Jacopo Mondi wrote:
+> Add clock definitions for CMM units on Renesas R-Car Gen3 H3.
 > 
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
->  Documentation/devicetree/bindings/display/renesas,du.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/clk/renesas/r8a7795-cpg-mssr.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/renesas,du.txt b/Documentation/devicetree/bindings/display/renesas,du.txt
-> index 100114ef11d5..262047053d31 100644
-> --- a/Documentation/devicetree/bindings/display/renesas,du.txt
-> +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
-> @@ -92,7 +92,7 @@ Example: R8A7795 (R-Car H3) ES2.0 DU
->  			 <&cpg CPG_MOD 722>,
->  			 <&cpg CPG_MOD 721>;
->  		clock-names = "du.0", "du.1", "du.2", "du.3";
-> -		vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
-> +		vsps = <&vspd0 0 &vspd1 0 &vspd2  &vspd0 1>;
+> diff --git a/drivers/clk/renesas/r8a7795-cpg-mssr.c b/drivers/clk/renesas/r8a7795-cpg-mssr.c
+> index 86842c9fd314..e8f1d5ec0455 100644
+> --- a/drivers/clk/renesas/r8a7795-cpg-mssr.c
+> +++ b/drivers/clk/renesas/r8a7795-cpg-mssr.c
+> @@ -200,6 +200,10 @@ static struct mssr_mod_clk r8a7795_mod_clks[] __initdata = {
+>  	DEF_MOD("ehci0",		 703,	R8A7795_CLK_S3D4),
+>  	DEF_MOD("hsusb",		 704,	R8A7795_CLK_S3D4),
+>  	DEF_MOD("hsusb3",		 705,	R8A7795_CLK_S3D4),
+> +	DEF_MOD("cmm3",			 708,	R8A7795_CLK_S2D1),
+> +	DEF_MOD("cmm2",			 709,	R8A7795_CLK_S2D1),
+> +	DEF_MOD("cmm1",			 710,	R8A7795_CLK_S2D1),
+> +	DEF_MOD("cmm0",			 711,	R8A7795_CLK_S2D1),
 
-The former is simpler to read than the latter in my opinion. Shouldn't
-we update the .dtsi files instead ?
+Could you try to get confirmation that S2D1 is the right parent (for all
+SoCs) ? Apart from that,
 
->  		cmms = <&cmm0 &cmm1 &cmm2 &cmm3>;
->  
->  		ports {
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>  	DEF_MOD("csi21",		 713,	R8A7795_CLK_CSI0), /* ES1.x */
+>  	DEF_MOD("csi20",		 714,	R8A7795_CLK_CSI0),
+>  	DEF_MOD("csi41",		 715,	R8A7795_CLK_CSI0),
 
 -- 
 Regards,
