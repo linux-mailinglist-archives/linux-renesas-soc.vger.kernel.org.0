@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 72132374A5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2019 14:58:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00A5E374A6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2019 14:58:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727321AbfFFM6V (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 Jun 2019 08:58:21 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:42537 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726991AbfFFM6V (ORCPT
+        id S1728025AbfFFM6k (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 Jun 2019 08:58:40 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:33505 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726693AbfFFM6k (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 6 Jun 2019 08:58:21 -0400
-Received: by mail-lj1-f195.google.com with SMTP id t28so1900213lje.9;
-        Thu, 06 Jun 2019 05:58:19 -0700 (PDT)
+        Thu, 6 Jun 2019 08:58:40 -0400
+Received: by mail-lj1-f194.google.com with SMTP id v29so1935173ljv.0;
+        Thu, 06 Jun 2019 05:58:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=jBy0uqYLg7tb6lXnY7rKhqnY0ryXj2jCTK4uIKivhHM=;
-        b=q0wgh9LWXjIsQFZ/B0081zzhYT+h+3tdYSNNOc+OLaVnWJa3hqaksNXZXB+h/qgXof
-         uo8E9m45veHAwvWKW1ujWI82en58mohDvVHPdukyZRVL03qmcgGIt6xjUo3MX9GT1R+e
-         ZDe8MCa8GCz3onTmgPcPSibYcx00wS7J4BeCwGAxkIXj9hC6gE45fY7bafE/4IMfEEAj
-         mwhXU19eqDvyMEI+x0tZm7itOC72QDZTS/k/BsoY9GVU27SFF0I3AzYnQZZ8wIL7Qjda
-         VHjqGjVqeuWsfJ6gV1qcR/hw1SdNlfHx2AGSyPApqAk7nALDn9757HaeWcxnBSt2tntA
-         TEFQ==
-X-Gm-Message-State: APjAAAXttfyRhzI3CLFHv/RnBlPLBn27P4K2RZtWDoCvvgd++wYz9feY
-        GmUG4j9/hkstO+B01esFWKV3oi5p2IN7fi0bf9M=
-X-Google-Smtp-Source: APXvYqzaM2t/POqu2YKFpcfOMdGqu8YeuImRYPlPnr5/j6JcGKJrZNTMZfMarKZgZtAqkuUlq9oLac19bAuoe0yy59U=
-X-Received: by 2002:a2e:2b8d:: with SMTP id r13mr12470277ljr.145.1559825899018;
- Thu, 06 Jun 2019 05:58:19 -0700 (PDT)
+        bh=O7awPU/yz1T2ye4jq/uDLv3hd9IqWGVRDNlCu7uyczA=;
+        b=K+tVqE5XaT3JJf1arKAuPD8qBntVhz7uxGhqDy+/U0HInHLy3e94rb94asVC2Hmose
+         9dvpO55neFNOEUK/KcEZ9UOjmkQ9Vn4gQk7BD2fRsTwuU6SZWf5zT9LaXfb9R+1grWmk
+         XpU0KlsYZImqXcHK75vq5TfVwTmxXflNdZKO7b5B7Eyf91/g3gzYLdeoOoANdiv5ojC0
+         EcmzJgzsPEUGkEfyYnKu6hut2zBDvtSh81k6kYiM6YZeSp0Ls8LBNDwThmykS/07AsVC
+         8P2KA7rZpVz1HCPP4ZZ0pgmYfd9Gc/s58Iq+phk5kMEVlVhBAl+t5J0bkmgK005O7vJ1
+         hrTw==
+X-Gm-Message-State: APjAAAXABZlYYY5nHP4SQSBB5O+1lt8DjToPl5Z9X1JqJ9gOqz6OUsyY
+        njwf7BprRNEy8gfSuSOkQ/qfMwOGQ4FTe34RpAM=
+X-Google-Smtp-Source: APXvYqwL3waA7kHbJfQltEx/0sgqPoiVUOcrDG8lsFHIebvZsMmsz8VKmfaT7ci+ATnJIPEtaQJlSriuUKDG53B4DUE=
+X-Received: by 2002:a2e:960e:: with SMTP id v14mr24893999ljh.31.1559825917962;
+ Thu, 06 Jun 2019 05:58:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190606113537.8869-1-wsa+renesas@sang-engineering.com> <20190606113537.8869-3-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20190606113537.8869-3-wsa+renesas@sang-engineering.com>
+References: <20190606113537.8869-1-wsa+renesas@sang-engineering.com> <20190606113537.8869-4-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20190606113537.8869-4-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 6 Jun 2019 14:58:07 +0200
-Message-ID: <CAMuHMdX+V9bZ4JDzTDZ3xVb_OpF2UhKbqPspcxW3YHzNM+e7QA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] mmc: sdhi: improve quirk descriptions
+Date:   Thu, 6 Jun 2019 14:58:25 +0200
+Message-ID: <CAMuHMdXwX0Q6f38CPBabuD_ZDDhXNw8Q7tbae-Dmh8Q+pNuHZQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] mmc: sdhi: remove unneeded initialization
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
@@ -51,8 +51,7 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Thu, Jun 6, 2019 at 2:36 PM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
-> Quirks show up in new SoCs as well, so the naming should be generic.
-> Describe them by what they do.
+> Bools are initialized to 'false' by default.
 >
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
