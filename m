@@ -2,41 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 89482370CF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2019 11:50:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D573D370D2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2019 11:50:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727966AbfFFJuW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 Jun 2019 05:50:22 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:41584 "EHLO
+        id S1727922AbfFFJu3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 Jun 2019 05:50:29 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:37421 "EHLO
         mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727540AbfFFJuW (ORCPT
+        with ESMTP id S1727829AbfFFJu3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 6 Jun 2019 05:50:22 -0400
-Received: by mail-lj1-f194.google.com with SMTP id s21so1368925lji.8;
-        Thu, 06 Jun 2019 02:50:20 -0700 (PDT)
+        Thu, 6 Jun 2019 05:50:29 -0400
+Received: by mail-lj1-f194.google.com with SMTP id 131so1385598ljf.4;
+        Thu, 06 Jun 2019 02:50:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=DlT+OZRl/u5RNKPi8dNkZHp/9V+UR86IhXUtkw0pwO4=;
-        b=SslU/4I+BNclA4QwGXsLgXQL9Q/jmKyxkkUNZ+G4y69S/l25TnKH64dXgFfyCJ4sLl
-         cUAK4fJpIw2A/DNd/GcI3et6QT9IV+Cc1TCxNg3h6qwViCShCMlyvvMcwwBX/2wHVKox
-         bzP6KDzZYm1L07wQHcEMhxfgrHhRKpOkc6Nv1qT4CrrGM9azylcg3k0c8vN3zyuuMIn2
-         ABGvEzKoyS/MrFnl3hyEdSNFnBLr1D4uyPuC7u7/QaV3aMGHdhr9emU9La6NA6Yyrwha
-         PNQocrqWB0Nd+YOdrqC1oeT8g+l36Wde7NSWc/jymJzoZ3ASBShmGNA0e6aNxrGVK5mu
-         Slkg==
-X-Gm-Message-State: APjAAAX1+FzBuDbehtJpgShFds2h2Ha86XvX8x40Z7roZjttBPnh4DtJ
-        QNKwFDEtSfxoLvSgOlOQuSTD4KjB2ZZtEKufTDY=
-X-Google-Smtp-Source: APXvYqwcMSsDaCC9OEBJ3Xw8K5dT8oEpHsRIg/lwLvtokXUMGCsjL8s+jZpsWSGJETJIdJoV9+VVxFUo703Q+71eqKE=
-X-Received: by 2002:a2e:751c:: with SMTP id q28mr570757ljc.178.1559814619925;
- Thu, 06 Jun 2019 02:50:19 -0700 (PDT)
+        bh=DNX+Ts9WPtQYgcnm+9eAeCHQbn5os1RzU+aXajFNx8M=;
+        b=AcMkR0QZBVtK1+lzEYKaO0qon/h8JSXApWxw2qHLzoMNTHv5mQ81cZtNIQx4xDLU8Y
+         OQQDb81hrZ+BTXJsM8sN/JP/0ui88edO5PiGDQDICHvkZlak7THK+Qjp2XnFN/vV7Jr3
+         zR4HU/anAvkPistfPDjIJE3RG6hidG4d4qBvX1UfNMkl6TENWh18blz53Ab5reBsqD1y
+         0y5o1NHWWvdNhAPhnNKfhMnQh0pVTK9nkyOX+wWI62tMTSPgXTqI4roYVLo5XMeqtmt0
+         6Tvff1CzU0abMRCE/rEgUkk145aohJmE/jW5OKTN52VdFXmJgv1CmMs36pUq3k5Qk92V
+         U8OA==
+X-Gm-Message-State: APjAAAX5UEL+QA9VFRnd5gxv4lXEi7+QRilD5tC5I/2/KendmgpoWsnn
+        kHvhHIelhPJZ6/C02VyTs7dWxVTwQXKA/n9S9iA=
+X-Google-Smtp-Source: APXvYqxGUsg72LTflHixT9Icpou42+4NdCNIalceAsjTo0vFz0n0Yt5R8HYly3nA547PVvUio49MLKElzw+JBpTh7LE=
+X-Received: by 2002:a2e:91c5:: with SMTP id u5mr12902756ljg.65.1559814627301;
+ Thu, 06 Jun 2019 02:50:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <1559228266-16724-1-git-send-email-biju.das@bp.renesas.com> <1559228266-16724-2-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1559228266-16724-2-git-send-email-biju.das@bp.renesas.com>
+References: <1559228266-16724-1-git-send-email-biju.das@bp.renesas.com> <1559228266-16724-3-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1559228266-16724-3-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 6 Jun 2019 11:50:07 +0200
-Message-ID: <CAMuHMdUDZbpAOCoDiGwxW=VpQRtS9u6KFV72=JrHm0HRsncpZw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] arm64: dts: renesas: Add HiHope RZ/G2M main board support
+Date:   Thu, 6 Jun 2019 11:50:15 +0200
+Message-ID: <CAMuHMdVubg9CDLswdR30AMpG5_FELWGBtiFqo3XYa=jGhaFLSw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: hihope-common: Add pincontrol
+ support to scif2/scif clock
 To:     Biju Das <biju.das@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -55,13 +56,7 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Thu, May 30, 2019 at 5:05 PM Biju Das <biju.das@bp.renesas.com> wrote:
-> Basic support for the HiHope RZ/G2M main board:
->   - Memory,
->   - Main crystal,
->   - Serial console
->
-> This patch also includes a dtsi common to both HiHope RZ/G2M
-> and RZ/G2N main boards.
+> This patch adds pincontrol support to scif2/scif clock.
 >
 > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 > Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
@@ -72,7 +67,8 @@ Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
