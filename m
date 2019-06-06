@@ -2,91 +2,213 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B527936CB8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2019 09:01:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D927F36D77
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2019 09:40:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726014AbfFFHB2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 Jun 2019 03:01:28 -0400
-Received: from verein.lst.de ([213.95.11.211]:47581 "EHLO newverein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725782AbfFFHB1 (ORCPT
+        id S1725782AbfFFHkz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 Jun 2019 03:40:55 -0400
+Received: from twhmllg4.macronix.com ([122.147.135.202]:32481 "EHLO
+        TWHMLLG4.macronix.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725267AbfFFHkz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 6 Jun 2019 03:01:27 -0400
-Received: by newverein.lst.de (Postfix, from userid 2407)
-        id 8A8FB68B20; Thu,  6 Jun 2019 09:01:00 +0200 (CEST)
-Date:   Thu, 6 Jun 2019 09:00:59 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
-        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
-        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [RFC PATCH v5 3/8] iommu: add a new capable IOMMU_CAP_MERGING
-Message-ID: <20190606070059.GI27033@lst.de>
-References: <1559733114-4221-1-git-send-email-yoshihiro.shimoda.uh@renesas.com> <1559733114-4221-4-git-send-email-yoshihiro.shimoda.uh@renesas.com> <7dfeb7d8-b777-b4af-d892-2829cd05241b@arm.com> <20190605123808.GA12529@lst.de> <OSAPR01MB3089448A3D44BE61B127AA73D8170@OSAPR01MB3089.jpnprd01.prod.outlook.com>
+        Thu, 6 Jun 2019 03:40:55 -0400
+Received: from twhfmnt1.mxic.com.tw (twhfm1p2.macronix.com [172.17.20.92])
+        by TWHMLLG4.macronix.com with ESMTP id x567ejnl029719;
+        Thu, 6 Jun 2019 15:40:45 +0800 (GMT-8)
+        (envelope-from masonccyang@mxic.com.tw)
+Received: from MXML06C.mxic.com.tw (mxml06c.macronix.com [172.17.14.55])
+        by Forcepoint Email with ESMTP id F26E03F4C1666F37E5FA;
+        Thu,  6 Jun 2019 15:40:45 +0800 (CST)
+In-Reply-To: <02addf64-9f6e-ccc1-2f94-8983456e3ebc@cogentembedded.com>
+References: <1558423174-10748-1-git-send-email-masonccyang@mxic.com.tw> <1558423174-10748-4-git-send-email-masonccyang@mxic.com.tw> <0e2994d6-6efc-9f36-f681-609199f20b9f@cogentembedded.com> <20190603130428.GX4797@dell> <02addf64-9f6e-ccc1-2f94-8983456e3ebc@cogentembedded.com>
+To:     "Lee Jones" <lee.jones@linaro.org>
+Cc:     bbrezillon@kernel.org, broonie@kernel.org,
+        devicetree@vger.kernel.org,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
+        "Simon Horman" <horms@verge.net.au>, juliensu@mxic.com.tw,
+        "Lee Jones" <lee.jones@linaro.org>, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-spi@vger.kernel.org,
+        marek.vasut@gmail.com, mark.rutland@arm.com,
+        miquel.raynal@bootlin.com, robh+dt@kernel.org,
+        "Sergei Shtylyov" <sergei.shtylyov@cogentembedded.com>
+Subject: Re: [PATCH v13 3/3] dt-bindings: mfd: Document Renesas R-Car Gen3 RPC-IF
+ controller bindings
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <OSAPR01MB3089448A3D44BE61B127AA73D8170@OSAPR01MB3089.jpnprd01.prod.outlook.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+X-KeepSent: DA7648A0:F1733EA5-48258411:002946DF;
+ type=4; name=$KeepSent
+X-Mailer: Lotus Notes Release 8.5.3FP4 SHF90 June 10, 2013
+Message-ID: <OFDA7648A0.F1733EA5-ON48258411.002946DF-48258411.002A2F0D@mxic.com.tw>
+From:   masonccyang@mxic.com.tw
+Date:   Thu, 6 Jun 2019 15:40:45 +0800
+X-MIMETrack: Serialize by Router on MXML06C/TAIWAN/MXIC(Release 9.0.1FP10 HF265|July 25, 2018) at
+ 2019/06/06 PM 03:40:45,
+        Serialize complete at 2019/06/06 PM 03:40:45
+Content-Type: text/plain; charset="US-ASCII"
+X-MAIL: TWHMLLG4.macronix.com x567ejnl029719
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jun 06, 2019 at 06:28:47AM +0000, Yoshihiro Shimoda wrote:
-> > The problem is that we need a way to communicate to the block layer
-> > that more than a single segment is ok IFF the DMA API instance supports
-> > merging.  And of course the answer will depend on futher parameters
-> > like the maximum merged segment size and alignment for the segement.
+
+Hi Jones,
+
+
+> Subject
 > 
-> I'm afraid but I don't understand why we need a way to communicate to
-> the block layer that more than a single segment is ok IFF the DMA API
-> instance supports merging.
+> Re: [PATCH v13 3/3] dt-bindings: mfd: Document Renesas R-Car Gen3 RPC-IF 
 
-Assume a device (which I think is your case) that only supports a single
-segment in hardware.  In that case we set max_segments to 1 if no
-IOMMU is present.  But if we have a merge capable IOMMU we can set
-max_segments to unlimited (or some software limit for scatterlist
-allocation), as long as we set a virt_boundary matching what the IOMMU
-expects, and max_sectors_kb isn't larger than the max IOMMU mapping
-size.  Now we could probably just open code this in the driver, but
-I'd feel much happier having a block layer like this:
+> controller bindings
+> 
+> Hello!
+> 
+> On 06/03/2019 04:04 PM, Lee Jones wrote:
+> 
+> >>> Document the bindings used by the Renesas R-Car Gen3 RPC-IF 
+controller.
+> >>>
+> >>> Signed-off-by: Mason Yang <masonccyang@mxic.com.tw>
+> >>> ---
+> >>>  .../devicetree/bindings/mfd/renesas-rpc-if.txt     | 65 
+++++++++++++++++++++++
+> >>>  1 file changed, 65 insertions(+)
+> >>>  create mode 100644 
+Documentation/devicetree/bindings/mfd/renesas-rpc-if.txt
+> >>>
+> >>> diff --git 
+a/Documentation/devicetree/bindings/mfd/renesas-rpc-if.txt b/
+> Documentation/devicetree/bindings/mfd/renesas-rpc-if.txt
+> >>> new file mode 100644
+> >>> index 0000000..20ec85b
+> >>> --- /dev/null
+> >>> +++ b/Documentation/devicetree/bindings/mfd/renesas-rpc-if.txt
+> >>> @@ -0,0 +1,65 @@
+> >>> +Renesas R-Car Gen3 RPC-IF controller Device Tree Bindings
+> >>> +---------------------------------------------------------
+> >>> +
+> >>> +RPC-IF supports both SPI NOR and HyperFlash (CFI-compliant flash)
+> >>> +
+> >>> +Required properties:
+> >>> +- compatible: should be an SoC-specific compatible value, followed 
+by
+> >>> +      "renesas,rcar-gen3-rpc" as a fallback.
+> >>> +      supported SoC-specific values are:
+> >>> +      "renesas,r8a77995-rpc"   (R-Car D3)
+> >>> +- reg: should contain three register areas:
+> >>> +   first for RPC-IF registers,
+> >>> +   second for the direct mapping read mode and
+> >>> +   third for the write buffer area.
+> >>> +- reg-names: should contain "regs", "dirmap" and "wbuf"
+> >>> +- clocks: should contain 1 entries for the module's clock
+> >>> +- clock-names: should contain "rpc"
+> >>> +- power-domains: should contain system-controller(sysc) for 
+power-domain-cell
+> >>> +- resets: should contain clock pulse generator(cpg) for reset-cell,
+> >>> +     power-domain-cell and clock-cell
+> >>
+> >>    That's just some nonsense, sorry...
+> >>    I suggest that you stop reposting your patches as I'm going to 
+post
+> >> my version of this patchset RSN (based on your patches, of course) 
+and I'm
+> >> going to take care of fixing this file as well.
+> > 
+> > Why is this necessary?
+> 
+>    Because Mason doesn't want to develop the HyperFlash driver (or even 
+move his code
+> in preparation to this driver being developed). I must develop this 
+driver, and I'd
+> like to avoid the extra churn of mving the code between the MFD and SPI 
+drivers.
+> 
 
-bool blk_can_use_iommu_merging(struct request_queue *q, struct device *dev)
-{
-	if (!IOMMU_CAN_MERGE_SEGMENTS(dev))
-		return false;
+There might be some misunderstandings.
 
-	blk_queue_virt_boundary(q, IOMMU_PAGE_SIZE(dev));
-	blk_queue_max_segment_size(q, IOMMU_MAX_SEGMENT_SIZE(dev));
-	return true;
-}
+I had been requested to boot R-CAR from the OctaFlash and finally I have 
+achieved it 
+by patching SPI framework for OctaFlash operation and RPC-IF SPI driver. 
 
-and the driver then does:
+We were aware of the lacking support of RPC-IF in the Linux kernel at that 
+time and 
+I though I could contribute what I had developed.
 
-	if (blk_can_use_iommu_merging(q, dev)) {
-		blk_queue_max_segments(q, MAX_SW_SEGMENTS);
-		// initialize sg mempool, etc..
-	}
+At that time for my first submission of RPC-IF SPI on 15 NOv 2018, there 
+was no any 
+HyperFlash (or Hyper Bus) patches. And we did not consider it because the 
+resource
+of HyperFlash was shortage to us.
+
+RPC-IF SPI was applied by Mark on 12,Feb 2019 but Marek comment to add 
+supporting
+MFD for RPC-IF and then I patched RPC-IF to MFD and SPI till this v13.
+
+I always think about:
+
+Is RPC-IF really good/suitable for MFD ?
+RPC-IF works either in SPI or HyperFlash is decided by external hardware 
+pins 
+configuration and it can NOT switch it's operation mode in the run time. 
+This is not like my understanding of MFD.
+
+As your comments:
+------------------------------------------------------------------------>
+> +              flash = of_get_next_child(pdev->dev.of_node, NULL);
+> +              if (!flash) {
+> +                              dev_warn(&pdev->dev, "no flash node 
+found\n");
+> +                              return -ENODEV;
+> +              }
+> +
+> +              if (of_device_is_compatible(flash, "jedec,spi-nor")) {
+> +                              cell = &rpc_spi_ctlr;
+> +              } else if (of_device_is_compatible(flash, "cfi-flash")) {
+> +                              cell = &rpc_hf_ctlr;
+> +              } else {
+> +                              dev_warn(&pdev->dev, "unknown flash 
+type\n");
+> +                              return -ENODEV;
+> +              }
+
+Are there going to be more children coming?
+
+If not, I'd argue that this is not an MFD.
+<-------------------------------------------------------------------
+
+I agreed with your opinion and I will resubmit RPC-IF in SPI only
+if you also agree with it.
 
 
-Where the SCREAMING pseudo code calls are something we need to find a
-good API for.
+thanks & best regards,
+Mason
 
-And thinking about it the backend doesn't need to be an iommu, swiotlb
-could handle this as well, which might be interesting for devices
-that need to boune buffer anyway.  IIRC mmc actually has some code
-to copy multiple segments into a bounce buffer somewhere.
 
-> The block layer already has a limit "max_segment_size" for each device so that
-> regardless it can/cannot merge the segments, we can use the limit.
-> Is my understanding incorrect?
 
-Yes.
+CONFIDENTIALITY NOTE:
+
+This e-mail and any attachments may contain confidential information 
+and/or personal data, which is protected by applicable laws. Please be 
+reminded that duplication, disclosure, distribution, or use of this e-mail 
+(and/or its attachments) or any part thereof is prohibited. If you receive 
+this e-mail in error, please notify us immediately and delete this mail as 
+well as its attachment(s) from your system. In addition, please be 
+informed that collection, processing, and/or use of personal data is 
+prohibited unless expressly permitted by personal data protection laws. 
+Thank you for your attention and cooperation.
+
+Macronix International Co., Ltd.
+
+=====================================================================
+
+
+
+============================================================================
+
+CONFIDENTIALITY NOTE:
+
+This e-mail and any attachments may contain confidential information and/or personal data, which is protected by applicable laws. Please be reminded that duplication, disclosure, distribution, or use of this e-mail (and/or its attachments) or any part thereof is prohibited. If you receive this e-mail in error, please notify us immediately and delete this mail as well as its attachment(s) from your system. In addition, please be informed that collection, processing, and/or use of personal data is prohibited unless expressly permitted by personal data protection laws. Thank you for your attention and cooperation.
+
+Macronix International Co., Ltd.
+
+=====================================================================
+
