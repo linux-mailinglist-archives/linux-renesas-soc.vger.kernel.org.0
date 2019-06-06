@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 10B5837A62
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2019 19:00:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0183137A67
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2019 19:00:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727402AbfFFRAB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 Jun 2019 13:00:01 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45048 "EHLO
+        id S1727477AbfFFRAq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 Jun 2019 13:00:46 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:45078 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725267AbfFFRAB (ORCPT
+        with ESMTP id S1725267AbfFFRAq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 6 Jun 2019 13:00:01 -0400
+        Thu, 6 Jun 2019 13:00:46 -0400
 Received: from pendragon.ideasonboard.com (unknown [IPv6:2a02:a03f:44f0:8500:ca05:8177:199c:fed4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C041E33B;
-        Thu,  6 Jun 2019 18:59:59 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6F77533B;
+        Thu,  6 Jun 2019 19:00:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1559840399;
-        bh=5X4XDtwWOlQt05zyhRZuWjlaeJCoBpyM3GZhcMPznXA=;
+        s=mail; t=1559840444;
+        bh=PU8fsFA4LR5gjN8p9jDNP2JzGYDseNa3weTfGFWVzZ0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=raeumGqFAlTVMCr+owMwwJa/2Wngo6TIzylT8fOqd35r9LEGs1YViIc4zVedGRC+R
-         obs1iDnmH//4ElvAmMWLUIpKz/wJ8ROuxSzZt4IOdiX2abflHKB8hMmZRBv9MN5iuU
-         +fMSJj2Y4GtUlf4dZoLhV8O3LNDSGStY1+XLcnUU=
-Date:   Thu, 6 Jun 2019 19:59:45 +0300
+        b=t6sBGV44VxSNtAeLVoAPNvH3ANJ2suLeeoOQOY9O3sh6HUEvSLTsNSy88Td1yV8Fp
+         mWGdWwuEhrxNf7WUGAtdsshqdPUICEIOb6DGA8t6tmZjor3EyRj4w5kP49kAoQAu/n
+         BKfRJP4nd7Ovh+Wa1aep6lgAz+EPTO5wSPeCRTYM=
+Date:   Thu, 6 Jun 2019 20:00:30 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
 Cc:     kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
@@ -31,14 +31,14 @@ Cc:     kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
         Harsha.ManjulaMallikarjun@in.bosch.com,
         linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 06/20] clk: renesas: r8a77965: Add CMM clocks
-Message-ID: <20190606165945.GM12825@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 07/20] clk: renesas: r8a77990: Add CMM clocks
+Message-ID: <20190606170030.GN12825@pendragon.ideasonboard.com>
 References: <20190606142220.1392-1-jacopo+renesas@jmondi.org>
- <20190606142220.1392-7-jacopo+renesas@jmondi.org>
+ <20190606142220.1392-8-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190606142220.1392-7-jacopo+renesas@jmondi.org>
+In-Reply-To: <20190606142220.1392-8-jacopo+renesas@jmondi.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -49,31 +49,30 @@ Hi Jacopo,
 
 Thank you for the patch.
 
-On Thu, Jun 06, 2019 at 04:22:06PM +0200, Jacopo Mondi wrote:
-> Add clock definitions for CMM units on Renesas R-Car Gen3 M3-N.
+On Thu, Jun 06, 2019 at 04:22:07PM +0200, Jacopo Mondi wrote:
+> Add clock definitions for CMM units on Renesas R-Car Gen3 E3.
 > 
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/clk/renesas/r8a77965-cpg-mssr.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  drivers/clk/renesas/r8a77990-cpg-mssr.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/drivers/clk/renesas/r8a77965-cpg-mssr.c b/drivers/clk/renesas/r8a77965-cpg-mssr.c
-> index eb1cca58a1e1..58f75b03c8bb 100644
-> --- a/drivers/clk/renesas/r8a77965-cpg-mssr.c
-> +++ b/drivers/clk/renesas/r8a77965-cpg-mssr.c
-> @@ -178,6 +178,9 @@ static const struct mssr_mod_clk r8a77965_mod_clks[] __initconst = {
->  	DEF_MOD("ehci1",		702,	R8A77965_CLK_S3D4),
->  	DEF_MOD("ehci0",		703,	R8A77965_CLK_S3D4),
->  	DEF_MOD("hsusb",		704,	R8A77965_CLK_S3D4),
-> +	DEF_MOD("cmm3",			708,	R8A77965_CLK_S2D1),
-> +	DEF_MOD("cmm1",			710,	R8A77965_CLK_S2D1),
-> +	DEF_MOD("cmm0",			711,	R8A77965_CLK_S2D1),
->  	DEF_MOD("csi20",		714,	R8A77965_CLK_CSI0),
->  	DEF_MOD("csi40",		716,	R8A77965_CLK_CSI0),
->  	DEF_MOD("du3",			721,	R8A77965_CLK_S2D1),
+> diff --git a/drivers/clk/renesas/r8a77990-cpg-mssr.c b/drivers/clk/renesas/r8a77990-cpg-mssr.c
+> index 9a278c75c918..8cdd0e6fb74f 100644
+> --- a/drivers/clk/renesas/r8a77990-cpg-mssr.c
+> +++ b/drivers/clk/renesas/r8a77990-cpg-mssr.c
+> @@ -182,6 +182,8 @@ static const struct mssr_mod_clk r8a77990_mod_clks[] __initconst = {
+>  
+>  	DEF_MOD("ehci0",		 703,	R8A77990_CLK_S3D4),
+>  	DEF_MOD("hsusb",		 704,	R8A77990_CLK_S3D4),
+> +	DEF_MOD("cmm1",			 710,	R8A77990_CLK_S1D1),
+> +	DEF_MOD("cmm0",			 711,	R8A77990_CLK_S1D1),
+>  	DEF_MOD("csi40",		 716,	R8A77990_CLK_CSI0),
+>  	DEF_MOD("du1",			 723,	R8A77990_CLK_S1D1),
+>  	DEF_MOD("du0",			 724,	R8A77990_CLK_S1D1),
 
 -- 
 Regards,
