@@ -2,127 +2,304 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D963836C3D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2019 08:28:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4559C36C7B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  6 Jun 2019 08:45:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725947AbfFFG2x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 6 Jun 2019 02:28:53 -0400
-Received: from mail-eopbgr1400130.outbound.protection.outlook.com ([40.107.140.130]:24544
+        id S1725769AbfFFGpJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 6 Jun 2019 02:45:09 -0400
+Received: from mail-eopbgr1400092.outbound.protection.outlook.com ([40.107.140.92]:18204
         "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725267AbfFFG2x (ORCPT
+        id S1725267AbfFFGpJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 6 Jun 2019 02:28:53 -0400
+        Thu, 6 Jun 2019 02:45:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6mrscffEdaONOt18iWr+6AmSys1rpIqcdDsa9pp8H9Q=;
- b=N0tF6kXdtFeVfukjtlKsjfgbxb1Td5ua1zRED0cnijUy8zypu6MgUFotdJcKSK6rQOhoG40cXoUwHrDVCOZas3VwPCDiwYrUQtna+TXYXWsVtpKyn+K/zYoPljx/L++I0uJ7VfEaCLv5rzpEUpfCHcQf3qdl5tZoAaBi9be0gSQ=
-Received: from OSAPR01MB3089.jpnprd01.prod.outlook.com (52.134.247.150) by
- OSAPR01MB4241.jpnprd01.prod.outlook.com (20.178.128.75) with Microsoft SMTP
+ bh=S7fPxGgE5BNbbdRGbnzBEjZxMIPcf4vMPiNKxx6LEwk=;
+ b=Gf1hSuElKDgiKIAH57J6xzbE6xslFCWpxNS34u3VrwUYjIHkVolzjd2e9ZjhgKcnol+WFWlJ3cLpU8Gdl7ExUd8MF2tncs7m0sKZsXoJdBnJlTG+EkYGgEeyV/kHgonY2Czls/gR42lDt51OQrn1EyVAM+q7AcFeQL9bj8ZtOMs=
+Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com (52.134.242.17) by
+ OSBPR01MB2230.jpnprd01.prod.outlook.com (52.134.239.141) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1943.22; Thu, 6 Jun 2019 06:28:47 +0000
-Received: from OSAPR01MB3089.jpnprd01.prod.outlook.com
- ([fe80::19ad:b6ce:a287:dc85]) by OSAPR01MB3089.jpnprd01.prod.outlook.com
- ([fe80::19ad:b6ce:a287:dc85%7]) with mapi id 15.20.1943.018; Thu, 6 Jun 2019
- 06:28:47 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>
-CC:     "ulf.hansson@linaro.org" <ulf.hansson@linaro.org>,
-        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
-        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-        "joro@8bytes.org" <joro@8bytes.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [RFC PATCH v5 3/8] iommu: add a new capable IOMMU_CAP_MERGING
-Thread-Topic: [RFC PATCH v5 3/8] iommu: add a new capable IOMMU_CAP_MERGING
-Thread-Index: AQHVG5AuSNIEYbUj60Sza33KteoVlaaM+2qAgAAEhACAASFw4A==
-Date:   Thu, 6 Jun 2019 06:28:47 +0000
-Message-ID: <OSAPR01MB3089448A3D44BE61B127AA73D8170@OSAPR01MB3089.jpnprd01.prod.outlook.com>
-References: <1559733114-4221-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1559733114-4221-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <7dfeb7d8-b777-b4af-d892-2829cd05241b@arm.com>
- <20190605123808.GA12529@lst.de>
-In-Reply-To: <20190605123808.GA12529@lst.de>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
+ 15.20.1965.12; Thu, 6 Jun 2019 06:45:05 +0000
+Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com
+ ([fe80::a146:39f0:5df9:11bc]) by OSBPR01MB2103.jpnprd01.prod.outlook.com
+ ([fe80::a146:39f0:5df9:11bc%7]) with mapi id 15.20.1943.018; Thu, 6 Jun 2019
+ 06:45:05 +0000
+From:   Biju Das <biju.das@bp.renesas.com>
+To:     Marek Vasut <marek.vasut@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>
+Subject: RE: pcie-card issue with R-Car M3-W WS1.1 board (NETDEV WATCHDOG:
+ eth0 (e1000e): transmit queue 0 timed out)
+Thread-Topic: pcie-card issue with R-Car M3-W WS1.1 board (NETDEV WATCHDOG:
+ eth0 (e1000e): transmit queue 0 timed out)
+Thread-Index: AQHVG+QFts/gMs+QP0+jmXUdrQsCJaaOLe9g
+Date:   Thu, 6 Jun 2019 06:45:05 +0000
+Message-ID: <OSBPR01MB2103DE26A1526173CD49CD22B8170@OSBPR01MB2103.jpnprd01.prod.outlook.com>
+References: <OSBPR01MB2103EF2B0100BB5B1D734D63B8160@OSBPR01MB2103.jpnprd01.prod.outlook.com>
+ <f4d818f4-9677-fbfa-0838-adce391ed417@gmail.com>
+In-Reply-To: <f4d818f4-9677-fbfa-0838-adce391ed417@gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 authentication-results: spf=none (sender IP is )
- smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
-x-originating-ip: [118.238.235.108]
+ smtp.mailfrom=biju.das@bp.renesas.com; 
+x-originating-ip: [193.141.220.21]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c728d5bd-20b8-4dfb-1cd5-08d6ea483b9e
+x-ms-office365-filtering-correlation-id: 6d91c754-4825-436f-b4d5-08d6ea4a8289
 x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:OSAPR01MB4241;
-x-ms-traffictypediagnostic: OSAPR01MB4241:
-x-microsoft-antispam-prvs: <OSAPR01MB42412BB13DFA8C0320A15403D8170@OSAPR01MB4241.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB2230;
+x-ms-traffictypediagnostic: OSBPR01MB2230:
+x-ms-exchange-purlcount: 3
+x-microsoft-antispam-prvs: <OSBPR01MB22301D3288030163064A4D3CB8170@OSBPR01MB2230.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5236;
 x-forefront-prvs: 00603B7EEF
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(346002)(136003)(396003)(366004)(376002)(39860400002)(199004)(189003)(305945005)(14454004)(229853002)(76116006)(74316002)(6116002)(26005)(66476007)(64756008)(66446008)(3846002)(476003)(7736002)(33656002)(486006)(25786009)(55016002)(6436002)(53936002)(9686003)(86362001)(478600001)(11346002)(8936002)(81166006)(8676002)(81156014)(446003)(102836004)(66946007)(66556008)(73956011)(2906002)(71190400001)(4326008)(71200400001)(6246003)(7696005)(316002)(76176011)(110136005)(52536014)(6506007)(5660300002)(54906003)(14444005)(256004)(186003)(66066001)(68736007)(99286004);DIR:OUT;SFP:1102;SCL:1;SRVR:OSAPR01MB4241;H:OSAPR01MB3089.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(136003)(396003)(39860400002)(346002)(376002)(366004)(53754006)(199004)(189003)(51914003)(2906002)(14454004)(26005)(305945005)(9686003)(478600001)(966005)(86362001)(7736002)(6116002)(3846002)(316002)(8676002)(81156014)(81166006)(8936002)(66946007)(229853002)(446003)(55016002)(6306002)(6436002)(44832011)(68736007)(11346002)(486006)(476003)(99286004)(256004)(76176011)(14444005)(33656002)(186003)(110136005)(71190400001)(6246003)(71200400001)(7696005)(53546011)(6506007)(102836004)(66476007)(52536014)(53936002)(25786009)(5660300002)(64756008)(66446008)(66556008)(76116006)(73956011)(66066001)(74316002);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB2230;H:OSBPR01MB2103.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
+received-spf: None (protection.outlook.com: bp.renesas.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: hREshsBnJWQ4ZpPxF+0cabo0J91Rc000rdI5BhSm5i5q0jKGUIj0jIbAvamPP8iS4PKUdApaIjznsZt+VnrESAu1zz1bkvZUp40QYTT7R+AgOHf+i57fqnDQ/gG0ewItHTufM/52jHU4JdULLv2PM0bKiaBar3Z/AA0DcbHlQ/+KWdu5/ldpmgvWRzWkbb0eWwjTW23UILElrgqbiYD6uf6bh6IbKcj5ysgVnQMqFi1t/N4URATJR15hAaqD168Tu/5Ca8bI/Rf+DoiPRKZRaUBl4b8RoieOnOAVZuIh0wSJNc8d3hc0fzlc2nE1SLrOTgea/Fv5n4dOgwF9BWcpyhI6/LuVQlEuwrkWgQ84Boly/zEdjIvzPRzmCCF4lpclZ4uKyUDGf02Yn53F+eK28yxtJoV9PaWVEaWj2PleZw0=
-Content-Type: text/plain; charset="us-ascii"
+x-microsoft-antispam-message-info: 4C8pXmUHs/drt7rY20Cip5jc2AG+lrP74XD6oIXv2cUuuj6U2YXrMVW6ErcPGbEVWnC06w7SR1BgLZESMgJVGEvtZEW07KME8xgNn5e3ZREq+eI3F79yIaGTlHrlY+mGkVmhVqjXloN8SKwJUDzexaHeSVh5Rlfn7a/RLxtVhVPWOBJuFZqtrvPr0ZAS8dihs7gMTdJQBvqrACPSrsQUfQuzlKHQxkhwaOjuLmDgQYOlvuTzqABgHdwyG+veX07yWuzPtD7ORE67qDJQEiW8uM1fEk3+jEqUY4vJNSIgT3vJIzGRR52HtSNxQPpMeh300NFb85LCBxuI0lhfkuxx3bWd14mD10mkoiABoXc6fJIvyVmJH+twO11bZxV/+L1GfAEOqInPhN69uS/uRjNyCNZ0gmwexIHVSTiWp6e1x6I=
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c728d5bd-20b8-4dfb-1cd5-08d6ea483b9e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jun 2019 06:28:47.6427
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d91c754-4825-436f-b4d5-08d6ea4a8289
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jun 2019 06:45:05.7346
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yoshihiro.shimoda.uh@renesas.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB4241
+X-MS-Exchange-CrossTenant-userprincipalname: biju.das@bp.renesas.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB2230
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Christoph,
+Hi Marek,
 
-Thank you for your comments!
-
-> From: Christoph Hellwig, Sent: Wednesday, June 5, 2019 9:38 PM
+> Subject: Re: pcie-card issue with R-Car M3-W WS1.1 board (NETDEV
+> WATCHDOG: eth0 (e1000e): transmit queue 0 timed out)
 >=20
-> On Wed, Jun 05, 2019 at 01:21:59PM +0100, Robin Murphy wrote:
-> > And if the problem is really that you're not getting merging because of
-> > exposing the wrong parameters to the DMA API and/or the block layer, or
-> > that you just can't quite express your requirement to the block layer i=
-n
-> > the first place, then that should really be tackled at the source rathe=
-r
-> > than worked around further down in the stack.
+> On 6/5/19 9:40 AM, Biju Das wrote:
+> > Hi All,
+> >
+> >
+> >
+> > Looks like there is a pcie issue on R-Car M3-W=A0 WS1.1 Salvator-XS
+> > board with upstream kernel.
+> >
+> >
+> >
+> > As we know M3-W board has 2 memory banks
+> >
+> >
+> >
+> > Bank #0: 0x048000000 - 0x0bfffffff, 1.9 GiB
+> >
+> > Bank #1: 0x600000000 - 0x67fffffff, 2 GiB
+> >
+> >
+> >
+> > I am using PCIE-ethernet =A0card(Ethernet controller: Intel Corporation
+> > 82574L Gigabit Network Connection) for pcie testing.
+> >
+> >
+> >
+> > With default configuration, it detects the ethernet =A0card
+> >
+> >
+> >
+> > root@salvator-x:~# lspci
+> >
+> > 00:00.0 PCI bridge: Renesas Technology Corp. Device 0028
+> >
+> > 01:00.0 Ethernet controller: Intel Corporation 82574L Gigabit Network
+> > Connection
+> >
+> >
+> >
+> > However, if we enable kernel configuration for PCIE-ethernet
+> > card(CONFIG_E1000E=3Dy)then i get below crash during boot
+> >
+> >
+> >
+> > [=A0=A0 11.999119] ------------[ cut here ]------------
+> >
+> > [=A0=A0 12.004979] NETDEV WATCHDOG: eth0 (e1000e): transmit queue 0 tim=
+ed
+> > out
+> >
+> > [=A0=A0 12.012734] WARNING: CPU: 0 PID: 0 at net/sched/sch_generic.c:44=
+3
+> > dev_watchdog+0x3e8/0x420
+> >
+> > [=A0=A0 12.022206] CPU: 0 PID: 0 Comm: swapper/0 Not tainted
+> > 5.2.0-rc3-arm64-renesas-00004-g2e3a083-dirty #25
+> >
+> > [=A0=A0 12.032728] Hardware name: Renesas Salvator-X 2nd version board
+> > based on r8a7796 (DT)
+> >
+> > [=A0=A0 12.041772] pstate: 60000005 (nZCv daif -PAN -UAO)
+> >
+> > [=A0=A0 12.047756] pc : dev_watchdog+0x3e8/0x420
+> >
+> > [=A0=A0 12.052948] lr : dev_watchdog+0x3e8/0x420
+> >
+> > [=A0=A0 12.058111] sp : ffff000010003d00
+> >
+> > [=A0=A0 12.062557] x29: ffff000010003d00 x28: 0000000000000002
+> >
+> > [=A0=A0 12.069000] x27: 00000000ffffffff x26: ffff000010f1c000
+> >
+> > [=A0=A0 12.075426] x25: ffff800639324430 x24: ffff000010f4f740
+> >
+> > [=A0=A0 12.081829] x23: ffff8006393243e0 x22: ffff00001104c000
+> >
+> > [=A0=A0 12.088207] x21: ffff000010f4a000 x20: ffff800639324000
+> >
+> > [=A0=A0 12.094564] x19: 0000000000000000 x18: ffffffffffffffff
+> >
+> > [=A0=A0 12.100903] x17: 00000000000040f8 x16: 000000000000403c
+> >
+> > [=A0=A0 12.107222] x15: 0000000000000001 x14: ffff000010baef68
+> >
+> > [=A0=A0 12.113520] x13: 0000000000000000 x12: 0000000000000000
+> >
+> > [=A0=A0 12.119809] x11: 0000000000000002 x10: 0000000000000002
+> >
+> > [=A0=A0 12.126077] x9 : 0000000000000000 x8 : ffff000010f4f708
+> >
+> > [=A0=A0 12.132331] x7 : ffff00001015d06c x6 : ffff000010f52000
+> >
+> > [=A0=A0 12.138574] x5 : 0000000000000000 x4 : 0000000000000002
+> >
+> > [=A0=A0 12.144798] x3 : ffffffffffffff50 x2 : ffff000010f6f7d8
+> >
+> > [=A0=A0 12.151022] x1 : 6610066f85848800 x0 : 0000000000000000
+> >
+> > [=A0=A0 12.157235] Call trace:
+> >
+> > [=A0=A0 12.160547]=A0 dev_watchdog+0x3e8/0x420
+> >
+> > [=A0=A0 12.165081]=A0 call_timer_fn+0xbc/0x400
+> >
+> > [=A0=A0 12.169596]=A0 expire_timers+0x110/0x230
+> >
+> > [=A0=A0 12.174194]=A0 run_timer_softirq+0xe4/0x1a0
+> >
+> > [=A0=A0 12.179047]=A0 __do_softirq+0x114/0x578
+> >
+> > [=A0=A0 12.183542]=A0 irq_exit+0x144/0x150
+> >
+> > [=A0=A0 12.187665]=A0 __handle_domain_irq+0x60/0xb8
+> >
+> > [=A0=A0 12.192558]=A0 gic_handle_irq+0x58/0xa8
+> >
+> > [=A0=A0 12.197014]=A0 el1_irq+0xbc/0x180
+> >
+> > [=A0=A0 12.200913]=A0 arch_cpu_idle+0x34/0x238
+> >
+> > [=A0=A0 12.205308]=A0 default_idle_call+0x1c/0x40
+> >
+> > [=A0=A0 12.209961]=A0 do_idle+0x1fc/0x2f0
+> >
+> > [=A0=A0 12.213895]=A0 cpu_startup_entry+0x24/0x28
+> >
+> > [=A0=A0 12.218540]=A0 rest_init+0x1a0/0x270
+> >
+> > [=A0=A0 12.222671]=A0 arch_call_rest_init+0xc/0x14
+> >
+> > [=A0=A0 12.227417]=A0 start_kernel+0x4a8/0x4d4
+> >
+> > [=A0=A0 12.231818] irq event stamp: 40197
+> >
+> > [=A0=A0 12.235962] hardirqs last=A0 enabled at (40196): [<ffff00001015d=
+12c>]
+> > console_unlock+0x3ec/0x5c0
+> >
+> > [=A0=A0 12.245376] hardirqs last disabled at (40197): [<ffff0000100817a=
+4>]
+> > do_debug_exception+0xbc/0x178
+> >
+> > [=A0=A0 12.255042] softirqs last=A0 enabled at (40174): [<ffff0000100f1=
+3a8>]
+> > _local_bh_enable+0x20/0x40
+> >
+> > [=A0=A0 12.264434] softirqs last disabled at (40175): [<ffff0000100f17e=
+4>]
+> > irq_exit+0x144/0x150
+> >
+> > [=A0=A0 12.273278] ---[ end trace cfa1ae1709343a35 ]---
+> >
+> > [=A0=A0 12.278880] e1000e 0000:01:00.0 eth0: Reset adapter unexpectedly
+> >
+> >
+> >
+> > Q1) Has any one observed=A0 this issue?
+> >
+> >
+> >
+> > It works without any issues for the following cases with upstream kerne=
+l.
+> >
+> >
+> >
+> > Case1: Use the below commit[1] from renesas-bsp
+> >
+> >
+> >
+> > [1].
+> > https://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas-bsp.git/
+> > commit/?id=3D561e15db1ed8c5cc2fc340796e2d1c643111d27a
+> >
+> >
+> >
+> > Case 2: Disable the bank#1 from device tree
+> >
+> >
+> >
+> > +++ b/arch/arm64/boot/dts/renesas/r8a7796-salvator-xs.dts
+> >
+> > +#if 0
+> >
+> > =A0=A0=A0=A0=A0=A0=A0 memory@600000000 {
+> >
+> > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 device_type =3D "memory";
+> >
+> > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 reg =3D <0x6 0x00000000 0=
+x0 0x80000000>;
+> >
+> > =A0=A0=A0=A0=A0=A0=A0 };
+> >
+> > +#endif
+> >
+> > +
+> >
+> > };
+> >
+> >
+> >
+> > Q2) Could please share your thought on this issue?
 >=20
-> The problem is that we need a way to communicate to the block layer
-> that more than a single segment is ok IFF the DMA API instance supports
-> merging.  And of course the answer will depend on futher parameters
-> like the maximum merged segment size and alignment for the segement.
+> I presume it's this [1]. Robin seems to be working on a fix, see [2], alt=
+hough I
+> suspect he won't deliver it, so I'll have to get back to this topic mysel=
+f.
 
-I'm afraid but I don't understand why we need a way to communicate to
-the block layer that more than a single segment is ok IFF the DMA API
-instance supports merging.
+Thanks for the update. Please let me know when the  patch is ready.  I am h=
+appy to test and will provide feedback.
 
-> We'll need some way to communicate that, but I don't really think this
-> is series is the way to go.
+Cheers,
+Biju
 
-I should discard the patches 1/8 through 4/8.
-
-> We'd really need something hanging off the device (or through a query
-> API) how the dma map ops implementation exposes under what circumstances
-> it can merge.  The driver can then communicate that to the block layer
-> so that the block layer doesn't split requests up when reaching the
-> segement limit.
-
-The block layer already has a limit "max_segment_size" for each device so t=
-hat
-regardless it can/cannot merge the segments, we can use the limit.
-Is my understanding incorrect?
-
-Best regards,
-Yoshihiro Shimoda
+> [1]
+> https://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas-
+> bsp.git/commit/?id=3D561e15db1ed8c5cc2fc340796e2d1c643111d27a
+> [2] https://patchwork.kernel.org/patch/10842111/
 
