@@ -2,62 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 13CC9393DD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2019 20:01:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AADA3396F4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2019 22:41:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731003AbfFGSBO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 7 Jun 2019 14:01:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37182 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730714AbfFGSBN (ORCPT
+        id S1729677AbfFGUlO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 7 Jun 2019 16:41:14 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:36766 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729584AbfFGUlO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 7 Jun 2019 14:01:13 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 31288208C0;
-        Fri,  7 Jun 2019 18:01:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559930473;
-        bh=7ntLOYXIydYLfD37wMkPewp/JYmDlfC5quUGAWPTxs4=;
-        h=In-Reply-To:References:To:From:Subject:Cc:Date:From;
-        b=Y0Nfr4l0cYVAuKKuQkoCzz5yOIapURXivr9o3/L1fF5FuQ8VYl+6NkkGhRnTj9LGv
-         r70KXuvnTi264g5WAk4Ql2CP3MNKErY5EAOAnI1017u9/FcHichU+wL9uE7A8PwqeL
-         Slgbu8WUQDqPoKOmy9JAsUQIccXe5KGTWIh+n2wg=
-Content-Type: text/plain; charset="utf-8"
+        Fri, 7 Jun 2019 16:41:14 -0400
+Received: by mail-pl1-f195.google.com with SMTP id d21so1255426plr.3;
+        Fri, 07 Jun 2019 13:41:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ixc2M8woGOIxggbQrFACrPoIu4K++6YKpcQPW8eDSFw=;
+        b=Pbx3lnAm6yRtx72O4losBkUP536cTibHA0OroXdLMJbYHOeTNX+T4zeDQu6HUVs7Pg
+         Qjsnyckoa/CQmlV2Z8SKZeGXOzNbpnrmsXyX7Wu3oKi03XogaQR6CAlC5/hcsaQL6YlS
+         ZPDsWOR61oDTzNOkIuJHfvm3yyxAM1eir0GPXNOAtC69fK1EumxyXW8QJPwswQ3Og8UC
+         OSM5yVM5uxsqMp1lu7Z0F1W00Ra8CHnnKXsWH/1oFTzm0vSC2ws7fdvPa1xZcg+k9uP0
+         ge8cqWHIORk20tnQeBiUQvHh9iWTyQ22Ky7OXVU000893ntmOO616eSdxVQz2TSW44GV
+         OF6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ixc2M8woGOIxggbQrFACrPoIu4K++6YKpcQPW8eDSFw=;
+        b=nSdxglxwmAXn+p5kONvkGlny9S+PV9dW/NyCp4SJNk9nxAggLjrkpWO+Wn5pVVxPVO
+         vMB26Dfrt+/LxA/vCk8I2SmbvHvHCBi5viSdzu+nMreDmY5SwxNrz+5J92YJaYwivisd
+         R9hVzD05+MSuGjHKYmAinNDwjNTClgK7LYHLVwV4W61hZZO8SEXfO3DVHi2nJyIV5E1D
+         ivUCm7Kg7P0ZUgp6yzrQoM7KRf0cMZeSJBlkDiZttvIHx4TRugU7DO4io3v7zoGtr3DT
+         wouZ9w50RhIUN4exf4h1I+3ffCoz8mFy7a5oZPdzk2D7bYNHMt7qNqVg3PVaw8ro/crv
+         0gUg==
+X-Gm-Message-State: APjAAAW23VyUozjvj8q7gdYab28/CB7xdxzR7OSGDgSuObH0/MgbPeRM
+        kSb0cqFGNcPx2p6BT5n0IOoDP3qm
+X-Google-Smtp-Source: APXvYqxQHytqxDxJENMDlRhRcU267VAuufr2xj1Q2aEpPT582KBNbtCm0XCmkt3kps5uEox0V0Mufw==
+X-Received: by 2002:a17:902:728b:: with SMTP id d11mr28359477pll.78.1559940073691;
+        Fri, 07 Jun 2019 13:41:13 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id l8sm3412182pgb.76.2019.06.07.13.41.12
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 07 Jun 2019 13:41:12 -0700 (PDT)
+Date:   Fri, 7 Jun 2019 13:41:11 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Wolfram Sang <wsa@the-dreams.de>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-watchdog@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [RFC PATCH] watchdog: renesas_wdt: support handover from
+ bootloader
+Message-ID: <20190607204111.GA19123@roeck-us.net>
+References: <20190415105201.2078-1-wsa+renesas@sang-engineering.com>
+ <20190524135237.GC15892@kunai>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20190607072419.17185-1-geert+renesas@glider.be>
-References: <20190607072419.17185-1-geert+renesas@glider.be>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>
-From:   Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [git pull] clk: renesas: Updates for v5.3
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-User-Agent: alot/0.8.1
-Date:   Fri, 07 Jun 2019 11:01:12 -0700
-Message-Id: <20190607180113.31288208C0@mail.kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190524135237.GC15892@kunai>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Geert Uytterhoeven (2019-06-07 00:24:19)
->         Hi Mike, Stephen,
->=20
-> The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0eb=
-d9:
->=20
->   Linux 5.2-rc1 (2019-05-19 15:47:09 -0700)
->=20
-> are available in the Git repository at:
->=20
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
- tags/clk-renesas-for-v5.3-tag1
->=20
-> for you to fetch changes up to aad03a66f902e18bab612870261bde647fdbda2c:
+On Fri, May 24, 2019 at 03:52:37PM +0200, Wolfram Sang wrote:
+> On Mon, Apr 15, 2019 at 12:52:01PM +0200, Wolfram Sang wrote:
+> > Support an already running watchdog by checking its enable bit and set
+> > up the status accordingly before registering the device.
+> > 
+> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> 
+> After second thought, I am getting confused a little. If the WDT is
+> already running then
+> 
+> a) before this patch: after successful probe, RPM will disable the
+> clock until userspace opens the watchdog device
+> 
+> b) after this patch: during probe, our default timeout will be
+> programmed and because of WDOG_HW_RUNNING, the core will generate pings
+> until userspace opens the watchdog device.
+> 
+> So, b) will protect from a crashing kernel (no pings anymore) but not
+> from something like missing rootfs, or?
+> 
+> The usecase I had in mind ("give the kernel <x> seconds to boot into
+> working userspace") seems to be achieved by loading the WDT driver as a
+> module then, I guess?
+> 
 
-Thanks. Pulled into clk-next, but won't be published until next Monday
-most likely.
+Would
+https://lore.kernel.org/linux-watchdog/20190605140628.618-1-rasmus.villemoes@prevas.dk/
 
+solve your use case ?
+
+Guenter
