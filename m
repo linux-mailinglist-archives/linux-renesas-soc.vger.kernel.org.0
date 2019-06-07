@@ -2,41 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 771B1384E5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2019 09:24:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1FB2384E6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2019 09:24:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727627AbfFGHY0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 7 Jun 2019 03:24:26 -0400
-Received: from laurent.telenet-ops.be ([195.130.137.89]:38670 "EHLO
-        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725962AbfFGHY0 (ORCPT
+        id S1727631AbfFGHYk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 7 Jun 2019 03:24:40 -0400
+Received: from baptiste.telenet-ops.be ([195.130.132.51]:56268 "EHLO
+        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727071AbfFGHYk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 7 Jun 2019 03:24:26 -0400
+        Fri, 7 Jun 2019 03:24:40 -0400
 Received: from ramsan ([84.194.111.163])
-        by laurent.telenet-ops.be with bizsmtp
-        id MjQP2000R3XaVaC01jQPpl; Fri, 07 Jun 2019 09:24:23 +0200
+        by baptiste.telenet-ops.be with bizsmtp
+        id MjQd2000L3XaVaC01jQdWU; Fri, 07 Jun 2019 09:24:38 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hZ9Ed-0003jV-Cq; Fri, 07 Jun 2019 09:24:23 +0200
+        id 1hZ9Er-0003jc-N0; Fri, 07 Jun 2019 09:24:37 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hZ9Ed-0004Tv-B9; Fri, 07 Jun 2019 09:24:23 +0200
+        id 1hZ9Er-0004V1-Lf; Fri, 07 Jun 2019 09:24:37 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [git pull] clk: renesas: Updates for v5.3
-Date:   Fri,  7 Jun 2019 09:24:19 +0200
-Message-Id: <20190607072419.17185-1-geert+renesas@glider.be>
+Subject: [git pull] pinctrl: sh-pfc: Updates for v5.3
+Date:   Fri,  7 Jun 2019 09:24:33 +0200
+Message-Id: <20190607072433.17253-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi Mike, Stephen,
+	Hi Linus,
 
 The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
 
@@ -44,46 +43,76 @@ The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/clk-renesas-for-v5.3-tag1
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/sh-pfc-for-v5.3-tag1
 
-for you to fetch changes up to aad03a66f902e18bab612870261bde647fdbda2c:
+for you to fetch changes up to 992968d78626031a264d847e25f8f9810b9a1b50:
 
-  clk: renesas: r9a06g032: Add clock domain support (2019-06-04 11:51:00 +0200)
+  pinctrl: sh-pfc: Remove obsolete SH_PFC_PIN_NAMED*() macros (2019-06-04 11:19:25 +0200)
 
 ----------------------------------------------------------------
-clk: renesas: Updates for v5.3
+pinctrl: sh-pfc: Updates for v5.3
 
-  - Add TPU (Timer Pulse Unit / PWM) clocks on R-Car H3, M3-W, and M3-N,
-  - Add CMM (Color Management Module) clocks on R-Car M3-W,
-  - Add Clock Domain support on RZ/N1,
-  - Small cleanups.
+  - Add more checks for pinctrl table validation,
+  - Add TPU (Timer Pulse Unit / PWM) pin groups on R-Car H3, M3-W, and
+    M3-N,
+  - Rework description of pins without GPIO functionality,
+  - Small fixes and cleanups.
 
 Thanks for pulling!
 
 ----------------------------------------------------------------
-Cao Van Dong (1):
-      clk: renesas: r8a779{5|6|65}: Add TPU clock
+Geert Uytterhoeven (25):
+      pinctrl: sh-pfc: Correct printk level of group reference warning
+      pinctrl: sh-pfc: Mark run-time debug code __init
+      pinctrl: sh-pfc: Add check for empty pinmux groups/functions
+      pinctrl: sh-pfc: Validate pin tables at runtime
+      pinctrl: sh-pfc: Rename 2-parameter CPU_ALL_PORT() variant
+      pinctrl: sh-pfc: Add SH_PFC_PIN_CFG_PULL_UP_DOWN shorthand
+      pinctrl: sh-pfc: Move PIN_NONE to shared header file
+      pinctrl: sh-pfc: r8a77970: Remove MMC_{CD,WP}
+      pinctrl: sh-pfc: r8a7795-es1: Add TPU pins, groups and functions
+      pinctrl: sh-pfc: r8a7795: Add TPU pins, groups and functions
+      pinctrl: sh-pfc: r8a7796: Add TPU pins, groups and functions
+      pinctrl: sh-pfc: r8a77965: Add TPU pins, groups and functions
+      pinctrl: sh-pfc: Add PORT_GP_27 helper macro
+      pinctrl: sh-pfc: r8a7778: Use common PORT_GP_CFG_27() macro
+      pinctrl: sh-pfc: Add new non-GPIO helper macros
+      pinctrl: sh-pfc: emev2: Use new macros for non-GPIO pins
+      pinctrl: sh-pfc: r8a7778: Use new macros for non-GPIO pins
+      pinctrl: sh-pfc: r8a7790: Use new macros for non-GPIO pins
+      pinctrl: sh-pfc: r8a7795-es1: Use new macros for non-GPIO pins
+      pinctrl: sh-pfc: r8a7795: Use new macros for non-GPIO pins
+      pinctrl: sh-pfc: r8a7796: Use new macros for non-GPIO pins
+      pinctrl: sh-pfc: r8a77965: Use new macros for non-GPIO pins
+      pinctrl: sh-pfc: r8a77990: Use new macros for non-GPIO pins
+      pinctrl: sh-pfc: sh73a0: Use new macros for non-GPIO pins
+      pinctrl: sh-pfc: Remove obsolete SH_PFC_PIN_NAMED*() macros
 
-Gareth Williams (2):
-      dt-bindings: clock: renesas: r9a06g032-sysctrl: Document power Domains
-      clk: renesas: r9a06g032: Add clock domain support
+ drivers/pinctrl/sh-pfc/core.c            |  60 ++++-
+ drivers/pinctrl/sh-pfc/pfc-emev2.c       |  70 +++--
+ drivers/pinctrl/sh-pfc/pfc-r8a73a4.c     |   2 +-
+ drivers/pinctrl/sh-pfc/pfc-r8a7740.c     |   2 +-
+ drivers/pinctrl/sh-pfc/pfc-r8a77470.c    |   2 +-
+ drivers/pinctrl/sh-pfc/pfc-r8a7778.c     | 125 ++++-----
+ drivers/pinctrl/sh-pfc/pfc-r8a7779.c     |   2 +-
+ drivers/pinctrl/sh-pfc/pfc-r8a7790.c     |  36 +--
+ drivers/pinctrl/sh-pfc/pfc-r8a7791.c     |   2 +-
+ drivers/pinctrl/sh-pfc/pfc-r8a7792.c     |   2 +-
+ drivers/pinctrl/sh-pfc/pfc-r8a7794.c     |   2 +-
+ drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c | 434 +++++++++++++++++--------------
+ drivers/pinctrl/sh-pfc/pfc-r8a7795.c     | 414 +++++++++++++++--------------
+ drivers/pinctrl/sh-pfc/pfc-r8a7796.c     | 414 +++++++++++++++--------------
+ drivers/pinctrl/sh-pfc/pfc-r8a77965.c    | 410 ++++++++++++++++-------------
+ drivers/pinctrl/sh-pfc/pfc-r8a77970.c    |  26 +-
+ drivers/pinctrl/sh-pfc/pfc-r8a77980.c    |   2 +-
+ drivers/pinctrl/sh-pfc/pfc-r8a77990.c    | 181 +++++++------
+ drivers/pinctrl/sh-pfc/pfc-r8a77995.c    |   2 +-
+ drivers/pinctrl/sh-pfc/pfc-sh73a0.c      |  21 +-
+ drivers/pinctrl/sh-pfc/pfc-sh7734.c      |   2 +-
+ drivers/pinctrl/sh-pfc/pinctrl.c         |   3 +-
+ drivers/pinctrl/sh-pfc/sh_pfc.h          |  90 +++++--
+ 23 files changed, 1245 insertions(+), 1059 deletions(-)
 
-Geert Uytterhoeven (3):
-      clk: renesas: cpg-mssr: Use genpd of_node instead of local copy
-      clk: renesas: cpg-mssr: Remove error messages on out-of-memory conditions
-      clk: renesas: mstp: Remove error messages on out-of-memory conditions
-
-Jacopo Mondi (1):
-      clk: renesas: r8a7796: Add CMM clocks
-
- .../bindings/clock/renesas,r9a06g032-sysctrl.txt   |   7 +-
- drivers/clk/renesas/clk-mstp.c                     |   8 +-
- drivers/clk/renesas/r8a7795-cpg-mssr.c             |   1 +
- drivers/clk/renesas/r8a7796-cpg-mssr.c             |   4 +
- drivers/clk/renesas/r8a77965-cpg-mssr.c            |   1 +
- drivers/clk/renesas/r9a06g032-clocks.c             | 227 ++++++++++++++-------
- drivers/clk/renesas/renesas-cpg-mssr.c             |  12 +-
- 7 files changed, 174 insertions(+), 86 deletions(-)
 Gr{oetje,eeting}s,
 
 						Geert
