@@ -2,192 +2,425 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2A00387A9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2019 12:07:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E4283891F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2019 13:35:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726851AbfFGKHR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 7 Jun 2019 06:07:17 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:8546 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725978AbfFGKHR (ORCPT
+        id S1728499AbfFGLf6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 7 Jun 2019 07:35:58 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35844 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727579AbfFGLf6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 7 Jun 2019 06:07:17 -0400
-X-IronPort-AV: E=Sophos;i="5.60,562,1549897200"; 
-   d="scan'208";a="17872329"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 07 Jun 2019 19:07:14 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 6582640065C6;
-        Fri,  7 Jun 2019 19:07:14 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     kishon@ti.com
-Cc:     geert+renesas@glider.be, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v2] phy: renesas: rcar-gen3-usb2: fix imbalance powered flag
-Date:   Fri,  7 Jun 2019 19:02:14 +0900
-Message-Id: <1559901734-23540-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Fri, 7 Jun 2019 07:35:58 -0400
+Received: from pendragon.ideasonboard.com (unknown [IPv6:2a02:a03f:44f0:8500:ca05:8177:199c:fed4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3AA44334;
+        Fri,  7 Jun 2019 13:35:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1559907355;
+        bh=wbH7vzG6S3VOC7cSaM5Fbh4wfAU/L1Uph/DAEoS4BLc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FcuqNG7YTqG4fitJJK/FXTSxy4uFjXsdC7xn2brnT9DrInhQqTcGwyPav2CJF914U
+         GV5sRJRmP9fVwxEXOfMhjJSD12RKRxLPffdFiV1Ktnggp1RpRftg+9P3FEZU0MBF0s
+         +fcIR8Xznv/6Qv+ENsE8e+E/ZiemqNO4bw7wGGPI=
+Date:   Fri, 7 Jun 2019 14:35:40 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
+        daniel@ffwll.ch, koji.matsuoka.xm@renesas.com, muroya@ksk.co.jp,
+        VenkataRajesh.Kalakodima@in.bosch.com,
+        Harsha.ManjulaMallikarjun@in.bosch.com,
+        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 14/20] drm: rcar-du: Add support for CMM
+Message-ID: <20190607113540.GB7593@pendragon.ideasonboard.com>
+References: <20190606142220.1392-1-jacopo+renesas@jmondi.org>
+ <20190606142220.1392-15-jacopo+renesas@jmondi.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190606142220.1392-15-jacopo+renesas@jmondi.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The powered flag should be set for any other phys anyway. Also
-the flag should be locked by the channel. Otherwise, after we have
-revised the device tree for the usb phy, the following warning
-happened during a second system suspend. And if the driver doesn't
-lock the flag, enabling the regulator is possible to be imbalance
-during system resume. So, this patch fixes the issues.
+Hi Jacopo,
 
-< The warning >
-[   56.026531] unbalanced disables for USB20_VBUS0
-[   56.031108] WARNING: CPU: 3 PID: 513 at drivers/regulator/core.c:2593 _regula
-tor_disable+0xe0/0x1c0
-[   56.040146] Modules linked in: rcar_du_drm rcar_lvds drm_kms_helper drm drm_p
-anel_orientation_quirks vsp1 videobuf2_vmalloc videobuf2_dma_contig videobuf2_me
-mops videobuf2_v4l2 videobuf2_common videodev snd_soc_rcar renesas_usbhs snd_soc
-_audio_graph_card media snd_soc_simple_card_utils crct10dif_ce renesas_usb3 snd_
-soc_ak4613 rcar_fcp pwm_rcar usb_dmac phy_rcar_gen3_usb3 pwm_bl ipv6
-[   56.074047] CPU: 3 PID: 513 Comm: kworker/u16:19 Not tainted 5.2.0-rc3-00001-
-g5f20a19 #6
-[   56.082129] Hardware name: Renesas Salvator-X board based on r8a7795 ES2.0+ (
-DT)
-[   56.089524] Workqueue: events_unbound async_run_entry_fn
-[   56.094832] pstate: 40000005 (nZcv daif -PAN -UAO)
-[   56.099617] pc : _regulator_disable+0xe0/0x1c0
-[   56.104054] lr : _regulator_disable+0xe0/0x1c0
-[   56.108489] sp : ffff0000121c3ae0
-[   56.111796] x29: ffff0000121c3ae0 x28: 0000000000000000
-[   56.117102] x27: 0000000000000000 x26: ffff000010fe0e60
-[   56.122407] x25: 0000000000000002 x24: 0000000000000001
-[   56.127712] x23: 0000000000000002 x22: ffff8006f99d4000
-[   56.133017] x21: ffff8006f99cc000 x20: ffff8006f9846800
-[   56.138322] x19: ffff8006f9846800 x18: ffffffffffffffff
-[   56.143626] x17: 0000000000000000 x16: 0000000000000000
-[   56.148931] x15: ffff0000112f96c8 x14: ffff0000921c37f7
-[   56.154235] x13: ffff0000121c3805 x12: ffff000011312000
-[   56.159540] x11: 0000000005f5e0ff x10: ffff0000112f9f20
-[   56.164844] x9 : ffff0000112d3018 x8 : 00000000000001ad
-[   56.170149] x7 : 00000000ffffffcc x6 : ffff8006ff768180
-[   56.175453] x5 : ffff8006ff768180 x4 : 0000000000000000
-[   56.180758] x3 : ffff8006ff76ef10 x2 : ffff8006ff768180
-[   56.186062] x1 : 3d2eccbaead8fb00 x0 : 0000000000000000
-[   56.191367] Call trace:
-[   56.193808]  _regulator_disable+0xe0/0x1c0
-[   56.197899]  regulator_disable+0x40/0x78
-[   56.201820]  rcar_gen3_phy_usb2_power_off+0x3c/0x50
-[   56.206692]  phy_power_off+0x48/0xd8
-[   56.210263]  usb_phy_roothub_power_off+0x30/0x50
-[   56.214873]  usb_phy_roothub_suspend+0x1c/0x50
-[   56.219311]  hcd_bus_suspend+0x13c/0x168
-[   56.223226]  generic_suspend+0x4c/0x58
-[   56.226969]  usb_suspend_both+0x1ac/0x238
-[   56.230972]  usb_suspend+0xcc/0x170
-[   56.234455]  usb_dev_suspend+0x10/0x18
-[   56.238199]  dpm_run_callback.isra.6+0x20/0x68
-[   56.242635]  __device_suspend+0x110/0x308
-[   56.246637]  async_suspend+0x24/0xa8
-[   56.250205]  async_run_entry_fn+0x40/0xf8
-[   56.254210]  process_one_work+0x1e0/0x320
-[   56.258211]  worker_thread+0x40/0x450
-[   56.261867]  kthread+0x124/0x128
-[   56.265094]  ret_from_fork+0x10/0x18
-[   56.268661] ---[ end trace 86d7ec5de5c517af ]---
-[   56.273290] phy phy-ee080200.usb-phy.10: phy poweroff failed --> -5
+Thank you for the patch.
 
-Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Fixes: 549b6b55b005 ("phy: renesas: rcar-gen3-usb2: enable/disable independent irqs")
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- Changes from v1:
- - Add mutex lock to avoid enabling the regulator imbalance during resume.
- - I got Geert-san's Tested-by, but I didn't add the tag because
-   v1 still has the imbalance issue above.
- https://patchwork.kernel.org/patch/10976299/
+On Thu, Jun 06, 2019 at 04:22:14PM +0200, Jacopo Mondi wrote:
+> Add a driver for the R-Car Display Unit Color Correction Module.
+> 
+> Each DU output channel is provided with a CMM unit to perform image
+> enhancement and color correction.
 
- drivers/phy/renesas/phy-rcar-gen3-usb2.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+I would say "On most Gen3 SoCs, each DU ..." as V3* SoCs have no CMM.
 
-diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-index 1322185..a9a36ef 100644
---- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-+++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-@@ -13,6 +13,7 @@
- #include <linux/interrupt.h>
- #include <linux/io.h>
- #include <linux/module.h>
-+#include <linux/mutex.h>
- #include <linux/of.h>
- #include <linux/of_address.h>
- #include <linux/of_device.h>
-@@ -106,6 +107,7 @@ struct rcar_gen3_chan {
- 	struct rcar_gen3_phy rphys[NUM_OF_PHYS];
- 	struct regulator *vbus;
- 	struct work_struct work;
-+	struct mutex lock;
- 	enum usb_dr_mode dr_mode;
- 	bool extcon_host;
- 	bool is_otg_channel;
-@@ -437,15 +439,16 @@ static int rcar_gen3_phy_usb2_power_on(struct phy *p)
- 	struct rcar_gen3_chan *channel = rphy->ch;
- 	void __iomem *usb2_base = channel->base;
- 	u32 val;
--	int ret;
-+	int ret = 0;
- 
-+	mutex_lock(&channel->lock);
- 	if (!rcar_gen3_are_all_rphys_power_off(channel))
--		return 0;
-+		goto out;
- 
- 	if (channel->vbus) {
- 		ret = regulator_enable(channel->vbus);
- 		if (ret)
--			return ret;
-+			goto out;
- 	}
- 
- 	val = readl(usb2_base + USB2_USBCTR);
-@@ -454,7 +457,10 @@ static int rcar_gen3_phy_usb2_power_on(struct phy *p)
- 	val &= ~USB2_USBCTR_PLL_RST;
- 	writel(val, usb2_base + USB2_USBCTR);
- 
-+out:
-+	/* The powered flag should be set for any other phys anyway */
- 	rphy->powered = true;
-+	mutex_unlock(&channel->lock);
- 
- 	return 0;
- }
-@@ -465,14 +471,18 @@ static int rcar_gen3_phy_usb2_power_off(struct phy *p)
- 	struct rcar_gen3_chan *channel = rphy->ch;
- 	int ret = 0;
- 
-+	mutex_lock(&channel->lock);
- 	rphy->powered = false;
- 
- 	if (!rcar_gen3_are_all_rphys_power_off(channel))
--		return 0;
-+		goto out;
- 
- 	if (channel->vbus)
- 		ret = regulator_disable(channel->vbus);
- 
-+out:
-+	mutex_unlock(&channel->lock);
-+
- 	return ret;
- }
- 
-@@ -639,6 +649,7 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
- 	if (!phy_usb2_ops)
- 		return -EINVAL;
- 
-+	mutex_init(&channel->lock);
- 	for (i = 0; i < NUM_OF_PHYS; i++) {
- 		channel->rphys[i].phy = devm_phy_create(dev, NULL,
- 							phy_usb2_ops);
+> 
+> Add support for CMM through a driver that supports configuration of
+> the 1-dimensional LUT table. More advanced CMM feature could be
+> implemented on top of this basic one.
+
+s/could be/will be/ ? :-)
+
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  drivers/gpu/drm/rcar-du/Kconfig    |   7 +
+>  drivers/gpu/drm/rcar-du/Makefile   |   1 +
+>  drivers/gpu/drm/rcar-du/rcar_cmm.c | 197 +++++++++++++++++++++++++++++
+>  drivers/gpu/drm/rcar-du/rcar_cmm.h |  38 ++++++
+>  4 files changed, 243 insertions(+)
+>  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.c
+>  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.h
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+> index 1529849e217e..539d232790d1 100644
+> --- a/drivers/gpu/drm/rcar-du/Kconfig
+> +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> @@ -13,6 +13,13 @@ config DRM_RCAR_DU
+>  	  Choose this option if you have an R-Car chipset.
+>  	  If M is selected the module will be called rcar-du-drm.
+>  
+> +config DRM_RCAR_CMM
+> +	bool "R-Car DU Color Management Module (CMM) Support"
+> +	depends on DRM && OF
+> +	depends on DRM_RCAR_DU
+> +	help
+> +	  Enable support for R-Car Color Management Module (CMM).
+> +
+>  config DRM_RCAR_DW_HDMI
+>  	tristate "R-Car DU Gen3 HDMI Encoder Support"
+>  	depends on DRM && OF
+> diff --git a/drivers/gpu/drm/rcar-du/Makefile b/drivers/gpu/drm/rcar-du/Makefile
+> index 6c2ed9c46467..4d1187ccc3e5 100644
+> --- a/drivers/gpu/drm/rcar-du/Makefile
+> +++ b/drivers/gpu/drm/rcar-du/Makefile
+> @@ -15,6 +15,7 @@ rcar-du-drm-$(CONFIG_DRM_RCAR_LVDS)	+= rcar_du_of.o \
+>  rcar-du-drm-$(CONFIG_DRM_RCAR_VSP)	+= rcar_du_vsp.o
+>  rcar-du-drm-$(CONFIG_DRM_RCAR_WRITEBACK) += rcar_du_writeback.o
+>  
+> +obj-$(CONFIG_DRM_RCAR_CMM)		+= rcar_cmm.o
+>  obj-$(CONFIG_DRM_RCAR_DU)		+= rcar-du-drm.o
+>  obj-$(CONFIG_DRM_RCAR_DW_HDMI)		+= rcar_dw_hdmi.o
+>  obj-$(CONFIG_DRM_RCAR_LVDS)		+= rcar_lvds.o
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.c b/drivers/gpu/drm/rcar-du/rcar_cmm.c
+> new file mode 100644
+> index 000000000000..5d9d917b91f4
+> --- /dev/null
+> +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.c
+> @@ -0,0 +1,197 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * rcar_cmm.c -- R-Car Display Unit Color Management Module
+> + *
+> + * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/io.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +
+> +#include <drm/drm_atomic.h>
+> +
+> +#include "rcar_cmm.h"
+> +
+> +#define CM2_LUT_CTRL		0x00
+
+I would write all register addresses with 3 (or 4) digits.
+
+> +#define CM2_LUT_CTRL_EN		BIT(0)
+> +#define CM2_LUT_TBLA		0x600
+
+I would define this as
+
+#define CM2_LUT_TBLA(n)		(0x600 + (n) * 4)
+
+> +
+> +struct rcar_cmm {
+> +	struct clk *clk;
+> +	void __iomem *base;
+> +	bool enabled;
+> +
+> +	/* LUT table scratch buffer. */
+> +	struct {
+> +		bool restore;
+> +		unsigned int size;
+> +		uint32_t table[CMM_GAMMA_LUT_SIZE];
+> +	} lut;
+> +};
+> +
+> +static inline int rcar_cmm_read(struct rcar_cmm *rcmm, u32 reg)
+> +{
+> +	return ioread32(rcmm->base + reg);
+> +}
+> +
+> +static inline void rcar_cmm_write(struct rcar_cmm *rcmm, u32 reg, u32 data)
+> +{
+> +	iowrite32(data, rcmm->base + reg);
+> +}
+> +
+> +int rcar_cmm_setup(struct platform_device *pdev, struct rcar_cmm_config *config)
+
+Please document the functions exposed to the DU driver. It's hard to
+understand the setup vs. enable/disable split by just reading this
+driver.
+
+> +{
+> +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
+> +	unsigned int i;
+> +
+> +	if (config->lut.size > CMM_GAMMA_LUT_SIZE)
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * As cmm_setup is called by atomic commit tail helper, it might be
+> +	 * called before the enabling the CRTC (which calls cmm_enable()).
+> +	 *
+> +	 * Store the LUT table entries in the scratch buffer to be later
+> +	 * programmed at enable time.
+> +	 */
+> +	if (!rcmm->enabled) {
+> +		if (!config->lut.enable)
+> +			return 0;
+> +
+> +		for (i = 0; i < config->lut.size; ++i) {
+> +			struct drm_color_lut *lut = &config->lut.table[i];
+> +
+> +			rcmm->lut.table[i] = (lut->red & 0xff) << 16 |
+> +					     (lut->green & 0xff) << 8 |
+> +					     (lut->blue & 0xff);
+> +		}
+> +
+> +		rcmm->lut.restore = true;
+> +		rcmm->lut.size = config->lut.size;
+> +
+> +		return 0;
+> +	}
+> +
+> +	if (rcar_cmm_read(rcmm, CM2_LUT_CTRL) & CM2_LUT_CTRL_EN &&
+> +	    !config->lut.enable) {
+> +		rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
+> +		return 0;
+> +	}
+> +
+> +	/* Enable LUT and program the new gamma table values. */
+> +	rcar_cmm_write(rcmm, CM2_LUT_CTRL, CM2_LUT_CTRL_EN);
+
+Shouldn't you write the LUT contents before enabling it (same below) ?
+
+> +	for (i = 0; i < config->lut.size; ++i) {
+> +		struct drm_color_lut *lut = &config->lut.table[i];
+> +		u32 val = (lut->red & 0xff) << 16 | (lut->green & 0xff) << 8 |
+> +			  (lut->blue & 0xff);
+
+Do you need to recompute the value, can't you use rcmm->lut.table ?
+
+> +
+> +		rcar_cmm_write(rcmm, CM2_LUT_TBLA + i * 4, val);
+> +	}
+> +
+> +	return 0;
+> +}
+
+You need to export this and the next two functions.
+
+> +
+> +int rcar_cmm_enable(struct platform_device *pdev)
+> +{
+> +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	if (rcmm->enabled)
+> +		return 0;
+
+Can this happen without a bug in the caller ? If it can, and assuming
+the caller balances the enable and disable calls, you will have
+unbalanced clk_prepare_enable() and clk_disable_unprepare() calls.
+
+> +
+> +	ret = clk_prepare_enable(rcmm->clk);
+> +	if (ret)
+> +		return ret;
+
+Could you use pm_runtime_get_sync() instead ?
+
+> +
+> +	/* Apply the LUT table values saved at cmm_setup time. */
+> +	if (rcmm->lut.restore) {
+> +		rcar_cmm_write(rcmm, CM2_LUT_CTRL, CM2_LUT_CTRL_EN);
+> +		for (i = 0; i < rcmm->lut.size; ++i)
+> +			rcar_cmm_write(rcmm, CM2_LUT_TBLA + i * 4,
+> +				       rcmm->lut.table[i]);
+> +
+> +		rcmm->lut.restore = false;
+> +		rcmm->lut.size = 0;
+> +	}
+> +
+> +	rcmm->enabled = true;
+> +
+> +	return 0;
+> +}
+> +
+> +void rcar_cmm_disable(struct platform_device *pdev)
+> +{
+> +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
+> +
+> +	rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
+> +
+> +	clk_disable_unprepare(rcmm->clk);
+> +
+> +	rcmm->lut.restore = false;
+> +	rcmm->lut.size = 0;
+> +	rcmm->enabled = false;
+> +}
+> +
+> +static int rcar_cmm_probe(struct platform_device *pdev)
+> +{
+> +	struct rcar_cmm *rcmm;
+> +	struct resource *res;
+> +	resource_size_t size;
+> +
+> +	rcmm = devm_kzalloc(&pdev->dev, sizeof(*rcmm), GFP_KERNEL);
+> +	if (!rcmm)
+> +		return -ENOMEM;
+> +
+> +	platform_set_drvdata(pdev, rcmm);
+> +
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	size = resource_size(res);
+> +	if (!devm_request_mem_region(&pdev->dev, res->start, size,
+> +				     dev_name(&pdev->dev))) {
+> +		dev_err(&pdev->dev,
+> +			"can't request region for resource %pR\n", res);
+> +		return -EBUSY;
+> +	}
+> +
+> +	rcmm->base = devm_ioremap_nocache(&pdev->dev, res->start, size);
+> +	if (IS_ERR(rcmm->base))
+> +		return PTR_ERR(rcmm->base);
+
+Anything wrong with devm_ioremap_resource() ?
+
+> +
+> +	rcmm->clk = devm_clk_get(&pdev->dev, NULL);
+> +	if (IS_ERR(rcmm->clk)) {
+> +		dev_err(&pdev->dev, "Failed to get CMM clock");
+> +		return PTR_ERR(rcmm->clk);
+> +	}
+> +
+> +	rcmm->lut.restore = false;
+> +	rcmm->lut.size = 0;
+> +	rcmm->enabled = false;
+
+As you allocate memory with kzalloc() you could skip this.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id rcar_cmm_of_table[] = {
+> +	{ .compatible = "renesas,cmm-gen3" },
+> +	{ .compatible = "renesas,cmm-gen2" },
+> +	{ },
+> +};
+> +
+> +MODULE_DEVICE_TABLE(of, rcar_cmm_of_table);
+> +
+> +static struct platform_driver rcar_cmm_platform_driver = {
+> +	.probe		= rcar_cmm_probe,
+> +	.driver		= {
+> +		.name	= "rcar-cmm",
+> +		.of_match_table = rcar_cmm_of_table,
+> +	},
+
+No need for suspend/resume support ? The DU driver should disable/enable
+the CMM in its suspend/resume paths, so this should be fine, but won't
+the LUT contents be lost and need to be restored ?
+
+> +};
+> +
+> +module_platform_driver(rcar_cmm_platform_driver);
+> +
+> +MODULE_AUTHOR("Jacopo Mondi <jacopo+renesas@jmondi.org");
+
+Missing >.
+
+> +MODULE_DESCRIPTION("Renesas R-Car CMM Driver");
+> +MODULE_LICENSE("GPL v2");
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.h b/drivers/gpu/drm/rcar-du/rcar_cmm.h
+> new file mode 100644
+> index 000000000000..da61a145dc5c
+> --- /dev/null
+> +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.h
+> @@ -0,0 +1,38 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+
+The .c and .h file licenses don't match.
+
+> +/*
+> + * rcar_cmm.h -- R-Car Display Unit Color Management Module
+> + *
+> + * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
+> + */
+> +
+> +#ifndef __RCAR_CMM_H__
+> +#define __RCAR_CMM_H__
+> +
+> +#include <linux/platform_device.h>
+
+You can forward-declare struct platform_device instead.
+
+> +
+> +#define CMM_GAMMA_LUT_SIZE		256
+> +
+> +struct drm_color_lut;
+> +
+> +/**
+> + * struct rcar_cmm_config - CMM configuration
+> + *
+> + * @lut:	1D-LUT configuration
+> + * @lut.enable:	1D-LUT enable flag
+> + * @lut.table:	1D-LUT table entries.
+> + * @lut.size	1D-LUT number of entries. Max is 256
+
+The last line is missing a colon.
+
+> + */
+> +struct rcar_cmm_config {
+> +	struct {
+> +		bool enable;
+> +		struct drm_color_lut *table;
+> +		unsigned int size;
+> +	} lut;
+> +};
+> +
+> +int rcar_cmm_enable(struct platform_device *);
+
+As the OF API looks up a struct device from a device_node, should we use
+struct device here ?
+
+> +void rcar_cmm_disable(struct platform_device *);
+
+I find headers more readable when function arguments are named. In this
+case the types probably provide enough information, but good luck trying
+to read a function such as
+
+int foo(int, int, bool);
+
+> +
+> +int rcar_cmm_setup(struct platform_device *, struct rcar_cmm_config *);
+
+Can the second argument be const ?
+
+> +
+> +#endif /* __RCAR_CMM_H__ */
+
 -- 
-2.7.4
+Regards,
 
+Laurent Pinchart
