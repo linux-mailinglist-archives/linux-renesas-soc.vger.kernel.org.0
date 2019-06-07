@@ -2,144 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 681BB39393
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2019 19:44:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13CC9393DD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2019 20:01:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730528AbfFGRoN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 7 Jun 2019 13:44:13 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:44061 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728684AbfFGRoN (ORCPT
+        id S1731003AbfFGSBO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 7 Jun 2019 14:01:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37182 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730714AbfFGSBN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 7 Jun 2019 13:44:13 -0400
-Received: by mail-pl1-f195.google.com with SMTP id c5so1084563pll.11;
-        Fri, 07 Jun 2019 10:44:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=4E03mAzQfNqc0pPGLByMvSZpXTBKFf+7RsSni1xm2BE=;
-        b=FL+wXVuVNwgC9WPZQ+nN8qr6PI1YAbPYOlgpiTVRmbrPxPpCnHWG+xjIm/rZUqh+RN
-         Wtgcs9FIJtZ0kOlyNNQL4cBdVPo7JiUz2d7Se3WuGSq+8w0iDNeDP/Tq/32yuMX9B/Ee
-         p7Nm1i3df5yhnvgEjT/EQL43SZU1lZg7xCPA00Xmj2Bmbfgfr1hvd+R4iR2gyUDZdsp2
-         fmk2tFOsArn/SJFO1upSu+Nsy7q78o5fr/yJyEfM6x7HBKypw6lonFcA4gH5A5GaE+nT
-         hNRQPfblpsES42hmgeti+rJty+yS9/zqWcbLQ9YEm2fScTNiZr4FVKqD+R/kVZ3ZMiBI
-         yZfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:user-agent;
-        bh=4E03mAzQfNqc0pPGLByMvSZpXTBKFf+7RsSni1xm2BE=;
-        b=oDDfuY1xgO6M6F10CqPmA6MbOBVl29f3V4BAZRiOHPrHIoFZy2lx2XI+kqQacULUKZ
-         7y99DfGoo4RZFy7tgyjgwTu52eGU4OQ9zmxdkVSWnjPOv1G4SJXvaYL7Q/4tNb8LYwoy
-         Qw65jtw9363+NPN9Dq3ZOgUw9MXXiOXDb3DPQ14zjd2YHs1oZvqbhK/BD85YD9X/GEfI
-         UbJNnSIZOiaH2iU4OQPeTjAxo0wpIG1To3SJI/rjbtFPVqhUFkEhjwco/JsFa7P5Tisi
-         tPbmgDJuOV/taO3cDuQl6tqaXU2ONJUQkSBDPoSAKMJHVNTKLagmwK57IYaCespQ0IKd
-         uHKA==
-X-Gm-Message-State: APjAAAW+zv5cF4dgk5k8ehAedm0qeu1vit6A1SyN2mL9XMdr3s+OMtso
-        PO/phSARNxTrINallZG0qAQ=
-X-Google-Smtp-Source: APXvYqxGITnJ8Rl8lNzz7neWI+mEmJs71L5mgwqdzEjWR0p5PAS7nOERdRKOqxB1v94jIc1cv5r4Jg==
-X-Received: by 2002:a17:902:a81:: with SMTP id 1mr56630045plp.287.1559929452806;
-        Fri, 07 Jun 2019 10:44:12 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id a11sm2816983pff.128.2019.06.07.10.44.12
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 07 Jun 2019 10:44:12 -0700 (PDT)
-Date:   Fri, 7 Jun 2019 10:44:11 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     wim@linux-watchdog.org, linux-watchdog@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3] watchdog: renesas_wdt: Add a few cycles delay
-Message-ID: <20190607174411.GA15497@roeck-us.net>
-References: <1559711040-29779-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Fri, 7 Jun 2019 14:01:13 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 31288208C0;
+        Fri,  7 Jun 2019 18:01:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559930473;
+        bh=7ntLOYXIydYLfD37wMkPewp/JYmDlfC5quUGAWPTxs4=;
+        h=In-Reply-To:References:To:From:Subject:Cc:Date:From;
+        b=Y0Nfr4l0cYVAuKKuQkoCzz5yOIapURXivr9o3/L1fF5FuQ8VYl+6NkkGhRnTj9LGv
+         r70KXuvnTi264g5WAk4Ql2CP3MNKErY5EAOAnI1017u9/FcHichU+wL9uE7A8PwqeL
+         Slgbu8WUQDqPoKOmy9JAsUQIccXe5KGTWIh+n2wg=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1559711040-29779-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190607072419.17185-1-geert+renesas@glider.be>
+References: <20190607072419.17185-1-geert+renesas@glider.be>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>
+From:   Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [git pull] clk: renesas: Updates for v5.3
+Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+User-Agent: alot/0.8.1
+Date:   Fri, 07 Jun 2019 11:01:12 -0700
+Message-Id: <20190607180113.31288208C0@mail.kernel.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-[Note: I updated the subject to "PATCH v3"]
+Quoting Geert Uytterhoeven (2019-06-07 00:24:19)
+>         Hi Mike, Stephen,
+>=20
+> The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0eb=
+d9:
+>=20
+>   Linux 5.2-rc1 (2019-05-19 15:47:09 -0700)
+>=20
+> are available in the Git repository at:
+>=20
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
+ tags/clk-renesas-for-v5.3-tag1
+>=20
+> for you to fetch changes up to aad03a66f902e18bab612870261bde647fdbda2c:
 
-On Wed, Jun 05, 2019 at 02:04:00PM +0900, Yoshihiro Shimoda wrote:
-> According to the hardware manual of R-Car Gen2 and Gen3,
-> software should wait a few RLCK cycles as following:
->  - Delay 2 cycles before setting watchdog counter.
->  - Delay 3 cycles before disabling module clock.
-> 
-> So, this patch adds such delays.
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Thanks. Pulled into clk-next, but won't be published until next Monday
+most likely.
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-
-> ---
->  Changes from v2 (https://patchwork.kernel.org/patch/10972721/):
->  - Rename the wait function name.
->  - Rename the variable name in the wait function.
->  - Change variable type.
->  - Add Wolfram-san and Niklas-san's Reviewed-by.
-> 
->  Changes from v1 (https://patchwork.kernel.org/patch/10972641/):
->  - Change formula to improve accuracy.
->  - Add Geert-san's Reviewed-by.
-> 
->  drivers/watchdog/renesas_wdt.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
-> diff --git a/drivers/watchdog/renesas_wdt.c b/drivers/watchdog/renesas_wdt.c
-> index 565dbc1..0cfc0e9 100644
-> --- a/drivers/watchdog/renesas_wdt.c
-> +++ b/drivers/watchdog/renesas_wdt.c
-> @@ -7,6 +7,7 @@
->   */
->  #include <linux/bitops.h>
->  #include <linux/clk.h>
-> +#include <linux/delay.h>
->  #include <linux/io.h>
->  #include <linux/kernel.h>
->  #include <linux/module.h>
-> @@ -70,6 +71,15 @@ static int rwdt_init_timeout(struct watchdog_device *wdev)
->  	return 0;
->  }
->  
-> +static void rwdt_wait_cycles(struct rwdt_priv *priv, unsigned int cycles)
-> +{
-> +	unsigned int delay;
-> +
-> +	delay = DIV_ROUND_UP(cycles * 1000000, priv->clk_rate);
-> +
-> +	usleep_range(delay, 2 * delay);
-> +}
-> +
->  static int rwdt_start(struct watchdog_device *wdev)
->  {
->  	struct rwdt_priv *priv = watchdog_get_drvdata(wdev);
-> @@ -80,6 +90,8 @@ static int rwdt_start(struct watchdog_device *wdev)
->  	/* Stop the timer before we modify any register */
->  	val = readb_relaxed(priv->base + RWTCSRA) & ~RWTCSRA_TME;
->  	rwdt_write(priv, val, RWTCSRA);
-> +	/* Delay 2 cycles before setting watchdog counter */
-> +	rwdt_wait_cycles(priv, 2);
->  
->  	rwdt_init_timeout(wdev);
->  	rwdt_write(priv, priv->cks, RWTCSRA);
-> @@ -98,6 +110,8 @@ static int rwdt_stop(struct watchdog_device *wdev)
->  	struct rwdt_priv *priv = watchdog_get_drvdata(wdev);
->  
->  	rwdt_write(priv, priv->cks, RWTCSRA);
-> +	/* Delay 3 cycles before disabling module clock */
-> +	rwdt_wait_cycles(priv, 3);
->  	pm_runtime_put(wdev->parent);
->  
->  	return 0;
