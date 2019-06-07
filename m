@@ -2,124 +2,151 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C1FB2384E6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2019 09:24:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 477FB38603
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2019 10:14:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727631AbfFGHYk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 7 Jun 2019 03:24:40 -0400
-Received: from baptiste.telenet-ops.be ([195.130.132.51]:56268 "EHLO
-        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727071AbfFGHYk (ORCPT
+        id S1726741AbfFGIOY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 7 Jun 2019 04:14:24 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:44508 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725978AbfFGIOX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 7 Jun 2019 03:24:40 -0400
-Received: from ramsan ([84.194.111.163])
-        by baptiste.telenet-ops.be with bizsmtp
-        id MjQd2000L3XaVaC01jQdWU; Fri, 07 Jun 2019 09:24:38 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1hZ9Er-0003jc-N0; Fri, 07 Jun 2019 09:24:37 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1hZ9Er-0004V1-Lf; Fri, 07 Jun 2019 09:24:37 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [git pull] pinctrl: sh-pfc: Updates for v5.3
-Date:   Fri,  7 Jun 2019 09:24:33 +0200
-Message-Id: <20190607072433.17253-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Fri, 7 Jun 2019 04:14:23 -0400
+X-IronPort-AV: E=Sophos;i="5.60,562,1549897200"; 
+   d="scan'208";a="18066058"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 07 Jun 2019 17:14:20 +0900
+Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 618204007F4B;
+        Fri,  7 Jun 2019 17:14:18 +0900 (JST)
+From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+To:     Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>, xu_shunji@hoperun.com
+Subject: [PATCH] arm64: dts: renesas: hihope-common: Add uSD and eMMC
+Date:   Fri,  7 Jun 2019 09:14:11 +0100
+Message-Id: <1559895251-13931-1-git-send-email-fabrizio.castro@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi Linus,
+This patch adds uSD and eMMC support to the HiHope RZ/G2M
+board.
 
-The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
+Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+---
+This patch applies on top of renesas-devel-20190606-v5.2-rc3
 
-  Linux 5.2-rc1 (2019-05-19 15:47:09 -0700)
+ arch/arm64/boot/dts/renesas/hihope-common.dtsi | 77 ++++++++++++++++++++++++++
+ 1 file changed, 77 insertions(+)
 
-are available in the Git repository at:
+diff --git a/arch/arm64/boot/dts/renesas/hihope-common.dtsi b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
+index 4cc924d..b6411b1 100644
+--- a/arch/arm64/boot/dts/renesas/hihope-common.dtsi
++++ b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
+@@ -16,6 +16,37 @@
+ 		bootargs = "ignore_loglevel";
+ 		stdout-path = "serial0:115200n8";
+ 	};
++
++	reg_1p8v: regulator0 {
++		compatible = "regulator-fixed";
++		regulator-name = "fixed-1.8V";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
++	reg_3p3v: regulator1 {
++		compatible = "regulator-fixed";
++		regulator-name = "fixed-3.3V";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++		regulator-boot-on;
++		regulator-always-on;
++	};
++
++	vccq_sdhi0: regulator-vccq-sdhi0 {
++		compatible = "regulator-gpio";
++
++		regulator-name = "SDHI0 VccQ";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <3300000>;
++
++		gpios = <&gpio6 30 GPIO_ACTIVE_HIGH>;
++		gpios-states = <1>;
++		states = <3300000 1
++			  1800000 0>;
++	};
+ };
+ 
+ &extal_clk {
+@@ -39,6 +70,24 @@
+ 		groups = "scif_clk_a";
+ 		function = "scif_clk";
+ 	};
++
++	sdhi0_pins: sd0 {
++		groups = "sdhi0_data4", "sdhi0_ctrl";
++		function = "sdhi0";
++		power-source = <3300>;
++	};
++
++	sdhi0_pins_uhs: sd0_uhs {
++		groups = "sdhi0_data4", "sdhi0_ctrl";
++		function = "sdhi0";
++		power-source = <1800>;
++	};
++
++	sdhi3_pins: sd3 {
++		groups = "sdhi3_data8", "sdhi3_ctrl", "sdhi3_ds";
++		function = "sdhi3";
++		power-source = <1800>;
++	};
+ };
+ 
+ &scif2 {
+@@ -51,3 +100,31 @@
+ &scif_clk {
+ 	clock-frequency = <14745600>;
+ };
++
++&sdhi0 {
++	pinctrl-0 = <&sdhi0_pins>;
++	pinctrl-1 = <&sdhi0_pins_uhs>;
++	pinctrl-names = "default", "state_uhs";
++
++	vmmc-supply = <&reg_3p3v>;
++	vqmmc-supply = <&vccq_sdhi0>;
++	cd-gpios = <&gpio3 12 GPIO_ACTIVE_LOW>;
++	bus-width = <4>;
++	sd-uhs-sdr50;
++	sd-uhs-sdr104;
++	status = "okay";
++};
++
++&sdhi3 {
++	pinctrl-0 = <&sdhi3_pins>;
++	pinctrl-1 = <&sdhi3_pins>;
++	pinctrl-names = "default", "state_uhs";
++
++	vmmc-supply = <&reg_3p3v>;
++	vqmmc-supply = <&reg_1p8v>;
++	bus-width = <8>;
++	mmc-hs200-1_8v;
++	non-removable;
++	fixed-emmc-driver-type = <1>;
++	status = "okay";
++};
+-- 
+2.7.4
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/sh-pfc-for-v5.3-tag1
-
-for you to fetch changes up to 992968d78626031a264d847e25f8f9810b9a1b50:
-
-  pinctrl: sh-pfc: Remove obsolete SH_PFC_PIN_NAMED*() macros (2019-06-04 11:19:25 +0200)
-
-----------------------------------------------------------------
-pinctrl: sh-pfc: Updates for v5.3
-
-  - Add more checks for pinctrl table validation,
-  - Add TPU (Timer Pulse Unit / PWM) pin groups on R-Car H3, M3-W, and
-    M3-N,
-  - Rework description of pins without GPIO functionality,
-  - Small fixes and cleanups.
-
-Thanks for pulling!
-
-----------------------------------------------------------------
-Geert Uytterhoeven (25):
-      pinctrl: sh-pfc: Correct printk level of group reference warning
-      pinctrl: sh-pfc: Mark run-time debug code __init
-      pinctrl: sh-pfc: Add check for empty pinmux groups/functions
-      pinctrl: sh-pfc: Validate pin tables at runtime
-      pinctrl: sh-pfc: Rename 2-parameter CPU_ALL_PORT() variant
-      pinctrl: sh-pfc: Add SH_PFC_PIN_CFG_PULL_UP_DOWN shorthand
-      pinctrl: sh-pfc: Move PIN_NONE to shared header file
-      pinctrl: sh-pfc: r8a77970: Remove MMC_{CD,WP}
-      pinctrl: sh-pfc: r8a7795-es1: Add TPU pins, groups and functions
-      pinctrl: sh-pfc: r8a7795: Add TPU pins, groups and functions
-      pinctrl: sh-pfc: r8a7796: Add TPU pins, groups and functions
-      pinctrl: sh-pfc: r8a77965: Add TPU pins, groups and functions
-      pinctrl: sh-pfc: Add PORT_GP_27 helper macro
-      pinctrl: sh-pfc: r8a7778: Use common PORT_GP_CFG_27() macro
-      pinctrl: sh-pfc: Add new non-GPIO helper macros
-      pinctrl: sh-pfc: emev2: Use new macros for non-GPIO pins
-      pinctrl: sh-pfc: r8a7778: Use new macros for non-GPIO pins
-      pinctrl: sh-pfc: r8a7790: Use new macros for non-GPIO pins
-      pinctrl: sh-pfc: r8a7795-es1: Use new macros for non-GPIO pins
-      pinctrl: sh-pfc: r8a7795: Use new macros for non-GPIO pins
-      pinctrl: sh-pfc: r8a7796: Use new macros for non-GPIO pins
-      pinctrl: sh-pfc: r8a77965: Use new macros for non-GPIO pins
-      pinctrl: sh-pfc: r8a77990: Use new macros for non-GPIO pins
-      pinctrl: sh-pfc: sh73a0: Use new macros for non-GPIO pins
-      pinctrl: sh-pfc: Remove obsolete SH_PFC_PIN_NAMED*() macros
-
- drivers/pinctrl/sh-pfc/core.c            |  60 ++++-
- drivers/pinctrl/sh-pfc/pfc-emev2.c       |  70 +++--
- drivers/pinctrl/sh-pfc/pfc-r8a73a4.c     |   2 +-
- drivers/pinctrl/sh-pfc/pfc-r8a7740.c     |   2 +-
- drivers/pinctrl/sh-pfc/pfc-r8a77470.c    |   2 +-
- drivers/pinctrl/sh-pfc/pfc-r8a7778.c     | 125 ++++-----
- drivers/pinctrl/sh-pfc/pfc-r8a7779.c     |   2 +-
- drivers/pinctrl/sh-pfc/pfc-r8a7790.c     |  36 +--
- drivers/pinctrl/sh-pfc/pfc-r8a7791.c     |   2 +-
- drivers/pinctrl/sh-pfc/pfc-r8a7792.c     |   2 +-
- drivers/pinctrl/sh-pfc/pfc-r8a7794.c     |   2 +-
- drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c | 434 +++++++++++++++++--------------
- drivers/pinctrl/sh-pfc/pfc-r8a7795.c     | 414 +++++++++++++++--------------
- drivers/pinctrl/sh-pfc/pfc-r8a7796.c     | 414 +++++++++++++++--------------
- drivers/pinctrl/sh-pfc/pfc-r8a77965.c    | 410 ++++++++++++++++-------------
- drivers/pinctrl/sh-pfc/pfc-r8a77970.c    |  26 +-
- drivers/pinctrl/sh-pfc/pfc-r8a77980.c    |   2 +-
- drivers/pinctrl/sh-pfc/pfc-r8a77990.c    | 181 +++++++------
- drivers/pinctrl/sh-pfc/pfc-r8a77995.c    |   2 +-
- drivers/pinctrl/sh-pfc/pfc-sh73a0.c      |  21 +-
- drivers/pinctrl/sh-pfc/pfc-sh7734.c      |   2 +-
- drivers/pinctrl/sh-pfc/pinctrl.c         |   3 +-
- drivers/pinctrl/sh-pfc/sh_pfc.h          |  90 +++++--
- 23 files changed, 1245 insertions(+), 1059 deletions(-)
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
