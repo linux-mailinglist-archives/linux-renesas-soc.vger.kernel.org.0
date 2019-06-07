@@ -2,36 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D8793398C9
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 Jun 2019 00:33:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4E10398D5
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 Jun 2019 00:36:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728957AbfFGWdU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 7 Jun 2019 18:33:20 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:54828 "EHLO
+        id S1730005AbfFGWgW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 7 Jun 2019 18:36:22 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:55440 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728636AbfFGWdT (ORCPT
+        with ESMTP id S1729042AbfFGWgW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 7 Jun 2019 18:33:19 -0400
+        Fri, 7 Jun 2019 18:36:22 -0400
 Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BFBBC334;
-        Sat,  8 Jun 2019 00:33:16 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AAB6B334;
+        Sat,  8 Jun 2019 00:36:19 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1559946797;
-        bh=zZaOVkazACakBjto1ZCP7O2AnuIlKXTpF6TQtEVtNHE=;
+        s=mail; t=1559946980;
+        bh=j5FFVrqIhrnGayeQScH9v/urXDU5UXFWBYSvtpUlKS4=;
         h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=tRkT6aN+YMTvvWpVE85kIO8dNI56qeIHD/VsMJ/aIQ/5ViJ+HC6TUVOkzNV0oB8f0
-         IF4/Aza0kr8etlbFCWBl0kHpSzgCLC3FLJT9li58uXA4Eq0nPQpxbRYlHcDcRLkjNT
-         ZGJPKTjZHi7n0P3WX4BOS+DPD7eDi8FRom+Z+qEQ=
+        b=pyva/gFomn8TCPxdlKjYq1gmLTubEqxTD39fVDr0/IilmrpgdP0x/cgbiCbmrxf7s
+         En7+d4x3xS4xKtUdvPPEvXan8kH/hmjcayz2KvUjkNftX/mi1km4XlygORyJH3nB/2
+         h1UABC0/ebgojjIBVD8jrmFa1RryKbMF/r9viSc0=
 Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v3 04/10] dt-bindings: display: renesas: lvds: Add
- renesas,companion property
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org
-Cc:     linux-renesas-soc@vger.kernel.org,
+Subject: Re: [PATCH v3 02/10] dt-bindings: display: bridge: thc63lvd1024:
+ Document dual-link operation
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        devicetree@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>
+        devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>
 References: <20190528141234.15425-1-laurent.pinchart+renesas@ideasonboard.com>
- <20190528141234.15425-5-laurent.pinchart+renesas@ideasonboard.com>
+ <20190528141234.15425-3-laurent.pinchart+renesas@ideasonboard.com>
+ <63985327-c796-c8cc-50c8-f486942e3161@ideasonboard.com>
+ <20190607223020.GB5110@pendragon.ideasonboard.com>
 From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
@@ -78,15 +80,15 @@ Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
  JxB1gWThL4kOTbsqqXj9GLcyOImkW0lJGGR3o/fV91Zh63S5TKnf2YGGGzxki+ADdxVQAm+Q
  sbsRB8KNNvVXBOVNwko86rQqF9drZuw=
 Organization: Ideas on Board
-Message-ID: <8a5bb883-f135-101c-5c59-52d10e8b52bc@ideasonboard.com>
-Date:   Fri, 7 Jun 2019 23:33:13 +0100
+Message-ID: <17f06c94-a2d3-e159-f89a-02e5a355b7ee@ideasonboard.com>
+Date:   Fri, 7 Jun 2019 23:36:17 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190528141234.15425-5-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20190607223020.GB5110@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -94,56 +96,76 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Laurent,
 
-On 28/05/2019 15:12, Laurent Pinchart wrote:
-> Add a new optional renesas,companion property to point to the companion
-> LVDS encoder. This is used to support dual-link operation where the main
-> LVDS encoder splits even-numbered and odd-numbered pixels between the
-> two LVDS encoders.
+On 07/06/2019 23:30, Laurent Pinchart wrote:
+> Hi Kieran,
 > 
-> The new property doesn't control the mode of operation, it only
-> describes the relationship between the master and companion LVDS
-> encoders.
+> On Fri, Jun 07, 2019 at 11:15:06PM +0100, Kieran Bingham wrote:
+>> On 28/05/2019 15:12, Laurent Pinchart wrote:
+>>> The THC63LVD1024 LVDS decoder can operate in two modes, single-link or
+>>> dual-link. In dual-link mode both input ports are used to carry even-
+>>> and odd-numbered pixels separately. Document this in the DT bindings,
+>>> along with the related rules governing port and usage.
+>>>
+>>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>>> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>>> Reviewed-by: Rob Herring <robh@kernel.org>
+>>> Tested-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>>> ---
+>>>  .../bindings/display/bridge/thine,thc63lvd1024.txt          | 6 ++++++
+>>>  1 file changed, 6 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.txt b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.txt
+>>> index 37f0c04d5a28..d17d1e5820d7 100644
+>>> --- a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.txt
+>>> +++ b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.txt
+>>> @@ -28,6 +28,12 @@ Optional video port nodes:
+>>>  - port@1: Second LVDS input port
+>>>  - port@3: Second digital CMOS/TTL parallel output
+>>>  
+>>> +The device can operate in single-link mode or dual-link mode. In single-link
+>>> +mode, all pixels are received on port@0, and port@1 shall not contain any
+>>> +endpoint. In dual-link mode, even-numbered pixels are received on port@0 and
+>>> +odd-numbered pixels on port@1, and both port@0 and port@1 shall contain
+>>> +endpoints.
+>>> +
+>>
+>> Your cover letter details 4 different modes of operation for this part.
+>>
+>> Do you anticipate the other combinations {Single-in, dual-out; dual-in,
+>> dual-out} being supported? Perhaps that would be defined by the relevant
+>> endpoints being connected or not ?
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-> Tested-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
-> Changes since v2:
+> I expect that someone might need those modes at some point, but I
+> haven't specified them on purpose, as I don't like writing DT bindings
+> that can't be tested. I however expoect that those additional modes can
+> be derived from the connected endpoints.
 > 
-> - Clarify when the companion property is required or not allowed
+>> You state that in dual-link mode, both port@0, and port@1 shall contain
+>> endpoints, so that implies that you only expect to support dual-in with
+>> the 'dual-link' property. If that is correct, should it be stated
+>> explicitly?
 > 
-> Changes since v1:
-> 
-> - Fixed typo
-> ---
->  .../devicetree/bindings/display/bridge/renesas,lvds.txt    | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-> index 900a884ad9f5..2d24bd8cbec5 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-> @@ -45,6 +45,13 @@ OF graph bindings specified in Documentation/devicetree/bindings/graph.txt.
->  
->  Each port shall have a single endpoint.
->  
-> +Optional properties:
-> +> +- renesas,companion : phandle to the companion LVDS encoder. This
-property is
-> +  mandatory for the first LVDS encoder on D3 and E3 SoCs, and shall point to
-> +  the second encoder to be used as a companion in dual-link mode. It shall not
-> +  be set for any other LVDS encoder.
-> +
+> What do you mean by the 'dual-link' property ? The patch series defines
+> no such property.
 
-I see Sam has already asked for an updated example, so with that:
+Aha, my imagination is creating something from all the references to the
+word 'dual-link' :-D
 
-I'm fine with the text above.
+Ok - so it is just the existence of the endpoints which will
+enable//configure the various modes of operation.
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+I guess that will become more clear when I get down to the driver patches :)
 
->  
->  Example:
->  
+
+
+> 
+>> Otherwise,
+>>
+>> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>>
+>>>  Example:
+>>>  --------
+>>>  
 > 
 
 -- 
