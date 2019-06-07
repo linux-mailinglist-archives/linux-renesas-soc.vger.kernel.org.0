@@ -2,36 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BFFF139840
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 Jun 2019 00:09:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89D293985C
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 Jun 2019 00:15:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729989AbfFGWJ5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 7 Jun 2019 18:09:57 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:53170 "EHLO
+        id S1730185AbfFGWPL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 7 Jun 2019 18:15:11 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53216 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727213AbfFGWJ5 (ORCPT
+        with ESMTP id S1730177AbfFGWPL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 7 Jun 2019 18:09:57 -0400
+        Fri, 7 Jun 2019 18:15:11 -0400
 Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EE2DC334;
-        Sat,  8 Jun 2019 00:09:54 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6C7B0334;
+        Sat,  8 Jun 2019 00:15:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1559945395;
-        bh=ecavjF1sYBhZ1kRTb6ZPoNVpFpUPMOQ7R71824syAMI=;
+        s=mail; t=1559945709;
+        bh=rfkUJZmIew1eQx/KBErGmJsKERXVTA2y2zEl0IQU1pM=;
         h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=sxOIvajC8npDtRDTfPvMf//2YahqAHbMyOLSQdhmN1MeYFlHGpmCynNqVHxXkxcbn
-         zKacTRPDZXuXV87icL62waWcYAUGm3pb2PB5vwL07XBVBRkJgooRF0BkLS9uQKTrL2
-         p3sX7LWt8IrzhYhgs6arQnZE4PLPcoYk5UwB7Qc4=
+        b=GM8dAUyvesYtcZgjEVHG3YRk6st8xjtd3xd+qJ/n82+5rFVFaeEfO4eyN38pwfqop
+         wVjzXr93W5z87F9GLnSVsh/uyKgOahnnvlG7cAapOvZT3lYeHrcITdbMp1ZQiPwhPV
+         aR8tmv48hwzwpxGp+H7k8jmORwiPmmsk8gUdzQLo=
 Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v3 05/10] drm: rcar-du: lvds: Remove LVDS double-enable
- checks
+Subject: Re: [PATCH v3 02/10] dt-bindings: display: bridge: thc63lvd1024:
+ Document dual-link operation
 To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
         dri-devel@lists.freedesktop.org
 Cc:     linux-renesas-soc@vger.kernel.org,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Jacopo Mondi <jacopo@jmondi.org>
+        devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>
 References: <20190528141234.15425-1-laurent.pinchart+renesas@ideasonboard.com>
- <20190528141234.15425-6-laurent.pinchart+renesas@ideasonboard.com>
+ <20190528141234.15425-3-laurent.pinchart+renesas@ideasonboard.com>
 From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
@@ -78,15 +78,15 @@ Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
  JxB1gWThL4kOTbsqqXj9GLcyOImkW0lJGGR3o/fV91Zh63S5TKnf2YGGGzxki+ADdxVQAm+Q
  sbsRB8KNNvVXBOVNwko86rQqF9drZuw=
 Organization: Ideas on Board
-Message-ID: <49ecf05d-cb25-0d61-b158-da8a43b6706f@ideasonboard.com>
-Date:   Fri, 7 Jun 2019 23:09:51 +0100
+Message-ID: <63985327-c796-c8cc-50c8-f486942e3161@ideasonboard.com>
+Date:   Fri, 7 Jun 2019 23:15:06 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190528141234.15425-6-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20190528141234.15425-3-laurent.pinchart+renesas@ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -95,118 +95,55 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 Hi Laurent,
 
 On 28/05/2019 15:12, Laurent Pinchart wrote:
-> The DRM core and DU driver guarantee that the LVDS bridge will not be
-> double-enabled or double-disabled. Remove the corresponding unnecessary
-> checks.
-
-I'm glad to hear it - that's quite a few WARN_ON's removed which
-hopefully is a good thing!
-
+> The THC63LVD1024 LVDS decoder can operate in two modes, single-link or
+> dual-link. In dual-link mode both input ports are used to carry even-
+> and odd-numbered pixels separately. Document this in the DT bindings,
+> along with the related rules governing port and usage.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>> Tested-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Tested-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  .../bindings/display/bridge/thine,thc63lvd1024.txt          | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.txt b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.txt
+> index 37f0c04d5a28..d17d1e5820d7 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.txt
+> +++ b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvd1024.txt
+> @@ -28,6 +28,12 @@ Optional video port nodes:
+>  - port@1: Second LVDS input port
+>  - port@3: Second digital CMOS/TTL parallel output
+>  
+> +The device can operate in single-link mode or dual-link mode. In single-link
+> +mode, all pixels are received on port@0, and port@1 shall not contain any
+> +endpoint. In dual-link mode, even-numbered pixels are received on port@0 and
+> +odd-numbered pixels on port@1, and both port@0 and port@1 shall contain
+> +endpoints.
+> +
+
+Your cover letter details 4 different modes of operation for this part.
+
+Do you anticipate the other combinations {Single-in, dual-out; dual-in,
+dual-out} being supported? Perhaps that would be defined by the relevant
+endpoints being connected or not ?
+
+
+You state that in dual-link mode, both port@0, and port@1 shall contain
+endpoints, so that implies that you only expect to support dual-in with
+the 'dual-link' property. If that is correct, should it be stated
+explicitly?
+
+
+Otherwise,
 
 Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
 
-> ---
->  drivers/gpu/drm/rcar-du/rcar_lvds.c | 19 -------------------
->  1 file changed, 19 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> index 620b51aab291..a331f0c32187 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> @@ -63,7 +63,6 @@ struct rcar_lvds {
->  		struct clk *extal;		/* External clock */
->  		struct clk *dotclkin[2];	/* External DU clocks */
->  	} clocks;
-> -	bool enabled;
+>  Example:
+>  --------
 >  
->  	struct drm_display_mode display_mode;
->  	enum rcar_lvds_mode mode;
-> @@ -368,15 +367,12 @@ int rcar_lvds_clk_enable(struct drm_bridge *bridge, unsigned long freq)
->  
->  	dev_dbg(lvds->dev, "enabling LVDS PLL, freq=%luHz\n", freq);
->  
-> -	WARN_ON(lvds->enabled);
-> -
->  	ret = clk_prepare_enable(lvds->clocks.mod);
->  	if (ret < 0)
->  		return ret;
->  
->  	__rcar_lvds_pll_setup_d3_e3(lvds, freq, true);
->  
-> -	lvds->enabled = true;
->  	return 0;
->  }
->  EXPORT_SYMBOL_GPL(rcar_lvds_clk_enable);
-> @@ -390,13 +386,9 @@ void rcar_lvds_clk_disable(struct drm_bridge *bridge)
->  
->  	dev_dbg(lvds->dev, "disabling LVDS PLL\n");
->  
-> -	WARN_ON(!lvds->enabled);
-> -
->  	rcar_lvds_write(lvds, LVDPLLCR, 0);
->  
->  	clk_disable_unprepare(lvds->clocks.mod);
-> -
-> -	lvds->enabled = false;
->  }
->  EXPORT_SYMBOL_GPL(rcar_lvds_clk_disable);
->  
-> @@ -417,8 +409,6 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
->  	u32 lvdcr0;
->  	int ret;
->  
-> -	WARN_ON(lvds->enabled);
-> -
->  	ret = clk_prepare_enable(lvds->clocks.mod);
->  	if (ret < 0)
->  		return;
-> @@ -507,16 +497,12 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
->  		drm_panel_prepare(lvds->panel);
->  		drm_panel_enable(lvds->panel);
->  	}
-> -
-> -	lvds->enabled = true;
->  }
->  
->  static void rcar_lvds_disable(struct drm_bridge *bridge)
->  {
->  	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
->  
-> -	WARN_ON(!lvds->enabled);
-> -
->  	if (lvds->panel) {
->  		drm_panel_disable(lvds->panel);
->  		drm_panel_unprepare(lvds->panel);
-> @@ -527,8 +513,6 @@ static void rcar_lvds_disable(struct drm_bridge *bridge)
->  	rcar_lvds_write(lvds, LVDPLLCR, 0);
->  
->  	clk_disable_unprepare(lvds->clocks.mod);
-> -
-> -	lvds->enabled = false;
->  }
->  
->  static bool rcar_lvds_mode_fixup(struct drm_bridge *bridge,
-> @@ -592,8 +576,6 @@ static void rcar_lvds_mode_set(struct drm_bridge *bridge,
->  {
->  	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
->  
-> -	WARN_ON(lvds->enabled);
-> -
->  	lvds->display_mode = *adjusted_mode;
->  
->  	rcar_lvds_get_lvds_mode(lvds);
-> @@ -793,7 +775,6 @@ static int rcar_lvds_probe(struct platform_device *pdev)
->  
->  	lvds->dev = &pdev->dev;
->  	lvds->info = of_device_get_match_data(&pdev->dev);
-> -	lvds->enabled = false;
->  
->  	ret = rcar_lvds_parse_dt(lvds);
->  	if (ret < 0)
 > 
 
 -- 
