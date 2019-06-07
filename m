@@ -2,162 +2,144 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A30793934D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2019 19:32:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 681BB39393
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2019 19:44:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731508AbfFGRb7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 7 Jun 2019 13:31:59 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:40583 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729355AbfFGRbz (ORCPT
+        id S1730528AbfFGRoN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 7 Jun 2019 13:44:13 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:44061 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728684AbfFGRoN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 7 Jun 2019 13:31:55 -0400
-Received: by mail-pg1-f195.google.com with SMTP id d30so1504829pgm.7;
-        Fri, 07 Jun 2019 10:31:54 -0700 (PDT)
+        Fri, 7 Jun 2019 13:44:13 -0400
+Received: by mail-pl1-f195.google.com with SMTP id c5so1084563pll.11;
+        Fri, 07 Jun 2019 10:44:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=tDBgBtQ4Suh8pBvnPYDqoICoAhg7eosA6o2kUfLfqv4=;
-        b=TI+oNtKIdSE8rwUEM0CCXfs5gLGdzaNAnPLaFustbBvT4ilCBa96jgrtdGIYZuuz0+
-         LPzFh2xIpjZUhz9pXnXoJVmj8lkLlb+GbEZA6ukcuqqfB6CGpwOtNdaZTsLyx8ubjwPu
-         7ZP/0b7PHwaZJCTwgiGWMjIOcivjXOETg8Bsx8fygqX7e/2ARQ9H46czUZ7FHKlkja8x
-         ryQ0ez5JyoBCAzK+9VH5ZPyVZEZiXzqEekKoFp+G3qZaWQ6ktrreTI2MifsX70qHfd/X
-         22iFCyK6Byc5EI/kZqKX0ABP/9hAMVloqma7+fRdqFP6CbCRKvdAEjWyfsYQ5RqR3UN0
-         QdOA==
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=4E03mAzQfNqc0pPGLByMvSZpXTBKFf+7RsSni1xm2BE=;
+        b=FL+wXVuVNwgC9WPZQ+nN8qr6PI1YAbPYOlgpiTVRmbrPxPpCnHWG+xjIm/rZUqh+RN
+         Wtgcs9FIJtZ0kOlyNNQL4cBdVPo7JiUz2d7Se3WuGSq+8w0iDNeDP/Tq/32yuMX9B/Ee
+         p7Nm1i3df5yhnvgEjT/EQL43SZU1lZg7xCPA00Xmj2Bmbfgfr1hvd+R4iR2gyUDZdsp2
+         fmk2tFOsArn/SJFO1upSu+Nsy7q78o5fr/yJyEfM6x7HBKypw6lonFcA4gH5A5GaE+nT
+         hNRQPfblpsES42hmgeti+rJty+yS9/zqWcbLQ9YEm2fScTNiZr4FVKqD+R/kVZ3ZMiBI
+         yZfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=tDBgBtQ4Suh8pBvnPYDqoICoAhg7eosA6o2kUfLfqv4=;
-        b=HEewuxaPQy+uE/mrklwuoOiGiCxrmTYM0keZeiQLtYUEs3+PL6kutZwwwz468WPKvT
-         aNBpDiqmLzfOZle0OZ7NNqzbuBkWc50f/nEeRIbBTUVk13NayrUCVDMwl2x1jysHaNwr
-         ZfgD9yfrJrJgx7BA2PYr/sKMtMv3BJgJcdui6OLAqxpsvHlDJA3QjYae1He3dJo0HZs4
-         AARYqgFPPxZXnofg08bt1jtUXwLERqOCMAWuwyYGK376tiVGydpdnXgtvZblwLQ7NRTR
-         rOtaCj9i2qgtFv1zlPXxFbNxd2kZQP8yxCgow2EufcsfCTT3VWm5fAgSDjhwuYhjtfM6
-         gSjQ==
-X-Gm-Message-State: APjAAAUelxumGnL0LKdNnlCYGtLFTAGCKNd8eJrsvmNrOn5/cW0vVSe8
-        NIt9AaRn5tMCCkz1q5j6WtE=
-X-Google-Smtp-Source: APXvYqxZI3DPByuRqS2swPfUz1CU04kh1J35cwrGO+GrmUlQwTo0qReuqcI0HRNfBx5JfLyTuAOR3A==
-X-Received: by 2002:a17:90a:8d86:: with SMTP id d6mr6607271pjo.127.1559928714404;
-        Fri, 07 Jun 2019 10:31:54 -0700 (PDT)
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to:user-agent;
+        bh=4E03mAzQfNqc0pPGLByMvSZpXTBKFf+7RsSni1xm2BE=;
+        b=oDDfuY1xgO6M6F10CqPmA6MbOBVl29f3V4BAZRiOHPrHIoFZy2lx2XI+kqQacULUKZ
+         7y99DfGoo4RZFy7tgyjgwTu52eGU4OQ9zmxdkVSWnjPOv1G4SJXvaYL7Q/4tNb8LYwoy
+         Qw65jtw9363+NPN9Dq3ZOgUw9MXXiOXDb3DPQ14zjd2YHs1oZvqbhK/BD85YD9X/GEfI
+         UbJNnSIZOiaH2iU4OQPeTjAxo0wpIG1To3SJI/rjbtFPVqhUFkEhjwco/JsFa7P5Tisi
+         tPbmgDJuOV/taO3cDuQl6tqaXU2ONJUQkSBDPoSAKMJHVNTKLagmwK57IYaCespQ0IKd
+         uHKA==
+X-Gm-Message-State: APjAAAW+zv5cF4dgk5k8ehAedm0qeu1vit6A1SyN2mL9XMdr3s+OMtso
+        PO/phSARNxTrINallZG0qAQ=
+X-Google-Smtp-Source: APXvYqxGITnJ8Rl8lNzz7neWI+mEmJs71L5mgwqdzEjWR0p5PAS7nOERdRKOqxB1v94jIc1cv5r4Jg==
+X-Received: by 2002:a17:902:a81:: with SMTP id 1mr56630045plp.287.1559929452806;
+        Fri, 07 Jun 2019 10:44:12 -0700 (PDT)
 Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id e20sm2622549pfi.35.2019.06.07.10.31.53
+        by smtp.gmail.com with ESMTPSA id a11sm2816983pff.128.2019.06.07.10.44.12
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 07 Jun 2019 10:31:53 -0700 (PDT)
-Date:   Fri, 7 Jun 2019 10:31:52 -0700
+        Fri, 07 Jun 2019 10:44:12 -0700 (PDT)
+Date:   Fri, 7 Jun 2019 10:44:11 -0700
 From:   Guenter Roeck <linux@roeck-us.net>
-To:     Nguyen An Hoan <na-hoan@jinso.co.jp>
-Cc:     linux-renesas-soc@vger.kernel.org, geert+renesas@glider.be,
-        linux-watchdog@vger.kernel.org, wim@linux-watchdog.org,
-        wsa+renesas@sang-engineering.com, kuninori.morimoto.gx@renesas.com,
-        yoshihiro.shimoda.uh@renesas.com, h-inayoshi@jinso.co.jp,
-        cv-dong@jinso.co.jp
-Subject: Re: [PATCH] watchdog: renesas_wdt: Use 'dev' instead of
- dereferencing it repeatedly
-Message-ID: <20190607173152.GA14638@roeck-us.net>
-References: <1558603778-20848-1-git-send-email-na-hoan@jinso.co.jp>
- <1558603778-20848-2-git-send-email-na-hoan@jinso.co.jp>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     wim@linux-watchdog.org, linux-watchdog@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3] watchdog: renesas_wdt: Add a few cycles delay
+Message-ID: <20190607174411.GA15497@roeck-us.net>
+References: <1559711040-29779-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1558603778-20848-2-git-send-email-na-hoan@jinso.co.jp>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1559711040-29779-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, May 23, 2019 at 06:29:38PM +0900, Nguyen An Hoan wrote:
-> From: Hoan Nguyen An <na-hoan@jinso.co.jp>
+[Note: I updated the subject to "PATCH v3"]
+
+On Wed, Jun 05, 2019 at 02:04:00PM +0900, Yoshihiro Shimoda wrote:
+> According to the hardware manual of R-Car Gen2 and Gen3,
+> software should wait a few RLCK cycles as following:
+>  - Delay 2 cycles before setting watchdog counter.
+>  - Delay 3 cycles before disabling module clock.
 > 
-> Add helper variable dev = &pdev->dev
+> So, this patch adds such delays.
 > 
-> Signed-off-by: Hoan Nguyen An <na-hoan@jinso.co.jp>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
 Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
 > ---
->  drivers/watchdog/renesas_wdt.c | 21 +++++++++++----------
->  1 file changed, 11 insertions(+), 10 deletions(-)
+>  Changes from v2 (https://patchwork.kernel.org/patch/10972721/):
+>  - Rename the wait function name.
+>  - Rename the variable name in the wait function.
+>  - Change variable type.
+>  - Add Wolfram-san and Niklas-san's Reviewed-by.
+> 
+>  Changes from v1 (https://patchwork.kernel.org/patch/10972641/):
+>  - Change formula to improve accuracy.
+>  - Add Geert-san's Reviewed-by.
+> 
+>  drivers/watchdog/renesas_wdt.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 > 
 > diff --git a/drivers/watchdog/renesas_wdt.c b/drivers/watchdog/renesas_wdt.c
-> index 565dbc1..d8ac229 100644
+> index 565dbc1..0cfc0e9 100644
 > --- a/drivers/watchdog/renesas_wdt.c
 > +++ b/drivers/watchdog/renesas_wdt.c
-> @@ -175,15 +175,16 @@ static inline bool rwdt_blacklisted(struct device *dev) { return false; }
->  
->  static int rwdt_probe(struct platform_device *pdev)
->  {
-> +	struct device *dev = &pdev->dev;
->  	struct rwdt_priv *priv;
->  	struct clk *clk;
->  	unsigned long clks_per_sec;
->  	int ret, i;
->  
-> -	if (rwdt_blacklisted(&pdev->dev))
-> +	if (rwdt_blacklisted(dev))
->  		return -ENODEV;
->  
-> -	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
->  	if (!priv)
->  		return -ENOMEM;
->  
-> @@ -191,16 +192,16 @@ static int rwdt_probe(struct platform_device *pdev)
->  	if (IS_ERR(priv->base))
->  		return PTR_ERR(priv->base);
->  
-> -	clk = devm_clk_get(&pdev->dev, NULL);
-> +	clk = devm_clk_get(dev, NULL);
->  	if (IS_ERR(clk))
->  		return PTR_ERR(clk);
->  
-> -	pm_runtime_enable(&pdev->dev);
-> -	pm_runtime_get_sync(&pdev->dev);
-> +	pm_runtime_enable(dev);
-> +	pm_runtime_get_sync(dev);
->  	priv->clk_rate = clk_get_rate(clk);
->  	priv->wdev.bootstatus = (readb_relaxed(priv->base + RWTCSRA) &
->  				RWTCSRA_WOVF) ? WDIOF_CARDRESET : 0;
-> -	pm_runtime_put(&pdev->dev);
-> +	pm_runtime_put(dev);
->  
->  	if (!priv->clk_rate) {
->  		ret = -ENOENT;
-> @@ -216,14 +217,14 @@ static int rwdt_probe(struct platform_device *pdev)
->  	}
->  
->  	if (i < 0) {
-> -		dev_err(&pdev->dev, "Can't find suitable clock divider\n");
-> +		dev_err(dev, "Can't find suitable clock divider\n");
->  		ret = -ERANGE;
->  		goto out_pm_disable;
->  	}
->  
->  	priv->wdev.info = &rwdt_ident;
->  	priv->wdev.ops = &rwdt_ops;
-> -	priv->wdev.parent = &pdev->dev;
-> +	priv->wdev.parent = dev;
->  	priv->wdev.min_timeout = 1;
->  	priv->wdev.max_timeout = DIV_BY_CLKS_PER_SEC(priv, 65536);
->  	priv->wdev.timeout = min(priv->wdev.max_timeout, RWDT_DEFAULT_TIMEOUT);
-> @@ -235,7 +236,7 @@ static int rwdt_probe(struct platform_device *pdev)
->  	watchdog_stop_on_unregister(&priv->wdev);
->  
->  	/* This overrides the default timeout only if DT configuration was found */
-> -	watchdog_init_timeout(&priv->wdev, 0, &pdev->dev);
-> +	watchdog_init_timeout(&priv->wdev, 0, dev);
->  
->  	ret = watchdog_register_device(&priv->wdev);
->  	if (ret < 0)
-> @@ -244,7 +245,7 @@ static int rwdt_probe(struct platform_device *pdev)
+> @@ -7,6 +7,7 @@
+>   */
+>  #include <linux/bitops.h>
+>  #include <linux/clk.h>
+> +#include <linux/delay.h>
+>  #include <linux/io.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+> @@ -70,6 +71,15 @@ static int rwdt_init_timeout(struct watchdog_device *wdev)
 >  	return 0;
->  
->   out_pm_disable:
-> -	pm_runtime_disable(&pdev->dev);
-> +	pm_runtime_disable(dev);
->  	return ret;
 >  }
 >  
+> +static void rwdt_wait_cycles(struct rwdt_priv *priv, unsigned int cycles)
+> +{
+> +	unsigned int delay;
+> +
+> +	delay = DIV_ROUND_UP(cycles * 1000000, priv->clk_rate);
+> +
+> +	usleep_range(delay, 2 * delay);
+> +}
+> +
+>  static int rwdt_start(struct watchdog_device *wdev)
+>  {
+>  	struct rwdt_priv *priv = watchdog_get_drvdata(wdev);
+> @@ -80,6 +90,8 @@ static int rwdt_start(struct watchdog_device *wdev)
+>  	/* Stop the timer before we modify any register */
+>  	val = readb_relaxed(priv->base + RWTCSRA) & ~RWTCSRA_TME;
+>  	rwdt_write(priv, val, RWTCSRA);
+> +	/* Delay 2 cycles before setting watchdog counter */
+> +	rwdt_wait_cycles(priv, 2);
+>  
+>  	rwdt_init_timeout(wdev);
+>  	rwdt_write(priv, priv->cks, RWTCSRA);
+> @@ -98,6 +110,8 @@ static int rwdt_stop(struct watchdog_device *wdev)
+>  	struct rwdt_priv *priv = watchdog_get_drvdata(wdev);
+>  
+>  	rwdt_write(priv, priv->cks, RWTCSRA);
+> +	/* Delay 3 cycles before disabling module clock */
+> +	rwdt_wait_cycles(priv, 3);
+>  	pm_runtime_put(wdev->parent);
+>  
+>  	return 0;
