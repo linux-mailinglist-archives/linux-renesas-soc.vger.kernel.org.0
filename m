@@ -2,92 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E9E938929
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2019 13:37:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B652A38933
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  7 Jun 2019 13:38:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728576AbfFGLhN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 7 Jun 2019 07:37:13 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35870 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728197AbfFGLhN (ORCPT
+        id S1727386AbfFGLin (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 7 Jun 2019 07:38:43 -0400
+Received: from albert.telenet-ops.be ([195.130.137.90]:37462 "EHLO
+        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728720AbfFGLim (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 7 Jun 2019 07:37:13 -0400
-Received: from pendragon.ideasonboard.com (unknown [IPv6:2a02:a03f:44f0:8500:ca05:8177:199c:fed4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7E7CD334;
-        Fri,  7 Jun 2019 13:37:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1559907431;
-        bh=h8nNlFwztfsVZRShmhKejPLZbbtWBGar1pZQXZWtef4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QdVf2z/obGcSpSa+as048Dj+EKhXDVel+ZE/VzBlsyBBvw5KbscRuZhg1MGRoJoxl
-         pt2QDbciEc/3qSjdG/cc9DMkPh0DR5wC2ecGDCTydSWrsc3HYOviYMNio2pCxlsn8h
-         6aGYDtS8cQtAuxHnWSCzQBas9JAXkj1O7H9NEKdQ=
-Date:   Fri, 7 Jun 2019 14:36:57 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Koji Matsuoka <koji.matsuoka.xm@renesas.com>, muroya@ksk.co.jp,
-        VenkataRajesh.Kalakodima@in.bosch.com,
-        Harsha.ManjulaMallikarjun@in.bosch.com,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 03/20] dt-bindings: display, renesas,du: Update 'vsps' in
- example
-Message-ID: <20190607113657.GC7593@pendragon.ideasonboard.com>
-References: <20190606142220.1392-1-jacopo+renesas@jmondi.org>
- <20190606142220.1392-4-jacopo+renesas@jmondi.org>
- <20190606165352.GK12825@pendragon.ideasonboard.com>
- <CAMuHMdVJEJ9Sehm5Ug4P+HW0iPYufPuYVD9vQ3qKg=htXFmuLg@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVJEJ9Sehm5Ug4P+HW0iPYufPuYVD9vQ3qKg=htXFmuLg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Fri, 7 Jun 2019 07:38:42 -0400
+Received: from ramsan ([84.194.111.163])
+        by albert.telenet-ops.be with bizsmtp
+        id Mneg2000b3XaVaC06neggA; Fri, 07 Jun 2019 13:38:40 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hZDCi-0004GK-Pk; Fri, 07 Jun 2019 13:38:40 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hZDCi-00040j-OF; Fri, 07 Jun 2019 13:38:40 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Dan Williams <dan.j.williams@intel.com>,
+        Vinod Koul <vkoul@kernel.org>
+Cc:     dmaengine@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH/RFC] dmaengine: Create symlinks from DMA channels to slaves
+Date:   Fri,  7 Jun 2019 13:38:35 +0200
+Message-Id: <20190607113835.15376-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Currently it is not easy to find out which DMA channels are in use, and
+by which slave devices.
 
-On Thu, Jun 06, 2019 at 10:00:23PM +0200, Geert Uytterhoeven wrote:
-> On Thu, Jun 6, 2019 at 8:50 PM Laurent Pinchart wrote:
-> > On Thu, Jun 06, 2019 at 04:22:03PM +0200, Jacopo Mondi wrote:
-> >> Update the 'vsps' property structure in the documentation example to
-> >> reflect what's actually implemented in the device tree sources.
-> >>
-> >> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> 
-> >> --- a/Documentation/devicetree/bindings/display/renesas,du.txt
-> >> +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
-> >> @@ -92,7 +92,7 @@ Example: R8A7795 (R-Car H3) ES2.0 DU
-> >>                        <&cpg CPG_MOD 722>,
-> >>                        <&cpg CPG_MOD 721>;
-> >>               clock-names = "du.0", "du.1", "du.2", "du.3";
-> >> -             vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
-> >> +             vsps = <&vspd0 0 &vspd1 0 &vspd2  &vspd0 1>;
-> >
-> > The former is simpler to read than the latter in my opinion. Shouldn't
-> > we update the .dtsi files instead ?
-> 
-> Yes, it is easier to read (for humans).
-> 
-> >>               cmms = <&cmm0 &cmm1 &cmm2 &cmm3>;
-> 
-> Perhaps we want grouping here, too?
+Fix this by creating in sysfs a "slave" symlink from the DMA channel to
+the actual slave device when a channel is requested, and removing it
+again when the channel is released.
 
-As there's a single entry per CMM it matters less in my opinion. I'm
-fine with either options.
+For now this is limited to DT and ACPI.
 
-> 
-> >>
-> >>               ports {
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Questions:
+  1. Do you think this is useful?
+  2. Should backlinks (e.g. "dma:<name>") be created from the slave
+     device to the DMA channel?
+     This requires storing the name in struct dma_chan, for later
+     symlink removal.
+  3. Should this be extended to other ways of requesting channels?
+     In many cases, no device pointer is available, so a device pointer
+     parameter has to be added to all DMA channel request APIs that
+     don't have it yet.
+---
+ drivers/dma/dmaengine.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
+diff --git a/drivers/dma/dmaengine.c b/drivers/dma/dmaengine.c
+index 03ac4b96117cd8db..c11476f76fc96bcf 100644
+--- a/drivers/dma/dmaengine.c
++++ b/drivers/dma/dmaengine.c
+@@ -706,6 +706,10 @@ struct dma_chan *dma_request_chan(struct device *dev, const char *name)
+ 
+ 	if (chan) {
+ 		/* Valid channel found or requester needs to be deferred */
++		if (!IS_ERR(chan) &&
++		     sysfs_create_link(&chan->dev->device.kobj, &dev->kobj,
++				       "slave"))
++			dev_err(dev, "Cannot create DMA slave symlink\n");
+ 		if (!IS_ERR(chan) || PTR_ERR(chan) == -EPROBE_DEFER)
+ 			return chan;
+ 	}
+@@ -786,6 +790,7 @@ void dma_release_channel(struct dma_chan *chan)
+ 	/* drop PRIVATE cap enabled by __dma_request_channel() */
+ 	if (--chan->device->privatecnt == 0)
+ 		dma_cap_clear(DMA_PRIVATE, chan->device->cap_mask);
++	sysfs_remove_link(&chan->dev->device.kobj, "slave");
+ 	mutex_unlock(&dma_list_mutex);
+ }
+ EXPORT_SYMBOL_GPL(dma_release_channel);
 -- 
-Regards,
+2.17.1
 
-Laurent Pinchart
