@@ -2,150 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 680AD39CE8
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 Jun 2019 13:00:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC73639EE2
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 Jun 2019 13:53:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726945AbfFHK4p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 8 Jun 2019 06:56:45 -0400
-Received: from sauhun.de ([88.99.104.3]:51774 "EHLO pokefinder.org"
+        id S1728292AbfFHLmK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 8 Jun 2019 07:42:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59418 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726692AbfFHK4p (ORCPT
+        id S1727468AbfFHLmJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 8 Jun 2019 06:56:45 -0400
-Received: from localhost (p5486CBCC.dip0.t-ipconnect.de [84.134.203.204])
-        by pokefinder.org (Postfix) with ESMTPSA id D0A142C3637;
-        Sat,  8 Jun 2019 12:56:40 +0200 (CEST)
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org, devel@driverdev.osuosl.org,
-        dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: [PATCH 00/34] treewide: simplify getting the adapter of an I2C client
-Date:   Sat,  8 Jun 2019 12:55:39 +0200
-Message-Id: <20190608105619.593-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.19.1
+        Sat, 8 Jun 2019 07:42:09 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E1245214D8;
+        Sat,  8 Jun 2019 11:42:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1559994128;
+        bh=lGQ6TM8Ks9aZEQTjN/7Q4LvqRoYdOdivuhha7Z3PTjQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=tDW16SmpStS3+72FUpt5t4LmSKdVAwwzY1pmMWG7eRtQ+hYq6RqAgUgzQm9/wwtEj
+         tkFFrWIJwIxGEWr/BqRko2yV1aCT4BsqzbY5FZpwlUxaR7wORylhlx1wswTUqqh4yx
+         eVTv/u7ZQXYhMFknNJA3/xXAzMyy7Jy2AYlBlF7A=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.1 59/70] net: sh_eth: fix mdio access in sh_eth_close() for R-Car Gen2 and RZ/A1 SoCs
+Date:   Sat,  8 Jun 2019 07:39:38 -0400
+Message-Id: <20190608113950.8033-59-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190608113950.8033-1-sashal@kernel.org>
+References: <20190608113950.8033-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-While preparing a refactoring series, I noticed that some drivers use a
-complicated way of determining the adapter of a client. The easy way is
-to use the intended pointer: client->adapter
+From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-These drivers do:
-	to_i2c_adapter(client->dev.parent);
+[ Upstream commit 315ca92dd863fecbffc0bb52ae0ac11e0398726a ]
 
-The I2C core populates the parent pointer as:
-	client->dev.parent = &client->adapter->dev;
+The sh_eth_close() resets the MAC and then calls phy_stop()
+so that mdio read access result is incorrect without any error
+according to kernel trace like below:
 
-Now take into consideration that
-	to_i2c_adapter(&adapter->dev);
+ifconfig-216   [003] .n..   109.133124: mdio_access: ee700000.ethernet-ffffffff read  phy:0x01 reg:0x00 val:0xffff
 
-is a complicated way of saying 'adapter', then we can even formally
-prove that the complicated expression can be simplified by using
-client->adapter.
+According to the hardware manual, the RMII mode should be set to 1
+before operation the Ethernet MAC. However, the previous code was not
+set to 1 after the driver issued the soft_reset in sh_eth_dev_exit()
+so that the mdio read access result seemed incorrect. To fix the issue,
+this patch adds a condition and set the RMII mode register in
+sh_eth_dev_exit() for R-Car Gen2 and RZ/A1 SoCs.
 
-The conversion was done using a coccinelle script with some manual
-indentation fixes applied on top.
+Note that when I have tried to move the sh_eth_dev_exit() calling
+after phy_stop() on sh_eth_close(), but it gets worse (kernel panic
+happened and it seems that a register is accessed while the clock is
+off).
 
-To avoid a brown paper bag mistake, I double checked this on a Renesas
-Salvator-XS board (R-Car M3N) and verified both expression result in the
-same pointer. Other than that, the series is only build tested.
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/net/ethernet/renesas/sh_eth.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-A branch can be found here:
-
-git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/no_to_adapter
-
-Please apply the patches to the individual subsystem trees. There are no
-dependencies.
-
-Thanks and kind regards,
-
-   Wolfram
-
-
-Wolfram Sang (34):
-  clk: clk-cdce706: simplify getting the adapter of a client
-  gpu: drm: bridge: sii9234: simplify getting the adapter of a client
-  iio: light: bh1780: simplify getting the adapter of a client
-  leds: leds-pca955x: simplify getting the adapter of a client
-  leds: leds-tca6507: simplify getting the adapter of a client
-  media: i2c: ak881x: simplify getting the adapter of a client
-  media: i2c: mt9m001: simplify getting the adapter of a client
-  media: i2c: mt9m111: simplify getting the adapter of a client
-  media: i2c: mt9p031: simplify getting the adapter of a client
-  media: i2c: ov2640: simplify getting the adapter of a client
-  media: i2c: tw9910: simplify getting the adapter of a client
-  misc: fsa9480: simplify getting the adapter of a client
-  misc: isl29003: simplify getting the adapter of a client
-  misc: tsl2550: simplify getting the adapter of a client
-  mtd: maps: pismo: simplify getting the adapter of a client
-  power: supply: bq24190_charger: simplify getting the adapter of a client
-  power: supply: bq24257_charger: simplify getting the adapter of a client
-  power: supply: bq25890_charger: simplify getting the adapter of a client
-  power: supply: max14656_charger_detector: simplify getting the adapter
-    of a client
-  power: supply: max17040_battery: simplify getting the adapter of a client
-  power: supply: max17042_battery: simplify getting the adapter of a client
-  power: supply: rt5033_battery: simplify getting the adapter of a client
-  power: supply: rt9455_charger: simplify getting the adapter of a client
-  power: supply: sbs-manager: simplify getting the adapter of a client
-  regulator: max8952: simplify getting the adapter of a client
-  rtc: fm3130: simplify getting the adapter of a client
-  rtc: m41t80: simplify getting the adapter of a client
-  rtc: rv8803: simplify getting the adapter of a client
-  rtc: rx8010: simplify getting the adapter of a client
-  rtc: rx8025: simplify getting the adapter of a client
-  staging: media: soc_camera: imx074: simplify getting the adapter of a client
-  staging: media: soc_camera: mt9t031: simplify getting the adapter of a client
-  staging: media: soc_camera: soc_mt9v022: simplify getting the adapter
-    of a client
-  usb: typec: tcpm: fusb302: simplify getting the adapter of a client
-
- drivers/clk/clk-cdce706.c                        | 2 +-
- drivers/gpu/drm/bridge/sii9234.c                 | 4 ++--
- drivers/iio/light/bh1780.c                       | 2 +-
- drivers/leds/leds-pca955x.c                      | 2 +-
- drivers/leds/leds-tca6507.c                      | 2 +-
- drivers/media/i2c/ak881x.c                       | 2 +-
- drivers/media/i2c/mt9m001.c                      | 2 +-
- drivers/media/i2c/mt9m111.c                      | 2 +-
- drivers/media/i2c/mt9p031.c                      | 2 +-
- drivers/media/i2c/ov2640.c                       | 2 +-
- drivers/media/i2c/tw9910.c                       | 3 +--
- drivers/misc/fsa9480.c                           | 2 +-
- drivers/misc/isl29003.c                          | 2 +-
- drivers/misc/tsl2550.c                           | 2 +-
- drivers/mtd/maps/pismo.c                         | 2 +-
- drivers/power/supply/bq24190_charger.c           | 2 +-
- drivers/power/supply/bq24257_charger.c           | 2 +-
- drivers/power/supply/bq25890_charger.c           | 2 +-
- drivers/power/supply/max14656_charger_detector.c | 2 +-
- drivers/power/supply/max17040_battery.c          | 2 +-
- drivers/power/supply/max17042_battery.c          | 2 +-
- drivers/power/supply/rt5033_battery.c            | 2 +-
- drivers/power/supply/rt9455_charger.c            | 2 +-
- drivers/power/supply/sbs-manager.c               | 2 +-
- drivers/regulator/max8952.c                      | 2 +-
- drivers/rtc/rtc-fm3130.c                         | 8 +++-----
- drivers/rtc/rtc-m41t80.c                         | 2 +-
- drivers/rtc/rtc-rv8803.c                         | 2 +-
- drivers/rtc/rtc-rx8010.c                         | 2 +-
- drivers/rtc/rtc-rx8025.c                         | 2 +-
- drivers/staging/media/soc_camera/imx074.c        | 2 +-
- drivers/staging/media/soc_camera/mt9t031.c       | 2 +-
- drivers/staging/media/soc_camera/soc_mt9v022.c   | 2 +-
- drivers/usb/typec/tcpm/fusb302.c                 | 3 +--
- 34 files changed, 37 insertions(+), 41 deletions(-)
-
+diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
+index e33af371b169..48967dd27bbf 100644
+--- a/drivers/net/ethernet/renesas/sh_eth.c
++++ b/drivers/net/ethernet/renesas/sh_eth.c
+@@ -1594,6 +1594,10 @@ static void sh_eth_dev_exit(struct net_device *ndev)
+ 	sh_eth_get_stats(ndev);
+ 	mdp->cd->soft_reset(ndev);
+ 
++	/* Set the RMII mode again if required */
++	if (mdp->cd->rmiimode)
++		sh_eth_write(ndev, 0x1, RMIIMODE);
++
+ 	/* Set MAC address again */
+ 	update_mac_address(ndev);
+ }
 -- 
-2.19.1
+2.20.1
 
