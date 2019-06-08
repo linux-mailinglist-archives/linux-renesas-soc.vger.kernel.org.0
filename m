@@ -2,95 +2,150 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CBF9F399C8
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 Jun 2019 01:47:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 680AD39CE8
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 Jun 2019 13:00:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730471AbfFGXr7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 7 Jun 2019 19:47:59 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:44342 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727184AbfFGXr7 (ORCPT
+        id S1726945AbfFHK4p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 8 Jun 2019 06:56:45 -0400
+Received: from sauhun.de ([88.99.104.3]:51774 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726692AbfFHK4p (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 7 Jun 2019 19:47:59 -0400
-Received: from pendragon.ideasonboard.com (unknown [109.132.30.162])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AE6E531A;
-        Sat,  8 Jun 2019 01:47:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1559951277;
-        bh=/RHszLjp1uQGQ16i2uj7YXjP5Jf0cYTkdbnlD4r0ksM=;
-        h=Date:From:To:Cc:Subject:From;
-        b=K2ckc+dAVR35dMb6c6vU3G+7IaZWGyHdaHo/kpig1/ZXY+qUTUUB2cN+7EAqLwK6i
-         T6Ix9WBdHMVXqXIOYRle7fN1SZqfbgxCZEq2zWJpb95JO+3iS0/eHTYpGHq8oydTo8
-         WXp0HzRH5wtm+iB8ZQsbBYPWN/BkQ0LDzXYhQqY8=
-Date:   Sat, 8 Jun 2019 02:47:43 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-renesas-soc@vger.kernel.org, Dave Airlie <airlied@gmail.com>
-Subject: [GIT PULL FOR v5.3] R-Car DU changes
-Message-ID: <20190607234743.GD5110@pendragon.ideasonboard.com>
+        Sat, 8 Jun 2019 06:56:45 -0400
+Received: from localhost (p5486CBCC.dip0.t-ipconnect.de [84.134.203.204])
+        by pokefinder.org (Postfix) with ESMTPSA id D0A142C3637;
+        Sat,  8 Jun 2019 12:56:40 +0200 (CEST)
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org, devel@driverdev.osuosl.org,
+        dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-pm@vger.kernel.org,
+        linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: [PATCH 00/34] treewide: simplify getting the adapter of an I2C client
+Date:   Sat,  8 Jun 2019 12:55:39 +0200
+Message-Id: <20190608105619.593-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Dave,
+While preparing a refactoring series, I noticed that some drivers use a
+complicated way of determining the adapter of a client. The easy way is
+to use the intended pointer: client->adapter
 
-The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
+These drivers do:
+	to_i2c_adapter(client->dev.parent);
 
-  Linux 5.2-rc1 (2019-05-19 15:47:09 -0700)
+The I2C core populates the parent pointer as:
+	client->dev.parent = &client->adapter->dev;
 
-are available in the Git repository at:
+Now take into consideration that
+	to_i2c_adapter(&adapter->dev);
 
-  git://linuxtv.org/pinchartl/media.git tags/du-next-20190608
+is a complicated way of saying 'adapter', then we can even formally
+prove that the complicated expression can be simplified by using
+client->adapter.
 
-for you to fetch changes up to 8e8fddab0d0acdefb1ad76852d954b2bbaa3896d:
+The conversion was done using a coccinelle script with some manual
+indentation fixes applied on top.
 
-  drm: rcar-du: Skip LVDS1 output on Gen3 when using dual-link LVDS mode (2019-06-08 02:36:04 +0300)
+To avoid a brown paper bag mistake, I double checked this on a Renesas
+Salvator-XS board (R-Car M3N) and verified both expression result in the
+same pointer. Other than that, the series is only build tested.
 
-----------------------------------------------------------------
-R-Car DU changes for v5.3:
+A branch can be found here:
 
-- R8A774A1 SoC support
-- LVDS dual-link mode support
-- Misc fixes
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/no_to_adapter
 
-----------------------------------------------------------------
-Biju Das (4):
-      dt-bindings: display: renesas: du: Document the r8a774a1 bindings
-      dt-bindings: display: renesas: lvds: Document r8a774a1 bindings
-      drm: rcar-du: Add R8A774A1 support
-      drm: rcar-du: lvds: Add r8a774a1 support
+Please apply the patches to the individual subsystem trees. There are no
+dependencies.
 
-Kieran Bingham (1):
-      drm: rcar-du: writeback: include interface header
+Thanks and kind regards,
 
-Laurent Pinchart (7):
-      drm: bridge: Add dual_link field to the drm_bridge_timings structure
-      dt-bindings: display: bridge: thc63lvd1024: Document dual-link operation
-      drm: bridge: thc63: Report input bus mode through bridge timings
-      dt-bindings: display: renesas: lvds: Add renesas,companion property
-      drm: rcar-du: lvds: Remove LVDS double-enable checks
-      drm: rcar-du: lvds: Add support for dual-link mode
-      drm: rcar-du: Skip LVDS1 output on Gen3 when using dual-link LVDS mode
+   Wolfram
 
- .../bindings/display/bridge/renesas,lvds.txt       |  19 ++-
- .../bindings/display/bridge/thine,thc63lvd1024.txt |   6 +
- .../devicetree/bindings/display/renesas,du.txt     |   2 +
- drivers/gpu/drm/bridge/thc63lvd1024.c              |  54 +++++++--
- drivers/gpu/drm/rcar-du/rcar_du_drv.c              |  30 +++++
- drivers/gpu/drm/rcar-du/rcar_du_encoder.c          |  12 ++
- drivers/gpu/drm/rcar-du/rcar_du_kms.c              |   2 +-
- drivers/gpu/drm/rcar-du/rcar_du_writeback.c        |   1 +
- drivers/gpu/drm/rcar-du/rcar_lvds.c                | 127 +++++++++++++++------
- drivers/gpu/drm/rcar-du/rcar_lvds.h                |   5 +
- include/drm/drm_bridge.h                           |   8 ++
- 11 files changed, 218 insertions(+), 48 deletions(-)
+
+Wolfram Sang (34):
+  clk: clk-cdce706: simplify getting the adapter of a client
+  gpu: drm: bridge: sii9234: simplify getting the adapter of a client
+  iio: light: bh1780: simplify getting the adapter of a client
+  leds: leds-pca955x: simplify getting the adapter of a client
+  leds: leds-tca6507: simplify getting the adapter of a client
+  media: i2c: ak881x: simplify getting the adapter of a client
+  media: i2c: mt9m001: simplify getting the adapter of a client
+  media: i2c: mt9m111: simplify getting the adapter of a client
+  media: i2c: mt9p031: simplify getting the adapter of a client
+  media: i2c: ov2640: simplify getting the adapter of a client
+  media: i2c: tw9910: simplify getting the adapter of a client
+  misc: fsa9480: simplify getting the adapter of a client
+  misc: isl29003: simplify getting the adapter of a client
+  misc: tsl2550: simplify getting the adapter of a client
+  mtd: maps: pismo: simplify getting the adapter of a client
+  power: supply: bq24190_charger: simplify getting the adapter of a client
+  power: supply: bq24257_charger: simplify getting the adapter of a client
+  power: supply: bq25890_charger: simplify getting the adapter of a client
+  power: supply: max14656_charger_detector: simplify getting the adapter
+    of a client
+  power: supply: max17040_battery: simplify getting the adapter of a client
+  power: supply: max17042_battery: simplify getting the adapter of a client
+  power: supply: rt5033_battery: simplify getting the adapter of a client
+  power: supply: rt9455_charger: simplify getting the adapter of a client
+  power: supply: sbs-manager: simplify getting the adapter of a client
+  regulator: max8952: simplify getting the adapter of a client
+  rtc: fm3130: simplify getting the adapter of a client
+  rtc: m41t80: simplify getting the adapter of a client
+  rtc: rv8803: simplify getting the adapter of a client
+  rtc: rx8010: simplify getting the adapter of a client
+  rtc: rx8025: simplify getting the adapter of a client
+  staging: media: soc_camera: imx074: simplify getting the adapter of a client
+  staging: media: soc_camera: mt9t031: simplify getting the adapter of a client
+  staging: media: soc_camera: soc_mt9v022: simplify getting the adapter
+    of a client
+  usb: typec: tcpm: fusb302: simplify getting the adapter of a client
+
+ drivers/clk/clk-cdce706.c                        | 2 +-
+ drivers/gpu/drm/bridge/sii9234.c                 | 4 ++--
+ drivers/iio/light/bh1780.c                       | 2 +-
+ drivers/leds/leds-pca955x.c                      | 2 +-
+ drivers/leds/leds-tca6507.c                      | 2 +-
+ drivers/media/i2c/ak881x.c                       | 2 +-
+ drivers/media/i2c/mt9m001.c                      | 2 +-
+ drivers/media/i2c/mt9m111.c                      | 2 +-
+ drivers/media/i2c/mt9p031.c                      | 2 +-
+ drivers/media/i2c/ov2640.c                       | 2 +-
+ drivers/media/i2c/tw9910.c                       | 3 +--
+ drivers/misc/fsa9480.c                           | 2 +-
+ drivers/misc/isl29003.c                          | 2 +-
+ drivers/misc/tsl2550.c                           | 2 +-
+ drivers/mtd/maps/pismo.c                         | 2 +-
+ drivers/power/supply/bq24190_charger.c           | 2 +-
+ drivers/power/supply/bq24257_charger.c           | 2 +-
+ drivers/power/supply/bq25890_charger.c           | 2 +-
+ drivers/power/supply/max14656_charger_detector.c | 2 +-
+ drivers/power/supply/max17040_battery.c          | 2 +-
+ drivers/power/supply/max17042_battery.c          | 2 +-
+ drivers/power/supply/rt5033_battery.c            | 2 +-
+ drivers/power/supply/rt9455_charger.c            | 2 +-
+ drivers/power/supply/sbs-manager.c               | 2 +-
+ drivers/regulator/max8952.c                      | 2 +-
+ drivers/rtc/rtc-fm3130.c                         | 8 +++-----
+ drivers/rtc/rtc-m41t80.c                         | 2 +-
+ drivers/rtc/rtc-rv8803.c                         | 2 +-
+ drivers/rtc/rtc-rx8010.c                         | 2 +-
+ drivers/rtc/rtc-rx8025.c                         | 2 +-
+ drivers/staging/media/soc_camera/imx074.c        | 2 +-
+ drivers/staging/media/soc_camera/mt9t031.c       | 2 +-
+ drivers/staging/media/soc_camera/soc_mt9v022.c   | 2 +-
+ drivers/usb/typec/tcpm/fusb302.c                 | 3 +--
+ 34 files changed, 37 insertions(+), 41 deletions(-)
 
 -- 
-Regards,
+2.19.1
 
-Laurent Pinchart
