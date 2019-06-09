@@ -2,89 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FAA23A50D
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Jun 2019 13:11:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89D1E3A536
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Jun 2019 13:51:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728447AbfFILLQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 9 Jun 2019 07:11:16 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:46968 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728325AbfFILLQ (ORCPT
+        id S1728374AbfFILvk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 9 Jun 2019 07:51:40 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:33584 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728161AbfFILvk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 9 Jun 2019 07:11:16 -0400
-Received: by mail-pg1-f195.google.com with SMTP id v9so1787114pgr.13
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 09 Jun 2019 04:11:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=Cal99Amho56820U+yaSv28Wp6x6GMFa0vOsQA8BETVM=;
-        b=DGnbZJhkml/GTOCwVXJvaUey11Nl1HrUBpWW+UGtTOrKk9FDas7yBbzrPUGGRblMRZ
-         kco/zHq8fPBDcPxE6kv8vjkqL3IXBu4TCCCwLtPPgajaXHALH07W1A9Fx8IIzXvMkBvK
-         L8HdkAtcEF1e6E6BUDbMCPj0jGBMay3qz4xCeMp9ZtVFR220SBXIyn1B0t91nCzXXpYt
-         Z1mBRzg2/VM4byb24w4s8gEgSvWxmqLk0Grms4Scam42vt5lFYzkniWRIkK4g2uK+04c
-         hnWVDdJrlRbzaiisyviSADBpS8eZHoZfiEV6l6/E39nnkQ1Wha4jOPkTgWSPPjyaSM/0
-         3mJw==
+        Sun, 9 Jun 2019 07:51:40 -0400
+Received: by mail-lj1-f195.google.com with SMTP id v29so5463022ljv.0;
+        Sun, 09 Jun 2019 04:51:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Cal99Amho56820U+yaSv28Wp6x6GMFa0vOsQA8BETVM=;
-        b=JolN0L5NRuML7/0fJxOqzP3qCPQRQ20tf4eTHpGYKiPG9yXTrz4wmO0n/iC/FHMM5d
-         hZ9VQvHvpc+iPR1856S3BpDWhMxXxKPIrGGyeaput+DYwL0zVqRAcWq4RZc2zEE0rywe
-         eFS6igDZ/pgVFGs4Hprpa82a80AGCzxguhcv7PElEPy+ICeW2PPmD3GpyIQmH/Rgs39+
-         Q/1YSFY8QcCad9ZQsh27gQ0ADapcT2OyC+63oAfmnho8jrN8Kh6QrxIyPZfZA9VA6b/k
-         ldQFr+ODY2bmLXJLLDx9N7IfTbZ78TVMdpCLQMZk+oReFG+os4mtPQQkSm0hlaQcFyQK
-         STWQ==
-X-Gm-Message-State: APjAAAXLKBW13HNSfIjAFgnaQLFGPX05YWm8IzyWKh/xtTFpTUHGAemN
-        y2j2xtB9lYzUbeKlIUZsWqbvRzYY
-X-Google-Smtp-Source: APXvYqxCfcIxwP7AKWkVHFhsyr84pjDhY+aFzuau/WjL2GZNFqXjILpU+R+ceWGUljVF7kk8/AFhrA==
-X-Received: by 2002:a62:a509:: with SMTP id v9mr67392094pfm.82.1560078675959;
-        Sun, 09 Jun 2019 04:11:15 -0700 (PDT)
-Received: from localhost.localdomain (p2445105-ipngn21501marunouchi.tokyo.ocn.ne.jp. [60.37.178.105])
-        by smtp.gmail.com with ESMTPSA id q7sm5590985pfb.32.2019.06.09.04.11.13
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Sun, 09 Jun 2019 04:11:15 -0700 (PDT)
-From:   Yoshihiro Kaneko <ykaneko0929@gmail.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH/RFT] arm64: dts: renesas: r8a77995: Add cpg reset for LVDS Interface
-Date:   Sun,  9 Jun 2019 20:10:59 +0900
-Message-Id: <1560078659-19236-1-git-send-email-ykaneko0929@gmail.com>
-X-Mailer: git-send-email 1.9.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Nkggr5nsJDjImC3yF9/sX89fRKsHO5WvE5Dpwrs1IK4=;
+        b=KeoWl0kCkVaw49rNqAnx6udYYefRTa9Ulz2GQ2cVT+My0M5ajgP6fUXYyq2Iy2ORhM
+         eZuOr/OISNzWRFaxSluGFPJFjPH+O6NuVBFnv8HunQysAMoR2XWJmdigW78TNeox/21n
+         JwNpaMnMeJgcXuySATordNPd/rH6PJGA8bGDMXf0qMhf2RvMi6rfm3FRQNcH/e9hK17z
+         bENsybLS4+74qaoxyubOgh1r+z9xCItqQXEmvtyCcsn3dzgPoMOt7HstPRRc3cU64Gaj
+         hI1hCKt5IR5QVFXhkLzeDgJHgZlwe5cqGJs0RZSc+rV1dun8C7kHmoKrhiOS1CCqcpix
+         8H6g==
+X-Gm-Message-State: APjAAAXlBl1XqwKSGFs+2ioLKWSFfdorLqUfE6ycdwwMJwYhB41eDSaF
+        alblT4deRnqJoHty3+AV9fazvzfHR03Qh+CCzzUZzg==
+X-Google-Smtp-Source: APXvYqyXB/3D7eb+/rqz7nZVEwVoROrGU9/4DNdGokqsoZ281m2FeOCJ2dNAk21lEE0RloAGSLKZ5WM8Qw19MpLoQBs=
+X-Received: by 2002:a2e:91c5:: with SMTP id u5mr22112565ljg.65.1560081098417;
+ Sun, 09 Jun 2019 04:51:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190608125331.29146-1-laurent.pinchart+renesas@ideasonboard.com>
+ <CAMuHMdUobhMrDYBoYVo091re7LGrYEGgCsXbMh8a4MrF4zoP7g@mail.gmail.com> <20190609100845.GA4778@pendragon.ideasonboard.com>
+In-Reply-To: <20190609100845.GA4778@pendragon.ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Sun, 9 Jun 2019 13:51:24 +0200
+Message-ID: <CAMuHMdVBT0bVb-e3dDEz0-SP0GA+xoq3qrjXv66rFr9CVkHiEQ@mail.gmail.com>
+Subject: Re: [PATCH] v4l: rcar-fcp: Read IP version register at probe time
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-It is necessary to reset the LVDS Interface according to display on/off.
-Therefore, this patch adds CPG reset properties in DU device node
-for the R8A77995 SoC.
+Hi Laurent,
 
-This patch was inspired by a patch in the BSP by Takeshi Kihara <takeshi.kihara.df@renesas.com>.
+On Sun, Jun 9, 2019 at 12:09 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Sun, Jun 09, 2019 at 10:06:19AM +0200, Geert Uytterhoeven wrote:
+> > On Sat, Jun 8, 2019 at 2:55 PM Laurent Pinchart wrote:
+> > > This helps identifying the IP core version, for debugging purpose only
+> > > for now.
+> > >
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> >
+> > Thanks for your patch!
+> >
+> > > --- a/drivers/media/platform/rcar-fcp.c
+> > > +++ b/drivers/media/platform/rcar-fcp.c
 
-Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
----
+> > > +       if (IS_ERR(fcp->iomem))
+> > > +               return PTR_ERR(fcp->iomem);
+> > > +
+> > > +       pm_runtime_get_sync(&pdev->dev);
+> > > +       version = rcar_fcp_read(fcp, FCP_VCR);
+> >
+> > Please note that rcar_fcp_read() does not exist in upstream nor next,
+> > and linux-renesas-soc hasn't seen the patch that added it.
+>
+> That's why it was added in this patch :-)
 
-This patch is based on the devel branch of Simon Horman's renesas tree.
+Bummer... Do you plan to have other users?
+If not, I'd just open-code this single-line function.
 
- arch/arm64/boot/dts/renesas/r8a77995.dtsi | 2 ++
- 1 file changed, 2 insertions(+)
+Gr{oetje,eeting}s,
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-index e0a0149..7816fac 100644
---- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-@@ -1001,6 +1001,8 @@
- 			clocks = <&cpg CPG_MOD 724>,
- 				 <&cpg CPG_MOD 723>;
- 			clock-names = "du.0", "du.1";
-+			resets = <&cpg 724>, <&cpg 724>;
-+			reset-names = "du.0", "du.1";
- 			vsps = <&vspd0 0 &vspd1 0>;
- 			status = "disabled";
- 
+                        Geert
+
 -- 
-1.9.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
