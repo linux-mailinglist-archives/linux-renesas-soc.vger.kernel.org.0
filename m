@@ -2,290 +2,182 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 68D373B215
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2019 11:28:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 299933B3D3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2019 13:13:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388033AbfFJJ2d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Jun 2019 05:28:33 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:40475 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388216AbfFJJ2d (ORCPT
+        id S2389666AbfFJLNN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Jun 2019 07:13:13 -0400
+Received: from mail-eopbgr1400093.outbound.protection.outlook.com ([40.107.140.93]:52562
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2389001AbfFJLNM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Jun 2019 05:28:33 -0400
-Received: by mail-lj1-f195.google.com with SMTP id a21so7243019ljh.7
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Jun 2019 02:28:30 -0700 (PDT)
+        Mon, 10 Jun 2019 07:13:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=norrbonn-se.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=siqDWvGSxvpmTq2GM5l552jdMTJFA9bvabxI7lDs8sw=;
-        b=M9UkW3UPLP9GJr/RX3CrUt/jlkZJFeuT8xn9FDO/o0bCTKm3BUpm+VS2jfEfaFXAda
-         rsALVxrCr4vcm45HVjeopfXPfGr+nAbf6y494V78N1MaBSQuE2UrGfCPgXYo5KMAQ9XF
-         fkbrMEzn5GbgduyyIfXA1hAIvGEf3sJwS7S16AAk1OPP+4LYQ8Pb8pgnOjUWKwG5Vgbk
-         FMD7096bhBhdzS/KFWiL9Wl+ioJJ0vhyUCRbpYHR3/GHXxTV2XoKJcxSB9qbNDRpdiwc
-         kMNHrcApaUuakOyY8iQ7XD6YcfKT2HC3LpdWheqw9JfBOziEnPiGu1oDbTE0X09FqE+d
-         +1Yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=siqDWvGSxvpmTq2GM5l552jdMTJFA9bvabxI7lDs8sw=;
-        b=C2yd7kH/p3KyRPFHmzlpC89Q1KSvnG4ru9b1E8j8ZLGWTPu2NUFVKVoOkIvAfpAgbS
-         0LqTE+mjpvzCkQLkXstmCektFGY/jam4rF3ubp3tt8XXAm7m+WMeps8UIwzaQsk82MJ8
-         7PQJyj+nFULbndHnMaA2IcVo920eiiwiYVbT4Q+Jf0MK6J5xb1DacfOqr9Efc52blJAd
-         lHhF/N3u656L7GBgj4tbweEgexwqn4XWG3SsZKGTjrOkoR1XIkEwf3Bntx6/sT+0UJC+
-         6iVAEAbK2VGje8yHLlp/oIJxE2+nMCyNa3f6Z4xoi8pfYcaptbEF0XWvxyXQvFtdCE2A
-         6voA==
-X-Gm-Message-State: APjAAAWWcrvg1rZvdNBakcoSThSkX0Ii3V5DIon6Z75RVinqVpyX2RcL
-        P98k6xNmCmKfL8JVFMuD//dHv6TPlIo=
-X-Google-Smtp-Source: APXvYqwTwqoLaAq9vX4Zoq2YgFBIJYHMlu+uKRsYN5By8Xhb99xxFDC8Uata1k4OsVPpJ3zmmHWJDA==
-X-Received: by 2002:a2e:9c4d:: with SMTP id t13mr36547053ljj.106.1560158908417;
-        Mon, 10 Jun 2019 02:28:28 -0700 (PDT)
-Received: from [192.168.1.169] (h-29-16.A159.priv.bahnhof.se. [79.136.29.16])
-        by smtp.gmail.com with ESMTPSA id q7sm2218753ljc.45.2019.06.10.02.28.26
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 10 Jun 2019 02:28:27 -0700 (PDT)
-Subject: Re: [PATCH] mtd: spi-nor: use 16-bit WRR command when QE is set on
- spansion flashes
-To:     Tudor.Ambarus@microchip.com, geert@linux-m68k.org,
-        marek.vasut+renesas@gmail.com, marek.vasut@gmail.com,
-        vigneshr@ti.com
-Cc:     dwmw2@infradead.org, computersforpeace@gmail.com,
-        miquel.raynal@bootlin.com, richard@nod.at,
-        linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <c57fe97b-ad4a-874e-663f-7f3a737824c9@microchip.com>
- <20190610062351.24405-1-tudor.ambarus@microchip.com>
-From:   Jonas Bonn <jonas@norrbonn.se>
-Message-ID: <f4b968d3-b982-68e7-e8e4-d153875f0e1f@norrbonn.se>
-Date:   Mon, 10 Jun 2019 11:28:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mv1cB6TYVqqrUWnJnAL27fz2RL0totzSyKRsj0PLFMo=;
+ b=lP8qKNjeMfnhKUvehlqDPW1551+49VM/xdJmAEqTSGN4fU7KcmkgeSboeUexpcK/zgO6LC48C4OyYKH6pwZSu5g18vCK4nNaSWNAlEFSsELAh3mO7ZajwPzEldGDY2OnzH2D1+gOWtGS7fBn5Zw+7QPG+CNdbY0b+ujEVYbbWhI=
+Received: from OSAPR01MB3089.jpnprd01.prod.outlook.com (52.134.247.150) by
+ OSAPR01MB3924.jpnprd01.prod.outlook.com (20.178.103.206) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1965.14; Mon, 10 Jun 2019 11:13:08 +0000
+Received: from OSAPR01MB3089.jpnprd01.prod.outlook.com
+ ([fe80::19ad:b6ce:a287:dc85]) by OSAPR01MB3089.jpnprd01.prod.outlook.com
+ ([fe80::19ad:b6ce:a287:dc85%7]) with mapi id 15.20.1965.017; Mon, 10 Jun 2019
+ 11:13:08 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Christoph Hellwig <hch@lst.de>,
+        Alan Stern <stern@rowland.harvard.edu>
+CC:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: RE: How to resolve an issue in swiotlb environment?
+Thread-Topic: How to resolve an issue in swiotlb environment?
+Thread-Index: AdUZ1Qlk800+Qz0uSuO63mIBeXkktQDUe+5AAJUL5SA=
+Date:   Mon, 10 Jun 2019 11:13:07 +0000
+Message-ID: <OSAPR01MB3089BCA7CF78D6E4D9C83E1BD8130@OSAPR01MB3089.jpnprd01.prod.outlook.com>
+References: <OSAPR01MB3089B381AF2F687526E63EEAD8140@OSAPR01MB3089.jpnprd01.prod.outlook.com>
+ <OSAPR01MB3089D50DBDAA6C7D427E72EED8100@OSAPR01MB3089.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSAPR01MB3089D50DBDAA6C7D427E72EED8100@OSAPR01MB3089.jpnprd01.prod.outlook.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [118.238.235.108]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 4065dcc2-72a5-405b-85a5-08d6ed949e46
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:OSAPR01MB3924;
+x-ms-traffictypediagnostic: OSAPR01MB3924:
+x-ms-exchange-purlcount: 2
+x-microsoft-antispam-prvs: <OSAPR01MB3924B1967F84D0D57C9C01C5D8130@OSAPR01MB3924.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2399;
+x-forefront-prvs: 0064B3273C
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(366004)(39860400002)(376002)(346002)(136003)(189003)(199004)(6306002)(9686003)(186003)(3846002)(6436002)(14444005)(55016002)(305945005)(7736002)(256004)(6116002)(74316002)(2906002)(26005)(229853002)(11346002)(446003)(66066001)(99286004)(7696005)(110136005)(81156014)(102836004)(81166006)(478600001)(54906003)(8936002)(316002)(8676002)(76176011)(6506007)(6246003)(476003)(966005)(486006)(5660300002)(76116006)(33656002)(66446008)(64756008)(2171002)(73956011)(66556008)(66476007)(66946007)(53936002)(14454004)(86362001)(68736007)(52536014)(4326008)(25786009)(71200400001)(71190400001)(6606295002);DIR:OUT;SFP:1102;SCL:1;SRVR:OSAPR01MB3924;H:OSAPR01MB3089.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: NgAafUU9h7+iTES7NU8K82hVUXph3Ln8Byr3rdskx+lFCEIf7WQogi6Ega2SRgYGZEP5q8wpoWROVyQNQ6gZ7gB//wXWIfZZEBmvWKi0rOa3KMSohJYV0tW4sGsD90Go4aAjLNxY5X1ocz1ENccxJdB2c8UkFFz+8l1w82dhDshV0U9oCS1gtmYWKLsfKoi2jKySRhUjThwZB1XZA/a6LOAep0GKKfniaNwjSGJdgZjoKcZfKIoD/e+vinGyAyzljxYWJ9g6ZxkMG2qwz+fEg885bDyKqel/iLbOOZs8cmw51HAz33yokmi58S35q5PoAhxUP3kI89+TbkSW7/bv041+ngM9rRtkqCxsROKHNFldSY6pUc1ES4mvfZbbArvQOL8zyrbniXlPlywDcFFbtUsz3OVt1mIzYMRIg2I9xdc=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <20190610062351.24405-1-tudor.ambarus@microchip.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4065dcc2-72a5-405b-85a5-08d6ed949e46
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jun 2019 11:13:08.3860
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yoshihiro.shimoda.uh@renesas.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB3924
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Tudor,
+Hi Christoph, Alan,
+(add linux-usb ML on CC.)
 
-On 10/06/2019 08:24, Tudor.Ambarus@microchip.com wrote:
-> From: Tudor Ambarus <tudor.ambarus@microchip.com>
-> 
-> SPI memory devices from different manufacturers have widely
-> different configurations for Status, Control and Configuration
-> registers. JEDEC 216C defines a new map for these common register
-> bits and their functions, and describes how the individual bits may
-> be accessed for a specific device. For the JEDEC 216B compliant
-> flashes, we can partially deduce Status and Configuration registers
-> functions by inspecting the 16th DWORD of BFPT. Older flashes that
-> don't declare the SFDP tables (SPANSION FL512SAIFG1 311QQ063 A ©11
-> SPANSION) let the software decide how to interact with these registers.
-> 
-> The commit dcb4b22eeaf4 ("spi-nor: s25fl512s supports region locking")
-> uncovered a probe error for s25fl512s, when the QUAD bit CR[1] was set
-> in the bootloader. When this bit is set, only the Write Register
-> WRR command format with 16 data bits may be used, WRR with 8 bits
-> is not recognized and hence the error when trying to clear the block
-> protection bits.
-> 
-> Fix the above by using 16-bits WRR command when Quad bit is set.
-> 
-> Backward compatibility should be fine. The newly introduced
-> spi_nor_spansion_clear_sr_bp() is tightly coupled with the
-> spansion_quad_enable() function. Both assume that the Write Register
-> with 16 bits, together with the Read Configuration Register (35h)
-> instructions are supported.
-> 
-> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Signed-off-by: Tudor Ambarus <tudor.ambarus@microchip.com>
+> From: Yoshihiro Shimoda, Sent: Friday, June 7, 2019 9:00 PM
+>=20
+> Hi Christoph,
+>=20
+> I think we should continue to discuss on this email thread instead of the=
+ fixed DMA-API.txt patch [1]
+>=20
+> [1]
+> https://marc.info/?t=3D155989412200001&r=3D1&w=3D2
+>=20
+> > From: Yoshihiro Shimoda, Sent: Monday, June 3, 2019 3:42 PM
+> >
+> > Hi linux-block and iommu mailing lists,
+> >
+> > I have an issue that a USB SSD with xHCI on R-Car H3 causes "swiotlb is=
+ full" like below.
+> >
+> >     [   36.745286] xhci-hcd ee000000.usb: swiotlb buffer is full (sz: 5=
+24288 bytes), total 32768 (slots), used 1338
+> (slots)
+> >
+> > I have investigated this issue by using git bisect, and then I found th=
+e following commit:
+> >
+> > ---
+> > commit 09324d32d2a0843e66652a087da6f77924358e62
+> > Author: Christoph Hellwig <hch@lst.de>
+> > Date:   Tue May 21 09:01:41 2019 +0200
+> >
+> >     block: force an unlimited segment size on queues with a virt bounda=
+ry
+> > ---
+>=20
+> Thank you for your comment on other email thread [2] like below:
 > ---
-> Geert, Jonas,
-> 
-> This patch is compile-tested only. I don't have the flash, I need your
-> help for testing this.
+> Turns out it isn't as simple as I thought, as there doesn't seem to
+> be an easy way to get to the struct device used for DMA mapping
+> from USB drivers.  I'll need to think a bit more how to handle that
+> best.
+> ---
+>=20
+> [2]
+> https://marc.info/?l=3Dlinux-doc&m=3D155989651620473&w=3D2
 
-Tested this on my hardware.  It works fine in the non-quad case.
+I have another way to avoid the issue. But it doesn't seem that a good way =
+though...
+According to the commit that adding blk_queue_virt_boundary() [3],
+this is needed for vhci_hcd as a workaround so that if we avoid to call it
+on xhci-hcd driver, the issue disappeared. What do you think?
+JFYI, I pasted a tentative patch in the end of email [4].
 
-Tested-by: Jonas Bonn <jonas@norrbonn.se>
+---
+[3]
+commit 747668dbc061b3e62bc1982767a3a1f9815fcf0e
+Author: Alan Stern <stern@rowland.harvard.edu>
+Date:   Mon Apr 15 13:19:25 2019 -0400
 
-/Jonas
+    usb-storage: Set virt_boundary_mask to avoid SG overflows
+---
+[4]
+diff --git a/drivers/usb/storage/scsiglue.c b/drivers/usb/storage/scsiglue.=
+c
+index 59190d8..277c6f7e 100644
+--- a/drivers/usb/storage/scsiglue.c
++++ b/drivers/usb/storage/scsiglue.c
+@@ -30,6 +30,8 @@
+=20
+ #include <linux/module.h>
+ #include <linux/mutex.h>
++#include <linux/usb.h>
++#include <linux/usb/hcd.h>
+=20
+ #include <scsi/scsi.h>
+ #include <scsi/scsi_cmnd.h>
+@@ -65,6 +67,7 @@ static const char* host_info(struct Scsi_Host *host)
+ static int slave_alloc (struct scsi_device *sdev)
+ {
+ 	struct us_data *us =3D host_to_us(sdev->host);
++	struct usb_hcd *hcd =3D bus_to_hcd(us->pusb_dev->bus);
+ 	int maxp;
+=20
+ 	/*
+@@ -80,8 +83,10 @@ static int slave_alloc (struct scsi_device *sdev)
+ 	 * Bulk maxpacket value.  Fortunately this value is always a
+ 	 * power of 2.  Inform the block layer about this requirement.
+ 	 */
+-	maxp =3D usb_maxpacket(us->pusb_dev, us->recv_bulk_pipe, 0);
+-	blk_queue_virt_boundary(sdev->request_queue, maxp - 1);
++	if (!strcmp(hcd->driver->description, "vhci_hcd")) {
++		maxp =3D usb_maxpacket(us->pusb_dev, us->recv_bulk_pipe, 0);
++		blk_queue_virt_boundary(sdev->request_queue, maxp - 1);
++	}
+=20
+ 	/*
+ 	 * Some host controllers may have alignment requirements.
+---
+Best regards,
+Yoshihiro Shimoda
 
-> 
-> Thanks,
-> ta
-> 
->   drivers/mtd/spi-nor/spi-nor.c | 116 ++++++++++++++++++++++++++++++++++++++----
->   include/linux/mtd/spi-nor.h   |   1 +
->   2 files changed, 106 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/mtd/spi-nor/spi-nor.c b/drivers/mtd/spi-nor/spi-nor.c
-> index c0a8837c0575..af9ac7f09cc2 100644
-> --- a/drivers/mtd/spi-nor/spi-nor.c
-> +++ b/drivers/mtd/spi-nor/spi-nor.c
-> @@ -1636,6 +1636,92 @@ static int sr2_bit7_quad_enable(struct spi_nor *nor)
->   	return 0;
->   }
->   
-> +/**
-> + * spi_nor_clear_sr_bp() - clear the Status Register Block Protection bits.
-> + * @nor:        pointer to a 'struct spi_nor'
-> + *
-> + * Read-modify-write function that clears the Block Protection bits from the
-> + * Status Register without affecting other bits.
-> + *
-> + * Return: 0 on success, -errno otherwise.
-> + */
-> +static int spi_nor_clear_sr_bp(struct spi_nor *nor)
-> +{
-> +	int ret;
-> +	u8 mask = SR_BP2 | SR_BP1 | SR_BP0;
-> +
-> +	ret = read_sr(nor);
-> +	if (ret < 0) {
-> +		dev_err(nor->dev, "error while reading status register\n");
-> +		return ret;
-> +	}
-> +
-> +	write_enable(nor);
-> +
-> +	ret = write_sr(nor, ret & ~mask);
-> +	if (ret) {
-> +		dev_err(nor->dev, "write to status register failed\n");
-> +		return ret;
-> +	}
-> +
-> +	ret = spi_nor_wait_till_ready(nor);
-> +	if (ret)
-> +		dev_err(nor->dev, "timeout while writing status register\n");
-> +	return ret;
-> +}
-> +
-> +/**
-> + * spi_nor_spansion_clear_sr_bp() - clear the Status Register Block Protection
-> + * bits on spansion flashes.
-> + * @nor:        pointer to a 'struct spi_nor'
-> + *
-> + * Read-modify-write function that clears the Block Protection bits from the
-> + * Status Register without affecting other bits. The function is tightly
-> + * coupled with the spansion_quad_enable() function. Both assume that the Write
-> + * Register with 16 bits, together with the Read Configuration Register (35h)
-> + * instructions are supported
-> + *
-> + * Return: 0 on success, -errno otherwise.
-> + */
-> +static int spi_nor_spansion_clear_sr_bp(struct spi_nor *nor)
-> +{
-> +	int ret;
-> +	u8 mask = SR_BP2 | SR_BP1 | SR_BP0;
-> +	u8 sr_cr[2] = {0};
-> +
-> +	/* Check current Quad Enable bit value. */
-> +	ret = read_cr(nor);
-> +	if (ret < 0) {
-> +		dev_err(nor->dev,
-> +			"error while reading configuration register\n");
-> +		return ret;
-> +	}
-> +
-> +	/*
-> +	 * When the configuration register QUAD bit CR[1] is 1, only
-> +	 * the WRR command format with 16 data bits may be used.
-> +	 */
-> +	if (ret & CR_QUAD_EN_SPAN) {
-> +		sr_cr[1] = ret;
-> +
-> +		ret = read_sr(nor);
-> +		if (ret < 0) {
-> +			dev_err(nor->dev,
-> +				"error while reading status register\n");
-> +			return ret;
-> +		}
-> +		sr_cr[0] = ret & ~mask;
-> +
-> +		ret = write_sr_cr(nor, sr_cr);
-> +		if (ret)
-> +			dev_err(nor->dev, "16-bit write register failed\n");
-> +		return ret;
-> +	}
-> +
-> +	/* If quad bit is not set, use 8-bit WRR command. */
-> +	return spi_nor_clear_sr_bp(nor);
-> +}
-> +
->   /* Used when the "_ext_id" is two bytes at most */
->   #define INFO(_jedec_id, _ext_id, _sector_size, _n_sectors, _flags)	\
->   		.id = {							\
-> @@ -3663,6 +3749,8 @@ static int spi_nor_init_params(struct spi_nor *nor,
->   		default:
->   			/* Kept only for backward compatibility purpose. */
->   			params->quad_enable = spansion_quad_enable;
-> +			if (nor->clear_sr_bp)
-> +				nor->clear_sr_bp = spi_nor_spansion_clear_sr_bp;
->   			break;
->   		}
->   
-> @@ -3915,17 +4003,13 @@ static int spi_nor_init(struct spi_nor *nor)
->   {
->   	int err;
->   
-> -	/*
-> -	 * Atmel, SST, Intel/Numonyx, and others serial NOR tend to power up
-> -	 * with the software protection bits set
-> -	 */
-> -	if (JEDEC_MFR(nor->info) == SNOR_MFR_ATMEL ||
-> -	    JEDEC_MFR(nor->info) == SNOR_MFR_INTEL ||
-> -	    JEDEC_MFR(nor->info) == SNOR_MFR_SST ||
-> -	    nor->info->flags & SPI_NOR_HAS_LOCK) {
-> -		write_enable(nor);
-> -		write_sr(nor, 0);
-> -		spi_nor_wait_till_ready(nor);
-> +	if (nor->clear_sr_bp) {
-> +		err = nor->clear_sr_bp(nor);
-> +		if (err) {
-> +			dev_err(nor->dev,
-> +				"fail to clear block protection bits\n");
-> +			return err;
-> +		}
-
-
-
-
->   	}
->   
->   	if (nor->quad_enable) {
-> @@ -4050,6 +4134,16 @@ int spi_nor_scan(struct spi_nor *nor, const char *name,
->   	if (info->flags & SPI_S3AN)
->   		nor->flags |=  SNOR_F_READY_XSR_RDY;
->   
-> +	/*
-> +	 * Atmel, SST, Intel/Numonyx, and others serial NOR tend to power up
-> +	 * with the software protection bits set.
-> +	 */
-> +	if (JEDEC_MFR(nor->info) == SNOR_MFR_ATMEL ||
-> +	    JEDEC_MFR(nor->info) == SNOR_MFR_INTEL ||
-> +	    JEDEC_MFR(nor->info) == SNOR_MFR_SST ||
-> +	    nor->info->flags & SPI_NOR_HAS_LOCK)
-> +		nor->clear_sr_bp = spi_nor_clear_sr_bp;
-> +
->   	/* Parse the Serial Flash Discoverable Parameters table. */
->   	ret = spi_nor_init_params(nor, &params);
->   	if (ret)
-> diff --git a/include/linux/mtd/spi-nor.h b/include/linux/mtd/spi-nor.h
-> index b3d360b0ee3d..566bd5010bc8 100644
-> --- a/include/linux/mtd/spi-nor.h
-> +++ b/include/linux/mtd/spi-nor.h
-> @@ -410,6 +410,7 @@ struct spi_nor {
->   	int (*flash_unlock)(struct spi_nor *nor, loff_t ofs, uint64_t len);
->   	int (*flash_is_locked)(struct spi_nor *nor, loff_t ofs, uint64_t len);
->   	int (*quad_enable)(struct spi_nor *nor);
-> +	int (*clear_sr_bp)(struct spi_nor *nor);
->   
->   	void *priv;
->   };
-> 
