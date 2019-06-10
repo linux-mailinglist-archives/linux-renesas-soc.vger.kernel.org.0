@@ -2,201 +2,231 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 37C5E3AEF9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2019 08:29:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECC833AEF3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2019 08:24:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387650AbfFJG3B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Jun 2019 02:29:01 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:55515 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2387464AbfFJG3B (ORCPT
+        id S2387587AbfFJGYO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Jun 2019 02:24:14 -0400
+Received: from esa5.microchip.iphmx.com ([216.71.150.166]:2600 "EHLO
+        esa5.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387431AbfFJGYN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Jun 2019 02:29:01 -0400
-X-IronPort-AV: E=Sophos;i="5.60,573,1549897200"; 
-   d="scan'208";a="18044931"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 10 Jun 2019 15:28:58 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 6942D4001DC4;
-        Mon, 10 Jun 2019 15:28:58 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     kishon@ti.com
-Cc:     geert+renesas@glider.be, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v3] phy: renesas: rcar-gen3-usb2: fix imbalance powered flag
-Date:   Mon, 10 Jun 2019 15:23:55 +0900
-Message-Id: <1560147835-7629-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Mon, 10 Jun 2019 02:24:13 -0400
+Received-SPF: Pass (esa5.microchip.iphmx.com: domain of
+  Tudor.Ambarus@microchip.com designates 198.175.253.82 as
+  permitted sender) identity=mailfrom;
+  client-ip=198.175.253.82; receiver=esa5.microchip.iphmx.com;
+  envelope-from="Tudor.Ambarus@microchip.com";
+  x-sender="Tudor.Ambarus@microchip.com";
+  x-conformance=spf_only; x-record-type="v=spf1";
+  x-record-text="v=spf1 mx a:ushub1.microchip.com
+  a:smtpout.microchip.com a:mx1.microchip.iphmx.com
+  a:mx2.microchip.iphmx.com include:servers.mcsv.net
+  include:mktomail.com include:spf.protection.outlook.com ~all"
+Received-SPF: None (esa5.microchip.iphmx.com: no sender
+  authenticity information available from domain of
+  postmaster@email.microchip.com) identity=helo;
+  client-ip=198.175.253.82; receiver=esa5.microchip.iphmx.com;
+  envelope-from="Tudor.Ambarus@microchip.com";
+  x-sender="postmaster@email.microchip.com";
+  x-conformance=spf_only
+Authentication-Results: esa5.microchip.iphmx.com; spf=Pass smtp.mailfrom=Tudor.Ambarus@microchip.com; spf=None smtp.helo=postmaster@email.microchip.com; dkim=pass (signature verified) header.i=@microchiptechnology.onmicrosoft.com; dmarc=pass (p=none dis=none) d=microchip.com
+X-IronPort-AV: E=Sophos;i="5.63,573,1557212400"; 
+   d="scan'208";a="35048209"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 09 Jun 2019 23:24:13 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.87.151) by
+ chn-vm-ex01.mchp-main.com (10.10.87.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1713.5; Sun, 9 Jun 2019 23:24:11 -0700
+Received: from NAM05-DM3-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.87.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
+ via Frontend Transport; Sun, 9 Jun 2019 23:24:11 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector1-microchiptechnology-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aL2tpdUKHw05u+ZkffpJ7O9v7ev7PFJCnIIlysFHIP4=;
+ b=rab16fPFgSaUcsxFFngUfLSF8abcOi7LdwsA0as4J2fEYbV9zYYoifws5FsC+h/PYxhswyBD47p9/3f7s5DQxp1Qrkkd6KIVV9evIJ/X9O/iSmd0kxJzgF8FhEMmP7Pc5xsoHaVfIAIkMgj2AsVmVPyZ9PcVB9rNPta6dJqnqaA=
+Received: from BN6PR11MB1842.namprd11.prod.outlook.com (10.175.98.146) by
+ BN6PR11MB1556.namprd11.prod.outlook.com (10.172.22.147) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1965.13; Mon, 10 Jun 2019 06:24:05 +0000
+Received: from BN6PR11MB1842.namprd11.prod.outlook.com
+ ([fe80::e581:f807:acdc:cb36]) by BN6PR11MB1842.namprd11.prod.outlook.com
+ ([fe80::e581:f807:acdc:cb36%9]) with mapi id 15.20.1965.017; Mon, 10 Jun 2019
+ 06:24:05 +0000
+From:   <Tudor.Ambarus@microchip.com>
+To:     <geert@linux-m68k.org>, <marek.vasut+renesas@gmail.com>,
+        <marek.vasut@gmail.com>, <vigneshr@ti.com>, <jonas@norrbonn.se>
+CC:     <dwmw2@infradead.org>, <computersforpeace@gmail.com>,
+        <miquel.raynal@bootlin.com>, <richard@nod.at>,
+        <linux-mtd@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <Tudor.Ambarus@microchip.com>
+Subject: [PATCH] mtd: spi-nor: use 16-bit WRR command when QE is set on
+ spansion flashes
+Thread-Topic: [PATCH] mtd: spi-nor: use 16-bit WRR command when QE is set on
+ spansion flashes
+Thread-Index: AQHVH1UacBq0FintGkWJpZVpCwLZ0A==
+Date:   Mon, 10 Jun 2019 06:24:04 +0000
+Message-ID: <20190610062351.24405-1-tudor.ambarus@microchip.com>
+References: <c57fe97b-ad4a-874e-663f-7f3a737824c9@microchip.com>
+In-Reply-To: <c57fe97b-ad4a-874e-663f-7f3a737824c9@microchip.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: VI1PR0801CA0082.eurprd08.prod.outlook.com
+ (2603:10a6:800:7d::26) To BN6PR11MB1842.namprd11.prod.outlook.com
+ (2603:10b6:404:101::18)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: git-send-email 2.9.5
+x-originating-ip: [94.177.32.154]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 596e57fc-8ac0-4fd4-b087-08d6ed6c3c3b
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:BN6PR11MB1556;
+x-ms-traffictypediagnostic: BN6PR11MB1556:
+x-microsoft-antispam-prvs: <BN6PR11MB155686C2B1C0D06CEF89F078F0130@BN6PR11MB1556.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 0064B3273C
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(346002)(366004)(396003)(376002)(39860400002)(199004)(189003)(6486002)(2201001)(6512007)(14444005)(256004)(86362001)(36756003)(2501003)(1076003)(53936002)(4326008)(107886003)(6116002)(3846002)(2906002)(25786009)(5660300002)(8676002)(81156014)(81166006)(71190400001)(71200400001)(99286004)(14454004)(66066001)(8936002)(316002)(7416002)(54906003)(26005)(110136005)(50226002)(66476007)(64756008)(72206003)(486006)(66446008)(66556008)(6436002)(446003)(476003)(2616005)(186003)(478600001)(76176011)(11346002)(7736002)(6506007)(102836004)(305945005)(386003)(52116002)(66946007)(73956011)(68736007);DIR:OUT;SFP:1101;SCL:1;SRVR:BN6PR11MB1556;H:BN6PR11MB1842.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: microchip.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: dYfEWYf3SMQef9sEV7G5JDgvehoZx1uVxuAQoyJoRIIPZz9Terla7dFsjtIgyyigs1fyIyPKF0vo9OhQ8HjZKwiEfRFrHhnEWxCyoW0v94IZMbxIQPq/5dN/lvqN4Bdu4Lxild1hB4ytFw2HxfmzRRbxJIRfLSi0OxqqC/UN5K/QDqsoT8a3y7D16+U2MKA7U4mtq0fVuZ7QhvTQxDCyeWB8PHIOj+LWOkmmdrzc5P9j6VTEJkXusUuh8y7BjT3Gy0oao0jJX0FD13xYV+YXnpSKTVvholRdTNYZhKAJM55bXVw4LEY6jtSC9TZi2h1U/7YfKsoP5aoRXYT7dewuCsSPJMLboZ7T7+SqdEIDLlCwFifhdI0A2K+GiAPigrAHpRbxr4fdPPnZaMYdXXq9e+vWmEVoT+xkU15fnG1Lph0=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <5BD403A693F3B64CA9B42896918ABA1C@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-MS-Exchange-CrossTenant-Network-Message-Id: 596e57fc-8ac0-4fd4-b087-08d6ed6c3c3b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jun 2019 06:24:04.9925
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: tudor.ambarus@microchip.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB1556
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The powered flag should be set for any other phys anyway. Also
-the flag should be locked by the channel. Otherwise, after we have
-revised the device tree for the usb phy, the following warning
-happened during a second system suspend. And if the driver doesn't
-lock the flag, an imbalance is possible when enabling the regulator
-during system resume. So, this patch fixes the issues.
-
-< The warning >
-[   56.026531] unbalanced disables for USB20_VBUS0
-[   56.031108] WARNING: CPU: 3 PID: 513 at drivers/regulator/core.c:2593 _regula
-tor_disable+0xe0/0x1c0
-[   56.040146] Modules linked in: rcar_du_drm rcar_lvds drm_kms_helper drm drm_p
-anel_orientation_quirks vsp1 videobuf2_vmalloc videobuf2_dma_contig videobuf2_me
-mops videobuf2_v4l2 videobuf2_common videodev snd_soc_rcar renesas_usbhs snd_soc
-_audio_graph_card media snd_soc_simple_card_utils crct10dif_ce renesas_usb3 snd_
-soc_ak4613 rcar_fcp pwm_rcar usb_dmac phy_rcar_gen3_usb3 pwm_bl ipv6
-[   56.074047] CPU: 3 PID: 513 Comm: kworker/u16:19 Not tainted 5.2.0-rc3-00001-
-g5f20a19 #6
-[   56.082129] Hardware name: Renesas Salvator-X board based on r8a7795 ES2.0+ (
-DT)
-[   56.089524] Workqueue: events_unbound async_run_entry_fn
-[   56.094832] pstate: 40000005 (nZcv daif -PAN -UAO)
-[   56.099617] pc : _regulator_disable+0xe0/0x1c0
-[   56.104054] lr : _regulator_disable+0xe0/0x1c0
-[   56.108489] sp : ffff0000121c3ae0
-[   56.111796] x29: ffff0000121c3ae0 x28: 0000000000000000
-[   56.117102] x27: 0000000000000000 x26: ffff000010fe0e60
-[   56.122407] x25: 0000000000000002 x24: 0000000000000001
-[   56.127712] x23: 0000000000000002 x22: ffff8006f99d4000
-[   56.133017] x21: ffff8006f99cc000 x20: ffff8006f9846800
-[   56.138322] x19: ffff8006f9846800 x18: ffffffffffffffff
-[   56.143626] x17: 0000000000000000 x16: 0000000000000000
-[   56.148931] x15: ffff0000112f96c8 x14: ffff0000921c37f7
-[   56.154235] x13: ffff0000121c3805 x12: ffff000011312000
-[   56.159540] x11: 0000000005f5e0ff x10: ffff0000112f9f20
-[   56.164844] x9 : ffff0000112d3018 x8 : 00000000000001ad
-[   56.170149] x7 : 00000000ffffffcc x6 : ffff8006ff768180
-[   56.175453] x5 : ffff8006ff768180 x4 : 0000000000000000
-[   56.180758] x3 : ffff8006ff76ef10 x2 : ffff8006ff768180
-[   56.186062] x1 : 3d2eccbaead8fb00 x0 : 0000000000000000
-[   56.191367] Call trace:
-[   56.193808]  _regulator_disable+0xe0/0x1c0
-[   56.197899]  regulator_disable+0x40/0x78
-[   56.201820]  rcar_gen3_phy_usb2_power_off+0x3c/0x50
-[   56.206692]  phy_power_off+0x48/0xd8
-[   56.210263]  usb_phy_roothub_power_off+0x30/0x50
-[   56.214873]  usb_phy_roothub_suspend+0x1c/0x50
-[   56.219311]  hcd_bus_suspend+0x13c/0x168
-[   56.223226]  generic_suspend+0x4c/0x58
-[   56.226969]  usb_suspend_both+0x1ac/0x238
-[   56.230972]  usb_suspend+0xcc/0x170
-[   56.234455]  usb_dev_suspend+0x10/0x18
-[   56.238199]  dpm_run_callback.isra.6+0x20/0x68
-[   56.242635]  __device_suspend+0x110/0x308
-[   56.246637]  async_suspend+0x24/0xa8
-[   56.250205]  async_run_entry_fn+0x40/0xf8
-[   56.254210]  process_one_work+0x1e0/0x320
-[   56.258211]  worker_thread+0x40/0x450
-[   56.261867]  kthread+0x124/0x128
-[   56.265094]  ret_from_fork+0x10/0x18
-[   56.268661] ---[ end trace 86d7ec5de5c517af ]---
-[   56.273290] phy phy-ee080200.usb-phy.10: phy poweroff failed --> -5
-
-Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Fixes: 549b6b55b005 ("phy: renesas: rcar-gen3-usb2: enable/disable independent irqs")
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-
-Changes from v2:
- - Revise the commit log.
- - Add a comment on the mutex definition.
- - Add Geert-san's Reviewed-by and Tested-by.
- https://patchwork.kernel.org/patch/10981299/
-
-Changes from v1:
- - Add mutex lock to avoid enabling the regulator imbalance during resume.
- - I got Geert-san's Tested-by, but I didn't add the tag because
-   v1 still has the imbalance issue above.
- https://patchwork.kernel.org/patch/10976299/
-
- drivers/phy/renesas/phy-rcar-gen3-usb2.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-index 1322185..8ffba67 100644
---- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-+++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-@@ -13,6 +13,7 @@
- #include <linux/interrupt.h>
- #include <linux/io.h>
- #include <linux/module.h>
-+#include <linux/mutex.h>
- #include <linux/of.h>
- #include <linux/of_address.h>
- #include <linux/of_device.h>
-@@ -106,6 +107,7 @@ struct rcar_gen3_chan {
- 	struct rcar_gen3_phy rphys[NUM_OF_PHYS];
- 	struct regulator *vbus;
- 	struct work_struct work;
-+	struct mutex lock;	/* protects rphys[...].powered */
- 	enum usb_dr_mode dr_mode;
- 	bool extcon_host;
- 	bool is_otg_channel;
-@@ -437,15 +439,16 @@ static int rcar_gen3_phy_usb2_power_on(struct phy *p)
- 	struct rcar_gen3_chan *channel = rphy->ch;
- 	void __iomem *usb2_base = channel->base;
- 	u32 val;
--	int ret;
-+	int ret = 0;
- 
-+	mutex_lock(&channel->lock);
- 	if (!rcar_gen3_are_all_rphys_power_off(channel))
--		return 0;
-+		goto out;
- 
- 	if (channel->vbus) {
- 		ret = regulator_enable(channel->vbus);
- 		if (ret)
--			return ret;
-+			goto out;
- 	}
- 
- 	val = readl(usb2_base + USB2_USBCTR);
-@@ -454,7 +457,10 @@ static int rcar_gen3_phy_usb2_power_on(struct phy *p)
- 	val &= ~USB2_USBCTR_PLL_RST;
- 	writel(val, usb2_base + USB2_USBCTR);
- 
-+out:
-+	/* The powered flag should be set for any other phys anyway */
- 	rphy->powered = true;
-+	mutex_unlock(&channel->lock);
- 
- 	return 0;
- }
-@@ -465,14 +471,18 @@ static int rcar_gen3_phy_usb2_power_off(struct phy *p)
- 	struct rcar_gen3_chan *channel = rphy->ch;
- 	int ret = 0;
- 
-+	mutex_lock(&channel->lock);
- 	rphy->powered = false;
- 
- 	if (!rcar_gen3_are_all_rphys_power_off(channel))
--		return 0;
-+		goto out;
- 
- 	if (channel->vbus)
- 		ret = regulator_disable(channel->vbus);
- 
-+out:
-+	mutex_unlock(&channel->lock);
-+
- 	return ret;
- }
- 
-@@ -639,6 +649,7 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
- 	if (!phy_usb2_ops)
- 		return -EINVAL;
- 
-+	mutex_init(&channel->lock);
- 	for (i = 0; i < NUM_OF_PHYS; i++) {
- 		channel->rphys[i].phy = devm_phy_create(dev, NULL,
- 							phy_usb2_ops);
--- 
-2.7.4
-
+RnJvbTogVHVkb3IgQW1iYXJ1cyA8dHVkb3IuYW1iYXJ1c0BtaWNyb2NoaXAuY29tPg0KDQpTUEkg
+bWVtb3J5IGRldmljZXMgZnJvbSBkaWZmZXJlbnQgbWFudWZhY3R1cmVycyBoYXZlIHdpZGVseQ0K
+ZGlmZmVyZW50IGNvbmZpZ3VyYXRpb25zIGZvciBTdGF0dXMsIENvbnRyb2wgYW5kIENvbmZpZ3Vy
+YXRpb24NCnJlZ2lzdGVycy4gSkVERUMgMjE2QyBkZWZpbmVzIGEgbmV3IG1hcCBmb3IgdGhlc2Ug
+Y29tbW9uIHJlZ2lzdGVyDQpiaXRzIGFuZCB0aGVpciBmdW5jdGlvbnMsIGFuZCBkZXNjcmliZXMg
+aG93IHRoZSBpbmRpdmlkdWFsIGJpdHMgbWF5DQpiZSBhY2Nlc3NlZCBmb3IgYSBzcGVjaWZpYyBk
+ZXZpY2UuIEZvciB0aGUgSkVERUMgMjE2QiBjb21wbGlhbnQNCmZsYXNoZXMsIHdlIGNhbiBwYXJ0
+aWFsbHkgZGVkdWNlIFN0YXR1cyBhbmQgQ29uZmlndXJhdGlvbiByZWdpc3RlcnMNCmZ1bmN0aW9u
+cyBieSBpbnNwZWN0aW5nIHRoZSAxNnRoIERXT1JEIG9mIEJGUFQuIE9sZGVyIGZsYXNoZXMgdGhh
+dA0KZG9uJ3QgZGVjbGFyZSB0aGUgU0ZEUCB0YWJsZXMgKFNQQU5TSU9OIEZMNTEyU0FJRkcxIDMx
+MVFRMDYzIEEgwqkxMQ0KU1BBTlNJT04pIGxldCB0aGUgc29mdHdhcmUgZGVjaWRlIGhvdyB0byBp
+bnRlcmFjdCB3aXRoIHRoZXNlIHJlZ2lzdGVycy4NCg0KVGhlIGNvbW1pdCBkY2I0YjIyZWVhZjQg
+KCJzcGktbm9yOiBzMjVmbDUxMnMgc3VwcG9ydHMgcmVnaW9uIGxvY2tpbmciKQ0KdW5jb3ZlcmVk
+IGEgcHJvYmUgZXJyb3IgZm9yIHMyNWZsNTEycywgd2hlbiB0aGUgUVVBRCBiaXQgQ1JbMV0gd2Fz
+IHNldA0KaW4gdGhlIGJvb3Rsb2FkZXIuIFdoZW4gdGhpcyBiaXQgaXMgc2V0LCBvbmx5IHRoZSBX
+cml0ZSBSZWdpc3Rlcg0KV1JSIGNvbW1hbmQgZm9ybWF0IHdpdGggMTYgZGF0YSBiaXRzIG1heSBi
+ZSB1c2VkLCBXUlIgd2l0aCA4IGJpdHMNCmlzIG5vdCByZWNvZ25pemVkIGFuZCBoZW5jZSB0aGUg
+ZXJyb3Igd2hlbiB0cnlpbmcgdG8gY2xlYXIgdGhlIGJsb2NrDQpwcm90ZWN0aW9uIGJpdHMuDQoN
+CkZpeCB0aGUgYWJvdmUgYnkgdXNpbmcgMTYtYml0cyBXUlIgY29tbWFuZCB3aGVuIFF1YWQgYml0
+IGlzIHNldC4NCg0KQmFja3dhcmQgY29tcGF0aWJpbGl0eSBzaG91bGQgYmUgZmluZS4gVGhlIG5l
+d2x5IGludHJvZHVjZWQNCnNwaV9ub3Jfc3BhbnNpb25fY2xlYXJfc3JfYnAoKSBpcyB0aWdodGx5
+IGNvdXBsZWQgd2l0aCB0aGUNCnNwYW5zaW9uX3F1YWRfZW5hYmxlKCkgZnVuY3Rpb24uIEJvdGgg
+YXNzdW1lIHRoYXQgdGhlIFdyaXRlIFJlZ2lzdGVyDQp3aXRoIDE2IGJpdHMsIHRvZ2V0aGVyIHdp
+dGggdGhlIFJlYWQgQ29uZmlndXJhdGlvbiBSZWdpc3RlciAoMzVoKQ0KaW5zdHJ1Y3Rpb25zIGFy
+ZSBzdXBwb3J0ZWQuDQoNClJlcG9ydGVkLWJ5OiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0QGxp
+bnV4LW02OGsub3JnPg0KU2lnbmVkLW9mZi1ieTogVHVkb3IgQW1iYXJ1cyA8dHVkb3IuYW1iYXJ1
+c0BtaWNyb2NoaXAuY29tPg0KLS0tDQpHZWVydCwgSm9uYXMsDQoNClRoaXMgcGF0Y2ggaXMgY29t
+cGlsZS10ZXN0ZWQgb25seS4gSSBkb24ndCBoYXZlIHRoZSBmbGFzaCwgSSBuZWVkIHlvdXINCmhl
+bHAgZm9yIHRlc3RpbmcgdGhpcy4NCg0KVGhhbmtzLA0KdGENCg0KIGRyaXZlcnMvbXRkL3NwaS1u
+b3Ivc3BpLW5vci5jIHwgMTE2ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
+LS0tLQ0KIGluY2x1ZGUvbGludXgvbXRkL3NwaS1ub3IuaCAgIHwgICAxICsNCiAyIGZpbGVzIGNo
+YW5nZWQsIDEwNiBpbnNlcnRpb25zKCspLCAxMSBkZWxldGlvbnMoLSkNCg0KZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvbXRkL3NwaS1ub3Ivc3BpLW5vci5jIGIvZHJpdmVycy9tdGQvc3BpLW5vci9zcGkt
+bm9yLmMNCmluZGV4IGMwYTg4MzdjMDU3NS4uYWY5YWM3ZjA5Y2MyIDEwMDY0NA0KLS0tIGEvZHJp
+dmVycy9tdGQvc3BpLW5vci9zcGktbm9yLmMNCisrKyBiL2RyaXZlcnMvbXRkL3NwaS1ub3Ivc3Bp
+LW5vci5jDQpAQCAtMTYzNiw2ICsxNjM2LDkyIEBAIHN0YXRpYyBpbnQgc3IyX2JpdDdfcXVhZF9l
+bmFibGUoc3RydWN0IHNwaV9ub3IgKm5vcikNCiAJcmV0dXJuIDA7DQogfQ0KIA0KKy8qKg0KKyAq
+IHNwaV9ub3JfY2xlYXJfc3JfYnAoKSAtIGNsZWFyIHRoZSBTdGF0dXMgUmVnaXN0ZXIgQmxvY2sg
+UHJvdGVjdGlvbiBiaXRzLg0KKyAqIEBub3I6ICAgICAgICBwb2ludGVyIHRvIGEgJ3N0cnVjdCBz
+cGlfbm9yJw0KKyAqDQorICogUmVhZC1tb2RpZnktd3JpdGUgZnVuY3Rpb24gdGhhdCBjbGVhcnMg
+dGhlIEJsb2NrIFByb3RlY3Rpb24gYml0cyBmcm9tIHRoZQ0KKyAqIFN0YXR1cyBSZWdpc3RlciB3
+aXRob3V0IGFmZmVjdGluZyBvdGhlciBiaXRzLg0KKyAqDQorICogUmV0dXJuOiAwIG9uIHN1Y2Nl
+c3MsIC1lcnJubyBvdGhlcndpc2UuDQorICovDQorc3RhdGljIGludCBzcGlfbm9yX2NsZWFyX3Ny
+X2JwKHN0cnVjdCBzcGlfbm9yICpub3IpDQorew0KKwlpbnQgcmV0Ow0KKwl1OCBtYXNrID0gU1Jf
+QlAyIHwgU1JfQlAxIHwgU1JfQlAwOw0KKw0KKwlyZXQgPSByZWFkX3NyKG5vcik7DQorCWlmIChy
+ZXQgPCAwKSB7DQorCQlkZXZfZXJyKG5vci0+ZGV2LCAiZXJyb3Igd2hpbGUgcmVhZGluZyBzdGF0
+dXMgcmVnaXN0ZXJcbiIpOw0KKwkJcmV0dXJuIHJldDsNCisJfQ0KKw0KKwl3cml0ZV9lbmFibGUo
+bm9yKTsNCisNCisJcmV0ID0gd3JpdGVfc3Iobm9yLCByZXQgJiB+bWFzayk7DQorCWlmIChyZXQp
+IHsNCisJCWRldl9lcnIobm9yLT5kZXYsICJ3cml0ZSB0byBzdGF0dXMgcmVnaXN0ZXIgZmFpbGVk
+XG4iKTsNCisJCXJldHVybiByZXQ7DQorCX0NCisNCisJcmV0ID0gc3BpX25vcl93YWl0X3RpbGxf
+cmVhZHkobm9yKTsNCisJaWYgKHJldCkNCisJCWRldl9lcnIobm9yLT5kZXYsICJ0aW1lb3V0IHdo
+aWxlIHdyaXRpbmcgc3RhdHVzIHJlZ2lzdGVyXG4iKTsNCisJcmV0dXJuIHJldDsNCit9DQorDQor
+LyoqDQorICogc3BpX25vcl9zcGFuc2lvbl9jbGVhcl9zcl9icCgpIC0gY2xlYXIgdGhlIFN0YXR1
+cyBSZWdpc3RlciBCbG9jayBQcm90ZWN0aW9uDQorICogYml0cyBvbiBzcGFuc2lvbiBmbGFzaGVz
+Lg0KKyAqIEBub3I6ICAgICAgICBwb2ludGVyIHRvIGEgJ3N0cnVjdCBzcGlfbm9yJw0KKyAqDQor
+ICogUmVhZC1tb2RpZnktd3JpdGUgZnVuY3Rpb24gdGhhdCBjbGVhcnMgdGhlIEJsb2NrIFByb3Rl
+Y3Rpb24gYml0cyBmcm9tIHRoZQ0KKyAqIFN0YXR1cyBSZWdpc3RlciB3aXRob3V0IGFmZmVjdGlu
+ZyBvdGhlciBiaXRzLiBUaGUgZnVuY3Rpb24gaXMgdGlnaHRseQ0KKyAqIGNvdXBsZWQgd2l0aCB0
+aGUgc3BhbnNpb25fcXVhZF9lbmFibGUoKSBmdW5jdGlvbi4gQm90aCBhc3N1bWUgdGhhdCB0aGUg
+V3JpdGUNCisgKiBSZWdpc3RlciB3aXRoIDE2IGJpdHMsIHRvZ2V0aGVyIHdpdGggdGhlIFJlYWQg
+Q29uZmlndXJhdGlvbiBSZWdpc3RlciAoMzVoKQ0KKyAqIGluc3RydWN0aW9ucyBhcmUgc3VwcG9y
+dGVkDQorICoNCisgKiBSZXR1cm46IDAgb24gc3VjY2VzcywgLWVycm5vIG90aGVyd2lzZS4NCisg
+Ki8NCitzdGF0aWMgaW50IHNwaV9ub3Jfc3BhbnNpb25fY2xlYXJfc3JfYnAoc3RydWN0IHNwaV9u
+b3IgKm5vcikNCit7DQorCWludCByZXQ7DQorCXU4IG1hc2sgPSBTUl9CUDIgfCBTUl9CUDEgfCBT
+Ul9CUDA7DQorCXU4IHNyX2NyWzJdID0gezB9Ow0KKw0KKwkvKiBDaGVjayBjdXJyZW50IFF1YWQg
+RW5hYmxlIGJpdCB2YWx1ZS4gKi8NCisJcmV0ID0gcmVhZF9jcihub3IpOw0KKwlpZiAocmV0IDwg
+MCkgew0KKwkJZGV2X2Vycihub3ItPmRldiwNCisJCQkiZXJyb3Igd2hpbGUgcmVhZGluZyBjb25m
+aWd1cmF0aW9uIHJlZ2lzdGVyXG4iKTsNCisJCXJldHVybiByZXQ7DQorCX0NCisNCisJLyoNCisJ
+ICogV2hlbiB0aGUgY29uZmlndXJhdGlvbiByZWdpc3RlciBRVUFEIGJpdCBDUlsxXSBpcyAxLCBv
+bmx5DQorCSAqIHRoZSBXUlIgY29tbWFuZCBmb3JtYXQgd2l0aCAxNiBkYXRhIGJpdHMgbWF5IGJl
+IHVzZWQuDQorCSAqLw0KKwlpZiAocmV0ICYgQ1JfUVVBRF9FTl9TUEFOKSB7DQorCQlzcl9jclsx
+XSA9IHJldDsNCisNCisJCXJldCA9IHJlYWRfc3Iobm9yKTsNCisJCWlmIChyZXQgPCAwKSB7DQor
+CQkJZGV2X2Vycihub3ItPmRldiwNCisJCQkJImVycm9yIHdoaWxlIHJlYWRpbmcgc3RhdHVzIHJl
+Z2lzdGVyXG4iKTsNCisJCQlyZXR1cm4gcmV0Ow0KKwkJfQ0KKwkJc3JfY3JbMF0gPSByZXQgJiB+
+bWFzazsNCisNCisJCXJldCA9IHdyaXRlX3NyX2NyKG5vciwgc3JfY3IpOw0KKwkJaWYgKHJldCkN
+CisJCQlkZXZfZXJyKG5vci0+ZGV2LCAiMTYtYml0IHdyaXRlIHJlZ2lzdGVyIGZhaWxlZFxuIik7
+DQorCQlyZXR1cm4gcmV0Ow0KKwl9DQorDQorCS8qIElmIHF1YWQgYml0IGlzIG5vdCBzZXQsIHVz
+ZSA4LWJpdCBXUlIgY29tbWFuZC4gKi8NCisJcmV0dXJuIHNwaV9ub3JfY2xlYXJfc3JfYnAobm9y
+KTsNCit9DQorDQogLyogVXNlZCB3aGVuIHRoZSAiX2V4dF9pZCIgaXMgdHdvIGJ5dGVzIGF0IG1v
+c3QgKi8NCiAjZGVmaW5lIElORk8oX2plZGVjX2lkLCBfZXh0X2lkLCBfc2VjdG9yX3NpemUsIF9u
+X3NlY3RvcnMsIF9mbGFncykJXA0KIAkJLmlkID0gewkJCQkJCQlcDQpAQCAtMzY2Myw2ICszNzQ5
+LDggQEAgc3RhdGljIGludCBzcGlfbm9yX2luaXRfcGFyYW1zKHN0cnVjdCBzcGlfbm9yICpub3Is
+DQogCQlkZWZhdWx0Og0KIAkJCS8qIEtlcHQgb25seSBmb3IgYmFja3dhcmQgY29tcGF0aWJpbGl0
+eSBwdXJwb3NlLiAqLw0KIAkJCXBhcmFtcy0+cXVhZF9lbmFibGUgPSBzcGFuc2lvbl9xdWFkX2Vu
+YWJsZTsNCisJCQlpZiAobm9yLT5jbGVhcl9zcl9icCkNCisJCQkJbm9yLT5jbGVhcl9zcl9icCA9
+IHNwaV9ub3Jfc3BhbnNpb25fY2xlYXJfc3JfYnA7DQogCQkJYnJlYWs7DQogCQl9DQogDQpAQCAt
+MzkxNSwxNyArNDAwMywxMyBAQCBzdGF0aWMgaW50IHNwaV9ub3JfaW5pdChzdHJ1Y3Qgc3BpX25v
+ciAqbm9yKQ0KIHsNCiAJaW50IGVycjsNCiANCi0JLyoNCi0JICogQXRtZWwsIFNTVCwgSW50ZWwv
+TnVtb255eCwgYW5kIG90aGVycyBzZXJpYWwgTk9SIHRlbmQgdG8gcG93ZXIgdXANCi0JICogd2l0
+aCB0aGUgc29mdHdhcmUgcHJvdGVjdGlvbiBiaXRzIHNldA0KLQkgKi8NCi0JaWYgKEpFREVDX01G
+Uihub3ItPmluZm8pID09IFNOT1JfTUZSX0FUTUVMIHx8DQotCSAgICBKRURFQ19NRlIobm9yLT5p
+bmZvKSA9PSBTTk9SX01GUl9JTlRFTCB8fA0KLQkgICAgSkVERUNfTUZSKG5vci0+aW5mbykgPT0g
+U05PUl9NRlJfU1NUIHx8DQotCSAgICBub3ItPmluZm8tPmZsYWdzICYgU1BJX05PUl9IQVNfTE9D
+Sykgew0KLQkJd3JpdGVfZW5hYmxlKG5vcik7DQotCQl3cml0ZV9zcihub3IsIDApOw0KLQkJc3Bp
+X25vcl93YWl0X3RpbGxfcmVhZHkobm9yKTsNCisJaWYgKG5vci0+Y2xlYXJfc3JfYnApIHsNCisJ
+CWVyciA9IG5vci0+Y2xlYXJfc3JfYnAobm9yKTsNCisJCWlmIChlcnIpIHsNCisJCQlkZXZfZXJy
+KG5vci0+ZGV2LA0KKwkJCQkiZmFpbCB0byBjbGVhciBibG9jayBwcm90ZWN0aW9uIGJpdHNcbiIp
+Ow0KKwkJCXJldHVybiBlcnI7DQorCQl9DQogCX0NCiANCiAJaWYgKG5vci0+cXVhZF9lbmFibGUp
+IHsNCkBAIC00MDUwLDYgKzQxMzQsMTYgQEAgaW50IHNwaV9ub3Jfc2NhbihzdHJ1Y3Qgc3BpX25v
+ciAqbm9yLCBjb25zdCBjaGFyICpuYW1lLA0KIAlpZiAoaW5mby0+ZmxhZ3MgJiBTUElfUzNBTikN
+CiAJCW5vci0+ZmxhZ3MgfD0gIFNOT1JfRl9SRUFEWV9YU1JfUkRZOw0KIA0KKwkvKg0KKwkgKiBB
+dG1lbCwgU1NULCBJbnRlbC9OdW1vbnl4LCBhbmQgb3RoZXJzIHNlcmlhbCBOT1IgdGVuZCB0byBw
+b3dlciB1cA0KKwkgKiB3aXRoIHRoZSBzb2Z0d2FyZSBwcm90ZWN0aW9uIGJpdHMgc2V0Lg0KKwkg
+Ki8NCisJaWYgKEpFREVDX01GUihub3ItPmluZm8pID09IFNOT1JfTUZSX0FUTUVMIHx8DQorCSAg
+ICBKRURFQ19NRlIobm9yLT5pbmZvKSA9PSBTTk9SX01GUl9JTlRFTCB8fA0KKwkgICAgSkVERUNf
+TUZSKG5vci0+aW5mbykgPT0gU05PUl9NRlJfU1NUIHx8DQorCSAgICBub3ItPmluZm8tPmZsYWdz
+ICYgU1BJX05PUl9IQVNfTE9DSykNCisJCW5vci0+Y2xlYXJfc3JfYnAgPSBzcGlfbm9yX2NsZWFy
+X3NyX2JwOw0KKw0KIAkvKiBQYXJzZSB0aGUgU2VyaWFsIEZsYXNoIERpc2NvdmVyYWJsZSBQYXJh
+bWV0ZXJzIHRhYmxlLiAqLw0KIAlyZXQgPSBzcGlfbm9yX2luaXRfcGFyYW1zKG5vciwgJnBhcmFt
+cyk7DQogCWlmIChyZXQpDQpkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9tdGQvc3BpLW5vci5o
+IGIvaW5jbHVkZS9saW51eC9tdGQvc3BpLW5vci5oDQppbmRleCBiM2QzNjBiMGVlM2QuLjU2NmJk
+NTAxMGJjOCAxMDA2NDQNCi0tLSBhL2luY2x1ZGUvbGludXgvbXRkL3NwaS1ub3IuaA0KKysrIGIv
+aW5jbHVkZS9saW51eC9tdGQvc3BpLW5vci5oDQpAQCAtNDEwLDYgKzQxMCw3IEBAIHN0cnVjdCBz
+cGlfbm9yIHsNCiAJaW50ICgqZmxhc2hfdW5sb2NrKShzdHJ1Y3Qgc3BpX25vciAqbm9yLCBsb2Zm
+X3Qgb2ZzLCB1aW50NjRfdCBsZW4pOw0KIAlpbnQgKCpmbGFzaF9pc19sb2NrZWQpKHN0cnVjdCBz
+cGlfbm9yICpub3IsIGxvZmZfdCBvZnMsIHVpbnQ2NF90IGxlbik7DQogCWludCAoKnF1YWRfZW5h
+YmxlKShzdHJ1Y3Qgc3BpX25vciAqbm9yKTsNCisJaW50ICgqY2xlYXJfc3JfYnApKHN0cnVjdCBz
+cGlfbm9yICpub3IpOw0KIA0KIAl2b2lkICpwcml2Ow0KIH07DQotLSANCjIuOS41DQoNCg==
