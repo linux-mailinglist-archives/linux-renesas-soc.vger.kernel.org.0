@@ -2,107 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 950743B010
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2019 09:57:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E07B3B0BD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2019 10:30:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388276AbfFJH5g (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Jun 2019 03:57:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39454 "EHLO mail.kernel.org"
+        id S2387993AbfFJIaS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Jun 2019 04:30:18 -0400
+Received: from muru.com ([72.249.23.125]:52442 "EHLO muru.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388109AbfFJH5f (ORCPT
+        id S2387862AbfFJIaS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Jun 2019 03:57:35 -0400
-Received: from localhost (unknown [122.178.227.46])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7206120859;
-        Mon, 10 Jun 2019 07:57:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560153455;
-        bh=0J5cz45KXdQEbC0zP9NDZ6yJHvqD3V+zR61spu7qeCg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aNmT+sq6h4g+GUszEkq0f7ULAAPg8TMdX+o7uMtCkkOHxR+2c17Jlkh/ieYVwB5/d
-         lFk6rRtWpg6OYkmoXBK+TnaHzF4BeeLKtiT1KS5d+GMAjULZMa7u4Nir4c9lSL4x2f
-         qV+4ummAhbKbok5tLKME4d8egrLfzuBKTqd8E7yU=
-Date:   Mon, 10 Jun 2019 13:24:27 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Dan Williams <dan.j.williams@intel.com>, dmaengine@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH/RFC] dmaengine: Create symlinks from DMA channels to
- slaves
-Message-ID: <20190610075427.GP9160@vkoul-mobl.Dlink>
-References: <20190607113835.15376-1-geert+renesas@glider.be>
+        Mon, 10 Jun 2019 04:30:18 -0400
+Received: from atomide.com (localhost [127.0.0.1])
+        by muru.com (Postfix) with ESMTPS id AEF5E807E;
+        Mon, 10 Jun 2019 08:30:36 +0000 (UTC)
+Date:   Mon, 10 Jun 2019 01:30:12 -0700
+From:   Tony Lindgren <tony@atomide.com>
+To:     Kalle Valo <kvalo@codeaurora.org>
+Cc:     Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        John Stultz <john.stultz@linaro.org>,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Spyridon Papageorgiou <spapageorgiou@de.adit-jv.com>,
+        Joshua Frkuska <joshua_frkuska@mentor.com>,
+        "George G . Davis" <george_davis@mentor.com>,
+        Andrey Gusakov <andrey.gusakov@cogentembedded.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>, eyalr@ti.com
+Subject: Re: [PATCH] wlcore/wl18xx: Add invert-irq OF property for physically
+ inverted IRQ
+Message-ID: <20190610083012.GV5447@atomide.com>
+References: <20190607172958.20745-1-erosca@de.adit-jv.com>
+ <87tvcxncuq.fsf@codeaurora.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190607113835.15376-1-geert+renesas@glider.be>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+In-Reply-To: <87tvcxncuq.fsf@codeaurora.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 07-06-19, 13:38, Geert Uytterhoeven wrote:
-> Currently it is not easy to find out which DMA channels are in use, and
-> by which slave devices.
+Hi,
+
+* Kalle Valo <kvalo@codeaurora.org> [190610 07:01]:
+> Eugeniu Rosca <erosca@de.adit-jv.com> writes:
 > 
-> Fix this by creating in sysfs a "slave" symlink from the DMA channel to
-> the actual slave device when a channel is requested, and removing it
-> again when the channel is released.
+> > The wl1837mod datasheet [1] says about the WL_IRQ pin:
+> >
+> >  ---8<---
+> > SDIO available, interrupt out. Active high. [..]
+> > Set to rising edge (active high) on powerup.
+> >  ---8<---
+> >
+> > That's the reason of seeing the interrupt configured as:
+> >  - IRQ_TYPE_EDGE_RISING on HiKey 960/970
+> >  - IRQ_TYPE_LEVEL_HIGH on a number of i.MX6 platforms
+> >
+> > We assert that all those platforms have the WL_IRQ pin connected
+> > to the SoC _directly_ (confirmed on HiKey 970 [2]).
+> >
+> > That's not the case for R-Car Kingfisher extension target, which carries
+> > a WL1837MODGIMOCT IC. There is an SN74LV1T04DBVR inverter present
+> > between the WLAN_IRQ pin of the WL18* chip and the SoC, effectively
+> > reversing the requirement quoted from [1]. IOW, in Kingfisher DTS
+> > configuration we would need to use IRQ_TYPE_EDGE_FALLING or
+> > IRQ_TYPE_LEVEL_LOW.
+> >
+> > Unfortunately, v4.2-rc1 commit bd763482c82ea2 ("wl18xx: wlan_irq:
+> > support platform dependent interrupt types") made a special case out
+> > of these interrupt types. After this commit, it is impossible to provide
+> > an IRQ configuration via DTS which would describe an inverter present
+> > between the WL18* chip and the SoC, generating the need for workarounds
+> > like [3].
+> >
+> > Create a boolean OF property, called "invert-irq" to specify that
+> > the WLAN_IRQ pin of WL18* is connected to the SoC via an inverter.
+> >
+> > This solution has been successfully tested on R-Car H3ULCB-KF-M06 using
+> > the DTS configuration [4] combined with the "invert-irq" property.
+> >
+> > [1] http://www.ti.com/lit/ds/symlink/wl1837mod.pdf
+> > [2] https://www.96boards.org/documentation/consumer/hikey/hikey970/hardware-docs/
+> > [3] https://github.com/CogentEmbedded/meta-rcar/blob/289fbd4f8354/meta-rcar-gen3-adas/recipes-kernel/linux/linux-renesas/0024-wl18xx-do-not-invert-IRQ-on-WLxxxx-side.patch
+> > [4] https://patchwork.kernel.org/patch/10895879/
+> >     ("arm64: dts: ulcb-kf: Add support for TI WL1837")
+> >
+> > Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
 > 
-> For now this is limited to DT and ACPI.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> Questions:
->   1. Do you think this is useful?
+> Tony&Eyal, do you agree with this?
 
-Yes for me at least :)
+Yeah if there's some hardware between the WLAN device and the SoC
+inverting the interrupt, I don't think we have clear a way to deal
+with it short of setting up a separate irqchip that does the
+translation.
 
->   2. Should backlinks (e.g. "dma:<name>") be created from the slave
->      device to the DMA channel?
->      This requires storing the name in struct dma_chan, for later
->      symlink removal.
+But in some cases we also do not want to invert the interrupt, so
+I think this property should take IRQ_TYPE_EDGE_RISING and
+IRQ_TYPE_EDGE_RISING values to override the setting for
+the WLAN end of the hardware?
 
-that would certainly be more helpful
+Let's wait a bit longer for comments from Eyal too.
 
->   3. Should this be extended to other ways of requesting channels?
->      In many cases, no device pointer is available, so a device pointer
->      parameter has to be added to all DMA channel request APIs that
->      don't have it yet.
+Regards,
 
-I think that would need to be done.
-
-> ---
->  drivers/dma/dmaengine.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/dma/dmaengine.c b/drivers/dma/dmaengine.c
-> index 03ac4b96117cd8db..c11476f76fc96bcf 100644
-> --- a/drivers/dma/dmaengine.c
-> +++ b/drivers/dma/dmaengine.c
-> @@ -706,6 +706,10 @@ struct dma_chan *dma_request_chan(struct device *dev, const char *name)
->  
->  	if (chan) {
->  		/* Valid channel found or requester needs to be deferred */
-> +		if (!IS_ERR(chan) &&
-> +		     sysfs_create_link(&chan->dev->device.kobj, &dev->kobj,
-> +				       "slave"))
-> +			dev_err(dev, "Cannot create DMA slave symlink\n");
->  		if (!IS_ERR(chan) || PTR_ERR(chan) == -EPROBE_DEFER)
->  			return chan;
->  	}
-> @@ -786,6 +790,7 @@ void dma_release_channel(struct dma_chan *chan)
->  	/* drop PRIVATE cap enabled by __dma_request_channel() */
->  	if (--chan->device->privatecnt == 0)
->  		dma_cap_clear(DMA_PRIVATE, chan->device->cap_mask);
-> +	sysfs_remove_link(&chan->dev->device.kobj, "slave");
->  	mutex_unlock(&dma_list_mutex);
->  }
->  EXPORT_SYMBOL_GPL(dma_release_channel);
-> -- 
-> 2.17.1
-
--- 
-~Vinod
+Tony
