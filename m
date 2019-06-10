@@ -2,16 +2,16 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ECC833AEF3
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Jun 2019 08:24:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50DF742D0C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 19:10:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387587AbfFJGYO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Jun 2019 02:24:14 -0400
-Received: from esa5.microchip.iphmx.com ([216.71.150.166]:2600 "EHLO
+        id S1729718AbfFLRKY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jun 2019 13:10:24 -0400
+Received: from esa5.microchip.iphmx.com ([216.71.150.166]:54816 "EHLO
         esa5.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387431AbfFJGYN (ORCPT
+        with ESMTP id S1725844AbfFLRKY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Jun 2019 02:24:13 -0400
+        Wed, 12 Jun 2019 13:10:24 -0400
 Received-SPF: Pass (esa5.microchip.iphmx.com: domain of
   Tudor.Ambarus@microchip.com designates 198.175.253.82 as
   permitted sender) identity=mailfrom;
@@ -31,12 +31,15 @@ Received-SPF: None (esa5.microchip.iphmx.com: no sender
   x-sender="postmaster@email.microchip.com";
   x-conformance=spf_only
 Authentication-Results: esa5.microchip.iphmx.com; spf=Pass smtp.mailfrom=Tudor.Ambarus@microchip.com; spf=None smtp.helo=postmaster@email.microchip.com; dkim=pass (signature verified) header.i=@microchiptechnology.onmicrosoft.com; dmarc=pass (p=none dis=none) d=microchip.com
-X-IronPort-AV: E=Sophos;i="5.63,573,1557212400"; 
-   d="scan'208";a="35048209"
+X-IronPort-AV: E=Sophos;i="5.63,366,1557212400"; 
+   d="scan'208";a="35574409"
 Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 09 Jun 2019 23:24:13 -0700
+  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 12 Jun 2019 10:10:14 -0700
 Received: from chn-vm-ex04.mchp-main.com (10.10.87.151) by
- chn-vm-ex01.mchp-main.com (10.10.87.71) with Microsoft SMTP Server
+ chn-vm-ex04.mchp-main.com (10.10.87.151) with ShadowRedundancy id
+ 15.1.1713.5; Wed, 12 Jun 2019 17:09:41 +0000
+Received: from chn-vm-ex01.mchp-main.com (10.10.87.71) by
+ chn-vm-ex04.mchp-main.com (10.10.87.151) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.1.1713.5; Sun, 9 Jun 2019 23:24:11 -0700
 Received: from NAM05-DM3-obe.outbound.protection.outlook.com (10.10.215.89) by
