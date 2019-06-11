@@ -2,146 +2,120 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 198123C9CF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2019 13:14:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A0D33C9E9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Jun 2019 13:23:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389121AbfFKLOv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Jun 2019 07:14:51 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:33855 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388978AbfFKLOv (ORCPT
+        id S2389330AbfFKLXG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Jun 2019 07:23:06 -0400
+Received: from foss.arm.com ([217.140.110.172]:58912 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389200AbfFKLXG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Jun 2019 07:14:51 -0400
-Received: by mail-ed1-f66.google.com with SMTP id c26so19507480edt.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Jun 2019 04:14:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=S73QLp7k1DkLPMyXaGEI7D4IlPsMyzjHBqCjsls845U=;
-        b=PNIHMXWmURFR09YuixNt0dp7WyiPRhWU/2GKQB3+TssxtDwZBi43ksZoUk/wRPj7MR
-         5yZWkZzpUPSsiP6PwnKZ34JcedWYC24gP/EGM0cXZsaxgsfhHUdZoFtmvh5l/58rltFG
-         IZD9OeKm6dWT18OnXsqZhWLku2k+oMZcG02Qw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=S73QLp7k1DkLPMyXaGEI7D4IlPsMyzjHBqCjsls845U=;
-        b=G0XLqz1GYNai/pWymdV9xRGYXrNlyzng91K2V6hqi7vQE8oisSAf5VcPe1ARnw7IHd
-         EBoHTvcL8k+GxyIyn8mFAxm5KuVnTl3zv3W7mJdKU+Pn+0cWqCuWStzBThbo9+DQM6iK
-         yudaS/NOXWLlm4z4bTCmpwvMnuBqA4eXVcFU2OFk/ocfbGvpGquQcNQv5KkxxvQiWqH6
-         geq9SbRzbzkMdRBWt1OF8JvCbT9upVqzsxfDRIQMq/oqlrG1Qm4YokKsoP940CuYcBlm
-         yh2AkVu5HydICaTmDZ8oSLDHu7zHEe1KkyKMMIDGtnAn8eyx8Q2u3laujHnxj3TbjfdA
-         B5Lw==
-X-Gm-Message-State: APjAAAXwZEdfT4UT2o1vm90mpFbvMR3M0peW1AygthgpSqJhAHR6wXbC
-        B92pFpz5vxxBo8aoTisyuAzCAw==
-X-Google-Smtp-Source: APXvYqzUxEkCuN8r8cG9MfXkZcN34e68nY4KH42pTdAqiBno+kj8cmEaUq0yrdb9R0+twEpIPz8Y6g==
-X-Received: by 2002:a50:a389:: with SMTP id s9mr80137619edb.113.1560251689829;
-        Tue, 11 Jun 2019 04:14:49 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:569e:0:3106:d637:d723:e855])
-        by smtp.gmail.com with ESMTPSA id n5sm3542176edt.65.2019.06.11.04.14.48
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 11 Jun 2019 04:14:48 -0700 (PDT)
-Date:   Tue, 11 Jun 2019 13:14:42 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [GIT PULL FOR v5.3] R-Car DU changes, v2
-Message-ID: <20190611111442.GA2458@phenom.ffwll.local>
-References: <20190607234743.GD5110@pendragon.ideasonboard.com>
- <20190608134652.GE4786@pendragon.ideasonboard.com>
+        Tue, 11 Jun 2019 07:23:06 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7E64F344;
+        Tue, 11 Jun 2019 04:23:05 -0700 (PDT)
+Received: from [10.1.197.61] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C3EDD3F557;
+        Tue, 11 Jun 2019 04:24:46 -0700 (PDT)
+Subject: Re: [PATCH 0/4] irqchip: renesas: Use proper irq_chip name and parent
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190607095858.10028-1-geert+renesas@glider.be>
+From:   Marc Zyngier <marc.zyngier@arm.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=marc.zyngier@arm.com; prefer-encrypt=mutual; keydata=
+ mQINBE6Jf0UBEADLCxpix34Ch3kQKA9SNlVQroj9aHAEzzl0+V8jrvT9a9GkK+FjBOIQz4KE
+ g+3p+lqgJH4NfwPm9H5I5e3wa+Scz9wAqWLTT772Rqb6hf6kx0kKd0P2jGv79qXSmwru28vJ
+ t9NNsmIhEYwS5eTfCbsZZDCnR31J6qxozsDHpCGLHlYym/VbC199Uq/pN5gH+5JHZyhyZiNW
+ ozUCjMqC4eNW42nYVKZQfbj/k4W9xFfudFaFEhAf/Vb1r6F05eBP1uopuzNkAN7vqS8XcgQH
+ qXI357YC4ToCbmqLue4HK9+2mtf7MTdHZYGZ939OfTlOGuxFW+bhtPQzsHiW7eNe0ew0+LaL
+ 3wdNzT5abPBscqXWVGsZWCAzBmrZato+Pd2bSCDPLInZV0j+rjt7MWiSxEAEowue3IcZA++7
+ ifTDIscQdpeKT8hcL+9eHLgoSDH62SlubO/y8bB1hV8JjLW/jQpLnae0oz25h39ij4ijcp8N
+ t5slf5DNRi1NLz5+iaaLg4gaM3ywVK2VEKdBTg+JTg3dfrb3DH7ctTQquyKun9IVY8AsxMc6
+ lxl4HxrpLX7HgF10685GG5fFla7R1RUnW5svgQhz6YVU33yJjk5lIIrrxKI/wLlhn066mtu1
+ DoD9TEAjwOmpa6ofV6rHeBPehUwMZEsLqlKfLsl0PpsJwov8TQARAQABtCNNYXJjIFp5bmdp
+ ZXIgPG1hcmMuenluZ2llckBhcm0uY29tPokCTwQTAQIAOQIbAwYLCQgHAwIGFQgCCQoLBBYC
+ AwECHgECF4AWIQSf1RxT4LVjGP2VnD0j0NC60T16QwUCXO+WxgAKCRAj0NC60T16QzfuEACd
+ oPsSJdUg3nm61VKq86Pp0mfCC5IVyD/vTDw3jDErsmtT7t8mMVgidSJe9cMEudLO5xske/mY
+ sC7ZZ4GFNRRsFs3wY5g+kg4yk2UY6q18HXRQJwzWCug2bkJPUxbh71nS3KPsvq4BBOeQiTIX
+ Xr0lTyReFAp+JZ0HpanAU/iD2usEZLDNLXYLRjaHlfkwouxt02XcTKbqRWNtKl3Ybj+mz5IA
+ qEQnA5Z8Nt9ZQmlZ4ASiXVVCbZKIR3RewBL6BP4OhYrvcPCtkoqlqKWZoHBs3ZicRXvcVUr/
+ nqUyZpqhmfht2mIE063L3kTfBqxJ1SQqPc0ZIModTh4ATEjC44x8ObQvtnmgL8EKJBhxJfjY
+ EUYLnwSejH1h+qgj94vn7n1RMVqXpCrWHyF7pCDBqq3gBxtDu6TWgi4iwh4CtdOzXBw2V39D
+ LlnABnrZl5SdVbRwV+Ek1399s/laceH8e4uNea50ho89WmP9AUCrXlawHohfDE3GMOV4BdQ2
+ DbJAtZnENQXaRK9gr86jbGQBga9VDvsBbRd+uegEmQ8nPspryWIz/gDRZLXIG8KE9Jj9OhwE
+ oiusVTLsw7KS4xKDK2Ixb/XGtJPLtUXbMM1n9YfLsB5JPZ3B08hhrv+8Vmm734yCXtxI0+7B
+ F1V4T2njuJKWTsmJWmx+tIY8y9muUK9rabkCDQROiX9FARAAz/al0tgJaZ/eu0iI/xaPk3DK
+ NIvr9SsKFe2hf3CVjxriHcRfoTfriycglUwtvKvhvB2Y8pQuWfLtP9Hx3H+YI5a78PO2tU1C
+ JdY5Momd3/aJBuUFP5blbx6n+dLDepQhyQrAp2mVC3NIp4T48n4YxL4Og0MORytWNSeygISv
+ Rordw7qDmEsa7wgFsLUIlhKmmV5VVv+wAOdYXdJ9S8n+XgrxSTgHj5f3QqkDtT0yG8NMLLmY
+ kZpOwWoMumeqn/KppPY/uTIwbYTD56q1UirDDB5kDRL626qm63nF00ByyPY+6BXH22XD8smj
+ f2eHw2szECG/lpD4knYjxROIctdC+gLRhz+Nlf8lEHmvjHgiErfgy/lOIf+AV9lvDF3bztjW
+ M5oP2WGeR7VJfkxcXt4JPdyDIH6GBK7jbD7bFiXf6vMiFCrFeFo/bfa39veKUk7TRlnX13go
+ gIZxqR6IvpkG0PxOu2RGJ7Aje/SjytQFa2NwNGCDe1bH89wm9mfDW3BuZF1o2+y+eVqkPZj0
+ mzfChEsiNIAY6KPDMVdInILYdTUAC5H26jj9CR4itBUcjE/tMll0n2wYRZ14Y/PM+UosfAhf
+ YfN9t2096M9JebksnTbqp20keDMEBvc3KBkboEfoQLU08NDo7ncReitdLW2xICCnlkNIUQGS
+ WlFVPcTQ2sMAEQEAAYkCHwQYAQIACQUCTol/RQIbDAAKCRAj0NC60T16QwsFD/9T4y30O0Wn
+ MwIgcU8T2c2WwKbvmPbaU2LDqZebHdxQDemX65EZCv/NALmKdA22MVSbAaQeqsDD5KYbmCyC
+ czilJ1i+tpZoJY5kJALHWWloI6Uyi2s1zAwlMktAZzgGMnI55Ifn0dAOK0p8oy7/KNGHNPwJ
+ eHKzpHSRgysQ3S1t7VwU4mTFJtXQaBFMMXg8rItP5GdygrFB7yUbG6TnrXhpGkFBrQs9p+SK
+ vCqRS3Gw+dquQ9QR+QGWciEBHwuSad5gu7QC9taN8kJQfup+nJL8VGtAKgGr1AgRx/a/V/QA
+ ikDbt/0oIS/kxlIdcYJ01xuMrDXf1jFhmGZdocUoNJkgLb1iFAl5daV8MQOrqciG+6tnLeZK
+ HY4xCBoigV7E8KwEE5yUfxBS0yRreNb+pjKtX6pSr1Z/dIo+td/sHfEHffaMUIRNvJlBeqaj
+ BX7ZveskVFafmErkH7HC+7ErIaqoM4aOh/Z0qXbMEjFsWA5yVXvCoJWSHFImL9Bo6PbMGpI0
+ 9eBrkNa1fd6RGcktrX6KNfGZ2POECmKGLTyDC8/kb180YpDJERN48S0QBa3Rvt06ozNgFgZF
+ Wvu5Li5PpY/t/M7AAkLiVTtlhZnJWyEJrQi9O2nXTzlG1PeqGH2ahuRxn7txA5j5PHZEZdL1
+ Z46HaNmN2hZS/oJ69c1DI5Rcww==
+Organization: ARM Ltd
+Message-ID: <b1720fb0-b638-32d1-7f48-c1f24b64e83f@arm.com>
+Date:   Tue, 11 Jun 2019 12:23:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190608134652.GE4786@pendragon.ideasonboard.com>
-X-Operating-System: Linux phenom 4.14.0-3-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190607095858.10028-1-geert+renesas@glider.be>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Jun 08, 2019 at 04:46:52PM +0300, Laurent Pinchart wrote:
-> Hi Dave,
+On 07/06/2019 10:58, Geert Uytterhoeven wrote:
+> 	Hi all,
 > 
-> If you haven't pulled the previous pull request yet, please disregard it
-> and process this one instead. It contains additional patches that add
-> support for more plane formats.
+> Recently, Marc pointed out some common misconceptions w.r.t. the .name
+> and .parent_device fields in struct irq_chip.  This patch series fixes
+> them in the Renesas interrupt controller drivers.
 > 
-> The following changes since commit a188339ca5a396acc588e5851ed7e19f66b0ebd9:
+> The first two patches are destined for the irqchip tree, the last two
+> for the GPIO tree.
 > 
->   Linux 5.2-rc1 (2019-05-19 15:47:09 -0700)
+> Thanks!
 > 
-> are available in the Git repository at:
+> Geert Uytterhoeven (4):
+>   irqchip/renesas-intc-irqpin: Use proper irq_chip name and parent
+>   irqchip/renesas-irqc: Use proper irq_chip name and parent
+>   gpio: em: Use proper irq_chip name
+>   gpio: rcar: Use proper irq_chip name
 > 
->   git://linuxtv.org/pinchartl/media.git tags/du-next-20190608-2
+>  drivers/gpio/gpio-em.c                    | 2 +-
+>  drivers/gpio/gpio-rcar.c                  | 2 +-
+>  drivers/irqchip/irq-renesas-intc-irqpin.c | 3 ++-
+>  drivers/irqchip/irq-renesas-irqc.c        | 3 ++-
+>  4 files changed, 6 insertions(+), 4 deletions(-)
 > 
-> for you to fetch changes up to cb5f15b711d3ace7b29369657487f1281a4a5eac:
-> 
->   drm: rcar-du: Add support for missing 16-bit RGB1555 formats (2019-06-08 16:36:41 +0300)
-> 
-> ----------------------------------------------------------------
-> R-Car DU changes for v5.3:
-> 
-> - R8A774A1 SoC support
-> - LVDS dual-link mode support
-> - Support for additional formats
-> - Misc fixes
 
-I wasn't quite sure whether this has enough dt-acks, but I guess one r-b
-from Rob on the main dt patch should be enough. And everything else looks
-very neatly reviewed!
+I've applied patches 1 and2 to the irqchip tree.
 
-Thanks, pulled.
--Daniel
+Thanks,
 
-> 
-> ----------------------------------------------------------------
-> Biju Das (4):
->       dt-bindings: display: renesas: du: Document the r8a774a1 bindings
->       dt-bindings: display: renesas: lvds: Document r8a774a1 bindings
->       drm: rcar-du: Add R8A774A1 support
->       drm: rcar-du: lvds: Add r8a774a1 support
-> 
-> Kieran Bingham (1):
->       drm: rcar-du: writeback: include interface header
-> 
-> Laurent Pinchart (10):
->       drm: bridge: Add dual_link field to the drm_bridge_timings structure
->       dt-bindings: display: bridge: thc63lvd1024: Document dual-link operation
->       drm: bridge: thc63: Report input bus mode through bridge timings
->       dt-bindings: display: renesas: lvds: Add renesas,companion property
->       drm: rcar-du: lvds: Remove LVDS double-enable checks
->       drm: rcar-du: lvds: Add support for dual-link mode
->       drm: rcar-du: Skip LVDS1 output on Gen3 when using dual-link LVDS mode
->       drm: rcar-du: Add support for missing 32-bit RGB formats
->       drm: rcar-du: Add support for missing 16-bit RGB4444 formats
->       drm: rcar-du: Add support for missing 16-bit RGB1555 formats
-> 
->  .../bindings/display/bridge/renesas,lvds.txt       |  19 ++-
->  .../bindings/display/bridge/thine,thc63lvd1024.txt |   6 +
->  .../devicetree/bindings/display/renesas,du.txt     |   2 +
->  drivers/gpu/drm/bridge/thc63lvd1024.c              |  54 +++++++--
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c              |  30 +++++
->  drivers/gpu/drm/rcar-du/rcar_du_encoder.c          |  12 ++
->  drivers/gpu/drm/rcar-du/rcar_du_kms.c              |  82 ++++++++++++-
->  drivers/gpu/drm/rcar-du/rcar_du_writeback.c        |   1 +
->  drivers/gpu/drm/rcar-du/rcar_lvds.c                | 127 +++++++++++++++------
->  drivers/gpu/drm/rcar-du/rcar_lvds.h                |   5 +
->  include/drm/drm_bridge.h                           |   8 ++
->  11 files changed, 298 insertions(+), 48 deletions(-)
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
+	M.
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Jazz is not dead. It just smells funny...
