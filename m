@@ -2,87 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD55C423E4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 13:19:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45A5042402
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 13:32:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729933AbfFLLTC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jun 2019 07:19:02 -0400
-Received: from sauhun.de ([88.99.104.3]:58782 "EHLO pokefinder.org"
+        id S2406555AbfFLLbb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jun 2019 07:31:31 -0400
+Received: from verein.lst.de ([213.95.11.211]:59152 "EHLO newverein.lst.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729752AbfFLLTC (ORCPT
+        id S1727352AbfFLLbb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jun 2019 07:19:02 -0400
-Received: from localhost (p5486CACA.dip0.t-ipconnect.de [84.134.202.202])
-        by pokefinder.org (Postfix) with ESMTPSA id F0A042C54BC;
-        Wed, 12 Jun 2019 13:19:00 +0200 (CEST)
-Date:   Wed, 12 Jun 2019 13:19:00 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Simon Horman <horms@verge.net.au>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
+        Wed, 12 Jun 2019 07:31:31 -0400
+Received: by newverein.lst.de (Postfix, from userid 2407)
+        id D62C068B02; Wed, 12 Jun 2019 13:31:02 +0200 (CEST)
+Date:   Wed, 12 Jun 2019 13:31:02 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Alan Stern <stern@rowland.harvard.edu>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "xu_shunji@hoperun.com" <xu_shunji@hoperun.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH] arm64: dts: renesas: hihope-common: Add uSD and eMMC
-Message-ID: <20190612111900.2crgsg4adinrrw5u@ninjato>
-References: <1559895251-13931-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <CAMuHMdXv91Tt+78zLJj6pHFj9XrEJJbWOf-kzBPRbcw=h+iDHg@mail.gmail.com>
- <TY1PR01MB1770E7346A27FB36658142E1C0EC0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
- <20190612094524.GA2153@kunai>
- <TY1PR01MB17707726AF6BF3EE5408D5CDC0EC0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
- <20190612101516.xrlvqw7cls7eiv4u@ninjato>
- <TY1PR01MB1770B85D549CD20C963620E6C0EC0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Re: How to resolve an issue in swiotlb environment?
+Message-ID: <20190612113102.GA24742@lst.de>
+References: <20190611064158.GA20601@lst.de> <Pine.LNX.4.44L0.1906110956510.1535-100000@iolanthe.rowland.org> <20190612073059.GA20086@lst.de> <OSAPR01MB3089D154C6DF0237003CE80CD8EC0@OSAPR01MB3089.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="x7x26x2e6rxmlv7d"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <TY1PR01MB1770B85D549CD20C963620E6C0EC0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <OSAPR01MB3089D154C6DF0237003CE80CD8EC0@OSAPR01MB3089.jpnprd01.prod.outlook.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Wed, Jun 12, 2019 at 08:52:21AM +0000, Yoshihiro Shimoda wrote:
+> Hi Christoph,
+> 
+> > From: Christoph Hellwig, Sent: Wednesday, June 12, 2019 4:31 PM
+> > 
+> > First things first:
+> > 
+> > Yoshihiro, can you try this git branch?  The new bits are just the three
+> > patches at the end, but they sit on top of a few patches already sent
+> > out to the list, so a branch is probably either:
+> > 
+> >    git://git.infradead.org/users/hch/misc.git scsi-virt-boundary-fixes
+> 
+> Thank you for the patches!
+> Unfortunately, the three patches could not resolve this issue.
+> However, it's a hint to me, and then I found the root cause:
+>  - slave_configure() in drivers/usb/storage/scsiglue.c calls
+>    blk_queue_max_hw_sectors() with 2048 sectors (1 MiB) when USB_SPEED_SUPER or more.
+>  -- So that, even if your patches (also I fixed it a little [1]) could not resolve
+>     the issue because the max_sectors is overwritten by above code.
+> 
+> So, I think we should fix the slave_configure() by using dma_max_mapping_size().
+> What do you think? If so, I can make such a patch.
 
---x7x26x2e6rxmlv7d
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-
-I think it is confusing to describe a HS400 property if the HW is not
-capable of it. Even if the driver has a safety check and will prevent it
-=66rom being used.
-
-But as I said, I won't be insisting. I understood it simplifies things
-in grouping boards. From my side, we can close the case here.
-
-
---x7x26x2e6rxmlv7d
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl0A36AACgkQFA3kzBSg
-Kbayuw/9H/f5108nrosWSuvxyd0anllMECnyPihyEQEPXjde5O2gM3IznMrzmPV9
-97Is6XRx2a102SvTtWHEcYQ8nBP6LPob0QKaOGfyjaug4DdgsIhvpi90RoDq58ud
-6X4gxJWkxbCmEmvi78EOS4tkQ/zo/kQos3ZhoG1UHeJfbSyJ/cHmqLPkT1CspOib
-CzWf0caEuucYCEosie0foG1jv6RgEbWTKQrLUQZ2QRN+IuxstwgkfQwOL2mbSNRq
-nK3bYD0Of0In5CNufwQ2MwgwHZ6Y5sMwnD+OXeCBf9G8AWK5jYghxuJn6Ycu6LeX
-zlJ46ZLQU6n8M7zA4olfDzeNZ4FPreedzdmcMLH2eB5BEAcgiUm2oCGLQPV7lsP1
-UAbSKXhW2OJolC/CP3diXftX809c2CsWO1hFMfrOFIkLV6qgXGwosK1t831srsAO
-LHoc+563g7fSd4kqilpVqN+blcJEoLK4k16kjuVquRU8oYqOh+tYnAC+eRUvIVUG
-3qhjxTDIrrzjmXkkKRh1mZZnlueWFSlUDpGFyJ81LHJizItCkUVTmF9UU1TglURd
-ZQjY5Caqdeg0evzxf30BQ/1b8DynSPbtW5uRFtkngrikUuY+4i2qQfA8fHi8EWR1
-xUKIRa7ArPILAQeJ/qEGlhWGmmeYNv5lsBL1XO64AF4ueHZVJB4=
-=NjrV
------END PGP SIGNATURE-----
-
---x7x26x2e6rxmlv7d--
+Yes, please do.
