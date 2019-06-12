@@ -2,44 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E459142513
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 14:10:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4735B4252F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 14:12:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406365AbfFLMJr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jun 2019 08:09:47 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:39264 "EHLO
+        id S1726324AbfFLMMD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jun 2019 08:12:03 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:39404 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404957AbfFLMJr (ORCPT
+        with ESMTP id S1725926AbfFLMMC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jun 2019 08:09:47 -0400
+        Wed, 12 Jun 2019 08:12:02 -0400
 Received: from penelope.horms.nl (ip4dab7138.direct-adsl.nl [77.171.113.56])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id CFBBE25AD60;
-        Wed, 12 Jun 2019 22:09:44 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id CC08525AD60;
+        Wed, 12 Jun 2019 22:12:00 +1000 (AEST)
 Received: by penelope.horms.nl (Postfix, from userid 7100)
-        id C0F98E21FE5; Wed, 12 Jun 2019 14:09:42 +0200 (CEST)
-Date:   Wed, 12 Jun 2019 14:09:42 +0200
+        id B9DCEE21FE5; Wed, 12 Jun 2019 14:11:58 +0200 (CEST)
+Date:   Wed, 12 Jun 2019 14:11:58 +0200
 From:   Simon Horman <horms@verge.net.au>
-To:     Biju Das <biju.das@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Yoshihiro Kaneko <ykaneko0929@gmail.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Subject: Re: [PATCH v7 6/7] arm64: dts: renesas: cat874: Enable USB3.0
- host/peripheral device node
-Message-ID: <20190612120942.dsl2oucx5qog63so@verge.net.au>
-References: <1559296800-5610-1-git-send-email-biju.das@bp.renesas.com>
- <1559296800-5610-7-git-send-email-biju.das@bp.renesas.com>
+        linux-arm-kernel@lists.infradead.org,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH/RFT] arm64: dts: renesas: r8a77990: Fix register range of
+ display node
+Message-ID: <20190612121157.y6iiftulcsv3ty5w@verge.net.au>
+References: <1560084198-2930-1-git-send-email-ykaneko0929@gmail.com>
+ <20190611123022.oo4arh76w72vlkg5@verge.net.au>
+ <20190611140252.GL5016@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1559296800-5610-7-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <20190611140252.GL5016@pendragon.ideasonboard.com>
 Organisation: Horms Solutions BV
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -47,13 +43,48 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, May 31, 2019 at 10:59:59AM +0100, Biju Das wrote:
-> This patch enables USB3.0 host/peripheral device node for the cat874
-> board.
+On Tue, Jun 11, 2019 at 05:02:52PM +0300, Laurent Pinchart wrote:
+> Hello,
 > 
-> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> On Tue, Jun 11, 2019 at 02:30:27PM +0200, Simon Horman wrote:
+> > + Laurent
+> > 
+> > On Sun, Jun 09, 2019 at 09:43:18PM +0900, Yoshihiro Kaneko wrote:
+> > > From: Takeshi Kihara <takeshi.kihara.df@renesas.com>
+> > > 
+> > > Since the R8A77990 SoC uses DU{0,1}, the range from the base address to
+> > > the 0x4000 address is used.
+> > > This patch fixed it.
+> > > 
+> > > Fixes: 13ee2bfc5444 ("arm64: dts: renesas: r8a77990: Add display output support")
+> > > Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
+> > > Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
+> > 
+> > Thanks,
+> > 
+> > This looks fine to me but I will wait to see if there are other reviews
+> > before applying.
+> > 
+> > Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Thanks,
+Thanks, I have applied this for inclusion in v5.3.
 
-I have applied this patch for inclusion in v5.3. Please let me know if that
-is not desired at this time.
+> > Is a similar fix also appropriate for D3 (r8a77995)
+> 
+> Yes it is.
+
+Nice.
+
+Kaneko-san, could you prepare a patch?
+
+> > And a variant that reduces the register size to 0x5000
+> > for M3-W (r8a77965).
+> 
+> M3-W has registers at 0xfeb60000. You could reduce the size from
+> 0x80000 to 0x70000 but I don't think it's worth it.
+
+Got it, lets leave M3-W as is.
+
+...
