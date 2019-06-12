@@ -2,91 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 849874187D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 00:57:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9FE641CA3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 08:51:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436972AbfFKW5T (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Jun 2019 18:57:19 -0400
-Received: from mail-it1-f195.google.com ([209.85.166.195]:39203 "EHLO
-        mail-it1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2436793AbfFKW5T (ORCPT
+        id S2405127AbfFLGvX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jun 2019 02:51:23 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:40207 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2403835AbfFLGvX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Jun 2019 18:57:19 -0400
-Received: by mail-it1-f195.google.com with SMTP id j204so7546100ite.4;
-        Tue, 11 Jun 2019 15:57:18 -0700 (PDT)
+        Wed, 12 Jun 2019 02:51:23 -0400
+Received: by mail-lj1-f194.google.com with SMTP id a21so14071907ljh.7;
+        Tue, 11 Jun 2019 23:51:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=grKmCXxGy1i4B/yLN1jR++efXaP6K2Z8kYYVl2A1dxI=;
-        b=P95OKKqu8OrZkExBDNopuBFQNSCcrDMYhXbDy6aatYkCMThNwHtfoSFfPmVMztUicz
-         NlQ/5dO4P18LjjYLoxRFNDXrRQ4Rw4PZDwLI7IinQkF7rTKfPhaxXLyAfIARVbtldowc
-         nYOoKjwAl04dAvIqTKzQ3byqO7346MQCc36wyNs4336TlF4r5lBvc0Lv+cxOj0rEp0U5
-         pSK8aBduM+J2dEEuWOTfTUlKjbr2GqZrxDjI4K1kAwUVrrrjXjiv2NhV+a31og9zjyt4
-         Hwj3Mgq/k+Br08P1ekw0TyKScnrp/tvPginu2c5s4G+A/ZA8WrPMVSn32TZcZfvHwZjP
-         6LQw==
-X-Gm-Message-State: APjAAAXaC6+1xrcR5puwEV/d26KNPGVAeReF2bm1tR9J/J5vodY0QYK4
-        zGLecGXB36f7suWlCGzk2Q==
-X-Google-Smtp-Source: APXvYqwT8uYEMg+kMVmtj5ABSGKwbpnRHmB8C+/X7mKXTCV3Kub3hF8yvzhLe7Pmhr2rwqzF2IOTuw==
-X-Received: by 2002:a24:a303:: with SMTP id p3mr19505197ite.128.1560293838305;
-        Tue, 11 Jun 2019 15:57:18 -0700 (PDT)
-Received: from localhost (ip-174-149-252-64.englco.spcsdns.net. [174.149.252.64])
-        by smtp.gmail.com with ESMTPSA id u187sm5500574iod.37.2019.06.11.15.57.16
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 11 Jun 2019 15:57:17 -0700 (PDT)
-Date:   Tue, 11 Jun 2019 16:57:10 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Biju Das <biju.das@bp.renesas.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v7 2/7] dt-bindings: usb: renesas_usb3: Document usb role
- switch support
-Message-ID: <20190611225710.GA28189@bogus>
-References: <1559296800-5610-1-git-send-email-biju.das@bp.renesas.com>
- <1559296800-5610-3-git-send-email-biju.das@bp.renesas.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pucwXE/QknbFy+/4qfyb+M5v0P4sVxwv2U7mjkNDhPQ=;
+        b=Tdd922gTUNgs+cBparXTgiFy2OnNkj28qIjnZYpXK3GWHo0ULPatA1RYD99lkGhwb8
+         /fJQjnDYn2oAtJgfAcClh+z5NNbocV9aFZjkd5s/bva6F2Am3EmjB/iSG1zSTcTroqCF
+         icOS22CVeVXG01/Cc6X2VcfirkHwj7IeJfLiQ56cFMSJZF+GTh5wDc5OXi1+tEIaVJxG
+         LbHcuIFpn0+6CkZUO9gxFqhrRtmepbJffb88XyGqqwv6tkfsKWZc/MDYS3vCfdfhkwRr
+         P38ijUTSu//vXBn07mtTl0v8evEymxHBs9S+WDoYVpwgillyHqZShswJLwbeQfCYfNUT
+         b1nw==
+X-Gm-Message-State: APjAAAX6ZMf1O9UNIb2IrS8c+AipRNzha0pF9uATxXjP/0kpvAHzUAXl
+        0pya9DEvS4FD6yEaZDlhL0beBfOA5ZfA+j+4wr8=
+X-Google-Smtp-Source: APXvYqxZX3SvmUqlpQPh/u3V+83oM1xF//NYqN8Vr/nAEHhftEAUyjR8v9uMGFiio+/Md5LYozZDDc2fWeBR7ZU1zvE=
+X-Received: by 2002:a2e:2b8d:: with SMTP id r13mr31488250ljr.145.1560322280979;
+ Tue, 11 Jun 2019 23:51:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1559296800-5610-3-git-send-email-biju.das@bp.renesas.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <1560258401-9517-1-git-send-email-fabrizio.castro@bp.renesas.com> <1560258401-9517-5-git-send-email-fabrizio.castro@bp.renesas.com>
+In-Reply-To: <1560258401-9517-5-git-send-email-fabrizio.castro@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 12 Jun 2019 08:51:08 +0200
+Message-ID: <CAMuHMdWPTOJTWnfjTFgz5iX6AKVcKABXJbfQoMYVR2vJXB7zkw@mail.gmail.com>
+Subject: Re: [PATCH 4/6] clk: renesas: r8a774a1: Add TMU clock
+To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms@verge.net.au>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 31 May 2019 10:59:55 +0100, Biju Das wrote:
-> Update the DT bindings documentation to support usb role switch
-> for USB Type-C connector using USB role switch class framework.
-> 
-> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-> ---
->  V6-->V7
->   * Incorporated shimoda-san's review comments.
->     (https://patchwork.kernel.org/patch/10944631/)
->  V5-->V6
->   * Updated description
->   * Added usb-role-switch-property
->  V4-->V5
->   * No Change
->  V3-->V4
->   * No Change
->  V2-->V3
->   * Added optional renesas,usb-role-switch property.
->  V1-->V2
->   * Added usb-role-switch-property
->   * Updated the example with usb-role-switch property.
-> ---
->  .../devicetree/bindings/usb/renesas_usb3.txt       | 23 ++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
-> 
+On Tue, Jun 11, 2019 at 3:07 PM Fabrizio Castro
+<fabrizio.castro@bp.renesas.com> wrote:
+> This patch adds the TMU clocks to the R8A774A1 SoC.
+>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in clk-renesas-for-v5.3.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
