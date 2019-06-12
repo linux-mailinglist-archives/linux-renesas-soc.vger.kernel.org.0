@@ -2,60 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A663B41E42
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 09:52:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60A7741E68
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 09:56:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406598AbfFLHwT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jun 2019 03:52:19 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:34998 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726568AbfFLHwS (ORCPT
+        id S1726357AbfFLH4P (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jun 2019 03:56:15 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:36423 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726755AbfFLH4P (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jun 2019 03:52:18 -0400
-Received: by mail-lj1-f195.google.com with SMTP id x25so9617374ljh.2;
-        Wed, 12 Jun 2019 00:52:17 -0700 (PDT)
+        Wed, 12 Jun 2019 03:56:15 -0400
+Received: by mail-lj1-f194.google.com with SMTP id i21so14229504ljj.3;
+        Wed, 12 Jun 2019 00:56:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=sHAiVBtI4wTRr/mIaxFBqtCpECcSlQ7YSDG2J1NlBOE=;
-        b=uSUiwkbSkpAx9D2wqxReGVfnlLBU5wqk2FDoGu1/Q13WdnLKhQFliQWPFz7enbEw7M
-         EJG0QokvF5S/l0I8sFeX071cudNfY4xZ+bvrRJl85xrDlsLEQkoAqg0CsuUvB6GD2gwh
-         tfIFd5+th6na0GqBcNvfg6vZe5X1XVWZ6Y4PmCh2UjDEIqICD1X3Ihm7bNb7w6GhnLjT
-         FLQcqNyo1m5L5xC8+HUD+Fvzn/xVNVnDjOx5eftLdbV5/yZr6Me94HVLbpf2bgAXjzME
-         5FgAe9/8bGkzdKjZzSPXmCDOunOGP2YDZorngLJqi9Ls/8XY0ES+ojECqJa4NLMbOahp
-         9x5g==
-X-Gm-Message-State: APjAAAXub8NgLAGOJbo5XuPeTHHF8/DkGENUr/nHB8TrqK8pn897dFWW
-        PjG3169LIGXYZ9/y1hRhxkJ4j/hrGt4TJe6aFOQ=
-X-Google-Smtp-Source: APXvYqyvS1HtmoeUVU1qWAovQA9z2SrohqY0mW414kk/CrLu86gLlSpsg1lYfW4xpd516YTxz/WXuYe6YPfVc7afNec=
-X-Received: by 2002:a2e:2b8d:: with SMTP id r13mr31669052ljr.145.1560325936859;
- Wed, 12 Jun 2019 00:52:16 -0700 (PDT)
+        bh=rfXoIE+jv7ZZrsp7hJcZrC1RUlw3yaEKG4qS1njVCr8=;
+        b=BjwR0MAAW428e2qNR9pU7a6bfgUrOpxG7pjPez9SUsw591F7kubFnO2JDkjDY7Ognm
+         TGcSuMVoz/YZdSztMsNjZxPRQ/6ewgEbLOodHgpGCeN/Kx7An1TQvNl2I4pjmLOPI4c+
+         5F18yj31aB/xvRtRXM2JG68B56BmadvGLyUoQNiLLdYRM3gMfG0FcUjdrxCkQn4+GNG6
+         6fYq50Xym4idr3bUarcYScntKV+XvKavw6DqKOFbGUVXlpl8qs/yGuzOrC+wsbYMGyN6
+         P0F+S49Ftzfo45EBBM4H/KZCmvHG7pYVkoSZGr6MiDMIn9LUuWcBDJoSuqL8pdPCGcV/
+         7F2w==
+X-Gm-Message-State: APjAAAVXe9IRhEw7PRayLFIFAmmcOE30VzJeshITf4+YWOUyOjbOHYg4
+        n8Uxapl2Nr3HnfIDInTVjNXHfSGDukqgASSBh/g=
+X-Google-Smtp-Source: APXvYqzGZOj7PeRfAJ/xYvIYPvkN+WkYSGbmysNmM06zef/+WUeVUxDrwiNgOEHCbSps69E9ZTkHVSmvvgEZQVxuysA=
+X-Received: by 2002:a2e:7f15:: with SMTP id a21mr24718379ljd.51.1560326172891;
+ Wed, 12 Jun 2019 00:56:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <1559891016-56157-1-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1559891016-56157-1-git-send-email-biju.das@bp.renesas.com>
+References: <1559891639-62529-1-git-send-email-biju.das@bp.renesas.com> <1559891639-62529-2-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1559891639-62529-2-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 12 Jun 2019 09:52:04 +0200
-Message-ID: <CAMuHMdW3GxjF-MPRDkJorLpAzPKSNx3bE+sHAGgUHrV1d9pD0w@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: PCI: rcar: Add device tree support for r8a774a1
+Date:   Wed, 12 Jun 2019 09:56:00 +0200
+Message-ID: <CAMuHMdUReQtusF5tJCYn4QMn+kOonT6i_FRzSx4Xf32uBsFiWw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] arm64: dts: renesas: r8a774a1: Add PCIe device nodes
 To:     Biju Das <biju.das@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        linux-pci <linux-pci@vger.kernel.org>,
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        <devicetree@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jun 7, 2019 at 9:08 AM Biju Das <biju.das@bp.renesas.com> wrote:
-> Add PCIe support for the RZ/G2M (a.k.a. R8A774A1).
+On Fri, Jun 7, 2019 at 9:18 AM Biju Das <biju.das@bp.renesas.com> wrote:
+> This patch adds PCIe{0,1} device nodes for R8A774A1 SoC.
 >
 > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
