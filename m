@@ -2,62 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 45A5042402
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 13:32:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC9C8424A4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 13:47:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406555AbfFLLbb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jun 2019 07:31:31 -0400
-Received: from verein.lst.de ([213.95.11.211]:59152 "EHLO newverein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727352AbfFLLbb (ORCPT
+        id S1726384AbfFLLqr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jun 2019 07:46:47 -0400
+Received: from mx2.suse.de ([195.135.220.15]:40730 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726167AbfFLLqr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jun 2019 07:31:31 -0400
-Received: by newverein.lst.de (Postfix, from userid 2407)
-        id D62C068B02; Wed, 12 Jun 2019 13:31:02 +0200 (CEST)
-Date:   Wed, 12 Jun 2019 13:31:02 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+        Wed, 12 Jun 2019 07:46:47 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 15D42AE5A;
+        Wed, 12 Jun 2019 11:46:46 +0000 (UTC)
+Message-ID: <1560339966.9728.18.camel@suse.com>
 Subject: Re: How to resolve an issue in swiotlb environment?
-Message-ID: <20190612113102.GA24742@lst.de>
-References: <20190611064158.GA20601@lst.de> <Pine.LNX.4.44L0.1906110956510.1535-100000@iolanthe.rowland.org> <20190612073059.GA20086@lst.de> <OSAPR01MB3089D154C6DF0237003CE80CD8EC0@OSAPR01MB3089.jpnprd01.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <OSAPR01MB3089D154C6DF0237003CE80CD8EC0@OSAPR01MB3089.jpnprd01.prod.outlook.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+From:   Oliver Neukum <oneukum@suse.com>
+To:     Christoph Hellwig <hch@lst.de>,
+        Alan Stern <stern@rowland.harvard.edu>
+Cc:     "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Date:   Wed, 12 Jun 2019 13:46:06 +0200
+In-Reply-To: <20190612073059.GA20086@lst.de>
+References: <20190611064158.GA20601@lst.de>
+         <Pine.LNX.4.44L0.1906110956510.1535-100000@iolanthe.rowland.org>
+         <20190612073059.GA20086@lst.de>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jun 12, 2019 at 08:52:21AM +0000, Yoshihiro Shimoda wrote:
-> Hi Christoph,
+Am Mittwoch, den 12.06.2019, 09:30 +0200 schrieb Christoph Hellwig:
 > 
-> > From: Christoph Hellwig, Sent: Wednesday, June 12, 2019 4:31 PM
-> > 
-> > First things first:
-> > 
-> > Yoshihiro, can you try this git branch?  The new bits are just the three
-> > patches at the end, but they sit on top of a few patches already sent
-> > out to the list, so a branch is probably either:
-> > 
-> >    git://git.infradead.org/users/hch/misc.git scsi-virt-boundary-fixes
-> 
-> Thank you for the patches!
-> Unfortunately, the three patches could not resolve this issue.
-> However, it's a hint to me, and then I found the root cause:
->  - slave_configure() in drivers/usb/storage/scsiglue.c calls
->    blk_queue_max_hw_sectors() with 2048 sectors (1 MiB) when USB_SPEED_SUPER or more.
->  -- So that, even if your patches (also I fixed it a little [1]) could not resolve
->     the issue because the max_sectors is overwritten by above code.
-> 
-> So, I think we should fix the slave_configure() by using dma_max_mapping_size().
-> What do you think? If so, I can make such a patch.
+> So based on the above I'm a little confused about the actual requirement
+> again.  Can you still split the SCSI command into multiple URBs?  And
 
-Yes, please do.
+Yes. The device sees only a number of packets over the wire. They can
+come from an arbitrary number of URBs with the two restrictions that
+- we cannot split a packet among URBs
+- every packet but the last must be a multiple of maxpacket
+
+> is the boundary for that split still the scatterlist entry as in the
+> description above?  If so I don't really see how the virt_boundary
+> helps you at all. as it only guarnatees that in a bio, each subsequent
+> segment start as the advertised virt_boundary.  It says nothing about
+> the size of each segment.
+
+That is problematic.
+
+> Thay is someething the virt_boundary prevents.  But could still give
+> you something like:
+> 
+> 	1536 4096 4096 1024
+> 
+> or
+> 	1536 16384 8192 4096 16384 512
+
+That would kill the driver, if maxpacket were 1024.
+
+USB has really two kinds of requirements
+
+1. What comes from the protocol
+2. What comes from the HCD
+
+The protocol wants just multiples of maxpacket. XHCI can satisfy
+that in arbitrary scatter/gather. Other HCs cannot.
+
+	Regards
+		Oliver
+
