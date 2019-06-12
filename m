@@ -2,100 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EF0A141DCA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 09:31:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0895B41DDD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 09:37:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725962AbfFLHb2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jun 2019 03:31:28 -0400
-Received: from verein.lst.de ([213.95.11.211]:57550 "EHLO newverein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725959AbfFLHb2 (ORCPT
+        id S1731331AbfFLHhb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jun 2019 03:37:31 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:40509 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726778AbfFLHhb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jun 2019 03:31:28 -0400
-Received: by newverein.lst.de (Postfix, from userid 2407)
-        id BC64968AFE; Wed, 12 Jun 2019 09:30:59 +0200 (CEST)
-Date:   Wed, 12 Jun 2019 09:30:59 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: Re: How to resolve an issue in swiotlb environment?
-Message-ID: <20190612073059.GA20086@lst.de>
-References: <20190611064158.GA20601@lst.de> <Pine.LNX.4.44L0.1906110956510.1535-100000@iolanthe.rowland.org>
+        Wed, 12 Jun 2019 03:37:31 -0400
+Received: by mail-lf1-f66.google.com with SMTP id a9so11270426lff.7
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Jun 2019 00:37:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tLGWOKEe6QM5UY+pbGi3iUeKzW8p++aAOpZGDFj/kEE=;
+        b=LJqRnn1g1pDQ7xxhXuXOnRVESfdbcAogb44ENIGklz3UdfjqvTtMm0UtKuJ6GNzSez
+         YqxsmEcvLog9bIa7Cwn9Gtf1bEC+HGsY2e4MDgRWJxpO5x+T2sbvcrEXvqy2clH21G7s
+         rBUA38dif1qHqMNaAjFSJLYLYPIDoDMy5GFChSXIHDoCTWMLdDW16zZ/Y2E/J/sWlolb
+         0lqtX4bFSJHYPZuOx6lNza7we1uMGs7bClzr7mPjglaqTnAFxsQzDJA6AzfIHYW/OL3/
+         yuUr+Fjl8aoyQrcGPei0m3q6fhr+Vc0BRvHHc7BCjXuHVttl2QtiR7RKTlt7hoUnqKMY
+         BuKQ==
+X-Gm-Message-State: APjAAAVb84bub2Emr/mo0daNmxmQJ0T3fUm/D5tEISVoazxNI94qE65k
+        EpDVRn75QfwWK6C1W6t2h/VJWBQJ9CJUJwl2HSs=
+X-Google-Smtp-Source: APXvYqy5Gb6G+AWzbA9YyUSLoC0IXrltzZHsQx1Xnij93SbOPifDjX9FNgrUiRdecRLVBlJyCXwuGvVMCvo+5K3VGSo=
+X-Received: by 2002:a19:6e41:: with SMTP id q1mr32772104lfk.20.1560325048995;
+ Wed, 12 Jun 2019 00:37:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Pine.LNX.4.44L0.1906110956510.1535-100000@iolanthe.rowland.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+References: <1560078659-19236-1-git-send-email-ykaneko0929@gmail.com>
+In-Reply-To: <1560078659-19236-1-git-send-email-ykaneko0929@gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 12 Jun 2019 09:37:14 +0200
+Message-ID: <CAMuHMdV8Mg2ao9EwrLkiHF53Y_a5RKyvaqAv13uPvqTr19K++Q@mail.gmail.com>
+Subject: Re: [PATCH/RFT] arm64: dts: renesas: r8a77995: Add cpg reset for LVDS Interface
+To:     Yoshihiro Kaneko <ykaneko0929@gmail.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-First things first:
+Hi Kaneko-san,
 
-Yoshihiro, can you try this git branch?  The new bits are just the three
-patches at the end, but they sit on top of a few patches already sent
-out to the list, so a branch is probably either:
+On Sun, Jun 9, 2019 at 1:11 PM Yoshihiro Kaneko <ykaneko0929@gmail.com> wrote:
+> It is necessary to reset the LVDS Interface according to display on/off.
+> Therefore, this patch adds CPG reset properties in DU device node
+> for the R8A77995 SoC.
+>
+> This patch was inspired by a patch in the BSP by Takeshi Kihara <takeshi.kihara.df@renesas.com>.
+>
+> Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
 
-   git://git.infradead.org/users/hch/misc.git scsi-virt-boundary-fixes
+Thanks for your patch!
 
-Gitweb:
+> --- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+> @@ -1001,6 +1001,8 @@
+>                         clocks = <&cpg CPG_MOD 724>,
+>                                  <&cpg CPG_MOD 723>;
+>                         clock-names = "du.0", "du.1";
+> +                       resets = <&cpg 724>, <&cpg 724>;
+> +                       reset-names = "du.0", "du.1";
 
-   http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/scsi-virt-boundary-fixes
+These are not the LVDS resets, but the (shared) DU channel resets.
 
-And now on to the rest:
+The LVDS interface has its own separate device node, so if you want to
+be able to reset that, you need to add reset properties to the LVDS
+node instead.
 
-> We would like to avoid the extra I/O overhead for host controllers that
-> can't handle SG.  In fact, switching to sg_tablesize = 1 would probably
-> be considered a regression.
+Note that I haven't reposted a new version of "[PATCH v2] dt-bindings:
+drm: rcar-du: Document optional reset properties"[1] yet, after the
+split off of the LVDS interface into its own device node. Laurent wanted
+to wait until the driver gained DU reset support.
+However, the above differs from my proposal, as it also adds "du.1",
+pointing to the same (shared) reset.
+With a fresh look (2 years later ;-), that actually makes sense, so
+perhaps I should change my proposal and repost? We do have shared
+resets in other places (e.g. USB).
+Laurent, what do you think?
 
-Ok, makes sense.
+Thanks!
 
-> >  - set the virt boundary as-is for devices supporting "basic" scatterlist,
-> >    although that still assumes they can rejiggle them because for example
-> >    you could still get a smaller than expected first segment ala (assuming
-> >    a 1024 byte packet size and thus 1023 virt_boundary_mask):
-> > 
-> >         | 0 .. 511 | 512 .. 1023 | 1024 .. 1535 |
-> > 
-> >    as the virt_bondary does not guarantee that the first segment is
-> >    the same size as all the mid segments.
-> 
-> But that is exactly the problem we need to solve.
+[1] https://lore.kernel.org/linux-renesas-soc/1488817556-21410-1-git-send-email-geert+renesas@glider.be/
 
-So based on the above I'm a little confused about the actual requirement
-again.  Can you still split the SCSI command into multiple URBs?  And
-is the boundary for that split still the scatterlist entry as in the
-description above?  If so I don't really see how the virt_boundary
-helps you at all. as it only guarnatees that in a bio, each subsequent
-segment start as the advertised virt_boundary.  It says nothing about
-the size of each segment.
+Gr{oetje,eeting}s,
 
-> The issue which prompted the commit this thread is about arose in a
-> situation where the block layer set up a scatterlist containing buffer
-> sizes something like:
-> 
-> 	4096 4096 1536 1024
-> 
-> and the maximum packet size was 1024.  The situation was a little 
-> unusual, because it involved vhci-hcd (a virtual HCD).  This doesn't 
-> matter much in normal practice because:
+                        Geert
 
-Thay is someething the virt_boundary prevents.  But could still give
-you something like:
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-	1536 4096 4096 1024
-
-or
-	1536 16384 8192 4096 16384 512
-
-> The ->sysdev field points to the device used for DMA mapping.  It is
-> often the same as ->controller, but sometimes it is
-> ->controller->parent because of the peculiarities of some platforms.
-
-Thanks, taken into account in the above patches!
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
