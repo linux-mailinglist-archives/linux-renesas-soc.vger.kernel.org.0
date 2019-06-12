@@ -2,47 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 04E5C4237C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 13:08:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD55C423E4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 13:19:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408364AbfFLLIF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jun 2019 07:08:05 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:34848 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2408452AbfFLLIF (ORCPT
+        id S1729933AbfFLLTC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jun 2019 07:19:02 -0400
+Received: from sauhun.de ([88.99.104.3]:58782 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729752AbfFLLTC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jun 2019 07:08:05 -0400
-Received: by mail-oi1-f193.google.com with SMTP id y6so11375076oix.2;
-        Wed, 12 Jun 2019 04:08:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ukfH5dcM0xAZep8ioXTnwfEYhr7LsPvJH440oIYlwoI=;
-        b=pwJX8JVgc50nnmbzL8p82Ea28gdm+rZRZ/UanVF5cCKrK7JcJdmbS+wkpP4YShpfDo
-         moKw5SLSeQoBRFn7SvaolR7XYtwnHU3Yz9SSkUXF5UrRdtbIl/0vJdz6MOsQ7KFpO6Yx
-         OIW8mut8/knJVDzmCWm9ne7oFBpWj4W1YihS2RaecM4Ldf0QjGraSvwsbo2g7wEWjVWZ
-         Wv0CfGCbArw3AthsJxmZMzUvaf/kWZ6oQFpRLeGZP99oNFAJ1JN1hs7XjjvBJXiP54O9
-         0Bfl9W8mt8tcPhMR2Xu94C1uw5k+AbQOuxIyQmePyL6isN4AKzhJa7v+2KvUmvmf/P2T
-         jyeQ==
-X-Gm-Message-State: APjAAAWK93/1XMED12XLLwys8fZSHOEgA7q2tefJ8ziw+MOMMwpAHy8L
-        0LgtRm/A5OF1P+Gevf3ImgrhDBn50osXj95x1Vo=
-X-Google-Smtp-Source: APXvYqydtIVlC9FBOAUGrt9f+nWsCrcYJXYMCuQbDl7RcauvlqPwuK2CPs863h5t6L7u7x9d8CuWHPD5zxp8GpW46Xo=
-X-Received: by 2002:aca:c4d5:: with SMTP id u204mr18311247oif.131.1560337684671;
- Wed, 12 Jun 2019 04:08:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <1559895251-13931-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <CAMuHMdXv91Tt+78zLJj6pHFj9XrEJJbWOf-kzBPRbcw=h+iDHg@mail.gmail.com>
- <TY1PR01MB1770E7346A27FB36658142E1C0EC0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
- <20190612094524.GA2153@kunai> <TY1PR01MB17707726AF6BF3EE5408D5CDC0EC0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
- <20190612101516.xrlvqw7cls7eiv4u@ninjato>
-In-Reply-To: <20190612101516.xrlvqw7cls7eiv4u@ninjato>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 12 Jun 2019 13:07:48 +0200
-Message-ID: <CAMuHMdWPe8CgsJrNjt+6DqES6AB5o1FpTXdVsUJiDi9MDFE6dA@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: hihope-common: Add uSD and eMMC
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Wed, 12 Jun 2019 07:19:02 -0400
+Received: from localhost (p5486CACA.dip0.t-ipconnect.de [84.134.202.202])
+        by pokefinder.org (Postfix) with ESMTPSA id F0A042C54BC;
+        Wed, 12 Jun 2019 13:19:00 +0200 (CEST)
+Date:   Wed, 12 Jun 2019 13:19:00 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
         Simon Horman <horms@verge.net.au>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -54,34 +30,59 @@ Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         "xu_shunji@hoperun.com" <xu_shunji@hoperun.com>,
         Wolfram Sang <wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH] arm64: dts: renesas: hihope-common: Add uSD and eMMC
+Message-ID: <20190612111900.2crgsg4adinrrw5u@ninjato>
+References: <1559895251-13931-1-git-send-email-fabrizio.castro@bp.renesas.com>
+ <CAMuHMdXv91Tt+78zLJj6pHFj9XrEJJbWOf-kzBPRbcw=h+iDHg@mail.gmail.com>
+ <TY1PR01MB1770E7346A27FB36658142E1C0EC0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+ <20190612094524.GA2153@kunai>
+ <TY1PR01MB17707726AF6BF3EE5408D5CDC0EC0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+ <20190612101516.xrlvqw7cls7eiv4u@ninjato>
+ <TY1PR01MB1770B85D549CD20C963620E6C0EC0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="x7x26x2e6rxmlv7d"
+Content-Disposition: inline
+In-Reply-To: <TY1PR01MB1770B85D549CD20C963620E6C0EC0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
 
-On Wed, Jun 12, 2019 at 12:15 PM Wolfram Sang <wsa@the-dreams.de> wrote:
-> > File arch/arm64/boot/dts/renesas/hihope-common.dtsi contains common
-> > definitions for the mother boards for both flavours (including the
-> > eMMC). My understanding is that R-Car M3-N does support HS400, hence
-> > the need for the property here.
->
-> I won't be super strict here, yet I think it is more elegant to add the
-> HS400 properties to the board DTS files, not the dtsi. I mean we could
-> add them to the SoC dtsi otherwise.
+--x7x26x2e6rxmlv7d
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This _is_ the (shared) board DTS, cfr. salvator-common.dtsi and
-ulcb.dtsi, which do have mmc-hs400-1_8v properties.
 
-Gr{oetje,eeting}s,
+I think it is confusing to describe a HS400 property if the HW is not
+capable of it. Even if the driver has a safety check and will prevent it
+=66rom being used.
 
-                        Geert
+But as I said, I won't be insisting. I understood it simplifies things
+in grouping boards. From my side, we can close the case here.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--x7x26x2e6rxmlv7d
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl0A36AACgkQFA3kzBSg
+Kbayuw/9H/f5108nrosWSuvxyd0anllMECnyPihyEQEPXjde5O2gM3IznMrzmPV9
+97Is6XRx2a102SvTtWHEcYQ8nBP6LPob0QKaOGfyjaug4DdgsIhvpi90RoDq58ud
+6X4gxJWkxbCmEmvi78EOS4tkQ/zo/kQos3ZhoG1UHeJfbSyJ/cHmqLPkT1CspOib
+CzWf0caEuucYCEosie0foG1jv6RgEbWTKQrLUQZ2QRN+IuxstwgkfQwOL2mbSNRq
+nK3bYD0Of0In5CNufwQ2MwgwHZ6Y5sMwnD+OXeCBf9G8AWK5jYghxuJn6Ycu6LeX
+zlJ46ZLQU6n8M7zA4olfDzeNZ4FPreedzdmcMLH2eB5BEAcgiUm2oCGLQPV7lsP1
+UAbSKXhW2OJolC/CP3diXftX809c2CsWO1hFMfrOFIkLV6qgXGwosK1t831srsAO
+LHoc+563g7fSd4kqilpVqN+blcJEoLK4k16kjuVquRU8oYqOh+tYnAC+eRUvIVUG
+3qhjxTDIrrzjmXkkKRh1mZZnlueWFSlUDpGFyJ81LHJizItCkUVTmF9UU1TglURd
+ZQjY5Caqdeg0evzxf30BQ/1b8DynSPbtW5uRFtkngrikUuY+4i2qQfA8fHi8EWR1
+xUKIRa7ArPILAQeJ/qEGlhWGmmeYNv5lsBL1XO64AF4ueHZVJB4=
+=NjrV
+-----END PGP SIGNATURE-----
+
+--x7x26x2e6rxmlv7d--
