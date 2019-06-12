@@ -2,74 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9765D41D26
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 09:02:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF0A141DCA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 09:31:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407863AbfFLHC0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jun 2019 03:02:26 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:33424 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404851AbfFLHC0 (ORCPT
+        id S1725962AbfFLHb2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jun 2019 03:31:28 -0400
+Received: from verein.lst.de ([213.95.11.211]:57550 "EHLO newverein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725959AbfFLHb2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jun 2019 03:02:26 -0400
-Received: by mail-lf1-f67.google.com with SMTP id y17so11208694lfe.0;
-        Wed, 12 Jun 2019 00:02:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=t1FrAl3lFUrxKHR8AVD4+IWp4cQFjhvWNrbECcTI0qY=;
-        b=EwwIiGD1rx1UXUfjunjs4VHq5IhIywk4zicuMKNTNKYfflWFlR/Syho+XtFGFKlKr2
-         OudEAZ7uKEyRRjsu7pRCsECs0Ldf3W+uLO0HwZTHgIWNhdf6tkCQjU0/E4t+NRIbTmJ7
-         AMuyj4TYK4tcYjspUUfkH43WV0N89KuaLkyk1KlDeV7urqiigEOVBazbq5CjjDltxmV1
-         5qV7Sfjw/oozfxPMFrlc0/9AlWiScocZoaqQlc/EPk2H5+Zoj/9jAnZkYe9U6YSAhk8/
-         EVBoccp0ZDc04R4VbmSoq+trH3jpUqPd4HjdzS5vNuQL3soXqvUW9FIqrcdClfc/Ek1H
-         T5cA==
-X-Gm-Message-State: APjAAAXLlpCRfB1khMOr/hASZUoYYiW5mkaROGgucBZzB3Fb/1a/08Az
-        aebxPKJsov+5/wbATggsu4q1JZKehhbiwP928Ck=
-X-Google-Smtp-Source: APXvYqzLlB1DqokPSATZqkjDEztbL120FBpZCZQklCniylIHDwuYZbt8KDDMDb1pC1zUe/Ym7X1Dt7/PCB6jj309XnI=
-X-Received: by 2002:ac2:44b1:: with SMTP id c17mr40360821lfm.87.1560322943784;
- Wed, 12 Jun 2019 00:02:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <1560258401-9517-1-git-send-email-fabrizio.castro@bp.renesas.com> <1560258401-9517-4-git-send-email-fabrizio.castro@bp.renesas.com>
-In-Reply-To: <1560258401-9517-4-git-send-email-fabrizio.castro@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 12 Jun 2019 09:02:11 +0200
-Message-ID: <CAMuHMdWx6opBuDeLv35E2dK3BDLrqd=3D_9PaK8FbpBEHvRFDQ@mail.gmail.com>
-Subject: Re: [PATCH 3/6] arm64: dts: renesas: r8a774a1: Add CMT device nodes
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
+        Wed, 12 Jun 2019 03:31:28 -0400
+Received: by newverein.lst.de (Postfix, from userid 2407)
+        id BC64968AFE; Wed, 12 Jun 2019 09:30:59 +0200 (CEST)
+Date:   Wed, 12 Jun 2019 09:30:59 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Alan Stern <stern@rowland.harvard.edu>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Re: How to resolve an issue in swiotlb environment?
+Message-ID: <20190612073059.GA20086@lst.de>
+References: <20190611064158.GA20601@lst.de> <Pine.LNX.4.44L0.1906110956510.1535-100000@iolanthe.rowland.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Pine.LNX.4.44L0.1906110956510.1535-100000@iolanthe.rowland.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jun 11, 2019 at 3:07 PM Fabrizio Castro
-<fabrizio.castro@bp.renesas.com> wrote:
-> This patch adds the CMT[0123] device tree nodes to the
-> r8a774a1 SoC specific DT.
->
-> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+First things first:
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Yoshihiro, can you try this git branch?  The new bits are just the three
+patches at the end, but they sit on top of a few patches already sent
+out to the list, so a branch is probably either:
 
-Gr{oetje,eeting}s,
+   git://git.infradead.org/users/hch/misc.git scsi-virt-boundary-fixes
 
-                        Geert
+Gitweb:
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+   http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/scsi-virt-boundary-fixes
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+And now on to the rest:
+
+> We would like to avoid the extra I/O overhead for host controllers that
+> can't handle SG.  In fact, switching to sg_tablesize = 1 would probably
+> be considered a regression.
+
+Ok, makes sense.
+
+> >  - set the virt boundary as-is for devices supporting "basic" scatterlist,
+> >    although that still assumes they can rejiggle them because for example
+> >    you could still get a smaller than expected first segment ala (assuming
+> >    a 1024 byte packet size and thus 1023 virt_boundary_mask):
+> > 
+> >         | 0 .. 511 | 512 .. 1023 | 1024 .. 1535 |
+> > 
+> >    as the virt_bondary does not guarantee that the first segment is
+> >    the same size as all the mid segments.
+> 
+> But that is exactly the problem we need to solve.
+
+So based on the above I'm a little confused about the actual requirement
+again.  Can you still split the SCSI command into multiple URBs?  And
+is the boundary for that split still the scatterlist entry as in the
+description above?  If so I don't really see how the virt_boundary
+helps you at all. as it only guarnatees that in a bio, each subsequent
+segment start as the advertised virt_boundary.  It says nothing about
+the size of each segment.
+
+> The issue which prompted the commit this thread is about arose in a
+> situation where the block layer set up a scatterlist containing buffer
+> sizes something like:
+> 
+> 	4096 4096 1536 1024
+> 
+> and the maximum packet size was 1024.  The situation was a little 
+> unusual, because it involved vhci-hcd (a virtual HCD).  This doesn't 
+> matter much in normal practice because:
+
+Thay is someething the virt_boundary prevents.  But could still give
+you something like:
+
+	1536 4096 4096 1024
+
+or
+	1536 16384 8192 4096 16384 512
+
+> The ->sysdev field points to the device used for DMA mapping.  It is
+> often the same as ->controller, but sometimes it is
+> ->controller->parent because of the peculiarities of some platforms.
+
+Thanks, taken into account in the above patches!
