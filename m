@@ -2,65 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EB35341E1E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 09:44:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A663B41E42
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 09:52:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408314AbfFLHoj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jun 2019 03:44:39 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:34618 "EHLO
+        id S2406598AbfFLHwT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jun 2019 03:52:19 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:34998 "EHLO
         mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405755AbfFLHoj (ORCPT
+        with ESMTP id S1726568AbfFLHwS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jun 2019 03:44:39 -0400
-Received: by mail-lj1-f195.google.com with SMTP id p17so6928079ljg.1;
-        Wed, 12 Jun 2019 00:44:38 -0700 (PDT)
+        Wed, 12 Jun 2019 03:52:18 -0400
+Received: by mail-lj1-f195.google.com with SMTP id x25so9617374ljh.2;
+        Wed, 12 Jun 2019 00:52:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=X8qI+K1xZjRK+NdOOz86FF5j+ZtlRB7/6DTVTXKF734=;
-        b=HLcuWpu78qmBn5KUTu8DqHqEL2aX91D2bHIakU+ReiOYXYs9go2l2tLuiJepktr6Us
-         zep2hHTKGcwuH6RpO+4fx207McZN/RULsYDDrLjDmasS5cY70CuXE2uoeY3l4WqEdm8+
-         uuWhkZEzWepTQTxHaCQnpUtpqt9IxOGsxFyH9Ya+XU1LoL3/Eq2DcKfGhDUGyjE8+1GE
-         J0MOdjyfgntfH0m+JXaMm2T2BAVKbOwjyfbkybSKW//gvJc5c+BnB1cmChGMtNAtOWa6
-         2165CHraqSpzvsopMrfqyDFGubvJXp9ISh7TDIKG81YBvyo5sZ+8R3obWw7b3vvsRSV/
-         AyfQ==
-X-Gm-Message-State: APjAAAWzoBGMYDMzKsgsLphAh8Vps58JyvFYWVraondHwU1LJJBlfjWO
-        YUIPRdEyWVXGW3TTz26xI3VuQBel0OHu4nhMH6U=
-X-Google-Smtp-Source: APXvYqwqjvmsWovfy3c/DnJKFE/85y6DDp5DqVaHiqxmI7nQIoKcXFnH2pWr0W3phGJ5tzE4bmOKa0Deili3rUO1d5Q=
-X-Received: by 2002:a2e:91c5:: with SMTP id u5mr3517346ljg.65.1560325477287;
- Wed, 12 Jun 2019 00:44:37 -0700 (PDT)
+        bh=sHAiVBtI4wTRr/mIaxFBqtCpECcSlQ7YSDG2J1NlBOE=;
+        b=uSUiwkbSkpAx9D2wqxReGVfnlLBU5wqk2FDoGu1/Q13WdnLKhQFliQWPFz7enbEw7M
+         EJG0QokvF5S/l0I8sFeX071cudNfY4xZ+bvrRJl85xrDlsLEQkoAqg0CsuUvB6GD2gwh
+         tfIFd5+th6na0GqBcNvfg6vZe5X1XVWZ6Y4PmCh2UjDEIqICD1X3Ihm7bNb7w6GhnLjT
+         FLQcqNyo1m5L5xC8+HUD+Fvzn/xVNVnDjOx5eftLdbV5/yZr6Me94HVLbpf2bgAXjzME
+         5FgAe9/8bGkzdKjZzSPXmCDOunOGP2YDZorngLJqi9Ls/8XY0ES+ojECqJa4NLMbOahp
+         9x5g==
+X-Gm-Message-State: APjAAAXub8NgLAGOJbo5XuPeTHHF8/DkGENUr/nHB8TrqK8pn897dFWW
+        PjG3169LIGXYZ9/y1hRhxkJ4j/hrGt4TJe6aFOQ=
+X-Google-Smtp-Source: APXvYqyvS1HtmoeUVU1qWAovQA9z2SrohqY0mW414kk/CrLu86gLlSpsg1lYfW4xpd516YTxz/WXuYe6YPfVc7afNec=
+X-Received: by 2002:a2e:2b8d:: with SMTP id r13mr31669052ljr.145.1560325936859;
+ Wed, 12 Jun 2019 00:52:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190606142220.1392-1-jacopo+renesas@jmondi.org> <20190606142220.1392-9-jacopo+renesas@jmondi.org>
-In-Reply-To: <20190606142220.1392-9-jacopo+renesas@jmondi.org>
+References: <1559891016-56157-1-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1559891016-56157-1-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 12 Jun 2019 09:44:24 +0200
-Message-ID: <CAMuHMdX1c81RMbURNnCRW7OtZbDfSWsKSY+rMc_1GADuLom=ew@mail.gmail.com>
-Subject: Re: [PATCH 08/20] clk: renesas: r8a77995: Add CMM clocks
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Koji Matsuoka <koji.matsuoka.xm@renesas.com>, muroya@ksk.co.jp,
-        VenkataRajesh.Kalakodima@in.bosch.com,
-        Harsha.ManjulaMallikarjun@in.bosch.com,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Wed, 12 Jun 2019 09:52:04 +0200
+Message-ID: <CAMuHMdW3GxjF-MPRDkJorLpAzPKSNx3bE+sHAGgUHrV1d9pD0w@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: PCI: rcar: Add device tree support for r8a774a1
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jun 6, 2019 at 4:22 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
-> Add clock definitions for CMM units on Renesas R-Car Gen3 D3.
+On Fri, Jun 7, 2019 at 9:08 AM Biju Das <biju.das@bp.renesas.com> wrote:
+> Add PCIe support for the RZ/G2M (a.k.a. R8A774A1).
 >
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in clk-renesas-for-v5.3.
 
 Gr{oetje,eeting}s,
 
