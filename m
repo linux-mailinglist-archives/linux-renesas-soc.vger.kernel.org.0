@@ -2,193 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 97D7E42143
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 11:45:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10AD0421E8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 12:03:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437489AbfFLJpu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jun 2019 05:45:50 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:35281 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437298AbfFLJpu (ORCPT
+        id S1731861AbfFLKDU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jun 2019 06:03:20 -0400
+Received: from mail-eopbgr1400124.outbound.protection.outlook.com ([40.107.140.124]:47506
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1731837AbfFLKDU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jun 2019 05:45:50 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 57F603C00C6;
-        Wed, 12 Jun 2019 11:45:47 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id uyfoQNArz41o; Wed, 12 Jun 2019 11:45:41 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 3178E3C00BE;
-        Wed, 12 Jun 2019 11:45:41 +0200 (CEST)
-Received: from vmlxhi-102.adit-jv.com (10.72.93.184) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.439.0; Wed, 12 Jun
- 2019 11:45:41 +0200
-Date:   Wed, 12 Jun 2019 11:45:38 +0200
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Marc Zyngier <marc.zyngier@arm.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Kalle Valo <kvalo@codeaurora.org>, Eyal Reizer <eyalr@ti.com>
-CC:     Simon Horman <horms+renesas@verge.net.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        John Stultz <john.stultz@linaro.org>,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        netdev <netdev@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Spyridon Papageorgiou <spapageorgiou@de.adit-jv.com>,
-        Joshua Frkuska <joshua_frkuska@mentor.com>,
-        "George G . Davis" <george_davis@mentor.com>,
-        Andrey Gusakov <andrey.gusakov@cogentembedded.com>,
+        Wed, 12 Jun 2019 06:03:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=THHuJLvNQTH1zUFyFJNJT5KEQhoP3/d/LSZqqivMfGI=;
+ b=TfOtTqJEljgOiM2bG9Ky6y1mx4eAteC0l1vcA1Wlp8TC5bek01Nu8UlCXaoo86jE0bdxaUUv/KsqCMDQZlgGwB6qHr7xSwCcpsgft7smIyPvllT+DdQHExjohpqryIyYMmBjKPUycy59RQfwYq/LlqcrNEv9DRxuHyjtJ4llwE0=
+Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com (52.133.163.13) by
+ TY1PR01MB1500.jpnprd01.prod.outlook.com (52.133.162.14) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1965.14; Wed, 12 Jun 2019 10:03:16 +0000
+Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com
+ ([fe80::8a0:4174:3c3f:f05b]) by TY1PR01MB1770.jpnprd01.prod.outlook.com
+ ([fe80::8a0:4174:3c3f:f05b%7]) with mapi id 15.20.1987.010; Wed, 12 Jun 2019
+ 10:03:16 +0000
+From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+To:     Wolfram Sang <wsa@the-dreams.de>
+CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Simon Horman <horms@verge.net.au>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH] wlcore/wl18xx: Add invert-irq OF property for physically
- inverted IRQ
-Message-ID: <20190612094538.GA16575@vmlxhi-102.adit-jv.com>
-References: <20190607172958.20745-1-erosca@de.adit-jv.com>
- <87tvcxncuq.fsf@codeaurora.org>
- <20190610083012.GV5447@atomide.com>
- <CAMuHMdUOc17ocqmt=oNmyN1UT_K7_y=af1pwjwr5PTgQL2o2OQ@mail.gmail.com>
- <08bc4755-5f47-d792-8b5a-927b5fbe7619@arm.com>
-MIME-Version: 1.0
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        "xu_shunji@hoperun.com" <xu_shunji@hoperun.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: RE: [PATCH] arm64: dts: renesas: hihope-common: Add uSD and eMMC
+Thread-Topic: [PATCH] arm64: dts: renesas: hihope-common: Add uSD and eMMC
+Thread-Index: AQHVHQkEF65BtXynz0KAWAQHwuh89aaXt2YAgAAAWKCAABVNAIAAACxQ
+Date:   Wed, 12 Jun 2019 10:03:16 +0000
+Message-ID: <TY1PR01MB17707726AF6BF3EE5408D5CDC0EC0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+References: <1559895251-13931-1-git-send-email-fabrizio.castro@bp.renesas.com>
+ <CAMuHMdXv91Tt+78zLJj6pHFj9XrEJJbWOf-kzBPRbcw=h+iDHg@mail.gmail.com>
+ <TY1PR01MB1770E7346A27FB36658142E1C0EC0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+ <20190612094524.GA2153@kunai>
+In-Reply-To: <20190612094524.GA2153@kunai>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=fabrizio.castro@bp.renesas.com; 
+x-originating-ip: [193.141.220.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 13b08dc3-230c-46f4-159d-08d6ef1d3088
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:TY1PR01MB1500;
+x-ms-traffictypediagnostic: TY1PR01MB1500:
+x-microsoft-antispam-prvs: <TY1PR01MB150063964E286AE9555459BBC0EC0@TY1PR01MB1500.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 0066D63CE6
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(376002)(366004)(396003)(136003)(346002)(39860400002)(189003)(199004)(8936002)(55016002)(11346002)(446003)(186003)(81156014)(102836004)(26005)(478600001)(9686003)(6116002)(64756008)(8676002)(486006)(44832011)(2906002)(76116006)(7696005)(305945005)(256004)(6506007)(476003)(3846002)(73956011)(66946007)(81166006)(6436002)(25786009)(66446008)(7736002)(66556008)(76176011)(86362001)(66476007)(33656002)(6246003)(7416002)(229853002)(68736007)(99286004)(54906003)(316002)(6916009)(74316002)(52536014)(66066001)(5660300002)(53546011)(53936002)(4326008)(71190400001)(14454004)(71200400001);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1500;H:TY1PR01MB1770.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
+received-spf: None (protection.outlook.com: bp.renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 0Nqf9pVhY4CQW55yJyDNHHj2OW/KPVigBgNdba89t4abbLiTJ8GzJHSLke/3ko3nGYvlgWk18VRodylldpiFWPp3CYnbdFLXuasmh3ViVwowm2ttaG+vK3FnUEidjG9Xe2LlJSYJe+co8FopdMXUzIGYrwf6vPs4JVPo5wNSgZ2IBP69vRj5IC2SqhRiR1MCmSGzfSXSQpSGv9qKf6sqO0IomCopAJyIVlL6uo9pU368yyFKePJ0PQ4VZzktmxc31PZlpNqSJ14WUtzEefasFdt/lWP3jwmak4wRxU7ZzYuZ9qjEqL80nJh5F/TGFbkXwQhMF/BTGQiV0SoKoxAJmnyiqOETruuNji8gi5gowNObVYkor5/KXtcKKC//B252QQz6OKJjlFmPxIAkQlczb9FU/EKmqtAUngVUDM4oWa4=
 Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <08bc4755-5f47-d792-8b5a-927b5fbe7619@arm.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.72.93.184]
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13b08dc3-230c-46f4-159d-08d6ef1d3088
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jun 2019 10:03:16.4869
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fabrizio.castro@bp.renesas.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1500
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
+Hello Wolfram,
 
-cc: Linus Walleij
+Thank you for the feedback!
 
-On Tue, Jun 11, 2019 at 10:00:41AM +0100, Marc Zyngier wrote:
-> On 11/06/2019 09:45, Geert Uytterhoeven wrote:
-> > CC irqchip
-> > 
-> > Original thread at
-> > https://lore.kernel.org/lkml/20190607172958.20745-1-erosca@de.adit-jv.com/
-> > 
-> > On Mon, Jun 10, 2019 at 10:30 AM Tony Lindgren <tony@atomide.com> wrote:
-> >> * Kalle Valo <kvalo@codeaurora.org> [190610 07:01]:
-> >>> Eugeniu Rosca <erosca@de.adit-jv.com> writes:
-> >>>
-> >>>> The wl1837mod datasheet [1] says about the WL_IRQ pin:
-> >>>>
-> >>>>  ---8<---
-> >>>> SDIO available, interrupt out. Active high. [..]
-> >>>> Set to rising edge (active high) on powerup.
-> >>>>  ---8<---
-> >>>>
-> >>>> That's the reason of seeing the interrupt configured as:
-> >>>>  - IRQ_TYPE_EDGE_RISING on HiKey 960/970
-> >>>>  - IRQ_TYPE_LEVEL_HIGH on a number of i.MX6 platforms
-> >>>>
-> >>>> We assert that all those platforms have the WL_IRQ pin connected
-> >>>> to the SoC _directly_ (confirmed on HiKey 970 [2]).
-> >>>>
-> >>>> That's not the case for R-Car Kingfisher extension target, which carries
-> >>>> a WL1837MODGIMOCT IC. There is an SN74LV1T04DBVR inverter present
-> >>>> between the WLAN_IRQ pin of the WL18* chip and the SoC, effectively
-> >>>> reversing the requirement quoted from [1]. IOW, in Kingfisher DTS
-> >>>> configuration we would need to use IRQ_TYPE_EDGE_FALLING or
-> >>>> IRQ_TYPE_LEVEL_LOW.
-> >>>>
-> >>>> Unfortunately, v4.2-rc1 commit bd763482c82ea2 ("wl18xx: wlan_irq:
-> >>>> support platform dependent interrupt types") made a special case out
-> >>>> of these interrupt types. After this commit, it is impossible to provide
-> >>>> an IRQ configuration via DTS which would describe an inverter present
-> >>>> between the WL18* chip and the SoC, generating the need for workarounds
-> >>>> like [3].
-> >>>>
-> >>>> Create a boolean OF property, called "invert-irq" to specify that
-> >>>> the WLAN_IRQ pin of WL18* is connected to the SoC via an inverter.
-> >>>>
-> >>>> This solution has been successfully tested on R-Car H3ULCB-KF-M06 using
-> >>>> the DTS configuration [4] combined with the "invert-irq" property.
-> >>>>
-> >>>> [1] http://www.ti.com/lit/ds/symlink/wl1837mod.pdf
-> >>>> [2] https://www.96boards.org/documentation/consumer/hikey/hikey970/hardware-docs/
-> >>>> [3] https://github.com/CogentEmbedded/meta-rcar/blob/289fbd4f8354/meta-rcar-gen3-adas/recipes-kernel/linux/linux-renesas/0024-wl18xx-do-not-invert-IRQ-on-WLxxxx-side.patch
-> >>>> [4] https://patchwork.kernel.org/patch/10895879/
-> >>>>     ("arm64: dts: ulcb-kf: Add support for TI WL1837")
-> >>>>
-> >>>> Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-> >>>
-> >>> Tony&Eyal, do you agree with this?
-> >>
-> >> Yeah if there's some hardware between the WLAN device and the SoC
-> >> inverting the interrupt, I don't think we have clear a way to deal
-> >> with it short of setting up a separate irqchip that does the
-> >> translation.
-> > 
-> > Yeah, inverting the interrupt type in DT works only for simple devices,
-> > that don't need configuration.
-> > A simple irqchip driver that just inverts the type sounds like a good
-> > solution to me. Does something like that already exists?
-> 
-> We already have plenty of that in the tree, the canonical example
-> probably being drivers/irqchip/irq-mtk-sysirq.c. It should be pretty
-> easy to turn this driver into something more generic.
+> From: Wolfram Sang <wsa@the-dreams.de>
+> Sent: 12 June 2019 10:45
+> Subject: Re: [PATCH] arm64: dts: renesas: hihope-common: Add uSD and eMMC
+>=20
+>=20
+> > I was thinking about sending a follow-up patch to list hs400 here
+> > after Wolfram's patch appears in a RC, would that be okay with you?
+>=20
+> Do we need that? The *board* does not handle HS400, so why add the
+> property?
 
-I don't think drivers/irqchip/irq-mtk-sysirq.c can serve the
-use-case/purpose of this patch. The MTK driver seems to be dealing with
-the polarity inversion of on-SoC interrupts which are routed to GiC,
-whereas in this patch we are talking about an off-chip interrupt
-wired to R-Car GPIO controller.
+The SoC the design currently comes with doesn't handle HS400, but they may =
+replace that
+in the future with one that is based off R-Car M3-W version 3.0 (which does=
+ support HS400).
+Also, the HiHope will come in two flavours, the HiHope RZ/G2M (the flavour =
+we are currently
+adding support for), and the HiHope RZ/G2N (sporting an RZ/G2N, which is ba=
+sed off R-Car M3-N).
+File arch/arm64/boot/dts/renesas/hihope-common.dtsi contains common definit=
+ions for the
+mother boards for both flavours (including the eMMC). My understanding is t=
+hat R-Car M3-N does
+support HS400, hence the need for the property here.
 
-It looks to me that the nice DTS sketch shared by Linus Walleij in [5]
-might come closer to the concept proposed by Geert? FWIW, the
-infrastructure/implementation to make this possible is still not ready.
+Thanks,
+Fab
 
-One question to the wlcore/wl18xx maintainers: Why exactly do you give
-freedom to users to set the interrupt as LEVEL_LOW/EDGE_FALLING [6]?
-Apparently, this:
- - complicates the wl18xx driver, thus increasing the chance for bugs
- - is not supposed to reflect any HW differences between boards using
-   LEVEL_LOW/EDGE_FALLING and the boards using LEVEL_HIGH/EDGE_RISING
- - doesn't bring any obvious advantage to the users, who are expected to
-   sense the same behavior regardless of the IRQ type set in DTS
- - prevent the users to set IRQ type to LEVEL_LOW/EDGE_FALLING when
-   there is an inverter present between WL_IRQ and SoC
- - seems to be not used almost at all, as 99% of mainline DTS set the
-   IRQ type to the canonical/NLCP LEVEL_HIGH/EDGE_RISING
+>=20
+> Similar setting would be an I2C device which can do 400kHz but the board
+> layout doesn't allow for such speeds, so we are limited to 100kHz.
+>=20
+> Or?
 
-[5] https://patchwork.ozlabs.org/patch/1095690/#2167076
-  ("[V1,1/2] gpio: make it possible to set active-state on GPIO lines")
- --------------------8<-------------------
- gpio0: gpio {
-    compatible = "foo,chip";
-    gpio-controller;
-    (...)
- };
-
- inv0: inverter {
-     compatible = "inverter";
-     gpio-controller;
-     gpios = <&gpio0 0 GPIO_ACTIVE_HIGH>;
- };
-
- consumer {
-    compatible = "bar";
-    gpios = <&inv0 0 GPIO_ACTIVE_HIGH>;
- };
- --------------------8<-------------------
-
-[6] bd763482c82ea2 ("wl18xx: wlan_irq: support platform dependent interrupt types")
-
--- 
-Best Regards,
-Eugeniu.
