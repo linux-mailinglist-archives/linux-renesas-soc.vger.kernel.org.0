@@ -2,54 +2,51 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1107341CAB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 08:52:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3BD841D06
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 08:56:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406941AbfFLGwg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jun 2019 02:52:36 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:46176 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2403835AbfFLGwg (ORCPT
+        id S2407172AbfFLG4w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jun 2019 02:56:52 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:45724 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726714AbfFLG4w (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jun 2019 02:52:36 -0400
-Received: by mail-lf1-f68.google.com with SMTP id z15so8481144lfh.13;
-        Tue, 11 Jun 2019 23:52:34 -0700 (PDT)
+        Wed, 12 Jun 2019 02:56:52 -0400
+Received: by mail-lf1-f66.google.com with SMTP id u10so11167355lfm.12;
+        Tue, 11 Jun 2019 23:56:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=rgzSwecmSEJ7vf9Bv6DohIWO3+c4jeRqODjRR347TX0=;
-        b=Gjth3Wc50O9CRk+CL+1J4MEC29HzcvF9SWfG3lFVlivazQVWMVdP6MS6+EMRVNNfbD
-         tHlqS72VNpbzXUn/Qblw+qTYx6v4EbgVlkpd1rBNcZQeN/7HOEcBENV+oKfU7m3TwoGl
-         HyfEfUF+oXwLy1rhO1gOInqXijE/Tgezs4mT0meFHFmz/0e5UeTyHwQwX9GcvdQsxu3e
-         4fxLXanQ+ScFpzBfS5KTvoyG7kFxH1G8nXzDE4+92oYX2evVrDUd65d/LBvXqmX8ZQEh
-         kXgHtsYokQwh89/mlY+Jwz5n6o2bXu1EDqWQ+sc81qcXuMP10d0iEL5qdz9iw8gAdVqX
-         IDXQ==
-X-Gm-Message-State: APjAAAVErPWywTDoVAPBv/XwVoN5dhd0BH2e6HAMKdrLTtkJH3d6M31C
-        4zNGVAxVhjegeSIKfRoakHjFtKexlEuSx1M5068=
-X-Google-Smtp-Source: APXvYqzo0BzuPQr+EJoh/gmOvumQDwiFG1BYgL54a567MX2Pya/359gm+7uCxDKaPstY8RvnhPfwvGgAh+grqfPDfGU=
-X-Received: by 2002:ac2:44b1:: with SMTP id c17mr40332376lfm.87.1560322353613;
- Tue, 11 Jun 2019 23:52:33 -0700 (PDT)
+        bh=Pcg9vO0F5Uy05vwXRYU1W6YzDLQgrgBv+1bXWAP/r28=;
+        b=gNqGRAhV/2OIE+8yJQl0T/gr1rXcsc2bGAtTLkpeeUbgQ4N04WjNdGFs/Fk4B6teb0
+         pCP9WctzPJHDlQwK/6rU3bTt0MjDv4c/+TpG5+85m85jILgvhRs9t2QAS4EB566KSS+q
+         /BJUFNexb2psXwZQ0KeMiv/U3c8rQMMyBhWBn7uiuPvQiMPKfCBiGdxMwKj4guZy0S5U
+         Jhzfrla/UvwWI14ehFO2uH73csr+JyDln5pur7Gsrc50IK8/pFrC3MsofUr0JOM4jVYn
+         qTD0A8bX/XvVZ37lxLOQZwQtJGe/1I/JwQDZirrSFIpvQYfJGXhow3UwtXDeiawcb7hs
+         6NWQ==
+X-Gm-Message-State: APjAAAUJigO99/J5tPis0CU8+BAwM+b7zceOEjWYEvm7WoB67KX94Hyo
+        se92TIZ8kcYY+R9UH52gWe+onbVg6eZM2DECvys=
+X-Google-Smtp-Source: APXvYqzQZNpGrjm8ZQK7jA47/gjz1IyzL+fY0Xnb8/PsqxWOE3NJEhFt4DNXskimcYz2ZAsNxjNHDZUSJGKymlusMi0=
+X-Received: by 2002:ac2:5467:: with SMTP id e7mr16770554lfn.23.1560322610289;
+ Tue, 11 Jun 2019 23:56:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <1560258401-9517-1-git-send-email-fabrizio.castro@bp.renesas.com> <1560258401-9517-6-git-send-email-fabrizio.castro@bp.renesas.com>
-In-Reply-To: <1560258401-9517-6-git-send-email-fabrizio.castro@bp.renesas.com>
+References: <1560258401-9517-1-git-send-email-fabrizio.castro@bp.renesas.com> <1560258401-9517-7-git-send-email-fabrizio.castro@bp.renesas.com>
+In-Reply-To: <1560258401-9517-7-git-send-email-fabrizio.castro@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 12 Jun 2019 08:52:20 +0200
-Message-ID: <CAMuHMdVEhRDcd8aJ-mYKvNeGX3RzvfFLn6CdqmDrux01bJ1ktA@mail.gmail.com>
-Subject: Re: [PATCH 5/6] dt-bindings: timer: renesas: tmu: Document r8a774a1 bindings
+Date:   Wed, 12 Jun 2019 08:56:37 +0200
+Message-ID: <CAMuHMdVHNv4-x_xdiX_ZbQk=oK3S3ZiNb9_Ukb9L-GGc743O0Q@mail.gmail.com>
+Subject: Re: [PATCH 6/6] arm64: dts: renesas: r8a774a1: Add TMU device nodes
 To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 Cc:     Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Biju Das <biju.das@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -58,7 +55,8 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Tue, Jun 11, 2019 at 3:07 PM Fabrizio Castro
 <fabrizio.castro@bp.renesas.com> wrote:
-> Document RZ/G2M (R8A774A1) SoC in the Renesas TMU bindings.
+> This patch adds TMU[01234] device tree nodes to the r8a774a1
+> SoC specific DT.
 >
 > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 
