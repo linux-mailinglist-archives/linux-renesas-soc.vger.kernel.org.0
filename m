@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 60A7741E68
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 09:56:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA58141E80
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 10:01:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726357AbfFLH4P (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jun 2019 03:56:15 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:36423 "EHLO
+        id S1729826AbfFLIBb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jun 2019 04:01:31 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:35905 "EHLO
         mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726755AbfFLH4P (ORCPT
+        with ESMTP id S1726554AbfFLIBb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jun 2019 03:56:15 -0400
-Received: by mail-lj1-f194.google.com with SMTP id i21so14229504ljj.3;
-        Wed, 12 Jun 2019 00:56:13 -0700 (PDT)
+        Wed, 12 Jun 2019 04:01:31 -0400
+Received: by mail-lj1-f194.google.com with SMTP id i21so14243328ljj.3;
+        Wed, 12 Jun 2019 01:01:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=rfXoIE+jv7ZZrsp7hJcZrC1RUlw3yaEKG4qS1njVCr8=;
-        b=BjwR0MAAW428e2qNR9pU7a6bfgUrOpxG7pjPez9SUsw591F7kubFnO2JDkjDY7Ognm
-         TGcSuMVoz/YZdSztMsNjZxPRQ/6ewgEbLOodHgpGCeN/Kx7An1TQvNl2I4pjmLOPI4c+
-         5F18yj31aB/xvRtRXM2JG68B56BmadvGLyUoQNiLLdYRM3gMfG0FcUjdrxCkQn4+GNG6
-         6fYq50Xym4idr3bUarcYScntKV+XvKavw6DqKOFbGUVXlpl8qs/yGuzOrC+wsbYMGyN6
-         P0F+S49Ftzfo45EBBM4H/KZCmvHG7pYVkoSZGr6MiDMIn9LUuWcBDJoSuqL8pdPCGcV/
-         7F2w==
-X-Gm-Message-State: APjAAAVXe9IRhEw7PRayLFIFAmmcOE30VzJeshITf4+YWOUyOjbOHYg4
-        n8Uxapl2Nr3HnfIDInTVjNXHfSGDukqgASSBh/g=
-X-Google-Smtp-Source: APXvYqzGZOj7PeRfAJ/xYvIYPvkN+WkYSGbmysNmM06zef/+WUeVUxDrwiNgOEHCbSps69E9ZTkHVSmvvgEZQVxuysA=
-X-Received: by 2002:a2e:7f15:: with SMTP id a21mr24718379ljd.51.1560326172891;
- Wed, 12 Jun 2019 00:56:12 -0700 (PDT)
+        bh=XRuU18fy29kl+vkH2niVXu3pMN4N89b8HRsNgAPuaCk=;
+        b=cjomx+dJzwCLfg8CX69JFz/fvFyGGZhaSXHJYzXa5sR0hfAm/S8/a5HYi/WgrLyA4q
+         +PBBWOxHZcAQsvpe21fUCgIACmODd9x1ex0JpU0M+NpURe1ND2POFvelLntwZdNGoJC8
+         UmYkA1m64ElLIPfN5UG84H8rTvUpm2pyb6eeq71M3BfAbi2CSQ9WmJg5Y5snwhxJQomr
+         C839YGJ/pGB62TzR7ix2jmriOMt4HNy/BSruU3JvB/+TPoM74PxX2ESc2BUvOz7YftA2
+         OSJiOLHN3NTi4EkGMhPF0ViCiY6EVeCK6R8ZUpLyEEWDH71hGwqudjxKl4gTRTaXYJSB
+         qoHw==
+X-Gm-Message-State: APjAAAVxRLdHqUm+eKlWymuCmywVAnPPOovhD9yXCqxiqvIzLYhMCd/o
+        xkpbKHTRyQ6EnQNDBxqfSOtufldwrNJaA+M5hJQ=
+X-Google-Smtp-Source: APXvYqyMvXlAg+MklF7sw7MsiPeXTd0X92LN0e0qVQmGN1lWhnA6qdMAstMDU1ker6fFtuEJcR6auHR0OOK9WBV4WmI=
+X-Received: by 2002:a2e:6e01:: with SMTP id j1mr42225001ljc.135.1560326489311;
+ Wed, 12 Jun 2019 01:01:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <1559891639-62529-1-git-send-email-biju.das@bp.renesas.com> <1559891639-62529-2-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1559891639-62529-2-git-send-email-biju.das@bp.renesas.com>
+References: <1559891639-62529-1-git-send-email-biju.das@bp.renesas.com> <1559891639-62529-4-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1559891639-62529-4-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 12 Jun 2019 09:56:00 +0200
-Message-ID: <CAMuHMdUReQtusF5tJCYn4QMn+kOonT6i_FRzSx4Xf32uBsFiWw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] arm64: dts: renesas: r8a774a1: Add PCIe device nodes
+Date:   Wed, 12 Jun 2019 10:01:16 +0200
+Message-ID: <CAMuHMdW52aGRu92r_vFFTQUdv0rN1LEoHj6Hj5BVeBkJ-GOGaQ@mail.gmail.com>
+Subject: Re: [PATCH 3/3] arm64: dts: renesas: hihope-rzg2-ex: Enable PCIe support
 To:     Biju Das <biju.das@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -45,6 +45,7 @@ Cc:     Rob Herring <robh+dt@kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
@@ -54,7 +55,7 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Fri, Jun 7, 2019 at 9:18 AM Biju Das <biju.das@bp.renesas.com> wrote:
-> This patch adds PCIe{0,1} device nodes for R8A774A1 SoC.
+> This patch enables PCIEC[01] PCI express controller on the sub board.
 >
 > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
