@@ -2,72 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BDFC6429A8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 16:44:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7513A429B3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Jun 2019 16:44:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729279AbfFLOoK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Jun 2019 10:44:10 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:55692 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S2439873AbfFLOnM (ORCPT
+        id S1732477AbfFLOot (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Jun 2019 10:44:49 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:49262 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732013AbfFLOot (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Jun 2019 10:43:12 -0400
-Received: (qmail 3203 invoked by uid 2102); 12 Jun 2019 10:43:11 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 12 Jun 2019 10:43:11 -0400
-Date:   Wed, 12 Jun 2019 10:43:11 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Christoph Hellwig <hch@lst.de>
-cc:     Oliver Neukum <oneukum@suse.com>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
-Subject: Re: How to resolve an issue in swiotlb environment?
-In-Reply-To: <20190612120653.GA25285@lst.de>
-Message-ID: <Pine.LNX.4.44L0.1906121038210.1557-100000@iolanthe.rowland.org>
+        Wed, 12 Jun 2019 10:44:49 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9AA689B1;
+        Wed, 12 Jun 2019 16:44:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1560350687;
+        bh=vMR9A4FDBoZw7TYBoNxkxyC3Dk/Go+uEMd3khgtzWqE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XgzGW5t5NBsJJ/rOPqsxE1JJX8Vd4Am863+9wB/kricrA7DOoikdJm+yG7b1u6C6v
+         0T+vmOZQHATyliUqjepUAYCe+w0hUb0l6dvyhAgeLk3MIpNHWYCaypUI/srpuxuqQn
+         gKCsn5AZRk/7rPFaaQFH0YTDipPhDqMkd0DOCLPY=
+Date:   Wed, 12 Jun 2019 17:44:32 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/3] drm: rcar-du: Convert to the new VSP atomic API
+Message-ID: <20190612144432.GO5035@pendragon.ideasonboard.com>
+References: <20190517223143.26251-1-kieran.bingham+renesas@ideasonboard.com>
+ <20190517223143.26251-3-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190517223143.26251-3-kieran.bingham+renesas@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 12 Jun 2019, Christoph Hellwig wrote:
+Hi Kieran,
 
-> On Wed, Jun 12, 2019 at 01:46:06PM +0200, Oliver Neukum wrote:
-> > > Thay is someething the virt_boundary prevents.  But could still give
-> > > you something like:
-> > > 
-> > > 	1536 4096 4096 1024
-> > > 
-> > > or
-> > > 	1536 16384 8192 4096 16384 512
-> > 
-> > That would kill the driver, if maxpacket were 1024.
-> > 
-> > USB has really two kinds of requirements
-> > 
-> > 1. What comes from the protocol
-> > 2. What comes from the HCD
-> > 
-> > The protocol wants just multiples of maxpacket. XHCI can satisfy
-> > that in arbitrary scatter/gather. Other HCs cannot.
+Thank you for the patch.
+
+On Fri, May 17, 2019 at 11:31:42PM +0100, Kieran Bingham wrote:
+> The configuration API between the VSP and the DU has been updated to
+> provide finer grain control over modesetting, and enablement.
 > 
-> We have no real way to enforce that for the other HCs unfortunately.
-> I can't really think of any better way to handle their limitations
-> except for setting max_segments to 1 or bounce buffering.
+> Split rcar_du_vsp_enable() into rcar_du_vsp_modeset() and
+> rcar_du_vsp_enable() accordingly, and update each function to use the
+> new VSP API.
+> 
+> There are no further users of the deprecated vsp1_du_setup_lif() which
+> can now be removed.
+> 
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c |  4 +++-
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c  | 21 +++++++++++++++------
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.h  |  2 ++
+>  3 files changed, 20 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> index 2da46e3dc4ae..cccd6fe85749 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> @@ -492,8 +492,10 @@ static void rcar_du_crtc_setup(struct rcar_du_crtc *rcrtc)
+>  	rcar_du_group_write(rcrtc->group, rcrtc->index % 2 ? DS2PR : DS1PR, 0);
+>  
+>  	/* Enable the VSP compositor. */
+> -	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
+> +	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE)) {
+> +		rcar_du_vsp_modeset(rcrtc);
+>  		rcar_du_vsp_enable(rcrtc);
+> +	}
+>  
+>  	/* Turn vertical blanking interrupt reporting on. */
+>  	drm_crtc_vblank_on(&rcrtc->crtc);
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> index 5e4faf258c31..c170427fcad9 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+> @@ -44,16 +44,14 @@ static void rcar_du_vsp_complete(void *private, unsigned int status, u32 crc)
+>  	drm_crtc_add_crc_entry(&crtc->crtc, false, 0, &crc);
+>  }
+>  
+> -void rcar_du_vsp_enable(struct rcar_du_crtc *crtc)
+> +void rcar_du_vsp_modeset(struct rcar_du_crtc *crtc)
+>  {
+>  	const struct drm_display_mode *mode = &crtc->crtc.state->adjusted_mode;
+>  	struct rcar_du_device *rcdu = crtc->dev;
+> -	struct vsp1_du_lif_config cfg = {
+> +	struct vsp1_du_modeset_config cfg = {
+>  		.width = mode->hdisplay,
+>  		.height = mode->vdisplay,
+>  		.interlaced = mode->flags & DRM_MODE_FLAG_INTERLACE,
+> -		.callback = rcar_du_vsp_complete,
+> -		.callback_data = crtc,
+>  	};
+>  	struct rcar_du_plane_state state = {
+>  		.state = {
+> @@ -90,12 +88,23 @@ void rcar_du_vsp_enable(struct rcar_du_crtc *crtc)
+>  	 */
+>  	crtc->group->need_restart = true;
+>  
+> -	vsp1_du_setup_lif(crtc->vsp->vsp, crtc->vsp_pipe, &cfg);
+> +
 
-Would it be okay to rely on the assumption that USB block devices never 
-have block size < 512?  (We could even add code to the driver to 
-enforce this, although refusing to handle such devices at all might be 
-worse than getting an occasional error.)
+Extra blank line.
 
-As I mentioned before, the only HCD that sometimes ends up with
-maxpacket = 1024 but is unable to do full SG is vhci-hcd, and that one
-shouldn't be too hard to fix.
+Apart from that,
 
-Alan Stern
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
+> +	vsp1_du_atomic_modeset(crtc->vsp->vsp, crtc->vsp_pipe, &cfg);
+> +}
+> +
+> +void rcar_du_vsp_enable(struct rcar_du_crtc *crtc)
+> +{
+> +	struct vsp1_du_enable_config cfg = {
+> +		.callback = rcar_du_vsp_complete,
+> +		.callback_data = crtc,
+> +	};
+> +
+> +	vsp1_du_atomic_enable(crtc->vsp->vsp, crtc->vsp_pipe, &cfg);
+>  }
+>  
+>  void rcar_du_vsp_disable(struct rcar_du_crtc *crtc)
+>  {
+> -	vsp1_du_setup_lif(crtc->vsp->vsp, crtc->vsp_pipe, NULL);
+> +	vsp1_du_atomic_disable(crtc->vsp->vsp, crtc->vsp_pipe);
+>  }
+>  
+>  void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc)
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.h b/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
+> index 9b4724159378..a6f6bb4690f2 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.h
+> @@ -58,6 +58,7 @@ to_rcar_vsp_plane_state(struct drm_plane_state *state)
+>  #ifdef CONFIG_DRM_RCAR_VSP
+>  int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+>  		     unsigned int crtcs);
+> +void rcar_du_vsp_modeset(struct rcar_du_crtc *crtc);
+>  void rcar_du_vsp_enable(struct rcar_du_crtc *crtc);
+>  void rcar_du_vsp_disable(struct rcar_du_crtc *crtc);
+>  void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc);
+> @@ -73,6 +74,7 @@ static inline int rcar_du_vsp_init(struct rcar_du_vsp *vsp,
+>  {
+>  	return -ENXIO;
+>  }
+> +static inlinc void rcar_du_vsp_modeset(struct rcar_du_crtc *crtc) { };
+>  static inline void rcar_du_vsp_enable(struct rcar_du_crtc *crtc) { };
+>  static inline void rcar_du_vsp_disable(struct rcar_du_crtc *crtc) { };
+>  static inline void rcar_du_vsp_atomic_begin(struct rcar_du_crtc *crtc) { };
+
+-- 
+Regards,
+
+Laurent Pinchart
