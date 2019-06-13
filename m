@@ -2,60 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A544043F03
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2019 17:54:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C7DF440C7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2019 18:09:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733092AbfFMPyc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 13 Jun 2019 11:54:32 -0400
-Received: from sauhun.de ([88.99.104.3]:41948 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390102AbfFMPy1 (ORCPT
+        id S1731373AbfFMQJb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 13 Jun 2019 12:09:31 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:48430 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391372AbfFMQJU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 13 Jun 2019 11:54:27 -0400
-Received: from localhost (p5486CF99.dip0.t-ipconnect.de [84.134.207.153])
-        by pokefinder.org (Postfix) with ESMTPSA id F3DF44A12B1;
-        Thu, 13 Jun 2019 17:54:25 +0200 (CEST)
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Antti Palosaari <crope@iki.fi>,
+        Thu, 13 Jun 2019 12:09:20 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E37D052B;
+        Thu, 13 Jun 2019 18:09:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1560442158;
+        bh=1S2z8/40XlzEcH5YWVP4Pilnjo5IJKQr1Fm7+C3qfLY=;
+        h=Subject:To:Cc:References:From:Reply-To:Date:In-Reply-To:From;
+        b=MaYeShQXACx9Mw/ZEjRmb1d6RLXKmp9fhgZhzn3v8tiK8EnHYRq6VncvBCcJylW9F
+         tviIjYCHXp0lHxd0xtrl9RhP99rUsPH3PcXU4sL3DSCjHT8u54XcBdN0E3wOlqp8Gs
+         qeD04bt17uu7W/DbLWIxUN57qst50e4tKJPQ9AM4=
+Subject: Re: [PATCH 1/4] media: cxd2820r: don't check retval after our own
+ assignemt
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org, Antti Palosaari <crope@iki.fi>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] media: zd1301_demod: don't check retval after our own assignemt
-Date:   Thu, 13 Jun 2019 17:54:20 +0200
-Message-Id: <20190613155421.16408-5-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190613155421.16408-1-wsa+renesas@sang-engineering.com>
 References: <20190613155421.16408-1-wsa+renesas@sang-engineering.com>
+ <20190613155421.16408-2-wsa+renesas@sang-engineering.com>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Organization: Ideas on Board
+Message-ID: <550e0dbf-1776-000b-27ca-40e40e317da2@ideasonboard.com>
+Date:   Thu, 13 Jun 2019 17:09:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190613155421.16408-2-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-No need to check a retval after we assigned a constant to it.
+Hi Wolfram,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/media/dvb-frontends/zd1301_demod.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/media/dvb-frontends/zd1301_demod.c b/drivers/media/dvb-frontends/zd1301_demod.c
-index 96adbba7a82b..bbabe6a2d4f4 100644
---- a/drivers/media/dvb-frontends/zd1301_demod.c
-+++ b/drivers/media/dvb-frontends/zd1301_demod.c
-@@ -421,8 +421,7 @@ static int zd1301_demod_i2c_master_xfer(struct i2c_adapter *adapter,
- 	} else {
- 		dev_dbg(&pdev->dev, "unknown msg[0].len=%u\n", msg[0].len);
- 		ret = -EOPNOTSUPP;
--		if (ret)
--			goto err;
-+		goto err;
- 	}
- 
- 	return num;
--- 
-2.20.1
+In the title/subject:
+
+media: cxd2820r: don't check retval after our own assignemt
+
+s/assignemt/assignment/
+
+
+On 13/06/2019 16:54, Wolfram Sang wrote:
+> No need to check a retval after we assigned a constant to it.
+
+Hrm... Good spots!
+
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>  drivers/media/dvb-frontends/cxd2820r_core.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/dvb-frontends/cxd2820r_core.c b/drivers/media/dvb-frontends/cxd2820r_core.c
+> index 1f006f8e8cc2..99a186ddddb2 100644
+> --- a/drivers/media/dvb-frontends/cxd2820r_core.c
+> +++ b/drivers/media/dvb-frontends/cxd2820r_core.c
+> @@ -636,8 +636,7 @@ static int cxd2820r_probe(struct i2c_client *client,
+>  	if (!priv->client[1]) {
+>  		ret = -ENODEV;
+>  		dev_err(&client->dev, "I2C registration failed\n");
+> -		if (ret)
+
+Can't argue with that.
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> -			goto err_regmap_0_regmap_exit;
+> +		goto err_regmap_0_regmap_exit;
+>  	}
+>  
+>  	priv->regmap[1] = regmap_init_i2c(priv->client[1], &regmap_config1);
+> 
 
