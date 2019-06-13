@@ -2,80 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C5A2644147
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2019 18:13:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 398D94421B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2019 18:20:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726974AbfFMQNG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 13 Jun 2019 12:13:06 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:48496 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731311AbfFMQNB (ORCPT
+        id S1731170AbfFMQTZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 13 Jun 2019 12:19:25 -0400
+Received: from sauhun.de ([88.99.104.3]:42288 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731137AbfFMQTY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 13 Jun 2019 12:13:01 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9C5F652B;
-        Thu, 13 Jun 2019 18:12:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1560442379;
-        bh=O/PZY85pTQxQmUoStPvJKbejGO3f+dYiYwhdTvsNeVA=;
-        h=Subject:To:Cc:References:From:Reply-To:Date:In-Reply-To:From;
-        b=YleoHbS7pkKOhtICOcD/5Rpxd/M9jclI6y9NieMlRKvuH6xduRu7U1M5E4/M2UsxH
-         semZ1DMjy1Y6yAd9L7rlNIj3AHUeUpCC8OKaYYYbwYLorQYP+9EeHWLFGKHeEbBdsp
-         bEuXv4uy3FUl0Pd3dD+DUsryNmxr62lsxkV9qcyw=
-Subject: Re: [PATCH 4/4] media: zd1301_demod: don't check retval after our own
- assignemt
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org, Antti Palosaari <crope@iki.fi>,
+        Thu, 13 Jun 2019 12:19:24 -0400
+Received: from localhost (p5486CF99.dip0.t-ipconnect.de [84.134.207.153])
+        by pokefinder.org (Postfix) with ESMTPSA id B46C24A127B;
+        Thu, 13 Jun 2019 18:19:22 +0200 (CEST)
+Date:   Thu, 13 Jun 2019 18:19:22 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Antti Palosaari <crope@iki.fi>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] media: cxd2820r: don't check retval after our own
+ assignemt
+Message-ID: <20190613161922.GA5015@kunai>
 References: <20190613155421.16408-1-wsa+renesas@sang-engineering.com>
- <20190613155421.16408-5-wsa+renesas@sang-engineering.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Organization: Ideas on Board
-Message-ID: <add2dbb7-3036-8052-6063-2aa85c93f8b4@ideasonboard.com>
-Date:   Thu, 13 Jun 2019 17:12:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+ <20190613155421.16408-2-wsa+renesas@sang-engineering.com>
+ <550e0dbf-1776-000b-27ca-40e40e317da2@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20190613155421.16408-5-wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="MGYHOYXEY6WxJCY8"
+Content-Disposition: inline
+In-Reply-To: <550e0dbf-1776-000b-27ca-40e40e317da2@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
 
-On 13/06/2019 16:54, Wolfram Sang wrote:
-> No need to check a retval after we assigned a constant to it.
+--MGYHOYXEY6WxJCY8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-With title fixed,
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> In the title/subject:
+>=20
+> media: cxd2820r: don't check retval after our own assignemt
+>=20
+> s/assignemt/assignment/
 
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->  drivers/media/dvb-frontends/zd1301_demod.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/dvb-frontends/zd1301_demod.c b/drivers/media/dvb-frontends/zd1301_demod.c
-> index 96adbba7a82b..bbabe6a2d4f4 100644
-> --- a/drivers/media/dvb-frontends/zd1301_demod.c
-> +++ b/drivers/media/dvb-frontends/zd1301_demod.c
-> @@ -421,8 +421,7 @@ static int zd1301_demod_i2c_master_xfer(struct i2c_adapter *adapter,
->  	} else {
->  		dev_dbg(&pdev->dev, "unknown msg[0].len=%u\n", msg[0].len);
->  		ret = -EOPNOTSUPP;
-> -		if (ret)
-> -			goto err;
-> +		goto err;
->  	}
->  
->  	return num;
-> 
+Eeeks, in deed :( Shall I resend? Sorry for the noise.
 
+
+--MGYHOYXEY6WxJCY8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl0Cd4YACgkQFA3kzBSg
+KbZgow//aNxohRzQcF1sIHDVxMCgP1WbXbfoU0g5CY4c8lZ+/ythaFlCOQ7pa5OF
+3CYujuPha//WElGBiD1DME/qXmdwNAAH2U2QqxuER/14vXW0jpHEoX7TIf2zuoxV
+72dW5Mt9XvBKX4rXpxQO0qucIR+F4Us2ayN3UrhkuG2gPrvtV+hHnp6zKxVam21S
+uqiodFXng2fRMympaV8LYaV/oUj8qWCsWbp5q1hOkT2iKjEyCkMjwVMLFn/onpaA
+eAEQ9MlGKA+hJfDjqMF9gcqoFGn0FYtL2KsptwrPAy8KLgldVuma4eIFIDTp9iwb
+UZMUqHIs1Xpf3xQEs/FVwvols+rDPSIAg1515+heM66WbHU3mLq+fc79v4ZHBdii
+JjvoJFN4EgAzqy6FL57GLYIZEezfwJ5sC55Rp7mL/dUrDg7oqrOOZJiQRFxXfMeF
+T1ZIkeAsFglARaXwFUopVUD4hw8vxMqe/EKhLau6jyp8Pw60j0LBwREAFCmPCqN3
+F6zTeLvwJfuzmPlBbVkxH2AeTStxPDvOlZ2O2YBh8FyizNCEzMabds2wqbif5IF9
+xju81GoMANuzx9G/Rb/W873e8s0KBTunTEw8coznK/XPcrZtKxUnyaHsF7PdXWD6
+ckAffB5GgNDqA+8sp3E0i+atD/Ajf/nFPLfCnrNP/FlNtwd7I5A=
+=iAmu
+-----END PGP SIGNATURE-----
+
+--MGYHOYXEY6WxJCY8--
