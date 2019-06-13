@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 932ED43E1E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2019 17:47:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64F9743E2A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2019 17:48:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388664AbfFMPri (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S1730286AbfFMPri (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Thu, 13 Jun 2019 11:47:38 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:39764 "EHLO
+Received: from kirsty.vergenet.net ([202.4.237.240]:39812 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731751AbfFMJ0m (ORCPT
+        with ESMTP id S1731752AbfFMJ2H (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 13 Jun 2019 05:26:42 -0400
+        Thu, 13 Jun 2019 05:28:07 -0400
 Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id A335925B7FA;
-        Thu, 13 Jun 2019 19:26:39 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id EE37725B7FA;
+        Thu, 13 Jun 2019 19:28:04 +1000 (AEST)
 Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id 91846940483; Thu, 13 Jun 2019 11:26:37 +0200 (CEST)
-Date:   Thu, 13 Jun 2019 11:26:37 +0200
+        id EF87E940483; Thu, 13 Jun 2019 11:28:02 +0200 (CEST)
+Date:   Thu, 13 Jun 2019 11:28:02 +0200
 From:   Simon Horman <horms@verge.net.au>
-To:     David Miller <davem@davemloft.net>
-Cc:     fabrizio.castro@bp.renesas.com, wg@grandegger.com,
-        mkl@pengutronix.de, robh+dt@kernel.org, mark.rutland@arm.com,
-        linux-can@vger.kernel.org, netdev@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        geert+renesas@glider.be, Chris.Paterson2@renesas.com,
-        biju.das@bp.renesas.com, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH repost 0/5] Repost CAN and CANFD dt-bindings
-Message-ID: <20190613092635.ztm4k34o5jrxmadd@verge.net.au>
-References: <1557429622-31676-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <TY1PR01MB1770D2AAF2ED748575CA4CBFC0100@TY1PR01MB1770.jpnprd01.prod.outlook.com>
- <20190612122020.sgp5q427ilh6bbbg@verge.net.au>
- <20190612.094908.1957141510166169801.davem@davemloft.net>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Nguyen An Hoan <na-hoan@jinso.co.jp>,
+        linux-renesas-soc@vger.kernel.org, geert+renesas@glider.be,
+        linux-watchdog@vger.kernel.org, wim@linux-watchdog.org,
+        wsa+renesas@sang-engineering.com, kuninori.morimoto.gx@renesas.com,
+        yoshihiro.shimoda.uh@renesas.com, h-inayoshi@jinso.co.jp,
+        cv-dong@jinso.co.jp
+Subject: Re: [PATCH] watchdog: renesas_wdt: Use 'dev' instead of
+ dereferencing it repeatedly
+Message-ID: <20190613092802.yxeredwczrcta4tp@verge.net.au>
+References: <1558603778-20848-1-git-send-email-na-hoan@jinso.co.jp>
+ <1558603778-20848-2-git-send-email-na-hoan@jinso.co.jp>
+ <20190607173152.GA14638@roeck-us.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190612.094908.1957141510166169801.davem@davemloft.net>
+In-Reply-To: <20190607173152.GA14638@roeck-us.net>
 Organisation: Horms Solutions BV
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -43,20 +43,16 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jun 12, 2019 at 09:49:08AM -0700, David Miller wrote:
-> From: Simon Horman <horms@verge.net.au>
-> Date: Wed, 12 Jun 2019 14:20:20 +0200
-> 
-> > are you comfortable with me taking these patches
-> > through the renesas tree? Or perhaps should they be reposted
-> > to you for inclusion in net-next?
+On Fri, Jun 07, 2019 at 10:31:52AM -0700, Guenter Roeck wrote:
+> On Thu, May 23, 2019 at 06:29:38PM +0900, Nguyen An Hoan wrote:
+> > From: Hoan Nguyen An <na-hoan@jinso.co.jp>
 > > 
-> > They have been stuck for a long time now.
+> > Add helper variable dev = &pdev->dev
+> > 
+> > Signed-off-by: Hoan Nguyen An <na-hoan@jinso.co.jp>
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > 
-> They can go through the renesas tree, no problem.
-> 
-> Acked-by: David S. Miller <davem@davemloft.net>
+> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
-Thanks Dave,
+Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
 
-I have applied these to the renesas tree for inclusion in v5.3.
