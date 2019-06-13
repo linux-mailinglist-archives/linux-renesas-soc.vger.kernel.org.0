@@ -2,137 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EC404461C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2019 18:49:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52CDA44618
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2019 18:49:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730307AbfFMQt0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 13 Jun 2019 12:49:26 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:2728 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726771AbfFMEf3 (ORCPT
+        id S1730812AbfFMQtG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 13 Jun 2019 12:49:06 -0400
+Received: from relay1.mentorg.com ([192.94.38.131]:47152 "EHLO
+        relay1.mentorg.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727666AbfFMEhV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 13 Jun 2019 00:35:29 -0400
-X-IronPort-AV: E=Sophos;i="5.62,368,1554735600"; 
-   d="scan'208";a="18346413"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 13 Jun 2019 13:35:27 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 16B164117758;
-        Thu, 13 Jun 2019 13:35:27 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     stern@rowland.harvard.edu, gregkh@linuxfoundation.org
-Cc:     hch@lst.de, linux-usb@vger.kernel.org,
-        usb-storage@lists.one-eyed-alien.net,
-        linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH] usb-storage: Add a limitation for blk_queue_max_hw_sectors()
-Date:   Thu, 13 Jun 2019 13:35:04 +0900
-Message-Id: <1560400504-26884-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Thu, 13 Jun 2019 00:37:21 -0400
+Received: from nat-ies.mentorg.com ([192.94.31.2] helo=svr-ies-mbx-01.mgc.mentorg.com)
+        by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
+        id 1hbHU5-0001Yz-Ai from Harish_Kandiga@mentor.com ; Wed, 12 Jun 2019 21:37:09 -0700
+Received: from [10.0.3.15] (137.202.0.90) by svr-ies-mbx-01.mgc.mentorg.com
+ (139.181.222.1) with Microsoft SMTP Server (TLS) id 15.0.1320.4; Thu, 13 Jun
+ 2019 05:37:01 +0100
+Subject: Re: [PATCH] wlcore/wl18xx: Add invert-irq OF property for physically
+ inverted IRQ
+To:     Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Marc Zyngier <marc.zyngier@arm.com>
+CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Kalle Valo <kvalo@codeaurora.org>, Eyal Reizer <eyalr@ti.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        John Stultz <john.stultz@linaro.org>,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        netdev <netdev@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Spyridon Papageorgiou <spapageorgiou@de.adit-jv.com>,
+        Joshua Frkuska <joshua_frkuska@mentor.com>,
+        "George G . Davis" <george_davis@mentor.com>,
+        Andrey Gusakov <andrey.gusakov@cogentembedded.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Linus Walleij <linus.walleij@linaro.org>
+References: <20190607172958.20745-1-erosca@de.adit-jv.com>
+ <87tvcxncuq.fsf@codeaurora.org> <20190610083012.GV5447@atomide.com>
+ <CAMuHMdUOc17ocqmt=oNmyN1UT_K7_y=af1pwjwr5PTgQL2o2OQ@mail.gmail.com>
+ <08bc4755-5f47-d792-8b5a-927b5fbe7619@arm.com>
+ <20190612094538.GA16575@vmlxhi-102.adit-jv.com>
+ <86d0jjglax.wl-marc.zyngier@arm.com>
+ <20190612150644.GA22002@vmlxhi-102.adit-jv.com>
+From:   Harish Jenny K N <harish_kandiga@mentor.com>
+Message-ID: <e878bb37-3228-0055-bf6e-69be7f7a09df@mentor.com>
+Date:   Thu, 13 Jun 2019 10:06:45 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <20190612150644.GA22002@vmlxhi-102.adit-jv.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [137.202.0.90]
+X-ClientProxiedBy: SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) To
+ svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch fixes an issue that the following error happens on
-swiotlb environment:
 
-	xhci-hcd ee000000.usb: swiotlb buffer is full (sz: 524288 bytes), total 32768 (slots), used 1338 (slots)
+On 12/06/19 8:36 PM, Eugeniu Rosca wrote:
+> Hi Marc,
+>
+> Thanks for your comment.
+>
+> On Wed, Jun 12, 2019 at 11:17:10AM +0100, Marc Zyngier wrote:
+>> Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
+>>> On Tue, Jun 11, 2019 at 10:00:41AM +0100, Marc Zyngier wrote:
+> [..]
+>>>> We already have plenty of that in the tree, the canonical example
+>>>> probably being drivers/irqchip/irq-mtk-sysirq.c. It should be pretty
+>>>> easy to turn this driver into something more generic.
+>>> I don't think drivers/irqchip/irq-mtk-sysirq.c can serve the
+>>> use-case/purpose of this patch. The MTK driver seems to be dealing with
+>>> the polarity inversion of on-SoC interrupts which are routed to GiC,
+>>> whereas in this patch we are talking about an off-chip interrupt
+>>> wired to R-Car GPIO controller.
+>> And how different is that? The location of the interrupt source is
+>> pretty irrelevant here.
+> The main difference which I sense is that a driver like irq-mtk-sysirq
+> mostly (if not exclusively) deals with internal kernel implementation
+> detail (tuned via DT) whilst adding an inverter for GPIO IRQs raises
+> a whole bunch of new questions (e.g. how to arbitrate between
+> kernel-space and user-space IRQ polarity configuration?).
+>
+>> The point is that there is already a general
+>> scheme to deal with these "signal altering widgets", and that we
+>> should try to reuse at least the concept, if not the code.
+> Since Harish Jenny K N might be working on a new driver doing GPIO IRQ
+> inversion, I have CC-ed him as well to avoid any overlapping work.
 
-On the kernel v5.1, block settings of a usb-storage with SuperSpeed
-were the following so that the block layer will allocate buffers
-up to 64 KiB, and then the issue didn't happen.
 
-	max_segment_size = 65536
-	max_hw_sectors_kb = 1024
+Sorry I am not completely aware of the background discussion.
 
-After the commit 09324d32d2a0 ("block: force an unlimited segment
-size on queues with a virt boundary") is applied, the block settings
-are the following. So, the block layer will allocate buffers up to
-1024 KiB, and then the issue happens:
+But here is the link to my proposal for new consumer driver to provide a new virtual
+gpio controller to configure the polarity of the gpio pins used by the userspace.
 
-	max_segment_size = 4294967295
-	max_hw_sectors_kb = 1024
+https://www.spinics.net/lists/linux-gpio/msg39681.html
 
-To fix the issue, the usb-storage driver checks the maximum size of
-a mapping for the device and then adjusts the max_hw_sectors_kb
-if required. After this patch is applied, the block settings will
-be the following, and then the issue doesn't happen.
 
-	max_segment_size = 4294967295
-	max_hw_sectors_kb = 256
-
-Fixes: 09324d32d2a0 ("block: force an unlimited segment size on queues with a virt boundary")
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- We investigated this issue on the following ML:
- https://marc.info/?l=linux-block&m=156033909218970&w=2
-
- drivers/usb/storage/scsiglue.c | 23 +++++++++++++++++------
- 1 file changed, 17 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/usb/storage/scsiglue.c b/drivers/usb/storage/scsiglue.c
-index 59190d8..89c3640 100644
---- a/drivers/usb/storage/scsiglue.c
-+++ b/drivers/usb/storage/scsiglue.c
-@@ -28,6 +28,8 @@
-  * status of a command.
-  */
- 
-+#include <linux/blkdev.h>
-+#include <linux/dma-mapping.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
- 
-@@ -99,6 +101,7 @@ static int slave_alloc (struct scsi_device *sdev)
- static int slave_configure(struct scsi_device *sdev)
- {
- 	struct us_data *us = host_to_us(sdev->host);
-+	unsigned int max_sectors = 0;	/* 0 means no update required */
- 
- 	/*
- 	 * Many devices have trouble transferring more than 32KB at a time,
-@@ -106,26 +109,34 @@ static int slave_configure(struct scsi_device *sdev)
- 	 * are limiting both to 32K (64 sectores).
- 	 */
- 	if (us->fflags & (US_FL_MAX_SECTORS_64 | US_FL_MAX_SECTORS_MIN)) {
--		unsigned int max_sectors = 64;
-+		max_sectors = 64;
- 
- 		if (us->fflags & US_FL_MAX_SECTORS_MIN)
- 			max_sectors = PAGE_SIZE >> 9;
--		if (queue_max_hw_sectors(sdev->request_queue) > max_sectors)
--			blk_queue_max_hw_sectors(sdev->request_queue,
--					      max_sectors);
-+		if (queue_max_hw_sectors(sdev->request_queue) <= max_sectors)
-+			max_sectors = 0;
- 	} else if (sdev->type == TYPE_TAPE) {
- 		/*
- 		 * Tapes need much higher max_sector limits, so just
- 		 * raise it to the maximum possible (4 GB / 512) and
- 		 * let the queue segment size sort out the real limit.
- 		 */
--		blk_queue_max_hw_sectors(sdev->request_queue, 0x7FFFFF);
-+		max_sectors = 0x7FFFFF;
- 	} else if (us->pusb_dev->speed >= USB_SPEED_SUPER) {
- 		/*
- 		 * USB3 devices will be limited to 2048 sectors. This gives us
- 		 * better throughput on most devices.
- 		 */
--		blk_queue_max_hw_sectors(sdev->request_queue, 2048);
-+		max_sectors = 2048;
-+	}
-+
-+	if (max_sectors > 0) {
-+		struct device *dev = us->pusb_dev->bus->sysdev;
-+		size_t max_dma_sectors = dma_max_mapping_size(dev) >>
-+					 SECTOR_SHIFT;
-+
-+		max_sectors = min_t(size_t, max_sectors, max_dma_sectors);
-+		blk_queue_max_hw_sectors(sdev->request_queue, max_sectors);
- 	}
- 
- 	/*
--- 
-2.7.4
+>
+>>> It looks to me that the nice DTS sketch shared by Linus Walleij in [5]
+>>> might come closer to the concept proposed by Geert? FWIW, the
+>>> infrastructure/implementation to make this possible is still not
+>>> ready.
+>> Which looks like what I'm suggesting.
+> Then we are on the same page. Thanks.
+>
+>> 	M.
+>>
+>> -- 
+>> Jazz is not dead, it just smells funny.
 
