@@ -2,124 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 65FCA43F5D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2019 17:56:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4535C4407D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2019 18:07:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731921AbfFMP4h (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 13 Jun 2019 11:56:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38636 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731522AbfFMIvK (ORCPT
+        id S1731326AbfFMQGZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 13 Jun 2019 12:06:25 -0400
+Received: from mail-eopbgr1400133.outbound.protection.outlook.com ([40.107.140.133]:64736
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1731322AbfFMIqG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 13 Jun 2019 04:51:10 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6BB6E20851;
-        Thu, 13 Jun 2019 08:51:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560415868;
-        bh=lrKXsr2OjonUOOQWsPIwOl6T08bXjYyq3cI+FJ7ZUYI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dC+r3q5Flj0LVRcLtPR5MNKWaAHscUmnbX2VODdz2xEQ9SgGnEuv8AE+GdW9lHbOY
-         NN8V27Ksg0vf8BoQh1KuBfAh0E7u9eOYkaPSuQ3wbLSvSBxP2aS9b1fn/phhmf5Ckk
-         NKMIcmYBzVPv9z+d0CRcL+sh9xmZZKphNaGpbBAQ=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        linux-renesas-soc@vger.kernel.org, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.1 126/155] PCI: rcar: Fix 64bit MSI message address handling
-Date:   Thu, 13 Jun 2019 10:33:58 +0200
-Message-Id: <20190613075659.876498184@linuxfoundation.org>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190613075652.691765927@linuxfoundation.org>
-References: <20190613075652.691765927@linuxfoundation.org>
-User-Agent: quilt/0.66
+        Thu, 13 Jun 2019 04:46:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GCASHWooroGpGB88P/55HprvkoGw9Jdskk7uBMe5QsI=;
+ b=YJ80gz5kJhsysiR9Us1cUs3BaiKFbuthw1uPh5C/3c3t4yhec5p3ZPUz/zzwWakmgagz7WvGMK6vBBFj2jlk/QVNcqr4wMSPsnob+0JS6Qta6W3nqVF3R4+6KMVqcBj7Q+hXGI0AxHiRlDzWYyMKsIQ3uKiNb+5qzkyqn4zes1Y=
+Received: from OSAPR01MB3089.jpnprd01.prod.outlook.com (52.134.247.150) by
+ OSAPR01MB3252.jpnprd01.prod.outlook.com (52.134.247.212) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1987.10; Thu, 13 Jun 2019 08:46:00 +0000
+Received: from OSAPR01MB3089.jpnprd01.prod.outlook.com
+ ([fe80::19ad:b6ce:a287:dc85]) by OSAPR01MB3089.jpnprd01.prod.outlook.com
+ ([fe80::19ad:b6ce:a287:dc85%7]) with mapi id 15.20.1965.017; Thu, 13 Jun 2019
+ 08:46:00 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Christoph Hellwig <hch@lst.de>
+CC:     "stern@rowland.harvard.edu" <stern@rowland.harvard.edu>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "usb-storage@lists.one-eyed-alien.net" 
+        <usb-storage@lists.one-eyed-alien.net>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH] usb-storage: Add a limitation for
+ blk_queue_max_hw_sectors()
+Thread-Topic: [PATCH] usb-storage: Add a limitation for
+ blk_queue_max_hw_sectors()
+Thread-Index: AQHVIaFtvT1x5o9i20+mWJmRsUTFuKaZMWgAgAAI15A=
+Date:   Thu, 13 Jun 2019 08:46:00 +0000
+Message-ID: <OSAPR01MB30899FBDA010F0465599437AD8EF0@OSAPR01MB3089.jpnprd01.prod.outlook.com>
+References: <1560400504-26884-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <20190613073346.GB12093@lst.de>
+In-Reply-To: <20190613073346.GB12093@lst.de>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [118.238.235.108]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 061ba84f-71c8-42eb-4d94-08d6efdb8fb4
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:OSAPR01MB3252;
+x-ms-traffictypediagnostic: OSAPR01MB3252:
+x-microsoft-antispam-prvs: <OSAPR01MB3252D136DA3572FB6D9905C7D8EF0@OSAPR01MB3252.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-forefront-prvs: 0067A8BA2A
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(136003)(39860400002)(376002)(366004)(396003)(346002)(189003)(199004)(256004)(7696005)(6436002)(99286004)(68736007)(76176011)(53936002)(9686003)(55016002)(25786009)(71200400001)(71190400001)(52536014)(5660300002)(229853002)(3846002)(14444005)(86362001)(6506007)(26005)(186003)(66066001)(102836004)(6116002)(2906002)(486006)(74316002)(81156014)(81166006)(8936002)(8676002)(6916009)(7736002)(66556008)(76116006)(11346002)(316002)(446003)(66476007)(64756008)(66446008)(66946007)(54906003)(476003)(73956011)(305945005)(478600001)(6246003)(14454004)(33656002)(4326008);DIR:OUT;SFP:1102;SCL:1;SRVR:OSAPR01MB3252;H:OSAPR01MB3089.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: F3BwGACOaCiFhTOQsEieTsgtFBRXfjckkZX7bXejpi34oRtEs7u1pMG3xBnr5pQxUqKOIxHOAsX2R3RAa8gkX3u+70GB4S9ygCCINJ07ojiO6T65PVkRlXZk4ywKEa3p8vS2k5bjM1ltns6G+daY9lHlbcHHCZjjGszd67oynlxQhaq/CBo6r/LSXVY+dDWJPHL/dk8U3p623oqN+b8TFqDTQhrnyzvlPJVlSA/TCnXkcLwlacNk3O3wRKDnxVxT51MPZu55Nmi/Z0ABRlhkWV/WNwmNfH6giWSvs1Tb3GyWlY1fetyqCtWIsFrEABU+EK5hkYF8QgA5AVsSRPSC3jYR0iziol0Eed05cH0zF94F3e5u8sxLAiMnRHFDNkgDWR4WNXs3/RA31OOpdGTu3AJS5BEo1+VAajPh1LP19f8=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 061ba84f-71c8-42eb-4d94-08d6efdb8fb4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jun 2019 08:46:00.6648
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yoshihiro.shimoda.uh@renesas.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB3252
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-[ Upstream commit 954b4b752a4c4e963b017ed8cef4c453c5ed308d ]
+Hi Christoph,
 
-The MSI message address in the RC address space can be 64 bit. The
-R-Car PCIe RC supports such a 64bit MSI message address as well.
-The code currently uses virt_to_phys(__get_free_pages()) to obtain
-a reserved page for the MSI message address, and the return value
-of which can be a 64 bit physical address on 64 bit system.
+> From: Christoph Hellwig, Sent: Thursday, June 13, 2019 4:34 PM
+>=20
+> > +	if (max_sectors > 0) {
+> > +		struct device *dev =3D us->pusb_dev->bus->sysdev;
+> > +		size_t max_dma_sectors =3D dma_max_mapping_size(dev) >>
+> > +					 SECTOR_SHIFT;
+> > +
+> > +		max_sectors =3D min_t(size_t, max_sectors, max_dma_sectors);
+> > +		blk_queue_max_hw_sectors(sdev->request_queue, max_sectors);
+>=20
+> I think we need to do this unconditionally for the rare (or maybe even
+> theoretical case) of a dma max mapping size smaller than the default
+> max_sectos.
+>=20
+> So something like this:
+>=20
+> 	blk_queue_max_hw_sectors(sdev->request_queue,
+> 		min_t(unsigned long,
+> 			queue_max_hw_sectors(sdev->request_queue),
+> 			dma_max_mapping_size(dev) >> SECTOR_SHIFT));
 
-However, the driver only programs PCIEMSIALR register with the bottom
-32 bits of the virt_to_phys(__get_free_pages()) return value and does
-not program the top 32 bits into PCIEMSIAUR, but rather programs the
-PCIEMSIAUR register with 0x0. This worked fine on older 32 bit R-Car
-SoCs, however may fail on new 64 bit R-Car SoCs.
+I believe this patch I sent has already covered it. What do you think?
 
-Since from a PCIe controller perspective, an inbound MSI is a memory
-write to a special address (in case of this controller, defined by
-the value in PCIEMSIAUR:PCIEMSIALR), which triggers an interrupt, but
-never hits the DRAM _and_ because allocation of an MSI by a PCIe card
-driver obtains the MSI message address by reading PCIEMSIAUR:PCIEMSIALR
-in rcar_msi_setup_irqs(), incorrectly programmed PCIEMSIAUR cannot
-cause memory corruption or other issues.
+For examples (all value units are "sectors"):
+	default	mapping size	max_sectors
+case 1	240	MAX		2048		--> we use 2048
+case 2	240	512		2048		--> we use 512
+case 3	240	128		2048		--> we use 128
+case 4	240	128		64		--> we use 64
 
-There is however the possibility that if virt_to_phys(__get_free_pages())
-returned address above the 32bit boundary _and_ PCIEMSIAUR was programmed
-to 0x0 _and_ if the system had physical RAM at the address matching the
-value of PCIEMSIALR, a PCIe card driver could allocate a buffer with a
-physical address matching the value of PCIEMSIALR and a remote write to
-such a buffer by a PCIe card would trigger a spurious MSI.
-
-Fixes: e015f88c368d ("PCI: rcar: Add support for R-Car H3 to pcie-rcar")
-Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-Signed-off-by: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Phil Edworthy <phil.edworthy@renesas.com>
-Cc: Simon Horman <horms+renesas@verge.net.au>
-Cc: Wolfram Sang <wsa@the-dreams.de>
-Cc: linux-renesas-soc@vger.kernel.org
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/pci/controller/pcie-rcar.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
-index 765c39911c0c..9b9c677ad3a0 100644
---- a/drivers/pci/controller/pcie-rcar.c
-+++ b/drivers/pci/controller/pcie-rcar.c
-@@ -892,7 +892,7 @@ static int rcar_pcie_enable_msi(struct rcar_pcie *pcie)
- {
- 	struct device *dev = pcie->dev;
- 	struct rcar_msi *msi = &pcie->msi;
--	unsigned long base;
-+	phys_addr_t base;
- 	int err, i;
- 
- 	mutex_init(&msi->lock);
-@@ -937,8 +937,8 @@ static int rcar_pcie_enable_msi(struct rcar_pcie *pcie)
- 	}
- 	base = virt_to_phys((void *)msi->pages);
- 
--	rcar_pci_write_reg(pcie, base | MSIFE, PCIEMSIALR);
--	rcar_pci_write_reg(pcie, 0, PCIEMSIAUR);
-+	rcar_pci_write_reg(pcie, lower_32_bits(base) | MSIFE, PCIEMSIALR);
-+	rcar_pci_write_reg(pcie, upper_32_bits(base), PCIEMSIAUR);
- 
- 	/* enable all MSI interrupts */
- 	rcar_pci_write_reg(pcie, 0xffffffff, PCIEMSIIER);
--- 
-2.20.1
-
-
+Best regards,
+Yoshihiro Shimoda
 
