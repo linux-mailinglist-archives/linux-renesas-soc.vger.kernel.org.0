@@ -2,90 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2532C44D14
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2019 22:11:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD6B644D8F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2019 22:36:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727460AbfFMULR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 13 Jun 2019 16:11:17 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:33544 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727216AbfFMULR (ORCPT
+        id S1727411AbfFMUgF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 13 Jun 2019 16:36:05 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:33682 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726703AbfFMUgE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 13 Jun 2019 16:11:17 -0400
-Received: by mail-qt1-f195.google.com with SMTP id x2so23198219qtr.0;
-        Thu, 13 Jun 2019 13:11:16 -0700 (PDT)
+        Thu, 13 Jun 2019 16:36:04 -0400
+Received: by mail-lf1-f67.google.com with SMTP id y17so152729lfe.0;
+        Thu, 13 Jun 2019 13:36:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=kynEIGqHqfFyAVA0SpaU2DX6zDv55jiILYeSznYNPNM=;
-        b=VXT55wnlP1gaptlqCaP6Q19kMN8PxGge6CKEF1rbrRFG92yXiAExnzjgBeHyoO2ng0
-         tPRZm/QELaK90p/pLbXs6WjnTi15OPOGiNLCTFuCxeYcSFqjTQiOEGvPwAA5fBiAZJsy
-         ghAjuH9Ft7wJqig8SIBjFqxzUzOcncPGU384bRBtyLaHIYDzjDFO86dmvu6XcN6T9IY0
-         lU1fDj74amOoDXJHcroJHzIP1QdVYJQVrMga0TwJ6iIt56TmKfKwSrQOhKrFBBsi0esG
-         83WA+ITtCfjOi/IBAlZdd38u57mliN1zPk4+md0fpitOb/PdzicpG7qcnn8/guhoNjKh
-         BvCw==
-X-Gm-Message-State: APjAAAWr7uBu6t8kQLdQ98CVI1bjK40lziT8T8vKrbKzvxQr2rxu8ckG
-        TpAifVglsQKG6D/d9vpaEA==
-X-Google-Smtp-Source: APXvYqxe5eNSjkfbROg4faPppv8JUsym693JfsCHFj7SlJQvCa0P8AkVS5ftZTKmBf8oa+65LisbGQ==
-X-Received: by 2002:a0c:e712:: with SMTP id d18mr4944214qvn.152.1560456676142;
-        Thu, 13 Jun 2019 13:11:16 -0700 (PDT)
-Received: from localhost ([64.188.179.243])
-        by smtp.gmail.com with ESMTPSA id z1sm345280qth.7.2019.06.13.13.11.15
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 13 Jun 2019 13:11:15 -0700 (PDT)
-Date:   Thu, 13 Jun 2019 14:11:14 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Marek Vasut <marek.vasut@gmail.com>,
-        "David S. Miller" <davem@davemloft.net>, linux-can@vger.kernel.org,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH repost 4/5] dt-bindings: can: rcar_canfd: document
- r8a77990 support
-Message-ID: <20190613201114.GA22253@bogus>
-References: <1557429622-31676-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1557429622-31676-5-git-send-email-fabrizio.castro@bp.renesas.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=z9pT9j7kn/J7EUGyq2uQP5wwtUmztL0xFNDiGg1L3+E=;
+        b=CNThz6qJyzZAseMrCUpQ8JH6LiOLSf1DC1lOoGkVmMO5CIWri3OHBuYo70YLIKgMfN
+         fLOdU+5kfKaoOkoBR0jbRd47LN0sndM0Mn00hpgAmd6XPQpbAmp7xA/lHsbQiblWmgYv
+         Ls2OcWX7KONQkOntahzvzOzQ6Pf8HxclDO14576PNY5ap1nrjX3bHXSfMiKdf70m66Lf
+         GacUElLyZF8yL3+VJ7B8C9dSlonsEEwIUJsRXfHpYWbWEzIRPlrOfp23dErYRsFmiTmE
+         r28GVXuPuVNMvwYVnUnKDPQg5iKBT9d9zPkoVLSLdCLZ9t6CpJKE+pwI635LR/xHQlQd
+         cPIA==
+X-Gm-Message-State: APjAAAXytMawGRjOIbZWN1mpHwWH+/Ze22nMjmH+d7stS103sKnuBUDM
+        nGkyHDYt4uUBbqtk3gksg51Wbg8N1e9MlCAN7wc=
+X-Google-Smtp-Source: APXvYqyOWgizpjNJBHEjXaulJf3xyZqsd/zF8eSxKDl95LQ2jEFxxsiGEU0nnfy+4XAHYrmPxUskeM/VT/LQIlrurTA=
+X-Received: by 2002:ac2:597c:: with SMTP id h28mr7062073lfp.90.1560458162259;
+ Thu, 13 Jun 2019 13:36:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1557429622-31676-5-git-send-email-fabrizio.castro@bp.renesas.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <1560421215-10750-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1560421215-10750-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1560421215-10750-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 13 Jun 2019 22:35:44 +0200
+Message-ID: <CAMuHMdXYqgPRX1WfUTRsKHhnSok5vfnr4AY36=vXoUvAxcNyWQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v6 4/5] mmc: tmio: Use dma_max_mapping_size() instead
+ of a workaround
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Joerg Roedel <joro@8bytes.org>, Jens Axboe <axboe@kernel.dk>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Linux IOMMU <iommu@lists.linux-foundation.org>,
+        linux-block@vger.kernel.org,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu,  9 May 2019 20:20:21 +0100, Fabrizio Castro wrote:
-> From: Marek Vasut <marek.vasut@gmail.com>
-> 
-> Document the support for rcar_canfd on R8A77990 SoC devices.
-> 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-> Cc: Eugeniu Rosca <erosca@de.adit-jv.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Marc Kleine-Budde <mkl@pengutronix.de>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: Simon Horman <horms+renesas@verge.net.au>
-> Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Cc: linux-renesas-soc@vger.kernel.org
-> To: devicetree@vger.kernel.org
-> Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
-> ---
->  Documentation/devicetree/bindings/net/can/rcar_canfd.txt | 13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
-> 
+Hi Shimoda-san,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+On Thu, Jun 13, 2019 at 5:37 PM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Since the commit 133d624b1cee ("dma: Introduce dma_max_mapping_size()")
+> provides a helper function to get the max mapping size, we can use
+> the function instead of the workaround code for swiotlb.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+
+Thanks for your patch!
+
+> --- a/drivers/mmc/host/tmio_mmc_core.c
+> +++ b/drivers/mmc/host/tmio_mmc_core.c
+
+> @@ -1189,19 +1190,9 @@ int tmio_mmc_host_probe(struct tmio_mmc_host *_host)
+>         mmc->max_blk_size = TMIO_MAX_BLK_SIZE;
+>         mmc->max_blk_count = pdata->max_blk_count ? :
+>                 (PAGE_SIZE / mmc->max_blk_size) * mmc->max_segs;
+> -       mmc->max_req_size = mmc->max_blk_size * mmc->max_blk_count;
+> -       /*
+> -        * Since swiotlb has memory size limitation, this will calculate
+> -        * the maximum size locally (because we don't have any APIs for it now)
+> -        * and check the current max_req_size. And then, this will update
+> -        * the max_req_size if needed as a workaround.
+> -        */
+> -       if (swiotlb_max_segment()) {
+> -               unsigned int max_size = (1 << IO_TLB_SHIFT) * IO_TLB_SEGSIZE;
+> -
+> -               if (mmc->max_req_size > max_size)
+> -                       mmc->max_req_size = max_size;
+> -       }
+> +       mmc->max_req_size = min_t(unsigned int,
+> +                                 mmc->max_blk_size * mmc->max_blk_count,
+> +                                 dma_max_mapping_size(&pdev->dev));
+>         mmc->max_seg_size = mmc->max_req_size;
+
+I'm always triggered by the use of min_t() and other casts:
+mmc->max_blk_size and mmc->max_blk_count are both unsigned int.
+dma_max_mapping_size() returns size_t, which can be 64-bit.
+
+ 1) Can the multiplication overflow?
+    Probably not, as per commit 2a55c1eac7882232 ("mmc: renesas_sdhi:
+    prevent overflow for max_req_size"), but I thought I'd better ask.
+ 2) In theory, dma_max_mapping_size() can return a number that doesn't
+    fit in 32-bit, and will be truncated (to e.g. 0), leading to max_req_size
+    is zero?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
