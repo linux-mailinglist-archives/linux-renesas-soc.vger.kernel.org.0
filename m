@@ -2,28 +2,28 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 85C2444156
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2019 18:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65FCA43F5D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2019 17:56:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731838AbfFMQNk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 13 Jun 2019 12:13:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59902 "EHLO mail.kernel.org"
+        id S1731921AbfFMP4h (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 13 Jun 2019 11:56:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38636 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731204AbfFMImp (ORCPT
+        id S1731522AbfFMIvK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 13 Jun 2019 04:42:45 -0400
+        Thu, 13 Jun 2019 04:51:10 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A59472147A;
-        Thu, 13 Jun 2019 08:42:43 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6BB6E20851;
+        Thu, 13 Jun 2019 08:51:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560415364;
+        s=default; t=1560415868;
         bh=lrKXsr2OjonUOOQWsPIwOl6T08bXjYyq3cI+FJ7ZUYI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lgjXhlNsQxGV6vQb32VwTPIkIP7pkTiFNfxz/EPuMQr3h8/JjH4WUsEYaYsQlMaW4
-         YE0yRLjc7K7Ompkt9rvalMNkHqyVStAjmdHP8ve9laV6rxWQXJfpN7EqRcrzI+opG3
-         kuh6xuTerqlt/b42lyZUkKjB5uT6zOb0upMpsuHs=
+        b=dC+r3q5Flj0LVRcLtPR5MNKWaAHscUmnbX2VODdz2xEQ9SgGnEuv8AE+GdW9lHbOY
+         NN8V27Ksg0vf8BoQh1KuBfAh0E7u9eOYkaPSuQ3wbLSvSBxP2aS9b1fn/phhmf5Ckk
+         NKMIcmYBzVPv9z+d0CRcL+sh9xmZZKphNaGpbBAQ=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -35,12 +35,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Phil Edworthy <phil.edworthy@renesas.com>,
         Wolfram Sang <wsa@the-dreams.de>,
         linux-renesas-soc@vger.kernel.org, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.19 097/118] PCI: rcar: Fix 64bit MSI message address handling
-Date:   Thu, 13 Jun 2019 10:33:55 +0200
-Message-Id: <20190613075649.581113343@linuxfoundation.org>
+Subject: [PATCH 5.1 126/155] PCI: rcar: Fix 64bit MSI message address handling
+Date:   Thu, 13 Jun 2019 10:33:58 +0200
+Message-Id: <20190613075659.876498184@linuxfoundation.org>
 X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190613075643.642092651@linuxfoundation.org>
-References: <20190613075643.642092651@linuxfoundation.org>
+In-Reply-To: <20190613075652.691765927@linuxfoundation.org>
+References: <20190613075652.691765927@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
