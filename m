@@ -2,28 +2,28 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B98344285
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2019 18:24:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85C2444156
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Jun 2019 18:13:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732924AbfFMQXD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 13 Jun 2019 12:23:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55174 "EHLO mail.kernel.org"
+        id S1731838AbfFMQNk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 13 Jun 2019 12:13:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59902 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731027AbfFMIhq (ORCPT
+        id S1731204AbfFMImp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 13 Jun 2019 04:37:46 -0400
+        Thu, 13 Jun 2019 04:42:45 -0400
 Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 881B82064A;
-        Thu, 13 Jun 2019 08:37:44 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A59472147A;
+        Thu, 13 Jun 2019 08:42:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1560415065;
-        bh=oYqC04aPf7VZNvrzfJCBtCgxiTAbso4bcLVHXA6xQRo=;
+        s=default; t=1560415364;
+        bh=lrKXsr2OjonUOOQWsPIwOl6T08bXjYyq3cI+FJ7ZUYI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XCgDxRBUJ9eQy1/pzWM6tfGP8v7heiquWbgwsivFo8ZOk4eSuvguSMJe3j4Mgwu+y
-         QlvoOnkwF7GZ1+kan0ps3oPa6PyUcNVb9KlSWgeRx+QE8t00zzfCshH88tmLqEraHp
-         R2IG3+CE4BvDxRVDBDsYda4Xh3fOcBgWxoy68/J4=
+        b=lgjXhlNsQxGV6vQb32VwTPIkIP7pkTiFNfxz/EPuMQr3h8/JjH4WUsEYaYsQlMaW4
+         YE0yRLjc7K7Ompkt9rvalMNkHqyVStAjmdHP8ve9laV6rxWQXJfpN7EqRcrzI+opG3
+         kuh6xuTerqlt/b42lyZUkKjB5uT6zOb0upMpsuHs=
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To:     linux-kernel@vger.kernel.org
 Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -35,12 +35,12 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Phil Edworthy <phil.edworthy@renesas.com>,
         Wolfram Sang <wsa@the-dreams.de>,
         linux-renesas-soc@vger.kernel.org, Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 4.14 65/81] PCI: rcar: Fix 64bit MSI message address handling
-Date:   Thu, 13 Jun 2019 10:33:48 +0200
-Message-Id: <20190613075653.797782757@linuxfoundation.org>
+Subject: [PATCH 4.19 097/118] PCI: rcar: Fix 64bit MSI message address handling
+Date:   Thu, 13 Jun 2019 10:33:55 +0200
+Message-Id: <20190613075649.581113343@linuxfoundation.org>
 X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190613075649.074682929@linuxfoundation.org>
-References: <20190613075649.074682929@linuxfoundation.org>
+In-Reply-To: <20190613075643.642092651@linuxfoundation.org>
+References: <20190613075643.642092651@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -91,14 +91,14 @@ Cc: Wolfram Sang <wsa@the-dreams.de>
 Cc: linux-renesas-soc@vger.kernel.org
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/pci/host/pcie-rcar.c | 6 +++---
+ drivers/pci/controller/pcie-rcar.c | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/pci/host/pcie-rcar.c b/drivers/pci/host/pcie-rcar.c
-index fad57d068db3..2b0a1f3b8265 100644
---- a/drivers/pci/host/pcie-rcar.c
-+++ b/drivers/pci/host/pcie-rcar.c
-@@ -849,7 +849,7 @@ static int rcar_pcie_enable_msi(struct rcar_pcie *pcie)
+diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
+index 765c39911c0c..9b9c677ad3a0 100644
+--- a/drivers/pci/controller/pcie-rcar.c
++++ b/drivers/pci/controller/pcie-rcar.c
+@@ -892,7 +892,7 @@ static int rcar_pcie_enable_msi(struct rcar_pcie *pcie)
  {
  	struct device *dev = pcie->dev;
  	struct rcar_msi *msi = &pcie->msi;
@@ -107,7 +107,7 @@ index fad57d068db3..2b0a1f3b8265 100644
  	int err, i;
  
  	mutex_init(&msi->lock);
-@@ -894,8 +894,8 @@ static int rcar_pcie_enable_msi(struct rcar_pcie *pcie)
+@@ -937,8 +937,8 @@ static int rcar_pcie_enable_msi(struct rcar_pcie *pcie)
  	}
  	base = virt_to_phys((void *)msi->pages);
  
