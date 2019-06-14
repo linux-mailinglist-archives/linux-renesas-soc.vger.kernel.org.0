@@ -2,91 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B31DE45DEA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2019 15:17:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFD6E46138
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2019 16:44:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727918AbfFNNRZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 14 Jun 2019 09:17:25 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:50451 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727913AbfFNNRZ (ORCPT
+        id S1728074AbfFNOoy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 14 Jun 2019 10:44:54 -0400
+Received: from netrider.rowland.org ([192.131.102.5]:60235 "HELO
+        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1728533AbfFNOoy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 14 Jun 2019 09:17:25 -0400
-X-IronPort-AV: E=Sophos;i="5.62,373,1554735600"; 
-   d="scan'208";a="18469633"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 14 Jun 2019 22:17:22 +0900
-Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 6F62940065C7;
-        Fri, 14 Jun 2019 22:17:20 +0900 (JST)
-From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-To:     Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>, xu_shunji@hoperun.com
-Subject: [PATCH] arm64: dts: renesas: hihope-common: Add LEDs support
-Date:   Fri, 14 Jun 2019 14:14:35 +0100
-Message-Id: <1560518075-2254-1-git-send-email-fabrizio.castro@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Fri, 14 Jun 2019 10:44:54 -0400
+Received: (qmail 26355 invoked by uid 500); 14 Jun 2019 10:44:53 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 14 Jun 2019 10:44:53 -0400
+Date:   Fri, 14 Jun 2019 10:44:53 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@netrider.rowland.org
+To:     shuah <shuah@kernel.org>
+cc:     Christoph Hellwig <hch@lst.de>,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        Oliver Neukum <oneukum@suse.com>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>
+Subject: Re: How to resolve an issue in swiotlb environment?
+In-Reply-To: <41caad16-3fa1-413b-0d49-594d48b88de4@kernel.org>
+Message-ID: <Pine.LNX.4.44L0.1906141043530.24571-100000@netrider.rowland.org>
+MIME-Version: 1.0
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch adds LEDs support to the HiHope RZ/G2[MN] Main Board
-common device tree.
+On Thu, 13 Jun 2019, shuah wrote:
 
-Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
----
-This patch depends on:
-https://patchwork.kernel.org/patch/10986913/
+> > Great!  So all we have to do is fix vhci-hcd.  Then we can remove all
+> > the virt_boundary_mask stuff from usb-storage and uas entirely.
+> > 
+> > (I'm assuming wireless USB isn't a genuine issue.  As far as I know, it
+> > is pretty much abandoned at this point.)
+> > 
+> > Valentina and Shua: Adding SG support to vhci-hcd shouldn't be too
+> > hard.  It ought to be possible even without changing the network
+> > protocol.
+> > 
+> 
+> I will start taking a look at this. Is there a target release in plan
+> to drop virt_boundary_mask stuff?
 
-Thanks,
-Fab
+Not yet.  But since it doesn't do what we want anyway, this should be 
+fixed quickly.
 
- arch/arm64/boot/dts/renesas/hihope-common.dtsi | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/renesas/hihope-common.dtsi b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
-index 18763ca..b0bf510 100644
---- a/arch/arm64/boot/dts/renesas/hihope-common.dtsi
-+++ b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
-@@ -17,6 +17,30 @@
- 		stdout-path = "serial0:115200n8";
- 	};
- 
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		led0 {
-+			gpios = <&gpio6 11 GPIO_ACTIVE_HIGH>;
-+			label = "LED0";
-+		};
-+
-+		led1 {
-+			gpios = <&gpio6 12 GPIO_ACTIVE_HIGH>;
-+			label = "LED1";
-+		};
-+
-+		led2 {
-+			gpios = <&gpio6 13 GPIO_ACTIVE_HIGH>;
-+			label = "LED2";
-+		};
-+
-+		led3 {
-+			gpios = <&gpio0  0 GPIO_ACTIVE_HIGH>;
-+			label = "LED3";
-+		};
-+	};
-+
- 	reg_1p8v: regulator0 {
- 		compatible = "regulator-fixed";
- 		regulator-name = "fixed-1.8V";
--- 
-2.7.4
+Alan Stern
 
