@@ -2,22 +2,22 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B8FF4570A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2019 10:15:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D33504574C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Jun 2019 10:18:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725973AbfFNIPN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 14 Jun 2019 04:15:13 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:56213 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725907AbfFNIPN (ORCPT
+        id S1725972AbfFNISZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 14 Jun 2019 04:18:25 -0400
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:37557 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725907AbfFNISZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 14 Jun 2019 04:15:13 -0400
+        Fri, 14 Jun 2019 04:18:25 -0400
 X-Originating-IP: 37.177.88.254
 Received: from uno.localdomain (unknown [37.177.88.254])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 399AA1BF207;
-        Fri, 14 Jun 2019 08:14:53 +0000 (UTC)
-Date:   Fri, 14 Jun 2019 10:15:52 +0200
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 3EF2DE0005;
+        Fri, 14 Jun 2019 08:18:07 +0000 (UTC)
+Date:   Fri, 14 Jun 2019 10:19:13 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
@@ -27,16 +27,16 @@ Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Harsha.ManjulaMallikarjun@in.bosch.com,
         linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 19/20] drm: rcar-du: crtc: Register GAMMA_LUT properties
-Message-ID: <20190614081507.3ky4pcyijjxnr7mp@uno.localdomain>
+Subject: Re: [PATCH 20/20] drm: rcar-du: kms: Update CMM in atomic commit tail
+Message-ID: <20190614081913.n5yxpotto5fzl7sh@uno.localdomain>
 References: <20190606142220.1392-1-jacopo+renesas@jmondi.org>
- <20190606142220.1392-20-jacopo+renesas@jmondi.org>
- <20190607120304.GH7593@pendragon.ideasonboard.com>
+ <20190606142220.1392-21-jacopo+renesas@jmondi.org>
+ <20190607120633.GI7593@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="khgtppfahw6u47d7"
+        protocol="application/pgp-signature"; boundary="cvgh7guoqqbi6mcf"
 Content-Disposition: inline
-In-Reply-To: <20190607120304.GH7593@pendragon.ideasonboard.com>
+In-Reply-To: <20190607120633.GI7593@pendragon.ideasonboard.com>
 User-Agent: NeoMutt/20180716
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -44,80 +44,124 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---khgtppfahw6u47d7
+--cvgh7guoqqbi6mcf
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 
 Hi Laurent,
-   thanks for review
 
-On Fri, Jun 07, 2019 at 03:03:04PM +0300, Laurent Pinchart wrote:
+On Fri, Jun 07, 2019 at 03:06:33PM +0300, Laurent Pinchart wrote:
 > Hi Jacopo,
 >
 > Thank you for the patch.
 >
-> On Thu, Jun 06, 2019 at 04:22:19PM +0200, Jacopo Mondi wrote:
-> > Enable the GAMMA_LUT KMS property using the framework helpers to
-> > register the proeprty and the associated gamma table size maximum size.
+> On Thu, Jun 06, 2019 at 04:22:20PM +0200, Jacopo Mondi wrote:
+> > Update CMM settings at in the atomic commit tail helper method.
+> >
+> > The CMM is updated with new gamma values provided to the driver
+> > in the GAMMA_LUT blob property.
 > >
 > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > > ---
-> >  drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 3 +++
-> >  1 file changed, 3 insertions(+)
+> >  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 36 +++++++++++++++++++++++++++
+> >  1 file changed, 36 insertions(+)
 > >
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> > index e6d3df37c827..c920fb5dba65 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-> > @@ -1207,6 +1207,9 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
-> >  	    rcdu->cmms[swindex]) {
-> >  		rcrtc->cmm = rcdu->cmms[swindex];
-> >  		rgrp->cmms_mask |= BIT(hwindex % 2);
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > index 5a910a04e1d9..29a2020a46b5 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> > @@ -21,6 +21,7 @@
+> >  #include <linux/of_platform.h>
+> >  #include <linux/wait.h>
+> >
+> > +#include "rcar_cmm.h"
+> >  #include "rcar_du_crtc.h"
+> >  #include "rcar_du_drv.h"
+> >  #include "rcar_du_encoder.h"
+> > @@ -367,6 +368,38 @@ rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
+> >   * Atomic Check and Update
+> >   */
+> >
+> > +static void rcar_du_atomic_commit_update_cmm(struct drm_crtc *crtc,
+> > +					     struct drm_crtc_state *old_state)
+> > +{
+> > +	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
+> > +	struct rcar_cmm_config cmm_config = {};
 > > +
-> > +		drm_mode_crtc_set_gamma_size(crtc, CMM_GAMMA_LUT_SIZE);
-> > +		drm_crtc_enable_color_mgmt(crtc, 0, false, CMM_GAMMA_LUT_SIZE);
+> > +	if (!rcrtc->cmm || !crtc->state->color_mgmt_changed)
+> > +		return;
+> > +
+> > +	if (!crtc->state->gamma_lut) {
+> > +		cmm_config.lut.enable = false;
+> > +		rcar_cmm_setup(rcrtc->cmm, &cmm_config);
+> > +
+> > +		return;
+> > +	}
+> > +
+> > +	cmm_config.lut.enable = true;
+> > +	cmm_config.lut.table = (struct drm_color_lut *)
+> > +			       crtc->state->gamma_lut->data;
+> > +
+> > +	/* Set LUT table size to 0 if entries should not be updated. */
+> > +	if (!old_state->gamma_lut ||
+> > +	    (old_state->gamma_lut->base.id !=
+> > +	    crtc->state->gamma_lut->base.id))
+> > +		cmm_config.lut.size = crtc->state->gamma_lut->length
+> > +				    / sizeof(cmm_config.lut.table[0]);
 >
-> This change looks good, but you also need to add support for legacy API.
-> According to the function's documentation,
->
->  * Drivers should use drm_atomic_helper_legacy_gamma_set() to implement the
->  * legacy &drm_crtc_funcs.gamma_set callback.
+> Do you need to call rcar_cmm_setup() at all in this case ?
 >
 
-Drivers 'shuld' or drivers 'shall' ?
-Isn't this required only to support the 'legacy APIs' ? Do we want that?
+Do you mean in case the lut.size field is set to 0 ?
+I considered it useful when the CMM has to be re-enabled without
+updateing the LUT table entries? It is not required in your opinion?
 
 Thanks
    j
 
+> > +	else
+> > +		cmm_config.lut.size = 0;
+> > +
+> > +	rcar_cmm_setup(rcrtc->cmm, &cmm_config);
+> > +}
+> > +
+> >  static int rcar_du_atomic_check(struct drm_device *dev,
+> >  				struct drm_atomic_state *state)
+> >  {
+> > @@ -409,6 +442,9 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
+> >  			rcdu->dpad1_source = rcrtc->index;
 > >  	}
 > >
-> >  	drm_crtc_helper_add(crtc, &crtc_helper_funcs);
-> >
+> > +	for_each_old_crtc_in_state(old_state, crtc, crtc_state, i)
+> > +		rcar_du_atomic_commit_update_cmm(crtc, crtc_state);
+> > +
+> >  	/* Apply the atomic update. */
+> >  	drm_atomic_helper_commit_modeset_disables(dev, old_state);
+> >  	drm_atomic_helper_commit_planes(dev, old_state,
 >
 > --
 > Regards,
 >
 > Laurent Pinchart
 
---khgtppfahw6u47d7
+--cvgh7guoqqbi6mcf
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl0DV7gACgkQcjQGjxah
-Vjz5Jg//aFLz0tKq8wZCeVMJnKKzD7XcpXLs8B+mK1kVLNxct1Exnl2h4SIPmr1s
-/49MgCXJkN5/Aljw/y0WqifR4S4QvT5jFvuC/hc3Q1ggY0ycGxEICHSXXNyooV/a
-VpxHLQpgtadlRtUWpdxIYErbD/o8idWN39UWueI4zRkDSrfWAbjWjsH/86hrAq3R
-FMmfTaKbzddFytvX1Lh4x3gcKoO/64AvDwZoT/IMrVpINFZRTKw2sT7T7HeUFbh7
-f94rAsGPrX/z0u+xcYucQoUeXLG4XCx3Xy95yzYdmNmLxwy5SW44QF9IVWM+cR6z
-PaSfwATFHDRp5Shaq+kXhdPUlVHQTldm7McKw128xswE3oeChu1mFUseZxzJx6pi
-jUL8aHE4FEdZ1C1fy6F7eaSf6Kha4uklxea5Fdl5gl/uRf9RK+5sJC+T6BaKy2J9
-/fA2xnKXYbxeZabLGkeDp2mHSLv8w7fnv/AxcuW1O4+omnWzCMN364J5oUvfIs61
-aRRi3T5lb7zi16Jcy88yjXnQXOFqNDx9+noFaJ0wv1nUOv4bX4h7l/q+PDd37onE
-fdfxdEd9TsypZaVifSssDMRl1tkLFAgSkTtX1QmeJlqLz9Nfpo9YFeE4xxpiARcc
-Zh6mYjr2gpp7336mA1agpxJgiibvViHLPgh3gBFq9bVdcOza5Hw=
-=G1Ty
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl0DWIEACgkQcjQGjxah
+VjzwpQ//WMAXXg0Iqe84pOeR3FpXuQ4vkqCDArzdNFG5VcdNm4npoe6ZnjnSy7Ae
+dPhB8oQVdcRmjmGbNvre5amsEmxONrfcGwiyzCJhoW8T28sztdv0LGzSoTHV6ejt
+0xY2qG02Ek0UPOWwiCMzvfxCK+hJEbXEukD31pDOoVc1EoB3P7FEI1NLe5MJZVKD
+Encdf+0v8nCnbrRG2oWCvBp3CJy5UuBLbu+EuAr6rawekdHYulJCjtolDqKQO7jr
+fPMR5vfNm2MsWr7em2vdeI2O/zmPw5ixIWyauAz4Kzz2CC+7elXSFona/gMYpry0
+xKKJso48zJ3NcZlwjDhXDtKuu5vE21r4qmvVmxGFFphxGdXIIudOWqIUo+0N+2Jr
+fQKK7HpGK4XsG7Vv/lJkgDEntZYBRj99QqE+2u0fzbAryUv9Sl//RlHBxUZRGdl7
+Vbp3QdCgJZvS7qGsR6s1dMi5lCfWbiP8k3nQGb7MaW1hWmjTeUSswSCdorOxWSfZ
+y4SVNfGKP7g+gWaeBZidUrDiveV8hz8RaB3a84LTPC0UYd78VYJLHUwmgKGtd1Ti
+ipIfzhCoY8UcHJn/3EiiuiQJMd4tiw6b/vkB79fdPp8lMTDlAaglS3uPSW1REsAc
+OS0k2lCyh+L/sW0um5QPM8DeLUa3psCuDgzi0u043tLe1pqFnDk=
+=jqfj
 -----END PGP SIGNATURE-----
 
---khgtppfahw6u47d7--
+--cvgh7guoqqbi6mcf--
