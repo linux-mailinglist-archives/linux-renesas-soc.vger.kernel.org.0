@@ -2,83 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BE7A847DB9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2019 11:01:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6ABE747DBB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2019 11:01:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725863AbfFQJBX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Jun 2019 05:01:23 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:37184 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725763AbfFQJBW (ORCPT
+        id S1726225AbfFQJBc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Jun 2019 05:01:32 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:37199 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725763AbfFQJBb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Jun 2019 05:01:22 -0400
-Received: by mail-pg1-f196.google.com with SMTP id n65so979758pga.4;
-        Mon, 17 Jun 2019 02:01:22 -0700 (PDT)
+        Mon, 17 Jun 2019 05:01:31 -0400
+Received: by mail-pg1-f195.google.com with SMTP id n65so980012pga.4;
+        Mon, 17 Jun 2019 02:01:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:date:message-id:subject;
-        bh=VrOVxPuHy7nUA8bVhkN1FIu/LUmbz/UL9YshASe4QG0=;
-        b=MrBsnZZijLIJU7ZxzMQhN5Y8wzzUrmK5mnz8PyRVEnC330Y4NMQnYDCAX/LvWxcAE4
-         rUj/kHkHwTBgABKtomTYZiJmfQoFrLbn3ADK5PUvIK7xWmTcSV4WdpbXgyvbGALOtiCx
-         r6r7DT2LVGAovCqaqKmtAeebEckOHQn2EAcmy/766rjSP/GrEaYqvXFL1WNDYt4kYFvI
-         JUBqkA6JUWK5R6o2knCG5GBgaRPV/ZJzgQoIZYBBm88cTDci5WlAHbUW4SrWm2N9Ewf8
-         9z8hAfmVJU2qvUb8sKzxuLXCqQ6b8CjMG1GAvRVM26xVD102C7MIlNDMU2sy4xWwTJc9
-         AK/Q==
+        h=from:to:cc:date:message-id:in-reply-to:references:subject;
+        bh=ybbY1Dpks8zCn0/qN5aCubNoEg8FHHCejP80vfW4G0Q=;
+        b=nTgxVDOBKHoHQjT0X0rxIFi+OAWlRSEiRnVeBioTimTN0YLf7dO+6xl9GZXCJUs5C2
+         a6Ek9S9eYdlOL0Yb5WigjQAbrfFnnadYZ+y/YhtYG24EVBlcKjSp/T7oPJORutY80+OP
+         F05K61hvhwUN6/osCimNsl/JhFkvpYUDMsvX48ZvMk7WUwWORJBCtnAP1i+tdlZU/OZ5
+         qb1P6QC2xi5ulAZuxA6JMWuJBO+ZZxAbVIVWfcZ7qoX2HUiLO7l5c3NQPtgZwDbGBwcz
+         e3ZjlWpPyXP+N907qV0gAMU9b+Hy9r2N5LiSNK+ToTbWIJ/yU0J1f5DKp0CUF141PaeP
+         MeHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:date:message-id:subject;
-        bh=VrOVxPuHy7nUA8bVhkN1FIu/LUmbz/UL9YshASe4QG0=;
-        b=oyrElmSuMHRbI1ygp/YnRaQzmI1i0Z+mknTLcBPiufGJtjYRmE+Ix3qnC9xKK0f3KP
-         LvoT/UkAGYw8ncqxIZDCeKT0HL6DnuVS7S2KYVWsP/97/FjJinF/mm+X5U0RbGp/qDTQ
-         ijs9YhBAFbJ64QlEi815s0kwVxg1MbCmOTuc2TLKO+sxWjQZqyeSd29TOqPQ6jKT7wHA
-         KnBxEssK4J5uItGWQ1nUj8lkY/qVY4LEqtG2Mi+6wUCEu6cYAemnLaaNdbRZwlMTo8D9
-         aLgKXVMKhU5Zt2Pz6b0Md8/xzh22oYdPcfP3Siw6rQhlG64W/vhSlUXuZ2eNo1PdHtTa
-         c1yg==
-X-Gm-Message-State: APjAAAXebYBuktQ4hzjS+0wSzBTaou1ybGSqHDO/7Gr5aaO6xR0/Md70
-        dFiJ7rkenQPcsex8/2CZMLJxN6M5
-X-Google-Smtp-Source: APXvYqxFI2rwxXdGvpY4ADOKDFzZV9UVbprQAJUGzaobbMICkw2Nzv+TBTn73VuF9qGY3wVhXfd1Og==
-X-Received: by 2002:a62:e815:: with SMTP id c21mr71977111pfi.244.1560762081995;
-        Mon, 17 Jun 2019 02:01:21 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:date:message-id:in-reply-to
+         :references:subject;
+        bh=ybbY1Dpks8zCn0/qN5aCubNoEg8FHHCejP80vfW4G0Q=;
+        b=GpkIA31KedV/QMiLFW3CEZ64WludX5/WqBbpmFNY9DL+z5cKrGqcErJIpT5ldwN8pD
+         9F1TE3Jkah+f13e35qdiNMYrnulTbtehyC7IbPPBDPwl2V3TWzf91yz+KYqJef+SyT9b
+         LoRM9lvJ3aHVlqL2HdQqKTtbWGgGbE2UKwALAz/FZ3aH7asKwfkIrdF+mVDoO+l14FqY
+         /E9yGr5cNkmNjO6c72iqsNRotws3jC6N8+mf8PlV5z6pl5hnlRJdENX4vQQSaljtjRH1
+         e1jldWHQ5mt0TLSJCrpUamGYqGsGyUfO1hbiuIlz2mDyra7+XGgvStBFKkgrqqSzMwvA
+         J7+g==
+X-Gm-Message-State: APjAAAWOHj7QuQGUyMvQfFQ6Y0KyogSObmobZ6CpMCqG9xmYl5hkOp5r
+        YXgIZEHZEPjUUktAxl2D8eHm+sn8
+X-Google-Smtp-Source: APXvYqwb/DBDTvpO6yQWf+hkB2BMQFgya/a0YAsM51FfploIfvCY7XF8bk5aAYF1fpHS8/zANF3Wuw==
+X-Received: by 2002:a62:ce4f:: with SMTP id y76mr29627038pfg.21.1560762091010;
+        Mon, 17 Jun 2019 02:01:31 -0700 (PDT)
 Received: from [127.0.0.1] (l193216.ppp.asahi-net.or.jp. [218.219.193.216])
-        by smtp.gmail.com with ESMTPSA id g17sm14149549pfb.56.2019.06.17.02.01.19
+        by smtp.gmail.com with ESMTPSA id y1sm10115154pjw.5.2019.06.17.02.01.28
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 17 Jun 2019 02:01:20 -0700 (PDT)
+        Mon, 17 Jun 2019 02:01:30 -0700 (PDT)
 From:   Magnus Damm <magnus.damm@gmail.com>
 To:     devicetree@vger.kernel.org
 Cc:     mark.rutland@arm.com, linux-renesas-soc@vger.kernel.org,
         Magnus Damm <magnus.damm@gmail.com>, robh+dt@kernel.org
-Date:   Mon, 17 Jun 2019 18:02:47 +0900
-Message-Id: <156076216767.4736.16337667537984218274.sendpatchset@octo>
-Subject: [PATCH 0/8] dt-bindings: timer: renesas, cmt: Various updates
+Date:   Mon, 17 Jun 2019 18:02:56 +0900
+Message-Id: <156076217672.4736.6510117188637868943.sendpatchset@octo>
+In-Reply-To: <156076216767.4736.16337667537984218274.sendpatchset@octo>
+References: <156076216767.4736.16337667537984218274.sendpatchset@octo>
+Subject: [PATCH 1/8] dt-bindings: timer: renesas, cmt: Add CMT0234 to sh73a0 and r8a7740
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-dt-bindings: timer: renesas, cmt: Various updates
+From: Magnus Damm <damm+renesas@opensource.se>
 
-[PATCH 1/8] dt-bindings: timer: renesas, cmt: Add CMT0234 to sh73a0 and r8a7740
-[PATCH 2/8] dt-bindings: timer: renesas, cmt: Update CMT1 on sh73a0 and r8a7740
-[PATCH 3/8] dt-bindings: timer: renesas, cmt: Add CMT0 and CMT1 to r8a7792
-[PATCH 4/8] dt-bindings: timer: renesas, cmt: Add CMT0 and CMT1 to r8a7795
-[PATCH 5/8] dt-bindings: timer: renesas, cmt: Add CMT0 and CMT1 to r8a77965
-[PATCH 6/8] dt-bindings: timer: renesas, cmt: Add CMT0 and CMT1 to r8a77990
-[PATCH 7/8] dt-bindings: timer: renesas, cmt: Add CMT0 and CMT1 to r8a77995
-[PATCH 8/8] dt-bindings: timer: renesas, cmt: Update R-Car Gen3 CMT1 usage
+Document the on-chip CMT devices included in r8a7740 and sh73a0.
 
-This series collect the following rather trivial DT binding changes:
-- Add 32-bit CMT0234 and convert CMT1 DT binding on sh73a0 and r8a7740.
-- Add documentation for the CMT on the R-Car Gen2 V2H (r8a7792) SoC.
-- Add missing R-Car Gen3 DT bindings for H3, M3-N, E3 an D3.
-- Update the R-Car Gen3 description to reflect current usage.
+Included in this patch is DT binding documentation for 32-bit CMTs
+CMT0, CMT2, CMT3 and CMT4. They all contain a single channel and are
+quite similar however some minor differences still exist:
+ - "Counter input clock" (clock input and on-device divider)
+    One example is that RCLK 1/1 is supported by CMT2, CMT3 and CMT4.
+ - "Wakeup request" (supported by CMT0 and CMT2)
 
-Please see each individual patch for more information.
+Because of this one unique compat string per CMT device is selected.
 
 Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
 ---
 
- Documentation/devicetree/bindings/timer/renesas,cmt.txt |   54 +++++++++------
- 1 file changed, 33 insertions(+), 21 deletions(-)
+ Documentation/devicetree/bindings/timer/renesas,cmt.txt |    8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-
-
+--- 0001/Documentation/devicetree/bindings/timer/renesas,cmt.txt
++++ work/Documentation/devicetree/bindings/timer/renesas,cmt.txt	2019-06-17 13:26:56.325963995 +0900
+@@ -22,6 +22,10 @@ Required Properties:
+ 
+     - "renesas,r8a73a4-cmt0" for the 32-bit CMT0 device included in r8a73a4.
+     - "renesas,r8a73a4-cmt1" for the 48-bit CMT1 device included in r8a73a4.
++    - "renesas,r8a7740-cmt0" for the 32-bit CMT0 device included in r8a7740.
++    - "renesas,r8a7740-cmt2" for the 32-bit CMT2 device included in r8a7740.
++    - "renesas,r8a7740-cmt3" for the 32-bit CMT3 device included in r8a7740.
++    - "renesas,r8a7740-cmt4" for the 32-bit CMT4 device included in r8a7740.
+     - "renesas,r8a7743-cmt0" for the 32-bit CMT0 device included in r8a7743.
+     - "renesas,r8a7743-cmt1" for the 48-bit CMT1 device included in r8a7743.
+     - "renesas,r8a7744-cmt0" for the 32-bit CMT0 device included in r8a7744.
+@@ -48,6 +52,10 @@ Required Properties:
+     - "renesas,r8a77970-cmt1" for the 48-bit CMT1 device included in r8a77970.
+     - "renesas,r8a77980-cmt0" for the 32-bit CMT0 device included in r8a77980.
+     - "renesas,r8a77980-cmt1" for the 48-bit CMT1 device included in r8a77980.
++    - "renesas,sh73a0-cmt0" for the 32-bit CMT0 device included in sh73a0.
++    - "renesas,sh73a0-cmt2" for the 32-bit CMT2 device included in sh73a0.
++    - "renesas,sh73a0-cmt3" for the 32-bit CMT3 device included in sh73a0.
++    - "renesas,sh73a0-cmt4" for the 32-bit CMT4 device included in sh73a0.
+ 
+     - "renesas,rcar-gen2-cmt0" for 32-bit CMT0 devices included in R-Car Gen2
+ 		and RZ/G1.
