@@ -2,78 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 645DF47D45
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2019 10:37:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA63447D47
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2019 10:37:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726538AbfFQIh3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Jun 2019 04:37:29 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:35016 "EHLO
+        id S1727643AbfFQIhl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Jun 2019 04:37:41 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:35120 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726121AbfFQIh2 (ORCPT
+        with ESMTP id S1726121AbfFQIhk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Jun 2019 04:37:28 -0400
+        Mon, 17 Jun 2019 04:37:40 -0400
 Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 8132425B7A8;
-        Mon, 17 Jun 2019 18:37:23 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 9CFCA25AED3;
+        Mon, 17 Jun 2019 18:37:38 +1000 (AEST)
 Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id 81CCF940341; Mon, 17 Jun 2019 10:37:21 +0200 (CEST)
-From:   Simon Horman <horms+renesas@verge.net.au>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org,
-        Magnus Damm <magnus.damm@gmail.com>,
+        id A2B1C94024A; Mon, 17 Jun 2019 10:37:36 +0200 (CEST)
+Date:   Mon, 17 Jun 2019 10:37:36 +0200
+From:   Simon Horman <horms@verge.net.au>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
         Yoshihiro Kaneko <ykaneko0929@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Simon Horman <horms+renesas@verge.net.au>
-Subject: [PATCH v2 2/2] arm64: dts: renesas: r8a77995: Add cpg reset for LVDS Interface
-Date:   Mon, 17 Jun 2019 10:37:04 +0200
-Message-Id: <20190617083704.3941-3-horms+renesas@verge.net.au>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190617083704.3941-1-horms+renesas@verge.net.au>
-References: <20190617083704.3941-1-horms+renesas@verge.net.au>
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH/RFT] arm64: dts: renesas: r8a77995: Add cpg reset for
+ LVDS Interface
+Message-ID: <20190617083735.thl6r6hduuz7s66y@verge.net.au>
+References: <1560078659-19236-1-git-send-email-ykaneko0929@gmail.com>
+ <CAMuHMdV8Mg2ao9EwrLkiHF53Y_a5RKyvaqAv13uPvqTr19K++Q@mail.gmail.com>
+ <20190612121556.GK5035@pendragon.ideasonboard.com>
+ <20190613100246.qa2lcbcgbyd3zuaz@verge.net.au>
+ <20190613100342.GB5259@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190613100342.GB5259@pendragon.ideasonboard.com>
+Organisation: Horms Solutions BV
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Yoshihiro Kaneko <ykaneko0929@gmail.com>
+On Thu, Jun 13, 2019 at 01:03:42PM +0300, Laurent Pinchart wrote:
+> Hi Simon,
+> 
+> On Thu, Jun 13, 2019 at 12:02:46PM +0200, Simon Horman wrote:
+> > On Wed, Jun 12, 2019 at 03:15:56PM +0300, Laurent Pinchart wrote:
+> > > On Wed, Jun 12, 2019 at 09:37:14AM +0200, Geert Uytterhoeven wrote:
+> > >> On Sun, Jun 9, 2019 at 1:11 PM Yoshihiro Kaneko <ykaneko0929@gmail.com> wrote:
+> > >>> It is necessary to reset the LVDS Interface according to display on/off.
+> > >>> Therefore, this patch adds CPG reset properties in DU device node
+> > >>> for the R8A77995 SoC.
+> > >>>
+> > >>> This patch was inspired by a patch in the BSP by Takeshi Kihara <takeshi.kihara.df@renesas.com>.
+> > >>>
+> > >>> Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
+> > >> 
+> > >> Thanks for your patch!
+> > >> 
+> > >>> --- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+> > >>> +++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+> > >>> @@ -1001,6 +1001,8 @@
+> > >>>                         clocks = <&cpg CPG_MOD 724>,
+> > >>>                                  <&cpg CPG_MOD 723>;
+> > >>>                         clock-names = "du.0", "du.1";
+> > >>> +                       resets = <&cpg 724>, <&cpg 724>;
+> > >>> +                       reset-names = "du.0", "du.1";
+> > >> 
+> > >> These are not the LVDS resets, but the (shared) DU channel resets.
+> > >> 
+> > >> The LVDS interface has its own separate device node, so if you want to
+> > >> be able to reset that, you need to add reset properties to the LVDS
+> > >> node instead.
+> > >> 
+> > >> Note that I haven't reposted a new version of "[PATCH v2] dt-bindings:
+> > >> drm: rcar-du: Document optional reset properties"[1] yet, after the
+> > >> split off of the LVDS interface into its own device node. Laurent wanted
+> > >> to wait until the driver gained DU reset support.
+> > >> However, the above differs from my proposal, as it also adds "du.1",
+> > >> pointing to the same (shared) reset.
+> > >> With a fresh look (2 years later ;-), that actually makes sense, so
+> > >> perhaps I should change my proposal and repost? We do have shared
+> > >> resets in other places (e.g. USB).
+> > >> Laurent, what do you think?
+> > > 
+> > > For Gen3 reset is handled at the group level, so I think specifying one
+> > > entry per group is enough. If other SoCs require per-channel reset
+> > > (which would surprise me as it would then imply a big redesign of the DU
+> > > IP core, which may lead to a separate driver) we can always extend the
+> > > bindings accordingly.
+> > > 
+> > >> [1] https://lore.kernel.org/linux-renesas-soc/1488817556-21410-1-git-send-email-geert+renesas@glider.be/
+> > 
+> > Sorry, I'm a little unclear on what the suggested way forwards is here.
+> > 
+> > Is it to add a reset for du.0 but not du.1 ?
+> 
+> Correct.
 
-It is necessary to reset the LVDS Interface according to display on/off.
-Therefore, this patch adds CPG reset properties in DU device node
-for the R8A77995 SoC.
-
-This patch was inspired by a patch in the BSP by Takeshi Kihara
-<takeshi.kihara.df@renesas.com>.
-
-According to Laurent Pinchart, R-Car Gen3 reset is handled at the group
-level so specifying one reset entry per group is sufficient. For
-this reason <&cpg 724> is not listed as a reset for "du.1" as
-was the case in an earlier revision of this patch.
-
-Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
-Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
----
-v2 [Simon Horman]
-- only add one reset entry per group
-
-v1 [Yoshihiro Kaneko]
----
- arch/arm64/boot/dts/renesas/r8a77995.dtsi | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-index 0a344eb55094..ca6aeabd6d04 100644
---- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-@@ -1001,6 +1001,8 @@
- 			clocks = <&cpg CPG_MOD 724>,
- 				 <&cpg CPG_MOD 723>;
- 			clock-names = "du.0", "du.1";
-+			resets = <&cpg 724>;
-+			reset-names = "du.0";
- 			vsps = <&vspd0 0 &vspd1 0>;
- 			status = "disabled";
- 
--- 
-2.11.0
-
+Thanks, v2 sent.
