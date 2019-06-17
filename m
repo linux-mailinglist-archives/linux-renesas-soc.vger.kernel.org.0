@@ -2,133 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A43B48BB8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2019 20:16:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 26D0549130
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2019 22:18:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726331AbfFQSQG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Jun 2019 14:16:06 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:42701 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726121AbfFQSQG (ORCPT
+        id S1726514AbfFQUSy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Jun 2019 16:18:54 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:38942 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726048AbfFQUSy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Jun 2019 14:16:06 -0400
-Received: by mail-qt1-f193.google.com with SMTP id s15so11884199qtk.9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Jun 2019 11:16:06 -0700 (PDT)
+        Mon, 17 Jun 2019 16:18:54 -0400
+Received: by mail-pf1-f194.google.com with SMTP id j2so6268371pfe.6
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Jun 2019 13:18:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=poorly.run; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=37lcON4Q5cuuFVjtzVGGM/zMMeikjUdgaDG0gMlFfa0=;
-        b=G2wI1CqeTDlCGQ69ZKTKlW5ToPx1/aZ+J1j3AvhoR4iRaQejp0jafmg9E9Zo9fIcoi
-         VWTDUsK/42dVlYodFSCqLNswkvHdc4HlrPx4U0GDcZy2LKVd5Pb5Mvv5nYHJVdY1PqC7
-         C9YW6sSZcJ3cl/SsKqdZZp6hly82ti/EtswFNt36594jIan27PZeZACF+nyaugCExpz1
-         ecWzp9n/70aeRY3AE179OZKfqMrxloVsr7pJX8asSqHwDLQfFmAjZhNh6/ueF+d6Vu1S
-         BheM9zO9h3lV+8uF+dXDi9FAslkbjPc7UM822coUjymmIuZJrOxIgyDGO6evxaf6rUuN
-         lKbQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=rLIp2me5jZU1SNsGntPYn8e5/jApcYy2rM3bOxsRgHU=;
+        b=Ou1Qv2C5wWRuORI60MzpGmPHAeCCdfaZVktWNZc2c7fSp7OvtS1jY6IznzraXf1Bb1
+         RqXJ4HSEYP39Ontf/BM70otllMTdzUydEwKEVNtnd976UYJoCfgYFrpvqhojnhTcZL68
+         FsznHjtay7S2jtWwDu5UiAPx0ensImFt/BNxz2cfeBKSBgojZylJ4jBot90MoPfdols2
+         3WZeyqcYkhNrxK44/bUcprBG+ZXqER1ap4CH7S2s1vvxpTW8tvWzp1N/TrDnUhl0GKFe
+         xPZBptaqbJ2sz4X8XC9i4xav98mpOO2bghbiHdArGIxomCFbS58mBWrctO3uTURxYz87
+         VAOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=37lcON4Q5cuuFVjtzVGGM/zMMeikjUdgaDG0gMlFfa0=;
-        b=DyrFqrNK7I2qBWDImrnibBQiruj2a9S03AjgYSfWAc/0lPqSPPillQ7SOVFLGlaxBJ
-         B74S609W3NmNRPvot1eyOlCC2yX05qv3DpchFh1k2M6AQJ4dSZUpZ1Va0IkUsoRI3zxl
-         fsqtWIjN2z1F+ahE8yUgpxUCUM7knsL7rJAlzzJdWKRaJAbJs5+DIE1jx2kUriPb0blH
-         1t3QxNzne4qeeHLsnqM9KKUL+o3b7HAKEmeSQdDDVj3yuf3AYp5mUCA9RB8xKQgT2ElZ
-         sgOgxrkAzfZFlOhEwMbE2fK0/0dU/4H4j1/Spf6F/rGZ9IKMI7hMIb8ZPRYzJU/5H5Wc
-         e8Kg==
-X-Gm-Message-State: APjAAAWc3ak4AdwhnHW7aJEpggk9Zq3XoUeDXv7OVZ2D2vKWiKL+EZbS
-        ahxjPrPkY1lxTuIdWGiu8eGDoQ==
-X-Google-Smtp-Source: APXvYqxdM7PLs9QGhcr/Fx0QfODHq7qGPTdDffuZ6hzGaz6//LBmr2nkyDzhQxVJ9iRxyIuUsMMb1w==
-X-Received: by 2002:a0c:88c3:: with SMTP id 3mr22062442qvo.21.1560795365692;
-        Mon, 17 Jun 2019 11:16:05 -0700 (PDT)
-Received: from rosewood.cam.corp.google.com ([100.100.175.19])
-        by smtp.gmail.com with ESMTPSA id 15sm6976783qtf.2.2019.06.17.11.16.04
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 17 Jun 2019 11:16:05 -0700 (PDT)
-From:   Sean Paul <sean@poorly.run>
-To:     dri-devel@lists.freedesktop.org
-Cc:     Sean Paul <seanpaul@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
-        <ville.syrjala@linux.intel.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Eric Anholt <eric@anholt.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        Lyude Paul <lyude@redhat.com>,
-        Karol Herbst <karolherbst@gmail.com>,
-        Ilia Mirkin <imirkin@alum.mit.edu>,
-        intel-gfx@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        kbuild test robot <lkp@intel.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [PATCH] drm/rcar-du: Fix error check when retrieving crtc state
-Date:   Mon, 17 Jun 2019 14:15:42 -0400
-Message-Id: <20190617181548.124134-1-sean@poorly.run>
-X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=rLIp2me5jZU1SNsGntPYn8e5/jApcYy2rM3bOxsRgHU=;
+        b=cn6hJOKt+rUKd2RZo1IsAzc3CEggjMHlkL3hMz4jTkHzOAzoufxHxUvRKVn+yM4GID
+         7QxK/a3LWv5dqs2WcXeQcjOsr1mNEr5gJimRnhLhLWyCBuFtCDh8B8QQFFuamTBM/6es
+         gmsPbLI5MuEZKzCZudoNXiQtTm+pTzX8o08S/2DDd8RJP/q6qpvnakBDFIyx24Z9dtrw
+         pn0EavSxOM9fhNnmJdOK97zrrC2Im7LSiHS64VWTVhb+p1ECOCQQTU78+gwcOLBCWZ7N
+         MvG3tOWE56CPlk8FLuxxSb9fbc1i1S+Etg2b3uGXRJwcD2jTcIVuSanlLgcc6s0EEYf0
+         9cwg==
+X-Gm-Message-State: APjAAAXuRWCT1BUIkD2ktd9s6Tf6ws7cplkJOiOQ38qwL/ZwwVRP9xz8
+        3DruLVt5OeaUqzhVnfgrjKMQ9jf2
+X-Google-Smtp-Source: APXvYqwVGzetBeRPDEU3UPBFTb4D0Rbgg5eyrtulEO9VoINtcmRqBzlMZ0z/f4I3ERYpLSK1x35EuQ==
+X-Received: by 2002:aa7:9aaf:: with SMTP id x15mr64420337pfi.214.1560802712814;
+        Mon, 17 Jun 2019 13:18:32 -0700 (PDT)
+Received: from localhost.localdomain (KD118155013174.ppp-bb.dion.ne.jp. [118.155.13.174])
+        by smtp.gmail.com with ESMTPSA id 11sm11965953pfo.19.2019.06.17.13.18.30
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Mon, 17 Jun 2019 13:18:31 -0700 (PDT)
+From:   Yoshihiro Kaneko <ykaneko0929@gmail.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH/RFT] arm64: dts: renesas: r8a77995: Fix register range of display node
+Date:   Tue, 18 Jun 2019 05:18:16 +0900
+Message-Id: <1560802696-19042-1-git-send-email-ykaneko0929@gmail.com>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Sean Paul <seanpaul@chromium.org>
+Since the R8A77995 SoC uses DU{0,1}, the range from the base address to
+the 0x4000 address is used.
+This patch fixed it.
 
-drm_atomic_get_crtc_state() returns an error pointer when it fails, so
-the null check is doing nothing here.
+Fixes: 18f1a773e3f9 ("arm64: dts: renesas: r8a77995: add DU support")
 
-Credit to 0-day/Dan Carpenter for reporting this.
-
-Fixes: 6f3b62781bbd ("drm: Convert connector_helper_funcs->atomic_check to accept drm_atomic_state")
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Ben Skeggs <bskeggs@redhat.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: Eric Anholt <eric@anholt.net>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com> [for rcar lvds]
-Cc: Sean Paul <seanpaul@chromium.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>
-Cc: Sean Paul <sean@poorly.run>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Lyude Paul <lyude@redhat.com>
-Cc: Karol Herbst <karolherbst@gmail.com>
-Cc: Ilia Mirkin <imirkin@alum.mit.edu>
-Cc: dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org
-Cc: linux-renesas-soc@vger.kernel.org
-Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Sean Paul <seanpaul@chromium.org>
+Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
 ---
- drivers/gpu/drm/rcar-du/rcar_lvds.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-index f2a5d4d997073..1c62578590f46 100644
---- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-@@ -115,8 +115,8 @@ static int rcar_lvds_connector_atomic_check(struct drm_connector *connector,
+This patch is based on the devel branch of Simon Horman's renesas tree.
+
+ arch/arm64/boot/dts/renesas/r8a77995.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+index 0a344eb..0567b36 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+@@ -995,7 +995,7 @@
  
- 	/* We're not allowed to modify the resolution. */
- 	crtc_state = drm_atomic_get_crtc_state(state, conn_state->crtc);
--	if (!crtc_state)
--		return -EINVAL;
-+	if (IS_ERR(crtc_state))
-+		return PTR_ERR(crtc_state);
- 
- 	if (crtc_state->mode.hdisplay != panel_mode->hdisplay ||
- 	    crtc_state->mode.vdisplay != panel_mode->vdisplay)
+ 		du: display@feb00000 {
+ 			compatible = "renesas,du-r8a77995";
+-			reg = <0 0xfeb00000 0 0x80000>;
++			reg = <0 0xfeb00000 0 0x40000>;
+ 			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&cpg CPG_MOD 724>,
 -- 
-Sean Paul, Software Engineer, Google / Chromium OS
+1.9.1
 
