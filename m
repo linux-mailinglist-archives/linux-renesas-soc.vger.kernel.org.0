@@ -2,71 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B13F24777E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2019 02:35:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C292E478FE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2019 06:17:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727322AbfFQAf7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 16 Jun 2019 20:35:59 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:43274 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727238AbfFQAf6 (ORCPT
+        id S1725730AbfFQERr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Jun 2019 00:17:47 -0400
+Received: from mail-eopbgr1410128.outbound.protection.outlook.com ([40.107.141.128]:59644
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725778AbfFQERq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 16 Jun 2019 20:35:58 -0400
-Received: from pendragon.bb.dnainternet.fi (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9957E2AF;
-        Mon, 17 Jun 2019 02:35:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1560731756;
-        bh=8izVufNu8LLwRDlGn4ZGVax/LUiKLlxFSxEmWstn2kI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=hokPeCznOZMGGqCCcb6POXIuguwbm/vAUB/WJp63MmdoiSSPX+40/OTyjNmtH3OSZ
-         DD05M/oWPrzvW5/1fmb104BWyMkUzpXfU0zhUM/4ZRRi3USOoVkSRrVxZ5axhdOoKw
-         iS+Mn7RHjFSEmjlyOsNDQPqgaLTkMQkMm4JDKqHk=
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [kms-tests] [PATCH] tests: Extend BRU/BRS allocation test to cover M3-N
-Date:   Mon, 17 Jun 2019 03:35:36 +0300
-Message-Id: <20190617003536.30936-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.21.0
+        Mon, 17 Jun 2019 00:17:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MmkixwRvjDS7rGX301COiJH0uUpjqnSTmo128qV9Lvg=;
+ b=riHkILYrchef9PUczfUprqjdWmPDkyEdfM6sMCPhWUpEr+EIoXJAmKv4s/gsl7b3avwXiR/uNMzNbh72I2LkbOS0+JkJiP+BslQqp0npUmWqTSWeDmVnGeRxQjtyHAoPMAtuGzmaM9+oO4eRSKZOkmH12RU4oe5/eP+/GcNhOMI=
+Received: from OSBPR01MB3590.jpnprd01.prod.outlook.com (20.178.97.80) by
+ OSBPR01MB4487.jpnprd01.prod.outlook.com (20.179.184.149) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.1987.12; Mon, 17 Jun 2019 04:17:43 +0000
+Received: from OSBPR01MB3590.jpnprd01.prod.outlook.com
+ ([fe80::b1c2:125c:440d:e240]) by OSBPR01MB3590.jpnprd01.prod.outlook.com
+ ([fe80::b1c2:125c:440d:e240%4]) with mapi id 15.20.1987.014; Mon, 17 Jun 2019
+ 04:17:43 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Alan Stern <stern@rowland.harvard.edu>
+CC:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "usb-storage@lists.one-eyed-alien.net" 
+        <usb-storage@lists.one-eyed-alien.net>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>, Christoph Hellwig <hch@lst.de>
+Subject: RE: [PATCH v2] usb-storage: Add a limitation for
+ blk_queue_max_hw_sectors()
+Thread-Topic: [PATCH v2] usb-storage: Add a limitation for
+ blk_queue_max_hw_sectors()
+Thread-Index: AQHVIcuW138W6xs/SU+mBATKJYat56aZ0SQAgAABRQCAAAL1gIAFZkqg
+Date:   Mon, 17 Jun 2019 04:17:43 +0000
+Message-ID: <OSBPR01MB359051D6F83101432E0F2549D8EB0@OSBPR01MB3590.jpnprd01.prod.outlook.com>
+References: <20190613171112.GA22155@lst.de>
+ <Pine.LNX.4.44L0.1906131317210.1307-100000@iolanthe.rowland.org>
+In-Reply-To: <Pine.LNX.4.44L0.1906131317210.1307-100000@iolanthe.rowland.org>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [118.238.235.108]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d2cf138f-69ff-4fc6-2f40-08d6f2dabeed
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB4487;
+x-ms-traffictypediagnostic: OSBPR01MB4487:
+x-microsoft-antispam-prvs: <OSBPR01MB4487C41E39307542DA438F99D8EB0@OSBPR01MB4487.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0071BFA85B
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(366004)(136003)(39860400002)(346002)(396003)(376002)(199004)(189003)(305945005)(26005)(2906002)(54906003)(86362001)(5660300002)(186003)(102836004)(6436002)(7696005)(74316002)(316002)(14454004)(14444005)(6916009)(76176011)(7736002)(33656002)(68736007)(478600001)(53936002)(71200400001)(4326008)(71190400001)(66066001)(256004)(229853002)(99286004)(55016002)(9686003)(476003)(52536014)(6506007)(11346002)(76116006)(25786009)(6116002)(486006)(8676002)(3846002)(2171002)(446003)(6246003)(66476007)(73956011)(64756008)(66556008)(81166006)(81156014)(66446008)(8936002)(66946007);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB4487;H:OSBPR01MB3590.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: NxPmAC6mKVImNsoqBh7b4Li1dj6WA4Ordh2n+1oqYEYxsD7dL5pSj3uyxnjXmMN+rx7VPxv6j+LQBOOHaXseaujM9h4KxzLLtgCuK2yVVnDAryYq3MXrOad+X2eKQG60MO288KkOB1dd0sCxujcfiaHcnlx4ui1URHdDNIHSW6T/QlQga9FhaIgquChSA+0Aa6qVsrz/3y0qZr13Rot62gHH3+a8eXWwtCaHM3A8gUV+HzlhLCFcf3Yp+V9FAuoGne+lutqHCKzRYUyzT7UL0wVdw9AnnF+05sFFQq9XRGhEheFx96ofqQRFlhjSlALiA+yuNdy+voDOsf6JyFEL6vcHQIcF1zhAoiNFwGGeS5aXGa8mQw7cktOSStkxTPh6DNZkn6qrsZrbwbY+0XUR1b+TlmH/yb+CGDaogaeJH4A=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d2cf138f-69ff-4fc6-2f40-08d6f2dabeed
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2019 04:17:43.7342
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yoshihiro.shimoda.uh@renesas.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB4487
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The BRU/BRS allocation test only covers the H3 ES2.0 SoC as that was the
-only hardware platform supported by the DU driver that offered the
-required features at the time the test was written. Now that M3-N is
-supported in the DU driver, support it in the test script.
+Hi Alan,
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- tests/kms-test-brxalloc.py | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+> From: Alan Stern, Sent: Friday, June 14, 2019 2:22 AM
+>=20
+> On Thu, 13 Jun 2019, Christoph Hellwig wrote:
+>=20
+> > On Thu, Jun 13, 2019 at 01:06:40PM -0400, Alan Stern wrote:
+> > > Hmmm.  Would it be easier instead to copy the DMA mapping parameters
+> > > from us->pusb_dev->bus->sysdev into the SCSI host's parent before
+> > > calling scsi_add_host()?  That way the correct values would be
+> > > available from the beginning, so the existing DMA setup would
+> > > automatically use the correct sizes.
+> >
+> > It would in theory.  But at usb-storage has a special max_sectors quirk
+> > for tape devices, and as the device type is a per-LU property we'd
+> > still have to override it in ->slave_configure.
+>=20
+> Not just for tape devices.  But that's okay; those max_sectors
+> overrides have been present for a long time and we can keep them.
+> Getting rid of the virt_boundary_mask stuff would still be a big
+> improvement.
 
-diff --git a/tests/kms-test-brxalloc.py b/tests/kms-test-brxalloc.py
-index 2e3f6cb8b39e..f1902f3baf1d 100755
---- a/tests/kms-test-brxalloc.py
-+++ b/tests/kms-test-brxalloc.py
-@@ -17,11 +17,10 @@ class BRxAllocTest(kmstest.KMSTest):
-     def main(self):
-         # This test requires usage of two CRTCs connected to the same VSPDL
-         # instance to test dynamic assignment of the BRU and BRS to pipelines.
--        # This is only occurs on H3 ES2.0 (and M3N which we don't support yet).
--        # Check the SoC model through sysfs as we can't detected it through the
--        # DRM/KMS API.
-+        # This is only occurs on H3 ES2.0 and M3N. Check the SoC model through
-+        # sysfs as we can't detected it through the DRM/KMS API.
-         soc = open("/sys/devices/soc0/soc_id", "rb").read().strip().decode()
--        if soc != "r8a7795":
-+        if soc != "r8a7795" and soc != "r8a77965":
-             self.skip("VSPDL (BRU+BRS) not available")
-             return
- 
--- 
-Regards,
+Thank you for the comments. So, should I wait for getting rid of the
+virt_boundary_mask stuff? If I revise the commit log of this patch,
+is it acceptable for v5.2-stable as a workaround? In other words,
+I worry about this issue exists on v5.2-stable.
 
-Laurent Pinchart
+Best regards,
+Yoshihiro Shimoda
+
+> Alan Stern
 
