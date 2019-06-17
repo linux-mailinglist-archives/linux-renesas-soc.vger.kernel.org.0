@@ -2,89 +2,207 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 26D0549130
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2019 22:18:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 677E14914E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2019 22:25:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726514AbfFQUSy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Jun 2019 16:18:54 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:38942 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726048AbfFQUSy (ORCPT
+        id S1726735AbfFQUZc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Jun 2019 16:25:32 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:38652 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726683AbfFQUZc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Jun 2019 16:18:54 -0400
-Received: by mail-pf1-f194.google.com with SMTP id j2so6268371pfe.6
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Jun 2019 13:18:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=rLIp2me5jZU1SNsGntPYn8e5/jApcYy2rM3bOxsRgHU=;
-        b=Ou1Qv2C5wWRuORI60MzpGmPHAeCCdfaZVktWNZc2c7fSp7OvtS1jY6IznzraXf1Bb1
-         RqXJ4HSEYP39Ontf/BM70otllMTdzUydEwKEVNtnd976UYJoCfgYFrpvqhojnhTcZL68
-         FsznHjtay7S2jtWwDu5UiAPx0ensImFt/BNxz2cfeBKSBgojZylJ4jBot90MoPfdols2
-         3WZeyqcYkhNrxK44/bUcprBG+ZXqER1ap4CH7S2s1vvxpTW8tvWzp1N/TrDnUhl0GKFe
-         xPZBptaqbJ2sz4X8XC9i4xav98mpOO2bghbiHdArGIxomCFbS58mBWrctO3uTURxYz87
-         VAOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=rLIp2me5jZU1SNsGntPYn8e5/jApcYy2rM3bOxsRgHU=;
-        b=cn6hJOKt+rUKd2RZo1IsAzc3CEggjMHlkL3hMz4jTkHzOAzoufxHxUvRKVn+yM4GID
-         7QxK/a3LWv5dqs2WcXeQcjOsr1mNEr5gJimRnhLhLWyCBuFtCDh8B8QQFFuamTBM/6es
-         gmsPbLI5MuEZKzCZudoNXiQtTm+pTzX8o08S/2DDd8RJP/q6qpvnakBDFIyx24Z9dtrw
-         pn0EavSxOM9fhNnmJdOK97zrrC2Im7LSiHS64VWTVhb+p1ECOCQQTU78+gwcOLBCWZ7N
-         MvG3tOWE56CPlk8FLuxxSb9fbc1i1S+Etg2b3uGXRJwcD2jTcIVuSanlLgcc6s0EEYf0
-         9cwg==
-X-Gm-Message-State: APjAAAXuRWCT1BUIkD2ktd9s6Tf6ws7cplkJOiOQ38qwL/ZwwVRP9xz8
-        3DruLVt5OeaUqzhVnfgrjKMQ9jf2
-X-Google-Smtp-Source: APXvYqwVGzetBeRPDEU3UPBFTb4D0Rbgg5eyrtulEO9VoINtcmRqBzlMZ0z/f4I3ERYpLSK1x35EuQ==
-X-Received: by 2002:aa7:9aaf:: with SMTP id x15mr64420337pfi.214.1560802712814;
-        Mon, 17 Jun 2019 13:18:32 -0700 (PDT)
-Received: from localhost.localdomain (KD118155013174.ppp-bb.dion.ne.jp. [118.155.13.174])
-        by smtp.gmail.com with ESMTPSA id 11sm11965953pfo.19.2019.06.17.13.18.30
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Mon, 17 Jun 2019 13:18:31 -0700 (PDT)
-From:   Yoshihiro Kaneko <ykaneko0929@gmail.com>
+        Mon, 17 Jun 2019 16:25:32 -0400
+Received: from pendragon.bb.dnainternet.fi (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A4C402AF;
+        Mon, 17 Jun 2019 22:25:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1560803130;
+        bh=375R4laECwHXGIe3II/QbP0fnB7CeCRxX2C3jmppBzA=;
+        h=From:To:Cc:Subject:Date:From;
+        b=k6NFNos9cpNzOP1de5J0u6h10xlAwiYpPdnn8wp3ey62a37F8cW0x3MhC4A7W7JBt
+         RpBhxAaw4uN0qVCaXA8eUCfl3QiG9gUbwwTP+TS1wk5iysLFem1eR+eH93z+riox2A
+         mE2l0SrOcbjAP5tlQ2nmGz1gRHBNS+dbtVeDKZAw=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-renesas-soc@vger.kernel.org
-Cc:     Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH/RFT] arm64: dts: renesas: r8a77995: Fix register range of display node
-Date:   Tue, 18 Jun 2019 05:18:16 +0900
-Message-Id: <1560802696-19042-1-git-send-email-ykaneko0929@gmail.com>
-X-Mailer: git-send-email 1.9.1
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH] tests: Add an output routing test
+Date:   Mon, 17 Jun 2019 23:25:09 +0300
+Message-Id: <20190617202509.25897-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Since the R8A77995 SoC uses DU{0,1}, the range from the base address to
-the 0x4000 address is used.
-This patch fixed it.
+Add a test that moves an output connector between multiple CRTCs with a
+single mode set operation at each step, without going through disable
+and reenable cycles. This helps testing the routing configuration code
+paths in the commit tail handler.
 
-Fixes: 18f1a773e3f9 ("arm64: dts: renesas: r8a77995: add DU support")
-
-Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
+ tests/kms-test-routing.py | 148 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 148 insertions(+)
+ create mode 100755 tests/kms-test-routing.py
 
-This patch is based on the devel branch of Simon Horman's renesas tree.
-
- arch/arm64/boot/dts/renesas/r8a77995.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-index 0a344eb..0567b36 100644
---- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-@@ -995,7 +995,7 @@
- 
- 		du: display@feb00000 {
- 			compatible = "renesas,du-r8a77995";
--			reg = <0 0xfeb00000 0 0x80000>;
-+			reg = <0 0xfeb00000 0 0x40000>;
- 			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 724>,
+diff --git a/tests/kms-test-routing.py b/tests/kms-test-routing.py
+new file mode 100755
+index 000000000000..2cf02ddcc6b5
+--- /dev/null
++++ b/tests/kms-test-routing.py
+@@ -0,0 +1,148 @@
++#!/usr/bin/python3
++
++import kmstest
++import pykms
++import time
++
++class Pipeline(object):
++    def __init__(self, crtc):
++        self.crtc = crtc
++        self.connector = None
++        self.plane = None
++        self.mode_blob = None
++
++
++class RoutingTest(kmstest.KMSTest):
++    """Test output routing."""
++
++    def main(self):
++
++        # Create the reverse map from CRTC to possible connectors and calculate
++        # the largest resolution.
++        self.crtc_to_connectors = {}
++        max_hdisplay = 0
++        max_vdisplay = 0
++
++        for connector in self.card.connectors:
++            if connector.fullname.startswith('writeback-'):
++                continue
++
++            mode = connector.get_default_mode()
++            max_hdisplay = max(mode.hdisplay, max_hdisplay)
++            max_vdisplay = max(mode.vdisplay, max_vdisplay)
++
++            for crtc in connector.get_possible_crtcs():
++                if not crtc in self.crtc_to_connectors:
++                    self.crtc_to_connectors[crtc] = []
++                self.crtc_to_connectors[crtc].append(connector)
++
++        # Find a connector that can be routed to at least two CRTCs that have
++        # at least two output routes each.
++        shared_connector = None
++        for connector in self.card.connectors:
++            if connector.fullname.startswith('writeback-'):
++                continue
++
++            pipes = []
++            for crtc in connector.get_possible_crtcs():
++                if len(self.crtc_to_connectors[crtc]) >= 2:
++                    pipes.append(Pipeline(crtc))
++
++            if len(pipes) >= 2:
++                shared_connector = connector
++                break
++
++        if not shared_connector:
++            self.skip("No suitable connector")
++            return
++
++        # Allocate planes for each CRTC.
++        pool = [(pipe, list(pipe.crtc.possible_planes)) for pipe in pipes]
++        while len(pool):
++            pool.sort(key=lambda elem: len(elem[1]), reverse=True)
++            pipe, planes = pool[-1]
++            pipe.plane = planes[0]
++            pool = [(elem[0], [p for p in elem[1] if p != pipe.plane]) for elem in pool[:-1]]
++
++        # Create a framebuffer big enough for all connectors.
++        fb = pykms.DumbFramebuffer(self.card, max_hdisplay, max_vdisplay, "XR24")
++        pykms.draw_test_pattern(fb)
++
++        self.start("Moving connector %s between CRTCs %s" % \
++                   (shared_connector.fullname, [pipe.crtc.id for pipe in pipes]))
++
++        self.logger.log("Highest display resolution: %ux%u" % (max_hdisplay, max_vdisplay))
++
++        for master_pipe in pipes:
++            req = kmstest.AtomicRequest(self)
++            connectors = self.allocate_connectors(pipes, master_pipe, shared_connector)
++            route = []
++
++            for pipe in pipes:
++                if pipe.connector and not pipe.connector in connectors.values():
++                    req.add(pipe.connector, 'CRTC_ID', 0)
++
++                pipe.connector = connectors[pipe.crtc]
++                mode = pipe.connector.get_default_mode()
++                pipe.mode_blob = mode.to_blob(self.card)
++
++                req.add(pipe.connector, 'CRTC_ID', pipe.crtc.id)
++                req.add(pipe.crtc, {'ACTIVE': 1, 'MODE_ID': pipe.mode_blob.id})
++                req.add(pipe.plane, {
++                            'FB_ID': fb.id,
++                            'CRTC_ID': pipe.crtc.id,
++                            'SRC_X': 0,
++                            'SRC_Y': 0,
++                            'SRC_W': int(mode.hdisplay * 65536),
++                            'SRC_H': int(mode.vdisplay * 65536),
++                            'CRTC_X': 0,
++                            'CRTC_Y': 0,
++                            'CRTC_W': mode.hdisplay,
++                            'CRTC_H': mode.vdisplay,
++                        })
++
++                route.append("CRTC %u to connector %s" % (pipe.crtc.id, pipe.connector.fullname))
++
++            self.logger.log("Routing " + ", ".join(route))
++
++            ret = req.commit_sync(True)
++            if ret < 0:
++                self.fail("atomic commit failed with %d" % ret)
++                return
++
++            time.sleep(5)
++
++        self.success()
++
++        for pipe in pipes:
++            self.atomic_crtc_disable(pipe.crtc)
++
++
++    def allocate_connectors(self, pipes, master_pipe, shared_connector):
++        # Allocate one connector for each CRTC. Create a pool of available
++        # connectors for each CRTC, sorted by the number of connectors, and
++        # allocate started with the CRTC that has the least number of options.
++        # The master CRTC is always given the shared connector.
++        pool = []
++        for pipe in pipes:
++            if pipe == master_pipe:
++                pool.append((pipe.crtc, [shared_connector]))
++                continue
++
++            pool.append((pipe.crtc, list(self.crtc_to_connectors[pipe.crtc])))
++
++        allocated = {}
++        while len(pool):
++            pool.sort(key=lambda elem: len(elem[1]), reverse=True)
++            crtc, connectors = pool[-1]
++
++            connector = connectors[0]
++            allocated[crtc] = connector
++
++            # Remove the selected connector from all elements in the pool
++            pool = [(elem[0], [c for c in elem[1] if c != connector]) for elem in pool[:-1]]
++
++        return allocated
++
++
++RoutingTest().execute()
 -- 
-1.9.1
+Regards,
+
+Laurent Pinchart
 
