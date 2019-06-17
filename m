@@ -2,88 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7504E48AF7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2019 19:58:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A43B48BB8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Jun 2019 20:16:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728657AbfFQR6Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 17 Jun 2019 13:58:24 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:34935 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728564AbfFQR6V (ORCPT
+        id S1726331AbfFQSQG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 17 Jun 2019 14:16:06 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:42701 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726121AbfFQSQG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 17 Jun 2019 13:58:21 -0400
-Received: by mail-wm1-f68.google.com with SMTP id c6so351588wml.0;
-        Mon, 17 Jun 2019 10:58:19 -0700 (PDT)
+        Mon, 17 Jun 2019 14:16:06 -0400
+Received: by mail-qt1-f193.google.com with SMTP id s15so11884199qtk.9
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 17 Jun 2019 11:16:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=RA99XH++ZeHo9lFJDfpQ1th6xBYVyCVIO6aT2ccvLfQ=;
-        b=iir/cwro3Uo0pydX2p6MssHcUcKCWLi3F0aRNfT9oiuPoCu3KzQi3D++TfCMCA5kbq
-         UhdVsSno+MyWwqU7UMla2YRrjl3vooBFlx0nKtYTh44mvlxTjTeU/ZMsoTFT3Na0Nbo8
-         zbXVWPc9pfLCEz8akgJpe2z9seqCP2z2haWgAfsi9/bgn50zH7bOZc5jW9vXW8SMk4Rt
-         tx2lTCVIciiKlEe6uGemUYOgLdxEayja9E1N+noF29tOg7VjKlKwytO7pxFuV7oS4QEN
-         rJlpCllgKrwVj7eJfedrwSjRfOJSjzakYsBlPrwpP8+Cypssx+Hl6JwcIa7W9QWRzmBt
-         BA8g==
+        d=poorly.run; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=37lcON4Q5cuuFVjtzVGGM/zMMeikjUdgaDG0gMlFfa0=;
+        b=G2wI1CqeTDlCGQ69ZKTKlW5ToPx1/aZ+J1j3AvhoR4iRaQejp0jafmg9E9Zo9fIcoi
+         VWTDUsK/42dVlYodFSCqLNswkvHdc4HlrPx4U0GDcZy2LKVd5Pb5Mvv5nYHJVdY1PqC7
+         C9YW6sSZcJ3cl/SsKqdZZp6hly82ti/EtswFNt36594jIan27PZeZACF+nyaugCExpz1
+         ecWzp9n/70aeRY3AE179OZKfqMrxloVsr7pJX8asSqHwDLQfFmAjZhNh6/ueF+d6Vu1S
+         BheM9zO9h3lV+8uF+dXDi9FAslkbjPc7UM822coUjymmIuZJrOxIgyDGO6evxaf6rUuN
+         lKbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=RA99XH++ZeHo9lFJDfpQ1th6xBYVyCVIO6aT2ccvLfQ=;
-        b=DCGnKi4bh/i7N18dukr0h5GrOPxayUkr5Eaa/GezQM3lXq6m926Ous4Y2+Zc8TNW1C
-         bDftOe0KuqoauxRY8v0izGsPtoZoY2NOwjjah0DpzURbmgmbMqmi1PPBnXLykO0WywCF
-         k4CHJ4KAptYMqawclTTklG06/dEsjQzmSxVclzkDtauMFTKl+1d+AAMzjfssBg71nZdU
-         ejwM3BJZXarygvyYm7vKpI2P2gN09hERsJOD8ZM0IcDKOeujk0/LOLO7aJiKb32+RbgV
-         zg01Cm5IqmNdAGYUEK0g1tWBKhCyOa1gqQcdKJFDh17q7Uw9QtHqwLcOlKFM0okJyhiz
-         Y0uA==
-X-Gm-Message-State: APjAAAV/II8C/5PTvRr4LJSTuCrIlEzV8B/k/38nhqf1XLTlV1OQrXUy
-        nN78oGbx2NYcOQG+U/M4OBA=
-X-Google-Smtp-Source: APXvYqxzwMRI3pC9nLxx+cmi8fX06IrtlUhdDEcmz2BcTfXpaVk8v0SGvmPS+vZF06+nGUJcsaBAYg==
-X-Received: by 2002:a1c:343:: with SMTP id 64mr21050453wmd.116.1560794289646;
-        Mon, 17 Jun 2019 10:58:09 -0700 (PDT)
-Received: from arch-x1c3 ([2a00:5f00:102:0:9665:9cff:feee:aa4d])
-        by smtp.gmail.com with ESMTPSA id s188sm13333537wmf.40.2019.06.17.10.58.07
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=37lcON4Q5cuuFVjtzVGGM/zMMeikjUdgaDG0gMlFfa0=;
+        b=DyrFqrNK7I2qBWDImrnibBQiruj2a9S03AjgYSfWAc/0lPqSPPillQ7SOVFLGlaxBJ
+         B74S609W3NmNRPvot1eyOlCC2yX05qv3DpchFh1k2M6AQJ4dSZUpZ1Va0IkUsoRI3zxl
+         fsqtWIjN2z1F+ahE8yUgpxUCUM7knsL7rJAlzzJdWKRaJAbJs5+DIE1jx2kUriPb0blH
+         1t3QxNzne4qeeHLsnqM9KKUL+o3b7HAKEmeSQdDDVj3yuf3AYp5mUCA9RB8xKQgT2ElZ
+         sgOgxrkAzfZFlOhEwMbE2fK0/0dU/4H4j1/Spf6F/rGZ9IKMI7hMIb8ZPRYzJU/5H5Wc
+         e8Kg==
+X-Gm-Message-State: APjAAAWc3ak4AdwhnHW7aJEpggk9Zq3XoUeDXv7OVZ2D2vKWiKL+EZbS
+        ahxjPrPkY1lxTuIdWGiu8eGDoQ==
+X-Google-Smtp-Source: APXvYqxdM7PLs9QGhcr/Fx0QfODHq7qGPTdDffuZ6hzGaz6//LBmr2nkyDzhQxVJ9iRxyIuUsMMb1w==
+X-Received: by 2002:a0c:88c3:: with SMTP id 3mr22062442qvo.21.1560795365692;
+        Mon, 17 Jun 2019 11:16:05 -0700 (PDT)
+Received: from rosewood.cam.corp.google.com ([100.100.175.19])
+        by smtp.gmail.com with ESMTPSA id 15sm6976783qtf.2.2019.06.17.11.16.04
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Mon, 17 Jun 2019 10:58:08 -0700 (PDT)
-Date:   Mon, 17 Jun 2019 18:56:06 +0100
-From:   Emil Velikov <emil.l.velikov@gmail.com>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        linux-aspeed@lists.ozlabs.org, nouveau@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
-        amd-gfx@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        spice-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        etnaviv@lists.freedesktop.org, xen-devel@lists.xenproject.org,
-        linux-tegra@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org, freedreno@lists.freedesktop.org
-Subject: Re: [PATCH 06/59] drm/prime: Actually remove DRIVER_PRIME everywhere
-Message-ID: <20190617175606.GE26766@arch-x1c3>
-References: <20190614203615.12639-1-daniel.vetter@ffwll.ch>
- <20190614203615.12639-7-daniel.vetter@ffwll.ch>
+        Mon, 17 Jun 2019 11:16:05 -0700 (PDT)
+From:   Sean Paul <sean@poorly.run>
+To:     dri-devel@lists.freedesktop.org
+Cc:     Sean Paul <seanpaul@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
+        =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= 
+        <ville.syrjala@linux.intel.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Eric Anholt <eric@anholt.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        Lyude Paul <lyude@redhat.com>,
+        Karol Herbst <karolherbst@gmail.com>,
+        Ilia Mirkin <imirkin@alum.mit.edu>,
+        intel-gfx@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        kbuild test robot <lkp@intel.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [PATCH] drm/rcar-du: Fix error check when retrieving crtc state
+Date:   Mon, 17 Jun 2019 14:15:42 -0400
+Message-Id: <20190617181548.124134-1-sean@poorly.run>
+X-Mailer: git-send-email 2.22.0.410.gd8fdbe21b5-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190614203615.12639-7-daniel.vetter@ffwll.ch>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2019/06/14, Daniel Vetter wrote:
-> Split out to make the functional changes stick out more.
-> 
-Since this patch flew-by, as standalone one (intentionally or not) I'd
-add, anything vaguely like:
+From: Sean Paul <seanpaul@chromium.org>
 
-"Core users of DRIVER_PRIME were removed from core with prior patches."
+drm_atomic_get_crtc_state() returns an error pointer when it fails, so
+the null check is doing nothing here.
 
-HTH
-Emil
+Credit to 0-day/Dan Carpenter for reporting this.
+
+Fixes: 6f3b62781bbd ("drm: Convert connector_helper_funcs->atomic_check to accept drm_atomic_state")
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: Eric Anholt <eric@anholt.net>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com> [for rcar lvds]
+Cc: Sean Paul <seanpaul@chromium.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <maxime.ripard@bootlin.com>
+Cc: Sean Paul <sean@poorly.run>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Lyude Paul <lyude@redhat.com>
+Cc: Karol Herbst <karolherbst@gmail.com>
+Cc: Ilia Mirkin <imirkin@alum.mit.edu>
+Cc: dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org
+Reported-by: kbuild test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Sean Paul <seanpaul@chromium.org>
+---
+ drivers/gpu/drm/rcar-du/rcar_lvds.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+index f2a5d4d997073..1c62578590f46 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
++++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+@@ -115,8 +115,8 @@ static int rcar_lvds_connector_atomic_check(struct drm_connector *connector,
+ 
+ 	/* We're not allowed to modify the resolution. */
+ 	crtc_state = drm_atomic_get_crtc_state(state, conn_state->crtc);
+-	if (!crtc_state)
+-		return -EINVAL;
++	if (IS_ERR(crtc_state))
++		return PTR_ERR(crtc_state);
+ 
+ 	if (crtc_state->mode.hdisplay != panel_mode->hdisplay ||
+ 	    crtc_state->mode.vdisplay != panel_mode->vdisplay)
+-- 
+Sean Paul, Software Engineer, Google / Chromium OS
+
