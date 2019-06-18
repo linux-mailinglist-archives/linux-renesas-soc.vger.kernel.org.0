@@ -2,100 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 804294A021
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 14:01:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 632864A061
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 14:10:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729115AbfFRMBo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jun 2019 08:01:44 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:55798 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726091AbfFRMBo (ORCPT
+        id S1726088AbfFRMKW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jun 2019 08:10:22 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:46041 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725919AbfFRMKW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jun 2019 08:01:44 -0400
-Received: by mail-wm1-f66.google.com with SMTP id a15so2943306wmj.5;
-        Tue, 18 Jun 2019 05:01:42 -0700 (PDT)
+        Tue, 18 Jun 2019 08:10:22 -0400
+Received: by mail-wr1-f65.google.com with SMTP id f9so13640917wre.12
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jun 2019 05:10:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=oj9R2h7PLbPIbssfUEZGisJttd/OMEPsCeLkAVDP4/k=;
-        b=EZbHQj3xMGBqj9Q9GX/wU+YiLHLfXk+cdZg7gRWU9n/Y8XEhWmFdCUR+bTHZJ5cSvc
-         KUzll32D21EfZi+MHAOH8vq6rbY/m6fHvYeohptFvTxOqEC386rTUHlyh0nKeIiNS4Wl
-         friRRybP9vG4hZB0omRydPP9Df6NCF/z8lJ6CQI0q0ic5hPulqLbxUA9E/iHUvRnx8Jc
-         Sw0myf5f4DlMTs4nLW166v7sL6iQKANBux9MRMDV7Sp1REbzRVLEOiXzF5vPZc3paY8z
-         VmxE9Pz38snaHNywmkwY+N9aNhb+KCistFLoqqkBjRZoe+xNrX0XRa6FcexZ8mcB2SjF
-         tEWg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+6zc6WbTP5poyzPjTzRIwuO80xZpH5JaHn8Oyp9244A=;
+        b=KA5BEjEZz9dXxi/TcfuvvZ7HbGnjoIyU3K0xRxTBlylDNS3iUgZkg6TPWot5dvs1cp
+         l5/i0K3QKQiwx9u1E+6sgV7wrfmDL9YeDTWEg82vE77/fA27kpePcVYfjto8C09JKDz/
+         dMT6JW6RHuzPLcmt32FKW2sgcQEo8qP2uhE8St4Q+tMp4TRmTMu8eo4WyzAxd8XMJnGM
+         pWdD4WGhAR76bybFC1KYTVN8vK3Btm8hdBPMtdEMGlQQlNl2cLS9DQIbYkqXL0hI08l3
+         9ROgTxKaiBbZw5Ry6745AKgwHh4ERLlUFjmUqm9ElGlOvnAQZdAVDGsGZuqpDKtgofnb
+         1PbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=oj9R2h7PLbPIbssfUEZGisJttd/OMEPsCeLkAVDP4/k=;
-        b=OE+BbU1k7+YIRLQSSeMZE3QJmiSFVsb7MewbmYBEjmcjmQgzGPXcgqazvs8AB1KoQw
-         ZzxDFll1pLan/Sc8rCyvEsoFjpI+H2bpNXg64p+4PTblRSyV7WU7I6my1g0D/IH1WKHi
-         Ycwa4M51aneIHWJKqUdb+d2yx5fbxC50WFbs/g4eq7WO05ShWkLpAQ8OC9ndIWer3+c6
-         d3j9ursqgMmLxdxwqyk09PZ+YrPOZI6lofPgWSJpA6a2OspGsQ9SzcZ1WOqlE3I0UhkC
-         tqDcy+4PFZSg8ZrCo99YBKPJXcNPM9e4P2M8qkJCIVeTpAM/fk7zpuxckIAB2XfMwFes
-         VBbg==
-X-Gm-Message-State: APjAAAUIQpRk2w2WCYlMeElGbbLZfE+wkj7RYgShfHF1fctMYnEZnCIo
-        CINaYov5qCQEphfquSchA2s=
-X-Google-Smtp-Source: APXvYqzsfBn5Vi+/8ppaMw0HGNWkGiV0h3v4+fwxzpiUXMBe6NlmaVTpFJobraD+wboFQBeWNXiMJQ==
-X-Received: by 2002:a1c:3c8a:: with SMTP id j132mr3279580wma.172.1560859301896;
-        Tue, 18 Jun 2019 05:01:41 -0700 (PDT)
-Received: from [192.168.1.4] (ip-86-49-110-70.net.upcbroadband.cz. [86.49.110.70])
-        by smtp.gmail.com with ESMTPSA id r12sm21413531wrt.95.2019.06.18.05.01.40
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Tue, 18 Jun 2019 05:01:41 -0700 (PDT)
-Subject: Re: [PATCH v13 3/3] dt-bindings: mfd: Document Renesas R-Car Gen3
- RPC-IF controller bindings
-To:     masonccyang@mxic.com.tw, Lee Jones <lee.jones@linaro.org>
-Cc:     bbrezillon@kernel.org, broonie@kernel.org,
-        devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms@verge.net.au>, juliensu@mxic.com.tw,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-spi@vger.kernel.org, mark.rutland@arm.com,
-        miquel.raynal@bootlin.com, robh+dt@kernel.org,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-References: <1558423174-10748-1-git-send-email-masonccyang@mxic.com.tw>
- <1558423174-10748-4-git-send-email-masonccyang@mxic.com.tw>
- <0e2994d6-6efc-9f36-f681-609199f20b9f@cogentembedded.com>
- <20190603130428.GX4797@dell>
- <02addf64-9f6e-ccc1-2f94-8983456e3ebc@cogentembedded.com>
- <OFDA7648A0.F1733EA5-ON48258411.002946DF-48258411.002A2F0D@mxic.com.tw>
-From:   Marek Vasut <marek.vasut@gmail.com>
-Openpgp: preference=signencrypt
-Message-ID: <2671d488-82a1-8720-d9a1-03554d955a38@gmail.com>
-Date:   Tue, 18 Jun 2019 14:01:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+6zc6WbTP5poyzPjTzRIwuO80xZpH5JaHn8Oyp9244A=;
+        b=FoGIO8iil8Hf/Lsaw9mPjsiUHIK9/Cf1w133evIRG2TM0xhjLCZHLlhX+fr5XKW9iL
+         cMTrpJSBD5tXyCcdfE+tZfgsP+4i6zfyjxOhXWo9Bn8A6nczNLSFSBa3VZL90ugWlZ0x
+         Cl3chv5kCLF6axyw+ibQj4hjTsASrQP3QXDPh2kzmX2ZDlbAxyZtWjfLeJrXqBYjbZDz
+         18EPIwDDvjh7QHIgJIrCUXStxoscjUKeIbmwJxsJz5NknzoZ/MgrK8xoPYnyPVYlEpKK
+         ImvMYaUyGOsNM7pb1AIbStY7zO9dpRfWsu8Y7idSKLJ2Ky6ocsW5ibL1aRQci9Pa10EH
+         LObg==
+X-Gm-Message-State: APjAAAUCyTj2cyxWhoJbBsNafqv3qhv3OL4/9IcVffqmg83jUBWTlyjw
+        F02mVTkw9DrqgQVmeU9uza6A6PSumLoZvRALUNS07Q==
+X-Google-Smtp-Source: APXvYqzsM4tq2R+WwnTgMgDC0xNJgZ/5R6+n3M9VhRn9qBVAAKsE0aalTzsqm74ONBtsuqRbaNqKQX9g7pfL2EGGGRI=
+X-Received: by 2002:adf:81c9:: with SMTP id 67mr10292024wra.62.1560859820481;
+ Tue, 18 Jun 2019 05:10:20 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <OFDA7648A0.F1733EA5-ON48258411.002946DF-48258411.002A2F0D@mxic.com.tw>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <156076300266.5827.16345352064689583105.sendpatchset@octo> <20190618104557.cw2wj3uffzo5r4wx@verge.net.au>
+In-Reply-To: <20190618104557.cw2wj3uffzo5r4wx@verge.net.au>
+From:   Magnus Damm <magnus.damm@gmail.com>
+Date:   Tue, 18 Jun 2019 21:10:08 +0900
+Message-ID: <CANqRtoQwnOJPaOR-ftQ+RibTbMNEAaBfp6Vy-4vipzOUx4aPKw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] ARM: dts: Minor CMT update for 32-bit ARM SoCs
+To:     Simon Horman <horms@verge.net.au>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 6/6/19 9:40 AM, masonccyang@mxic.com.tw wrote:
-[...]
+On Tue, Jun 18, 2019 at 7:46 PM Simon Horman <horms@verge.net.au> wrote:
+>
+> On Mon, Jun 17, 2019 at 06:16:42PM +0900, Magnus Damm wrote:
+> > ARM: dts: Minor CMT update for 32-bit ARM SoCs
+> >
+> > [PATCH 1/3] ARM: dts: Update CMT1 DT compat strings on r8a7740
+> > [PATCH 2/3] ARM: dts: Update CMT1 DT compat strings on sh73a0
+> > [PATCH 3/3] ARM: dts: Add CMT0 and CMT1 to r8a7792
+> >
+> > These patches modify CMT device support on r8a7740, sh73a0 and r8a7792.
+> > In particular r8a7740 and sh73a0 get their DT compat strings updated
+> > and r8a7792 gets a fresh set of CMT devices.
+> >
+> > Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
+> > ---
+> >
+> > Patch 1 and Patch 2 depend on the following DT binding change:
+> > [PATCH 2/8] dt-bindings: timer: renesas, cmt: Update CMT1 on sh73a0 and r8a7740
+>
+> Hi Magnus,
+>
+> Do these also depend on a driver update to avoid a regression?
 
-> RPC-IF works either in SPI or HyperFlash is decided by external hardware 
-> pins 
-> configuration and it can NOT switch it's operation mode in the run time. 
-> This is not like my understanding of MFD.
+Hi Simon,
 
-Which external hardware pins decide the RPC configuration ?
+Nope, there are no driver dependencies for this series!
 
-It seems to me like PHYCNT register, PHYMEM bitfield, selects what
-device is connected, and then a couple of other bits control the
-communication, but I see nothing which would be tied to any external
-configuration pins.
+Thanks for your help,
 
-[...]
-
--- 
-Best regards,
-Marek Vasut
+/ magnus
