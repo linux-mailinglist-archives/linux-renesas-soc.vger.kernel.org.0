@@ -2,110 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A53A49EF5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 13:09:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9465449F09
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 13:19:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729630AbfFRLJl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jun 2019 07:09:41 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:53476 "EHLO
-        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729458AbfFRLJl (ORCPT
+        id S1729581AbfFRLTS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jun 2019 07:19:18 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:44677 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729110AbfFRLTS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jun 2019 07:09:41 -0400
-Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id C413125AED3;
-        Tue, 18 Jun 2019 21:09:39 +1000 (AEST)
-Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id C5A0C9408C4; Tue, 18 Jun 2019 13:09:37 +0200 (CEST)
-Date:   Tue, 18 Jun 2019 13:09:37 +0200
-From:   Simon Horman <horms@verge.net.au>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/5] clk: renesas: rcar-gen2-legacy: Switch Z clock to
- .determine_rate()
-Message-ID: <20190618110937.2s7h5vtssymfrxxq@verge.net.au>
-References: <20190617125238.13761-1-geert+renesas@glider.be>
- <20190617125238.13761-2-geert+renesas@glider.be>
+        Tue, 18 Jun 2019 07:19:18 -0400
+Received: by mail-lj1-f196.google.com with SMTP id k18so12650687ljc.11
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jun 2019 04:19:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4qoZlqk786u0ouo5C1bSIhLOmlf/OwDifTle645F2Ao=;
+        b=jUpzwhxrrq+n5hvjciS5xUkqyeyq7143V4uSr2/ubtlZVVdV+POzZDGFtlTfECGALj
+         IAJwJPwAH4VAuJZOiyAO/kPgPDB8lR1BxtRP2CepgrpyieUTZqbSWH76c7XR4osX9c3L
+         tlf2ovGCTAmiVyrMFdswCsfqXhOHHRpvSR2oBDOejhFx9Ov6gIkCPPiNCtWjQ4avLzw+
+         78p3QSgyuG+RjQmtykiPTPNj4A1R/UBhzXoo2Cosjd/IbCRvPq9JQxOXtPdlBLrjXfVj
+         1mVYgq6pLcehpXYybmui2DMneG/YQ/AK9U3es8Rl33QKyErq273mblSnHU3hcxJsvdlM
+         g+zg==
+X-Gm-Message-State: APjAAAUUVhm59HO0EpDi6SnofX2yIuWNW2Jp81WlTZp2xQyfxfu5AdM2
+        O5KtMGX98ukseUp4rmYdcLC9sbP0QTJqZLsjuxk=
+X-Google-Smtp-Source: APXvYqyaAsONWcgbY2o5yFZeMPs1jPVCvqjLmSUQYkv8lHgrbhoZJSavDZReKMqZGPesSXIq2YQ7Bz2IfCq51tvkl/0=
+X-Received: by 2002:a2e:2b57:: with SMTP id q84mr15735189lje.105.1560856755698;
+ Tue, 18 Jun 2019 04:19:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190617125238.13761-2-geert+renesas@glider.be>
-Organisation: Horms Solutions BV
-User-Agent: NeoMutt/20170113 (1.7.2)
+References: <20190617083704.3941-1-horms+renesas@verge.net.au>
+ <20190617083704.3941-2-horms+renesas@verge.net.au> <CAMuHMdUu2T2+Ri_xEq+Nr1qD_Dm067TDkfxTDpduX4xia2FGDQ@mail.gmail.com>
+ <20190618104455.72jyrvwf2vut76hy@verge.net.au>
+In-Reply-To: <20190618104455.72jyrvwf2vut76hy@verge.net.au>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 18 Jun 2019 13:19:02 +0200
+Message-ID: <CAMuHMdVFn+sTXhbsM_tUsqSPeAG4b=zbUne=FaQedZgCBo4_oQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] arm64: dts: renesas: r8a77990: Add cpg reset for
+ LVDS Interface
+To:     Simon Horman <horms@verge.net.au>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Yoshihiro Kaneko <ykaneko0929@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Takeshi Kihara <takeshi.kihara.df@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jun 17, 2019 at 02:52:34PM +0200, Geert Uytterhoeven wrote:
-> As the .round_rate() callback returns a long clock rate, it cannot
-> return clock rates that do not fit in signed long, but do fit in
-> unsigned long.  Hence switch the Z clock on R-Car Gen2 from the old
-> .round_rate() callback to the newer .determine_rate() callback, which
-> does not suffer from this limitation.
-> 
-> This includes implementing range checking.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  drivers/clk/renesas/clk-rcar-gen2.c | 23 +++++++++++++----------
->  1 file changed, 13 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/clk/renesas/clk-rcar-gen2.c b/drivers/clk/renesas/clk-rcar-gen2.c
-> index da9fe3f032eb2a0d..f85837716d2840cf 100644
-> --- a/drivers/clk/renesas/clk-rcar-gen2.c
-> +++ b/drivers/clk/renesas/clk-rcar-gen2.c
-> @@ -66,19 +66,22 @@ static unsigned long cpg_z_clk_recalc_rate(struct clk_hw *hw,
->  	return div_u64((u64)parent_rate * mult, 32);
->  }
->  
-> -static long cpg_z_clk_round_rate(struct clk_hw *hw, unsigned long rate,
-> -				 unsigned long *parent_rate)
-> +static int cpg_z_clk_determine_rate(struct clk_hw *hw,
-> +				    struct clk_rate_request *req)
->  {
-> -	unsigned long prate  = *parent_rate;
-> -	unsigned int mult;
-> +	unsigned long prate = req->best_parent_rate;
-> +	unsigned int min_mult, max_mult, mult;
->  
-> -	if (!prate)
-> -		prate = 1;
-> +	min_mult = max(div_u64(req->min_rate * 32ULL, prate), 1ULL);
-> +	max_mult = min(div_u64(req->max_rate * 32ULL, prate), 32ULL);
+Hi Simon,
 
-nit: the type of the second parameter doesn't look correct to me,
-div_u64 expects a u32 divisor.
+On Tue, Jun 18, 2019 at 12:45 PM Simon Horman <horms@verge.net.au> wrote:
+> On Mon, Jun 17, 2019 at 10:43:09AM +0200, Geert Uytterhoeven wrote:
+> > On Mon, Jun 17, 2019 at 10:37 AM Simon Horman
+> > <horms+renesas@verge.net.au> wrote:
+> > > From: Takeshi Kihara <takeshi.kihara.df@renesas.com>
+> > >
+> > > It is necessary to reset the LVDS Interface according to display on/off.
+> >
+> > This is not the LVDS interface.
+> > The LVDS interface has its own device node.
+>
+> Thanks, how about a changelog more like this?
+>
+> arm64: dts: renesas: r8a77990: Add cpg reset for DU
+>
+> Add CPG reset properties to DU node of E3 (r8a77990) SoC.
 
-> +	if (max_mult < min_mult)
-> +		return -EINVAL;
->  
-> -	mult = div_u64((u64)rate * 32, prate);
-> -	mult = clamp(mult, 1U, 32U);
-> +	mult = div_u64(req->rate * 32ULL, prate);
+Thanks, much better.
 
-Likewise, do we care that prate will be 64bit on 64bit platforms?
-(Yes, I know gen2 SoCs are 32bit :)
+> According to Laurent Pinchart, R-Car Gen3 reset is handled at the group
+> level so specifying one reset entry per group is sufficient. For this
+> reason <&cpg 724> is not listed as a reset for "du.1" as was the case in an
+> earlier revision of this patch.
 
-> +	mult = clamp(mult, min_mult, max_mult);
->  
-> -	return *parent_rate / 32 * mult;
-> +	req->rate = prate / 32 * mult;
-> +	return 0;
->  }
->  
->  static int cpg_z_clk_set_rate(struct clk_hw *hw, unsigned long rate,
-> @@ -129,7 +132,7 @@ static int cpg_z_clk_set_rate(struct clk_hw *hw, unsigned long rate,
->  
->  static const struct clk_ops cpg_z_clk_ops = {
->  	.recalc_rate = cpg_z_clk_recalc_rate,
-> -	.round_rate = cpg_z_clk_round_rate,
-> +	.determine_rate = cpg_z_clk_determine_rate,
->  	.set_rate = cpg_z_clk_set_rate,
->  };
->  
-> -- 
-> 2.17.1
-> 
+Do we need this last sentence?
+
+Note that "dt-bindings: display: renesas: du: Document optional reset
+properties"
+hasn't been accepted in -next yet.
+
+> Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
+> Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
+> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+>
+> > > Therefore, this patch adds CPG reset properties in DU device node
+> > > for the R8A77990 SoC.
+> > >
+> > > According to Laurent Pinchart, R-Car Gen3 reset is handled at the group
+> > > level so specifying one reset entry per group is sufficient. For this
+> > > reason <&cpg 724> is not listed as a reset for "du.1" as was the case in an
+> > > earlier revision of this patch.
+> > >
+> > > Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
+> > > Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
+> > > Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+> > > ---
+> > > v2 [Simon Horman]
+> > > - only add one reset entry per group
+
+> > > --- a/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+> > > +++ b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+> > > @@ -1766,6 +1766,8 @@
+> > >                         clocks = <&cpg CPG_MOD 724>,
+> > >                                  <&cpg CPG_MOD 723>;
+> > >                         clock-names = "du.0", "du.1";
+> > > +                       resets = <&cpg 724>;
+> > > +                       reset-names = "du.0";
+> > >                         vsps = <&vspd0 0 &vspd1 0>;
+> > >                         status = "disabled";
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
