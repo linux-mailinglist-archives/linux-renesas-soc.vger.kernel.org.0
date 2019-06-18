@@ -2,32 +2,31 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC3794AD65
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 23:33:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 585C64AD73
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 23:42:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730501AbfFRVdX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jun 2019 17:33:23 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:60382 "EHLO
+        id S1730398AbfFRVlP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jun 2019 17:41:15 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:60408 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729196AbfFRVdW (ORCPT
+        with ESMTP id S1730176AbfFRVlO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jun 2019 17:33:22 -0400
+        Tue, 18 Jun 2019 17:41:14 -0400
 Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 63810D5;
-        Tue, 18 Jun 2019 23:33:20 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DEF28D5;
+        Tue, 18 Jun 2019 23:41:12 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1560893600;
-        bh=YV3EHmrcvEYDADJpp2AOt0xeZrK0yfFV1FTeze44/fU=;
+        s=mail; t=1560894073;
+        bh=nqVwfo5HDfYH9ZBhBeNzEfiisL22P/D1cT3ZJeOn+pw=;
         h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
-        b=S/ORAOf0mRCE3tjAQ06IbRbyVdOXQ4MP/APfwN5tx/zQT2t5MWyJHz5kzCeNTKh69
-         FjdkEsWan1sCnuA+wa2FQwdEG1qjEwo5VuNxLrVkceIpzulT9nHzbl2+IhhMMjueJu
-         vUaUPAyOYDarprr+gKqq/TD8zB+GMtUnIn9MC18I=
+        b=o33KYUdS1nCY7f7Fra+13ZZzYr+XR5d/EoyASNSVD7WAxSXQQZUR7ybDnNd20XiMk
+         7+t7Xxv6Ne/RB8UxwEsO9IJl6WSYQB7kvwSEzkBilhqugtJ5QAz3sPVs0LCwlUNPf5
+         GjqQ3SxDeHvHk7ZTrsflwTKGTmjt7rRtLIOU1oII=
 Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [kms-tests] [PATCH] tests: Extend BRU/BRS allocation test to
- cover M3-N
+Subject: Re: [kms-tests] [PATCH] tests: Add a plane formats test
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-renesas-soc@vger.kernel.org
-References: <20190617003536.30936-1-laurent.pinchart@ideasonboard.com>
+References: <20190616234153.26423-1-laurent.pinchart@ideasonboard.com>
 From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
@@ -74,12 +73,12 @@ Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
  JxB1gWThL4kOTbsqqXj9GLcyOImkW0lJGGR3o/fV91Zh63S5TKnf2YGGGzxki+ADdxVQAm+Q
  sbsRB8KNNvVXBOVNwko86rQqF9drZuw=
 Organization: Ideas on Board
-Message-ID: <e8e4c143-1d1f-30f2-115c-849cb43a9158@ideasonboard.com>
-Date:   Tue, 18 Jun 2019 22:33:17 +0100
+Message-ID: <47919ea6-4ce4-bc56-5103-b32649a99a32@ideasonboard.com>
+Date:   Tue, 18 Jun 2019 22:41:10 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190617003536.30936-1-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20190616234153.26423-1-laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -90,48 +89,89 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Laurent,
 
-On 17/06/2019 01:35, Laurent Pinchart wrote:
-> The BRU/BRS allocation test only covers the H3 ES2.0 SoC as that was the
-> only hardware platform supported by the DU driver that offered the
-> required features at the time the test was written. Now that M3-N is
-> supported in the DU driver, support it in the test script.
+On 17/06/2019 00:41, Laurent Pinchart wrote:
+> Add a new test script that tests all formats supported by planes.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  tests/kms-test-brxalloc.py | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/tests/kms-test-brxalloc.py b/tests/kms-test-brxalloc.py
-> index 2e3f6cb8b39e..f1902f3baf1d 100755
-> --- a/tests/kms-test-brxalloc.py
-> +++ b/tests/kms-test-brxalloc.py
-> @@ -17,11 +17,10 @@ class BRxAllocTest(kmstest.KMSTest):
->      def main(self):
->          # This test requires usage of two CRTCs connected to the same VSPDL
->          # instance to test dynamic assignment of the BRU and BRS to pipelines.
-> -        # This is only occurs on H3 ES2.0 (and M3N which we don't support yet).
-> -        # Check the SoC model through sysfs as we can't detected it through the
-> -        # DRM/KMS API.
-> +        # This is only occurs on H3 ES2.0 and M3N. Check the SoC model through
-> +        # sysfs as we can't detected it through the DRM/KMS API.
->          soc = open("/sys/devices/soc0/soc_id", "rb").read().strip().decode()
-> -        if soc != "r8a7795":
-> +        if soc != "r8a7795" and soc != "r8a77965":
 
-To be a bit more pythonic, you could write;
-           if soc not in ["r8a7795", "r8a77965"]:
-
-But I don't think this list is going to be extended any time soon so it
-doesn't really matter.
-
-Up to you either way,
+Seems reasonable to me.
 
 Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-
->              self.skip("VSPDL (BRU+BRS) not available")
->              return
->  
+> ---
+>  tests/kms-test-formats.py | 63 +++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 63 insertions(+)
+>  create mode 100755 tests/kms-test-formats.py
+> 
+> diff --git a/tests/kms-test-formats.py b/tests/kms-test-formats.py
+> new file mode 100755
+> index 000000000000..ae89bb542485
+> --- /dev/null
+> +++ b/tests/kms-test-formats.py
+> @@ -0,0 +1,63 @@
+> +#!/usr/bin/python3
+> +
+> +import kmstest
+> +import pykms
+> +import time
+> +
+> +class FormatsTest(kmstest.KMSTest):
+> +    """Test all available plane formats."""
+> +
+> +    def main(self):
+> +        self.start("plane formats")
+> +
+> +        # Find a CRTC with a connected connector and at least one plane
+> +        for connector in self.card.connectors:
+> +            if not connector.connected():
+> +                self.skip("unconnected connector")
+> +                continue
+> +
+> +            try:
+> +                mode = connector.get_default_mode()
+> +            except ValueError:
+> +                continue
+> +
+> +            crtcs = connector.get_possible_crtcs()
+> +            for crtc in crtcs:
+> +                if crtc.primary_plane:
+> +                    break
+> +            else:
+> +                crtc = None
+> +
+> +            if crtc:
+> +                break
+> +
+> +        else:
+> +            self.skip("no CRTC available with connector")
+> +            return
+> +
+> +        self.logger.log("Testing connector %s, CRTC %u, mode %s" % \
+> +              (connector.fullname, crtc.id, mode.name))
+> +
+> +        for format in crtc.primary_plane.formats:
+> +            self.logger.log("Testing format %s" % format)
+> +
+> +            # Create a frame buffer
+> +            try:
+> +                fb = pykms.DumbFramebuffer(self.card, mode.hdisplay, mode.vdisplay, format)
+> +            except ValueError:
+> +                continue
+> +
+> +            pykms.draw_test_pattern(fb)
+> +
+> +            # Set the mode with a primary plane
+> +            ret = self.atomic_crtc_mode_set(crtc, connector, mode, fb)
+> +            if ret < 0:
+> +                self.fail("atomic mode set failed with %d" % ret)
+> +                continue
+> +
+> +            self.run(3)
+> +
+> +        self.atomic_crtc_disable(crtc)
+> +        self.success()
+> +
+> +FormatsTest().execute()
 > 
 
 -- 
