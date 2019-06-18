@@ -2,144 +2,295 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 137F34A1A9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 15:07:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6613F4A1C2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 15:12:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726088AbfFRNHN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jun 2019 09:07:13 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:37451 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725913AbfFRNHN (ORCPT
+        id S1728881AbfFRNMD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jun 2019 09:12:03 -0400
+Received: from mo4-p02-ob.smtp.rzone.de ([85.215.255.81]:26366 "EHLO
+        mo4-p02-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728572AbfFRNMC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jun 2019 09:07:13 -0400
-Received: by mail-lj1-f193.google.com with SMTP id 131so13075321ljf.4;
-        Tue, 18 Jun 2019 06:07:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4BbuGY1jCiWptbJxHFe5JdIU4v7Wn/UJnE8dJB2nkfo=;
-        b=B20phqOFwYhx1Kn0p8mnG+js200ZY4xJXygDlXeRZ6vHQCiX07R0KrJKuENzZ6nCP6
-         BALmFaNWnhPKKfoqHgWvUa1cpAY5J4paM9bnrvD0M+mK8dJuTW+dwAzQPicfvOydJuV2
-         KYSf8LhI+1fusVVOq0vR8PuT5XI2HR19kZ0X+zz/oX3AittoCXUpFuZ5g7+XRxdP6poP
-         hHVhLgHIBLth3/p8MVDv1AyEPaRKHpGhDBO5Agkw6uo/00JvyvPRLKLNQe9w2XGipEgg
-         DG5v3vaicBB6cJP7qLf/396hqNLq0uril0YzdoCwmeMA9wttCxyPQwwMvqX2PBKayWmM
-         +bTg==
-X-Gm-Message-State: APjAAAV8iE8t0ZCGnsOjxbIPRrdEHhI3lFXUBTDO1ktWSqXFQEFlYjyR
-        AnXlCCqbqVUd6BSjsn7P1FftyOhJwjV4zUjE1ls=
-X-Google-Smtp-Source: APXvYqxddLRHYzAJqfjM0OT62TXvWFK9gCVwwnTv0PdwKEtv+rAxHqQp+LPf7LPv15p2pefMZBO0CJN7ZWdjhS6oUOw=
-X-Received: by 2002:a2e:9a87:: with SMTP id p7mr14493869lji.133.1560863230065;
- Tue, 18 Jun 2019 06:07:10 -0700 (PDT)
+        Tue, 18 Jun 2019 09:12:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1560863518;
+        s=strato-dkim-0002; d=fpond.eu;
+        h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:
+        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+        bh=YZMuVoEGu4omSRG1UgZYjR3t98qytdJxoPC7tDpGha0=;
+        b=H4RNgf/CxIkfrTwv3KieDNYf38ky6WaXJjEN5N/WRYlYpC8eP1icGa/oc+QkNU8sUG
+        gGrobZcCG4dJSwuAzpIGTiUHN5RGpWsJO/Uy2wDPj+F3EFmzYL1FWQJDC1a6amgkIPGP
+        OfYsTIsHYhSudYH1L6zK701VsNsMNDEOg76VzwWjlAIkQF2D+KfO9I+ARaI1MJBZ/eq/
+        X5RaQ3nE/1D6U+WiggbpeJay50hByBQklo+SdVULuN/oVu5t7IMRm+AX1A0Nge51hiVO
+        d917yGlm3D0TPbG4yKa+Ir6ZL02B4oFFs8z8llhP08COQyft40ZkB9ZKtk18yFBcsNXF
+        /H4w==
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzmt2bYDnKIKaws6YXTsc4="
+X-RZG-CLASS-ID: mo00
+Received: from oxapp03-03.back.ox.d0m.de
+        by smtp-ox.front (RZmta 44.24 AUTH)
+        with ESMTPSA id h0a328v5IDBw10z
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+        (Client did not present a certificate);
+        Tue, 18 Jun 2019 15:11:58 +0200 (CEST)
+Date:   Tue, 18 Jun 2019 15:11:58 +0200 (CEST)
+From:   Ulrich Hecht <uli@fpond.eu>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Message-ID: <963088307.790511.1560863518157@webmail.strato.com>
+In-Reply-To: <20190617210930.6054-7-laurent.pinchart+renesas@ideasonboard.com>
+References: <20190617210930.6054-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20190617210930.6054-7-laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH v3 06/10] drm: rcar-du: Handle CRTC configuration from
+ commit tail handler
 MIME-Version: 1.0
-References: <156076216767.4736.16337667537984218274.sendpatchset@octo> <156076224112.4736.5038116002723317642.sendpatchset@octo>
-In-Reply-To: <156076224112.4736.5038116002723317642.sendpatchset@octo>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 18 Jun 2019 15:06:57 +0200
-Message-ID: <CAMuHMdWvfdYvS3255SmY_VSGzYkXxSGDOGWd+dS2XyE8u80S-w@mail.gmail.com>
-Subject: Re: [PATCH 8/8] dt-bindings: timer: renesas, cmt: Update R-Car Gen3
- CMT1 usage
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Medium
+X-Mailer: Open-Xchange Mailer v7.8.4-Rev58
+X-Originating-IP: 85.212.220.45
+X-Originating-Client: open-xchange-appsuite
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Magnus,
 
-On Mon, Jun 17, 2019 at 11:02 AM Magnus Damm <magnus.damm@gmail.com> wrote:
-> From: Magnus Damm <damm+renesas@opensource.se>
+> On June 17, 2019 at 11:09 PM Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com> wrote:
+> 
+> 
+> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> 
+> The CRTC mode setting and routing configuration are performed at the
+> earliest of atomic enable and atomic begin, to ensure that a valid
+> configuration is applied to the hardware before the CRTC gets enabled
+> and before planes are setup (the latter being required in particular by
+> the VSP). This requires the rcar_du_crtc structure to track the CRTC
+> enabled state.
+> 
+> Simplify the code and remove the manual state tracking by moving CRTC
+> setup to a new rcar_du_crtc_atomic_modeset() function, called directly
+> from the commit tail handler. The function iterates over all CRTCs in
+> the state transaction and performs CRTC mode setting, routing
+> configuration and VSP configuration.
+> 
+> drm_crtc_vblank_on() has to be called from the atomic begin handler, to
+> ensure that vertical blanking reporting is enabled before the call to
+> drm_crtc_vblank_get() in the atomic flush handler. As the
+> drm_crtc_vblank_on() and drm_crtc_vblank_off() calls don't need to be
+> balanced this is not an issue. A balanced alternative would have been to
+> call drm_crtc_vblank_on() and drm_crtc_vblank_off() from the CRTC exit
+> and enter standby handlers respectively, but
+> drm_atomic_helper_commit_modeset_disables() complains if
+> drm_crtc_vblank_off() hasn't been called by the atomic disable handler.
+> 
+> As a result, the vsp1_du_atomic_flush() operation can be called with the
+> DRM pipeline disabled. Correct operation has been ensured by "media:
+> vsp1: drm: Don't configure hardware when the pipeline is disabled".
+> 
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> Changes since v2:
+> 
+> - Deconstruct rcar_du_crtc_setup() completely
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 89 +++++++++++---------------
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.h |  4 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_kms.c  |  1 +
+>  3 files changed, 42 insertions(+), 52 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> index 23f4bdef0e3a..d11a474f6f72 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> @@ -478,22 +478,6 @@ static void rcar_du_crtc_wait_page_flip(struct rcar_du_crtc *rcrtc)
+>   * Start/Stop and Suspend/Resume
+>   */
+>  
+> -static void rcar_du_crtc_setup(struct rcar_du_crtc *rcrtc)
+> -{
+> -	/* Configure display timings and output routing */
+> -	rcar_du_crtc_set_display_timing(rcrtc);
+> -	rcar_du_group_set_routing(rcrtc->group);
+> -
+> -	/* Enable the VSP compositor. */
+> -	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE)) {
+> -		rcar_du_vsp_modeset(rcrtc);
+> -		rcar_du_vsp_enable(rcrtc);
+> -	}
+> -
+> -	/* Turn vertical blanking interrupt reporting on. */
+> -	drm_crtc_vblank_on(&rcrtc->crtc);
+> -}
+> -
+>  static int rcar_du_crtc_exit_standby(struct rcar_du_crtc *rcrtc)
+>  {
+>  	int ret;
+> @@ -534,24 +518,6 @@ static void rcar_du_crtc_enter_standby(struct rcar_du_crtc *rcrtc)
+>  	clk_disable_unprepare(rcrtc->clock);
+>  }
+>  
+> -static void rcar_du_crtc_get(struct rcar_du_crtc *rcrtc)
+> -{
+> -	/*
+> -	 * Guard against double-get, as the function is called from both the
+> -	 * .atomic_enable() and .atomic_begin() handlers.
+> -	 */
+> -	if (rcrtc->initialized)
+> -		return;
+> -
+> -	rcar_du_crtc_setup(rcrtc);
+> -	rcrtc->initialized = true;
+> -}
+> -
+> -static void rcar_du_crtc_put(struct rcar_du_crtc *rcrtc)
+> -{
+> -	rcrtc->initialized = false;
+> -}
+> -
+>  static void rcar_du_crtc_start(struct rcar_du_crtc *rcrtc)
+>  {
+>  	bool interlaced;
+> @@ -716,6 +682,40 @@ int rcar_du_crtc_atomic_enter_standby(struct drm_device *dev,
+>  	return 0;
+>  }
+>  
+> +/*
+> + * Configure the mode for all CRTCs that require it. For now we only handle mode
+> + * set on the VSP, CRTC configuration will be handled later.
+> + */
+> +int rcar_du_crtc_atomic_modeset(struct drm_device *dev,
+> +				struct drm_atomic_state *state)
+> +{
+> +	struct drm_crtc_state *crtc_state;
+> +	struct drm_crtc *crtc;
+> +	unsigned int i;
+> +
+> +	for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
+> +		struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
+> +
+> +		/*
+> +		 * Skip commits that don't change the mode. We manually skip
+> +		 * inactive CRTCs as disabling a CRTC is considered as a mode
+> +		 * set by drm_atomic_crtc_needs_modeset().
+> +		 */
+> +		if (!drm_atomic_crtc_needs_modeset(crtc_state) ||
+> +		    !crtc_state->active)
+> +			continue;
+> +
+> +		/* Configure display timings and output routing. */
+> +		rcar_du_crtc_set_display_timing(rcrtc);
+> +		rcar_du_group_set_routing(rcrtc->group);
+> +
+> +		if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
+> +			rcar_du_vsp_modeset(rcrtc);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
+>  				       struct drm_crtc_state *old_state)
+>  {
+> @@ -723,8 +723,6 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
+>  	struct rcar_du_crtc_state *rstate = to_rcar_crtc_state(crtc->state);
+>  	struct rcar_du_device *rcdu = rcrtc->dev;
+>  
+> -	rcar_du_crtc_get(rcrtc);
+> -
+>  	/*
+>  	 * On D3/E3 the dot clock is provided by the LVDS encoder attached to
+>  	 * the DU channel. We need to enable its clock output explicitly if
+> @@ -741,6 +739,9 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
+>  				     mode->clock * 1000);
+>  	}
+>  
+> +	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
+> +		rcar_du_vsp_enable(rcrtc);
+> +
+>  	rcar_du_crtc_start(rcrtc);
+>  }
+>  
+> @@ -752,7 +753,6 @@ static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
+>  	struct rcar_du_device *rcdu = rcrtc->dev;
+>  
+>  	rcar_du_crtc_stop(rcrtc);
+> -	rcar_du_crtc_put(rcrtc);
+>  
+>  	if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index) &&
+>  	    rstate->outputs == BIT(RCAR_DU_OUTPUT_DPAD0)) {
+> @@ -781,19 +781,8 @@ static void rcar_du_crtc_atomic_begin(struct drm_crtc *crtc,
+>  
+>  	WARN_ON(!crtc->state->enable);
+>  
+> -	/*
+> -	 * If a mode set is in progress we can be called with the CRTC disabled.
+> -	 * We thus need to first get and setup the CRTC in order to configure
+> -	 * planes. We must *not* put the CRTC in .atomic_flush(), as it must be
+> -	 * kept awake until the .atomic_enable() call that will follow. The get
+> -	 * operation in .atomic_enable() will in that case be a no-op, and the
+> -	 * CRTC will be put later in .atomic_disable().
+> -	 *
+> -	 * If a mode set is not in progress the CRTC is enabled, and the
+> -	 * following get call will be a no-op. There is thus no need to balance
+> -	 * it in .atomic_flush() either.
+> -	 */
+> -	rcar_du_crtc_get(rcrtc);
+> +	/* Turn vertical blanking interrupt reporting on. */
+> +	drm_crtc_vblank_on(&rcrtc->crtc);
+>  
+>  	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
+>  		rcar_du_vsp_atomic_begin(rcrtc);
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+> index 3ce7610793b2..61d79aa7c8e8 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+> @@ -30,7 +30,6 @@ struct rcar_du_vsp;
+>   * @extclock: external pixel dot clock (optional)
+>   * @mmio_offset: offset of the CRTC registers in the DU MMIO block
+>   * @index: CRTC hardware index
+> - * @initialized: whether the CRTC has been initialized and clocks enabled
+>   * @dsysr: cached value of the DSYSR register
+>   * @vblank_enable: whether vblank events are enabled on this CRTC
+>   * @event: event to post when the pending page flip completes
+> @@ -51,7 +50,6 @@ struct rcar_du_crtc {
+>  	struct clk *extclock;
+>  	unsigned int mmio_offset;
+>  	unsigned int index;
+> -	bool initialized;
+>  
+>  	u32 dsysr;
+>  
+> @@ -111,6 +109,8 @@ int rcar_du_crtc_atomic_exit_standby(struct drm_device *dev,
+>  				     struct drm_atomic_state *state);
+>  int rcar_du_crtc_atomic_enter_standby(struct drm_device *dev,
+>  				      struct drm_atomic_state *state);
+> +int rcar_du_crtc_atomic_modeset(struct drm_device *dev,
+> +				struct drm_atomic_state *state);
+>  
+>  void rcar_du_crtc_dsysr_clr_set(struct rcar_du_crtc *rcrtc, u32 clr, u32 set);
+>  
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> index 59680de271cc..144c0c1b1591 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> @@ -412,6 +412,7 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
+>  	rcar_du_crtc_atomic_exit_standby(dev, old_state);
+>  
+>  	drm_atomic_helper_commit_modeset_disables(dev, old_state);
+> +	rcar_du_crtc_atomic_modeset(dev, old_state);
+>  	drm_atomic_helper_commit_planes(dev, old_state,
+>  					DRM_PLANE_COMMIT_ACTIVE_ONLY);
+>  	drm_atomic_helper_commit_modeset_enables(dev, old_state);
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 >
-> The R-Car Gen3 SoCs so far come with a total for 4 on-chip CMT devices:
->  - CMT0
->  - CMT1
->  - CMT2
->  - CMT3
->
-> CMT0 includes two rather basic 32-bit timer channels. The rest of the on-chip
-> CMT devices support 48-bit counters and have 8 channels each.
->
-> Based on the data sheet information "CMT2/3 are exactly same as CMT1"
-> it seems that CMT2 and CMT3 now use the CMT1 compat string in the DTSI.
->
-> Clarify this in the DT binding documentation by describing R-Car Gen3 and
-> RZ/G2 CMT1 as "48-bit CMT devices".
->
-> Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
-> --- 0014/Documentation/devicetree/bindings/timer/renesas,cmt.txt
-> +++ work/Documentation/devicetree/bindings/timer/renesas,cmt.txt        2019-06-17 14:07:46.502422801 +0900
-
-> @@ -42,34 +42,34 @@ Required Properties:
->      - "renesas,r8a7794-cmt0" for the 32-bit CMT0 device included in r8a7794.
->      - "renesas,r8a7794-cmt1" for the 48-bit CMT1 device included in r8a7794.
->      - "renesas,r8a7795-cmt0" for the 32-bit CMT0 device included in r8a7795.
-> -    - "renesas,r8a7795-cmt1" for the 48-bit CMT1 device included in r8a7795.
-> +    - "renesas,r8a7795-cmt1" for the 48-bit CMT devices included in r8a7795.
->      - "renesas,r8a7796-cmt0" for the 32-bit CMT0 device included in r8a7796.
-> -    - "renesas,r8a7796-cmt1" for the 48-bit CMT1 device included in r8a7796.
-> +    - "renesas,r8a7796-cmt1" for the 48-bit CMT devices included in r8a7796.
->      - "renesas,r8a77965-cmt0" for the 32-bit CMT0 device included in r8a77965.
-> -    - "renesas,r8a77965-cmt1" for the 48-bit CMT1 device included in r8a77965.
-> +    - "renesas,r8a77965-cmt1" for the 48-bit CMT devices included in r8a77965.
->      - "renesas,r8a77970-cmt0" for the 32-bit CMT0 device included in r8a77970.
-> -    - "renesas,r8a77970-cmt1" for the 48-bit CMT1 device included in r8a77970.
-> +    - "renesas,r8a77970-cmt1" for the 48-bit CMT devices included in r8a77970.
->      - "renesas,r8a77980-cmt0" for the 32-bit CMT0 device included in r8a77980.
-> -    - "renesas,r8a77980-cmt1" for the 48-bit CMT1 device included in r8a77980.
-> +    - "renesas,r8a77980-cmt1" for the 48-bit CMT devices included in r8a77980.
->      - "renesas,r8a77990-cmt0" for the 32-bit CMT0 device included in r8a77990.
-> -    - "renesas,r8a77990-cmt1" for the 48-bit CMT1 device included in r8a77990.
-> +    - "renesas,r8a77990-cmt1" for the 48-bit CMT devices included in r8a77990.
->      - "renesas,r8a77995-cmt0" for the 32-bit CMT0 device included in r8a77995.
-> -    - "renesas,r8a77995-cmt1" for the 48-bit CMT1 device included in r8a77995.
-> +    - "renesas,r8a77995-cmt1" for the 48-bit CMT devices included in r8a77995.
->      - "renesas,sh73a0-cmt0" for the 32-bit CMT0 device included in sh73a0.
->      - "renesas,sh73a0-cmt1" for the 48-bit CMT1 device included in sh73a0.
->      - "renesas,sh73a0-cmt2" for the 32-bit CMT2 device included in sh73a0.
->      - "renesas,sh73a0-cmt3" for the 32-bit CMT3 device included in sh73a0.
->      - "renesas,sh73a0-cmt4" for the 32-bit CMT4 device included in sh73a0.
->
-> -    - "renesas,rcar-gen2-cmt0" for 32-bit CMT0 devices included in R-Car Gen2
-> +    - "renesas,rcar-gen2-cmt0" for 32-bit CMT0 device included in R-Car Gen2
-
-I think plural was fine here, though, as it applies to the whole family.
-If you disagree, you should probably add a "the".
-
->                 and RZ/G1.
-> -    - "renesas,rcar-gen2-cmt1" for 48-bit CMT1 devices included in R-Car Gen2
-> +    - "renesas,rcar-gen2-cmt1" for 48-bit CMT1 device included in R-Car Gen2
-
-Likewise.
-
->                 and RZ/G1.
->                 These are fallbacks for r8a73a4, R-Car Gen2 and RZ/G1 entries
->                 listed above.
-> -    - "renesas,rcar-gen3-cmt0" for 32-bit CMT0 devices included in R-Car Gen3
-> +    - "renesas,rcar-gen3-cmt0" for 32-bit CMT0 device included in R-Car Gen3
-
-Likewise.
-
->                 and RZ/G2.
-> -    - "renesas,rcar-gen3-cmt1" for 48-bit CMT1 devices included in R-Car Gen3
-> +    - "renesas,rcar-gen3-cmt1" for 48-bit CMT devices included in R-Car Gen3
->                 and RZ/G2.
->                 These are fallbacks for R-Car Gen3 and RZ/G2 entries listed
->                 above.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+CU
+Uli
