@@ -2,128 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9465449F09
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 13:19:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 804294A021
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 14:01:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729581AbfFRLTS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jun 2019 07:19:18 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:44677 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729110AbfFRLTS (ORCPT
+        id S1729115AbfFRMBo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jun 2019 08:01:44 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:55798 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726091AbfFRMBo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jun 2019 07:19:18 -0400
-Received: by mail-lj1-f196.google.com with SMTP id k18so12650687ljc.11
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jun 2019 04:19:16 -0700 (PDT)
+        Tue, 18 Jun 2019 08:01:44 -0400
+Received: by mail-wm1-f66.google.com with SMTP id a15so2943306wmj.5;
+        Tue, 18 Jun 2019 05:01:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=oj9R2h7PLbPIbssfUEZGisJttd/OMEPsCeLkAVDP4/k=;
+        b=EZbHQj3xMGBqj9Q9GX/wU+YiLHLfXk+cdZg7gRWU9n/Y8XEhWmFdCUR+bTHZJ5cSvc
+         KUzll32D21EfZi+MHAOH8vq6rbY/m6fHvYeohptFvTxOqEC386rTUHlyh0nKeIiNS4Wl
+         friRRybP9vG4hZB0omRydPP9Df6NCF/z8lJ6CQI0q0ic5hPulqLbxUA9E/iHUvRnx8Jc
+         Sw0myf5f4DlMTs4nLW166v7sL6iQKANBux9MRMDV7Sp1REbzRVLEOiXzF5vPZc3paY8z
+         VmxE9Pz38snaHNywmkwY+N9aNhb+KCistFLoqqkBjRZoe+xNrX0XRa6FcexZ8mcB2SjF
+         tEWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4qoZlqk786u0ouo5C1bSIhLOmlf/OwDifTle645F2Ao=;
-        b=jUpzwhxrrq+n5hvjciS5xUkqyeyq7143V4uSr2/ubtlZVVdV+POzZDGFtlTfECGALj
-         IAJwJPwAH4VAuJZOiyAO/kPgPDB8lR1BxtRP2CepgrpyieUTZqbSWH76c7XR4osX9c3L
-         tlf2ovGCTAmiVyrMFdswCsfqXhOHHRpvSR2oBDOejhFx9Ov6gIkCPPiNCtWjQ4avLzw+
-         78p3QSgyuG+RjQmtykiPTPNj4A1R/UBhzXoo2Cosjd/IbCRvPq9JQxOXtPdlBLrjXfVj
-         1mVYgq6pLcehpXYybmui2DMneG/YQ/AK9U3es8Rl33QKyErq273mblSnHU3hcxJsvdlM
-         g+zg==
-X-Gm-Message-State: APjAAAUUVhm59HO0EpDi6SnofX2yIuWNW2Jp81WlTZp2xQyfxfu5AdM2
-        O5KtMGX98ukseUp4rmYdcLC9sbP0QTJqZLsjuxk=
-X-Google-Smtp-Source: APXvYqyaAsONWcgbY2o5yFZeMPs1jPVCvqjLmSUQYkv8lHgrbhoZJSavDZReKMqZGPesSXIq2YQ7Bz2IfCq51tvkl/0=
-X-Received: by 2002:a2e:2b57:: with SMTP id q84mr15735189lje.105.1560856755698;
- Tue, 18 Jun 2019 04:19:15 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=oj9R2h7PLbPIbssfUEZGisJttd/OMEPsCeLkAVDP4/k=;
+        b=OE+BbU1k7+YIRLQSSeMZE3QJmiSFVsb7MewbmYBEjmcjmQgzGPXcgqazvs8AB1KoQw
+         ZzxDFll1pLan/Sc8rCyvEsoFjpI+H2bpNXg64p+4PTblRSyV7WU7I6my1g0D/IH1WKHi
+         Ycwa4M51aneIHWJKqUdb+d2yx5fbxC50WFbs/g4eq7WO05ShWkLpAQ8OC9ndIWer3+c6
+         d3j9ursqgMmLxdxwqyk09PZ+YrPOZI6lofPgWSJpA6a2OspGsQ9SzcZ1WOqlE3I0UhkC
+         tqDcy+4PFZSg8ZrCo99YBKPJXcNPM9e4P2M8qkJCIVeTpAM/fk7zpuxckIAB2XfMwFes
+         VBbg==
+X-Gm-Message-State: APjAAAUIQpRk2w2WCYlMeElGbbLZfE+wkj7RYgShfHF1fctMYnEZnCIo
+        CINaYov5qCQEphfquSchA2s=
+X-Google-Smtp-Source: APXvYqzsfBn5Vi+/8ppaMw0HGNWkGiV0h3v4+fwxzpiUXMBe6NlmaVTpFJobraD+wboFQBeWNXiMJQ==
+X-Received: by 2002:a1c:3c8a:: with SMTP id j132mr3279580wma.172.1560859301896;
+        Tue, 18 Jun 2019 05:01:41 -0700 (PDT)
+Received: from [192.168.1.4] (ip-86-49-110-70.net.upcbroadband.cz. [86.49.110.70])
+        by smtp.gmail.com with ESMTPSA id r12sm21413531wrt.95.2019.06.18.05.01.40
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Tue, 18 Jun 2019 05:01:41 -0700 (PDT)
+Subject: Re: [PATCH v13 3/3] dt-bindings: mfd: Document Renesas R-Car Gen3
+ RPC-IF controller bindings
+To:     masonccyang@mxic.com.tw, Lee Jones <lee.jones@linaro.org>
+Cc:     bbrezillon@kernel.org, broonie@kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms@verge.net.au>, juliensu@mxic.com.tw,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-spi@vger.kernel.org, mark.rutland@arm.com,
+        miquel.raynal@bootlin.com, robh+dt@kernel.org,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+References: <1558423174-10748-1-git-send-email-masonccyang@mxic.com.tw>
+ <1558423174-10748-4-git-send-email-masonccyang@mxic.com.tw>
+ <0e2994d6-6efc-9f36-f681-609199f20b9f@cogentembedded.com>
+ <20190603130428.GX4797@dell>
+ <02addf64-9f6e-ccc1-2f94-8983456e3ebc@cogentembedded.com>
+ <OFDA7648A0.F1733EA5-ON48258411.002946DF-48258411.002A2F0D@mxic.com.tw>
+From:   Marek Vasut <marek.vasut@gmail.com>
+Openpgp: preference=signencrypt
+Message-ID: <2671d488-82a1-8720-d9a1-03554d955a38@gmail.com>
+Date:   Tue, 18 Jun 2019 14:01:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190617083704.3941-1-horms+renesas@verge.net.au>
- <20190617083704.3941-2-horms+renesas@verge.net.au> <CAMuHMdUu2T2+Ri_xEq+Nr1qD_Dm067TDkfxTDpduX4xia2FGDQ@mail.gmail.com>
- <20190618104455.72jyrvwf2vut76hy@verge.net.au>
-In-Reply-To: <20190618104455.72jyrvwf2vut76hy@verge.net.au>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 18 Jun 2019 13:19:02 +0200
-Message-ID: <CAMuHMdVFn+sTXhbsM_tUsqSPeAG4b=zbUne=FaQedZgCBo4_oQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] arm64: dts: renesas: r8a77990: Add cpg reset for
- LVDS Interface
-To:     Simon Horman <horms@verge.net.au>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Kaneko <ykaneko0929@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Takeshi Kihara <takeshi.kihara.df@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <OFDA7648A0.F1733EA5-ON48258411.002946DF-48258411.002A2F0D@mxic.com.tw>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Simon,
+On 6/6/19 9:40 AM, masonccyang@mxic.com.tw wrote:
+[...]
 
-On Tue, Jun 18, 2019 at 12:45 PM Simon Horman <horms@verge.net.au> wrote:
-> On Mon, Jun 17, 2019 at 10:43:09AM +0200, Geert Uytterhoeven wrote:
-> > On Mon, Jun 17, 2019 at 10:37 AM Simon Horman
-> > <horms+renesas@verge.net.au> wrote:
-> > > From: Takeshi Kihara <takeshi.kihara.df@renesas.com>
-> > >
-> > > It is necessary to reset the LVDS Interface according to display on/off.
-> >
-> > This is not the LVDS interface.
-> > The LVDS interface has its own device node.
->
-> Thanks, how about a changelog more like this?
->
-> arm64: dts: renesas: r8a77990: Add cpg reset for DU
->
-> Add CPG reset properties to DU node of E3 (r8a77990) SoC.
+> RPC-IF works either in SPI or HyperFlash is decided by external hardware 
+> pins 
+> configuration and it can NOT switch it's operation mode in the run time. 
+> This is not like my understanding of MFD.
 
-Thanks, much better.
+Which external hardware pins decide the RPC configuration ?
 
-> According to Laurent Pinchart, R-Car Gen3 reset is handled at the group
-> level so specifying one reset entry per group is sufficient. For this
-> reason <&cpg 724> is not listed as a reset for "du.1" as was the case in an
-> earlier revision of this patch.
+It seems to me like PHYCNT register, PHYMEM bitfield, selects what
+device is connected, and then a couple of other bits control the
+communication, but I see nothing which would be tied to any external
+configuration pins.
 
-Do we need this last sentence?
-
-Note that "dt-bindings: display: renesas: du: Document optional reset
-properties"
-hasn't been accepted in -next yet.
-
-> Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
-> Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
-> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
->
-> > > Therefore, this patch adds CPG reset properties in DU device node
-> > > for the R8A77990 SoC.
-> > >
-> > > According to Laurent Pinchart, R-Car Gen3 reset is handled at the group
-> > > level so specifying one reset entry per group is sufficient. For this
-> > > reason <&cpg 724> is not listed as a reset for "du.1" as was the case in an
-> > > earlier revision of this patch.
-> > >
-> > > Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
-> > > Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
-> > > Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
-> > > ---
-> > > v2 [Simon Horman]
-> > > - only add one reset entry per group
-
-> > > --- a/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-> > > +++ b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-> > > @@ -1766,6 +1766,8 @@
-> > >                         clocks = <&cpg CPG_MOD 724>,
-> > >                                  <&cpg CPG_MOD 723>;
-> > >                         clock-names = "du.0", "du.1";
-> > > +                       resets = <&cpg 724>;
-> > > +                       reset-names = "du.0";
-> > >                         vsps = <&vspd0 0 &vspd1 0>;
-> > >                         status = "disabled";
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
+[...]
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Marek Vasut
