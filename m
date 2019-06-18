@@ -2,40 +2,32 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5912C49E7A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 12:45:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48FCA49E7F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 12:46:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729203AbfFRKpA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jun 2019 06:45:00 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:52168 "EHLO
+        id S1729477AbfFRKqC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jun 2019 06:46:02 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:52266 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729098AbfFRKpA (ORCPT
+        with ESMTP id S1729098AbfFRKqC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jun 2019 06:45:00 -0400
+        Tue, 18 Jun 2019 06:46:02 -0400
 Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 0322325AED3;
-        Tue, 18 Jun 2019 20:44:57 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 7594C25B786;
+        Tue, 18 Jun 2019 20:46:00 +1000 (AEST)
 Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id F357B9408C4; Tue, 18 Jun 2019 12:44:55 +0200 (CEST)
-Date:   Tue, 18 Jun 2019 12:44:55 +0200
+        id 4F9669408C4; Tue, 18 Jun 2019 12:45:58 +0200 (CEST)
+Date:   Tue, 18 Jun 2019 12:45:58 +0200
 From:   Simon Horman <horms@verge.net.au>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Kaneko <ykaneko0929@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Takeshi Kihara <takeshi.kihara.df@renesas.com>
-Subject: Re: [PATCH v2 1/2] arm64: dts: renesas: r8a77990: Add cpg reset for
- LVDS Interface
-Message-ID: <20190618104455.72jyrvwf2vut76hy@verge.net.au>
-References: <20190617083704.3941-1-horms+renesas@verge.net.au>
- <20190617083704.3941-2-horms+renesas@verge.net.au>
- <CAMuHMdUu2T2+Ri_xEq+Nr1qD_Dm067TDkfxTDpduX4xia2FGDQ@mail.gmail.com>
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 0/3] ARM: dts: Minor CMT update for 32-bit ARM SoCs
+Message-ID: <20190618104557.cw2wj3uffzo5r4wx@verge.net.au>
+References: <156076300266.5827.16345352064689583105.sendpatchset@octo>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdUu2T2+Ri_xEq+Nr1qD_Dm067TDkfxTDpduX4xia2FGDQ@mail.gmail.com>
+In-Reply-To: <156076300266.5827.16345352064689583105.sendpatchset@octo>
 Organisation: Horms Solutions BV
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -43,76 +35,23 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jun 17, 2019 at 10:43:09AM +0200, Geert Uytterhoeven wrote:
-> Hi Simon,
+On Mon, Jun 17, 2019 at 06:16:42PM +0900, Magnus Damm wrote:
+> ARM: dts: Minor CMT update for 32-bit ARM SoCs
 > 
-> On Mon, Jun 17, 2019 at 10:37 AM Simon Horman
-> <horms+renesas@verge.net.au> wrote:
-> > From: Takeshi Kihara <takeshi.kihara.df@renesas.com>
-> >
-> > It is necessary to reset the LVDS Interface according to display on/off.
+> [PATCH 1/3] ARM: dts: Update CMT1 DT compat strings on r8a7740
+> [PATCH 2/3] ARM: dts: Update CMT1 DT compat strings on sh73a0
+> [PATCH 3/3] ARM: dts: Add CMT0 and CMT1 to r8a7792
 > 
-> This is not the LVDS interface.
-> The LVDS interface has its own device node.
+> These patches modify CMT device support on r8a7740, sh73a0 and r8a7792.
+> In particular r8a7740 and sh73a0 get their DT compat strings updated
+> and r8a7792 gets a fresh set of CMT devices.
+> 
+> Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
+> ---
+> 
+> Patch 1 and Patch 2 depend on the following DT binding change:
+> [PATCH 2/8] dt-bindings: timer: renesas, cmt: Update CMT1 on sh73a0 and r8a7740
 
-Thanks, how about a changelog more like this?
+Hi Magnus,
 
-arm64: dts: renesas: r8a77990: Add cpg reset for DU
-
-Add CPG reset properties to DU node of E3 (r8a77990) SoC.
-
-According to Laurent Pinchart, R-Car Gen3 reset is handled at the group
-level so specifying one reset entry per group is sufficient. For this
-reason <&cpg 724> is not listed as a reset for "du.1" as was the case in an
-earlier revision of this patch.
-
-Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
-Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
-Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
-
-> > Therefore, this patch adds CPG reset properties in DU device node
-> > for the R8A77990 SoC.
-> >
-> > According to Laurent Pinchart, R-Car Gen3 reset is handled at the group
-> > level so specifying one reset entry per group is sufficient. For this
-> > reason <&cpg 724> is not listed as a reset for "du.1" as was the case in an
-> > earlier revision of this patch.
-> >
-> > Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
-> > Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
-> > Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
-> > ---
-> > v2 [Simon Horman]
-> > - only add one reset entry per group
-> >
-> > v1 [Yoshihiro Kaneko]
-> >
-> > v0 [Takeshi Kihara]
-> > ---
-> >  arch/arm64/boot/dts/renesas/r8a77990.dtsi | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/arch/arm64/boot/dts/renesas/r8a77990.dtsi b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-> > index b4318661f35e..84d1f58e73e7 100644
-> > --- a/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-> > +++ b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-> > @@ -1766,6 +1766,8 @@
-> >                         clocks = <&cpg CPG_MOD 724>,
-> >                                  <&cpg CPG_MOD 723>;
-> >                         clock-names = "du.0", "du.1";
-> > +                       resets = <&cpg 724>;
-> > +                       reset-names = "du.0";
-> >                         vsps = <&vspd0 0 &vspd1 0>;
-> >                         status = "disabled";
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-> 
+Do these also depend on a driver update to avoid a regression?
