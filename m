@@ -2,31 +2,32 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C9F884AD4A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 23:26:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC3794AD65
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 23:33:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730301AbfFRV0G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jun 2019 17:26:06 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:60350 "EHLO
+        id S1730501AbfFRVdX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jun 2019 17:33:23 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:60382 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730102AbfFRV0F (ORCPT
+        with ESMTP id S1729196AbfFRVdW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jun 2019 17:26:05 -0400
+        Tue, 18 Jun 2019 17:33:22 -0400
 Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 94544D5;
-        Tue, 18 Jun 2019 23:26:02 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 63810D5;
+        Tue, 18 Jun 2019 23:33:20 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1560893162;
-        bh=esyQWctUFMM+2U90UV/vb+LzRrZsJC1Erow1Ii3GB3M=;
+        s=mail; t=1560893600;
+        bh=YV3EHmrcvEYDADJpp2AOt0xeZrK0yfFV1FTeze44/fU=;
         h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
-        b=BXoksaGLGwSzRXOMMQ4VRBbFbJeNeZnAeU7Oj3j1Mu9/ehhnhcN9TrLuZ+SJaFQFB
-         b1Kc27Jlvx3sQO5dRd0zJ9AvSylJtbdUY+ABymVRxpETX4n9c92s5S+PvHdJjer5Ys
-         kZevBHh2BysQ2HaePW8vNxX5vnVQOIeyc7YUW+Bg=
+        b=S/ORAOf0mRCE3tjAQ06IbRbyVdOXQ4MP/APfwN5tx/zQT2t5MWyJHz5kzCeNTKh69
+         FjdkEsWan1sCnuA+wa2FQwdEG1qjEwo5VuNxLrVkceIpzulT9nHzbl2+IhhMMjueJu
+         vUaUPAyOYDarprr+gKqq/TD8zB+GMtUnIn9MC18I=
 Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH] tests: Add an output routing test
+Subject: Re: [kms-tests] [PATCH] tests: Extend BRU/BRS allocation test to
+ cover M3-N
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-renesas-soc@vger.kernel.org
-References: <20190617202509.25897-1-laurent.pinchart@ideasonboard.com>
+References: <20190617003536.30936-1-laurent.pinchart@ideasonboard.com>
 From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
@@ -73,15 +74,15 @@ Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
  JxB1gWThL4kOTbsqqXj9GLcyOImkW0lJGGR3o/fV91Zh63S5TKnf2YGGGzxki+ADdxVQAm+Q
  sbsRB8KNNvVXBOVNwko86rQqF9drZuw=
 Organization: Ideas on Board
-Message-ID: <55211e6f-43b6-e796-47b0-74d24f4ce968@ideasonboard.com>
-Date:   Tue, 18 Jun 2019 22:25:59 +0100
+Message-ID: <e8e4c143-1d1f-30f2-115c-849cb43a9158@ideasonboard.com>
+Date:   Tue, 18 Jun 2019 22:33:17 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190617202509.25897-1-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20190617003536.30936-1-laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -89,186 +90,48 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Laurent,
 
-On 17/06/2019 21:25, Laurent Pinchart wrote:
-> Add a test that moves an output connector between multiple CRTCs with a
-> single mode set operation at each step, without going through disable
-> and reenable cycles. This helps testing the routing configuration code
-> paths in the commit tail handler.
+On 17/06/2019 01:35, Laurent Pinchart wrote:
+> The BRU/BRS allocation test only covers the H3 ES2.0 SoC as that was the
+> only hardware platform supported by the DU driver that offered the
+> required features at the time the test was written. Now that M3-N is
+> supported in the DU driver, support it in the test script.
 > 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  tests/kms-test-brxalloc.py | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/tests/kms-test-brxalloc.py b/tests/kms-test-brxalloc.py
+> index 2e3f6cb8b39e..f1902f3baf1d 100755
+> --- a/tests/kms-test-brxalloc.py
+> +++ b/tests/kms-test-brxalloc.py
+> @@ -17,11 +17,10 @@ class BRxAllocTest(kmstest.KMSTest):
+>      def main(self):
+>          # This test requires usage of two CRTCs connected to the same VSPDL
+>          # instance to test dynamic assignment of the BRU and BRS to pipelines.
+> -        # This is only occurs on H3 ES2.0 (and M3N which we don't support yet).
+> -        # Check the SoC model through sysfs as we can't detected it through the
+> -        # DRM/KMS API.
+> +        # This is only occurs on H3 ES2.0 and M3N. Check the SoC model through
+> +        # sysfs as we can't detected it through the DRM/KMS API.
+>          soc = open("/sys/devices/soc0/soc_id", "rb").read().strip().decode()
+> -        if soc != "r8a7795":
+> +        if soc != "r8a7795" and soc != "r8a77965":
 
-Small concern about the duplication of skipping writeback connectors
-which we may likely need across other tests, but that is probably a
-separate patch on it's own right.
+To be a bit more pythonic, you could write;
+           if soc not in ["r8a7795", "r8a77965"]:
+
+But I don't think this list is going to be extended any time soon so it
+doesn't really matter.
+
+Up to you either way,
 
 Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  tests/kms-test-routing.py | 148 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 148 insertions(+)
->  create mode 100755 tests/kms-test-routing.py
-> 
-> diff --git a/tests/kms-test-routing.py b/tests/kms-test-routing.py
-> new file mode 100755
-> index 000000000000..2cf02ddcc6b5
-> --- /dev/null
-> +++ b/tests/kms-test-routing.py
-> @@ -0,0 +1,148 @@
-> +#!/usr/bin/python3
-> +
-> +import kmstest
-> +import pykms
-> +import time
-> +
-> +class Pipeline(object):
-> +    def __init__(self, crtc):
-> +        self.crtc = crtc
-> +        self.connector = None
-> +        self.plane = None
-> +        self.mode_blob = None
-> +
-> +
-> +class RoutingTest(kmstest.KMSTest):
-> +    """Test output routing."""
-> +
-> +    def main(self):
-> +
-> +        # Create the reverse map from CRTC to possible connectors and calculate
-> +        # the largest resolution.
-> +        self.crtc_to_connectors = {}
-> +        max_hdisplay = 0
-> +        max_vdisplay = 0
-> +
-> +        for connector in self.card.connectors:
-> +            if connector.fullname.startswith('writeback-'):
-> +                continue
 
-Will this need to be added to other existing tests to deal with
-writeback? And if so - should it be some sort of common library generator?
-
-> +
-> +            mode = connector.get_default_mode()
-> +            max_hdisplay = max(mode.hdisplay, max_hdisplay)
-> +            max_vdisplay = max(mode.vdisplay, max_vdisplay)
-> +
-> +            for crtc in connector.get_possible_crtcs():
-> +                if not crtc in self.crtc_to_connectors:
-> +                    self.crtc_to_connectors[crtc] = []
-> +                self.crtc_to_connectors[crtc].append(connector)
-> +
-> +        # Find a connector that can be routed to at least two CRTCs that have
-> +        # at least two output routes each.
-> +        shared_connector = None
-> +        for connector in self.card.connectors:
-> +            if connector.fullname.startswith('writeback-'):
-> +                continue
-> +
-
-Oh - especially now it's already been duplicated!
-
-> +            pipes = []
-> +            for crtc in connector.get_possible_crtcs():
-> +                if len(self.crtc_to_connectors[crtc]) >= 2:
-> +                    pipes.append(Pipeline(crtc))
-> +
-> +            if len(pipes) >= 2:
-> +                shared_connector = connector
-> +                break
-> +
-> +        if not shared_connector:
-> +            self.skip("No suitable connector")
-> +            return
-> +
-> +        # Allocate planes for each CRTC.
-> +        pool = [(pipe, list(pipe.crtc.possible_planes)) for pipe in pipes]
-> +        while len(pool):
-> +            pool.sort(key=lambda elem: len(elem[1]), reverse=True)
-> +            pipe, planes = pool[-1]
-> +            pipe.plane = planes[0]
-> +            pool = [(elem[0], [p for p in elem[1] if p != pipe.plane]) for elem in pool[:-1]]
-> +
-> +        # Create a framebuffer big enough for all connectors.
-> +        fb = pykms.DumbFramebuffer(self.card, max_hdisplay, max_vdisplay, "XR24")
-> +        pykms.draw_test_pattern(fb)
-> +
-> +        self.start("Moving connector %s between CRTCs %s" % \
-> +                   (shared_connector.fullname, [pipe.crtc.id for pipe in pipes]))
-> +
-> +        self.logger.log("Highest display resolution: %ux%u" % (max_hdisplay, max_vdisplay))
-> +
-> +        for master_pipe in pipes:
-> +            req = kmstest.AtomicRequest(self)
-> +            connectors = self.allocate_connectors(pipes, master_pipe, shared_connector)
-> +            route = []
-> +
-> +            for pipe in pipes:
-> +                if pipe.connector and not pipe.connector in connectors.values():
-> +                    req.add(pipe.connector, 'CRTC_ID', 0)
-> +
-> +                pipe.connector = connectors[pipe.crtc]
-> +                mode = pipe.connector.get_default_mode()
-> +                pipe.mode_blob = mode.to_blob(self.card)
-> +
-> +                req.add(pipe.connector, 'CRTC_ID', pipe.crtc.id)
-> +                req.add(pipe.crtc, {'ACTIVE': 1, 'MODE_ID': pipe.mode_blob.id})
-> +                req.add(pipe.plane, {
-> +                            'FB_ID': fb.id,
-> +                            'CRTC_ID': pipe.crtc.id,
-> +                            'SRC_X': 0,
-> +                            'SRC_Y': 0,
-> +                            'SRC_W': int(mode.hdisplay * 65536),
-> +                            'SRC_H': int(mode.vdisplay * 65536),
-> +                            'CRTC_X': 0,
-> +                            'CRTC_Y': 0,
-> +                            'CRTC_W': mode.hdisplay,
-> +                            'CRTC_H': mode.vdisplay,
-> +                        })
-> +
-> +                route.append("CRTC %u to connector %s" % (pipe.crtc.id, pipe.connector.fullname))
-> +
-> +            self.logger.log("Routing " + ", ".join(route))
-> +
-> +            ret = req.commit_sync(True)
-> +            if ret < 0:
-> +                self.fail("atomic commit failed with %d" % ret)
-> +                return
-> +
-> +            time.sleep(5)
-> +
-> +        self.success()
-> +
-> +        for pipe in pipes:
-> +            self.atomic_crtc_disable(pipe.crtc)
-> +
-> +
-> +    def allocate_connectors(self, pipes, master_pipe, shared_connector):
-> +        # Allocate one connector for each CRTC. Create a pool of available
-> +        # connectors for each CRTC, sorted by the number of connectors, and
-> +        # allocate started with the CRTC that has the least number of options.
-> +        # The master CRTC is always given the shared connector.
-> +        pool = []
-> +        for pipe in pipes:
-> +            if pipe == master_pipe:
-> +                pool.append((pipe.crtc, [shared_connector]))
-> +                continue
-> +
-> +            pool.append((pipe.crtc, list(self.crtc_to_connectors[pipe.crtc])))
-> +
-> +        allocated = {}
-> +        while len(pool):
-> +            pool.sort(key=lambda elem: len(elem[1]), reverse=True)
-> +            crtc, connectors = pool[-1]
-> +
-> +            connector = connectors[0]
-> +            allocated[crtc] = connector
-> +
-> +            # Remove the selected connector from all elements in the pool
-> +            pool = [(elem[0], [c for c in elem[1] if c != connector]) for elem in pool[:-1]]
-> +
-> +        return allocated
-> +
-> +
-> +RoutingTest().execute()
+>              self.skip("VSPDL (BRU+BRS) not available")
+>              return
+>  
 > 
 
 -- 
