@@ -2,104 +2,365 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 329D54A210
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 15:27:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78BD14A26E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 15:37:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725919AbfFRN1K (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jun 2019 09:27:10 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:54524 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726088AbfFRN1K (ORCPT
+        id S1726518AbfFRNgt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jun 2019 09:36:49 -0400
+Received: from mo4-p02-ob.smtp.rzone.de ([85.215.255.83]:25439 "EHLO
+        mo4-p02-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725919AbfFRNgL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jun 2019 09:27:10 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 02AE4D5;
-        Tue, 18 Jun 2019 15:27:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1560864428;
-        bh=g1gc1LLd8Mp15d1D66G8ERdo0dSJYekaFm/CxW4JmzI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AWEBtcWA0uOyfZ0eCXvRMDEX3LtbCxmwVwwSmrvXHjfs5H8poiEI6g2f1hI75mRbk
-         6VI1s4cMl+jBdYaExjzsOCVqfEA5pB3QUHpLpy94h1t+Kv54lemgxE9Af7o/NxQCli
-         n1K0YZCEQxgmpPJL6DU/wu6fwr75WOsR7VruSNok=
-Date:   Tue, 18 Jun 2019 16:26:51 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "open list:DRM DRIVERS FOR RENESAS" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+        Tue, 18 Jun 2019 09:36:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1560864967;
+        s=strato-dkim-0002; d=fpond.eu;
+        h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:
+        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+        bh=9ozTmPCWNkD85dxiLtzqCpUDP/EyYvgQQPmGjV1+QiY=;
+        b=BKWZ6lCf9dL5gnurSO9GJResztf/QZ9thCjxlDodRyWDAhBq/yFuZ6iHiJAEkRTXOW
+        O9M58t2vbIglJr2dtFCm69Jkn+TlkbXgqiecj1N25kz8WxcZSQRt9Hd3ptOm2lqLG2er
+        8zkToI4ktqjqwW6CSGVYKr+Xcb4xBJfSfFjsMex4NFRQr/a5eqFxMZtTDLB0ci+Z1xZm
+        +Zcy4JvaAH/zv/F6Yr+kbkl+LUA71XUkqLFNZwTKcA/1MmjJ5M8kBhjYCXMKA/jIX/tq
+        0LXiMeuOobDMkUkn4ZARHpgV9kFI5WPWMFQhxDhbfKRr+yiAWJ0zHtgwbVfsvHinFRTq
+        iREQ==
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzmt2bYDnKIKaws6YXTsc4="
+X-RZG-CLASS-ID: mo00
+Received: from oxapp03-03.back.ox.d0m.de
+        by smtp-ox.front (RZmta 44.24 AUTH)
+        with ESMTPSA id h0a328v5IDa61Ex
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+        (Client did not present a certificate);
+        Tue, 18 Jun 2019 15:36:06 +0200 (CEST)
+Date:   Tue, 18 Jun 2019 15:36:06 +0200 (CEST)
+From:   Ulrich Hecht <uli@fpond.eu>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH] drm: rcar-du: Replace drm_driver GEM ops with GEM object
- functions
-Message-ID: <20190618132651.GC21105@pendragon.ideasonboard.com>
-References: <20190618131329.30336-1-laurent.pinchart+renesas@ideasonboard.com>
- <CAKMK7uEDmTfyEft4v0vpZsmYTC-jA2pCMMTt=T9r5Dis7gKEmQ@mail.gmail.com>
+Message-ID: <2003798727.792594.1560864966711@webmail.strato.com>
+In-Reply-To: <20190617210930.6054-9-laurent.pinchart+renesas@ideasonboard.com>
+References: <20190617210930.6054-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20190617210930.6054-9-laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH v3 08/10] drm: rcar-du: Create a group state object
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uEDmTfyEft4v0vpZsmYTC-jA2pCMMTt=T9r5Dis7gKEmQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Medium
+X-Mailer: Open-Xchange Mailer v7.8.4-Rev58
+X-Originating-IP: 85.212.220.45
+X-Originating-Client: open-xchange-appsuite
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Daniel,
 
-On Tue, Jun 18, 2019 at 03:21:55PM +0200, Daniel Vetter wrote:
-> On Tue, Jun 18, 2019 at 3:13 PM Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com> wrote:
-> >
-> > The recommended way to specify GEM object functions is to provide a
-> > drm_gem_object_funcs structure instance and set the GEM object to point
-> > to it. The drm_cma_gem_create_object_default_funcs() function provided
-> > by the GEM CMA helper does so when creating the GEM object, simplifying
-> > the driver implementation. Switch to it, and remove the then unneeded
-> > GEM-related opertions from rcar_du_driver.
-> >
-> > Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > ---
-> >  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 8 +-------
-> >  1 file changed, 1 insertion(+), 7 deletions(-)
-> >
-> > Daniel, is this what you had in mind ?
+> On June 17, 2019 at 11:09 PM Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com> wrote:
 > 
-> Yup, I think that's it. Noralf commented that we might want to have
-> DRM_GEM_CMA_DRIVER_OPS macro for the remaining few drm_driver hooks, like
-> DRM_GEM_CMA_VMAP_DRIVER_OPS but without the forced vmap on import. But
-> that's ok to do in some follow-up cleanup too. On this:
-
-Note that the rcar-du driver requires a custom .dumb_create() operation,
-which is another reason why I can't use DRM_GEM_CMA_VMAP_DRIVER_OPS.
-
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 > 
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > index 3e5e835ea2b6..4cbb82009931 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > @@ -445,16 +445,10 @@ DEFINE_DRM_GEM_CMA_FOPS(rcar_du_fops);
-> >  static struct drm_driver rcar_du_driver = {
-> >         .driver_features        = DRIVER_GEM | DRIVER_MODESET | DRIVER_PRIME
-> >                                 | DRIVER_ATOMIC,
-> > -       .gem_free_object_unlocked = drm_gem_cma_free_object,
-> > -       .gem_vm_ops             = &drm_gem_cma_vm_ops,
-> > +       .gem_create_object      = drm_cma_gem_create_object_default_funcs,
-> >         .prime_handle_to_fd     = drm_gem_prime_handle_to_fd,
-> >         .prime_fd_to_handle     = drm_gem_prime_fd_to_handle,
-> > -       .gem_prime_import       = drm_gem_prime_import,
-> > -       .gem_prime_export       = drm_gem_prime_export,
-> > -       .gem_prime_get_sg_table = drm_gem_cma_prime_get_sg_table,
-> >         .gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
-> > -       .gem_prime_vmap         = drm_gem_cma_prime_vmap,
-> > -       .gem_prime_vunmap       = drm_gem_cma_prime_vunmap,
-> >         .gem_prime_mmap         = drm_gem_cma_prime_mmap,
-> >         .dumb_create            = rcar_du_dumb_create,
-> >         .fops                   = &rcar_du_fops,
+> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> 
+> Create a new private state object for the DU groups, and move the
+> initialisation of a group object to a new function rcar_du_group_init().
+> 
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> Changes since v2:
+> 
+> - Call mutex_destroy() when cleaning up the group
+> - Include mutex.h and slab.h
+> - Squash "drm: rcar-du: Add rcar_du_get_{old,new}_group_state()"
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_group.c | 144 ++++++++++++++++++++++++
+>  drivers/gpu/drm/rcar-du/rcar_du_group.h |  29 +++++
+>  drivers/gpu/drm/rcar-du/rcar_du_kms.c   |  27 +----
+>  3 files changed, 177 insertions(+), 23 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+> index 9eee47969e77..8e12bd42890e 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+> @@ -25,6 +25,11 @@
+>  
+>  #include <linux/clk.h>
+>  #include <linux/io.h>
+> +#include <linux/slab.h>
+> +
+> +#include <drm/drm_atomic.h>
+> +#include <drm/drm_atomic_state_helper.h>
+> +#include <drm/drm_device.h>
+>  
+>  #include "rcar_du_drv.h"
+>  #include "rcar_du_group.h"
+> @@ -351,3 +356,142 @@ int rcar_du_group_set_routing(struct rcar_du_group *rgrp)
+>  
+>  	return rcar_du_set_dpad0_vsp1_routing(rgrp->dev);
+>  }
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Group State Handling
+> + */
+> +
+> +static struct drm_private_state *
+> +rcar_du_group_atomic_duplicate_state(struct drm_private_obj *obj)
+> +{
+> +	struct rcar_du_group_state *state;
+> +
+> +	if (WARN_ON(!obj->state))
+> +		return NULL;
+> +
+> +	state = kzalloc(sizeof(*state), GFP_KERNEL);
+> +	if (state == NULL)
+> +		return NULL;
+> +
+> +	__drm_atomic_helper_private_obj_duplicate_state(obj, &state->state);
+> +
+> +	return &state->state;
+> +}
+> +
+> +static void rcar_du_group_atomic_destroy_state(struct drm_private_obj *obj,
+> +					       struct drm_private_state *state)
+> +{
+> +	kfree(to_rcar_group_state(state));
+> +}
+> +
+> +static const struct drm_private_state_funcs rcar_du_group_state_funcs = {
+> +	.atomic_duplicate_state = rcar_du_group_atomic_duplicate_state,
+> +	.atomic_destroy_state = rcar_du_group_atomic_destroy_state,
+> +};
+> +
+> +/**
+> + * rcar_du_get_old_group_state - get old group state, if it exists
+> + * @state: global atomic state object
+> + * @rgrp: group to grab
+> + *
+> + * This function returns the old group state for the given group, or
+> + * NULL if the group is not part of the global atomic state.
+> + */
+> +struct rcar_du_group_state *
+> +rcar_du_get_old_group_state(struct drm_atomic_state *state,
+> +			    struct rcar_du_group *rgrp)
+> +{
+> +	struct drm_private_obj *obj = &rgrp->private;
+> +	struct drm_private_state *pstate;
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < state->num_private_objs; i++) {
+> +		if (obj == state->private_objs[i].ptr) {
+> +			pstate = state->private_objs[i].old_state;
+> +			return to_rcar_group_state(pstate);
+> +		}
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +/**
+> + * rcar_du_get_new_group_state - get new group state, if it exists
+> + * @state: global atomic state object
+> + * @rgrp: group to grab
+> + *
+> + * This function returns the new group state for the given group, or
+> + * NULL if the group is not part of the global atomic state.
+> + */
+> +struct rcar_du_group_state *
+> +rcar_du_get_new_group_state(struct drm_atomic_state *state,
+> +			    struct rcar_du_group *rgrp)
+> +{
+> +	struct drm_private_obj *obj = &rgrp->private;
+> +	struct drm_private_state *pstate;
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < state->num_private_objs; i++) {
+> +		if (obj == state->private_objs[i].ptr) {
+> +			pstate = state->private_objs[i].new_state;
+> +			return to_rcar_group_state(pstate);
+> +		}
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Init and Cleanup
+> + */
+> +
+> +/*
+> + * rcar_du_group_init - Initialise and reset a group object
+> + *
+> + * Return 0 in case of success or a negative error code otherwise.
+> + */
+> +int rcar_du_group_init(struct rcar_du_device *rcdu, struct rcar_du_group *rgrp,
+> +		       unsigned int index)
+> +{
+> +	static const unsigned int mmio_offsets[] = {
+> +		DU0_REG_OFFSET, DU2_REG_OFFSET
+> +	};
+> +
+> +	struct rcar_du_group_state *state;
+> +
+> +	state = kzalloc(sizeof(*state), GFP_KERNEL);
+> +	if (!state)
+> +		return -ENOMEM;
+> +
+> +	drm_atomic_private_obj_init(rcdu->ddev, &rgrp->private, &state->state,
+> +				    &rcar_du_group_state_funcs);
+> +
+> +	mutex_init(&rgrp->lock);
+> +
+> +	rgrp->dev = rcdu;
+> +	rgrp->mmio_offset = mmio_offsets[index];
+> +	rgrp->index = index;
+> +	/* Extract the channel mask for this group only. */
+> +	rgrp->channels_mask = (rcdu->info->channels_mask >> (2 * index))
+> +			    & GENMASK(1, 0);
+> +	rgrp->num_crtcs = hweight8(rgrp->channels_mask);
+> +
+> +	/*
+> +	 * If we have more than one CRTC in this group pre-associate
+> +	 * the low-order planes with CRTC 0 and the high-order planes
+> +	 * with CRTC 1 to minimize flicker occurring when the
+> +	 * association is changed.
+> +	 */
+> +	rgrp->dptsr_planes = rgrp->num_crtcs > 1
+> +			   ? (rcdu->info->gen >= 3 ? 0x04 : 0xf0)
+> +			   : 0;
+> +
+> +	return 0;
+> +}
+> +
+> +void rcar_du_group_cleanup(struct rcar_du_group *rgrp)
+> +{
+> +	mutex_destroy(&rgrp->lock);
+> +
+> +	drm_atomic_private_obj_fini(&rgrp->private);
+> +}
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.h b/drivers/gpu/drm/rcar-du/rcar_du_group.h
+> index 87950c1f6a52..f9961f89fd97 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.h
+> @@ -12,12 +12,15 @@
+>  
+>  #include <linux/mutex.h>
+>  
+> +#include <drm/drm_atomic.h>
+> +
+>  #include "rcar_du_plane.h"
+>  
+>  struct rcar_du_device;
+>  
+>  /*
+>   * struct rcar_du_group - CRTCs and planes group
+> + * @private: The base drm private object
+>   * @dev: the DU device
+>   * @mmio_offset: registers offset in the device memory map
+>   * @index: group index
+> @@ -32,6 +35,8 @@ struct rcar_du_device;
+>   * @need_restart: the group needs to be restarted due to a configuration change
+>   */
+>  struct rcar_du_group {
+> +	struct drm_private_obj private;
+> +
+>  	struct rcar_du_device *dev;
+>  	unsigned int mmio_offset;
+>  	unsigned int index;
+> @@ -49,6 +54,19 @@ struct rcar_du_group {
+>  	bool need_restart;
+>  };
+>  
+> +#define to_rcar_group(s) container_of(s, struct rcar_du_group, private)
+> +
+> +/**
+> + * struct rcar_du_group_state - Driver-specific group state
+> + * @state: base DRM private state
+> + */
+> +struct rcar_du_group_state {
+> +	struct drm_private_state state;
+> +};
+> +
+> +#define to_rcar_group_state(s) \
+> +	container_of(s, struct rcar_du_group_state, state)
+> +
+>  u32 rcar_du_group_read(struct rcar_du_group *rgrp, u32 reg);
+>  void rcar_du_group_write(struct rcar_du_group *rgrp, u32 reg, u32 data);
+>  
+> @@ -60,4 +78,15 @@ int rcar_du_group_set_routing(struct rcar_du_group *rgrp);
+>  
+>  int rcar_du_set_dpad0_vsp1_routing(struct rcar_du_device *rcdu);
+>  
+> +struct rcar_du_group_state *
+> +rcar_du_get_old_group_state(struct drm_atomic_state *state,
+> +			    struct rcar_du_group *rgrp);
+> +struct rcar_du_group_state *
+> +rcar_du_get_new_group_state(struct drm_atomic_state *state,
+> +			    struct rcar_du_group *rgrp);
+> +
+> +int rcar_du_group_init(struct rcar_du_device *rcdu, struct rcar_du_group *rgrp,
+> +		       unsigned int index);
+> +void rcar_du_group_cleanup(struct rcar_du_group *rgrp);
+> +
+>  #endif /* __RCAR_DU_GROUP_H__ */
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> index c04136674e58..f57a035a94ee 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> @@ -23,6 +23,7 @@
+>  #include "rcar_du_crtc.h"
+>  #include "rcar_du_drv.h"
+>  #include "rcar_du_encoder.h"
+> +#include "rcar_du_group.h"
+>  #include "rcar_du_kms.h"
+>  #include "rcar_du_regs.h"
+>  #include "rcar_du_vsp.h"
+> @@ -621,10 +622,6 @@ static int rcar_du_vsps_init(struct rcar_du_device *rcdu)
+>  
+>  int rcar_du_modeset_init(struct rcar_du_device *rcdu)
+>  {
+> -	static const unsigned int mmio_offsets[] = {
+> -		DU0_REG_OFFSET, DU2_REG_OFFSET
+> -	};
+> -
+>  	struct drm_device *dev = rcdu->ddev;
+>  	struct drm_encoder *encoder;
+>  	struct rcar_du_group *rgrp;
+> @@ -671,25 +668,9 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
+>  
+>  	/* Initialize the groups. */
+>  	for_each_rcdu_group(rcdu, rgrp, i) {
+> -		mutex_init(&rgrp->lock);
+> -
+> -		rgrp->dev = rcdu;
+> -		rgrp->mmio_offset = mmio_offsets[i];
+> -		rgrp->index = i;
+> -		/* Extract the channel mask for this group only. */
+> -		rgrp->channels_mask = (rcdu->info->channels_mask >> (2 * i))
+> -				   & GENMASK(1, 0);
+> -		rgrp->num_crtcs = hweight8(rgrp->channels_mask);
+> -
+> -		/*
+> -		 * If we have more than one CRTCs in this group pre-associate
+> -		 * the low-order planes with CRTC 0 and the high-order planes
+> -		 * with CRTC 1 to minimize flicker occurring when the
+> -		 * association is changed.
+> -		 */
+> -		rgrp->dptsr_planes = rgrp->num_crtcs > 1
+> -				   ? (rcdu->info->gen >= 3 ? 0x04 : 0xf0)
+> -				   : 0;
+> +		ret = rcar_du_group_init(rcdu, rgrp, i);
+> +		if (ret < 0)
+> +			return ret;
+>  
+>  		if (!rcar_du_has(rcdu, RCAR_DU_FEATURE_VSP1_SOURCE)) {
+>  			ret = rcar_du_planes_init(rgrp);
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+>
 
--- 
-Regards,
+Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
-Laurent Pinchart
+CU
+Uli
