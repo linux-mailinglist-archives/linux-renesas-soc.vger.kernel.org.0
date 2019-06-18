@@ -2,33 +2,33 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2118749E45
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 12:31:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1443749E46
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 12:31:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729209AbfFRKbO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jun 2019 06:31:14 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:51420 "EHLO
+        id S1729189AbfFRKbX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jun 2019 06:31:23 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:51448 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725934AbfFRKbO (ORCPT
+        with ESMTP id S1725934AbfFRKbX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jun 2019 06:31:14 -0400
+        Tue, 18 Jun 2019 06:31:23 -0400
 Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id CB23725AED3;
-        Tue, 18 Jun 2019 20:31:11 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 7D3DF25AED3;
+        Tue, 18 Jun 2019 20:31:21 +1000 (AEST)
 Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id B54119408C4; Tue, 18 Jun 2019 12:31:09 +0200 (CEST)
-Date:   Tue, 18 Jun 2019 12:31:09 +0200
+        id 609FC9408C4; Tue, 18 Jun 2019 12:31:19 +0200 (CEST)
+Date:   Tue, 18 Jun 2019 12:31:19 +0200
 From:   Simon Horman <horms@verge.net.au>
 To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 0/3] clocksource/drivers/sh_cmt: Minor DT compat string
- update
-Message-ID: <20190618103109.pdhlhnz623ypqrju@verge.net.au>
-References: <156076560641.6960.5508309411424406087.sendpatchset@octo>
+Cc:     devicetree@vger.kernel.org, mark.rutland@arm.com,
+        linux-renesas-soc@vger.kernel.org, robh+dt@kernel.org
+Subject: Re: [PATCH 0/8] dt-bindings: timer: renesas, cmt: Various updates
+Message-ID: <20190618103118.xsgc5fp5d76itdwc@verge.net.au>
+References: <156076216767.4736.16337667537984218274.sendpatchset@octo>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <156076560641.6960.5508309411424406087.sendpatchset@octo>
+In-Reply-To: <156076216767.4736.16337667537984218274.sendpatchset@octo>
 Organisation: Horms Solutions BV
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -36,19 +36,27 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jun 17, 2019 at 07:00:06PM +0900, Magnus Damm wrote:
-> clocksource/drivers/sh_cmt: Minor DT compat string update
+On Mon, Jun 17, 2019 at 06:02:47PM +0900, Magnus Damm wrote:
+> dt-bindings: timer: renesas, cmt: Various updates
 > 
-> [PATCH 1/3] clocksource/drivers/sh_cmt: SoC-specific match for CMT1 on r8a7740 and sh73a0
-> [PATCH 2/3] clocksource/drivers/sh_cmt: Remove "cmt-48-gen2" support
-> [PATCH 3/3] clocksource/drivers/sh_cmt: Document "cmt-48" as deprecated
+> [PATCH 1/8] dt-bindings: timer: renesas, cmt: Add CMT0234 to sh73a0 and r8a7740
+> [PATCH 2/8] dt-bindings: timer: renesas, cmt: Update CMT1 on sh73a0 and r8a7740
+> [PATCH 3/8] dt-bindings: timer: renesas, cmt: Add CMT0 and CMT1 to r8a7792
+> [PATCH 4/8] dt-bindings: timer: renesas, cmt: Add CMT0 and CMT1 to r8a7795
+> [PATCH 5/8] dt-bindings: timer: renesas, cmt: Add CMT0 and CMT1 to r8a77965
+> [PATCH 6/8] dt-bindings: timer: renesas, cmt: Add CMT0 and CMT1 to r8a77990
+> [PATCH 7/8] dt-bindings: timer: renesas, cmt: Add CMT0 and CMT1 to r8a77995
+> [PATCH 8/8] dt-bindings: timer: renesas, cmt: Update R-Car Gen3 CMT1 usage
 > 
-> Move over to new CMT1 bindings on r8a7740 and sh73a0 and get rid of old
-> stale stuff such as "cmt-48-gen2" while keeping "cmt-48" around but document
-> it as deprecated.
+> This series collect the following rather trivial DT binding changes:
+> - Add 32-bit CMT0234 and convert CMT1 DT binding on sh73a0 and r8a7740.
+> - Add documentation for the CMT on the R-Car Gen2 V2H (r8a7792) SoC.
+> - Add missing R-Car Gen3 DT bindings for H3, M3-N, E3 an D3.
+> - Update the R-Car Gen3 description to reflect current usage.
+> 
+> Please see each individual patch for more information.
 > 
 > Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
-
 
 Hi Magnus,
 
@@ -60,11 +68,3 @@ Thomas Gleixner <tglx@linutronix.de>
 
 And LKML for good measure.
 
-> ---
-> 
-> Patch 1 and patch 3 depend on updated SoC-specific DT bindings in:
-> [PATCH 2/8] dt-bindings: timer: renesas, cmt: Update CMT1 on sh73a0 and r8a7740
-> 
->  drivers/clocksource/sh_cmt.c |   19 +++++++++++++------
->  1 file changed, 13 insertions(+), 6 deletions(-)
-> 
