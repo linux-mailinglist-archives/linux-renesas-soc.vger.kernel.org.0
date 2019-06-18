@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B400C4A146
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 14:59:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70F384A159
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 15:01:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726446AbfFRM7N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jun 2019 08:59:13 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:35014 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725988AbfFRM7N (ORCPT
+        id S1727584AbfFRNBA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jun 2019 09:01:00 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:46921 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729062AbfFRNA7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jun 2019 08:59:13 -0400
-Received: by mail-lf1-f66.google.com with SMTP id a25so9195872lfg.2;
-        Tue, 18 Jun 2019 05:59:11 -0700 (PDT)
+        Tue, 18 Jun 2019 09:00:59 -0400
+Received: by mail-lj1-f194.google.com with SMTP id v24so13004093ljg.13;
+        Tue, 18 Jun 2019 06:00:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=WUbWEk1zXKCoyE3lsLMt2cmv9NQdb7rFeXfvWkdSlaU=;
-        b=KKRR/vm3bULK6d9lMO8da293jIdPo7Xdw/sgr4TQq2G3ILTCCpyMyvBn30BNe98//W
-         gIEQCbLJxEUCAL0RsaFUgeR787g3e3UVUn5TsVkRHNjZkpCHwPR2Zy6aVUXKVu8gbCT3
-         lMUS3jlUbDksOseUI5kW07Y3G8Slo4sDuPR1f093TwsT/LIyrJ/tHTURzXQp/Ujf6wj8
-         VpyM1B3RswrGxJIKYNctveNrZ5nfsMyoWkA0XTsoLfQ5TfGf2aAM7k6i4bV4Ly7G1hiw
-         KUM1bAnI66yn7OCpI383+7rcywDNZTfS1J7uQ6Efk8n6FHYTsDnVxiHlelshtqym3GgZ
-         qUag==
-X-Gm-Message-State: APjAAAUj4itvmHPZo5x/wgRmE3ye5/NVeHkDivBVmDy2ici5TChxNwui
-        VYOEz0YKH8Pkg7y9+5LYwzxmbvze49a0c7J/4j/f7w==
-X-Google-Smtp-Source: APXvYqxB96wb2u5p/MDZa7WkG2EDSYidqvr5W5f5b1Ra5X5RHhHjZeqS4nOng6yhqJuf8m7ClK5CQcmT5VRLhi5ts6U=
-X-Received: by 2002:ac2:44b1:: with SMTP id c17mr10770798lfm.87.1560862751115;
- Tue, 18 Jun 2019 05:59:11 -0700 (PDT)
+        bh=YkYzZ6Vk7JQd0lMlOxPrAQbv3mFBIZdHpy6QfPOEsGA=;
+        b=KCrKe0bY3lye5gWXYn9ZVWiT6uzlh/mnwM4ncJO3/F5/kHtCXGFQ/UnN8646WmfEOJ
+         PKgELDlu8T3ELtvzFcIWqyN114tzGtbe0KoDMYONnLeLNPeDMv/8wi9xcC29SldW51SN
+         Yk4RyZ/zZZTxB6jprLKXoZ49OJlfEpkxWKqQ+WEz0JPEA3Kj/oxCQwUNYpUhE6LMZ9Zo
+         HAfsc496ihrtE1/UvY0CPKsTOsNOX+MpFRuXCvFjglD/eOup3JoA56bKdSPuHOXCHR0+
+         8IR8sJjaLCkcfRgpT6JhkqVz9EEovrF/d2G4A444Z0179oQ5iXinZ5kUP/wwK1JT+kYj
+         uwGw==
+X-Gm-Message-State: APjAAAWJdqGHhIcMCsA/OA9wePBt/xS8WA9OouYyID9fGq7C051nTKB1
+        8NSqZFH0EnOLUo3tjVIY1/wdjXLMKlYX0UA/7G4=
+X-Google-Smtp-Source: APXvYqx/VqV03mCqbsT7ZwbJOAcvuD9fyAn0ea7B9tFxc5RqfU7vh6IcdA5/6yW/3jsuwu1EgkBxnGyhPblWdgYyJhM=
+X-Received: by 2002:a2e:9685:: with SMTP id q5mr14488032lji.227.1560862858080;
+ Tue, 18 Jun 2019 06:00:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <156076216767.4736.16337667537984218274.sendpatchset@octo> <156076219472.4736.14727682068388338615.sendpatchset@octo>
-In-Reply-To: <156076219472.4736.14727682068388338615.sendpatchset@octo>
+References: <156076216767.4736.16337667537984218274.sendpatchset@octo> <156076220389.4736.5742093495634461883.sendpatchset@octo>
+In-Reply-To: <156076220389.4736.5742093495634461883.sendpatchset@octo>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 18 Jun 2019 14:58:58 +0200
-Message-ID: <CAMuHMdU08k3u=9sTqG-hADabdastZdAw4atZxV3d_LcXMYrUxg@mail.gmail.com>
-Subject: Re: [PATCH 3/8] dt-bindings: timer: renesas, cmt: Add CMT0 and CMT1
- to r8a7792
+Date:   Tue, 18 Jun 2019 15:00:44 +0200
+Message-ID: <CAMuHMdXkG8HSuzrSKe8k_dTFMBiGth-CsqyLxFiafq9zEA4ccQ@mail.gmail.com>
+Subject: Re: [PATCH 4/8] dt-bindings: timer: renesas, cmt: Add CMT0 and CMT1
+ to r8a7795
 To:     Magnus Damm <magnus.damm@gmail.com>
 Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>, Mark Rutland <mark.rutland@arm.com>,
@@ -53,7 +53,7 @@ On Mon, Jun 17, 2019 at 11:02 AM Magnus Damm <magnus.damm@gmail.com> wrote:
 > From: Magnus Damm <damm+renesas@opensource.se>
 >
 > This patch adds DT binding documentation for the CMT devices on
-> the R-Car Gen2 V2H (r8a7792) SoC.
+> the R-Car Gen3 H3 (r8a7795) SoC.
 >
 > Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
 
