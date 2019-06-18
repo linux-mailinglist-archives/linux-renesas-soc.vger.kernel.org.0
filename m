@@ -2,106 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 621A64A712
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 18:36:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B86EA4A742
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 18:43:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729491AbfFRQgR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jun 2019 12:36:17 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:55576 "EHLO
+        id S1729785AbfFRQn6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jun 2019 12:43:58 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:55646 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729319AbfFRQgR (ORCPT
+        with ESMTP id S1729319AbfFRQn6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jun 2019 12:36:17 -0400
+        Tue, 18 Jun 2019 12:43:58 -0400
 Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF91FD5;
-        Tue, 18 Jun 2019 18:36:14 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 682CFD5;
+        Tue, 18 Jun 2019 18:43:55 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1560875774;
-        bh=F2+CknpW90Qtzn/iua1VMeTWHYGplrCGzDZKCZLVgGU=;
+        s=mail; t=1560876235;
+        bh=1xUkCuv94g7S9J2o8wEGgwE4uKHhIma2x2Q1OFT9Qyg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=a9D0AvIJDHI9BnraSYmctjuFvOlsGasv/2Pv1f5oqSJjGukbV97NTH11Wxfz5Vge8
-         1kSS9rA1UnPh/HtBPDHok9Oo0PLF2ITP4mtxwfK2wcvgZOPWz4jOumvr3In1mdvXNa
-         FfHtQvKP1iXr9uiUqdfY7iCNVGcYZSTbar3UCBJw=
-Date:   Tue, 18 Jun 2019 19:35:57 +0300
+        b=J5LcKgHqPwLOD0UM3Av3Op3KWpF67JJo7Leut0KuPYT6BKqek14fzSlOn+YS3Lz1I
+         luR9eq/GHmEC3A8vHiHnS7FwZTvTxnYQ9DqIa45Z1Ni49gSedGVNsaOSbKcahh5LAb
+         JC8PnOUhGQ38hgYF6gC+QokLScepNYpTJP01W4t4=
+Date:   Tue, 18 Jun 2019 19:43:38 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Cc:     Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: Re: [PATCH] drm: rcar-du: Replace drm_driver GEM ops with GEM object
- functions
-Message-ID: <20190618163557.GF21105@pendragon.ideasonboard.com>
-References: <20190618131329.30336-1-laurent.pinchart+renesas@ideasonboard.com>
- <6d60ba59-60a2-58b3-c78b-5bd85e3a660b@tronnes.org>
+        devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+Subject: Re: [PATCH 1/3] dt-bindings: display: renesas: Add r8a774a1 support
+Message-ID: <20190618164338.GG21105@pendragon.ideasonboard.com>
+References: <1560871119-16570-1-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1560871119-16570-2-git-send-email-fabrizio.castro@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6d60ba59-60a2-58b3-c78b-5bd85e3a660b@tronnes.org>
+In-Reply-To: <1560871119-16570-2-git-send-email-fabrizio.castro@bp.renesas.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Noralf,
+Hi Fabrizio,
 
-On Tue, Jun 18, 2019 at 03:56:19PM +0200, Noralf Trønnes wrote:
-> Den 18.06.2019 15.13, skrev Laurent Pinchart:
-> > The recommended way to specify GEM object functions is to provide a
-> > drm_gem_object_funcs structure instance and set the GEM object to point
-> > to it. The drm_cma_gem_create_object_default_funcs() function provided
-> > by the GEM CMA helper does so when creating the GEM object, simplifying
-> > the driver implementation. Switch to it, and remove the then unneeded
-> > GEM-related opertions from rcar_du_driver.
+Thank you for the patch.
+
+On Tue, Jun 18, 2019 at 04:18:37PM +0100, Fabrizio Castro wrote:
+> Document RZ/G2M (R8A774A1) SoC bindings.
 > 
-> s/opertions/operations/
+> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 
-Oops, will fix.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> > Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > ---
-> >  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 8 +-------
-> >  1 file changed, 1 insertion(+), 7 deletions(-)
-> > 
-> > Daniel, is this what you had in mind ?
-> > 
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > index 3e5e835ea2b6..4cbb82009931 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> > @@ -445,16 +445,10 @@ DEFINE_DRM_GEM_CMA_FOPS(rcar_du_fops);
-> >  static struct drm_driver rcar_du_driver = {
-> >  	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_PRIME
-> >  				| DRIVER_ATOMIC,
-> > -	.gem_free_object_unlocked = drm_gem_cma_free_object,
-> > -	.gem_vm_ops		= &drm_gem_cma_vm_ops,
-> > +	.gem_create_object      = drm_cma_gem_create_object_default_funcs,
-> >  	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
-> >  	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
-> > -	.gem_prime_import	= drm_gem_prime_import,
-> > -	.gem_prime_export	= drm_gem_prime_export,
-> > -	.gem_prime_get_sg_table	= drm_gem_cma_prime_get_sg_table,
-> >  	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
-> > -	.gem_prime_vmap		= drm_gem_cma_prime_vmap,
-> > -	.gem_prime_vunmap	= drm_gem_cma_prime_vunmap,
-> >  	.gem_prime_mmap		= drm_gem_cma_prime_mmap,
+I don't have pending changes for this file for this kernel release. As
+your series contains DT changes, I'm fine if this patch gets merged
+through the ARM SoC tree along with the rest. Otherwise please let me
+know if I should handle it myself.
+
+> ---
+>  Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> If you want to pick up yet another recommendation, you can use
-> drm_gem_prime_mmap here.
-
-I compared the two call stacks and they appear similar, even if
-drm_gem_prime_mmap() leads to a more convoluted code flow. For my
-information, what's the advantage in using it ?
-
-> Either way:
-> 
-> Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
-> 
-> >  	.dumb_create		= rcar_du_dumb_create,
-> >  	.fops			= &rcar_du_fops,
+> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
+> index a41d280..db68041 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
+> @@ -12,10 +12,12 @@ following device-specific properties.
+>  Required properties:
+>  
+>  - compatible : Shall contain one or more of
+> +  - "renesas,r8a774a1-hdmi" for R8A774A1 (RZ/G2M) compatible HDMI TX
+>    - "renesas,r8a7795-hdmi" for R8A7795 (R-Car H3) compatible HDMI TX
+>    - "renesas,r8a7796-hdmi" for R8A7796 (R-Car M3-W) compatible HDMI TX
+>    - "renesas,r8a77965-hdmi" for R8A77965 (R-Car M3-N) compatible HDMI TX
+> -  - "renesas,rcar-gen3-hdmi" for the generic R-Car Gen3 compatible HDMI TX
+> +  - "renesas,rcar-gen3-hdmi" for the generic R-Car Gen3 and RZ/G2 compatible
+> +			     HDMI TX
+>  
+>      When compatible with generic versions, nodes must list the SoC-specific
+>      version corresponding to the platform first, followed by the
 
 -- 
 Regards,
