@@ -2,52 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 632864A061
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 14:10:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E50E4A087
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 14:15:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726088AbfFRMKW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jun 2019 08:10:22 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:46041 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725919AbfFRMKW (ORCPT
+        id S1725919AbfFRMPG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jun 2019 08:15:06 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:38943 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725913AbfFRMPG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jun 2019 08:10:22 -0400
-Received: by mail-wr1-f65.google.com with SMTP id f9so13640917wre.12
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jun 2019 05:10:21 -0700 (PDT)
+        Tue, 18 Jun 2019 08:15:06 -0400
+Received: by mail-wm1-f67.google.com with SMTP id z23so2992797wma.4
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jun 2019 05:15:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=+6zc6WbTP5poyzPjTzRIwuO80xZpH5JaHn8Oyp9244A=;
-        b=KA5BEjEZz9dXxi/TcfuvvZ7HbGnjoIyU3K0xRxTBlylDNS3iUgZkg6TPWot5dvs1cp
-         l5/i0K3QKQiwx9u1E+6sgV7wrfmDL9YeDTWEg82vE77/fA27kpePcVYfjto8C09JKDz/
-         dMT6JW6RHuzPLcmt32FKW2sgcQEo8qP2uhE8St4Q+tMp4TRmTMu8eo4WyzAxd8XMJnGM
-         pWdD4WGhAR76bybFC1KYTVN8vK3Btm8hdBPMtdEMGlQQlNl2cLS9DQIbYkqXL0hI08l3
-         9ROgTxKaiBbZw5Ry6745AKgwHh4ERLlUFjmUqm9ElGlOvnAQZdAVDGsGZuqpDKtgofnb
-         1PbA==
+        bh=1cAPKhfxit+xHeNRj6BxsWJGw4CX++n1dsKppn5EZ/8=;
+        b=eryRipSUPWO7rZjHB9dPlj85BTsiO4mb9yd3U61M3caI9ZBAaMmWRCi98dXuYLDuF5
+         APUcfVgzNLRQ3NnE5+3DJ4T1x/q15jQe3mZCAcB/DWIAlmtI3nu6kqZ6qJglKWCU4AaE
+         7jUV+X9LJRYKdbYu5c05yPnbPt9oO3x+CG11ldXXZtsuO4rEwAwLW/GMO/YwamRLinSm
+         hsMUPjVsIWVxFtnNyfcU7B5s2CXyA/cvZFhm3v0vV6o2EVwVRoBInLoP9GT2H40bJvN8
+         3DdQ50kaVHKwGNuOtgcskqwaoEOHzZshT1EsXwzmwBosY6cf9UXw2BFV2WeVbLb5UgJn
+         d4jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=+6zc6WbTP5poyzPjTzRIwuO80xZpH5JaHn8Oyp9244A=;
-        b=FoGIO8iil8Hf/Lsaw9mPjsiUHIK9/Cf1w133evIRG2TM0xhjLCZHLlhX+fr5XKW9iL
-         cMTrpJSBD5tXyCcdfE+tZfgsP+4i6zfyjxOhXWo9Bn8A6nczNLSFSBa3VZL90ugWlZ0x
-         Cl3chv5kCLF6axyw+ibQj4hjTsASrQP3QXDPh2kzmX2ZDlbAxyZtWjfLeJrXqBYjbZDz
-         18EPIwDDvjh7QHIgJIrCUXStxoscjUKeIbmwJxsJz5NknzoZ/MgrK8xoPYnyPVYlEpKK
-         ImvMYaUyGOsNM7pb1AIbStY7zO9dpRfWsu8Y7idSKLJ2Ky6ocsW5ibL1aRQci9Pa10EH
-         LObg==
-X-Gm-Message-State: APjAAAUCyTj2cyxWhoJbBsNafqv3qhv3OL4/9IcVffqmg83jUBWTlyjw
-        F02mVTkw9DrqgQVmeU9uza6A6PSumLoZvRALUNS07Q==
-X-Google-Smtp-Source: APXvYqzsM4tq2R+WwnTgMgDC0xNJgZ/5R6+n3M9VhRn9qBVAAKsE0aalTzsqm74ONBtsuqRbaNqKQX9g7pfL2EGGGRI=
-X-Received: by 2002:adf:81c9:: with SMTP id 67mr10292024wra.62.1560859820481;
- Tue, 18 Jun 2019 05:10:20 -0700 (PDT)
+        bh=1cAPKhfxit+xHeNRj6BxsWJGw4CX++n1dsKppn5EZ/8=;
+        b=YJNW1iMeoW5/qjBU2e/rpJpMyqmQ4k5LuMdyrfRPbMOYT18EqYyZBc6FLDFHao0eVj
+         zRcqv4y+C5OGFfrqsAY0xu2wYGfsV9AVAwRt/s0aO1TsFjZsaWgqFmwhgIu0mPaXTnPc
+         qHE5Jpy7LKX8IP6WxmZmMTJbxoPra/zTlKMZroMYkSnqWJZ2xcZKPBQbNTI430Exjilf
+         bdQiH+zqCW6xGexG+qGPrUUezARldi4sDFGgDAEWUc/z071yfkof3KVAbLAWPy8AKFCA
+         D7BnQA7UlmD2i9ebw45a2Sxq4DzPdVp01eFoXX6Zk7c6e7WvHRgrTRg19gpbOq64RKUR
+         HT3Q==
+X-Gm-Message-State: APjAAAVB10acBqfry8TpZEibxEGkioygB12dixAZgiy/0w9AoXSI0Ekr
+        DZunl4gQMUIZ35Lza81zqbwN8UFI0GAjxM3rVUI=
+X-Google-Smtp-Source: APXvYqyTSIrWBmKAINYm+Xl90OQjAyfC6GXEtrIUjNbPDaXTjp3NfZKbg3+B1IqSWErpnssiVa8MqqxrU/Syb91CS8M=
+X-Received: by 2002:a1c:c915:: with SMTP id f21mr3112290wmb.123.1560860104011;
+ Tue, 18 Jun 2019 05:15:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <156076300266.5827.16345352064689583105.sendpatchset@octo> <20190618104557.cw2wj3uffzo5r4wx@verge.net.au>
-In-Reply-To: <20190618104557.cw2wj3uffzo5r4wx@verge.net.au>
+References: <156076560641.6960.5508309411424406087.sendpatchset@octo> <20190618103109.pdhlhnz623ypqrju@verge.net.au>
+In-Reply-To: <20190618103109.pdhlhnz623ypqrju@verge.net.au>
 From:   Magnus Damm <magnus.damm@gmail.com>
-Date:   Tue, 18 Jun 2019 21:10:08 +0900
-Message-ID: <CANqRtoQwnOJPaOR-ftQ+RibTbMNEAaBfp6Vy-4vipzOUx4aPKw@mail.gmail.com>
-Subject: Re: [PATCH 0/3] ARM: dts: Minor CMT update for 32-bit ARM SoCs
+Date:   Tue, 18 Jun 2019 21:14:51 +0900
+Message-ID: <CANqRtoSspY_ccm+g0BFXt8VpQ9O-7Ta_rose+KVDOGjeX4VQ_A@mail.gmail.com>
+Subject: Re: [PATCH 0/3] clocksource/drivers/sh_cmt: Minor DT compat string update
 To:     Simon Horman <horms@verge.net.au>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -56,33 +56,39 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jun 18, 2019 at 7:46 PM Simon Horman <horms@verge.net.au> wrote:
+On Tue, Jun 18, 2019 at 7:31 PM Simon Horman <horms@verge.net.au> wrote:
 >
-> On Mon, Jun 17, 2019 at 06:16:42PM +0900, Magnus Damm wrote:
-> > ARM: dts: Minor CMT update for 32-bit ARM SoCs
+> On Mon, Jun 17, 2019 at 07:00:06PM +0900, Magnus Damm wrote:
+> > clocksource/drivers/sh_cmt: Minor DT compat string update
 > >
-> > [PATCH 1/3] ARM: dts: Update CMT1 DT compat strings on r8a7740
-> > [PATCH 2/3] ARM: dts: Update CMT1 DT compat strings on sh73a0
-> > [PATCH 3/3] ARM: dts: Add CMT0 and CMT1 to r8a7792
+> > [PATCH 1/3] clocksource/drivers/sh_cmt: SoC-specific match for CMT1 on r8a7740 and sh73a0
+> > [PATCH 2/3] clocksource/drivers/sh_cmt: Remove "cmt-48-gen2" support
+> > [PATCH 3/3] clocksource/drivers/sh_cmt: Document "cmt-48" as deprecated
 > >
-> > These patches modify CMT device support on r8a7740, sh73a0 and r8a7792.
-> > In particular r8a7740 and sh73a0 get their DT compat strings updated
-> > and r8a7792 gets a fresh set of CMT devices.
+> > Move over to new CMT1 bindings on r8a7740 and sh73a0 and get rid of old
+> > stale stuff such as "cmt-48-gen2" while keeping "cmt-48" around but document
+> > it as deprecated.
 > >
 > > Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
-> > ---
-> >
-> > Patch 1 and Patch 2 depend on the following DT binding change:
-> > [PATCH 2/8] dt-bindings: timer: renesas, cmt: Update CMT1 on sh73a0 and r8a7740
+>
 >
 > Hi Magnus,
 >
-> Do these also depend on a driver update to avoid a regression?
+> I think this series should include the Clocksource maintainers as
+> recipients:
+>
+> Daniel Lezcano <daniel.lezcano@linaro.org>
+> Thomas Gleixner <tglx@linutronix.de>
+>
+> And LKML for good measure.
 
 Hi Simon,
 
-Nope, there are no driver dependencies for this series!
+I totally agree. I was suspecting some opinions might come out about
+the CMT compat string changes in the DT binding document. I'll repost
+this series and include the above folks/ML once the CMT compat string
+changes in DT binding document are agreed.
 
-Thanks for your help,
+Cheers,
 
 / magnus
