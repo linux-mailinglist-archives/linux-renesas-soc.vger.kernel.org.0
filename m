@@ -2,103 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 181DA49A9B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 09:30:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72A1449AAD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 09:35:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726091AbfFRHay (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jun 2019 03:30:54 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:43330 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726037AbfFRHay (ORCPT
+        id S1725919AbfFRHf1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jun 2019 03:35:27 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:49230 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725913AbfFRHf1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jun 2019 03:30:54 -0400
-Received: by mail-lj1-f193.google.com with SMTP id 16so11990891ljv.10
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jun 2019 00:30:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=lzMoIK1vee4P4mPO/slx2A6Tsr0AJjn4J96SipEBO/M=;
-        b=o2QI4NVMdxH3WE0Sv7g2Wd2KSi1zyz1KrSd63ZH1h0e9j819uRnJyUWyNiNgg7eNOB
-         4wtbLPamVk2ak7wVfJsi8cJyYYqLe/r2yx4Ez+0w9ptwxP/5sQqZFd6imrNDOmvpTJtI
-         rYj0Lc3ob4OdqCPaRunnvn1hXl6ypYjoufx0iAYz9U7FgkK5/sc+gI6tTplCkkpnrjGp
-         bZLlACnOnh0hfNRgBgvZbWYVhzEm3KU0y7wdsrPchbuE9P11+bbRgtD2fUxcQ1i3Iazn
-         RW4WSRUDBhJZTWYQxy++MQN0EHKTU/9W8VaJdpzO/1FxzIDr2ilPBqkOjp+zRz8vx18c
-         QQDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=lzMoIK1vee4P4mPO/slx2A6Tsr0AJjn4J96SipEBO/M=;
-        b=cvuRcOqyDynXz/zzwVv4ACQo0wTo2JyfHAqnB78zuoGIlJDCcmu7R9q+MLR1GvScjO
-         Z96sGUzXWxDZext0IVfgUIw6K7pNXkk2B/GiZ7tWeZ89TJotLbmJSIphhiivnNtpzKSf
-         zj/NLjJTm2f6NoDrEZch9Zztq+p206BfzyD6ORCLa3C5amBtMI0cX/OcnZ8j9PzCfxA0
-         rATR1dd8O29tJOX+egrWF1Q7uW9TW2du4YszSksSCpiGAQWzfJUj8UDWPK+dRY4MKOon
-         lHbHOVaLwxeH4P/c6k7o3D9Yjf2/iIT6xIzZK3wRv6po3FQjxDk64qJdWulj1zVZc0hN
-         rfFw==
-X-Gm-Message-State: APjAAAUQ/lPf/W3w1PdFgrBFRzWUQ9pTGzLfv1VQhQHCFOyy1FnoMzCG
-        e0wvOnAqPSfFX6B31gY+3pUQWA==
-X-Google-Smtp-Source: APXvYqwGExLOK04QgdAg8HF247qc6qSalgLXbN68WY9cjm5Unagl1DuNFRQCTUcc1/cSOLB4c3Q+yw==
-X-Received: by 2002:a2e:824f:: with SMTP id j15mr4508805ljh.117.1560843052049;
-        Tue, 18 Jun 2019 00:30:52 -0700 (PDT)
-Received: from localhost (89-233-230-99.cust.bredband2.com. [89.233.230.99])
-        by smtp.gmail.com with ESMTPSA id z17sm2477188ljc.37.2019.06.18.00.30.51
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 18 Jun 2019 00:30:51 -0700 (PDT)
-Date:   Tue, 18 Jun 2019 09:30:50 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Simon Horman <horms+renesas@verge.net.au>
-Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] dt-bindings: watchdog: Rename bindings documentation file
-Message-ID: <20190618073050.GA28646@bigcity.dyn.berto.se>
-References: <20190617090953.8770-1-horms+renesas@verge.net.au>
+        Tue, 18 Jun 2019 03:35:27 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5C6C6D5;
+        Tue, 18 Jun 2019 09:35:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1560843325;
+        bh=Fzhc1I4GvnyBFZliP4EYcydVYhoOIH848SWA0jWyt+A=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ho9wb0GWHwy5g/DbXnaswR7Ckz3k1KfMySQt+RwkZktLuuI+F6t0lutd1XsSteZRx
+         pf4agCo/mF0vFzSn0WS8E4xf2lIS2xkBLcziX2kEyQs2u5wjEJxPTnm+SW8a2/hYth
+         zbh8iob0ga9i8RGmmA/3ogHpvV6tZszKqcbeVip8=
+Date:   Tue, 18 Jun 2019 10:35:08 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 26/59] drm/rcar-du: Drop drm_gem_prime_export/import
+Message-ID: <20190618073508.GD4800@pendragon.ideasonboard.com>
+References: <20190614203615.12639-1-daniel.vetter@ffwll.ch>
+ <20190614203615.12639-27-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190617090953.8770-1-horms+renesas@verge.net.au>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+In-Reply-To: <20190614203615.12639-27-daniel.vetter@ffwll.ch>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Simon,
+Hi Daniel,
 
-Thanks for your work.
+Thank you for the patch.
 
-On 2019-06-17 11:09:53 +0200, Simon Horman wrote:
-> For consistency with the naming of (most) other documentation files for DT
-> bindings for Renesas IP blocks rename the Renesas WDT documentation file
-> from renesas-wdt.txt to renesas,wdt.txt.
+On Fri, Jun 14, 2019 at 10:35:42PM +0200, Daniel Vetter wrote:
+> They're the default.
 > 
-> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+> Aside: Would be really nice to switch the others over to
+> drm_gem_object_funcs.
+> 
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Cc: linux-renesas-soc@vger.kernel.org
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Feel free to merged this as part of the series.
 
 > ---
->  .../devicetree/bindings/watchdog/{renesas-wdt.txt => renesas,wdt.txt}     | 0
->  1 file changed, 0 insertions(+), 0 deletions(-)
->  rename Documentation/devicetree/bindings/watchdog/{renesas-wdt.txt => renesas,wdt.txt} (100%)
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 2 --
+>  1 file changed, 2 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/watchdog/renesas-wdt.txt b/Documentation/devicetree/bindings/watchdog/renesas,wdt.txt
-> similarity index 100%
-> rename from Documentation/devicetree/bindings/watchdog/renesas-wdt.txt
-> rename to Documentation/devicetree/bindings/watchdog/renesas,wdt.txt
-> -- 
-> 2.11.0
-> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> index 83685250319d..9c93eb4fad8b 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> @@ -446,8 +446,6 @@ static struct drm_driver rcar_du_driver = {
+>  	.gem_vm_ops		= &drm_gem_cma_vm_ops,
+>  	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
+>  	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
+> -	.gem_prime_import	= drm_gem_prime_import,
+> -	.gem_prime_export	= drm_gem_prime_export,
+>  	.gem_prime_get_sg_table	= drm_gem_cma_prime_get_sg_table,
+>  	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
+>  	.gem_prime_vmap		= drm_gem_cma_prime_vmap,
 
 -- 
 Regards,
-Niklas Söderlund
+
+Laurent Pinchart
