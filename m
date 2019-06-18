@@ -2,90 +2,487 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F0E24A371
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 16:08:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 327304A38D
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 16:12:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728699AbfFROIz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jun 2019 10:08:55 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:41546 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727584AbfFROIz (ORCPT
+        id S1728881AbfFROMH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jun 2019 10:12:07 -0400
+Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.51]:34861 "EHLO
+        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725919AbfFROMH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jun 2019 10:08:55 -0400
-Received: by mail-lf1-f65.google.com with SMTP id 136so9386016lfa.8
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Jun 2019 07:08:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LQM/TAVB7gNprmQOImN/wuvcZWDoXAv+yuV+vnTA770=;
-        b=NTBPKAS/kWr9mL3Z6nJhvLHa0F0mA5gd6KF2Domn2BNGkEWyvIdsixGmaJ6g+Sg9mi
-         YuO0e/355jCffocPCwv8y8JUVTTBCjG8X6/T8N2f0mw9f1v+Lf/EQq5dD9tzbm+gBxUY
-         I0oYS7T125GWW18tP25U3AQ49x2StcQbL9jWOsF6DWWsaQ0wKOda8Fa9d5t05uXrghUN
-         t6rcEUXJ65Rox+UUzD5eQ/HQ4lBxQiHpkOZf/bbMw+OWApFXIJ54gfh54g9E83elkeUx
-         4ksd7muGs27S+P9PyylImkE/ePq1TMUIb9CbAlgrcOv4S/iWff00YtQpxrwY0VrmAucf
-         zXBQ==
-X-Gm-Message-State: APjAAAVGJBqD+1yFssEKt5XgzagjhxR+ESms2WDVIvRiOIsez/dYjirT
-        4/w9VMIwNI7hrW3pmgDrGt+ES7DcupZyqRd1+8SsyJ8Z
-X-Google-Smtp-Source: APXvYqz1u0Js3N4iKOY/8taoSONb5DavBufpz+O6YvG0n/Gx2kSW5+D8YAcKI067BmaiyDK+pDzaaCtvNQy10e+BXFc=
-X-Received: by 2002:ac2:5467:: with SMTP id e7mr35185080lfn.23.1560866933199;
- Tue, 18 Jun 2019 07:08:53 -0700 (PDT)
+        Tue, 18 Jun 2019 10:12:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1560867121;
+        s=strato-dkim-0002; d=fpond.eu;
+        h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:
+        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+        bh=nolS6R0CPI/aNbg1T3oLJ64umMyO/XTJx3ViH9ha9A4=;
+        b=UDXVs4qdYALHiRBvt+l5EhvEAYX9qRsoWAtW+Ki4Fnn5kOeeWUjfSzTBm3qDgNQs9i
+        WIo+2G4HJjGGW2/iwQf3Zt1dHoYwzQ1Y+uBrLuQBx9g4Btdqdg5DgrBxB5DUSN/5HcUw
+        R2UvPAa201BgLHr7NIhb/+lMW8X1ydsAOlGl3/pZkCLwdl7rK3oNq+nYhNenPH61XrGR
+        H217KEfEBd1a3Bz+hiCipvJfETbfzP8ZIlcWFE/Q6aHzGgT+wiGTrp182Lsqx24wdGNj
+        4ITyDSECHUXw1QXmbTzIawyBMPWvKhspNMBhkT8cEnpWiPU9qnWitK/049DPq+5NCi8R
+        bnLQ==
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzmt2bYDnKIKaws6YXTsc4="
+X-RZG-CLASS-ID: mo00
+Received: from oxapp03-03.back.ox.d0m.de
+        by smtp-ox.front (RZmta 44.24 AUTH)
+        with ESMTPSA id h0a328v5IEC11hG
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+        (Client did not present a certificate);
+        Tue, 18 Jun 2019 16:12:01 +0200 (CEST)
+Date:   Tue, 18 Jun 2019 16:12:01 +0200 (CEST)
+From:   Ulrich Hecht <uli@fpond.eu>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Message-ID: <611022872.795369.1560867121209@webmail.strato.com>
+In-Reply-To: <20190617210930.6054-11-laurent.pinchart+renesas@ideasonboard.com>
+References: <20190617210930.6054-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20190617210930.6054-11-laurent.pinchart+renesas@ideasonboard.com>
+Subject: Re: [PATCH v3 10/10] drm: rcar-du: Centralise routing configuration
+ in commit tail handler
 MIME-Version: 1.0
-References: <156076300266.5827.16345352064689583105.sendpatchset@octo> <156076301133.5827.18087893489480810339.sendpatchset@octo>
-In-Reply-To: <156076301133.5827.18087893489480810339.sendpatchset@octo>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 18 Jun 2019 16:08:40 +0200
-Message-ID: <CAMuHMdXrDMuhOSuFNYmAxX+vZWWL3GqKKsz6OiBkpeGrgg_ZTg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] ARM: dts: Update CMT1 DT compat strings on r8a7740
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Medium
+X-Mailer: Open-Xchange Mailer v7.8.4-Rev58
+X-Originating-IP: 85.212.220.45
+X-Originating-Client: open-xchange-appsuite
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Magnus,
+Thank you for your patch.
 
-On Mon, Jun 17, 2019 at 11:16 AM Magnus Damm <magnus.damm@gmail.com> wrote:
-> From: Magnus Damm <damm+renesas@opensource.se>
+> On June 17, 2019 at 11:09 PM Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com> wrote:
+> 
+> 
+> Routing configuration for the DU is complex. Depending on the SoC
+> generation various routing options are available:
+> 
+> - The VSP to DU routing is not available on Gen1, is configurable on
+>   Gen2 and is fixed on Gen3. When configurable, the routing affects both
+>   CRTC groups but is set in a register of the first CRTC group.
+> - The DU channel to DPAD output routing is explicitly configurable on
+>   some SoCs of the Gen2 and Gen3 family. When configurable, the DPAD
+>   outputs never offer routing options to CRTCs belonging to different
+>   groups.
+> - On all SoCs the routing of DU channels to DU pin controllers (internal
+>   output of the DU channels) can be swapped within a group. This feature
+>   is only used on Gen1 to control routing of the DPAD1 output.
+> 
+> Routing is thus handled at the group level, but for Gen2 hardware
+> requires configuration of the DPAD1 and VSPD1 routing in the first group
+> even when only the second group is enabled.
+
+That's "DPAD0 and VSPD1", isn't it?
+
+> 
+> Routing at the group level is currently configured when applying CRTC
+> configuration. Global routing is configured at the same time, and is
+> additionally configured by the plane setup code to set VSPD1 routing.
+> This results in code paths that are difficult to follow.
+> 
+> Simplify the routing configuration by performing it all directly, based
+> on CRTC and CRTC group state. Group-level routing is moved to group
+> setup as it only depends on the group state and the state of the CRTCs
+> it contains. Global routing is moved to the commit tail handler, and
+> based on global DU state.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c  |   3 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.h   |   1 -
+>  drivers/gpu/drm/rcar-du/rcar_du_group.c | 154 ++++++++++++++++--------
+>  drivers/gpu/drm/rcar-du/rcar_du_group.h |   3 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_kms.c   |  16 +--
+>  drivers/gpu/drm/rcar-du/rcar_du_plane.c |  10 +-
+>  6 files changed, 115 insertions(+), 72 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> index ab5c288f9d09..f6ea19674a31 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> @@ -695,9 +695,8 @@ int rcar_du_crtc_atomic_modeset(struct drm_device *dev,
+>  		    !crtc_state->active)
+>  			continue;
+>  
+> -		/* Configure display timings and output routing. */
+> +		/* Configure display timings. */
+>  		rcar_du_crtc_set_display_timing(rcrtc);
+> -		rcar_du_group_set_routing(rcrtc->group);
+>  
+>  		if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
+>  			rcar_du_vsp_modeset(rcrtc);
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> index 0cc0984bf2ea..4e3a12496098 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> @@ -92,7 +92,6 @@ struct rcar_du_device {
+>  	} props;
+>  
+>  	unsigned int dpad0_source;
+> -	unsigned int dpad1_source;
+>  	unsigned int vspd1_sink;
+>  };
+>  
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+> index 7c9145778567..261baaf7c1f5 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+> @@ -46,6 +46,10 @@ void rcar_du_group_write(struct rcar_du_group *rgrp, u32 reg, u32 data)
+>  	rcar_du_write(rgrp->dev, rgrp->mmio_offset + reg, data);
+>  }
+>  
+> +/* -----------------------------------------------------------------------------
+> + * Static Group Setup
+> + */
+> +
+>  static void rcar_du_group_setup_pins(struct rcar_du_group *rgrp)
+>  {
+>  	u32 defr6 = DEFR6_CODE;
+> @@ -59,37 +63,6 @@ static void rcar_du_group_setup_pins(struct rcar_du_group *rgrp)
+>  	rcar_du_group_write(rgrp, DEFR6, defr6);
+>  }
+>  
+> -static void rcar_du_group_setup_defr8(struct rcar_du_group *rgrp)
+> -{
+> -	struct rcar_du_device *rcdu = rgrp->dev;
+> -	u32 defr8 = DEFR8_CODE;
+> -
+> -	if (rcdu->info->gen < 3) {
+> -		defr8 |= DEFR8_DEFE8;
+> -
+> -		/*
+> -		 * On Gen2 the DEFR8 register for the first group also controls
+> -		 * RGB output routing to DPAD0 and VSPD1 routing to DU0/1/2 for
+> -		 * DU instances that support it.
+> -		 */
+> -		if (rgrp->index == 0) {
+> -			defr8 |= DEFR8_DRGBS_DU(rcdu->dpad0_source);
+> -			if (rgrp->dev->vspd1_sink == 2)
+> -				defr8 |= DEFR8_VSCS;
+> -		}
+> -	} else {
+> -		/*
+> -		 * On Gen3 VSPD routing can't be configured, and DPAD routing
+> -		 * is set in the group corresponding to the DPAD output (no Gen3
+> -		 * SoC has multiple DPAD sources belonging to separate groups).
+> -		 */
+> -		if (rgrp->index == rcdu->dpad0_source / 2)
+> -			defr8 |= DEFR8_DRGBS_DU(rcdu->dpad0_source);
+> -	}
+> -
+> -	rcar_du_group_write(rgrp, DEFR8, defr8);
+> -}
+> -
+>  static void rcar_du_group_setup_didsr(struct rcar_du_group *rgrp)
+>  {
+>  	struct rcar_du_device *rcdu = rgrp->dev;
+> @@ -153,10 +126,8 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
+>  
+>  	rcar_du_group_setup_pins(rgrp);
+>  
+> -	if (rcdu->info->gen >= 2) {
+> -		rcar_du_group_setup_defr8(rgrp);
+> +	if (rcdu->info->gen >= 2)
+>  		rcar_du_group_setup_didsr(rgrp);
+> -	}
+>  
+>  	if (rcdu->info->gen >= 3)
+>  		rcar_du_group_write(rgrp, DEFR10, DEFR10_CODE | DEFR10_DEFE10);
+> @@ -174,6 +145,10 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
+>  	mutex_unlock(&rgrp->lock);
+>  }
+>  
+> +/* -----------------------------------------------------------------------------
+> + * Start & Stop
+> + */
+> +
+>  static void __rcar_du_group_start_stop(struct rcar_du_group *rgrp, bool start)
+>  {
+>  	struct rcar_du_device *rcdu = rgrp->dev;
+> @@ -229,26 +204,63 @@ void rcar_du_group_restart(struct rcar_du_group *rgrp)
+>  	__rcar_du_group_start_stop(rgrp, true);
+>  }
+>  
+> +/* -----------------------------------------------------------------------------
+> + * Input and Output Routing
+> + */
+> +
+> +static void rcar_du_group_setup_defr8(struct rcar_du_group *rgrp)
+> +{
+> +	struct rcar_du_device *rcdu = rgrp->dev;
+> +	u32 defr8 = DEFR8_CODE;
+> +
+> +	if (rcdu->info->gen < 3) {
+> +		defr8 |= DEFR8_DEFE8;
+> +
+> +		/*
+> +		 * On Gen2 the DEFR8 register for the first group also controls
+> +		 * RGB output routing to DPAD0 and VSPD1 routing to DU0/1/2 for
+> +		 * DU instances that support it.
+> +		 */
+> +		if (rgrp->index == 0) {
+> +			defr8 |= DEFR8_DRGBS_DU(rcdu->dpad0_source);
+> +			if (rgrp->dev->vspd1_sink == 2)
+> +				defr8 |= DEFR8_VSCS;
+> +		}
+> +	} else {
+> +		/*
+> +		 * On Gen3 VSPD routing can't be configured, and DPAD routing
+> +		 * is set in the group corresponding to the DPAD output (no Gen3
+> +		 * SoC has multiple DPAD sources belonging to separate groups).
+> +		 */
+> +		if (rgrp->index == rcdu->dpad0_source / 2)
+> +			defr8 |= DEFR8_DRGBS_DU(rcdu->dpad0_source);
+> +	}
+> +
+> +	rcar_du_group_write(rgrp, DEFR8, defr8);
+> +}
+> +
+>  int rcar_du_set_dpad0_vsp1_routing(struct rcar_du_device *rcdu)
+>  {
+>  	struct rcar_du_group *rgrp;
+>  	struct rcar_du_crtc *crtc;
+> -	unsigned int index;
+>  	int ret;
+>  
+> -	if (rcdu->info->gen < 2)
+> +	/*
+> +	 * Only Gen2 hardware has global routing not handled in the group that
+> +	 * holds the corresponding CRTCs.
+> +	 */
+> +	if (rcdu->info->gen != 2)
+>  		return 0;
+>  
+>  	/*
+>  	 * RGB output routing to DPAD0 and VSP1D routing to DU0/1/2 are
+
+"VSPD1"?
+
+> -	 * configured in the DEFR8 register of the first group on Gen2 and the
+> -	 * last group on Gen3. As this function can be called with the DU
+> -	 * channels of the corresponding CRTCs disabled, we need to enable the
+> -	 * group clock before accessing the register.
+> +	 * configured in the DEFR8 register of the first group on Gen2. As this
+> +	 * function can be called with the DU channels of the corresponding
+> +	 * CRTCs disabled, we need to enable the group clock before accessing
+> +	 * the register.
+>  	 */
+> -	index = rcdu->info->gen < 3 ? 0 : DIV_ROUND_UP(rcdu->num_crtcs, 2) - 1;
+> -	rgrp = &rcdu->groups[index];
+> -	crtc = &rcdu->crtcs[index * 2];
+> +	rgrp = &rcdu->groups[0];
+> +	crtc = &rcdu->crtcs[0];
+>  
+>  	ret = clk_prepare_enable(crtc->clock);
+>  	if (ret < 0)
+> @@ -302,19 +314,33 @@ static void rcar_du_group_set_dpad_levels(struct rcar_du_group *rgrp)
+>  	rcar_du_group_write(rgrp, DOFLR, doflr);
+>  }
+>  
+> -int rcar_du_group_set_routing(struct rcar_du_group *rgrp)
+> +static void rcar_du_group_set_routing(struct rcar_du_group *rgrp)
+>  {
+>  	struct rcar_du_device *rcdu = rgrp->dev;
+>  	u32 dorcr = rcar_du_group_read(rgrp, DORCR);
+> +	bool sp1_to_pin2 = false;
+>  
+>  	dorcr &= ~(DORCR_PG2T | DORCR_DK2S | DORCR_PG2D_MASK);
+>  
+>  	/*
+> -	 * Set the DPAD1 pins sources. Select CRTC 0 if explicitly requested and
+> -	 * CRTC 1 in all other cases to avoid cloning CRTC 0 to DPAD0 and DPAD1
+> -	 * by default.
+> +	 * Configure the superposition processor to pin controller routing.
+> +	 * Hardcode the assignment, except on Gen1 where we use it to route the
+> +	 * DU channels to DPAD1. There we route CRTC 0 to DPAD1 if explicitly
+> +	 * requested, and CRTC 1 in all other cases to avoid cloning CRTC 0 to
+> +	 * DPAD0 and DPAD1 by default.
+>  	 */
+> -	if (rcdu->dpad1_source == rgrp->index * 2)
+> +	if (rcdu->info->gen == 1 && rgrp->index == 0) {
+> +		struct rcar_du_crtc_state *rstate;
+> +		struct rcar_du_crtc *rcrtc;
+> +
+> +		rcrtc = &rcdu->crtcs[0];
+> +		rstate = to_rcar_crtc_state(rcrtc->crtc.state);
+> +
+> +		if (rstate->outputs & BIT(RCAR_DU_OUTPUT_DPAD1))
+> +			sp1_to_pin2 = true;
+> +	}
+> +
+> +	if (sp1_to_pin2)
+>  		dorcr |= DORCR_PG2D_DS1;
+>  	else
+>  		dorcr |= DORCR_PG2T | DORCR_DK2S | DORCR_PG2D_DS2;
+> @@ -323,7 +349,7 @@ int rcar_du_group_set_routing(struct rcar_du_group *rgrp)
+>  
+>  	rcar_du_group_set_dpad_levels(rgrp);
+>  
+> -	return rcar_du_set_dpad0_vsp1_routing(rgrp->dev);
+> +	rcar_du_group_setup_defr8(rgrp);
+>  }
+>  
+>  /* -----------------------------------------------------------------------------
+> @@ -430,20 +456,36 @@ rcar_du_get_new_group_state(struct drm_atomic_state *state,
+>  int rcar_du_group_atomic_check(struct drm_device *dev,
+>  			       struct drm_atomic_state *state)
+>  {
+> -	struct drm_crtc_state *crtc_state;
+> +	static const u32 dpad_mask = BIT(RCAR_DU_OUTPUT_DPAD1)
+> +				   | BIT(RCAR_DU_OUTPUT_DPAD0);
+> +	struct drm_crtc_state *old_crtc_state;
+> +	struct drm_crtc_state *new_crtc_state;
+>  	struct drm_crtc *crtc;
+>  	unsigned int i;
+>  
+> -	for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
+> +	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
+>  		struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
+> +		struct rcar_du_crtc_state *old_rcrtc_state;
+> +		struct rcar_du_crtc_state *new_rcrtc_state;
+>  		struct rcar_du_group_state *gstate;
+>  
+>  		gstate = rcar_du_get_group_state(state, rcrtc->group);
+>  		if (IS_ERR(gstate))
+>  			return PTR_ERR(gstate);
+>  
+> -		if (crtc_state->active)
+> +		if (new_crtc_state->active)
+>  			gstate->enabled = true;
+> +
+> +		if (!new_crtc_state->active_changed &&
+> +		    !new_crtc_state->connectors_changed)
+> +			continue;
+> +
+> +		old_rcrtc_state = to_rcar_crtc_state(old_crtc_state);
+> +		new_rcrtc_state = to_rcar_crtc_state(new_crtc_state);
+> +
+> +		if ((old_rcrtc_state->outputs & dpad_mask) !=
+> +		    (new_rcrtc_state->outputs & dpad_mask))
+> +			gstate->dpad_routing_changed = true;
+>  	}
+>  
+>  	return 0;
+> @@ -463,8 +505,14 @@ void rcar_du_group_atomic_setup(struct drm_device *dev,
+>  		old_state = to_rcar_group_state(old_pstate);
+>  		new_state = to_rcar_group_state(new_pstate);
+>  
+> -		if (!old_state->enabled && new_state->enabled)
+> +		if (!new_state->enabled)
+> +			continue;
+> +
+> +		if (!old_state->enabled)
+>  			rcar_du_group_setup(rgrp);
+> +
+> +		if (!old_state->enabled || new_state->dpad_routing_changed)
+> +			rcar_du_group_set_routing(rgrp);
+>  	}
+>  }
+>  
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.h b/drivers/gpu/drm/rcar-du/rcar_du_group.h
+> index 20efd2251ec4..b31b3bf8cb94 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.h
+> @@ -58,11 +58,13 @@ struct rcar_du_group {
+>   * struct rcar_du_group_state - Driver-specific group state
+>   * @state: base DRM private state
+>   * @enabled: true if at least one CRTC in the group is enabled
+> + * @dpad_routing_changed: set if CRTC to DPAD output routing has changed
+>   */
+>  struct rcar_du_group_state {
+>  	struct drm_private_state state;
+>  
+>  	bool enabled;
+> +	bool dpad_routing_changed;
+>  };
+>  
+>  #define to_rcar_group_state(s) \
+> @@ -73,7 +75,6 @@ void rcar_du_group_write(struct rcar_du_group *rgrp, u32 reg, u32 data);
+>  
+>  void rcar_du_group_start_stop(struct rcar_du_group *rgrp, bool start);
+>  void rcar_du_group_restart(struct rcar_du_group *rgrp);
+> -int rcar_du_group_set_routing(struct rcar_du_group *rgrp);
+>  
+>  int rcar_du_set_dpad0_vsp1_routing(struct rcar_du_device *rcdu);
+>  
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> index 65396134fba1..778060bfd383 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> @@ -393,14 +393,14 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
+>  	struct rcar_du_device *rcdu = dev->dev_private;
+>  	struct drm_crtc_state *crtc_state;
+>  	struct drm_crtc *crtc;
+> +	unsigned int vspd1_sink = rcdu->vspd1_sink;
+> +	unsigned int dpad0_source = rcdu->dpad0_source;
+>  	unsigned int i;
+>  
+>  	/*
+> -	 * Store RGB routing to DPAD0 and DPAD1, the hardware will be configured
+> -	 * when starting the CRTCs.
+> +	 * Store RGB routing to DPAD0, the hardware will be configured when
+> +	 * setting up the groups.
+>  	 */
+> -	rcdu->dpad1_source = -1;
+> -
+>  	for_each_new_crtc_in_state(old_state, crtc, crtc_state, i) {
+>  		struct rcar_du_crtc_state *rcrtc_state =
+>  			to_rcar_crtc_state(crtc_state);
+> @@ -408,9 +408,6 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
+>  
+>  		if (rcrtc_state->outputs & BIT(RCAR_DU_OUTPUT_DPAD0))
+>  			rcdu->dpad0_source = rcrtc->index;
+> -
+> -		if (rcrtc_state->outputs & BIT(RCAR_DU_OUTPUT_DPAD1))
+> -			rcdu->dpad1_source = rcrtc->index;
+>  	}
+>  
+>  	/* Apply the atomic update. */
+> @@ -421,6 +418,11 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
+>  	rcar_du_crtc_atomic_modeset(dev, old_state);
+>  	drm_atomic_helper_commit_planes(dev, old_state,
+>  					DRM_PLANE_COMMIT_ACTIVE_ONLY);
+> +
+> +	if (rcdu->vspd1_sink != vspd1_sink ||
+> +	    rcdu->dpad0_source != dpad0_source)
+> +		rcar_du_set_dpad0_vsp1_routing(rcdu);
+> +
+>  	drm_atomic_helper_commit_modeset_enables(dev, old_state);
+>  
+>  	rcar_du_crtc_atomic_enter_standby(dev, old_state);
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_plane.c b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> index c6430027169f..9bf32585dab3 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_plane.c
+> @@ -552,14 +552,8 @@ void __rcar_du_plane_setup(struct rcar_du_group *rgrp,
+>  	if (rcdu->info->gen < 3)
+>  		rcar_du_plane_setup_scanout(rgrp, state);
+>  
+> -	if (state->source == RCAR_DU_PLANE_VSPD1) {
+> -		unsigned int vspd1_sink = rgrp->index ? 2 : 0;
+> -
+> -		if (rcdu->vspd1_sink != vspd1_sink) {
+> -			rcdu->vspd1_sink = vspd1_sink;
+> -			rcar_du_set_dpad0_vsp1_routing(rcdu);
+> -		}
+> -	}
+> +	if (state->source == RCAR_DU_PLANE_VSPD1)
+> +		rcdu->vspd1_sink = rgrp->index ? 2 : 0;
+>  }
+>  
+>  int __rcar_du_plane_atomic_check(struct drm_plane *plane,
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 >
-> Update the r8a7740 to use the CMT1 DT compat string documented in:
-> [PATCH 2/8] dt-bindings: timer: renesas, cmt: Update CMT1 on sh73a0 and r8a7740
->
-> The "renesas,cmt-48" portion is left as-is to avoid breakage until the CMT
-> driver has been updated to make use of the new DT compat strings.
 
-Hence wouldn't it be better to update the driver first, and the DTS in
-the next release, so you can remove the "renesas,cmt-48" portion with
-the single DTS update?
-
-This is how it was done for R-Car Gen2:
-
-v4.15 has commit 83c79a6d8d7f4821 ("clocksource/drivers/sh_cmt: Support
-separate R-Car Gen2 CMT0/1"),
-v4.16 has commit bf50e0ab4f5062bb ("ARM: dts: r8a7791: Update CMT compat
-strings").
-
-> --- 0001/arch/arm/boot/dts/r8a7740.dtsi
-> +++ work/arch/arm/boot/dts/r8a7740.dtsi 2019-06-17 14:21:14.647792561 +0900
-> @@ -83,7 +83,7 @@
->         };
->
->         cmt1: timer@e6138000 {
-> -               compatible = "renesas,cmt-48-r8a7740", "renesas,cmt-48";
-> +               compatible = "renesas,r8a7740-cmt1", "renesas,cmt-48";
->                 reg = <0xe6138000 0x170>;
->                 interrupts = <GIC_SPI 58 IRQ_TYPE_LEVEL_HIGH>;
->                 clocks = <&mstp3_clks R8A7740_CLK_CMT1>;
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+CU
+Uli
