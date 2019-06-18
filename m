@@ -2,31 +2,33 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2122A4A7F4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 19:15:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1EB34A81C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 19:16:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729131AbfFRROm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jun 2019 13:14:42 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58118 "EHLO
+        id S1730169AbfFRRQe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jun 2019 13:16:34 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:58244 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728572AbfFRROm (ORCPT
+        with ESMTP id S1729435AbfFRRQe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jun 2019 13:14:42 -0400
+        Tue, 18 Jun 2019 13:16:34 -0400
 Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85564D5;
-        Tue, 18 Jun 2019 19:14:38 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0BEE3D5;
+        Tue, 18 Jun 2019 19:16:31 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1560878078;
-        bh=YNe25MyZN+qDYJm81K6qApOoy3Ww2Uqc9bVxw5SdPI4=;
-        h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
-        b=EfH9oFLnaRTSB5kHY7x0PwbBoXLc/Zc6v8twZzUUjZoTEQCGZiw8vlgmlocjvnJ2H
-         1eRfDudwoHgvYf/TYLLT+DeK3FOI34O6JQ2s5yz4r6LANB5ZeuQVRyn2/gZQqbZzcp
-         JR5eSuLgKElnw3Nfn4HtQp3ZbntIInc9Lx/OEDk0=
+        s=mail; t=1560878192;
+        bh=E/HQT6ZaPECsCmb6zueLeNg2JfU+PD4FczJWgE8X30Y=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=EdOgxHSjtVfWuTKg75i7v/3JOgHHLykkmMdoPF+FWOYN6mJFPRhz7bmcy1xEJsPrk
+         /Lirs9CQMw23q07mE+7dIgaLE8KEVrErcHYnIJkIYdjN7BRMN4QNTf9wJf6yN7LWh4
+         jmKxNFKeO4tZDYTHw9JuB5S+4okRxMQ0F4vnJ/sM=
 Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [kms-tests] [PATCH 1/2] kmstest.py: Fix CRTC disabling
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org
-References: <20190617161217.22463-1-laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v3 00/10] drm: rcar-du: Rework CRTC and groups for atomic
+ commits
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20190617210930.6054-1-laurent.pinchart+renesas@ideasonboard.com>
 From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
@@ -73,12 +75,12 @@ Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
  JxB1gWThL4kOTbsqqXj9GLcyOImkW0lJGGR3o/fV91Zh63S5TKnf2YGGGzxki+ADdxVQAm+Q
  sbsRB8KNNvVXBOVNwko86rQqF9drZuw=
 Organization: Ideas on Board
-Message-ID: <6650040d-2d9a-a849-99c7-6412f2b327bb@ideasonboard.com>
-Date:   Tue, 18 Jun 2019 18:14:35 +0100
+Message-ID: <f138fab6-49ae-5cb5-10b0-1de4b314ea99@ideasonboard.com>
+Date:   Tue, 18 Jun 2019 18:16:29 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190617161217.22463-1-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20190617210930.6054-1-laurent.pinchart+renesas@ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
@@ -89,211 +91,122 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Laurent,
 
-On 17/06/2019 17:12, Laurent Pinchart wrote:
-> The KMSTest.atomic_crtc_disable() method deactivate a CRTC but doesn't
-
-s/deactivate/deactivates/
-
-> fully disables it, which requires setting the MODE_ID to 0. Furthermore
-
-s/disables/disable/
-
-> it doesn't de-associate the CRTC from connectors and planes, which cause
-
-s/cause/causes/
-
-> atomic check failures as a fully disabled CRTC can't be associated with
-> connectors. It can also lead to the next test failing due to resources
-> still being allocated to the CRTC.
+On 17/06/2019 22:09, Laurent Pinchart wrote:
+> Hello everybody,
 > 
-> To fix this, introduce an AtomicRequest class that wraps around
-> pykms.AtomicReq, and stores a copy of all the properties. When the
-> request is committed the properties are added to a global state, which
-> is then used to locate and release connectors and planes associated with
-> the CRTC in KMSTest.atomic_crtc_disable().
+> This patch series refactors atomic commit tail handling in the R-Car DU
+> driver to simplify the code flow, and open the door to further
+> optimisations. It takes over Kieran's "[PATCH v2 0/6] drm: rcar-du:
+> Rework CRTC and groups for atomic commits" and "[RFC PATCH 0/3] VSP1/DU
+> atomic interface changes" series.
+
+Thanks for getting this series ready for integration.
+
+For the changes made to patches originally authored by me:
+  Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+For your new patches, see those patches directly.
+ (One is reviewed, and one is not fully reviewed yet).
+
+
+For the whole series:
+  Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+Including testing specifically against a previously reported modetest
+failure from the test teams which is now functioning correctly.
+Interestingly my connector id's seem to have incremented. I'm not sure
+why yet...
+
+As discussed, it could be due to the group changes.
+
+--
+Kieran
+
+
+> The R-Car DU is a bit of a strange beast, with support for up to four
+> CRTCs that share resources in groups of two CRTCs. Depending on the
+> generation, planes can be shared (on Gen 1 and Gen 2), and output
+> routing configuration is also handled at the group level to some extent.
+> Furthermore, many configuration parameters, especially those related to
+> routing or clock handling, require the whole group to be restarted to
+> take effect, even when the parameter itself affects a single CRTC only.
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Other than minor spelling and pep8 style comments,
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-> ---
->  tests/kms-test-crc.py |  2 +-
->  tests/kmstest.py      | 65 +++++++++++++++++++++++++++++++++++++++----
->  2 files changed, 60 insertions(+), 7 deletions(-)
+> This hardware architecture is difficult to handle properly on the
+> software side, and has resulted in group usage being reference-counted
+> while CRTC usage only tracks the enabled state. Calls are then
+> unbalanced and difficult to trace, especially for the configuration of
+> output routing, and implementation of new shared resources is hindered.
+> This patch series aims at solving this problem.
 > 
-> diff --git a/tests/kms-test-crc.py b/tests/kms-test-crc.py
-> index 30d8bea796dc..29147e5bd0a3 100755
-> --- a/tests/kms-test-crc.py
-> +++ b/tests/kms-test-crc.py
-> @@ -56,7 +56,7 @@ class CRCTest(kmstest.KMSTest):
->                  self.fail("atomic mode set failed with %d" % ret)
->                  continue
->  
-> -            req = pykms.AtomicReq(self.card)
-> +            req = kmstest.AtomicRequest(self.card)
->  
->              offset = 100
->              for plane in planes:
-> diff --git a/tests/kmstest.py b/tests/kmstest.py
-> index 12454df12f2d..adb67c82c368 100755
-> --- a/tests/kmstest.py
-> +++ b/tests/kmstest.py
-> @@ -1,5 +1,6 @@
->  #!/usr/bin/python3
->  
-> +import collections.abc
->  import errno
->  import fcntl
->  import os
-> @@ -208,6 +209,40 @@ class Rect(object):
->          self.height = height
->  
->  
-> +class AtomicRequest(pykms.AtomicReq):
-
-
-This is quite terse for reading.
-Is it worth adding some documentation to this class?
-
-But it seems there isn't much documentation in the code at all ... so
-perhaps that's a project task rather than a 'patch' task.
-
-
-> +    def __init__(self, test):
-> +        super().__init__(test.card)
-> +        self.__test = test
-> +        self.__props = {}
-> +
-> +    def add(self, obj, *kwargs):
-> +        if not obj.id in self.__props:
-
-This should be 'if obj.id not in self.__props:'
-
-
-> +            self.__props[obj.id] = {}
-> +        props = self.__props[obj.id]
-> +
-> +        if len(kwargs) == 1 and isinstance(kwargs[0], collections.abc.Mapping):
-> +            props.update(kwargs[0])
-> +        elif len(kwargs) == 2:
-> +            props[kwargs[0]] = kwargs[1]
-> +
-> +        super().add(obj, *kwargs)
-> +
-> +    def commit(self, data=0, allow_modeset=False):
-> +        ret = super().commit(data, allow_modeset)
-> +        if ret == 0:
-> +            self.__test._props.update(self.__props)
-> +        return ret
-> +
-> +    def commit_sync(self, allow_modeset=False):
-> +        ret = super().commit_sync(allow_modeset)
-> +        if ret == 0:
-> +            self.__test._props.update(self.__props)
-> +        return ret
-> +
-> +    def __repr__(self):
-> +        return repr(self.__props)
-> +
-> +
->  class KMSTest(object):
->      def __init__(self, use_default_key_handler=False):
->          if not getattr(self, 'main', None):
-> @@ -217,6 +252,8 @@ class KMSTest(object):
->          if not self.card.has_atomic:
->              raise RuntimeError("Device doesn't support the atomic API")
->  
-> +        self._props = {}
-> +
->          logname = self.__class__.__name__
->          self.logger = Logger(logname)
->  
-> @@ -233,8 +270,24 @@ class KMSTest(object):
->          return {k: v & ((1 << 64) - 1) for k, v in props.items()}
->  
->      def atomic_crtc_disable(self, crtc, sync=True):
-> -        req = pykms.AtomicReq(self.card)
-> -        req.add(crtc, 'ACTIVE', False)
-> +        req = AtomicRequest(self)
-> +        req.add(crtc, { 'ACTIVE': 0, 'MODE_ID': 0 })
-
-PEP8 doesn't like the whitespace after { and before }
-
-./tests/kmstest.py:274:24: E201 whitespace after '{'
-./tests/kmstest.py:274:50: E202 whitespace before '}'
-
-
-> +        for connector in self.card.connectors:
-> +            if connector.id in self._props:
-> +                props = self._props[connector.id]
-> +                try:
-> +                    if props['CRTC_ID'] == crtc.id:
-> +                        req.add(connector, 'CRTC_ID', 0)
-> +                except:
-
-And it doesn't like a 'bare except'.
-
-
-  "./tests/kmstest.py:281:17: E722 do not use bare 'except'"
-
-What exceptions do you expect here? As we are simply 'passing' I guess
-this one isn't too relevant
-
-
-> +                    pass
-> +        for plane in self.card.planes:
-> +            if plane.id in self._props:
-> +                props = self._props[plane.id]
-> +                try:
-> +                    if props['CRTC_ID'] == crtc.id:
-> +                        req.add(plane, {'CRTC_ID': 0, 'FB_ID': 0})
-> +                except:
-> +                    pass
-
-Same here, but equally it's also a pass, so this might be OK.
-
-
->          if sync:
->              return req.commit_sync(True)
->          else:
-> @@ -249,7 +302,7 @@ class KMSTest(object):
->          # the commit completes.
->          mode_blob = mode.to_blob(self.card)
->  
-> -        req = pykms.AtomicReq(self.card)
-> +        req = AtomicRequest(self)
->          req.add(connector, 'CRTC_ID', crtc.id)
->          req.add(crtc, { 'ACTIVE': 1, 'MODE_ID': mode_blob.id })
->          if fb:
-> @@ -271,7 +324,7 @@ class KMSTest(object):
->              return req.commit(0, True)
->  
->      def atomic_plane_set(self, plane, crtc, source, destination, fb, sync=False):
-> -        req = pykms.AtomicReq(self.card)
-> +        req = AtomicRequest(self)
->          req.add(plane, self.__format_props({
->                      'FB_ID': fb.id,
->                      'CRTC_ID': crtc.id,
-> @@ -290,7 +343,7 @@ class KMSTest(object):
->              return req.commit(0)
->  
->      def atomic_plane_disable(self, plane, sync=True):
-> -        req = pykms.AtomicReq(self.card)
-> +        req = AtomicRequest(self)
->          req.add(plane, { "FB_ID": 0, 'CRTC_ID': 0 })
->  
->          if sync:
-> @@ -299,7 +352,7 @@ class KMSTest(object):
->              return req.commit(0)
->  
->      def atomic_planes_disable(self, sync=True):
-> -        req = pykms.AtomicReq(self.card)
-> +        req = AtomicRequest(self)
->          for plane in self.card.planes:
->              req.add(plane, { "FB_ID": 0, 'CRTC_ID': 0 })
->  
+> The series starts with 4 patches that touch the API between the DU and
+> VSP drivers. It became apparent that we need to split the configuration
+> of the VSP to allow fine grain control of setting the mode configuration
+> and enabling/disabling of the pipeline. To support the cross-component
+> API, the new interface is added in patch 01/10, including an
+> implementation of vsp1_du_setup_lif() to support the transition. Patch
+> 02/10 prepares for the new call flow that will call the atomic flush
+> handler before enabling the pipeline. The DRM usage is adapted in patch
+> 03/10, before the call is removed entirely in patch 04/10.
+> 
+> The next two patches convert CRTC clock handling and initial setup,
+> potentially called from both the CRTC .atomic_begin() and
+> .atomic_enable() operations, to a simpler code flow controlled by the
+> commit tail handler. Patch 05/10 takes the CRTCs out of standby and put
+> them back in standby respectively at the beginning and end of the commit
+> tail handler, based on the CRTC atomic state instead of state
+> information stored in the custom rcar_du_crtc structure. Patch 06/10
+> then performs a similar change for the CRTC mode setting configuration.
+> 
+> Finally, the last four patches introduce a DRM private object for the
+> CRTC groups, along with an associated state. Patch 07/10 adds a helper
+> macro to easily iterate over CRTC groups, and patch 08/10 adds the group
+> private objects and empty states. Patches 09/10 and 10/10 respectively
+> move the group setup and routing configuration under control of the
+> commit tail handler, simplifying the configuration and moving state
+> information from driver structures to state structures.
+> 
+> More refactoring is expected, with plane assignment being moved to group
+> states, and group restart being optimised to avoid flickering. Better
+> configuration of pixel clocks could also be implemented on top of this
+> series.
+> 
+> The whole series has been tested on M3-N and D3 boards with the DU test
+> suite (http://git.ideasonboard.com/renesas/kms-tests.git). Additional
+> tests have been developed and bugs in existing tests fixed, with patches
+> being posted to the linux-renesas-soc@vger.kernel.org mailing list that
+> will be integrated in the near future. All individual commits have been
+> tested on M3-N, while only key points (after patch 04/10 and patch
+> 10/10) have been tested on D3. No failure or change in behaviour has
+> been noticed.
+> 
+> Kieran Bingham (8):
+>   media: vsp1: drm: Split vsp1_du_setup_lif()
+>   drm: rcar-du: Convert to the new VSP atomic API
+>   media: vsp1: drm: Remove vsp1_du_setup_lif()
+>   drm: rcar-du: Handle CRTC standby from commit tail handler
+>   drm: rcar-du: Handle CRTC configuration from commit tail handler
+>   drm: rcar-du: Provide for_each_group helper
+>   drm: rcar-du: Create a group state object
+>   drm: rcar-du: Perform group setup from the atomic tail handler
+> 
+> Laurent Pinchart (2):
+>   media: vsp1: drm: Don't configure hardware when the pipeline is
+>     disabled
+>   drm: rcar-du: Centralise routing configuration in commit tail handler
+> 
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c  | 168 ++++++-----
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.h  |   9 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.h   |   6 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_group.c | 377 +++++++++++++++++++-----
+>  drivers/gpu/drm/rcar-du/rcar_du_group.h |  44 ++-
+>  drivers/gpu/drm/rcar-du/rcar_du_kms.c   |  63 ++--
+>  drivers/gpu/drm/rcar-du/rcar_du_plane.c |  10 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.c   |  20 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_vsp.h   |   2 +
+>  drivers/media/platform/vsp1/vsp1_drm.c  | 189 ++++++++----
+>  drivers/media/platform/vsp1/vsp1_drm.h  |   2 +
+>  include/media/vsp1.h                    |  26 +-
+>  12 files changed, 637 insertions(+), 279 deletions(-)
 > 
 
 -- 
