@@ -2,105 +2,179 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D029A4A0BC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 14:25:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E96CC4A0D5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Jun 2019 14:31:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726640AbfFRMZp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Jun 2019 08:25:45 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:41683 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725934AbfFRMZo (ORCPT
+        id S1725919AbfFRMby (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Jun 2019 08:31:54 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:54052 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725913AbfFRMby (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Jun 2019 08:25:44 -0400
-Received: by mail-wr1-f68.google.com with SMTP id c2so13746164wrm.8;
-        Tue, 18 Jun 2019 05:25:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rZ6PrfSwEJOA9ZqfL20S2hfLLfIThwUqcpyh9fQWXRg=;
-        b=SQUTmMODElTEAuO517ZeKMpXAUPJBlujj/p0dOIjWcgNcwovPsRVtj0VmjfedIp4nN
-         qOdCX/OCZduKHjr6FblWuBEvx3kLl53WJbpGv0C/mpXcCI8NktCCLrno4YH2ycq5bXZk
-         iZQTUli+QzAK5oOVJEqVSRet1RCn8V66V7YK/g86R338zswmVKraRL+ZilrGL8IKVp4e
-         eOcwAhIdLf8Y0MaXGZ4lN3sSrwfkR0Mg8Q2cecxhQ+xqIkW50LFf22DMPPPCmu56H3jE
-         7YXKnyCjyapUmF8u9v1619KIitUtNHDeKgtLtV4NSaIyAZMeQKmtsL2Yh2EBt5BtviFr
-         vQpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rZ6PrfSwEJOA9ZqfL20S2hfLLfIThwUqcpyh9fQWXRg=;
-        b=W9Pny9lb++ME8+iT6gHX2nY0cz2bEfmN36dnuAi06rtEwdJZpDvBPKMKJGqp+5F7UR
-         y1/RtGTYnWOXz3rdBtxwFLA/jxdCw5aKSrKblgQsuLupt/dL+0N1o2lBGu7J7APuzzA6
-         bW8c7AGu3xwxoN43UACahw/aBXHS83PwbMb3MeP9C8LbLrsGF7KUhPBiCKz1snZGhgLB
-         d3QQ/vz0ynQoiyj35ruor+14W1DkZOrdPUxDvL5IS8Bk1lIxxXqX4Id305eruQWpjk0X
-         xZBgQigCbEsOCQVEIH3cyMAGL0oe5yWwmuQ1haLm+geZ1lQgumjRdaOJrz8JqMQJ5GSc
-         Y/Ow==
-X-Gm-Message-State: APjAAAVK6UohBKQae9GRVnACGQtrdyjclBt2+9NkG7VC6I+M9TLXeO1T
-        a6NxJJ5CPzJZyX4KLtXUQcYnFXPYqeuhC9FX9Vk=
-X-Google-Smtp-Source: APXvYqxGYCK58kQJaF5oPoS4NLmZqdThmZBexOC8R/AfBM7py9qF0253vQT+bpFQ1Pl7f3xcPKEVSp4RqdDIHEKSO3o=
-X-Received: by 2002:adf:f544:: with SMTP id j4mr9860685wrp.150.1560860742611;
- Tue, 18 Jun 2019 05:25:42 -0700 (PDT)
+        Tue, 18 Jun 2019 08:31:54 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D783BD5;
+        Tue, 18 Jun 2019 14:31:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1560861112;
+        bh=bC1qMeQrbTb4EceJGP/OiBOmwv8soC79yfdnHwRMtDk=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=hmVHOK+gQa+tvPSWejb/J1XGfAibWFVtM0Uxd7Vr320fZocuadBf3SEZYWvkwkhj6
+         IUIaJW765Zp7thfEHky94jJp7Idj9+MJIp54LmNxuXjWF6yxMzFjF3x0R1hNSnu5ay
+         FlNmu0Fy6myUQgu/vO7RfOEZ0czIW6GExdGu6wB4=
+Reply-To: kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH v3 02/10] media: vsp1: drm: Don't configure hardware when
+ the pipeline is disabled
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20190617210930.6054-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20190617210930.6054-3-laurent.pinchart+renesas@ideasonboard.com>
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
+ 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
+ sbsRB8KNNvVXBOVNwko86rQqF9drZuw=
+Organization: Ideas on Board
+Message-ID: <3f59dd31-33bc-50ab-6bb5-c7c332e4291b@ideasonboard.com>
+Date:   Tue, 18 Jun 2019 13:31:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <156076216767.4736.16337667537984218274.sendpatchset@octo> <20190618103118.xsgc5fp5d76itdwc@verge.net.au>
-In-Reply-To: <20190618103118.xsgc5fp5d76itdwc@verge.net.au>
-From:   Magnus Damm <magnus.damm@gmail.com>
-Date:   Tue, 18 Jun 2019 21:25:30 +0900
-Message-ID: <CANqRtoSVk9hfMFa1EJKO5pa2x5MYfnkYFs4PF-hg8o79ioUS8Q@mail.gmail.com>
-Subject: Re: [PATCH 0/8] dt-bindings: timer: renesas, cmt: Various updates
-To:     Simon Horman <horms@verge.net.au>
-Cc:     devicetree@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190617210930.6054-3-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jun 18, 2019 at 7:31 PM Simon Horman <horms@verge.net.au> wrote:
->
-> On Mon, Jun 17, 2019 at 06:02:47PM +0900, Magnus Damm wrote:
-> > dt-bindings: timer: renesas, cmt: Various updates
-> >
-> > [PATCH 1/8] dt-bindings: timer: renesas, cmt: Add CMT0234 to sh73a0 and r8a7740
-> > [PATCH 2/8] dt-bindings: timer: renesas, cmt: Update CMT1 on sh73a0 and r8a7740
-> > [PATCH 3/8] dt-bindings: timer: renesas, cmt: Add CMT0 and CMT1 to r8a7792
-> > [PATCH 4/8] dt-bindings: timer: renesas, cmt: Add CMT0 and CMT1 to r8a7795
-> > [PATCH 5/8] dt-bindings: timer: renesas, cmt: Add CMT0 and CMT1 to r8a77965
-> > [PATCH 6/8] dt-bindings: timer: renesas, cmt: Add CMT0 and CMT1 to r8a77990
-> > [PATCH 7/8] dt-bindings: timer: renesas, cmt: Add CMT0 and CMT1 to r8a77995
-> > [PATCH 8/8] dt-bindings: timer: renesas, cmt: Update R-Car Gen3 CMT1 usage
-> >
-> > This series collect the following rather trivial DT binding changes:
-> > - Add 32-bit CMT0234 and convert CMT1 DT binding on sh73a0 and r8a7740.
-> > - Add documentation for the CMT on the R-Car Gen2 V2H (r8a7792) SoC.
-> > - Add missing R-Car Gen3 DT bindings for H3, M3-N, E3 an D3.
-> > - Update the R-Car Gen3 description to reflect current usage.
-> >
-> > Please see each individual patch for more information.
-> >
-> > Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
->
-> Hi Magnus,
->
-> I think this series should include the Clocksource maintainers as
-> recipients:
->
-> Daniel Lezcano <daniel.lezcano@linaro.org>
-> Thomas Gleixner <tglx@linutronix.de>
->
-> And LKML for good measure.
+Hi Laurent,
 
-Will do after a bit more waiting time for potential feedback from
-folks with access to Renesas documents. In particular I expected some
-opinions about the difference between how the DT compat strings are
-handled for CMT1/CMT2/CMT3 on R-Car Gen3 (as described in patch 8)
-compared to sh73a0/r8a7740 (as described in patch 1).
+On 17/06/2019 22:09, Laurent Pinchart wrote:
+> The vsp1_du_atomic_flush() function calls vsp1_du_pipeline_configure()
+> to configure the hardware pipeline. The function is currently guaranteed
+> to be called with the pipeline enabled, but this will change by future
+> rework of the DU driver. Guard the hardware configuration to skip it
+> when the pipeline is disabled. The hardware will be configured the next
+> time the pipeline gets enabled.
 
-I also need to rebase on top of that CMT DT biniding document patch
-that covers most of the R-Car Gen3 SoCs.
+Aha, Yes, I think this now makes sense to why I was still getting hangs!
 
-Cheers,
+Thanks for the fix!
 
-/ magnus
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+
+> ---
+>  drivers/media/platform/vsp1/vsp1_drm.c | 13 ++++++++++++-
+>  drivers/media/platform/vsp1/vsp1_drm.h |  2 ++
+>  2 files changed, 14 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/vsp1/vsp1_drm.c b/drivers/media/platform/vsp1/vsp1_drm.c
+> index 7957e1439de0..900465caf1bf 100644
+> --- a/drivers/media/platform/vsp1/vsp1_drm.c
+> +++ b/drivers/media/platform/vsp1/vsp1_drm.c
+> @@ -723,6 +723,8 @@ int vsp1_du_atomic_enable(struct device *dev, unsigned int pipe_index,
+>  	/* Configure all entities in the pipeline. */
+>  	vsp1_du_pipeline_configure(pipe);
+>  
+> +	drm_pipe->enabled = true;
+> +
+>  unlock:
+>  	mutex_unlock(&vsp1->drm->lock);
+>  
+> @@ -800,6 +802,8 @@ int vsp1_du_atomic_disable(struct device *dev, unsigned int pipe_index)
+>  	pipe->brx->pipe = NULL;
+>  	pipe->brx = NULL;
+>  
+> +	drm_pipe->enabled = false;
+> +
+>  	mutex_unlock(&vsp1->drm->lock);
+>  
+>  	vsp1_dlm_reset(pipe->output->dlm);
+> @@ -992,7 +996,14 @@ void vsp1_du_atomic_flush(struct device *dev, unsigned int pipe_index,
+>  	}
+>  
+>  	vsp1_du_pipeline_setup_inputs(vsp1, pipe);
+> -	vsp1_du_pipeline_configure(pipe);
+> +
+> +	/*
+> +	 * We may get called before the pipeline gets enabled, postpone
+> +	 * configuration in that case. vsp1_du_pipeline_configure() will be
+> +	 * called from vsp1_du_atomic_enable().
+> +	 */
+> +	if (drm_pipe->enabled)
+> +		vsp1_du_pipeline_configure(pipe);
+>  
+>  done:
+>  	mutex_unlock(&vsp1->drm->lock);
+> diff --git a/drivers/media/platform/vsp1/vsp1_drm.h b/drivers/media/platform/vsp1/vsp1_drm.h
+> index e85ad4366fbb..d780dafc1324 100644
+> --- a/drivers/media/platform/vsp1/vsp1_drm.h
+> +++ b/drivers/media/platform/vsp1/vsp1_drm.h
+> @@ -20,6 +20,7 @@
+>  /**
+>   * vsp1_drm_pipeline - State for the API exposed to the DRM driver
+>   * @pipe: the VSP1 pipeline used for display
+> + * @enabled: true if the pipeline is enabled
+>   * @width: output display width
+>   * @height: output display height
+>   * @force_brx_release: when set, release the BRx during the next reconfiguration
+> @@ -31,6 +32,7 @@
+>   */
+>  struct vsp1_drm_pipeline {
+>  	struct vsp1_pipeline pipe;
+> +	bool enabled;
+>  
+>  	unsigned int width;
+>  	unsigned int height;
+> 
+
+-- 
+Regards
+--
+Kieran
