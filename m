@@ -2,159 +2,283 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E1C674B3CB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2019 10:16:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D963E4B461
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2019 10:50:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731242AbfFSIQt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Jun 2019 04:16:49 -0400
-Received: from mail-eopbgr1410113.outbound.protection.outlook.com ([40.107.141.113]:30537
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1731064AbfFSIQs (ORCPT
+        id S1731334AbfFSIur (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Jun 2019 04:50:47 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:36598 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730783AbfFSIuq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Jun 2019 04:16:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=85vsaUX0fABWpRB1uYMR3oB43Lmi5SxraSqZBgitBi8=;
- b=CV8cLGferXkSIkLnQmxXgR4TGLVQl3BnnMMYBYJhFX5unWYsHCMkJ4UrPxMIwkcHJbbkpAhuoYMCyehYn4shEAocUf1N4U2jSEMVBIVO5keNpbvrvKmF/k7pS0PkDJlmp4ygrp/KF1ilVn6hyHYI4wToKIE1dOp+d07CUNBRj5o=
-Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com (52.133.163.13) by
- TY1PR01MB1596.jpnprd01.prod.outlook.com (52.133.162.142) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1987.12; Wed, 19 Jun 2019 08:16:43 +0000
-Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com
- ([fe80::8a0:4174:3c3f:f05b]) by TY1PR01MB1770.jpnprd01.prod.outlook.com
- ([fe80::8a0:4174:3c3f:f05b%7]) with mapi id 15.20.1987.014; Wed, 19 Jun 2019
- 08:16:43 +0000
-From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Simon Horman <horms@verge.net.au>
-CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "xu_shunji@hoperun.com" <xu_shunji@hoperun.com>
-Subject: RE: [PATCH] arm64: dts: renesas: hihope-common: Add LEDs support
-Thread-Topic: [PATCH] arm64: dts: renesas: hihope-common: Add LEDs support
-Thread-Index: AQHVIrOD4fCNYWErgUiYJbbykExq36ahinuAgAAEL9CAAQ6hgIAACwaA
-Date:   Wed, 19 Jun 2019 08:16:43 +0000
-Message-ID: <TY1PR01MB1770F9972F006B57917A0731C0E50@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-References: <1560518075-2254-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <CAMuHMdU8oag+1oNa_jS=v99W05=8SRLhdoZdCusmeVf1VZbarQ@mail.gmail.com>
- <TY1PR01MB17707C3C979FB60611FB34A7C0EA0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
- <CAMuHMdVb+sc0vdvbsAE0fkEY6wFS7KsbtqLmtB03ghVeuiHe1w@mail.gmail.com>
-In-Reply-To: <CAMuHMdVb+sc0vdvbsAE0fkEY6wFS7KsbtqLmtB03ghVeuiHe1w@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=fabrizio.castro@bp.renesas.com; 
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 7e7f4117-fc39-4bb6-54d0-08d6f48e76e4
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:TY1PR01MB1596;
-x-ms-traffictypediagnostic: TY1PR01MB1596:
-x-microsoft-antispam-prvs: <TY1PR01MB159621C7F131FA586C67FEDDC0E50@TY1PR01MB1596.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0073BFEF03
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(346002)(366004)(136003)(376002)(396003)(189003)(199004)(37524003)(76176011)(26005)(66946007)(66446008)(66556008)(186003)(6116002)(66066001)(44832011)(66476007)(4326008)(3846002)(305945005)(7736002)(2906002)(76116006)(64756008)(25786009)(73956011)(446003)(53936002)(486006)(74316002)(6246003)(476003)(316002)(11346002)(33656002)(86362001)(71200400001)(110136005)(54906003)(53546011)(6506007)(55016002)(478600001)(229853002)(71190400001)(6436002)(102836004)(9686003)(14454004)(256004)(7696005)(99286004)(68736007)(81156014)(81166006)(8936002)(8676002)(52536014)(5660300002);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1596;H:TY1PR01MB1770.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
-received-spf: None (protection.outlook.com: bp.renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: uIdNjBuISLSlPUEBatQg8pMJhCEkPPXV1JNWFam0Fgnmeg2rCJBFiV1lOP+lN+b1yszYzH2eqFeAO+Ri6EajEuuHwUx/EoFgjWOo6qh8hXfEHAg92W/K5vj6hX54AdN8o1xgkCBGWmwt5o+ZM+i0Nf0jJ821IuETBEFb+/12yyyABP5Zz0zJH9cQkdBhO63rDgv8rqY/+gEWJkPSFh/FP9bEv8AQ4/FMjH7WE2E1jWloDNbeUymFWvaFTpEtqn+Mi0JasPdoI/wKpY4DjedYzWolKs5/uIPwS6wz4buqdMc5GYvIB8aYapiUYN2vT7HO07vuVFpIHBajTSmmNf8dGHI3j1xb+m4OGGEVFH5QvEJUKpYQ7sk34MIW4kGhdw8lG+i8MfUGXX31TnexttCa3IT04Ws4SU4SaFb/d5QfqDI=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Wed, 19 Jun 2019 04:50:46 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ECC2E333;
+        Wed, 19 Jun 2019 10:50:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1560934244;
+        bh=grUQdKmXKHJyynfnRoCNieEf9DklrOouZZMUNQY5dzk=;
+        h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
+        b=i4RuO4uPK72JoWxT/TjxT5K6WyEvIx2nk9SPBkdwdpN1HS06LzlUYQsVhQ3Xg00y7
+         HL9Ob46HpXJHhMuL0PtEt2M8raunXIl8NdcPARmzfIctXcJFkWv3QKZxxAF7BAq1SJ
+         7tiqSBx8/f7AnBJmmXP/kCyn3JE8MTHANvmwktSY=
+Reply-To: kieran.bingham@ideasonboard.com
+Subject: Re: [kms-tests] [PATCH] kmstest.py: Add output_connectors() helper to
+ skip writeback connectors
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org
+References: <20190619002231.8239-1-laurent.pinchart@ideasonboard.com>
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
+ 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
+ sbsRB8KNNvVXBOVNwko86rQqF9drZuw=
+Organization: Ideas on Board
+Message-ID: <0e9a29fe-9058-ebcb-4256-ff417bd43a83@ideasonboard.com>
+Date:   Wed, 19 Jun 2019 09:50:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e7f4117-fc39-4bb6-54d0-08d6f48e76e4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2019 08:16:43.0556
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: fabrizio.castro@bp.renesas.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1596
+In-Reply-To: <20190619002231.8239-1-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGVsbG8gR2VlcnQsDQoNClRoYW5rIHlvdSBmb3IgeW91ciBmZWVkYmFjaw0KDQo+IEZyb206IGxp
-bnV4LXJlbmVzYXMtc29jLW93bmVyQHZnZXIua2VybmVsLm9yZyA8bGludXgtcmVuZXNhcy1zb2Mt
-b3duZXJAdmdlci5rZXJuZWwub3JnPiBPbiBCZWhhbGYgT2YgR2VlcnQgVXl0dGVyaG9ldmVuDQo+
-IFNlbnQ6IDE5IEp1bmUgMjAxOSAwODozNA0KPiBTdWJqZWN0OiBSZTogW1BBVENIXSBhcm02NDog
-ZHRzOiByZW5lc2FzOiBoaWhvcGUtY29tbW9uOiBBZGQgTEVEcyBzdXBwb3J0DQo+IA0KPiBIaSBG
-YWJyaXppbywNCj4gDQo+IE9uIFR1ZSwgSnVuIDE4LCAyMDE5IGF0IDU6NTYgUE0gRmFicml6aW8g
-Q2FzdHJvDQo+IDxmYWJyaXppby5jYXN0cm9AYnAucmVuZXNhcy5jb20+IHdyb3RlOg0KPiA+ID4g
-RnJvbTogbGludXgtcmVuZXNhcy1zb2Mtb3duZXJAdmdlci5rZXJuZWwub3JnIDxsaW51eC1yZW5l
-c2FzLXNvYy1vd25lckB2Z2VyLmtlcm5lbC5vcmc+IE9uIEJlaGFsZiBPZiBHZWVydCBVeXR0ZXJo
-b2V2ZW4NCj4gPiA+IFNlbnQ6IDE4IEp1bmUgMjAxOSAxNjoxMA0KPiA+ID4gU3ViamVjdDogUmU6
-IFtQQVRDSF0gYXJtNjQ6IGR0czogcmVuZXNhczogaGlob3BlLWNvbW1vbjogQWRkIExFRHMgc3Vw
-cG9ydA0KPiA+ID4NCj4gPiA+IE9uIEZyaSwgSnVuIDE0LCAyMDE5IGF0IDM6MTcgUE0gRmFicml6
-aW8gQ2FzdHJvDQo+ID4gPiA8ZmFicml6aW8uY2FzdHJvQGJwLnJlbmVzYXMuY29tPiB3cm90ZToN
-Cj4gPiA+ID4gVGhpcyBwYXRjaCBhZGRzIExFRHMgc3VwcG9ydCB0byB0aGUgSGlIb3BlIFJaL0cy
-W01OXSBNYWluIEJvYXJkDQo+ID4gPiA+IGNvbW1vbiBkZXZpY2UgdHJlZS4NCj4gPiA+ID4NCj4g
-PiA+ID4gU2lnbmVkLW9mZi1ieTogRmFicml6aW8gQ2FzdHJvIDxmYWJyaXppby5jYXN0cm9AYnAu
-cmVuZXNhcy5jb20+DQo+ID4gPg0KPiA+ID4gVGhhbmtzIGZvciB5b3VyIHBhdGNoIQ0KPiA+ID4N
-Cj4gPiA+ID4gLS0tIGEvYXJjaC9hcm02NC9ib290L2R0cy9yZW5lc2FzL2hpaG9wZS1jb21tb24u
-ZHRzaQ0KPiA+ID4gPiArKysgYi9hcmNoL2FybTY0L2Jvb3QvZHRzL3JlbmVzYXMvaGlob3BlLWNv
-bW1vbi5kdHNpDQo+ID4gPiA+IEBAIC0xNyw2ICsxNywzMCBAQA0KPiA+ID4gPiAgICAgICAgICAg
-ICAgICAgc3Rkb3V0LXBhdGggPSAic2VyaWFsMDoxMTUyMDBuOCI7DQo+ID4gPiA+ICAgICAgICAg
-fTsNCj4gPiA+ID4NCj4gPiA+ID4gKyAgICAgICBsZWRzIHsNCj4gPiA+ID4gKyAgICAgICAgICAg
-ICAgIGNvbXBhdGlibGUgPSAiZ3Bpby1sZWRzIjsNCj4gPiA+ID4gKw0KPiA+ID4gPiArICAgICAg
-ICAgICAgICAgbGVkMCB7DQo+ID4gPiA+ICsgICAgICAgICAgICAgICAgICAgICAgIGdwaW9zID0g
-PCZncGlvNiAxMSBHUElPX0FDVElWRV9ISUdIPjsNCj4gPiA+ID4gKyAgICAgICAgICAgICAgICAg
-ICAgICAgbGFiZWwgPSAiTEVEMCI7DQo+ID4gPg0KPiA+ID4gVGhlcmUncyBubyBuZWVkIGZvciBh
-IGxhYmVsIHByb3BlcnR5LCBpZiBpdCBtYXRjaGVzIHRoZSBub2RlIG5hbWUNCj4gPiA+IChhcHBs
-aWVzIHRvIGFsbCBmb3VyIExFRHMpLg0KPiA+DQo+ID4gSSBjb3VsZCBoYXZlIHVzZWQgdGhlIGFj
-dHVhbCBuYW1lcyBvbiB0aGUgc2NoZW1hdGljLCBidXQgdGhlbiBJIHJlYWxpc2VkIHRoYXQNCj4g
-PiB3b3VsZCBub3QgaGF2ZSBiZWVuIHRvbyBoZWxwZnVsIGR1ZSB0byB0aGUgY29ycmVzcG9uZGlu
-ZyBzd2l0Y2ggbmFtZXM6DQo+ID4gTEVEMCAtIEdQNl8xMSAtIFNXMjIwMiAtIExFRDIyMDENCj4g
-PiBMRUQxIC0gR1A2XzEyIC0gU1cyMjAxIC0gTEVEMjIwMg0KPiA+IExFRDIgLSBHUDZfMTMgLSBT
-VzIyMDMgLSBMRUQyMjAzDQo+ID4gTEVEMyAtIEdQMF8wMCAtIE4vQSAtIExFRDI0MDINCj4gPiBU
-aGUgZmlyc3QgMyBMRURzIGFyZSBmb3VuZCBuZXh0IHRvIHRoZSBtaWNybyBVU0IgY29ubmVjdG9y
-IGZvciB0aGUgZGVidWcgY29uc29sZSwNCj4gPiB0aGUgZm9ydGggTEVEIGlzIGZvdW5kIG5leHQg
-dG8gdGhlIFdpRmkgYW5kIEJUIExFRHMuDQo+ID4NCj4gPiBJIHRob3VnaHQgdGhhdCB1c2luZyAi
-TEVEbiIgYXMgbGFiZWxzIHdvdWxkIHB1dCBhIHJlbWFyayBvbiB0aGUNCj4gPiAiZGVzaXJlZCBv
-cmRlcmluZyIgb2YgdGhlIExFRHMgKGV2ZW4gdGhvdWdoIHRoZXJlIGlzIG5vIGFjdHVhbA0KPiA+
-IHJlcXVpcmVtZW50IGZvciB0aGF0KSwgYnV0IGFzIHlvdSBwb2ludGVkIG91dCBpdCdzIHByb2Jh
-Ymx5IGEgYml0DQo+ID4gY29uZnVzaW5nPyBEbyB5b3UgdGhpbmsgSSBzaG91bGQgdGFrZSB0aGUg
-bGFiZWwgb3V0Pw0KPiANCj4gSWYgdGhlIExFRHMgZG9uJ3QgaGF2ZSBuaWNlIGxhYmVscyBvbiB0
-aGUgUENCLCBJIHdvdWxkIGRyb3AgdGhlIGxhYmVsDQo+IHByb3BlcnRpZXMuDQoNCldpbGwgZG8u
-IFNpbW9uLCBkbyB5b3Ugd2FudCBtZSB0byBzZW5kIGFuIGluY3JlbWVudGFsIHBhdGNoIGZvciB0
-aGlzICh0aGlzIHBhdGNoDQppcyBvbiBkZXZlbCBicmFuY2ggYWxyZWFkeSkgb3Igd291bGQgeW91
-IHJhdGhlciBJIHNlbnQgYSB2Mj8NCg0KVGhhbmtzLA0KRmFiDQoNCj4gDQo+ID4gPiBOb3RlIHRo
-YXQgdGhpcyBHUElPIGlzIHNoYXJlZCB3aXRoIGEgc3dpdGNoLCBsaWtlIG9uIFNhbHZhdG9yLVgo
-UykgYW5kDQo+ID4gPiBVTENCLiAgQXMgY3VycmVudGx5IExpbnV4IGNhbm5vdCBoYW5kbGUgYm90
-aCwgZGVzY3JpYmluZyB0aGUgTEVEDQo+ID4gPiBwcmVjbHVkZXMgYWRkaW5nIHRoZSBzd2l0Y2gg
-bGF0ZXIuDQo+ID4gPiAoYXBwbGllcyB0byB0aGUgZmlyc3QgMyBMRURzKS4NCj4gPg0KPiA+IFRo
-YW5rIHlvdSBmb3IgcG9pbnRpbmcgdGhpcyBvdXQuIFRoYXQncyBkZXNpcmVkIGJlaGF2aW91ciBp
-biB0aGlzIGNhc2UuDQo+IA0KPiBPSy4NCj4gDQo+ID4gPiA+ICsgICAgICAgICAgICAgICBsZWQz
-IHsNCj4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgZ3Bpb3MgPSA8JmdwaW8wICAwIEdQ
-SU9fQUNUSVZFX0hJR0g+Ow0KPiA+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICBsYWJlbCA9
-ICJMRUQzIjsNCj4gPiA+ID4gKyAgICAgICAgICAgICAgIH07DQo+ID4gPg0KPiA+ID4gSSBjYW5u
-b3QgZmluZCBMRUQzLiBBY2NvcmRpbmcgdG8gdGhlIHNjaGVtYXRpY3MgR1AwXzAgPT0gQ1MwbiBp
-cyB1c2VkDQo+ID4gPiBhcyB0aGUgY2hpcHNlbGVjdCBmb3IgdGhlIExWRFMgc3dpdGNoPw0KPiA+
-DQo+ID4gTXkgdW5kZXJzdGFuZGluZyBpcyB0aGF0IENTMG4gaXMgb24gR1AxXzIwLCBjb3VsZCB5
-b3UgcGxlYXNlIGRvdWJsZQ0KPiA+IGNoZWNrPw0KPiA+IChwaW4gbmFtZTogQUo0KSBHUDBfMDAg
-PT0gRDAgPT0gRXhEMCBvbiB0aGUgc2NoZW1hdGljIEkgaGF2ZSwgSSB0aG91Z2h0DQo+ID4geW91
-IG1heSBoYXZlIGJlZW4gbG9va2luZyBhdCBhbiBvbGRlciB2ZXJzaW9uIG9mIHRoZSBzY2hlbWF0
-aWMsIGJ1dCBhZnRlcg0KPiA+IGdvaW5nIHRocm91Z2ggdGhlIGhpc3RvcnkgaXQgc2VlbXMgbGlr
-ZSB0aGF0IGxpbmUgaGFzIGFsd2F5cyBiZWVuIHRoZXJlLg0KPiANCj4gU29ycnksIG15IG1pc3Rh
-a2UuICBBcyB0aGVyZSBpcyBubyBHUDBfMCBpbiB0aGUgc2NoZW1hdGljLCBJIGxvb2tlZCB1cA0K
-PiB0aGUgcGluIG51bWJlciBpbiB0aGUgZG9jcywgYnV0IGVuZGVkIHVwIHVzaW5nIHRoZSBSLUNh
-ciBNMy1XIFNpUCBwaW4NCj4gbnVtYmVyLCBpbnN0ZWFkIG9mIHRoZSBSWi9HMk0gRkNCR0EgU29D
-IHBpbiBudW1iZXIgOi0oDQo+IA0KPiBHcntvZXRqZSxlZXRpbmd9cywNCj4gDQo+ICAgICAgICAg
-ICAgICAgICAgICAgICAgIEdlZXJ0DQo+IA0KPiAtLQ0KPiBHZWVydCBVeXR0ZXJob2V2ZW4gLS0g
-VGhlcmUncyBsb3RzIG9mIExpbnV4IGJleW9uZCBpYTMyIC0tIGdlZXJ0QGxpbnV4LW02OGsub3Jn
-DQo+IA0KPiBJbiBwZXJzb25hbCBjb252ZXJzYXRpb25zIHdpdGggdGVjaG5pY2FsIHBlb3BsZSwg
-SSBjYWxsIG15c2VsZiBhIGhhY2tlci4gQnV0DQo+IHdoZW4gSSdtIHRhbGtpbmcgdG8gam91cm5h
-bGlzdHMgSSBqdXN0IHNheSAicHJvZ3JhbW1lciIgb3Igc29tZXRoaW5nIGxpa2UgdGhhdC4NCj4g
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLSBMaW51cyBUb3J2YWxkcw0K
+Hi Laurent,
+
+On 19/06/2019 01:22, Laurent Pinchart wrote:
+> Add a generator method to the KMSTest class to enumerate all
+> non-writeback connectors, and use it through tests.
+> 
+
+Excellent, yes that's exactly what I had in mind.
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  tests/kms-test-allplanes.py      |  2 +-
+>  tests/kms-test-brxalloc.py       |  2 +-
+>  tests/kms-test-crc.py            |  2 +-
+>  tests/kms-test-formats.py        |  2 +-
+>  tests/kms-test-legacy-modeset.py |  2 +-
+>  tests/kms-test-modes.py          |  2 +-
+>  tests/kms-test-modeset.py        |  2 +-
+>  tests/kms-test-pageflip.py       |  2 +-
+>  tests/kms-test-planeposition.py  |  2 +-
+>  tests/kms-test-routing.py        | 10 ++--------
+>  tests/kmstest.py                 |  6 ++++++
+>  11 files changed, 17 insertions(+), 17 deletions(-)
+> 
+> diff --git a/tests/kms-test-allplanes.py b/tests/kms-test-allplanes.py
+> index f416723bc7fc..ca7baa07af42 100755
+> --- a/tests/kms-test-allplanes.py
+> +++ b/tests/kms-test-allplanes.py
+> @@ -12,7 +12,7 @@ class AllPlanesTest(kmstest.KMSTest):
+>      def main(self):
+>          # Create the connectors to CRTCs map
+>          connectors = {}
+> -        for connector in self.card.connectors:
+> +        for connector in self.output_connectors():
+>              # Skip disconnected connectors
+>              if not connector.connected():
+>                  continue
+> diff --git a/tests/kms-test-brxalloc.py b/tests/kms-test-brxalloc.py
+> index e6d9f03fc211..a0ae46a8b53e 100755
+> --- a/tests/kms-test-brxalloc.py
+> +++ b/tests/kms-test-brxalloc.py
+> @@ -44,7 +44,7 @@ class BRxAllocTest(kmstest.KMSTest):
+>                          (len(planes), outputs[0].crtc.id, outputs[1].crtc.id))
+>  
+>          # Get one connector for each CRTC
+> -        for connector in self.card.connectors:
+> +        for connector in self.output_connectors():
+>              # Skip disconnected connectors
+>              if not connector.connected():
+>                  continue
+> diff --git a/tests/kms-test-crc.py b/tests/kms-test-crc.py
+> index 29147e5bd0a3..e0e0eabd9950 100755
+> --- a/tests/kms-test-crc.py
+> +++ b/tests/kms-test-crc.py
+> @@ -12,7 +12,7 @@ class CRCTest(kmstest.KMSTest):
+>      def main(self):
+>          # Create the connectors to CRTCs map
+>          connectors = {}
+> -        for connector in self.card.connectors:
+> +        for connector in self.output_connectors():
+>              # Skip disconnected connectors
+>              if not connector.connected():
+>                  continue
+> diff --git a/tests/kms-test-formats.py b/tests/kms-test-formats.py
+> index ae89bb542485..15e6f591aea9 100755
+> --- a/tests/kms-test-formats.py
+> +++ b/tests/kms-test-formats.py
+> @@ -11,7 +11,7 @@ class FormatsTest(kmstest.KMSTest):
+>          self.start("plane formats")
+>  
+>          # Find a CRTC with a connected connector and at least one plane
+> -        for connector in self.card.connectors:
+> +        for connector in self.output_connectors():
+>              if not connector.connected():
+>                  self.skip("unconnected connector")
+>                  continue
+> diff --git a/tests/kms-test-legacy-modeset.py b/tests/kms-test-legacy-modeset.py
+> index eac365f44b64..17a81792a2b8 100755
+> --- a/tests/kms-test-legacy-modeset.py
+> +++ b/tests/kms-test-legacy-modeset.py
+> @@ -10,7 +10,7 @@ class LegacyModeSetTest(kmstest.KMSTest):
+>          self.logger.log("Page flip complete")
+>  
+>      def main(self):
+> -        for connector in self.card.connectors:
+> +        for connector in self.output_connectors():
+>              self.start("legacy mode set on connector %s" % connector.fullname)
+>  
+>              # Skip disconnected connectors
+> diff --git a/tests/kms-test-modes.py b/tests/kms-test-modes.py
+> index 2ca45c46b50d..82a1a3b21e93 100755
+> --- a/tests/kms-test-modes.py
+> +++ b/tests/kms-test-modes.py
+> @@ -30,7 +30,7 @@ class ModesTest(kmstest.KMSTest):
+>              raise RuntimeError("Page flip not registered")
+>  
+>      def main(self):
+> -        for connector in self.card.connectors:
+> +        for connector in self.output_connectors():
+>              self.start("modes on connector %s" % connector.fullname)
+>  
+>              # Skip disconnected connectors
+> diff --git a/tests/kms-test-modeset.py b/tests/kms-test-modeset.py
+> index f8a78ad2926b..224b39143a8e 100755
+> --- a/tests/kms-test-modeset.py
+> +++ b/tests/kms-test-modeset.py
+> @@ -10,7 +10,7 @@ class ModeSetTest(kmstest.KMSTest):
+>          self.logger.log("Page flip complete")
+>  
+>      def main(self):
+> -        for connector in self.card.connectors:
+> +        for connector in self.output_connectors():
+>              self.start("atomic mode set on connector %s" % connector.fullname)
+>  
+>              # Skip disconnected connectors
+> diff --git a/tests/kms-test-pageflip.py b/tests/kms-test-pageflip.py
+> index 2aeaf3478dc3..bef1f4990a10 100755
+> --- a/tests/kms-test-pageflip.py
+> +++ b/tests/kms-test-pageflip.py
+> @@ -40,7 +40,7 @@ class PageFlipTest(kmstest.KMSTest):
+>          self.stop_requested = True
+>  
+>      def main(self):
+> -        for connector in self.card.connectors:
+> +        for connector in self.output_connectors():
+>              self.start("page flip on connector %s" % connector.fullname)
+>  
+>              # Skip disconnected connectors
+> diff --git a/tests/kms-test-planeposition.py b/tests/kms-test-planeposition.py
+> index 63f745b5dbed..ac4b4d0eb407 100755
+> --- a/tests/kms-test-planeposition.py
+> +++ b/tests/kms-test-planeposition.py
+> @@ -11,7 +11,7 @@ class PlanePositionTest(kmstest.KMSTest):
+>          self.start("plane positioning boundaries")
+>  
+>          # Find a CRTC with a connected connector and at least two planes
+> -        for connector in self.card.connectors:
+> +        for connector in self.output_connectors():
+>              if not connector.connected():
+>                  self.skip("unconnected connector")
+>                  continue
+> diff --git a/tests/kms-test-routing.py b/tests/kms-test-routing.py
+> index 2cf02ddcc6b5..a24dc1c0fb1e 100755
+> --- a/tests/kms-test-routing.py
+> +++ b/tests/kms-test-routing.py
+> @@ -23,10 +23,7 @@ class RoutingTest(kmstest.KMSTest):
+>          max_hdisplay = 0
+>          max_vdisplay = 0
+>  
+> -        for connector in self.card.connectors:
+> -            if connector.fullname.startswith('writeback-'):
+> -                continue
+> -
+> +        for connector in self.output_connectors():
+>              mode = connector.get_default_mode()
+>              max_hdisplay = max(mode.hdisplay, max_hdisplay)
+>              max_vdisplay = max(mode.vdisplay, max_vdisplay)
+> @@ -39,10 +36,7 @@ class RoutingTest(kmstest.KMSTest):
+>          # Find a connector that can be routed to at least two CRTCs that have
+>          # at least two output routes each.
+>          shared_connector = None
+> -        for connector in self.card.connectors:
+> -            if connector.fullname.startswith('writeback-'):
+> -                continue
+> -
+> +        for connector in self.output_connectors():
+>              pipes = []
+>              for crtc in connector.get_possible_crtcs():
+>                  if len(self.crtc_to_connectors[crtc]) >= 2:
+> diff --git a/tests/kmstest.py b/tests/kmstest.py
+> index 336e31a55d47..8a483d7b5259 100755
+> --- a/tests/kmstest.py
+> +++ b/tests/kmstest.py
+> @@ -364,6 +364,12 @@ class KMSTest(object):
+>          else:
+>              return req.commit(0)
+>  
+> +    def output_connectors(self):
+> +        for connector in self.card.connectors:
+> +            if connector.fullname.startswith('writeback-'):
+> +                continue
+> +            yield connector
+> +
+>      def __handle_page_flip(self, frame, time):
+>          self.flips += 1
+>          try:
+> 
+
+-- 
+Regards
+--
+Kieran
