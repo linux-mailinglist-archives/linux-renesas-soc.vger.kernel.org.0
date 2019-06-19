@@ -2,113 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AE054B7F3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2019 14:18:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C415B4B8CD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2019 14:39:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727068AbfFSMSN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Jun 2019 08:18:13 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:58832 "EHLO
-        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726246AbfFSMSN (ORCPT
+        id S1731889AbfFSMjQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Jun 2019 08:39:16 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:40092 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731887AbfFSMjQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Jun 2019 08:18:13 -0400
-Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id EBC2225AF1B;
-        Wed, 19 Jun 2019 22:18:10 +1000 (AEST)
-Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id 9217A9409FF; Wed, 19 Jun 2019 14:18:08 +0200 (CEST)
-Date:   Wed, 19 Jun 2019 14:18:08 +0200
-From:   Simon Horman <horms@verge.net.au>
+        Wed, 19 Jun 2019 08:39:16 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 431B8333;
+        Wed, 19 Jun 2019 14:39:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1560947953;
+        bh=Kt0326dKIQYMk/pmk8MPVmZ65pUJ5RCfdtcE5cSLwa0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YvU629mGvPTDR2M24NdpWSuALnHnPDL+LwpDzSm2zLKRrpR9hl/8U02vDi5s/aYqx
+         txwIsE4tAnhrdpcDaHrbaA1iJ7SkZ8MnO91ujMs7XFlEimWffzzejbe1fWI4ZKQVz4
+         G46FA9MNgzebrwuB8UW9d5ra9Olk+gtND9F5bKHM=
+Date:   Wed, 19 Jun 2019 15:38:56 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+Cc:     Simon Horman <horms@verge.net.au>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "xu_shunji@hoperun.com" <xu_shunji@hoperun.com>
-Subject: Re: [PATCH] arm64: dts: renesas: hihope-common: Add LEDs support
-Message-ID: <20190619121808.hnqoeihjch6silcd@verge.net.au>
-References: <1560518075-2254-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <CAMuHMdU8oag+1oNa_jS=v99W05=8SRLhdoZdCusmeVf1VZbarQ@mail.gmail.com>
- <TY1PR01MB17707C3C979FB60611FB34A7C0EA0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
- <CAMuHMdVb+sc0vdvbsAE0fkEY6wFS7KsbtqLmtB03ghVeuiHe1w@mail.gmail.com>
- <TY1PR01MB1770F9972F006B57917A0731C0E50@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+        Biju Das <biju.das@bp.renesas.com>
+Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a774a1: Add HDMI encoder
+ instance
+Message-ID: <20190619123856.GA21753@pendragon.ideasonboard.com>
+References: <1560871119-16570-1-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1560871119-16570-3-git-send-email-fabrizio.castro@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <TY1PR01MB1770F9972F006B57917A0731C0E50@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-Organisation: Horms Solutions BV
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <1560871119-16570-3-git-send-email-fabrizio.castro@bp.renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jun 19, 2019 at 08:16:43AM +0000, Fabrizio Castro wrote:
-> Hello Geert,
-> 
-> Thank you for your feedback
-> 
-> > From: linux-renesas-soc-owner@vger.kernel.org <linux-renesas-soc-owner@vger.kernel.org> On Behalf Of Geert Uytterhoeven
-> > Sent: 19 June 2019 08:34
-> > Subject: Re: [PATCH] arm64: dts: renesas: hihope-common: Add LEDs support
-> > 
-> > Hi Fabrizio,
-> > 
-> > On Tue, Jun 18, 2019 at 5:56 PM Fabrizio Castro
-> > <fabrizio.castro@bp.renesas.com> wrote:
-> > > > From: linux-renesas-soc-owner@vger.kernel.org <linux-renesas-soc-owner@vger.kernel.org> On Behalf Of Geert Uytterhoeven
-> > > > Sent: 18 June 2019 16:10
-> > > > Subject: Re: [PATCH] arm64: dts: renesas: hihope-common: Add LEDs support
-> > > >
-> > > > On Fri, Jun 14, 2019 at 3:17 PM Fabrizio Castro
-> > > > <fabrizio.castro@bp.renesas.com> wrote:
-> > > > > This patch adds LEDs support to the HiHope RZ/G2[MN] Main Board
-> > > > > common device tree.
-> > > > >
-> > > > > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> > > >
-> > > > Thanks for your patch!
-> > > >
-> > > > > --- a/arch/arm64/boot/dts/renesas/hihope-common.dtsi
-> > > > > +++ b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
-> > > > > @@ -17,6 +17,30 @@
-> > > > >                 stdout-path = "serial0:115200n8";
-> > > > >         };
-> > > > >
-> > > > > +       leds {
-> > > > > +               compatible = "gpio-leds";
-> > > > > +
-> > > > > +               led0 {
-> > > > > +                       gpios = <&gpio6 11 GPIO_ACTIVE_HIGH>;
-> > > > > +                       label = "LED0";
-> > > >
-> > > > There's no need for a label property, if it matches the node name
-> > > > (applies to all four LEDs).
-> > >
-> > > I could have used the actual names on the schematic, but then I realised that
-> > > would not have been too helpful due to the corresponding switch names:
-> > > LED0 - GP6_11 - SW2202 - LED2201
-> > > LED1 - GP6_12 - SW2201 - LED2202
-> > > LED2 - GP6_13 - SW2203 - LED2203
-> > > LED3 - GP0_00 - N/A - LED2402
-> > > The first 3 LEDs are found next to the micro USB connector for the debug console,
-> > > the forth LED is found next to the WiFi and BT LEDs.
-> > >
-> > > I thought that using "LEDn" as labels would put a remark on the
-> > > "desired ordering" of the LEDs (even though there is no actual
-> > > requirement for that), but as you pointed out it's probably a bit
-> > > confusing? Do you think I should take the label out?
-> > 
-> > If the LEDs don't have nice labels on the PCB, I would drop the label
-> > properties.
-> 
-> Will do. Simon, do you want me to send an incremental patch for this (this patch
-> is on devel branch already) or would you rather I sent a v2?
+Hi Fabrizio,
 
-Please send an incremental patch, thanks.
+Thank you for the patch.
+
+On Tue, Jun 18, 2019 at 04:18:38PM +0100, Fabrizio Castro wrote:
+> Add the HDMI encoder to the R8A774A1 DT in disabled state.
+> 
+> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> 
+> ---
+> This patch depends on:
+> https://patchwork.kernel.org/patch/10995149/
+
+Is that the correct one ? I don't see how CAN support is related.
+
+In any case,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>  arch/arm64/boot/dts/renesas/r8a774a1.dtsi | 32 +++++++++++++++++++++++++++++++
+>  1 file changed, 32 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+> index d6dd4b6..a849ca7 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+> @@ -2397,6 +2397,37 @@
+>  			};
+>  		};
+>  
+> +		hdmi0: hdmi@fead0000 {
+> +			compatible = "renesas,r8a774a1-hdmi",
+> +				     "renesas,rcar-gen3-hdmi";
+> +			reg = <0 0xfead0000 0 0x10000>;
+> +			interrupts = <GIC_SPI 389 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&cpg CPG_MOD 729>,
+> +				 <&cpg CPG_CORE R8A774A1_CLK_HDMI>;
+> +			clock-names = "iahb", "isfr";
+> +			power-domains = <&sysc R8A774A1_PD_ALWAYS_ON>;
+> +			resets = <&cpg 729>;
+> +			status = "disabled";
+> +
+> +			ports {
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +				port@0 {
+> +					reg = <0>;
+> +					dw_hdmi0_in: endpoint {
+> +						remote-endpoint = <&du_out_hdmi0>;
+> +					};
+> +				};
+> +				port@1 {
+> +					reg = <1>;
+> +				};
+> +				port@2 {
+> +					/* HDMI sound */
+> +					reg = <2>;
+> +				};
+> +			};
+> +		};
+> +
+>  		du: display@feb00000 {
+>  			compatible = "renesas,du-r8a774a1";
+>  			reg = <0 0xfeb00000 0 0x70000>;
+> @@ -2423,6 +2454,7 @@
+>  				port@1 {
+>  					reg = <1>;
+>  					du_out_hdmi0: endpoint {
+> +						remote-endpoint = <&dw_hdmi0_in>;
+>  					};
+>  				};
+>  				port@2 {
+
+-- 
+Regards,
+
+Laurent Pinchart
