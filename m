@@ -2,115 +2,161 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5340A4B27F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2019 08:58:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4ED454B285
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2019 09:00:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730826AbfFSG6U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Jun 2019 02:58:20 -0400
-Received: from mail-eopbgr1400122.outbound.protection.outlook.com ([40.107.140.122]:11834
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725946AbfFSG6U (ORCPT
+        id S1725946AbfFSHAl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Jun 2019 03:00:41 -0400
+Received: from smtp.domeneshop.no ([194.63.252.55]:37158 "EHLO
+        smtp.domeneshop.no" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725892AbfFSHAl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Jun 2019 02:58:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cb+aZBeU/C2Y0szaMFW9KKj6lHxZEqXNlG29ElRT7iM=;
- b=JftnLYKRnrNQbHCNjrjVCb/IMX9zsfeh2xZ26P9b4kmviXCt5kPlRbn7hpILTsYG2SMDvC80zftUI+OBBtRGFCEOsRw00w+s1lUwvIkEuSMsm4SAHeluouKnypVTw+xesbYcHnv5HrIsRwsSz56HpBWF3DROGvYOlRs6edsP6Qc=
-Received: from OSBPR01MB3590.jpnprd01.prod.outlook.com (20.178.97.80) by
- OSBPR01MB3414.jpnprd01.prod.outlook.com (20.178.99.76) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.1987.11; Wed, 19 Jun 2019 06:58:17 +0000
-Received: from OSBPR01MB3590.jpnprd01.prod.outlook.com
- ([fe80::b1c2:125c:440d:e240]) by OSBPR01MB3590.jpnprd01.prod.outlook.com
- ([fe80::b1c2:125c:440d:e240%4]) with mapi id 15.20.1987.014; Wed, 19 Jun 2019
- 06:58:17 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Simon Horman <horms+renesas@verge.net.au>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        =?iso-8859-1?Q?Niklas_S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: RE: [PATCH 2/2] dt-bindings: usb: renesas_gen3: Rename bindings
- documentation file
-Thread-Topic: [PATCH 2/2] dt-bindings: usb: renesas_gen3: Rename bindings
- documentation file
-Thread-Index: AQHVJOvzrr8sipd+1UG4ND2WVDbsV6aijRlw
-Date:   Wed, 19 Jun 2019 06:58:17 +0000
-Message-ID: <OSBPR01MB35903D8166947D92B0026AEAD8E50@OSBPR01MB3590.jpnprd01.prod.outlook.com>
-References: <20190617090603.8449-1-horms+renesas@verge.net.au>
- <20190617090603.8449-3-horms+renesas@verge.net.au>
-In-Reply-To: <20190617090603.8449-3-horms+renesas@verge.net.au>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
-x-originating-ip: [118.238.235.108]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 90c1d0db-2d97-4ff0-615b-08d6f48381ca
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB3414;
-x-ms-traffictypediagnostic: OSBPR01MB3414:
-x-microsoft-antispam-prvs: <OSBPR01MB34147A66277334DDC9C452F9D8E50@OSBPR01MB3414.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 0073BFEF03
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(136003)(396003)(346002)(366004)(39860400002)(376002)(199004)(189003)(486006)(81156014)(3846002)(9686003)(4326008)(110136005)(229853002)(6116002)(478600001)(26005)(81166006)(316002)(186003)(25786009)(55016002)(54906003)(14454004)(86362001)(66066001)(6246003)(6436002)(76116006)(33656002)(446003)(256004)(5660300002)(66556008)(2906002)(8936002)(66476007)(64756008)(66446008)(4744005)(11346002)(102836004)(76176011)(99286004)(7696005)(476003)(53936002)(305945005)(8676002)(73956011)(6506007)(71200400001)(66946007)(53546011)(71190400001)(74316002)(52536014)(7736002)(68736007);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB3414;H:OSBPR01MB3590.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: y3Y8keX/Ubc0tc56VNXeD50LXAjKLLA56LN0OKCKOKi6nyTy6Q+knmWHzqmkbvpyOd8ZgHQNj2nFWCJOlhGMOYYQ1IQiIo2NmT2q/Vwu5UbwwyuLJ8XndVeeKhDg6V7NI1gnuP0kGReEAd6lcUZ8BZW2UM0XQ4+JtvZOnjrPSiOwnRxahzbhaJAxo10P9PviQFlINr23/PP0TtIbXHfisDbt45Xrbu2PhKHdtIVCCRktJNTzqtXs4lzty3uKDy/a8GEPpOurs+cwIIIjXOgX/Q4QkCWfwilWuBhMYWRCZ8dyJ4v4gUXSk1WENZ1PorWghKfwXdQGxjo6Sfvra1sENeoVXKUl3xybOPY13rZ3OuFuS19BRjrbQD2pyXCh1ax1E50/7KJBObwPsMwqMt9FjQAWBZJJQPbmuPOU5OsXeEA=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        Wed, 19 Jun 2019 03:00:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org; s=ds201810;
+        h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:Subject; bh=mtBeijaH8+4MCsxKjbZSzCQR/V8w+xE28r8Jq8CJiAE=;
+        b=L+Kv1Vzzry4/lykqXWJgy8cWre76BycjLOv2N3vlxPcdu0bX+HLcTox7kLdrR/S4l9uuUelQ+uenSevSdythcCvEm8lBd/jT/5ZdF9Xq9k0RDz7q+bVBk0Z/qimal4yM5s/4pDw5wGks7dqd/dtbmQfjnSrXg0V1tXZi5pHDMT168di2lPPz5zS/L+vW+U2m7gsDQYIaP7d1s/1NQMuzw0d84H0emhy0lAx2ddHcXYbSm8i7IWdtGql1GFVaTYp0q2LSYqvJEFF70ic3tugikvEnGynjjQ472+3BA22iD236svSVsikvs9CWueg+5CHxx/k6sdIld6IrsECADqDuuw==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:53281 helo=[192.168.10.173])
+        by smtp.domeneshop.no with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.84_2)
+        (envelope-from <noralf@tronnes.org>)
+        id 1hdUaE-0002gq-VA; Wed, 19 Jun 2019 09:00:38 +0200
+Subject: Re: [PATCH] drm: rcar-du: Replace drm_driver GEM ops with GEM object
+ functions
+From:   =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org
+References: <20190618131329.30336-1-laurent.pinchart+renesas@ideasonboard.com>
+ <6d60ba59-60a2-58b3-c78b-5bd85e3a660b@tronnes.org>
+ <20190618163557.GF21105@pendragon.ideasonboard.com>
+ <8f0713df-c312-4166-fa4c-1e2356d14441@tronnes.org>
+Message-ID: <2792a7c4-1a95-643d-4763-0d62a5dad288@tronnes.org>
+Date:   Wed, 19 Jun 2019 09:00:36 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.0
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90c1d0db-2d97-4ff0-615b-08d6f48381ca
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jun 2019 06:58:17.3242
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yoshihiro.shimoda.uh@renesas.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB3414
+In-Reply-To: <8f0713df-c312-4166-fa4c-1e2356d14441@tronnes.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Simon-san,
 
-> From: Simon Horman, Sent: Monday, June 17, 2019 6:06 PM
-> Subject: [PATCH 2/2] dt-bindings: usb: renesas_gen3: Rename bindings docu=
-mentation file
 
-s/gen3/usb3/g
+Den 18.06.2019 19.23, skrev Noralf Trønnes:
+> 
+> Den 18.06.2019 18.35, skrev Laurent Pinchart:
+>> Hi Noralf,
+>>
+>> On Tue, Jun 18, 2019 at 03:56:19PM +0200, Noralf Trønnes wrote:
+>>> Den 18.06.2019 15.13, skrev Laurent Pinchart:
+>>>> The recommended way to specify GEM object functions is to provide a
+>>>> drm_gem_object_funcs structure instance and set the GEM object to point
+>>>> to it. The drm_cma_gem_create_object_default_funcs() function provided
+>>>> by the GEM CMA helper does so when creating the GEM object, simplifying
+>>>> the driver implementation. Switch to it, and remove the then unneeded
+>>>> GEM-related opertions from rcar_du_driver.
+>>>
+>>> s/opertions/operations/
+>>
+>> Oops, will fix.
+>>
+>>>> Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>>>> ---
+>>>>  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 8 +-------
+>>>>  1 file changed, 1 insertion(+), 7 deletions(-)
+>>>>
+>>>> Daniel, is this what you had in mind ?
+>>>>
+>>>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+>>>> index 3e5e835ea2b6..4cbb82009931 100644
+>>>> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+>>>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+>>>> @@ -445,16 +445,10 @@ DEFINE_DRM_GEM_CMA_FOPS(rcar_du_fops);
+>>>>  static struct drm_driver rcar_du_driver = {
+>>>>  	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_PRIME
+>>>>  				| DRIVER_ATOMIC,
+>>>> -	.gem_free_object_unlocked = drm_gem_cma_free_object,
+>>>> -	.gem_vm_ops		= &drm_gem_cma_vm_ops,
+>>>> +	.gem_create_object      = drm_cma_gem_create_object_default_funcs,
+>>>>  	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
+>>>>  	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
+>>>> -	.gem_prime_import	= drm_gem_prime_import,
+>>>> -	.gem_prime_export	= drm_gem_prime_export,
+>>>> -	.gem_prime_get_sg_table	= drm_gem_cma_prime_get_sg_table,
+>>>>  	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
+>>>> -	.gem_prime_vmap		= drm_gem_cma_prime_vmap,
+>>>> -	.gem_prime_vunmap	= drm_gem_cma_prime_vunmap,
+>>>>  	.gem_prime_mmap		= drm_gem_cma_prime_mmap,
+>>>
+>>> If you want to pick up yet another recommendation, you can use
+>>> drm_gem_prime_mmap here.
+>>
+>> I compared the two call stacks and they appear similar, even if
+>> drm_gem_prime_mmap() leads to a more convoluted code flow. For my
+>> information, what's the advantage in using it ?
+> 
+> It's part of Daniels quest to remove the drm_driver gem callbacks. AFAIU
+> drm_gem_prime_mmap() is a stop gap on the way to remove
+> drm_driver.gem_prime_mmap. I saw it documented in his recent series:
+> [03/59] drm/prime: Update docs
+> https://patchwork.freedesktop.org/patch/310608/
+> 
+> +/**
+> + * drm_gem_dmabuf_mmap - dma_buf mmap implementation for GEM
+> + * @dma_buf: buffer to be mapped
+> + * @vma: virtual address range
+> + *
+> + * Provides memory mapping for the buffer. This can be used as the
+> + * &dma_buf_ops.mmap callback. It just forwards to
+> &drm_driver.gem_prime_mmap,
+> + * which should be set to drm_gem_prime_mmap().
+> + *
+> + * FIXME: There's really no point to this wrapper, drivers which need
+> anything
+> + * else but drm_gem_prime_mmap can roll their own &dma_buf_ops.mmap
+> callback.
 
-> For consistency with the naming of (most) other documentation files for D=
-T
-> bindings for Renesas IP blocks rename the Renesas USB3.0 peripheral
-> documentation file from renesas-gen3.txt to renesas,gen3.txt.
+It hit me that maybe it would have been better to use
+drm_gem_prime_mmap() as the default instead of having everyone switch to it:
 
-Likewise.
+ int drm_gem_dmabuf_mmap(struct dma_buf *dma_buf, struct vm_area_struct
+*vma)
+ {
+ 	struct drm_gem_object *obj = dma_buf->priv;
+ 	struct drm_device *dev = obj->dev;
 
-And, if possible, I'd like to rename it to renesas,usb3-peri.txt
-because the compatible is "renesas,<soc>-usb3-peri" and "usb3" is unclear
-(host or peripheral).
-# I don't remember, but I guess the driver side filename is
-# drivers/usb/gadget/udc/renesas_usb3.c, I named the binding doc as renesas=
-_usb3.txt.
+ 	if (!dev->driver->gem_prime_mmap)
+- 		return -ENOSYS;
++ 		return drm_gem_prime_mmap(obj, vma);
 
-After fixed them,
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+ 	return dev->driver->gem_prime_mmap(obj, vma);
+ }
 
-Best regards,
-Yoshihiro Shimoda
+Noralf.
 
+> + *
+> + * Returns 0 on success or a negative error code on failure.
+> + */
+> 
+> Noralf.
+> 
+>>
+>>> Either way:
+>>>
+>>> Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
+>>>
+>>>>  	.dumb_create		= rcar_du_dumb_create,
+>>>>  	.fops			= &rcar_du_fops,
+>>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
