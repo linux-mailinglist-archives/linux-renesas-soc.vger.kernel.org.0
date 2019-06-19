@@ -2,106 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 30CBE4B69A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2019 13:03:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C8674B756
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2019 13:48:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727552AbfFSLDR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Jun 2019 07:03:17 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:40632 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726751AbfFSLDR (ORCPT
+        id S1727134AbfFSLsT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Jun 2019 07:48:19 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:56604 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727067AbfFSLsT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Jun 2019 07:03:17 -0400
-Received: by mail-lj1-f195.google.com with SMTP id a21so2807349ljh.7
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Jun 2019 04:03:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=Luu+5rYK+UBQnap9xN87KqCbR3KAr2ZJr7v5Aor7Sgw=;
-        b=suXYxAMjz59lvhJQHLgFctHetXVze4fq6LJGfaHu6u7dSe6wuf8VLeA1vMnT0cU6rf
-         Z9pxXFNyqsVWBeGLKWj8hm4bYSCwh3SRygkdWUtJZ4pXHbDi1x83/66f4loPVQRUtUdo
-         X5RpmJ+T37cPHdZZ2syt9SQ8iMdI5qv4Ygyn8kmrVNopPOome4/wjVWlCoMw+e5ujuxp
-         F70SQkw9/wHNU4Y7qJNWVd30IopBNYHLRey89xb8qieITXXlaBBns4l+ac3+c8G0wVEd
-         reHNjtFKFKOlNoKOngYOc8Q0wNNwtQVfWG27aJHuhnhn7xLH/rHIbg/p+TDnt1GiPpnD
-         +NCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=Luu+5rYK+UBQnap9xN87KqCbR3KAr2ZJr7v5Aor7Sgw=;
-        b=YrKz3bI0cKmBf9vjBIvwga+gGvv2lVKV/EjvYqeY0iKllaMfnkgACDqKi6Zafg0wjM
-         fWJIvraCR/vSwrcBwakR+eiOe59TcNYWiMlreloZBMEmSsHu+ADZbB32An35cbeau29R
-         gi2JiiuXQaSvb7QnCeZeJIl9jURHwwB/VzK5Htx/Yv/9eJ+EzW67UdEefBhpjTWlsgYt
-         ccZLzXTauQrBYSKhRwh5IdJojt2vkEqdAj+cDcIwqQMQqEQznL+iYo7C2xQSoXowFEi0
-         izwdEtSSCqpfMYOfU/CrjUUCXG9qxnLYq22rBoqAO5X1fx9Q9U9DqwBDlduBiQV8CBwc
-         2j9w==
-X-Gm-Message-State: APjAAAXizkszuVBMLJCBRsyTMyOdrxARbNE333cBuLXjZyDSbQQJxkls
-        HJBmzny6Rjjb52eRZdH9IAnMdQ==
-X-Google-Smtp-Source: APXvYqxZ9IA0ppIbwUalwcRBMLFQVzuYiFSFtfCmTlzFHAB17QSbWvFXviSuBgZd2h5m1cAPIFzY6A==
-X-Received: by 2002:a2e:9b84:: with SMTP id z4mr36740332lji.75.1560942195085;
-        Wed, 19 Jun 2019 04:03:15 -0700 (PDT)
-Received: from localhost (89-233-230-99.cust.bredband2.com. [89.233.230.99])
-        by smtp.gmail.com with ESMTPSA id x19sm3062896ljb.6.2019.06.19.04.03.14
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 19 Jun 2019 04:03:14 -0700 (PDT)
-Date:   Wed, 19 Jun 2019 13:03:14 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Simon Horman <horms+renesas@verge.net.au>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-usb@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
+        Wed, 19 Jun 2019 07:48:19 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id BA2ED25AF1B;
+        Wed, 19 Jun 2019 21:48:16 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id 595189409FF; Wed, 19 Jun 2019 13:48:13 +0200 (CEST)
+Date:   Wed, 19 Jun 2019 13:48:13 +0200
+From:   Simon Horman <horms@verge.net.au>
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>, devicetree@vger.kernel.org
-Subject: Re: [PATCH 0/2] dt-bindings: usb: renease_{usbhs,gen3} Rename
- bindings documentation files
-Message-ID: <20190619110314.GC18708@bigcity.dyn.berto.se>
-References: <20190617090603.8449-1-horms+renesas@verge.net.au>
+        Mark Rutland <mark.rutland@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] dt-bindings: PCI: rcar: Add device tree support for
+ r8a774a1
+Message-ID: <20190619114812.lwytuojd5ijonxfa@verge.net.au>
+References: <1559891016-56157-1-git-send-email-biju.das@bp.renesas.com>
+ <20190612114629.wpazihf5ea3g4wjn@verge.net.au>
+ <20190614163351.GA30511@e121166-lin.cambridge.arm.com>
+ <OSBPR01MB2103F1D063171E45B4E5034DB8EA0@OSBPR01MB2103.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190617090603.8449-1-horms+renesas@verge.net.au>
-User-Agent: Mutt/1.12.0 (2019-05-25)
+In-Reply-To: <OSBPR01MB2103F1D063171E45B4E5034DB8EA0@OSBPR01MB2103.jpnprd01.prod.outlook.com>
+Organisation: Horms Solutions BV
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Simon,
-
-Thanks for your work.
-
-On 2019-06-17 11:06:01 +0200, Simon Horman wrote:
-> Hi,
+On Tue, Jun 18, 2019 at 10:38:21AM +0000, Biju Das wrote:
+> Hello Lorenzo and Simon,
 > 
-> For consistency with the naming of (most) other documentation files for DT
-> bindings for Renesas IP blocks rename the Renesas USBHS and USB 3.0
-> peripheral documentation files.
+> Thanks for the feedback.
+> 
+> > Subject: Re: [PATCH] dt-bindings: PCI: rcar: Add device tree support for
+> > r8a774a1
+> > 
+> > On Wed, Jun 12, 2019 at 01:46:29PM +0200, Simon Horman wrote:
+> > > On Fri, Jun 07, 2019 at 08:03:36AM +0100, Biju Das wrote:
+> > > > Add PCIe support for the RZ/G2M (a.k.a. R8A774A1).
+> > > >
+> > > > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> > >
+> > > Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+> > 
+> > Should I pick this up and send it via the PCI tree ?
+> > 
+> > Just let me know please, thanks.
+> 
+> Simon, 
+> What do you think ?
 
-With Shimoda-sans comment on 2/2 fixed for the whole series,
+Hi Lorenzo, Hi Biju,
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+yes, I think that is a good idea.
+
+Please feel free to push this via the PCI tree.
+
+In case it helps:
+
+Acked-by: Simon Horman <horms+renesas@verge.net.au>
+
 
 > 
-> Simon Horman (2):
->   dt-bindings: usb: renesas_usbhs: Rename bindings documentation file
->   dt-bindings: usb: renesas_gen3: Rename bindings documentation file
+> Regards,
+> Biju
 > 
->  .../devicetree/bindings/usb/{renesas_usb3.txt => renesas,usb3.txt}        | 0
->  .../devicetree/bindings/usb/{renesas_usbhs.txt => renesas,usbhs.txt}      | 0
->  2 files changed, 0 insertions(+), 0 deletions(-)
->  rename Documentation/devicetree/bindings/usb/{renesas_usb3.txt => renesas,usb3.txt} (100%)
->  rename Documentation/devicetree/bindings/usb/{renesas_usbhs.txt => renesas,usbhs.txt} (100%)
+> > 
+> > > > ---
+> > > >  Documentation/devicetree/bindings/pci/rcar-pci.txt | 1 +
+> > > >  1 file changed, 1 insertion(+)
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/pci/rcar-pci.txt
+> > b/Documentation/devicetree/bindings/pci/rcar-pci.txt
+> > > > index 6904882..45bba9f 100644
+> > > > --- a/Documentation/devicetree/bindings/pci/rcar-pci.txt
+> > > > +++ b/Documentation/devicetree/bindings/pci/rcar-pci.txt
+> > > > @@ -3,6 +3,7 @@
+> > > >  Required properties:
+> > > >  compatible: "renesas,pcie-r8a7743" for the R8A7743 SoC;
+> > > >  	    "renesas,pcie-r8a7744" for the R8A7744 SoC;
+> > > > +	    "renesas,pcie-r8a774a1" for the R8A774A1 SoC;
+> > > >  	    "renesas,pcie-r8a774c0" for the R8A774C0 SoC;
+> > > >  	    "renesas,pcie-r8a7779" for the R8A7779 SoC;
+> > > >  	    "renesas,pcie-r8a7790" for the R8A7790 SoC;
+> > > > --
+> > > > 2.7.4
+> > > >
 > 
-> -- 
-> 2.11.0
-
--- 
-Regards,
-Niklas Söderlund
