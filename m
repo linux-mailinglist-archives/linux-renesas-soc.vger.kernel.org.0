@@ -2,161 +2,144 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4ED454B285
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2019 09:00:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C4564B325
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Jun 2019 09:34:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725946AbfFSHAl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Jun 2019 03:00:41 -0400
-Received: from smtp.domeneshop.no ([194.63.252.55]:37158 "EHLO
-        smtp.domeneshop.no" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725892AbfFSHAl (ORCPT
+        id S1725946AbfFSHeK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Jun 2019 03:34:10 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:45499 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725854AbfFSHeK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Jun 2019 03:00:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org; s=ds201810;
-        h=Content-Transfer-Encoding:Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:Subject; bh=mtBeijaH8+4MCsxKjbZSzCQR/V8w+xE28r8Jq8CJiAE=;
-        b=L+Kv1Vzzry4/lykqXWJgy8cWre76BycjLOv2N3vlxPcdu0bX+HLcTox7kLdrR/S4l9uuUelQ+uenSevSdythcCvEm8lBd/jT/5ZdF9Xq9k0RDz7q+bVBk0Z/qimal4yM5s/4pDw5wGks7dqd/dtbmQfjnSrXg0V1tXZi5pHDMT168di2lPPz5zS/L+vW+U2m7gsDQYIaP7d1s/1NQMuzw0d84H0emhy0lAx2ddHcXYbSm8i7IWdtGql1GFVaTYp0q2LSYqvJEFF70ic3tugikvEnGynjjQ472+3BA22iD236svSVsikvs9CWueg+5CHxx/k6sdIld6IrsECADqDuuw==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:53281 helo=[192.168.10.173])
-        by smtp.domeneshop.no with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.84_2)
-        (envelope-from <noralf@tronnes.org>)
-        id 1hdUaE-0002gq-VA; Wed, 19 Jun 2019 09:00:38 +0200
-Subject: Re: [PATCH] drm: rcar-du: Replace drm_driver GEM ops with GEM object
- functions
-From:   =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org
-References: <20190618131329.30336-1-laurent.pinchart+renesas@ideasonboard.com>
- <6d60ba59-60a2-58b3-c78b-5bd85e3a660b@tronnes.org>
- <20190618163557.GF21105@pendragon.ideasonboard.com>
- <8f0713df-c312-4166-fa4c-1e2356d14441@tronnes.org>
-Message-ID: <2792a7c4-1a95-643d-4763-0d62a5dad288@tronnes.org>
-Date:   Wed, 19 Jun 2019 09:00:36 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        Wed, 19 Jun 2019 03:34:10 -0400
+Received: by mail-lf1-f68.google.com with SMTP id u10so11265409lfm.12;
+        Wed, 19 Jun 2019 00:34:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VW4Cp5ek0vb4QtqRCxv8BZywls0dRbsD7ASrUWev8OI=;
+        b=roTOgyWcD4j2Ajnnkt+BQ5H3PYV2PXy1+b5VyN+cmY+FQU67/31z/6ba403V/aGfSD
+         IIyK3XjPIIjyAMH2DrP+Iik4ja/HnB/ptEXULxJbYaviZQRSGvI1yAklTSjS1B9qhY+U
+         g+Ifkj1FaKtEgJVE2LTumotUxJc7k1wEHqXVGnUwN4hmViI/XmssM59n/W836ghgsH60
+         P8q6/21lvduApUe6QsDP6Bnz2Ki9sAjMPKqmCe6bC7lQR4jJDPyWrf1Y+6+ahhPUCn9P
+         cUKvv+6/AyQaKH750gNgThko7kP8xPuzlMLRRRoIAovYyJQUqLLREFKyXcrFK9n02BGv
+         4jwg==
+X-Gm-Message-State: APjAAAXKisa4TPntn+d1RnIRaJ9qRx2kWXybhndjnEuw34JpYWYqnTu5
+        y6eSIdiAHnitwpfIgOPx7jJFrpIoB9cSwCB0PdGzoA==
+X-Google-Smtp-Source: APXvYqzr+ikpJYw7CRxK8QBm66gMcKeDrfegqyW3im12taF0F0VOrbF6dnT8jX5vHljT4SmdMK7epHvDsGD3aPVue2k=
+X-Received: by 2002:a19:7f17:: with SMTP id a23mr18880078lfd.49.1560929647887;
+ Wed, 19 Jun 2019 00:34:07 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <8f0713df-c312-4166-fa4c-1e2356d14441@tronnes.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+References: <1560518075-2254-1-git-send-email-fabrizio.castro@bp.renesas.com>
+ <CAMuHMdU8oag+1oNa_jS=v99W05=8SRLhdoZdCusmeVf1VZbarQ@mail.gmail.com> <TY1PR01MB17707C3C979FB60611FB34A7C0EA0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY1PR01MB17707C3C979FB60611FB34A7C0EA0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 19 Jun 2019 09:33:55 +0200
+Message-ID: <CAMuHMdVb+sc0vdvbsAE0fkEY6wFS7KsbtqLmtB03ghVeuiHe1w@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: hihope-common: Add LEDs support
+To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Cc:     Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        "xu_shunji@hoperun.com" <xu_shunji@hoperun.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Fabrizio,
 
+On Tue, Jun 18, 2019 at 5:56 PM Fabrizio Castro
+<fabrizio.castro@bp.renesas.com> wrote:
+> > From: linux-renesas-soc-owner@vger.kernel.org <linux-renesas-soc-owner@vger.kernel.org> On Behalf Of Geert Uytterhoeven
+> > Sent: 18 June 2019 16:10
+> > Subject: Re: [PATCH] arm64: dts: renesas: hihope-common: Add LEDs support
+> >
+> > On Fri, Jun 14, 2019 at 3:17 PM Fabrizio Castro
+> > <fabrizio.castro@bp.renesas.com> wrote:
+> > > This patch adds LEDs support to the HiHope RZ/G2[MN] Main Board
+> > > common device tree.
+> > >
+> > > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> >
+> > Thanks for your patch!
+> >
+> > > --- a/arch/arm64/boot/dts/renesas/hihope-common.dtsi
+> > > +++ b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
+> > > @@ -17,6 +17,30 @@
+> > >                 stdout-path = "serial0:115200n8";
+> > >         };
+> > >
+> > > +       leds {
+> > > +               compatible = "gpio-leds";
+> > > +
+> > > +               led0 {
+> > > +                       gpios = <&gpio6 11 GPIO_ACTIVE_HIGH>;
+> > > +                       label = "LED0";
+> >
+> > There's no need for a label property, if it matches the node name
+> > (applies to all four LEDs).
+>
+> I could have used the actual names on the schematic, but then I realised that
+> would not have been too helpful due to the corresponding switch names:
+> LED0 - GP6_11 - SW2202 - LED2201
+> LED1 - GP6_12 - SW2201 - LED2202
+> LED2 - GP6_13 - SW2203 - LED2203
+> LED3 - GP0_00 - N/A - LED2402
+> The first 3 LEDs are found next to the micro USB connector for the debug console,
+> the forth LED is found next to the WiFi and BT LEDs.
+>
+> I thought that using "LEDn" as labels would put a remark on the
+> "desired ordering" of the LEDs (even though there is no actual
+> requirement for that), but as you pointed out it's probably a bit
+> confusing? Do you think I should take the label out?
 
-Den 18.06.2019 19.23, skrev Noralf Trønnes:
-> 
-> Den 18.06.2019 18.35, skrev Laurent Pinchart:
->> Hi Noralf,
->>
->> On Tue, Jun 18, 2019 at 03:56:19PM +0200, Noralf Trønnes wrote:
->>> Den 18.06.2019 15.13, skrev Laurent Pinchart:
->>>> The recommended way to specify GEM object functions is to provide a
->>>> drm_gem_object_funcs structure instance and set the GEM object to point
->>>> to it. The drm_cma_gem_create_object_default_funcs() function provided
->>>> by the GEM CMA helper does so when creating the GEM object, simplifying
->>>> the driver implementation. Switch to it, and remove the then unneeded
->>>> GEM-related opertions from rcar_du_driver.
->>>
->>> s/opertions/operations/
->>
->> Oops, will fix.
->>
->>>> Suggested-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->>>> ---
->>>>  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 8 +-------
->>>>  1 file changed, 1 insertion(+), 7 deletions(-)
->>>>
->>>> Daniel, is this what you had in mind ?
->>>>
->>>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
->>>> index 3e5e835ea2b6..4cbb82009931 100644
->>>> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
->>>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
->>>> @@ -445,16 +445,10 @@ DEFINE_DRM_GEM_CMA_FOPS(rcar_du_fops);
->>>>  static struct drm_driver rcar_du_driver = {
->>>>  	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_PRIME
->>>>  				| DRIVER_ATOMIC,
->>>> -	.gem_free_object_unlocked = drm_gem_cma_free_object,
->>>> -	.gem_vm_ops		= &drm_gem_cma_vm_ops,
->>>> +	.gem_create_object      = drm_cma_gem_create_object_default_funcs,
->>>>  	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
->>>>  	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
->>>> -	.gem_prime_import	= drm_gem_prime_import,
->>>> -	.gem_prime_export	= drm_gem_prime_export,
->>>> -	.gem_prime_get_sg_table	= drm_gem_cma_prime_get_sg_table,
->>>>  	.gem_prime_import_sg_table = drm_gem_cma_prime_import_sg_table,
->>>> -	.gem_prime_vmap		= drm_gem_cma_prime_vmap,
->>>> -	.gem_prime_vunmap	= drm_gem_cma_prime_vunmap,
->>>>  	.gem_prime_mmap		= drm_gem_cma_prime_mmap,
->>>
->>> If you want to pick up yet another recommendation, you can use
->>> drm_gem_prime_mmap here.
->>
->> I compared the two call stacks and they appear similar, even if
->> drm_gem_prime_mmap() leads to a more convoluted code flow. For my
->> information, what's the advantage in using it ?
-> 
-> It's part of Daniels quest to remove the drm_driver gem callbacks. AFAIU
-> drm_gem_prime_mmap() is a stop gap on the way to remove
-> drm_driver.gem_prime_mmap. I saw it documented in his recent series:
-> [03/59] drm/prime: Update docs
-> https://patchwork.freedesktop.org/patch/310608/
-> 
-> +/**
-> + * drm_gem_dmabuf_mmap - dma_buf mmap implementation for GEM
-> + * @dma_buf: buffer to be mapped
-> + * @vma: virtual address range
-> + *
-> + * Provides memory mapping for the buffer. This can be used as the
-> + * &dma_buf_ops.mmap callback. It just forwards to
-> &drm_driver.gem_prime_mmap,
-> + * which should be set to drm_gem_prime_mmap().
-> + *
-> + * FIXME: There's really no point to this wrapper, drivers which need
-> anything
-> + * else but drm_gem_prime_mmap can roll their own &dma_buf_ops.mmap
-> callback.
+If the LEDs don't have nice labels on the PCB, I would drop the label
+properties.
 
-It hit me that maybe it would have been better to use
-drm_gem_prime_mmap() as the default instead of having everyone switch to it:
+> > Note that this GPIO is shared with a switch, like on Salvator-X(S) and
+> > ULCB.  As currently Linux cannot handle both, describing the LED
+> > precludes adding the switch later.
+> > (applies to the first 3 LEDs).
+>
+> Thank you for pointing this out. That's desired behaviour in this case.
 
- int drm_gem_dmabuf_mmap(struct dma_buf *dma_buf, struct vm_area_struct
-*vma)
- {
- 	struct drm_gem_object *obj = dma_buf->priv;
- 	struct drm_device *dev = obj->dev;
+OK.
 
- 	if (!dev->driver->gem_prime_mmap)
-- 		return -ENOSYS;
-+ 		return drm_gem_prime_mmap(obj, vma);
+> > > +               led3 {
+> > > +                       gpios = <&gpio0  0 GPIO_ACTIVE_HIGH>;
+> > > +                       label = "LED3";
+> > > +               };
+> >
+> > I cannot find LED3. According to the schematics GP0_0 == CS0n is used
+> > as the chipselect for the LVDS switch?
+>
+> My understanding is that CS0n is on GP1_20, could you please double
+> check?
+> (pin name: AJ4) GP0_00 == D0 == ExD0 on the schematic I have, I thought
+> you may have been looking at an older version of the schematic, but after
+> going through the history it seems like that line has always been there.
 
- 	return dev->driver->gem_prime_mmap(obj, vma);
- }
+Sorry, my mistake.  As there is no GP0_0 in the schematic, I looked up
+the pin number in the docs, but ended up using the R-Car M3-W SiP pin
+number, instead of the RZ/G2M FCBGA SoC pin number :-(
 
-Noralf.
+Gr{oetje,eeting}s,
 
-> + *
-> + * Returns 0 on success or a negative error code on failure.
-> + */
-> 
-> Noralf.
-> 
->>
->>> Either way:
->>>
->>> Reviewed-by: Noralf Trønnes <noralf@tronnes.org>
->>>
->>>>  	.dumb_create		= rcar_du_dumb_create,
->>>>  	.fops			= &rcar_du_fops,
->>
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> 
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
