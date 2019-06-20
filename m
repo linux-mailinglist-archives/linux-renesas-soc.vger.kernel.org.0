@@ -2,143 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A90D4C9CF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2019 10:50:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1376A4CA44
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2019 11:07:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726175AbfFTIur (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Jun 2019 04:50:47 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:21012 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1730596AbfFTIup (ORCPT
+        id S1726124AbfFTJHr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 20 Jun 2019 05:07:47 -0400
+Received: from mail1.bemta26.messagelabs.com ([85.158.142.1]:49690 "EHLO
+        mail1.bemta26.messagelabs.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725875AbfFTJHr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Jun 2019 04:50:45 -0400
-X-IronPort-AV: E=Sophos;i="5.62,396,1554735600"; 
-   d="scan'208";a="19173854"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 20 Jun 2019 17:50:41 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id E3E01400C422;
-        Thu, 20 Jun 2019 17:50:40 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     ulf.hansson@linaro.org, hch@lst.de, m.szyprowski@samsung.com,
-        robin.murphy@arm.com, joro@8bytes.org, axboe@kernel.dk
-Cc:     wsa+renesas@sang-engineering.com, linux-mmc@vger.kernel.org,
-        iommu@lists.linux-foundation.org, linux-block@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [RFC PATCH v7 5/5] mmc: queue: Use bigger segments if DMA MAP layer can merge the segments
-Date:   Thu, 20 Jun 2019 17:50:10 +0900
-Message-Id: <1561020610-953-6-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1561020610-953-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1561020610-953-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Thu, 20 Jun 2019 05:07:47 -0400
+Received: from [85.158.142.104] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+        by server-1.bemta.az-a.eu-central-1.aws.symcld.net id B9/B7-29256-FDC4B0D5; Thu, 20 Jun 2019 09:07:43 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA1WSb0xTZxTG+/b+6aVwyaXV8FqFLM2GBmht1cz
+  iZsZMHHWyaPy0kRG5hSu3oRRoS8Q5CTOiDCzp5jJDEQsLyoagjMUMNhjYjAW7YGvHGKEkFChC
+  YYgT0GBQ1sutjn37ved5nveckxwCkQzjMoIpsTAmI22Q42KU3SlOUYylR2aqqlqkmqU6F6p5P
+  FQFNGPLfUDzx09XcM3t4EOhptvpAJrqe2mpIu3XvbUi7cJwuUhbW1GDaUeHunDtg4ZbqHaxPf
+  4onoHpjbqCkiyM7ZrfU+gnS6wVz4VloC+yEogJlOpH4NMJG8Y9JJRNCP2dT8KPMQCHamZFlSC
+  CwCk1vPr3AuB4E3UIBoPd63WEakLg7fMsx1IqFXqu+nHecxCWPe8S8ayE/a1tKMco9QY8Ozq4
+  ziSVCX+7v7LOgIqDS5/dQPg/Y+FIwCHkGFIUbOxyIzxvhsHJFxjvPw4v9MyL+HoyHPgrAHiWw
+  +vDdoznOOh1VIXqRIg/gKt3X+f2gtQIgO4nVpz3JELfnD/cywCn79wJ/5kAfxxyh+vb4J+Xuj
+  E+PIjBRnf5elhCZcNHdQPhQDxsto6jvMmDwPagJ7xNMqz/+THOcxK83jCH8NvHwLs1AdQGdtg
+  3LG3fELFviNg3ROoB2gxSdCZ9LmvJp/UGhVqlUqjVuxVqxa5dKUr6EwWtZIoV2YzRYqJDqpI+
+  aVaaT+VnG3KURsbSDkJHllMEpjpAZd+c0gm2EEL5ZrJ3Z2SmJFpXkHOKpc3scVOxgTE7wTaCk
+  ENyb+gaJTEmJpcpOaE3hE71pQyJKPkmUsbJpLmQzjfrc3nJBRSELVj3DSJBjQVGRhZLNh4OmS
+  jOxBYbX33x8uC9IE4mJYFAIJBEFTKmfL3l//osiCWAXEoe41pF6Y2WV51mQ0MIQ0PU14q5ISz
+  0f5KsTGio0SUHf3nQl/0UObN4gT1T1KNaPP3Ftx/PTCUl7rjYFF3dufROREeWdM15KOAZPHLy
+  5v7f82LEqvHdoz+8LZhi3w3uHVEnvHXj0VaVXhdRqntWV+SVpd30tV3a4k93nF8bka4d+NDzz
+  xGk9LvAjDZr2acra3r/S+fl0nOuhel9q9vT9/uKv/cuH/aedsCjr5EVnV8NfD754rLUHaO2pR
+  6L3Xp/0j/+3pttgpm0vF5vRu+K/VpEfw/tO9uSt1oe72LJe0sPWzModbOvoVUgt2YMe6pbDWz
+  chOvirekDE0kstW9P4FrHMnoiryGrrUXbYZu3ygLbD2o+PRf9EfbrSgL9TI6aWVqdiJjM9L/8
+  e8bkawQAAA==
+X-Env-Sender: stwiss.opensource@diasemi.com
+X-Msg-Ref: server-13.tower-229.messagelabs.com!1561021662!576597!1
+X-Originating-IP: [104.47.10.57]
+X-SYMC-ESS-Client-Auth: mailfrom-relay-check=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.43.9; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 5484 invoked from network); 20 Jun 2019 09:07:43 -0000
+Received: from mail-db5eur03lp2057.outbound.protection.outlook.com (HELO EUR03-DB5-obe.outbound.protection.outlook.com) (104.47.10.57)
+  by server-13.tower-229.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 20 Jun 2019 09:07:43 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dialogsemiconductor.onmicrosoft.com;
+ s=selector2-dialogsemiconductor-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Pnp73Na7VRWy4OnceF7TtgkRt7aad6kDc8BHYa/wJAQ=;
+ b=dRV5zVu9IGBW4WYeYZSY3dMaXZAgBKBrNZYKxQmVcuPJ5n1KXAOW7H79ORSGNtHRa2GisTwTK9BxtvUaFFO5knZMGmp4MXIXIxyiQMuse3fwCHDpqzIXH2zyfuedrinKhT3sTTnv0coMgeXkA8yRAEh4JE00682N8Q2e3cURDgA=
+Received: from AM6PR10MB2181.EURPRD10.PROD.OUTLOOK.COM (20.177.113.222) by
+ AM6PR10MB2710.EURPRD10.PROD.OUTLOOK.COM (20.179.1.212) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2008.13; Thu, 20 Jun 2019 09:07:41 +0000
+Received: from AM6PR10MB2181.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::4561:9d63:48fa:a882]) by AM6PR10MB2181.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::4561:9d63:48fa:a882%7]) with mapi id 15.20.1987.014; Thu, 20 Jun 2019
+ 09:07:41 +0000
+From:   Steve Twiss <stwiss.opensource@diasemi.com>
+To:     "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>
+CC:     "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+        "kieran.bingham+renesas@ideasonboard.com" 
+        <kieran.bingham+renesas@ideasonboard.com>,
+        "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "peda@axentia.se" <peda@axentia.se>,
+        Support Opensource <Support.Opensource@diasemi.com>
+Subject: Re: [PATCH] mfd: da9063: occupy second I2C address, too
+Thread-Topic: Re: [PATCH] mfd: da9063: occupy second I2C address, too
+Thread-Index: AdUnR0YGXCrBBqYTTZCmGFZ4naROJQ==
+Date:   Thu, 20 Jun 2019 09:07:40 +0000
+Message-ID: <AM6PR10MB218184C8F2206024C6CB77EAFEE40@AM6PR10MB2181.EURPRD10.PROD.OUTLOOK.COM>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [193.240.73.196]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2277e828-a145-4db6-322f-08d6f55ebfa4
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:AM6PR10MB2710;
+x-ms-traffictypediagnostic: AM6PR10MB2710:
+x-microsoft-antispam-prvs: <AM6PR10MB27100B44D9766ECDA2CD303BF5E40@AM6PR10MB2710.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 0074BBE012
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39860400002)(136003)(366004)(346002)(376002)(396003)(199004)(189003)(107886003)(6246003)(229853002)(316002)(54906003)(4326008)(99286004)(7696005)(3846002)(6116002)(9686003)(6436002)(2906002)(25786009)(55016002)(256004)(14444005)(53936002)(102836004)(476003)(305945005)(6506007)(74316002)(7736002)(186003)(5660300002)(26005)(52536014)(68736007)(86362001)(33656002)(66066001)(76116006)(73956011)(8676002)(66446008)(486006)(64756008)(66946007)(66556008)(66476007)(81156014)(71190400001)(478600001)(14454004)(8936002)(71200400001)(81166006);DIR:OUT;SFP:1101;SCL:1;SRVR:AM6PR10MB2710;H:AM6PR10MB2181.EURPRD10.PROD.OUTLOOK.COM;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
+received-spf: None (protection.outlook.com: diasemi.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: XLVT0VgbgGkveSYUSt2dAhI6MMg9D821yS0PeaSVJP7dGBcfIIdKjHlVcvf5KSFhM2VEe9KDFqOwBqzFqzgHllX6StdcFPChkvxcZmnxt9x7Pc+7sZEqPiPH7biXJGmTZTJa47KnsXMCNKODpNznkJPbtFPdCnLl+Q1hbamn8jlE2Okl40MEuTXgiCbq09vmJZSDJErNpK+MCd9puvhg2hqhOrc2wocDliQ1yyaIlvUCcOo8WPGloxpwV5D9xZIKTQYYPWmhMM2qzWv+/wsX9IQfuaX/Xkvykiw717mBkrO7W559iU0xuCLqa+wNSkKduQrT1EooRUz1LVwqdNqwf9zlb0qD45V47JX4Ayfqf9hDRVd6g10zb+oVc47kGf7UxyvVO07lXBQ7NLKNeNxbql6rcs3Y5GQKldGpDwIMzC8=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: diasemi.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2277e828-a145-4db6-322f-08d6f55ebfa4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jun 2019 09:07:40.9374
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: stephen.twiss@diasemi.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR10MB2710
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When the max_segs of a mmc host is smaller than 512, the mmc
-subsystem tries to use 512 segments if DMA MAP layer can merge
-the segments, and then the mmc subsystem exposes such information
-to the block layer by using blk_queue_can_use_dma_map_merging().
+(resend because the e-mail client added HTML formatting to my last reply)
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/mmc/core/queue.c | 35 ++++++++++++++++++++++++++++++++---
- include/linux/mmc/host.h |  1 +
- 2 files changed, 33 insertions(+), 3 deletions(-)
+Hi Wolfram,
 
-diff --git a/drivers/mmc/core/queue.c b/drivers/mmc/core/queue.c
-index 92900a0..ab0ecc6 100644
---- a/drivers/mmc/core/queue.c
-+++ b/drivers/mmc/core/queue.c
-@@ -24,6 +24,8 @@
- #include "card.h"
- #include "host.h"
- 
-+#define MMC_DMA_MAP_MERGE_SEGMENTS	512
-+
- static inline bool mmc_cqe_dcmd_busy(struct mmc_queue *mq)
- {
- 	/* Allow only 1 DCMD at a time */
-@@ -196,6 +198,12 @@ static void mmc_queue_setup_discard(struct request_queue *q,
- 		blk_queue_flag_set(QUEUE_FLAG_SECERASE, q);
- }
- 
-+static unsigned int mmc_get_max_segments(struct mmc_host *host)
-+{
-+	return host->can_dma_map_merge ? MMC_DMA_MAP_MERGE_SEGMENTS :
-+					 host->max_segs;
-+}
-+
- /**
-  * mmc_init_request() - initialize the MMC-specific per-request data
-  * @q: the request queue
-@@ -209,7 +217,7 @@ static int __mmc_init_request(struct mmc_queue *mq, struct request *req,
- 	struct mmc_card *card = mq->card;
- 	struct mmc_host *host = card->host;
- 
--	mq_rq->sg = mmc_alloc_sg(host->max_segs, gfp);
-+	mq_rq->sg = mmc_alloc_sg(mmc_get_max_segments(host), gfp);
- 	if (!mq_rq->sg)
- 		return -ENOMEM;
- 
-@@ -368,13 +376,23 @@ static void mmc_setup_queue(struct mmc_queue *mq, struct mmc_card *card)
- 	blk_queue_bounce_limit(mq->queue, limit);
- 	blk_queue_max_hw_sectors(mq->queue,
- 		min(host->max_blk_count, host->max_req_size / 512));
--	blk_queue_max_segments(mq->queue, host->max_segs);
-+	if (host->can_dma_map_merge)
-+		WARN(!blk_queue_can_use_dma_map_merging(mq->queue,
-+							mmc_dev(host)),
-+		     "merging was advertised but not possible");
-+	blk_queue_max_segments(mq->queue, mmc_get_max_segments(host));
- 
- 	if (mmc_card_mmc(card))
- 		block_size = card->ext_csd.data_sector_size;
- 
- 	blk_queue_logical_block_size(mq->queue, block_size);
--	blk_queue_max_segment_size(mq->queue,
-+	/*
-+	 * After blk_queue_can_use_dma_map_merging() was called with succeed,
-+	 * since it calls blk_queue_virt_boundary(), the mmc should not call
-+	 * both blk_queue_max_segment_size().
-+	 */
-+	if (host->can_dma_map_merge)
-+		blk_queue_max_segment_size(mq->queue,
- 			round_down(host->max_seg_size, block_size));
- 
- 	dma_set_max_seg_size(mmc_dev(host), queue_max_segment_size(mq->queue));
-@@ -424,6 +442,17 @@ int mmc_init_queue(struct mmc_queue *mq, struct mmc_card *card)
- 	mq->tag_set.cmd_size = sizeof(struct mmc_queue_req);
- 	mq->tag_set.driver_data = mq;
- 
-+	/*
-+	 * Since blk_mq_alloc_tag_set() calls .init_request() of mmc_mq_ops,
-+	 * the host->can_dma_map_merge should be set before to get max_segs
-+	 * from mmc_get_max_segments().
-+	 */
-+	if (host->max_segs < MMC_DMA_MAP_MERGE_SEGMENTS &&
-+	    dma_get_merge_boundary(mmc_dev(host)))
-+		host->can_dma_map_merge = 1;
-+	else
-+		host->can_dma_map_merge = 0;
-+
- 	ret = blk_mq_alloc_tag_set(&mq->tag_set);
- 	if (ret)
- 		return ret;
-diff --git a/include/linux/mmc/host.h b/include/linux/mmc/host.h
-index 43d0f0c..10c3719 100644
---- a/include/linux/mmc/host.h
-+++ b/include/linux/mmc/host.h
-@@ -398,6 +398,7 @@ struct mmc_host {
- 	unsigned int		retune_now:1;	/* do re-tuning at next req */
- 	unsigned int		retune_paused:1; /* re-tuning is temporarily disabled */
- 	unsigned int		use_blk_mq:1;	/* use blk-mq */
-+	unsigned int		can_dma_map_merge:1; /* merging can be used */
- 
- 	int			rescan_disable;	/* disable card detection */
- 	int			rescan_entered;	/* used with nonremovable devices */
--- 
-2.7.4
+On Wed, 19 Jun 2019 19:18:06, Wolfram Sang wrote:
+
+> Subject: [PATCH] mfd: da9063: occupy second I2C address, too
+>=20
+> Even though we don't use it yet, we should mark the second I2C address
+> this device is listening to as used.
+
+Sure. There is a second method for accessing higher pages of registers.
+The DA9063 Datasheet Revision 2.2, 12-Mar-2019, page 96, says this:
+
+In 2-WIRE operation, the DA9063 offers an alternative method to access regi=
+ster pages 2 and 3.
+These pages can be accessed directly by incrementing the device address by =
+one (default read
+address 0xB3; write address 0xB2). This removes the need to write to the pa=
+ge register before
+access to pages 2 and 3, thus reducing the traffic on the 2-WIRE bus.
+
+Is this a safety clause? What I mean is, shouldn't the hardware design make
+sure there are not two devices located on the same I2C bus with the same sl=
+ave
+address?
+
+Regards,
+Steve
+
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Reviewed-by: Peter Rosin <peda@axentia.se>
+> Reviewed-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> ---
+>  drivers/mfd/da9063-i2c.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/drivers/mfd/da9063-i2c.c b/drivers/mfd/da9063-i2c.c
+> index 455de74c0dd2..2133b09f6e7a 100644
+> --- a/drivers/mfd/da9063-i2c.c
+> +++ b/drivers/mfd/da9063-i2c.c
+> @@ -221,6 +221,8 @@ static int da9063_i2c_probe(struct i2c_client *i2c,
+>  		return ret;
+>  	}
+> =20
+> +	devm_i2c_new_dummy_device(&i2c->dev, i2c->adapter, i2c->addr + 1);
+> +
+>  	return da9063_device_init(da9063, i2c->irq);
+>  }
+> =20
+> --=20
+> 2.20.1
 
