@@ -2,22 +2,22 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D9D1A4C9C3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2019 10:50:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B19EE4C9CB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2019 10:50:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731154AbfFTIuo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Jun 2019 04:50:44 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:21012 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726394AbfFTIuo (ORCPT
+        id S1731213AbfFTIuq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 20 Jun 2019 04:50:46 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:20751 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726175AbfFTIup (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Jun 2019 04:50:44 -0400
+        Thu, 20 Jun 2019 04:50:45 -0400
 X-IronPort-AV: E=Sophos;i="5.62,396,1554735600"; 
-   d="scan'208";a="19173846"
+   d="scan'208";a="18965901"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 20 Jun 2019 17:50:40 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 20 Jun 2019 17:50:40 +0900
 Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 6B600400C45E;
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 9BF9840065AA;
         Thu, 20 Jun 2019 17:50:40 +0900 (JST)
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To:     ulf.hansson@linaro.org, hch@lst.de, m.szyprowski@samsung.com,
@@ -26,9 +26,9 @@ Cc:     wsa+renesas@sang-engineering.com, linux-mmc@vger.kernel.org,
         iommu@lists.linux-foundation.org, linux-block@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [RFC PATCH v7 2/5] iommu/dma: Add a new dma_map_ops of get_merge_boundary()
-Date:   Thu, 20 Jun 2019 17:50:07 +0900
-Message-Id: <1561020610-953-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Subject: [RFC PATCH v7 3/5] block: sort headers on blk-setting.c
+Date:   Thu, 20 Jun 2019 17:50:08 +0900
+Message-Id: <1561020610-953-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1561020610-953-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 References: <1561020610-953-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
@@ -37,43 +37,42 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch adds a new dma_map_ops of get_merge_boundary() to
-expose the DMA merge boundary if the domain type is IOMMU_DOMAIN_DMA.
+This patch sorts the headers in alphabetic order to ease
+the maintenance for this part.
 
 Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 ---
- drivers/iommu/dma-iommu.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ block/blk-settings.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 205d694..9950cb5 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -1091,6 +1091,16 @@ static int iommu_dma_get_sgtable(struct device *dev, struct sg_table *sgt,
- 	return ret;
- }
- 
-+static unsigned long iommu_dma_get_merge_boundary(struct device *dev)
-+{
-+	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-+
-+	if (domain->type != IOMMU_DOMAIN_DMA)
-+		return 0;	/* can't merge */
-+
-+	return (1 << __ffs(domain->pgsize_bitmap)) - 1;
-+}
-+
- static const struct dma_map_ops iommu_dma_ops = {
- 	.alloc			= iommu_dma_alloc,
- 	.free			= iommu_dma_free,
-@@ -1106,6 +1116,7 @@ static const struct dma_map_ops iommu_dma_ops = {
- 	.sync_sg_for_device	= iommu_dma_sync_sg_for_device,
- 	.map_resource		= iommu_dma_map_resource,
- 	.unmap_resource		= iommu_dma_unmap_resource,
-+	.get_merge_boundary	= iommu_dma_get_merge_boundary,
- };
- 
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index 2ae348c..45f2c52 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -2,16 +2,16 @@
  /*
+  * Functions related to setting various queue properties from drivers
+  */
+-#include <linux/kernel.h>
+-#include <linux/module.h>
+-#include <linux/init.h>
+ #include <linux/bio.h>
+ #include <linux/blkdev.h>
+-#include <linux/memblock.h>	/* for max_pfn/max_low_pfn */
+ #include <linux/gcd.h>
+-#include <linux/lcm.h>
+-#include <linux/jiffies.h>
+ #include <linux/gfp.h>
++#include <linux/init.h>
++#include <linux/jiffies.h>
++#include <linux/kernel.h>
++#include <linux/lcm.h>
++#include <linux/memblock.h>     /* for max_pfn/max_low_pfn */
++#include <linux/module.h>
+ 
+ #include "blk.h"
+ #include "blk-wbt.h"
 -- 
 2.7.4
 
