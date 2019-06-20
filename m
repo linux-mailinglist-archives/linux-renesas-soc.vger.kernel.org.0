@@ -2,22 +2,22 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 300D14C9C0
+	by mail.lfdr.de (Postfix) with ESMTP id CD4394C9C2
 	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2019 10:50:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726211AbfFTIun (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Jun 2019 04:50:43 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:21012 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725925AbfFTIum (ORCPT
+        id S1730583AbfFTIuo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 20 Jun 2019 04:50:44 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:20751 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725877AbfFTIun (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Jun 2019 04:50:42 -0400
+        Thu, 20 Jun 2019 04:50:43 -0400
 X-IronPort-AV: E=Sophos;i="5.62,396,1554735600"; 
-   d="scan'208";a="19173841"
+   d="scan'208";a="18965897"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 20 Jun 2019 17:50:40 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 20 Jun 2019 17:50:40 +0900
 Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3B017400C422;
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 536DF40065AA;
         Thu, 20 Jun 2019 17:50:40 +0900 (JST)
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To:     ulf.hansson@linaro.org, hch@lst.de, m.szyprowski@samsung.com,
@@ -26,100 +26,97 @@ Cc:     wsa+renesas@sang-engineering.com, linux-mmc@vger.kernel.org,
         iommu@lists.linux-foundation.org, linux-block@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [RFC PATCH v7 0/5] treewide: improve R-Car SDHI performance
-Date:   Thu, 20 Jun 2019 17:50:05 +0900
-Message-Id: <1561020610-953-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Subject: [RFC PATCH v7 1/5] dma: Introduce dma_get_merge_boundary()
+Date:   Thu, 20 Jun 2019 17:50:06 +0900
+Message-Id: <1561020610-953-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1561020610-953-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+References: <1561020610-953-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch series is based on iommu.git / next branch.
+This patch adds a new DMA API "dma_get_merge_boundary". This function
+returns the DMA merge boundary if the DMA layer can merge the segments.
+This patch also adds the implementation for a new dma_map_ops pointer.
 
-Since SDHI host internal DMAC of the R-Car Gen3 cannot handle two or
-more segments, the performance rate (especially, eMMC HS400 reading)
-is not good. However, if IOMMU is enabled on the DMAC, since IOMMU will
-map multiple scatter gather buffers as one contignous iova, the DMAC can
-handle the iova as well and then the performance rate is possible to
-improve. In fact, I have measured the performance by using bonnie++,
-"Sequential Input - block" rate was improved on r8a7795.
-
-To achieve this, this patch series modifies IOMMU and Block subsystem
-at first. Since I'd like to get any feedback from each subsystem whether
-this way is acceptable for upstream, I submit it to treewide with RFC.
-
-Changes from v6:
- - [1/5 for DMA MAP] A new patch.
- - [2/5 for IOMMU] A new patch.
- - [3/5 for BLOCK] Add Reviewed-by.
- - [4/5 for BLOCK] Use a new DMA MAP API instead of device_iommu_mapped().
- - [5/5 for MMC] Likewise, and some minor fix.
- - Remove patch 4/5 of v6 from this v7 patch series.
-https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=131769
-
-Changes from v5:
- - Almost all patches are new code.
- - [4/5 for MMC] This is a refactor patch so that I don't add any
-   {Tested,Reviewed}-by tags.
- - [5/5 for MMC] Modify MMC subsystem to use bigger segments instead of
-   the renesas_sdhi driver.
- - [5/5 for MMC] Use BLK_MAX_SEGMENTS (128) instead of local value
-   SDHI_MAX_SEGS_IN_IOMMU (512). Even if we use BLK_MAX_SEGMENTS,
-   the performance is still good.
-https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=127511
-
-Changes from v4:
- - [DMA MAPPING] Add a new device_dma_parameters for iova contiguous.
- - [IOMMU] Add a new capable for "merging" segments.
- - [IOMMU] Add a capable ops into the ipmmu-vmsa driver.
- - [MMC] Sort headers in renesas_sdhi_core.c.
- - [MMC] Remove the following codes that made on v3 that can be achieved by
-	 DMA MAPPING and IOMMU subsystem:
- -- Check if R-Car Gen3 IPMMU is used or not on patch 3.
- -- Check if all multiple segment buffers are aligned to PAGE_SIZE on patch 3.
-https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=125593
-
-Changes from v3:
- - Use a helper function device_iommu_mapped on patch 1 and 3.
- - Check if R-Car Gen3 IPMMU is used or not on patch 3.
- - Check if all multiple segment buffers are aligned to PAGE_SIZE on patch 3.
- - Add Reviewed-by Wolfram-san on patch 1 and 2. Note that I also got his
-   Reviewed-by on patch 3, but I changed it from v2. So, I didn't add
-   his Reviewed-by at this time.
-https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=120985
-
-Changes from v2:
- - Add some conditions in the init_card().
- - Add a comment in the init_card().
- - Add definitions for some "MAX_SEGS".
-https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=116729
-
-Changes from v1:
- - Remove adding init_card ops into struct tmio_mmc_dma_ops and
-   tmio_mmc_host and just set init_card on renesas_sdhi_core.c.
- - Revise typos on "mmc: tmio: No memory size limitation if runs on IOMMU".
- - Add Simon-san's Reviewed-by on a tmio patch.
-https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=110485
-
-Yoshihiro Shimoda (5):
-  dma: Introduce dma_get_merge_boundary()
-  iommu/dma: Add a new dma_map_ops of get_merge_boundary()
-  block: sort headers on blk-setting.c
-  block: add a helper function to merge the segments
-  mmc: queue: Use bigger segments if DMA MAP layer can merge the
-    segments
-
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
  Documentation/DMA-API.txt   |  8 ++++++++
- block/blk-settings.c        | 34 ++++++++++++++++++++++++++++------
- drivers/iommu/dma-iommu.c   | 11 +++++++++++
- drivers/mmc/core/queue.c    | 35 ++++++++++++++++++++++++++++++++---
- include/linux/blkdev.h      |  2 ++
  include/linux/dma-mapping.h |  6 ++++++
- include/linux/mmc/host.h    |  1 +
  kernel/dma/mapping.c        | 11 +++++++++++
- 8 files changed, 99 insertions(+), 9 deletions(-)
+ 3 files changed, 25 insertions(+)
 
+diff --git a/Documentation/DMA-API.txt b/Documentation/DMA-API.txt
+index 0076150..11a2647 100644
+--- a/Documentation/DMA-API.txt
++++ b/Documentation/DMA-API.txt
+@@ -204,6 +204,14 @@ Returns the maximum size of a mapping for the device. The size parameter
+ of the mapping functions like dma_map_single(), dma_map_page() and
+ others should not be larger than the returned value.
+ 
++::
++
++	unsigned long
++	dma_get_merge_boundary(struct device *dev);
++
++Returns the DMA merge boundary. If the device cannot merge any the DMA address
++segments, the function returns 0.
++
+ Part Id - Streaming DMA mappings
+ --------------------------------
+ 
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index 6309a72..e81e076 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -131,6 +131,7 @@ struct dma_map_ops {
+ 	int (*dma_supported)(struct device *dev, u64 mask);
+ 	u64 (*get_required_mask)(struct device *dev);
+ 	size_t (*max_mapping_size)(struct device *dev);
++	unsigned long (*get_merge_boundary)(struct device *dev);
+ };
+ 
+ #define DMA_MAPPING_ERROR		(~(dma_addr_t)0)
+@@ -467,6 +468,7 @@ int dma_set_mask(struct device *dev, u64 mask);
+ int dma_set_coherent_mask(struct device *dev, u64 mask);
+ u64 dma_get_required_mask(struct device *dev);
+ size_t dma_max_mapping_size(struct device *dev);
++unsigned long dma_get_merge_boundary(struct device *dev);
+ #else /* CONFIG_HAS_DMA */
+ static inline dma_addr_t dma_map_page_attrs(struct device *dev,
+ 		struct page *page, size_t offset, size_t size,
+@@ -572,6 +574,10 @@ static inline size_t dma_max_mapping_size(struct device *dev)
+ {
+ 	return 0;
+ }
++static inline unsigned long dma_get_merge_boundary(struct device *dev)
++{
++	return 0;
++}
+ #endif /* CONFIG_HAS_DMA */
+ 
+ static inline dma_addr_t dma_map_single_attrs(struct device *dev, void *ptr,
+diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+index f7afdad..8e262cf 100644
+--- a/kernel/dma/mapping.c
++++ b/kernel/dma/mapping.c
+@@ -367,3 +367,14 @@ size_t dma_max_mapping_size(struct device *dev)
+ 	return size;
+ }
+ EXPORT_SYMBOL_GPL(dma_max_mapping_size);
++
++unsigned long dma_get_merge_boundary(struct device *dev)
++{
++	const struct dma_map_ops *ops = get_dma_ops(dev);
++
++	if (!ops || !ops->get_merge_boundary)
++		return 0;	/* can't merge */
++
++	return ops->get_merge_boundary(dev);
++}
++EXPORT_SYMBOL_GPL(dma_get_merge_boundary);
 -- 
 2.7.4
 
