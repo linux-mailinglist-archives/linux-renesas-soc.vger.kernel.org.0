@@ -2,78 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BD1FB4CA9C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2019 11:21:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 597994CA46
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2019 11:08:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726082AbfFTJVT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Jun 2019 05:21:19 -0400
-Received: from sauhun.de ([88.99.104.3]:39804 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725875AbfFTJVS (ORCPT
+        id S1726084AbfFTJIN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 20 Jun 2019 05:08:13 -0400
+Received: from twhmllg3.macronix.com ([211.75.127.131]:25028 "EHLO
+        TWHMLLG3.macronix.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725875AbfFTJIN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Jun 2019 05:21:18 -0400
-Received: from localhost (p5486CFDE.dip0.t-ipconnect.de [84.134.207.222])
-        by pokefinder.org (Postfix) with ESMTPSA id 92CB92C376D;
-        Thu, 20 Jun 2019 11:21:16 +0200 (CEST)
-Date:   Thu, 20 Jun 2019 11:21:16 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Steve Twiss <stwiss.opensource@diasemi.com>
-Cc:     "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
-        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
-        "kieran.bingham+renesas@ideasonboard.com" 
-        <kieran.bingham+renesas@ideasonboard.com>,
-        "lee.jones@linaro.org" <lee.jones@linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "peda@axentia.se" <peda@axentia.se>,
-        Support Opensource <Support.Opensource@diasemi.com>
-Subject: Re: [PATCH] mfd: da9063: occupy second I2C address, too
-Message-ID: <20190620092116.y7aqun6jjjn4mgow@katana>
-References: <AM6PR10MB218184C8F2206024C6CB77EAFEE40@AM6PR10MB2181.EURPRD10.PROD.OUTLOOK.COM>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="kqzhjyotn5nd6yyg"
-Content-Disposition: inline
-In-Reply-To: <AM6PR10MB218184C8F2206024C6CB77EAFEE40@AM6PR10MB2181.EURPRD10.PROD.OUTLOOK.COM>
-User-Agent: NeoMutt/20170113 (1.7.2)
+        Thu, 20 Jun 2019 05:08:13 -0400
+Received: from localhost.localdomain ([172.17.195.96])
+        by TWHMLLG3.macronix.com with ESMTP id x5K985xD044197;
+        Thu, 20 Jun 2019 17:08:05 +0800 (GMT-8)
+        (envelope-from masonccyang@mxic.com.tw)
+From:   Mason Yang <masonccyang@mxic.com.tw>
+To:     broonie@kernel.org, marek.vasut@gmail.com,
+        linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+        bbrezillon@kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        lee.jones@linaro.org, sergei.shtylyov@cogentembedded.com,
+        robh+dt@kernel.org, mark.rutland@arm.com,
+        devicetree@vger.kernel.org
+Cc:     juliensu@mxic.com.tw, Simon Horman <horms@verge.net.au>,
+        Mason Yang <masonccyang@mxic.com.tw>, miquel.raynal@bootlin.com
+Subject: [PATCH v14 0/2] spi: Add Renesas R-Car Gen3 RPC-IF SPI driver
+Date:   Thu, 20 Jun 2019 17:30:44 +0800
+Message-Id: <1561023046-20886-1-git-send-email-masonccyang@mxic.com.tw>
+X-Mailer: git-send-email 1.9.1
+X-MAIL: TWHMLLG3.macronix.com x5K985xD044197
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Mark,
 
---kqzhjyotn5nd6yyg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+V14 patch including:
+1) Patch RPC-IF back to SPI mode only instead of MFD & SPI 
+   by MFD maintainer, Lee Jones comments.
+2) Patch pm_runtime control in spi transfer.
+
+v13 patch including:
+1) rename mfd to ddata for SPI driver.
+2) Patch RPC-IF devicetree for SPI and HyperFlash.
+
+v12 patch including:
+1) add back "wbuf" in dts example.
+2) RPC-IF replace rpc-if in dts.
+
+v11 patch including:
+1) Patch mfd include header file.
+2) mfd coding style.
+3) add back wbuf description in dts.
+
+v10 patch including:
+1) Address range for > 64M byte flash.
+2) Removed dirmap_write due to WBUF 256 bytes transfer issue.
+3) Dummy bytes setting according to spi-nor.c layer.
+
+v9 patch is for RPC MFD driver and RPC SPI driver.
+
+v8 patch including:
+1) Supported SoC-specific values in DTS.
+2) Rename device node name as flash.
+
+v7 patch is according to Geert and Sergei's comments:
+1) Add all R-Car Gen3 model in dts.
+2) patch rpc-if child node search.
+3) minror coding style.
+
+v6 patch is accroding to Geert, Marek and Sergei's comments:
+1) spi_controller for new code.
+2) "renesas,rcar-gen3-rpc" instead of "renesas,r8a77995-rpc."
+3) patch external address read mode w/o u64 readq().
+4) patch dts for write buffer & drop "renesas,rpc-mode".
+5) coding style and so on.
+
+v5 patch is accroding to Sergei's comments:
+1) Read 6 bytes ID from Sergei's patch.
+2) regmap_update_bits().
+3) C++ style comment.
+
+v4 patch is according to Sergei's comments including:
+1) Drop soc_device_match().
+2) Drop unused RPC registers.
+3) Use ilog2() instead of fls().
+4) Patch read 6 bytes ID w/ one command.
+5) Coding style and so on.
+
+v3 patch is according to Marek and Geert's comments including:
+1) soc_device_mach() to set up RPC_PHYCNT_STRTIM.
+2) get_unaligned().
+3) rpc-mode for rpi-spi-flash or rpc-hyperflash.
+4) coding style and so on.
+
+v2 patch including:
+1) remove RPC clock enable/dis-able control,
+2) patch run time PM.
+3) add RPC module software reset,
+4) add regmap.
+5) other coding style and so on.
+
+thanks for your review.
+
+best regards,
+Mason
 
 
-> Is this a safety clause? What I mean is, shouldn't the hardware design make
-> sure there are not two devices located on the same I2C bus with the same slave
-> address?
+Mason Yang (2):
+  spi: Add Renesas R-Car Gen3 RPC-IF SPI controller driver
+  dt-bindings: spi: Document Renesas R-Car Gen3 RPC-IF controller
+    bindings
 
-It is more about preventing userspace to accidently access this address,
-and thus the registers behind it.
+ .../devicetree/bindings/spi/spi-renesas-rpc.txt    |  43 ++
+ drivers/spi/Kconfig                                |   6 +
+ drivers/spi/Makefile                               |   1 +
+ drivers/spi/spi-renesas-rpc.c                      | 760 +++++++++++++++++++++
+ 4 files changed, 810 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/spi/spi-renesas-rpc.txt
+ create mode 100644 drivers/spi/spi-renesas-rpc.c
 
+-- 
+1.9.1
 
---kqzhjyotn5nd6yyg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl0LUAcACgkQFA3kzBSg
-KbaCzA//bSm54R7HOZhp0THghBZ7DsE1wkpsGGfyCaIROm2ZmqG1STPmpRhj9+cH
-gZyDJkOJKIE8LQvfsVWnAknbpE942cnbczOIzGFKRS0lQlP3uUe/maQez+PowuUM
-0GQoofwDyF24w+jQX2a0QB0SwPmU+Yr1IIJb7fMvisiKo0YQ774sYSD3b+WBH5Vm
-+3bU+9a1i5onSsCqu5zZ8fzJRQYr1WUFkOxRf+uzeBrltDwWvfxUrVJ7u6GF2uHs
-1f/ilqDdw+ngQeGLV1kF9ppHwVIFxV8vMwoGR+B3vbufPXcQgfB4Cknshb1baU/K
-k/2zUP6Q2gnbrWCapEQrGvh4adtqP6JGoPHV9UAj9ZH72qePER/DOJsQW9ZjN3m7
-RRZb7gUoMZOhwr4CyBT4uZH4tf/CUvt08AIY9SjEX+SNRf742OZgUD1dJR5ajc29
-q+yqG+9yruLb1Xsahe+k5Zz/0D4UEWZJ1wmIQVK+7Knue2sr2HZ1XTDS8EQOAUPh
-rrIkkNXU+r23ZubT2FeSruG93BeN2MR+COQM0XanxemGiNmx2g1eQMa6wtnPbRXn
-7qg4Den2vMQOkxk6mC0YTg8kRu6AgW+Koie/F8/IZbfmgOpIBLuV8AJAPWnNHIAM
-RuAsOHKk8ip13B2p36wa8O2igBlTaK9d6lKwLl1AnF60y1IjOlM=
-=cDU8
------END PGP SIGNATURE-----
-
---kqzhjyotn5nd6yyg--
