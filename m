@@ -2,56 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D4B64CDBA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2019 14:28:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 699004CDE9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Jun 2019 14:44:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731758AbfFTM26 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Jun 2019 08:28:58 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:36038 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731751AbfFTM26 (ORCPT
+        id S1726958AbfFTMo5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 20 Jun 2019 08:44:57 -0400
+Received: from mail1.bemta25.messagelabs.com ([195.245.230.129]:13412 "EHLO
+        mail1.bemta25.messagelabs.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726874AbfFTMo5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Jun 2019 08:28:58 -0400
-Received: by mail-wm1-f66.google.com with SMTP id u8so2984546wmm.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 20 Jun 2019 05:28:56 -0700 (PDT)
+        Thu, 20 Jun 2019 08:44:57 -0400
+Received: from [46.226.53.56] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+        by server-1.bemta.az-c.eu-west-1.aws.symcld.net id CD/B3-17220-5CF7B0D5; Thu, 20 Jun 2019 12:44:53 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrIJsWRWlGSWpSXmKPExsWSoc9jqXuknjv
+  W4PZ5M4svc0+xWHy61s1ocf/rUUaLy7vmsFlsffmOyWLvofmMFn3n3B3YPaYdmM3u8f5GK7vH
+  7I6ZrB53ru1h83i2cD2Lx+dNcgFsUayZeUn5FQmsGS/aDjAXTGWt2LzzMEsDYw9rFyMXB4vAC
+  WaJOdPns4A4QgKTmCSevHzMDuHcZ5TYPeMdUxcjJwebgKHEvDfvGUFsEYEciVk3L4N1MAt8Z5
+  JoXHYDyOHgEBZwkOieWA5R4yixoOcGE4RtJPH47Fc2EJtFQFVi9YKJ7CA2r0CsxOrG/2A1QgL
+  VEj/PTWAGGcMpoClxY3s0SJhRQFbiS+NqZhCbWUBc4taT+WDlEgICEkv2nGeGsEUlXj7+xwpR
+  Hy/Rvv8tO0RcR+Ls9SeMELaSxLIbs1ghbFmJS/O7oeK+Eh9n9zKCvCIhcItRoqPvFhPIDRICW
+  hLvJuVD1AC9+7ULaqaaxPnG62wQtozE1cl7WSF6l7BJfFz5iRHil2SJD3PPQjXISazqfcgCUX
+  SBWaKt+xgjyAJmoCfX79KfwKg1C8lvsxAyEGFFiSndD9lngUNLUOLkzCcsCxhZVjFaJBVlpme
+  U5CZm5ugaGhjoGhoa6RoZGOkampnpJVbpJuulluqWpxaX6BrqJZYX6xVX5ibnpOjlpZZsYgSm
+  sJSCU8t2MD478lrvEKMkB5OSKO8Bfe5YIb6k/JTKjMTijPii0pzU4kOMMhwcShK8N+uAcoJFq
+  empFWmZOcB0CpOW4OBREuH1BknzFhck5hZnpkOkTjFackx4OXcRM8fN90uA5JG5SxcxC7Hk5e
+  elSonzXq4FahAAacgozYMbB0v5lxhlpYR5GRkYGIR4ClKLcjNLUOVfMYpzMCoJ8x4GmcKTmVc
+  Ct/UV0EFMQActmM0FclBJIkJKqoFJYu3cB7/CM1aIpL7rmy9yJKrHPn6bSfRqZsePa5w2iD8/
+  FehcH77RMuOF8JFDhy5sqVhVd1zin3DN2fmK7Dw3GlalBPHGTNkrw3U8l1tD591uhS17XM7Er
+  v27VoHH+/IVy4d9s2YENzzodxI7Lhdv9zbO9sLOQ2Jfmxxu325/mduufmytil7ghPLO8wWRN9
+  cnh994qf1tddm3FeLJs5xC9t3ao3zw7Kf5UYET/2QfDJOzn9Yl9FSyPf3Ry9rYuZFXA5iM/fT
+  XttqGzGlYzPl7z4tj8x4bZ8+7tVd9lXzdfE9PF3fTRQ0bNFyqxYue6PZbxRu7nnYr+coVW21s
+  ve7itj9n3/X87giqL3r8g6NeiaU4I9FQi7moOBEAbMLaP3QEAAA=
+X-Env-Sender: stwiss.opensource@diasemi.com
+X-Msg-Ref: server-16.tower-308.messagelabs.com!1561034692!10953607!1
+X-Originating-IP: [104.47.12.57]
+X-SYMC-ESS-Client-Auth: mailfrom-relay-check=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.31.5; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 13967 invoked from network); 20 Jun 2019 12:44:52 -0000
+Received: from mail-db3eur04lp2057.outbound.protection.outlook.com (HELO EUR04-DB3-obe.outbound.protection.outlook.com) (104.47.12.57)
+  by server-16.tower-308.messagelabs.com with AES256-GCM-SHA384 encrypted SMTP; 20 Jun 2019 12:44:52 -0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=f8A38WuFGwuhUpIag07Mu5Ad2tlvuMwviR3nNUO1eYc=;
-        b=UD2HEJxIaZYFN31LZj5+kRb827BBEknCjoff00qcVtmDfXoih9RTdVVDk2A28tEDPX
-         uL6DgkzoiFr3IYYvQC8PM9dHOcHFGPmvGskBatlKBBrH3GdhYx2yK/XrxWquZyEPX2pe
-         EDSAie7w6zSMZNMsOcYDoAVp9RJMTqsBiLewKrSNJxOaa+nWK94OSBwCp2TGLE/vsCAX
-         fm1VxysEEzZEgpdoMU5KBnMSWeIXrrnuzkdtuFrdOBCgI7BcDHtllqpVV1N8euujUxvN
-         UcEVotm6+4sGk69SiCgC8WQ1DZsZdYkp3nMHU/LcuIVPG64NnsKeja6vsHDzIhxjEC4C
-         6ngg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=f8A38WuFGwuhUpIag07Mu5Ad2tlvuMwviR3nNUO1eYc=;
-        b=GI5BzJ6uLo8RR4XyXcXkLCkq8KIc4I9W0MI5S3nNqr6ZJN6ryOM3MNxNXtBudCiJqJ
-         FpgpnRpiQB1jyffxGmHWJrjZJp0Eo+heiRVORM2pUJ9Ql76DNhV0qeV9HXzEFpsjK/nR
-         pC3l0Vxzug85Q1BytiKQEWVwE5PFHTLuYD7VyVJqhn3llb/qXrQilg2R8KbrzgSaIlFm
-         3KkfsYNXBTT8tBWXE9/zjZXILvchyI7C2RUCorG9TwYHo1T25kMXaf4hXLNWxbSfFid/
-         sgnpsNMCTk5UjbXRPtmbqP4KOjE2He2RrZf95/nELz3jJ1r5G09NVTGPVkqZ264QJY1n
-         sQwg==
-X-Gm-Message-State: APjAAAXnLhmahkC4dtC4cLFPXsl/KuyeBp/1kNr+JdFto10I0N1+U9nu
-        xSvpWD/3KT4sP9Mrrhb+Vsagfw==
-X-Google-Smtp-Source: APXvYqwdnD8aCGlhiKsRg0lBY/4mAWljDCZ/gIODZhpJgrKYLXJdy2inAGcX+Y9xJvhsdnpUve6dwQ==
-X-Received: by 2002:a1c:7008:: with SMTP id l8mr2602367wmc.64.1561033736096;
-        Thu, 20 Jun 2019 05:28:56 -0700 (PDT)
-Received: from dell ([2.27.35.243])
-        by smtp.gmail.com with ESMTPSA id k82sm5613177wma.15.2019.06.20.05.28.55
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 20 Jun 2019 05:28:55 -0700 (PDT)
-Date:   Thu, 20 Jun 2019 13:28:53 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Steve Twiss <stwiss.opensource@diasemi.com>
-Cc:     "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
-        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+ d=dialogsemiconductor.onmicrosoft.com;
+ s=selector2-dialogsemiconductor-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=I39A39H4OJIctuM7Erp9RN0D2ye45w30lyIqVG+wUI0=;
+ b=D++Q8bNI8k3QLk3+VCiUMC36ZVq5KbN6XXZzuQPlhwVNFQsid8VzCT9W2gCjs3cADkHftZk8g2bN+o3K4DHHM29Fy5fU7KXoQpVwB6QBAujiqa+38TYpo9X2shLXiMbo99pC/oM2i7dSyV7Rd1xxr6LHH3n8egJOArKuPT256pc=
+Received: from AM6PR10MB2181.EURPRD10.PROD.OUTLOOK.COM (20.177.113.222) by
+ AM6PR10MB2918.EURPRD10.PROD.OUTLOOK.COM (10.255.121.138) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2008.13; Thu, 20 Jun 2019 12:44:50 +0000
+Received: from AM6PR10MB2181.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::4561:9d63:48fa:a882]) by AM6PR10MB2181.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::4561:9d63:48fa:a882%7]) with mapi id 15.20.1987.014; Thu, 20 Jun 2019
+ 12:44:50 +0000
+From:   Steve Twiss <stwiss.opensource@diasemi.com>
+To:     Lee Jones <lee.jones@linaro.org>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>
+CC:     "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
         "kieran.bingham+renesas@ideasonboard.com" 
         <kieran.bingham+renesas@ideasonboard.com>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
@@ -59,74 +68,55 @@ Cc:     "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
         <linux-renesas-soc@vger.kernel.org>,
         "peda@axentia.se" <peda@axentia.se>,
         Support Opensource <Support.Opensource@diasemi.com>
-Subject: Re: [PATCH] mfd: da9063: occupy second I2C address, too
-Message-ID: <20190620122853.GD4699@dell>
+Subject: RE: [PATCH] mfd: da9063: occupy second I2C address, too
+Thread-Topic: [PATCH] mfd: da9063: occupy second I2C address, too
+Thread-Index: AQHVJ2O+9kLXmLUZBE2ZJJdgV3Mbg6akeZzA
+Date:   Thu, 20 Jun 2019 12:44:50 +0000
+Message-ID: <AM6PR10MB2181D2A08D98FB9F8092EC8DFEE40@AM6PR10MB2181.EURPRD10.PROD.OUTLOOK.COM>
 References: <AM6PR10MB218184C8F2206024C6CB77EAFEE40@AM6PR10MB2181.EURPRD10.PROD.OUTLOOK.COM>
+ <20190620122853.GD4699@dell>
+In-Reply-To: <20190620122853.GD4699@dell>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [193.240.73.196]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 232576c4-89bd-465e-fc73-08d6f57d15bf
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:AM6PR10MB2918;
+x-ms-traffictypediagnostic: AM6PR10MB2918:
+x-microsoft-antispam-prvs: <AM6PR10MB2918A42ECA20857F9EA33DA7F5E40@AM6PR10MB2918.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:5516;
+x-forefront-prvs: 0074BBE012
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(396003)(346002)(366004)(136003)(376002)(39860400002)(199004)(189003)(66946007)(25786009)(81166006)(81156014)(107886003)(14444005)(6246003)(4326008)(5024004)(3846002)(14454004)(45080400002)(256004)(11346002)(229853002)(476003)(33656002)(74316002)(446003)(7736002)(6116002)(478600001)(305945005)(8676002)(55016002)(2906002)(6436002)(486006)(53936002)(9686003)(5660300002)(76116006)(86362001)(68736007)(66446008)(6506007)(66556008)(8936002)(66476007)(64756008)(54906003)(102836004)(76176011)(7696005)(66066001)(53546011)(99286004)(52536014)(4744005)(316002)(110136005)(186003)(71190400001)(71200400001)(73956011)(26005);DIR:OUT;SFP:1101;SCL:1;SRVR:AM6PR10MB2918;H:AM6PR10MB2181.EURPRD10.PROD.OUTLOOK.COM;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
+received-spf: None (protection.outlook.com: diasemi.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: SCgiyz4MAOtYZeHk2BKn4gdUMi78tEfjgo11fsTQRit1rxzyh83ExxFXz+R7/xyZgaS16ep8KVq3wNK/yOoZ0IzfxIu4uKvqLuogeWGnG0ElXT2uzIy1uT4mW+O8V+lTNhPB6qiIACQJ7vrdqTP6ukf77gVEdBzNAPgf8xPHR0GHlQmH010R7tx4zRPz6X4Du24cnO0ByXX2stTdMZzrJCbhQUE6j+6pcGU3Ma+ZHRXfuHpU4aX2P8rMDqDr+H2ERAJpmfJhplQlX5VsqaFZZC3yev+gC2/UTu3D+OgLS+XO/FwDzuapkFZwRQF9cO6fNTgJUo0PFAx8CpC2rzql0I0lxCF7Pof9laTt2boGfJI1r5B834OUvIWnf0KPIdN3du6TGEBKu5v8FuFlJCqv/YAQFEoEIlb9lbsL8w0T+UQ=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <AM6PR10MB218184C8F2206024C6CB77EAFEE40@AM6PR10MB2181.EURPRD10.PROD.OUTLOOK.COM>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-OriginatorOrg: diasemi.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 232576c4-89bd-465e-fc73-08d6f57d15bf
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jun 2019 12:44:50.3075
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 511e3c0e-ee96-486e-a2ec-e272ffa37b7c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: stephen.twiss@diasemi.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR10MB2918
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 20 Jun 2019, Steve Twiss wrote:
-
-> (resend because the e-mail client added HTML formatting to my last reply)
-> 
-> Hi Wolfram,
-> 
-> On Wed, 19 Jun 2019 19:18:06, Wolfram Sang wrote:
-> 
-> > Subject: [PATCH] mfd: da9063: occupy second I2C address, too
-> > 
-> > Even though we don't use it yet, we should mark the second I2C address
-> > this device is listening to as used.
-> 
-> Sure. There is a second method for accessing higher pages of registers.
-> The DA9063 Datasheet Revision 2.2, 12-Mar-2019, page 96, says this:
-> 
-> In 2-WIRE operation, the DA9063 offers an alternative method to access register pages 2 and 3.
-> These pages can be accessed directly by incrementing the device address by one (default read
-> address 0xB3; write address 0xB2). This removes the need to write to the page register before
-> access to pages 2 and 3, thus reducing the traffic on the 2-WIRE bus.
-> 
-> Is this a safety clause? What I mean is, shouldn't the hardware design make
-> sure there are not two devices located on the same I2C bus with the same slave
-> address?
-
-Why isn't this reply attached (threaded) to the patch.
-
-Is your mailer broken?
-
-> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > Reviewed-by: Peter Rosin <peda@axentia.se>
-> > Reviewed-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > ---
-> >  drivers/mfd/da9063-i2c.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/mfd/da9063-i2c.c b/drivers/mfd/da9063-i2c.c
-> > index 455de74c0dd2..2133b09f6e7a 100644
-> > --- a/drivers/mfd/da9063-i2c.c
-> > +++ b/drivers/mfd/da9063-i2c.c
-> > @@ -221,6 +221,8 @@ static int da9063_i2c_probe(struct i2c_client *i2c,
-> >  		return ret;
-> >  	}
-> >  
-> > +	devm_i2c_new_dummy_device(&i2c->dev, i2c->adapter, i2c->addr + 1);
-> > +
-> >  	return da9063_device_init(da9063, i2c->irq);
-> >  }
-> >  
-> 
-
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+T24gMjAgSnVuZSAyMDE5IDEzOjI5LCBMZWUgSm9uZXMgd3JvdGU6DQoNCj4gU3ViamVjdDogUmU6
+IFtQQVRDSF0gbWZkOiBkYTkwNjM6IG9jY3VweSBzZWNvbmQgSTJDIGFkZHJlc3MsIHRvbw0KPiAN
+Cj4gV2h5IGlzbid0IHRoaXMgcmVwbHkgYXR0YWNoZWQgKHRocmVhZGVkKSB0byB0aGUgcGF0Y2gu
+DQoNCk15IGFwb2xvZ2llcy4gSXQgd2Fzbid0IG15IGludGVudGlvbiB0byBzcGxpdCBXb2xmcmFt
+J3Mgb3JpZ2luYWwgZS1tYWlsIHRocmVhZC4NCg0KSSBkb24ndCB1c3VhbGx5IHJlcGx5IHVzaW5n
+IHRoZSBtYWlsdG86IGxpbmsgZnJvbSBsb3JlIHdoZW4gY3JlYXRpbmcgZS1tYWlscy4NCk91dGxv
+b2sgbXVzdG4ndCBzdXBwb3J0IHRoZSBJbi1SZXBseS1UbyBoZWFkZXIuDQoNCkknbGwgZmlndXJl
+IG91dCBhIGRpZmZlcmVudCB3YXkgdG8gcmVwbHkgaW4gZnV0dXJlLg0KDQo+IElzIHlvdXIgbWFp
+bGVyIGJyb2tlbj8NCg0KSXQncyBXaW5kb3dzDQoNCg==
