@@ -2,116 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 93B4E4E66F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2019 12:50:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E84CD4E8AE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2019 15:13:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726321AbfFUKu2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Jun 2019 06:50:28 -0400
-Received: from sauhun.de ([88.99.104.3]:51884 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726229AbfFUKu2 (ORCPT
+        id S1726250AbfFUNN6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Jun 2019 09:13:58 -0400
+Received: from baptiste.telenet-ops.be ([195.130.132.51]:41462 "EHLO
+        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726571AbfFUNN6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Jun 2019 06:50:28 -0400
-Received: from localhost (p5486CF54.dip0.t-ipconnect.de [84.134.207.84])
-        by pokefinder.org (Postfix) with ESMTPSA id 368C72C077A;
-        Fri, 21 Jun 2019 12:50:26 +0200 (CEST)
-Date:   Fri, 21 Jun 2019 12:50:25 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>
-Cc:     linux-mmc <linux-mmc@vger.kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Rabin Vincent <rabin.vincent@axis.com>,
-        Guennadi Liakhovetski <g.liakhovetski@gmx.de>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Subject: Re: [PATCH] mmc: remove another TMIO MMC variant usdhi6rol0.c
-Message-ID: <20190621105025.GA2987@kunai>
-References: <20190621060511.29609-1-yamada.masahiro@socionext.com>
- <CAK7LNASGVbkGgu7psy4DfCxmr-AxSQ3fmGJ=aDAiuSkJ5hrDwA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Q68bSM7Ycu6FN28Q"
-Content-Disposition: inline
-In-Reply-To: <CAK7LNASGVbkGgu7psy4DfCxmr-AxSQ3fmGJ=aDAiuSkJ5hrDwA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Fri, 21 Jun 2019 09:13:58 -0400
+Received: from ramsan ([84.194.111.163])
+        by baptiste.telenet-ops.be with bizsmtp
+        id TRDv2000W3XaVaC01RDvCY; Fri, 21 Jun 2019 15:13:56 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1heJMZ-00040d-Ig; Fri, 21 Jun 2019 15:13:55 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1heHiT-0000p0-VR; Fri, 21 Jun 2019 13:28:25 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [git pull] clk: renesas: Updates for v5.3 (take two)
+Date:   Fri, 21 Jun 2019 13:28:21 +0200
+Message-Id: <20190621112821.3104-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+	Hi Mike, Stephen,
 
---Q68bSM7Ycu6FN28Q
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit aad03a66f902e18bab612870261bde647fdbda2c:
 
-Hi,
+  clk: renesas: r9a06g032: Add clock domain support (2019-06-04 11:51:00 +0200)
 
-On Fri, Jun 21, 2019 at 03:16:11PM +0900, Masahiro Yamada wrote:
-> (Added Lars Persson, Guennadi Liakhovetski)
->=20
-> On Fri, Jun 21, 2019 at 3:06 PM Masahiro Yamada
-> <yamada.masahiro@socionext.com> wrote:
->=20
-> This needs Ack from Renesas.
-> But, I do not know if TMIO folks are sure about this driver, though.
-> (If they had been sure about it, they should not have duplicated the driv=
-er
-> in the first place.)
+are available in the Git repository at:
 
-=2E.. and from the original mail:
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/clk-renesas-for-v5.3-tag2
 
-> Delete this driver now. Please re-implement it based on tmio_mmc_core.c
-> if needed.
+for you to fetch changes up to ec2b827be39624bab743730385bc170d29472965:
 
-I was never happy with this driver existing, yet I never knew which HW
-platform needed this, so I didn't touch it. But I'd like to see it go in
-favor of merging with the TMIO code base.
+  clk: renesas: cpg-mssr: Use [] to denote a flexible array member (2019-06-20 11:37:16 +0200)
 
->=20
-> Perhaps, some code snippets in this driver might be useful for cleaning
-> tmio_mmc. It will stay in git history forever, and you can dig for it
-> whenever you need it.
->=20
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+----------------------------------------------------------------
+clk: renesas: Updates for v5.3 (take two)
 
-I double checked there is no user in the current tree. I also searched
-the web and did not find any out-of-tree user or even a reference of it.
+  - Add CMM (Color Management Module) clocks on R-Car H3, M3-N, E3, and
+    D3,
+  - Add TPU (Timer Pulse Unit / PWM) clocks on RZ/G2M,
+  - Small cleanups and fixes.
 
-So, for now:
+Thanks for pulling!
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+----------------------------------------------------------------
+Fabrizio Castro (1):
+      clk: renesas: r8a774a1: Add TMU clock
 
-But this seriously needs an Ack from Shimoda-san or Morimoto-san. And
-maybe Guennadi has remarks, too?
+Geert Uytterhoeven (5):
+      clk: renesas: cpg-mssr: Update kerneldoc for struct cpg_mssr_priv
+      clk: renesas: div6: Combine clock-private and parent array allocation
+      clk: renesas: mstp: Combine group-private and clock array allocation
+      clk: renesas: cpg-mssr: Combine driver-private and clock array allocation
+      clk: renesas: cpg-mssr: Use [] to denote a flexible array member
 
-Thanks,
+Jacopo Mondi (4):
+      clk: renesas: r8a7795: Add CMM clocks
+      clk: renesas: r8a77965: Add CMM clocks
+      clk: renesas: r8a77990: Add CMM clocks
+      clk: renesas: r8a77995: Add CMM clocks
 
-   Wolfram
+ drivers/clk/renesas/clk-div6.c          | 19 +++++--------------
+ drivers/clk/renesas/clk-mstp.c          | 12 ++++++------
+ drivers/clk/renesas/r8a774a1-cpg-mssr.c |  5 +++++
+ drivers/clk/renesas/r8a7795-cpg-mssr.c  |  4 ++++
+ drivers/clk/renesas/r8a77965-cpg-mssr.c |  3 +++
+ drivers/clk/renesas/r8a77990-cpg-mssr.c |  2 ++
+ drivers/clk/renesas/r8a77995-cpg-mssr.c |  2 ++
+ drivers/clk/renesas/renesas-cpg-mssr.c  | 25 +++++++++----------------
+ 8 files changed, 36 insertions(+), 36 deletions(-)
 
+Gr{oetje,eeting}s,
 
---Q68bSM7Ycu6FN28Q
-Content-Type: application/pgp-signature; name="signature.asc"
+						Geert
 
------BEGIN PGP SIGNATURE-----
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl0Mtm0ACgkQFA3kzBSg
-KbbYNw//U2nOKt1qTxm7Lxvm3Ii9b1Qhqs/pvoKWphHfPaQw+dgf5vXSZlMkE6QR
-hG3it64ADcyRC+zdjUf+XUgF9GLHHTSZgGtECW4CYQSGjCEQ2Qfc+8WXr5AHCY8h
-NIK7wRhy6MVn0pkLUL0iFQqAYR1a8aFIPim3omAyEjDN2fj0abHuImzoTHtxTgQ3
-kklk1LlsCDS0yDOjkljhxHySzIOY2YkzRCTaOvYYVuyn30G0/uUXL9uuafF1jYPY
-lCPj+88A6px1qXROIJmYTzYpFxdHDmTWBfMtenRHGTM79vXf3nswy8Mxt5PDom04
-C872tCkhTo859e9IwcI24SYr576YZsSU0sw3GY23AJotsg58ifXVrzDjzEZewfNU
-s9MPvBXPhmjlMCEbwOkfEOGtwsDgcXOJdxjKPVF+bMYDbE4XGLxV375axcmf13Vw
-cj0OYvNBpHf9fcejEbYRnYHzAfc1Y4QMLF5NHccF2V1AAAVpl5hADEs+ypcjPBfe
-HChlxkw0rwz8e+ZdEr4FjcpXoIaVHIXYPAcyMn2u/XiADa8XUHmRJxvf0Rz6A30r
-h4ox4TRJrKQy69gPJMxNx4FGyZJjlPlMfa6khtYAhPoiEzruUttVdryTMIRwOD8l
-j/MmsFwAsK06IpUOqosDwNXoUpU/DHXtmk/i/xOo4+9euVaLMrk=
-=gcmd
------END PGP SIGNATURE-----
-
---Q68bSM7Ycu6FN28Q--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
