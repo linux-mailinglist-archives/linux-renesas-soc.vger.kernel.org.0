@@ -2,30 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F1CF4E328
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2019 11:17:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E28984E30F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2019 11:16:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726431AbfFUJR0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Jun 2019 05:17:26 -0400
+        id S1726523AbfFUJQ6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Jun 2019 05:16:58 -0400
 Received: from kirsty.vergenet.net ([202.4.237.240]:34780 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726210AbfFUJR0 (ORCPT
+        with ESMTP id S1726210AbfFUJQ6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Jun 2019 05:17:26 -0400
+        Fri, 21 Jun 2019 05:16:58 -0400
 Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 1856925BE99;
-        Fri, 21 Jun 2019 19:16:39 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 9102825BE5D;
+        Fri, 21 Jun 2019 19:16:37 +1000 (AEST)
 Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id 9BBD1942DF5; Fri, 21 Jun 2019 11:16:33 +0200 (CEST)
+        id A81E9942DE9; Fri, 21 Jun 2019 11:16:33 +0200 (CEST)
 From:   Simon Horman <horms+renesas@verge.net.au>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     linux-arm-kernel@lists.infradead.org,
         Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Dien Pham <dien.pham.ry@renesas.com>,
+        Keita Kobayashi <keita.kobayashi.ym@renesas.com>,
+        Gaku Inami <gaku.inami.xw@bp.renesas.com>,
+        Hien Dang <hien.dang.eb@rvc.renesas.com>,
+        An Huynh <an.huynh.uj@rvc.renesas.com>,
+        Takeshi Kihara <takeshi.kihara.df@renesas.com>,
+        Yoshihiro Kaneko <ykaneko0929@gmail.com>,
         Simon Horman <horms+renesas@verge.net.au>
-Subject: [PATCH 19/53] arm64: dts: renesas: Revise usb2_phy nodes and phys properties
-Date:   Fri, 21 Jun 2019 11:15:57 +0200
-Message-Id: <7794bd7ed709abe042fed6e0a09712d8cd55b589.1561107232.git.horms+renesas@verge.net.au>
+Subject: [PATCH 20/53] arm64: dts: renesas: r8a7795: Create thermal zone to support IPA
+Date:   Fri, 21 Jun 2019 11:15:58 +0200
+Message-Id: <15d8cd83b7ef889f45375c7a3e106e429e874602.1561107232.git.horms+renesas@verge.net.au>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1561107232.git.horms+renesas@verge.net.au>
 References: <cover.1561107232.git.horms+renesas@verge.net.au>
@@ -34,475 +40,169 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+From: Dien Pham <dien.pham.ry@renesas.com>
 
-Since the commit 233da2c9ec22 ("dt-bindings: phy: rcar-gen3-phy-usb2:
-Revise #phy-cells property") revised the #phy-cells, this patch follows
-the updated document for R-Car Gen3 and RZ/A2 SoCs.
+Setup a thermal zone driven by SoC temperature sensor.
+Create passive trip points and bind them to CPUFreq cooling
+device that supports power extension.
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+In R-Car Gen3, IPA is supported for only one channel
+(on H3/M3/M3N SoCs, it is channel THS3). Reason:
+  Currently, IPA controls base on only CPU temperature.
+  And only one thermal channel is assembled closest
+  CPU cores is selected as target of IPA.
+  If other channels are used, IPA controlling is not properly.
+
+The A5 cooling device supports 5 cooling states which can be categorised as
+follows:
+
+0 & 1) boost (clocking up)
+2)     default
+3 & 4) cooling (clocking down)
+
+Currently the thermal framework assumes that the default is the minimum,
+or in other words there is no provision for handling boost states.
+So this patch only describes the upper 3 states, default and cooling.
+
+A single cooling device is described for all A57 CPUs and a separate
+cooling device is described for all A53 CPUs. This reflects that physically
+there is only one cooling device present for each type of CPU.
+
+This patch improves on an earlier version by:
+
+* Omitting cooling-max-level and cooling-min-level properties which
+  are no longer present in mainline as of v4.17
+* Removing an unused trip-point0 node sub-property from the trips
+  property.
+* Using cooling-device indexes such that maximum refers to maximum cooling
+  rather than the inverse.
+* Defers adding dynamic-power-coefficient properties to a separate patch as
+  these are properties of the CPU.
+
+The long signed-off by chain below reflects many revisions, mainly
+internal, that this patch has been through.
+
+Signed-off-by: Dien Pham <dien.pham.ry@renesas.com>
+Signed-off-by: Keita Kobayashi <keita.kobayashi.ym@renesas.com>
+Signed-off-by: Gaku Inami <gaku.inami.xw@bp.renesas.com>
+Signed-off-by: Hien Dang <hien.dang.eb@rvc.renesas.com>
+Signed-off-by: An Huynh <an.huynh.uj@rvc.renesas.com>
+Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
+Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
 Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
 ---
- arch/arm64/boot/dts/renesas/r8a774a1.dtsi | 14 +++++++-------
- arch/arm64/boot/dts/renesas/r8a774c0.dtsi |  8 ++++----
- arch/arm64/boot/dts/renesas/r8a7795.dtsi  | 28 ++++++++++++++--------------
- arch/arm64/boot/dts/renesas/r8a7796.dtsi  | 14 +++++++-------
- arch/arm64/boot/dts/renesas/r8a77965.dtsi | 14 +++++++-------
- arch/arm64/boot/dts/renesas/r8a77990.dtsi |  8 ++++----
- arch/arm64/boot/dts/renesas/r8a77995.dtsi |  8 ++++----
- 7 files changed, 47 insertions(+), 47 deletions(-)
+ arch/arm64/boot/dts/renesas/r8a7795.dtsi | 52 +++++++++-----------------------
+ 1 file changed, 15 insertions(+), 37 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-index ff9bc16f4bbc..c2d99f5aaf74 100644
---- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-@@ -606,7 +606,7 @@
- 			       <&usb_dmac1 0>, <&usb_dmac1 1>;
- 			dma-names = "ch0", "ch1", "ch2", "ch3";
- 			renesas,buswait = <11>;
--			phys = <&usb2_phy0>;
-+			phys = <&usb2_phy0 3>;
- 			phy-names = "usb";
- 			power-domains = <&sysc R8A774A1_PD_ALWAYS_ON>;
- 			resets = <&cpg 704>;
-@@ -1733,7 +1733,7 @@
- 			reg = <0 0xee080000 0 0x100>;
- 			interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 703>;
--			phys = <&usb2_phy0>;
-+			phys = <&usb2_phy0 1>;
- 			phy-names = "usb";
- 			power-domains = <&sysc R8A774A1_PD_ALWAYS_ON>;
- 			resets = <&cpg 703>;
-@@ -1745,7 +1745,7 @@
- 			reg = <0 0xee0a0000 0 0x100>;
- 			interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 702>;
--			phys = <&usb2_phy1>;
-+			phys = <&usb2_phy1 1>;
- 			phy-names = "usb";
- 			power-domains = <&sysc R8A774A1_PD_ALWAYS_ON>;
- 			resets = <&cpg 702>;
-@@ -1757,7 +1757,7 @@
- 			reg = <0 0xee080100 0 0x100>;
- 			interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 703>;
--			phys = <&usb2_phy0>;
-+			phys = <&usb2_phy0 2>;
- 			phy-names = "usb";
- 			companion = <&ohci0>;
- 			power-domains = <&sysc R8A774A1_PD_ALWAYS_ON>;
-@@ -1770,7 +1770,7 @@
- 			reg = <0 0xee0a0100 0 0x100>;
- 			interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 702>;
--			phys = <&usb2_phy1>;
-+			phys = <&usb2_phy1 2>;
- 			phy-names = "usb";
- 			companion = <&ohci1>;
- 			power-domains = <&sysc R8A774A1_PD_ALWAYS_ON>;
-@@ -1786,7 +1786,7 @@
- 			clocks = <&cpg CPG_MOD 703>;
- 			power-domains = <&sysc R8A774A1_PD_ALWAYS_ON>;
- 			resets = <&cpg 703>;
--			#phy-cells = <0>;
-+			#phy-cells = <1>;
- 			status = "disabled";
- 		};
- 
-@@ -1797,7 +1797,7 @@
- 			clocks = <&cpg CPG_MOD 702>;
- 			power-domains = <&sysc R8A774A1_PD_ALWAYS_ON>;
- 			resets = <&cpg 702>;
--			#phy-cells = <0>;
-+			#phy-cells = <1>;
- 			status = "disabled";
- 		};
- 
-diff --git a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
-index 500b7bd58022..e7b5bf23f978 100644
---- a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
-@@ -684,7 +684,7 @@
- 			       <&usb_dmac1 0>, <&usb_dmac1 1>;
- 			dma-names = "ch0", "ch1", "ch2", "ch3";
- 			renesas,buswait = <11>;
--			phys = <&usb2_phy0>;
-+			phys = <&usb2_phy0 3>;
- 			phy-names = "usb";
- 			power-domains = <&sysc R8A774C0_PD_ALWAYS_ON>;
- 			resets = <&cpg 704>, <&cpg 703>;
-@@ -1580,7 +1580,7 @@
- 			reg = <0 0xee080000 0 0x100>;
- 			interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
--			phys = <&usb2_phy0>;
-+			phys = <&usb2_phy0 1>;
- 			phy-names = "usb";
- 			power-domains = <&sysc R8A774C0_PD_ALWAYS_ON>;
- 			resets = <&cpg 703>, <&cpg 704>;
-@@ -1592,7 +1592,7 @@
- 			reg = <0 0xee080100 0 0x100>;
- 			interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
--			phys = <&usb2_phy0>;
-+			phys = <&usb2_phy0 2>;
- 			phy-names = "usb";
- 			companion = <&ohci0>;
- 			power-domains = <&sysc R8A774C0_PD_ALWAYS_ON>;
-@@ -1608,7 +1608,7 @@
- 			clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
- 			power-domains = <&sysc R8A774C0_PD_ALWAYS_ON>;
- 			resets = <&cpg 703>, <&cpg 704>;
--			#phy-cells = <0>;
-+			#phy-cells = <1>;
- 			status = "disabled";
- 		};
- 
 diff --git a/arch/arm64/boot/dts/renesas/r8a7795.dtsi b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
-index 7a8fd80331d0..e09bd319e3ca 100644
+index e09bd319e3ca..f340b663cb80 100644
 --- a/arch/arm64/boot/dts/renesas/r8a7795.dtsi
 +++ b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
-@@ -812,7 +812,7 @@
- 			       <&usb_dmac1 0>, <&usb_dmac1 1>;
- 			dma-names = "ch0", "ch1", "ch2", "ch3";
- 			renesas,buswait = <11>;
--			phys = <&usb2_phy0>;
-+			phys = <&usb2_phy0 3>;
- 			phy-names = "usb";
- 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
- 			resets = <&cpg 704>, <&cpg 703>;
-@@ -829,7 +829,7 @@
- 			       <&usb_dmac3 0>, <&usb_dmac3 1>;
- 			dma-names = "ch0", "ch1", "ch2", "ch3";
- 			renesas,buswait = <11>;
--			phys = <&usb2_phy3>;
-+			phys = <&usb2_phy3 3>;
- 			phy-names = "usb";
- 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
- 			resets = <&cpg 705>, <&cpg 700>;
-@@ -2416,7 +2416,7 @@
- 			reg = <0 0xee080000 0 0x100>;
- 			interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
--			phys = <&usb2_phy0>;
-+			phys = <&usb2_phy0 1>;
- 			phy-names = "usb";
- 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
- 			resets = <&cpg 703>, <&cpg 704>;
-@@ -2428,7 +2428,7 @@
- 			reg = <0 0xee0a0000 0 0x100>;
- 			interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 702>;
--			phys = <&usb2_phy1>;
-+			phys = <&usb2_phy1 1>;
- 			phy-names = "usb";
- 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
- 			resets = <&cpg 702>;
-@@ -2440,7 +2440,7 @@
- 			reg = <0 0xee0c0000 0 0x100>;
- 			interrupts = <GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 701>;
--			phys = <&usb2_phy2>;
-+			phys = <&usb2_phy2 1>;
- 			phy-names = "usb";
- 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
- 			resets = <&cpg 701>;
-@@ -2452,7 +2452,7 @@
- 			reg = <0 0xee0e0000 0 0x100>;
- 			interrupts = <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 700>, <&cpg CPG_MOD 705>;
--			phys = <&usb2_phy3>;
-+			phys = <&usb2_phy3 1>;
- 			phy-names = "usb";
- 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
- 			resets = <&cpg 700>, <&cpg 705>;
-@@ -2464,7 +2464,7 @@
- 			reg = <0 0xee080100 0 0x100>;
- 			interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
--			phys = <&usb2_phy0>;
-+			phys = <&usb2_phy0 2>;
- 			phy-names = "usb";
- 			companion = <&ohci0>;
- 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-@@ -2477,7 +2477,7 @@
- 			reg = <0 0xee0a0100 0 0x100>;
- 			interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 702>;
--			phys = <&usb2_phy1>;
-+			phys = <&usb2_phy1 2>;
- 			phy-names = "usb";
- 			companion = <&ohci1>;
- 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-@@ -2490,7 +2490,7 @@
- 			reg = <0 0xee0c0100 0 0x100>;
- 			interrupts = <GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 701>;
--			phys = <&usb2_phy2>;
-+			phys = <&usb2_phy2 2>;
- 			phy-names = "usb";
- 			companion = <&ohci2>;
- 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-@@ -2503,7 +2503,7 @@
- 			reg = <0 0xee0e0100 0 0x100>;
- 			interrupts = <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 700>, <&cpg CPG_MOD 705>;
--			phys = <&usb2_phy3>;
-+			phys = <&usb2_phy3 2>;
- 			phy-names = "usb";
- 			companion = <&ohci3>;
- 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-@@ -2519,7 +2519,7 @@
- 			clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
- 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
- 			resets = <&cpg 703>, <&cpg 704>;
--			#phy-cells = <0>;
-+			#phy-cells = <1>;
- 			status = "disabled";
+@@ -207,6 +207,7 @@
+ 			power-domains = <&sysc R8A7795_PD_CA53_CPU0>;
+ 			next-level-cache = <&L2_CA53>;
+ 			enable-method = "psci";
++			#cooling-cells = <2>;
+ 			clocks = <&cpg CPG_CORE R8A7795_CLK_Z2>;
+ 			operating-points-v2 = <&cluster1_opp>;
+ 			capacity-dmips-mhz = <535>;
+@@ -3179,58 +3180,30 @@
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 0>;
++			sustainable-power = <6313>;
+ 
+ 			trips {
+-				sensor1_passive: sensor1-passive {
+-					temperature = <95000>;
+-					hysteresis = <1000>;
+-					type = "passive";
+-				};
+ 				sensor1_crit: sensor1-crit {
+ 					temperature = <120000>;
+ 					hysteresis = <1000>;
+ 					type = "critical";
+ 				};
+ 			};
+-
+-			cooling-maps {
+-				map0 {
+-					trip = <&sensor1_passive>;
+-					cooling-device = <&a57_0 4 4>,
+-							 <&a57_1 4 4>,
+-							 <&a57_2 4 4>,
+-							 <&a57_3 4 4>;
+-				};
+-			};
  		};
  
-@@ -2530,7 +2530,7 @@
- 			clocks = <&cpg CPG_MOD 702>;
- 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
- 			resets = <&cpg 702>;
--			#phy-cells = <0>;
-+			#phy-cells = <1>;
- 			status = "disabled";
+ 		sensor_thermal2: sensor-thermal2 {
+ 			polling-delay-passive = <250>;
+ 			polling-delay = <1000>;
+ 			thermal-sensors = <&tsc 1>;
++			sustainable-power = <6313>;
+ 
+ 			trips {
+-				sensor2_passive: sensor2-passive {
+-					temperature = <95000>;
+-					hysteresis = <1000>;
+-					type = "passive";
+-				};
+ 				sensor2_crit: sensor2-crit {
+ 					temperature = <120000>;
+ 					hysteresis = <1000>;
+ 					type = "critical";
+ 				};
+ 			};
+-
+-			cooling-maps {
+-				map0 {
+-					trip = <&sensor2_passive>;
+-					cooling-device = <&a57_0 4 4>,
+-							 <&a57_1 4 4>,
+-							 <&a57_2 4 4>,
+-							 <&a57_3 4 4>;
+-				};
+-			};
  		};
  
-@@ -2541,7 +2541,7 @@
- 			clocks = <&cpg CPG_MOD 701>;
- 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
- 			resets = <&cpg 701>;
--			#phy-cells = <0>;
-+			#phy-cells = <1>;
- 			status = "disabled";
- 		};
+ 		sensor_thermal3: sensor-thermal3 {
+@@ -3239,11 +3212,12 @@
+ 			thermal-sensors = <&tsc 2>;
  
-@@ -2553,7 +2553,7 @@
- 			clocks = <&cpg CPG_MOD 700>, <&cpg CPG_MOD 705>;
- 			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
- 			resets = <&cpg 700>, <&cpg 705>;
--			#phy-cells = <0>;
-+			#phy-cells = <1>;
- 			status = "disabled";
- 		};
+ 			trips {
+-				sensor3_passive: sensor3-passive {
+-					temperature = <95000>;
++				target: trip-point1 {
++					temperature = <100000>;
+ 					hysteresis = <1000>;
+ 					type = "passive";
+ 				};
++
+ 				sensor3_crit: sensor3-crit {
+ 					temperature = <120000>;
+ 					hysteresis = <1000>;
+@@ -3253,11 +3227,15 @@
  
-diff --git a/arch/arm64/boot/dts/renesas/r8a7796.dtsi b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
-index a5c6a9920214..452532fbc443 100644
---- a/arch/arm64/boot/dts/renesas/r8a7796.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
-@@ -783,7 +783,7 @@
- 			       <&usb_dmac1 0>, <&usb_dmac1 1>;
- 			dma-names = "ch0", "ch1", "ch2", "ch3";
- 			renesas,buswait = <11>;
--			phys = <&usb2_phy0>;
-+			phys = <&usb2_phy0 3>;
- 			phy-names = "usb";
- 			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
- 			resets = <&cpg 704>, <&cpg 703>;
-@@ -2286,7 +2286,7 @@
- 			reg = <0 0xee080000 0 0x100>;
- 			interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
--			phys = <&usb2_phy0>;
-+			phys = <&usb2_phy0 1>;
- 			phy-names = "usb";
- 			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
- 			resets = <&cpg 703>, <&cpg 704>;
-@@ -2298,7 +2298,7 @@
- 			reg = <0 0xee0a0000 0 0x100>;
- 			interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 702>;
--			phys = <&usb2_phy1>;
-+			phys = <&usb2_phy1 1>;
- 			phy-names = "usb";
- 			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
- 			resets = <&cpg 702>;
-@@ -2310,7 +2310,7 @@
- 			reg = <0 0xee080100 0 0x100>;
- 			interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
--			phys = <&usb2_phy0>;
-+			phys = <&usb2_phy0 2>;
- 			phy-names = "usb";
- 			companion = <&ohci0>;
- 			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
-@@ -2323,7 +2323,7 @@
- 			reg = <0 0xee0a0100 0 0x100>;
- 			interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 702>;
--			phys = <&usb2_phy1>;
-+			phys = <&usb2_phy1 2>;
- 			phy-names = "usb";
- 			companion = <&ohci1>;
- 			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
-@@ -2339,7 +2339,7 @@
- 			clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
- 			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
- 			resets = <&cpg 703>, <&cpg 704>;
--			#phy-cells = <0>;
-+			#phy-cells = <1>;
- 			status = "disabled";
+ 			cooling-maps {
+ 				map0 {
+-					trip = <&sensor3_passive>;
+-					cooling-device = <&a57_0 4 4>,
+-							 <&a57_1 4 4>,
+-							 <&a57_2 4 4>,
+-							 <&a57_3 4 4>;
++					trip = <&target>;
++					cooling-device = <&a57_0 2 4>;
++					contribution = <1024>;
++				};
++
++				map1 {
++					trip = <&target>;
++					cooling-device = <&a53_0 0 2>;
++					contribution = <1024>;
+ 				};
+ 			};
  		};
- 
-@@ -2350,7 +2350,7 @@
- 			clocks = <&cpg CPG_MOD 702>;
- 			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
- 			resets = <&cpg 702>;
--			#phy-cells = <0>;
-+			#phy-cells = <1>;
- 			status = "disabled";
- 		};
- 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77965.dtsi b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-index 41dfeadb89a6..814ed14b092b 100644
---- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-@@ -667,7 +667,7 @@
- 			       <&usb_dmac1 0>, <&usb_dmac1 1>;
- 			dma-names = "ch0", "ch1", "ch2", "ch3";
- 			renesas,buswait = <11>;
--			phys = <&usb2_phy0>;
-+			phys = <&usb2_phy0 3>;
- 			phy-names = "usb";
- 			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
- 			resets = <&cpg 704>, <&cpg 703>;
-@@ -2026,7 +2026,7 @@
- 			reg = <0 0xee080000 0 0x100>;
- 			interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
--			phys = <&usb2_phy0>;
-+			phys = <&usb2_phy0 1>;
- 			phy-names = "usb";
- 			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
- 			resets = <&cpg 703>, <&cpg 704>;
-@@ -2038,7 +2038,7 @@
- 			reg = <0 0xee0a0000 0 0x100>;
- 			interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 702>;
--			phys = <&usb2_phy1>;
-+			phys = <&usb2_phy1 1>;
- 			phy-names = "usb";
- 			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
- 			resets = <&cpg 702>;
-@@ -2050,7 +2050,7 @@
- 			reg = <0 0xee080100 0 0x100>;
- 			interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
--			phys = <&usb2_phy0>;
-+			phys = <&usb2_phy0 2>;
- 			phy-names = "usb";
- 			companion = <&ohci0>;
- 			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-@@ -2063,7 +2063,7 @@
- 			reg = <0 0xee0a0100 0 0x100>;
- 			interrupts = <GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 702>;
--			phys = <&usb2_phy1>;
-+			phys = <&usb2_phy1 2>;
- 			phy-names = "usb";
- 			companion = <&ohci1>;
- 			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-@@ -2079,7 +2079,7 @@
- 			clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
- 			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
- 			resets = <&cpg 703>, <&cpg 704>;
--			#phy-cells = <0>;
-+			#phy-cells = <1>;
- 			status = "disabled";
- 		};
- 
-@@ -2090,7 +2090,7 @@
- 			clocks = <&cpg CPG_MOD 702>;
- 			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
- 			resets = <&cpg 702>;
--			#phy-cells = <0>;
-+			#phy-cells = <1>;
- 			status = "disabled";
- 		};
- 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77990.dtsi b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-index 56cb566ffa09..3864fdc7ea91 100644
---- a/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-@@ -630,7 +630,7 @@
- 			       <&usb_dmac1 0>, <&usb_dmac1 1>;
- 			dma-names = "ch0", "ch1", "ch2", "ch3";
- 			renesas,buswait = <11>;
--			phys = <&usb2_phy0>;
-+			phys = <&usb2_phy0 3>;
- 			phy-names = "usb";
- 			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
- 			resets = <&cpg 704>, <&cpg 703>;
-@@ -1537,7 +1537,7 @@
- 			reg = <0 0xee080000 0 0x100>;
- 			interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
--			phys = <&usb2_phy0>;
-+			phys = <&usb2_phy0 1>;
- 			phy-names = "usb";
- 			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
- 			resets = <&cpg 703>, <&cpg 704>;
-@@ -1549,7 +1549,7 @@
- 			reg = <0 0xee080100 0 0x100>;
- 			interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
--			phys = <&usb2_phy0>;
-+			phys = <&usb2_phy0 2>;
- 			phy-names = "usb";
- 			companion = <&ohci0>;
- 			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
-@@ -1565,7 +1565,7 @@
- 			clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
- 			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
- 			resets = <&cpg 703>, <&cpg 704>;
--			#phy-cells = <0>;
-+			#phy-cells = <1>;
- 			status = "disabled";
- 		};
- 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-index 5bf3af246e14..e0a0149464a9 100644
---- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-@@ -354,7 +354,7 @@
- 			       <&usb_dmac1 0>, <&usb_dmac1 1>;
- 			dma-names = "ch0", "ch1", "ch2", "ch3";
- 			renesas,buswait = <11>;
--			phys = <&usb2_phy0>;
-+			phys = <&usb2_phy0 3>;
- 			phy-names = "usb";
- 			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
- 			resets = <&cpg 704>, <&cpg 703>;
-@@ -875,7 +875,7 @@
- 			reg = <0 0xee080000 0 0x100>;
- 			interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
--			phys = <&usb2_phy0>;
-+			phys = <&usb2_phy0 1>;
- 			phy-names = "usb";
- 			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
- 			resets = <&cpg 703>, <&cpg 704>;
-@@ -887,7 +887,7 @@
- 			reg = <0 0xee080100 0 0x100>;
- 			interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
--			phys = <&usb2_phy0>;
-+			phys = <&usb2_phy0 2>;
- 			phy-names = "usb";
- 			companion = <&ohci0>;
- 			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
-@@ -903,7 +903,7 @@
- 			clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>;
- 			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
- 			resets = <&cpg 703>, <&cpg 704>;
--			#phy-cells = <0>;
-+			#phy-cells = <1>;
- 			status = "disabled";
- 		};
- 
 -- 
 2.11.0
 
