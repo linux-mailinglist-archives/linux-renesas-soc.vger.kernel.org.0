@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7546D4E30A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2019 11:16:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3EF344E30C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2019 11:16:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726476AbfFUJQw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Jun 2019 05:16:52 -0400
+        id S1726480AbfFUJQz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Jun 2019 05:16:55 -0400
 Received: from kirsty.vergenet.net ([202.4.237.240]:34780 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726210AbfFUJQw (ORCPT
+        with ESMTP id S1726210AbfFUJQy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Jun 2019 05:16:52 -0400
+        Fri, 21 Jun 2019 05:16:54 -0400
 Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id E3C9825BE4C;
-        Fri, 21 Jun 2019 19:16:36 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 89E0725AD85;
+        Fri, 21 Jun 2019 19:16:37 +1000 (AEST)
 Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id 4AA60941378; Fri, 21 Jun 2019 11:16:33 +0200 (CEST)
+        id 5F89F9413C0; Fri, 21 Jun 2019 11:16:33 +0200 (CEST)
 From:   Simon Horman <horms+renesas@verge.net.au>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     linux-arm-kernel@lists.infradead.org,
         Magnus Damm <magnus.damm@gmail.com>,
-        Biju Das <biju.das@bp.renesas.com>,
+        Magnus Damm <damm+renesas@opensource.se>,
         Simon Horman <horms+renesas@verge.net.au>
-Subject: [PATCH 15/53] arm64: dts: renesas: cat874: Add BT support
-Date:   Fri, 21 Jun 2019 11:15:53 +0200
-Message-Id: <7b7c5676a877c4e66083888d87d52e4a0d0c2e82.1561107232.git.horms+renesas@verge.net.au>
+Subject: [PATCH 16/53] arm64: dts: renesas: Use ip=on for bootargs
+Date:   Fri, 21 Jun 2019 11:15:54 +0200
+Message-Id: <b31b43c92daee8628c60b411452b1b17acdac580.1561107232.git.horms+renesas@verge.net.au>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1561107232.git.horms+renesas@verge.net.au>
 References: <cover.1561107232.git.horms+renesas@verge.net.au>
@@ -34,61 +34,99 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Biju Das <biju.das@bp.renesas.com>
+From: Magnus Damm <damm+renesas@opensource.se>
 
-This patch enables BT support for the CAT874 board.
+Convert bootargs from ip=dhcp to ip=on
 
-Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
 Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
 ---
- arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts  | 2 +-
+ arch/arm64/boot/dts/renesas/r8a77970-eagle.dts   | 2 +-
+ arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts   | 2 +-
+ arch/arm64/boot/dts/renesas/r8a77995-draak.dts   | 2 +-
+ arch/arm64/boot/dts/renesas/salvator-common.dtsi | 2 +-
+ arch/arm64/boot/dts/renesas/ulcb.dtsi            | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts b/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
-index 72cccfc34c49..fdca695a4248 100644
+index fdca695a4248..ad254b092387 100644
 --- a/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
 +++ b/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
-@@ -16,6 +16,7 @@
- 
- 	aliases {
- 		serial0 = &scif2;
-+		serial1 = &hscif2;
+@@ -20,7 +20,7 @@
  	};
  
  	chosen {
-@@ -154,6 +155,19 @@
- 	clock-frequency = <48000000>;
- };
- 
-+&hscif2 {
-+	pinctrl-0 = <&hscif2_pins>;
-+	pinctrl-names = "default";
-+
-+	uart-has-rtscts;
-+	status = "okay";
-+
-+	bluetooth {
-+		compatible = "ti,wl1837-st";
-+		enable-gpios = <&gpio4 6 GPIO_ACTIVE_HIGH>;
-+	};
-+};
-+
- &i2c0 {
- 	status = "okay";
- 	clock-frequency = <100000>;
-@@ -237,6 +251,11 @@
- 		function = "i2c1";
+-		bootargs = "ignore_loglevel rw root=/dev/nfs ip=dhcp";
++		bootargs = "ignore_loglevel rw root=/dev/nfs ip=on";
+ 		stdout-path = "serial0:115200n8";
  	};
  
-+	hscif2_pins: hscif2 {
-+		groups = "hscif2_data_a", "hscif2_ctrl_a";
-+		function = "hscif2";
-+	};
-+
- 	scif2_pins: scif2 {
- 		groups = "scif2_data_a";
- 		function = "scif2";
+diff --git a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
+index b6d53321576b..233f26fbec17 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
++++ b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
+@@ -19,7 +19,7 @@
+ 	};
+ 
+ 	chosen {
+-		bootargs = "ignore_loglevel rw root=/dev/nfs ip=dhcp";
++		bootargs = "ignore_loglevel rw root=/dev/nfs ip=on";
+ 		stdout-path = "serial0:115200n8";
+ 	};
+ 
+diff --git a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
+index c72772589953..4b3449319c81 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
++++ b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
+@@ -19,7 +19,7 @@
+ 	};
+ 
+ 	chosen {
+-		bootargs = "ignore_loglevel rw root=/dev/nfs ip=dhcp";
++		bootargs = "ignore_loglevel rw root=/dev/nfs ip=on";
+ 		stdout-path = "serial0:115200n8";
+ 	};
+ 
+diff --git a/arch/arm64/boot/dts/renesas/r8a77995-draak.dts b/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
+index 6189a55de999..0711170b26b1 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
++++ b/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
+@@ -20,7 +20,7 @@
+ 	};
+ 
+ 	chosen {
+-		bootargs = "ignore_loglevel rw root=/dev/nfs ip=dhcp";
++		bootargs = "ignore_loglevel rw root=/dev/nfs ip=on";
+ 		stdout-path = "serial0:115200n8";
+ 	};
+ 
+diff --git a/arch/arm64/boot/dts/renesas/salvator-common.dtsi b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
+index 2dba1328acfa..5c2c84723ec5 100644
+--- a/arch/arm64/boot/dts/renesas/salvator-common.dtsi
++++ b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
+@@ -39,7 +39,7 @@
+ 	};
+ 
+ 	chosen {
+-		bootargs = "ignore_loglevel rw root=/dev/nfs ip=dhcp";
++		bootargs = "ignore_loglevel rw root=/dev/nfs ip=on";
+ 		stdout-path = "serial0:115200n8";
+ 	};
+ 
+diff --git a/arch/arm64/boot/dts/renesas/ulcb.dtsi b/arch/arm64/boot/dts/renesas/ulcb.dtsi
+index e70e1bac2be4..7e498b46e9ae 100644
+--- a/arch/arm64/boot/dts/renesas/ulcb.dtsi
++++ b/arch/arm64/boot/dts/renesas/ulcb.dtsi
+@@ -26,7 +26,7 @@
+ 	};
+ 
+ 	chosen {
+-		bootargs = "ignore_loglevel rw root=/dev/nfs ip=dhcp";
++		bootargs = "ignore_loglevel rw root=/dev/nfs ip=on";
+ 		stdout-path = "serial0:115200n8";
+ 	};
+ 
 -- 
 2.11.0
 
