@@ -2,36 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 110CE4E0EC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2019 09:09:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5249D4E106
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2019 09:12:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726054AbfFUHIz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Jun 2019 03:08:55 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:55706 "EHLO
+        id S1726045AbfFUHMo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Jun 2019 03:12:44 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:55912 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726008AbfFUHIy (ORCPT
+        with ESMTP id S1726008AbfFUHMo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Jun 2019 03:08:54 -0400
+        Fri, 21 Jun 2019 03:12:44 -0400
 Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 0FC9025AE8A;
-        Fri, 21 Jun 2019 17:08:52 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id BF7B625AEE7;
+        Fri, 21 Jun 2019 17:12:41 +1000 (AEST)
 Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id 121309408C4; Fri, 21 Jun 2019 09:08:50 +0200 (CEST)
-Date:   Fri, 21 Jun 2019 09:08:50 +0200
+        id C4B279408C4; Fri, 21 Jun 2019 09:12:39 +0200 (CEST)
+Date:   Fri, 21 Jun 2019 09:12:39 +0200
 From:   Simon Horman <horms@verge.net.au>
 To:     Masahiro Yamada <yamada.masahiro@socionext.com>
 Cc:     linux-mmc@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
         Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>
-Subject: Re: [PATCH] dt-binding: mmc: rename tmio_mmc.txt to renesas_sdhi.txt
-Message-ID: <20190621070849.7efe5qihb3zxgjse@verge.net.au>
-References: <20190621035010.13884-1-yamada.masahiro@socionext.com>
+Subject: Re: [PATCH] mmc: remove another TMIO MMC variant usdhi6rol0.c
+Message-ID: <20190621071239.tjptw3k5oicbk3ni@verge.net.au>
+References: <20190621060511.29609-1-yamada.masahiro@socionext.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190621035010.13884-1-yamada.masahiro@socionext.com>
+In-Reply-To: <20190621060511.29609-1-yamada.masahiro@socionext.com>
 Organisation: Horms Solutions BV
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -39,76 +39,89 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jun 21, 2019 at 12:50:10PM +0900, Masahiro Yamada wrote:
+On Fri, Jun 21, 2019 at 03:05:11PM +0900, Masahiro Yamada wrote:
+> Renesas upstreamed two different drivers for (almost) the same hardware.
+> usdhi6rol0.c is (what we call) "TMIO MMC", which I am 100% sure from the
+> the register macros in usdhi6rol0.c.
+> 
 > As commit b6147490e6aa ("mmc: tmio: split core functionality, DMA and
-> MFD glue") said, these MMC controllers use the IP from Panasonic.
+> MFD glue") said, the MMC controllers called tmio_mmc uses the IP from
+> Panasonic. ('TMIO MMC' is a historical misnomer)
 > 
-> TMIO (Toshiba Mobile IO) MMC was the first upstreamed user of this IP.
-> The common driver code was split and expanded as 'tmio-mmc-core', then
-> it become historical misnomer since 'tmio' is not the name of this IP
-> in the first place.
+> The macros in usdhi6rol0.c exactly match to the original datasheet
+> published by Panasonic. (except the 'USDHI6_' prefix, of course).
+> I formerly worked for Panasonic, and Socionext was split out from
+> Panasonic. I can get access to the IP datasheet.
 > 
-> In the discussion [1], we decide to keep calling these MMC variants
-> 'TMIO MMC' at least in Linux driver level because renaming all of them
-> is a big churn.
+> [The register comparison]
 > 
-> However, DT should not be oriented to a particular project even though
-> it is developed in Linux communities.
+>  tmio_mmc.h                          usdhi6rol0.c
 > 
-> Let's stop exporting this unfortunate things to other projects, where
-> there is no good reason to call this "TMIO". Rename the file to
-> renesas_sdhi.txt. In fact, all the information in this file is specific
-> to the Renesas platform.
+>  0x00 CTL_SD_CMD                     0x000 USDHI6_SD_CMD
+>                                      0x004 USDHI6_SD_PORT_SEL
+>  0x04 CTL_ARG_REG                    0x008 USDHI6_SD_ARG
+>  0x08 CTL_STOP_INTERNAL_ACTION       0x010 USDHI6_SD_STOP
+>  0x0a CTL_XFER_BLK_COUNT             0x014 USDHI6_SD_SECCNT
+>  0x0c CTL_RESPONSE                   0x018 USDHI6_SD_RSP10
+>                                      0x020 USDHI6_SD_RSP32
+>                                      0x028 USDHI6_SD_RSP54
+>                                      0x030 USDHI6_SD_RSP76
+>  0x1c CTL_STATUS                     0x038 USDHI6_SD_INFO1
+>                                      0x03c USDHI6_SD_INFO2
+>  0x20 CTL_IRQ_MASK                   0x040 USDHI6_SD_INFO1_MASK
+>                                      0x044 USDHI6_SD_INFO2_MASK
+>  0x24 CTL_SD_CARD_CLK_CTL            0x048 USDHI6_SD_CLK_CTRL
+>  0x26 CTL_SD_XFER_LEN                0x04c USDHI6_SD_SIZE
+>  0x28 CTL_SD_MEM_CARD_OPT            0x050 USDHI6_SD_OPTION
+>  0x2c CTL_SD_ERROR_DETAIL_STATUS     0x058 USDHI6_SD_ERR_STS1
+>                                      0x05c USDHI6_SD_ERR_STS2
+>  0x30 CTL_SD_DATA_PORT               0x060 USDHI6_SD_BUF0
+>  0x34 CTL_TRANSACTION_CTL            0x068 USDHI6_SDIO_MODE
+>  0x36 CTL_SDIO_STATUS                0x06c USDHI6_SDIO_INFO1
+>  0x38 CTL_SDIO_IRQ_MASK              0x070 USDHI6_SDIO_INFO1_MASK
+>  0xd8 CTL_DMA_ENABLE                 0x1b0 USDHI6_CC_EXT_MODE
+>  0xe0 CTL_RESET_SD                   0x1c0 USDHI6_SOFT_RESET
+>  0xe2 CTL_VERSION                    0x1c4 USDHI6_VERSION
+>                                      0x1c8 USDHI6_HOST_MODE
+>  0xe6 CTL_SDIF_MODE                  0x1cc USDHI6_SDIF_MODE
 > 
-> This commit also removes the first paragraph entirely. The DT-binding
-> should describe the hardware. It is really strange to talk about Linux
-> driver internals such as how the drivers are probed, how platform data
-> are handed off, etc.
+> The offsets for tmio_mmc.h are half of those of usdhi6rol0.c because
+> tmio_mmc was originally written for 16-bit bus platforms. The register
+> stride is adjusted by ->bus_shift for modern SoCs.
 > 
-> [1] https://www.spinics.net/lists/linux-mmc/msg46952.html
+> The register names for usdhi6rol0.c are taken from the IP datasheet
+> (with USDHI6_ prefixed). On the other hand, tmio_mmc largely renamed
+> the registers.
+> 
+> You may think some registers are missing on the tmio_mmc side.
+> Actually, the registers exists. For example, tmio_mmc merged
+> 'SD_INFO1' and 'SD_INFO2' into the single macro 'CTL_STATUS', then
+> get access to it by the crappy helper, sd_ctrl_write32_as_16_and_16().
+> 
+> As a summary, maintaining two drivers for the same hardware leads to
+> maintenance nightmare.
+> 
+> The naming and the code quality for TMIO is unfortunate, but we cannot
+> kill it since it is widely used. On the other hand, usdhi6rol0.c just
+> supports a single platform. In fact, there is no DT in upstream for
+> "renesas,usdhi6rol0":
+
+I am fine with removing this driver on the basis that it is not used
+upstream. I agree it would be good to get an Ack from @renesas.com.
+
+> 
+> $ git grep renesas,usdhi6rol0
+> Documentation/devicetree/bindings/mmc/usdhi6rol0.txt:           "renesas,usdhi6rol0"
+> Documentation/devicetree/bindings/mmc/usdhi6rol0.txt:   compatible = "renesas,usdhi6rol0";
+> drivers/mmc/host/usdhi6rol0.c:  {.compatible = "renesas,usdhi6rol0"},
+> 
+> Delete this driver now. Please re-implement it based on tmio_mmc_core.c
+> if needed.
+> 
+> Perhaps, some code snippets in this driver might be useful for cleaning
+> tmio_mmc. It will stay in git history forever, and you can dig for it
+> whenever you need it.
 > 
 > Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> ---
-> 
-> I sent this before, but it was dismissed somehow.
-> I am resending this.
 
-Hi Yamada-san,
-
-I for one am fine with this change.
-
-My minor nit is that I think that renesas,sdhi.txt would be a slightly
-better filename in terms of consistency with other renesas bindings
-documentation filenames.
-
-> 
-> 
->  .../bindings/mmc/{tmio_mmc.txt => renesas_sdhi.txt}   | 11 +----------
->  1 file changed, 1 insertion(+), 10 deletions(-)
->  rename Documentation/devicetree/bindings/mmc/{tmio_mmc.txt => renesas_sdhi.txt} (87%)
-> 
-> diff --git a/Documentation/devicetree/bindings/mmc/tmio_mmc.txt b/Documentation/devicetree/bindings/mmc/renesas_sdhi.txt
-> similarity index 87%
-> rename from Documentation/devicetree/bindings/mmc/tmio_mmc.txt
-> rename to Documentation/devicetree/bindings/mmc/renesas_sdhi.txt
-> index 2b4f17ca9087..dd08d038a65c 100644
-> --- a/Documentation/devicetree/bindings/mmc/tmio_mmc.txt
-> +++ b/Documentation/devicetree/bindings/mmc/renesas_sdhi.txt
-> @@ -1,13 +1,4 @@
-> -* Toshiba Mobile IO SD/MMC controller
-> -
-> -The tmio-mmc driver doesn't probe its devices actively, instead its binding to
-> -devices is managed by either MFD drivers or by the sh_mobile_sdhi platform
-> -driver. Those drivers supply the tmio-mmc driver with platform data, that either
-> -describe hardware capabilities, known to them, or are obtained by them from
-> -their own platform data or from their DT information. In the latter case all
-> -compulsory and any optional properties, common to all SD/MMC drivers, as
-> -described in mmc.txt, can be used. Additionally the following tmio_mmc-specific
-> -optional bindings can be used.
-> +* Renesas SDHI SD/MMC controller
->  
->  Required properties:
->  - compatible: should contain one or more of the following:
-> -- 
-> 2.17.1
-> 
+...
