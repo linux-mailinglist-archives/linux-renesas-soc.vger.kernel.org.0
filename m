@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EFC14E33A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2019 11:17:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2286F4E33C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2019 11:17:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726583AbfFUJRq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Jun 2019 05:17:46 -0400
+        id S1726617AbfFUJRr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Jun 2019 05:17:47 -0400
 Received: from kirsty.vergenet.net ([202.4.237.240]:34780 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726571AbfFUJRo (ORCPT
+        with ESMTP id S1726571AbfFUJRq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Jun 2019 05:17:44 -0400
+        Fri, 21 Jun 2019 05:17:46 -0400
 Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id F0D7F25BE05;
-        Fri, 21 Jun 2019 19:16:51 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 0B6C425BEDE;
+        Fri, 21 Jun 2019 19:16:52 +1000 (AEST)
 Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id F3CE4940954; Fri, 21 Jun 2019 11:16:49 +0200 (CEST)
+        id 0C097940396; Fri, 21 Jun 2019 11:16:50 +0200 (CEST)
 From:   Simon Horman <horms+renesas@verge.net.au>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     linux-arm-kernel@lists.infradead.org,
         Magnus Damm <magnus.damm@gmail.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
         Simon Horman <horms+renesas@verge.net.au>
-Subject: [PATCH 1/2] arm64: defconfig: Enable TDA19988
-Date:   Fri, 21 Jun 2019 11:16:48 +0200
-Message-Id: <998960be3a2e1b3b00387b42052127a8e6342de0.1561105600.git.horms+renesas@verge.net.au>
+Subject: [PATCH 2/2] arm64: defconfig: enable TYPEC_HD3SS3220 config option
+Date:   Fri, 21 Jun 2019 11:16:49 +0200
+Message-Id: <c24f6886b2ee321b50543d3683573689a1817336.1561105600.git.horms+renesas@verge.net.au>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1561105600.git.horms+renesas@verge.net.au>
 References: <cover.1561105600.git.horms+renesas@verge.net.au>
@@ -34,29 +34,30 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+From: Biju Das <biju.das@bp.renesas.com>
 
-The EK874 board comes with a TDA19988 chip on board, therefore
-enable it in the defconfig.
+Enable support for the TI HD3SS320 USB Type-C DRP Port controller driver
+by turning on CONFIG_TYPEC and CONFIG_TYPEC_HD3SS3220 as modules.
 
-Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
 ---
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/configs/defconfig | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index 4d583514258c..e01fbe435168 100644
+index e01fbe435168..fa242ab2697c 100644
 --- a/arch/arm64/configs/defconfig
 +++ b/arch/arm64/configs/defconfig
-@@ -478,6 +478,7 @@ CONFIG_VIDEO_SAMSUNG_EXYNOS_GSC=m
- CONFIG_VIDEO_RENESAS_FCP=m
- CONFIG_VIDEO_RENESAS_VSP1=m
- CONFIG_DRM=m
-+CONFIG_DRM_I2C_NXP_TDA998X=m
- CONFIG_DRM_NOUVEAU=m
- CONFIG_DRM_EXYNOS=m
- CONFIG_DRM_EXYNOS5433_DECON=y
+@@ -561,6 +561,8 @@ CONFIG_USB_ULPI=y
+ CONFIG_USB_GADGET=y
+ CONFIG_USB_RENESAS_USBHS_UDC=m
+ CONFIG_USB_RENESAS_USB3=m
++CONFIG_TYPEC=m
++CONFIG_TYPEC_HD3SS3220=m
+ CONFIG_MMC=y
+ CONFIG_MMC_BLOCK_MINORS=32
+ CONFIG_MMC_ARMMMCI=y
 -- 
 2.11.0
 
