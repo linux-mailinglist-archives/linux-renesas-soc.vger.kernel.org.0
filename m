@@ -2,71 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BE994E53B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2019 11:59:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8B7C4E591
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Jun 2019 12:10:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726229AbfFUJ7G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Jun 2019 05:59:06 -0400
-Received: from foss.arm.com ([217.140.110.172]:56266 "EHLO foss.arm.com"
+        id S1726210AbfFUKKC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Jun 2019 06:10:02 -0400
+Received: from sauhun.de ([88.99.104.3]:51526 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726210AbfFUJ7G (ORCPT
+        id S1726299AbfFUKKB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Jun 2019 05:59:06 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6D31B142F;
-        Fri, 21 Jun 2019 02:59:05 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (unknown [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F26FB3F246;
-        Fri, 21 Jun 2019 02:59:03 -0700 (PDT)
-Date:   Fri, 21 Jun 2019 10:58:59 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Biju Das <biju.das@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-        devicetree@vger.kernel.org, Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: PCI: rcar: Add device tree support for
- r8a774a1
-Message-ID: <20190621095859.GA8785@e121166-lin.cambridge.arm.com>
-References: <1559891016-56157-1-git-send-email-biju.das@bp.renesas.com>
+        Fri, 21 Jun 2019 06:10:01 -0400
+Received: from localhost (p5486CF54.dip0.t-ipconnect.de [84.134.207.84])
+        by pokefinder.org (Postfix) with ESMTPSA id 746702C077A;
+        Fri, 21 Jun 2019 12:09:59 +0200 (CEST)
+Date:   Fri, 21 Jun 2019 12:09:59 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Steve Twiss <stwiss.opensource@diasemi.com>
+Cc:     "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+        "kieran.bingham+renesas@ideasonboard.com" 
+        <kieran.bingham+renesas@ideasonboard.com>,
+        "lee.jones@linaro.org" <lee.jones@linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "peda@axentia.se" <peda@axentia.se>,
+        Support Opensource <Support.Opensource@diasemi.com>
+Subject: Re: [PATCH] mfd: da9063: occupy second I2C address, too
+Message-ID: <20190621100959.GA2568@kunai>
+References: <AM6PR10MB218184C8F2206024C6CB77EAFEE40@AM6PR10MB2181.EURPRD10.PROD.OUTLOOK.COM>
+ <20190620092116.y7aqun6jjjn4mgow@katana>
+ <AM6PR10MB218134CDB4ECB0A9534B6B96FEE70@AM6PR10MB2181.EURPRD10.PROD.OUTLOOK.COM>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="qMm9M+Fa2AknHoGS"
 Content-Disposition: inline
-In-Reply-To: <1559891016-56157-1-git-send-email-biju.das@bp.renesas.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <AM6PR10MB218134CDB4ECB0A9534B6B96FEE70@AM6PR10MB2181.EURPRD10.PROD.OUTLOOK.COM>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jun 07, 2019 at 08:03:36AM +0100, Biju Das wrote:
-> Add PCIe support for the RZ/G2M (a.k.a. R8A774A1).
-> 
-> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-> ---
->  Documentation/devicetree/bindings/pci/rcar-pci.txt | 1 +
->  1 file changed, 1 insertion(+)
 
-Applied to pci/rcar for v5.3, thanks.
+--qMm9M+Fa2AknHoGS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Lorenzo
 
-> diff --git a/Documentation/devicetree/bindings/pci/rcar-pci.txt b/Documentation/devicetree/bindings/pci/rcar-pci.txt
-> index 6904882..45bba9f 100644
-> --- a/Documentation/devicetree/bindings/pci/rcar-pci.txt
-> +++ b/Documentation/devicetree/bindings/pci/rcar-pci.txt
-> @@ -3,6 +3,7 @@
->  Required properties:
->  compatible: "renesas,pcie-r8a7743" for the R8A7743 SoC;
->  	    "renesas,pcie-r8a7744" for the R8A7744 SoC;
-> +	    "renesas,pcie-r8a774a1" for the R8A774A1 SoC;
->  	    "renesas,pcie-r8a774c0" for the R8A774C0 SoC;
->  	    "renesas,pcie-r8a7779" for the R8A7779 SoC;
->  	    "renesas,pcie-r8a7790" for the R8A7790 SoC;
-> -- 
-> 2.7.4
-> 
+> For what it's worth, maybe consider adding a dev_warn attached to the return
+> of devm_i2c_new_dummy_device?
+
+I am in the middle of some API changes. Once those are over, I want to
+think about such warnings as a second step. I'd rather have them in the
+core than in each and every driver. But this needs more thinking...
+
+
+--qMm9M+Fa2AknHoGS
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl0MrPIACgkQFA3kzBSg
+KbYm4Q/9H7oGk9dvSws93hBTXQq8GGkBg3/iP/rzVeOpHfHb4ar4v/SDUvWJUT4E
+dF3wlzG6GmtyBzqu1HFEtgTk2fLb3SM6WTqllb8mGlHkSvt3IGbgmSZ1MOZD5F1w
+GrdFTT0scnTlehuxQLAHoHXBwSn8mkPBxCQuyoylyOYcgSpUVoZ/GiuSay3f2LRu
+fe8V/FH8VlOYLVjcHD+TjpeIgmww8FhkUZa6Lq5SM8mLT51B4oMswJMSnnWkXCcC
+a8oHMpObhBoY7wuPqWDcpW8VdMHshpKUZm2aU6Rd8QNuLf1FzPd5aMVVlr0rl/k7
+keeRT+zsI8ARe5pDampkPVbCeRLRWhDLMgZDu+AxV5dJ5YuJysO6xlk0R0k8jKRZ
+bGCqlqEqhPPnw0oJlVvOiBZNaGIMmSvjf/vg4VkOFUvkB+xext7KJwUF0kMT2u9O
+7uP8AtnUNYp2pgzAiFJAKGWv+9o0PGBJNRKvNUwCuOjyT6l22dgsrI+nEGhybfcO
+zOiEaydo4Buq9IphDWGW5kMoEpvUC8V4Giq3mhnnMt+PxdcGAgh2Y4QiVqGush/U
+dltqDxZ1oO+/d6FYArYcmjvAQD0ICQElAMSNJnQxuOPh43OPYn+J8AKSANLtOr2b
+cde3kVi8+eJU+J0tYPn5qDQzAT/KkfknHdDrxJNe78xyDvGkHus=
+=BnpT
+-----END PGP SIGNATURE-----
+
+--qMm9M+Fa2AknHoGS--
