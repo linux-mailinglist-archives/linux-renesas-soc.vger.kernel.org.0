@@ -2,69 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E814252238
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2019 06:43:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D317522EC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2019 07:39:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727053AbfFYEnZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Jun 2019 00:43:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47906 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726421AbfFYEnY (ORCPT
+        id S1728356AbfFYFjf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Jun 2019 01:39:35 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:53837 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728311AbfFYFjf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Jun 2019 00:43:24 -0400
-Received: from localhost (unknown [106.201.40.23])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EB6F320665;
-        Tue, 25 Jun 2019 04:43:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561437803;
-        bh=+svs1xm0F2/CdYWQbH30vJyA8MQxdVc1RKbfdXbmfn4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=02tb7MAIsylFHaBkdmn1s9wKrHFWBomvZc0RQKO3xWkT1lvq0XxxYTDUGatspxZ+K
-         r8H2n4NOLYN0339SPYo7VgJ8m7s/QKU2x5lKHQjsdh/n+ZbGKgLvBd4jYqxk9nG84V
-         61udSRhPhjErNptANGH+WsdajYE0mTfMMRqpMy8w=
-Date:   Tue, 25 Jun 2019 10:10:13 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Dan Williams <dan.j.williams@intel.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-serial@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        dmaengine@vger.kernel.org
-Subject: Re: [PATCH] dmaengine: rcar-dmac: Reject zero-length slave DMA
- requests
-Message-ID: <20190625044013.GL2962@vkoul-mobl>
-References: <20190624123818.20919-1-geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190624123818.20919-1-geert+renesas@glider.be>
-User-Agent: Mutt/1.11.3 (2019-02-01)
+        Tue, 25 Jun 2019 01:39:35 -0400
+X-IronPort-AV: E=Sophos;i="5.62,413,1554735600"; 
+   d="scan'208";a="19607549"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 25 Jun 2019 14:39:32 +0900
+Received: from localhost.localdomain (unknown [10.166.17.210])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 5AAC240031EF;
+        Tue, 25 Jun 2019 14:39:32 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     gregkh@linuxfoundation.org
+Cc:     linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH 00/13] usb: renesas_usbhs: refactor this driver
+Date:   Tue, 25 Jun 2019 14:38:44 +0900
+Message-Id: <1561441137-3090-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 24-06-19, 14:38, Geert Uytterhoeven wrote:
-> While the .device_prep_slave_sg() callback rejects empty scatterlists,
-> it still accepts single-entry scatterlists with a zero-length segment.
-> These may happen if a driver calls dmaengine_prep_slave_single() with a
-> zero len parameter.  The corresponding DMA request will never complete,
-> leading to messages like:
-> 
->     rcar-dmac e7300000.dma-controller: Channel Address Error happen
-> 
-> and DMA timeouts.
-> 
-> Although requesting a zero-length DMA request is a driver bug, rejecting
-> it early eases debugging.  Note that the .device_prep_dma_memcpy()
-> callback already rejects requests to copy zero bytes.
+This patch series is based on Greg's usb.git / usb-next branch.
 
-Applied, thanks
+The previous code had redundant memory allocations so that
+the code readability was not good. I believe this patch series
+makes it better.
+
+Yoshihiro Shimoda (13):
+  usb: renesas_usbhs: revise the irq_vbus comments
+  usb: renesas_usbhs: remove notify_hotplug callback
+  usb: renesas_usbhs: move macros from mod.c to the mod.h
+  usb: renesas_usbhs: Avoid to write platform_data's value
+  usb: renesas_usbhs: Use a specific flag instead of type for multi_clks
+  usb: renesas_usbhs: Remove type member from renesas_usbhs_driver_param
+  usb: renesas_usbhs: Use dev_of_node macro instead of open coded
+  usb: renesas_usbhs: Add has_new_pipe_configs flag
+  usb: renesas_usbhs: Add struct device * declaration in usbhs_probe()
+  usb: renesas_usbhs: move device tree properties parsing
+  usb: renesas_usbhs: Add a common function for the .get_id
+  usb: renesas_usbhs: Use renesas_usbhs_platform_info on
+    of_device_id.data
+  usb: renesas_usbhs: Use struct platform_callback pointer
+
+ drivers/usb/renesas_usbhs/common.c     | 197 +++++++++++----------------------
+ drivers/usb/renesas_usbhs/common.h     |  11 +-
+ drivers/usb/renesas_usbhs/fifo.c       |   3 +-
+ drivers/usb/renesas_usbhs/mod.c        |  23 ++--
+ drivers/usb/renesas_usbhs/mod.h        |  26 ++++-
+ drivers/usb/renesas_usbhs/mod_gadget.c |   7 +-
+ drivers/usb/renesas_usbhs/rcar2.c      |  22 ++--
+ drivers/usb/renesas_usbhs/rcar2.h      |   3 +-
+ drivers/usb/renesas_usbhs/rcar3.c      |  33 ++++--
+ drivers/usb/renesas_usbhs/rcar3.h      |   5 +-
+ drivers/usb/renesas_usbhs/rza.c        |  18 +--
+ drivers/usb/renesas_usbhs/rza.h        |   4 +-
+ drivers/usb/renesas_usbhs/rza2.c       |  22 ++--
+ include/linux/usb/renesas_usbhs.h      |  35 +-----
+ 14 files changed, 168 insertions(+), 241 deletions(-)
 
 -- 
-~Vinod
+2.7.4
+
