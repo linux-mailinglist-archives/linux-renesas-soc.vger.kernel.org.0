@@ -2,74 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D317522EC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2019 07:39:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47C1B522EA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2019 07:39:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728356AbfFYFjf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Jun 2019 01:39:35 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:53837 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728311AbfFYFjf (ORCPT
+        id S1728351AbfFYFje (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Jun 2019 01:39:34 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:12131 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727064AbfFYFje (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Jun 2019 01:39:35 -0400
+        Tue, 25 Jun 2019 01:39:34 -0400
 X-IronPort-AV: E=Sophos;i="5.62,413,1554735600"; 
-   d="scan'208";a="19607549"
+   d="scan'208";a="19393823"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 25 Jun 2019 14:39:32 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 25 Jun 2019 14:39:32 +0900
 Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 5AAC240031EF;
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 6710C400856C;
         Tue, 25 Jun 2019 14:39:32 +0900 (JST)
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To:     gregkh@linuxfoundation.org
 Cc:     linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH 00/13] usb: renesas_usbhs: refactor this driver
-Date:   Tue, 25 Jun 2019 14:38:44 +0900
-Message-Id: <1561441137-3090-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH 01/13] usb: renesas_usbhs: revise the irq_vbus comments
+Date:   Tue, 25 Jun 2019 14:38:45 +0900
+Message-Id: <1561441137-3090-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1561441137-3090-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+References: <1561441137-3090-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch series is based on Greg's usb.git / usb-next branch.
+Since the irq_vbus comments doesn't match with the current
+implementation, this patch revises it. This patch also changes
+new lines to reduce the source code lines.
 
-The previous code had redundant memory allocations so that
-the code readability was not good. I believe this patch series
-makes it better.
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ drivers/usb/renesas_usbhs/mod.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-Yoshihiro Shimoda (13):
-  usb: renesas_usbhs: revise the irq_vbus comments
-  usb: renesas_usbhs: remove notify_hotplug callback
-  usb: renesas_usbhs: move macros from mod.c to the mod.h
-  usb: renesas_usbhs: Avoid to write platform_data's value
-  usb: renesas_usbhs: Use a specific flag instead of type for multi_clks
-  usb: renesas_usbhs: Remove type member from renesas_usbhs_driver_param
-  usb: renesas_usbhs: Use dev_of_node macro instead of open coded
-  usb: renesas_usbhs: Add has_new_pipe_configs flag
-  usb: renesas_usbhs: Add struct device * declaration in usbhs_probe()
-  usb: renesas_usbhs: move device tree properties parsing
-  usb: renesas_usbhs: Add a common function for the .get_id
-  usb: renesas_usbhs: Use renesas_usbhs_platform_info on
-    of_device_id.data
-  usb: renesas_usbhs: Use struct platform_callback pointer
-
- drivers/usb/renesas_usbhs/common.c     | 197 +++++++++++----------------------
- drivers/usb/renesas_usbhs/common.h     |  11 +-
- drivers/usb/renesas_usbhs/fifo.c       |   3 +-
- drivers/usb/renesas_usbhs/mod.c        |  23 ++--
- drivers/usb/renesas_usbhs/mod.h        |  26 ++++-
- drivers/usb/renesas_usbhs/mod_gadget.c |   7 +-
- drivers/usb/renesas_usbhs/rcar2.c      |  22 ++--
- drivers/usb/renesas_usbhs/rcar2.h      |   3 +-
- drivers/usb/renesas_usbhs/rcar3.c      |  33 ++++--
- drivers/usb/renesas_usbhs/rcar3.h      |   5 +-
- drivers/usb/renesas_usbhs/rza.c        |  18 +--
- drivers/usb/renesas_usbhs/rza.h        |   4 +-
- drivers/usb/renesas_usbhs/rza2.c       |  22 ++--
- include/linux/usb/renesas_usbhs.h      |  35 +-----
- 14 files changed, 168 insertions(+), 241 deletions(-)
-
+diff --git a/drivers/usb/renesas_usbhs/mod.h b/drivers/usb/renesas_usbhs/mod.h
+index a4a61d6..7117729 100644
+--- a/drivers/usb/renesas_usbhs/mod.h
++++ b/drivers/usb/renesas_usbhs/mod.h
+@@ -3,6 +3,7 @@
+  * Renesas USB driver
+  *
+  * Copyright (C) 2011 Renesas Solutions Corp.
++ * Copyright (C) 2019 Renesas Electronics Corporation
+  * Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+  */
+ #ifndef RENESAS_USB_MOD_H
+@@ -84,12 +85,11 @@ struct usbhs_mod_info {
+ 	/*
+ 	 * INTSTS0 :: VBINT
+ 	 *
+-	 * This function will be used as autonomy mode
+-	 * when platform cannot call notify_hotplug.
++	 * This function will be used as autonomy mode (runtime_pwctrl == 0)
++	 * when the platform doesn't have own get_vbus function.
+ 	 *
+-	 * This callback cannot be member of "struct usbhs_mod"
+-	 * because it will be used even though
+-	 * host/gadget has not been selected.
++	 * This callback cannot be member of "struct usbhs_mod" because it
++	 * will be used even though host/gadget has not been selected.
+ 	 */
+ 	int (*irq_vbus)(struct usbhs_priv *priv,
+ 			struct usbhs_irq_state *irq_state);
 -- 
 2.7.4
 
