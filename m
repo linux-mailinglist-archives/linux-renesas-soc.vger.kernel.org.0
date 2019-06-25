@@ -2,111 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E3537522F6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2019 07:39:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA0B2523F4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2019 09:07:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728421AbfFYFjj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Jun 2019 01:39:39 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:59344 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728400AbfFYFjj (ORCPT
+        id S1729539AbfFYHHG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Jun 2019 03:07:06 -0400
+Received: from mail-io1-f67.google.com ([209.85.166.67]:36711 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726958AbfFYHHG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Jun 2019 01:39:39 -0400
-X-IronPort-AV: E=Sophos;i="5.62,413,1554735600"; 
-   d="scan'208";a="19607568"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 25 Jun 2019 14:39:33 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 05D15400856C;
-        Tue, 25 Jun 2019 14:39:33 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     gregkh@linuxfoundation.org
-Cc:     linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH 13/13] usb: renesas_usbhs: Use struct platform_callback pointer
-Date:   Tue, 25 Jun 2019 14:38:57 +0900
-Message-Id: <1561441137-3090-14-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1561441137-3090-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1561441137-3090-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Tue, 25 Jun 2019 03:07:06 -0400
+Received: by mail-io1-f67.google.com with SMTP id h6so911692ioh.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Jun 2019 00:07:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=sitTKlwfe5CJiHs/Va0VW5zU7SdBgYUdb/IYHbhXWKI=;
+        b=v8pmhnphWzNT6bqdIDaKwIWXqZl9YkPM+ypeqVA/EyvxnZ1GJ/n82SvJT1efxzPnHf
+         svrezQICWC+aMeMr3xDjXF4n3uKRQZSgQmaMyIDNsRUu/JMxemawamvuhzWe3WxnnADa
+         IGKlPr/K63AiOleZR9nK8hI1gXiWSVNpkK+ABJQtrSlyxDEXyHTIPMalQt0qWxuKmzJG
+         humETII3hiM0CPWG4dfqeAL9/PHvLhoPCnao5SAxlwlYcsbgqSgTWRU/Mz4UNLICYtQJ
+         VyoJHWqKqJ+Hk7a1tFk3eALYxeYPeXkEe4SjPIL7yYjlEcn5/7+UhMB3xnvzKKs7c9tV
+         HCXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=sitTKlwfe5CJiHs/Va0VW5zU7SdBgYUdb/IYHbhXWKI=;
+        b=L1jP0PuQkL63UeJ7eV2UeCO6Wzsu17TRrk19D+GevpDPY422FymyaRFiRgh9y7zQIm
+         GT9YBeTBliH/Sg5FF7mnXEAehaVOSenhjUywn30JKES4NIkT7h9FQSFO1E6BAavJT7gd
+         Tzpx1YjBRZOUmPN4WLy7ND4sIG+JPWl6qBYu6cEHULNP8l7PEMYQXR7CJNdmSQXgRdoB
+         khnpsIer7CghrZJL9shXoJq4eQ0fnj2GD4hlH3mVMrpgZ7mZOv74VGWZYulekNnIrb4G
+         Uez9mvbs02CwoeslIwl4uWwkMsUsEZ3X7oLZTxP5aJDbeW5iRxryLh3o2EOIaZlGAS4t
+         vEuA==
+X-Gm-Message-State: APjAAAXYEECFU9L4BmYl/SKSS1599etTQEIf9AeHuds29LKjol+H1Cm7
+        009OdRktQj4U2IZaEHtluF+IA7EC6WniBh4UaB4mk3fn
+X-Google-Smtp-Source: APXvYqwYtomIIwG8GjrqbsPjW97O4AdIYwh+0eHuQsGR9Kl8V1avARFHux8X0RF4BmAY4x4EoDAXwRDOHQTBoUgR/GQ=
+X-Received: by 2002:a5d:80c3:: with SMTP id h3mr38675351ior.167.1561446425029;
+ Tue, 25 Jun 2019 00:07:05 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190624170402.6944-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20190624170402.6944-1-wsa+renesas@sang-engineering.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Tue, 25 Jun 2019 09:06:54 +0200
+Message-ID: <CAMRc=Mfc_94R-4V64vjvWriiD9JSuQ2Fkap76F8ERVZcP+AEbg@mail.gmail.com>
+Subject: Re: [PATCH] i2c: add newly exported functions to the header, too
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-i2c <linux-i2c@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Peter Rosin <peda@axentia.se>,
+        Kieran Bingham <kieran@ksquared.org.uk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Now the driver fixes the issue of the commit 482982062f1b ("usb:
-gadget: renesas_usbhs: bugfix: don't modify platform data") by
-using usbhs_mod_info.get_vbus, this patches uses the pointer
-instead of copied value to avoid redundancy. Note that struct
-renesas_usbhs_driver_param has to use copied value because
-the driver has to set some members (e.g. buswait_bwait).
+pon., 24 cze 2019 o 19:04 Wolfram Sang
+<wsa+renesas@sang-engineering.com> napisa=C5=82(a):
+>
+> Nobody (including me) noticed that these functions were exported but not
+> added to the header :/
+>
+> Fixes: 7159dbdae3c5 ("i2c: core: improve return value handling of i2c_new=
+_device and i2c_new_dummy")
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>  drivers/i2c/i2c-core-base.c | 5 ++---
+>  include/linux/i2c.h         | 6 ++++++
+>  2 files changed, 8 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
+> index 9e43508d4567..4ef44fa7e36b 100644
+> --- a/drivers/i2c/i2c-core-base.c
+> +++ b/drivers/i2c/i2c-core-base.c
+> @@ -721,7 +721,7 @@ static int i2c_dev_irq_from_resources(const struct re=
+source *resources,
+>   * This returns the new i2c client, which may be saved for later use wit=
+h
+>   * i2c_unregister_device(); or an ERR_PTR to describe the error.
+>   */
+> -static struct i2c_client *
+> +struct i2c_client *
+>  i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info co=
+nst *info)
+>  {
+>         struct i2c_client       *client;
+> @@ -887,8 +887,7 @@ static struct i2c_driver dummy_driver =3D {
+>   * This returns the new i2c client, which should be saved for later use =
+with
+>   * i2c_unregister_device(); or an ERR_PTR to describe the error.
+>   */
+> -static struct i2c_client *
+> -i2c_new_dummy_device(struct i2c_adapter *adapter, u16 address)
+> +struct i2c_client *i2c_new_dummy_device(struct i2c_adapter *adapter, u16=
+ address)
+>  {
+>         struct i2c_board_info info =3D {
+>                 I2C_BOARD_INFO("dummy", address),
+> diff --git a/include/linux/i2c.h b/include/linux/i2c.h
+> index 1308126fc384..79f0d4fd5036 100644
+> --- a/include/linux/i2c.h
+> +++ b/include/linux/i2c.h
+> @@ -436,6 +436,9 @@ struct i2c_board_info {
+>  extern struct i2c_client *
+>  i2c_new_device(struct i2c_adapter *adap, struct i2c_board_info const *in=
+fo);
+>
+> +extern struct i2c_client *
+> +i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info co=
+nst *info);
+> +
+>  /* If you don't know the exact address of an I2C device, use this varian=
+t
+>   * instead, which can probe for device presence in a list of possible
+>   * addresses. The "probe" callback function is optional. If it is provid=
+ed,
+> @@ -457,6 +460,9 @@ extern int i2c_probe_func_quick_read(struct i2c_adapt=
+er *, unsigned short addr);
+>  extern struct i2c_client *
+>  i2c_new_dummy(struct i2c_adapter *adap, u16 address);
+>
+> +extern struct i2c_client *
+> +i2c_new_dummy_device(struct i2c_adapter *adapter, u16 address);
+> +
+>  extern struct i2c_client *
+>  devm_i2c_new_dummy_device(struct device *dev, struct i2c_adapter *adap, =
+u16 address);
+>
+> --
+> 2.19.1
+>
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/usb/renesas_usbhs/common.c | 8 ++++----
- drivers/usb/renesas_usbhs/common.h | 2 +-
- drivers/usb/renesas_usbhs/mod.c    | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
+Ha! How about that? :)
 
-diff --git a/drivers/usb/renesas_usbhs/common.c b/drivers/usb/renesas_usbhs/common.c
-index fe7dc91..4c3de77 100644
---- a/drivers/usb/renesas_usbhs/common.c
-+++ b/drivers/usb/renesas_usbhs/common.c
-@@ -53,8 +53,8 @@
-  */
- #define usbhs_platform_call(priv, func, args...)\
- 	(!(priv) ? -ENODEV :			\
--	 !((priv)->pfunc.func) ? 0 :		\
--	 (priv)->pfunc.func(args))
-+	 !((priv)->pfunc->func) ? 0 :		\
-+	 (priv)->pfunc->func(args))
- 
- /*
-  *		common functions
-@@ -644,7 +644,7 @@ static int usbhs_probe(struct platform_device *pdev)
- 		dev_err(dev, "no platform callbacks\n");
- 		return -EINVAL;
- 	}
--	priv->pfunc = info->platform_callback;
-+	priv->pfunc = &info->platform_callback;
- 
- 	/* set default param if platform doesn't have */
- 	if (usbhs_get_dparam(priv, has_new_pipe_configs)) {
-@@ -665,7 +665,7 @@ static int usbhs_probe(struct platform_device *pdev)
- 
- 	/* FIXME */
- 	/* runtime power control ? */
--	if (priv->pfunc.get_vbus)
-+	if (priv->pfunc->get_vbus)
- 		usbhs_get_dparam(priv, runtime_pwctrl) = 1;
- 
- 	/*
-diff --git a/drivers/usb/renesas_usbhs/common.h b/drivers/usb/renesas_usbhs/common.h
-index f6ffdb2..d1a0a35 100644
---- a/drivers/usb/renesas_usbhs/common.h
-+++ b/drivers/usb/renesas_usbhs/common.h
-@@ -252,7 +252,7 @@ struct usbhs_priv {
- 	unsigned int irq;
- 	unsigned long irqflags;
- 
--	struct renesas_usbhs_platform_callback	pfunc;
-+	const struct renesas_usbhs_platform_callback *pfunc;
- 	struct renesas_usbhs_driver_param	dparam;
- 
- 	struct delayed_work notify_hotplug_work;
-diff --git a/drivers/usb/renesas_usbhs/mod.c b/drivers/usb/renesas_usbhs/mod.c
-index ddf0153..10fc655 100644
---- a/drivers/usb/renesas_usbhs/mod.c
-+++ b/drivers/usb/renesas_usbhs/mod.c
-@@ -52,7 +52,7 @@ void usbhs_mod_non_autonomy_mode(struct usbhs_priv *priv)
- {
- 	struct usbhs_mod_info *info = usbhs_priv_to_modinfo(priv);
- 
--	info->get_vbus = priv->pfunc.get_vbus;
-+	info->get_vbus = priv->pfunc->get_vbus;
- }
- 
- /*
--- 
-2.7.4
-
+Reviewed-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
