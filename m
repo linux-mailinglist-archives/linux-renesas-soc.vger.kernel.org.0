@@ -2,51 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CD4252211
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2019 06:25:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87A5252233
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Jun 2019 06:41:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726706AbfFYEZI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Jun 2019 00:25:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43158 "EHLO mail.kernel.org"
+        id S1726587AbfFYElp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Jun 2019 00:41:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47722 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725881AbfFYEZI (ORCPT
+        id S1726421AbfFYElp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Jun 2019 00:25:08 -0400
+        Tue, 25 Jun 2019 00:41:45 -0400
 Received: from localhost (unknown [106.201.40.23])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 31A6820656;
-        Tue, 25 Jun 2019 04:25:06 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3047B20665;
+        Tue, 25 Jun 2019 04:41:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1561436707;
-        bh=3T6SKEcFjkbKM6aaALMIK/+Tqx6ODcVS6SWlNzDr09I=;
+        s=default; t=1561437703;
+        bh=+svs1xm0F2/CdYWQbH30vJyA8MQxdVc1RKbfdXbmfn4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BC0wuSSNup5Bw5ED5C9BZVbBzkbRp5GHgp+c7iuY2nV7bs5lyZhjAFzcsv4xucX2w
-         h67TQyKHllU5gCt5rqJjhUPqMJch+TtBaEj+WloIcCiCP3a4Ad+HIENLQHB0j9tI76
-         N/kcUknAi9tFLtjcuCx+gfXOHdw2EerwAqer7aPs=
-Date:   Tue, 25 Jun 2019 09:51:57 +0530
+        b=mjDHLFkECUqfmBrB6XzMV6RGFbWvfcCeasIkpZtutySDEKLgJ07zd2tmEN4LyN8om
+         q566uosEJ6XjdH3ProvBEG7beGqqUrHiuPP3DA39BzUVk1krp1S923MpTqtQcqV9Sn
+         voabsvHph35dQK78AjCT0f7Dl19ooAYla/Yx4eoM=
+Date:   Tue, 25 Jun 2019 10:08:33 +0530
 From:   Vinod Koul <vkoul@kernel.org>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Dan Williams <dan.j.williams@intel.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        dmaengine@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dmaengine: sh: usb-dmac: Use [] to denote a flexible
- array member
-Message-ID: <20190625042157.GH2962@vkoul-mobl>
-References: <20190619124555.12701-1-geert+renesas@glider.be>
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-serial@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        dmaengine@vger.kernel.org
+Subject: Re: [PATCH] dmaengine: rcar-dmac: Reject zero-length slave DMA
+ requests
+Message-ID: <20190625043833.GK2962@vkoul-mobl>
+References: <20190624123818.20919-1-geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190619124555.12701-1-geert+renesas@glider.be>
+In-Reply-To: <20190624123818.20919-1-geert+renesas@glider.be>
 User-Agent: Mutt/1.11.3 (2019-02-01)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 19-06-19, 14:45, Geert Uytterhoeven wrote:
-> Flexible array members should be denoted using [] instead of [0], else
-> gcc will not warn when they are no longer at the end of the structure.
+On 24-06-19, 14:38, Geert Uytterhoeven wrote:
+> While the .device_prep_slave_sg() callback rejects empty scatterlists,
+> it still accepts single-entry scatterlists with a zero-length segment.
+> These may happen if a driver calls dmaengine_prep_slave_single() with a
+> zero len parameter.  The corresponding DMA request will never complete,
+> leading to messages like:
+> 
+>     rcar-dmac e7300000.dma-controller: Channel Address Error happen
+> 
+> and DMA timeouts.
+> 
+> Although requesting a zero-length DMA request is a driver bug, rejecting
+> it early eases debugging.  Note that the .device_prep_dma_memcpy()
+> callback already rejects requests to copy zero bytes.
 
 Applied, thanks
 
