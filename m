@@ -2,75 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A0F256A16
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2019 15:13:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A97656B51
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Jun 2019 15:54:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727146AbfFZNNK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Jun 2019 09:13:10 -0400
-Received: from sauhun.de ([88.99.104.3]:55906 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726157AbfFZNNK (ORCPT
+        id S1726131AbfFZNya (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Jun 2019 09:54:30 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:60810 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726104AbfFZNya (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Jun 2019 09:13:10 -0400
-Received: from localhost (p54B330AF.dip0.t-ipconnect.de [84.179.48.175])
-        by pokefinder.org (Postfix) with ESMTPSA id EBB9F2C0114;
-        Wed, 26 Jun 2019 15:13:08 +0200 (CEST)
-Date:   Wed, 26 Jun 2019 15:13:08 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Peter Rosin <peda@axentia.se>,
-        Kieran Bingham <kieran@bingham.xyz>,
-        Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH] i2c: add newly exported functions to the header, too
-Message-ID: <20190626131308.GC801@ninjato>
-References: <20190624170402.6944-1-wsa+renesas@sang-engineering.com>
+        Wed, 26 Jun 2019 09:54:30 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 8450B25AEBF;
+        Wed, 26 Jun 2019 23:54:28 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id 8FCCE9404E4; Wed, 26 Jun 2019 15:54:26 +0200 (CEST)
+Date:   Wed, 26 Jun 2019 15:54:26 +0200
+From:   Simon Horman <horms@verge.net.au>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Olof Johansson <olof@lixom.net>, Arnd Bergmann <arnd@arndb.de>,
+        Kevin Hilman <khilman@kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>, arm@kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [Announce] Renesas SoC Co-Maintainer
+Message-ID: <20190626135422.eebzw2nosygkzhy3@verge.net.au>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="gr/z0/N6AeWAPJVB"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190624170402.6944-1-wsa+renesas@sang-engineering.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Organisation: Horms Solutions BV
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi,
 
---gr/z0/N6AeWAPJVB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+at the end of the v5.3 upstream kernel development cycle I will be stepping
+down from my role as Renesas SoC maintainer. And starting with the v5.4
+development cycle Geert Uytterhoeven will be taking over this role.
 
-On Mon, Jun 24, 2019 at 07:04:02PM +0200, Wolfram Sang wrote:
-> Nobody (including me) noticed that these functions were exported but not
-> added to the header :/
->=20
-> Fixes: 7159dbdae3c5 ("i2c: core: improve return value handling of i2c_new=
-_device and i2c_new_dummy")
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+I'd like to take a moment to thank everyone for the support that they have
+shown to me over the years. And for the contributions of many to allow
+the upstream kernel to support a wide range of features on a wide range
+of 32 and 64bit ARM based Renesas SoCs out of the box.
 
-Applied to for-next, thanks!
+Lastly, I'd like to wish Geert all the best in his new role.
 
-
---gr/z0/N6AeWAPJVB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl0Tb2QACgkQFA3kzBSg
-KbbSrw//ak4i3/KMe9jY7IkJhw1n6U4SMzW/FO96xDhO0Yoy9nbXb/bhm6pFTjZw
-fO78sZ76EkPq9hPQFIMVLdjguhi78VT0VzEX0PVLAjvgT5FuJeV9RuC6OYubFjLA
-Qb4dK1EvsK0ByJghgqJcMriB5OePewwTJxo5Ck5i/zM7cKSuSaU9tf9r+fORaLqt
-XJjFbt/eb+y1cZtXgGjkeBhqhZvbAiQ/l00Id+7UNIenx8/7FpBpAoluaFJanu7J
-ih8g7i7vP/hM24aqh7QdFxO5OlRp18D5MeUWGPs63928hL2q/FpKWZo7LZERskwO
-iNbve/2yUjr1wucsCSnaqVECuMOZYwgBlxF4s8bXeO4SMAadlfq+Y7DIw0EYRRb7
-nj16lJu1HXZizkru0an+7YKWcOtgSblhOqUWNJxCqLYDKdsKFLXBg+DKlMPqBRPr
-HbV/gR/9HCDSbDSX4ebZK/0ZwJw3Y3Eyneum7K/TYk5WTdFOcnTetNT9dwmfPrAr
-PePgYwoJMPHLRwsbLXTlBqjDOzt+iNBwzeZ85CUuguqYxw/M7AvImrby9O4M/jLw
-cAh6CqvxVqTwydXfMkeK1T5exZHpR5kWdvsoNdakwMNstKRfZLhQoQQImKtIV2hk
-5DZnUkEOIpP3fM8cAM//iTR/lLW5hp4Zi2TVl0IHuKHpO7p4XjU=
-=+MNs
------END PGP SIGNATURE-----
-
---gr/z0/N6AeWAPJVB--
+Kind regards,
+Simon
