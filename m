@@ -2,287 +2,171 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E8D5659EFF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2019 17:34:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DDE45A0D8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2019 18:29:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726793AbfF1Pe4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 Jun 2019 11:34:56 -0400
-Received: from sauhun.de ([88.99.104.3]:51918 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726837AbfF1Pe4 (ORCPT
+        id S1726605AbfF1Q3x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 Jun 2019 12:29:53 -0400
+Received: from relay1.mentorg.com ([192.94.38.131]:35405 "EHLO
+        relay1.mentorg.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726707AbfF1Q3x (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 Jun 2019 11:34:56 -0400
-Received: from localhost (p54B332FA.dip0.t-ipconnect.de [84.179.50.250])
-        by pokefinder.org (Postfix) with ESMTPSA id 053963E4766;
-        Fri, 28 Jun 2019 17:34:54 +0200 (CEST)
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-mmc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
+        Fri, 28 Jun 2019 12:29:53 -0400
+Received: from svr-orw-mbx-01.mgc.mentorg.com ([147.34.90.201])
+        by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
+        id 1hgtkH-0001pV-KB from George_Davis@mentor.com ; Fri, 28 Jun 2019 09:29:05 -0700
+Received: from localhost (147.34.91.1) by svr-orw-mbx-01.mgc.mentorg.com
+ (147.34.90.201) with Microsoft SMTP Server (TLS) id 15.0.1320.4; Fri, 28 Jun
+ 2019 09:29:03 -0700
+Date:   Fri, 28 Jun 2019 12:29:02 -0400
+From:   "George G. Davis" <george_davis@mentor.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Eugeniu Rosca <roscaeugeniu@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
         Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Takeshi Saito <takeshi.saito.xv@renesas.com>
-Subject: [PATCH RFT 4/4] mmc: renesas_sdhi: support manual calibration
-Date:   Fri, 28 Jun 2019 17:34:48 +0200
-Message-Id: <20190628153448.4167-5-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190628153448.4167-1-wsa+renesas@sang-engineering.com>
-References: <20190628153448.4167-1-wsa+renesas@sang-engineering.com>
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        <dmaengine@vger.kernel.org>, Eugeniu Rosca <erosca@de.adit-jv.com>
+Subject: Re: [PATCH 0/2] serial: sh-sci: Fix .flush_buffer() issues
+Message-ID: <20190628162902.GA1343@mam-gdavis-lt>
+References: <20190624123540.20629-1-geert+renesas@glider.be>
+ <20190626173434.GA24702@x230>
+ <CAMuHMdWuk7CkfcUSX=706f8b6YMFio7iwZg32+uXsyOKL68fuQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWuk7CkfcUSX=706f8b6YMFio7iwZg32+uXsyOKL68fuQ@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-ClientProxiedBy: SVR-ORW-MBX-09.mgc.mentorg.com (147.34.90.209) To
+ svr-orw-mbx-01.mgc.mentorg.com (147.34.90.201)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Some R-Car Gen3 SoCs need some manual correction of timing parameters
-after the automatic tuning has finished but before next CMD13 is
-completed. This patch implements that by this state machine:
+Hello All,
 
-- introducing a configuration flag ('manual_calibration') to mark
-  affected SoCs
-- iff the configuration flag is set the 'fixup_request' callback is
-  populated during probe
-- iff the configuration flag is set, a runtime flag ('needs_adjust_hs400')
-  is set when HS400 tuning gets prepared
-- if tuning HS400 fails, the runtime flag is cleared again
-- the callback will check the runtime flag and enable the corrected
-  manual mode if the flag is set and CMD13 is encountered
-- at the end of the enablement the runtime flag is cleared
-- iff the configuration flag is set, the manual mode will be disabled
-  when HS400 gets downgraded
+On Fri, Jun 28, 2019 at 01:51:25PM +0200, Geert Uytterhoeven wrote:
+> Hi Eugeniu,
+> 
+> On Wed, Jun 26, 2019 at 7:34 PM Eugeniu Rosca <roscaeugeniu@gmail.com> wrote:
+> > On Mon, Jun 24, 2019 at 02:35:38PM +0200, Geert Uytterhoeven wrote:
+> > > This patch series attempts to fix the issues Eugeniu Rosca reported
+> > > seeing, where .flush_buffer() interfered with transmit DMA operation[*].
+> > >
+> > > There's a third patch "dmaengine: rcar-dmac: Reject zero-length slave
+> > > DMA requests", which is related to the issue, but further independent,
+> > > hence submitted separately.
+> > >
+> > > Eugeniu: does this fix the issues you were seeing?
+> >
+> > Many thanks for both sh-sci and the rcar-dmac patches.
+> > The fixes are very much appreciated.
+> >
+> > > Geert Uytterhoeven (2):
+> > >   serial: sh-sci: Fix TX DMA buffer flushing and workqueue races
+> > >   serial: sh-sci: Terminate TX DMA during buffer flushing
+> > >
+> > >  drivers/tty/serial/sh-sci.c | 33 ++++++++++++++++++++++++---------
+> > >  1 file changed, 24 insertions(+), 9 deletions(-)
+> >
+> > I reserved some time to get a feeling about how the patches behave on
+> > a real system (H3-ES2.0-ULCB-KF-M06), so here come my observations.
+> 
+> Thanks for your extensive testing!
+> 
+> > First of all, the issue I have originally reported in [0] is only
+> > reproducible in absence of [4]. So, one of my questions would be how
+> > do you yourself see the relationship between [1-3] and [4]?
+> 
+> I consider them independent.
+> Just applying [4] would fix the issue for the console only, while the
+> race condition can still be triggered on other serial ports.
+> 
+> > That said, all my testing assumes:
+> >  - Vanilla tip v5.2-rc6-15-g249155c20f9b with [4] reverted.
+> >  - DEBUG is undefined in {sh-sci.c,rcar-dmac.c}, since I've noticed
+> >    new issues arising in the debug build, which are unrelated to [0].
+> >
+> > Below is the summary of my findings:
+> >
+> >  Version         IS [0]       Is console       Error message when
+> > (vanilla+X)    reproduced?  usable after [0]   [0] is reproduced
+> >                              is reproduced?
+> >  ------------------------------------------------------------
+> >  -[4]             Yes           No                [5]
+> >  -[4]+[1]         Yes           No                -
+> >  -[4]+[2]         Yes           Yes               [5]
+> >  -[4]+[3]         Yes           Yes               [6]
+> >  -[4]+[1]+[2]     No            -                 -
+> >  -[4]+[1]+[2]+[3] No            -                 -
+> >  pure vanilla     No            -                 -
+> >
+> > This looks a little too verbose, but I thought it might be interesting.
+> 
+> Thanks, it's very helpful to provide these results.
+> 
+> > The story which I see is that [1] does not fix [0] alone, but it seems
+> > to depend on [2]. Furthermore, if cherry picked alone, [1] makes the
+> > matters somewhat worse in the sense that it hides the error [5].
+> 
+> OK.
+> 
+> > My only question is whether [1-3] are supposed to replace [4] or they
+> > are supposed to happily coexist. Since I don't see [0] being reproduced
+> 
+> They are meant to coexist.
+> 
+> > with [1-3], I personally prefer to re-enable DMA on SCIF (when the
+> > latter is used as console) so that more features and code paths are
+> > exercised to increase test coverage.
+> 
+> If a serial port is used as a console, the port is used for both DMA
+> (normal use) and PIO (serial console output).  The latter can have a
+> negative impact on the former, aggravating existing bugs, or triggering
+> more races, even in the hardware.  So I think it's better to be more
+> cautious and keep DMA disabled for the console.
 
-There also some helper functions added to access the TMPPORT registers.
-The actual fixup value is SoC specific and also added to the quirks
-struct.
+Agreed.
 
-Signed-off-by: Takeshi Saito <takeshi.saito.xv@renesas.com>
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/mmc/host/renesas_sdhi.h      |   3 +
- drivers/mmc/host/renesas_sdhi_core.c | 121 ++++++++++++++++++++++++++-
- 2 files changed, 123 insertions(+), 1 deletion(-)
+Just a note for the record that [4] was the easiest way to resolve the
+reported problem [0] but an alternative solution would be to implement DMA
+support for ttySC console ports which will be non-trivial to implement and test
+due to the potential for deadlocks in console write critical paths where
+various locks are held with interrupts disabled. I see only one tty serial
+driver which implements console DMA support, drivers/tty/serial/mpsc.c,
+and perhaps there is a good reason why there are no other examples?
 
-diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
-index 88d05a617d43..f45180d16985 100644
---- a/drivers/mmc/host/renesas_sdhi.h
-+++ b/drivers/mmc/host/renesas_sdhi.h
-@@ -36,6 +36,8 @@ struct renesas_sdhi_of_data {
- struct renesas_sdhi_quirks {
- 	bool hs400_disabled;
- 	bool hs400_4taps;
-+	bool manual_calibration;
-+	u8 manual_calibration_fixup;
- };
- 
- struct tmio_mmc_dma {
-@@ -57,6 +59,7 @@ struct renesas_sdhi {
- 	void __iomem *scc_ctl;
- 	u32 scc_tappos;
- 	u32 scc_tappos_hs400;
-+	bool needs_adjust_hs400;
- };
- 
- #define host_to_priv(host) \
-diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-index bce1779229a8..c4e9d44302bb 100644
---- a/drivers/mmc/host/renesas_sdhi_core.c
-+++ b/drivers/mmc/host/renesas_sdhi_core.c
-@@ -25,6 +25,7 @@
- #include <linux/of_device.h>
- #include <linux/platform_device.h>
- #include <linux/mmc/host.h>
-+#include <linux/mmc/mmc.h>
- #include <linux/mmc/slot-gpio.h>
- #include <linux/mfd/tmio.h>
- #include <linux/sh_dma.h>
-@@ -248,6 +249,11 @@ static int renesas_sdhi_start_signal_voltage_switch(struct mmc_host *mmc,
- #define SH_MOBILE_SDHI_SCC_RVSCNTL	0x008
- #define SH_MOBILE_SDHI_SCC_RVSREQ	0x00A
- #define SH_MOBILE_SDHI_SCC_TMPPORT2	0x00E
-+#define SH_MOBILE_SDHI_SCC_TMPPORT3	0x014
-+#define SH_MOBILE_SDHI_SCC_TMPPORT4	0x016
-+#define SH_MOBILE_SDHI_SCC_TMPPORT5	0x018
-+#define SH_MOBILE_SDHI_SCC_TMPPORT6	0x01A
-+#define SH_MOBILE_SDHI_SCC_TMPPORT7	0x01C
- 
- /* Definitions for values the SH_MOBILE_SDHI_SCC_DTCNTL register */
- #define SH_MOBILE_SDHI_SCC_DTCNTL_TAPEN		BIT(0)
-@@ -264,6 +270,19 @@ static int renesas_sdhi_start_signal_voltage_switch(struct mmc_host *mmc,
- #define SH_MOBILE_SDHI_SCC_TMPPORT2_HS400OSEL	BIT(4)
- #define SH_MOBILE_SDHI_SCC_TMPPORT2_HS400EN	BIT(31)
- 
-+/* Definitions for values the SH_MOBILE_SDHI_SCC_TMPPORT4 register */
-+#define SH_MOBILE_SDHI_SCC_TMPPORT4_DLL_ACC_START	BIT(0)
-+
-+/* Definitions for values the SH_MOBILE_SDHI_SCC_TMPPORT5 register */
-+#define SH_MOBILE_SDHI_SCC_TMPPORT5_DLL_RW_SEL_R	BIT(8)
-+#define SH_MOBILE_SDHI_SCC_TMPPORT5_DLL_RW_SEL_W	(0 << 8)
-+#define SH_MOBILE_SDHI_SCC_TMPPORT5_DLL_ADR_MASK	0x3F
-+
-+/* Definitions for values the SH_MOBILE_SDHI_SCC register */
-+#define SH_MOBILE_SDHI_SCC_TMPPORT_DISABLE_WP_CODE	0xa5000000
-+#define SH_MOBILE_SDHI_SCC_TMPPORT_CALIB_CODE_MASK	0x1f
-+#define SH_MOBILE_SDHI_SCC_TMPPORT_MANUAL_MODE		BIT(7)
-+
- static inline u32 sd_scc_read32(struct tmio_mmc_host *host,
- 				struct renesas_sdhi *priv, int addr)
- {
-@@ -386,6 +405,76 @@ static void renesas_sdhi_disable_scc(struct tmio_mmc_host *host)
- 			sd_ctrl_read16(host, CTL_SD_CARD_CLK_CTL));
- }
- 
-+static u32 sd_scc_tmpport_read32(struct tmio_mmc_host *host,
-+				 struct renesas_sdhi *priv, u32 addr)
-+{
-+	/* read mode */
-+	sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_TMPPORT5,
-+		       SH_MOBILE_SDHI_SCC_TMPPORT5_DLL_RW_SEL_R |
-+		       (SH_MOBILE_SDHI_SCC_TMPPORT5_DLL_ADR_MASK & addr));
-+
-+	/* access start and stop */
-+	sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_TMPPORT4,
-+		       SH_MOBILE_SDHI_SCC_TMPPORT4_DLL_ACC_START);
-+	sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_TMPPORT4, 0);
-+
-+	return sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_TMPPORT7);
-+}
-+
-+static void sd_scc_tmpport_write32(struct tmio_mmc_host *host,
-+				   struct renesas_sdhi *priv, u32 addr, u32 val)
-+{
-+	/* write mode */
-+	sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_TMPPORT5,
-+		       SH_MOBILE_SDHI_SCC_TMPPORT5_DLL_RW_SEL_W |
-+		       (SH_MOBILE_SDHI_SCC_TMPPORT5_DLL_ADR_MASK & addr));
-+
-+	sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_TMPPORT6, val);
-+
-+	/* access start and stop */
-+	sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_TMPPORT4,
-+		       SH_MOBILE_SDHI_SCC_TMPPORT4_DLL_ACC_START);
-+	sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_TMPPORT4, 0);
-+}
-+
-+static void renesas_sdhi_adjust_hs400_mode_enable(struct tmio_mmc_host *host)
-+{
-+	struct renesas_sdhi *priv = host_to_priv(host);
-+	u32 calib_code;
-+
-+	/* disable write protect */
-+	sd_scc_tmpport_write32(host, priv, 0x00,
-+			       SH_MOBILE_SDHI_SCC_TMPPORT_DISABLE_WP_CODE);
-+	/* read calibration code and adjust */
-+	calib_code = sd_scc_tmpport_read32(host, priv, 0x26);
-+	calib_code &= SH_MOBILE_SDHI_SCC_TMPPORT_CALIB_CODE_MASK;
-+	if (calib_code > priv->quirks->manual_calibration_fixup)
-+		calib_code -= priv->quirks->manual_calibration_fixup;
-+	else
-+		calib_code = 0;
-+	/* enable manual calibration */
-+	sd_scc_tmpport_write32(host, priv, 0x22,
-+			       SH_MOBILE_SDHI_SCC_TMPPORT_MANUAL_MODE | calib_code);
-+	/* set offset value to TMPPORT3, hardcoded to OFFSET0 (= 0x3) for now */
-+	sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_TMPPORT3, 0x3);
-+
-+	/* adjustment done, clear flag */
-+	priv->needs_adjust_hs400 = false;
-+}
-+
-+static void renesas_sdhi_adjust_hs400_mode_disable(struct tmio_mmc_host *host)
-+{
-+	struct renesas_sdhi *priv = host_to_priv(host);
-+
-+	/* disable write protect */
-+	sd_scc_tmpport_write32(host, priv, 0x00,
-+			       SH_MOBILE_SDHI_SCC_TMPPORT_DISABLE_WP_CODE);
-+	/* disable manual calibration */
-+	sd_scc_tmpport_write32(host, priv, 0x22, 0);
-+	/* clear offset value of TMPPORT3 */
-+	sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_TMPPORT3, 0);
-+}
-+
- static void renesas_sdhi_reset_hs400_mode(struct tmio_mmc_host *host,
- 					  struct renesas_sdhi *priv)
- {
-@@ -403,13 +492,20 @@ static void renesas_sdhi_reset_hs400_mode(struct tmio_mmc_host *host,
- 			 SH_MOBILE_SDHI_SCC_TMPPORT2_HS400OSEL) &
- 			sd_scc_read32(host, priv, SH_MOBILE_SDHI_SCC_TMPPORT2));
- 
-+	if (priv->quirks->manual_calibration)
-+		renesas_sdhi_adjust_hs400_mode_disable(host);
-+
- 	sd_ctrl_write16(host, CTL_SD_CARD_CLK_CTL, CLK_CTL_SCLKEN |
- 			sd_ctrl_read16(host, CTL_SD_CARD_CLK_CTL));
- }
- 
- static void renesas_sdhi_prepare_hs400_tuning(struct tmio_mmc_host *host)
- {
--	renesas_sdhi_reset_hs400_mode(host, host_to_priv(host));
-+	struct renesas_sdhi *priv = host_to_priv(host);
-+
-+	renesas_sdhi_reset_hs400_mode(host, priv);
-+	if (priv->quirks->manual_calibration)
-+		priv->needs_adjust_hs400 = true;
- }
- 
- #define SH_MOBILE_SDHI_MAX_TAP 3
-@@ -520,6 +616,7 @@ static void renesas_sdhi_hw_reset(struct tmio_mmc_host *host)
- 
- 	renesas_sdhi_reset_scc(host, priv);
- 	renesas_sdhi_reset_hs400_mode(host, priv);
-+	priv->needs_adjust_hs400 = false;
- 
- 	sd_ctrl_write16(host, CTL_SD_CARD_CLK_CTL, CLK_CTL_SCLKEN |
- 			sd_ctrl_read16(host, CTL_SD_CARD_CLK_CTL));
-@@ -596,6 +693,13 @@ static int renesas_sdhi_multi_io_quirk(struct mmc_card *card,
- 	return blk_size;
- }
- 
-+static void renesas_sdhi_fixup_request(struct tmio_mmc_host *host, struct mmc_request *mrq)
-+{
-+	struct renesas_sdhi *priv = host_to_priv(host);
-+
-+	if (priv->needs_adjust_hs400 && mrq->cmd->opcode == MMC_SEND_STATUS)
-+		renesas_sdhi_adjust_hs400_mode_enable(host);
-+}
- static void renesas_sdhi_enable_dma(struct tmio_mmc_host *host, bool enable)
- {
- 	/* Iff regs are 8 byte apart, sdbuf is 64 bit. Otherwise always 32. */
-@@ -618,12 +722,24 @@ static const struct renesas_sdhi_quirks sdhi_quirks_nohs400 = {
- 	.hs400_disabled = true,
- };
- 
-+static const struct renesas_sdhi_quirks sdhi_quirks_manual_calib0 = {
-+	.manual_calibration = true,
-+	.manual_calibration_fixup = 0,
-+};
-+
-+static const struct renesas_sdhi_quirks sdhi_quirks_manual_calib4 = {
-+	.manual_calibration = true,
-+	.manual_calibration_fixup = 4,
-+};
-+
- static const struct soc_device_attribute sdhi_quirks_match[]  = {
- 	{ .soc_id = "r8a774a1", .revision = "ES1.[012]", .data = &sdhi_quirks_4tap_nohs400 },
- 	{ .soc_id = "r8a7795", .revision = "ES1.*", .data = &sdhi_quirks_4tap_nohs400 },
- 	{ .soc_id = "r8a7795", .revision = "ES2.0", .data = &sdhi_quirks_4tap },
- 	{ .soc_id = "r8a7796", .revision = "ES1.[012]", .data = &sdhi_quirks_4tap_nohs400 },
-+	{ .soc_id = "r8a77965", .data = &sdhi_quirks_manual_calib0 },
- 	{ .soc_id = "r8a77980", .data = &sdhi_quirks_nohs400 },
-+	{ .soc_id = "r8a77990", .data = &sdhi_quirks_manual_calib4 },
- 	{ /* Sentinel. */ },
- };
- 
-@@ -720,6 +836,9 @@ int renesas_sdhi_probe(struct platform_device *pdev,
- 	if (quirks && quirks->hs400_4taps)
- 		mmc_data->flags |= TMIO_MMC_HAVE_4TAP_HS400;
- 
-+	if (quirks && quirks->manual_calibration)
-+		host->fixup_request = renesas_sdhi_fixup_request;
-+
- 	/* For some SoC, we disable internal WP. GPIO may override this */
- 	if (mmc_can_gpio_ro(host->mmc))
- 		mmc_data->capabilities2 &= ~MMC_CAP2_NO_WRITE_PROTECT;
+> > [0] https://lore.kernel.org/lkml/20190504004258.23574-3-erosca@de.adit-jv.com/
+> > [1] https://patchwork.kernel.org/patch/11012983/
+> >     ("serial: sh-sci: Fix TX DMA buffer flushing and workqueue races")
+> > [2] https://patchwork.kernel.org/patch/11012987/
+> >     ("serial: sh-sci: Terminate TX DMA during buffer flushing")
+> > [3] https://patchwork.kernel.org/patch/11012991/
+> >     ("dmaengine: rcar-dmac: Reject zero-length slave DMA requests")
+> > [4] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=099506cbbc79c0
+> >     ("serial: sh-sci: disable DMA for uart_console")
+> >
+> > [5] rcar-dmac e7300000.dma-controller: Channel Address Error
+> > [6] rcar-dmac e7300000.dma-controller: rcar_dmac_prep_slave_sg: bad parameter: len=1, id=19
+> >     sh-sci e6e88000.serial: Failed preparing Tx DMA descriptor
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+
 -- 
-2.20.1
-
+Regards,
+George
