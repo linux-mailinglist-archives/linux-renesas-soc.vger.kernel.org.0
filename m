@@ -2,171 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DDE45A0D8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2019 18:29:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D19785A147
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Jun 2019 18:47:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726605AbfF1Q3x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 Jun 2019 12:29:53 -0400
-Received: from relay1.mentorg.com ([192.94.38.131]:35405 "EHLO
-        relay1.mentorg.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726707AbfF1Q3x (ORCPT
+        id S1726781AbfF1Qri (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 Jun 2019 12:47:38 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:36574 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726605AbfF1Qri (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 Jun 2019 12:29:53 -0400
-Received: from svr-orw-mbx-01.mgc.mentorg.com ([147.34.90.201])
-        by relay1.mentorg.com with esmtps (TLSv1.2:ECDHE-RSA-AES256-SHA384:256)
-        id 1hgtkH-0001pV-KB from George_Davis@mentor.com ; Fri, 28 Jun 2019 09:29:05 -0700
-Received: from localhost (147.34.91.1) by svr-orw-mbx-01.mgc.mentorg.com
- (147.34.90.201) with Microsoft SMTP Server (TLS) id 15.0.1320.4; Fri, 28 Jun
- 2019 09:29:03 -0700
-Date:   Fri, 28 Jun 2019 12:29:02 -0400
-From:   "George G. Davis" <george_davis@mentor.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Eugeniu Rosca <roscaeugeniu@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        <dmaengine@vger.kernel.org>, Eugeniu Rosca <erosca@de.adit-jv.com>
-Subject: Re: [PATCH 0/2] serial: sh-sci: Fix .flush_buffer() issues
-Message-ID: <20190628162902.GA1343@mam-gdavis-lt>
-References: <20190624123540.20629-1-geert+renesas@glider.be>
- <20190626173434.GA24702@x230>
- <CAMuHMdWuk7CkfcUSX=706f8b6YMFio7iwZg32+uXsyOKL68fuQ@mail.gmail.com>
+        Fri, 28 Jun 2019 12:47:38 -0400
+Received: by mail-ot1-f66.google.com with SMTP id r6so6630028oti.3;
+        Fri, 28 Jun 2019 09:47:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TGn4lFERvp7M9+DNIvzZo/sZnI385yEo2mmoo8SI8gw=;
+        b=OKmFYcZeVY1qufwnjiRK9GJmna4CPJFePP7vKMY+JqXzotM8j8yxTRdoxYF1HPBcuf
+         6beqprqZv2Kefu6DxPCaOQiSj4QEy5rfI+GkLs7+fq8hqLyzmv/WiYPyTf4Eu9RS13cI
+         xULFyy4NRIPVBgAy27gRV3ZzpdbFyR5aWLN15VccFN36JQxIb6B5bvVmVazTpCoBR54j
+         oNr35WrLdZGoJPySl/lVkGOg1JjtRBKG3X4dJi1UztaXxtK6QOKe8WtQM1g89zEneUmm
+         sLC6PjwPCvMKx/Xt9dm77i78MPe78hvVQ59skv43scI7wKExw8vpLSNT1of4tCl7tnRj
+         yb6g==
+X-Gm-Message-State: APjAAAX9fuLU/U9X4m7DbOVAB8slyD5VvslNj9I9tRtTS/zxjYfybIWA
+        +MCESeRyb4ctU3wBNKy+4mqgwuI5Vufm/qA0v2M=
+X-Google-Smtp-Source: APXvYqxqC6Dja4LQX98O/RoSg0LZDqZ2ELoCtccnWo+MyF+Ej0nuN5wwF+dIheiMti5oONhPBS4Q+9rH/YI8YJK4zn0=
+X-Received: by 2002:a9d:529:: with SMTP id 38mr5455197otw.145.1561740457613;
+ Fri, 28 Jun 2019 09:47:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWuk7CkfcUSX=706f8b6YMFio7iwZg32+uXsyOKL68fuQ@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-ClientProxiedBy: SVR-ORW-MBX-09.mgc.mentorg.com (147.34.90.209) To
- svr-orw-mbx-01.mgc.mentorg.com (147.34.90.201)
+References: <20190628153448.4167-1-wsa+renesas@sang-engineering.com> <20190628153448.4167-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20190628153448.4167-2-wsa+renesas@sang-engineering.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 28 Jun 2019 18:47:26 +0200
+Message-ID: <CAMuHMdUdscxTyFQpOP0SG65BpupvJPdLaeR3hd9KLzP7tFvd0Q@mail.gmail.com>
+Subject: Re: [PATCH RFT 1/4] mmc: renesas_sdhi: keep sorting
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello All,
+On Fri, Jun 28, 2019 at 5:35 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> The two devices next to each other are super similar, but still, let's
+> keep the alphanumeric sorting for easier additions later.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-On Fri, Jun 28, 2019 at 01:51:25PM +0200, Geert Uytterhoeven wrote:
-> Hi Eugeniu,
-> 
-> On Wed, Jun 26, 2019 at 7:34 PM Eugeniu Rosca <roscaeugeniu@gmail.com> wrote:
-> > On Mon, Jun 24, 2019 at 02:35:38PM +0200, Geert Uytterhoeven wrote:
-> > > This patch series attempts to fix the issues Eugeniu Rosca reported
-> > > seeing, where .flush_buffer() interfered with transmit DMA operation[*].
-> > >
-> > > There's a third patch "dmaengine: rcar-dmac: Reject zero-length slave
-> > > DMA requests", which is related to the issue, but further independent,
-> > > hence submitted separately.
-> > >
-> > > Eugeniu: does this fix the issues you were seeing?
-> >
-> > Many thanks for both sh-sci and the rcar-dmac patches.
-> > The fixes are very much appreciated.
-> >
-> > > Geert Uytterhoeven (2):
-> > >   serial: sh-sci: Fix TX DMA buffer flushing and workqueue races
-> > >   serial: sh-sci: Terminate TX DMA during buffer flushing
-> > >
-> > >  drivers/tty/serial/sh-sci.c | 33 ++++++++++++++++++++++++---------
-> > >  1 file changed, 24 insertions(+), 9 deletions(-)
-> >
-> > I reserved some time to get a feeling about how the patches behave on
-> > a real system (H3-ES2.0-ULCB-KF-M06), so here come my observations.
-> 
-> Thanks for your extensive testing!
-> 
-> > First of all, the issue I have originally reported in [0] is only
-> > reproducible in absence of [4]. So, one of my questions would be how
-> > do you yourself see the relationship between [1-3] and [4]?
-> 
-> I consider them independent.
-> Just applying [4] would fix the issue for the console only, while the
-> race condition can still be triggered on other serial ports.
-> 
-> > That said, all my testing assumes:
-> >  - Vanilla tip v5.2-rc6-15-g249155c20f9b with [4] reverted.
-> >  - DEBUG is undefined in {sh-sci.c,rcar-dmac.c}, since I've noticed
-> >    new issues arising in the debug build, which are unrelated to [0].
-> >
-> > Below is the summary of my findings:
-> >
-> >  Version         IS [0]       Is console       Error message when
-> > (vanilla+X)    reproduced?  usable after [0]   [0] is reproduced
-> >                              is reproduced?
-> >  ------------------------------------------------------------
-> >  -[4]             Yes           No                [5]
-> >  -[4]+[1]         Yes           No                -
-> >  -[4]+[2]         Yes           Yes               [5]
-> >  -[4]+[3]         Yes           Yes               [6]
-> >  -[4]+[1]+[2]     No            -                 -
-> >  -[4]+[1]+[2]+[3] No            -                 -
-> >  pure vanilla     No            -                 -
-> >
-> > This looks a little too verbose, but I thought it might be interesting.
-> 
-> Thanks, it's very helpful to provide these results.
-> 
-> > The story which I see is that [1] does not fix [0] alone, but it seems
-> > to depend on [2]. Furthermore, if cherry picked alone, [1] makes the
-> > matters somewhat worse in the sense that it hides the error [5].
-> 
-> OK.
-> 
-> > My only question is whether [1-3] are supposed to replace [4] or they
-> > are supposed to happily coexist. Since I don't see [0] being reproduced
-> 
-> They are meant to coexist.
-> 
-> > with [1-3], I personally prefer to re-enable DMA on SCIF (when the
-> > latter is used as console) so that more features and code paths are
-> > exercised to increase test coverage.
-> 
-> If a serial port is used as a console, the port is used for both DMA
-> (normal use) and PIO (serial console output).  The latter can have a
-> negative impact on the former, aggravating existing bugs, or triggering
-> more races, even in the hardware.  So I think it's better to be more
-> cautious and keep DMA disabled for the console.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Agreed.
+Gr{oetje,eeting}s,
 
-Just a note for the record that [4] was the easiest way to resolve the
-reported problem [0] but an alternative solution would be to implement DMA
-support for ttySC console ports which will be non-trivial to implement and test
-due to the potential for deadlocks in console write critical paths where
-various locks are held with interrupts disabled. I see only one tty serial
-driver which implements console DMA support, drivers/tty/serial/mpsc.c,
-and perhaps there is a good reason why there are no other examples?
-
-> > [0] https://lore.kernel.org/lkml/20190504004258.23574-3-erosca@de.adit-jv.com/
-> > [1] https://patchwork.kernel.org/patch/11012983/
-> >     ("serial: sh-sci: Fix TX DMA buffer flushing and workqueue races")
-> > [2] https://patchwork.kernel.org/patch/11012987/
-> >     ("serial: sh-sci: Terminate TX DMA during buffer flushing")
-> > [3] https://patchwork.kernel.org/patch/11012991/
-> >     ("dmaengine: rcar-dmac: Reject zero-length slave DMA requests")
-> > [4] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=099506cbbc79c0
-> >     ("serial: sh-sci: disable DMA for uart_console")
-> >
-> > [5] rcar-dmac e7300000.dma-controller: Channel Address Error
-> > [6] rcar-dmac e7300000.dma-controller: rcar_dmac_prep_slave_sg: bad parameter: len=1, id=19
-> >     sh-sci e6e88000.serial: Failed preparing Tx DMA descriptor
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-> -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+                        Geert
 
 -- 
-Regards,
-George
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
