@@ -2,77 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 526E75CC47
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2019 10:58:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20F0C5CD51
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2019 12:07:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725868AbfGBI6M (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 2 Jul 2019 04:58:12 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:36375 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725851AbfGBI6L (ORCPT
+        id S1725868AbfGBKHp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 2 Jul 2019 06:07:45 -0400
+Received: from mail-eopbgr1410091.outbound.protection.outlook.com ([40.107.141.91]:55589
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725835AbfGBKHp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 2 Jul 2019 04:58:11 -0400
-Received: by mail-oi1-f194.google.com with SMTP id w7so12405277oic.3
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 02 Jul 2019 01:58:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pb4hIlPtBxu+eWlV5MavugzJlWlGVOugSZum+zG+KJU=;
-        b=C0r/K8EPWR2p53KcDT5Q1I7yeJkZP3N9WyPsnpBct8atImcUr0xuWVbV6wiZxrMFal
-         ycMwFiWJFb/VVrYty5J3d1rvHQkSBaqm7ycgJRy0zoxNK2Z4w+UFDHktDGNatvyGqpw9
-         5bY9IDs25qaK5WXwbeEGjw3ogkXZ6UWWJHd6i3tuszyaXiX9bgNnJdlizfEgDT71L2RD
-         NP+HNmNDZklyQeOjoweleXlkw6NROCOidZq+Guugv383K7Lva1vVFKsyDcspDEt5MqCT
-         pkuSW9Ci+Wj1Ab10URVg37yqiiSD0y4vNb83mymG2ceOrSU+JTWBJfLyLgXuJY30ZOpL
-         NPzQ==
-X-Gm-Message-State: APjAAAW1JMF7dZLc1tCoTbevuAvS/HJqjoMQ4ejVwXZDmL+BtMeW/JJy
-        1pa/cgmHUpPw63MTeJcHRTTctomb5N6k2FsyXcTegaIH
-X-Google-Smtp-Source: APXvYqyfQUJ0oEfJxk7/b2/K3FRe9as/LnCeH7oYgYZYd/X1ze/KZsHM8di8yh3wqbFRL0AWB3C21OAFERAirvm7UsU=
-X-Received: by 2002:aca:3bc6:: with SMTP id i189mr2173610oia.153.1562057891205;
- Tue, 02 Jul 2019 01:58:11 -0700 (PDT)
+        Tue, 2 Jul 2019 06:07:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PVScTzklIbcld/D3JN0jH69Ly/BX8fx4iBi1HtTtXxg=;
+ b=YoIdHenUpMkJGLrNh92TVV7yoXojB7fMjgQsqrusg5SgcIwiMyK2BAZceFkWi8Hzj0MqdpFNU8bcHFHC3Xuo6/EnV0PdTtfagDO0VNdxE6nHUc7Bcz5uZ1TGHw9idyqZVOjLwVOwCXl66N4qZLGq06cVRxGk43q58nypEfsH5Rg=
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.174.85) by
+ TYAPR01MB4477.jpnprd01.prod.outlook.com (20.179.174.16) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2032.18; Tue, 2 Jul 2019 10:07:42 +0000
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::602d:62cc:de62:eaba]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::602d:62cc:de62:eaba%6]) with mapi id 15.20.2032.019; Tue, 2 Jul 2019
+ 10:07:42 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Alan Stern <stern@rowland.harvard.edu>, shuah <shuah@kernel.org>,
+        Suwan Kim <suwan.kim027@gmail.com>
+CC:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "usb-storage@lists.one-eyed-alien.net" 
+        <usb-storage@lists.one-eyed-alien.net>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>, Christoph Hellwig <hch@lst.de>
+Subject: RE: [PATCH v2] usb-storage: Add a limitation for
+ blk_queue_max_hw_sectors()
+Thread-Topic: [PATCH v2] usb-storage: Add a limitation for
+ blk_queue_max_hw_sectors()
+Thread-Index: AQHVIcuW138W6xs/SU+mBATKJYat56aZ0SQAgAABRQCAAAL1gIAFZkqggAAqzACAF8/kEA==
+Date:   Tue, 2 Jul 2019 10:07:42 +0000
+Message-ID: <TYAPR01MB454412603157D6DDCB512092D8F80@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+References: <20190613171112.GA22155@lst.de>
+ <Pine.LNX.4.44L0.1906131317210.1307-100000@iolanthe.rowland.org>
+ <OSBPR01MB359051D6F83101432E0F2549D8EB0@OSBPR01MB3590.jpnprd01.prod.outlook.com>
+ <20190617062222.GA5069@lst.de>
+In-Reply-To: <20190617062222.GA5069@lst.de>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [118.238.235.108]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e2df9c2d-e54c-4ad3-1df2-08d6fed51f77
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:TYAPR01MB4477;
+x-ms-traffictypediagnostic: TYAPR01MB4477:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <TYAPR01MB4477CA5EED4F8BFA7F65C64ED8F80@TYAPR01MB4477.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 008663486A
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(39860400002)(366004)(136003)(376002)(396003)(346002)(199004)(189003)(2906002)(66946007)(76116006)(73956011)(102836004)(7696005)(74316002)(99286004)(81156014)(8676002)(6116002)(71200400001)(71190400001)(305945005)(7736002)(54906003)(8936002)(486006)(66476007)(66556008)(64756008)(14454004)(52536014)(5660300002)(256004)(86362001)(476003)(53936002)(14444005)(966005)(186003)(6506007)(316002)(110136005)(81166006)(11346002)(6436002)(3846002)(446003)(2171002)(478600001)(76176011)(229853002)(6246003)(9686003)(68736007)(26005)(66066001)(25786009)(33656002)(55016002)(4326008)(6306002)(66446008)(4744005)(6606295002);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB4477;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: gDi1d+37W/+Kj6oOahfpxj97F4zn5H9LQikGOLpJ3kXeqQqlZ+HhZ2KHP4g//S7bw53mjpS541U2JfhtYkXgEO21PvS9B/1kga7U8hgnvPxOu1+hPU21vTLG6Ok+v9Ad4OGj5fmYrO7TTWNrn90OiTX+jU27hXYQx0B29oWIADHdL8nvVknpbA9Ia0/xIOSo0Mnptj7DDx7miwcJelwA9bA2/ArLReI+TM3kyVz1l332aajK7c0ejNm4K2E7OpDReKzIpWMaLVqg8E2MI6Eg8wwdz2Js1r65sMB51aBQ5PG3DceGir6GeHC2EhoXNk63CY22chJFaI+YwK7oN3lnfo59fNUHdTHh0gMZxzpAD584t3MmVnW/o/98H4hAiZfoKSfbK912AfNCZURJX6QHTnKhf7uUPQH/ChSHlsjWdgM=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20190624105224.23927-1-horms+renesas@verge.net.au> <20190624105224.23927-3-horms+renesas@verge.net.au>
-In-Reply-To: <20190624105224.23927-3-horms+renesas@verge.net.au>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 2 Jul 2019 10:58:00 +0200
-Message-ID: <CAMuHMdW8dUOuPmdvuWyRxWzSuLW7fmzJYr2fmCnpZLbrye31yw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] arm64: dts: renesas: r8a77995: Add cpg reset for DU
-To:     Simon Horman <horms+renesas@verge.net.au>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Kaneko <ykaneko0929@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2df9c2d-e54c-4ad3-1df2-08d6fed51f77
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jul 2019 10:07:42.7663
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yoshihiro.shimoda.uh@renesas.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4477
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jun 24, 2019 at 12:52 PM Simon Horman
-<horms+renesas@verge.net.au> wrote:
-> From: Yoshihiro Kaneko <ykaneko0929@gmail.com>
->
-> Add CPG reset properties to DU node of D3 (r8a77995) SoC.
->
-> According to Laurent Pinchart, R-Car Gen3 reset is handled at the group
-> level so specifying one reset entry per group is sufficient.
->
-> This patch was inspired by a patch in the BSP by
-> Takeshi Kihara <takeshi.kihara.df@renesas.com>.
->
-> Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
-> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+Hi Alan, shuah, Suwan,
 
-Thanks, applied and queued for v5.4.
+> From: Christoph Hellwig, Sent: Monday, June 17, 2019 3:22 PM
+>=20
+> On Mon, Jun 17, 2019 at 04:17:43AM +0000, Yoshihiro Shimoda wrote:
+> > Thank you for the comments. So, should I wait for getting rid of the
+> > virt_boundary_mask stuff? If I revise the commit log of this patch,
+> > is it acceptable for v5.2-stable as a workaround? In other words,
+> > I worry about this issue exists on v5.2-stable.
+>=20
+> It does exist on 5.2-stable and we should fix it.  I'll plan to resend
+> my series to fix the virt_boundary issues for the other SCSI driver
+> soon, but we'll still need to sort out usb-storage.
 
-Gr{oetje,eeting}s,
+I guess that getting rid of the virt_boundary_mask stuff [1] needs more tim=
+e.
+So, for v5.2-stable, would you accept my patch as a workaround?
+JFYI, v5.2-rc7 still has this "swiotlb buffer is full" issue.
 
-                        Geert
+[1]
+https://marc.info/?l=3Dlinux-kernel&m=3D156114524808042&w=3D2
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Best regards,
+Yoshihiro Shimoda
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
