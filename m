@@ -2,81 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 847D45D1B9
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2019 16:28:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FE595D559
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  2 Jul 2019 19:35:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727055AbfGBO2E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 2 Jul 2019 10:28:04 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:48422 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1727049AbfGBO2E (ORCPT
+        id S1726303AbfGBRfX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 2 Jul 2019 13:35:23 -0400
+Received: from michel.telenet-ops.be ([195.130.137.88]:52538 "EHLO
+        michel.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725851AbfGBRfX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 2 Jul 2019 10:28:04 -0400
-Received: (qmail 2902 invoked by uid 2102); 2 Jul 2019 10:28:03 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 2 Jul 2019 10:28:03 -0400
-Date:   Tue, 2 Jul 2019 10:28:03 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Greg KH <greg@kroah.com>
-cc:     shuah <shuah@kernel.org>, Suwan Kim <suwan.kim027@gmail.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "usb-storage@lists.one-eyed-alien.net" 
-        <usb-storage@lists.one-eyed-alien.net>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>, Christoph Hellwig <hch@lst.de>
-Subject: RE: [PATCH v2] usb-storage: Add a limitation for blk_queue_max_hw_sectors()
-In-Reply-To: <TYAPR01MB454412603157D6DDCB512092D8F80@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-Message-ID: <Pine.LNX.4.44L0.1907021018220.1647-100000@iolanthe.rowland.org>
-MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+        Tue, 2 Jul 2019 13:35:23 -0400
+Received: from ramsan ([84.194.98.4])
+        by michel.telenet-ops.be with bizsmtp
+        id XtbL2000C05gfCL06tbLn8; Tue, 02 Jul 2019 19:35:20 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hiMga-000417-88
+        for linux-renesas-soc@vger.kernel.org; Tue, 02 Jul 2019 19:35:20 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hiMga-00037d-6V
+        for linux-renesas-soc@vger.kernel.org; Tue, 02 Jul 2019 19:35:20 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2019-07-02-v5.2-rc7
+Date:   Tue,  2 Jul 2019 19:35:20 +0200
+Message-Id: <20190702173520.11958-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 2 Jul 2019, Yoshihiro Shimoda wrote:
+I have pushed renesas-drivers-2019-07-02-v5.2-rc7 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-> Hi Alan, shuah, Suwan,
-> 
-> > From: Christoph Hellwig, Sent: Monday, June 17, 2019 3:22 PM
-> > 
-> > On Mon, Jun 17, 2019 at 04:17:43AM +0000, Yoshihiro Shimoda wrote:
-> > > Thank you for the comments. So, should I wait for getting rid of the
-> > > virt_boundary_mask stuff? If I revise the commit log of this patch,
-> > > is it acceptable for v5.2-stable as a workaround? In other words,
-> > > I worry about this issue exists on v5.2-stable.
-> > 
-> > It does exist on 5.2-stable and we should fix it.  I'll plan to resend
-> > my series to fix the virt_boundary issues for the other SCSI driver
-> > soon, but we'll still need to sort out usb-storage.
-> 
-> I guess that getting rid of the virt_boundary_mask stuff [1] needs more time.
-> So, for v5.2-stable, would you accept my patch as a workaround?
-> JFYI, v5.2-rc7 still has this "swiotlb buffer is full" issue.
-> 
-> [1]
-> https://marc.info/?l=linux-kernel&m=156114524808042&w=2
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the development branch of
+my renesas-devel.git tree.
 
-I would really prefer to see a different solution.
+Today's version is based on renesas-devel-2019-07-02-v5.2-rc7.
 
-The actual problem is that the usb_device and usb_interface structures
-are supposed to inherit all of their DMA properties from the bus's host
-controller.  But the existing code copies only the dma_mask and
-dma_pfn_offset fields in the embedded device structures.  If we copied
-all of the important DMA fields then this patch wouldn't be needed; the
-max_sectors value for the request queue would be set up correctly to
-begin with.
+Included branches with driver code:
+  - clk-renesas
+  - sh-pfc
+  - topic/sh-sci-tx-dma-buffer-flushing-fixes-v2
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/topic/sdhi-manual-calib~1
+  - git://git.ragnatech.se/linux#for-renesas-drivers
 
-So what I would like to see is a new subroutine -- perhaps in the
-driver core -- that copies the DMA fields from one struct device to
-another.  Then we could call this subroutine in usb_alloc_dev() and
-usb_set_configuration() instead of copying the information manually.
+Included fixes:
+  - rcar-vin: Clean up correct notifier in error path
+  - v4l2-subdev: fix regression in check_pad()
+  - ARM: shmobile: defconfig: Update shmobile_defconfig
+  - [LOCAL] arm64: defconfig: Update renesas_defconfig
 
-Greg and Christoph, does that make sense?
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#clockevents/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
+  - git://git.infradead.org/users/vkoul/slave-dma.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://github.com/bzolnier/linux.git#fbdev-for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/kishon/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
 
-Yoshihiro, would you like to write a patch that does this?
+Gr{oetje,eeting}s,
 
-Alan Stern
+						Geert
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
