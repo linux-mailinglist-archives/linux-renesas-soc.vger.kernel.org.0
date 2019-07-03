@@ -2,94 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A7145E665
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jul 2019 16:19:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D8715E7EB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jul 2019 17:34:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726574AbfGCOT5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 3 Jul 2019 10:19:57 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:48360 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1725830AbfGCOT5 (ORCPT
+        id S1726955AbfGCPee (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 3 Jul 2019 11:34:34 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:35786 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726490AbfGCPed (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 3 Jul 2019 10:19:57 -0400
-Received: (qmail 2823 invoked by uid 2102); 3 Jul 2019 10:19:56 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 3 Jul 2019 10:19:56 -0400
-Date:   Wed, 3 Jul 2019 10:19:56 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-cc:     Greg KH <greg@kroah.com>, shuah <shuah@kernel.org>,
-        Suwan Kim <suwan.kim027@gmail.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "usb-storage@lists.one-eyed-alien.net" 
-        <usb-storage@lists.one-eyed-alien.net>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>, Christoph Hellwig <hch@lst.de>
-Subject: RE: [PATCH v2] usb-storage: Add a limitation for blk_queue_max_hw_sectors()
-In-Reply-To: <TYAPR01MB454441748DB5CBCDFCF207D3D8FB0@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-Message-ID: <Pine.LNX.4.44L0.1907031015140.1547-100000@iolanthe.rowland.org>
+        Wed, 3 Jul 2019 11:34:33 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 90FFA3C04C1;
+        Wed,  3 Jul 2019 17:34:30 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 5YTeFtRDEy6a; Wed,  3 Jul 2019 17:34:25 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 0C94E3C001F;
+        Wed,  3 Jul 2019 17:34:25 +0200 (CEST)
+Received: from vmlxhi-102.adit-jv.com (10.72.93.184) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.439.0; Wed, 3 Jul 2019
+ 17:34:24 +0200
+Date:   Wed, 3 Jul 2019 17:34:21 +0200
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Eugeniu Rosca <roscaeugeniu@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        <dmaengine@vger.kernel.org>, Eugeniu Rosca <erosca@de.adit-jv.com>
+Subject: Re: [PATCH] dmaengine: rcar-dmac: Reject zero-length slave DMA
+ requests
+Message-ID: <20190703150724.GA11105@vmlxhi-102.adit-jv.com>
+References: <20190624123818.20919-1-geert+renesas@glider.be>
+ <20190626181459.GA31913@x230>
+ <CAMuHMdUpPEdz3aDXo90XQ7b-jP2ErxwqLKgmEFUhhuB-oBzrDA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUpPEdz3aDXo90XQ7b-jP2ErxwqLKgmEFUhhuB-oBzrDA@mail.gmail.com>
+User-Agent: Mutt/1.12.1+40 (7f8642d4ee82) (2019-06-28)
+X-Originating-IP: [10.72.93.184]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 3 Jul 2019, Yoshihiro Shimoda wrote:
+Hi Geert,
 
-> > I would really prefer to see a different solution.
-> > 
-> > The actual problem is that the usb_device and usb_interface structures
-> > are supposed to inherit all of their DMA properties from the bus's host
-> > controller.  But the existing code copies only the dma_mask and
-> > dma_pfn_offset fields in the embedded device structures.  If we copied
-> > all of the important DMA fields then this patch wouldn't be needed; the
-> > max_sectors value for the request queue would be set up correctly to
-> > begin with.
+On Fri, Jun 28, 2019 at 02:10:01PM +0200, Geert Uytterhoeven wrote:
+> On Wed, Jun 26, 2019 at 8:15 PM Eugeniu Rosca <roscaeugeniu@gmail.com> wrote:
+[..]
+> I'm not such a big fan of WARN()...
+[..]
+> > rcar-dmac e7300000.dma-controller: rcar_dmac_prep_slave_sg: bad parameter: len=1, id=19
 > 
-> I'm sorry, but I cannot understand what are important DMA fields.
-
-Probably all of them are important; I don't know.
-
-> IIUC, usb-storage driver should take care of calling blk_queue_ APIs anyway because:
+> Which would be followed by
 > 
->  - As Christoph mentioned before on the email [1], usb-storage has a special
->    max_sectors quirk for tape and SuperSpeed devices.
->  - Since blk_queue_* APIs don't take device structure pointer, the block layer
->    cannot call any DMA mapping APIs. So, even if any other DMA fields are copied,
->    the behavior is not changed.
-
-Although the blk_queue_* APIs don't take device structure pointers, the
-SCSI layer does know about devices.  And since it is the SCSI layer
-which creates the request queue, changing the DMA fields should change
-the behavior.
-
-However, you are correct that usb-storage has to call the blk_queue_* 
-APIs anyway.  So I guess your patch is the right thing to do after all.
-
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-
-I still think that copying the DMA fields would be a good idea, though.
-
-Alan Stern
-
-> [1]
-> https://www.spinics.net/lists/linux-usb/msg181527.html
+>     sh-sci e6e88000.serial: Failed preparing Tx DMA descriptor
 > 
-> What do you think?
+> pointing to the sh-sci driver, right?
 > 
-> Best regards,
-> Yoshihiro Shimoda
-> 
-> > So what I would like to see is a new subroutine -- perhaps in the
-> > driver core -- that copies the DMA fields from one struct device to
-> > another.  Then we could call this subroutine in usb_alloc_dev() and
-> > usb_set_configuration() instead of copying the information manually.
-> > 
-> > Greg and Christoph, does that make sense?
-> > 
-> > Yoshihiro, would you like to write a patch that does this?
-> > 
-> > Alan Stern
+> The id=19 points to channel 0x13, i.e. SCIF2, according to
+> arch/arm64/boot/dts/renesas/r8a7795.dtsi.
 
+Thank you for the detailed rationale. Much appreciated.
+
+FTR, the patch landed in vkoul/slave-dma.git, as commit
+https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/slave-dma.git/commit/?h=next&id=78efb76ab4dfb8f
+("dmaengine: rcar-dmac: Reject zero-length slave DMA requests")
+
+-- 
+Best Regards,
+Eugeniu.
