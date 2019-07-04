@@ -2,227 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A3A4B5FAB9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jul 2019 17:16:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BC245FAD5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jul 2019 17:27:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727342AbfGDPQB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 4 Jul 2019 11:16:01 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58448 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727382AbfGDPQB (ORCPT
+        id S1727726AbfGDP1U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 4 Jul 2019 11:27:20 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:35459 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727066AbfGDP1U (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 4 Jul 2019 11:16:01 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8A5F624B;
-        Thu,  4 Jul 2019 17:15:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1562253357;
-        bh=m+DdwLoGbxRXNywsOCKTee5HgP0/ivxxdwI1KOUyX0g=;
-        h=Subject:To:Cc:References:Reply-To:From:Date:In-Reply-To:From;
-        b=llurEZJpPKqZXt0I7DcYFIzVFigUJvjC+0dYLchaPoHxme63264U+j3kIep+F/Bvl
-         fmVJxoQUtUEwQ2gGQ0A9dy2vbAsZxRaufkpvv6xJN5B1d/lpbTVY3EvgM81vhnuMu2
-         5ml5vUMzflauZoNTanrv3PM0Dno8CSwZoqU4zT0k=
-Subject: Re: [PATCH v3 2/4] rcar-vin: Add control for alpha component
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20190704015817.17083-1-niklas.soderlund+renesas@ragnatech.se>
- <20190704015817.17083-3-niklas.soderlund+renesas@ragnatech.se>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <c1c5dded-8a39-131e-4bef-ed13dc2fba47@ideasonboard.com>
-Date:   Thu, 4 Jul 2019 16:15:54 +0100
+        Thu, 4 Jul 2019 11:27:20 -0400
+Received: by mail-wm1-f67.google.com with SMTP id c6so6577564wml.0;
+        Thu, 04 Jul 2019 08:27:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=sJaoAJm+vr+hfSZiUJmGgzcbIrgfovbrJWCxV23LtM4=;
+        b=NgnTWA1WXAcTz9gdGhK99h4bL/9yxcQVlZNQd68BtineVAPG2iI/J06YkfFVdTDC0Y
+         8mDkh2BPuGEVsTlww7JN5vQC6e/bCQw3BAAXqQjEgvKnVuzexneQf7V9Y7U/Rf7OPa1H
+         proiI3qw7kiYervEZWdz/+/rgNg+ZQjvthe8dUKeAjIkGF/bDSVYd3TEbbNBb2wgNROQ
+         58Z9bgoF37eXTwfNaZ4jJdvLEDTIAdVZ/qZE5z5Ld5l035DxJvL5N9NcOZO9LyPRJ+AD
+         fi0M5xhY8sdgHzviaHau8lB1IdmRN9UYv5bJ4j6w30w5SL/HvBx2FgkjodEfEpMJfgI4
+         5rAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=sJaoAJm+vr+hfSZiUJmGgzcbIrgfovbrJWCxV23LtM4=;
+        b=VB8MfWg7XF6yvaO/qsX++4ie1ICQcajTnpyZjyzXd03YRQoklKZG1ZL3qFt9RBADf+
+         kjqQpb5z3FidHI3X6ngDP94piM2dfpL1Jfk6ZrVpqkIgvscyd7LrNOFobFjGupsCCwHF
+         qQe7uTblXg4183Acp6By2Jlo6yT7obe9V8xZ3O96mnzFEcnbyxM3pX9QUWFytR4Y49hM
+         OmEIKrz6jKU3GOuOxyBJowr4g9+0BDhk/ese2N9hU2/rhAnnqhklMWXXnaBdyDh7Ubed
+         Rgt+Z044qVXaCItTLzeVlUblFCLZoelrUPCnEKqTkT52qdic7lcAGELtuUI8tDBrhpMI
+         DhVg==
+X-Gm-Message-State: APjAAAVbq9P2pP4OhsQ1JgdqJtimvUat3Bwqa7H7avlNFc27UNQ48qgx
+        oarS2ZTgrRhTJkpsWjSC9BNwKw94
+X-Google-Smtp-Source: APXvYqysqF+b3wxfuoECdI3oA1dHTqn4SnBT+bb+Z9O3tDFZvG5N7ZnZT+OCBn1OJGdU69siqSCbtQ==
+X-Received: by 2002:a05:600c:2056:: with SMTP id p22mr69988wmg.155.1562254037051;
+        Thu, 04 Jul 2019 08:27:17 -0700 (PDT)
+Received: from [192.168.1.4] (ip-86-49-110-70.net.upcbroadband.cz. [86.49.110.70])
+        by smtp.gmail.com with ESMTPSA id q10sm6108288wrf.32.2019.07.04.08.27.15
+        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+        Thu, 04 Jul 2019 08:27:16 -0700 (PDT)
+Subject: Re: [PATCH] iio: adc: gyroadc: fix uninitialized return code
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Wolfram Sang <wsa@the-dreams.de>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Jonathan Cameron <jic23@kernel.org>,
+        stable <stable@vger.kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Rob Herring <robh@kernel.org>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        linux-iio@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20190704113800.3299636-1-arnd@arndb.de>
+ <20190704120756.GA1582@kunai>
+ <CAMuHMdXDN60WWFerok1h05COdNNPZTMDCgKXejmQZMj9B6y5Cw@mail.gmail.com>
+From:   Marek Vasut <marek.vasut@gmail.com>
+Openpgp: preference=signencrypt
+Message-ID: <fc3b8b4e-fe0e-9573-124d-4b41efa409e4@gmail.com>
+Date:   Thu, 4 Jul 2019 17:27:15 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190704015817.17083-3-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <CAMuHMdXDN60WWFerok1h05COdNNPZTMDCgKXejmQZMj9B6y5Cw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
-
-On 04/07/2019 02:58, Niklas Söderlund wrote:
-> In preparation to adding support for RGB pixel formats with an alpha
-> component add a control to allow the user to control which alpha value
-> should be used.
+On 7/4/19 2:10 PM, Geert Uytterhoeven wrote:
+> Hi Wolfram,
 > 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Comment/Question below, but:
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-
-
-> ---
->  drivers/media/platform/rcar-vin/rcar-core.c | 53 ++++++++++++++++++++-
->  drivers/media/platform/rcar-vin/rcar-dma.c  |  5 ++
->  drivers/media/platform/rcar-vin/rcar-vin.h  |  5 ++
->  3 files changed, 61 insertions(+), 2 deletions(-)
+> On Thu, Jul 4, 2019 at 2:08 PM Wolfram Sang <wsa@the-dreams.de> wrote:
+>> On Thu, Jul 04, 2019 at 01:37:47PM +0200, Arnd Bergmann wrote:
+>>> gcc-9 complains about a blatant uninitialized variable use that
+>>> all earlier compiler versions missed:
+>>>
+>>> drivers/iio/adc/rcar-gyroadc.c:510:5: warning: 'ret' may be used uninitialized in this function [-Wmaybe-uninitialized]
+>>>
+>>> Return -EINVAL instead here.
+>>>
+>>> Cc: stable@vger.kernel.org
+>>> Fixes: 059c53b32329 ("iio: adc: Add Renesas GyroADC driver")
+>>> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>>
+>> This is correct but missing that the above 'return ret' is broken, too.
+>> ret is initialized but 0 in that case.
 > 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-> index 64f9cf790445d14e..ee6e6cb39c749675 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> @@ -389,6 +389,28 @@ static void rvin_group_put(struct rvin_dev *vin)
->  	kref_put(&group->refcount, rvin_group_release);
->  }
->  
-> +/* -----------------------------------------------------------------------------
-> + * Controls
-> + */
-> +
-> +static int rvin_s_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +	struct rvin_dev *vin =
-> +		container_of(ctrl->handler, struct rvin_dev, ctrl_handler);
-> +
-> +	switch (ctrl->id) {
-> +	case V4L2_CID_ALPHA_COMPONENT:
-> +		rvin_set_alpha(vin, ctrl->val);
-> +		break;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_ctrl_ops rvin_ctrl_ops = {
-> +	.s_ctrl = rvin_s_ctrl,
-> +};
-> +
->  /* -----------------------------------------------------------------------------
->   * Async notifier
->   */
-> @@ -478,6 +500,15 @@ static int rvin_parallel_subdevice_attach(struct rvin_dev *vin,
->  	if (ret < 0)
->  		return ret;
->  
-> +	v4l2_ctrl_new_std(&vin->ctrl_handler, &rvin_ctrl_ops,
-> +			  V4L2_CID_ALPHA_COMPONENT, 0, 255, 1, 255);
-> +
-> +	if (vin->ctrl_handler.error) {
-> +		ret = vin->ctrl_handler.error;
-> +		v4l2_ctrl_handler_free(&vin->ctrl_handler);
-> +		return ret;
-> +	}
-> +
->  	ret = v4l2_ctrl_add_handler(&vin->ctrl_handler, subdev->ctrl_handler,
->  				    NULL, true);
->  	if (ret < 0) {
-> @@ -870,6 +901,21 @@ static int rvin_mc_init(struct rvin_dev *vin)
->  	if (ret)
->  		rvin_group_put(vin);
->  
-> +	ret = v4l2_ctrl_handler_init(&vin->ctrl_handler, 1);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	v4l2_ctrl_new_std(&vin->ctrl_handler, &rvin_ctrl_ops,
-> +			  V4L2_CID_ALPHA_COMPONENT, 0, 255, 1, 255);
-> +
-> +	if (vin->ctrl_handler.error) {
-> +		ret = vin->ctrl_handler.error;
-> +		v4l2_ctrl_handler_free(&vin->ctrl_handler);
-> +		return ret;
-> +	}
-> +
-> +	vin->vdev.ctrl_handler = &vin->ctrl_handler;
+> Nice catch! Oh well, given enough eyeballs, ...
 
-There's quite a few lines duplicated between rvin_mc_init() and
-rvin_parallel_subdevice_attach() to instantiate the controls. Could that
-code be shared in a single function, which would make it easier to
-extend with new controls?
+I don't think ret is initialized, reg is, not ret .
 
-Perhaps no other controls are expected though.
-
-Anyway, that's not so crucial - so RB tag added above.
-
-
-
-> +
->  	return ret;
->  }
->  
-> @@ -1245,6 +1291,7 @@ static int rcar_vin_probe(struct platform_device *pdev)
->  
->  	vin->dev = &pdev->dev;
->  	vin->info = of_device_get_match_data(&pdev->dev);
-> +	vin->alpha = 0xff;
->  
->  	/*
->  	 * Special care is needed on r8a7795 ES1.x since it
-> @@ -1288,6 +1335,8 @@ static int rcar_vin_probe(struct platform_device *pdev)
->  	return 0;
->  
->  error_group_unregister:
-> +	v4l2_ctrl_handler_free(&vin->ctrl_handler);
-> +
->  	if (vin->info->use_mc) {
->  		mutex_lock(&vin->group->lock);
->  		if (&vin->v4l2_dev == vin->group->notifier.v4l2_dev) {
-> @@ -1323,10 +1372,10 @@ static int rcar_vin_remove(struct platform_device *pdev)
->  		}
->  		mutex_unlock(&vin->group->lock);
->  		rvin_group_put(vin);
-> -	} else {
-> -		v4l2_ctrl_handler_free(&vin->ctrl_handler);
->  	}
->  
-> +	v4l2_ctrl_handler_free(&vin->ctrl_handler);
-> +
->  	rvin_dma_unregister(vin);
->  
->  	return 0;
-> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> index 2d146ecf93d66ad5..4e991cce5fb56a90 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> @@ -1343,3 +1343,8 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
->  
->  	return 0;
->  }
-> +
-> +void rvin_set_alpha(struct rvin_dev *vin, unsigned int alpha)
-> +{
-> +	vin->alpha = alpha;
-> +}
-> diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
-> index 0b13b34d03e3dce4..365dfde06ec25add 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-vin.h
-> +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
-> @@ -178,6 +178,8 @@ struct rvin_info {
->   * @compose:		active composing
->   * @source:		active size of the video source
->   * @std:		active video standard of the video source
-> + *
-> + * @alpha:		Alpha component to fill in for supported pixel formats
->   */
->  struct rvin_dev {
->  	struct device *dev;
-> @@ -215,6 +217,8 @@ struct rvin_dev {
->  	struct v4l2_rect compose;
->  	struct v4l2_rect source;
->  	v4l2_std_id std;
-> +
-> +	unsigned int alpha;
->  };
->  
->  #define vin_to_source(vin)		((vin)->parallel->subdev)
-> @@ -266,5 +270,6 @@ const struct rvin_video_format *rvin_format_from_pixel(u32 pixelformat);
->  void rvin_crop_scale_comp(struct rvin_dev *vin);
->  
->  int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel);
-> +void rvin_set_alpha(struct rvin_dev *vin, unsigned int alpha);
->  
->  #endif
+>> And maybe we can use something else than -EINVAL for this case? I am on
+>> the go right now, I will look for a suggestion later.
 > 
+> -EINVAL is correct here (and in the above case, too), IMHO.
 
+Yep, -EINVAL is fine.
+
+-- 
+Best regards,
+Marek Vasut
