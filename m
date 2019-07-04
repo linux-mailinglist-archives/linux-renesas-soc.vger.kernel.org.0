@@ -2,125 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 52B315FB47
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jul 2019 17:55:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9A285FC54
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jul 2019 19:16:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726614AbfGDPzS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 4 Jul 2019 11:55:18 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58662 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725860AbfGDPzS (ORCPT
+        id S1727448AbfGDRQW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 4 Jul 2019 13:16:22 -0400
+Received: from bin-mail-out-05.binero.net ([195.74.38.228]:64695 "EHLO
+        bin-mail-out-05.binero.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727374AbfGDRQW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 4 Jul 2019 11:55:18 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2062324B;
-        Thu,  4 Jul 2019 17:55:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1562255716;
-        bh=e86dXhqD5O2myhAz4xOxC9fFKe9cEt/x8h/c2u676jo=;
-        h=Subject:To:Cc:References:Reply-To:From:Date:In-Reply-To:From;
-        b=mS+TQi795kf78Xj9rvVyu1V4Jy13aWprScm/6bpZ6R2/8Tsp6nLJx6OrneZ2k9JO+
-         VkQcB0nNJRRt87wrdlXvtGIBmEhb+RPl9oRjf2un5IRsdnQwJc3ANKTa8q2DsBdG57
-         nteGKT2eBwX48xsCm+aXIQf/ctT8dZPbr1YB8cE4=
-Subject: Re: [PATCH v3 4/4] rcar-vin: Always setup controls when opening video
- device
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Thu, 4 Jul 2019 13:16:22 -0400
+X-Halon-ID: 6acd8e76-9e7f-11e9-8ab4-005056917a89
+Authorized-sender: niklas@soderlund.pp.se
+Received: from bismarck.berto.se (unknown [145.14.112.32])
+        by bin-vsp-out-01.atm.binero.net (Halon) with ESMTPA
+        id 6acd8e76-9e7f-11e9-8ab4-005056917a89;
+        Thu, 04 Jul 2019 19:16:19 +0200 (CEST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20190704015817.17083-1-niklas.soderlund+renesas@ragnatech.se>
- <20190704015817.17083-5-niklas.soderlund+renesas@ragnatech.se>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <1b903d9d-cef5-54b0-3ed8-736fe081737f@ideasonboard.com>
-Date:   Thu, 4 Jul 2019 16:55:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v4 0/4] rcar-vin: Add support for RGB formats with alpha component
+Date:   Thu,  4 Jul 2019 19:15:58 +0200
+Message-Id: <20190704171602.29541-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190704015817.17083-5-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+Hi,
 
-On 04/07/2019 02:58, Niklas Söderlund wrote:
-> Now that both Gen2 (device centric) and Gen3 (media device centric)
+This small series adds support for two new pixel formats for the
+rcar-vin driver; V4L2_PIX_FMT_ARGB555 and V4L2_PIX_FMT_ABGR32. Both
+formats have an alpha component so a new standard control is also added
+to control its value, V4L2_CID_ALPHA_COMPONENT.
 
-s/Gen2 (device centric)/Gen2 (video device centric)/ ?
-  (only if you feel it helps clarify the distinction).
+The series is based on the latest media-tree and is tested on both
+Renesas Gen2 and Gen3 hardware without any regressions found.
 
-> modes of this driver have controls it make sens to call
+Patch 1/4 fixes a badly named register name, 2/4 adds the new control
+while 3/4 adds the two new pixel formats. Patch 4/4 is a clean up now
+that Gen2 and Gen3 always have controls and v4l2_ctrl_handler_setup()
+should be called for both cases.
 
-s/sens/sense/
+* Changes since v3
+- Fixed up commit message.
+- Collected review tags.
 
-> v4l2_ctrl_handler_setup() unconditionally when opening the video device.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  drivers/media/platform/rcar-vin/rcar-v4l2.c | 30 ++++++++++-----------
->  1 file changed, 15 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index f8b6ec4408b2f5fa..cbf5d8cd6db32d77 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -789,26 +789,26 @@ static int rvin_open(struct file *file)
->  	if (ret)
->  		goto err_unlock;
->  
-> -	if (vin->info->use_mc) {
-> +	if (vin->info->use_mc)
->  		ret = v4l2_pipeline_pm_use(&vin->vdev.entity, 1);
-> -		if (ret < 0)
-> -			goto err_open;
-> -	} else {
-> -		if (v4l2_fh_is_singular_file(file)) {
-> -			ret = rvin_power_parallel(vin, true);
-> -			if (ret < 0)
-> -				goto err_open;
-> +	else if (v4l2_fh_is_singular_file(file))
-> +		ret = rvin_power_parallel(vin, true);
-> +
-> +	if (ret < 0)
-> +		goto err_open;
-> +
-> +	ret = v4l2_ctrl_handler_setup(&vin->ctrl_handler);
-> +	if (ret)
-> +		goto err_power;
->  
-> -			ret = v4l2_ctrl_handler_setup(&vin->ctrl_handler);
-> -			if (ret)
-> -				goto err_parallel;
-> -		}
-> -	}
->  	mutex_unlock(&vin->lock);
->  
->  	return 0;
+* Changes since v2
+- Protect the writing of the alpha value when streaming with the spin
+  lock to make sure the streaming state is stable.
+- Add patch 4/4 to call v4l2_ctrl_handler_setup() for the media
+  controller centric Gen3 mode of the driver.
 
-It was already here before this patch, but a new line would be nice here
-to separate the error paths...
+Niklas Söderlund (4):
+  rcar-vin: Rename VNDMR_DTMD_ARGB1555 to VNDMR_DTMD_ARGB
+  rcar-vin: Add control for alpha component
+  rcar-vin: Add support for RGB formats with alpha component
+  rcar-vin: Always setup controls when opening video device
 
-Otherwise,
+ drivers/media/platform/rcar-vin/rcar-core.c | 53 ++++++++++++++++++++-
+ drivers/media/platform/rcar-vin/rcar-dma.c  | 44 ++++++++++++++++-
+ drivers/media/platform/rcar-vin/rcar-v4l2.c | 38 +++++++++------
+ drivers/media/platform/rcar-vin/rcar-vin.h  |  5 ++
+ 4 files changed, 121 insertions(+), 19 deletions(-)
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-
-> -err_parallel:
-> -	rvin_power_parallel(vin, false);
-> +err_power:
-> +	if (vin->info->use_mc)
-> +		v4l2_pipeline_pm_use(&vin->vdev.entity, 0);
-> +	else if (v4l2_fh_is_singular_file(file))
-> +		rvin_power_parallel(vin, false);
->  err_open:
->  	v4l2_fh_release(file);
->  err_unlock:
-> 
+-- 
+2.21.0
 
