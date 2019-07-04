@@ -2,42 +2,48 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E0AC15F7D4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jul 2019 14:18:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A7D15F9D1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jul 2019 16:13:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727690AbfGDMRO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 4 Jul 2019 08:17:14 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:53482 "EHLO
+        id S1727229AbfGDONI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 4 Jul 2019 10:13:08 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:55302 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727675AbfGDMRO (ORCPT
+        with ESMTP id S1726875AbfGDONI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 4 Jul 2019 08:17:14 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 82C1224B;
-        Thu,  4 Jul 2019 14:17:12 +0200 (CEST)
+        Thu, 4 Jul 2019 10:13:08 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 842C824B;
+        Thu,  4 Jul 2019 16:13:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1562242632;
-        bh=eqWu4GVvTv6gURlzvDBaBF/isxMgPM/LQZarqxosd7c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=htdypw1q+crM4Val3UuLaMF12+KetfGJxYO1yGYea1tu0Uaa9kVHmPHyCQz5Xd/pT
-         Jwyvu77MX+SD2IvD4DPTs8oSOZbdeBA4QFLPn4sb3P9nYWRhSywusVeaie6CjcHqoL
-         jIfbc+CQa/P31tJFiKrKLxdbKtnkyWmZZUxU4aW0=
-Date:   Thu, 4 Jul 2019 15:16:52 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 4/4] rcar-vin: Always setup controls when opening
- video device
-Message-ID: <20190704121652.GD6569@pendragon.ideasonboard.com>
+        s=mail; t=1562249586;
+        bh=dglkbnfZ3C4DFXrB/Pn4L+daSveV7B4rpHo9mBsyZIo=;
+        h=Subject:To:Cc:References:Reply-To:From:Date:In-Reply-To:From;
+        b=qjlH+KyKYk9D/vHbZsp1H57YIHiAaaF5hpjWJklyuCt1HCjGyEbEiWwQhCS113LMG
+         4iTjDxv8mp9xyLqzVvBjaei80H2AjsrszwvZo60kfhRZzHBNbiVNm670oNtjNE+U+x
+         cah+yeFUvfru5GQ0F1jUyYEbKiLkBRu/o8XIetWk=
+Subject: Re: [PATCH v3 1/4] rcar-vin: Rename VNDMR_DTMD_ARGB1555 to
+ VNDMR_DTMD_ARGB
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Ulrich Hecht <uli+renesas@fpond.eu>
 References: <20190704015817.17083-1-niklas.soderlund+renesas@ragnatech.se>
- <20190704015817.17083-5-niklas.soderlund+renesas@ragnatech.se>
+ <20190704015817.17083-2-niklas.soderlund+renesas@ragnatech.se>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <d234a4f4-2dfb-8840-43b0-01ea9d91314c@ideasonboard.com>
+Date:   Thu, 4 Jul 2019 15:13:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.1
 MIME-Version: 1.0
+In-Reply-To: <20190704015817.17083-2-niklas.soderlund+renesas@ragnatech.se>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190704015817.17083-5-niklas.soderlund+renesas@ragnatech.se>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -45,74 +51,42 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Niklas,
 
-Thank you for the patch.
-
-On Thu, Jul 04, 2019 at 03:58:17AM +0200, Niklas Söderlund wrote:
-> Now that both Gen2 (device centric) and Gen3 (media device centric)
-> modes of this driver have controls it make sens to call
-
-s/sens/sense/
-
-> v4l2_ctrl_handler_setup() unconditionally when opening the video device.
-
-Not only does it make sense, but it's required by 3/4. I think you
-should explain why in the commit message. Apart from that,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  drivers/media/platform/rcar-vin/rcar-v4l2.c | 30 ++++++++++-----------
->  1 file changed, 15 insertions(+), 15 deletions(-)
+On 04/07/2019 02:58, Niklas Söderlund wrote:
+> The value have nothing to do with ARGB1555, it controls if the alpha
+> component should be filled in for ARGB1555 or ARGB888. Rename it to
+> reflect this.
 > 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index f8b6ec4408b2f5fa..cbf5d8cd6db32d77 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -789,26 +789,26 @@ static int rvin_open(struct file *file)
->  	if (ret)
->  		goto err_unlock;
->  
-> -	if (vin->info->use_mc) {
-> +	if (vin->info->use_mc)
->  		ret = v4l2_pipeline_pm_use(&vin->vdev.entity, 1);
-> -		if (ret < 0)
-> -			goto err_open;
-> -	} else {
-> -		if (v4l2_fh_is_singular_file(file)) {
-> -			ret = rvin_power_parallel(vin, true);
-> -			if (ret < 0)
-> -				goto err_open;
-> +	else if (v4l2_fh_is_singular_file(file))
-> +		ret = rvin_power_parallel(vin, true);
-> +
-> +	if (ret < 0)
-> +		goto err_open;
-> +
-> +	ret = v4l2_ctrl_handler_setup(&vin->ctrl_handler);
-> +	if (ret)
-> +		goto err_power;
->  
-> -			ret = v4l2_ctrl_handler_setup(&vin->ctrl_handler);
-> -			if (ret)
-> -				goto err_parallel;
-> -		}
-> -	}
->  	mutex_unlock(&vin->lock);
->  
->  	return 0;
-> -err_parallel:
-> -	rvin_power_parallel(vin, false);
-> +err_power:
-> +	if (vin->info->use_mc)
-> +		v4l2_pipeline_pm_use(&vin->vdev.entity, 0);
-> +	else if (v4l2_fh_is_singular_file(file))
-> +		rvin_power_parallel(vin, false);
->  err_open:
->  	v4l2_fh_release(file);
->  err_unlock:
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
--- 
-Regards,
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-Laurent Pinchart
+> ---
+>  drivers/media/platform/rcar-vin/rcar-dma.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> index 91ab064404a185af..2d146ecf93d66ad5 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> @@ -114,7 +114,7 @@
+>  #define VNDMR_EXRGB		(1 << 8)
+>  #define VNDMR_BPSM		(1 << 4)
+>  #define VNDMR_DTMD_YCSEP	(1 << 1)
+> -#define VNDMR_DTMD_ARGB1555	(1 << 0)
+> +#define VNDMR_DTMD_ARGB		(1 << 0)
+>  
+>  /* Video n Data Mode Register 2 bits */
+>  #define VNDMR2_VPS		(1 << 30)
+> @@ -721,7 +721,7 @@ static int rvin_setup(struct rvin_dev *vin)
+>  		output_is_yuv = true;
+>  		break;
+>  	case V4L2_PIX_FMT_XRGB555:
+> -		dmr = VNDMR_DTMD_ARGB1555;
+> +		dmr = VNDMR_DTMD_ARGB;
+>  		break;
+>  	case V4L2_PIX_FMT_RGB565:
+>  		dmr = 0;
+> 
+
