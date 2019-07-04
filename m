@@ -2,88 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D6B815EE18
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  3 Jul 2019 23:09:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6338A5F10F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jul 2019 03:58:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727011AbfGCVJC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 3 Jul 2019 17:09:02 -0400
-Received: from sauhun.de ([88.99.104.3]:55406 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726678AbfGCVJB (ORCPT
+        id S1727049AbfGDB62 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 3 Jul 2019 21:58:28 -0400
+Received: from bin-mail-out-05.binero.net ([195.74.38.228]:43498 "EHLO
+        bin-mail-out-05.binero.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727004AbfGDB62 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 3 Jul 2019 17:09:01 -0400
-Received: from localhost (p54B333B3.dip0.t-ipconnect.de [84.179.51.179])
-        by pokefinder.org (Postfix) with ESMTPSA id 46B452C2761;
-        Wed,  3 Jul 2019 23:08:59 +0200 (CEST)
-Date:   Wed, 3 Jul 2019 23:08:58 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Eugeniu Rosca <roscaeugeniu@gmail.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jiri Slaby <jslaby@suse.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        dmaengine@vger.kernel.org,
-        "George G . Davis" <george_davis@mentor.com>
-Subject: Re: [PATCH 0/2] serial: sh-sci: Fix .flush_buffer() issues
-Message-ID: <20190703210858.GA5012@kunai>
-References: <20190624123540.20629-1-geert+renesas@glider.be>
- <20190626173434.GA24702@x230>
- <CAMuHMdWuk7CkfcUSX=706f8b6YMFio7iwZg32+uXsyOKL68fuQ@mail.gmail.com>
- <20190628123907.GA10962@vmlxhi-102.adit-jv.com>
- <20190628125534.GB1458@ninjato>
- <20190628130200.GA11231@vmlxhi-102.adit-jv.com>
- <20190703173050.GA11328@kroah.com>
- <20190703181519.ifrmycrsrohcc2gf@x230>
- <20190703184422.GA14207@kroah.com>
+        Wed, 3 Jul 2019 21:58:28 -0400
+X-Halon-ID: 3231f3b8-9dff-11e9-8ab4-005056917a89
+Authorized-sender: niklas@soderlund.pp.se
+Received: from bismarck.berto.se (unknown [145.14.112.32])
+        by bin-vsp-out-01.atm.binero.net (Halon) with ESMTPA
+        id 3231f3b8-9dff-11e9-8ab4-005056917a89;
+        Thu, 04 Jul 2019 03:58:25 +0200 (CEST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v3 0/4] rcar-vin: Add support for RGB formats with alpha 
+Date:   Thu,  4 Jul 2019 03:58:13 +0200
+Message-Id: <20190704015817.17083-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="cNdxnHkX5QqsyA0e"
-Content-Disposition: inline
-In-Reply-To: <20190703184422.GA14207@kroah.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi,
 
---cNdxnHkX5QqsyA0e
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This small series adds support for two new pixel formats for the
+rcar-vin driver; V4L2_PIX_FMT_ARGB555 and V4L2_PIX_FMT_ABGR32. Both
+formats have an alpha component so a new standard control is also added
+to control its value, V4L2_CID_ALPHA_COMPONENT.
 
+The series is based on the latest media-tree and is tested on both
+Renesas Gen2 and Gen3 hardware without any regressions found.
 
-> I've been doing this for a very long time now, before patchwork was even
-> around.  It's pretty trivial to collect them on my own.
+Patch 1/4 fixes a badly named register name, 2/4 adds the new control
+while 3/4 adds the two new pixel formats. Patch 4/4 is a clean up now 
+that Gen2 and Gen3 always have controls and v4l2_ctrl_handler_setup() 
+should be called for both cases.
 
-It's a workflow thing. Mileages vary. I ask people to tag patches
-individually for reasonable small series.
+* Changes since v2
+- Protect the writing of the alpha value when streaming with the spin 
+  lock to make sure the streaming state is stable.
+- Add patch 4/4 to call v4l2_ctrl_handler_setup() for the media 
+  controller centric Gen3 mode of the driver.
 
+Niklas Söderlund (4):
+  rcar-vin: Rename VNDMR_DTMD_ARGB1555 to VNDMR_DTMD_ARGB
+  rcar-vin: Add control for alpha component
+  rcar-vin: Add support for RGB formats with alpha component
+  rcar-vin: Always setup controls when opening video device
 
---cNdxnHkX5QqsyA0e
-Content-Type: application/pgp-signature; name="signature.asc"
+ drivers/media/platform/rcar-vin/rcar-core.c | 53 ++++++++++++++++++++-
+ drivers/media/platform/rcar-vin/rcar-dma.c  | 44 ++++++++++++++++-
+ drivers/media/platform/rcar-vin/rcar-v4l2.c | 38 +++++++++------
+ drivers/media/platform/rcar-vin/rcar-vin.h  |  5 ++
+ 4 files changed, 121 insertions(+), 19 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+-- 
+2.21.0
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl0dGWYACgkQFA3kzBSg
-KbZL4w/+MqHZmwiTEJqm8BZ2ZK8faQJvNomt3fXolYS8QXPu/O3Xx6cuAqGSBCH7
-t0+YtpEqfzxXaezbtsNX74gVA1LdDJMB907+D72NuepZamo/xa0RmHPbVH5R7Aiw
-iLPw38oHscptehopOa+sS6fIXyOusnAqq7ItgLlLg8b3tS1xxkzZsChtT9tS1IPt
-M0nsXR1q5Ag3z+mQkE3AM1U4TXbns8rou2FH6eBOCE97sp7eEuBeFX7Whe17bOzX
-ia95g3H4Rf4RJ/NwwRpoJSh8nOh/8Ey52idfWOVrvwRMGWOJN3cq+V4lCBs/hKLQ
-yNPp6EM4vGioTTYz6KiMHzPfjrxvGlHCFgVceYNA90PnXAhygutwG82Cpun7ob/J
-HcoNJLePIcg0/ziV9kOzReyc9hTGCo2wJHQaAlVR/Fo04p8Oxr5+rFveVWNyUtzt
-TntLF1sDdpqYfjLvEfft1ygmAvBw2CxLLyWmLQwKa+ucyF6dayGNbJN9kl++Anhf
-vr2P339IStBPk2U7CChrLO4NTBlvBuTS+SlH83D4Faay9ozjNcHLGi6ss53KLzo0
-EpLi0o8LDoNWU+uYKccENLlfRBQq5Xryt/TtGIHHxJI3rJWOnm/1gXCg39q/VHpy
-CQx9isnS61NUwrwu2DEb3SgBAv43+hoP5N08jSZqJKgCkzDxsd4=
-=pG6l
------END PGP SIGNATURE-----
-
---cNdxnHkX5QqsyA0e--
