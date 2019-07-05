@@ -2,90 +2,154 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B7225FD94
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  4 Jul 2019 21:56:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BC1F6003F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jul 2019 06:44:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726805AbfGDT4B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 4 Jul 2019 15:56:01 -0400
-Received: from sauhun.de ([88.99.104.3]:40170 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726038AbfGDT4B (ORCPT
+        id S1725827AbfGEEoI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 5 Jul 2019 00:44:08 -0400
+Received: from vsp-unauthed02.binero.net ([195.74.38.227]:35861 "EHLO
+        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725823AbfGEEoI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 4 Jul 2019 15:56:01 -0400
-Received: from localhost (p5DCB43A6.dip0.t-ipconnect.de [93.203.67.166])
-        by pokefinder.org (Postfix) with ESMTPSA id C1E012C290E;
-        Thu,  4 Jul 2019 21:55:58 +0200 (CEST)
-Date:   Thu, 4 Jul 2019 21:55:58 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Marek Vasut <marek.vasut@gmail.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Cameron <jic23@kernel.org>,
-        stable <stable@vger.kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Rob Herring <robh@kernel.org>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        linux-iio@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] iio: adc: gyroadc: fix uninitialized return code
-Message-ID: <20190704195557.GA1338@kunai>
-References: <20190704113800.3299636-1-arnd@arndb.de>
- <20190704120756.GA1582@kunai>
- <CAMuHMdXDN60WWFerok1h05COdNNPZTMDCgKXejmQZMj9B6y5Cw@mail.gmail.com>
- <fc3b8b4e-fe0e-9573-124d-4b41efa409e4@gmail.com>
+        Fri, 5 Jul 2019 00:44:08 -0400
+X-Halon-ID: 7d22aa9f-9edf-11e9-8ab4-005056917a89
+Authorized-sender: niklas@soderlund.pp.se
+Received: from bismarck.berto.se (unknown [145.14.112.32])
+        by bin-vsp-out-01.atm.binero.net (Halon) with ESMTPA
+        id 7d22aa9f-9edf-11e9-8ab4-005056917a89;
+        Fri, 05 Jul 2019 06:44:05 +0200 (CEST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] rcar-vin: Centralize black listing of pixel formats
+Date:   Fri,  5 Jul 2019 06:43:50 +0200
+Message-Id: <20190705044350.22766-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ibTvN161/egqYuK8"
-Content-Disposition: inline
-In-Reply-To: <fc3b8b4e-fe0e-9573-124d-4b41efa409e4@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Instead of scattering black listing of pixel formats who are not
+supported on particular platforms move it to a central location.
 
---ibTvN161/egqYuK8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/media/platform/rcar-vin/rcar-dma.c  |  2 +-
+ drivers/media/platform/rcar-vin/rcar-v4l2.c | 23 +++++++++++----------
+ drivers/media/platform/rcar-vin/rcar-vin.h  |  4 +++-
+ 3 files changed, 16 insertions(+), 13 deletions(-)
 
+diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+index 91ab064404a185af..372d6b106b9970d2 100644
+--- a/drivers/media/platform/rcar-vin/rcar-dma.c
++++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+@@ -794,7 +794,7 @@ static void rvin_set_slot_addr(struct rvin_dev *vin, int slot, dma_addr_t addr)
+ 	int offsetx, offsety;
+ 	dma_addr_t offset;
+ 
+-	fmt = rvin_format_from_pixel(vin->format.pixelformat);
++	fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
+ 
+ 	/*
+ 	 * There is no HW support for composition do the beast we can
+diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+index 0936bcd98df1f75d..04d798d8070f912c 100644
+--- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
++++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+@@ -56,10 +56,14 @@ static const struct rvin_video_format rvin_formats[] = {
+ 	},
+ };
+ 
+-const struct rvin_video_format *rvin_format_from_pixel(u32 pixelformat)
++const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
++						       u32 pixelformat)
+ {
+ 	int i;
+ 
++	if (vin->info->model == RCAR_M1 && pixelformat == V4L2_PIX_FMT_XBGR32)
++		return NULL;
++
+ 	for (i = 0; i < ARRAY_SIZE(rvin_formats); i++)
+ 		if (rvin_formats[i].fourcc == pixelformat)
+ 			return rvin_formats + i;
+@@ -67,11 +71,12 @@ const struct rvin_video_format *rvin_format_from_pixel(u32 pixelformat)
+ 	return NULL;
+ }
+ 
+-static u32 rvin_format_bytesperline(struct v4l2_pix_format *pix)
++static u32 rvin_format_bytesperline(struct rvin_dev *vin,
++				    struct v4l2_pix_format *pix)
+ {
+ 	const struct rvin_video_format *fmt;
+ 
+-	fmt = rvin_format_from_pixel(pix->pixelformat);
++	fmt = rvin_format_from_pixel(vin, pix->pixelformat);
+ 
+ 	if (WARN_ON(!fmt))
+ 		return -EINVAL;
+@@ -91,9 +96,7 @@ static void rvin_format_align(struct rvin_dev *vin, struct v4l2_pix_format *pix)
+ {
+ 	u32 walign;
+ 
+-	if (!rvin_format_from_pixel(pix->pixelformat) ||
+-	    (vin->info->model == RCAR_M1 &&
+-	     pix->pixelformat == V4L2_PIX_FMT_XBGR32))
++	if (!rvin_format_from_pixel(vin, pix->pixelformat))
+ 		pix->pixelformat = RVIN_DEFAULT_FORMAT;
+ 
+ 	switch (pix->field) {
+@@ -125,7 +128,7 @@ static void rvin_format_align(struct rvin_dev *vin, struct v4l2_pix_format *pix)
+ 	v4l_bound_align_image(&pix->width, 2, vin->info->max_width, walign,
+ 			      &pix->height, 4, vin->info->max_height, 2, 0);
+ 
+-	pix->bytesperline = rvin_format_bytesperline(pix);
++	pix->bytesperline = rvin_format_bytesperline(vin, pix);
+ 	pix->sizeimage = rvin_format_sizeimage(pix);
+ 
+ 	vin_dbg(vin, "Format %ux%u bpl: %u size: %u\n",
+@@ -181,9 +184,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
+ 	if (pad_cfg == NULL)
+ 		return -ENOMEM;
+ 
+-	if (!rvin_format_from_pixel(pix->pixelformat) ||
+-	    (vin->info->model == RCAR_M1 &&
+-	     pix->pixelformat == V4L2_PIX_FMT_XBGR32))
++	if (!rvin_format_from_pixel(vin, pix->pixelformat))
+ 		pix->pixelformat = RVIN_DEFAULT_FORMAT;
+ 
+ 	v4l2_fill_mbus_format(&format.format, pix, vin->mbus_code);
+@@ -384,7 +385,7 @@ static int rvin_s_selection(struct file *file, void *fh,
+ 		while ((r.top * vin->format.bytesperline) & HW_BUFFER_MASK)
+ 			r.top--;
+ 
+-		fmt = rvin_format_from_pixel(vin->format.pixelformat);
++		fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
+ 		while ((r.left * fmt->bpp) & HW_BUFFER_MASK)
+ 			r.left--;
+ 
+diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
+index 0b13b34d03e3dce4..ac1a6fe90015ed69 100644
+--- a/drivers/media/platform/rcar-vin/rcar-vin.h
++++ b/drivers/media/platform/rcar-vin/rcar-vin.h
+@@ -260,7 +260,9 @@ void rvin_dma_unregister(struct rvin_dev *vin);
+ int rvin_v4l2_register(struct rvin_dev *vin);
+ void rvin_v4l2_unregister(struct rvin_dev *vin);
+ 
+-const struct rvin_video_format *rvin_format_from_pixel(u32 pixelformat);
++const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
++						       u32 pixelformat);
++
+ 
+ /* Cropping, composing and scaling */
+ void rvin_crop_scale_comp(struct rvin_dev *vin);
+-- 
+2.21.0
 
-> >> This is correct but missing that the above 'return ret' is broken, too.
-> >> ret is initialized but 0 in that case.
-> >=20
-> > Nice catch! Oh well, given enough eyeballs, ...
->=20
-> I don't think ret is initialized, reg is, not ret .
-
-It is initialized for the broken 'return ret' *above* the one which gets
-rightfully fixed in this patch.
-
-
---ibTvN161/egqYuK8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl0eWckACgkQFA3kzBSg
-Kbb/Aw/+JS8QiD+5YFD08Aece1AYJ2md7n6gHKlrgxsleiM3hY40m90l6ayrIq8Q
-YW6n4kloAs8QtzaPv7zjHAhs2n/bs8RubGDv+N+M3fkJnbxUijW1iw15r8DtPsDH
-m5a8BW9khGfbGpZdRBD7LXfKNryoCymGxx/izJS6ZfQFnTrlEXzrTtHXv78Ynsv9
-hvp2jkywnNZRK27pzzKRG/B3adb1Xq3yz+uHMhQRLvJSQPKLXsS4wyGqmDBONjgC
-sX681ZgKl632cIbxkvUUApF3UMShkVZzXi05lMo2V+9dFa8P+T+RAX3/7kH2roAR
-dOfo92O9ZR7q6J2t3H00pL3bpPJKPZ14Dxk39fO6xx2zB4av9EVHzRRgdlzPwvfI
-K+XTGFjLTAcPiteVVeaueiLhjANJNkGYq4ayZvkf+tZhuglkWjZadUv+oYVVUWcW
-dD8bzYwhok8l3ChtB5Kd8455aM9uPvMbjv++UbDAHP73L1IEuU3I4pvGEt3+mhmG
-HMKdFKboVp1auLUlgnNjylt1lb4jG7OJfs0TjJA/v8HoaJPWq6guaD5v+vIoVgCB
-PXTjIiLo9GpaXJiAGnlZLPisQlt9Y0pvyj8dLAeiS/k8ZtXsIEehZs4pIUhIdDzV
-h8pzF3R/Zh0WEcFte0RVbbhSaGyDFrJK5uc0eNqCC+a4OTYhVi0=
-=qqM5
------END PGP SIGNATURE-----
-
---ibTvN161/egqYuK8--
