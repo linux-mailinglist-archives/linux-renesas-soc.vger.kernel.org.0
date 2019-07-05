@@ -2,90 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 703696023E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jul 2019 10:36:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F26F602EB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jul 2019 11:11:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727401AbfGEIg5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 5 Jul 2019 04:36:57 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:43841 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727365AbfGEIg5 (ORCPT
+        id S1728062AbfGEJLO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 5 Jul 2019 05:11:14 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:42643 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727565AbfGEJLO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 5 Jul 2019 04:36:57 -0400
-Received: by mail-lf1-f66.google.com with SMTP id c19so164224lfm.10
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 05 Jul 2019 01:36:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=TDD7JDdV02VyF/y655pahWK1ZZHIBfchDr/uik6O3nA=;
-        b=E9VktP8zU3lF/YOs9OLt7yV8tDNJwBjnY4AFNN8VkkDETqbGQNXd/+sYpGjed32CAs
-         zavT6QwrjLu5aT0tCui3wUUOmr0sqqQEzSwJmnEwPgeco6C4upuYr8RbC8nL2CYz830C
-         rpPvyvjO/EPOnOQ3Gr322tXBiydE0w7W9su5XqUuToANf9EfQx01GiAfM0hEY/j0mBVk
-         XkITZl9u4HG94JtxXJymABs+eqWsGY45wTPj5JtNTJnF1ve1yp2epDvZ+C/wuL75qodj
-         YtpqmW5ZlMinZmLcbfvjgEeRAnOzaYO4fRTtTt0tH7uLWYP9kkgXA/KIYdQ4KIDHB0kS
-         KZ4g==
+        Fri, 5 Jul 2019 05:11:14 -0400
+Received: by mail-oi1-f194.google.com with SMTP id s184so6666202oie.9;
+        Fri, 05 Jul 2019 02:11:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=TDD7JDdV02VyF/y655pahWK1ZZHIBfchDr/uik6O3nA=;
-        b=n7bSjGR/XxeFIhKw/PPn6G73puUpiRmcCoWWG9GYT2e/yiHeIQDFGkhF3m4yaXr5QV
-         Iga2ytq/bYLsfNko4uG34fumsXv2smLbhLw9/od+oJcPC4Go+4NFVoQBK+dJJ8PVToSd
-         mOdynem9qW46kebd9W+bNJkiQHR3A5f/OtlJM5XxeYiUX/hI7KPOd3672+qMUuqhbGel
-         7fpPFcSKlmKyCmT+wTl/js71R8lNFQz3Lm++z7UYLSbmvf+nFglrLLA0qW26842MHqIn
-         RJ1D8GwEKAZiBADyz2fa6QcfHkFV+7QOpJAEdoz4WLskCvJMWjXRQo3I71nEc2fqVqBf
-         C9mA==
-X-Gm-Message-State: APjAAAV+5Y/gwTu7Iuin9faSGuZ99xepsVx2ULz7J7aKoP9hmwxd4gQO
-        D2WkWilpiVMwXUsR7/Yku3zaqA/mYUPuBQ==
-X-Google-Smtp-Source: APXvYqymxLAa8oqnQli5AG3W0C9jJyEFjPLbcjiWtmKf9YCZie/ciL/F5OJIpUvyD6nev61TULhixA==
-X-Received: by 2002:a19:48d1:: with SMTP id v200mr1360353lfa.190.1562315815124;
-        Fri, 05 Jul 2019 01:36:55 -0700 (PDT)
-Received: from ?IPv6:2a00:1fa0:4432:513d:ecce:ffd3:f4fa:ae62? ([2a00:1fa0:4432:513d:ecce:ffd3:f4fa:ae62])
-        by smtp.gmail.com with ESMTPSA id b192sm1285839lfg.75.2019.07.05.01.36.54
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 05 Jul 2019 01:36:54 -0700 (PDT)
-Subject: Re: [PATCH 2/4] rcar-vin: Do not reset the crop and compose
- rectangles in s_fmt
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20190705045557.25463-1-niklas.soderlund+renesas@ragnatech.se>
- <20190705045557.25463-3-niklas.soderlund+renesas@ragnatech.se>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <c9152a57-3933-489b-a839-bf97fcabdcb4@cogentembedded.com>
-Date:   Fri, 5 Jul 2019 11:36:41 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2mfIwLwCgQqyYQQfjwLn81qZUjhBZHk7jJysq/o8Cak=;
+        b=Ha0MrcCs3GHVFM8h2AoziVyRvmvtDFCORFTsPSftadFhV/mogGc33T19j5BqYYRSlo
+         bCfwuQmOJgHbnwwNkWK6ralbuCg25dn21N/XGWzSz39P2a3kR9lrSQvl3Z54YoS1khcU
+         SOiipImLbGhpxDAjRHfjdSjSTX91EfW5VWJmsRqsSkBVUhgBH3e1Zf1Oanv5KVVTOv4l
+         N9LjoQLAv0/I7z4h4Hrvj3bEUl2rzMfSyjnYa/DCXlg8kwJtaMyC898FIdqGD4pevJxK
+         SXqFXlLQ7jhHUP/J8MozOjdOZ/nqsOUy5/IdPOMiEY0BBafvY9v7eexwhANbDt3stZue
+         zepQ==
+X-Gm-Message-State: APjAAAWFwOlp1xx79IBjeW9XtXFAeMFpj93YLIztaiLUiG33jXHowK/o
+        x13L5E567PAR8FNjBOjE3G+J4NnsNjOzwrV+3qMm3A==
+X-Google-Smtp-Source: APXvYqy8WGe8GDBlnHV//ZoA6vf+Inw6Y96Zi9naDqSQ8913j/EWsJbSUJQEyDgObpQjEuSnn2X2X+fCEJh+yZYxEiU=
+X-Received: by 2002:aca:bd43:: with SMTP id n64mr1299229oif.148.1562317873355;
+ Fri, 05 Jul 2019 02:11:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190705045557.25463-3-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20190705045557.25463-1-niklas.soderlund+renesas@ragnatech.se> <20190705045557.25463-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20190705045557.25463-2-niklas.soderlund+renesas@ragnatech.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 5 Jul 2019 11:11:01 +0200
+Message-ID: <CAMuHMdW5A64EMjB7tjPNHGsQ_c=RK9YyYgpDp4OUecdHO+mBZQ@mail.gmail.com>
+Subject: Re: [PATCH 1/4] rcar-vin: Rename rectangle holding holding the video
+ source information
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hi Niklas,
 
-On 05.07.2019 7:55, Niklas Söderlund wrote:
+Please drop one "holding" from the subject.
 
-> The crop and compose rectangles where reset when s_fmt was called
+Gr{oetje,eeting}s,
 
-    s/where/were/?
+                        Geert
 
-> resulting in potentially valid rectangles where lost when updating the
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-    And here too...
-
-> format. Fix this by instead trying to map the rectangles inside the new
-> format.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-[...]
-
-MBR, Sergei
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
