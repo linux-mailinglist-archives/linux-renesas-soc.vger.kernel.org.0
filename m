@@ -2,158 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AEEEE60052
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jul 2019 06:56:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 703696023E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  5 Jul 2019 10:36:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726679AbfGEE4l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 5 Jul 2019 00:56:41 -0400
-Received: from bin-mail-out-06.binero.net ([195.74.38.229]:59482 "EHLO
-        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725837AbfGEE4k (ORCPT
+        id S1727401AbfGEIg5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 5 Jul 2019 04:36:57 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:43841 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727365AbfGEIg5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 5 Jul 2019 00:56:40 -0400
-X-Halon-ID: 413a1c7b-9ee1-11e9-8d05-005056917f90
-Authorized-sender: niklas@soderlund.pp.se
-Received: from bismarck.berto.se (unknown [145.14.112.32])
-        by bin-vsp-out-02.atm.binero.net (Halon) with ESMTPA
-        id 413a1c7b-9ee1-11e9-8d05-005056917f90;
-        Fri, 05 Jul 2019 06:56:31 +0200 (CEST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Fri, 5 Jul 2019 04:36:57 -0400
+Received: by mail-lf1-f66.google.com with SMTP id c19so164224lfm.10
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 05 Jul 2019 01:36:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=TDD7JDdV02VyF/y655pahWK1ZZHIBfchDr/uik6O3nA=;
+        b=E9VktP8zU3lF/YOs9OLt7yV8tDNJwBjnY4AFNN8VkkDETqbGQNXd/+sYpGjed32CAs
+         zavT6QwrjLu5aT0tCui3wUUOmr0sqqQEzSwJmnEwPgeco6C4upuYr8RbC8nL2CYz830C
+         rpPvyvjO/EPOnOQ3Gr322tXBiydE0w7W9su5XqUuToANf9EfQx01GiAfM0hEY/j0mBVk
+         XkITZl9u4HG94JtxXJymABs+eqWsGY45wTPj5JtNTJnF1ve1yp2epDvZ+C/wuL75qodj
+         YtpqmW5ZlMinZmLcbfvjgEeRAnOzaYO4fRTtTt0tH7uLWYP9kkgXA/KIYdQ4KIDHB0kS
+         KZ4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=TDD7JDdV02VyF/y655pahWK1ZZHIBfchDr/uik6O3nA=;
+        b=n7bSjGR/XxeFIhKw/PPn6G73puUpiRmcCoWWG9GYT2e/yiHeIQDFGkhF3m4yaXr5QV
+         Iga2ytq/bYLsfNko4uG34fumsXv2smLbhLw9/od+oJcPC4Go+4NFVoQBK+dJJ8PVToSd
+         mOdynem9qW46kebd9W+bNJkiQHR3A5f/OtlJM5XxeYiUX/hI7KPOd3672+qMUuqhbGel
+         7fpPFcSKlmKyCmT+wTl/js71R8lNFQz3Lm++z7UYLSbmvf+nFglrLLA0qW26842MHqIn
+         RJ1D8GwEKAZiBADyz2fa6QcfHkFV+7QOpJAEdoz4WLskCvJMWjXRQo3I71nEc2fqVqBf
+         C9mA==
+X-Gm-Message-State: APjAAAV+5Y/gwTu7Iuin9faSGuZ99xepsVx2ULz7J7aKoP9hmwxd4gQO
+        D2WkWilpiVMwXUsR7/Yku3zaqA/mYUPuBQ==
+X-Google-Smtp-Source: APXvYqymxLAa8oqnQli5AG3W0C9jJyEFjPLbcjiWtmKf9YCZie/ciL/F5OJIpUvyD6nev61TULhixA==
+X-Received: by 2002:a19:48d1:: with SMTP id v200mr1360353lfa.190.1562315815124;
+        Fri, 05 Jul 2019 01:36:55 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:4432:513d:ecce:ffd3:f4fa:ae62? ([2a00:1fa0:4432:513d:ecce:ffd3:f4fa:ae62])
+        by smtp.gmail.com with ESMTPSA id b192sm1285839lfg.75.2019.07.05.01.36.54
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 05 Jul 2019 01:36:54 -0700 (PDT)
+Subject: Re: [PATCH 2/4] rcar-vin: Do not reset the crop and compose
+ rectangles in s_fmt
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 4/4] rcar-vin: Clean up how format is set on subdevice
-Date:   Fri,  5 Jul 2019 06:55:57 +0200
-Message-Id: <20190705045557.25463-5-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190705045557.25463-1-niklas.soderlund+renesas@ragnatech.se>
+Cc:     linux-renesas-soc@vger.kernel.org
 References: <20190705045557.25463-1-niklas.soderlund+renesas@ragnatech.se>
+ <20190705045557.25463-3-niklas.soderlund+renesas@ragnatech.se>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Message-ID: <c9152a57-3933-489b-a839-bf97fcabdcb4@cogentembedded.com>
+Date:   Fri, 5 Jul 2019 11:36:41 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20190705045557.25463-3-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-With support for V4L2_FIELD_ALTERNATE added it's possible to clean up
-how formats are set on the subdevice. This makes the code easier to read
-as variable names now more clearly express their intent.
+Hello!
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/platform/rcar-vin/rcar-v4l2.c | 44 ++++++++++-----------
- 1 file changed, 21 insertions(+), 23 deletions(-)
+On 05.07.2019 7:55, Niklas Söderlund wrote:
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index bc96ed563e365448..fa6cc1b76f02133e 100644
---- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -170,7 +170,7 @@ static int rvin_reset_format(struct rvin_dev *vin)
- 
- static int rvin_try_format(struct rvin_dev *vin, u32 which,
- 			   struct v4l2_pix_format *pix,
--			   struct v4l2_rect *crop, struct v4l2_rect *compose)
-+			   struct v4l2_rect *src_rect)
- {
- 	struct v4l2_subdev *sd = vin_to_source(vin);
- 	struct v4l2_subdev_pad_config *pad_cfg;
-@@ -189,24 +189,24 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
- 	if (!rvin_format_from_pixel(vin, pix->pixelformat))
- 		pix->pixelformat = RVIN_DEFAULT_FORMAT;
- 
--	v4l2_fill_mbus_format(&format.format, pix, vin->mbus_code);
--
- 	/* Allow the video device to override field and to scale */
- 	field = pix->field;
- 	width = pix->width;
- 	height = pix->height;
- 
-+	v4l2_fill_mbus_format(&format.format, pix, vin->mbus_code);
-+
- 	ret = v4l2_subdev_call(sd, pad, set_fmt, pad_cfg, &format);
- 	if (ret < 0 && ret != -ENOIOCTLCMD)
- 		goto done;
- 
- 	v4l2_fill_pix_format(pix, &format.format);
- 
--	if (crop) {
--		crop->top = 0;
--		crop->left = 0;
--		crop->width = pix->width;
--		crop->height = pix->height;
-+	if (src_rect) {
-+		src_rect->top = 0;
-+		src_rect->left = 0;
-+		src_rect->width = pix->width;
-+		src_rect->height = pix->height;
- 	}
- 
- 	if (field != V4L2_FIELD_ANY)
-@@ -216,17 +216,10 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
- 	pix->height = height;
- 
- 	rvin_format_align(vin, pix);
--
--	if (compose) {
--		compose->top = 0;
--		compose->left = 0;
--		compose->width = pix->width;
--		compose->height = pix->height;
--	}
- done:
- 	v4l2_subdev_free_pad_config(pad_cfg);
- 
--	return 0;
-+	return ret;
- }
- 
- static int rvin_querycap(struct file *file, void *priv,
-@@ -246,29 +239,34 @@ static int rvin_try_fmt_vid_cap(struct file *file, void *priv,
- {
- 	struct rvin_dev *vin = video_drvdata(file);
- 
--	return rvin_try_format(vin, V4L2_SUBDEV_FORMAT_TRY, &f->fmt.pix, NULL,
--			       NULL);
-+	return rvin_try_format(vin, V4L2_SUBDEV_FORMAT_TRY, &f->fmt.pix, NULL);
- }
- 
- static int rvin_s_fmt_vid_cap(struct file *file, void *priv,
- 			      struct v4l2_format *f)
- {
- 	struct rvin_dev *vin = video_drvdata(file);
--	struct v4l2_rect crop, compose;
-+	struct v4l2_rect fmt_rect, src_rect;
- 	int ret;
- 
- 	if (vb2_is_busy(&vin->queue))
- 		return -EBUSY;
- 
- 	ret = rvin_try_format(vin, V4L2_SUBDEV_FORMAT_ACTIVE, &f->fmt.pix,
--			      &crop, &compose);
-+			      &src_rect);
- 	if (ret)
- 		return ret;
- 
- 	vin->format = f->fmt.pix;
--	v4l2_rect_map_inside(&vin->crop, &crop);
--	v4l2_rect_map_inside(&vin->compose, &compose);
--	vin->src_rect = crop;
-+
-+	fmt_rect.top = 0;
-+	fmt_rect.left = 0;
-+	fmt_rect.width = vin->format.width;
-+	fmt_rect.height = vin->format.height;
-+
-+	v4l2_rect_map_inside(&vin->crop, &src_rect);
-+	v4l2_rect_map_inside(&vin->compose, &fmt_rect);
-+	vin->src_rect = src_rect;
- 
- 	return 0;
- }
--- 
-2.21.0
+> The crop and compose rectangles where reset when s_fmt was called
 
+    s/where/were/?
+
+> resulting in potentially valid rectangles where lost when updating the
+
+    And here too...
+
+> format. Fix this by instead trying to map the rectangles inside the new
+> format.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+[...]
+
+MBR, Sergei
