@@ -2,21 +2,21 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A04DC610E9
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  6 Jul 2019 16:06:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 102E56110F
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  6 Jul 2019 16:08:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726747AbfGFOGq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 6 Jul 2019 10:06:46 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:57125 "EHLO
+        id S1726908AbfGFOGu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 6 Jul 2019 10:06:50 -0400
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:42149 "EHLO
         relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726607AbfGFOGq (ORCPT
+        with ESMTP id S1726607AbfGFOGs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 6 Jul 2019 10:06:46 -0400
+        Sat, 6 Jul 2019 10:06:48 -0400
 X-Originating-IP: 2.224.242.101
 Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 0FF48C0009;
-        Sat,  6 Jul 2019 14:06:42 +0000 (UTC)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 59FD1C000A;
+        Sat,  6 Jul 2019 14:06:45 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
 To:     laurent.pinchart@ideasonboard.com,
         kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
@@ -27,9 +27,9 @@ Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Harsha.ManjulaMallikarjun@in.bosch.com,
         linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 01/19] dt-bindings: display: renesas,cmm: Add R-Car CMM documentation
-Date:   Sat,  6 Jul 2019 16:07:28 +0200
-Message-Id: <20190706140746.29132-2-jacopo+renesas@jmondi.org>
+Subject: [PATCH v2 02/19] dt-bindings: display, renesas,du: Document cmms property
+Date:   Sat,  6 Jul 2019 16:07:29 +0200
+Message-Id: <20190706140746.29132-3-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190706140746.29132-1-jacopo+renesas@jmondi.org>
 References: <20190706140746.29132-1-jacopo+renesas@jmondi.org>
@@ -40,50 +40,39 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add device tree bindings documentation for the Renesas R-Car Display
-Unit Color Management Module.
-
-CMM is the image enhancement module available on each R-Car DU video
-channel on R-Car Gen2 and Gen3 SoCs (V3H and V3M excluded).
+Document the newly added 'cmms' property which accepts a list of phandle
+and channel index pairs that point to the CMM units available for each
+Display Unit output video channel.
 
 Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../bindings/display/renesas,cmm.txt          | 25 +++++++++++++++++++
- 1 file changed, 25 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/renesas,cmm.txt
+ Documentation/devicetree/bindings/display/renesas,du.txt | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/renesas,cmm.txt b/Documentation/devicetree/bindings/display/renesas,cmm.txt
-new file mode 100644
-index 000000000000..083dc1357b2b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/renesas,cmm.txt
-@@ -0,0 +1,25 @@
-+* Renesas R-Car Color Management Module (CMM)
+diff --git a/Documentation/devicetree/bindings/display/renesas,du.txt b/Documentation/devicetree/bindings/display/renesas,du.txt
+index aedb22b4d161..0f42af5b91cf 100644
+--- a/Documentation/devicetree/bindings/display/renesas,du.txt
++++ b/Documentation/devicetree/bindings/display/renesas,du.txt
+@@ -44,6 +44,10 @@ Required Properties:
+     instance that serves the DU channel, and the channel index identifies the
+     LIF instance in that VSP.
+ 
++  - cmms: A list of phandles to the CMM instances present in the SoC, one
++    for each available DU channel. The property shall not be specified for
++    SoCs that do not provide any CMM (such as V3M and V3H).
 +
-+Renesas R-Car image enhancement module connected to R-Car DU video channels.
-+
-+Required properties:
-+ - compatible: shall be one of:
-+   - "renesas,rcar-gen3-cmm"
-+   - "renesas,rcar-gen2-cmm"
-+
-+ - reg: the address base and length of the memory area where CMM control
-+   registers are mapped to.
-+
-+ - clocks: phandle and clock-specifier pair to the CMM functional clock
-+   supplier.
-+
-+Example:
-+--------
-+
-+	cmm0: cmm@fea40000 {
-+		compatible = "renesas,rcar-gen3-cmm";
-+		reg = <0 0xfea40000 0 0x1000>;
-+		power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
-+		clocks = <&cpg CPG_MOD 711>;
-+		resets = <&cpg 711>;
-+	};
+ Required nodes:
+ 
+ The connections to the DU output video ports are modeled using the OF graph
+@@ -89,6 +93,7 @@ Example: R8A7795 (R-Car H3) ES2.0 DU
+ 			 <&cpg CPG_MOD 721>;
+ 		clock-names = "du.0", "du.1", "du.2", "du.3";
+ 		vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
++		cmms = <&cmm0 &cmm1 &cmm2 &cmm3>;
+ 
+ 		ports {
+ 			#address-cells = <1>;
 -- 
 2.21.0
 
