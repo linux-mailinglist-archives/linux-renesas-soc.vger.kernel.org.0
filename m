@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B4C6A61F2F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2019 15:01:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43D6C61F4D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2019 15:09:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730918AbfGHNBl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Jul 2019 09:01:41 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:44976 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727601AbfGHNBl (ORCPT
+        id S1731120AbfGHNJL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Jul 2019 09:09:11 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:40626 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731094AbfGHNJL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Jul 2019 09:01:41 -0400
-Received: by mail-oi1-f195.google.com with SMTP id e189so12439654oib.11;
-        Mon, 08 Jul 2019 06:01:40 -0700 (PDT)
+        Mon, 8 Jul 2019 09:09:11 -0400
+Received: by mail-ot1-f65.google.com with SMTP id e8so16100864otl.7;
+        Mon, 08 Jul 2019 06:09:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=T3XPJxTT3Dvt4jElTyeiu9x0dJjghihvSuLu/Ho1cgc=;
-        b=cb5ikluCY8e8/5awDbNJf4Z72DWeTLlXu4wRbWWsMz11u6ZShMQ8SkxBcK4NK5lX2A
-         aMLlmZ3mT7XhxVG48/YM5kcrCCqS6I+JLtUhD7rY/CYbc+ABL4sjz892wWpfvHLJxwoQ
-         WefC9MUWTTTvP2K4BNUgWTIA3gUWqNYEKzK3dU0no/ifr9B07VNCmieFUa5asKvXCh0U
-         yS4bD0VUavXO/QKn1yTtNk5QTYb+OJRzwjg2VtOd2OvEMakuMrRcQ4sw0DQ1OuG/10Tr
-         uAotBRaWa8pYiJ8LyTa1+hOUj0Dt9oxPEHf4s2XiqLimx5TKRmIpeInhKiCMQFs3hKKL
-         /seQ==
-X-Gm-Message-State: APjAAAVwi9sAH4m0L+KYMH++phqSo358u1kijz90c57TXrrv/fImc2FS
-        0iZrqKF4Nw2tMsdEKwLpyQnD44+07VscLSa8BGo=
-X-Google-Smtp-Source: APXvYqxsVlZygjslE8N71C+XOGMO7/jQXqhSrFAiDESzcTVjf0XqbapoEjjE8J+JtqP4DdmNz6tmc3avNB3rEtn0Vek=
-X-Received: by 2002:aca:3bc6:: with SMTP id i189mr9099417oia.153.1562590900082;
- Mon, 08 Jul 2019 06:01:40 -0700 (PDT)
+        bh=k3llEH51w8zbU0qJGyHl+uQDqzfjuclYz6ki4x0LIy0=;
+        b=OTQ76iy0HXy1Biom7EcB5au+eRcOr+l9zp5JI4Tfk8yEZZuVhFmk/w/9EIywtZC8rX
+         eZfwfq8z32IUdk8KXgxg/k0l9ie9kTmGt+SBeRPOml/vnOkwy0WBYJvalzt19Q0S2PaR
+         eUDnQi2UTlBvKd81CvntNdsHwWv5beUDs2uU9xCLHBJmxCwZrlccG9T0aFsTLvG+Cq5a
+         XQkVSJ28HmfsBkluDpC+zQs0u85D5dI5rtQn+3h0MwE+DrKBQ1kqf8ON6s+wgWEu82Ap
+         tSuQz1hMxluUtDP6vXBWiybB1RNm2CI1J8va6wJfs93IAPoR3P/PKsppk9FtK0DlfcBb
+         uoow==
+X-Gm-Message-State: APjAAAVxBSdO0YPLteZKISdRTwvhddMtFGuEwyy/SgzSClJnT9XCuSKF
+        Izsms88ZPb6FWob4xVqhxlD+GI8aZWPp/5tirjM=
+X-Google-Smtp-Source: APXvYqxQa4rNUq0v7nlcagUVPWinEIJx02PSJpLTLmhuU41MA8x9I8+Lm+Ix9v/oioh1laIstCEFPEOZ8ouS1oWDbX8=
+X-Received: by 2002:a9d:529:: with SMTP id 38mr14435891otw.145.1562591350607;
+ Mon, 08 Jul 2019 06:09:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <1560513214-28031-1-git-send-email-fabrizio.castro@bp.renesas.com> <1560513214-28031-6-git-send-email-fabrizio.castro@bp.renesas.com>
-In-Reply-To: <1560513214-28031-6-git-send-email-fabrizio.castro@bp.renesas.com>
+References: <1560513214-28031-1-git-send-email-fabrizio.castro@bp.renesas.com> <1560513214-28031-7-git-send-email-fabrizio.castro@bp.renesas.com>
+In-Reply-To: <1560513214-28031-7-git-send-email-fabrizio.castro@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 8 Jul 2019 15:01:29 +0200
-Message-ID: <CAMuHMdVR8WP=8G8ZYmdd675jvx0nyh2iramyFqCuR-v6a_QF0g@mail.gmail.com>
-Subject: Re: [PATCH 5/6] arm64: dts: renesas: r8a774a1: Add CANFD support
+Date:   Mon, 8 Jul 2019 15:08:59 +0200
+Message-ID: <CAMuHMdXyzTpZWkzY-4btHxHiA+_khUmKJbOjaicsbpZkBwjdxA@mail.gmail.com>
+Subject: Re: [PATCH 6/6] arm64: dts: renesas: hihope-rzg2-ex: Enable CAN interfaces
 To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 Cc:     Simon Horman <horms@verge.net.au>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -47,7 +47,7 @@ Cc:     Simon Horman <horms@verge.net.au>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
+        Biju Das <biju.das@bp.renesas.com>, xu_shunji@hoperun.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -56,7 +56,8 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Fri, Jun 14, 2019 at 1:54 PM Fabrizio Castro
 <fabrizio.castro@bp.renesas.com> wrote:
-> Add CANFD support to the SoC specific dtsi.
+> This patch enables both CAN0 and CAN1, both exposed via
+> connectors found on the expansion board.
 >
 > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 > Reviewed-by: Chris Paterson <Chris.Paterson2@renesas.com>
