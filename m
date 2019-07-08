@@ -2,218 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D0ADC61CE1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2019 12:24:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C41761DE1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2019 13:46:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729358AbfGHKY0 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Jul 2019 06:24:26 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:39134 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726962AbfGHKYZ (ORCPT
+        id S1727862AbfGHLq1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Jul 2019 07:46:27 -0400
+Received: from mail-ua1-f68.google.com ([209.85.222.68]:42047 "EHLO
+        mail-ua1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730463AbfGHLq1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Jul 2019 06:24:25 -0400
-Received: by mail-oi1-f196.google.com with SMTP id m202so12185109oig.6;
-        Mon, 08 Jul 2019 03:24:25 -0700 (PDT)
+        Mon, 8 Jul 2019 07:46:27 -0400
+Received: by mail-ua1-f68.google.com with SMTP id a97so4809133uaa.9
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 08 Jul 2019 04:46:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=flSipI0xpnq86C8I/rrm9xZYmUfxRgobFckLUfbaRC8=;
+        b=XXb+Q80fYNPiOi+n2vBpTR7ILscbEfWMSgFLUGGBp0WIXyrchBmIU+NDlQakm7jnM8
+         tMOGGlXLa6lhxN8Ra5giF5vusg5FAGcyYjayn4957m4SVC5MJ6sWMYf/OxIiDdEXGjyl
+         t0iUctAF15Luy9UaHIMu7DeLX/vVTxmDkPCj5Sd3ctiKIAbE6unYRJZiySlXBWUfp3Qt
+         wSm5DjC32317VN9BrP1dS0bGuEjxebRetq6Ln0vcwZpEzFLSO9tqdk3raraxZko69lN0
+         02Xs/0veoLx/lL8aN++HqWTdEhSnkt6acjQytnwnnYv3k8Q3yxAL+Dnno9K+Jo/jxapZ
+         ShmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ZH94yRQagyEtEFCXe5BGPELbKznvxiS9C2fS8RtGieU=;
-        b=ALsZFk1Msu3eJ1CUslIyqTPO/0RTDWPbyne7OJdObOwOoLXefN6Vj7xL4yBO8L+7IZ
-         8QSfpzSlpP+/4bojcMcVu3+ktmQjzK2ECJB2LjePSE0poWPpTnetskEVg3kGdPxwf+s6
-         tVHyCEgef64W/pv+Mjg30+fznkGGWFr34aokOB8A3Q1Y4PEqdIO5aLuKXujxMat2luzt
-         jkfV2rBIo3aQDy/KMlB7d5rLHtSU53RAXH33K/dN4yhO0vh5jRFYQOvJpLjRNvwaQU0e
-         FWIR57YfIVR3CZAXu6/TtkeUasx0k71D3HgP0vbTcqYf41tdsT14ezCU9dhEzxLoBgQl
-         ysaw==
-X-Gm-Message-State: APjAAAUQLIt0bsPrJKfmIiTVvZKsRaldHDfeG6q7Ftmt7/IXCXMyCpWt
-        SPXmzmLov/apo7v1/uBEOv+NWDAx56cmKznMa7E=
-X-Google-Smtp-Source: APXvYqwSYKqvIlZpX/kEBMpX3NmwEXdcEPgN/3e1aYMYlW0L0auvkQf9qdI+BIfG8hC8I/lwj/25JbA37h2UxuYXNIw=
-X-Received: by 2002:aca:3bc6:: with SMTP id i189mr8740984oia.153.1562581464846;
- Mon, 08 Jul 2019 03:24:24 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=flSipI0xpnq86C8I/rrm9xZYmUfxRgobFckLUfbaRC8=;
+        b=hRwQ3Vl7o3trE4SsOxf2SpQQ8ZYTFGlrH5Sw9IlsH5+n6C306/CpYYzLRsKjhvr1lJ
+         CuPoEPX3jjxfSVMcr8zWX+Z4yzOYsYFKYfdqpiHzy04+jiucUYr+alyiTa1ujZoJBBC9
+         TT8MHUGmHl/R+JG0wtdAU6PY2XiGftbxmvqvoRL9X21hO6lR9VN8W2e4teVGKtGnEDtt
+         Ov3KV5WQKczSBR/4mVrxYRS1uh+qIm/KQJKcE61wAHzyPQ12ABlzZ2bUEGATvzDeCBbH
+         Npn1Lve2JIavhIGr5Uy/xxHVyGbX5igLz0CtkpdJgiHoFtuGek0v7XjgqGSHYn/QrVSv
+         Oo1A==
+X-Gm-Message-State: APjAAAXit5N4qJJEuMLjmOGfWhWWdZYEdP/aPjJHSJLSZaTDO/e9NbQR
+        JW/hPWyeSo3ANGXgKw0bN3mWQyWEBGOXckZ6RnG17Q==
+X-Google-Smtp-Source: APXvYqyFEUscJD5GsIV+BS++o/YX8MWQdCWyg9O7X6Nb/wsuAeld8qTTFnYvdC785Otd3OEmiYJn0ixqzjixmeBiM0Q=
+X-Received: by 2002:ab0:60ad:: with SMTP id f13mr9491120uam.129.1562586386291;
+ Mon, 08 Jul 2019 04:46:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190705160536.12047-1-geert+renesas@glider.be> <CAMpxmJXOrDLdw6ZPBHxzsDRYiLmhRNCb-s_Z=Gu=Ecg1XA5ONQ@mail.gmail.com>
-In-Reply-To: <CAMpxmJXOrDLdw6ZPBHxzsDRYiLmhRNCb-s_Z=Gu=Ecg1XA5ONQ@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 8 Jul 2019 12:24:13 +0200
-Message-ID: <CAMuHMdWdb0dcS8Nvk-Poz2dT7nuHjFhqpsRPZZnSKsc3VffcRA@mail.gmail.com>
-Subject: Re: [PATCH RFC] gpio: Add Virtual Aggregator GPIO Driver
-To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Alexander Graf <agraf@suse.de>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-gpio <linux-gpio@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
+References: <1561020610-953-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1561020610-953-6-git-send-email-yoshihiro.shimoda.uh@renesas.com> <20190624062414.GD2989@lst.de>
+In-Reply-To: <20190624062414.GD2989@lst.de>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Mon, 8 Jul 2019 13:45:50 +0200
+Message-ID: <CAPDyKFpuRzmZUK730FMnh0hf3WRFb9aA=o9ciNt2ei8n803vsQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v7 5/5] mmc: queue: Use bigger segments if DMA MAP
+ layer can merge the segments
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <joro@8bytes.org>,
+        Jens Axboe <axboe@kernel.dk>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Bartosz,
-
-On Mon, Jul 8, 2019 at 11:45 AM Bartosz Golaszewski
-<bgolaszewski@baylibre.com> wrote:
-> pt., 5 lip 2019 o 18:05 Geert Uytterhoeven <geert+renesas@glider.be> napisał(a):
-> > GPIO controllers are exported to userspace using /dev/gpiochip*
-> > character devices.  Access control to these devices is provided by
-> > standard UNIX file system permissions, on an all-or-nothing basis:
-> > either a GPIO controller is accessible for a user, or it is not.
-> > Currently no mechanism exists to control access to individual GPIOs.
-> >
-> > Hence add a virtual GPIO driver to aggregate existing GPIOs (up to 32),
-> > and expose them as a new gpiochip.  This is useful for implementing
-> > access control, and assigning a set of GPIOs to a specific user.
-> > Furthermore, it would simplify and harden exporting GPIOs to a virtual
-> > machine, as the VM can just grab the full virtual GPIO controller, and
-> > no longer needs to care about which GPIOs to grab and which not,
-> > reducing the attack surface.
-> >
-> > Virtual GPIO controllers are instantiated by writing to the "new_device"
-> > attribute file in sysfs:
-> >
-> >     $ echo "<gpiochipA> <gpioA1> [<gpioA2> ...]"
-> >            "[, <gpiochipB> <gpioB1> [<gpioB2> ...]] ...]"
-> >             > /sys/bus/platform/drivers/gpio-virt-agg/new_device
-> >
-> > Likewise, virtual GPIO controllers can be destroyed after use:
-> >
-> >     $ echo gpio-virt-agg.<N> \
-> >             > /sys/bus/platform/drivers/gpio-virt-agg/delete_device
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> I like the general idea and the interface looks mostly fine. Since
-> this is new ABI I think it needs to be documented as well.
-
-Sure.
-
-> I'm having trouble building this module:
+On Mon, 24 Jun 2019 at 08:24, Christoph Hellwig <hch@lst.de> wrote:
 >
->   CALL    scripts/atomic/check-atomics.sh
->   CALL    scripts/checksyscalls.sh
->   CHK     include/generated/compile.h
->   Kernel: arch/arm/boot/Image is ready
->   Building modules, stage 2.
->   MODPOST 235 modules
-> ERROR: "gpiod_request" [drivers/gpio/gpio-virt-agg.ko] undefined!
-> ERROR: "gpiochip_get_desc" [drivers/gpio/gpio-virt-agg.ko] undefined!
-> ERROR: "gpiod_free" [drivers/gpio/gpio-virt-agg.ko] undefined!
-> scripts/Makefile.modpost:91: recipe for target '__modpost' failed
-> make[1]: *** [__modpost] Error 1
-> Makefile:1287: recipe for target 'modules' failed
-> make: *** [modules] Error 2
-> make: *** Waiting for unfinished jobs....
->
-> I'm not sure what the problem is.
-
-Oops. As this is an RFC, I didn't bother trying to build this driver as
-a module, only builtin.  Apparently the 3 symbols above are not yet
-exported using EXPORT_SYMBOL_GPL().
-
-> > --- /dev/null
-> > +++ b/drivers/gpio/gpio-virt-agg.c
-> > @@ -0,0 +1,390 @@
-> > +// SPDX-License-Identifier: GPL-2.0-only
-> > +//
-> > +// GPIO Virtual Aggregator
-> > +//
-> > +// Copyright (C) 2019 Glider bvba
+> On Thu, Jun 20, 2019 at 05:50:10PM +0900, Yoshihiro Shimoda wrote:
+> > When the max_segs of a mmc host is smaller than 512, the mmc
+> > subsystem tries to use 512 segments if DMA MAP layer can merge
+> > the segments, and then the mmc subsystem exposes such information
+> > to the block layer by using blk_queue_can_use_dma_map_merging().
+> >
+> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > ---
+> >  drivers/mmc/core/queue.c | 35 ++++++++++++++++++++++++++++++++---
+> >  include/linux/mmc/host.h |  1 +
+> >  2 files changed, 33 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/mmc/core/queue.c b/drivers/mmc/core/queue.c
+> > index 92900a0..ab0ecc6 100644
+> > --- a/drivers/mmc/core/queue.c
+> > +++ b/drivers/mmc/core/queue.c
+> > @@ -24,6 +24,8 @@
+> >  #include "card.h"
+> >  #include "host.h"
+> >
+> > +#define MMC_DMA_MAP_MERGE_SEGMENTS   512
 > > +
-> > +#include <linux/gpio/driver.h>
-> > +#include <linux/idr.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/module.h>
-> > +#include <linux/mutex.h>
-> > +#include <linux/platform_device.h>
-> > +
-> > +#include "gpiolib.h"
-> > +
-> > +#define DRV_NAME       "gpio-virt-agg"
-> > +#define MAX_GPIOS      32
->
-> Do we really need this limit? I see it simplifies the code, but maybe
-> we can allocate the relevant arrays dynamically and not limit users?
-
-Sure. That limit can be lifted.
-
-> > +static int gpio_virt_agg_set_config(struct gpio_chip *chip,
-> > +                                   unsigned int offset, unsigned long config)
+> >  static inline bool mmc_cqe_dcmd_busy(struct mmc_queue *mq)
+> >  {
+> >       /* Allow only 1 DCMD at a time */
+> > @@ -196,6 +198,12 @@ static void mmc_queue_setup_discard(struct request_queue *q,
+> >               blk_queue_flag_set(QUEUE_FLAG_SECERASE, q);
+> >  }
+> >
+> > +static unsigned int mmc_get_max_segments(struct mmc_host *host)
 > > +{
-> > +       struct gpio_virt_agg_priv *priv = gpiochip_get_data(chip);
-> > +
-> > +       chip = priv->desc[offset]->gdev->chip;
-> > +       if (chip->set_config)
-> > +               return chip->set_config(chip, offset, config);
-> > +
-> > +       // FIXME gpiod_set_transitory() expects success if not implemented
-
-BTW, do you have a comment about this FIXME?
-
-> > +       return -ENOTSUPP;
-> > +}
-
-> > +static int gpio_virt_agg_probe(struct platform_device *pdev)
-> > +{
-> > +       struct device *dev = &pdev->dev;
-> > +       const char *param = dev_get_platdata(dev);
-> > +       struct gpio_virt_agg_priv *priv;
-> > +       const char *label = NULL;
-> > +       struct gpio_chip *chip;
-> > +       struct gpio_desc *desc;
-> > +       unsigned int offset;
-> > +       int error, i;
+> > +     return host->can_dma_map_merge ? MMC_DMA_MAP_MERGE_SEGMENTS :
+> > +                                      host->max_segs;
 >
-> This 'i' here is reported as possibly not initialized:
+> I personally don't like superflous use of ? : if an if would be more
+> obvious:
 >
-> drivers/gpio/gpio-virt-agg.c: In function ‘gpio_virt_agg_probe’:
-> drivers/gpio/gpio-virt-agg.c:230:13: warning: ‘i’ may be used
-> uninitialized in this function [-Wmaybe-uninitialized]
->   int error, i;
->              ^
-
-Oops, should be preinitialized to zero. WIll fix.
-
-> > +static int gpio_virt_agg_remove(struct platform_device *pdev)
-> > +{
-> > +       struct gpio_virt_agg_priv *priv = platform_get_drvdata(pdev);
-> > +       unsigned int i;
-> > +
-> > +       gpiochip_remove(&priv->chip);
-> > +
-> > +       for (i = 0; i < priv->chip.ngpio; i++)
-> > +               gpiod_free(priv->desc[i]);
-
-Perhaps I should use gpiod_put() instead, which is exported to modules?
-
-> > +
-> > +       return 0;
-> > +}
+>         if (host->can_dma_map_merge)
+>                 return MMC_DMA_MAP_MERGE_SEGMENTS;
+>         return host->max_segs;
 >
-> You shouldn't need this function at all. It's up to users to free descriptors.
+> but that is really just a nitpick and for the mmc maintainer to decide.
 
-This frees the upstream descriptors, not the descriptors used by users
-of the virtual gpiochip. Shouldn't they be freed, as they are no longer
-in use?
+I have no strong opinions, both formats are used in mmc code, so I am
+fine as is.
 
-Note that .probe() doesn't use devm_gpiochip_add_data(), as the upstream
-descriptors need to be freed after the call to gpiochip_remove().
+>
+> Otherwise looks good:
+>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
 
-Thanks!
+Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Kind regards
+Uffe
