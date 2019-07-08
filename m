@@ -2,117 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 61E9F6255D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2019 17:51:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97FA262622
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2019 18:22:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726962AbfGHPvH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Jul 2019 11:51:07 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:33939 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387760AbfGHPvH (ORCPT
+        id S1727648AbfGHQWc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Jul 2019 12:22:32 -0400
+Received: from verein.lst.de ([213.95.11.211]:34854 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726512AbfGHQWc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Jul 2019 11:51:07 -0400
-Received: by mail-lf1-f67.google.com with SMTP id b29so11323749lfq.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 08 Jul 2019 08:51:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Lcu6DKhuqC2EdjddGasiGPHtfViOaKatj/mPHVzp6VA=;
-        b=PgagO2IsiF4rFEsQ1pEGwMwtjC8l+1tE8BYXAKHXqKARn1Bgx6b0qiLcG4o9m8tAef
-         j2UHyQ87E5pA7Mj1JvJuqxMQqRBNveBXnd3sZkPk3PmHPvJzJSLZcqBZZQC/0yn6VvEn
-         SkHCb6zWMay4selpqMxmN7N9KrSzkrgwRKnNxIfypr53cC4Y5rjNVXAKd4rJxM34RKob
-         xl14dKBErxnaPATmaknikgb7R4iRU5F8zITKvktvo0mF2/bOBK47FZGxd2Y4SCHGDdAP
-         0VxhjAWpVyMLvzYBCevSIT7jmdk1ua3SD2czk/0TVdRBKWwH1OZUeVFpig2/K4Su0MO4
-         +Ndw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Lcu6DKhuqC2EdjddGasiGPHtfViOaKatj/mPHVzp6VA=;
-        b=pG00Jz/UZXrnpEZ10WKyahXJ7zzt534SDDgebAqB7PYbpeKLi7s7lTalxenNn/vtsu
-         RbZPyPTSEMkbZjtE3xXeQTmI3ItQWJnl1rhqRKmLetuRZbBdDi4SQsm+4AXj3gHZGtCt
-         A40COBzp///oiGP8wvUFysKRItWvsJqyHgCDcogFPWY5iS0j0h0urRx/W2TpR14asU8n
-         jekUnkZqqQCfa+yfHrNW6QkaFR1lx4HiYMB3j4J7u6XAwNfaTwWBtdwWx4akh/ZQvHKa
-         8cOxKsz4CJskXegKfu5eNCMLYhcuttOVPwQiyh5dBnflvySILWGF8CcKXqsJesTp79qm
-         NkEw==
-X-Gm-Message-State: APjAAAVzyP13eZhU8OUkfIvdXDEyek8/dPTZHgFnB7RwmG+rRI7Ud8ng
-        JSk5jEJFcUcpAm0eeVjJhNzrZYJdOTY=
-X-Google-Smtp-Source: APXvYqxEVIlyCLwyyxfKqlR4trRT9l0+9B6drLsoXei3PDRFkDOgzGGIqdglLJdOft3RmoF5pEmJJQ==
-X-Received: by 2002:a05:6512:48f:: with SMTP id v15mr7144576lfq.37.1562601065318;
-        Mon, 08 Jul 2019 08:51:05 -0700 (PDT)
-Received: from ?IPv6:2a00:1fa0:4440:228b:a5c8:af47:c662:2fa9? ([2a00:1fa0:4440:228b:a5c8:af47:c662:2fa9])
-        by smtp.gmail.com with ESMTPSA id n10sm2819753lfe.24.2019.07.08.08.51.04
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 08 Jul 2019 08:51:04 -0700 (PDT)
-Subject: Re: [PATCH RFC 1/7] pinctrl: sh-pfc: add new flags into struct
- sh_pfc_pin_config
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linus.walleij@linaro.org, geert+renesas@glider.be,
-        thierry.reding@gmail.com, robh+dt@kernel.org, mark.rutland@arm.com
-Cc:     linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <1562576868-8124-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1562576868-8124-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <f5f0a790-3ed5-dfbc-e489-be1ecc55d742@cogentembedded.com>
-Date:   Mon, 8 Jul 2019 18:51:00 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        Mon, 8 Jul 2019 12:22:32 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 292AE227A81; Mon,  8 Jul 2019 18:22:30 +0200 (CEST)
+Date:   Mon, 8 Jul 2019 18:22:30 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Ulf Hansson <ulf.hansson@linaro.org>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <joro@8bytes.org>,
+        Jens Axboe <axboe@kernel.dk>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        linux-block <linux-block@vger.kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>
+Subject: Re: [RFC PATCH v7 0/5] treewide: improve R-Car SDHI performance
+Message-ID: <20190708162229.GA10311@lst.de>
+References: <1561020610-953-1-git-send-email-yoshihiro.shimoda.uh@renesas.com> <20190701083253.GA22719@lst.de> <CAPDyKFpg6zMRtnD89juuXR8Epas7qJOo8GgdTR=Q1kbZ0=69LA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1562576868-8124-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPDyKFpg6zMRtnD89juuXR8Epas7qJOo8GgdTR=Q1kbZ0=69LA@mail.gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 08.07.2019 12:07, Yoshihiro Shimoda wrote:
-
-> To clean/modify the code up later, this patch just adds new flags
-> "mux_set" and "gpio_enabled" into the struct sh_pfc_pin_config.
+On Mon, Jul 08, 2019 at 01:45:55PM +0200, Ulf Hansson wrote:
+> On Mon, 1 Jul 2019 at 10:32, Christoph Hellwig <hch@lst.de> wrote:
+> >
+> > Any comments from the block, iommu and mmc maintainers?  I'd be happy
+> > to queue this up in the dma-mapping tree, but I'll need some ACKs
+> > for that fast.  Alternatively I can just queue up the DMA API bits,
+> > leaving the rest for the next merge window, but would drag things
+> > out far too long IMHO.
 > 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->   drivers/pinctrl/sh-pfc/pinctrl.c | 14 +++++++++++++-
->   1 file changed, 13 insertions(+), 1 deletion(-)
+> Apologize for the delay, the mmc parts looks good to me. If not too
+> late, feel free to pick it up.
 > 
-> diff --git a/drivers/pinctrl/sh-pfc/pinctrl.c b/drivers/pinctrl/sh-pfc/pinctrl.c
-> index 2824be4..157b257 100644
-> --- a/drivers/pinctrl/sh-pfc/pinctrl.c
-> +++ b/drivers/pinctrl/sh-pfc/pinctrl.c
-> @@ -27,6 +27,8 @@
->   
->   struct sh_pfc_pin_config {
->   	u32 type;
-> +	bool mux_set;
-> +	bool gpio_enabled;
->   };
->   
->   struct sh_pfc_pinctrl {
-> @@ -364,7 +366,15 @@ static int sh_pfc_func_set_mux(struct pinctrl_dev *pctldev, unsigned selector,
->   	for (i = 0; i < grp->nr_pins; ++i) {
->   		ret = sh_pfc_config_mux(pfc, grp->mux[i], PINMUX_TYPE_FUNCTION);
->   		if (ret < 0)
-> -			break;
-> +			goto done;
-> +	}
-> +
-> +	/* All group pins are configurated, mark the pins as mux_set */
+> Otherwise, let's do it for the next cycle.
 
-    Configured.
-
-> +	for (i = 0; i < grp->nr_pins; ++i) {
-> +		int idx = sh_pfc_get_pin_index(pfc, grp->pins[i]);
-> +		struct sh_pfc_pin_config *cfg = &pmx->configs[idx];
-> +
-> +		cfg->mux_set = true;
->   	}
->   
->   done:
-[...]
-
-MBR, Sergei
+I was out the last couple days, so it has to be next cycle.  But it
+would still make sense to get everything into a single tree.
