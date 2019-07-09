@@ -2,60 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 97FA262622
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  8 Jul 2019 18:22:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8781F62D54
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jul 2019 03:18:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727648AbfGHQWc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 8 Jul 2019 12:22:32 -0400
-Received: from verein.lst.de ([213.95.11.211]:34854 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726512AbfGHQWc (ORCPT
+        id S1726124AbfGIBSb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 8 Jul 2019 21:18:31 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:54435 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725905AbfGIBSb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 8 Jul 2019 12:22:32 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 292AE227A81; Mon,  8 Jul 2019 18:22:30 +0200 (CEST)
-Date:   Mon, 8 Jul 2019 18:22:30 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <joro@8bytes.org>,
-        Jens Axboe <axboe@kernel.dk>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        linux-block <linux-block@vger.kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>
-Subject: Re: [RFC PATCH v7 0/5] treewide: improve R-Car SDHI performance
-Message-ID: <20190708162229.GA10311@lst.de>
-References: <1561020610-953-1-git-send-email-yoshihiro.shimoda.uh@renesas.com> <20190701083253.GA22719@lst.de> <CAPDyKFpg6zMRtnD89juuXR8Epas7qJOo8GgdTR=Q1kbZ0=69LA@mail.gmail.com>
+        Mon, 8 Jul 2019 21:18:31 -0400
+Received: by mail-wm1-f67.google.com with SMTP id p74so1301528wme.4;
+        Mon, 08 Jul 2019 18:18:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vRVbPF/0ajosmPN4Ay8z+zKHDksJfcNn8uHA4+U9uZo=;
+        b=EvzVRlYqYQ6yoFh4cC0XWd3R7HJSf9wCHcq+3VF25GatybqCHlhEimdyv3CtZIHoJZ
+         eKcKwd7Mh8chovX6y5xmDSok4vpWLxDVE8CeELXOUD02NVRFPP2EaJu6Vqv3Rb3cxKzd
+         pPZa+qQTeZZc/F02daQ2KXOV+ohb8DnRNoTXFE38GtW01YSa7F/F/IX5qH3Y78AumfHZ
+         ZX36JEfizHmXGscAanulIZFQshHGKVk15CPg4r2aU0dQOn8ACXFS7bVpJw8qtPyZdqy7
+         q9VXU9gPrJzCZSlQ0fgc1XDqIxO+VMQ8ArqHbHNhIMFzMGf8aOfyfXHQhVimcSWGLgSE
+         xpGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vRVbPF/0ajosmPN4Ay8z+zKHDksJfcNn8uHA4+U9uZo=;
+        b=LDPJjFkLr3JJuaZWWT81qBFIKapSMHxffizFCtXnXPveQXCFUchJGdPhVUiY6A8sda
+         0RPSrUVmYBIiJYLUNSGNp8dcoc9mrzw8cIkuz7eNm5ntsJQYIgKv3NlEusCjMzSy2m16
+         /up7x7n3tG4dfnobPZ+wQ5GlwAQ+Vit/S2eS2SrI72XWQcJU2O1CJSKy9cWbAFcXwB+S
+         MTCCwiL+fQGeWxfXgI3ZG30JSfFvULpxDqfMaBPr02dWeu0UfYIakHZYoY1ZZ2jCxET9
+         KDHoBBd+XRgEreZ+wAXNbgrx9qxP8o/NVI1aK9cqVcUPh1dC7ZK7RHlT0C85Ojpsu0r0
+         0L1g==
+X-Gm-Message-State: APjAAAXE2RLDNFxSv5miX/G8pCzRt75xQa7ZOoMXVPE4ddMGLWaqfUAf
+        jkU8gPivuLiiDqdKgxkoa1ebT0Sk
+X-Google-Smtp-Source: APXvYqxUar/3qwAPoesl+6yYlgNNPaPGwPAqehO4FaJouMJW8FtGegTPfb++Q2YJ7XdU2WGLf6B0PA==
+X-Received: by 2002:a7b:c3d5:: with SMTP id t21mr17227935wmj.87.1562635108528;
+        Mon, 08 Jul 2019 18:18:28 -0700 (PDT)
+Received: from kurokawa.lan (ip-86-49-110-70.net.upcbroadband.cz. [86.49.110.70])
+        by smtp.gmail.com with ESMTPSA id a8sm935505wma.31.2019.07.08.18.18.27
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Mon, 08 Jul 2019 18:18:27 -0700 (PDT)
+From:   marek.vasut@gmail.com
+To:     linux-pci@vger.kernel.org
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 1/2] PCI: rcar: Do not abort on too many inbound dma-ranges
+Date:   Tue,  9 Jul 2019 03:15:58 +0200
+Message-Id: <20190709011559.12379-1-marek.vasut@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPDyKFpg6zMRtnD89juuXR8Epas7qJOo8GgdTR=Q1kbZ0=69LA@mail.gmail.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jul 08, 2019 at 01:45:55PM +0200, Ulf Hansson wrote:
-> On Mon, 1 Jul 2019 at 10:32, Christoph Hellwig <hch@lst.de> wrote:
-> >
-> > Any comments from the block, iommu and mmc maintainers?  I'd be happy
-> > to queue this up in the dma-mapping tree, but I'll need some ACKs
-> > for that fast.  Alternatively I can just queue up the DMA API bits,
-> > leaving the rest for the next merge window, but would drag things
-> > out far too long IMHO.
-> 
-> Apologize for the delay, the mmc parts looks good to me. If not too
-> late, feel free to pick it up.
-> 
-> Otherwise, let's do it for the next cycle.
+From: Marek Vasut <marek.vasut+renesas@gmail.com>
 
-I was out the last couple days, so it has to be next cycle.  But it
-would still make sense to get everything into a single tree.
+In case the "dma-ranges" DT property contains either too many ranges
+or the range start address is unaligned in such a way that populating
+the range into the controller requires multiple entries, a situation
+may occur where all ranges cannot be loaded into the controller.
+
+Currently, the driver refuses to probe in such a situation. Relax this
+behavior, load as many ranges as possible and warn if some ranges do
+not fit anymore.
+
+Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc: Wolfram Sang <wsa@the-dreams.de>
+Cc: linux-renesas-soc@vger.kernel.org
+To: linux-pci@vger.kernel.org
+---
+ drivers/pci/controller/pcie-rcar.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
+index f6a669a9af41..938adff4148f 100644
+--- a/drivers/pci/controller/pcie-rcar.c
++++ b/drivers/pci/controller/pcie-rcar.c
+@@ -1069,8 +1069,9 @@ static int rcar_pcie_inbound_ranges(struct rcar_pcie *pcie,
+ 		idx += 2;
+ 
+ 		if (idx > MAX_NR_INBOUND_MAPS) {
+-			dev_err(pcie->dev, "Failed to map inbound regions!\n");
+-			return -EINVAL;
++			dev_warn(pcie->dev,
++				 "Too many inbound regions, not all are mapped.\n");
++			break;
+ 		}
+ 	}
+ 	*index = idx;
+-- 
+2.20.1
+
