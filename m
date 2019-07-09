@@ -2,103 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 423C563936
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jul 2019 18:21:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0600A6393E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jul 2019 18:23:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726133AbfGIQVe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 9 Jul 2019 12:21:34 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:33959 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725816AbfGIQVe (ORCPT
+        id S1726435AbfGIQXE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 9 Jul 2019 12:23:04 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:36145 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726133AbfGIQXE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 9 Jul 2019 12:21:34 -0400
-Received: by mail-io1-f68.google.com with SMTP id k8so44511854iot.1;
-        Tue, 09 Jul 2019 09:21:34 -0700 (PDT)
+        Tue, 9 Jul 2019 12:23:04 -0400
+Received: by mail-io1-f65.google.com with SMTP id o9so28852361iom.3;
+        Tue, 09 Jul 2019 09:23:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=tdnazXLhlcJEQoEf7y5DGd94e04z/ROl9oLTu403rzE=;
-        b=fvzj8YgqhSZrwYYIpacy6icja8gMDD3iypp0hu3PO63iO7lUAFDQTaVYPQ5A1gwMoy
-         nu9jXDTxgvGzdEkxQK1rCJXieKTmfx7pksPELcaDBGQ88PKzNUDAm4hT+G+Agd+o4R3R
-         DG7RffiCuSd2S4hnt+EQP6OPpW4a8F9MN0eb4OI3Ckg91x5IC0UAggdJcR9fZNFj/v3S
-         refrHN63uriwewKwy8HwCH62ZbqcbwOtzUE76EDmEEjwq3qsHb3AtqjEtcZHIkxvdvNW
-         7VjHftOxFwc8T082WQAfHsX4250nrC/nfB2trftreftb2BkI/KldCWw8vmNBtWfec4SY
-         FVFQ==
-X-Gm-Message-State: APjAAAXKuMYEdqR1VERcy7SJRmDvu4cZqoh6fqcjJ+R4J40oaIdyb3eE
-        X3NyqRp6UuxtzQT+S6jWgJ6aEPw0Cw==
-X-Google-Smtp-Source: APXvYqyn2+bZBGQnaQ8PEBAI1NK1Q0hq/8r85tftmHQ/WurdZftHs4Hcn0ZqD+Z58LlLwrSzD7XcxQ==
-X-Received: by 2002:a05:6602:104:: with SMTP id s4mr26033545iot.200.1562689293596;
-        Tue, 09 Jul 2019 09:21:33 -0700 (PDT)
+        bh=pQno1KJbKf78dGdOZjgFEaPOXHmHEAQYh7budV2mvhk=;
+        b=gYY+6GuA3MZxmjbNA9782al9w7MSD1EELD8S2S9hF20kDPYhVQBkTczCNIhTerZDPZ
+         lWhASXHXXtwE1vUQVoh7EWsuDu4n1s1nT9osHfJftjPjvpIiw/sRfw6TLG89c66n24EC
+         MdLrcahKz3cb1BlUSYNqC7Tj4fhwOzL3KVm5/9Sk9lHOZREo/ta8rbM3C1HoxoEFu+B9
+         7lq2GemP33R/pdTtPyWzyZQexU6QVAirSAINX3AxHaDhPLXIRFiCOR0ghI2f62+ECACn
+         v6UWmCDhIs2P81ioWAZXCIpYl4j+CBwrZjWGmiSCQ1Y8OyJliUf40fam1KAEUd+3NYaz
+         Vaxg==
+X-Gm-Message-State: APjAAAU399kvIPKYDEQas15agr2nTNsNZUTCqtKtmv3GaZzs/JV7rr04
+        FvDhoWBGWRyIdjLl/KqP7Q==
+X-Google-Smtp-Source: APXvYqw72PD1UlV8XW3rvrw/IomaCRPi+zJD/vXHQVXsOBnstGBvVnzviv6A2tU2QDQAvFXXuI3d4w==
+X-Received: by 2002:a5d:8447:: with SMTP id w7mr27674180ior.197.1562689383296;
+        Tue, 09 Jul 2019 09:23:03 -0700 (PDT)
 Received: from localhost ([64.188.179.251])
-        by smtp.gmail.com with ESMTPSA id y5sm27713627ioc.86.2019.07.09.09.21.32
+        by smtp.gmail.com with ESMTPSA id s3sm15076044iob.49.2019.07.09.09.23.02
         (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 09 Jul 2019 09:21:32 -0700 (PDT)
-Date:   Tue, 9 Jul 2019 10:21:31 -0600
+        Tue, 09 Jul 2019 09:23:02 -0700 (PDT)
+Date:   Tue, 9 Jul 2019 10:23:01 -0600
 From:   Rob Herring <robh@kernel.org>
 To:     Magnus Damm <magnus.damm@gmail.com>
 Cc:     devicetree@vger.kernel.org, mark.rutland@arm.com,
         linux-renesas-soc@vger.kernel.org,
         Magnus Damm <magnus.damm@gmail.com>, robh+dt@kernel.org
-Subject: Re: [PATCH 1/8] dt-bindings: timer: renesas, cmt: Add CMT0234 to
+Subject: Re: [PATCH 2/8] dt-bindings: timer: renesas, cmt: Update CMT1 on
  sh73a0 and r8a7740
-Message-ID: <20190709162131.GA6037@bogus>
+Message-ID: <20190709162301.GA8807@bogus>
 References: <156076216767.4736.16337667537984218274.sendpatchset@octo>
- <156076217672.4736.6510117188637868943.sendpatchset@octo>
+ <156076218574.4736.10317127566447729303.sendpatchset@octo>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <156076217672.4736.6510117188637868943.sendpatchset@octo>
+In-Reply-To: <156076218574.4736.10317127566447729303.sendpatchset@octo>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 17 Jun 2019 18:02:56 +0900, Magnus Damm wrote:
+On Mon, 17 Jun 2019 18:03:05 +0900, Magnus Damm wrote:
 > From: Magnus Damm <damm+renesas@opensource.se>
 > 
-> Document the on-chip CMT devices included in r8a7740 and sh73a0.
+> This patch reworks the DT binding documentation for the 6-channel
+> 48-bit CMTs known as CMT1 on r8a7740 and sh73a0.
 > 
-> Included in this patch is DT binding documentation for 32-bit CMTs
-> CMT0, CMT2, CMT3 and CMT4. They all contain a single channel and are
-> quite similar however some minor differences still exist:
->  - "Counter input clock" (clock input and on-device divider)
->     One example is that RCLK 1/1 is supported by CMT2, CMT3 and CMT4.
->  - "Wakeup request" (supported by CMT0 and CMT2)
-> 
-> Because of this one unique compat string per CMT device is selected.
+> After the update the same style of DT binding as the rest of the upstream
+> SoCs will now also be used by r8a7740 and sh73a0. The DT binding "cmt-48"
+> is removed from the DT binding documentation, however software support for
+> this deprecated binding will still remain in the CMT driver for some time.
 > 
 > Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
 > ---
 > 
->  Documentation/devicetree/bindings/timer/renesas,cmt.txt |    8 ++++++++
->  1 file changed, 8 insertions(+)
+>  Documentation/devicetree/bindings/timer/renesas,cmt.txt |   10 ++--------
+>  1 file changed, 2 insertions(+), 8 deletions(-)
 > 
-> --- 0001/Documentation/devicetree/bindings/timer/renesas,cmt.txt
-> +++ work/Documentation/devicetree/bindings/timer/renesas,cmt.txt	2019-06-17 13:26:56.325963995 +0900
-> @@ -22,6 +22,10 @@ Required Properties:
+> --- 0002/Documentation/devicetree/bindings/timer/renesas,cmt.txt
+> +++ work/Documentation/devicetree/bindings/timer/renesas,cmt.txt	2019-06-17 13:31:52.766505901 +0900
+> @@ -12,17 +12,10 @@ datasheets.
+>  Required Properties:
 >  
+>    - compatible: must contain one or more of the following:
+> -    - "renesas,cmt-48-sh73a0" for the sh73A0 48-bit CMT
+> -		(CMT1)
+> -    - "renesas,cmt-48-r8a7740" for the r8a7740 48-bit CMT
+> -		(CMT1)
+> -    - "renesas,cmt-48" for all non-second generation 48-bit CMT
+> -		(CMT1 on sh73a0 and r8a7740)
+> -		This is a fallback for the above renesas,cmt-48-* entries.
+> -
 >      - "renesas,r8a73a4-cmt0" for the 32-bit CMT0 device included in r8a73a4.
 >      - "renesas,r8a73a4-cmt1" for the 48-bit CMT1 device included in r8a73a4.
-> +    - "renesas,r8a7740-cmt0" for the 32-bit CMT0 device included in r8a7740.
-> +    - "renesas,r8a7740-cmt2" for the 32-bit CMT2 device included in r8a7740.
-> +    - "renesas,r8a7740-cmt3" for the 32-bit CMT3 device included in r8a7740.
-> +    - "renesas,r8a7740-cmt4" for the 32-bit CMT4 device included in r8a7740.
->      - "renesas,r8a7743-cmt0" for the 32-bit CMT0 device included in r8a7743.
->      - "renesas,r8a7743-cmt1" for the 48-bit CMT1 device included in r8a7743.
->      - "renesas,r8a7744-cmt0" for the 32-bit CMT0 device included in r8a7744.
-> @@ -48,6 +52,10 @@ Required Properties:
->      - "renesas,r8a77970-cmt1" for the 48-bit CMT1 device included in r8a77970.
+>      - "renesas,r8a7740-cmt0" for the 32-bit CMT0 device included in r8a7740.
+> +    - "renesas,r8a7740-cmt1" for the 48-bit CMT1 device included in r8a7740.
+>      - "renesas,r8a7740-cmt2" for the 32-bit CMT2 device included in r8a7740.
+>      - "renesas,r8a7740-cmt3" for the 32-bit CMT3 device included in r8a7740.
+>      - "renesas,r8a7740-cmt4" for the 32-bit CMT4 device included in r8a7740.
+> @@ -53,6 +46,7 @@ Required Properties:
 >      - "renesas,r8a77980-cmt0" for the 32-bit CMT0 device included in r8a77980.
 >      - "renesas,r8a77980-cmt1" for the 48-bit CMT1 device included in r8a77980.
-> +    - "renesas,sh73a0-cmt0" for the 32-bit CMT0 device included in sh73a0.
-> +    - "renesas,sh73a0-cmt2" for the 32-bit CMT2 device included in sh73a0.
-> +    - "renesas,sh73a0-cmt3" for the 32-bit CMT3 device included in sh73a0.
-> +    - "renesas,sh73a0-cmt4" for the 32-bit CMT4 device included in sh73a0.
->  
->      - "renesas,rcar-gen2-cmt0" for 32-bit CMT0 devices included in R-Car Gen2
->  		and RZ/G1.
+>      - "renesas,sh73a0-cmt0" for the 32-bit CMT0 device included in sh73a0.
+> +    - "renesas,sh73a0-cmt1" for the 48-bit CMT1 device included in sh73a0.
+>      - "renesas,sh73a0-cmt2" for the 32-bit CMT2 device included in sh73a0.
+>      - "renesas,sh73a0-cmt3" for the 32-bit CMT3 device included in sh73a0.
+>      - "renesas,sh73a0-cmt4" for the 32-bit CMT4 device included in sh73a0.
 > 
 
 Reviewed-by: Rob Herring <robh@kernel.org>
