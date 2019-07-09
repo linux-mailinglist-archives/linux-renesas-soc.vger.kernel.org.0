@@ -2,147 +2,266 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AC336367D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jul 2019 15:10:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61BE86384A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  9 Jul 2019 16:59:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726618AbfGINKP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 9 Jul 2019 09:10:15 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38404 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726126AbfGINKP (ORCPT
+        id S1726341AbfGIO7B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 9 Jul 2019 10:59:01 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:32839 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726211AbfGIO7A (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 9 Jul 2019 09:10:15 -0400
-Received: from [192.168.43.26] (unknown [86.8.202.39])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C854256A;
-        Tue,  9 Jul 2019 15:10:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1562677811;
-        bh=MC2VktNHFEzC8E+DTe2UiB5DhWKIJmSeaH4pPOxCqyU=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=IZxchB5GZRgI3H3uorN1VxyGSwpEy5eytBXqvjMZquAsTYicmUZHDF1z/6VHMipu4
-         uEiO3Jo2FoWLZEIdljV/pAdAcTJ1zk6jRSHUs66TUhR+KwguZKwhGg4z2Ti7wke+MA
-         UdC54Omud2BY6i4EdMx5SCsnpg9IK9B42MqL4byo=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH v2 03/19] arm64: renesas: Update 'vsps' property
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     airlied@linux.ie, daniel@ffwll.ch, koji.matsuoka.xm@renesas.com,
-        muroya@ksk.co.jp, VenkataRajesh.Kalakodima@in.bosch.com,
-        Harsha.ManjulaMallikarjun@in.bosch.com,
-        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org
-References: <20190706140746.29132-1-jacopo+renesas@jmondi.org>
- <20190706140746.29132-4-jacopo+renesas@jmondi.org>
- <20190708031121.GA5046@pendragon.ideasonboard.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-X-Enigmail-Draft-Status: N11100
-Organization: Ideas on Board
-Message-ID: <6c62ed5e-fbfd-cf5e-7611-47577e78efe6@ideasonboard.com>
-Date:   Tue, 9 Jul 2019 14:10:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.1
+        Tue, 9 Jul 2019 10:59:00 -0400
+Received: by mail-oi1-f194.google.com with SMTP id u15so15618031oiv.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 09 Jul 2019 07:59:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=pzCb+Di/c9ZWTKEmAt46a9ynFYRh/T3Fr01SSbk8A/w=;
+        b=sITepeWjRPevQm0BsKHCBzgNsIV/6+j349u/RLUlrHVpKZ6WQTBiV8xqZRUtlr6oM7
+         uX9+KEbwvwEZ4gfs+BaSmuvm5AegKonbf2TPNwG4OgxDjnSRrTI3moW3A77EH+/PGL0i
+         gcIDPN4fJj6Mue6fk+LogZRrzPxkonUexTrfQagtsleWGr/+OaYifVvKs7hmAdoFAb4n
+         tKdfDvzN+yaH6ZPkOqZPg0GrlAvdcn9p+u0GRHaLrmnNzq1sn1xx2uWlZI9JIMUhPukO
+         JM0Fl7fpD52byEmmX3wBVeqyd2ukPVlF0FcRrMFElUlMc2oClC5wPSJ+YK2vmyEAxzP5
+         Xtbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=pzCb+Di/c9ZWTKEmAt46a9ynFYRh/T3Fr01SSbk8A/w=;
+        b=q9/r6MxGsBdjXhSysrhZImAfFEbahUYEMoeqmzTFaa/D2Xeg9kRGfu/d6GGnPBYtXp
+         CPS+iy6f6/ixv6gRdQHnzpLgEe2646ifMvxbD+LHjhyLo8hq49FscsNgqAauQH/qN0R5
+         kW3YvZgJpTHRWT9b10vIW1OE4AOd6aWr22GNngFQsz0uj1VzugaIZESQbs5ptlJOD9Cg
+         FKN3zxlmsJtxii9VkhY0Ke60sfEjZGauRAeeWuSJR3LiGb1+P5H6CkMWu4IUrI3u+vrZ
+         oo1mNeUO+BUqb2RSCFLYbAyFA6uu8hYcOznNczlrzcRMSxcxUfc2ubJcvlGxuFCUgp8W
+         NBgg==
+X-Gm-Message-State: APjAAAWKLur1Lg/zVk7ajWw2ssiGQQXUfkSFz0yZCcQKX/Je406MdNAe
+        SNCBHlPRacWfNhvLggZPxRM2OcuN4uajEy0sP2eHDw==
+X-Google-Smtp-Source: APXvYqzvy5+qSnT0FsNiIa1hh9LJ5dmCzod4D0X30hjj68Evdb6Y1I3rj58R5mzNDeY7yv1uOu8i5mT7qmTvogCGwww=
+X-Received: by 2002:aca:b58b:: with SMTP id e133mr234611oif.147.1562684339714;
+ Tue, 09 Jul 2019 07:58:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190708031121.GA5046@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20190705160536.12047-1-geert+renesas@glider.be>
+ <CAMpxmJXOrDLdw6ZPBHxzsDRYiLmhRNCb-s_Z=Gu=Ecg1XA5ONQ@mail.gmail.com> <CAMuHMdWdb0dcS8Nvk-Poz2dT7nuHjFhqpsRPZZnSKsc3VffcRA@mail.gmail.com>
+In-Reply-To: <CAMuHMdWdb0dcS8Nvk-Poz2dT7nuHjFhqpsRPZZnSKsc3VffcRA@mail.gmail.com>
+From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date:   Tue, 9 Jul 2019 16:58:48 +0200
+Message-ID: <CAMpxmJUF1s1zyXVtoUGfbV7Yk+heua4rNjY=DrX=jr-v8UfNxA@mail.gmail.com>
+Subject: Re: [PATCH RFC] gpio: Add Virtual Aggregator GPIO Driver
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Alexander Graf <agraf@suse.de>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-gpio <linux-gpio@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+pon., 8 lip 2019 o 12:24 Geert Uytterhoeven <geert@linux-m68k.org> napisa=
+=C5=82(a):
+>
+> Hi Bartosz,
+>
+> On Mon, Jul 8, 2019 at 11:45 AM Bartosz Golaszewski
+> <bgolaszewski@baylibre.com> wrote:
+> > pt., 5 lip 2019 o 18:05 Geert Uytterhoeven <geert+renesas@glider.be> na=
+pisa=C5=82(a):
+> > > GPIO controllers are exported to userspace using /dev/gpiochip*
+> > > character devices.  Access control to these devices is provided by
+> > > standard UNIX file system permissions, on an all-or-nothing basis:
+> > > either a GPIO controller is accessible for a user, or it is not.
+> > > Currently no mechanism exists to control access to individual GPIOs.
+> > >
+> > > Hence add a virtual GPIO driver to aggregate existing GPIOs (up to 32=
+),
+> > > and expose them as a new gpiochip.  This is useful for implementing
+> > > access control, and assigning a set of GPIOs to a specific user.
+> > > Furthermore, it would simplify and harden exporting GPIOs to a virtua=
+l
+> > > machine, as the VM can just grab the full virtual GPIO controller, an=
+d
+> > > no longer needs to care about which GPIOs to grab and which not,
+> > > reducing the attack surface.
+> > >
+> > > Virtual GPIO controllers are instantiated by writing to the "new_devi=
+ce"
+> > > attribute file in sysfs:
+> > >
+> > >     $ echo "<gpiochipA> <gpioA1> [<gpioA2> ...]"
+> > >            "[, <gpiochipB> <gpioB1> [<gpioB2> ...]] ...]"
+> > >             > /sys/bus/platform/drivers/gpio-virt-agg/new_device
+> > >
+> > > Likewise, virtual GPIO controllers can be destroyed after use:
+> > >
+> > >     $ echo gpio-virt-agg.<N> \
+> > >             > /sys/bus/platform/drivers/gpio-virt-agg/delete_device
+> > >
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> > I like the general idea and the interface looks mostly fine. Since
+> > this is new ABI I think it needs to be documented as well.
+>
+> Sure.
+>
+> > I'm having trouble building this module:
+> >
+> >   CALL    scripts/atomic/check-atomics.sh
+> >   CALL    scripts/checksyscalls.sh
+> >   CHK     include/generated/compile.h
+> >   Kernel: arch/arm/boot/Image is ready
+> >   Building modules, stage 2.
+> >   MODPOST 235 modules
+> > ERROR: "gpiod_request" [drivers/gpio/gpio-virt-agg.ko] undefined!
+> > ERROR: "gpiochip_get_desc" [drivers/gpio/gpio-virt-agg.ko] undefined!
+> > ERROR: "gpiod_free" [drivers/gpio/gpio-virt-agg.ko] undefined!
+> > scripts/Makefile.modpost:91: recipe for target '__modpost' failed
+> > make[1]: *** [__modpost] Error 1
+> > Makefile:1287: recipe for target 'modules' failed
+> > make: *** [modules] Error 2
+> > make: *** Waiting for unfinished jobs....
+> >
+> > I'm not sure what the problem is.
+>
+> Oops. As this is an RFC, I didn't bother trying to build this driver as
+> a module, only builtin.  Apparently the 3 symbols above are not yet
+> exported using EXPORT_SYMBOL_GPL().
+>
 
-On 08/07/2019 04:11, Laurent Pinchart wrote:
-> Hi Jacopo,
-> 
-> Thank you for the patch.
-> 
-> On Sat, Jul 06, 2019 at 04:07:30PM +0200, Jacopo Mondi wrote:
->> Update the 'vsps' property in the R-Car Gen3 SoC device tree files to
->> match what's in in the documentation example.
->>
->> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Am I doing it right? I'm trying to create a device and am only getting this=
+:
 
-+1 from me too. This certainly improves readability/clarity IMO.
+# echo gpiochip2 23 > new_device
+[  707.507039] gpio-virt-agg gpio-virt-agg.0: Cannot find gpiochip gpiochip=
+2
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+gpiochip2 *does* exist in the system.
 
-> 
->> ---
->>  arch/arm64/boot/dts/renesas/r8a774c0.dtsi | 2 +-
->>  arch/arm64/boot/dts/renesas/r8a7795.dtsi  | 2 +-
->>  arch/arm64/boot/dts/renesas/r8a77965.dtsi | 2 +-
->>  arch/arm64/boot/dts/renesas/r8a77990.dtsi | 2 +-
->>  arch/arm64/boot/dts/renesas/r8a77995.dtsi | 2 +-
->>  5 files changed, 5 insertions(+), 5 deletions(-)
->>
->> diff --git a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
->> index 3f86db199dbf..e643f9d3c102 100644
->> --- a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
->> +++ b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
->> @@ -1807,7 +1807,7 @@
->>  			clocks = <&cpg CPG_MOD 724>,
->>  				 <&cpg CPG_MOD 723>;
->>  			clock-names = "du.0", "du.1";
->> -			vsps = <&vspd0 0 &vspd1 0>;
->> +			vsps = <&vspd0 0>, <&vspd1 0>;
->>  			status = "disabled";
->>  
->>  			ports {
->> diff --git a/arch/arm64/boot/dts/renesas/r8a7795.dtsi b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
->> index 097538cc4b1f..432f4036a8a8 100644
->> --- a/arch/arm64/boot/dts/renesas/r8a7795.dtsi
->> +++ b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
->> @@ -3098,7 +3098,7 @@
->>  				 <&cpg CPG_MOD 722>,
->>  				 <&cpg CPG_MOD 721>;
->>  			clock-names = "du.0", "du.1", "du.2", "du.3";
->> -			vsps = <&vspd0 0 &vspd1 0 &vspd2 0 &vspd0 1>;
->> +			vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
->>  			status = "disabled";
->>  
->>  			ports {
->> diff --git a/arch/arm64/boot/dts/renesas/r8a77965.dtsi b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
->> index 2554b1742dbf..b701aeb4f438 100644
->> --- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
->> +++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
->> @@ -2456,7 +2456,7 @@
->>  			clock-names = "du.0", "du.1", "du.3";
->>  			status = "disabled";
->>  
->> -			vsps = <&vspd0 0 &vspd1 0 &vspd0 1>;
->> +			vsps = <&vspd0 0>, <&vspd1 0>, <&vspd0 1>;
->>  
->>  			ports {
->>  				#address-cells = <1>;
->> diff --git a/arch/arm64/boot/dts/renesas/r8a77990.dtsi b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
->> index 56cb566ffa09..79db5441b7e7 100644
->> --- a/arch/arm64/boot/dts/renesas/r8a77990.dtsi
->> +++ b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
->> @@ -1764,7 +1764,7 @@
->>  			clocks = <&cpg CPG_MOD 724>,
->>  				 <&cpg CPG_MOD 723>;
->>  			clock-names = "du.0", "du.1";
->> -			vsps = <&vspd0 0 &vspd1 0>;
->> +			vsps = <&vspd0 0>, <&vspd1 0>;
->>  			status = "disabled";
->>  
->>  			ports {
->> diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
->> index 5bf3af246e14..49a11b4f55bd 100644
->> --- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
->> +++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
->> @@ -1001,7 +1001,7 @@
->>  			clocks = <&cpg CPG_MOD 724>,
->>  				 <&cpg CPG_MOD 723>;
->>  			clock-names = "du.0", "du.1";
->> -			vsps = <&vspd0 0 &vspd1 0>;
->> +			vsps = <&vspd0 0>, <&vspd1 0>;
->>  			status = "disabled";
->>  
->>  			ports {
-> 
+> > > --- /dev/null
+> > > +++ b/drivers/gpio/gpio-virt-agg.c
+> > > @@ -0,0 +1,390 @@
+> > > +// SPDX-License-Identifier: GPL-2.0-only
+> > > +//
+> > > +// GPIO Virtual Aggregator
+> > > +//
+> > > +// Copyright (C) 2019 Glider bvba
+> > > +
+> > > +#include <linux/gpio/driver.h>
+> > > +#include <linux/idr.h>
+> > > +#include <linux/kernel.h>
+> > > +#include <linux/module.h>
+> > > +#include <linux/mutex.h>
+> > > +#include <linux/platform_device.h>
+> > > +
+> > > +#include "gpiolib.h"
+> > > +
+> > > +#define DRV_NAME       "gpio-virt-agg"
+> > > +#define MAX_GPIOS      32
+> >
+> > Do we really need this limit? I see it simplifies the code, but maybe
+> > we can allocate the relevant arrays dynamically and not limit users?
+>
+> Sure. That limit can be lifted.
+>
+> > > +static int gpio_virt_agg_set_config(struct gpio_chip *chip,
+> > > +                                   unsigned int offset, unsigned lon=
+g config)
+> > > +{
+> > > +       struct gpio_virt_agg_priv *priv =3D gpiochip_get_data(chip);
+> > > +
+> > > +       chip =3D priv->desc[offset]->gdev->chip;
+> > > +       if (chip->set_config)
+> > > +               return chip->set_config(chip, offset, config);
+> > > +
+> > > +       // FIXME gpiod_set_transitory() expects success if not implem=
+ented
+>
+> BTW, do you have a comment about this FIXME?
+>
 
+Ha! Interesting. I'll give it a thought and respond elsewhere as it's
+a different subject.
+
+> > > +       return -ENOTSUPP;
+> > > +}
+>
+> > > +static int gpio_virt_agg_probe(struct platform_device *pdev)
+> > > +{
+> > > +       struct device *dev =3D &pdev->dev;
+> > > +       const char *param =3D dev_get_platdata(dev);
+> > > +       struct gpio_virt_agg_priv *priv;
+> > > +       const char *label =3D NULL;
+> > > +       struct gpio_chip *chip;
+> > > +       struct gpio_desc *desc;
+> > > +       unsigned int offset;
+> > > +       int error, i;
+> >
+> > This 'i' here is reported as possibly not initialized:
+> >
+> > drivers/gpio/gpio-virt-agg.c: In function =E2=80=98gpio_virt_agg_probe=
+=E2=80=99:
+> > drivers/gpio/gpio-virt-agg.c:230:13: warning: =E2=80=98i=E2=80=99 may b=
+e used
+> > uninitialized in this function [-Wmaybe-uninitialized]
+> >   int error, i;
+> >              ^
+>
+> Oops, should be preinitialized to zero. WIll fix.
+>
+> > > +static int gpio_virt_agg_remove(struct platform_device *pdev)
+> > > +{
+> > > +       struct gpio_virt_agg_priv *priv =3D platform_get_drvdata(pdev=
+);
+> > > +       unsigned int i;
+> > > +
+> > > +       gpiochip_remove(&priv->chip);
+> > > +
+> > > +       for (i =3D 0; i < priv->chip.ngpio; i++)
+> > > +               gpiod_free(priv->desc[i]);
+>
+> Perhaps I should use gpiod_put() instead, which is exported to modules?
+>
+> > > +
+> > > +       return 0;
+> > > +}
+> >
+> > You shouldn't need this function at all. It's up to users to free descr=
+iptors.
+>
+> This frees the upstream descriptors, not the descriptors used by users
+> of the virtual gpiochip. Shouldn't they be freed, as they are no longer
+> in use?
+>
+> Note that .probe() doesn't use devm_gpiochip_add_data(), as the upstream
+> descriptors need to be freed after the call to gpiochip_remove().
+>
+> Thanks!
+
+I see. I'll try to review it more thoroughly once I get to play with
+it. So far I'm stuck on creating the virtual chip.
+
+Bart
+
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
