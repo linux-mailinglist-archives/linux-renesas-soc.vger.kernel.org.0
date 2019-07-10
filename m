@@ -2,118 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB2686451D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2019 12:21:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDE8764655
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2019 14:37:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726275AbfGJKVr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Jul 2019 06:21:47 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:39521 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726097AbfGJKVr (ORCPT
+        id S1727410AbfGJMhc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Jul 2019 08:37:32 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:34974 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725956AbfGJMhb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Jul 2019 06:21:47 -0400
-Received: by mail-ot1-f67.google.com with SMTP id r21so1601749otq.6;
-        Wed, 10 Jul 2019 03:21:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Hi6thLRzPp31ZNlrsqTMD+L4AfM17N+VHGvoPv6ISh0=;
-        b=mG3WrhEm1WewCc0k8zoXM1AJO86kElwVpPAzClGT3S0fu+gHLa2J8uuoAKrqacox8f
-         JNVgx9wyGc9hoW7CEbrGe2ArHRZnibWn9hEjzqHtdyL7RJjQx8Ovcm5Sr9NHbQmstcl+
-         kd3EtgwXetqY+nEQ+64J5Ny3Hki34zcsTS4grJXmoalBIrWWKakQVEbdagqkrofrVOpM
-         T0JTPlXoQYRAXDE/Ur+FkWcea9Fa2h0wU41FKDd+xRoO7Th/NXRTLi3GOkzSgUOyQQe/
-         4vyCPhVMWDkGE6l1o9CExiZcVfQwIFqIN5M3ExSz9tz/DmHzdWxk09xaHriaGn28RNZd
-         MZcg==
-X-Gm-Message-State: APjAAAUtc/RICAlC8V4mAuh+Sn+sbhUpPqwHmGqu7AwAA+O3RoNssPtP
-        QPY09w6CelMfp0IjAmbofo0HeoHtOmmlAatiFyI=
-X-Google-Smtp-Source: APXvYqzIrZRSgRuX2Gq/mfmOXQ1oI1Q7/uvrG+ybtkgYq5mYPQ7do0oaeBVqu00kbw6aDN/dGT0IC7t5vSteaZXtVsY=
-X-Received: by 2002:a9d:5c11:: with SMTP id o17mr8348445otk.107.1562754106044;
- Wed, 10 Jul 2019 03:21:46 -0700 (PDT)
+        Wed, 10 Jul 2019 08:37:31 -0400
+Received: from localhost.localdomain (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E62731C;
+        Wed, 10 Jul 2019 14:37:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1562762249;
+        bh=rXmN/ZP1jKpCFxlT6ZQ3Ed8fIwsZSXGnqlc6PGjlcj8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=PkSp2haE0jZmJsqrMwJ1rxk/Cok03Jt0bZbMIZ/5e19X7e8fcGgs51dJLcALqvA41
+         pAADSeNs5/vyArQ7vyiqt+t1x9fpsh4GaUv4Dg1kTyXlMn3fWBwaGULBbfBJ0KNOY5
+         BprfaHdPT11bG4UE3ij96ouj+9QPnuVv5rNOY2C0=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] media: i2c: adv748x: Convert to new i2c device probe()
+Date:   Wed, 10 Jul 2019 13:37:19 +0100
+Message-Id: <20190710123719.3376-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190705160536.12047-1-geert+renesas@glider.be> <8500a069-9e29-d6ad-e5e4-22d5a3eead59@electromag.com.au>
-In-Reply-To: <8500a069-9e29-d6ad-e5e4-22d5a3eead59@electromag.com.au>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 10 Jul 2019 12:21:35 +0200
-Message-ID: <CAMuHMdWLcr0pf-ZM3+iWQGwDLB2xoHAZaeCKAjtEVEaiNed63Q@mail.gmail.com>
-Subject: Re: [PATCH RFC] gpio: Add Virtual Aggregator GPIO Driver
-To:     Phil Reid <preid@electromag.com.au>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Alexander Graf <agraf@suse.de>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Phil,
+The I2C core framework provides a simplified probe framework from commit
+b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new() call-back type").
 
-On Wed, Jul 10, 2019 at 4:00 AM Phil Reid <preid@electromag.com.au> wrote:
-> On 6/07/2019 00:05, Geert Uytterhoeven wrote:
-> > GPIO controllers are exported to userspace using /dev/gpiochip*
-> > character devices.  Access control to these devices is provided by
-> > standard UNIX file system permissions, on an all-or-nothing basis:
-> > either a GPIO controller is accessible for a user, or it is not.
-> > Currently no mechanism exists to control access to individual GPIOs.
-> >
-> > Hence add a virtual GPIO driver to aggregate existing GPIOs (up to 32),
-> > and expose them as a new gpiochip.  This is useful for implementing
-> > access control, and assigning a set of GPIOs to a specific user.
-> > Furthermore, it would simplify and harden exporting GPIOs to a virtual
-> > machine, as the VM can just grab the full virtual GPIO controller, and
-> > no longer needs to care about which GPIOs to grab and which not,
-> > reducing the attack surface.
-> >
-> > Virtual GPIO controllers are instantiated by writing to the "new_device"
-> > attribute file in sysfs:
-> >
-> >      $ echo "<gpiochipA> <gpioA1> [<gpioA2> ...]"
-> >             "[, <gpiochipB> <gpioB1> [<gpioB2> ...]] ...]"
-> >              > /sys/bus/platform/drivers/gpio-virt-agg/new_device
-> >
-> > Likewise, virtual GPIO controllers can be destroyed after use:
-> >
-> >      $ echo gpio-virt-agg.<N> \
-> >              > /sys/bus/platform/drivers/gpio-virt-agg/delete_device
-> >
->
-> Nice.
-> This provides similar functionality to the "gpio inverter" driver currently on the list.
-> Other than being just a buffer.
+Convert the ADV748x to utilise this simplfied i2c driver registration.
 
-Indeed, both drivers forward GPIO calls, but the gpio inverter modifies
-some parameters passed.
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+---
+ drivers/media/i2c/adv748x/adv748x-core.c | 13 ++-----------
+ 1 file changed, 2 insertions(+), 11 deletions(-)
 
-The way the drivers obtain references to GPIOs is different, though: the
-inverter driver obtains a fixed description from DT, while the virtual
-aggregator receives the description at runtime, from sysfs.
+diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
+index 097e94279cf7..ae2b6eb93e09 100644
+--- a/drivers/media/i2c/adv748x/adv748x-core.c
++++ b/drivers/media/i2c/adv748x/adv748x-core.c
+@@ -677,8 +677,7 @@ static void adv748x_dt_cleanup(struct adv748x_state *state)
+ 		of_node_put(state->endpoints[i]);
+ }
+ 
+-static int adv748x_probe(struct i2c_client *client,
+-			 const struct i2c_device_id *id)
++static int adv748x_probe(struct i2c_client *client)
+ {
+ 	struct adv748x_state *state;
+ 	int ret;
+@@ -806,13 +805,6 @@ static int adv748x_remove(struct i2c_client *client)
+ 	return 0;
+ }
+ 
+-static const struct i2c_device_id adv748x_id[] = {
+-	{ "adv7481", 0 },
+-	{ "adv7482", 0 },
+-	{ },
+-};
+-MODULE_DEVICE_TABLE(i2c, adv748x_id);
+-
+ static const struct of_device_id adv748x_of_table[] = {
+ 	{ .compatible = "adi,adv7481", },
+ 	{ .compatible = "adi,adv7482", },
+@@ -825,9 +817,8 @@ static struct i2c_driver adv748x_driver = {
+ 		.name = "adv748x",
+ 		.of_match_table = adv748x_of_table,
+ 	},
+-	.probe = adv748x_probe,
++	.probe_new = adv748x_probe,
+ 	.remove = adv748x_remove,
+-	.id_table = adv748x_id,
+ };
+ 
+ module_i2c_driver(adv748x_driver);
+-- 
+2.20.1
 
-But perhaps both drivers could share some code?
-
-> Would it be possible to do the lookup via line names?
-
-Doesn't the fact that a GPIO has a line name means that it is in use, and
-thus cannot be aggregated and exported to another user?
-
-Thanks!
-
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
