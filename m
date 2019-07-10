@@ -2,123 +2,134 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B749641BF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2019 09:14:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FD4164286
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2019 09:23:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726222AbfGJHOC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Jul 2019 03:14:02 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:40662 "EHLO
-        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726098AbfGJHOC (ORCPT
+        id S1726098AbfGJHW7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Jul 2019 03:22:59 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:32939 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726043AbfGJHW7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Jul 2019 03:14:02 -0400
-Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id B90F625B7D5;
-        Wed, 10 Jul 2019 17:13:59 +1000 (AEST)
-Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id 57ED09402F1; Wed, 10 Jul 2019 09:13:57 +0200 (CEST)
-Date:   Wed, 10 Jul 2019 09:13:57 +0200
-From:   Simon Horman <horms@verge.net.au>
-To:     marek.vasut@gmail.com
-Cc:     linux-pci@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/2] PCI: rcar: Recalculate inbound range alignment for
- each controller entry
-Message-ID: <20190710071355.x5uxc5rvnv7cq5go@verge.net.au>
-References: <20190709011559.12379-1-marek.vasut@gmail.com>
- <20190709011559.12379-2-marek.vasut@gmail.com>
+        Wed, 10 Jul 2019 03:22:59 -0400
+Received: by mail-oi1-f195.google.com with SMTP id u15so871141oiv.0;
+        Wed, 10 Jul 2019 00:22:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TNhWmN6/QiO2aT/qVjLLK+VPEsMniX5sP/eihsxi4qo=;
+        b=KDRfwLbXw2c4i0y0YBU7VNcQ+M02+hHom8sjU0T42fcuF9wWBAUAyV/AaH+19rTWAA
+         dCMWbLLbOm4QAnxptbIzu6sf6ClYNF6ofVrytQ3/07PcOX0yQ6+BKYVXaiHs27aQzweq
+         kxo1kfntlxPDzLxflSJuwPwO36i2CNi9EjFiDq+kiIfrR5XnaZ2hoQQZ4pUIj+9OEmqr
+         wlvSMuMq4o7GLnybkdLRr4B96yzEwpaSeKuAZLoU9DA/CW70t2SOQz3mpHh7ao5TFUcW
+         apD5f/ZSU89lij5TYhoIbk6nSDxvapQ3SqbcPUEbaQWxr+i2Cr5wdNFPhw7IEcVvRVgA
+         KXjg==
+X-Gm-Message-State: APjAAAUKI1zg5mlp6rob5Ym374YS1jcwxRsJu+mr8BEPoMO+sl2ZGsN4
+        eSgJLVCUZOm5v/YOiqDdwbGIHkiLCOFROq8p0HU=
+X-Google-Smtp-Source: APXvYqyn0dkttUnC8/6vf+zF9/ToNEXzP4zlEcN8COzv2vWS0ZD6UDY6SVdd5baBujmwlMgykLnOVZJyF9vs5pmKiG8=
+X-Received: by 2002:a05:6808:3c5:: with SMTP id o5mr2496751oie.102.1562743378632;
+ Wed, 10 Jul 2019 00:22:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190709011559.12379-2-marek.vasut@gmail.com>
-Organisation: Horms Solutions BV
-User-Agent: NeoMutt/20170113 (1.7.2)
+References: <1561023046-20886-1-git-send-email-masonccyang@mxic.com.tw> <1561023046-20886-3-git-send-email-masonccyang@mxic.com.tw>
+In-Reply-To: <1561023046-20886-3-git-send-email-masonccyang@mxic.com.tw>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 10 Jul 2019 09:22:47 +0200
+Message-ID: <CAMuHMdUPmj0tAhJ18DhQEbYxP7g4MMBMe0U_2eQFQ7mOq4ZFLQ@mail.gmail.com>
+Subject: Re: [PATCH v14 2/2] dt-bindings: spi: Document Renesas R-Car Gen3
+ RPC-IF controller bindings
+To:     Mason Yang <masonccyang@mxic.com.tw>
+Cc:     Mark Brown <broonie@kernel.org>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lee Jones <lee.jones@linaro.org>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, juliensu@mxic.com.tw,
+        Simon Horman <horms@verge.net.au>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jul 09, 2019 at 03:15:59AM +0200, marek.vasut@gmail.com wrote:
-> From: Marek Vasut <marek.vasut+renesas@gmail.com>
-> 
-> Due to hardware constraints, the size of each inbound range entry
-> populated into the controller cannot be larger than the alignment
-> of the entry's start address. Currently, the alignment for each
-> "dma-ranges" inbound range is calculated only once for each range
-> and the increment for programming the controller is also derived
-> from it only once. Thus, a "dma-ranges" entry describing a memory
-> at 0x48000000 and size 0x38000000 would lead to multiple controller
-> entries, each 0x08000000 long.
-> 
-> This is inefficient, especially considering that by adding the size
-> to the start address, the alignment increases. This patch moves the
-> alignment calculation into the loop populating the controller entries,
-> thus updating the alignment for each controller entry.
-> 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> Cc: Wolfram Sang <wsa@the-dreams.de>
-> Cc: linux-renesas-soc@vger.kernel.org
-> To: linux-pci@vger.kernel.org
+Hi Mason,
 
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+On Thu, Jun 20, 2019 at 11:08 AM Mason Yang <masonccyang@mxic.com.tw> wrote:
+> Dcument the bindings used by the Renesas R-Car Gen3 RPC-IF controller.
+>
+> Signed-off-by: Mason Yang <masonccyang@mxic.com.tw>
 
-> ---
->  drivers/pci/controller/pcie-rcar.c | 33 +++++++++++++++---------------
->  1 file changed, 17 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
-> index 938adff4148f..48f361b5d690 100644
-> --- a/drivers/pci/controller/pcie-rcar.c
-> +++ b/drivers/pci/controller/pcie-rcar.c
-> @@ -1029,25 +1029,26 @@ static int rcar_pcie_inbound_ranges(struct rcar_pcie *pcie,
->  	if (restype & IORESOURCE_PREFETCH)
->  		flags |= LAM_PREFETCH;
->  
-> -	/*
-> -	 * If the size of the range is larger than the alignment of the start
-> -	 * address, we have to use multiple entries to perform the mapping.
-> -	 */
-> -	if (cpu_addr > 0) {
-> -		unsigned long nr_zeros = __ffs64(cpu_addr);
-> -		u64 alignment = 1ULL << nr_zeros;
-> +	while (cpu_addr < cpu_end) {
-> +		/*
-> +		 * If the size of the range is larger than the alignment of
-> +		 * the start address, we have to use multiple entries to
-> +		 * perform the mapping.
-> +		 */
-> +		if (cpu_addr > 0) {
-> +			unsigned long nr_zeros = __ffs64(cpu_addr);
-> +			u64 alignment = 1ULL << nr_zeros;
->  
-> -		size = min(range->size, alignment);
-> -	} else {
-> -		size = range->size;
-> -	}
-> -	/* Hardware supports max 4GiB inbound region */
-> -	size = min(size, 1ULL << 32);
-> +			size = min(range->size, alignment);
-> +		} else {
-> +			size = range->size;
-> +		}
-> +		/* Hardware supports max 4GiB inbound region */
-> +		size = min(size, 1ULL << 32);
->  
-> -	mask = roundup_pow_of_two(size) - 1;
-> -	mask &= ~0xf;
-> +		mask = roundup_pow_of_two(size) - 1;
-> +		mask &= ~0xf;
->  
-> -	while (cpu_addr < cpu_end) {
->  		/*
->  		 * Set up 64-bit inbound regions as the range parser doesn't
->  		 * distinguish between 32 and 64-bit types.
-> -- 
-> 2.20.1
-> 
+Thanks for your patch!
+
+> index 0000000..e8edf99
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/spi/spi-renesas-rpc.txt
+> @@ -0,0 +1,43 @@
+> +Renesas R-Car Gen3 RPC-IF controller Device Tree Bindings
+> +---------------------------------------------------------
+> +
+> +Required properties:
+> +- compatible: should be an SoC-specific compatible value, followed by
+> +               "renesas,rcar-gen3-rpc" as a fallback.
+> +               supported SoC-specific values are:
+> +               "renesas,r8a77980-rpc"  (R-Car V3H)
+> +               "renesas,r8a77995-rpc"  (R-Car D3)
+> +- reg: should contain three register areas:
+> +       first for the base address of RPC-IF registers,
+> +       second for the direct mapping read mode and
+> +       third for the write buffer area.
+> +- reg-names: should contain "regs", "dirmap" and "wbuf"
+> +- clocks: should contain the clock phandle/specifier pair for the module clock.
+> +- clock-names: should contain "rpc"
+> +- power-domain: should contain the power domain phandle/secifier pair.
+
+power-domains
+
+> +- resets: should contain the reset controller phandle/specifier pair.
+> +- #address-cells: should be 1
+> +- #size-cells: should be 0
+> +
+> +Example:
+> +
+> +       rpc: spi@ee200000 {
+> +               compatible = "renesas,r8a77995-rpc", "renesas,rcar-gen3-rpc";
+> +               reg = <0 0xee200000 0 0x200>, <0 0x08000000 0 0x4000000>,
+> +                     <0 0xee208000 0 0x100>;
+> +               reg-names = "regs", "dirmap", "wbuf";
+> +               clocks = <&cpg CPG_MOD 917>;
+> +               clock-names = "rpc";
+> +               power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
+> +               resets = <&cpg 917>;
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+> +
+> +               flash@0 {
+
+The subnode is not documented above.
+
+> +                       compatible = "jedec,spi-nor";
+> +                       reg = <0>;
+> +                       spi-max-frequency = <40000000>;
+> +                       spi-tx-bus-width = <1>;
+> +                       spi-rx-bus-width = <1>;
+> +               };
+> +       };
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
