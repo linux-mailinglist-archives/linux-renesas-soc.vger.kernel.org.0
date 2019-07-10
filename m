@@ -2,127 +2,158 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5956964C9D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2019 21:16:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67BA864CDE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 10 Jul 2019 21:39:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727923AbfGJTQA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 10 Jul 2019 15:16:00 -0400
-Received: from mail-eopbgr1400111.outbound.protection.outlook.com ([40.107.140.111]:7892
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727612AbfGJTQA (ORCPT
+        id S1727587AbfGJTj3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 10 Jul 2019 15:39:29 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:37942 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727330AbfGJTj3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 10 Jul 2019 15:16:00 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dTm/uQgxMnU4IlZ3H08uAm+Xa/C5uPw8WqW99BaSanwdbc7iTRQdpUAnJ+xcgrR2YvaywVt+dXL3YuhozSRDqSzNje6WWLCslHOyhhEkOpC8LWWne1SJH4Hy9Ql9PDmlOofBngioL5k/GsOjSSDuvq3kWOYDueCuLh4z3icHf5gga5LuzRskwwPaJcA555gpajF6jX4hB20oZJHjm4b84jFxjcvm6CjjHrEv7tt68o+Ok24yXdHdfmwY3BIpX8qCrIrBB5mfDyAA5nB7DZKDthlnkHQcDBGTcaLpA7CUbRYeTeaEzfOd8uMS1k0Hk86gf0mH0Srr9Fi/UUN1IBBAKw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eM/RhkgOFN+aJ06q4BFG5m7HqZ4iCTRO7Kuz2gdLc9g=;
- b=MFpkYCvgyPJxa8/EfYbZS+T4PKEJB8Exl8Vb6KfpPz3gIPakIC1DqUajPaXXgen/eMchdflfAbyZfNGHWmakla7ulPyEuXPjygSgEbCwN5YbooENxeA2w1h6sfsYQBDhW9rnU2KK8HqVo6xV+0KmpS9CpPyXJFDfQHXJrcaf3kY2LqQsqSCgCreUA6es1yStjynHbgzhYtcTl0ufoGtwOk+DAOo+qzoXj0KRc5oxg4TynPgB8KgJcURyOR16ZW23UnX8zZWMTxxtEcutQweHpBKFFzhB+ne9tJN8Nqdb1bOTMq0IxoJrdKMYUJHLR25ZiaGW3D+AAvdMAM+fZdzMgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
- smtp.mailfrom=renesas.com;dmarc=pass action=none
- header.from=renesas.com;dkim=pass header.d=renesas.com;arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eM/RhkgOFN+aJ06q4BFG5m7HqZ4iCTRO7Kuz2gdLc9g=;
- b=Yr/q3q60v6SXgNApN5rhnLR2Wb8ztjLDyrHSIjpqBIlTHChWAOWoIqCWZO3fppLobJ+M5Pgs3nF6k/gGqyvGdzBpT+MW/AVRoQm3QSrcIsYR+yKcfJxreex4gInGlOlP8bhmTw1grNxZttVm9ghlwYPMEATQccI50NxBrGAfQ68=
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com (52.133.163.12) by
- TY1PR01MB1532.jpnprd01.prod.outlook.com (52.133.162.11) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2073.10; Wed, 10 Jul 2019 19:15:57 +0000
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::441a:2bf7:e01e:a247]) by TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::441a:2bf7:e01e:a247%7]) with mapi id 15.20.2052.020; Wed, 10 Jul 2019
- 19:15:57 +0000
-From:   Chris Brandt <Chris.Brandt@renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-CC:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH rza_u-boot-2017.05 0/2] rza2mevb: Allow using Ethernet
- when SDRAM is enabled
-Thread-Topic: [PATCH rza_u-boot-2017.05 0/2] rza2mevb: Allow using Ethernet
- when SDRAM is enabled
-Thread-Index: AQHVMn5n9ESgvWNuvEqY4EXyomsghqbEORZQ
-Date:   Wed, 10 Jul 2019 19:15:56 +0000
-Message-ID: <TY1PR01MB1562B65595974A21F6751D9C8AF00@TY1PR01MB1562.jpnprd01.prod.outlook.com>
-References: <20190704153726.10507-1-geert+renesas@glider.be>
-In-Reply-To: <20190704153726.10507-1-geert+renesas@glider.be>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcY2JyYW5kdDAxXGFwcGRhdGFccm9hbWluZ1wwOWQ4NDliNi0zMmQzLTRhNDAtODVlZS02Yjg0YmEyOWUzNWJcbXNnc1xtc2ctMjMzZGU1ZDItYTM0Ny0xMWU5LThkOWMtNWNjNWQ0NjFlNzI0XGFtZS10ZXN0XDIzM2RlNWQzLWEzNDctMTFlOS04ZDljLTVjYzVkNDYxZTcyNGJvZHkudHh0IiBzej0iMTM5MSIgdD0iMTMyMDcyNTk3NTUyNjYzOTM0IiBoPSJFdGhMdCtCUnl2NDlFbEhKdHhkSU5ITU85Qjg9IiBpZD0iIiBibD0iMCIgYm89IjEiLz48L21ldGE+
-x-dg-rorf: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Chris.Brandt@renesas.com; 
-x-originating-ip: [75.60.247.61]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 595e7732-f39f-4925-c084-08d7056b093a
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:TY1PR01MB1532;
-x-ms-traffictypediagnostic: TY1PR01MB1532:
-x-ms-exchange-purlcount: 2
-x-microsoft-antispam-prvs: <TY1PR01MB1532FFCE04054800AE7801908AF00@TY1PR01MB1532.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1227;
-x-forefront-prvs: 0094E3478A
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(136003)(396003)(39850400004)(346002)(366004)(376002)(199004)(189003)(66476007)(66556008)(53936002)(256004)(476003)(74316002)(14454004)(102836004)(99286004)(6246003)(66446008)(64756008)(76116006)(26005)(3846002)(446003)(8936002)(86362001)(66946007)(305945005)(4326008)(81166006)(71190400001)(71200400001)(81156014)(55016002)(8676002)(186003)(7736002)(478600001)(25786009)(68736007)(966005)(2906002)(6506007)(6116002)(11346002)(229853002)(9686003)(52536014)(6436002)(66066001)(76176011)(316002)(6306002)(7696005)(33656002)(5660300002)(486006);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1532;H:TY1PR01MB1562.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: bFEPQpn6CVvqyieIH+AcDeVigOEvIRx3wNby4QB6GlpyA7NKMFxcTCUj0m+8jZ4X5IgQeNV2QjqajFCZ5jSwMY1FXXt6epbSP1BPZUQuFkbTg4AamfptxhBW2gqrLl9hjfwZSTil8E3nL2Kya9qnkxVxSvlbxi+FUETZbtVCYZmoQ4MsSOEsJ9MLIKMNk8oDXoxLFlIESGe3p3So+5OG7CXgVTU1D6A5GStoCwauzL0Qu3ggDzgYtNGCkdyTGPga8jp/pqPNogU7Mvc+hpjouS7qiAuQIF42hnJKiNFN9qQ2gUdtwKbvNIpuONwE9O2N5WRyJThgJr/aTKEEpNa2Mob6wKHkFRb33o5mLUUEw1TFaXnMJxIWyaG0FhJgyZ5wt6bmOb1Yvk+sv9ChBaLs2q6419HA+8ZqU78sgIJDjpM=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Wed, 10 Jul 2019 15:39:29 -0400
+Received: from localhost.localdomain (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ADBCD31C;
+        Wed, 10 Jul 2019 21:39:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1562787566;
+        bh=N3ZIgybu1x5UsQxQ0Z8T8jD7iZ87711YRfKM5+jtGkY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=cxBIEUrAeffKjKtsRidEyVKZ7dM5fFJEVsPlJpNqkftYlq+skGFd96aXmzOxpQuyd
+         xfHFFPqGY0jB5nuPDSHNcLDXiOTI7pX5rAyrJLkY98W474EabxeIcVCS+Ku0GrdwIY
+         D7EzuHpsfRUUgQ0C6qnYCQas8JwqvnNYRO6k2OeU=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     Wolfram Sang <wsa@the-dreams.de>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org,
+        linux-kernel@vger.kernel.org (open list)
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mark Brown <broonie@kernel.org>
+Subject: [PATCH RFC] modpost: Support I2C Aliases from OF tables
+Date:   Wed, 10 Jul 2019 20:39:06 +0100
+Message-Id: <20190710193918.31135-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 595e7732-f39f-4925-c084-08d7056b093a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Jul 2019 19:15:56.9610
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Chris.Brandt@renesas.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1532
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+I2C drivers match against an I2C ID table, an OF table, and an ACPI
+table. It is now also possible to match against an OF table entry
+without the vendor prefix to support backwards compatibility, and allow
+simplification of the i2c probe functions.
 
-Sorry for the delay while I was on vacation.
+As part of this matching, the probe function is being converted to
+remove the need to specify the i2c_device_id table, but to support
+module aliasing, we still require to have the MODULE_DEVICE_TABLE entry.
 
-On Thu, Jul 04, 2019 1, Geert Uytterhoeven wrote:
-> To use the 64 MiB of SDRAM on the RZA2MEVB development board, SW6-4 must
-> be switched off, making the first Ethernet port unavailable.
-> Fortunately RZA2MEVB has two Ethernet ports, so this patch series makes
-> U-Boot fall back to using the second port instead.
+Facilitate generating the I2C aliases directly from the of_device_id
+tables, by stripping the vendor prefix prefix from the compatible string
+and using that as an alias just as the i2c-core supports.
 
-Thank you for the patches!
+Drivers which remove the i2c_device_id table can then register against
+the of_device_id table by adding an extra MODULE_DEVICE_TABLE
+registration as shown by the following example:
 
+ /* si4713_i2c_driver - i2c driver interface */
+-static const struct i2c_device_id si4713_id[] = {
+-       { "si4713" , 0 },
+-       { },
+-};
+-MODULE_DEVICE_TABLE(i2c, si4713_id);
 
-> While this allows me to use TFTP, I still cannot boot my own non-XIP
-> Linux kernel (uImage with LOADADDR=3D0x0c008000), as it seems to crash in
-> the "blcs cache_on" in linux/arch/arm/boot/compressed/head.S.  A similar
-> kernel boots fine on RSK+RZA1.
+ static const struct of_device_id si4713_of_match[] = {
+        { .compatible = "silabs,si4713" },
+        { },
+ };
+ MODULE_DEVICE_TABLE(of, si4713_of_match);
++MODULE_DEVICE_TABLE(i2c_of, si4713_of_match);
 
-Maybe it is because of the fact that for RZ/A1, both the RSK and GENMAI=20
-boards are using CS2 so the SDRAM was located at address 0x0800000.
-But the RZ/A2M EVB has SDRAM on CS3, so the address is 0x0C000000.
+Several drivers have had their i2c_device_id tables removed entirely
+which will lead to their module aliases being limited, during the
+following patches:
 
+0f21700ac40c ("rtc: pcf85063: switch to probe_new")
+3a4f4f2963f4 ("ASoC: rt5677: Convert I2C driver to ->probe_new()")
+511cb17448d9 ("mfd: tps65217: Introduce dependency on CONFIG_OF")
+8597c0920d6f ("NFC: fdp: Convert I2C driver to ->probe_new()")
+b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new() call-back type")
 
-Here was a patch that I had to do back in our linux-3.14 kernel for=20
-those that were using CS3.
-https://github.com/renesas-rz/rza_linux-3.14/commit/86ee3b7bc1f5
+The following patches might require I2C aliases to be generated from
+their ACPI tables:
 
+e19c92059a70 ("media: staging: atomisp: Switch i2c drivers to use ->probe_new()")
+f758eb2363ec ("media: dw9714: Remove ACPI match tables, convert to use probe_new")
 
-It looks like the current kernel has the same mask, and will need the
-same fix.
-https://github.com/renesas-rz/rza_linux-4.19/blob/master/arch/arm/boot/comp=
-ressed/head.S#L207
+Cc: Lee Jones <lee.jones@linaro.org>
+Cc: Wolfram Sang <wsa@the-dreams.de>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Mark Brown <broonie@kernel.org>
 
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+---
+ scripts/mod/file2alias.c | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-Does that fix your issue?
+diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
+index e17a29ae2e97..16776f624d3a 100644
+--- a/scripts/mod/file2alias.c
++++ b/scripts/mod/file2alias.c
+@@ -379,6 +379,35 @@ static void do_of_table(void *symval, unsigned long size,
+ 		do_of_entry_multi(symval + i, mod);
+ }
+ 
++static int do_i2c_of_entry(void *symval, struct module *mod)
++{
++	const char *alias;
++	DEF_FIELD_ADDR(symval, of_device_id, compatible);
++
++	alias = strrchr(*compatible, ',');
++
++	buf_printf(&mod->dev_table_buf, "MODULE_ALIAS(\"%s%s\");\n",
++		   I2C_MODULE_PREFIX, alias ? alias + 1 : *compatible);
++
++	return 1;
++}
++
++/* Reuse OF tables to generate I2C aliases */
++static void do_i2c_of_table(void *symval, unsigned long size,
++			    struct module *mod)
++{
++	unsigned int i;
++	const unsigned long id_size = SIZE_of_device_id;
++
++	device_id_check(mod->name, "i2c_of", size, id_size, symval);
++
++	/* Leave last one: it's the terminator. */
++	size -= id_size;
++
++	for (i = 0; i < size; i += id_size)
++		do_i2c_of_entry(symval + i, mod);
++}
++
+ /* Looks like: hid:bNvNpN */
+ static int do_hid_entry(const char *filename,
+ 			     void *symval, char *alias)
+@@ -1452,6 +1481,8 @@ void handle_moddevtable(struct module *mod, struct elf_info *info,
+ 		do_usb_table(symval, sym->st_size, mod);
+ 	if (sym_is(name, namelen, "of"))
+ 		do_of_table(symval, sym->st_size, mod);
++	else if (sym_is(name, namelen, "i2c_of"))
++		do_i2c_of_table(symval, sym->st_size, mod);
+ 	else if (sym_is(name, namelen, "pnp"))
+ 		do_pnp_device_entry(symval, sym->st_size, mod);
+ 	else if (sym_is(name, namelen, "pnp_card"))
+-- 
+2.20.1
 
-Chris
