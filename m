@@ -2,138 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 50CFE6513D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2019 06:40:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 903F7652C1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 11 Jul 2019 10:03:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728294AbfGKEkc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 11 Jul 2019 00:40:32 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:33565 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728286AbfGKEkb (ORCPT
+        id S1728022AbfGKIDH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 11 Jul 2019 04:03:07 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:54740 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727796AbfGKIDH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 11 Jul 2019 00:40:31 -0400
-Received: by mail-pg1-f196.google.com with SMTP id m4so2292287pgk.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 10 Jul 2019 21:40:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=s0bvr757x/HKgrr4SbWQu6+ri+feUWUbw08Pt9QAMgg=;
-        b=DYpUQkWdlDtQn6Fhy6+8tVMVE8yop90FkZt4Dtb69W5juQjpRM2mwMpVBKMc44Hyds
-         O//APATsYeHnfMQEcPtYlljgmsP+mcWKGpYTxoeKL63s1iuHt7lIngrC+J+LH4ibuKZq
-         S37m/GvoHuaxwaNzqwNza14matP7/YQlq+ZasImTcwEMj4EXtLcdNa0CUMyD6OTvYOCu
-         ytJTSIkh6qimYgWl/UJprVq3v8vQGm9nttmtoYGteQcYp4zpqdfZkJC1OJX3We6vo7d5
-         OjMUJXS0mRpNy3ZqWS+raPPQRsyfxzIIKvz7/YdV6ReaiAvXeqvetTolVo1diGiutqmk
-         rtGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=s0bvr757x/HKgrr4SbWQu6+ri+feUWUbw08Pt9QAMgg=;
-        b=qomlYrB7zQRXAj7qmmvtViGm48a1zW3k8887RGc/HS4uGgRXZ6sW5v0ZnksmAZ32iU
-         uPOsjb3bVUXrKbi1hfpU2/9rA5A0obYOeGPlQAbsHu2IbBZHv5IgH2KW7RNEF4E+sfbp
-         qPkapqPPOuCHafDzIMDPzwkHGiv50wPuRfZSZbYtawYw5Yy8VkQMi09aA708y52amYcX
-         GXz1YBHK8Y44e5OCg06GeQb9o9MA6hgsmpx4wd5zqh/vx5Uvq8lrf3UVr4bWoptfbyPO
-         t80LJ7xZI+HHMqBu4uckJyyGhs92yCGzFMAveYiAIRZX0QqLiidGA3egkmxDGNCyVJTJ
-         QfWA==
-X-Gm-Message-State: APjAAAUviVTOH+LOxJJD1UcF9psllejuVtHr/HaSTOK2/kKwyl6brrtR
-        H7um3c7xG+eVh3ZbyXBV5YE=
-X-Google-Smtp-Source: APXvYqwlQpsbmXVpeN6NqHngMcXHiN6TsPBlygpq4xNU3S/XaZ+hBwUMo6avXye+V8k/sqLQkWu2kA==
-X-Received: by 2002:a63:6fc9:: with SMTP id k192mr2204626pgc.20.1562820031052;
-        Wed, 10 Jul 2019 21:40:31 -0700 (PDT)
-Received: from localhost (softbank126163157105.bbtec.net. [126.163.157.105])
-        by smtp.gmail.com with ESMTPSA id v8sm3363164pgs.82.2019.07.10.21.40.29
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Wed, 10 Jul 2019 21:40:30 -0700 (PDT)
-Date:   Thu, 11 Jul 2019 13:40:27 +0900
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] media: i2c: adv748x: Convert to new i2c device probe()
-Message-ID: <20190711044027.GG1557@wyvern>
-References: <20190710123719.3376-1-kieran.bingham+renesas@ideasonboard.com>
+        Thu, 11 Jul 2019 04:03:07 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 306B125B77A;
+        Thu, 11 Jul 2019 18:03:05 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id 2005E94031C; Thu, 11 Jul 2019 10:03:03 +0200 (CEST)
+Date:   Thu, 11 Jul 2019 10:03:03 +0200
+From:   Simon Horman <horms@verge.net.au>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        USB list <linux-usb@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH v2 2/2] dt-bindings: usb: renesas_gen3: Rename bindings
+ documentation file
+Message-ID: <20190711080302.qeotxueyvlr7pvhe@verge.net.au>
+References: <20190703083514.32385-1-horms+renesas@verge.net.au>
+ <20190703083514.32385-3-horms+renesas@verge.net.au>
+ <CAMuHMdVgx9N0yeeei5qcg1yz2WEdDf0gQ6GcwUOAz7u09S_D4A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190710123719.3376-1-kieran.bingham+renesas@ideasonboard.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <CAMuHMdVgx9N0yeeei5qcg1yz2WEdDf0gQ6GcwUOAz7u09S_D4A@mail.gmail.com>
+Organisation: Horms Solutions BV
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
-
-Thanks for your patch.
-
-On 2019-07-10 13:37:19 +0100, Kieran Bingham wrote:
-> The I2C core framework provides a simplified probe framework from commit
-> b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new() call-back type").
+On Wed, Jul 03, 2019 at 02:28:51PM +0200, Geert Uytterhoeven wrote:
+> Hi Simon,
 > 
-> Convert the ADV748x to utilise this simplfied i2c driver registration.
+> On Wed, Jul 3, 2019 at 10:35 AM Simon Horman <horms+renesas@verge.net.au> wrote:
+> > For consistency with the naming of (most) other documentation files for DT
+> > bindings for Renesas IP blocks rename the Renesas USB3.0 peripheral
+> > documentation file from renesas-gen3.txt to renesas,usb3-peri.txt
+> >
+> > Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > Reviewed-by: Niklas SÃ¶derlund <niklas.soderlund+renesas@ragnatech.se>
+> >
+> > ---
+> > v2
+> > * Accumulate review tags
+> > * Use renesas,usb3-peri.txt as new filename as suggested by Shimoda-san
 > 
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Unfortunately the previous version has already made it into usb-next
+> 23c46801d14cb647 dt-bindings: usb: renesas_gen3: Rename bindings
+> documentation file
 
-Looks good,
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> ---
->  drivers/media/i2c/adv748x/adv748x-core.c | 13 ++-----------
->  1 file changed, 2 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
-> index 097e94279cf7..ae2b6eb93e09 100644
-> --- a/drivers/media/i2c/adv748x/adv748x-core.c
-> +++ b/drivers/media/i2c/adv748x/adv748x-core.c
-> @@ -677,8 +677,7 @@ static void adv748x_dt_cleanup(struct adv748x_state *state)
->  		of_node_put(state->endpoints[i]);
->  }
->  
-> -static int adv748x_probe(struct i2c_client *client,
-> -			 const struct i2c_device_id *id)
-> +static int adv748x_probe(struct i2c_client *client)
->  {
->  	struct adv748x_state *state;
->  	int ret;
-> @@ -806,13 +805,6 @@ static int adv748x_remove(struct i2c_client *client)
->  	return 0;
->  }
->  
-> -static const struct i2c_device_id adv748x_id[] = {
-> -	{ "adv7481", 0 },
-> -	{ "adv7482", 0 },
-> -	{ },
-> -};
-> -MODULE_DEVICE_TABLE(i2c, adv748x_id);
-> -
->  static const struct of_device_id adv748x_of_table[] = {
->  	{ .compatible = "adi,adv7481", },
->  	{ .compatible = "adi,adv7482", },
-> @@ -825,9 +817,8 @@ static struct i2c_driver adv748x_driver = {
->  		.name = "adv748x",
->  		.of_match_table = adv748x_of_table,
->  	},
-> -	.probe = adv748x_probe,
-> +	.probe_new = adv748x_probe,
->  	.remove = adv748x_remove,
-> -	.id_table = adv748x_id,
->  };
->  
->  module_i2c_driver(adv748x_driver);
-> -- 
-> 2.20.1
-> 
-
--- 
-Regards,
-Niklas Söderlund
+Ok, I guess we should go with that version.
