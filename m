@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 304C06700B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jul 2019 15:27:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAA3167051
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jul 2019 15:42:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727154AbfGLN1u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 12 Jul 2019 09:27:50 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:41359 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726466AbfGLN1u (ORCPT
+        id S1727901AbfGLNmk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 12 Jul 2019 09:42:40 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:33920 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726982AbfGLNmk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 12 Jul 2019 09:27:50 -0400
-Received: by mail-ot1-f68.google.com with SMTP id o101so9427562ota.8;
-        Fri, 12 Jul 2019 06:27:49 -0700 (PDT)
+        Fri, 12 Jul 2019 09:42:40 -0400
+Received: by mail-oi1-f193.google.com with SMTP id l12so7325569oil.1;
+        Fri, 12 Jul 2019 06:42:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=F/AxuBHyjule2PmAV2Co3XWu6VUP6uzfm9l/yYzm/bs=;
-        b=EjUWV+zqhwwbZlFafxzXtyE/1IOSr464kZUcfVWVS3RoLcPy59jnPoVmKKiWbLdPZy
-         bXlZDM/USnRENZ1kY74nzn8ua3pkVs89SRmxztgbfZmsk1HRaQRynY4J4vmoGE3lUEvQ
-         x0oURAS7PsdjGF3XHiybQCMGDqEKbSe9eFCDobnbGa8OyHr9SE5FZQS09p3sR3i6t4bk
-         CvQ5vSKO04E3mhEDMyMO00Drqo8uqGNfs0AY9H56dqBSWLhkEKYZQTkYbtsQPV3MvGo2
-         tPtPVWbdJPeGFpH+VCn7c5KoznjmyOEmCWbk/+M+s6eFjcNnqLrERa+oK4+vrkNy/FHR
-         lc4A==
-X-Gm-Message-State: APjAAAVLCDmGZTJZn09yAtMUeais2LHkT9GshW4tRa6WhEarxlJcqAd0
-        evhPelbXtbF7C7Y4llpHVyTadXE2g35adAkZFK4=
-X-Google-Smtp-Source: APXvYqydszAjoQIrWBfzwBRTDzfK4eP2hqISbF6mlZvHXJxVWboAPcYNNMTNZF6cWaAT6zWJNoLDEfZ0bfgqBNUHBl8=
-X-Received: by 2002:a9d:7a90:: with SMTP id l16mr8585973otn.297.1562938069290;
- Fri, 12 Jul 2019 06:27:49 -0700 (PDT)
+        bh=gAJx916ULrx3y0hj4qgvLoWj0HbujQzosb3yUI4ix3c=;
+        b=eV7AigXXHzwKtNS5siQboadm0o3YtOJMm/fGEmfoik8ZmyCdGVaXdwlFshdircpbFL
+         jqIVm8Gney2msdK2ptWbz31Pkojdr3TSPZL0ns/fa2Tua+OKFqZqQOBvFM5RRoyE2xV0
+         uR0XLhvIAW1t+B6rmNlFjOZQHo058Hp68bPSCG2P8aXRraV2m7h87SDMezk2NpYc7mTF
+         TQKqSfryu56d/GA7Zm+nvRrKeAheXznALhbE7xkcb4zFyHc4YA7AxgrWKjG92/j6t5hO
+         0erfierhvs4hm/T/eO9nd/OYeggtRmm5iX/bAkKBsAkYAdo3zzHegHVc7gxdMz9EaRk4
+         d+MQ==
+X-Gm-Message-State: APjAAAVAqyQD4YpbhzRAPMe3TqPS+Z7s/QidDtA8pzZn8bJZRtuLWxFo
+        1IAySqM50shNUEfa2X6RvLby6bPw5cYEh84nMes=
+X-Google-Smtp-Source: APXvYqxt6VEx1jyAD9E/sh9p0P0kNu1mNrqxaD9dyvtJxyF1jGGu5/gi68cFaSTomi7WDMsdPb5xdDhgt07PDFVr+kc=
+X-Received: by 2002:aca:bd43:: with SMTP id n64mr5533734oif.148.1562938958869;
+ Fri, 12 Jul 2019 06:42:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <1562333979-28516-1-git-send-email-fabrizio.castro@bp.renesas.com> <1562333979-28516-3-git-send-email-fabrizio.castro@bp.renesas.com>
-In-Reply-To: <1562333979-28516-3-git-send-email-fabrizio.castro@bp.renesas.com>
+References: <1562333979-28516-1-git-send-email-fabrizio.castro@bp.renesas.com> <1562333979-28516-4-git-send-email-fabrizio.castro@bp.renesas.com>
+In-Reply-To: <1562333979-28516-4-git-send-email-fabrizio.castro@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 12 Jul 2019 15:27:38 +0200
-Message-ID: <CAMuHMdXnwXaaQi9wcqRhHbfsbWFHOWW+HaK-ePpyxc3POPVBpQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] arm64: dts: renesas: r8a774a1: Add SSIU support for sound
+Date:   Fri, 12 Jul 2019 15:42:27 +0200
+Message-ID: <CAMuHMdUGfHyPp=5aBig4_Sh91hUku4Xx_Ho54X=EDcqrj_zXqA@mail.gmail.com>
+Subject: Re: [PATCH 3/3] arm64: dts: renesas: hihope-common: Add HDMI audio support
 To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Rob Herring <robh+dt@kernel.org>,
@@ -47,27 +47,36 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
+        Biju Das <biju.das@bp.renesas.com>, xu_shunji@hoperun.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jul 5, 2019 at 3:39 PM Fabrizio Castro
+Hi Fabrizio,
+
+On Fri, Jul 5, 2019 at 3:40 PM Fabrizio Castro
 <fabrizio.castro@bp.renesas.com> wrote:
-> Add SSIU support to the SoC DT as the sound driver supports
-> it now, and also since the sound driver can now handle
-> BUSIF0-7 via SSIU remove the no longer needed "rxu" and "txu"
-> properties.
->
-> Based on similar work from Kuninori Morimoto and Simon Horman:
-> 8d14bfa074db ("arm64: dts: renesas: r8a7796: add SSIU support for
-> sound")
-> 10bd03fa896e ("arm64: dts: renesas: r8a7796: remove BUSIF0 settings from
-> rcar_sound,ssi")
+> This patch adds support for HDMI audio to the device tree
+> common to the HiHope RZ/G2M and the HiHope RZ/G2N.
 >
 > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+
+Thanks for your patch!
+
+> --- a/arch/arm64/boot/dts/renesas/hihope-common.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
+
+> @@ -168,6 +180,7 @@
+>
+>  &hdmi0 {
+>         status = "okay";
+> +       #sound-dai-cells = <0>;
+
+Why the above line?
+
+With the above question answered:
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
