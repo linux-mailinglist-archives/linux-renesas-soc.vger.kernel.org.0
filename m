@@ -2,43 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BF27967058
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jul 2019 15:43:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A6676708B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 12 Jul 2019 15:52:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726887AbfGLNnq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 12 Jul 2019 09:43:46 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:39034 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726776AbfGLNnp (ORCPT
+        id S1726887AbfGLNwO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 12 Jul 2019 09:52:14 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:44660 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726724AbfGLNwO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 12 Jul 2019 09:43:45 -0400
-Received: by mail-oi1-f196.google.com with SMTP id m202so7307805oig.6;
-        Fri, 12 Jul 2019 06:43:45 -0700 (PDT)
+        Fri, 12 Jul 2019 09:52:14 -0400
+Received: by mail-ot1-f65.google.com with SMTP id b7so9482297otl.11;
+        Fri, 12 Jul 2019 06:52:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=wlOi3sKXtkvGGzTuNmz0VruMJGLzSkGM/SsKL+SivPo=;
-        b=cgypLfu6nd5X+huEZmT5fBu9C0prXCUK+O761J6Q86XFktHi1Qx6M0G0+wa1hDiDWi
-         5iqFwsu66phIdKPdj401H0gIecYVKMtsNXo0lc8/cu7Woga7aqEBzHs3RU6BJBHQm8uN
-         TWul66V9p7qbvoZW3WgJVpFslFUr4qwgaU/zOD75bUHK9p4CjK/UsLhaIU/d9h6fLiIS
-         CrC3EMT01C5IXaERdWwdaJbQEy98D75jCkCN+Bxf+QX7FkLvDVdXVM2+jIIVI/2xhr11
-         Lu7AnZ1hjX+i7qG7bQIu7+Ib0j5/tnlqjgE0d6S0tBa+V6lvlyzvoYGUEjdlFPhfjVIm
-         3C0g==
-X-Gm-Message-State: APjAAAWRbl33gJt+sEUMkJD7hIkpURJkT656q2fm21wtisBd/eCzU84+
-        vz9oslhzgQ82disGgMZvf86YByJry9zHRlqCh5gzQg==
-X-Google-Smtp-Source: APXvYqxGHCb3OuJitMJwbnRCqhIjTfH6n0R/3mlGVzniQTALMgvUqegropXz/ytrRF2qzMMCeLN2rqDGb/f3GQBxYr4=
-X-Received: by 2002:a05:6808:3c5:: with SMTP id o5mr5978591oie.102.1562939024801;
- Fri, 12 Jul 2019 06:43:44 -0700 (PDT)
+        bh=R03bOtqoUshQ08nX5C2sOXkzgsHYaiM/EFVtcO6in6g=;
+        b=XSPfYq5VnKb2/Goyg0gPw6UoUqGZenIppkyxz0Qv9yqsDGunbYX6KkLHXlR176Ajd8
+         Mazl6MmBqxibFdZ+aPUIelc/FylSl4+0N476cUoINcRPO5pudv7ZwgR5xg31TZKcHa+E
+         hBME5qp64oVa6wfQiDxHYYNCTbIw5pww4F89XA1qUzPckeEtukrZi9HwZMXdj12UlhLK
+         M+Z7fKlSNXXGEaBCS0QyfK+yRVgYmLhXmZSQrPqctnpGDCCDTUPqAzz5Rwk/zLVRI0Ja
+         LM5R8OW4lFp+zffKaC+xf9I7An5yBsdMxgiheEyFziFDMaQGqaayauPk7mkt09ADkQS/
+         sRtw==
+X-Gm-Message-State: APjAAAU4VYNSYy+bxME9T5u2Z7GFEasLu4xcUs54bl7Q66Y9ejc5Ogjy
+        LBvlxeWtaBMzDFKfPwz798r10qhfmhfYWAj0LX0=
+X-Google-Smtp-Source: APXvYqyuf9+BjKBU4+NpBNNjvbdRkm/GQyi6GZu1A9h5K40VnhrKip97g+tQb+GBa1N/XTV9iDU1LyQJl4kPjmJOzXo=
+X-Received: by 2002:a9d:5c11:: with SMTP id o17mr8143096otk.107.1562939533297;
+ Fri, 12 Jul 2019 06:52:13 -0700 (PDT)
 MIME-Version: 1.0
 References: <1562321720-18735-1-git-send-email-biju.das@bp.renesas.com>
- <1562321720-18735-2-git-send-email-biju.das@bp.renesas.com>
- <CAMuHMdU79JQfEH5hY=wjyknE+sLpS6i3GeXYZ5Z=uzWkWDC-DA@mail.gmail.com> <TYAPR01MB2111E5F445AC1CEA0C720BD9B8F20@TYAPR01MB2111.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYAPR01MB2111E5F445AC1CEA0C720BD9B8F20@TYAPR01MB2111.jpnprd01.prod.outlook.com>
+In-Reply-To: <1562321720-18735-1-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 12 Jul 2019 15:43:33 +0200
-Message-ID: <CAMuHMdWZqQWB+49=FXzKLDOW=phtLSrbvvH1zatdmgf0u8qirA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] arm64: dts: renesas: hihope-common: Add PCA9654 I/O expander
+Date:   Fri, 12 Jul 2019 15:52:02 +0200
+Message-ID: <CAMuHMdXyVRiw62t4hN2iUeu-216KvReXavhNvmD52K-WuX7-cg@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Add WLAN/BT support
 To:     Biju Das <biju.das@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -58,31 +56,17 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Biju,
 
-On Fri, Jul 12, 2019 at 3:22 PM Biju Das <biju.das@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH 1/3] arm64: dts: renesas: hihope-common: Add PCA9654 I/O expander
-> > On Fri, Jul 5, 2019 at 12:20 PM Biju Das <biju.das@bp.renesas.com> wrote:
-> > > Enable PCA9654 GPIO expander, so that we can configure its GPIOs later.
-> > >
-> > > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-> >
-> > > --- a/arch/arm64/boot/dts/renesas/hihope-common.dtsi
-> > > +++ b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
-> > > @@ -162,6 +162,13 @@
-> > >         clock-frequency = <400000>;
-> > >         status = "okay";
-> > >
-> > > +       gpio_expander: gpio@20 {
-> > > +               compatible = "onnn,pca9654";
-> > > +               reg = <0x20>;
-> > > +               gpio-controller;
-> > > +               #gpio-cells = <2>;
-> >
-> > You may want to describe that the interrupt output is tied to GP5_25?
+On Fri, Jul 5, 2019 at 12:20 PM Biju Das <biju.das@bp.renesas.com> wrote:
+> This series adds WLAN/BT support for the HiHope RZ/G2M platform.
 >
-> BT_REG_ON and WLAN_REG_ON are output pins. That is the reason, I haven't described the interrupt output.
-> If needed, I can add this. Please let me know.
+> This patchset is based on renesas devel branch.
+>
+> Biju Das (3):
+>   arm64: dts: renesas: hihope-common: Add PCA9654 I/O expander
+>   arm64: dts: renesas: hihope-common: Add BT support
+>   arm64: dts: renesas: hihope-common: Add WLAN support
 
-OK, it's fine for me (for now).
+Thanks, applied and queued for v5.4.
 
 Gr{oetje,eeting}s,
 
