@@ -2,95 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E8F069651
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 15 Jul 2019 17:04:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DD646A771
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 16 Jul 2019 13:26:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388487AbfGOOIU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 15 Jul 2019 10:08:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58430 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387532AbfGOOIU (ORCPT
+        id S2387526AbfGPL0Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 16 Jul 2019 07:26:24 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:38328 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727929AbfGPL0Y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 15 Jul 2019 10:08:20 -0400
-Received: from sasha-vm.mshome.net (unknown [73.61.17.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E32D52083D;
-        Mon, 15 Jul 2019 14:08:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563199699;
-        bh=1HKtzX5MtKJ+4vkqsLa8JHD2FiqDViQ4LpJYuUZL4vk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Yg/B4cyMDbAahlVztmcRPCPBiPNT7Z0gS5yw7t+5vKvhqnW0Yy3gbKNVPndFm9Q7o
-         6Cn+cJgAuJY12lyUnt24JoGzDUq4dD1tP/v2I4E4azzMXEdUyQz9m4/sLQaoBQOj2B
-         bFauRw2m2IBlf9qhL8ZBXQrmfgtahZ9xU6BaEjeY=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.1 076/219] media: fdp1: Support M3N and E3 platforms
-Date:   Mon, 15 Jul 2019 10:01:17 -0400
-Message-Id: <20190715140341.6443-76-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190715140341.6443-1-sashal@kernel.org>
-References: <20190715140341.6443-1-sashal@kernel.org>
+        Tue, 16 Jul 2019 07:26:24 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 2AAEE25AD78;
+        Tue, 16 Jul 2019 21:26:22 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id 2E37D9403C0; Tue, 16 Jul 2019 13:26:20 +0200 (CEST)
+Date:   Tue, 16 Jul 2019 13:26:20 +0200
+From:   Simon Horman <horms@verge.net.au>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH] dt-bindings: Rename file of DT bindings for Renesas
+ memory controllers
+Message-ID: <20190716112619.ielypcsnclg6sa27@verge.net.au>
+References: <20190703084106.484-1-horms+renesas@verge.net.au>
+ <CAMuHMdXMbLzL7X5uUp0g5Q-_YiXiyTW+tALzS=kHBOS3JNbRUQ@mail.gmail.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXMbLzL7X5uUp0g5Q-_YiXiyTW+tALzS=kHBOS3JNbRUQ@mail.gmail.com>
+Organisation: Horms Solutions BV
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+On Wed, Jul 03, 2019 at 11:33:36AM +0200, Geert Uytterhoeven wrote:
+> On Wed, Jul 3, 2019 at 10:41 AM Simon Horman <horms+renesas@verge.net.au> wrote:
+> > For consistency with the naming of (most) other documentation files for DT
+> > bindings for Renesas IP blocks rename the Renesas R-Mobile and SH-Mobile
+> > memory controllers documentation file from renesas-memory-controllers.txt
+> > to renesas,dbsc.txt.
+> >
+> > Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+> 
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-[ Upstream commit 4e8c120de9268fc26f583268b9d22e7d37c4595f ]
+Hi Geert,
 
-New Gen3 R-Car platforms incorporate the FDP1 with an updated version
-register. No code change is required to support these targets, but they
-will currently report an error stating that the device can not be
-identified.
-
-Update the driver to match against the new device types.
-
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/media/platform/rcar_fdp1.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/media/platform/rcar_fdp1.c b/drivers/media/platform/rcar_fdp1.c
-index 6bda1eee9170..4f103be215d3 100644
---- a/drivers/media/platform/rcar_fdp1.c
-+++ b/drivers/media/platform/rcar_fdp1.c
-@@ -257,6 +257,8 @@ MODULE_PARM_DESC(debug, "activate debug info");
- #define FD1_IP_H3_ES1			0x02010101
- #define FD1_IP_M3W			0x02010202
- #define FD1_IP_H3			0x02010203
-+#define FD1_IP_M3N			0x02010204
-+#define FD1_IP_E3			0x02010205
- 
- /* LUTs */
- #define FD1_LUT_DIF_ADJ			0x1000
-@@ -2365,6 +2367,12 @@ static int fdp1_probe(struct platform_device *pdev)
- 	case FD1_IP_H3:
- 		dprintk(fdp1, "FDP1 Version R-Car H3\n");
- 		break;
-+	case FD1_IP_M3N:
-+		dprintk(fdp1, "FDP1 Version R-Car M3N\n");
-+		break;
-+	case FD1_IP_E3:
-+		dprintk(fdp1, "FDP1 Version R-Car E3\n");
-+		break;
- 	default:
- 		dev_err(fdp1->dev, "FDP1 Unidentifiable (0x%08x)\n",
- 				hw_version);
--- 
-2.20.1
-
+are you planing to take this through renesas-devel?
