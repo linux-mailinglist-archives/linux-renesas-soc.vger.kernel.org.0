@@ -2,102 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D3EB86B308
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jul 2019 03:13:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF49E6BCAF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jul 2019 14:57:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725807AbfGQBNH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 16 Jul 2019 21:13:07 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:34766 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725769AbfGQBNG (ORCPT
+        id S1725873AbfGQM5s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 17 Jul 2019 08:57:48 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:46394 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725906AbfGQM5s (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 16 Jul 2019 21:13:06 -0400
-Received: by mail-pf1-f195.google.com with SMTP id b13so9962038pfo.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 16 Jul 2019 18:13:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=DKSAC3RBFj87Z4DA1X5Y/Vpx+6+m2Zkrc246nbB+7aI=;
-        b=JoLirFbfMmaohKWvyvur/2xz2kl1DEhYDF03OFkXDrF33zT83ZoU8qaleGSKaP3fcl
-         4FrfHCQlUwmbMoO+6KqY+rJU4EV27QrFqL/QiuPvJ1KXVlzDS1sUxZ1xAV3xLuQ86ver
-         J8CioVdY/f2zLPeRN9brRwq6ygdez3UPMbsd64geGO4uJDaybiKyAdFAydK4Pk/9zR4k
-         f/a+xpRfG/u2NTrftUpWR7R21rLKcYZ4iypaQ3l0aVWtKYyMymR4TIQJvGUu9QjTHVO8
-         tqvHUA+WrXusysPEnDpq/i9rI81PyNAbtk7ipxgLlKtCsjgd89ywEfnaQRPWq/0dhbKB
-         GbNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=DKSAC3RBFj87Z4DA1X5Y/Vpx+6+m2Zkrc246nbB+7aI=;
-        b=CBgYsszCifKl1BUn8MzMcg5IdhgdSjGOoNrLlljGYBbyvGUXKM9Ks91zvqBZroFQMg
-         FSGUHcwjoeD/MowbOnXMxWCpoEA6RUnOxVQ5t3IL95tAvWz+z5jd3KqkH2vNfG/tg4YR
-         OtrK1zODT7UwRkX9scEHuKnx/5PchEgip8xhoDihkMlKtGTeSne59thNUA02YA+XQLWw
-         aJsqOnF4PJuSKUbfvq8dcCdpxOg50qwYa/zrt/T41B5la8EIdRmTFVIxyT3UpgdcEvqc
-         YkjTF0a9MZN4g6/COXRrZHW0fl/ySLj44Plp3MByMXi17dFjFk75z9NSF5+4ta/GaAGj
-         5vDw==
-X-Gm-Message-State: APjAAAUcoWcpkCELjt4c2SxXV2hoafK6/UZO3gaNDOEzC1zYxkBlRF1I
-        scISYzEIh64FL/WtAlD1ZD4=
-X-Google-Smtp-Source: APXvYqyLDHDQmRz8I2LVJ/zkW9FvFC/OmLcogJhcrjQswuIkVzAwMyMppCgHQxf8hVcf/ipzJG11oA==
-X-Received: by 2002:a63:f857:: with SMTP id v23mr12665476pgj.228.1563325985936;
-        Tue, 16 Jul 2019 18:13:05 -0700 (PDT)
-Received: from localhost (softbank126159215226.bbtec.net. [126.159.215.226])
-        by smtp.gmail.com with ESMTPSA id l6sm22170067pga.72.2019.07.16.18.13.03
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Tue, 16 Jul 2019 18:13:04 -0700 (PDT)
-Date:   Wed, 17 Jul 2019 10:13:01 +0900
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
-        linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
-        yamada.masahiro@socionext.com, geert@linux-m68k.org,
-        ulf.hansson@linaro.org, magnus.damm@gmail.com
-Subject: Re: [PATCH 1/2] mmc: tmio: leave clock handling to PM if enabled
-Message-ID: <20190717011301.GG4384@wyvern>
-References: <1563289264-26432-1-git-send-email-uli+renesas@fpond.eu>
- <1563289264-26432-2-git-send-email-uli+renesas@fpond.eu>
- <20190716190524.no5d25iyllgjdluh@katana>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190716190524.no5d25iyllgjdluh@katana>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+        Wed, 17 Jul 2019 08:57:48 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id ABF7525AD5F;
+        Wed, 17 Jul 2019 22:57:46 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id B55B8940270; Wed, 17 Jul 2019 14:57:44 +0200 (CEST)
+From:   Simon Horman <horms+renesas@verge.net.au>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>, Wolfram Sang <wsa@the-dreams.de>,
+        Simon Horman <horms+renesas@verge.net.au>
+Subject: [PATCH/RFC repost] arm64: dts: renesas: ebisu, draak: Limit EtherAVB to 100Mbps
+Date:   Wed, 17 Jul 2019 14:57:39 +0200
+Message-Id: <20190717125739.21450-1-horms+renesas@verge.net.au>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2019-07-16 21:05:24 +0200, Wolfram Sang wrote:
-> On Tue, Jul 16, 2019 at 05:01:03PM +0200, Ulrich Hecht wrote:
-> > This fixes a clock imbalance that occurs because the SD clock is handled
-> > by both PM and the hardware driver.
-> > See https://www.spinics.net/lists/linux-mmc/msg44431.html for details.
-> > 
-> > This patch removes the clock handling from the driver's PM callbacks and
-> > turns the clock off after probing.
-> > 
-> > Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> 
-> Thanks, Uli!
-> 
-> Niklas, I'd really like your feedback on this one because you did the PM
-> refactorization lately.
+* According to the R-Car Gen3 Hardware Manual Errata for Rev 1.00 of
+  August 24, 2018, the TX clock internal delay mode isn't supported
+  on R-Car E3 (r8a77990) and D3 (r8a77995).
 
-I would like to test this too. Unfortunately I'm on the road and will be 
-back in the office the 23rd so I will have to postpone doing so until 
-then. My initial comment is that this looks good, thanks Ulrich.
+* TX clock internal delay mode is required for reliable 1Gbps communication
+  using the KSZ9031RNX phy present on the Ebisu and Draak boards.
 
-> 
-> I will have a look later, too.
-> 
+Thus, the E3 based Ebisu and D3 based Draak boards reliably use 1Gbps and
+the speed should be limited to 100Mbps.
 
+Based on work by Kazuya Mizuguchi.
 
+Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
 
+---
+
+This is a repost of this change.
+
+In earlier review Andrew Lunn suggested that we may be able to take a
+different approach to this problem by using delays provided by the
+KSZ9031RNX PHY. In particular MMD address 2h, Register 8h -
+RGMII Clock Pad Skew.
+
+I have consulted with Renesas regarding this suggestion, however,
+unfortunately it appears that the delays provided by this solution
+would be insufficient to allow for reliable 1Gbps communication.
+
+At this point I believe the safest option is to apply this patch.
+---
+ arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts | 1 +
+ arch/arm64/boot/dts/renesas/r8a77995-draak.dts | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
+index 83fc13ac3fa1..3d3d6d438a05 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
++++ b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
+@@ -271,6 +271,7 @@
+ 		interrupt-parent = <&gpio2>;
+ 		interrupts = <21 IRQ_TYPE_LEVEL_LOW>;
+ 		reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
++		max-speed = <100>;
+ 	};
+ };
+ 
+diff --git a/arch/arm64/boot/dts/renesas/r8a77995-draak.dts b/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
+index 0711170b26b1..eb153323ed13 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
++++ b/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
+@@ -175,6 +175,7 @@
+ 		reg = <0>;
+ 		interrupt-parent = <&gpio5>;
+ 		interrupts = <19 IRQ_TYPE_LEVEL_LOW>;
++		max-speed = <100>;
+ 	};
+ };
+ 
 -- 
-Regards,
-Niklas Söderlund
+2.11.0
+
