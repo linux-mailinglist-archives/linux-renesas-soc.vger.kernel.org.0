@@ -2,91 +2,252 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 894276CF60
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jul 2019 16:02:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 035796D00A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jul 2019 16:43:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390498AbfGROCb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Jul 2019 10:02:31 -0400
-Received: from sauhun.de ([88.99.104.3]:45086 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727733AbfGROCb (ORCPT
+        id S2390581AbfGROnt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Jul 2019 10:43:49 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:36385 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390574AbfGROnt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Jul 2019 10:02:31 -0400
-Received: from localhost (p54B330C7.dip0.t-ipconnect.de [84.179.48.199])
-        by pokefinder.org (Postfix) with ESMTPSA id 399802C2868;
-        Thu, 18 Jul 2019 16:02:28 +0200 (CEST)
-Date:   Thu, 18 Jul 2019 16:02:27 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Marek Vasut <marek.vasut@gmail.com>,
-        Jonathan Cameron <jic23@kernel.org>, stable@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        linux-renesas-soc@vger.kernel.org,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Rob Herring <robh@kernel.org>, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] [v2] iio: adc: gyroadc: fix uninitialized return code
-Message-ID: <20190718140227.GA3813@kunai>
-References: <20190718135758.2672152-1-arnd@arndb.de>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="zYM0uCDKw75PZbzx"
-Content-Disposition: inline
-In-Reply-To: <20190718135758.2672152-1-arnd@arndb.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Thu, 18 Jul 2019 10:43:49 -0400
+Received: by mail-pl1-f195.google.com with SMTP id k8so14019573plt.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 18 Jul 2019 07:43:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=DYz3Omxnx7BR96BFtu0zoSw+OlWD5d69rlF3AaMnJ/Y=;
+        b=QhX4Qduu+XSDHNav2nzjJjeazJ+CRuQGmHH78bDulZpwaTRQpyUpoSAar+Rp3IIals
+         oIbPknAGIbWRuvo0OBgdYsn0ZGQy2zwu85qY7SU2mhjCYeeDHGVE5X2GQtB85WRTIQN7
+         XpP0hEn+Tu+LV1W+6xCHxnDA/p+MN++Hqgr8YHMiUB5JheTrAJHIJCQk47CRAAOSXYxn
+         d85TwEuvURvbVb3u3FfavNqyOWAfM2yvR9oIv/AJHDnZhbZLpRmgPkP4Cr1eqhGqIC9z
+         jraxSXt182f55XXMhjHoCo99NJIOnRRcToCPpq3BCwhN1dnRP/8PuAr7pK/ES/EGB0ud
+         ozfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=DYz3Omxnx7BR96BFtu0zoSw+OlWD5d69rlF3AaMnJ/Y=;
+        b=pfspAnQHIPe8kbwz7s0ZKcY2wsaBNJ2N/5NVzOEBj3U8Q7IDqWkFg8iSJXA/QB+Jlj
+         PAQ8E4zG19BN2bliZHQUza930gGVuXH76T9cRAbKQzgp3TfC4rpQDBSBOLyaynECm58k
+         B/L4cHVERDnE7YbrxodUtCebrCdTpx5Oyr/tNNMi/+RZ8uHvA8gsjYtUsRk6HVwn6Ka6
+         VK7Lj/R95L8f6/B6eSWHAQfOb8KEGzBWvxi3Rr/Z8m8BfdIKZ6MBC8hcNhdmoW7mGBiK
+         fWHS9j4PQvgsYvXbmf/SpzFVHPd/PJ8sGD3ISKQ6SAvpgn64KiXKMNkgGc79Fz8n359x
+         B7pg==
+X-Gm-Message-State: APjAAAUT777SKUW08675znZAb5bFxWouueQWtYJX74brlhPhoHzpE1fF
+        gRlpEP/3lKJJYCKNaSPS2q8DAz5z
+X-Google-Smtp-Source: APXvYqzw5eNB2GTH8yRyVaozf7YaelwFuBbHD6WQBJvw85QaYPAWGx5ybvxQ+IsiuCh2/WpKznfQ4w==
+X-Received: by 2002:a17:902:8bc1:: with SMTP id r1mr1675194plo.42.1563461027377;
+        Thu, 18 Jul 2019 07:43:47 -0700 (PDT)
+Received: from localhost.localdomain (p6796086-ipngn28101marunouchi.tokyo.ocn.ne.jp. [114.165.92.86])
+        by smtp.gmail.com with ESMTPSA id r6sm20020254pgl.74.2019.07.18.07.43.45
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Thu, 18 Jul 2019 07:43:46 -0700 (PDT)
+From:   Yoshihiro Kaneko <ykaneko0929@gmail.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] arm64: dts: renesas: r8a7795: sort nodes
+Date:   Thu, 18 Jul 2019 23:43:26 +0900
+Message-Id: <1563461006-19658-1-git-send-email-ykaneko0929@gmail.com>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Sort nodes.
 
---zYM0uCDKw75PZbzx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+If node address is present
+   * Sort by node address, grouping all nodes with the same compat string
+     and sorting the group alphabetically.
+Else
+   * Sort alphabetically
 
-On Thu, Jul 18, 2019 at 03:57:49PM +0200, Arnd Bergmann wrote:
-> gcc-9 complains about a blatant uninitialized variable use that
-> all earlier compiler versions missed:
->=20
-> drivers/iio/adc/rcar-gyroadc.c:510:5: warning: 'ret' may be used uninitia=
-lized in this function [-Wmaybe-uninitialized]
->=20
-> Return -EINVAL instead here and a few lines above it where
-> we accidentally return 0 on failure.
->=20
-> Cc: stable@vger.kernel.org
-> Fixes: 059c53b32329 ("iio: adc: Add Renesas GyroADC driver")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+This should not have any run-time effect.
 
-Yes, I checked the other error paths, too, and they look proper to me.
+Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
+---
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+This patch is based on the devel branch of Simon Horman's renesas tree.
 
+ arch/arm64/boot/dts/renesas/r8a7795.dtsi | 154 +++++++++++++++----------------
+ 1 file changed, 77 insertions(+), 77 deletions(-)
 
---zYM0uCDKw75PZbzx
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/arch/arm64/boot/dts/renesas/r8a7795.dtsi b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
+index 1745ac4..6cd5fe4 100644
+--- a/arch/arm64/boot/dts/renesas/r8a7795.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
+@@ -2731,6 +2731,83 @@
+ 			resets = <&cpg 820>;
+ 		};
+ 
++		vspbc: vsp@fe920000 {
++			compatible = "renesas,vsp2";
++			reg = <0 0xfe920000 0 0x8000>;
++			interrupts = <GIC_SPI 465 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 624>;
++			power-domains = <&sysc R8A7795_PD_A3VP>;
++			resets = <&cpg 624>;
++
++			renesas,fcp = <&fcpvb1>;
++		};
++
++		vspbd: vsp@fe960000 {
++			compatible = "renesas,vsp2";
++			reg = <0 0xfe960000 0 0x8000>;
++			interrupts = <GIC_SPI 266 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 626>;
++			power-domains = <&sysc R8A7795_PD_A3VP>;
++			resets = <&cpg 626>;
++
++			renesas,fcp = <&fcpvb0>;
++		};
++
++		vspd0: vsp@fea20000 {
++			compatible = "renesas,vsp2";
++			reg = <0 0xfea20000 0 0x5000>;
++			interrupts = <GIC_SPI 466 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 623>;
++			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
++			resets = <&cpg 623>;
++
++			renesas,fcp = <&fcpvd0>;
++		};
++
++		vspd1: vsp@fea28000 {
++			compatible = "renesas,vsp2";
++			reg = <0 0xfea28000 0 0x5000>;
++			interrupts = <GIC_SPI 467 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 622>;
++			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
++			resets = <&cpg 622>;
++
++			renesas,fcp = <&fcpvd1>;
++		};
++
++		vspd2: vsp@fea30000 {
++			compatible = "renesas,vsp2";
++			reg = <0 0xfea30000 0 0x5000>;
++			interrupts = <GIC_SPI 468 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 621>;
++			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
++			resets = <&cpg 621>;
++
++			renesas,fcp = <&fcpvd2>;
++		};
++
++		vspi0: vsp@fe9a0000 {
++			compatible = "renesas,vsp2";
++			reg = <0 0xfe9a0000 0 0x8000>;
++			interrupts = <GIC_SPI 444 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 631>;
++			power-domains = <&sysc R8A7795_PD_A3VP>;
++			resets = <&cpg 631>;
++
++			renesas,fcp = <&fcpvi0>;
++		};
++
++		vspi1: vsp@fe9b0000 {
++			compatible = "renesas,vsp2";
++			reg = <0 0xfe9b0000 0 0x8000>;
++			interrupts = <GIC_SPI 445 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&cpg CPG_MOD 630>;
++			power-domains = <&sysc R8A7795_PD_A3VP>;
++			resets = <&cpg 630>;
++
++			renesas,fcp = <&fcpvi1>;
++		};
++
+ 		fdp1@fe940000 {
+ 			compatible = "renesas,fdp1";
+ 			reg = <0 0xfe940000 0 0x2400>;
+@@ -2832,83 +2909,6 @@
+ 			iommus = <&ipmmu_vi1 10>;
+ 		};
+ 
+-		vspbd: vsp@fe960000 {
+-			compatible = "renesas,vsp2";
+-			reg = <0 0xfe960000 0 0x8000>;
+-			interrupts = <GIC_SPI 266 IRQ_TYPE_LEVEL_HIGH>;
+-			clocks = <&cpg CPG_MOD 626>;
+-			power-domains = <&sysc R8A7795_PD_A3VP>;
+-			resets = <&cpg 626>;
+-
+-			renesas,fcp = <&fcpvb0>;
+-		};
+-
+-		vspbc: vsp@fe920000 {
+-			compatible = "renesas,vsp2";
+-			reg = <0 0xfe920000 0 0x8000>;
+-			interrupts = <GIC_SPI 465 IRQ_TYPE_LEVEL_HIGH>;
+-			clocks = <&cpg CPG_MOD 624>;
+-			power-domains = <&sysc R8A7795_PD_A3VP>;
+-			resets = <&cpg 624>;
+-
+-			renesas,fcp = <&fcpvb1>;
+-		};
+-
+-		vspd0: vsp@fea20000 {
+-			compatible = "renesas,vsp2";
+-			reg = <0 0xfea20000 0 0x5000>;
+-			interrupts = <GIC_SPI 466 IRQ_TYPE_LEVEL_HIGH>;
+-			clocks = <&cpg CPG_MOD 623>;
+-			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+-			resets = <&cpg 623>;
+-
+-			renesas,fcp = <&fcpvd0>;
+-		};
+-
+-		vspd1: vsp@fea28000 {
+-			compatible = "renesas,vsp2";
+-			reg = <0 0xfea28000 0 0x5000>;
+-			interrupts = <GIC_SPI 467 IRQ_TYPE_LEVEL_HIGH>;
+-			clocks = <&cpg CPG_MOD 622>;
+-			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+-			resets = <&cpg 622>;
+-
+-			renesas,fcp = <&fcpvd1>;
+-		};
+-
+-		vspd2: vsp@fea30000 {
+-			compatible = "renesas,vsp2";
+-			reg = <0 0xfea30000 0 0x5000>;
+-			interrupts = <GIC_SPI 468 IRQ_TYPE_LEVEL_HIGH>;
+-			clocks = <&cpg CPG_MOD 621>;
+-			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+-			resets = <&cpg 621>;
+-
+-			renesas,fcp = <&fcpvd2>;
+-		};
+-
+-		vspi0: vsp@fe9a0000 {
+-			compatible = "renesas,vsp2";
+-			reg = <0 0xfe9a0000 0 0x8000>;
+-			interrupts = <GIC_SPI 444 IRQ_TYPE_LEVEL_HIGH>;
+-			clocks = <&cpg CPG_MOD 631>;
+-			power-domains = <&sysc R8A7795_PD_A3VP>;
+-			resets = <&cpg 631>;
+-
+-			renesas,fcp = <&fcpvi0>;
+-		};
+-
+-		vspi1: vsp@fe9b0000 {
+-			compatible = "renesas,vsp2";
+-			reg = <0 0xfe9b0000 0 0x8000>;
+-			interrupts = <GIC_SPI 445 IRQ_TYPE_LEVEL_HIGH>;
+-			clocks = <&cpg CPG_MOD 630>;
+-			power-domains = <&sysc R8A7795_PD_A3VP>;
+-			resets = <&cpg 630>;
+-
+-			renesas,fcp = <&fcpvi1>;
+-		};
+-
+ 		csi20: csi2@fea80000 {
+ 			compatible = "renesas,r8a7795-csi2";
+ 			reg = <0 0xfea80000 0 0x10000>;
+-- 
+1.9.1
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl0we+8ACgkQFA3kzBSg
-KbYFExAAiU0knL5icE+gKlWN8Amm/LWljBQpjQBwAEeVxaqs3PWHRxVvXYyp7ahZ
-nlaDmp9pKn8/iaXdxl3OdN3P5OcuSrE9rMVZ8CGdDWHGUAg6GpeCBASitaL6OhiQ
-ByF0v2XY2IelOKkwtfjiRdABKC9+p99MeBMfzIyw8ZLHaLvIrJOp2h7ArSl5QAQI
-JAgOJ4haOKGL3WGFBm1cU1JVq7Zsy8oyiibLhG5b7jStr+QDuXhhpMm/MVripCJ0
-516m5K1gxRO+P6yQHVTw5lD+C01fWAobltwgJDmM+0Mn/kCJvtsG497v9pt7neQs
-VuryNoU+lKcNx9CR6Mbo/PScXdNeQws1cSbO9rRAUZqwgrzYe+1l5sqfddEoP7QJ
-erreHy0r35a2JlpubcNlk7WFpVxDj8rDueADicLtDDEP9CtHGZahAo1n4u7MpIfC
-mJgJ1MCCxvp0Nv7S0P2FFwv0Q+WTFgNHiHkppqd4IYXS6G3QMHNHXLr8CVJRupPp
-RXnkQS2cK0RwXKnGqkha7mCz5hURoGhi5riD0WNU9tIqQAQ9JpAz6SQSHJWAQ14G
-fyXgEk8sibz0Zj1Vp4WzSmn7bY2Z33gSMlf+LD2WB6xFiPSD2P1p3hz/e3OISaFT
-YTPXPAHDc0/WIr26/K8CDqM+MBQOhFlJKJpG+YuEPDwzCWZlXJ4=
-=x53J
------END PGP SIGNATURE-----
-
---zYM0uCDKw75PZbzx--
