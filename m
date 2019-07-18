@@ -2,81 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E60A36BD16
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 17 Jul 2019 15:35:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BCD46CD88
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jul 2019 13:42:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726155AbfGQNe2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 17 Jul 2019 09:34:28 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:40244 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725906AbfGQNe2 (ORCPT
+        id S1726608AbfGRLmb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Jul 2019 07:42:31 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:34825 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726495AbfGRLmb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 17 Jul 2019 09:34:28 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0A6FB33C;
-        Wed, 17 Jul 2019 15:34:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1563370466;
-        bh=jncdj1nJCCU+MwGY1kMmVxVoCFCQYDt1Wi2FHRMyjoY=;
-        h=Subject:To:Cc:References:From:Reply-To:Date:In-Reply-To:From;
-        b=YPsEsnaSh3pnOebQ8+nnmD4y39ereXKRXZqJ6+9pKXgrwB8Bsu4chak4yf4Q//O2a
-         5P/DXv/0Zz7U94HBaMME3xZZNDCaG2jk/Py92aaqgma0NTAomTDlnOgUJ0BOnn4bB7
-         JwzNxczYOQZYfz+X7iO1VqG2vMtsQ+Vw8d7Yf8JQ=
-Subject: Re: [PATCH v2] rcar-vin: Clean up correct notifier in error path
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-References: <20190702174258.11128-1-niklas.soderlund+renesas@ragnatech.se>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Organization: Ideas on Board
-Message-ID: <fa6f9b8a-42a8-88be-de7b-878dac131627@ideasonboard.com>
-Date:   Wed, 17 Jul 2019 14:34:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
-MIME-Version: 1.0
-In-Reply-To: <20190702174258.11128-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+        Thu, 18 Jul 2019 07:42:31 -0400
+Received: by mail-pf1-f193.google.com with SMTP id u14so12521296pfn.2;
+        Thu, 18 Jul 2019 04:42:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:date:message-id:subject;
+        bh=FJJ4rkRuhF7LTU4hOfySh4r8brseoVAdjIrtPFASQd0=;
+        b=FHhlbDORRYih4c0PmfRD74x+rgX+lWUAYseXAlER5vzGO3GHEJnxqFQDVOcv+NBN/c
+         04x/ddcKTojxEZoPdN6cAKcN/A4o0SDeMq8ER02faOcrrnD99RzEZOCGwgZwebw9vNyG
+         U4t4S9YLHzqAEFJyLzYBnJiPtAmTuraTgaXVCsoI5qW30v5lkwYKsiLydO6SQ6D6NXOZ
+         75xeiz+62GG5rwfCWnkcbyy1emlnxy5Qe/ZNWnPd7cfPNj2mmRX0kRhiHB9GiP11E+0o
+         DlMNuj1Ci3gmUM4QBjLNT4rXCtd9T1e5/6kyIJKVG2rKO60qY4QQZFhXXaodfECQgEOG
+         L9mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:date:message-id:subject;
+        bh=FJJ4rkRuhF7LTU4hOfySh4r8brseoVAdjIrtPFASQd0=;
+        b=fOonE/82vdnRs3gkMYOa1JxNJSxXGshw0I5jBVv+vesQdDbXZdPyZitEeQ6ata9Tev
+         f38aKwdgjNv+1Z3S8HztoOljTbbSEnGFhzh17cJPOLDiixbqQXS22eE0oMezteOPQ0Tb
+         Db9adqS2B7JrnJAt5eLwFUwWbsVlc8Igpo0InSstFxuSTdDJGs4OojPFF6dGCicCiBV2
+         +xbYElu8yL3+qpxox8OzdlfkTUV6zm2zxsFVaWUipumHU9IOBqCCaNIr5or4fWJIIdxp
+         /Y5s/UgRtipUfpuqOQKyTb/T4MVHU/B72j7AC8XA6gx5UfyuOxjo1cs7SwUK1+jNeDJq
+         x9gQ==
+X-Gm-Message-State: APjAAAWoD/3KRY0LHrIbQ5grVpkeyDKTuk5MWOX/yb6azaU4hBG5XKpo
+        JXCjHUD5uKcGQU5HYOpEBy1SSaNT
+X-Google-Smtp-Source: APXvYqwR3+iTGixlr102W1kSmhTNQa8KT6Dr62Ly36Z/f4uuBVoyu8P/ASuOnqAx2tlg9LpIgv3bXA==
+X-Received: by 2002:a63:f953:: with SMTP id q19mr46999949pgk.367.1563450149823;
+        Thu, 18 Jul 2019 04:42:29 -0700 (PDT)
+Received: from [127.0.0.1] (FL1-133-202-12-40.iwa.mesh.ad.jp. [133.202.12.40])
+        by smtp.gmail.com with ESMTPSA id 2sm50436097pgm.39.2019.07.18.04.42.24
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 18 Jul 2019 04:42:28 -0700 (PDT)
+From:   Magnus Damm <magnus.damm@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     mark.rutland@arm.com, devicetree@vger.kernel.org,
+        geert+renesas@glider.be, daniel.lezcano@linaro.org,
+        linux-renesas-soc@vger.kernel.org, robh+dt@kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>, tglx@linutronix.de
+Date:   Thu, 18 Jul 2019 20:43:58 +0900
+Message-Id: <156345023791.5307.6113391102648394591.sendpatchset@octo>
+Subject: [PATCH 0/7] renesas, cmt: DT Binding Documentation and Minor Driver Updates
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+renesas, cmt: DT Binding Documentation and Minor Driver Updates
 
-On 02/07/2019 18:42, Niklas Söderlund wrote:
-> The parallel input initialization error path cleans up the wrong
-> async notifier, fix this by cleaning up the correct notifier.
-> 
-> Fixes: 9863bc8695bc36e3 ("media: rcar-vin: Cleanup notifier in error path")
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+[PATCH 1/7] dt-bindings: timer: renesas, cmt: Add CMT0234 to sh73a0 and r8a7740
+[PATCH 2/7] dt-bindings: timer: renesas, cmt: Update CMT1 on sh73a0 and r8a7740
+[PATCH 3/7] dt-bindings: timer: renesas, cmt: Add CMT0 and CMT1 to r8a7792
+[PATCH 4/7] dt-bindings: timer: renesas, cmt: Add CMT0 and CMT1 to r8a77995
+[PATCH 5/7] dt-bindings: timer: renesas, cmt: Update R-Car Gen3 CMT1 usage
+[PATCH 6/7] clocksource/drivers/sh_cmt: r8a7740 and sh73a0 SoC-specific match
+[PATCH 7/7] clocksource/drivers/sh_cmt: Document "cmt-48" as deprecated 
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+This series collect the following rather trivial changes for the CMT driver:
+- Add 32-bit CMT0234 and convert CMT1 DT binding docs on sh73a0 and r8a7740.
+- Add documentation for the CMT on the R-Car Gen2 V2H (r8a7792) SoC.
+- Add missing R-Car Gen3 DT binding documentation for D3 (r8a77995).
+- Update the R-Car Gen3 DT documentation to reflect current usage.
+- Introduce SoC-specific matching in the driver for CMT1 on sh73a0 and sh73a0.
+- Document old "cmt-48" binding as deprecated in the driver.
 
-> ---
->  drivers/media/platform/rcar-vin/rcar-core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-> index 64f9cf790445d14e..a6efe1a8099a6ae6 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> @@ -633,7 +633,7 @@ static int rvin_parallel_init(struct rvin_dev *vin)
->  	ret = v4l2_async_notifier_register(&vin->v4l2_dev, &vin->notifier);
->  	if (ret < 0) {
->  		vin_err(vin, "Notifier registration failed\n");
-> -		v4l2_async_notifier_cleanup(&vin->group->notifier);
-> +		v4l2_async_notifier_cleanup(&vin->notifier);
->  		return ret;
->  	}
->  
-> 
+Please see each individual patch for more detailed information.
+
+Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be> [Patch 3-5]
+Reviewed-by: Rob Herring <robh@kernel.org> [Patch 1-5]
+---
+
+Developed on top of "renesas-devel-2019-07-08-v5.2" which includes
+CMT DT Documentation patches queued for v5.3-rc
+
+Earlier posted as:
+[PATCH 0/8] dt-bindings: timer: renesas, cmt: Various updates
+[PATCH 0/3] clocksource/drivers/sh_cmt: Minor DT compat string update
+
+ Documentation/devicetree/bindings/timer/renesas,cmt.txt |   42 ++++++++-------
+ drivers/clocksource/sh_cmt.c                            |   14 ++++-
+ 2 files changed, 37 insertions(+), 19 deletions(-)
+
 
