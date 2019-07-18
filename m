@@ -2,93 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B13ED6CD9D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jul 2019 13:44:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01BD16CF46
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jul 2019 15:59:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390030AbfGRLoJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Jul 2019 07:44:09 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:43592 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389994AbfGRLoJ (ORCPT
+        id S1726735AbfGRN6n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Jul 2019 09:58:43 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:35723 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726608AbfGRN6n (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Jul 2019 07:44:09 -0400
-Received: by mail-pf1-f194.google.com with SMTP id i189so12507554pfg.10;
-        Thu, 18 Jul 2019 04:44:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:date:message-id:in-reply-to:references:subject;
-        bh=DeKDZOFHUlI3nMz/EaT1o5xWxfybZf2zd27CHn8oOdg=;
-        b=r+zSM5opOHjy7dH4d7v0u+BRJBKTy02dx42DCYFCSSgH5tsJvbfd/kPkhrAfVOLScA
-         YfBoN6vWyD1zEBAobw/aSdJX6ulvvpLC1aBNxZn0uvt8eGc8Vb8OC90ekh4DX/iOYKIw
-         +H/nrgue0rfam/MkX1gLpzub/79AepLYPWrr9oDTNFEKu07KQG5g45aRcB8nBfUvnYBQ
-         iPE6PR9DkS7hQ3uqDJdTwzRsdNcGS6SUabUDUgHv91VCXIigIxnNeG+QMsBzs2ZcSMiM
-         YeT2Zv9Ozqukq7Wxagdfgs3wXc6ixzvXjlgHG3E9wJQTnq1/nYjtDatSlHctEqau8o2C
-         IjMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:date:message-id:in-reply-to
-         :references:subject;
-        bh=DeKDZOFHUlI3nMz/EaT1o5xWxfybZf2zd27CHn8oOdg=;
-        b=mJ9DAxRnw8AdqEZfvZjtX3GyYbyqDECxKYqutYHbuZZzlhZwZ8IYteohP5xSbxOzP/
-         JtJ16Hz/EapcemsHoEaMT8BPoW+O+tvoQ/S3bj/5CUA2WsWZYIY8uddjz3QV7wthiRBm
-         oJl/nponhVIAQnzUSgig1iaHjeupP28kf4Z5gbFT7a2MeIuQH4wigKz1vRIRVy/mNyKP
-         NI9t8lJ9yfPKX+qA3YiutSevlDmDuGNwm3NiVCFdwQ69s4p3pB20PxRbJlWtHBqHLBed
-         IgId0ZSxZKUXDaEltsIlQqtUwS3iSVXZ4KycokloZH9EQh8Ok7xKnkXSZkoMJTi2eaPT
-         69fQ==
-X-Gm-Message-State: APjAAAXGqwfA3inLr+OI5NgFd+E5hT0Zy1khsxxbLMNvWWTMsfd1GlKf
-        k13TQMlugDH9JfzO6MyyxGDp1Zxl
-X-Google-Smtp-Source: APXvYqyF+H2dhW1xjuLVeOTGT0sUgQRDWKxiKNoilbEq5kT1jdbnra2GxR7P7K2S2nrCzL4vBkFmUw==
-X-Received: by 2002:a17:90a:db52:: with SMTP id u18mr51038726pjx.107.1563450248226;
-        Thu, 18 Jul 2019 04:44:08 -0700 (PDT)
-Received: from [127.0.0.1] (FL1-133-202-12-40.iwa.mesh.ad.jp. [133.202.12.40])
-        by smtp.gmail.com with ESMTPSA id b136sm26298472pfb.73.2019.07.18.04.44.03
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 18 Jul 2019 04:44:07 -0700 (PDT)
-From:   Magnus Damm <magnus.damm@gmail.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     mark.rutland@arm.com, devicetree@vger.kernel.org,
-        geert+renesas@glider.be, daniel.lezcano@linaro.org,
-        linux-renesas-soc@vger.kernel.org, robh+dt@kernel.org,
-        Magnus Damm <magnus.damm@gmail.com>, tglx@linutronix.de
-Date:   Thu, 18 Jul 2019 20:45:38 +0900
-Message-Id: <156345033835.5307.9206628986166423962.sendpatchset@octo>
-In-Reply-To: <156345023791.5307.6113391102648394591.sendpatchset@octo>
-References: <156345023791.5307.6113391102648394591.sendpatchset@octo>
-Subject: [PATCH 7/7] clocksource/drivers/sh_cmt: Document "cmt-48" as deprecated
+        Thu, 18 Jul 2019 09:58:43 -0400
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.129]) with ESMTPA (Nemesis) id
+ 1M9nhF-1hl4eX1Xhl-005qbW; Thu, 18 Jul 2019 15:58:04 +0200
+From:   Arnd Bergmann <arnd@arndb.de>
+To:     Marek Vasut <marek.vasut@gmail.com>,
+        Jonathan Cameron <jic23@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, stable@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Rob Herring <robh@kernel.org>, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] [v2] iio: adc: gyroadc: fix uninitialized return code
+Date:   Thu, 18 Jul 2019 15:57:49 +0200
+Message-Id: <20190718135758.2672152-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.20.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:JM097cnzQGpfM+Hac/hIIG18mQ4HhPRLCct4KRqjzaqPdDuTAip
+ a0teCL3H3dp3EMCe9olVLWPa9ScXCIcwvQzKUGYLmXS7jV3cOxd4eVz5o5kpxHJZC3zL+J1
+ kQonRFDz2hHhtkbK3UF33RLHpOdu/RRcEtwlVR297PXgvROZFINfzHbNJ6OYK1wpRJwOexU
+ +IT5M0UICY1B9/AHhO7IQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Ea3UsClCFDc=:zarfWa2lxFcPnH2AYhrGdB
+ 32iDl6jPFkxcAidEffksfGFkkj2kYn3u2/gMUg0Doe3hOOW2T/QqLNVmsvXeqysrBp3MMRb42
+ zuPBPBFxfeuBZdrPnYkuruNVOFgpRLnvSZ9AjrnhbtCWODJ0l90vdW7gK6dhmyiirICIZ/NDc
+ WUuMfBJw/2m0QJJn1SXo7tj/FLDfiNzsYizszTQeCmpgcztdJMGDDM3kwrApYSaa5/C/Wd/8x
+ tZjCVud/c/wpUhmPQ4RG4x/Deh4Jdt3gmgic1puDtZexUhmm7kf2t0I52ZcQCOOPfh1EDtRzX
+ HyxHLQKVJ+oS7G/AsfN6VRQ38HF3KvD1uTx6ZBCernb0AksprPf5vKsnDQn79nLDQaezXtWna
+ qI+5QpUXUHrkIEUxpzkAJd5VaiAdpy69RJnlddNbQYuYfdG7C4uYytsEbi6z1uNO4vBhJA0PN
+ eIWMh2Wvl1ilc0Vp+ctVlU+COOMZlCeTYkdEh64ssy6yboz49XmFHpZQ2vRZaF5R9CACJoZqM
+ rrAMlc+4pBeZmfmS8BgF10s8uAQ0yhwBS2sQ60LO1mg4/u2veXuuEAs7cvJNT7WNTtWmUcTsf
+ MBPc0zX5JY9Y2S9Pdjf5ojp0qf3AV/OqboKbo2kVG5+Lc1o6fYcQ50/UX4jbheYrvZ8qcDCj1
+ C99zbhn1c38ll08ZYrxidsvWaoZ5g00IpMfRWZrO9HnWzRgxLHqpTZ1Qw+J4nUrmxxCvvpL4D
+ 1dZ5NB7vc5NN8rUC82V0bYYSAM8wHhSLbdURzw==
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Magnus Damm <damm+renesas@opensource.se>
+gcc-9 complains about a blatant uninitialized variable use that
+all earlier compiler versions missed:
 
-Update the CMT driver to mark "renesas,cmt-48" as deprecated.
+drivers/iio/adc/rcar-gyroadc.c:510:5: warning: 'ret' may be used uninitialized in this function [-Wmaybe-uninitialized]
 
-Instead of documenting a theoretical hardware device based on current software
-support level, define DT bindings top-down based on available data sheet
-information and make use of part numbers in the DT compat string.
+Return -EINVAL instead here and a few lines above it where
+we accidentally return 0 on failure.
 
-In case of the only in-tree users r8a7740 and sh73a0 the compat strings
-"renesas,r8a7740-cmt1" and "renesas,sh73a0-cmt1" may be used instead.
-
-Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
+Cc: stable@vger.kernel.org
+Fixes: 059c53b32329 ("iio: adc: Add Renesas GyroADC driver")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
+v2: fix the second return code as well
+---
+ drivers/iio/adc/rcar-gyroadc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
- drivers/clocksource/sh_cmt.c |    6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
---- 0011/drivers/clocksource/sh_cmt.c
-+++ work/drivers/clocksource/sh_cmt.c	2019-07-18 19:31:01.917491800 +0900
-@@ -921,7 +921,11 @@ static const struct platform_device_id s
- MODULE_DEVICE_TABLE(platform, sh_cmt_id_table);
+diff --git a/drivers/iio/adc/rcar-gyroadc.c b/drivers/iio/adc/rcar-gyroadc.c
+index 2d685730f867..c37f201294b2 100644
+--- a/drivers/iio/adc/rcar-gyroadc.c
++++ b/drivers/iio/adc/rcar-gyroadc.c
+@@ -382,7 +382,7 @@ static int rcar_gyroadc_parse_subdevs(struct iio_dev *indio_dev)
+ 				dev_err(dev,
+ 					"Only %i channels supported with %pOFn, but reg = <%i>.\n",
+ 					num_channels, child, reg);
+-				return ret;
++				return -EINVAL;
+ 			}
+ 		}
  
- static const struct of_device_id sh_cmt_of_table[] __maybe_unused = {
--	{ .compatible = "renesas,cmt-48", .data = &sh_cmt_info[SH_CMT_48BIT] },
-+	{
-+		/* deprecated, preserved for backward compatibility */
-+		.compatible = "renesas,cmt-48",
-+		.data = &sh_cmt_info[SH_CMT_48BIT]
-+	},
- 	{
- 		/* deprecated, preserved for backward compatibility */
- 		.compatible = "renesas,cmt-48-gen2",
+@@ -391,7 +391,7 @@ static int rcar_gyroadc_parse_subdevs(struct iio_dev *indio_dev)
+ 			dev_err(dev,
+ 				"Channel %i uses different ADC mode than the rest.\n",
+ 				reg);
+-			return ret;
++			return -EINVAL;
+ 		}
+ 
+ 		/* Channel is valid, grab the regulator. */
+-- 
+2.20.0
+
