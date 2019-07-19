@@ -2,209 +2,317 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F8356DA20
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jul 2019 06:00:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D8446E4DB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jul 2019 13:13:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728778AbfGSD7g (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Jul 2019 23:59:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59172 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727478AbfGSD7d (ORCPT
+        id S1727552AbfGSLNg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 19 Jul 2019 07:13:36 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:42488 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727486AbfGSLNg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Jul 2019 23:59:33 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3BFB9218B8;
-        Fri, 19 Jul 2019 03:59:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1563508772;
-        bh=O+hT6GyyZ7XXTsOxxB/CDGFDbyO0tyhKZT0Ybmg4rGE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=j+dRJHNqtPtFP1iiHR6fG8U99zfVAkmXpFVc7sAqlrN7tO1MlpXC0Mm6DHMUHgJUA
-         NToUEloWwEpUXW+5DQLA650gKjvQ6C8/8S1hamzV2Ec//nP9TNmq5IhspS+wJyKdNw
-         6NXlkQ5FJbfAZDJ0SkGFRbN1cOk8izxnkPXykdLA=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Sasha Levin <sashal@kernel.org>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.2 081/171] phy: renesas: rcar-gen3-usb2: fix imbalance powered flag
-Date:   Thu, 18 Jul 2019 23:55:12 -0400
-Message-Id: <20190719035643.14300-81-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190719035643.14300-1-sashal@kernel.org>
-References: <20190719035643.14300-1-sashal@kernel.org>
+        Fri, 19 Jul 2019 07:13:36 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 398E631C;
+        Fri, 19 Jul 2019 13:13:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1563534813;
+        bh=EqNaxrCSQse1jkAajeLes8Tq1EhXDA+QGPqmVawruqk=;
+        h=Subject:To:Cc:References:From:Reply-To:Date:In-Reply-To:From;
+        b=Qy2qOZdSp6lHroJ1p8VjpQKIxnj+ieLN3R+8yuO3thrhy7dKE0g/lO9yhqJr3KVY0
+         FWKH0FolDzW1UAPgY2WAv82HD+a8lpzRBq1SJo2eIRDbwB07wD8WTUQxcRquQnoz8i
+         pBYTsJHtLi+TAzGWeXsEt5RWMRmmXybMNf0qkZo4=
+Subject: Re: [PATCH 3/4] rcar-vin: Add support for V4L2_FIELD_ALTERNATE
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20190705045557.25463-1-niklas.soderlund+renesas@ragnatech.se>
+ <20190705045557.25463-4-niklas.soderlund+renesas@ragnatech.se>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Organization: Ideas on Board
+Message-ID: <f79a9674-a6e0-7695-0542-ac1e55d50a97@ideasonboard.com>
+Date:   Fri, 19 Jul 2019 12:13:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+In-Reply-To: <20190705045557.25463-4-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Hi Niklas,
 
-[ Upstream commit 5c9dc6379f539c68a0fdd39e39a9d359545649e9 ]
+On 05/07/2019 05:55, Niklas Söderlund wrote:
+> The hardware is capable to passing V4L2_FIELD_ALTERNATE to user-space.
+> Allow users to request this field format but still default to using the
+> hardware interlacer if alternating is not explicitly requested.
 
-The powered flag should be set for any other phys anyway. Also
-the flag should be locked by the channel. Otherwise, after we have
-revised the device tree for the usb phy, the following warning
-happened during a second system suspend. And if the driver doesn't
-lock the flag, an imbalance is possible when enabling the regulator
-during system resume. So, this patch fixes the issues.
+I'm afraid I have found this patch quite difficult to review accurately ...
 
-< The warning >
-[   56.026531] unbalanced disables for USB20_VBUS0
-[   56.031108] WARNING: CPU: 3 PID: 513 at drivers/regulator/core.c:2593 _regula
-tor_disable+0xe0/0x1c0
-[   56.040146] Modules linked in: rcar_du_drm rcar_lvds drm_kms_helper drm drm_p
-anel_orientation_quirks vsp1 videobuf2_vmalloc videobuf2_dma_contig videobuf2_me
-mops videobuf2_v4l2 videobuf2_common videodev snd_soc_rcar renesas_usbhs snd_soc
-_audio_graph_card media snd_soc_simple_card_utils crct10dif_ce renesas_usb3 snd_
-soc_ak4613 rcar_fcp pwm_rcar usb_dmac phy_rcar_gen3_usb3 pwm_bl ipv6
-[   56.074047] CPU: 3 PID: 513 Comm: kworker/u16:19 Not tainted 5.2.0-rc3-00001-
-g5f20a19 #6
-[   56.082129] Hardware name: Renesas Salvator-X board based on r8a7795 ES2.0+ (
-DT)
-[   56.089524] Workqueue: events_unbound async_run_entry_fn
-[   56.094832] pstate: 40000005 (nZcv daif -PAN -UAO)
-[   56.099617] pc : _regulator_disable+0xe0/0x1c0
-[   56.104054] lr : _regulator_disable+0xe0/0x1c0
-[   56.108489] sp : ffff0000121c3ae0
-[   56.111796] x29: ffff0000121c3ae0 x28: 0000000000000000
-[   56.117102] x27: 0000000000000000 x26: ffff000010fe0e60
-[   56.122407] x25: 0000000000000002 x24: 0000000000000001
-[   56.127712] x23: 0000000000000002 x22: ffff8006f99d4000
-[   56.133017] x21: ffff8006f99cc000 x20: ffff8006f9846800
-[   56.138322] x19: ffff8006f9846800 x18: ffffffffffffffff
-[   56.143626] x17: 0000000000000000 x16: 0000000000000000
-[   56.148931] x15: ffff0000112f96c8 x14: ffff0000921c37f7
-[   56.154235] x13: ffff0000121c3805 x12: ffff000011312000
-[   56.159540] x11: 0000000005f5e0ff x10: ffff0000112f9f20
-[   56.164844] x9 : ffff0000112d3018 x8 : 00000000000001ad
-[   56.170149] x7 : 00000000ffffffcc x6 : ffff8006ff768180
-[   56.175453] x5 : ffff8006ff768180 x4 : 0000000000000000
-[   56.180758] x3 : ffff8006ff76ef10 x2 : ffff8006ff768180
-[   56.186062] x1 : 3d2eccbaead8fb00 x0 : 0000000000000000
-[   56.191367] Call trace:
-[   56.193808]  _regulator_disable+0xe0/0x1c0
-[   56.197899]  regulator_disable+0x40/0x78
-[   56.201820]  rcar_gen3_phy_usb2_power_off+0x3c/0x50
-[   56.206692]  phy_power_off+0x48/0xd8
-[   56.210263]  usb_phy_roothub_power_off+0x30/0x50
-[   56.214873]  usb_phy_roothub_suspend+0x1c/0x50
-[   56.219311]  hcd_bus_suspend+0x13c/0x168
-[   56.223226]  generic_suspend+0x4c/0x58
-[   56.226969]  usb_suspend_both+0x1ac/0x238
-[   56.230972]  usb_suspend+0xcc/0x170
-[   56.234455]  usb_dev_suspend+0x10/0x18
-[   56.238199]  dpm_run_callback.isra.6+0x20/0x68
-[   56.242635]  __device_suspend+0x110/0x308
-[   56.246637]  async_suspend+0x24/0xa8
-[   56.250205]  async_run_entry_fn+0x40/0xf8
-[   56.254210]  process_one_work+0x1e0/0x320
-[   56.258211]  worker_thread+0x40/0x450
-[   56.261867]  kthread+0x124/0x128
-[   56.265094]  ret_from_fork+0x10/0x18
-[   56.268661] ---[ end trace 86d7ec5de5c517af ]---
-[   56.273290] phy phy-ee080200.usb-phy.10: phy poweroff failed --> -5
+I think I can infer that we are removing an existing workaround where
+V4L2_FIELD_ALTERNATE was converted to V4L2_FIELD_INTERLACED_xx formats,
+and also now where we used to store 'frame' heights, we store 'field'
+heights...
 
-Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Fixes: 549b6b55b005 ("phy: renesas: rcar-gen3-usb2: enable/disable independent irqs")
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
-Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/phy/renesas/phy-rcar-gen3-usb2.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+Is that somewhere close as an approximation? (Perhaps it might be good
+to detail some of that in the commit message, at least any bits that are
+accurate of course)
 
-diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-index 1322185a00a2..8ffba67568ec 100644
---- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-+++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-@@ -13,6 +13,7 @@
- #include <linux/interrupt.h>
- #include <linux/io.h>
- #include <linux/module.h>
-+#include <linux/mutex.h>
- #include <linux/of.h>
- #include <linux/of_address.h>
- #include <linux/of_device.h>
-@@ -106,6 +107,7 @@ struct rcar_gen3_chan {
- 	struct rcar_gen3_phy rphys[NUM_OF_PHYS];
- 	struct regulator *vbus;
- 	struct work_struct work;
-+	struct mutex lock;	/* protects rphys[...].powered */
- 	enum usb_dr_mode dr_mode;
- 	bool extcon_host;
- 	bool is_otg_channel;
-@@ -437,15 +439,16 @@ static int rcar_gen3_phy_usb2_power_on(struct phy *p)
- 	struct rcar_gen3_chan *channel = rphy->ch;
- 	void __iomem *usb2_base = channel->base;
- 	u32 val;
--	int ret;
-+	int ret = 0;
- 
-+	mutex_lock(&channel->lock);
- 	if (!rcar_gen3_are_all_rphys_power_off(channel))
--		return 0;
-+		goto out;
- 
- 	if (channel->vbus) {
- 		ret = regulator_enable(channel->vbus);
- 		if (ret)
--			return ret;
-+			goto out;
- 	}
- 
- 	val = readl(usb2_base + USB2_USBCTR);
-@@ -454,7 +457,10 @@ static int rcar_gen3_phy_usb2_power_on(struct phy *p)
- 	val &= ~USB2_USBCTR_PLL_RST;
- 	writel(val, usb2_base + USB2_USBCTR);
- 
-+out:
-+	/* The powered flag should be set for any other phys anyway */
- 	rphy->powered = true;
-+	mutex_unlock(&channel->lock);
- 
- 	return 0;
- }
-@@ -465,14 +471,18 @@ static int rcar_gen3_phy_usb2_power_off(struct phy *p)
- 	struct rcar_gen3_chan *channel = rphy->ch;
- 	int ret = 0;
- 
-+	mutex_lock(&channel->lock);
- 	rphy->powered = false;
- 
- 	if (!rcar_gen3_are_all_rphys_power_off(channel))
--		return 0;
-+		goto out;
- 
- 	if (channel->vbus)
- 		ret = regulator_disable(channel->vbus);
- 
-+out:
-+	mutex_unlock(&channel->lock);
-+
- 	return ret;
- }
- 
-@@ -639,6 +649,7 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
- 	if (!phy_usb2_ops)
- 		return -EINVAL;
- 
-+	mutex_init(&channel->lock);
- 	for (i = 0; i < NUM_OF_PHYS; i++) {
- 		channel->rphys[i].phy = devm_phy_create(dev, NULL,
- 							phy_usb2_ops);
--- 
-2.20.1
+
+I might have to look at this again later, or let some other eyeballs
+look as I'm afraid I don't feel that I've got a good overview of it yet.
+
+I wonder if it could be split in anyway to be clearer, but it's hard to
+tell :-)
+
+Perhaps it's just me being unable to see all the changes at once.
+
+
+< Some of my discussion comments below might seem out of order, as I've
+made multiple passes through this :-D >
+
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  drivers/media/platform/rcar-vin/rcar-dma.c  | 54 +++++++++++----------
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c | 31 +++++-------
+>  2 files changed, 42 insertions(+), 43 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> index 372d6b106b9970d2..7ac1733455221fe0 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> @@ -526,12 +526,17 @@ static void rvin_set_coeff(struct rvin_dev *vin, unsigned short xs)
+>  
+>  static void rvin_crop_scale_comp_gen2(struct rvin_dev *vin)
+>  {
+> +	unsigned int crop_height;
+>  	u32 xs, ys;
+>  
+>  	/* Set scaling coefficient */
+> +	crop_height = vin->crop.height;
+> +	if (V4L2_FIELD_IS_INTERLACED(vin->format.field))
+> +		crop_height *= 2;
+> +
+>  	ys = 0;
+> -	if (vin->crop.height != vin->compose.height)
+> -		ys = (4096 * vin->crop.height) / vin->compose.height;
+> +	if (crop_height != vin->compose.height)
+> +		ys = (4096 * crop_height) / vin->compose.height;
+>  	rvin_write(vin, ys, VNYS_REG);
+>  
+>  	xs = 0;
+> @@ -554,16 +559,11 @@ static void rvin_crop_scale_comp_gen2(struct rvin_dev *vin)
+>  	rvin_write(vin, 0, VNSPPOC_REG);
+>  	rvin_write(vin, 0, VNSLPOC_REG);
+>  	rvin_write(vin, vin->format.width - 1, VNEPPOC_REG);
+> -	switch (vin->format.field) {
+> -	case V4L2_FIELD_INTERLACED:
+> -	case V4L2_FIELD_INTERLACED_TB:
+> -	case V4L2_FIELD_INTERLACED_BT:
+> +
+> +	if (V4L2_FIELD_IS_INTERLACED(vin->format.field))
+
+Ok, so I had to go check - V4L2_FIELD_IS_INTERLACED() does not include
+'_ALTERNATE' - so this hunk is an improvement, but a somewhat unrelated
+change.
+
+Perhaps this could be split out to before this patch, anything to
+simplify this patch would be good.
+
+>  		rvin_write(vin, vin->format.height / 2 - 1, VNELPOC_REG);
+> -		break;
+> -	default:
+> +	else
+>  		rvin_write(vin, vin->format.height - 1, VNELPOC_REG);
+> -		break;
+> -	}
+>  
+>  	vin_dbg(vin,
+>  		"Pre-Clip: %ux%u@%u:%u YS: %d XS: %d Post-Clip: %ux%u@%u:%u\n",
+> @@ -577,21 +577,9 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
+>  	/* Set Start/End Pixel/Line Pre-Clip */
+>  	rvin_write(vin, vin->crop.left, VNSPPRC_REG);
+>  	rvin_write(vin, vin->crop.left + vin->crop.width - 1, VNEPPRC_REG);
+> +	rvin_write(vin, vin->crop.top, VNSLPRC_REG);
+> +	rvin_write(vin, vin->crop.top + vin->crop.height - 1, VNELPRC_REG);
+
+Should those be s/vin->crop.height/crop_height/ ? <edit - no>
+
+How come there's no comparable if (V4L2_FIELD_IS_INTERLACED... in this
+function?
+
+Oh - because actually rvin_crop_scale_comp_gen2() is called from within
+this function. They are not parallel functions for two implementations.
+
+
+>  
+> -	switch (vin->format.field) {
+> -	case V4L2_FIELD_INTERLACED:
+> -	case V4L2_FIELD_INTERLACED_TB:
+> -	case V4L2_FIELD_INTERLACED_BT:
+> -		rvin_write(vin, vin->crop.top / 2, VNSLPRC_REG);
+> -		rvin_write(vin, (vin->crop.top + vin->crop.height) / 2 - 1,
+> -			   VNELPRC_REG);
+> -		break;
+
+So - I think if i understand correctly - we used to store the
+frame-height in vin->crop, and now we store the field height.
+
+Is that right ?
+ (where field-height == frame-height on progressive frames)
+
+
+
+> -	default:
+> -		rvin_write(vin, vin->crop.top, VNSLPRC_REG);
+> -		rvin_write(vin, vin->crop.top + vin->crop.height - 1,
+> -			   VNELPRC_REG);
+> -		break;
+> -	}
+>  
+>  	/* TODO: Add support for the UDS scaler. */
+>  	if (vin->info->model != RCAR_GEN3)
+> @@ -636,6 +624,9 @@ static int rvin_setup(struct rvin_dev *vin)
+>  		vnmc = VNMC_IM_ODD_EVEN;
+>  		progressive = true;
+>  		break;
+> +	case V4L2_FIELD_ALTERNATE:
+> +		vnmc = VNMC_IM_ODD_EVEN;
+> +		break;
+>  	default:
+>  		vnmc = VNMC_IM_ODD;
+>  		break;
+> @@ -788,6 +779,18 @@ static bool rvin_capture_active(struct rvin_dev *vin)
+>  	return rvin_read(vin, VNMS_REG) & VNMS_CA;
+>  }
+>  
+> +static enum v4l2_field rvin_get_active_field(struct rvin_dev *vin, u32 vnms)
+> +{
+> +	if (vin->format.field == V4L2_FIELD_ALTERNATE) {
+> +		/* If FS is set it is an Even field. */
+> +		if (vnms & VNMS_FS)
+> +			return V4L2_FIELD_BOTTOM;
+> +		return V4L2_FIELD_TOP;
+> +	}
+> +
+> +	return vin->format.field;
+> +}
+> +
+>  static void rvin_set_slot_addr(struct rvin_dev *vin, int slot, dma_addr_t addr)
+>  {
+>  	const struct rvin_video_format *fmt;
+> @@ -937,7 +940,7 @@ static irqreturn_t rvin_irq(int irq, void *data)
+>  
+>  	/* Capture frame */
+>  	if (vin->queue_buf[slot]) {
+> -		vin->queue_buf[slot]->field = vin->format.field;
+> +		vin->queue_buf[slot]->field = rvin_get_active_field(vin, vnms);
+>  		vin->queue_buf[slot]->sequence = vin->sequence;
+>  		vin->queue_buf[slot]->vb2_buf.timestamp = ktime_get_ns();
+>  		vb2_buffer_done(&vin->queue_buf[slot]->vb2_buf,
+> @@ -1064,6 +1067,7 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
+>  		case V4L2_FIELD_TOP:
+>  		case V4L2_FIELD_BOTTOM:
+>  		case V4L2_FIELD_NONE:
+> +		case V4L2_FIELD_ALTERNATE:
+>  			break;
+>  		case V4L2_FIELD_INTERLACED_TB:
+>  		case V4L2_FIELD_INTERLACED_BT:
+> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> index d5e860ba6d9a2409..bc96ed563e365448 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> @@ -106,15 +106,7 @@ static void rvin_format_align(struct rvin_dev *vin, struct v4l2_pix_format *pix)
+>  	case V4L2_FIELD_INTERLACED_TB:
+>  	case V4L2_FIELD_INTERLACED_BT:
+>  	case V4L2_FIELD_INTERLACED:
+> -		break;
+>  	case V4L2_FIELD_ALTERNATE:
+> -		/*
+> -		 * Driver does not (yet) support outputting ALTERNATE to a
+> -		 * userspace. It does support outputting INTERLACED so use
+> -		 * the VIN hardware to combine the two fields.
+> -		 */
+> -		pix->field = V4L2_FIELD_INTERLACED;
+> -		pix->height *= 2;
+
+Ok - now I get it, this used to double the format height to work around
+the lack of _ALTERNATE implementation on the sink pad/device...
+
+So this part is removal of the existing workaround.
+
+
+>  		break;
+>  	default:
+>  		pix->field = RVIN_DEFAULT_FIELD;
+> @@ -153,15 +145,25 @@ static int rvin_reset_format(struct rvin_dev *vin)
+>  
+>  	v4l2_fill_pix_format(&vin->format, &fmt.format);
+
+This call v4l2_fill_pix_format() does the following:
+ "vin->format.field = fmt.format.field;"
+
+Ok - so that's obtaining the *source pad format*
+
+>  
+> -	rvin_format_align(vin, &vin->format);
+> -
+>  	vin->src_rect.top = 0;
+>  	vin->src_rect.left = 0;
+>  	vin->src_rect.width = vin->format.width;
+>  	vin->src_rect.height = vin->format.height;
+>  
+> +	/*  Make use of the hardware interlacer by default. */
+> +	if (vin->format.field == V4L2_FIELD_ALTERNATE) {
+> +		vin->format.field = V4L2_FIELD_INTERLACED;
+> +		vin->format.height *= 2;
+> +	}
+
+And here we are resetting the vin->format which looks like it represents
+the VIN sink device right?
+
+I guess we are changing alternate-fields to interlaced frames to prevent
+the driver from 'passing through' alternate formats to maintain the
+user-space experience here?
+
+
+> +
+> +	rvin_format_align(vin, &vin->format);
+> +
+>  	vin->crop = vin->src_rect;
+> -	vin->compose = vin->src_rect;
+> +
+> +	vin->compose.top = 0;
+> +	vin->compose.left = 0;
+> +	vin->compose.width = vin->format.width;
+> +	vin->compose.height = vin->format.height;
+>  
+>  	return 0;
+>  }
+> @@ -205,13 +207,6 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
+>  		crop->left = 0;
+>  		crop->width = pix->width;
+>  		crop->height = pix->height;
+> -
+> -		/*
+> -		 * If source is ALTERNATE the driver will use the VIN hardware
+> -		 * to INTERLACE it. The crop height then needs to be doubled.
+> -		 */
+> -		if (pix->field == V4L2_FIELD_ALTERNATE)
+> -			crop->height *= 2;
+
+And this part is just removing of the previous workaround right?
+
+
+>  	}
+>  
+>  	if (field != V4L2_FIELD_ANY)
+> 
 
