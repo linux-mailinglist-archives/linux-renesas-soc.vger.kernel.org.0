@@ -2,76 +2,154 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AA656D237
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 18 Jul 2019 18:43:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE3BF6D920
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 19 Jul 2019 04:39:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726649AbfGRQnX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 18 Jul 2019 12:43:23 -0400
-Received: from sauhun.de ([88.99.104.3]:46020 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726040AbfGRQnX (ORCPT
+        id S1726067AbfGSCjD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 18 Jul 2019 22:39:03 -0400
+Received: from twhmllg4.macronix.com ([211.75.127.132]:52044 "EHLO
+        TWHMLLG4.macronix.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726055AbfGSCjD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 18 Jul 2019 12:43:23 -0400
-Received: from localhost (p54B330C7.dip0.t-ipconnect.de [84.179.48.199])
-        by pokefinder.org (Postfix) with ESMTPSA id C66C62C2868;
-        Thu, 18 Jul 2019 18:43:21 +0200 (CEST)
-Date:   Thu, 18 Jul 2019 18:43:21 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] media: i2c: adv748x: Convert to new i2c device probe()
-Message-ID: <20190718164321.GB849@kunai>
-References: <20190710123719.3376-1-kieran.bingham+renesas@ideasonboard.com>
+        Thu, 18 Jul 2019 22:39:03 -0400
+Received: from twhfmnt1.mxic.com.tw (twhfm1p2.macronix.com [172.17.20.92])
+        by TWHMLLG4.macronix.com with ESMTP id x6J2cuaQ072409;
+        Fri, 19 Jul 2019 10:38:56 +0800 (GMT-8)
+        (envelope-from masonccyang@mxic.com.tw)
+Received: from MXML06C.mxic.com.tw (mxml06c.macronix.com [172.17.14.55])
+        by Forcepoint Email with ESMTP id B17D5E65125DE4DC5AE3;
+        Fri, 19 Jul 2019 10:38:56 +0800 (CST)
+In-Reply-To: <CAMuHMdUPmj0tAhJ18DhQEbYxP7g4MMBMe0U_2eQFQ7mOq4ZFLQ@mail.gmail.com>
+References: <1561023046-20886-1-git-send-email-masonccyang@mxic.com.tw> <1561023046-20886-3-git-send-email-masonccyang@mxic.com.tw> <CAMuHMdUPmj0tAhJ18DhQEbYxP7g4MMBMe0U_2eQFQ7mOq4ZFLQ@mail.gmail.com>
+To:     "Geert Uytterhoeven" <geert@linux-m68k.org>
+Cc:     "Boris Brezillon" <bbrezillon@kernel.org>,
+        "Mark Brown" <broonie@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
+        "Simon Horman" <horms@verge.net.au>, juliensu@mxic.com.tw,
+        "Lee Jones" <lee.jones@linaro.org>,
+        "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+        "Linux-Renesas" <linux-renesas-soc@vger.kernel.org>,
+        "linux-spi" <linux-spi@vger.kernel.org>,
+        "Marek Vasut" <marek.vasut@gmail.com>,
+        "Mark Rutland" <mark.rutland@arm.com>,
+        "Miquel Raynal" <miquel.raynal@bootlin.com>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        "Sergei Shtylyov" <sergei.shtylyov@cogentembedded.com>
+Subject: Re: [PATCH v14 2/2] dt-bindings: spi: Document Renesas R-Car Gen3 RPC-IF
+ controller bindings
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="TRYliJ5NKNqkz5bu"
-Content-Disposition: inline
-In-Reply-To: <20190710123719.3376-1-kieran.bingham+renesas@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-KeepSent: 43DF9AAE:9EB63E41-4825843C:000C61B7;
+ type=4; name=$KeepSent
+X-Mailer: Lotus Notes Release 8.5.3FP4 SHF90 June 10, 2013
+Message-ID: <OF43DF9AAE.9EB63E41-ON4825843C.000C61B7-4825843C.000E8D45@mxic.com.tw>
+From:   masonccyang@mxic.com.tw
+Date:   Fri, 19 Jul 2019 10:38:56 +0800
+X-MIMETrack: Serialize by Router on MXML06C/TAIWAN/MXIC(Release 9.0.1FP10 HF265|July 25, 2018) at
+ 2019/07/19 AM 10:38:56,
+        Serialize complete at 2019/07/19 AM 10:38:56
+Content-Type: text/plain; charset="US-ASCII"
+X-MAIL: TWHMLLG4.macronix.com x6J2cuaQ072409
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---TRYliJ5NKNqkz5bu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Geert, 
+ 
+Thanks for your review!
 
-On Wed, Jul 10, 2019 at 01:37:19PM +0100, Kieran Bingham wrote:
-> The I2C core framework provides a simplified probe framework from commit
-> b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new() call-back type").
->=20
-> Convert the ADV748x to utilise this simplfied i2c driver registration.
->=20
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Will fix it as 
 
-Acked-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
++Renesas R-Car Gen3 RPC-IF controller Device Tree Bindings
++---------------------------------------------------------
++
++Required properties:
++- compatible: should be an SoC-specific compatible value, followed by
++                                "renesas,rcar-gen3-rpc" as a fallback.
++                                supported SoC-specific values are:
++                                "renesas,r8a77980-rpc"          (R-Car 
+V3H)
++                                "renesas,r8a77995-rpc"          (R-Car 
+D3)
++- reg: should contain three register areas:
++       first for the base address of RPC-IF registers,
++       second for the direct mapping read mode and
++       third for the write buffer area.
++- reg-names: should contain "regs", "dirmap" and "wbuf"
++- clocks: should contain the clock phandle/specifier pair for the module 
+clock.
++- clock-names: should contain "rpc"
++- power-domains: should contain the power domain phandle/secifier pair.
++- resets: should contain the reset controller phandle/specifier pair.
++- #address-cells: should be 1
++- #size-cells: should be 0
++
++  flash: should be represented by a subnode of the RPC-IF node, 
++  which "compatible" property contains "jedec,spi-nor", it presents SPI 
+is used.
++
++Example:
++
++                rpc: spi@ee200000 {
++                                compatible = "renesas,r8a77995-rpc", 
+"renesas,rcar-gen3-rpc";
++                                reg = <0 0xee200000 0 0x200>, <0 
+0x08000000 0 0x4000000>,
++                                      <0 0xee208000 0 0x100>;
++                                reg-names = "regs", "dirmap", "wbuf";
++                                clocks = <&cpg CPG_MOD 917>;
++                                clock-names = "rpc";
++                                power-domains = <&sysc 
+R8A77995_PD_ALWAYS_ON>;
++                                resets = <&cpg 917>;
++                                #address-cells = <1>;
++                                #size-cells = <0>;
++
++                                flash@0 {
++                                                compatible = 
+"jedec,spi-nor";
++                                                reg = <0>;
++                                                spi-max-frequency = 
+<40000000>;
++                                                spi-tx-bus-width = <1>;
++                                                spi-rx-bus-width = <1>;
++                                };
++                };
+
+Is it OK ?
+
+thanks & best regards,
+Mason
 
 
---TRYliJ5NKNqkz5bu
-Content-Type: application/pgp-signature; name="signature.asc"
+CONFIDENTIALITY NOTE:
 
------BEGIN PGP SIGNATURE-----
+This e-mail and any attachments may contain confidential information 
+and/or personal data, which is protected by applicable laws. Please be 
+reminded that duplication, disclosure, distribution, or use of this e-mail 
+(and/or its attachments) or any part thereof is prohibited. If you receive 
+this e-mail in error, please notify us immediately and delete this mail as 
+well as its attachment(s) from your system. In addition, please be 
+informed that collection, processing, and/or use of personal data is 
+prohibited unless expressly permitted by personal data protection laws. 
+Thank you for your attention and cooperation.
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl0woakACgkQFA3kzBSg
-KbYneg//fSlJtOH8ItBrldDL6WPqMbWwRPXDmma1bYkEhvxqiaDKjgrDKfvGV80Z
-Rzcw9MlPwQlgSYd5OjpzbgWHa/54n424QHVG5e6NbZ35ajRvejBQ5otnl5WYEXMJ
-2PrvXmHcCwxs2xMa5CH+jda6ODfRuY1QDceTQSCzN2CXwcqT8cFoxrSQ24ONO72a
-/XQRMpvT/BBR+Wwz9DFOt/QjJ1hOadQO001ufa5cMx3lk261AFLBysRqsC/6zwvL
-4YsJF3+yZT5pR4TTTW/5DYxY7/7q6ACB18EzPXMYel73e1bePrHiB+P0hOZethA+
-9VA4a/FTDDDWiZOvyL6ph6nb0ZHLtwZY7vjs34v2cRx079I5Hq05Nm3KtgiuG+k3
-8ooJlgQuqp9sgqT0aZwaWLXbIiit3nMcSwP/pK0f6FShkJFxsb5+SJVrm7NwgfO1
-rMDorKzWf6qxEzvDJLyc+tXqMKejuK+s4oBiTSIgy4TIwWnzDkDMNiO3WnoF0j8B
-L1n6Us2WqoSFSThbzwROF2hBb8dU1q/3slzyGr7MVi3D5bFuLA4g6N24iSrFIwtQ
-uLPnVxM45JkeOgu85Q3c/gaB0sQ3gjal5eyT9wOUGk+zB8DPEe+5zke4BGmdEMlI
-ZvQyy12Mrxy3ROlxczbDCK754cAH/u+RGDE78/gzQ8GGaLXZiyU=
-=h6Dy
------END PGP SIGNATURE-----
+Macronix International Co., Ltd.
 
---TRYliJ5NKNqkz5bu--
+=====================================================================
+
+
+
+============================================================================
+
+CONFIDENTIALITY NOTE:
+
+This e-mail and any attachments may contain confidential information and/or personal data, which is protected by applicable laws. Please be reminded that duplication, disclosure, distribution, or use of this e-mail (and/or its attachments) or any part thereof is prohibited. If you receive this e-mail in error, please notify us immediately and delete this mail as well as its attachment(s) from your system. In addition, please be informed that collection, processing, and/or use of personal data is prohibited unless expressly permitted by personal data protection laws. Thank you for your attention and cooperation.
+
+Macronix International Co., Ltd.
+
+=====================================================================
+
