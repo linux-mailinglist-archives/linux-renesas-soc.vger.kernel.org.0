@@ -2,56 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F320706AA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jul 2019 19:22:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51797706AD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 22 Jul 2019 19:23:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731247AbfGVRWm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 22 Jul 2019 13:22:42 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:34512 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728233AbfGVRWm (ORCPT
+        id S1731251AbfGVRXC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 22 Jul 2019 13:23:02 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:37143 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728233AbfGVRXC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 22 Jul 2019 13:22:42 -0400
-Received: by mail-pf1-f194.google.com with SMTP id b13so17700351pfo.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jul 2019 10:22:42 -0700 (PDT)
+        Mon, 22 Jul 2019 13:23:02 -0400
+Received: by mail-pl1-f195.google.com with SMTP id b3so19473615plr.4
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 22 Jul 2019 10:23:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
-        bh=3876AKAsZGX63Axh00T2Gm59IDW3banJe4ryUn84tiA=;
-        b=NQFtRY9MZNMNPg6S5CgEKrvuQRExfM4wbSegsLo2rdM9cKgEOrERmb4fwAvvjfo1IN
-         vF8E/7Yvn6YapYEtC5gmooBWVSptCPLYzLG2FO3VEb2iaxu6CUWamED9YY1QhFdtoP3U
-         uHKb8Njc3t3gUwLQ+cFi/qz/7Nk4oxsfyI321vuEr0qznCQfDwE+IoI0RHwJRwaXc6ex
-         VOf5j/mqW8oyF4l9k/DYG3Z7JT7lvjJ8oKXV1sPntAwuPm1f1v+qXL0eYADfBRpQLwjG
-         hzE0g6Nws1GnjNS5QftuvdRD2JM1DVRblP18YqAHnb56nDWT4TM7S4o3ix2BzzhWix1R
-         66Cg==
+        bh=ZslVBL5Mz0HAfC+qBA5LaRiPngbPOV8Dc92uhilmqCM=;
+        b=d8LF67x78l0sp6WDJIB8JzLbflFtuRLMrlbk1uNxoU9nPiTpGIgyAAi4EyDKddo8Lc
+         q8wLkXejXjdlxrBJWmoP8MlzMhOzNNiwGFPA100TibuXQgiqU9Kohs4NV0leuIEha09Q
+         PoPcqHiEghRpCMScXHW0hEKGVPt7SKnS5yPcX9birgxL5smRB2PIWLD2agzMab+S4HRO
+         1Q9lAMvcsLNkxwIp7/aFYhCIMJf3TFBlZOiWHXVa94mT4OhsIBnIbe4VLGDYlCFAZgF9
+         i7l/SN6aaJaYgjTknIkDkjAvzmyqQKimxjSAV5Y0nBoaH5dXOUgjIVHD/k0rLqSuLecK
+         QAHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=3876AKAsZGX63Axh00T2Gm59IDW3banJe4ryUn84tiA=;
-        b=gP9ddcFoZCt5wtsQH2xXBJSHRyyHC6e6YoXZeHf7/L41r4tNoGNsrOJH96DIbzo0p8
-         9wrYIxmRLW9lHObd3d/360IvdoIeFq/+3Wg09fyjP5cqhoBKKqOhKlUXt1Ip73acAsBg
-         njhyvqqppWmTTuzEG3rVR4AnDbcxWTCAuLVu2YmeFZ1MiuqKaFmKW3mQut1BwPQ0g6TT
-         32zncCCbzuepqXZK2aveP0CTBd6NuqYJXpMqXpbg0ie7hvZXoRK/9Vp28xL4FBmGIRE2
-         CGEakwXhsUOxgVRn9gmtZ9UpBIbhNW1PjyECo3ropAhaeck9Q4llTP19T7O+T7ZObI+E
-         b16Q==
-X-Gm-Message-State: APjAAAX0HlUYLqT74bri0pHE0euDCZKDX5CTmzp2BkEq51R7lWxB4ZYw
-        W7HaVG/lwT9RjxAw85ixSxrkfukh
-X-Google-Smtp-Source: APXvYqzvENzFTEG6YT3zLFXjaovEUj0OUeVKwVnsTlCJkv/e4F1BwCfx3+YyUzcZEWDXi/MDZLTtWQ==
-X-Received: by 2002:aa7:90c9:: with SMTP id k9mr1253443pfk.171.1563816161294;
-        Mon, 22 Jul 2019 10:22:41 -0700 (PDT)
+        bh=ZslVBL5Mz0HAfC+qBA5LaRiPngbPOV8Dc92uhilmqCM=;
+        b=tIfmJbdL7gf76NLHkrqXwOQrMAKWxwx6xsiCuSoWR8FCofnnrwdfeV2D8rPsnmotoh
+         z1BluCdvQ7pwnzt6PALNQtjFjuKUYn9KmrLY5vkvVNc/98QdIErma+/O64usk3RCqQf3
+         bE59kK/NBdbYwoDSVFxk9Odw6MLdfn2PcqJ08IoxOX7HNtnsP9t22xIGnfAWVYZfmyh3
+         6h5EHO9PjAvqITgcwQSVF0kf/G3X+JFbLvUUEq554RELmgka1VnO2YFqNk0SfwjSlM2X
+         9vrMJSgF+Rq0WUf0NFc/BF/nZoUPwafAsTLXbVSuQ7LI1Qtpe33miuiH53ES7DEdj0bz
+         k7ag==
+X-Gm-Message-State: APjAAAVeDo9FCEaKJVRD1drxWQE4Tl34nwgS+CCyDWR/LfRQ7S5PtX0I
+        0JrXrUlA0KS3p+DVtbrBjYfb/5BA
+X-Google-Smtp-Source: APXvYqzjEpkVGeir2fkcTas5pOeWNGXshv6wZ/PHE8TfIFsE5r4i2xyUk0D5OLsEvhlzRU6g9BRULw==
+X-Received: by 2002:a17:902:e306:: with SMTP id cg6mr76378459plb.263.1563816181685;
+        Mon, 22 Jul 2019 10:23:01 -0700 (PDT)
 Received: from localhost.localdomain (KD118155013174.ppp-bb.dion.ne.jp. [118.155.13.174])
-        by smtp.gmail.com with ESMTPSA id w16sm48195445pfj.85.2019.07.22.10.22.39
+        by smtp.gmail.com with ESMTPSA id o95sm35001252pjb.4.2019.07.22.10.22.59
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Mon, 22 Jul 2019 10:22:40 -0700 (PDT)
+        Mon, 22 Jul 2019 10:23:01 -0700 (PDT)
 From:   Yoshihiro Kaneko <ykaneko0929@gmail.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     Simon Horman <horms@verge.net.au>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
         Magnus Damm <magnus.damm@gmail.com>,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] arm64: dts: renesas: r8a7795-es1-salvator-x: sort nodes
-Date:   Tue, 23 Jul 2019 02:22:21 +0900
-Message-Id: <1563816141-17805-1-git-send-email-ykaneko0929@gmail.com>
+Subject: [PATCH] arm64: dts: renesas: r8a7795-salvator-x: sort nodes
+Date:   Tue, 23 Jul 2019 02:22:52 +0900
+Message-Id: <1563816172-17864-1-git-send-email-ykaneko0929@gmail.com>
 X-Mailer: git-send-email 1.9.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -73,13 +73,13 @@ Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
 
 This patch is based on the devel branch of Simon Horman's renesas tree.
 
- .../boot/dts/renesas/r8a7795-es1-salvator-x.dts    | 26 +++++++++++-----------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ arch/arm64/boot/dts/renesas/r8a7795-salvator-x.dts | 28 ++++++++++++----------
+ 1 file changed, 15 insertions(+), 13 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a7795-es1-salvator-x.dts b/arch/arm64/boot/dts/renesas/r8a7795-es1-salvator-x.dts
-index c1a56ea..c729686 100644
---- a/arch/arm64/boot/dts/renesas/r8a7795-es1-salvator-x.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a7795-es1-salvator-x.dts
+diff --git a/arch/arm64/boot/dts/renesas/r8a7795-salvator-x.dts b/arch/arm64/boot/dts/renesas/r8a7795-salvator-x.dts
+index d2d48b3..cf151f3 100644
+--- a/arch/arm64/boot/dts/renesas/r8a7795-salvator-x.dts
++++ b/arch/arm64/boot/dts/renesas/r8a7795-salvator-x.dts
 @@ -52,12 +52,6 @@
  	status = "okay";
  };
@@ -93,10 +93,11 @@ index c1a56ea..c729686 100644
  &hdmi0 {
  	status = "okay";
  
-@@ -108,6 +102,13 @@
+@@ -108,6 +102,14 @@
  	status = "okay";
  };
  
++
 +&pfc {
 +	usb2_pins: usb2 {
 +		groups = "usb2";
@@ -107,7 +108,7 @@ index c1a56ea..c729686 100644
  &rcar_sound {
  	ports {
  		/* rsnd_port0 is on salvator-common */
-@@ -138,17 +139,16 @@
+@@ -138,17 +140,17 @@
  	};
  };
  
@@ -122,6 +123,7 @@ index c1a56ea..c729686 100644
  	status = "okay";
  };
  
++
 +&sound_card {
 +	dais = <&rsnd_port0	/* ak4613 */
 +		&rsnd_port1	/* HDMI0  */
