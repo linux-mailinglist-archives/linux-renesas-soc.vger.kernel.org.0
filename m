@@ -2,22 +2,22 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8155F71125
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2019 07:27:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF8FC7111E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2019 07:27:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728958AbfGWF15 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Jul 2019 01:27:57 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:19018 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728245AbfGWF14 (ORCPT
+        id S1728533AbfGWF1y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Jul 2019 01:27:54 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:21989 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728245AbfGWF1y (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Jul 2019 01:27:56 -0400
+        Tue, 23 Jul 2019 01:27:54 -0400
 X-IronPort-AV: E=Sophos;i="5.64,297,1559487600"; 
-   d="scan'208";a="22145536"
+   d="scan'208";a="21926857"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 23 Jul 2019 14:27:52 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 23 Jul 2019 14:27:52 +0900
 Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 1BF7041E40B1;
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 3340941E3CDD;
         Tue, 23 Jul 2019 14:27:52 +0900 (JST)
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To:     ulf.hansson@linaro.org, hch@lst.de, m.szyprowski@samsung.com,
@@ -26,9 +26,9 @@ Cc:     wsa+renesas@sang-engineering.com, linux-mmc@vger.kernel.org,
         iommu@lists.linux-foundation.org, linux-block@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v8 1/5] dma: Introduce dma_get_merge_boundary()
-Date:   Tue, 23 Jul 2019 14:26:44 +0900
-Message-Id: <1563859608-19456-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v8 2/5] iommu/dma: Add a new dma_map_ops of get_merge_boundary()
+Date:   Tue, 23 Jul 2019 14:26:45 +0900
+Message-Id: <1563859608-19456-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1563859608-19456-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 References: <1563859608-19456-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
@@ -37,87 +37,43 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch adds a new DMA API "dma_get_merge_boundary". This function
-returns the DMA merge boundary if the DMA layer can merge the segments.
-This patch also adds the implementation for a new dma_map_ops pointer.
+This patch adds a new dma_map_ops of get_merge_boundary() to
+expose the DMA merge boundary if the domain type is IOMMU_DOMAIN_DMA.
 
 Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
 ---
- Documentation/DMA-API.txt   |  8 ++++++++
- include/linux/dma-mapping.h |  6 ++++++
- kernel/dma/mapping.c        | 11 +++++++++++
- 3 files changed, 25 insertions(+)
+ drivers/iommu/dma-iommu.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/Documentation/DMA-API.txt b/Documentation/DMA-API.txt
-index e47c63b..9c4dd3d 100644
---- a/Documentation/DMA-API.txt
-+++ b/Documentation/DMA-API.txt
-@@ -204,6 +204,14 @@ Returns the maximum size of a mapping for the device. The size parameter
- of the mapping functions like dma_map_single(), dma_map_page() and
- others should not be larger than the returned value.
- 
-+::
-+
-+	unsigned long
-+	dma_get_merge_boundary(struct device *dev);
-+
-+Returns the DMA merge boundary. If the device cannot merge any the DMA address
-+segments, the function returns 0.
-+
- Part Id - Streaming DMA mappings
- --------------------------------
- 
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index e11b115..f700f8a 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -131,6 +131,7 @@ struct dma_map_ops {
- 	int (*dma_supported)(struct device *dev, u64 mask);
- 	u64 (*get_required_mask)(struct device *dev);
- 	size_t (*max_mapping_size)(struct device *dev);
-+	unsigned long (*get_merge_boundary)(struct device *dev);
- };
- 
- #define DMA_MAPPING_ERROR		(~(dma_addr_t)0)
-@@ -467,6 +468,7 @@ int dma_set_mask(struct device *dev, u64 mask);
- int dma_set_coherent_mask(struct device *dev, u64 mask);
- u64 dma_get_required_mask(struct device *dev);
- size_t dma_max_mapping_size(struct device *dev);
-+unsigned long dma_get_merge_boundary(struct device *dev);
- #else /* CONFIG_HAS_DMA */
- static inline dma_addr_t dma_map_page_attrs(struct device *dev,
- 		struct page *page, size_t offset, size_t size,
-@@ -572,6 +574,10 @@ static inline size_t dma_max_mapping_size(struct device *dev)
- {
- 	return 0;
+diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+index a7f9c3e..f3e5f2b 100644
+--- a/drivers/iommu/dma-iommu.c
++++ b/drivers/iommu/dma-iommu.c
+@@ -1085,6 +1085,16 @@ static int iommu_dma_get_sgtable(struct device *dev, struct sg_table *sgt,
+ 	return ret;
  }
-+static inline unsigned long dma_get_merge_boundary(struct device *dev)
-+{
-+	return 0;
-+}
- #endif /* CONFIG_HAS_DMA */
  
- static inline dma_addr_t dma_map_single_attrs(struct device *dev, void *ptr,
-diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
-index 1f628e7..e8da02e 100644
---- a/kernel/dma/mapping.c
-+++ b/kernel/dma/mapping.c
-@@ -379,3 +379,14 @@ size_t dma_max_mapping_size(struct device *dev)
- 	return size;
- }
- EXPORT_SYMBOL_GPL(dma_max_mapping_size);
-+
-+unsigned long dma_get_merge_boundary(struct device *dev)
++static unsigned long iommu_dma_get_merge_boundary(struct device *dev)
 +{
-+	const struct dma_map_ops *ops = get_dma_ops(dev);
++	struct iommu_domain *domain = iommu_get_dma_domain(dev);
 +
-+	if (!ops || !ops->get_merge_boundary)
++	if (domain->type != IOMMU_DOMAIN_DMA)
 +		return 0;	/* can't merge */
 +
-+	return ops->get_merge_boundary(dev);
++	return (1 << __ffs(domain->pgsize_bitmap)) - 1;
 +}
-+EXPORT_SYMBOL_GPL(dma_get_merge_boundary);
++
+ static const struct dma_map_ops iommu_dma_ops = {
+ 	.alloc			= iommu_dma_alloc,
+ 	.free			= iommu_dma_free,
+@@ -1100,6 +1110,7 @@ static const struct dma_map_ops iommu_dma_ops = {
+ 	.sync_sg_for_device	= iommu_dma_sync_sg_for_device,
+ 	.map_resource		= iommu_dma_map_resource,
+ 	.unmap_resource		= iommu_dma_unmap_resource,
++	.get_merge_boundary	= iommu_dma_get_merge_boundary,
+ };
+ 
+ /*
 -- 
 2.7.4
 
