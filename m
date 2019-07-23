@@ -2,256 +2,235 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 54EC571611
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2019 12:29:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DE7C717E9
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2019 14:17:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388998AbfGWK3H (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Jul 2019 06:29:07 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:44179 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388995AbfGWK3H (ORCPT
+        id S2389662AbfGWMRD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Jul 2019 08:17:03 -0400
+Received: from mail-eopbgr1400128.outbound.protection.outlook.com ([40.107.140.128]:28448
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2389533AbfGWMRC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Jul 2019 06:29:07 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 07CECC000F;
-        Tue, 23 Jul 2019 10:29:03 +0000 (UTC)
-Date:   Tue, 23 Jul 2019 12:30:24 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Tue, 23 Jul 2019 08:17:02 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P3jqc8tEsfPkQCElgheVbIG5nCn8BtGOi/CZhR9yNj8Y3o71SUV8lMc073K/ku2AgEeYZre1b92cVPkb9qhPjJYEGb2wqnubZyiQ5mE2+kp3tv0L9U+C2OwWqiaPUeuSzdorFI5cDzhzV+3qdwTKnWaoaGZ1j20Mll9Nlqg+hGdAf2EYmXhutamIzjG+n+k4wZjyMlEE3vV7BFEYnPG00exHMAd3b/SBr53tBnWY57D90cDTJi+6djj3nZuDInoFW++9BBiSXx9J7qtV4VAWDr80jepsW1zmHAQyYPfejaCksJwQcZHho72/txYXGuKPeXdC4JE7uxn5Otcxw45CKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8Uum9iaNpUG/DaRN/hJRjeSelZBy+IWy7VbhxJX3/Nc=;
+ b=SHBG8INv0t0VSuTqfcniLkrScJqur+/tDEfqnjImIA1mMwrmV14iwOLWx9KpfRDxROJ8Rx2DGuVfVUxAZ9BAgKNX212e8n8bdILCKYT5rx011xjJFgxK4VzeVw05Rjx5vUXNGq7yoZwq68dNc5KcESTMJL+ULKlh0U1srWzTlmxU6fuaZzD2xAC1wZwGO36b2plc1AxUJRPCbzoWHAkLgGm++m2jNSTWr253Fc75b2/BJVZ9p16WossmhukekCz0usv1leljabD3nN0/Eugjgg1IZ8YXfxZIB2n7MN/hJmThHx/Of1MA8ktXhDul07OjHP58nI0uKdxLkx9G1vvVUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
+ smtp.mailfrom=bp.renesas.com;dmarc=pass action=none
+ header.from=bp.renesas.com;dkim=pass header.d=bp.renesas.com;arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8Uum9iaNpUG/DaRN/hJRjeSelZBy+IWy7VbhxJX3/Nc=;
+ b=ANjtLOGClu2z7OD0NiHq+7upvtKrxUtfmTyCiYxwcCbeSVal1J/lfpIwsKB87++YfpNmw9NToPv/5/PqY2EelFbcvRswa1tcjLWSZIeB5BeABGitzy+a8BPP9tAR1JTqC9WdnOtcamzzVjay5A0uggBRRUeFeA0rHy6f22BxFig=
+Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com (52.133.163.13) by
+ TY1PR01MB1515.jpnprd01.prod.outlook.com (52.133.160.139) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2094.14; Tue, 23 Jul 2019 12:16:58 +0000
+Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com
+ ([fe80::d881:cb74:8277:5a16]) by TY1PR01MB1770.jpnprd01.prod.outlook.com
+ ([fe80::d881:cb74:8277:5a16%7]) with mapi id 15.20.2094.013; Tue, 23 Jul 2019
+ 12:16:58 +0000
+From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+CC:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v3 10/10] [HACK] arm64: dts: renesas: ebisu: Enable LVDS
+Subject: RE: [PATCH v3 10/10] [HACK] arm64: dts: renesas: ebisu: Enable LVDS
  dual-link operation
-Message-ID: <20190723103024.3du7i7dm2xfyfblm@uno.localdomain>
+Thread-Topic: [PATCH v3 10/10] [HACK] arm64: dts: renesas: ebisu: Enable LVDS
+ dual-link operation
+Thread-Index: AQHVFV+LuQSI9RSCM0+gPOgQhRN8ZKbWymOQgAGOIwCAAAYM4A==
+Date:   Tue, 23 Jul 2019 12:16:57 +0000
+Message-ID: <TY1PR01MB177067DEFA4CD7071D14DFD5C0C70@TY1PR01MB1770.jpnprd01.prod.outlook.com>
 References: <20190528141234.15425-1-laurent.pinchart+renesas@ideasonboard.com>
  <20190528141234.15425-11-laurent.pinchart+renesas@ideasonboard.com>
  <TY1PR01MB177063CF6128DB62E16FD0EBC0C40@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+ <20190723103024.3du7i7dm2xfyfblm@uno.localdomain>
+In-Reply-To: <20190723103024.3du7i7dm2xfyfblm@uno.localdomain>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=fabrizio.castro@bp.renesas.com; 
+x-originating-ip: [193.141.220.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 46732cfb-af68-4f3b-ddfe-08d70f67a8ac
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:TY1PR01MB1515;
+x-ms-traffictypediagnostic: TY1PR01MB1515:
+x-microsoft-antispam-prvs: <TY1PR01MB1515CEAC679628CE8CE03C07C0C70@TY1PR01MB1515.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 0107098B6C
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(396003)(39860400002)(376002)(346002)(136003)(366004)(54094003)(189003)(199004)(52314003)(71190400001)(44832011)(71200400001)(486006)(6246003)(86362001)(99286004)(4326008)(8936002)(81166006)(256004)(14444005)(66946007)(54906003)(52536014)(316002)(5660300002)(76116006)(81156014)(446003)(11346002)(66556008)(229853002)(64756008)(476003)(66476007)(66446008)(9686003)(55016002)(6116002)(2906002)(186003)(7736002)(68736007)(14454004)(305945005)(3846002)(74316002)(66066001)(26005)(6506007)(53546011)(25786009)(7696005)(6916009)(8676002)(6436002)(33656002)(76176011)(478600001)(53936002)(102836004);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1515;H:TY1PR01MB1770.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
+received-spf: None (protection.outlook.com: bp.renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 0Qz3WxT6GBJc1qrl7pX1Gp6YKrB4xQVF9Ca1l+3wEQnXqZq6rlm86Ej01desuT2YIxO4THRdcjWvvoMIeafYoyEYziK1awn9mZCTmONWK6Uu1m2HPE4UzHhkT7f0F8HgXJB0sjmbFZj+xncHN3iBIb1EDvvnpXsmsBbACyZnyHXO8ekS6IMxSq1Vi2jsCnD7ITY8vAkH8gN8y7oL5NUiAFAwuqLo6u7TLwiEbxieM67it57+UZxyU4wc8Y1lUUG+0NvMnwsUmsHaxDRlq/k9VXbLOJTXkyJRh+r2HXT7r1/leQSA7Xn2UKFCoZowS5zf0WcUjca3+qX35pgRH6NSJsQ465dpEvMWgP+ycAjCmSWlqo/VPEL4cMd7AqBX/2JCJSJmoByCudapruOga2RPpiKBKeLj1BMSJZ4ypd+OGV4=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ha2fju6woqc5ri53"
-Content-Disposition: inline
-In-Reply-To: <TY1PR01MB177063CF6128DB62E16FD0EBC0C40@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-User-Agent: NeoMutt/20180716
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 46732cfb-af68-4f3b-ddfe-08d70f67a8ac
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jul 2019 12:16:57.9945
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fabrizio.castro@bp.renesas.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1515
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
---ha2fju6woqc5ri53
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-HI Fabrizio,
-
-On Mon, Jul 22, 2019 at 11:27:26AM +0000, Fabrizio Castro wrote:
-> Hello Jacopo,
->
-> > From: linux-renesas-soc-owner@vger.kernel.org <linux-renesas-soc-owner@=
-vger.kernel.org> On Behalf Of Laurent Pinchart
-> > Sent: 28 May 2019 15:13
-> > Subject: [PATCH v3 10/10] [HACK] arm64: dts: renesas: ebisu: Enable LVD=
-S dual-link operation
-> >
-> > Enable and connect the second LVDS encoder to the second LVDS input of
-> > the THC63LVD1024 for dual-link LVDS operation. This requires changing
-> > the default settings of SW45 and SW47 to OFF and ON respectively.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.=
-com>
-> > Tested-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
->
-> How did you test this patch on Ebisu (kernel branch, configuration, switc=
-hes,etc.)?
->
-
-I tested the branch provided by Laurent and mentioned in this cover
-letter.
-
-The branch is now rebased on v5.2-rc1 as you can see, I cannot tell at
-the time which one was the release tag on which it was based on, but I
-suspect 5.0 or either v4.20. Maye Laurent remembers it.
-
-> I tested both linux-next and drm/du/lvds/dual-link and they are not worki=
-ng for me.
-> The base configuration I am using is coming from arch/arm64/configs/defco=
-nfig from each respective branch, on top of that I am enabling the remainin=
-g bits and pieces.
-> I have tried the suggested configuration of the switches for this patch, =
-basically nothing is happening. I have also tried reverting the changes mad=
-e by this patch (on both branches), and of course I have reverted the selec=
-tion for the switches as well, and even single-link doesn't work for me. Si=
-ngle-link support from the BSP version of the kernel (4.14.75-ltsi) works f=
-or me, that confirms the configuration of the switches I am using when test=
-ing single-link should be okay.
->
-> If, in the single-link use case from drm/du/lvds/dual-link, I connect lvd=
-s1 to the vga-encoder in the DT (like for the BSP DT, but I can see from th=
-e schematics that ADV7123 is actually connected to DU, like the configurati=
-on in the DT upstream), then HDMI works as expected (most of the time).
->
-> I wonder if for some reason we may end up using the wrong lvds encoder at=
- times, or no encoder at all?
->
-> Have you seen this problem? Am I missing something obvious here?
-
-The branch I tested at the time worked out the box, but now, I see
-several different problems, and this morning I ran severl tests. Here
-it is a summary:
-
-Laurent's drm/du/lvds/dual-link and drm/du/next are v5.2-rc1 based.
-I see an error which makes Ebisu fail to boot on those branches and
-plain v5.2 (both -rc1 and final v5.2)
-
-The issue is related to bd9571 which seems to be an MFD gpio expander:
-
-[    2.748694] bd9571mwv 8-0030: Device: BD9571MWV rev. 4
-[   28.754865] rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
-[   28.761094] rcu:     1-...0: (2 ticks this GP) idle=3D352/1/0x4000000000=
-000000 softirq=3D45/46 fqs=3D3250
-
-sometimes it even fail when detecting the chip:
-        i2c-sh_mobile e60b0000.i2c: Transfer request timed out             =
-                                                                           =
-               =E2=94=82
-        bd9571mwv 8-0030: Failed to read vendor code register (ret=3D-110)
-
-I managed to boot the board once with no error, so I wonder if it is
-not my board which has issues?
-
-Anyway, this seems unrelated to the lvds dual link mode, but prevents
-me from testing anything on v5.2. I wonder if you ever seen anything simila=
-r...
-
-So I went and tested v5.1. Plain v5.1 with SW45 and SW47 in their
-'default' position gives me a working output with single mode.
-
-I then cherry-picked the patches from Laurent's drm/du/lvds/dual-link
-and applied on top of v5.1 and it seems like DU does not get probed
-there.
-
-To be sure I was testing the same patches I tested at the time I gave
-my tag to this series I manually applied the patches from this series
-(not the one in Laurent's tree, but the ones here sent) on top of v5.1
-and I got the same result, DU was not probed correctly.
-
-I had a look at diff in the encoder registration process between 5.0 and
-5.2 and I don't see much differences, so I suspect it might be some
-config option I have missed as well?
-
-Could you be a bit more precise on which tools are you using for
-testing and which failures you see? Are those the same I see here?
-
-I'm testing using kms-tests or kmsxx alternatively, and made sure the
-DU driver was loaded (or not) with modeprint from drm's modetest
-suite.  Basically, everything is mentioned here:
-uttps://elinux.org/R-Car/Devices#DU
-
-I could start reporting the v5.2 failure on Ebisu if you confirm me
-you see the same on your side, then trying to get to the bottom of the
-DU/lvds issue.
-
-Thanks
-   j
-
->
-> Thanks,
-> Fab
->
-> > ---
-> >  .../arm64/boot/dts/renesas/r8a77990-ebisu.dts | 24 +++++++++++++------
-> >  1 file changed, 17 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts b/arch/arm6=
-4/boot/dts/renesas/r8a77990-ebisu.dts
-> > index c72772589953..988d82609f41 100644
-> > --- a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
-> > +++ b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
-> > @@ -93,11 +93,18 @@
-> >
-> >  			port@0 {
-> >  				reg =3D <0>;
-> > -				thc63lvd1024_in: endpoint {
-> > +				thc63lvd1024_in0: endpoint {
-> >  					remote-endpoint =3D <&lvds0_out>;
-> >  				};
-> >  			};
-> >
-> > +			port@1 {
-> > +				reg =3D <1>;
-> > +				thc63lvd1024_in1: endpoint {
-> > +					remote-endpoint =3D <&lvds1_out>;
-> > +				};
-> > +			};
-> > +
-> >  			port@2 {
-> >  				reg =3D <2>;
-> >  				thc63lvd1024_out: endpoint {
-> > @@ -482,24 +489,27 @@
-> >  	ports {
-> >  		port@1 {
-> >  			lvds0_out: endpoint {
-> > -				remote-endpoint =3D <&thc63lvd1024_in>;
-> > +				remote-endpoint =3D <&thc63lvd1024_in0>;
-> >  			};
-> >  		};
-> >  	};
-> >  };
-> >
-> >  &lvds1 {
-> > -	/*
-> > -	 * Even though the LVDS1 output is not connected, the encoder must be
-> > -	 * enabled to supply a pixel clock to the DU for the DPAD output when
-> > -	 * LVDS0 is in use.
-> > -	 */
-> >  	status =3D "okay";
-> >
-> >  	clocks =3D <&cpg CPG_MOD 727>,
-> >  		 <&x13_clk>,
-> >  		 <&extal_clk>;
-> >  	clock-names =3D "fck", "dclkin.0", "extal";
-> > +
-> > +	ports {
-> > +		port@1 {
-> > +			lvds1_out: endpoint {
-> > +				remote-endpoint =3D <&thc63lvd1024_in1>;
-> > +			};
-> > +		};
-> > +	};
-> >  };
-> >
-> >  &ohci0 {
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
->
-
---ha2fju6woqc5ri53
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl024cAACgkQcjQGjxah
-VjwU/g//WLidgnztRCUvWRcbzqaRnDPPulwiIFGGcofSd2YyIKQOYNa0VkGVIb5H
-AzeiGiq8dZLrlbv6v/merLGr7Q9hkTay/c4zOX+3zGoKMX9WiehPvnR/d489XPFP
-ATzSpvvI0lvCd1KExupMODOMDxhBuQASX2zo9uiS789e+c1Rcbhz5YIaDAETA4/w
-KTy2cjKNMyOUwznYYFdxKkgMDBybBcBDr9+pcW32h/HyMqNpjsoyjmc5VoKy1tGR
-CSUj8yv5/p+nXrjz32cERFeKi7UA5ewNgJRVE1YIsNXG62TmEwKhvrwuOqM4t30F
-Qi8QXy6FVWSZtbiIlWZo8yN+ww9GcVyPS/+GYyHL0xvxRugbJzrtRn3CNoKb6lFW
-9L/UJ5R8u3a/lr1YZ6VtIoCcxtWmN8dx7NgAYDmoMevRi5IAQoBqz700v6YSuMG6
-A3oyisLoTyozR3SXafc7JF7IRAD/StYdqQVjCrxWQb0eEnDhqWqULcfqvCK/1pC5
-CIMKIsI4DJluDPxjsPz74DRY30ifCZPZWVUOWx5kWN/KUWmcxLXRuMhHeXORvuey
-sHRp7r5E2EAsBa0jvVyMY+YBu8p/kbvTsSj8yP56jSVglqx3ACyU1QN8XJdEtflq
-lqi7Y6lHW1shzDBsTcRXCNWszkAmo8RYLtGCu9o0HZyAXmxo/n4=
-=t5Rn
------END PGP SIGNATURE-----
-
---ha2fju6woqc5ri53--
+SGVsbG8gSmFjb3BvLA0KDQpUaGFuayB5b3UgZm9yIGdldHRpbmcgYmFjayB0byBtZSENCg0KPiBG
+cm9tOiBsaW51eC1yZW5lc2FzLXNvYy1vd25lckB2Z2VyLmtlcm5lbC5vcmcgPGxpbnV4LXJlbmVz
+YXMtc29jLW93bmVyQHZnZXIua2VybmVsLm9yZz4gT24gQmVoYWxmIE9mIEphY29wbyBNb25kaQ0K
+PiBTZW50OiAyMyBKdWx5IDIwMTkgMTE6MzANCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2MyAxMC8x
+MF0gW0hBQ0tdIGFybTY0OiBkdHM6IHJlbmVzYXM6IGViaXN1OiBFbmFibGUgTFZEUyBkdWFsLWxp
+bmsgb3BlcmF0aW9uDQo+IA0KPiBISSBGYWJyaXppbywNCj4gDQo+IE9uIE1vbiwgSnVsIDIyLCAy
+MDE5IGF0IDExOjI3OjI2QU0gKzAwMDAsIEZhYnJpemlvIENhc3RybyB3cm90ZToNCj4gPiBIZWxs
+byBKYWNvcG8sDQo+ID4NCj4gPiA+IEZyb206IGxpbnV4LXJlbmVzYXMtc29jLW93bmVyQHZnZXIu
+a2VybmVsLm9yZyA8bGludXgtcmVuZXNhcy1zb2Mtb3duZXJAdmdlci5rZXJuZWwub3JnPiBPbiBC
+ZWhhbGYgT2YgTGF1cmVudCBQaW5jaGFydA0KPiA+ID4gU2VudDogMjggTWF5IDIwMTkgMTU6MTMN
+Cj4gPiA+IFN1YmplY3Q6IFtQQVRDSCB2MyAxMC8xMF0gW0hBQ0tdIGFybTY0OiBkdHM6IHJlbmVz
+YXM6IGViaXN1OiBFbmFibGUgTFZEUyBkdWFsLWxpbmsgb3BlcmF0aW9uDQo+ID4gPg0KPiA+ID4g
+RW5hYmxlIGFuZCBjb25uZWN0IHRoZSBzZWNvbmQgTFZEUyBlbmNvZGVyIHRvIHRoZSBzZWNvbmQg
+TFZEUyBpbnB1dCBvZg0KPiA+ID4gdGhlIFRIQzYzTFZEMTAyNCBmb3IgZHVhbC1saW5rIExWRFMg
+b3BlcmF0aW9uLiBUaGlzIHJlcXVpcmVzIGNoYW5naW5nDQo+ID4gPiB0aGUgZGVmYXVsdCBzZXR0
+aW5ncyBvZiBTVzQ1IGFuZCBTVzQ3IHRvIE9GRiBhbmQgT04gcmVzcGVjdGl2ZWx5Lg0KPiA+ID4N
+Cj4gPiA+IFNpZ25lZC1vZmYtYnk6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnQr
+cmVuZXNhc0BpZGVhc29uYm9hcmQuY29tPg0KPiA+ID4gVGVzdGVkLWJ5OiBKYWNvcG8gTW9uZGkg
+PGphY29wbytyZW5lc2FzQGptb25kaS5vcmc+DQo+ID4NCj4gPiBIb3cgZGlkIHlvdSB0ZXN0IHRo
+aXMgcGF0Y2ggb24gRWJpc3UgKGtlcm5lbCBicmFuY2gsIGNvbmZpZ3VyYXRpb24sIHN3aXRjaGVz
+LGV0Yy4pPw0KPiA+DQo+IA0KPiBJIHRlc3RlZCB0aGUgYnJhbmNoIHByb3ZpZGVkIGJ5IExhdXJl
+bnQgYW5kIG1lbnRpb25lZCBpbiB0aGlzIGNvdmVyDQo+IGxldHRlci4NCj4gDQo+IFRoZSBicmFu
+Y2ggaXMgbm93IHJlYmFzZWQgb24gdjUuMi1yYzEgYXMgeW91IGNhbiBzZWUsIEkgY2Fubm90IHRl
+bGwgYXQNCj4gdGhlIHRpbWUgd2hpY2ggb25lIHdhcyB0aGUgcmVsZWFzZSB0YWcgb24gd2hpY2gg
+aXQgd2FzIGJhc2VkIG9uLCBidXQgSQ0KPiBzdXNwZWN0IDUuMCBvciBlaXRoZXIgdjQuMjAuIE1h
+eWUgTGF1cmVudCByZW1lbWJlcnMgaXQuDQo+IA0KPiA+IEkgdGVzdGVkIGJvdGggbGludXgtbmV4
+dCBhbmQgZHJtL2R1L2x2ZHMvZHVhbC1saW5rIGFuZCB0aGV5IGFyZSBub3Qgd29ya2luZyBmb3Ig
+bWUuDQo+ID4gVGhlIGJhc2UgY29uZmlndXJhdGlvbiBJIGFtIHVzaW5nIGlzIGNvbWluZyBmcm9t
+IGFyY2gvYXJtNjQvY29uZmlncy9kZWZjb25maWcgZnJvbSBlYWNoIHJlc3BlY3RpdmUgYnJhbmNo
+LCBvbiB0b3Agb2YgdGhhdCBJIGFtDQo+IGVuYWJsaW5nIHRoZSByZW1haW5pbmcgYml0cyBhbmQg
+cGllY2VzLg0KPiA+IEkgaGF2ZSB0cmllZCB0aGUgc3VnZ2VzdGVkIGNvbmZpZ3VyYXRpb24gb2Yg
+dGhlIHN3aXRjaGVzIGZvciB0aGlzIHBhdGNoLCBiYXNpY2FsbHkgbm90aGluZyBpcyBoYXBwZW5p
+bmcuIEkgaGF2ZSBhbHNvIHRyaWVkIHJldmVydGluZyB0aGUNCj4gY2hhbmdlcyBtYWRlIGJ5IHRo
+aXMgcGF0Y2ggKG9uIGJvdGggYnJhbmNoZXMpLCBhbmQgb2YgY291cnNlIEkgaGF2ZSByZXZlcnRl
+ZCB0aGUgc2VsZWN0aW9uIGZvciB0aGUgc3dpdGNoZXMgYXMgd2VsbCwgYW5kIGV2ZW4gc2luZ2xl
+LQ0KPiBsaW5rIGRvZXNuJ3Qgd29yayBmb3IgbWUuIFNpbmdsZS1saW5rIHN1cHBvcnQgZnJvbSB0
+aGUgQlNQIHZlcnNpb24gb2YgdGhlIGtlcm5lbCAoNC4xNC43NS1sdHNpKSB3b3JrcyBmb3IgbWUs
+IHRoYXQgY29uZmlybXMgdGhlDQo+IGNvbmZpZ3VyYXRpb24gb2YgdGhlIHN3aXRjaGVzIEkgYW0g
+dXNpbmcgd2hlbiB0ZXN0aW5nIHNpbmdsZS1saW5rIHNob3VsZCBiZSBva2F5Lg0KPiA+DQo+ID4g
+SWYsIGluIHRoZSBzaW5nbGUtbGluayB1c2UgY2FzZSBmcm9tIGRybS9kdS9sdmRzL2R1YWwtbGlu
+aywgSSBjb25uZWN0IGx2ZHMxIHRvIHRoZSB2Z2EtZW5jb2RlciBpbiB0aGUgRFQgKGxpa2UgZm9y
+IHRoZSBCU1AgRFQsIGJ1dCBJIGNhbg0KPiBzZWUgZnJvbSB0aGUgc2NoZW1hdGljcyB0aGF0IEFE
+VjcxMjMgaXMgYWN0dWFsbHkgY29ubmVjdGVkIHRvIERVLCBsaWtlIHRoZSBjb25maWd1cmF0aW9u
+IGluIHRoZSBEVCB1cHN0cmVhbSksIHRoZW4gSERNSSB3b3JrcyBhcw0KPiBleHBlY3RlZCAobW9z
+dCBvZiB0aGUgdGltZSkuDQo+ID4NCj4gPiBJIHdvbmRlciBpZiBmb3Igc29tZSByZWFzb24gd2Ug
+bWF5IGVuZCB1cCB1c2luZyB0aGUgd3JvbmcgbHZkcyBlbmNvZGVyIGF0IHRpbWVzLCBvciBubyBl
+bmNvZGVyIGF0IGFsbD8NCj4gPg0KPiA+IEhhdmUgeW91IHNlZW4gdGhpcyBwcm9ibGVtPyBBbSBJ
+IG1pc3Npbmcgc29tZXRoaW5nIG9idmlvdXMgaGVyZT8NCj4gDQo+IFRoZSBicmFuY2ggSSB0ZXN0
+ZWQgYXQgdGhlIHRpbWUgd29ya2VkIG91dCB0aGUgYm94LCBidXQgbm93LCBJIHNlZQ0KPiBzZXZl
+cmFsIGRpZmZlcmVudCBwcm9ibGVtcywgYW5kIHRoaXMgbW9ybmluZyBJIHJhbiBzZXZlcmwgdGVz
+dHMuIEhlcmUNCj4gaXQgaXMgYSBzdW1tYXJ5Og0KPiANCj4gTGF1cmVudCdzIGRybS9kdS9sdmRz
+L2R1YWwtbGluayBhbmQgZHJtL2R1L25leHQgYXJlIHY1LjItcmMxIGJhc2VkLg0KPiBJIHNlZSBh
+biBlcnJvciB3aGljaCBtYWtlcyBFYmlzdSBmYWlsIHRvIGJvb3Qgb24gdGhvc2UgYnJhbmNoZXMg
+YW5kDQo+IHBsYWluIHY1LjIgKGJvdGggLXJjMSBhbmQgZmluYWwgdjUuMikNCj4gDQo+IFRoZSBp
+c3N1ZSBpcyByZWxhdGVkIHRvIGJkOTU3MSB3aGljaCBzZWVtcyB0byBiZSBhbiBNRkQgZ3BpbyBl
+eHBhbmRlcjoNCj4gDQo+IFsgICAgMi43NDg2OTRdIGJkOTU3MW13diA4LTAwMzA6IERldmljZTog
+QkQ5NTcxTVdWIHJldi4gNA0KPiBbICAgMjguNzU0ODY1XSByY3U6IElORk86IHJjdV9wcmVlbXB0
+IGRldGVjdGVkIHN0YWxscyBvbiBDUFVzL3Rhc2tzOg0KPiBbICAgMjguNzYxMDk0XSByY3U6ICAg
+ICAxLS4uLjA6ICgyIHRpY2tzIHRoaXMgR1ApIGlkbGU9MzUyLzEvMHg0MDAwMDAwMDAwMDAwMDAw
+IHNvZnRpcnE9NDUvNDYgZnFzPTMyNTANCj4gDQo+IHNvbWV0aW1lcyBpdCBldmVuIGZhaWwgd2hl
+biBkZXRlY3RpbmcgdGhlIGNoaXA6DQo+ICAgICAgICAgaTJjLXNoX21vYmlsZSBlNjBiMDAwMC5p
+MmM6IFRyYW5zZmVyIHJlcXVlc3QgdGltZWQgb3V0ICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIOKUgg0KPiAgICAgICAgIGJkOTU3MW13diA4LTAwMzA6IEZhaWxl
+ZCB0byByZWFkIHZlbmRvciBjb2RlIHJlZ2lzdGVyIChyZXQ9LTExMCkNCj4gDQo+IEkgbWFuYWdl
+ZCB0byBib290IHRoZSBib2FyZCBvbmNlIHdpdGggbm8gZXJyb3IsIHNvIEkgd29uZGVyIGlmIGl0
+IGlzDQo+IG5vdCBteSBib2FyZCB3aGljaCBoYXMgaXNzdWVzPw0KPiANCj4gQW55d2F5LCB0aGlz
+IHNlZW1zIHVucmVsYXRlZCB0byB0aGUgbHZkcyBkdWFsIGxpbmsgbW9kZSwgYnV0IHByZXZlbnRz
+DQo+IG1lIGZyb20gdGVzdGluZyBhbnl0aGluZyBvbiB2NS4yLiBJIHdvbmRlciBpZiB5b3UgZXZl
+ciBzZWVuIGFueXRoaW5nIHNpbWlsYXIuLi4NCg0KSSBoYXZlIGp1c3QgcmV0ZXN0ZWQgcGxhaW4g
+djUuMiBvbiB0aGUgRWJpc3UgYm9hcmQgKEkgYW0gdXNpbmcgdGhlIDRELCB3aGljaA0KdmVyc2lv
+biBvZiBFYmlzdSBhcmUgeW91IHVzaW5nPykgYW5kIEkgZG9uJ3Qgc2VlbSB0byBoYXZlIHRoYXQg
+c3BlY2lmaWMgaXNzdWUuDQpBbHNvLCB0aGlzIHRpbWUgYXJvdW5kIHRoZSBzaW5nbGUtbGluayBj
+b25maWd1cmF0aW9uIGlzIHdvcmtpbmcgb3V0IG9mIHRoZSBib3gsDQp3aGljaCBpcyBpbnRlcmVz
+dGluZy4NCg0KPiANCj4gU28gSSB3ZW50IGFuZCB0ZXN0ZWQgdjUuMS4gUGxhaW4gdjUuMSB3aXRo
+IFNXNDUgYW5kIFNXNDcgaW4gdGhlaXINCj4gJ2RlZmF1bHQnIHBvc2l0aW9uIGdpdmVzIG1lIGEg
+d29ya2luZyBvdXRwdXQgd2l0aCBzaW5nbGUgbW9kZS4NCj4gDQo+IEkgdGhlbiBjaGVycnktcGlj
+a2VkIHRoZSBwYXRjaGVzIGZyb20gTGF1cmVudCdzIGRybS9kdS9sdmRzL2R1YWwtbGluaw0KPiBh
+bmQgYXBwbGllZCBvbiB0b3Agb2YgdjUuMSBhbmQgaXQgc2VlbXMgbGlrZSBEVSBkb2VzIG5vdCBn
+ZXQgcHJvYmVkDQo+IHRoZXJlLg0KPiANCj4gVG8gYmUgc3VyZSBJIHdhcyB0ZXN0aW5nIHRoZSBz
+YW1lIHBhdGNoZXMgSSB0ZXN0ZWQgYXQgdGhlIHRpbWUgSSBnYXZlDQo+IG15IHRhZyB0byB0aGlz
+IHNlcmllcyBJIG1hbnVhbGx5IGFwcGxpZWQgdGhlIHBhdGNoZXMgZnJvbSB0aGlzIHNlcmllcw0K
+PiAobm90IHRoZSBvbmUgaW4gTGF1cmVudCdzIHRyZWUsIGJ1dCB0aGUgb25lcyBoZXJlIHNlbnQp
+IG9uIHRvcCBvZiB2NS4xDQo+IGFuZCBJIGdvdCB0aGUgc2FtZSByZXN1bHQsIERVIHdhcyBub3Qg
+cHJvYmVkIGNvcnJlY3RseS4NCj4gDQo+IEkgaGFkIGEgbG9vayBhdCBkaWZmIGluIHRoZSBlbmNv
+ZGVyIHJlZ2lzdHJhdGlvbiBwcm9jZXNzIGJldHdlZW4gNS4wIGFuZA0KPiA1LjIgYW5kIEkgZG9u
+J3Qgc2VlIG11Y2ggZGlmZmVyZW5jZXMsIHNvIEkgc3VzcGVjdCBpdCBtaWdodCBiZSBzb21lDQo+
+IGNvbmZpZyBvcHRpb24gSSBoYXZlIG1pc3NlZCBhcyB3ZWxsPw0KPiANCj4gQ291bGQgeW91IGJl
+IGEgYml0IG1vcmUgcHJlY2lzZSBvbiB3aGljaCB0b29scyBhcmUgeW91IHVzaW5nIGZvcg0KPiB0
+ZXN0aW5nIGFuZCB3aGljaCBmYWlsdXJlcyB5b3Ugc2VlPyBBcmUgdGhvc2UgdGhlIHNhbWUgSSBz
+ZWUgaGVyZT8NCg0KRXZlbiBpbiBteSBjYXNlIERVIGRvZXNuJ3QgZ2V0IHByb2JlZCBjb3JyZWN0
+bHkgZWl0aGVyLCByY2FyX2R1X3Byb2JlDQpnZXRzIGNhbGxlZCBpbnRvIGEgY291cGxlIG9mIHRp
+bWVzLCBhbmQgYm90aCB0aW1lcyBpdCByZXR1cm5zIC1FUFJPQkVfREVGRVIuDQoNCkkgYW0gdXNp
+bmcga21zLXRlc3RzIGF0IHRoZSBtb21lbnQuDQoNCj4gDQo+IEknbSB0ZXN0aW5nIHVzaW5nIGtt
+cy10ZXN0cyBvciBrbXN4eCBhbHRlcm5hdGl2ZWx5LCBhbmQgbWFkZSBzdXJlIHRoZQ0KPiBEVSBk
+cml2ZXIgd2FzIGxvYWRlZCAob3Igbm90KSB3aXRoIG1vZGVwcmludCBmcm9tIGRybSdzIG1vZGV0
+ZXN0DQo+IHN1aXRlLiAgQmFzaWNhbGx5LCBldmVyeXRoaW5nIGlzIG1lbnRpb25lZCBoZXJlOg0K
+PiB1dHRwczovL2VsaW51eC5vcmcvUi1DYXIvRGV2aWNlcyNEVQ0KPiANCj4gSSBjb3VsZCBzdGFy
+dCByZXBvcnRpbmcgdGhlIHY1LjIgZmFpbHVyZSBvbiBFYmlzdSBpZiB5b3UgY29uZmlybSBtZQ0K
+PiB5b3Ugc2VlIHRoZSBzYW1lIG9uIHlvdXIgc2lkZSwgdGhlbiB0cnlpbmcgdG8gZ2V0IHRvIHRo
+ZSBib3R0b20gb2YgdGhlDQo+IERVL2x2ZHMgaXNzdWUuDQoNCkkgYW0gbG9va2luZyBpbnRvIGR1
+YWwtbGluayBzdXBwb3J0IGZvciBSWi9HMkUsIGFuZCB0aGF0J3Mgd2h5IEkgYW0gaW50ZXJlc3Rl
+ZA0KaW4gc2VlaW5nIGR1YWwtbGluayB3b3JraW5nIG9uIEViaXN1LiBJIGFtIGdvaW5nIHRvIGhh
+dmUgYSBkZWVwZXIgbG9vayBpbnRvDQp3aGF0J3MgaGFwcGVuaW5nIG9uIEViaXN1IG5vdyB0aGF0
+IEkga25vdyB0aGF0IHlvdSBhcmUgaGF2aW5nIHNpbWlsYXIgdHJvdWJsZXMNCihiZXNpZGVzIGJk
+OTU3MW13diksIGJ1dCBJIG1heSBoYXZlIG1vcmUgcXVlc3Rpb25zIHNvb24gZm9yIHlvdSBpZiB5
+b3UgZG9uJ3QNCm1pbmQ/DQoNClRoYW5rcywNCkZhYg0KDQo+IA0KPiBUaGFua3MNCj4gICAgag0K
+PiANCj4gPg0KPiA+IFRoYW5rcywNCj4gPiBGYWINCj4gPg0KPiA+ID4gLS0tDQo+ID4gPiAgLi4u
+L2FybTY0L2Jvb3QvZHRzL3JlbmVzYXMvcjhhNzc5OTAtZWJpc3UuZHRzIHwgMjQgKysrKysrKysr
+KysrKy0tLS0tLQ0KPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxNyBpbnNlcnRpb25zKCspLCA3IGRl
+bGV0aW9ucygtKQ0KPiA+ID4NCj4gPiA+IGRpZmYgLS1naXQgYS9hcmNoL2FybTY0L2Jvb3QvZHRz
+L3JlbmVzYXMvcjhhNzc5OTAtZWJpc3UuZHRzIGIvYXJjaC9hcm02NC9ib290L2R0cy9yZW5lc2Fz
+L3I4YTc3OTkwLWViaXN1LmR0cw0KPiA+ID4gaW5kZXggYzcyNzcyNTg5OTUzLi45ODhkODI2MDlm
+NDEgMTAwNjQ0DQo+ID4gPiAtLS0gYS9hcmNoL2FybTY0L2Jvb3QvZHRzL3JlbmVzYXMvcjhhNzc5
+OTAtZWJpc3UuZHRzDQo+ID4gPiArKysgYi9hcmNoL2FybTY0L2Jvb3QvZHRzL3JlbmVzYXMvcjhh
+Nzc5OTAtZWJpc3UuZHRzDQo+ID4gPiBAQCAtOTMsMTEgKzkzLDE4IEBADQo+ID4gPg0KPiA+ID4g
+IAkJCXBvcnRAMCB7DQo+ID4gPiAgCQkJCXJlZyA9IDwwPjsNCj4gPiA+IC0JCQkJdGhjNjNsdmQx
+MDI0X2luOiBlbmRwb2ludCB7DQo+ID4gPiArCQkJCXRoYzYzbHZkMTAyNF9pbjA6IGVuZHBvaW50
+IHsNCj4gPiA+ICAJCQkJCXJlbW90ZS1lbmRwb2ludCA9IDwmbHZkczBfb3V0PjsNCj4gPiA+ICAJ
+CQkJfTsNCj4gPiA+ICAJCQl9Ow0KPiA+ID4NCj4gPiA+ICsJCQlwb3J0QDEgew0KPiA+ID4gKwkJ
+CQlyZWcgPSA8MT47DQo+ID4gPiArCQkJCXRoYzYzbHZkMTAyNF9pbjE6IGVuZHBvaW50IHsNCj4g
+PiA+ICsJCQkJCXJlbW90ZS1lbmRwb2ludCA9IDwmbHZkczFfb3V0PjsNCj4gPiA+ICsJCQkJfTsN
+Cj4gPiA+ICsJCQl9Ow0KPiA+ID4gKw0KPiA+ID4gIAkJCXBvcnRAMiB7DQo+ID4gPiAgCQkJCXJl
+ZyA9IDwyPjsNCj4gPiA+ICAJCQkJdGhjNjNsdmQxMDI0X291dDogZW5kcG9pbnQgew0KPiA+ID4g
+QEAgLTQ4MiwyNCArNDg5LDI3IEBADQo+ID4gPiAgCXBvcnRzIHsNCj4gPiA+ICAJCXBvcnRAMSB7
+DQo+ID4gPiAgCQkJbHZkczBfb3V0OiBlbmRwb2ludCB7DQo+ID4gPiAtCQkJCXJlbW90ZS1lbmRw
+b2ludCA9IDwmdGhjNjNsdmQxMDI0X2luPjsNCj4gPiA+ICsJCQkJcmVtb3RlLWVuZHBvaW50ID0g
+PCZ0aGM2M2x2ZDEwMjRfaW4wPjsNCj4gPiA+ICAJCQl9Ow0KPiA+ID4gIAkJfTsNCj4gPiA+ICAJ
+fTsNCj4gPiA+ICB9Ow0KPiA+ID4NCj4gPiA+ICAmbHZkczEgew0KPiA+ID4gLQkvKg0KPiA+ID4g
+LQkgKiBFdmVuIHRob3VnaCB0aGUgTFZEUzEgb3V0cHV0IGlzIG5vdCBjb25uZWN0ZWQsIHRoZSBl
+bmNvZGVyIG11c3QgYmUNCj4gPiA+IC0JICogZW5hYmxlZCB0byBzdXBwbHkgYSBwaXhlbCBjbG9j
+ayB0byB0aGUgRFUgZm9yIHRoZSBEUEFEIG91dHB1dCB3aGVuDQo+ID4gPiAtCSAqIExWRFMwIGlz
+IGluIHVzZS4NCj4gPiA+IC0JICovDQo+ID4gPiAgCXN0YXR1cyA9ICJva2F5IjsNCj4gPiA+DQo+
+ID4gPiAgCWNsb2NrcyA9IDwmY3BnIENQR19NT0QgNzI3PiwNCj4gPiA+ICAJCSA8JngxM19jbGs+
+LA0KPiA+ID4gIAkJIDwmZXh0YWxfY2xrPjsNCj4gPiA+ICAJY2xvY2stbmFtZXMgPSAiZmNrIiwg
+ImRjbGtpbi4wIiwgImV4dGFsIjsNCj4gPiA+ICsNCj4gPiA+ICsJcG9ydHMgew0KPiA+ID4gKwkJ
+cG9ydEAxIHsNCj4gPiA+ICsJCQlsdmRzMV9vdXQ6IGVuZHBvaW50IHsNCj4gPiA+ICsJCQkJcmVt
+b3RlLWVuZHBvaW50ID0gPCZ0aGM2M2x2ZDEwMjRfaW4xPjsNCj4gPiA+ICsJCQl9Ow0KPiA+ID4g
+KwkJfTsNCj4gPiA+ICsJfTsNCj4gPiA+ICB9Ow0KPiA+ID4NCj4gPiA+ICAmb2hjaTAgew0KPiA+
+ID4gLS0NCj4gPiA+IFJlZ2FyZHMsDQo+ID4gPg0KPiA+ID4gTGF1cmVudCBQaW5jaGFydA0KPiA+
+DQo=
