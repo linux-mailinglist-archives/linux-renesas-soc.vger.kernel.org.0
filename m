@@ -2,111 +2,256 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EA516713C6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2019 10:17:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54EC571611
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 23 Jul 2019 12:29:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733141AbfGWIRp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 23 Jul 2019 04:17:45 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:43775 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733182AbfGWIRn (ORCPT
+        id S2388998AbfGWK3H (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 23 Jul 2019 06:29:07 -0400
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:44179 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388995AbfGWK3H (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 23 Jul 2019 04:17:43 -0400
-Received: by mail-lf1-f65.google.com with SMTP id c19so28683432lfm.10
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 23 Jul 2019 01:17:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=kG+OzI+z87Zf3fJp+hPCemews8fd4ihzvjTAjUmHLho=;
-        b=b7Csj3G55G/5GJnEP82ndC4wvbhEB82fiHfvbh8iXu0JtNiwVid5uIw7S+TQuJUzm4
-         Yxpk4Gq5jUXw1glHWI4hD0vNOhj9cdmiT1MDpzVICccDPJX5+zxEAFCVb57tzZjdvUhD
-         bx+PKItfq/g9p42xn81XB9RkIF/28h4Gr3LNQickg7Sf/9T8MIFfxQqrX18J8gFQsdYQ
-         EgljPUkfkjB8nUs+BiclkxXD2wvhU9UOjXjGMJmxS65H0XRyWZwazKc/Ed8O9Vidt1dX
-         eN5WwDPC3PU6iD3rWQLJ2il8joK1WEE2VlSgcME5V08cZqjcyEi0Om1Zmms7LVOKDREH
-         vcsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=kG+OzI+z87Zf3fJp+hPCemews8fd4ihzvjTAjUmHLho=;
-        b=AS5UMNJdD70g0zdIm+z6TpuJmXn/tQhUMV7geYG1g35v7+v2qIMy2heqXabJv+Td0u
-         AEyvBPbD2rhVNfYUCkkdDKuSdjcFABdyKUeCoG4nX6VWJiW/vjh50ymdSYKuMlQN5+42
-         FXdGyDx41w7ESsK15E6/h2RMRRKGVWBo5GX7TNVUJBjjNFMbe7/zBAn13Z1NW1ZM98RW
-         GrLrZEyvZvcesg9gadltSq2Ii1/GU3yzgnS3X2SabKJYRln1d5NzKmrcDlyg9U5gm3qy
-         zcjvTddAKCW4lEAiXF633zlcDRCwGdT8thmGT9KzKkFgH+PEaV5X/Ap/1DNz9519L067
-         HFmw==
-X-Gm-Message-State: APjAAAVVUYJ76EiXQYPPxvM9ckmgwvK7u1l7XGZAt9Ucv1ko4C9KMS5t
-        NWs0WjwJiBhQux10Bx0fEnxX/9BFxZXeDA==
-X-Google-Smtp-Source: APXvYqxGSeEsBpTjFz56E331Sz1Uf1zr152A+X0wCTd9x1epLW3KOc4iQknOO6i0QucClN2gWuZziw==
-X-Received: by 2002:a19:c80b:: with SMTP id y11mr33684786lff.81.1563869861549;
-        Tue, 23 Jul 2019 01:17:41 -0700 (PDT)
-Received: from ?IPv6:2a00:1fa0:643:1083:8131:627b:cb64:c17a? ([2a00:1fa0:643:1083:8131:627b:cb64:c17a])
-        by smtp.gmail.com with ESMTPSA id m21sm7770031ljj.48.2019.07.23.01.17.40
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 23 Jul 2019 01:17:40 -0700 (PDT)
-Subject: Re: [PATCH v8 2/5] iommu/dma: Add a new dma_map_ops of
- get_merge_boundary()
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        ulf.hansson@linaro.org, hch@lst.de, m.szyprowski@samsung.com,
-        robin.murphy@arm.com, joro@8bytes.org, axboe@kernel.dk
-Cc:     wsa+renesas@sang-engineering.com, linux-mmc@vger.kernel.org,
-        iommu@lists.linux-foundation.org, linux-block@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <1563859608-19456-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1563859608-19456-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <ae95cc2e-38b4-0ed9-744a-67f03f220a3f@cogentembedded.com>
-Date:   Tue, 23 Jul 2019 11:17:19 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Tue, 23 Jul 2019 06:29:07 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 07CECC000F;
+        Tue, 23 Jul 2019 10:29:03 +0000 (UTC)
+Date:   Tue, 23 Jul 2019 12:30:24 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v3 10/10] [HACK] arm64: dts: renesas: ebisu: Enable LVDS
+ dual-link operation
+Message-ID: <20190723103024.3du7i7dm2xfyfblm@uno.localdomain>
+References: <20190528141234.15425-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20190528141234.15425-11-laurent.pinchart+renesas@ideasonboard.com>
+ <TY1PR01MB177063CF6128DB62E16FD0EBC0C40@TY1PR01MB1770.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <1563859608-19456-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="ha2fju6woqc5ri53"
+Content-Disposition: inline
+In-Reply-To: <TY1PR01MB177063CF6128DB62E16FD0EBC0C40@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
 
-On 23.07.2019 8:26, Yoshihiro Shimoda wrote:
+--ha2fju6woqc5ri53
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> This patch adds a new dma_map_ops of get_merge_boundary() to
-> expose the DMA merge boundary if the domain type is IOMMU_DOMAIN_DMA.
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->   drivers/iommu/dma-iommu.c | 11 +++++++++++
->   1 file changed, 11 insertions(+)
-> 
-> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-> index a7f9c3e..f3e5f2b 100644
-> --- a/drivers/iommu/dma-iommu.c
-> +++ b/drivers/iommu/dma-iommu.c
-> @@ -1085,6 +1085,16 @@ static int iommu_dma_get_sgtable(struct device *dev, struct sg_table *sgt,
->   	return ret;
->   }
->   
-> +static unsigned long iommu_dma_get_merge_boundary(struct device *dev)
-> +{
-> +	struct iommu_domain *domain = iommu_get_dma_domain(dev);
-> +
-> +	if (domain->type != IOMMU_DOMAIN_DMA)
-> +		return 0;	/* can't merge */
-> +
-> +	return (1 << __ffs(domain->pgsize_bitmap)) - 1;
+HI Fabrizio,
 
-    Not 1UL?
+On Mon, Jul 22, 2019 at 11:27:26AM +0000, Fabrizio Castro wrote:
+> Hello Jacopo,
+>
+> > From: linux-renesas-soc-owner@vger.kernel.org <linux-renesas-soc-owner@=
+vger.kernel.org> On Behalf Of Laurent Pinchart
+> > Sent: 28 May 2019 15:13
+> > Subject: [PATCH v3 10/10] [HACK] arm64: dts: renesas: ebisu: Enable LVD=
+S dual-link operation
+> >
+> > Enable and connect the second LVDS encoder to the second LVDS input of
+> > the THC63LVD1024 for dual-link LVDS operation. This requires changing
+> > the default settings of SW45 and SW47 to OFF and ON respectively.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.=
+com>
+> > Tested-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>
+> How did you test this patch on Ebisu (kernel branch, configuration, switc=
+hes,etc.)?
+>
 
-> +}
-> +
->   static const struct dma_map_ops iommu_dma_ops = {
->   	.alloc			= iommu_dma_alloc,
->   	.free			= iommu_dma_free,
-[...]
+I tested the branch provided by Laurent and mentioned in this cover
+letter.
 
-MBR, Sergei
+The branch is now rebased on v5.2-rc1 as you can see, I cannot tell at
+the time which one was the release tag on which it was based on, but I
+suspect 5.0 or either v4.20. Maye Laurent remembers it.
+
+> I tested both linux-next and drm/du/lvds/dual-link and they are not worki=
+ng for me.
+> The base configuration I am using is coming from arch/arm64/configs/defco=
+nfig from each respective branch, on top of that I am enabling the remainin=
+g bits and pieces.
+> I have tried the suggested configuration of the switches for this patch, =
+basically nothing is happening. I have also tried reverting the changes mad=
+e by this patch (on both branches), and of course I have reverted the selec=
+tion for the switches as well, and even single-link doesn't work for me. Si=
+ngle-link support from the BSP version of the kernel (4.14.75-ltsi) works f=
+or me, that confirms the configuration of the switches I am using when test=
+ing single-link should be okay.
+>
+> If, in the single-link use case from drm/du/lvds/dual-link, I connect lvd=
+s1 to the vga-encoder in the DT (like for the BSP DT, but I can see from th=
+e schematics that ADV7123 is actually connected to DU, like the configurati=
+on in the DT upstream), then HDMI works as expected (most of the time).
+>
+> I wonder if for some reason we may end up using the wrong lvds encoder at=
+ times, or no encoder at all?
+>
+> Have you seen this problem? Am I missing something obvious here?
+
+The branch I tested at the time worked out the box, but now, I see
+several different problems, and this morning I ran severl tests. Here
+it is a summary:
+
+Laurent's drm/du/lvds/dual-link and drm/du/next are v5.2-rc1 based.
+I see an error which makes Ebisu fail to boot on those branches and
+plain v5.2 (both -rc1 and final v5.2)
+
+The issue is related to bd9571 which seems to be an MFD gpio expander:
+
+[    2.748694] bd9571mwv 8-0030: Device: BD9571MWV rev. 4
+[   28.754865] rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
+[   28.761094] rcu:     1-...0: (2 ticks this GP) idle=3D352/1/0x4000000000=
+000000 softirq=3D45/46 fqs=3D3250
+
+sometimes it even fail when detecting the chip:
+        i2c-sh_mobile e60b0000.i2c: Transfer request timed out             =
+                                                                           =
+               =E2=94=82
+        bd9571mwv 8-0030: Failed to read vendor code register (ret=3D-110)
+
+I managed to boot the board once with no error, so I wonder if it is
+not my board which has issues?
+
+Anyway, this seems unrelated to the lvds dual link mode, but prevents
+me from testing anything on v5.2. I wonder if you ever seen anything simila=
+r...
+
+So I went and tested v5.1. Plain v5.1 with SW45 and SW47 in their
+'default' position gives me a working output with single mode.
+
+I then cherry-picked the patches from Laurent's drm/du/lvds/dual-link
+and applied on top of v5.1 and it seems like DU does not get probed
+there.
+
+To be sure I was testing the same patches I tested at the time I gave
+my tag to this series I manually applied the patches from this series
+(not the one in Laurent's tree, but the ones here sent) on top of v5.1
+and I got the same result, DU was not probed correctly.
+
+I had a look at diff in the encoder registration process between 5.0 and
+5.2 and I don't see much differences, so I suspect it might be some
+config option I have missed as well?
+
+Could you be a bit more precise on which tools are you using for
+testing and which failures you see? Are those the same I see here?
+
+I'm testing using kms-tests or kmsxx alternatively, and made sure the
+DU driver was loaded (or not) with modeprint from drm's modetest
+suite.  Basically, everything is mentioned here:
+uttps://elinux.org/R-Car/Devices#DU
+
+I could start reporting the v5.2 failure on Ebisu if you confirm me
+you see the same on your side, then trying to get to the bottom of the
+DU/lvds issue.
+
+Thanks
+   j
+
+>
+> Thanks,
+> Fab
+>
+> > ---
+> >  .../arm64/boot/dts/renesas/r8a77990-ebisu.dts | 24 +++++++++++++------
+> >  1 file changed, 17 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts b/arch/arm6=
+4/boot/dts/renesas/r8a77990-ebisu.dts
+> > index c72772589953..988d82609f41 100644
+> > --- a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
+> > +++ b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
+> > @@ -93,11 +93,18 @@
+> >
+> >  			port@0 {
+> >  				reg =3D <0>;
+> > -				thc63lvd1024_in: endpoint {
+> > +				thc63lvd1024_in0: endpoint {
+> >  					remote-endpoint =3D <&lvds0_out>;
+> >  				};
+> >  			};
+> >
+> > +			port@1 {
+> > +				reg =3D <1>;
+> > +				thc63lvd1024_in1: endpoint {
+> > +					remote-endpoint =3D <&lvds1_out>;
+> > +				};
+> > +			};
+> > +
+> >  			port@2 {
+> >  				reg =3D <2>;
+> >  				thc63lvd1024_out: endpoint {
+> > @@ -482,24 +489,27 @@
+> >  	ports {
+> >  		port@1 {
+> >  			lvds0_out: endpoint {
+> > -				remote-endpoint =3D <&thc63lvd1024_in>;
+> > +				remote-endpoint =3D <&thc63lvd1024_in0>;
+> >  			};
+> >  		};
+> >  	};
+> >  };
+> >
+> >  &lvds1 {
+> > -	/*
+> > -	 * Even though the LVDS1 output is not connected, the encoder must be
+> > -	 * enabled to supply a pixel clock to the DU for the DPAD output when
+> > -	 * LVDS0 is in use.
+> > -	 */
+> >  	status =3D "okay";
+> >
+> >  	clocks =3D <&cpg CPG_MOD 727>,
+> >  		 <&x13_clk>,
+> >  		 <&extal_clk>;
+> >  	clock-names =3D "fck", "dclkin.0", "extal";
+> > +
+> > +	ports {
+> > +		port@1 {
+> > +			lvds1_out: endpoint {
+> > +				remote-endpoint =3D <&thc63lvd1024_in1>;
+> > +			};
+> > +		};
+> > +	};
+> >  };
+> >
+> >  &ohci0 {
+> > --
+> > Regards,
+> >
+> > Laurent Pinchart
+>
+
+--ha2fju6woqc5ri53
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl024cAACgkQcjQGjxah
+VjwU/g//WLidgnztRCUvWRcbzqaRnDPPulwiIFGGcofSd2YyIKQOYNa0VkGVIb5H
+AzeiGiq8dZLrlbv6v/merLGr7Q9hkTay/c4zOX+3zGoKMX9WiehPvnR/d489XPFP
+ATzSpvvI0lvCd1KExupMODOMDxhBuQASX2zo9uiS789e+c1Rcbhz5YIaDAETA4/w
+KTy2cjKNMyOUwznYYFdxKkgMDBybBcBDr9+pcW32h/HyMqNpjsoyjmc5VoKy1tGR
+CSUj8yv5/p+nXrjz32cERFeKi7UA5ewNgJRVE1YIsNXG62TmEwKhvrwuOqM4t30F
+Qi8QXy6FVWSZtbiIlWZo8yN+ww9GcVyPS/+GYyHL0xvxRugbJzrtRn3CNoKb6lFW
+9L/UJ5R8u3a/lr1YZ6VtIoCcxtWmN8dx7NgAYDmoMevRi5IAQoBqz700v6YSuMG6
+A3oyisLoTyozR3SXafc7JF7IRAD/StYdqQVjCrxWQb0eEnDhqWqULcfqvCK/1pC5
+CIMKIsI4DJluDPxjsPz74DRY30ifCZPZWVUOWx5kWN/KUWmcxLXRuMhHeXORvuey
+sHRp7r5E2EAsBa0jvVyMY+YBu8p/kbvTsSj8yP56jSVglqx3ACyU1QN8XJdEtflq
+lqi7Y6lHW1shzDBsTcRXCNWszkAmo8RYLtGCu9o0HZyAXmxo/n4=
+=t5Rn
+-----END PGP SIGNATURE-----
+
+--ha2fju6woqc5ri53--
