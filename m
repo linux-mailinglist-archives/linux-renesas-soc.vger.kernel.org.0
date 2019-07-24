@@ -2,38 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 948CB72CA0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2019 12:52:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD10872D04
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2019 13:12:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726998AbfGXKwX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Jul 2019 06:52:23 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:44662 "EHLO
+        id S1727465AbfGXLMc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Jul 2019 07:12:32 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:45414 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726087AbfGXKwX (ORCPT
+        with ESMTP id S1726622AbfGXLMc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Jul 2019 06:52:23 -0400
+        Wed, 24 Jul 2019 07:12:32 -0400
 Received: from penelope.horms.nl (ip4dab7138.direct-adsl.nl [77.171.113.56])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 3220D25BE43;
-        Wed, 24 Jul 2019 20:52:21 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 1176C25BE45;
+        Wed, 24 Jul 2019 21:12:30 +1000 (AEST)
 Received: by penelope.horms.nl (Postfix, from userid 7100)
-        id 3E442E22041; Wed, 24 Jul 2019 12:52:19 +0200 (CEST)
-Date:   Wed, 24 Jul 2019 12:52:19 +0200
+        id F34ACE22041; Wed, 24 Jul 2019 13:12:27 +0200 (CEST)
+Date:   Wed, 24 Jul 2019 13:12:27 +0200
 From:   Simon Horman <horms@verge.net.au>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>, Wolfram Sang <wsa@the-dreams.de>
-Subject: Re: [PATCH/RFC repost] arm64: dts: renesas: ebisu, draak: Limit
- EtherAVB to 100Mbps
-Message-ID: <20190724105218.xgs66elsmyohdelv@verge.net.au>
-References: <20190717125739.21450-1-horms+renesas@verge.net.au>
- <e9a5dbab-16cf-5927-6959-fbe2f3a952f2@ideasonboard.com>
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, mark.rutland@arm.com,
+        devicetree@vger.kernel.org, geert+renesas@glider.be,
+        daniel.lezcano@linaro.org, linux-renesas-soc@vger.kernel.org,
+        robh+dt@kernel.org, tglx@linutronix.de
+Subject: Re: [PATCH 6/7] clocksource/drivers/sh_cmt: r8a7740 and sh73a0
+ SoC-specific match
+Message-ID: <20190724111227.qaeq3d5mkeyvlkq3@verge.net.au>
+References: <156345023791.5307.6113391102648394591.sendpatchset@octo>
+ <156345032407.5307.16702422867507502597.sendpatchset@octo>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e9a5dbab-16cf-5927-6959-fbe2f3a952f2@ideasonboard.com>
+In-Reply-To: <156345032407.5307.16702422867507502597.sendpatchset@octo>
 Organisation: Horms Solutions BV
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -41,21 +40,44 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jul 17, 2019 at 02:24:51PM +0100, Kieran Bingham wrote:
-> Hi Simon,
+On Thu, Jul 18, 2019 at 08:45:24PM +0900, Magnus Damm wrote:
+> From: Magnus Damm <damm+renesas@opensource.se>
 > 
-> On 17/07/2019 13:57, Simon Horman wrote:
-> > * According to the R-Car Gen3 Hardware Manual Errata for Rev 1.00 of
-> >   August 24, 2018, the TX clock internal delay mode isn't supported
-> >   on R-Car E3 (r8a77990) and D3 (r8a77995).
-> > 
-> > * TX clock internal delay mode is required for reliable 1Gbps communication
-> >   using the KSZ9031RNX phy present on the Ebisu and Draak boards.
-> > 
-> > Thus, the E3 based Ebisu and D3 based Draak boards reliably use 1Gbps and
-> > the speed should be limited to 100Mbps.
+> Add SoC-specific matching for CMT1 on r8a7740 and sh73a0.
 > 
-> I believe you might mean 'can not' reliable use 1Gbps here :-)
+> This allows us to move away from the old DT bindings such as
+>  - "renesas,cmt-48-sh73a0"
+>  - "renesas,cmt-48-r8a7740"
+>  - "renesas,cmt-48"
+> in favour for the now commonly used format "renesas,<soc>-<device>"
+> 
+> Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
 
-Yes, indeed.
-Thanks for noticing.
+Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+
+> ---
+> 
+>  drivers/clocksource/sh_cmt.c |    8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> --- 0001/drivers/clocksource/sh_cmt.c
+> +++ work/drivers/clocksource/sh_cmt.c	2019-07-18 19:29:06.005414716 +0900
+> @@ -928,6 +928,14 @@ static const struct of_device_id sh_cmt_
+>  		.data = &sh_cmt_info[SH_CMT0_RCAR_GEN2]
+>  	},
+>  	{
+> +		.compatible = "renesas,r8a7740-cmt1",
+> +		.data = &sh_cmt_info[SH_CMT_48BIT]
+
+Perhaps as a follow-up SH_CMT_48BIT could be renamed.
+
+> +	},
+> +	{
+> +		.compatible = "renesas,sh73a0-cmt1",
+> +		.data = &sh_cmt_info[SH_CMT_48BIT]
+> +	},
+> +	{
+>  		.compatible = "renesas,rcar-gen2-cmt0",
+>  		.data = &sh_cmt_info[SH_CMT0_RCAR_GEN2]
+>  	},
+> 
