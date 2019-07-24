@@ -2,54 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2264572D5E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2019 13:24:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD99B72E2E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2019 13:50:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726681AbfGXLYb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Jul 2019 07:24:31 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:46206 "EHLO
+        id S2387397AbfGXLuD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Jul 2019 07:50:03 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:47920 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726087AbfGXLYb (ORCPT
+        with ESMTP id S2387393AbfGXLuD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Jul 2019 07:24:31 -0400
+        Wed, 24 Jul 2019 07:50:03 -0400
 Received: from penelope.horms.nl (ip4dab7138.direct-adsl.nl [77.171.113.56])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 092F625BE43;
-        Wed, 24 Jul 2019 21:24:29 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 245C225BE09;
+        Wed, 24 Jul 2019 21:50:01 +1000 (AEST)
 Received: by penelope.horms.nl (Postfix, from userid 7100)
-        id E6ACBE2209B; Wed, 24 Jul 2019 13:24:26 +0200 (CEST)
-Date:   Wed, 24 Jul 2019 13:24:26 +0200
-From:   Simon Horman <horms@verge.net.au>
-To:     Yoshihiro Kaneko <ykaneko0929@gmail.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] arm64: dts: renesas: r8a7795-es1: sort nodes node
-Message-ID: <20190724112425.meqme35whnpccm6g@verge.net.au>
-References: <1563461033-19708-1-git-send-email-ykaneko0929@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1563461033-19708-1-git-send-email-ykaneko0929@gmail.com>
-Organisation: Horms Solutions BV
-User-Agent: NeoMutt/20170113 (1.7.2)
+        id 04FCDE2209B; Wed, 24 Jul 2019 13:49:59 +0200 (CEST)
+From:   Simon Horman <horms+renesas@verge.net.au>
+To:     Vinod Koul <vkoul@kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>, dmaengine@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Simon Horman <horms+renesas@verge.net.au>
+Subject: [PATCH] dt-bindings: shdma: Rename bindings documentation file
+Date:   Wed, 24 Jul 2019 13:49:46 +0200
+Message-Id: <20190724114946.14021-1-horms+renesas@verge.net.au>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jul 18, 2019 at 11:43:53PM +0900, Yoshihiro Kaneko wrote:
-> Sort nodes.
-> 
-> If node address is present
->    * Sort by node address, grouping all nodes with the same compat string
->      and sorting the group alphabetically.
-> Else
->    * Sort alphabetically
-> 
-> This should not have any run-time effect.
-> 
-> Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
+Rename the bindings documentation file for shdma
+from shdma.txt to renesas,shdma.txt.
 
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+This is part of an ongoing effort to name bindings documentation files for
+Renesas IP blocks consistently, in line with the compat strings they
+document.
+
+Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+---
+Based on v5.3-rc1
+---
+ Documentation/devicetree/bindings/dma/{shdma.txt => renesas,shdma.txt} | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename Documentation/devicetree/bindings/dma/{shdma.txt => renesas,shdma.txt} (100%)
+
+diff --git a/Documentation/devicetree/bindings/dma/shdma.txt b/Documentation/devicetree/bindings/dma/renesas,shdma.txt
+similarity index 100%
+rename from Documentation/devicetree/bindings/dma/shdma.txt
+rename to Documentation/devicetree/bindings/dma/renesas,shdma.txt
+-- 
+2.11.0
 
