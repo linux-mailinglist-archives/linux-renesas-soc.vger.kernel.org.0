@@ -2,57 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A39372D22
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2019 13:13:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8A7B72D2D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2019 13:14:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726981AbfGXLNd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Jul 2019 07:13:33 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:45686 "EHLO
-        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726960AbfGXLNc (ORCPT
+        id S1727267AbfGXLOp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Jul 2019 07:14:45 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:57014 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726514AbfGXLOo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Jul 2019 07:13:32 -0400
-Received: from penelope.horms.nl (ip4dab7138.direct-adsl.nl [77.171.113.56])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id ED88425B7BE;
-        Wed, 24 Jul 2019 21:13:29 +1000 (AEST)
-Received: by penelope.horms.nl (Postfix, from userid 7100)
-        id C18CFE22041; Wed, 24 Jul 2019 13:13:27 +0200 (CEST)
-Date:   Wed, 24 Jul 2019 13:13:27 +0200
-From:   Simon Horman <horms@verge.net.au>
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, mark.rutland@arm.com,
-        devicetree@vger.kernel.org, geert+renesas@glider.be,
-        daniel.lezcano@linaro.org, linux-renesas-soc@vger.kernel.org,
-        robh+dt@kernel.org, tglx@linutronix.de
-Subject: Re: [PATCH 7/7] clocksource/drivers/sh_cmt: Document "cmt-48" as
- deprecated
-Message-ID: <20190724111327.gwurememjdhsbgtf@verge.net.au>
-References: <156345023791.5307.6113391102648394591.sendpatchset@octo>
- <156345033835.5307.9206628986166423962.sendpatchset@octo>
+        Wed, 24 Jul 2019 07:14:44 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id 021706058E; Wed, 24 Jul 2019 11:14:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1563966883;
+        bh=WNP4i+Xm1K+QKneKcjzQw8TLaJsuxelXCn8BDxP0KmE=;
+        h=Subject:From:In-Reply-To:References:To:Cc:Date:From;
+        b=Cs8P7ecjL4qJAglKJWQFu89m2H/UTaMYu6NK0Y/pMEWyAohi5PmtVKTmtT/VkkQaZ
+         cPIgvBvqwG/f7duTlIPKTdWo5MhKougu1o3yCMRbcoU7d0y1FFNIhGghOZ1IaU1R//
+         9CdGSZ8c0FPy0Q1qtAWghzEGJuNLuMktaIeMUDbs=
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        pdx-caf-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-0.8 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        DKIM_INVALID,DKIM_SIGNED,MISSING_DATE,MISSING_MID,SPF_NONE autolearn=no
+        autolearn_force=no version=3.4.0
+Received: from potku.adurom.net (88-114-240-156.elisa-laajakaista.fi [88.114.240.156])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: kvalo@smtp.codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 892B46030E;
+        Wed, 24 Jul 2019 11:14:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1563966880;
+        bh=WNP4i+Xm1K+QKneKcjzQw8TLaJsuxelXCn8BDxP0KmE=;
+        h=Subject:From:In-Reply-To:References:To:Cc:From;
+        b=nwxpTwkKRsUFRsdwd8oWca0fKhpYtNdgckvbtR5XsbOdiF791fp6/T37Y8wOjdDAQ
+         Iq+bGMIQnwFIwZHVDV8dkehN/WsE3ylck1JHlxexpC/ygH0WHZdjTaOGT4ibwjkV6h
+         gzgZRM7YQ1bo+fkgUchmZdLFbE5/TJdkF4HiXm5s=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 892B46030E
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=kvalo@codeaurora.org
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <156345033835.5307.9206628986166423962.sendpatchset@octo>
-Organisation: Horms Solutions BV
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] wlcore/wl18xx: Add invert-irq OF property for physically
+ inverted IRQ
+From:   Kalle Valo <kvalo@codeaurora.org>
+In-Reply-To: <20190607172958.20745-1-erosca@de.adit-jv.com>
+References: <20190607172958.20745-1-erosca@de.adit-jv.com>
+To:     Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        John Stultz <john.stultz@linaro.org>,
+        <linux-wireless@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Spyridon Papageorgiou <spapageorgiou@de.adit-jv.com>,
+        Joshua Frkuska <joshua_frkuska@mentor.com>,
+        "George G . Davis" <george_davis@mentor.com>,
+        Andrey Gusakov <andrey.gusakov@cogentembedded.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+User-Agent: pwcli/0.0.0-git (https://github.com/kvalo/pwcli/) Python/2.7.12
+Message-Id: <20190724111443.021706058E@smtp.codeaurora.org>
+Date:   Wed, 24 Jul 2019 11:14:41 +0000 (UTC)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jul 18, 2019 at 08:45:38PM +0900, Magnus Damm wrote:
-> From: Magnus Damm <damm+renesas@opensource.se>
-> 
-> Update the CMT driver to mark "renesas,cmt-48" as deprecated.
-> 
-> Instead of documenting a theoretical hardware device based on current software
-> support level, define DT bindings top-down based on available data sheet
-> information and make use of part numbers in the DT compat string.
-> 
-> In case of the only in-tree users r8a7740 and sh73a0 the compat strings
-> "renesas,r8a7740-cmt1" and "renesas,sh73a0-cmt1" may be used instead.
-> 
-> Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
+Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
 
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+> The wl1837mod datasheet [1] says about the WL_IRQ pin:
+> 
+>  ---8<---
+> SDIO available, interrupt out. Active high. [..]
+> Set to rising edge (active high) on powerup.
+>  ---8<---
+> 
+> That's the reason of seeing the interrupt configured as:
+>  - IRQ_TYPE_EDGE_RISING on HiKey 960/970
+>  - IRQ_TYPE_LEVEL_HIGH on a number of i.MX6 platforms
+> 
+> We assert that all those platforms have the WL_IRQ pin connected
+> to the SoC _directly_ (confirmed on HiKey 970 [2]).
+> 
+> That's not the case for R-Car Kingfisher extension target, which carries
+> a WL1837MODGIMOCT IC. There is an SN74LV1T04DBVR inverter present
+> between the WLAN_IRQ pin of the WL18* chip and the SoC, effectively
+> reversing the requirement quoted from [1]. IOW, in Kingfisher DTS
+> configuration we would need to use IRQ_TYPE_EDGE_FALLING or
+> IRQ_TYPE_LEVEL_LOW.
+> 
+> Unfortunately, v4.2-rc1 commit bd763482c82ea2 ("wl18xx: wlan_irq:
+> support platform dependent interrupt types") made a special case out
+> of these interrupt types. After this commit, it is impossible to provide
+> an IRQ configuration via DTS which would describe an inverter present
+> between the WL18* chip and the SoC, generating the need for workarounds
+> like [3].
+> 
+> Create a boolean OF property, called "invert-irq" to specify that
+> the WLAN_IRQ pin of WL18* is connected to the SoC via an inverter.
+> 
+> This solution has been successfully tested on R-Car H3ULCB-KF-M06 using
+> the DTS configuration [4] combined with the "invert-irq" property.
+> 
+> [1] http://www.ti.com/lit/ds/symlink/wl1837mod.pdf
+> [2] https://www.96boards.org/documentation/consumer/hikey/hikey970/hardware-docs/
+> [3] https://github.com/CogentEmbedded/meta-rcar/blob/289fbd4f8354/meta-rcar-gen3-adas/recipes-kernel/linux/linux-renesas/0024-wl18xx-do-not-invert-IRQ-on-WLxxxx-side.patch
+> [4] https://patchwork.kernel.org/patch/10895879/
+>     ("arm64: dts: ulcb-kf: Add support for TI WL1837")
+> 
+> Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+
+Based on the discussion I'm dropping this. Please resend once there's a
+conclusion.
+
+Patch set to Changes Requested.
+
+-- 
+https://patchwork.kernel.org/patch/10982491/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
 
