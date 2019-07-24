@@ -2,57 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD99B72E2E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2019 13:50:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B24872E8F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 24 Jul 2019 14:16:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387397AbfGXLuD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 24 Jul 2019 07:50:03 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:47920 "EHLO
+        id S1727745AbfGXMQS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 24 Jul 2019 08:16:18 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:49252 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387393AbfGXLuD (ORCPT
+        with ESMTP id S1727786AbfGXMQS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 24 Jul 2019 07:50:03 -0400
+        Wed, 24 Jul 2019 08:16:18 -0400
 Received: from penelope.horms.nl (ip4dab7138.direct-adsl.nl [77.171.113.56])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 245C225BE09;
-        Wed, 24 Jul 2019 21:50:01 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 0E1EF25BE43;
+        Wed, 24 Jul 2019 22:16:14 +1000 (AEST)
 Received: by penelope.horms.nl (Postfix, from userid 7100)
-        id 04FCDE2209B; Wed, 24 Jul 2019 13:49:59 +0200 (CEST)
+        id 0325EE2209B; Wed, 24 Jul 2019 14:16:11 +0200 (CEST)
 From:   Simon Horman <horms+renesas@verge.net.au>
-To:     Vinod Koul <vkoul@kernel.org>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Chris Brandt <chris.brandt@renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>, dmaengine@vger.kernel.org,
+        Magnus Damm <magnus.damm@gmail.com>, linux-i2c@vger.kernel.org,
         devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Simon Horman <horms+renesas@verge.net.au>
-Subject: [PATCH] dt-bindings: shdma: Rename bindings documentation file
-Date:   Wed, 24 Jul 2019 13:49:46 +0200
-Message-Id: <20190724114946.14021-1-horms+renesas@verge.net.au>
+Subject: [PATCH 0/4] dt-bindings: i2c: renesas: Rename bindings documentation files
+Date:   Wed, 24 Jul 2019 14:15:55 +0200
+Message-Id: <20190724121559.19079-1-horms+renesas@verge.net.au>
 X-Mailer: git-send-email 2.11.0
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Rename the bindings documentation file for shdma
-from shdma.txt to renesas,shdma.txt.
+Rename the bindings documentation file for Renesas I2C controllers.
 
 This is part of an ongoing effort to name bindings documentation files for
 Renesas IP blocks consistently, in line with the compat strings they
 document.
 
-Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
----
 Based on v5.3-rc1
----
- Documentation/devicetree/bindings/dma/{shdma.txt => renesas,shdma.txt} | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename Documentation/devicetree/bindings/dma/{shdma.txt => renesas,shdma.txt} (100%)
 
-diff --git a/Documentation/devicetree/bindings/dma/shdma.txt b/Documentation/devicetree/bindings/dma/renesas,shdma.txt
-similarity index 100%
-rename from Documentation/devicetree/bindings/dma/shdma.txt
-rename to Documentation/devicetree/bindings/dma/renesas,shdma.txt
+Simon Horman (4):
+  dt-bindings: i2c: sh_mobile: Rename bindings documentation file
+  dt-bindings: i2c: rcar: Rename bindings documentation file
+  dt-bindings: i2c: riic: Rename bindings documentation file
+  dt-bindings: i2c: riic: Rename bindings documentation file
+
+ .../devicetree/bindings/i2c/{i2c-rcar.txt => renesas,i2c.txt}     | 0
+ .../bindings/i2c/{i2c-emev2.txt => renesas,iic-emev2.txt}         | 0
+ .../bindings/i2c/{i2c-sh_mobile.txt => renesas,iic.txt}           | 0
+ .../devicetree/bindings/i2c/{i2c-riic.txt => renesas,riic.txt}    | 0
+ MAINTAINERS                                                       | 8 ++++----
+ 5 files changed, 4 insertions(+), 4 deletions(-)
+ rename Documentation/devicetree/bindings/i2c/{i2c-rcar.txt => renesas,i2c.txt} (100%)
+ rename Documentation/devicetree/bindings/i2c/{i2c-emev2.txt => renesas,iic-emev2.txt} (100%)
+ rename Documentation/devicetree/bindings/i2c/{i2c-sh_mobile.txt => renesas,iic.txt} (100%)
+ rename Documentation/devicetree/bindings/i2c/{i2c-riic.txt => renesas,riic.txt} (100%)
+
 -- 
 2.11.0
 
