@@ -2,54 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 065A974753
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jul 2019 08:34:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A04974842
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jul 2019 09:35:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729082AbfGYGeN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 25 Jul 2019 02:34:13 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:54742 "EHLO
-        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725808AbfGYGeN (ORCPT
+        id S2388167AbfGYHfd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Jul 2019 03:35:33 -0400
+Received: from sauhun.de ([88.99.104.3]:47604 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388166AbfGYHfd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 25 Jul 2019 02:34:13 -0400
-Received: from penelope.horms.nl (ip4dab7138.direct-adsl.nl [77.171.113.56])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 51C7725BE5E;
-        Thu, 25 Jul 2019 16:34:10 +1000 (AEST)
-Received: by penelope.horms.nl (Postfix, from userid 7100)
-        id 4ED96E2209B; Thu, 25 Jul 2019 08:34:08 +0200 (CEST)
-Date:   Thu, 25 Jul 2019 08:34:08 +0200
-From:   Simon Horman <horms@verge.net.au>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     ulf.hansson@linaro.org, hch@lst.de, m.szyprowski@samsung.com,
-        robin.murphy@arm.com, joro@8bytes.org, axboe@kernel.dk,
-        wsa+renesas@sang-engineering.com, linux-mmc@vger.kernel.org,
-        iommu@lists.linux-foundation.org, linux-block@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v8 5/5] mmc: queue: Use bigger segments if DMA MAP layer
- can merge the segments
-Message-ID: <20190725063407.xklhsc24et56sdtl@verge.net.au>
-References: <1563859608-19456-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1563859608-19456-6-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Thu, 25 Jul 2019 03:35:33 -0400
+Received: from localhost (p5486CDF3.dip0.t-ipconnect.de [84.134.205.243])
+        by pokefinder.org (Postfix) with ESMTPSA id C4C872C282F;
+        Thu, 25 Jul 2019 09:35:30 +0200 (CEST)
+Date:   Thu, 25 Jul 2019 09:35:30 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Simon Horman <horms@verge.net.au>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Andrew Lunn <andrew@lunn.ch>
+Subject: Re: [PATCH/RFC repost] arm64: dts: renesas: ebisu, draak: Limit
+ EtherAVB to 100Mbps
+Message-ID: <20190725073530.GA1323@kunai>
+References: <20190717125739.21450-1-horms+renesas@verge.net.au>
+ <20190717132607.GA1458@kunai>
+ <20190724105203.thykr2staw22gdj3@verge.net.au>
+ <20190724210441.GA1559@kunai>
+ <20190725055721.37mcdtpeer3knrxa@verge.net.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="x+6KMIRAuhnl3hBn"
 Content-Disposition: inline
-In-Reply-To: <1563859608-19456-6-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-Organisation: Horms Solutions BV
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <20190725055721.37mcdtpeer3knrxa@verge.net.au>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jul 23, 2019 at 02:26:48PM +0900, Yoshihiro Shimoda wrote:
-> When the max_segs of a mmc host is smaller than 512, the mmc
-> subsystem tries to use 512 segments if DMA MAP layer can merge
-> the segments, and then the mmc subsystem exposes such information
-> to the block layer by using blk_queue_can_use_dma_map_merging().
-> 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
 
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+--x+6KMIRAuhnl3hBn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+
+> Sure, how about something like this:
+>=20
+>                 /* TX clock internal delay mode is required for reliable
+>                  * 1Gbps communication using the KSZ9031RNX phy present on
+>                  * the Ebisu board, however, TX clock internal delay mode
+>                  * isn't supported on r8a77990.  Thus, limit speed to
+>                  * 100Mbps for reliable communication.
+>                  */
+> 		max-speed =3D <100>;
+
+Yes, I like it. If DTs have kernel coding style, there should be a blank
+'/*' at the beginning.
+
+
+--x+6KMIRAuhnl3hBn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl05W74ACgkQFA3kzBSg
+KbYflRAAllcDSSlsTgUOvKvUUlEGDA+QBMXfKKpdjWrsXoSEZ8qSZ0D56GCDCvg9
+BoLqSuxWETsn3fXznuCjEjbfd1oFOs+eJreWQ15uF0C8Tek7ax1EMozoT2/gRcyQ
+jSfqq26vSjoI5CQx64UcevMLdyhPEtmEUjyX9jPJdnuOsOuksP/Je2vl3dlmTETq
+PL8KNEG1tlJe0Y2NUN332DD2XlZZC5cQ4DsRnjfqHd6jAy9rVYC+t+Rwd3+D7/D4
+ZgdaO4NRbQLcgt8Wz5i0C/qGiXeSct5Y5Hw7ZMh9zxHvnICIYPqTFt3DubjOXo8g
+rV0jmsLBYxV/xx1p90B/ZV7cfL9IH2fzq6+wIVmmkNXmZNSe+r3AvqV8iRJyrSzB
+GISmruXZQqNA8zanWXzsOagn1DjufSKxt0VMW4BeFU+g8bHQ+XIP1oIjwzQkHa8T
+XFmbCYZMuyRaBq6Mt3Cy1Am4+75QSc62AQiJQodxufhwdg7vOnyUBrm/bIE90Syo
+05XIHeIJANrDYEi+wrPLS0+N1e7Lcy4yeV5GLDzuwT7vJkHqOrh38vF1qC/BWDRO
+CEXXqxyU3n0UEK24cBaDgWvWb8jxecEMkCGgzpnZzfcqLLsETE+kPrjwG4puKFw5
+zb6qtmuzgyuR6RPk0rtuvjJSDdK3XX26U/f1WxT0ecHtUTiRhX4=
+=tJz7
+-----END PGP SIGNATURE-----
+
+--x+6KMIRAuhnl3hBn--
