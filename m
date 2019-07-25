@@ -2,163 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 347ED74FE8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jul 2019 15:44:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E4D075965
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jul 2019 23:15:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390290AbfGYNoS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 25 Jul 2019 09:44:18 -0400
-Received: from mail-vs1-f68.google.com ([209.85.217.68]:34057 "EHLO
-        mail-vs1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390285AbfGYNoR (ORCPT
+        id S1726416AbfGYVPy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Jul 2019 17:15:54 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:40469 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726380AbfGYVPy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 25 Jul 2019 09:44:17 -0400
-Received: by mail-vs1-f68.google.com with SMTP id m23so33748282vso.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jul 2019 06:44:17 -0700 (PDT)
+        Thu, 25 Jul 2019 17:15:54 -0400
+Received: by mail-lj1-f194.google.com with SMTP id m8so15775384lji.7
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jul 2019 14:15:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=h4bEfkUUJYfGvI6TKW6ozHty+vZn220gLxXD+QbuwkE=;
-        b=iKz+5sz3lDIsAPShxvIuZPW5WFrpsRecZP4JHvtCJ5xFKGT5WCQW0SUWPxEHTF9dwa
-         HQkhuc9EhuQ/uo/FaGW8AzVVGS1R0BrAmDH4/ysvbAquL+FfIKmmk5mg7hCOY8ZR3sA3
-         r2ioLVQpTtYzFsvAclhX+ukvMNeL37NFVB9x4Wpg7dZPUOo1tuca49ACji8I34xiKBC3
-         daE24Y1Wm9rcmpYJa1unIlTECQKMWTp5HuSyZpXKkhZjAl9bjorN41of1HBNIqfserEW
-         DT8dVEUJYcmug1cfwy2fcUlq7tKEpO2Fv/gccMeIFRDhTdlOj2E6Sr5ffE4wjOQJapEv
-         LJPA==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=QyLM8RB2yBsbcM/r46DBJ/7whgdS3GFmfjZtohkegB0=;
+        b=1b2ENCJMmx829ayIvnGsflHQEYSLMCuC+K3Vx4qNMh8rNBFEd+ywfoK93VhQ0qWDLZ
+         S0bDAeS6ni3Y9umjss5gsgrfJAMETM8oLnV1sMHRiCzL6jBbgWXUyHMl9tdPCi99Vl/5
+         sEa0ozA96STFuX5wus/DA4odpegHrgUY9f6H/F4Fh3Cas0Y1hb9ETezEZ52bKmhzRRWe
+         MJNUuEc8wt94FaN1uQL/fBKn+Fu5AUUxTudten+EX7vmnRixpyxvGvB93+yLnMYU1nUR
+         AEc0bH+BpXUsyms4BHNc+7DJvvp9/jIVeasoSZcCwwch67is1zOX5yEHEgnpkMXbNBk9
+         y4mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=h4bEfkUUJYfGvI6TKW6ozHty+vZn220gLxXD+QbuwkE=;
-        b=SD+Mdq1TYgQOEb2wwhroVZP7sQQXfDyk2h8OphPz4qOAyRBDmHMUcA0m7E1uXFkEc7
-         AYB+Q7IYl8czXyDNVp6btFyucLb0COpDk8F/OW/owX2jONjyGoIeO7BDUVwYEL3mThW+
-         H1hPctL49iLxAaaQdgPwvlOTnT/m3kep6xWzCpEopILSjC6CKk8MHRy3HECMzXb1TtFW
-         /7QjYprswaYiznUZDJLr2GNLiGBZCv8A3+6bVjs+HtPiYsKeBXjcUQKk7GHzj9/SgvhI
-         ZN54jQoEtlwBh7nFBkdgQA7S4czz+JbBmCrwkEbWcPfw4kPhOZXeJt8mSyBB8Dq4OhAX
-         P2fg==
-X-Gm-Message-State: APjAAAVr5Ffu3dDX6JmcYzr3Ut2mSnW5EdnqheUE5/ytYLmW+QPjvSOd
-        jf25YZkACYWhg7gL+EaXc+H+XGbO7jWV34E85/lADw==
-X-Google-Smtp-Source: APXvYqwsN3NYipZ2L8tQzc9xLMlMYic80Y3TsG8VamwC6SFVel/aQctyGDJPPeLXxRUhndnucYPhTHxT68Biqy/IzKU=
-X-Received: by 2002:a67:e454:: with SMTP id n20mr57354696vsm.34.1564062256550;
- Thu, 25 Jul 2019 06:44:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <1563289264-26432-1-git-send-email-uli+renesas@fpond.eu> <1563289264-26432-2-git-send-email-uli+renesas@fpond.eu>
-In-Reply-To: <1563289264-26432-2-git-send-email-uli+renesas@fpond.eu>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Thu, 25 Jul 2019 15:43:40 +0200
-Message-ID: <CAPDyKFq2i0pRKGtMA6YESpKOAAzK-enhW7fkT6=63Ad2mQGmJQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] mmc: tmio: leave clock handling to PM if enabled
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=QyLM8RB2yBsbcM/r46DBJ/7whgdS3GFmfjZtohkegB0=;
+        b=Ml55GymA+SMmo4B6aV+XOW/JSEArGLfaFaj7IatEjzvtAcdBOcYKOyouQRH+OoBvlO
+         buhUIy/7kanBK9dEFfmOVr39DbbXXV4AQ3T3B3QcjOLZ+MJ8TEYJ1JPXTWeCDzjKCAQV
+         g0zGDDMcGiLOyHBgksSp/DoHILloFJu8l0BPc/RFXhwbM1yIOoCeu/Yz0lgRNkjvmdCx
+         iGiWoMe1i3NqmFvrYgs/W9FOyEbkF/+WL8bXnbxa4X+R0X7Yz4vG9/RxctjBAyGTbKzG
+         V3cPnVFfalfxMBLT3DC+UjRHCEgVXXIuZMl8bfwaLrUISJBK/zcZKUe2HbkI7gIo2Vgc
+         1O2Q==
+X-Gm-Message-State: APjAAAUSCfvOSR4yqJs+dEjZ0UnOZIgjPbRT3Ucd/oh9e2I5J0CRiJo7
+        2gFeuuUX7G25b7XRuR+U/5U=
+X-Google-Smtp-Source: APXvYqw/qSZwDOkkTn5AE4Vj8wGeORBjYwVg88VRLrYVQs7eIq9S8uQ4WyyFLxymOkzF873eVMCcbw==
+X-Received: by 2002:a2e:9b48:: with SMTP id o8mr47614971ljj.122.1564089352205;
+        Thu, 25 Jul 2019 14:15:52 -0700 (PDT)
+Received: from localhost (customer-145-14-112-32.stosn.net. [145.14.112.32])
+        by smtp.gmail.com with ESMTPSA id k12sm7773389lfc.8.2019.07.25.14.15.51
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Thu, 25 Jul 2019 14:15:51 -0700 (PDT)
+Date:   Thu, 25 Jul 2019 23:15:51 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
 To:     Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Magnus Damm <magnus.damm@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Cc:     linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
+        wsa@the-dreams.de, yamada.masahiro@socionext.com,
+        geert@linux-m68k.org, ulf.hansson@linaro.org, magnus.damm@gmail.com
+Subject: Re: [PATCH 0/2] mmc: tmio: remove Gen2+ workaround and fix up
+Message-ID: <20190725211551.GJ19108@bigcity.dyn.berto.se>
+References: <1563289264-26432-1-git-send-email-uli+renesas@fpond.eu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1563289264-26432-1-git-send-email-uli+renesas@fpond.eu>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 16 Jul 2019 at 17:01, Ulrich Hecht <uli+renesas@fpond.eu> wrote:
->
-> This fixes a clock imbalance that occurs because the SD clock is handled
-> by both PM and the hardware driver.
-> See https://www.spinics.net/lists/linux-mmc/msg44431.html for details.
+Hi Ulrich,
 
-This is a generic problem, when a device are being attached to a genpd
-and when the genpd has got the ->stop|start() callbacks assigned, as
-to manage device clocks.
+Thanks for your work.
 
-Can you try to describe this problem a little bit more in detail, as I
-think that's important to carry in the change log.
+On 2019-07-16 17:01:02 +0200, Ulrich Hecht wrote:
+> Hi!
+> 
+> The second patch in this series removes a workaround that forced eMMC devices
+> always on and that is no longer required.
+> 
+> Removing it does expose a bug, however, that leads to a clock imbalance due
+> to the clock being enabled by both PM and the hardware driver. (See
+> https://www.spinics.net/lists/linux-mmc/msg54009.html for discussion.)
+> This bug is taken care of by the first patch.
+> 
+> Tested on r8a7790 (Lager), r8a7795 and r8a7796 (Salvator-X) with SD and
+> eMMC, before and after suspend.
+> 
+> CU
+> Uli
+> 
+> 
+> Ulrich Hecht (2):
+>   mmc: tmio: leave clock handling to PM if enabled
+>   mmc: tmio: remove obsolete PM workaround
 
->
-> This patch removes the clock handling from the driver's PM callbacks and
+Tested-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
 
-runtime PM callbacks and/or system PM callbacks?
-
-> turns the clock off after probing.
->
-> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> ---
->  drivers/mmc/host/tmio_mmc_core.c | 24 ++++++------------------
->  1 file changed, 6 insertions(+), 18 deletions(-)
->
-> diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
-> index 31ffcc3..26dcbba 100644
-> --- a/drivers/mmc/host/tmio_mmc_core.c
-> +++ b/drivers/mmc/host/tmio_mmc_core.c
-> @@ -1260,9 +1260,14 @@ int tmio_mmc_host_probe(struct tmio_mmc_host *_host)
->         /* See if we also get DMA */
->         tmio_mmc_request_dma(_host, pdata);
->
-> -       pm_runtime_set_active(&pdev->dev);
-> +#ifdef CONFIG_PM
-> +       /* PM handles the clock; disable it so it won't be enabled twice. */
-> +       if (_host->clk_disable)
-> +               _host->clk_disable(_host);
-
-The clock managed here, is that the same clock as being managed by
-genpd's ->stop|start() callbacks?
-
-> +       pm_runtime_get_sync(&pdev->dev);
->         pm_runtime_set_autosuspend_delay(&pdev->dev, 50);
->         pm_runtime_use_autosuspend(&pdev->dev);
-> +#endif
-
-So what happens if you have CONFIG_PM set, but the device doesn't have
-a genpd attached?
-
-I am guessing the driver should handle the clock in such scenario, right?
-
->
->         ret = mmc_add_host(mmc);
->         if (ret)
-> @@ -1302,20 +1307,6 @@ void tmio_mmc_host_remove(struct tmio_mmc_host *host)
->  EXPORT_SYMBOL_GPL(tmio_mmc_host_remove);
->
->  #ifdef CONFIG_PM
-> -static int tmio_mmc_clk_enable(struct tmio_mmc_host *host)
-> -{
-> -       if (!host->clk_enable)
-> -               return -ENOTSUPP;
-> -
-> -       return host->clk_enable(host);
-> -}
-> -
-> -static void tmio_mmc_clk_disable(struct tmio_mmc_host *host)
-> -{
-> -       if (host->clk_disable)
-> -               host->clk_disable(host);
-> -}
-> -
->  int tmio_mmc_host_runtime_suspend(struct device *dev)
->  {
->         struct tmio_mmc_host *host = dev_get_drvdata(dev);
-> @@ -1325,8 +1316,6 @@ int tmio_mmc_host_runtime_suspend(struct device *dev)
->         if (host->clk_cache)
->                 host->set_clock(host, 0);
->
-> -       tmio_mmc_clk_disable(host);
-> -
->         return 0;
->  }
->  EXPORT_SYMBOL_GPL(tmio_mmc_host_runtime_suspend);
-> @@ -1340,7 +1329,6 @@ int tmio_mmc_host_runtime_resume(struct device *dev)
->  {
->         struct tmio_mmc_host *host = dev_get_drvdata(dev);
->
-> -       tmio_mmc_clk_enable(host);
->         tmio_mmc_hw_reset(host->mmc);
->
->         if (host->clk_cache)
-> --
+> 
+>  drivers/mmc/host/tmio_mmc_core.c | 33 ++++++---------------------------
+>  1 file changed, 6 insertions(+), 27 deletions(-)
+> 
+> -- 
 > 2.7.4
->
+> 
 
-Kind regards
-Uffe
+-- 
+Regards,
+Niklas Söderlund
