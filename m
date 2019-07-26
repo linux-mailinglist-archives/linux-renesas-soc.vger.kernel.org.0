@@ -2,108 +2,149 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E4D075965
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 25 Jul 2019 23:15:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 641CE75C74
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2019 03:22:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726416AbfGYVPy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 25 Jul 2019 17:15:54 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:40469 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726380AbfGYVPy (ORCPT
+        id S1725901AbfGZBWx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 25 Jul 2019 21:22:53 -0400
+Received: from mail-eopbgr1410091.outbound.protection.outlook.com ([40.107.141.91]:10898
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725878AbfGZBWw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 25 Jul 2019 17:15:54 -0400
-Received: by mail-lj1-f194.google.com with SMTP id m8so15775384lji.7
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 25 Jul 2019 14:15:52 -0700 (PDT)
+        Thu, 25 Jul 2019 21:22:52 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TQXKthq9UZ8TA29Srx+vf34lf6wtBHBmB5kmDqhUJ3poLq3RobCSsCgQnK8XeEp1CVFSYpRG7+QENCdR7h/Zm6FXakIlmA9tSB15tYyn8mKpGthLL1g/WGq4ERUdQcFpNYspq9iY9o5vlJbGzw8/Q9zEs5H0aJSk1ECwFiqopXs9eeiw+ofdxHM9sVCaPm2uWWzHCbE7y29lrmeV9ud5biMHfiNnfCMypv2RWGZ8Z7Em+5BWeSnCOSW7sohlssWP+HH3/GUCZPAjO+Gg34XC9Mr0itILz6YYgP1BvQt1UgWZh6eOkPqc7BdAFY/GImC2pujdo+Hv5/rKe9uKPwsX0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gBPbbHAsfxvBTZSo1Mqg8EZMfrue3GPloQ5o928gz44=;
+ b=V/dlVVasGa6BzJezGSi9dFmbnRiIFQw4qARYwe6gTeAEbRaXiWomxETEhhSixXTFh86hnn7wlHtmaFKJfLczhgjy7GSq9wFp2mRpiii4PtuiQ1XU/5vdRnV0atX9MUwKap0ySBbhRJOImnnP20bKFFNHkED/xdVCtoX0ls1pN4eb9lTduk4iSewmiq0r8Jv3atS98u7gE842kDcwIl8cNdz7/GMThxwDunSwhjjp7NLSTuagmb+BiSTl3f3DKKnG1zsuOwqenNBFIu/95/D2hzxkw4Ze7E1ml0u1M2ZvSurtzthBt2qP1UyNYTF5MwlUEDeMAd/Xd7OFhfukJRXD5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
+ smtp.mailfrom=renesas.com;dmarc=pass action=none
+ header.from=renesas.com;dkim=pass header.d=renesas.com;arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=QyLM8RB2yBsbcM/r46DBJ/7whgdS3GFmfjZtohkegB0=;
-        b=1b2ENCJMmx829ayIvnGsflHQEYSLMCuC+K3Vx4qNMh8rNBFEd+ywfoK93VhQ0qWDLZ
-         S0bDAeS6ni3Y9umjss5gsgrfJAMETM8oLnV1sMHRiCzL6jBbgWXUyHMl9tdPCi99Vl/5
-         sEa0ozA96STFuX5wus/DA4odpegHrgUY9f6H/F4Fh3Cas0Y1hb9ETezEZ52bKmhzRRWe
-         MJNUuEc8wt94FaN1uQL/fBKn+Fu5AUUxTudten+EX7vmnRixpyxvGvB93+yLnMYU1nUR
-         AEc0bH+BpXUsyms4BHNc+7DJvvp9/jIVeasoSZcCwwch67is1zOX5yEHEgnpkMXbNBk9
-         y4mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=QyLM8RB2yBsbcM/r46DBJ/7whgdS3GFmfjZtohkegB0=;
-        b=Ml55GymA+SMmo4B6aV+XOW/JSEArGLfaFaj7IatEjzvtAcdBOcYKOyouQRH+OoBvlO
-         buhUIy/7kanBK9dEFfmOVr39DbbXXV4AQ3T3B3QcjOLZ+MJ8TEYJ1JPXTWeCDzjKCAQV
-         g0zGDDMcGiLOyHBgksSp/DoHILloFJu8l0BPc/RFXhwbM1yIOoCeu/Yz0lgRNkjvmdCx
-         iGiWoMe1i3NqmFvrYgs/W9FOyEbkF/+WL8bXnbxa4X+R0X7Yz4vG9/RxctjBAyGTbKzG
-         V3cPnVFfalfxMBLT3DC+UjRHCEgVXXIuZMl8bfwaLrUISJBK/zcZKUe2HbkI7gIo2Vgc
-         1O2Q==
-X-Gm-Message-State: APjAAAUSCfvOSR4yqJs+dEjZ0UnOZIgjPbRT3Ucd/oh9e2I5J0CRiJo7
-        2gFeuuUX7G25b7XRuR+U/5U=
-X-Google-Smtp-Source: APXvYqw/qSZwDOkkTn5AE4Vj8wGeORBjYwVg88VRLrYVQs7eIq9S8uQ4WyyFLxymOkzF873eVMCcbw==
-X-Received: by 2002:a2e:9b48:: with SMTP id o8mr47614971ljj.122.1564089352205;
-        Thu, 25 Jul 2019 14:15:52 -0700 (PDT)
-Received: from localhost (customer-145-14-112-32.stosn.net. [145.14.112.32])
-        by smtp.gmail.com with ESMTPSA id k12sm7773389lfc.8.2019.07.25.14.15.51
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 25 Jul 2019 14:15:51 -0700 (PDT)
-Date:   Thu, 25 Jul 2019 23:15:51 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Ulrich Hecht <uli+renesas@fpond.eu>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
-        wsa@the-dreams.de, yamada.masahiro@socionext.com,
-        geert@linux-m68k.org, ulf.hansson@linaro.org, magnus.damm@gmail.com
-Subject: Re: [PATCH 0/2] mmc: tmio: remove Gen2+ workaround and fix up
-Message-ID: <20190725211551.GJ19108@bigcity.dyn.berto.se>
-References: <1563289264-26432-1-git-send-email-uli+renesas@fpond.eu>
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gBPbbHAsfxvBTZSo1Mqg8EZMfrue3GPloQ5o928gz44=;
+ b=Iliq7K2e8vODX0Tq49+M5p1KHykrX35/ySjaSnQCBzCagpwvDSUyUctY00/P00MtCiuUH4kogZ3VtnwLPz4y6wq6zsgXm/zNJIeKEar1LT68fYNq/SooawCUHv/lqEdox9ePUbbbCiFnE6B+gYsx01K+y8ZdgzEfty4j8SvwMCg=
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.174.85) by
+ TYAPR01MB3743.jpnprd01.prod.outlook.com (20.178.140.14) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2094.16; Fri, 26 Jul 2019 01:22:48 +0000
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::5c8d:f422:6a44:57a9]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::5c8d:f422:6a44:57a9%5]) with mapi id 15.20.2115.005; Fri, 26 Jul 2019
+ 01:22:48 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Simon Horman <horms@verge.net.au>
+CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        USB list <linux-usb@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        =?iso-8859-1?Q?Niklas_S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: RE: [PATCH v2 2/2] dt-bindings: usb: renesas_gen3: Rename bindings
+ documentation file
+Thread-Topic: [PATCH v2 2/2] dt-bindings: usb: renesas_gen3: Rename bindings
+ documentation file
+Thread-Index: AQHVMXpGeT4aQWsNQ0KL+gAQlHHL46a40smAgAxIY4CAFhNHAIABDMBg
+Date:   Fri, 26 Jul 2019 01:22:48 +0000
+Message-ID: <TYAPR01MB4544F226C06730C5611EB025D8C00@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+References: <20190703083514.32385-1-horms+renesas@verge.net.au>
+ <20190703083514.32385-3-horms+renesas@verge.net.au>
+ <CAMuHMdVgx9N0yeeei5qcg1yz2WEdDf0gQ6GcwUOAz7u09S_D4A@mail.gmail.com>
+ <20190711080302.qeotxueyvlr7pvhe@verge.net.au>
+ <20190725090946.GA3311@kroah.com>
+In-Reply-To: <20190725090946.GA3311@kroah.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [118.238.235.108]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6239c337-561f-49d8-73a8-08d71167c578
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:TYAPR01MB3743;
+x-ms-traffictypediagnostic: TYAPR01MB3743:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <TYAPR01MB37434BE2EC2906C3C1C3EBD6D8C00@TYAPR01MB3743.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-forefront-prvs: 01106E96F6
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(39860400002)(376002)(366004)(396003)(136003)(346002)(189003)(199004)(86362001)(6116002)(2906002)(55016002)(6246003)(7416002)(33656002)(9686003)(6436002)(81156014)(8676002)(4326008)(229853002)(81166006)(110136005)(6306002)(3846002)(53936002)(14454004)(305945005)(66066001)(8936002)(5660300002)(71190400001)(71200400001)(316002)(26005)(966005)(66556008)(99286004)(476003)(446003)(54906003)(256004)(25786009)(478600001)(102836004)(66946007)(11346002)(76176011)(7736002)(52536014)(7696005)(74316002)(186003)(66476007)(66446008)(68736007)(53546011)(486006)(6506007)(64756008)(76116006);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB3743;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 7W6u4mslwTZeir+zRZKP4zq7BTP/QQ2bFh6xr+7V48HtUHLTdUs2PDalVu8zaob56KPoW23vPG4zaNMQvqhlIRhM46S+OiUMqJC0zw/Xeg5pwlbKnea8gUhBqwzuUMKHipYmaUPqruumWIN2uZMl13Xz13eVofEF1NX9iwm6NbhjleXK1lRvrO5ykFqfU3UD462f0N2F/98oEC4W6+7tzZ5v+p86pzwb7WG0TdN/EKgbYUtimXUTSRuezWBFVLZKnMswEQQvH+5OCzZnQc/PBNijTAakXudMFTtmeS8lraCNwnXq5HLSYKSHLjaJprFyOODFEDqpO2VR0YX4TcQWDtwW06DYmHyPZC51z6bgCaRyIJ12z/URei+9jD5WSkA0ffil2w/0b2y6mM3Rsg+DVTxxK+zy9t/mS7m/ao739Kw=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1563289264-26432-1-git-send-email-uli+renesas@fpond.eu>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6239c337-561f-49d8-73a8-08d71167c578
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jul 2019 01:22:48.7294
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: yoshihiro.shimoda.uh@renesas.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB3743
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Ulrich,
+Hi Greg,
 
-Thanks for your work.
+> From: Greg Kroah-Hartman, Sent: Thursday, July 25, 2019 6:10 PM
+>=20
+> On Thu, Jul 11, 2019 at 10:03:03AM +0200, Simon Horman wrote:
+> > On Wed, Jul 03, 2019 at 02:28:51PM +0200, Geert Uytterhoeven wrote:
+> > > Hi Simon,
+> > >
+> > > On Wed, Jul 3, 2019 at 10:35 AM Simon Horman <horms+renesas@verge.net=
+.au> wrote:
+> > > > For consistency with the naming of (most) other documentation files=
+ for DT
+> > > > bindings for Renesas IP blocks rename the Renesas USB3.0 peripheral
+> > > > documentation file from renesas-gen3.txt to renesas,usb3-peri.txt
+> > > >
+> > > > Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+> > > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > > > Reviewed-by: Niklas S=F6derlund <niklas.soderlund+renesas@ragnatech=
+.se>
+> > > >
+> > > > ---
+> > > > v2
+> > > > * Accumulate review tags
+> > > > * Use renesas,usb3-peri.txt as new filename as suggested by Shimoda=
+-san
+> > >
+> > > Unfortunately the previous version has already made it into usb-next
+> > > 23c46801d14cb647 dt-bindings: usb: renesas_gen3: Rename bindings
+> > > documentation file
+> >
+> > Ok, I guess we should go with that version.
+>=20
+> So can you resend this series based on 5.3-rc1 so I know what to apply?
 
-On 2019-07-16 17:01:02 +0200, Ulrich Hecht wrote:
-> Hi!
-> 
-> The second patch in this series removes a workaround that forced eMMC devices
-> always on and that is no longer required.
-> 
-> Removing it does expose a bug, however, that leads to a clock imbalance due
-> to the clock being enabled by both PM and the hardware driver. (See
-> https://www.spinics.net/lists/linux-mmc/msg54009.html for discussion.)
-> This bug is taken care of by the first patch.
-> 
-> Tested on r8a7790 (Lager), r8a7795 and r8a7796 (Salvator-X) with SD and
-> eMMC, before and after suspend.
-> 
-> CU
-> Uli
-> 
-> 
-> Ulrich Hecht (2):
->   mmc: tmio: leave clock handling to PM if enabled
->   mmc: tmio: remove obsolete PM workaround
+Since your usb-testing branch already has it which is merged from Felipe's =
+usb-next branch,
+I don't think Simon has to resend this series.
 
-Tested-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
+https://www.spinics.net/lists/linux-usb/msg182103.html
 
-> 
->  drivers/mmc/host/tmio_mmc_core.c | 33 ++++++---------------------------
->  1 file changed, 6 insertions(+), 27 deletions(-)
-> 
-> -- 
-> 2.7.4
-> 
+Best regards,
+Yoshihiro Shimoda
 
--- 
-Regards,
-Niklas Söderlund
+> thanks,
+>=20
+> greg k-h
