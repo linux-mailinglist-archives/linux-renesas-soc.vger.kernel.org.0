@@ -2,146 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E00D2760D2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2019 10:32:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A08CC76252
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2019 11:48:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726594AbfGZIc1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 Jul 2019 04:32:27 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:7114 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726552AbfGZIc1 (ORCPT
+        id S1726001AbfGZJrg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 26 Jul 2019 05:47:36 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:59646 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725842AbfGZJrg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 26 Jul 2019 04:32:27 -0400
-X-IronPort-AV: E=Sophos;i="5.64,310,1559487600"; 
-   d="scan'208";a="22285519"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 26 Jul 2019 17:32:23 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id C6D654202743;
-        Fri, 26 Jul 2019 17:32:23 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     ulf.hansson@linaro.org, hch@lst.de, m.szyprowski@samsung.com,
-        robin.murphy@arm.com, joro@8bytes.org, axboe@kernel.dk
-Cc:     wsa+renesas@sang-engineering.com, linux-mmc@vger.kernel.org,
-        iommu@lists.linux-foundation.org, linux-block@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v9 5/5] mmc: queue: Use bigger segments if DMA MAP layer can merge the segments
-Date:   Fri, 26 Jul 2019 17:31:16 +0900
-Message-Id: <1564129876-28261-6-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1564129876-28261-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1564129876-28261-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Fri, 26 Jul 2019 05:47:36 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 5CBD63C04C1;
+        Fri, 26 Jul 2019 11:47:33 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id wfjjAcg0THXO; Fri, 26 Jul 2019 11:47:27 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id AE3BC3C009E;
+        Fri, 26 Jul 2019 11:47:27 +0200 (CEST)
+Received: from vmlxhi-102.adit-jv.com (10.72.93.184) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Fri, 26 Jul
+ 2019 11:47:27 +0200
+Date:   Fri, 26 Jul 2019 11:47:24 +0200
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Ulrich Hecht <uli+renesas@fpond.eu>,
+        "geert@linux-m68k.org" <geert@linux-m68k.org>,
+        "horms@verge.net.au" <horms@verge.net.au>,
+        "khiem.nguyen.xt@renesas.com" <khiem.nguyen.xt@renesas.com>,
+        "dien.pham.ry@renesas.com" <dien.pham.ry@renesas.com>,
+        "takeshi.kihara.df@renesas.com" <takeshi.kihara.df@renesas.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+CC:     "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "Wischer, Timo (ADITG/ESM)" <twischer@de.adit-jv.com>,
+        "Maik.Scholz@de.bosch.com" <Maik.Scholz@de.bosch.com>,
+        "Dirk.Behme@de.bosch.com" <Dirk.Behme@de.bosch.com>,
+        "Rosca, Eugeniu (ADITG/ESM1)" <erosca@de.adit-jv.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [PATCH v2 2/5] arm64: dts: r8a7795: Add cpuidle support for CA53
+ cores
+Message-ID: <20190726094724.GA14913@vmlxhi-102.adit-jv.com>
+References: <1547808474-19427-1-git-send-email-uli+renesas@fpond.eu>
+ <1547808474-19427-3-git-send-email-uli+renesas@fpond.eu>
+ <20190726091325.GA13111@vmlxhi-102.adit-jv.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20190726091325.GA13111@vmlxhi-102.adit-jv.com>
+User-Agent: Mutt/1.12.1+40 (7f8642d4ee82) (2019-06-28)
+X-Originating-IP: [10.72.93.184]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When the max_segs of a mmc host is smaller than 512, the mmc
-subsystem tries to use 512 segments if DMA MAP layer can merge
-the segments, and then the mmc subsystem exposes such information
-to the block layer by using blk_queue_can_use_dma_map_merging().
+On Fri, Jul 26, 2019 at 11:13:29AM +0200, Rosca, Eugeniu (ADITG/ESM1) wrote:
+[..]
+> The culprit BSP commits are:
+> https://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas-bsp.git/commit/?id=3c3b44c752c4ee
+> https://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas-bsp.git/commit/?id=902ff7caa32dc71c
+> 
+> Further narrowing it down, it turns out the CA57 cpuidle support is
+> not responsible for generating the issue. It's all about the CA53 idle
+> enablement. The reference target is H3-ES2.0-Salvator-X (the problem
+> originally emerged on M3-based customer HW).
+[..]
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
----
- drivers/mmc/core/queue.c | 35 ++++++++++++++++++++++++++++++++---
- include/linux/mmc/host.h |  1 +
- 2 files changed, 33 insertions(+), 3 deletions(-)
+Small amendment to the above (based on vanilla testing):
 
-diff --git a/drivers/mmc/core/queue.c b/drivers/mmc/core/queue.c
-index 7102e2e..25568dc 100644
---- a/drivers/mmc/core/queue.c
-+++ b/drivers/mmc/core/queue.c
-@@ -21,6 +21,8 @@
- #include "card.h"
- #include "host.h"
- 
-+#define MMC_DMA_MAP_MERGE_SEGMENTS	512
-+
- static inline bool mmc_cqe_dcmd_busy(struct mmc_queue *mq)
- {
- 	/* Allow only 1 DCMD at a time */
-@@ -193,6 +195,12 @@ static void mmc_queue_setup_discard(struct request_queue *q,
- 		blk_queue_flag_set(QUEUE_FLAG_SECERASE, q);
- }
- 
-+static unsigned int mmc_get_max_segments(struct mmc_host *host)
-+{
-+	return host->can_dma_map_merge ? MMC_DMA_MAP_MERGE_SEGMENTS :
-+					 host->max_segs;
-+}
-+
- /**
-  * mmc_init_request() - initialize the MMC-specific per-request data
-  * @q: the request queue
-@@ -206,7 +214,7 @@ static int __mmc_init_request(struct mmc_queue *mq, struct request *req,
- 	struct mmc_card *card = mq->card;
- 	struct mmc_host *host = card->host;
- 
--	mq_rq->sg = mmc_alloc_sg(host->max_segs, gfp);
-+	mq_rq->sg = mmc_alloc_sg(mmc_get_max_segments(host), gfp);
- 	if (!mq_rq->sg)
- 		return -ENOMEM;
- 
-@@ -362,13 +370,23 @@ static void mmc_setup_queue(struct mmc_queue *mq, struct mmc_card *card)
- 		blk_queue_bounce_limit(mq->queue, BLK_BOUNCE_HIGH);
- 	blk_queue_max_hw_sectors(mq->queue,
- 		min(host->max_blk_count, host->max_req_size / 512));
--	blk_queue_max_segments(mq->queue, host->max_segs);
-+	if (host->can_dma_map_merge)
-+		WARN(!blk_queue_can_use_dma_map_merging(mq->queue,
-+							mmc_dev(host)),
-+		     "merging was advertised but not possible");
-+	blk_queue_max_segments(mq->queue, mmc_get_max_segments(host));
- 
- 	if (mmc_card_mmc(card))
- 		block_size = card->ext_csd.data_sector_size;
- 
- 	blk_queue_logical_block_size(mq->queue, block_size);
--	blk_queue_max_segment_size(mq->queue,
-+	/*
-+	 * After blk_queue_can_use_dma_map_merging() was called with succeed,
-+	 * since it calls blk_queue_virt_boundary(), the mmc should not call
-+	 * both blk_queue_max_segment_size().
-+	 */
-+	if (host->can_dma_map_merge)
-+		blk_queue_max_segment_size(mq->queue,
- 			round_down(host->max_seg_size, block_size));
- 
- 	dma_set_max_seg_size(mmc_dev(host), queue_max_segment_size(mq->queue));
-@@ -418,6 +436,17 @@ int mmc_init_queue(struct mmc_queue *mq, struct mmc_card *card)
- 	mq->tag_set.cmd_size = sizeof(struct mmc_queue_req);
- 	mq->tag_set.driver_data = mq;
- 
-+	/*
-+	 * Since blk_mq_alloc_tag_set() calls .init_request() of mmc_mq_ops,
-+	 * the host->can_dma_map_merge should be set before to get max_segs
-+	 * from mmc_get_max_segments().
-+	 */
-+	if (host->max_segs < MMC_DMA_MAP_MERGE_SEGMENTS &&
-+	    dma_get_merge_boundary(mmc_dev(host)))
-+		host->can_dma_map_merge = 1;
-+	else
-+		host->can_dma_map_merge = 0;
-+
- 	ret = blk_mq_alloc_tag_set(&mq->tag_set);
- 	if (ret)
- 		return ret;
-diff --git a/include/linux/mmc/host.h b/include/linux/mmc/host.h
-index 4a351cb..c5662b3 100644
---- a/include/linux/mmc/host.h
-+++ b/include/linux/mmc/host.h
-@@ -396,6 +396,7 @@ struct mmc_host {
- 	unsigned int		retune_paused:1; /* re-tuning is temporarily disabled */
- 	unsigned int		use_blk_mq:1;	/* use blk-mq */
- 	unsigned int		retune_crc_disable:1; /* don't trigger retune upon crc */
-+	unsigned int		can_dma_map_merge:1; /* merging can be used */
- 
- 	int			rescan_disable;	/* disable card detection */
- 	int			rescan_entered;	/* used with nonremovable devices */
+ Version                              Issue reproduced?
+                                      (H3-ES2.0-Salvator-X)
+ v5.3-rc1-96-g6789f873ed37              No
+ v5.3-rc1-96-g6789f873ed37 + [1]        No
+ v5.3-rc1-96-g6789f873ed37 + [2]        No
+ v5.3-rc1-96-g6789f873ed37 + [1] + [2]  Yes
+
+[1] https://patchwork.kernel.org/patch/10769701/
+("[v2,1/5] arm64: dts: r8a7795: Add cpuidle support for CA57 cores")
+
+[2] https://patchwork.kernel.org/patch/10769689/
+("[v2,2/5] arm64: dts: r8a7795: Add cpuidle support for CA53 cores")
+
 -- 
-2.7.4
-
+Best Regards,
+Eugeniu.
