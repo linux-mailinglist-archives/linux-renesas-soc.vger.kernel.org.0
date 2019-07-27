@@ -2,90 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A08CC76252
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 26 Jul 2019 11:48:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 965B777BED
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Jul 2019 22:58:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726001AbfGZJrg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 26 Jul 2019 05:47:36 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:59646 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725842AbfGZJrg (ORCPT
+        id S2388351AbfG0U6d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 27 Jul 2019 16:58:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53998 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388150AbfG0U6d (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 26 Jul 2019 05:47:36 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 5CBD63C04C1;
-        Fri, 26 Jul 2019 11:47:33 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id wfjjAcg0THXO; Fri, 26 Jul 2019 11:47:27 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        Sat, 27 Jul 2019 16:58:33 -0400
+Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id AE3BC3C009E;
-        Fri, 26 Jul 2019 11:47:27 +0200 (CEST)
-Received: from vmlxhi-102.adit-jv.com (10.72.93.184) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Fri, 26 Jul
- 2019 11:47:27 +0200
-Date:   Fri, 26 Jul 2019 11:47:24 +0200
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Ulrich Hecht <uli+renesas@fpond.eu>,
-        "geert@linux-m68k.org" <geert@linux-m68k.org>,
-        "horms@verge.net.au" <horms@verge.net.au>,
-        "khiem.nguyen.xt@renesas.com" <khiem.nguyen.xt@renesas.com>,
-        "dien.pham.ry@renesas.com" <dien.pham.ry@renesas.com>,
-        "takeshi.kihara.df@renesas.com" <takeshi.kihara.df@renesas.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-CC:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "Wischer, Timo (ADITG/ESM)" <twischer@de.adit-jv.com>,
-        "Maik.Scholz@de.bosch.com" <Maik.Scholz@de.bosch.com>,
-        "Dirk.Behme@de.bosch.com" <Dirk.Behme@de.bosch.com>,
-        "Rosca, Eugeniu (ADITG/ESM1)" <erosca@de.adit-jv.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH v2 2/5] arm64: dts: r8a7795: Add cpuidle support for CA53
- cores
-Message-ID: <20190726094724.GA14913@vmlxhi-102.adit-jv.com>
-References: <1547808474-19427-1-git-send-email-uli+renesas@fpond.eu>
- <1547808474-19427-3-git-send-email-uli+renesas@fpond.eu>
- <20190726091325.GA13111@vmlxhi-102.adit-jv.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id 8B1912147A;
+        Sat, 27 Jul 2019 20:58:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1564261112;
+        bh=3jvANDc9LliVkm8hGLHYQZv+x16Th48I4QDkZbmlC6g=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=II9jiPzdrI+X4JBvEQZPZzwwbe8udv2GD1DPtQdcgt3uAUH42j6Ns4TjtF4+j3A52
+         t2RreywU7Fkp19ReS5PSHVd/GnVN6TX0e+/SXsiKLnJRCKVqM4iGw9cEuOTzxTxrVR
+         UFYXnJK9yLozZQRP4wclydPjJBiHLgaAeZ3Dvc+4=
+Date:   Sat, 27 Jul 2019 21:58:26 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Wolfram Sang <wsa@the-dreams.de>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Marek Vasut <marek.vasut@gmail.com>,
+        stable@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        linux-renesas-soc@vger.kernel.org,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Rob Herring <robh@kernel.org>, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] [v2] iio: adc: gyroadc: fix uninitialized return code
+Message-ID: <20190727215826.70212910@archlinux>
+In-Reply-To: <20190718140227.GA3813@kunai>
+References: <20190718135758.2672152-1-arnd@arndb.de>
+        <20190718140227.GA3813@kunai>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20190726091325.GA13111@vmlxhi-102.adit-jv.com>
-User-Agent: Mutt/1.12.1+40 (7f8642d4ee82) (2019-06-28)
-X-Originating-IP: [10.72.93.184]
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jul 26, 2019 at 11:13:29AM +0200, Rosca, Eugeniu (ADITG/ESM1) wrote:
-[..]
-> The culprit BSP commits are:
-> https://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas-bsp.git/commit/?id=3c3b44c752c4ee
-> https://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas-bsp.git/commit/?id=902ff7caa32dc71c
+On Thu, 18 Jul 2019 16:02:27 +0200
+Wolfram Sang <wsa@the-dreams.de> wrote:
+
+> On Thu, Jul 18, 2019 at 03:57:49PM +0200, Arnd Bergmann wrote:
+> > gcc-9 complains about a blatant uninitialized variable use that
+> > all earlier compiler versions missed:
+> > 
+> > drivers/iio/adc/rcar-gyroadc.c:510:5: warning: 'ret' may be used uninitialized in this function [-Wmaybe-uninitialized]
+> > 
+> > Return -EINVAL instead here and a few lines above it where
+> > we accidentally return 0 on failure.
+> > 
+> > Cc: stable@vger.kernel.org
+> > Fixes: 059c53b32329 ("iio: adc: Add Renesas GyroADC driver")
+> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>  
 > 
-> Further narrowing it down, it turns out the CA57 cpuidle support is
-> not responsible for generating the issue. It's all about the CA53 idle
-> enablement. The reference target is H3-ES2.0-Salvator-X (the problem
-> originally emerged on M3-based customer HW).
-[..]
+> Yes, I checked the other error paths, too, and they look proper to me.
+> 
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> 
 
-Small amendment to the above (based on vanilla testing):
+Thanks for sorting that second case as well.
 
- Version                              Issue reproduced?
-                                      (H3-ES2.0-Salvator-X)
- v5.3-rc1-96-g6789f873ed37              No
- v5.3-rc1-96-g6789f873ed37 + [1]        No
- v5.3-rc1-96-g6789f873ed37 + [2]        No
- v5.3-rc1-96-g6789f873ed37 + [1] + [2]  Yes
+Applied to the fixes-togreg branch of iio.git.
 
-[1] https://patchwork.kernel.org/patch/10769701/
-("[v2,1/5] arm64: dts: r8a7795: Add cpuidle support for CA57 cores")
+Thanks,
 
-[2] https://patchwork.kernel.org/patch/10769689/
-("[v2,2/5] arm64: dts: r8a7795: Add cpuidle support for CA53 cores")
+Jonathan
 
--- 
-Best Regards,
-Eugeniu.
