@@ -2,83 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 965B777BED
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 27 Jul 2019 22:58:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9355B78090
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 28 Jul 2019 19:11:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388351AbfG0U6d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 27 Jul 2019 16:58:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53998 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388150AbfG0U6d (ORCPT
+        id S1726082AbfG1RL3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 28 Jul 2019 13:11:29 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:34730 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726046AbfG1RL3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 27 Jul 2019 16:58:33 -0400
-Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8B1912147A;
-        Sat, 27 Jul 2019 20:58:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564261112;
-        bh=3jvANDc9LliVkm8hGLHYQZv+x16Th48I4QDkZbmlC6g=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=II9jiPzdrI+X4JBvEQZPZzwwbe8udv2GD1DPtQdcgt3uAUH42j6Ns4TjtF4+j3A52
-         t2RreywU7Fkp19ReS5PSHVd/GnVN6TX0e+/SXsiKLnJRCKVqM4iGw9cEuOTzxTxrVR
-         UFYXnJK9yLozZQRP4wclydPjJBiHLgaAeZ3Dvc+4=
-Date:   Sat, 27 Jul 2019 21:58:26 +0100
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Marek Vasut <marek.vasut@gmail.com>,
-        stable@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        linux-renesas-soc@vger.kernel.org,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Rob Herring <robh@kernel.org>, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] [v2] iio: adc: gyroadc: fix uninitialized return code
-Message-ID: <20190727215826.70212910@archlinux>
-In-Reply-To: <20190718140227.GA3813@kunai>
-References: <20190718135758.2672152-1-arnd@arndb.de>
-        <20190718140227.GA3813@kunai>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        Sun, 28 Jul 2019 13:11:29 -0400
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+        (Exim 4.76)
+        (envelope-from <colin.king@canonical.com>)
+        id 1hrmhh-000484-LW; Sun, 28 Jul 2019 17:11:25 +0000
+From:   Colin King <colin.king@canonical.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: vsp1: fix memory leak of dl on error return path
+Date:   Sun, 28 Jul 2019 18:11:24 +0100
+Message-Id: <20190728171124.14202-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 18 Jul 2019 16:02:27 +0200
-Wolfram Sang <wsa@the-dreams.de> wrote:
+From: Colin Ian King <colin.king@canonical.com>
 
-> On Thu, Jul 18, 2019 at 03:57:49PM +0200, Arnd Bergmann wrote:
-> > gcc-9 complains about a blatant uninitialized variable use that
-> > all earlier compiler versions missed:
-> > 
-> > drivers/iio/adc/rcar-gyroadc.c:510:5: warning: 'ret' may be used uninitialized in this function [-Wmaybe-uninitialized]
-> > 
-> > Return -EINVAL instead here and a few lines above it where
-> > we accidentally return 0 on failure.
-> > 
-> > Cc: stable@vger.kernel.org
-> > Fixes: 059c53b32329 ("iio: adc: Add Renesas GyroADC driver")
-> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>  
-> 
-> Yes, I checked the other error paths, too, and they look proper to me.
-> 
-> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> 
+Currently when the call vsp1_dl_body_get fails and returns null the
+error return path leaks the allocation of dl. Fix this by kfree'ing
+dl before returning.
 
-Thanks for sorting that second case as well.
+Addresses-Coverity: ("Resource leak")
+Fixes: 5d7936b8e27d ("media: vsp1: Convert display lists to use new body pool")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/media/platform/vsp1/vsp1_dl.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Applied to the fixes-togreg branch of iio.git.
-
-Thanks,
-
-Jonathan
+diff --git a/drivers/media/platform/vsp1/vsp1_dl.c b/drivers/media/platform/vsp1/vsp1_dl.c
+index 104b6f514536..d7b43037e500 100644
+--- a/drivers/media/platform/vsp1/vsp1_dl.c
++++ b/drivers/media/platform/vsp1/vsp1_dl.c
+@@ -557,8 +557,10 @@ static struct vsp1_dl_list *vsp1_dl_list_alloc(struct vsp1_dl_manager *dlm)
+ 
+ 	/* Get a default body for our list. */
+ 	dl->body0 = vsp1_dl_body_get(dlm->pool);
+-	if (!dl->body0)
++	if (!dl->body0) {
++		kfree(dl);
+ 		return NULL;
++	}
+ 
+ 	header_offset = dl->body0->max_entries * sizeof(*dl->body0->entries);
+ 
+-- 
+2.20.1
 
