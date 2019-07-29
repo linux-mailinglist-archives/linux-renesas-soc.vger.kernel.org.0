@@ -2,105 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 803E878B79
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2019 14:14:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56BDF78E39
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2019 16:40:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727022AbfG2MOf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Jul 2019 08:14:35 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45780 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726972AbfG2MOf (ORCPT
+        id S1727283AbfG2Okf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Jul 2019 10:40:35 -0400
+Received: from vps0.lunn.ch ([185.16.172.187]:44934 "EHLO vps0.lunn.ch"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726197AbfG2Okf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Jul 2019 08:14:35 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E39CBCC;
-        Mon, 29 Jul 2019 14:14:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1564402473;
-        bh=wCcAv6FM39diFN+jloWxPo/sh6IQxLvyE55J6Ukj43k=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=EXVYBv5C2Fy1T255ejinqH2w7bZ2KZfQLDogsCIDvvZObjLlX3XBstaONLOl1zwYh
-         +PtIcBcFdTS5Es71PD3z2jJ3HGaKPQIMk2i7OaeoC2UTOMCrrnRZ2JpqrMQ08ch3MA
-         cWrtMeLvUSmXhqe96Xg3cKNn3Jz325jQ1LYgV7SM=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH] media: vsp1: fix memory leak of dl on error return path
-To:     Colin Ian King <colin.king@canonical.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190728171124.14202-1-colin.king@canonical.com>
- <e5c3dede-2c59-4c64-7a8c-f022ee06cbfa@ideasonboard.com>
- <22ff8757-fd79-a279-f55e-fc7c8d204a60@canonical.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <dd5e9421-9d32-0cad-9411-575569766b2f@ideasonboard.com>
-Date:   Mon, 29 Jul 2019 13:14:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Mon, 29 Jul 2019 10:40:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=uvHE0hWUJLrSKxbCdwUl89MRrAkqzhfQK464Ih0/+WI=; b=KWhSyBj4gceT4pY8ReUh5Pd7fJ
+        yzHN0avkF6m8NTc3lSzeDfBWHMbCh090W9zvb/JzXJQo7SRoogwjJ1Gx+Dwi1YxS5IpTNP0SFAqC2
+        O4dDd7bTwxZfQrYz6ffOFwFnTzC3PCflqSqMNQm9Aiph0+RCvvBzxmADWi/vA7M0WLEs=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.89)
+        (envelope-from <andrew@lunn.ch>)
+        id 1hs6p9-0001pS-To; Mon, 29 Jul 2019 16:40:27 +0200
+Date:   Mon, 29 Jul 2019 16:40:27 +0200
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Simon Horman <horms+renesas@verge.net.au>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2] arm64: dts: renesas: ebisu, draak: Limit EtherAVB to
+ 100Mbps
+Message-ID: <20190729144027.GD4110@lunn.ch>
+References: <20190729080356.13023-1-horms+renesas@verge.net.au>
 MIME-Version: 1.0
-In-Reply-To: <22ff8757-fd79-a279-f55e-fc7c8d204a60@canonical.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190729080356.13023-1-horms+renesas@verge.net.au>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 29/07/2019 13:12, Colin Ian King wrote:
-> On 29/07/2019 13:11, Kieran Bingham wrote:
->> Hi Colin,
->>
->> On 28/07/2019 18:11, Colin King wrote:
->>> From: Colin Ian King <colin.king@canonical.com>
->>>
->>> Currently when the call vsp1_dl_body_get fails and returns null the
->>> error return path leaks the allocation of dl. Fix this by kfree'ing
->>> dl before returning.
->>
->> Eeep. This does indeed look to be the case.
->>
->>>
->>> Addresses-Coverity: ("Resource leak")
->>> Fixes: 5d7936b8e27d ("media: vsp1: Convert display lists to use new body pool")
->>> Signed-off-by: Colin Ian King <colin.king@canonical.com>
->>
->> Thank you!
+On Mon, Jul 29, 2019 at 10:03:56AM +0200, Simon Horman wrote:
+> * According to the R-Car Gen3 Hardware Manual Errata for Rev 1.00 of
+>   August 24, 2018, the TX clock internal delay mode isn't supported
+>   on R-Car E3 (r8a77990) and D3 (r8a77995).
 > 
-> Thank static analysis :-)
-
-Bah, that's just the hammer - you're the one finding the nails :-D
---
-Kieran
-
-
+> * TX clock internal delay mode is required for reliable 1Gbps communication
+>   using the KSZ9031RNX phy present on the Ebisu and Draak boards.
 > 
->>
->> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->>
->>
->>> ---
->>>  drivers/media/platform/vsp1/vsp1_dl.c | 4 +++-
->>>  1 file changed, 3 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/media/platform/vsp1/vsp1_dl.c b/drivers/media/platform/vsp1/vsp1_dl.c
->>> index 104b6f514536..d7b43037e500 100644
->>> --- a/drivers/media/platform/vsp1/vsp1_dl.c
->>> +++ b/drivers/media/platform/vsp1/vsp1_dl.c
->>> @@ -557,8 +557,10 @@ static struct vsp1_dl_list *vsp1_dl_list_alloc(struct vsp1_dl_manager *dlm)
->>>  
->>>  	/* Get a default body for our list. */
->>>  	dl->body0 = vsp1_dl_body_get(dlm->pool);
->>> -	if (!dl->body0)
->>> +	if (!dl->body0) {
->>> +		kfree(dl);
->>>  		return NULL;
->>> +	}
->>>  
->>>  	header_offset = dl->body0->max_entries * sizeof(*dl->body0->entries);
->>>  
->>>
->>
+> Thus, the E3 based Ebisu and D3 based Draak boards can not reliably
+> use 1Gbps and the speed should be limited to 100Mbps.
 > 
+> Based on work by Kazuya Mizuguchi.
+> 
+> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
 
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+
+    Andrew
