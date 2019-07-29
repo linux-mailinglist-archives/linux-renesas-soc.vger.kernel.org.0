@@ -2,89 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA0507877C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2019 10:34:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE3F978794
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2019 10:37:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727517AbfG2Iea (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Jul 2019 04:34:30 -0400
-Received: from sauhun.de ([88.99.104.3]:38398 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727109AbfG2Ie3 (ORCPT
+        id S1727816AbfG2Ih6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Jul 2019 04:37:58 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:46960 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726305AbfG2Ih6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Jul 2019 04:34:29 -0400
-Received: from localhost (p5486CFB7.dip0.t-ipconnect.de [84.134.207.183])
-        by pokefinder.org (Postfix) with ESMTPSA id 3035F2C35BF;
-        Mon, 29 Jul 2019 10:34:27 +0200 (CEST)
-Date:   Mon, 29 Jul 2019 10:34:26 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Simon Horman <horms+renesas@verge.net.au>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2] arm64: dts: renesas: ebisu, draak: Limit EtherAVB to
- 100Mbps
-Message-ID: <20190729083426.GA1381@kunai>
-References: <20190729080356.13023-1-horms+renesas@verge.net.au>
+        Mon, 29 Jul 2019 04:37:58 -0400
+Received: by mail-wr1-f68.google.com with SMTP id z1so60806483wru.13;
+        Mon, 29 Jul 2019 01:37:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=v2fzYoiHmZNvVNIDlst/n6yOdTe6WLLtW6cd2YyN8MM=;
+        b=R7j6SuD8lbX7+8+uQqG43xDRp3q0y3KukZWYfYk5sg22JzUZpXLj3napj6tm8MZZWn
+         Z1QmLws8LptdB0FXwPAK2tOkSsXlEXsD2R70OE6W7U4rZ3uD7JCEDQqdANSgi3o1zj0/
+         oLElcLJJL6fKhJkHex+bOKP/Pab6cQrizP2pMNDJP07jz4ZAa08uTRhj/UpL727yGbr4
+         ckpvWl8MhQr7C96kx/tscyjOimtlkqlXN7n5fE1JhphSB15DqIkNFsUlqKynobaxgKs8
+         UDDe55CK3es6mauJL0h1gOTuJ1V/O6afDd4JBZ4syIFYZSkn/NhdYQG6EZ1zBWbJHdSX
+         qtig==
+X-Gm-Message-State: APjAAAVAqHBWMU/82OOAjqygtw6NCHD3MJrNbqTXXZwzB/FGfQxX9mQz
+        1a2BIq1IXGe1A/EJGlW5DyiNepzZTO2WAR2Ek40=
+X-Google-Smtp-Source: APXvYqxYXV4BHC4egPdmH36nxGmOUs6g1mJFhEYtAHtxFcz7uUV8f/StmyERRviKiL8TwLEZNbCTOrALYs+OlmhVmOU=
+X-Received: by 2002:adf:f08f:: with SMTP id n15mr34847348wro.213.1564389476092;
+ Mon, 29 Jul 2019 01:37:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="6c2NcOVqGQ03X4Wi"
-Content-Disposition: inline
-In-Reply-To: <20190729080356.13023-1-horms+renesas@verge.net.au>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <1563289264-26432-1-git-send-email-uli+renesas@fpond.eu> <1563289264-26432-3-git-send-email-uli+renesas@fpond.eu>
+In-Reply-To: <1563289264-26432-3-git-send-email-uli+renesas@fpond.eu>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 29 Jul 2019 10:37:44 +0200
+Message-ID: <CAMuHMdXrfv7xh9f5xsHnG87L1u1V2r2MuS6bV2zxWKku6AALqg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] mmc: tmio: remove obsolete PM workaround
+To:     Ulrich Hecht <uli+renesas@fpond.eu>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Magnus Damm <magnus.damm@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Tue, Jul 16, 2019 at 5:01 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
+> Obsoleted by
+> "mmc: tmio: move runtime PM enablement to the driver implementations".
 
---6c2NcOVqGQ03X4Wi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+commit 7ff213193310ef8d ("mmc: tmio: move runtime PM enablement to the
+driver implementations")
 
-On Mon, Jul 29, 2019 at 10:03:56AM +0200, Simon Horman wrote:
-> * According to the R-Car Gen3 Hardware Manual Errata for Rev 1.00 of
->   August 24, 2018, the TX clock internal delay mode isn't supported
->   on R-Car E3 (r8a77990) and D3 (r8a77995).
->=20
-> * TX clock internal delay mode is required for reliable 1Gbps communicati=
-on
->   using the KSZ9031RNX phy present on the Ebisu and Draak boards.
->=20
-> Thus, the E3 based Ebisu and D3 based Draak boards can not reliably
-> use 1Gbps and the speed should be limited to 100Mbps.
->=20
-> Based on work by Kazuya Mizuguchi.
->=20
-> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+>
+> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
+> ---
+>  drivers/mmc/host/tmio_mmc_core.c | 9 ---------
+>  1 file changed, 9 deletions(-)
+>
+> diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
+> index 26dcbba..29c0d2c 100644
+> --- a/drivers/mmc/host/tmio_mmc_core.c
+> +++ b/drivers/mmc/host/tmio_mmc_core.c
+> @@ -1221,15 +1221,6 @@ int tmio_mmc_host_probe(struct tmio_mmc_host *_host)
+>                 _host->reset = tmio_mmc_reset;
+>
+>         /*
+> -        * On Gen2+, eMMC with NONREMOVABLE currently fails because native
+> -        * hotplug gets disabled. It seems RuntimePM related yet we need further
+> -        * research. Since we are planning a PM overhaul anyway, let's enforce
+> -        * for now the device being active by enabling native hotplug always.
+> -        */
+> -       if (pdata->flags & TMIO_MMC_MIN_RCAR2)
+> -               _host->native_hotplug = true;
+> -
+> -       /*
+>          * While using internal tmio hardware logic for card detection, we need
+>          * to ensure it stays powered for it to work.
+>          */
 
-Yes, this matches all the previous discussions to the best of my
-knowledge:
+Gr{oetje,eeting}s,
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---6c2NcOVqGQ03X4Wi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl0+r44ACgkQFA3kzBSg
-KbY5PQ//Tn9hY8BpQBlzmkBgp0Vb+e4od1DjjojwtSQH7aDBkA2LjrQ1ab/QTBXB
-fOHqCFFMv0XIrFMAgChgXtRNXvnDuwJCeraIGV762Qv1vYUe/G+o+VFIEC8GU1IT
-XXqSiJeDR+RTyV6iv3yHjkvkMRwJFRtu5iDgZ7UuLIrKYCQYHdkF1c+0tjkATGnb
-I3U/kzvkQCmDEhU5inD8e7pIr8EtHdXwvnR8d5iPgTNG0JF9jwKg5WObU33uzfvJ
-b+Qs5G8OWMR0e76cxe5XrqC1wrWdCM6D6BP+vWYncZo8hqP4r4wgIYOSlxOsQ1Jw
-MqCtPLRyw1x4GgylwsfC/fr+efRTlMzHnTyRw/giMhjq3LOlQXyG33H6oRDBl7QG
-H+J/ToAL7a2mcuPiLKojmIqEKr5lClRY5Rr0SmWjDNMgYZgUE9ZgQHAKryB7ca69
-Zd6ZYpm/a7xSg9Mhj5XOvXRP19segJXEkwhLwTc0GlS2XeEwTEa5yHd2bJvo1IWE
-UZQnk+xfAqt0FbSgg6+3fCMoKSzJ0s3A524opVWkWqkPu5uQrDsSeMdVXJAwT8h8
-dQ2bvXMXTDFI/uy1X3hFvcOmAPfcGrSqVlwdwl12oMHad0QBa8vtC+++3/Bscu20
-hrteZEvO6LmiiGOJ1PclsuLAuFxfJgx9cHcxzF45ye5cdrkx2vs=
-=Pn1D
------END PGP SIGNATURE-----
-
---6c2NcOVqGQ03X4Wi--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
