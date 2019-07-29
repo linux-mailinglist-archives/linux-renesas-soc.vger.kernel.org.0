@@ -2,82 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 54FE778AD2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2019 13:46:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29A3178B64
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2019 14:11:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387812AbfG2Lqf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Jul 2019 07:46:35 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:34292 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387638AbfG2Lqe (ORCPT
+        id S1726631AbfG2MLg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Jul 2019 08:11:36 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:45714 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726482AbfG2MLg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Jul 2019 07:46:34 -0400
-Received: by mail-wr1-f66.google.com with SMTP id 31so61534814wrm.1;
-        Mon, 29 Jul 2019 04:46:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vOK6hAPIyKIN5T25qCKZRpxZVqNpHvJX+jJCmKFHS6c=;
-        b=bAYwW1kC/6XYCm6elvtD+sWeTVSw8JFBJRHe9fD3nun3J1BQSOjPZ3lmR8Y60Q5+7m
-         sRCPUi8aHkFP4lC8d+A6s/A+LfF3T1iEgcVdnmTaB3eVAb5hHf+NL7EWrDgQ9m2NvbIH
-         qouhwNPiw5rzmUJmkYPfnQnbYJWNGFKhPUw/+/bDmb1CyHrX6yUfHPtWVRC1+8UNqfFu
-         seJdxGR1p8l0iZ/aGBcq8fLGsT/QFH6wgwaKIQfLVY/uG9XGQA5FzPLsEKiAe+U2b14f
-         3Ezqi/5tAG/qK4194enBDSbGMkMu71Ev08MDTUG6QpFGWsMEcAv6lFOIYVMY8qdC+Qm5
-         FGoA==
-X-Gm-Message-State: APjAAAVeyF/8uPgcK4mxd1tL53gADPsqhc88zhQrDZf/MW13kW5LddZ2
-        b99NPQS5KCLkFPZduIUUXzeYPIwUu6+/swtCpqvF6add
-X-Google-Smtp-Source: APXvYqysJniGorIJj1c+0IqS832w1usN1p5zURvg9QGJ0cqow67I5PdsrZn6SaxSvxGiJOFk+K+LujNwcHJfcBAKE+k=
-X-Received: by 2002:a5d:630c:: with SMTP id i12mr32357257wru.312.1564400792794;
- Mon, 29 Jul 2019 04:46:32 -0700 (PDT)
+        Mon, 29 Jul 2019 08:11:36 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04E6ACC;
+        Mon, 29 Jul 2019 14:11:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1564402293;
+        bh=858qY4EmDwiMBdRHoxTSaL+Ublt1kQgaIWAAkh9Vhz4=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=GTFtRr1beIO6Ck5gVW8Jpc6Pz9mR6bbeN0BszzKi3IdNAjsuVO4jiVCqsGsrii/EF
+         H/6DASPoxE07EVkchiHLuLct8aByzOGl3myccmxEn7WAHs74SvFOgI1BP7C0sVyznM
+         fcYvq62vXTR7DOuAhotT10l3nVUeQXUXBu9Gv98Y=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH] media: vsp1: fix memory leak of dl on error return path
+To:     Colin King <colin.king@canonical.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190728171124.14202-1-colin.king@canonical.com>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <e5c3dede-2c59-4c64-7a8c-f022ee06cbfa@ideasonboard.com>
+Date:   Mon, 29 Jul 2019 13:11:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190724121559.19079-1-horms+renesas@verge.net.au> <20190724121559.19079-5-horms+renesas@verge.net.au>
-In-Reply-To: <20190724121559.19079-5-horms+renesas@verge.net.au>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 29 Jul 2019 13:46:21 +0200
-Message-ID: <CAMuHMdV1kzOajwZXCkU-=bX1PW4=OUq3wZwbFRAUZuOWWwo=_w@mail.gmail.com>
-Subject: Re: [PATCH 4/4] dt-bindings: i2c: riic: Rename bindings documentation file
-To:     Simon Horman <horms+renesas@verge.net.au>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190728171124.14202-1-colin.king@canonical.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Simon,
+Hi Colin,
 
-The subject line is identical to the one for PATCH 3/4.
-Probably you intended s/riic/iic-emev2/?
+On 28/07/2019 18:11, Colin King wrote:
+> From: Colin Ian King <colin.king@canonical.com>
+> 
+> Currently when the call vsp1_dl_body_get fails and returns null the
+> error return path leaks the allocation of dl. Fix this by kfree'ing
+> dl before returning.
 
-On Wed, Jul 24, 2019 at 3:25 PM Simon Horman <horms+renesas@verge.net.au> wrote:
->
-> Rename the bindings documentation file for Renesas EMEV2 IIC controller
-> from i2c-emev2.txt to renesas,iic-emev2.txt.
->
-> This is part of an ongoing effort to name bindings documentation files for
-> Renesas IP blocks consistently, in line with the compat strings they
-> document.
->
-> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+Eeep. This does indeed look to be the case.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> Addresses-Coverity: ("Resource leak")
+> Fixes: 5d7936b8e27d ("media: vsp1: Convert display lists to use new body pool")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
 
-Gr{oetje,eeting}s,
+Thank you!
 
-                        Geert
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> ---
+>  drivers/media/platform/vsp1/vsp1_dl.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/vsp1/vsp1_dl.c b/drivers/media/platform/vsp1/vsp1_dl.c
+> index 104b6f514536..d7b43037e500 100644
+> --- a/drivers/media/platform/vsp1/vsp1_dl.c
+> +++ b/drivers/media/platform/vsp1/vsp1_dl.c
+> @@ -557,8 +557,10 @@ static struct vsp1_dl_list *vsp1_dl_list_alloc(struct vsp1_dl_manager *dlm)
+>  
+>  	/* Get a default body for our list. */
+>  	dl->body0 = vsp1_dl_body_get(dlm->pool);
+> -	if (!dl->body0)
+> +	if (!dl->body0) {
+> +		kfree(dl);
+>  		return NULL;
+> +	}
+>  
+>  	header_offset = dl->body0->max_entries * sizeof(*dl->body0->entries);
+>  
+> 
+
