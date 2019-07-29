@@ -2,87 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C6F29788D8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2019 11:50:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F24C078A9F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2019 13:32:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726281AbfG2JuO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Jul 2019 05:50:14 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:46869 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726167AbfG2JuN (ORCPT
+        id S2387714AbfG2Lcw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Jul 2019 07:32:52 -0400
+Received: from foss.arm.com ([217.140.110.172]:42442 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387483AbfG2Lcw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Jul 2019 05:50:13 -0400
-Received: by mail-wr1-f67.google.com with SMTP id z1so61064824wru.13;
-        Mon, 29 Jul 2019 02:50:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ybJ7P05K53NX7FKc/5oYAFDyVwoukuxNSWJd3L/Xwdo=;
-        b=Z03/+5Sty5w8S9pmwS1pjVOvaits+8IcnlnVX8jWUElzugjZNrgSm2sEQgt6K1XSUF
-         wbHz2q6oQBb9k74+v6Mq1MBH7K075SVqTgMnZes1c1z1FC27AUrGvMMePZwHWRyxnZaL
-         DmKf+uVxNp6GIaNGbhK2QF1CPM/ULw8f6ug9PEfNxgPaLVxIWdF3bFqCCuV1LiwQyjCH
-         t2CgbZtD58faimjQ9/2bodIej8QwYrHlur89gA/fYUxaNzGMa2U5tIJq/lcy3EQaHPPT
-         aUpc5Z0IWanf+5dlYdjvNHxBCBn5G0gVnXH90YrBt4+RwZFolwxpzCaM0tJKTRouatqC
-         jy/Q==
-X-Gm-Message-State: APjAAAUqYfAi9mrwc+c0g1453qg54aRDmOniAzgbSceaaVytP+tY5j9G
-        NUh9GnGxzVCWj5Tmb2XtryfpTJ/MCS4GR5vQ70s=
-X-Google-Smtp-Source: APXvYqydWdciQhxcH+vguMadU3e/QMGpFs8E7ayB0642ju9nV7ioyOwZXklB1RPcn6w20A+8P+fjCDuTdw6IfWso4Cg=
-X-Received: by 2002:a5d:630c:: with SMTP id i12mr31548467wru.312.1564393811759;
- Mon, 29 Jul 2019 02:50:11 -0700 (PDT)
+        Mon, 29 Jul 2019 07:32:52 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1661728;
+        Mon, 29 Jul 2019 04:32:51 -0700 (PDT)
+Received: from e121166-lin.cambridge.arm.com (unknown [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 110E23F694;
+        Mon, 29 Jul 2019 04:32:48 -0700 (PDT)
+Date:   Mon, 29 Jul 2019 12:32:44 +0100
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        "horms@verge.net.au" <horms@verge.net.au>,
+        "khiem.nguyen.xt@renesas.com" <khiem.nguyen.xt@renesas.com>,
+        "dien.pham.ry@renesas.com" <dien.pham.ry@renesas.com>,
+        "takeshi.kihara.df@renesas.com" <takeshi.kihara.df@renesas.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "Wischer, Timo (ADITG/ESM)" <twischer@de.adit-jv.com>,
+        "Maik.Scholz@de.bosch.com" <Maik.Scholz@de.bosch.com>,
+        "Dirk.Behme@de.bosch.com" <Dirk.Behme@de.bosch.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v2 2/5] arm64: dts: r8a7795: Add cpuidle support for CA53
+ cores
+Message-ID: <20190729113244.GA12631@e121166-lin.cambridge.arm.com>
+References: <1547808474-19427-1-git-send-email-uli+renesas@fpond.eu>
+ <1547808474-19427-3-git-send-email-uli+renesas@fpond.eu>
+ <20190726091325.GA13111@vmlxhi-102.adit-jv.com>
+ <20190726094724.GA14913@vmlxhi-102.adit-jv.com>
+ <CAMuHMdXiOBxUDXLcL6R7jHF4DMoH=72yMkSiv-51aV7cw3my9Q@mail.gmail.com>
 MIME-Version: 1.0
-References: <cover.1561723979.git.mchehab+samsung@kernel.org>
-In-Reply-To: <cover.1561723979.git.mchehab+samsung@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 29 Jul 2019 11:50:00 +0200
-Message-ID: <CAMuHMdVRaaU-r48uhLH6-KH8yYnCSY8X_XJLuPuUTWGuy4_82g@mail.gmail.com>
-Subject: Re: [PATCH 00/43] Convert doc files to ReST
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXiOBxUDXLcL6R7jHF4DMoH=72yMkSiv-51aV7cw3my9Q@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Mauro,
+On Mon, Jul 29, 2019 at 09:44:52AM +0200, Geert Uytterhoeven wrote:
+> Hi Eugniu,
+> 
+> CC cpuidle people
+> 
+> On Fri, Jul 26, 2019 at 11:47 AM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
+> > On Fri, Jul 26, 2019 at 11:13:29AM +0200, Rosca, Eugeniu (ADITG/ESM1) wrote:
+> > [..]
+> > > The culprit BSP commits are:
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas-bsp.git/commit/?id=3c3b44c752c4ee
+> > > https://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas-bsp.git/commit/?id=902ff7caa32dc71c
+> > >
+> > > Further narrowing it down, it turns out the CA57 cpuidle support is
+> > > not responsible for generating the issue. It's all about the CA53 idle
+> > > enablement. The reference target is H3-ES2.0-Salvator-X (the problem
+> > > originally emerged on M3-based customer HW).
+> > [..]
+> >
+> > Small amendment to the above (based on vanilla testing):
+> >
+> >  Version                              Issue reproduced?
+> >                                       (H3-ES2.0-Salvator-X)
+> >  v5.3-rc1-96-g6789f873ed37              No
+> >  v5.3-rc1-96-g6789f873ed37 + [1]        No
+> >  v5.3-rc1-96-g6789f873ed37 + [2]        No
+> >  v5.3-rc1-96-g6789f873ed37 + [1] + [2]  Yes
+> >
+> > [1] https://patchwork.kernel.org/patch/10769701/
+> > ("[v2,1/5] arm64: dts: r8a7795: Add cpuidle support for CA57 cores")
+> >
+> > [2] https://patchwork.kernel.org/patch/10769689/
+> > ("[v2,2/5] arm64: dts: r8a7795: Add cpuidle support for CA53 cores")
+> 
+> Thanks for your report and investigation!
+> 
+> Unfortunately your original report didn't make it to lore.kernel.org, and
+> probably also not to the list, due to the large audio attachment.
+> 
+> For the newly CCed people, the issue is about consistent dropouts
+> during audio playback using an in-house application, introduced by
+> adding cpuidle support to _both_ the big and LITTLE cores.
 
-On Fri, Jun 28, 2019 at 2:25 PM Mauro Carvalho Chehab
-<mchehab+samsung@kernel.org> wrote:
->
-> This patchset contains the patches that weren't merged yet from
-> part 2 and 3 of the previous ReST conversion patchset.
->
-> This is based aganst linux-next (next-20190627), so they may not
-> apply cleanly at docs-next.
->
-> It does contain file renames, but, except for a few exceptions, the files
-> are kept where they are.
->
-> The first patches on this series were agreed to be merged via subsystem's
-> tree, but, as they didn't appear at -next, I'm recending as a gentile
-> ping.
+CPUidle entry/exit latencies are certainly bringing the issue
+about, I am not an audio expert but I suspect buffering should
+be tuned to cope with those _increased_ latencies or possibly
+idle states disabled for certain specific use cases - there
+is no silver bullet, entering deep idle states will increase
+latencies, there is no way around it.
 
-[...]
+I am happy to help you debug the issue further.
 
->  .../arm/{SH-Mobile => sh-mobile}/.gitignore   |    0
-
-I guess that should have been "shmobile^H^H^H^H^H^H^H^Hrenesas",
-for consistency with modern naming?
-For whatever it's worth keeping empty subdirectories, of course,
-containing just an obsolete .gitignore file...
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Lorenzo
