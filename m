@@ -2,116 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DCE8F786F7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2019 10:04:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD56978718
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2019 10:14:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727465AbfG2IEM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Jul 2019 04:04:12 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:34132 "EHLO
+        id S1726843AbfG2IOp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Jul 2019 04:14:45 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:34948 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727463AbfG2IEM (ORCPT
+        with ESMTP id S1726690AbfG2IOp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Jul 2019 04:04:12 -0400
+        Mon, 29 Jul 2019 04:14:45 -0400
 Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 9E2CF25AD7E;
-        Mon, 29 Jul 2019 18:04:10 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 0A12A25B73B;
+        Mon, 29 Jul 2019 18:14:43 +1000 (AEST)
 Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id 7AEFB9403F0; Mon, 29 Jul 2019 10:04:08 +0200 (CEST)
-From:   Simon Horman <horms+renesas@verge.net.au>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org,
+        id E09EF9403F0; Mon, 29 Jul 2019 10:14:40 +0200 (CEST)
+Date:   Mon, 29 Jul 2019 10:14:40 +0200
+From:   Simon Horman <horms@verge.net.au>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Simon Horman <horms+renesas@verge.net.au>
-Subject: [PATCH v2] arm64: dts: renesas: ebisu, draak: Limit EtherAVB to 100Mbps
-Date:   Mon, 29 Jul 2019 10:03:56 +0200
-Message-Id: <20190729080356.13023-1-horms+renesas@verge.net.au>
-X-Mailer: git-send-email 2.11.0
+        USB list <linux-usb@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH v2 2/2] dt-bindings: usb: renesas_gen3: Rename bindings
+ documentation file
+Message-ID: <20190729081440.ftgchumfoszlht4q@verge.net.au>
+References: <20190703083514.32385-1-horms+renesas@verge.net.au>
+ <20190703083514.32385-3-horms+renesas@verge.net.au>
+ <CAMuHMdVgx9N0yeeei5qcg1yz2WEdDf0gQ6GcwUOAz7u09S_D4A@mail.gmail.com>
+ <20190711080302.qeotxueyvlr7pvhe@verge.net.au>
+ <20190725090946.GA3311@kroah.com>
+ <TYAPR01MB4544F226C06730C5611EB025D8C00@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <TYAPR01MB4544F226C06730C5611EB025D8C00@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+Organisation: Horms Solutions BV
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-* According to the R-Car Gen3 Hardware Manual Errata for Rev 1.00 of
-  August 24, 2018, the TX clock internal delay mode isn't supported
-  on R-Car E3 (r8a77990) and D3 (r8a77995).
+On Fri, Jul 26, 2019 at 01:22:48AM +0000, Yoshihiro Shimoda wrote:
+> Hi Greg,
+> 
+> > From: Greg Kroah-Hartman, Sent: Thursday, July 25, 2019 6:10 PM
+> > 
+> > On Thu, Jul 11, 2019 at 10:03:03AM +0200, Simon Horman wrote:
+> > > On Wed, Jul 03, 2019 at 02:28:51PM +0200, Geert Uytterhoeven wrote:
+> > > > Hi Simon,
+> > > >
+> > > > On Wed, Jul 3, 2019 at 10:35 AM Simon Horman <horms+renesas@verge.net.au> wrote:
+> > > > > For consistency with the naming of (most) other documentation files for DT
+> > > > > bindings for Renesas IP blocks rename the Renesas USB3.0 peripheral
+> > > > > documentation file from renesas-gen3.txt to renesas,usb3-peri.txt
+> > > > >
+> > > > > Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+> > > > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > > Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > > > > Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > > > >
+> > > > > ---
+> > > > > v2
+> > > > > * Accumulate review tags
+> > > > > * Use renesas,usb3-peri.txt as new filename as suggested by Shimoda-san
+> > > >
+> > > > Unfortunately the previous version has already made it into usb-next
+> > > > 23c46801d14cb647 dt-bindings: usb: renesas_gen3: Rename bindings
+> > > > documentation file
+> > >
+> > > Ok, I guess we should go with that version.
+> > 
+> > So can you resend this series based on 5.3-rc1 so I know what to apply?
+> 
+> Since your usb-testing branch already has it which is merged from Felipe's usb-next branch,
+> I don't think Simon has to resend this series.
+> 
+> https://www.spinics.net/lists/linux-usb/msg182103.html
 
-* TX clock internal delay mode is required for reliable 1Gbps communication
-  using the KSZ9031RNX phy present on the Ebisu and Draak boards.
+Thanks and sorry for the confusion.
 
-Thus, the E3 based Ebisu and D3 based Draak boards can not reliably
-use 1Gbps and the speed should be limited to 100Mbps.
+In v5.2-rc1 we had:
 
-Based on work by Kazuya Mizuguchi.
+  devicetree/bindings/usb/renesas_usb3.txt
+  devicetree/bindings/usb/renesas_usbhs.txt
 
-Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
 
----
+In v5.3-rc1 we have:
 
-Based on renesas-devel-2019-07-12-v5.2
+  devicetree/bindings/usb/renesas,usb3.txt
+  devicetree/bindings/usb/renesas,usbhs.txt
 
-v2:
-* Add comment to dts as suggested by Wolfram Sang
-* Correct changelog as suggested by Kieran Bingham
+Which reflects v1 of this patchset. And I think this is an improvement.
 
-v1 (repost):
+Shimoda-san, can you let me know if you would like me to rebase v2
+on v5.3-rc1? That would would give us:
 
-In earlier review Andrew Lunn suggested that we may be able to take a
-different approach to this problem by using delays provided by the
-KSZ9031RNX PHY. In particular MMD address 2h, Register 8h -
-RGMII Clock Pad Skew.
-
-I have consulted with Renesas regarding this suggestion, however,
-unfortunately it appears that the delays provided by this solution
-would be insufficient to allow for reliable 1Gbps communication.
-
-At this point I believe the safest option is to apply this patch.
----
- arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts | 8 ++++++++
- arch/arm64/boot/dts/renesas/r8a77995-draak.dts | 8 ++++++++
- 2 files changed, 16 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
-index 83fc13ac3fa1..62203c0fc70d 100644
---- a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
-@@ -271,6 +271,14 @@
- 		interrupt-parent = <&gpio2>;
- 		interrupts = <21 IRQ_TYPE_LEVEL_LOW>;
- 		reset-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;
-+		/*
-+		 * TX clock internal delay mode is required for reliable
-+		 * 1Gbps communication using the KSZ9031RNX phy present on
-+		 * the Ebisu board, however, TX clock internal delay mode
-+		 * isn't supported on r8a77990.  Thus, limit speed to
-+		 * 100Mbps for reliable communication.
-+		 */
-+		max-speed = <100>;
- 	};
- };
- 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77995-draak.dts b/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
-index 0711170b26b1..4b651548b82b 100644
---- a/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
-@@ -175,6 +175,14 @@
- 		reg = <0>;
- 		interrupt-parent = <&gpio5>;
- 		interrupts = <19 IRQ_TYPE_LEVEL_LOW>;
-+		/*
-+		 * TX clock internal delay mode is required for reliable
-+		 * 1Gbps communication using the KSZ9031RNX phy present on
-+		 * the Draak board, however, TX clock internal delay mode
-+		 * isn't supported on r8a77995.  Thus, limit speed to
-+		 * 100Mbps for reliable communication.
-+		 */
-+		max-speed = <100>;
- 	};
- };
- 
--- 
-2.11.0
+  devicetree/bindings/usb/renesas,usb3-peri.txt
+  devicetree/bindings/usb/renesas,usbhs.txt		[unchanged]
 
