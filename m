@@ -2,116 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 42346787AF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2019 10:44:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 587D47881E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2019 11:16:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727752AbfG2Io0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Jul 2019 04:44:26 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:35959 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727109AbfG2Io0 (ORCPT
+        id S1727204AbfG2JPz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Jul 2019 05:15:55 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:46573 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726496AbfG2JPz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Jul 2019 04:44:26 -0400
-Received: by mail-wr1-f68.google.com with SMTP id n4so60929581wrs.3;
-        Mon, 29 Jul 2019 01:44:24 -0700 (PDT)
+        Mon, 29 Jul 2019 05:15:55 -0400
+Received: by mail-wr1-f67.google.com with SMTP id z1so60942688wru.13;
+        Mon, 29 Jul 2019 02:15:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=x2maF5b/Q0XETfWQ2b8Dczqa2bqSUFTU4fvTgWxwyHU=;
-        b=LjQarevaQ+6KPJui1dlvWs1t1btwNHVaK/QFtmrT4NUepLAu6b6pZgwHsOeJ4MRuT6
-         Gdm3vGsDGWlonTE0/oGy1a3eUWoHM/WhP9oMtSVJfPu5DNizlZoGA32Fyn56lIbhHVQR
-         tkyWXrhiY7yFKn2+Aw2A+e9UwBiAgm+VP571DUsSN8XV45ddrCxg3KG091h7C7nJ4AIy
-         PhEZc5z/9QD2qVDVHC5is4mgcLInBZNGTj3APVsS2uqfvJ6Y578/gvIQmnMO1MmBgTbx
-         j13H3jt3Vy9EDgBrWZBJvGDsqFYYW6qD8xmv2tURBJhjd1ZQ1ZUIvUtblMFE06WKec7k
-         QhQQ==
-X-Gm-Message-State: APjAAAWX9w0wwTJev+zlLEULh9bYDHK334pGTs0PRwAcA/UJ2svdROEY
-        EDr15skwtk5HXrp2fgeDQiwRYT1ugjgEtxOLBWAP+hPk
-X-Google-Smtp-Source: APXvYqztnQYPQSrLWkBaWWL1Szt6yV8HmhZmSDSfuIvT/KLKay9keV8JeEjMoSmHMKOH/JdjWhzc7L9LYHBAiTmN5ps=
-X-Received: by 2002:adf:ab51:: with SMTP id r17mr92675742wrc.95.1564389863738;
- Mon, 29 Jul 2019 01:44:23 -0700 (PDT)
+        bh=lX+8f/ul557VUvmKfQ5/rLyi40udmS9GdSHCWxQEpMY=;
+        b=Ytr4b5inOd6rHWzdTBUm+jO64HpHkm9J6gtxtJiO0HuUOqtHqyuDJmJICItykEpa6K
+         BgHwfKnnm87fYOKc4MlyOmu4AUW0xjODEQgkLp5WjmGbCK++ZtofKmdXLfaLcfc2gvhJ
+         W+XrYXo/P47eSeeZYkx7AoiLsQ0vK5yCwRoiVgcIJjmwxTKXgRM3w+A6NASYHpSKH90K
+         Qzgb5HHO9w+Vab0Ezs29ERQDt9ywqzn9580cWaTAljbo2f9srMFBky59DbU7si+UKBi0
+         LVFJMx8pSf4tYtP735sZoCgSPG2rwZlwbfLKrhFnRMbKrvEHQDW+UZPEs7up1gB7XoFV
+         Tu0w==
+X-Gm-Message-State: APjAAAWq7vWYZ4sSB4uyZvUM57ObVsD02+lkUyZlT+W85SxVcV+WHcPA
+        EpDQw7hpVcsPbFKSmJvdw7zD2r5iRemqLgk8a2A=
+X-Google-Smtp-Source: APXvYqxGx0Im9VeJH1b6YeB64dzXITkccBaAUZ+m0f2WtWbs7Fi1L9DQElT8KAMMrGxdtE1jg7uiYwM1yPygWtq4cjE=
+X-Received: by 2002:adf:cd81:: with SMTP id q1mr117458151wrj.16.1564391752564;
+ Mon, 29 Jul 2019 02:15:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <1563289264-26432-1-git-send-email-uli+renesas@fpond.eu>
- <1563289264-26432-2-git-send-email-uli+renesas@fpond.eu> <CAPDyKFq2i0pRKGtMA6YESpKOAAzK-enhW7fkT6=63Ad2mQGmJQ@mail.gmail.com>
-In-Reply-To: <CAPDyKFq2i0pRKGtMA6YESpKOAAzK-enhW7fkT6=63Ad2mQGmJQ@mail.gmail.com>
+References: <1564108975-27423-1-git-send-email-masonccyang@mxic.com.tw> <1564108975-27423-3-git-send-email-masonccyang@mxic.com.tw>
+In-Reply-To: <1564108975-27423-3-git-send-email-masonccyang@mxic.com.tw>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 29 Jul 2019 10:44:11 +0200
-Message-ID: <CAMuHMdU8dBF0X05=c-hNeHSPps8Q9YpBbr4Cf4WqSBjv-Q-zSw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] mmc: tmio: leave clock handling to PM if enabled
-To:     Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
+Date:   Mon, 29 Jul 2019 11:15:40 +0200
+Message-ID: <CAMuHMdWVuQa1LLXPqrdSw6wdRzwQapAkk6Est=XrjESPF9zQwg@mail.gmail.com>
+Subject: Re: [PATCH v15 2/2] dt-bindings: spi: Document Renesas R-Car Gen3
+ RPC-IF controller bindings
+To:     Mason Yang <masonccyang@mxic.com.tw>
+Cc:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Magnus Damm <magnus.damm@gmail.com>
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, juliensu@mxic.com.tw,
+        Simon Horman <horms@verge.net.au>,
+        Lee Jones <lee.jones@linaro.org>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        Marek Vasut <marek.vasut@gmail.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Ulf,
+Hi Mason,
 
-On Thu, Jul 25, 2019 at 3:44 PM Ulf Hansson <ulf.hansson@linaro.org> wrote:
-> On Tue, 16 Jul 2019 at 17:01, Ulrich Hecht <uli+renesas@fpond.eu> wrote:
-> > This fixes a clock imbalance that occurs because the SD clock is handled
-> > by both PM and the hardware driver.
-> > See https://www.spinics.net/lists/linux-mmc/msg44431.html for details.
->
-> This is a generic problem, when a device are being attached to a genpd
-> and when the genpd has got the ->stop|start() callbacks assigned, as
-> to manage device clocks.
->
-> Can you try to describe this problem a little bit more in detail, as I
-> think that's important to carry in the change log.
->
-> >
-> > This patch removes the clock handling from the driver's PM callbacks and
->
-> runtime PM callbacks and/or system PM callbacks?
->
-> > turns the clock off after probing.
-> >
-> > Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> > ---
-> >  drivers/mmc/host/tmio_mmc_core.c | 24 ++++++------------------
-> >  1 file changed, 6 insertions(+), 18 deletions(-)
-> >
-> > diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
-> > index 31ffcc3..26dcbba 100644
-> > --- a/drivers/mmc/host/tmio_mmc_core.c
-> > +++ b/drivers/mmc/host/tmio_mmc_core.c
-> > @@ -1260,9 +1260,14 @@ int tmio_mmc_host_probe(struct tmio_mmc_host *_host)
-> >         /* See if we also get DMA */
-> >         tmio_mmc_request_dma(_host, pdata);
-> >
-> > -       pm_runtime_set_active(&pdev->dev);
-> > +#ifdef CONFIG_PM
-> > +       /* PM handles the clock; disable it so it won't be enabled twice. */
-> > +       if (_host->clk_disable)
-> > +               _host->clk_disable(_host);
->
-> The clock managed here, is that the same clock as being managed by
-> genpd's ->stop|start() callbacks?
->
-> > +       pm_runtime_get_sync(&pdev->dev);
-> >         pm_runtime_set_autosuspend_delay(&pdev->dev, 50);
-> >         pm_runtime_use_autosuspend(&pdev->dev);
-> > +#endif
->
-> So what happens if you have CONFIG_PM set, but the device doesn't have
-> a genpd attached?
+Thanks for the update!
 
-That's OK for all SoCs served by renesas_sdhi_internal_dmac.c and
-renesas_sdhi_sys_dmac.c, as they all have their clock domain described
-in DT...
+On Fri, Jul 26, 2019 at 4:19 AM Mason Yang <masonccyang@mxic.com.tw> wrote:
+> Dcument the bindings used by the Renesas R-Car Gen3 RPC-IF controller.
 
-> I am guessing the driver should handle the clock in such scenario, right?
+Document
 
-... but it's not for (non-Renesas) systems served by tmio_mmc.c.
+>
+> Signed-off-by: Mason Yang <masonccyang@mxic.com.tw>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/spi/spi-renesas-rpc.txt
+> @@ -0,0 +1,46 @@
+
+[...]
+
+> +- flash: should be represented by a subnode of the RPC-IF node,
+> +        which "compatible" property contains "jedec,spi-nor", it presents
+> +        SPI is used.
+
+Sorry, I failed to parse the last subsentence.
+
+> +
+> +Example:
+> +
+> +       rpc: spi@ee200000 {
+> +               compatible = "renesas,r8a77995-rpc", "renesas,rcar-gen3-rpc";
+> +               reg = <0 0xee200000 0 0x200>, <0 0x08000000 0 0x4000000>,
+> +                     <0 0xee208000 0 0x100>;
+> +               reg-names = "regs", "dirmap", "wbuf";
+> +               clocks = <&cpg CPG_MOD 917>;
+> +               clock-names = "rpc";
+> +               power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
+> +               resets = <&cpg 917>;
+> +               #address-cells = <1>;
+> +               #size-cells = <0>;
+> +
+> +               flash@0 {
+> +                       compatible = "jedec,spi-nor";
+> +                       reg = <0>;
+> +                       spi-max-frequency = <40000000>;
+> +                       spi-tx-bus-width = <1>;
+> +                       spi-rx-bus-width = <1>;
+
+Shouldn't those <1> be <4>, as this is QSPI?
+
+> +               };
+> +       };
 
 Gr{oetje,eeting}s,
 
