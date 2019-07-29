@@ -2,83 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BC35078768
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2019 10:32:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA0507877C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2019 10:34:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727611AbfG2IcI convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Jul 2019 04:32:08 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:35984 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726810AbfG2IcH (ORCPT
+        id S1727517AbfG2Iea (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Jul 2019 04:34:30 -0400
+Received: from sauhun.de ([88.99.104.3]:38398 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727109AbfG2Ie3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Jul 2019 04:32:07 -0400
-Received: by mail-wm1-f67.google.com with SMTP id g67so48511780wme.1;
-        Mon, 29 Jul 2019 01:32:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=0AEuwjUbA2WWjmfEUB61BWLIevtOs5YQ5R/vw1LG+ec=;
-        b=Wxv0e4Ctj34QIiolH1MA5Aj8YtjacEMpUchd/8W/2BTLO8WRWGBo+w/Vx2UDifzE/Q
-         V3BA0ndQkVSrkogq3irEtv8cHAaWi/xRdYrh/VjHrvBJXYoJu3a6m+hJkUxPGdgz1jD3
-         c3S/Al0K4HVld1wISxMgD6MKLBTRa19nWS1gEx94sqAlJ2TqWUyTABPxvJANbSBsp2Jt
-         UGNiWSuWU5z2Gl2+OiYogMGj4Ww8udYZLEFOUVpjQmYPPdxYTPee/29N/vWn0Jy91S/7
-         WBMUNlGqGdkqGJf8HZ8vPvQHBqYDLJQl7eF8HncBfKKbnzGTf3FRHEfXGGEAEZiGCzui
-         pHaQ==
-X-Gm-Message-State: APjAAAU7QF7NySDbRSbczoyMaOIoYSFOA7q2cXCqLM/jcEiwRNs+I+pf
-        vg/2aHM1g1o7Kc44csHEedv098BoS72MYjr172JJ0g==
-X-Google-Smtp-Source: APXvYqyYSyPIpspu1jeNNlQcyFUH0rozyhJBU8SsP7iQuajgts+eEhWZ7kOGvJ8pFQoiBP2nLuZI5T3rOpvFKPh75v8=
-X-Received: by 2002:a1c:1f4e:: with SMTP id f75mr95842692wmf.137.1564389124619;
- Mon, 29 Jul 2019 01:32:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190729074757.9581-1-horms+renesas@verge.net.au>
-In-Reply-To: <20190729074757.9581-1-horms+renesas@verge.net.au>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 29 Jul 2019 10:31:52 +0200
-Message-ID: <CAMuHMdUkogXnd6_H_q=STyVS0zxpKYif_iJH0pw753onCeU3gw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: rcar-imr: Rename bindings documentation file
+        Mon, 29 Jul 2019 04:34:29 -0400
+Received: from localhost (p5486CFB7.dip0.t-ipconnect.de [84.134.207.183])
+        by pokefinder.org (Postfix) with ESMTPSA id 3035F2C35BF;
+        Mon, 29 Jul 2019 10:34:27 +0200 (CEST)
+Date:   Mon, 29 Jul 2019 10:34:26 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
 To:     Simon Horman <horms+renesas@verge.net.au>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
         Magnus Damm <magnus.damm@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+        Andrew Lunn <andrew@lunn.ch>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: Re: [PATCH v2] arm64: dts: renesas: ebisu, draak: Limit EtherAVB to
+ 100Mbps
+Message-ID: <20190729083426.GA1381@kunai>
+References: <20190729080356.13023-1-horms+renesas@verge.net.au>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="6c2NcOVqGQ03X4Wi"
+Content-Disposition: inline
+In-Reply-To: <20190729080356.13023-1-horms+renesas@verge.net.au>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jul 29, 2019 at 9:48 AM Simon Horman <horms+renesas@verge.net.au> wrote:
-> Renesas media binding documentation files uses a naming schema of
 
-use
+--6c2NcOVqGQ03X4Wi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 'renesas,<module>.txt'. Rename IMR file to match this pattern.
-
-the IMR file?
-
->
-> Cc: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+On Mon, Jul 29, 2019 at 10:03:56AM +0200, Simon Horman wrote:
+> * According to the R-Car Gen3 Hardware Manual Errata for Rev 1.00 of
+>   August 24, 2018, the TX clock internal delay mode isn't supported
+>   on R-Car E3 (r8a77990) and D3 (r8a77995).
+>=20
+> * TX clock internal delay mode is required for reliable 1Gbps communicati=
+on
+>   using the KSZ9031RNX phy present on the Ebisu and Draak boards.
+>=20
+> Thus, the E3 based Ebisu and D3 based Draak boards can not reliably
+> use 1Gbps and the speed should be limited to 100Mbps.
+>=20
+> Based on work by Kazuya Mizuguchi.
+>=20
 > Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Yes, this matches all the previous discussions to the best of my
+knowledge:
 
-Gr{oetje,eeting}s,
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-                        Geert
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+--6c2NcOVqGQ03X4Wi
+Content-Type: application/pgp-signature; name="signature.asc"
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl0+r44ACgkQFA3kzBSg
+KbY5PQ//Tn9hY8BpQBlzmkBgp0Vb+e4od1DjjojwtSQH7aDBkA2LjrQ1ab/QTBXB
+fOHqCFFMv0XIrFMAgChgXtRNXvnDuwJCeraIGV762Qv1vYUe/G+o+VFIEC8GU1IT
+XXqSiJeDR+RTyV6iv3yHjkvkMRwJFRtu5iDgZ7UuLIrKYCQYHdkF1c+0tjkATGnb
+I3U/kzvkQCmDEhU5inD8e7pIr8EtHdXwvnR8d5iPgTNG0JF9jwKg5WObU33uzfvJ
+b+Qs5G8OWMR0e76cxe5XrqC1wrWdCM6D6BP+vWYncZo8hqP4r4wgIYOSlxOsQ1Jw
+MqCtPLRyw1x4GgylwsfC/fr+efRTlMzHnTyRw/giMhjq3LOlQXyG33H6oRDBl7QG
+H+J/ToAL7a2mcuPiLKojmIqEKr5lClRY5Rr0SmWjDNMgYZgUE9ZgQHAKryB7ca69
+Zd6ZYpm/a7xSg9Mhj5XOvXRP19segJXEkwhLwTc0GlS2XeEwTEa5yHd2bJvo1IWE
+UZQnk+xfAqt0FbSgg6+3fCMoKSzJ0s3A524opVWkWqkPu5uQrDsSeMdVXJAwT8h8
+dQ2bvXMXTDFI/uy1X3hFvcOmAPfcGrSqVlwdwl12oMHad0QBa8vtC+++3/Bscu20
+hrteZEvO6LmiiGOJ1PclsuLAuFxfJgx9cHcxzF45ye5cdrkx2vs=
+=Pn1D
+-----END PGP SIGNATURE-----
+
+--6c2NcOVqGQ03X4Wi--
