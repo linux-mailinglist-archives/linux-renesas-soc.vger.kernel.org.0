@@ -2,95 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76C06799E1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2019 22:24:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13DEB79BA1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2019 23:56:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727469AbfG2UYw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Jul 2019 16:24:52 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:53630 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727067AbfG2UYw (ORCPT
+        id S1728647AbfG2V4A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Jul 2019 17:56:00 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:40298 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728185AbfG2V4A (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Jul 2019 16:24:52 -0400
-Received: by mail-wm1-f65.google.com with SMTP id x15so55027872wmj.3
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 29 Jul 2019 13:24:51 -0700 (PDT)
+        Mon, 29 Jul 2019 17:56:00 -0400
+Received: by mail-wm1-f67.google.com with SMTP id v19so54825365wmj.5;
+        Mon, 29 Jul 2019 14:55:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:sender:in-reply-to:references:from:date:message-id
-         :subject:to:cc;
-        bh=R+VD6VEIEi7tCL1bsoquMaD4L7zvvZdE5nzH5R64hEs=;
-        b=Iuz7L/Nf3iOvfqbCl+c2oWCdUS/FXB4wo6Se1dKpxlhSUn3HO8Z6BpAjjnTlzWGLzJ
-         VcFyPubpOxZpKyjkcepvhW1uaE4/fnGKBlCVk+x4USItIR69Ez/sRuUooFg5Jy4Fh6Qw
-         ZdQ1qzp4bscWz2L2Va5stXbn8uAXnjyWieJNcX4OkqF8OZ0hiAbwIN+rfw075ARBNrKs
-         V01TOeSfcYvX1iDUU2ksq0WNm7PZcGw+Pf0Ap6JKQgbe5Sj8N/ueLzluUfCbagrVAG1U
-         oLqavkWz2R3V4xaYUos4SrTYg6RwfVQUaSaBXc284GnVh5WYRIvtN26xxH35+vlP80nX
-         eQjA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=V9J8GB0xhRh9txEG2lafqBYymsBmgmPy2F9KR/NPWds=;
+        b=oN4DFXkGo5BiAvGR0K6DCAaYEbPbSFCUve3irIi2Ulp2uE/8nlxzlEVhB2Hk3ykMdh
+         QgK8Ww6Mbcj5k9FS6UAd0OetuEYQ8xnZ/V4hyXdcm7jtHDnxqrO5gATYVhDyqThjO4ms
+         lQQ4bPLJuumWO5s4QKgy9zbAocMuraXRW4VOc1PEQ0VF3B0iIzqqeLAbY2bg1BghVQ9T
+         mhldSDLURapXKh20wwPLWPXm7M+R4zPlGHOrrg8SQVoQMfPmBE0JDnEc502rNMnX3rjp
+         PiRHlolEy6Djq1tkUaTAxJI4YFaNWJhHgBvED2v2LGi7vDLg4VN6dug2nh6mrwEhLZD5
+         9QEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-         :date:message-id:subject:to:cc;
-        bh=R+VD6VEIEi7tCL1bsoquMaD4L7zvvZdE5nzH5R64hEs=;
-        b=ddfzTE/QiNucRjf5oWtboiYZsx0MFNLUzAJh81syvqwXlehjqp+iafsVMoalr8Dm3E
-         EIpT9qjhHKzILpiOsHPeGR9betu1X2CABxUSXuNhP/FjPlFLnneUFMF7y8Ve982D9hyF
-         QtPf4/7j9d3lggtRBVaE7FTmpgYjF3DLrzp11OpluIsCzzJBOmVsAGkyKQ+B9e0tGbNe
-         5j7czBDjZzx2VzJmnpX/lW+o45gIda2YW/ZNWpR58NQxLT3GQixNLHBC8iN3R5NJhWPr
-         bn2/zguDnrieL+eXRyEsP+1frqLc4C3CT4CPW1BAfT5uFPJWy30/OvFAP9BjeAt8mJ8T
-         bArA==
-X-Gm-Message-State: APjAAAVKKgZhzx1aVIYsujjgRQNNBJxH3x1o90AN0sh6+VIGgqlGDUuX
-        F/hOsGR70Lthk+PuoMoT/+HaearFzt45zRt+YLIB/g==
-X-Google-Smtp-Source: APXvYqzsoo/xomC5blIQjit1D0jWR0YQJc+ZJ/W7NKYP+WeUbpHEOSLNiYlXzMwYoL0Isaq56IiAFEWdUn1HvQ+Xcpc=
-X-Received: by 2002:a05:600c:20ca:: with SMTP id y10mr68237058wmm.72.1564431890417;
- Mon, 29 Jul 2019 13:24:50 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=V9J8GB0xhRh9txEG2lafqBYymsBmgmPy2F9KR/NPWds=;
+        b=Do3RKuoYInt30fAvC8f0Z0qVS2PDiQG3D+Sao7HRV5uud2o2nOVyqTK+7SE3yXagfX
+         lkW7BQHFJVJTxsGcx0McBw+UhJa+JBMJdQheo/m6787CJXgv0ABgI6ju1zf9FIi5mPwf
+         j+ax+IHU8gpldzDRlrTUzWOASZVP3h6e58NX/cu7lP13RacBq7aK16FDJkrty0UmN0er
+         ATrWVLM+5NKslOEsfrPVmn5iDv0zsvdEpcSGINrJv3LAavC6ModIEtmrCA6E4VwgEklB
+         MSPezsa/xx8py9PvOeqPdX0lzWolm9WYrwE6QtL+oZYUn8dk62ApEW2FkdK6LOmNyQ/c
+         dP5Q==
+X-Gm-Message-State: APjAAAVe264g4McL6fz3ShzJGoLbhYXqGBCyfTyuD1RvDedjoCvjASZo
+        VqfFuFgX5aROI074gTqCMmpWw9jHBtbLaJG0Hl4=
+X-Google-Smtp-Source: APXvYqzXFDFvzgcJuqtb/pBjZayKskb/daHPAddpC5NNx1rTiJ1Kj+2Y+VeO1PjfbiAVpdoSN7LZ5uymb/xdUIN6HK4=
+X-Received: by 2002:a7b:cae9:: with SMTP id t9mr100637562wml.126.1564437358263;
+ Mon, 29 Jul 2019 14:55:58 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a5d:528f:0:0:0:0:0 with HTTP; Mon, 29 Jul 2019 13:24:49
- -0700 (PDT)
-In-Reply-To: <20190626135422.eebzw2nosygkzhy3@verge.net.au>
-References: <20190626135422.eebzw2nosygkzhy3@verge.net.au>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 29 Jul 2019 22:24:49 +0200
-X-Google-Sender-Auth: EklHGoQCjm5Qgr8rms6d0WGaz6U
-Message-ID: <CAMuHMdXk8Toz7QhzJ_KJ3Ybu2Gt5NnYXmpNVEc3V_ADY+c_fKg@mail.gmail.com>
-Subject: Re: [Announce] Renesas SoC Co-Maintainer
-To:     Simon Horman <horms@verge.net.au>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Olof Johansson <olof@lixom.net>, Arnd Bergmann <arnd@arndb.de>,
-        Kevin Hilman <khilman@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        arm-soc <arm@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
+References: <1547808474-19427-1-git-send-email-uli+renesas@fpond.eu>
+ <1547808474-19427-3-git-send-email-uli+renesas@fpond.eu> <20190726091325.GA13111@vmlxhi-102.adit-jv.com>
+ <20190726094724.GA14913@vmlxhi-102.adit-jv.com> <CAMuHMdXiOBxUDXLcL6R7jHF4DMoH=72yMkSiv-51aV7cw3my9Q@mail.gmail.com>
+ <20190729113244.GA12631@e121166-lin.cambridge.arm.com>
+In-Reply-To: <20190729113244.GA12631@e121166-lin.cambridge.arm.com>
+From:   Eugeniu Rosca <roscaeugeniu@gmail.com>
+Date:   Tue, 30 Jul 2019 00:55:46 +0300
+Message-ID: <CAH3KO=19vy1D1cWUpxZ1+F=dyg=10F2UhytwsLxXG2Z=OnH=fg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] arm64: dts: r8a7795: Add cpuidle support for CA53 cores
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        "horms@verge.net.au" <horms@verge.net.au>,
+        "khiem.nguyen.xt@renesas.com" <khiem.nguyen.xt@renesas.com>,
+        "dien.pham.ry@renesas.com" <dien.pham.ry@renesas.com>,
+        "takeshi.kihara.df@renesas.com" <takeshi.kihara.df@renesas.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "Wischer, Timo (ADITG/ESM)" <twischer@de.adit-jv.com>,
+        "Maik.Scholz@de.bosch.com" <Maik.Scholz@de.bosch.com>,
+        "Dirk.Behme@de.bosch.com" <Dirk.Behme@de.bosch.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Eugeniu Rosca <rosca.eugeniu@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Simon,
+Hello Geert, hello Lorenzo,
 
-On Wed, Jun 26, 2019 at 3:54 PM Simon Horman <horms@verge.net.au> wrote:
-> at the end of the v5.3 upstream kernel development cycle I will be stepping
-> down from my role as Renesas SoC maintainer. And starting with the v5.4
-> development cycle Geert Uytterhoeven will be taking over this role.
->
-> I'd like to take a moment to thank everyone for the support that they have
-> shown to me over the years. And for the contributions of many to allow
-> the upstream kernel to support a wide range of features on a wide range
-> of 32 and 64bit ARM based Renesas SoCs out of the box.
->
-> Lastly, I'd like to wish Geert all the best in his new role.
+Many thanks for your comments and for the willingness to help.
 
-Thank you very much for your hard work and dedication!
-I'll do my very best to keep continuing your good work!
+For your information, we've recently discovered that, with all the
+findings already described being absolutely valid for the reference
+targets, disabling CPUidle on the customer HW is apparently not enough
+to fix the audio dropouts. We will first try to identify those
+differences (both HW and SW) which keep the issue reproducible on the
+customer boards. Once this is hopefully understood, we'll come back
+with feedback.
 
-I've just sent a patch to update MAINTAINERS.
+This investigation also happens to overlap with my vacation. Hence I
+plan to update you on this topic in 2-4 weeks from now.
 
-Gr{oetje,eeting}s,
+Thanks again.
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best regards,
+Eugeniu.
