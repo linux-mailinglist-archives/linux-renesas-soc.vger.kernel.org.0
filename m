@@ -2,66 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 56BDF78E39
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2019 16:40:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8FF8792B1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 29 Jul 2019 19:57:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727283AbfG2Okf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 29 Jul 2019 10:40:35 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:44934 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726197AbfG2Okf (ORCPT
+        id S1728894AbfG2R5I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 29 Jul 2019 13:57:08 -0400
+Received: from baptiste.telenet-ops.be ([195.130.132.51]:50840 "EHLO
+        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728560AbfG2R5H (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 29 Jul 2019 10:40:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-        s=20171124; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=uvHE0hWUJLrSKxbCdwUl89MRrAkqzhfQK464Ih0/+WI=; b=KWhSyBj4gceT4pY8ReUh5Pd7fJ
-        yzHN0avkF6m8NTc3lSzeDfBWHMbCh090W9zvb/JzXJQo7SRoogwjJ1Gx+Dwi1YxS5IpTNP0SFAqC2
-        O4dDd7bTwxZfQrYz6ffOFwFnTzC3PCflqSqMNQm9Aiph0+RCvvBzxmADWi/vA7M0WLEs=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.89)
-        (envelope-from <andrew@lunn.ch>)
-        id 1hs6p9-0001pS-To; Mon, 29 Jul 2019 16:40:27 +0200
-Date:   Mon, 29 Jul 2019 16:40:27 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Simon Horman <horms+renesas@verge.net.au>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa@the-dreams.de>,
+        Mon, 29 Jul 2019 13:57:07 -0400
+Received: from ramsan ([84.194.98.4])
+        by baptiste.telenet-ops.be with bizsmtp
+        id ihx02000S05gfCL01hx0yn; Mon, 29 Jul 2019 19:57:05 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hs9tM-00023k-R0; Mon, 29 Jul 2019 19:57:00 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hs9tM-0003ZM-Os; Mon, 29 Jul 2019 19:57:00 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Cc:     Simon Horman <horms@verge.net.au>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2] arm64: dts: renesas: ebisu, draak: Limit EtherAVB to
- 100Mbps
-Message-ID: <20190729144027.GD4110@lunn.ch>
-References: <20190729080356.13023-1-horms+renesas@verge.net.au>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190729080356.13023-1-horms+renesas@verge.net.au>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+        Arnd Bergmann <arnd@arndb.de>,
+        Kevin Hilman <khilman@kernel.org>,
+        Olof Johansson <olof@lixom.net>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] MAINTAINERS: Add Geert as Renesas SoC Co-Maintainer
+Date:   Mon, 29 Jul 2019 19:56:58 +0200
+Message-Id: <20190729175658.13672-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Jul 29, 2019 at 10:03:56AM +0200, Simon Horman wrote:
-> * According to the R-Car Gen3 Hardware Manual Errata for Rev 1.00 of
->   August 24, 2018, the TX clock internal delay mode isn't supported
->   on R-Car E3 (r8a77990) and D3 (r8a77995).
-> 
-> * TX clock internal delay mode is required for reliable 1Gbps communication
->   using the KSZ9031RNX phy present on the Ebisu and Draak boards.
-> 
-> Thus, the E3 based Ebisu and D3 based Draak boards can not reliably
-> use 1Gbps and the speed should be limited to 100Mbps.
-> 
-> Based on work by Kazuya Mizuguchi.
-> 
-> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+At the end of the v5.3 upstream kernel development cycle, Simon will be
+stepping down from his role as Renesas SoC maintainer.  Starting with
+the v5.4 development cycle, Geert is taking over this role.
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Add Geert as a co-maintainer, and add his git repository and branch.
 
-    Andrew
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Stephen: Can you please add my branch to linux-next, after Simon's
+	 branch, which may still receive fixes for v5.3?
+
+	 Thanks!
+---
+ MAINTAINERS | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6426db5198f05377..6de667021591fb52 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2155,10 +2155,12 @@ F:	Documentation/devicetree/bindings/arm/realtek.txt
+ 
+ ARM/RENESAS ARM64 ARCHITECTURE
+ M:	Simon Horman <horms@verge.net.au>
++M:	Geert Uytterhoeven <geert+renesas@glider.be>
+ M:	Magnus Damm <magnus.damm@gmail.com>
+ L:	linux-renesas-soc@vger.kernel.org
+ Q:	http://patchwork.kernel.org/project/linux-renesas-soc/list/
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas.git next
++T:	git git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+ S:	Supported
+ F:	arch/arm64/boot/dts/renesas/
+ F:	Documentation/devicetree/bindings/arm/renesas.yaml
+@@ -2269,10 +2271,12 @@ F:	drivers/media/platform/s5p-mfc/
+ 
+ ARM/SHMOBILE ARM ARCHITECTURE
+ M:	Simon Horman <horms@verge.net.au>
++M:	Geert Uytterhoeven <geert+renesas@glider.be>
+ M:	Magnus Damm <magnus.damm@gmail.com>
+ L:	linux-renesas-soc@vger.kernel.org
+ Q:	http://patchwork.kernel.org/project/linux-renesas-soc/list/
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas.git next
++T:	git git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+ S:	Supported
+ F:	arch/arm/boot/dts/emev2*
+ F:	arch/arm/boot/dts/gr-peach*
+-- 
+2.17.1
+
