@@ -2,235 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 587F97A3F6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jul 2019 11:23:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10B5C7A536
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jul 2019 11:51:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725965AbfG3JXt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Jul 2019 05:23:49 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:52382 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731007AbfG3JXs (ORCPT
+        id S1730936AbfG3Jvm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Jul 2019 05:51:42 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:57681 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730901AbfG3Jvm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Jul 2019 05:23:48 -0400
-Received: by mail-wm1-f67.google.com with SMTP id s3so56405245wms.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jul 2019 02:23:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IVKY/KEUXjTWN+bYP3M9li6aLpvlVa9sTGtOM6kUeiU=;
-        b=M+0yiMqtFk8AboqK+1OaND0/m2YwluxoYHyC7x1YF2eJ1Up8Re1WvfFL0xxw+RTrn2
-         4FDWJUQ0p0KXpF0wERHIezB0EqMNiPC11tPZ0PhN5BxOxtZYDNNheJGlWREkPIxsABjL
-         se/LhHWhr5eREoglxOQ8nyxvN+t7VMAb7yzKyCvMWn+GpOwB/CQfcxxjC65W4/FNQVCw
-         PRYEkka8BtWxhMMHrlhyr26n1dAmSxOvzVsKFSqa8ztDeaaVZFdkzfafYtPfXqjGGuZ2
-         xhhHB2tDd5VCTL93mJnkeNjKn5C40/L1ysi99SlopoSMkZuxYGIOn0v7EUrBiidG08FR
-         3m+Q==
-X-Gm-Message-State: APjAAAXjK6gNj7QfKupoHHnkndCTl4RkNb7AVCg/XKNgv48radBHQJdi
-        iAj5ZgiljhE/51ji4aqKPxTpBUImFYgGNqaypeQ=
-X-Google-Smtp-Source: APXvYqyFeh5CWq4lx5qP/Lw6wykdQGeWP2Ty9SqBR2iBLJHWuDQBk7YcFYjciyT2+R2xAH4drl8Z8kyjyYjieNyymmA=
-X-Received: by 2002:a05:600c:254b:: with SMTP id e11mr97212692wma.171.1564478625893;
- Tue, 30 Jul 2019 02:23:45 -0700 (PDT)
+        Tue, 30 Jul 2019 05:51:42 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 9096E802A7; Tue, 30 Jul 2019 11:51:28 +0200 (CEST)
+Date:   Tue, 30 Jul 2019 11:51:40 +0200
+From:   Pavel Machek <pavel@denx.de>
+To:     yoshihiro.shimoda.uh@renesas.com, kishon@ti.com,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     cip-dev@lists.cip-project.org
+Subject: phy-rcar-gen3-usb2: wrong parsing of role in role_store?
+Message-ID: <20190730095140.GA29609@amd>
 MIME-Version: 1.0
-References: <1563905015-2911-1-git-send-email-ykaneko0929@gmail.com> <CAMuHMdWwMfduK_G3_YRxyuYsmd51Hmj5UJshRvZjZ+zNVo-CVQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdWwMfduK_G3_YRxyuYsmd51Hmj5UJshRvZjZ+zNVo-CVQ@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 30 Jul 2019 11:23:34 +0200
-Message-ID: <CAMuHMdVBpZwxNQ1apL_DkTLL_9SPFdX52cdswbvhEzCrChTzAA@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: ulcb-kf: sort nodes
-To:     Yoshihiro Kaneko <ykaneko0929@gmail.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="XsQoSWH+UP9D9v3l"
+Content-Disposition: inline
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jul 30, 2019 at 11:14 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
-> On Tue, Jul 23, 2019 at 8:03 PM Yoshihiro Kaneko <ykaneko0929@gmail.com> wrote:
-> > Sort nodes.
-> >
-> > If node address is present
-> >    * Sort by node address, grouping all nodes with the same compat string
-> >      and sorting the group alphabetically.
-> > Else
-> >    * Sort alphabetically
-> >
-> > This should not have any run-time effect.
-> >
-> > Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
->
-> You forgot to sort the i2c slave nodes.
-> As this kind of patches is hard to rebase and rework, I'm fixing that up while
-> applying:
->
-> --- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-> @@ -83,6 +83,56 @@
->  };
->
->  &i2c2 {
-> +       i2cswitch2: i2c-switch@71 {
-> +               compatible = "nxp,pca9548";
-> +               #address-cells = <1>;
-> +               #size-cells = <0>;
-> +               reg = <0x71>;
-> +               reset-gpios = <&gpio5 3 GPIO_ACTIVE_LOW>;
-> +
-> +               /* Audio_SDA, Audio_SCL */
-> +               i2c@7 {
-> +                       #address-cells = <1>;
-> +                       #size-cells = <0>;
-> +                       reg = <7>;
-> +
-> +                       pcm3168a: audio-codec@44 {
-> +                               #sound-dai-cells = <0>;
-> +                               compatible = "ti,pcm3168a";
-> +                               reg = <0x44>;
-> +                               clocks = <&clksndsel>;
-> +                               clock-names = "scki";
-> +
-> +                               VDD1-supply     = <&snd_3p3v>;
-> +                               VDD2-supply     = <&snd_3p3v>;
-> +                               VCCAD1-supply   = <&snd_vcc5v>;
-> +                               VCCAD2-supply   = <&snd_vcc5v>;
-> +                               VCCDA1-supply   = <&snd_vcc5v>;
-> +                               VCCDA2-supply   = <&snd_vcc5v>;
-> +
-> +                               ports {
-> +                                       #address-cells = <1>;
-> +                                       #size-cells = <0>;
-> +                                       mclk-fs = <512>;
-> +                                       port@0 {
-> +                                               reg = <0>;
-> +                                               pcm3168a_endpoint_p: endpoint {
-> +
-> remote-endpoint = <&rsnd_for_pcm3168a_play>;
-> +                                                       clocks = <&clksndsel>;
-> +                                               };
-> +                                       };
-> +                                       port@1 {
-> +                                               reg = <1>;
-> +                                               pcm3168a_endpoint_c: endpoint {
-> +
-> remote-endpoint = <&rsnd_for_pcm3168a_capture>;
-> +                                                       clocks = <&clksndsel>;
-> +                                               };
-> +                                       };
-> +                               };
-> +                       };
-> +               };
-> +       };
-> +
->         /* U11 */
->         gpio_exp_74: gpio@74 {
->                 compatible = "ti,tca9539";
-> @@ -153,56 +203,6 @@
->                 interrupt-parent = <&gpio6>;
->                 interrupts = <4 IRQ_TYPE_EDGE_FALLING>;
->         };
-> -
-> -       i2cswitch2: i2c-switch@71 {
-> -               compatible = "nxp,pca9548";
-> -               #address-cells = <1>;
-> -               #size-cells = <0>;
-> -               reg = <0x71>;
-> -               reset-gpios = <&gpio5 3 GPIO_ACTIVE_LOW>;
-> -
-> -               /* Audio_SDA, Audio_SCL */
-> -               i2c@7 {
-> -                       #address-cells = <1>;
-> -                       #size-cells = <0>;
-> -                       reg = <7>;
-> -
-> -                       pcm3168a: audio-codec@44 {
-> -                               #sound-dai-cells = <0>;
-> -                               compatible = "ti,pcm3168a";
-> -                               reg = <0x44>;
-> -                               clocks = <&clksndsel>;
-> -                               clock-names = "scki";
-> -
-> -                               VDD1-supply     = <&snd_3p3v>;
-> -                               VDD2-supply     = <&snd_3p3v>;
-> -                               VCCAD1-supply   = <&snd_vcc5v>;
-> -                               VCCAD2-supply   = <&snd_vcc5v>;
-> -                               VCCDA1-supply   = <&snd_vcc5v>;
-> -                               VCCDA2-supply   = <&snd_vcc5v>;
-> -
-> -                               ports {
-> -                                       #address-cells = <1>;
-> -                                       #size-cells = <0>;
-> -                                       mclk-fs = <512>;
-> -                                       port@0 {
-> -                                               reg = <0>;
-> -                                               pcm3168a_endpoint_p: endpoint {
-> -
-> remote-endpoint = <&rsnd_for_pcm3168a_play>;
-> -                                                       clocks = <&clksndsel>;
-> -                                               };
-> -                                       };
-> -                                       port@1 {
-> -                                               reg = <1>;
-> -                                               pcm3168a_endpoint_c: endpoint {
-> -
-> remote-endpoint = <&rsnd_for_pcm3168a_capture>;
-> -                                                       clocks = <&clksndsel>;
-> -                                               };
-> -                                       };
-> -                               };
-> -                       };
-> -               };
-> -       };
->  };
->
->  &i2c4 {
->
 
-and the second i2c bus, too, of course:
+--XsQoSWH+UP9D9v3l
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
---- a/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-+++ b/arch/arm64/boot/dts/renesas/ulcb-kf.dtsi
-@@ -206,6 +206,14 @@
- };
+Hi!
 
- &i2c4 {
-+       i2cswitch4: i2c-switch@71 {
-+               compatible = "nxp,pca9548";
-+               #address-cells = <1>;
-+               #size-cells = <0>;
-+               reg = <0x71>;
-+               reset-gpios = <&gpio3 15 GPIO_ACTIVE_LOW>;
-+       };
-+
-        gpio_exp_76: gpio@76 {
-                compatible = "ti,tca9539";
-                reg = <0x76>;
-@@ -225,14 +233,6 @@
-                interrupt-parent = <&gpio5>;
-                interrupts = <9 IRQ_TYPE_EDGE_FALLING>;
-        };
--
--       i2cswitch4: i2c-switch@71 {
--               compatible = "nxp,pca9548";
--               #address-cells = <1>;
--               #size-cells = <0>;
--               reg = <0x71>;
--               reset-gpios = <&gpio3 15 GPIO_ACTIVE_LOW>;
--       };
- };
+Code does strcmps, but does not actually check count. So AFAICT
+writing "host-I-don't-want-I-need-peripheral" into the file will
+succeed and turn it into host mode.
 
- &ohci0 {
+Also data beyond count in buf are going to be accessed.
 
-Gr{oetje,eeting}s,
+Best regards,
+								Pavel
 
-                        Geert
+static ssize_t role_store(struct device *dev, struct device_attribute *attr,
+                          const char *buf, size_t count)
+{
+        struct rcar_gen3_chan *ch =3D dev_get_drvdata(dev);
+        bool is_b_device;
+        enum phy_mode cur_mode, new_mode;
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+        if (!ch->is_otg_channel || !rcar_gen3_is_any_rphy_initialized(ch))
+                return -EIO;
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+        /* FIXME, this is wrong */
+        if (!strncmp(buf, "host", strlen("host")))
+                new_mode =3D PHY_MODE_USB_HOST;
+        else if (!strncmp(buf, "peripheral", strlen("peripheral")))
+                new_mode =3D PHY_MODE_USB_DEVICE;
+        else
+                return -EINVAL;
+
+
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--XsQoSWH+UP9D9v3l
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAl1AEywACgkQMOfwapXb+vKz0wCeMEr6Xfbdu2izrD/k5LjebFz+
+faEAoJnaRR88lf1ifgYIfsCDsbMWYSxQ
+=a5ET
+-----END PGP SIGNATURE-----
+
+--XsQoSWH+UP9D9v3l--
