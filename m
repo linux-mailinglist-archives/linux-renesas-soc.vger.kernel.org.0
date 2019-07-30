@@ -2,136 +2,159 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AD1897A59D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jul 2019 12:08:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A500D7A7DD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 30 Jul 2019 14:12:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728669AbfG3KIi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 30 Jul 2019 06:08:38 -0400
-Received: from mail-eopbgr1400103.outbound.protection.outlook.com ([40.107.140.103]:60838
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725209AbfG3KIh (ORCPT
+        id S1727729AbfG3MMs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 30 Jul 2019 08:12:48 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:43330 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725965AbfG3MMs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 30 Jul 2019 06:08:37 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BvSo+FIkhfgAuj5FdJPaK0V+C14n+t2+97rE8KJjZWp7LlbMZfwTYEBKN9rMnhO3sqjPGVNW7QWHehYtv+zk2Epx1Bnu2HySsLMFIdA7WzYR8EL0ZNu0qfvDIocHgOTO30N5cGmq2QKYOufdfprZxKIz+PV5ZYJ/HC2SUL7N/s8Raf/oimHpvmQ1Pj8wp1XXACOOqIbrTbKgVYB9EaWDeS5a/o15yyEhp2sQQUNvA4fiOrL3GaGTAGtk5VZHRGLb7x8U1Wa4af76tjaTyO/In7mqc40l9eIOMP6szvsaYdQhqcduYZPKfVBZs5E2XfMKES3rljApL51zI7N3j+OBmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nbgu0PI91ltAo6HxUBuE97qC3e0MpxVX79ORQ3Rb3+M=;
- b=jmRxNXEyQPUtuyS3Fkb+GJzGaa0g2i368HVsbec3lE360R45LHT9f1q+do+fLJ6+Oqsp/O87z7b9T4JeF4fY4liHugExzjq1kq5nxFOQeDR3dK/CSfXdNBO54a2novboD4C/6NrbuohjgxxoY5tjkRWJ3Gi5lwyBTuT/jQogwq/htZWJQ68t9Xf0IyvMZsU5CjxmsFsjaoQ2OjXnOgKlCfx+iqwkwKnvh6vaIRLWoAAPWf1YsEeNONKWwaiqRmjFobLGrvxjCbaZ2O0DGNCkIywb+lW95r4E6t2ufeK5RXd3XMIMQlDp96HbYmkfKR7nN4omSDAVDNK9R/dbRbH3KA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
- smtp.mailfrom=renesas.com;dmarc=pass action=none
- header.from=renesas.com;dkim=pass header.d=renesas.com;arc=none
+        Tue, 30 Jul 2019 08:12:48 -0400
+Received: by mail-wr1-f67.google.com with SMTP id p13so65488263wru.10
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 30 Jul 2019 05:12:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nbgu0PI91ltAo6HxUBuE97qC3e0MpxVX79ORQ3Rb3+M=;
- b=e/H1HxdwVo6xLH39MSDdukdBdJqbBmVTrnE9BoOnavv8fLKdi02mfd8jlWaAlW0KX2JdLYblje8I9CMYl6RiE7dIrJ1BFkQlExYScZSun6uDzEqxVCJGj9I2hg4aC+o5KfMPSkSuijRa2+lrv3FyyyUPOjFRrXIAkxRm/SBUgUc=
-Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.174.85) by
- TYAPR01MB3005.jpnprd01.prod.outlook.com (20.177.104.19) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2115.15; Tue, 30 Jul 2019 10:08:33 +0000
-Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
- ([fe80::5c8d:f422:6a44:57a9]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
- ([fe80::5c8d:f422:6a44:57a9%5]) with mapi id 15.20.2115.005; Tue, 30 Jul 2019
- 10:08:33 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Pavel Machek <pavel@denx.de>, "kishon@ti.com" <kishon@ti.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC:     "cip-dev@lists.cip-project.org" <cip-dev@lists.cip-project.org>
-Subject: RE: phy-rcar-gen3-usb2: wrong parsing of role in role_store?
-Thread-Topic: phy-rcar-gen3-usb2: wrong parsing of role in role_store?
-Thread-Index: AQHVRrxnhCIU7kKBPE63JOTOwtV/Qqbi73Kw
-Date:   Tue, 30 Jul 2019 10:08:33 +0000
-Message-ID: <TYAPR01MB4544F1EE39C3A9F36B13D49AD8DC0@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-References: <20190730095140.GA29609@amd>
-In-Reply-To: <20190730095140.GA29609@amd>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
-x-originating-ip: [118.238.235.108]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d67491a7-553a-46c5-c9d8-08d714d5e153
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:TYAPR01MB3005;
-x-ms-traffictypediagnostic: TYAPR01MB3005:
-x-ms-exchange-purlcount: 2
-x-microsoft-antispam-prvs: <TYAPR01MB30058CEA3EEA12CBC537CF8FD8DC0@TYAPR01MB3005.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 0114FF88F6
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(136003)(376002)(366004)(346002)(39860400002)(396003)(199004)(189003)(33656002)(52536014)(486006)(256004)(11346002)(446003)(6246003)(5660300002)(4326008)(110136005)(71200400001)(66946007)(476003)(71190400001)(76116006)(316002)(14454004)(966005)(25786009)(64756008)(478600001)(66446008)(66476007)(66556008)(6436002)(55016002)(6306002)(3846002)(6116002)(2906002)(2501003)(9686003)(229853002)(68736007)(81166006)(66066001)(7736002)(86362001)(102836004)(74316002)(6506007)(305945005)(8676002)(76176011)(53936002)(81156014)(186003)(8936002)(2201001)(26005)(7696005)(99286004);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB3005;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: e67/J/XFtw/iNqinxggdRoKkf6fbQYa/VQLi8fZM7MGpGD3fDFFMP61AdnGcKvGdLx9UyTykU/8+x5PrPhEtaofSmC6luY3+SUp1NsgZvi0J8bVR1fVtNGXEyKgzdsQeQPYC72zGIfqxafWI/ceZzV2PKzDiXoruiF1OilM2uCMtx93d4yXdrVhYeBFmpoEzFWUTXK9PMJkH1FD4FVZhcb0q/1tO5/v0SORAEeneG08nNEYLYZjy6gQ8ORaPviUiA9ETi7Gtf6rq9pI2QT9RoOE8aL2Ibcpe7rjl29AJHfmEvLQIPSJMsYKgWhKC/4Bk7H1qFuxQanveA7sbuuS/+Phi2ubNkwSKoBdgZXqy4c8Pxkw54m8pgRAKmK4n16n9pNJRyuKg4FNAtpaxr4SLrduRbZwS/1L+wHOMbGojzYI=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:openpgp:autocrypt:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=lHGY2lcHanvRAPBsmHRkzid26h1VhTCR/KhvIXyqiLU=;
+        b=113B8R4mYI3LRLGR83TBNaWENM+9FPeB8Uc5e75npq3bfR39OXNS5CjKVQSMaQAX2V
+         gEkT84xeiauHpka0Gcl6VtxECiPaoSrFSY3hPhXyG9GG+omuzYaBcSwomOp4jAqCl1/4
+         dNEVIOD+EVi+fyxOU0odcUBK2WOCCfE73el4W+YbNXjd4glXSNO4FBdoSbkGsE1sowCt
+         jUeUgDnIf4DMpXxileHrmlkyfNdcX/blsZE/tIhRCQ7E2GGCm/stsoAku/ZjUR34pD0Z
+         CmUulMm48ooGPAq4T93x2WrYVRBdR6FIJtD5a4I1PSuDzv6aLmhT4TDbMnjkAL8fzS2d
+         CcPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+         :organization:message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=lHGY2lcHanvRAPBsmHRkzid26h1VhTCR/KhvIXyqiLU=;
+        b=ZY/6H9um5kfBLKR4kyoP+KGeP7wDbFYRBz6QDh3AXegdLHfqaefdF1f2LhAjdexdBr
+         zfLOHzmODMdgqXgTdCMhWaP4v1AgcKysk/Zd3E0mOaDi4gG8CWePC/c3umwO+ufG8Z2z
+         wi/Qe3ynWmZ4dF8/3ZnUV87tvGvZkBJ256Nq3XQKksoAszkzTUfWcBJd0kvXB/o+A7V8
+         3rdQGRzmtyeaVTW3QiOSeIAyl3S95dxSpN9LDcw8Dr2gDXaqw2lBJ3fam0rQ6CDOgNpW
+         nBeGKuS0D+yah/FCfb1tAz4ushXVNkZ2bxtl+MwDc+drB2tFnTy52Pci5ywRzF5TgThk
+         mUbA==
+X-Gm-Message-State: APjAAAWaEEV6B9yJ2vAJpKyiVoUur6mfwxM1zTIfoRV95g/ok944Fdr3
+        ZlR2MrmjPb4LipWLyaQFTQJL6g==
+X-Google-Smtp-Source: APXvYqwPA7oRRg20ZFeN7+F9xZfv+Bel+kwPWTRFZxtdWY0dLa/p7EYV87TqwLgp0ry8FNcyVukzZQ==
+X-Received: by 2002:adf:9f0e:: with SMTP id l14mr118867452wrf.23.1564488766043;
+        Tue, 30 Jul 2019 05:12:46 -0700 (PDT)
+Received: from [10.1.2.12] (lmontsouris-657-1-212-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.gmail.com with ESMTPSA id v5sm76019805wre.50.2019.07.30.05.12.45
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 30 Jul 2019 05:12:45 -0700 (PDT)
+Subject: Re: [PATCH v3 01/10] drm: bridge: Add dual_link field to the
+ drm_bridge_timings structure
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+References: <20190528141234.15425-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20190528141234.15425-2-laurent.pinchart+renesas@ideasonboard.com>
+From:   Neil Armstrong <narmstrong@baylibre.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ ZaTUOEkgIor5losDrePdPgE=
+Organization: Baylibre
+Message-ID: <2d3d1f82-7c5f-5d91-bd6d-a379285d7d3f@baylibre.com>
+Date:   Tue, 30 Jul 2019 14:12:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d67491a7-553a-46c5-c9d8-08d714d5e153
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jul 2019 10:08:33.5509
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yoshihiro.shimoda.uh@renesas.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB3005
+In-Reply-To: <20190528141234.15425-2-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Pavel,
+On 28/05/2019 16:12, Laurent Pinchart wrote:
+> Extend the drm_bridge_timings structure with a new dual_link field to
+> indicate that the bridge's input bus carries data on two separate
+> physical links. The first use case is LVDS dual-link mode where even-
+> and odd-numbered pixels are transferred on separate LVDS links.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Tested-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  include/drm/drm_bridge.h | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index d4428913a4e1..aea1fcfd92a7 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -265,6 +265,14 @@ struct drm_bridge_timings {
+>  	 * input signal after the clock edge.
+>  	 */
+>  	u32 hold_time_ps;
+> +	/**
+> +	 * @dual_link:
+> +	 *
+> +	 * True if the bus operates in dual-link mode. The exact meaning is
+> +	 * dependent on the bus type. For LVDS buses, this indicates that even-
+> +	 * and odd-numbered pixels are received on separate links.
+> +	 */
+> +	bool dual_link;
+>  };
+>  
+>  /**
+> 
 
-> From: Pavel Machek, Sent: Tuesday, July 30, 2019 6:52 PM
->=20
-> Hi!
->=20
-> Code does strcmps, but does not actually check count. So AFAICT
-> writing "host-I-don't-want-I-need-peripheral" into the file will
-> succeed and turn it into host mode.
->=20
-> Also data beyond count in buf are going to be accessed.
-
-Thank you for the report. I think the driver should use sysfs_streq() helpe=
-r
-instead of strncmp() on the sysfs function. So, I'll submit such a patch la=
-ter.
-
-Best regards,
-Yoshihiro Shimoda
-
-> Best regards,
-> 								Pavel
->=20
-> static ssize_t role_store(struct device *dev, struct device_attribute *at=
-tr,
->                           const char *buf, size_t count)
-> {
->         struct rcar_gen3_chan *ch =3D dev_get_drvdata(dev);
->         bool is_b_device;
->         enum phy_mode cur_mode, new_mode;
->=20
->         if (!ch->is_otg_channel || !rcar_gen3_is_any_rphy_initialized(ch)=
-)
->                 return -EIO;
->=20
->         /* FIXME, this is wrong */
->         if (!strncmp(buf, "host", strlen("host")))
->                 new_mode =3D PHY_MODE_USB_HOST;
->         else if (!strncmp(buf, "peripheral", strlen("peripheral")))
->                 new_mode =3D PHY_MODE_USB_DEVICE;
->         else
->                 return -EINVAL;
->=20
->=20
-> --
-> (english) http://www.livejournal.com/~pavelmachek
-> (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/b=
-log.html
+Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
