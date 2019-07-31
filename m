@@ -2,85 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B63D47BC78
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2019 11:02:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 791B87BC73
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2019 11:02:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727992AbfGaJCp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 31 Jul 2019 05:02:45 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:38725 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726699AbfGaJCo (ORCPT
+        id S1726779AbfGaJCP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 31 Jul 2019 05:02:15 -0400
+Received: from michel.telenet-ops.be ([195.130.137.88]:46956 "EHLO
+        michel.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726666AbfGaJCP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 31 Jul 2019 05:02:44 -0400
-X-IronPort-AV: E=Sophos;i="5.64,329,1559487600"; 
-   d="scan'208";a="22937243"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 31 Jul 2019 18:02:42 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id F4236421A7EC;
-        Wed, 31 Jul 2019 18:02:41 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     kishon@ti.com
-Cc:     pavel@denx.de, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, stable@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH] phy: renesas: rcar-gen3-usb2: Fix sysfs interface of "role"
-Date:   Wed, 31 Jul 2019 18:01:29 +0900
-Message-Id: <1564563689-25863-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Wed, 31 Jul 2019 05:02:15 -0400
+Received: from ramsan ([84.194.98.4])
+        by michel.telenet-ops.be with bizsmtp
+        id jM2C2000E05gfCL06M2Cqj; Wed, 31 Jul 2019 11:02:13 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hskUu-0007Jc-4G; Wed, 31 Jul 2019 11:02:12 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hskUu-00053m-1v; Wed, 31 Jul 2019 11:02:12 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] docs: arm: Remove orphan sh-mobile directory
+Date:   Wed, 31 Jul 2019 11:02:11 +0200
+Message-Id: <20190731090211.19408-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Since the role_store() uses strncmp(), it's possible to refer
-out-of-memory if the sysfs data size is smaller than strlen("host").
-This patch fixes it by using sysfs_streq() instead of strncmp().
+This directory is empty, except for a .gitignore file, listing an
+executable file that can no longer be built since commit
+c6535e1e0361157e ("Documentation: Remove ZBOOT MMC/SDHI utility and
+docs").
 
-Reported-by: Pavel Machek <pavel@denx.de>
-Fixes: 9bb86777fb71 ("phy: rcar-gen3-usb2: add sysfs for usb role swap")
-Cc: <stable@vger.kernel.org> # v4.10+
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- Just a record. The role_store() doesn't need to check the count because
- the sysfs_streq() checks the first argument is NULL or not.
+ Documentation/arm/sh-mobile/.gitignore | 1 -
+ 1 file changed, 1 deletion(-)
+ delete mode 100644 Documentation/arm/sh-mobile/.gitignore
 
- On "if (sysfs_streq(buf, "host"))"
-  Example 1: echo ho > role
-  --> In this case, the count is 3 and the buf has "ho" + NULL.
-      So, the third character differs between NULL and 's'.
-
-  Example 2: echo host-is-not-used > role
-  --> In this case, the count is 17 and the buf has "host-is-not-used" + NULL.
-      So, the fifth character differs between '-' and NULL.
-
- drivers/phy/renesas/phy-rcar-gen3-usb2.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-index 1322185..cc18970 100644
---- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-+++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-@@ -20,6 +20,7 @@
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/string.h>
- #include <linux/usb/of.h>
- #include <linux/workqueue.h>
- 
-@@ -317,9 +318,9 @@ static ssize_t role_store(struct device *dev, struct device_attribute *attr,
- 	if (!ch->is_otg_channel || !rcar_gen3_is_any_rphy_initialized(ch))
- 		return -EIO;
- 
--	if (!strncmp(buf, "host", strlen("host")))
-+	if (sysfs_streq(buf, "host"))
- 		new_mode = PHY_MODE_USB_HOST;
--	else if (!strncmp(buf, "peripheral", strlen("peripheral")))
-+	else if (sysfs_streq(buf, "peripheral"))
- 		new_mode = PHY_MODE_USB_DEVICE;
- 	else
- 		return -EINVAL;
+diff --git a/Documentation/arm/sh-mobile/.gitignore b/Documentation/arm/sh-mobile/.gitignore
+deleted file mode 100644
+index c928dbf3cc8806e2..0000000000000000
+--- a/Documentation/arm/sh-mobile/.gitignore
++++ /dev/null
+@@ -1 +0,0 @@
+-vrl4
 -- 
-2.7.4
+2.17.1
 
