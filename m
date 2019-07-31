@@ -2,99 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 030A27BBB8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2019 10:32:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DF9D7BBBE
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2019 10:33:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726508AbfGaIc5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 31 Jul 2019 04:32:57 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:38971 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725866AbfGaIc5 (ORCPT
+        id S1726553AbfGaIdw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 31 Jul 2019 04:33:52 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:45379 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725866AbfGaIdw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 31 Jul 2019 04:32:57 -0400
-Received: by mail-wm1-f67.google.com with SMTP id u25so48634888wmc.4;
-        Wed, 31 Jul 2019 01:32:55 -0700 (PDT)
+        Wed, 31 Jul 2019 04:33:52 -0400
+Received: by mail-wr1-f68.google.com with SMTP id f9so68644727wre.12
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jul 2019 01:33:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Vv7QJlhqsQ8aHiLfsYKcKvtxePDzn2Rbc7z1MBOOQ9Y=;
-        b=axSdODjw3jXgx4S9R8vd6L6ENp4zPspBhge4toszOo07c2BEDbGgYx+A+/yS+581Ab
-         PwGjp0Cptxh7qa+bMuJKiry4d1iajGrmWNaUdd4zxKPWrWJgV4EIvq0gfnDsGt/el3v9
-         R6b/orCu50jz41TgCJV/AAGJTMdQ8qjUoT4fKbcyXV7h83w2RDhlfYsWMJX+cZbP2gdi
-         mvaNB8hg2aZi8NHURzoeZEFIc0RiA0w1lXvy36Z5jG4Gk6D0PkLhG48u70e3rkCd4Wje
-         NGZAQAqiAV8ntnXKhFj0yZhflEnMXkVAdmEir9SrD2JnA9OxJh9JFTq81XIdTC92jof0
-         MB6g==
-X-Gm-Message-State: APjAAAWMkchdNPyfckyYQt/87riETBdQttvBP90XfuQXMs2DSWX5Kknb
-        EYyljy+SxXO8Ny6Zw4KK5BvpFUeQrWc1JRVsitw=
-X-Google-Smtp-Source: APXvYqya/XfPxO65m02NWkmZ45+9x/Fzz1kXR3vOrCtLpHfH6e9/DbeCK8UArUmFGOkuZI9NP57/KPuy1ff+LkPKIHM=
-X-Received: by 2002:a05:600c:254b:: with SMTP id e11mr102178270wma.171.1564561975116;
- Wed, 31 Jul 2019 01:32:55 -0700 (PDT)
+        bh=IGsLzBygQeN4U1HbS+siGyivzSnwWDQU6/cEgl1u7bA=;
+        b=MKgqCCq4FyStvoyqOMcJkYsiRoKYxK836et5Cy5YY4OJIrZakyhJKeJTusSsd4o2+s
+         M3iEcQpihvt97ILYonVipvtqGWVL8p+iD5JXCCo29KLSF+vK+ctUyySgPFQDHldFLV4i
+         je4pP0QakFuBFBqpF0VDzwEQuF7tw2mCc9oBTeCuzBgp/WJX8/EsZouuXnC4XANa6zt4
+         IsICs7MK908KXqKY9UhXy7PZXL+HG0c85v6FuhV6UEIYMJLZTx0EawD1RL3FEJjv/gxD
+         3HE2rUdWo5KKcri5npmV6k8/Esiq2ZEX4isZLW0w26+KxEZZtjlK7AlrAwRxBQp16GuN
+         ZyVA==
+X-Gm-Message-State: APjAAAW8J1uG/vltEF7ciDXYVNTo8JvnWU5WnF6r0A+rf51mnsOS1N7D
+        OIKxPnJxFSxg2iN0ffQae9lGsIcl4VXJMmnhwbey46Dl
+X-Google-Smtp-Source: APXvYqyHziTaChsaMWtanO1xCV68zcl6MTTzIToJk2Rucs4hRh1zedOwhC5f4r6CT7jA9LbHoCbi9u9lTdoflyuIYPs=
+X-Received: by 2002:adf:cd81:: with SMTP id q1mr131610751wrj.16.1564562030235;
+ Wed, 31 Jul 2019 01:33:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190731073744.13963-1-geert+renesas@glider.be>
- <20190731074801.5706-1-geert+renesas@glider.be> <20190731081209.GA5080@pendragon.ideasonboard.com>
-In-Reply-To: <20190731081209.GA5080@pendragon.ideasonboard.com>
+References: <1563461033-19708-1-git-send-email-ykaneko0929@gmail.com>
+In-Reply-To: <1563461033-19708-1-git-send-email-ykaneko0929@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 31 Jul 2019 10:32:42 +0200
-Message-ID: <CAMuHMdV9MEYP97_6RFhmbGGB8uY-Pi8S9q+m+XMmHzKHcibJwQ@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r8a77995: draak: Fix backlight
- regulator name
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+Date:   Wed, 31 Jul 2019 10:33:38 +0200
+Message-ID: <CAMuHMdV9Wwgc5Q_Nzk3qKUFduQ0WRTgpQM0Jqv-qmE0Va5oZog@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a7795-es1: sort nodes node
+To:     Yoshihiro Kaneko <ykaneko0929@gmail.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Simon Horman <horms@verge.net.au>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Johan Hovold <johan@kernel.org>,
-        Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
-
-On Wed, Jul 31, 2019 at 10:12 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Wed, Jul 31, 2019 at 09:48:01AM +0200, Geert Uytterhoeven wrote:
-> > Currently there are two nodes named "regulator1" in the Draak DTS: a
-> > 3.3V regulator for the eMMC and the LVDS decoder, and a 12V regulator
-> > for the backlight.  This causes the former to be overwritten by the
-> > latter.
-> >
-> > Fix this by renaming all regulators with numerical suffixes to use named
-> > suffixes, which are less likely to conflict.
+On Thu, Jul 18, 2019 at 4:44 PM Yoshihiro Kaneko <ykaneko0929@gmail.com> wrote:
+> Sort nodes.
 >
-> Aren't DT node names supposed to describe the device type, not a
-> particular instance of the device ? This is something that has bothered
-> me too, but I believe the naming scheme should be decided globally, not
-> per board. Is there precedent for using this scheme that has been
-> explicitly approved by the DT maintainers ?
+> If node address is present
+>    * Sort by node address, grouping all nodes with the same compat string
+>      and sorting the group alphabetically.
+> Else
+>    * Sort alphabetically
+>
+> This should not have any run-time effect.
+>
+> Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
 
-The example in Documentation/devicetree/bindings/regulator/regulator.yaml
-uses "regulator@0", which of course works only if #address-cells = 1, which
-is usually not the case for discrete regulators.
-BTW, the example lacks a "reg" property...
-
-So some other suffix has to be added to distinguish individual "regulator"
-nodes.
-
-The example in Documentation/devicetree/bindings/regulator/fixed-regulator.yaml
-uses "regulator-1v8" since commit b735f41dcb06ae06 ("dt-bindings: regulator:
-update fixed-regulator example"), which received a Reviewed-by from Rob
-after it was committed.
-https://lore.kernel.org/lkml/CAL_Jsq+rRYazOqtjNms0cTK0HpkxCkmZ4JXoLM7ZaPivATEO8A@mail.gmail.com/
-
-Looks good enough to me ;-)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.4.
 
 Gr{oetje,eeting}s,
 
                         Geert
-
 
 --
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
