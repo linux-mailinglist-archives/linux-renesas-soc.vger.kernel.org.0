@@ -2,87 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BCC47C386
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2019 15:30:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 129337C3B1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2019 15:37:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726812AbfGaNas (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 31 Jul 2019 09:30:48 -0400
-Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.52]:15037 "EHLO
-        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726339AbfGaNas (ORCPT
+        id S1728584AbfGaNhA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 31 Jul 2019 09:37:00 -0400
+Received: from xavier.telenet-ops.be ([195.130.132.52]:50214 "EHLO
+        xavier.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728030AbfGaNhA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 31 Jul 2019 09:30:48 -0400
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzmt2bYDnKIKaws6YXTsc4="
-X-RZG-CLASS-ID: mo00
-Received: from oxapp06-03.back.ox.d0m.de
-        by smtp-ox.front (RZmta 44.24 AUTH)
-        with ESMTPSA id h0a328v6VDUiZTi
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-        (Client did not present a certificate);
-        Wed, 31 Jul 2019 15:30:44 +0200 (CEST)
-Date:   Wed, 31 Jul 2019 15:30:44 +0200 (CEST)
-From:   Ulrich Hecht <uli@fpond.eu>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Zhang Rui <rui.zhang@intel.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Message-ID: <51684361.319230.1564579844450@webmail.strato.com>
-In-Reply-To: <20190731125053.14750-1-geert+renesas@glider.be>
-References: <20190731125053.14750-1-geert+renesas@glider.be>
-Subject: Re: [PATCH] thermal: rcar_gen3_thermal: Use
- devm_add_action_or_reset() helper
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Medium
-X-Mailer: Open-Xchange Mailer v7.10.1-Rev16
-X-Originating-IP: 85.212.153.30
-X-Originating-Client: open-xchange-appsuite
+        Wed, 31 Jul 2019 09:37:00 -0400
+Received: from ramsan ([84.194.98.4])
+        by xavier.telenet-ops.be with bizsmtp
+        id jRcx2000M05gfCL01RcxS2; Wed, 31 Jul 2019 15:36:58 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hsomn-0001DX-Fq; Wed, 31 Jul 2019 15:36:57 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hsomn-0004hf-Ek; Wed, 31 Jul 2019 15:36:57 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     Vladimir Barinov <vladimir.barinov@cogentembedded.com>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] arm64: dts: renesas: r8a77980: Fix IPMMU-VC0 base address
+Date:   Wed, 31 Jul 2019 15:36:56 +0200
+Message-Id: <20190731133656.18037-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+According to the R-Car Gen3 Hardware Manual Errata for Rev 1.50 of Feb
+12, 2019, the base address of the IPMMU-VC0 block on R-Car V3H is
+0xfe990000.
 
-> On July 31, 2019 at 2:50 PM Geert Uytterhoeven <geert+renesas@glider.be> wrote:
-> 
-> 
-> Use the devm_add_action_or_reset() helper instead of open-coding the
-> same operations.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  drivers/thermal/rcar_gen3_thermal.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
-> index a56463308694e937..2db7e7f8baf939fd 100644
-> --- a/drivers/thermal/rcar_gen3_thermal.c
-> +++ b/drivers/thermal/rcar_gen3_thermal.c
-> @@ -443,11 +443,10 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
->  		if (ret)
->  			goto error_unregister;
->  
-> -		ret = devm_add_action(dev, rcar_gen3_hwmon_action, zone);
-> -		if (ret) {
-> -			rcar_gen3_hwmon_action(zone);
-> +		ret = devm_add_action_or_reset(dev, rcar_gen3_hwmon_action,
-> +					       zone);
-> +		if (ret)
->  			goto error_unregister;
-> -		}
->  
->  		ret = of_thermal_get_ntrips(tsc->zone);
->  		if (ret < 0)
-> -- 
-> 2.17.1
->
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ arch/arm64/boot/dts/renesas/r8a77980.dtsi | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+diff --git a/arch/arm64/boot/dts/renesas/r8a77980.dtsi b/arch/arm64/boot/dts/renesas/r8a77980.dtsi
+index a901a341dcf71981..461a47ea656dabdf 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77980.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77980.dtsi
+@@ -1299,9 +1299,9 @@
+ 			#iommu-cells = <1>;
+ 		};
+ 
+-		ipmmu_vc0: mmu@fe6b0000 {
++		ipmmu_vc0: mmu@fe990000 {
+ 			compatible = "renesas,ipmmu-r8a77980";
+-			reg = <0 0xfe6b0000 0 0x1000>;
++			reg = <0 0xfe990000 0 0x1000>;
+ 			renesas,ipmmu-main = <&ipmmu_mm 12>;
+ 			power-domains = <&sysc R8A77980_PD_ALWAYS_ON>;
+ 			#iommu-cells = <1>;
+-- 
+2.17.1
 
-CU
-Uli
