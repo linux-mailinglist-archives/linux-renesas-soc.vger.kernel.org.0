@@ -2,80 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A7447C866
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2019 18:17:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B9687C8F1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2019 18:40:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729389AbfGaQRx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 31 Jul 2019 12:17:53 -0400
-Received: from mo4-p02-ob.smtp.rzone.de ([85.215.255.84]:26904 "EHLO
-        mo4-p02-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726962AbfGaQRx (ORCPT
+        id S1727502AbfGaQkg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 31 Jul 2019 12:40:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37156 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729558AbfGaQkg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 31 Jul 2019 12:17:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1564589869;
-        s=strato-dkim-0002; d=fpond.eu;
-        h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=LUAukr8Fa+7cR98+MjnDbcRvcMBn81Uabyl9ncZFn9U=;
-        b=oSbqMlXZin+FUn8Uem5mhSE0aMD6ZNcuSqIyqYTZNMURaKnpXWwh68wr0jubk3ygIr
-        nNFCJX9I0vdGxj/tBIRYriPnW4LhDuwb2GeVts1BlyQ2T9cGboYGaqmP/vxwcf9uQADV
-        XpFdTwSatW6xDB8QTmw4vYoRQbqUmCF3rG9SPVRfUEkdEiNeowQW2JNhjWanTxnjR3FD
-        NHXd3SAJz7a74d8OVBan9+kIklhP5UfNuLCmDaESt8CA7uBzXYfPPO2KD7NHnvKN4FDu
-        V9OP//qowkp0F3Hbh3OMItDjm1bGOhG0YORiI2/a89rnELpIxsrdGQ+oEg2pzej+TtKr
-        UY0Q==
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73dmm4I5W0/AvA67Ot4fvR82dZd6zDDg=="
-X-RZG-CLASS-ID: mo00
-Received: from groucho.site
-        by smtp.strato.de (RZmta 44.24 DYNA|AUTH)
-        with ESMTPSA id h0a328v6VGHhaNa
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA (curve secp521r1 with 521 ECDH bits, eq. 15360 bits RSA))
-        (Client did not present a certificate);
-        Wed, 31 Jul 2019 18:17:43 +0200 (CEST)
-From:   Ulrich Hecht <uli+renesas@fpond.eu>
-To:     linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org
-Cc:     niklas.soderlund@ragnatech.se, wsa@the-dreams.de,
-        yamada.masahiro@socionext.com, geert@linux-m68k.org,
-        ulf.hansson@linaro.org, magnus.damm@gmail.com,
-        Ulrich Hecht <uli+renesas@fpond.eu>
-Subject: [PATCH v2 2/2] mmc: tmio: remove obsolete PM workaround
-Date:   Wed, 31 Jul 2019 18:17:37 +0200
-Message-Id: <1564589857-17720-3-git-send-email-uli+renesas@fpond.eu>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1564589857-17720-1-git-send-email-uli+renesas@fpond.eu>
-References: <1564589857-17720-1-git-send-email-uli+renesas@fpond.eu>
+        Wed, 31 Jul 2019 12:40:36 -0400
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 160D2217D6;
+        Wed, 31 Jul 2019 16:40:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1564591235;
+        bh=YL6XanHOolYBcQrCgtDrnoZxKEgTNa0ScsgoNJYUcl4=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=vV17cvDdDvETO00aVhD1+RRzbWqVUfJpSZAbyKvzxiGWhpRx6idzA7KjVE3HSKgFJ
+         yNR29JWdMJ0Ho79he6O206pMZhRdSF/wCyj36+CW/3no7oEm4X6dzIGADd3HD8yu77
+         /6ZGkrZZQIbH49k0YWO7M0svFrDW+4oWHSYZ6T+g=
+Received: by mail-qt1-f177.google.com with SMTP id z4so67296595qtc.3;
+        Wed, 31 Jul 2019 09:40:35 -0700 (PDT)
+X-Gm-Message-State: APjAAAVZykK84NHDBYYI+gnVf1l7EsSup8iOZoJjDScwlI8jMpSx+32O
+        VhMuN+Lw0hVlhHvID714oH8LpGf0hovK8oZI2w==
+X-Google-Smtp-Source: APXvYqxdcWD9trsaYQYOwFKEONE5H4wG9+/v4JG0/5E8QaOHAUVaeK8kQHktNxjbYmOrrMt7zJ5qZzoDHRl4gwI64GY=
+X-Received: by 2002:a0c:8a43:: with SMTP id 3mr90832483qvu.138.1564591234233;
+ Wed, 31 Jul 2019 09:40:34 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190731073744.13963-1-geert+renesas@glider.be>
+ <20190731074801.5706-1-geert+renesas@glider.be> <20190731081209.GA5080@pendragon.ideasonboard.com>
+ <CAMuHMdV9MEYP97_6RFhmbGGB8uY-Pi8S9q+m+XMmHzKHcibJwQ@mail.gmail.com>
+ <CAL_JsqJWJ+o6t2Wb162h7Xz98L=WPSi4une-EC0HfoRiWLmKWA@mail.gmail.com> <20190731150909.GD4369@sirena.org.uk>
+In-Reply-To: <20190731150909.GD4369@sirena.org.uk>
+From:   Rob Herring <robh@kernel.org>
+Date:   Wed, 31 Jul 2019 10:40:22 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+qfGrrfG68WKSsHF2MoLBNi5m9w9x68dT+ZAG9fcWEjg@mail.gmail.com>
+Message-ID: <CAL_Jsq+qfGrrfG68WKSsHF2MoLBNi5m9w9x68dT+ZAG9fcWEjg@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a77995: draak: Fix backlight
+ regulator name
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Johan Hovold <johan@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Obsoleted by commit 7ff213193310ef8d ("mmc: tmio: move runtime PM
-enablement to the driver implementations").
+On Wed, Jul 31, 2019 at 9:09 AM Mark Brown <broonie@kernel.org> wrote:
+>
+> On Wed, Jul 31, 2019 at 08:47:38AM -0600, Rob Herring wrote:
+>
+> > As long as we have a consistent base name that we can match schema
+> > with, then I'm happy. But for regulators, we have a lot of node names
+> > like 'buck1', 'LDO2', etc.
+>
+> Those are all types of regulator (LDOs and DCDCs are the main types of
+> voltage regulator, and buck is another term for DCDC).
 
-Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
----
- drivers/mmc/host/tmio_mmc_core.c | 9 ---------
- 1 file changed, 9 deletions(-)
+Yes, I know.
 
-diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
-index 733ff96..72877c6 100644
---- a/drivers/mmc/host/tmio_mmc_core.c
-+++ b/drivers/mmc/host/tmio_mmc_core.c
-@@ -1221,15 +1221,6 @@ int tmio_mmc_host_probe(struct tmio_mmc_host *_host)
- 		_host->reset = tmio_mmc_reset;
- 
- 	/*
--	 * On Gen2+, eMMC with NONREMOVABLE currently fails because native
--	 * hotplug gets disabled. It seems RuntimePM related yet we need further
--	 * research. Since we are planning a PM overhaul anyway, let's enforce
--	 * for now the device being active by enabling native hotplug always.
--	 */
--	if (pdata->flags & TMIO_MMC_MIN_RCAR2)
--		_host->native_hotplug = true;
--
--	/*
- 	 * While using internal tmio hardware logic for card detection, we need
- 	 * to ensure it stays powered for it to work.
- 	 */
--- 
-2.7.4
+> I'm still not clear what meaningful effect any of this node name stuff
+> has :(
 
+It is primarily just what I said. Standard names or patterns allow for
+applying schemas. Otherwise, we only have schema checks when we have a
+device specific schema. Of course, we do have those too, but generic
+ones are useful when we don't. If there are errors in the DT causing
+the device specific schema to not match (say a typo in the compatible
+string), we still have some checking.
+
+Rob
