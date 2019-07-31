@@ -2,75 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DF9D7BBBE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2019 10:33:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B63D47BC78
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2019 11:02:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726553AbfGaIdw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 31 Jul 2019 04:33:52 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:45379 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725866AbfGaIdw (ORCPT
+        id S1727992AbfGaJCp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 31 Jul 2019 05:02:45 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:38725 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726699AbfGaJCo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 31 Jul 2019 04:33:52 -0400
-Received: by mail-wr1-f68.google.com with SMTP id f9so68644727wre.12
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 31 Jul 2019 01:33:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IGsLzBygQeN4U1HbS+siGyivzSnwWDQU6/cEgl1u7bA=;
-        b=MKgqCCq4FyStvoyqOMcJkYsiRoKYxK836et5Cy5YY4OJIrZakyhJKeJTusSsd4o2+s
-         M3iEcQpihvt97ILYonVipvtqGWVL8p+iD5JXCCo29KLSF+vK+ctUyySgPFQDHldFLV4i
-         je4pP0QakFuBFBqpF0VDzwEQuF7tw2mCc9oBTeCuzBgp/WJX8/EsZouuXnC4XANa6zt4
-         IsICs7MK908KXqKY9UhXy7PZXL+HG0c85v6FuhV6UEIYMJLZTx0EawD1RL3FEJjv/gxD
-         3HE2rUdWo5KKcri5npmV6k8/Esiq2ZEX4isZLW0w26+KxEZZtjlK7AlrAwRxBQp16GuN
-         ZyVA==
-X-Gm-Message-State: APjAAAW8J1uG/vltEF7ciDXYVNTo8JvnWU5WnF6r0A+rf51mnsOS1N7D
-        OIKxPnJxFSxg2iN0ffQae9lGsIcl4VXJMmnhwbey46Dl
-X-Google-Smtp-Source: APXvYqyHziTaChsaMWtanO1xCV68zcl6MTTzIToJk2Rucs4hRh1zedOwhC5f4r6CT7jA9LbHoCbi9u9lTdoflyuIYPs=
-X-Received: by 2002:adf:cd81:: with SMTP id q1mr131610751wrj.16.1564562030235;
- Wed, 31 Jul 2019 01:33:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <1563461033-19708-1-git-send-email-ykaneko0929@gmail.com>
-In-Reply-To: <1563461033-19708-1-git-send-email-ykaneko0929@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 31 Jul 2019 10:33:38 +0200
-Message-ID: <CAMuHMdV9Wwgc5Q_Nzk3qKUFduQ0WRTgpQM0Jqv-qmE0Va5oZog@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r8a7795-es1: sort nodes node
-To:     Yoshihiro Kaneko <ykaneko0929@gmail.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+        Wed, 31 Jul 2019 05:02:44 -0400
+X-IronPort-AV: E=Sophos;i="5.64,329,1559487600"; 
+   d="scan'208";a="22937243"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 31 Jul 2019 18:02:42 +0900
+Received: from localhost.localdomain (unknown [10.166.17.210])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id F4236421A7EC;
+        Wed, 31 Jul 2019 18:02:41 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     kishon@ti.com
+Cc:     pavel@denx.de, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, stable@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH] phy: renesas: rcar-gen3-usb2: Fix sysfs interface of "role"
+Date:   Wed, 31 Jul 2019 18:01:29 +0900
+Message-Id: <1564563689-25863-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jul 18, 2019 at 4:44 PM Yoshihiro Kaneko <ykaneko0929@gmail.com> wrote:
-> Sort nodes.
->
-> If node address is present
->    * Sort by node address, grouping all nodes with the same compat string
->      and sorting the group alphabetically.
-> Else
->    * Sort alphabetically
->
-> This should not have any run-time effect.
->
-> Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
+Since the role_store() uses strncmp(), it's possible to refer
+out-of-memory if the sysfs data size is smaller than strlen("host").
+This patch fixes it by using sysfs_streq() instead of strncmp().
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.4.
+Reported-by: Pavel Machek <pavel@denx.de>
+Fixes: 9bb86777fb71 ("phy: rcar-gen3-usb2: add sysfs for usb role swap")
+Cc: <stable@vger.kernel.org> # v4.10+
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ Just a record. The role_store() doesn't need to check the count because
+ the sysfs_streq() checks the first argument is NULL or not.
 
-Gr{oetje,eeting}s,
+ On "if (sysfs_streq(buf, "host"))"
+  Example 1: echo ho > role
+  --> In this case, the count is 3 and the buf has "ho" + NULL.
+      So, the third character differs between NULL and 's'.
 
-                        Geert
+  Example 2: echo host-is-not-used > role
+  --> In this case, the count is 17 and the buf has "host-is-not-used" + NULL.
+      So, the fifth character differs between '-' and NULL.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+index 1322185..cc18970 100644
+--- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
++++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+@@ -20,6 +20,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/regulator/consumer.h>
++#include <linux/string.h>
+ #include <linux/usb/of.h>
+ #include <linux/workqueue.h>
+ 
+@@ -317,9 +318,9 @@ static ssize_t role_store(struct device *dev, struct device_attribute *attr,
+ 	if (!ch->is_otg_channel || !rcar_gen3_is_any_rphy_initialized(ch))
+ 		return -EIO;
+ 
+-	if (!strncmp(buf, "host", strlen("host")))
++	if (sysfs_streq(buf, "host"))
+ 		new_mode = PHY_MODE_USB_HOST;
+-	else if (!strncmp(buf, "peripheral", strlen("peripheral")))
++	else if (sysfs_streq(buf, "peripheral"))
+ 		new_mode = PHY_MODE_USB_DEVICE;
+ 	else
+ 		return -EINVAL;
+-- 
+2.7.4
+
