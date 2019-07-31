@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 170727CD0E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2019 21:44:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 464D87CD23
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2019 21:51:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727962AbfGaToW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 31 Jul 2019 15:44:22 -0400
-Received: from sauhun.de ([88.99.104.3]:44572 "EHLO pokefinder.org"
+        id S1727418AbfGaTv3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 31 Jul 2019 15:51:29 -0400
+Received: from sauhun.de ([88.99.104.3]:44636 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727482AbfGaToW (ORCPT
+        id S1726232AbfGaTv3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 31 Jul 2019 15:44:22 -0400
+        Wed, 31 Jul 2019 15:51:29 -0400
 Received: from localhost (p54B33080.dip0.t-ipconnect.de [84.179.48.128])
-        by pokefinder.org (Postfix) with ESMTPSA id 1F9E42C270A;
-        Wed, 31 Jul 2019 21:44:20 +0200 (CEST)
-Date:   Wed, 31 Jul 2019 21:44:19 +0200
+        by pokefinder.org (Postfix) with ESMTPSA id 6CB462C270A;
+        Wed, 31 Jul 2019 21:51:26 +0200 (CEST)
+Date:   Wed, 31 Jul 2019 21:51:26 +0200
 From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Javier Martinez Canillas <javierm@redhat.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org,
-        open list <linux-kernel@vger.kernel.org>,
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
-        Lee Jones <lee.jones@linaro.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH RFC] modpost: Support I2C Aliases from OF tables
-Message-ID: <20190731194419.GB4084@kunai>
-References: <20190710193918.31135-1-kieran.bingham+renesas@ideasonboard.com>
- <0e1b6e0b-1c94-4b00-7fda-c2a303ee3816@redhat.com>
+        Eduardo Valentin <edubezval@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/6] media: radio: si4713: Convert to new i2c device
+ probe()
+Message-ID: <20190731195125.GC4084@kunai>
+References: <20190710215149.9208-1-kieran.bingham+renesas@ideasonboard.com>
+ <20190710215149.9208-2-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="dTy3Mrz/UPE2dbVg"
+        protocol="application/pgp-signature"; boundary="VywGB/WGlW4DM4P8"
 Content-Disposition: inline
-In-Reply-To: <0e1b6e0b-1c94-4b00-7fda-c2a303ee3816@redhat.com>
+In-Reply-To: <20190710215149.9208-2-kieran.bingham+renesas@ideasonboard.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -44,71 +44,42 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---dTy3Mrz/UPE2dbVg
+--VywGB/WGlW4DM4P8
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Javier,
-
-thank you for providing the extra information.
-
-(And Kieran, thanks for the patch!)
-
-> The other option is to remove i2c_of_match_device() and don't make OF mat=
-ch
-> to fallback to i2c_of_match_device_sysfs(). This is what happens in the A=
-CPI
-> case, since i2c_device_match() just calls acpi_driver_match_device() dire=
-ctly
-> and doesn't have a wrapper function that fallbacks to sysfs matching.
+On Wed, Jul 10, 2019 at 10:51:44PM +0100, Kieran Bingham wrote:
+> The I2C core framework provides a simplified probe framework from commit
+> b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new() call-back type").
 >=20
-> In this case an I2C device ID table would be required if the devices have=
- to
-> be instantiated through sysfs. That way the I2C table would be used both =
-for
-> auto-loading and also to match the device when it doesn't have an of_node.
-
-That would probably mean that only a minority of drivers will not add an I2C
-device ID table because it is easy to add an you get the sysfs feature?
-
-Then we are back again with the situation that most drivers will have
-multiple tables. With the minor change that the I2C device id table is
-not required anymore by the core, but it will be just very useful to
-have? Or?
-
-> If the former is the correct way to solve this then the patch looks good =
-to me.
+> This driver does not utilise the i2c_device_id table in the probe, so we =
+can
+> easily convert it to utilise the simplfied i2c driver registration.
 >=20
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-For this actual patch from Kieran, I'd like to hear an opinion from the
-people maintaining modpost. The aproach looks okay to me, yet I can't
-tell how "easy" we are with adding new types like 'i2c_of'.
-
-Thanks everyone,
-
-   Wolfram
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 
---dTy3Mrz/UPE2dbVg
+--VywGB/WGlW4DM4P8
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl1B75MACgkQFA3kzBSg
-KbbU8w//dvqEPnqPyKnvyM5J6IbOToq7hML3V6OFjYE77Tq2I6WxoRI938OiLZQ8
-zDMkansmVtC33fuRDoQBNy1QXwT8RAggj9OJ6qLP3phJxI426Q3NAO4kyAgYbNfP
-59y+Ek7fbM5jrnUZgeAlskR09H6Ji+v6FRaiDAmWRAL1hwQM8/LZ6dB/JqizpA/Z
-jZgu4W9OY+sdGtO81seJp1DoAMgsf/bWm7qX9n1Dz0vOzH+GMzqGgO+rmb6u+8DQ
-YTfOrrNXeAvnU71ttt78YXHon/Y3mSMD5CfYoIY1cYjvLV/LZuXdeYU0tMWCk0dQ
-xO1debrcAM8yAAdITXoYPnXiPeUFq3i6/VnZUXVpx4cWIo+UAtYlGbbC9aUL0RWg
-Janfacmuql1pq8ozpkYMz3e2oJxoaqTSjFW1Arw1JSJSrvySp5WG9tik9qXPrMv4
-NS5HlNP+odj/3PzIqH27sBHgNPhns6oBmzeJDzRDSfhBx1/GogS2F/zxanRBscfL
-bjV7LqWBd3MTbJI7LvJoSEYnE77nZSzuuNu5VWQWEE0zioFc6N0TCqboo7XgLfLo
-AsYRT5LWZHZVDdxEqCfptSyB1boQCsdHJi8k4Dw6xRy7Txa+n4nFSr8sjc0IR0IQ
-B6AtHRIQqwJkKVKeUccKydMsQHtN40wUsIQu2EcPOBhiPkquAFk=
-=3ETA
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl1B8T0ACgkQFA3kzBSg
+Kbb4ow//ZyIbTtU3Gr7nelWX2UfX2+F1vwzZbtgIYAS2iyewaz4oPj8VXZcbblWy
+zRtRkoQDziaj2SmU/3t+lxEc3Hr+j4359IrunnTW31Tcgd6vxM26AHya+UTSbIFy
+sEG64k0/FuMxkGqkR8NoL2oS+o++SzLeV371TJh1M9e36vsHU/HdwFPqiolbtNX2
+lkpUt/o4CWtie0kKlCpzmNzO0HpQo8GA1DCJChtmaofs2bDiPVDzNNYzHkkwIgoj
+Zhg49yc4625/EBSmESYatT/liiWaIJqAzsNnrQH1opjjT8Gh7O7QUfbZmjjlf9ju
+phCvn3vJ1wSKJgOjG7gmJXfDFZ/hwsUWP7fLjuPpHVOVjBdRaghdvc1XPYtJZBst
+Mg80LJNgrskkwVOOO4GefcikHcfodZyFkvxvYxC0tMUIXY8yy/FLacL+2oYMjudU
+o6lyb8x+jlJ1/fjuCBtWXNuC9Yi47/4kSzCL6glfHmrr59rVv0NeXALQI0Z61C0S
+IdUXAbiwNq7OlfPw/utZyPDeqxpTVutjL612vvvo6fQVIzLvjZ93TyGa0sjuVaM1
+INmhbTwatAvb5If3oavyKkOeffxOt0Fwc35H06nnDp9k1fEbqHmOp2J2NhEjZykf
+skIIX4vClxrNKFLKe+aRZHu0jpj3fkR1lNv3BNlagmcjLnePhE0=
+=sfK1
 -----END PGP SIGNATURE-----
 
---dTy3Mrz/UPE2dbVg--
+--VywGB/WGlW4DM4P8--
