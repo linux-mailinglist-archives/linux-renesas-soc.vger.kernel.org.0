@@ -2,149 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D5C17BAF8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2019 09:56:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB79B7BB3D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2019 10:12:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725970AbfGaH4r (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 31 Jul 2019 03:56:47 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:50754 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725913AbfGaH4r (ORCPT
+        id S1726270AbfGaIMZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 31 Jul 2019 04:12:25 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:46144 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726158AbfGaIMZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 31 Jul 2019 03:56:47 -0400
-Received: by mail-wm1-f66.google.com with SMTP id v15so59726332wml.0;
-        Wed, 31 Jul 2019 00:56:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QU5L0vbXmLbZe0E3jBTU5NfJkkh9UqRqr6Mps/3EPOo=;
-        b=iLzaU2LSDdI9jsv5/15m1mae9PZgBldsvsCrQ3CuB0T+NizxweSFnnOH/ey6IOLf6t
-         7FqdVwr5zWx+ZfxctAwjxPkm6DdCObDAxjj3v4qUfxPOXHD4XcQ0i21kcWBlg3HUZfDp
-         iaC7geB2CLCz2gO+JT3IQbLiNHeLANttoQclMvMhoi2ri9hQZNqYjKRGKeMTPavSJm0R
-         YIuJziKDBxVcKxSJ+GCasjax1H8UzLpL4kzAGarMbzQJJQoibsYdjKT5MrX9no42+vqt
-         G+3reXSYDkNDMoBsO2EqOL2MihCx8/2rv2OCZNhpkekVEfPZdkV8p1H9eC3tA90Lct70
-         0I+g==
-X-Gm-Message-State: APjAAAXf7g3FSESHtSwcWAsrFdm1H7jDsNhG6YdfRSqUILgXphirh9ns
-        9RHxDCj6x6LGtsoYc+VUWc2QofEHd/W50tYi3rs=
-X-Google-Smtp-Source: APXvYqxI3SDVuWcUSNpHB6iYKBKkhycQn1kNJ3nJf+4smL6dxeHCwc7CUToIujG+dw8npCkbHpL8diEb42e4A0p/Wmg=
-X-Received: by 2002:a1c:1f4e:: with SMTP id f75mr106666180wmf.137.1564559804817;
- Wed, 31 Jul 2019 00:56:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190109140045.17449-1-marek.vasut@gmail.com> <CAMuHMdX3bP_WCYNRRMmVRPwV52e72NOZMtW8cf29Fo+E9_CvcQ@mail.gmail.com>
- <20190109165822.tmj7qbho46f7clvg@verge.net.au> <1690279.yngTTxF0vm@avalon> <0d08d3c1-94ec-dcbe-ad3d-b079ab2ad17e@gmail.com>
-In-Reply-To: <0d08d3c1-94ec-dcbe-ad3d-b079ab2ad17e@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 31 Jul 2019 09:56:33 +0200
-Message-ID: <CAMuHMdWajtaDGFFkd-GiyR_V8fnpRcn=Uuf8UQuJdcYSigivQQ@mail.gmail.com>
-Subject: DTC check_duplicate_node_names (was: Re: [PATCH] arm64: dts: renesas:
- r8a77990: ebisu: Fix backlight regulator numbering)
-To:     Marek Vasut <marek.vasut@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Simon Horman <horms@verge.net.au>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Wed, 31 Jul 2019 04:12:25 -0400
+Received: from pendragon.ideasonboard.com (unknown [38.98.37.141])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1C5C6CC;
+        Wed, 31 Jul 2019 10:12:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1564560743;
+        bh=H/uPA4ZlVMkzj5l4yx9FTdj0RSpGn/s0K3dOVUpsTQw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=oDiA8FD1lCpQyskVId/r2Pj6m2K5SeSp0X+okXzhcdxBVayhZDrG/layeH0ikHMSu
+         cEpceHxnE8Qs2AS8bvG3jVlzE5FvUTO0DY67VnDKee8S38DtSES3RfpZ2tLsZelHxP
+         VYuxxtSCtDN3UPLwYdSTURr2gnVkPn1RC4pKx4Pw=
+Date:   Wed, 31 Jul 2019 11:12:09 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: renesas: r8a77995: draak: Fix backlight
+ regulator name
+Message-ID: <20190731081209.GA5080@pendragon.ideasonboard.com>
+References: <20190731073744.13963-1-geert+renesas@glider.be>
+ <20190731074801.5706-1-geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190731074801.5706-1-geert+renesas@glider.be>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marek,
+Hi Geert,
 
-Bringing this to the attention of the DTC people...
+(CC'ing the device tree mailing list)
 
-On Thu, Jan 10, 2019 at 3:38 PM Marek Vasut <marek.vasut@gmail.com> wrote:
-> On 1/10/19 1:59 PM, Laurent Pinchart wrote:
-> > On Wednesday, 9 January 2019 18:58:23 EET Simon Horman wrote:
-> >> On Wed, Jan 09, 2019 at 04:26:25PM +0100, Geert Uytterhoeven wrote:
-> >>> On Wed, Jan 9, 2019 at 3:01 PM <marek.vasut@gmail.com> wrote:
-> >>>> From: Marek Vasut <marek.vasut+renesas@gmail.com>
-> >>>>
-> >>>> There are two regulator1 nodes in the Ebisu DTS right now, one 3.3V for
-> >>>> the eMMC and one 12V for the backlight. This causes one to be
-> >>>> overwritten
-> >>>> by the other, ultimatelly resulting in inoperable eMMC, which depends on
-> >>>> the former. Fix this by renumbering the backlight regulator to
-> >>>> regulator2.
-> >>>>
-> >>>> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-> >>>> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> >>>> Cc: Simon Horman <horms+renesas@verge.net.au>
-> >>>> Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> >>>> Cc: linux-renesas-soc@vger.kernel.org
-> >>>> Reported-by: Simon Horman <horms+renesas@verge.net.au>
-> >>>> Fixes: 9d16c4a10e07 ("arm64: dts: renesas: r8a77990: ebisu: Add
-> >>>> backlight")
-> >>>
-> >>> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >>>
-> >>>> --- a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
-> >>>> +++ b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
-> >>>> @@ -191,7 +191,7 @@
-> >>>>
-> >>>>                 clock-frequency = <24576000>;
-> >>>>
-> >>>>         };
-> >>>>
-> >>>> -       reg_12p0v: regulator1 {
-> >>>> +       reg_12p0v: regulator2 {
-> >>>>
-> >>>>                 compatible = "regulator-fixed";
-> >>>>                 regulator-name = "D12.0V";
-> >>>>                 regulator-min-microvolt = <12000000>;
-> >>>
-> >>> Perhaps the node name should get a more descriptive suffix
-> >>> (e.g. "regulator-12p0v"), like is already done for some of the other
-> >>> regulators?
-> >>
-> >> I think I would prefer that addressed in a follow-up patch.
-> >
-> > Agreed, but it would still be a very good idea. I think we need to standardize
-> > names for regulators, otherwise this is bound to happen again in the future.
+Thank you for the patch.
 
-And so it did (patch sent for the same bug in r8a77995-draak.dts).
+On Wed, Jul 31, 2019 at 09:48:01AM +0200, Geert Uytterhoeven wrote:
+> Currently there are two nodes named "regulator1" in the Draak DTS: a
+> 3.3V regulator for the eMMC and the LVDS decoder, and a 12V regulator
+> for the backlight.  This causes the former to be overwritten by the
+> latter.
+> 
+> Fix this by renaming all regulators with numerical suffixes to use named
+> suffixes, which are less likely to conflict.
 
-> Isn't the YAML DT schema validator supposed to catch those problems ?
-> I'd even expect DTC to be able to catch such duplicate nodes and warn
-> about them.
+Aren't DT node names supposed to describe the device type, not a
+particular instance of the device ? This is something that has bothered
+me too, but I believe the naming scheme should be decided globally, not
+per board. Is there precedent for using this scheme that has been
+explicitly approved by the DT maintainers ?
 
-DTC indeed has check_duplicate_node_names.
-However, it only works for the base DTS, not for any later modifications in
-the board DTS.
-
-I.e. the original dup-nodename.dts in the DTC testsuite triggers an error,
-but the modified version below doesn't.
-
---- a/tests/dup-nodename.dts
-+++ b/tests/dup-nodename.dts
-@@ -1,8 +1,11 @@
- /dts-v1/;
-
-+/ {
-+};
-+
- / {
-        node {
-        };
-        node {
-        };
- };
-
-Gr{oetje,eeting}s,
-
-                        Geert
+> Fixes: 4fbd4158fe8967e9 ("arm64: dts: renesas: r8a77995: draak: Add backlight")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> I guess this is a fix for v5.3?
+> 
+> This fix takes a slightly different approach than commit
+> 12105cec654cf906 ("arm64: dts: renesas: r8a77990: ebisu: Fix backlight
+> regulator numbering"), which just fixed the conflicting numerical
+> suffix.
+> ---
+>  arch/arm64/boot/dts/renesas/r8a77995-draak.dts | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/renesas/r8a77995-draak.dts b/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
+> index 0711170b26b1fe1c..3aa2564dfdc25fff 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
+> +++ b/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
+> @@ -97,7 +97,7 @@
+>  		reg = <0x0 0x48000000 0x0 0x18000000>;
+>  	};
+>  
+> -	reg_1p8v: regulator0 {
+> +	reg_1p8v: regulator-1p8v {
+>  		compatible = "regulator-fixed";
+>  		regulator-name = "fixed-1.8V";
+>  		regulator-min-microvolt = <1800000>;
+> @@ -106,7 +106,7 @@
+>  		regulator-always-on;
+>  	};
+>  
+> -	reg_3p3v: regulator1 {
+> +	reg_3p3v: regulator-3p3v {
+>  		compatible = "regulator-fixed";
+>  		regulator-name = "fixed-3.3V";
+>  		regulator-min-microvolt = <3300000>;
+> @@ -115,7 +115,7 @@
+>  		regulator-always-on;
+>  	};
+>  
+> -	reg_12p0v: regulator1 {
+> +	reg_12p0v: regulator-12p0v {
+>  		compatible = "regulator-fixed";
+>  		regulator-name = "D12.0V";
+>  		regulator-min-microvolt = <12000000>;
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Regards,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Laurent Pinchart
