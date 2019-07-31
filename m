@@ -2,100 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CD887C551
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2019 16:47:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 168AF7C577
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2019 17:03:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387871AbfGaOrx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 31 Jul 2019 10:47:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51042 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387593AbfGaOrw (ORCPT
+        id S2388375AbfGaPDM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 31 Jul 2019 11:03:12 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:52169 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388176AbfGaPDM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 31 Jul 2019 10:47:52 -0400
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C65D4216C8;
-        Wed, 31 Jul 2019 14:47:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1564584471;
-        bh=lInMQej1Cu+xXIvUNOMNi98n56lFRIExbteZ0drhpXo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=oQeVLps0n60X4Z4fkk7FLEMT5LyfoBsonpOZSoh9YVnzNNeZNv7VK+vT3JMdLsc3M
-         rMreU/1DyCCFuYYpm+UdWuyHUp61Pn4tg+R9MusvrXxMwp8Z7PEiXIWZefqb7rd4EG
-         RJm6ujYVa/j8qWSusoPSsMPZx9+AljSKLTbBKJu4=
-Received: by mail-qt1-f175.google.com with SMTP id h18so66840559qtm.9;
-        Wed, 31 Jul 2019 07:47:51 -0700 (PDT)
-X-Gm-Message-State: APjAAAWRFvAX2LqRpuPkEIvVjwSDUkzmYMnxwDPoc8br1EU6urai1pwC
-        LBwvJOW/Yt3mSYa4lqPWHfA2Lva8kurz+v723g==
-X-Google-Smtp-Source: APXvYqxWABAICUQylsJRPx2TocCeORlo5dBLckf02x4fHX4CWRijbYSy8OsZGfpRaqUtJ9b1j4UFuIxWR/TXoH2NlBw=
-X-Received: by 2002:aed:3fb0:: with SMTP id s45mr87604517qth.136.1564584470923;
- Wed, 31 Jul 2019 07:47:50 -0700 (PDT)
+        Wed, 31 Jul 2019 11:03:12 -0400
+Received: by mail-wm1-f67.google.com with SMTP id 207so61194642wma.1;
+        Wed, 31 Jul 2019 08:03:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9dwIieuSjAHH84fcKyjEQyxPxQw1hDR/ozTdpigs9XQ=;
+        b=QXZosgsWauPvGHkGm5oN9H4U0wsGsBRpx01TUNpqb/1efFS+FxnrvRnnZpHo14oCfH
+         Ij0WS2pDHJ/AYsM6uKO3ysk3+ImpDaAO8XTnw0+YsPqiMIzJ4fG4xxFP2hsfAVkdbNYB
+         H2ZqtHJEA8JuiJXPDQEqq0GcEFDOQ434FohbG4m2JP92lOkkMa+ND+R0zcLnfg3qzFqD
+         hUbj8XypsMxhpRBbZNOGjZS3v/a9dGIUr1TozlV1XhnXIwCQS2e5OmS8tycJXHIv94SC
+         DxvUFgOSDF7jObSFqXiKW3H9tnEp4HhWKoVqxn5UbrcDqCwMmIqmI19T80HBg2RysNKM
+         o85w==
+X-Gm-Message-State: APjAAAVxfkOJJtWI46TV/X1dPoYbbRWZiyyU8BAuZBFW5DlEd1UsSjiS
+        fAiZMMr8CY2C8zKqkc6Ry4KynNYUi979wtuUFJ5I9rQd
+X-Google-Smtp-Source: APXvYqwuTbkXe8SLDWjkWoXNqv0aIpwtTIJMaTqJzUUcrmwRKmQ24SfujhmFGIGnTX1BdhJ/CFrvxIVlMEM9VGS6F2o=
+X-Received: by 2002:a1c:1f4e:: with SMTP id f75mr108631287wmf.137.1564585389723;
+ Wed, 31 Jul 2019 08:03:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190731073744.13963-1-geert+renesas@glider.be>
- <20190731074801.5706-1-geert+renesas@glider.be> <20190731081209.GA5080@pendragon.ideasonboard.com>
- <CAMuHMdV9MEYP97_6RFhmbGGB8uY-Pi8S9q+m+XMmHzKHcibJwQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdV9MEYP97_6RFhmbGGB8uY-Pi8S9q+m+XMmHzKHcibJwQ@mail.gmail.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Wed, 31 Jul 2019 08:47:38 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJWJ+o6t2Wb162h7Xz98L=WPSi4une-EC0HfoRiWLmKWA@mail.gmail.com>
-Message-ID: <CAL_JsqJWJ+o6t2Wb162h7Xz98L=WPSi4une-EC0HfoRiWLmKWA@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r8a77995: draak: Fix backlight
- regulator name
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+References: <20190731133936.18228-1-geert+renesas@glider.be> <TY1PR01MB156262DA5C9260BEE51472268ADF0@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY1PR01MB156262DA5C9260BEE51472268ADF0@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 31 Jul 2019 17:02:57 +0200
+Message-ID: <CAMuHMdV0xc=Ygmjk74-wsfNrODFMwDuzKmrskDx8FUAzzqOFPQ@mail.gmail.com>
+Subject: Re: [PATCH/RFC] ARM: dts: rza2mevb: Fix numbering of Ethernet aliases
+To:     Chris Brandt <Chris.Brandt@renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Simon Horman <horms@verge.net.au>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
         Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Johan Hovold <johan@kernel.org>,
-        Mark Brown <broonie@kernel.org>
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jul 31, 2019 at 2:32 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+Hi Chris,
+
+On Wed, Jul 31, 2019 at 4:28 PM Chris Brandt <Chris.Brandt@renesas.com> wrote:
+> On Wed, Jul 31, 2019, Geert Uytterhoeven wrote:
+> > The two Ethernet ports on the RZA2MEVB development board are labeled
+> > "Ether1" and "Ether2".  Reflect this numbering in the ethernet aliases.
 >
-> Hi Laurent,
+> However, the channels are labeled as ETHERC0 and ETHERC1 in the hardware
+> manual.
 >
-> On Wed, Jul 31, 2019 at 10:12 AM Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> > On Wed, Jul 31, 2019 at 09:48:01AM +0200, Geert Uytterhoeven wrote:
-> > > Currently there are two nodes named "regulator1" in the Draak DTS: a
-> > > 3.3V regulator for the eMMC and the LVDS decoder, and a 12V regulator
-> > > for the backlight.  This causes the former to be overwritten by the
-> > > latter.
-> > >
-> > > Fix this by renaming all regulators with numerical suffixes to use named
-> > > suffixes, which are less likely to conflict.
-> >
-> > Aren't DT node names supposed to describe the device type, not a
-> > particular instance of the device ? This is something that has bothered
-> > me too, but I believe the naming scheme should be decided globally, not
-> > per board. Is there precedent for using this scheme that has been
-> > explicitly approved by the DT maintainers ?
->
-> The example in Documentation/devicetree/bindings/regulator/regulator.yaml
-> uses "regulator@0", which of course works only if #address-cells = 1, which
-> is usually not the case for discrete regulators.
-> BTW, the example lacks a "reg" property...
+> So I guess my question is, in general, is the board specific Device Tree
+> supposed to describe what is on the SoC? Or on the board silk screen?
 
-Yeah, that predates our being strict about unit-addresses.
+AFAIK the aliases numbering is supposed to match the board or case labels.
 
-> So some other suffix has to be added to distinguish individual "regulator"
-> nodes.
+> Maybe this is like "COM1" is labeled on PC motherboard and we expect it
+> to show up as /dev/ttyS0 regardless of what physical serial port it is
+> connected to.
 
-<nodename>-<identifier> is basically the format we've been following
-for cases without an address.
+Those pesky FORTRAN programmers, counting from 1 ;-)
 
-As long as we have a consistent base name that we can match schema
-with, then I'm happy. But for regulators, we have a lot of node names
-like 'buck1', 'LDO2', etc.
+On Koelsch (and Salvator-X(S)), they are called "debug0" and "debug1".
 
-Rob
+These used to be /dev/ttySC6 and /dev/ttySC7, but got renamed in
+commit 1f75cdac773bc9c9 ("ARM: shmobile: koelsch: Rename SCIF[01] serial
+ports to ttySC[01]").
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
