@@ -2,132 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C1617CD3C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 31 Jul 2019 21:53:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF23E7D34F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2019 04:24:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727664AbfGaTxt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 31 Jul 2019 15:53:49 -0400
-Received: from sauhun.de ([88.99.104.3]:44750 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726175AbfGaTxt (ORCPT
+        id S1727211AbfHACYh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 31 Jul 2019 22:24:37 -0400
+Received: from condef-01.nifty.com ([202.248.20.66]:50993 "EHLO
+        condef-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726224AbfHACYg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 31 Jul 2019 15:53:49 -0400
-Received: from localhost (p54B33080.dip0.t-ipconnect.de [84.179.48.128])
-        by pokefinder.org (Postfix) with ESMTPSA id 6C4152C270A;
-        Wed, 31 Jul 2019 21:53:46 +0200 (CEST)
-Date:   Wed, 31 Jul 2019 21:53:46 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Leon Luo <leonl@leopardimaging.com>,
-        Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Luis Oliveira <lolivei@synopsys.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Wenyou Yang <wenyou.yang@microchip.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Akinobu Mita <akinobu.mita@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Mats Randgaard <matrandg@cisco.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Michael Grzeschik <m.grzeschik@pengutronix.de>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Allison Randal <allison@lohutok.net>,
-        Richard Fontana <rfontana@redhat.com>,
-        Todor Tomov <todor.tomov@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Julia Lawall <Julia.Lawall@lip6.fr>,
-        Alexey Khoroshilov <khoroshilov@ispras.ru>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 6/6] media: i2c: Convert to new i2c device probe()
-Message-ID: <20190731195346.GH4084@kunai>
-References: <20190710215149.9208-1-kieran.bingham+renesas@ideasonboard.com>
- <20190710215149.9208-7-kieran.bingham+renesas@ideasonboard.com>
+        Wed, 31 Jul 2019 22:24:36 -0400
+Received: from conssluserg-01.nifty.com ([10.126.8.80])by condef-01.nifty.com with ESMTP id x712IN2H010466
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 1 Aug 2019 11:18:23 +0900
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43]) (authenticated)
+        by conssluserg-01.nifty.com with ESMTP id x712I9jD007756;
+        Thu, 1 Aug 2019 11:18:10 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x712I9jD007756
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1564625890;
+        bh=bXXXUmyTcVtdjMx8G5OoQyejaocjSPDe16O/9zTAkoQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=t4aFmpM+PFuTAVsZVLiF1SoU65IJA84Ahaw2ehugDuK2yZw8wiUN46sTurIfP4xYp
+         MD2DlJKF2zCHAe+QmpIML4laLG/JHHd7qzt4FgusuXGAZJY5NH5wyuVIqGsfS/yyBZ
+         +W2ftIl6Dcf6rZlfMdOkwBk4WX0y5nRV0rkTjlKZ26F39/DMZVPFRWQesP3VUw1E0t
+         LShcc5Jkb+Gw5wvy3+zwjVMfV28RRTO1/1lCY0TIOeTiuaDHcYHuMMuQCk5iuRmq/C
+         kuPkzCq39+xJCtTjG6F5Hr+P9OhMP6cgRot3RRIr3XNoWtoUXwVpYcDwkn5JR3tOPD
+         zIs3hlPlAlyDw==
+X-Nifty-SrcIP: [209.85.217.43]
+Received: by mail-vs1-f43.google.com with SMTP id m23so47794602vso.1;
+        Wed, 31 Jul 2019 19:18:09 -0700 (PDT)
+X-Gm-Message-State: APjAAAWr4fRdNKTFt1y3mGAdqEOQj47Ihl1TwetbMf3cYC79cm2pRpRx
+        sAjV2k8lekwhE/U/O6lC1XSMq7qSm3Vq2/H7gR8=
+X-Google-Smtp-Source: APXvYqyKYbsfX9QIAmkSUdwHw2bT7AgoOn++jSjSKiO+rYMkyJP7vGE+fDBiuC4AOMDk9t/lW5TUjnDTLiPNpUkCN1I=
+X-Received: by 2002:a67:fc45:: with SMTP id p5mr18937841vsq.179.1564625888758;
+ Wed, 31 Jul 2019 19:18:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="pfTAc8Cvt8L6I27a"
-Content-Disposition: inline
-In-Reply-To: <20190710215149.9208-7-kieran.bingham+renesas@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190710193918.31135-1-kieran.bingham+renesas@ideasonboard.com>
+ <0e1b6e0b-1c94-4b00-7fda-c2a303ee3816@redhat.com> <20190731194419.GB4084@kunai>
+In-Reply-To: <20190731194419.GB4084@kunai>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Thu, 1 Aug 2019 11:17:32 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ6siWHU+N2c+6gqh7hHEJ_aDrVoiWnrTq1jiXQWSYYBA@mail.gmail.com>
+Message-ID: <CAK7LNAQ6siWHU+N2c+6gqh7hHEJ_aDrVoiWnrTq1jiXQWSYYBA@mail.gmail.com>
+Subject: Re: [PATCH RFC] modpost: Support I2C Aliases from OF tables
+To:     Wolfram Sang <wsa@the-dreams.de>
+Cc:     Javier Martinez Canillas <javierm@redhat.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mark Brown <broonie@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi.
 
---pfTAc8Cvt8L6I27a
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jul 10, 2019 at 10:51:49PM +0100, Kieran Bingham wrote:
-> The I2C core framework provides a simplified probe framework from commit
-> b8a1a4cd5a98 ("i2c: Provide a temporary .probe_new() call-back type").
->=20
-> These drivers do not utilise the i2c_device_id table in the probe, so we
-> can easily convert them to utilise the simplfied i2c driver
-> registration.
->=20
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> ---
->  drivers/media/i2c/adv7343.c  | 5 ++---
->  drivers/media/i2c/imx274.c   | 5 ++---
->  drivers/media/i2c/max2175.c  | 5 ++---
->  drivers/media/i2c/mt9m001.c  | 5 ++---
->  drivers/media/i2c/mt9m111.c  | 5 ++---
->  drivers/media/i2c/ov2640.c   | 5 ++---
->  drivers/media/i2c/ov2659.c   | 5 ++---
->  drivers/media/i2c/ov5640.c   | 5 ++---
->  drivers/media/i2c/ov5645.c   | 5 ++---
->  drivers/media/i2c/ov5647.c   | 5 ++---
->  drivers/media/i2c/ov772x.c   | 5 ++---
->  drivers/media/i2c/ov7740.c   | 5 ++---
->  drivers/media/i2c/ov9650.c   | 5 ++---
->  drivers/media/i2c/s5k5baf.c  | 5 ++---
->  drivers/media/i2c/s5k6a3.c   | 5 ++---
->  drivers/media/i2c/tc358743.c | 5 ++---
->  drivers/media/i2c/ths8200.c  | 5 ++---
->  drivers/media/i2c/tvp5150.c  | 5 ++---
->  drivers/media/i2c/tvp7002.c  | 4 ++--
-
-These drivers, I did not review visually but build tested them and
-verified they didn't show any build warnings or failures. Glimpsed
-through the conversion pattern. Looks all good.
-
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+On Thu, Aug 1, 2019 at 4:44 AM Wolfram Sang <wsa@the-dreams.de> wrote:
+>
+> Hi Javier,
+>
+> thank you for providing the extra information.
+>
+> (And Kieran, thanks for the patch!)
+>
+> > The other option is to remove i2c_of_match_device() and don't make OF match
+> > to fallback to i2c_of_match_device_sysfs(). This is what happens in the ACPI
+> > case, since i2c_device_match() just calls acpi_driver_match_device() directly
+> > and doesn't have a wrapper function that fallbacks to sysfs matching.
+> >
+> > In this case an I2C device ID table would be required if the devices have to
+> > be instantiated through sysfs. That way the I2C table would be used both for
+> > auto-loading and also to match the device when it doesn't have an of_node.
+>
+> That would probably mean that only a minority of drivers will not add an I2C
+> device ID table because it is easy to add an you get the sysfs feature?
+>
+> Then we are back again with the situation that most drivers will have
+> multiple tables. With the minor change that the I2C device id table is
+> not required anymore by the core, but it will be just very useful to
+> have? Or?
+>
+> > If the former is the correct way to solve this then the patch looks good to me.
+> >
+> > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
+>
+> For this actual patch from Kieran, I'd like to hear an opinion from the
+> people maintaining modpost.
 
 
---pfTAc8Cvt8L6I27a
-Content-Type: application/pgp-signature; name="signature.asc"
+As you see 'git log scripts/mod/file2alias.c',
+this file is touched by every subsystem.
 
------BEGIN PGP SIGNATURE-----
+So, the decision is up to you, Wolfram.
+And, you can pick this to your tree if you like.
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl1B8ckACgkQFA3kzBSg
-KbYEMRAAhmwhczAhbJim7z/RwnJLFoLsdVmxLuFphdE5tArR1CVlmSnLmePsb+SV
-oUHKtP20MJqd0JG5BQPthFD14pLhhgPSqEfx5wuEZ8D6JVHIVnj1Xghr+eg7B3/2
-+3o9zhbn57geSAmR56Mqm23SR9Je9WeggL8jtQll/JScKzyMo672s8U6sX5fJhy6
-tQ87t59yQ6QhMX1uu4yCPLwlbryhoFYwB8zeYtDsMJdgyg9AbMCLT7XePRmZdR6B
-BDmzajGEOrRYtW48Nl0xI7lyO79iLuD8JvqiqMPmM5sbz0GntdItUMgwbLFHgaAN
-tWLRMJlg/WffwWP7HEzPctBR1EMgfoCBDbPTdbckYuzhbtXnUn2bZe4yJalo73U2
-aoAnO4/LUqPkheQSrZklOhc6IdAuYCVvRs5DfryTubv7UcHpFVwTAZpVqWvU4mN+
-O351GpW8QdkBqCwu7M2J/dbCF2Xbz9kRuDdD1v+gS4eaMoVy68CB2IcYUgh52EnW
-aWqLKnIn1Vkz02N9sM35OvIYZKBaX5/EXjJSGkjltV65bSC20CqFBMFwRfuE+4vB
-SfkxTnwTI5beAn2ouZope7AanpO08QHCSb46JC86fMTt+3M9lzw0ehBw8cPv1A1j
-VPldElHq9IVpVRUyy4gZMJmvDzWtR8LCXFG3lsQ6rYTLa8dlI54=
-=FykV
------END PGP SIGNATURE-----
 
---pfTAc8Cvt8L6I27a--
+The implementation is really trivial.
+
+
+As Javier pointed out, this discussion comes down to
+"do we want to fall back to i2c_of_match_device_sysfs()?"
+
+If a driver supports DT and devices are instantiated via DT,
+in which situation is this useful?
+Do legacy non-DT platforms need this?
+
+
+
+> The aproach looks okay to me, yet I can't
+> tell how "easy" we are with adding new types like 'i2c_of'.
+
+As far as I understood, this patch provides a shorthand.
+You can save one table, but still get the
+same MODULE_ALIAS in the *.mod.c file.
+You need to add two MODULE_DEVICE_TABLE() though.
+
+MODULE_DEVICE_TABLE(of, si4713_of_match);
+MODULE_DEVICE_TABLE(i2c_of, si4713_of_match);
+
+
+-- 
+Best Regards
+Masahiro Yamada
