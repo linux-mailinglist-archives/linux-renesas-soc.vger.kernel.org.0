@@ -2,136 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C79697DE7E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2019 17:11:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA7737E2A6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2019 20:51:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732352AbfHAPLe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Aug 2019 11:11:34 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35120 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728691AbfHAPLe (ORCPT
+        id S1730581AbfHASvJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Aug 2019 14:51:09 -0400
+Received: from imap1.codethink.co.uk ([176.9.8.82]:55773 "EHLO
+        imap1.codethink.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727899AbfHASvJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Aug 2019 11:11:34 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9740ACC;
-        Thu,  1 Aug 2019 17:11:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1564672291;
-        bh=vt6Ktjk94ec1H6hufUnNflRQrJSB88KbpfXxlHfnRKg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ilJgHqVmCANyv1bVzbJWbOqH+FJvEwfI+a8Dc6Lj4+LvDruwo5Tv+HlLwjsLlK6s+
-         f3NlqMceQJErBx2u4YHuIBEDH3iLriggbNaaJyjkjcgm1OM4BmiVIIuqom7k/5IjPq
-         Qhl3kFsOFtFnW8bqI9hXItXcivySMiGneLVNiAZs=
-Date:   Thu, 1 Aug 2019 18:11:29 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        fabrizio.castro@bp.renesas.com,
-        "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
-        "open list:DRM DRIVERS FOR RENESAS" 
-        <linux-renesas-soc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm: rcar_lvds: Fix dual link mode operations
-Message-ID: <20190801151129.GF5024@pendragon.ideasonboard.com>
-References: <20190723165700.13124-1-jacopo+renesas@jmondi.org>
+        Thu, 1 Aug 2019 14:51:09 -0400
+Received: from [167.98.27.226] (helo=xylophone)
+        by imap1.codethink.co.uk with esmtpsa (Exim 4.84_2 #1 (Debian))
+        id 1htGAI-0003wL-VP; Thu, 01 Aug 2019 19:51:03 +0100
+Message-ID: <ffe639374bd93fe76f4aed19883640fefebd08f4.camel@codethink.co.uk>
+Subject: Re: [cip-dev] phy-rcar-gen3-usb2: wrong parsing of role in
+ role_store?
+From:   Ben Hutchings <ben.hutchings@codethink.co.uk>
+To:     Pavel Machek <pavel@denx.de>, yoshihiro.shimoda.uh@renesas.com,
+        kishon@ti.com, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     cip-dev@lists.cip-project.org
+Date:   Thu, 01 Aug 2019 19:51:02 +0100
+In-Reply-To: <20190730095140.GA29609@amd>
+References: <20190730095140.GA29609@amd>
+Organization: Codethink Ltd.
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190723165700.13124-1-jacopo+renesas@jmondi.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Jacopo,
-
-Thank you for the patch.
-
-On Tue, Jul 23, 2019 at 06:57:00PM +0200, Jacopo Mondi wrote:
-> The R-Car LVDS encoder units support dual-link operations by splitting
-> the pixel output between the primary encoder and the companion one.
-
-s/the companion one/its companion/
-
+On Tue, 2019-07-30 at 11:51 +0200, Pavel Machek wrote:
+> Hi!
 > 
-> In order for the primary encoder to succesfully control the companion's
-> operations this should not fail at probe time and register itself its
-> associated drm bridge so that the primary one can find it.
+> Code does strcmps, but does not actually check count. So AFAICT
+> writing "host-I-don't-want-I-need-peripheral" into the file will
+> succeed and turn it into host mode.
 
-This is hard to parse.
+I suspect the intent is to work without a trailing "\n", but you're
+right that this parsing is rather lax.
 
-> Currently the companion encoder fails at probe time, causing the
-> registration of the primary to fail preventing the whole DU unit to be
-> registered correctly.
-> 
-> Fixes: fa440d870358 ("drm: rcar-du: lvds: Add support for dual-link mode")
-> Reported-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> 
-> ---
-> The "Fixes" tag refers to a patch currently part of the
-> renesas-drivers-2019-07-09-v5.2 branch of Geert's renesas-drivers tree.
-> 
->  drivers/gpu/drm/rcar-du/rcar_lvds.c | 31 +++++++++++++++++++++--------
->  1 file changed, 23 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> index bada7ee98544..8b015ba95895 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> @@ -767,14 +767,29 @@ static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
->  	of_node_put(remote_input);
->  	of_node_put(remote);
-> 
-> -	/*
-> -	 * On D3/E3 the LVDS encoder provides a clock to the DU, which can be
-> -	 * used for the DPAD output even when the LVDS output is not connected.
-> -	 * Don't fail probe in that case as the DU will need the bridge to
-> -	 * control the clock.
-> -	 */
-> -	if (lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)
-> -		return ret == -ENODEV ? 0 : ret;
-> +	switch (ret) {
-> +	case -ENODEV:
-> +		/*
-> +		 * On D3/E3 the LVDS encoder provides a clock to the DU, which
-> +		 * can be used for the DPAD output even when the LVDS output is
-> +		 * not connected. Don't fail probe in that case as the DU will
-> +		 * need the bridge to control the clock.
-> +		 */
-> +		if (lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)
-> +			ret = 0;
-> +		break;
-> +	case -ENXIO:
-> +		/*
-> +		 * When the LVDS output is used in dual link mode, the
-> +		 * companion encoder fails at
-> +		 * 'rcar_lvds_parse_dt_companion()'. Don't fail probe in
-> +		 * that case as the master encoder will need the companion's
-> +		 * bridge to control its operations.
-> +		 */
-> +		if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK)
-> +			ret = 0;
+> Also data beyond count in buf are going to be accessed.
 
-As -ENXIO can only be returned by rcar_lvds_parse_dt_companion(), and
-rcar_lvds_parse_dt_companion() is only called when the
-RCAR_LVDS_QUIRK_DUAL_LINK flag is set, this essentially means that you
-always zero the error returned from rcar_lvds_parse_dt_companion(). This
-is both complicated and too drastic as the second -ENXIO error case
-shouldn't be ignored. It would be better and simpler to return 0 from
-rcar_lvds_parse_dt_companion() when the renesas,companion property can't
-be found.
+All attribute writes should be going through kernfs_fop_write(), which
+writes a null terminator at buf[count] before calling the write/store
+function.  (I don't know where that'ss documented though.)  So I think
+this is safe.
 
-> +		break;
-> +	}
+Ben.
+
+> static ssize_t role_store(struct device *dev, struct device_attribute *attr,
+>                           const char *buf, size_t count)
+> {
+>         struct rcar_gen3_chan *ch = dev_get_drvdata(dev);
+>         bool is_b_device;
+>         enum phy_mode cur_mode, new_mode;
 > 
->  	return ret;
->  }
-
+>         if (!ch->is_otg_channel || !rcar_gen3_is_any_rphy_initialized(ch))
+>                 return -EIO;
+> 
+>         /* FIXME, this is wrong */
+>         if (!strncmp(buf, "host", strlen("host")))
+>                 new_mode = PHY_MODE_USB_HOST;
+>         else if (!strncmp(buf, "peripheral", strlen("peripheral")))
+>                 new_mode = PHY_MODE_USB_DEVICE;
+>         else
+>                 return -EINVAL;
+> 
+> 
+> _______________________________________________
+> cip-dev mailing list
+> cip-dev@lists.cip-project.org
+> https://lists.cip-project.org/mailman/listinfo/cip-dev
 -- 
-Regards,
+Ben Hutchings, Software Developer                         Codethink Ltd
+https://www.codethink.co.uk/                 Dale House, 35 Dale Street
+                                     Manchester, M1 2HF, United Kingdom
 
-Laurent Pinchart
