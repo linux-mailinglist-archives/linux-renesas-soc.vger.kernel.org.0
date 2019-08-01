@@ -2,100 +2,142 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D205D7D640
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2019 09:26:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9F197D7E3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2019 10:41:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730796AbfHAH0l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Aug 2019 03:26:41 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:44553 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727490AbfHAH0k (ORCPT
+        id S1730905AbfHAIlX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Aug 2019 04:41:23 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:46629 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730313AbfHAIlX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Aug 2019 03:26:40 -0400
-Received: by mail-wr1-f68.google.com with SMTP id p17so72372749wrf.11;
-        Thu, 01 Aug 2019 00:26:39 -0700 (PDT)
+        Thu, 1 Aug 2019 04:41:23 -0400
+Received: by mail-lj1-f194.google.com with SMTP id v24so68656674ljg.13
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 01 Aug 2019 01:41:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+4DBMF2Zte9lbb8+gtbY6RWDlcSP8w6E9Z0ywxOOvw4=;
+        b=YAXRWo8X6F6wz5PKvmW08QL99wEuNQNPC5fMWRNuSkxkey+SRqTz9XGN9NJGP9eqYa
+         Q0tF6b9ViA3a5SI3rST4Ne8tyz/WLlCbLKkL5wiimdTe9b+DeXm/7MeRNV65yOKZwcVs
+         jUika+QzRTGYMdg8tGJ4oRQmSWd7MRITrJMcjb97yPHoSwKEP48fU32H/asZVahdnK95
+         ClDMx1P/8TFgXbIC3P0k4UHKa8gQNXcDCLxQxGYd+HQg10ROWqJmC4WTV0vmXCAV6fMX
+         sCUWduO8Raz+EY5MiehROp2QugR+GmK/OY2fxXJ+DmHk4a0nsQy3OgUgj2DWbaAkVSEz
+         tbJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=yg/wPUdcMV4pWhJlrkg7o37KpvgJ1aZ5oGNgYOtYNQo=;
-        b=NS1cPh84gg4Md6DK+eggvIayMgmmNO0KF79SqtNpQRoP9Kt1ZgAqMMmM2oQQ92J1RJ
-         aq4THLN8THMfi8v2drWL3UDzFIiY1RAJW6nmYndKu8sEzkYmg28hIChzfE2WnCZziYkM
-         gCKKBqJc7SsH6RfKv6zX5utHe0iLvsaSwiSJC+4z1H7PM9zGZzkLKXmhApbmD8/1g0GZ
-         ShF+VhOTgN411cq3cAHwuD/unPzNE7CqB1jIQNFq06v4EPuyRPy0Q7MoXAGISm02Z1Ey
-         LhyybZDi+EoyhlOl4W6Zy2PYfEubQv9UhwstKdqikMFPQvqHbiVlEOfQXOdiLcYd89/q
-         BJ9A==
-X-Gm-Message-State: APjAAAX7WaxFfWalv6wZoLJGxHxOpDuI7nTsBtXIbsslFLIgyO9iTiS7
-        XI2PKuX63/Nvoabbji/bw/0o+qCcLWOlJmqXXTCPKA==
-X-Google-Smtp-Source: APXvYqzmyW2nqKbB7Lr+BzOVoWVBrSCXzim3Q8p2v96Kfk5YFnq0czm1O0MUOL84EuppqokPItNxceDG5M5+WTB8Pls=
-X-Received: by 2002:a5d:4b91:: with SMTP id b17mr18155859wrt.57.1564644398308;
- Thu, 01 Aug 2019 00:26:38 -0700 (PDT)
+        bh=+4DBMF2Zte9lbb8+gtbY6RWDlcSP8w6E9Z0ywxOOvw4=;
+        b=s7v1zY66joxMx3iZ4rrdThFiqvPe8xzjeixhcRzZm410urDIOrY7o47IHdG93Nv/+Z
+         cRYky7/uMb8HIwr0EgNg2E45WFubbrDRdfcDFgyBruyZ9zBx5EChQ5wGzJRcrpHlVdnF
+         Rab+rl64B7Bf3g8Vslj1+lBhn3mXBxvnRD/azbTVFoe/XdVTMJUWac2M5TNv4aLipW69
+         77Sn+rpfi8WyiAucVQ4+h+yRxxQtnlUcLyG3jMW2SjZs+orJcVuZ31ErbyQW/YF4Sz1X
+         mrZ91Cm3WlcQmDxgbmnG60k9jNfkJWQNwF5JDi6k8doSJlDuQ/kjOE+qF5lv49CkbgXd
+         O69A==
+X-Gm-Message-State: APjAAAX4jg9ah4ohH2bYXeejmj1FOQbeffwGRaQDHJgq+gY1+jqMR5Xh
+        engbp7zDgRKBhj96AWtZZpZb9d9Ygs7bgw6cVUIoUA==
+X-Google-Smtp-Source: APXvYqxHEo1NnEuEea/EVgMvvV8QMVqO2H6dE9nSCXlcgxLIpX1H4/F1RTRXNMP6rHMR7tplWY1KPvxie4hjSNzYZAo=
+X-Received: by 2002:a2e:8756:: with SMTP id q22mr68107000ljj.108.1564648881037;
+ Thu, 01 Aug 2019 01:41:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190729175658.13672-1-geert+renesas@glider.be>
- <CAMuHMdV1zXCq6dbcg6=YmHgYqE5tfc1e7DbB3UgTVPm-5rU2Bw@mail.gmail.com> <20190731221550.5be0a103@canb.auug.org.au>
-In-Reply-To: <20190731221550.5be0a103@canb.auug.org.au>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 1 Aug 2019 09:26:26 +0200
-Message-ID: <CAMuHMdVjdzt35QEp2V44WEgbeMA=bi+LRk0mybWFLX6OVDPNsQ@mail.gmail.com>
-Subject: Re: New Renesas SoC tree for linux-next (was: [PATCH] MAINTAINERS:
- Add Geert as Renesas SoC Co-Maintainer)
-To:     Stephen Rothwell <sfr@canb.auug.org.au>
-Cc:     Linux-Next <linux-next@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20190705160536.12047-1-geert+renesas@glider.be>
+In-Reply-To: <20190705160536.12047-1-geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 1 Aug 2019 10:41:09 +0200
+Message-ID: <CACRpkdY6qAUkQW4YHN9HskvZS2P-viWYTHSb28ECh1p+itU=4Q@mail.gmail.com>
+Subject: Re: [PATCH RFC] gpio: Add Virtual Aggregator GPIO Driver
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Marc Zyngier <marc.zyngier@arm.com>, christoffer.dall@arm.com
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Alexander Graf <agraf@suse.de>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Stephen,
+Hi Geert!
 
-On Wed, Jul 31, 2019 at 2:16 PM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
-> On Wed, 31 Jul 2019 09:33:19 +0200 Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > Apparently Gmail marked my previous email as spam, so probably that's
-> > why I don't see my branch in linux-next.
+Thanks for this very interesting patch!
+
+On Fri, Jul 5, 2019 at 6:05 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+
+> GPIO controllers are exported to userspace using /dev/gpiochip*
+> character devices.  Access control to these devices is provided by
+> standard UNIX file system permissions, on an all-or-nothing basis:
+> either a GPIO controller is accessible for a user, or it is not.
+> Currently no mechanism exists to control access to individual GPIOs.
+
+Yes, I did that decision deliberately, as the chip is one device
+and the base system control is usually on a per-device granularity.
+At one point some people were asking for individual GPIO line
+permissions in the character device and my argument was something
+like why can't I have individual control over the access rights on a block
+device or the pixels on a graphics device then.
+
+Jokes aside, filesystems do provide access control over individual
+blocks on a block device in a way. So it is further up the stack.
+
+The same goes for this: something above the GPIO chip provide
+more granular access control, and as such it fits the need very well.
+
+> Hence add a virtual GPIO driver to aggregate existing GPIOs (up to 32),
+> and expose them as a new gpiochip.  This is useful for implementing
+> access control, and assigning a set of GPIOs to a specific user.
+> Furthermore, it would simplify and harden exporting GPIOs to a virtual
+> machine, as the VM can just grab the full virtual GPIO controller, and
+> no longer needs to care about which GPIOs to grab and which not,
+> reducing the attack surface.
+
+Excellent approach.
+
+I would even go so far as to call it "gpio-virtualization" or
+"gpio-virtualized" rather than "gpio-virtual" so it is clear what the
+intended usecase is. We have a bit of confusion in the kernel
+because people misuse the word "virtual" left and right, like for
+"virtual IRQ number" (Linux IRQ numbers) which are just some
+random number space, but not really "virtual", it's a semantic
+disease similar to the confusion of using the word "manual" in
+computer code.
+
+Here it is however used correctly! (Maybe for the first time.)
+
+> Virtual GPIO controllers are instantiated by writing to the "new_device"
+> attribute file in sysfs:
 >
-> Nothing to do with Gmail, just me not reading well enough. Sorry about
-> that.
+>     $ echo "<gpiochipA> <gpioA1> [<gpioA2> ...]"
+>            "[, <gpiochipB> <gpioB1> [<gpioB2> ...]] ...]"
+>             > /sys/bus/platform/drivers/gpio-virt-agg/new_device
 >
-> > Can you please add it?
+> Likewise, virtual GPIO controllers can be destroyed after use:
 >
-> Will do.
->
-> > Stephen: Can you please add my branch to linux-next, after Simon's
-> >          branch, which may still receive fixes for v5.3?
-> >
-> >  ARM/RENESAS ARM64 ARCHITECTURE
-> >  M:     Simon Horman <horms@verge.net.au>
-> > +M:     Geert Uytterhoeven <geert+renesas@glider.be>
-> >  M:     Magnus Damm <magnus.damm@gmail.com>
-> >  L:     linux-renesas-soc@vger.kernel.org
-> >  Q:     http://patchwork.kernel.org/project/linux-renesas-soc/list/
-> >  T:     git git://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas.git next
-> > +T:     git git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git
-> > next
-> >
-> >  ARM/SHMOBILE ARM ARCHITECTURE
-> >  M:     Simon Horman <horms@verge.net.au>
-> > +M:     Geert Uytterhoeven <geert+renesas@glider.be>
-> >  M:     Magnus Damm <magnus.damm@gmail.com>
-> >  L:     linux-renesas-soc@vger.kernel.org
-> >  Q:     http://patchwork.kernel.org/project/linux-renesas-soc/list/
-> >  T:     git git://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas.git next
-> > +T:     git git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git
-> > next
->
-> Added from tomorrow.
+>     $ echo gpio-virt-agg.<N> \
+>             > /sys/bus/platform/drivers/gpio-virt-agg/delete_device
 
-Thank you, I see it's part of next-20190801.
+I suppose this is the right way to use sysfs.
 
-Gr{oetje,eeting}s,
+I would check with some virtualization people (paged Marc Zyngier
+and Christoffer Dall) so they can say whether this is the way any
+virtual machine wants to populate its local GPIO chip for
+use with a certain machine.
 
-                        Geert
+If QEMU can deal in a simple and straight-forward way with this
+I see it quickly becoming a very useful tool for industrial automation
+where you want to run each control system in isolation and just
+respawn the virtual machine if something goes wrong.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Since this might be very popular we need some scrutiny but the
+concept as a whole is very appetizing!
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Yours,
+Linus Walleij
