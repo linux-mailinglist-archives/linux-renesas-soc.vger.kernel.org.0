@@ -2,56 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C5587DDC1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2019 16:23:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B1027DDC3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2019 16:23:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731972AbfHAOX0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Aug 2019 10:23:26 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:35102 "EHLO
-        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728129AbfHAOX0 (ORCPT
+        id S1731975AbfHAOXn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Aug 2019 10:23:43 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:43063 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728129AbfHAOXn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Aug 2019 10:23:26 -0400
-Received: by mail-pl1-f196.google.com with SMTP id w24so32300802plp.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 01 Aug 2019 07:23:26 -0700 (PDT)
+        Thu, 1 Aug 2019 10:23:43 -0400
+Received: by mail-pg1-f196.google.com with SMTP id r22so6701840pgk.10
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 01 Aug 2019 07:23:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
-        bh=d8QqAnaRG9B19aLd/6x1SuCSFj0V3dQnYyNBg9eKsxs=;
-        b=FJiMJoQkijSbS7Hw3FvNwGh4jrejEQk1R2ODJ4arB99XCKFl69EUalt+3H6y9IQ0Sh
-         do8Hbg6lu5RGw1WEPFX5bYe4hmqBZsxJ05ZO78RPPduWCivOElcI62KojrepLkdEKlvI
-         5uDVY+nBBCQDehjzs7qRymxrl4HgsL+Op3BgHtk8+vMv/9nNLxtK8ZTerQW8rFljKt7X
-         NXTKM/0ETZERIa06ltgJJApRzjwEilPf/7DrcHc5WLiH5JvikOyJdnveN8XlLVHt3hAN
-         2SaYj65GSRMsDYMgIQb7Cax2Mvrv+VXu30eZvhzOpHqJXJuD80RvQZOJs7HXwwlxvdMq
-         0t+g==
+        bh=gEHkLVhFpaWyVkOWtSOnh5cikq+qzc45obgcO+XHLmI=;
+        b=S9pbw3QLBQrAGR1FPGl4+HGr+DUGn/RFUHFTpeMdQ3sQs73nnvlcG82KrdI9/EEBYz
+         Zq/8ugI7UdsJll7Avws1B2d/sLbI/ie89wuUQqouqLBYrM/c6x6u+WN4vGvQVipK/214
+         VJfAHP2jAeAN/iGReraGLvC3O4IMNydK02ZxJ0TlzYxuy8TUJCPnllwF+RhoPkFhdxtI
+         WeUe08RCT8YwJzgzQ7TnjZPNWsgn95WhtOtBcJKgJUvQB1c38MgF8BnnzfnumBhMsLeb
+         tRVbAf1GBlj35cZXcb10a7wDLhraDUg1Q8aK+pAbwl0aYkJsjeoHx6GWQ44e4GfFGfHP
+         21PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=d8QqAnaRG9B19aLd/6x1SuCSFj0V3dQnYyNBg9eKsxs=;
-        b=DBlVLJ5MDdyRemkFKHrcVCX7vZtG+dtadVPCOn1IvvNz3E501CakAdhaVPfKbyAtyw
-         KlxCe2UOloNbu+PMz7wrHT+DEz0kACNaoG8Yab/N8qhSO0aWEpb+evfvCsgboOyduBJU
-         reqHJfbaSo3G21gBtTf/a76pCOKPjhGgICXJ84n412sMufcEdqHLjJRe/AYTtSGrTl1D
-         yOAQsVwvT0lNMxuWQfJKQn9/FD07B3ZPdfI3QSoRK6JARp+3njVmsZdswTYqrlqULO1o
-         HMK4B/PIdPfbZVP7qCilbVfEOg9gB5Oi6UZXn4iUZJsxVdeAh+WaTw/ocqWWhHlH5H3K
-         uIcA==
-X-Gm-Message-State: APjAAAV7+kgofonTSBlYJs1He1jLwghUCiVLELIO/MOip+m/IsEhc9Jz
-        4YpLbC1T6iHGn+mgMUvp/UGEXkiU
-X-Google-Smtp-Source: APXvYqzchMZ7vwg5+ycc1a3SAgOrqHTC46m69X5XZ5JEfK1atEKZtrEFuq/gOO86ntXKFLHViz/S+g==
-X-Received: by 2002:a17:902:2f84:: with SMTP id t4mr123020876plb.57.1564669405491;
-        Thu, 01 Aug 2019 07:23:25 -0700 (PDT)
+        bh=gEHkLVhFpaWyVkOWtSOnh5cikq+qzc45obgcO+XHLmI=;
+        b=Qqn2TEm+Se08ygTCBdtoowfH82f5H4tvbApYL/57gSSupNhtXGMrSQIIFVxZNmsCsl
+         BnwajKVhwqL2Z5S/jRsYUkRZlSB+uicbQlvvIcm6FfU+b78EME/xKmA/Fw8Pwypg4+me
+         NmoBAXIT7hK61bHb8NVxJmH0lUz2RJrJ0kim1XGHwtTkTlHkXWbTnVedXaivj1+kBtPg
+         fzwvc//dCubQM6cQvKWmb6tTARP8ABHKur5K9w3Fq2tQeAPOkJPNCIBdfBqs/UVaAa1n
+         KedMgprI1psnCMoxuvEI3jN00XnVRaEUSowZM84zPtl6yikP7eV+9kYJUpzd7Sj5A5Au
+         mc4g==
+X-Gm-Message-State: APjAAAV73laiiIW3RiPSMnyn0BFD5xqST8TxWo5CIRZAq7Jrmw57rRLz
+        7JaGLFL2bEZpeE9/wfvIqZwRheDt
+X-Google-Smtp-Source: APXvYqwzFLQLK93RztXK1efleqDv65R10XUo4b8mRBiYQQNyRFopUWRdlAyX8rpFzlRV77f0hiP1nQ==
+X-Received: by 2002:a63:561b:: with SMTP id k27mr19892459pgb.380.1564669422641;
+        Thu, 01 Aug 2019 07:23:42 -0700 (PDT)
 Received: from localhost.localdomain (p6796086-ipngn28101marunouchi.tokyo.ocn.ne.jp. [114.165.92.86])
-        by smtp.gmail.com with ESMTPSA id k3sm55628686pgq.92.2019.08.01.07.23.23
+        by smtp.gmail.com with ESMTPSA id s7sm4217689pjn.28.2019.08.01.07.23.40
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Thu, 01 Aug 2019 07:23:24 -0700 (PDT)
+        Thu, 01 Aug 2019 07:23:41 -0700 (PDT)
 From:   Yoshihiro Kaneko <ykaneko0929@gmail.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
         Simon Horman <horms@verge.net.au>,
         Magnus Damm <magnus.damm@gmail.com>,
         linux-arm-kernel@lists.infradead.org
-Subject: [PATCH] arm64: dts: renesas: r8a77970-v3msk: sort nodes
-Date:   Thu,  1 Aug 2019 23:23:17 +0900
-Message-Id: <1564669397-22515-1-git-send-email-ykaneko0929@gmail.com>
+Subject: [PATCH] arm64: dts: renesas: r8a77980-condor: sort nodes
+Date:   Thu,  1 Aug 2019 23:23:34 +0900
+Message-Id: <1564669414-22553-1-git-send-email-ykaneko0929@gmail.com>
 X-Mailer: git-send-email 1.9.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -74,157 +74,77 @@ Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
 This patch is based on the master branch of Geert Uytterhoeven's renesas-devel
 tree.
 
- arch/arm64/boot/dts/renesas/r8a77970-v3msk.dts | 116 ++++++++++++-------------
- 1 file changed, 58 insertions(+), 58 deletions(-)
+ arch/arm64/boot/dts/renesas/r8a77980-condor.dts | 42 ++++++++++++-------------
+ 1 file changed, 21 insertions(+), 21 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77970-v3msk.dts b/arch/arm64/boot/dts/renesas/r8a77970-v3msk.dts
-index 15cc9fe..d7c7b91 100644
---- a/arch/arm64/boot/dts/renesas/r8a77970-v3msk.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a77970-v3msk.dts
-@@ -21,6 +21,41 @@
+diff --git a/arch/arm64/boot/dts/renesas/r8a77980-condor.dts b/arch/arm64/boot/dts/renesas/r8a77980-condor.dts
+index 5a7012b..3dde028 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77980-condor.dts
++++ b/arch/arm64/boot/dts/renesas/r8a77980-condor.dts
+@@ -22,35 +22,20 @@
  		stdout-path = "serial0:115200n8";
  	};
  
-+	hdmi-out {
-+		compatible = "hdmi-connector";
-+		type = "a";
-+
-+		port {
-+			hdmi_con: endpoint {
-+				remote-endpoint = <&adv7511_out>;
-+			};
-+		};
-+	};
-+
-+	lvds-decoder {
-+		compatible = "thine,thc63lvd1024";
-+		vcc-supply = <&vcc_d3_3v>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+				thc63lvd1024_in: endpoint {
-+					remote-endpoint = <&lvds0_out>;
-+				};
-+			};
-+
-+			port@2 {
-+				reg = <2>;
-+				thc63lvd1024_out: endpoint {
-+					remote-endpoint = <&adv7511_in>;
-+				};
-+			};
-+		};
-+	};
-+
- 	memory@48000000 {
- 		device_type = "memory";
- 		/* first 128MB is reserved for secure area. */
-@@ -59,41 +94,6 @@
+-	memory@48000000 {
+-		device_type = "memory";
+-		/* first 128MB is reserved for secure area. */
+-		reg = <0 0x48000000 0 0x78000000>;
+-	};
+-
+-	d3_3v: regulator-0 {
+-		compatible = "regulator-fixed";
+-		regulator-name = "D3.3V";
+-		regulator-min-microvolt = <3300000>;
+-		regulator-max-microvolt = <3300000>;
+-		regulator-boot-on;
+-		regulator-always-on;
+-	};
+-
+-	vddq_vin01: regulator-1 {
++	d1_8v: regulator-2 {
+ 		compatible = "regulator-fixed";
+-		regulator-name = "VDDQ_VIN01";
++		regulator-name = "D1.8V";
+ 		regulator-min-microvolt = <1800000>;
+ 		regulator-max-microvolt = <1800000>;
  		regulator-boot-on;
  		regulator-always-on;
  	};
--
--	lvds-decoder {
--		compatible = "thine,thc63lvd1024";
--		vcc-supply = <&vcc_d3_3v>;
--
--		ports {
--			#address-cells = <1>;
--			#size-cells = <0>;
--
--			port@0 {
--				reg = <0>;
--				thc63lvd1024_in: endpoint {
--					remote-endpoint = <&lvds0_out>;
--				};
--			};
--
--			port@2 {
--				reg = <2>;
--				thc63lvd1024_out: endpoint {
--					remote-endpoint = <&adv7511_in>;
--				};
--			};
--		};
--	};
--
--	hdmi-out {
--		compatible = "hdmi-connector";
--		type = "a";
--
--		port {
--			hdmi_con: endpoint {
--				remote-endpoint = <&adv7511_out>;
--			};
--		};
--	};
- };
  
- &avb {
-@@ -128,29 +128,6 @@
- 	clock-frequency = <32768>;
- };
+-	d1_8v: regulator-2 {
++	d3_3v: regulator-0 {
+ 		compatible = "regulator-fixed";
+-		regulator-name = "D1.8V";
+-		regulator-min-microvolt = <1800000>;
+-		regulator-max-microvolt = <1800000>;
++		regulator-name = "D3.3V";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
+ 		regulator-boot-on;
+ 		regulator-always-on;
+ 	};
+@@ -90,6 +75,21 @@
+ 		};
+ 	};
  
--&pfc {
--	avb_pins: avb0 {
--		groups = "avb0_mdio", "avb0_rgmii", "avb0_txcrefclk";
--		function = "avb0";
--	};
--
--	i2c0_pins: i2c0 {
--		groups = "i2c0";
--		function = "i2c0";
--	};
--
--	mmc_pins: mmc_3_3v {
--		groups = "mmc_data8", "mmc_ctrl";
--		function = "mmc";
--		power-source = <3300>;
--	};
--
--	scif0_pins: scif0 {
--		groups = "scif0_data";
--		function = "scif0";
--	};
--};
--
- &i2c0 {
- 	pinctrl-0 = <&i2c0_pins>;
- 	pinctrl-names = "default";
-@@ -220,6 +197,29 @@
- 	status = "okay";
- };
- 
-+&pfc {
-+	avb_pins: avb0 {
-+		groups = "avb0_mdio", "avb0_rgmii", "avb0_txcrefclk";
-+		function = "avb0";
++	memory@48000000 {
++		device_type = "memory";
++		/* first 128MB is reserved for secure area. */
++		reg = <0 0x48000000 0 0x78000000>;
 +	};
 +
-+	i2c0_pins: i2c0 {
-+		groups = "i2c0";
-+		function = "i2c0";
++	vddq_vin01: regulator-1 {
++		compatible = "regulator-fixed";
++		regulator-name = "VDDQ_VIN01";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-boot-on;
++		regulator-always-on;
 +	};
 +
-+	mmc_pins: mmc_3_3v {
-+		groups = "mmc_data8", "mmc_ctrl";
-+		function = "mmc";
-+		power-source = <3300>;
-+	};
-+
-+	scif0_pins: scif0 {
-+		groups = "scif0_data";
-+		function = "scif0";
-+	};
-+};
-+
- &scif0 {
- 	pinctrl-0 = <&scif0_pins>;
- 	pinctrl-names = "default";
+ 	x1_clk: x1-clock {
+ 		compatible = "fixed-clock";
+ 		#clock-cells = <0>;
 -- 
 1.9.1
 
