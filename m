@@ -2,184 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 734AE7D8E5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2019 11:58:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84F587DBFB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2019 14:57:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728413AbfHAJ6l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 1 Aug 2019 05:58:41 -0400
-Received: from foss.arm.com ([217.140.110.172]:33278 "EHLO foss.arm.com"
+        id S1731341AbfHAM5w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Aug 2019 08:57:52 -0400
+Received: from sauhun.de ([88.99.104.3]:52746 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726381AbfHAJ6l (ORCPT
+        id S1730334AbfHAM5w (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 1 Aug 2019 05:58:41 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 70FD01570;
-        Thu,  1 Aug 2019 02:58:40 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2C2893F694;
-        Thu,  1 Aug 2019 02:58:40 -0700 (PDT)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
-        id DF2E86802BE; Thu,  1 Aug 2019 10:58:38 +0100 (BST)
-Date:   Thu, 1 Aug 2019 10:58:38 +0100
-From:   Liviu Dudau <Liviu.Dudau@arm.com>
-To:     "Lowry Li (Arm Technology China)" <Lowry.Li@arm.com>
-Cc:     "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>,
-        "maarten.lankhorst@linux.intel.com" 
-        <maarten.lankhorst@linux.intel.com>,
-        "seanpaul@chromium.org" <seanpaul@chromium.org>,
-        "airlied@linux.ie" <airlied@linux.ie>,
-        "daniel@ffwll.ch" <daniel@ffwll.ch>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        "Julien Yin (Arm Technology China)" <Julien.Yin@arm.com>,
-        "maxime.ripard@bootlin.com" <maxime.ripard@bootlin.com>,
-        "eric@anholt.net" <eric@anholt.net>,
-        "kieran.bingham+renesas@ideasonboard.com" 
-        <kieran.bingham+renesas@ideasonboard.com>,
-        "sean@poorly.run" <sean@poorly.run>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "Jonathan Chai (Arm Technology China)" <Jonathan.Chai@arm.com>,
-        Ayan Halder <Ayan.Halder@arm.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>, nd <nd@arm.com>
-Subject: Re: [PATCH v1 2/2] drm: Clear the fence pointer when writeback job
- signaled
-Message-ID: <20190801095838.2dy4nmipct3qmohc@e110455-lin.cambridge.arm.com>
-References: <1564571048-15029-1-git-send-email-lowry.li@arm.com>
- <1564571048-15029-3-git-send-email-lowry.li@arm.com>
- <20190731131525.vjnkbnbatb5tbuzh@e110455-lin.cambridge.arm.com>
- <20190801063055.GA17887@lowry.li@arm.com>
+        Thu, 1 Aug 2019 08:57:52 -0400
+Received: from localhost (p54B333D2.dip0.t-ipconnect.de [84.179.51.210])
+        by pokefinder.org (Postfix) with ESMTPSA id 81F0A2C2817;
+        Thu,  1 Aug 2019 14:57:50 +0200 (CEST)
+Date:   Thu, 1 Aug 2019 14:57:50 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Simon Horman <horms+renesas@verge.net.au>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>, linux-i2c@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 0/4] dt-bindings: i2c: renesas: Rename bindings
+ documentation files
+Message-ID: <20190801125750.GM1659@ninjato>
+References: <20190724121559.19079-1-horms+renesas@verge.net.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="M2Pxvdb9QxnGd/3e"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190801063055.GA17887@lowry.li@arm.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20190724121559.19079-1-horms+renesas@verge.net.au>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Aug 01, 2019 at 06:31:13AM +0000, Lowry Li (Arm Technology China) wrote:
-> Hi Liviu,
-> 
-> On Wed, Jul 31, 2019 at 01:15:25PM +0000, Liviu Dudau wrote:
-> > Hi Lowry,
-> > 
-> > On Wed, Jul 31, 2019 at 11:04:45AM +0000, Lowry Li (Arm Technology China) wrote:
-> > > During it signals the completion of a writeback job, after releasing
-> > > the out_fence, we'd clear the pointer.
-> > > 
-> > > Check if fence left over in drm_writeback_cleanup_job(), release it.
-> > > 
-> > > Signed-off-by: Lowry Li (Arm Technology China) <lowry.li@arm.com>
-> > > ---
-> > >  drivers/gpu/drm/drm_writeback.c | 23 +++++++++++++++--------
-> > >  1 file changed, 15 insertions(+), 8 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/drm_writeback.c b/drivers/gpu/drm/drm_writeback.c
-> > > index ff138b6..43d9e3b 100644
-> > > --- a/drivers/gpu/drm/drm_writeback.c
-> > > +++ b/drivers/gpu/drm/drm_writeback.c
-> > > @@ -324,6 +324,9 @@ void drm_writeback_cleanup_job(struct drm_writeback_job *job)
-> > >  	if (job->fb)
-> > >  		drm_framebuffer_put(job->fb);
-> > >  
-> > > +	if (job->out_fence)
-> > > +		dma_fence_put(job->out_fence);
-> > > +
-> > >  	kfree(job);
-> > >  }
-> > 
-> > This change looks good.
-> > 
-> > >  EXPORT_SYMBOL(drm_writeback_cleanup_job);
-> > > @@ -366,25 +369,29 @@ static void cleanup_work(struct work_struct *work)
-> > >  {
-> > >  	unsigned long flags;
-> > >  	struct drm_writeback_job *job;
-> > > +	struct dma_fence *out_fence;
-> > >  
-> > >  	spin_lock_irqsave(&wb_connector->job_lock, flags);
-> > >  	job = list_first_entry_or_null(&wb_connector->job_queue,
-> > >  				       struct drm_writeback_job,
-> > >  				       list_entry);
-> > > -	if (job) {
-> > > +	if (job)
-> > >  		list_del(&job->list_entry);
-> > > -		if (job->out_fence) {
-> > > -			if (status)
-> > > -				dma_fence_set_error(job->out_fence, status);
-> > > -			dma_fence_signal(job->out_fence);
-> > > -			dma_fence_put(job->out_fence);
-> > 
-> > *Here*
-> > 
-> > > -		}
-> > > -	}
-> > > +
-> > >  	spin_unlock_irqrestore(&wb_connector->job_lock, flags);
-> > >  
-> > >  	if (WARN_ON(!job))
-> > >  		return;
-> > >  
-> > > +	out_fence = job->out_fence;
-> > > +	if (out_fence) {
-> > > +		if (status)
-> > > +			dma_fence_set_error(out_fence, status);
-> > > +		dma_fence_signal(out_fence);
-> > > +		dma_fence_put(out_fence);
-> > > +		job->out_fence = NULL;
-> > > +	}
-> > > +
-> > 
-> > I don't get the point of this change. Why not just add job->out_fence = NULL
-> > where *Here* is?
-> >
-> > Best regards,
-> > Liviu 
-> Besides setting NULL, also did a refine by moving the fence operation
-> out of the lock block.
 
-OK, now it makes sense. May I suggest you add that to the commit message?
+--M2Pxvdb9QxnGd/3e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Otherwise, Acked-by: Liviu Dudau <liviu.dudau@arm.com>
+On Wed, Jul 24, 2019 at 02:15:55PM +0200, Simon Horman wrote:
+> Rename the bindings documentation file for Renesas I2C controllers.
+>=20
+> This is part of an ongoing effort to name bindings documentation files for
+> Renesas IP blocks consistently, in line with the compat strings they
+> document.
+>=20
+> Based on v5.3-rc1
+>=20
+> Simon Horman (4):
+>   dt-bindings: i2c: sh_mobile: Rename bindings documentation file
+>   dt-bindings: i2c: rcar: Rename bindings documentation file
+>   dt-bindings: i2c: riic: Rename bindings documentation file
+>   dt-bindings: i2c: riic: Rename bindings documentation file
 
-Best regards,
-Liviu
+Applied to for-next, thanks!
 
-> 
-> Best regards,
-> Lowry 
-> > >  	INIT_WORK(&job->cleanup_work, cleanup_work);
-> > >  	queue_work(system_long_wq, &job->cleanup_work);
-> > >  }
-> > > -- 
-> > > 1.9.1
-> > > 
-> > 
-> > -- 
-> > ====================
-> > | I would like to |
-> > | fix the world,  |
-> > | but they're not |
-> > | giving me the   |
-> >  \ source code!  /
-> >   ---------------
-> >     ¯\_(ツ)_/¯
-> 
-> -- 
-> Regards,
-> Lowry
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+--M2Pxvdb9QxnGd/3e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl1C4c0ACgkQFA3kzBSg
+KbamRA/9GpOM7rqnCrHHeVm2ymvAN0h9chZDp/OQeW+ZzsvTNji1kfiSih8XwZGd
+/fT81qsO/8/Tdr5lHeRpiue+90jwkEkesllOhiwxahlEM8JIi1mU9Z7eW0bmP73A
+fGUw26PKqqRMmGozuOeVrU9varCkCwOnVdOV5y9rKbO42IDxtE+i+XfG7jscGO+R
+TMdy7yVa0gv21ppwBykY7JfGfvoKdxmhRMPYSnzj1TcWRvO6vf7SXz8zU1PDJOCc
+7oU1hEEhSx1SqvK9ygBB15+kUDE+8bV8VdmYlvRczCE/u5Vt+IYYgxTbbgGrBwS4
+yuEGIcBPRfCIzcL9jWlmZZiW9D6HrylKumCnRRpOZA5s4zri389QD/QT4yh7i7AP
+BL9nqI65+o00cGoy++jrPWlIImHFZ46+cUuzBXIYFwE66hEV/WOoVn25lYfeKdc+
+YANf2kXbkBWy6LZvO+ugu+TfxwJcWYJmLBN2balOU82/biLsk8yZnn4PdiIUbI5U
+WFC217rXBQmo+4KB7KvoirUijfsQaVrUktzg473dht8knDFMKDUx0P9hc5ur9MY9
+/X9PxNTYQCwlGBxHSAacCRNvThfj2hm2lG4C7dri68XMVnxYT3AxCaekjeijKi4j
+agZvW7GxgtpR34VpD9yOdtIj0yZJOdR1L2lA0w1HAfB+tk/PvZ8=
+=MYiC
+-----END PGP SIGNATURE-----
+
+--M2Pxvdb9QxnGd/3e--
