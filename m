@@ -2,132 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BF23E7D34F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2019 04:24:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55B1B7D5EF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  1 Aug 2019 09:00:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727211AbfHACYh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 31 Jul 2019 22:24:37 -0400
-Received: from condef-01.nifty.com ([202.248.20.66]:50993 "EHLO
-        condef-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726224AbfHACYg (ORCPT
+        id S1730126AbfHAHAn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 1 Aug 2019 03:00:43 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:55174 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727956AbfHAHAn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 31 Jul 2019 22:24:36 -0400
-Received: from conssluserg-01.nifty.com ([10.126.8.80])by condef-01.nifty.com with ESMTP id x712IN2H010466
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 1 Aug 2019 11:18:23 +0900
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id x712I9jD007756;
-        Thu, 1 Aug 2019 11:18:10 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x712I9jD007756
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1564625890;
-        bh=bXXXUmyTcVtdjMx8G5OoQyejaocjSPDe16O/9zTAkoQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=t4aFmpM+PFuTAVsZVLiF1SoU65IJA84Ahaw2ehugDuK2yZw8wiUN46sTurIfP4xYp
-         MD2DlJKF2zCHAe+QmpIML4laLG/JHHd7qzt4FgusuXGAZJY5NH5wyuVIqGsfS/yyBZ
-         +W2ftIl6Dcf6rZlfMdOkwBk4WX0y5nRV0rkTjlKZ26F39/DMZVPFRWQesP3VUw1E0t
-         LShcc5Jkb+Gw5wvy3+zwjVMfV28RRTO1/1lCY0TIOeTiuaDHcYHuMMuQCk5iuRmq/C
-         kuPkzCq39+xJCtTjG6F5Hr+P9OhMP6cgRot3RRIr3XNoWtoUXwVpYcDwkn5JR3tOPD
-         zIs3hlPlAlyDw==
-X-Nifty-SrcIP: [209.85.217.43]
-Received: by mail-vs1-f43.google.com with SMTP id m23so47794602vso.1;
-        Wed, 31 Jul 2019 19:18:09 -0700 (PDT)
-X-Gm-Message-State: APjAAAWr4fRdNKTFt1y3mGAdqEOQj47Ihl1TwetbMf3cYC79cm2pRpRx
-        sAjV2k8lekwhE/U/O6lC1XSMq7qSm3Vq2/H7gR8=
-X-Google-Smtp-Source: APXvYqyKYbsfX9QIAmkSUdwHw2bT7AgoOn++jSjSKiO+rYMkyJP7vGE+fDBiuC4AOMDk9t/lW5TUjnDTLiPNpUkCN1I=
-X-Received: by 2002:a67:fc45:: with SMTP id p5mr18937841vsq.179.1564625888758;
- Wed, 31 Jul 2019 19:18:08 -0700 (PDT)
+        Thu, 1 Aug 2019 03:00:43 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 713C725B7DE;
+        Thu,  1 Aug 2019 17:00:41 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id 096AF9405AE; Thu,  1 Aug 2019 09:00:38 +0200 (CEST)
+Date:   Thu, 1 Aug 2019 09:00:38 +0200
+From:   Simon Horman <horms@verge.net.au>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Kevin Hilman <khilman@kernel.org>,
+        Olof Johansson <olof@lixom.net>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: Add Geert as Renesas SoC Co-Maintainer
+Message-ID: <20190801070034.zxgv3svcpzgbjqwf@verge.net.au>
+References: <20190729175658.13672-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <20190710193918.31135-1-kieran.bingham+renesas@ideasonboard.com>
- <0e1b6e0b-1c94-4b00-7fda-c2a303ee3816@redhat.com> <20190731194419.GB4084@kunai>
-In-Reply-To: <20190731194419.GB4084@kunai>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Thu, 1 Aug 2019 11:17:32 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQ6siWHU+N2c+6gqh7hHEJ_aDrVoiWnrTq1jiXQWSYYBA@mail.gmail.com>
-Message-ID: <CAK7LNAQ6siWHU+N2c+6gqh7hHEJ_aDrVoiWnrTq1jiXQWSYYBA@mail.gmail.com>
-Subject: Re: [PATCH RFC] modpost: Support I2C Aliases from OF tables
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     Javier Martinez Canillas <javierm@redhat.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mark Brown <broonie@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190729175658.13672-1-geert+renesas@glider.be>
+Organisation: Horms Solutions BV
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi.
+On Mon, Jul 29, 2019 at 07:56:58PM +0200, Geert Uytterhoeven wrote:
+> At the end of the v5.3 upstream kernel development cycle, Simon will be
+> stepping down from his role as Renesas SoC maintainer.  Starting with
+> the v5.4 development cycle, Geert is taking over this role.
+> 
+> Add Geert as a co-maintainer, and add his git repository and branch.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Stephen: Can you please add my branch to linux-next, after Simon's
+> 	 branch, which may still receive fixes for v5.3?
+> 
+> 	 Thanks!
+> ---
+>  MAINTAINERS | 4 ++++
+>  1 file changed, 4 insertions(+)
 
-On Thu, Aug 1, 2019 at 4:44 AM Wolfram Sang <wsa@the-dreams.de> wrote:
->
-> Hi Javier,
->
-> thank you for providing the extra information.
->
-> (And Kieran, thanks for the patch!)
->
-> > The other option is to remove i2c_of_match_device() and don't make OF match
-> > to fallback to i2c_of_match_device_sysfs(). This is what happens in the ACPI
-> > case, since i2c_device_match() just calls acpi_driver_match_device() directly
-> > and doesn't have a wrapper function that fallbacks to sysfs matching.
-> >
-> > In this case an I2C device ID table would be required if the devices have to
-> > be instantiated through sysfs. That way the I2C table would be used both for
-> > auto-loading and also to match the device when it doesn't have an of_node.
->
-> That would probably mean that only a minority of drivers will not add an I2C
-> device ID table because it is easy to add an you get the sysfs feature?
->
-> Then we are back again with the situation that most drivers will have
-> multiple tables. With the minor change that the I2C device id table is
-> not required anymore by the core, but it will be just very useful to
-> have? Or?
->
-> > If the former is the correct way to solve this then the patch looks good to me.
-> >
-> > Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
->
-> For this actual patch from Kieran, I'd like to hear an opinion from the
-> people maintaining modpost.
+For the record:
 
+Acked-by: Simon Horman <horms+renesas@verge.net.au>
 
-As you see 'git log scripts/mod/file2alias.c',
-this file is touched by every subsystem.
-
-So, the decision is up to you, Wolfram.
-And, you can pick this to your tree if you like.
-
-
-The implementation is really trivial.
-
-
-As Javier pointed out, this discussion comes down to
-"do we want to fall back to i2c_of_match_device_sysfs()?"
-
-If a driver supports DT and devices are instantiated via DT,
-in which situation is this useful?
-Do legacy non-DT platforms need this?
-
-
-
-> The aproach looks okay to me, yet I can't
-> tell how "easy" we are with adding new types like 'i2c_of'.
-
-As far as I understood, this patch provides a shorthand.
-You can save one table, but still get the
-same MODULE_ALIAS in the *.mod.c file.
-You need to add two MODULE_DEVICE_TABLE() though.
-
-MODULE_DEVICE_TABLE(of, si4713_of_match);
-MODULE_DEVICE_TABLE(i2c_of, si4713_of_match);
-
-
--- 
-Best Regards
-Masahiro Yamada
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6426db5198f05377..6de667021591fb52 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2155,10 +2155,12 @@ F:	Documentation/devicetree/bindings/arm/realtek.txt
+>  
+>  ARM/RENESAS ARM64 ARCHITECTURE
+>  M:	Simon Horman <horms@verge.net.au>
+> +M:	Geert Uytterhoeven <geert+renesas@glider.be>
+>  M:	Magnus Damm <magnus.damm@gmail.com>
+>  L:	linux-renesas-soc@vger.kernel.org
+>  Q:	http://patchwork.kernel.org/project/linux-renesas-soc/list/
+>  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas.git next
+> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+>  S:	Supported
+>  F:	arch/arm64/boot/dts/renesas/
+>  F:	Documentation/devicetree/bindings/arm/renesas.yaml
+> @@ -2269,10 +2271,12 @@ F:	drivers/media/platform/s5p-mfc/
+>  
+>  ARM/SHMOBILE ARM ARCHITECTURE
+>  M:	Simon Horman <horms@verge.net.au>
+> +M:	Geert Uytterhoeven <geert+renesas@glider.be>
+>  M:	Magnus Damm <magnus.damm@gmail.com>
+>  L:	linux-renesas-soc@vger.kernel.org
+>  Q:	http://patchwork.kernel.org/project/linux-renesas-soc/list/
+>  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas.git next
+> +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+>  S:	Supported
+>  F:	arch/arm/boot/dts/emev2*
+>  F:	arch/arm/boot/dts/gr-peach*
+> -- 
+> 2.17.1
+> 
