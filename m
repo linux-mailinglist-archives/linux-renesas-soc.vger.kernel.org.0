@@ -2,87 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D6E497FBCD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Aug 2019 16:10:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 442F780185
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Aug 2019 22:02:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729325AbfHBOKM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 2 Aug 2019 10:10:12 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:37938 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728414AbfHBOKM (ORCPT
+        id S2406916AbfHBUCw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 2 Aug 2019 16:02:52 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:42948 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406914AbfHBUCw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 2 Aug 2019 10:10:12 -0400
-Received: by mail-wm1-f65.google.com with SMTP id s15so45127546wmj.3
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 02 Aug 2019 07:10:10 -0700 (PDT)
+        Fri, 2 Aug 2019 16:02:52 -0400
+Received: by mail-lj1-f193.google.com with SMTP id t28so73946356lje.9
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 02 Aug 2019 13:02:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=hpuTzhx1FVHJuZgr5jSuA0pIA55oDK7JUhCEyDcVxSE=;
+        b=wBmt0ywLgJWYJj9xynw/KNxS4SjEr9t/KIEOPU24ufBNh19LovY3N7lJPm24nnqQ20
+         pIKJTS1vLifN8c/woH0Oci4IWjOAFLYr6r8eUw5pCEq8B2d/myDS1Bb7AA2ubg4f/pz8
+         I7z8m93YOo+xslV5nrBNuYZok8tVIdfNZ/RoU8whUspDiy6ovAEvzCTcGOue5S/0FdsR
+         adfDiYkW8sCdw/qcymjvfpWxnxVQxJDB09Ht3CFphaHGDujMqpjiLwBL3d900USKyhQb
+         gZVLgsa/d1BNdPl5fOJcmSV2+RnKYKaZpF/sozNkgPtVsLYfwF1VMTC6zjigDx83L5Ec
+         wkyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=t/j+eIuVn8yfBsD/4njpgrl63xtXK7Uo/Aq0daTrXic=;
-        b=B+i0d2z+egCQvL/zT0xsfKWUOc6MYfWipNKed0G30/PbYLFq43vnJG4nR6k6vz/zXO
-         R+5plA9g+owcE/qlZAAvQNALukY/6UizIKNqlb9rReUQwf6JSmEfIhKejdhV6MWR3fbq
-         3PqTBN8WBJ32sfQVXWpKUT550L4RSX/qtfUGLE7moTAjAFHKxpFGog0btIs215Ec0/7T
-         X+qEEFYBPvJkFtyHoJQ+hqGat4FbAkDcqrJuBj159gYO30f2fZDPbREueqFce9tEbNbh
-         Rzh7ZbQ68DEt2UySoz5cyO2u1HR0pDv3Bul0LFopYw4d/jCXoOBQAI6wLYTBmocRoGB5
-         2pRA==
-X-Gm-Message-State: APjAAAUCxh8mPkk76dea0QNvGJKJlz53OFAEzW5UIdhJ/sJYQQ2srqR3
-        +mEYu9ulk8CRspM0eBWpaQCVpRVqNykWvSS6v0Y=
-X-Google-Smtp-Source: APXvYqz2eKCyQo52aRlSc3KupJbE199EJ97I8+oJuDGbrvsEElSPJ3KlzJknpLlKZ3kv3rVDSSnHocp6+G+Jv3ohb9k=
-X-Received: by 2002:a1c:a7c6:: with SMTP id q189mr4822811wme.146.1564755010126;
- Fri, 02 Aug 2019 07:10:10 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=hpuTzhx1FVHJuZgr5jSuA0pIA55oDK7JUhCEyDcVxSE=;
+        b=ZYvZIOMBbyfTidqRhbvqpgYyZg3u3k4ZGqniCJ+lprtBbfawqMHZ1ibJ8IGj+kjYwz
+         h56IP9Y/Q8M3W2VMkhOZkB51Dz82Fp4EdY9yE4M/i6giNR3eJ0ye4/hM+l3jN0JlE1nb
+         HqPz+c3lEqTMsdJeHRm//Ovn5ywO0wtTw++unVJZsJhYLDH/QGfASUEcfaqfvsp+Fx/c
+         9tX/k6oB2eA38cStVucXg7sKpkphfh+dyQgTi8f3CUAkxGrVbgBYxR+YEs7pr1z3cwQx
+         sqjzsjBcukH3VgY9Eu4cIKOMHz8L3FvRqAPIOKnM/Rxlpt1sy5JowDuBhY/sMI4akXgP
+         22sA==
+X-Gm-Message-State: APjAAAU1LzHZ8TiY99Uqj3tbLraa5xpcQE/rOrZFn8mqDLVK2Nqfrbuj
+        M9jRdv/1TIsNmFxG29OhcDCawg==
+X-Google-Smtp-Source: APXvYqymmJrFLTIXAe+TUNpfoqDVseuubO+65puK/r0ZaVIIPwwihmwSZMwKoArtmav+J1QnBRcwHw==
+X-Received: by 2002:a2e:7a19:: with SMTP id v25mr1650866ljc.39.1564776170382;
+        Fri, 02 Aug 2019 13:02:50 -0700 (PDT)
+Received: from wasted.cogentembedded.com ([2a00:1fa0:29d:bda0:a422:fe4d:8f49:44c4])
+        by smtp.gmail.com with ESMTPSA id j23sm13046148lfb.93.2019.08.02.13.02.48
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 02 Aug 2019 13:02:49 -0700 (PDT)
+Subject: Re: [PATCH v16 1/2] spi: Add Renesas R-Car Gen3 RPC-IF SPI controller
+ driver
+To:     Mason Yang <masonccyang@mxic.com.tw>, broonie@kernel.org,
+        robh+dt@kernel.org, mark.rutland@arm.com,
+        linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        devicetree@vger.kernel.org
+Cc:     juliensu@mxic.com.tw, Simon Horman <horms@verge.net.au>,
+        lee.jones@linaro.org, marek.vasut@gmail.com,
+        miquel.raynal@bootlin.com
+References: <1564539258-16313-1-git-send-email-masonccyang@mxic.com.tw>
+ <1564539258-16313-2-git-send-email-masonccyang@mxic.com.tw>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Organization: Cogent Embedded
+Message-ID: <3d01957a-7318-274f-f3d5-6cd00850511b@cogentembedded.com>
+Date:   Fri, 2 Aug 2019 23:02:48 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-References: <20190802120355.1430-1-geert+renesas@glider.be> <20190802120355.1430-2-geert+renesas@glider.be>
-In-Reply-To: <20190802120355.1430-2-geert+renesas@glider.be>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 2 Aug 2019 16:09:58 +0200
-Message-ID: <CAMuHMdUndFnvpxHG6NUkw6L_B1Oetc_EZuQh4aNiidiCH+4wjw@mail.gmail.com>
-Subject: Re: [PULL 1/3] Renesas ARM64 DT updates for v5.4
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <1564539258-16313-2-git-send-email-masonccyang@mxic.com.tw>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Aug 2, 2019 at 2:04 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> The following changes since commit 5f9e832c137075045d15cd6899ab0505cfb2ca4b:
->
->   Linus 5.3-rc1 (2019-07-21 14:05:38 -0700)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-arm64-dt-for-v5.4-tag1
->
-> for you to fetch changes up to 0a05b3d7fee511de8a1c9dffc3d86f1df55e1737:
->
->   arm64: dts: renesas: ulcb: Sort nodes (2019-07-30 11:25:35 +0200)
->
-> ----------------------------------------------------------------
-> Renesas ARM64 DT updates for v5.4
->
->   - CAN support for the HiHope RZ/G2E board,
+Hello!
 
-As pointed out by Chris Paterson in PM, this is for RZ/G2[MN].
-I've recreated the (signed) tag accordingly.
+On 07/31/2019 05:14 AM, Mason Yang wrote:
 
->   - BT and WLAN support for the HiHope RZ/G2[MN] boards,
->   - Sound support for RZ/G2M,
->   - Sort nodes in various SoC and board DTSes,
->   - Small fixes and improvements.
+> Add a driver for Renesas R-Car Gen3 RPC-IF SPI controller.
+> 
+> Signed-off-by: Mason Yang <masonccyang@mxic.com.tw>
+> Signed-off-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+[...]
+> diff --git a/drivers/spi/spi-renesas-rpc.c b/drivers/spi/spi-renesas-rpc.c
+> new file mode 100644
+> index 0000000..648d14e
+> --- /dev/null
+> +++ b/drivers/spi/spi-renesas-rpc.c
+> @@ -0,0 +1,754 @@
+[...]
+> +static void rpc_spi_hw_init(struct rpc_spi *rpc)
+> +{
+> +	//
+> +	// NOTE: The 0x260 are undocumented bits, but they must be set.
+> +	//	 RPC_PHYCNT_STRTIM is strobe timing adjustment bit,
+> +	//	 0x0 : the delay is biggest,
+> +	//	 0x1 : the delay is 2nd biggest,
+> +	//	 On H3 ES1.x, the value should be 0, while on others,
+> +	//	 the value should be 6.
+> +	//
+> +	regmap_write(rpc->regmap, RPC_PHYCNT, RPC_PHYCNT_CAL |
+> +				  RPC_PHYCNT_STRTIM(6) | 0x260);
+> +
+> +	//
+> +	// NOTE: The 0x1511144 are undocumented bits, but they must be set
+> +	//       for RPC_PHYOFFSET1.
+> +	//	 The 0x31 are undocumented bits, but they must be set
+> +	//	 for RPC_PHYOFFSET2.
+> +	//
+> +	regmap_write(rpc->regmap, RPC_PHYOFFSET1, RPC_PHYOFFSET1_DDRTMG(3) |
+> +		     0x1511144);
+> +	regmap_write(rpc->regmap, RPC_PHYOFFSET2, 0x31 |
+> +		     RPC_PHYOFFSET2_OCTTMG(4));
+> +	regmap_write(rpc->regmap, RPC_SSLDR, RPC_SSLDR_SPNDL(7) |
+> +		     RPC_SSLDR_SLNDL(7) | RPC_SSLDR_SCKDL(7));
+> +	regmap_write(rpc->regmap, RPC_CMNCR, RPC_CMNCR_MD | RPC_CMNCR_SFDE |
+> +		     RPC_CMNCR_MOIIO_HIZ | RPC_CMNCR_IOFV_HIZ |
+> +		     RPC_CMNCR_BSZ(0));
+> +}
+[...]
+> +static int rpc_spi_io_xfer(struct rpc_spi *rpc,
+> +			   const void *tx_buf, void *rx_buf)
+> +{
+[...]
+> +err_out:
+> +	return reset_control_reset(rpc->rstc);
 
-Gr{oetje,eeting}s,
+   Don't toy need to call rpc_spi_hw_init(( here? The reset would spoil
+the PHY/etc register setup otherwise...
 
-                        Geert
+[...]
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+MBR, Sergei
