@@ -2,52 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CD8EE7EFBC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Aug 2019 11:01:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B74417EFD6
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Aug 2019 11:04:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729007AbfHBJBp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 2 Aug 2019 05:01:45 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:36621 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728559AbfHBJBp (ORCPT
+        id S1731810AbfHBJEJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 2 Aug 2019 05:04:09 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:36928 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733006AbfHBJEI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 2 Aug 2019 05:01:45 -0400
-Received: by mail-wm1-f65.google.com with SMTP id g67so61488057wme.1;
-        Fri, 02 Aug 2019 02:01:43 -0700 (PDT)
+        Fri, 2 Aug 2019 05:04:08 -0400
+Received: by mail-wr1-f66.google.com with SMTP id n9so51289283wrr.4;
+        Fri, 02 Aug 2019 02:04:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=kvvlW+uIUrUdNjqlOT5P3qO2zeClOhr+R8v8gEKY+6Y=;
-        b=kkA0gcpG4rSlUkbE8JufAX7iiXuOmG6jE0U2BFuP4lAb34/eZ1cVaNNaLnNuXF0DsC
-         UVA1qqrpFrJquOGbiFfxL/Z9UKB6IwL/Iz1hFg9Nn5ygDKAGR6+LRlJyjJ3FVuAm3JwQ
-         VWh/ejODNC8Q94oNKmcbaaxW8bBKbJ7F/o1Vo4LedeQX+QUiES8VpxdCUKYrmGb8pdS+
-         cqiO1N8oyu/rbc+8AP3fC/E1sqmVMqtjfhJXRHP0N/vQs3h857cjBsGH0rAk2PKSBBmA
-         Ln3px4Rs8PHnLoAkzhhUBv9Far/eJLN5sAFqzr64E8khnECIKhAGcdbj8Hl20uF3qrhn
-         6/ig==
-X-Gm-Message-State: APjAAAUfocUqzyfjcmTPTUVuRgbjLktQqWwc4lZMjiRBfRoaz7x/nHVk
-        LHqDtn/cJHCd6LqfvnFryu2zLbOm36DMUbwuhVs=
-X-Google-Smtp-Source: APXvYqzlYNYU0pjvulT5Kn0ylbMvd7827Mu+1m9924pu/nWD4wXojl+caY4NoCY9bFexyT8l7fkwqjioGghgcgQKFeU=
-X-Received: by 2002:a1c:1f4e:: with SMTP id f75mr3363459wmf.137.1564736503038;
- Fri, 02 Aug 2019 02:01:43 -0700 (PDT)
+        bh=KRUGpC3BCv2MvoBDHofK0hV/Ld50SE9ESjs7lmdGDlY=;
+        b=cI+ltOwCyNeNGPbvnNV/R/evNoq9ked6WAVIPId/cPccUZ9yBVT708WE8lpwqkYQoe
+         VZW8GyBIyaQ7w+Si0EpH+l5YLNAY6E0zfO9/7sF5a+r1jMitvfaWdNRL/iB1a6dZYpDT
+         c02pR+zmTR5CuD+xcUMtusxxc/KQeAQ62y2DVzCltKl8S+GZST26ATjPUF1YktqB5EUa
+         nenlY8gVh4Gz6cSTcOPtPnIVgSSxzW3RonAduAszWwm7lYgAQHiWh8joxwxI/vd/9xim
+         5VIi8Fm05nCeoup9l0XltjTcsFjoofQ4OFK8KGsyVftRibFe2I3mBIcR+gNJCuED1wys
+         0zTA==
+X-Gm-Message-State: APjAAAU52TMksfJaZLrf5gydNgUivH2J5dNFkShENK6KoZO9AxFs8s1K
+        1V5f0yNR2G86xWVnc+QYr4FB3g4xDRHXC4bmE6E=
+X-Google-Smtp-Source: APXvYqyxiu+7ULi0rgiQeViV8AKwxO9YyGLdi6p6/vOGg2PK5WtCevpWFlS7/aCLCVNB7ag2kvX3Hk59oDWjrKQgDTo=
+X-Received: by 2002:adf:cd81:: with SMTP id q1mr144721068wrj.16.1564736646537;
+ Fri, 02 Aug 2019 02:04:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <1564731249-22671-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1564731249-22671-6-git-send-email-fabrizio.castro@bp.renesas.com> <20190802080613.GF5008@pendragon.ideasonboard.com>
-In-Reply-To: <20190802080613.GF5008@pendragon.ideasonboard.com>
+ <1564731249-22671-11-git-send-email-fabrizio.castro@bp.renesas.com> <20190802082754.GK5008@pendragon.ideasonboard.com>
+In-Reply-To: <20190802082754.GK5008@pendragon.ideasonboard.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 2 Aug 2019 11:01:30 +0200
-Message-ID: <CAMuHMdWw5SyP=jfwTpA=+qheTh1ckhiP_etn1J4PrRVdL4R1Pg@mail.gmail.com>
-Subject: Re: [PATCH/RFC 05/12] drm: rcar-du: lvds: Add data swap support
+Date:   Fri, 2 Aug 2019 11:03:54 +0200
+Message-ID: <CAMuHMdUFHddHJW=FsF8Ha0PZUiAyKrWGy6yg-0PtevB7HiHoHg@mail.gmail.com>
+Subject: Re: [PATCH/RFC 10/12] arm64: dts: renesas: r8a774c0: Point LVDS0 to
+ its companion LVDS1
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
         Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>
@@ -59,58 +61,23 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Laurent,
 
-On Fri, Aug 2, 2019 at 10:06 AM Laurent Pinchart
+On Fri, Aug 2, 2019 at 10:27 AM Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
-> On Fri, Aug 02, 2019 at 08:34:02AM +0100, Fabrizio Castro wrote:
-> > When in vertical stripe mode of operation, there is the option
-> > of swapping even data and odd data on the two LVDS interfaces
-> > used to drive the video output.
-> > Add data swap support by exposing a new DT property named
-> > "renesas,swap-data".
+> On Fri, Aug 02, 2019 at 08:34:07AM +0100, Fabrizio Castro wrote:
+> > Add the new renesas,companion property to the LVDS0 node to point to the
+> > companion LVDS encoder LVDS1.
+> > Based on similar work from Laurent Pinchart for the r8a7799[05].
 > >
 > > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-
-> > --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-
-> > @@ -439,12 +440,16 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
-> >       rcar_lvds_write(lvds, LVDCHCR, lvdhcr);
-> >
-> >       if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK) {
-> > -             /*
-> > -              * Configure vertical stripe based on the mode of operation of
-> > -              * the connected device.
-> > -              */
-> > -             rcar_lvds_write(lvds, LVDSTRIPE,
-> > -                             lvds->dual_link ? LVDSTRIPE_ST_ON : 0);
-> > +             u32 lvdstripe = 0;
-> > +
-> > +             if (lvds->dual_link)
-> > +                     /*
-> > +                      * Configure vertical stripe based on the mode of
-> > +                      * operation of the connected device.
-> > +                      */
-> > +                     lvdstripe = LVDSTRIPE_ST_ON | (lvds->stripe_swap_data ?
-> > +                                                    LVDSTRIPE_ST_SWAP : 0);
 >
-> Would the following be simpler ?
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 >
->                 lvdstripe = (lvds->dual_link ? LVDSTRIPE_ST_ON : 0)
->                           | (lvds->stripe_swap_data ? LVDSTRIPE_ST_SWAP : 0);
+> and taken in my tree.
 
-From the point of view of "wc -l": yes.
-From the point of view of readability, I'd go for:
+Shouldn't this go through renesas-devel and arm-soc?
 
-    if (lvds->dual_link)
-            lvdstripe |= LVDSTRIPE_ST_ON;
-    if (lvds->stripe_swap_data)
-            lvdstripe |= LVDSTRIPE_ST_SWAP;
-
-> > +             rcar_lvds_write(lvds, LVDSTRIPE, lvdstripe);
-> >       }
-> >
-> >       /*
-> > @@ -770,8 +775,12 @@ static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
+> > ---
+> >  arch/arm64/boot/dts/renesas/r8a774c0.dtsi | 2 ++
 
 Gr{oetje,eeting}s,
 
