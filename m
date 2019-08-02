@@ -2,96 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A48C7EF49
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Aug 2019 10:29:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3A387EF61
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Aug 2019 10:34:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727455AbfHBI34 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 2 Aug 2019 04:29:56 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45918 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726756AbfHBI34 (ORCPT
+        id S1730397AbfHBIew (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 2 Aug 2019 04:34:52 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:48600 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729739AbfHBIew (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 2 Aug 2019 04:29:56 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC902CC;
-        Fri,  2 Aug 2019 10:29:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1564734594;
-        bh=bXKRQogQmmeETX3D+uxc/1dEmFHlcEZ0DErWtMIWSjk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=a7y3RjIOouopDKUtt11qNlomuSfbfiEiyT81vX5J9HOTG13htPrnWbTPjVpVA65VT
-         ErNfkd7CS6onYFo9N99Tuzg1xp25NSUCOqQdvM4wqLO947YtDw0RngznlZujOmhRuH
-         14jDQkVMIfmkhD82XQXAe7x5nExHzDJkjHXfG/Zo=
-Date:   Fri, 2 Aug 2019 11:29:52 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>, ebiharaml@si-linux.co.jp
-Subject: Re: [PATCH/RFC 11/12] arm64: dts: renesas: cat874: Add definition
- for 12V regulator
-Message-ID: <20190802082952.GL5008@pendragon.ideasonboard.com>
-References: <1564731249-22671-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1564731249-22671-12-git-send-email-fabrizio.castro@bp.renesas.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1564731249-22671-12-git-send-email-fabrizio.castro@bp.renesas.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Fri, 2 Aug 2019 04:34:52 -0400
+X-IronPort-AV: E=Sophos;i="5.64,337,1559487600"; 
+   d="scan'208";a="23157724"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 02 Aug 2019 17:34:50 +0900
+Received: from localhost.localdomain (unknown [10.166.17.210])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 3462A41DCD1E;
+        Fri,  2 Aug 2019 17:34:50 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     gregkh@linuxfoundation.org, mathias.nyman@intel.com
+Cc:     linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        stable@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH] usb: host: xhci-rcar: Fix timeout in xhci_suspend()
+Date:   Fri,  2 Aug 2019 17:33:35 +0900
+Message-Id: <1564734815-17964-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Fabrizio,
+When a USB device is connected to the host controller and
+the system enters suspend, the following error happens
+in xhci_suspend():
 
-Thank you for the patch.
+	xhci-hcd ee000000.usb: WARN: xHC CMD_RUN timeout
 
-On Fri, Aug 02, 2019 at 08:34:08AM +0100, Fabrizio Castro wrote:
-> Power rail "D12.0V" comes straight from the power barrel connector,
-> and it's used in both main board and sub board.
-> 
-> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Since the firmware/internal CPU control the USBSTS.STS_HALT
+and the process speed is down when the roothub port enters U3,
+long delay for the handshake of STS_HALT is neeed in xhci_suspend().
+So, this patch adds to set the XHCI_SLOW_SUSPEND.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Fixes: 435cc1138ec9 ("usb: host: xhci-plat: set resume_quirk() for R-Car controllers")
+Cc: <stable@vger.kernel.org> # v4.12+
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ drivers/usb/host/xhci-rcar.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-I don't plan to take this in my tree without patch 12/12, so if you
-think the rest of the series won't be ready in time for v5.4, feel free
-to get this patch merged through Simon or Geert already.
-
-> ---
->  arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts b/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
-> index 46a77ee..651383c 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
-> +++ b/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
-> @@ -65,6 +65,15 @@
->  		reg = <0x0 0x48000000 0x0 0x78000000>;
->  	};
->  
-> +	reg_12p0v: regulator-12p0v {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "D12.0V";
-> +		regulator-min-microvolt = <12000000>;
-> +		regulator-max-microvolt = <12000000>;
-> +		regulator-boot-on;
-> +		regulator-always-on;
-> +	};
-> +
->  	sound: sound {
->  		compatible = "simple-audio-card";
->  
-
+diff --git a/drivers/usb/host/xhci-rcar.c b/drivers/usb/host/xhci-rcar.c
+index 671bce1..8616c52 100644
+--- a/drivers/usb/host/xhci-rcar.c
++++ b/drivers/usb/host/xhci-rcar.c
+@@ -238,10 +238,15 @@ int xhci_rcar_init_quirk(struct usb_hcd *hcd)
+ 	 * pointers. So, this driver clears the AC64 bit of xhci->hcc_params
+ 	 * to call dma_set_coherent_mask(dev, DMA_BIT_MASK(32)) in
+ 	 * xhci_gen_setup().
++	 *
++	 * And, since the firmware/internal CPU control the USBSTS.STS_HALT
++	 * and the process speed is down when the roothub port enters U3,
++	 * long delay for the handshake of STS_HALT is neeed in xhci_suspend().
+ 	 */
+ 	if (xhci_rcar_is_gen2(hcd->self.controller) ||
+-			xhci_rcar_is_gen3(hcd->self.controller))
+-		xhci->quirks |= XHCI_NO_64BIT_SUPPORT;
++			xhci_rcar_is_gen3(hcd->self.controller)) {
++		xhci->quirks |= XHCI_NO_64BIT_SUPPORT | XHCI_SLOW_SUSPEND;
++	}
+ 
+ 	if (!xhci_rcar_wait_for_pll_active(hcd))
+ 		return -ETIMEDOUT;
 -- 
-Regards,
+2.7.4
 
-Laurent Pinchart
