@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E1207ED82
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Aug 2019 09:34:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AEE97ED89
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Aug 2019 09:35:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389808AbfHBHet (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 2 Aug 2019 03:34:49 -0400
+        id S2389833AbfHBHez (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 2 Aug 2019 03:34:55 -0400
 Received: from relmlor1.renesas.com ([210.160.252.171]:17475 "EHLO
         relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2389759AbfHBHet (ORCPT
+        by vger.kernel.org with ESMTP id S2389759AbfHBHey (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 2 Aug 2019 03:34:49 -0400
+        Fri, 2 Aug 2019 03:34:54 -0400
 X-IronPort-AV: E=Sophos;i="5.64,337,1559487600"; 
-   d="scan'208";a="23151144"
+   d="scan'208";a="23151155"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 02 Aug 2019 16:34:47 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 02 Aug 2019 16:34:53 +0900
 Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id C8BF140078B4;
-        Fri,  2 Aug 2019 16:34:43 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 5C9F44007528;
+        Fri,  2 Aug 2019 16:34:49 +0900 (JST)
 From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -36,9 +36,9 @@ Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH/RFC 03/12] dt-bindings: panel: lvds: Add dual-link LVDS display support
-Date:   Fri,  2 Aug 2019 08:34:00 +0100
-Message-Id: <1564731249-22671-4-git-send-email-fabrizio.castro@bp.renesas.com>
+Subject: [PATCH/RFC 04/12] dt-bindings: display: Add bindings for Advantech IDK-2121WR
+Date:   Fri,  2 Aug 2019 08:34:01 +0100
+Message-Id: <1564731249-22671-5-git-send-email-fabrizio.castro@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1564731249-22671-1-git-send-email-fabrizio.castro@bp.renesas.com>
 References: <1564731249-22671-1-git-send-email-fabrizio.castro@bp.renesas.com>
@@ -47,84 +47,36 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dual-link LVDS displays have two ports, therefore document this
-with the bindings.
+This panel is handled through the generic lvds-panel bindings,
+so only needs its additional compatible specified.
+
+Some panel specific documentation can be found here:
+https://buy.advantech.eu/Displays/Embedded-LCD-Kits-High-Brightness/model-IDK-2121WR-K2FHA2E.htm
 
 Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 ---
- .../bindings/display/panel/panel-lvds.txt          | 91 ++++++++++++++++------
- 1 file changed, 67 insertions(+), 24 deletions(-)
+ .../display/panel/advantech,idk-2121wr.txt         | 62 ++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.txt
 
-diff --git a/Documentation/devicetree/bindings/display/panel/panel-lvds.txt b/Documentation/devicetree/bindings/display/panel/panel-lvds.txt
-index 250850a..07795441 100644
---- a/Documentation/devicetree/bindings/display/panel/panel-lvds.txt
-+++ b/Documentation/devicetree/bindings/display/panel/panel-lvds.txt
-@@ -41,7 +41,8 @@ Required nodes:
- 
- - panel-timing: See panel-common.txt.
- - ports: See panel-common.txt. These bindings require a single port subnode
--  corresponding to the panel LVDS input.
-+  (for a single link display) or two port subnodes (for a dual link display)
-+  corresponding to the panel LVDS input(s).
- 
- 
- LVDS data mappings are defined as follows.
-@@ -92,30 +93,72 @@ CTL3: 0
- Example
- -------
- 
--panel {
--	compatible = "mitsubishi,aa121td01", "panel-lvds";
--
--	width-mm = <261>;
--	height-mm = <163>;
--
--	data-mapping = "jeida-24";
--
--	panel-timing {
--		/* 1280x800 @60Hz */
--		clock-frequency = <71000000>;
--		hactive = <1280>;
--		vactive = <800>;
--		hsync-len = <70>;
--		hfront-porch = <20>;
--		hback-porch = <70>;
--		vsync-len = <5>;
--		vfront-porch = <3>;
--		vback-porch = <15>;
-+Single port:
-+	panel {
-+		compatible = "mitsubishi,aa121td01", "panel-lvds";
+diff --git a/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.txt b/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.txt
+new file mode 100644
+index 0000000..70b15b6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.txt
+@@ -0,0 +1,62 @@
++Advantech Co., Ltd. IDK-2121WR 21.5" LVDS panel
++===============================================
 +
-+		width-mm = <261>;
-+		height-mm = <163>;
++Required properties:
++- compatible: should be "advantech,idk-2121wr" followed by "panel-lvds"
 +
-+		data-mapping = "jeida-24";
++This binding is compatible with the lvds-panel binding, which is specified
++in panel-lvds.txt in this directory.
 +
-+		panel-timing {
-+			/* 1280x800 @60Hz */
-+			clock-frequency = <71000000>;
-+			hactive = <1280>;
-+			vactive = <800>;
-+			hsync-len = <70>;
-+			hfront-porch = <20>;
-+			hback-porch = <70>;
-+			vsync-len = <5>;
-+			vfront-porch = <3>;
-+			vback-porch = <15>;
-+		};
++Example
++-------
 +
-+		port {
-+			panel_in: endpoint {
-+				remote-endpoint = <&lvds_encoder>;
-+			};
-+		};
- 	};
- 
--	port {
--		panel_in: endpoint {
--			remote-endpoint = <&lvds_encoder>;
-+Two ports:
 +	panel {
 +		compatible = "advantech,idk-2121wr", "panel-lvds";
 +
@@ -162,9 +114,19 @@ index 250850a..07795441 100644
 +					remote-endpoint = <&lvds1_out>;
 +				};
 +			};
- 		};
- 	};
--};
++		};
++	};
++
++	backlight: backlight {
++		compatible = "pwm-backlight";
++		pwms = <&pwm5 0 50000>;
++
++		brightness-levels = <0 4 8 16 32 64 128 255>;
++		default-brightness-level = <6>;
++
++		power-supply = <&reg_12p0v>;
++		enable-gpios = <&gpio6 12 GPIO_ACTIVE_HIGH>;
++	};
 -- 
 2.7.4
 
