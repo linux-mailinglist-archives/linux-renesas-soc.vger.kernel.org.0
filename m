@@ -2,90 +2,187 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CB317EDF2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Aug 2019 09:48:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C44897EE31
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Aug 2019 10:00:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390308AbfHBHsG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 2 Aug 2019 03:48:06 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42026 "EHLO
+        id S2390632AbfHBIA1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 2 Aug 2019 04:00:27 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:42168 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388476AbfHBHsF (ORCPT
+        with ESMTP id S1728268AbfHBIA0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 2 Aug 2019 03:48:05 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 63D42CC;
-        Fri,  2 Aug 2019 09:48:03 +0200 (CEST)
+        Fri, 2 Aug 2019 04:00:26 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 36C14CC;
+        Fri,  2 Aug 2019 10:00:24 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1564732083;
-        bh=F7EcIwTg1zH6A0iHD8dIESp+yC+C8KwvQYvH/TMKvCg=;
+        s=mail; t=1564732824;
+        bh=fHqUhHxv+dowCFnK+aKicU4wDKUIzOBIeuo7dm5vB4c=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qafg1dFY6VNomX3BebAW8Cgx9jVO+s6K8GumORKuV+5S1fFcJRv6oruyq25WiTajx
-         tIfKzilrXLQHtpUSbbUZ8sMtXOudTG8CHBVcPskpzoW1vVnnsYlLyu8ITL+Qq9R5Ek
-         Jj+g3vR/dUYSj54df2P6Av2Y2xd/Eklmd8zhr0d0=
-Date:   Fri, 2 Aug 2019 10:48:01 +0300
+        b=ByplI92xC0wpHm5YCI11P+eb6h5qb4wIW9Qa2sdGhh8DVpMeKRCCmToK9LYCrxMqH
+         DeTROF2bfKL3qiHRKLuxTdZU160cqtSOqWxn1p00W8L3Yio92VqXMLj0Nr8PiSXKtO
+         ksTIKB9MAbKL3K4fVcWbAogOppUFhyMG1uq1fEHQ=
+Date:   Fri, 2 Aug 2019 11:00:14 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Simon Horman <horms@verge.net.au>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Simon Horman <horms@verge.net.au>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-Subject: Re: [PATCH/RFC 01/12] dt-bindings: display: renesas: lvds: RZ/G2E
- needs renesas,companion too
-Message-ID: <20190802074801.GC5008@pendragon.ideasonboard.com>
+        Biju Das <biju.das@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH/RFC 03/12] dt-bindings: panel: lvds: Add dual-link LVDS
+ display support
+Message-ID: <20190802080014.GD5008@pendragon.ideasonboard.com>
 References: <1564731249-22671-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1564731249-22671-2-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1564731249-22671-4-git-send-email-fabrizio.castro@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1564731249-22671-2-git-send-email-fabrizio.castro@bp.renesas.com>
+In-Reply-To: <1564731249-22671-4-git-send-email-fabrizio.castro@bp.renesas.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Fabrizio,
+Hi Fabrizio,
 
 Thank you for the patch.
 
-On Fri, Aug 02, 2019 at 08:33:58AM +0100, Fabrizio Castro wrote:
-> Document RZ/G2E support for property renesas,companion.
+On Fri, Aug 02, 2019 at 08:34:00AM +0100, Fabrizio Castro wrote:
+> Dual-link LVDS displays have two ports, therefore document this
+> with the bindings.
 > 
 > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-and taken in my tree.
-
 > ---
->  Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  .../bindings/display/panel/panel-lvds.txt          | 91 ++++++++++++++++------
+>  1 file changed, 67 insertions(+), 24 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-> index c6a196d..dece79e 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-> @@ -49,9 +49,9 @@ Each port shall have a single endpoint.
->  Optional properties:
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-lvds.txt b/Documentation/devicetree/bindings/display/panel/panel-lvds.txt
+> index 250850a..07795441 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-lvds.txt
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-lvds.txt
+> @@ -41,7 +41,8 @@ Required nodes:
 >  
->  - renesas,companion : phandle to the companion LVDS encoder. This property is
-> -  mandatory for the first LVDS encoder on D3 and E3 SoCs, and shall point to
-> -  the second encoder to be used as a companion in dual-link mode. It shall not
-> -  be set for any other LVDS encoder.
-> +  mandatory for the first LVDS encoder on R-Car D3, R-Car E3, and RZ/G2E SoCs,
-> +  and shall point to the second encoder to be used as a companion in dual-link
-> +  mode. It shall not be set for any other LVDS encoder.
+>  - panel-timing: See panel-common.txt.
+>  - ports: See panel-common.txt. These bindings require a single port subnode
+> -  corresponding to the panel LVDS input.
+> +  (for a single link display) or two port subnodes (for a dual link display)
+> +  corresponding to the panel LVDS input(s).
+
+I think you should expand this a bit to explain what the ports
+correspond to in the dual link mode.
+
+>  LVDS data mappings are defined as follows.
+> @@ -92,30 +93,72 @@ CTL3: 0
+>  Example
+>  -------
 >  
+> -panel {
+> -	compatible = "mitsubishi,aa121td01", "panel-lvds";
+> -
+> -	width-mm = <261>;
+> -	height-mm = <163>;
+> -
+> -	data-mapping = "jeida-24";
+> -
+> -	panel-timing {
+> -		/* 1280x800 @60Hz */
+> -		clock-frequency = <71000000>;
+> -		hactive = <1280>;
+> -		vactive = <800>;
+> -		hsync-len = <70>;
+> -		hfront-porch = <20>;
+> -		hback-porch = <70>;
+> -		vsync-len = <5>;
+> -		vfront-porch = <3>;
+> -		vback-porch = <15>;
+> +Single port:
+> +	panel {
+> +		compatible = "mitsubishi,aa121td01", "panel-lvds";
+> +
+> +		width-mm = <261>;
+> +		height-mm = <163>;
+> +
+> +		data-mapping = "jeida-24";
+> +
+> +		panel-timing {
+> +			/* 1280x800 @60Hz */
+> +			clock-frequency = <71000000>;
+> +			hactive = <1280>;
+> +			vactive = <800>;
+> +			hsync-len = <70>;
+> +			hfront-porch = <20>;
+> +			hback-porch = <70>;
+> +			vsync-len = <5>;
+> +			vfront-porch = <3>;
+> +			vback-porch = <15>;
+> +		};
+> +
+> +		port {
+> +			panel_in: endpoint {
+> +				remote-endpoint = <&lvds_encoder>;
+> +			};
+> +		};
+>  	};
 >  
->  Example:
+> -	port {
+> -		panel_in: endpoint {
+> -			remote-endpoint = <&lvds_encoder>;
+> +Two ports:
+> +	panel {
+> +		compatible = "advantech,idk-2121wr", "panel-lvds";
+> +
+> +		width-mm = <476>;
+> +		height-mm = <268>;
+> +
+> +		data-mapping = "vesa-24";
+> +
+> +		panel-timing {
+> +			clock-frequency = <148500000>;
+> +			hactive = <1920>;
+> +			vactive = <1080>;
+> +			hsync-len = <44>;
+> +			hfront-porch = <88>;
+> +			hback-porch = <148>;
+> +			vfront-porch = <4>;
+> +			vback-porch = <36>;
+> +			vsync-len = <5>;
+> +		};
+> +
+> +		ports {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			port@0 {
+> +				reg = <0>;
+> +				lvds0_panel_in: endpoint {
+
+I would name the label panel_in0 and panel_in1 below to have a common
+prefix showing that both refer to the same panel.
+
+> +					remote-endpoint = <&lvds0_out>;
+> +				};
+> +			};
+> +
+> +			port@1 {
+> +				reg = <1>;
+> +				lvds1_panel_in: endpoint {
+> +					remote-endpoint = <&lvds1_out>;
+> +				};
+> +			};
+>  		};
+>  	};
+> -};
 
 -- 
 Regards,
