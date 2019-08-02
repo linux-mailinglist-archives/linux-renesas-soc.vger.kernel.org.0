@@ -2,216 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7560F7EF5E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Aug 2019 10:34:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD8EE7EFBC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Aug 2019 11:01:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730273AbfHBIe3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 2 Aug 2019 04:34:29 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:46276 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729739AbfHBIe2 (ORCPT
+        id S1729007AbfHBJBp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 2 Aug 2019 05:01:45 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:36621 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728559AbfHBJBp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 2 Aug 2019 04:34:28 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F3FD4CC;
-        Fri,  2 Aug 2019 10:34:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1564734866;
-        bh=6TxYlsr0KgQf/DvI/Klpt5m1QDB/tmIZ638FcN81Cq4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LIE/KOgvoI7p5yWjHN6GlRL+UrBuCYu4xQ9KfyF0twLGJqyzFQIfnVD7jYaAASCbm
-         WBbJ1sxD21uTRsTc/N2KUXRdVyqPq7vXGXQPQN+Trdzt5oiWDB+IhTRsEspQUiDjhq
-         EzOaNxl3lBlowFvtKub09FfbiO1csP+ickwh963I=
-Date:   Fri, 2 Aug 2019 11:34:24 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Fri, 2 Aug 2019 05:01:45 -0400
+Received: by mail-wm1-f65.google.com with SMTP id g67so61488057wme.1;
+        Fri, 02 Aug 2019 02:01:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kvvlW+uIUrUdNjqlOT5P3qO2zeClOhr+R8v8gEKY+6Y=;
+        b=kkA0gcpG4rSlUkbE8JufAX7iiXuOmG6jE0U2BFuP4lAb34/eZ1cVaNNaLnNuXF0DsC
+         UVA1qqrpFrJquOGbiFfxL/Z9UKB6IwL/Iz1hFg9Nn5ygDKAGR6+LRlJyjJ3FVuAm3JwQ
+         VWh/ejODNC8Q94oNKmcbaaxW8bBKbJ7F/o1Vo4LedeQX+QUiES8VpxdCUKYrmGb8pdS+
+         cqiO1N8oyu/rbc+8AP3fC/E1sqmVMqtjfhJXRHP0N/vQs3h857cjBsGH0rAk2PKSBBmA
+         Ln3px4Rs8PHnLoAkzhhUBv9Far/eJLN5sAFqzr64E8khnECIKhAGcdbj8Hl20uF3qrhn
+         6/ig==
+X-Gm-Message-State: APjAAAUfocUqzyfjcmTPTUVuRgbjLktQqWwc4lZMjiRBfRoaz7x/nHVk
+        LHqDtn/cJHCd6LqfvnFryu2zLbOm36DMUbwuhVs=
+X-Google-Smtp-Source: APXvYqzlYNYU0pjvulT5Kn0ylbMvd7827Mu+1m9924pu/nWD4wXojl+caY4NoCY9bFexyT8l7fkwqjioGghgcgQKFeU=
+X-Received: by 2002:a1c:1f4e:: with SMTP id f75mr3363459wmf.137.1564736503038;
+ Fri, 02 Aug 2019 02:01:43 -0700 (PDT)
+MIME-Version: 1.0
+References: <1564731249-22671-1-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1564731249-22671-6-git-send-email-fabrizio.castro@bp.renesas.com> <20190802080613.GF5008@pendragon.ideasonboard.com>
+In-Reply-To: <20190802080613.GF5008@pendragon.ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 2 Aug 2019 11:01:30 +0200
+Message-ID: <CAMuHMdWw5SyP=jfwTpA=+qheTh1ckhiP_etn1J4PrRVdL4R1Pg@mail.gmail.com>
+Subject: Re: [PATCH/RFC 05/12] drm: rcar-du: lvds: Add data swap support
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>, ebiharaml@si-linux.co.jp
-Subject: Re: [PATCH/RFC 12/12] arm64: dts: renesas: Add EK874 board with
- idk-2121wr display support
-Message-ID: <20190802083424.GM5008@pendragon.ideasonboard.com>
-References: <1564731249-22671-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1564731249-22671-13-git-send-email-fabrizio.castro@bp.renesas.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1564731249-22671-13-git-send-email-fabrizio.castro@bp.renesas.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Biju Das <biju.das@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Fabrizio,
+Hi Laurent,
 
-Thank you for the patch.
+On Fri, Aug 2, 2019 at 10:06 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Fri, Aug 02, 2019 at 08:34:02AM +0100, Fabrizio Castro wrote:
+> > When in vertical stripe mode of operation, there is the option
+> > of swapping even data and odd data on the two LVDS interfaces
+> > used to drive the video output.
+> > Add data swap support by exposing a new DT property named
+> > "renesas,swap-data".
+> >
+> > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 
-On Fri, Aug 02, 2019 at 08:34:09AM +0100, Fabrizio Castro wrote:
-> The EK874 is advertised as compatible with panel IDK-2121WR from
-> Advantech, however the panel isn't sold alongside the board.
-> A new dts, adding everything that's required to get the panel to
-> to work with the EK874, is the most convenient way to support the
-> EK874 when it's connected to the IDK-2121WR.
-> 
-> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> ---
->  arch/arm64/boot/dts/renesas/Makefile               |   3 +-
->  .../boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts | 112 +++++++++++++++++++++
->  2 files changed, 114 insertions(+), 1 deletion(-)
->  create mode 100644 arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-> index 42b74c2..ce48478 100644
-> --- a/arch/arm64/boot/dts/renesas/Makefile
-> +++ b/arch/arm64/boot/dts/renesas/Makefile
-> @@ -1,7 +1,8 @@
->  # SPDX-License-Identifier: GPL-2.0
->  dtb-$(CONFIG_ARCH_R8A774A1) += r8a774a1-hihope-rzg2m.dtb
->  dtb-$(CONFIG_ARCH_R8A774A1) += r8a774a1-hihope-rzg2m-ex.dtb
-> -dtb-$(CONFIG_ARCH_R8A774C0) += r8a774c0-cat874.dtb r8a774c0-ek874.dtb
-> +dtb-$(CONFIG_ARCH_R8A774C0) += r8a774c0-cat874.dtb r8a774c0-ek874.dtb \
-> +			       r8a774c0-ek874-idk-2121wr.dtb
->  dtb-$(CONFIG_ARCH_R8A7795) += r8a7795-salvator-x.dtb r8a7795-h3ulcb.dtb
->  dtb-$(CONFIG_ARCH_R8A7795) += r8a7795-h3ulcb-kf.dtb
->  dtb-$(CONFIG_ARCH_R8A7795) += r8a7795-salvator-xs.dtb
-> diff --git a/arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts b/arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts
-> new file mode 100644
-> index 0000000..d989998
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts
-> @@ -0,0 +1,112 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Device Tree Source for the Silicon Linux RZ/G2E evaluation kit (EK874),
-> + * connected to an Advantech IDK-2121WR 21.5" LVDS panel
-> + *
-> + * Copyright (C) 2019 Renesas Electronics Corp.
-> + */
-> +
-> +#include "r8a774c0-ek874.dts"
-> +
-> +/ {
-> +	backlight: backlight {
-> +		compatible = "pwm-backlight";
-> +		pwms = <&pwm5 0 50000>;
-> +
-> +		brightness-levels = <0 4 8 16 32 64 128 255>;
-> +		default-brightness-level = <6>;
-> +
-> +		power-supply = <&reg_12p0v>;
-> +		enable-gpios = <&gpio6 12 GPIO_ACTIVE_HIGH>;
-> +	};
-> +
-> +	panel-lvds {
-> +		compatible = "advantech,idk-2121wr", "panel-lvds";
-> +
-> +		width-mm = <476>;
-> +		height-mm = <268>;
-> +
-> +		data-mapping = "vesa-24";
-> +
-> +		panel-timing {
-> +			clock-frequency = <148500000>;
-> +			hactive = <1920>;
-> +			vactive = <1080>;
-> +			hsync-len = <44>;
-> +			hfront-porch = <88>;
-> +			hback-porch = <148>;
-> +			vfront-porch = <4>;
-> +			vback-porch = <36>;
-> +			vsync-len = <5>;
-> +		};
-> +
-> +		ports {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			port@0 {
-> +				reg = <0>;
-> +				lvds0_panel_in: endpoint {
-> +					remote-endpoint = <&lvds0_out>;
-> +				};
-> +			};
-> +
-> +			port@1 {
-> +				reg = <1>;
-> +				lvds1_panel_in: endpoint {
-> +					remote-endpoint = <&lvds1_out>;
-> +				};
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&gpio0 {
-> +	lvds-connector-en-gpio{
-> +		gpio-hog;
-> +		gpios = <17 GPIO_ACTIVE_HIGH>;
-> +		output-low;
-> +		line-name = "lvds-connector-en-gpio";
-> +	};
+> > --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
 
-Any chance to specify this as the panel's enable signal in the panel DT
-node ?
+> > @@ -439,12 +440,16 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
+> >       rcar_lvds_write(lvds, LVDCHCR, lvdhcr);
+> >
+> >       if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK) {
+> > -             /*
+> > -              * Configure vertical stripe based on the mode of operation of
+> > -              * the connected device.
+> > -              */
+> > -             rcar_lvds_write(lvds, LVDSTRIPE,
+> > -                             lvds->dual_link ? LVDSTRIPE_ST_ON : 0);
+> > +             u32 lvdstripe = 0;
+> > +
+> > +             if (lvds->dual_link)
+> > +                     /*
+> > +                      * Configure vertical stripe based on the mode of
+> > +                      * operation of the connected device.
+> > +                      */
+> > +                     lvdstripe = LVDSTRIPE_ST_ON | (lvds->stripe_swap_data ?
+> > +                                                    LVDSTRIPE_ST_SWAP : 0);
+>
+> Would the following be simpler ?
+>
+>                 lvdstripe = (lvds->dual_link ? LVDSTRIPE_ST_ON : 0)
+>                           | (lvds->stripe_swap_data ? LVDSTRIPE_ST_SWAP : 0);
 
-> +};
-> +
-> +&lvds0 {
-> +	renesas,swap-data;
+From the point of view of "wc -l": yes.
+From the point of view of readability, I'd go for:
 
-Let's discuss this property in reply to the DT bindings patch.
+    if (lvds->dual_link)
+            lvdstripe |= LVDSTRIPE_ST_ON;
+    if (lvds->stripe_swap_data)
+            lvdstripe |= LVDSTRIPE_ST_SWAP;
 
-> +
-> +	ports {
-> +		port@1 {
-> +			lvds0_out: endpoint {
-> +				remote-endpoint = <&lvds0_panel_in>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&lvds1 {
-> +	status = "okay";
-> +
-> +	clocks = <&cpg CPG_MOD 727>, <&x13_clk>, <&extal_clk>;
-> +	clock-names = "fck", "dclkin.0", "extal";
-> +
-> +	ports {
-> +		port@1 {
-> +			lvds1_out: endpoint {
-> +				remote-endpoint = <&lvds1_panel_in>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&pfc {
-> +	pwm5_pins: pwm5 {
-> +		groups = "pwm5_a";
-> +		function = "pwm5";
-> +	};
-> +};
-> +
-> +&pwm5 {
-> +	pinctrl-0 = <&pwm5_pins>;
-> +	pinctrl-names = "default";
-> +
-> +	status = "okay";
-> +};
+> > +             rcar_lvds_write(lvds, LVDSTRIPE, lvdstripe);
+> >       }
+> >
+> >       /*
+> > @@ -770,8 +775,12 @@ static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
 
-I haven't reviewed pinouts in detail, but the patch otherwise looks sane
-to me. Another candidate for DT overlays though ;-)
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
