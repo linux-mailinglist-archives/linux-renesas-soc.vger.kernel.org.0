@@ -2,52 +2,46 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B19617EE40
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Aug 2019 10:03:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E19A67EE4B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  2 Aug 2019 10:06:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732294AbfHBIDh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 2 Aug 2019 04:03:37 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42220 "EHLO
+        id S2403849AbfHBIGS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 2 Aug 2019 04:06:18 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:42266 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728268AbfHBIDg (ORCPT
+        with ESMTP id S2403767AbfHBIGR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 2 Aug 2019 04:03:36 -0400
+        Fri, 2 Aug 2019 04:06:17 -0400
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0013A33E;
-        Fri,  2 Aug 2019 10:03:33 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F01EDCC;
+        Fri,  2 Aug 2019 10:06:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1564733014;
-        bh=iESMaiwMfzcHwok5GLi0XmKd4pH/pITjQS3plSb9Z34=;
+        s=mail; t=1564733175;
+        bh=9+kza4VDTl+eEJMeGT4Xr32idlzQYUeiiTC1I338XCI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GlIO4h09Z40O9LbRY2FO6XIGflDy1hY2hNm+JpqlfFcT4o1UBbVay+On30qcePB3R
-         XpK6hxFtraFU69VIrNjbWvA7k7S5K3ybAB23zpFl3Uy0bn/8xyo4nBeE98MbJOP/L0
-         BExEJZlMr4sLNiLx+OBcBgfFnhF/L3lxiy98JP1A=
-Date:   Fri, 2 Aug 2019 11:03:32 +0300
+        b=HaPxzE3tcMpwuIKBEDqz5x+O0u37NVXKCuNIZj19qLZjuEznLp/d2GRe7HikZT/Ht
+         TKgUIGn+TiSOxzUebfB2WAA0sfY7sbMQhnGsbv8zZE694/vOEL4YU+MqvLB9MgBRqd
+         FkxeHYl5hmdVK2HI3a39AXL4Kug+n6l2TdBN6KAg=
+Date:   Fri, 2 Aug 2019 11:06:13 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org, Simon Horman <horms@verge.net.au>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH/RFC 04/12] dt-bindings: display: Add bindings for
- Advantech IDK-2121WR
-Message-ID: <20190802080332.GE5008@pendragon.ideasonboard.com>
+        Biju Das <biju.das@bp.renesas.com>
+Subject: Re: [PATCH/RFC 05/12] drm: rcar-du: lvds: Add data swap support
+Message-ID: <20190802080613.GF5008@pendragon.ideasonboard.com>
 References: <1564731249-22671-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1564731249-22671-5-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1564731249-22671-6-git-send-email-fabrizio.castro@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1564731249-22671-5-git-send-email-fabrizio.castro@bp.renesas.com>
+In-Reply-To: <1564731249-22671-6-git-send-email-fabrizio.castro@bp.renesas.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -58,96 +52,78 @@ Hi Fabrizio,
 
 Thank you for the patch.
 
-On Fri, Aug 02, 2019 at 08:34:01AM +0100, Fabrizio Castro wrote:
-> This panel is handled through the generic lvds-panel bindings,
-> so only needs its additional compatible specified.
-> 
-> Some panel specific documentation can be found here:
-
-s/panel specific/panel-specific/
-
-> https://buy.advantech.eu/Displays/Embedded-LCD-Kits-High-Brightness/model-IDK-2121WR-K2FHA2E.htm
+On Fri, Aug 02, 2019 at 08:34:02AM +0100, Fabrizio Castro wrote:
+> When in vertical stripe mode of operation, there is the option
+> of swapping even data and odd data on the two LVDS interfaces
+> used to drive the video output.
+> Add data swap support by exposing a new DT property named
+> "renesas,swap-data".
 > 
 > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 > ---
->  .../display/panel/advantech,idk-2121wr.txt         | 62 ++++++++++++++++++++++
->  1 file changed, 62 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.txt
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c | 23 ++++++++++++++++-------
+>  1 file changed, 16 insertions(+), 7 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.txt b/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.txt
-> new file mode 100644
-> index 0000000..70b15b6
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.txt
-> @@ -0,0 +1,62 @@
-> +Advantech Co., Ltd. IDK-2121WR 21.5" LVDS panel
-> +===============================================
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> index 3aeaf9e..c306fab 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> @@ -69,6 +69,7 @@ struct rcar_lvds {
+>  
+>  	struct drm_bridge *companion;
+>  	bool dual_link;
+> +	bool stripe_swap_data;
+>  };
+>  
+>  #define bridge_to_rcar_lvds(bridge) \
+> @@ -439,12 +440,16 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
+>  	rcar_lvds_write(lvds, LVDCHCR, lvdhcr);
+>  
+>  	if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK) {
+> -		/*
+> -		 * Configure vertical stripe based on the mode of operation of
+> -		 * the connected device.
+> -		 */
+> -		rcar_lvds_write(lvds, LVDSTRIPE,
+> -				lvds->dual_link ? LVDSTRIPE_ST_ON : 0);
+> +		u32 lvdstripe = 0;
 > +
-> +Required properties:
-> +- compatible: should be "advantech,idk-2121wr" followed by "panel-lvds"
-> +
-> +This binding is compatible with the lvds-panel binding, which is specified
-> +in panel-lvds.txt in this directory.
+> +		if (lvds->dual_link)
+> +			/*
+> +			 * Configure vertical stripe based on the mode of
+> +			 * operation of the connected device.
+> +			 */
+> +			lvdstripe = LVDSTRIPE_ST_ON | (lvds->stripe_swap_data ?
+> +						       LVDSTRIPE_ST_SWAP : 0);
 
-How about adding "The panel operates in dual-link mode and thus requires
-two port nodes." ?
+Would the following be simpler ?
 
-> +
-> +Example
-> +-------
-> +
-> +	panel {
-> +		compatible = "advantech,idk-2121wr", "panel-lvds";
-> +
-> +		width-mm = <476>;
-> +		height-mm = <268>;
-> +
-> +		data-mapping = "vesa-24";
-> +
-> +		panel-timing {
-> +			clock-frequency = <148500000>;
-> +			hactive = <1920>;
-> +			vactive = <1080>;
-> +			hsync-len = <44>;
-> +			hfront-porch = <88>;
-> +			hback-porch = <148>;
-> +			vfront-porch = <4>;
-> +			vback-porch = <36>;
-> +			vsync-len = <5>;
-> +		};
-> +
-> +		ports {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			port@0 {
-> +				reg = <0>;
-> +				lvds0_panel_in: endpoint {
-> +					remote-endpoint = <&lvds0_out>;
-> +				};
-> +			};
-> +
-> +			port@1 {
-> +				reg = <1>;
-> +				lvds1_panel_in: endpoint {
-> +					remote-endpoint = <&lvds1_out>;
-> +				};
-> +			};
-> +		};
-> +	};
-> +
-> +	backlight: backlight {
-> +		compatible = "pwm-backlight";
-> +		pwms = <&pwm5 0 50000>;
-> +
-> +		brightness-levels = <0 4 8 16 32 64 128 255>;
-> +		default-brightness-level = <6>;
-> +
-> +		power-supply = <&reg_12p0v>;
-> +		enable-gpios = <&gpio6 12 GPIO_ACTIVE_HIGH>;
-> +	};
+		lvdstripe = (lvds->dual_link ? LVDSTRIPE_ST_ON : 0)
+			  | (lvds->stripe_swap_data ? LVDSTRIPE_ST_SWAP : 0);
 
-I think you can drop the backlight here, it's a bit out of scope.
+> +		rcar_lvds_write(lvds, LVDSTRIPE, lvdstripe);
+>  	}
+>  
+>  	/*
+> @@ -770,8 +775,12 @@ static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
+>  		}
+>  	}
+>  
+> -	if (lvds->dual_link)
+> +	if (lvds->dual_link) {
+> +		lvds->stripe_swap_data = of_property_read_bool(
+> +						lvds->dev->of_node,
+> +						"renesas,swap-data");
+>  		ret = rcar_lvds_parse_dt_companion(lvds);
+> +	}
+
+As explained in the review of the corresponding DT bindings, I think
+this should be queried from the remote device rather than specified in
+DT.
+
+>  
+>  done:
+>  	of_node_put(local_output);
 
 -- 
 Regards,
