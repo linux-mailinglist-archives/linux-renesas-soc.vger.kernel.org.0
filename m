@@ -2,151 +2,120 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C08A81017
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2019 04:01:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E53D812F0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2019 09:18:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726765AbfHECBG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 4 Aug 2019 22:01:06 -0400
-Received: from twhmllg4.macronix.com ([211.75.127.132]:15220 "EHLO
-        TWHMLLG4.macronix.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726561AbfHECBG (ORCPT
+        id S1727605AbfHEHSe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Aug 2019 03:18:34 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:40123 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727600AbfHEHSe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 4 Aug 2019 22:01:06 -0400
-Received: from twhfmnt1.mxic.com.tw (twhfm1p2.macronix.com [172.17.20.92])
-        by TWHMLLG4.macronix.com with ESMTP id x7520vJM034951;
-        Mon, 5 Aug 2019 10:00:57 +0800 (GMT-8)
-        (envelope-from masonccyang@mxic.com.tw)
-Received: from MXML06C.mxic.com.tw (mxml06c.macronix.com [172.17.14.55])
-        by Forcepoint Email with ESMTP id 6A3FE52D575A56BE5CEE;
-        Mon,  5 Aug 2019 10:00:57 +0800 (CST)
-In-Reply-To: <3d01957a-7318-274f-f3d5-6cd00850511b@cogentembedded.com>
-References: <1564539258-16313-1-git-send-email-masonccyang@mxic.com.tw> <1564539258-16313-2-git-send-email-masonccyang@mxic.com.tw> <3d01957a-7318-274f-f3d5-6cd00850511b@cogentembedded.com>
-To:     "Sergei Shtylyov" <sergei.shtylyov@cogentembedded.com>
-Cc:     broonie@kernel.org, devicetree@vger.kernel.org,
-        "Geert Uytterhoeven" <geert+renesas@glider.be>,
-        "Simon Horman" <horms@verge.net.au>, juliensu@mxic.com.tw,
-        lee.jones@linaro.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-spi@vger.kernel.org,
-        marek.vasut@gmail.com, mark.rutland@arm.com,
-        miquel.raynal@bootlin.com, robh+dt@kernel.org
-Subject: Re: [PATCH v16 1/2] spi: Add Renesas R-Car Gen3 RPC-IF SPI controller
- driver
+        Mon, 5 Aug 2019 03:18:34 -0400
+Received: by mail-wr1-f68.google.com with SMTP id r1so83215077wrl.7;
+        Mon, 05 Aug 2019 00:18:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7z7TxdT8LM5WCT5rFLppn3f5eATMhBkkA5pGtwYiQRk=;
+        b=L/CU2KyhkgICxLau3rE+r3r+v4HcP2cmxBNeKqJqTE1mBMyzzS2Vkgxqx3I7+z9unA
+         7i3gebW/XEzrm8e/6cenvmJOyhGaLW4gc8eL9+Y+fFLuwuxg+WJt05TBmrUttDwZcPoo
+         aLHUARO5oqsmoQySrhwr47dbi+3bRGSjPUXLpKhVc4s1IRHq9bu64bPWp9xrYYY4wy+H
+         fp2K+OsJJhp+DjQhBLmyQgI5MN0ZD9DdjfFVxmYOUDO8cdKOra9eyTNXpazGVVxFA7/P
+         dAuy9UsFnZ7R+UfpG8x1O/XQdq8eolek5V5UKNtLAPPqOoHOg0EVMT0UqUjqN7e8u+lp
+         /gmA==
+X-Gm-Message-State: APjAAAXpzjsEiLNGYiTh/3mbWGW3Pd401LtzUMybHN7RL8OoVRJydEwR
+        GzO1DNNu82ktJ2A9OfFO0ngXLD6wTgqMHn++IH4=
+X-Google-Smtp-Source: APXvYqzrP4AePN9rc8s5m6cROt7iPLUC8FyQXF+ULNhFoyftI7RhZ3WzSqW9P+zefGbahYWpJN+sHyUyMAySC2w56Ig=
+X-Received: by 2002:adf:ab51:: with SMTP id r17mr134648052wrc.95.1564989511601;
+ Mon, 05 Aug 2019 00:18:31 -0700 (PDT)
 MIME-Version: 1.0
-X-KeepSent: EFAD46C0:5BE85077-4825844D:000AB143;
- type=4; name=$KeepSent
-X-Mailer: Lotus Notes Release 8.5.3FP4 SHF90 June 10, 2013
-Message-ID: <OFEFAD46C0.5BE85077-ON4825844D.000AB143-4825844D.000B12C8@mxic.com.tw>
-From:   masonccyang@mxic.com.tw
-Date:   Mon, 5 Aug 2019 10:00:57 +0800
-X-MIMETrack: Serialize by Router on MXML06C/TAIWAN/MXIC(Release 9.0.1FP10 HF265|July 25, 2018) at
- 2019/08/05 AM 10:00:57,
-        Serialize complete at 2019/08/05 AM 10:00:57
-Content-Type: text/plain; charset="US-ASCII"
-X-MAIL: TWHMLLG4.macronix.com x7520vJM034951
+References: <20190804154029.2749-1-nishkadg.linux@gmail.com>
+In-Reply-To: <20190804154029.2749-1-nishkadg.linux@gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 5 Aug 2019 09:18:19 +0200
+Message-ID: <CAMuHMdX5FFuHFtj3PmaXC1PFHAHKPoOs_ZLrzhCoyRVOM+ugOA@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: rzn1: Add of_node_put() before return
+To:     Nishka Dasgupta <nishkadg.linux@gmail.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Phil Edworthy <phil.edworthy@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+CC Phil
 
-Hi Sergei, 
+On Sun, Aug 4, 2019 at 5:40 PM Nishka Dasgupta <nishkadg.linux@gmail.com> wrote:
+> Each iteration of for_each_child_of_node puts the previous node, but in
+> the case of a return from the middle of the loop, there is no put, thus
+> causing a memory leak. Hence add an of_node_put before the return in
+> three places.
+> Issue found with Coccinelle.
+>
+> Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
 
-> > Add a driver for Renesas R-Car Gen3 RPC-IF SPI controller.
-> > 
-> > Signed-off-by: Mason Yang <masonccyang@mxic.com.tw>
-> > Signed-off-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-> [...]
-> > diff --git a/drivers/spi/spi-renesas-rpc.c 
-b/drivers/spi/spi-renesas-rpc.c
-> > new file mode 100644
-> > index 0000000..648d14e
-> > --- /dev/null
-> > +++ b/drivers/spi/spi-renesas-rpc.c
-> > @@ -0,0 +1,754 @@
-> [...]
-> > +static void rpc_spi_hw_init(struct rpc_spi *rpc)
-> > +{
-> > +   //
-> > +   // NOTE: The 0x260 are undocumented bits, but they must be set.
-> > +   //    RPC_PHYCNT_STRTIM is strobe timing adjustment bit,
-> > +   //    0x0 : the delay is biggest,
-> > +   //    0x1 : the delay is 2nd biggest,
-> > +   //    On H3 ES1.x, the value should be 0, while on others,
-> > +   //    the value should be 6.
-> > +   //
-> > +   regmap_write(rpc->regmap, RPC_PHYCNT, RPC_PHYCNT_CAL |
-> > +              RPC_PHYCNT_STRTIM(6) | 0x260);
-> > +
-> > +   //
-> > +   // NOTE: The 0x1511144 are undocumented bits, but they must be set
-> > +   //       for RPC_PHYOFFSET1.
-> > +   //    The 0x31 are undocumented bits, but they must be set
-> > +   //    for RPC_PHYOFFSET2.
-> > +   //
-> > +   regmap_write(rpc->regmap, RPC_PHYOFFSET1, RPC_PHYOFFSET1_DDRTMG(3) 
-|
-> > +           0x1511144);
-> > +   regmap_write(rpc->regmap, RPC_PHYOFFSET2, 0x31 |
-> > +           RPC_PHYOFFSET2_OCTTMG(4));
-> > +   regmap_write(rpc->regmap, RPC_SSLDR, RPC_SSLDR_SPNDL(7) |
-> > +           RPC_SSLDR_SLNDL(7) | RPC_SSLDR_SCKDL(7));
-> > +   regmap_write(rpc->regmap, RPC_CMNCR, RPC_CMNCR_MD | RPC_CMNCR_SFDE 
-|
-> > +           RPC_CMNCR_MOIIO_HIZ | RPC_CMNCR_IOFV_HIZ |
-> > +           RPC_CMNCR_BSZ(0));
-> > +}
-> [...]
-> > +static int rpc_spi_io_xfer(struct rpc_spi *rpc,
-> > +            const void *tx_buf, void *rx_buf)
-> > +{
-> [...]
-> > +err_out:
-> > +   return reset_control_reset(rpc->rstc);
-> 
->    Don't toy need to call rpc_spi_hw_init(( here? The reset would spoil
-> the PHY/etc register setup otherwise...
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in sh-pfc-for-v5.4.
 
-ummm, will fix to
--------------------------------------->
-ret = reset_control_reset(rpc->rstc);
-rpc_spi_hw_init(rpc);
-return ret;
---------------------------------------<
-thanks for your review.
+> ---
+>  drivers/pinctrl/pinctrl-rzn1.c | 12 +++++++++---
+>  1 file changed, 9 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/pinctrl/pinctrl-rzn1.c b/drivers/pinctrl/pinctrl-rzn1.c
+> index cc0e5aa9128a..0f6f8a10a53a 100644
+> --- a/drivers/pinctrl/pinctrl-rzn1.c
+> +++ b/drivers/pinctrl/pinctrl-rzn1.c
+> @@ -412,8 +412,10 @@ static int rzn1_dt_node_to_map(struct pinctrl_dev *pctldev,
+>
+>         for_each_child_of_node(np, child) {
+>                 ret = rzn1_dt_node_to_map_one(pctldev, child, map, num_maps);
+> -               if (ret < 0)
+> +               if (ret < 0) {
+> +                       of_node_put(child);
+>                         return ret;
+> +               }
+>         }
+>
+>         return 0;
+> @@ -792,8 +794,10 @@ static int rzn1_pinctrl_parse_functions(struct device_node *np,
+>                 grp = &ipctl->groups[ipctl->ngroups];
+>                 grp->func = func->name;
+>                 ret = rzn1_pinctrl_parse_groups(child, grp, ipctl);
+> -               if (ret < 0)
+> +               if (ret < 0) {
+> +                       of_node_put(child);
+>                         return ret;
+> +               }
+>                 i++;
+>                 ipctl->ngroups++;
+>         }
+> @@ -838,8 +842,10 @@ static int rzn1_pinctrl_probe_dt(struct platform_device *pdev,
+>
+>         for_each_child_of_node(np, child) {
+>                 ret = rzn1_pinctrl_parse_functions(child, ipctl, i++);
+> -               if (ret < 0)
+> +               if (ret < 0) {
+> +                       of_node_put(child);
+>                         return ret;
+> +               }
+>         }
+>
+>         return 0;
 
-> 
-> [...]
-> 
-> MBR, Sergei
+Gr{oetje,eeting}s,
 
-best regards,
-Mason
+                        Geert
 
-CONFIDENTIALITY NOTE:
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-This e-mail and any attachments may contain confidential information 
-and/or personal data, which is protected by applicable laws. Please be 
-reminded that duplication, disclosure, distribution, or use of this e-mail 
-(and/or its attachments) or any part thereof is prohibited. If you receive 
-this e-mail in error, please notify us immediately and delete this mail as 
-well as its attachment(s) from your system. In addition, please be 
-informed that collection, processing, and/or use of personal data is 
-prohibited unless expressly permitted by personal data protection laws. 
-Thank you for your attention and cooperation.
-
-Macronix International Co., Ltd.
-
-=====================================================================
-
-
-
-============================================================================
-
-CONFIDENTIALITY NOTE:
-
-This e-mail and any attachments may contain confidential information and/or personal data, which is protected by applicable laws. Please be reminded that duplication, disclosure, distribution, or use of this e-mail (and/or its attachments) or any part thereof is prohibited. If you receive this e-mail in error, please notify us immediately and delete this mail as well as its attachment(s) from your system. In addition, please be informed that collection, processing, and/or use of personal data is prohibited unless expressly permitted by personal data protection laws. Thank you for your attention and cooperation.
-
-Macronix International Co., Ltd.
-
-=====================================================================
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
