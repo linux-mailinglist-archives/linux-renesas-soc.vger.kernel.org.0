@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D72482060
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2019 17:36:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B48B182089
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2019 17:42:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727802AbfHEPgd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 5 Aug 2019 11:36:33 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:51567 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727328AbfHEPgd (ORCPT
+        id S1727460AbfHEPmD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Aug 2019 11:42:03 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:39511 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726559AbfHEPmD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 5 Aug 2019 11:36:33 -0400
-Received: by mail-wm1-f67.google.com with SMTP id 207so75220457wma.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 05 Aug 2019 08:36:32 -0700 (PDT)
+        Mon, 5 Aug 2019 11:42:03 -0400
+Received: by mail-wr1-f66.google.com with SMTP id x4so31721738wrt.6
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 05 Aug 2019 08:42:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=9rSCX6R2XZOTJnRaLplOC9AtcGOL4okCuqc4EieSckM=;
-        b=Fnh2SM/WWwcmMsPTlh3MBaMTw9Pp0efPR9xOD2kZS0IK3Dt8m07KcRd/TaR7LZqjqx
-         nL57Nm7MJYQuJoSkwaB/yeCAwz5LDbqQhihzKkFqzS9tV3gh8bHILj4hMz9Yf9xvqqYa
-         7KvpIgt0U+Yiw24cZnN5akbzi/xQ/5gHh8ko36NhVJOSfz6+1SRMucrO+ml6s2Cupp0b
-         MAO3LuCEvdnwnx7pCRbSGynC6BTvYJv2hYYsKC2Ex0L5YIp8zNQ1lLJd5IZB3pZx3Wg5
-         LQX8Nub09KL2/33KeRqgbQO3bpUybLv3ODvA14M2wTq1poWpdBjjSjRCmN5v9mpUigLX
-         A1cA==
-X-Gm-Message-State: APjAAAVvOnnc24MdedTfvwoZDle2tzM1qnjhUNY07eCa4emmkITOT/nd
-        m75SYNnWlZC55VgRxNt7+8b5z8uefbfIa8O0uik=
-X-Google-Smtp-Source: APXvYqxlQ+OcOIe3dUoSdiHi/0Cbv5zBJhjrsU4lJIZrBIBi/9YZ3uT0lMrKsiPwHgYW675R1Pskw1OhCRCw5K8FPuU=
-X-Received: by 2002:a1c:a7c6:: with SMTP id q189mr19652057wme.146.1565019391790;
- Mon, 05 Aug 2019 08:36:31 -0700 (PDT)
+        bh=o9oTH3lrc9gbGQU8qF2CLsNoD8rh24pMm5pLzB4ne7U=;
+        b=tMrY8+HzqxVzcu8rU10TjMiIw6DrXf3R3UOqtWqgsKI3PBYmI9scW5JGYD5SRK7efG
+         sYA9A9mEMesblfofW2oCNyuqPAaRl0lBsTtn8vN8m1UorgGtzm0bEq/HxnMVXfbKRVd6
+         PmU7vYLRjRBKOEumL5y9MqKESbBS848NPR8EFPwpTXIBLURJLCKiPCFUfG6YsTp3l+dr
+         2JgslsyxCMmfW0vR6r7Ssy39eiaKTnRqCH9Q02/UCwPZe/LbCs6Cy9nn02+xsNB/hShI
+         Rt9OoW5Zy/0oWtGujYNkcSvNv3CUicpbwFui4ZD9t3+pHEeVh3C57TvESAdmJMORoufe
+         U7Vg==
+X-Gm-Message-State: APjAAAXXz+Mvz7MHYiiXyOHBT9ETkVtWIyjmox7D1ZYkKufbirFumIXQ
+        Q3CBA/JbPcIsY91kvHTPGTHLhV/18i/0mzMkmF4=
+X-Google-Smtp-Source: APXvYqwnHv0v6dHYx6C94YFR+bjof897FfAM3+5r4a0vg1xBdeFYsxcg3XPpxKdzozbsvQocTZbdrYebSadyXnvHt1k=
+X-Received: by 2002:a5d:4b91:: with SMTP id b17mr23848079wrt.57.1565019721013;
+ Mon, 05 Aug 2019 08:42:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <1564669495-22718-1-git-send-email-ykaneko0929@gmail.com>
-In-Reply-To: <1564669495-22718-1-git-send-email-ykaneko0929@gmail.com>
+References: <1564669513-22756-1-git-send-email-ykaneko0929@gmail.com>
+In-Reply-To: <1564669513-22756-1-git-send-email-ykaneko0929@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 5 Aug 2019 17:36:19 +0200
-Message-ID: <CAMuHMdWn=ZKVwEuq5wKq+5=6+kMpz8aOrN=YY01Q__71hHY-Gg@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r8a77995-draak: sort nodes
+Date:   Mon, 5 Aug 2019 17:41:48 +0200
+Message-ID: <CAMuHMdUKOoxGaRdNLnmKkuYpm_UaiV4b4deDfj81WVu7t94_fQ@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a77995: sort nodes
 To:     Yoshihiro Kaneko <ykaneko0929@gmail.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Simon Horman <horms@verge.net.au>,
@@ -49,8 +49,6 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Thu, Aug 1, 2019 at 4:25 PM Yoshihiro Kaneko <ykaneko0929@gmail.com> wrote:
-> Sort nodes.
->
 > If node address is present
 >    * Sort by node address, grouping all nodes with the same compat string
 >      and sorting the group alphabetically.
