@@ -2,120 +2,182 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E53D812F0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2019 09:18:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1C1D813AA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2019 09:49:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727605AbfHEHSe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 5 Aug 2019 03:18:34 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:40123 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727600AbfHEHSe (ORCPT
+        id S1726423AbfHEHtv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Aug 2019 03:49:51 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:40197 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726394AbfHEHtv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 5 Aug 2019 03:18:34 -0400
-Received: by mail-wr1-f68.google.com with SMTP id r1so83215077wrl.7;
-        Mon, 05 Aug 2019 00:18:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7z7TxdT8LM5WCT5rFLppn3f5eATMhBkkA5pGtwYiQRk=;
-        b=L/CU2KyhkgICxLau3rE+r3r+v4HcP2cmxBNeKqJqTE1mBMyzzS2Vkgxqx3I7+z9unA
-         7i3gebW/XEzrm8e/6cenvmJOyhGaLW4gc8eL9+Y+fFLuwuxg+WJt05TBmrUttDwZcPoo
-         aLHUARO5oqsmoQySrhwr47dbi+3bRGSjPUXLpKhVc4s1IRHq9bu64bPWp9xrYYY4wy+H
-         fp2K+OsJJhp+DjQhBLmyQgI5MN0ZD9DdjfFVxmYOUDO8cdKOra9eyTNXpazGVVxFA7/P
-         dAuy9UsFnZ7R+UfpG8x1O/XQdq8eolek5V5UKNtLAPPqOoHOg0EVMT0UqUjqN7e8u+lp
-         /gmA==
-X-Gm-Message-State: APjAAAXpzjsEiLNGYiTh/3mbWGW3Pd401LtzUMybHN7RL8OoVRJydEwR
-        GzO1DNNu82ktJ2A9OfFO0ngXLD6wTgqMHn++IH4=
-X-Google-Smtp-Source: APXvYqzrP4AePN9rc8s5m6cROt7iPLUC8FyQXF+ULNhFoyftI7RhZ3WzSqW9P+zefGbahYWpJN+sHyUyMAySC2w56Ig=
-X-Received: by 2002:adf:ab51:: with SMTP id r17mr134648052wrc.95.1564989511601;
- Mon, 05 Aug 2019 00:18:31 -0700 (PDT)
+        Mon, 5 Aug 2019 03:49:51 -0400
+Received: from uno.localdomain (host150-24-dynamic.51-79-r.retail.telecomitalia.it [79.51.24.150])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id A1E3A240004;
+        Mon,  5 Aug 2019 07:49:45 +0000 (UTC)
+Date:   Mon, 5 Aug 2019 09:51:09 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        fabrizio.castro@bp.renesas.com,
+        "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
+        "open list:DRM DRIVERS FOR RENESAS" 
+        <linux-renesas-soc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drm: rcar_lvds: Fix dual link mode operations
+Message-ID: <20190805075109.oe6slqetqoe5wqzr@uno.localdomain>
+References: <20190723165700.13124-1-jacopo+renesas@jmondi.org>
+ <20190801151129.GF5024@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <20190804154029.2749-1-nishkadg.linux@gmail.com>
-In-Reply-To: <20190804154029.2749-1-nishkadg.linux@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 5 Aug 2019 09:18:19 +0200
-Message-ID: <CAMuHMdX5FFuHFtj3PmaXC1PFHAHKPoOs_ZLrzhCoyRVOM+ugOA@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: rzn1: Add of_node_put() before return
-To:     Nishka Dasgupta <nishkadg.linux@gmail.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Phil Edworthy <phil.edworthy@renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="f6oy4oxrt3xzydfx"
+Content-Disposition: inline
+In-Reply-To: <20190801151129.GF5024@pendragon.ideasonboard.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-CC Phil
 
-On Sun, Aug 4, 2019 at 5:40 PM Nishka Dasgupta <nishkadg.linux@gmail.com> wrote:
-> Each iteration of for_each_child_of_node puts the previous node, but in
-> the case of a return from the middle of the loop, there is no put, thus
-> causing a memory leak. Hence add an of_node_put before the return in
-> three places.
-> Issue found with Coccinelle.
+--f6oy4oxrt3xzydfx
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+Hi Laurent,
+
+On Thu, Aug 01, 2019 at 06:11:29PM +0300, Laurent Pinchart wrote:
+> Hello Jacopo,
 >
-> Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in sh-pfc-for-v5.4.
-
-> ---
->  drivers/pinctrl/pinctrl-rzn1.c | 12 +++++++++---
->  1 file changed, 9 insertions(+), 3 deletions(-)
+> Thank you for the patch.
 >
-> diff --git a/drivers/pinctrl/pinctrl-rzn1.c b/drivers/pinctrl/pinctrl-rzn1.c
-> index cc0e5aa9128a..0f6f8a10a53a 100644
-> --- a/drivers/pinctrl/pinctrl-rzn1.c
-> +++ b/drivers/pinctrl/pinctrl-rzn1.c
-> @@ -412,8 +412,10 @@ static int rzn1_dt_node_to_map(struct pinctrl_dev *pctldev,
+> On Tue, Jul 23, 2019 at 06:57:00PM +0200, Jacopo Mondi wrote:
+> > The R-Car LVDS encoder units support dual-link operations by splitting
+> > the pixel output between the primary encoder and the companion one.
 >
->         for_each_child_of_node(np, child) {
->                 ret = rzn1_dt_node_to_map_one(pctldev, child, map, num_maps);
-> -               if (ret < 0)
-> +               if (ret < 0) {
-> +                       of_node_put(child);
->                         return ret;
-> +               }
->         }
+> s/the companion one/its companion/
 >
->         return 0;
-> @@ -792,8 +794,10 @@ static int rzn1_pinctrl_parse_functions(struct device_node *np,
->                 grp = &ipctl->groups[ipctl->ngroups];
->                 grp->func = func->name;
->                 ret = rzn1_pinctrl_parse_groups(child, grp, ipctl);
-> -               if (ret < 0)
-> +               if (ret < 0) {
-> +                       of_node_put(child);
->                         return ret;
-> +               }
->                 i++;
->                 ipctl->ngroups++;
->         }
-> @@ -838,8 +842,10 @@ static int rzn1_pinctrl_probe_dt(struct platform_device *pdev,
+> >
+> > In order for the primary encoder to succesfully control the companion's
+> > operations this should not fail at probe time and register itself its
+> > associated drm bridge so that the primary one can find it.
 >
->         for_each_child_of_node(np, child) {
->                 ret = rzn1_pinctrl_parse_functions(child, ipctl, i++);
-> -               if (ret < 0)
-> +               if (ret < 0) {
-> +                       of_node_put(child);
->                         return ret;
-> +               }
->         }
+> This is hard to parse.
 >
->         return 0;
 
-Gr{oetje,eeting}s,
+Re-reading the whole commit message, I would actually drop it
+completely, it's enough what we have here below.
 
-                        Geert
+> > Currently the companion encoder fails at probe time, causing the
+> > registration of the primary to fail preventing the whole DU unit to be
+> > registered correctly.
+> >
+> > Fixes: fa440d870358 ("drm: rcar-du: lvds: Add support for dual-link mode")
+> > Reported-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> >
+> > ---
+> > The "Fixes" tag refers to a patch currently part of the
+> > renesas-drivers-2019-07-09-v5.2 branch of Geert's renesas-drivers tree.
+> >
+> >  drivers/gpu/drm/rcar-du/rcar_lvds.c | 31 +++++++++++++++++++++--------
+> >  1 file changed, 23 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> > index bada7ee98544..8b015ba95895 100644
+> > --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> > +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> > @@ -767,14 +767,29 @@ static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
+> >  	of_node_put(remote_input);
+> >  	of_node_put(remote);
+> >
+> > -	/*
+> > -	 * On D3/E3 the LVDS encoder provides a clock to the DU, which can be
+> > -	 * used for the DPAD output even when the LVDS output is not connected.
+> > -	 * Don't fail probe in that case as the DU will need the bridge to
+> > -	 * control the clock.
+> > -	 */
+> > -	if (lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)
+> > -		return ret == -ENODEV ? 0 : ret;
+> > +	switch (ret) {
+> > +	case -ENODEV:
+> > +		/*
+> > +		 * On D3/E3 the LVDS encoder provides a clock to the DU, which
+> > +		 * can be used for the DPAD output even when the LVDS output is
+> > +		 * not connected. Don't fail probe in that case as the DU will
+> > +		 * need the bridge to control the clock.
+> > +		 */
+> > +		if (lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)
+> > +			ret = 0;
+> > +		break;
+> > +	case -ENXIO:
+> > +		/*
+> > +		 * When the LVDS output is used in dual link mode, the
+> > +		 * companion encoder fails at
+> > +		 * 'rcar_lvds_parse_dt_companion()'. Don't fail probe in
+> > +		 * that case as the master encoder will need the companion's
+> > +		 * bridge to control its operations.
+> > +		 */
+> > +		if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK)
+> > +			ret = 0;
+>
+> As -ENXIO can only be returned by rcar_lvds_parse_dt_companion(), and
+> rcar_lvds_parse_dt_companion() is only called when the
+> RCAR_LVDS_QUIRK_DUAL_LINK flag is set, this essentially means that you
+> always zero the error returned from rcar_lvds_parse_dt_companion(). This
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Not totally correct, as rcar_lvds_parse_dt_companion() might also
+return EPROBE_DEFER, but...
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> is both complicated and too drastic as the second -ENXIO error case
+> shouldn't be ignored. It would be better and simpler to return 0 from
+> rcar_lvds_parse_dt_companion() when the renesas,companion property can't
+> be found.
+
+I agree, returning 0 when when the property is not specified is enough
+and much simpler. I got dragged away by the idea of centralizing error
+handling at the end of the function, but it's ugly and also wrongly
+zeroes the second -ENXIO error returned by the parse_companion
+function.
+
+I'll change to what you suggested!
+Thanks
+  j
+
+>
+> > +		break;
+> > +	}
+> >
+> >  	return ret;
+> >  }
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+--f6oy4oxrt3xzydfx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1H3+0ACgkQcjQGjxah
+VjxYkxAAlzArBpJQTnAx+2BDrFdNyuVKxAzyoEexaV7boeg586M5iV8fTmgjScff
+4KA54u80j8KxeK9adk7cqeqH1wPi+DkkMomFRPpJzUHrwlVpwPXoVERWOIYEVV4Y
+XA4f+xUHBjm0Ftxx9XJPKEbFyFkJYFZLZyl9r3a0PVccA3yikoQqPBP4FX7xrALM
+lAj/o14JXh0voNbK7k6w+LjM1JieofeJjXk59FmeKrIDy9pvM6IlvBQsC7hSmPZ7
+hsOiKk0kEjMA89aVAPnyhq7vP79F4q3A2C0XjUwgv/hO6JTD7zWVTc1/TItzajQV
+6WmnHMM9CUiKDD1Oo2O25fzBjmbNpm+HMclxxoF2IGGgDpRph4rbKio+NjmIDc/A
+myw7qRfM9juRgGOFXYwQgDpQY/tmaqKhr+hTodwj/BKUwIDzk1l5BfN/JGASEgxQ
+aj2KtNJdTyor7wTktGJ1yFWoBRUsVanGwf/fnOPhMqLlPNz/cdjmR3qjQYimjCLs
+G+GLCmlx9it5ZCnM6xhLj6JhysKpHONJGzbbXQqPoBgA3O0IjoOFg1PS3qztEjSg
+bB5XBKLVSnNNq5Yb7DBWnH+5H7j3iFwK2gXHdSrC/PJnNqeN5DLMFJvJkpmlfwb7
+jLHPMhBT58VN8f9YDS+Y5RUByO3tv0SvVm+nO/KI4i8xfbG+5n8=
+=lvdp
+-----END PGP SIGNATURE-----
+
+--f6oy4oxrt3xzydfx--
