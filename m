@@ -2,182 +2,150 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D1C1D813AA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2019 09:49:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA65E81498
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  5 Aug 2019 10:59:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726423AbfHEHtv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 5 Aug 2019 03:49:51 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:40197 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726394AbfHEHtv (ORCPT
+        id S1727894AbfHEI74 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 5 Aug 2019 04:59:56 -0400
+Received: from mail-eopbgr1410124.outbound.protection.outlook.com ([40.107.141.124]:36579
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727855AbfHEI7z (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 5 Aug 2019 03:49:51 -0400
-Received: from uno.localdomain (host150-24-dynamic.51-79-r.retail.telecomitalia.it [79.51.24.150])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id A1E3A240004;
-        Mon,  5 Aug 2019 07:49:45 +0000 (UTC)
-Date:   Mon, 5 Aug 2019 09:51:09 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
+        Mon, 5 Aug 2019 04:59:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=amTK67qYb5kxcRha/PpXdTCCRWbSeBM57ZQ+8E9M5qRZdaRu3AIeVw52DTKzX9SdshhzJNFDBisfeyzXRLNFUF9fVjdeaqxdNm6AucDzZFAEzqKILA86yTiXmLJOVS3EbsBVTTaOOnDs+5Owvj+AFwZ2s4Cf7LuaG/nMT1C6XQQJt/PnvmSpSuAMH/edwS/Sb5T9/DDB0Zkk9Q3O0xbW6HZNQtuGVZcuX/2AyU+00JndPVNw7ajyv60J6aGHFOLp6/GfJd8QCcHsHbPwTqwIPkn0R9lJn6HwT0S7TEr7PiDZQPtoahL6NnRq5ZVfAB4yav+ao4/WgzcxXUPZLHFbYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zuIMtIkzJotMv6SkT0lzhrqP0UyTWDQ4cLNA5GMC6RE=;
+ b=c7Ts6cBnTpAbi2VNtuvMSVRYJVnsfQ9e6z5RniloCTQCFKPS8ol3L4PXfODZd86D4HjssMlPdaCsa0V3/yEbe3S6VRoFtzNIe2VATtFdWiwk5xYgTIiDpwElO8Th6srmA/rcPnilukLJA7U+/7M71p+OWuPnEPMzHo/DAZpGOkKpLbtsOQZah1DxOOkHvDBq7lXgArqWC1zUp06Nu35vGpe72uD6f4Hqp8OEQpo7pGcP31OPH3FGQkyjkDy7eknC6aOaeSiliYmL/K1ffhXGgkH06eLuFVrUY7vltrlxR7D0AlNt9kagHCeNlJRu01EIle44B/9gIWAJVzWPZTY/9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1;spf=pass
+ smtp.mailfrom=bp.renesas.com;dmarc=pass action=none
+ header.from=bp.renesas.com;dkim=pass header.d=bp.renesas.com;arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=zuIMtIkzJotMv6SkT0lzhrqP0UyTWDQ4cLNA5GMC6RE=;
+ b=IEWHez7Zs0b4VuVZzPptQ23idNuf1VKRiplTmXQ1cS6XYKioFOkJ2QFTNRXFBLB6F17MyReLzhmLyK0VYmeOwBZBDXvLelz32sEhaCbfTOyeTvDcWHm/XRLbwHxoFEFGKe10ExNYUv7YywjR7ZdNajm0+0Nlqpu6STyGXxxE0n4=
+Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com (52.133.163.13) by
+ TY1PR01MB1673.jpnprd01.prod.outlook.com (52.133.162.143) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2136.16; Mon, 5 Aug 2019 08:59:52 +0000
+Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com
+ ([fe80::d881:cb74:8277:5a16]) by TY1PR01MB1770.jpnprd01.prod.outlook.com
+ ([fe80::d881:cb74:8277:5a16%7]) with mapi id 15.20.2136.010; Mon, 5 Aug 2019
+ 08:59:52 +0000
+From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+CC:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
-        fabrizio.castro@bp.renesas.com,
-        "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
-        "open list:DRM DRIVERS FOR RENESAS" 
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm: rcar_lvds: Fix dual link mode operations
-Message-ID: <20190805075109.oe6slqetqoe5wqzr@uno.localdomain>
-References: <20190723165700.13124-1-jacopo+renesas@jmondi.org>
- <20190801151129.GF5024@pendragon.ideasonboard.com>
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>
+Subject: RE: [PATCH/RFC 02/12] dt-bindings: display: renesas: lvds: Document
+ renesas,swap-data
+Thread-Topic: [PATCH/RFC 02/12] dt-bindings: display: renesas: lvds: Document
+ renesas,swap-data
+Thread-Index: AQHVSQTAkHqVuaZ+mkSDN4F3/wGVC6bnejAAgATJjGA=
+Date:   Mon, 5 Aug 2019 08:59:51 +0000
+Message-ID: <TY1PR01MB17706A4FF4C26CD4BDA1A5DAC0DA0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+References: <1564731249-22671-1-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1564731249-22671-3-git-send-email-fabrizio.castro@bp.renesas.com>
+ <20190802074428.GB5008@pendragon.ideasonboard.com>
+In-Reply-To: <20190802074428.GB5008@pendragon.ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=fabrizio.castro@bp.renesas.com; 
+x-originating-ip: [193.141.220.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 14b0c9d2-b9e3-4136-b886-08d71983472c
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:TY1PR01MB1673;
+x-ms-traffictypediagnostic: TY1PR01MB1673:
+x-microsoft-antispam-prvs: <TY1PR01MB1673378B4DA39B2829B22749C0DA0@TY1PR01MB1673.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 01208B1E18
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(346002)(366004)(39860400002)(136003)(376002)(396003)(189003)(199004)(71190400001)(71200400001)(76176011)(102836004)(64756008)(316002)(66446008)(74316002)(54906003)(66066001)(486006)(53936002)(26005)(107886003)(33656002)(8936002)(7736002)(14454004)(6506007)(53546011)(4326008)(44832011)(5660300002)(25786009)(2906002)(305945005)(7416002)(86362001)(446003)(8676002)(478600001)(68736007)(55016002)(11346002)(229853002)(3846002)(6116002)(256004)(186003)(52536014)(6436002)(76116006)(66946007)(66556008)(66476007)(81166006)(6246003)(476003)(9686003)(6916009)(99286004)(81156014)(7696005)(142933001);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1673;H:TY1PR01MB1770.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
+received-spf: None (protection.outlook.com: bp.renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: e8rTS7MiQ4DhwIfRBFRKENDqBqyl19otiiNI18Vku2wxbOP+TYMrvbCO7/AyimhDabZaVnj5k0LOFjfzTqcO7j7JWvFhgCWeti2VFkDAdqiq0w5n/c3t7VYL3LWYBoTiM2gYKrZuhPbieff8tG00+zll8dbunTxrwL1djU3TdEvqICnRm6mJ4xhz5qoHkbTLA6vbAlheAfsqYp8zRMJpwRFFOTFRWcob+r7BOMjDs3l7sM2nMRd7zNLX8mUJ0JcrzYFadbss6Dv56dkvECMhLaRU4tgCs7i0vnrEH2XJAc4k3DZR2DzfdMUsuuKKyCAoRLqRk0/KEvPDb/Ij8mF8AxLrNFqAGRW8wkPMqJRIXkF8mWgfbIgZf0rfLjyQtuLNuacUi/pB4fkcU7YXG046/FRb3bg01ccaR6B/frrNLBo=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="f6oy4oxrt3xzydfx"
-Content-Disposition: inline
-In-Reply-To: <20190801151129.GF5024@pendragon.ideasonboard.com>
-User-Agent: NeoMutt/20180716
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14b0c9d2-b9e3-4136-b886-08d71983472c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Aug 2019 08:59:51.9089
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fabrizio.castro@bp.renesas.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1673
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
---f6oy4oxrt3xzydfx
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
-Hi Laurent,
-
-On Thu, Aug 01, 2019 at 06:11:29PM +0300, Laurent Pinchart wrote:
-> Hello Jacopo,
->
-> Thank you for the patch.
->
-> On Tue, Jul 23, 2019 at 06:57:00PM +0200, Jacopo Mondi wrote:
-> > The R-Car LVDS encoder units support dual-link operations by splitting
-> > the pixel output between the primary encoder and the companion one.
->
-> s/the companion one/its companion/
->
-> >
-> > In order for the primary encoder to succesfully control the companion's
-> > operations this should not fail at probe time and register itself its
-> > associated drm bridge so that the primary one can find it.
->
-> This is hard to parse.
->
-
-Re-reading the whole commit message, I would actually drop it
-completely, it's enough what we have here below.
-
-> > Currently the companion encoder fails at probe time, causing the
-> > registration of the primary to fail preventing the whole DU unit to be
-> > registered correctly.
-> >
-> > Fixes: fa440d870358 ("drm: rcar-du: lvds: Add support for dual-link mode")
-> > Reported-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> >
-> > ---
-> > The "Fixes" tag refers to a patch currently part of the
-> > renesas-drivers-2019-07-09-v5.2 branch of Geert's renesas-drivers tree.
-> >
-> >  drivers/gpu/drm/rcar-du/rcar_lvds.c | 31 +++++++++++++++++++++--------
-> >  1 file changed, 23 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > index bada7ee98544..8b015ba95895 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > @@ -767,14 +767,29 @@ static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
-> >  	of_node_put(remote_input);
-> >  	of_node_put(remote);
-> >
-> > -	/*
-> > -	 * On D3/E3 the LVDS encoder provides a clock to the DU, which can be
-> > -	 * used for the DPAD output even when the LVDS output is not connected.
-> > -	 * Don't fail probe in that case as the DU will need the bridge to
-> > -	 * control the clock.
-> > -	 */
-> > -	if (lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)
-> > -		return ret == -ENODEV ? 0 : ret;
-> > +	switch (ret) {
-> > +	case -ENODEV:
-> > +		/*
-> > +		 * On D3/E3 the LVDS encoder provides a clock to the DU, which
-> > +		 * can be used for the DPAD output even when the LVDS output is
-> > +		 * not connected. Don't fail probe in that case as the DU will
-> > +		 * need the bridge to control the clock.
-> > +		 */
-> > +		if (lvds->info->quirks & RCAR_LVDS_QUIRK_EXT_PLL)
-> > +			ret = 0;
-> > +		break;
-> > +	case -ENXIO:
-> > +		/*
-> > +		 * When the LVDS output is used in dual link mode, the
-> > +		 * companion encoder fails at
-> > +		 * 'rcar_lvds_parse_dt_companion()'. Don't fail probe in
-> > +		 * that case as the master encoder will need the companion's
-> > +		 * bridge to control its operations.
-> > +		 */
-> > +		if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK)
-> > +			ret = 0;
->
-> As -ENXIO can only be returned by rcar_lvds_parse_dt_companion(), and
-> rcar_lvds_parse_dt_companion() is only called when the
-> RCAR_LVDS_QUIRK_DUAL_LINK flag is set, this essentially means that you
-> always zero the error returned from rcar_lvds_parse_dt_companion(). This
-
-Not totally correct, as rcar_lvds_parse_dt_companion() might also
-return EPROBE_DEFER, but...
-
-> is both complicated and too drastic as the second -ENXIO error case
-> shouldn't be ignored. It would be better and simpler to return 0 from
-> rcar_lvds_parse_dt_companion() when the renesas,companion property can't
-> be found.
-
-I agree, returning 0 when when the property is not specified is enough
-and much simpler. I got dragged away by the idea of centralizing error
-handling at the end of the function, but it's ugly and also wrongly
-zeroes the second -ENXIO error returned by the parse_companion
-function.
-
-I'll change to what you suggested!
-Thanks
-  j
-
->
-> > +		break;
-> > +	}
-> >
-> >  	return ret;
-> >  }
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
---f6oy4oxrt3xzydfx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1H3+0ACgkQcjQGjxah
-VjxYkxAAlzArBpJQTnAx+2BDrFdNyuVKxAzyoEexaV7boeg586M5iV8fTmgjScff
-4KA54u80j8KxeK9adk7cqeqH1wPi+DkkMomFRPpJzUHrwlVpwPXoVERWOIYEVV4Y
-XA4f+xUHBjm0Ftxx9XJPKEbFyFkJYFZLZyl9r3a0PVccA3yikoQqPBP4FX7xrALM
-lAj/o14JXh0voNbK7k6w+LjM1JieofeJjXk59FmeKrIDy9pvM6IlvBQsC7hSmPZ7
-hsOiKk0kEjMA89aVAPnyhq7vP79F4q3A2C0XjUwgv/hO6JTD7zWVTc1/TItzajQV
-6WmnHMM9CUiKDD1Oo2O25fzBjmbNpm+HMclxxoF2IGGgDpRph4rbKio+NjmIDc/A
-myw7qRfM9juRgGOFXYwQgDpQY/tmaqKhr+hTodwj/BKUwIDzk1l5BfN/JGASEgxQ
-aj2KtNJdTyor7wTktGJ1yFWoBRUsVanGwf/fnOPhMqLlPNz/cdjmR3qjQYimjCLs
-G+GLCmlx9it5ZCnM6xhLj6JhysKpHONJGzbbXQqPoBgA3O0IjoOFg1PS3qztEjSg
-bB5XBKLVSnNNq5Yb7DBWnH+5H7j3iFwK2gXHdSrC/PJnNqeN5DLMFJvJkpmlfwb7
-jLHPMhBT58VN8f9YDS+Y5RUByO3tv0SvVm+nO/KI4i8xfbG+5n8=
-=lvdp
------END PGP SIGNATURE-----
-
---f6oy4oxrt3xzydfx--
+SGkgTGF1cmVudCwNCg0KVGhhbmsgeW91IGZvciB5b3VyIGZlZWRiYWNrIQ0KDQo+IEZyb206IExh
+dXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT4NCj4gU2Vu
+dDogMDIgQXVndXN0IDIwMTkgMDg6NDQNCj4gU3ViamVjdDogUmU6IFtQQVRDSC9SRkMgMDIvMTJd
+IGR0LWJpbmRpbmdzOiBkaXNwbGF5OiByZW5lc2FzOiBsdmRzOiBEb2N1bWVudCByZW5lc2FzLHN3
+YXAtZGF0YQ0KPiANCj4gSGkgRmFicml6aW8sDQo+IA0KPiBUaGFuayB5b3UgZm9yIHRoZSBwYXRj
+aC4NCj4gDQo+IE9uIEZyaSwgQXVnIDAyLCAyMDE5IGF0IDA4OjMzOjU5QU0gKzAxMDAsIEZhYnJp
+emlvIENhc3RybyB3cm90ZToNCj4gPiBSLUNhciBEMywgUi1DYXIgRTMsIGFuZCBSWi9HMkUgc3Vw
+cG9ydCBkdWFsLWxpbmsgbW9kZS4NCj4gPiBJbiBzdWNoIGEgbW9kZSwgdGhlIGZpcnN0IExWRFMg
+ZW5jb2RlciBlbWl0cyBldmVuIGRhdGEsIGFuZCB0aGUNCj4gPiBzZWNvbmQgTFZEUyBlbmNvZGVy
+IGVtaXRzIG9kZCBkYXRhLiBUaGlzIHBhdGNoIGRvY3VtZW50cyBwcm9wZXJ0eQ0KPiA+IHJlbmVz
+YXMsc3dhcC1kYXRhLCB1c2VkIHRvIHN3YXAgZXZlbiBhbmQgb2RkIGRhdGEgYXJvdW5kLg0KPiA+
+DQo+ID4gU2lnbmVkLW9mZi1ieTogRmFicml6aW8gQ2FzdHJvIDxmYWJyaXppby5jYXN0cm9AYnAu
+cmVuZXNhcy5jb20+DQo+ID4gLS0tDQo+ID4gIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5k
+aW5ncy9kaXNwbGF5L2JyaWRnZS9yZW5lc2FzLGx2ZHMudHh0IHwgNSArKysrKw0KPiA+ICAxIGZp
+bGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL3JlbmVzYXMsbHZkcy50
+eHQNCj4gYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlzcGxheS9icmlkZ2Uv
+cmVuZXNhcyxsdmRzLnR4dA0KPiA+IGluZGV4IGRlY2U3OWUuLjg5ODAxNzkgMTAwNjQ0DQo+ID4g
+LS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL3Jl
+bmVzYXMsbHZkcy50eHQNCj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
+Z3MvZGlzcGxheS9icmlkZ2UvcmVuZXNhcyxsdmRzLnR4dA0KPiA+IEBAIC01Miw2ICs1MiwxMSBA
+QCBPcHRpb25hbCBwcm9wZXJ0aWVzOg0KPiA+ICAgIG1hbmRhdG9yeSBmb3IgdGhlIGZpcnN0IExW
+RFMgZW5jb2RlciBvbiBSLUNhciBEMywgUi1DYXIgRTMsIGFuZCBSWi9HMkUgU29DcywNCj4gPiAg
+ICBhbmQgc2hhbGwgcG9pbnQgdG8gdGhlIHNlY29uZCBlbmNvZGVyIHRvIGJlIHVzZWQgYXMgYSBj
+b21wYW5pb24gaW4gZHVhbC1saW5rDQo+ID4gICAgbW9kZS4gSXQgc2hhbGwgbm90IGJlIHNldCBm
+b3IgYW55IG90aGVyIExWRFMgZW5jb2Rlci4NCj4gPiArLSByZW5lc2FzLHN3YXAtZGF0YSA6IHdo
+ZW4gaW4gZHVhbC1saW5rIG1vZGUsIHRoZSBmaXJzdCBMVkRTIGVuY29kZXIgbm9ybWFsbHkNCj4g
+PiArICBlbWl0cyBldmVuIGRhdGEsIGFuZCB0aGUgc2Vjb25kIExWRFMgZW5jb2RlciBlbWl0cyBv
+ZGQgZGF0YS4gV2hlbiBwcm9wZXJ0eQ0KPiA+ICsgIHJlbmVzYXMsc3dhcC1kYXRhIGlzIHNwZWNp
+ZmllZCwgdGhlIGRhdGEgZW1pdHRlZCBieSB0aGUgdHdvIGVuY29kZXJzIHdpbGwgYmUNCj4gPiAr
+ICBzd2FwcGVkIGFyb3VuZC4gVGhpcyBwcm9wZXJ0eSBjYW4gb25seSBiZSB1c2VkIGluIGNvbmp1
+bmN0aW9uIHdpdGggcHJvcGVydHkNCj4gPiArICByZW5lc2FzLGNvbXBhbmlvbi4NCj4gDQo+IEZy
+b20gYW4gTFZEUyBlbmNvZGVyIHBvaW50IG9mIHZpZXcgdGhpcyBpcyBtb3JlIGEgY29uZmlndXJh
+dGlvbiBvcHRpb24NCj4gdGhhbiBhIGRlc2NyaXB0aW9uIG9mIHRoZSBoYXJkd2FyZS4gV291bGRu
+J3QgaXQgYmUgYmV0dGVyIGZvciB0aGUgTFZEUw0KPiBzaW5rIHRvIHJlcG9ydCB3aGljaCBvZiB0
+aGUgb2RkIG9yIGV2ZW4gcGl4ZWxzIGl0IGV4cGVjdHMgb24gZWFjaCBvZiBpdHMNCj4gZW5kcG9p
+bnRzID8NCg0KWWVzLCB0aGF0IHdvdWxkIGJlIG15IHByZWZlcmVuY2UgdG9vLCBhbmQgaXQgd291
+bGQgYmUgYmV0dGVyLCBJIGFtIGp1c3Qgbm90IGVudGlyZWx5DQp3aGF0J3MgdGhlIGJlc3QgcGxh
+Y2UgZm9yIHRoaXMgaW5mb3JtYXRpb24gdGhvdWdoDQoNCj4gVGhlIExWRFMgZW5jb2RlciBkcml2
+ZXIgY291bGQgdGhlbiBxdWVyeSB0aGF0IGF0IHJ1bnRpbWUgYW5kDQo+IGNvbmZpZ3VyZSBpdHNl
+bGYgYWNjb3JkaW5nbHkuIElkZWFsbHkgdGhpcyBzaG91bGQgYmUgcXVlcmllZCB0aHJvdWdoIHRo
+ZQ0KPiBkcm1fYnJpZGdlX3RpbWluZ3Mgc3RydWN0dXJlIChvciB0aHJvdWdoIGEgc2ltaWxhciBt
+ZWFuKSwgbm90IHRocm91Z2gNCj4gRFQuIEFuIExWRFMgc2luayB0aGF0IGhhcyBhIGZpeGVkIG1h
+cHBpbmcgb2Ygb2RkL2V2ZW4gcGl4ZWxzIHRvDQo+IGVuZHBvaW50cyB3b3VsZG4ndCBuZWVkIHRo
+ZSBpbmZvcm1hdGlvbiB0byBiZSBzcGVjaWZpZWQgaW4gRFQgYXQgYWxsLg0KDQpJc24ndCBkcm1f
+YnJpZGdlX3RpbWluZ3Mgc3BlY2lmaWMgZm9yIGJyaWRnZXM/DQoNClRoYW5rcyENCkZhYg0KDQo+
+IA0KPiA+DQo+ID4NCj4gPiAgRXhhbXBsZToNCj4gDQo+IC0tDQo+IFJlZ2FyZHMsDQo+IA0KPiBM
+YXVyZW50IFBpbmNoYXJ0DQo=
