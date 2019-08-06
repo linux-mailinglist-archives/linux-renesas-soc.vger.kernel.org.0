@@ -2,28 +2,28 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2416083B26
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Aug 2019 23:33:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 304BF83C78
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Aug 2019 23:42:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726940AbfHFVd2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Aug 2019 17:33:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51214 "EHLO mail.kernel.org"
+        id S1727039AbfHFVmZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Aug 2019 17:42:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53230 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726902AbfHFVd1 (ORCPT
+        id S1728513AbfHFVf3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Aug 2019 17:33:27 -0400
+        Tue, 6 Aug 2019 17:35:29 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9A7562089E;
-        Tue,  6 Aug 2019 21:33:25 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id BA6CD2187F;
+        Tue,  6 Aug 2019 21:35:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565127206;
-        bh=8zooDDLk4SMfizKNkmpLcqjt64Lv2VSIABX6QBeAj3M=;
+        s=default; t=1565127328;
+        bh=TBavu8KcGlvZPLcjFMqqwVbOt4Ys1Ym3XS3M5RlQgII=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=NeoyDLdAR+/Ef96Sz438sod+W/rrGAg/Alvq5LaqeUGE+gPxR2oel1X/eSTsu72Nj
-         qbdDhajebdAx1lGHOJHkQuD+7Y1tXqUHRioZOvKf2um0gxncOpwt336YOG3KFbzrEA
-         R52/kQglXlPk2I1pNdSiqqPP53YOAjRBvukOENHg=
+        b=Uy07BCmDfnltCNGcnXUDJ75tr1IKXjk45Wv5kiaUAIsy7QCowFUBhKBYZkNKl3pqX
+         xI6dk+QPKmXEUhidw4YqwSCwkoMK+ZujhDySITwbsUecU1zf9Wk4X01FOIToRV+v+d
+         GXl8XLryYt0s0FamYhrfSxG+ju764X1udysON9zM=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -32,12 +32,12 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Stephen Boyd <sboyd@kernel.org>,
         Sasha Levin <sashal@kernel.org>,
         linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.2 05/59] clk: renesas: cpg-mssr: Fix reset control race condition
-Date:   Tue,  6 Aug 2019 17:32:25 -0400
-Message-Id: <20190806213319.19203-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 03/32] clk: renesas: cpg-mssr: Fix reset control race condition
+Date:   Tue,  6 Aug 2019 17:34:51 -0400
+Message-Id: <20190806213522.19859-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190806213319.19203-1-sashal@kernel.org>
-References: <20190806213319.19203-1-sashal@kernel.org>
+In-Reply-To: <20190806213522.19859-1-sashal@kernel.org>
+References: <20190806213522.19859-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -110,10 +110,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
-index 0201809bbd377..9dfa28d6fd9f9 100644
+index f4b013e9352d9..24485bee9b49e 100644
 --- a/drivers/clk/renesas/renesas-cpg-mssr.c
 +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
-@@ -576,17 +576,11 @@ static int cpg_mssr_reset(struct reset_controller_dev *rcdev,
+@@ -535,17 +535,11 @@ static int cpg_mssr_reset(struct reset_controller_dev *rcdev,
  	unsigned int reg = id / 32;
  	unsigned int bit = id % 32;
  	u32 bitmask = BIT(bit);
@@ -132,7 +132,7 @@ index 0201809bbd377..9dfa28d6fd9f9 100644
  
  	/* Wait for at least one cycle of the RCLK clock (@ ca. 32 kHz) */
  	udelay(35);
-@@ -603,16 +597,10 @@ static int cpg_mssr_assert(struct reset_controller_dev *rcdev, unsigned long id)
+@@ -562,16 +556,10 @@ static int cpg_mssr_assert(struct reset_controller_dev *rcdev, unsigned long id)
  	unsigned int reg = id / 32;
  	unsigned int bit = id % 32;
  	u32 bitmask = BIT(bit);
