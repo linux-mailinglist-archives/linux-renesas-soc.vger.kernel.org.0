@@ -2,116 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CEAC82E12
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Aug 2019 10:49:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93EC882E26
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Aug 2019 10:52:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732213AbfHFItq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Aug 2019 04:49:46 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:34026 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732206AbfHFItq (ORCPT
+        id S1732079AbfHFIwl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Aug 2019 04:52:41 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:17886 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729987AbfHFIwl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Aug 2019 04:49:46 -0400
-Received: by mail-oi1-f194.google.com with SMTP id l12so4809950oil.1;
-        Tue, 06 Aug 2019 01:49:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JGsM7pwNfNhypZYgQFIcaWofv38d0hmWofEdR0NtNiQ=;
-        b=VRdKBUsli2gnniTOaZA9MP0FqBhcw26ezjeOlaKnbaKbhE/y++NlMOVrJzgRwNdZ46
-         vocUO0h7oSdxt70uruqlX+q/TDxplsHaD+z2qvWzDqVOoZE3k1nbsDGDtpzSSWrG2YBQ
-         PS/AnrL1IpvxOMTy//nQwCcHlB3Bo+RI+RgqEZXT/wI1ZrBgAyIse3B/G5ByRAMMFQJE
-         2WIO2UQgPaj/xvvH/q9ebG9+k7qqcS5QXm9vVhQ6zkteA5p336kv7keNGLEy7I64Xdps
-         v59FR3kEgn02KHIkB7kbT5P95Brtj+/c1wEimE915WNaBq3eIKKvtWgsAsbGAknJabGC
-         CxkA==
-X-Gm-Message-State: APjAAAXiL1HnULo9hTWJLJUPz3LDVe8+iKnkmubw+qQvg2Q1j4qOB48M
-        ciQgbyHMIZ4rmsAqUeaRhbIZpJ413vLBLWbjq9M=
-X-Google-Smtp-Source: APXvYqwuOQUfUJbqvnFx04K816C3jKe2zq5l/JtyJF2mmCR5Qu0WkmmFcibhWo6DNxgmpO/XSWdCMjmFXggotgQEEmM=
-X-Received: by 2002:aca:338a:: with SMTP id z132mr1059577oiz.54.1565081385290;
- Tue, 06 Aug 2019 01:49:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <1562576868-8124-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1562576868-8124-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <CACRpkdZqTaA04bja16xh338JiwoSqFpH_2rV95FaF7YhawQzMg@mail.gmail.com> <TYAPR01MB4544031C6A027A3690FFFB77D8DD0@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYAPR01MB4544031C6A027A3690FFFB77D8DD0@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 6 Aug 2019 10:49:33 +0200
-Message-ID: <CAMuHMdUqDsMA_uZ+Sen15kgue8DoQee0vd4qmUXmFX+cRT11EA@mail.gmail.com>
-Subject: Re: [PATCH RFC 2/7] pinctrl: sh-pfc: remove incomplete flag "cfg->type"
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Tue, 6 Aug 2019 04:52:41 -0400
+X-IronPort-AV: E=Sophos;i="5.64,352,1559487600"; 
+   d="scan'208";a="23240851"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 06 Aug 2019 17:52:38 +0900
+Received: from localhost.localdomain (unknown [10.166.17.210])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 79DEF4009423;
+        Tue,  6 Aug 2019 17:52:38 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     kishon@ti.com
+Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        stable@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH] phy: renesas: rcar-gen3-usb2: Disable clearing VBUS in over-current
+Date:   Tue,  6 Aug 2019 17:51:19 +0900
+Message-Id: <1565081479-24340-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
+The hardware manual should be revised, but the initial value of
+VBCTRL.OCCLREN is set to 1 actually. If the bit is set, the hardware
+clears VBCTRL.VBOUT and ADPCTRL.DRVVBUS registers automatically
+when the hardware detects over-current signal from a USB power switch.
+However, since the hardware doesn't have any registers which
+indicates over-current, the driver cannot handle it at all. So, if
+"is_otg_channel" hardware detects over-current, since ADPCTRL.DRVVBUS
+register is cleared automatically, the channel cannot be used after
+that.
 
-On Mon, Jul 29, 2019 at 7:16 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> > From: Linus Walleij, Sent: Monday, July 29, 2019 8:02 AM
-> >
-> > On Mon, Jul 8, 2019 at 11:08 AM Yoshihiro Shimoda
-> > <yoshihiro.shimoda.uh@renesas.com> wrote:
-> >
-> > > The old commit c58d9c1b26e3 ("sh-pfc: Implement generic pinconf
-> > > support") broke the cfg->type flag to PINMUX_TYPE_FUNCTION because
-> > > sh_pfc_pinconf_set() didn't call sh_pfc_reconfig_pin().
-> > > Now if we fix the cfg->type condition, it gets worse because:
-> > >  - Some drivers might be deferred so that .set_mux() will be called
-> > >    multiple times.
-> > >  - In such the case, the sh-pfc driver returns -EBUSY even if
-> > >    the group is the same, and then that driver fails to probe.
-> > >
-> > > Since the pinctrl subsystem already has such conditions according
-> > > to @set_mux and @gpio_request_enable, this patch just remove
-> > > the incomplete flag from sh-pfc/pinctrl.c.
-> > >
-> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> >
-> > This looks like it should have a Fixes: tag as well.
->
-> I got it. The Fixes tag should be:
->
-> Fixes: c58d9c1b26e3 ("sh-pfc: Implement generic pinconf support")
+To resolve this behavior, this patch sets the VBCTRL.OCCLREN to 0
+to keep ADPCTRL.DRVVBUS even if the "is_otg_channel" hardware
+detects over-current. (We assume a USB power switch itself protects
+over-current and turns the VBUS off.)
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+This patch is inspired by a BSP patch from Kazuya Mizuguchi.
 
-> > Geert will decide what to do with this.
->
-> I got it.
->
-> > Can all the pinctrl patches be applied independently of the other
-> > changes so Geert can apply and send me those patches in his pull
-> > requests?
->
-> The pinctrl patches (1/7 through 3/7) can be applied on next-20190726
-> so I think Geert can apply these patches into his repo.
+Fixes: 1114e2d31731 ("phy: rcar-gen3-usb2: change the mode to OTG on the combined channel")
+Cc: <stable@vger.kernel.org> # v4.5+
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ This patch might be difficult to backport to v4.9 or older because
+ the v4.13 added vendor specific directories by commit
+ 0b56e9a7e835 ("phy: Group vendor specific phy drivers").
 
-Looks mostly OK to me (I have some comments on 3/7).
-I'll apply it to my local tree, so it will receive some testing on all
-boards I have.
 
-Thanks!
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+index 8ffba67..b7f6b13 100644
+--- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
++++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+@@ -61,6 +61,7 @@
+ 					 USB2_OBINT_IDDIGCHG)
+ 
+ /* VBCTRL */
++#define USB2_VBCTRL_OCCLREN		BIT(16)
+ #define USB2_VBCTRL_DRVVBUSSEL		BIT(8)
+ 
+ /* LINECTRL1 */
+@@ -374,6 +375,7 @@ static void rcar_gen3_init_otg(struct rcar_gen3_chan *ch)
+ 	writel(val, usb2_base + USB2_LINECTRL1);
+ 
+ 	val = readl(usb2_base + USB2_VBCTRL);
++	val &= ~USB2_VBCTRL_OCCLREN;
+ 	writel(val | USB2_VBCTRL_DRVVBUSSEL, usb2_base + USB2_VBCTRL);
+ 	val = readl(usb2_base + USB2_ADPCTRL);
+ 	writel(val | USB2_ADPCTRL_IDPULLUP, usb2_base + USB2_ADPCTRL);
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.7.4
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
