@@ -2,116 +2,154 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F05D48380A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Aug 2019 19:40:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2416083B26
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Aug 2019 23:33:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387752AbfHFRj7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Aug 2019 13:39:59 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:36097 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387743AbfHFRj7 (ORCPT
+        id S1726940AbfHFVd2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Aug 2019 17:33:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51214 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726902AbfHFVd1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Aug 2019 13:39:59 -0400
-Received: by mail-wm1-f67.google.com with SMTP id g67so73200435wme.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 06 Aug 2019 10:39:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=+GYAfSOb8TtiZxSa6IuLwHMy8VxqimVP3LYovrx/inM=;
-        b=hnu2dzoVWG4FtMisZjJ0WlqOmKey5xrrlrPDcqlQkLX2kru0HAQCMokmBBB28/Hkhu
-         xGXdTxU3IWk11CtHlRmTx3uDWUa/KxdE1ZMEACM74ES4XmJQ75rlaTJrS41Jxl1wsv/j
-         z++JObyeD+hWvqFJDPX0P6v1E7UKt5tlnn2lC0YuJIIyWyepZG4Mpt/sfLbi0bC4YG7W
-         DlGGvvexhEwR+lSsTyZq/u/j8QOTNoAz6e8PzpmXpbTTsiOiAlqBf483MvuTkemCUnZz
-         ZP0E9CcGWf3xIaofs9oTgvCfxKl6lMEWQIL0jTTL3JQO+VURSY/RE2aNd4gcSBCfQajH
-         tK4w==
-X-Gm-Message-State: APjAAAUT6/6s3miQbxDjFTFZw1s3UmzvQeztWGx7yEiHjMWNGKDHwVQY
-        VgftHqkOBnUi8LaYBOaLUL5+Rg==
-X-Google-Smtp-Source: APXvYqz1rDwGYLjMpYg94bmJDxWy5dEJQahmt+BIxoXHp8HC4uWPXoVw2XEfHd9oZBsF6g6da9hcyQ==
-X-Received: by 2002:a1c:dc46:: with SMTP id t67mr5378480wmg.159.1565113197551;
-        Tue, 06 Aug 2019 10:39:57 -0700 (PDT)
-Received: from [192.168.0.24] ([181.120.177.224])
-        by smtp.gmail.com with ESMTPSA id x18sm80979493wmi.12.2019.08.06.10.39.52
-        (version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-        Tue, 06 Aug 2019 10:39:56 -0700 (PDT)
-Subject: Re: [PATCH RFC] modpost: Support I2C Aliases from OF tables
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mark Brown <broonie@kernel.org>
-References: <20190710193918.31135-1-kieran.bingham+renesas@ideasonboard.com>
- <0e1b6e0b-1c94-4b00-7fda-c2a303ee3816@redhat.com>
- <20190731194419.GB4084@kunai>
- <CAK7LNAQ6siWHU+N2c+6gqh7hHEJ_aDrVoiWnrTq1jiXQWSYYBA@mail.gmail.com>
- <2567a74d-738e-6fed-d91c-cc70743e116d@redhat.com>
- <CAMuHMdX3QqXGt4=31ECZ7vryjsSA7NufuvA_XVLjS91_1q=uqw@mail.gmail.com>
-From:   Javier Martinez Canillas <javierm@redhat.com>
-Message-ID: <8df8133c-60c6-d9b5-2594-d7a5715e907a@redhat.com>
-Date:   Tue, 6 Aug 2019 19:39:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Tue, 6 Aug 2019 17:33:27 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9A7562089E;
+        Tue,  6 Aug 2019 21:33:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565127206;
+        bh=8zooDDLk4SMfizKNkmpLcqjt64Lv2VSIABX6QBeAj3M=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=NeoyDLdAR+/Ef96Sz438sod+W/rrGAg/Alvq5LaqeUGE+gPxR2oel1X/eSTsu72Nj
+         qbdDhajebdAx1lGHOJHkQuD+7Y1tXqUHRioZOvKf2um0gxncOpwt336YOG3KFbzrEA
+         R52/kQglXlPk2I1pNdSiqqPP53YOAjRBvukOENHg=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Yao Lihua <Lihua.Yao@desay-svautomotive.com>,
+        Linh Phung <linh.phung.jy@renesas.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Sasha Levin <sashal@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.2 05/59] clk: renesas: cpg-mssr: Fix reset control race condition
+Date:   Tue,  6 Aug 2019 17:32:25 -0400
+Message-Id: <20190806213319.19203-5-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190806213319.19203-1-sashal@kernel.org>
+References: <20190806213319.19203-1-sashal@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdX3QqXGt4=31ECZ7vryjsSA7NufuvA_XVLjS91_1q=uqw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Geert,
+From: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On 8/6/19 9:30 AM, Geert Uytterhoeven wrote:
-> On Tue, Aug 6, 2019 at 12:48 AM Javier Martinez Canillas
-> <javierm@redhat.com> wrote:
->> On 8/1/19 4:17 AM, Masahiro Yamada wrote:
->> So I think that we should either:
->>
->> a) take Kieran's patch or b) remove the i2c_of_match_device_sysfs() fallback
->> for OF and require an I2C device table for sysfs instantiation and matching.
->>
->>> If a driver supports DT and devices are instantiated via DT,
->>> in which situation is this useful?
->>
->> Is useful if you don't have all the I2C devices described in the DT. For example
->> a daughterboard with an I2C device is connected to a board through an expansion
->> slot or an I2C device connected directly to I2C pins exposed in a machine.
->>
->> In these cases your I2C devices won't be static so users might want to use the
->> sysfs user-space interface to instantiate the I2C devices, i.e:
->>
->>  # echo eeprom 0x50 > /sys/bus/i2c/devices/i2c-3/new_device
->>
->> as explained in https://github.com/torvalds/linux/blob/master/Documentation/i2c/instantiating-devices#L207
-> 
-> Does this actually work with DT names, too? E.g.
-> 
-> # echo atmel,24c02 > /sys/bus/i2c/devices/i2c-3/new_device
->
+[ Upstream commit e1f1ae8002e4b06addc52443fcd975bbf554ae92 ]
 
-My understanding is that it does. If I'm reading the code correctly the
-i2c_of_match_device_sysfs() function first attempts to match using both
-the vendor and device part of the compatible string and if that fails,
-it strips the vendor part and try to match only using the device part.
+The module reset code in the Renesas CPG/MSSR driver uses
+read-modify-write (RMW) operations to write to a Software Reset Register
+(SRCRn), and simple writes to write to a Software Reset Clearing
+Register (SRSTCLRn), as was mandated by the R-Car Gen2 and Gen3 Hardware
+User's Manuals.
 
-So you could use any of the following:
+However, this may cause a race condition when two devices are reset in
+parallel: if the reset for device A completes in the middle of the RMW
+operation for device B, device A may be reset again, causing subtle
+failures (e.g. i2c timeouts):
 
-# echo 24c02 0x50 > /sys/bus/i2c/devices/i2c-3/new_device
+	thread A			thread B
+	--------			--------
 
-# echo atmel,24c02 0x50 > /sys/bus/i2c/devices/i2c-3/new_device
+	val = SRCRn
+	val |= bit A
+	SRCRn = val
 
-Best regards, 
+	delay
+
+					val = SRCRn (bit A is set)
+
+	SRSTCLRn = bit A
+	(bit A in SRCRn is cleared)
+
+					val |= bit B
+					SRCRn = val (bit A and B are set)
+
+This can be reproduced on e.g. Salvator-XS using:
+
+    $ while true; do i2cdump -f -y 4 0x6A b > /dev/null; done &
+    $ while true; do i2cdump -f -y 2 0x10 b > /dev/null; done &
+
+    i2c-rcar e6510000.i2c: error -110 : 40000002
+    i2c-rcar e66d8000.i2c: error -110 : 40000002
+
+According to the R-Car Gen3 Hardware Manual Errata for Rev.
+0.80 of Feb 28, 2018, reflected in Rev. 1.00 of the R-Car Gen3 Hardware
+User's Manual, writes to SRCRn do not require read-modify-write cycles.
+
+Note that the R-Car Gen2 Hardware User's Manual has not been updated
+yet, and still says a read-modify-write sequence is required.  According
+to the hardware team, the reset hardware block is the same on both R-Car
+Gen2 and Gen3, though.
+
+Hence fix the issue by replacing the read-modify-write operations on
+SRCRn by simple writes.
+
+Reported-by: Yao Lihua <Lihua.Yao@desay-svautomotive.com>
+Fixes: 6197aa65c4905532 ("clk: renesas: cpg-mssr: Add support for reset control")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Tested-by: Linh Phung <linh.phung.jy@renesas.com>
+Signed-off-by: Stephen Boyd <sboyd@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/clk/renesas/renesas-cpg-mssr.c | 16 ++--------------
+ 1 file changed, 2 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
+index 0201809bbd377..9dfa28d6fd9f9 100644
+--- a/drivers/clk/renesas/renesas-cpg-mssr.c
++++ b/drivers/clk/renesas/renesas-cpg-mssr.c
+@@ -576,17 +576,11 @@ static int cpg_mssr_reset(struct reset_controller_dev *rcdev,
+ 	unsigned int reg = id / 32;
+ 	unsigned int bit = id % 32;
+ 	u32 bitmask = BIT(bit);
+-	unsigned long flags;
+-	u32 value;
+ 
+ 	dev_dbg(priv->dev, "reset %u%02u\n", reg, bit);
+ 
+ 	/* Reset module */
+-	spin_lock_irqsave(&priv->rmw_lock, flags);
+-	value = readl(priv->base + SRCR(reg));
+-	value |= bitmask;
+-	writel(value, priv->base + SRCR(reg));
+-	spin_unlock_irqrestore(&priv->rmw_lock, flags);
++	writel(bitmask, priv->base + SRCR(reg));
+ 
+ 	/* Wait for at least one cycle of the RCLK clock (@ ca. 32 kHz) */
+ 	udelay(35);
+@@ -603,16 +597,10 @@ static int cpg_mssr_assert(struct reset_controller_dev *rcdev, unsigned long id)
+ 	unsigned int reg = id / 32;
+ 	unsigned int bit = id % 32;
+ 	u32 bitmask = BIT(bit);
+-	unsigned long flags;
+-	u32 value;
+ 
+ 	dev_dbg(priv->dev, "assert %u%02u\n", reg, bit);
+ 
+-	spin_lock_irqsave(&priv->rmw_lock, flags);
+-	value = readl(priv->base + SRCR(reg));
+-	value |= bitmask;
+-	writel(value, priv->base + SRCR(reg));
+-	spin_unlock_irqrestore(&priv->rmw_lock, flags);
++	writel(bitmask, priv->base + SRCR(reg));
+ 	return 0;
+ }
+ 
 -- 
-Javier Martinez Canillas
-Software Engineer - Desktop Hardware Enablement
-Red Hat
+2.20.1
+
