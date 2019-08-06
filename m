@@ -2,88 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3620882CCC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Aug 2019 09:30:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AFA482E06
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Aug 2019 10:46:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731789AbfHFHaW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 6 Aug 2019 03:30:22 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:43136 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731735AbfHFHaW (ORCPT
+        id S1732461AbfHFIqk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Aug 2019 04:46:40 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:35151 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728845AbfHFIqk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 6 Aug 2019 03:30:22 -0400
-Received: by mail-oi1-f194.google.com with SMTP id w79so65222950oif.10;
-        Tue, 06 Aug 2019 00:30:22 -0700 (PDT)
+        Tue, 6 Aug 2019 04:46:40 -0400
+Received: by mail-ot1-f68.google.com with SMTP id j19so13911890otq.2;
+        Tue, 06 Aug 2019 01:46:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Rt7p4w8GRASsTh4L8meL9OiYP/BUIZ+eM+Oj2ozLZX0=;
-        b=jNHIHAgNhRMrrc89l8FgqZBib4R88DxCJIa/S/gK0xb0C+QyYDxrNxsJ/aTo9zTQkX
-         FzQ9oXsxHVPjfNUQwrMDojCh7gIFqYh3V7XbmTExcVsERJHBGo2LeAscv6P1E8dgxaKo
-         DaXV3ImToOknn2cVFB09gANmXfL5s2ng69BNG0K40yD0K+z3xB7LrSPJvhxTXmWCfsg0
-         dkmc23aa1tOaaDY8AV2jTxral0OW/oeXVlMIEPHQ3vnNZeXUVF5RN57vrB0LBJ6NXIaK
-         dlUyIjHKnB1tMPlHPScrbFKqIWyRNFBc6k5WGrPaK19jTjYdXBP7ct+3YVMLCXgykZjf
-         stKg==
-X-Gm-Message-State: APjAAAXujK44SfLOxpJ4GLMS0OKls9Y+Xy8uCe4Ev61MQipwBfd6ZlYE
-        oCRIErLLB7IjbF/zbY9E43yvrJijXE+VN7himQg=
-X-Google-Smtp-Source: APXvYqxf2mIJF0r2WtOWgOXoNk4Ssm0txTKBpp4NeSTCt6wKFUnz/OViHpCBQnDGu1cEhPCsgOUabbz+AFvLaKfo1fs=
-X-Received: by 2002:aca:bd43:: with SMTP id n64mr1471003oif.148.1565076621538;
- Tue, 06 Aug 2019 00:30:21 -0700 (PDT)
+        bh=dGx7OEbbHcEV2w9H3KvoPYcJkfNqLu1d76yfzh3ihzM=;
+        b=jYCSV0hlaJS/d5E1eJPgF/+Y53D+p9EaQGZtczL0qFNt9UzaPjLJ4+gWc3N4wM1cd/
+         Vuox9ztcdPLKFgqNQpEtiCCB5xBC9meMfqjTJVphwJTY8bPhFGJRnbQD7p1ExFxV6l37
+         P4jdLNzlZ6N9B6x105jKYtg28Dv/HMohMqgXSnNOi8t1JtdyWStTXoG3vJdn4TjNiL1I
+         RqdMhrItwHYdFuK3RrKkiivPWBG63SFkG7ChEGrukGjIAPE47gXCKEboGQFbdRoAwd3z
+         KPGksJAgJGjjFf4le1xNsaDh4r0tjTPYejemOBP5nmpNuz7JexhLdrSkl0ArB28hczOC
+         A/Jg==
+X-Gm-Message-State: APjAAAWnKwX3V8t/chKa2L6Ve5mtViqYmwdlpINT/xdKUP/g0m5taY5P
+        rgOp8JscyU+voeA8uZJ3+hBNz3IP4WXO35oSFIA=
+X-Google-Smtp-Source: APXvYqyNaZsygswEAtjR4k0Nway6gN8Y0iUdHyJsAvJLog/5CAoHUTzY4BT1ud1NbghiluUe+b85WnjklCz5/sj+FFY=
+X-Received: by 2002:a05:6830:210f:: with SMTP id i15mr2225162otc.250.1565081199519;
+ Tue, 06 Aug 2019 01:46:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190710193918.31135-1-kieran.bingham+renesas@ideasonboard.com>
- <0e1b6e0b-1c94-4b00-7fda-c2a303ee3816@redhat.com> <20190731194419.GB4084@kunai>
- <CAK7LNAQ6siWHU+N2c+6gqh7hHEJ_aDrVoiWnrTq1jiXQWSYYBA@mail.gmail.com> <2567a74d-738e-6fed-d91c-cc70743e116d@redhat.com>
-In-Reply-To: <2567a74d-738e-6fed-d91c-cc70743e116d@redhat.com>
+References: <1562576868-8124-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1562576868-8124-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1562576868-8124-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 6 Aug 2019 09:30:10 +0200
-Message-ID: <CAMuHMdX3QqXGt4=31ECZ7vryjsSA7NufuvA_XVLjS91_1q=uqw@mail.gmail.com>
-Subject: Re: [PATCH RFC] modpost: Support I2C Aliases from OF tables
-To:     Javier Martinez Canillas <javierm@redhat.com>
-Cc:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mark Brown <broonie@kernel.org>
+Date:   Tue, 6 Aug 2019 10:46:27 +0200
+Message-ID: <CAMuHMdW-65G6CNKL5fY_dZ=UScgJsdmHzi+Qd9hs4qYqPnHJZg@mail.gmail.com>
+Subject: Re: [PATCH RFC 1/7] pinctrl: sh-pfc: add new flags into struct sh_pfc_pin_config
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Aug 6, 2019 at 12:48 AM Javier Martinez Canillas
-<javierm@redhat.com> wrote:
-> On 8/1/19 4:17 AM, Masahiro Yamada wrote:
-> So I think that we should either:
+On Mon, Jul 8, 2019 at 11:08 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> To clean/modify the code up later, this patch just adds new flags
+> "mux_set" and "gpio_enabled" into the struct sh_pfc_pin_config.
 >
-> a) take Kieran's patch or b) remove the i2c_of_match_device_sysfs() fallback
-> for OF and require an I2C device table for sysfs instantiation and matching.
->
-> > If a driver supports DT and devices are instantiated via DT,
-> > in which situation is this useful?
->
-> Is useful if you don't have all the I2C devices described in the DT. For example
-> a daughterboard with an I2C device is connected to a board through an expansion
-> slot or an I2C device connected directly to I2C pins exposed in a machine.
->
-> In these cases your I2C devices won't be static so users might want to use the
-> sysfs user-space interface to instantiate the I2C devices, i.e:
->
->  # echo eeprom 0x50 > /sys/bus/i2c/devices/i2c-3/new_device
->
-> as explained in https://github.com/torvalds/linux/blob/master/Documentation/i2c/instantiating-devices#L207
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Does this actually work with DT names, too? E.g.
-
-# echo atmel,24c02 > /sys/bus/i2c/devices/i2c-3/new_device
-
-Still leaves us with legacy names for backwards compatibility.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
