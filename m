@@ -2,102 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A7F6829A1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Aug 2019 04:30:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66C0782C82
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  6 Aug 2019 09:22:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731259AbfHFCae (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 5 Aug 2019 22:30:34 -0400
-Received: from twhmllg4.macronix.com ([211.75.127.132]:63415 "EHLO
-        TWHMLLG4.macronix.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731181AbfHFCae (ORCPT
+        id S1731867AbfHFHWv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 6 Aug 2019 03:22:51 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:44668 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731735AbfHFHWv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 5 Aug 2019 22:30:34 -0400
-Received: from localhost.localdomain ([172.17.195.96])
-        by TWHMLLG4.macronix.com with ESMTP id x762UI0A046114;
-        Tue, 6 Aug 2019 10:30:21 +0800 (GMT-8)
-        (envelope-from masonccyang@mxic.com.tw)
-From:   Mason Yang <masonccyang@mxic.com.tw>
-To:     broonie@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
-        linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        devicetree@vger.kernel.org
-Cc:     juliensu@mxic.com.tw, Simon Horman <horms@verge.net.au>,
-        lee.jones@linaro.org, sergei.shtylyov@cogentembedded.com,
-        Mason Yang <masonccyang@mxic.com.tw>, marek.vasut@gmail.com,
-        miquel.raynal@bootlin.com
-Subject: [PATCH v17 2/2] dt-bindings: spi: Document Renesas R-Car Gen3 RPC-IF controller bindings
-Date:   Tue,  6 Aug 2019 10:54:21 +0800
-Message-Id: <1565060061-11588-3-git-send-email-masonccyang@mxic.com.tw>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1565060061-11588-1-git-send-email-masonccyang@mxic.com.tw>
-References: <1565060061-11588-1-git-send-email-masonccyang@mxic.com.tw>
-X-MAIL: TWHMLLG4.macronix.com x762UI0A046114
+        Tue, 6 Aug 2019 03:22:51 -0400
+Received: by mail-ot1-f65.google.com with SMTP id b7so39926692otl.11;
+        Tue, 06 Aug 2019 00:22:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=thaFZP7CFw87PdGBAS/x5P7euY9O7a6MADouBJzdobA=;
+        b=Fb+zwMYtYvsQMRaFQG2I9Nj3NTNqArMnK+39/JMMzxOnKoKWeQU/zqBwYQ6XjhWWzo
+         kAzmpClBPLzW/vfpUn1Bvjw9OG2uyeeOaxsvdbHfGotwphxYCjSdT9te+216Rt+CX/EW
+         h7yBEJ65QplQfT3eFDCR2lZJILlTImAE32xEuM/u4rgsqPcDfdWWnAypPyQ41MIne2f7
+         Vg9LAfegda8+VsyxSYiIYQIqXlXNqxpugG1bVhQ2twVjIq6/k6LUYVWjbFsQT/36GNYq
+         cJf6hnY/BHzO5Vab5dega+E9NdvZF8+ospRn4vNf3/GlCppIYuAL8RRPbkP9tSq3loHu
+         1ivg==
+X-Gm-Message-State: APjAAAUdM5BhoJ3d7FRCf4oWKcY3sMz8lsH2Kned0ZP816msxX9HXR1b
+        14wc3Au4HHzbC1qlbuH8nVzauTTXfq+APqcRL88=
+X-Google-Smtp-Source: APXvYqw0qhnYdCkCrJv4CVIkE6TUfK9Pkw2Y8ea4/DHFvGNdwc0gdv51OB9qMX+Fu5ypV74krTuV4kZlkx8+LHxm2Hc=
+X-Received: by 2002:a9d:5c11:: with SMTP id o17mr1687245otk.107.1565076170034;
+ Tue, 06 Aug 2019 00:22:50 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190710193918.31135-1-kieran.bingham+renesas@ideasonboard.com>
+ <0e1b6e0b-1c94-4b00-7fda-c2a303ee3816@redhat.com> <20190731194419.GB4084@kunai>
+ <f4a78e93-6aaa-bc72-cf94-06fc2574451c@redhat.com>
+In-Reply-To: <f4a78e93-6aaa-bc72-cf94-06fc2574451c@redhat.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 6 Aug 2019 09:22:39 +0200
+Message-ID: <CAMuHMdUA-hjVqSP_c0cB=76cfrucF6xxRi3ymVoEsJ2hbkfT=A@mail.gmail.com>
+Subject: Re: [PATCH RFC] modpost: Support I2C Aliases from OF tables
+To:     Javier Martinez Canillas <javierm@redhat.com>
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mark Brown <broonie@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Document the bindings used by the Renesas R-Car Gen3 RPC-IF controller.
+Hi Javier,
 
-Signed-off-by: Mason Yang <masonccyang@mxic.com.tw>
-Reviewed-by: Rob Herring <robh@kernel.org>
----
- .../devicetree/bindings/spi/spi-renesas-rpc.txt    | 45 ++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/spi/spi-renesas-rpc.txt
+On Tue, Aug 6, 2019 at 12:25 AM Javier Martinez Canillas
+<javierm@redhat.com> wrote:
+> On 7/31/19 9:44 PM, Wolfram Sang wrote:
+> > Hi Javier,
+> >> The other option is to remove i2c_of_match_device() and don't make OF match
+> >> to fallback to i2c_of_match_device_sysfs(). This is what happens in the ACPI
+> >> case, since i2c_device_match() just calls acpi_driver_match_device() directly
+> >> and doesn't have a wrapper function that fallbacks to sysfs matching.
+> >>
+> >> In this case an I2C device ID table would be required if the devices have to
+> >> be instantiated through sysfs. That way the I2C table would be used both for
+> >> auto-loading and also to match the device when it doesn't have an of_node.
+> >
+> > That would probably mean that only a minority of drivers will not add an I2C
+> > device ID table because it is easy to add an you get the sysfs feature?
+> >
+>
+> I believe so yes.
 
-diff --git a/Documentation/devicetree/bindings/spi/spi-renesas-rpc.txt b/Documentation/devicetree/bindings/spi/spi-renesas-rpc.txt
-new file mode 100644
-index 0000000..d4344c9
---- /dev/null
-+++ b/Documentation/devicetree/bindings/spi/spi-renesas-rpc.txt
-@@ -0,0 +1,45 @@
-+Renesas R-Car Gen3 RPC-IF controller Device Tree Bindings
-+---------------------------------------------------------
-+
-+Required properties:
-+- compatible: should be an SoC-specific compatible value, followed by
-+		"renesas,rcar-gen3-rpc" as a fallback.
-+		supported SoC-specific values are:
-+		"renesas,r8a77980-rpc"	(R-Car V3H)
-+		"renesas,r8a77995-rpc"	(R-Car D3)
-+- reg: should contain three register areas:
-+       first for the base address of RPC-IF registers,
-+       second for the direct mapping read mode and
-+       third for the write buffer area.
-+- reg-names: should contain "regs", "dirmap" and "wbuf"
-+- clocks: should contain the clock phandle/specifier pair for the module clock.
-+- clock-names: should contain "rpc"
-+- power-domains: should contain the power domain phandle/secifier pair.
-+- resets: should contain the reset controller phandle/specifier pair.
-+- #address-cells: should be 1
-+- #size-cells: should be 0
-+- flash: should be represented by a subnode of the RPC-IF node,
-+	 its "compatible" property contains "jedec,spi-nor" if SPI is used.
-+
-+Example:
-+
-+	rpc: spi@ee200000 {
-+		compatible = "renesas,r8a77995-rpc", "renesas,rcar-gen3-rpc";
-+		reg = <0 0xee200000 0 0x200>, <0 0x08000000 0 0x4000000>,
-+		      <0 0xee208000 0 0x100>;
-+		reg-names = "regs", "dirmap", "wbuf";
-+		clocks = <&cpg CPG_MOD 917>;
-+		clock-names = "rpc";
-+		power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
-+		resets = <&cpg 917>;
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		flash@0 {
-+			compatible = "jedec,spi-nor";
-+			reg = <0>;
-+			spi-max-frequency = <40000000>;
-+			spi-tx-bus-width = <4>;
-+			spi-rx-bus-width = <4>;
-+		};
-+	};
+> As Masahiro-san mentioned, this approach will still require to add a new macro
+> MODULE_DEVICE_TABLE(i2c_of, bar_of_match) so the OF device table is used twice.
+>
+> One to expose the "of:N*T*Cfoo,bar" and another one to expose it as "i2c:bar".
+>
+> I expect that many developers would miss adding this macro for new drivers that
+> are DT-only and so sysfs instantiation would not work there. So whatever is the
+> approach taken we should clearly document all this so drivers authors are aware.
+
+You could add a new I2C_MODULE_DEVICE_TABLE() that adds both, right?
+Makes it a little bit easier to check/enforce this.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-1.9.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
