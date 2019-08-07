@@ -2,35 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A2CF384815
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Aug 2019 10:49:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B8E38481F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  7 Aug 2019 10:51:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728778AbfHGItF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 7 Aug 2019 04:49:05 -0400
-Received: from baptiste.telenet-ops.be ([195.130.132.51]:35560 "EHLO
-        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728687AbfHGItF (ORCPT
+        id S1726747AbfHGIvK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 7 Aug 2019 04:51:10 -0400
+Received: from michel.telenet-ops.be ([195.130.137.88]:36552 "EHLO
+        michel.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726461AbfHGIvK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 7 Aug 2019 04:49:05 -0400
+        Wed, 7 Aug 2019 04:51:10 -0400
 Received: from ramsan ([84.194.98.4])
-        by baptiste.telenet-ops.be with bizsmtp
-        id m8p22000X05gfCL018p2fS; Wed, 07 Aug 2019 10:49:03 +0200
+        by michel.telenet-ops.be with bizsmtp
+        id m8r92000B05gfCL068r97X; Wed, 07 Aug 2019 10:51:09 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hvHd0-0002ea-QO; Wed, 07 Aug 2019 10:49:02 +0200
+        id 1hvHf3-0002f7-7G; Wed, 07 Aug 2019 10:51:09 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hvHd0-0006Ld-O6; Wed, 07 Aug 2019 10:49:02 +0200
+        id 1hvHf3-0006OJ-5n; Wed, 07 Aug 2019 10:51:09 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] clk: renesas: rcar-usb2-clock-sel: Use devm_platform_ioremap_resource() helper
-Date:   Wed,  7 Aug 2019 10:49:01 +0200
-Message-Id: <20190807084901.24359-1-geert+renesas@glider.be>
+Subject: [PATCH] pinctrl: rza1: Use devm_platform_ioremap_resource() helper
+Date:   Wed,  7 Aug 2019 10:51:08 +0200
+Message-Id: <20190807085108.24526-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -42,32 +42,32 @@ the same operation.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-To be queued in clk-renesas-for-v5.4.
+To be queued in sh-pfc-for-v5.4.
 
- drivers/clk/renesas/rcar-usb2-clock-sel.c | 4 +---
+ drivers/pinctrl/pinctrl-rza1.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/clk/renesas/rcar-usb2-clock-sel.c b/drivers/clk/renesas/rcar-usb2-clock-sel.c
-index cc90b11a9c250a0a..b97f5f9326cfc709 100644
---- a/drivers/clk/renesas/rcar-usb2-clock-sel.c
-+++ b/drivers/clk/renesas/rcar-usb2-clock-sel.c
-@@ -117,7 +117,6 @@ static int rcar_usb2_clock_sel_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	struct device_node *np = dev->of_node;
- 	struct usb2_clock_sel_priv *priv;
+diff --git a/drivers/pinctrl/pinctrl-rza1.c b/drivers/pinctrl/pinctrl-rza1.c
+index 021e37b7689e4fda..68aeefe29144822f 100644
+--- a/drivers/pinctrl/pinctrl-rza1.c
++++ b/drivers/pinctrl/pinctrl-rza1.c
+@@ -1359,7 +1359,6 @@ static int rza1_pinctrl_register(struct rza1_pinctrl *rza1_pctl)
+ static int rza1_pinctrl_probe(struct platform_device *pdev)
+ {
+ 	struct rza1_pinctrl *rza1_pctl;
 -	struct resource *res;
- 	struct clk *clk;
- 	struct clk_init_data init;
+ 	int ret;
  
-@@ -125,8 +124,7 @@ static int rcar_usb2_clock_sel_probe(struct platform_device *pdev)
- 	if (!priv)
- 		return -ENOMEM;
+ 	rza1_pctl = devm_kzalloc(&pdev->dev, sizeof(*rza1_pctl), GFP_KERNEL);
+@@ -1368,8 +1367,7 @@ static int rza1_pinctrl_probe(struct platform_device *pdev)
+ 
+ 	rza1_pctl->dev = &pdev->dev;
  
 -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	priv->base = devm_ioremap_resource(dev, res);
-+	priv->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(priv->base))
- 		return PTR_ERR(priv->base);
+-	rza1_pctl->base = devm_ioremap_resource(&pdev->dev, res);
++	rza1_pctl->base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(rza1_pctl->base))
+ 		return PTR_ERR(rza1_pctl->base);
  
 -- 
 2.17.1
