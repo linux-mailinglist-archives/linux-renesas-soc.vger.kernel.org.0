@@ -2,133 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D4D6E8633C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Aug 2019 15:35:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B942B863D2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Aug 2019 16:00:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733163AbfHHNf1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 8 Aug 2019 09:35:27 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:40169 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732982AbfHHNf1 (ORCPT
+        id S1733011AbfHHOAl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Aug 2019 10:00:41 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:52877 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732866AbfHHOAl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 8 Aug 2019 09:35:27 -0400
-Received: by mail-lj1-f195.google.com with SMTP id m8so55324959lji.7
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Aug 2019 06:35:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=XwEt+9TwxWlYRRpyYJ1QKarb+hNPwQFyPJXkKq2cxpI=;
-        b=yQIOGQ66LXdE7mrDeeghON/HZ+UPeWpzuOQSrnPDDtZblka39h16WkYNDiPTBkR6tm
-         MbC8HgaKqrTZyUrzr1PPaNEUziDa4+X6aRJLgMjWfOu+lGvhN/q6gzodKRMl39zar58/
-         yh0d/DnairB+LpYhXMdhpQ//c5KaKuNld1RQ+qTkHS6p6sTiOoLmVDihRoohikR8C13N
-         JpPWPvF2h07Zq9SsVAO8VTYZKoYYO1TkvrWTK7p7G/Orgva6doj9at+xnOec5+Of6aD+
-         DcRSWFFEmTQ4GtY91FPVSRHzpT1qEXIRsuosxK0Ql43LPkNLWuMGh+imm2NybckG3pFI
-         71Ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=XwEt+9TwxWlYRRpyYJ1QKarb+hNPwQFyPJXkKq2cxpI=;
-        b=ZLpWVel5IFlVl8IIy3BelecvC66sR8R2SAZ+d4HPXKnJ2MxQngMKgGEnXUqxi67Nxr
-         v1q5NMY+cFQ3Iv4DcJXaX8zsS2YiQ0A1EXQVgrp4YSBxsc39juwhJCV0V2+wNjiqD/cE
-         FJKhRzrz/LdnWd7H1SoweSm/xUpDZZKavnUPMLRj4m5KgNPBdn3Dsg7SgiXZZrjXl9/W
-         SB7C1Cfbd31dGC90h+1HjyrF72XBzFuhwGhCjKUfVADoQhMEAjP66ZY8kLPZbSa2Aa2X
-         JC4jGXMMfxirliPMshjTI+lTeHccp7lISYbSlOaUcYgp4M9a/5F/1XHn+cg/VeuIZkJ1
-         /9mg==
-X-Gm-Message-State: APjAAAUpUyy84d8HzOSualBeQIOV5/9jFDP9X9KSDcpU9yG6BMLZeJ8w
-        u/P5KkWf4pB7hZX5BuR+YT6Q2A==
-X-Google-Smtp-Source: APXvYqzTR5Yvv0iRLHhh4qhEfOT9Mkh2qjU16lN3YXLbJY3KHC4hcvmw3eg3vWB3BlO7vcLvmXHgIw==
-X-Received: by 2002:a2e:9ec9:: with SMTP id h9mr7974744ljk.90.1565271325210;
-        Thu, 08 Aug 2019 06:35:25 -0700 (PDT)
-Received: from localhost (customer-145-14-112-32.stosn.net. [145.14.112.32])
-        by smtp.gmail.com with ESMTPSA id m21sm18724790ljj.48.2019.08.08.06.35.24
-        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-        Thu, 08 Aug 2019 06:35:24 -0700 (PDT)
-Date:   Thu, 8 Aug 2019 15:35:23 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 4/6] rcar-vin: Do not reset the crop and compose
- rectangles in s_fmt
-Message-ID: <20190808133523.GA24385@bigcity.dyn.berto.se>
-References: <20190808011850.21219-1-niklas.soderlund+renesas@ragnatech.se>
- <20190808011850.21219-5-niklas.soderlund+renesas@ragnatech.se>
- <20190808083751.GF6055@pendragon.ideasonboard.com>
+        Thu, 8 Aug 2019 10:00:41 -0400
+Received: from [192.168.1.110] ([77.4.95.67]) by mrelayeu.kundenserver.de
+ (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1N3sVq-1iMIFu3pg0-00zqa8; Thu, 08 Aug 2019 16:00:19 +0200
+Subject: Re: [PATCH RFC] modpost: Support I2C Aliases from OF tables
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Javier Martinez Canillas <javierm@redhat.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Mark Brown <broonie@kernel.org>
+References: <20190710193918.31135-1-kieran.bingham+renesas@ideasonboard.com>
+ <0e1b6e0b-1c94-4b00-7fda-c2a303ee3816@redhat.com>
+ <20190731194419.GB4084@kunai>
+ <f4a78e93-6aaa-bc72-cf94-06fc2574451c@redhat.com>
+ <CAMuHMdUA-hjVqSP_c0cB=76cfrucF6xxRi3ymVoEsJ2hbkfT=A@mail.gmail.com>
+ <51451f89-9193-2be6-e724-e9ca44a25f52@redhat.com>
+ <620e0aec-e3d8-7289-6525-b720013e8dfa@metux.net>
+ <20190808132417.GU30120@smile.fi.intel.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Organization: metux IT consult
+Message-ID: <9f03f364-77b1-3ee5-cd93-0908bf863380@metux.net>
+Date:   Thu, 8 Aug 2019 16:00:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190808083751.GF6055@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20190808132417.GU30120@smile.fi.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:csfxQRdjtiNOl7i40o2/B7IYxkxAzKT92ybeBveWYrCtR86JV94
+ SFwsN8hQWV6RD+HwY9yJEn2UGnlkry538yjexNvWkDl5F0nbE/kH8kqxMm+liGrea5cZWeq
+ ndypCaSKSMWH69mKBexN70YWQvraS0lMUXNsjl0wgNi0N4JUmxVjHIMDenMUDzbFUvMfDWK
+ 2Oj7CpXD65h0Sytfb7ljQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:104H55ooDy8=:toD2MsvpW6tFeoz7dWLl4O
+ t4QQS5H9F7C5gTVwvr0oTGIIC7j7VXp2xIYN5vyqBwgSClm2yn2g8F1/SD7W34XUIR7VOIhWV
+ Fsfm5PKGECOFhwoi8sPG60uo8kteK5a+BAwsop7oBrafd3lKOdY+FNDRjuIkGtl56jXmNCpRT
+ SHgOp9gdlhjCO3HhWoXWuMT79fbCGlu1FL/exeZN9Y+eumPU2NJMzUiRtgOJYHkfG2+QaT6Mw
+ ftPCAOafd5OZFtdZJiqRXHUxFVp40IRUrpgLNFppWVMnaHijq1H/8o5cTngeUSlRke8BYoTWi
+ zpMpHyosVaVsRd+zHoDCGzVmuSpHVenz9M7AhcZX/eUC1itTw+BOW3mJTNFdfnEi3EMs8BIdL
+ oHoTg3EtzAU9moDUCt72PVl0wQlq31ND5hu4gnU7taLlTDILx37jtaXK7Fza6r0HLT7rotTT/
+ uqsDJLS71mS+sbZEapEd9gi9HrziiEL4Z6UAuZt99Vwn4l1IcqxolNrRKSSINH/mesLsMwsa5
+ LQ/qtCr7rcaOuoXouyKTPBA43pefhoXM5jfWnB/+ZWbKUP+6HeIQYZv6kRkjv0x9nK6VF/0NM
+ jZRWJrW9Uc8YOCkIVcv1nraeeXUzQbDS3L5O70Mcy3SII4pOTUrx1TubNxw8SBAgewKSslHzF
+ OYOESPlVzkXsZSSZaRCQ2DQsfmpBGNwlUD3lFb21qrClXWy8NkhOEObrUqNcmaqL+v5fIFpJm
+ MwCctagiW2hU+BRY7DkLPzParpbsc0R4OJwMkAeaiYF+FpuWF31OdMiulE0=
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
-
-Thanks for your feedback.
-
-On 2019-08-08 11:37:51 +0300, Laurent Pinchart wrote:
-> Hi Niklas,
+On 08.08.19 15:24, Andy Shevchenko wrote:
+> On Thu, Aug 08, 2019 at 03:12:47PM +0200, Enrico Weigelt, metux IT consult wrote:
+>> On 06.08.19 19:12, Javier Martinez Canillas wrote:
+>>
+>>> Right, we could add a macro for that. Although it should probably be called
+>>> I2C_OF_MODULE_DEVICE_TABLE() or something like that since is specific to OF.
+>>
+>> At that point it should be completely noop when OF is disabled, so we
+>> also can get rid of many ifdef's.
 > 
-> Thank you for the patch.
-> 
-> On Thu, Aug 08, 2019 at 03:18:48AM +0200, Niklas Söderlund wrote:
-> > The crop and compose rectangles are reset when s_fmt is called
-> > resulting in potentially valid rectangles being lost when updating the
-> > format.
-> 
-> Isn't this the expected behaviour ?
+> Why?
 
-I though so to at first but I had a nagging feeling as I was not sure.  
-So I went and looked at vivid and it does do map the old crop/compose 
-rectangles inside the new limits vivid_s_fmt_vid_cap().
+For cases where drivers work w/ or w/o oftree. Not sure whether it
+applies to i2c specifically, but there're other places where we still
+need nasty ifdef's (eg. gpio-keyboard).
 
-Please note that the variable names in this patch are horrible and are 
-fixed later in this series. In essence the current crop rectangle is 
-mapped inside the size of the video coming from the sensor and the 
-compose rectangle is mapped inside the new format set on the VIN video 
-device.
+>> I've got some patch somewhere for introducing a MODULE_OF_TABLE() macro
+>> as replacement for many MODULE_DEVICE_TABLE(of, ...) cases, which noops
+>> when CONFIG_OF is disabled. (and similar ones for other table types).
+> 
+> It's simple wrong to have #ifdef CONFIG_OF without counterpart of_match_ptr().
 
-I'm open to dropping this patch, I just want this driver to get this 
-part right so I mimic vivid.
+Of course, but that's just a part of the story. (actually I'd prefer
+using it everywhere, even if the driver only supports oftree).
 
-> 
-> > Fix this by mapping the rectangles inside the new format.
-> > 
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > ---
-> >  drivers/media/platform/rcar-vin/rcar-v4l2.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > index 8b30267f1636aaf1..5dcd787a9cf96ac9 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > @@ -279,8 +279,8 @@ static int rvin_s_fmt_vid_cap(struct file *file, void *priv,
-> >  		return ret;
-> >  
-> >  	vin->format = f->fmt.pix;
-> > -	vin->crop = crop;
-> > -	vin->compose = compose;
-> > +	v4l2_rect_map_inside(&vin->crop, &crop);
-> > +	v4l2_rect_map_inside(&vin->compose, &compose);
-> >  	vin->src_rect = crop;
-> >  
-> >  	return 0;
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+> And taking into consideration that ID table itself doesn't depend to OF at all,
+> why not simple drop that #ifdef and of_match_ptr() all together?
+
+Consumes less space. Yes, it isn't much, but in some scenarios one needs
+to heavily reduce the kernel size. And I wouldn't like to use
+of_match_ptr() inside a MODULE_DEVICE_TABLE() call :o
+
+
+--mtx
 
 -- 
-Regards,
-Niklas Söderlund
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
