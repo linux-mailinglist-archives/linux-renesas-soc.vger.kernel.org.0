@@ -2,90 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EBE285CC4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Aug 2019 10:27:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7934885CE0
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Aug 2019 10:29:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731960AbfHHI1o (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 8 Aug 2019 04:27:44 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:51578 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731844AbfHHI1o (ORCPT
+        id S1731839AbfHHI3g (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Aug 2019 04:29:36 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:35460 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731677AbfHHI3g (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 8 Aug 2019 04:27:44 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 56E22CC;
-        Thu,  8 Aug 2019 10:27:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1565252862;
-        bh=zW2JVLHezKBQBrbjta6tKwzYLt6Lx/4QtyF+Iy7oh/M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nMOEy6wAXJHjboUbwBnlLEmT7ZL/AGksuJ6Tbih2OZj9/vHJizWuTxdJbjCukJOVP
-         Ht5yt++5twx8BIGA8NgNwypcPB2L7ZbHijiu+o+Jm2nI8K5EOkJi4xs+4WFFAr6ZFH
-         0WsKClNfTVvUTAlmYhyHPniDKQ8LxtR3KFXhhGak=
-Date:   Thu, 8 Aug 2019 11:27:40 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 2/6] rcar-vin: Make use of V4L2_FIELD_IS_INTERLACED()
- macro
-Message-ID: <20190808082740.GD6055@pendragon.ideasonboard.com>
-References: <20190808011850.21219-1-niklas.soderlund+renesas@ragnatech.se>
- <20190808011850.21219-3-niklas.soderlund+renesas@ragnatech.se>
+        Thu, 8 Aug 2019 04:29:36 -0400
+Received: by mail-ot1-f66.google.com with SMTP id j19so38718585otq.2;
+        Thu, 08 Aug 2019 01:29:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+u/3qT61Q2/OcDjZCUn2YfBk48IfIziysA/L4R6VDgE=;
+        b=Eb9cqxbGq1SXBCK1bVosRO2Tm/ExSHzvrhMlkkVWMXZXSXJKPgkNso6uEvQWHWXI+K
+         eI2socyjIDJQDaGd8QpkhGTUk5zpPWwjhKKp+s7eox1Fl9DvNSMu5LVp3sK53nYUZdU1
+         nN93j9RyNdlG5uGRKGsdzPEc572JPJ/2MOpgAuhx1ahHk7YSa637vuLU3E4CktRliacM
+         o+46y7aUcx24/Zg/+qoqfvaZA9AjlqQlwzsu1UUM2VFYRW82tbcaTDLJ+i13DeRHHj1D
+         gHKT124+OPMjeRdUa4kjdBQIOqjE73FY68P8ZgHbVzSU/PKhY5NaFFnYSRjJaivGDJoT
+         LuWg==
+X-Gm-Message-State: APjAAAVtCs6uHAMPOjwZBQHdxMsep0GRZ6xiNMkXmL6WT7up9/mQ4B/l
+        AtPaKSHGmsn5hDPeesU83wW1ojxUtkVLZpsTbzE=
+X-Google-Smtp-Source: APXvYqzcUNVB4t/U9lHIue/3Y61jRYncB0pQRFcKk+KuQLUQ3wfKH9JQKE6/uCxXKIpRhsfc7L8P6yxiJ84IMpkla8k=
+X-Received: by 2002:a05:6830:210f:: with SMTP id i15mr12288585otc.250.1565252975601;
+ Thu, 08 Aug 2019 01:29:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190808011850.21219-3-niklas.soderlund+renesas@ragnatech.se>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <1565245143-15018-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1565245143-15018-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1565245143-15018-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 8 Aug 2019 10:29:24 +0200
+Message-ID: <CAMuHMdW32TRw3Awf-5C2eJiZ1iys-vK7YihFwqPxOP66Eh9+Lg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] pinctrl: sh-pfc: Rollback to mux if requires when
+ the gpio is freed
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+On Thu, Aug 8, 2019 at 8:20 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> R-Car PWM controller requires the gpio to output zero duty,
+> this patch allows to roll it back from gpio to mux when the gpio
+> is freed.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Thank you for the patch.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-On Thu, Aug 08, 2019 at 03:18:46AM +0200, Niklas Söderlund wrote:
-> The V4L2_FIELD_IS_INTERLACED() can be used to make the code more
-> readable, use it.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Gr{oetje,eeting}s,
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/media/platform/rcar-vin/rcar-dma.c | 11 +++--------
->  1 file changed, 3 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> index f16f2966f9628b72..6be1f33d44e2170c 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> @@ -557,16 +557,11 @@ static void rvin_crop_scale_comp_gen2(struct rvin_dev *vin)
->  	rvin_write(vin, 0, VNSPPOC_REG);
->  	rvin_write(vin, 0, VNSLPOC_REG);
->  	rvin_write(vin, vin->format.width - 1, VNEPPOC_REG);
-> -	switch (vin->format.field) {
-> -	case V4L2_FIELD_INTERLACED:
-> -	case V4L2_FIELD_INTERLACED_TB:
-> -	case V4L2_FIELD_INTERLACED_BT:
-> +
-> +	if (V4L2_FIELD_IS_INTERLACED(vin->format.field))
->  		rvin_write(vin, vin->format.height / 2 - 1, VNELPOC_REG);
-> -		break;
-> -	default:
-> +	else
->  		rvin_write(vin, vin->format.height - 1, VNELPOC_REG);
-> -		break;
-> -	}
->  
->  	vin_dbg(vin,
->  		"Pre-Clip: %ux%u@%u:%u YS: %d XS: %d Post-Clip: %ux%u@%u:%u\n",
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Laurent Pinchart
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
