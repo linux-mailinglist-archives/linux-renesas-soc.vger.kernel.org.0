@@ -2,86 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E337785F11
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Aug 2019 11:55:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E235862B2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Aug 2019 15:13:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731586AbfHHJzz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 8 Aug 2019 05:55:55 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:38448 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731550AbfHHJzz (ORCPT
+        id S1732831AbfHHNNN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Aug 2019 09:13:13 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:59231 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732375AbfHHNNN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 8 Aug 2019 05:55:55 -0400
-Received: by mail-lj1-f193.google.com with SMTP id r9so88287639ljg.5
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Aug 2019 02:55:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=oDN0rGjGfc55O/5uQ01ERUI7cndh16/GKyAUPFzsNBE=;
-        b=QbDLnC9h4d3ToHUAty+Zr9ImspSeY5IL36mAYD2g3oT/4MVJsDpXoeLDZyn9jsCDyw
-         OVF57q28R8kjecdfpvJnmSyFGgOey56sPAcz8kuuWrxgOVMFzfnKhtHzbnxm7QvRrr/z
-         eQIJNQpIDhWPKdc/qOtERa6aeBnSWyHYilw6tIK+Fm4Y1DbwD3tHogXjhbN2Zwyv67kK
-         joOyBPyUEdF14C36Uq8/V0/y5WpuxY61qQf+pWRC+8sihMlEmWT4PGTTXIY3F+XTLCso
-         AW/04Mu/aOFMsE34NRKd8OAKCt5QC9py3BVrKHvHQYRCmcd1WvIbTySkbj/RD/GcueqD
-         GQ4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=oDN0rGjGfc55O/5uQ01ERUI7cndh16/GKyAUPFzsNBE=;
-        b=SbkCmA4LdFsYdWr0JZnjUCaO/mWwI2nkXOCJsOxbA3dkbs7Tn0S5WX07ap9p3gatBz
-         1XMI2353uKuqRAc+IMdlAfnXQ1s5nvnmFVrZh6T//oucourFOeDQW+GardMFVPiM2ZtK
-         2D3sPDqA9PyZ+YS3zQTrxD0fhB7E+a3d+2H7HuFfauoCcRdcWnPkb/xKvz6wqjjWH5QC
-         lDhvrNtOXWHp7VDzFy2FGLrCzs82she2UPmSdJ3xJo1sHBiAd7UYJ1HntcOeENudDobn
-         Tg6b5KGFNUzx28S9RYT9C0Zy+Ox5TmMvdVUZS7mMZ/ocaEAOhqsJtupOyJ+diPXQUnON
-         36mA==
-X-Gm-Message-State: APjAAAWAizz7SZuZH/wPrAyAuA0yDGJsCxSsx7X1+/Pfk6FkyD9tLFnb
-        ufwLmsJpoGU+GtzedZS+XDejY1mIC5M=
-X-Google-Smtp-Source: APXvYqx8a18LmOP1nJo/tE60vMtHdZ6dS1T/SaZhLRJiJwecapVQuDKcX9h7L6697ygui55hZPLrWA==
-X-Received: by 2002:a2e:96d5:: with SMTP id d21mr7759677ljj.170.1565258153172;
-        Thu, 08 Aug 2019 02:55:53 -0700 (PDT)
-Received: from ?IPv6:2a00:1fa0:8c7:ada9:25b2:24d8:3973:eb87? ([2a00:1fa0:8c7:ada9:25b2:24d8:3973:eb87])
-        by smtp.gmail.com with ESMTPSA id t137sm16789638lff.78.2019.08.08.02.55.52
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 08 Aug 2019 02:55:52 -0700 (PDT)
-Subject: Re: [PATCH v2] pwm: rcar: remove a redundant condition in
- rcar_pwm_apply()
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        thierry.reding@gmail.com
-Cc:     linux-pwm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <1565246333-2185-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <b528827c-1744-901e-b795-ddd1aaf828d3@cogentembedded.com>
-Date:   Thu, 8 Aug 2019 12:55:40 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Thu, 8 Aug 2019 09:13:13 -0400
+Received: from [192.168.1.110] ([77.4.95.67]) by mrelayeu.kundenserver.de
+ (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1M3Upe-1hwGBc1pPm-000dS4; Thu, 08 Aug 2019 15:12:50 +0200
+Subject: Re: [PATCH RFC] modpost: Support I2C Aliases from OF tables
+To:     Javier Martinez Canillas <javierm@redhat.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mark Brown <broonie@kernel.org>
+References: <20190710193918.31135-1-kieran.bingham+renesas@ideasonboard.com>
+ <0e1b6e0b-1c94-4b00-7fda-c2a303ee3816@redhat.com>
+ <20190731194419.GB4084@kunai>
+ <f4a78e93-6aaa-bc72-cf94-06fc2574451c@redhat.com>
+ <CAMuHMdUA-hjVqSP_c0cB=76cfrucF6xxRi3ymVoEsJ2hbkfT=A@mail.gmail.com>
+ <51451f89-9193-2be6-e724-e9ca44a25f52@redhat.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Organization: metux IT consult
+Message-ID: <620e0aec-e3d8-7289-6525-b720013e8dfa@metux.net>
+Date:   Thu, 8 Aug 2019 15:12:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686 on x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <1565246333-2185-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <51451f89-9193-2be6-e724-e9ca44a25f52@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:IBK9Xm7wYE6zK76e7iHZaERZwlA5HaihmNgKog9rl292nI0WqjF
+ PtrGixDaNMcmx4CyY0g0HQuEYZ/9mduxkUv6RSCs3hYj5Z5Hh+F8N6xFGrfZaX2s3UPBmkJ
+ oB+kot/By4XS+pGXba4sdeE9LvdMWIijTMwfqdOmigf9tUAw1ch5C3kq14jlJjw2D+apDZq
+ CXntaM4+3eqXKMvkgxEyQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:3M+d3uKvZSs=:yLNYLCiuD+SNXAdiAMehjW
+ GAhYqJo1pts5wjxmrfm3q9PHoTEl/auOnNIiUymU5nQ6kZegUv7OINe5y3jgIIwhyTtjgti63
+ 3KQVZlS74z2HWDIiqmNcTAe24n0/KKjZoNstcoB8fTvdXc2x1MVHU/ybm7Vmqv/JF0bnBASfe
+ A4q8igaAcDUoBlvUcu9F+Tma6qgYM+bz/iT2v6/0/Or/1/V8XyMnVEQFX6uiRBpQqDUSFZgui
+ AvAZF8Ei7ft8focNVRd0A5eBMpyr/SbXyHunKNEotLF9t5nHx9AiBcU1oNvsw5h6kza7PNNH6
+ pwTlUkq1ersEeabWvRtXk+CQqyrd+l3cdRJ7lSpEz/rs+NnrboMy0ccIzztuh0SAwdTwRAFLf
+ JfdpyVssc3vMTsKYG2NJahpvi+DYB0afEumw12ItulLNSsjrEptmqZgWoWgq2aFevhC3K2ZAR
+ XQJ9h2h6TIoS0Ax3y/WtBHDEXGoeoIOq43hBWPFz8XcKoU6pqoBhrY6U3VFaj1KXNwk6RfX4M
+ S1MSdRzWrdpkpjDn4vje7kK05V4sswjCc2Qrn178RpmxgY2Py7/yRzOmVaY1UkWPKAG+PcIy7
+ 4ahyHVKIev8jqVOgae1LucWtwwRnR5BbMGxw7B1nFEpHydFUjVFr5LVvwNQHYqnlXiAujVvGc
+ ii1W0Hes3Krb8L6pP/wMi9ghqVDzYYLjzgsaq9noAOCeuZuIkqm+wYV5DjdApJsv5vEIjUYn8
+ yQtdouzt0j2sv7nw1w76z98d5bIQSyrerypLiYTt4ERSWSCGggf846HsQPE=
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+On 06.08.19 19:12, Javier Martinez Canillas wrote:
 
-On 08.08.2019 9:38, Yoshihiro Shimoda wrote:
+> Right, we could add a macro for that. Although it should probably be called
+> I2C_OF_MODULE_DEVICE_TABLE() or something like that since is specific to OF.
 
-> Since the rcar_pwm_apply() has already check whehter state->enabled
+At that point it should be completely noop when OF is disabled, so we
+also can get rid of many ifdef's.
 
-    Checked?
+I've got some patch somewhere for introducing a MODULE_OF_TABLE() macro
+as replacement for many MODULE_DEVICE_TABLE(of, ...) cases, which noops
+when CONFIG_OF is disabled. (and similar ones for other table types).
 
-> is not set or not, this patch removes a redundant condition.
+by the way: haven't followed whole discussion, just picked up some
+proposed table changes ... does that require userland upgrades ?
 
-    Is set or not?
 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-[...]
+--mtx
 
-MBR, Sergei
+-- 
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
