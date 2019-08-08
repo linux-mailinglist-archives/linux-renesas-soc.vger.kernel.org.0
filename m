@@ -2,123 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5D1285DA0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Aug 2019 11:00:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E337785F11
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Aug 2019 11:55:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731122AbfHHJAd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 8 Aug 2019 05:00:33 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:40223 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731031AbfHHJAd (ORCPT
+        id S1731586AbfHHJzz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Aug 2019 05:55:55 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:38448 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731550AbfHHJzz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 8 Aug 2019 05:00:33 -0400
-Received: by mail-ot1-f66.google.com with SMTP id l15so58421876oth.7
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Aug 2019 02:00:32 -0700 (PDT)
+        Thu, 8 Aug 2019 05:55:55 -0400
+Received: by mail-lj1-f193.google.com with SMTP id r9so88287639ljg.5
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 08 Aug 2019 02:55:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=oDN0rGjGfc55O/5uQ01ERUI7cndh16/GKyAUPFzsNBE=;
+        b=QbDLnC9h4d3ToHUAty+Zr9ImspSeY5IL36mAYD2g3oT/4MVJsDpXoeLDZyn9jsCDyw
+         OVF57q28R8kjecdfpvJnmSyFGgOey56sPAcz8kuuWrxgOVMFzfnKhtHzbnxm7QvRrr/z
+         eQIJNQpIDhWPKdc/qOtERa6aeBnSWyHYilw6tIK+Fm4Y1DbwD3tHogXjhbN2Zwyv67kK
+         joOyBPyUEdF14C36Uq8/V0/y5WpuxY61qQf+pWRC+8sihMlEmWT4PGTTXIY3F+XTLCso
+         AW/04Mu/aOFMsE34NRKd8OAKCt5QC9py3BVrKHvHQYRCmcd1WvIbTySkbj/RD/GcueqD
+         GQ4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NQIzgC+Bm4Ug1AA7j10Dm7ByH7H90ws0/6j0w3ZAKqM=;
-        b=GNdsNAU17hRrVSYuu2AA3f1KgV9yP160vMXqx85V5USabidCQ8Vq0tT2xjt2wVPmeG
-         3/tPh9pbkhuWa2UPwGBFG2XHRX7O8eXSX1PrJkRobJ+mcujSLwmracXQt1zpuDAoI7zp
-         Tp5nEM/DlnXyKUfi/QaxdxVGjhCE2uyYlIgKMtWVW8CP+BFTh880FNjkQmFffGbt9iiw
-         L3huMkQbKhV4YwKmhj55yuSLwx9334V4yaJ5aSbb8qOHGc+VHXUlUKQN1owwvtXPJ7bF
-         6Po++ZcWv42MbKczic7kxdsi5KdIoeTXf4XhzW7W0rUklYHiG5TSUWX0Tj26FtW5c0i/
-         6o9w==
-X-Gm-Message-State: APjAAAVoOgjvfa9IQHuiZbFUVMaqKDybNH/pxCYLXTmXlSKoa2clJP3B
-        UVERIFikX1/T2IpbNUiCr2TBJ4R9PXs3GqZRbiZa6A==
-X-Google-Smtp-Source: APXvYqyWzwl/0vZpshXoQeVkdZk1wEe/HMQo1zFeQ+F2oMZwLW4xcpVgFu0Pg/eGKiqA8JDcBRvtJVTjvIlijIrfUgc=
-X-Received: by 2002:a9d:5c11:: with SMTP id o17mr11226786otk.107.1565254831079;
- Thu, 08 Aug 2019 02:00:31 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=oDN0rGjGfc55O/5uQ01ERUI7cndh16/GKyAUPFzsNBE=;
+        b=SbkCmA4LdFsYdWr0JZnjUCaO/mWwI2nkXOCJsOxbA3dkbs7Tn0S5WX07ap9p3gatBz
+         1XMI2353uKuqRAc+IMdlAfnXQ1s5nvnmFVrZh6T//oucourFOeDQW+GardMFVPiM2ZtK
+         2D3sPDqA9PyZ+YS3zQTrxD0fhB7E+a3d+2H7HuFfauoCcRdcWnPkb/xKvz6wqjjWH5QC
+         lDhvrNtOXWHp7VDzFy2FGLrCzs82she2UPmSdJ3xJo1sHBiAd7UYJ1HntcOeENudDobn
+         Tg6b5KGFNUzx28S9RYT9C0Zy+Ox5TmMvdVUZS7mMZ/ocaEAOhqsJtupOyJ+diPXQUnON
+         36mA==
+X-Gm-Message-State: APjAAAWAizz7SZuZH/wPrAyAuA0yDGJsCxSsx7X1+/Pfk6FkyD9tLFnb
+        ufwLmsJpoGU+GtzedZS+XDejY1mIC5M=
+X-Google-Smtp-Source: APXvYqx8a18LmOP1nJo/tE60vMtHdZ6dS1T/SaZhLRJiJwecapVQuDKcX9h7L6697ygui55hZPLrWA==
+X-Received: by 2002:a2e:96d5:: with SMTP id d21mr7759677ljj.170.1565258153172;
+        Thu, 08 Aug 2019 02:55:53 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:8c7:ada9:25b2:24d8:3973:eb87? ([2a00:1fa0:8c7:ada9:25b2:24d8:3973:eb87])
+        by smtp.gmail.com with ESMTPSA id t137sm16789638lff.78.2019.08.08.02.55.52
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 08 Aug 2019 02:55:52 -0700 (PDT)
+Subject: Re: [PATCH v2] pwm: rcar: remove a redundant condition in
+ rcar_pwm_apply()
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        thierry.reding@gmail.com
+Cc:     linux-pwm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <1565246333-2185-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Message-ID: <b528827c-1744-901e-b795-ddd1aaf828d3@cogentembedded.com>
+Date:   Thu, 8 Aug 2019 12:55:40 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190731073744.13963-1-geert+renesas@glider.be>
-In-Reply-To: <20190731073744.13963-1-geert+renesas@glider.be>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 8 Aug 2019 11:00:20 +0200
-Message-ID: <CAMuHMdUCb_7=yTb+E-CvbabdRgWRRg6DYzukWqzd_ZCexobnwg@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r8a77995: draak: Fix backlight
- regulator name
-To:     Simon Horman <horms@verge.net.au>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <1565246333-2185-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Simon,
+Hello!
 
-On Wed, Jul 31, 2019 at 9:37 AM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> Currently there are two nodes named "regulator1" in the Draak DTS: a
-> 3.3V regulator for the eMMC and the LVDS decoder, and a 12V regulator
-> for the backlight.  This causes the former to be overwritten by the
-> latter.
->
-> Fix this by renaming all regulators with numerical suffixes to use named
-> suffixes, which are less likely to conflict.
->
-> Fixes: 4fbd4158fe8967e9 ("arm64: dts: renesas: r8a77995: draak: Add backlight")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> I guess this is a fix for v5.3?
+On 08.08.2019 9:38, Yoshihiro Shimoda wrote:
 
-Do you plan to queue this as a fix for v5.3?
-Thanks!
+> Since the rcar_pwm_apply() has already check whehter state->enabled
 
->
-> This fix takes a slightly different approach than commit
-> 12105cec654cf906 ("arm64: dts: renesas: r8a77990: ebisu: Fix backlight
-> regulator numbering"), which just fixed the conflicting numerical
-> suffix.
-> ---
->  arch/arm64/boot/dts/renesas/r8a77995-draak.dts | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77995-draak.dts b/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
-> index 0711170b26b1fe1c..3aa2564dfdc25fff 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
-> +++ b/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
-> @@ -97,7 +97,7 @@
->                 reg = <0x0 0x48000000 0x0 0x18000000>;
->         };
->
-> -       reg_1p8v: regulator0 {
-> +       reg_1p8v: regulator-1p8v {
->                 compatible = "regulator-fixed";
->                 regulator-name = "fixed-1.8V";
->                 regulator-min-microvolt = <1800000>;
-> @@ -106,7 +106,7 @@
->                 regulator-always-on;
->         };
->
-> -       reg_3p3v: regulator1 {
-> +       reg_3p3v: regulator-3p3v {
->                 compatible = "regulator-fixed";
->                 regulator-name = "fixed-3.3V";
->                 regulator-min-microvolt = <3300000>;
-> @@ -115,7 +115,7 @@
->                 regulator-always-on;
->         };
->
-> -       reg_12p0v: regulator1 {
-> +       reg_12p0v: regulator-12p0v {
->                 compatible = "regulator-fixed";
->                 regulator-name = "D12.0V";
->                 regulator-min-microvolt = <12000000>;
-> --
-> 2.17.1
+    Checked?
 
-Gr{oetje,eeting}s,
+> is not set or not, this patch removes a redundant condition.
 
-                        Geert
+    Is set or not?
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+[...]
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+MBR, Sergei
