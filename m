@@ -2,166 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C60785BA0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Aug 2019 09:32:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B539685C97
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Aug 2019 10:15:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731508AbfHHHcB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 8 Aug 2019 03:32:01 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:58203 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731487AbfHHHcB (ORCPT
+        id S1731753AbfHHIPM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Aug 2019 04:15:12 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:50514 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731592AbfHHIPL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 8 Aug 2019 03:32:01 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1hvcts-0003Z3-Gm; Thu, 08 Aug 2019 09:31:52 +0200
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1hvcto-0000H4-HQ; Thu, 08 Aug 2019 09:31:48 +0200
-Date:   Thu, 8 Aug 2019 09:31:48 +0200
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "linus.walleij@linaro.org" <linus.walleij@linaro.org>
-Cc:     "geert+renesas@glider.be" <geert+renesas@glider.be>,
-        "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH RFC 6/7] pwm: rcar: Add gpio support to output duty zero
-Message-ID: <20190808073148.xx2ywr2myntcqry3@pengutronix.de>
-References: <1562576868-8124-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1562576868-8124-7-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <20190807070326.cgkbt4kpzhqvo5a3@pengutronix.de>
- <TYAPR01MB45445D854C1FDBB473A89559D8D70@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+        Thu, 8 Aug 2019 04:15:11 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F3B4BCC;
+        Thu,  8 Aug 2019 10:15:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1565252109;
+        bh=NxaHzWpBJn9m5BgpAncvqk7gfKUP5iYYoCV7jyznrfM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pKHXRmZ3MMocBLGc4tHLh5TgYmP7437N0mlqrec9JtAMDizWM2rVb4+KG4mUMf1DU
+         E3z7ifWbEp6on81bi4g+Z3a7NgVt9VOLXNut20MpPlBvNTTemOTi6a7UwJFDExxpsa
+         l04au1kTX+T4824WKH8FHzZaOkYBJDCKFhPXFMUE=
+Date:   Thu, 8 Aug 2019 11:15:06 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] rcar-vin: Report correct image stride
+Message-ID: <20190808081506.GB6055@pendragon.ideasonboard.com>
+References: <20190808051058.3210-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <TYAPR01MB45445D854C1FDBB473A89559D8D70@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+In-Reply-To: <20190808051058.3210-1-niklas.soderlund+renesas@ragnatech.se>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
+Hi Niklas,
 
-On Thu, Aug 08, 2019 at 03:52:52AM +0000, Yoshihiro Shimoda wrote:
-> > From: Uwe Kleine-König, Sent: Wednesday, August 7, 2019 4:03 PM
-> > On Mon, Jul 08, 2019 at 06:07:47PM +0900, Yoshihiro Shimoda wrote:
-> > > @@ -119,8 +121,11 @@ static int rcar_pwm_set_counter(struct rcar_pwm_chip *rp, int div, int duty_ns,
-> > >  	ph = tmp & RCAR_PWMCNT_PH0_MASK;
-> > >
-> > >  	/* Avoid prohibited setting */
-> > > -	if (cyc == 0 || ph == 0)
-> > > +	if (cyc == 0)
-> > >  		return -EINVAL;
-> > > +	/* Try to use GPIO to output duty zero */
-> > > +	if (ph == 0)
-> > > +		return -EAGAIN;
-> > 
-> > If there is no gpio requesting cyc=0 should still yield an error.
+Thank you for the patch.
+
+On Thu, Aug 08, 2019 at 07:10:58AM +0200, Niklas SÃ¶derlund wrote:
+> The image stride was adjusted when it was written to hardware and not
+> when configuring the format. Calculate the correct stride value and
+> report it to userspace.
 > 
-> I'm sorry, I cannot understand this.
-
-I meant that if getting the gpio failed but it's needed to yield the
-right level this should result in an error. I thought I removed that
-comment because this is taken care of further below.
-
-> > >  	rcar_pwm_write(rp, cyc | ph, RCAR_PWMCNT);
-> > >
-> > > @@ -157,6 +162,28 @@ static void rcar_pwm_disable(struct rcar_pwm_chip *rp)
-> > >  	rcar_pwm_update(rp, RCAR_PWMCR_EN0, 0, RCAR_PWMCR);
-> > >  }
-> > >
-> > > +static int rcar_pwm_gpiod_get(struct rcar_pwm_chip *rp)
-> > > +{
-> > > +	if (rp->gpio)
-> > > +		return 0;
-> > > +
-> > > +	rp->gpio = gpiod_get(rp->chip.dev, "renesas,duty-zero", GPIOD_OUT_LOW);
-> > > +	if (!IS_ERR(rp->gpio))
-> > > +		return 0;
-> > > +
-> > > +	rp->gpio = NULL;
-> > > +	return -EINVAL;
-> > 
-> > Does getting the gpio automatically switch the pinmuxing?
-> > 
-> > If yes, this is IMHO a really surprising mis-feature of the gpio
-> > subsystem. I'd prefer to "get" the gpio at probe time and only switch
-> > the pinmuxing in .apply(). This makes .apply() quicker, ensures that all
-> > resources necessary for pwm operation are available, handles
-> > -EPROBE_DEFER (and maybe other errors) correctly.
+> Signed-off-by: Niklas SÃ¶derlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  drivers/media/platform/rcar-vin/rcar-dma.c  | 10 ++++++----
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c |  5 ++++-
+>  2 files changed, 10 insertions(+), 5 deletions(-)
 > 
-> The current pinctrl subsystem only has .set_mux(). I checked the pinctrl subsystem
-> history and the commit 2243a87d90b42eb38bc281957df3e57c712b5e56 removed the ".disable()" ops.
-> So, IIUC, we cannot such a handling.
+> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> index f16f2966f9628b72..3cb29b2e0b2b18a9 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> @@ -577,6 +577,9 @@ static void rvin_crop_scale_comp_gen2(struct rvin_dev *vin)
+>  
+>  void rvin_crop_scale_comp(struct rvin_dev *vin)
+>  {
+> +	const struct rvin_video_format *fmt;
+> +	u32 stride;
+> +
+>  	/* Set Start/End Pixel/Line Pre-Clip */
+>  	rvin_write(vin, vin->crop.left, VNSPPRC_REG);
+>  	rvin_write(vin, vin->crop.left + vin->crop.width - 1, VNEPPRC_REG);
+> @@ -600,10 +603,9 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
+>  	if (vin->info->model != RCAR_GEN3)
+>  		rvin_crop_scale_comp_gen2(vin);
+>  
+> -	if (vin->format.pixelformat == V4L2_PIX_FMT_NV16)
+> -		rvin_write(vin, ALIGN(vin->format.width, 0x20), VNIS_REG);
+> -	else
+> -		rvin_write(vin, ALIGN(vin->format.width, 0x10), VNIS_REG);
+> +	fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
 
-You'd need to reactivate the pwm setting when changing from 0% to
-something bigger of course.
+You may want as an optimisation to cache the active rvin_video_format
+pointer in rvin_dev, but that can be done in a separate patch.
 
-But as I understand it "getting" the gpio already implies that it is
-muxed which is bad here. So it would be great if we could opt-out.
-Linus?
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-The pwm-imx driver has a similar problem[1] where we already considered
-using a gpio. There auto-muxing would be in the way, too. (Maybe it
-isn't because it isn't implmented on i.MX?)
-
-> > Note you're introducing a bug here because switching to gpio doesn't
-> > ensure that the currently running period is completed.
-> 
-> Umm, the hardware doesn't have such a condition so that the driver cannot manage it.
-> So, I'll add this into the "Limitations" too.
-
-yes please.
-
-> > > +static void rcar_pwm_gpiod_put(struct rcar_pwm_chip *rp)
-> > > +{
-> > > +	if (!rp->gpio)
-> > > +		return;
-> > > +
-> > > +	gpiod_put(rp->gpio);
-> > > +	rp->gpio = NULL;
-> > > +}
-> > > +
-> > >  static int rcar_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-> > >  			  struct pwm_state *state)
-> > >  {
-> > > @@ -171,6 +198,7 @@ static int rcar_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-> > >
-> > >  	if (!state->enabled) {
-> > >  		rcar_pwm_disable(rp);
-> > > +		rcar_pwm_gpiod_put(rp);
-> > 
-> > From the framework's POV disabling a PWM is quite similar to duty cycle
-> > 0. Assuming disabling the PWM completes the currently running period[1]
-> > it might be better and easier to disable instead of switching to gpio.
-> > (Further assuming that disable really yields the inactive level which is
-> > should and is another limitation if not.)
-> 
-> If we disable the hardware, the duty cycle is 100% unfortunately. So,
-> I think I should describe it as one of "Limitations".
-
-It seems you got the idea .. :-)
-
-Best regards
-Uwe
-
-[1] it goes to 0 on disable even if the polarity is inverted
+> +	stride = vin->format.bytesperline / fmt->bpp;
+> +	rvin_write(vin, stride, VNIS_REG);
+>  }
+>  
+>  /* -----------------------------------------------------------------------------
+> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> index cfed0a2604133849..cbc1c07f0a9631a4 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> @@ -83,13 +83,16 @@ static u32 rvin_format_bytesperline(struct rvin_dev *vin,
+>  				    struct v4l2_pix_format *pix)
+>  {
+>  	const struct rvin_video_format *fmt;
+> +	u32 align;
+>  
+>  	fmt = rvin_format_from_pixel(vin, pix->pixelformat);
+>  
+>  	if (WARN_ON(!fmt))
+>  		return -EINVAL;
+>  
+> -	return pix->width * fmt->bpp;
+> +	align = pix->pixelformat == V4L2_PIX_FMT_NV16 ? 0x20 : 0x10;
+> +
+> +	return ALIGN(pix->width, align) * fmt->bpp;
+>  }
+>  
+>  static u32 rvin_format_sizeimage(struct v4l2_pix_format *pix)
 
 -- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Regards,
+
+Laurent Pinchart
