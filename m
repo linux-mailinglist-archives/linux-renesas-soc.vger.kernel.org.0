@@ -2,39 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B539685C97
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Aug 2019 10:15:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D6B885CBB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  8 Aug 2019 10:25:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731753AbfHHIPM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 8 Aug 2019 04:15:12 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:50514 "EHLO
+        id S1731677AbfHHIZh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 8 Aug 2019 04:25:37 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:51354 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731592AbfHHIPL (ORCPT
+        with ESMTP id S1731592AbfHHIZh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 8 Aug 2019 04:15:11 -0400
+        Thu, 8 Aug 2019 04:25:37 -0400
 Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F3B4BCC;
-        Thu,  8 Aug 2019 10:15:08 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 95204CC;
+        Thu,  8 Aug 2019 10:25:35 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1565252109;
-        bh=NxaHzWpBJn9m5BgpAncvqk7gfKUP5iYYoCV7jyznrfM=;
+        s=mail; t=1565252735;
+        bh=UUdh4ESKAP2JxL3iAj2D0dHjH7NuU8sy0e8sGDSf16E=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pKHXRmZ3MMocBLGc4tHLh5TgYmP7437N0mlqrec9JtAMDizWM2rVb4+KG4mUMf1DU
-         E3z7ifWbEp6on81bi4g+Z3a7NgVt9VOLXNut20MpPlBvNTTemOTi6a7UwJFDExxpsa
-         l04au1kTX+T4824WKH8FHzZaOkYBJDCKFhPXFMUE=
-Date:   Thu, 8 Aug 2019 11:15:06 +0300
+        b=eHFFLCLT83Yw55Waj3o2paao9oRQn4ul5/eq6P5xaUfOj27+imrptHmH4VS6UuvN9
+         faUxFfcwzBeSMH+AGZ99aVofsIKvDEb1n4I7nNNE4VkBvZx/qaCF8O3cvr6rnSYzSK
+         ID+Qy5n2rDK953PzL2LtYdvl1dMk0u6ceMO0RlWI=
+Date:   Thu, 8 Aug 2019 11:25:33 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] rcar-vin: Report correct image stride
-Message-ID: <20190808081506.GB6055@pendragon.ideasonboard.com>
-References: <20190808051058.3210-1-niklas.soderlund+renesas@ragnatech.se>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 1/6] rcar-vin: Fix incorrect return statement in
+ rvin_try_format()
+Message-ID: <20190808082533.GC6055@pendragon.ideasonboard.com>
+References: <20190808011850.21219-1-niklas.soderlund+renesas@ragnatech.se>
+ <20190808011850.21219-2-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190808051058.3210-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20190808011850.21219-2-niklas.soderlund+renesas@ragnatech.se>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -45,73 +48,37 @@ Hi Niklas,
 
 Thank you for the patch.
 
-On Thu, Aug 08, 2019 at 07:10:58AM +0200, Niklas Söderlund wrote:
-> The image stride was adjusted when it was written to hardware and not
-> when configuring the format. Calculate the correct stride value and
-> report it to userspace.
+On Thu, Aug 08, 2019 at 03:18:45AM +0200, Niklas Söderlund wrote:
+> While refactoring code the return statement became corrupted, fix it by
+> returning the correct return code.
 > 
+> Reported-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Fixes: 897e371389e77514 ("media: rcar-vin: simplify how formats are set and reset"
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > ---
->  drivers/media/platform/rcar-vin/rcar-dma.c  | 10 ++++++----
->  drivers/media/platform/rcar-vin/rcar-v4l2.c |  5 ++++-
->  2 files changed, 10 insertions(+), 5 deletions(-)
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> index f16f2966f9628b72..3cb29b2e0b2b18a9 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> @@ -577,6 +577,9 @@ static void rvin_crop_scale_comp_gen2(struct rvin_dev *vin)
+> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> index cfed0a2604133849..402b40fcf7184fde 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> @@ -239,7 +239,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
+>  done:
+>  	v4l2_subdev_free_pad_config(pad_cfg);
 >  
->  void rvin_crop_scale_comp(struct rvin_dev *vin)
->  {
-> +	const struct rvin_video_format *fmt;
-> +	u32 stride;
-> +
->  	/* Set Start/End Pixel/Line Pre-Clip */
->  	rvin_write(vin, vin->crop.left, VNSPPRC_REG);
->  	rvin_write(vin, vin->crop.left + vin->crop.width - 1, VNEPPRC_REG);
-> @@ -600,10 +603,9 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
->  	if (vin->info->model != RCAR_GEN3)
->  		rvin_crop_scale_comp_gen2(vin);
->  
-> -	if (vin->format.pixelformat == V4L2_PIX_FMT_NV16)
-> -		rvin_write(vin, ALIGN(vin->format.width, 0x20), VNIS_REG);
-> -	else
-> -		rvin_write(vin, ALIGN(vin->format.width, 0x10), VNIS_REG);
-> +	fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
+> -	return 0;
+> +	return ret;
 
-You may want as an optimisation to cache the active rvin_video_format
-pointer in rvin_dev, but that can be done in a separate patch.
+If the v4l2_subdev_call() call above returns -ENOIOCTLCMD, which you
+don't consider as an error, you will end up returning that error value
+here. You should set ret to 0 before the done: label. With this fixed,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> +	stride = vin->format.bytesperline / fmt->bpp;
-> +	rvin_write(vin, stride, VNIS_REG);
 >  }
 >  
->  /* -----------------------------------------------------------------------------
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index cfed0a2604133849..cbc1c07f0a9631a4 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -83,13 +83,16 @@ static u32 rvin_format_bytesperline(struct rvin_dev *vin,
->  				    struct v4l2_pix_format *pix)
->  {
->  	const struct rvin_video_format *fmt;
-> +	u32 align;
->  
->  	fmt = rvin_format_from_pixel(vin, pix->pixelformat);
->  
->  	if (WARN_ON(!fmt))
->  		return -EINVAL;
->  
-> -	return pix->width * fmt->bpp;
-> +	align = pix->pixelformat == V4L2_PIX_FMT_NV16 ? 0x20 : 0x10;
-> +
-> +	return ALIGN(pix->width, align) * fmt->bpp;
->  }
->  
->  static u32 rvin_format_sizeimage(struct v4l2_pix_format *pix)
+>  static int rvin_querycap(struct file *file, void *priv,
 
 -- 
 Regards,
