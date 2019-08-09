@@ -2,35 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B184883D5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Aug 2019 22:27:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E71F8842F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Aug 2019 22:41:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726053AbfHIU1H (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Aug 2019 16:27:07 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:39266 "EHLO
+        id S1727869AbfHIUlw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Aug 2019 16:41:52 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:39704 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726022AbfHIU1H (ORCPT
+        with ESMTP id S1725943AbfHIUlw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Aug 2019 16:27:07 -0400
+        Fri, 9 Aug 2019 16:41:52 -0400
 Received: from penelope.horms.nl (unknown [66.60.152.14])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 6E73A25B81B;
-        Sat, 10 Aug 2019 06:27:05 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 3A61525AEE2;
+        Sat, 10 Aug 2019 06:41:50 +1000 (AEST)
 Received: by penelope.horms.nl (Postfix, from userid 7100)
-        id DBF96E21D63; Fri,  9 Aug 2019 22:27:02 +0200 (CEST)
-Date:   Fri, 9 Aug 2019 13:27:02 -0700
+        id 1E295E21D63; Fri,  9 Aug 2019 22:41:49 +0200 (CEST)
+Date:   Fri, 9 Aug 2019 13:41:49 -0700
 From:   Simon Horman <horms@verge.net.au>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] arm64: dts: renesas: r8a77995: draak: Fix backlight
- regulator name
-Message-ID: <20190809202658.dtb33eza575z7ste@verge.net.au>
-References: <20190731073744.13963-1-geert+renesas@glider.be>
+To:     marek.vasut@gmail.com
+Cc:     devicetree@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] of: Fix of_empty_ranges_quirk()
+Message-ID: <20190809204148.fv3cvdbgg5e3mzq5@verge.net.au>
+References: <20190809173321.19944-1-marek.vasut@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190731073744.13963-1-geert+renesas@glider.be>
+In-Reply-To: <20190809173321.19944-1-marek.vasut@gmail.com>
 Organisation: Horms Solutions BV
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -38,18 +39,60 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Jul 31, 2019 at 09:37:44AM +0200, Geert Uytterhoeven wrote:
-> Currently there are two nodes named "regulator1" in the Draak DTS: a
-> 3.3V regulator for the eMMC and the LVDS decoder, and a 12V regulator
-> for the backlight.  This causes the former to be overwritten by the
-> latter.
+On Fri, Aug 09, 2019 at 07:33:21PM +0200, marek.vasut@gmail.com wrote:
+> From: Marek Vasut <marek.vasut+renesas@gmail.com>
 > 
-> Fix this by renaming all regulators with numerical suffixes to use named
-> suffixes, which are less likely to conflict.
+> The of_empty_ranges_quirk() returns a mix of boolean and signed integer
+> types, which cannot work well. Replace that with boolean only and fix
+> usage logic in of_translate_one() -- the check should trigger when the
+> ranges are NULL and the quirk is applicable on the hardware.
 > 
-> Fixes: 4fbd4158fe8967e9 ("arm64: dts: renesas: r8a77995: draak: Add backlight")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> I guess this is a fix for v5.3?
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Frank Rowand <frowand.list@gmail.com>
+> Cc: linux-renesas-soc@vger.kernel.org
+> To: devicetree@vger.kernel.org
 
-Thanks, applied as a fix for v5.3.
+Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+
+> ---
+>  drivers/of/address.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/of/address.c b/drivers/of/address.c
+> index b492176c0572..ae2819e148b8 100644
+> --- a/drivers/of/address.c
+> +++ b/drivers/of/address.c
+> @@ -616,7 +616,7 @@ static struct of_bus *of_match_bus(struct device_node *np)
+>  	return NULL;
+>  }
+>  
+> -static int of_empty_ranges_quirk(struct device_node *np)
+> +static bool of_empty_ranges_quirk(struct device_node *np)
+>  {
+>  	if (IS_ENABLED(CONFIG_PPC)) {
+>  		/* To save cycles, we cache the result for global "Mac" setting */
+> @@ -631,7 +631,8 @@ static int of_empty_ranges_quirk(struct device_node *np)
+>  			quirk_state =
+>  				of_machine_is_compatible("Power Macintosh") ||
+>  				of_machine_is_compatible("MacRISC");
+> -		return quirk_state;
+> +		if (quirk_state > 0)
+> +			return true;
+>  	}
+>  	return false;
+>  }
+> @@ -662,8 +663,8 @@ static int of_translate_one(struct device_node *parent, struct of_bus *bus,
+>  	 * This code is only enabled on powerpc. --gcl
+>  	 */
+>  	ranges = of_get_property(parent, rprop, &rlen);
+> -	if (ranges == NULL && !of_empty_ranges_quirk(parent)) {
+> -		pr_debug("no ranges; cannot translate\n");
+> +	if (ranges == NULL && of_empty_ranges_quirk(parent)) {
+> +		pr_err("no ranges; cannot translate\n");
+>  		return 1;
+>  	}
+>  	if (ranges == NULL || rlen == 0) {
+> -- 
+> 2.20.1
+> 
