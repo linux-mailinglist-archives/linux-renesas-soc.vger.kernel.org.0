@@ -2,76 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A1E5884A8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Aug 2019 23:30:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D1AA884BE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Aug 2019 23:37:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727498AbfHIVas (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Aug 2019 17:30:48 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:40834 "EHLO
+        id S1726185AbfHIVhV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Aug 2019 17:37:21 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:41072 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727436AbfHIVar (ORCPT
+        with ESMTP id S1726157AbfHIVhV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Aug 2019 17:30:47 -0400
+        Fri, 9 Aug 2019 17:37:21 -0400
 Received: from penelope.horms.nl (ip4dab7138.direct-adsl.nl [77.171.113.56])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 8E2E825BE0B;
-        Sat, 10 Aug 2019 07:30:41 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id F38F625AEE2;
+        Sat, 10 Aug 2019 07:37:18 +1000 (AEST)
 Received: by penelope.horms.nl (Postfix, from userid 7100)
-        id C555FE21EED; Fri,  9 Aug 2019 23:30:36 +0200 (CEST)
+        id AC5A4E21E01; Fri,  9 Aug 2019 23:37:15 +0200 (CEST)
 From:   Simon Horman <horms+renesas@verge.net.au>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Chris Brandt <chris.brandt@renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-i2c@vger.kernel.org,
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>, linux-usb@vger.kernel.org,
         devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Simon Horman <horms+renesas@verge.net.au>
-Subject: [PATCH v2 4/4] dt-bindings: i2c: i2c-emev2: Rename bindings documentation file
-Date:   Fri,  9 Aug 2019 14:30:04 -0700
-Message-Id: <20190809213004.31181-5-horms+renesas@verge.net.au>
+Subject: [PATCH v2] dt-bindings: usb: renesas_gen3: Rename bindings documentation file to reflect IP block
+Date:   Fri,  9 Aug 2019 14:37:10 -0700
+Message-Id: <20190809213710.31783-1-horms+renesas@verge.net.au>
 X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190809213004.31181-1-horms+renesas@verge.net.au>
-References: <20190809213004.31181-1-horms+renesas@verge.net.au>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Rename the bindings documentation file for Renesas EMEV2 IIC controller
-from i2c-emev2.txt to renesas,iic-emev2.txt.
+For consistency with the naming of (most) other documentation files for DT
+bindings for Renesas IP blocks rename the Renesas USB3.0 peripheral
+documentation file from renesas,usb3.txt to renesas,usb3-peri.txt
 
-This is part of an ongoing effort to name bindings documentation files for
-Renesas IP blocks consistently, in line with the compat strings they
-document.
+This refines a recent rename from renesas_usb3.txt to renesas-usb3.txt.
+The motivation is to more accurately reflect the IP block documented in
+this file.
 
 Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-v2
-* Added review tag
-* Corrected subject to refer to i2c-emev2
----
- .../devicetree/bindings/i2c/{i2c-emev2.txt => renesas,iic-emev2.txt}    | 0
- MAINTAINERS                                                             | 2 +-
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename Documentation/devicetree/bindings/i2c/{i2c-emev2.txt => renesas,iic-emev2.txt} (100%)
+* Based on v5.3-rc1
 
-diff --git a/Documentation/devicetree/bindings/i2c/i2c-emev2.txt b/Documentation/devicetree/bindings/i2c/renesas,iic-emev2.txt
+v2
+* Add review tag
+* Correct changelog
+---
+ .../devicetree/bindings/usb/{renesas,usb3.txt => renesas,usb3-peri.txt}   | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename Documentation/devicetree/bindings/usb/{renesas,usb3.txt => renesas,usb3-peri.txt} (100%)
+
+diff --git a/Documentation/devicetree/bindings/usb/renesas,usb3.txt b/Documentation/devicetree/bindings/usb/renesas,usb3-peri.txt
 similarity index 100%
-rename from Documentation/devicetree/bindings/i2c/i2c-emev2.txt
-rename to Documentation/devicetree/bindings/i2c/renesas,iic-emev2.txt
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fc3ed4fe0ba5..e751ebb1a0ed 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13628,7 +13628,7 @@ F:	drivers/clk/renesas/
- RENESAS EMEV2 I2C DRIVER
- M:	Wolfram Sang <wsa+renesas@sang-engineering.com>
- S:	Supported
--F:	Documentation/devicetree/bindings/i2c/i2c-emev2.txt
-+F:	Documentation/devicetree/bindings/i2c/renesas,iic-emev2.txt
- F:	drivers/i2c/busses/i2c-emev2.c
- 
- RENESAS ETHERNET DRIVERS
+rename from Documentation/devicetree/bindings/usb/renesas,usb3.txt
+rename to Documentation/devicetree/bindings/usb/renesas,usb3-peri.txt
 -- 
 2.11.0
 
