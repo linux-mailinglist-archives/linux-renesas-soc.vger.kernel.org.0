@@ -2,90 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 104E68810A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Aug 2019 19:20:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C748288144
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Aug 2019 19:33:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407550AbfHIRUy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Aug 2019 13:20:54 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:33776 "EHLO
-        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405999AbfHIRUy (ORCPT
+        id S2436863AbfHIRd2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Aug 2019 13:33:28 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:54073 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2436858AbfHIRd2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Aug 2019 13:20:54 -0400
-Received: from penelope.horms.nl (unknown [66.60.152.14])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 12A2E25AD78;
-        Sat, 10 Aug 2019 03:20:52 +1000 (AEST)
-Received: by penelope.horms.nl (Postfix, from userid 7100)
-        id 33539E21A9A; Fri,  9 Aug 2019 19:20:50 +0200 (CEST)
-Date:   Fri, 9 Aug 2019 10:20:50 -0700
-From:   Simon Horman <horms@verge.net.au>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     gregkh@linuxfoundation.org, mathias.nyman@intel.com,
-        linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: Re: [PATCH] usb: host: xhci-rcar: Fix timeout in xhci_suspend()
-Message-ID: <20190809172042.ce5oxx2iwj4r7s4k@verge.net.au>
-References: <1564734815-17964-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Fri, 9 Aug 2019 13:33:28 -0400
+Received: by mail-wm1-f65.google.com with SMTP id 10so6473758wmp.3;
+        Fri, 09 Aug 2019 10:33:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RYenYv2RF2YyQKxjEa0F5oPdLpwTsKicpGgVmDg1Iqo=;
+        b=bFoyuVFok3c+2FQU7agOeb5AKazbrIVgHMOSTZBlmKEu1XsuheyLEFPr/xBTiMPPgP
+         URwsoU1qXEqJXNjWcnNoOjQWTm9hJQTGOLhmSZFEi5ysxdLtXpnRXsgQxSz7Mup+pr90
+         ad65eW/cpFylpyT8YjVyHruiK1s4qYOStx5b+MdGrnqHfVV/xVevxO/udNOOXuCLmVuv
+         rtWBb3dvUMEYZ9P230gpBRpfTvhKN32POmE2cN/3LHDJ/UhExcYQGyCYoI9YeHeMutxr
+         JjLfGszBFptwURIQTuCv3i1Xzbu+vHmzCYAQQyq7cSrZzIdjHVvVvbV4akMg+ecMLklP
+         Awfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RYenYv2RF2YyQKxjEa0F5oPdLpwTsKicpGgVmDg1Iqo=;
+        b=VeW5rGfvuuS47akKY89Lmp1M6GZmEzzYBWwTnyqkh8JIT1iaY9qFxQBzpt/v6K2G8H
+         r7Yt1X6Nhksv82ia6uJWfqutqfjFDKrhGUEP22jxZRFcB03hoHTfpvYP0CLgOVnzUduj
+         mt5sB//VqyT3y+36x9hzpzWws+sGhhTnNqyFQFHy/msGEfSdh09oKF2BhiSPjzplMIoP
+         8La32E9dpzXwbyLd7zHbgnoI8Hn1aveOVY9KTDJY8NwjN/5E02ur+XmlD1C9UoB+WoDe
+         vqJiRBR8f5SxNhaFEFU7cb7MwwOtjGaZ2al6HK48BbFQVu2k2nzU20t//mn2sRRVMmX0
+         sWjQ==
+X-Gm-Message-State: APjAAAV9DBqOYcCHYVfSPYIm4Gg7pzECV2jtA6TOQdmUqGPKD8VT0/vr
+        YcdGvP0dOZnj9zenANKQkAuxXO+h
+X-Google-Smtp-Source: APXvYqynHwPJ8Rnu8G9QOsu/l0onyqeDgoSY5wvQL8XyVUD5m9MpcwYxUj6bxIqmq6asSehywN82EQ==
+X-Received: by 2002:a1c:7611:: with SMTP id r17mr12060674wmc.117.1565372005372;
+        Fri, 09 Aug 2019 10:33:25 -0700 (PDT)
+Received: from chi.lan (ip-86-49-35-8.net.upcbroadband.cz. [86.49.35.8])
+        by smtp.gmail.com with ESMTPSA id e10sm17527845wrn.33.2019.08.09.10.33.24
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 09 Aug 2019 10:33:24 -0700 (PDT)
+From:   marek.vasut@gmail.com
+To:     devicetree@vger.kernel.org
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] of: Fix of_empty_ranges_quirk()
+Date:   Fri,  9 Aug 2019 19:33:21 +0200
+Message-Id: <20190809173321.19944-1-marek.vasut@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1564734815-17964-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-Organisation: Horms Solutions BV
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Aug 02, 2019 at 05:33:35PM +0900, Yoshihiro Shimoda wrote:
-> When a USB device is connected to the host controller and
-> the system enters suspend, the following error happens
-> in xhci_suspend():
-> 
-> 	xhci-hcd ee000000.usb: WARN: xHC CMD_RUN timeout
-> 
-> Since the firmware/internal CPU control the USBSTS.STS_HALT
-> and the process speed is down when the roothub port enters U3,
-> long delay for the handshake of STS_HALT is neeed in xhci_suspend().
-> So, this patch adds to set the XHCI_SLOW_SUSPEND.
-> 
-> Fixes: 435cc1138ec9 ("usb: host: xhci-plat: set resume_quirk() for R-Car controllers")
-> Cc: <stable@vger.kernel.org> # v4.12+
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+From: Marek Vasut <marek.vasut+renesas@gmail.com>
 
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+The of_empty_ranges_quirk() returns a mix of boolean and signed integer
+types, which cannot work well. Replace that with boolean only and fix
+usage logic in of_translate_one() -- the check should trigger when the
+ranges are NULL and the quirk is applicable on the hardware.
 
-> ---
->  drivers/usb/host/xhci-rcar.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/host/xhci-rcar.c b/drivers/usb/host/xhci-rcar.c
-> index 671bce1..8616c52 100644
-> --- a/drivers/usb/host/xhci-rcar.c
-> +++ b/drivers/usb/host/xhci-rcar.c
-> @@ -238,10 +238,15 @@ int xhci_rcar_init_quirk(struct usb_hcd *hcd)
->  	 * pointers. So, this driver clears the AC64 bit of xhci->hcc_params
->  	 * to call dma_set_coherent_mask(dev, DMA_BIT_MASK(32)) in
->  	 * xhci_gen_setup().
-> +	 *
-> +	 * And, since the firmware/internal CPU control the USBSTS.STS_HALT
-> +	 * and the process speed is down when the roothub port enters U3,
-> +	 * long delay for the handshake of STS_HALT is neeed in xhci_suspend().
->  	 */
->  	if (xhci_rcar_is_gen2(hcd->self.controller) ||
-> -			xhci_rcar_is_gen3(hcd->self.controller))
-> -		xhci->quirks |= XHCI_NO_64BIT_SUPPORT;
-> +			xhci_rcar_is_gen3(hcd->self.controller)) {
-> +		xhci->quirks |= XHCI_NO_64BIT_SUPPORT | XHCI_SLOW_SUSPEND;
-> +	}
+Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Frank Rowand <frowand.list@gmail.com>
+Cc: linux-renesas-soc@vger.kernel.org
+To: devicetree@vger.kernel.org
+---
+ drivers/of/address.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/of/address.c b/drivers/of/address.c
+index b492176c0572..ae2819e148b8 100644
+--- a/drivers/of/address.c
++++ b/drivers/of/address.c
+@@ -616,7 +616,7 @@ static struct of_bus *of_match_bus(struct device_node *np)
+ 	return NULL;
+ }
+ 
+-static int of_empty_ranges_quirk(struct device_node *np)
++static bool of_empty_ranges_quirk(struct device_node *np)
+ {
+ 	if (IS_ENABLED(CONFIG_PPC)) {
+ 		/* To save cycles, we cache the result for global "Mac" setting */
+@@ -631,7 +631,8 @@ static int of_empty_ranges_quirk(struct device_node *np)
+ 			quirk_state =
+ 				of_machine_is_compatible("Power Macintosh") ||
+ 				of_machine_is_compatible("MacRISC");
+-		return quirk_state;
++		if (quirk_state > 0)
++			return true;
+ 	}
+ 	return false;
+ }
+@@ -662,8 +663,8 @@ static int of_translate_one(struct device_node *parent, struct of_bus *bus,
+ 	 * This code is only enabled on powerpc. --gcl
+ 	 */
+ 	ranges = of_get_property(parent, rprop, &rlen);
+-	if (ranges == NULL && !of_empty_ranges_quirk(parent)) {
+-		pr_debug("no ranges; cannot translate\n");
++	if (ranges == NULL && of_empty_ranges_quirk(parent)) {
++		pr_err("no ranges; cannot translate\n");
+ 		return 1;
+ 	}
+ 	if (ranges == NULL || rlen == 0) {
+-- 
+2.20.1
 
-nit: As there is still only one line guarded by the conditional I don't
-think that { } need to be added.
-
->  
->  	if (!xhci_rcar_wait_for_pll_active(hcd))
->  		return -ETIMEDOUT;
-> -- 
-> 2.7.4
-> 
