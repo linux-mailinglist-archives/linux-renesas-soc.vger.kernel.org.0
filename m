@@ -2,85 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B66E8783F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Aug 2019 13:11:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B527387947
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  9 Aug 2019 14:04:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405954AbfHILLZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 9 Aug 2019 07:11:25 -0400
-Received: from sauhun.de ([88.99.104.3]:36486 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726037AbfHILLZ (ORCPT
+        id S2406577AbfHIMEd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 9 Aug 2019 08:04:33 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:45335 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726140AbfHIMEc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 9 Aug 2019 07:11:25 -0400
-Received: from localhost (p54B333D4.dip0.t-ipconnect.de [84.179.51.212])
-        by pokefinder.org (Postfix) with ESMTPSA id DE8E32C3014;
-        Fri,  9 Aug 2019 13:11:23 +0200 (CEST)
-Date:   Fri, 9 Aug 2019 13:11:23 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     "Adamski, Krzysztof (Nokia - PL/Wroclaw)" 
-        <krzysztof.adamski@nokia.com>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Subject: Re: [PATCH RFT] i2c: emev2: avoid race when unregistering slave
- client
-Message-ID: <20190809111123.GB1143@ninjato>
-References: <20190808195417.13482-1-wsa+renesas@sang-engineering.com>
- <20190809104016.GC25406@localhost.localdomain>
+        Fri, 9 Aug 2019 08:04:32 -0400
+Received: by mail-lf1-f68.google.com with SMTP id a30so6285499lfk.12
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 09 Aug 2019 05:04:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=/B+CvQL5rs4wq7Xspdkm+Ri+jofCRq4T4Z6X75LinoM=;
+        b=zbmS4e9Ctv/1RTpKHwiFA/SQuFNEismJ2x0EqOEJN1aYSSYaZa+KKU3YKJyFfD4J0X
+         szT6fgsuLk591vkoCTjq/4q2Nx4ej3xSRW18xG1dS7VawP+H1RvBqTS4/l/zQ08yR8Et
+         rBjLjVdi+ror3QG/S5c165tf05nMwYhBaNVkoNK84Z58Hd/VkkgRjI5uxWWkFXViHqYK
+         4BRC9pqKt3JTzCaNn922TGFFwYParYXbdLDjw2mKEsQQDkayTmSSUWLDNCC8GacJYhb6
+         P0g0KMnGVI/mqvX7C2UVfZ3u3KbJ3CLCbddkCVapKyVrfTGXUau2kmH/Zi0huSbZUoLh
+         jRPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=/B+CvQL5rs4wq7Xspdkm+Ri+jofCRq4T4Z6X75LinoM=;
+        b=krT8+0tyApVYwvv1+Yf3Bj/Gl/ns1LA8NUZGBRrH5F03//ojgqR8x/AW7ESMzBNuIQ
+         EKmsyDqUNffGXSe4zoF8qwmL3E0KJeIPCYx3+CGbqA/EZdHlBk4qHEMplw1Ugb6tO/j3
+         EudVfXiGROSFnTYEuxF+Mfyil1kDI9uvU7zxPxFM9kQx2vhiHLJ4xx7HE5HLsZWlZikX
+         TS6PftXi6Io/Qm2w8A5yw+QaXuy131oBPsAJOVcH+nZ0qkvFPKXLVafuQBjR2oT87wUE
+         m7TzEA+xYWIu6fnkJmoI+0nHFUsfoWLsjznnnzPITIPqb9bURG1vh9sgcvVI+qh0OT9E
+         KB+A==
+X-Gm-Message-State: APjAAAUVOZ4wNvkMoQtWCYfyJB4KFf+AQIzPTh0pL/TZgGnFIJwHnxMB
+        Myb6sG2jM5KXBmaKz7/24aek3NaA+A0=
+X-Google-Smtp-Source: APXvYqzXDjsiSpiOIuL5xDOvfL/Qn1OhoC9VvuQ9d7mzUNCG0z4+5fpT89BZetjH/b7Odh9dfrhyRA==
+X-Received: by 2002:a19:f819:: with SMTP id a25mr13214137lff.183.1565352270897;
+        Fri, 09 Aug 2019 05:04:30 -0700 (PDT)
+Received: from localhost (customer-145-14-112-32.stosn.net. [145.14.112.32])
+        by smtp.gmail.com with ESMTPSA id z85sm19400272ljb.101.2019.08.09.05.04.29
+        (version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+        Fri, 09 Aug 2019 05:04:29 -0700 (PDT)
+Date:   Fri, 9 Aug 2019 14:04:29 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/2] max9286: Add MAX9286 driver
+Message-ID: <20190809120429.GE24385@bigcity.dyn.berto.se>
+References: <20190809040558.10698-1-niklas.soderlund+renesas@ragnatech.se>
+ <20190809040558.10698-3-niklas.soderlund+renesas@ragnatech.se>
+ <5a640d94-799a-71ed-9f02-014adaabd595@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="0ntfKIWw70PvrIHh"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20190809104016.GC25406@localhost.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5a640d94-799a-71ed-9f02-014adaabd595@ideasonboard.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Kieran,
 
---0ntfKIWw70PvrIHh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Thanks for your feedback.
 
+On 2019-08-09 09:09:43 +0100, Kieran Bingham wrote:
+> Hi Niklas,
+> 
+> This should be at least v5.
 
-> I don't see how this could influence the standard I2C communication at
-> all. If change in em_i2c_unreg_slave() is excluded, all that was changed
-> is moving irq number from local variable to the em_i2c_device struct
-> which is also not used outside of the em_i2c_unreg_slave() appart from
-> logging :)
+I don't agree ;-) This is a "new" series where multiple streams are not 
+supported and there are no external dependencies. To indicate this I 
+reset the version. I don't feel strongly about this next submission can 
+remedy this if you do feel strongly about it.
 
-I agree. Still, I do have brown-paper-bag experiences caused by wrong
-assumptions like "this cannot fail". And we are changing the way
-interrupts are acquired. So, if it is not too hard, I'd prefer to have
-patches tested, too. I'd still apply the patch if it turns out to be too
-complicated to test (given the reviews raise the trust). Yet, also on
-the pro-side, it doesn't hurt to test a newer kernel on a packed-away
-system once in a while.
+> 
+> Did you take the last v4 and work from there?
+> I have made changes since the last posting. Did you get an update from
+> my branches?
+> 
+> What changes have you made to this posting compared to whichever
+> patch-base you have taken to start from?
 
-Thanks for the reviews!
+I took my latest known good state and diffed it with all gmsl branches i 
+could find picked what seamed most recent. Then I removed multiplexed 
+stream support, fixed a few todos in error paths to clean up notifiers 
+and unified naming of the private data structure.
 
-
---0ntfKIWw70PvrIHh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl1NVNsACgkQFA3kzBSg
-KbabTw/+KkLIW/BoUGVlyJ9CgURdm4aUF1NtSctEVLgA42YRYR4xWjbmmuKxqx4S
-oWRZOQk2+R4h8vZxSmLfRv4OoGEcRUtlCNsmWMXWZJCvY0I2yqmMu1y1OAFKpVSY
-9wZ0nvE4MOds/13DrTtCC3Wpzc4gtB1UcWk+GBw/b+vB2qKUkdO9X0AB54TWBcnj
-Fzeg6adkazIuHKrG11bCnSvdisdmzoBYC9EVMpzsUPmlkR5bWHGerPsIYbJZhPHj
-TO8w8lPrF1PAVeeFIFO2WleMKraG5KjsLQ2oUKhslJHZKZgQK01Ao81m8J3fIGxA
-4EvuZeJ1P6nVwkPiRCNsJdUP852LPWVr4L89/qR5Q4Q+IRmPkvWKOU1iT5FzByLZ
-yOSOq5BM2sMkabVB6EMpb6SmkzLsLlxypHuY0KGlwoWjK7kRwnDgRka2xfYMTANj
-ou4BsNFiLohVJWTidUNEhIKscZCZLXwwSRx6vMfAjc90j7aN3lMBQG+4uot3a2Co
-sD52Rpn6CPlq5vCTc//mwps/NuHM1I2Gj3SjUsQxCYhs6cJW5btRxil7UnCfpT2M
-/DpJYkvi0lHMu/mGiTRkpHx5SsWzgJXD9uf6GJrvBmU0sJIMKzOsoDIsABs3xcwg
-6IofvPKGt6KK6O5z0MNea+fPgT02J/TnQ8RPKmKDAnFgXKzst58=
-=+VyL
------END PGP SIGNATURE-----
-
---0ntfKIWw70PvrIHh--
+-- 
+Regards,
+Niklas Söderlund
