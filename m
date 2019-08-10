@@ -2,110 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 07F3388AB0
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 Aug 2019 12:20:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D45D88AFB
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 10 Aug 2019 13:15:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725888AbfHJKUO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 10 Aug 2019 06:20:14 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:33651 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725907AbfHJKUN (ORCPT
+        id S1726066AbfHJLO7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 10 Aug 2019 07:14:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39088 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725858AbfHJLO7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 10 Aug 2019 06:20:13 -0400
-Received: by mail-lj1-f195.google.com with SMTP id z17so5851666ljz.0
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 10 Aug 2019 03:20:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Sq+6WqpBLaoDnZr39PsY/fQut7RglmH69G4syGYdWNo=;
-        b=tLw/xrN3nkWKecpxzW5sPTVkFFTaLhsramlyCkj7eaSKZz6a1uRzw28+4LJIhGB+24
-         A3T+bct9hlfM8sXFDk8nbnaLGanH5XFzB6HG3iPWQZi/Uxdsi6GVUukvJexdakztwtOw
-         p59/ZKZS69yXzHJMAeoo5EvNcbT3pSFH/5Q+adgVZxbptJz9pCXW8TBAAMyXOCjYsSvN
-         WiQeuX10bfqMISv3uS4WBGfy0/n3Szneb86uASIYs6QP5zTs7kyfiP7YnqpZQTu47Mrp
-         dtcSsfFy9ibFh5U7uB3O7DtjFJSYegzxqqG4gbvdh204/NbyTS+soFEeoKIFSBQSzd3Z
-         x2ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Sq+6WqpBLaoDnZr39PsY/fQut7RglmH69G4syGYdWNo=;
-        b=fWAHuu4xueJQ9JQWtv+yHXzsafaipY10lC9vyzRVG073p4hVAh+FGIoNCIb3aXXh6q
-         v8WSmcBnm8RcdmMxlXtoPPA7+TXMZrT9XaAuI76i33MoH0Y3ClYSIyQJHhj1ep1XXABB
-         rvCBU+dUgEQxURjL2776B2I4hhFct00upITUV32C82c7qcxmGR84a7wkFloTehyDTDga
-         gDSWaS/i0xo/FlAA4tsYl6ifDNbeiSXRx5wNGfeXNNyUzfPf8wHUiCQmWSE8gzOSed05
-         R1I58bMeUqQj91EQoc+z+W3DOEdrLYCD9+bqTKVSeX4eb54+alpulP9J4pgNMeHSN/3x
-         M81Q==
-X-Gm-Message-State: APjAAAVmPJB9OKDmWO1A8bMihO+Dupii9ES6yqasFMjPBfhjEOtxy8ri
-        tamW5vOu2fqCMFPBxWxDH7kZuGbJpzxO+w==
-X-Google-Smtp-Source: APXvYqx5avYfGx2MFNcpS82xmwm1Oq3cm6YBNaGbYQ/4WYUkHtj/CNLg89ZluEVcn3ib2fDTh+rKPA==
-X-Received: by 2002:a2e:a415:: with SMTP id p21mr13856843ljn.111.1565432410967;
-        Sat, 10 Aug 2019 03:20:10 -0700 (PDT)
-Received: from ?IPv6:2a00:1fa0:4d5:6a53:c586:c2b6:b7e6:3b26? ([2a00:1fa0:4d5:6a53:c586:c2b6:b7e6:3b26])
-        by smtp.gmail.com with ESMTPSA id t21sm339759ljd.91.2019.08.10.03.20.09
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 10 Aug 2019 03:20:10 -0700 (PDT)
-Subject: Re: [PATCH v2] dt-bindings: usb: renesas_gen3: Rename bindings
- documentation file to reflect IP block
-To:     Simon Horman <horms+renesas@verge.net.au>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Sat, 10 Aug 2019 07:14:59 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C9F3C20B7C;
+        Sat, 10 Aug 2019 11:14:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1565435698;
+        bh=t13AIRAZYhoUrOLJvl5x+ZVgB0KL8o23fw6CXgqk6is=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dC7XyLuXD6ZGuNwqdrTSZbaDo4D2XwOfBXHmyeo+IUXyud1E+ReRZ8QTKK2VoCj6d
+         gTGCpnLVLgt8GQrz6NCeHxCwPaexPpXEsBhAV+L5Z9vnc4mY4N4V2iEdL1KKAqBvH0
+         Cr32mFwadSkNbJTt0xHIY4XDUuPcKvFbhRRECB+Q=
+Date:   Sat, 10 Aug 2019 13:14:55 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Simon Horman <horms+renesas@verge.net.au>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>,
         Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+        Mark Rutland <mark.rutland@arm.com>,
+        USB list <linux-usb@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v2] dt-bindings: usb: renesas_gen3: Rename bindings
+ documentation file to reflect IP block
+Message-ID: <20190810111455.GA30455@kroah.com>
 References: <20190809213710.31783-1-horms+renesas@verge.net.au>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <0be0a8f4-881d-d959-fd71-70670a6a86db@cogentembedded.com>
-Date:   Sat, 10 Aug 2019 13:19:53 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ <CAMuHMdUHK7Fq3m4y1rjVFxnSXH3tZyTjOzFMfVMtRtPcdKjNCw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190809213710.31783-1-horms+renesas@verge.net.au>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUHK7Fq3m4y1rjVFxnSXH3tZyTjOzFMfVMtRtPcdKjNCw@mail.gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
-
-On 10.08.2019 0:37, Simon Horman wrote:
-
-> For consistency with the naming of (most) other documentation files for DT
-> bindings for Renesas IP blocks rename the Renesas USB3.0 peripheral
-> documentation file from renesas,usb3.txt to renesas,usb3-peri.txt
+On Sat, Aug 10, 2019 at 08:40:15AM +0200, Geert Uytterhoeven wrote:
+> Hi Simon,
 > 
-> This refines a recent rename from renesas_usb3.txt to renesas-usb3.txt.
-
-    To renesas,usb3.txt, perhaps? That's what I'm seeing as the original file
-in this patch...
-
-> The motivation is to more accurately reflect the IP block documented in
-> this file.
+> On Fri, Aug 9, 2019 at 11:37 PM Simon Horman <horms+renesas@verge.net.au> wrote:
+> > For consistency with the naming of (most) other documentation files for DT
+> > bindings for Renesas IP blocks rename the Renesas USB3.0 peripheral
+> > documentation file from renesas,usb3.txt to renesas,usb3-peri.txt
+> >
+> > This refines a recent rename from renesas_usb3.txt to renesas-usb3.txt.
 > 
-> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> * Based on v5.3-rc1
-> 
-> v2
-> * Add review tag
-> * Correct changelog
-> ---
->   .../devicetree/bindings/usb/{renesas,usb3.txt => renesas,usb3-peri.txt}   | 0
->   1 file changed, 0 insertions(+), 0 deletions(-)
->   rename Documentation/devicetree/bindings/usb/{renesas,usb3.txt => renesas,usb3-peri.txt} (100%)
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/renesas,usb3.txt b/Documentation/devicetree/bindings/usb/renesas,usb3-peri.txt
-> similarity index 100%
-> rename from Documentation/devicetree/bindings/usb/renesas,usb3.txt
-> rename to Documentation/devicetree/bindings/usb/renesas,usb3-peri.txt
+> s/renesas-usb3.txt/renesas,usb3.txt/
 
-MBR, Sergei
+I'll fix it up now, no need for a resend...
+
