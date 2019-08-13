@@ -2,137 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6230188EB8
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 11 Aug 2019 01:06:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65A2B8B41F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 13 Aug 2019 11:30:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726177AbfHJXGf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 10 Aug 2019 19:06:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41714 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725788AbfHJXGf (ORCPT
+        id S1726915AbfHMJa4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 13 Aug 2019 05:30:56 -0400
+Received: from michel.telenet-ops.be ([195.130.137.88]:39158 "EHLO
+        michel.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727129AbfHMJa4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 10 Aug 2019 19:06:35 -0400
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E905B208C4;
-        Sat, 10 Aug 2019 23:06:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1565478394;
-        bh=SI2d4Y4hZcsrt7ve7CrzNd1JjWMC3yyXOT2RxwbjXqE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=qojn2EIuU0YQdoMtEZa0fsyEnVUqcQtKuMbGD7jqJUsatW8elNX+GjFPGrY/MTLLQ
-         ReD1q5nafCpn0ZJl0SSx2G11jm+nQvtiIXSPuI3hsZ6QGrqF7PrMi496Xmm00XSz7o
-         ozHQ64LKOaSrsy5wYU9cV5+1vFkGFiKD/oTPKNjs=
-Received: by mail-qk1-f180.google.com with SMTP id g17so3787759qkk.8;
-        Sat, 10 Aug 2019 16:06:33 -0700 (PDT)
-X-Gm-Message-State: APjAAAXBHQvZgfiayn9V/neIeNV5ZeAksWAZehsc4aKSgtwo8cHvUiho
-        t+yMcpowYsr/WN28LqXLLoFNzJ+UpXgdlsFpwg==
-X-Google-Smtp-Source: APXvYqzMoxSMzmfJnWNfgvCIgM0nuiBjcGotb8rUssRzaeUgirt9md2wJ5YyJkMUroVAciLVRbrAOptmfLb33d7v8Vs=
-X-Received: by 2002:a37:a44a:: with SMTP id n71mr24174784qke.393.1565478393051;
- Sat, 10 Aug 2019 16:06:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190809173321.19944-1-marek.vasut@gmail.com> <CAL_JsqJyYQ99ENOkNd6yzn1eYwLTGLNihFxtovSPJajtF9SVvg@mail.gmail.com>
- <10818888-6476-f4b1-1a2e-e10c3159327f@gmail.com>
-In-Reply-To: <10818888-6476-f4b1-1a2e-e10c3159327f@gmail.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Sat, 10 Aug 2019 17:06:21 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJMQtvrQac6F6vy+0uWOMVi-4_7_1ooYWiB8gekrt9Jqg@mail.gmail.com>
-Message-ID: <CAL_JsqJMQtvrQac6F6vy+0uWOMVi-4_7_1ooYWiB8gekrt9Jqg@mail.gmail.com>
-Subject: Re: [PATCH] of: Fix of_empty_ranges_quirk()
-To:     Marek Vasut <marek.vasut@gmail.com>
-Cc:     devicetree@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Tue, 13 Aug 2019 05:30:56 -0400
+Received: from ramsan ([84.194.98.4])
+        by michel.telenet-ops.be with bizsmtp
+        id oZWn2000Y05gfCL06ZWnvJ; Tue, 13 Aug 2019 11:30:54 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hxT8h-0001Ef-Ny; Tue, 13 Aug 2019 11:30:47 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hxT8h-0001Iz-KD; Tue, 13 Aug 2019 11:30:47 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Andrzej Hajda <a.hajda@samsung.com>
+Cc:     Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Emil Velikov <emil.velikov@collabora.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] drm/bridge: dumb-vga-dac: Fix dereferencing -ENODEV DDC channel
+Date:   Tue, 13 Aug 2019 11:30:46 +0200
+Message-Id: <20190813093046.4976-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Aug 10, 2019 at 7:39 AM Marek Vasut <marek.vasut@gmail.com> wrote:
->
-> On 8/10/19 12:34 AM, Rob Herring wrote:
-> > On Fri, Aug 9, 2019 at 11:33 AM <marek.vasut@gmail.com> wrote:
-> >>
-> >> From: Marek Vasut <marek.vasut+renesas@gmail.com>
-> >>
-> >> The of_empty_ranges_quirk() returns a mix of boolean and signed integer
-> >> types, which cannot work well.
-> >
-> > It never returns a negative. The negative is used as an uninitialized
-> > flag. Note quirk_state is static.
->
-> It's still mixing boolean and signed int types though, which isn't right.
+If the VGA connector has no DDC channel, an error pointer will be
+dereferenced, e.g. on Salvator-XS:
 
-I'm really only interested in touching this code if it is too remove
-it. But some reason people still run 1990s Macs.
+    Unable to handle kernel NULL pointer dereference at virtual address 000000000000017d
+    ...
+    Call trace:
+     sysfs_do_create_link_sd.isra.0+0x40/0x108
+     sysfs_create_link+0x20/0x40
+     drm_sysfs_connector_add+0xa8/0xc8
+     drm_connector_register.part.3+0x54/0xb0
+     drm_connector_register_all+0xb0/0xd0
+     drm_modeset_register_all+0x54/0x88
+     drm_dev_register+0x18c/0x1d8
+     rcar_du_probe+0xe4/0x150
+     ...
 
-> >> Replace that with boolean only and fix
-> >> usage logic in of_translate_one() -- the check should trigger when the
-> >> ranges are NULL and the quirk is applicable on the hardware.
-> >>
-> >> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-> >> Cc: Rob Herring <robh+dt@kernel.org>
-> >> Cc: Frank Rowand <frowand.list@gmail.com>
-> >> Cc: linux-renesas-soc@vger.kernel.org
-> >> To: devicetree@vger.kernel.org
-> >> ---
-> >>  drivers/of/address.c | 9 +++++----
-> >>  1 file changed, 5 insertions(+), 4 deletions(-)
-> >>
-> >> diff --git a/drivers/of/address.c b/drivers/of/address.c
-> >> index b492176c0572..ae2819e148b8 100644
-> >> --- a/drivers/of/address.c
-> >> +++ b/drivers/of/address.c
-> >> @@ -616,7 +616,7 @@ static struct of_bus *of_match_bus(struct device_node *np)
-> >>         return NULL;
-> >>  }
-> >>
-> >> -static int of_empty_ranges_quirk(struct device_node *np)
-> >> +static bool of_empty_ranges_quirk(struct device_node *np)
-> >>  {
-> >>         if (IS_ENABLED(CONFIG_PPC)) {
-> >>                 /* To save cycles, we cache the result for global "Mac" setting */
-> >> @@ -631,7 +631,8 @@ static int of_empty_ranges_quirk(struct device_node *np)
-> >>                         quirk_state =
-> >>                                 of_machine_is_compatible("Power Macintosh") ||
-> >>                                 of_machine_is_compatible("MacRISC");
-> >> -               return quirk_state;
-> >> +               if (quirk_state > 0)
-> >> +                       return true;
-> >>         }
-> >>         return false;
-> >>  }
-> >> @@ -662,8 +663,8 @@ static int of_translate_one(struct device_node *parent, struct of_bus *bus,
-> >>          * This code is only enabled on powerpc. --gcl
-> >>          */
-> >>         ranges = of_get_property(parent, rprop, &rlen);
-> >> -       if (ranges == NULL && !of_empty_ranges_quirk(parent)) {
-> >> -               pr_debug("no ranges; cannot translate\n");
-> >> +       if (ranges == NULL && of_empty_ranges_quirk(parent)) {
-> >> +               pr_err("no ranges; cannot translate\n");
-> >
-> > This is wrong. If you have NULL ranges and not the quirk, then no
-> > ranges is an error. IOW, if you are getting an error here, you have an
-> > error in your DT (because I assume you are not working on a PASemi or
-> > Apple system).
->
-> The way I understand the code is that
-> if (you have no ranges in the DT) AND (the quirk is applicable) then
-> print the message. Which is what this patch does.
+This happens because vga->ddc either contains a valid DDC channel
+pointer, or -ENODEV, and drm_connector_init_with_ddc() expects a valid
+DDC channel pointer, or NULL.
 
-Your understanding is wrong.
+Fix this by resetting vga->ddc to NULL in case of -ENODEV, and replacing
+the existing error checks by non-NULL checks.
+This is similar to what the HDMI connector driver does.
 
-> Am I missing something ?
+Fixes: a4f9087e85de141e ("drm/bridge: dumb-vga-dac: Provide ddc symlink in connector sysfs directory")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+An alternative would be to check if vga->ddc contains an error pointer,
+and calling drm_connector_init() instead of
+drm_connector_init_with_ddc(), like before.
+---
+ drivers/gpu/drm/bridge/dumb-vga-dac.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-The normal case is you must have ranges to translate addresses. If you
-don't have ranges (say for I2C addresses), then you shouldn't be in
-this code. The quirk is for when there is not a ranges property but
-should be. IOW, if the quirk is true, then pretend there is an empty
-ranges (1:1 translation) property and continue to translate the
-address.
+diff --git a/drivers/gpu/drm/bridge/dumb-vga-dac.c b/drivers/gpu/drm/bridge/dumb-vga-dac.c
+index 8ef6539ae78a6eb3..7aa789c358829b05 100644
+--- a/drivers/gpu/drm/bridge/dumb-vga-dac.c
++++ b/drivers/gpu/drm/bridge/dumb-vga-dac.c
+@@ -42,7 +42,7 @@ static int dumb_vga_get_modes(struct drm_connector *connector)
+ 	struct edid *edid;
+ 	int ret;
+ 
+-	if (IS_ERR(vga->ddc))
++	if (!vga->ddc)
+ 		goto fallback;
+ 
+ 	edid = drm_get_edid(connector, vga->ddc);
+@@ -84,7 +84,7 @@ dumb_vga_connector_detect(struct drm_connector *connector, bool force)
+ 	 * wire the DDC pins, or the I2C bus might not be working at
+ 	 * all.
+ 	 */
+-	if (!IS_ERR(vga->ddc) && drm_probe_ddc(vga->ddc))
++	if (vga->ddc && drm_probe_ddc(vga->ddc))
+ 		return connector_status_connected;
+ 
+ 	return connector_status_unknown;
+@@ -197,6 +197,7 @@ static int dumb_vga_probe(struct platform_device *pdev)
+ 		if (PTR_ERR(vga->ddc) == -ENODEV) {
+ 			dev_dbg(&pdev->dev,
+ 				"No i2c bus specified. Disabling EDID readout\n");
++			vga->ddc = NULL;
+ 		} else {
+ 			dev_err(&pdev->dev, "Couldn't retrieve i2c bus\n");
+ 			return PTR_ERR(vga->ddc);
+@@ -218,7 +219,7 @@ static int dumb_vga_remove(struct platform_device *pdev)
+ 
+ 	drm_bridge_remove(&vga->bridge);
+ 
+-	if (!IS_ERR(vga->ddc))
++	if (vga->ddc)
+ 		i2c_put_adapter(vga->ddc);
+ 
+ 	return 0;
+-- 
+2.17.1
 
-Rob
