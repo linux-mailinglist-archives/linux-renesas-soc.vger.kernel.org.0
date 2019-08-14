@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 257708CF7E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Aug 2019 11:29:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00FB08CF81
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Aug 2019 11:29:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725996AbfHNJ3c (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Aug 2019 05:29:32 -0400
-Received: from xavier.telenet-ops.be ([195.130.132.52]:34158 "EHLO
-        xavier.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726126AbfHNJ3c (ORCPT
+        id S1726047AbfHNJ3d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Aug 2019 05:29:33 -0400
+Received: from baptiste.telenet-ops.be ([195.130.132.51]:37442 "EHLO
+        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726119AbfHNJ3c (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Wed, 14 Aug 2019 05:29:32 -0400
 Received: from ramsan ([84.194.98.4])
-        by xavier.telenet-ops.be with bizsmtp
-        id oxVS2000605gfCL01xVSWU; Wed, 14 Aug 2019 11:29:30 +0200
+        by baptiste.telenet-ops.be with bizsmtp
+        id oxVS2000605gfCL01xVSG3; Wed, 14 Aug 2019 11:29:30 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hxpaw-0003VM-3a; Wed, 14 Aug 2019 11:29:26 +0200
+        id 1hxpaw-0003VP-4g; Wed, 14 Aug 2019 11:29:26 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hxpaw-0003cJ-1U; Wed, 14 Aug 2019 11:29:26 +0200
+        id 1hxpaw-0003cM-38; Wed, 14 Aug 2019 11:29:26 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jiri Slaby <jslaby@suse.com>
@@ -37,9 +37,9 @@ Cc:     =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?=
         linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 1/3] serial: atmel: Don't check for mctrl_gpio_to_gpiod() returning error
-Date:   Wed, 14 Aug 2019 11:29:22 +0200
-Message-Id: <20190814092924.13857-2-geert+renesas@glider.be>
+Subject: [PATCH 2/3] serial: mxs-auart: Don't check for mctrl_gpio_to_gpiod() returning error
+Date:   Wed, 14 Aug 2019 11:29:23 +0200
+Message-Id: <20190814092924.13857-3-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190814092924.13857-1-geert+renesas@glider.be>
 References: <20190814092757.13726-1-geert+renesas@glider.be>
@@ -63,50 +63,26 @@ drop usages of IS_ERR_OR_NULL") in the mctrl-gpio core.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/tty/serial/atmel_serial.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ drivers/tty/serial/mxs-auart.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/tty/serial/atmel_serial.c b/drivers/tty/serial/atmel_serial.c
-index 19a85d6fe3d20541..e9620a81166b7dc1 100644
---- a/drivers/tty/serial/atmel_serial.c
-+++ b/drivers/tty/serial/atmel_serial.c
-@@ -303,32 +303,28 @@ static unsigned int atmel_get_lines_status(struct uart_port *port)
+diff --git a/drivers/tty/serial/mxs-auart.c b/drivers/tty/serial/mxs-auart.c
+index 4c188f4079b3ea68..e3452597068292f9 100644
+--- a/drivers/tty/serial/mxs-auart.c
++++ b/drivers/tty/serial/mxs-auart.c
+@@ -969,10 +969,8 @@ static int mxs_auart_dma_init(struct mxs_auart_port *s)
  
- 	mctrl_gpio_get(atmel_port->gpios, &ret);
+ }
  
--	if (!IS_ERR_OR_NULL(mctrl_gpio_to_gpiod(atmel_port->gpios,
--						UART_GPIO_CTS))) {
-+	if (mctrl_gpio_to_gpiod(atmel_port->gpios, UART_GPIO_CTS)) {
- 		if (ret & TIOCM_CTS)
- 			status &= ~ATMEL_US_CTS;
- 		else
- 			status |= ATMEL_US_CTS;
- 	}
- 
--	if (!IS_ERR_OR_NULL(mctrl_gpio_to_gpiod(atmel_port->gpios,
--						UART_GPIO_DSR))) {
-+	if (mctrl_gpio_to_gpiod(atmel_port->gpios, UART_GPIO_DSR)) {
- 		if (ret & TIOCM_DSR)
- 			status &= ~ATMEL_US_DSR;
- 		else
- 			status |= ATMEL_US_DSR;
- 	}
- 
--	if (!IS_ERR_OR_NULL(mctrl_gpio_to_gpiod(atmel_port->gpios,
--						UART_GPIO_RI))) {
-+	if (mctrl_gpio_to_gpiod(atmel_port->gpios, UART_GPIO_RI)) {
- 		if (ret & TIOCM_RI)
- 			status &= ~ATMEL_US_RI;
- 		else
- 			status |= ATMEL_US_RI;
- 	}
- 
--	if (!IS_ERR_OR_NULL(mctrl_gpio_to_gpiod(atmel_port->gpios,
--						UART_GPIO_DCD))) {
-+	if (mctrl_gpio_to_gpiod(atmel_port->gpios, UART_GPIO_DCD)) {
- 		if (ret & TIOCM_CD)
- 			status &= ~ATMEL_US_DCD;
- 		else
+-#define RTS_AT_AUART()	IS_ERR_OR_NULL(mctrl_gpio_to_gpiod(s->gpios,	\
+-							UART_GPIO_RTS))
+-#define CTS_AT_AUART()	IS_ERR_OR_NULL(mctrl_gpio_to_gpiod(s->gpios,	\
+-							UART_GPIO_CTS))
++#define RTS_AT_AUART()	!mctrl_gpio_to_gpiod(s->gpios, UART_GPIO_RTS)
++#define CTS_AT_AUART()	!mctrl_gpio_to_gpiod(s->gpios, UART_GPIO_CTS)
+ static void mxs_auart_settermios(struct uart_port *u,
+ 				 struct ktermios *termios,
+ 				 struct ktermios *old)
 -- 
 2.17.1
 
