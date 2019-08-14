@@ -2,83 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C2E38CFF3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Aug 2019 11:46:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 603AB8D09E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Aug 2019 12:20:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726047AbfHNJqG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Aug 2019 05:46:06 -0400
-Received: from sauhun.de ([88.99.104.3]:46980 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725265AbfHNJqG (ORCPT
+        id S1726157AbfHNKUp convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Aug 2019 06:20:45 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:35664 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725800AbfHNKUp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Aug 2019 05:46:06 -0400
-Received: from localhost (p54B33326.dip0.t-ipconnect.de [84.179.51.38])
-        by pokefinder.org (Postfix) with ESMTPSA id 902EF2C311C;
-        Wed, 14 Aug 2019 11:46:03 +0200 (CEST)
-Date:   Wed, 14 Aug 2019 11:46:03 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-can@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        netdev@vger.kernel.org
-Subject: Re: [PATCH] can: rcar_can: Remove unused platform data support
-Message-ID: <20190814094603.GB1511@ninjato>
-References: <20190814092221.12959-1-geert+renesas@glider.be>
+        Wed, 14 Aug 2019 06:20:45 -0400
+Received: by mail-ot1-f66.google.com with SMTP id g17so30094257otl.2;
+        Wed, 14 Aug 2019 03:20:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=5lSlPgg3xC115OeKKRGpU0WE/kSSKOVNwSmAsaRTAXc=;
+        b=oCb1t0OYxVupeP3rw/jb2S9oi/P+wrIIJhRvcpgBtnik32uKsAXdkgkwpH5w4zRonX
+         tYuFwSI+Mf8GkNbEggbLHGdO1u9ThevPDdrgsxbvC730OEW4+TH9n15Exg5BWHETY3Bp
+         IDdyROpbUn3eDKYpvyOYI2M+k0kucanXL+sn2a4ggDjNtpgEl5c67Fy49/t86eC934Wb
+         ZhyLyCZMYdZP0hPvs7t5lM/a3tKK4RHLKwDFAqe4qpV0AE7VYsQt8vQZ7ANKJpOj6Y9j
+         l0v6YSE4nJIXQqmTWbIn6Hrg4Ar8DkwUNX7iFajr2zYuj95VFnll5MwLuMPi83qaN2px
+         p/Lg==
+X-Gm-Message-State: APjAAAXf5SzAfCo54RZS8q/wSODmeetWAtg/es310SSQNy8K94xuoUT5
+        W8eZgpIFYhvuwhEQL9sbrtmbHtJY0BkU47itp9s=
+X-Google-Smtp-Source: APXvYqwp8nNz8kvOejBIjZmKo0UwGElSRWItdKkBCkr/K+Q1M2uPBbQY/Jc+cxAK9yij+FCXBzlHPzvd6LtG7yuVlAQ=
+X-Received: by 2002:a9d:5c0c:: with SMTP id o12mr26113661otk.145.1565778044448;
+ Wed, 14 Aug 2019 03:20:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="SkvwRMAIpAhPCcCJ"
-Content-Disposition: inline
-In-Reply-To: <20190814092221.12959-1-geert+renesas@glider.be>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190814092757.13726-1-geert+renesas@glider.be>
+ <20190814092924.13857-1-geert+renesas@glider.be> <20190814092924.13857-2-geert+renesas@glider.be>
+ <20190814093558.xlx5ck54dw2dgb6k@pengutronix.de>
+In-Reply-To: <20190814093558.xlx5ck54dw2dgb6k@pengutronix.de>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 14 Aug 2019 12:20:33 +0200
+Message-ID: <CAMuHMdWNj-H9B8E9=NeCgLracBuJODfPyBYJERh=vt4oNFUkGw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] serial: atmel: Don't check for mctrl_gpio_to_gpiod()
+ returning error
+To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        Frieder Schrempf <frieder.schrempf@kontron.de>,
+        Richard Genoud <richard.genoud@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Uwe,
 
---SkvwRMAIpAhPCcCJ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Aug 14, 2019 at 11:36 AM Uwe Kleine-König
+<u.kleine-koenig@pengutronix.de> wrote:
+> On Wed, Aug 14, 2019 at 11:29:22AM +0200, Geert Uytterhoeven wrote:
+> > Since commit 1d267ea6539f2663 ("serial: mctrl-gpio: simplify init
+> > routine"), mctrl_gpio_init() returns failure if the assignment to any
+> > member of the gpio array results in an error pointer.
+> > Since commit c359522194593815 ("serial: mctrl_gpio: Avoid probe failures
+> > in case of missing gpiolib"), mctrl_gpio_to_gpiod() returns NULL in the
+> > !CONFIG_GPIOLIB case.
+> > Hence there is no longer a need to check for mctrl_gpio_to_gpiod()
+> > returning an error value.  A simple NULL check is sufficient.
+> >
+> > This follows the spirit of commit 445df7ff3fd1a0a9 ("serial: mctrl-gpio:
+> > drop usages of IS_ERR_OR_NULL") in the mctrl-gpio core.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> >  drivers/tty/serial/atmel_serial.c | 12 ++++--------
+> >  1 file changed, 4 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/tty/serial/atmel_serial.c b/drivers/tty/serial/atmel_serial.c
+> > index 19a85d6fe3d20541..e9620a81166b7dc1 100644
+> > --- a/drivers/tty/serial/atmel_serial.c
+> > +++ b/drivers/tty/serial/atmel_serial.c
+> > @@ -303,32 +303,28 @@ static unsigned int atmel_get_lines_status(struct uart_port *port)
+> >
+> >       mctrl_gpio_get(atmel_port->gpios, &ret);
+> >
+> > -     if (!IS_ERR_OR_NULL(mctrl_gpio_to_gpiod(atmel_port->gpios,
+> > -                                             UART_GPIO_CTS))) {
+> > +     if (mctrl_gpio_to_gpiod(atmel_port->gpios, UART_GPIO_CTS)) {
+> >               if (ret & TIOCM_CTS)
+> >                       status &= ~ATMEL_US_CTS;
+> >               else
+> >                       status |= ATMEL_US_CTS;
+> >       }
+>
+> The change is fine, but it seems the atmel driver doesn't use mctrl_gpio
+> as expected (at least as expected by me). IMHO driving the hardware
+> function of the CTS pin shouldn't be conditional on the presence of a
+> cts-gpio. Is there a reason not to just drop the if completely?
 
-On Wed, Aug 14, 2019 at 11:22:21AM +0200, Geert Uytterhoeven wrote:
-> All R-Car platforms use DT for describing CAN controllers.
-> R-Car CAN platform data support was never used in any upstream kernel.
->=20
-> Move the Clock Select Register settings enum into the driver, and remove
-> platform data support and the corresponding header file.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+The above code returns the hardware status if CTS is not a GPIO, and
+returns (overrides with) the GPIO status if CTS is a GPIO.
+Isn't that correct, or am I missing something?
 
-Not tested on HW, but double-checked there are no users in-tree, there
-is no dangling pdata pointer left in the driver, visual review of the
-moved block, and build-tested.
+Gr{oetje,eeting}s,
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
---SkvwRMAIpAhPCcCJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl1T2FoACgkQFA3kzBSg
-KbYgsxAAoYdxzJnOyenR92qQswpVrJibp9k656vQXf/t3C5LdbpCDryOU9QOJ9/P
-XznxB/fQkAMI0Xkt8t14bZux9euO9LB+zTvAPKr8wwrjaqVQPqGw1J8xchvTBlY0
-1PLNrk0g+06teky5cWcqgDC7TUGplpH0oMZChfPDAmYocEU2qskLE8U+PfgpwhT/
-okyO8N9ve/jUpn4CjqFdVANCSHWuhg8O4jo+776gq5VoFT3NEl3dRHU+Mq2RI8fz
-6Mt89ohdbSv5Ujb5RSgJsOKmI0UijvQ8Y48ig+TZhphfHYxVvYW9PVU9MXOQWDEL
-gv0cJwcHL/hzJcxg8cOTv7EcmRjqq8HHZp1ypmRGqfjE3BnhYu5cmhDei3EccMmC
-afLNEX03YC2lJffupgVlMIx7O2XPuJRBCzok9ueN2hsmxBCFy++Aj9pl2wwwIWJc
-Yb0IKvZofzeQnIl/RrR91xbfexAScQwL9FEmox1tnKxTQY4RtKlEE2Y+NI46c9Bj
-K3ZIbkgAxYfu4eVVPwG7YcbA9f8H+xkIcuTi7CWKx7s4rHzTU22IShGuFIGk8AGa
-rh6PD9ivSf14usYTMZvigdF1sB3PBh1pAu0MYj66Kuw2gu0UXpLXZl8jr4mRFH6I
-806iNlAze67mdl0qJUQf2s2EIVyaX3j5KrXycFf7lcEBFU+wEWk=
-=62lr
------END PGP SIGNATURE-----
-
---SkvwRMAIpAhPCcCJ--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
