@@ -2,132 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 141B88D6AA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Aug 2019 16:54:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 467CC8E078
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Aug 2019 00:14:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728002AbfHNOy0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Aug 2019 10:54:26 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:50666 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726166AbfHNOy0 (ORCPT
+        id S1729905AbfHNWO0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Aug 2019 18:14:26 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:44416 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729900AbfHNWOV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Aug 2019 10:54:26 -0400
-Received: from pendragon.bb.dnainternet.fi (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 35EB42B2;
-        Wed, 14 Aug 2019 16:54:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1565794464;
-        bh=fMwkKQDP9tb51LzahulAvzJUA1ysJqumG8L71bWW+kg=;
-        h=From:To:Cc:Subject:Date:From;
-        b=BSMwRDTpoYFS9Y/Pee2id1AnmYSDkYOHODAPDuef8kECgSNkcV2sNjnHcgkJw4LQs
-         +seMeELJbzkqm67D1mlwuz0qNY3UXLHZTUm6vaBbRzOWw5FTrBaqz3XhES2WzByMqg
-         G+p2K87cU1GMN+KMwOBVuUCM6SRuDt/y0GIo1bZY=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2] v4l: rcar-fcp: Read IP version register at probe time
-Date:   Wed, 14 Aug 2019 17:54:17 +0300
-Message-Id: <20190814145417.30670-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.21.0
+        Wed, 14 Aug 2019 18:14:21 -0400
+Received: by mail-qt1-f196.google.com with SMTP id 44so332971qtg.11
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Aug 2019 15:14:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=p6m83mGjllDiHyeRTSS1oVMHX5M/xE6ILn6PPhzsgs4=;
+        b=l5PC+4msT+R1VOq1FIInu61dIh2STHPN9aSBt/Y5M3n644FfA169IT6wzP+sfbruwG
+         5vHd8QNfmmF7FOlV1OW4+1ls9+argQAW0MZ9696kjqRFjMtNiRxkPVvom8CpuMz6+P3J
+         lvnykAE+N5ClLjt8+21Oenlj55mmWn47h6bOufTUj3iAyACG+cL0ImoQgj5m6u3w1/lr
+         fVPm9fs++0X3Li7mpOQ13No26+jYpH9OobXYps5GGnrfpp0Xq6qTsPtsJRMHzlRsuSi2
+         Q5RuPSHMeFGhG1MzboDTj+tp2IBpQDy9TN5wUYjWC528WeGARQxpLHz2F9meUvIkEvkQ
+         sSPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=p6m83mGjllDiHyeRTSS1oVMHX5M/xE6ILn6PPhzsgs4=;
+        b=GdflHzAClgzitsRkL0yNHaqVxnD5JUNp6feAVsIpGl+q6D63e0HwoBkoVJwxM2cY7d
+         BfOPcosHRnrHA1RAClX/8zDgFTcW5f2jsnL4PAA8M/4fSjzb0gR+yKfcs7cAgQYTYZw4
+         /zA9WKRIa/y2l7xRkM6vrXG3enEHTNOnT1SsWbTpGQaN4ANxzhNXVye4+rnZkw8ZSvF2
+         xdg+X6sQy1NXS02Oixo/6mULzMsBmpnV4ayxn2uIVaNSaJA/WigkW507ssOidNvbhbZl
+         lkdX63gmcqEUYlBk9AzKzBtN9D01LsQfDYcZDvPnTxXN+6qdhOnx5PieF8U8y/92MJpm
+         Swbw==
+X-Gm-Message-State: APjAAAWJstHa/2k5vEEA97nvi4hTeCLlNf8COIS1L52FcTv+OKM2WbXc
+        HMRMRpWQykZ7XvCswcTnyUMh/aAIr9bslMQuA3I=
+X-Google-Smtp-Source: APXvYqwvEwq36YC/YcFdGthiFQqEswOUmu8y33AXL4ty34gsygcaTEjmhvj04/dFUfa1vFoE719aJcDSjuFoUwkSVes=
+X-Received: by 2002:aed:3826:: with SMTP id j35mr1333309qte.54.1565820860049;
+ Wed, 14 Aug 2019 15:14:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:aed:3544:0:0:0:0:0 with HTTP; Wed, 14 Aug 2019 15:14:19
+ -0700 (PDT)
+Reply-To: Katerinejones19@gmail.com
+From:   "MS. MARYANNA B. THOMASON" <westernunion.benin982@gmail.com>
+Date:   Wed, 14 Aug 2019 23:14:19 +0100
+Message-ID: <CAP=nHB+U+By16HzeUHiDfPT5KNtemGam6gniZhL2s7_itZ3F8w@mail.gmail.com>
+Subject: TODAY, Wed, Aug 14, 2019 I AM READY FOR COMING TO YOUR ADDRESS WITH
+ THIS ATM CARD
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This helps identifying the IP core version, for debugging purpose only
-for now.
+ATTN DEAR PARCEL BENEFICIARY.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
-Changes since v1:
+I AM CATHY JONES,DIPLOMATIC AGENT ASIGNED ON THE DELIVERY OF YOUR ATM
+CARD THROUGH MS. MARYANNA B. THOMASON, DHL MANAGEMENT DIRECTOR NEW
+YORK.
+TODAY, Wed, Aug 14, 2019 I AM READY FOR COMING TO YOUR ADDRESS WITH
+THIS ATM CARD, So before i deliver I want you to send me.
+official diplomatic agent delivery fee sum of $150.00 us
+ only. I am here at JFK Airport,Florida. USA
 
-- Use devm_platform_ioremap_resource()
----
- drivers/media/platform/rcar-fcp.c | 41 +++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+SEND THIS FEE BY WESTERN UNION OR MONEY WITH RECEIVER'S NAME AND ADDRESS BELOW.
 
-diff --git a/drivers/media/platform/rcar-fcp.c b/drivers/media/platform/rcar-fcp.c
-index 43c78620c9d8..6e0c0e7c0f8c 100644
---- a/drivers/media/platform/rcar-fcp.c
-+++ b/drivers/media/platform/rcar-fcp.c
-@@ -8,6 +8,7 @@
-  */
- 
- #include <linux/device.h>
-+#include <linux/io.h>
- #include <linux/list.h>
- #include <linux/module.h>
- #include <linux/mod_devicetable.h>
-@@ -21,11 +22,38 @@
- struct rcar_fcp_device {
- 	struct list_head list;
- 	struct device *dev;
-+	void __iomem *iomem;
- };
- 
- static LIST_HEAD(fcp_devices);
- static DEFINE_MUTEX(fcp_lock);
- 
-+#define FCP_VCR			0x0000
-+#define FCP_VCR_CATEGORY_MASK	(0xff << 8)
-+#define FCP_VCR_CATEGORY_SHIFT	8
-+#define FCP_VCR_REVISION_MASK	(0xff << 0)
-+#define FCP_VCR_REVISION_SHIFT	0
-+
-+#define FCP_CFG0		0x0004
-+#define FCP_RST			0x0010
-+#define FCP_STA			0x0018
-+#define FCP_TL_CTRL		0x0070
-+#define FCP_PICINFO1		0x00c4
-+#define FCP_BA_ANC_Y0		0x0100
-+#define FCP_BA_ANC_Y1		0x0104
-+#define FCP_BA_ANC_Y2		0x0108
-+#define FCP_BA_ANC_C		0x010c
-+#define FCP_BA_REF_Y0		0x0110
-+#define FCP_BA_REF_Y1		0x0114
-+#define FCP_BA_REF_Y2		0x0118
-+#define FCP_BA_REF_C		0x011c
-+
-+
-+static inline u32 rcar_fcp_read(struct rcar_fcp_device *fcp, u32 reg)
-+{
-+	return ioread32(fcp->iomem + reg);
-+}
-+
- /* -----------------------------------------------------------------------------
-  * Public API
-  */
-@@ -129,6 +157,7 @@ EXPORT_SYMBOL_GPL(rcar_fcp_disable);
- static int rcar_fcp_probe(struct platform_device *pdev)
- {
- 	struct rcar_fcp_device *fcp;
-+	u32 version;
- 
- 	fcp = devm_kzalloc(&pdev->dev, sizeof(*fcp), GFP_KERNEL);
- 	if (fcp == NULL)
-@@ -138,6 +167,18 @@ static int rcar_fcp_probe(struct platform_device *pdev)
- 
- 	pm_runtime_enable(&pdev->dev);
- 
-+	fcp->iomem = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(fcp->iomem))
-+		return PTR_ERR(fcp->iomem);
-+
-+	pm_runtime_get_sync(&pdev->dev);
-+	version = rcar_fcp_read(fcp, FCP_VCR);
-+	pm_runtime_put(&pdev->dev);
-+
-+	dev_dbg(&pdev->dev, "FCP category %u revision %u\n",
-+		(version & FCP_VCR_CATEGORY_MASK) >> FCP_VCR_CATEGORY_SHIFT,
-+		(version & FCP_VCR_REVISION_MASK) >> FCP_VCR_REVISION_SHIFT);
-+
- 	mutex_lock(&fcp_lock);
- 	list_add_tail(&fcp->list, &fcp_devices);
- 	mutex_unlock(&fcp_lock);
--- 
-Regards,
-
-Laurent Pinchart
-
+RECEIVER'S NAME-----------------ERROL PRINGLE
+ADDRESS----------------3500 OLD DENTON RD APT 208; CARROLLTON, TEXAS 75007
+COUNTRY----------------USA
+AMOUNT--------------------$150.00 ONLY
+TEST QUESTION----------------WHO IS THE CREATOR
+ANSWER------------------GOD
+ meanwhile this $150.00 is required by the Custom Service,USA Homeland
+Security,for protection of your delivery, it will make the ATM CARD
+and funds worth $15.8MILLION US DOLLARS secure, Beleiev me, this is my
+word, remark my word,you will receive your delivery from me, Mrs.
+Cathy Jones once you send this only $150.00 today.
+I WAIT ON YOUR PAYMENT CONFIRMATION, ONCE I GOT YOUR PAYMENT, I WILL
+FINALLY ARRIVE TO YOUR NEAREST ADDRESS. today
+THANKS AND MAY GOD BLESS  YOU
+CATHY JONES,DIPLOMATIC AGENT
+EMAIL; katerinejones19@gmail.com
+CALL OR TEXT ME, DIPLOMATIC AGENT MS. CATHY JONES
+Phone Number; (408) 650-6103,
