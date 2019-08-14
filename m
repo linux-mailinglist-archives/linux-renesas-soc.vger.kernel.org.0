@@ -2,34 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 82C538D370
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Aug 2019 14:48:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F07A68D42A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Aug 2019 15:04:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726522AbfHNMsZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Aug 2019 08:48:25 -0400
-Received: from sauhun.de ([88.99.104.3]:48534 "EHLO pokefinder.org"
+        id S1727929AbfHNNEZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Aug 2019 09:04:25 -0400
+Received: from sauhun.de ([88.99.104.3]:48802 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726821AbfHNMsZ (ORCPT
+        id S1726865AbfHNNEY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Aug 2019 08:48:25 -0400
+        Wed, 14 Aug 2019 09:04:24 -0400
 Received: from localhost (p54B33326.dip0.t-ipconnect.de [84.179.51.38])
-        by pokefinder.org (Postfix) with ESMTPSA id 642CA2C311C;
-        Wed, 14 Aug 2019 14:48:23 +0200 (CEST)
-Date:   Wed, 14 Aug 2019 14:48:23 +0200
+        by pokefinder.org (Postfix) with ESMTPSA id C003A2C311C;
+        Wed, 14 Aug 2019 15:04:22 +0200 (CEST)
+Date:   Wed, 14 Aug 2019 15:04:22 +0200
 From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Krzysztof Adamski <krzysztof.adamski@nokia.com>
-Subject: Re: [PATCH RFT] i2c: emev2: avoid race when unregistering slave
- client
-Message-ID: <20190814124823.GB9716@ninjato>
-References: <20190808195417.13482-1-wsa+renesas@sang-engineering.com>
+To:     Simon Horman <horms+renesas@verge.net.au>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>, linux-i2c@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] dt-bindings: i2c: renesas: Rename bindings
+ documentation files
+Message-ID: <20190814130422.GE9716@ninjato>
+References: <20190809213004.31181-1-horms+renesas@verge.net.au>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="6sX45UoQRIJXqkqR"
+        protocol="application/pgp-signature"; boundary="BZaMRJmqxGScZ8Mx"
 Content-Disposition: inline
-In-Reply-To: <20190808195417.13482-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20190809213004.31181-1-horms+renesas@verge.net.au>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -37,40 +40,51 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---6sX45UoQRIJXqkqR
+--BZaMRJmqxGScZ8Mx
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 08, 2019 at 09:54:17PM +0200, Wolfram Sang wrote:
-> After we disabled interrupts, there might still be an active one
-> running. Sync before clearing the pointer to the slave device.
+On Fri, Aug 09, 2019 at 02:30:00PM -0700, Simon Horman wrote:
+> Rename the bindings documentation file for Renesas I2C controllers.
 >=20
-> Fixes: c31d0a00021d ("i2c: emev2: add slave support")
-> Reported-by: Krzysztof Adamski <krzysztof.adamski@nokia.com>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> This is part of an ongoing effort to name bindings documentation files for
+> Renesas IP blocks consistently, in line with the compat strings they
+> document.
+>=20
+> Based on v5.3-rc1
+>=20
+> Changes since v1
+> * Accumulate review tags
+> * Correct changelogs
+>=20
+> Simon Horman (4):
+>   dt-bindings: i2c: sh_mobile: Rename bindings documentation file
+>   dt-bindings: i2c: rcar: Rename bindings documentation file
+>   dt-bindings: i2c: riic: Rename bindings documentation file
+>   dt-bindings: i2c: i2c-emev2: Rename bindings documentation file
 
-Applied to for-current, thanks!
+Applied to for-next, thanks!
 
 
---6sX45UoQRIJXqkqR
+--BZaMRJmqxGScZ8Mx
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl1UAxYACgkQFA3kzBSg
-KbZQBw/+JQr7bNsCyqYWDjrf2T/+h7iFxyOUnbsEJxeThCxUSfk8mNCgEe+OhM2e
-/fKn2iWYoA8QvwItJwyWVrCoQKyG9AA21tuZLWuF5l4MfCJx9KzNOJlwlUy5tmVw
-lVNaZ4D5bC+jUH5SaOGzU+9//SrQjaxFG5Y0/jhn9Ea9Z4gUB6TcQOAj/IH2mJSo
-wKSRJIs9RrbasX/7x61A580oo4vdsBioc6s/14yw93LfljPpTNu8RAQnnZ8hWZfF
-V0kZQD9s6TEmnpI8KrEVDeESco3s6gjKJI3X0Or3ylCLWXTurh6msQfJZhMjAqfW
-os6IvUZ+u/MppUEWhGzGn/8wDqXbmDBYtZxkqlgQ9lNwimnm3b/hVNTchIE+qN25
-4kH1t1kTU8CN6NZ6ScxK1G2SXrlfB7g3wNDLjjS7KM5J1yU6txiR5ZXTGQGz1Y/E
-IojoiaMuqya09GXHGhFVq/cglzappZ2wPovV0nZ0/do78KAokOgyDMKyRAFbjEjK
-I56tKnBAte+GkMqiJaEpk2DYbws7jTiCquhhUKZQeAXQNSVT0LKz5a2UpKLYYyvU
-gS3EIMb15CAY51W4BT++ZcpEhc6sEFihBBmCpv3l0FJbdc0ZvmdS+a1RMVwElk1k
-IU8QCrGeW+IW4Uv8dODm6rLtFe03DCs4PzLni9gzMqzMosUsmOM=
-=AxdP
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl1UBtYACgkQFA3kzBSg
+KbZF3RAAl3ti2HXADvpla2dqsgWXkmDKC3k8d6+HXzP7VnACAM3PkJg6NMLd6fGB
+nERGlCdW16qN7mdWVUv5P1C+Heo6wz+qDqL/uB2+3c4gz5IRfpKsEOSqYXrMMWdu
+dVRyIAztADedcf5aX2Nf3VMdUV7r7UBuvyC3wjmC9LO/e1vOJP3Hyd64RIdF9raj
+JAn4dzAgTOavBvYPLwvxYnOubEwWxB7fO7BvNbrt4zpKaI4G98TLDjTDoaC47wE1
+3TyABC4JAkT3k/uQ6KKxgMo+SLl+nGKpTN66MzxuG9+f77RuHNsk0xnn8Jf4bMNc
+wXrkJxnhDNgb5t+wG2Ot9Q/areD6Fy5CoT3eGlcp43CwULd3E+cNoobviLXpOjkI
+btgOm5wNaUsAV+iCaFfhgZ+vE6ysEwMWlrQOhi29OlIvjiNmEtmTnhU3Qd+V08SY
+H5sSwJhLF63XKqW3UJd+LiNsFyJ63skRvLKQlyPHS0tSPMu0qHuc8VhGFKAch3ks
+QCimcp+KebzTw0yEbOq+sxrk//6Q4w1guPP2Tkhu5LL9tyzB4VSCAEVSxUnzp/KV
+90xqccXKL8U/oE9QfM4R8T+5/yRaG15HOcvjOc1FXKEBG2xT84hdHeNmTzgXHiW+
+XUsA4uepS/snDg6b6QsiwrorHMfcYqN66/DSZjpGKXlIcf4LKM4=
+=SXyW
 -----END PGP SIGNATURE-----
 
---6sX45UoQRIJXqkqR--
+--BZaMRJmqxGScZ8Mx--
