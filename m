@@ -2,110 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A254F8CFC8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Aug 2019 11:36:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C2E38CFF3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 14 Aug 2019 11:46:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726047AbfHNJgN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Aug 2019 05:36:13 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:41943 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725888AbfHNJgN (ORCPT
+        id S1726047AbfHNJqG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 14 Aug 2019 05:46:06 -0400
+Received: from sauhun.de ([88.99.104.3]:46980 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725265AbfHNJqG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Aug 2019 05:36:13 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1hxphL-0003E0-91; Wed, 14 Aug 2019 11:36:03 +0200
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1hxphG-0004vF-V0; Wed, 14 Aug 2019 11:35:58 +0200
-Date:   Wed, 14 Aug 2019 11:35:58 +0200
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
+        Wed, 14 Aug 2019 05:46:06 -0400
+Received: from localhost (p54B33326.dip0.t-ipconnect.de [84.179.51.38])
+        by pokefinder.org (Postfix) with ESMTPSA id 902EF2C311C;
+        Wed, 14 Aug 2019 11:46:03 +0200 (CEST)
+Date:   Wed, 14 Aug 2019 11:46:03 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        Frieder Schrempf <frieder.schrempf@kontron.de>,
-        Richard Genoud <richard.genoud@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-serial@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>
-Subject: Re: [PATCH 1/3] serial: atmel: Don't check for mctrl_gpio_to_gpiod()
- returning error
-Message-ID: <20190814093558.xlx5ck54dw2dgb6k@pengutronix.de>
-References: <20190814092757.13726-1-geert+renesas@glider.be>
- <20190814092924.13857-1-geert+renesas@glider.be>
- <20190814092924.13857-2-geert+renesas@glider.be>
+Cc:     Wolfgang Grandegger <wg@grandegger.com>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-can@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: Re: [PATCH] can: rcar_can: Remove unused platform data support
+Message-ID: <20190814094603.GB1511@ninjato>
+References: <20190814092221.12959-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="SkvwRMAIpAhPCcCJ"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190814092924.13857-2-geert+renesas@glider.be>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+In-Reply-To: <20190814092221.12959-1-geert+renesas@glider.be>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
 
-[adding the Atmel guys to Cc]
+--SkvwRMAIpAhPCcCJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 14, 2019 at 11:29:22AM +0200, Geert Uytterhoeven wrote:
-> Since commit 1d267ea6539f2663 ("serial: mctrl-gpio: simplify init
-> routine"), mctrl_gpio_init() returns failure if the assignment to any
-> member of the gpio array results in an error pointer.
-> Since commit c359522194593815 ("serial: mctrl_gpio: Avoid probe failures
-> in case of missing gpiolib"), mctrl_gpio_to_gpiod() returns NULL in the
-> !CONFIG_GPIOLIB case.
-> Hence there is no longer a need to check for mctrl_gpio_to_gpiod()
-> returning an error value.  A simple NULL check is sufficient.
-> 
-> This follows the spirit of commit 445df7ff3fd1a0a9 ("serial: mctrl-gpio:
-> drop usages of IS_ERR_OR_NULL") in the mctrl-gpio core.
-> 
+On Wed, Aug 14, 2019 at 11:22:21AM +0200, Geert Uytterhoeven wrote:
+> All R-Car platforms use DT for describing CAN controllers.
+> R-Car CAN platform data support was never used in any upstream kernel.
+>=20
+> Move the Clock Select Register settings enum into the driver, and remove
+> platform data support and the corresponding header file.
+>=20
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  drivers/tty/serial/atmel_serial.c | 12 ++++--------
->  1 file changed, 4 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/tty/serial/atmel_serial.c b/drivers/tty/serial/atmel_serial.c
-> index 19a85d6fe3d20541..e9620a81166b7dc1 100644
-> --- a/drivers/tty/serial/atmel_serial.c
-> +++ b/drivers/tty/serial/atmel_serial.c
-> @@ -303,32 +303,28 @@ static unsigned int atmel_get_lines_status(struct uart_port *port)
->  
->  	mctrl_gpio_get(atmel_port->gpios, &ret);
->  
-> -	if (!IS_ERR_OR_NULL(mctrl_gpio_to_gpiod(atmel_port->gpios,
-> -						UART_GPIO_CTS))) {
-> +	if (mctrl_gpio_to_gpiod(atmel_port->gpios, UART_GPIO_CTS)) {
->  		if (ret & TIOCM_CTS)
->  			status &= ~ATMEL_US_CTS;
->  		else
->  			status |= ATMEL_US_CTS;
->  	}
 
-The change is fine, but it seems the atmel driver doesn't use mctrl_gpio
-as expected (at least as expected by me). IMHO driving the hardware
-function of the CTS pin shouldn't be conditional on the presence of a
-cts-gpio. Is there a reason not to just drop the if completely?
+Not tested on HW, but double-checked there are no users in-tree, there
+is no dangling pdata pointer left in the driver, visual review of the
+moved block, and build-tested.
 
-Best regards
-Uwe
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
--- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+
+--SkvwRMAIpAhPCcCJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl1T2FoACgkQFA3kzBSg
+KbYgsxAAoYdxzJnOyenR92qQswpVrJibp9k656vQXf/t3C5LdbpCDryOU9QOJ9/P
+XznxB/fQkAMI0Xkt8t14bZux9euO9LB+zTvAPKr8wwrjaqVQPqGw1J8xchvTBlY0
+1PLNrk0g+06teky5cWcqgDC7TUGplpH0oMZChfPDAmYocEU2qskLE8U+PfgpwhT/
+okyO8N9ve/jUpn4CjqFdVANCSHWuhg8O4jo+776gq5VoFT3NEl3dRHU+Mq2RI8fz
+6Mt89ohdbSv5Ujb5RSgJsOKmI0UijvQ8Y48ig+TZhphfHYxVvYW9PVU9MXOQWDEL
+gv0cJwcHL/hzJcxg8cOTv7EcmRjqq8HHZp1ypmRGqfjE3BnhYu5cmhDei3EccMmC
+afLNEX03YC2lJffupgVlMIx7O2XPuJRBCzok9ueN2hsmxBCFy++Aj9pl2wwwIWJc
+Yb0IKvZofzeQnIl/RrR91xbfexAScQwL9FEmox1tnKxTQY4RtKlEE2Y+NI46c9Bj
+K3ZIbkgAxYfu4eVVPwG7YcbA9f8H+xkIcuTi7CWKx7s4rHzTU22IShGuFIGk8AGa
+rh6PD9ivSf14usYTMZvigdF1sB3PBh1pAu0MYj66Kuw2gu0UXpLXZl8jr4mRFH6I
+806iNlAze67mdl0qJUQf2s2EIVyaX3j5KrXycFf7lcEBFU+wEWk=
+=62lr
+-----END PGP SIGNATURE-----
+
+--SkvwRMAIpAhPCcCJ--
