@@ -2,32 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CF208EDE1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Aug 2019 16:13:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 424628EDE9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Aug 2019 16:14:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732426AbfHOONq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Aug 2019 10:13:46 -0400
-Received: from asavdk3.altibox.net ([109.247.116.14]:51912 "EHLO
-        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730032AbfHOONq (ORCPT
+        id S1732859AbfHOOOq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Aug 2019 10:14:46 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:46460 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731849AbfHOOOp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Aug 2019 10:13:46 -0400
-Received: from ravnborg.org (unknown [158.248.194.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk3.altibox.net (Postfix) with ESMTPS id 4DF672002A;
-        Thu, 15 Aug 2019 16:13:38 +0200 (CEST)
-Date:   Thu, 15 Aug 2019 16:13:37 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>,
-        Thierry Reding <thierry.reding@gmail.com>,
+        Thu, 15 Aug 2019 10:14:45 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8EC442AF;
+        Thu, 15 Aug 2019 16:14:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1565878483;
+        bh=CpWruMPwP6AjzSnh7pkBxx25Ie389i+DKRZU7zUWBn4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gBYs3AHjWSM3z/BNO/Qh4DDFXlRIByhKgXhqLdbs9maiJWWP0H6KTlIicnHJcJ5e5
+         gnDCiqT4MDTafxfHq6ddvkKxqikOPrkue9pJ0BnXaGBOssOAREAOjchw3RAOMu8YJG
+         ZlEnUoO1lmQ8SvW4BS1RqJ3gndEFC95FrgUWnnhw=
+Date:   Thu, 15 Aug 2019 17:14:40 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, Eric Anholt <eric@anholt.net>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
         Simon Horman <horms@verge.net.au>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
@@ -35,77 +40,63 @@ Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-renesas-soc@vger.kernel.org,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: Re: [PATCH v2 5/9] drm/panel: Add timings field to drm_panel
-Message-ID: <20190815141337.GA2437@ravnborg.org>
+Subject: Re: [PATCH v2 3/9] drm: Rename drm_bridge_timings to drm_timings
+Message-ID: <20190815141440.GA20322@pendragon.ideasonboard.com>
 References: <1565867073-24746-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1565867073-24746-6-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1565867073-24746-4-git-send-email-fabrizio.castro@bp.renesas.com>
+ <20190815131838.GP5011@pendragon.ideasonboard.com>
+ <20190815140400.GA7174@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1565867073-24746-6-git-send-email-fabrizio.castro@bp.renesas.com>
+In-Reply-To: <20190815140400.GA7174@kroah.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=dqr19Wo4 c=1 sm=1 tr=0
-        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=yC-0_ovQAAAA:8
-        a=qCD3WiFNeiuAlpbEp7oA:9 a=CjuIK1q_8ugA:10 a=QsnFDINu91a9xkgZirup:22
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Fabrizio
+Hi Greg,
 
-On Thu, Aug 15, 2019 at 12:04:29PM +0100, Fabrizio Castro wrote:
-> We need to know if the panel supports dual-link, similarly
-> to bridges, therefore add a reference to drm_timings in
-> drm_panel.
-
-Why do we need to know this?
-Why is it needed in drm_panel and not in some driver specific struct?
-
-I cannot see the full series, as I was copied only on some mails.
-Awaiting dri-devel moderator before I can see the rest.
-
-	Sam
-
+On Thu, Aug 15, 2019 at 04:04:00PM +0200, Greg Kroah-Hartman wrote:
+> On Thu, Aug 15, 2019 at 04:18:38PM +0300, Laurent Pinchart wrote:
+> > Hi Fabrizio,
+> > 
+> > (CC'ing Greg as the architect of the SPDX move)
 > 
-> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> _one of_, not the one that did the most of he work, that would be Thomas :)
 > 
-> ---
-> v1->v2:
-> * new patch
+> > On Thu, Aug 15, 2019 at 12:04:27PM +0100, Fabrizio Castro wrote:
+> > > The information represented by drm_bridge_timings is also
+> > > needed by panels, therefore rename drm_bridge_timings to
+> > > drm_timings.
+> > > 
+> > > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> > > Link: https://www.spinics.net/lists/linux-renesas-soc/msg43271.html
+> > > 
+> > > ---
+> > > v1->v2:
+> > > * new patch
+> > > 
+> > > I have copied the license from include/drm/drm_bridge.h as that's
+> > > where the struct originally came from. What's the right SPDX license
+> > > to use in this case?
+> > 
+> > https://wiki.spdx.org/view/Legal_Team/Decisions/Dealing_with_Public_Domain_within_SPDX_Files
+> > 
+> > Greg, any idea on how we should handle this ?
 > 
->  include/drm/drm_panel.h | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-> index 8c738c0..cd6ff07 100644
-> --- a/include/drm/drm_panel.h
-> +++ b/include/drm/drm_panel.h
-> @@ -26,6 +26,7 @@
->  
->  #include <linux/errno.h>
->  #include <linux/list.h>
-> +#include <drm/drm_timings.h>
->  
->  struct device_node;
->  struct drm_connector;
-> @@ -81,6 +82,7 @@ struct drm_panel_funcs {
->   * struct drm_panel - DRM panel object
->   * @drm: DRM device owning the panel
->   * @connector: DRM connector that the panel is attached to
-> + * @timings: timing information
->   * @dev: parent device of the panel
->   * @link: link from panel device (supplier) to DRM device (consumer)
->   * @funcs: operations that can be performed on the panel
-> @@ -89,6 +91,7 @@ struct drm_panel_funcs {
->  struct drm_panel {
->  	struct drm_device *drm;
->  	struct drm_connector *connector;
-> +	const struct drm_timings *timings;
->  	struct device *dev;
->  
->  	const struct drm_panel_funcs *funcs;
-> -- 
-> 2.7.4
+> Ugh, what lunacy.  But drm_bridge.h is NOT under any "public domain"
+> license, so why is that an issue here?  This looks like a "normal" bsd 3
+> clause license to me, right?
+
+You're right, I overread part of the text in drm_bridge.h, it seems to
+indeed be covered by a BSD 3 clause license. Sorry for the noise.
+
+> So I would just use "BSD-3-Clause" as the SPDX license here, if I were
+> doing this patch...
+
+-- 
+Regards,
+
+Laurent Pinchart
