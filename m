@@ -2,333 +2,185 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 30FCC8EC90
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Aug 2019 15:18:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC7028ED03
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Aug 2019 15:37:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730211AbfHONSp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Aug 2019 09:18:45 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45670 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731306AbfHONSp (ORCPT
+        id S1732255AbfHONhn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Aug 2019 09:37:43 -0400
+Received: from mail-eopbgr1410109.outbound.protection.outlook.com ([40.107.141.109]:1216
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1732059AbfHONhn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Aug 2019 09:18:45 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 359172AF;
-        Thu, 15 Aug 2019 15:18:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1565875121;
-        bh=7QbJ4Du/XnlBN1gYFnN5imwadM72F3m3mwA3dcBOKEU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kuFpq7IijfpLmgWtufJF+7RYZ9k1X/R4ZECkPbri1bp7Z39wiO7OPtdHgkNOX8OWD
-         NxOfCRQ37iexNAV37FSIXtLaCJBf00PI+DPNeNCMe4zRupmVeZy6OfdQQ9k2TOCB2M
-         qITK9bZ1tBQqRmNjYmBndbZyL8DBdJCMV7It9Ags=
-Date:   Thu, 15 Aug 2019 16:18:38 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Andrzej Hajda <a.hajda@samsung.com>,
+        Thu, 15 Aug 2019 09:37:43 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eNMuzlqHQZklgTvubrLgaz75HVGUM+uh2udbEOn+cIYAphw+dr9QRawjbSWT79WpBucpx1Hhhz2BUHuOHxOu2NXvWuYelDhWZr+7i5jlY8751ZouBLBwXqYQvu48pNJYWp9kNBikK8+DaynHjrR15sC3i+TCyv2K8qQPwbn7hJkR2o22fn2AgRlfLafG9qrJEFm+JMhMzucmiaMgV09+1BDulzwpmGYLXhwohTYnu4pAABSp6caxEAdYeppCM82XyTkcudwai0Wexb+XbwR3JFRDK+MjJbiE1qliP6BwbaMEKL+mIzik8+LAGCKJZBxZ/4QgwAQDTTqGYXWAbq6sAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iMsa/ND03M2Rda13bghfC3y8VhPof3YVBt12ythMVaY=;
+ b=YSEYMqT7LF4l+I9N/YCNRYR82TbwIrnjJ9d5+srvmpTgD8nfveNPgQZE2JyCr0OnAlbnn+k6sYY652/4bbmPs1AMPyqZZo0B1v4K024lo6HlhEwzEjHgf+s9kFGQFLOz1XzWiuMjXv9TUVn2sRayifN/nXF0wcYdYzGzKz6/19KZSzYA1qV/OVjDdmQdMQUql3yQV/W2OfptrM2aAsvm4voWwG8LV9pd4n5SFAiQgOSZcG+FaqF8lUQUYyE1Ighj7Q8OVupgMQNrYwTAwpT5c+NWnS5bcb1dNiQs1gzm/3ij3Af3NX2s+CDvnJLA39fVGGIdwXJOBeZDukfjN5I0ZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iMsa/ND03M2Rda13bghfC3y8VhPof3YVBt12ythMVaY=;
+ b=c0TluoxT0e93MUjhXgpjPG0MEcybojxB8FVsXRf18oUl0teb6DOrgoo0KgmnTIlLof/KVpySpEU6AgwyHcAvXLB2ACwqfAeAStGO6u7HGUMwsbfR5eJhBW+vlwdiPv66/obaGz15V/dMa5pKjUW7cnypSRN7+AW+dAEteW7qmvc=
+Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com (52.133.163.13) by
+ TY1PR01MB1852.jpnprd01.prod.outlook.com (52.133.164.12) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2157.20; Thu, 15 Aug 2019 13:37:38 +0000
+Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com
+ ([fe80::d881:cb74:8277:5a16]) by TY1PR01MB1770.jpnprd01.prod.outlook.com
+ ([fe80::d881:cb74:8277:5a16%7]) with mapi id 15.20.2157.022; Thu, 15 Aug 2019
+ 13:37:38 +0000
+From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     Thierry Reding <thierry.reding@gmail.com>,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, Eric Anholt <eric@anholt.net>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Simon Horman <horms@verge.net.au>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2 3/9] drm: Rename drm_bridge_timings to drm_timings
-Message-ID: <20190815131838.GP5011@pendragon.ideasonboard.com>
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Subject: RE: [PATCH v2 1/9] dt-bindings: panel: lvds: Add dual-link LVDS
+ display support
+Thread-Topic: [PATCH v2 1/9] dt-bindings: panel: lvds: Add dual-link LVDS
+ display support
+Thread-Index: AQHVU1lFdIlwd432g0qpjiqqiII4lqb8FxyAgAAfOSA=
+Date:   Thu, 15 Aug 2019 13:37:38 +0000
+Message-ID: <TY1PR01MB1770B076A94B922978E54341C0AC0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
 References: <1565867073-24746-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1565867073-24746-4-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1565867073-24746-2-git-send-email-fabrizio.castro@bp.renesas.com>
+ <20190815114515.GH5011@pendragon.ideasonboard.com>
+In-Reply-To: <20190815114515.GH5011@pendragon.ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=fabrizio.castro@bp.renesas.com; 
+x-originating-ip: [193.141.220.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9a5f89dc-197a-4ee3-5e31-08d72185bd2d
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:TY1PR01MB1852;
+x-ms-traffictypediagnostic: TY1PR01MB1852:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <TY1PR01MB1852DEBCB024A0A342DC1FAEC0AC0@TY1PR01MB1852.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 01304918F3
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(136003)(376002)(396003)(346002)(366004)(39860400002)(189003)(199004)(54906003)(316002)(7416002)(8936002)(25786009)(74316002)(71190400001)(71200400001)(86362001)(478600001)(2906002)(26005)(186003)(66066001)(5660300002)(81156014)(81166006)(7696005)(76176011)(8676002)(64756008)(66446008)(102836004)(66556008)(76116006)(66946007)(66476007)(52536014)(7736002)(14454004)(33656002)(53546011)(6506007)(6436002)(3846002)(6246003)(229853002)(256004)(55016002)(6116002)(53936002)(486006)(446003)(476003)(4326008)(6916009)(11346002)(9686003)(305945005)(99286004)(44832011);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1852;H:TY1PR01MB1770.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
+received-spf: None (protection.outlook.com: bp.renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 8gbt9ipF3r8FHpxyRjd1SmaWfXYvVM6QkvkZPUi0lwvSsw77L/aeJ9uN7Uw1yzV0FAYoTACRw4S2CujGz59GFLPPWFSGvucfcBbykILNHaojNcK+d7UIJx2wgcW2BcuMq+/wrEFgy2Tw5lIHvDThNenkb3euCrSjcdTHfKVArUWQMFR7aDkD+AfZw4EpvPDtVIK1yGuY3AVnmBa0/p+YoLakrDfqlAorrIIjtFTCcsi79nwJW3MSLcY4SzUcZ7yMVfljg6p55yLGjP7b004U3AjMItBeouRZry/0+c0bzdq9pPnj9gtx0jGo/pcHJGCKBFudf2PF2OQWCtbhZJJxZn+HwA6Wn4jIfO9DCqy8VbZ0bcJTtTaYsvj117lOoHsUzCj+OgcuoHqwC83yKLftyhk6xv0hakPzzKIFclb7eBg=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1565867073-24746-4-git-send-email-fabrizio.castro@bp.renesas.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a5f89dc-197a-4ee3-5e31-08d72185bd2d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Aug 2019 13:37:38.1170
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wID9JiuWqYkTvdArDgBpf2dGRoZ2IhSCQkqHxNSckUnXg7pg2532oBrisS900LMweZUo+wlBTS77pQY86lv0pkcwp8uoVl6UTbXe7A+QUv8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1852
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Fabrizio,
-
-(CC'ing Greg as the architect of the SPDX move)
-
-On Thu, Aug 15, 2019 at 12:04:27PM +0100, Fabrizio Castro wrote:
-> The information represented by drm_bridge_timings is also
-> needed by panels, therefore rename drm_bridge_timings to
-> drm_timings.
-> 
-> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> Link: https://www.spinics.net/lists/linux-renesas-soc/msg43271.html
-> 
-> ---
-> v1->v2:
-> * new patch
-> 
-> I have copied the license from include/drm/drm_bridge.h as that's
-> where the struct originally came from. What's the right SPDX license
-> to use in this case?
-
-https://wiki.spdx.org/view/Legal_Team/Decisions/Dealing_with_Public_Domain_within_SPDX_Files
-
-Greg, any idea on how we should handle this ?
-
->  drivers/gpu/drm/bridge/dumb-vga-dac.c |  6 ++--
->  drivers/gpu/drm/bridge/sii902x.c      |  2 +-
->  drivers/gpu/drm/bridge/thc63lvd1024.c |  2 +-
->  drivers/gpu/drm/bridge/ti-tfp410.c    |  6 ++--
->  drivers/gpu/drm/pl111/pl111_display.c |  2 +-
->  include/drm/drm_bridge.h              | 40 ++---------------------
->  include/drm/drm_timings.h             | 60 +++++++++++++++++++++++++++++++++++
->  7 files changed, 71 insertions(+), 47 deletions(-)
->  create mode 100644 include/drm/drm_timings.h
-> 
-> diff --git a/drivers/gpu/drm/bridge/dumb-vga-dac.c b/drivers/gpu/drm/bridge/dumb-vga-dac.c
-> index d32885b..bb1d928 100644
-> --- a/drivers/gpu/drm/bridge/dumb-vga-dac.c
-> +++ b/drivers/gpu/drm/bridge/dumb-vga-dac.c
-> @@ -228,7 +228,7 @@ static int dumb_vga_remove(struct platform_device *pdev)
->   * NOTE: the ADV7123EP seems to have other timings and need a new timings
->   * set if used.
->   */
-> -static const struct drm_bridge_timings default_dac_timings = {
-> +static const struct drm_timings default_dac_timings = {
->  	/* Timing specifications, datasheet page 7 */
->  	.input_bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE,
->  	.setup_time_ps = 500,
-> @@ -239,7 +239,7 @@ static const struct drm_bridge_timings default_dac_timings = {
->   * Information taken from the THS8134, THS8134A, THS8134B datasheet named
->   * "SLVS205D", dated May 1990, revised March 2000.
->   */
-> -static const struct drm_bridge_timings ti_ths8134_dac_timings = {
-> +static const struct drm_timings ti_ths8134_dac_timings = {
->  	/* From timing diagram, datasheet page 9 */
->  	.input_bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE,
->  	/* From datasheet, page 12 */
-> @@ -252,7 +252,7 @@ static const struct drm_bridge_timings ti_ths8134_dac_timings = {
->   * Information taken from the THS8135 datasheet named "SLAS343B", dated
->   * May 2001, revised April 2013.
->   */
-> -static const struct drm_bridge_timings ti_ths8135_dac_timings = {
-> +static const struct drm_timings ti_ths8135_dac_timings = {
->  	/* From timing diagram, datasheet page 14 */
->  	.input_bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE,
->  	/* From datasheet, page 16 */
-> diff --git a/drivers/gpu/drm/bridge/sii902x.c b/drivers/gpu/drm/bridge/sii902x.c
-> index dd7aa46..0c63065 100644
-> --- a/drivers/gpu/drm/bridge/sii902x.c
-> +++ b/drivers/gpu/drm/bridge/sii902x.c
-> @@ -914,7 +914,7 @@ static int sii902x_i2c_bypass_deselect(struct i2c_mux_core *mux, u32 chan_id)
->  	return 0;
->  }
->  
-> -static const struct drm_bridge_timings default_sii902x_timings = {
-> +static const struct drm_timings default_sii902x_timings = {
->  	.input_bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE
->  		 | DRM_BUS_FLAG_SYNC_SAMPLE_NEGEDGE
->  		 | DRM_BUS_FLAG_DE_HIGH,
-> diff --git a/drivers/gpu/drm/bridge/thc63lvd1024.c b/drivers/gpu/drm/bridge/thc63lvd1024.c
-> index 3d74129b..9047a9e 100644
-> --- a/drivers/gpu/drm/bridge/thc63lvd1024.c
-> +++ b/drivers/gpu/drm/bridge/thc63lvd1024.c
-> @@ -34,7 +34,7 @@ struct thc63_dev {
->  	struct drm_bridge bridge;
->  	struct drm_bridge *next;
->  
-> -	struct drm_bridge_timings timings;
-> +	struct drm_timings timings;
->  };
->  
->  static inline struct thc63_dev *to_thc63(struct drm_bridge *bridge)
-> diff --git a/drivers/gpu/drm/bridge/ti-tfp410.c b/drivers/gpu/drm/bridge/ti-tfp410.c
-> index dbf35c7..c086b06c 100644
-> --- a/drivers/gpu/drm/bridge/ti-tfp410.c
-> +++ b/drivers/gpu/drm/bridge/ti-tfp410.c
-> @@ -32,7 +32,7 @@ struct tfp410 {
->  	struct delayed_work	hpd_work;
->  	struct gpio_desc	*powerdown;
->  
-> -	struct drm_bridge_timings timings;
-> +	struct drm_timings timings;
->  
->  	struct device *dev;
->  };
-> @@ -190,7 +190,7 @@ static irqreturn_t tfp410_hpd_irq_thread(int irq, void *arg)
->  	return IRQ_HANDLED;
->  }
->  
-> -static const struct drm_bridge_timings tfp410_default_timings = {
-> +static const struct drm_timings tfp410_default_timings = {
->  	.input_bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_POSEDGE
->  			 | DRM_BUS_FLAG_DE_HIGH,
->  	.setup_time_ps = 1200,
-> @@ -199,7 +199,7 @@ static const struct drm_bridge_timings tfp410_default_timings = {
->  
->  static int tfp410_parse_timings(struct tfp410 *dvi, bool i2c)
->  {
-> -	struct drm_bridge_timings *timings = &dvi->timings;
-> +	struct drm_timings *timings = &dvi->timings;
->  	struct device_node *ep;
->  	u32 pclk_sample = 0;
->  	u32 bus_width = 24;
-> diff --git a/drivers/gpu/drm/pl111/pl111_display.c b/drivers/gpu/drm/pl111/pl111_display.c
-> index 15d2755..c82b21f 100644
-> --- a/drivers/gpu/drm/pl111/pl111_display.c
-> +++ b/drivers/gpu/drm/pl111/pl111_display.c
-> @@ -188,7 +188,7 @@ static void pl111_display_enable(struct drm_simple_display_pipe *pipe,
->  	}
->  
->  	if (bridge) {
-> -		const struct drm_bridge_timings *btimings = bridge->timings;
-> +		const struct drm_timings *btimings = bridge->timings;
->  
->  		/*
->  		 * Here is when things get really fun. Sometimes the bridge
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 7616f65..8270a38 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -27,9 +27,9 @@
->  #include <linux/ctype.h>
->  #include <drm/drm_mode_object.h>
->  #include <drm/drm_modes.h>
-> +#include <drm/drm_timings.h>
->  
->  struct drm_bridge;
-> -struct drm_bridge_timings;
->  struct drm_panel;
->  
->  /**
-> @@ -337,42 +337,6 @@ struct drm_bridge_funcs {
->  };
->  
->  /**
-> - * struct drm_bridge_timings - timing information for the bridge
-> - */
-> -struct drm_bridge_timings {
-> -	/**
-> -	 * @input_bus_flags:
-> -	 *
-> -	 * Tells what additional settings for the pixel data on the bus
-> -	 * this bridge requires (like pixel signal polarity). See also
-> -	 * &drm_display_info->bus_flags.
-> -	 */
-> -	u32 input_bus_flags;
-> -	/**
-> -	 * @setup_time_ps:
-> -	 *
-> -	 * Defines the time in picoseconds the input data lines must be
-> -	 * stable before the clock edge.
-> -	 */
-> -	u32 setup_time_ps;
-> -	/**
-> -	 * @hold_time_ps:
-> -	 *
-> -	 * Defines the time in picoseconds taken for the bridge to sample the
-> -	 * input signal after the clock edge.
-> -	 */
-> -	u32 hold_time_ps;
-> -	/**
-> -	 * @dual_link:
-> -	 *
-> -	 * True if the bus operates in dual-link mode. The exact meaning is
-> -	 * dependent on the bus type. For LVDS buses, this indicates that even-
-> -	 * and odd-numbered pixels are received on separate links.
-> -	 */
-> -	bool dual_link;
-> -};
-> -
-> -/**
->   * struct drm_bridge - central DRM bridge control structure
->   */
->  struct drm_bridge {
-> @@ -393,7 +357,7 @@ struct drm_bridge {
->  	 *
->  	 * the timing specification for the bridge, if any (may be NULL)
->  	 */
-> -	const struct drm_bridge_timings *timings;
-> +	const struct drm_timings *timings;
->  	/** @funcs: control functions */
->  	const struct drm_bridge_funcs *funcs;
->  	/** @driver_private: pointer to the bridge driver's internal context */
-> diff --git a/include/drm/drm_timings.h b/include/drm/drm_timings.h
-> new file mode 100644
-> index 0000000..4af8814
-> --- /dev/null
-> +++ b/include/drm/drm_timings.h
-> @@ -0,0 +1,60 @@
-> +/*
-> + * Permission to use, copy, modify, distribute, and sell this software and its
-> + * documentation for any purpose is hereby granted without fee, provided that
-> + * the above copyright notice appear in all copies and that both that copyright
-> + * notice and this permission notice appear in supporting documentation, and
-> + * that the name of the copyright holders not be used in advertising or
-> + * publicity pertaining to distribution of the software without specific,
-> + * written prior permission.  The copyright holders make no representations
-> + * about the suitability of this software for any purpose.  It is provided "as
-> + * is" without express or implied warranty.
-> + *
-> + * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
-> + * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
-> + * EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY SPECIAL, INDIRECT OR
-> + * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,
-> + * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
-> + * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
-> + * OF THIS SOFTWARE.
-> + */
-> +
-> +#ifndef __DRM_TIMINGS_H__
-> +#define __DRM_TIMINGS_H__
-> +
-> +/**
-> + * struct drm_timings - timing information
-
-This dangerously relates to video timings. I would name the structure
-drm_bus_timings, or drm_bus_params (or something similar) as it contains
-more than timings.
-
-> + */
-> +struct drm_timings {
-> +	/**
-> +	 * @input_bus_flags:
-> +	 *
-> +	 * Tells what additional settings for the pixel data on the bus
-> +	 * are required (like pixel signal polarity). See also
-> +	 * &drm_display_info->bus_flags.
-> +	 */
-> +	u32 input_bus_flags;
-> +	/**
-> +	 * @setup_time_ps:
-> +	 *
-> +	 * Defines the time in picoseconds the input data lines must be
-> +	 * stable before the clock edge.
-> +	 */
-> +	u32 setup_time_ps;
-> +	/**
-> +	 * @hold_time_ps:
-> +	 *
-> +	 * Defines the time in picoseconds taken for the bridge to sample the
-> +	 * input signal after the clock edge.
-> +	 */
-> +	u32 hold_time_ps;
-> +	/**
-> +	 * @dual_link:
-> +	 *
-> +	 * True if the bus operates in dual-link mode. The exact meaning is
-> +	 * dependent on the bus type. For LVDS buses, this indicates that even-
-> +	 * and odd-numbered pixels are received on separate links.
-> +	 */
-> +	bool dual_link;
-> +};
-> +
-> +#endif /* __DRM_TIMINGS_H__ */
-
--- 
-Regards,
-
-Laurent Pinchart
+SGkgTGF1cmVudCwNCg0KVGhhbmsgeW91IGZvciB5b3VyIGZlZWRiYWNrIQ0KDQo+IEZyb206IGxp
+bnV4LWtlcm5lbC1vd25lckB2Z2VyLmtlcm5lbC5vcmcgPGxpbnV4LWtlcm5lbC1vd25lckB2Z2Vy
+Lmtlcm5lbC5vcmc+IE9uIEJlaGFsZiBPZiBMYXVyZW50IFBpbmNoYXJ0DQo+IFNlbnQ6IDE1IEF1
+Z3VzdCAyMDE5IDEyOjQ1DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjIgMS85XSBkdC1iaW5kaW5n
+czogcGFuZWw6IGx2ZHM6IEFkZCBkdWFsLWxpbmsgTFZEUyBkaXNwbGF5IHN1cHBvcnQNCj4gDQo+
+IEhpIEZhYnJpemlvLA0KPiANCj4gT24gVGh1LCBBdWcgMTUsIDIwMTkgYXQgMTI6MDQ6MjVQTSAr
+MDEwMCwgRmFicml6aW8gQ2FzdHJvIHdyb3RlOg0KPiA+IER1YWwtbGluayBMVkRTIGRpc3BsYXlz
+IGhhdmUgdHdvIHBvcnRzLCB0aGVyZWZvcmUgZG9jdW1lbnQgdGhpcw0KPiA+IHdpdGggdGhlIGJp
+bmRpbmdzLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogRmFicml6aW8gQ2FzdHJvIDxmYWJyaXpp
+by5jYXN0cm9AYnAucmVuZXNhcy5jb20+DQo+ID4NCj4gPiAtLS0NCj4gPiB2MS0+djI6DQo+ID4g
+KiBSZXdvcmtlZCB0aGUgZGVzY3JpcHRpb24gb2YgdGhlIHBvcnRzIHByb3BlcnR5DQo+ID4gKiBs
+dmRzMF9wYW5lbF9pbiBpbiB0aGUgZXhhbXBsZSBoYXMgYmVlbiByZW5hbWVkIHRvIHBhbmVsX2lu
+MA0KPiA+ICogbHZkczFfcGFuZWxfaW4gaW4gdGhlIGV4YW1wbGUgaGFzIGJlZW4gcmVuYW1lZCB0
+byBwYW5lbF9pbjENCj4gPg0KPiA+IExhdXJlbnQsDQo+ID4NCj4gPiBpbiBsaW51eC1uZXh0IHRo
+ZXkgYXJlIG5vdyB3b3JraW5nIHdpdGg6DQo+ID4gRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
+bmRpbmdzL2Rpc3BsYXkvcGFuZWwvbHZkcy55YW1sDQo+IA0KPiBEb2N1bWVudGF0aW9uL2Rldmlj
+ZXRyZWUvYmluZGluZ3MvZGlzcGxheS9wYW5lbC9sdmRzLnlhbWwgaXMgaW4NCj4gZHJtLW1pc2Mt
+bmV4dCwgc28gSSB3b3VsZCBhZHZpc2UgcmViYXNpbmcgb24gdG9wIG9mIHRoYXQuDQoNCldpbGwg
+ZG8uDQoNClRoYW5rcywNCkZhYg0KDQo+IA0KPiA+IFdoYXQgc2hvdWxkIEkgZG8gaGVyZT8NCj4g
+Pg0KPiA+ICAuLi4vYmluZGluZ3MvZGlzcGxheS9wYW5lbC9wYW5lbC1sdmRzLnR4dCAgICAgICAg
+ICB8IDk1ICsrKysrKysrKysrKysrKystLS0tLS0NCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDcxIGlu
+c2VydGlvbnMoKyksIDI0IGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL0RvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL3BhbmVsLWx2ZHMudHh0
+DQo+IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvcGFuZWwvcGFu
+ZWwtbHZkcy50eHQNCj4gPiBpbmRleCAyNTA4NTBhLi41MjMxMjQzIDEwMDY0NA0KPiA+IC0tLSBh
+L0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L3BhbmVsL3BhbmVsLWx2
+ZHMudHh0DQo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3Bs
+YXkvcGFuZWwvcGFuZWwtbHZkcy50eHQNCj4gPiBAQCAtNDEsNyArNDEsMTIgQEAgUmVxdWlyZWQg
+bm9kZXM6DQo+ID4NCj4gPiAgLSBwYW5lbC10aW1pbmc6IFNlZSBwYW5lbC1jb21tb24udHh0Lg0K
+PiA+ICAtIHBvcnRzOiBTZWUgcGFuZWwtY29tbW9uLnR4dC4gVGhlc2UgYmluZGluZ3MgcmVxdWly
+ZSBhIHNpbmdsZSBwb3J0IHN1Ym5vZGUNCj4gPiAtICBjb3JyZXNwb25kaW5nIHRvIHRoZSBwYW5l
+bCBMVkRTIGlucHV0Lg0KPiA+ICsgIChmb3IgYSBzaW5nbGUgbGluayBwYW5lbCkgY29ycmVzcG9u
+ZGluZyB0byB0aGUgcGFuZWwgTFZEUyBpbnB1dCwgb3IgdHdvIHBvcnQNCj4gPiArICBzdWJub2Rl
+cyAoZm9yIGEgZHVhbCBsaW5rIHBhbmVsKSBjb3JyZXNwb25kaW5nIHRvIHRoZSBwYW5lbCBMVkRT
+IGlucHV0cy4NCj4gPiArICBEdWFsLWxpbmsgTFZEUyBwYW5lbHMgZXhwZWN0IGV2ZW4gcGl4ZWxz
+ICgwLCAyLCA0LCBldGMuKSBhbmQgb2RkIHBpeGVscyAoMSwgMywNCj4gPiArICA1LCBldGMuKSBv
+biBkaWZmZXJlbnQgaW5wdXQgcG9ydHMsIGl0J3MgdXAgdG8gdGhlIHBhbmVsLXNwZWNpZmljIGJp
+bmRpbmdzIHRvDQo+ID4gKyAgc3BlY2lmeSB3aGF0IHBvcnQgaXMgZXhwZWN0aW5nIGV2ZW4gcGl4
+ZWxzLCBhbmQgd2hhdCBwb3J0IGlzIGV4cGVjdGluZyBvZGQNCj4gPiArICBwaXhlbHMuDQo+ID4N
+Cj4gPg0KPiA+ICBMVkRTIGRhdGEgbWFwcGluZ3MgYXJlIGRlZmluZWQgYXMgZm9sbG93cy4NCj4g
+PiBAQCAtOTIsMzAgKzk3LDcyIEBAIENUTDM6IDANCj4gPiAgRXhhbXBsZQ0KPiA+ICAtLS0tLS0t
+DQo+ID4NCj4gPiAtcGFuZWwgew0KPiA+IC0JY29tcGF0aWJsZSA9ICJtaXRzdWJpc2hpLGFhMTIx
+dGQwMSIsICJwYW5lbC1sdmRzIjsNCj4gPiAtDQo+ID4gLQl3aWR0aC1tbSA9IDwyNjE+Ow0KPiA+
+IC0JaGVpZ2h0LW1tID0gPDE2Mz47DQo+ID4gLQ0KPiA+IC0JZGF0YS1tYXBwaW5nID0gImplaWRh
+LTI0IjsNCj4gPiAtDQo+ID4gLQlwYW5lbC10aW1pbmcgew0KPiA+IC0JCS8qIDEyODB4ODAwIEA2
+MEh6ICovDQo+ID4gLQkJY2xvY2stZnJlcXVlbmN5ID0gPDcxMDAwMDAwPjsNCj4gPiAtCQloYWN0
+aXZlID0gPDEyODA+Ow0KPiA+IC0JCXZhY3RpdmUgPSA8ODAwPjsNCj4gPiAtCQloc3luYy1sZW4g
+PSA8NzA+Ow0KPiA+IC0JCWhmcm9udC1wb3JjaCA9IDwyMD47DQo+ID4gLQkJaGJhY2stcG9yY2gg
+PSA8NzA+Ow0KPiA+IC0JCXZzeW5jLWxlbiA9IDw1PjsNCj4gPiAtCQl2ZnJvbnQtcG9yY2ggPSA8
+Mz47DQo+ID4gLQkJdmJhY2stcG9yY2ggPSA8MTU+Ow0KPiA+ICtTaW5nbGUgcG9ydDoNCj4gPiAr
+CXBhbmVsIHsNCj4gPiArCQljb21wYXRpYmxlID0gIm1pdHN1YmlzaGksYWExMjF0ZDAxIiwgInBh
+bmVsLWx2ZHMiOw0KPiA+ICsNCj4gPiArCQl3aWR0aC1tbSA9IDwyNjE+Ow0KPiA+ICsJCWhlaWdo
+dC1tbSA9IDwxNjM+Ow0KPiA+ICsNCj4gPiArCQlkYXRhLW1hcHBpbmcgPSAiamVpZGEtMjQiOw0K
+PiA+ICsNCj4gPiArCQlwYW5lbC10aW1pbmcgew0KPiA+ICsJCQkvKiAxMjgweDgwMCBANjBIeiAq
+Lw0KPiA+ICsJCQljbG9jay1mcmVxdWVuY3kgPSA8NzEwMDAwMDA+Ow0KPiA+ICsJCQloYWN0aXZl
+ID0gPDEyODA+Ow0KPiA+ICsJCQl2YWN0aXZlID0gPDgwMD47DQo+ID4gKwkJCWhzeW5jLWxlbiA9
+IDw3MD47DQo+ID4gKwkJCWhmcm9udC1wb3JjaCA9IDwyMD47DQo+ID4gKwkJCWhiYWNrLXBvcmNo
+ID0gPDcwPjsNCj4gPiArCQkJdnN5bmMtbGVuID0gPDU+Ow0KPiA+ICsJCQl2ZnJvbnQtcG9yY2gg
+PSA8Mz47DQo+ID4gKwkJCXZiYWNrLXBvcmNoID0gPDE1PjsNCj4gPiArCQl9Ow0KPiA+ICsNCj4g
+PiArCQlwb3J0IHsNCj4gPiArCQkJcGFuZWxfaW46IGVuZHBvaW50IHsNCj4gPiArCQkJCXJlbW90
+ZS1lbmRwb2ludCA9IDwmbHZkc19lbmNvZGVyPjsNCj4gPiArCQkJfTsNCj4gPiArCQl9Ow0KPiA+
+ICAJfTsNCj4gPg0KPiA+IC0JcG9ydCB7DQo+ID4gLQkJcGFuZWxfaW46IGVuZHBvaW50IHsNCj4g
+PiAtCQkJcmVtb3RlLWVuZHBvaW50ID0gPCZsdmRzX2VuY29kZXI+Ow0KPiA+ICtUd28gcG9ydHM6
+DQo+ID4gKwlwYW5lbCB7DQo+ID4gKwkJY29tcGF0aWJsZSA9ICJhZHZhbnRlY2gsaWRrLTIxMjF3
+ciIsICJwYW5lbC1sdmRzIjsNCj4gPiArDQo+ID4gKwkJd2lkdGgtbW0gPSA8NDc2PjsNCj4gPiAr
+CQloZWlnaHQtbW0gPSA8MjY4PjsNCj4gPiArDQo+ID4gKwkJZGF0YS1tYXBwaW5nID0gInZlc2Et
+MjQiOw0KPiA+ICsNCj4gPiArCQlwYW5lbC10aW1pbmcgew0KPiA+ICsJCQljbG9jay1mcmVxdWVu
+Y3kgPSA8MTQ4NTAwMDAwPjsNCj4gPiArCQkJaGFjdGl2ZSA9IDwxOTIwPjsNCj4gPiArCQkJdmFj
+dGl2ZSA9IDwxMDgwPjsNCj4gPiArCQkJaHN5bmMtbGVuID0gPDQ0PjsNCj4gPiArCQkJaGZyb250
+LXBvcmNoID0gPDg4PjsNCj4gPiArCQkJaGJhY2stcG9yY2ggPSA8MTQ4PjsNCj4gPiArCQkJdmZy
+b250LXBvcmNoID0gPDQ+Ow0KPiA+ICsJCQl2YmFjay1wb3JjaCA9IDwzNj47DQo+ID4gKwkJCXZz
+eW5jLWxlbiA9IDw1PjsNCj4gPiArCQl9Ow0KPiA+ICsNCj4gPiArCQlwb3J0cyB7DQo+ID4gKwkJ
+CSNhZGRyZXNzLWNlbGxzID0gPDE+Ow0KPiA+ICsJCQkjc2l6ZS1jZWxscyA9IDwwPjsNCj4gPiAr
+DQo+ID4gKwkJCXBvcnRAMCB7DQo+ID4gKwkJCQlyZWcgPSA8MD47DQo+ID4gKwkJCQlwYW5lbF9p
+bjA6IGVuZHBvaW50IHsNCj4gPiArCQkJCQlyZW1vdGUtZW5kcG9pbnQgPSA8Jmx2ZHMwX291dD47
+DQo+ID4gKwkJCQl9Ow0KPiA+ICsJCQl9Ow0KPiA+ICsNCj4gPiArCQkJcG9ydEAxIHsNCj4gPiAr
+CQkJCXJlZyA9IDwxPjsNCj4gPiArCQkJCXBhbmVsX2luMTogZW5kcG9pbnQgew0KPiA+ICsJCQkJ
+CXJlbW90ZS1lbmRwb2ludCA9IDwmbHZkczFfb3V0PjsNCj4gPiArCQkJCX07DQo+ID4gKwkJCX07
+DQo+ID4gIAkJfTsNCj4gPiAgCX07DQo+ID4gLX07DQo+IA0KPiAtLQ0KPiBSZWdhcmRzLA0KPiAN
+Cj4gTGF1cmVudCBQaW5jaGFydA0K
