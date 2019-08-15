@@ -2,87 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 467CC8E078
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Aug 2019 00:14:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2DE38E4B8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Aug 2019 08:05:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729905AbfHNWO0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 14 Aug 2019 18:14:26 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:44416 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729900AbfHNWOV (ORCPT
+        id S1726027AbfHOGFS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Aug 2019 02:05:18 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:46266 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725977AbfHOGFR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 14 Aug 2019 18:14:21 -0400
-Received: by mail-qt1-f196.google.com with SMTP id 44so332971qtg.11
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 14 Aug 2019 15:14:20 -0700 (PDT)
+        Thu, 15 Aug 2019 02:05:17 -0400
+Received: by mail-pg1-f194.google.com with SMTP id m3so268324pgv.13;
+        Wed, 14 Aug 2019 23:05:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=p6m83mGjllDiHyeRTSS1oVMHX5M/xE6ILn6PPhzsgs4=;
-        b=l5PC+4msT+R1VOq1FIInu61dIh2STHPN9aSBt/Y5M3n644FfA169IT6wzP+sfbruwG
-         5vHd8QNfmmF7FOlV1OW4+1ls9+argQAW0MZ9696kjqRFjMtNiRxkPVvom8CpuMz6+P3J
-         lvnykAE+N5ClLjt8+21Oenlj55mmWn47h6bOufTUj3iAyACG+cL0ImoQgj5m6u3w1/lr
-         fVPm9fs++0X3Li7mpOQ13No26+jYpH9OobXYps5GGnrfpp0Xq6qTsPtsJRMHzlRsuSi2
-         Q5RuPSHMeFGhG1MzboDTj+tp2IBpQDy9TN5wUYjWC528WeGARQxpLHz2F9meUvIkEvkQ
-         sSPA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QR+1SuJZ5tZbGg7qkLCJVmhmhdJKRiKQpawR4Js8Xuk=;
+        b=J40S5LgVIFbpKF4VcPkepw8kzEiHWTibNmix/H9iDdsHe3GMUIUit3NqDx7wuVJiyt
+         G+Fk1scK5zD3KNi7jRf70kvb0zWiL1uCzhfbVoZtm93VwnediryTfIWwBvTXQgHr+/5K
+         QY11ruKyR6sVQJlZs0iQl+xzDM7vmQ3r06HWrJg0SPT00wfF4HBq1DKKgxMV5VkCB526
+         WV/BSIGogVvcg3tOmnVQE4vc0M2uxG5qHRMhuLBb+lhsDYTzrmb1wITXCC2CFe5lMpJu
+         SNwct2lCmtQH3i7kJ3BpdWXA/BPLz9UEClEv/FrfWKsk8Ab9GEyUWLSPZTVUpjzzL5oW
+         uWog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=p6m83mGjllDiHyeRTSS1oVMHX5M/xE6ILn6PPhzsgs4=;
-        b=GdflHzAClgzitsRkL0yNHaqVxnD5JUNp6feAVsIpGl+q6D63e0HwoBkoVJwxM2cY7d
-         BfOPcosHRnrHA1RAClX/8zDgFTcW5f2jsnL4PAA8M/4fSjzb0gR+yKfcs7cAgQYTYZw4
-         /zA9WKRIa/y2l7xRkM6vrXG3enEHTNOnT1SsWbTpGQaN4ANxzhNXVye4+rnZkw8ZSvF2
-         xdg+X6sQy1NXS02Oixo/6mULzMsBmpnV4ayxn2uIVaNSaJA/WigkW507ssOidNvbhbZl
-         lkdX63gmcqEUYlBk9AzKzBtN9D01LsQfDYcZDvPnTxXN+6qdhOnx5PieF8U8y/92MJpm
-         Swbw==
-X-Gm-Message-State: APjAAAWJstHa/2k5vEEA97nvi4hTeCLlNf8COIS1L52FcTv+OKM2WbXc
-        HMRMRpWQykZ7XvCswcTnyUMh/aAIr9bslMQuA3I=
-X-Google-Smtp-Source: APXvYqwvEwq36YC/YcFdGthiFQqEswOUmu8y33AXL4ty34gsygcaTEjmhvj04/dFUfa1vFoE719aJcDSjuFoUwkSVes=
-X-Received: by 2002:aed:3826:: with SMTP id j35mr1333309qte.54.1565820860049;
- Wed, 14 Aug 2019 15:14:20 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QR+1SuJZ5tZbGg7qkLCJVmhmhdJKRiKQpawR4Js8Xuk=;
+        b=RlWgDM03w0g5LeGwKbBvhGF4UdkDdUT8kQL35fUmohMLMV6SrMF15UfukBEtQdp+D9
+         jsc53Zt4sMLKiGhibaMlwro/SdAAEuxUJ6rMOCgKtkmzhQITdNCLay5jTq1rjQrSkNln
+         fSRpF8xOG5IQJsKtdYzRmfdiKgPc1kQTxJ+fjZpp3s+R00yIYuF1SioHxRupA3E0DvVw
+         JAXU4GmwSfoPZRqVnSNVfHrG8CbQMRPgR7uOcygj9Whj99SQEw/QvQDEPe5XZJTw+PGV
+         1uV7smMlOb8o08NnjmA0Q+fm/EO8tRbb+L9KQGGuTpiEOEbDaemrGmuwsa5eLOF3l+A5
+         /IKA==
+X-Gm-Message-State: APjAAAWCl+Z/+l2a4UOzF2mU0hPIY1MHN9oVYzAGa02XaIXegbj2tGyv
+        2CFoflMpzVQcEgPXVHgrOCBxlzI7
+X-Google-Smtp-Source: APXvYqwlHIKuxDnvidJF57JWbVKhk+wa/hb/uzQXQgc5YbmR5QYd0mamBhaxNsx5WykXdcAyh54Z8A==
+X-Received: by 2002:a17:90a:ec12:: with SMTP id l18mr812807pjy.6.1565849117142;
+        Wed, 14 Aug 2019 23:05:17 -0700 (PDT)
+Received: from localhost.localdomain ([110.225.3.176])
+        by smtp.gmail.com with ESMTPSA id l31sm1492817pgm.63.2019.08.14.23.05.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Aug 2019 23:05:16 -0700 (PDT)
+From:   Nishka Dasgupta <nishkadg.linux@gmail.com>
+To:     geert+renesas@glider.be, linus.walleij@linaro.org,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
+Cc:     Nishka Dasgupta <nishkadg.linux@gmail.com>
+Subject: [PATCH] pinctrl: rza1: Add of_node_put() before return
+Date:   Thu, 15 Aug 2019 11:35:03 +0530
+Message-Id: <20190815060503.2853-1-nishkadg.linux@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Received: by 2002:aed:3544:0:0:0:0:0 with HTTP; Wed, 14 Aug 2019 15:14:19
- -0700 (PDT)
-Reply-To: Katerinejones19@gmail.com
-From:   "MS. MARYANNA B. THOMASON" <westernunion.benin982@gmail.com>
-Date:   Wed, 14 Aug 2019 23:14:19 +0100
-Message-ID: <CAP=nHB+U+By16HzeUHiDfPT5KNtemGam6gniZhL2s7_itZ3F8w@mail.gmail.com>
-Subject: TODAY, Wed, Aug 14, 2019 I AM READY FOR COMING TO YOUR ADDRESS WITH
- THIS ATM CARD
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-ATTN DEAR PARCEL BENEFICIARY.
+Each iteration of for_each_child_of_node puts the previous node, but in
+the case of a return from the middle of the loop, there is no put, thus
+causing a memory leak. Hence add an of_node_put before the return in
+three places.
+Issue found with Coccinelle.
 
-I AM CATHY JONES,DIPLOMATIC AGENT ASIGNED ON THE DELIVERY OF YOUR ATM
-CARD THROUGH MS. MARYANNA B. THOMASON, DHL MANAGEMENT DIRECTOR NEW
-YORK.
-TODAY, Wed, Aug 14, 2019 I AM READY FOR COMING TO YOUR ADDRESS WITH
-THIS ATM CARD, So before i deliver I want you to send me.
-official diplomatic agent delivery fee sum of $150.00 us
- only. I am here at JFK Airport,Florida. USA
+Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
+---
+ drivers/pinctrl/pinctrl-rza1.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-SEND THIS FEE BY WESTERN UNION OR MONEY WITH RECEIVER'S NAME AND ADDRESS BELOW.
+diff --git a/drivers/pinctrl/pinctrl-rza1.c b/drivers/pinctrl/pinctrl-rza1.c
+index 021e37b7689e..8eeb9545137b 100644
+--- a/drivers/pinctrl/pinctrl-rza1.c
++++ b/drivers/pinctrl/pinctrl-rza1.c
+@@ -866,8 +866,10 @@ static int rza1_dt_node_pin_count(struct device_node *np)
+ 	npins = 0;
+ 	for_each_child_of_node(np, child) {
+ 		of_pins = of_find_property(child, "pinmux", NULL);
+-		if (!of_pins)
++		if (!of_pins) {
++			of_node_put(child);
+ 			return -EINVAL;
++		}
+ 
+ 		npins += of_pins->length / sizeof(u32);
+ 	}
+@@ -1025,8 +1027,10 @@ static int rza1_dt_node_to_map(struct pinctrl_dev *pctldev,
+ 		for_each_child_of_node(np, child) {
+ 			ret = rza1_parse_pinmux_node(rza1_pctl, child, mux_conf,
+ 						     grpin);
+-			if (ret < 0)
++			if (ret < 0) {
++				of_node_put(child);
+ 				return ret;
++			}
+ 
+ 			grpin += ret;
+ 			mux_conf += ret;
+@@ -1272,8 +1276,10 @@ static int rza1_gpio_register(struct rza1_pinctrl *rza1_pctl)
+ 
+ 		ret = rza1_parse_gpiochip(rza1_pctl, child, &gpio_chips[i],
+ 					  &gpio_ranges[i]);
+-		if (ret)
++		if (ret) {
++			of_node_put(child);
+ 			return ret;
++		}
+ 
+ 		++i;
+ 	}
+-- 
+2.19.1
 
-RECEIVER'S NAME-----------------ERROL PRINGLE
-ADDRESS----------------3500 OLD DENTON RD APT 208; CARROLLTON, TEXAS 75007
-COUNTRY----------------USA
-AMOUNT--------------------$150.00 ONLY
-TEST QUESTION----------------WHO IS THE CREATOR
-ANSWER------------------GOD
- meanwhile this $150.00 is required by the Custom Service,USA Homeland
-Security,for protection of your delivery, it will make the ATM CARD
-and funds worth $15.8MILLION US DOLLARS secure, Beleiev me, this is my
-word, remark my word,you will receive your delivery from me, Mrs.
-Cathy Jones once you send this only $150.00 today.
-I WAIT ON YOUR PAYMENT CONFIRMATION, ONCE I GOT YOUR PAYMENT, I WILL
-FINALLY ARRIVE TO YOUR NEAREST ADDRESS. today
-THANKS AND MAY GOD BLESS  YOU
-CATHY JONES,DIPLOMATIC AGENT
-EMAIL; katerinejones19@gmail.com
-CALL OR TEXT ME, DIPLOMATIC AGENT MS. CATHY JONES
-Phone Number; (408) 650-6103,
