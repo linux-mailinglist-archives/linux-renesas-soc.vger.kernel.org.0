@@ -2,48 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 230418EF8E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Aug 2019 17:40:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0E2D8F2CE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 15 Aug 2019 20:06:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728128AbfHOPkM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 15 Aug 2019 11:40:12 -0400
-Received: from mail-eopbgr1400108.outbound.protection.outlook.com ([40.107.140.108]:62648
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726008AbfHOPkM (ORCPT
+        id S1729560AbfHOSGt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 15 Aug 2019 14:06:49 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:51556 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729210AbfHOSGt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 15 Aug 2019 11:40:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mcwNnjyuhgCPjkecuFpa964JUR6OgjcBPoOWIaM+5kDkF9CHNHsB7QT/RSVrGnnTcoAZSBGuW+/rbTwkI7W29m4MRtxPQZIdVlCbwvWD+fIpYuWGvrJd6jTltDQjwawwAuDuCGV8TwxrpbvxjZfrH55H0BQIX0qsb7N5xkdIira7WpUVfOO9r1owX0UPRigjwXSs/odONHcBQ5xXj3uRfWAg+zQU/R0sZ1HxrHst+tREYXkHZP8BopEWnfOnyL5tz7Jqe3mt/PzOdO/niLPZwvS1U1r/Kism+Eb6Sdozt3h+I6jt5ttLbd4u50nTuL98VJLmivJkGnJGkj1fUt0M6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4IkRrFLO/mQrao3GPVzqG1zhbDxsXu4LrqbJ5GcTT+8=;
- b=LO0/MP5wE6zvIPiaKhh4PjGI8nzY8tJPkOBxH58AzO3ZJ/eRLlYMMeRgRDSeKqMQ3wzxlyPotK96f4U/26NSIjsPE7ji9ko97bRm4jgE7yuJbw8I/efyUNf8Y6qrYp/qL4H2LoWi9FG5F4qhhOiyw9zQhGasLfLMf5v5UOO7I3zOxuXWKIsvqLS8pQ+Qt3I2/69bUeZMlHa8oHt22SRBtwm0eUkN4YlHBWLHUGPi6jGcT6CkYKHVg2DUM9+PiWEaG5IfkRlFWpUNz0wqaxjRL7BqkpLPCw3/0lfwC5wgumapHYoIF9QucdJWEjdiI5W+GsGHfWiQ75ee7xIHMJtZgQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4IkRrFLO/mQrao3GPVzqG1zhbDxsXu4LrqbJ5GcTT+8=;
- b=dPBPLVqUgcwFErLCuqdU+2T2xNxBdu6jYClfpYq/chWBOa9vZCoEqLpV+Pj3G+btpQFtANYfU9QyrrLmfvzVdjFeXDq304mnSnGwb1SQuMdN3Nk6eqp+wGmc2rL33k0vZYc11VcH+FApWIv2qZzxrlLlgQN7EG2/QS7LKnhSJ54=
-Received: from TYXPR01MB1775.jpnprd01.prod.outlook.com (52.133.168.140) by
- TYXPR01MB1470.jpnprd01.prod.outlook.com (52.133.165.139) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2157.18; Thu, 15 Aug 2019 15:40:09 +0000
-Received: from TYXPR01MB1775.jpnprd01.prod.outlook.com
- ([fe80::8432:480c:12c2:d239]) by TYXPR01MB1775.jpnprd01.prod.outlook.com
- ([fe80::8432:480c:12c2:d239%7]) with mapi id 15.20.2157.022; Thu, 15 Aug 2019
- 15:40:09 +0000
-From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        Thu, 15 Aug 2019 14:06:49 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BD1132AF;
+        Thu, 15 Aug 2019 20:06:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1565892406;
+        bh=zSZrTeCBrQTp1u2GZFwS+KZBuw8HzikCk+YGmksbVr0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=KZd07T7RZTOJW2fuJtYfQt9PLJw15GsaPJPuTzgRCaJfd6h/p+1bHa+F5zwvspLpl
+         bEc6eIOBnCwi9UKOdXkLUhCWjHHRvKJztl1GhACJJebKECs9xk30cOI3c4z3mkIbji
+         wR99mJBa5xZkEBJtYVr7VoNDjMt6O1uO3/ouHkI0=
+Date:   Thu, 15 Aug 2019 21:06:41 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, Eric Anholt <eric@anholt.net>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
         Simon Horman <horms@verge.net.au>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
@@ -52,106 +42,116 @@ CC:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         <linux-renesas-soc@vger.kernel.org>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: RE: [PATCH v2 4/9] drm/timings: Add link flags
-Thread-Topic: [PATCH v2 4/9] drm/timings: Add link flags
-Thread-Index: AQHVU1lOWobC8dS6C0q1OP//wkHPVqb8G0sAgAA9KNA=
-Date:   Thu, 15 Aug 2019 15:40:09 +0000
-Message-ID: <TYXPR01MB1775593360A56D72CAFE5AD4C0AC0@TYXPR01MB1775.jpnprd01.prod.outlook.com>
+Subject: Re: [PATCH v2 3/9] drm: Rename drm_bridge_timings to drm_timings
+Message-ID: <20190815180641.GY5011@pendragon.ideasonboard.com>
 References: <1565867073-24746-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1565867073-24746-5-git-send-email-fabrizio.castro@bp.renesas.com>
- <20190815120014.GK5011@pendragon.ideasonboard.com>
-In-Reply-To: <20190815120014.GK5011@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=fabrizio.castro@bp.renesas.com; 
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2c674b38-2fd4-4890-b4b8-08d72196dab6
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:TYXPR01MB1470;
-x-ms-traffictypediagnostic: TYXPR01MB1470:
-x-ms-exchange-purlcount: 1
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TYXPR01MB147071B4B4BBE938B5ABE181C0AC0@TYXPR01MB1470.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 01304918F3
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(396003)(366004)(39860400002)(346002)(136003)(376002)(199004)(189003)(5660300002)(33656002)(14454004)(86362001)(102836004)(316002)(8676002)(99286004)(966005)(8936002)(26005)(76176011)(6916009)(4326008)(9686003)(54906003)(53546011)(6506007)(7416002)(6306002)(55016002)(81156014)(81166006)(486006)(11346002)(74316002)(66066001)(14444005)(53936002)(305945005)(25786009)(476003)(2906002)(446003)(6116002)(76116006)(66556008)(186003)(71200400001)(256004)(7736002)(478600001)(44832011)(7696005)(66476007)(66446008)(64756008)(6436002)(229853002)(6246003)(66946007)(3846002)(52536014)(71190400001);DIR:OUT;SFP:1102;SCL:1;SRVR:TYXPR01MB1470;H:TYXPR01MB1775.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
-received-spf: None (protection.outlook.com: bp.renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 6DcM6J0HfWVNjX/5E/ddfMleT98NwAOePUlAB0XljXOvVagAotw50HwxhlBXblX9/2cmoD6D8s9zgnKctg0ZSpsswiwCj9vVoENxzjB8TorJBGvrug7Gr+Gq18ItKwdvcCYn8pH5Kjq6fi2kw/GvJd7KHxZ4QxYxJYrzfG7K4a3tIqDryyx3SQHugTjBljAMFaKQtCikx/NRVosDjcA/Cvf0jo3Wj7rnY6IfVtbpTfWD0/8DlSMiEG/cftrH8/KKZJMyOw7rx3ievnpwCykhHVvIDGbDf22KxjsV7kpow14xTzaGdpsJTrxLqFxZ8CzCZ1WJieC1wNRP0aOndlQgHZ9uAFIFl85bouNlsaun8jVFoxxGoDxv+eW4XTj2tjS/odw99bbWXLtB70OFJFxaob5OffPegGepZMn5NGawyng=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <1565867073-24746-4-git-send-email-fabrizio.castro@bp.renesas.com>
+ <20190815131838.GP5011@pendragon.ideasonboard.com>
+ <20190815140400.GA7174@kroah.com>
+ <20190815141440.GA20322@pendragon.ideasonboard.com>
+ <TY1PR01MB1770404C560F6967FA81D521C0AC0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+ <20190815145300.GA15016@kroah.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c674b38-2fd4-4890-b4b8-08d72196dab6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Aug 2019 15:40:09.2815
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hnTp/+rbzQ+S/+ENqNFXQea9FQ15VyWZYtNNAI/Ne8rhfXAdnChGBVuI6DjyB5dYOAgEAjsvjTChneLzxCRSfOB+JL2bwdbrRakw63ybkHQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYXPR01MB1470
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190815145300.GA15016@kroah.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgTGF1cmVudCwNCg0KVGhhbmsgeW91IGZvciB0aGUgZmVlZGJhY2shDQoNCkkgdGhpbmsgd2Ug
-bmVlZCB0byBjb21lIGEgY29uY2x1c2lvbiBvbiBoZXJlOg0KaHR0cHM6Ly9wYXRjaHdvcmsua2Vy
-bmVsLm9yZy9wYXRjaC8xMTA5NTU0Ny8NCg0KYmVmb3JlIHRha2luZyB0aGUgY29tbWVudHMgb24g
-dGhpcyBwYXRjaCBhbnkgZnVydGhlci4NCg0KVGhhbmtzLA0KRmFiDQoNCj4gRnJvbTogTGF1cmVu
-dCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPg0KPiBTZW50OiAx
-NSBBdWd1c3QgMjAxOSAxMzowMA0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYyIDQvOV0gZHJtL3Rp
-bWluZ3M6IEFkZCBsaW5rIGZsYWdzDQo+IA0KPiBIaSBGYWJyaXppbywNCj4gDQo+IFRoYW5rIHlv
-dSBmb3IgdGhlIHBhdGNoLg0KPiANCj4gT24gVGh1LCBBdWcgMTUsIDIwMTkgYXQgMTI6MDQ6MjhQ
-TSArMDEwMCwgRmFicml6aW8gQ2FzdHJvIHdyb3RlOg0KPiA+IFdlIG5lZWQgbW9yZSBpbmZvcm1h
-dGlvbiB0byBkZXNjcmliZSBkdWFsLUxWRFMgbGlua3MsIHRoZXJlZm9yZQ0KPiA+IGludHJvZHVj
-ZSBsaW5rX2ZsYWdzLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogRmFicml6aW8gQ2FzdHJvIDxm
-YWJyaXppby5jYXN0cm9AYnAucmVuZXNhcy5jb20+DQo+ID4NCj4gPiAtLS0NCj4gPiB2MS0+djI6
-DQo+ID4gKiBuZXcgcGF0Y2gNCj4gPg0KPiA+ICBpbmNsdWRlL2RybS9kcm1fdGltaW5ncy5oIHwg
-MjYgKysrKysrKysrKysrKysrKysrKysrKysrKysNCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDI2IGlu
-c2VydGlvbnMoKykNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2RybS9kcm1fdGltaW5n
-cy5oIGIvaW5jbHVkZS9kcm0vZHJtX3RpbWluZ3MuaA0KPiA+IGluZGV4IDRhZjg4MTQuLjU4ZmJm
-MWIgMTAwNjQ0DQo+ID4gLS0tIGEvaW5jbHVkZS9kcm0vZHJtX3RpbWluZ3MuaA0KPiA+ICsrKyBi
-L2luY2x1ZGUvZHJtL2RybV90aW1pbmdzLmgNCj4gPiBAQCAtMSw0ICsxLDYgQEANCj4gPiAgLyoN
-Cj4gPiArICogQ29weXJpZ2h0IChDKSAyMDE5IFJlbmVzYXMgRWxlY3Ryb25pY3MgQ29ycG9yYXRp
-b24NCj4gPiArICoNCj4gPiAgICogUGVybWlzc2lvbiB0byB1c2UsIGNvcHksIG1vZGlmeSwgZGlz
-dHJpYnV0ZSwgYW5kIHNlbGwgdGhpcyBzb2Z0d2FyZSBhbmQgaXRzDQo+ID4gICAqIGRvY3VtZW50
-YXRpb24gZm9yIGFueSBwdXJwb3NlIGlzIGhlcmVieSBncmFudGVkIHdpdGhvdXQgZmVlLCBwcm92
-aWRlZCB0aGF0DQo+ID4gICAqIHRoZSBhYm92ZSBjb3B5cmlnaHQgbm90aWNlIGFwcGVhciBpbiBh
-bGwgY29waWVzIGFuZCB0aGF0IGJvdGggdGhhdCBjb3B5cmlnaHQNCj4gPiBAQCAtMjEsNiArMjMs
-MjQgQEANCj4gPiAgI2lmbmRlZiBfX0RSTV9USU1JTkdTX0hfXw0KPiA+ICAjZGVmaW5lIF9fRFJN
-X1RJTUlOR1NfSF9fDQo+ID4NCj4gPiArI2luY2x1ZGUgPGxpbnV4L2JpdHMuaD4NCj4gPiArDQo+
-ID4gKy8qKg0KPiA+ICsgKiBlbnVtIGRybV9saW5rX2ZsYWdzIC0gbGlua19mbGFncyBmb3IgJmRy
-bV90aW1pbmdzDQo+ID4gKyAqDQo+ID4gKyAqIFRoaXMgZW51bSBkZWZpbmVzIHRoZSBkZXRhaWxz
-IG9mIHRoZSBsaW5rLg0KPiA+ICsgKg0KPiA+ICsgKiBARFJNX0xJTktfRFVBTF9MVkRTX09ERF9F
-VkVOOglEdWFsLUxWRFMgbGluaywgd2l0aCBvZGQgcGl4ZWxzICgxLDMsNSwNCj4gPiArICoJCQkJ
-CWV0Yy4pIGNvbWluZyB0aHJvdWdoIHRoZSBmaXJzdCBwb3J0LCBhbmQNCj4gPiArICoJCQkJCWV2
-ZW4gcGl4ZWxzICgwLDIsNCxldGMuKSBjb21pbmcgdGhyb3VnaA0KPiA+ICsgKgkJCQkJdGhlIHNl
-Y29uZCBwb3J0LiBJZiBub3Qgc3BlY2lmaWVkIGZvciBhDQo+ID4gKyAqCQkJCQlkdWFsLUxWRFMg
-cGFuZWwsIGl0IGlzIGFzc3VtZWQgdGhhdCBldmVuDQo+ID4gKyAqCQkJCQlwaXhlbHMgYXJlIGNv
-bWluZyB0aHJvdWdoIHRoZSBmaXJzdCBwb3J0DQo+ID4gKyAqLw0KPiA+ICtlbnVtIGRybV9saW5r
-X2ZsYWdzIHsNCj4gDQo+IFRoZSB0ZXh0IHdpbGwgYmUgZWFzaWVyIHRvIHJlYWQgaWYgeW91IGlu
-bGluZSBpdCBoZXJlLg0KPiANCj4gCS8qKg0KPiAJICogQERSTV9MSU5LX0RVQUxfTFZEU19PRERf
-RVZFTjogRHVhbC1MVkRTIGxpbmssIHdpdGggb2RkIHBpeGVscyAoMSwzLDUsDQo+IAkgKiBldGMu
-KSBjb21pbmcgdGhyb3VnaCB0aGUgZmlyc3QgcG9ydCwgYW5kICBldmVuIHBpeGVscyAoMCwyLDQs
-ZXRjLikNCj4gCSAuLi4NCj4gDQo+ID4gKwlEUk1fTElOS19EVUFMX0xWRFNfT0REX0VWRU4gPSBC
-SVQoMCksDQo+IA0KPiBJIHdvdWxkIHJlbW92ZSB0aGUgZHVhbF9saW5rIGZpZWxkIGFuZCBhZGQg
-YSBEUk1fTElOS19EVUFMX0xWRFMgKG9yDQo+IGFsdGVybmF0aXZlbHkgdHdvIGZsYWdzLCBkdWFs
-IGx2ZHMgb2RkLWV2ZW4gYW5kIGR1YWwgbHZkcyBldmVuLW9kZCkuDQo+IA0KPiA+ICt9Ow0KPiA+
-ICsNCj4gPiAgLyoqDQo+ID4gICAqIHN0cnVjdCBkcm1fdGltaW5ncyAtIHRpbWluZyBpbmZvcm1h
-dGlvbg0KPiA+ICAgKi8NCj4gPiBAQCAtNTUsNiArNzUsMTIgQEAgc3RydWN0IGRybV90aW1pbmdz
-IHsNCj4gPiAgCSAqIGFuZCBvZGQtbnVtYmVyZWQgcGl4ZWxzIGFyZSByZWNlaXZlZCBvbiBzZXBh
-cmF0ZSBsaW5rcy4NCj4gPiAgCSAqLw0KPiA+ICAJYm9vbCBkdWFsX2xpbms7DQo+ID4gKwkvKioN
-Cj4gPiArCSAqIEBsaW5rX2ZsYWdzDQo+ID4gKwkgKg0KPiA+ICsJICogUHJvdmlkZXMgZGV0YWls
-ZWQgaW5mb3JtYXRpb24gYWJvdXQgdGhlIGxpbmsuDQo+IA0KPiBJIHRoaW5rIHRoaXMgY2FsbHMg
-Zm9yIGEgYml0IG1vcmUgaW5mb3JtYXRpb24gdGhhbiAiZGV0YWlsZWQNCj4gaW5mb3JtYXRpb24i
-LiBXaGF0IGluZm9ybWF0aW9uIGRvIHlvdSB3YW50IHRvIHN0b3JlIGluIHRoaXMgZmllbGQgPw0K
-PiANCj4gPiArCSAqLw0KPiA+ICsJZW51bSBkcm1fbGlua19mbGFncyBsaW5rX2ZsYWdzOw0KPiA+
-ICB9Ow0KPiA+DQo+ID4gICNlbmRpZiAvKiBfX0RSTV9USU1JTkdTX0hfXyAqLw0KPiA+IC0tDQo+
-ID4gMi43LjQNCj4gPg0KPiANCj4gLS0NCj4gUmVnYXJkcywNCj4gDQo+IExhdXJlbnQgUGluY2hh
-cnQNCg==
+Hi Greg,
+
+On Thu, Aug 15, 2019 at 04:53:00PM +0200, Greg Kroah-Hartman wrote:
+> On Thu, Aug 15, 2019 at 02:31:26PM +0000, Fabrizio Castro wrote:
+> > On 15 August 2019 15:15, Laurent Pinchart wrote:
+> > > On Thu, Aug 15, 2019 at 04:04:00PM +0200, Greg Kroah-Hartman wrote:
+> > > > On Thu, Aug 15, 2019 at 04:18:38PM +0300, Laurent Pinchart wrote:
+> > > > > Hi Fabrizio,
+> > > > >
+> > > > > (CC'ing Greg as the architect of the SPDX move)
+> > > >
+> > > > _one of_, not the one that did the most of he work, that would be Thomas :)
+> > > >
+> > > > > On Thu, Aug 15, 2019 at 12:04:27PM +0100, Fabrizio Castro wrote:
+> > > > > > The information represented by drm_bridge_timings is also
+> > > > > > needed by panels, therefore rename drm_bridge_timings to
+> > > > > > drm_timings.
+> > > > > >
+> > > > > > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> > > > > > Link: https://www.spinics.net/lists/linux-renesas-soc/msg43271.html
+> > > > > >
+> > > > > > ---
+> > > > > > v1->v2:
+> > > > > > * new patch
+> > > > > >
+> > > > > > I have copied the license from include/drm/drm_bridge.h as that's
+> > > > > > where the struct originally came from. What's the right SPDX license
+> > > > > > to use in this case?
+> > > > >
+> > > > > https://wiki.spdx.org/view/Legal_Team/Decisions/Dealing_with_Public_Domain_within_SPDX_Files
+> > > > >
+> > > > > Greg, any idea on how we should handle this ?
+> > > >
+> > > > Ugh, what lunacy.  But drm_bridge.h is NOT under any "public domain"
+> > > > license, so why is that an issue here?  This looks like a "normal" bsd 3
+> > > > clause license to me, right?
+> > > 
+> > > You're right, I overread part of the text in drm_bridge.h, it seems to
+> > > indeed be covered by a BSD 3 clause license. Sorry for the noise.
+> > 
+> > Mmm... This is the template for the BSD-3-Clause:
+> > 
+> > Copyright (c) <YEAR>, <OWNER>                                                    
+> > All rights reserved.                                                             
+> >                                                                                  
+> > Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+> >                                                                                  
+> > Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+> > Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+> > Neither the name of the <ORGANIZATION> nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+> > THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+> > 
+> > And this is the license coming from include/drm/drm_bridge.h:
+> > 
+> > /*                                                                                                                                                                                                                                                                              
+> >  * Copyright (c) 2016 Intel Corporation                                          
+> >  *                                                                               
+> >  * Permission to use, copy, modify, distribute, and sell this software and its   
+> >  * documentation for any purpose is hereby granted without fee, provided that    
+> >  * the above copyright notice appear in all copies and that both that copyright  
+> >  * notice and this permission notice appear in supporting documentation, and     
+> >  * that the name of the copyright holders not be used in advertising or          
+> >  * publicity pertaining to distribution of the software without specific,        
+> >  * written prior permission.  The copyright holders make no representations      
+> >  * about the suitability of this software for any purpose.  It is provided "as   
+> >  * is" without express or implied warranty.                                      
+> >  *                                                                               
+> >  * THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,   
+> >  * INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO        
+> >  * EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY SPECIAL, INDIRECT OR      
+> >  * CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE,   
+> >  * DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER        
+> >  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE  
+> >  * OF THIS SOFTWARE.                                                             
+> >  */
+> > 
+> > Perhaps I am completely wrong here, and I am not a lawyer, but the wording seems different enough to me...
+> > I am happy to use "BSD-3-Clause" though. Laurent please double check.
+> 
+> Please talk to your lawyers about this, we are not them...
+
+I don't think that's fair though. Fabrizio is reworking kernel code, and
+as part of that wondered what SPDX tag to apply to a new file that
+contains code moved from an existing file that has no SPDX tag, but the
+above copyright notice. He's not trying to change a license, or reword
+it. As SPDX is the preferred way of expressing licenses in the kernel,
+he legitimately asked for help, and I think we should provide an
+official answer for this (which could be not to use SPDX but copy the
+license text).
+
+-- 
+Regards,
+
+Laurent Pinchart
