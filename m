@@ -2,130 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B97FD901D2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Aug 2019 14:41:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8832E901E2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Aug 2019 14:44:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727210AbfHPMlM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Aug 2019 08:41:12 -0400
-Received: from laurent.telenet-ops.be ([195.130.137.89]:35338 "EHLO
-        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727087AbfHPMlL (ORCPT
+        id S1727104AbfHPMo1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Aug 2019 08:44:27 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:38648 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726075AbfHPMo1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Aug 2019 08:41:11 -0400
-Received: from ramsan ([84.194.98.4])
-        by laurent.telenet-ops.be with bizsmtp
-        id poh92000A05gfCL01oh9nz; Fri, 16 Aug 2019 14:41:10 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1hybXZ-0005Gl-Jm; Fri, 16 Aug 2019 14:41:09 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1hybXZ-00040w-HF; Fri, 16 Aug 2019 14:41:09 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] soc: renesas: rmobile-sysc: Set GENPD_FLAG_ALWAYS_ON for always-on domain
-Date:   Fri, 16 Aug 2019 14:41:06 +0200
-Message-Id: <20190816124106.15383-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Fri, 16 Aug 2019 08:44:27 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C0F0C2AF;
+        Fri, 16 Aug 2019 14:44:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1565959465;
+        bh=13TS07WjEU8T1vNw89rJNneidSGr9WeYO9OEoonJdE4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tdrDIrqcnJhgs6D7g2Qp9s8Hl8aAMvllrZLEltP9gbTo9Pz8iG4TPZ6GIG+Gi4XNj
+         /mSQX1p7Vthh2ZM6bmlE5maDy+dcOPSzumeSAV40Xn9Q+DWqjbaIaM7tiGcFwfrIrZ
+         VEER0nH/7roTfFqElknjTMijQ32IYX76FOfivDio=
+Date:   Fri, 16 Aug 2019 15:44:12 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v2] v4l: rcar-fcp: Read IP version register at probe time
+Message-ID: <20190816124412.GG5020@pendragon.ideasonboard.com>
+References: <20190814145417.30670-1-laurent.pinchart+renesas@ideasonboard.com>
+ <CAMuHMdWnnWTgnrjbSSxkg1rUadosijZyrfB8LQk5zWhzmg3WtQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdWnnWTgnrjbSSxkg1rUadosijZyrfB8LQk5zWhzmg3WtQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Currently the R-Mobile "always-on" PM Domain is implemented by returning
--EBUSY from the generic_pm_domain.power_off() callback, and doing
-nothing in the generic_pm_domain.power_on() callback.  However, this
-means the PM Domain core code is not aware of the semantics of this
-special domain, leading to boot warnings like the following on
-SH/R-Mobile SoCs:
+Hi Geert,
 
-    sh_cmt e6130000.timer: PM domain c5 will not be powered off
+On Fri, Aug 16, 2019 at 10:21:42AM +0200, Geert Uytterhoeven wrote:
+> On Wed, Aug 14, 2019 at 4:55 PM Laurent Pinchart wrote:
+> > This helps identifying the IP core version, for debugging purpose only
+> > for now.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> 
+> > --- a/drivers/media/platform/rcar-fcp.c
+> > +++ b/drivers/media/platform/rcar-fcp.c
+> 
+> > @@ -138,6 +167,18 @@ static int rcar_fcp_probe(struct platform_device *pdev)
+> >
+> >         pm_runtime_enable(&pdev->dev);
+> >
+> > +       fcp->iomem = devm_platform_ioremap_resource(pdev, 0);
+> > +       if (IS_ERR(fcp->iomem))
+> > +               return PTR_ERR(fcp->iomem);
+> > +
+> > +       pm_runtime_get_sync(&pdev->dev);
+> > +       version = rcar_fcp_read(fcp, FCP_VCR);
+> > +       pm_runtime_put(&pdev->dev);
+> 
+> Unless (dynamic) debugging is enabled, all of the above is done for obtaining
+> a version number that is not used.
+> Can this be improved?
 
-Fix this by making the always-on nature of the domain explicit instead,
-by setting the GENPD_FLAG_ALWAYS_ON flag.  This removes the need for the
-domain to provide power control callbacks.
+With FCNL support we'll need that anyway.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-To be queued in renesas-devel for v5.4.
+This patch comes from a larger FCNL series that rejects devices with an
+unknown version, and I thought it could be fast-tracked in a stripped
+form already. I don't mind either way, I can wait until it's time to
+merge FCNL support.
 
- drivers/soc/renesas/rmobile-sysc.c | 31 +++++++++++++++---------------
- 1 file changed, 16 insertions(+), 15 deletions(-)
+> > +
+> > +       dev_dbg(&pdev->dev, "FCP category %u revision %u\n",
+> > +               (version & FCP_VCR_CATEGORY_MASK) >> FCP_VCR_CATEGORY_SHIFT,
+> > +               (version & FCP_VCR_REVISION_MASK) >> FCP_VCR_REVISION_SHIFT);
+> > +
+> >         mutex_lock(&fcp_lock);
+> >         list_add_tail(&fcp->list, &fcp_devices);
+> >         mutex_unlock(&fcp_lock);
 
-diff --git a/drivers/soc/renesas/rmobile-sysc.c b/drivers/soc/renesas/rmobile-sysc.c
-index 444c97f84ea5a76e..caecc24d5d68739c 100644
---- a/drivers/soc/renesas/rmobile-sysc.c
-+++ b/drivers/soc/renesas/rmobile-sysc.c
-@@ -48,12 +48,8 @@ struct rmobile_pm_domain *to_rmobile_pd(struct generic_pm_domain *d)
- static int rmobile_pd_power_down(struct generic_pm_domain *genpd)
- {
- 	struct rmobile_pm_domain *rmobile_pd = to_rmobile_pd(genpd);
--	unsigned int mask;
-+	unsigned int mask = BIT(rmobile_pd->bit_shift);
- 
--	if (rmobile_pd->bit_shift == ~0)
--		return -EBUSY;
--
--	mask = BIT(rmobile_pd->bit_shift);
- 	if (rmobile_pd->suspend) {
- 		int ret = rmobile_pd->suspend();
- 
-@@ -80,14 +76,10 @@ static int rmobile_pd_power_down(struct generic_pm_domain *genpd)
- 
- static int __rmobile_pd_power_up(struct rmobile_pm_domain *rmobile_pd)
- {
--	unsigned int mask;
-+	unsigned int mask = BIT(rmobile_pd->bit_shift);
- 	unsigned int retry_count;
- 	int ret = 0;
- 
--	if (rmobile_pd->bit_shift == ~0)
--		return 0;
--
--	mask = BIT(rmobile_pd->bit_shift);
- 	if (__raw_readl(rmobile_pd->base + PSTR) & mask)
- 		return ret;
- 
-@@ -122,11 +114,15 @@ static void rmobile_init_pm_domain(struct rmobile_pm_domain *rmobile_pd)
- 	struct dev_power_governor *gov = rmobile_pd->gov;
- 
- 	genpd->flags |= GENPD_FLAG_PM_CLK | GENPD_FLAG_ACTIVE_WAKEUP;
--	genpd->power_off		= rmobile_pd_power_down;
--	genpd->power_on			= rmobile_pd_power_up;
--	genpd->attach_dev		= cpg_mstp_attach_dev;
--	genpd->detach_dev		= cpg_mstp_detach_dev;
--	__rmobile_pd_power_up(rmobile_pd);
-+	genpd->attach_dev = cpg_mstp_attach_dev;
-+	genpd->detach_dev = cpg_mstp_detach_dev;
-+
-+	if (!(genpd->flags & GENPD_FLAG_ALWAYS_ON)) {
-+		genpd->power_off = rmobile_pd_power_down;
-+		genpd->power_on = rmobile_pd_power_up;
-+		__rmobile_pd_power_up(rmobile_pd);
-+	}
-+
- 	pm_genpd_init(genpd, gov ? : &simple_qos_governor, false);
- }
- 
-@@ -270,6 +266,11 @@ static void __init rmobile_setup_pm_domain(struct device_node *np,
- 		break;
- 
- 	case PD_NORMAL:
-+		if (pd->bit_shift == ~0) {
-+			/* Top-level always-on domain */
-+			pr_debug("PM domain %s is always-on domain\n", name);
-+			pd->genpd.flags |= GENPD_FLAG_ALWAYS_ON;
-+		}
- 		break;
- 	}
- 
 -- 
-2.17.1
+Regards,
 
+Laurent Pinchart
