@@ -2,94 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B7A568FDB1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Aug 2019 10:22:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E3969004A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Aug 2019 12:52:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726955AbfHPIVz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Aug 2019 04:21:55 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:43780 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726820AbfHPIVz (ORCPT
+        id S1727007AbfHPKwb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Aug 2019 06:52:31 -0400
+Received: from foss.arm.com ([217.140.110.172]:54962 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725897AbfHPKwb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Aug 2019 04:21:55 -0400
-Received: by mail-ot1-f67.google.com with SMTP id e12so8844583otp.10;
-        Fri, 16 Aug 2019 01:21:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=d/RQiN4Zt7fRXFwmq9rP0sC4DcplkHkeUoSPXsgJtWs=;
-        b=QflcEAo5HQnQoNBOvPG0y0gVb6Zgbix8g4EwQHB/wiI2ZiwOQII4FNUDJO/4jKtNG1
-         C6TtdU903wuC6hNwX4y5k0gNUHgzkIAXjS2Wno4eyaDSfDlXf9YsTvVOsFjNn0lqmOTm
-         K0TUqnNVy1zomXkQGIAvIdWoGUBsqPyKlP2DuYs/a7Zql2V4XAIf0iLFHF92nQytivX3
-         MPnil4dONJfw6EATCJjl1MwRnLEf3V5faboQYCoI3XFgoUGC7zjJAIEYjc3zWW6GSoaY
-         QiORQFt5B+KMWKusIv+UJNVmxp9gZoNFX8h1RBUzowWYixoSx8OD4row3F4Sg+65vDUM
-         lDpA==
-X-Gm-Message-State: APjAAAX+/In7GVd1rAKEibOhD4u57r5iLYsoFxbhbVZB4sQqdtKtbqWE
-        kVH/SGuRc4UP+Qpv4ogppilkrB0tJw4dHvYSJA0i7A==
-X-Google-Smtp-Source: APXvYqzg1btR+f/F74H8+tW6jxEOUl0KlYsnxGC6ev6hQ13mosU9hOOQbXm6/eBaKoUyPqjSeYmi5b6hMzrimYVsNDU=
-X-Received: by 2002:a9d:68c5:: with SMTP id i5mr6705007oto.250.1565943714088;
- Fri, 16 Aug 2019 01:21:54 -0700 (PDT)
+        Fri, 16 Aug 2019 06:52:31 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BE7E228;
+        Fri, 16 Aug 2019 03:52:30 -0700 (PDT)
+Received: from e121166-lin.cambridge.arm.com (unknown [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D6FDC3F706;
+        Fri, 16 Aug 2019 03:52:29 -0700 (PDT)
+Date:   Fri, 16 Aug 2019 11:52:27 +0100
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     marek.vasut@gmail.com
+Cc:     linux-pci@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH V3 1/3] PCI: rcar: Move the inbound index check
+Message-ID: <20190816105227.GB23677@e121166-lin.cambridge.arm.com>
+References: <20190809175741.7066-1-marek.vasut@gmail.com>
 MIME-Version: 1.0
-References: <20190814145417.30670-1-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20190814145417.30670-1-laurent.pinchart+renesas@ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 16 Aug 2019 10:21:42 +0200
-Message-ID: <CAMuHMdWnnWTgnrjbSSxkg1rUadosijZyrfB8LQk5zWhzmg3WtQ@mail.gmail.com>
-Subject: Re: [PATCH v2] v4l: rcar-fcp: Read IP version register at probe time
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190809175741.7066-1-marek.vasut@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+On Fri, Aug 09, 2019 at 07:57:39PM +0200, marek.vasut@gmail.com wrote:
+> From: Marek Vasut <marek.vasut+renesas@gmail.com>
+> 
+> Since the $idx variable value is stored across multiple calls to
+> rcar_pcie_inbound_ranges() function, and the $idx value is used to
+> index registers which are written, subsequent calls might cause
+> the $idx value to be high enough to trigger writes into nonexistent
+> registers.
 
-On Wed, Aug 14, 2019 at 4:55 PM Laurent Pinchart
-<laurent.pinchart+renesas@ideasonboard.com> wrote:
-> This helps identifying the IP core version, for debugging purpose only
-> for now.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Can this really happen ? 'index' is initialized to 0 in
+rcar_pci_parse_map_dma_ranges() and, through rcar_pcie_inbound_ranges()
+return value, it bails out on idx overrun, we can argue this patch
+improves robustness but I do not think it is fixing anything.
 
-> --- a/drivers/media/platform/rcar-fcp.c
-> +++ b/drivers/media/platform/rcar-fcp.c
+Lorenzo
 
-> @@ -138,6 +167,18 @@ static int rcar_fcp_probe(struct platform_device *pdev)
->
->         pm_runtime_enable(&pdev->dev);
->
-> +       fcp->iomem = devm_platform_ioremap_resource(pdev, 0);
-> +       if (IS_ERR(fcp->iomem))
-> +               return PTR_ERR(fcp->iomem);
-> +
-> +       pm_runtime_get_sync(&pdev->dev);
-> +       version = rcar_fcp_read(fcp, FCP_VCR);
-> +       pm_runtime_put(&pdev->dev);
-
-Unless (dynamic) debugging is enabled, all of the above is done for obtaining
-a version number that is not used.
-Can this be improved?
-
-> +
-> +       dev_dbg(&pdev->dev, "FCP category %u revision %u\n",
-> +               (version & FCP_VCR_CATEGORY_MASK) >> FCP_VCR_CATEGORY_SHIFT,
-> +               (version & FCP_VCR_REVISION_MASK) >> FCP_VCR_REVISION_SHIFT);
-> +
->         mutex_lock(&fcp_lock);
->         list_add_tail(&fcp->list, &fcp_devices);
->         mutex_unlock(&fcp_lock);
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> Fix this by moving the $idx value check to the beginning of the loop.
+> 
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> Cc: Wolfram Sang <wsa@the-dreams.de>
+> Cc: linux-renesas-soc@vger.kernel.org
+> To: linux-pci@vger.kernel.org
+> ---
+> V2: New patch
+> V3: Adjust the check to idx >= MAX_NR_INBOUND_MAPS - 1
+> ---
+>  drivers/pci/controller/pcie-rcar.c | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
+> index f6a669a9af41..56a6433eb70b 100644
+> --- a/drivers/pci/controller/pcie-rcar.c
+> +++ b/drivers/pci/controller/pcie-rcar.c
+> @@ -1048,6 +1048,10 @@ static int rcar_pcie_inbound_ranges(struct rcar_pcie *pcie,
+>  	mask &= ~0xf;
+>  
+>  	while (cpu_addr < cpu_end) {
+> +		if (idx >= MAX_NR_INBOUND_MAPS - 1) {
+> +			dev_err(pcie->dev, "Failed to map inbound regions!\n");
+> +			return -EINVAL;
+> +		}
+>  		/*
+>  		 * Set up 64-bit inbound regions as the range parser doesn't
+>  		 * distinguish between 32 and 64-bit types.
+> @@ -1067,11 +1071,6 @@ static int rcar_pcie_inbound_ranges(struct rcar_pcie *pcie,
+>  		pci_addr += size;
+>  		cpu_addr += size;
+>  		idx += 2;
+> -
+> -		if (idx > MAX_NR_INBOUND_MAPS) {
+> -			dev_err(pcie->dev, "Failed to map inbound regions!\n");
+> -			return -EINVAL;
+> -		}
+>  	}
+>  	*index = idx;
+>  
+> -- 
+> 2.20.1
+> 
