@@ -2,117 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 66E48908EF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Aug 2019 21:50:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B7F39091B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Aug 2019 21:59:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727631AbfHPTu3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Aug 2019 15:50:29 -0400
-Received: from sauhun.de ([88.99.104.3]:48358 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726527AbfHPTu2 (ORCPT
+        id S1727565AbfHPT7p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Aug 2019 15:59:45 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:33164 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727545AbfHPT7p (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Aug 2019 15:50:28 -0400
-Received: from localhost (p54B33308.dip0.t-ipconnect.de [84.179.51.8])
-        by pokefinder.org (Postfix) with ESMTPSA id 7AD8C4A14FE;
-        Fri, 16 Aug 2019 21:50:26 +0200 (CEST)
-Date:   Fri, 16 Aug 2019 21:50:26 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        axboe@kernel.dk
-Cc:     ulf.hansson@linaro.org, hch@lst.de, m.szyprowski@samsung.com,
-        robin.murphy@arm.com, joro@8bytes.org,
-        wsa+renesas@sang-engineering.com, linux-mmc@vger.kernel.org,
-        iommu@lists.linux-foundation.org, linux-block@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v9 3/5] block: sort headers on blk-setting.c
-Message-ID: <20190816195026.GC6886@kunai>
-References: <1564129876-28261-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1564129876-28261-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Fri, 16 Aug 2019 15:59:45 -0400
+Received: by mail-ot1-f68.google.com with SMTP id q20so9899100otl.0;
+        Fri, 16 Aug 2019 12:59:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0znWCL2JJCPaf78DgFnSy9/d/B/Bzcyp+w8HeYdmGmI=;
+        b=DxSnSKBGO4eAioFOO33lqh/jmuo1THcJaCtP+wyxEQLflBf/74QxknqZYq9rrXi+N2
+         lqspyjEvL/k9FEAn2OuHL9TYJvRvNbWagaN6HR96qq0LXyfahFVyvhBnwEDYYNNc62EC
+         i/b9Irn4pFIMwsJW3J87Mh6ReAJnvJ9PYgt7QR7Kh6NfRlW1CLYqgPVAUsZgoAt1UM+c
+         jcLCp5elHU7SamkxK6f/lFvJrtOz+B+67b/VRbkL4RBO8pLlE93ts8NRGGAFeqqs/tyj
+         WGVJP/9rdDOEMPny9POANMoR6JNxvocEUJ7jxOLO4xrdgpzL+T61LhoQPn0JbPAw0B82
+         Tjgg==
+X-Gm-Message-State: APjAAAWKGFCj0oxHzUfztAUDX3v3gKwU0hJ4hIvhQmSCleNZPkPXAYhP
+        iLXIWEgfeYBjcsdi/CufWZaiIEahIDXuYphCEW2bR2RT
+X-Google-Smtp-Source: APXvYqwQUqy/5CXkXTlDaYElB+zhy4Vgctbg9m4vH2dQE01zadOTSabBmTjhlYATc0PSxDOFHHcoFDwpt5YZqwGvBDE=
+X-Received: by 2002:a9d:5c0c:: with SMTP id o12mr8916994otk.145.1565985584096;
+ Fri, 16 Aug 2019 12:59:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="f+W+jCU1fRNres8c"
-Content-Disposition: inline
-In-Reply-To: <1564129876-28261-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190816125225.16061-1-geert+renesas@glider.be>
+ <20190816125225.16061-2-geert+renesas@glider.be> <20190816180123.6299720665@mail.kernel.org>
+In-Reply-To: <20190816180123.6299720665@mail.kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 16 Aug 2019 21:59:32 +0200
+Message-ID: <CAMuHMdVvwsXU2YwFRA2Y2K9KKzF4L-hqDudarmc-OeHXRMCifQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] clk: renesas: mstp: Set GENPD_FLAG_ALWAYS_ON for
+ clock domain
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Stephen,
 
---f+W+jCU1fRNres8c
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, Aug 16, 2019 at 8:01 PM Stephen Boyd <sboyd@kernel.org> wrote:
+> Quoting Geert Uytterhoeven (2019-08-16 05:52:23)
+> > The CPG/MSTP Clock Domain driver does not implement the
+> > generic_pm_domain.power_{on,off}() callbacks, as the domain itself
+> > cannot be powered down.  Hence the domain should be marked as always-on
+> > by setting the GENPD_FLAG_ALWAYS_ON flag.
+> >
+> > This gets rid of the following boot warning on RZ/A1:
+> >
+> >     sh_mtu2 fcff0000.timer: PM domain cpg_clocks will not be powered off
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+>
+> Are you going to add a Fixes tag?
 
-On Fri, Jul 26, 2019 at 05:31:14PM +0900, Yoshihiro Shimoda wrote:
-> This patch sorts the headers in alphabetic order to ease
-> the maintenance for this part.
->=20
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
-> ---
+I didn't add a Fixes tag, as there's no clear point in history where the
+problem appeared: the Clock Domain code in this driver predates the
+introduction of the GENPD_FLAG_ALWAYS_ON flag by ca. 18 months.
 
-Jens, can we have your ack for this patch so Christoph can take this
-series via his tree (also for patch 4/5)?
+Candidates are:
+d716f4798ff8c65a ("PM / Domains: Support IRQ safe PM domains")
+ffaa42e8a40b7f10 ("PM / Domains: Enable users of genpd to specify
+always on PM domains")
+075c37d59ecd4a8b ("PM / Domains: Don't warn about IRQ safe device for
+an always on PM domain")
 
-Thanks,
+Do you think it's worth adding one or more of the above?
+Thanks!
 
-   Wolfram
+Gr{oetje,eeting}s,
 
->  block/blk-settings.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->=20
-> diff --git a/block/blk-settings.c b/block/blk-settings.c
-> index 2ae348c..45f2c52 100644
-> --- a/block/blk-settings.c
-> +++ b/block/blk-settings.c
-> @@ -2,16 +2,16 @@
->  /*
->   * Functions related to setting various queue properties from drivers
->   */
-> -#include <linux/kernel.h>
-> -#include <linux/module.h>
-> -#include <linux/init.h>
->  #include <linux/bio.h>
->  #include <linux/blkdev.h>
-> -#include <linux/memblock.h>	/* for max_pfn/max_low_pfn */
->  #include <linux/gcd.h>
-> -#include <linux/lcm.h>
-> -#include <linux/jiffies.h>
->  #include <linux/gfp.h>
-> +#include <linux/init.h>
-> +#include <linux/jiffies.h>
-> +#include <linux/kernel.h>
-> +#include <linux/lcm.h>
-> +#include <linux/memblock.h>     /* for max_pfn/max_low_pfn */
-> +#include <linux/module.h>
-> =20
->  #include "blk.h"
->  #include "blk-wbt.h"
-> --=20
-> 2.7.4
->=20
+                        Geert
 
---f+W+jCU1fRNres8c
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl1XCQEACgkQFA3kzBSg
-KbYjog//dAZQC63XN6l3f9L1WM8IfdYypPCOsUgtWh4QAVYLdZ/jWXQPRpVwR/hF
-WMR4XX7hbfiFzT5beBXQL2PdzpfjZBIGb7asS//S+9e1FZxSCOrTZKgu3REzg6xr
-+YfC80n4iUw6rYLLz77WRSoFFkwB9n+IKQQt+aH6G3TqkF09y47VNQSPXfd7qysv
-6QOmFR9Ks/zteUOZ7IpJHrCHr7BnLZxxP0WibZxkPteccbymLMWc5gL78ZCYj768
-96wAiC2kYaimsXtwjRZjfSQnhLRGe4sG+DJREhpv79q73bss8Oj+3rvJziGfnbwN
-6utP5aC039RbvIApECeK0pLOnLhXD/rkRQGHQroXVzarEXe/U4Kqhv2bUePym2DE
-kg1n72w+DaEHCvF6YplmPQp+1xsIzFc+pk6z4Ck3gZkHv7tuNqCzD5Ljonp6C6fl
-FJUKKIrV/vMmsrloglOxWWsV5cqSoc3rtuJK9OAH/p5tLpl5Rv1ZlBLBN6VIG0kM
-wKYFmDHXeC6bh31D8a8XlEwbb124uvOWSaYw8OIO7hl/P8/BpDmmuyL90RsuqU2N
-ThBk0luayqVqdag5MqZeNqkScfuIaMP4OIVROxa66JqEIH4+wB/kxnneRFGQVg0j
-HimmywdZzFbi+FNZTxpjZ7SkN2xHELiGwxQsieJMgtMRJG+nwx8=
-=SupF
------END PGP SIGNATURE-----
-
---f+W+jCU1fRNres8c--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
