@@ -2,66 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AFA58FBFC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Aug 2019 09:21:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13F368FC42
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Aug 2019 09:27:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726636AbfHPHVQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Aug 2019 03:21:16 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:38203 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726610AbfHPHVQ (ORCPT
+        id S1726678AbfHPH1I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Aug 2019 03:27:08 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:43748 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726594AbfHPH1I (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Aug 2019 03:21:16 -0400
-Received: by mail-oi1-f193.google.com with SMTP id p124so4145181oig.5;
-        Fri, 16 Aug 2019 00:21:15 -0700 (PDT)
+        Fri, 16 Aug 2019 03:27:08 -0400
+Received: by mail-oi1-f196.google.com with SMTP id y8so4140099oih.10
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Aug 2019 00:27:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=woqYnDK59hsaM1VecGDsyGircWRpLqgX78M8A1XNKAs=;
-        b=Qww305Lxmt1febaJchUig9tIK96H9vpZJs6q2pe2TCIx0o938xiWazMCPyxuKCPt2u
-         iHYrsxm2VY41npk38AFvQO8FNig7HS8FFGOMsJSzLP0kP3+d6UPfTV+Yl+e1GaH5rEYk
-         6qOzOSLWKLvSwE9DlP8RJa/dcP2aFp/vfNDJxWSZu+z0Dlmy+vuAw+1uanqpKl+8qHE6
-         Ji4MeIJAUZPgA5SNqHSGqLUnWpE8nVxuQPHjT6/e6kux7H/4xLH7rtSDx/ElAdQYRAlm
-         xflEF1vvNDIcs8sdfC/g6GS/KLybG+R4KAUVvz7SHpJLUSi/Ps0P0pmj7yRzdMF6tvLB
-         Xrpw==
-X-Gm-Message-State: APjAAAWTkYYZfqk70wTzgw/yttSmMhgLbrkxA8opEAg03QDGydBSEJNE
-        uR63l+Yui96ohi/PDYneJZO1YicHXrQZQGTliu+Q4A==
-X-Google-Smtp-Source: APXvYqwExJ7Mcu0c6m5tuqNT0w2ZW76mh4LoKhe4X8SJJxV7zxELGerz1ZUyUmUFGRshMXqJxoI+kBhB69ewMwLzmQI=
-X-Received: by 2002:aca:bd43:: with SMTP id n64mr3857756oif.148.1565940075410;
- Fri, 16 Aug 2019 00:21:15 -0700 (PDT)
+        bh=YYn06rQVCWr/xHbuls3eexeoV5PBFYW4r8q5eGYJO9w=;
+        b=WcugUG5W/eCkqiAr8R0dBEketLucDRFoRrUQycvWqI7G5LqspBJ1Dv5eJwcbyrLQFn
+         NkQY2zzkGhFNKG7+LOnCR7hbJGNThYsXc+EMnMdD4kZ4JiDNzxB2OS96mN9USOesCd08
+         4qibd/DK7UjSZN0Qkwf8FPdgwRiMhy/7uyKnZZUylJc6xOFODb+wjrr18BH2THiOxjlb
+         SCuo1zRFS/+zuPnb47B3bCgB0U5B2xy6WQjMjE/UOoKOuDsw9KdkaXkLV2/+A9Y6XP4j
+         ODX3goJbAQaeduxZXcom/U19Fc7Fovmhql47O2MbMsTYvmj7SutjRhTsG6wPFabyP+Zi
+         hOyw==
+X-Gm-Message-State: APjAAAUnPCHoo+tJRB9xypb3opEtFXSD3EsYUHjzYawgMo9S3gT67see
+        iy3rMGGr0gyiP654jdukMtWvjfKVF+JETbBOGys=
+X-Google-Smtp-Source: APXvYqwDDr7GscejpmuVIN6KpfEjd5gflUcN0RNsaX5RphMhs11TXPMJjVMpu6sEAyRJjfgO7z6Vf/gJdFitvbT5XsA=
+X-Received: by 2002:a05:6808:3c5:: with SMTP id o5mr4252277oie.102.1565940427050;
+ Fri, 16 Aug 2019 00:27:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190815060503.2853-1-nishkadg.linux@gmail.com>
-In-Reply-To: <20190815060503.2853-1-nishkadg.linux@gmail.com>
+References: <20190815061355.4415-1-nishkadg.linux@gmail.com>
+In-Reply-To: <20190815061355.4415-1-nishkadg.linux@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 16 Aug 2019 09:21:04 +0200
-Message-ID: <CAMuHMdVJSR=WrOMJRhsjx2tLh9tQF0HS4QioPJjrAxjO52jq7g@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: rza1: Add of_node_put() before return
+Date:   Fri, 16 Aug 2019 09:26:55 +0200
+Message-ID: <CAMuHMdXJVit0F+KO7DL2t5ZJ14MYb7R_yi=OUuQ_9Z6cLgA=SQ@mail.gmail.com>
+Subject: Re: [PATCH] soc: renesas: rcar-sysc: Add goto to of_node_put() before return
 To:     Nishka Dasgupta <nishkadg.linux@gmail.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Cc:     Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-CC Jacopo, Chris
-
-On Thu, Aug 15, 2019 at 8:05 AM Nishka Dasgupta
-<nishkadg.linux@gmail.com> wrote:
-> Each iteration of for_each_child_of_node puts the previous node, but in
-> the case of a return from the middle of the loop, there is no put, thus
-> causing a memory leak. Hence add an of_node_put before the return in
-> three places.
+Thanks, applied and queued for v5.4.On Thu, Aug 15, 2019 at 8:14 AM
+Nishka Dasgupta <nishkadg.linux@gmail.com> wrote:
+> The local variable np in function rcar_sysc_pd_init takes the return
+> value of of_find_matching_node_and_match, which gets a node but does not
+> put it. If np is not put before the function returns, it may cause a
+> memory leak. Hence, remove the return statement that does not
+> immediately follow a putting of np. Replace it with a goto pointing to a
+> pre-existing label that first puts np and then returns the required
+> value.
 > Issue found with Coccinelle.
 >
 > Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
 
+Fixes: afa6f53df6052968 ("soc: renesas: rcar-sysc: Add support for
+fixing up power area tables")
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in sh-pfc-for-v5.4.
+i.e. will queue in renesas-devel for v5.4.
 
 Gr{oetje,eeting}s,
 
