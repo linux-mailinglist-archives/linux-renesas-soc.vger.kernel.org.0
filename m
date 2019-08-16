@@ -2,68 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E39C990085
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Aug 2019 13:10:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CC6890149
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Aug 2019 14:22:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727018AbfHPLKg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Aug 2019 07:10:36 -0400
-Received: from foss.arm.com ([217.140.110.172]:55136 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726261AbfHPLKg (ORCPT
+        id S1727163AbfHPMWh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Aug 2019 08:22:37 -0400
+Received: from baptiste.telenet-ops.be ([195.130.132.51]:47712 "EHLO
+        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727134AbfHPMWh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Aug 2019 07:10:36 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 65C6428;
-        Fri, 16 Aug 2019 04:10:35 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (unknown [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7D32C3F706;
-        Fri, 16 Aug 2019 04:10:34 -0700 (PDT)
-Date:   Fri, 16 Aug 2019 12:10:32 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Marek Vasut <marek.vasut@gmail.com>
-Cc:     linux-pci@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH V3 1/3] PCI: rcar: Move the inbound index check
-Message-ID: <20190816111032.GC23677@e121166-lin.cambridge.arm.com>
-References: <20190809175741.7066-1-marek.vasut@gmail.com>
- <20190816105227.GB23677@e121166-lin.cambridge.arm.com>
- <fcf457c1-7297-6a27-5bd7-4fdd05d72698@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fcf457c1-7297-6a27-5bd7-4fdd05d72698@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        Fri, 16 Aug 2019 08:22:37 -0400
+Received: from ramsan ([84.194.98.4])
+        by baptiste.telenet-ops.be with bizsmtp
+        id poNY2000b05gfCL01oNYu2; Fri, 16 Aug 2019 14:22:35 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hybFY-0005C4-R8; Fri, 16 Aug 2019 14:22:32 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hybFY-0003Ry-Op; Fri, 16 Aug 2019 14:22:32 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Ulrich Hecht <uli+renesas@fpond.eu>,
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ARM: dts: r8a7779: Use SYSC "always-on" PM Domain for HSCIF
+Date:   Fri, 16 Aug 2019 14:22:29 +0200
+Message-Id: <20190816122229.13157-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Aug 16, 2019 at 12:59:51PM +0200, Marek Vasut wrote:
-> On 8/16/19 12:52 PM, Lorenzo Pieralisi wrote:
-> > On Fri, Aug 09, 2019 at 07:57:39PM +0200, marek.vasut@gmail.com wrote:
-> >> From: Marek Vasut <marek.vasut+renesas@gmail.com>
-> >>
-> >> Since the $idx variable value is stored across multiple calls to
-> >> rcar_pcie_inbound_ranges() function, and the $idx value is used to
-> >> index registers which are written, subsequent calls might cause
-> >> the $idx value to be high enough to trigger writes into nonexistent
-> >> registers.
-> > 
-> > Can this really happen ? 'index' is initialized to 0 in
-> > rcar_pci_parse_map_dma_ranges() and, through rcar_pcie_inbound_ranges()
-> > return value, it bails out on idx overrun, we can argue this patch
-> > improves robustness but I do not think it is fixing anything.
-> 
-> We probably don't want to write into non-existent registers ?
+Hook up HSCIF serial devices that are part of the CPG/MSTP Clock Domain
+to the SYSC "always-on" PM Domain, for a more consistent
+device-power-area description in DT.
 
-I have not questioned that.
+Cfr. commit 751e29bbb64ad091 ("ARM: dts: r8a7779: Use SYSC "always-on" PM Domain").
 
-> I think it can happen when there are too many ranges in DT.
+Fixes: 055d15a88f66b096 ("ARM: dts: r8a7779: Add HSCIF0/1 device nodes")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued in renesas-devel for v5.4.
 
-Yes that's true when idx == MAX_NR_INBOUND_MAPS, forgive me the
-question.
+ arch/arm/boot/dts/r8a7779.dtsi | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Lorenzo
+diff --git a/arch/arm/boot/dts/r8a7779.dtsi b/arch/arm/boot/dts/r8a7779.dtsi
+index 3ff2592075275555..ebf5b7cfe21599c6 100644
+--- a/arch/arm/boot/dts/r8a7779.dtsi
++++ b/arch/arm/boot/dts/r8a7779.dtsi
+@@ -296,7 +296,7 @@
+ 			 <&cpg_clocks R8A7779_CLK_S>,
+ 			 <&scif_clk>;
+ 		clock-names = "fck", "brg_int", "scif_clk";
+-		power-domains = <&cpg_clocks>;
++		power-domains = <&sysc R8A7779_PD_ALWAYS_ON>;
+ 		status = "disabled";
+ 	};
+ 
+@@ -309,7 +309,7 @@
+ 			 <&cpg_clocks R8A7779_CLK_S>,
+ 			 <&scif_clk>;
+ 		clock-names = "fck", "brg_int", "scif_clk";
+-		power-domains = <&cpg_clocks>;
++		power-domains = <&sysc R8A7779_PD_ALWAYS_ON>;
+ 		status = "disabled";
+ 	};
+ 
+-- 
+2.17.1
+
