@@ -2,39 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 305CE902BF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Aug 2019 15:19:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4CC7902D5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Aug 2019 15:23:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726742AbfHPNT1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Aug 2019 09:19:27 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:54702 "EHLO
+        id S1727237AbfHPNXK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Aug 2019 09:23:10 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:54828 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726597AbfHPNT1 (ORCPT
+        with ESMTP id S1727159AbfHPNXK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Aug 2019 09:19:27 -0400
+        Fri, 16 Aug 2019 09:23:10 -0400
 Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 0149225BDF3;
-        Fri, 16 Aug 2019 23:19:25 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 37AC125BDF3;
+        Fri, 16 Aug 2019 23:23:08 +1000 (AEST)
 Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id F117D94057D; Fri, 16 Aug 2019 15:19:22 +0200 (CEST)
-Date:   Fri, 16 Aug 2019 15:19:22 +0200
+        id 2F72094057D; Fri, 16 Aug 2019 15:23:06 +0200 (CEST)
+Date:   Fri, 16 Aug 2019 15:23:06 +0200
 From:   Simon Horman <horms@verge.net.au>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Chris Brandt <Chris.Brandt@renesas.com>,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/3] clocksource/drivers/renesas-ostm: Fix probe error
- path
-Message-ID: <20190816131922.rzusel5ylggqo4r7@verge.net.au>
-References: <20190807084635.24173-1-geert+renesas@glider.be>
- <20190807084635.24173-3-geert+renesas@glider.be>
- <db9961d5-e075-5dca-3417-023b7b8ba4c1@linaro.org>
+To:     marek.vasut@gmail.com
+Cc:     linux-pci@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH V3 2/3] PCI: rcar: Do not abort on too many inbound
+ dma-ranges
+Message-ID: <20190816132305.gyyml5r3xsimmoor@verge.net.au>
+References: <20190809175741.7066-1-marek.vasut@gmail.com>
+ <20190809175741.7066-2-marek.vasut@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <db9961d5-e075-5dca-3417-023b7b8ba4c1@linaro.org>
+In-Reply-To: <20190809175741.7066-2-marek.vasut@gmail.com>
 Organisation: Horms Solutions BV
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -42,23 +42,49 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Aug 07, 2019 at 08:13:27PM +0200, Daniel Lezcano wrote:
-> On 07/08/2019 10:46, Geert Uytterhoeven wrote:
-> > Fix various issues in the error path of ostm_init():
-> >   1. Drop error message printing on of_iomap() failure, as the memory
-> >      allocation core already takes of that,
-> >   2. Handle irq_of_parse_and_map() failures correctly: it returns
-> >      unsigned int, hence make irq unsigned int, and zero is an error,
-> >   3. Propagate/return appropriate error codes instead of -EFAULT.
-> >   4. Add a missing clk_put(),
-> >   5. Split the single cleanup block in separate phases, to avoid
-> >      clk_put() calling WARN() when passed an error pointer.
+On Fri, Aug 09, 2019 at 07:57:40PM +0200, marek.vasut@gmail.com wrote:
+> From: Marek Vasut <marek.vasut+renesas@gmail.com>
 > 
-> Does it make sense to convert to timer-of API?
+> In case the "dma-ranges" DT property contains either too many ranges
+> or the range start address is unaligned in such a way that populating
+> the range into the controller requires multiple entries, a situation
+> may occur where all ranges cannot be loaded into the controller.
+> 
+> Currently, the driver refuses to probe in such a situation. Relax this
+> behavior, load as many ranges as possible and warn if some ranges do
+> not fit anymore.
 
-I don't have an opinion on that at this time,
-but as an improvement this patch looks good to me.
+What is the motivation for relaxing this?
 
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
-
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> Cc: Wolfram Sang <wsa@the-dreams.de>
+> Cc: linux-renesas-soc@vger.kernel.org
+> To: linux-pci@vger.kernel.org
+> ---
+> V2: Update on top of 1/3
+> V3: No change
+> ---
+>  drivers/pci/controller/pcie-rcar.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
+> index 56a6433eb70b..e2735005ffd3 100644
+> --- a/drivers/pci/controller/pcie-rcar.c
+> +++ b/drivers/pci/controller/pcie-rcar.c
+> @@ -1049,8 +1049,9 @@ static int rcar_pcie_inbound_ranges(struct rcar_pcie *pcie,
+>  
+>  	while (cpu_addr < cpu_end) {
+>  		if (idx >= MAX_NR_INBOUND_MAPS - 1) {
+> -			dev_err(pcie->dev, "Failed to map inbound regions!\n");
+> -			return -EINVAL;
+> +			dev_warn(pcie->dev,
+> +				 "Too many inbound regions, not all are mapped.\n");
+> +			break;
+>  		}
+>  		/*
+>  		 * Set up 64-bit inbound regions as the range parser doesn't
+> -- 
+> 2.20.1
+> 
