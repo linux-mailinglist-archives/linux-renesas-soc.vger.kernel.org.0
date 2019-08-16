@@ -2,71 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 56438901C5
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Aug 2019 14:39:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B97FD901D2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Aug 2019 14:41:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727182AbfHPMjY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Aug 2019 08:39:24 -0400
-Received: from albert.telenet-ops.be ([195.130.137.90]:50282 "EHLO
-        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727159AbfHPMjY (ORCPT
+        id S1727210AbfHPMlM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Aug 2019 08:41:12 -0400
+Received: from laurent.telenet-ops.be ([195.130.137.89]:35338 "EHLO
+        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727087AbfHPMlL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Aug 2019 08:39:24 -0400
+        Fri, 16 Aug 2019 08:41:11 -0400
 Received: from ramsan ([84.194.98.4])
-        by albert.telenet-ops.be with bizsmtp
-        id pofM2000105gfCL06ofMFK; Fri, 16 Aug 2019 14:39:21 +0200
+        by laurent.telenet-ops.be with bizsmtp
+        id poh92000A05gfCL01oh9nz; Fri, 16 Aug 2019 14:41:10 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hybVo-0005GN-Ve; Fri, 16 Aug 2019 14:39:20 +0200
+        id 1hybXZ-0005Gl-Jm; Fri, 16 Aug 2019 14:41:09 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1hybVo-0003wz-Ts; Fri, 16 Aug 2019 14:39:20 +0200
+        id 1hybXZ-00040w-HF; Fri, 16 Aug 2019 14:41:09 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Simon Horman <horms@verge.net.au>,
         Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
+Cc:     "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, linux-pm@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] soc: renesas: rcar-sysc: Eliminate local variable gov
-Date:   Fri, 16 Aug 2019 14:39:19 +0200
-Message-Id: <20190816123919.15140-1-geert+renesas@glider.be>
+Subject: [PATCH] soc: renesas: rmobile-sysc: Set GENPD_FLAG_ALWAYS_ON for always-on domain
+Date:   Fri, 16 Aug 2019 14:41:06 +0200
+Message-Id: <20190816124106.15383-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-As of commit 980532a5dda319ee ("soc: renesas: rcar-sysc: Use
-GENPD_FLAG_ALWAYS_ON"), the local variable "gov" is assigned just once,
-so it can be eliminated.
+Currently the R-Mobile "always-on" PM Domain is implemented by returning
+-EBUSY from the generic_pm_domain.power_off() callback, and doing
+nothing in the generic_pm_domain.power_on() callback.  However, this
+means the PM Domain core code is not aware of the semantics of this
+special domain, leading to boot warnings like the following on
+SH/R-Mobile SoCs:
+
+    sh_cmt e6130000.timer: PM domain c5 will not be powered off
+
+Fix this by making the always-on nature of the domain explicit instead,
+by setting the GENPD_FLAG_ALWAYS_ON flag.  This removes the need for the
+domain to provide power control callbacks.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 To be queued in renesas-devel for v5.4.
 
- drivers/soc/renesas/rcar-sysc.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/soc/renesas/rmobile-sysc.c | 31 +++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/soc/renesas/rcar-sysc.c b/drivers/soc/renesas/rcar-sysc.c
-index 20fa9f34295c2879..40c1ddaa3b4fcae5 100644
---- a/drivers/soc/renesas/rcar-sysc.c
-+++ b/drivers/soc/renesas/rcar-sysc.c
-@@ -212,7 +212,6 @@ static int __init rcar_sysc_pd_setup(struct rcar_sysc_pd *pd)
+diff --git a/drivers/soc/renesas/rmobile-sysc.c b/drivers/soc/renesas/rmobile-sysc.c
+index 444c97f84ea5a76e..caecc24d5d68739c 100644
+--- a/drivers/soc/renesas/rmobile-sysc.c
++++ b/drivers/soc/renesas/rmobile-sysc.c
+@@ -48,12 +48,8 @@ struct rmobile_pm_domain *to_rmobile_pd(struct generic_pm_domain *d)
+ static int rmobile_pd_power_down(struct generic_pm_domain *genpd)
  {
- 	struct generic_pm_domain *genpd = &pd->genpd;
- 	const char *name = pd->genpd.name;
--	struct dev_power_governor *gov = &simple_qos_governor;
- 	int error;
+ 	struct rmobile_pm_domain *rmobile_pd = to_rmobile_pd(genpd);
+-	unsigned int mask;
++	unsigned int mask = BIT(rmobile_pd->bit_shift);
  
- 	if (pd->flags & PD_CPU) {
-@@ -266,7 +265,7 @@ static int __init rcar_sysc_pd_setup(struct rcar_sysc_pd *pd)
- 	rcar_sysc_power(&pd->ch, true);
+-	if (rmobile_pd->bit_shift == ~0)
+-		return -EBUSY;
+-
+-	mask = BIT(rmobile_pd->bit_shift);
+ 	if (rmobile_pd->suspend) {
+ 		int ret = rmobile_pd->suspend();
  
- finalize:
--	error = pm_genpd_init(genpd, gov, false);
-+	error = pm_genpd_init(genpd, &simple_qos_governor, false);
- 	if (error)
- 		pr_err("Failed to init PM domain %s: %d\n", name, error);
+@@ -80,14 +76,10 @@ static int rmobile_pd_power_down(struct generic_pm_domain *genpd)
+ 
+ static int __rmobile_pd_power_up(struct rmobile_pm_domain *rmobile_pd)
+ {
+-	unsigned int mask;
++	unsigned int mask = BIT(rmobile_pd->bit_shift);
+ 	unsigned int retry_count;
+ 	int ret = 0;
+ 
+-	if (rmobile_pd->bit_shift == ~0)
+-		return 0;
+-
+-	mask = BIT(rmobile_pd->bit_shift);
+ 	if (__raw_readl(rmobile_pd->base + PSTR) & mask)
+ 		return ret;
+ 
+@@ -122,11 +114,15 @@ static void rmobile_init_pm_domain(struct rmobile_pm_domain *rmobile_pd)
+ 	struct dev_power_governor *gov = rmobile_pd->gov;
+ 
+ 	genpd->flags |= GENPD_FLAG_PM_CLK | GENPD_FLAG_ACTIVE_WAKEUP;
+-	genpd->power_off		= rmobile_pd_power_down;
+-	genpd->power_on			= rmobile_pd_power_up;
+-	genpd->attach_dev		= cpg_mstp_attach_dev;
+-	genpd->detach_dev		= cpg_mstp_detach_dev;
+-	__rmobile_pd_power_up(rmobile_pd);
++	genpd->attach_dev = cpg_mstp_attach_dev;
++	genpd->detach_dev = cpg_mstp_detach_dev;
++
++	if (!(genpd->flags & GENPD_FLAG_ALWAYS_ON)) {
++		genpd->power_off = rmobile_pd_power_down;
++		genpd->power_on = rmobile_pd_power_up;
++		__rmobile_pd_power_up(rmobile_pd);
++	}
++
+ 	pm_genpd_init(genpd, gov ? : &simple_qos_governor, false);
+ }
+ 
+@@ -270,6 +266,11 @@ static void __init rmobile_setup_pm_domain(struct device_node *np,
+ 		break;
+ 
+ 	case PD_NORMAL:
++		if (pd->bit_shift == ~0) {
++			/* Top-level always-on domain */
++			pr_debug("PM domain %s is always-on domain\n", name);
++			pd->genpd.flags |= GENPD_FLAG_ALWAYS_ON;
++		}
+ 		break;
+ 	}
  
 -- 
 2.17.1
