@@ -2,77 +2,152 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 13F368FC42
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Aug 2019 09:27:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 578928FD28
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 16 Aug 2019 10:07:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726678AbfHPH1I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Aug 2019 03:27:08 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:43748 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726594AbfHPH1I (ORCPT
+        id S1726942AbfHPIHT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 16 Aug 2019 04:07:19 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35466 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726682AbfHPIHS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Aug 2019 03:27:08 -0400
-Received: by mail-oi1-f196.google.com with SMTP id y8so4140099oih.10
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Aug 2019 00:27:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YYn06rQVCWr/xHbuls3eexeoV5PBFYW4r8q5eGYJO9w=;
-        b=WcugUG5W/eCkqiAr8R0dBEketLucDRFoRrUQycvWqI7G5LqspBJ1Dv5eJwcbyrLQFn
-         NkQY2zzkGhFNKG7+LOnCR7hbJGNThYsXc+EMnMdD4kZ4JiDNzxB2OS96mN9USOesCd08
-         4qibd/DK7UjSZN0Qkwf8FPdgwRiMhy/7uyKnZZUylJc6xOFODb+wjrr18BH2THiOxjlb
-         SCuo1zRFS/+zuPnb47B3bCgB0U5B2xy6WQjMjE/UOoKOuDsw9KdkaXkLV2/+A9Y6XP4j
-         ODX3goJbAQaeduxZXcom/U19Fc7Fovmhql47O2MbMsTYvmj7SutjRhTsG6wPFabyP+Zi
-         hOyw==
-X-Gm-Message-State: APjAAAUnPCHoo+tJRB9xypb3opEtFXSD3EsYUHjzYawgMo9S3gT67see
-        iy3rMGGr0gyiP654jdukMtWvjfKVF+JETbBOGys=
-X-Google-Smtp-Source: APXvYqwDDr7GscejpmuVIN6KpfEjd5gflUcN0RNsaX5RphMhs11TXPMJjVMpu6sEAyRJjfgO7z6Vf/gJdFitvbT5XsA=
-X-Received: by 2002:a05:6808:3c5:: with SMTP id o5mr4252277oie.102.1565940427050;
- Fri, 16 Aug 2019 00:27:07 -0700 (PDT)
+        Fri, 16 Aug 2019 04:07:18 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E2DC2AF;
+        Fri, 16 Aug 2019 10:07:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1565942837;
+        bh=SOfhEHdWH70k70iQPLE4Q4YVBOjq86mN8eCP7JtboaU=;
+        h=Subject:To:Cc:References:From:Reply-To:Date:In-Reply-To:From;
+        b=mj3tKWhW326d9LBSsYpxP8lmjYzRd7AGQ/3CZnF/BIwBZRHUbaY3ULPc0KwRyEntQ
+         chMpGacEJq8SUuc1Bml75gPhjjIJcdsm3W3Q88Uo3eP9KdRNftWi3WfU5fmC0XmkNx
+         BZqK2pePSh8FmSDLwXIDRe8JpoDK9wuWpO0hSjow=
+Subject: Re: [PATCH v2] v4l: rcar-fcp: Read IP version register at probe time
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20190814145417.30670-1-laurent.pinchart+renesas@ideasonboard.com>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Organization: Ideas on Board
+Message-ID: <c203bb23-c8f3-ce10-fc15-454083e39ebc@ideasonboard.com>
+Date:   Fri, 16 Aug 2019 09:07:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190815061355.4415-1-nishkadg.linux@gmail.com>
-In-Reply-To: <20190815061355.4415-1-nishkadg.linux@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 16 Aug 2019 09:26:55 +0200
-Message-ID: <CAMuHMdXJVit0F+KO7DL2t5ZJ14MYb7R_yi=OUuQ_9Z6cLgA=SQ@mail.gmail.com>
-Subject: Re: [PATCH] soc: renesas: rcar-sysc: Add goto to of_node_put() before return
-To:     Nishka Dasgupta <nishkadg.linux@gmail.com>
-Cc:     Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190814145417.30670-1-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Thanks, applied and queued for v5.4.On Thu, Aug 15, 2019 at 8:14 AM
-Nishka Dasgupta <nishkadg.linux@gmail.com> wrote:
-> The local variable np in function rcar_sysc_pd_init takes the return
-> value of of_find_matching_node_and_match, which gets a node but does not
-> put it. If np is not put before the function returns, it may cause a
-> memory leak. Hence, remove the return statement that does not
-> immediately follow a putting of np. Replace it with a goto pointing to a
-> pre-existing label that first puts np and then returns the required
-> value.
-> Issue found with Coccinelle.
->
-> Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
+Hi Laurent,
 
-Fixes: afa6f53df6052968 ("soc: renesas: rcar-sysc: Add support for
-fixing up power area tables")
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.4.
+On 14/08/2019 15:54, Laurent Pinchart wrote:
+> This helps identifying the IP core version, for debugging purpose only
+> for now.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> Changes since v1:
+> 
+> - Use devm_platform_ioremap_resource()
+> ---
+>  drivers/media/platform/rcar-fcp.c | 41 +++++++++++++++++++++++++++++++
+>  1 file changed, 41 insertions(+)
+> 
+> diff --git a/drivers/media/platform/rcar-fcp.c b/drivers/media/platform/rcar-fcp.c
+> index 43c78620c9d8..6e0c0e7c0f8c 100644
+> --- a/drivers/media/platform/rcar-fcp.c
+> +++ b/drivers/media/platform/rcar-fcp.c
+> @@ -8,6 +8,7 @@
+>   */
+>  
+>  #include <linux/device.h>
+> +#include <linux/io.h>
+>  #include <linux/list.h>
+>  #include <linux/module.h>
+>  #include <linux/mod_devicetable.h>
+> @@ -21,11 +22,38 @@
+>  struct rcar_fcp_device {
+>  	struct list_head list;
+>  	struct device *dev;
+> +	void __iomem *iomem;
+>  };
+>  
+>  static LIST_HEAD(fcp_devices);
+>  static DEFINE_MUTEX(fcp_lock);
+>  
+> +#define FCP_VCR			0x0000
+> +#define FCP_VCR_CATEGORY_MASK	(0xff << 8)
+> +#define FCP_VCR_CATEGORY_SHIFT	8
+> +#define FCP_VCR_REVISION_MASK	(0xff << 0)
+> +#define FCP_VCR_REVISION_SHIFT	0
+> +
+> +#define FCP_CFG0		0x0004
+> +#define FCP_RST			0x0010
+> +#define FCP_STA			0x0018
+> +#define FCP_TL_CTRL		0x0070
+> +#define FCP_PICINFO1		0x00c4
+> +#define FCP_BA_ANC_Y0		0x0100
+> +#define FCP_BA_ANC_Y1		0x0104
+> +#define FCP_BA_ANC_Y2		0x0108
+> +#define FCP_BA_ANC_C		0x010c
+> +#define FCP_BA_REF_Y0		0x0110
+> +#define FCP_BA_REF_Y1		0x0114
+> +#define FCP_BA_REF_Y2		0x0118
+> +#define FCP_BA_REF_C		0x011c
 
-Gr{oetje,eeting}s,
+Do we need to pull in all these extra register definitions just to read
+the version?
 
-                        Geert
+They don't hurt if they're for something else later...
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Otherwise,
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+
+> +
+> +
+> +static inline u32 rcar_fcp_read(struct rcar_fcp_device *fcp, u32 reg)
+> +{
+> +	return ioread32(fcp->iomem + reg);
+> +}
+> +
+>  /* -----------------------------------------------------------------------------
+>   * Public API
+>   */
+> @@ -129,6 +157,7 @@ EXPORT_SYMBOL_GPL(rcar_fcp_disable);
+>  static int rcar_fcp_probe(struct platform_device *pdev)
+>  {
+>  	struct rcar_fcp_device *fcp;
+> +	u32 version;
+>  
+>  	fcp = devm_kzalloc(&pdev->dev, sizeof(*fcp), GFP_KERNEL);
+>  	if (fcp == NULL)
+> @@ -138,6 +167,18 @@ static int rcar_fcp_probe(struct platform_device *pdev)
+>  
+>  	pm_runtime_enable(&pdev->dev);
+>  
+> +	fcp->iomem = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(fcp->iomem))
+> +		return PTR_ERR(fcp->iomem);
+> +
+> +	pm_runtime_get_sync(&pdev->dev);
+> +	version = rcar_fcp_read(fcp, FCP_VCR);
+> +	pm_runtime_put(&pdev->dev);
+> +
+> +	dev_dbg(&pdev->dev, "FCP category %u revision %u\n",
+> +		(version & FCP_VCR_CATEGORY_MASK) >> FCP_VCR_CATEGORY_SHIFT,
+> +		(version & FCP_VCR_REVISION_MASK) >> FCP_VCR_REVISION_SHIFT);
+> +
+>  	mutex_lock(&fcp_lock);
+>  	list_add_tail(&fcp->list, &fcp_devices);
+>  	mutex_unlock(&fcp_lock);
+> 
+
