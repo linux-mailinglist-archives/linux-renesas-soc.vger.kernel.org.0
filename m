@@ -2,90 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6264B90C89
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 17 Aug 2019 05:48:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1255A90D62
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 17 Aug 2019 08:41:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726087AbfHQDsN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 16 Aug 2019 23:48:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42612 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725938AbfHQDsN (ORCPT
+        id S1725832AbfHQGlr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 17 Aug 2019 02:41:47 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:43220 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725267AbfHQGlr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 16 Aug 2019 23:48:13 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5435B21721;
-        Sat, 17 Aug 2019 03:48:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566013692;
-        bh=HxsSwNwiVHXbty9BjtNr6DuJclpMy2U5qUXHSszZxrM=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=e8Au8v1YjIZnWREKfQOag1wlJ5dlrZgSMRbp90GK5UTPY+nUl2WJc1otkEjseKTHD
-         3520uhhDA1MOfMC6z+SshHGl8yLV5hAyKMxhpPm5HKjtVazIzaF8qeRTw9/o/K0lqr
-         o/oE9EuoQwMQ1Ku1q59wIcPUKdI9WFywtxJJo4W0=
-Content-Type: text/plain; charset="utf-8"
+        Sat, 17 Aug 2019 02:41:47 -0400
+Received: by mail-lj1-f194.google.com with SMTP id h15so7134742ljg.10
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 16 Aug 2019 23:41:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=5Cd/Q185nova4XiK7ELL+MyQNYS4sW3uwZzesUuDugs=;
+        b=NaIMrskNH+qLeDrwymgec3XFhCFUhnjo8jYi8RUsBDHlMhbitOTWPCs5XmnfYwwYfo
+         IrrpNZi8xMkBMhvhqvruGs5T9/CcCSTHTAzfN512N3NRmn/NPYMKDVcH0raEXkYz1oSq
+         ETN6G0ADW4Y3YHEp+ocOMDOtPw8FJaS/HJXXCXQqpC9tQd3Dvgha2rkriZkQpZ43O4DW
+         T6ziDmvZxsNKGO7AGrp1uKvuSd3K8u+tNXhyOb9hi/urWysBAO4087nI34iFNONiygQb
+         eGmR3fNAHsnVp6dV63k87i5NLNvyku2Ps+Y3U1sOsF3SvnX6EuKGUIydCrxGl59Ey4G5
+         WInQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=5Cd/Q185nova4XiK7ELL+MyQNYS4sW3uwZzesUuDugs=;
+        b=SfCyGxr+z0exYtjE3oP5BsXtQvE590V2nH12Fpq/boQ3pCGfRf3NoQDgG9JfiT+vH8
+         HEBcFjuFyglx73Um4fRrCetHD7aXh7mOGQTIaxYYx0BDdcLPLeZXPiUTRwSmLbB5XXwv
+         5ODyHLM5c9Uzk2UPv/8ZWNiZjsEnTNd3Y/nnSryPpITEghpse70H9yme+MEfnBv+lqUF
+         +r58F+2SznQCLDURpmy3kEetvBOm5gM3lWFlktw0Sj7L+pTAGPSS2k+nZtU4M2jyzbNx
+         PuXq0SXfpe6BfDIGkIFvA86yS2nOu1nxjMEY/i1b4RBYINYFKbv0H5VHYV6cDBBuSH3z
+         7ZCw==
+X-Gm-Message-State: APjAAAVt1GqZPGB6QotgSJH5aLyEpjQxGAbiDQTEnce0yu0godn/uYA5
+        BjPSUbPvLhnGDqodrfpQz5j/6Q==
+X-Google-Smtp-Source: APXvYqzdHs1NWl++zUYjxNIFfpCYgPAqnJ1v2ohqn4akIbxPJ8+YnaQfYUjSiyBacRA3tB/khcmsLw==
+X-Received: by 2002:a2e:9acf:: with SMTP id p15mr7541536ljj.13.1566024105007;
+        Fri, 16 Aug 2019 23:41:45 -0700 (PDT)
+Received: from localhost (h-177-236.A463.priv.bahnhof.se. [217.31.177.236])
+        by smtp.gmail.com with ESMTPSA id z18sm1306389ljc.45.2019.08.16.23.41.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Aug 2019 23:41:44 -0700 (PDT)
+Date:   Sat, 17 Aug 2019 08:41:43 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] soc: renesas: rcar-sysc: Eliminate local variable gov
+Message-ID: <20190817064143.GF2008@bigcity.dyn.berto.se>
+References: <20190816123919.15140-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAMuHMdVvwsXU2YwFRA2Y2K9KKzF4L-hqDudarmc-OeHXRMCifQ@mail.gmail.com>
-References: <20190816125225.16061-1-geert+renesas@glider.be> <20190816125225.16061-2-geert+renesas@glider.be> <20190816180123.6299720665@mail.kernel.org> <CAMuHMdVvwsXU2YwFRA2Y2K9KKzF4L-hqDudarmc-OeHXRMCifQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] clk: renesas: mstp: Set GENPD_FLAG_ALWAYS_ON for clock domain
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-User-Agent: alot/0.8.1
-Date:   Fri, 16 Aug 2019 20:48:11 -0700
-Message-Id: <20190817034812.5435B21721@mail.kernel.org>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190816123919.15140-1-geert+renesas@glider.be>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Geert Uytterhoeven (2019-08-16 12:59:32)
-> Hi Stephen,
->=20
-> On Fri, Aug 16, 2019 at 8:01 PM Stephen Boyd <sboyd@kernel.org> wrote:
-> > Quoting Geert Uytterhoeven (2019-08-16 05:52:23)
-> > > The CPG/MSTP Clock Domain driver does not implement the
-> > > generic_pm_domain.power_{on,off}() callbacks, as the domain itself
-> > > cannot be powered down.  Hence the domain should be marked as always-=
-on
-> > > by setting the GENPD_FLAG_ALWAYS_ON flag.
-> > >
-> > > This gets rid of the following boot warning on RZ/A1:
-> > >
-> > >     sh_mtu2 fcff0000.timer: PM domain cpg_clocks will not be powered =
-off
-> > >
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > ---
-> >
-> > Are you going to add a Fixes tag?
->=20
-> I didn't add a Fixes tag, as there's no clear point in history where the
-> problem appeared: the Clock Domain code in this driver predates the
-> introduction of the GENPD_FLAG_ALWAYS_ON flag by ca. 18 months.
->=20
-> Candidates are:
-> d716f4798ff8c65a ("PM / Domains: Support IRQ safe PM domains")
-> ffaa42e8a40b7f10 ("PM / Domains: Enable users of genpd to specify
-> always on PM domains")
-> 075c37d59ecd4a8b ("PM / Domains: Don't warn about IRQ safe device for
-> an always on PM domain")
->=20
-> Do you think it's worth adding one or more of the above?
-> Thanks!
->=20
+Hi Geert,
 
-Well is it actually a problem to not specify the flag? I guess it's just
-a potential problem if the genpd is ever powered off, but given that the
-governor decides to leave it always enabled it doesn't actually matter?
-So it's not really fixing anything besides silencing a harmless warning?
+Thanks for your work.
 
+On 2019-08-16 14:39:19 +0200, Geert Uytterhoeven wrote:
+> As of commit 980532a5dda319ee ("soc: renesas: rcar-sysc: Use
+> GENPD_FLAG_ALWAYS_ON"), the local variable "gov" is assigned just once,
+> so it can be eliminated.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> ---
+> To be queued in renesas-devel for v5.4.
+> 
+>  drivers/soc/renesas/rcar-sysc.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/soc/renesas/rcar-sysc.c b/drivers/soc/renesas/rcar-sysc.c
+> index 20fa9f34295c2879..40c1ddaa3b4fcae5 100644
+> --- a/drivers/soc/renesas/rcar-sysc.c
+> +++ b/drivers/soc/renesas/rcar-sysc.c
+> @@ -212,7 +212,6 @@ static int __init rcar_sysc_pd_setup(struct rcar_sysc_pd *pd)
+>  {
+>  	struct generic_pm_domain *genpd = &pd->genpd;
+>  	const char *name = pd->genpd.name;
+> -	struct dev_power_governor *gov = &simple_qos_governor;
+>  	int error;
+>  
+>  	if (pd->flags & PD_CPU) {
+> @@ -266,7 +265,7 @@ static int __init rcar_sysc_pd_setup(struct rcar_sysc_pd *pd)
+>  	rcar_sysc_power(&pd->ch, true);
+>  
+>  finalize:
+> -	error = pm_genpd_init(genpd, gov, false);
+> +	error = pm_genpd_init(genpd, &simple_qos_governor, false);
+>  	if (error)
+>  		pr_err("Failed to init PM domain %s: %d\n", name, error);
+>  
+> -- 
+> 2.17.1
+> 
+
+-- 
+Regards,
+Niklas Söderlund
