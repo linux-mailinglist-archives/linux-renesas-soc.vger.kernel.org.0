@@ -2,122 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FEB791588
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Aug 2019 10:27:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5D049188D
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Aug 2019 20:00:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726558AbfHRI1l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 18 Aug 2019 04:27:41 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:34058 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726247AbfHRI1k (ORCPT
+        id S1726097AbfHRSAW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 18 Aug 2019 14:00:22 -0400
+Received: from sauhun.de ([88.99.104.3]:41704 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726005AbfHRSAW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 18 Aug 2019 04:27:40 -0400
-Received: by mail-ot1-f66.google.com with SMTP id c7so13467780otp.1;
-        Sun, 18 Aug 2019 01:27:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iGsbphl0FQQGBuaRly5CWz/iJFmuKNjtWAnSJ2N4x+0=;
-        b=dUcsNVHIiueFDkN4qMQ/xgJKFVim6rXPU2vPe8DySPZ2y37HnkcLshStNYpR4m9sii
-         6BjsM/mR8P19NwiRHHOqv44CL5lduXAG+wrSVTe1S+WhshDVHk9pFaHziVlxHfjeJlQJ
-         vuU8PrHslBPFabqwqED5t/BWsh7fLsCwKkREKsJN8OTWQRG7H6XobgmFTC6Z313s2s5b
-         j0bPpA/ALsrdiA/AnLEVgyludy12ViUxvjfHyJS0X7iaMxQmRaPO/NAdazhTNQCa28C6
-         TokBhOQzQVJ96MZZjx93zzykHVKypgtISFkqhKBXAPHCmYQJbyzLvCkchoNqgX8kzCeX
-         rTwQ==
-X-Gm-Message-State: APjAAAVR+dERphw6MIArOIOHk/A39kk3zv++iNExY7dLZ3cYYWhC2EAN
-        01LEIKWat/TJJbPyTEp0Ve5nwzkYGxGd0j5H9Bk=
-X-Google-Smtp-Source: APXvYqx7IA3LHDxIT7relAV7fI5zU5sPnu2xMiAU9Hh4XnETjwrFtGdKnmornqsRB0cg2qycSCFuJg+2WRrk3UyjPh4=
-X-Received: by 2002:a9d:5c0c:: with SMTP id o12mr14124466otk.145.1566116859589;
- Sun, 18 Aug 2019 01:27:39 -0700 (PDT)
+        Sun, 18 Aug 2019 14:00:22 -0400
+Received: from localhost (p5486CD86.dip0.t-ipconnect.de [84.134.205.134])
+        by pokefinder.org (Postfix) with ESMTPSA id 2E1942C2356;
+        Sun, 18 Aug 2019 20:00:19 +0200 (CEST)
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     linux-watchdog@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] watchdog: renesas_wdt: support handover from bootloader
+Date:   Sun, 18 Aug 2019 20:00:07 +0200
+Message-Id: <20190818180007.2258-1-wsa@the-dreams.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190816125225.16061-1-geert+renesas@glider.be>
- <20190816125225.16061-2-geert+renesas@glider.be> <20190816180123.6299720665@mail.kernel.org>
- <CAMuHMdVvwsXU2YwFRA2Y2K9KKzF4L-hqDudarmc-OeHXRMCifQ@mail.gmail.com> <20190817034812.5435B21721@mail.kernel.org>
-In-Reply-To: <20190817034812.5435B21721@mail.kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Sun, 18 Aug 2019 10:27:28 +0200
-Message-ID: <CAMuHMdWpUEt-wxEdAK7NsAOadS5TtHYdO=JTGT=CtSROHuR+Pw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] clk: renesas: mstp: Set GENPD_FLAG_ALWAYS_ON for
- clock domain
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Stephen,
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-On Sat, Aug 17, 2019 at 5:48 AM Stephen Boyd <sboyd@kernel.org> wrote:
-> Quoting Geert Uytterhoeven (2019-08-16 12:59:32)
-> > On Fri, Aug 16, 2019 at 8:01 PM Stephen Boyd <sboyd@kernel.org> wrote:
-> > > Quoting Geert Uytterhoeven (2019-08-16 05:52:23)
-> > > > The CPG/MSTP Clock Domain driver does not implement the
-> > > > generic_pm_domain.power_{on,off}() callbacks, as the domain itself
-> > > > cannot be powered down.  Hence the domain should be marked as always-on
-> > > > by setting the GENPD_FLAG_ALWAYS_ON flag.
-> > > >
-> > > > This gets rid of the following boot warning on RZ/A1:
-> > > >
-> > > >     sh_mtu2 fcff0000.timer: PM domain cpg_clocks will not be powered off
-> > > >
-> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > > ---
-> > >
-> > > Are you going to add a Fixes tag?
-> >
-> > I didn't add a Fixes tag, as there's no clear point in history where the
-> > problem appeared: the Clock Domain code in this driver predates the
-> > introduction of the GENPD_FLAG_ALWAYS_ON flag by ca. 18 months.
-> >
-> > Candidates are:
-> > d716f4798ff8c65a ("PM / Domains: Support IRQ safe PM domains")
-> > ffaa42e8a40b7f10 ("PM / Domains: Enable users of genpd to specify
-> > always on PM domains")
-> > 075c37d59ecd4a8b ("PM / Domains: Don't warn about IRQ safe device for
-> > an always on PM domain")
-> >
-> > Do you think it's worth adding one or more of the above?
->
-> Well is it actually a problem to not specify the flag? I guess it's just
-> a potential problem if the genpd is ever powered off, but given that the
-> governor decides to leave it always enabled it doesn't actually matter?
-> So it's not really fixing anything besides silencing a harmless warning?
+Support an already running watchdog by checking its enable bit and set
+up the status accordingly before registering the device. Introduce a new
+flag to remember all this to keep RPM calls balanced.
 
-The warning is indeed harmless.
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
 
-The "interesting" case is the case where no warning is printed, as no
-IRQ-safe device is present.  In that case, the absence of the
-GENPD_FLAG_ALWAYS_ON flag means that the core PM Domain code will
-consider the domain for power-off, and will loop over all devices part
-of it, which is suboptimal.  Setting the flag avoids that.
+Changes since RFC:
 
-Thanks for your continued questions, it made me realize I need to add more
-meat to the description to these "simple" patches!
+* Geert ensured that the module clock for the RWDT will stay active
+  during the boot process because clock will only be stopped at the end
+  of init if there is no refcnt for this clk.
 
-For the PM people: would it make sense to add a
-WARN(!genpd->power_off && !genpd_is_always_on(genpd), "...") check to
-pm_genpd_init()?
-Or set GENPD_FLAG_ALWAYS_ON automatically if !genpd->power_off?
+* So, we make sure to have a refcnt when FW enabled the wdog. Once the
+  first call to open comes, we "transfer" the refcnt to that call.
+  (Is that the correct behaviour? I think it is a tad better than to
+   place the balancing RPM call in remove, but I am open here)
 
-Thanks!
+* Tested with "open_timeout" kernel parameter. System can now reboot
+  if userspace hasn't taken over the watchdog with <n> seconds.
 
-Gr{oetje,eeting}s,
 
-                        Geert
+ drivers/watchdog/renesas_wdt.c | 20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/watchdog/renesas_wdt.c b/drivers/watchdog/renesas_wdt.c
+index 00662a8e039c..11cef69f329b 100644
+--- a/drivers/watchdog/renesas_wdt.c
++++ b/drivers/watchdog/renesas_wdt.c
+@@ -50,6 +50,7 @@ struct rwdt_priv {
+ 	struct watchdog_device wdev;
+ 	unsigned long clk_rate;
+ 	u8 cks;
++	bool started_by_fw;
+ };
+ 
+ static void rwdt_write(struct rwdt_priv *priv, u32 val, unsigned int reg)
+@@ -85,7 +86,11 @@ static int rwdt_start(struct watchdog_device *wdev)
+ 	struct rwdt_priv *priv = watchdog_get_drvdata(wdev);
+ 	u8 val;
+ 
+-	pm_runtime_get_sync(wdev->parent);
++	if (priv->started_by_fw)
++		/* we already called this function and RPM is active */
++		priv->started_by_fw = false;
++	else
++		pm_runtime_get_sync(wdev->parent);
+ 
+ 	/* Stop the timer before we modify any register */
+ 	val = readb_relaxed(priv->base + RWTCSRA) & ~RWTCSRA_TME;
+@@ -194,6 +199,7 @@ static int rwdt_probe(struct platform_device *pdev)
+ 	struct clk *clk;
+ 	unsigned long clks_per_sec;
+ 	int ret, i;
++	u8 csra;
+ 
+ 	if (rwdt_blacklisted(dev))
+ 		return -ENODEV;
+@@ -213,8 +219,8 @@ static int rwdt_probe(struct platform_device *pdev)
+ 	pm_runtime_enable(dev);
+ 	pm_runtime_get_sync(dev);
+ 	priv->clk_rate = clk_get_rate(clk);
+-	priv->wdev.bootstatus = (readb_relaxed(priv->base + RWTCSRA) &
+-				RWTCSRA_WOVF) ? WDIOF_CARDRESET : 0;
++	csra = readb_relaxed(priv->base + RWTCSRA);
++	priv->wdev.bootstatus = csra & RWTCSRA_WOVF ? WDIOF_CARDRESET : 0;
+ 	pm_runtime_put(dev);
+ 
+ 	if (!priv->clk_rate) {
+@@ -252,6 +258,14 @@ static int rwdt_probe(struct platform_device *pdev)
+ 	/* This overrides the default timeout only if DT configuration was found */
+ 	watchdog_init_timeout(&priv->wdev, 0, dev);
+ 
++	/* Check if FW enabled the watchdog */
++	if (csra & RWTCSRA_TME) {
++		/* Ensure properly initialized dividers */
++		rwdt_start(&priv->wdev);
++		set_bit(WDOG_HW_RUNNING, &priv->wdev.status);
++		priv->started_by_fw = true;
++	}
++
+ 	ret = watchdog_register_device(&priv->wdev);
+ 	if (ret < 0)
+ 		goto out_pm_disable;
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.20.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
