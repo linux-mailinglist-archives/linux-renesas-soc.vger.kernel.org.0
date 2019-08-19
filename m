@@ -2,74 +2,46 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E260D923B9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2019 14:45:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F91C923BB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2019 14:45:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727039AbfHSMpd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Aug 2019 08:45:33 -0400
-Received: from laurent.telenet-ops.be ([195.130.137.89]:52160 "EHLO
-        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726594AbfHSMpd (ORCPT
+        id S1727301AbfHSMpi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Aug 2019 08:45:38 -0400
+Received: from 8bytes.org ([81.169.241.247]:50242 "EHLO theia.8bytes.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726594AbfHSMph (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Aug 2019 08:45:33 -0400
-Received: from ramsan ([84.194.98.4])
-        by laurent.telenet-ops.be with bizsmtp
-        id r0lW2000i05gfCL010lWpE; Mon, 19 Aug 2019 14:45:31 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1hzh2Q-0005xQ-N1; Mon, 19 Aug 2019 14:45:30 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1hzh2Q-0006Bj-Kt; Mon, 19 Aug 2019 14:45:30 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] ARM: dts: r8a77470: Add PMU device node
-Date:   Mon, 19 Aug 2019 14:45:29 +0200
-Message-Id: <20190819124529.23745-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Mon, 19 Aug 2019 08:45:37 -0400
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+        id 7A64E309; Mon, 19 Aug 2019 14:45:35 +0200 (CEST)
+Date:   Mon, 19 Aug 2019 14:45:35 +0200
+From:   Joerg Roedel <joro@8bytes.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     ulf.hansson@linaro.org, hch@lst.de, m.szyprowski@samsung.com,
+        robin.murphy@arm.com, axboe@kernel.dk,
+        wsa+renesas@sang-engineering.com, linux-mmc@vger.kernel.org,
+        iommu@lists.linux-foundation.org, linux-block@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v9 2/5] iommu/dma: Add a new dma_map_ops of
+ get_merge_boundary()
+Message-ID: <20190819124535.GB30332@8bytes.org>
+References: <1564129876-28261-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1564129876-28261-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1564129876-28261-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable support for the ARM Performance Monitor Units in the Cortex-A7
-CPU cores on RZ/G1C by adding a device node for the PMU.
+On Fri, Jul 26, 2019 at 05:31:13PM +0900, Yoshihiro Shimoda wrote:
+> This patch adds a new dma_map_ops of get_merge_boundary() to
+> expose the DMA merge boundary if the domain type is IOMMU_DOMAIN_DMA.
+> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
 
-New Linux output:
-
-    hw perfevents: enabled with armv7_cortex_a7 PMU driver, 5 counters available
-
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Untested on actual hardware.  I even made up the kernel output ;-)
-
- arch/arm/boot/dts/r8a77470.dtsi | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/arch/arm/boot/dts/r8a77470.dtsi b/arch/arm/boot/dts/r8a77470.dtsi
-index 56cb10b42ed940dd..51806c7f486a3681 100644
---- a/arch/arm/boot/dts/r8a77470.dtsi
-+++ b/arch/arm/boot/dts/r8a77470.dtsi
-@@ -63,6 +63,13 @@
- 		clock-frequency = <0>;
- 	};
- 
-+	pmu {
-+		compatible = "arm,cortex-a7-pmu";
-+		interrupts-extended = <&gic GIC_SPI 82 IRQ_TYPE_LEVEL_HIGH>,
-+				      <&gic GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-+		interrupt-affinity = <&cpu0>, <&cpu1>;
-+	};
-+
- 	/* External SCIF clock */
- 	scif_clk: scif {
- 		compatible = "fixed-clock";
--- 
-2.17.1
-
+Acked-by: Joerg Roedel <jroedel@suse.de>
