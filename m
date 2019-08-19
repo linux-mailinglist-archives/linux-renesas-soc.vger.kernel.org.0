@@ -2,103 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D67BF922FF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2019 14:03:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AF8192353
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2019 14:21:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726491AbfHSMDR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Aug 2019 08:03:17 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:36932 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726852AbfHSMDR (ORCPT
+        id S1727172AbfHSMV2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Aug 2019 08:21:28 -0400
+Received: from michel.telenet-ops.be ([195.130.137.88]:45028 "EHLO
+        michel.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726776AbfHSMV1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Aug 2019 08:03:17 -0400
-Received: by mail-oi1-f194.google.com with SMTP id b25so1087162oib.4;
-        Mon, 19 Aug 2019 05:03:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ijOFVusoTLOmU5ph3quXf2gG1oB8BslX0qrCBrJ/xi8=;
-        b=P6e054DfHxHt8SDe+BerC3OACmfKfecIzmanvLzjlEWWTRWIuPkOhX3tROGN++1NHs
-         rjr+CAAYYxrBD0B5JeXch6T0BFpLiMpVERa/SvcKNvKJNRTCsEboN0x5NcgwYvnYWwry
-         LgYw0N2jMZCg4ueCUkeK+r8NL19CCekO/4flb7iEe7h+NrhtWteH5ABTSfoehnrIl6wD
-         kyO8wd9yP16ThqtwRIpREPOaBC7KZnpK1LnupIR2i6NIyb6uFehcxuD8m7Q2R/j1lcHQ
-         a/eaoY+Dec8fLF8vTLQ2uLPA6jch5aFrK9ppfVhXVRROuNGPl20w5EGc2pr8erY1Ss/o
-         SkEw==
-X-Gm-Message-State: APjAAAXQYgfDgLpHOAeqo64Z+exOW188WJayzVsww7+i/ItpFmErWEGd
-        tlXVyyZYvBPeiT+4iZkupOn+6760PoAWzWcxn7M=
-X-Google-Smtp-Source: APXvYqwn7d8JB0PZSyAMOAXPNrtAVqfP2DT4v1dniEWdLSgCoMSLbUTPZEQv+zB38SXRW98RRtJvEWb87FW1k4TIkJE=
-X-Received: by 2002:aca:3382:: with SMTP id z124mr8844468oiz.102.1566216195970;
- Mon, 19 Aug 2019 05:03:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <1565867073-24746-1-git-send-email-fabrizio.castro@bp.renesas.com> <1565867073-24746-10-git-send-email-fabrizio.castro@bp.renesas.com>
-In-Reply-To: <1565867073-24746-10-git-send-email-fabrizio.castro@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 19 Aug 2019 14:03:04 +0200
-Message-ID: <CAMuHMdW9Lx_x=tgTXxpKAqTxY5w_b06y7Httky-ks8jj3zQHBg@mail.gmail.com>
-Subject: Re: [PATCH v2 9/9] arm64: dts: renesas: Add EK874 board with
- idk-2121wr display support
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        xu_shunji@hoperun.com, ebiharaml@si-linux.co.jp
-Content-Type: text/plain; charset="UTF-8"
+        Mon, 19 Aug 2019 08:21:27 -0400
+Received: from ramsan ([84.194.98.4])
+        by michel.telenet-ops.be with bizsmtp
+        id r0MQ2000Q05gfCL060MQ7F; Mon, 19 Aug 2019 14:21:25 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hzgf6-0005rF-Ct; Mon, 19 Aug 2019 14:21:24 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hzgf6-0005rp-AG; Mon, 19 Aug 2019 14:21:24 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH LOCAL] arm64: renesas_defconfig: Refresh for v5.3-rc2
+Date:   Mon, 19 Aug 2019 14:21:23 +0200
+Message-Id: <20190819122123.22512-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Fabrizio,
+Update the defconfig for Renesas R-Car Gen3 and RZ/G2 boards:
+  - Drop CONFIG_COMMON_CLK_XGENE=n (no longer auto-enabled since commit
+    ce9a1046434caee1 ("clk: xgene: Don't build COMMON_CLK_XGENE by
+    default").
 
-On Thu, Aug 15, 2019 at 1:05 PM Fabrizio Castro
-<fabrizio.castro@bp.renesas.com> wrote:
-> The EK874 is advertised as compatible with panel IDK-2121WR from
-> Advantech, however the panel isn't sold alongside the board.
-> A new dts, adding everything that's required to get the panel to
-> to work with the EK874, is the most convenient way to support the
-> EK874 when it's connected to the IDK-2121WR.
->
-> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be applied to topic/renesas-defconfig.
+Not intended for upstream merge.
 
-Thanks for your patch!
+ arch/arm64/configs/renesas_defconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
-> Geert,
->
-> at this point in time no other board uses this display, can we
-> postpone the creation of the .dtsi file to when there'll be another
-> user (if any)?
-
-OK.
-
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts
-
-> +&lvds0 {
-> +       renesas,swap-data;
-
-Wasn't that property dropped?
-
-I'd be grateful if anyone could review the panel parts.
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/arch/arm64/configs/renesas_defconfig b/arch/arm64/configs/renesas_defconfig
+index 264fe03d6b085bae..bf0fd6aad56758e1 100644
+--- a/arch/arm64/configs/renesas_defconfig
++++ b/arch/arm64/configs/renesas_defconfig
+@@ -274,7 +274,6 @@ CONFIG_VIRTIO_BALLOON=y
+ CONFIG_VIRTIO_MMIO=y
+ CONFIG_CHROME_PLATFORMS=y
+ CONFIG_COMMON_CLK_CS2000_CP=y
+-# CONFIG_COMMON_CLK_XGENE is not set
+ CONFIG_COMMON_CLK_VC5=y
+ CONFIG_CLK_RCAR_USB2_CLOCK_SEL=y
+ CONFIG_HWSPINLOCK=y
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.17.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
