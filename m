@@ -2,66 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4474792383
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2019 14:33:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E260D923B9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2019 14:45:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727354AbfHSMdE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 19 Aug 2019 08:33:04 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:38918 "EHLO
-        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726594AbfHSMdE (ORCPT
+        id S1727039AbfHSMpd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Aug 2019 08:45:33 -0400
+Received: from laurent.telenet-ops.be ([195.130.137.89]:52160 "EHLO
+        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726594AbfHSMpd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 19 Aug 2019 08:33:04 -0400
-Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id B6C9225B820;
-        Mon, 19 Aug 2019 22:33:01 +1000 (AEST)
-Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id 906D69406ED; Mon, 19 Aug 2019 14:32:59 +0200 (CEST)
-Date:   Mon, 19 Aug 2019 14:32:59 +0200
-From:   Simon Horman <horms@verge.net.au>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
+        Mon, 19 Aug 2019 08:45:33 -0400
+Received: from ramsan ([84.194.98.4])
+        by laurent.telenet-ops.be with bizsmtp
+        id r0lW2000i05gfCL010lWpE; Mon, 19 Aug 2019 14:45:31 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hzh2Q-0005xQ-N1; Mon, 19 Aug 2019 14:45:30 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1hzh2Q-0006Bj-Kt; Mon, 19 Aug 2019 14:45:30 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Simon Horman <horms@verge.net.au>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        USB list <linux-usb@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH v2] dt-bindings: usb: renesas_gen3: Rename bindings
- documentation file to reflect IP block
-Message-ID: <20190819123259.vnwxc2fxmasfbqq7@verge.net.au>
-References: <20190809213710.31783-1-horms+renesas@verge.net.au>
- <CAMuHMdUHK7Fq3m4y1rjVFxnSXH3tZyTjOzFMfVMtRtPcdKjNCw@mail.gmail.com>
- <20190810111455.GA30455@kroah.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190810111455.GA30455@kroah.com>
-Organisation: Horms Solutions BV
-User-Agent: NeoMutt/20170113 (1.7.2)
+        Biju Das <biju.das@bp.renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ARM: dts: r8a77470: Add PMU device node
+Date:   Mon, 19 Aug 2019 14:45:29 +0200
+Message-Id: <20190819124529.23745-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Aug 10, 2019 at 01:14:55PM +0200, Greg Kroah-Hartman wrote:
-> On Sat, Aug 10, 2019 at 08:40:15AM +0200, Geert Uytterhoeven wrote:
-> > Hi Simon,
-> > 
-> > On Fri, Aug 9, 2019 at 11:37 PM Simon Horman <horms+renesas@verge.net.au> wrote:
-> > > For consistency with the naming of (most) other documentation files for DT
-> > > bindings for Renesas IP blocks rename the Renesas USB3.0 peripheral
-> > > documentation file from renesas,usb3.txt to renesas,usb3-peri.txt
-> > >
-> > > This refines a recent rename from renesas_usb3.txt to renesas-usb3.txt.
-> > 
-> > s/renesas-usb3.txt/renesas,usb3.txt/
-> 
-> I'll fix it up now, no need for a resend...
+Enable support for the ARM Performance Monitor Units in the Cortex-A7
+CPU cores on RZ/G1C by adding a device node for the PMU.
 
-Thanks, much appreciated.
+New Linux output:
+
+    hw perfevents: enabled with armv7_cortex_a7 PMU driver, 5 counters available
+
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Untested on actual hardware.  I even made up the kernel output ;-)
+
+ arch/arm/boot/dts/r8a77470.dtsi | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/arch/arm/boot/dts/r8a77470.dtsi b/arch/arm/boot/dts/r8a77470.dtsi
+index 56cb10b42ed940dd..51806c7f486a3681 100644
+--- a/arch/arm/boot/dts/r8a77470.dtsi
++++ b/arch/arm/boot/dts/r8a77470.dtsi
+@@ -63,6 +63,13 @@
+ 		clock-frequency = <0>;
+ 	};
+ 
++	pmu {
++		compatible = "arm,cortex-a7-pmu";
++		interrupts-extended = <&gic GIC_SPI 82 IRQ_TYPE_LEVEL_HIGH>,
++				      <&gic GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
++		interrupt-affinity = <&cpu0>, <&cpu1>;
++	};
++
+ 	/* External SCIF clock */
+ 	scif_clk: scif {
+ 		compatible = "fixed-clock";
+-- 
+2.17.1
+
