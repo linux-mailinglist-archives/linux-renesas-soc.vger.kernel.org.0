@@ -2,170 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E4B09191F
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 18 Aug 2019 21:03:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 988AA91CED
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 19 Aug 2019 08:16:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726270AbfHRTAd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 18 Aug 2019 15:00:33 -0400
-Received: from mail-pg1-f195.google.com ([209.85.215.195]:43921 "EHLO
-        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726247AbfHRTAd (ORCPT
+        id S1726149AbfHSGQe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 19 Aug 2019 02:16:34 -0400
+Received: from mail-eopbgr1410097.outbound.protection.outlook.com ([40.107.141.97]:38533
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725946AbfHSGQe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 18 Aug 2019 15:00:33 -0400
-Received: by mail-pg1-f195.google.com with SMTP id k3so5588796pgb.10;
-        Sun, 18 Aug 2019 12:00:32 -0700 (PDT)
+        Mon, 19 Aug 2019 02:16:34 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dImzpA4/wZPBv/I+MBf8Q9ytKLISWvQOYmJbAOp0ARLpPUs4PMlO049XMViWzvyyuXDVZ42NUdxZx4NGXwLVKzSYy70PsHSH6wvjTuKhAseRnyTd67zuPYIOMihk00fbalsBHUmVUe1DPOqheU2EQH3PsE3jPiaVcD7VQPyTKSaQ5c7aSaLQJsVHMeyytgKcMczaxtiHD2GN1U5X0s48C9rZTPp0SORRHA0O5iKrtorIhzHN52XXUSfndY9OZbfzcd5ew8Vne6bVOiheDIgXz/9A+cnqVFshLmjrGfV568PzXR7aQlT/bGH7rSMTTmR+dcMbAzzFLgORBhM43dzDMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GGG3WRuOv+pkWhlhHZVi9x/zSHR1nelBYh7NsLmEINc=;
+ b=Ndh0n04x54DiBo9CPsgLB9zma478rQ+ZHuAHFr/vqFDig0QweJWeWunmT74DnduGwh2z8eqHe+AXrDBcwsP2Mo+t0lFGDtwYBjJMWIOPvnxGPhIrdNYizgiaUp6nSYamkgkeSkSfGxXdJGKVVNPPtxBsvQ9iWwZVpp/3Y+GldKrbClYbXFgfjtybCcrAWCjSXVkZSsp/Ge7SutrzK11eEEUqBmyhZwvUiTiHRqU0zZmgqVfSRrt8NZ52AaDTjgqLRH/gR5gQO37D9nqvD3Fv1iJPQj/yY+ODfKPdoswPCF2uu5IGRv+YlSpduJ9qvAm6UKobSPasldY7Wj4CQup27g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=mFXULAn7ELutBem8f4viP3aSr6X1LYAUc/zcz1ZhBSI=;
-        b=VSGvMj31C1ExOp9gVidC1e0eiiRZBHzrtjqDwPg77P6r0cOVTrQX3yfoZk/zCH78ga
-         RRszMzlVpOw9eEY7mM45BMSGG5dw0CUhR6drMlqTzPLry5h26pByGQv63ETMcKekaViW
-         ocCHRbe9IgDKifJcql/tDQfA1GYSKZFPS/8uQg4F6XWRctmuEBcsUxF0QVMjd566AvUO
-         XYr+/CTSQjPBmLrQmg1XDBhdBDph3ZfHQTV8cglfZgY5fsLvO49mLwH0KH4TcSuH8IGt
-         uFxls9dFu5m4h/vfyC8hRBDAwqNKNbLAOt9gn0Y+FWiA+BdAZeiCQKdHKvEFD5id0mAd
-         s6RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=mFXULAn7ELutBem8f4viP3aSr6X1LYAUc/zcz1ZhBSI=;
-        b=npRYn4ZNa3vS/8yA6Angclzm3SezUv/a3G2k0RxrlUoeUNRJKjR7ziFbgaP5K853gi
-         VAAI/MuVHLARjrvn6hYT6MTd0akHR2zXGCAwRMaL82OLi1kZNNKtPhAbqYXUCCJlZIQW
-         gpKq6KBP5LQqluGBmIJ0zd4eomS2XrCnjXkKojasf+SquR7kWzxY38vaSW5Gdfq7X2iV
-         Q9qQRNvNgEdL5lg4hYWW1nzlwh8ZjLz3dNNH3D5x7yJCTp8/Rrxkflvdqhv0I9Wxi0XA
-         RFq57ff0G3A24u1Ku7GBLpaxbrdWGG26ZaskLE/ugRXSQYlMkP6+/32NnNQS0bs4+kvG
-         q1LQ==
-X-Gm-Message-State: APjAAAUrFqjj2XshVPUtUtQ3F+tuhtgnhvS2P/m9Xj5gqPMvLd8HDarK
-        urvS4aKAnmdIOWjTjsPPt7xPicDJ
-X-Google-Smtp-Source: APXvYqyEzykMz+CQXmFeC70LG5pnlYh7XYrhhSr2pllQisQCbCjf3PSy0nrlOnx69GxhtiLFkROvmw==
-X-Received: by 2002:a63:b555:: with SMTP id u21mr17004499pgo.222.1566154832462;
-        Sun, 18 Aug 2019 12:00:32 -0700 (PDT)
-Received: from server.roeck-us.net (108-223-40-66.lightspeed.sntcca.sbcglobal.net. [108.223.40.66])
-        by smtp.gmail.com with ESMTPSA id u24sm12587674pgk.31.2019.08.18.12.00.30
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 18 Aug 2019 12:00:31 -0700 (PDT)
-Subject: Re: [PATCH] watchdog: renesas_wdt: support handover from bootloader
-To:     Wolfram Sang <wsa@the-dreams.de>, linux-watchdog@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-References: <20190818180007.2258-1-wsa@the-dreams.de>
-From:   Guenter Roeck <linux@roeck-us.net>
-Message-ID: <7d1611dd-4f9f-6385-8454-22edf778d6e5@roeck-us.net>
-Date:   Sun, 18 Aug 2019 12:00:29 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GGG3WRuOv+pkWhlhHZVi9x/zSHR1nelBYh7NsLmEINc=;
+ b=PhW2iCKAJYd5Hr7wyBjedtek9EN+Hz6ucrhBDH28LaZz6YGT5CQnZgkyc/kMgLJD3/JVaT4HN21Xf+30nuDU+9pFo1KV+o3XqXWeu3Vvj9oGTtnobfrwLkzbRsXEIdOYkRddrGg3nM/h5PXLEEBVePl0PanSeKOdigvN67+ee/4=
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
+ TYAPR01MB4685.jpnprd01.prod.outlook.com (20.179.187.13) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2178.18; Mon, 19 Aug 2019 06:16:30 +0000
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::6564:f61f:f179:facf]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::6564:f61f:f179:facf%5]) with mapi id 15.20.2178.018; Mon, 19 Aug 2019
+ 06:16:30 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     =?iso-8859-1?Q?Uwe_Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+CC:     "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+        "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v2] pwm: rcar: remove a redundant condition in
+ rcar_pwm_apply()
+Thread-Topic: [PATCH v2] pwm: rcar: remove a redundant condition in
+ rcar_pwm_apply()
+Thread-Index: AQHVTbQl7fZQFZBEpkqGeM42hHIRfqbxA3YAgAGFy4CAD4YrcA==
+Date:   Mon, 19 Aug 2019 06:16:29 +0000
+Message-ID: <TYAPR01MB45440E2AE2618955F27E9632D8A80@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+References: <1565246333-2185-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <b528827c-1744-901e-b795-ddd1aaf828d3@cogentembedded.com>
+ <20190809091047.2hrlt245ssjoztfn@pengutronix.de>
+In-Reply-To: <20190809091047.2hrlt245ssjoztfn@pengutronix.de>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [118.238.235.108]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: c9d5a1ee-19a7-4724-9934-08d7246cc6a3
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:TYAPR01MB4685;
+x-ms-traffictypediagnostic: TYAPR01MB4685:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <TYAPR01MB468588BCD8BC0B03E932A605D8A80@TYAPR01MB4685.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-forefront-prvs: 0134AD334F
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(39860400002)(376002)(346002)(136003)(366004)(396003)(199004)(189003)(9686003)(478600001)(33656002)(102836004)(110136005)(54906003)(3846002)(6116002)(64756008)(66946007)(5660300002)(4326008)(76116006)(52536014)(66556008)(66066001)(66476007)(66446008)(25786009)(4744005)(6246003)(53936002)(966005)(316002)(2906002)(14454004)(71200400001)(71190400001)(446003)(486006)(476003)(99286004)(305945005)(8676002)(76176011)(229853002)(8936002)(11346002)(81166006)(256004)(81156014)(74316002)(7696005)(26005)(7736002)(55016002)(186003)(86362001)(6506007)(53546011)(6436002)(6306002);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB4685;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: TcoW0U8AAaEeycwwuFDnAh42FexqzC8NSVdZ/X+MtPUoL4iw1Hzz56F7RnOR8V8ZgD5sZvAJCG1uj/jZN5y/r8gpo1jFp0110CdTkqadMDzE0LiTYZ10cEhHabqAFHzxt+aoGFz8CSf8cDsfRyjx3IBdLCl7lPkTJGfKOIYVGwWrtMGsLvwbVV9vUjiazleXb+iLw6VGI/U2lg68knPrLIPjsb8dzfz+v5lu6uD0qZOgU66Vgh63LYqW1E/s9Xy4ecnRwf+Yf23/XuhGCqn2SU41U/5p3bXqMWQRETkROuxtAjcqhs8I4Qewdz0zV1zMxyBoJl1rPym+U8451VVN8dSxVDpcLuBWWqRX+qR15Zax4Fxg0bQe3OKwIUbsD6I1IcGl/3K0Am+Ql+4YZ8Jp/Hm3Rmo8AjE/cUWbBD7oDxc=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <20190818180007.2258-1-wsa@the-dreams.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c9d5a1ee-19a7-4724-9934-08d7246cc6a3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Aug 2019 06:16:30.0144
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fcwyzWu7T3hK8y7kgaoBsxu50qTmJzHDFDHz/TofFuB5IG92d995xLMOCKD6YVQ6LF49jrT6XBNsdhzU8+qFYRhylU3VbdZnPFBoG3NxhHlqq0pOkQQ2Fy11Hu80VYsY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4685
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 8/18/19 11:00 AM, Wolfram Sang wrote:
-> From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> 
-> Support an already running watchdog by checking its enable bit and set
-> up the status accordingly before registering the device. Introduce a new
-> flag to remember all this to keep RPM calls balanced.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
-> 
-> Changes since RFC:
-> 
-> * Geert ensured that the module clock for the RWDT will stay active
->    during the boot process because clock will only be stopped at the end
->    of init if there is no refcnt for this clk.
-> 
-> * So, we make sure to have a refcnt when FW enabled the wdog. Once the
->    first call to open comes, we "transfer" the refcnt to that call.
->    (Is that the correct behaviour? I think it is a tad better than to
->     place the balancing RPM call in remove, but I am open here)
-> 
-> * Tested with "open_timeout" kernel parameter. System can now reboot
->    if userspace hasn't taken over the watchdog with <n> seconds.
-> 
-> 
->   drivers/watchdog/renesas_wdt.c | 20 +++++++++++++++++---
->   1 file changed, 17 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/watchdog/renesas_wdt.c b/drivers/watchdog/renesas_wdt.c
-> index 00662a8e039c..11cef69f329b 100644
-> --- a/drivers/watchdog/renesas_wdt.c
-> +++ b/drivers/watchdog/renesas_wdt.c
-> @@ -50,6 +50,7 @@ struct rwdt_priv {
->   	struct watchdog_device wdev;
->   	unsigned long clk_rate;
->   	u8 cks;
-> +	bool started_by_fw;
->   };
->   
->   static void rwdt_write(struct rwdt_priv *priv, u32 val, unsigned int reg)
-> @@ -85,7 +86,11 @@ static int rwdt_start(struct watchdog_device *wdev)
->   	struct rwdt_priv *priv = watchdog_get_drvdata(wdev);
->   	u8 val;
->   
-> -	pm_runtime_get_sync(wdev->parent);
-> +	if (priv->started_by_fw)
-> +		/* we already called this function and RPM is active */
-> +		priv->started_by_fw = false;
+Hello!
 
-If the HW watchdog is running, the start function should not be called
-on open. It would be called after the watchdog was stopped and is then
-started again. With that, opening the watchdog the first time would not
-call this function, and started_by_fw would remain true. Closing it would
-then stopp the watchdog and call pm_runtime_put(). The next open() would
-hit the above case, and not call pm_runtime_get_sync(). pm would then be
-out of sync.
+Thank you for your review! And, I'm sorry for the delayed response because =
+I had a vacation.
 
-What am I missing ?
+> From: Uwe Kleine-Konig, Sent: Friday, August 9, 2019 6:11 PM
+>=20
+> On Thu, Aug 08, 2019 at 12:55:40PM +0300, Sergei Shtylyov wrote:
+> > Hello!
+> >
+> > On 08.08.2019 9:38, Yoshihiro Shimoda wrote:
+> >
+> > > Since the rcar_pwm_apply() has already check whehter state->enabled
+> >
+> >    Checked?
+>=20
+> and "whether"
 
-Guenter
+I'll revise it.
 
-> +	else
-> +		pm_runtime_get_sync(wdev->parent);
->   
->   	/* Stop the timer before we modify any register */
->   	val = readb_relaxed(priv->base + RWTCSRA) & ~RWTCSRA_TME;
-> @@ -194,6 +199,7 @@ static int rwdt_probe(struct platform_device *pdev)
->   	struct clk *clk;
->   	unsigned long clks_per_sec;
->   	int ret, i;
-> +	u8 csra;
->   
->   	if (rwdt_blacklisted(dev))
->   		return -ENODEV;
-> @@ -213,8 +219,8 @@ static int rwdt_probe(struct platform_device *pdev)
->   	pm_runtime_enable(dev);
->   	pm_runtime_get_sync(dev);
->   	priv->clk_rate = clk_get_rate(clk);
-> -	priv->wdev.bootstatus = (readb_relaxed(priv->base + RWTCSRA) &
-> -				RWTCSRA_WOVF) ? WDIOF_CARDRESET : 0;
-> +	csra = readb_relaxed(priv->base + RWTCSRA);
-> +	priv->wdev.bootstatus = csra & RWTCSRA_WOVF ? WDIOF_CARDRESET : 0;
->   	pm_runtime_put(dev);
->   
->   	if (!priv->clk_rate) {
-> @@ -252,6 +258,14 @@ static int rwdt_probe(struct platform_device *pdev)
->   	/* This overrides the default timeout only if DT configuration was found */
->   	watchdog_init_timeout(&priv->wdev, 0, dev);
->   
-> +	/* Check if FW enabled the watchdog */
-> +	if (csra & RWTCSRA_TME) {
-> +		/* Ensure properly initialized dividers */
-> +		rwdt_start(&priv->wdev);
-> +		set_bit(WDOG_HW_RUNNING, &priv->wdev.status);
-> +		priv->started_by_fw = true;
-> +	}
-> +
->   	ret = watchdog_register_device(&priv->wdev);
->   	if (ret < 0)
->   		goto out_pm_disable;
-> 
+Best regards,
+Yoshihiro Shimoda
 
+> Best regards
+> Uwe
+>=20
+>=20
+> --
+> Pengutronix e.K.                           | Uwe Kleine-K=F6nig          =
+  |
+> Industrial Linux Solutions                 | http://www.pengutronix.de/  =
+|
