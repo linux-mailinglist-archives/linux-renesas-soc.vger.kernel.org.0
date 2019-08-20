@@ -2,104 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EB7095B9D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2019 11:51:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E834595C8E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2019 12:48:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729541AbfHTJum (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Aug 2019 05:50:42 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:41713 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728842AbfHTJul (ORCPT
+        id S1729485AbfHTKsu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Aug 2019 06:48:50 -0400
+Received: from sauhun.de ([88.99.104.3]:35146 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728842AbfHTKsu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Aug 2019 05:50:41 -0400
-X-Originating-IP: 87.18.63.98
-Received: from uno.localdomain (unknown [87.18.63.98])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id BF83D1C0014;
-        Tue, 20 Aug 2019 09:50:36 +0000 (UTC)
-Date:   Tue, 20 Aug 2019 11:52:05 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Simon Horman <horms+renesas@verge.net.au>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: sh-mobile-ceu: Rename bindings
- documentation file
-Message-ID: <20190820095205.xnthl7d7cpy7myq2@uno.localdomain>
-References: <20190819140544.19294-1-horms+renesas@verge.net.au>
+        Tue, 20 Aug 2019 06:48:50 -0400
+Received: from localhost (p54B333DC.dip0.t-ipconnect.de [84.179.51.220])
+        by pokefinder.org (Postfix) with ESMTPSA id 85C512C3014;
+        Tue, 20 Aug 2019 12:48:48 +0200 (CEST)
+Date:   Tue, 20 Aug 2019 12:48:48 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     ulf.hansson@linaro.org, wsa+renesas@sang-engineering.com,
+        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] mmc: host: renesas_sdhi_sys_dmac: Remove all R-Car Gen3
+ SoCs
+Message-ID: <20190820104848.GC1007@ninjato>
+References: <1566290590-2841-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="s545u3qgtcd2uv4a"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="0lnxQi9hkpPO77W3"
 Content-Disposition: inline
-In-Reply-To: <20190819140544.19294-1-horms+renesas@verge.net.au>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <1566290590-2841-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---s545u3qgtcd2uv4a
-Content-Type: text/plain; charset=utf-8
+--0lnxQi9hkpPO77W3
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi Simon,
+On Tue, Aug 20, 2019 at 05:43:10PM +0900, Yoshihiro Shimoda wrote:
+> All R-Car Gen3 SoCs with any ES version cannot use this DMAC actually.
+> So, this patch removes the compatibles of R-Car Gen3 SoCs from
+> renesas_sdhi_sys_dmac_of_match. Since the previous code has
+> an empty whitelist to prevent probing of R-Car Gen3 SoCs,
+> no behavior changes.
+>=20
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-On Mon, Aug 19, 2019 at 04:05:44PM +0200, Simon Horman wrote:
-> Renesas media binding documentation files uses a naming schema of
-> 'renesas,<module>.txt'. Rename the SH Mobile CEU file to match this pattern.
->
+No regressions on my Salvator-XS with a M3N SoC:
 
-The old soc-camera based sh-mobile-ceu driver has been removed one
-year ago and replaced by driver/media/platform/renesas-ceu.c whose
-bindings are described at
-Documentation/devicetree/bindings/media/renesas,ceu.txt
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Should this file be removed instead of renamed?
 
-Thanks
-  j
-
-> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
-> ---
-> Based on v5.3-rc1
-> ---
->  .../bindings/media/{sh_mobile_ceu.txt => renesas,sh-mobile-ceu.txt}       | 0
->  1 file changed, 0 insertions(+), 0 deletions(-)
->  rename Documentation/devicetree/bindings/media/{sh_mobile_ceu.txt => renesas,sh-mobile-ceu.txt} (100%)
->
-> diff --git a/Documentation/devicetree/bindings/media/sh_mobile_ceu.txt b/Documentation/devicetree/bindings/media/renesas,sh-mobile-ceu.txt
-> similarity index 100%
-> rename from Documentation/devicetree/bindings/media/sh_mobile_ceu.txt
-> rename to Documentation/devicetree/bindings/media/renesas,sh-mobile-ceu.txt
-> --
-> 2.11.0
->
-
---s545u3qgtcd2uv4a
+--0lnxQi9hkpPO77W3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1bwsUACgkQcjQGjxah
-VjyPUg//ThVI0x+SJ7Y34qsLEZs0SgzopAtZefvap9z9/MAUuTbIV6qBA5/BaLqT
-O1VQOg//KN/apqfVVcIPI83X1rn1IzIEEznGCKHmKxmehuL4iry+VTWPrJw3EH4y
-FPxeKrOZ76GMPsQFX7xBrSGwdfZgNWzmkccFjWM2RtdYC0tDC8fgh6/uKi9XYmRe
-lyy8zU4OxVLj1G0Uoqp1o5MX57jgKJ5NWs48FhgCkT+R0Yf01d9b3vwjRZF5C6tO
-FTvOSJfSnoP+xaao/GyH5zudiv6LOa5cTohxfUYdEXjiQg9JjNEbWRw35Cmel92U
-h/qVboanowTIBPiAlLqMtK0esWe4moGbDlKpsoivae2n53hx47UJElvo3Hu2LhHC
-4bAFhpT3MRZB3i8Oqw94yl9JuCwVMc0kzzdG7xcuMQimzuijhmdgNxesxDJJk2gn
-FiTt6UrTek4r8E9595/66AT9nN2UB4FnkY79dT1oxT2QJF/FKEh6sFEf6uVgUJDv
-f9km+Mnw2JnssBPf+VZI06yyr24aVfhWnt5vxKi0EqIEr9c5g3NYXk15VFRM/Rqb
-EG8uGkIpifriE1Ccu1G+A0pb9wPdDqQIuReZjEA0JS7K1YaaZ36ebCaudC5hjZJ2
-n7wdqkhOGHzgDQ+vF127kr+ukdEjlkeTC62raHmrU+0pjPH7v64=
-=lZjl
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl1b0AsACgkQFA3kzBSg
+KbavLRAAtTYxRrLWJ4R2VlhC0ozKhMYR0hKzOtMxUzo1jQtCCZgSkcs1ttAVq3nN
+CikT5eFvrKYCplcHVU2Kdwa84zbmQ+HpbFa/pnTYQhL/PQOqW397D2luI0TgNrbr
+gq5B03hgBCiOEF2RYxa4tnEyUL0BgytPo82+CGBhVVcguo4RDvy6FN1qEkdoSW5i
+w7UMwRY5njR5ZOsDJpC11qaaUEWbkHKMjFy643ysHwRGVKzKsllCxIFusLLS4Ia3
+IYROd34ouGQpTOgjtky0L9OevQjTZSY0J5SYyhFsaDlUmqHcQPNHyUidI+GblB/A
+sQYFyX8rIhAIlDhkuxHAa7ZheSg7tSGQL0pjgmhClP+W8h/PWdZc6JJzrmZDupuF
+YbrkGpCos9M7LULX/+IJRmumvgS95lVp8oVEEiH+861mhg7b7C9RvqxsB/WRXiZR
+1HLe3wx3ytcoZ6t8FUqIsgUJ9rg0oLUhO5TE6H1xF29pzjjafyrluX3FnCXpyKc0
+330TD78Xr0blxwdbn7o+MSEo9nkSkskXLRDSBtLN63xWIU5hpf9EJgAbommwHzKi
+msUZsni1fFQV+XbZR9PzEU+lU7CLt/JxneI9xbBHHP0szUl4IJ5YhgK8djeGV+G6
+98C0tyI30hFXkfiOFYK96kK17lkrrMFyZOXUhMSk+V94b1dhYGg=
+=eZyF
 -----END PGP SIGNATURE-----
 
---s545u3qgtcd2uv4a--
+--0lnxQi9hkpPO77W3--
