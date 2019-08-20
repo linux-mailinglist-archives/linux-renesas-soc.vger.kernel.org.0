@@ -2,151 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FCD695914
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2019 10:04:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B34795A14
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2019 10:44:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728595AbfHTIEG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Aug 2019 04:04:06 -0400
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:35553 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728414AbfHTIEG (ORCPT
+        id S1729341AbfHTIor (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Aug 2019 04:44:47 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:48636 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729333AbfHTIor (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Aug 2019 04:04:06 -0400
-X-Originating-IP: 87.18.63.98
-Received: from uno.localdomain (unknown [87.18.63.98])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 3B21F4000A;
-        Tue, 20 Aug 2019 08:03:59 +0000 (UTC)
-Date:   Tue, 20 Aug 2019 10:05:28 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Koji Matsuoka <koji.matsuoka.xm@renesas.com>, muroya@ksk.co.jp,
-        VenkataRajesh.Kalakodima@in.bosch.com,
-        Harsha.ManjulaMallikarjun@in.bosch.com,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 01/19] dt-bindings: display: renesas,cmm: Add R-Car
- CMM documentation
-Message-ID: <20190820080528.2p3l4z525nii2djt@uno.localdomain>
-References: <20190706140746.29132-1-jacopo+renesas@jmondi.org>
- <20190706140746.29132-2-jacopo+renesas@jmondi.org>
- <CAMuHMdWVzm8yoZSoKZh3MJsaX4jCRXQCbn2x2LAu4UWtb1yYjw@mail.gmail.com>
- <CAMuHMdWFHDGPSZt2_H_sC9rCKDYBR0XDLn0TGxzPRxZsrOTEHw@mail.gmail.com>
- <20190820074826.5rdzeqyk6ylpjr7o@uno.localdomain>
- <CAMuHMdXNJLLRqZCZ5KHkdUKgtwmE-F-s5Vi6P10xHR38n_=HrA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="uoy3xuspityfwvxm"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXNJLLRqZCZ5KHkdUKgtwmE-F-s5Vi6P10xHR38n_=HrA@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+        Tue, 20 Aug 2019 04:44:47 -0400
+X-IronPort-AV: E=Sophos;i="5.64,408,1559487600"; 
+   d="scan'208";a="24232614"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 20 Aug 2019 17:44:44 +0900
+Received: from localhost.localdomain (unknown [10.166.17.210])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 10123400753C;
+        Tue, 20 Aug 2019 17:44:44 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     ulf.hansson@linaro.org, wsa+renesas@sang-engineering.com
+Cc:     linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH] mmc: host: renesas_sdhi_sys_dmac: Remove all R-Car Gen3 SoCs
+Date:   Tue, 20 Aug 2019 17:43:10 +0900
+Message-Id: <1566290590-2841-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+All R-Car Gen3 SoCs with any ES version cannot use this DMAC actually.
+So, this patch removes the compatibles of R-Car Gen3 SoCs from
+renesas_sdhi_sys_dmac_of_match. Since the previous code has
+an empty whitelist to prevent probing of R-Car Gen3 SoCs,
+no behavior changes.
 
---uoy3xuspityfwvxm
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ drivers/mmc/host/renesas_sdhi_sys_dmac.c | 36 --------------------------------
+ 1 file changed, 36 deletions(-)
 
-Hi Geert,
+diff --git a/drivers/mmc/host/renesas_sdhi_sys_dmac.c b/drivers/mmc/host/renesas_sdhi_sys_dmac.c
+index 1d29b82..13ff023 100644
+--- a/drivers/mmc/host/renesas_sdhi_sys_dmac.c
++++ b/drivers/mmc/host/renesas_sdhi_sys_dmac.c
+@@ -68,26 +68,6 @@ static const struct renesas_sdhi_of_data of_rcar_gen2_compatible = {
+ 	.max_blk_count	= UINT_MAX / TMIO_MAX_BLK_SIZE,
+ };
+ 
+-/* Definitions for sampling clocks */
+-static struct renesas_sdhi_scc rcar_gen3_scc_taps[] = {
+-	{
+-		.clk_rate = 0,
+-		.tap = 0x00000300,
+-	},
+-};
+-
+-static const struct renesas_sdhi_of_data of_rcar_gen3_compatible = {
+-	.tmio_flags	= TMIO_MMC_HAS_IDLE_WAIT | TMIO_MMC_CLK_ACTUAL |
+-			  TMIO_MMC_HAVE_CBSY | TMIO_MMC_MIN_RCAR2,
+-	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
+-			  MMC_CAP_CMD23,
+-	.capabilities2	= MMC_CAP2_NO_WRITE_PROTECT,
+-	.bus_shift	= 2,
+-	.scc_offset	= 0x1000,
+-	.taps		= rcar_gen3_scc_taps,
+-	.taps_num	= ARRAY_SIZE(rcar_gen3_scc_taps),
+-};
+-
+ static const struct of_device_id renesas_sdhi_sys_dmac_of_match[] = {
+ 	{ .compatible = "renesas,sdhi-sh73a0", .data = &of_default_cfg, },
+ 	{ .compatible = "renesas,sdhi-r8a73a4", .data = &of_default_cfg, },
+@@ -102,11 +82,8 @@ static const struct of_device_id renesas_sdhi_sys_dmac_of_match[] = {
+ 	{ .compatible = "renesas,sdhi-r8a7792", .data = &of_rcar_gen2_compatible, },
+ 	{ .compatible = "renesas,sdhi-r8a7793", .data = &of_rcar_gen2_compatible, },
+ 	{ .compatible = "renesas,sdhi-r8a7794", .data = &of_rcar_gen2_compatible, },
+-	{ .compatible = "renesas,sdhi-r8a7795", .data = &of_rcar_gen3_compatible, },
+-	{ .compatible = "renesas,sdhi-r8a7796", .data = &of_rcar_gen3_compatible, },
+ 	{ .compatible = "renesas,rcar-gen1-sdhi", .data = &of_rcar_gen1_compatible, },
+ 	{ .compatible = "renesas,rcar-gen2-sdhi", .data = &of_rcar_gen2_compatible, },
+-	{ .compatible = "renesas,rcar-gen3-sdhi", .data = &of_rcar_gen3_compatible, },
+ 	{ .compatible = "renesas,sdhi-shmobile" },
+ 	{},
+ };
+@@ -470,21 +447,8 @@ static const struct tmio_mmc_dma_ops renesas_sdhi_sys_dmac_dma_ops = {
+ 	.dataend = renesas_sdhi_sys_dmac_dataend_dma,
+ };
+ 
+-/*
+- * Whitelist of specific R-Car Gen3 SoC ES versions to use this DMAC
+- * implementation. Currently empty as all supported ES versions use
+- * the internal DMAC.
+- */
+-static const struct soc_device_attribute gen3_soc_whitelist[] = {
+-        { /* sentinel */ }
+-};
+-
+ static int renesas_sdhi_sys_dmac_probe(struct platform_device *pdev)
+ {
+-	if (of_device_get_match_data(&pdev->dev) == &of_rcar_gen3_compatible &&
+-	    !soc_device_match(gen3_soc_whitelist))
+-		return -ENODEV;
+-
+ 	return renesas_sdhi_probe(pdev, &renesas_sdhi_sys_dmac_dma_ops);
+ }
+ 
+-- 
+2.7.4
 
-On Tue, Aug 20, 2019 at 09:53:44AM +0200, Geert Uytterhoeven wrote:
-> Hi Jacopo,
->
-> On Tue, Aug 20, 2019 at 9:47 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
-> > On Mon, Aug 19, 2019 at 03:45:54PM +0200, Geert Uytterhoeven wrote:
-> > > On Mon, Jul 8, 2019 at 9:58 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > On Sat, Jul 6, 2019 at 4:07 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
-> > > > > Add device tree bindings documentation for the Renesas R-Car Display
-> > > > > Unit Color Management Module.
-> > > > >
-> > > > > CMM is the image enhancement module available on each R-Car DU video
-> > > > > channel on R-Car Gen2 and Gen3 SoCs (V3H and V3M excluded).
-> > > > >
-> > > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > >
-> > > > Thanks for your patch!
-> > > >
-> > > > > --- /dev/null
-> > > > > +++ b/Documentation/devicetree/bindings/display/renesas,cmm.txt
-> > > > > @@ -0,0 +1,25 @@
-> > > > > +* Renesas R-Car Color Management Module (CMM)
-> > > > > +
-> > > > > +Renesas R-Car image enhancement module connected to R-Car DU video channels.
-> > > > > +
-> > > > > +Required properties:
-> > > > > + - compatible: shall be one of:
-> > > > > +   - "renesas,rcar-gen3-cmm"
-> > > > > +   - "renesas,rcar-gen2-cmm"
-> > > >
-> > > > Why do you think you do not need SoC-specific compatible values?
-> > > > What if you discover a different across the R-Car Gen3 line tomorrow?
-> > > > Does the IP block have a version register?
-> > >
-> > > Do you have an answer to these questions?
-> >
-> > It does not seem to me that CMM has any version register, nor there
-> > are differences between the different Gen3 SoCs..
-> >
-> > However, even if we now define a single compatible property for
-> > gen3/gen2 and we later find out one of the SoC needs a soc-specific
-> > property we can safely add it and keep the generic gen3/gen2 one as
-> > fallback.. Does it work for you?
->
-> Unfortunately that won't work, as the existing DTBs won't have the
-> soc-specific compatible value.
-
-Correct, existing dtbs won't have the soc-specific value... However,
-there are functional differences between different SoCs according to
-the datasheet, but if it's good practice to provide soc-specific
-compatibles "just in case" I'm fine doing that..
-
-
-> You could still resort to soc_device_match(), but it is better to avoid that.
-
-I see... Also that function's documentation prescribes to go through
-DT first, so I guess it's our last resort...
-
-
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-
---uoy3xuspityfwvxm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1bqcgACgkQcjQGjxah
-VjzfIQ//bceJ2Cx5ZIgeBzXpJ+LvUqUpBoZU2JcuzPvzZHK3zjHVRil1FBlktd8U
-qkO8BsZqefP7YenFiMX1wfCXEj/+2Nwm9HGSw4xlOPWuF2oVLtU5PajvYNmSJqRZ
-NbVnYtiTf2xQtfj2JE8JkNR9uz+KMH6oHlsqzX8YaSSll5mOt/1I23AV/JIVmx/S
-BkQ78othU3hWDFQCxct9rq1GkPrC0TOsq4zN+rw2kxQUdRHcBzb7kZrdDt0kkYYg
-K9YBmQgTLnvGoL+yBLnMKRLLpVYFiQpMNzT9TgUjOx0yzXyk2HOxJMh938V97sqX
-XtxtAJlxN8VruOrG2RJ4rYfKsPU9OWRyurntMhF1btXysM73zoX8D6AXkEGSqkA2
-TtwIDHco5k1FtuZODoFgIetgXOWfkbykC2TWUft52QQriDnYOqZ8qKXp0AE9qoYn
-iL72UoeeZwsyVgkPNZBxzI4MUzcfTPJssvlV2tUtXxOciRkBl6zmD61nhN4vvp9p
-1AbXOXhYKfC/gmCs/WK4QzJvehSXa1bIAtMWeceUsvJBadsAttbNc6O2BM6SEWuF
-JnAZRhWcjqOtfNl90o0bctWsFAZ109guX2rTJONZYSPxXaDya7yJpUdRMw0QgPCx
-XVCryR/NCK52QGsFtaExhfidbkxNqKLaRZiPei31s0QWbo6SkJ4=
-=M2QT
------END PGP SIGNATURE-----
-
---uoy3xuspityfwvxm--
