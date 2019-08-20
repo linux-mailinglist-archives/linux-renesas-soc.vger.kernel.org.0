@@ -2,105 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 33257968D1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2019 21:01:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43A3D96998
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2019 21:41:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730088AbfHTTBx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Aug 2019 15:01:53 -0400
-Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.53]:20876 "EHLO
-        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729231AbfHTTBx (ORCPT
+        id S1730088AbfHTTlg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Aug 2019 15:41:36 -0400
+Received: from sauhun.de ([88.99.104.3]:39934 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727358AbfHTTlg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Aug 2019 15:01:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1566327711;
-        s=strato-dkim-0002; d=fpond.eu;
-        h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
-        Subject:Sender;
-        bh=YR8nMtyph3dCF3soDhEjLugd79rphqAr6Ye8dIB6CqU=;
-        b=q1mdJAyeB84VOMze6Q+rA8x0mIzz8iFpOLgo3vcSx2HSkczYni8wx3f3hKK8rYNFnM
-        E1ocGOfjsdrIeI/fOPPfu8KkKyTsDx18uk24NPikmWFgHzBqYJlVW9vzXjGJN7vtK6Y9
-        lIMYv3JPNk7CsjByBCedO9H0vF4UuJX5vqju4HjoBfIYj59DAr5ZTTEUlRxEDXnGf2sw
-        TqSAx4iCp8GlaKIaTsqRY9PAowtsId9PZEfYo3+1zIyaKwbr7hUmf7r4jmEYMGzR8mb/
-        SZXQADvSByCvFgtGpa3oJjUJrbNn06mLG4s50q8UjZ5xEP5fePJ1yG7B4KIERJ8WSbar
-        tTIw==
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73dmm4I5W0/AvA67Ot4fvR8GNfd+CVsQ=="
-X-RZG-CLASS-ID: mo00
-Received: from groucho.site
-        by smtp.strato.de (RZmta 44.26.1 DYNA|AUTH)
-        with ESMTPSA id K077a3v7KJ1WNTr
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA (curve secp521r1 with 521 ECDH bits, eq. 15360 bits RSA))
-        (Client did not present a certificate);
-        Tue, 20 Aug 2019 21:01:32 +0200 (CEST)
-From:   Ulrich Hecht <uli+renesas@fpond.eu>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     netdev@vger.kernel.org, davem@davemloft.net,
-        sergei.shtylyov@cogentembedded.com, niklas.soderlund@ragnatech.se,
-        wsa@the-dreams.de, horms@verge.net.au, magnus.damm@gmail.com,
-        geert@glider.be, Ulrich Hecht <uli+renesas@fpond.eu>
-Subject: [PATCH v3] ravb: implement MTU change while device is up
-Date:   Tue, 20 Aug 2019 21:01:26 +0200
-Message-Id: <1566327686-8996-1-git-send-email-uli+renesas@fpond.eu>
-X-Mailer: git-send-email 2.7.4
+        Tue, 20 Aug 2019 15:41:36 -0400
+Received: from localhost (p54B333DC.dip0.t-ipconnect.de [84.179.51.220])
+        by pokefinder.org (Postfix) with ESMTPSA id 98ACD2C3014;
+        Tue, 20 Aug 2019 21:41:33 +0200 (CEST)
+Date:   Tue, 20 Aug 2019 21:41:29 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Ulrich Hecht <uli+renesas@fpond.eu>
+Cc:     linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
+        davem@davemloft.net, sergei.shtylyov@cogentembedded.com,
+        niklas.soderlund@ragnatech.se, horms@verge.net.au,
+        magnus.damm@gmail.com, geert@glider.be
+Subject: Re: [PATCH v3] ravb: implement MTU change while device is up
+Message-ID: <20190820194129.jttuef4ghsx7rihf@katana>
+References: <1566327686-8996-1-git-send-email-uli+renesas@fpond.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="cgoffdb52q5udzhz"
+Content-Disposition: inline
+In-Reply-To: <1566327686-8996-1-git-send-email-uli+renesas@fpond.eu>
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Uses the same method as various other drivers: shut the device down,
-change the MTU, then bring it back up again.
 
-Tested on Renesas D3 Draak and M3-W Salvator-X boards.
+--cgoffdb52q5udzhz
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
----
+Hi Uli,
 
-Hi!
+thanks for the patch.
 
-This revision reverts the MTU change if re-opening the device fails.
+On Tue, Aug 20, 2019 at 09:01:26PM +0200, Ulrich Hecht wrote:
+> Uses the same method as various other drivers: shut the device down,
+> change the MTU, then bring it back up again.
+>=20
+> Tested on Renesas D3 Draak and M3-W Salvator-X boards.
+>=20
+> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
+> Reviewed-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
 
-CU
-Uli
+Are these reviews left from v2? If so, I'd prefer to see them given
+again because the logic was changed in v3.
 
+> ---
+>=20
+> Hi!
+>=20
+> This revision reverts the MTU change if re-opening the device fails.
+>=20
+> CU
+> Uli
+>=20
+>=20
+>  drivers/net/ethernet/renesas/ravb_main.c | 14 +++++++++++++-
+>  1 file changed, 13 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ether=
+net/renesas/ravb_main.c
+> index ef8f089..402bcec 100644
+> --- a/drivers/net/ethernet/renesas/ravb_main.c
+> +++ b/drivers/net/ethernet/renesas/ravb_main.c
+> @@ -1810,12 +1810,24 @@ static int ravb_do_ioctl(struct net_device *ndev,=
+ struct ifreq *req, int cmd)
+> =20
+>  static int ravb_change_mtu(struct net_device *ndev, int new_mtu)
+>  {
+> +	unsigned int old_mtu =3D ndev->mtu;
+> +
+>  	if (netif_running(ndev))
+> -		return -EBUSY;
+> +		ravb_close(ndev);
+> =20
+>  	ndev->mtu =3D new_mtu;
+>  	netdev_update_features(ndev);
+> =20
+> +	if (netif_running(ndev)) {
+> +		int err =3D ravb_open(ndev);
+> +
+> +		if (err) {
+> +			ndev->mtu =3D old_mtu;
+> +			netdev_update_features(ndev);
+> +			return err;
+> +		}
+> +	}
+> +
+>  	return 0;
+>  }
+> =20
+> --=20
+> 2.7.4
+>=20
 
- drivers/net/ethernet/renesas/ravb_main.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+--cgoffdb52q5udzhz
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index ef8f089..402bcec 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -1810,12 +1810,24 @@ static int ravb_do_ioctl(struct net_device *ndev, struct ifreq *req, int cmd)
- 
- static int ravb_change_mtu(struct net_device *ndev, int new_mtu)
- {
-+	unsigned int old_mtu = ndev->mtu;
-+
- 	if (netif_running(ndev))
--		return -EBUSY;
-+		ravb_close(ndev);
- 
- 	ndev->mtu = new_mtu;
- 	netdev_update_features(ndev);
- 
-+	if (netif_running(ndev)) {
-+		int err = ravb_open(ndev);
-+
-+		if (err) {
-+			ndev->mtu = old_mtu;
-+			netdev_update_features(ndev);
-+			return err;
-+		}
-+	}
-+
- 	return 0;
- }
- 
--- 
-2.7.4
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCAAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl1cTOQACgkQFA3kzBSg
+KbaVxg/+MOiU6g0MIwCeXx0omuh6adqORTwA1p9olho8DkSi+io1Ftkwg6TXrXG/
+GsvwZpW32A7f4tXTuXI7Q1vpUOj4FvxO/1TmsIkfAAU7dpve74VRE8DCfh3oQ47Z
+d8IHkrcpWhvVZLcapWJ5ze2Uz9yt6MDVqgyhtA+RlNYwfJK3m350lhR5rHJUmF3+
+0JVIGgeohig8jhALUr/sbEOqGSxD/rdQb8lkyFXdeF7zWETxvhd5Kg1kvu+90zM+
+NdAZp68qbea/xJRr3gVU8DW3LYzJ+3yT4nfpw6doCMgfU0Wz8C8gMFnWi7XE+YsG
+Do6Yi4NWiQ39V9ZzGnWS1ho4fwB1aKCRuoCAgTi46uvU/0m02U7BE7qN6L7v221g
+minYy8ZaGUvLrgUbVulgOWFkMkJEui6OuJGZjv7W17XxtCgVCEUsVIKiyasra25T
+I2gjF7bKYQ/4UHk0ISqg+Q/pgJpuqXM+6lODF1b6QNlyJKnkhxAnOfsc8RYRwp/G
+WGKbHVLR7wU4RLJeQTZ4Oz14khBJXe7z2ZTIotjpZ1zCaw8aMWzN3O86iUXeh+vB
+3OE9fRPCmA3OVs44Ug5ajxtpBVe/hoapHUjcW7AobEnhzcf++V05DjQLiCytXQj5
+o5x/712JIIrfcaClq27X16xF5nquPwwlAkX1fZ5dhpcg/T8Tx4E=
+=RfBo
+-----END PGP SIGNATURE-----
+
+--cgoffdb52q5udzhz--
