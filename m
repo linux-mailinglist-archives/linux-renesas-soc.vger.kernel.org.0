@@ -2,135 +2,137 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FBF3961CA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2019 16:00:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D8AD963D8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2019 17:12:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730023AbfHTOAA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Aug 2019 10:00:00 -0400
-Received: from mail-eopbgr1410090.outbound.protection.outlook.com ([40.107.141.90]:57216
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729992AbfHTN77 (ORCPT
+        id S1727988AbfHTPMK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Aug 2019 11:12:10 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:33779 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729084AbfHTPMK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Aug 2019 09:59:59 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oXNPTmKJVgwUqWf8sU5Ysn6WdMyQ+1AlolByQgGTtD5cuf+vljWrutzBytX932K85o45nlt0Hapd+BF8MwDWScu22M5WP60kAHk+czklZC4HDgCAlPkpdUSAJaJ3BNgLTlO9Yy3ckvc3x/BQQN5kz/8kxBEXmfj1Z16eHPdRB83B37KwBdI3KlmPygldCLQlsUvXKXffFRs/IPIxqHg+napONcrVYlGvHEvlGR2E3AKYX38pJKmfdCrnOBmwLhxbGnYiyiksH5YRsYFKwokrG+adWOzYkTy1XRgZRXoIL2A0bvgCs+xi0nRBnREu0vURCBI0C0YRVwdrSL6vH02edw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5pRwG2eLIqALzr+Og8LrtPgYD3jgz5u2gaJJsLU4hKY=;
- b=VLgH73YQQVqMQCPK1G5cY0XLmp5rhRH+e11ndMxTNpInArp6yDsH1NbIePi2FSs4v0J1ma3GYSsUWcoN52Ap4tC9atpB6TSS0p0WMxfWzqyxL+gNVAz/bpLL5bZKPaf5Q0iLvowDyIUhrUtNgllpn6ZAfqqdk/wwom0f6RE/DcULzgscBATGeu1hTiOBOYfLJvC2pUFSEK219ql1bhRUgyKMVr1gUIVmDFgCQJrdOqbJf9gDpEeS+s8FUd0eL5kqdriYTzlzn/TCzSkOnP4KjS7hpKeFfqGhwjpp5JB/dzVy++ZHxe5/ztNqHvecv07YtYSpiGDpZr7dRGOZEW4cWg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+        Tue, 20 Aug 2019 11:12:10 -0400
+Received: by mail-wr1-f68.google.com with SMTP id u16so12800387wrr.0;
+        Tue, 20 Aug 2019 08:12:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5pRwG2eLIqALzr+Og8LrtPgYD3jgz5u2gaJJsLU4hKY=;
- b=YJInKVjUqkAWl5XmXKel5okcbBhwKhyLjNGDGikDgRmEPfrOtVGf0D92oiNcIc+58nDIx6exgVnRS2HSH5i7Unl0xYqDo6yiEdAuFONMbGy5Slw45zgGXB64Z92InbR5pkfoZOnIiIjoJ2UPjQdgfhzWGsr01LDXsjGb2yQnuM8=
-Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com (52.133.163.13) by
- TY1PR01MB1755.jpnprd01.prod.outlook.com (52.133.161.138) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2178.16; Tue, 20 Aug 2019 13:59:55 +0000
-Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com
- ([fe80::4409:a3fc:419e:8efd]) by TY1PR01MB1770.jpnprd01.prod.outlook.com
- ([fe80::4409:a3fc:419e:8efd%5]) with mapi id 15.20.2178.018; Tue, 20 Aug 2019
- 13:59:55 +0000
-From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=dKdQuwZho07axOitnBUWXA6Q8k137FEMkmPLh6RmOhw=;
+        b=G1ymaBsxmt35xAAfqF7fRnZ/ONwJaQUIH39QLqJp40qLd/v9GATTe1V1qZ+acBGrF5
+         uCQAjFQN9UwH3q0sMK/9tkBPWemv0hG6F5oj5GL7+zIObz+r3xx6pcx8IfJDGKr3YMZ2
+         665a4w3gwpwvChxHQqcj3W1Mgz4bZ7QIS/XQNAUvzAbp99Ba4zHEU8vnnPv+RP4eZIXG
+         clNmHfP52jOsqPB4M1qtQC379AlMFbOlbhh9esTnMnBJt5Nswr3otIPRBJE74eMmBRYx
+         DqL7e2WfUv71WGeIUiLis22x5zJDsd/4Rn+T9Xg4LTJvLHrsk9xo1qj1MBayZnn8fbaJ
+         7Acg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=dKdQuwZho07axOitnBUWXA6Q8k137FEMkmPLh6RmOhw=;
+        b=NmqN/yFOmAS3BgQfir6Bdg44YZhaq2EQ17//xlffkz/t+2cUFPkUGawLlpv+4ajLWj
+         nA0Rwd7v1A+toVlOsac1R52hvbOvZoPePJrXgCogeLCCr5zdrLZ1Uvefq5t5l4cUkcb8
+         zhf6UbRv0IqV97cOF5UTQFu/kQqply91gUNog7BEfn8OGi+4I+Hts2eVM/jiOGwYtI8z
+         1IqYSTQ304vMynxv7mUzGkBn5y45YEhp/66g0SsL64pNbC1RTICPZ2MLp38g7wkbrlms
+         tibQVBoizm9ARybW4idAb+peJuy2bbezcZh+yF+ZjSuhcR2S6HPAC+EBeHTEr5eLXiVr
+         LJTA==
+X-Gm-Message-State: APjAAAXHsPIwpy8CxrZ23gwSoF4KqKo+/ApCUSmSb/vJz2df/cPnFDT5
+        z3+4r/2fkQCYCKu6kwJbvj6FdE7d
+X-Google-Smtp-Source: APXvYqxO0jy9AQ8t47aDAVTk1kfQTXX8cglGGpZTPFubBItCMScY6EqdbmFATv4grXtnt25iNMncLA==
+X-Received: by 2002:a05:6000:1085:: with SMTP id y5mr34675544wrw.285.1566313928659;
+        Tue, 20 Aug 2019 08:12:08 -0700 (PDT)
+Received: from [192.168.2.41] ([46.227.18.67])
+        by smtp.gmail.com with ESMTPSA id u129sm212061wmb.12.2019.08.20.08.12.07
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 20 Aug 2019 08:12:07 -0700 (PDT)
+Subject: Re: [PATCH 1/3] serial: atmel: Don't check for mctrl_gpio_to_gpiod()
+ returning error
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        Frieder Schrempf <frieder.schrempf@kontron.de>,
+        Richard Genoud <richard.genoud@gmail.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        "xu_shunji@hoperun.com" <xu_shunji@hoperun.com>,
-        "ebiharaml@si-linux.co.jp" <ebiharaml@si-linux.co.jp>
-Subject: RE: [PATCH v2 9/9] arm64: dts: renesas: Add EK874 board with
- idk-2121wr display support
-Thread-Topic: [PATCH v2 9/9] arm64: dts: renesas: Add EK874 board with
- idk-2121wr display support
-Thread-Index: AQHVU1lcoRxEQVUf1UOIA+jduAsu36cCZWkAgAGw67A=
-Date:   Tue, 20 Aug 2019 13:59:55 +0000
-Message-ID: <TY1PR01MB1770B6108929C74EC4064345C0AB0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-References: <1565867073-24746-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1565867073-24746-10-git-send-email-fabrizio.castro@bp.renesas.com>
- <CAMuHMdW9Lx_x=tgTXxpKAqTxY5w_b06y7Httky-ks8jj3zQHBg@mail.gmail.com>
-In-Reply-To: <CAMuHMdW9Lx_x=tgTXxpKAqTxY5w_b06y7Httky-ks8jj3zQHBg@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=fabrizio.castro@bp.renesas.com; 
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e0387fff-3c4a-4c43-aecc-08d72576ae38
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600148)(711020)(4605104)(1401327)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:TY1PR01MB1755;
-x-ms-traffictypediagnostic: TY1PR01MB1755:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TY1PR01MB1755308B5C6DAB321317C52CC0AB0@TY1PR01MB1755.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 013568035E
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(39860400002)(136003)(376002)(346002)(396003)(366004)(199004)(189003)(256004)(4326008)(7736002)(76176011)(7696005)(66446008)(64756008)(86362001)(74316002)(5660300002)(11346002)(446003)(44832011)(476003)(486006)(81156014)(6116002)(81166006)(3846002)(6916009)(2906002)(229853002)(14454004)(478600001)(54906003)(8676002)(76116006)(99286004)(8936002)(71200400001)(25786009)(71190400001)(33656002)(316002)(66946007)(66066001)(6436002)(7416002)(66476007)(55016002)(6246003)(66556008)(52536014)(305945005)(53546011)(6506007)(102836004)(186003)(26005)(9686003)(53936002);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1755;H:TY1PR01MB1770.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
-received-spf: None (protection.outlook.com: bp.renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: AW3AkkUWFnAjN/sgRbguCuPKo0hVZEeJDRV6HwP4P1k82uOhzN7HMLnEuOKtnKAS8GrEc/+xPuwTm0l2rS81g7lra1PN7QbrlSNdJcB7aDF6S/T6t6C96T3ovXE0GPT+oLkSPMQJ9CFqC6M7h4BbIyep+XNQ/igJEhHrERVxOn8vj6yVFVGtf+Myg9gAFftCdBiOPfHqqC5UzYBYfUkufh928N2ZUpIhnMAGPmfukxZBDfyIxOyjO7VlZW06xOoNHQy1CXpEB6hOgYbVjB0Y4luLHPy10Vo/bk5pbDTi4lObRb/OoEWKXfcdTJEvyGaPRxh+Tai9+ZYzzWj2d47weHzb9J1T7JrQQU8c7WDFtpfQ9o4k5ov5JPvGeVYuhXGKNTD5OWDqTp7rZ8+kqdquanUijqQWwtj2CN+7l5qXHFA=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>
+References: <20190814092757.13726-1-geert+renesas@glider.be>
+ <20190814092924.13857-1-geert+renesas@glider.be>
+ <20190814092924.13857-2-geert+renesas@glider.be>
+ <20190814093558.xlx5ck54dw2dgb6k@pengutronix.de>
+ <CAMuHMdWNj-H9B8E9=NeCgLracBuJODfPyBYJERh=vt4oNFUkGw@mail.gmail.com>
+From:   Richard Genoud <richard.genoud@gmail.com>
+Message-ID: <fc23b475-db5f-a311-5c7e-9fac15da3684@gmail.com>
+Date:   Tue, 20 Aug 2019 17:11:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e0387fff-3c4a-4c43-aecc-08d72576ae38
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Aug 2019 13:59:55.3704
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZriDyhx5GrpbpmMTST+RtuVOePJWdPBhxrBhgitibTCFXO1Tt2ERqVLTVuH/T7XOJJo50gyopSm2AM0AOvKarAEL7UYaelAiOI7nvPQIBtM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1755
+In-Reply-To: <CAMuHMdWNj-H9B8E9=NeCgLracBuJODfPyBYJERh=vt4oNFUkGw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGVsbG8gR2VlcnQsDQoNClRoYW5rIHlvdSBmb3IgeW91ciBmZWVkYmFjayENCg0KPiBGcm9tOiBH
-ZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4LW02OGsub3JnPg0KPiBTZW50OiAxOSBBdWd1
-c3QgMjAxOSAxMzowMw0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYyIDkvOV0gYXJtNjQ6IGR0czog
-cmVuZXNhczogQWRkIEVLODc0IGJvYXJkIHdpdGggaWRrLTIxMjF3ciBkaXNwbGF5IHN1cHBvcnQN
-Cj4gDQo+IEhpIEZhYnJpemlvLA0KPiANCj4gT24gVGh1LCBBdWcgMTUsIDIwMTkgYXQgMTowNSBQ
-TSBGYWJyaXppbyBDYXN0cm8NCj4gPGZhYnJpemlvLmNhc3Ryb0BicC5yZW5lc2FzLmNvbT4gd3Jv
-dGU6DQo+ID4gVGhlIEVLODc0IGlzIGFkdmVydGlzZWQgYXMgY29tcGF0aWJsZSB3aXRoIHBhbmVs
-IElESy0yMTIxV1IgZnJvbQ0KPiA+IEFkdmFudGVjaCwgaG93ZXZlciB0aGUgcGFuZWwgaXNuJ3Qg
-c29sZCBhbG9uZ3NpZGUgdGhlIGJvYXJkLg0KPiA+IEEgbmV3IGR0cywgYWRkaW5nIGV2ZXJ5dGhp
-bmcgdGhhdCdzIHJlcXVpcmVkIHRvIGdldCB0aGUgcGFuZWwgdG8NCj4gPiB0byB3b3JrIHdpdGgg
-dGhlIEVLODc0LCBpcyB0aGUgbW9zdCBjb252ZW5pZW50IHdheSB0byBzdXBwb3J0IHRoZQ0KPiA+
-IEVLODc0IHdoZW4gaXQncyBjb25uZWN0ZWQgdG8gdGhlIElESy0yMTIxV1IuDQo+ID4NCj4gPiBT
-aWduZWQtb2ZmLWJ5OiBGYWJyaXppbyBDYXN0cm8gPGZhYnJpemlvLmNhc3Ryb0BicC5yZW5lc2Fz
-LmNvbT4NCj4gDQo+IFRoYW5rcyBmb3IgeW91ciBwYXRjaCENCj4gDQo+ID4gR2VlcnQsDQo+ID4N
-Cj4gPiBhdCB0aGlzIHBvaW50IGluIHRpbWUgbm8gb3RoZXIgYm9hcmQgdXNlcyB0aGlzIGRpc3Bs
-YXksIGNhbiB3ZQ0KPiA+IHBvc3Rwb25lIHRoZSBjcmVhdGlvbiBvZiB0aGUgLmR0c2kgZmlsZSB0
-byB3aGVuIHRoZXJlJ2xsIGJlIGFub3RoZXINCj4gPiB1c2VyIChpZiBhbnkpPw0KPiANCj4gT0su
-DQo+IA0KPiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysgYi9hcmNoL2FybTY0L2Jvb3QvZHRzL3Jl
-bmVzYXMvcjhhNzc0YzAtZWs4NzQtaWRrLTIxMjF3ci5kdHMNCj4gDQo+ID4gKyZsdmRzMCB7DQo+
-ID4gKyAgICAgICByZW5lc2FzLHN3YXAtZGF0YTsNCj4gDQo+IFdhc24ndCB0aGF0IHByb3BlcnR5
-IGRyb3BwZWQ/DQoNClllYWgsIGxlZnRvdmVyIGZyb20gdGhlIHByZXZpb3VzIHNlcmllcywgc29y
-cnkgYWJvdXQgdGhhdC4gQW55aG93LCB3ZSBiZXR0ZXIgZGVjaWRlDQpob3cgdG8gaW1wbGVtZW50
-IHRoZSBzd2FwcGluZyBiZWZvcmUgZG9pbmcgYW55dGhpbmcgd2l0aCB0aGUgRFQgcmVsYXRlZCBw
-YXRjaC4NCg0KVGhhbmtzIQ0KRmFiDQoNCj4gDQo+IEknZCBiZSBncmF0ZWZ1bCBpZiBhbnlvbmUg
-Y291bGQgcmV2aWV3IHRoZSBwYW5lbCBwYXJ0cy4NCj4gVGhhbmtzIQ0KPiANCj4gR3J7b2V0amUs
-ZWV0aW5nfXMsDQo+IA0KPiAgICAgICAgICAgICAgICAgICAgICAgICBHZWVydA0KPiANCj4gLS0N
-Cj4gR2VlcnQgVXl0dGVyaG9ldmVuIC0tIFRoZXJlJ3MgbG90cyBvZiBMaW51eCBiZXlvbmQgaWEz
-MiAtLSBnZWVydEBsaW51eC1tNjhrLm9yZw0KPiANCj4gSW4gcGVyc29uYWwgY29udmVyc2F0aW9u
-cyB3aXRoIHRlY2huaWNhbCBwZW9wbGUsIEkgY2FsbCBteXNlbGYgYSBoYWNrZXIuIEJ1dA0KPiB3
-aGVuIEknbSB0YWxraW5nIHRvIGpvdXJuYWxpc3RzIEkganVzdCBzYXkgInByb2dyYW1tZXIiIG9y
-IHNvbWV0aGluZyBsaWtlIHRoYXQuDQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-LS0gTGludXMgVG9ydmFsZHMNCg==
+Hi,
+Le 14/08/2019 à 12:20, Geert Uytterhoeven a écrit :
+> Hi Uwe,
+> 
+> On Wed, Aug 14, 2019 at 11:36 AM Uwe Kleine-König
+> <u.kleine-koenig@pengutronix.de> wrote:
+>> On Wed, Aug 14, 2019 at 11:29:22AM +0200, Geert Uytterhoeven wrote:
+>>> Since commit 1d267ea6539f2663 ("serial: mctrl-gpio: simplify init
+>>> routine"), mctrl_gpio_init() returns failure if the assignment to any
+>>> member of the gpio array results in an error pointer.
+>>> Since commit c359522194593815 ("serial: mctrl_gpio: Avoid probe failures
+>>> in case of missing gpiolib"), mctrl_gpio_to_gpiod() returns NULL in the
+>>> !CONFIG_GPIOLIB case.
+>>> Hence there is no longer a need to check for mctrl_gpio_to_gpiod()
+>>> returning an error value.  A simple NULL check is sufficient.
+>>>
+>>> This follows the spirit of commit 445df7ff3fd1a0a9 ("serial: mctrl-gpio:
+>>> drop usages of IS_ERR_OR_NULL") in the mctrl-gpio core.
+>>>
+>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>> ---
+>>>  drivers/tty/serial/atmel_serial.c | 12 ++++--------
+>>>  1 file changed, 4 insertions(+), 8 deletions(-)
+>>>
+>>> diff --git a/drivers/tty/serial/atmel_serial.c b/drivers/tty/serial/atmel_serial.c
+>>> index 19a85d6fe3d20541..e9620a81166b7dc1 100644
+>>> --- a/drivers/tty/serial/atmel_serial.c
+>>> +++ b/drivers/tty/serial/atmel_serial.c
+>>> @@ -303,32 +303,28 @@ static unsigned int atmel_get_lines_status(struct uart_port *port)
+>>>
+>>>       mctrl_gpio_get(atmel_port->gpios, &ret);
+>>>
+>>> -     if (!IS_ERR_OR_NULL(mctrl_gpio_to_gpiod(atmel_port->gpios,
+>>> -                                             UART_GPIO_CTS))) {
+>>> +     if (mctrl_gpio_to_gpiod(atmel_port->gpios, UART_GPIO_CTS)) {
+>>>               if (ret & TIOCM_CTS)
+>>>                       status &= ~ATMEL_US_CTS;
+>>>               else
+>>>                       status |= ATMEL_US_CTS;
+>>>       }
+>>
+>> The change is fine, but it seems the atmel driver doesn't use mctrl_gpio
+>> as expected (at least as expected by me). IMHO driving the hardware
+>> function of the CTS pin shouldn't be conditional on the presence of a
+>> cts-gpio. Is there a reason not to just drop the if completely?
+> 
+> The above code returns the hardware status if CTS is not a GPIO, and
+> returns (overrides with) the GPIO status if CTS is a GPIO.
+> Isn't that correct, or am I missing something?
+Yes, that's correct.
