@@ -2,48 +2,48 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6791D95EAB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2019 14:34:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DE5E95EB0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 20 Aug 2019 14:34:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729958AbfHTMeJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 20 Aug 2019 08:34:09 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:34279 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728366AbfHTMeI (ORCPT
+        id S1729203AbfHTMeT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 20 Aug 2019 08:34:19 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:43462 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728366AbfHTMeT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 20 Aug 2019 08:34:08 -0400
-Received: by mail-pf1-f196.google.com with SMTP id b24so3322764pfp.1;
-        Tue, 20 Aug 2019 05:34:08 -0700 (PDT)
+        Tue, 20 Aug 2019 08:34:19 -0400
+Received: by mail-pf1-f195.google.com with SMTP id v12so3306420pfn.10;
+        Tue, 20 Aug 2019 05:34:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:date:message-id:in-reply-to:references:subject;
-        bh=8oA63snBNV/Bkd2YgxYNdAqVER+7qy7bykyIGizRM1o=;
-        b=GMfp5wAlSvjY+4Z6ww9ftI1o5kNGBET8O9vkKcZ57Ls5ay+Ydg3AMNxJRjaD7aNfQY
-         brX/6EWkcMWAv04zJCl9JELIUiKpq+3Y8Sitfyly45AhElOVvpW41MnT11Qw5u5gnnAK
-         VLvhZ0u4k/wArBuU8Dev9ByzPKL86C1Laz+lVn+Z+Iqucp8bE50a7K08otZLSonLvOL+
-         a+eqkEM67wCcRQ95lm75SqntzeY+durTNVm0xjH6wMmu9lV0EvIgp9yKHZK5skxI0GNG
-         OFRJuDC8CsVGFB2aC/hoGEF63+wIwtWC6YKd1uLVLPjm8ZauCodRZSfSHaXd7XgORgdy
-         X2xg==
+        bh=n2dMRsdwfpn3m4PSgcPafEcsJ0ybsqqrm3x2kxCkFU4=;
+        b=IQBdSDx5npIsXlkVKLmiajWWOdVIw0frQ2S/oR16GzVRggAWFsYEo7i1c1a/w8ZGIe
+         3pl9WSI6CBmjwyyCFCJPEjsHam61G6NWkxGuLxPw7ozXZqMefmNRYED4ZniYIP8xITAH
+         iv0hVbCvQi86Ti0KqgVuiiXt7srueAE1S7/WB5JIW3QjloeHFkA/Ics63cHDiwsVYo3j
+         z0pODXNRhO5qV0oJjo7g7M9LKYtzyWCuNr/fRbuVXbHlM55JCCcRtz+z0HvyIzaGiX31
+         KhC/O3F3xYcMAFwz6OiJvXjWWJb3s80t6H8LnG2v/kUO/bqi0evOkXoeW75bU+dCq2ri
+         pd4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:date:message-id:in-reply-to
          :references:subject;
-        bh=8oA63snBNV/Bkd2YgxYNdAqVER+7qy7bykyIGizRM1o=;
-        b=d3weRaljrdTpiVFTX7EXX057YrEldZd+6nUyfLfxLr5ZhwVB/rFrYNRSK0aWBIskYG
-         WdRDaAyRQjVhT1fHHLCPVPvfCQ8NZtASQVjGr0FvIR9h4m9y4Zbl4hR+3O5l9zdJ72I/
-         GHYb36RM348ZbvLzrM0FS8w9gHgWsQiyVJNxU3anTSghRhj5bCr7mdpZUi9mA9rqkDER
-         AyZEcaaxdU+HqUU7XnxwmUW3A25HlmV/cAmAo52hLeHmPISJakpmO2sEdoryq9wjM44W
-         +ta8ktZgwEvU3K9RIJ2fxgkJfwA1DAtNDtCe9AKcGpkLj+O63DMR/fxU5JAN6gOWbtQa
-         oaWQ==
-X-Gm-Message-State: APjAAAWt0gAgohCbCJiT21beCoTYMNE7U/MucGLC+Zd0l+AXFA/gplr/
-        igNLKlhcU3QmJfqc8P08QcAhUQKc
-X-Google-Smtp-Source: APXvYqzO9e11Ca6pYjLEOwTwW8ogDv/GdifGYYz73wctVgmCmryfdvyVsD9yT+M2/4sz2DEFdBeMnw==
-X-Received: by 2002:a65:68c8:: with SMTP id k8mr24242054pgt.192.1566304447287;
-        Tue, 20 Aug 2019 05:34:07 -0700 (PDT)
+        bh=n2dMRsdwfpn3m4PSgcPafEcsJ0ybsqqrm3x2kxCkFU4=;
+        b=O0dAqO5LV94+Okbdd0k1D4BfSPbYpgLCmZLBNNnEdXFseQKrNxe7krcUYymWh5HXMr
+         WGgP1q8YFqwg/sks9Y+DIXH/YCLmnw2foXKnk4cPtzvyUJQJi7ub5IqVe0hu2rmZkm7Q
+         55oUh3Sy8X50CQAPfcirgvVNG9Vcb5jZyfVVBh8EckCgm08Sx+0itifYGNWbXqpWYBTJ
+         ZIHFsS+5xYGBS8LREFiKR96Vig9IMXpS1DiVCC1mTw59e9Yl34Zgx66R7TGwFguVk7ew
+         32xt/rs1f7WPg+7dIQIs0/Hl0nxon4bhFEZPqGk4HVqlpEth9e/zLPzWmxgYCyyz5p9O
+         +Iuw==
+X-Gm-Message-State: APjAAAUPVrs6+zy0NmqYa2uU2/ydjQWyx0UrxAKYUlZLHQ77q3dCy0he
+        mIHn1P6UXFXX2D+JkE+lH2bxo33F
+X-Google-Smtp-Source: APXvYqyFi0RRHyPjWyiWv37fPHVQxZrUQKPUBMvJCtdJhEQg8WDc9pQGhbvTGAbJwFG/Dm1F9/gTLg==
+X-Received: by 2002:aa7:8dcc:: with SMTP id j12mr29947006pfr.137.1566304458143;
+        Tue, 20 Aug 2019 05:34:18 -0700 (PDT)
 Received: from [127.0.0.1] (l193216.ppp.asahi-net.or.jp. [218.219.193.216])
-        by smtp.gmail.com with ESMTPSA id e66sm19797874pfe.142.2019.08.20.05.34.03
+        by smtp.gmail.com with ESMTPSA id o3sm5104992pje.1.2019.08.20.05.34.14
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 20 Aug 2019 05:34:06 -0700 (PDT)
+        Tue, 20 Aug 2019 05:34:17 -0700 (PDT)
 From:   Magnus Damm <magnus.damm@gmail.com>
 To:     linux-kernel@vger.kernel.org
 Cc:     mark.rutland@arm.com, devicetree@vger.kernel.org,
@@ -51,11 +51,11 @@ Cc:     mark.rutland@arm.com, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org, robh+dt@kernel.org,
         horms+renesas@verge.net.au, Magnus Damm <magnus.damm@gmail.com>,
         tglx@linutronix.de
-Date:   Tue, 20 Aug 2019 21:35:46 +0900
-Message-Id: <156630454613.17444.12802355338071222783.sendpatchset@octo>
+Date:   Tue, 20 Aug 2019 21:35:56 +0900
+Message-Id: <156630455678.17444.15308898250025256159.sendpatchset@octo>
 In-Reply-To: <156630449239.17444.11157306180861080402.sendpatchset@octo>
 References: <156630449239.17444.11157306180861080402.sendpatchset@octo>
-Subject: [PATCH v2 5/7] dt-bindings: timer: renesas, cmt: Update R-Car Gen3 CMT1 usage
+Subject: [PATCH v2 6/7] clocksource/drivers/sh_cmt: r8a7740 and sh73a0 SoC-specific match
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -63,81 +63,35 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Magnus Damm <damm+renesas@opensource.se>
 
-The R-Car Gen3 SoCs so far come with a total for 4 on-chip CMT devices:
- - CMT0
- - CMT1
- - CMT2
- - CMT3
+Add SoC-specific matching for CMT1 on r8a7740 and sh73a0.
 
-CMT0 includes two rather basic 32-bit timer channels. The rest of the on-chip
-CMT devices support 48-bit counters and have 8 channels each.
-
-Based on the data sheet information "CMT2/3 are exactly same as CMT1"
-it seems that CMT2 and CMT3 now use the CMT1 compat string in the DTSI.
-
-Clarify this in the DT binding documentation by describing R-Car Gen3 and
-RZ/G2 CMT1 as "48-bit CMT devices".
+This allows us to move away from the old DT bindings such as
+ - "renesas,cmt-48-sh73a0"
+ - "renesas,cmt-48-r8a7740"
+ - "renesas,cmt-48"
+in favour for the now commonly used format "renesas,<soc>-<device>"
 
 Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Rob Herring <robh@kernel.org>
 Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
 ---
 
- Changes since last version:
- - Use "devices" for fallback entry - thanks Geert!
- - Keen to Gen3 so removed out-of-scope Gen2 portions
+ drivers/clocksource/sh_cmt.c |    8 ++++++++
+ 1 file changed, 8 insertions(+)
 
- Documentation/devicetree/bindings/timer/renesas,cmt.txt |   20 +++++++--------
- 1 file changed, 10 insertions(+), 10 deletions(-)
-
---- 0008/Documentation/devicetree/bindings/timer/renesas,cmt.txt
-+++ work/Documentation/devicetree/bindings/timer/renesas,cmt.txt	2019-07-18 19:24:05.195643742 +0900
-@@ -28,9 +28,9 @@ Required Properties:
-     - "renesas,r8a77470-cmt0" for the 32-bit CMT0 device included in r8a77470.
-     - "renesas,r8a77470-cmt1" for the 48-bit CMT1 device included in r8a77470.
-     - "renesas,r8a774a1-cmt0" for the 32-bit CMT0 device included in r8a774a1.
--    - "renesas,r8a774a1-cmt1" for the 48-bit CMT1 device included in r8a774a1.
-+    - "renesas,r8a774a1-cmt1" for the 48-bit CMT devices included in r8a774a1.
-     - "renesas,r8a774c0-cmt0" for the 32-bit CMT0 device included in r8a774c0.
--    - "renesas,r8a774c0-cmt1" for the 48-bit CMT1 device included in r8a774c0.
-+    - "renesas,r8a774c0-cmt1" for the 48-bit CMT devices included in r8a774c0.
-     - "renesas,r8a7790-cmt0" for the 32-bit CMT0 device included in r8a7790.
-     - "renesas,r8a7790-cmt1" for the 48-bit CMT1 device included in r8a7790.
-     - "renesas,r8a7791-cmt0" for the 32-bit CMT0 device included in r8a7791.
-@@ -42,19 +42,19 @@ Required Properties:
-     - "renesas,r8a7794-cmt0" for the 32-bit CMT0 device included in r8a7794.
-     - "renesas,r8a7794-cmt1" for the 48-bit CMT1 device included in r8a7794.
-     - "renesas,r8a7795-cmt0" for the 32-bit CMT0 device included in r8a7795.
--    - "renesas,r8a7795-cmt1" for the 48-bit CMT1 device included in r8a7795.
-+    - "renesas,r8a7795-cmt1" for the 48-bit CMT devices included in r8a7795.
-     - "renesas,r8a7796-cmt0" for the 32-bit CMT0 device included in r8a7796.
--    - "renesas,r8a7796-cmt1" for the 48-bit CMT1 device included in r8a7796.
-+    - "renesas,r8a7796-cmt1" for the 48-bit CMT devices included in r8a7796.
-     - "renesas,r8a77965-cmt0" for the 32-bit CMT0 device included in r8a77965.
--    - "renesas,r8a77965-cmt1" for the 48-bit CMT1 device included in r8a77965.
-+    - "renesas,r8a77965-cmt1" for the 48-bit CMT devices included in r8a77965.
-     - "renesas,r8a77970-cmt0" for the 32-bit CMT0 device included in r8a77970.
--    - "renesas,r8a77970-cmt1" for the 48-bit CMT1 device included in r8a77970.
-+    - "renesas,r8a77970-cmt1" for the 48-bit CMT devices included in r8a77970.
-     - "renesas,r8a77980-cmt0" for the 32-bit CMT0 device included in r8a77980.
--    - "renesas,r8a77980-cmt1" for the 48-bit CMT1 device included in r8a77980.
-+    - "renesas,r8a77980-cmt1" for the 48-bit CMT devices included in r8a77980.
-     - "renesas,r8a77990-cmt0" for the 32-bit CMT0 device included in r8a77990.
--    - "renesas,r8a77990-cmt1" for the 48-bit CMT1 device included in r8a77990.
-+    - "renesas,r8a77990-cmt1" for the 48-bit CMT devices included in r8a77990.
-     - "renesas,r8a77995-cmt0" for the 32-bit CMT0 device included in r8a77995.
--    - "renesas,r8a77995-cmt1" for the 48-bit CMT1 device included in r8a77995.
-+    - "renesas,r8a77995-cmt1" for the 48-bit CMT devices included in r8a77995.
-     - "renesas,sh73a0-cmt0" for the 32-bit CMT0 device included in sh73a0.
-     - "renesas,sh73a0-cmt1" for the 48-bit CMT1 device included in sh73a0.
-     - "renesas,sh73a0-cmt2" for the 32-bit CMT2 device included in sh73a0.
-@@ -69,7 +69,7 @@ Required Properties:
- 		listed above.
-     - "renesas,rcar-gen3-cmt0" for 32-bit CMT0 devices included in R-Car Gen3
- 		and RZ/G2.
--    - "renesas,rcar-gen3-cmt1" for 48-bit CMT1 devices included in R-Car Gen3
-+    - "renesas,rcar-gen3-cmt1" for 48-bit CMT devices included in R-Car Gen3
- 		and RZ/G2.
- 		These are fallbacks for R-Car Gen3 and RZ/G2 entries listed
- 		above.
+--- 0001/drivers/clocksource/sh_cmt.c
++++ work/drivers/clocksource/sh_cmt.c	2019-07-18 19:29:06.005414716 +0900
+@@ -928,6 +928,14 @@ static const struct of_device_id sh_cmt_
+ 		.data = &sh_cmt_info[SH_CMT0_RCAR_GEN2]
+ 	},
+ 	{
++		.compatible = "renesas,r8a7740-cmt1",
++		.data = &sh_cmt_info[SH_CMT_48BIT]
++	},
++	{
++		.compatible = "renesas,sh73a0-cmt1",
++		.data = &sh_cmt_info[SH_CMT_48BIT]
++	},
++	{
+ 		.compatible = "renesas,rcar-gen2-cmt0",
+ 		.data = &sh_cmt_info[SH_CMT0_RCAR_GEN2]
+ 	},
