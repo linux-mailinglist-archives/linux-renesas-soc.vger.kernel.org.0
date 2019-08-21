@@ -2,110 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B71489740B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Aug 2019 09:56:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF39F9745E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Aug 2019 10:06:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726912AbfHUH4Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Aug 2019 03:56:24 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:34909 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726894AbfHUH4Y (ORCPT
+        id S1726781AbfHUIGa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Aug 2019 04:06:30 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:39610 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726317AbfHUIGa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Aug 2019 03:56:24 -0400
-Received: by mail-lj1-f195.google.com with SMTP id l14so1258612lje.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Aug 2019 00:56:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=QOA27fQvmt0ItpWVuER8Cd/2ccQ264UvV5OBM8TClfA=;
-        b=r4qTCJNK5SJ8ogQ4WghaMDrAuodPTaNyFs7N2SEfsWO/khHUCoesuERqXfXhBfYQre
-         BZhSDXDue9g8DqYmEQmgzJrqG0toR/vo6n3qqMg+v0Nfmf1+LEusn9bfeAkSAi/JWlCh
-         D7dlKbNfUNJHct1B5cq9EKFO5qPTk1j4vsDUQIz4LmdlBrZiyxkESssVjfdZmlSL10+U
-         8RNqPqaHiRExoljUbJDthvobAspkeISAe1+PTSNJKl+SZZpwF49JQ5uB1Cj7st7tDVb7
-         nCJWGi2eK25KX46F+acDZZkzHQEzEUmFLwNXV2+Lz2F1fKWjbsNTztybhtF0FLzI9Wf6
-         4fMg==
+        Wed, 21 Aug 2019 04:06:30 -0400
+Received: by mail-oi1-f196.google.com with SMTP id 16so944798oiq.6;
+        Wed, 21 Aug 2019 01:06:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=QOA27fQvmt0ItpWVuER8Cd/2ccQ264UvV5OBM8TClfA=;
-        b=STMGRoQAoLwmH5h2B3p5gPOc2RebvAdmLmQNYHRZrmppjhoPrOsMv+8nist6PVat3E
-         glUtkOGMLqlbu2BaESQLWd5VDx4skwTLYrOZkiEZjOXDFMKjN0WOaeHk+0aVVGvH8CB5
-         vqwU9oGHW0Uu5b81UGTYpZZQe+tKmfWPdxpPhUPQ4+jXCaB7c/gVkKGsYmuJ7z8ag8gZ
-         s+9xPu8lc0iVDs6z7DZUrFGUUVGPHpkaK4P5ahl0CoxW1dfuDccvnGTIlI5TLeFIOnGa
-         vCuprzEcmbYFbRCZrp5Gt0pl8gWUmegE/mH0q7gFsRYs3D4ceIxx6AQ04o+UZiIVH1fV
-         Zq6w==
-X-Gm-Message-State: APjAAAVd4sOp+CCoT39dIL7T+yCpZLfz8/td2rHwAz4dsIUWokZDREDj
-        rK1ZmJsw8Cul1qbzmOdQ9y0ctg==
-X-Google-Smtp-Source: APXvYqxyRNa53b5Cigx2MTrXUcy4HqDnc2hTJX1bT9880ZE78ku7EN1Dk8F5EZafozo6IQNHWVXYsA==
-X-Received: by 2002:a2e:3608:: with SMTP id d8mr18453513lja.140.1566374182107;
-        Wed, 21 Aug 2019 00:56:22 -0700 (PDT)
-Received: from localhost (h-177-236.A463.priv.bahnhof.se. [217.31.177.236])
-        by smtp.gmail.com with ESMTPSA id h3sm1829962ljb.8.2019.08.21.00.56.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Aug 2019 00:56:21 -0700 (PDT)
-Date:   Wed, 21 Aug 2019 09:56:20 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Simon Horman <horms+renesas@verge.net.au>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: clk: emev2: Rename bindings documentation
- file
-Message-ID: <20190821075620.GB28351@bigcity.dyn.berto.se>
-References: <20190819135630.18462-1-horms+renesas@verge.net.au>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/otiMYH4DLFkxecKopzd3o3fIbf8iVIxXrmrHOhVGKQ=;
+        b=VnDDgtRejtFSTVsGkH4/Vo/uAFu78dMu3bQjNbUSOn60NagoDwgj6Qyojr0sU0w1fP
+         4eqQ9BkB6oXdW4v5xyxGk/6+SS16DXwhrzvnf3lJmI/vh/JcDRlxCOhd8eybQ0TJTDLo
+         m/LmycfTnGfMYcEQDKkT2PpWa4JDz6F8W6Y3pfi0NAtcywmRiFcKH/3+O1HvNlVVtaTu
+         fMBGzQvKTboXkaEg2qihG1+FL/r+5dqhGEkWKWsR/r5U9t6OiSdlFLkcy/h+hDDFBkUc
+         qtjs+5gKfKgViq/GJI0R3F+4fmrSjGEKghT+/AtWj5BjlVX2nafj6liwEaGiQdpAiKek
+         lsFw==
+X-Gm-Message-State: APjAAAXCCYX5h5rZ7MOLzcOeMms5PJf6T8XotK9LSg+LE/xQUbHC/8iQ
+        IQNVbHG5XkQ0ZCfjY/PjCGLOl1zLtidFDzI5xts=
+X-Google-Smtp-Source: APXvYqwDMlWNcWM8ZknMEBEG7Sunts9cmK3/qbtWEgqoik57NdlgfrEmKMqju75U746CAjiG9SV88untksBrGTECXtY=
+X-Received: by 2002:aca:f4ca:: with SMTP id s193mr2736500oih.131.1566374789372;
+ Wed, 21 Aug 2019 01:06:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190819135630.18462-1-horms+renesas@verge.net.au>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+References: <20181118173056.4591-1-marek.vasut+renesas@gmail.com>
+ <20181119104243.csnkooxolkple2ln@verge.net.au> <499ffcf5-0617-a142-914d-afee88c2127b@gmail.com>
+In-Reply-To: <499ffcf5-0617-a142-914d-afee88c2127b@gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 21 Aug 2019 10:06:18 +0200
+Message-ID: <CAMuHMdUJK79r8Kn035nzVrg-DN76sYD_diijvH=q37Zbw3VBNQ@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: can: rcar_can: document r8a77990 support
+To:     Marek Vasut <marek.vasut@gmail.com>
+Cc:     Simon Horman <horms@verge.net.au>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Rob Herring <robh@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Simon,
+On Sat, Feb 16, 2019 at 2:58 PM Marek Vasut <marek.vasut@gmail.com> wrote:
+> On 11/19/18 11:42 AM, Simon Horman wrote:
+> > On Sun, Nov 18, 2018 at 06:30:56PM +0100, Marek Vasut wrote:
+> >> Document the support for rcar_can on R8A77990 SoC devices.
+> >> Add R8A77990 to the list of SoCs which require the "assigned-clocks"
+> >> and "assigned-clock-rates" properties.
+> >>
+> >> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+> >> Cc: Eugeniu Rosca <erosca@de.adit-jv.com>
+> >> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+> >> Cc: Marc Kleine-Budde <mkl@pengutronix.de>
+> >> Cc: Rob Herring <robh@kernel.org>
+> >> Cc: Simon Horman <horms+renesas@verge.net.au>
+> >> Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> >> Cc: linux-renesas-soc@vger.kernel.org
+> >> ---
+> >>  Documentation/devicetree/bindings/net/can/rcar_can.txt | 3 ++-
+> >>  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+> >
+> This patch seems to be missing upstream ?
 
-Thanks for your work.
+Thanks, queuing in renesas-devel for v5.4.
 
-On 2019-08-19 15:56:30 +0200, Simon Horman wrote:
-> Rename the device tree clock bindings for Renesas EMMA Mobile EV2
-> from emev2-clock.txt to emev2-renesas,emev2-smu.txt.
+Gr{oetje,eeting}s,
 
-Should this not be renesas,emev2-smu.txt to align with the compatible 
-string?
-
-> 
-> This is part of an ongoing effort to name bindings documentation files for
-> Renesas IP blocks consistently, in line with the compat strings they
-> document.
-> 
-> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
-> ---
-> Based on v5.3-rc1
-> ---
->  .../bindings/clock/{emev2-clock.txt => emev2-renesas,emev2-smu.txt}       | 0
->  1 file changed, 0 insertions(+), 0 deletions(-)
->  rename Documentation/devicetree/bindings/clock/{emev2-clock.txt => emev2-renesas,emev2-smu.txt} (100%)
-> 
-> diff --git a/Documentation/devicetree/bindings/clock/emev2-clock.txt b/Documentation/devicetree/bindings/clock/emev2-renesas,emev2-smu.txt
-> similarity index 100%
-> rename from Documentation/devicetree/bindings/clock/emev2-clock.txt
-> rename to Documentation/devicetree/bindings/clock/emev2-renesas,emev2-smu.txt
-> -- 
-> 2.11.0
-> 
+                        Geert
 
 -- 
-Regards,
-Niklas Söderlund
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
