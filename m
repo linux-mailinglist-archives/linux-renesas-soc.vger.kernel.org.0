@@ -2,92 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4121C97719
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Aug 2019 12:26:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF4989772E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Aug 2019 12:31:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726389AbfHUK0Q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Aug 2019 06:26:16 -0400
-Received: from relay12.mail.gandi.net ([217.70.178.232]:38873 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725283AbfHUK0Q (ORCPT
+        id S1726448AbfHUKa4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Aug 2019 06:30:56 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:44522 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726317AbfHUKa4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Aug 2019 06:26:16 -0400
-Received: from uno.localdomain (unknown [87.18.63.98])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id EDA95200012;
-        Wed, 21 Aug 2019 10:26:13 +0000 (UTC)
-Date:   Wed, 21 Aug 2019 12:27:43 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     Simon Horman <horms@verge.net.au>, Magnus <magnus.damm@gmail.com>,
+        Wed, 21 Aug 2019 06:30:56 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 8B2BE25AD7A;
+        Wed, 21 Aug 2019 20:30:54 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id CF2039405AE; Wed, 21 Aug 2019 12:30:51 +0200 (CEST)
+Date:   Wed, 21 Aug 2019 12:30:51 +0200
+From:   Simon Horman <horms@verge.net.au>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 0/2]   arm64: dts: renesas: r8a77965-salvator-x: enable
- HDMI sound
-Message-ID: <20190821102743.tlsa57lxilpwaydj@uno.localdomain>
-References: <87pnrdsum0.wl-kuninori.morimoto.gx@renesas.com>
- <20190227113020.byiwz4dpmn2s35hn@verge.net.au>
- <87y35zbfp6.wl-kuninori.morimoto.gx@renesas.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a774c0: Fix register range of
+ display node
+Message-ID: <20190821103051.waztamqtb4croefp@verge.net.au>
+References: <20190821095732.19001-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="vic64wk3bojlb3qo"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87y35zbfp6.wl-kuninori.morimoto.gx@renesas.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20190821095732.19001-1-geert+renesas@glider.be>
+Organisation: Horms Solutions BV
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On Wed, Aug 21, 2019 at 11:57:32AM +0200, Geert Uytterhoeven wrote:
+> Since the R8A774C0 SoC uses DU{0,1} only, the register block length
+> should be 0x40000.
+> 
+> Based on commit 06585ed38b6698bc ("arm64: dts: renesas: r8a77990: Fix
+> register range of display node") for R-Car E3.
+> 
+> Fixes: 8ed3a6b223159df3 ("arm64: dts: renesas: r8a774c0: Add display output support")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
---vic64wk3bojlb3qo
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
 
-Hello Simon, Morimoto-san,
-
-On Fri, Mar 01, 2019 at 09:41:01AM +0900, Kuninori Morimoto wrote:
->
-> Hi Simon
->
-> > > These are HDMI sound support for r8a77965.
-> > > I didn't/can't test these.
-> >
-> > Thanks Morimoto-san,
-> >
-> > Is this because of lack of hardware or some deeper reason?
->
-> Beause, I don't have such hardware
-
-Tested on Salvator-XS M3-N.
-
-Tested-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-
-Thanks
-  j
-
->
-> Best regards
 > ---
-> Kuninori Morimoto
-
---vic64wk3bojlb3qo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1dHJ4ACgkQcjQGjxah
-VjxBFhAAlCa7OEdCoGVczdHdY3wWbhazT5vK/9YDHrevwCkk3kbWLViyItwCdsLV
-6/j7mE4ELt68PdiKdjH6kGoT/J5DgpQvQ3lug7su5Cl1uiQIWx/uXyLXEMoI7CGV
-CtcbhPuLDYhTDXc9yoKxrsYoTndlpS8lDbGi5ZxFH71Tz2DeQFJqOgntZqszxF6z
-Dm1oCfbprnCwucJVC47sbTNWEgYS/UA9ZbQfzUBf7u8ZTySBYTF/K80YRNyfkizU
-RCcO2YL6eeAA+Oa/6N1sFAnRufcnp8MgndOGkLaQoaIvvZ7Q2OSWSVDSlnNdSSeZ
-COoMYkrpkxnlVMmiQYoWqTYklAUOr5vbdoB4ilWdSC4o8ZU1iSHUS6KpQGl4uXnu
-5FylifWCAwbs1pncUVuB641R3eYqW5LrNGs/YU/0Kwc62hb8coxdCtzXIVreGK1Z
-kQQQ9JftHq0+HoT2HSug+FSiJhfBMZme/gCgsXbllOw8MT8ppFCtAxxPtfnWysA1
-Xk1l7RJCV3hlFqTkBIwBMxCdznwI6eidDa27IK+pfurok/1gRHW+5DaJb6VTRzcQ
-SkVUtkPlfeNkVMMLbvxXL2nnO3Yu2XBgbr1TiOynvp1DAnO6ru8HsRbH+QKfuU5g
-kUjhwSDNDpoPlEN0/XN5dS0MfqvxhbTCEPsceCd4IMV24is6b54=
-=l3Az
------END PGP SIGNATURE-----
-
---vic64wk3bojlb3qo--
+>  arch/arm64/boot/dts/renesas/r8a774c0.dtsi | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
+> index 5ce1eb4596f54043..4ee885e7678886f6 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
+> @@ -1805,7 +1805,7 @@
+>  
+>  		du: display@feb00000 {
+>  			compatible = "renesas,du-r8a774c0";
+> -			reg = <0 0xfeb00000 0 0x80000>;
+> +			reg = <0 0xfeb00000 0 0x40000>;
+>  			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
+>  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
+>  			clocks = <&cpg CPG_MOD 724>,
+> -- 
+> 2.17.1
+> 
