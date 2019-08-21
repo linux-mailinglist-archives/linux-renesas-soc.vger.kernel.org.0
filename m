@@ -2,83 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B62097471
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Aug 2019 10:12:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29AF59748D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Aug 2019 10:18:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726616AbfHUIIn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Aug 2019 04:08:43 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:41548 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726362AbfHUIIn (ORCPT
+        id S1727058AbfHUIRx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Aug 2019 04:17:53 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:39848 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726252AbfHUIRx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Aug 2019 04:08:43 -0400
-Received: by mail-ot1-f66.google.com with SMTP id o101so1235955ota.8;
-        Wed, 21 Aug 2019 01:08:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=I5rJ+LgesoC7AynbsAseB7wBlrDfYZEt8xOH1BAWrRw=;
-        b=rjFVesl3bYbiMyX56ycIF08Tdt7DylbgiQHrsIOjZEll3OlxbA4lE2dl0RD/XqEs6E
-         XhfG0gMu/o986udYYSGwVgtbIL1guOkDUY4TGEjzoLwfTwGSeZRU55A7Y/u6T/nbfavU
-         OcmkBz+wFnfs7bz78GmhYfwFjGmCydQtTcrkluvxfznX+IbUaoq9iJaWMmSb//M8yIaU
-         WgNSAUSoFdaLnMsg+XSivx1B/TcBYiH69qoH5V/vvuFWCEPIuZhXsX5ELZEhLuzH3IGF
-         pVqGSRBPCgHAmJqhchlYBiW+Xe+NQq8gkaE7EamTtE1kNLI9LAC1NEaG9UAdbp/WxCr6
-         atsA==
-X-Gm-Message-State: APjAAAXuRm+KcbnWpiAvVBUN7/lF02nafadPIktPbCNWFs4d8i1VaeTN
-        8pS3J4MvsnE4fTa9dS/iRX2RoX8WoU1SFYYkKNw=
-X-Google-Smtp-Source: APXvYqytP9lnOmhw/UzkYieT2Cpod9tSyWoAvw9O1xo79IqGuOVYzgXkm87zepO83MQShjpWZfwTTdSYUyK1G21D4bY=
-X-Received: by 2002:a9d:459d:: with SMTP id x29mr26675694ote.39.1566374922681;
- Wed, 21 Aug 2019 01:08:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <1554969262-15028-1-git-send-email-cv-dong@jinso.co.jp>
- <1554969262-15028-21-git-send-email-cv-dong@jinso.co.jp> <20190429180555.GA25843@bogus>
-In-Reply-To: <20190429180555.GA25843@bogus>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 21 Aug 2019 10:08:31 +0200
-Message-ID: <CAMuHMdXFEh6fdiUermaBauQFxHNiv2KKKaC+2uQYytxShGoC5w@mail.gmail.com>
-Subject: Re: [PATCH v2 20/20] dt-bindings: can: rcar_can: Document r8a77470 bindings
-To:     Rob Herring <robh@kernel.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>,
+        Wed, 21 Aug 2019 04:17:53 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 085DB25B7C3;
+        Wed, 21 Aug 2019 18:17:51 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id B6EA49405AE; Wed, 21 Aug 2019 10:17:48 +0200 (CEST)
+Date:   Wed, 21 Aug 2019 10:17:48 +0200
+From:   Simon Horman <horms@verge.net.au>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Biju Das <biju.das@bp.renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        =?UTF-8?B?56iy5ZCJ?= <h-inayoshi@jinso.co.jp>,
-        =?UTF-8?B?RHVuZ++8muS6uuOCvQ==?= <nv-dung@jinso.co.jp>,
-        Hoan Nguyen An <na-hoan@jinso.co.jp>,
-        =?UTF-8?B?44Kr44Kq44O744O044Kh44Oz44O744OJ44Oz?= 
-        <cv-dong@jinso.co.jp>
-Content-Type: text/plain; charset="UTF-8"
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: sh-mobile-ceu: Rename bindings
+ documentation file
+Message-ID: <20190821081746.lt6n4nhqnpyowzmi@verge.net.au>
+References: <20190819140544.19294-1-horms+renesas@verge.net.au>
+ <20190820095205.xnthl7d7cpy7myq2@uno.localdomain>
+ <20190820151930.pwi42cewslkchssf@verge.net.au>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190820151930.pwi42cewslkchssf@verge.net.au>
+Organisation: Horms Solutions BV
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Apr 29, 2019 at 8:05 PM Rob Herring <robh@kernel.org> wrote:
-> On Thu, 11 Apr 2019 16:54:22 +0900, Cao Van Dong wrote:
-> > Document SoC specific bindings for R-Car RZ/G1C(r8a77470) SoC.
-> >
-> > Signed-off-by: Cao Van Dong <cv-dong@jinso.co.jp>
-> > ---
-> >  Documentation/devicetree/bindings/net/can/rcar_can.txt | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
->
-> Reviewed-by: Rob Herring <robh@kernel.org>
+On Tue, Aug 20, 2019 at 05:19:30PM +0200, Simon Horman wrote:
+> On Tue, Aug 20, 2019 at 11:52:05AM +0200, Jacopo Mondi wrote:
+> > Hi Simon,
+> > 
+> > On Mon, Aug 19, 2019 at 04:05:44PM +0200, Simon Horman wrote:
+> > > Renesas media binding documentation files uses a naming schema of
+> > > 'renesas,<module>.txt'. Rename the SH Mobile CEU file to match this pattern.
+> > >
+> > 
+> > The old soc-camera based sh-mobile-ceu driver has been removed one
+> > year ago and replaced by driver/media/platform/renesas-ceu.c whose
+> > bindings are described at
+> > Documentation/devicetree/bindings/media/renesas,ceu.txt
+> > 
+> > Should this file be removed instead of renamed?
+> 
+> Thanks,
+> 
+> I thought I had checked that but clearly I did not.
+> I agree the file should be removed and I'll send a revised patch
+> accordingly.
 
-Thanks, queuing in renesas-devel for v5.4.
+The one lingering reference to renesas,sh-mobile-ceu I can see
+in the tree is its use in an example of two data pipelines in
+Documentation/devicetree/bindings/media/video-interfaces.txt
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Could you suggest an alternative example?
