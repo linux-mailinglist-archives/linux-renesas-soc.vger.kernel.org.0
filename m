@@ -2,165 +2,122 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C7F79797F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Aug 2019 14:33:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5904C979C8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Aug 2019 14:45:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728345AbfHUMdO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Aug 2019 08:33:14 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:37963 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728333AbfHUMdN (ORCPT
+        id S1726835AbfHUMpR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Aug 2019 08:45:17 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:44228 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726372AbfHUMpR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Aug 2019 08:33:13 -0400
-X-Originating-IP: 87.18.63.98
-Received: from uno.localdomain (unknown [87.18.63.98])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 4E20C1C0008;
-        Wed, 21 Aug 2019 12:33:08 +0000 (UTC)
-Date:   Wed, 21 Aug 2019 14:34:37 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Jonathan Cameron <jic23@kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Stefan Agner <stefan@agner.ch>, linux-iio@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Wed, 21 Aug 2019 08:45:17 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 2997D3C04C1;
+        Wed, 21 Aug 2019 14:45:14 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Pdu8FHjSrpOt; Wed, 21 Aug 2019 14:45:08 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 1AC493C0012;
+        Wed, 21 Aug 2019 14:45:08 +0200 (CEST)
+Received: from vmlxhi-102.adit-jv.com (10.72.93.184) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Wed, 21 Aug
+ 2019 14:45:07 +0200
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        stable <stable@vger.kernel.org>
-Subject: Re: [PATCH] iio: adc: max9611: Fix temperature reading in probe
-Message-ID: <20190821123437.rhbukfarka7jo6gu@uno.localdomain>
-References: <20190805155515.22621-1-jacopo+renesas@jmondi.org>
- <20190805181244.663585ac@archlinux>
- <CAMuHMdVT--S48M+BHTOH5SDi7AG=asOdNWH_UyM5nygZjWLmdg@mail.gmail.com>
+        Takeshi Kihara <takeshi.kihara.df@renesas.com>
+CC:     Michael Dege <michael.dege@renesas.com>,
+        <Andrew_Gabbasov@mentor.com>, <george_davis@mentor.com>,
+        <tfranzen@de.adit-jv.com>, Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: [RFC DO-NOT-MERGE PATCH] arm64: dts: renesas: R8A77961: Add Renesas M3-W+ (M3 ES3.0) SoC support
+Date:   Wed, 21 Aug 2019 14:44:41 +0200
+Message-ID: <20190821124441.22319-1-erosca@de.adit-jv.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="qun6oiumlid26o25"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVT--S48M+BHTOH5SDi7AG=asOdNWH_UyM5nygZjWLmdg@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.72.93.184]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Similar to the revision update from H3-ES1.x to H3-ES2.0, the update
+from M3-ES1.x to M3-ES3.0, in addition to fixing HW bugs/erratas, drops
+entire silicon IPs [1-2] (for cost efficiency and other reasons).
 
---qun6oiumlid26o25
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+However, unlike in the H3 ES1.x->ES2.0 revision update, the M3-ES3.0
+came with a new SoC id, i.e. r8a77961 (according to both [2] and
+the updated SoC HW manual Rev.2.00 Jul 2019). The choice to allocate a
+new identifier seems to strengthen the HW differences between M3-ES1.x
+and M3-ES3.0 (as it is the case for M3N/r8a77965).
 
-Hi Geert
+Given the above, there are several ways to differentiate between
+M3-ES1.x and M3-ES3.0:
 
-On Wed, Aug 21, 2019 at 01:28:16PM +0200, Geert Uytterhoeven wrote:
-> Hi Jonathan, Jacopo,
->
-> On Mon, Aug 5, 2019 at 7:15 PM Jonathan Cameron <jic23@kernel.org> wrote:
-> > On Mon,  5 Aug 2019 17:55:15 +0200
-> > Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
-> >
-> > > The max9611 driver reads the die temperature at probe time to validate
-> > > the communication channel. Use the actual read value to perform the test
-> > > instead of the read function return value, which was mistakenly used so
-> > > far.
-> > >
-> > > The temperature reading test was only successful because the 0 return
-> > > value is in the range of supported temperatures.
-> > >
-> > > Fixes: 69780a3bbc0b ("iio: adc: Add Maxim max9611 ADC driver")
-> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> >
-> > Applied to the fixes-togreg branch of iio.git and marked for
-> > stable.  That'll be a bit fiddly given other changes around this
-> > so we may need to do backports.
->
-> This is now commit b9ddd5091160793e ("iio: adc: max9611: Fix temperature
-> reading in probe") in v5.3-rc5, and has been backported to 4.14, 4.19,
-> and 5.2.
->
-> > > --- a/drivers/iio/adc/max9611.c
-> > > +++ b/drivers/iio/adc/max9611.c
-> > > @@ -480,7 +480,7 @@ static int max9611_init(struct max9611_dev *max9611)
-> > >       if (ret)
-> > >               return ret;
-> > >
-> > > -     regval = ret & MAX9611_TEMP_MASK;
-> > > +     regval &= MAX9611_TEMP_MASK;
-> > >
-> > >       if ((regval > MAX9611_TEMP_MAX_POS &&
-> > >            regval < MAX9611_TEMP_MIN_NEG) ||
->
-> While this did fix a bug, it also introduced a regression: on Salvator-XS,
-> which has two max9611 instances, I now see intermittent failures
->
->     max9611 4-007c: Invalid value received from ADC 0x8000: aborting
->     max9611: probe of 4-007c failed with error -5
->
-> and/or
->
->     max9611 4-007f: Invalid value received from ADC 0x8000: aborting
->     max9611: probe of 4-007f failed with error -5
->
-> during boot.
+A. The BSP way [1]. Move/rename r8a7796.dtsi to r8a7796-es1.dtsi and
+keep using r8a7796.dtsi for M3-ES3.x.
 
-AH! I didn't notice! I booted the board a few times only, maybe it
-didn't trigger (it was a Salvator-X H3, not an XS, but it shouldn't
-make any difference).
+Pros:
+ * Resembles commit 291e0c4994d081 ("arm64: dts: r8a7795: Add support
+   for R-Car H3 ES2.0")
+ * Reuses the r8a7796 (e.g. sysc, cpg-mssr) drivers for r8a77961 (i.e.
+   minimizes the bring-up effort)
+Cons:
+ * Deliberately diverges from the vendor documentation [2] by
+   ignoring the new SoC identifier r8a77961, i.e. leading to
+   inconsistencies in the names of the drivers and DTS
 
->
-> Retrying on failure fixes the issue, e.g.:
->
->     max9611_init:483: regval = 0x8000
->     max9611 4-007f: Invalid value received from ADC 0x8000: aborting
->     max9611_init:483: regval = 0x2780
->
-> According to the datasheet, 0x8000 is the Power-On Reset value.
-> Looks like it should be ignored, and retried?
+B. The approach taken in this patch, i.e. create a brand new
+  r8a77961.dtsi (similar to r8a77965.dtsi).
 
-Indeed... I haven't found a characterization of the delay required to
-release registers from their POR values after power up, so I guess we
-could read the register value again with a little timeout between
-reads (whose value would be arbitrary, anyway..)
+Pros:
+ * Reflects the reality documented by HW designers [2]
+ * Maintains drivers/DTS naming consistency and avoids mismatch between
+   documentation and code
+Cons:
+ * higher bring-up effort than (A)
+ * more discussion is needed on whether it makes sense to separate:
+   - DTS only
+   - DTS + Kconfig (ARCH_R8A77961)
+   - DTS + Kconfig (ARCH_R8A77961) + drivers (sysc, cpg-mssr, other?)
 
-I'm a bit suprised though.. The max9611 chips are powered from the
-+3.3V rail, and should have exited POR long before the driver gets
-to probe, isn't it?
+Comments appreciated!
 
-Thanks for reporting and sorry for having missed it in first place
+Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+---
+ arch/arm64/boot/dts/renesas/r8a77961.dtsi | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a77961.dtsi
 
+diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+new file mode 100644
+index 000000000000..7f784619be32
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
+@@ -0,0 +1,16 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Device Tree Source for the R-Car M3-W+ (R8A77961) ES3.x SoC
++ *
++ * Copyright (C) 2019 Renesas Electronics Corp.
++ */
++
++#include "r8a7796.dtsi"
++
++/*
++ * Here comes the delta between M3-W (M3 ES1.x) and M3-W+ (M3 ES3.0)
++ * described in:
++ * [1] https://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas-bsp.git/commit/?id=8ba438fd03d5
++ *     ("arm64: dts: r8a7796: Add support for R-Car M3 ES3.0")
++ * [2] [Confidential] Engineering Change Notice for R8A77961
++ */
+-- 
+2.23.0
 
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
-
---qun6oiumlid26o25
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1dOl0ACgkQcjQGjxah
-VjyrKhAAtDuO4WzIq31UoBWpx9c9XTZKqfUlSPk/p6xNPC/ByTk5qugXirqHRNOl
-Lud+5C9JA8M2lzXSGk05qwyCETJuCfYLDueF1Tj2I/XD/1sD7cnttmZxmJA0COr+
-hjFk8PCJqqcSOXMIdd77Has/+568t1SVXmJGZv27zK5KBjc98zvVSiWEkXvnhMPV
-dVBgq6MboeZEGu1na7fyDMQXPYKO2XBZ7tfldmxhHER0UYdbCK3cQBJxFoE9WGNX
-JjeDmaY8qKKDWkI2ZR4+rvg4xtmH7B3xysWtr4TjNuX4q49LER06sinwLT/jk9M5
-7Xiei5/BPuNh5dZOVI5vKawR8ZrCZUMvwWU3qiPSJcX3hG4tr6veDyp/5zKmXPlz
-JeVMq7j217QOY7xgMvMKe4uKI8h3lD8UC5dsjSLqttSgpI0MdGAjYXfSRHcFF0lY
-IyEjvyT40KTljK0tM9K7pzTjMyPbDyAg24lE89xFqZb6Mw4ZOechnR9zYGXMOKZH
-tPHyUsOnLPPygb4BTiMv75hQzWZqi69C/qU2AdsAgsDvmyMyS3uNrVUDJcXQfJZj
-kQ+caeyLq4WsoQQ/Gh1YgBXH2Pk3sgQMp7phK6vm6GKqi25o5awCMpU1alA3rOqd
-q+cCysbULdTv0HNSHmc8gGiNa9WgsoTHvvH0ISOPQwLNv6a+6fU=
-=McQD
------END PGP SIGNATURE-----
-
---qun6oiumlid26o25--
