@@ -2,81 +2,165 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD5B297902
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Aug 2019 14:16:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C7F79797F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Aug 2019 14:33:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727060AbfHUMQP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Aug 2019 08:16:15 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:43592 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726785AbfHUMQO (ORCPT
+        id S1728345AbfHUMdO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Aug 2019 08:33:14 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:37963 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728333AbfHUMdN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Aug 2019 08:16:14 -0400
-Received: by mail-ot1-f68.google.com with SMTP id e12so1795198otp.10;
-        Wed, 21 Aug 2019 05:16:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=JM8+7Ec7A9MDZFRreGMwQwNOR9ozJM3D4xQgDyyrkY8=;
-        b=hgRNU+yACEowbjcxbWTnCEEK+U31A9QLlckVkwbHgQ6fQR0vHXqRlS0VVM3LTPat+Z
-         kvHbA8rBGMUUYHwXntgh8DyBYrGE82Vk3EEpEJvvQ1jBxvH280MjAniRo9IVk+tcWfWf
-         fiP8wGwZhUOZ492PoyEH7J2xypRfg7fGsLHg5G1q+aCDC/jyz6lghD3/l/96SIi8D9wy
-         3/KgI+fOoPg1+cfSwWpjgW909LBWcECPOe0jFTPyQEB/zmohKRLUOZn2Pgkopodr3mBL
-         uVi0GMWfPu5bo+t+hw9tPZRp7YaWJQZYG4qlJ9HAQUuPPAJOmCMz2qI4UYPpna9C2FEH
-         6Chg==
-X-Gm-Message-State: APjAAAXfZ+/YNUJrUw/EJrLg08gC78iRUfUjlRhj8Mr0+yWZIVfPJnBr
-        UuWqESpWXLmJfBf2cYTMxivIpxR+1si9sP9/5KM=
-X-Google-Smtp-Source: APXvYqwp73cyWDJ24i8HRDQI70zVub6GzQTzwRLYNV8E2VXhehGjEEulwajAQyMYsZSNEAJiaw5euZ2SPNlpndY3P2g=
-X-Received: by 2002:a9d:5c0c:: with SMTP id o12mr26414408otk.145.1566389774076;
- Wed, 21 Aug 2019 05:16:14 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190706140746.29132-1-jacopo+renesas@jmondi.org> <20190706140746.29132-4-jacopo+renesas@jmondi.org>
-In-Reply-To: <20190706140746.29132-4-jacopo+renesas@jmondi.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 21 Aug 2019 14:16:02 +0200
-Message-ID: <CAMuHMdVXQaqFg-m3a4xTiKLWQLz+itKQgGEBAQpHtG+MkTNzQw@mail.gmail.com>
-Subject: Re: [PATCH v2 03/19] arm64: renesas: Update 'vsps' property
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Koji Matsuoka <koji.matsuoka.xm@renesas.com>, muroya@ksk.co.jp,
-        VenkataRajesh.Kalakodima@in.bosch.com,
-        Harsha.ManjulaMallikarjun@in.bosch.com,
+        Wed, 21 Aug 2019 08:33:13 -0400
+X-Originating-IP: 87.18.63.98
+Received: from uno.localdomain (unknown [87.18.63.98])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 4E20C1C0008;
+        Wed, 21 Aug 2019 12:33:08 +0000 (UTC)
+Date:   Wed, 21 Aug 2019 14:34:37 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Jonathan Cameron <jic23@kernel.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Stefan Agner <stefan@agner.ch>, linux-iio@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        stable <stable@vger.kernel.org>
+Subject: Re: [PATCH] iio: adc: max9611: Fix temperature reading in probe
+Message-ID: <20190821123437.rhbukfarka7jo6gu@uno.localdomain>
+References: <20190805155515.22621-1-jacopo+renesas@jmondi.org>
+ <20190805181244.663585ac@archlinux>
+ <CAMuHMdVT--S48M+BHTOH5SDi7AG=asOdNWH_UyM5nygZjWLmdg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="qun6oiumlid26o25"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdVT--S48M+BHTOH5SDi7AG=asOdNWH_UyM5nygZjWLmdg@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Jul 6, 2019 at 4:07 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
-> Update the 'vsps' property in the R-Car Gen3 SoC device tree files to
-> match what's in in the documentation example.
 
-double in (no worries, I'll fix that up myself)
+--qun6oiumlid26o25
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Hi Geert
 
-Thanks!
+On Wed, Aug 21, 2019 at 01:28:16PM +0200, Geert Uytterhoeven wrote:
+> Hi Jonathan, Jacopo,
+>
+> On Mon, Aug 5, 2019 at 7:15 PM Jonathan Cameron <jic23@kernel.org> wrote:
+> > On Mon,  5 Aug 2019 17:55:15 +0200
+> > Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
+> >
+> > > The max9611 driver reads the die temperature at probe time to validate
+> > > the communication channel. Use the actual read value to perform the test
+> > > instead of the read function return value, which was mistakenly used so
+> > > far.
+> > >
+> > > The temperature reading test was only successful because the 0 return
+> > > value is in the range of supported temperatures.
+> > >
+> > > Fixes: 69780a3bbc0b ("iio: adc: Add Maxim max9611 ADC driver")
+> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> >
+> > Applied to the fixes-togreg branch of iio.git and marked for
+> > stable.  That'll be a bit fiddly given other changes around this
+> > so we may need to do backports.
+>
+> This is now commit b9ddd5091160793e ("iio: adc: max9611: Fix temperature
+> reading in probe") in v5.3-rc5, and has been backported to 4.14, 4.19,
+> and 5.2.
+>
+> > > --- a/drivers/iio/adc/max9611.c
+> > > +++ b/drivers/iio/adc/max9611.c
+> > > @@ -480,7 +480,7 @@ static int max9611_init(struct max9611_dev *max9611)
+> > >       if (ret)
+> > >               return ret;
+> > >
+> > > -     regval = ret & MAX9611_TEMP_MASK;
+> > > +     regval &= MAX9611_TEMP_MASK;
+> > >
+> > >       if ((regval > MAX9611_TEMP_MAX_POS &&
+> > >            regval < MAX9611_TEMP_MIN_NEG) ||
+>
+> While this did fix a bug, it also introduced a regression: on Salvator-XS,
+> which has two max9611 instances, I now see intermittent failures
+>
+>     max9611 4-007c: Invalid value received from ADC 0x8000: aborting
+>     max9611: probe of 4-007c failed with error -5
+>
+> and/or
+>
+>     max9611 4-007f: Invalid value received from ADC 0x8000: aborting
+>     max9611: probe of 4-007f failed with error -5
+>
+> during boot.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.4.
+AH! I didn't notice! I booted the board a few times only, maybe it
+didn't trigger (it was a Salvator-X H3, not an XS, but it shouldn't
+make any difference).
 
-BTW, any plans to add channel indices to the vsps properties in the
-remaining DTS files?
+>
+> Retrying on failure fixes the issue, e.g.:
+>
+>     max9611_init:483: regval = 0x8000
+>     max9611 4-007f: Invalid value received from ADC 0x8000: aborting
+>     max9611_init:483: regval = 0x2780
+>
+> According to the datasheet, 0x8000 is the Power-On Reset value.
+> Looks like it should be ignored, and retried?
 
-Gr{oetje,eeting}s,
+Indeed... I haven't found a characterization of the delay required to
+release registers from their POR values after power up, so I guess we
+could read the register value again with a little timeout between
+reads (whose value would be arbitrary, anyway..)
 
-                        Geert
+I'm a bit suprised though.. The max9611 chips are powered from the
++3.3V rail, and should have exited POR long before the driver gets
+to probe, isn't it?
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Thanks for reporting and sorry for having missed it in first place
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+
+--qun6oiumlid26o25
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1dOl0ACgkQcjQGjxah
+VjyrKhAAtDuO4WzIq31UoBWpx9c9XTZKqfUlSPk/p6xNPC/ByTk5qugXirqHRNOl
+Lud+5C9JA8M2lzXSGk05qwyCETJuCfYLDueF1Tj2I/XD/1sD7cnttmZxmJA0COr+
+hjFk8PCJqqcSOXMIdd77Has/+568t1SVXmJGZv27zK5KBjc98zvVSiWEkXvnhMPV
+dVBgq6MboeZEGu1na7fyDMQXPYKO2XBZ7tfldmxhHER0UYdbCK3cQBJxFoE9WGNX
+JjeDmaY8qKKDWkI2ZR4+rvg4xtmH7B3xysWtr4TjNuX4q49LER06sinwLT/jk9M5
+7Xiei5/BPuNh5dZOVI5vKawR8ZrCZUMvwWU3qiPSJcX3hG4tr6veDyp/5zKmXPlz
+JeVMq7j217QOY7xgMvMKe4uKI8h3lD8UC5dsjSLqttSgpI0MdGAjYXfSRHcFF0lY
+IyEjvyT40KTljK0tM9K7pzTjMyPbDyAg24lE89xFqZb6Mw4ZOechnR9zYGXMOKZH
+tPHyUsOnLPPygb4BTiMv75hQzWZqi69C/qU2AdsAgsDvmyMyS3uNrVUDJcXQfJZj
+kQ+caeyLq4WsoQQ/Gh1YgBXH2Pk3sgQMp7phK6vm6GKqi25o5awCMpU1alA3rOqd
+q+cCysbULdTv0HNSHmc8gGiNa9WgsoTHvvH0ISOPQwLNv6a+6fU=
+=McQD
+-----END PGP SIGNATURE-----
+
+--qun6oiumlid26o25--
