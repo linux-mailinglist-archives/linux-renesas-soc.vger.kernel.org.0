@@ -2,79 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1968697611
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Aug 2019 11:26:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC72E97634
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Aug 2019 11:29:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726349AbfHUJ0J (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Aug 2019 05:26:09 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:38284 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726317AbfHUJ0J (ORCPT
+        id S1727194AbfHUJ3S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Aug 2019 05:29:18 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:52307 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726664AbfHUJ3S (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Aug 2019 05:26:09 -0400
-Received: by mail-oi1-f195.google.com with SMTP id q8so797563oij.5;
-        Wed, 21 Aug 2019 02:26:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=O8XvB0zHNxZrlyVSQdX3PAdkXmvUD1MSe7DEMRpMBmU=;
-        b=frOOQiHmUZg0QOkcoJK7LLoclMHUo8zKp5FyfXtI2g1YX+rfENFH0mwlDSmV/QS0pu
-         98N48MBSHfDDm+4te97RE9vdNg87nMKS2MmewM/41oNMH6KeL525+naE5H63n3XeeVyr
-         /Aa9ggZZbyrnV3m0jRK+Casjc+48PqtF3dfw5LnhXVHSLKxjUC3eQtkLTIcgc/UNCus1
-         COBr/OB3a1NOzdPYlaUWY/ehe9eiEsdmMKkrmuKRQfEOO2nUxDJoBI7QFwgmYa5Vhef5
-         Ih8m9hW1tsQ8HpTgWjYt0R8YmMIlwE6OR3nMkYYpqlKk/fq8xf7FENsqKSADDQcrG+p/
-         NyYg==
-X-Gm-Message-State: APjAAAV/rZf9sQwZG5n87js6GcVvZZOHGaaTf8jixnmwkkwUYZoxPW7/
-        CXVIrh3M+YKndBllI75/yYgFjbXMxgrHAp2/2Y2diw==
-X-Google-Smtp-Source: APXvYqwdT8hnfIhQqIN2QFlt+KwRsITJKoK9EXpt7808Kwag4yAhC/VoMkeUXmSvEOJBy0DDg6NG9lz3tCRnoiYDE/U=
-X-Received: by 2002:aca:f4ca:: with SMTP id s193mr2879695oih.131.1566379568403;
- Wed, 21 Aug 2019 02:26:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190821091516.16372-1-horms+renesas@verge.net.au>
-In-Reply-To: <20190821091516.16372-1-horms+renesas@verge.net.au>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 21 Aug 2019 11:25:57 +0200
-Message-ID: <CAMuHMdWdnWh_BPJ1vqKAn71bzZTQqAzBvaJENDWmm5n9gPxc9w@mail.gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: clk: emev2: Rename bindings documentation file
-To:     Simon Horman <horms+renesas@verge.net.au>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+        Wed, 21 Aug 2019 05:29:18 -0400
+X-Originating-IP: 87.18.63.98
+Received: from uno.localdomain (unknown [87.18.63.98])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id AFAB71C0009;
+        Wed, 21 Aug 2019 09:29:14 +0000 (UTC)
+Date:   Wed, 21 Aug 2019 11:30:39 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Simon Horman <horms@verge.net.au>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Magnus Damm <magnus.damm@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: sh-mobile-ceu: Rename bindings
+ documentation file
+Message-ID: <20190821093039.fb2art6na5stkpao@uno.localdomain>
+References: <20190819140544.19294-1-horms+renesas@verge.net.au>
+ <20190820095205.xnthl7d7cpy7myq2@uno.localdomain>
+ <20190820151930.pwi42cewslkchssf@verge.net.au>
+ <20190821081746.lt6n4nhqnpyowzmi@verge.net.au>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="jnwnpog3xinnecw2"
+Content-Disposition: inline
+In-Reply-To: <20190821081746.lt6n4nhqnpyowzmi@verge.net.au>
+User-Agent: NeoMutt/20180716
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Aug 21, 2019 at 11:15 AM Simon Horman
-<horms+renesas@verge.net.au> wrote:
-> Rename the device tree clock bindings for Renesas EMMA Mobile EV2
-> from emev2-clock.txt to renesas,emev2-smu.txt.
+
+--jnwnpog3xinnecw2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+Hi Simon,
+
+On Wed, Aug 21, 2019 at 10:17:48AM +0200, Simon Horman wrote:
+> On Tue, Aug 20, 2019 at 05:19:30PM +0200, Simon Horman wrote:
+> > On Tue, Aug 20, 2019 at 11:52:05AM +0200, Jacopo Mondi wrote:
+> > > Hi Simon,
+> > >
+> > > On Mon, Aug 19, 2019 at 04:05:44PM +0200, Simon Horman wrote:
+> > > > Renesas media binding documentation files uses a naming schema of
+> > > > 'renesas,<module>.txt'. Rename the SH Mobile CEU file to match this pattern.
+> > > >
+> > >
+> > > The old soc-camera based sh-mobile-ceu driver has been removed one
+> > > year ago and replaced by driver/media/platform/renesas-ceu.c whose
+> > > bindings are described at
+> > > Documentation/devicetree/bindings/media/renesas,ceu.txt
+> > >
+> > > Should this file be removed instead of renamed?
+> >
+> > Thanks,
+> >
+> > I thought I had checked that but clearly I did not.
+> > I agree the file should be removed and I'll send a revised patch
+> > accordingly.
 >
-> This is part of an ongoing effort to name bindings documentation files for
-> Renesas IP blocks consistently, in line with the compat strings they
-> document.
+> The one lingering reference to renesas,sh-mobile-ceu I can see
+> in the tree is its use in an example of two data pipelines in
+> Documentation/devicetree/bindings/media/video-interfaces.txt
 >
-> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in clk-renesas-for-v5.4.
+Yeah, I noticed that, but never considered it more than an example.
+Although, with the removal of the bindings description, it should
+probably be changed to avoid generating confusion...
 
-Gr{oetje,eeting}s,
+> Could you suggest an alternative example?
 
-                        Geert
+The pipeline described in the example is purely fictional, as it uses
+a "renesas-shmobile-csi2" compatible to model a CSI-2 input which I
+don't see mentioned anywhere. I guess the CEU compatible value there could be
+changed to anything we want, including the new renesas-ceu value which
+has superseded the sh-mobile-ceu one.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Otherwise, RZ/A2 supports both CSI-2 by using the rcar-vin+rcar-csi2
+IP blocks we have in R-Car and parallel input using the old CEU interface.
+We could use that as a real-world example, using VIN for CSI-2 and CEU for
+parallel input. Unfortunately, no RZ/A2 DTS in mainline has any of the
+two interfaces enabled afaict.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+I'll send a patch to the media list that just changes the suppressed
+compatible value with the new 'renesas-ceu' one unless someone has
+different opinions.
+
+Thanks
+   j
+
+--jnwnpog3xinnecw2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1dDz8ACgkQcjQGjxah
+VjxgoxAAoI6/KzvxOIBXDNLLsIs4wUToXkd7RBWwAPLs9+EXvhRjvszMFo67lAdq
+48okp5lxgg/VtbBtnrMbuFqBQ2hZt5a2KMDLj5lZVG15lkzadMqOxLwPEy//0Liy
+nwzBkb1eFQFHeLZjyVWeWuV3Apt6Cg2Y+ye1oBliS+Y9t/Y94s7bPs1gqwSt7cpL
+Ug9JYHRDKuYWdo17zg88foO1rs6ibk9kmbs0EvYenwA9Yqhlj+6a+lv2Lg7U2Qzb
+PpRvqmnes5UohFtbrH0LiBP2hrJ2wqA5Md3Ug1QJvhq3SoVhK3Se8jdvkGfsop42
+FVgdklqHzv/nKzFATp8daJsQYuiPyDIydFPw9LcvbVMRluJaJSRAZyC7zDsZhJ+y
+u+QF1CZqhtOi/m37bJ/QgvVwH7NSYfqfPcctM1ALyQ1huM42cTvu6ctiMOdSkZbX
+NSaY+3aaE5c5yFj7Z+vEb7iYnsKBqGu1ShyhV9DS7gHAIYbP4Sgj1LFYFxXUP9TI
+Nw/UIUfn5x+Sjbxq6c91uLutOiv4LQ/Cs3uuHLjmHyfkw18b9V8Wka55W26cfpjs
+zWcRlMRtW2Fo8mtVO7G80kpNpTTqsplINrLlMg42bVmB7Ss1sTCo4qmHACKIq2aq
+u2VeEbXyjwAddEcGm1VMxDbdkWA7TuarmJTy67MQDOFizsmQvMQ=
+=UNyD
+-----END PGP SIGNATURE-----
+
+--jnwnpog3xinnecw2--
