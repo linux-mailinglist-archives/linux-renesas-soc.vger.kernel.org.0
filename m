@@ -2,44 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E6639754E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Aug 2019 10:47:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6AF997567
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Aug 2019 10:54:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727836AbfHUIrF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Aug 2019 04:47:05 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:35859 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727839AbfHUIrF (ORCPT
+        id S1726217AbfHUIxb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Aug 2019 04:53:31 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:40906 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725283AbfHUIxb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Aug 2019 04:47:05 -0400
-Received: by mail-ot1-f67.google.com with SMTP id k18so1347440otr.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Aug 2019 01:47:04 -0700 (PDT)
+        Wed, 21 Aug 2019 04:53:31 -0400
+Received: by mail-ot1-f68.google.com with SMTP id c34so1340697otb.7
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 21 Aug 2019 01:53:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=R2UU1LvAktINA7rZOqc7JKeHUMfREBfar8DY/lNyPx0=;
-        b=ABDaLtLlbmyOY7OBRGF6K46IUqhnNt5HBq7KEzmAMQh5pw/6foBkpSffDXfPQOlmto
-         iBXl0aO6gwziFXygsIj2uZJzvm1Xgcj1+OHNlvS5SZxBNjB7/nqBVtQCoruOIeU6l0fP
-         NF+4bdLjztsbldPaj3LVnNvIj0eYMWnt2kMvxliCm3GLQmOlqchqmmG5g+cmdlS3xxxQ
-         TMiCGwifczX3NZzod4al0nqzIp6RFnzqqR1kAbhqzK9EYRo2//QqY2TeYapTdSr+IC9i
-         0MePkO+Lu+NMUdMgTZaNp0uu9Y8nrg5MPNxn98MRfJBGi5/C+kT/W2LKPh6qisXb+Egn
-         eU3Q==
-X-Gm-Message-State: APjAAAXgm5epNs/9EE6JM/MinGCAmLLmlQC5qikn+SEptsXBiZ034xA7
-        YtQYQJwfMmjPd0svA6jD8uAaZMeYVZKTlQMDjYuCUw==
-X-Google-Smtp-Source: APXvYqwOLkVYccbsCTHi0L2R1Rlv+0n/kkDXGg1Oh1WXHpSa9Ea0ccF5B+Ol95POupR7fObO1DA5X97L7fgDcamgiLU=
-X-Received: by 2002:a9d:5c11:: with SMTP id o17mr9067488otk.107.1566377224105;
- Wed, 21 Aug 2019 01:47:04 -0700 (PDT)
+        bh=kcCL3wv+BmCUtlHUd1GtMt6GC6B3UYpLuYNiU+77akY=;
+        b=a6bgGgQeAPD/+RLSKD6HjFJph6CrtZt1csRcielqT7chfhI/82PzDTIVMD4VpKnQgU
+         PKtzmbueDmCTNXSXZKdjzCLnxZ1LjzBganKAkf6tAEBeoGFF7GhWs5BHNI1JK/ThQ1vX
+         KkU1l+58W9htAQSgjsmcPMoPiF6bes8V+pBW4ZM5h8hELsIDhoXoS6L8BlI7mDoj4exi
+         ivJ4sLTwuVt0VNYUG/auvOVqF2RxVfCptSLZe6VgrDtVQkPuUDTIHP92no4f+rVeXuVB
+         jtoazu/XZN/TuDDSgfT5wh3gQXuVnLp1PQRyIOlTNv+kY24ac2G4tBaAeiEY4TUxr71a
+         f7qQ==
+X-Gm-Message-State: APjAAAW11a1RKz0hdIBgY7TRtKp/KCVgMpHZIzgURK5ImcJvBM8q5qa9
+        pcXcFgjR0ygit3XC3l06rOuZm2Fzb1wXW1wAhbg=
+X-Google-Smtp-Source: APXvYqwyG6VO1Fcw/mrdVfv3/kkEaoilufe0KHc6FN8W6uih7qIL4w9Qz21gA+Eai2v1Xbi9QH077Q1dR4TB34OmW08=
+X-Received: by 2002:a9d:459d:: with SMTP id x29mr26783629ote.39.1566377610373;
+ Wed, 21 Aug 2019 01:53:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <1566219341-23048-1-git-send-email-ykaneko0929@gmail.com> <20190821084101.evn6xeiqcqv772um@verge.net.au>
-In-Reply-To: <20190821084101.evn6xeiqcqv772um@verge.net.au>
+References: <1566219295-23003-1-git-send-email-ykaneko0929@gmail.com>
+In-Reply-To: <1566219295-23003-1-git-send-email-ykaneko0929@gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 21 Aug 2019 10:46:52 +0200
-Message-ID: <CAMuHMdWnAMH2VOcwk9oJs+r_NExHhGn4qMUTAuGjrZUSsvAXRg@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r8a774c0-cat874: sort nodes
-To:     Simon Horman <horms@verge.net.au>
-Cc:     Yoshihiro Kaneko <ykaneko0929@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+Date:   Wed, 21 Aug 2019 10:53:19 +0200
+Message-ID: <CAMuHMdVaKNOf4X_OGCwag9Oem1ytfDohxY2cTFVd9hNLw=qYpw@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a774a1: sort nodes
+To:     Yoshihiro Kaneko <ykaneko0929@gmail.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Simon Horman <horms@verge.net.au>,
         Magnus Damm <magnus.damm@gmail.com>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -48,36 +48,21 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Aug 21, 2019 at 10:41 AM Simon Horman <horms@verge.net.au> wrote:
-> On Mon, Aug 19, 2019 at 09:55:41PM +0900, Yoshihiro Kaneko wrote:
-> > Sort nodes.
-> >
-> > If node address is present
-> >    * Sort by node address, grouping all nodes with the same compat string
-> >      and sorting the group alphabetically.
-> > Else
-> >    * Sort alphabetically
-> >
-> > This should not have any run-time effect.
-> >
-> > Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
+On Mon, Aug 19, 2019 at 2:55 PM Yoshihiro Kaneko <ykaneko0929@gmail.com> wrote:
+> Sort nodes.
 >
-> Thanks Kaneko-san,
+> If node address is present
+>    * Sort by node address, grouping all nodes with the same compat string
+>      and sorting the group alphabetically.
+> Else
+>    * Sort alphabetically
 >
-> I think that the i2c1_pins and hscif2_pins nodes
-> are also out of order.
-
-You're right.
-
-> I'm not sure if Geert would prefer you to respin or fix that himself.
-
-Will fix myself.
-
-> In any case, with that problem resolved:
+> This should not have any run-time effect.
 >
-> Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+> Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
 
-Thanks!
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.4.
 
 Gr{oetje,eeting}s,
 
