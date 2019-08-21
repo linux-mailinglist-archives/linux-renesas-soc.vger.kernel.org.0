@@ -2,81 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DF39F9745E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Aug 2019 10:06:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBC0A97469
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Aug 2019 10:12:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726781AbfHUIGa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Aug 2019 04:06:30 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:39610 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726317AbfHUIGa (ORCPT
+        id S1726665AbfHUIHY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Aug 2019 04:07:24 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:35675 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726317AbfHUIHY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Aug 2019 04:06:30 -0400
-Received: by mail-oi1-f196.google.com with SMTP id 16so944798oiq.6;
-        Wed, 21 Aug 2019 01:06:29 -0700 (PDT)
+        Wed, 21 Aug 2019 04:07:24 -0400
+Received: by mail-oi1-f195.google.com with SMTP id a127so961028oii.2;
+        Wed, 21 Aug 2019 01:07:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=/otiMYH4DLFkxecKopzd3o3fIbf8iVIxXrmrHOhVGKQ=;
-        b=VnDDgtRejtFSTVsGkH4/Vo/uAFu78dMu3bQjNbUSOn60NagoDwgj6Qyojr0sU0w1fP
-         4eqQ9BkB6oXdW4v5xyxGk/6+SS16DXwhrzvnf3lJmI/vh/JcDRlxCOhd8eybQ0TJTDLo
-         m/LmycfTnGfMYcEQDKkT2PpWa4JDz6F8W6Y3pfi0NAtcywmRiFcKH/3+O1HvNlVVtaTu
-         fMBGzQvKTboXkaEg2qihG1+FL/r+5dqhGEkWKWsR/r5U9t6OiSdlFLkcy/h+hDDFBkUc
-         qtjs+5gKfKgViq/GJI0R3F+4fmrSjGEKghT+/AtWj5BjlVX2nafj6liwEaGiQdpAiKek
-         lsFw==
-X-Gm-Message-State: APjAAAXCCYX5h5rZ7MOLzcOeMms5PJf6T8XotK9LSg+LE/xQUbHC/8iQ
-        IQNVbHG5XkQ0ZCfjY/PjCGLOl1zLtidFDzI5xts=
-X-Google-Smtp-Source: APXvYqwDMlWNcWM8ZknMEBEG7Sunts9cmK3/qbtWEgqoik57NdlgfrEmKMqju75U746CAjiG9SV88untksBrGTECXtY=
-X-Received: by 2002:aca:f4ca:: with SMTP id s193mr2736500oih.131.1566374789372;
- Wed, 21 Aug 2019 01:06:29 -0700 (PDT)
+        bh=XXpq27Y/6uOHBaJM2/YHsAGx1VCUbYjrhwaxusYnlJw=;
+        b=o1jqSF7AyFceYpB84QwGG/MUennbaN1YRWGjFn4cezDYeizsA/jyzALxvZVmMt+4N1
+         IguBw4hqR6Rla3M2m9LlTO/qT9xHs6sxka2RB+xPywEkPk18bTLNGJPqBJUX4QP6fK59
+         BJ7FWOeHTFGx3KJfwfYtL8xL2TTUN780w/YPaYOUKpd2R0yLvZ/KiXx+Q5SgTYO+eu4J
+         Ga0Gp4x/vRj3ifZI8jtc42hpez3kPe0jBoBJmuWD5SRJ5OjcEqPz81M6cuLlUDNGDa2a
+         lG7I7GDSrp3worYTyrbVByTo+bipNIuNFz1K7isFc72OCDRwJyXJrGwnZTWAh4eYn7Cc
+         Z2kw==
+X-Gm-Message-State: APjAAAWbJefHCCf7f4+LKnjeF7uFmRzLN6O1VSpGzNek1t54asUvk/63
+        gJjbPXENpjGoNErse9k7U5Krj6MHxe+jbnMuDQU=
+X-Google-Smtp-Source: APXvYqxwIS20ToA4PgbklgxDV0PjtaLxrQfkDOR9OgXyglBsXvEJDLz04KeHFTI7ZAKylzV1yWJ7pMMog5tBfstVXII=
+X-Received: by 2002:aca:3382:: with SMTP id z124mr3021580oiz.102.1566374843108;
+ Wed, 21 Aug 2019 01:07:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20181118173056.4591-1-marek.vasut+renesas@gmail.com>
- <20181119104243.csnkooxolkple2ln@verge.net.au> <499ffcf5-0617-a142-914d-afee88c2127b@gmail.com>
-In-Reply-To: <499ffcf5-0617-a142-914d-afee88c2127b@gmail.com>
+References: <1543972625-11267-1-git-send-email-uli+renesas@fpond.eu>
+ <1543972625-11267-2-git-send-email-uli+renesas@fpond.eu> <20190316222547.GB1111@kunai>
+In-Reply-To: <20190316222547.GB1111@kunai>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 21 Aug 2019 10:06:18 +0200
-Message-ID: <CAMuHMdUJK79r8Kn035nzVrg-DN76sYD_diijvH=q37Zbw3VBNQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: can: rcar_can: document r8a77990 support
-To:     Marek Vasut <marek.vasut@gmail.com>
-Cc:     Simon Horman <horms@verge.net.au>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+Date:   Wed, 21 Aug 2019 10:07:12 +0200
+Message-ID: <CAMuHMdWzBzk_No3DnP2heb4HeS8xPwxYTA0LLid=07YiYxGY2w@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: can: rcar_can: add r8a77995 (R-Car
+ D3) compatibility strings
+To:     Wolfram Sang <wsa@the-dreams.de>
+Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
         Marc Kleine-Budde <mkl@pengutronix.de>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, linux-can@vger.kernel.org,
         Rob Herring <robh@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Ulrich Hecht <ulrich.hecht+renesas@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Feb 16, 2019 at 2:58 PM Marek Vasut <marek.vasut@gmail.com> wrote:
-> On 11/19/18 11:42 AM, Simon Horman wrote:
-> > On Sun, Nov 18, 2018 at 06:30:56PM +0100, Marek Vasut wrote:
-> >> Document the support for rcar_can on R8A77990 SoC devices.
-> >> Add R8A77990 to the list of SoCs which require the "assigned-clocks"
-> >> and "assigned-clock-rates" properties.
-> >>
-> >> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-> >> Cc: Eugeniu Rosca <erosca@de.adit-jv.com>
-> >> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> >> Cc: Marc Kleine-Budde <mkl@pengutronix.de>
-> >> Cc: Rob Herring <robh@kernel.org>
-> >> Cc: Simon Horman <horms+renesas@verge.net.au>
-> >> Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> >> Cc: linux-renesas-soc@vger.kernel.org
-> >> ---
-> >>  Documentation/devicetree/bindings/net/can/rcar_can.txt | 3 ++-
-> >>  1 file changed, 2 insertions(+), 1 deletion(-)
+On Sat, Mar 16, 2019 at 11:25 PM Wolfram Sang <wsa@the-dreams.de> wrote:
+> On Wed, Dec 05, 2018 at 09:17:04AM +0800, Ulrich Hecht wrote:
+> > From: Ulrich Hecht <ulrich.hecht+renesas@gmail.com>
 > >
+> > Adds compatible strings for the R-Car CAN controller in the D3 SoC.
+> >
+> > Signed-off-by: Ulrich Hecht <ulrich.hecht+renesas@gmail.com>
+> > Acked-by: Rob Herring <robh@kernel.org>
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > > Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
-> >
-> This patch seems to be missing upstream ?
+>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+>
+> Adding Marc to CC.
 
 Thanks, queuing in renesas-devel for v5.4.
 
