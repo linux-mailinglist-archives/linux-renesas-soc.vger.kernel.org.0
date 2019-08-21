@@ -2,71 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CF4989772E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Aug 2019 12:31:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49DEA977E8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 21 Aug 2019 13:28:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726448AbfHUKa4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 21 Aug 2019 06:30:56 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:44522 "EHLO
-        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726317AbfHUKa4 (ORCPT
+        id S1726749AbfHUL23 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 21 Aug 2019 07:28:29 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:34807 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726593AbfHUL23 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 21 Aug 2019 06:30:56 -0400
-Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 8B2BE25AD7A;
-        Wed, 21 Aug 2019 20:30:54 +1000 (AEST)
-Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id CF2039405AE; Wed, 21 Aug 2019 12:30:51 +0200 (CEST)
-Date:   Wed, 21 Aug 2019 12:30:51 +0200
-From:   Simon Horman <horms@verge.net.au>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: renesas: r8a774c0: Fix register range of
- display node
-Message-ID: <20190821103051.waztamqtb4croefp@verge.net.au>
-References: <20190821095732.19001-1-geert+renesas@glider.be>
+        Wed, 21 Aug 2019 07:28:29 -0400
+Received: by mail-ot1-f65.google.com with SMTP id c7so1718510otp.1;
+        Wed, 21 Aug 2019 04:28:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TuaZG7Omor+G/AkU6ujx9Ln8/VDzjqK3KDTH0UUDhuU=;
+        b=PinaZKHD4MuwCZgZ4BVknOphxjy2VBVHAwQZfD0PhJmnMkEmRfVl/TjzA0xTDT9aCH
+         6GGI2TEp9EFtbLlxMcCbQAkVlHVdEwtPztJZSSniTXbvqjbXWz8xWg5Hjpg7MHjz78ma
+         VYZ5oXNXq8vRgpnlwDpJtHClnnuOuFtYBeASegTLX3ra86Fbv9LNUrlGlPNNIlwQsee8
+         FZ+AYOi/1flfvsTqdHWmhhfsVCcTuIPFQSFMjmIRVWstrEAMIeum8dmpHkqZ11UBKnyH
+         oRUl5m+n0EeYNzkYbdEkvd2ydwYe4tA3Q9DeJv04XrdCDaCZQrniGgDAVMju9ymxEcD1
+         Ksbw==
+X-Gm-Message-State: APjAAAVbdjYAIFF6v6oVUB7XIamb/A9lhBSQ/cFnus7gAs1cHzd7lA4w
+        6z27WBxi0Kk5MqoWwXrx6Yrqu9Bapa5oh5alYlI=
+X-Google-Smtp-Source: APXvYqzVn6iwJJMy6xFU1GI7NKYrOHxrMHDdMw9ASzfZioKrVpu3RDiY5PRKEzuvDoneJw6SALvZzP5Pr3jReVY2v8w=
+X-Received: by 2002:a9d:68c5:: with SMTP id i5mr3012150oto.250.1566386908109;
+ Wed, 21 Aug 2019 04:28:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190821095732.19001-1-geert+renesas@glider.be>
-Organisation: Horms Solutions BV
-User-Agent: NeoMutt/20170113 (1.7.2)
+References: <20190805155515.22621-1-jacopo+renesas@jmondi.org> <20190805181244.663585ac@archlinux>
+In-Reply-To: <20190805181244.663585ac@archlinux>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 21 Aug 2019 13:28:16 +0200
+Message-ID: <CAMuHMdVT--S48M+BHTOH5SDi7AG=asOdNWH_UyM5nygZjWLmdg@mail.gmail.com>
+Subject: Re: [PATCH] iio: adc: max9611: Fix temperature reading in probe
+To:     Jonathan Cameron <jic23@kernel.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Stefan Agner <stefan@agner.ch>, linux-iio@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        stable <stable@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Aug 21, 2019 at 11:57:32AM +0200, Geert Uytterhoeven wrote:
-> Since the R8A774C0 SoC uses DU{0,1} only, the register block length
-> should be 0x40000.
-> 
-> Based on commit 06585ed38b6698bc ("arm64: dts: renesas: r8a77990: Fix
-> register range of display node") for R-Car E3.
-> 
-> Fixes: 8ed3a6b223159df3 ("arm64: dts: renesas: r8a774c0: Add display output support")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi Jonathan, Jacopo,
 
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+On Mon, Aug 5, 2019 at 7:15 PM Jonathan Cameron <jic23@kernel.org> wrote:
+> On Mon,  5 Aug 2019 17:55:15 +0200
+> Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
+>
+> > The max9611 driver reads the die temperature at probe time to validate
+> > the communication channel. Use the actual read value to perform the test
+> > instead of the read function return value, which was mistakenly used so
+> > far.
+> >
+> > The temperature reading test was only successful because the 0 return
+> > value is in the range of supported temperatures.
+> >
+> > Fixes: 69780a3bbc0b ("iio: adc: Add Maxim max9611 ADC driver")
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>
+> Applied to the fixes-togreg branch of iio.git and marked for
+> stable.  That'll be a bit fiddly given other changes around this
+> so we may need to do backports.
 
-> ---
->  arch/arm64/boot/dts/renesas/r8a774c0.dtsi | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
-> index 5ce1eb4596f54043..4ee885e7678886f6 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
-> @@ -1805,7 +1805,7 @@
->  
->  		du: display@feb00000 {
->  			compatible = "renesas,du-r8a774c0";
-> -			reg = <0 0xfeb00000 0 0x80000>;
-> +			reg = <0 0xfeb00000 0 0x40000>;
->  			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
->  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 724>,
-> -- 
-> 2.17.1
-> 
+This is now commit b9ddd5091160793e ("iio: adc: max9611: Fix temperature
+reading in probe") in v5.3-rc5, and has been backported to 4.14, 4.19,
+and 5.2.
+
+> > --- a/drivers/iio/adc/max9611.c
+> > +++ b/drivers/iio/adc/max9611.c
+> > @@ -480,7 +480,7 @@ static int max9611_init(struct max9611_dev *max9611)
+> >       if (ret)
+> >               return ret;
+> >
+> > -     regval = ret & MAX9611_TEMP_MASK;
+> > +     regval &= MAX9611_TEMP_MASK;
+> >
+> >       if ((regval > MAX9611_TEMP_MAX_POS &&
+> >            regval < MAX9611_TEMP_MIN_NEG) ||
+
+While this did fix a bug, it also introduced a regression: on Salvator-XS,
+which has two max9611 instances, I now see intermittent failures
+
+    max9611 4-007c: Invalid value received from ADC 0x8000: aborting
+    max9611: probe of 4-007c failed with error -5
+
+and/or
+
+    max9611 4-007f: Invalid value received from ADC 0x8000: aborting
+    max9611: probe of 4-007f failed with error -5
+
+during boot.
+
+Retrying on failure fixes the issue, e.g.:
+
+    max9611_init:483: regval = 0x8000
+    max9611 4-007f: Invalid value received from ADC 0x8000: aborting
+    max9611_init:483: regval = 0x2780
+
+According to the datasheet, 0x8000 is the Power-On Reset value.
+Looks like it should be ignored, and retried?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
