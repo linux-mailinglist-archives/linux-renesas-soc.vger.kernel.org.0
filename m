@@ -2,88 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5752899005
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2019 11:52:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D22099026
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2019 12:02:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730760AbfHVJwj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Aug 2019 05:52:39 -0400
-Received: from sauhun.de ([88.99.104.3]:58244 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729797AbfHVJwj (ORCPT
+        id S1728332AbfHVJ73 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 22 Aug 2019 05:59:29 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:41099 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726422AbfHVJ73 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Aug 2019 05:52:39 -0400
-Received: from localhost (p54B3343F.dip0.t-ipconnect.de [84.179.52.63])
-        by pokefinder.org (Postfix) with ESMTPSA id E4F302C2686;
-        Thu, 22 Aug 2019 11:52:37 +0200 (CEST)
-Date:   Thu, 22 Aug 2019 11:52:37 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Ulf Hansson <ulf.hansson@linaro.org>
-Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
+        Thu, 22 Aug 2019 05:59:29 -0400
+Received: from uno.localdomain (unknown [87.18.63.98])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id DED75240015;
+        Thu, 22 Aug 2019 09:59:22 +0000 (UTC)
+Date:   Thu, 22 Aug 2019 12:00:51 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>, muroya@ksk.co.jp,
+        VenkataRajesh.Kalakodima@in.bosch.com,
+        Harsha.ManjulaMallikarjun@in.bosch.com,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Magnus Damm <magnus.damm@gmail.com>
-Subject: Re: [PATCH v2 1/2] mmc: tmio: leave clock handling to runtime PM if
- enabled
-Message-ID: <20190822095237.t7lx5qzwsj4unlcs@katana>
-References: <1564589857-17720-1-git-send-email-uli+renesas@fpond.eu>
- <1564589857-17720-2-git-send-email-uli+renesas@fpond.eu>
- <CAPDyKFotQvTAC8OVVRiEqLc0ij3XNVdL3eyNHioK0YEWxvER0A@mail.gmail.com>
- <20190822063530.wzee6gy4d2lisj2x@katana>
- <CAPDyKFojrZB819DvViyP_cAf=s1y4jpHjYKis37XO2ZOSkH1Eg@mail.gmail.com>
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 03/19] arm64: renesas: Update 'vsps' property
+Message-ID: <20190822100051.yhguosvfz3zzykze@uno.localdomain>
+References: <20190706140746.29132-1-jacopo+renesas@jmondi.org>
+ <20190706140746.29132-4-jacopo+renesas@jmondi.org>
+ <CAMuHMdVXQaqFg-m3a4xTiKLWQLz+itKQgGEBAQpHtG+MkTNzQw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="hqlwflu46tjfljz5"
+        protocol="application/pgp-signature"; boundary="42s67wtln7iyyikt"
 Content-Disposition: inline
-In-Reply-To: <CAPDyKFojrZB819DvViyP_cAf=s1y4jpHjYKis37XO2ZOSkH1Eg@mail.gmail.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+In-Reply-To: <CAMuHMdVXQaqFg-m3a4xTiKLWQLz+itKQgGEBAQpHtG+MkTNzQw@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---hqlwflu46tjfljz5
-Content-Type: text/plain; charset=us-ascii
+--42s67wtln7iyyikt
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Ulf,
+Hi Geert,
 
-> I need to catch up a little bit more on mmc reviews, so unless this is
-> urgent, I can offer my help and post something soonish.
->=20
-> Is this fine by you?
+On Wed, Aug 21, 2019 at 02:16:02PM +0200, Geert Uytterhoeven wrote:
+> On Sat, Jul 6, 2019 at 4:07 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
+> > Update the 'vsps' property in the R-Car Gen3 SoC device tree files to
+> > match what's in in the documentation example.
+>
+> double in (no worries, I'll fix that up myself)
+>
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>
+> Thanks!
+>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> i.e. will queue in renesas-devel for v5.4.
+>
+> BTW, any plans to add channel indices to the vsps properties in the
+> remaining DTS files?
 
-Yep, totally. Hope you had a great vacation! Just wanted ask if you are
-happy hacking on this or if we could help here somehow. Not urgent, we
-will wait.
+According to what I read in the parsing 'vsps' proeprties parsing
+routine rcar_du_vsps_init(), if the channel index is not specified, it
+is defaulted to 0.
 
-Thanks,
+           /* Store the VSP pointer and pipe index in the CRTC. */
+           rcdu->crtcs[i].vsp = &rcdu->vsps[j];
+           rcdu->crtcs[i].vsp_pipe = cells >= 1 ? args.args[0] : 0;
 
-   Wolfram
+The DU bindings documentation does not state that the channel index is
+optional, so yes, it might be worth changing this and simplify the
+parsing routing to always assume the channel index is there.
 
+What does Laurent think? Is this worth the effort?
 
---hqlwflu46tjfljz5
+Thanks
+   j
+
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+
+--42s67wtln7iyyikt
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl1eZeUACgkQFA3kzBSg
-Kbb/ew//YkbRDM/uctqNfV71vexBYts6hlq9LQzO7Jg5uSsRdEEb4934F3Egvca8
-vXYqm9lrXk4ZOoozkpSncM/QHe61orNAaUF+PBeM6EPcEJHEJ0QE7ksl7KGlwGsI
-R2Nmzm+2sYGwUVqreSQuMqLqnn8jcLq2508wKhIfsYWiSLV10pWhuOX3JReTXgV4
-rJCKIq+MUWDmmlQgItoFkl6T9bQmcE+45GDgyy4dkbkqq+LqDhpjCpE//feZRNEY
-LxMkf13jE4tyFT90mDtBgO0qMzXrH7hWKlQQxHrulVJ6eZnEvraqVkfTiqCI9Er0
-jBkYw61iopuIzkKAn3eAtUw52xfAyB/4Mh27tnXiOir+2O+qxKEu7QozgBhRgQzI
-VC+skBKKLBkqp+tTT4FWw/bCs6Pok5TB5fFvE0qDSThEUFkwwpYslRPF0jqBIxBT
-sf8tGyiS3TdN2P2jvBFD4vS1Z1gBKpCOuok+rGHZgZ8vXom0qc7aUee2rYEjacsa
-17pHexOLbTcV2d7oAWgj7+e5fmlFPRiOkMhm85pg9g+3xRG9cjiuycEAa0Yoe9v3
-J9R3r+0z6EXyMmgzJku2AZWty8KpVrcmPZ3zH8kQPjQwdMm8WaOW14zjzQrInNAN
-ByJNw4P8inB1qD8XrhLKMdXpwHuEsplIepA8dgi1pvKyE4Donso=
-=1YJT
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1eZ9MACgkQcjQGjxah
+VjxVOw//dQJQ84fYnCIy7Da9eeUQ2Ymw8guYdhdfL3HqgI1d8U/aY3bgKGb/vbpJ
+1SFry3IwJE+TyHuBrcjPTeEZSh+Skonel+vSHhtY73AbrBFXRrsnqv4CAcALPQ0r
+nKpcEcnYvVjiefyBYhRJz0NHqhFXDZCorx7B3RluqQjvPIwBZR2GzBg5QgXWML5z
+nxSFhwZh58x7ViognfTeNaLocasH8LaKZ+JkBRBooo5xz7LdIw8Gevk4gkzCUTj9
+OdzRpG5DQjDl/J5X3iZKJ0T7DU9pPiYjWtEntlgVp6JPDZjxXUL0xyKInVEE9qrJ
+Mz3lpFw9Ea151LYjeu0uJUUpMP5RmxOSLjRXxssx0dT2/+x99re5ySvepJmah/gg
+S3TF5R6mxaz8i1lheWv7ZGs5cndbiP94bCOoveDUgAqmfhjMeTemX/4HDwmnYNoH
+RLLNuW7rG02uIE+biT+ZiD/TIpH4wNb4kwtpjPVXc/jXBcnFlaIqqv/IWKsLLHpJ
+hrtxX0EGDTjlmRu/RAh6D2B6YV2OPq3SWKaSl4CTA2Zk9usALsb04HTL2rfBokJN
+MNZfduNE0QohpNXhKZXdV3PkljURWaJl6Mb1dCGotDzY5bEZjkp2ssHtcGYut4n6
+8qy36cjJw+IRPy65JA8BUVdcAEvaZjdVOCcY5hQnsdw+Ff7jmtA=
+=hvs1
 -----END PGP SIGNATURE-----
 
---hqlwflu46tjfljz5--
+--42s67wtln7iyyikt--
