@@ -2,30 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 02E589A087
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2019 21:54:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E7119A1AB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2019 23:03:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731509AbfHVTyo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Aug 2019 15:54:44 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:41583 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727953AbfHVTyo (ORCPT
+        id S1731512AbfHVVDQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 22 Aug 2019 17:03:16 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:47713 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728080AbfHVVDQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Aug 2019 15:54:44 -0400
+        Thu, 22 Aug 2019 17:03:16 -0400
 X-Originating-IP: 87.18.63.98
 Received: from uno.homenet.telecomitalia.it (unknown [87.18.63.98])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 8C3EAC0002;
-        Thu, 22 Aug 2019 19:54:41 +0000 (UTC)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 5FD0BFF803;
+        Thu, 22 Aug 2019 21:03:10 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     Simon Horman <horms@verge.net.au>,
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Niklas Soderlund <niklas.soderlund@ragnatech.se>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Simon Horman <horms@verge.net.au>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH] arm64: dts: renesas: Add LIF channel index to 'vsps'
-Date:   Thu, 22 Aug 2019 21:56:00 +0200
-Message-Id: <20190822195600.30787-1-jacopo+renesas@jmondi.org>
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] media: bindings: video-interfaces: Update the example
+Date:   Thu, 22 Aug 2019 23:04:33 +0200
+Message-Id: <20190822210433.767-1-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -34,117 +41,283 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-According to the Renesas R-Car DU bindings documentation, the 'vsps'
-property should be composed by a phandle to the VSP instance and the
-index of the LIF channel assigned to the DU channel. Some SoC device
-tree source files do not specify any LIF channel index, relying on the
-driver defaulting it to 0 if not specified.
-
-Align all device tree files by specifying the LIF channel index as
-prescribed by the bindings documentation. While at it, add a comment to
-the 'vsps' property parsing routine to point out the LIF channel index
-is still defaulted to 0 for backward compatibility with non-standard DTB
-found in the wild.
+The example provided by the video-interface.txt file uses compatible
+values for drivers which are have been removed a long time ago. To avoid
+generating confusion, replace the existing example with a new one using
+upstream maintained and more modern devices.
 
 Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+
 ---
+This patch has been triggered by Simon's attempt to rename the bindings
+for the now removed soc-camera based sh-mobile-ceu device, which is used in
+this example:
+https://patchwork.kernel.org/patch/11101079/
 
-Patch based on Geert's latest renesas-devel master branch
+As soon as that driver is not mentioned in the example anymore, its
+bindings documentation could be removed as well.
 ---
+ .../bindings/media/video-interfaces.txt       | 223 ++++++++++--------
+ 1 file changed, 130 insertions(+), 93 deletions(-)
 
- arch/arm64/boot/dts/renesas/r8a774a1.dtsi    | 2 +-
- arch/arm64/boot/dts/renesas/r8a7795-es1.dtsi | 2 +-
- arch/arm64/boot/dts/renesas/r8a7796.dtsi     | 2 +-
- arch/arm64/boot/dts/renesas/r8a77970.dtsi    | 2 +-
- arch/arm64/boot/dts/renesas/r8a77980.dtsi    | 2 +-
- drivers/gpu/drm/rcar-du/rcar_du_kms.c        | 9 ++++++++-
- 6 files changed, 13 insertions(+), 6 deletions(-)
+diff --git a/Documentation/devicetree/bindings/media/video-interfaces.txt b/Documentation/devicetree/bindings/media/video-interfaces.txt
+index f884ada0bffc..cce80fd0ea13 100644
+--- a/Documentation/devicetree/bindings/media/video-interfaces.txt
++++ b/Documentation/devicetree/bindings/media/video-interfaces.txt
+@@ -153,123 +153,160 @@ Optional endpoint properties
+ Example
+ -------
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-index 06c7c849c8ab..d179ee3da308 100644
---- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-@@ -2651,7 +2651,7 @@
- 			clock-names = "du.0", "du.1", "du.2";
- 			status = "disabled";
+-The example snippet below describes two data pipelines.  ov772x and imx074 are
+-camera sensors with a parallel and serial (MIPI CSI-2) video bus respectively.
+-Both sensors are on the I2C control bus corresponding to the i2c0 controller
+-node.  ov772x sensor is linked directly to the ceu0 video host interface.
+-imx074 is linked to ceu0 through the MIPI CSI-2 receiver (csi2). ceu0 has a
+-(single) DMA engine writing captured data to memory.  ceu0 node has a single
+-'port' node which may indicate that at any time only one of the following data
+-pipelines can be active: ov772x -> ceu0 or imx074 -> csi2 -> ceu0.
+-
+-	ceu0: ceu@fe910000 {
+-		compatible = "renesas,sh-mobile-ceu";
+-		reg = <0xfe910000 0xa0>;
+-		interrupts = <0x880>;
+-
+-		mclk: master_clock {
+-			compatible = "renesas,ceu-clock";
+-			#clock-cells = <1>;
+-			clock-frequency = <50000000>;	/* Max clock frequency */
+-			clock-output-names = "mclk";
+-		};
++Te example snippet below describes two data pipelines connected to a video
++DMA engine (VIN4) which has a direct parallel video bus connection to an HDMI
++video decoder at port@0 and a data path to a CSI-2 receiver connected to an
++image sensor (imx074) at port@1.
 
--			vsps = <&vspd0 &vspd1 &vspd2>;
-+			vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>;
+-		port {
+-			#address-cells = <1>;
+-			#size-cells = <0>;
++The parallel HDMI video decoder links directly to the VIN input port 0, and the
++bus configuration at both ends is specified in each endpoint.
 
- 			ports {
- 				#address-cells = <1>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a7795-es1.dtsi b/arch/arm64/boot/dts/renesas/r8a7795-es1.dtsi
-index e4650ae5b75a..14d8513d2a47 100644
---- a/arch/arm64/boot/dts/renesas/r8a7795-es1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a7795-es1.dtsi
-@@ -30,7 +30,7 @@
- };
+-			/* Parallel bus endpoint */
+-			ceu0_1: endpoint@1 {
+-				reg = <1>;		/* Local endpoint # */
+-				remote = <&ov772x_1_1>;	/* Remote phandle */
+-				bus-width = <8>;	/* Used data lines */
+-				data-shift = <2>;	/* Lines 9:2 are used */
++The imx074 sensor connects to the CSI-2 receiver and the MIPI CSI-2 serial bus
++configuration is specified in the respective endpoints as well. The CSI-2
++receiver is then linked to the DMA engine through a direct data path which does
++not require any endpoint configuration.
 
- &du {
--	vsps = <&vspd0 &vspd1 &vspd2 &vspd3>;
-+	vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd3 0>;
- };
+-				/* If hsync-active/vsync-active are missing,
+-				   embedded BT.656 sync is used */
+-				hsync-active = <0>;	/* Active low */
+-				vsync-active = <0>;	/* Active low */
+-				data-active = <1>;	/* Active high */
+-				pclk-sample = <1>;	/* Rising */
+-			};
++i2c0: i2c@e6500000 {
++
++	hdmi-decoder@4c {
++		compatible = "adi,adv7612";
++		reg = <0x4c>;
 
- &fcpvb1 {
-diff --git a/arch/arm64/boot/dts/renesas/r8a7796.dtsi b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
-index 3dc9d73f589a..8c9bf985d436 100644
---- a/arch/arm64/boot/dts/renesas/r8a7796.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
-@@ -2765,7 +2765,7 @@
- 			clock-names = "du.0", "du.1", "du.2";
- 			status = "disabled";
+-			/* MIPI CSI-2 bus endpoint */
+-			ceu0_0: endpoint@0 {
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
+ 				reg = <0>;
+-				remote = <&csi2_2>;
++				adv7612_in: endpoint {
++					remote-endpoint = <&hdmi_con_in>;
++				};
+ 			};
+-		};
+-	};
 
--			vsps = <&vspd0 &vspd1 &vspd2>;
-+			vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>;
+-	i2c0: i2c@fff20000 {
+-		...
+-		ov772x_1: camera@21 {
+-			compatible = "ovti,ov772x";
+-			reg = <0x21>;
+-			vddio-supply = <&regulator1>;
+-			vddcore-supply = <&regulator2>;
+-
+-			clock-frequency = <20000000>;
+-			clocks = <&mclk 0>;
+-			clock-names = "xclk";
+-
+-			port {
+-				/* With 1 endpoint per port no need for addresses. */
+-				ov772x_1_1: endpoint {
++			port@2 {
++				reg = <2>;
++				adv7612_out: endpoint {
++					bus-type = 5;
+ 					bus-width = <8>;
+-					remote-endpoint = <&ceu0_1>;
+-					hsync-active = <1>;
+-					vsync-active = <0>; /* Who came up with an
++					pclk-sample = <0>;
++					hsync-active = <0>;
++					vsync-active = <1>; /* Who came up with an
+ 							       inverter here ?... */
+-					data-active = <1>;
+-					pclk-sample = <1>;
++					remote-endpoint = <&vin4_digital_in>;
+ 				};
+ 			};
+ 		};
++ 	};
 
- 			ports {
- 				#address-cells = <1>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a77970.dtsi b/arch/arm64/boot/dts/renesas/r8a77970.dtsi
-index 0cd3b376635d..2c4ab70e2a39 100644
---- a/arch/arm64/boot/dts/renesas/r8a77970.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77970.dtsi
-@@ -1120,7 +1120,7 @@
- 			clock-names = "du.0";
- 			power-domains = <&sysc R8A77970_PD_ALWAYS_ON>;
- 			resets = <&cpg 724>;
--			vsps = <&vspd0>;
-+			vsps = <&vspd0 0>;
- 			status = "disabled";
+-		imx074: camera@1a {
+-			compatible = "sony,imx074";
+-			reg = <0x1a>;
+-			vddio-supply = <&regulator1>;
+-			vddcore-supply = <&regulator2>;
+-
+-			clock-frequency = <30000000>;	/* Shared clock with ov772x_1 */
+-			clocks = <&mclk 0>;
+-			clock-names = "sysclk";		/* Assuming this is the
+-							   name in the datasheet */
+-			port {
+-				imx074_1: endpoint {
+-					clock-lanes = <0>;
+-					data-lanes = <1 2>;
+-					remote-endpoint = <&csi2_1>;
+-				};
++
++	imx074: camera@1a {
++		compatible = "sony,imx074";
++		reg = <0x1a>;
++
++		rotation = <180>; /* The camera is mounted upside down! */
++
++		/* With a single port, use 'port' and not 'ports'. */
++		port {
++			/* With 1 endpoint per port no need for addresses. */
++			imx074_1: endpoint {
++				bus-type = 4;
++				/* If lane re-ordering is not supported, no
++				   need to tell where the clock lane is! */
++				/* clock-lanes = <0>; */
++				/* But the number of data lanes is important! */
++				data-lanes = <1 2>;
++				remote-endpoint = <&csi20_in>;
+ 			};
+ 		};
+ 	};
++};
 
- 			ports {
-diff --git a/arch/arm64/boot/dts/renesas/r8a77980.dtsi b/arch/arm64/boot/dts/renesas/r8a77980.dtsi
-index 461a47ea656d..042f4089e546 100644
---- a/arch/arm64/boot/dts/renesas/r8a77980.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77980.dtsi
-@@ -1495,7 +1495,7 @@
- 			clock-names = "du.0";
- 			power-domains = <&sysc R8A77980_PD_ALWAYS_ON>;
- 			resets = <&cpg 724>;
--			vsps = <&vspd0>;
-+			vsps = <&vspd0 0>;
- 			status = "disabled";
+-	csi2: csi2@ffc90000 {
+-		compatible = "renesas,sh-mobile-csi2";
+-		reg = <0xffc90000 0x1000>;
+-		interrupts = <0x17a0>;
++csi20: csi2@fea80000 {
++	compatible = "renesas,r8a7795-csi2";
++	reg = <0 0xfea80000 0 0x10000>;
++	interrupts = <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>;
++	clocks = <&cpg CPG_MOD 714>;
++	power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
++	resets = <&cpg 714>;
++
++	ports {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
 
- 			ports {
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-index 2dc9caee8767..1a9e182b2b55 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-@@ -585,7 +585,14 @@ static int rcar_du_vsps_init(struct rcar_du_device *rcdu)
+-		port@1 {
+-			compatible = "renesas,csi2c";	/* One of CSI2I and CSI2C. */
+-			reg = <1>;			/* CSI-2 PHY #1 of 2: PHY_S,
+-							   PHY_M has port address 0,
+-							   is unused. */
+-			csi2_1: endpoint {
+-				clock-lanes = <0>;
+-				data-lanes = <2 1>;
++		port@0 {
++			reg = <0>;
++
++			csi20_in: endpoint {
++				bus-type = 4;
++				/* Use the same number of data lanes as the
++				   one used by the remote endpoint! */
++				data-lanes = <1 2>;
+ 				remote-endpoint = <&imx074_1>;
+ 			};
+ 		};
+-		port@2 {
+-			reg = <2>;			/* port 2: link to the CEU */
 
- 		vsps[j].crtcs_mask |= BIT(i);
-
--		/* Store the VSP pointer and pipe index in the CRTC. */
-+		/*
-+		 * Store the VSP pointer and pipe index in the CRTC.
-+		 *
-+		 * FIXME: According to the DT bindings, the LIF pipe instance
-+		 * index shall always be specified. For backward compatibility
-+		 * with older DTB without any index specified, default it to 0
-+		 * if cells < 1.
-+		 */
- 		rcdu->crtcs[i].vsp = &rcdu->vsps[j];
- 		rcdu->crtcs[i].vsp_pipe = cells >= 1 ? args.args[0] : 0;
- 	}
+-			csi2_2: endpoint {
+-				remote-endpoint = <&ceu0_0>;
++		port@1 {
++			reg = <1>;
++
++			/* Data path to the VIN4 DMA engine. */
++			csi20vin4: endpoint {
++				remote-endpoint = <&vin4csi20>;
++			};
++		};
++	};
++};
++
++vin4: video@e6ef4000 {
++	compatible = "renesas,vin-r8a7795";
++	reg = <0 0xe6ef4000 0 0x1000>;
++	interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
++	clocks = <&cpg CPG_MOD 807>;
++	power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
++	resets = <&cpg 807>;
++	renesas,id = <4>;
++
++	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		/* Parallel input port: HDMI decoder */
++		port@0 {
++			reg = <0>;
++
++			vin4_digital_in: endpoint {
++				bus-type = 5;
++				bus-width = <8>;	/* Used data lines */
++				data-shift = <2>;	/* Lines 9:2 are used */
++				data-active = <1>;	/* Active high */
++				pclk-sample = <0>;	/* Falling */
++				/* If hsync-active/vsync-active are missing,
++				 * embedded BT.656 sync is used */
++				hsync-active = <0>;
++				vsync-active = <0>;
++				remote-endpoint = <&adv7612_out>;
++			};
++		};
++
++
++		/* Data path to the MIPI CSI-2 receiver. */
++		port@1 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			reg =<1>;
++
++			/* Need endpoint numbers when multiple endpoints are
++			   present. */
++			vin4csi20: endpoint@0 {
++				reg = <0>;
++				remote-endpoint = <&csi20vin4>;
++			};
++
++			/* Not connected in this example. */
++			vin4csi41: endpoint@3 {
++				reg = <3>;
++				remote-endpoint = <&csi41vin4>;
+ 			};
+ 		};
+ 	};
++};
 --
 2.22.0
 
