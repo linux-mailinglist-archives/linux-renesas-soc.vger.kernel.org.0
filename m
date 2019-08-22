@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EAB598C31
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2019 09:07:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B20198C36
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 22 Aug 2019 09:09:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729716AbfHVHH4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 22 Aug 2019 03:07:56 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:35001 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728512AbfHVHH4 (ORCPT
+        id S1728512AbfHVHJT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 22 Aug 2019 03:09:19 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:35074 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727401AbfHVHJS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 22 Aug 2019 03:07:56 -0400
-Received: by mail-oi1-f196.google.com with SMTP id a127so3622124oii.2;
-        Thu, 22 Aug 2019 00:07:55 -0700 (PDT)
+        Thu, 22 Aug 2019 03:09:18 -0400
+Received: by mail-oi1-f193.google.com with SMTP id a127so3624388oii.2;
+        Thu, 22 Aug 2019 00:09:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=wvPGUUKVfeC8WPgez1SmTd9lQXOUTgZUHTYZ8rQHMgg=;
-        b=aCqClD3WP7PIqnlzgekHhKrFrxXIzCux4jOFid4gA7zwHqMF5CpXgtGn4hhrbbDdFm
-         m6vV/sXnLJI3T7jDJK/ds4vUQv7+YZ2O+krQpb8IJWczxy8mpIKT6p+/2bIQOqN0HQxe
-         XM5a69VIWU0TplQV4/skhq+PmzqDswLNYuXyvuQyfwftHORFJDPWF9Bqb0B1g49ATtpC
-         GybywRzpdgK5MGeUB0CMCyWwKJD+xgfN1v7OldMeqetfUcFnnRA6XpNUwlYVhn2wDCHd
-         YAIcBTLyTz3x0QvMi+EtTiU6+h63vixib0Z7AjRVgrPNoFsPTpnbLKl3MW7Wm+r5UuvL
-         s2JQ==
-X-Gm-Message-State: APjAAAUAb1xGq2oCKQPYRMaNryEk/8QYq27N+xUAM+otWcpc77iTWFDR
-        WdvIb1zJVzrzXLen/Z/U0Onxzi1KdPmefKMK6nA=
-X-Google-Smtp-Source: APXvYqw9kfh7EtJNimiI/MUjkpHdCqdhzcoPvDjZcIryjuUooM7yP93adW0U2TImjCDJZcy7YA+zHMBZHmr3XY5WcSc=
-X-Received: by 2002:aca:ea82:: with SMTP id i124mr2623012oih.153.1566457675331;
- Thu, 22 Aug 2019 00:07:55 -0700 (PDT)
+        bh=Odi1zm5kNxT56P4RawsvIjvMtfBtVv2o70eDUobjKNk=;
+        b=Fw2HnD92GovBtJbznMZlZ2znns07LLsIxyEL2S5oJh59HEFOarudQMdycp87HcmrNM
+         xDUSvnN2MsdfI5rBLDOin+0HCgeRtAn66zs3zXcanXHOwYcVRbxfJdqFdKFq2Pbr8KXG
+         CGLXqM2n9zuVB4y/HArLrsbU/syUXZ45+4KiXmR7iMldUtOWbxcLzWsud61Addqhwc+g
+         jao+hy54/1rAAhyyey8oPVI+g0Um1HCHVSHZYEsiupRmM4/vwTNnbWY0pLGCcN7ySGAQ
+         3uzgMMk269+rENi1aULq2sDThZHg+zD8UYk+fFkyrmJ6AtiAAfsdNsCodqWAbpDcigNC
+         XFng==
+X-Gm-Message-State: APjAAAU080BiH4WEnurh/nYrp4vxFfoM08b5ncxNQvD47MDQCfhUepBF
+        101jgcA1291AaUmX6gneyM/P33Vrwcc4gWJ5Gi4=
+X-Google-Smtp-Source: APXvYqyrdO65gOQhblbDupGny0LzlTDdRzUwnJtcgF6/nnHjbviZqyuAnjhjTztKG/HCJzyaJ0YCVW05n883IyifrnI=
+X-Received: by 2002:aca:b154:: with SMTP id a81mr287433oif.148.1566457757978;
+ Thu, 22 Aug 2019 00:09:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <156630449239.17444.11157306180861080402.sendpatchset@octo> <156630450374.17444.10813153921641289392.sendpatchset@octo>
-In-Reply-To: <156630450374.17444.10813153921641289392.sendpatchset@octo>
+References: <156630449239.17444.11157306180861080402.sendpatchset@octo> <156630451480.17444.3045034693349256156.sendpatchset@octo>
+In-Reply-To: <156630451480.17444.3045034693349256156.sendpatchset@octo>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 22 Aug 2019 09:07:43 +0200
-Message-ID: <CAMuHMdX2MLeAHGMCAcsc1CnMrUYfJzsv4ut=dn435B8Zw_49gg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/7] dt-bindings: timer: renesas, cmt: Add CMT0234 to
+Date:   Thu, 22 Aug 2019 09:09:06 +0200
+Message-ID: <CAMuHMdV3go4MODaW-9X_h-zHkHam825OEh9qgLtnoZQ2F9fCTQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/7] dt-bindings: timer: renesas, cmt: Update CMT1 on
  sh73a0 and r8a7740
 To:     Magnus Damm <magnus.damm@gmail.com>
 Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
@@ -58,16 +58,13 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 On Tue, Aug 20, 2019 at 2:33 PM Magnus Damm <magnus.damm@gmail.com> wrote:
 > From: Magnus Damm <damm+renesas@opensource.se>
 >
-> Document the on-chip CMT devices included in r8a7740 and sh73a0.
+> This patch reworks the DT binding documentation for the 6-channel
+> 48-bit CMTs known as CMT1 on r8a7740 and sh73a0.
 >
-> Included in this patch is DT binding documentation for 32-bit CMTs
-> CMT0, CMT2, CMT3 and CMT4. They all contain a single channel and are
-> quite similar however some minor differences still exist:
->  - "Counter input clock" (clock input and on-device divider)
->     One example is that RCLK 1/1 is supported by CMT2, CMT3 and CMT4.
->  - "Wakeup request" (supported by CMT0 and CMT2)
->
-> Because of this one unique compat string per CMT device is selected.
+> After the update the same style of DT binding as the rest of the upstream
+> SoCs will now also be used by r8a7740 and sh73a0. The DT binding "cmt-48"
+> is removed from the DT binding documentation, however software support for
+> this deprecated binding will still remain in the CMT driver for some time.
 >
 > Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
 > Reviewed-by: Rob Herring <robh@kernel.org>
