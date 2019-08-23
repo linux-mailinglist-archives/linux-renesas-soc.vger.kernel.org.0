@@ -2,26 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 97D9C9AFA7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2019 14:36:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73B099AFAC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2019 14:36:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732076AbfHWMgz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 23 Aug 2019 08:36:55 -0400
-Received: from michel.telenet-ops.be ([195.130.137.88]:57768 "EHLO
-        michel.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391797AbfHWMgz (ORCPT
+        id S2387932AbfHWMg5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Aug 2019 08:36:57 -0400
+Received: from laurent.telenet-ops.be ([195.130.137.89]:40592 "EHLO
+        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2393115AbfHWMg5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 23 Aug 2019 08:36:55 -0400
+        Fri, 23 Aug 2019 08:36:57 -0400
 Received: from ramsan ([84.194.98.4])
-        by michel.telenet-ops.be with bizsmtp
-        id sccr2000U05gfCL06ccrx4; Fri, 23 Aug 2019 14:36:54 +0200
+        by laurent.telenet-ops.be with bizsmtp
+        id sccr2000o05gfCL01ccrcg; Fri, 23 Aug 2019 14:36:55 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1i18oF-0006YU-GJ; Fri, 23 Aug 2019 14:36:51 +0200
+        id 1i18oF-0006Ya-HF; Fri, 23 Aug 2019 14:36:51 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1i18oF-0004uR-E9; Fri, 23 Aug 2019 14:36:51 +0200
+        id 1i18oF-0004uU-Fx; Fri, 23 Aug 2019 14:36:51 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>
 Cc:     Simon Horman <horms@verge.net.au>,
@@ -29,47 +29,66 @@ Cc:     Simon Horman <horms@verge.net.au>,
         linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PULL 4/5] Renesas driver updates for v5.4 (take two)
-Date:   Fri, 23 Aug 2019 14:36:42 +0200
-Message-Id: <20190823123643.18799-5-geert+renesas@glider.be>
+Subject: [PULL 5/5] Renesas DT binding updates for v5.4 (take two)
+Date:   Fri, 23 Aug 2019 14:36:43 +0200
+Message-Id: <20190823123643.18799-6-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190823123643.18799-1-geert+renesas@glider.be>
 References: <20190823123643.18799-1-geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The following changes since commit 0ed0eb0171d7c19310d9f7b06a6dee82a4fb8ab6:
+The following changes since commit 8cb7ec14188649cf2151464050413e2814fd7cf1:
 
-  soc: renesas: rcar-sysc: Use [] to denote a flexible array member (2019-07-29 15:36:56 +0200)
+  dt-bindings: can: rcar_can: Complete documentation for RZ/G2[EM] (2019-07-29 15:36:39 +0200)
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-drivers-for-v5.4-tag2
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-dt-bindings-for-v5.4-tag2
 
-for you to fetch changes up to 2eced4607a1e6f51f928ae3e521fe02be5cb7d23:
+for you to fetch changes up to 7ac2d56f783d6d546e89a4e44fb46532667aa7a5:
 
-  soc: renesas: Enable ARM_ERRATA_754322 for affected Cortex-A9 (2019-08-23 10:33:31 +0200)
-
-----------------------------------------------------------------
-Renesas driver updates for v5.4 (take two)
-
-  - Improve "always-on" PM Domain handling on SH/R-Mobile SoCs,
-  - Automatic errata selection for Cortex-A7/A9,
-  - Small fixes and improvements.
+  dt-bindings: can: rcar_can: document r8a77470 support (2019-08-23 14:25:05 +0200)
 
 ----------------------------------------------------------------
-Geert Uytterhoeven (4):
-      soc: renesas: rcar-sysc: Eliminate local variable gov
-      soc: renesas: rmobile-sysc: Set GENPD_FLAG_ALWAYS_ON for always-on domain
-      soc: renesas: Enable ARM_ERRATA_814220 for affected Cortex-A7
-      soc: renesas: Enable ARM_ERRATA_754322 for affected Cortex-A9
+Renesas DT binding updates for v5.4 (take two)
 
-Nishka Dasgupta (1):
-      soc: renesas: rcar-sysc: Add goto to of_node_put() before return
+  - Renesas DT binding doc filename cleanups,
+  - R-Car Gen3 and RZ/G1 updates for the R-Car CAN and CANFD DT
+    bindings.
 
- drivers/soc/renesas/Kconfig        | 11 +++++++++++
- drivers/soc/renesas/rcar-sysc.c    |  5 ++---
- drivers/soc/renesas/rmobile-sysc.c | 31 ++++++++++++++++---------------
- 3 files changed, 29 insertions(+), 18 deletions(-)
+----------------------------------------------------------------
+Cao Van Dong (1):
+      dt-bindings: can: rcar_can: document r8a77470 support
+
+Marek Vasut (1):
+      dt-bindings: can: rcar_can: document r8a77990 support
+
+Niklas Söderlund (1):
+      dt-bindings: rcar-{csi2,vin}: Rename bindings documentation files
+
+Simon Horman (2):
+      dt-bindings: Rename file of DT bindings for Renesas memory controllers
+      dt-bindings: rcar-imr: Rename bindings documentation file
+
+Ulrich Hecht (2):
+      dt-bindings: can: rcar_can: document r8a77995 support
+      dt-bindings: can: rcar_canfd: document r8a77995 support
+
+ .../media/{renesas,rcar-csi2.txt => renesas,csi2.txt}      |  0
+ .../bindings/media/{rcar_imr.txt => renesas,imr.txt}       |  0
+ .../bindings/media/{rcar_vin.txt => renesas,vin.txt}       |  0
+ .../{renesas-memory-controllers.txt => renesas,dbsc.txt}   |  0
+ Documentation/devicetree/bindings/net/can/rcar_can.txt     |  6 +++++-
+ Documentation/devicetree/bindings/net/can/rcar_canfd.txt   | 14 +++++++-------
+ MAINTAINERS                                                |  4 ++--
+ 7 files changed, 14 insertions(+), 10 deletions(-)
+ rename Documentation/devicetree/bindings/media/{renesas,rcar-csi2.txt => renesas,csi2.txt} (100%)
+ rename Documentation/devicetree/bindings/media/{rcar_imr.txt => renesas,imr.txt} (100%)
+ rename Documentation/devicetree/bindings/media/{rcar_vin.txt => renesas,vin.txt} (100%)
+ rename Documentation/devicetree/bindings/memory-controllers/{renesas-memory-controllers.txt => renesas,dbsc.txt} (100%)
