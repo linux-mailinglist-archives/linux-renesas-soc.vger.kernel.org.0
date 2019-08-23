@@ -2,88 +2,141 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 223EE9B03E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2019 15:00:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A3989B1BA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2019 16:18:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2395117AbfHWM7u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 23 Aug 2019 08:59:50 -0400
-Received: from laurent.telenet-ops.be ([195.130.137.89]:50404 "EHLO
-        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393410AbfHWM7u (ORCPT
+        id S2388638AbfHWOSW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Aug 2019 10:18:22 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:45068 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388188AbfHWOSW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 23 Aug 2019 08:59:50 -0400
-Received: from ramsan ([84.194.98.4])
-        by laurent.telenet-ops.be with bizsmtp
-        id sczp2000J05gfCL01czpWC; Fri, 23 Aug 2019 14:59:49 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1i19AT-0006e0-DB; Fri, 23 Aug 2019 14:59:49 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1i19AT-0005eU-C4; Fri, 23 Aug 2019 14:59:49 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [git pull] pinctrl: sh-pfc: Updates for v5.4 (take two)
-Date:   Fri, 23 Aug 2019 14:59:48 +0200
-Message-Id: <20190823125948.21685-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Fri, 23 Aug 2019 10:18:22 -0400
+Received: by mail-oi1-f196.google.com with SMTP id v12so7097830oic.12
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Aug 2019 07:18:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=r/aCcqURiq+4wsya9iyN7VmLfWFmua8EIL5cQp1iPMc=;
+        b=YFcePtwuIOiZe10TywbnU7L7YU4OYlr0jfQl3bVpJUx5cZukdl2YHjBK0kBNY7Fvdh
+         bk+//qLNg9M6hmM4ullB0hysOBP1tqstbwbpFS8b9/u4cXIDk6txh6wLvu4EBlG/UNe4
+         UKWtqw9q0wo0UQG1A2Cx23h89NIKESNka+XDVZcuJD2aqteGh7hsBpLnD0YLXoSwBLNx
+         khlFxKQ51QhcUxQfbd594OIU7tocj4yNJO12wY7nvx/3N1Vib5hGpxERd1z4SLSjgRko
+         rXtGaOaOQn++Xiq34UZOHETedyj7whoCoU6m1XYvkge/wK5VP/VD+iozBgh5ejT/qvKr
+         xkPQ==
+X-Gm-Message-State: APjAAAWS4lSAaUtW3lX985uTjCp+gEVtf1E4PzVSOMHT9XbIDEfX0o3S
+        YfX1BqvY1Rn+4jeDnzUEagKUkiX9dhnd9pwPW0A=
+X-Google-Smtp-Source: APXvYqzFtEVyepKsP8Dr76yCNJLg29r3JhCcWzphikxFINAP4o95/qq6iTaJJiteDCxYVhxEqU97G5v8+RhIQWGu+pc=
+X-Received: by 2002:aca:b154:: with SMTP id a81mr3166910oif.148.1566569901145;
+ Fri, 23 Aug 2019 07:18:21 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190821124441.22319-1-erosca@de.adit-jv.com>
+In-Reply-To: <20190821124441.22319-1-erosca@de.adit-jv.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 23 Aug 2019 16:18:09 +0200
+Message-ID: <CAMuHMdWdObHAesUvF1BLwnEFJ6dsdpwM2yPRdUFW4D1Rp6d-tQ@mail.gmail.com>
+Subject: Re: [RFC DO-NOT-MERGE PATCH] arm64: dts: renesas: R8A77961: Add
+ Renesas M3-W+ (M3 ES3.0) SoC support
+To:     Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Takeshi Kihara <takeshi.kihara.df@renesas.com>,
+        Michael Dege <michael.dege@renesas.com>,
+        Andrew_Gabbasov@mentor.com,
+        "George G. Davis" <george_davis@mentor.com>,
+        Tobias Franzen <tfranzen@de.adit-jv.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi Linus,
+Hi Eugeniu,
 
-The following changes since commit 625efea83a7c37d281c6a90526813a1366929d24:
+Thanks for bringing this up!
 
-  pinctrl: rza1: Use devm_platform_ioremap_resource() helper (2019-08-09 09:34:45 +0200)
+On Wed, Aug 21, 2019 at 2:45 PM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
+> Similar to the revision update from H3-ES1.x to H3-ES2.0, the update
+> from M3-ES1.x to M3-ES3.0, in addition to fixing HW bugs/erratas, drops
+> entire silicon IPs [1-2] (for cost efficiency and other reasons).
+>
+> However, unlike in the H3 ES1.x->ES2.0 revision update, the M3-ES3.0
+> came with a new SoC id, i.e. r8a77961 (according to both [2] and
 
-are available in the Git repository at:
+Actually R-Car H3 ES2.0 is r8a77951, while ES1.x is r8a77950.
+But we ignored the fifth digit (see below).
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/sh-pfc-for-v5.4-tag2
+> the updated SoC HW manual Rev.2.00 Jul 2019). The choice to allocate a
+> new identifier seems to strengthen the HW differences between M3-ES1.x
+> and M3-ES3.0 (as it is the case for M3N/r8a77965).
 
-for you to fetch changes up to 0a6864274e4166cde21f26193350c7fcd9716ef5:
+While H3 ES2.0 was an evolutionary step, obsoleting H3 ES1.x, it looks
+like M3-W and M3-W+ may exist as two separate products, next to each
+other.
 
-  pinctrl: rza2: Include the appropriate headers (2019-08-23 09:08:10 +0200)
+> Given the above, there are several ways to differentiate between
+> M3-ES1.x and M3-ES3.0:
+>
+> A. The BSP way [1]. Move/rename r8a7796.dtsi to r8a7796-es1.dtsi and
+> keep using r8a7796.dtsi for M3-ES3.x.
+>
+> Pros:
+>  * Resembles commit 291e0c4994d081 ("arm64: dts: r8a7795: Add support
+>    for R-Car H3 ES2.0")
+>  * Reuses the r8a7796 (e.g. sysc, cpg-mssr) drivers for r8a77961 (i.e.
+>    minimizes the bring-up effort)
+> Cons:
+>  * Deliberately diverges from the vendor documentation [2] by
+>    ignoring the new SoC identifier r8a77961, i.e. leading to
+>    inconsistencies in the names of the drivers and DTS
+>
+> B. The approach taken in this patch, i.e. create a brand new
+>   r8a77961.dtsi (similar to r8a77965.dtsi).
+>
+> Pros:
+>  * Reflects the reality documented by HW designers [2]
+>  * Maintains drivers/DTS naming consistency and avoids mismatch between
+>    documentation and code
+> Cons:
+>  * higher bring-up effort than (A)
+>  * more discussion is needed on whether it makes sense to separate:
+>    - DTS only
+>    - DTS + Kconfig (ARCH_R8A77961)
+>    - DTS + Kconfig (ARCH_R8A77961) + drivers (sysc, cpg-mssr, other?)
+>
+> Comments appreciated!
 
-----------------------------------------------------------------
-pinctrl: sh-pfc: Updates for v5.4 (take two)
+When we started work on H3 ES2.0, it was considered an evolutionary step
+from ES1.x, not a different SoC.  We also were used to 4-digit IDs in
+compatible values, as before the 5th digit was typically used to
+indicate a minor difference, like a different package, or a different
+ROM option.  Hence we ignored the 5th digit, reused the compatible
+values for H3 ES1.x, and went with soc_device_match() to differentiate,
+where needed.
 
-  - Support switching between function and gpio at runtime,
-  - Small fixes and cleanups.
+However, it turned out H3 ES2.0 was more like a different SoC in the
+same family: it has more similarities with R-Car M3-W ES1.0 than with
+R-Car H3 ES1.x.  In the mean time, with the advent of R-Car D3 and M3-N,
+we also got used to 5 digits.  Hence in hindsight, it might have been
+better if we had considered H3 ES1.x and ES2.0 to be two different
+SoCs.
 
-Thanks for pulling!
+Given R-Car M3-W and M3-W+ may co-exist as separate SoCs, I think
+approach B is the best approach, using separate DTS, compatible values,
+Kconfig, and drivers, like we did for e.g. R-Car M3-N.
 
-----------------------------------------------------------------
-Linus Walleij (3):
-      pinctrl: sh-pfc: Include the right header
-      pinctrl: rza2: Drop driver use of consumer flags
-      pinctrl: rza2: Include the appropriate headers
-
-Nishka Dasgupta (1):
-      pinctrl: rza1: Add of_node_put() before return
-
-Yoshihiro Shimoda (3):
-      pinctrl: sh-pfc: Add new flags into struct sh_pfc_pin_config
-      pinctrl: sh-pfc: Remove incomplete flag "cfg->type"
-      pinctrl: sh-pfc: Rollback to mux if required when the gpio is freed
-
- drivers/pinctrl/pinctrl-rza1.c   | 12 ++++++++---
- drivers/pinctrl/pinctrl-rza2.c   | 17 ++++++++-------
- drivers/pinctrl/sh-pfc/gpio.c    |  2 +-
- drivers/pinctrl/sh-pfc/pinctrl.c | 45 ++++++++++++++++++++--------------------
- 4 files changed, 42 insertions(+), 34 deletions(-)
+What do you think?
+Thanks!
 
 Gr{oetje,eeting}s,
 
-						Geert
+                        Geert
 
 --
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+                                -- Linus Torvalds
