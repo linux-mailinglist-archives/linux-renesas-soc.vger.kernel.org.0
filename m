@@ -2,93 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 73B099AFAC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2019 14:36:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F329F9B036
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2019 15:00:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387932AbfHWMg5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 23 Aug 2019 08:36:57 -0400
-Received: from laurent.telenet-ops.be ([195.130.137.89]:40592 "EHLO
-        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393115AbfHWMg5 (ORCPT
+        id S2395110AbfHWM6U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Aug 2019 08:58:20 -0400
+Received: from xavier.telenet-ops.be ([195.130.132.52]:41580 "EHLO
+        xavier.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389430AbfHWM6U (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 23 Aug 2019 08:36:57 -0400
+        Fri, 23 Aug 2019 08:58:20 -0400
 Received: from ramsan ([84.194.98.4])
-        by laurent.telenet-ops.be with bizsmtp
-        id sccr2000o05gfCL01ccrcg; Fri, 23 Aug 2019 14:36:55 +0200
+        by xavier.telenet-ops.be with bizsmtp
+        id scyH2000d05gfCL01cyH0Z; Fri, 23 Aug 2019 14:58:18 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1i18oF-0006Ya-HF; Fri, 23 Aug 2019 14:36:51 +0200
+        id 1i198z-0006dZ-NK; Fri, 23 Aug 2019 14:58:17 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1i18oF-0004uU-Fx; Fri, 23 Aug 2019 14:36:51 +0200
+        id 1i198z-0005bo-LJ; Fri, 23 Aug 2019 14:58:17 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>
-Cc:     Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PULL 5/5] Renesas DT binding updates for v5.4 (take two)
-Date:   Fri, 23 Aug 2019 14:36:43 +0200
-Message-Id: <20190823123643.18799-6-geert+renesas@glider.be>
+Subject: [git pull] clk: renesas: Updates for v5.4
+Date:   Fri, 23 Aug 2019 14:58:16 +0200
+Message-Id: <20190823125816.21519-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190823123643.18799-1-geert+renesas@glider.be>
-References: <20190823123643.18799-1-geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The following changes since commit 8cb7ec14188649cf2151464050413e2814fd7cf1:
+	Hi Mike, Stephen,
 
-  dt-bindings: can: rcar_can: Complete documentation for RZ/G2[EM] (2019-07-29 15:36:39 +0200)
+The following changes since commit 5f9e832c137075045d15cd6899ab0505cfb2ca4b:
+
+  Linus 5.3-rc1 (2019-07-21 14:05:38 -0700)
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-dt-bindings-for-v5.4-tag2
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/clk-renesas-for-v5.4-tag1
 
-for you to fetch changes up to 7ac2d56f783d6d546e89a4e44fb46532667aa7a5:
+for you to fetch changes up to f787216f33ce5b5a2567766398f44ab62157114c:
 
-  dt-bindings: can: rcar_can: document r8a77470 support (2019-08-23 14:25:05 +0200)
-
-----------------------------------------------------------------
-Renesas DT binding updates for v5.4 (take two)
-
-  - Renesas DT binding doc filename cleanups,
-  - R-Car Gen3 and RZ/G1 updates for the R-Car CAN and CANFD DT
-    bindings.
+  clk: renesas: cpg-mssr: Set GENPD_FLAG_ALWAYS_ON for clock domain (2019-08-23 11:09:57 +0200)
 
 ----------------------------------------------------------------
-Cao Van Dong (1):
-      dt-bindings: can: rcar_can: document r8a77470 support
+clk: renesas: Updates for v5.4
 
-Marek Vasut (1):
-      dt-bindings: can: rcar_can: document r8a77990 support
+  - Fix "always-on" Clock Domains on R-Car M1A, RZ/A1, RZ/A2, and RZ/N1,
+  - Minor cleanups.
 
-Niklas Söderlund (1):
-      dt-bindings: rcar-{csi2,vin}: Rename bindings documentation files
+Thanks for pulling!
 
-Simon Horman (2):
-      dt-bindings: Rename file of DT bindings for Renesas memory controllers
-      dt-bindings: rcar-imr: Rename bindings documentation file
+----------------------------------------------------------------
+Geert Uytterhoeven (4):
+      clk: renesas: rcar-usb2-clock-sel: Use devm_platform_ioremap_resource() helper
+      clk: renesas: mstp: Set GENPD_FLAG_ALWAYS_ON for clock domain
+      clk: renesas: r9a06g032: Set GENPD_FLAG_ALWAYS_ON for clock domain
+      clk: renesas: cpg-mssr: Set GENPD_FLAG_ALWAYS_ON for clock domain
 
-Ulrich Hecht (2):
-      dt-bindings: can: rcar_can: document r8a77995 support
-      dt-bindings: can: rcar_canfd: document r8a77995 support
+Simon Horman (1):
+      dt-bindings: clk: emev2: Rename bindings documentation file
 
- .../media/{renesas,rcar-csi2.txt => renesas,csi2.txt}      |  0
- .../bindings/media/{rcar_imr.txt => renesas,imr.txt}       |  0
- .../bindings/media/{rcar_vin.txt => renesas,vin.txt}       |  0
- .../{renesas-memory-controllers.txt => renesas,dbsc.txt}   |  0
- Documentation/devicetree/bindings/net/can/rcar_can.txt     |  6 +++++-
- Documentation/devicetree/bindings/net/can/rcar_canfd.txt   | 14 +++++++-------
- MAINTAINERS                                                |  4 ++--
- 7 files changed, 14 insertions(+), 10 deletions(-)
- rename Documentation/devicetree/bindings/media/{renesas,rcar-csi2.txt => renesas,csi2.txt} (100%)
- rename Documentation/devicetree/bindings/media/{rcar_imr.txt => renesas,imr.txt} (100%)
- rename Documentation/devicetree/bindings/media/{rcar_vin.txt => renesas,vin.txt} (100%)
- rename Documentation/devicetree/bindings/memory-controllers/{renesas-memory-controllers.txt => renesas,dbsc.txt} (100%)
+ .../bindings/clock/{emev2-clock.txt => renesas,emev2-smu.txt}         | 0
+ drivers/clk/renesas/clk-mstp.c                                        | 3 ++-
+ drivers/clk/renesas/r9a06g032-clocks.c                                | 3 ++-
+ drivers/clk/renesas/rcar-usb2-clock-sel.c                             | 4 +---
+ drivers/clk/renesas/renesas-cpg-mssr.c                                | 3 ++-
+ 5 files changed, 7 insertions(+), 6 deletions(-)
+ rename Documentation/devicetree/bindings/clock/{emev2-clock.txt => renesas,emev2-smu.txt} (100%)
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
