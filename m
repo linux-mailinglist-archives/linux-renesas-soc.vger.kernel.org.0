@@ -2,141 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A3989B1BA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2019 16:18:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EF659B358
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2019 17:33:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388638AbfHWOSW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 23 Aug 2019 10:18:22 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:45068 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388188AbfHWOSW (ORCPT
+        id S2405521AbfHWPdF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Aug 2019 11:33:05 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:39308 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S2405484AbfHWPdF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 23 Aug 2019 10:18:22 -0400
-Received: by mail-oi1-f196.google.com with SMTP id v12so7097830oic.12
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Aug 2019 07:18:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=r/aCcqURiq+4wsya9iyN7VmLfWFmua8EIL5cQp1iPMc=;
-        b=YFcePtwuIOiZe10TywbnU7L7YU4OYlr0jfQl3bVpJUx5cZukdl2YHjBK0kBNY7Fvdh
-         bk+//qLNg9M6hmM4ullB0hysOBP1tqstbwbpFS8b9/u4cXIDk6txh6wLvu4EBlG/UNe4
-         UKWtqw9q0wo0UQG1A2Cx23h89NIKESNka+XDVZcuJD2aqteGh7hsBpLnD0YLXoSwBLNx
-         khlFxKQ51QhcUxQfbd594OIU7tocj4yNJO12wY7nvx/3N1Vib5hGpxERd1z4SLSjgRko
-         rXtGaOaOQn++Xiq34UZOHETedyj7whoCoU6m1XYvkge/wK5VP/VD+iozBgh5ejT/qvKr
-         xkPQ==
-X-Gm-Message-State: APjAAAWS4lSAaUtW3lX985uTjCp+gEVtf1E4PzVSOMHT9XbIDEfX0o3S
-        YfX1BqvY1Rn+4jeDnzUEagKUkiX9dhnd9pwPW0A=
-X-Google-Smtp-Source: APXvYqzFtEVyepKsP8Dr76yCNJLg29r3JhCcWzphikxFINAP4o95/qq6iTaJJiteDCxYVhxEqU97G5v8+RhIQWGu+pc=
-X-Received: by 2002:aca:b154:: with SMTP id a81mr3166910oif.148.1566569901145;
- Fri, 23 Aug 2019 07:18:21 -0700 (PDT)
+        Fri, 23 Aug 2019 11:33:05 -0400
+Received: (qmail 4343 invoked by uid 2102); 23 Aug 2019 11:33:04 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 23 Aug 2019 11:33:04 -0400
+Date:   Fri, 23 Aug 2019 11:33:04 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+cc:     gregkh@linuxfoundation.org, <linux-usb@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] usb: host: ohci: fix a race condition between shutdown
+ and irq
+In-Reply-To: <1566556357-24897-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Message-ID: <Pine.LNX.4.44L0.1908231124410.1628-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-References: <20190821124441.22319-1-erosca@de.adit-jv.com>
-In-Reply-To: <20190821124441.22319-1-erosca@de.adit-jv.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 23 Aug 2019 16:18:09 +0200
-Message-ID: <CAMuHMdWdObHAesUvF1BLwnEFJ6dsdpwM2yPRdUFW4D1Rp6d-tQ@mail.gmail.com>
-Subject: Re: [RFC DO-NOT-MERGE PATCH] arm64: dts: renesas: R8A77961: Add
- Renesas M3-W+ (M3 ES3.0) SoC support
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Takeshi Kihara <takeshi.kihara.df@renesas.com>,
-        Michael Dege <michael.dege@renesas.com>,
-        Andrew_Gabbasov@mentor.com,
-        "George G. Davis" <george_davis@mentor.com>,
-        Tobias Franzen <tfranzen@de.adit-jv.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Eugeniu,
+On Fri, 23 Aug 2019, Yoshihiro Shimoda wrote:
 
-Thanks for bringing this up!
+> This patch fixes an issue that the following error is
+> possible to happen when ohci hardware causes an interruption
+> and the system is shutting down at the same time.
+> 
+> [   34.851754] usb 2-1: USB disconnect, device number 2
+> [   35.166658] irq 156: nobody cared (try booting with the "irqpoll" option)
+> [   35.173445] CPU: 0 PID: 22 Comm: kworker/0:1 Not tainted 5.3.0-rc5 #85
+> [   35.179964] Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
+> [   35.187886] Workqueue: usb_hub_wq hub_event
+> [   35.192063] Call trace:
+> [   35.194509]  dump_backtrace+0x0/0x150
+> [   35.198165]  show_stack+0x14/0x20
+> [   35.201475]  dump_stack+0xa0/0xc4
+> [   35.204785]  __report_bad_irq+0x34/0xe8
+> [   35.208614]  note_interrupt+0x2cc/0x318
+> [   35.212446]  handle_irq_event_percpu+0x5c/0x88
+> [   35.216883]  handle_irq_event+0x48/0x78
+> [   35.220712]  handle_fasteoi_irq+0xb4/0x188
+> [   35.224802]  generic_handle_irq+0x24/0x38
+> [   35.228804]  __handle_domain_irq+0x5c/0xb0
+> [   35.232893]  gic_handle_irq+0x58/0xa8
+> [   35.236548]  el1_irq+0xb8/0x180
+> [   35.239681]  __do_softirq+0x94/0x23c
+> [   35.243253]  irq_exit+0xd0/0xd8
+> [   35.246387]  __handle_domain_irq+0x60/0xb0
+> [   35.250475]  gic_handle_irq+0x58/0xa8
+> [   35.254130]  el1_irq+0xb8/0x180
+> [   35.257268]  kernfs_find_ns+0x5c/0x120
+> [   35.261010]  kernfs_find_and_get_ns+0x3c/0x60
+> [   35.265361]  sysfs_unmerge_group+0x20/0x68
+> [   35.269454]  dpm_sysfs_remove+0x2c/0x68
+> [   35.273284]  device_del+0x80/0x370
+> [   35.276683]  hid_destroy_device+0x28/0x60
+> [   35.280686]  usbhid_disconnect+0x4c/0x80
+> [   35.284602]  usb_unbind_interface+0x6c/0x268
+> [   35.288867]  device_release_driver_internal+0xe4/0x1b0
+> [   35.293998]  device_release_driver+0x14/0x20
+> [   35.298261]  bus_remove_device+0x110/0x128
+> [   35.302350]  device_del+0x148/0x370
+> [   35.305832]  usb_disable_device+0x8c/0x1d0
+> [   35.309921]  usb_disconnect+0xc8/0x2d0
+> [   35.313663]  hub_event+0x6e0/0x1128
+> [   35.317146]  process_one_work+0x1e0/0x320
+> [   35.321148]  worker_thread+0x40/0x450
+> [   35.324805]  kthread+0x124/0x128
+> [   35.328027]  ret_from_fork+0x10/0x18
+> [   35.331594] handlers:
+> [   35.333862] [<0000000079300c1d>] usb_hcd_irq
+> [   35.338126] [<0000000079300c1d>] usb_hcd_irq
+> [   35.342389] Disabling IRQ #156
+> 
+> The ohci_shutdown() should hold the spin lock while disabling
+> the interruption and changing the rh_state flag. Note that
+> io_watchdog_func() also calls the ohci_shutdown() and it
+> already held the spin lock, so that the patch makes a new
+> function as _ohci_shutdown().
 
-On Wed, Aug 21, 2019 at 2:45 PM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
-> Similar to the revision update from H3-ES1.x to H3-ES2.0, the update
-> from M3-ES1.x to M3-ES3.0, in addition to fixing HW bugs/erratas, drops
-> entire silicon IPs [1-2] (for cost efficiency and other reasons).
->
-> However, unlike in the H3 ES1.x->ES2.0 revision update, the M3-ES3.0
-> came with a new SoC id, i.e. r8a77961 (according to both [2] and
+I don't understand this description.  It sounds like the OHCI
+controller generates an interrupt request, and then ohci_shutdown()  
+disables the interrupt request before the handler can run.  When the
+handler does run, it sees that no interrupts are enabled and so it
+returns IRQ_NOTMINE, leading to the error shown above.
 
-Actually R-Car H3 ES2.0 is r8a77951, while ES1.x is r8a77950.
-But we ignored the fifth digit (see below).
+How will holding the spinlock fix this problem?
 
-> the updated SoC HW manual Rev.2.00 Jul 2019). The choice to allocate a
-> new identifier seems to strengthen the HW differences between M3-ES1.x
-> and M3-ES3.0 (as it is the case for M3N/r8a77965).
+Alan Stern
 
-While H3 ES2.0 was an evolutionary step, obsoleting H3 ES1.x, it looks
-like M3-W and M3-W+ may exist as two separate products, next to each
-other.
-
-> Given the above, there are several ways to differentiate between
-> M3-ES1.x and M3-ES3.0:
->
-> A. The BSP way [1]. Move/rename r8a7796.dtsi to r8a7796-es1.dtsi and
-> keep using r8a7796.dtsi for M3-ES3.x.
->
-> Pros:
->  * Resembles commit 291e0c4994d081 ("arm64: dts: r8a7795: Add support
->    for R-Car H3 ES2.0")
->  * Reuses the r8a7796 (e.g. sysc, cpg-mssr) drivers for r8a77961 (i.e.
->    minimizes the bring-up effort)
-> Cons:
->  * Deliberately diverges from the vendor documentation [2] by
->    ignoring the new SoC identifier r8a77961, i.e. leading to
->    inconsistencies in the names of the drivers and DTS
->
-> B. The approach taken in this patch, i.e. create a brand new
->   r8a77961.dtsi (similar to r8a77965.dtsi).
->
-> Pros:
->  * Reflects the reality documented by HW designers [2]
->  * Maintains drivers/DTS naming consistency and avoids mismatch between
->    documentation and code
-> Cons:
->  * higher bring-up effort than (A)
->  * more discussion is needed on whether it makes sense to separate:
->    - DTS only
->    - DTS + Kconfig (ARCH_R8A77961)
->    - DTS + Kconfig (ARCH_R8A77961) + drivers (sysc, cpg-mssr, other?)
->
-> Comments appreciated!
-
-When we started work on H3 ES2.0, it was considered an evolutionary step
-from ES1.x, not a different SoC.  We also were used to 4-digit IDs in
-compatible values, as before the 5th digit was typically used to
-indicate a minor difference, like a different package, or a different
-ROM option.  Hence we ignored the 5th digit, reused the compatible
-values for H3 ES1.x, and went with soc_device_match() to differentiate,
-where needed.
-
-However, it turned out H3 ES2.0 was more like a different SoC in the
-same family: it has more similarities with R-Car M3-W ES1.0 than with
-R-Car H3 ES1.x.  In the mean time, with the advent of R-Car D3 and M3-N,
-we also got used to 5 digits.  Hence in hindsight, it might have been
-better if we had considered H3 ES1.x and ES2.0 to be two different
-SoCs.
-
-Given R-Car M3-W and M3-W+ may co-exist as separate SoCs, I think
-approach B is the best approach, using separate DTS, compatible values,
-Kconfig, and drivers, like we did for e.g. R-Car M3-N.
-
-What do you think?
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
