@@ -2,155 +2,144 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A85439AD03
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2019 12:22:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A4229AD57
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2019 12:34:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390459AbfHWKWv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 23 Aug 2019 06:22:51 -0400
-Received: from mailout2.w1.samsung.com ([210.118.77.12]:57827 "EHLO
-        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732509AbfHWKWv (ORCPT
+        id S1731944AbfHWKeQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 23 Aug 2019 06:34:16 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:35033 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2388983AbfHWKeQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 23 Aug 2019 06:22:51 -0400
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20190823102248euoutp02a5a21fa2c830f8f6d6ba636eba420e5d~9hivqJx561111811118euoutp02g;
-        Fri, 23 Aug 2019 10:22:48 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20190823102248euoutp02a5a21fa2c830f8f6d6ba636eba420e5d~9hivqJx561111811118euoutp02g
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1566555768;
-        bh=z9XZ2A62tyztr5HnPVLdeo7/XMB6WFaWLXcHY42Qnfg=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=lkGH8pYyUx7WIBZOx6HzoUybx2oG6Kelr7JFRIg1nrOO1994fzD7eGjdpVL9TblyN
-         dkyyPAxsazh/kwW/0gU8SM11F+66Uv83KggFfFzvTQNTOXIkqku1qyMQVGLajoMN5S
-         shrn3a4aV33XqqgcgIoSrbYv2t/yuVWIx/X27l+4=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20190823102248eucas1p23fbfdf9ce74b3b95f265f2d998241190~9hivImyF-0395403954eucas1p2c;
-        Fri, 23 Aug 2019 10:22:48 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-        eusmges3new.samsung.com (EUCPMTA) with SMTP id 69.EF.04374.77EBF5D5; Fri, 23
-        Aug 2019 11:22:47 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20190823102246eucas1p1da04b0b59ae81f1fb8dafa801dadf073~9hiuCcful2624926249eucas1p1_;
-        Fri, 23 Aug 2019 10:22:46 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20190823102246eusmtrp1e4c713001b4d3cfb0560212019d255a0~9hitu4sA03092930929eusmtrp1Z;
-        Fri, 23 Aug 2019 10:22:46 +0000 (GMT)
-X-AuditID: cbfec7f5-4f7ff70000001116-63-5d5fbe77cfbf
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id 55.FC.04166.67EBF5D5; Fri, 23
-        Aug 2019 11:22:46 +0100 (BST)
-Received: from [106.120.51.75] (unknown [106.120.51.75]) by
-        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20190823102244eusmtip13ec3fa4acad298eb81acadb9fb8d76cb~9hir0n7gq0066000660eusmtip1z;
-        Fri, 23 Aug 2019 10:22:44 +0000 (GMT)
-Subject: Re: [PATCH v2 5/7] media: use the BIT() macro
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Andy Walls <awalls@md.metrocast.net>,
-        Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
-        Anton Sviridenko <anton@corp.bluecherry.net>,
-        Andrey Utkin <andrey.utkin@corp.bluecherry.net>,
-        Ismael Luceno <ismael@iodev.co.uk>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Benoit Parrot <bparrot@ti.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Hyun Kwon <hyun.kwon@xilinx.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Richard Fontana <rfontana@redhat.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Allison Randal <allison@lohutok.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, devel@driverdev.osuosl.org
-From:   Sylwester Nawrocki <s.nawrocki@samsung.com>
-Message-ID: <59cf5c76-2bbb-6cdd-4a3a-12af0faf1238@samsung.com>
-Date:   Fri, 23 Aug 2019 12:22:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-        Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <d6c04bf604084af63fec603b4afbd72c648e0394.1566553525.git.mchehab+samsung@kernel.org>
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Sf0xbZRTd997X917JOr91m9ygyZJOjJJsOGf00ynBRM2bf7lk0cWFzYe8
-        sGW0QB8/nIsBiwjtgHVjWnlOwgaJQOa6lh/WbekSyCwwbEEDWUJgxJIt3WiLCOimGbZ9W+S/
-        c8+999xzkiuwxgkuQzhiKZOtFqnIxKXh/p/vB7dX+g/lvdDufZZ2DT3E1OGZ5+nfd1yYztfl
-        05WTtZheHX3A05p2N0fHW6Yxba51cPSe9wxDv1DPY3oyfI+li5MnEA2FLvG04awN0V9sCRH7
-        qQ6eesOTOtpwqU9H+yIxhn4T8jPUvqRydGx8GNP4op2hvpHzLI1F9tPIrU6WXg27E3K9Kwzt
-        8X7F0vuXW3HuVjFy7XdGvLkwwYsz/kEs/qRO8+K39S06saczSzw91ciK3m47J8aCQV5sHd4r
-        XvvuAi/2dFSJf8zP8aI61sOLjTUxToz7J7j3tnyY9nqBXHSkQrZm53yUdtimutiSuO6TiWYf
-        qkaz2IH0ApCXYLpjinGgNMFIOhHMjUxyWrGEYLn5Iq8VfyJwBlrR45XeunN8EhvJ9wiabhdo
-        OIogOF+VxJvIy9D/16ouiTeTEhiLt6VOsGRcDxdGHzDJBkd2QuP1poSoIBhIDoTq9iVpTDLh
-        Sps/NbKF7IfF2cGUjoFshOGWuZRtPZEgEHKmPLAkHWxLXToNb4Ufo2fZ5C0gbj10zPzAaKbf
-        guj1GU7Dm+BuoJfX8NNwo7kBaws1CBquTPFa4URwK9D2KPJuGAyM65JOWfI8uC9na/SbMNQe
-        TNFANsDN6EbNxAY43e9iNdoA9V8ateln4J9u1yM7GXBibhU7kUldE01dE0ddE0f9/24bwt0o
-        XS5XzIWysssiV+5QJLNSbinc8XGx2YsSz37jYWDZh/z/5g8gIiDTesOQ42CeUSdVKMfMAwgE
-        1rTZUHEqQRkKpGOfytbiQ9byIlkZQE8J2JRuOL5u9oCRFEpl8lFZLpGtj7uMoM+oRkOBvBdf
-        zd1WjBfeyIlEb5d17So9cyC8rvbg+8Y9pR9k1xf2r7TcNfFVNpfPsz4/YvdMx0bDK9vT327y
-        ZL2Sk5kpyFPvuEK5v7ll6ntin3vv187qsufedd65+GSlumz2+X71VCsRy/Fzn/VJ3NHP2xdd
-        e7JW47t7F8jSyDZS2vWaCSuHpZ1ZrFWR/gPq/W8F6AMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUwTdxjH87u73hWyJmeB8Asmai4SDZnV460PzHVmieYSk/n6B8ExVvDS
-        GmlLeqWZSxYJSqCdKAgLcipi1UxkGdiCK4NVBuF1SBFDlQhqxGXrYFSJYbKgrqVZwn+fPM/z
-        +T55kkdJqv9UJCmPmW2i1awv4uhY6rd3gzPb7L78vB31v6yH5qF3FDhvzzPw5o96CuYrCmDp
-        XDkF3aP/MnDqWisN9xtmKKgtd9Iw564j4LTsouDc7BwJi4FvEfj9bQycuVSG4F5ZOMRRc50B
-        92xAAWfaOhTQEVwg4ILfR4DjtUzD+P1hCkKLDgK8Iy4SFoI5EHx6k4Tu2dZwXPsSAR73dyQs
-        /9xI7dooBO8+J4RHLycZ4YmvjxI65RlGuFjZoBA8N1OE84+rSMF9y0ELC2NjjNA4fEC4e/kH
-        RvBcPym8mn/BCPK4hxGqTi3QQsg3Se9PyNXstFpKbOImo0Wyfcwd4SFVw2eBJjU9S8OnafOy
-        UzO47bqdR8WiY3bRul33pcZYJteTxSHFV5O1XlSKnlFOFKPEbDpur7jKOFGsUs3eQDhY3kM7
-        kTLcSMJXTnPRmTi8EnDS0Zk5hJfkgVU5js3Ed/55r4hwPFuMf3R9vxpEsg9j8FPZQ0WNIMJT
-        i0OrBs3yuKr/LIpsULE67K84HClTbDLuavIREU5gc3CfV0YRVrHr8HDDi1U1htXjQX81E2GS
-        3YJXGifIKCfistfNiihvxD/9fYmsRmp5jS6vUeQ1irxGaULULRQvlkgmg0niNZLeJJWYDZpC
-        i8mNwl92Z2DZ40UTtw/1IlaJuA9UQ84v8tQKvV06YepFWEly8Sp7TbikOqo/8bVoteRbS4pE
-        qRdlhI+rIZMSCi3hnzXb8vkMXgtZvDZNm5YJXKKqkv31czVr0NvE46JYLFr/9whlTFIputKj
-        Xk4+OV1XFGoZNEwkV7pKc7W17uc9Hx3nU1z1LfvrXk3bjHuXDu/xXMaZZ/unHug27MnP/qQq
-        q3W9WiMfWan4/cPRTHNn2taWvzY4dN0Xqjd/tiuRaBoLrQt09bx9f6BgJHfEWNC1++Ijbl92
-        jveblzsMgZbGbQcX/fbmsb43n3KUZNTzKaRV0v8HoTBJlHsDAAA=
-X-CMS-MailID: 20190823102246eucas1p1da04b0b59ae81f1fb8dafa801dadf073
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20190823094759epcas2p49a6bd2b5a8ada11cac762a67606d2b24
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20190823094759epcas2p49a6bd2b5a8ada11cac762a67606d2b24
-References: <20190823000829.GN5027@pendragon.ideasonboard.com>
-        <CGME20190823094759epcas2p49a6bd2b5a8ada11cac762a67606d2b24@epcas2p4.samsung.com>
-        <d6c04bf604084af63fec603b4afbd72c648e0394.1566553525.git.mchehab+samsung@kernel.org>
+        Fri, 23 Aug 2019 06:34:16 -0400
+X-IronPort-AV: E=Sophos;i="5.64,420,1559487600"; 
+   d="scan'208";a="24755310"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 23 Aug 2019 19:34:13 +0900
+Received: from localhost.localdomain (unknown [10.166.17.210])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 69E5E4224141;
+        Fri, 23 Aug 2019 19:34:13 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     gregkh@linuxfoundation.org, stern@rowland.harvard.edu
+Cc:     linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH] usb: host: ohci: fix a race condition between shutdown and irq
+Date:   Fri, 23 Aug 2019 19:32:37 +0900
+Message-Id: <1566556357-24897-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 8/23/19 11:47, Mauro Carvalho Chehab wrote:
-> There are lots of places where we're doing 1 << 31. That's bad,
-> as, depending on the architecture, this has an undefined behavior.
-> 
-> The BIT() macro is already prepared to handle this, so, let's
-> just switch all "1 << number" macros by BIT(number) at the header files
-> with has 1 << 31.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+This patch fixes an issue that the following error is
+possible to happen when ohci hardware causes an interruption
+and the system is shutting down at the same time.
 
-> v2: 
->   As suggested by Laurent:
->      - Don't touch multi-bit masks
->      - remove explicit casts
+[   34.851754] usb 2-1: USB disconnect, device number 2
+[   35.166658] irq 156: nobody cared (try booting with the "irqpoll" option)
+[   35.173445] CPU: 0 PID: 22 Comm: kworker/0:1 Not tainted 5.3.0-rc5 #85
+[   35.179964] Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
+[   35.187886] Workqueue: usb_hub_wq hub_event
+[   35.192063] Call trace:
+[   35.194509]  dump_backtrace+0x0/0x150
+[   35.198165]  show_stack+0x14/0x20
+[   35.201475]  dump_stack+0xa0/0xc4
+[   35.204785]  __report_bad_irq+0x34/0xe8
+[   35.208614]  note_interrupt+0x2cc/0x318
+[   35.212446]  handle_irq_event_percpu+0x5c/0x88
+[   35.216883]  handle_irq_event+0x48/0x78
+[   35.220712]  handle_fasteoi_irq+0xb4/0x188
+[   35.224802]  generic_handle_irq+0x24/0x38
+[   35.228804]  __handle_domain_irq+0x5c/0xb0
+[   35.232893]  gic_handle_irq+0x58/0xa8
+[   35.236548]  el1_irq+0xb8/0x180
+[   35.239681]  __do_softirq+0x94/0x23c
+[   35.243253]  irq_exit+0xd0/0xd8
+[   35.246387]  __handle_domain_irq+0x60/0xb0
+[   35.250475]  gic_handle_irq+0x58/0xa8
+[   35.254130]  el1_irq+0xb8/0x180
+[   35.257268]  kernfs_find_ns+0x5c/0x120
+[   35.261010]  kernfs_find_and_get_ns+0x3c/0x60
+[   35.265361]  sysfs_unmerge_group+0x20/0x68
+[   35.269454]  dpm_sysfs_remove+0x2c/0x68
+[   35.273284]  device_del+0x80/0x370
+[   35.276683]  hid_destroy_device+0x28/0x60
+[   35.280686]  usbhid_disconnect+0x4c/0x80
+[   35.284602]  usb_unbind_interface+0x6c/0x268
+[   35.288867]  device_release_driver_internal+0xe4/0x1b0
+[   35.293998]  device_release_driver+0x14/0x20
+[   35.298261]  bus_remove_device+0x110/0x128
+[   35.302350]  device_del+0x148/0x370
+[   35.305832]  usb_disable_device+0x8c/0x1d0
+[   35.309921]  usb_disconnect+0xc8/0x2d0
+[   35.313663]  hub_event+0x6e0/0x1128
+[   35.317146]  process_one_work+0x1e0/0x320
+[   35.321148]  worker_thread+0x40/0x450
+[   35.324805]  kthread+0x124/0x128
+[   35.328027]  ret_from_fork+0x10/0x18
+[   35.331594] handlers:
+[   35.333862] [<0000000079300c1d>] usb_hcd_irq
+[   35.338126] [<0000000079300c1d>] usb_hcd_irq
+[   35.342389] Disabling IRQ #156
 
-For:
-  drivers/media/platform/exynos4-is/fimc-lite-reg.h
-  drivers/media/platform/exynos4-is/fimc-reg.h
-  drivers/media/platform/s3c-camif/camif-regs.h
+The ohci_shutdown() should hold the spin lock while disabling
+the interruption and changing the rh_state flag. Note that
+io_watchdog_func() also calls the ohci_shutdown() and it
+already held the spin lock, so that the patch makes a new
+function as _ohci_shutdown().
 
-Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
+This patch is inspired by a Renesas R-Car Gen3 BSP patch
+from Tho Vu.
+
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ I think I should have added "Fixes:" tag on the patch, but
+ I have no idea how to find the suitable commit...
+
+ drivers/usb/host/ohci-hcd.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/usb/host/ohci-hcd.c b/drivers/usb/host/ohci-hcd.c
+index b457fda..1fe3dee 100644
+--- a/drivers/usb/host/ohci-hcd.c
++++ b/drivers/usb/host/ohci-hcd.c
+@@ -419,8 +419,7 @@ static void ohci_usb_reset (struct ohci_hcd *ohci)
+  * other cases where the next software may expect clean state from the
+  * "firmware".  this is bus-neutral, unlike shutdown() methods.
+  */
+-static void
+-ohci_shutdown (struct usb_hcd *hcd)
++static void _ohci_shutdown(struct usb_hcd *hcd)
+ {
+ 	struct ohci_hcd *ohci;
+ 
+@@ -436,6 +435,16 @@ ohci_shutdown (struct usb_hcd *hcd)
+ 	ohci->rh_state = OHCI_RH_HALTED;
+ }
+ 
++static void ohci_shutdown(struct usb_hcd *hcd)
++{
++	struct ohci_hcd	*ohci = hcd_to_ohci(hcd);
++	unsigned long flags;
++
++	spin_lock_irqsave(&ohci->lock, flags);
++	_ohci_shutdown(hcd);
++	spin_unlock_irqrestore(&ohci->lock, flags);
++}
++
+ /*-------------------------------------------------------------------------*
+  * HC functions
+  *-------------------------------------------------------------------------*/
+@@ -760,7 +769,7 @@ static void io_watchdog_func(struct timer_list *t)
+  died:
+ 			usb_hc_died(ohci_to_hcd(ohci));
+ 			ohci_dump(ohci);
+-			ohci_shutdown(ohci_to_hcd(ohci));
++			_ohci_shutdown(ohci_to_hcd(ohci));
+ 			goto done;
+ 		} else {
+ 			/* No write back because the done queue was empty */
+-- 
+2.7.4
+
