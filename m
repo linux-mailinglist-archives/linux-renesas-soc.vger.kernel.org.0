@@ -2,77 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EA489B807
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 23 Aug 2019 23:07:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CCDC9C412
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 25 Aug 2019 15:50:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388301AbfHWVH6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 23 Aug 2019 17:07:58 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:42550 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731543AbfHWVH6 (ORCPT
+        id S1728154AbfHYNuh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 25 Aug 2019 09:50:37 -0400
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:35795 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727941AbfHYNuh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 23 Aug 2019 17:07:58 -0400
-Received: by mail-lj1-f195.google.com with SMTP id l14so10064644ljj.9
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 23 Aug 2019 14:07:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qxArl4BC5lMXfAbZsIjscqztXwRdQABlRF+/HVmqKuA=;
-        b=dvrZ4aUHnO5ukdACgBSiCGQebGmC8T0TuLXeGUoFvIWOtXCmUWfjfbwMlFeuKx53Pm
-         BPFQBNC8cd87iLSOJnSBlkVmO0sSv49d/B2Es8V9NkLmIFRE6VMY3zJ0tP1Ci/42Y2eD
-         OoWrF1G52j8RG+ZqRDDDyIC2W4GQXIUyuud2Bmc4SoJBFfzMpE+700ydBsJH9R6O8EBR
-         wrDQjqEQXHANevp0HsEWovCuYJWKbu1scEK4pgyrwi5hNeIWzXwGfxk9arWLFwhhB/Zz
-         LQqvdkLDiIz78sKgUPlOtJVoKw2dnH6tHN2/VKYC5uDhpZFq07AaNRs+55X4JEUVxpIn
-         35aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qxArl4BC5lMXfAbZsIjscqztXwRdQABlRF+/HVmqKuA=;
-        b=fRXVuxtl23aeo8DuALIxLLPxfmT+RYG5j13AuviglOsfKP3ZYNEGCl6JQ4uhdGblmg
-         77uvNvFmZn4uR2qcCbI8hvbebjFrDBELbJU9GhGimlNvi2gAIFXZ6A9Ei3yGVPuZoqlZ
-         LyVIz8RjWefOAxTkN7dmF380O3zC8P4qQw9TRhsY4EAlH1MnhgiTUK9o57KX+WRW+Wdg
-         BXDRXPTZJZjlR1fQ+VHMXRYuNzERvTXArfwuNQKz6HBhQCJZBC+9/7zIt+jFcqAm+ejY
-         bIMMGp1g3gtYjgCYTfwJwApmuk7TAl63Eo/6yqLnmsXs/txQ6POwYuVsRUYUH91Yzaai
-         xS9g==
-X-Gm-Message-State: APjAAAXSuc1W1AYv8SyjezhSPHaxtRvjv41sCWYLh0nSuiepOn0t0NGn
-        70JCn9v0N8KmNmag9T9+w8+WUF5jsNSQXyGcS/fuW1VyHZ4=
-X-Google-Smtp-Source: APXvYqyX/YaX5BOZMQkjzoKMxfGfgSGPcxH3EBZ+qCJDIGMfOqm6z9kudF/1Gewc8+hA3obTXaocnXxCh80RntjQfXM=
-X-Received: by 2002:a05:651c:28c:: with SMTP id b12mr4257616ljo.69.1566594476507;
- Fri, 23 Aug 2019 14:07:56 -0700 (PDT)
+        Sun, 25 Aug 2019 09:50:37 -0400
+X-Originating-IP: 87.18.63.98
+Received: from uno.homenet.telecomitalia.it (unknown [87.18.63.98])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 72798C0002;
+        Sun, 25 Aug 2019 13:50:29 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     laurent.pinchart@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
+        horms@verge.net.au, uli@fpond.eu, airlied@linux.ie, daniel@ffwll.ch
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        koji.matsuoka.xm@renesas.com, muroya@ksk.co.jp,
+        VenkataRajesh.Kalakodima@in.bosch.com,
+        Harsha.ManjulaMallikarjun@in.bosch.com,
+        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 00/14] drm: rcar-du: Add Color Management Module (CMM)
+Date:   Sun, 25 Aug 2019 15:51:40 +0200
+Message-Id: <20190825135154.11488-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20190823125948.21685-1-geert+renesas@glider.be>
-In-Reply-To: <20190823125948.21685-1-geert+renesas@glider.be>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 23 Aug 2019 23:07:45 +0200
-Message-ID: <CACRpkdaVM338g1gqvCYh3wJ26E1jk96Ry7m1s1wCsy6ta1d7_w@mail.gmail.com>
-Subject: Re: [git pull] pinctrl: sh-pfc: Updates for v5.4 (take two)
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Aug 23, 2019 at 2:59 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+Hello,
+  this is the third iteration of CMM support series.
 
-> The following changes since commit 625efea83a7c37d281c6a90526813a1366929d24:
->
->   pinctrl: rza1: Use devm_platform_ioremap_resource() helper (2019-08-09 09:34:45 +0200)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/sh-pfc-for-v5.4-tag2
->
-> for you to fetch changes up to 0a6864274e4166cde21f26193350c7fcd9716ef5:
->
->   pinctrl: rza2: Include the appropriate headers (2019-08-23 09:08:10 +0200)
+A reference to the v1 cover letter, with some background on the CMM is
+available here:
+https://lkml.org/lkml/2019/6/6/583
 
-Pulled into my pinctrl "devel" branch, thanks!
+The series is now based on the v5.3-rc4-based renesas-devel-2019-08-21 branch
+of Geert's tree, which already contains the CMM clock enablement patches that
+were part of v2 and which I have now dropped.
 
-Yours,
-Linus Walleij
+Notable changes in the iteratoin are:
+- Added per-SoC compatible strings as requested by Geert: updated bindings and
+  DTS patches accordingly and dropped R-b tags from there.
+- Rework of CMM driver:
+  - Use the DRM provided functions to extract and scale to HW precision the LUT
+    table entries as suggested by Uli.
+  - Re-worked the suspend/resume logic as suggested by Laurent:
+    - remove resume/suspend handlers from CMM driver
+    - handle re-enablement of CMM at DU resume time
+  - Use pm-runtime to handle clock enable/disable of CMM.
+- Integration with DU:
+  - enforce suspend/resume ordering by creating a device_link between
+    DU (consumer) and CMM (supplier): DU suspends before and resume after CMM
+  - Force re-enablement of CMM by forcing the color_mgmt_changed flag of a
+    CRTC state which had the CMM in use at DU resume time.
+
+Compared to v2 system suspend/resume has been more thoughtfully tested by
+running an application program which uses the CMM, suspending and resuming
+the system and making sure the DU and the CMM are still operational.
+
+Tested on M3-[W|N] with HDMI output.
+
+The test application used to verify the LUT operations is available at:
+https://jmondi.org/cgit/kmsxx/
+where a color-inversion 1D-LUT table is applied.
+
+The testing provides good results when running in 'flip' mode, where colors seem
+actually inverted. I'm less certain about the 'non-flip' static image mode as
+it seems red/green/yellow colors get all reduced to a shade of black. Other
+opinions and testing with more realistic use-cases are of course very welcome.
+
+Thanks
+   j
+
+Jacopo Mondi (14):
+  dt-bindings: display: renesas,cmm: Add R-Car CMM documentation
+  dt-bindings: display, renesas,du: Document cmms property
+  arm64: dts: renesas: r8a7796: Add CMM units
+  arm64: dts: renesas: r8a7795: Add CMM units
+  arm64: dts: renesas: r8a77965: Add CMM units
+  arm64: dts: renesas: r8a77990: Add CMM units
+  arm64: dts: renesas: r8a77995: Add CMM units
+  drm: rcar-du: Add support for CMM
+  drm: rcar-du: Claim CMM support for Gen3 SoCs
+  drm: rcar-du: kms: Collect CMM instances
+  drm: rcar-du: crtc: Enable and disable CMMs
+  drm: rcar-du: crtc: Register GAMMA_LUT properties
+  drm: rcar-du: kms: Update CMM in atomic commit tail
+  drm: rcar-du: Force CMM enablement when resuming
+
+ .../bindings/display/renesas,cmm.txt          |  33 +++
+ .../bindings/display/renesas,du.txt           |   5 +
+ arch/arm64/boot/dts/renesas/r8a7795.dtsi      |  36 ++-
+ arch/arm64/boot/dts/renesas/r8a7796.dtsi      |  25 ++
+ arch/arm64/boot/dts/renesas/r8a77965.dtsi     |  25 ++
+ arch/arm64/boot/dts/renesas/r8a77990.dtsi     |  20 +-
+ arch/arm64/boot/dts/renesas/r8a77995.dtsi     |  20 +-
+ drivers/gpu/drm/rcar-du/Kconfig               |   7 +
+ drivers/gpu/drm/rcar-du/Makefile              |   1 +
+ drivers/gpu/drm/rcar-du/rcar_cmm.c            | 262 ++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_cmm.h            |  38 +++
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c        |  17 ++
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.h        |   2 +
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c         |  33 ++-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.h         |   4 +
+ drivers/gpu/drm/rcar-du/rcar_du_group.c       |   8 +
+ drivers/gpu/drm/rcar-du/rcar_du_group.h       |   2 +
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c         |  98 +++++++
+ drivers/gpu/drm/rcar-du/rcar_du_regs.h        |   5 +
+ 19 files changed, 634 insertions(+), 7 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/renesas,cmm.txt
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.h
+
+--
+2.22.0
+
