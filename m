@@ -2,92 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E5A249C55B
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 25 Aug 2019 20:06:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1DE69C565
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 25 Aug 2019 20:11:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727835AbfHYSGM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 25 Aug 2019 14:06:12 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38112 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725971AbfHYSGM (ORCPT
+        id S1728648AbfHYSLQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 25 Aug 2019 14:11:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48062 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727835AbfHYSLQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 25 Aug 2019 14:06:12 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C7FF02AF;
-        Sun, 25 Aug 2019 20:06:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1566756370;
-        bh=lBAVu3BvYKEhnL0n2Ee6whQUDPvoADQQBayYvub49IQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XZIpVwc4fUdqFEt9hUAkzj+nBm29yCV2170fgrJvYh9VuswDmf7ibCx/0/yxbl8SH
-         g8NmputyIT0pbMbzrQSZtqA187YHM4voihecFPWazRgxIXs98I1SWY49c7C2XnnccO
-         Gpoybc4H8TE69NIqXV+puDTde+jhGVERiVd1gaFA=
-Date:   Sun, 25 Aug 2019 21:06:03 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Simon Horman <horms@verge.net.au>,
+        Sun, 25 Aug 2019 14:11:16 -0400
+Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EF506206E0;
+        Sun, 25 Aug 2019 18:11:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1566756675;
+        bh=UUK7tEQ+rTb3ouj3U8uBFsbnz05fBk4q02q+1HY4H2w=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=1BSb1L20mqSuNK19ws+uDZPDUpe6dsgXXuSXqp31wZFFF2cIYxsJWBdOeITMLgjmc
+         4BcwXhSSjihImkjTenXfztO5PReV9tr0bc8uOeI+tWFtTPXYW+r8wv31JUbqrDBNR7
+         bqZva5MwxgJ3wlUA2tg9hb6/tmfLFQruv6rmdNw4=
+Date:   Sun, 25 Aug 2019 19:11:09 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Simon Horman <horms+renesas@verge.net.au>
+Cc:     Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] drm: rcar-du: kms: Expand comment in vsps parsing
- routine
-Message-ID: <20190825180603.GB5436@pendragon.ideasonboard.com>
-References: <20190825140135.12150-1-jacopo+renesas@jmondi.org>
- <20190825140135.12150-3-jacopo+renesas@jmondi.org>
+        linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2] dt-bindings: iio: light: isl29501: Rename bindings
+ documentation file
+Message-ID: <20190825191109.510e91b5@archlinux>
+In-Reply-To: <20190819141708.20456-1-horms+renesas@verge.net.au>
+References: <20190819141708.20456-1-horms+renesas@verge.net.au>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190825140135.12150-3-jacopo+renesas@jmondi.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+On Mon, 19 Aug 2019 16:17:08 +0200
+Simon Horman <horms+renesas@verge.net.au> wrote:
 
-Thank you for the patch.
+> Rename the bindings documentation file for Renesas ISL29501 Time-of-flight
+> sensor from isl29501.txt to renesas,isl29501.txt.
+> 
+> This is part of an ongoing effort to name bindings documentation files for
+> Renesas IP blocks consistently, in line with the compat strings they
+> document.
+> 
+> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
 
-How about changing the subject to "drm: rcar-du: Document DT backward
-compatibility" ?
+Applied,
 
-On Sun, Aug 25, 2019 at 04:01:35PM +0200, Jacopo Mondi wrote:
-> Exand comment in the 'vsps' parsing routine to specify why the LIF
+Thanks,
 
-s/Exand/Expand/
+Jonathan
 
-> channel index is defaulted to 0 in case the second cell of the property
-
-s/is defaulted to 0/defaults to 0/
-
-> is not specified.
-
-You could explain it here too :-)
-
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
->  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+> Based on v5.3-rc1
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> index 2dc9caee8767..0d59f390de19 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> @@ -585,7 +585,11 @@ static int rcar_du_vsps_init(struct rcar_du_device *rcdu)
+> v2
+> * Drop spurious top-level Makefile hunk
+> ---
+>  .../devicetree/bindings/iio/light/{isl29501.txt => renesas,isl29501.txt}  | 0
+>  1 file changed, 0 insertions(+), 0 deletions(-)
+>  rename Documentation/devicetree/bindings/iio/light/{isl29501.txt => renesas,isl29501.txt} (100%)
 > 
->  		vsps[j].crtcs_mask |= BIT(i);
-> 
-> -		/* Store the VSP pointer and pipe index in the CRTC. */
-> +		/*
-> +		 * Store the VSP pointer and pipe index in the CRTC. If the
-> +		 * second cell of the 'vsps' specifier isn't present, default
-> +		 * to 0 to remain compatible with older DT bindings.
-> +		 */
->  		rcdu->crtcs[i].vsp = &rcdu->vsps[j];
->  		rcdu->crtcs[i].vsp_pipe = cells >= 1 ? args.args[0] : 0;
->  	}
+> diff --git a/Documentation/devicetree/bindings/iio/light/isl29501.txt b/Documentation/devicetree/bindings/iio/light/renesas,isl29501.txt
+> similarity index 100%
+> rename from Documentation/devicetree/bindings/iio/light/isl29501.txt
+> rename to Documentation/devicetree/bindings/iio/light/renesas,isl29501.txt
 
--- 
-Regards,
-
-Laurent Pinchart
