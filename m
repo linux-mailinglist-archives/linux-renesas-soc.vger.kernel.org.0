@@ -2,21 +2,21 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 72D419C417
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 25 Aug 2019 15:50:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D0A69C42B
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 25 Aug 2019 15:51:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727941AbfHYNuo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 25 Aug 2019 09:50:44 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:42037 "EHLO
+        id S1726686AbfHYNur (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 25 Aug 2019 09:50:47 -0400
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:38615 "EHLO
         relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726686AbfHYNuo (ORCPT
+        with ESMTP id S1728460AbfHYNur (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 25 Aug 2019 09:50:44 -0400
+        Sun, 25 Aug 2019 09:50:47 -0400
 X-Originating-IP: 87.18.63.98
 Received: from uno.homenet.telecomitalia.it (unknown [87.18.63.98])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 08232C0006;
-        Sun, 25 Aug 2019 13:50:38 +0000 (UTC)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id C3146C0007;
+        Sun, 25 Aug 2019 13:50:42 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
 To:     laurent.pinchart@ideasonboard.com,
         kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
@@ -26,11 +26,10 @@ Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         VenkataRajesh.Kalakodima@in.bosch.com,
         Harsha.ManjulaMallikarjun@in.bosch.com,
         linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        robh+dt@kernel.org, mark.rutland@arm.com
-Subject: [PATCH v3 02/14] dt-bindings: display, renesas,du: Document cmms property
-Date:   Sun, 25 Aug 2019 15:51:42 +0200
-Message-Id: <20190825135154.11488-3-jacopo+renesas@jmondi.org>
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 03/14] arm64: dts: renesas: r8a7796: Add CMM units
+Date:   Sun, 25 Aug 2019 15:51:43 +0200
+Message-Id: <20190825135154.11488-4-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190825135154.11488-1-jacopo+renesas@jmondi.org>
 References: <20190825135154.11488-1-jacopo+renesas@jmondi.org>
@@ -41,39 +40,57 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Document the newly added 'cmms' property which accepts a list of phandle
-and channel index pairs that point to the CMM units available for each
-Display Unit output video channel.
+Add CMM units to Renesas R-Car M3-W device tree and reference them from
+the Display Unit they are connected to.
 
 Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- Documentation/devicetree/bindings/display/renesas,du.txt | 5 +++++
- 1 file changed, 5 insertions(+)
+ arch/arm64/boot/dts/renesas/r8a7796.dtsi | 25 ++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/renesas,du.txt b/Documentation/devicetree/bindings/display/renesas,du.txt
-index c97dfacad281..c2265e2a1af2 100644
---- a/Documentation/devicetree/bindings/display/renesas,du.txt
-+++ b/Documentation/devicetree/bindings/display/renesas,du.txt
-@@ -45,6 +45,10 @@ Required Properties:
-     instance that serves the DU channel, and the channel index identifies the
-     LIF instance in that VSP.
-
-+  - cmms: A list of phandles to the CMM instances present in the SoC, one
-+    for each available DU channel. The property shall not be specified for
-+    SoCs that do not provide any CMM (such as V3M and V3H).
+diff --git a/arch/arm64/boot/dts/renesas/r8a7796.dtsi b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
+index 3dc9d73f589a..8d78e1f98a23 100644
+--- a/arch/arm64/boot/dts/renesas/r8a7796.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
+@@ -2613,6 +2613,30 @@
+ 			renesas,fcp = <&fcpvi0>;
+ 		};
+ 
++		cmm0: cmm@fea40000 {
++			compatible = "renesas,cmm-r8a7796";
++			reg = <0 0xfea40000 0 0x1000>;
++			clocks = <&cpg CPG_MOD 711>;
++			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
++			resets = <&cpg 711>;
++		};
 +
- Required nodes:
-
- The connections to the DU output video ports are modeled using the OF graph
-@@ -91,6 +95,7 @@ Example: R8A7795 (R-Car H3) ES2.0 DU
- 			 <&cpg CPG_MOD 721>;
- 		clock-names = "du.0", "du.1", "du.2", "du.3";
- 		vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
-+		cmms = <&cmm0 &cmm1 &cmm2 &cmm3>;
-
- 		ports {
- 			#address-cells = <1>;
---
++		cmm1: cmm@fea50000 {
++			compatible = "renesas,cmm-r8a7796";
++			reg = <0 0xfea50000 0 0x1000>;
++			clocks = <&cpg CPG_MOD 710>;
++			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
++			resets = <&cpg 710>;
++		};
++
++		cmm2: cmm@fea60000 {
++			compatible = "renesas,cmm-r8a7796";
++			reg = <0 0xfea60000 0 0x1000>;
++			clocks = <&cpg CPG_MOD 709>;
++			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
++			resets = <&cpg 709>;
++		};
++
+ 		csi20: csi2@fea80000 {
+ 			compatible = "renesas,r8a7796-csi2";
+ 			reg = <0 0xfea80000 0 0x10000>;
+@@ -2766,6 +2790,7 @@
+ 			status = "disabled";
+ 
+ 			vsps = <&vspd0 &vspd1 &vspd2>;
++			cmms = <&cmm0 &cmm1 &cmm2>;
+ 
+ 			ports {
+ 				#address-cells = <1>;
+-- 
 2.22.0
 
