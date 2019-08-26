@@ -2,130 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C13029CA07
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2019 09:22:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC0E89CA67
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2019 09:30:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729857AbfHZHWI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Aug 2019 03:22:08 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:51429 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727933AbfHZHWI (ORCPT
+        id S1730094AbfHZH3I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Aug 2019 03:29:08 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:34213 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730063AbfHZH3I (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 26 Aug 2019 03:22:08 -0400
-Received: from uno.localdomain (unknown [87.18.63.98])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id E3890240005;
-        Mon, 26 Aug 2019 07:22:03 +0000 (UTC)
-Date:   Mon, 26 Aug 2019 09:23:30 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] drm: rcar-du: kms: Expand comment in vsps parsing
- routine
-Message-ID: <20190826072330.ymx52yr35tcaafrh@uno.localdomain>
-References: <20190825140135.12150-1-jacopo+renesas@jmondi.org>
- <20190825140135.12150-3-jacopo+renesas@jmondi.org>
- <20190825180603.GB5436@pendragon.ideasonboard.com>
+        Mon, 26 Aug 2019 03:29:08 -0400
+Received: by mail-ot1-f65.google.com with SMTP id c7so14326512otp.1;
+        Mon, 26 Aug 2019 00:29:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bVAemWech0/N9j46salFy/chbSjzAsoD07I5FsrQwuc=;
+        b=iTWxrRq0uY+7Gg4FV2Kv4au45Q68JxTw81xoj2pEDi0ZXts1QE9BX7+0ZdWaQZH8fE
+         W9uIwrSZvVyV8IMLMTQBRn445xJOIt924K3kpptXWgP8SZw0ta8Rhuo11dqSeh66d7kD
+         qOCuOlsgDgN5nnPLr3bPcvYjpNMadVDSgSLJHA5202TaJO2JazIqtWijblihJAwm+87y
+         H3W5+v6bDSIgmG6kvrKf/aijTphhiWmexF8euimPDeNYagH2e3kXJtfiAwZ/2ywWkJUa
+         Smh8FgPck6GBE4xsSgNchSXDZz+OuPPVn/SzvA/Nhr+1JOqtBpm7KN7bAfMiBpE8SJoM
+         bWyQ==
+X-Gm-Message-State: APjAAAVasu8ajewSGrxRFyEuP85009JSxn1+NUyAiOpGGoFzCXoTmGBa
+        1HPcln5F+Z3YRtu6x6VQHcNJnDX/MX3T4V34ad4=
+X-Google-Smtp-Source: APXvYqzoCKdB/hIeBgXGceXns+/B+5wibRNIPKaLnLL/CiK1K2Rlx0LtZWGUpdJdqX71NMSi2o1ijtCVulsx3OX4ycg=
+X-Received: by 2002:a9d:61c3:: with SMTP id h3mr14488208otk.39.1566804547272;
+ Mon, 26 Aug 2019 00:29:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="4nmcyf3hbnqv5z7t"
-Content-Disposition: inline
-In-Reply-To: <20190825180603.GB5436@pendragon.ideasonboard.com>
-User-Agent: NeoMutt/20180716
+References: <20190825135154.11488-1-jacopo+renesas@jmondi.org> <20190825135154.11488-4-jacopo+renesas@jmondi.org>
+In-Reply-To: <20190825135154.11488-4-jacopo+renesas@jmondi.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 26 Aug 2019 09:28:56 +0200
+Message-ID: <CAMuHMdV6_VW-2BYYJ3yNi1i81n2Oeh+Hw+J6ohgqkmjsEjhX+w@mail.gmail.com>
+Subject: Re: [PATCH v3 03/14] arm64: dts: renesas: r8a7796: Add CMM units
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Simon Horman <horms@verge.net.au>, Ulrich Hecht <uli@fpond.eu>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>, muroya@ksk.co.jp,
+        VenkataRajesh.Kalakodima@in.bosch.com,
+        Harsha.ManjulaMallikarjun@in.bosch.com,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Jacopo,
 
---4nmcyf3hbnqv5z7t
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
-Hi Laurent,
-
-On Sun, Aug 25, 2019 at 09:06:03PM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
+On Sun, Aug 25, 2019 at 3:50 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
+> Add CMM units to Renesas R-Car M3-W device tree and reference them from
+> the Display Unit they are connected to.
 >
-> Thank you for the patch.
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  arch/arm64/boot/dts/renesas/r8a7796.dtsi | 25 ++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
 >
-> How about changing the subject to "drm: rcar-du: Document DT backward
-> compatibility" ?
+> diff --git a/arch/arm64/boot/dts/renesas/r8a7796.dtsi b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
+> index 3dc9d73f589a..8d78e1f98a23 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a7796.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
+> @@ -2613,6 +2613,30 @@
+>                         renesas,fcp = <&fcpvi0>;
+>                 };
 >
-> On Sun, Aug 25, 2019 at 04:01:35PM +0200, Jacopo Mondi wrote:
-> > Exand comment in the 'vsps' parsing routine to specify why the LIF
->
-> s/Exand/Expand/
->
-> > channel index is defaulted to 0 in case the second cell of the property
->
-> s/is defaulted to 0/defaults to 0/
->
-> > is not specified.
->
-> You could explain it here too :-)
->
+> +               cmm0: cmm@fea40000 {
+> +                       compatible = "renesas,cmm-r8a7796";
 
-Expand comment in the 'vsps' parsing routine to specify the LIF
-channel index defaults to 0 in case the second cell of the property
-is not specified to remain compatible with older DT bindings.
+Shouldn't you add "renesas,rcar-gen3-cmm" as a fallback?
+(for all CMM nodes in all DT patches)
 
-Could you take this in when applying this patch or want me to resend?
+Gr{oetje,eeting}s,
 
-Thanks
-  j
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > index 2dc9caee8767..0d59f390de19 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> > @@ -585,7 +585,11 @@ static int rcar_du_vsps_init(struct rcar_du_device *rcdu)
-> >
-> >  		vsps[j].crtcs_mask |= BIT(i);
-> >
-> > -		/* Store the VSP pointer and pipe index in the CRTC. */
-> > +		/*
-> > +		 * Store the VSP pointer and pipe index in the CRTC. If the
-> > +		 * second cell of the 'vsps' specifier isn't present, default
-> > +		 * to 0 to remain compatible with older DT bindings.
-> > +		 */
-> >  		rcdu->crtcs[i].vsp = &rcdu->vsps[j];
-> >  		rcdu->crtcs[i].vsp_pipe = cells >= 1 ? args.args[0] : 0;
-> >  	}
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
---4nmcyf3hbnqv5z7t
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1jiPIACgkQcjQGjxah
-VjxMshAAr3ccgl1ODaTfliQFny+I2Lm5XYhTcvCU57WiEIL1h5lMtP3oE/AQO7/2
-1LHHSA2s4fKlTQR02FdGbFyN1lDDz86U+NuAWsiMo4+OMe83cqimLMSLwJp6a7ri
-mvmE3ihmPbDU7EAxnIG+o1GwZygdTgKmUPwflvV98WVS+cXk2oOAKwNFYH+NQG92
-by6j1kzgPAQHHT9pw29Hj/e6uU73Is5UgKNlSlFBWaB7snJle9eNPg/bfoB0+F2x
-sJgtbxm6QC8J9FlyOTJs9cDW/+2CkOJ9y6TyOZnMzQP/WyeNKBvC/U/e7eQy3lFM
-YZuWKxnKyzHUtx8SIRMweu8QDJvi4HhewqLRM4KIcEGq4079iXLuis0r0/gtUocL
-/jSEzwom+7C+jOmLMebAThYPZvw9eXRZl5gpBOeq0QrD+TltV6/SYyxLB1VLdV0d
-2BNRvWSe53I0xYluxJ/aUt4JeF1WFV7GR9e/iIBif9aoGCinxg3wwyFqleEAkKAu
-lcCwTzFulwlDh8rC+4Q+2byL56lvQLOmAxD9kafTwGHWRzraGcMKqN2MXrk6mFee
-9djpnkfonTZN1EKhymWVbrCWTLrCldHf/wp9Kn/wgGJFuPncd4Do0hA7vYdZeSEB
-3HJnh1/MGTBpjRUCKT0tuaE8bj0d1xExfYtN2GtBZM7i4zTb684=
-=1RBW
------END PGP SIGNATURE-----
-
---4nmcyf3hbnqv5z7t--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
