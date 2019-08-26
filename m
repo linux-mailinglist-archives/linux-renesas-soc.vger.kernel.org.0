@@ -2,78 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AA999CAB6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2019 09:39:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4FE69CB1F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2019 09:58:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729941AbfHZHjM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Aug 2019 03:39:12 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:32807 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728228AbfHZHjM (ORCPT
+        id S1730321AbfHZH6W (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Aug 2019 03:58:22 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:37755 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730317AbfHZH6V (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 26 Aug 2019 03:39:12 -0400
-Received: by mail-ot1-f65.google.com with SMTP id p23so10135031oto.0;
-        Mon, 26 Aug 2019 00:39:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vEfCPAqY07dyrP06P0cvU/MY6k93mkpkoTihAOwUmHo=;
-        b=j8Nhp81nRKaZMc70U8eTQSM8fpSv36ocE4nAR54jTQeAhNQHcT+Z/dthXbkgJobyxN
-         JZnHPmDxVeTbi0mwu8TJPjtYI0G8pdR48jvWPbJBbJamIHh3rU1G8v/+NLUHLSZx2KQ/
-         di7uQ7iQKgz2Bi7vCrUbLKlLOdWCNV8wCvjkcCxJxib1z0yxhdlsKM52fAJRvnbhQTwl
-         H5gmrW/LiUNET6LjOvCWp2OBTjrZRJcR2s91JZZc0YPIX0c67Jb69bjoSfRxPP7xCp6e
-         6WA+X95B4+4MQ92nh+J3/JlN/AExwD3AShGzdQgo10H6ey36K/4UFng2SMvpRn2f4oyn
-         DkZw==
-X-Gm-Message-State: APjAAAUJIZ58CYpNjW2ar8zRhvsQnKvTFFSY1kVMx8JhMaD3YZ0pibPR
-        KVCt8eoq8LWag8nU9gXeTSfu29GX12qZCjty2E5V5Q==
-X-Google-Smtp-Source: APXvYqwkoCxSbme4rYgbMRu647BIyPqfZXVwsghyk3qNEWMLpf7phOU9xHXwfihODfFW95DSCB1eMcQHrYOt9D8KD0M=
-X-Received: by 2002:a9d:61c3:: with SMTP id h3mr14516217otk.39.1566805151674;
- Mon, 26 Aug 2019 00:39:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190825140135.12150-1-jacopo+renesas@jmondi.org> <20190825140135.12150-2-jacopo+renesas@jmondi.org>
-In-Reply-To: <20190825140135.12150-2-jacopo+renesas@jmondi.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 26 Aug 2019 09:39:00 +0200
-Message-ID: <CAMuHMdVjhjsHEEocBjRxf71DqVBSbT6AOHJnBmL79d7HuFa=Dg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] arm64: dts: renesas: Add LIF channel indices to
- vsps property
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Mon, 26 Aug 2019 03:58:21 -0400
+Received: from uno.localdomain (unknown [87.18.63.98])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 49607240006;
+        Mon, 26 Aug 2019 07:58:12 +0000 (UTC)
+Date:   Mon, 26 Aug 2019 09:59:43 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Simon Horman <horms@verge.net.au>, Ulrich Hecht <uli@fpond.eu>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>, muroya@ksk.co.jp,
+        VenkataRajesh.Kalakodima@in.bosch.com,
+        Harsha.ManjulaMallikarjun@in.bosch.com,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Subject: Re: [PATCH v3 01/14] dt-bindings: display: renesas,cmm: Add R-Car
+ CMM documentation
+Message-ID: <20190826075943.h7ivwagape3glym5@uno.localdomain>
+References: <20190825135154.11488-1-jacopo+renesas@jmondi.org>
+ <20190825135154.11488-2-jacopo+renesas@jmondi.org>
+ <CAMuHMdVvjrMXap5CQ-grNYpJfOG6QeN26EW4tR_YE=VFv5ozqw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="6ypjwqqmzlry6ejt"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdVvjrMXap5CQ-grNYpJfOG6QeN26EW4tR_YE=VFv5ozqw@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Aug 25, 2019 at 4:00 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
-> According to the Renesas R-Car DU bindings documentation, the 'vsps'
-> property should be composed of a phandle to the VSP instance and the
-> index of the LIF channel assigned to the DU channel. Some SoC device
-> tree source files do not specify any LIF channel index, relying on the
-> driver defaulting it to 0 if not specified.
+
+--6ypjwqqmzlry6ejt
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+Hi Geert,
+
+On Mon, Aug 26, 2019 at 09:34:41AM +0200, Geert Uytterhoeven wrote:
+> Hi Jacopo,
 >
-> Align all device tree files by specifying the LIF channel index as
-> prescribed by the bindings documentation.
+> On Sun, Aug 25, 2019 at 3:50 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
+> > Add device tree bindings documentation for the Renesas R-Car Display
+> > Unit Color Management Module.
+> >
+> > CMM is the image enhancement module available on each R-Car DU video
+> > channel on R-Car Gen2 and Gen3 SoCs (V3H and V3M excluded).
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 >
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Thanks for your patch!
+>
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/display/renesas,cmm.txt
+> > @@ -0,0 +1,33 @@
+> > +* Renesas R-Car Color Management Module (CMM)
+> > +
+> > +Renesas R-Car image enhancement module connected to R-Car DU video channels.
+> > +
+> > +Required properties:
+> > + - compatible: shall be one or more of the following:
+> > +   - "renesas,cmm-r8a7795": for R8A7795 (R-Car H3) compatible CMM.
+> > +   - "renesas,cmm-r8a7796": for R8A7796 (R-Car M3-W) compatible CMM.
+> > +   - "renesas,cmm-r8a77965": for R8A77965 (R-Car M3-N) compatible CMM.
+> > +   - "renesas,cmm-r8a77990": for R8A77990 (R-Car E3) compatible CMM.
+> > +   - "renesas,cmm-r8a77995": for R8A77995 (R-Car D3) compatible CMM.
+>
+> Please use "renesas,<socype->-cmm" instead of "renesas,cmm-<soctype>".
+>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.5.
+I actually copied it from the r-car gpio bindings, and I liked
+cmm-<soctype> better. If you prefer I can change it though.
 
-Gr{oetje,eeting}s,
+> > +   - "renesas,rcar-gen3-cmm": for a generic R-Car Gen3 compatible CMM.
+> > +   - "renesas,rcar-gen2-cmm": for a generic R-Car Gen2 compatible CMM.
+> > +
+> > +   When the generic compatible string is specified, the SoC-specific
+> > +   version corresponding to the platform should be listed first.
+> > +
+> > + - reg: the address base and length of the memory area where CMM control
+> > +   registers are mapped to.
+> > +
+> > + - clocks: phandle and clock-specifier pair to the CMM functional clock
+> > +   supplier.
+>
+> Thinking about yaml validation:
+>
+> power-domains?
+> resets?
+>
 
-                        Geert
+They should indeed be documented.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Thanks
+   j
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> > +Example:
+> > +--------
+> > +
+> > +       cmm0: cmm@fea40000 {
+> > +               compatible = "renesas,cmm-r8a7796";
+> > +               reg = <0 0xfea40000 0 0x1000>;
+> > +               power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
+> > +               clocks = <&cpg CPG_MOD 711>;
+> > +               resets = <&cpg 711>;
+> > +       };
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+
+--6ypjwqqmzlry6ejt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1jkW8ACgkQcjQGjxah
+VjxB3w//d3VYx+uJJKBX383/pCXEkl5iaMUHMgZ4mxsCzn3gM1E/3uGgWJOZpjdz
+sHAvl1p7ybG4abmbXOKJH0ltitBderyFLPbagGW4SDTi7hFe8AbiRNm9sPWyBjYk
+OORU2Upt91N++sTh7xHoxq8bJhqWYL0ZhGOE+tbbwl2LgMAjOXaQFYXTX5Tnl/Mm
+7XNVATlhfhpN7Xc9ddijtNasUBFYNAvaBdme/d1h/FOD9gy3nFO2i/w828g+zlIM
+MSBpZCcfRSoUmjc2CSJzHW7DHAhdVxm7J9qbSGDRz7I5FMfrH3ICS2ufDoHyNmlr
+fqB18iTbkwktkDQwm5rcUGhDEGp19hFCr7qmu4NPeQ+FhTM9TtkxYB+E4gZm74Tu
+OvUoI4fbMJIlcLoKw8OBT+l8eX2e5CuWqpHokpwDLdXxjHZwtQIoSKLJvRQliGw0
+fs7UR7wHhTWCmSwx1bhghcCLHDLQewjZzS0gqX957ks33+Djq7I2dX3EUUdwd+15
+bGgsTiSmr6p8hFzPm2t0ZIyg2g9Lj2cGk+O36FYJtvps9VfiBcK9+CecZbQ73Zs5
+godvAr3BPCDAKJlGekXOztiK5EoYN6XmGB09IR+0inCfMv6o9jFn7AiUqDjNVq2i
+e3762EZuD8nKwv8FlWsj2LIkD0g/6B+mwTJ/WPBNYWzr2o1RuD8=
+=Y5PQ
+-----END PGP SIGNATURE-----
+
+--6ypjwqqmzlry6ejt--
