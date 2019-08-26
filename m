@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC0E89CA67
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2019 09:30:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 625689CA72
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2019 09:31:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730094AbfHZH3I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Aug 2019 03:29:08 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:34213 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730063AbfHZH3I (ORCPT
+        id S1726896AbfHZHbO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Aug 2019 03:31:14 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:41825 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726719AbfHZHbO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 26 Aug 2019 03:29:08 -0400
-Received: by mail-ot1-f65.google.com with SMTP id c7so14326512otp.1;
-        Mon, 26 Aug 2019 00:29:07 -0700 (PDT)
+        Mon, 26 Aug 2019 03:31:14 -0400
+Received: by mail-ot1-f66.google.com with SMTP id o101so14273620ota.8;
+        Mon, 26 Aug 2019 00:31:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=bVAemWech0/N9j46salFy/chbSjzAsoD07I5FsrQwuc=;
-        b=iTWxrRq0uY+7Gg4FV2Kv4au45Q68JxTw81xoj2pEDi0ZXts1QE9BX7+0ZdWaQZH8fE
-         W9uIwrSZvVyV8IMLMTQBRn445xJOIt924K3kpptXWgP8SZw0ta8Rhuo11dqSeh66d7kD
-         qOCuOlsgDgN5nnPLr3bPcvYjpNMadVDSgSLJHA5202TaJO2JazIqtWijblihJAwm+87y
-         H3W5+v6bDSIgmG6kvrKf/aijTphhiWmexF8euimPDeNYagH2e3kXJtfiAwZ/2ywWkJUa
-         Smh8FgPck6GBE4xsSgNchSXDZz+OuPPVn/SzvA/Nhr+1JOqtBpm7KN7bAfMiBpE8SJoM
-         bWyQ==
-X-Gm-Message-State: APjAAAVasu8ajewSGrxRFyEuP85009JSxn1+NUyAiOpGGoFzCXoTmGBa
-        1HPcln5F+Z3YRtu6x6VQHcNJnDX/MX3T4V34ad4=
-X-Google-Smtp-Source: APXvYqzoCKdB/hIeBgXGceXns+/B+5wibRNIPKaLnLL/CiK1K2Rlx0LtZWGUpdJdqX71NMSi2o1ijtCVulsx3OX4ycg=
-X-Received: by 2002:a9d:61c3:: with SMTP id h3mr14488208otk.39.1566804547272;
- Mon, 26 Aug 2019 00:29:07 -0700 (PDT)
+        bh=abhvVaOTv7qdR2buENiROg9GGD/qAIGiemfdRCUDpVc=;
+        b=lqH006BCEkX6+z6YENIn73QMRP3M2lnLTwoxVZdUJQhLWIwR3lUFTQg0VITMb13lTz
+         5N0sl8CnbEQu3kExrW0GSFtxjnTpqZVrhkS0l/wxNLBgDo+oiE6TxQ59Flr/5BdkPbce
+         N/4oI+lRekJRQC9h8Bhgs4ImlkixkSMastqcAfwkUewJYcwLycyQhJ4YYy0S6jttw8Zk
+         1fNPFw+P4hmgrXICLx09pfwTdODktj2bfyMneQlpMJJe0wvn/x1rGzJdQsZ5orhVaJ7T
+         DxmNrqP5U9EB9qlO+msUtVPD6+Nxf/pWPEgTzQG3r0gzlMWHQ6JJeCOLdTQ2Oa7b+dyx
+         9Uxg==
+X-Gm-Message-State: APjAAAWq0MWh+ySDwjezNrXuVYTJ0yX1mCnp5KKHCGT7aKp0S/pxmugg
+        uD9BZAxYtTz2uhOBwrgOa+tJLlx4AkoVXCILCsc=
+X-Google-Smtp-Source: APXvYqwGSUko7fTyH6xUMnz8XMOWCsDcFWz2SrtHpmTycrnO0UU8UJwbJdJqLrNcjjb1kJDssLKXYH7hlHP//EIu2Kk=
+X-Received: by 2002:a9d:7a90:: with SMTP id l16mr14310466otn.297.1566804673402;
+ Mon, 26 Aug 2019 00:31:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190825135154.11488-1-jacopo+renesas@jmondi.org> <20190825135154.11488-4-jacopo+renesas@jmondi.org>
-In-Reply-To: <20190825135154.11488-4-jacopo+renesas@jmondi.org>
+References: <20190825135154.11488-1-jacopo+renesas@jmondi.org> <20190825135154.11488-9-jacopo+renesas@jmondi.org>
+In-Reply-To: <20190825135154.11488-9-jacopo+renesas@jmondi.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 26 Aug 2019 09:28:56 +0200
-Message-ID: <CAMuHMdV6_VW-2BYYJ3yNi1i81n2Oeh+Hw+J6ohgqkmjsEjhX+w@mail.gmail.com>
-Subject: Re: [PATCH v3 03/14] arm64: dts: renesas: r8a7796: Add CMM units
+Date:   Mon, 26 Aug 2019 09:31:02 +0200
+Message-ID: <CAMuHMdUuWFGSTUcAR2aV6cg4hpfzMs5EQBJTNM+ym2k8Ht-bVA@mail.gmail.com>
+Subject: Re: [PATCH v3 08/14] drm: rcar-du: Add support for CMM
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -57,28 +57,36 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Jacopo,
 
-On Sun, Aug 25, 2019 at 3:50 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
-> Add CMM units to Renesas R-Car M3-W device tree and reference them from
-> the Display Unit they are connected to.
+On Sun, Aug 25, 2019 at 3:51 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
+> Add a driver for the R-Car Display Unit Color Correction Module.
+> In most of Gen3 SoCs, each DU output channel is provided with a CMM unit
+> to perform image enhancement and color correction.
+>
+> Add support for CMM through a driver that supports configuration of
+> the 1-dimensional LUT table. More advanced CMM feature will be
+> implemented on top of this basic one.
 >
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  arch/arm64/boot/dts/renesas/r8a7796.dtsi | 25 ++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/renesas/r8a7796.dtsi b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
-> index 3dc9d73f589a..8d78e1f98a23 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a7796.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
-> @@ -2613,6 +2613,30 @@
->                         renesas,fcp = <&fcpvi0>;
->                 };
->
-> +               cmm0: cmm@fea40000 {
-> +                       compatible = "renesas,cmm-r8a7796";
 
-Shouldn't you add "renesas,rcar-gen3-cmm" as a fallback?
-(for all CMM nodes in all DT patches)
+Thanks for your patch!
+
+> --- /dev/null
+> +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.c
+
+> +static const struct of_device_id rcar_cmm_of_table[] = {
+> +       { .compatible = "renesas,cmm-r8a7795", },
+> +       { .compatible = "renesas,cmm-r8a7796", },
+> +       { .compatible = "renesas,cmm-r8a77965", },
+> +       { .compatible = "renesas,cmm-r8a77990", },
+> +       { .compatible = "renesas,cmm-r8a77995", },
+> +       { .compatible = "renesas,rcar-gen3-cmm", },
+
+As they're all handled the same, you can drop the SoC-specific values
+from the driver's match table.
+
+> +       { .compatible = "renesas,rcar-gen2-cmm", },
+
+Just wondering: has this been tested on R-Car Gen2?
 
 Gr{oetje,eeting}s,
 
