@@ -2,130 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D48339CD2E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2019 12:16:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C70A39D38E
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 26 Aug 2019 17:58:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731307AbfHZKQB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Aug 2019 06:16:01 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45924 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731306AbfHZKP7 (ORCPT
+        id S1732342AbfHZP6P (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Aug 2019 11:58:15 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:41066 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1727864AbfHZP6P (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 26 Aug 2019 06:15:59 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D4EE731B;
-        Mon, 26 Aug 2019 12:15:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1566814557;
-        bh=9wZSzYHEKtzlGccYoNBaQM5/r5uiiDKyUx0xfquMNBM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uyvLe2AQoJzdJ3a+hqTNdkz1kiuJHyq90GBzU82SftccR9ETTjypUnKh5WGKh3DPQ
-         XJbEq+4MyWenoNDZWKweCjlylTnbe/CfH6HJr0A80djtxztDj2j1L0XXUnpLLmwDn6
-         pV+EB/Ug5xi0/r8KUu2H5seKFRPZG3xSg3Lu5fyk=
-Date:   Mon, 26 Aug 2019 13:15:50 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Simon Horman <horms@verge.net.au>, Ulrich Hecht <uli@fpond.eu>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Koji Matsuoka <koji.matsuoka.xm@renesas.com>, muroya@ksk.co.jp,
-        VenkataRajesh.Kalakodima@in.bosch.com,
-        Harsha.ManjulaMallikarjun@in.bosch.com,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Subject: Re: [PATCH v3 01/14] dt-bindings: display: renesas,cmm: Add R-Car
- CMM documentation
-Message-ID: <20190826101550.GB5031@pendragon.ideasonboard.com>
-References: <20190825135154.11488-1-jacopo+renesas@jmondi.org>
- <20190825135154.11488-2-jacopo+renesas@jmondi.org>
- <CAMuHMdVvjrMXap5CQ-grNYpJfOG6QeN26EW4tR_YE=VFv5ozqw@mail.gmail.com>
- <20190826075943.h7ivwagape3glym5@uno.localdomain>
+        Mon, 26 Aug 2019 11:58:15 -0400
+Received: (qmail 4743 invoked by uid 2102); 26 Aug 2019 11:58:14 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 26 Aug 2019 11:58:14 -0400
+Date:   Mon, 26 Aug 2019 11:58:14 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+cc:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH] usb: host: ohci: fix a race condition between shutdown
+ and irq
+In-Reply-To: <TYAPR01MB45443AA0303F9DD1E08AFC2FD8A10@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+Message-ID: <Pine.LNX.4.44L0.1908261157340.1662-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190826075943.h7ivwagape3glym5@uno.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+On Mon, 26 Aug 2019, Yoshihiro Shimoda wrote:
 
-On Mon, Aug 26, 2019 at 09:59:43AM +0200, Jacopo Mondi wrote:
-> On Mon, Aug 26, 2019 at 09:34:41AM +0200, Geert Uytterhoeven wrote:
-> > On Sun, Aug 25, 2019 at 3:50 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
-> > > Add device tree bindings documentation for the Renesas R-Car Display
-> > > Unit Color Management Module.
+> Hi Alan,
+> 
+> > From: Alan Stern, Sent: Saturday, August 24, 2019 12:33 AM
+> > 
+> > On Fri, 23 Aug 2019, Yoshihiro Shimoda wrote:
+> > 
+> > > This patch fixes an issue that the following error is
+> > > possible to happen when ohci hardware causes an interruption
+> > > and the system is shutting down at the same time.
 > > >
-> > > CMM is the image enhancement module available on each R-Car DU video
-> > > channel on R-Car Gen2 and Gen3 SoCs (V3H and V3M excluded).
+> > > [   34.851754] usb 2-1: USB disconnect, device number 2
+> > > [   35.166658] irq 156: nobody cared (try booting with the "irqpoll" option)
+> > > [   35.173445] CPU: 0 PID: 22 Comm: kworker/0:1 Not tainted 5.3.0-rc5 #85
+> > > [   35.179964] Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
+> > > [   35.187886] Workqueue: usb_hub_wq hub_event
+> > > [   35.192063] Call trace:
+> > > [   35.194509]  dump_backtrace+0x0/0x150
+> > > [   35.198165]  show_stack+0x14/0x20
+> > > [   35.201475]  dump_stack+0xa0/0xc4
+> > > [   35.204785]  __report_bad_irq+0x34/0xe8
+> > > [   35.208614]  note_interrupt+0x2cc/0x318
+> > > [   35.212446]  handle_irq_event_percpu+0x5c/0x88
+> > > [   35.216883]  handle_irq_event+0x48/0x78
+> > > [   35.220712]  handle_fasteoi_irq+0xb4/0x188
+> > > [   35.224802]  generic_handle_irq+0x24/0x38
+> > > [   35.228804]  __handle_domain_irq+0x5c/0xb0
+> > > [   35.232893]  gic_handle_irq+0x58/0xa8
+> > > [   35.236548]  el1_irq+0xb8/0x180
+> > > [   35.239681]  __do_softirq+0x94/0x23c
+> > > [   35.243253]  irq_exit+0xd0/0xd8
+> > > [   35.246387]  __handle_domain_irq+0x60/0xb0
+> > > [   35.250475]  gic_handle_irq+0x58/0xa8
+> > > [   35.254130]  el1_irq+0xb8/0x180
+> > > [   35.257268]  kernfs_find_ns+0x5c/0x120
+> > > [   35.261010]  kernfs_find_and_get_ns+0x3c/0x60
+> > > [   35.265361]  sysfs_unmerge_group+0x20/0x68
+> > > [   35.269454]  dpm_sysfs_remove+0x2c/0x68
+> > > [   35.273284]  device_del+0x80/0x370
+> > > [   35.276683]  hid_destroy_device+0x28/0x60
+> > > [   35.280686]  usbhid_disconnect+0x4c/0x80
+> > > [   35.284602]  usb_unbind_interface+0x6c/0x268
+> > > [   35.288867]  device_release_driver_internal+0xe4/0x1b0
+> > > [   35.293998]  device_release_driver+0x14/0x20
+> > > [   35.298261]  bus_remove_device+0x110/0x128
+> > > [   35.302350]  device_del+0x148/0x370
+> > > [   35.305832]  usb_disable_device+0x8c/0x1d0
+> > > [   35.309921]  usb_disconnect+0xc8/0x2d0
+> > > [   35.313663]  hub_event+0x6e0/0x1128
+> > > [   35.317146]  process_one_work+0x1e0/0x320
+> > > [   35.321148]  worker_thread+0x40/0x450
+> > > [   35.324805]  kthread+0x124/0x128
+> > > [   35.328027]  ret_from_fork+0x10/0x18
+> > > [   35.331594] handlers:
+> > > [   35.333862] [<0000000079300c1d>] usb_hcd_irq
+> > > [   35.338126] [<0000000079300c1d>] usb_hcd_irq
+> > > [   35.342389] Disabling IRQ #156
 > > >
-> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> >
-> > Thanks for your patch!
-> >
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/display/renesas,cmm.txt
-> > > @@ -0,0 +1,33 @@
-> > > +* Renesas R-Car Color Management Module (CMM)
-> > > +
-> > > +Renesas R-Car image enhancement module connected to R-Car DU video channels.
-> > > +
-> > > +Required properties:
-> > > + - compatible: shall be one or more of the following:
-> > > +   - "renesas,cmm-r8a7795": for R8A7795 (R-Car H3) compatible CMM.
-> > > +   - "renesas,cmm-r8a7796": for R8A7796 (R-Car M3-W) compatible CMM.
-> > > +   - "renesas,cmm-r8a77965": for R8A77965 (R-Car M3-N) compatible CMM.
-> > > +   - "renesas,cmm-r8a77990": for R8A77990 (R-Car E3) compatible CMM.
-> > > +   - "renesas,cmm-r8a77995": for R8A77995 (R-Car D3) compatible CMM.
-> >
-> > Please use "renesas,<socype->-cmm" instead of "renesas,cmm-<soctype>".
+> > > The ohci_shutdown() should hold the spin lock while disabling
+> > > the interruption and changing the rh_state flag. Note that
+> > > io_watchdog_func() also calls the ohci_shutdown() and it
+> > > already held the spin lock, so that the patch makes a new
+> > > function as _ohci_shutdown().
+> > 
+> > I don't understand this description.  It sounds like the OHCI
+> > controller generates an interrupt request, and then ohci_shutdown()
+> > disables the interrupt request before the handler can run.  When the
+> > handler does run, it sees that no interrupts are enabled and so it
+> > returns IRQ_NOTMINE, leading to the error shown above.
+> > 
+> > How will holding the spinlock fix this problem?
 > 
-> I actually copied it from the r-car gpio bindings, and I liked
-> cmm-<soctype> better. If you prefer I can change it though.
+> I'm sorry for lacking description. I should have described the following
+> descriptions instead of that. What do you think?
 > 
-> > > +   - "renesas,rcar-gen3-cmm": for a generic R-Car Gen3 compatible CMM.
-> > > +   - "renesas,rcar-gen2-cmm": for a generic R-Car Gen2 compatible CMM.
-> > > +
-> > > +   When the generic compatible string is specified, the SoC-specific
-> > > +   version corresponding to the platform should be listed first.
-> > > +
-> > > + - reg: the address base and length of the memory area where CMM control
-> > > +   registers are mapped to.
-> > > +
-> > > + - clocks: phandle and clock-specifier pair to the CMM functional clock
-> > > +   supplier.
-> >
-> > Thinking about yaml validation:
-> >
-> > power-domains?
-> > resets?
+> --
+> ohci_shutdown() disables all the interrupt and rh_state is set to
+> OHCI_RH_HALTED. In other hand, ohci_irq() is possible to enable
+> OHCI_INTR_SF and OHCI_INTR_MIE on ohci_irq(). Note that OHCI_INTR_SF
+> is possible to be set by start_ed_unlink() which is called:
+>  ohci_irq()
+>   -> process_done_list()
+>    -> takeback_td()
+>     -> start_ed_unlink()
 > 
-> They should indeed be documented.
+> So, ohci_irq() has the following condition, the issue happens by
+> &ohci->regs->intrenable = OHCI_INTR_MIE | OHCI_INTR_SF and
+> ohci->rh_state = OHCI_RH_HALTED:
+> 
+> 	/* interrupt for some other device? */
+> 	if (ints == 0 || unlikely(ohci->rh_state == OHCI_RH_HALTED))
+> 		return IRQ_NOTMINE;
+> 
+> To fix the issue, ohci_shutdown() holds the spin lock while disabling
+> the interruption and changing the rh_state flag to prevent reenable
+> the OHCI_INTR_MIE unexpectedly. Note that io_watchdog_func() also calls
+> the ohci_shutdown() and it already held the spin lock, so that the patch
+> makes a new function as _ohci_shutdown().
 
-How about converting this binding to yaml alreay ? It should be fairly
-simple.
+Okay, that's a lot better.  Please resubmit the patch with the new 
+description.
 
-> > > +Example:
-> > > +--------
-> > > +
-> > > +       cmm0: cmm@fea40000 {
-> > > +               compatible = "renesas,cmm-r8a7796";
-> > > +               reg = <0 0xfea40000 0 0x1000>;
-> > > +               power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
-> > > +               clocks = <&cpg CPG_MOD 711>;
-> > > +               resets = <&cpg 711>;
-> > > +       };
+Alan Stern
 
--- 
-Regards,
-
-Laurent Pinchart
