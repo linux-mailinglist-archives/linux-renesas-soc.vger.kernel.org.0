@@ -2,30 +2,30 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 73D2F9E541
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2019 12:04:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7A1E9E544
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2019 12:04:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729695AbfH0KDw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S1729713AbfH0KDw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Tue, 27 Aug 2019 06:03:52 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:20134 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727788AbfH0KDv (ORCPT
+Received: from relmlor1.renesas.com ([210.160.252.171]:11411 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725805AbfH0KDw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Aug 2019 06:03:51 -0400
+        Tue, 27 Aug 2019 06:03:52 -0400
 X-IronPort-AV: E=Sophos;i="5.64,436,1559487600"; 
-   d="scan'208";a="24825448"
+   d="scan'208";a="25044207"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 27 Aug 2019 19:03:48 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 27 Aug 2019 19:03:48 +0900
 Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 0016F40061AA;
-        Tue, 27 Aug 2019 19:03:47 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 0D5D740083ED;
+        Tue, 27 Aug 2019 19:03:48 +0900 (JST)
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To:     gregkh@linuxfoundation.org, mathias.nyman@intel.com
 Cc:     linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH 3/4] usb: host: xhci-rcar: Use xhci_plat_priv.quirks instead of code settings
-Date:   Tue, 27 Aug 2019 19:02:06 +0900
-Message-Id: <1566900127-11148-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH 4/4] usb: host: xhci-rcar: avoid 60s wait by request_firmware() in system booting
+Date:   Tue, 27 Aug 2019 19:02:07 +0900
+Message-Id: <1566900127-11148-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1566900127-11148-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 References: <1566900127-11148-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
@@ -34,97 +34,54 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch uses xhci_plat_priv.quirks to simplify. The previous
-code had conditions to set some quirks in xhci_rcar_init_quirk().
-But, the xhci_rcar_init_quirk() is called at the same conditions.
-So, no behavior change.
+If CONFIG_FW_LOADER_USER_HELPER_FALLBACK=y and CONFIG_USB_XHCI_RCAR=y,
+request_firmware() in xhci_rcar_download_firmware() waits for 60s to
+sysfs fallback for the firmware like below.
+
+[    1.599701] xhci-hcd ee000000.usb: xHCI Host Controller
+[    1.604948] xhci-hcd ee000000.usb: new USB bus registered, assigned bus number 3
+[    1.612403] xhci-hcd ee000000.usb: Direct firmware load for r8a779x_usb3_v3.dlmem failed with error -2
+[    1.621726] xhci-hcd ee000000.usb: Falling back to sysfs fallback for: r8a779x_usb3_v3.dlmem
+[    1.707953] ata1: link resume succeeded after 1 retries
+[    1.819379] ata1: SATA link down (SStatus 0 SControl 300)
+[   62.436012] xhci-hcd ee000000.usb: can't setup: -11
+[   62.440901] xhci-hcd ee000000.usb: USB bus 3 deregistered
+[   62.446361] xhci-hcd: probe of ee000000.usb failed with error -11
+
+To avoid this 60s wait, this patch adds to check the system_state
+condition and if the system is not running,
+xhci_rcar_download_firmware() calls request_firmware_direct()
+instead of request_firmware() as a workaround.
 
 Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 ---
- drivers/usb/host/xhci-rcar.c | 28 ----------------------------
- drivers/usb/host/xhci-rcar.h | 14 ++++++++++++++
- 2 files changed, 14 insertions(+), 28 deletions(-)
+ drivers/usb/host/xhci-rcar.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/usb/host/xhci-rcar.c b/drivers/usb/host/xhci-rcar.c
-index 8616c52..34761be 100644
+index 34761be..c90cf46 100644
 --- a/drivers/usb/host/xhci-rcar.c
 +++ b/drivers/usb/host/xhci-rcar.c
-@@ -107,15 +107,6 @@ static int xhci_rcar_is_gen2(struct device *dev)
- 		of_device_is_compatible(node, "renensas,rcar-gen2-xhci");
- }
+@@ -6,6 +6,7 @@
+  */
  
--static int xhci_rcar_is_gen3(struct device *dev)
--{
--	struct device_node *node = dev->of_node;
--
--	return of_device_is_compatible(node, "renesas,xhci-r8a7795") ||
--		of_device_is_compatible(node, "renesas,xhci-r8a7796") ||
--		of_device_is_compatible(node, "renesas,rcar-gen3-xhci");
--}
--
- void xhci_rcar_start(struct usb_hcd *hcd)
- {
- 	u32 temp;
-@@ -226,32 +217,13 @@ static bool xhci_rcar_wait_for_pll_active(struct usb_hcd *hcd)
- /* This function needs to initialize a "phy" of usb before */
- int xhci_rcar_init_quirk(struct usb_hcd *hcd)
- {
--	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
--
- 	/* If hcd->regs is NULL, we don't just call the following function */
- 	if (!hcd->regs)
- 		return 0;
+ #include <linux/firmware.h>
++#include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/of.h>
+@@ -146,7 +147,10 @@ static int xhci_rcar_download_firmware(struct usb_hcd *hcd)
+ 		firmware_name = priv->firmware_name;
  
--	/*
--	 * On R-Car Gen2 and Gen3, the AC64 bit (bit 0) of HCCPARAMS1 is set
--	 * to 1. However, these SoCs don't support 64-bit address memory
--	 * pointers. So, this driver clears the AC64 bit of xhci->hcc_params
--	 * to call dma_set_coherent_mask(dev, DMA_BIT_MASK(32)) in
--	 * xhci_gen_setup().
--	 *
--	 * And, since the firmware/internal CPU control the USBSTS.STS_HALT
--	 * and the process speed is down when the roothub port enters U3,
--	 * long delay for the handshake of STS_HALT is neeed in xhci_suspend().
--	 */
--	if (xhci_rcar_is_gen2(hcd->self.controller) ||
--			xhci_rcar_is_gen3(hcd->self.controller)) {
--		xhci->quirks |= XHCI_NO_64BIT_SUPPORT | XHCI_SLOW_SUSPEND;
--	}
--
- 	if (!xhci_rcar_wait_for_pll_active(hcd))
- 		return -ETIMEDOUT;
+ 	/* request R-Car USB3.0 firmware */
+-	retval = request_firmware(&fw, firmware_name, dev);
++	if (system_state < SYSTEM_RUNNING)
++		retval = request_firmware_direct(&fw, firmware_name, dev);
++	else
++		retval = request_firmware(&fw, firmware_name, dev);
+ 	if (retval)
+ 		return retval;
  
--	xhci->quirks |= XHCI_TRUST_TX_LENGTH;
- 	return xhci_rcar_download_firmware(hcd);
- }
- 
-diff --git a/drivers/usb/host/xhci-rcar.h b/drivers/usb/host/xhci-rcar.h
-index 1f8c225..012744a 100644
---- a/drivers/usb/host/xhci-rcar.h
-+++ b/drivers/usb/host/xhci-rcar.h
-@@ -32,8 +32,22 @@ static inline int xhci_rcar_resume_quirk(struct usb_hcd *hcd)
- }
- #endif
- 
-+/*
-+ * On R-Car Gen2 and Gen3, the AC64 bit (bit 0) of HCCPARAMS1 is set
-+ * to 1. However, these SoCs don't support 64-bit address memory
-+ * pointers. So, this driver clears the AC64 bit of xhci->hcc_params
-+ * to call dma_set_coherent_mask(dev, DMA_BIT_MASK(32)) in
-+ * xhci_gen_setup() by using the XHCI_NO_64BIT_SUPPORT quirk.
-+ *
-+ * And, since the firmware/internal CPU control the USBSTS.STS_HALT
-+ * and the process speed is down when the roothub port enters U3,
-+ * long delay for the handshake of STS_HALT is neeed in xhci_suspend()
-+ * by using the XHCI_SLOW_SUSPEND quirk.
-+ */
- #define SET_XHCI_PLAT_PRIV_FOR_RCAR(firmware)				\
- 	.firmware_name = firmware,					\
-+	.quirks = XHCI_NO_64BIT_SUPPORT | XHCI_TRUST_TX_LENGTH |	\
-+		  XHCI_SLOW_SUSPEND,					\
- 	.init_quirk = xhci_rcar_init_quirk,				\
- 	.plat_start = xhci_rcar_start,					\
- 	.resume_quirk = xhci_rcar_resume_quirk,
 -- 
 2.7.4
 
