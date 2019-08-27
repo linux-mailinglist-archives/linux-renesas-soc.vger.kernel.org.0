@@ -2,65 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CEFFD9E85B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2019 14:51:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 222FF9E8A8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2019 15:08:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727380AbfH0MvQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Aug 2019 08:51:16 -0400
-Received: from albert.telenet-ops.be ([195.130.137.90]:60512 "EHLO
-        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726170AbfH0MvP (ORCPT
+        id S1726944AbfH0NI2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Aug 2019 09:08:28 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:37875 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726054AbfH0NI2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Aug 2019 08:51:15 -0400
-Received: from ramsan ([84.194.98.4])
-        by albert.telenet-ops.be with bizsmtp
-        id uCrD2000205gfCL06CrDR9; Tue, 27 Aug 2019 14:51:14 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1i2awL-0003ni-3g; Tue, 27 Aug 2019 14:51:13 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1i2awL-0003BN-1C; Tue, 27 Aug 2019 14:51:13 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Mathias Nyman <mathias.nyman@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Felipe Balbi <felipe.balbi@linux.intel.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] usb: host: xhci: rcar: Fix typo in compatible string matching
-Date:   Tue, 27 Aug 2019 14:51:12 +0200
-Message-Id: <20190827125112.12192-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Tue, 27 Aug 2019 09:08:28 -0400
+Received: by mail-oi1-f195.google.com with SMTP id b25so14887343oib.4;
+        Tue, 27 Aug 2019 06:08:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Q2S0GVHRmC3Vkd6OFxrUvmz5N7W8VBhpQa3LnRiRzts=;
+        b=At4CtcV/WQ+NbwWaTkLd3By2zKZEL6l9aXyAyFJpzgi6yLv2aVrJoGz7H2lxRzum8S
+         VHxF5ATi4tW5y/oMsKN7gfMHTE2l6+PnN2ZWBEYp4KTx/2q4LdLYzpYLo2EDy5laDdct
+         sk2nxE6C4pnNHMDcVXJxgDZOEnbTlRjIsNxW6+h8PKGe3y80mFKyA/3O5xrSWrGE/jZc
+         MyQIvFGPZKKizKEDztCifTLBM8MELtZKxCCS/RKhhV9mkhiZlta6xrL7tHif/7dx73Xf
+         y287gzNv2vGsfHkl6lopX1egx9E96dhKHPSBUsE2FPfDHhmpST2g9xe8o6Q/CcLC7XWa
+         1hqg==
+X-Gm-Message-State: APjAAAWYR8MsVbzDLg4rnd/y2VYl9YNVdGQB/ycD4xiyopxpFgmDIuz5
+        KdLBvg6G1o8jeozkPl/QX9afWX+e2QbOvR0awr0=
+X-Google-Smtp-Source: APXvYqxMwyZiaZ5XqoGofg/6Hz36RQRRUdXEeug72HzZKa+KrJ4B+PqSKV3FuX3FrjH9ZXiCvapx1vGUnDuKni3HxdU=
+X-Received: by 2002:aca:f4ca:: with SMTP id s193mr15332142oih.131.1566911307470;
+ Tue, 27 Aug 2019 06:08:27 -0700 (PDT)
+MIME-Version: 1.0
+References: <1566904231-25486-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1566904231-25486-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1566904231-25486-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 27 Aug 2019 15:08:16 +0200
+Message-ID: <CAMuHMdV9pSq1RrXG53=az1krVVnZF3M=F3MiS7t+Z5dMo_iKHg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dmaengine: rcar-dmac: Use of_data values instead of a macro
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Vinod <vkoul@kernel.org>, dmaengine@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-It's spelled "renesas", not "renensas".
+Hi Shimoda-san,
 
-Due to this typo, RZ/G1M and RZ/G1N were not covered by the check.
+On Tue, Aug 27, 2019 at 1:12 PM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Since we will have changed memory mapping of the DMAC in the future,
+> this patch uses of_data values instead of a macro to calculate
+> each channel's base offset.
+>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Fixes: 2dc240a3308b269a ("usb: host: xhci: rcar: retire use of xhci_plat_type_is()")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/usb/host/xhci-rcar.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/drivers/usb/host/xhci-rcar.c b/drivers/usb/host/xhci-rcar.c
-index 8616c52849c6d2a8..2b0ccd150209fe3a 100644
---- a/drivers/usb/host/xhci-rcar.c
-+++ b/drivers/usb/host/xhci-rcar.c
-@@ -104,7 +104,7 @@ static int xhci_rcar_is_gen2(struct device *dev)
- 	return of_device_is_compatible(node, "renesas,xhci-r8a7790") ||
- 		of_device_is_compatible(node, "renesas,xhci-r8a7791") ||
- 		of_device_is_compatible(node, "renesas,xhci-r8a7793") ||
--		of_device_is_compatible(node, "renensas,rcar-gen2-xhci");
-+		of_device_is_compatible(node, "renesas,rcar-gen2-xhci");
- }
- 
- static int xhci_rcar_is_gen3(struct device *dev)
+> --- a/drivers/dma/sh/rcar-dmac.c
+> +++ b/drivers/dma/sh/rcar-dmac.c
+> @@ -208,12 +208,20 @@ struct rcar_dmac {
+>
+>  #define to_rcar_dmac(d)                container_of(d, struct rcar_dmac, engine)
+>
+> +/*
+> + * struct rcar_dmac_of_data - This driver's OF data
+> + * @chan_offset_base: DMAC channels base offset
+> + * @chan_offset_coefficient: DMAC channels offset coefficient
+
+Perhaps "stride" instead of "coefficient"? Or "step"?
+
+> @@ -1803,10 +1813,15 @@ static int rcar_dmac_probe(struct platform_device *pdev)
+>         unsigned int channels_offset = 0;
+>         struct dma_device *engine;
+>         struct rcar_dmac *dmac;
+> +       const struct rcar_dmac_of_data *data;
+>         struct resource *mem;
+>         unsigned int i;
+>         int ret;
+>
+> +       data = of_device_get_match_data(&pdev->dev);
+> +       if (!data)
+> +               return -EINVAL;
+
+This cannot fail, as the driver is DT only, and all entries in the match table
+have a data pointer.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.17.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
