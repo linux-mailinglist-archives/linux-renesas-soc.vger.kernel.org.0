@@ -2,110 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D2489E8D1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2019 15:13:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34C879E92F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2019 15:24:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726125AbfH0NNn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Aug 2019 09:13:43 -0400
-Received: from michel.telenet-ops.be ([195.130.137.88]:52026 "EHLO
-        michel.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725920AbfH0NNn (ORCPT
+        id S1728519AbfH0NX7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Aug 2019 09:23:59 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:46806 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725920AbfH0NX7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Aug 2019 09:13:43 -0400
-Received: from ramsan ([84.194.98.4])
-        by michel.telenet-ops.be with bizsmtp
-        id uDDg2000a05gfCL06DDgyL; Tue, 27 Aug 2019 15:13:41 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1i2bI4-0003t5-Mk
-        for linux-renesas-soc@vger.kernel.org; Tue, 27 Aug 2019 15:13:40 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1i2bI4-0003yU-KT
-        for linux-renesas-soc@vger.kernel.org; Tue, 27 Aug 2019 15:13:40 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2019-08-27-v5.3-rc6
-Date:   Tue, 27 Aug 2019 15:13:40 +0200
-Message-Id: <20190827131340.15236-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Tue, 27 Aug 2019 09:23:59 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A4B1954B;
+        Tue, 27 Aug 2019 15:23:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1566912237;
+        bh=FUaS9CojkeuOZgYDZ4zgyKrXatWn2AF2y9v+hD/okX0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WslLQc83SxuPVIX3r4KHA/+ziTG6pNKXpUXDc71p9F6OM/A23Q9Jsour5umMO1oCB
+         fSuR0zAqfqYE8M7lVYJU1+l4+IKtTWLFQdXmbuH2km5i9SFikRHXkEoPwKrOvtmw0s
+         MJBsR4lZ2cFPZGwUanL6y2vDM7PYzhjOmsgOY3pE=
+Date:   Tue, 27 Aug 2019 16:23:51 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] drm: rcar-du: kms: Expand comment in vsps parsing
+ routine
+Message-ID: <20190827132351.GY5054@pendragon.ideasonboard.com>
+References: <20190825140135.12150-1-jacopo+renesas@jmondi.org>
+ <20190825140135.12150-3-jacopo+renesas@jmondi.org>
+ <20190825180603.GB5436@pendragon.ideasonboard.com>
+ <20190826072330.ymx52yr35tcaafrh@uno.localdomain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190826072330.ymx52yr35tcaafrh@uno.localdomain>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I have pushed renesas-drivers-2019-08-27-v5.3-rc6 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+Hi Jacopo,
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM SoCs. It is created by merging (a) the for-next branches
-of various subsystem trees and (b) branches with driver code submitted
-or planned for submission to maintainers into the master branch of my
-renesas-devel.git tree.
+On Mon, Aug 26, 2019 at 09:23:30AM +0200, Jacopo Mondi wrote:
+> On Sun, Aug 25, 2019 at 09:06:03PM +0300, Laurent Pinchart wrote:
+> > Hi Jacopo,
+> >
+> > Thank you for the patch.
+> >
+> > How about changing the subject to "drm: rcar-du: Document DT backward
+> > compatibility" ?
+> >
+> > On Sun, Aug 25, 2019 at 04:01:35PM +0200, Jacopo Mondi wrote:
+> >> Exand comment in the 'vsps' parsing routine to specify why the LIF
+> >
+> > s/Exand/Expand/
+> >
+> >> channel index is defaulted to 0 in case the second cell of the property
+> >
+> > s/is defaulted to 0/defaults to 0/
+> >
+> >> is not specified.
+> >
+> > You could explain it here too :-)
+> 
+> Expand comment in the 'vsps' parsing routine to specify the LIF
+> channel index defaults to 0 in case the second cell of the property
+> is not specified to remain compatible with older DT bindings.
+> 
+> Could you take this in when applying this patch or want me to resend?
 
-Today's version is based on renesas-devel-2019-08-26-v5.3-rc6.
+I would have, but you have forgotten to CC the dri-devel mailing list
+I'm afraid. Could you post a v3 of this patch to the list ? I'll then
+pick it up.
 
-Included branches with driver code:
-  - clk-renesas
-  - sh-pfc
-  - topic/rcar3-sysc-extmask-v1
-  - topic/rcar3-cpuidle-v2
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/topic/sdhi-manual-calib~1
+> >> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> >> ---
+> >>  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 6 +++++-
+> >>  1 file changed, 5 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> >> index 2dc9caee8767..0d59f390de19 100644
+> >> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> >> @@ -585,7 +585,11 @@ static int rcar_du_vsps_init(struct rcar_du_device *rcdu)
+> >>
+> >>  		vsps[j].crtcs_mask |= BIT(i);
+> >>
+> >> -		/* Store the VSP pointer and pipe index in the CRTC. */
+> >> +		/*
+> >> +		 * Store the VSP pointer and pipe index in the CRTC. If the
+> >> +		 * second cell of the 'vsps' specifier isn't present, default
+> >> +		 * to 0 to remain compatible with older DT bindings.
+> >> +		 */
+> >>  		rcdu->crtcs[i].vsp = &rcdu->vsps[j];
+> >>  		rcdu->crtcs[i].vsp_pipe = cells >= 1 ? args.args[0] : 0;
+> >>  	}
 
-Included fixes:
-  - Revert "fdt: add support for rng-seed"
-  - pinctrl: sh-pfc: Unlock on error in sh_pfc_func_set_mux()
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: defconfig: Update renesas_defconfig
+-- 
+Regards,
 
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#clockevents/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
-  - git://git.infradead.org/users/vkoul/slave-dma.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://github.com/bzolnier/linux.git#fbdev-for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/kishon/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+Laurent Pinchart
