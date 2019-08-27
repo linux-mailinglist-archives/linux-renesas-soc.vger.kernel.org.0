@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E4AE9DA3B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2019 02:00:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 021269DA45
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2019 02:05:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726278AbfH0AA0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Aug 2019 20:00:26 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58032 "EHLO
+        id S1726543AbfH0AF1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Aug 2019 20:05:27 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:58086 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726020AbfH0AA0 (ORCPT
+        with ESMTP id S1726278AbfH0AF1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 26 Aug 2019 20:00:26 -0400
+        Mon, 26 Aug 2019 20:05:27 -0400
 Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A0AB331B;
-        Tue, 27 Aug 2019 02:00:23 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2532931B;
+        Tue, 27 Aug 2019 02:05:24 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1566864023;
-        bh=axRmPB+ri4lYGSD+6809gJobxHmxblq+utwkj7h225s=;
+        s=mail; t=1566864324;
+        bh=Jkzf9ucXI/EfCdTUo0LbDuJ5qhZF+9L/kEIa24X2Tv8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PV8EId/PKc+Z9yzRYVpcWKQ70kOhKNJnKt7RWKXt6oTuNa9GfjNTBQuqk9bWwdv9x
-         5DAQRZf6ABMGbU27nfg8aKoF7g3liBZC1abscP5eIdV2nOnmjRzdsyqdsw0NPhCwUk
-         RbX/pFfTnQBZiKwNlf5dhKvVkZ/VV3xOGtFqyXRc=
-Date:   Tue, 27 Aug 2019 03:00:17 +0300
+        b=t+vusSJPglqdjBfFrg/feSwydVrUj5uKYIA85z7FIg6xXNVT2amlpCXKJJGH0DECj
+         PBogkAmD4v8eD01HfOrBI8p5pOZ7pIOt5dNTblMbHrYwUV/QUymYYOz2Go0VXiO477
+         pq1FqAXVM1yc9Glvm/LhUDaVmSRR2WLTNorjvj2Q=
+Date:   Tue, 27 Aug 2019 03:05:17 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
 Cc:     kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
@@ -31,16 +31,15 @@ Cc:     kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
         VenkataRajesh.Kalakodima@in.bosch.com,
         Harsha.ManjulaMallikarjun@in.bosch.com,
         linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, Ulrich Hecht <uli+renesas@fpond.eu>
-Subject: Re: [PATCH v3 13/14] drm: rcar-du: kms: Update CMM in atomic commit
- tail
-Message-ID: <20190827000017.GB5274@pendragon.ideasonboard.com>
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 14/14] drm: rcar-du: Force CMM enablement when resuming
+Message-ID: <20190827000517.GC5274@pendragon.ideasonboard.com>
 References: <20190825135154.11488-1-jacopo+renesas@jmondi.org>
- <20190825135154.11488-14-jacopo+renesas@jmondi.org>
+ <20190825135154.11488-15-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190825135154.11488-14-jacopo+renesas@jmondi.org>
+In-Reply-To: <20190825135154.11488-15-jacopo+renesas@jmondi.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -49,88 +48,81 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Jacopo,
 
+(Question for Daniel below)
+
 Thank you for the patch.
 
-On Sun, Aug 25, 2019 at 03:51:53PM +0200, Jacopo Mondi wrote:
-> Update CMM settings at in the atomic commit tail helper method.
+On Sun, Aug 25, 2019 at 03:51:54PM +0200, Jacopo Mondi wrote:
+> When resuming from system suspend, the DU driver is responsible for
+> reprogramming and enabling the CMM unit if it was in use at the time
+> the system entered the suspend state.
 > 
-> The CMM is updated with new gamma values provided to the driver
-> in the GAMMA_LUT blob property.
+> Force the color_mgmt_changed flag to true if any of the DRM color
+> transformation properties was set in the CRTC state duplicated at
+> suspend time, as the CMM gets reprogrammed only if said flag is active in
+> the rcar_du_atomic_commit_update_cmm() method.
 > 
-> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
->  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 35 +++++++++++++++++++++++++++
->  1 file changed, 35 insertions(+)
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> index 61ca1d3c379a..047fdb982a11 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> @@ -22,6 +22,7 @@
->  #include <linux/of_platform.h>
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> index 018480a8f35c..6e38495fb78f 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/slab.h>
 >  #include <linux/wait.h>
 >  
-> +#include "rcar_cmm.h"
->  #include "rcar_du_crtc.h"
->  #include "rcar_du_drv.h"
->  #include "rcar_du_encoder.h"
-> @@ -368,6 +369,37 @@ rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
->   * Atomic Check and Update
->   */
->  
-> +static void rcar_du_atomic_commit_update_cmm(struct drm_crtc *crtc,
-> +					     struct drm_crtc_state *old_state)
-> +{
-> +	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-> +	struct rcar_cmm_config cmm_config = {};
-> +
-> +	if (!rcrtc->cmm || !crtc->state->color_mgmt_changed)
-> +		return;
-> +
-> +	if (!crtc->state->gamma_lut) {
-> +		cmm_config.lut.enable = false;
-> +		rcar_cmm_setup(rcrtc->cmm, &cmm_config);
-> +
-> +		return;
-> +	}
-> +
-> +	cmm_config.lut.enable = true;
-> +	cmm_config.lut.table = (struct drm_color_lut *)
-> +			       crtc->state->gamma_lut->data;
-> +
-> +	/* Set LUT table size to 0 if entries should not be updated. */
-> +	if (!old_state->gamma_lut ||
-> +	    old_state->gamma_lut->base.id != crtc->state->gamma_lut->base.id)
-> +		cmm_config.lut.size = crtc->state->gamma_lut->length
-> +				    / sizeof(cmm_config.lut.table[0]);
-
-It has just occurred to me that the hardware only support LUTs of
-exactly 256 entries. Should we remove cmm_config.lut.size (simplifying
-the code in the CMM driver), and add a check to the CRTC .atomic_check()
-handler to reject invalid LUTs ? Sorry for not having caught this
-earlier.
-
-> +	else
-> +		cmm_config.lut.size = 0;
-> +
-> +	rcar_cmm_setup(rcrtc->cmm, &cmm_config);
-> +}
-> +
->  static int rcar_du_atomic_check(struct drm_device *dev,
->  				struct drm_atomic_state *state)
+> +#include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_fb_cma_helper.h>
+>  #include <drm/drm_fb_helper.h>
+> @@ -482,6 +483,26 @@ static int rcar_du_pm_suspend(struct device *dev)
+>  static int rcar_du_pm_resume(struct device *dev)
 >  {
-> @@ -410,6 +442,9 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
->  			rcdu->dpad1_source = rcrtc->index;
->  	}
->  
-> +	for_each_old_crtc_in_state(old_state, crtc, crtc_state, i)
-> +		rcar_du_atomic_commit_update_cmm(crtc, crtc_state);
+>  	struct rcar_du_device *rcdu = dev_get_drvdata(dev);
+> +	struct drm_atomic_state *state = rcdu->ddev->mode_config.suspend_state;
+> +	unsigned int i;
 > +
->  	/* Apply the atomic update. */
->  	drm_atomic_helper_commit_modeset_disables(dev, old_state);
->  	drm_atomic_helper_commit_planes(dev, old_state,
+> +	for (i = 0; i < rcdu->num_crtcs; ++i) {
+> +		struct drm_crtc *crtc = &rcdu->crtcs[i].crtc;
+> +		struct drm_crtc_state *crtc_state;
+> +
+> +		crtc_state = drm_atomic_get_existing_crtc_state(state, crtc);
+> +		if (!crtc_state)
+> +			continue;
+
+Shouldn't you get the new state here ?
+
+> +
+> +		/*
+> +		 * Force re-enablement of CMM after system resume if any
+> +		 * of the DRM color transformation properties was set in
+> +		 * the state saved at system suspend time.
+> +		 */
+> +		if (crtc_state->gamma_lut || crtc_state->degamma_lut ||
+> +		    crtc_state->ctm)
+
+We don't support degamma_lut or crm, so I would drop those.
+
+With these small issues addressed,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Shouldn't we however squash this with the previous patch to avoid
+bisection issues ?
+
+> +			crtc_state->color_mgmt_changed = true;
+
+Daniel, is this something that would make sense in the KMS core (or
+helpers) ?
+
+> +	}
+>  
+>  	return drm_mode_config_helper_resume(rcdu->ddev);
+>  }
 
 -- 
 Regards,
