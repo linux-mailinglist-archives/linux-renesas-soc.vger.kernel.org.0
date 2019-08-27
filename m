@@ -2,42 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A1AE9E812
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2019 14:36:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 408C49E833
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2019 14:43:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725850AbfH0Mg1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Aug 2019 08:36:27 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:41483 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728702AbfH0Mg0 (ORCPT
+        id S1729004AbfH0MnE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Aug 2019 08:43:04 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:39050 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726794AbfH0MnD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Aug 2019 08:36:26 -0400
-Received: by mail-oi1-f194.google.com with SMTP id p127so6175001oic.8;
-        Tue, 27 Aug 2019 05:36:26 -0700 (PDT)
+        Tue, 27 Aug 2019 08:43:03 -0400
+Received: by mail-ot1-f68.google.com with SMTP id b1so18502371otp.6;
+        Tue, 27 Aug 2019 05:43:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=p4AP441Ul+To2Moh1dudmIeSl6cX7gcOzZP+CCLUD18=;
-        b=ubgQlsH+JBQp4N2GdMjntgcwc6ChZIPUbTEhVESMfTV6rRBHIjRdXLelEkZBNAbG4Y
-         ekRFO/ao1YzbmfZTaZ6mIlKyOg4+W5hPVJNpejpjUZ4zLvUx0/8nSlx6kULZyC/mjWWA
-         NR2D22tAEbSK4+Aa9ATScaq1eDfbl8jlUJlAt1RUzK0+nW9VD/7e2Xc2He9eQn5rI/XJ
-         b1dYybjE4PaWuc1OC/jla4sdviewBpwweI1NNBaC1E0PyO0IrydIZHZxTJ91dByhqyS6
-         cMlpK/LXVhsoI3VIAyQG8nqMkCvqPem9rRd4fpTvLn861QHH8jeBHyCBrWc4EwPZmxnq
-         aXzg==
-X-Gm-Message-State: APjAAAUjetKcp+bSJM1eh1DG0gkGuEBIAxGBStezKGYAwNemxijSkXf0
-        +Qni+oiMEddfVbBzaYqx2z4sGlyX0gvE53IH/R8=
-X-Google-Smtp-Source: APXvYqwHgBn8ycq9W5LDEVFGOPY+7S7ZnaOS9or/O5YAj9CwtmdYgdb/jxrlFwaLrm002tTaviteFu+vYooWUXTezZ4=
-X-Received: by 2002:aca:3382:: with SMTP id z124mr16307716oiz.102.1566909385816;
- Tue, 27 Aug 2019 05:36:25 -0700 (PDT)
+        bh=zD6Ar5X8ZCFYlrqp8u7R/+2aJq6fgCbXuhgwP/0PgYc=;
+        b=c9H5mTIF4eYeFeKTkcS77Hk93+0zqFvf4XCg9Fw+D7+4i2KsGzZDCzk08DaAEDrkMg
+         Z+sMcCZvNoQLR0C7OkIrvSVFB6nAB9K52bN5OV/shOLqwjdx8IzrxgrP+0NtgyPzg59b
+         3cxp43gEZE3demSstv2vck5XHZYb9t48v835gwq6ACftJfm/RPs46ry4Bdywr8OfyJEO
+         46izp5LoBn46LAtZAFKO6iXjU4x6ulWuFz50MhJ/TeDSkd5QU1UegGBEjnSVbiUCtsCY
+         +/vxIIthrnat24xUHj2VyYFlpGRoabrg5EH7rsNbmSqc3EW4c1TuDQu7zOAPoVCn+uyu
+         53Ew==
+X-Gm-Message-State: APjAAAUrpEc8N+X+yVFdJU/NUwJSUhinopTjRJnMz4c9bn4wgguXKcrt
+        4JWSLGLG/bq6hh3AI2QBQt/uXWvKeAtbevrxf0Wwzz6l
+X-Google-Smtp-Source: APXvYqwWUmScWMs8dVNTGNIN/apU3T5R91u0xoCmZG+X1EQUZ75RTVfPs9TRD6ped92zsJIjLVzUZoL969D4FZeUccI=
+X-Received: by 2002:a9d:7a90:: with SMTP id l16mr19880625otn.297.1566909782762;
+ Tue, 27 Aug 2019 05:43:02 -0700 (PDT)
 MIME-Version: 1.0
 References: <1566900127-11148-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1566900127-11148-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1566900127-11148-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1566900127-11148-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1566900127-11148-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 27 Aug 2019 14:36:14 +0200
-Message-ID: <CAMuHMdUgE1XnW=o+o+0cizpvj+vDnc5JAiTG4TCw=-HtbiRo9w@mail.gmail.com>
-Subject: Re: [PATCH 2/4] usb: host: xhci-rcar: Add a helper macro to set xhci_plat_priv
+Date:   Tue, 27 Aug 2019 14:42:51 +0200
+Message-ID: <CAMuHMdXLGBqPLePsShvXxtRFEwvnr0ax2SYDcbou6dBTOqh0Ug@mail.gmail.com>
+Subject: Re: [PATCH 3/4] usb: host: xhci-rcar: Use xhci_plat_priv.quirks
+ instead of code settings
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc:     Greg KH <gregkh@linuxfoundation.org>,
         Mathias Nyman <mathias.nyman@intel.com>,
@@ -49,10 +50,12 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Aug 27, 2019 at 12:06 PM Yoshihiro Shimoda
+On Tue, Aug 27, 2019 at 12:04 PM Yoshihiro Shimoda
 <yoshihiro.shimoda.uh@renesas.com> wrote:
-> To avoid copy-and-paste setting of xhci_plat_priv for R-Car SoCs,
-> this patch add a helper macro SET_XHCI_PLAT_PRIV_FOR_RCAR.
+> This patch uses xhci_plat_priv.quirks to simplify. The previous
+> code had conditions to set some quirks in xhci_rcar_init_quirk().
+> But, the xhci_rcar_init_quirk() is called at the same conditions.
+> So, no behavior change.
 >
 > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
