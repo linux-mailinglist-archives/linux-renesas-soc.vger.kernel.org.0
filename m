@@ -2,166 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 465899DC27
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2019 05:53:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24B339E492
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2019 11:39:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729010AbfH0Dxd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Aug 2019 23:53:33 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:39829 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728820AbfH0Dxd (ORCPT
+        id S1728928AbfH0Jjx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Aug 2019 05:39:53 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:40692 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726833AbfH0Jjw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 26 Aug 2019 23:53:33 -0400
-X-IronPort-AV: E=Sophos;i="5.64,435,1559487600"; 
-   d="scan'208";a="24789939"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 27 Aug 2019 12:53:30 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id BBD794197BE9;
-        Tue, 27 Aug 2019 12:53:30 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     gregkh@linuxfoundation.org, stern@rowland.harvard.edu
-Cc:     linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Tue, 27 Aug 2019 05:39:52 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7R9dHnC181166;
+        Tue, 27 Aug 2019 09:39:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2019-08-05;
+ bh=iyPJDlzW/9Wy75yoRMq0JaYVquSmNBchUb8Dgo73hxY=;
+ b=IORazl/Uwhr5CgFEZGNYGKpzz2Q6IRDwf6bMeBtn+dB7Cz/vfnHFul60Sog25TzNSS7m
+ 5tDUpMQQg99tf/12Zyb/ABWZeXIdi0RIySfKVmCdHqHO4fSUZlIaNomlCnuJ7oX1Taa5
+ UczGHUSxoDASqJl7eO0O2gruCojIQgGFZTCYPSd08pqZe+WL1ZaEDdp85fL0h57mppwO
+ VKPg2HCzrIEXRmNUXTGFVBgYXMxpmsx0d7zVvCXshJC0L5/AuKe2cUxvLQfECx/PTEnM
+ j+/S3/M/O4HQ81+YAITgrvXJvli6r2HlYgPp0AySM8dmmp9Zi3Zwy8AOWHUGZBd3zVHh wQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2130.oracle.com with ESMTP id 2un1xa823a-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 27 Aug 2019 09:39:40 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7R9d8FK119717;
+        Tue, 27 Aug 2019 09:39:40 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3020.oracle.com with ESMTP id 2umj283m9q-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 27 Aug 2019 09:39:40 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x7R9daxZ031838;
+        Tue, 27 Aug 2019 09:39:38 GMT
+Received: from mwanda (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 27 Aug 2019 02:39:36 -0700
+Date:   Tue, 27 Aug 2019 12:39:27 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v3] usb: host: ohci: fix a race condition between shutdown and irq
-Date:   Tue, 27 Aug 2019 12:51:50 +0900
-Message-Id: <1566877910-6020-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: [PATCH] pinctrl: sh-pfc: Unlock on error in sh_pfc_func_set_mux()
+Message-ID: <20190827093927.GB8443@mwanda>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9361 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1906280000 definitions=main-1908270109
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9361 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
+ definitions=main-1908270109
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch fixes an issue that the following error is
-possible to happen when ohci hardware causes an interruption
-and the system is shutting down at the same time.
+We need to unlock and enable IRQs before we return on this error path.
 
-[   34.851754] usb 2-1: USB disconnect, device number 2
-[   35.166658] irq 156: nobody cared (try booting with the "irqpoll" option)
-[   35.173445] CPU: 0 PID: 22 Comm: kworker/0:1 Not tainted 5.3.0-rc5 #85
-[   35.179964] Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
-[   35.187886] Workqueue: usb_hub_wq hub_event
-[   35.192063] Call trace:
-[   35.194509]  dump_backtrace+0x0/0x150
-[   35.198165]  show_stack+0x14/0x20
-[   35.201475]  dump_stack+0xa0/0xc4
-[   35.204785]  __report_bad_irq+0x34/0xe8
-[   35.208614]  note_interrupt+0x2cc/0x318
-[   35.212446]  handle_irq_event_percpu+0x5c/0x88
-[   35.216883]  handle_irq_event+0x48/0x78
-[   35.220712]  handle_fasteoi_irq+0xb4/0x188
-[   35.224802]  generic_handle_irq+0x24/0x38
-[   35.228804]  __handle_domain_irq+0x5c/0xb0
-[   35.232893]  gic_handle_irq+0x58/0xa8
-[   35.236548]  el1_irq+0xb8/0x180
-[   35.239681]  __do_softirq+0x94/0x23c
-[   35.243253]  irq_exit+0xd0/0xd8
-[   35.246387]  __handle_domain_irq+0x60/0xb0
-[   35.250475]  gic_handle_irq+0x58/0xa8
-[   35.254130]  el1_irq+0xb8/0x180
-[   35.257268]  kernfs_find_ns+0x5c/0x120
-[   35.261010]  kernfs_find_and_get_ns+0x3c/0x60
-[   35.265361]  sysfs_unmerge_group+0x20/0x68
-[   35.269454]  dpm_sysfs_remove+0x2c/0x68
-[   35.273284]  device_del+0x80/0x370
-[   35.276683]  hid_destroy_device+0x28/0x60
-[   35.280686]  usbhid_disconnect+0x4c/0x80
-[   35.284602]  usb_unbind_interface+0x6c/0x268
-[   35.288867]  device_release_driver_internal+0xe4/0x1b0
-[   35.293998]  device_release_driver+0x14/0x20
-[   35.298261]  bus_remove_device+0x110/0x128
-[   35.302350]  device_del+0x148/0x370
-[   35.305832]  usb_disable_device+0x8c/0x1d0
-[   35.309921]  usb_disconnect+0xc8/0x2d0
-[   35.313663]  hub_event+0x6e0/0x1128
-[   35.317146]  process_one_work+0x1e0/0x320
-[   35.321148]  worker_thread+0x40/0x450
-[   35.324805]  kthread+0x124/0x128
-[   35.328027]  ret_from_fork+0x10/0x18
-[   35.331594] handlers:
-[   35.333862] [<0000000079300c1d>] usb_hcd_irq
-[   35.338126] [<0000000079300c1d>] usb_hcd_irq
-[   35.342389] Disabling IRQ #156
-
-ohci_shutdown() disables all the interrupt and rh_state is set to
-OHCI_RH_HALTED. In other hand, ohci_irq() is possible to enable
-OHCI_INTR_SF and OHCI_INTR_MIE on ohci_irq(). Note that OHCI_INTR_SF
-is possible to be set by start_ed_unlink() which is called:
- ohci_irq()
-  -> process_done_list()
-   -> takeback_td()
-    -> start_ed_unlink()
-
-So, ohci_irq() has the following condition, the issue happens by
-&ohci->regs->intrenable = OHCI_INTR_MIE | OHCI_INTR_SF and
-ohci->rh_state = OHCI_RH_HALTED:
-
-	/* interrupt for some other device? */
-	if (ints == 0 || unlikely(ohci->rh_state == OHCI_RH_HALTED))
-		return IRQ_NOTMINE;
-
-To fix the issue, ohci_shutdown() holds the spin lock while disabling
-the interruption and changing the rh_state flag to prevent reenable
-the OHCI_INTR_MIE unexpectedly. Note that io_watchdog_func() also
-calls the ohci_shutdown() and it already held the spin lock, so that
-the patch makes a new function as _ohci_shutdown().
-
-This patch is inspired by a Renesas R-Car Gen3 BSP patch
-from Tho Vu.
-
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Fixes: 8a0cc47ccc7c ("pinctrl: sh-pfc: Rollback to mux if required when the gpio is freed")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 ---
-Changes from v2:
- - Since a sentence is lacked on v2, revise the commit log.
-https://patchwork.kernel.org/patch/11115947/
+ drivers/pinctrl/sh-pfc/pinctrl.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Changes from v1:
- - Add more comments in the commit log.
-https://patchwork.kernel.org/patch/11111459/
-
- drivers/usb/host/ohci-hcd.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/usb/host/ohci-hcd.c b/drivers/usb/host/ohci-hcd.c
-index b457fda..1fe3dee 100644
---- a/drivers/usb/host/ohci-hcd.c
-+++ b/drivers/usb/host/ohci-hcd.c
-@@ -419,8 +419,7 @@ static void ohci_usb_reset (struct ohci_hcd *ohci)
-  * other cases where the next software may expect clean state from the
-  * "firmware".  this is bus-neutral, unlike shutdown() methods.
-  */
--static void
--ohci_shutdown (struct usb_hcd *hcd)
-+static void _ohci_shutdown(struct usb_hcd *hcd)
- {
- 	struct ohci_hcd *ohci;
+diff --git a/drivers/pinctrl/sh-pfc/pinctrl.c b/drivers/pinctrl/sh-pfc/pinctrl.c
+index 99f4ebd69861..212a4a9c3a8f 100644
+--- a/drivers/pinctrl/sh-pfc/pinctrl.c
++++ b/drivers/pinctrl/sh-pfc/pinctrl.c
+@@ -361,8 +361,10 @@ static int sh_pfc_func_set_mux(struct pinctrl_dev *pctldev, unsigned selector,
+ 		 * This driver cannot manage both gpio and mux when the gpio
+ 		 * pin is already enabled. So, this function fails.
+ 		 */
+-		if (cfg->gpio_enabled)
+-			return -EBUSY;
++		if (cfg->gpio_enabled) {
++			ret = -EBUSY;
++			goto done;
++		}
  
-@@ -436,6 +435,16 @@ ohci_shutdown (struct usb_hcd *hcd)
- 	ohci->rh_state = OHCI_RH_HALTED;
- }
- 
-+static void ohci_shutdown(struct usb_hcd *hcd)
-+{
-+	struct ohci_hcd	*ohci = hcd_to_ohci(hcd);
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&ohci->lock, flags);
-+	_ohci_shutdown(hcd);
-+	spin_unlock_irqrestore(&ohci->lock, flags);
-+}
-+
- /*-------------------------------------------------------------------------*
-  * HC functions
-  *-------------------------------------------------------------------------*/
-@@ -760,7 +769,7 @@ static void io_watchdog_func(struct timer_list *t)
-  died:
- 			usb_hc_died(ohci_to_hcd(ohci));
- 			ohci_dump(ohci);
--			ohci_shutdown(ohci_to_hcd(ohci));
-+			_ohci_shutdown(ohci_to_hcd(ohci));
- 			goto done;
- 		} else {
- 			/* No write back because the done queue was empty */
+ 		ret = sh_pfc_config_mux(pfc, grp->mux[i], PINMUX_TYPE_FUNCTION);
+ 		if (ret < 0)
 -- 
-2.7.4
+2.20.1
 
