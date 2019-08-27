@@ -2,82 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B14CC9F17A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2019 19:24:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC8B49F420
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2019 22:29:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728670AbfH0RYs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 27 Aug 2019 13:24:48 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:34334 "EHLO
+        id S1731296AbfH0U3s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 27 Aug 2019 16:29:48 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:39025 "EHLO
         mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727064AbfH0RYs (ORCPT
+        with ESMTP id S1731253AbfH0U3r (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 27 Aug 2019 13:24:48 -0400
-Received: by mail-oi1-f196.google.com with SMTP id g128so15617234oib.1;
-        Tue, 27 Aug 2019 10:24:47 -0700 (PDT)
+        Tue, 27 Aug 2019 16:29:47 -0400
+Received: by mail-oi1-f196.google.com with SMTP id 16so302929oiq.6;
+        Tue, 27 Aug 2019 13:29:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=iiSGGVLxiO5dXRiIuYVfYDjgr5BeTYu6HKE0U9IDlr8=;
-        b=jLkVOojzvUnaOJNLK1zWL7ggTxkJ0xxYh+P45rqTU0qTbuSnQ6heYOGTFwFz9ON8iy
-         y9AjjrKui+W1aNf77vxalVa062hBs0VXjkAoLPCZZJeGP8HO4e81Atwa8LzN38rBJFvA
-         jWs6T+mnJ9Z53zP6UW0g6lzyTZSsjobjvADM8XsdRszYywQ0PJlsuN8QYN5ArWrtC0Ee
-         H6rOt8v8iPOu2eprlDn3rYc17bDN0AZYGXirG1MXbhyI1xYLPUucoqTMH4yMIeICRcxM
-         PQ1HoUmTum52V8bA3oMhUiWGfbkGQNW6Mhf4auovyrFhhWzML97GSqeERHD44ni6DnES
-         eYgA==
-X-Gm-Message-State: APjAAAV33t0MBT8yFP/YADAsxUIMwExf5Zag9uxchZHM97C7ZjWZfbw+
-        K3nUdqqYB141+9Hhpnc+cQ==
-X-Google-Smtp-Source: APXvYqw9Z0yuc9c97insSvpXEnh5CIsK0GLVAo7MRbMxts4XopU9ATqRwMv1HoaOdySJh9uI+fvgqg==
-X-Received: by 2002:a05:6808:b30:: with SMTP id t16mr4563oij.166.1566926687170;
-        Tue, 27 Aug 2019 10:24:47 -0700 (PDT)
+        bh=8niDKrVIoqrSXH9oif2WET13kHnIVA/UIc91Gu8SkZM=;
+        b=cqk4g/y8T7nunwqiAeB7q6XdwOT3OrXzc6FizEBOWsgasHJFy3sT04xubmu+RzfyHN
+         bbZOlZM5zfBfezahDyqKMagu+9HQCJERu2skyX2OZCiGQQ/haANOPOjVZqAIvHUU881q
+         HMUzl+Vu3wKKL9me5G8i2MACN5EHhYgNjgf+qMwoSZEiTqL2dQAHe9YsrHiBG54MDWe4
+         TDj6Qu3sHNqDkC/nbyWk/vF76/k65pLYaLxFyywK09/5YIvUTuBAT9QDdqCYzuobApIu
+         fZRgNZVnmON8z07BWCvbxQ/QBlCfpk4sRzUViVgU0utoR1O0qsUULLaw2u8QSUMOQekq
+         8DMw==
+X-Gm-Message-State: APjAAAUa0tFNysVidld4jFpC3QFJ2l2zl9jRTDoriOWPlMPUtbgvl9dY
+        KrWjK7VRJA6hzKxGXi/39Q==
+X-Google-Smtp-Source: APXvYqyvi93uz4dBcCcm4cI88A8pdbEVLlyRLkZI+skrt3KOD0/N23uLiDTKZNEwXqB/ZdPpBbIoDg==
+X-Received: by 2002:a05:6808:982:: with SMTP id a2mr396001oic.59.1566937786583;
+        Tue, 27 Aug 2019 13:29:46 -0700 (PDT)
 Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id z9sm4377015oid.39.2019.08.27.10.24.46
+        by smtp.gmail.com with ESMTPSA id j19sm144026otk.46.2019.08.27.13.29.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Aug 2019 10:24:46 -0700 (PDT)
-Date:   Tue, 27 Aug 2019 12:24:45 -0500
+        Tue, 27 Aug 2019 13:29:46 -0700 (PDT)
+Date:   Tue, 27 Aug 2019 15:29:45 -0500
 From:   Rob Herring <robh@kernel.org>
-To:     Simon Horman <horms+renesas@verge.net.au>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Simon Horman <horms+renesas@verge.net.au>
-Subject: Re: [PATCH v2] dt-bindings: clk: emev2: Rename bindings
- documentation file
-Message-ID: <20190827172445.GA15211@bogus>
-References: <20190821091516.16372-1-horms+renesas@verge.net.au>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     laurent.pinchart@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
+        horms@verge.net.au, uli@fpond.eu, airlied@linux.ie,
+        daniel@ffwll.ch, koji.matsuoka.xm@renesas.com, muroya@ksk.co.jp,
+        VenkataRajesh.Kalakodima@in.bosch.com,
+        Harsha.ManjulaMallikarjun@in.bosch.com,
+        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        mark.rutland@arm.com
+Subject: Re: [PATCH v3 02/14] dt-bindings: display, renesas,du: Document cmms
+ property
+Message-ID: <20190827202945.GA3488@bogus>
+References: <20190825135154.11488-1-jacopo+renesas@jmondi.org>
+ <20190825135154.11488-3-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190821091516.16372-1-horms+renesas@verge.net.au>
+In-Reply-To: <20190825135154.11488-3-jacopo+renesas@jmondi.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 21 Aug 2019 11:15:16 +0200, Simon Horman wrote:
-> Rename the device tree clock bindings for Renesas EMMA Mobile EV2
-> from emev2-clock.txt to renesas,emev2-smu.txt.
+On Sun, Aug 25, 2019 at 03:51:42PM +0200, Jacopo Mondi wrote:
+> Document the newly added 'cmms' property which accepts a list of phandle
+> and channel index pairs that point to the CMM units available for each
+> Display Unit output video channel.
 > 
-> This is part of an ongoing effort to name bindings documentation files for
-> Renesas IP blocks consistently, in line with the compat strings they
-> document.
-> 
-> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
-> Based on v5.3-rc1
+>  Documentation/devicetree/bindings/display/renesas,du.txt | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> v2
-> * Drop emev2 prefix from new filename, it was unintentional
->   and does not match the proposed naming scheme
-> ---
->  .../devicetree/bindings/clock/{emev2-clock.txt => renesas,emev2-smu.txt}  | 0
->  1 file changed, 0 insertions(+), 0 deletions(-)
->  rename Documentation/devicetree/bindings/clock/{emev2-clock.txt => renesas,emev2-smu.txt} (100%)
+> diff --git a/Documentation/devicetree/bindings/display/renesas,du.txt b/Documentation/devicetree/bindings/display/renesas,du.txt
+> index c97dfacad281..c2265e2a1af2 100644
+> --- a/Documentation/devicetree/bindings/display/renesas,du.txt
+> +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
+> @@ -45,6 +45,10 @@ Required Properties:
+>      instance that serves the DU channel, and the channel index identifies the
+>      LIF instance in that VSP.
 > 
+> +  - cmms: A list of phandles to the CMM instances present in the SoC, one
+> +    for each available DU channel. The property shall not be specified for
+> +    SoCs that do not provide any CMM (such as V3M and V3H).
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+renesas,cmms
+
+Perhaps define what CMM is.
+
+> +
+>  Required nodes:
+> 
+>  The connections to the DU output video ports are modeled using the OF graph
+> @@ -91,6 +95,7 @@ Example: R8A7795 (R-Car H3) ES2.0 DU
+>  			 <&cpg CPG_MOD 721>;
+>  		clock-names = "du.0", "du.1", "du.2", "du.3";
+>  		vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
+> +		cmms = <&cmm0 &cmm1 &cmm2 &cmm3>;
+> 
+>  		ports {
+>  			#address-cells = <1>;
+> --
+> 2.22.0
+> 
