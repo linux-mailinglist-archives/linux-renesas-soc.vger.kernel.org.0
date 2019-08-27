@@ -2,463 +2,159 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 345A79DA96
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2019 02:24:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 232329DB70
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 27 Aug 2019 03:58:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727064AbfH0AYc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 26 Aug 2019 20:24:32 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58240 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726543AbfH0AYc (ORCPT
+        id S1728025AbfH0B6O (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 26 Aug 2019 21:58:14 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:37472 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727646AbfH0B6O (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 26 Aug 2019 20:24:32 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E14EC2EE;
-        Tue, 27 Aug 2019 02:24:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1566865469;
-        bh=DPsOjLmQo7Vv2toQMztZXPaqkXlOIoUUQ/XNaVS9kLA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NEOu0ANhujMM2TzPR7I4smv96UkmPwTh9iIyE0bdTKRs7tyafbQVxzdI48OaGBScd
-         PHK2SdYUn4DlontEcRhKi9XnptN+XGgOD4rGyJSnWTAmKQlboWUed3m4M0GmiQn/3i
-         KiJBrl8gOSJao7Awl/XZgM08HJwpAtMygwYn3SjQ=
-Date:   Tue, 27 Aug 2019 03:24:22 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
-        horms@verge.net.au, uli@fpond.eu, airlied@linux.ie,
-        daniel@ffwll.ch, koji.matsuoka.xm@renesas.com, muroya@ksk.co.jp,
-        VenkataRajesh.Kalakodima@in.bosch.com,
-        Harsha.ManjulaMallikarjun@in.bosch.com,
-        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 08/14] drm: rcar-du: Add support for CMM
-Message-ID: <20190827002422.GQ5031@pendragon.ideasonboard.com>
-References: <20190825135154.11488-1-jacopo+renesas@jmondi.org>
- <20190825135154.11488-9-jacopo+renesas@jmondi.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190825135154.11488-9-jacopo+renesas@jmondi.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Mon, 26 Aug 2019 21:58:14 -0400
+X-IronPort-AV: E=Sophos;i="5.64,435,1559487600"; 
+   d="scan'208";a="24775755"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 27 Aug 2019 10:58:11 +0900
+Received: from localhost.localdomain (unknown [10.166.17.210])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 622B44156587;
+        Tue, 27 Aug 2019 10:58:11 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     gregkh@linuxfoundation.org, stern@rowland.harvard.edu
+Cc:     linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v2] usb: host: ohci: fix a race condition between shutdown and irq
+Date:   Tue, 27 Aug 2019 10:56:31 +0900
+Message-Id: <1566870991-4870-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+This patch fixes an issue that the following error is
+possible to happen when ohci hardware causes an interruption
+and the system is shutting down at the same time.
 
-Thank you for the patch.
+[   34.851754] usb 2-1: USB disconnect, device number 2
+[   35.166658] irq 156: nobody cared (try booting with the "irqpoll" option)
+[   35.173445] CPU: 0 PID: 22 Comm: kworker/0:1 Not tainted 5.3.0-rc5 #85
+[   35.179964] Hardware name: Renesas Salvator-X 2nd version board based on r8a77965 (DT)
+[   35.187886] Workqueue: usb_hub_wq hub_event
+[   35.192063] Call trace:
+[   35.194509]  dump_backtrace+0x0/0x150
+[   35.198165]  show_stack+0x14/0x20
+[   35.201475]  dump_stack+0xa0/0xc4
+[   35.204785]  __report_bad_irq+0x34/0xe8
+[   35.208614]  note_interrupt+0x2cc/0x318
+[   35.212446]  handle_irq_event_percpu+0x5c/0x88
+[   35.216883]  handle_irq_event+0x48/0x78
+[   35.220712]  handle_fasteoi_irq+0xb4/0x188
+[   35.224802]  generic_handle_irq+0x24/0x38
+[   35.228804]  __handle_domain_irq+0x5c/0xb0
+[   35.232893]  gic_handle_irq+0x58/0xa8
+[   35.236548]  el1_irq+0xb8/0x180
+[   35.239681]  __do_softirq+0x94/0x23c
+[   35.243253]  irq_exit+0xd0/0xd8
+[   35.246387]  __handle_domain_irq+0x60/0xb0
+[   35.250475]  gic_handle_irq+0x58/0xa8
+[   35.254130]  el1_irq+0xb8/0x180
+[   35.257268]  kernfs_find_ns+0x5c/0x120
+[   35.261010]  kernfs_find_and_get_ns+0x3c/0x60
+[   35.265361]  sysfs_unmerge_group+0x20/0x68
+[   35.269454]  dpm_sysfs_remove+0x2c/0x68
+[   35.273284]  device_del+0x80/0x370
+[   35.276683]  hid_destroy_device+0x28/0x60
+[   35.280686]  usbhid_disconnect+0x4c/0x80
+[   35.284602]  usb_unbind_interface+0x6c/0x268
+[   35.288867]  device_release_driver_internal+0xe4/0x1b0
+[   35.293998]  device_release_driver+0x14/0x20
+[   35.298261]  bus_remove_device+0x110/0x128
+[   35.302350]  device_del+0x148/0x370
+[   35.305832]  usb_disable_device+0x8c/0x1d0
+[   35.309921]  usb_disconnect+0xc8/0x2d0
+[   35.313663]  hub_event+0x6e0/0x1128
+[   35.317146]  process_one_work+0x1e0/0x320
+[   35.321148]  worker_thread+0x40/0x450
+[   35.324805]  kthread+0x124/0x128
+[   35.328027]  ret_from_fork+0x10/0x18
+[   35.331594] handlers:
+[   35.333862] [<0000000079300c1d>] usb_hcd_irq
+[   35.338126] [<0000000079300c1d>] usb_hcd_irq
+[   35.342389] Disabling IRQ #156
 
-On Sun, Aug 25, 2019 at 03:51:48PM +0200, Jacopo Mondi wrote:
-> Add a driver for the R-Car Display Unit Color Correction Module.
-> 
-> In most of Gen3 SoCs, each DU output channel is provided with a CMM unit
-> to perform image enhancement and color correction.
-> 
-> Add support for CMM through a driver that supports configuration of
-> the 1-dimensional LUT table. More advanced CMM feature will be
-> implemented on top of this basic one.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  drivers/gpu/drm/rcar-du/Kconfig    |   7 +
->  drivers/gpu/drm/rcar-du/Makefile   |   1 +
->  drivers/gpu/drm/rcar-du/rcar_cmm.c | 262 +++++++++++++++++++++++++++++
->  drivers/gpu/drm/rcar-du/rcar_cmm.h |  38 +++++
->  4 files changed, 308 insertions(+)
->  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.c
->  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.h
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-> index 1529849e217e..539d232790d1 100644
-> --- a/drivers/gpu/drm/rcar-du/Kconfig
-> +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> @@ -13,6 +13,13 @@ config DRM_RCAR_DU
->  	  Choose this option if you have an R-Car chipset.
->  	  If M is selected the module will be called rcar-du-drm.
-> 
-> +config DRM_RCAR_CMM
-> +	bool "R-Car DU Color Management Module (CMM) Support"
-> +	depends on DRM && OF
-> +	depends on DRM_RCAR_DU
-> +	help
-> +	  Enable support for R-Car Color Management Module (CMM).
-> +
->  config DRM_RCAR_DW_HDMI
->  	tristate "R-Car DU Gen3 HDMI Encoder Support"
->  	depends on DRM && OF
-> diff --git a/drivers/gpu/drm/rcar-du/Makefile b/drivers/gpu/drm/rcar-du/Makefile
-> index 6c2ed9c46467..4d1187ccc3e5 100644
-> --- a/drivers/gpu/drm/rcar-du/Makefile
-> +++ b/drivers/gpu/drm/rcar-du/Makefile
-> @@ -15,6 +15,7 @@ rcar-du-drm-$(CONFIG_DRM_RCAR_LVDS)	+= rcar_du_of.o \
->  rcar-du-drm-$(CONFIG_DRM_RCAR_VSP)	+= rcar_du_vsp.o
->  rcar-du-drm-$(CONFIG_DRM_RCAR_WRITEBACK) += rcar_du_writeback.o
-> 
-> +obj-$(CONFIG_DRM_RCAR_CMM)		+= rcar_cmm.o
->  obj-$(CONFIG_DRM_RCAR_DU)		+= rcar-du-drm.o
->  obj-$(CONFIG_DRM_RCAR_DW_HDMI)		+= rcar_dw_hdmi.o
->  obj-$(CONFIG_DRM_RCAR_LVDS)		+= rcar_lvds.o
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.c b/drivers/gpu/drm/rcar-du/rcar_cmm.c
-> new file mode 100644
-> index 000000000000..55361f5701e8
-> --- /dev/null
-> +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.c
-> @@ -0,0 +1,262 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * rcar_cmm.c -- R-Car Display Unit Color Management Module
-> + *
-> + * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
-> + */
-> +
-> +#include <linux/io.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
-> +
-> +#include <drm/drm_color_mgmt.h>
-> +
-> +#include "rcar_cmm.h"
-> +
-> +#define CM2_LUT_CTRL		0x0000
-> +#define CM2_LUT_CTRL_LUT_EN	BIT(0)
-> +#define CM2_LUT_TBL_BASE	0x0600
-> +#define CM2_LUT_TBL(__i)	(CM2_LUT_TBL_BASE + (__i) * 4)
-> +
-> +struct rcar_cmm {
-> +	void __iomem *base;
-> +	bool enabled;
-> +
-> +	/*
-> +	 * @lut:		1D-LUT status
-> +	 * @lut.enabled:	1D-LUT enabled flag
-> +	 * @lut.size:		Number of entries in the LUT table
+ohci_shutdown() disables all the interrupt and rh_state is set to
+OHCI_RH_HALTED. In other hand, ohci_irq() is possible to enable
+OHCI_INTR_SF and OHCI_INTR_MIE on ohci_irq(). Note that OHCI_INTR_SF
+is possible to be set by start_ed_unlink() which is called:
+ ohci_irq()
+  -> process_done_list()
+   -> takeback_td()
+    -> start_ed_unlink()
 
-Please see my review of patch 13/14, I wonder if we could drop this
-field.
+So, ohci_irq() has the following condition, the issue happens by
+&ohci->regs->intrenable = OHCI_INTR_MIE | OHCI_INTR_SF and
+ohci->rh_state = OHCI_RH_HALTED:
 
-> +	 * @lut.table:		Table of 1D-LUT entries scaled to HW support
-> +	 *			precision (8-bits per color component)
-> +	 */
-> +	struct {
-> +		bool enabled;
-> +		unsigned int size;
-> +		u32 table[CMM_GAMMA_LUT_SIZE];
-> +	} lut;
-> +};
-> +
-> +static inline int rcar_cmm_read(struct rcar_cmm *rcmm, u32 reg)
-> +{
-> +	return ioread32(rcmm->base + reg);
-> +}
-> +
-> +static inline void rcar_cmm_write(struct rcar_cmm *rcmm, u32 reg, u32 data)
-> +{
-> +	iowrite32(data, rcmm->base + reg);
-> +}
-> +
-> +/*
-> + * rcar_cmm_lut_extract() - Scale down to hw precision the DRM LUT table
+	/* interrupt for some other device? */
+	if (ints == 0 || unlikely(ohci->rh_state == OHCI_RH_HALTED))
+		return IRQ_NOTMINE;
 
-s/hw/hardware/ (and below too)
+To fix the issue, ohci_shutdown() holds the spin lock while disabling
+the interruption and changing the rh_state flag to prevent reenable
+the OHCI_INTR_MIE unexpectedly. Note that io_watchdog_func() also
+calls the ohci_shutdown() and it already held the spin lock, so that
+the patch makes a new function as _ohci_shutdown().
 
-> + *			    entries and store them.
-> + * @rcmm: Pointer to the CMM device
-> + * @size: Number of entries in the table
-> + * @drm_lut: DRM LUT table
-> + */
-> +static void rcar_cmm_lut_extract(struct rcar_cmm *rcmm, size_t size,
-> +				 const struct drm_color_lut *drm_lut)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < size; ++i) {
-> +		const struct drm_color_lut *lut = &drm_lut[i];
-> +
-> +		rcmm->lut.table[i] = drm_color_lut_extract(lut->red, 8) << 16
-> +				   | drm_color_lut_extract(lut->green, 8) << 8
-> +				   | drm_color_lut_extract(lut->blue, 8);
-> +	}
-> +
-> +	rcmm->lut.size = size;
-> +}
-> +
-> +/*
-> + * rcar_cmm_lut_load() - Write to hw the LUT table entries from the local table.
-> + *
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+Changes from v1:
+ - Add more comments in the commit log.
+https://patchwork.kernel.org/patch/11111459/
 
-No need for a blank line
+ drivers/usb/host/ohci-hcd.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-> + * @rcmm: Pointer to the CMM device
-> + */
-> +static void rcar_cmm_lut_load(struct rcar_cmm *rcmm)
-
-I would name this rcar_cmm_lut_write().
-
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < rcmm->lut.size; ++i) {
-> +		u32 entry = rcmm->lut.table[i];
-> +
-> +		rcar_cmm_write(rcmm, CM2_LUT_TBL(i), entry);
-
-You don't need the local entry variable.
-
-> +	}
-> +}
-> +
-> +/**
-> + * rcar_cmm_setup() - configure the CMM unit
-
-s/configure/Configure/ and s/$/./, or the other way around for the other
-functions (I don't mine which one, but let's stay consistent).
-
-> + *
-
-No need for a blank line (same for the functions below).
-
-> + * @pdev: The platform device associated with the CMM instance
-> + * @config: The CRTC-provided configuration.
-> + *
-> + * Configure the CMM unit with the CRTC-provided configuration.
-> + * Currently enabling, disabling and programming of the 1-D LUT unit is
-> + * supported.
-> + */
-> +int rcar_cmm_setup(struct platform_device *pdev,
-> +		   const struct rcar_cmm_config *config)
-> +{
-> +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
-> +
-> +	if (config->lut.size > CMM_GAMMA_LUT_SIZE)
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * As rcar_cmm_setup() is called by atomic commit tail helper, it might
-> +	 * be called when the CMM is disabled. As we can't program the hardware
-> +	 * in that case, store the configuration internally and apply it when
-> +	 * the CMM will be enabled by the CRTC through rcar_cmm_enable().
-> +	 */
-> +	if (!rcmm->enabled) {
-> +		if (!config->lut.enable)
-> +			return 0;
-> +
-> +		rcar_cmm_lut_extract(rcmm, config->lut.size, config->lut.table);
-> +		rcmm->lut.enabled = true;
-> +
-> +		return 0;
-> +	}
-> +
-> +	/* Stop LUT operations if requested. */
-> +	if (!config->lut.enable) {
-> +		if (rcmm->lut.enabled) {
-> +			rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
-> +			rcmm->lut.enabled = false;
-> +			rcmm->lut.size = 0;
-> +		}
-> +
-> +		return 0;
-> +	}
-> +
-> +	/*
-> +	 * Enable LUT and program the new gamma table values.
-> +	 *
-> +	 * FIXME: In order to have stable operations it is required to first
-> +	 * enable the 1D-LUT and then program its table entries. This seems to
-> +	 * contradict what the chip manual reports, and will have to be
-> +	 * reconsidered when implementing support for double buffering.
-> +	 */
-> +	if (!rcmm->lut.enabled) {
-> +		rcar_cmm_write(rcmm, CM2_LUT_CTRL, CM2_LUT_CTRL_LUT_EN);
-> +		rcmm->lut.enabled = true;
-> +	}
-> +
-> +	rcar_cmm_lut_extract(rcmm, config->lut.size, config->lut.table);
-> +	rcar_cmm_lut_load(rcmm);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(rcar_cmm_setup);
-> +
-> +/**
-> + * rcar_cmm_enable() - enable the CMM unit
-> + *
-> + * @pdev: The platform device associated with the CMM instance
-> + *
-> + * Enable the CMM unit by enabling the parent clock and enabling the CMM
-> + * components, such as 1-D LUT, if requested.
-> + */
-> +int rcar_cmm_enable(struct platform_device *pdev)
-> +{
-> +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
-> +	int ret;
-> +
-> +	if (!rcmm)
-> +		return -EPROBE_DEFER;
-
-This function is called in rcar_du_crtc_atomic_enable(), so that's not
-the right error code. It seems we need another function for the CMM API
-to defer probing :-/ I would call it rcar_cmm_init(). This check would
-then be removed.
-
-> +
-> +	ret = pm_runtime_get_sync(&pdev->dev);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* Apply the LUT table values saved at rcar_cmm_setup() time. */
-> +	if (rcmm->lut.enabled) {
-> +		rcar_cmm_write(rcmm, CM2_LUT_CTRL, CM2_LUT_CTRL_LUT_EN);
-> +		rcar_cmm_lut_load(rcmm);
-
-You will not like this, but I just realised that we're now reprogramming
-the LUT contents every time the CMM is enabled. Do you think that's
-something we should optimise ? And yes, that would require introducing
-back an update flag in rcmm->lut :-S Sorry for not realising this when I
-proposed dropping it.
-
-> +	}
-> +
-> +	rcmm->enabled = true;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(rcar_cmm_enable);
-> +
-> +/**
-> + * rcar_cmm_disable() - disable the CMM unit
-> + *
-> + * @pdev: The platform device associated with the CMM instance
-> + *
-> + * Disable the CMM unit by stopping the parent clock.
-> + */
-> +void rcar_cmm_disable(struct platform_device *pdev)
-> +{
-> +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
-> +
-> +	rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
-> +
-> +	pm_runtime_put(&pdev->dev);
-> +
-> +	rcmm->lut.enabled = false;
-> +	rcmm->lut.size = 0;
-> +
-> +	rcmm->enabled = false;
-> +}
-> +EXPORT_SYMBOL_GPL(rcar_cmm_disable);
-> +
-> +static int rcar_cmm_probe(struct platform_device *pdev)
-> +{
-> +	struct rcar_cmm *rcmm;
-> +	struct resource *res;
-> +
-> +	rcmm = devm_kzalloc(&pdev->dev, sizeof(*rcmm), GFP_KERNEL);
-> +	if (!rcmm)
-> +		return -ENOMEM;
-> +
-> +	platform_set_drvdata(pdev, rcmm);
-> +
-> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +	rcmm->base = devm_ioremap_resource(&pdev->dev, res);
-> +	if (IS_ERR(rcmm->base))
-> +		return PTR_ERR(rcmm->base);
-
-You really don't like combining those two calls, do you ? :-)
-
-> +
-> +	pm_runtime_enable(&pdev->dev);
-> +
-> +	return 0;
-> +}
-> +
-> +static int rcar_cmm_remove(struct platform_device *pdev)
-> +{
-> +	pm_runtime_disable(&pdev->dev);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id rcar_cmm_of_table[] = {
-> +	{ .compatible = "renesas,cmm-r8a7795", },
-> +	{ .compatible = "renesas,cmm-r8a7796", },
-> +	{ .compatible = "renesas,cmm-r8a77965", },
-> +	{ .compatible = "renesas,cmm-r8a77990", },
-> +	{ .compatible = "renesas,cmm-r8a77995", },
-
-As Geert pointed out, I would drop those entries.
-
-> +	{ .compatible = "renesas,rcar-gen3-cmm", },
-> +	{ .compatible = "renesas,rcar-gen2-cmm", },
-> +	{ },
-> +};
-> +MODULE_DEVICE_TABLE(of, rcar_cmm_of_table);
-> +
-> +static struct platform_driver rcar_cmm_platform_driver = {
-> +	.probe		= rcar_cmm_probe,
-> +	.remove		= rcar_cmm_remove,
-> +	.driver		= {
-> +		.name	= "rcar-cmm",
-> +		.of_match_table = rcar_cmm_of_table,
-> +	},
-> +};
-> +
-> +module_platform_driver(rcar_cmm_platform_driver);
-> +
-> +MODULE_AUTHOR("Jacopo Mondi <jacopo+renesas@jmondi.org>");
-> +MODULE_DESCRIPTION("Renesas R-Car CMM Driver");
-> +MODULE_LICENSE("GPL v2");
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.h b/drivers/gpu/drm/rcar-du/rcar_cmm.h
-> new file mode 100644
-> index 000000000000..b0bb7349ebaa
-> --- /dev/null
-> +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.h
-> @@ -0,0 +1,38 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
-> +/*
-> + * rcar_cmm.h -- R-Car Display Unit Color Management Module
-> + *
-> + * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
-> + */
-> +
-> +#ifndef __RCAR_CMM_H__
-> +#define __RCAR_CMM_H__
-> +
-> +#define CMM_GAMMA_LUT_SIZE		256
-> +
-> +struct drm_color_lut;
-> +struct platform_device;
-> +
-> +/**
-> + * struct rcar_cmm_config - CMM configuration
-> + *
-> + * @lut:	1D-LUT configuration
-> + * @lut.enable:	1D-LUT enable flag
-> + * @lut.table:	1D-LUT table entries
-> + * @lut.size:	Number of 1D-LUT (max 256)
-
-s/1D-LUT/1D-LUT entries/
-
-> + */
-> +struct rcar_cmm_config {
-> +	struct {
-> +		bool enable;
-> +		struct drm_color_lut *table;
-> +		unsigned int size;
-> +	} lut;
-> +};
-> +
-> +int rcar_cmm_enable(struct platform_device *pdev);
-> +void rcar_cmm_disable(struct platform_device *pdev);
-> +
-> +int rcar_cmm_setup(struct platform_device *pdev,
-> +		   const struct rcar_cmm_config *config);
-> +
-> +#endif /* __RCAR_CMM_H__ */
-
+diff --git a/drivers/usb/host/ohci-hcd.c b/drivers/usb/host/ohci-hcd.c
+index b457fda..1fe3dee 100644
+--- a/drivers/usb/host/ohci-hcd.c
++++ b/drivers/usb/host/ohci-hcd.c
+@@ -419,8 +419,7 @@ static void ohci_usb_reset (struct ohci_hcd *ohci)
+  * other cases where the next software may expect clean state from the
+  * "firmware".  this is bus-neutral, unlike shutdown() methods.
+  */
+-static void
+-ohci_shutdown (struct usb_hcd *hcd)
++static void _ohci_shutdown(struct usb_hcd *hcd)
+ {
+ 	struct ohci_hcd *ohci;
+ 
+@@ -436,6 +435,16 @@ ohci_shutdown (struct usb_hcd *hcd)
+ 	ohci->rh_state = OHCI_RH_HALTED;
+ }
+ 
++static void ohci_shutdown(struct usb_hcd *hcd)
++{
++	struct ohci_hcd	*ohci = hcd_to_ohci(hcd);
++	unsigned long flags;
++
++	spin_lock_irqsave(&ohci->lock, flags);
++	_ohci_shutdown(hcd);
++	spin_unlock_irqrestore(&ohci->lock, flags);
++}
++
+ /*-------------------------------------------------------------------------*
+  * HC functions
+  *-------------------------------------------------------------------------*/
+@@ -760,7 +769,7 @@ static void io_watchdog_func(struct timer_list *t)
+  died:
+ 			usb_hc_died(ohci_to_hcd(ohci));
+ 			ohci_dump(ohci);
+-			ohci_shutdown(ohci_to_hcd(ohci));
++			_ohci_shutdown(ohci_to_hcd(ohci));
+ 			goto done;
+ 		} else {
+ 			/* No write back because the done queue was empty */
 -- 
-Regards,
+2.7.4
 
-Laurent Pinchart
