@@ -2,92 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D0CDB9FCFD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2019 10:28:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDC5C9FF09
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2019 12:01:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726297AbfH1I24 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 28 Aug 2019 04:28:56 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34870 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726253AbfH1I2z (ORCPT
+        id S1726368AbfH1KBs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 28 Aug 2019 06:01:48 -0400
+Received: from mga07.intel.com ([134.134.136.100]:44806 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726326AbfH1KBs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 28 Aug 2019 04:28:55 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 62F74310;
-        Wed, 28 Aug 2019 10:28:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1566980933;
-        bh=yHqVMSWrsJvlNfBnMTE1NjxeNpyXRWkgKkXyuwYbZDU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vmsSxbrA2kZqrww2uiRS3uDRX/7GAnSU0FPjyQmdGsgW0H8Wv6oM+JS6YMXe9mBMG
-         Lp2TVbmaR343IJXXXDq6m6MwnqN0YNI7c9H1PvDT52FhYLEQakJxYj2Anti4pSMXYG
-         yQqtESmSKJVDQrFps1jkMaToiaIYNz8bdtUtHvMk=
-Date:   Wed, 28 Aug 2019 11:28:46 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Rob Herring <robh@kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Simon Horman <horms@verge.net.au>, Ulrich Hecht <uli@fpond.eu>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Koji Matsuoka <koji.matsuoka.xm@renesas.com>, muroya@ksk.co.jp,
-        VenkataRajesh.Kalakodima@in.bosch.com,
-        Harsha.ManjulaMallikarjun@in.bosch.com,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Mark Rutland <mark.rutland@arm.com>
-Subject: Re: [PATCH v3 02/14] dt-bindings: display, renesas,du: Document cmms
- property
-Message-ID: <20190828082846.GA27842@pendragon.ideasonboard.com>
-References: <20190825135154.11488-1-jacopo+renesas@jmondi.org>
- <20190825135154.11488-3-jacopo+renesas@jmondi.org>
- <20190827202945.GA3488@bogus>
- <CAMuHMdUP1kZF4z=NkAb5LCV74dyCMw9pZACMYjOTFE=r2vvR3A@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUP1kZF4z=NkAb5LCV74dyCMw9pZACMYjOTFE=r2vvR3A@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Wed, 28 Aug 2019 06:01:48 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Aug 2019 03:01:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,440,1559545200"; 
+   d="scan'208";a="192540987"
+Received: from deyangko-mobl.ccr.corp.intel.com ([10.249.168.35])
+  by orsmga002.jf.intel.com with ESMTP; 28 Aug 2019 03:01:44 -0700
+Message-ID: <77939df6136cc0f729ec1e5c8b80006a9cb5a9d8.camel@intel.com>
+Subject: Re: [PATCH] thermal: rcar_gen3_thermal: Use
+ devm_add_action_or_reset() helper
+From:   Zhang Rui <rui.zhang@intel.com>
+To:     Niklas =?ISO-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Eduardo Valentin <edubezval@gmail.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Date:   Wed, 28 Aug 2019 18:01:53 +0800
+In-Reply-To: <20190731184402.GL3186@bigcity.dyn.berto.se>
+References: <20190731125053.14750-1-geert+renesas@glider.be>
+         <20190731184402.GL3186@bigcity.dyn.berto.se>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Aug 28, 2019 at 09:32:23AM +0200, Geert Uytterhoeven wrote:
-> On Tue, Aug 27, 2019 at 10:29 PM Rob Herring <robh@kernel.org> wrote:
-> > On Sun, Aug 25, 2019 at 03:51:42PM +0200, Jacopo Mondi wrote:
-> > > Document the newly added 'cmms' property which accepts a list of phandle
-> > > and channel index pairs that point to the CMM units available for each
-> > > Display Unit output video channel.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
-> > >  Documentation/devicetree/bindings/display/renesas,du.txt | 5 +++++
-> > >  1 file changed, 5 insertions(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/renesas,du.txt b/Documentation/devicetree/bindings/display/renesas,du.txt
-> > > index c97dfacad281..c2265e2a1af2 100644
-> > > --- a/Documentation/devicetree/bindings/display/renesas,du.txt
-> > > +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
-> > > @@ -45,6 +45,10 @@ Required Properties:
-> > >      instance that serves the DU channel, and the channel index identifies the
-> > >      LIF instance in that VSP.
-> > >
-> > > +  - cmms: A list of phandles to the CMM instances present in the SoC, one
-> > > +    for each available DU channel. The property shall not be specified for
-> > > +    SoCs that do not provide any CMM (such as V3M and V3H).
-> >
-> > renesas,cmms
+On Wed, 2019-07-31 at 20:44 +0200, Niklas Söderlund wrote:
+> Hi Geert,
 > 
-> So I guess we really wanted to have the prefix for the vsps property, too?
+> Thanks for your work.
+> 
+> On 2019-07-31 14:50:53 +0200, Geert Uytterhoeven wrote:
+> > Use the devm_add_action_or_reset() helper instead of open-coding
+> > the
+> > same operations.
+> > 
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> 
+Hi, Geert,
 
-Yes, we should have :-( My bad.
+https://patchwork.kernel.org/patch/11034969/ is the same fix submitted
+a few days earlier, so I will take that patch instead. Thanks for the
+patch anyway.
 
--- 
-Regards,
+thanks,
+rui
 
-Laurent Pinchart
+> > ---
+> >  drivers/thermal/rcar_gen3_thermal.c | 7 +++----
+> >  1 file changed, 3 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/thermal/rcar_gen3_thermal.c
+> > b/drivers/thermal/rcar_gen3_thermal.c
+> > index a56463308694e937..2db7e7f8baf939fd 100644
+> > --- a/drivers/thermal/rcar_gen3_thermal.c
+> > +++ b/drivers/thermal/rcar_gen3_thermal.c
+> > @@ -443,11 +443,10 @@ static int rcar_gen3_thermal_probe(struct
+> > platform_device *pdev)
+> >  		if (ret)
+> >  			goto error_unregister;
+> >  
+> > -		ret = devm_add_action(dev, rcar_gen3_hwmon_action,
+> > zone);
+> > -		if (ret) {
+> > -			rcar_gen3_hwmon_action(zone);
+> > +		ret = devm_add_action_or_reset(dev,
+> > rcar_gen3_hwmon_action,
+> > +					       zone);
+> > +		if (ret)
+> >  			goto error_unregister;
+> > -		}
+> >  
+> >  		ret = of_thermal_get_ntrips(tsc->zone);
+> >  		if (ret < 0)
+> > -- 
+> > 2.17.1
+> > 
+> 
+> 
+
