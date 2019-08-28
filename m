@@ -2,157 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D5967A082D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2019 19:10:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58EF7A09A2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2019 20:36:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726563AbfH1RKC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 28 Aug 2019 13:10:02 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:56266 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726315AbfH1RKC (ORCPT
+        id S1726764AbfH1Sg4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 28 Aug 2019 14:36:56 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:45272 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726711AbfH1Sgz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 28 Aug 2019 13:10:02 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 1D1A83C04C0;
-        Wed, 28 Aug 2019 19:09:59 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id wFRQm0T6AO6a; Wed, 28 Aug 2019 19:09:52 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id E689D3C0579;
-        Wed, 28 Aug 2019 19:09:52 +0200 (CEST)
-Received: from vmlxhi-102.adit-jv.com (10.72.93.184) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Wed, 28 Aug
- 2019 19:09:52 +0200
-Date:   Wed, 28 Aug 2019 19:09:49 +0200
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Takeshi Kihara <takeshi.kihara.df@renesas.com>,
-        Michael Dege <michael.dege@renesas.com>,
-        <Andrew_Gabbasov@mentor.com>,
-        "George G. Davis" <george_davis@mentor.com>,
-        Tobias Franzen <tfranzen@de.adit-jv.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [RFC DO-NOT-MERGE PATCH] arm64: dts: renesas: R8A77961: Add
- Renesas M3-W+ (M3 ES3.0) SoC support
-Message-ID: <20190828170949.GA30469@vmlxhi-102.adit-jv.com>
-References: <20190821124441.22319-1-erosca@de.adit-jv.com>
- <CAMuHMdWdObHAesUvF1BLwnEFJ6dsdpwM2yPRdUFW4D1Rp6d-tQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWdObHAesUvF1BLwnEFJ6dsdpwM2yPRdUFW4D1Rp6d-tQ@mail.gmail.com>
-User-Agent: Mutt/1.12.1+40 (7f8642d4ee82) (2019-06-28)
-X-Originating-IP: [10.72.93.184]
+        Wed, 28 Aug 2019 14:36:55 -0400
+X-IronPort-AV: E=Sophos;i="5.64,442,1559487600"; 
+   d="scan'208";a="25166320"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 29 Aug 2019 03:36:52 +0900
+Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id D013D400A897;
+        Thu, 29 Aug 2019 03:36:46 +0900 (JST)
+From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+To:     Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>,
+        Andrzej Hajda <a.hajda@samsung.com>
+Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        xu_shunji@hoperun.com, ebiharaml@si-linux.co.jp
+Subject: [PATCH v3 0/8] Add dual-LVDS panel support to EK874
+Date:   Wed, 28 Aug 2019 19:36:34 +0100
+Message-Id: <1567017402-5895-1-git-send-email-fabrizio.castro@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Dear All,
 
-Thanks for taking some time to reflect retrospectively on the bring-up
-experiences from the past and to summarize the lessons learned.
+this series adds support for dual-LVDS panel IDK-2121WR
+from Advantech:
+https://buy.advantech.eu/Displays/Embedded-LCD-Kits-High-Brightness/model-IDK-2121WR-K2FHA2E.htm
 
-On Fri, Aug 23, 2019 at 04:18:09PM +0200, Geert Uytterhoeven wrote:
-[..]
-> Actually R-Car H3 ES2.0 is r8a77951, while ES1.x is r8a77950.
+V3 approaches the problem in a completely different way, we now
+have two new properties to mark the ports in the DT as receiving
+even pixels and odd pixels: dual-lvds-even-pixels and dual-lvds-odd-pixels,
+which means device drivers should not use bridge specific or panel
+specific dual_link flags. Also, in this case the DT describes the
+connection fully.
 
-That's a great detail which I missed. I confirm below:
- - SoC HW manual "Rev.1.00 Apr 2018" maps R8A77951 to H3 ver2.0
- - SoC HW manuals "Rev.1.50 Nov 2018" and "Rev.2.00 Jul 2019" map
-   R8A77951 to H3 ver3.0
- - Older Renesas docs refer to the earlier H3 ES1.x SoC as R8A77950
+In order for the solution to be generic, I have exported a new helper
+(drm_of_lvds_get_dual_link_configuration) to walk the device tree,
+and figure out if the connection is dual-LVDS. The same helper gives
+information about the configuration of the connection. If Px is connected
+to a port expecting even pixels and Py is connected to a port expecting
+odd pixels, then the helper returns DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS
+(like in the example below), otherwise it returns
+DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS.
 
-So, on the one hand, there _is_ a 'part number' update from H3 ver1 to
-rev2 and, on the other hand, there is no part number update from ver2 to
-ver3. My understanding of the latter (as a side note) is that there are
-no added/dropped HW features in ver3, hence the same 'part number'.
 
-[..]
+ --------            dual-lvds-even-pixels  --------
+|        |----                         ----|        |
+|        | Px |---------------------->| Pn |        |
+|        |----                         ----|        |
+| SOURCE |           dual-lvds-odd-pixels  |  SINK  |
+|        |----                         ----|        |
+|        | Py |---------------------->| Pm |        |
+|        |----                         ----|        |
+ --------                                   --------
 
-> When we started work on H3 ES2.0, it was considered an evolutionary step
-> from ES1.x, not a different SoC.  We also were used to 4-digit IDs in
-> compatible values, as before the 5th digit was typically used to
-> indicate a minor difference, like a different package, or a different
-> ROM option.  Hence we ignored the 5th digit, reused the compatible
-> values for H3 ES1.x, and went with soc_device_match() to differentiate,
-> where needed.
+The device driver for the encoder then will work out if with the current
+wiring the pixels need swapping or not.
 
-Honestly, this still sounds sensible and intuitive, assuming the delta
-between the SoC models (differing in the 5th digit) is relatively low
-(not sure how to quantify it though and where the threshold is).
+The same solution works for both panels and bridges.
 
-One of the concerns related to soc_device_match() is that it sometimes
-doesn't play nicely with spinlocks, generating lockdep splats [1].
+Since the DT describes the connection fully, driver
+drivers/gpu/drm/panel/panel-lvds.c works out-of-the-box, no changes
+required, however, this implementation opens up a problem with the
+dt-bindings.
+Driver drivers/gpu/drm/panel/panel-lvds.c can still be pleased by
+a port node, but also by a ports node.
+I have created Documentation/devicetree/bindings/display/bus-timings/lvds.yaml
+with the idea of including it from panels and bridges dt-bindings
+supporting dual-LVDS (and of course the dt-bindings for the specific
+devices should say which port should be marked as what), but file
+Documentation/devicetree/bindings/display/panel/lvds.yaml formally
+requires property "port", while with this implementation it should require
+OneOf "port" and "ports", and unfortunately I can't seem to find a neat way
+aroud that, other than creating a new compatible string
+(e.g. "panel-dual-lvds"), a new dt-binding document for it, and of course adding
+support for the new compatible string to drivers/gpu/drm/panel/panel-lvds.c.
+As a result, this series is missing (at least) a patch necessary to fully
+document the new implementation within
+Documentation/devicetree/bindings/display/panel/lvds.yaml
 
-> However, it turned out H3 ES2.0 was more like a different SoC in the
-> same family: it has more similarities with R-Car M3-W ES1.0 than with
-> R-Car H3 ES1.x. 
->
-> In the mean time, with the advent of R-Car D3 and M3-N,
-> we also got used to 5 digits.  Hence in hindsight, it might have been
-> better if we had considered H3 ES1.x and ES2.0 to be two different
-> SoCs.
+Rob, do you have any suggestions? Do you think this idea works ok from a
+documentation point of view? By the way, I don't really know what I am doing
+with the yaml dt-bindings, I hope you won't be horrified by this series :-P
 
-Thinking of the way H3-ES1.x support was added, now that H3-ES1.x is
-declared obsolete, we could probably reduce the image size by
-some tens of KiB (more?) by simply disabling CONFIG_ARCH_R8A77950 if
-its support was implemented as standalone CONFIG_ARCH? We now have to
-compile and link the H3-ES1.x functionality even if nobody needs it,
-which is a bit unfortunate.
+I hope I was able to deliver the concept clearly, if not please just ask.
 
-> 
-> Given R-Car M3-W and M3-W+ may co-exist as separate SoCs, I think
-> approach B is the best approach, using separate DTS, compatible values,
-> Kconfig, and drivers, like we did for e.g. R-Car M3-N.
-> 
-> What do you think?
+Comments are very much appreciated.
 
-I still think B is the best option in terms of transparency (clear
-mapping between documentation and code), but I try to reconcile below
-recent concerns (any support appreciated):
+Thanks,
+Fab
 
- - After reviewing the "Engineering Change Notice for R8A77961", it
-   seems to me that the number of differences between R8A77960 and
-   R8A77961 is really low (much much lower than in the case of
-   R8A77950->R8A77951 transition). Most (if not all) of the IP blocks
-   present in R8A77960 and removed in R8A77961 [2] (i.e. fcpci0, fcpcs,
-   ivdp1c, vdpb) are not even supported in vanilla.
- - I guess with this low amount of differences, R8A77961 will be an
-   almost perfect twin of R8A77960. If so, then is the additional
-   maintenance effort (resulting after bring-up) still justified?
- - Duplicating 'drivers/pinctrl/sh-pfc/pfc-r8a7796.c' (as it was done
-   for M3-N, with 99% similarity in the contents) will increase the
-   image size by roughly 50KiB [3]. Additional (albeit less significant)
-   size increase is expected from the addition of other SoC-specific
-   drivers.
- - [Minor] According to your feedback and to the best of our knowledge,
-   both M3-W and M3-W+ are expected to reach the end user, which might
-   create less motivation to really separate the two SoCs via CONFIG.
+Fabrizio Castro (8):
+  dt-bindings: display: Add bindings for LVDS bus-timings
+  dt-bindings: display: Add idk-2121wr binding
+  drm: Add bus timings helper
+  drm: rcar-du: lvds: Add dual-LVDS panels support
+  drm: bridge: thc63: Do not report input bus mode through bridge
+    timings
+  arm64: dts: renesas: Add EK874 board with idk-2121wr display support
+  [HACK] arm64: dts: renesas: draak: Enable LVDS
+  [HACK] arm64: dts: renesas: draak: Enable LVDS dual-link operation
 
-What do you think about the above?
-Thanks!
-
-[1] lockdep splats generated by soc_device_match()
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=ba164a49f8f739
-https://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas-bsp.git/commit/?id=8037f4932ec5
-https://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas-bsp.git/commit/?id=08cd9d10caff
-https://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas-bsp.git/commit/?id=34d3b527b70c
-https://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas-bsp.git/commit/?id=918f22c7b2ae
-https://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas-bsp.git/commit/?id=196d1399ffa8
-https://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas-bsp.git/commit/?id=5ed4a312252e
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas-bsp.git/commit/?id=8ba438fd03d5
-[3] $ size drivers/pinctrl/sh-pfc/pfc-r8a7796*.o
-   text        data     bss     dec     hex filename
-  51660       0       0   51660    c9cc drivers/pinctrl/sh-pfc/pfc-r8a77965.o
-  51628       0       0   51628    c9ac drivers/pinctrl/sh-pfc/pfc-r8a7796.o
+ .../bindings/display/bus-timings/lvds.yaml         |  38 +++++++
+ .../display/panel/advantech,idk-2121wr.yaml        |  90 ++++++++++++++++
+ arch/arm64/boot/dts/renesas/Makefile               |   3 +-
+ .../boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts | 116 +++++++++++++++++++++
+ arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts     |  21 +++-
+ arch/arm64/boot/dts/renesas/r8a77995-draak.dts     |  26 +++--
+ drivers/gpu/drm/Makefile                           |   3 +-
+ drivers/gpu/drm/bridge/thc63lvd1024.c              |   9 +-
+ drivers/gpu/drm/drm_bus_timings.c                  |  97 +++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_lvds.c                | 110 +++++++++++--------
+ include/drm/drm_bridge.h                           |   8 --
+ include/drm/drm_bus_timings.h                      |  21 ++++
+ 12 files changed, 473 insertions(+), 69 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/bus-timings/lvds.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts
+ create mode 100644 drivers/gpu/drm/drm_bus_timings.c
+ create mode 100644 include/drm/drm_bus_timings.h
 
 -- 
-Best Regards,
-Eugeniu.
+2.7.4
+
