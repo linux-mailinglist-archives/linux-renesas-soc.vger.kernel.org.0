@@ -2,70 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E865A0093
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2019 13:15:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A521A00F1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2019 13:48:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726394AbfH1LPk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 28 Aug 2019 07:15:40 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:61955 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726341AbfH1LPk (ORCPT
+        id S1726341AbfH1LsA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 28 Aug 2019 07:48:00 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:42070 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726339AbfH1LsA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 28 Aug 2019 07:15:40 -0400
-X-IronPort-AV: E=Sophos;i="5.64,440,1559487600"; 
-   d="scan'208";a="25148807"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 28 Aug 2019 20:15:37 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8F8C342296E7;
-        Wed, 28 Aug 2019 20:15:37 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     vkoul@kernel.org
-Cc:     dmaengine@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH 2/2] dmaengine: rcar-dmac: Add dma-channel-mask property support
-Date:   Wed, 28 Aug 2019 20:13:55 +0900
-Message-Id: <1566990835-27028-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1566990835-27028-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1566990835-27028-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Wed, 28 Aug 2019 07:48:00 -0400
+Received: by mail-oi1-f194.google.com with SMTP id o6so1813543oic.9
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 28 Aug 2019 04:47:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=frj+XKKwyqwU6iAnIPlEbpQMfAgLYdlEvFvCt5kB5SY=;
+        b=IAcqr+Jt7XtsCvfN4cc+wLnh1je0BIb1Xiaj2wYrmiJ7kLCA9U8NP/1xKPUU3wqdTl
+         0R/E60aHgyLCJ98GQMvuxG0xD4gWNk+3lQE/q2t5lZF0O7tX200cP6NhOUNT8TPG+QlY
+         NY4gfeVcEIj6bSPA1hmcaciJYxY+AWzRfB1kmX3yTl5LBwE4borTYit4ScU9rpD86ENE
+         uLqb4R1k95nvuLECwq0RyIrj63zwxPFm//GBK/cWzaPPSw9OZfI++kVRmg/XlK3Y1qwJ
+         aY/6VP6iCMv9E2gzQNep2EdVIX+qhndoYu+Eg/rY4rL28NhbEtZN4BwYBNkwnLn/awFI
+         IEQA==
+X-Gm-Message-State: APjAAAXx8OBeJU44ir848Mzcss49Ran8qvHAC0flgAGCK5cintlXy4ap
+        a580Zppa53Da7sqcONGDGWCpPn87SY8VyfPEItA6AQ==
+X-Google-Smtp-Source: APXvYqz4Zc8QnngmSt0O8wLlRtgXFaDZ4ZTXwIQrHaCAxFA2phBpgeKuBb0n9/YdUlTpNzgkCKsx5Qz48iEofJZdO2k=
+X-Received: by 2002:aca:f4ca:: with SMTP id s193mr2233603oih.131.1566992879124;
+ Wed, 28 Aug 2019 04:47:59 -0700 (PDT)
+MIME-Version: 1.0
+References: <1547808474-19427-1-git-send-email-uli+renesas@fpond.eu> <1547808474-19427-2-git-send-email-uli+renesas@fpond.eu>
+In-Reply-To: <1547808474-19427-2-git-send-email-uli+renesas@fpond.eu>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 28 Aug 2019 13:47:48 +0200
+Message-ID: <CAMuHMdXcoh7vXNNRE9sZjG=5705SyhrSPZu-9trrbUwjxxyxAg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] arm64: dts: r8a7795: Add cpuidle support for CA57 cores
+To:     Ulrich Hecht <uli+renesas@fpond.eu>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Simon Horman <horms@verge.net.au>,
+        Khiem Nguyen <khiem.nguyen.xt@renesas.com>,
+        dien.pham.ry@renesas.com,
+        Takeshi Kihara <takeshi.kihara.df@renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch adds dma-channel-mask property support not to reserve
-some DMA channels for some reasons. (for example: a heterogeneous
-CPU uses it.)
+On Fri, Jan 18, 2019 at 11:48 AM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
+> From: Khiem Nguyen <khiem.nguyen.xt@renesas.com>
+>
+> Enable cpuidle (core shutdown) support for R-Car H3 CA57 cores.
+>
+> Parameters were found after evaluation by gaku.inami.xw@bp.renesas.com; they
+> help to keep the performance and reduce the power consumption.
+>
+> Signed-off-by: Khiem Nguyen <khiem.nguyen.xt@renesas.com>
+> [dien.pham.ry: Apply new cpuidle parameters]
+> Signed-off-by: Dien Pham <dien.pham.ry@renesas.com>
+> Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
+> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/dma/sh/rcar-dmac.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/drivers/dma/sh/rcar-dmac.c b/drivers/dma/sh/rcar-dmac.c
-index 204160e..bae0fe8 100644
---- a/drivers/dma/sh/rcar-dmac.c
-+++ b/drivers/dma/sh/rcar-dmac.c
-@@ -1806,7 +1806,17 @@ static int rcar_dmac_parse_of(struct device *dev, struct rcar_dmac *dmac)
- 		return -EINVAL;
- 	}
- 
--	dmac->channels_mask = GENMASK(dmac->n_channels - 1, 0);
-+	/*
-+	 * If the driver is unable to read dma-channel-mask property,
-+	 * the driver assumes that it can use all channels.
-+	 */
-+	ret = of_property_read_u32(np, "dma-channel-mask",
-+				   &dmac->channels_mask);
-+	if (ret < 0)
-+		dmac->channels_mask = GENMASK(dmac->n_channels - 1, 0);
-+
-+	/* If the property has out-of-channel mask, this driver clears it */
-+	dmac->channels_mask &= GENMASK(dmac->n_channels - 1, 0);
- 
- 	return 0;
- }
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.7.4
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
