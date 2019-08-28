@@ -2,38 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E0EEA09AD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2019 20:37:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 800D0A09AF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2019 20:37:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727075AbfH1ShK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 28 Aug 2019 14:37:10 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:45272 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727069AbfH1ShK (ORCPT
+        id S1726764AbfH1ShR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 28 Aug 2019 14:37:17 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:43079 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727069AbfH1ShQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 28 Aug 2019 14:37:10 -0400
+        Wed, 28 Aug 2019 14:37:16 -0400
 X-IronPort-AV: E=Sophos;i="5.64,442,1559487600"; 
-   d="scan'208";a="25166341"
+   d="scan'208";a="24947702"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 29 Aug 2019 03:37:08 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 29 Aug 2019 03:37:13 +0900
 Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id AFEA04004953;
-        Thu, 29 Aug 2019 03:37:05 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 4895B4004953;
+        Thu, 29 Aug 2019 03:37:09 +0900 (JST)
 From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+To:     Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
         David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>
 Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Simon Horman <horms@verge.net.au>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        Simon Horman <horms@verge.net.au>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>, sam@ravnborg.org
-Subject: [PATCH v3 4/8] drm: rcar-du: lvds: Add dual-LVDS panels support
-Date:   Wed, 28 Aug 2019 19:36:38 +0100
-Message-Id: <1567017402-5895-5-git-send-email-fabrizio.castro@bp.renesas.com>
+Subject: [PATCH v3 5/8] drm: bridge: thc63: Do not report input bus mode through bridge timings
+Date:   Wed, 28 Aug 2019 19:36:39 +0100
+Message-Id: <1567017402-5895-6-git-send-email-fabrizio.castro@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1567017402-5895-1-git-send-email-fabrizio.castro@bp.renesas.com>
 References: <1567017402-5895-1-git-send-email-fabrizio.castro@bp.renesas.com>
@@ -42,231 +48,85 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The driver doesn't support dual-link LVDS displays, and the way
-it identifies bridges won't allow for dual-LVDS displays to be
-connected. Also, it's not possible to swap even and odd pixels
-around in case the wiring isn't taking advantage of the default
-hardware configuration. Further more, the "mode" of the companion
-encoder should be same as the mode of the primary encoder.
-
-Rework the driver to improve all of the above, so that it can
-support dual-LVDS displays.
+No need to report the input bus mode through bridge timings
+anymore, that's now done through the DT, as specified by the
+dt-bindings.
 
 Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 
 ---
 v2->v3:
-* reworked to take advantange of the new dt-bindings
-* squashed in the patche for fixing the companion's mode
-
-Laurent,
-
-unfortunately the best way to get the companion encoder to use
-the same mode as the primary encoder is setting the mode directly
-without calling into rcar_lvds_mode_set for the companion encoder,
-as the below test fails for the companion encoder in
-rcar_lvds_get_lvds_mode:
-if (!info->num_bus_formats || !info->bus_formats)
-
-Anyhow, setting the mode for the companion encoder doesn't seem
-to be mandary according to the experiments I have been running,
-but the HW User's Manual doesn't really say much about this,
-therefore I think the safest option is still to set the mode for
-the companion encoder.
-
-Thanks,
-Fab
+* new patch
 ---
- drivers/gpu/drm/rcar-du/rcar_lvds.c | 110 +++++++++++++++++++++---------------
- 1 file changed, 65 insertions(+), 45 deletions(-)
+ drivers/gpu/drm/bridge/thc63lvd1024.c | 9 ++++-----
+ include/drm/drm_bridge.h              | 8 --------
+ 2 files changed, 4 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-index 3fe0b86..dfec5e7 100644
---- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-@@ -20,6 +20,8 @@
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
-+#include <drm/drm_bus_timings.h>
-+#include <drm/drm_of.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_probe_helper.h>
+diff --git a/drivers/gpu/drm/bridge/thc63lvd1024.c b/drivers/gpu/drm/bridge/thc63lvd1024.c
+index 3d74129b..730f682 100644
+--- a/drivers/gpu/drm/bridge/thc63lvd1024.c
++++ b/drivers/gpu/drm/bridge/thc63lvd1024.c
+@@ -34,7 +34,7 @@ struct thc63_dev {
+ 	struct drm_bridge bridge;
+ 	struct drm_bridge *next;
  
-@@ -69,6 +71,7 @@ struct rcar_lvds {
- 
- 	struct drm_bridge *companion;
- 	bool dual_link;
-+	bool stripe_swap_data;
+-	struct drm_bridge_timings timings;
++	bool dual_link;
  };
  
- #define bridge_to_rcar_lvds(b) \
-@@ -439,12 +442,20 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
- 	rcar_lvds_write(lvds, LVDCHCR, lvdhcr);
+ static inline struct thc63_dev *to_thc63(struct drm_bridge *bridge)
+@@ -62,7 +62,7 @@ static enum drm_mode_status thc63_mode_valid(struct drm_bridge *bridge,
+ 	 * isn't supported by the driver yet, simply derive the limits from the
+ 	 * input mode.
+ 	 */
+-	if (thc63->timings.dual_link) {
++	if (thc63->dual_link) {
+ 		min_freq = 40000;
+ 		max_freq = 150000;
+ 	} else {
+@@ -157,13 +157,13 @@ static int thc63_parse_dt(struct thc63_dev *thc63)
  
- 	if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK) {
--		/*
--		 * Configure vertical stripe based on the mode of operation of
--		 * the connected device.
--		 */
--		rcar_lvds_write(lvds, LVDSTRIPE,
--				lvds->dual_link ? LVDSTRIPE_ST_ON : 0);
-+		u32 lvdstripe = 0;
-+
-+		if (lvds->dual_link)
-+			/*
-+			 * Configure vertical stripe based on the mode of
-+			 * operation of the connected device.
-+			 *
-+			 * ST_SWAP from LVD1STRIPE is reserved, do not set
-+			 * in the companion LVDS
-+			 */
-+			lvdstripe = LVDSTRIPE_ST_ON |
-+				(lvds->companion && lvds->stripe_swap_data ?
-+				 LVDSTRIPE_ST_SWAP : 0);
-+		rcar_lvds_write(lvds, LVDSTRIPE, lvdstripe);
+ 		if (remote) {
+ 			if (of_device_is_available(remote))
+-				thc63->timings.dual_link = true;
++				thc63->dual_link = true;
+ 			of_node_put(remote);
+ 		}
  	}
  
- 	/*
-@@ -603,6 +614,11 @@ static void rcar_lvds_mode_set(struct drm_bridge *bridge,
- 	lvds->display_mode = *adjusted_mode;
+ 	dev_dbg(thc63->dev, "operating in %s-link mode\n",
+-		thc63->timings.dual_link ? "dual" : "single");
++		thc63->dual_link ? "dual" : "single");
  
- 	rcar_lvds_get_lvds_mode(lvds);
-+	if (lvds->companion) {
-+		struct rcar_lvds *companion_lvds = bridge_to_rcar_lvds(
-+							lvds->companion);
-+		companion_lvds->mode = lvds->mode;
-+	}
+ 	return 0;
  }
+@@ -221,7 +221,6 @@ static int thc63_probe(struct platform_device *pdev)
+ 	thc63->bridge.driver_private = thc63;
+ 	thc63->bridge.of_node = pdev->dev.of_node;
+ 	thc63->bridge.funcs = &thc63_bridge_func;
+-	thc63->bridge.timings = &thc63->timings;
  
- static int rcar_lvds_attach(struct drm_bridge *bridge)
-@@ -667,9 +683,10 @@ EXPORT_SYMBOL_GPL(rcar_lvds_dual_link);
- static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
- {
- 	const struct of_device_id *match;
--	struct device_node *companion;
-+	struct device_node *companion, *p0 = NULL, *p1 = NULL;
- 	struct device *dev = lvds->dev;
--	int ret = 0;
-+	struct rcar_lvds *companion_lvds;
-+	int ret = 0, dual_link;
+ 	drm_bridge_add(&thc63->bridge);
  
- 	/* Locate the companion LVDS encoder for dual-link operation, if any. */
- 	companion = of_parse_phandle(dev->of_node, "renesas,companion", 0);
-@@ -687,16 +704,50 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
- 		goto done;
- 	}
+diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+index 7616f65..3228018 100644
+--- a/include/drm/drm_bridge.h
++++ b/include/drm/drm_bridge.h
+@@ -362,14 +362,6 @@ struct drm_bridge_timings {
+ 	 * input signal after the clock edge.
+ 	 */
+ 	u32 hold_time_ps;
+-	/**
+-	 * @dual_link:
+-	 *
+-	 * True if the bus operates in dual-link mode. The exact meaning is
+-	 * dependent on the bus type. For LVDS buses, this indicates that even-
+-	 * and odd-numbered pixels are received on separate links.
+-	 */
+-	bool dual_link;
+ };
  
-+	/*
-+	 * We need to work out if the sink is expecting us to function in
-+	 * dual-link mode. We do this by looking at the DT port nodes we are
-+	 * connected to, if they are marked as expecting even pixels and
-+	 * odd pixels than we need to enable vertical stripe output
-+	 */
-+	p0 = of_graph_get_port_by_id(dev->of_node, 1);
-+	p1 = of_graph_get_port_by_id(companion, 1);
-+	dual_link = drm_of_lvds_get_dual_link_configuration(p0, p1);
-+	if (dual_link >= DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS) {
-+		dev_dbg(dev, "Dual-link configuration detected\n");
-+		lvds->dual_link = true;
-+	} else {
-+		/* dual-link mode is not required */
-+		dev_dbg(dev, "Single-link configuration detected\n");
-+		goto done;
-+	}
-+	/*
-+	 * We may need to swap even and odd pixels around in case the wiring
-+	 * doesn't match the default configuration.
-+	 * By default we generate even pixels from this encoder and odd pixels
-+	 * from the companion encoder, but if p0 is connected to the port
-+	 * expecting ood pixels, and p1 is connected to the port expecting even
-+	 * pixels, then we need to swap even and odd pixels around
-+	 */
-+	if (dual_link == DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS) {
-+		dev_dbg(dev, "Data swapping required\n");
-+		lvds->stripe_swap_data = true;
-+	}
-+
- 	lvds->companion = of_drm_find_bridge(companion);
- 	if (!lvds->companion) {
- 		ret = -EPROBE_DEFER;
- 		goto done;
- 	}
-+	companion_lvds = bridge_to_rcar_lvds(lvds->companion);
-+	companion_lvds->dual_link = lvds->dual_link;
- 
- 	dev_dbg(dev, "Found companion encoder %pOF\n", companion);
- 
- done:
- 	of_node_put(companion);
-+	of_node_put(p0);
-+	of_node_put(p1);
- 
- 	return ret;
- }
-@@ -704,10 +755,7 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
- static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
- {
- 	struct device_node *local_output = NULL;
--	struct device_node *remote_input = NULL;
- 	struct device_node *remote = NULL;
--	struct device_node *node;
--	bool is_bridge = false;
- 	int ret = 0;
- 
- 	local_output = of_graph_get_endpoint_by_regs(lvds->dev->of_node, 1, 0);
-@@ -735,45 +783,17 @@ static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
- 		goto done;
- 	}
- 
--	remote_input = of_graph_get_remote_endpoint(local_output);
--
--	for_each_endpoint_of_node(remote, node) {
--		if (node != remote_input) {
--			/*
--			 * We've found one endpoint other than the input, this
--			 * must be a bridge.
--			 */
--			is_bridge = true;
--			of_node_put(node);
--			break;
--		}
--	}
--
--	if (is_bridge) {
--		lvds->next_bridge = of_drm_find_bridge(remote);
--		if (!lvds->next_bridge) {
--			ret = -EPROBE_DEFER;
--			goto done;
--		}
--
--		if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK)
--			lvds->dual_link = lvds->next_bridge->timings
--					? lvds->next_bridge->timings->dual_link
--					: false;
--	} else {
--		lvds->panel = of_drm_find_panel(remote);
--		if (IS_ERR(lvds->panel)) {
--			ret = PTR_ERR(lvds->panel);
--			goto done;
--		}
-+	ret = drm_of_find_panel_or_bridge(lvds->dev->of_node, 1, 0,
-+					  &lvds->panel, &lvds->next_bridge);
-+	if (ret) {
-+		ret = -EPROBE_DEFER;
-+		goto done;
- 	}
--
--	if (lvds->dual_link)
-+	if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK)
- 		ret = rcar_lvds_parse_dt_companion(lvds);
- 
- done:
- 	of_node_put(local_output);
--	of_node_put(remote_input);
- 	of_node_put(remote);
- 
- 	/*
+ /**
 -- 
 2.7.4
 
