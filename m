@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E3954A09B2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2019 20:37:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3598A09B5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 28 Aug 2019 20:37:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727112AbfH1ShT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 28 Aug 2019 14:37:19 -0400
+        id S1727131AbfH1Sh0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 28 Aug 2019 14:37:26 -0400
 Received: from relmlor2.renesas.com ([210.160.252.172]:43079 "EHLO
         relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727101AbfH1ShT (ORCPT
+        by vger.kernel.org with ESMTP id S1727101AbfH1ShX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 28 Aug 2019 14:37:19 -0400
+        Wed, 28 Aug 2019 14:37:23 -0400
 X-IronPort-AV: E=Sophos;i="5.64,442,1559487600"; 
-   d="scan'208";a="24947705"
+   d="scan'208";a="24947709"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 29 Aug 2019 03:37:17 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 29 Aug 2019 03:37:21 +0900
 Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id D752E400A896;
-        Thu, 29 Aug 2019 03:37:13 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 0CE244004953;
+        Thu, 29 Aug 2019 03:37:17 +0900 (JST)
 From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>
@@ -32,11 +32,10 @@ Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>, sam@ravnborg.org,
-        xu_shunji@hoperun.com, ebiharaml@si-linux.co.jp
-Subject: [PATCH v3 6/8] arm64: dts: renesas: Add EK874 board with idk-2121wr display support
-Date:   Wed, 28 Aug 2019 19:36:40 +0100
-Message-Id: <1567017402-5895-7-git-send-email-fabrizio.castro@bp.renesas.com>
+        Jacopo Mondi <jacopo+renesas@jmondi.org>, sam@ravnborg.org
+Subject: [PATCH v3 7/8] [HACK] arm64: dts: renesas: draak: Enable LVDS
+Date:   Wed, 28 Aug 2019 19:36:41 +0100
+Message-Id: <1567017402-5895-8-git-send-email-fabrizio.castro@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1567017402-5895-1-git-send-email-fabrizio.castro@bp.renesas.com>
 References: <1567017402-5895-1-git-send-email-fabrizio.castro@bp.renesas.com>
@@ -45,23 +44,17 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The EK874 is advertised as compatible with panel IDK-2121WR from
-Advantech, however the panel isn't sold alongside the board.
-A new dts, adding everything that's required to get the panel to
-to work with the EK874, is the most convenient way to support the
-EK874 when it's connected to the IDK-2121WR.
+Enable and connect the second LVDS encoder to the second LVDS input of
+the THC63LVD1024 for dual-link LVDS operation. This requires changing
+the default settings of SW45 and SW47 to OFF and ON respectively.
+
+This patch is based on Laurent's dual-LVDS work:
+https://patchwork.kernel.org/patch/10965045/
 
 Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-
 ---
-v1->v2:
-* Added comment for lvds-connector-en-gpio
-* Renamed &lvds0_panel_in to panel_in0
-* Renamed &lvds1_panel_in to panel_in1
-
 v2->v3:
-* removed renesas,swap-data property
-* added dual-lvds-odd-pixels and dual-lvds-even-pixels properties
+* new patch
 
 Geert,
 
@@ -72,147 +65,59 @@ Thanks,
 Fab
 
 ---
- arch/arm64/boot/dts/renesas/Makefile               |   3 +-
- .../boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts | 116 +++++++++++++++++++++
- 2 files changed, 118 insertions(+), 1 deletion(-)
- create mode 100644 arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts
+ arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-index 42b74c2..ce48478 100644
---- a/arch/arm64/boot/dts/renesas/Makefile
-+++ b/arch/arm64/boot/dts/renesas/Makefile
-@@ -1,7 +1,8 @@
- # SPDX-License-Identifier: GPL-2.0
- dtb-$(CONFIG_ARCH_R8A774A1) += r8a774a1-hihope-rzg2m.dtb
- dtb-$(CONFIG_ARCH_R8A774A1) += r8a774a1-hihope-rzg2m-ex.dtb
--dtb-$(CONFIG_ARCH_R8A774C0) += r8a774c0-cat874.dtb r8a774c0-ek874.dtb
-+dtb-$(CONFIG_ARCH_R8A774C0) += r8a774c0-cat874.dtb r8a774c0-ek874.dtb \
-+			       r8a774c0-ek874-idk-2121wr.dtb
- dtb-$(CONFIG_ARCH_R8A7795) += r8a7795-salvator-x.dtb r8a7795-h3ulcb.dtb
- dtb-$(CONFIG_ARCH_R8A7795) += r8a7795-h3ulcb-kf.dtb
- dtb-$(CONFIG_ARCH_R8A7795) += r8a7795-salvator-xs.dtb
-diff --git a/arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts b/arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts
-new file mode 100644
-index 0000000..a7b27d0
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts
-@@ -0,0 +1,116 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Device Tree Source for the Silicon Linux RZ/G2E evaluation kit (EK874),
-+ * connected to an Advantech IDK-2121WR 21.5" LVDS panel
-+ *
-+ * Copyright (C) 2019 Renesas Electronics Corp.
-+ */
-+
-+#include "r8a774c0-ek874.dts"
-+
-+/ {
-+	backlight: backlight {
-+		compatible = "pwm-backlight";
-+		pwms = <&pwm5 0 50000>;
-+
-+		brightness-levels = <0 4 8 16 32 64 128 255>;
-+		default-brightness-level = <6>;
-+
-+		power-supply = <&reg_12p0v>;
-+		enable-gpios = <&gpio6 12 GPIO_ACTIVE_HIGH>;
-+	};
-+
-+	panel-lvds {
-+		compatible = "advantech,idk-2121wr", "panel-lvds";
-+
-+		width-mm = <476>;
-+		height-mm = <268>;
-+
-+		data-mapping = "vesa-24";
-+
-+		panel-timing {
-+			clock-frequency = <148500000>;
-+			hactive = <1920>;
-+			vactive = <1080>;
-+			hsync-len = <44>;
-+			hfront-porch = <88>;
-+			hback-porch = <148>;
-+			vfront-porch = <4>;
-+			vback-porch = <36>;
-+			vsync-len = <5>;
-+		};
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+				dual-lvds-odd-pixels;
-+				panel_in0: endpoint {
-+					remote-endpoint = <&lvds0_out>;
-+				};
-+			};
-+
+diff --git a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
+index b38f9d4..38b9c5a 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
++++ b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
+@@ -87,11 +87,20 @@
+ 
+ 			port@0 {
+ 				reg = <0>;
+-				thc63lvd1024_in: endpoint {
++				dual-lvds-even-pixels;
++				thc63lvd1024_in0: endpoint {
+ 					remote-endpoint = <&lvds0_out>;
+ 				};
+ 			};
+ 
 +			port@1 {
 +				reg = <1>;
-+				dual-lvds-even-pixels;
-+				panel_in1: endpoint {
++				dual-lvds-odd-pixels;
++				thc63lvd1024_in1: endpoint {
 +					remote-endpoint = <&lvds1_out>;
 +				};
 +			};
-+		};
-+	};
-+};
 +
-+&gpio0 {
-+	/*
-+	 * When GP0_17 is low LVDS[01] are connected to the LVDS connector
-+	 * When GP0_17 is high LVDS[01] are connected to the LT8918L
-+	 */
-+	lvds-connector-en-gpio{
-+		gpio-hog;
-+		gpios = <17 GPIO_ACTIVE_HIGH>;
-+		output-low;
-+		line-name = "lvds-connector-en-gpio";
-+	};
-+};
-+
-+&lvds0 {
-+	ports {
-+		port@1 {
-+			lvds0_out: endpoint {
-+				remote-endpoint = <&panel_in0>;
-+			};
-+		};
-+	};
-+};
-+
-+&lvds1 {
-+	status = "okay";
-+
-+	clocks = <&cpg CPG_MOD 727>, <&x13_clk>, <&extal_clk>;
-+	clock-names = "fck", "dclkin.0", "extal";
+ 			port@2 {
+ 				reg = <2>;
+ 				thc63lvd1024_out: endpoint {
+@@ -489,7 +498,7 @@
+ 	ports {
+ 		port@1 {
+ 			lvds0_out: endpoint {
+-				remote-endpoint = <&thc63lvd1024_in>;
++				remote-endpoint = <&thc63lvd1024_in0>;
+ 			};
+ 		};
+ 	};
+@@ -507,6 +516,14 @@
+ 		 <&x13_clk>,
+ 		 <&extal_clk>;
+ 	clock-names = "fck", "dclkin.0", "extal";
 +
 +	ports {
 +		port@1 {
 +			lvds1_out: endpoint {
-+				remote-endpoint = <&panel_in1>;
++				remote-endpoint = <&thc63lvd1024_in1>;
 +			};
 +		};
 +	};
-+};
-+
-+&pfc {
-+	pwm5_pins: pwm5 {
-+		groups = "pwm5_a";
-+		function = "pwm5";
-+	};
-+};
-+
-+&pwm5 {
-+	pinctrl-0 = <&pwm5_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+};
+ };
+ 
+ &ohci0 {
 -- 
 2.7.4
 
