@@ -2,114 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C60CAA2405
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2019 20:20:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B28FA2627
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2019 20:36:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729049AbfH2SUI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 29 Aug 2019 14:20:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60132 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730268AbfH2SR4 (ORCPT
+        id S1728145AbfH2Sg6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 29 Aug 2019 14:36:58 -0400
+Received: from hera.iit.uni-miskolc.hu ([193.6.5.4]:38412 "EHLO
+        hera.iit.uni-miskolc.hu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726518AbfH2Sg6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 29 Aug 2019 14:17:56 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        Thu, 29 Aug 2019 14:36:58 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by hera.iit.uni-miskolc.hu (Postfix) with ESMTP id 5505A12E;
+        Thu, 29 Aug 2019 20:36:55 +0200 (CEST)
+X-Virus-Scanned: Kamavis at iit.uni-miskolc.hu
+Received: from hera.iit.uni-miskolc.hu ([127.0.0.1])
+        by localhost (hera.iit.uni-miskolc.hu [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id RI4GZN5MKayl; Thu, 29 Aug 2019 20:36:48 +0200 (CEST)
+Received: from titan.hitronhub.home (unknown [IPv6:2a02:8109:a180:54c:226:9eff:fe30:2af8])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6FECB2339E;
-        Thu, 29 Aug 2019 18:17:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567102675;
-        bh=WvX0U4icaaEEXMxXwS+pXS/PsVEOeUNZ91BSFI8Xez0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=liiaSk/qZPqhSEtXcaMwDc/aBvT0CogHszdDHF/qkDQLhlAdthCDa7x2CtmKx14fr
-         gJvZGwxB4LegtuKobu24JPLu+/Q3fzb0hb0zSV1n2RX2rBJPqNxtNQ+dVL/XoRn3+i
-         xw0QuFAuFeSC1V8pgsDTkvV3dr2M0B5+uonC9TJc=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Tho Vu <tho.vu.wh@rvc.renesas.com>,
-        Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        "David S . Miller" <davem@davemloft.net>,
-        Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 11/16] ravb: Fix use-after-free ravb_tstamp_skb
-Date:   Thu, 29 Aug 2019 14:17:29 -0400
-Message-Id: <20190829181736.9040-11-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190829181736.9040-1-sashal@kernel.org>
-References: <20190829181736.9040-1-sashal@kernel.org>
+        (Authenticated sender: szucst@iit.uni-miskolc.hu)
+        by hera.iit.uni-miskolc.hu (Postfix) with ESMTPSA id E4599132;
+        Thu, 29 Aug 2019 20:36:43 +0200 (CEST)
+From:   =?UTF-8?q?Tam=C3=A1s=20Sz=C5=B1cs?= <tszucs@protonmail.ch>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Tam=C3=A1s=20Sz=C5=B1cs?= <tszucs@protonmail.ch>
+Subject: [PATCH v2] mmc: sdhi: fill in actual_clock
+Date:   Thu, 29 Aug 2019 20:36:34 +0200
+Message-Id: <20190829183634.3376-1-tszucs@protonmail.ch>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Tho Vu <tho.vu.wh@rvc.renesas.com>
+Save set clock in mmc_host actual_clock enabling exporting it via debugfs.
+This will indicate the precise SD clock in I/O settings rather than only the
+sometimes misleading requested clock.
 
-[ Upstream commit cfef46d692efd852a0da6803f920cc756eea2855 ]
-
-When a Tx timestamp is requested, a pointer to the skb is stored in the
-ravb_tstamp_skb struct. This was done without an skb_get. There exists
-the possibility that the skb could be freed by ravb_tx_free (when
-ravb_tx_free is called from ravb_start_xmit) before the timestamp was
-processed, leading to a use-after-free bug.
-
-Use skb_get when filling a ravb_tstamp_skb struct, and add appropriate
-frees/consumes when a ravb_tstamp_skb struct is freed.
-
-Fixes: c156633f1353 ("Renesas Ethernet AVB driver proper")
-Signed-off-by: Tho Vu <tho.vu.wh@rvc.renesas.com>
-Signed-off-by: Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>
-Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
-Signed-off-by: David S. Miller <davem@davemloft.net>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Tamás Szűcs <tszucs@protonmail.ch>
 ---
- drivers/net/ethernet/renesas/ravb_main.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/mmc/host/renesas_sdhi_core.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/net/ethernet/renesas/ravb_main.c b/drivers/net/ethernet/renesas/ravb_main.c
-index 480883a7a3e5e..545cb6262cffd 100644
---- a/drivers/net/ethernet/renesas/ravb_main.c
-+++ b/drivers/net/ethernet/renesas/ravb_main.c
-@@ -1,6 +1,6 @@
- /* Renesas Ethernet AVB device driver
-  *
-- * Copyright (C) 2014-2015 Renesas Electronics Corporation
-+ * Copyright (C) 2014-2019 Renesas Electronics Corporation
-  * Copyright (C) 2015 Renesas Solutions Corp.
-  * Copyright (C) 2015-2016 Cogent Embedded, Inc. <source@cogentembedded.com>
-  *
-@@ -512,7 +512,10 @@ static void ravb_get_tx_tstamp(struct net_device *ndev)
- 			kfree(ts_skb);
- 			if (tag == tfa_tag) {
- 				skb_tstamp_tx(skb, &shhwtstamps);
-+				dev_consume_skb_any(skb);
- 				break;
-+			} else {
-+				dev_kfree_skb_any(skb);
- 			}
+diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+index 64d3b5fb7fe5..4c9774dbcfc1 100644
+--- a/drivers/mmc/host/renesas_sdhi_core.c
++++ b/drivers/mmc/host/renesas_sdhi_core.c
+@@ -124,7 +124,7 @@ static unsigned int renesas_sdhi_clk_update(struct tmio_mmc_host *host,
+ {
+ 	struct renesas_sdhi *priv = host_to_priv(host);
+ 	unsigned int freq, diff, best_freq = 0, diff_min = ~0;
+-	int i, ret;
++	int i;
+ 
+ 	/* tested only on R-Car Gen2+ currently; may work for others */
+ 	if (!(host->pdata->flags & TMIO_MMC_MIN_RCAR2))
+@@ -153,9 +153,9 @@ static unsigned int renesas_sdhi_clk_update(struct tmio_mmc_host *host,
  		}
- 		ravb_modify(ndev, TCCR, TCCR_TFR, TCCR_TFR);
-@@ -1537,7 +1540,7 @@ static netdev_tx_t ravb_start_xmit(struct sk_buff *skb, struct net_device *ndev)
- 					 DMA_TO_DEVICE);
- 			goto unmap;
- 		}
--		ts_skb->skb = skb;
-+		ts_skb->skb = skb_get(skb);
- 		ts_skb->tag = priv->ts_skb_tag++;
- 		priv->ts_skb_tag &= 0x3ff;
- 		list_add_tail(&ts_skb->list, &priv->ts_skb_list);
-@@ -1665,6 +1668,7 @@ static int ravb_close(struct net_device *ndev)
- 	/* Clear the timestamp list */
- 	list_for_each_entry_safe(ts_skb, ts_skb2, &priv->ts_skb_list, list) {
- 		list_del(&ts_skb->list);
-+		kfree_skb(ts_skb->skb);
- 		kfree(ts_skb);
  	}
  
+-	ret = clk_set_rate(priv->clk, best_freq);
++	clk_set_rate(priv->clk, best_freq);
+ 
+-	return ret == 0 ? best_freq : clk_get_rate(priv->clk);
++	return clk_get_rate(priv->clk);
+ }
+ 
+ static void renesas_sdhi_set_clock(struct tmio_mmc_host *host,
+@@ -166,10 +166,13 @@ static void renesas_sdhi_set_clock(struct tmio_mmc_host *host,
+ 	sd_ctrl_write16(host, CTL_SD_CARD_CLK_CTL, ~CLK_CTL_SCLKEN &
+ 		sd_ctrl_read16(host, CTL_SD_CARD_CLK_CTL));
+ 
+-	if (new_clock == 0)
++	if (new_clock == 0) {
++		host->mmc->actual_clock = 0;
+ 		goto out;
++	}
+ 
+-	clock = renesas_sdhi_clk_update(host, new_clock) / 512;
++	host->mmc->actual_clock = renesas_sdhi_clk_update(host, new_clock);
++	clock = host->mmc->actual_clock / 512;
+ 
+ 	for (clk = 0x80000080; new_clock >= (clock << 1); clk >>= 1)
+ 		clock <<= 1;
 -- 
-2.20.1
+2.11.0
 
