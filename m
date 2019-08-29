@@ -2,198 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FAE6A1D26
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2019 16:39:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8E3EA1F10
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2019 17:27:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727773AbfH2Ojh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 29 Aug 2019 10:39:37 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:57274 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727066AbfH2Ojh (ORCPT
+        id S1727176AbfH2P06 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 29 Aug 2019 11:26:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44718 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726739AbfH2P06 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 29 Aug 2019 10:39:37 -0400
-Received: from pendragon.ideasonboard.com (85-76-165-17-nat.elisa-mobile.fi [85.76.165.17])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 26C042E5;
-        Thu, 29 Aug 2019 16:39:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1567089575;
-        bh=2UXHM5b1YAj2t0RDx8a11m5h72/N89NUdiQSrAd+NHM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fr9OAeKtuUG/9HAaUCLSLvfBf51J7Zw3QVevDG39yW89RopMz8zSY7Q0VS83eU5RX
-         QKAxhIZSdbNcES7WtKez/7Yy2PrGJuAUdx5cJRV4r/xI8oG1IFZCiH1snoPValDqo4
-         mKK32ubWBA+awn3oriPwiKP6jedjtmX4bgh/CfIE=
-Date:   Thu, 29 Aug 2019 17:39:09 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Thu, 29 Aug 2019 11:26:58 -0400
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CA2072342F;
+        Thu, 29 Aug 2019 15:26:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1567092416;
+        bh=L+4ClaRi9fsykE32xB4xhDmYla9Xiavn1wqCMCMursM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=YQI2zazxcGJYwGnMOBrNMMxEPo5oFzhrDk9+MilWCL+KAoP8rKKDgHfufr1foeqeP
+         QSCFvW+tV30oJMZ4OWJ7859VnJK4QUc5OXu2QgkA43Vr9CRTGzKR4KESa6U1OeOAye
+         5Sy2mg+SEmmRG4WYyimWY/ci+PiF1Z0X6j6cZpLI=
+Received: by mail-qk1-f170.google.com with SMTP id m2so3247725qki.12;
+        Thu, 29 Aug 2019 08:26:56 -0700 (PDT)
+X-Gm-Message-State: APjAAAUTWSWjguGAYuj+oDQ/VGykjE/PvAbm4MYvUx50g3GsNTZGpQOz
+        6eDuGW5praTMIT0FJ9K5dq6U2uybYBaiXL1BTQ==
+X-Google-Smtp-Source: APXvYqwpfIKijR3krvhxBbOcuXprzAlMFrP7pRI7j1UXKERObZYR+sKPh8ZKFsOblUy4X3oiWnIbSfzV1lql8lzhaiI=
+X-Received: by 2002:a37:4941:: with SMTP id w62mr9319300qka.119.1567092415814;
+ Thu, 29 Aug 2019 08:26:55 -0700 (PDT)
+MIME-Version: 1.0
+References: <1567017402-5895-1-git-send-email-fabrizio.castro@bp.renesas.com>
+In-Reply-To: <1567017402-5895-1-git-send-email-fabrizio.castro@bp.renesas.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Thu, 29 Aug 2019 10:26:43 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+5FMHK4W4UQU24g+rm3CLjnhRcB29skygRB++GaJyM0A@mail.gmail.com>
+Message-ID: <CAL_Jsq+5FMHK4W4UQU24g+rm3CLjnhRcB29skygRB++GaJyM0A@mail.gmail.com>
+Subject: Re: [PATCH v3 0/8] Add dual-LVDS panel support to EK874
 To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thierry Reding <thierry.reding@gmail.com>,
+Cc:     Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>,
+        Andrzej Hajda <a.hajda@samsung.com>,
         Sam Ravnborg <sam@ravnborg.org>,
         Simon Horman <horms@verge.net.au>,
         Magnus Damm <magnus.damm@gmail.com>,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         xu_shunji@hoperun.com, ebiharaml@si-linux.co.jp
-Subject: Re: [PATCH v2 2/2] arm64: dts: renesas: Add HiHope RZ/G2M board with
- idk-1110wr display
-Message-ID: <20190829143909.GB5875@pendragon.ideasonboard.com>
-References: <1567078713-29361-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1567078713-29361-3-git-send-email-fabrizio.castro@bp.renesas.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1567078713-29361-3-git-send-email-fabrizio.castro@bp.renesas.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Fabrizio,
+On Wed, Aug 28, 2019 at 1:36 PM Fabrizio Castro
+<fabrizio.castro@bp.renesas.com> wrote:
+>
+> Dear All,
+>
+> this series adds support for dual-LVDS panel IDK-2121WR
+> from Advantech:
+> https://buy.advantech.eu/Displays/Embedded-LCD-Kits-High-Brightness/model-IDK-2121WR-K2FHA2E.htm
+>
+> V3 approaches the problem in a completely different way, we now
+> have two new properties to mark the ports in the DT as receiving
+> even pixels and odd pixels: dual-lvds-even-pixels and dual-lvds-odd-pixels,
+> which means device drivers should not use bridge specific or panel
+> specific dual_link flags. Also, in this case the DT describes the
+> connection fully.
+>
+> In order for the solution to be generic, I have exported a new helper
+> (drm_of_lvds_get_dual_link_configuration) to walk the device tree,
+> and figure out if the connection is dual-LVDS. The same helper gives
+> information about the configuration of the connection. If Px is connected
+> to a port expecting even pixels and Py is connected to a port expecting
+> odd pixels, then the helper returns DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS
+> (like in the example below), otherwise it returns
+> DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS.
+>
+>
+>  --------            dual-lvds-even-pixels  --------
+> |        |----                         ----|        |
+> |        | Px |---------------------->| Pn |        |
+> |        |----                         ----|        |
+> | SOURCE |           dual-lvds-odd-pixels  |  SINK  |
+> |        |----                         ----|        |
+> |        | Py |---------------------->| Pm |        |
+> |        |----                         ----|        |
+>  --------                                   --------
+>
+> The device driver for the encoder then will work out if with the current
+> wiring the pixels need swapping or not.
+>
+> The same solution works for both panels and bridges.
+>
+> Since the DT describes the connection fully, driver
+> drivers/gpu/drm/panel/panel-lvds.c works out-of-the-box, no changes
+> required, however, this implementation opens up a problem with the
+> dt-bindings.
+> Driver drivers/gpu/drm/panel/panel-lvds.c can still be pleased by
+> a port node, but also by a ports node.
+> I have created Documentation/devicetree/bindings/display/bus-timings/lvds.yaml
+> with the idea of including it from panels and bridges dt-bindings
+> supporting dual-LVDS (and of course the dt-bindings for the specific
+> devices should say which port should be marked as what), but file
+> Documentation/devicetree/bindings/display/panel/lvds.yaml formally
+> requires property "port", while with this implementation it should require
+> OneOf "port" and "ports", and unfortunately I can't seem to find a neat way
+> aroud that, other than creating a new compatible string
 
-Thank you for the patch.
+Just add 'ports' and drop 'port' from being required in the common
+binding. Then it is up to the panel specific bindings to define which
+one is required. Or we just leave it to allow either form which the
+graph code can handle.
 
-On Thu, Aug 29, 2019 at 12:38:33PM +0100, Fabrizio Castro wrote:
-> The HiHope RZ/G2M is advertised as compatible with panel idk-1110wr
-> from Advantech, however the panel isn't sold alongside the board.
-> A new dts, adding everything that's required to get the panel to
-> work the HiHope RZ/G2M, is the most convenient way to support the
-> HiHope RZ/G2M when it's connected to the idk-1110wr.
-> 
-> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> ---
-> v1->v2:
-> * added space between lvds-connector-en-gpio and curly brace
-> 
->  arch/arm64/boot/dts/renesas/Makefile               |  1 +
->  .../r8a774a1-hihope-rzg2m-ex-idk-1110wr.dts        | 86 ++++++++++++++++++++++
->  2 files changed, 87 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-idk-1110wr.dts
-> 
-> diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
-> index 42b74c2..5d94301 100644
-> --- a/arch/arm64/boot/dts/renesas/Makefile
-> +++ b/arch/arm64/boot/dts/renesas/Makefile
-> @@ -1,6 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0
->  dtb-$(CONFIG_ARCH_R8A774A1) += r8a774a1-hihope-rzg2m.dtb
->  dtb-$(CONFIG_ARCH_R8A774A1) += r8a774a1-hihope-rzg2m-ex.dtb
-> +dtb-$(CONFIG_ARCH_R8A774A1) += r8a774a1-hihope-rzg2m-ex-idk-1110wr.dtb
->  dtb-$(CONFIG_ARCH_R8A774C0) += r8a774c0-cat874.dtb r8a774c0-ek874.dtb
->  dtb-$(CONFIG_ARCH_R8A7795) += r8a7795-salvator-x.dtb r8a7795-h3ulcb.dtb
->  dtb-$(CONFIG_ARCH_R8A7795) += r8a7795-h3ulcb-kf.dtb
-> diff --git a/arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-idk-1110wr.dts b/arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-idk-1110wr.dts
-> new file mode 100644
-> index 0000000..67fe04c
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-idk-1110wr.dts
-> @@ -0,0 +1,86 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Device Tree Source for the HiHope RZ/G2M sub board connected to an
-> + * Advantech IDK-1110WR 10.1" LVDS panel
-> + *
-> + * Copyright (C) 2019 Renesas Electronics Corp.
-> + */
-> +
-> +#include "r8a774a1-hihope-rzg2m-ex.dts"
-> +
-> +/ {
-> +	backlight {
-> +		compatible = "pwm-backlight";
-> +		pwms = <&pwm0 0 50000>;
-> +
-> +		brightness-levels = <0 2 8 16 32 64 128 255>;
-> +		default-brightness-level = <6>;
-> +	};
-> +
-> +	panel-lvds {
-> +		compatible = "advantech,idk-1110wr", "panel-lvds";
-> +
-> +		width-mm = <223>;
-> +		height-mm = <125>;
-> +
-> +		data-mapping = "jeida-24";
-> +
-> +		panel-timing {
-> +			/* 1024x600 @60Hz */
-> +			clock-frequency = <51200000>;
-> +			hactive = <1024>;
-> +			vactive = <600>;
-> +			hsync-len = <240>;
-> +			hfront-porch = <40>;
-> +			hback-porch = <40>;
-> +			vfront-porch = <15>;
-> +			vback-porch = <10>;
-> +			vsync-len = <10>;
-> +		};
-> +
-> +		port {
-> +			panel_in: endpoint {
-> +				remote-endpoint = <&lvds0_out>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&gpio1 {
-> +	/*
-> +	 * When GP1_20 is LOW LVDS0 is connected to the LVDS connector
-> +	 * When GP1_20 is HIGH LVDS0 is connected to the LT8918L
-> +	 */
+We could have this in the common binding:
 
-I knew that runtime-configurable output routing would be needed one day.
-While I'm not opposed to merging this patch as-is, it means that a board
-shipping this DT will not support the DSI output. I suppose that's not a
-problem as using DSI would require an external DSI panel, which would
-require a different DT anyway. In the general case, however,
-implementing support in the DU driver for output routing outside the SoC
-will be interesting to say the least :-)
+oneOf:
+ - required: [ports]
+ - required: [port]
 
-Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +	lvds-connector-en-gpio {
-> +		gpio-hog;
-> +		gpios = <20 GPIO_ACTIVE_HIGH>;
-> +		output-low;
-> +		line-name = "lvds-connector-en-gpio";
-> +	};
-> +};
-> +
-> +&lvds0 {
-> +	status = "okay";
-> +
-> +	ports {
-> +		port@1 {
-> +			lvds0_out: endpoint {
-> +				remote-endpoint = <&panel_in>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&pfc {
-> +	pwm0_pins: pwm0 {
-> +		groups = "pwm0";
-> +		function = "pwm0";
-> +	};
-> +};
-> +
-> +&pwm0 {
-> +	pinctrl-0 = <&pwm0_pins>;
-> +	pinctrl-names = "default";
-> +
-> +	status = "okay";
-> +};
-
--- 
-Regards,
-
-Laurent Pinchart
+Rob
