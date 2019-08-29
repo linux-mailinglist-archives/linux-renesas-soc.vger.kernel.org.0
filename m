@@ -2,175 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5405A1478
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2019 11:14:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6119A1496
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2019 11:21:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726245AbfH2JOn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 29 Aug 2019 05:14:43 -0400
-Received: from mail-eopbgr1400132.outbound.protection.outlook.com ([40.107.140.132]:52223
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726009AbfH2JOn (ORCPT
+        id S1726009AbfH2JVp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 29 Aug 2019 05:21:45 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:35089 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725782AbfH2JVo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 29 Aug 2019 05:14:43 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gX89OOR25YTJb0YfOezgd9EF4nQTPuHIVM1w9GZ/+HSqGUVvM1b44ZK4kYRD3h5T3OAmtjR4Z8ydW46NAc1w2hJzla+6G4pJ5tAHcnPFwN0h4XgLjHB7+FrUiD2djcV23qguGG6Hugsm4L11VOOUMUsnyMvQDQdBCfFHjLRyAwIVz6GmM4VgJTAKB1anRUZim6O35FWZKJ5e9OkSC974a+oMVUaVgSmn3/tsZhUGUMCMqIAeR9+kTeq7ShKvKqiSyoqRJm+wOlj1iCd5hsko+I96H5UBj8sun9CNgCm7K74cEFbR7dbWdK4XM0/AIajqPAU8hyTswnibzbgKY5MowQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fU+IBAgL63ETEHONRM6ycS5duIzneuOh/CXVlRegt9k=;
- b=iC/pudAWv6kdUFBdgKPHvADPQNSPon2Pp+HCdjweB+iSxDhNtQsXt725IaSjx82LTZMvPJIaokFBOGrVuTcY1d6YakoIFPPWZBJ2gQYY17itVeCZkPofk3wwk/ne/TDDk3wfPZkxGR4bRsEpe6LE8an84qXpG0YmjZXSGaFLZr3i19ZK7qkUDzT8faS0b8LJRwUR1sM/jVYkxOwU44bp6FV14w8N+qvYFWNVIHKmhOdFxrOwKdxajqy0gXmFD0zINwCrXZ+HRqznbvAIyQspXv3cdIJpLQhTzOJNsPhH88xxREXGAig16pMrpiMMFbOfKL9PmSCZJ89ZRixz0WzzWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fU+IBAgL63ETEHONRM6ycS5duIzneuOh/CXVlRegt9k=;
- b=blHcpdg2Hudf1wb5dSurush0gRQ9TyKIUw1ViQLjoA4t34l2WrEtTXc/8c52g6CR9PxClfTcQcDhXfFasJSIC7Sx7aAXY4jjJkGJWYK9aqbGC3f8e0pqqBCJEbxStXx7CT5CnF68aX8U6u3MREna3bpD558I6ZZEdD2OWv91Bms=
-Received: from OSBPR01MB1766.jpnprd01.prod.outlook.com (52.134.225.140) by
- OSBPR01MB1720.jpnprd01.prod.outlook.com (52.134.227.21) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2220.18; Thu, 29 Aug 2019 09:14:37 +0000
-Received: from OSBPR01MB1766.jpnprd01.prod.outlook.com
- ([fe80::a526:6289:fda9:289d]) by OSBPR01MB1766.jpnprd01.prod.outlook.com
- ([fe80::a526:6289:fda9:289d%4]) with mapi id 15.20.2199.021; Thu, 29 Aug 2019
- 09:14:37 +0000
-From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Sam Ravnborg <sam@ravnborg.org>
-Subject: RE: [PATCH v3 1/8] dt-bindings: display: Add bindings for LVDS
- bus-timings
-Thread-Topic: [PATCH v3 1/8] dt-bindings: display: Add bindings for LVDS
- bus-timings
-Thread-Index: AQHVXc+S57mj9oC72Eeu0P6rCOw/zacRwzeAgAAQB1A=
-Date:   Thu, 29 Aug 2019 09:14:37 +0000
-Message-ID: <OSBPR01MB176683A6508892FBF1159FEDC0A20@OSBPR01MB1766.jpnprd01.prod.outlook.com>
-References: <1567017402-5895-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1567017402-5895-2-git-send-email-fabrizio.castro@bp.renesas.com>
- <CAMuHMdVPsT=1R7DAnmui+iaWcnoy52Xrr47zLWbgmUumBZ2sdw@mail.gmail.com>
-In-Reply-To: <CAMuHMdVPsT=1R7DAnmui+iaWcnoy52Xrr47zLWbgmUumBZ2sdw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=fabrizio.castro@bp.renesas.com; 
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 0015f1b1-8cb6-40df-94da-08d72c6150ee
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB1720;
-x-ms-traffictypediagnostic: OSBPR01MB1720:|OSBPR01MB1720:
-x-ms-exchange-purlcount: 2
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <OSBPR01MB1720290655693FDDF2FD2B98C0A20@OSBPR01MB1720.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0144B30E41
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(136003)(346002)(396003)(376002)(366004)(39860400002)(199004)(189003)(14454004)(305945005)(86362001)(99286004)(476003)(76116006)(6116002)(3846002)(4326008)(64756008)(66556008)(44832011)(74316002)(71200400001)(71190400001)(6916009)(316002)(54906003)(478600001)(66476007)(66446008)(26005)(66946007)(7696005)(186003)(7416002)(102836004)(8936002)(5660300002)(2906002)(33656002)(81156014)(6246003)(8676002)(53376002)(25786009)(256004)(52536014)(81166006)(76176011)(7736002)(966005)(229853002)(486006)(6436002)(53936002)(53546011)(6506007)(55016002)(6306002)(11346002)(446003)(9686003)(66066001);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB1720;H:OSBPR01MB1766.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
-received-spf: None (protection.outlook.com: bp.renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: SENtI4rhanYzHV/J6HFjRullhPYBZMxkKQ+aUvxYDk6X9ctTnuiiNeAZW67v88dWxGiNvqEtTc77XYMGhHV+GV6pb1tFdAQrDKjLWImETNhdPPTyUDE8RcYu7CbhutkJ6Om6bdz96/QJw7krHFdvEk5gryDv2rNkzAnN9YkT5opKbv5EEuEXtBsYGHfTGdF5y5FkcDIb2vGk5N3mNllgxegkMe0oFAs/rHAilHwSQXHDXNxnyuiW5c45QQWhLRUSerMwla3r5M2IEoSP50hPBVZW//dHP4mHj9Y9Fi2/NpLEUBZUCeqej5yDmQmCMSsgrMB42qNKo4+aZJUX/PVuuV+w6akZQPz1Qw/DkECre2+rf6HmtK//bEdp4PoEE+12YTPBYrpTMEc+dmtxZs595As/TDC85vY6YeYjBrcyCsI=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Thu, 29 Aug 2019 05:21:44 -0400
+Received: by mail-ot1-f68.google.com with SMTP id 100so2758425otn.2
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 29 Aug 2019 02:21:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=m1j0+RATAM+WPnLVkKV5S0B7tJ8kBZMbYXGaBspiSYE=;
+        b=IINJ9q2nmHHlzjI9U3L7HfZ0aeoUin2nFieYc8Sw0hfKLaueENp2RQ/u4lQWkfdxx3
+         Vp59CghNUS2lGDK72cA4G+XVErGgofa+k6PT0gFoKLSkovGfvtSLK2V14W6i1x+iwi2y
+         OtIBRs9kwznw3SkAsxU2onWhlSaXMUs9U3Yxk8/Z7pQcAfiruH+WnZXa8NBuqTJJbWrP
+         yUFVNUfV4I3YJBcgo54v9h/p2dn/0QUmcrFIjuViXEr79WgDVbS4csdfOpoT9xPIbHXm
+         O3RDUvmNxukMFeuPIimMFhfMpHzd/6IF22K1Q2ar67WAWsfwSWcrxlQIyxPF/EUSpnjP
+         UVKw==
+X-Gm-Message-State: APjAAAXHNV8p5etsrsZwyHVP82N0klfMB4XsJIECmSV2An1gi1cR2dMH
+        tu0F712TfYgN5eQH6UC5k5l+0F7D5DJaqHmqiDcn+g==
+X-Google-Smtp-Source: APXvYqzL9goJ1246noqmYYL1ScaN10+6qd/H243hH3ZsdEk/UspbFbMv7JjUY88uHXYM7cyT+Tt1+YsQ48JjlB3u9+w=
+X-Received: by 2002:a9d:2cc:: with SMTP id 70mr6841854otl.145.1567070503893;
+ Thu, 29 Aug 2019 02:21:43 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0015f1b1-8cb6-40df-94da-08d72c6150ee
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Aug 2019 09:14:37.5268
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: P8CXXuYLj2hLOWO1vjNGRFX4VLfajjNAO8dAUesniOozQx2ZPdv0IYXkqIDfecU1+2d8Un6i60aAgirhcT0OlR5QclfkNGXOKTaZzTc0ejc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB1720
+References: <156630351537.24954.2550542042474735517.sendpatchset@octo>
+In-Reply-To: <156630351537.24954.2550542042474735517.sendpatchset@octo>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 29 Aug 2019 11:21:32 +0200
+Message-ID: <CAMuHMdUWY5yO20kgQxQ_rzLfi=eghW+5trZB25YJ7QVPYhDYJw@mail.gmail.com>
+Subject: Re: [PATCH/RFC] serial: sh-sci: Update uartclk based on selected clock
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgR2VlcnQsDQoNClRoYW5rIHlvdSBmb3IgeW91ciBmZWVkYmFjayENCg0KPiBGcm9tOiBsaW51
-eC1rZXJuZWwtb3duZXJAdmdlci5rZXJuZWwub3JnIDxsaW51eC1rZXJuZWwtb3duZXJAdmdlci5r
-ZXJuZWwub3JnPiBPbiBCZWhhbGYgT2YgR2VlcnQgVXl0dGVyaG9ldmVuDQo+IFNlbnQ6IDI5IEF1
-Z3VzdCAyMDE5IDA4OjU4DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjMgMS84XSBkdC1iaW5kaW5n
-czogZGlzcGxheTogQWRkIGJpbmRpbmdzIGZvciBMVkRTIGJ1cy10aW1pbmdzDQo+IA0KPiBIaSBG
-YWJyaXppbywNCj4gDQo+IE9uIFdlZCwgQXVnIDI4LCAyMDE5IGF0IDg6MzYgUE0gRmFicml6aW8g
-Q2FzdHJvDQo+IDxmYWJyaXppby5jYXN0cm9AYnAucmVuZXNhcy5jb20+IHdyb3RlOg0KPiA+IER1
-YWwtTFZEUyBjb25uZWN0aW9ucyBuZWVkIG1hcmtlcnMgaW4gdGhlIERULCB0aGlzIHBhdGNoIGFk
-ZHMNCj4gPiBzb21lIGNvbW1vbiBkb2N1bWVudGF0aW9uIHRvIGJlIHJlZmVyZW5jZWQgYnkgYm90
-aCBwYW5lbHMgYW5kDQo+ID4gYnJpZGdlcy4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEZhYnJp
-emlvIENhc3RybyA8ZmFicml6aW8uY2FzdHJvQGJwLnJlbmVzYXMuY29tPg0KPiANCj4gVGhhbmtz
-IGZvciB5b3VyIHBhdGNoIQ0KPiANCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysrIGIvRG9jdW1l
-bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnVzLXRpbWluZ3MvbHZkcy55YW1s
-DQo+ID4gQEAgLTAsMCArMSwzOCBAQA0KPiA+ICsjIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBH
-UEwtMi4wDQo+ID4gKyVZQU1MIDEuMg0KPiA+ICstLS0NCj4gPiArJGlkOiBodHRwOi8vZGV2aWNl
-dHJlZS5vcmcvc2NoZW1hcy9kaXNwbGF5L2J1cy10aW1pbmdzL2x2ZHMueWFtbCMNCj4gPiArJHNj
-aGVtYTogaHR0cDovL2RldmljZXRyZWUub3JnL21ldGEtc2NoZW1hcy9jb3JlLnlhbWwjDQo+ID4g
-Kw0KPiA+ICt0aXRsZTogQ29tbW9uIFByb3BlcnRpZXMgZm9yIGJ1cyB0aW1pbmdzIG9mIExWRFMg
-aW50ZXJmYWNlcw0KPiA+ICsNCj4gPiArbWFpbnRhaW5lcnM6DQo+ID4gKyAgLSBUaGllcnJ5IFJl
-ZGluZyA8dGhpZXJyeS5yZWRpbmdAZ21haWwuY29tPg0KPiA+ICsgIC0gRmFicml6aW8gQ2FzdHJv
-IDxmYWJyaXppby5jYXN0cm9AYnAucmVuZXNhcy5jb20+DQo+ID4gKw0KPiA+ICtkZXNjcmlwdGlv
-bjogfA0KPiA+ICsgIFRoaXMgZG9jdW1lbnQgZGVmaW5lcyBkZXZpY2UgdHJlZSBwcm9wZXJ0aWVz
-IGNvbW1vbiB0byBMVkRTIGFuZCBkdWFsLUxWRFMNCj4gPiArICBpbnRlcmZhY2VzLCB3aGVyZSBh
-IGR1YWwtTFZEUyBpbnRlcmZhY2UgaXMgYSBkdWFsLWxpbmsgY29ubmVjdGlvbiB3aXRoIGV2ZW4N
-Cj4gPiArICBwaXhlbHMgdHJhdmVsaW5nIG9uIG9uZSBjb25uZWN0aW9uLCBhbmQgd2l0aCBvZGQg
-cGl4ZWxzIHRyYXZlbGluZyBvbiB0aGUgb3RoZXINCj4gPiArICBjb25uZWN0aW9uLg0KPiA+ICsg
-IFRoaXMgZG9jdW1lbnQgZG9lc24ndCBjb25zdGl0dWUgYSBkZXZpY2UgdHJlZSBiaW5kaW5nIHNw
-ZWNpZmljYXRpb24gYnkgaXRzZWxmDQo+ID4gKyAgYnV0IGlzIG1lYW50IHRvIGJlIHJlZmVyZW5j
-ZWQgYnkgZGV2aWNlIHRyZWUgYmluZGluZ3MuDQo+ID4gKyAgV2hlbiByZWZlcmVuY2VkIGZyb20g
-cGFuZWwgb3IgYnJpZGdlIGRldmljZSB0cmVlIGJpbmRpbmdzLCB0aGUgcHJvcGVydGllcw0KPiA+
-ICsgIGRlZmluZWQgaW4gdGhpcyBkb2N1bWVudCBhcmUgZGVmaW5lZCBhcyBmb2xsb3dzLiBUaGUg
-cGFuZWwgYW5kIGJyaWRnZSBkZXZpY2UNCj4gPiArICB0cmVlIGJpbmRpbmdzIGFyZSByZXNwb25z
-aWJsZSBmb3IgZGVmaW5pbmcgd2hldGhlciBlYWNoIHByb3BlcnR5IGlzIHJlcXVpcmVkDQo+ID4g
-KyAgb3Igb3B0aW9uYWwuDQo+ID4gKw0KPiA+ICtwcm9wZXJ0aWVzOg0KPiA+ICsgIGR1YWwtbHZk
-cy1ldmVuLXBpeGVsczoNCj4gPiArICAgIHR5cGU6IGJvb2xlYW4NCj4gPiArICAgIGRlc2NyaXB0
-aW9uOg0KPiA+ICsgICAgICBUaGlzIHByb3BlcnR5IGlzIHNwZWNpZmljIHRvIGFuIGlucHV0IHBv
-cnQgb2YgYSBzaW5rIGRldmljZS4gV2hlbg0KPiA+ICsgICAgICBzcGVjaWZpZWQsIGl0IG1hcmtz
-IHRoZSBwb3J0IGFzIHJlY2lwaWVudCBvZiBldmVuLXBpeGVscy4NCj4gPiArDQo+ID4gKyAgZHVh
-bC1sdmRzLW9kZC1waXhlbHM6DQo+ID4gKyAgICB0eXBlOiBib29sZWFuDQo+ID4gKyAgICBkZXNj
-cmlwdGlvbjoNCj4gPiArICAgICAgVGhpcyBwcm9wZXJ0eSBpcyBzcGVjaWZpYyB0byBhbiBpbnB1
-dCBwb3J0IG9mIGEgc2luayBkZXZpY2UuIFdoZW4NCj4gPiArICAgICAgc3BlY2lmaWVkLCBpdCBt
-YXJrcyB0aGUgcG9ydCBhcyByZWNpcGllbnQgb2Ygb2RkLXBpeGVscy4NCj4gDQo+IERvIHlvdSBu
-ZWVkIHRoZSAiZHVhbC0iIHByZWZpeD8gSXNuJ3QgdGhhdCBpbXBsaWVkIGJ5IGV2ZW4vb2RkPw0K
-PiBPciBpcyBpdCBiZXR0ZXIgdG8ga2VlcCBpdCwgZm9yIHJlYWRhYmlsaXR5Pw0KDQpJIGRlY2lk
-ZWQgdG8gZ28gd2l0aCAiZHVhbC1sdmRzLWV2ZW4tcGl4ZWxzIiBhbmQgImR1YWwtbHZkcy1vZGQt
-cGl4ZWxzIg0KYmVjYXVzZSB0aGUgImR1YWwtbHZkcyIgcHJlZml4IHVuaXF1ZWx5IGlkZW50aWZp
-ZXMgdGhlIHR5cGUgb2YgYnVzLCBhbmQgSQ0KZGVjaWRlZCB0byBnbyB3aXRoIHRoZSAicGl4ZWxz
-IiBzdWZmaXggYmVjYXVzZSAiZHVhbC1sdmRzLW9kZCIganVzdCBkb2Vzbid0DQpzb3VuZCByaWdo
-dC4gSSBndWVzcyAiZHVhbC1sdmRzLWV2ZW4tcGl4ZWxzIiBhbmQgImR1YWwtbHZkcy1vZGQtcGl4
-ZWxzIg0KYXJlIHRoZSBtb3N0IHJlYWRhYmxlIGFuZCBmdXR1cmUgcHJvb2YgbGFiZWxzIEkgY291
-bGQgdGhpbmsgb2YsIGJ1dCBtYXliZQ0KdGhlcmUgaXMgc29tZXRoaW5nIGJldHRlciB3ZSBjYW4g
-ZG8/IExhdXJlbnQ/DQoNCj4gDQo+IEknbSBhbHNvIHRoaW5raW5nIGFib3V0IGEgcG9zc2libGUg
-ZnV0dXJlIGV4dGVuc2lvbiB0byB0cmlwbGUgb3IgcXVhZCBMVkRTLg0KPiBBcyBJJ20gbm90IGF3
-YXJlIG9mIEVuZ2xpc2ggd29yZCBlcXVpdmFsZW50cyBvZiBldmVuL29kZCBmb3IgdHJpcGxlL3F1
-YWQsDQo+IHBlcmhhcHMgdGhpcyBzaG91bGQgYmUgc3BlY2lmaWVkIHVzaW5nIGEgbnVtZXJpY2Fs
-IHZhbHVlIGluc3RlYWQ/DQoNCkkgd291bGQgaGF2ZSB0byBzZWUgYSB1c2UgY2FzZSBmb3Igb3Ro
-ZXIgTFZEUyBjb25maWd1cmF0aW9ucyBmb3IgcHJvdmlkaW5nDQphIHByb3BlciBhbnN3ZXIgdG8g
-dGhpcyBxdWVzdGlvbiwgYnV0IHBlcmhhcHMgd2UgY291bGQgYWNjZXB0IHRoYXQgb3RoZXINCmNv
-bmZpZ3VyYXRpb25zIGZvciBMVkRTIGNvbm5lY3Rpb25zIG1heSBjb21lIHdpdGggbGFiZWxzIHRo
-YXQgYXJlIHRhaWxvcmVkDQp0byBoZWxwIHVuaXF1ZWx5IGlkZW50aWZ5aW5nIHRoZSBwb3J0cyB3
-aGlsZSBiZWluZyByZWFkYWJsZT8gUGVyaGFwcyBudW1lcmljYWwNCnZhbHVlcyB3b3VsZCB3b3Jr
-IGJldHRlciBpbiBvdGhlciBjYXNlcz8gTGF1cmVudD8NCg0KPiANCj4gSWYgSSBnbyB0b28gZmFy
-LCBwbGVhc2UganVzdCBzYXkgc28gOy0pDQoNCkRlZmluaXRlbHkgd29ydGggZGlzY3Vzc2luZyEN
-Cg0KVGhhbmtzLA0KRmFiDQoNCj4gDQo+IEdye29ldGplLGVldGluZ31zLA0KPiANCj4gICAgICAg
-ICAgICAgICAgICAgICAgICAgR2VlcnQNCj4gDQo+IC0tDQo+IEdlZXJ0IFV5dHRlcmhvZXZlbiAt
-LSBUaGVyZSdzIGxvdHMgb2YgTGludXggYmV5b25kIGlhMzIgLS0gZ2VlcnRAbGludXgtbTY4ay5v
-cmcNCj4gDQo+IEluIHBlcnNvbmFsIGNvbnZlcnNhdGlvbnMgd2l0aCB0ZWNobmljYWwgcGVvcGxl
-LCBJIGNhbGwgbXlzZWxmIGEgaGFja2VyLiBCdXQNCj4gd2hlbiBJJ20gdGFsa2luZyB0byBqb3Vy
-bmFsaXN0cyBJIGp1c3Qgc2F5ICJwcm9ncmFtbWVyIiBvciBzb21ldGhpbmcgbGlrZSB0aGF0Lg0K
-PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC0tIExpbnVzIFRvcnZhbGRzDQo=
+Hi Magnus,
+
+On Tue, Aug 20, 2019 at 2:16 PM Magnus Damm <magnus.damm@gmail.com> wrote:
+> From: Magnus Damm <damm+renesas@opensource.se>
+>
+> I noticed that uartclk never gets updated as it is today.
+>
+> This compile tested patch makes sure uartclk is in sync with
+> whatever clock is selected during sci_set_termios(). Exposing
+> the actual value to user space seems like a good plan to me.
+
+Thanks for your patch!
+
+> Another semi-related issue:
+>
+> The ->termios() callback in the SCIF driver seems to enable clocks using
+> runtine pm in sci_port_enable() followed by register accesses and
+> a before returnng sci_port_enable() disables clocks as well.
+>
+> The ->pm() callback will enable the port again later on however
+> on SoCs where the SCIF is in a power domain it looks like the
+> register contents might get lost due to power down between ->termios()
+> and ->pm()?
+>
+> Perhaps the power domain use case is known to be busted?
+
+Have you considered nesting of the various serial core/pm functions?
+
+A quick s2ram test on APE6EVM without no_console_suspend shows that
+the A3SP power area is powered down, while the console still works
+fine afterwards.
+
+> Not-Yet-Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
+> ---
+>
+>  drivers/tty/serial/sh-sci.c |   10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+>
+> --- 0001/drivers/tty/serial/sh-sci.c
+> +++ work/drivers/tty/serial/sh-sci.c    2019-08-20 20:32:17.680030451 +0900
+> @@ -129,6 +129,7 @@ struct sci_port {
+>         /* Clocks */
+>         struct clk              *clks[SCI_NUM_CLKS];
+>         unsigned long           clk_rates[SCI_NUM_CLKS];
+> +       int                     sel_clk;
+>
+>         int                     irqs[SCIx_NR_IRQS];
+>         char                    *irqstr[SCIx_NR_IRQS];
+> @@ -542,7 +543,11 @@ static void sci_port_enable(struct sci_p
+>                 clk_prepare_enable(sci_port->clks[i]);
+>                 sci_port->clk_rates[i] = clk_get_rate(sci_port->clks[i]);
+>         }
+> -       sci_port->port.uartclk = sci_port->clk_rates[SCI_FCK];
+> +
+> +       if (sci_port->sel_clk >= 0)
+> +               sci_port->port.uartclk = sci_port->clk_rates[sci_port->sel_clk];
+> +       else
+> +               sci_port->port.uartclk = sci_port->clk_rates[SCI_FCK];
+>  }
+>
+>  static void sci_port_disable(struct sci_port *sci_port)
+> @@ -2472,6 +2477,7 @@ done:
+>                 dev_dbg(port->dev, "Using clk %pC for %u%+d bps\n",
+>                         s->clks[best_clk], baud, min_err);
+>
+> +       s->sel_clk = best_clk;
+
+Might be better to get rid of sci_port.sel_clk, by filling in s->port.uartclk
+in sci_set_termios(), right after the call to sci_port_enable() below?
+
+>         sci_port_enable(s);
+>
+>         /*
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
