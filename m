@@ -2,71 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7982AA2637
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 29 Aug 2019 20:40:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A00B4A30E2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2019 09:22:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728378AbfH2SkG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 29 Aug 2019 14:40:06 -0400
-Received: from sauhun.de ([88.99.104.3]:42000 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728122AbfH2SkG (ORCPT
+        id S1727736AbfH3HV6 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 30 Aug 2019 03:21:58 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:40756 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725780AbfH3HV6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 29 Aug 2019 14:40:06 -0400
-Received: from localhost (p54B33070.dip0.t-ipconnect.de [84.179.48.112])
-        by pokefinder.org (Postfix) with ESMTPSA id 10EBE2C001C;
-        Thu, 29 Aug 2019 20:40:04 +0200 (CEST)
-Date:   Thu, 29 Aug 2019 20:40:01 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] i2c: make i2c_unregister_device() ERR_PTR safe
-Message-ID: <20190829184000.GA3740@ninjato>
-References: <20190819204825.2937-1-wsa+renesas@sang-engineering.com>
+        Fri, 30 Aug 2019 03:21:58 -0400
+Received: by mail-ot1-f65.google.com with SMTP id c34so6019784otb.7;
+        Fri, 30 Aug 2019 00:21:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=F9kLJ3BZ5QkD9+EtZF2mlsKCvekaahe0KCRfMZNMwmo=;
+        b=sG5dqECvwb9ukFVFEpwHSVoyrUwTT/rirQH5CPPSLv78MWa1CqB0pB05ow+S4Jruj9
+         Qrf3U1hiDBTYlA+yFLSPN+txRoN4rTvQ3tD3/tZNt0YilPrnjIhuTTHpA+xadBl++bmI
+         LLpKz0v8+2F/K9izX2DqNTKGiHS/zSK3SvcCNtuhrR103YBn5/QYsOezS2r4q9BNDiti
+         06CmDvGLzOHLIyn14kY2Lukyp+1ZIdymXTXbc+lc5M3A3nDqalYC51OyMDBvfCqHQC8T
+         /g/5vY2VJVH9iToaqK87E4wrLonzdwh4mVyEHhp7oALb20wEIU2zzbKySw8yJ9sVDFmZ
+         onaw==
+X-Gm-Message-State: APjAAAXfR2nq4PLaVWn92W7yaCX0F2yzKUl6APcWVLpAVefAhSB0lQyL
+        2GkI0mZM+yeIQtOmJZ9QtVCvgnUp4iq5a5yBRFY=
+X-Google-Smtp-Source: APXvYqy/RC14KohSI8aaNfC8W69ti0COcczX0pr/6LRBlAsQ86y25mBPxnCCrjxp0EM2dnTcDzAdTgyu2dDDY4Eu//Q=
+X-Received: by 2002:a9d:3e50:: with SMTP id h16mr10571919otg.107.1567149717383;
+ Fri, 30 Aug 2019 00:21:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ibTvN161/egqYuK8"
-Content-Disposition: inline
-In-Reply-To: <20190819204825.2937-1-wsa+renesas@sang-engineering.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190829183634.3376-1-tszucs@protonmail.ch>
+In-Reply-To: <20190829183634.3376-1-tszucs@protonmail.ch>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 30 Aug 2019 09:21:45 +0200
+Message-ID: <CAMuHMdVe_d6N8hhG0VNZMKAGwXm7kiOQVnqNkL9+6DbkBsKAZw@mail.gmail.com>
+Subject: Re: [PATCH v2] mmc: sdhi: fill in actual_clock
+To:     =?UTF-8?B?VGFtw6FzIFN6xbFjcw==?= <tszucs@protonmail.ch>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Tamás,
 
---ibTvN161/egqYuK8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Aug 29, 2019 at 8:37 PM Tamás Szűcs <tszucs@protonmail.ch> wrote:
+> Save set clock in mmc_host actual_clock enabling exporting it via debugfs.
+> This will indicate the precise SD clock in I/O settings rather than only the
+> sometimes misleading requested clock.
+>
+> Signed-off-by: Tamás Szűcs <tszucs@protonmail.ch>
 
-On Mon, Aug 19, 2019 at 10:48:25PM +0200, Wolfram Sang wrote:
-> We are moving towards returning ERR_PTRs when i2c_new_*_device() calls
-> fail. Make sure its counterpart for unregistering handles ERR_PTRs as
-> well.
->=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Thanks for the update!
 
-Applied to for-current, thanks!
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
+However, one question below.
 
---ibTvN161/egqYuK8
-Content-Type: application/pgp-signature; name="signature.asc"
+> --- a/drivers/mmc/host/renesas_sdhi_core.c
+> +++ b/drivers/mmc/host/renesas_sdhi_core.c
+> @@ -166,10 +166,13 @@ static void renesas_sdhi_set_clock(struct tmio_mmc_host *host,
+>         sd_ctrl_write16(host, CTL_SD_CARD_CLK_CTL, ~CLK_CTL_SCLKEN &
+>                 sd_ctrl_read16(host, CTL_SD_CARD_CLK_CTL));
+>
+> -       if (new_clock == 0)
+> +       if (new_clock == 0) {
+> +               host->mmc->actual_clock = 0;
 
------BEGIN PGP SIGNATURE-----
+The actual clock is present in the debugfs output only when non-zero.
+Hence userspace cannot distinguish between an old kernel where the
+Renesas SDHI driver didn't fill in actual_clock, and a new kernel when
+the SDHI controller is powered down.
+Could that be an issue? Should the old value be retained?
+Probably it's OK, as this is debugfs, not an official ABI.
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl1oG/wACgkQFA3kzBSg
-KbZ57hAAmus8MGUdw2okfQlv9wcR0+7m0TkzMvgirKQdlEymJtLqGIqjMlOsJE/K
-QvNqqd2P8foJoOQHG/YA9zK8BBwkuu/5Z0SbgmXipxSNbm1QuMMb4IhWwd1fM71H
-0a1N7Bld7o5o+HehYnl++jPPFb0CBc2qkQCReSM5o0VIWDod4BbwDzY6zgF2MSy4
-U9Y/Ao7Un4eQHEzSM9a4z15EcqmY831+5VPo7Wr5Ap4M6VDhL+hFOwmn3I92v6mn
-IF9lsQBzZj+valc6WpK3vHeEcMBM4jQpjUdrWxyGYBXAG9yOxbB3umn5DF7qRTh0
-+xdq/Yavdz+z4TlmHduLogES2otChDMO6B9uLebpvapkl/tHmZa5Q5qJsyb9jiHB
-Ps7dzA4+V3ty6+tb5yqYUthXOIXqEQar4iZJyZ5B4eJqLODNdMu/KkEuTuu7dnxa
-GHk3THYOXfYUPlHULDwq7ZO074IZP+xRIXGyg6o+bJZU0FBos4ZKg4JXmTbKvoDV
-2O3VtRS4sPUdWtJFkLJS5HTDdQZlxJ2JMjJuEQ68xXSnXRKpdUVEMSbYUhvFEwbO
-Ioz7GWUjZ2ikmqElDZdfNh2K+W/wZOpDwN/jC3I2Fr/x81doAfZ0evgDJ8BqjjiG
-BnaLyEPcaQFMh+xMenOet8vn7I4fHwgfS2sAoBoOludeoUmDGxo=
-=oLN0
------END PGP SIGNATURE-----
+Gr{oetje,eeting}s,
 
---ibTvN161/egqYuK8--
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
