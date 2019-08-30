@@ -2,80 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3ED79A37B9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2019 15:25:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2870AA3803
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 30 Aug 2019 15:50:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728076AbfH3NZv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 30 Aug 2019 09:25:51 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:39639 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727135AbfH3NZv (ORCPT
+        id S1727888AbfH3NuV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 30 Aug 2019 09:50:21 -0400
+Received: from andre.telenet-ops.be ([195.130.132.53]:48684 "EHLO
+        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727876AbfH3NuV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 30 Aug 2019 09:25:51 -0400
-Received: by mail-ot1-f65.google.com with SMTP id b1so6893586otp.6;
-        Fri, 30 Aug 2019 06:25:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ONcxjA/xj5zjcYYIHoKaRWyZ2UyvDe9PGkmssJa9Wjc=;
-        b=nXA5/VMaHXil39u3hrhOV8FzXQcK2KiQZ7prDcg0SlE2rGd0VC6VQJ/kJ+OmQ1EVXH
-         XDU2VcIpwpymYpFd1ovSXUIxXxWKpvWGTDnzH0lYURMvHsMP8o4ld+RCzaVNPpd3kw6w
-         VEIoziEmWgksq64mt98a+hA/ERL7iOq9KFaMfCqSx+m5TXZgkQ+lzE4UMV/FHBhZCjH+
-         82tk+prNjV52qqotX3TanY5UEj6I86hn99DPs7GH0KXqtfP8bMlTMZHBwwJhHVi+wlTd
-         19spYmdB0PoRQRfVN72GSIoWzFQDPET12RqMo/ruszW0H5px1fuGP2fvwihJXgettx/y
-         1JKQ==
-X-Gm-Message-State: APjAAAXXRgjwHIDa7Mc/gK3oUQwf1ynXrRoy/y4z6cmfcd5TUiIkJblA
-        2+JLTg/hO97zWvmHzZOcbTaChn3e9WiKo2G3MZ0=
-X-Google-Smtp-Source: APXvYqz0Cz34xoZDrBsu1TbuTzbiUDn+xogmAbtOvJs9bhp5Oh/MRI+yJUDTF9Kdt6pkfSF4j3BXylaK/kduxPwx3QU=
-X-Received: by 2002:a9d:3e50:: with SMTP id h16mr11619950otg.107.1567171550260;
- Fri, 30 Aug 2019 06:25:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <1567170935-19186-1-git-send-email-fabrizio.castro@bp.renesas.com>
-In-Reply-To: <1567170935-19186-1-git-send-email-fabrizio.castro@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 30 Aug 2019 15:25:39 +0200
-Message-ID: <CAMuHMdVtkBtVpXo2eCMbZ6MEJskeLHYgC4O=p1SjwOdkHLakyg@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: hihope-common: Fix eMMC status
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>, xu_shunji@hoperun.com
-Content-Type: text/plain; charset="UTF-8"
+        Fri, 30 Aug 2019 09:50:21 -0400
+Received: from ramsan ([84.194.98.4])
+        by andre.telenet-ops.be with bizsmtp
+        id vRqK2000505gfCL01RqK3u; Fri, 30 Aug 2019 15:50:19 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1i3hIB-0003KX-0s; Fri, 30 Aug 2019 15:50:19 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1i3hDK-00037U-Ng; Fri, 30 Aug 2019 15:45:18 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 0/8] clk: renesas: rcar-gen2/gen3: Switch to .determine_rate()
+Date:   Fri, 30 Aug 2019 15:45:07 +0200
+Message-Id: <20190830134515.11925-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Aug 30, 2019 at 3:15 PM Fabrizio Castro
-<fabrizio.castro@bp.renesas.com> wrote:
-> SDHI3 got accidentally disabled while adding USB 2.0 support,
-> this patch fixes it.
->
-> Fixes: 734d277f412a ("arm64: dts: renesas: hihope-common: Add USB 2.0 support")
-> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+	Hi Mike, Stephen,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+As the .round_rate() callback returns a long clock rate, it cannot
+return clock rates that do not fit in signed long, but do fit in
+unsigned long.  The newer .determine_rate() callback does not suffer
+from this limitation.  In addition, .determine_rate() provides the
+ability to specify a rate range.
 
-This is a fix for v5.3.
+This patch series performs the customary preparatory cleanups, and
+switches the Z (CPU) and SD clocks in the R-Car Gen2 and Gen3 clock
+drivers from the .round_rate() to the .determine_rate() callback.
+Note that the "div6" clock driver hasn't been converted yet, so div6
+clocks still use .round_rate().
+
+Changes compared to v1[1]:
+  - Add preparatory arithmetic division improvements
+  - Split off cpg_sd_clock_calc_div() absorption and SD clock best rate
+    calculation,
+  - Use div_u64() for division by unsigned long,
+
+This has been tested on R-Car M2-W and various R-Car Gen3, and should
+have no behavioral impact.
+
+To be queued in clk-renesas-for-v5.5.
+
+Thanks for your comments!
+
+[1] [PATCH 0/5] clk: renesas: rcar-gen2/gen3: Switch to .determine_rate()
+    https://lore.kernel.org/linux-clk/20190617125238.13761-1-geert+renesas@glider.be/
+
+Geert Uytterhoeven (8):
+  clk: renesas: rcar-gen2: Improve arithmetic divisions
+  clk: renesas: rcar-gen3: Improve arithmetic divisions
+  clk: renesas: rcar-gen3: Avoid double table iteration in SD
+    .set_rate()
+  clk: renesas: rcar-gen3: Absorb cpg_sd_clock_calc_div()
+  clk: renesas: rcar-gen3: Loop to find best rate in
+    cpg_sd_clock_round_rate()
+  clk: renesas: rcar-gen2: Switch Z clock to .determine_rate()
+  clk: renesas: rcar-gen3: Switch Z clocks to .determine_rate()
+  clk: renesas: rcar-gen3: Switch SD clocks to .determine_rate()
+
+ drivers/clk/renesas/rcar-gen2-cpg.c | 25 ++++++-----
+ drivers/clk/renesas/rcar-gen3-cpg.c | 64 ++++++++++++++++-------------
+ 2 files changed, 49 insertions(+), 40 deletions(-)
+
+-- 
+2.17.1
 
 Gr{oetje,eeting}s,
 
-                        Geert
+						Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+							    -- Linus Torvalds
