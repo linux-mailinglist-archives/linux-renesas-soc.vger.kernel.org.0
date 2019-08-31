@@ -2,37 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F983A4353
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Aug 2019 10:36:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DA81A4364
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Aug 2019 10:43:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726360AbfHaIgK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 31 Aug 2019 04:36:10 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:49694 "EHLO
+        id S1726600AbfHaInJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 31 Aug 2019 04:43:09 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:50074 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726029AbfHaIgK (ORCPT
+        with ESMTP id S1726102AbfHaInJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 31 Aug 2019 04:36:10 -0400
+        Sat, 31 Aug 2019 04:43:09 -0400
 Received: from penelope.horms.nl (ip4dab7138.direct-adsl.nl [77.171.113.56])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 0DBFD25AD78;
-        Sat, 31 Aug 2019 18:36:08 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 6A7FF25AD78;
+        Sat, 31 Aug 2019 18:43:07 +1000 (AEST)
 Received: by penelope.horms.nl (Postfix, from userid 7100)
-        id E20C7E218F0; Sat, 31 Aug 2019 10:36:05 +0200 (CEST)
-Date:   Sat, 31 Aug 2019 10:36:05 +0200
+        id 46A02E218F0; Sat, 31 Aug 2019 10:43:05 +0200 (CEST)
+Date:   Sat, 31 Aug 2019 10:43:05 +0200
 From:   Simon Horman <horms@verge.net.au>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Vinod <vkoul@kernel.org>, dmaengine@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 1/2] dmaengine: rcar-dmac: Use of_data values instead of
- a macro
-Message-ID: <20190831083605.t6wf2lu3xzdtiarv@verge.net.au>
-References: <1566904231-25486-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1566904231-25486-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <CAMuHMdV9pSq1RrXG53=az1krVVnZF3M=F3MiS7t+Z5dMo_iKHg@mail.gmail.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     gregkh@linuxfoundation.org, mathias.nyman@intel.com,
+        linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 4/4] usb: host: xhci-rcar: avoid 60s wait by
+ request_firmware() in system booting
+Message-ID: <20190831084304.wisliftdg5g26jbf@verge.net.au>
+References: <1566900127-11148-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1566900127-11148-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdV9pSq1RrXG53=az1krVVnZF3M=F3MiS7t+Z5dMo_iKHg@mail.gmail.com>
+In-Reply-To: <1566900127-11148-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 Organisation: Horms Solutions BV
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -40,60 +38,62 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Aug 27, 2019 at 03:08:16PM +0200, Geert Uytterhoeven wrote:
-> Hi Shimoda-san,
+On Tue, Aug 27, 2019 at 07:02:07PM +0900, Yoshihiro Shimoda wrote:
+> If CONFIG_FW_LOADER_USER_HELPER_FALLBACK=y and CONFIG_USB_XHCI_RCAR=y,
+> request_firmware() in xhci_rcar_download_firmware() waits for 60s to
+> sysfs fallback for the firmware like below.
 > 
-> On Tue, Aug 27, 2019 at 1:12 PM Yoshihiro Shimoda
-> <yoshihiro.shimoda.uh@renesas.com> wrote:
-> > Since we will have changed memory mapping of the DMAC in the future,
-> > this patch uses of_data values instead of a macro to calculate
-> > each channel's base offset.
-> >
-> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> [    1.599701] xhci-hcd ee000000.usb: xHCI Host Controller
+> [    1.604948] xhci-hcd ee000000.usb: new USB bus registered, assigned bus number 3
+> [    1.612403] xhci-hcd ee000000.usb: Direct firmware load for r8a779x_usb3_v3.dlmem failed with error -2
+> [    1.621726] xhci-hcd ee000000.usb: Falling back to sysfs fallback for: r8a779x_usb3_v3.dlmem
+> [    1.707953] ata1: link resume succeeded after 1 retries
+> [    1.819379] ata1: SATA link down (SStatus 0 SControl 300)
+> [   62.436012] xhci-hcd ee000000.usb: can't setup: -11
+> [   62.440901] xhci-hcd ee000000.usb: USB bus 3 deregistered
+> [   62.446361] xhci-hcd: probe of ee000000.usb failed with error -11
 > 
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> To avoid this 60s wait, this patch adds to check the system_state
+> condition and if the system is not running,
+> xhci_rcar_download_firmware() calls request_firmware_direct()
+> instead of request_firmware() as a workaround.
 > 
-> > --- a/drivers/dma/sh/rcar-dmac.c
-> > +++ b/drivers/dma/sh/rcar-dmac.c
-> > @@ -208,12 +208,20 @@ struct rcar_dmac {
-> >
-> >  #define to_rcar_dmac(d)                container_of(d, struct rcar_dmac, engine)
-> >
-> > +/*
-> > + * struct rcar_dmac_of_data - This driver's OF data
-> > + * @chan_offset_base: DMAC channels base offset
-> > + * @chan_offset_coefficient: DMAC channels offset coefficient
-> 
-> Perhaps "stride" instead of "coefficient"? Or "step"?
-> 
-> > @@ -1803,10 +1813,15 @@ static int rcar_dmac_probe(struct platform_device *pdev)
-> >         unsigned int channels_offset = 0;
-> >         struct dma_device *engine;
-> >         struct rcar_dmac *dmac;
-> > +       const struct rcar_dmac_of_data *data;
-> >         struct resource *mem;
-> >         unsigned int i;
-> >         int ret;
-> >
-> > +       data = of_device_get_match_data(&pdev->dev);
-> > +       if (!data)
-> > +               return -EINVAL;
-> 
-> This cannot fail, as the driver is DT only, and all entries in the match table
-> have a data pointer.
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-It seems to me that not including this check would make the code both more
-fragile and less intuitive for a marginal gain in simplicity.
+It seems to me that request_firmware() is working as expected.
+And that this patch introduces an alternate behaviour for xhci-rcar
+where it will fall back to the user-space helper in some cases but not
+others. This inconsistency isn't obviously correct to me. Perhaps
+xhci-rcar should always call request_firmware_direct() ?
 
+> ---
+>  drivers/usb/host/xhci-rcar.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
+> diff --git a/drivers/usb/host/xhci-rcar.c b/drivers/usb/host/xhci-rcar.c
+> index 34761be..c90cf46 100644
+> --- a/drivers/usb/host/xhci-rcar.c
+> +++ b/drivers/usb/host/xhci-rcar.c
+> @@ -6,6 +6,7 @@
+>   */
+>  
+>  #include <linux/firmware.h>
+> +#include <linux/kernel.h>
+>  #include <linux/module.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/of.h>
+> @@ -146,7 +147,10 @@ static int xhci_rcar_download_firmware(struct usb_hcd *hcd)
+>  		firmware_name = priv->firmware_name;
+>  
+>  	/* request R-Car USB3.0 firmware */
+> -	retval = request_firmware(&fw, firmware_name, dev);
+> +	if (system_state < SYSTEM_RUNNING)
+> +		retval = request_firmware_direct(&fw, firmware_name, dev);
+> +	else
+> +		retval = request_firmware(&fw, firmware_name, dev);
+>  	if (retval)
+>  		return retval;
+>  
 > -- 
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
+> 2.7.4
 > 
