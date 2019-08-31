@@ -2,135 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2537BA407C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Aug 2019 00:23:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 893BBA4337
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 31 Aug 2019 10:01:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728202AbfH3WXL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 30 Aug 2019 18:23:11 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:33390 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728180AbfH3WXL (ORCPT
+        id S1726143AbfHaIBH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 31 Aug 2019 04:01:07 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:48380 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726116AbfHaIBH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 30 Aug 2019 18:23:11 -0400
-Received: by mail-lj1-f194.google.com with SMTP id z17so7854484ljz.0
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 30 Aug 2019 15:23:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=aFhn7iu9I5henNaKqHi8L7m05WmSjwIRVZYHP8MdkwY=;
-        b=p8F42Hz85A/2/K3UAyY7njPU6+S6o3PFI6WBLvzxiF6xubBIze4iseKYD8HBWhNTyR
-         I3vqR8EI6TogIXXp+qkhIfZCbZGJ1JzeCp5LQJOG3EKLFpIZsipeF3Q4vnaJ6BHd8fyr
-         AgHPxOTzGkzL1EBtfa+AgVsUD5U1r0CvBJk4+SxzepfD78zbCBh/r2VnfmIX9nzSCsjM
-         d9jTzzvj2vjyK1fVjfPCPG+BDyV9oKldBb8kXHpBefEA5nhl60O47wA60XxI8u1S8Rai
-         wK2G9JQKMNylGBXxXpOPGstmvNx6gJy7uKSdt0bCiVNVz26qSWEdX8ZrRbT5VPHATxUN
-         Cmvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=aFhn7iu9I5henNaKqHi8L7m05WmSjwIRVZYHP8MdkwY=;
-        b=BrpbmIec5acGCRPKGcNTMCQDnrMFjjwcotVIZZal+irTfA9O8OnnqzDRjJLx+w2yRS
-         XhSHcUqmMCqVOjDE1kvUTwxp++NPhebDIDOARNNA3w201lo3DHj3h2BDGXI7uvNmf3xi
-         Nc8A3/dff8oApRXFa5M476qXRbl41wwV95cNf93VFWsqg4p1TEOgxcfGHa29LzPnRpkU
-         u6+vbM6XBei4GldxmKCYDhS/zAQTMcCeXMkxv32GdEIXW1PVSKiUe1ngBQPmd4lxakjJ
-         gbCUfHFS/iF4eUS+abRII0zLoLC3Jm/z4rilQWfUVjIIY0hgvNqSLsOWoSw9htkRocvC
-         JZjQ==
-X-Gm-Message-State: APjAAAXvCXqG3pabAdOe6hrN+zwl9gh43/EpoMOtgqvxSOXD0JwMhycj
-        RJpkIo6/DM9UnPffmPeYkBffUA==
-X-Google-Smtp-Source: APXvYqyhbYgJEHEwysGkvqQbzaPTOsUlDgHi6Zy0tB39/amTTYUPoeM7rz/ayLHMEeLeAG1JpXjEKw==
-X-Received: by 2002:a2e:800a:: with SMTP id j10mr9761006ljg.137.1567203789433;
-        Fri, 30 Aug 2019 15:23:09 -0700 (PDT)
-Received: from localhost (h-177-236.A463.priv.bahnhof.se. [217.31.177.236])
-        by smtp.gmail.com with ESMTPSA id b11sm1139770lfi.91.2019.08.30.15.23.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Aug 2019 15:23:08 -0700 (PDT)
-Date:   Sat, 31 Aug 2019 00:23:07 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 5/8] clk: renesas: rcar-gen3: Loop to find best rate
- in cpg_sd_clock_round_rate()
-Message-ID: <20190830222307.GU8479@bigcity.dyn.berto.se>
-References: <20190830134515.11925-1-geert+renesas@glider.be>
- <20190830134515.11925-6-geert+renesas@glider.be>
+        Sat, 31 Aug 2019 04:01:07 -0400
+Received: from penelope.horms.nl (ip4dab7138.direct-adsl.nl [77.171.113.56])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 1289E25AD78;
+        Sat, 31 Aug 2019 18:01:05 +1000 (AEST)
+Received: by penelope.horms.nl (Postfix, from userid 7100)
+        id E7924E218F0; Sat, 31 Aug 2019 10:01:02 +0200 (CEST)
+Date:   Sat, 31 Aug 2019 10:01:02 +0200
+From:   Simon Horman <horms@verge.net.au>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Takeshi Kihara <takeshi.kihara.df@renesas.com>,
+        Michael Dege <michael.dege@renesas.com>,
+        Andrew_Gabbasov@mentor.com,
+        "George G. Davis" <george_davis@mentor.com>,
+        Tobias Franzen <tfranzen@de.adit-jv.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [RFC DO-NOT-MERGE PATCH] arm64: dts: renesas: R8A77961: Add
+ Renesas M3-W+ (M3 ES3.0) SoC support
+Message-ID: <20190831080102.sudig7zyadiqdlst@verge.net.au>
+References: <20190821124441.22319-1-erosca@de.adit-jv.com>
+ <CAMuHMdWdObHAesUvF1BLwnEFJ6dsdpwM2yPRdUFW4D1Rp6d-tQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190830134515.11925-6-geert+renesas@glider.be>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <CAMuHMdWdObHAesUvF1BLwnEFJ6dsdpwM2yPRdUFW4D1Rp6d-tQ@mail.gmail.com>
+Organisation: Horms Solutions BV
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
-
-Thanks for your patch.
-
-On 2019-08-30 15:45:12 +0200, Geert Uytterhoeven wrote:
-> cpg_sd_clock_round_rate() really needs the best rate, not the best
-> divider.  Hence change the iteration to find the former, and get rid of
-> the final division.
+On Fri, Aug 23, 2019 at 04:18:09PM +0200, Geert Uytterhoeven wrote:
+> Hi Eugeniu,
 > 
-> Add an out-of-range rate check while at it.
+> Thanks for bringing this up!
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> ---
-> v2:
->   - Split off from "clk: renesas: rcar-gen3: Switch SD clocks to
->     .determine_rate()".
-> ---
->  drivers/clk/renesas/rcar-gen3-cpg.c | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
+> On Wed, Aug 21, 2019 at 2:45 PM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
+> > Similar to the revision update from H3-ES1.x to H3-ES2.0, the update
+> > from M3-ES1.x to M3-ES3.0, in addition to fixing HW bugs/erratas, drops
+> > entire silicon IPs [1-2] (for cost efficiency and other reasons).
+> >
+> > However, unlike in the H3 ES1.x->ES2.0 revision update, the M3-ES3.0
+> > came with a new SoC id, i.e. r8a77961 (according to both [2] and
 > 
-> diff --git a/drivers/clk/renesas/rcar-gen3-cpg.c b/drivers/clk/renesas/rcar-gen3-cpg.c
-> index 12ea5c9a671de788..a612045cba7d97b7 100644
-> --- a/drivers/clk/renesas/rcar-gen3-cpg.c
-> +++ b/drivers/clk/renesas/rcar-gen3-cpg.c
-> @@ -312,21 +312,25 @@ static unsigned long cpg_sd_clock_recalc_rate(struct clk_hw *hw,
->  static long cpg_sd_clock_round_rate(struct clk_hw *hw, unsigned long rate,
->  				      unsigned long *parent_rate)
->  {
-> -	unsigned long calc_rate, diff, diff_min = ULONG_MAX;
-> +	unsigned long best_rate = ULONG_MAX, diff_min = ULONG_MAX;
->  	struct sd_clock *clock = to_sd_clock(hw);
-> -	unsigned int i, best_div = 0;
-> +	unsigned long calc_rate, diff;
-> +	unsigned int i;
->  
->  	for (i = 0; i < clock->div_num; i++) {
->  		calc_rate = DIV_ROUND_CLOSEST(*parent_rate,
->  					      clock->div_table[i].div);
->  		diff = calc_rate > rate ? calc_rate - rate : rate - calc_rate;
->  		if (diff < diff_min) {
-> -			best_div = clock->div_table[i].div;
-> +			best_rate = calc_rate;
->  			diff_min = diff;
->  		}
->  	}
->  
-> -	return DIV_ROUND_CLOSEST(*parent_rate, best_div);
-> +	if (best_rate > LONG_MAX)
-> +		return -EINVAL;
-> +
-> +	return best_rate;
->  }
->  
->  static int cpg_sd_clock_set_rate(struct clk_hw *hw, unsigned long rate,
-> -- 
-> 2.17.1
+> Actually R-Car H3 ES2.0 is r8a77951, while ES1.x is r8a77950.
+> But we ignored the fifth digit (see below).
 > 
+> > the updated SoC HW manual Rev.2.00 Jul 2019). The choice to allocate a
+> > new identifier seems to strengthen the HW differences between M3-ES1.x
+> > and M3-ES3.0 (as it is the case for M3N/r8a77965).
+> 
+> While H3 ES2.0 was an evolutionary step, obsoleting H3 ES1.x, it looks
+> like M3-W and M3-W+ may exist as two separate products, next to each
+> other.
+> 
+> > Given the above, there are several ways to differentiate between
+> > M3-ES1.x and M3-ES3.0:
+> >
+> > A. The BSP way [1]. Move/rename r8a7796.dtsi to r8a7796-es1.dtsi and
+> > keep using r8a7796.dtsi for M3-ES3.x.
+> >
+> > Pros:
+> >  * Resembles commit 291e0c4994d081 ("arm64: dts: r8a7795: Add support
+> >    for R-Car H3 ES2.0")
+> >  * Reuses the r8a7796 (e.g. sysc, cpg-mssr) drivers for r8a77961 (i.e.
+> >    minimizes the bring-up effort)
+> > Cons:
+> >  * Deliberately diverges from the vendor documentation [2] by
+> >    ignoring the new SoC identifier r8a77961, i.e. leading to
+> >    inconsistencies in the names of the drivers and DTS
+> >
+> > B. The approach taken in this patch, i.e. create a brand new
+> >   r8a77961.dtsi (similar to r8a77965.dtsi).
+> >
+> > Pros:
+> >  * Reflects the reality documented by HW designers [2]
+> >  * Maintains drivers/DTS naming consistency and avoids mismatch between
+> >    documentation and code
+> > Cons:
+> >  * higher bring-up effort than (A)
+> >  * more discussion is needed on whether it makes sense to separate:
+> >    - DTS only
+> >    - DTS + Kconfig (ARCH_R8A77961)
+> >    - DTS + Kconfig (ARCH_R8A77961) + drivers (sysc, cpg-mssr, other?)
+> >
+> > Comments appreciated!
+> 
+> When we started work on H3 ES2.0, it was considered an evolutionary step
+> from ES1.x, not a different SoC.  We also were used to 4-digit IDs in
+> compatible values, as before the 5th digit was typically used to
+> indicate a minor difference, like a different package, or a different
+> ROM option.  Hence we ignored the 5th digit, reused the compatible
+> values for H3 ES1.x, and went with soc_device_match() to differentiate,
+> where needed.
+> 
+> However, it turned out H3 ES2.0 was more like a different SoC in the
+> same family: it has more similarities with R-Car M3-W ES1.0 than with
+> R-Car H3 ES1.x.  In the mean time, with the advent of R-Car D3 and M3-N,
+> we also got used to 5 digits.  Hence in hindsight, it might have been
+> better if we had considered H3 ES1.x and ES2.0 to be two different
+> SoCs.
+> 
+> Given R-Car M3-W and M3-W+ may co-exist as separate SoCs, I think
+> approach B is the best approach, using separate DTS, compatible values,
+> Kconfig, and drivers, like we did for e.g. R-Car M3-N.
+> 
+> What do you think?
+> Thanks!
 
--- 
-Regards,
-Niklas Söderlund
++1
+
+Your recollection of the decisions made around H3 and 4/5 digit identifiers
+matches mine. And I agree that in hindsight we may have been better to use
+a 5 digit identifier for H3 ES2.0.  So I think it would be a good idea to
+learn from this and use a 5 digit identifier for M3-W+. We can always
+register unused identifiers if the need arises.
+
+For may the main drawback of this approach is that it is inconsistent
+with the one we took for H3, which may lead to confusion. But I think
+that we are better off to favour evolution over reuse in this case.
+Or in other words, it seems like a good opportunity to learn from
+our mistakes.
+
