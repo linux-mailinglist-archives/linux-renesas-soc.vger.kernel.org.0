@@ -2,48 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D8D4A5212
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2019 10:44:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FBC8A522C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2019 10:50:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729874AbfIBIoh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Sep 2019 04:44:37 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:40239 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729714AbfIBIoh (ORCPT
+        id S1730777AbfIBIu6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Sep 2019 04:50:58 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:42635 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729408AbfIBIu5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Sep 2019 04:44:37 -0400
-Received: by mail-ot1-f67.google.com with SMTP id y39so2863229ota.7;
-        Mon, 02 Sep 2019 01:44:36 -0700 (PDT)
+        Mon, 2 Sep 2019 04:50:57 -0400
+Received: by mail-oi1-f196.google.com with SMTP id o6so9884322oic.9;
+        Mon, 02 Sep 2019 01:50:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=FLhdy1m/7VaTCg3AFNeVoxbHvH37oo8XaA2haez5ChQ=;
-        b=E9wjWd9ksppqUHnwQgyKF5V63BFg6tzBMnK7GNVJobrpZ6uc8mhdXlCJRvWVFDlAMg
-         5ETTdf3kccKb1kk8qQDJapC4yuk6UzwZ3GjzLpTvVott8ptlCnA6hKtKgBOkphMukoPv
-         EOmkQTydruooBMlG/D6Rm6ZPsIQweQgWUw1ndOXssB2dgxj4quPrrNovPJNlIxqR25SS
-         6nr578orJtaZwA3vZjzWaXRyE7UEZw/nPCyL84zhYCWbqWusajEsanzK/zjrYjjgyvp0
-         Cmq4dQbprHNDy8Pi2HXGWVQPQa2GFQ46ucw4y/erffZDhFP0SAzYfOHJ2JTz2CJVG1SY
-         Nyhg==
-X-Gm-Message-State: APjAAAUletmsyMkRDO5c7Alp5NED9jyxGI3xHLG76mz5PFkowPUdj72L
-        Rd1WAOXdl91pAIliwISw1BrJUGu5XOV6jPcRRqc=
-X-Google-Smtp-Source: APXvYqzA4XRJafJo+5ZVcns4cXjlxkJDPHoqfWAOM3ln/9iz1qC8R/kjTIrZVWm/3S3SuKwPjpAlMq82mXnjXTMQnhk=
-X-Received: by 2002:a9d:7a90:: with SMTP id l16mr14137415otn.297.1567413876579;
- Mon, 02 Sep 2019 01:44:36 -0700 (PDT)
+        bh=eCTDBqrkWmc5NnYPw8CKa//92aDX1d47QiLvL6uAPIA=;
+        b=V8SINKiBQrOf9j3qMwTZsUwmDyeogLHazyu2sYHqa+fZBi1PhW9byy8nRBZtm4iF7e
+         T+zVc0oxfZy+wUaSLHyiFfJIbQoyXon1q6WDZ1Bg6juE8I4cw1/hcyl9s432JPOtd+oH
+         W2nbYda6wFXAe0JviqKDVu0jAneuTWW/XZVPKx3CD4k6SVjqvPLCgfKjNRWXkAufYMdH
+         YpEo4Hp2pm2p4NGeTtcavHAMIfFVAufvSMo7ayhbcvLCmGduuRDSZ4Pr1Z2QGknQnqFK
+         GThWtxQ/ORJqQTNj2y+E3Stx3jjGqCbbSDKwtQ4OfqJurYPk5mmD5FIhCd4GOTswgDQU
+         sTyA==
+X-Gm-Message-State: APjAAAXal/O38ila/TtLyLtiWN/IgHKka6a7YVZj5OECbZufaQ/vlbEb
+        M/c8GuZpbCwUVZOYx6/jbE2UlW/ZAyxJ4d5hRhk=
+X-Google-Smtp-Source: APXvYqwM3XGiy8zRacmtsK2PkhAsp9osDhTTD9LHYYnmZ6c7IF8zR35UgBO4EdudT2f+CrzZ0i7jDfXlVJhCqMf79UM=
+X-Received: by 2002:aca:3382:: with SMTP id z124mr19141479oiz.102.1567414256805;
+ Mon, 02 Sep 2019 01:50:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190617125238.13761-1-geert+renesas@glider.be>
- <20190617125238.13761-2-geert+renesas@glider.be> <20190618110937.2s7h5vtssymfrxxq@verge.net.au>
- <CAMuHMdUe_kvB_z0y99y_kkRaUCW9NZneRUtNh=+PC9sC3buDjg@mail.gmail.com> <20190902083139.qicqmtrxosnzay2s@verge.net.au>
-In-Reply-To: <20190902083139.qicqmtrxosnzay2s@verge.net.au>
+References: <1566990835-27028-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1566990835-27028-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1566990835-27028-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 2 Sep 2019 10:44:25 +0200
-Message-ID: <CAMuHMdXJLkdQfsFZ8em6qqYwWv5mEA=mfb7nAfn+=k77utN3qQ@mail.gmail.com>
-Subject: Re: [PATCH 1/5] clk: renesas: rcar-gen2-legacy: Switch Z clock to .determine_rate()
-To:     Simon Horman <horms@verge.net.au>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
+Date:   Mon, 2 Sep 2019 10:50:45 +0200
+Message-ID: <CAMuHMdXL3YVceigUh1WfCPQLwgZ2S46NUNO11=r22P+qp3C3-w@mail.gmail.com>
+Subject: Re: [PATCH 2/2] dmaengine: rcar-dmac: Add dma-channel-mask property support
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Vinod <vkoul@kernel.org>, dmaengine@vger.kernel.org,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -51,62 +47,56 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Simon,
+Hi Shimoda-san,
 
-On Mon, Sep 2, 2019 at 10:31 AM Simon Horman <horms@verge.net.au> wrote:
-> On Fri, Aug 30, 2019 at 10:43:01AM +0200, Geert Uytterhoeven wrote:
-> > On Tue, Jun 18, 2019 at 1:09 PM Simon Horman <horms@verge.net.au> wrote:
-> > > On Mon, Jun 17, 2019 at 02:52:34PM +0200, Geert Uytterhoeven wrote:
-> > > > As the .round_rate() callback returns a long clock rate, it cannot
-> > > > return clock rates that do not fit in signed long, but do fit in
-> > > > unsigned long.  Hence switch the Z clock on R-Car Gen2 from the old
-> > > > .round_rate() callback to the newer .determine_rate() callback, which
-> > > > does not suffer from this limitation.
-> > > >
-> > > > This includes implementing range checking.
-> > > >
-> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >
-> > > > --- a/drivers/clk/renesas/clk-rcar-gen2.c
-> > > > +++ b/drivers/clk/renesas/clk-rcar-gen2.c
-> > > > @@ -66,19 +66,22 @@ static unsigned long cpg_z_clk_recalc_rate(struct clk_hw *hw,
-> > > >       return div_u64((u64)parent_rate * mult, 32);
-> > > >  }
-> > > >
-> > > > -static long cpg_z_clk_round_rate(struct clk_hw *hw, unsigned long rate,
-> > > > -                              unsigned long *parent_rate)
-> > > > +static int cpg_z_clk_determine_rate(struct clk_hw *hw,
-> > > > +                                 struct clk_rate_request *req)
-> > > >  {
-> > > > -     unsigned long prate  = *parent_rate;
-> > > > -     unsigned int mult;
-> > > > +     unsigned long prate = req->best_parent_rate;
-> > > > +     unsigned int min_mult, max_mult, mult;
-> > > >
-> > > > -     if (!prate)
-> > > > -             prate = 1;
-> > > > +     min_mult = max(div_u64(req->min_rate * 32ULL, prate), 1ULL);
-> > > > +     max_mult = min(div_u64(req->max_rate * 32ULL, prate), 32ULL);
-> > >
-> > > nit: the type of the second parameter doesn't look correct to me,
-> > > div_u64 expects a u32 divisor.
-> >
-> > Yes, this should use div64_ul() instead.
+On Wed, Aug 28, 2019 at 1:15 PM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> This patch adds dma-channel-mask property support not to reserve
+> some DMA channels for some reasons. (for example: a heterogeneous
+> CPU uses it.)
+
+Thanks for your patch!
+
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+One suggestion below.
+
+> --- a/drivers/dma/sh/rcar-dmac.c
+> +++ b/drivers/dma/sh/rcar-dmac.c
+> @@ -1806,7 +1806,17 @@ static int rcar_dmac_parse_of(struct device *dev, struct rcar_dmac *dmac)
+>                 return -EINVAL;
+>         }
 >
-> Ok, but in that case should the constants be "UL" instead of "UUL" ?
+> -       dmac->channels_mask = GENMASK(dmac->n_channels - 1, 0);
+> +       /*
+> +        * If the driver is unable to read dma-channel-mask property,
+> +        * the driver assumes that it can use all channels.
+> +        */
+> +       ret = of_property_read_u32(np, "dma-channel-mask",
+> +                                  &dmac->channels_mask);
+> +       if (ret < 0)
+> +               dmac->channels_mask = GENMASK(dmac->n_channels - 1, 0);
 
-The first or the second? ;-)
+You could keep the preinitialization, and just ignore the return value:
 
-The multiplication should always be calculated using 64-bit arithmetic,
-hence the first ULL suffix.
-The max() macro needs two parameters of the same type, and
-div64_ul() returns u64, hence the second ULL suffix.
+    dmac->channels_mask = GENMASK(dmac->n_channels - 1, 0);
+    of_property_read_u32(np, "dma-channel-mask", &dmac->channels_mask);
+
+>
+> +
+> +       /* If the property has out-of-channel mask, this driver clears it */
+> +       dmac->channels_mask &= GENMASK(dmac->n_channels - 1, 0);
+>
+>         return 0;
+>  }
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
