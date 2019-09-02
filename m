@@ -2,91 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC99AA5150
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2019 10:19:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15718A5197
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2019 10:29:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730200AbfIBIQn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Sep 2019 04:16:43 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:40913 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730133AbfIBIQi (ORCPT
+        id S1730145AbfIBI3b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Sep 2019 04:29:31 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:33528 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726609AbfIBI3a (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Sep 2019 04:16:38 -0400
-Received: by mail-ot1-f68.google.com with SMTP id y39so2801545ota.7;
-        Mon, 02 Sep 2019 01:16:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=x5bFP6fqImsucqpUwzF2lv6id1FNdDN/zAQ0TCyv3p8=;
-        b=Pm5HVEtrkUBbTJzjdY7F/yKcEzUqL8WSUVL4TOnBZ6/Yj5DY9QcLeHFDDaJ0aCXQ2o
-         HXKboMyWxdnXNZ9GeVur9ZBLjZkIpBHhm5yBZl26Nai10Hf1bXxz9ZUw7h+zr/dnu4YH
-         UdXyoLUopCAT55/EMlfivXP+PqfFvD3iUUC/hXVpgP9PnxEqWsF2+8wuTmfxhky46lvm
-         PUd822tQzXaFpCnXt2KPFAGLx1DRvvOwu+6QVRGXiaD3hUsyw1gnMEy8XCiYTXIx2DZb
-         7dV3rxfReu2Pw654mccYa8kjQDv+/UmtjSuX2paaIgIUqtjCfxNC7qRskNC8v+SNIDeC
-         8uYQ==
-X-Gm-Message-State: APjAAAUrEX4oN3NSNQjfv0qBV4BHCmxAhjBa5cjZZm6xDb4T8j1j4big
-        83mm21g6Uq/Hx3FM6epueOjY5UFO1dtR+i7KW+o=
-X-Google-Smtp-Source: APXvYqzRgtUQniH4Hc1f2IfWiMKRA1STzqIz4mOrzeKGGw4mnkZS2EaJ4SkKTtR2oZLvktbrgPATOYlAH1pr5HiLjTE=
-X-Received: by 2002:a9d:2cc:: with SMTP id 70mr23038848otl.145.1567412196846;
- Mon, 02 Sep 2019 01:16:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190902080603.5636-1-horms+renesas@verge.net.au>
-In-Reply-To: <20190902080603.5636-1-horms+renesas@verge.net.au>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 2 Sep 2019 10:16:25 +0200
-Message-ID: <CAMuHMdXQypGJ_oqUndOcf02GCqxEGEOK15+jnS5ehqdUJ+A8aw@mail.gmail.com>
-Subject: Re: [net-next 0/3] ravb: Remove use of undocumented registers
-To:     Simon Horman <horms+renesas@verge.net.au>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     David Miller <davem@davemloft.net>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        Mon, 2 Sep 2019 04:29:30 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 7E9B625B75F;
+        Mon,  2 Sep 2019 18:29:28 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id 1378E9401E6; Mon,  2 Sep 2019 10:29:26 +0200 (CEST)
+Date:   Mon, 2 Sep 2019 10:29:26 +0200
+From:   Simon Horman <horms@verge.net.au>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
         Magnus Damm <magnus.damm@gmail.com>,
-        netdev <netdev@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] clk: renesas: Remove R-Car Gen2 legacy DT clock support
+Message-ID: <20190902082922.tdo5edgz4orxhx2r@verge.net.au>
+References: <20190830133615.11274-1-geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190830133615.11274-1-geert+renesas@glider.be>
+Organisation: Horms Solutions BV
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Simon, Biju, Fabrizio,
+On Fri, Aug 30, 2019 at 03:36:15PM +0200, Geert Uytterhoeven wrote:
+> As of commit 362b334b17943d84 ("ARM: dts: r8a7791: Convert to new
+> CPG/MSSR bindings"), all upstream R-Car Gen2 device tree source files
+> use the unified "Renesas Clock Pulse Generator / Module Standby and
+> Software Reset" DT bindings.
+> 
+> Hence remove backward compatibility with old R-Car Gen2 device trees
+> describing a hierarchical representation of the various CPG and MSTP
+> clocks.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> To be queued in clk-renesas-for-v5.5.
+> 
+> The abovementioned commit was part of the v4.15 release.
+> The conversion was backported to v4.14.75-ltsi, and included in any
+> R-Car BSP based on v4.14 (rcar-3.6.0 and later).
 
-On Mon, Sep 2, 2019 at 10:06 AM Simon Horman <horms+renesas@verge.net.au> wrote:
-> this short series cleans up the RAVB driver a little.
->
-> The first patch corrects the spelling of the FBP field of SFO register.
-> This register field is unused and should have no run-time effect.
->
-> The remaining two patches remove the use of undocumented registers
-> after some consultation with the internal Renesas BSP team.
->
-> All patches have been lightly tested on:
-> * E3 Ebisu
-> * H3 Salvator-XS (ES2.0)
-> * M3-W Salvator-XS
-> * M3-N Salvator-XS
+Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
 
-It would be good if someone could test this on an R-Car Gen2 board
-that uses ravb (iwg22d or iwg23s).
-
-Thanks!
-
-> Kazuya Mizuguchi (2):
->   ravb: correct typo in FBP field of SFO register
->   ravb: Remove undocumented processing
->
-> Simon Horman (1):
->   ravb: TROCR register is only present on R-Car Gen3
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
