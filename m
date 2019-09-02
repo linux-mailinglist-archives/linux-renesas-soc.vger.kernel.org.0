@@ -2,67 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 77473A5BB8
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2019 19:12:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1E0FA5BDF
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2019 19:41:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726328AbfIBRMO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Sep 2019 13:12:14 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:37405 "EHLO
+        id S1726600AbfIBRlS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Sep 2019 13:41:18 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:39930 "EHLO
         mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726185AbfIBRMO (ORCPT
+        with ESMTP id S1726575AbfIBRlS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Sep 2019 13:12:14 -0400
-Received: by mail-lf1-f66.google.com with SMTP id w67so10876570lff.4
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Sep 2019 10:12:13 -0700 (PDT)
+        Mon, 2 Sep 2019 13:41:18 -0400
+Received: by mail-lf1-f66.google.com with SMTP id l11so10931657lfk.6
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Sep 2019 10:41:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=from:subject:to:cc:references:organization:message-id:date
+        h=subject:to:cc:references:from:organization:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=E7g5tM3WWBAJ5GFVwE5QOy9tpwo5F4zgFbFtuMqETxU=;
-        b=UWqWQQr4d/4D7FyY68KrSzqJ5FAmWICdxsRrLt/6MqTqO1X0VP3Jcrxa8ez5V6Mxle
-         GLwe6tmvpcfOjH4GVsHtWSOBhxMBSHVLtKkNKKiq49XEV8iVj441qxiYBe6fecS0gcgL
-         ngp97u5TzHmAyOzuWek3I1DyZJS/Pi9thXo8P8fJZP/fNtw85YGADkWH0U1xPPdGbEAw
-         m8m5PAZBWset3rWjH5+3YHGxI9gwrcYEpzM/ixjk1bjZdle0ysfkCsngKrnVa95lcjdC
-         9JfzDEPmuodlurtbQp118TFFEWbSAzqrnYpUVNS6pI79VL+sX4vwL1MR98biRu5FI1/T
-         eA7Q==
+        bh=9bia60mvHh0gbszywhWElEGhJ/D0akHyw7FHDFQMRCg=;
+        b=vviNQCniwn2Pt5wqfCJ3Uoc4dO9TwZJWN63daVKPBL8Rk1XDPcribXQeMvEnCpgvjk
+         wA5nLX8ZeAO2hlT+MRVrarZ4JQJ49AvIy79qVmzvJNsydHBG0fwzrDrRPUADetA1l95S
+         vjZf/+8JKkwdMkHyFkp4oV4GZu3DqStIk/+1YvXXqnpPkdnwjIz6xf2q8v0/br3Q0+no
+         O2FSONtzzWaU40Hl+2+raJaj4GQbk4Uqp/5+PaZfbk8TorNpEhd7UqgfMQGU+9L+rTfB
+         daxzm1odQrYFmyh2KSTY56uf4K+3rr/v5lDhZwvYiuHzDIH15b10L2vgmc1qTO1R3QRp
+         nkoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:organization
+        h=x-gm-message-state:subject:to:cc:references:from:organization
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=E7g5tM3WWBAJ5GFVwE5QOy9tpwo5F4zgFbFtuMqETxU=;
-        b=kiaBYjjyU4D6KP3zC5m1DdDUT7/N/uSc8sHZMHNFaE94X3UFShXR8yA9lkrWdfeFKi
-         /chT5ZX9b9D6uGq3mU56+AqEnJmEfsfP+BIqZTgV4jHagEBjhuFXpJIHJ5pDtdhO6Xi0
-         CLCyX58674XyD7XbrUaq9AB5HJIdgUHvR09v6KUir9TU+2mwCieHx5re0/IfCpEmX7cJ
-         l8MdC0R7c6M4+MvFeISlsNsLUfhX5ltaMhPFXmdwCz8TmA8VlEa25iH+kwq+VCZDYq6D
-         Q8ddddSYhO1Hc3W3ONRBOJEO7enOe4dhLgA4G8iLG0uAcP0kOKc0T35nRxMkXFfpYefY
-         ATxw==
-X-Gm-Message-State: APjAAAXPzX1iXW6aSoUVkP99uTYHhRj/Zr2iesZiG4RaFdlFPHTOzKmA
-        dNN0+4wTXiV4mtBkT+YGk+fGx70lCnM=
-X-Google-Smtp-Source: APXvYqwdTVQmz0A+5FgQoXERvwk0lxN6oEmHMMkbrlTQvyjpnXiPRqsuZ2Kh1YESSBlrfK1oOqDBKQ==
-X-Received: by 2002:ac2:528c:: with SMTP id q12mr201010lfm.135.1567444332875;
-        Mon, 02 Sep 2019 10:12:12 -0700 (PDT)
+        bh=9bia60mvHh0gbszywhWElEGhJ/D0akHyw7FHDFQMRCg=;
+        b=MifBq+bfwKsAKWW9g1INp21hMVGM4MAkVOYaxBXBUeBPoqLLrFTbM781Q7WtjWThtP
+         fjDAVQsLSqKKoeJXeDMVkpvHeOFb6x7G8K0p628Q1o28QzyvcuuJoLyNCQa5PaWg5CEh
+         ZPnCY4nXUhz9y6eODofmhcXBo+hBNrI2mWkQlHpUJsGc7nCthE4B6C8RSv5i2wtNN6YG
+         7yuLE5MsS/xCbYid9Dhxj96GrnGtmLnB5gh6AHzMQFOgdSXIFgTCEzRcnoAtuOuquTRj
+         1VVqq21h/Sz4iPHfYOlzcUsnouXAN8+ywkcHE0Y4KVjRQox5idZnF7cwJiFWV0y2idhX
+         iAFw==
+X-Gm-Message-State: APjAAAW6oLECUuWAuNb5v52EY4y3k2vAlN3K6Di6ZwxkLWXdKZ8IoZfC
+        4Z1q1vSOx1X2XlywhHZT/rI0sg==
+X-Google-Smtp-Source: APXvYqxDD2wge+2LQ9/Ub63bv+73Femk+OMs/LM6ctbCLimLn/AjaBAeyv3tCs3oUN1EUOpKXAnTLA==
+X-Received: by 2002:ac2:483a:: with SMTP id 26mr6746631lft.188.1567446075908;
+        Mon, 02 Sep 2019 10:41:15 -0700 (PDT)
 Received: from wasted.cogentembedded.com ([2a00:1fa0:272:5afe:be7d:d15f:cff2:c9cf])
-        by smtp.gmail.com with ESMTPSA id l23sm2413295lje.106.2019.09.02.10.12.11
+        by smtp.gmail.com with ESMTPSA id i21sm1404107lfl.44.2019.09.02.10.41.14
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 02 Sep 2019 10:12:12 -0700 (PDT)
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Subject: Re: [net-next 1/3] ravb: correct typo in FBP field of SFO register
+        Mon, 02 Sep 2019 10:41:15 -0700 (PDT)
+Subject: Re: [net-next 2/3] ravb: Remove undocumented processing
 To:     Simon Horman <horms+renesas@verge.net.au>,
         David Miller <davem@davemloft.net>
 Cc:     Magnus Damm <magnus.damm@gmail.com>, netdev@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
         Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>
 References: <20190902080603.5636-1-horms+renesas@verge.net.au>
- <20190902080603.5636-2-horms+renesas@verge.net.au>
+ <20190902080603.5636-3-horms+renesas@verge.net.au>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
 Organization: Cogent Embedded
-Message-ID: <f0811b31-c51a-db1e-a9f3-26f7f0416517@cogentembedded.com>
-Date:   Mon, 2 Sep 2019 20:12:11 +0300
+Message-ID: <f54e244a-2d9d-7ba8-02fb-af5572b3a191@cogentembedded.com>
+Date:   Mon, 2 Sep 2019 20:41:14 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <20190902080603.5636-2-horms+renesas@verge.net.au>
+In-Reply-To: <20190902080603.5636-3-horms+renesas@verge.net.au>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-MW
 Content-Transfer-Encoding: 7bit
@@ -71,66 +71,29 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
-
 On 09/02/2019 11:06 AM, Simon Horman wrote:
 
 > From: Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>
 > 
-> The field name is FBP rather than FPB.
+> This patch removes the use of the undocumented registers
+> CDCR, LCCR, CERCR, CEECR and the undocumented BOC bit of the CCC register.
+
+   The driver has many more #define's marked as undocumented. It's not clear
+why you crammed the counters and the endianness bit in one patch. It clearly
+needs to be split -- one patch for the MAC counters and one patch for the
+AVB-DMAC bit.
+
+> Current documentation for EtherAVB (ravb) describes the offset of
+> what the driver uses as the BOC bit as reserved and that only a value of
+> 0 should be written. Furthermore, the offsets used for the undocumented
+> registers are also considered reserved nd should not be written to.
 > 
-> This field is unused and could equally be removed from the driver entirely.
-> But there seems no harm in leaving as documentation of the presence of the
-> field.
+> After some internal investigation with Renesas it remains unclear
+> why this driver accesses these fields but regardless of what the historical
+> reasons are the current code is considered incorrect.
 > 
 > Signed-off-by: Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>
 > Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
-
-Acked-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-
-> ---
-> v0 - Kazuya Mizuguchi
-> 
-> v1 - Simon Horman
-> * Extracted from larger patch
-
-   I'd just claim the authorship in this case (and mentioned that it's based
-on Mizuguchi-san's large patch right in the change log).
-
-> * Wrote changelog
-> 
-> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-> index ac9195add811..bdb051f04b0c 100644
-> --- a/drivers/net/ethernet/renesas/ravb.h
-> +++ b/drivers/net/ethernet/renesas/ravb.h
-> @@ -317,7 +312,7 @@ enum UFCD_BIT {
-> 
->  /* SFO */
->  enum SFO_BIT {
-> -	SFO_FPB		= 0x0000003F,
-> +	SFO_FBP		= 0x0000003F,
->  };
-> 
->  /* RTC */
-> ---
-
-   This is where the actual patch starts, right?
-
->  drivers/net/ethernet/renesas/ravb.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/renesas/ravb.h
-> index ac9195add811..2596a95a4300 100644
-> --- a/drivers/net/ethernet/renesas/ravb.h
-> +++ b/drivers/net/ethernet/renesas/ravb.h
-> @@ -317,7 +317,7 @@ enum UFCD_BIT {
->  
->  /* SFO */
->  enum SFO_BIT {
-> -	SFO_FPB		= 0x0000003F,
-> +	SFO_FBP		= 0x0000003F,
->  };
->  
->  /* RTC */
+[...]
 
 MBR, Sergei
