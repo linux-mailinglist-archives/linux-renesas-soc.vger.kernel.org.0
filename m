@@ -2,86 +2,148 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2945A519E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2019 10:32:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB1BDA51E0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2019 10:36:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730155AbfIBIc3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Sep 2019 04:32:29 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:33686 "EHLO
-        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729680AbfIBIc3 (ORCPT
+        id S1730411AbfIBIgN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Sep 2019 04:36:13 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:33524 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729534AbfIBIgN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Sep 2019 04:32:29 -0400
-Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id E5E6625B75F;
-        Mon,  2 Sep 2019 18:32:26 +1000 (AEST)
-Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id E04B29401E6; Mon,  2 Sep 2019 10:32:24 +0200 (CEST)
-Date:   Mon, 2 Sep 2019 10:32:24 +0200
-From:   Simon Horman <horms@verge.net.au>
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 5/6] dt-bindings: timer: renesas: tmu: Document r8a774a1
- bindings
-Message-ID: <20190902083224.mn5agbxf5akhhoqg@verge.net.au>
-References: <1560258401-9517-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1560258401-9517-6-git-send-email-fabrizio.castro@bp.renesas.com>
- <TY1PR01MB1770BF952221F50BBCDF3765C0BD0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+        Mon, 2 Sep 2019 04:36:13 -0400
+Received: by mail-oi1-f193.google.com with SMTP id l2so9927013oil.0;
+        Mon, 02 Sep 2019 01:36:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Z/i26wNEedususukrR+bieDmneYLksMf979nWG1j3xI=;
+        b=p+8CO7LfjhHvWDuHr0r+8KI7++JzLyi/suBqOj0t2WnG1LN4u3JL76B1xRAd0f63/w
+         y5R9hSJYijmR//tVshVi9oqX99gwm+w/9XVjwLn3Q6AWij+hgZ1+a/TmeYEKkSLx9+zj
+         aqIF2FskeWziqm9i34Zb2CyYQE178vaeAAQ4dDhtPUP1MYgsTX0pjUe/dJ4usGb2l47h
+         27p/iv+IldNwu+VsDaJfJ5yecHvNEZPj2gp6g0C/Dp02hqdNYfP17LczOvGStOiWHMIG
+         EOruNG+Cjc9oegY33WbImsoWftHbrZUwD2GC9LFBnGwCKysKMaRSUxxi7risa01BcCDT
+         2Qzg==
+X-Gm-Message-State: APjAAAX5GMRjNLsuakLVA0HCuncHeEdt1w7x/2argF6wNz3hOkvYN4Ob
+        Xnk4cWLY+B1EI0o39svxssB5fsYEjey6R5Pm1ex4tyX+
+X-Google-Smtp-Source: APXvYqyWeM6LBHGwRhDp66uXSD4C+HFluC1bzC+s2Y9FXzzH5uWe5faErlJnwdbITCuYTKJX+TE3T6n1y7HtlNGxxHw=
+X-Received: by 2002:aca:b154:: with SMTP id a81mr17593986oif.148.1567413372420;
+ Mon, 02 Sep 2019 01:36:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <TY1PR01MB1770BF952221F50BBCDF3765C0BD0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-Organisation: Horms Solutions BV
-User-Agent: NeoMutt/20170113 (1.7.2)
+References: <1566990835-27028-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1566990835-27028-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1566990835-27028-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 2 Sep 2019 10:36:01 +0200
+Message-ID: <CAMuHMdUF4pgad0CWE6h4CQijy+-0Cif40C91TRVzH_OBO2tRPg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] dmaengine: rcar-dmac: Don't set DMACHCLR bit 0 to 1
+ if iommu is mapped
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Vinod <vkoul@kernel.org>, dmaengine@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Aug 30, 2019 at 10:37:54AM +0000, Fabrizio Castro wrote:
-> Dear All,
-> 
-> This patch has been reviewed by Geert, Simon, and Rob, so I think it's ok to apply.
-> Is anybody willing to take this patch?
+Hi Shimoda-san,
 
-<2c> I think Geert can take this </2c>
+On Wed, Aug 28, 2019 at 1:15 PM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> The commit 20c169aceb45 ("dmaengine: rcar-dmac: clear pertinence
+> number of channels") always set the DMACHCLR bit 0 to 1, but if
+> iommu is mapped to the device, this driver doesn't need to clear it.
+> So, this patch takes care of it by using "channels_mask" bitfield.
 
-> Thanks,
-> Fab
-> 
-> > From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> > Sent: 11 June 2019 14:07
-> > Subject: [PATCH 5/6] dt-bindings: timer: renesas: tmu: Document r8a774a1 bindings
-> > 
-> > Document RZ/G2M (R8A774A1) SoC in the Renesas TMU bindings.
-> > 
-> > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> > ---
-> >  Documentation/devicetree/bindings/timer/renesas,tmu.txt | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/timer/renesas,tmu.txt b/Documentation/devicetree/bindings/timer/renesas,tmu.txt
-> > index 13ad074..9dff7e5 100644
-> > --- a/Documentation/devicetree/bindings/timer/renesas,tmu.txt
-> > +++ b/Documentation/devicetree/bindings/timer/renesas,tmu.txt
-> > @@ -10,6 +10,7 @@ Required Properties:
-> > 
-> >    - compatible: must contain one or more of the following:
-> >      - "renesas,tmu-r8a7740" for the r8a7740 TMU
-> > +    - "renesas,tmu-r8a774a1" for the r8a774A1 TMU
-> >      - "renesas,tmu-r8a774c0" for the r8a774C0 TMU
-> >      - "renesas,tmu-r8a7778" for the r8a7778 TMU
-> >      - "renesas,tmu-r8a7779" for the r8a7779 TMU
-> > --
-> > 2.7.4
-> 
+Thanks for your patch!
+
+> Note that, this patch doesn't have a "Fixes:" tag because the driver
+> doesn't manage the channel 0 anyway so that the behavior of
+> the channel is not changed.
+
+This patch does fix a bug, as GENMASK(dmac->n_channels - 1, 0) doesn't
+take into account channels_offset.  Hence it not only clears channel 0,
+as you mentioned, but also forgets to clear the last channel, which
+is a real bug.
+
+So I think this does warrant a
+Fixes: 20c169aceb459575 ("dmaengine: rcar-dmac: clear pertinence
+number of channels")
+
+Or perhaps the actual bug should be fixed first in a separate patch?
+
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+> --- a/drivers/dma/sh/rcar-dmac.c
+> +++ b/drivers/dma/sh/rcar-dmac.c
+
+> @@ -446,7 +448,7 @@ static int rcar_dmac_init(struct rcar_dmac *dmac)
+>         u16 dmaor;
+>
+>         /* Clear all channels and enable the DMAC globally. */
+> -       rcar_dmac_write(dmac, RCAR_DMACHCLR, GENMASK(dmac->n_channels - 1, 0));
+> +       rcar_dmac_write(dmac, RCAR_DMACHCLR, dmac->channels_mask);
+>         rcar_dmac_write(dmac, RCAR_DMAOR,
+>                         RCAR_DMAOR_PRI_FIXED | RCAR_DMAOR_DME);
+>
+> @@ -822,6 +824,9 @@ static void rcar_dmac_stop_all_chan(struct rcar_dmac *dmac)
+>         for (i = 0; i < dmac->n_channels; ++i) {
+>                 struct rcar_dmac_chan *chan = &dmac->channels[i];
+>
+> +               if (!(dmac->channels_mask & BIT(i)))
+> +                       continue;
+> +
+>                 /* Stop and reinitialize the channel. */
+>                 spin_lock_irq(&chan->lock);
+>                 rcar_dmac_chan_halt(chan);
+> @@ -1801,6 +1806,8 @@ static int rcar_dmac_parse_of(struct device *dev, struct rcar_dmac *dmac)
+>                 return -EINVAL;
+>         }
+>
+> +       dmac->channels_mask = GENMASK(dmac->n_channels - 1, 0);
+
+You're aware dmac->n_channels can be 99, as per the check above, jut out of
+context? ;-)
+
+Probably that check should be changed to reject >= 32, as the hardware
+and driver don't support more than 32 bits in CHCLR anyway.
+> +
+>         return 0;
+>  }
+>
+> @@ -1810,7 +1817,6 @@ static int rcar_dmac_probe(struct platform_device *pdev)
+>                 DMA_SLAVE_BUSWIDTH_2_BYTES | DMA_SLAVE_BUSWIDTH_4_BYTES |
+>                 DMA_SLAVE_BUSWIDTH_8_BYTES | DMA_SLAVE_BUSWIDTH_16_BYTES |
+>                 DMA_SLAVE_BUSWIDTH_32_BYTES | DMA_SLAVE_BUSWIDTH_64_BYTES;
+> -       unsigned int channels_offset = 0;
+>         struct dma_device *engine;
+>         struct rcar_dmac *dmac;
+>         const struct rcar_dmac_of_data *data;
+> @@ -1843,10 +1849,8 @@ static int rcar_dmac_probe(struct platform_device *pdev)
+>          * level we can't disable it selectively, so ignore channel 0 for now if
+>          * the device is part of an IOMMU group.
+>          */
+> -       if (device_iommu_mapped(&pdev->dev)) {
+> -               dmac->n_channels--;
+> -               channels_offset = 1;
+> -       }
+> +       if (device_iommu_mapped(&pdev->dev))
+> +               dmac->channels_mask &= ~BIT(0);
+>
+>         dmac->channels = devm_kcalloc(&pdev->dev, dmac->n_channels,
+>                                       sizeof(*dmac->channels), GFP_KERNEL);
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
