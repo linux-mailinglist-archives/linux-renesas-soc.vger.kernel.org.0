@@ -2,175 +2,150 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 36204A5381
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2019 12:01:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6F38A541C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2019 12:35:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729763AbfIBKBI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Sep 2019 06:01:08 -0400
-Received: from mail-eopbgr1400107.outbound.protection.outlook.com ([40.107.140.107]:36928
+        id S1730042AbfIBKfi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Sep 2019 06:35:38 -0400
+Received: from mail-eopbgr1400114.outbound.protection.outlook.com ([40.107.140.114]:59760
         "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729690AbfIBKBI (ORCPT
+        id S1729806AbfIBKfh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Sep 2019 06:01:08 -0400
+        Mon, 2 Sep 2019 06:35:37 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=es6TV4oT86Gtl8j/Fmg5F6jQEN6XUmTsCJ+xgGDYn/4gO3bE0qamorG7HE+3C2yAcLihwUvC87poQs3IJHaFPSfnfJmapsbDAw+APTEZ/Ie+VD8gOzrmtnCK5ciPLKFgQ9YWSV5DQEvu4y7OrD+l0L35UTJLY5tXcW3chvPump7T8UQy3LaCRhWwZx8eZHRzBvy15hk++ab4GaVImA8bZA9e24wrs0TewrGkD005bfyXgWTDjay2OyLPurDeJ+BdiI4aeVcYZZNWHLaLIWo/xpfRJfELgtiyxdoPo8HXp2KaHbeFEJcleqVky8Z7zCDpr0bAX+fI4D0PyZjS/fK0Jg==
+ b=EVeC6unlRTpLPYJS3JdtRHESPfNbfrbOHNhugdZ1EzoZvqR7aMZFIqHMBBv84nkehZJbztd6KRSNFNgc+dlWKQ2kdTqoH6XySo2gGVHWv6NohR7qruzlNeWWBAgF+2YAbd5emyNS9QY9kPLvGgx/VbeAHmeBR9IZkyvKDRvMxJWX6C+kwnTYjXGCFyi1H5/TEpR5RTdCGzpkbsUKxv4vTAc053gKkDMzq6pamZobdnT2/k6IMXYjXmjZrlbhCAyT7gzYYYyeuqADj8+XDUNT9UAY49KGIt0b58KkyTit4qOFO1wlef64rcvF2sUtxzioAGBDJ1aLiibgh3Fh3GD1vw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Iam/u8neA1QK/hQi10l6PmBSmzZ3CW4Q7I9tAe6wFwc=;
- b=T1a0+tdf2Ij2/Cs841tuUEzhf6JzRZVSNU/mqZn3q1Q8yQj+kAj+x/Yj5HaM99Rd1fKIyZPkCAb9SZGzBsQrsQ1TlXan0TboE5xXAitAwtjBrnYTR0Ek48O1PhBEuGcm11KnJzqJ9GwkMpJlOWxCrRAjSenDZZVaujE/V0s6N5H/E3VGgwLN+m8YtukB3FkHOIm9VMeNevFlgp7PFzy1a9m0sAH402ngcFg9zv8k0EoxKoBRjRIcH7L6hfZy+H7pz0gEdPj6JZOm8jo//crCLDQNxnBCEROXa71E3qvkYNR0eGQ2qIXXj51bLBVUxWOBFekIT9hA0cp88ViIlbYmkw==
+ bh=fEhaFu698DxW6QSg2f5XVYWdPjwkDTWCTq40t4TOxFU=;
+ b=G8A2MkMBl3MryNrW1QKjGFe8nLpZGf812jeoc8qpApH6FxTstW46o493ROhWIxlUchhe4fur9MQ9wVX+x9G/737AnJo7ogQ/LJuy7a/tfYR8qs+uhYEPOKjfTSaSJm7p2p9Ss+y8b99fbn65oca2XvWROf+koddRCNYsKYnlkZKzGL4z6SXkaSPLtVMkA6lT3LkpIVGk+LgTzVoFQUZjdoHH43bv7yspKo4GMArja1L2F3wPuXtxDmpuHtPeecHYW1nNaYaZ8cHVf47qBJQ6pToyXoeDI3ALhCzDljEVrpNUiDNwGslsICI66cZVqQphXkX69w254C/lZBjCoG+J0A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Iam/u8neA1QK/hQi10l6PmBSmzZ3CW4Q7I9tAe6wFwc=;
- b=ajaCCb0bWNFhAR8EfqtVSA6JKem3+p6UXBozMo7pM46airEK13HqZwZ8N1J+nE+5j2xCK5tYFovEVg6LJeEP2HDwIiBeuDfDy3s5JpBtSB650D/M4OUjrnh929DK6tmd78fMEsyPwcsge9+B6g9JwJu//hnVXrLPto+tKr5YFes=
-Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com (52.133.163.13) by
- TY1PR01MB1594.jpnprd01.prod.outlook.com (52.133.161.18) with Microsoft SMTP
+ bh=fEhaFu698DxW6QSg2f5XVYWdPjwkDTWCTq40t4TOxFU=;
+ b=aX1Ox6yzSr94GYIoWvOpXeGDWD+//V5bAKniqU45ZqVj7wrGvWf92w6ukM8seVjG2cqRyqMFuglAe++NkRfwI+z4SexhzyrscRkWHQhVHLLWNYV3t6B44OCbiliQ7i7x3nxvpihE1fy3SWkuY0FnUeu2sEwKwioV55JMFOnXQm4=
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
+ TYAPR01MB4589.jpnprd01.prod.outlook.com (20.179.173.205) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2220.20; Mon, 2 Sep 2019 10:01:01 +0000
-Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com
- ([fe80::4409:a3fc:419e:8efd]) by TY1PR01MB1770.jpnprd01.prod.outlook.com
- ([fe80::4409:a3fc:419e:8efd%5]) with mapi id 15.20.2220.022; Mon, 2 Sep 2019
- 10:01:01 +0000
-From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        "xu_shunji@hoperun.com" <xu_shunji@hoperun.com>,
-        "ebiharaml@si-linux.co.jp" <ebiharaml@si-linux.co.jp>
-Subject: RE: [PATCH v3 0/8] Add dual-LVDS panel support to EK874
-Thread-Topic: [PATCH v3 0/8] Add dual-LVDS panel support to EK874
-Thread-Index: AQHVXc+RlrcIOAtYlU6wFCg32X69c6cSQLOAgAXt1BA=
-Date:   Mon, 2 Sep 2019 10:01:01 +0000
-Message-ID: <TY1PR01MB17700DA7BEC8DA3AA32BEA53C0BE0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-References: <1567017402-5895-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <CAL_Jsq+5FMHK4W4UQU24g+rm3CLjnhRcB29skygRB++GaJyM0A@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+5FMHK4W4UQU24g+rm3CLjnhRcB29skygRB++GaJyM0A@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
+ 15.20.2220.19; Mon, 2 Sep 2019 10:35:33 +0000
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::6564:f61f:f179:facf]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::6564:f61f:f179:facf%5]) with mapi id 15.20.2220.022; Mon, 2 Sep 2019
+ 10:35:33 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Simon Horman <horms@verge.net.au>
+CC:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "mathias.nyman@intel.com" <mathias.nyman@intel.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH 4/4] usb: host: xhci-rcar: avoid 60s wait by
+ request_firmware() in system booting
+Thread-Topic: [PATCH 4/4] usb: host: xhci-rcar: avoid 60s wait by
+ request_firmware() in system booting
+Thread-Index: AQHVXL65+6kkn9xTkUyWleEj4sJbHqcU9riAgANArOA=
+Date:   Mon, 2 Sep 2019 10:35:33 +0000
+Message-ID: <TYAPR01MB4544B88DD008C653007FF631D8BE0@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+References: <1566900127-11148-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1566900127-11148-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <20190831084304.wisliftdg5g26jbf@verge.net.au>
+In-Reply-To: <20190831084304.wisliftdg5g26jbf@verge.net.au>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 authentication-results: spf=none (sender IP is )
- smtp.mailfrom=fabrizio.castro@bp.renesas.com; 
-x-originating-ip: [193.141.220.21]
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [150.249.235.54]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f948ce04-1668-4099-add8-08d72f8c7608
+x-ms-office365-filtering-correlation-id: c1ab72df-78e1-4201-b432-08d72f914913
 x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:TY1PR01MB1594;
-x-ms-traffictypediagnostic: TY1PR01MB1594:|TY1PR01MB1594:
-x-ms-exchange-purlcount: 1
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TY1PR01MB1594504F63D6E4DD4235AC0BC0BE0@TY1PR01MB1594.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:TYAPR01MB4589;
+x-ms-traffictypediagnostic: TYAPR01MB4589:
+x-microsoft-antispam-prvs: <TYAPR01MB45895B2E539936DA5F0526B2D8BE0@TYAPR01MB4589.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4941;
 x-forefront-prvs: 01480965DA
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(979002)(4636009)(346002)(376002)(396003)(39860400002)(136003)(366004)(199004)(189003)(446003)(7696005)(8676002)(186003)(110136005)(81166006)(81156014)(9686003)(66066001)(53546011)(6506007)(74316002)(71200400001)(71190400001)(26005)(54906003)(33656002)(8936002)(256004)(478600001)(86362001)(6246003)(14444005)(7416002)(66556008)(66476007)(486006)(5660300002)(64756008)(66446008)(11346002)(966005)(316002)(44832011)(476003)(2906002)(76116006)(102836004)(7736002)(76176011)(6436002)(305945005)(14454004)(55016002)(6116002)(3846002)(99286004)(52536014)(229853002)(53936002)(6306002)(4326008)(66946007)(25786009)(969003)(989001)(999001)(1009001)(1019001);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1594;H:TY1PR01MB1770.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:3;
-received-spf: None (protection.outlook.com: bp.renesas.com does not designate
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(376002)(396003)(136003)(346002)(366004)(39860400002)(199004)(189003)(7696005)(6246003)(76176011)(6116002)(66066001)(71200400001)(71190400001)(3846002)(11346002)(476003)(446003)(486006)(256004)(14444005)(6916009)(99286004)(229853002)(55016002)(26005)(186003)(8936002)(6506007)(102836004)(53936002)(66946007)(76116006)(5660300002)(14454004)(66476007)(66556008)(64756008)(66446008)(54906003)(25786009)(9686003)(6436002)(7736002)(81156014)(33656002)(52536014)(316002)(81166006)(8676002)(2906002)(74316002)(305945005)(4326008)(478600001)(86362001);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB4589;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: +dj83F7+2yVDqTvF/tZqYG7S4/p6FCgeoakzqIAsQKrMajtUe18Uzj6xIfR2U34i0pt1plff4MJ4kqdDaPwMvKyrXXUZ+DIFu4wPKde1No61rBW7+Jxs0SKTSA3EcLf1tEyVtTCDbOm3oEEHjygyKU6Sp1H+C7veEbeFVbrTpBMTa0IAwcKwLzLom7iETR8e06Dosmn8yaa9Agl0YZxqwFIrlHSzj2f8lZ3K9rp97JHI21e8HynDVKi9uLQkVBPX/RPC1b0bgVSOHiuWJ0TRLhEpsOlpMX9nbo1O2qrd1JLBVOVpJ8EZSrysL5CXZH9IBKzrzA6BUJrKWk465QxYZnkG2kLKeCy40LCrr5eOIS7teduMBCmo281tGFhnt+98scdlMr3wBZ5Cu8em3oB/tBlGMiMwfVbiLzB1mUILh7I=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+x-microsoft-antispam-message-info: jeaRjs+TsuFQAfOAJcyGdXiglnb/CMTNAtSCq/SNk4i5zswU+pqc/0+MYwAJPAaR5O5XVR//fTKOQCdyLZebc5HkBia/fKdcNSiHruY92STN54m9GYj7ACt11QPEiUfZaTYP+KgMfAhTzx39T8z+TQBFIcvNvOOTlT4efHK7ycWMz14gcs1EGHTWDyQ11MsBZ45MHk5l4AH4IqGD4b5b2oUG1QeY+z3exF/50TWRM1nxiQpvJQzmhc++R+DboTZN9CXDNDdpNG1hH5e0tM2bY0DzgSrp9zGeYnQifVxs4FTqj25RjVUQqVo/ocwZGMvT1ZW0oWfkSLqHY8mLtFqEIKT8Bbs4ytCespoPBd8HC9PWxbUjFsd7jx0rBgsgheBS4dCr2mlQyxNR1dTb6azf38YH9ffsDc/lbltqKXCjrXg=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f948ce04-1668-4099-add8-08d72f8c7608
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Sep 2019 10:01:01.2285
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c1ab72df-78e1-4201-b432-08d72f914913
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Sep 2019 10:35:33.3689
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Rne7QRVDvKgRW6nvvL+LXs+C8wxghq8yHG1n2Ozjz6gJbz3Q9zbMt2WyiJ14e9tPPCRraG7Kueh8eRXPQ26QXmUCUFBKoS1AIQ+SuIoAm6c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1594
+X-MS-Exchange-CrossTenant-userprincipalname: 9WTRN7e+QGItORDq7ZPijIdwz2wsBvo4PjgYBUEzWoUS7vT4JETOr5znDPz37K8Hy/MgtxBTleTUk4z4wAyVThGKB9P6LkvSn3hLttDhu+dS0lLyrCRpLBZE8tj9luKv
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4589
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgUm9iLA0KDQpUaGFuayB5b3UgZm9yIHlvdXIgZmVlZGJhY2shDQoNCj4gRnJvbTogUm9iIEhl
-cnJpbmcgPHJvYmgrZHRAa2VybmVsLm9yZz4NCj4gU2VudDogMjkgQXVndXN0IDIwMTkgMTY6MjcN
-Cj4gVG86IEZhYnJpemlvIENhc3RybyA8ZmFicml6aW8uY2FzdHJvQGJwLnJlbmVzYXMuY29tPg0K
-PiBTdWJqZWN0OiBSZTogW1BBVENIIHYzIDAvOF0gQWRkIGR1YWwtTFZEUyBwYW5lbCBzdXBwb3J0
-IHRvIEVLODc0DQo+IA0KPiBPbiBXZWQsIEF1ZyAyOCwgMjAxOSBhdCAxOjM2IFBNIEZhYnJpemlv
-IENhc3Rybw0KPiA8ZmFicml6aW8uY2FzdHJvQGJwLnJlbmVzYXMuY29tPiB3cm90ZToNCj4gPg0K
-PiA+IERlYXIgQWxsLA0KPiA+DQo+ID4gdGhpcyBzZXJpZXMgYWRkcyBzdXBwb3J0IGZvciBkdWFs
-LUxWRFMgcGFuZWwgSURLLTIxMjFXUg0KPiA+IGZyb20gQWR2YW50ZWNoOg0KPiA+IGh0dHBzOi8v
-YnV5LmFkdmFudGVjaC5ldS9EaXNwbGF5cy9FbWJlZGRlZC1MQ0QtS2l0cy1IaWdoLUJyaWdodG5l
-c3MvbW9kZWwtSURLLTIxMjFXUi1LMkZIQTJFLmh0bQ0KPiA+DQo+ID4gVjMgYXBwcm9hY2hlcyB0
-aGUgcHJvYmxlbSBpbiBhIGNvbXBsZXRlbHkgZGlmZmVyZW50IHdheSwgd2Ugbm93DQo+ID4gaGF2
-ZSB0d28gbmV3IHByb3BlcnRpZXMgdG8gbWFyayB0aGUgcG9ydHMgaW4gdGhlIERUIGFzIHJlY2Vp
-dmluZw0KPiA+IGV2ZW4gcGl4ZWxzIGFuZCBvZGQgcGl4ZWxzOiBkdWFsLWx2ZHMtZXZlbi1waXhl
-bHMgYW5kIGR1YWwtbHZkcy1vZGQtcGl4ZWxzLA0KPiA+IHdoaWNoIG1lYW5zIGRldmljZSBkcml2
-ZXJzIHNob3VsZCBub3QgdXNlIGJyaWRnZSBzcGVjaWZpYyBvciBwYW5lbA0KPiA+IHNwZWNpZmlj
-IGR1YWxfbGluayBmbGFncy4gQWxzbywgaW4gdGhpcyBjYXNlIHRoZSBEVCBkZXNjcmliZXMgdGhl
-DQo+ID4gY29ubmVjdGlvbiBmdWxseS4NCj4gPg0KPiA+IEluIG9yZGVyIGZvciB0aGUgc29sdXRp
-b24gdG8gYmUgZ2VuZXJpYywgSSBoYXZlIGV4cG9ydGVkIGEgbmV3IGhlbHBlcg0KPiA+IChkcm1f
-b2ZfbHZkc19nZXRfZHVhbF9saW5rX2NvbmZpZ3VyYXRpb24pIHRvIHdhbGsgdGhlIGRldmljZSB0
-cmVlLA0KPiA+IGFuZCBmaWd1cmUgb3V0IGlmIHRoZSBjb25uZWN0aW9uIGlzIGR1YWwtTFZEUy4g
-VGhlIHNhbWUgaGVscGVyIGdpdmVzDQo+ID4gaW5mb3JtYXRpb24gYWJvdXQgdGhlIGNvbmZpZ3Vy
-YXRpb24gb2YgdGhlIGNvbm5lY3Rpb24uIElmIFB4IGlzIGNvbm5lY3RlZA0KPiA+IHRvIGEgcG9y
-dCBleHBlY3RpbmcgZXZlbiBwaXhlbHMgYW5kIFB5IGlzIGNvbm5lY3RlZCB0byBhIHBvcnQgZXhw
-ZWN0aW5nDQo+ID4gb2RkIHBpeGVscywgdGhlbiB0aGUgaGVscGVyIHJldHVybnMgRFJNX0xWRFNf
-RFVBTF9MSU5LX0VWRU5fT0REX1BJWEVMUw0KPiA+IChsaWtlIGluIHRoZSBleGFtcGxlIGJlbG93
-KSwgb3RoZXJ3aXNlIGl0IHJldHVybnMNCj4gPiBEUk1fTFZEU19EVUFMX0xJTktfT0REX0VWRU5f
-UElYRUxTLg0KPiA+DQo+ID4NCj4gPiAgLS0tLS0tLS0gICAgICAgICAgICBkdWFsLWx2ZHMtZXZl
-bi1waXhlbHMgIC0tLS0tLS0tDQo+ID4gfCAgICAgICAgfC0tLS0gICAgICAgICAgICAgICAgICAg
-ICAgICAgLS0tLXwgICAgICAgIHwNCj4gPiB8ICAgICAgICB8IFB4IHwtLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tPnwgUG4gfCAgICAgICAgfA0KPiA+IHwgICAgICAgIHwtLS0tICAgICAgICAgICAgICAg
-ICAgICAgICAgIC0tLS18ICAgICAgICB8DQo+ID4gfCBTT1VSQ0UgfCAgICAgICAgICAgZHVhbC1s
-dmRzLW9kZC1waXhlbHMgIHwgIFNJTksgIHwNCj4gPiB8ICAgICAgICB8LS0tLSAgICAgICAgICAg
-ICAgICAgICAgICAgICAtLS0tfCAgICAgICAgfA0KPiA+IHwgICAgICAgIHwgUHkgfC0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0+fCBQbSB8ICAgICAgICB8DQo+ID4gfCAgICAgICAgfC0tLS0gICAgICAg
-ICAgICAgICAgICAgICAgICAgLS0tLXwgICAgICAgIHwNCj4gPiAgLS0tLS0tLS0gICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIC0tLS0tLS0tDQo+ID4NCj4gPiBUaGUgZGV2aWNlIGRy
-aXZlciBmb3IgdGhlIGVuY29kZXIgdGhlbiB3aWxsIHdvcmsgb3V0IGlmIHdpdGggdGhlIGN1cnJl
-bnQNCj4gPiB3aXJpbmcgdGhlIHBpeGVscyBuZWVkIHN3YXBwaW5nIG9yIG5vdC4NCj4gPg0KPiA+
-IFRoZSBzYW1lIHNvbHV0aW9uIHdvcmtzIGZvciBib3RoIHBhbmVscyBhbmQgYnJpZGdlcy4NCj4g
-Pg0KPiA+IFNpbmNlIHRoZSBEVCBkZXNjcmliZXMgdGhlIGNvbm5lY3Rpb24gZnVsbHksIGRyaXZl
-cg0KPiA+IGRyaXZlcnMvZ3B1L2RybS9wYW5lbC9wYW5lbC1sdmRzLmMgd29ya3Mgb3V0LW9mLXRo
-ZS1ib3gsIG5vIGNoYW5nZXMNCj4gPiByZXF1aXJlZCwgaG93ZXZlciwgdGhpcyBpbXBsZW1lbnRh
-dGlvbiBvcGVucyB1cCBhIHByb2JsZW0gd2l0aCB0aGUNCj4gPiBkdC1iaW5kaW5ncy4NCj4gPiBE
-cml2ZXIgZHJpdmVycy9ncHUvZHJtL3BhbmVsL3BhbmVsLWx2ZHMuYyBjYW4gc3RpbGwgYmUgcGxl
-YXNlZCBieQ0KPiA+IGEgcG9ydCBub2RlLCBidXQgYWxzbyBieSBhIHBvcnRzIG5vZGUuDQo+ID4g
-SSBoYXZlIGNyZWF0ZWQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkv
-YnVzLXRpbWluZ3MvbHZkcy55YW1sDQo+ID4gd2l0aCB0aGUgaWRlYSBvZiBpbmNsdWRpbmcgaXQg
-ZnJvbSBwYW5lbHMgYW5kIGJyaWRnZXMgZHQtYmluZGluZ3MNCj4gPiBzdXBwb3J0aW5nIGR1YWwt
-TFZEUyAoYW5kIG9mIGNvdXJzZSB0aGUgZHQtYmluZGluZ3MgZm9yIHRoZSBzcGVjaWZpYw0KPiA+
-IGRldmljZXMgc2hvdWxkIHNheSB3aGljaCBwb3J0IHNob3VsZCBiZSBtYXJrZWQgYXMgd2hhdCks
-IGJ1dCBmaWxlDQo+ID4gRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkv
-cGFuZWwvbHZkcy55YW1sIGZvcm1hbGx5DQo+ID4gcmVxdWlyZXMgcHJvcGVydHkgInBvcnQiLCB3
-aGlsZSB3aXRoIHRoaXMgaW1wbGVtZW50YXRpb24gaXQgc2hvdWxkIHJlcXVpcmUNCj4gPiBPbmVP
-ZiAicG9ydCIgYW5kICJwb3J0cyIsIGFuZCB1bmZvcnR1bmF0ZWx5IEkgY2FuJ3Qgc2VlbSB0byBm
-aW5kIGEgbmVhdCB3YXkNCj4gPiBhcm91ZCB0aGF0LCBvdGhlciB0aGFuIGNyZWF0aW5nIGEgbmV3
-IGNvbXBhdGlibGUgc3RyaW5nDQo+IA0KPiBKdXN0IGFkZCAncG9ydHMnIGFuZCBkcm9wICdwb3J0
-JyBmcm9tIGJlaW5nIHJlcXVpcmVkIGluIHRoZSBjb21tb24NCj4gYmluZGluZy4gVGhlbiBpdCBp
-cyB1cCB0byB0aGUgcGFuZWwgc3BlY2lmaWMgYmluZGluZ3MgdG8gZGVmaW5lIHdoaWNoDQo+IG9u
-ZSBpcyByZXF1aXJlZC4gT3Igd2UganVzdCBsZWF2ZSBpdCB0byBhbGxvdyBlaXRoZXIgZm9ybSB3
-aGljaCB0aGUNCj4gZ3JhcGggY29kZSBjYW4gaGFuZGxlLg0KPiANCj4gV2UgY291bGQgaGF2ZSB0
-aGlzIGluIHRoZSBjb21tb24gYmluZGluZzoNCj4gDQo+IG9uZU9mOg0KPiAgLSByZXF1aXJlZDog
-W3BvcnRzXQ0KPiAgLSByZXF1aXJlZDogW3BvcnRdDQoNCg0KVGhhbmsgeW91IGZvciBSb2IgZm9y
-IGxvb2tpbmcgaW50byB0aGlzLiBJIHdpbGwgd2FpdCBmb3IgYSBmZWVkYmFjayBmcm9tIExhdXJl
-bnQNCm9uIHRoZSBjb2RlIGJlZm9yZSBzZW5kaW5nIG91dCB2NC4NCg0KVGhhbmtzLA0KRmFiDQoN
-Cj4gDQo+IFJvYg0K
+Hi Simon-san,
+
+Thank you for your comment!
+
+> From: Simon Horman, Sent: Saturday, August 31, 2019 5:43 PM
+>=20
+> On Tue, Aug 27, 2019 at 07:02:07PM +0900, Yoshihiro Shimoda wrote:
+> > If CONFIG_FW_LOADER_USER_HELPER_FALLBACK=3Dy and CONFIG_USB_XHCI_RCAR=
+=3Dy,
+> > request_firmware() in xhci_rcar_download_firmware() waits for 60s to
+> > sysfs fallback for the firmware like below.
+> >
+> > [    1.599701] xhci-hcd ee000000.usb: xHCI Host Controller
+> > [    1.604948] xhci-hcd ee000000.usb: new USB bus registered, assigned =
+bus number 3
+> > [    1.612403] xhci-hcd ee000000.usb: Direct firmware load for r8a779x_=
+usb3_v3.dlmem failed with error -2
+> > [    1.621726] xhci-hcd ee000000.usb: Falling back to sysfs fallback fo=
+r: r8a779x_usb3_v3.dlmem
+> > [    1.707953] ata1: link resume succeeded after 1 retries
+> > [    1.819379] ata1: SATA link down (SStatus 0 SControl 300)
+> > [   62.436012] xhci-hcd ee000000.usb: can't setup: -11
+> > [   62.440901] xhci-hcd ee000000.usb: USB bus 3 deregistered
+> > [   62.446361] xhci-hcd: probe of ee000000.usb failed with error -11
+> >
+> > To avoid this 60s wait, this patch adds to check the system_state
+> > condition and if the system is not running,
+> > xhci_rcar_download_firmware() calls request_firmware_direct()
+> > instead of request_firmware() as a workaround.
+> >
+> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>=20
+> It seems to me that request_firmware() is working as expected.
+> And that this patch introduces an alternate behaviour for xhci-rcar
+> where it will fall back to the user-space helper in some cases but not
+> others. This inconsistency isn't obviously correct to me. Perhaps
+> xhci-rcar should always call request_firmware_direct() ?
+
+If xhci-rcar always call request_firmware_direct() but end user
+uses the user-space helper on the driver, it's a regression because
+request_firmware_direct() always disables the user-space helper. So,
+I'd like to avoid using request_firmware_direct(). JFYI, I checked
+the git history and I found such a situation:
+---
+commit c0cc00f250e19c717fc9cdbdb7f55aaa569c7498
+Author: Hauke Mehrtens <hauke@hauke-m.de>
+Date:   Thu Aug 24 23:06:41 2017 +0200
+
+    ath10k: activate user space firmware loading again
+---
+
+It seems we need more time to investigate how to fix (or avoid) this issue.
+So, I'll resend v2 patch series without this patch.
+
+Best regards,
+Yoshihiro Shimoda
+
