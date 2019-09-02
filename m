@@ -2,58 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C6F38A541C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2019 12:35:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAC91A5449
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2019 12:47:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730042AbfIBKfi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Sep 2019 06:35:38 -0400
-Received: from mail-eopbgr1400114.outbound.protection.outlook.com ([40.107.140.114]:59760
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        id S1730013AbfIBKr7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Sep 2019 06:47:59 -0400
+Received: from mail-eopbgr1410139.outbound.protection.outlook.com ([40.107.141.139]:14912
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729806AbfIBKfh (ORCPT
+        id S1729741AbfIBKr6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Sep 2019 06:35:37 -0400
+        Mon, 2 Sep 2019 06:47:58 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EVeC6unlRTpLPYJS3JdtRHESPfNbfrbOHNhugdZ1EzoZvqR7aMZFIqHMBBv84nkehZJbztd6KRSNFNgc+dlWKQ2kdTqoH6XySo2gGVHWv6NohR7qruzlNeWWBAgF+2YAbd5emyNS9QY9kPLvGgx/VbeAHmeBR9IZkyvKDRvMxJWX6C+kwnTYjXGCFyi1H5/TEpR5RTdCGzpkbsUKxv4vTAc053gKkDMzq6pamZobdnT2/k6IMXYjXmjZrlbhCAyT7gzYYYyeuqADj8+XDUNT9UAY49KGIt0b58KkyTit4qOFO1wlef64rcvF2sUtxzioAGBDJ1aLiibgh3Fh3GD1vw==
+ b=h3LT/PeZvVi1ghT1bnPhViivfF8w/yNENiFc7OntSOL4mmnVCFgVFMYHgn/AGeepkoCl/pcwsKV2LYXwp+V5nx/UGOp7rrT8vdDHFxiTEUrHB99lKeXe4TAEcNmEV4jyPkazpBmZNRMlY1KyLsSi9oz7JJ3ZN0wLRzBhMB9cwR7DqaK/kg86zd484UOVRQCEXGNdIHQUWYpaEilp9ydIy9MONfSa2JqRl8ylNVtIBX4skz86ZcQT0NclsnMtkFeAKAfGu3wtE2hyPbHQVQJu3Vsv65iNlri6ZGzYgPjzICXVqEUeiOMqYFDWxvJ9lzuiL6VKCL/llEiraz/AMwyRwA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fEhaFu698DxW6QSg2f5XVYWdPjwkDTWCTq40t4TOxFU=;
- b=G8A2MkMBl3MryNrW1QKjGFe8nLpZGf812jeoc8qpApH6FxTstW46o493ROhWIxlUchhe4fur9MQ9wVX+x9G/737AnJo7ogQ/LJuy7a/tfYR8qs+uhYEPOKjfTSaSJm7p2p9Ss+y8b99fbn65oca2XvWROf+koddRCNYsKYnlkZKzGL4z6SXkaSPLtVMkA6lT3LkpIVGk+LgTzVoFQUZjdoHH43bv7yspKo4GMArja1L2F3wPuXtxDmpuHtPeecHYW1nNaYaZ8cHVf47qBJQ6pToyXoeDI3ALhCzDljEVrpNUiDNwGslsICI66cZVqQphXkX69w254C/lZBjCoG+J0A==
+ bh=M/RAhyVUvKUd5tmWVjVwY+U3BSww1tk4fcJ2aGBJQTU=;
+ b=DU4FUac/7aF04N7muwiEzdTbN8N0U+ClfyiDdQnRHS9q6Q7NdK9GK8ZA42ZCTav7igUSHHXl+fooPcDKC/x9U0dZbZ7ClCt3BAW+rh9KLWpKf9C7Pa+qOrV+Vo6yaPSsCMEHR1C3Xu46ePMJwgeyEtguHKKYxxVuxYPSg6yl2eFRAEMP9raFX7PBQ2AXhZjWa2QahbbJYWG3MYOIIhWR0sZnYBuf4xvJLViP9dA4FwSGKgUx9R66+x342OeY6uoL9PwX7OP5I7QQJ8xhXB9LKHyCUVtC6Tu0h0MYKnCoXYlqr1TeOiAA7kMUvdZ2eClz9H8jGPz+O9VK0l+JGcMfKg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fEhaFu698DxW6QSg2f5XVYWdPjwkDTWCTq40t4TOxFU=;
- b=aX1Ox6yzSr94GYIoWvOpXeGDWD+//V5bAKniqU45ZqVj7wrGvWf92w6ukM8seVjG2cqRyqMFuglAe++NkRfwI+z4SexhzyrscRkWHQhVHLLWNYV3t6B44OCbiliQ7i7x3nxvpihE1fy3SWkuY0FnUeu2sEwKwioV55JMFOnXQm4=
+ bh=M/RAhyVUvKUd5tmWVjVwY+U3BSww1tk4fcJ2aGBJQTU=;
+ b=P9V9iWtLytyM4eB95v0pQ8HBITX4zO8S+sqgncYG2qXhOzlUjxpQCNY72BLC5ogFBe1lau6c6+mjBr4ZgLTm5FeFIjaZahXv70oVs0Sy73iWkZ1FyN7nn+JFwWkE78O1tC2KUedvAIxcrC/wwzT474Vp7A9nlAu1LybJzQTQElg=
 Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
- TYAPR01MB4589.jpnprd01.prod.outlook.com (20.179.173.205) with Microsoft SMTP
+ TYAPR01MB3792.jpnprd01.prod.outlook.com (20.178.136.209) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2220.19; Mon, 2 Sep 2019 10:35:33 +0000
+ 15.20.2220.19; Mon, 2 Sep 2019 10:47:55 +0000
 Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
  ([fe80::6564:f61f:f179:facf]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
  ([fe80::6564:f61f:f179:facf%5]) with mapi id 15.20.2220.022; Mon, 2 Sep 2019
- 10:35:33 +0000
+ 10:47:55 +0000
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Simon Horman <horms@verge.net.au>
-CC:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "mathias.nyman@intel.com" <mathias.nyman@intel.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+To:     Simon Horman <horms+renesas@verge.net.au>,
+        David Miller <davem@davemloft.net>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+CC:     Magnus Damm <magnus.damm@gmail.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 4/4] usb: host: xhci-rcar: avoid 60s wait by
- request_firmware() in system booting
-Thread-Topic: [PATCH 4/4] usb: host: xhci-rcar: avoid 60s wait by
- request_firmware() in system booting
-Thread-Index: AQHVXL65+6kkn9xTkUyWleEj4sJbHqcU9riAgANArOA=
-Date:   Mon, 2 Sep 2019 10:35:33 +0000
-Message-ID: <TYAPR01MB4544B88DD008C653007FF631D8BE0@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-References: <1566900127-11148-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1566900127-11148-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <20190831084304.wisliftdg5g26jbf@verge.net.au>
-In-Reply-To: <20190831084304.wisliftdg5g26jbf@verge.net.au>
+        <linux-renesas-soc@vger.kernel.org>,
+        Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>
+Subject: RE: [net-next 1/3] ravb: correct typo in FBP field of SFO register
+Thread-Topic: [net-next 1/3] ravb: correct typo in FBP field of SFO register
+Thread-Index: AQHVYWVb3sZzkHkFj0mwXUnfqqrhT6cYM6EQ
+Date:   Mon, 2 Sep 2019 10:47:55 +0000
+Message-ID: <TYAPR01MB454408A21C77A3DEC47DDAFED8BE0@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+References: <20190902080603.5636-1-horms+renesas@verge.net.au>
+ <20190902080603.5636-2-horms+renesas@verge.net.au>
+In-Reply-To: <20190902080603.5636-2-horms+renesas@verge.net.au>
 Accept-Language: ja-JP, en-US
 Content-Language: ja-JP
 X-MS-Has-Attach: 
@@ -62,31 +61,31 @@ authentication-results: spf=none (sender IP is )
  smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
 x-originating-ip: [150.249.235.54]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c1ab72df-78e1-4201-b432-08d72f914913
+x-ms-office365-filtering-correlation-id: a4d2254c-4bf2-44dd-1389-08d72f93030d
 x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:TYAPR01MB4589;
-x-ms-traffictypediagnostic: TYAPR01MB4589:
-x-microsoft-antispam-prvs: <TYAPR01MB45895B2E539936DA5F0526B2D8BE0@TYAPR01MB4589.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4941;
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:TYAPR01MB3792;
+x-ms-traffictypediagnostic: TYAPR01MB3792:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <TYAPR01MB3792D2E45AB63C8F6D48ECEDD8BE0@TYAPR01MB3792.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
 x-forefront-prvs: 01480965DA
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(376002)(396003)(136003)(346002)(366004)(39860400002)(199004)(189003)(7696005)(6246003)(76176011)(6116002)(66066001)(71200400001)(71190400001)(3846002)(11346002)(476003)(446003)(486006)(256004)(14444005)(6916009)(99286004)(229853002)(55016002)(26005)(186003)(8936002)(6506007)(102836004)(53936002)(66946007)(76116006)(5660300002)(14454004)(66476007)(66556008)(64756008)(66446008)(54906003)(25786009)(9686003)(6436002)(7736002)(81156014)(33656002)(52536014)(316002)(81166006)(8676002)(2906002)(74316002)(305945005)(4326008)(478600001)(86362001);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB4589;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(136003)(396003)(376002)(366004)(39860400002)(346002)(189003)(199004)(54534003)(446003)(2906002)(486006)(14444005)(11346002)(476003)(256004)(66946007)(316002)(7696005)(71200400001)(86362001)(66476007)(76176011)(33656002)(66446008)(64756008)(76116006)(26005)(102836004)(99286004)(7736002)(6116002)(186003)(3846002)(6506007)(81166006)(25786009)(6246003)(8676002)(52536014)(8936002)(305945005)(5660300002)(9686003)(55016002)(4326008)(66066001)(71190400001)(53936002)(110136005)(54906003)(107886003)(229853002)(6436002)(74316002)(478600001)(81156014)(66556008)(14454004);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB3792;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
 received-spf: None (protection.outlook.com: renesas.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: jeaRjs+TsuFQAfOAJcyGdXiglnb/CMTNAtSCq/SNk4i5zswU+pqc/0+MYwAJPAaR5O5XVR//fTKOQCdyLZebc5HkBia/fKdcNSiHruY92STN54m9GYj7ACt11QPEiUfZaTYP+KgMfAhTzx39T8z+TQBFIcvNvOOTlT4efHK7ycWMz14gcs1EGHTWDyQ11MsBZ45MHk5l4AH4IqGD4b5b2oUG1QeY+z3exF/50TWRM1nxiQpvJQzmhc++R+DboTZN9CXDNDdpNG1hH5e0tM2bY0DzgSrp9zGeYnQifVxs4FTqj25RjVUQqVo/ocwZGMvT1ZW0oWfkSLqHY8mLtFqEIKT8Bbs4ytCespoPBd8HC9PWxbUjFsd7jx0rBgsgheBS4dCr2mlQyxNR1dTb6azf38YH9ffsDc/lbltqKXCjrXg=
-x-ms-exchange-transport-forked: True
+x-microsoft-antispam-message-info: GYQ3y3pLDYrPXwd1qRW3zc7VN+gJ+TEcry83JE/wEpqu94JQc0rgUiSnLO3GZOIxjQag/B8HwBFM+dNkL3C1gC1XbO+ZA9/ZQu9LQ6uHwsgk6n85IxuennLJoyqFq3PKKsgAgDbvdh+2kZQJx7mQZhhkNYQgMgnGsrN/Jmt5Exo9PooWma3WynJlGb6rf4ia8zz+n5msf2n6KarKJA560M4eo9DYqVqphhuW42J5zfDFxxT1gXg8KwUaWPu/l559pfzOrbbzRgXHgmT/LN4szfGrqK1eZtO5Lc7e5gDWd5PyCrcTaMiZesmwmkCY1UbGYKWz3MkoZZ25jgvFgEgLtNOPKVZiNzrtitl5N88ldNoGYJrZyipBu+ssOAA4wDcNPXmOV7m5QwdYyKNBvaLE7RnbVwOcU+ohQa6YouIUdKE=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1ab72df-78e1-4201-b432-08d72f914913
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Sep 2019 10:35:33.3689
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4d2254c-4bf2-44dd-1389-08d72f93030d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Sep 2019 10:47:55.2661
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9WTRN7e+QGItORDq7ZPijIdwz2wsBvo4PjgYBUEzWoUS7vT4JETOr5znDPz37K8Hy/MgtxBTleTUk4z4wAyVThGKB9P6LkvSn3hLttDhu+dS0lLyrCRpLBZE8tj9luKv
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4589
+X-MS-Exchange-CrossTenant-userprincipalname: b4zoAL+QdZ71ABlTewIafisrDLXBRJH8b3WgYKbUHhbr8nOgDnsLOd3q8+YhAlreEZ30CX5QwCT/PYbfh2lTc+hMsZJxa3+rnIP97cdxLSmCgtYR+TWgKxu0zibk2aAK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB3792
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -94,58 +93,70 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Simon-san,
 
-Thank you for your comment!
+Thank you for the patch!
 
-> From: Simon Horman, Sent: Saturday, August 31, 2019 5:43 PM
+> From: Simon Horman, Sent: Monday, September 2, 2019 5:06 PM
 >=20
-> On Tue, Aug 27, 2019 at 07:02:07PM +0900, Yoshihiro Shimoda wrote:
-> > If CONFIG_FW_LOADER_USER_HELPER_FALLBACK=3Dy and CONFIG_USB_XHCI_RCAR=
-=3Dy,
-> > request_firmware() in xhci_rcar_download_firmware() waits for 60s to
-> > sysfs fallback for the firmware like below.
-> >
-> > [    1.599701] xhci-hcd ee000000.usb: xHCI Host Controller
-> > [    1.604948] xhci-hcd ee000000.usb: new USB bus registered, assigned =
-bus number 3
-> > [    1.612403] xhci-hcd ee000000.usb: Direct firmware load for r8a779x_=
-usb3_v3.dlmem failed with error -2
-> > [    1.621726] xhci-hcd ee000000.usb: Falling back to sysfs fallback fo=
-r: r8a779x_usb3_v3.dlmem
-> > [    1.707953] ata1: link resume succeeded after 1 retries
-> > [    1.819379] ata1: SATA link down (SStatus 0 SControl 300)
-> > [   62.436012] xhci-hcd ee000000.usb: can't setup: -11
-> > [   62.440901] xhci-hcd ee000000.usb: USB bus 3 deregistered
-> > [   62.446361] xhci-hcd: probe of ee000000.usb failed with error -11
-> >
-> > To avoid this 60s wait, this patch adds to check the system_state
-> > condition and if the system is not running,
-> > xhci_rcar_download_firmware() calls request_firmware_direct()
-> > instead of request_firmware() as a workaround.
-> >
-> > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> From: Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>
 >=20
-> It seems to me that request_firmware() is working as expected.
-> And that this patch introduces an alternate behaviour for xhci-rcar
-> where it will fall back to the user-space helper in some cases but not
-> others. This inconsistency isn't obviously correct to me. Perhaps
-> xhci-rcar should always call request_firmware_direct() ?
+> The field name is FBP rather than FPB.
+>=20
+> This field is unused and could equally be removed from the driver entirel=
+y.
+> But there seems no harm in leaving as documentation of the presence of th=
+e
+> field.
+>=20
+> Signed-off-by: Kazuya Mizuguchi <kazuya.mizuguchi.ks@renesas.com>
+> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+> ---
+> v0 - Kazuya Mizuguchi
+>=20
+> v1 - Simon Horman
+> * Extracted from larger patch
+> * Wrote changelog
+>=20
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/r=
+enesas/ravb.h
+> index ac9195add811..bdb051f04b0c 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+> @@ -317,7 +312,7 @@ enum UFCD_BIT {
+>=20
+>  /* SFO */
+>  enum SFO_BIT {
+> -	SFO_FPB		=3D 0x0000003F,
+> +	SFO_FBP		=3D 0x0000003F,
+>  };
+>=20
+>  /* RTC */
+> ---
+>  drivers/net/ethernet/renesas/ravb.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/net/ethernet/renesas/ravb.h b/drivers/net/ethernet/r=
+enesas/ravb.h
 
-If xhci-rcar always call request_firmware_direct() but end user
-uses the user-space helper on the driver, it's a regression because
-request_firmware_direct() always disables the user-space helper. So,
-I'd like to avoid using request_firmware_direct(). JFYI, I checked
-the git history and I found such a situation:
----
-commit c0cc00f250e19c717fc9cdbdb7f55aaa569c7498
-Author: Hauke Mehrtens <hauke@hauke-m.de>
-Date:   Thu Aug 24 23:06:41 2017 +0200
+This patch has two same diff. After removed either one of them,
 
-    ath10k: activate user space firmware loading again
----
-
-It seems we need more time to investigate how to fix (or avoid) this issue.
-So, I'll resend v2 patch series without this patch.
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
 Best regards,
 Yoshihiro Shimoda
+
+
+> index ac9195add811..2596a95a4300 100644
+> --- a/drivers/net/ethernet/renesas/ravb.h
+> +++ b/drivers/net/ethernet/renesas/ravb.h
+> @@ -317,7 +317,7 @@ enum UFCD_BIT {
+>=20
+>  /* SFO */
+>  enum SFO_BIT {
+> -	SFO_FPB		=3D 0x0000003F,
+> +	SFO_FBP		=3D 0x0000003F,
+>  };
+>=20
+>  /* RTC */
+> --
+> 2.11.0
 
