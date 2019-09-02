@@ -2,58 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B0196A5A69
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2019 17:20:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEF6FA5B70
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Sep 2019 18:35:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730408AbfIBPTt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Sep 2019 11:19:49 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:52942 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729971AbfIBPTt (ORCPT
+        id S1726219AbfIBQfr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Sep 2019 12:35:47 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35946 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726185AbfIBQfq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Sep 2019 11:19:49 -0400
-Received: by mail-wm1-f68.google.com with SMTP id t17so15009581wmi.2;
-        Mon, 02 Sep 2019 08:19:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=BYClhC1HMbKOtcDh2ekKQYoHMN7cI/iCFy34UYI5bgA=;
-        b=QFKYpmhZJYEBsx9qIycfVdU/AfAGfhmd03wkH/ReUnjrf8jQwtBJm4Dhu0/qVtod6J
-         n7SGJDtiCU1o1oCCrxubOPOwj/ZnbyHDCknPMPjvs8+ULi+sv2J/CgzuINOVOfRfld2N
-         n8UD/xl8YKciJGZ9iPax6/tIzcwdfhbtp9Llz1P0bI7aFKsO9dTRI3oBV4XSETj9/0VN
-         VGouplGt/5cwhCgszOZsodR004OaM1C5/IlnwJaXT01kmXjSjE7vAsVNbrEGZjfPz1nB
-         CBSA4tNtPzsDNlQQD0g9wbk6b+kGxKTfVO4vxivn6LiSdjOWVHCPUAyBFFfe/kGMcpGy
-         cacQ==
-X-Gm-Message-State: APjAAAX+P3f3Pg9+vAKDukdPDixUV7azMvbBOmTDsOnXhvqFo71wE7MO
-        3+g6FVu1WvbKCKodjJGqcQ==
-X-Google-Smtp-Source: APXvYqzPltxtt9uqfKOo42afUhD8XTeUDbKvzVR7ZFpwiX6WJd3Bppf5ESBy/KTIX5Udt+FC9pvaKA==
-X-Received: by 2002:a1c:ef13:: with SMTP id n19mr4812723wmh.48.1567437587236;
-        Mon, 02 Sep 2019 08:19:47 -0700 (PDT)
-Received: from localhost ([212.187.182.166])
-        by smtp.gmail.com with ESMTPSA id f13sm14101693wrq.3.2019.09.02.08.19.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Sep 2019 08:19:46 -0700 (PDT)
-Date:   Mon, 2 Sep 2019 16:19:46 +0100
-From:   Rob Herring <robh@kernel.org>
+        Mon, 2 Sep 2019 12:35:46 -0400
+Received: from pendragon.ideasonboard.com (231.125-247-81.adsl-dyn.isp.belgacom.be [81.247.125.231])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E60A3303;
+        Mon,  2 Sep 2019 18:35:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1567442144;
+        bh=DZERe7a6+iZRU88X8yX5+d6s9z8EbyR9BpjgZL8wFSY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jiAOxCOplW+gbGD2dKgA+f6kfXLUFBrQNE5U+/jRi/Lw7qPbuC/An660Zfq18cWuX
+         avQshXIBlq07P0Wzwb8yHL6uOzTygVvYY1sUzKKBNXswua+Y7arleSuO3SAz4MkUcJ
+         XyidYeYdy5lMyVBiKAco+Z6XGfIDdAeFXDdArnpo=
+Date:   Mon, 2 Sep 2019 19:35:37 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Simon Horman <horms+renesas@verge.net.au>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Magnus Damm <magnus.damm@gmail.com>,
         Jacopo Mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Simon Horman <horms+renesas@verge.net.au>
+        linux-renesas-soc@vger.kernel.org
 Subject: Re: [PATCH] dt-bindings: sh-mobile-ceu: Remove now unimplemented
  bindings documentation
-Message-ID: <20190902151946.GA27850@bogus>
+Message-ID: <20190902163537.GD12197@pendragon.ideasonboard.com>
 References: <20190902084352.7974-1-horms+renesas@verge.net.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 In-Reply-To: <20190902084352.7974-1-horms+renesas@verge.net.au>
 User-Agent: Mutt/1.10.1 (2018-07-13)
@@ -62,17 +48,52 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon,  2 Sep 2019 10:43:52 +0200, Simon Horman wrote:
+Hi Simon,
+
+Thank you for the patch.
+
+On Mon, Sep 02, 2019 at 10:43:52AM +0200, Simon Horman wrote:
 > Remove the SH Mobile CEU bindings documentation as the corresponding driver
 > was removed v5.1 by the following commit:
 > 
 > 43a445f188e1 ("media: sh_mobile_ceu_camera: remove obsolete soc_camera driver")
 > 
 > Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+
+One less file to convert to yaml ;-)
+
+Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
 > ---
 >  .../devicetree/bindings/media/sh_mobile_ceu.txt         | 17 -----------------
 >  1 file changed, 17 deletions(-)
 >  delete mode 100644 Documentation/devicetree/bindings/media/sh_mobile_ceu.txt
 > 
+> diff --git a/Documentation/devicetree/bindings/media/sh_mobile_ceu.txt b/Documentation/devicetree/bindings/media/sh_mobile_ceu.txt
+> deleted file mode 100644
+> index cfa4ffada8ae..000000000000
+> --- a/Documentation/devicetree/bindings/media/sh_mobile_ceu.txt
+> +++ /dev/null
+> @@ -1,17 +0,0 @@
+> -Bindings, specific for the sh_mobile_ceu_camera.c driver:
+> - - compatible: Should be "renesas,sh-mobile-ceu"
+> - - reg: register base and size
+> - - interrupts: the interrupt number
+> - - renesas,max-width: maximum image width, supported on this SoC
+> - - renesas,max-height: maximum image height, supported on this SoC
+> -
+> -Example:
+> -
+> -ceu0: ceu@fe910000 {
+> -	compatible = "renesas,sh-mobile-ceu";
+> -	reg = <0xfe910000 0xa0>;
+> -	interrupt-parent = <&intcs>;
+> -	interrupts = <0x880>;
+> -	renesas,max-width = <8188>;
+> -	renesas,max-height = <8188>;
+> -};
 
-Acked-by: Rob Herring <robh@kernel.org>
+-- 
+Regards,
+
+Laurent Pinchart
