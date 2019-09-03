@@ -2,75 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E63AA69F4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Sep 2019 15:36:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32470A6A6E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Sep 2019 15:52:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725782AbfICNgW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Sep 2019 09:36:22 -0400
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:37080 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727941AbfICNgV (ORCPT
+        id S1729426AbfICNwY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Sep 2019 09:52:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45448 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729353AbfICNwY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Sep 2019 09:36:21 -0400
-Received: by mail-qk1-f193.google.com with SMTP id s14so15957597qkm.4
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Sep 2019 06:36:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MQm/n4fmdwejgXomcQdi/U1plyqc35h60GF5knvLVoE=;
-        b=e4qmt+Z70rL8u9pNnc9wGLDi/W/YjOGmLky+hUUbeXSr3LdQehNXMKDO2+Q16sQauE
-         P59Nxmj/Hp5+qBxQfvNPzEFh0Mt7KTo4DRyIBzXiWr+mUEHpsBXeJ5QGrfRMJSKt2sH5
-         pnsNp8XpNtvelb9gUk8+4aCDqQU3dL+QldaxPRLEL2UbAh5+U53O/bXlXkUNl3klZWoO
-         u25F2MWLZiXSJ0UgxQqKinvV3Bvh6ECwGZJjJajjj/HF5q/Q4+tPxDz2IqJJ/GjwCDND
-         BPovsiGYbT3QXyvsrPaA84e0XAswl+mJ62x6Mz5NBg/peBtcw1YMnYC8gRBemhrIgJCp
-         lJDw==
-X-Gm-Message-State: APjAAAVLBudMIX2iEfWEORxfmscsUgakJJdHZD3P0CWT8TLz+OwzYrIs
-        0Y8RHzmoEW8MgqcYKz/AJDiBwfk4lr2Nc+obln0=
-X-Google-Smtp-Source: APXvYqxokXZKK+xS38jl/NxfGQk74Kg+k//pCh5gYf3dLbVtd+b8DLQcxTLn4ucrzAyZb7ukIrYk9CEidFd7D4FvNio=
-X-Received: by 2002:a05:620a:b:: with SMTP id j11mr34354390qki.352.1567517780844;
- Tue, 03 Sep 2019 06:36:20 -0700 (PDT)
+        Tue, 3 Sep 2019 09:52:24 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C61FB23711;
+        Tue,  3 Sep 2019 13:52:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1567518743;
+        bh=so+QyVl+RHSTotV4ctrO2c5csPw8U6CBiHviICf+MsI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=xWvNQdMkFxWk8ldM5i1Z+7rW9ZPS0tCUqllEWHWItu08hK7ttugUalD3nR5HmTwHU
+         N+tRJLnBQMJvO5xfDeeVFT+1tykDfU4SE9ussAwqhj/go/mooZW5OZ2K+EykMmHvwx
+         LZJIT4Goxd8Y1PqrCXHT67jPgob8+PlXKlBr1rjI=
+Date:   Tue, 3 Sep 2019 15:52:20 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     mathias.nyman@intel.com, linux-usb@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] usb: host: xhci-plat: add quirks member into
+ struct xhci_plat_priv
+Message-ID: <20190903135220.GA16118@kroah.com>
+References: <1567425698-27560-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1567425698-27560-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-References: <20190823123643.18799-1-geert+renesas@glider.be> <20190823123643.18799-2-geert+renesas@glider.be>
-In-Reply-To: <20190823123643.18799-2-geert+renesas@glider.be>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Tue, 3 Sep 2019 15:36:04 +0200
-Message-ID: <CAK8P3a1H1eQzg0pF4rBeUyByYTBs5nNnit-L=B1hqMaK_P7S6g@mail.gmail.com>
-Subject: Re: [PULL 1/5] Renesas ARM DT updates for v5.4
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1567425698-27560-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Aug 23, 2019 at 2:37 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
->
-> The following changes since commit 5f9e832c137075045d15cd6899ab0505cfb2ca4b:
->
->   Linus 5.3-rc1 (2019-07-21 14:05:38 -0700)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-arm-dt-for-v5.4-tag1
->
-> for you to fetch changes up to 57012813f1ba82412cdcc3665b04d4353b357378:
->
->   ARM: dts: r8a77470: Add PMU device node (2019-08-21 10:28:57 +0200)
->
-> ----------------------------------------------------------------
-> Renesas ARM DT updates for v5.4
->
->   - Fix HSCIF PM Domain on R-Car H1,
->   - PMU support for RZ/G1C.
->
+On Mon, Sep 02, 2019 at 09:01:36PM +0900, Yoshihiro Shimoda wrote:
+> To simplify adding xhci->quirks instead of the .init_quirk()
+> function, this patch adds a new parameter "quirks" into
+> the struct xhci_plat_priv.
+> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/usb/host/xhci-plat.c | 4 +++-
+>  drivers/usb/host/xhci-plat.h | 2 ++
+>  2 files changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
+> index a1e5ce4..1843b69 100644
+> --- a/drivers/usb/host/xhci-plat.c
+> +++ b/drivers/usb/host/xhci-plat.c
+> @@ -66,12 +66,14 @@ static int xhci_priv_resume_quirk(struct usb_hcd *hcd)
+>  
+>  static void xhci_plat_quirks(struct device *dev, struct xhci_hcd *xhci)
+>  {
+> +	struct xhci_plat_priv *priv = xhci_to_priv(xhci);
+> +
+>  	/*
+>  	 * As of now platform drivers don't provide MSI support so we ensure
+>  	 * here that the generic code does not try to make a pci_dev from our
+>  	 * dev struct in order to setup MSI
+>  	 */
+> -	xhci->quirks |= XHCI_PLAT;
+> +	xhci->quirks |= XHCI_PLAT | priv->quirks;
+>  }
+>  
+>  /* called during probe() after chip reset completes */
+> diff --git a/drivers/usb/host/xhci-plat.h b/drivers/usb/host/xhci-plat.h
+> index ae29f22..5681723 100644
+> --- a/drivers/usb/host/xhci-plat.h
+> +++ b/drivers/usb/host/xhci-plat.h
+> @@ -12,10 +12,12 @@
+>  
+>  struct xhci_plat_priv {
+>  	const char *firmware_name;
+> +	unsigned long long quirks;
 
-Pulled into arm/dt, thanks!
+So you mean u64?  Or something else?
 
-      Arnd
+Please be specific here so we know the size of this field.
+
+Ugh, looks like xhci.c uses unsigned long long too, ok, nevermind :(
+
