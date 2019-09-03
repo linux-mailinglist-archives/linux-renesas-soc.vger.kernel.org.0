@@ -2,76 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E06EA72A1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Sep 2019 20:40:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AE76A7477
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Sep 2019 22:16:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725939AbfICSkT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Sep 2019 14:40:19 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:44700 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725883AbfICSkT (ORCPT
+        id S1726009AbfICUQW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Sep 2019 16:16:22 -0400
+Received: from mail-qk1-f182.google.com ([209.85.222.182]:44687 "EHLO
+        mail-qk1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725977AbfICUQW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Sep 2019 14:40:19 -0400
-Received: by mail-oi1-f194.google.com with SMTP id w6so1071054oie.11
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Sep 2019 11:40:18 -0700 (PDT)
+        Tue, 3 Sep 2019 16:16:22 -0400
+Received: by mail-qk1-f182.google.com with SMTP id i78so15883218qke.11
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Sep 2019 13:16:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=hwW/ZaCzW4JXze/ZSCYCQTqum4OOdWq6wZhwD4U7IbU=;
-        b=YBOKP8GTiqeZUf+jmYxheD0rNsfP8ZXfncwPwSkjrWn1s5HtjtDRcW7m5ipfBnWa5e
-         +oO7Z3S3mC0ANrckJa2C4zMRtrr8hcyRq5+6xTFH+Cy97EEQ9pwQEZxG7QryDanhcmsY
-         ed+0pGrt7iz2hsPCHv5Pvqe25xMb8qFaQzddF6BFTlMLvsUwvp+SDvKAZLJll9Tb+5Lx
-         UDoSfu1yLFBSxW5LcaFHNVZTbERabQT8q3DHvkqevcg84J7VNCIcOODgd/AY8fp3u2rS
-         JdJp7b4TROPPE6yMPguXuqgxhNTh3liwnr8wYAEq2Aie/9c+7OE5JodzEc2Pn/RzhuAC
-         ye5A==
-X-Gm-Message-State: APjAAAUceiAbU6NmcI/Uo3SsItvYIX8iGPDEf7WFYXKVbZpWJZECeuCX
-        8LLbEVuaH9DGxfC8slzg5+O7Pe+gH2naCaXOxsI=
-X-Google-Smtp-Source: APXvYqyGvUJQaiykPAO6kJHLzsK+/i0wzkg8waebEBs5LoAq4nq8eBgl/rwnf8jyCYHqE83yAYLHkkaiXusXBEsgjDk=
-X-Received: by 2002:aca:f305:: with SMTP id r5mr495480oih.131.1567536018191;
- Tue, 03 Sep 2019 11:40:18 -0700 (PDT)
+        bh=I9L2785C2btxqBJKiEhwb2rjpjRWvRDLJ8LvKhBnR7M=;
+        b=uHnKa/lTI5UsezQlAUWwqZuWN4LvPnz1aVViZMhmXPCf20z4z43LDLipcU3+bBwyst
+         3FphQqvB6alzCYIN+XiyPfMw57GzDjw4t5U1hzs0zChKVRZSvqTJ9JvICP9uSOzDXdhK
+         +J+/F+5EGVTIb7D3Wx2gv/nfS2RPurdJk0kg7PSwjlCxkRVMcWV/SKiQpH6MGGBDMfqx
+         mWSHRH12zG5xDRlrqyKVmdreYXmOeNQZfkNx1Uu25GTPkrs54XxIh6+Q0v7fMcLo2uy5
+         RiU0lerfp+xaIaYlfPoWJh5n4GG0fGgx6N57U7km2/nEWLYwAApzaxJ6Kh4bgR8vdC0R
+         WUpw==
+X-Gm-Message-State: APjAAAUh0nCCv/Ou7nWF7iNTxgiOxkUfc0cuWNlsTwxQaix7uWOsllTF
+        /Nb7/QKvjfdG0lGXNwqq9wekMxqc5yU4ZBP2jL0=
+X-Google-Smtp-Source: APXvYqyCsexWiK7L/aZ31I67kNz7n9fqy5VUIY3KlNYVdon2D0ObdblZSsyJQJcmItPQAQ4GUxvNqwAQOaslFisGvIA=
+X-Received: by 2002:a05:620a:b:: with SMTP id j11mr36419743qki.352.1567541781734;
+ Tue, 03 Sep 2019 13:16:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190802120355.1430-1-geert+renesas@glider.be>
- <20190802120355.1430-3-geert+renesas@glider.be> <CAK8P3a0S3axohc7iq_vx_5i+KGiC0fX=rctvY8uXdhwz6Z9YCQ@mail.gmail.com>
-In-Reply-To: <CAK8P3a0S3axohc7iq_vx_5i+KGiC0fX=rctvY8uXdhwz6Z9YCQ@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 3 Sep 2019 20:40:07 +0200
-Message-ID: <CAMuHMdWifJ9V=Zzs5wk2wnhEXdJ3LXJGO7bcinC45g6a-tpK-g@mail.gmail.com>
-Subject: Re: [PULL 2/3] Renesas driver updates for v5.4
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+References: <20190823123643.18799-1-geert+renesas@glider.be> <20190823123643.18799-5-geert+renesas@glider.be>
+In-Reply-To: <20190823123643.18799-5-geert+renesas@glider.be>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Tue, 3 Sep 2019 22:16:05 +0200
+Message-ID: <CAK8P3a2zDhj_1M0d6t9MFuWCK0kkFVnFtzP7OYE4O47Goy6vdw@mail.gmail.com>
+Subject: Re: [PULL 4/5] Renesas driver updates for v5.4 (take two)
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>,
         Simon Horman <horms@verge.net.au>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Arnd,
+On Fri, Aug 23, 2019 at 2:36 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> Renesas driver updates for v5.4 (take two)
+>
+>   - Improve "always-on" PM Domain handling on SH/R-Mobile SoCs,
+>   - Automatic errata selection for Cortex-A7/A9,
+>   - Small fixes and improvements.
+>
 
-On Tue, Sep 3, 2019 at 8:23 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> On Fri, Aug 2, 2019 at 2:04 PM Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
-> >
-> > Renesas driver updates for v5.4
-> >
-> >   - Fix a flexible array member definition in the R-Car SYSC driver.
-> >
-> I see I merged this earlier but forgot to reply.
+Pulled into arm/drivers, thanks!
 
-No worries, my git notices.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+      Arnd
