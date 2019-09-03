@@ -2,85 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 34227A684E
+	by mail.lfdr.de (Postfix) with ESMTP id 9C54DA684F
 	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Sep 2019 14:11:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728679AbfICMKr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Sep 2019 08:10:47 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:33308 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727077AbfICMKr (ORCPT
+        id S1729001AbfICMKy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Sep 2019 08:10:54 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:34400 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727077AbfICMKy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Sep 2019 08:10:47 -0400
-Received: by mail-oi1-f194.google.com with SMTP id l2so12592375oil.0;
-        Tue, 03 Sep 2019 05:10:46 -0700 (PDT)
+        Tue, 3 Sep 2019 08:10:54 -0400
+Received: by mail-oi1-f195.google.com with SMTP id g128so12581264oib.1
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Sep 2019 05:10:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=NnWycdpPV9wEb5pbBdWv59BfIu5ikMwIJmgO/R0Olww=;
-        b=ptF1HjJMYWTgGGbLNIL5eOHnWkz1rp0/bjnYPX0lQnBd3zHTfmnySrl0dEXAQKX2wO
-         rljm1SiRZhO5eXn1tYr2MeHkI9+/Rc/kLxDecravvrqnyn8odkUpFExjIXe/vkcltzFx
-         bSmfkEif+x8/XQWNRJijX1cZvuz1PVqVxYNBblznX3xk0L6b91HcetYj/ErGS4tH7Y9K
-         Z6s0kTE5Hx2aNgjhrUoPNsFH1FovK8mj92E/yT6lUgrQ2GFni5UmTLo1CPLrpNjQpZ1x
-         +M5YFUM/tJPWpdJY5uzab+jm1//U58FnYXpfBLwPEXPZWyc8ekZ3v+rPHNr6VydNbtfO
-         z5kQ==
-X-Gm-Message-State: APjAAAVunyudxMBkwidQDxn3Vmo0uPMmy8+WjazrAQMQ33s0w8v6SfBA
-        kTdXPi7fxO0eerJRWqjgrQ6cZ4F0IoV/a2if/4U=
-X-Google-Smtp-Source: APXvYqxB5KVSRRROkrCKyWIsunmCl/xzLdaafYQEN9wenFIdvdmUwcoiz7//vS6AmVBbz6QriNfp8nZTBOEneDZXuFw=
-X-Received: by 2002:aca:ea82:: with SMTP id i124mr21664779oih.153.1567512645854;
- Tue, 03 Sep 2019 05:10:45 -0700 (PDT)
+        bh=+xIjaAJUd1GaonkzJJosr23Uf/8WYjOGEAgyMrCgFo8=;
+        b=bvLr9TSSQB9kfDCCXvBC0JZ3liMReOVfTouDQZhr6M2jQPEEmdf0kmioyBitgLq4Mt
+         ZaAjC29dKqcjGus3t/XWftFyrOOaoXlli54rY3Sx2VreyVFq2NZBhNOL1fYL1ONiWXf2
+         h8r0koWi7+FaFWPjiRzM/UHCmqPx/uHqViumUMC+z9dQDcTUgfVxhnOOwTNudaA4HHV8
+         yM6OFuLwTrMFh1eF+HQ328xK9WPVuuXPp8VzflAgj7sEzuyBkVcPOTxeTCNDldStMf85
+         pDFL13dVgDsvIsZ2Yo1HIOPeEdmytUYUw87UN/hFUsl8vewp6PB/ZrR5bSi4VmGz9VZZ
+         95dw==
+X-Gm-Message-State: APjAAAWMy1HHL2IBSqlN2gSYimKHydxLOMth9U81VBSw3+7Pyiv6akJK
+        K+hQAE6kcudlrwrS9humxZc5gIlBAihMT1+WWsg=
+X-Google-Smtp-Source: APXvYqw3dbLaAk8lG3cvVJtzb7nnwDcpsyyBK7lRsQJ/qXJS1f/gFMp4Lbsj49Py5g4STxcx9I3j1ZpHB0l2i2wWFGE=
+X-Received: by 2002:aca:b154:: with SMTP id a81mr21347044oif.148.1567512653543;
+ Tue, 03 Sep 2019 05:10:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <1560258401-9517-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1560258401-9517-6-git-send-email-fabrizio.castro@bp.renesas.com>
- <TY1PR01MB1770BF952221F50BBCDF3765C0BD0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
- <20190902083224.mn5agbxf5akhhoqg@verge.net.au> <CAMuHMdVuj1w_bQVPySpspk4OJPN1cNSF-JW6XKExTEdZbtALgw@mail.gmail.com>
- <244ca7ac-54d1-d07d-762f-e832b0e2a267@linaro.org>
-In-Reply-To: <244ca7ac-54d1-d07d-762f-e832b0e2a267@linaro.org>
+References: <20190828113618.6672-1-geert+renesas@glider.be> <TYAPR01MB45445637B824C0464A1CD5ADD8A20@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYAPR01MB45445637B824C0464A1CD5ADD8A20@TYAPR01MB4544.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 3 Sep 2019 14:10:34 +0200
-Message-ID: <CAMuHMdWQaieUpLFDiWXTywXXi+QQfsjC+VacFMrqkw=O_ridxQ@mail.gmail.com>
-Subject: Re: [PATCH 5/6] dt-bindings: timer: renesas: tmu: Document r8a774a1 bindings
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     Simon Horman <horms@verge.net.au>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+Date:   Tue, 3 Sep 2019 14:10:42 +0200
+Message-ID: <CAMuHMdW6WhNYHL-3vWj82uRUuxxuYfk3BRnqu8SWnh3i6zkXjw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/7] soc: renesas: rcar-gen3-sysc: Fix power request conflicts
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Simon Horman <horms@verge.net.au>,
         "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Daniel,
-
-On Mon, Sep 2, 2019 at 10:42 AM Daniel Lezcano
-<daniel.lezcano@linaro.org> wrote:
-> On 02/09/2019 10:39, Geert Uytterhoeven wrote:
-> > On Mon, Sep 2, 2019 at 10:32 AM Simon Horman <horms@verge.net.au> wrote:
-> >> On Fri, Aug 30, 2019 at 10:37:54AM +0000, Fabrizio Castro wrote:
-> >>> This patch has been reviewed by Geert, Simon, and Rob, so I think it's ok to apply.
-> >>> Is anybody willing to take this patch?
-> >>
-> >> <2c> I think Geert can take this </2c>
+On Thu, Aug 29, 2019 at 6:14 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> > From: Geert Uytterhoeven, Sent: Wednesday, August 28, 2019 8:36 PM
+> > Recent R-Car Gen3 SoCs added an External Request Mask Register to the
+> > System Controller (SYSC).  This register allows to mask external power
+> > requests for CPU or 3DG domains, to prevent conflicts between powering
+> > off CPU cores or the 3D Graphics Engine, and changing the state of
+> > another power domain through SYSC, which could lead to CPG state machine
+> > lock-ups.
 > >
-> > If the timer people won't take it for v5.4, I can queue it in renesas-devel
-> > for v5.5, in my branch for DT binding updates for subsystems that are
-> > less DT-centric.
+> > This patch series starts making use of this register.  Note that the
+> > register is optional, and that its location and contents are
+> > SoC-specific.
+> >
+> > This was inspired by a patch in the BSP by Dien Pham
+> > <dien.pham.ry@renesas.com>.
+> >
+> > Note that the issue fixed cannot happen in the upstream kernel, as
+> > upstream has no support for graphics acceleration yet.  SoCs lacking the
+> > External Request Mask Register may need a different mitigation in the
+> > future.
+> >
+> > Changes compared to v1[1]:
+> >   - Improve description of cover letter and first patch.
+> >
+> > Changes compared to RFC[2]:
+> >   - Rebased.
+> >
+> > This has been boot-tested on R-Car H3 ES1.0, H3 ES2.0, M3-W ES1.0, M3-N,
+> > V3M, and E3 (only the last 3 have this register!), and regression-tested
+> > on R-Car Gen2.
+> >
+> > This has not been tested on R-Car H3 ES3.0, M3-W ES2.0, and V3H.
 >
-> Please do, thanks
+> I also boot-tested on R-Car H3 ES3.0 and M3-W ES3.0.
+> And I reviewed all patches, so:
 >
-> Acked-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Thanks, queued.
+Thanks, queued in renesas-devel for v5.5.
 
 
 Gr{oetje,eeting}s,
