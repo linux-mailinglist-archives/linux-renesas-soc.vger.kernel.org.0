@@ -2,104 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C54DA684F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Sep 2019 14:11:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E63AA69F4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Sep 2019 15:36:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729001AbfICMKy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Sep 2019 08:10:54 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:34400 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727077AbfICMKy (ORCPT
+        id S1725782AbfICNgW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Sep 2019 09:36:22 -0400
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:37080 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727941AbfICNgV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Sep 2019 08:10:54 -0400
-Received: by mail-oi1-f195.google.com with SMTP id g128so12581264oib.1
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Sep 2019 05:10:54 -0700 (PDT)
+        Tue, 3 Sep 2019 09:36:21 -0400
+Received: by mail-qk1-f193.google.com with SMTP id s14so15957597qkm.4
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Sep 2019 06:36:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=+xIjaAJUd1GaonkzJJosr23Uf/8WYjOGEAgyMrCgFo8=;
-        b=bvLr9TSSQB9kfDCCXvBC0JZ3liMReOVfTouDQZhr6M2jQPEEmdf0kmioyBitgLq4Mt
-         ZaAjC29dKqcjGus3t/XWftFyrOOaoXlli54rY3Sx2VreyVFq2NZBhNOL1fYL1ONiWXf2
-         h8r0koWi7+FaFWPjiRzM/UHCmqPx/uHqViumUMC+z9dQDcTUgfVxhnOOwTNudaA4HHV8
-         yM6OFuLwTrMFh1eF+HQ328xK9WPVuuXPp8VzflAgj7sEzuyBkVcPOTxeTCNDldStMf85
-         pDFL13dVgDsvIsZ2Yo1HIOPeEdmytUYUw87UN/hFUsl8vewp6PB/ZrR5bSi4VmGz9VZZ
-         95dw==
-X-Gm-Message-State: APjAAAWMy1HHL2IBSqlN2gSYimKHydxLOMth9U81VBSw3+7Pyiv6akJK
-        K+hQAE6kcudlrwrS9humxZc5gIlBAihMT1+WWsg=
-X-Google-Smtp-Source: APXvYqw3dbLaAk8lG3cvVJtzb7nnwDcpsyyBK7lRsQJ/qXJS1f/gFMp4Lbsj49Py5g4STxcx9I3j1ZpHB0l2i2wWFGE=
-X-Received: by 2002:aca:b154:: with SMTP id a81mr21347044oif.148.1567512653543;
- Tue, 03 Sep 2019 05:10:53 -0700 (PDT)
+        bh=MQm/n4fmdwejgXomcQdi/U1plyqc35h60GF5knvLVoE=;
+        b=e4qmt+Z70rL8u9pNnc9wGLDi/W/YjOGmLky+hUUbeXSr3LdQehNXMKDO2+Q16sQauE
+         P59Nxmj/Hp5+qBxQfvNPzEFh0Mt7KTo4DRyIBzXiWr+mUEHpsBXeJ5QGrfRMJSKt2sH5
+         pnsNp8XpNtvelb9gUk8+4aCDqQU3dL+QldaxPRLEL2UbAh5+U53O/bXlXkUNl3klZWoO
+         u25F2MWLZiXSJ0UgxQqKinvV3Bvh6ECwGZJjJajjj/HF5q/Q4+tPxDz2IqJJ/GjwCDND
+         BPovsiGYbT3QXyvsrPaA84e0XAswl+mJ62x6Mz5NBg/peBtcw1YMnYC8gRBemhrIgJCp
+         lJDw==
+X-Gm-Message-State: APjAAAVLBudMIX2iEfWEORxfmscsUgakJJdHZD3P0CWT8TLz+OwzYrIs
+        0Y8RHzmoEW8MgqcYKz/AJDiBwfk4lr2Nc+obln0=
+X-Google-Smtp-Source: APXvYqxokXZKK+xS38jl/NxfGQk74Kg+k//pCh5gYf3dLbVtd+b8DLQcxTLn4ucrzAyZb7ukIrYk9CEidFd7D4FvNio=
+X-Received: by 2002:a05:620a:b:: with SMTP id j11mr34354390qki.352.1567517780844;
+ Tue, 03 Sep 2019 06:36:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190828113618.6672-1-geert+renesas@glider.be> <TYAPR01MB45445637B824C0464A1CD5ADD8A20@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYAPR01MB45445637B824C0464A1CD5ADD8A20@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 3 Sep 2019 14:10:42 +0200
-Message-ID: <CAMuHMdW6WhNYHL-3vWj82uRUuxxuYfk3BRnqu8SWnh3i6zkXjw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/7] soc: renesas: rcar-gen3-sysc: Fix power request conflicts
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
+References: <20190823123643.18799-1-geert+renesas@glider.be> <20190823123643.18799-2-geert+renesas@glider.be>
+In-Reply-To: <20190823123643.18799-2-geert+renesas@glider.be>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Tue, 3 Sep 2019 15:36:04 +0200
+Message-ID: <CAK8P3a1H1eQzg0pF4rBeUyByYTBs5nNnit-L=B1hqMaK_P7S6g@mail.gmail.com>
+Subject: Re: [PULL 1/5] Renesas ARM DT updates for v5.4
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>,
         Simon Horman <horms@verge.net.au>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Aug 29, 2019 at 6:14 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> > From: Geert Uytterhoeven, Sent: Wednesday, August 28, 2019 8:36 PM
-> > Recent R-Car Gen3 SoCs added an External Request Mask Register to the
-> > System Controller (SYSC).  This register allows to mask external power
-> > requests for CPU or 3DG domains, to prevent conflicts between powering
-> > off CPU cores or the 3D Graphics Engine, and changing the state of
-> > another power domain through SYSC, which could lead to CPG state machine
-> > lock-ups.
-> >
-> > This patch series starts making use of this register.  Note that the
-> > register is optional, and that its location and contents are
-> > SoC-specific.
-> >
-> > This was inspired by a patch in the BSP by Dien Pham
-> > <dien.pham.ry@renesas.com>.
-> >
-> > Note that the issue fixed cannot happen in the upstream kernel, as
-> > upstream has no support for graphics acceleration yet.  SoCs lacking the
-> > External Request Mask Register may need a different mitigation in the
-> > future.
-> >
-> > Changes compared to v1[1]:
-> >   - Improve description of cover letter and first patch.
-> >
-> > Changes compared to RFC[2]:
-> >   - Rebased.
-> >
-> > This has been boot-tested on R-Car H3 ES1.0, H3 ES2.0, M3-W ES1.0, M3-N,
-> > V3M, and E3 (only the last 3 have this register!), and regression-tested
-> > on R-Car Gen2.
-> >
-> > This has not been tested on R-Car H3 ES3.0, M3-W ES2.0, and V3H.
+On Fri, Aug 23, 2019 at 2:37 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 >
-> I also boot-tested on R-Car H3 ES3.0 and M3-W ES3.0.
-> And I reviewed all patches, so:
+> The following changes since commit 5f9e832c137075045d15cd6899ab0505cfb2ca4b:
 >
-> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>   Linus 5.3-rc1 (2019-07-21 14:05:38 -0700)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-arm-dt-for-v5.4-tag1
+>
+> for you to fetch changes up to 57012813f1ba82412cdcc3665b04d4353b357378:
+>
+>   ARM: dts: r8a77470: Add PMU device node (2019-08-21 10:28:57 +0200)
+>
+> ----------------------------------------------------------------
+> Renesas ARM DT updates for v5.4
+>
+>   - Fix HSCIF PM Domain on R-Car H1,
+>   - PMU support for RZ/G1C.
+>
 
-Thanks, queued in renesas-devel for v5.5.
+Pulled into arm/dt, thanks!
 
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+      Arnd
