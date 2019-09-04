@@ -2,78 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 96F7DA7DC3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2019 10:25:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48317A7F3E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2019 11:24:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729456AbfIDIYm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Sep 2019 04:24:42 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:54118 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729398AbfIDIYm (ORCPT
+        id S1726943AbfIDJYY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Sep 2019 05:24:24 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:59513 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725938AbfIDJYY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Sep 2019 04:24:42 -0400
-X-IronPort-AV: E=Sophos;i="5.64,465,1559487600"; 
-   d="scan'208";a="25713451"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 04 Sep 2019 17:24:39 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 5D5554008C72;
-        Wed,  4 Sep 2019 17:24:39 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     vkoul@kernel.org
-Cc:     dmaengine@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v2 3/3] dmaengine: rcar-dmac: Add dma-channel-mask property support
-Date:   Wed,  4 Sep 2019 17:24:38 +0900
-Message-Id: <1567585478-23902-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Wed, 4 Sep 2019 05:24:24 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id EE1823C04C1;
+        Wed,  4 Sep 2019 11:24:20 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Cb1aw1883pt6; Wed,  4 Sep 2019 11:24:15 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 7B6233C005E;
+        Wed,  4 Sep 2019 11:24:15 +0200 (CEST)
+Received: from vmlxhi-070.adit-jv.com (10.72.93.148) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Wed, 4 Sep 2019
+ 11:24:14 +0200
+From:   Veeraiyan Chidambaram <external.veeraiyan.c@de.adit-jv.com>
+To:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+CC:     <linux-usb@vger.kernel.org>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Veeraiyan Chidambaram <veeraiyan.chidambaram@in.bosch.com>
+Subject: [PATCH] usb: gadget: udc: renesas_usb3: add suspend event support
+Date:   Wed, 4 Sep 2019 11:24:07 +0200
+Message-ID: <1567589047-29816-1-git-send-email-external.veeraiyan.c@de.adit-jv.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1567585478-23902-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1567585478-23902-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.72.93.148]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch adds dma-channel-mask property support not to reserve
-some DMA channels for some reasons. (for example: a heterogeneous
-CPU uses it.)
+From: Veeraiyan Chidambaram <veeraiyan.chidambaram@in.bosch.com>
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+In RCAR3 USB 3.0 Function, if host is detached an interrupt
+will be generated and Suspended state bit is set in interrupt status
+register. Interrupt handler will call driver->suspend(composite_suspend)
+if suspended state bit is set. composite_suspend will call
+ffs_func_suspend which will post FUNCTIONFS_SUSPEND and will be consumed
+by user space application via /dev/ep0.
+
+To be able to detect the host detach, USB_INT_1_B2_SPND to cover the
+Suspended bit of the B2_SPND_OUT[9] from the USB Status Register
+(USB_STA) register and perform appropriate action in the
+usb3_irq_epc_int_1 function.
+
+Without this commit, disconnection of the phone from R-Car-H3 ES2.0
+Salvator-X CN11 port is not recognized and reverse role switch does
+not happen. If phone is connected again it does not enumerate.
+
+With this commit, disconnection will be recognized and reverse role
+switch will happen. If phone is connected again it will enumerate
+properly and will become visible in the output of 'lsusb'.
+
+Signed-off-by: Veeraiyan Chidambaram <veeraiyan.chidambaram@in.bosch.com>
 ---
- drivers/dma/sh/rcar-dmac.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/usb/gadget/udc/renesas_usb3.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/drivers/dma/sh/rcar-dmac.c b/drivers/dma/sh/rcar-dmac.c
-index 542786d..f06016d 100644
---- a/drivers/dma/sh/rcar-dmac.c
-+++ b/drivers/dma/sh/rcar-dmac.c
-@@ -203,7 +203,7 @@ struct rcar_dmac {
- 
- 	unsigned int n_channels;
- 	struct rcar_dmac_chan *channels;
--	unsigned int channels_mask;
-+	u32 channels_mask;
- 
- 	DECLARE_BITMAP(modules, 256);
- };
-@@ -1810,7 +1810,15 @@ static int rcar_dmac_parse_of(struct device *dev, struct rcar_dmac *dmac)
- 		return -EINVAL;
- 	}
- 
-+	/*
-+	 * If the driver is unable to read dma-channel-mask property,
-+	 * the driver assumes that it can use all channels.
-+	 */
- 	dmac->channels_mask = GENMASK(dmac->n_channels - 1, 0);
-+	of_property_read_u32(np, "dma-channel-mask", &dmac->channels_mask);
-+
-+	/* If the property has out-of-channel mask, this driver clears it */
-+	dmac->channels_mask &= GENMASK(dmac->n_channels - 1, 0);
- 
- 	return 0;
+diff --git a/drivers/usb/gadget/udc/renesas_usb3.c b/drivers/usb/gadget/udc/renesas_usb3.c
+index eaa3339b30a2..4ec703e302f5 100644
+--- a/drivers/usb/gadget/udc/renesas_usb3.c
++++ b/drivers/usb/gadget/udc/renesas_usb3.c
+@@ -767,6 +767,19 @@ static void usb3_irq_epc_int_1_resume(struct renesas_usb3 *usb3)
+ 	usb3_transition_to_default_state(usb3, false);
  }
+ 
++static void usb3_irq_epc_int_1_suspend(struct renesas_usb3 *usb3)
++{
++	usb3_disable_irq_1(usb3, USB_INT_1_B2_SPND);
++
++	if (usb3->driver &&
++	    usb3->driver->suspend &&
++	    usb3->gadget.speed != USB_SPEED_UNKNOWN &&
++	    usb3->gadget.state != USB_STATE_NOTATTACHED) {
++		usb3->driver->suspend(&usb3->gadget);
++		usb_gadget_set_state(&usb3->gadget, USB_STATE_SUSPENDED);
++	}
++}
++
+ static void usb3_irq_epc_int_1_disable(struct renesas_usb3 *usb3)
+ {
+ 	usb3_stop_usb3_connection(usb3);
+@@ -852,6 +865,9 @@ static void usb3_irq_epc_int_1(struct renesas_usb3 *usb3, u32 int_sta_1)
+ 	if (int_sta_1 & USB_INT_1_B2_RSUM)
+ 		usb3_irq_epc_int_1_resume(usb3);
+ 
++	if (int_sta_1 & USB_INT_1_B2_SPND)
++		usb3_irq_epc_int_1_suspend(usb3);
++
+ 	if (int_sta_1 & USB_INT_1_SPEED)
+ 		usb3_irq_epc_int_1_speed(usb3);
+ 
 -- 
 2.7.4
 
