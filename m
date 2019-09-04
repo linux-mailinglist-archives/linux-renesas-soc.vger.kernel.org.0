@@ -2,113 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 48317A7F3E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2019 11:24:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02120A7F7A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2019 11:34:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726943AbfIDJYY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Sep 2019 05:24:24 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:59513 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725938AbfIDJYY (ORCPT
+        id S1727929AbfIDJeh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Sep 2019 05:34:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54026 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725966AbfIDJeh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Sep 2019 05:24:24 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id EE1823C04C1;
-        Wed,  4 Sep 2019 11:24:20 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id Cb1aw1883pt6; Wed,  4 Sep 2019 11:24:15 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        Wed, 4 Sep 2019 05:34:37 -0400
+Received: from localhost (unknown [122.182.201.156])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 7B6233C005E;
-        Wed,  4 Sep 2019 11:24:15 +0200 (CEST)
-Received: from vmlxhi-070.adit-jv.com (10.72.93.148) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Wed, 4 Sep 2019
- 11:24:14 +0200
-From:   Veeraiyan Chidambaram <external.veeraiyan.c@de.adit-jv.com>
-To:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-CC:     <linux-usb@vger.kernel.org>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Veeraiyan Chidambaram <veeraiyan.chidambaram@in.bosch.com>
-Subject: [PATCH] usb: gadget: udc: renesas_usb3: add suspend event support
-Date:   Wed, 4 Sep 2019 11:24:07 +0200
-Message-ID: <1567589047-29816-1-git-send-email-external.veeraiyan.c@de.adit-jv.com>
-X-Mailer: git-send-email 2.7.4
+        by mail.kernel.org (Postfix) with ESMTPSA id 528532087E;
+        Wed,  4 Sep 2019 09:34:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1567589676;
+        bh=ODWCxBgr9OEhXpwaK9k8C+NkbNBxfyE+CSqgvIsM160=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YzFTZ0u9W8+L81ISZW5dTG7205LnQErs1XltcKyjhizUcIUT2yBLssS/r9wTsbhbd
+         WJm9UWjVHYKhcFOZ1F7YRfRmJLmuBZl7E0HEW4FCG3VPf1P9OgKBon6yJ3D28e4Fi2
+         NqjCkfGb2CrU+mFpmwxepR7CLzaCNl+2F1REgna8=
+Date:   Wed, 4 Sep 2019 15:03:27 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 0/2] dmaengine: rcar-dmac: minor modifications
+Message-ID: <20190904093327.GR2672@vkoul-mobl>
+References: <1566904231-25486-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <20190904060955.GG2672@vkoul-mobl>
+ <TYAPR01MB454461A61EE21E891FF171B5D8B80@TYAPR01MB4544.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.72.93.148]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYAPR01MB454461A61EE21E891FF171B5D8B80@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+User-Agent: Mutt/1.12.0 (2019-05-25)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Veeraiyan Chidambaram <veeraiyan.chidambaram@in.bosch.com>
+On 04-09-19, 06:14, Yoshihiro Shimoda wrote:
+> Hi Vinod,
+> 
+> > From: Vinod Koul, Sent: Wednesday, September 4, 2019 3:10 PM
+> > 
+> > On 27-08-19, 20:10, Yoshihiro Shimoda wrote:
+> > > This patch series is based on renesas-drivers.git /
+> > > renesas-drivers-2019-08-13-v5.3-rc4 tag. This is minor modifications
+> > > to add support for changed registers memory mapping hardware support
+> > > easily in the future.
+> > 
+> > This fails to apply for me, please rebase and resend.
+> 
+> I'm sorry for this. I'll rebase this patch series.
+> Also, I'll rebase the following patch as one series.
+> https://patchwork.kernel.org/patch/11118639/
+> 
+> And, note that the following patch [1] is already superseded.
+> https://patchwork.kernel.org/patch/11118637/
 
-In RCAR3 USB 3.0 Function, if host is detached an interrupt
-will be generated and Suspended state bit is set in interrupt status
-register. Interrupt handler will call driver->suspend(composite_suspend)
-if suspended state bit is set. composite_suspend will call
-ffs_func_suspend which will post FUNCTIONFS_SUSPEND and will be consumed
-by user space application via /dev/ep0.
+Yes I think I picked the v2, please check my -next and send updated if
+any on top of that :)
 
-To be able to detect the host detach, USB_INT_1_B2_SPND to cover the
-Suspended bit of the B2_SPND_OUT[9] from the USB Status Register
-(USB_STA) register and perform appropriate action in the
-usb3_irq_epc_int_1 function.
-
-Without this commit, disconnection of the phone from R-Car-H3 ES2.0
-Salvator-X CN11 port is not recognized and reverse role switch does
-not happen. If phone is connected again it does not enumerate.
-
-With this commit, disconnection will be recognized and reverse role
-switch will happen. If phone is connected again it will enumerate
-properly and will become visible in the output of 'lsusb'.
-
-Signed-off-by: Veeraiyan Chidambaram <veeraiyan.chidambaram@in.bosch.com>
----
- drivers/usb/gadget/udc/renesas_usb3.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
-
-diff --git a/drivers/usb/gadget/udc/renesas_usb3.c b/drivers/usb/gadget/udc/renesas_usb3.c
-index eaa3339b30a2..4ec703e302f5 100644
---- a/drivers/usb/gadget/udc/renesas_usb3.c
-+++ b/drivers/usb/gadget/udc/renesas_usb3.c
-@@ -767,6 +767,19 @@ static void usb3_irq_epc_int_1_resume(struct renesas_usb3 *usb3)
- 	usb3_transition_to_default_state(usb3, false);
- }
- 
-+static void usb3_irq_epc_int_1_suspend(struct renesas_usb3 *usb3)
-+{
-+	usb3_disable_irq_1(usb3, USB_INT_1_B2_SPND);
-+
-+	if (usb3->driver &&
-+	    usb3->driver->suspend &&
-+	    usb3->gadget.speed != USB_SPEED_UNKNOWN &&
-+	    usb3->gadget.state != USB_STATE_NOTATTACHED) {
-+		usb3->driver->suspend(&usb3->gadget);
-+		usb_gadget_set_state(&usb3->gadget, USB_STATE_SUSPENDED);
-+	}
-+}
-+
- static void usb3_irq_epc_int_1_disable(struct renesas_usb3 *usb3)
- {
- 	usb3_stop_usb3_connection(usb3);
-@@ -852,6 +865,9 @@ static void usb3_irq_epc_int_1(struct renesas_usb3 *usb3, u32 int_sta_1)
- 	if (int_sta_1 & USB_INT_1_B2_RSUM)
- 		usb3_irq_epc_int_1_resume(usb3);
- 
-+	if (int_sta_1 & USB_INT_1_B2_SPND)
-+		usb3_irq_epc_int_1_suspend(usb3);
-+
- 	if (int_sta_1 & USB_INT_1_SPEED)
- 		usb3_irq_epc_int_1_speed(usb3);
- 
 -- 
-2.7.4
-
+~Vinod
