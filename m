@@ -2,74 +2,209 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8156BA831F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2019 14:52:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9792A8338
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2019 14:52:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727083AbfIDMky (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Sep 2019 08:40:54 -0400
-Received: from mail-qt1-f171.google.com ([209.85.160.171]:33153 "EHLO
-        mail-qt1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725938AbfIDMky (ORCPT
+        id S1727125AbfIDMwF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Sep 2019 08:52:05 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:38797 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727675AbfIDMwF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Sep 2019 08:40:54 -0400
-Received: by mail-qt1-f171.google.com with SMTP id r5so18901633qtd.0
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Sep 2019 05:40:53 -0700 (PDT)
+        Wed, 4 Sep 2019 08:52:05 -0400
+Received: by mail-lf1-f65.google.com with SMTP id c12so15827083lfh.5
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Sep 2019 05:52:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=QapMVwCvqsvHRPXogEEyjY3CWz4VQZs74eWGqYWOjLo=;
+        b=JCySh4TFONJVVb8lNIrdXUocQ8MyvL8UnZahcOxgg5xO5Oh9ZaEMbdGDbVRrOYf9ou
+         +AfI4ahqI9SBaqCThOwJAFkmGRJ8PSN/wvrrkpCmvZTPL4YHuWMUu4HyyCkm6VRE7Ryb
+         nUyFL/vJqctCmoDhivdI6v47aZfCTM7TAFODpbxDdwcgbIc1z8jWRcNNzKW36OkXDelO
+         Ta8RGUqmHCAi0Yn36cf/ZA70I7eTUYHFw00uh/7Ff1/gC0PagiSJIz+N7kHjiZDXyBBv
+         wsch4KHenttQM1yUxVfJCQgXoi9CP4pPAaKP10vrGifvRGWj+YkQlbpO5u2RiFDxomli
+         P3QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4rc7ayEDOw2tvsd+jn2BL7f5hw8iQbcT9Kw4EgT2DdI=;
-        b=WVPrHiAKz0s2F69r/r12AlXN9O73ELTZVcfq8xI6qF4PmyicYj47LGwlmzcLj7azmM
-         vyTPIylV8LVTo/JwUw9Jv51LNsWup2D/MxQYOP+9rgEN7ruYkPIOy46xRNC2I7sKoSaq
-         S9afjEZjAvjQaOcaN64O5o6+7K9xT0BumrRsiJkfTxEI9HD0UoGNDCrrJzx3QDFSgszG
-         UkG083FvFbBV/UaD/N5GjpBPzgXlBxg8A3tPFj0wUMqnvj/OXtKI3pSDCQ3IOJZMY+HC
-         IdsCUGpBPhRFG6fLwZjzdVVuRDkhcX1ctQ7Ru2X2zxxC0TrnQiA4bcjULaAxseMhgFW1
-         52ww==
-X-Gm-Message-State: APjAAAXa8rmhxO948qUYxKiM6qi4vAs54KNcaMs9TIW5BU+4znx53pHH
-        KTZLkIOuneZ1hIlzOlpBPuZ/KEikbE0Jw7G/vW8=
-X-Google-Smtp-Source: APXvYqy4Gbri7Sa8hZ9OYGQrbFKiYv1S1whwQeBSq+UsFyNoHhdQ/VUp3V5UuP6KNjaHrLK+IwDl6t1Pw5KozK7AiL8=
-X-Received: by 2002:a0c:d084:: with SMTP id z4mr16450999qvg.63.1567600853122;
- Wed, 04 Sep 2019 05:40:53 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=QapMVwCvqsvHRPXogEEyjY3CWz4VQZs74eWGqYWOjLo=;
+        b=rdKPZu/+RI75FUB1np+TbQmnOt1I75n41RWHXQ804a2x4TKSrG//4ohuAaHkfm90OT
+         oE3oewcbuXAU5DWZx17iG3eHUavDZf7bwATTZdmTGtqVlUoc8JyIPudM/c5Vvki+Z7nC
+         o1BqpBxzB6oGklu5tyQu66H3Hy8JCohsPLk5zUgxwW65RecfUIH8HOcO78zhThwSbO7q
+         8cIiOoTfy+DDGwfDmuWnoUad9L3sTd9V0gDOvDGWxt4dLZYAWQaA+tTK9+EkCcC5YSDJ
+         pjwY2fPsLpVRtuGASR7640/tDP9K+8VDOP0GgYqvN5CcdV8jPa4t+tTCRXnGCw8OTqEp
+         hAIg==
+X-Gm-Message-State: APjAAAXV64TVjlngdFT5TyHDZcmexenUZIdiL5ZcG/3rubxunrICC4gZ
+        MPxzfT00N3uPNwuHH3jMycmGSiyKH7I=
+X-Google-Smtp-Source: APXvYqzxRB9S5u35nzqbbGUjb1YoYtFPuB3blvO/EQx9ykZeSFKpyQ9ZnBcE7gxLFE/A7Q/0SQzCnw==
+X-Received: by 2002:a05:6512:210:: with SMTP id a16mr11280139lfo.42.1567601522477;
+        Wed, 04 Sep 2019 05:52:02 -0700 (PDT)
+Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
+        by smtp.gmail.com with ESMTPSA id u9sm3787515lja.27.2019.09.04.05.52.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Sep 2019 05:52:01 -0700 (PDT)
+Date:   Wed, 4 Sep 2019 14:52:01 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 3/6] rcar-vin: Rename rectangle holding the video
+ source information
+Message-ID: <20190904125201.GM8086@bigcity.dyn.berto.se>
+References: <20190808011850.21219-1-niklas.soderlund+renesas@ragnatech.se>
+ <20190808011850.21219-4-niklas.soderlund+renesas@ragnatech.se>
+ <20190808083045.GE6055@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-References: <cover.1565962268.git.horms+renesas@verge.net.au>
-In-Reply-To: <cover.1565962268.git.horms+renesas@verge.net.au>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 4 Sep 2019 14:40:36 +0200
-Message-ID: <CAK8P3a0rQgEj9gQh-jyPOtoj+QVT2eeXz-vF0v5aKfnzWXP35g@mail.gmail.com>
-Subject: Re: [GIT PULL] Renesas ARM Based SoC Fixes for v5.3
-To:     Simon Horman <horms+renesas@verge.net.au>
-Cc:     arm-soc <arm@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        Kevin Hilman <khilman@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Magnus Damm <magnus.damm@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190808083045.GE6055@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Aug 16, 2019 at 3:33 PM Simon Horman <horms+renesas@verge.net.au> wrote:
->
-> are available in the git repository at:
->
->   https://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas.git tags/renesas-fixes-for-v5.3
->
-> for you to fetch changes up to 45f5d5a9e34d3fe4140a9a3b5f7ebe86c252440a:
->
->   arm64: dts: renesas: r8a77995: draak: Fix backlight regulator name (2019-08-09 11:58:17 -0700)
->
-> ----------------------------------------------------------------
-> Renesas ARM Based SoC Fixes for v5.3
->
-> * R-Car D3 (r8a77995) based Draak Board
->   - Correct backlight regulator name in device tree
+Hi Laurent,
 
-I just found this pull request in the arm@kernel.org inbox, sorry for missing
-it earlier. The 5.4 pull requests that Geert sent in the meantime are all
-merged as they went to the new soc@kernel.org address.
+Thanks for your feedback.
 
-Pulled this now into arm/fixes.
+On 2019-08-08 11:30:45 +0300, Laurent Pinchart wrote:
+> Hi Niklas,
+> 
+> Thank you for the patch.
+> 
+> On Thu, Aug 08, 2019 at 03:18:47AM +0200, Niklas Söderlund wrote:
+> > The variable to hold the video source information dimensions was poorly
+> > named 'source'. This is confusing as a lot of other members of structs
+> > share the same name with different purposes, rename it src_rect in
+> > preparation of refactoring code.
+> > 
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > ---
+> >  drivers/media/platform/rcar-vin/rcar-v4l2.c | 33 +++++++++++----------
+> >  drivers/media/platform/rcar-vin/rcar-vin.h  |  4 +--
+> >  2 files changed, 19 insertions(+), 18 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > index 402b40fcf7184fde..8b30267f1636aaf1 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > @@ -163,13 +163,13 @@ static int rvin_reset_format(struct rvin_dev *vin)
+> >  
+> >  	rvin_format_align(vin, &vin->format);
+> >  
+> > -	vin->source.top = 0;
+> > -	vin->source.left = 0;
+> > -	vin->source.width = vin->format.width;
+> > -	vin->source.height = vin->format.height;
+> > +	vin->src_rect.top = 0;
+> > +	vin->src_rect.left = 0;
+> > +	vin->src_rect.width = vin->format.width;
+> > +	vin->src_rect.height = vin->format.height;
+> >  
+> > -	vin->crop = vin->source;
+> > -	vin->compose = vin->source;
+> > +	vin->crop = vin->src_rect;
+> > +	vin->compose = vin->src_rect;
+> >  
+> >  	return 0;
+> >  }
+> > @@ -281,7 +281,7 @@ static int rvin_s_fmt_vid_cap(struct file *file, void *priv,
+> >  	vin->format = f->fmt.pix;
+> >  	vin->crop = crop;
+> >  	vin->compose = compose;
+> > -	vin->source = crop;
+> > +	vin->src_rect = crop;
+> >  
+> >  	return 0;
+> >  }
+> > @@ -319,8 +319,8 @@ static int rvin_g_selection(struct file *file, void *fh,
+> >  	case V4L2_SEL_TGT_CROP_BOUNDS:
+> >  	case V4L2_SEL_TGT_CROP_DEFAULT:
+> >  		s->r.left = s->r.top = 0;
+> > -		s->r.width = vin->source.width;
+> > -		s->r.height = vin->source.height;
+> > +		s->r.width = vin->src_rect.width;
+> > +		s->r.height = vin->src_rect.height;
+> >  		break;
+> >  	case V4L2_SEL_TGT_CROP:
+> >  		s->r = vin->crop;
+> > @@ -362,21 +362,22 @@ static int rvin_s_selection(struct file *file, void *fh,
+> >  	case V4L2_SEL_TGT_CROP:
+> >  		/* Can't crop outside of source input */
+> >  		max_rect.top = max_rect.left = 0;
+> > -		max_rect.width = vin->source.width;
+> > -		max_rect.height = vin->source.height;
+> > +		max_rect.width = vin->src_rect.width;
+> > +		max_rect.height = vin->src_rect.height;
+> >  		v4l2_rect_map_inside(&r, &max_rect);
+> >  
+> > -		v4l_bound_align_image(&r.width, 6, vin->source.width, 0,
+> > -				      &r.height, 2, vin->source.height, 0, 0);
+> > +		v4l_bound_align_image(&r.width, 6, vin->src_rect.width, 0,
+> > +				      &r.height, 2, vin->src_rect.height, 0, 0);
+> >  
+> > -		r.top  = clamp_t(s32, r.top, 0, vin->source.height - r.height);
+> > -		r.left = clamp_t(s32, r.left, 0, vin->source.width - r.width);
+> > +		r.top  = clamp_t(s32, r.top, 0,
+> > +				 vin->src_rect.height - r.height);
+> > +		r.left = clamp_t(s32, r.left, 0, vin->src_rect.width - r.width);
+> >  
+> >  		vin->crop = s->r = r;
+> >  
+> >  		vin_dbg(vin, "Cropped %dx%d@%d:%d of %dx%d\n",
+> >  			r.width, r.height, r.left, r.top,
+> > -			vin->source.width, vin->source.height);
+> > +			vin->src_rect.width, vin->src_rect.height);
+> >  		break;
+> >  	case V4L2_SEL_TGT_COMPOSE:
+> >  		/* Make sure compose rect fits inside output format */
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
+> > index e562c2ff21ec7e7b..86e9bad44484092c 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-vin.h
+> > +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
+> > @@ -176,7 +176,7 @@ struct rvin_info {
+> >   *
+> >   * @crop:		active cropping
+> >   * @compose:		active composing
+> > - * @source:		active size of the video source
+> > + * @src_rect:		active size of the video source
+> 
+> As this only holds a size you don't need a full rectangle, src_width and
+> src_height would save a bit of space. Up to you, in any case
 
-     Arnd
+I hope to get around to adding a struct v4l2_size to address this in the 
+future. For now I prefer to keep it as a v4l2_rect as there are other 
+members of struct rvin_dev which would benefit from a size structure as 
+well and having them all the same makes it easier to spot IMHO.
+
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Thanks.
+
+> 
+> >   * @std:		active video standard of the video source
+> >   *
+> >   * @alpha:		Alpha component to fill in for supported pixel formats
+> > @@ -215,7 +215,7 @@ struct rvin_dev {
+> >  
+> >  	struct v4l2_rect crop;
+> >  	struct v4l2_rect compose;
+> > -	struct v4l2_rect source;
+> > +	struct v4l2_rect src_rect;
+> >  	v4l2_std_id std;
+> >  
+> >  	unsigned int alpha;
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
