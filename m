@@ -2,116 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 445BAA7B5D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2019 08:15:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2934FA7C01
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Sep 2019 08:51:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727340AbfIDGPB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Sep 2019 02:15:01 -0400
-Received: from mail-eopbgr1410114.outbound.protection.outlook.com ([40.107.141.114]:43328
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726589AbfIDGPB (ORCPT
+        id S1728207AbfIDGvX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Sep 2019 02:51:23 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:39349 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725267AbfIDGvX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Sep 2019 02:15:01 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dwwCdDKaHBSpDx2/F2MCszs6ozYNZYEhS9vxvU4soxypLk0jLTfhP+5snQqdKxcvcpUI+3tJrUVTFliLsQ5hIt57Gz1J9EL1I2NZAWdGkmr4QvVzKETVKSdYhdu7d1n6bQf65wKR8iLdztgksY/TuR8wsrIAskmNYa22IJGANuAb8IGOwPRoU86zxWl27uTYLn06rQ2F8k3iqo3L1DkM1V1huu9ZCH2kWCRsw0s1BmSvsEwVSl11/40QIwu0NGFd65iOYsyhGY5BZFNRgofj9RA/xhH/IAKLvtVBKHAWu/6QwyVddJdN07bBzc4G5vh1dfUj/Tj1Kqtprw09qtQCJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BbYvSpkV4yGodz19q9O3Xsynhg20Ck3IiPgThZWa9dA=;
- b=ng6utsVjY16Lzu3sd0g248pSu8tx/fQWZhNRQNOu5R4I1eMxJF1o1NhQ86fzv3RDFWWxmjaV7tqXR/8GTQizazMc8oCKL02aZZEWcFl/7YKD2IMuYKYMHqWGxLYzW5LNwMddbJmswKW0o/lTNxc+ta4gpWyMpIfOiMvGfvFhch9IziHhN09bPNO0ZP30dseRFvS7yXUOoGWwX2FvkVNI43w4nHe8lpvDG3tpMDCPlM5luLDCmoecPuzSEiVt0XmIVva4TJGU83P/0S1okxDak51ssduyPIrcuh5Z9uhNYwnqu5Df4qFDUJvg3P2JWi3QxO0HFh2nXcgCBl9wRFZVzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BbYvSpkV4yGodz19q9O3Xsynhg20Ck3IiPgThZWa9dA=;
- b=iGxZhiDp2iIy+BcWkjeyoqTj0SLLeLC99UHgXKSV+sEZT4DdPdW4bN27zl0uxTQwtp/BmGgSPylv2DL/TcvxANtVUL/KwqX/gjUQZU02SMAqyb4OZ/3i+Vm1vWFOdM9/G9sDxnwybWKTDR2oFCSBy4Xl20ArXatXwA8StJPZIdk=
-Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
- TYAPR01MB2048.jpnprd01.prod.outlook.com (52.133.179.138) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2220.18; Wed, 4 Sep 2019 06:14:56 +0000
-Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
- ([fe80::6564:f61f:f179:facf]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
- ([fe80::6564:f61f:f179:facf%5]) with mapi id 15.20.2220.022; Wed, 4 Sep 2019
- 06:14:56 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Vinod Koul <vkoul@kernel.org>
-CC:     "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 0/2] dmaengine: rcar-dmac: minor modifications
-Thread-Topic: [PATCH 0/2] dmaengine: rcar-dmac: minor modifications
-Thread-Index: AQHVXMhHUZJIStNXp0ixtQGHtUkZ3qcbFS2AgAAAkKA=
-Date:   Wed, 4 Sep 2019 06:14:56 +0000
-Message-ID: <TYAPR01MB454461A61EE21E891FF171B5D8B80@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-References: <1566904231-25486-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <20190904060955.GG2672@vkoul-mobl>
-In-Reply-To: <20190904060955.GG2672@vkoul-mobl>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
-x-originating-ip: [150.249.235.54]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ce65a3e9-33ac-41e0-7758-08d730ff3566
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:TYAPR01MB2048;
-x-ms-traffictypediagnostic: TYAPR01MB2048:
-x-ms-exchange-purlcount: 2
-x-microsoft-antispam-prvs: <TYAPR01MB20485967C9EF157BFB58D051D8B80@TYAPR01MB2048.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 0150F3F97D
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(366004)(39860400002)(346002)(376002)(136003)(396003)(189003)(199004)(76116006)(14454004)(256004)(74316002)(66476007)(71200400001)(6506007)(6306002)(966005)(86362001)(66066001)(478600001)(11346002)(5660300002)(316002)(305945005)(486006)(186003)(53546011)(6436002)(446003)(76176011)(6916009)(99286004)(2906002)(66446008)(33656002)(53936002)(7736002)(4744005)(102836004)(64756008)(7696005)(9686003)(25786009)(6246003)(66946007)(3846002)(54906003)(6116002)(26005)(4326008)(8676002)(81166006)(81156014)(229853002)(66556008)(55016002)(8936002)(71190400001)(476003)(52536014);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB2048;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: AJSebpckDxGMocW3uBoCQu5awX7rfVZFUKfasmzmjCvGw7hDrGpgbCOyJlb5vTrgMOpJd3n3IR/flxU+xR+OYtaSS96Bo98KVe2bLl1Ug9LeoXHxufhp3juDQk+ltdRlzZClne+spJPuhV5JtbDTAMWvitoJ4OkIzbprlhFWswyorRe8B28nPRE+DVv1O102s2vQlHVAuBs09wiZ5g2qe1eegZBK+UWZtZkZJWvpgmYPWfUQp8TzcpJsfPr5eIB6KRZOzobYoQGCm74+wBTmA+/9mFu21mTEGFTHfazWOJEOxCIwd/fLWFyEFhsjV/XuGfKqGM6byf9HVRN88ysjmHd6auWBTXy7J3V8XRAy75yLxawDw4INyv+uy3F/9UcEfDPSr6bUpUxanuOU3YNsulIwuSe147JUzwloXf3Rio4=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Wed, 4 Sep 2019 02:51:23 -0400
+Received: by mail-ot1-f66.google.com with SMTP id n7so12139728otk.6;
+        Tue, 03 Sep 2019 23:51:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2i/QLkg5keQAK0ykB5c6dx7Mwtp6zbqw3+ck2ciNmqs=;
+        b=p0ne2IkZOYaOdAdp25sZs5B4V3KjgfGAUDYnAhCJZQzPXMs0/MMvJv4ZXJIKNS1Cpl
+         4DhVRqAoWkr8MfMI1NpFEZV19uGf2ewLst8PzWyDUsuiRBLRqcg071wGrJM70DYykLac
+         hAYnpFAXIEfU9DSdS5ataHKq71eg9ZlCBTx0qiqaeacIvQ6gGwFFYnjS/785Gn0khtPb
+         TLshMW8NClY8nT4W3aBICbK7bNUZJmZTTxnXkltSzYHYcX5VvN389WIWq0mcGsVpz5or
+         C7nN+86ASAQcYUXoZ1hS2wbY+/It38iGS6V4gTpEd9a6fbE8eZ4JUmVNU3RJZWhC5BbM
+         n5Nw==
+X-Gm-Message-State: APjAAAVuR4sTXp7gDdcW1bFPhOSuOprXpEYrzE0wjBGLcCw4sztWLm6j
+        Uxj1vteZVRdz57TU0OsG9ElEDxNkDqv5ciN9bUGlYDLO
+X-Google-Smtp-Source: APXvYqyI8oeA3wxUK2aDzVhoToCJbZNMuuu7RCaYq+0zBTlgBPa78RsY1TqUBAMT2leQFiFZnBI8Db0QKM3Hz4mWV3M=
+X-Received: by 2002:a05:6830:1196:: with SMTP id u22mr7678308otq.39.1567579882464;
+ Tue, 03 Sep 2019 23:51:22 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce65a3e9-33ac-41e0-7758-08d730ff3566
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Sep 2019 06:14:56.5706
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UgQbw5kltKKkdhhOg8QpjU+bbeq4GbMVBEeUhg/e8TQUFqtyqKWrhKicZYLXzoWqC9SWon5F1mkwRc4d6vxxyJXcRKvZeN8XbPyGF1lMVz3O0rkPxGx+viFxjF9vTT9J
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB2048
+References: <20190830134515.11925-1-geert+renesas@glider.be> <20190903220954.7753320882@mail.kernel.org>
+In-Reply-To: <20190903220954.7753320882@mail.kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 4 Sep 2019 08:51:10 +0200
+Message-ID: <CAMuHMdVxktbMUn-JCO6Oz8zgG5V+dLv=3cMompErU33DkBG=0w@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] clk: renesas: rcar-gen2/gen3: Switch to .determine_rate()
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Vinod,
+Hi Stephen,
 
-> From: Vinod Koul, Sent: Wednesday, September 4, 2019 3:10 PM
->=20
-> On 27-08-19, 20:10, Yoshihiro Shimoda wrote:
-> > This patch series is based on renesas-drivers.git /
-> > renesas-drivers-2019-08-13-v5.3-rc4 tag. This is minor modifications
-> > to add support for changed registers memory mapping hardware support
-> > easily in the future.
->=20
-> This fails to apply for me, please rebase and resend.
+On Wed, Sep 4, 2019 at 12:09 AM Stephen Boyd <sboyd@kernel.org> wrote:
+> Quoting Geert Uytterhoeven (2019-08-30 06:45:07)
+> > As the .round_rate() callback returns a long clock rate, it cannot
+> > return clock rates that do not fit in signed long, but do fit in
+> > unsigned long.  The newer .determine_rate() callback does not suffer
+> > from this limitation.  In addition, .determine_rate() provides the
+> > ability to specify a rate range.
+> >
+> > This patch series performs the customary preparatory cleanups, and
+> > switches the Z (CPU) and SD clocks in the R-Car Gen2 and Gen3 clock
+> > drivers from the .round_rate() to the .determine_rate() callback.
+> > Note that the "div6" clock driver hasn't been converted yet, so div6
+> > clocks still use .round_rate().
+> >
+> > Changes compared to v1[1]:
+> >   - Add preparatory arithmetic division improvements
+> >   - Split off cpg_sd_clock_calc_div() absorption and SD clock best rate
+> >     calculation,
+> >   - Use div_u64() for division by unsigned long,
+> >
+> > This has been tested on R-Car M2-W and various R-Car Gen3, and should
+> > have no behavioral impact.
+>
+> From what I recall the rate range code is broken but I can't remember
+> how. Anyway, I was just curious if you ran into any issues with that
+> code.
 
-I'm sorry for this. I'll rebase this patch series.
-Also, I'll rebase the following patch as one series.
-https://patchwork.kernel.org/patch/11118639/
+I didn't ran into any issues.  But please note that in all tested cases, the
+limits were 0 and ULONG_MAX anyway, so probably it didn't trigger the
+broken cases in the rate range code.
 
-And, note that the following patch [1] is already superseded.
-https://patchwork.kernel.org/patch/11118637/
+So, is it good to have .determine_rate() support in individual clock drivers
+now, or do you want me to postpone the last 3 patches of my series until the
+rate range code is fixed?
 
-Best regards,
-Yoshihiro Shimoda
+Thanks!
 
+Gr{oetje,eeting}s,
 
-> Thanks
->=20
-> --
-> ~Vinod
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
