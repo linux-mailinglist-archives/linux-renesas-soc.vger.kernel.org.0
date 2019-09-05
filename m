@@ -2,599 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D0BFA9EF4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2019 11:56:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87A5FA9FA7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2019 12:27:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731058AbfIEJ4c (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Sep 2019 05:56:32 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:33157 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725290AbfIEJ4c (ORCPT
+        id S1732546AbfIEK1E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Sep 2019 06:27:04 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:39381 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732470AbfIEK1E (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Sep 2019 05:56:32 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 73BB11C001F;
-        Thu,  5 Sep 2019 09:56:23 +0000 (UTC)
-Date:   Thu, 5 Sep 2019 11:57:57 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
-        horms@verge.net.au, uli@fpond.eu, airlied@linux.ie,
-        daniel@ffwll.ch, koji.matsuoka.xm@renesas.com, muroya@ksk.co.jp,
-        VenkataRajesh.Kalakodima@in.bosch.com,
-        Harsha.ManjulaMallikarjun@in.bosch.com,
-        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 08/14] drm: rcar-du: Add support for CMM
-Message-ID: <20190905095757.gg6s5pse5tvivxbs@uno.localdomain>
-References: <20190825135154.11488-1-jacopo+renesas@jmondi.org>
- <20190825135154.11488-9-jacopo+renesas@jmondi.org>
- <20190827002422.GQ5031@pendragon.ideasonboard.com>
- <20190827145619.33s7gkv7tgtsr6nz@uno.localdomain>
- <20190827163423.GB5054@pendragon.ideasonboard.com>
+        Thu, 5 Sep 2019 06:27:04 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id A97FB3C00C5;
+        Thu,  5 Sep 2019 12:27:01 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id weaR-lh-XcB0; Thu,  5 Sep 2019 12:26:55 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id B604A3C005E;
+        Thu,  5 Sep 2019 12:26:55 +0200 (CEST)
+Received: from vmlxhi-070.adit-jv.com (10.72.93.148) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Thu, 5 Sep 2019
+ 12:26:55 +0200
+Date:   Thu, 5 Sep 2019 12:26:16 +0200
+From:   veeraiyan chidambaram <external.veeraiyan.c@de.adit-jv.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+CC:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        "REE erosca@DE.ADIT-JV.COM" <erosca@DE.ADIT-JV.COM>,
+        Veeraiyan Chidambaram <veeraiyan.chidambaram@in.bosch.com>
+Subject: Re: [PATCH v2] usb: gadget: udc: renesas_usb3: add suspend event
+ support
+Message-ID: <20190905102616.GA3752@vmlxhi-070.adit-jv.com>
+References: <TYAPR01MB454435E0431173D3C7F76D65D8B80@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+ <1567608481-771-1-git-send-email-external.veeraiyan.c@de.adit-jv.com>
+ <OSAPR01MB4529159D4DA9764B0688D4A4D8BB0@OSAPR01MB4529.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="vshdzxkdbqvaeroa"
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20190827163423.GB5054@pendragon.ideasonboard.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <OSAPR01MB4529159D4DA9764B0688D4A4D8BB0@OSAPR01MB4529.jpnprd01.prod.outlook.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.72.93.148]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hello Shimoda-san,
 
---vshdzxkdbqvaeroa
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Please ignore my previous V2 patch [1] and take V3 patch[2].
+sorry for the inconvenience.
+[1] https://patchwork.kernel.org/patch/11132433/
+[2] https://patchwork.kernel.org/patch/11132489/
+Best regards,
+Veeraiyan Chidambaram
 
-Hi Laurent,
-
-On Tue, Aug 27, 2019 at 07:34:23PM +0300, Laurent Pinchart wrote:
-> Hi Laurent,
->
-> On Tue, Aug 27, 2019 at 04:56:19PM +0200, Jacopo Mondi wrote:
-> > On Tue, Aug 27, 2019 at 03:24:22AM +0300, Laurent Pinchart wrote:
-> > > On Sun, Aug 25, 2019 at 03:51:48PM +0200, Jacopo Mondi wrote:
-> > > > Add a driver for the R-Car Display Unit Color Correction Module.
-> > > >
-> > > > In most of Gen3 SoCs, each DU output channel is provided with a CMM=
- unit
-> > > > to perform image enhancement and color correction.
-> > > >
-> > > > Add support for CMM through a driver that supports configuration of
-> > > > the 1-dimensional LUT table. More advanced CMM feature will be
-> > > > implemented on top of this basic one.
-> > > >
-> > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > > ---
-> > > >  drivers/gpu/drm/rcar-du/Kconfig    |   7 +
-> > > >  drivers/gpu/drm/rcar-du/Makefile   |   1 +
-> > > >  drivers/gpu/drm/rcar-du/rcar_cmm.c | 262 +++++++++++++++++++++++++=
-++++
-> > > >  drivers/gpu/drm/rcar-du/rcar_cmm.h |  38 +++++
-> > > >  4 files changed, 308 insertions(+)
-> > > >  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.c
-> > > >  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.h
-> > > >
-> > > > diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar=
--du/Kconfig
-> > > > index 1529849e217e..539d232790d1 100644
-> > > > --- a/drivers/gpu/drm/rcar-du/Kconfig
-> > > > +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> > > > @@ -13,6 +13,13 @@ config DRM_RCAR_DU
-> > > >  	  Choose this option if you have an R-Car chipset.
-> > > >  	  If M is selected the module will be called rcar-du-drm.
-> > > >
-> > > > +config DRM_RCAR_CMM
-> > > > +	bool "R-Car DU Color Management Module (CMM) Support"
-> > > > +	depends on DRM && OF
-> > > > +	depends on DRM_RCAR_DU
-> > > > +	help
-> > > > +	  Enable support for R-Car Color Management Module (CMM).
-> > > > +
-> > > >  config DRM_RCAR_DW_HDMI
-> > > >  	tristate "R-Car DU Gen3 HDMI Encoder Support"
-> > > >  	depends on DRM && OF
-> > > > diff --git a/drivers/gpu/drm/rcar-du/Makefile b/drivers/gpu/drm/rca=
-r-du/Makefile
-> > > > index 6c2ed9c46467..4d1187ccc3e5 100644
-> > > > --- a/drivers/gpu/drm/rcar-du/Makefile
-> > > > +++ b/drivers/gpu/drm/rcar-du/Makefile
-> > > > @@ -15,6 +15,7 @@ rcar-du-drm-$(CONFIG_DRM_RCAR_LVDS)	+=3D rcar_du_=
-of.o \
-> > > >  rcar-du-drm-$(CONFIG_DRM_RCAR_VSP)	+=3D rcar_du_vsp.o
-> > > >  rcar-du-drm-$(CONFIG_DRM_RCAR_WRITEBACK) +=3D rcar_du_writeback.o
-> > > >
-> > > > +obj-$(CONFIG_DRM_RCAR_CMM)		+=3D rcar_cmm.o
-> > > >  obj-$(CONFIG_DRM_RCAR_DU)		+=3D rcar-du-drm.o
-> > > >  obj-$(CONFIG_DRM_RCAR_DW_HDMI)		+=3D rcar_dw_hdmi.o
-> > > >  obj-$(CONFIG_DRM_RCAR_LVDS)		+=3D rcar_lvds.o
-> > > > diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.c b/drivers/gpu/drm/r=
-car-du/rcar_cmm.c
-> > > > new file mode 100644
-> > > > index 000000000000..55361f5701e8
-> > > > --- /dev/null
-> > > > +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.c
-> > > > @@ -0,0 +1,262 @@
-> > > > +// SPDX-License-Identifier: GPL-2.0+
-> > > > +/*
-> > > > + * rcar_cmm.c -- R-Car Display Unit Color Management Module
-> > > > + *
-> > > > + * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > > + */
-> > > > +
-> > > > +#include <linux/io.h>
-> > > > +#include <linux/module.h>
-> > > > +#include <linux/of.h>
-> > > > +#include <linux/platform_device.h>
-> > > > +#include <linux/pm_runtime.h>
-> > > > +
-> > > > +#include <drm/drm_color_mgmt.h>
-> > > > +
-> > > > +#include "rcar_cmm.h"
-> > > > +
-> > > > +#define CM2_LUT_CTRL		0x0000
-> > > > +#define CM2_LUT_CTRL_LUT_EN	BIT(0)
-> > > > +#define CM2_LUT_TBL_BASE	0x0600
-> > > > +#define CM2_LUT_TBL(__i)	(CM2_LUT_TBL_BASE + (__i) * 4)
-> > > > +
-> > > > +struct rcar_cmm {
-> > > > +	void __iomem *base;
-> > > > +	bool enabled;
-> > > > +
-> > > > +	/*
-> > > > +	 * @lut:		1D-LUT status
-> > > > +	 * @lut.enabled:	1D-LUT enabled flag
-> > > > +	 * @lut.size:		Number of entries in the LUT table
-> > >
-> > > Please see my review of patch 13/14, I wonder if we could drop this
-> > > field.
-> > >
-> > > > +	 * @lut.table:		Table of 1D-LUT entries scaled to HW support
-> > > > +	 *			precision (8-bits per color component)
-> > > > +	 */
-> > > > +	struct {
-> > > > +		bool enabled;
-> > > > +		unsigned int size;
-> > > > +		u32 table[CMM_GAMMA_LUT_SIZE];
-> > > > +	} lut;
-> > > > +};
-> > > > +
-> > > > +static inline int rcar_cmm_read(struct rcar_cmm *rcmm, u32 reg)
-> > > > +{
-> > > > +	return ioread32(rcmm->base + reg);
-> > > > +}
-> > > > +
-> > > > +static inline void rcar_cmm_write(struct rcar_cmm *rcmm, u32 reg, =
-u32 data)
-> > > > +{
-> > > > +	iowrite32(data, rcmm->base + reg);
-> > > > +}
-> > > > +
-> > > > +/*
-> > > > + * rcar_cmm_lut_extract() - Scale down to hw precision the DRM LUT=
- table
-> > >
-> > > s/hw/hardware/ (and below too)
-> > >
-> > > > + *			    entries and store them.
-> > > > + * @rcmm: Pointer to the CMM device
-> > > > + * @size: Number of entries in the table
-> > > > + * @drm_lut: DRM LUT table
-> > > > + */
-> > > > +static void rcar_cmm_lut_extract(struct rcar_cmm *rcmm, size_t siz=
-e,
-> > > > +				 const struct drm_color_lut *drm_lut)
-> > > > +{
-> > > > +	unsigned int i;
-> > > > +
-> > > > +	for (i =3D 0; i < size; ++i) {
-> > > > +		const struct drm_color_lut *lut =3D &drm_lut[i];
-> > > > +
-> > > > +		rcmm->lut.table[i] =3D drm_color_lut_extract(lut->red, 8) << 16
-> > > > +				   | drm_color_lut_extract(lut->green, 8) << 8
-> > > > +				   | drm_color_lut_extract(lut->blue, 8);
-> > > > +	}
-> > > > +
-> > > > +	rcmm->lut.size =3D size;
-> > > > +}
-> > > > +
-> > > > +/*
-> > > > + * rcar_cmm_lut_load() - Write to hw the LUT table entries from th=
-e local table.
-> > > > + *
-> > >
-> > > No need for a blank line
-> > >
-> > > > + * @rcmm: Pointer to the CMM device
-> > > > + */
-> > > > +static void rcar_cmm_lut_load(struct rcar_cmm *rcmm)
-> > >
-> > > I would name this rcar_cmm_lut_write().
-> >
-> > I won't, as I would like to convey the LUT tables is loaded from the
-> > local cache after it has been scaled down to the hardware supported
-> > precision.
->
-> "load" hints a read though, and here you write the LUT to the hardware.
-> Without reading the comments I would have thought this function would
-> read the LUT back from the hardware.
->
-> > > > +{
-> > > > +	unsigned int i;
-> > > > +
-> > > > +	for (i =3D 0; i < rcmm->lut.size; ++i) {
-> > > > +		u32 entry =3D rcmm->lut.table[i];
-> > > > +
-> > > > +		rcar_cmm_write(rcmm, CM2_LUT_TBL(i), entry);
-> > >
-> > > You don't need the local entry variable.
-> >
-> > True, but the code is nicer to read and the compiler should be smart
-> > enough to optimize it away
->
-> I'm not sure about nicer to read, I find the opposite personally, but
-> it's your code :-)
->
-> > > > +	}
-> > > > +}
-> > > > +
-> > > > +/**
-> > > > + * rcar_cmm_setup() - configure the CMM unit
-> > >
-> > > s/configure/Configure/ and s/$/./, or the other way around for the ot=
-her
-> > > functions (I don't mine which one, but let's stay consistent).
-> >
-> > Oh right, sorry for the confusion
->
-> It's just my OCD kicking in :-)
->
-> > > > + *
-> > >
-> > > No need for a blank line (same for the functions below).
-> > >
-> > > > + * @pdev: The platform device associated with the CMM instance
-> > > > + * @config: The CRTC-provided configuration.
-> > > > + *
-> > > > + * Configure the CMM unit with the CRTC-provided configuration.
-> > > > + * Currently enabling, disabling and programming of the 1-D LUT un=
-it is
-> > > > + * supported.
-> > > > + */
-> > > > +int rcar_cmm_setup(struct platform_device *pdev,
-> > > > +		   const struct rcar_cmm_config *config)
-> > > > +{
-> > > > +	struct rcar_cmm *rcmm =3D platform_get_drvdata(pdev);
-> > > > +
-> > > > +	if (config->lut.size > CMM_GAMMA_LUT_SIZE)
-> > > > +		return -EINVAL;
-> > > > +
-> > > > +	/*
-> > > > +	 * As rcar_cmm_setup() is called by atomic commit tail helper, it=
- might
-> > > > +	 * be called when the CMM is disabled. As we can't program the ha=
-rdware
-> > > > +	 * in that case, store the configuration internally and apply it =
-when
-> > > > +	 * the CMM will be enabled by the CRTC through rcar_cmm_enable().
-> > > > +	 */
-> > > > +	if (!rcmm->enabled) {
-> > > > +		if (!config->lut.enable)
-> > > > +			return 0;
-> > > > +
-> > > > +		rcar_cmm_lut_extract(rcmm, config->lut.size, config->lut.table);
-> > > > +		rcmm->lut.enabled =3D true;
-> > > > +
-> > > > +		return 0;
-> > > > +	}
-> > > > +
-> > > > +	/* Stop LUT operations if requested. */
-> > > > +	if (!config->lut.enable) {
-> > > > +		if (rcmm->lut.enabled) {
-> > > > +			rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
-> > > > +			rcmm->lut.enabled =3D false;
-> > > > +			rcmm->lut.size =3D 0;
-> > > > +		}
-> > > > +
-> > > > +		return 0;
-> > > > +	}
-> > > > +
-> > > > +	/*
-> > > > +	 * Enable LUT and program the new gamma table values.
-> > > > +	 *
-> > > > +	 * FIXME: In order to have stable operations it is required to fi=
-rst
-> > > > +	 * enable the 1D-LUT and then program its table entries. This see=
-ms to
-> > > > +	 * contradict what the chip manual reports, and will have to be
-> > > > +	 * reconsidered when implementing support for double buffering.
-> > > > +	 */
-> > > > +	if (!rcmm->lut.enabled) {
-> > > > +		rcar_cmm_write(rcmm, CM2_LUT_CTRL, CM2_LUT_CTRL_LUT_EN);
-> > > > +		rcmm->lut.enabled =3D true;
-> > > > +	}
-> > > > +
-> > > > +	rcar_cmm_lut_extract(rcmm, config->lut.size, config->lut.table);
-> > > > +	rcar_cmm_lut_load(rcmm);
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +EXPORT_SYMBOL_GPL(rcar_cmm_setup);
-> > > > +
-> > > > +/**
-> > > > + * rcar_cmm_enable() - enable the CMM unit
-> > > > + *
-> > > > + * @pdev: The platform device associated with the CMM instance
-> > > > + *
-> > > > + * Enable the CMM unit by enabling the parent clock and enabling t=
-he CMM
-> > > > + * components, such as 1-D LUT, if requested.
-> > > > + */
-> > > > +int rcar_cmm_enable(struct platform_device *pdev)
-> > > > +{
-> > > > +	struct rcar_cmm *rcmm =3D platform_get_drvdata(pdev);
-> > > > +	int ret;
-> > > > +
-> > > > +	if (!rcmm)
-> > > > +		return -EPROBE_DEFER;
-> > >
-> > > This function is called in rcar_du_crtc_atomic_enable(), so that's not
-> > > the right error code. It seems we need another function for the CMM A=
-PI
-> > > to defer probing :-/ I would call it rcar_cmm_init(). This check would
-> > > then be removed.
-> >
-> > I agree about the return code, but not the name, as this function
-> > actually enables the CMM.
->
-> I meant creating a new rcar_cmm_init() function that would just have the
-> !rcmm check.
->
-> > PROBE_DEFER does not make any sense here, I
-> > wonder where it come from, as the probing of CMM and DU has long
-> > happened once we get here (at least, I assume so, if we receive a
-> > gamma_table, userspace has already been running, and both DU and CMM
-> > should have probed. Otherwise, we can exploit the newly created device
-> > link, and make sure DU probes after the CMM).
-> >
-> > I would just change the return value here, and possibly use the device
-> > link to ensure the correct probing sequence.
->
-> How does device link help here ?
->
-
-Currently it doesn't, as we are creating a stateless link.
-
-But if we go for a managed device link (which is the default, by the
-way, you have to opt-out from it) we can guarantee the CMM has probed
-before the DU probes, so that we have a guarantee when we get here
-!rcmm cannot happen.
-
-https://www.kernel.org/doc/html/v5.2-rc7/driver-api/device_link.html
-"The consumer devices are not probed before the supplier is bound to a driv=
-er,
- and they=E2=80=99re unbound before the supplier is unbound."
-
-As we create the link, the CMM is the supplier of DU, so we could just
-drop the DL_FLAG_STATELESS flag in device_link_add() in 10/14.
-
-Does this match your understanding ?
-
-> > > > +
-> > > > +	ret =3D pm_runtime_get_sync(&pdev->dev);
-> > > > +	if (ret < 0)
-> > > > +		return ret;
-> > > > +
-> > > > +	/* Apply the LUT table values saved at rcar_cmm_setup() time. */
-> > > > +	if (rcmm->lut.enabled) {
-> > > > +		rcar_cmm_write(rcmm, CM2_LUT_CTRL, CM2_LUT_CTRL_LUT_EN);
-> > > > +		rcar_cmm_lut_load(rcmm);
-> > >
-> > > You will not like this, but I just realised that we're now reprogramm=
-ing
-> > > the LUT contents every time the CMM is enabled. Do you think that's
-> > > something we should optimise ? And yes, that would require introducing
-> >
-> > Why so? If we receive an enable after a disable which stops the CMM
-> > clock and we have no guarantees the table entries have been kept, or
-> > what we receive from userspace has changed or not. Why is this an
-> > issue in your opinion?
->
-> I thought the hardware preserved the LUT ? Skipping the LUT write is an
-> optimisation, so we could do without it in the initial version. I think
-> it would become more important with the CLU though, as we'll have more
-> data entries there. Maybe we should first check how much time the LUT
-> and CLU writes take before deciding to optimise them.
->
-
-Yeah, let's post-pone optimizations...
-
-> > > back an update flag in rcmm->lut :-S Sorry for not realising this whe=
-n I
-> > > proposed dropping it.
-> > >
-> > > > +	}
-> > > > +
-> > > > +	rcmm->enabled =3D true;
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +EXPORT_SYMBOL_GPL(rcar_cmm_enable);
-> > > > +
-> > > > +/**
-> > > > + * rcar_cmm_disable() - disable the CMM unit
-> > > > + *
-> > > > + * @pdev: The platform device associated with the CMM instance
-> > > > + *
-> > > > + * Disable the CMM unit by stopping the parent clock.
-> > > > + */
-> > > > +void rcar_cmm_disable(struct platform_device *pdev)
-> > > > +{
-> > > > +	struct rcar_cmm *rcmm =3D platform_get_drvdata(pdev);
-> > > > +
-> > > > +	rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
-> > > > +
-> > > > +	pm_runtime_put(&pdev->dev);
-> > > > +
-> > > > +	rcmm->lut.enabled =3D false;
-> > > > +	rcmm->lut.size =3D 0;
-> > > > +
-> > > > +	rcmm->enabled =3D false;
-> > > > +}
-> > > > +EXPORT_SYMBOL_GPL(rcar_cmm_disable);
-> > > > +
-> > > > +static int rcar_cmm_probe(struct platform_device *pdev)
-> > > > +{
-> > > > +	struct rcar_cmm *rcmm;
-> > > > +	struct resource *res;
-> > > > +
-> > > > +	rcmm =3D devm_kzalloc(&pdev->dev, sizeof(*rcmm), GFP_KERNEL);
-> > > > +	if (!rcmm)
-> > > > +		return -ENOMEM;
-> > > > +
-> > > > +	platform_set_drvdata(pdev, rcmm);
-> > > > +
-> > > > +	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> > > > +	rcmm->base =3D devm_ioremap_resource(&pdev->dev, res);
-> > > > +	if (IS_ERR(rcmm->base))
-> > > > +		return PTR_ERR(rcmm->base);
-> > >
-> > > You really don't like combining those two calls, do you ? :-)
-> >
-> > devm_of_iomap() ?
->
-> devm_platform_ioremap_resource()
->
-
-Oh stupid, thanks!
-
-Thanks
-   j
-
-> > > > +
-> > > > +	pm_runtime_enable(&pdev->dev);
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > > +static int rcar_cmm_remove(struct platform_device *pdev)
-> > > > +{
-> > > > +	pm_runtime_disable(&pdev->dev);
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > > +static const struct of_device_id rcar_cmm_of_table[] =3D {
-> > > > +	{ .compatible =3D "renesas,cmm-r8a7795", },
-> > > > +	{ .compatible =3D "renesas,cmm-r8a7796", },
-> > > > +	{ .compatible =3D "renesas,cmm-r8a77965", },
-> > > > +	{ .compatible =3D "renesas,cmm-r8a77990", },
-> > > > +	{ .compatible =3D "renesas,cmm-r8a77995", },
-> > >
-> > > As Geert pointed out, I would drop those entries.
-> >
-> > yes
-> >
-> > > > +	{ .compatible =3D "renesas,rcar-gen3-cmm", },
-> > > > +	{ .compatible =3D "renesas,rcar-gen2-cmm", },
-> > > > +	{ },
-> > > > +};
-> > > > +MODULE_DEVICE_TABLE(of, rcar_cmm_of_table);
-> > > > +
-> > > > +static struct platform_driver rcar_cmm_platform_driver =3D {
-> > > > +	.probe		=3D rcar_cmm_probe,
-> > > > +	.remove		=3D rcar_cmm_remove,
-> > > > +	.driver		=3D {
-> > > > +		.name	=3D "rcar-cmm",
-> > > > +		.of_match_table =3D rcar_cmm_of_table,
-> > > > +	},
-> > > > +};
-> > > > +
-> > > > +module_platform_driver(rcar_cmm_platform_driver);
-> > > > +
-> > > > +MODULE_AUTHOR("Jacopo Mondi <jacopo+renesas@jmondi.org>");
-> > > > +MODULE_DESCRIPTION("Renesas R-Car CMM Driver");
-> > > > +MODULE_LICENSE("GPL v2");
-> > > > diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.h b/drivers/gpu/drm/r=
-car-du/rcar_cmm.h
-> > > > new file mode 100644
-> > > > index 000000000000..b0bb7349ebaa
-> > > > --- /dev/null
-> > > > +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.h
-> > > > @@ -0,0 +1,38 @@
-> > > > +/* SPDX-License-Identifier: GPL-2.0+ */
-> > > > +/*
-> > > > + * rcar_cmm.h -- R-Car Display Unit Color Management Module
-> > > > + *
-> > > > + * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > > + */
-> > > > +
-> > > > +#ifndef __RCAR_CMM_H__
-> > > > +#define __RCAR_CMM_H__
-> > > > +
-> > > > +#define CMM_GAMMA_LUT_SIZE		256
-> > > > +
-> > > > +struct drm_color_lut;
-> > > > +struct platform_device;
-> > > > +
-> > > > +/**
-> > > > + * struct rcar_cmm_config - CMM configuration
-> > > > + *
-> > > > + * @lut:	1D-LUT configuration
-> > > > + * @lut.enable:	1D-LUT enable flag
-> > > > + * @lut.table:	1D-LUT table entries
-> > > > + * @lut.size:	Number of 1D-LUT (max 256)
-> > >
-> > > s/1D-LUT/1D-LUT entries/
-> >
-> > ack, I'll change this.
-> >
-> > > > + */
-> > > > +struct rcar_cmm_config {
-> > > > +	struct {
-> > > > +		bool enable;
-> > > > +		struct drm_color_lut *table;
-> > > > +		unsigned int size;
-> > > > +	} lut;
-> > > > +};
-> > > > +
-> > > > +int rcar_cmm_enable(struct platform_device *pdev);
-> > > > +void rcar_cmm_disable(struct platform_device *pdev);
-> > > > +
-> > > > +int rcar_cmm_setup(struct platform_device *pdev,
-> > > > +		   const struct rcar_cmm_config *config);
-> > > > +
-> > > > +#endif /* __RCAR_CMM_H__ */
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
---vshdzxkdbqvaeroa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1w3CQACgkQcjQGjxah
-VjzbIA/+LgrHbVxVTWMGN8f6AHtJaz4hhI9TQWewAwIjx9A/ZfvtxpOlUVgEXkgM
-XYSEtFdQoxhXGIXlkHsoX/G04DXT63OMWJAI153DwYZ+qyiiA2IDrlmHh6BaOEk3
-aCLg8esrmjomnStfifVvMHcFQ1owXKhfYOG+kZZctZtk7TCZb99zwNVsjgAeXgsl
-1sFocg85PcAFwFv5Lr/ogF+AKa0485rp0tdqMAFrgTojXIiaCNL3VaV+YaydEu6+
-EZv66QkqdtFcEYnAxswhNvH7GZ9EO0at7OYQccWRIU+yUgVJbAG6rqJkEQGGRzP+
-0IT8thyCUOHLoc+Sh6oC9b2rMVPEBS9YWilH4IU0jQqtor1wIdhgZ/P6TBSiBYJk
-+1ADPtK1+owL394Lva9X2J9VgSnpLaOdC7CV4RZZ6Dl0MfN9BiFUQVFAGnk74Rp+
-utBTCoWaSsS4kSi6hHYD9bgXyQWHNR8G8L5SjKRyT9m+LENcUz/6oosMn1xVtdRn
-VJq4voe+YnBhSBIyx20lfBgZyHNCxXianabJ2G1IjuZFcXWdAVmgXCFt3iukY25C
-EXcsGAmLcOwhgGQQ6y2Unm5oKeexNDT20Vi5TcPwOTh8PF6P/Knu9iXYvYLjsl+k
-F67nZC9pjbsqE01RVGJM6FBTywThYOxvgrQCdtNZdpqcpvWEElU=
-=2dT/
------END PGP SIGNATURE-----
-
---vshdzxkdbqvaeroa--
+On Thu, Sep 05, 2019 at 02:09:42AM +0000, Yoshihiro Shimoda wrote:
+> Hi Veeraiyan,
+> 
+> Thank you for the patch!
+> 
+> > From: Veeraiyan Chidambaram, Sent: Wednesday, September 4, 2019 11:48 PM
+> <snip>
+> > --- a/drivers/usb/gadget/udc/renesas_usb3.c
+> > +++ b/drivers/usb/gadget/udc/renesas_usb3.c
+> > @@ -767,6 +767,20 @@ static void usb3_irq_epc_int_1_resume(struct renesas_usb3 *usb3)
+> >  	usb3_transition_to_default_state(usb3, false);
+> >  }
+> > 
+> > +static void usb3_irq_epc_int_1_suspend(struct renesas_usb3 *usb3)
+> > +{
+> > +	usb3_disable_irq_1(usb3, USB_INT_1_B2_SPND);
+> > +
+> > +	if (usb3->driver &&
+> > +	    usb3->driver->suspend &&
+> 
+> As I mentioned on v1 patch [1], I'd like to remove these conditions.
+> After fixed it,
+> 
+> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> 
+> [1] https://patchwork.kernel.org/patch/11129797/#22862513
+> 
+> Best regards,
+> Yoshihiro Shimoda
+> 
+> > +	    usb3->gadget.speed != USB_SPEED_UNKNOWN &&
+> > +	    usb3->gadget.state != USB_STATE_NOTATTACHED) {
+> > +		if (usb3->driver && usb3->driver->suspend)
+> > +			usb3->driver->suspend(&usb3->gadget);
+> > +		usb_gadget_set_state(&usb3->gadget, USB_STATE_SUSPENDED);
+> > +	}
+> > +}
+> > +
+> >  static void usb3_irq_epc_int_1_disable(struct renesas_usb3 *usb3)
+> >  {
+> >  	usb3_stop_usb3_connection(usb3);
+> > @@ -852,6 +866,9 @@ static void usb3_irq_epc_int_1(struct renesas_usb3 *usb3, u32 int_sta_1)
+> >  	if (int_sta_1 & USB_INT_1_B2_RSUM)
+> >  		usb3_irq_epc_int_1_resume(usb3);
+> > 
+> > +	if (int_sta_1 & USB_INT_1_B2_SPND)
+> > +		usb3_irq_epc_int_1_suspend(usb3);
+> > +
+> >  	if (int_sta_1 & USB_INT_1_SPEED)
+> >  		usb3_irq_epc_int_1_speed(usb3);
+> > 
+> > --
+> > 2.7.4
+> 
