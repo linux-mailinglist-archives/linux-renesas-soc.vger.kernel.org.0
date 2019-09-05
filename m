@@ -2,47 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B2242AA146
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2019 13:26:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A616AA206
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2019 13:50:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388392AbfIEL0E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Sep 2019 07:26:04 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:54340 "EHLO
+        id S1731557AbfIELu1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Sep 2019 07:50:27 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:54480 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732580AbfIEL0E (ORCPT
+        with ESMTP id S1730710AbfIELu1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Sep 2019 07:26:04 -0400
+        Thu, 5 Sep 2019 07:50:27 -0400
 Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB06126D;
-        Thu,  5 Sep 2019 13:26:00 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 40B1A26D;
+        Thu,  5 Sep 2019 13:50:23 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1567682761;
-        bh=PDM2yg84iLZxQ9w4hCMgxPNjGc9GtOUOGtLLgc+7y2w=;
+        s=mail; t=1567684223;
+        bh=lEu+dESfPaPvlOhAgDlp7pgN1H/JM52PZwe5XiA14vg=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=f+Hpg8NSUg1iGUf3k42bWXSJbLsMLp6/KZKiry+7CLg0Kil9hX+LlHRrMHKteTgDq
-         xESEcAnQjuF0Y8cy/KfKZ8tfYzI+Vn6/nI/uXJsiMB2g0n6FqA18hvlizMnIxbXsk8
-         pgHr0nJvYMV27Ysa2JcCE65YJT167kPsP585+iY0=
-Date:   Thu, 5 Sep 2019 14:25:54 +0300
+        b=b6/dHvO1GW0lTRnzgY018/aYDckiV/peXl5PDb9J6pWCSS7z7bWM/ARMFy9PUFHZf
+         iuxJkpEDe3RcIOqzGEUIArKevUSnnzkTzQU/MJXMrVKS1q98OSeOoxoY2OM/D8QtVj
+         o681wHrlj7R/wGch5uncAogODQ6LFr9XKTL9+TSw=
+Date:   Thu, 5 Sep 2019 14:50:17 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
-        horms@verge.net.au, uli@fpond.eu, airlied@linux.ie,
-        daniel@ffwll.ch, koji.matsuoka.xm@renesas.com, muroya@ksk.co.jp,
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Simon Horman <horms@verge.net.au>, Ulrich Hecht <uli@fpond.eu>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>, muroya@ksk.co.jp,
         VenkataRajesh.Kalakodima@in.bosch.com,
         Harsha.ManjulaMallikarjun@in.bosch.com,
-        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 14/14] drm: rcar-du: Force CMM enablement when resuming
-Message-ID: <20190905112554.GH5035@pendragon.ideasonboard.com>
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Subject: Re: [PATCH v3 01/14] dt-bindings: display: renesas,cmm: Add R-Car
+ CMM documentation
+Message-ID: <20190905115017.GI5035@pendragon.ideasonboard.com>
 References: <20190825135154.11488-1-jacopo+renesas@jmondi.org>
- <20190825135154.11488-15-jacopo+renesas@jmondi.org>
- <20190827000517.GC5274@pendragon.ideasonboard.com>
- <20190905105809.iguzoqenlcriqegk@uno.localdomain>
+ <20190825135154.11488-2-jacopo+renesas@jmondi.org>
+ <CAMuHMdVvjrMXap5CQ-grNYpJfOG6QeN26EW4tR_YE=VFv5ozqw@mail.gmail.com>
+ <20190826075943.h7ivwagape3glym5@uno.localdomain>
+ <20190826101550.GB5031@pendragon.ideasonboard.com>
+ <20190830180108.mlei4wbfn3mktj23@uno.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190905105809.iguzoqenlcriqegk@uno.localdomain>
+In-Reply-To: <20190830180108.mlei4wbfn3mktj23@uno.localdomain>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -51,117 +61,127 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Jacopo,
 
-On Thu, Sep 05, 2019 at 12:58:09PM +0200, Jacopo Mondi wrote:
-> On Tue, Aug 27, 2019 at 03:05:17AM +0300, Laurent Pinchart wrote:
-> > Hi Jacopo,
-> >
-> > (Question for Daniel below)
-> >
-> > Thank you for the patch.
-> >
-> > On Sun, Aug 25, 2019 at 03:51:54PM +0200, Jacopo Mondi wrote:
-> >> When resuming from system suspend, the DU driver is responsible for
-> >> reprogramming and enabling the CMM unit if it was in use at the time
-> >> the system entered the suspend state.
+On Fri, Aug 30, 2019 at 08:01:09PM +0200, Jacopo Mondi wrote:
+> On Mon, Aug 26, 2019 at 01:15:50PM +0300, Laurent Pinchart wrote:
+> > On Mon, Aug 26, 2019 at 09:59:43AM +0200, Jacopo Mondi wrote:
+> >> On Mon, Aug 26, 2019 at 09:34:41AM +0200, Geert Uytterhoeven wrote:
+> >>> On Sun, Aug 25, 2019 at 3:50 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
+> >>>> Add device tree bindings documentation for the Renesas R-Car Display
+> >>>> Unit Color Management Module.
+> >>>>
+> >>>> CMM is the image enhancement module available on each R-Car DU video
+> >>>> channel on R-Car Gen2 and Gen3 SoCs (V3H and V3M excluded).
+> >>>>
+> >>>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> >>>
+> >>> Thanks for your patch!
+> >>>
+> >>>> --- /dev/null
+> >>>> +++ b/Documentation/devicetree/bindings/display/renesas,cmm.txt
+> >>>> @@ -0,0 +1,33 @@
+> >>>> +* Renesas R-Car Color Management Module (CMM)
+> >>>> +
+> >>>> +Renesas R-Car image enhancement module connected to R-Car DU video channels.
+> >>>> +
+> >>>> +Required properties:
+> >>>> + - compatible: shall be one or more of the following:
+> >>>> +   - "renesas,cmm-r8a7795": for R8A7795 (R-Car H3) compatible CMM.
+> >>>> +   - "renesas,cmm-r8a7796": for R8A7796 (R-Car M3-W) compatible CMM.
+> >>>> +   - "renesas,cmm-r8a77965": for R8A77965 (R-Car M3-N) compatible CMM.
+> >>>> +   - "renesas,cmm-r8a77990": for R8A77990 (R-Car E3) compatible CMM.
+> >>>> +   - "renesas,cmm-r8a77995": for R8A77995 (R-Car D3) compatible CMM.
+> >>>
+> >>> Please use "renesas,<socype->-cmm" instead of "renesas,cmm-<soctype>".
 > >>
-> >> Force the color_mgmt_changed flag to true if any of the DRM color
-> >> transformation properties was set in the CRTC state duplicated at
-> >> suspend time, as the CMM gets reprogrammed only if said flag is active in
-> >> the rcar_du_atomic_commit_update_cmm() method.
+> >> I actually copied it from the r-car gpio bindings, and I liked
+> >> cmm-<soctype> better. If you prefer I can change it though.
 > >>
-> >> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> >> ---
-> >>  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 21 +++++++++++++++++++++
-> >>  1 file changed, 21 insertions(+)
+> >>>> +   - "renesas,rcar-gen3-cmm": for a generic R-Car Gen3 compatible CMM.
+> >>>> +   - "renesas,rcar-gen2-cmm": for a generic R-Car Gen2 compatible CMM.
+> >>>> +
+> >>>> +   When the generic compatible string is specified, the SoC-specific
+> >>>> +   version corresponding to the platform should be listed first.
+> >>>> +
+> >>>> + - reg: the address base and length of the memory area where CMM control
+> >>>> +   registers are mapped to.
+> >>>> +
+> >>>> + - clocks: phandle and clock-specifier pair to the CMM functional clock
+> >>>> +   supplier.
+> >>>
+> >>> Thinking about yaml validation:
+> >>>
+> >>> power-domains?
+> >>> resets?
 > >>
-> >> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> >> index 018480a8f35c..6e38495fb78f 100644
-> >> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> >> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> >> @@ -17,6 +17,7 @@
-> >>  #include <linux/slab.h>
-> >>  #include <linux/wait.h>
-> >>
-> >> +#include <drm/drm_atomic.h>
-> >>  #include <drm/drm_atomic_helper.h>
-> >>  #include <drm/drm_fb_cma_helper.h>
-> >>  #include <drm/drm_fb_helper.h>
-> >> @@ -482,6 +483,26 @@ static int rcar_du_pm_suspend(struct device *dev)
-> >>  static int rcar_du_pm_resume(struct device *dev)
-> >>  {
-> >>  	struct rcar_du_device *rcdu = dev_get_drvdata(dev);
-> >> +	struct drm_atomic_state *state = rcdu->ddev->mode_config.suspend_state;
-> >> +	unsigned int i;
-> >> +
-> >> +	for (i = 0; i < rcdu->num_crtcs; ++i) {
-> >> +		struct drm_crtc *crtc = &rcdu->crtcs[i].crtc;
-> >> +		struct drm_crtc_state *crtc_state;
-> >> +
-> >> +		crtc_state = drm_atomic_get_existing_crtc_state(state, crtc);
-> >> +		if (!crtc_state)
-> >> +			continue;
+> >> They should indeed be documented.
 > >
-> > Shouldn't you get the new state here ?
+> > How about converting this binding to yaml alreay ? It should be fairly
+> > simple.
 > 
-> I have followed the drm_atomic_helper_suspend() call stack, that calls
-> drm_atomic_helper_duplicate_state() which then assign the crtct state
-> with drm_atomic_get_crtc_state(), where I read:
+> I'm trying to, and I'm having my portion of fun time at it.
 > 
->        	crtc_state = drm_atomic_get_existing_crtc_state(state, crtc);
->         ...
-> 	state->crtcs[index].state = crtc_state;
-> 	state->crtcs[index].old_state = crtc->state;
-> 	state->crtcs[index].new_state = crtc_state;
+> The definition of the schema itself seems good, but I wonder, is this
+> the first renesas schema we have? Because it seems to me the schema
+> validator is having an hard time to digest the examplea 'clocks' and
+> 'power-domains' properties, which have 1 phandle and 2 specifiers and 1
+> phandle and 1 specifier respectively for Rensas SoCs.
 > 
-> So state or new_state for the purpose of getting back the crtc state
-> are the same if I'm not mistaken.
-
-It seems to be the case, but the documentation of
-drm_atomic_get_existing_crtc_state() states
-
- * This function is deprecated, @drm_atomic_get_old_crtc_state or
- * @drm_atomic_get_new_crtc_state should be used instead.
-
-I would thus use drm_atomic_get_new_crtc_state().
-
-> >> +
-> >> +		/*
-> >> +		 * Force re-enablement of CMM after system resume if any
-> >> +		 * of the DRM color transformation properties was set in
-> >> +		 * the state saved at system suspend time.
-> >> +		 */
-> >> +		if (crtc_state->gamma_lut || crtc_state->degamma_lut ||
-> >> +		    crtc_state->ctm)
-> >
-> > We don't support degamma_lut or crm, so I would drop those.
+> In other words, if in the example I have:
 > 
-> yeah, I added them as it was less code to change when we'll support
-> them. But for now they could be removed.
+>  examples:
+>    - |
+>      cmm0: cmm@fea40000 {
+>           compatible = "renesas,r8a7796-cmm";
+>           reg = <0 0xfea40000 0 0x1000>;
+>           clocks = <&cpg 711>              <---- 1 phandle + 1 specifier
+>           resets = <&cpg 711>;
+>           power-domains = <&sysc>;         <---- 1 phandle
+>      };
 > 
-> > With these small issues addressed,
-> >
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >
-> > Shouldn't we however squash this with the previous patch to avoid
-> > bisection issues ?
+> The schema validation is good.
 > 
-> Which one in your opinion?
-> "drm: rcar-du: kms: Update CMM in atomic commit tail" ?
-> It seems to me they do quite different things though..
+> While if I use an actual example
+>    - |
+>      cmm0: cmm@fea40000 {
+>           compatible = "renesas,r8a7796-cmm";
+>           reg = <0 0xfea40000 0 0x1000>;
+>           clocks = <&cpg CPG_MOD 711>         <---- 1 phandle + 2 specifier
+>           resets = <&cpg 711>;
+>           power-domains = <&sysc R8A7796_PD_ALWAYS_ON>; <---- 1 phandle
+>      };                                                       + 1 specfier
+> 
+> The schema validation fails...
+> Error: Documentation/devicetree/bindings/display/renesas,cmm.example.dts:20.29-30 syntax error
+> FATAL ERROR: Unable to parse input tree
+> 
+> Are clocks properties with > 2 entries and power-domains properties with
+> > 1 entries supported?
+> 
+> Because from what I read here:
+> https://github.com/robherring/yaml-bindings/blob/master/schemas/clock/clock.yaml
+> "The length of a clock specifier is defined by the value of a #clock-cells
+> property in the clock provider node."
+> 
+> And that's expected, but is the examples actually validated against the
+> clock provider pointed by the phandle? Because in that case, if we had a
+> yaml schema for the cpg-mssr provider, it would indeed specify clock-cells=2.
+> 
+> Do we need a schema for cpg-mssr first, or am I doing something else
+> wrong?
 
-Yes, but suspend/resume will be broken after 13/14 without 14/14. Not
-the end of the world, but not really nice if we need to bisect
-suspend/resume issues.
+I think you just need to #include the headers that define CPG_MOD and
+R8A7796_PD_ALWAYS_ON.
 
-> >> +			crtc_state->color_mgmt_changed = true;
-> >
-> > Daniel, is this something that would make sense in the KMS core (or
-> > helpers) ?
-> >
-> >> +	}
-> >>
-> >>  	return drm_mode_config_helper_resume(rcdu->ddev);
-> >>  }
+> >>>> +Example:
+> >>>> +--------
+> >>>> +
+> >>>> +       cmm0: cmm@fea40000 {
+> >>>> +               compatible = "renesas,cmm-r8a7796";
+> >>>> +               reg = <0 0xfea40000 0 0x1000>;
+> >>>> +               power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
+> >>>> +               clocks = <&cpg CPG_MOD 711>;
+> >>>> +               resets = <&cpg 711>;
+> >>>> +       };
 
 -- 
 Regards,
