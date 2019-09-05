@@ -2,114 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A9DC1A9AFB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2019 08:59:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4884BA9CE3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2019 10:22:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730767AbfIEG7V (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Sep 2019 02:59:21 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:20428 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726047AbfIEG7U (ORCPT
+        id S1731351AbfIEIWq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Sep 2019 04:22:46 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:58718 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726115AbfIEIWq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Sep 2019 02:59:20 -0400
-X-IronPort-AV: E=Sophos;i="5.64,469,1559487600"; 
-   d="scan'208";a="25803740"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 05 Sep 2019 15:59:18 +0900
-Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0AE2541C7F9E;
-        Thu,  5 Sep 2019 15:59:15 +0900 (JST)
-From:   Biju Das <biju.das@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     Biju Das <biju.das@bp.renesas.com>, devicetree@vger.kernel.org,
-        Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] clk: renesas: Add r8a774b1 CPG Core Clock Definitions
-Date:   Thu,  5 Sep 2019 07:52:40 +0100
-Message-Id: <1567666360-28035-1-git-send-email-biju.das@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Thu, 5 Sep 2019 04:22:46 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 43B9625B753;
+        Thu,  5 Sep 2019 18:22:44 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id 43307940AC6; Thu,  5 Sep 2019 10:22:42 +0200 (CEST)
+Date:   Thu, 5 Sep 2019 10:22:42 +0200
+From:   Simon Horman <horms@verge.net.au>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 1/5] clk: renesas: rcar-gen2-legacy: Switch Z clock to
+ .determine_rate()
+Message-ID: <20190905082241.hw3v3fy2qkljrbmg@verge.net.au>
+References: <20190617125238.13761-1-geert+renesas@glider.be>
+ <20190617125238.13761-2-geert+renesas@glider.be>
+ <20190618110937.2s7h5vtssymfrxxq@verge.net.au>
+ <CAMuHMdUe_kvB_z0y99y_kkRaUCW9NZneRUtNh=+PC9sC3buDjg@mail.gmail.com>
+ <20190902083139.qicqmtrxosnzay2s@verge.net.au>
+ <CAMuHMdXJLkdQfsFZ8em6qqYwWv5mEA=mfb7nAfn+=k77utN3qQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXJLkdQfsFZ8em6qqYwWv5mEA=mfb7nAfn+=k77utN3qQ@mail.gmail.com>
+Organisation: Horms Solutions BV
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add all RZ/G2N Clock Pulse Generator Core Clock Outputs, as listed in
-Table 8.2d ("List of Clocks [RZ/G2N]") of the RZ/G2N Hardware User's
-Manual.
+On Mon, Sep 02, 2019 at 10:44:25AM +0200, Geert Uytterhoeven wrote:
+> Hi Simon,
+> 
+> On Mon, Sep 2, 2019 at 10:31 AM Simon Horman <horms@verge.net.au> wrote:
+> > On Fri, Aug 30, 2019 at 10:43:01AM +0200, Geert Uytterhoeven wrote:
+> > > On Tue, Jun 18, 2019 at 1:09 PM Simon Horman <horms@verge.net.au> wrote:
+> > > > On Mon, Jun 17, 2019 at 02:52:34PM +0200, Geert Uytterhoeven wrote:
+> > > > > As the .round_rate() callback returns a long clock rate, it cannot
+> > > > > return clock rates that do not fit in signed long, but do fit in
+> > > > > unsigned long.  Hence switch the Z clock on R-Car Gen2 from the old
+> > > > > .round_rate() callback to the newer .determine_rate() callback, which
+> > > > > does not suffer from this limitation.
+> > > > >
+> > > > > This includes implementing range checking.
+> > > > >
+> > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > >
+> > > > > --- a/drivers/clk/renesas/clk-rcar-gen2.c
+> > > > > +++ b/drivers/clk/renesas/clk-rcar-gen2.c
+> > > > > @@ -66,19 +66,22 @@ static unsigned long cpg_z_clk_recalc_rate(struct clk_hw *hw,
+> > > > >       return div_u64((u64)parent_rate * mult, 32);
+> > > > >  }
+> > > > >
+> > > > > -static long cpg_z_clk_round_rate(struct clk_hw *hw, unsigned long rate,
+> > > > > -                              unsigned long *parent_rate)
+> > > > > +static int cpg_z_clk_determine_rate(struct clk_hw *hw,
+> > > > > +                                 struct clk_rate_request *req)
+> > > > >  {
+> > > > > -     unsigned long prate  = *parent_rate;
+> > > > > -     unsigned int mult;
+> > > > > +     unsigned long prate = req->best_parent_rate;
+> > > > > +     unsigned int min_mult, max_mult, mult;
+> > > > >
+> > > > > -     if (!prate)
+> > > > > -             prate = 1;
+> > > > > +     min_mult = max(div_u64(req->min_rate * 32ULL, prate), 1ULL);
+> > > > > +     max_mult = min(div_u64(req->max_rate * 32ULL, prate), 32ULL);
+> > > >
+> > > > nit: the type of the second parameter doesn't look correct to me,
+> > > > div_u64 expects a u32 divisor.
+> > >
+> > > Yes, this should use div64_ul() instead.
+> >
+> > Ok, but in that case should the constants be "UL" instead of "UUL" ?
+> 
+> The first or the second? ;-)
+> 
+> The multiplication should always be calculated using 64-bit arithmetic,
+> hence the first ULL suffix.
+> The max() macro needs two parameters of the same type, and
+> div64_ul() returns u64, hence the second ULL suffix.
 
-Signed-off-by: Biju Das <biju.das@bp.renesas.com>
----
- include/dt-bindings/clock/r8a774b1-cpg-mssr.h | 57 +++++++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
- create mode 100644 include/dt-bindings/clock/r8a774b1-cpg-mssr.h
-
-diff --git a/include/dt-bindings/clock/r8a774b1-cpg-mssr.h b/include/dt-bindings/clock/r8a774b1-cpg-mssr.h
-new file mode 100644
-index 0000000..1355451
---- /dev/null
-+++ b/include/dt-bindings/clock/r8a774b1-cpg-mssr.h
-@@ -0,0 +1,57 @@
-+/* SPDX-License-Identifier: GPL-2.0
-+ *
-+ * Copyright (C) 2019 Renesas Electronics Corp.
-+ */
-+#ifndef __DT_BINDINGS_CLOCK_R8A774B1_CPG_MSSR_H__
-+#define __DT_BINDINGS_CLOCK_R8A774B1_CPG_MSSR_H__
-+
-+#include <dt-bindings/clock/renesas-cpg-mssr.h>
-+
-+/* r8a774b1 CPG Core Clocks */
-+#define R8A774B1_CLK_Z			0
-+#define R8A774B1_CLK_ZG			1
-+#define R8A774B1_CLK_ZTR		2
-+#define R8A774B1_CLK_ZTRD2		3
-+#define R8A774B1_CLK_ZT			4
-+#define R8A774B1_CLK_ZX			5
-+#define R8A774B1_CLK_S0D1		6
-+#define R8A774B1_CLK_S0D2		7
-+#define R8A774B1_CLK_S0D3		8
-+#define R8A774B1_CLK_S0D4		9
-+#define R8A774B1_CLK_S0D6		10
-+#define R8A774B1_CLK_S0D8		11
-+#define R8A774B1_CLK_S0D12		12
-+#define R8A774B1_CLK_S1D2		13
-+#define R8A774B1_CLK_S1D4		14
-+#define R8A774B1_CLK_S2D1		15
-+#define R8A774B1_CLK_S2D2		16
-+#define R8A774B1_CLK_S2D4		17
-+#define R8A774B1_CLK_S3D1		18
-+#define R8A774B1_CLK_S3D2		19
-+#define R8A774B1_CLK_S3D4		20
-+#define R8A774B1_CLK_LB			21
-+#define R8A774B1_CLK_CL			22
-+#define R8A774B1_CLK_ZB3		23
-+#define R8A774B1_CLK_ZB3D2		24
-+#define R8A774B1_CLK_CR			25
-+#define R8A774B1_CLK_DDR		26
-+#define R8A774B1_CLK_SD0H		27
-+#define R8A774B1_CLK_SD0		28
-+#define R8A774B1_CLK_SD1H		29
-+#define R8A774B1_CLK_SD1		30
-+#define R8A774B1_CLK_SD2H		31
-+#define R8A774B1_CLK_SD2		32
-+#define R8A774B1_CLK_SD3H		33
-+#define R8A774B1_CLK_SD3		34
-+#define R8A774B1_CLK_RPC		35
-+#define R8A774B1_CLK_RPCD2		36
-+#define R8A774B1_CLK_MSO		37
-+#define R8A774B1_CLK_HDMI		38
-+#define R8A774B1_CLK_CSI0		39
-+#define R8A774B1_CLK_CP			40
-+#define R8A774B1_CLK_CPEX		41
-+#define R8A774B1_CLK_R			42
-+#define R8A774B1_CLK_OSC		43
-+#define R8A774B1_CLK_CANFD		44
-+
-+#endif /* __DT_BINDINGS_CLOCK_R8A774B1_CPG_MSSR_H__ */
--- 
-2.7.4
-
+Thanks, I see that now.
