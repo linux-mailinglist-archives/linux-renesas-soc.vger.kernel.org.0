@@ -2,119 +2,160 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 430E3A9D8D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2019 10:53:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2333A9DA6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2019 10:59:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730959AbfIEIxH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Sep 2019 04:53:07 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:38385 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732205AbfIEIxG (ORCPT
+        id S1730937AbfIEI7a (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Sep 2019 04:59:30 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:60014 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726231AbfIEI7a (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Sep 2019 04:53:06 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 079563C005E;
-        Thu,  5 Sep 2019 10:53:04 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 0sKHFPSkMrKD; Thu,  5 Sep 2019 10:52:58 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 758703C00C5;
-        Thu,  5 Sep 2019 10:52:58 +0200 (CEST)
-Received: from vmlxhi-070.adit-jv.com (10.72.93.148) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Thu, 5 Sep 2019
- 10:52:57 +0200
-Date:   Thu, 5 Sep 2019 10:52:51 +0200
-From:   veeraiyan chidambaram <external.veeraiyan.c@de.adit-jv.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-CC:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        "REE erosca@DE.ADIT-JV.COM" <erosca@DE.ADIT-JV.COM>,
-        Veeraiyan Chidambaram <veeraiyan.chidambaram@in.bosch.com>
-Subject: Re: [PATCH v2] usb: gadget: udc: renesas_usb3: add suspend event
- support
-Message-ID: <20190905085251.GA28016@vmlxhi-070.adit-jv.com>
-References: <TYAPR01MB454435E0431173D3C7F76D65D8B80@TYAPR01MB4544.jpnprd01.prod.outlook.com>
- <1567608481-771-1-git-send-email-external.veeraiyan.c@de.adit-jv.com>
- <OSAPR01MB4529159D4DA9764B0688D4A4D8BB0@OSAPR01MB4529.jpnprd01.prod.outlook.com>
+        Thu, 5 Sep 2019 04:59:30 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 3CDE525B753;
+        Thu,  5 Sep 2019 18:59:28 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id 28345940AC6; Thu,  5 Sep 2019 10:59:26 +0200 (CEST)
+Date:   Thu, 5 Sep 2019 10:59:26 +0200
+From:   Simon Horman <horms@verge.net.au>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Takeshi Kihara <takeshi.kihara.df@renesas.com>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 1/3] pinctrl: sh-pfc: r8a77990: Rename
+ AVB_AVTP_{MATCH,CAPTURE} pin functions
+Message-ID: <20190905085925.umc6khhp2nurdljo@verge.net.au>
+References: <20190904121658.2617-1-geert+renesas@glider.be>
+ <20190904121658.2617-2-geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <OSAPR01MB4529159D4DA9764B0688D4A4D8BB0@OSAPR01MB4529.jpnprd01.prod.outlook.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.72.93.148]
+In-Reply-To: <20190904121658.2617-2-geert+renesas@glider.be>
+Organisation: Horms Solutions BV
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Shimoda-san,
-
-Thanks a lot . 
-
-On Thu, Sep 05, 2019 at 02:09:42AM +0000, Yoshihiro Shimoda wrote:
-> Hi Veeraiyan,
+On Wed, Sep 04, 2019 at 02:16:56PM +0200, Geert Uytterhoeven wrote:
+> From: Takeshi Kihara <takeshi.kihara.df@renesas.com>
 > 
-> Thank you for the patch!
-> 
-> > From: Veeraiyan Chidambaram, Sent: Wednesday, September 4, 2019 11:48 PM
-> <snip>
-> > --- a/drivers/usb/gadget/udc/renesas_usb3.c
-> > +++ b/drivers/usb/gadget/udc/renesas_usb3.c
-> > @@ -767,6 +767,20 @@ static void usb3_irq_epc_int_1_resume(struct renesas_usb3 *usb3)
-> >  	usb3_transition_to_default_state(usb3, false);
-> >  }
-> > 
-> > +static void usb3_irq_epc_int_1_suspend(struct renesas_usb3 *usb3)
-> > +{
-> > +	usb3_disable_irq_1(usb3, USB_INT_1_B2_SPND);
-> > +
-> > +	if (usb3->driver &&
-> > +	    usb3->driver->suspend &&
-> 
-> As I mentioned on v1 patch [1], I'd like to remove these conditions.
-> After fixed it,
-> 
-> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> 
-> [1] https://patchwork.kernel.org/patch/11129797/#22862513
+> The Hardware Manual Errata for Rev. 1.50 of April 10, 2019 renamed IPSR2
+> register bit[23:20] value H'3 and register bit[27:24] value H'3 from
+> AVB_AVTP_MATCH_A resp. AVB_AVTP_CAPTURE_A to AVB_AVTP_MATCH resp.
+> AVB_AVTP_CAPTURE_A.
 
-I have create V2 patch [1], please review.
+I think the trailing '_A' above is a typo.
 
-[1] https://patchwork.kernel.org/patch/11132433/
+That notwithstanding:
 
-Best regards,
-Veeraiyan chidambaram
+Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
 
-> Yoshihiro Shimoda
+> Update the R-Car E3 pin control driver to reflect this.
 > 
-> > +	    usb3->gadget.speed != USB_SPEED_UNKNOWN &&
-> > +	    usb3->gadget.state != USB_STATE_NOTATTACHED) {
-> > +		if (usb3->driver && usb3->driver->suspend)
-> > +			usb3->driver->suspend(&usb3->gadget);
-> > +		usb_gadget_set_state(&usb3->gadget, USB_STATE_SUSPENDED);
-> > +	}
-> > +}
-> > +
-> >  static void usb3_irq_epc_int_1_disable(struct renesas_usb3 *usb3)
-> >  {
-> >  	usb3_stop_usb3_connection(usb3);
-> > @@ -852,6 +866,9 @@ static void usb3_irq_epc_int_1(struct renesas_usb3 *usb3, u32 int_sta_1)
-> >  	if (int_sta_1 & USB_INT_1_B2_RSUM)
-> >  		usb3_irq_epc_int_1_resume(usb3);
-> > 
-> > +	if (int_sta_1 & USB_INT_1_B2_SPND)
-> > +		usb3_irq_epc_int_1_suspend(usb3);
-> > +
-> >  	if (int_sta_1 & USB_INT_1_SPEED)
-> >  		usb3_irq_epc_int_1_speed(usb3);
-> > 
-> > --
-> > 2.7.4
+> Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
+> [geert: Reword, reference errata]
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Do we need a SH_PFC_PIN_GROUP_ALIAS() for backwards compatibility?
+> There are no users of the "avb_avtp_match_a" and "avb_avtp_capture_a"
+> pin groups in upstream DTS files, so I would say no.
+
+Agreed.
+
+
+> ---
+>  drivers/pinctrl/sh-pfc/pfc-r8a77990.c | 32 +++++++++++++--------------
+>  1 file changed, 16 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/pinctrl/sh-pfc/pfc-r8a77990.c b/drivers/pinctrl/sh-pfc/pfc-r8a77990.c
+> index 2dfb8d9cfda126e4..2a6de2125bbf38b3 100644
+> --- a/drivers/pinctrl/sh-pfc/pfc-r8a77990.c
+> +++ b/drivers/pinctrl/sh-pfc/pfc-r8a77990.c
+> @@ -232,8 +232,8 @@
+>  #define IP2_11_8	FM(AVB_MDC)		F_(0, 0)		F_(0, 0)		F_(0, 0)		F_(0, 0)		F_(0, 0)	F_(0, 0)	F_(0, 0)	F_(0, 0)	F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0)
+>  #define IP2_15_12	FM(BS_N)		FM(PWM0_A)		FM(AVB_MAGIC)		FM(VI4_CLK)		F_(0, 0)		FM(TX3_C)	F_(0, 0)	FM(VI5_CLK_B)	F_(0, 0)	F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0)
+>  #define IP2_19_16	FM(RD_N)		FM(PWM1_A)		FM(AVB_LINK)		FM(VI4_FIELD)		F_(0, 0)		FM(RX3_C)	FM(FSCLKST2_N_A) FM(VI5_DATA0_B) F_(0, 0)	F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0)
+> -#define IP2_23_20	FM(RD_WR_N)		FM(SCL7_A)		FM(AVB_AVTP_MATCH_A)	FM(VI4_VSYNC_N)		FM(TX5_B)		FM(SCK3_C)	FM(PWM5_A)	F_(0, 0)	F_(0, 0)	F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0)
+> -#define IP2_27_24	FM(EX_WAIT0)		FM(SDA7_A)		FM(AVB_AVTP_CAPTURE_A)	FM(VI4_HSYNC_N)		FM(RX5_B)		FM(PWM6_A)	F_(0, 0)	F_(0, 0)	F_(0, 0)	F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0)
+> +#define IP2_23_20	FM(RD_WR_N)		FM(SCL7_A)		FM(AVB_AVTP_MATCH)	FM(VI4_VSYNC_N)		FM(TX5_B)		FM(SCK3_C)	FM(PWM5_A)	F_(0, 0)	F_(0, 0)	F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0)
+> +#define IP2_27_24	FM(EX_WAIT0)		FM(SDA7_A)		FM(AVB_AVTP_CAPTURE)	FM(VI4_HSYNC_N)		FM(RX5_B)		FM(PWM6_A)	F_(0, 0)	F_(0, 0)	F_(0, 0)	F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0)
+>  #define IP2_31_28	FM(A0)			FM(IRQ0)		FM(PWM2_A)		FM(MSIOF3_SS1_B)	FM(VI5_CLK_A)		FM(DU_CDE)	FM(HRX3_D)	FM(IERX)	FM(QSTB_QHE)	F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0)
+>  #define IP3_3_0		FM(A1)			FM(IRQ1)		FM(PWM3_A)		FM(DU_DOTCLKIN1)	FM(VI5_DATA0_A)		FM(DU_DISP_CDE) FM(SDA6_B)	FM(IETX)	FM(QCPV_QDE)	F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0)
+>  #define IP3_7_4		FM(A2)			FM(IRQ2)		FM(AVB_AVTP_PPS)	FM(VI4_CLKENB)		FM(VI5_DATA1_A)		FM(DU_DISP)	FM(SCL6_B)	F_(0, 0)	FM(QSTVB_QVE)	F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0) F_(0, 0)
+> @@ -634,7 +634,7 @@ static const u16 pinmux_data[] = {
+>  
+>  	PINMUX_IPSR_GPSR(IP2_23_20,		RD_WR_N),
+>  	PINMUX_IPSR_MSEL(IP2_23_20,		SCL7_A,		SEL_I2C7_0),
+> -	PINMUX_IPSR_GPSR(IP2_23_20,		AVB_AVTP_MATCH_A),
+> +	PINMUX_IPSR_GPSR(IP2_23_20,		AVB_AVTP_MATCH),
+>  	PINMUX_IPSR_GPSR(IP2_23_20,		VI4_VSYNC_N),
+>  	PINMUX_IPSR_GPSR(IP2_23_20,		TX5_B),
+>  	PINMUX_IPSR_MSEL(IP2_23_20,		SCK3_C,		SEL_SCIF3_2),
+> @@ -642,7 +642,7 @@ static const u16 pinmux_data[] = {
+>  
+>  	PINMUX_IPSR_GPSR(IP2_27_24,		EX_WAIT0),
+>  	PINMUX_IPSR_MSEL(IP2_27_24,		SDA7_A,		SEL_I2C7_0),
+> -	PINMUX_IPSR_GPSR(IP2_27_24,		AVB_AVTP_CAPTURE_A),
+> +	PINMUX_IPSR_GPSR(IP2_27_24,		AVB_AVTP_CAPTURE),
+>  	PINMUX_IPSR_GPSR(IP2_27_24,		VI4_HSYNC_N),
+>  	PINMUX_IPSR_MSEL(IP2_27_24,		RX5_B,		SEL_SCIF5_1),
+>  	PINMUX_IPSR_MSEL(IP2_27_24,		PWM6_A,		SEL_PWM6_0),
+> @@ -1524,22 +1524,22 @@ static const unsigned int avb_avtp_pps_mux[] = {
+>  	AVB_AVTP_PPS_MARK,
+>  };
+>  
+> -static const unsigned int avb_avtp_match_a_pins[] = {
+> -	/* AVB_AVTP_MATCH_A */
+> +static const unsigned int avb_avtp_match_pins[] = {
+> +	/* AVB_AVTP_MATCH */
+>  	RCAR_GP_PIN(2, 24),
+>  };
+>  
+> -static const unsigned int avb_avtp_match_a_mux[] = {
+> -	AVB_AVTP_MATCH_A_MARK,
+> +static const unsigned int avb_avtp_match_mux[] = {
+> +	AVB_AVTP_MATCH_MARK,
+>  };
+>  
+> -static const unsigned int avb_avtp_capture_a_pins[] = {
+> -	/* AVB_AVTP_CAPTURE_A */
+> +static const unsigned int avb_avtp_capture_pins[] = {
+> +	/* AVB_AVTP_CAPTURE */
+>  	RCAR_GP_PIN(2, 25),
+>  };
+>  
+> -static const unsigned int avb_avtp_capture_a_mux[] = {
+> -	AVB_AVTP_CAPTURE_A_MARK,
+> +static const unsigned int avb_avtp_capture_mux[] = {
+> +	AVB_AVTP_CAPTURE_MARK,
+>  };
+>  
+>  /* - CAN ------------------------------------------------------------------ */
+> @@ -3784,8 +3784,8 @@ static const struct {
+>  		SH_PFC_PIN_GROUP(avb_phy_int),
+>  		SH_PFC_PIN_GROUP(avb_mii),
+>  		SH_PFC_PIN_GROUP(avb_avtp_pps),
+> -		SH_PFC_PIN_GROUP(avb_avtp_match_a),
+> -		SH_PFC_PIN_GROUP(avb_avtp_capture_a),
+> +		SH_PFC_PIN_GROUP(avb_avtp_match),
+> +		SH_PFC_PIN_GROUP(avb_avtp_capture),
+>  		SH_PFC_PIN_GROUP(can0_data),
+>  		SH_PFC_PIN_GROUP(can1_data),
+>  		SH_PFC_PIN_GROUP(can_clk),
+> @@ -4061,8 +4061,8 @@ static const char * const avb_groups[] = {
+>  	"avb_phy_int",
+>  	"avb_mii",
+>  	"avb_avtp_pps",
+> -	"avb_avtp_match_a",
+> -	"avb_avtp_capture_a",
+> +	"avb_avtp_match",
+> +	"avb_avtp_capture",
+>  };
+>  
+>  static const char * const can0_groups[] = {
+> -- 
+> 2.17.1
 > 
