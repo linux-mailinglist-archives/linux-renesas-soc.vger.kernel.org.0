@@ -2,66 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 808E2A9E8F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2019 11:37:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D81DA9E7C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2019 11:35:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387519AbfIEJhb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Sep 2019 05:37:31 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:49465 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1730872AbfIEJhb (ORCPT
+        id S2387503AbfIEJfB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Sep 2019 05:35:01 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:33050 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731084AbfIEJfB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Sep 2019 05:37:31 -0400
-X-IronPort-AV: E=Sophos;i="5.64,470,1559487600"; 
-   d="scan'208";a="25819834"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 05 Sep 2019 18:37:29 +0900
-Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 9A155400C0A5;
-        Thu,  5 Sep 2019 18:37:27 +0900 (JST)
-From:   Biju Das <biju.das@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Biju Das <biju.das@bp.renesas.com>,
-        Simon Horman <horms@verge.net.au>,
+        Thu, 5 Sep 2019 05:35:01 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 1600525B753;
+        Thu,  5 Sep 2019 19:34:59 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id 004A6940AC6; Thu,  5 Sep 2019 11:34:56 +0200 (CEST)
+From:   Simon Horman <horms+renesas@verge.net.au>
+To:     arm@kernel.org, soc@kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org, Olof Johansson <olof@lixom.net>,
+        Kevin Hilman <khilman@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        linux-arm-kernel@lists.infradead.org,
         Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Subject: [PATCH 3/3] arm64: Add Renesas R8A774B1 support
-Date:   Thu,  5 Sep 2019 10:30:43 +0100
-Message-Id: <1567675844-19247-4-git-send-email-biju.das@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1567675844-19247-1-git-send-email-biju.das@bp.renesas.com>
-References: <1567675844-19247-1-git-send-email-biju.das@bp.renesas.com>
+        Simon Horman <horms+renesas@verge.net.au>
+Subject: [GIT PULL] Second Round of Renesas ARM Based SoC Fixes for v5.3
+Date:   Thu,  5 Sep 2019 11:34:45 +0200
+Message-Id: <cover.1567675986.git.horms+renesas@verge.net.au>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add configuration option for the RZ/G2N (R8A774B1) SoC.
+Hi Olof, Hi Kevin, Hi Arnd,
 
-Signed-off-by: Biju Das <biju.das@bp.renesas.com>
----
- drivers/soc/renesas/Kconfig | 6 ++++++
- 1 file changed, 6 insertions(+)
+Please consider these second round of Renesas ARM based SoC fixes for v5.3.
 
-diff --git a/drivers/soc/renesas/Kconfig b/drivers/soc/renesas/Kconfig
-index 3c5e017..d6a7df3 100644
---- a/drivers/soc/renesas/Kconfig
-+++ b/drivers/soc/renesas/Kconfig
-@@ -178,6 +178,12 @@ config ARCH_R8A774A1
- 	help
- 	  This enables support for the Renesas RZ/G2M SoC.
- 
-+config ARCH_R8A774B1
-+	bool "Renesas RZ/G2N SoC Platform"
-+	select ARCH_RCAR_GEN3
-+	help
-+	  This enables support for the Renesas RZ/G2N SoC.
-+
- config ARCH_R8A774C0
- 	bool "Renesas RZ/G2E SoC Platform"
- 	select ARCH_RCAR_GEN3
--- 
-2.7.4
+This pull request is based on the previous round of
+such requests, tagged as renesas-next-20190813-v5.3-rc1,
+which you have already pulled.
 
+
+The following changes since commit 45f5d5a9e34d3fe4140a9a3b5f7ebe86c252440a:
+
+  arm64: dts: renesas: r8a77995: draak: Fix backlight regulator name (2019-08-09 11:58:17 -0700)
+
+are available in the git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas.git tags/renesas-fixes2-for-v5.3
+
+for you to fetch changes up to ae688e1720fd387de34f2140a735917411672bf1:
+
+  arm64: dts: renesas: hihope-common: Fix eMMC status (2019-08-31 11:23:18 +0200)
+
+----------------------------------------------------------------
+Second Round of Renesas ARM Based SoC Fixes for v5.3
+
+* RZ/G2M based HiHope main board
+  - Re-enabled accidently disabled SDHI3 (eMMC) support
+
+----------------------------------------------------------------
+Fabrizio Castro (1):
+      arm64: dts: renesas: hihope-common: Fix eMMC status
+
+ arch/arm64/boot/dts/renesas/hihope-common.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
