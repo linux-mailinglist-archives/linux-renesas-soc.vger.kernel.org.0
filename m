@@ -2,46 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AA26AA40A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2019 15:14:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5D32AA46A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2019 15:27:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388471AbfIENN1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Sep 2019 09:13:27 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:56019 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388243AbfIENN1 (ORCPT
+        id S1726273AbfIEN1C (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Sep 2019 09:27:02 -0400
+Received: from relay11.mail.gandi.net ([217.70.178.231]:44657 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726606AbfIEN1B (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Sep 2019 09:13:27 -0400
-X-Originating-IP: 2.224.242.101
+        Thu, 5 Sep 2019 09:27:01 -0400
 Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 9B3B7C0006;
-        Thu,  5 Sep 2019 13:13:19 +0000 (UTC)
-Date:   Thu, 5 Sep 2019 15:14:53 +0200
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id A09C3100006;
+        Thu,  5 Sep 2019 13:26:52 +0000 (UTC)
+Date:   Thu, 5 Sep 2019 15:28:26 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
-        horms@verge.net.au, uli@fpond.eu, airlied@linux.ie,
-        daniel@ffwll.ch, koji.matsuoka.xm@renesas.com, muroya@ksk.co.jp,
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Simon Horman <horms@verge.net.au>, Ulrich Hecht <uli@fpond.eu>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>, muroya@ksk.co.jp,
         VenkataRajesh.Kalakodima@in.bosch.com,
         Harsha.ManjulaMallikarjun@in.bosch.com,
-        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 08/14] drm: rcar-du: Add support for CMM
-Message-ID: <20190905131453.7ortosddn4afxd5j@uno.localdomain>
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Subject: Re: [PATCH v3 01/14] dt-bindings: display: renesas,cmm: Add R-Car
+ CMM documentation
+Message-ID: <20190905132826.k5yn5ltsias2cyi2@uno.localdomain>
 References: <20190825135154.11488-1-jacopo+renesas@jmondi.org>
- <20190825135154.11488-9-jacopo+renesas@jmondi.org>
- <20190827002422.GQ5031@pendragon.ideasonboard.com>
- <20190827145619.33s7gkv7tgtsr6nz@uno.localdomain>
- <20190827163423.GB5054@pendragon.ideasonboard.com>
- <20190905095757.gg6s5pse5tvivxbs@uno.localdomain>
- <20190905111712.GG5035@pendragon.ideasonboard.com>
+ <20190825135154.11488-2-jacopo+renesas@jmondi.org>
+ <CAMuHMdVvjrMXap5CQ-grNYpJfOG6QeN26EW4tR_YE=VFv5ozqw@mail.gmail.com>
+ <20190826075943.h7ivwagape3glym5@uno.localdomain>
+ <20190826101550.GB5031@pendragon.ideasonboard.com>
+ <20190830180108.mlei4wbfn3mktj23@uno.localdomain>
+ <20190905115017.GI5035@pendragon.ideasonboard.com>
+ <CAMuHMdW-MEQvf7MgY7XQkKap-mm8=TO8V61BFtVv63oacFTfYQ@mail.gmail.com>
+ <20190905122059.GK5035@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="iuoqgpboxu2vm3n7"
+        protocol="application/pgp-signature"; boundary="gxheopgdktwghftq"
 Content-Disposition: inline
-In-Reply-To: <20190905111712.GG5035@pendragon.ideasonboard.com>
+In-Reply-To: <20190905122059.GK5035@pendragon.ideasonboard.com>
 User-Agent: NeoMutt/20180716
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -49,108 +58,130 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---iuoqgpboxu2vm3n7
+--gxheopgdktwghftq
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent,
+Hi Laurent, Geert,
 
-On Thu, Sep 05, 2019 at 02:17:12PM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
+
+On Thu, Sep 05, 2019 at 03:20:59PM +0300, Laurent Pinchart wrote:
+> Hi Geert,
 >
-> > >>>> +/**
-> > >>>> + * rcar_cmm_enable() - enable the CMM unit
-> > >>>> + *
-> > >>>> + * @pdev: The platform device associated with the CMM instance
-> > >>>> + *
-> > >>>> + * Enable the CMM unit by enabling the parent clock and enabling =
-the CMM
-> > >>>> + * components, such as 1-D LUT, if requested.
-> > >>>> + */
-> > >>>> +int rcar_cmm_enable(struct platform_device *pdev)
-> > >>>> +{
-> > >>>> +	struct rcar_cmm *rcmm =3D platform_get_drvdata(pdev);
-> > >>>> +	int ret;
-> > >>>> +
-> > >>>> +	if (!rcmm)
-> > >>>> +		return -EPROBE_DEFER;
-> > >>>
-> > >>> This function is called in rcar_du_crtc_atomic_enable(), so that's =
-not
-> > >>> the right error code. It seems we need another function for the CMM=
- API
-> > >>> to defer probing :-/ I would call it rcar_cmm_init(). This check wo=
-uld
-> > >>> then be removed.
-> > >>
-> > >> I agree about the return code, but not the name, as this function
-> > >> actually enables the CMM.
+> On Thu, Sep 05, 2019 at 02:05:34PM +0200, Geert Uytterhoeven wrote:
+> > On Thu, Sep 5, 2019 at 1:50 PM Laurent Pinchart wrote:
+> > > On Fri, Aug 30, 2019 at 08:01:09PM +0200, Jacopo Mondi wrote:
+> > > > On Mon, Aug 26, 2019 at 01:15:50PM +0300, Laurent Pinchart wrote:
+> > > > > How about converting this binding to yaml alreay ? It should be fairly
+> > > > > simple.
+> > > >
+> > > > I'm trying to, and I'm having my portion of fun time at it.
+> > > >
+> > > > The definition of the schema itself seems good, but I wonder, is this
+> > > > the first renesas schema we have? Because it seems to me the schema
+> > > > validator is having an hard time to digest the examplea 'clocks' and
+> > > > 'power-domains' properties, which have 1 phandle and 2 specifiers and 1
+> > > > phandle and 1 specifier respectively for Rensas SoCs.
+> > > >
+> > > > In other words, if in the example I have:
+> > > >
+> > > >  examples:
+> > > >    - |
+> > > >      cmm0: cmm@fea40000 {
+> > > >           compatible = "renesas,r8a7796-cmm";
+> > > >           reg = <0 0xfea40000 0 0x1000>;
+> > > >           clocks = <&cpg 711>              <---- 1 phandle + 1 specifier
+> > > >           resets = <&cpg 711>;
+> > > >           power-domains = <&sysc>;         <---- 1 phandle
+> > > >      };
+> > > >
+> > > > The schema validation is good.
+> > > >
+> > > > While if I use an actual example
+> > > >    - |
+> > > >      cmm0: cmm@fea40000 {
+> > > >           compatible = "renesas,r8a7796-cmm";
+> > > >           reg = <0 0xfea40000 0 0x1000>;
+> > > >           clocks = <&cpg CPG_MOD 711>         <---- 1 phandle + 2 specifier
+> > > >           resets = <&cpg 711>;
+> > > >           power-domains = <&sysc R8A7796_PD_ALWAYS_ON>; <---- 1 phandle
+> > > >      };                                                       + 1 specfier
+> > > >
+> > > > The schema validation fails...
+> > > > Error: Documentation/devicetree/bindings/display/renesas,cmm.example.dts:20.29-30 syntax error
+> > > > FATAL ERROR: Unable to parse input tree
+> > > >
+> > > > Are clocks properties with > 2 entries and power-domains properties with
+> > > > > 1 entries supported?
+> > > >
+> > > > Because from what I read here:
+> > > > https://github.com/robherring/yaml-bindings/blob/master/schemas/clock/clock.yaml
+> > > > "The length of a clock specifier is defined by the value of a #clock-cells
+> > > > property in the clock provider node."
+> > > >
+> > > > And that's expected, but is the examples actually validated against the
+> > > > clock provider pointed by the phandle? Because in that case, if we had a
+> > > > yaml schema for the cpg-mssr provider, it would indeed specify clock-cells=2.
+> > > >
+> > > > Do we need a schema for cpg-mssr first, or am I doing something else
+> > > > wrong?
 > > >
-> > > I meant creating a new rcar_cmm_init() function that would just have =
-the
-> > > !rcmm check.
-> > >
-> > >> PROBE_DEFER does not make any sense here, I
-> > >> wonder where it come from, as the probing of CMM and DU has long
-> > >> happened once we get here (at least, I assume so, if we receive a
-> > >> gamma_table, userspace has already been running, and both DU and CMM
-> > >> should have probed. Otherwise, we can exploit the newly created devi=
-ce
-> > >> link, and make sure DU probes after the CMM).
-> > >>
-> > >> I would just change the return value here, and possibly use the devi=
-ce
-> > >> link to ensure the correct probing sequence.
-> > >
-> > > How does device link help here ?
+> > > I think you just need to #include the headers that define CPG_MOD and
+> > > R8A7796_PD_ALWAYS_ON.
 > >
-> > Currently it doesn't, as we are creating a stateless link.
+> > If that helps, you might want to replace the symbols in the examples by their
+> > actual values (1 resp. 32).
 > >
-> > But if we go for a managed device link (which is the default, by the
-> > way, you have to opt-out from it) we can guarantee the CMM has probed
-> > before the DU probes, so that we have a guarantee when we get here
-> > !rcmm cannot happen.
+> > And perhaps keep the symbols as comments?
 > >
-> > https://www.kernel.org/doc/html/v5.2-rc7/driver-api/device_link.html
-> > "The consumer devices are not probed before the supplier is bound to a =
-driver,
-> >  and they=E2=80=99re unbound before the supplier is unbound."
-> >
-> > As we create the link, the CMM is the supplier of DU, so we could just
-> > drop the DL_FLAG_STATELESS flag in device_link_add() in 10/14.
-> >
-> > Does this match your understanding ?
+> >         clocks = <&cpg 1 /* CPG_MOD */ 711>;
+> >         power-domains = <&sysc 32 /* R8A7796_PD_ALWAYS_ON */>;
 >
-> Except there's a bit of a chicken and egg issue, as you call
-> device_link_add() from rcar_du_cmm_init(), which thus require the DU
-> driver to probe first :-) For this to work we would probably need an
-> early initcall in the DU driver.
+> I think adding the required #include at the beginning of the example is
+> a better solution.
+
+I didn't realize that, but it actually makes sense, as the example is
+extracted and actually compiled from the yaml schema.. brilliant!
+
+With a simple:
+
+--- a/Documentation/devicetree/bindings/display/renesas,cmm.yaml
++++ b/Documentation/devicetree/bindings/display/renesas,cmm.yaml
+@@ -51,6 +51,9 @@ additionalProperties: false
+
+ examples:
+   - |
++    #include <dt-bindings/clock/r8a7796-cpg-mssr.h>
++    #include <dt-bindings/power/r8a7796-sysc.h>
+
+The example now compiles.
+
+Thanks, I will submit the bindings in yaml format in next iteration.
+
 >
+> --
+> Regards,
+>
+> Laurent Pinchart
 
-Yes indeed, the point where the link is created at the moment is too
-late... Is it worth an early initcall, or should we just assume that
-at the point where the LUT is operated userspace has already been
-running and both the CMM and the DU have probed already?
-
---iuoqgpboxu2vm3n7
+--gxheopgdktwghftq
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1xCk0ACgkQcjQGjxah
-Vjy4WhAAs0hFWf0KGDxzpxaW2Is+PYr+7r9FJJCvIRLtHJrvMMa7ZiUHu6snKcwi
-c1af164xRrIBq9jUAnWlDfDACdyVgZIAZm1sKTXF8Y7lulTX8prColnNv9PbJkSf
-GFPk2NS60LnPYPDLxa5YnD/wCEluH6zZP0Iec0F60xCs288jmWasZUk1GE/nt6en
-tYOPmEtnGL74VYbqVzx9cYXQ/x/NEwpVRvTGTb5Z8JAWw0fiKoJcbWVNklfy++VE
-up2vaz4OSOJ5LT+KPIGqXW0FrTPHYVyu6FYHrxDzM+/IKmXWtWCNq4iRypltPd5R
-iixHQkqBq/G8aedqIzJbpeVFW/v2LowO/HlDwo2LmLmXkaJeBfX4V7/HK8dGNCjc
-XCnefTL1pFgJ0kP+pO8rybOtt74T/gcjcU3Yxj0EcOUXauzUiFYyKyt0pgyhfJxl
-8AYzAfmLAdQDawPntPIZ011LYVa5oF27Wek05zw3oWRC98VtJMro5CxX8vebKFrA
-gtqfZB2pz6MzO8IbNeAPr+LLcSjgHhSe13JlO9iAxJ0bDYHtnT9TEKxu49LagXnN
-xsKlzgRajJCcJEf5ldjFu0Ew9UM+BoiLuR7AKMiFdxCpCGlsBiUSGMWgEAtfbs4e
-TQ8x0CruiKbwXTirVnSU/mlf6+oh3fJ4CPB1+AhH7Mjjn4L5kXE=
-=ww4d
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1xDXoACgkQcjQGjxah
+Vjy4Dg/8DGPc6KerGdHYq5Hdpy8U5Y92IMizppaQy9fpz+qQHURT/Y79Rli9j6zx
+EGVP1SE/D2DKYkWn9OyVtjcQib0ZR5emr7UoID8I+Pmwq1syn1pbuAxXNhV+Gj/I
+bECVgYyHyWzmutgUb41OL8doagWUmmNKk9W5B6jS+mFBpeSySPczvGU4rh8SiDQs
+1GdAjDWJ9H7I6xVfjU1mPlYBMr0/ufzw6tkYHapCPHayDvuYR9LVdTaw70WD8iLZ
+bwAVMaTVuD4ir7Uh8KGNcdub3vF85/naLzd9yWCz4Clzkg0CQCmUI5411jNVS0dK
+3iyEO/6BDy/LG8UDguFL5IaM+46Hh2fVVkwnwBZd50cWP+CUHu+w7uNdc4XGmVO4
+hG2SqpBZIOaBeIfWPb7yhVt66/LEgC9nmOVfjgVynO5+9CwZw8DuApb5iLG4+7Ds
+Z+pp46sfrMEQLU/Aw1/MGj2wksYEC427UI161pdVjPka7wnhlNr2hasNgb36ShDz
+TQHOEVp7OGsajo9oqxsKyAvTIx8HXflrd/LTNZmmMrRF8B0QKU8i1Xj8v1AJMvGw
+Cyr8oV0BCnZQg+Qa/Ujhv0bxmCnrXrhmdVhfCqvhTo2ulOdpNEnp7oWa05QRdpMS
+55MjegmjoLIHvl8ZJeRquJMGGoVwzjaIT0bAVd6/8OGXBWQQZyQ=
+=tNT+
 -----END PGP SIGNATURE-----
 
---iuoqgpboxu2vm3n7--
+--gxheopgdktwghftq--
