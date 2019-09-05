@@ -2,59 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 680F5AA6B9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2019 17:05:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D41BCAA70A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2019 17:11:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390199AbfIEPFj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Sep 2019 11:05:39 -0400
-Received: from foss.arm.com ([217.140.110.172]:46544 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390198AbfIEPFj (ORCPT
+        id S2388374AbfIEPLc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Sep 2019 11:11:32 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:49004 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731401AbfIEPLc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Sep 2019 11:05:39 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C0B0C28;
-        Thu,  5 Sep 2019 08:05:38 -0700 (PDT)
-Received: from e119886-lin.cambridge.arm.com (unknown [10.37.6.20])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 957F23F67D;
-        Thu,  5 Sep 2019 08:05:37 -0700 (PDT)
-From:   Andrew Murray <andrew.murray@arm.com>
-To:     Simon Horman <horms@verge.net.au>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] PCI: rcar: Remove unnecessary header include (../pci.h)
-Date:   Thu,  5 Sep 2019 16:05:28 +0100
-Message-Id: <20190905150528.20417-1-andrew.murray@arm.com>
-X-Mailer: git-send-email 2.21.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Thu, 5 Sep 2019 11:11:32 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 5093F25B82B;
+        Fri,  6 Sep 2019 01:11:28 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id 8780F940B15; Thu,  5 Sep 2019 17:11:25 +0200 (CEST)
+From:   Simon Horman <horms+renesas@verge.net.au>
+To:     David Miller <davem@davemloft.net>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Simon Horman <horms+renesas@verge.net.au>
+Subject: [PATCH net-next v2 0/4] ravb: remove use of undocumented registers
+Date:   Thu,  5 Sep 2019 17:10:55 +0200
+Message-Id: <20190905151059.26794-1-horms+renesas@verge.net.au>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Remove unnecessary header include (../pci.h) since it doesn't
-provide any needed symbols.
+Hi,
 
-Signed-off-by: Andrew Murray <andrew.murray@arm.com>
----
- drivers/pci/controller/pcie-rcar.c | 2 --
- 1 file changed, 2 deletions(-)
+this short series cleans up the RAVB driver a little.
 
-diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
-index f6a669a9af41..ee1c38c2fac9 100644
---- a/drivers/pci/controller/pcie-rcar.c
-+++ b/drivers/pci/controller/pcie-rcar.c
-@@ -30,8 +30,6 @@
- #include <linux/pm_runtime.h>
- #include <linux/slab.h>
- 
--#include "../pci.h"
--
- #define PCIECAR			0x000010
- #define PCIECCTLR		0x000018
- #define  CONFIG_SEND_ENABLE	BIT(31)
+The first patch corrects the spelling of the FBP field of SFO register.
+This register field is unused and should have no run-time effect.
+
+The remaining patches remove the use of undocumented registers
+after some consultation with the internal Renesas BSP team.
+
+Changes in v2:
+* Corrected mangled state of first patch
+* Patches 2/4 and 3/4 split out of a large patch
+* Accumulated acks
+* Tweaked changelog
+* Claimed authorship of all patches
+
+v1 of this series was tested on the following platforms.
+No behaviour change is expected in v2.
+* E3 Ebisu
+* H3 Salvator-XS (ES2.0)
+* M3-W Salvator-XS
+* M3-N Salvator-XS
+* RZ/G1C iW-RainboW-G23S
+
+Simon Horman (4):
+  ravb: correct typo in FBP field of SFO register
+  ravb: remove undocumented counter processing
+  ravb: remove undocumented endianness selection
+  ravb: TROCR register is only present on R-Car Gen3
+
+ drivers/net/ethernet/renesas/ravb.h      |  9 ++-------
+ drivers/net/ethernet/renesas/ravb_main.c | 21 ++++-----------------
+ 2 files changed, 6 insertions(+), 24 deletions(-)
+
 -- 
-2.21.0
+2.11.0
 
