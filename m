@@ -2,155 +2,133 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22979AB881
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2019 14:54:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 532A2AB97D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2019 15:42:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404863AbfIFMyk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Sep 2019 08:54:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50276 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404862AbfIFMyj (ORCPT
+        id S2390522AbfIFNmg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Sep 2019 09:42:36 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:49567 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388784AbfIFNmg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Sep 2019 08:54:39 -0400
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 09C7D2173E;
-        Fri,  6 Sep 2019 12:54:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567774478;
-        bh=w26cLrekOjO1NDx0tjF+iXImKvXPay5u6douh3UTcSc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=OzEZ52pNQXx2jfxi1p0Rz7AWzk2tshLGkAJv5Kwc2ZoNBxIIcTpg+KWIawTuunQyn
-         uBEkMQgY8uKwNQu+G7kf/HlCicShOAXWIqqA45210f4YcY3x/XH/n/ECMMctXRa4vi
-         zZcRT1BrKKQ4sMPROADQv66jLW6z/unYlxjgUqGY=
-Received: by mail-qt1-f180.google.com with SMTP id g13so6452112qtj.4;
-        Fri, 06 Sep 2019 05:54:37 -0700 (PDT)
-X-Gm-Message-State: APjAAAUtgrJC0MlZZiBe4K0b9GyA0f0kYiUEe8YTQweu6MxyESZrmDDT
-        autWJ4/WSbSrCZYJKtfNYCnpMTvonp0ClpuImQ==
-X-Google-Smtp-Source: APXvYqzVbPCN340zI7CD/0EZC4in0AqbdQAYzhHjxdPokS0Z7DebCRDOhfJSzXAeSnDC4Peblf2p9+Ax+0DX28qiE6Y=
-X-Received: by 2002:a0c:8a6d:: with SMTP id 42mr5290386qvu.138.1567774477116;
- Fri, 06 Sep 2019 05:54:37 -0700 (PDT)
+        Fri, 6 Sep 2019 09:42:36 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.lan (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 1C3CD40015;
+        Fri,  6 Sep 2019 13:42:28 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     laurent.pinchart@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
+        horms@verge.net.au, uli@fpond.eu,
+        VenkataRajesh.Kalakodima@in.bosch.com
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, airlied@linux.ie,
+        daniel@ffwll.ch, koji.matsuoka.xm@renesas.com, muroya@ksk.co.jp,
+        Harsha.ManjulaMallikarjun@in.bosch.com,
+        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/9 drm: rcar-du: Add Color Management Module (CMM)
+Date:   Fri,  6 Sep 2019 15:43:32 +0200
+Message-Id: <20190906134341.9879-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20190906111435.5706-1-horms+renesas@verge.net.au>
- <CAL_JsqLvU4=kaQ-nSwMuh4VXX67U5URZAPvVJohfKzQsQdFTrA@mail.gmail.com> <20190906114857.4mgunm4feehakc4u@verge.net.au>
-In-Reply-To: <20190906114857.4mgunm4feehakc4u@verge.net.au>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Fri, 6 Sep 2019 13:54:26 +0100
-X-Gmail-Original-Message-ID: <CAL_Jsq+yp6vw=RoUb+-C3rX2322Y=8xD=wr8OYWxmbvq2SOuKg@mail.gmail.com>
-Message-ID: <CAL_Jsq+yp6vw=RoUb+-C3rX2322Y=8xD=wr8OYWxmbvq2SOuKg@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: arm: renesas: Convert 'renesas,prr' to json-schema
-To:     Simon Horman <horms@verge.net.au>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        devicetree@vger.kernel.org,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Sep 6, 2019 at 12:49 PM Simon Horman <horms@verge.net.au> wrote:
->
-> On Fri, Sep 06, 2019 at 12:21:58PM +0100, Rob Herring wrote:
-> > On Fri, Sep 6, 2019 at 12:14 PM Simon Horman <horms+renesas@verge.net.au> wrote:
-> > >
-> > > Convert Renesas Product Register bindings documentation to json-schema.
-> > >
-> > > Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
-> > > ---
-> > > Based on v5.3-rc1
-> > > Tested using:
-> > >   make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/arm/renesas,prr.yaml
-> > > ---
-> > >  .../devicetree/bindings/arm/renesas,prr.txt        | 20 ------------
-> > >  .../devicetree/bindings/arm/renesas,prr.yaml       | 36 ++++++++++++++++++++++
-> > >  2 files changed, 36 insertions(+), 20 deletions(-)
-> > >  delete mode 100644 Documentation/devicetree/bindings/arm/renesas,prr.txt
-> > >  create mode 100644 Documentation/devicetree/bindings/arm/renesas,prr.yaml
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/arm/renesas,prr.txt b/Documentation/devicetree/bindings/arm/renesas,prr.txt
-> > > deleted file mode 100644
-> > > index 08e482e953ca..000000000000
-> > > --- a/Documentation/devicetree/bindings/arm/renesas,prr.txt
-> > > +++ /dev/null
-> > > @@ -1,20 +0,0 @@
-> > > -Renesas Product Register
-> > > -
-> > > -Most Renesas ARM SoCs have a Product Register or Boundary Scan ID Register that
-> > > -allows to retrieve SoC product and revision information.  If present, a device
-> > > -node for this register should be added.
-> > > -
-> > > -Required properties:
-> > > -  - compatible: Must be one of:
-> > > -    "renesas,prr"
-> > > -    "renesas,bsid"
-> > > -  - reg: Base address and length of the register block.
-> > > -
-> > > -
-> > > -Examples
-> > > ---------
-> > > -
-> > > -       prr: chipid@ff000044 {
-> > > -               compatible = "renesas,prr";
-> > > -               reg = <0 0xff000044 0 4>;
-> > > -       };
-> > > diff --git a/Documentation/devicetree/bindings/arm/renesas,prr.yaml b/Documentation/devicetree/bindings/arm/renesas,prr.yaml
-> > > new file mode 100644
-> > > index 000000000000..9df003041456
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/arm/renesas,prr.yaml
-> > > @@ -0,0 +1,36 @@
-> > > +# SPDX-License-Identifier: GPL-2.0
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/arm/renesas,prr.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Renesas Product Register
-> > > +
-> > > +maintainers:
-> > > +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> > > +  - Magnus Damm <magnus.damm@gmail.com>
-> > > +
-> > > +description: |
-> > > +  Most Renesas ARM SoCs have a Product Register or Boundary Scan ID
-> > > +  Register that allows to retrieve SoC product and revision information.
-> > > +  If present, a device node for this register should be added.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    oneOf:
-> > > +        - const: "renesas,prr"
-> > > +        - const: "renesas,bsid"
-> >
-> > enum is better than oneOf+const and drop the quotes. oneOf/allOf/anyOf
-> > result in terrible error messages.
->
-> Thanks Rob,
->
-> Like this?
->
->   compatible:
->     enum:
->       - renesas,prr
->       - renesas,bsid
->
-> > > +  reg:
-> > > +    items:
-> > > +      - description: Base address and length of the register block.
-> >
-> > That's what 'reg' *always* is... Just 'maxItems: 1' is sufficient when
-> > there is" only 1 entry.
->
-> And this?
->
->   reg:
->     maxItems: 1
+Hello, new iteration of CMM support, with quite a few changes compared to
+v3:
 
-Yes, for both.
+References:
+A reference to the v1 cover letter, with some background on the CMM is
+available here:
+https://lkml.org/lkml/2019/6/6/583
+v2:
+https://lore.kernel.org/linux-renesas-soc/20190706140746.29132-10-jacopo+renesas@jmondi.org/
+v3:
+https://lore.kernel.org/linux-renesas-soc/20190825135154.11488-1-jacopo+renesas@jmondi.org/
+
+Change log:
+
+*Bindings/DT:
+- Rebased on renesas-devel-2019-09-03-v5.3-rc7
+- Bindings converted to yaml: thanks Laurent for help
+- s/'cmms'/'renesas,cmms'/ in DU bindings as suggested by Rob
+- s/cmm-<soctype>/<soctype>-cmm/ as suggested by Geert
+- squashed CMM addition for Gen3 SoCs in a single path at the end of
+  the series
+
+*CMM/DU:
+- Only accept fully populated LUT tables, remove the 'size' from the CMM
+  configuration structure as suggested by Laurent
+- Simplify CMM configuration logic: only rely on color_mgmt_changed flag and
+  unconditionally provide a populated LUT table to the cmm_setup() function
+- Protect against probing order inversion (DU is operation while CMM still has
+  not been probed) by adding rcar_cmm_init() operation as it is done for VSP as
+  suggested by Laurent
+- Add CMM function stubs to fix compilation erros when CONFIG_DRM_RCAR_CMM is
+  not selected
+- Minors in the CMM driver as suggested by Laurent
+  - Remove per-soc strings
+  - Make comments style consistent (not using /** anywhere in the .c file,
+    unify comment style)
+  - s/rcar_cmm_load()/rcar_cmm_write()/
+  - Squash cmm configuration and suspend/resume support in rcar_du_kms.c
+
+Testing:
+I have tested by injecting a color inversion LUT table at test program
+initialization:
+https://jmondi.org/cgit/kmsxx/commit/?h=gamma_lut&id=3c6af4db165e5b3dc8996f0a288746c35dbb1cb9
+And by changing the CMM content to switch between a color inversion table
+and a linear table every 50 frames:
+https://jmondi.org/cgit/kmsxx/commit/?h=gamma_lut&id=fe178a43861da7c8e79618e2a13fa0f19dbcd03d
+
+Pretty happy with the result, which seems to be consistent across system
+suspend/resume.
+
+Testing with real world use cases might be beneficial. Rajesh are you still
+interested in giving this series a spin?
+
+Thanks
+  j
+
+Jacopo Mondi (9):
+  dt-bindings: display: renesas,cmm: Add R-Car CMM documentation
+  dt-bindings: display, renesas,du: Document cmms property
+  drm: rcar-du: Add support for CMM
+  drm: rcar-du: Claim CMM support for Gen3 SoCs
+  drm: rcar-du: kms: Initialize CMM instances
+  drm: rcar-du: crtc: Enable and disable CMMs
+  drm: rcar-du: crtc: Register GAMMA_LUT properties
+  drm: rcar-du: kms: Update CMM in atomic commit tail
+  arm64: dts: renesas: Add CMM units to Gen3 SoCs
+
+ .../bindings/display/renesas,cmm.yaml         |  64 +++++
+ .../bindings/display/renesas,du.txt           |   5 +
+ arch/arm64/boot/dts/renesas/r8a7795.dtsi      |  40 ++-
+ arch/arm64/boot/dts/renesas/r8a7796.dtsi      |  28 ++
+ arch/arm64/boot/dts/renesas/r8a77965.dtsi     |  28 ++
+ arch/arm64/boot/dts/renesas/r8a77990.dtsi     |  22 +-
+ arch/arm64/boot/dts/renesas/r8a77995.dtsi     |  22 +-
+ drivers/gpu/drm/rcar-du/Kconfig               |   7 +
+ drivers/gpu/drm/rcar-du/Makefile              |   1 +
+ drivers/gpu/drm/rcar-du/rcar_cmm.c            | 251 ++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_cmm.h            |  61 +++++
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c        |  17 ++
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.h        |   2 +
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c         |  32 ++-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.h         |   3 +
+ drivers/gpu/drm/rcar-du/rcar_du_group.c       |   8 +
+ drivers/gpu/drm/rcar-du/rcar_du_group.h       |   2 +
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c         | 106 ++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_regs.h        |   5 +
+ 19 files changed, 697 insertions(+), 7 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/renesas,cmm.yaml
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.h
+
+--
+2.23.0
+
