@@ -2,35 +2,34 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 68B12AB9EC
+	by mail.lfdr.de (Postfix) with ESMTP id D7D74AB9ED
 	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2019 15:54:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393545AbfIFNxt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Sep 2019 09:53:49 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:53993 "EHLO
+        id S2393620AbfIFNxx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Sep 2019 09:53:53 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:58949 "EHLO
         relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393553AbfIFNxs (ORCPT
+        with ESMTP id S2393553AbfIFNxw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Sep 2019 09:53:48 -0400
+        Fri, 6 Sep 2019 09:53:52 -0400
 X-Originating-IP: 2.224.242.101
 Received: from uno.lan (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id A8387FF80F;
-        Fri,  6 Sep 2019 13:53:44 +0000 (UTC)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 909E4FF80D;
+        Fri,  6 Sep 2019 13:53:47 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
 To:     laurent.pinchart@ideasonboard.com,
         kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
         horms@verge.net.au, uli+renesas@fpond.eu,
-        VenkataRajesh.Kalakodima@in.bosch.com, airlied@linux.ie,
-        daniel@ffwll.ch
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        koji.matsuoka.xm@renesas.com, muroya@ksk.co.jp,
+        VenkataRajesh.Kalakodima@in.bosch.com
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, airlied@linux.ie,
+        daniel@ffwll.ch, koji.matsuoka.xm@renesas.com, muroya@ksk.co.jp,
         Harsha.ManjulaMallikarjun@in.bosch.com,
         linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v4 8/9] drm: rcar-du: kms: Update CMM in atomic commit tail
-Date:   Fri,  6 Sep 2019 15:54:35 +0200
-Message-Id: <20190906135436.10622-9-jacopo+renesas@jmondi.org>
+Subject: [PATCH v4 9/9] arm64: dts: renesas: Add CMM units to Gen3 SoCs
+Date:   Fri,  6 Sep 2019 15:54:36 +0200
+Message-Id: <20190906135436.10622-10-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190906135436.10622-1-jacopo+renesas@jmondi.org>
 References: <20190906135436.10622-1-jacopo+renesas@jmondi.org>
@@ -41,136 +40,257 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Update CMM settings at in the atomic commit tail helper method.
-The CMM is updated with new gamma values provided to the driver
-in the GAMMA_LUT blob property.
+Add CMM units to Renesas R-Car Gen3 SoC that support it, and reference them
+from the Display Unit they are connected to.
 
-When resuming from system suspend, the DU driver is responsible for
-reprogramming and enabling the CMM unit if it was in use at the time the
-system entered the suspend state.  Force the color_mgmt_changed flag to
-true if the DRM gamma lut color transformation property was set in the
-CRTC state duplicated at suspend time, as the CMM gets reprogrammed only
-if said flag is active in the rcar_du_atomic_commit_update_cmm() method.
+Sort the 'vsps' and 'renesas,cmm' entries in the DU unit consistently
+in all the involved DTS.
 
-Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 ---
+ arch/arm64/boot/dts/renesas/r8a7795.dtsi  | 40 ++++++++++++++++++++++-
+ arch/arm64/boot/dts/renesas/r8a7796.dtsi  | 28 ++++++++++++++++
+ arch/arm64/boot/dts/renesas/r8a77965.dtsi | 28 ++++++++++++++++
+ arch/arm64/boot/dts/renesas/r8a77990.dtsi | 22 ++++++++++++-
+ arch/arm64/boot/dts/renesas/r8a77995.dtsi | 22 ++++++++++++-
+ 5 files changed, 137 insertions(+), 3 deletions(-)
 
-Daniel could you have a look if resume bits are worth being moved to the
-DRM core? The color_mgmt_changed flag is set to false when the state is
-duplicated if I read the code correctly, but when this happens in a
-suspend/resume sequence its value should probably be restored to true if
-any color management property was set in the crtc state when system entered
-suspend.
-
----
-
- drivers/gpu/drm/rcar-du/rcar_du_drv.c | 20 ++++++++++++++
- drivers/gpu/drm/rcar-du/rcar_du_kms.c | 38 +++++++++++++++++++++++++++
- 2 files changed, 58 insertions(+)
-
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-index 018480a8f35c..d1003d31cfaf 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-@@ -17,6 +17,7 @@
- #include <linux/slab.h>
- #include <linux/wait.h>
-
-+#include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_fb_cma_helper.h>
- #include <drm/drm_fb_helper.h>
-@@ -482,6 +483,25 @@ static int rcar_du_pm_suspend(struct device *dev)
- static int rcar_du_pm_resume(struct device *dev)
- {
- 	struct rcar_du_device *rcdu = dev_get_drvdata(dev);
-+	struct drm_atomic_state *state = rcdu->ddev->mode_config.suspend_state;
-+	unsigned int i;
+diff --git a/arch/arm64/boot/dts/renesas/r8a7795.dtsi b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
+index 6675462f7585..67c242a447bc 100644
+--- a/arch/arm64/boot/dts/renesas/r8a7795.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
+@@ -2939,6 +2939,42 @@
+ 			iommus = <&ipmmu_vi1 10>;
+ 		};
+ 
++		cmm0: cmm@fea40000 {
++			compatible = "renesas,r8a7795-cmm",
++				     "renesas,rcar-gen3-cmm";
++			reg = <0 0xfea40000 0 0x1000>;
++			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
++			clocks = <&cpg CPG_MOD 711>;
++			resets = <&cpg 711>;
++		};
 +
-+	for (i = 0; i < rcdu->num_crtcs; ++i) {
-+		struct drm_crtc *crtc = &rcdu->crtcs[i].crtc;
-+		struct drm_crtc_state *crtc_state;
++		cmm1: cmm@fea50000 {
++			compatible = "renesas,r8a7795-cmm",
++				     "renesas,rcar-gen3-cmm";
++			reg = <0 0xfea50000 0 0x1000>;
++			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
++			clocks = <&cpg CPG_MOD 710>;
++			resets = <&cpg 710>;
++		};
 +
-+		crtc_state = drm_atomic_get_new_crtc_state(state, crtc);
-+		if (!crtc_state)
-+			continue;
++		cmm2: cmm@fea60000 {
++			compatible = "renesas,r8a7795-cmm",
++				     "renesas,rcar-gen3-cmm";
++			reg = <0 0xfea60000 0 0x1000>;
++			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
++			clocks = <&cpg CPG_MOD 709>;
++			resets = <&cpg 709>;
++		};
 +
-+		/*
-+		 * Force re-enablement of CMM after system resume if any
-+		 * of the DRM color transformation properties was set in
-+		 * the state saved at system suspend time.
-+		 */
-+		if (crtc_state->gamma_lut)
-+			crtc_state->color_mgmt_changed = true;
-+	}
-
- 	return drm_mode_config_helper_resume(rcdu->ddev);
- }
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-index 294630e56992..fc30fff0eb8d 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-@@ -22,6 +22,7 @@
- #include <linux/of_platform.h>
- #include <linux/wait.h>
-
-+#include "rcar_cmm.h"
- #include "rcar_du_crtc.h"
- #include "rcar_du_drv.h"
- #include "rcar_du_encoder.h"
-@@ -368,6 +369,40 @@ rcar_du_fb_create(struct drm_device *dev, struct drm_file *file_priv,
-  * Atomic Check and Update
-  */
-
-+static void rcar_du_atomic_commit_update_cmm(struct drm_crtc *crtc,
-+					     struct drm_crtc_state *old_state)
-+{
-+	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-+	struct rcar_cmm_config cmm_config = {};
-+	struct device *dev = rcrtc->dev->dev;
-+	struct drm_property_blob *lut_blob;
++		cmm3: cmm@fea70000 {
++			compatible = "renesas,r8a7795-cmm",
++				     "renesas,rcar-gen3-cmm";
++			reg = <0 0xfea70000 0 0x1000>;
++			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
++			clocks = <&cpg CPG_MOD 708>;
++			resets = <&cpg 708>;
++		};
 +
-+	if (!rcrtc->cmm || !crtc->state->color_mgmt_changed)
-+		return;
+ 		csi20: csi2@fea80000 {
+ 			compatible = "renesas,r8a7795-csi2";
+ 			reg = <0 0xfea80000 0 0x10000>;
+@@ -3142,9 +3178,11 @@
+ 				 <&cpg CPG_MOD 722>,
+ 				 <&cpg CPG_MOD 721>;
+ 			clock-names = "du.0", "du.1", "du.2", "du.3";
+-			vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
+ 			status = "disabled";
+ 
++			vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
++			renesas,cmms = <&cmm0 &cmm1 &cmm2 &cmm3>;
 +
-+	if (!crtc->state->gamma_lut) {
-+		cmm_config.lut.enable = false;
-+		rcar_cmm_setup(rcrtc->cmm, &cmm_config);
-+		return;
-+	}
+ 			ports {
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a7796.dtsi b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
+index 822c96601d3c..837c3b2da773 100644
+--- a/arch/arm64/boot/dts/renesas/r8a7796.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
+@@ -2641,6 +2641,33 @@
+ 			renesas,fcp = <&fcpvi0>;
+ 		};
+ 
++		cmm0: cmm@fea40000 {
++			compatible = "renesas,r8a7796-cmm",
++				     "renesas,rcar-gen3-cmm";
++			reg = <0 0xfea40000 0 0x1000>;
++			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
++			clocks = <&cpg CPG_MOD 711>;
++			resets = <&cpg 711>;
++		};
 +
-+	lut_blob = crtc->state->gamma_lut;
-+	if (lut_blob->length != (CM2_LUT_SIZE * sizeof(struct drm_color_lut))) {
-+		/*
-+		 * We only accept fully populated LUT tables;
-+		 * be loud here, otherwise the CMM gets silently ignored.
-+		 */
-+		dev_err(dev, "invalid gamma lut size of %lu bytes\n",
-+			lut_blob->length);
-+		return;
-+	}
++		cmm1: cmm@fea50000 {
++			compatible = "renesas,r8a7796-cmm",
++				     "renesas,rcar-gen3-cmm";
++			reg = <0 0xfea50000 0 0x1000>;
++			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
++			clocks = <&cpg CPG_MOD 710>;
++			resets = <&cpg 710>;
++		};
 +
-+	cmm_config.lut.enable = true;
-+	cmm_config.lut.table = (struct drm_color_lut *)lut_blob->data;
++		cmm2: cmm@fea60000 {
++			compatible = "renesas,r8a7796-cmm",
++				     "renesas,rcar-gen3-cmm";
++			reg = <0 0xfea60000 0 0x1000>;
++			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
++			clocks = <&cpg CPG_MOD 709>;
++			resets = <&cpg 709>;
++		};
 +
-+	rcar_cmm_setup(rcrtc->cmm, &cmm_config);
-+}
+ 		csi20: csi2@fea80000 {
+ 			compatible = "renesas,r8a7796-csi2";
+ 			reg = <0 0xfea80000 0 0x10000>;
+@@ -2794,6 +2821,7 @@
+ 			status = "disabled";
+ 
+ 			vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>;
++			renesas,cmms = <&cmm0 &cmm1 &cmm2>;
+ 
+ 			ports {
+ 				#address-cells = <1>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a77965.dtsi b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+index 4ae163220f60..c7635e8b261c 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+@@ -2320,6 +2320,33 @@
+ 			resets = <&cpg 611>;
+ 		};
+ 
++		cmm0: cmm@fea40000 {
++			compatible = "renesas,r8a77965-cmm",
++				     "renesas,rcar-gen3-cmm";
++			reg = <0 0xfea40000 0 0x1000>;
++			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
++			clocks = <&cpg CPG_MOD 711>;
++			resets = <&cpg 711>;
++		};
 +
- static int rcar_du_atomic_check(struct drm_device *dev,
- 				struct drm_atomic_state *state)
- {
-@@ -410,6 +445,9 @@ static void rcar_du_atomic_commit_tail(struct drm_atomic_state *old_state)
- 			rcdu->dpad1_source = rcrtc->index;
- 	}
-
-+	for_each_old_crtc_in_state(old_state, crtc, crtc_state, i)
-+		rcar_du_atomic_commit_update_cmm(crtc, crtc_state);
++		cmm1: cmm@fea50000 {
++			compatible = "renesas,r8a77965-cmm",
++				     "renesas,rcar-gen3-cmm";
++			reg = <0 0xfea50000 0 0x1000>;
++			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
++			clocks = <&cpg CPG_MOD 710>;
++			resets = <&cpg 710>;
++		};
 +
- 	/* Apply the atomic update. */
- 	drm_atomic_helper_commit_modeset_disables(dev, old_state);
- 	drm_atomic_helper_commit_planes(dev, old_state,
---
++		cmm3: cmm@fea70000 {
++			compatible = "renesas,r8a77965-cmm",
++				     "renesas,rcar-gen3-cmm";
++			reg = <0 0xfea70000 0 0x1000>;
++			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
++			clocks = <&cpg CPG_MOD 708>;
++			resets = <&cpg 708>;
++		};
++
+ 		csi20: csi2@fea80000 {
+ 			compatible = "renesas,r8a77965-csi2";
+ 			reg = <0 0xfea80000 0 0x10000>;
+@@ -2470,6 +2497,7 @@
+ 			status = "disabled";
+ 
+ 			vsps = <&vspd0 0>, <&vspd1 0>, <&vspd0 1>;
++			renesas,cmms = <&cmm0 &cmm1 &cmm3>;
+ 
+ 			ports {
+ 				#address-cells = <1>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a77990.dtsi b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+index 455954c3d98e..5e3d758a033f 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77990.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+@@ -1727,6 +1727,24 @@
+ 			iommus = <&ipmmu_vi0 9>;
+ 		};
+ 
++		cmm0: cmm@fea40000 {
++			compatible = "renesas,r8a77990-cmm",
++				     "renesas,rcar-gen3-cmm";
++			reg = <0 0xfea40000 0 0x1000>;
++			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
++			clocks = <&cpg CPG_MOD 711>;
++			resets = <&cpg 711>;
++		};
++
++		cmm1: cmm@fea50000 {
++			compatible = "renesas,r8a77990-cmm",
++				     "renesas,rcar-gen3-cmm";
++			reg = <0 0xfea50000 0 0x1000>;
++			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
++			clocks = <&cpg CPG_MOD 710>;
++			resets = <&cpg 710>;
++		};
++
+ 		csi40: csi2@feaa0000 {
+ 			compatible = "renesas,r8a77990-csi2";
+ 			reg = <0 0xfeaa0000 0 0x10000>;
+@@ -1768,9 +1786,11 @@
+ 			clock-names = "du.0", "du.1";
+ 			resets = <&cpg 724>;
+ 			reset-names = "du.0";
+-			vsps = <&vspd0 0>, <&vspd1 0>;
+ 			status = "disabled";
+ 
++			vsps = <&vspd0 0>, <&vspd1 0>;
++			renesas,cmms = <&cmm0 &cmm1>;
++
+ 			ports {
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+index 183fef86cf7c..6838a81f5caa 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+@@ -993,6 +993,24 @@
+ 			iommus = <&ipmmu_vi0 9>;
+ 		};
+ 
++		cmm0: cmm@fea40000 {
++			compatible = "renesas,r8a77995-cmm",
++				     "renesas,rcar-gen3-cmm";
++			reg = <0 0xfea40000 0 0x1000>;
++			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
++			clocks = <&cpg CPG_MOD 711>;
++			resets = <&cpg 711>;
++		};
++
++		cmm1: cmm@fea50000 {
++			compatible = "renesas,r8a77995-cmm",
++				     "renesas,rcar-gen3-cmm";
++			reg = <0 0xfea50000 0 0x1000>;
++			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
++			clocks = <&cpg CPG_MOD 710>;
++			resets = <&cpg 710>;
++		};
++
+ 		du: display@feb00000 {
+ 			compatible = "renesas,du-r8a77995";
+ 			reg = <0 0xfeb00000 0 0x40000>;
+@@ -1003,9 +1021,11 @@
+ 			clock-names = "du.0", "du.1";
+ 			resets = <&cpg 724>;
+ 			reset-names = "du.0";
+-			vsps = <&vspd0 0>, <&vspd1 0>;
+ 			status = "disabled";
+ 
++			vsps = <&vspd0 0>, <&vspd1 0>;
++			renesas,cmms = <&cmm0 &cmm1>;
++
+ 			ports {
+ 				#address-cells = <1>;
+ 				#size-cells = <0>;
+-- 
 2.23.0
 
