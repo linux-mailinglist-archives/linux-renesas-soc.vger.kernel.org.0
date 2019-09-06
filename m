@@ -2,84 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E05B9ABAED
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2019 16:33:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA88CABB0E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2019 16:35:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390644AbfIFOdX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Sep 2019 10:33:23 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:59594 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388714AbfIFOdX (ORCPT
+        id S2405525AbfIFOfT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Sep 2019 10:35:19 -0400
+Received: from bin-mail-out-06.binero.net ([195.74.38.229]:47257 "EHLO
+        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2405523AbfIFOfT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Sep 2019 10:33:23 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C02D542;
-        Fri,  6 Sep 2019 16:33:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1567780401;
-        bh=e8eKG77p40C7hywk1oNcsdbBOVT2AOHv/tMo08FuJ/8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rAotsIthvobIw1BtvM91jO/MRRxK3+QekpnNr+D4WHF318iik+Bhi8/YLdTd0bG1h
-         QLGzEmrMIUvHEg/RWETqPNoA/WIRdRqiBk/jyjfN8SgYtUpxoxksMA0WKmqt7d2CL2
-         AMFUps/ivmLM5Eni2cNN3oQJICCEEjtvWAyt98js=
-Date:   Fri, 6 Sep 2019 17:33:12 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v3] drm: rcar-du: kms: Expand comment in vsps parsing
- routine
-Message-ID: <20190906143312.GB5028@pendragon.ideasonboard.com>
-References: <20190906135012.10285-1-jacopo+renesas@jmondi.org>
+        Fri, 6 Sep 2019 10:35:19 -0400
+X-Halon-ID: 859a30b3-d0b3-11e9-903a-005056917f90
+Authorized-sender: niklas@soderlund.pp.se
+Received: from bismarck.berto.se (unknown [84.172.84.18])
+        by bin-vsp-out-02.atm.binero.net (Halon) with ESMTPA
+        id 859a30b3-d0b3-11e9-903a-005056917f90;
+        Fri, 06 Sep 2019 16:35:12 +0200 (CEST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] rcar-vin: Do not enumerate unsupported pixel formats
+Date:   Fri,  6 Sep 2019 16:35:00 +0200
+Message-Id: <20190906143500.21882-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190906135012.10285-1-jacopo+renesas@jmondi.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+If a pixel format is not supported by the hardware NULL is returned by
+rvin_format_from_pixel() for that fourcc. Verify that the pixel format
+is supported using this or skip it when enumerating.
 
-On Fri, Sep 06, 2019 at 03:50:12PM +0200, Jacopo Mondi wrote:
-> Expand comment in the 'vsps' parsing routine to specify the LIF
-> channel index defaults to 0 in case the second cell of the property
-> is not specified to remain compatible with older DT bindings.
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
-> This trivial change is a leftover from a series that Geert already
-> took in. Re-sending as I forgot to add the dri list.
-> 
-> Laurent, could you pick this one please?
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/media/platform/rcar-vin/rcar-v4l2.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-Done, thank you.
-
-> ---
->  drivers/gpu/drm/rcar-du/rcar_du_kms.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> index fc30fff0eb8d..cb636637032d 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-> @@ -625,7 +625,11 @@ static int rcar_du_vsps_init(struct rcar_du_device *rcdu)
-> 
->  		vsps[j].crtcs_mask |= BIT(i);
-> 
-> -		/* Store the VSP pointer and pipe index in the CRTC. */
-> +		/*
-> +		 * Store the VSP pointer and pipe index in the CRTC. If the
-> +		 * second cell of the 'vsps' specifier isn't present, default
-> +		 * to 0 to remain compatible with older DT bindings.
-> +		 */
->  		rcdu->crtcs[i].vsp = &rcdu->vsps[j];
->  		rcdu->crtcs[i].vsp_pipe = cells >= 1 ? args.args[0] : 0;
->  	}
-
+diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+index cbc1c07f0a9631a4..ba08f6c49956e899 100644
+--- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
++++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+@@ -302,10 +302,20 @@ static int rvin_g_fmt_vid_cap(struct file *file, void *priv,
+ static int rvin_enum_fmt_vid_cap(struct file *file, void *priv,
+ 				 struct v4l2_fmtdesc *f)
+ {
++	struct rvin_dev *vin = video_drvdata(file);
++	unsigned int i, skip = 0;
++
+ 	if (f->index >= ARRAY_SIZE(rvin_formats))
+ 		return -EINVAL;
+ 
+-	f->pixelformat = rvin_formats[f->index].fourcc;
++	for (i = 0; i <= f->index; i++)
++		if (!rvin_format_from_pixel(vin, rvin_formats[i].fourcc))
++			skip++;
++
++	if (f->index + skip >= ARRAY_SIZE(rvin_formats))
++		return -EINVAL;
++
++	f->pixelformat = rvin_formats[f->index + skip].fourcc;
+ 
+ 	return 0;
+ }
 -- 
-Regards,
+2.23.0
 
-Laurent Pinchart
