@@ -2,241 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E037CAAE19
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Sep 2019 23:51:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7F9CAB1BF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2019 06:41:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730293AbfIEVvz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Sep 2019 17:51:55 -0400
-Received: from bin-mail-out-05.binero.net ([195.74.38.228]:57598 "EHLO
-        bin-mail-out-05.binero.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2391066AbfIEVvy (ORCPT
+        id S1728578AbfIFElz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Sep 2019 00:41:55 -0400
+Received: from mail-eopbgr1400104.outbound.protection.outlook.com ([40.107.140.104]:45352
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727514AbfIFElz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Sep 2019 17:51:54 -0400
-X-Halon-ID: 50317c15-d027-11e9-837a-0050569116f7
-Authorized-sender: niklas@soderlund.pp.se
-Received: from bismarck.berto.se (unknown [84.172.84.18])
-        by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
-        id 50317c15-d027-11e9-837a-0050569116f7;
-        Thu, 05 Sep 2019 23:51:28 +0200 (CEST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 2/2] rcar-vin: Add support for V4L2_FIELD_SEQ_{TB,BT}
-Date:   Thu,  5 Sep 2019 23:49:15 +0200
-Message-Id: <20190905214915.13919-3-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190905214915.13919-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20190905214915.13919-1-niklas.soderlund+renesas@ragnatech.se>
+        Fri, 6 Sep 2019 00:41:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BfOkvCNq9Z0BQdckQyQ5NtrYWBg6n2TV45WaMQBJIXKWwOiIfwZXMIQ3sNl3Vdowpxa7A9n8m8rv8MQvwiPufY97bkqy1/8hRUO+XnbTcfUyWkrXZUTmAKKRuiVOGkxXVzCjZKNjAfh5nG/wDtHEO1E2Sh3JM5TEKVgW+vrysYVfoGy1s3CB+ozKo5N+XidPprBHKRtJNN4P1Bu7P2+FfSDXg2TKDVWb0ej0uSFGkMonmzPEyBBASr/lXle09qJuuDGysDt5qHtwzclWdnuPePDMsIOlgiqqW4R3vJfF4ZpnblW12X+NVjBft/QD3jKY0HrxV6FOBJz2cz7saN1ZwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4GbtWtWRhtZXpAgNaUbWyuiyXTuxTkbyenjrj9i+8cw=;
+ b=CZYhNoUBz5gbVXk+XZG3CWYhZSNOQNcB5S00vj+JQN1NPyq5HAyg9IiNNeTOwqVHzBj+MtXAcyLA3YKH0cnny8flESi9nCuj8uOen8OKbHDRMlDSa7vQDBcHIj1o//AzsQnv+WhqEk9Jw76McykFrTsrHzPnoTMTc12Ds8ogYh0+qCmIuNEx6SRfeZUVopzDP+2Wx//C2kr7CPK+BDOM8HEQjHeuwETXoFOHeIHh8EvEHKApKJ3ik7k3+33cczhC0OpygSL0eWgAWK+kQi8RbQTJXTPYgseNPAAk4HuaNLtKFVr846quOkeXyj706icPm7UvW9EIMfiO/KT3d/14Sw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4GbtWtWRhtZXpAgNaUbWyuiyXTuxTkbyenjrj9i+8cw=;
+ b=EGNB1jd27lv5ypdxtezet3n0D1pLaCP29gv90AyiCJrflQt/KXLTjNDsOMpPFEsdfXXGFxxlVerHH+mafDfwL2Sx0Odwou4voTscEXWS6NoEL5JCU0uTWFY9xhz1cvvqBVdV+zeL7JkjftJpjQESRUuzY6m5ex5m75266Blep/U=
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
+ TYAPR01MB3360.jpnprd01.prod.outlook.com (20.178.139.82) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2220.18; Fri, 6 Sep 2019 04:41:50 +0000
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::7da1:bfc1:6c7f:8977]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::7da1:bfc1:6c7f:8977%7]) with mapi id 15.20.2241.018; Fri, 6 Sep 2019
+ 04:41:50 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     "REE erosca@DE.ADIT-JV.COM" <erosca@DE.ADIT-JV.COM>
+CC:     Veeraiyan Chidambaram <external.veeraiyan.c@de.adit-jv.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        Veeraiyan Chidambaram <veeraiyan.chidambaram@in.bosch.com>,
+        "REE erosca@DE.ADIT-JV.COM" <erosca@DE.ADIT-JV.COM>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: RE: [PATCH v3] usb: gadget: udc: renesas_usb3: add suspend event
+ support
+Thread-Topic: [PATCH v3] usb: gadget: udc: renesas_usb3: add suspend event
+ support
+Thread-Index: AQHVY8ruVM4kfXu4JEmvaon6vzm6uKcc6MMQgACJ3YCAAJ8xQA==
+Date:   Fri, 6 Sep 2019 04:41:50 +0000
+Message-ID: <TYAPR01MB4544B6F543B4678FAF95C2E7D8BA0@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+References: <1567675074-3331-1-git-send-email-external.veeraiyan.c@de.adit-jv.com>
+ <TYAPR01MB45449D299241B52077101C85D8BB0@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+ <20190905190705.GA4062@vmlxhi-102.adit-jv.com>
+In-Reply-To: <20190905190705.GA4062@vmlxhi-102.adit-jv.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [150.249.235.54]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 375b8f69-133e-4502-a8db-08d7328488c4
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600166)(711020)(4605104)(1401327)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:TYAPR01MB3360;
+x-ms-traffictypediagnostic: TYAPR01MB3360:|TYAPR01MB3360:
+x-ms-exchange-purlcount: 3
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-microsoft-antispam-prvs: <TYAPR01MB3360BD0776BA1400CDB78491D8BA0@TYAPR01MB3360.jpnprd01.prod.outlook.com>
+x-ms-exchange-transport-forked: True
+x-ms-oob-tlc-oobclassifiers: OLM:843;
+x-forefront-prvs: 0152EBA40F
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(396003)(39860400002)(346002)(136003)(366004)(376002)(199004)(189003)(3846002)(966005)(66556008)(64756008)(76116006)(66946007)(316002)(8936002)(66476007)(476003)(66446008)(86362001)(53936002)(478600001)(25786009)(55016002)(6306002)(5660300002)(6436002)(6116002)(15650500001)(52536014)(4326008)(99286004)(6246003)(54906003)(14454004)(71190400001)(446003)(6506007)(8676002)(7736002)(71200400001)(81156014)(26005)(256004)(14444005)(2906002)(74316002)(229853002)(102836004)(66066001)(11346002)(186003)(33656002)(486006)(305945005)(7696005)(81166006)(9686003)(76176011)(6916009);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB3360;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 1RRWNgB21VsZE6m2zbFP+6WFMJtwht2Rb0DAE14wqy/2/ayUPTtp3yPy9GsTbzuXHGjA2N0KltXFE7fRQSYAKpTYrqI+hb2GB5zKJT4vlxFlFc47tavfjAOxM55OzxfdBVum4jqgIidqyALrHi6fD46i1AXpk9yI5vTeWpTYj0FzqpVTApllH7RHox5Qh+A0KjGW3lG7CQ7gcrx/Ojyefy2ailHEHyCCoin+yYK3TU9grj03pkcTF2fSCSJSa6MQTzK1no3Z0tnOg8tnKXdXnZrxDXZ6zQXT+R3eO/gSTBsJ2t2ooPSexpYYiEBBsZK6T81hnIiNsCccjqwEdrTxgvncqGNqe53muRgThrAkW4dIrKImBZz67QMpiSyZhylu4xOsEKErmVpW63ssEr7vEPIYkQ26WMscluwx6/Kp/u0=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 375b8f69-133e-4502-a8db-08d7328488c4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Sep 2019 04:41:50.6137
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: UzCyHiprx0EgfoV4S8UVDi4Oqe/+9dkZ/opXlCc3r383iYK2N2VgXTm5D5obISaayEP3aIr5ixU6H0Ac5++rNffY4h2AcX6PnbyTFbkS+XuwAqy90+sMuBvu7rPtF+Is
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB3360
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The hardware do not support capturing the field types V4L2_FIELD_SEQ_TB
-and V4L2_FIELD_SEQ_BT. To capture in these formats the driver needs to
-adjust the offset of the capture buffer and capture twice to each vb2
-buffer.
+Hello Eugeniu-san,
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/platform/rcar-vin/rcar-dma.c  | 57 ++++++++++++++++++---
- drivers/media/platform/rcar-vin/rcar-v4l2.c |  7 ++-
- drivers/media/platform/rcar-vin/rcar-vin.h  | 19 +++++++
- 3 files changed, 74 insertions(+), 9 deletions(-)
+> From: Eugeniu Rosca, Sent: Friday, September 6, 2019 4:07 AM
+<snip>
+>=20
+> I guess there are strong similarities between this patch and [3].
+> Would you like to pick [1-3], as they still apply cleanly to vanilla?
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index a9fffadc268e96ba..c46f6e90627d45fd 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -534,7 +534,7 @@ static void rvin_crop_scale_comp_gen2(struct rvin_dev *vin)
- 
- 	/* Set scaling coefficient */
- 	crop_height = vin->crop.height;
--	if (V4L2_FIELD_IS_INTERLACED(vin->format.field))
-+	if (V4L2_FIELD_HAS_BOTH(vin->format.field))
- 		crop_height *= 2;
- 
- 	ys = 0;
-@@ -625,6 +625,8 @@ static int rvin_setup(struct rvin_dev *vin)
- 	case V4L2_FIELD_INTERLACED_BT:
- 		vnmc = VNMC_IM_FULL | VNMC_FOC;
- 		break;
-+	case V4L2_FIELD_SEQ_TB:
-+	case V4L2_FIELD_SEQ_BT:
- 	case V4L2_FIELD_NONE:
- 		vnmc = VNMC_IM_ODD_EVEN;
- 		progressive = true;
-@@ -839,15 +841,23 @@ static void rvin_fill_hw_slot(struct rvin_dev *vin, int slot)
- 	struct rvin_buffer *buf;
- 	struct vb2_v4l2_buffer *vbuf;
- 	dma_addr_t phys_addr;
-+	int prev;
- 
- 	/* A already populated slot shall never be overwritten. */
- 	if (WARN_ON(vin->buf_hw[slot].buffer != NULL))
- 		return;
- 
--	vin_dbg(vin, "Filling HW slot: %d\n", slot);
-+	prev = (slot == 0 ? HW_BUFFER_NUM : slot) - 1;
- 
--	if (list_empty(&vin->buf_list)) {
-+	if (vin->buf_hw[prev].type == HALF_TOP) {
-+		vbuf = vin->buf_hw[prev].buffer;
-+		vin->buf_hw[slot].buffer = vbuf;
-+		vin->buf_hw[slot].type = HALF_BOTTOM;
-+		phys_addr = vin->buf_hw[prev].phys + vin->format.sizeimage /
-+			(vin->format.pixelformat == V4L2_PIX_FMT_NV16 ? 4 : 2);
-+	} else if (list_empty(&vin->buf_list)) {
- 		vin->buf_hw[slot].buffer = NULL;
-+		vin->buf_hw[slot].type = FULL;
- 		phys_addr = vin->scratch_phys;
- 	} else {
- 		/* Keep track of buffer we give to HW */
-@@ -856,10 +866,18 @@ static void rvin_fill_hw_slot(struct rvin_dev *vin, int slot)
- 		list_del_init(to_buf_list(vbuf));
- 		vin->buf_hw[slot].buffer = vbuf;
- 
-+		vin->buf_hw[slot].type =
-+			V4L2_FIELD_IS_SEQUENTIAL(vin->format.field) ?
-+			HALF_TOP : FULL;
-+
- 		/* Setup DMA */
- 		phys_addr = vb2_dma_contig_plane_dma_addr(&vbuf->vb2_buf, 0);
- 	}
- 
-+	vin_dbg(vin, "Filling HW slot: %d type: %d buffer: %p\n",
-+		slot, vin->buf_hw[slot].type, vin->buf_hw[slot].buffer);
-+
-+	vin->buf_hw[slot].phys = phys_addr;
- 	rvin_set_slot_addr(vin, slot, phys_addr);
- }
- 
-@@ -867,6 +885,11 @@ static int rvin_capture_start(struct rvin_dev *vin)
- {
- 	int slot, ret;
- 
-+	for (slot = 0; slot < HW_BUFFER_NUM; slot++) {
-+		vin->buf_hw[slot].buffer = NULL;
-+		vin->buf_hw[slot].type = FULL;
-+	}
-+
- 	for (slot = 0; slot < HW_BUFFER_NUM; slot++)
- 		rvin_fill_hw_slot(vin, slot);
- 
-@@ -951,6 +974,16 @@ static irqreturn_t rvin_irq(int irq, void *data)
- 
- 	/* Capture frame */
- 	if (vin->buf_hw[slot].buffer) {
-+		/*
-+		 * Nothing to do but refill the hardware slot if
-+		 * capture only filled first half of vb2 buffer.
-+		 */
-+		if (vin->buf_hw[slot].type == HALF_TOP) {
-+			vin->buf_hw[slot].buffer = NULL;
-+			rvin_fill_hw_slot(vin, slot);
-+			goto done;
-+		}
-+
- 		vin->buf_hw[slot].buffer->field =
- 			rvin_get_active_field(vin, vnms);
- 		vin->buf_hw[slot].buffer->sequence = vin->sequence;
-@@ -978,14 +1011,22 @@ static void return_all_buffers(struct rvin_dev *vin,
- 			       enum vb2_buffer_state state)
- {
- 	struct rvin_buffer *buf, *node;
--	int i;
-+	struct vb2_v4l2_buffer *freed[HW_BUFFER_NUM];
-+	unsigned int i, n;
- 
- 	for (i = 0; i < HW_BUFFER_NUM; i++) {
--		if (vin->buf_hw[i].buffer) {
--			vb2_buffer_done(&vin->buf_hw[i].buffer->vb2_buf,
--					state);
--			vin->buf_hw[i].buffer = NULL;
-+		freed[i] = vin->buf_hw[i].buffer;
-+		vin->buf_hw[i].buffer = NULL;
-+
-+		for (n = 0; n < i; n++) {
-+			if (freed[i] == freed[n]) {
-+				freed[i] = NULL;
-+				break;
-+			}
- 		}
-+
-+		if (freed[i])
-+			vb2_buffer_done(&freed[i]->vb2_buf, state);
- 	}
- 
- 	list_for_each_entry_safe(buf, node, &vin->buf_list, list) {
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index 431ee01b0ee33e84..a01d5b6dcd116d60 100644
---- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -90,7 +90,10 @@ static u32 rvin_format_bytesperline(struct rvin_dev *vin,
- 	if (WARN_ON(!fmt))
- 		return -EINVAL;
- 
--	align = pix->pixelformat == V4L2_PIX_FMT_NV16 ? 0x20 : 0x10;
-+	if (V4L2_FIELD_IS_SEQUENTIAL(pix->field))
-+		align = 0x80;
-+	else
-+		align = pix->pixelformat == V4L2_PIX_FMT_NV16 ? 0x20 : 0x10;
- 
- 	return ALIGN(pix->width, align) * fmt->bpp;
- }
-@@ -118,6 +121,8 @@ static void rvin_format_align(struct rvin_dev *vin, struct v4l2_pix_format *pix)
- 	case V4L2_FIELD_INTERLACED_BT:
- 	case V4L2_FIELD_INTERLACED:
- 	case V4L2_FIELD_ALTERNATE:
-+	case V4L2_FIELD_SEQ_TB:
-+	case V4L2_FIELD_SEQ_BT:
- 		break;
- 	default:
- 		pix->field = RVIN_DEFAULT_FIELD;
-diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
-index 9031fe7f569b908e..8d48894bc49e4db6 100644
---- a/drivers/media/platform/rcar-vin/rcar-vin.h
-+++ b/drivers/media/platform/rcar-vin/rcar-vin.h
-@@ -60,6 +60,23 @@ enum rvin_dma_state {
- 	STOPPING,
- };
- 
-+/**
-+ * enum rvin_buffer_type
-+ *
-+ * Describes how a buffer is given to the hardware. To be able
-+ * to capture SEQ_TB/BT it's needed to capture to the same vb2
-+ * buffer twice so the type of buffer needs to be kept.
-+ *
-+ * FULL - One capture fills the whole vb2 buffer
-+ * HALF_TOP- One capture fills the top half of the vb2 buffer
-+ * HALF_BOTTOM - One capture fills the bottom half of the vb2 buffer
-+ */
-+enum rvin_buffer_type {
-+	FULL,
-+	HALF_TOP,
-+	HALF_BOTTOM,
-+};
-+
- /**
-  * struct rvin_video_format - Data format stored in memory
-  * @fourcc:	Pixelformat
-@@ -204,6 +221,8 @@ struct rvin_dev {
- 	spinlock_t qlock;
- 	struct {
- 		struct vb2_v4l2_buffer *buffer;
-+		enum rvin_buffer_type type;
-+		dma_addr_t phys;
- 	} buf_hw[HW_BUFFER_NUM];
- 	struct list_head buf_list;
- 	unsigned int sequence;
--- 
-2.23.0
+Thank you for your comment! I completely forgot that you had submitted
+these [1-3] patches though, I'm thinking renesas_usbhs driver also should
+have this similar feature. I checked the [3] again and the commit log
+and the conditions should be fixed like this patch. Would you submit
+v2 patch series for renesas_usbhs driver? Or, May I submit it?
+Anything is OK to me.
+
+> [1] https://patchwork.kernel.org/patch/10581479/
+>     ("[1/3] usb: renesas_usbhs: simplify usbhs_status_get_device_state()"=
+)
+> [2] https://patchwork.kernel.org/patch/10581485/
+>     ("[2/3] usb: renesas_usbhs: enable DVSE interrupt")
+> [3] https://patchwork.kernel.org/patch/10581489/
+>     ("usb: renesas_usbhs: add suspend event support in gadget mode")
+>=20
+> PS: Apologize for long silence in [3].
+
+No worries!
+
+Best regards,
+Yoshihiro Shimoda
 
