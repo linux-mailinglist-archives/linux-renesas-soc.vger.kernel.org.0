@@ -2,28 +2,34 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E6740AB9B6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2019 15:48:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DC0FAB9D8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Sep 2019 15:53:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727031AbfIFNsy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Sep 2019 09:48:54 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:46399 "EHLO
+        id S2404262AbfIFNxZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Sep 2019 09:53:25 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:60407 "EHLO
         relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405244AbfIFNsy (ORCPT
+        with ESMTP id S1727143AbfIFNxZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Sep 2019 09:48:54 -0400
+        Fri, 6 Sep 2019 09:53:25 -0400
 X-Originating-IP: 2.224.242.101
 Received: from uno.lan (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id CCE5BFF80F;
-        Fri,  6 Sep 2019 13:48:50 +0000 (UTC)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 9D240FF805;
+        Fri,  6 Sep 2019 13:53:17 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH v3] drm: rcar-du: kms: Expand comment in vsps parsing routine
-Date:   Fri,  6 Sep 2019 15:50:12 +0200
-Message-Id: <20190906135012.10285-1-jacopo+renesas@jmondi.org>
+To:     laurent.pinchart@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
+        horms@verge.net.au, uli+renesas@fpond.eu,
+        VenkataRajesh.Kalakodima@in.bosch.com
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, airlied@linux.ie,
+        daniel@ffwll.ch, koji.matsuoka.xm@renesas.com, muroya@ksk.co.jp,
+        Harsha.ManjulaMallikarjun@in.bosch.com,
+        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v4 0/9 drm: rcar-du: Add Color Management Module (CMM)
+Date:   Fri,  6 Sep 2019 15:54:27 +0200
+Message-Id: <20190906135436.10622-1-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -32,41 +38,101 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Expand comment in the 'vsps' parsing routine to specify the LIF
-channel index defaults to 0 in case the second cell of the property
-is not specified to remain compatible with older DT bindings.
+[ Ugh, sorry for the double sending, but I forgot --cc-cover to git-send
+  email and the series has not been delivered to the mailing lists.
+  Sorry about that. ]
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
-This trivial change is a leftover from a series that Geert already
-took in. Re-sending as I forgot to add the dri list.
+Hello, new iteration of CMM support, with quite a few changes compared to
+v3:
 
-Laurent, could you pick this one please?
+References:
+A reference to the v1 cover letter, with some background on the CMM is
+available here:
+https://lkml.org/lkml/2019/6/6/583
+v2:
+https://lore.kernel.org/linux-renesas-soc/20190706140746.29132-10-jacopo+renesas@jmondi.org/
+v3:
+https://lore.kernel.org/linux-renesas-soc/20190825135154.11488-1-jacopo+renesas@jmondi.org/
+
+Change log:
+
+*Bindings/DT:
+- Rebased on renesas-devel-2019-09-03-v5.3-rc7
+- Bindings converted to yaml: thanks Laurent for help
+- s/'cmms'/'renesas,cmms'/ in DU bindings as suggested by Rob
+- s/cmm-<soctype>/<soctype>-cmm/ as suggested by Geert
+- squashed CMM addition for Gen3 SoCs in a single path at the end of
+  the series
+
+*CMM/DU:
+- Only accept fully populated LUT tables, remove the 'size' from the CMM
+  configuration structure as suggested by Laurent
+- Simplify CMM configuration logic: only rely on color_mgmt_changed flag and
+  unconditionally provide a populated LUT table to the cmm_setup() function
+- Protect against probing order inversion (DU is operation while CMM still has
+  not been probed) by adding rcar_cmm_init() operation as it is done for VSP as
+  suggested by Laurent
+- Add CMM function stubs to fix compilation erros when CONFIG_DRM_RCAR_CMM is
+  not selected
+- Minors in the CMM driver as suggested by Laurent
+  - Remove per-soc strings
+  - Make comments style consistent (not using /** anywhere in the .c file,
+    unify comment style)
+  - s/rcar_cmm_load()/rcar_cmm_write()/
+  - Squash cmm configuration and suspend/resume support in rcar_du_kms.c
+
+Testing:
+I have tested by injecting a color inversion LUT table at test program
+initialization:
+https://jmondi.org/cgit/kmsxx/commit/?h=gamma_lut&id=3c6af4db165e5b3dc8996f0a288746c35dbb1cb9
+And by changing the CMM content to switch between a color inversion table
+and a linear table every 50 frames:
+https://jmondi.org/cgit/kmsxx/commit/?h=gamma_lut&id=fe178a43861da7c8e79618e2a13fa0f19dbcd03d
+
+Pretty happy with the result, which seems to be consistent across system
+suspend/resume.
+
+Testing with real world use cases might be beneficial. Rajesh are you still
+interested in giving this series a spin?
 
 Thanks
   j
----
- drivers/gpu/drm/rcar-du/rcar_du_kms.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-index fc30fff0eb8d..cb636637032d 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-@@ -625,7 +625,11 @@ static int rcar_du_vsps_init(struct rcar_du_device *rcdu)
+Jacopo Mondi (9):
+  dt-bindings: display: renesas,cmm: Add R-Car CMM documentation
+  dt-bindings: display, renesas,du: Document cmms property
+  drm: rcar-du: Add support for CMM
+  drm: rcar-du: Claim CMM support for Gen3 SoCs
+  drm: rcar-du: kms: Initialize CMM instances
+  drm: rcar-du: crtc: Enable and disable CMMs
+  drm: rcar-du: crtc: Register GAMMA_LUT properties
+  drm: rcar-du: kms: Update CMM in atomic commit tail
+  arm64: dts: renesas: Add CMM units to Gen3 SoCs
 
- 		vsps[j].crtcs_mask |= BIT(i);
+ .../bindings/display/renesas,cmm.yaml         |  64 +++++
+ .../bindings/display/renesas,du.txt           |   5 +
+ arch/arm64/boot/dts/renesas/r8a7795.dtsi      |  40 ++-
+ arch/arm64/boot/dts/renesas/r8a7796.dtsi      |  28 ++
+ arch/arm64/boot/dts/renesas/r8a77965.dtsi     |  28 ++
+ arch/arm64/boot/dts/renesas/r8a77990.dtsi     |  22 +-
+ arch/arm64/boot/dts/renesas/r8a77995.dtsi     |  22 +-
+ drivers/gpu/drm/rcar-du/Kconfig               |   7 +
+ drivers/gpu/drm/rcar-du/Makefile              |   1 +
+ drivers/gpu/drm/rcar-du/rcar_cmm.c            | 251 ++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_cmm.h            |  61 +++++
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c        |  17 ++
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.h        |   2 +
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c         |  32 ++-
+ drivers/gpu/drm/rcar-du/rcar_du_drv.h         |   3 +
+ drivers/gpu/drm/rcar-du/rcar_du_group.c       |   8 +
+ drivers/gpu/drm/rcar-du/rcar_du_group.h       |   2 +
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c         | 106 ++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_regs.h        |   5 +
+ 19 files changed, 697 insertions(+), 7 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/renesas,cmm.yaml
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.h
 
--		/* Store the VSP pointer and pipe index in the CRTC. */
-+		/*
-+		 * Store the VSP pointer and pipe index in the CRTC. If the
-+		 * second cell of the 'vsps' specifier isn't present, default
-+		 * to 0 to remain compatible with older DT bindings.
-+		 */
- 		rcdu->crtcs[i].vsp = &rcdu->vsps[j];
- 		rcdu->crtcs[i].vsp_pipe = cells >= 1 ? args.args[0] : 0;
- 	}
 --
 2.23.0
 
