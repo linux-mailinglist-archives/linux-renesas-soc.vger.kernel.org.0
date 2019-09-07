@@ -2,58 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CC73BAC792
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Sep 2019 18:15:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0A91AC796
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Sep 2019 18:16:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436492AbfIGQPs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 7 Sep 2019 12:15:48 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:36703 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388922AbfIGQPr (ORCPT
+        id S2391954AbfIGQQm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 7 Sep 2019 12:16:42 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:35654 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388739AbfIGQQl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 7 Sep 2019 12:15:47 -0400
-Received: by mail-wm1-f65.google.com with SMTP id p13so10213133wmh.1;
-        Sat, 07 Sep 2019 09:15:45 -0700 (PDT)
+        Sat, 7 Sep 2019 12:16:41 -0400
+Received: by mail-wr1-f67.google.com with SMTP id g7so9567168wrx.2;
+        Sat, 07 Sep 2019 09:16:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=P5jJRRtYTE008nOkCo0ZKY8Vz2tSW7iUhmee1EWlxJY=;
-        b=oogxiWB3cw2wooFVTa2Sf7qnSVV9UM3CMcJtSZqg59Q58F2LJK0uj8BB2Wt4oXQ9JT
-         4gHw8Y6NOtu2gBghhX6hf8uCDXVvc9YEJ7sI0YCRq0FNrGl7XwtWZe54nSnhwxWfA+KB
-         cxioFpm7AmfBsLJCIEWH1HtyEuGDZmNlCgVhavotk6xNsn7AWFb5D79sclVG7+vKhxs3
-         FL7vEHgT+e6M8WfAoQe9xxMVT8waxteEprC4keQPquAW20QjEjlwI9zdb69nDpQx7YnN
-         zuO7SJ4lVHstm7wOH0yuKLqsCGoBQGxWNtT/JfVfWb70ZegSudOjHMC6Ff+saA/pGQ4z
-         6w1g==
+        bh=bYrOf9RTBwmZf5L0GW4BktLvAbpDYWcNsfWnV6+h4U8=;
+        b=vK0U3Jz66s82RuowVHKEmY++wZPKSWyjMesPIgCXgV3Mh1+z30ApdX2rj94pOOPa/s
+         K0Dzcph947gpzxWQ3zj+Bi6tBYIORc2VnoN5ungGxO/m0ucjOptyonaCDGL3hsh652QW
+         GEPOukJuf/LesB3cbkpKVTP8bpG8aR4FA2Dy7oqio6p844l+T4RbLYy69Kem/qeYrxuq
+         /OehV1uF83Rk9vK4ZuQl+h9QfHLHz3zbhgg4iZeYhV7rXiRXff7BHPilBEQaER9ys8Yo
+         d7axXcAvK1fL9kUmHDYlEHmX5DX7zC0kxnOXg2ZiQUh6FaPhpR8MDCKmPAzjDl3wLxXu
+         lAzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=P5jJRRtYTE008nOkCo0ZKY8Vz2tSW7iUhmee1EWlxJY=;
-        b=Q2Y7JYuLviSZkZBNaEcar2WFPu8lxrYSjB3G+zEh0ynTe73viH2UaOJCmwQ6GE/2SI
-         IHxGJSvYthkDZE9JnZ0oV2MWuWrzaJN7NqIo2yHaS4lSGAeoAYBFsF/HfUpONQrXRAHA
-         Qu41Kxdk4o6IZohHsrF9eB2lhtJ2wb8HUA6jUB2D2i718iz5KCGD6GGuyREJPfQ8Gu1V
-         bLEIqNqQIu00O8XsoEQZ6z3aILQcfryY9K+txvIggipbzNUD7x4HGqEr5FPZXx7ryqUF
-         Zzlntd/n9YEHfELTG8COnrOeMCR4g4f2hZKFDZWJ7z6/H+igsLCT3g6YPC542R7lnOjT
-         460A==
-X-Gm-Message-State: APjAAAWPngt+J/C3MxV8PPgDyWmZ17rQU0ZpofbWxmIsAYXdHU/JXMoE
-        myOvgxzpAj6+T6p2UuQVaOqBe3vE
-X-Google-Smtp-Source: APXvYqy4uqK6Sh2wbfnOFIgfQPH3heNDaL+T6yvk/6pqhDcnWloav+98sNccTR95Rdf6xvGhVBqNGg==
-X-Received: by 2002:a1c:1f4e:: with SMTP id f75mr11372265wmf.11.1567872944273;
-        Sat, 07 Sep 2019 09:15:44 -0700 (PDT)
+        bh=bYrOf9RTBwmZf5L0GW4BktLvAbpDYWcNsfWnV6+h4U8=;
+        b=YOurgoM7qY4IZ7+X4tvikkU8D75LBRvp+ohYoEN9II63ZcuNipv9u9KcejKFJMKgHZ
+         5x1qQiBEkSKSobsMJk047kXnjXsnTg3d0fa4qxVu3iYYDC+YTgRcE21LtY0cHLm8DBWO
+         FY2iYY9wlcEjtN9xPLT49S50uBuIPT2fO7YbC21kQ/keqb/D63yibCEyne3dfs12SYJ/
+         /BwExv+ekb06us1ZWRtPcwNWzg72In8tD4A2vanD+TVsLdSfxLr51oVZtCkBpX0IpHsb
+         Jl8VCix9SNMYwxa2uFnFMSTwl33/zdPSXiNiSC0VRIEpRuoTEED2iIDVKiaiqIXar9B1
+         4HwQ==
+X-Gm-Message-State: APjAAAVr7mXkxQLzkXO1cDBI+q3Ip2olMwqhTSL7bnef7ht04E1+clSH
+        hsp3sp2HIfhGpzheoOTnwik=
+X-Google-Smtp-Source: APXvYqzQvWzM1P6EtR2ZVrYWJfWDLqA/kHDqNXWmxi1Tb4O71b0x+R9R4roPPEsa4zgsKrNtHZgZLg==
+X-Received: by 2002:a5d:570e:: with SMTP id a14mr11690472wrv.39.1567872999604;
+        Sat, 07 Sep 2019 09:16:39 -0700 (PDT)
 Received: from desktop.lan (ip-86-49-35-8.net.upcbroadband.cz. [86.49.35.8])
-        by smtp.gmail.com with ESMTPSA id y13sm18789388wrg.8.2019.09.07.09.15.42
+        by smtp.gmail.com with ESMTPSA id d9sm14847713wrc.44.2019.09.07.09.16.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Sep 2019 09:15:43 -0700 (PDT)
+        Sat, 07 Sep 2019 09:16:38 -0700 (PDT)
 From:   marek.vasut@gmail.com
-To:     devicetree@vger.kernel.org
+To:     linux-arm-kernel@lists.infradead.org
 Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa@the-dreams.de>, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH V2] of: Fix of_empty_ranges_quirk()
-Date:   Sat,  7 Sep 2019 18:15:37 +0200
-Message-Id: <20190907161537.27258-1-marek.vasut@gmail.com>
+Subject: [PATCH] arm64: dts: renesas: Add /soc dma-ranges
+Date:   Sat,  7 Sep 2019 18:16:34 +0200
+Message-Id: <20190907161634.27378-1-marek.vasut@gmail.com>
 X-Mailer: git-send-email 2.23.0.rc1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -64,104 +64,62 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Marek Vasut <marek.vasut+renesas@gmail.com>
 
-The of_empty_ranges_quirk() returns a mix of boolean and signed integer
-types, which cannot work well. Replace that with boolean only and fix
-usage logic in of_translate_one() -- the check should trigger when the
-ranges are NULL and the quirk is applicable on the hardware.
+Add dma-ranges property into /soc node to describe the DMA capabilities
+of the bus. This is currently needed to translate PCI DMA ranges, which
+are limited to 32bit addresses.
 
 Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Frank Rowand <frowand.list@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Wolfram Sang <wsa@the-dreams.de>
+Cc: devicetree@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org
-To: devicetree@vger.kernel.org
+To: linux-arm-kernel@lists.infradead.org
 ---
-V2: - Rename of_empty_ranges_quirk() to of_missing_ranges_is_ok()
-    - Move comment into the of_missing_ranges_is_ok() function
-    - Make of_missing_ranges_is_ok() a bit more readable by adding
-      a variable marking the quirk_state as initialized.
-    - Reinstate check for !of_missing_ranges_is_ok() in of_translate_one()
+NOTE: This is needed for the following patches to work correctly:
+      https://patchwork.ozlabs.org/patch/1144870/
+      https://patchwork.ozlabs.org/patch/1144871/
 ---
- drivers/of/address.c | 47 ++++++++++++++++++++++++--------------------
- 1 file changed, 26 insertions(+), 21 deletions(-)
+ arch/arm64/boot/dts/renesas/r8a7795.dtsi  | 1 +
+ arch/arm64/boot/dts/renesas/r8a7796.dtsi  | 1 +
+ arch/arm64/boot/dts/renesas/r8a77965.dtsi | 1 +
+ 3 files changed, 3 insertions(+)
 
-diff --git a/drivers/of/address.c b/drivers/of/address.c
-index 978427a9d5e6..df82ef88823f 100644
---- a/drivers/of/address.c
-+++ b/drivers/of/address.c
-@@ -473,21 +473,42 @@ static struct of_bus *of_match_bus(struct device_node *np)
- 	return NULL;
- }
+diff --git a/arch/arm64/boot/dts/renesas/r8a7795.dtsi b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
+index 95deff66eeb6..2102140a6723 100644
+--- a/arch/arm64/boot/dts/renesas/r8a7795.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
+@@ -330,6 +330,7 @@
+ 		#address-cells = <2>;
+ 		#size-cells = <2>;
+ 		ranges;
++		dma-ranges = <0 0x40000000 0 0x40000000 0 0xc0000000>;
  
--static int of_empty_ranges_quirk(struct device_node *np)
-+static bool of_missing_ranges_is_ok(struct device_node *np)
- {
-+	/*
-+	 * Normally, an absence of a "ranges" property means we are
-+	 * crossing a non-translatable boundary, and thus the addresses
-+	 * below the current cannot be converted to CPU physical ones.
-+	 * Unfortunately, while this is very clear in the spec, it's not
-+	 * what Apple understood, and they do have things like /uni-n or
-+	 * /ht nodes with no "ranges" property and a lot of perfectly
-+	 * useable mapped devices below them. Thus we treat the absence of
-+	 * "ranges" as equivalent to an empty "ranges" property which means
-+	 * a 1:1 translation at that level. It's up to the caller not to try
-+	 * to translate addresses that aren't supposed to be translated in
-+	 * the first place. --BenH.
-+	 *
-+	 * As far as we know, this damage only exists on Apple machines, so
-+	 * This code is only enabled on powerpc.
-+	 */
-+
- 	if (IS_ENABLED(CONFIG_PPC)) {
- 		/* To save cycles, we cache the result for global "Mac" setting */
--		static int quirk_state = -1;
-+		static int quirk_state_initialized;
-+		static bool quirk_state;
+ 		rwdt: watchdog@e6020000 {
+ 			compatible = "renesas,r8a7795-wdt", "renesas,rcar-gen3-wdt";
+diff --git a/arch/arm64/boot/dts/renesas/r8a7796.dtsi b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
+index 3dc9d73f589a..d115ff34d0db 100644
+--- a/arch/arm64/boot/dts/renesas/r8a7796.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
+@@ -300,6 +300,7 @@
+ 		#address-cells = <2>;
+ 		#size-cells = <2>;
+ 		ranges;
++		dma-ranges = <0 0x40000000 0 0x40000000 0 0xc0000000>;
  
- 		/* PA-SEMI sdc DT bug */
- 		if (of_device_is_compatible(np, "1682m-sdc"))
- 			return true;
+ 		rwdt: watchdog@e6020000 {
+ 			compatible = "renesas,r8a7796-wdt",
+diff --git a/arch/arm64/boot/dts/renesas/r8a77965.dtsi b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+index 4ae163220f60..74d934cfe44e 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+@@ -183,6 +183,7 @@
+ 		#address-cells = <2>;
+ 		#size-cells = <2>;
+ 		ranges;
++		dma-ranges = <0 0x40000000 0 0x40000000 0 0xc0000000>;
  
- 		/* Make quirk cached */
--		if (quirk_state < 0)
-+		if (!quirk_state_initialized) {
-+			quirk_state_initialized = 1;
- 			quirk_state =
- 				of_machine_is_compatible("Power Macintosh") ||
- 				of_machine_is_compatible("MacRISC");
-+		}
-+
- 		return quirk_state;
- 	}
- 	return false;
-@@ -502,25 +523,9 @@ static int of_translate_one(struct device_node *parent, struct of_bus *bus,
- 	int rone;
- 	u64 offset = OF_BAD_ADDR;
- 
--	/*
--	 * Normally, an absence of a "ranges" property means we are
--	 * crossing a non-translatable boundary, and thus the addresses
--	 * below the current cannot be converted to CPU physical ones.
--	 * Unfortunately, while this is very clear in the spec, it's not
--	 * what Apple understood, and they do have things like /uni-n or
--	 * /ht nodes with no "ranges" property and a lot of perfectly
--	 * useable mapped devices below them. Thus we treat the absence of
--	 * "ranges" as equivalent to an empty "ranges" property which means
--	 * a 1:1 translation at that level. It's up to the caller not to try
--	 * to translate addresses that aren't supposed to be translated in
--	 * the first place. --BenH.
--	 *
--	 * As far as we know, this damage only exists on Apple machines, so
--	 * This code is only enabled on powerpc. --gcl
--	 */
- 	ranges = of_get_property(parent, rprop, &rlen);
--	if (ranges == NULL && !of_empty_ranges_quirk(parent)) {
--		pr_debug("no ranges; cannot translate\n");
-+	if (ranges == NULL && !of_missing_ranges_is_ok(parent)) {
-+		pr_err("no ranges; cannot translate\n");
- 		return 1;
- 	}
- 	if (ranges == NULL || rlen == 0) {
+ 		rwdt: watchdog@e6020000 {
+ 			compatible = "renesas,r8a77965-wdt",
 -- 
 2.23.0.rc1
 
