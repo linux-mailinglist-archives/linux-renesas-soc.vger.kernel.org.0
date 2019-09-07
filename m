@@ -2,124 +2,142 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B0A91AC796
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Sep 2019 18:16:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7072EAC7AA
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Sep 2019 18:39:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391954AbfIGQQm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 7 Sep 2019 12:16:42 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:35654 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388739AbfIGQQl (ORCPT
+        id S2390247AbfIGQjW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 7 Sep 2019 12:39:22 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:46203 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730957AbfIGQjV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 7 Sep 2019 12:16:41 -0400
-Received: by mail-wr1-f67.google.com with SMTP id g7so9567168wrx.2;
-        Sat, 07 Sep 2019 09:16:40 -0700 (PDT)
+        Sat, 7 Sep 2019 12:39:21 -0400
+Received: by mail-wr1-f68.google.com with SMTP id h7so9558144wrt.13;
+        Sat, 07 Sep 2019 09:39:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bYrOf9RTBwmZf5L0GW4BktLvAbpDYWcNsfWnV6+h4U8=;
-        b=vK0U3Jz66s82RuowVHKEmY++wZPKSWyjMesPIgCXgV3Mh1+z30ApdX2rj94pOOPa/s
-         K0Dzcph947gpzxWQ3zj+Bi6tBYIORc2VnoN5ungGxO/m0ucjOptyonaCDGL3hsh652QW
-         GEPOukJuf/LesB3cbkpKVTP8bpG8aR4FA2Dy7oqio6p844l+T4RbLYy69Kem/qeYrxuq
-         /OehV1uF83Rk9vK4ZuQl+h9QfHLHz3zbhgg4iZeYhV7rXiRXff7BHPilBEQaER9ys8Yo
-         d7axXcAvK1fL9kUmHDYlEHmX5DX7zC0kxnOXg2ZiQUh6FaPhpR8MDCKmPAzjDl3wLxXu
-         lAzw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Ewz0ztIR26NfPDvnJqc9EaB2dqfTC+2CIT8LpkOD4gQ=;
+        b=EdxW9tfzeaqQUwnwmIWjLubCU3bVHZtOCJWcgFBlVhHrKyDQLE1XB31G7lBkqgeYSZ
+         lOzK2X7e5rF8W+Ob+Ug5cuf5rAAtsXA6WgqO2XgHehqr0H2Wrx94KbgOQ0pks+YQR06K
+         kuAIDxgL9qYoVu1PSBZLJswI4aYnz5fNuWHlED/wCJ9bgs3VBxKkbf81UsP8+fC1m7+h
+         QsLt6qvNyNCjs/TNBi1JPE9AFAdb6YA+N5sjUiB7Pcg4ZUCpKxGL/U761gUF99jwLI8Y
+         cNdVgP7wk8/DwuLAGdJ2/fsUJGFg5KpPaN8L2NJahlUBzkQSWLzysXxCGnxmpnXodE9f
+         nZRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=bYrOf9RTBwmZf5L0GW4BktLvAbpDYWcNsfWnV6+h4U8=;
-        b=YOurgoM7qY4IZ7+X4tvikkU8D75LBRvp+ohYoEN9II63ZcuNipv9u9KcejKFJMKgHZ
-         5x1qQiBEkSKSobsMJk047kXnjXsnTg3d0fa4qxVu3iYYDC+YTgRcE21LtY0cHLm8DBWO
-         FY2iYY9wlcEjtN9xPLT49S50uBuIPT2fO7YbC21kQ/keqb/D63yibCEyne3dfs12SYJ/
-         /BwExv+ekb06us1ZWRtPcwNWzg72In8tD4A2vanD+TVsLdSfxLr51oVZtCkBpX0IpHsb
-         Jl8VCix9SNMYwxa2uFnFMSTwl33/zdPSXiNiSC0VRIEpRuoTEED2iIDVKiaiqIXar9B1
-         4HwQ==
-X-Gm-Message-State: APjAAAVr7mXkxQLzkXO1cDBI+q3Ip2olMwqhTSL7bnef7ht04E1+clSH
-        hsp3sp2HIfhGpzheoOTnwik=
-X-Google-Smtp-Source: APXvYqzQvWzM1P6EtR2ZVrYWJfWDLqA/kHDqNXWmxi1Tb4O71b0x+R9R4roPPEsa4zgsKrNtHZgZLg==
-X-Received: by 2002:a5d:570e:: with SMTP id a14mr11690472wrv.39.1567872999604;
-        Sat, 07 Sep 2019 09:16:39 -0700 (PDT)
-Received: from desktop.lan (ip-86-49-35-8.net.upcbroadband.cz. [86.49.35.8])
-        by smtp.gmail.com with ESMTPSA id d9sm14847713wrc.44.2019.09.07.09.16.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Sep 2019 09:16:38 -0700 (PDT)
-From:   marek.vasut@gmail.com
-To:     linux-arm-kernel@lists.infradead.org
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa@the-dreams.de>, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] arm64: dts: renesas: Add /soc dma-ranges
-Date:   Sat,  7 Sep 2019 18:16:34 +0200
-Message-Id: <20190907161634.27378-1-marek.vasut@gmail.com>
-X-Mailer: git-send-email 2.23.0.rc1
+        bh=Ewz0ztIR26NfPDvnJqc9EaB2dqfTC+2CIT8LpkOD4gQ=;
+        b=AMl/4ZY2IBM3IZQTN+0aSfYM24nAZDU3lWFQToDw/XbDK/IE99F5sVwHD/S36P5afw
+         jQT9h77/CH7LjBNIHLQQ5JdIn+d6TXrT/Ss3cAvFR2R/dApkrFvpo7awOLhtVqplapV0
+         Yf89wDxKSkciOHi+v0KVLVtzDD/0O9Pk6ORMxVSCd3xRvfZqXxMLtMjLWmHzPFPb+qCR
+         H7dq/xrl8y/CDjoFuRteQjcAlBpHZIwxtngt/BWveJMwP9oIHxuV4VhRrCjkt5Sf83tL
+         FB1FOEigbB9VjZRVW/ZgnM7Q+QGfjiNqA5AgggN4bknwed8VZ2AxKgv/tIck32F5p8OS
+         p7RQ==
+X-Gm-Message-State: APjAAAWbXV7DXRXEt0IpNmaQvksUhyPyfzLT98Meru3FHIUGLxgFZoro
+        HN273a9xPgdQNfq77fpoQsPYQ3UJ
+X-Google-Smtp-Source: APXvYqwYZJzxK4M2VoI/cUhD83eLbI3Srf1aEJ10kXQsMbHI41j7ThJ7/CBOi7AO1os6TkZppN5gqQ==
+X-Received: by 2002:a5d:6588:: with SMTP id q8mr2180929wru.184.1567874359442;
+        Sat, 07 Sep 2019 09:39:19 -0700 (PDT)
+Received: from [192.168.1.4] (ip-86-49-35-8.net.upcbroadband.cz. [86.49.35.8])
+        by smtp.gmail.com with ESMTPSA id k6sm18176459wrg.0.2019.09.07.09.39.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 07 Sep 2019 09:39:18 -0700 (PDT)
+Subject: Re: [PATCH] of: Fix of_empty_ranges_quirk()
+To:     Frank Rowand <frowand.list@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     devicetree@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>
+References: <20190809173321.19944-1-marek.vasut@gmail.com>
+ <CAL_JsqJyYQ99ENOkNd6yzn1eYwLTGLNihFxtovSPJajtF9SVvg@mail.gmail.com>
+ <10818888-6476-f4b1-1a2e-e10c3159327f@gmail.com>
+ <5d393d4b-b8dc-39e1-991e-de367649cf58@gmail.com>
+From:   Marek Vasut <marek.vasut@gmail.com>
+Message-ID: <1fef7c3e-0a87-aec7-ee24-3bfc85041cd9@gmail.com>
+Date:   Sat, 7 Sep 2019 17:15:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <5d393d4b-b8dc-39e1-991e-de367649cf58@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Marek Vasut <marek.vasut+renesas@gmail.com>
+On 8/10/19 9:47 PM, Frank Rowand wrote:
+> On 8/10/19 6:39 AM, Marek Vasut wrote:
+>> On 8/10/19 12:34 AM, Rob Herring wrote:
+>>> On Fri, Aug 9, 2019 at 11:33 AM <marek.vasut@gmail.com> wrote:
+>>>>
+>>>> From: Marek Vasut <marek.vasut+renesas@gmail.com>
+>>>>
+>>>> The of_empty_ranges_quirk() returns a mix of boolean and signed integer
+>>>> types, which cannot work well.
+>>>
+>>> It never returns a negative. The negative is used as an uninitialized
+>>> flag. Note quirk_state is static.
+>>
+>> It's still mixing boolean and signed int types though, which isn't right.
+> 
+> From a code readability aspect, Marek is correct.
+> 
+> The code author used "stupid (or clever) coding tricks" (tm) to save a
+> little bit of memory.  A more readable implementation would be:
+> 
+> 
+> static bool of_empty_ranges_quirk(struct device_node *np)
+> {
+>         /*
+>          * As far as we know, the missing "ranges" problem only exists on Apple
+> 	 * machines, so only enable the exception on powerpc. --gcl
+>          */
+> 
+>         if (IS_ENABLED(CONFIG_PPC)) {
+>                 /* Cache the result for global "Mac" setting */
+>                 static int quirk_state_initialized = 0;
+>                 static bool quirk_state;
+> 
+>                 /* PA-SEMI sdc DT bug */
+>                 if (of_device_is_compatible(np, "1682m-sdc"))
+>                         return true;
+> 
+>                 if (!quirk_state_initialized)
+> 			quirk_state_initialized = 1;
+>                         quirk_state =
+>                                 of_machine_is_compatible("Power Macintosh") ||
+>                                 of_machine_is_compatible("MacRISC");
+>                 return quirk_state;
+>         }
+>         return false;
+> }
+> 
+> 
+> I would also rename of_empty_ranges_quirk() to something like
+> of_missing_ranges_is_ok() or of_missing_ranges_allowed().
+> "quirk" does not convey any useful information while my proposed rename
+> describes what the function is actually checking for.
+> 
+> The comment that I added is currently in the caller of of_empty_ranges_quirk(),
+> but instead belongs in of_empty_ranges_quirk().  When I read that comment in
+> of_translate_one(), my reaction was to look for the check for powerpc in
+> of_translate_one() and to be puzzled when I could not find it.  I also
+> modified the comment for the changed context.  Thus the "--gcl" portion
+> of the comment should also be removed from of_translate_one().
+> 
+> The more readable implementation (IMNSHO) uses slightly more memory and
+> slightly more code, but it is more direct about what it is doing and thus
+> more readable.
 
-Add dma-ranges property into /soc node to describe the DMA capabilities
-of the bus. This is currently needed to translate PCI DMA ranges, which
-are limited to 32bit addresses.
+Thanks for the input, sorry for the delay, let me send a V2.
 
-Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Wolfram Sang <wsa@the-dreams.de>
-Cc: devicetree@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
-To: linux-arm-kernel@lists.infradead.org
----
-NOTE: This is needed for the following patches to work correctly:
-      https://patchwork.ozlabs.org/patch/1144870/
-      https://patchwork.ozlabs.org/patch/1144871/
----
- arch/arm64/boot/dts/renesas/r8a7795.dtsi  | 1 +
- arch/arm64/boot/dts/renesas/r8a7796.dtsi  | 1 +
- arch/arm64/boot/dts/renesas/r8a77965.dtsi | 1 +
- 3 files changed, 3 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/renesas/r8a7795.dtsi b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
-index 95deff66eeb6..2102140a6723 100644
---- a/arch/arm64/boot/dts/renesas/r8a7795.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
-@@ -330,6 +330,7 @@
- 		#address-cells = <2>;
- 		#size-cells = <2>;
- 		ranges;
-+		dma-ranges = <0 0x40000000 0 0x40000000 0 0xc0000000>;
- 
- 		rwdt: watchdog@e6020000 {
- 			compatible = "renesas,r8a7795-wdt", "renesas,rcar-gen3-wdt";
-diff --git a/arch/arm64/boot/dts/renesas/r8a7796.dtsi b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
-index 3dc9d73f589a..d115ff34d0db 100644
---- a/arch/arm64/boot/dts/renesas/r8a7796.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
-@@ -300,6 +300,7 @@
- 		#address-cells = <2>;
- 		#size-cells = <2>;
- 		ranges;
-+		dma-ranges = <0 0x40000000 0 0x40000000 0 0xc0000000>;
- 
- 		rwdt: watchdog@e6020000 {
- 			compatible = "renesas,r8a7796-wdt",
-diff --git a/arch/arm64/boot/dts/renesas/r8a77965.dtsi b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-index 4ae163220f60..74d934cfe44e 100644
---- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-@@ -183,6 +183,7 @@
- 		#address-cells = <2>;
- 		#size-cells = <2>;
- 		ranges;
-+		dma-ranges = <0 0x40000000 0 0x40000000 0 0xc0000000>;
- 
- 		rwdt: watchdog@e6020000 {
- 			compatible = "renesas,r8a77965-wdt",
 -- 
-2.23.0.rc1
-
+Best regards,
+Marek Vasut
