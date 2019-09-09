@@ -2,134 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 92BA6AD56E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2019 11:13:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B684AD61A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2019 11:55:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728221AbfIIJNA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Sep 2019 05:13:00 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:41081 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728145AbfIIJNA (ORCPT
+        id S2390043AbfIIJzr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Sep 2019 05:55:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36372 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729219AbfIIJzr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Sep 2019 05:13:00 -0400
-Received: by mail-wr1-f65.google.com with SMTP id h7so11923993wrw.8;
-        Mon, 09 Sep 2019 02:12:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=TOP8rH1TcBHjVsyQobZq5kxXku7IvcnwfDzFzX6ktls=;
-        b=Sv8yMv7xWt1DU0bHbjx4WGaKAEH2FbWTCT1B3GV/rJSUcpK/1GQcFX4FuLgFfsZOKa
-         PLL7yTCayUCymevxbuf6OvYGTm6lIL2f2N38QcVO/SVNbncxw3jlcyMINcongJ+veK/K
-         WKwxxe0w88kA1DR5AEZIs4ut9Ry4fNM4AfKW13ABvzeFi0C7ANmVuXeDWxmJ5DVogeZ0
-         wvLnTJzpEa//JsqQqN+uwvXWaf7z0CjSOsCQ8LybnM7dY3pGDs4SBiyKZrcL7cwpBkF9
-         eGhkWJC3GZOr+0ewc8n9gxQeqeS79JlbeOjnch8PLwDFctTtUkV83rHtbO1PqFVgA5Jr
-         8eqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=TOP8rH1TcBHjVsyQobZq5kxXku7IvcnwfDzFzX6ktls=;
-        b=oN7pyatYgjk08ac1lK5SwkJRJqpFOaAEgSXfOD1R/aqy4dQpp4EfmwEdccSweE9Moc
-         nSpOlOAMbJtawT8Y5xGcUowHH4GnkANMCoDZEyez+RM6wWID3/y1rkTeUjIa0KjORYZu
-         PctGkP3CKR24q7LSwSFznbTMp7ca47bvlEYa2eJ+xnx6C6Z1SvPlBbL3pIggUQ+vexii
-         QlITegC5WODlJe7NCEmADEROJ14CwyEhx0KQRSGS40SpzUI6Zs2Gqb2oTIfAijwr6HWn
-         6RlV2Avyqyuj2sSE4GTpuXGsInM12A69+Fzdab1vmKBBmd1gODWJicWy/bEd5Q0I+BBt
-         SqBA==
-X-Gm-Message-State: APjAAAWDQTFUBtGLCCjc+o8ks3+V80/5asIXZBlFvicw+yDEnQ4EeiWu
-        yungKe2TjtPxVsHsUmY2TItUcJYNZmk=
-X-Google-Smtp-Source: APXvYqzcUrHe6QFnvn3wlKYzRx00vQB3EZSjYjgCfq1vAk3l2W2TkecTuseCX/pslokvp8gon/nXEw==
-X-Received: by 2002:adf:ce81:: with SMTP id r1mr17963489wrn.114.1568020376928;
-        Mon, 09 Sep 2019 02:12:56 -0700 (PDT)
-Received: from [192.168.42.85] (p578adb1c.dip0.t-ipconnect.de. [87.138.219.28])
-        by smtp.gmail.com with ESMTPSA id r17sm13323337wrt.68.2019.09.09.02.12.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Sep 2019 02:12:56 -0700 (PDT)
-Subject: Re: [PATCH] arm64: dts: renesas: Add /soc dma-ranges
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Mon, 9 Sep 2019 05:55:47 -0400
+Received: from localhost (110.8.30.213.rev.vodafone.pt [213.30.8.110])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2E2062086D;
+        Mon,  9 Sep 2019 09:55:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1568022946;
+        bh=jdkNyv/gG06Sh67/s+iuQnDbKorGXVGoFEBp4pU3fwI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OrJqT/DjmGhfIb7VVXiETRpZBT18NXPR9mwETfjW86Q48Xtej/TiAPfQbOHps1KC1
+         Aix08xtASO9FYqbst/DinNdM1VzumX6kLhoLwk3ZLHj5lm5SgapCZq74czbcFwiAjk
+         O+pXcTDjY3wTiaByw2DOMW+gsCfXaL0xf9b3fQU4=
+Date:   Mon, 9 Sep 2019 10:55:43 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Veeraiyan Chidambaram <external.veeraiyan.c@de.adit-jv.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        "REE erosca@DE.ADIT-JV.COM" <erosca@de.adit-jv.com>,
+        Felipe Balbi <balbi@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <20190907161634.27378-1-marek.vasut@gmail.com>
- <CAMuHMdXkExZXeXnxuKkMC0J4m56cZUmJpcq2JCXuMv3PBzA0Dg@mail.gmail.com>
- <b77e6a66-be14-4f94-c116-788b8fa18b31@gmail.com>
- <CAMuHMdUWezNDVv+U=VeryssmSFm79zU-ptuKmMechcWBboV1=w@mail.gmail.com>
-From:   Marek Vasut <marek.vasut@gmail.com>
-Message-ID: <3e7aebea-9394-8e87-2dbd-0b503fc52799@gmail.com>
-Date:   Mon, 9 Sep 2019 11:12:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+Subject: Re: [PATCH v2 1/3] usb: renesas_usbhs: enable DVSE interrupt
+Message-ID: <20190909095543.GA17624@kroah.com>
+References: <1567771431-13235-1-git-send-email-external.veeraiyan.c@de.adit-jv.com>
+ <TYAPR01MB4544AA760AE8DBC4CA8AC25ED8B70@TYAPR01MB4544.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdUWezNDVv+U=VeryssmSFm79zU-ptuKmMechcWBboV1=w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYAPR01MB4544AA760AE8DBC4CA8AC25ED8B70@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 9/9/19 11:05 AM, Geert Uytterhoeven wrote:
-> Hi Marek,
-
-Hi,
-
-> On Mon, Sep 9, 2019 at 10:42 AM Marek Vasut <marek.vasut@gmail.com> wrote:
->> On 9/9/19 10:19 AM, Geert Uytterhoeven wrote:
->>> On Sat, Sep 7, 2019 at 6:16 PM <marek.vasut@gmail.com> wrote:
->>>> From: Marek Vasut <marek.vasut+renesas@gmail.com>
->>>>
->>>> Add dma-ranges property into /soc node to describe the DMA capabilities
->>>> of the bus. This is currently needed to translate PCI DMA ranges, which
->>>> are limited to 32bit addresses.
->>>>
->>>> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
->>>
->>> Thanks for your patch!
->>>
->>>> NOTE: This is needed for the following patches to work correctly:
->>>>       https://patchwork.ozlabs.org/patch/1144870/
->>>>       https://patchwork.ozlabs.org/patch/1144871/
->>>
->>> What happens with the above patches applied, and without this one?
->>
->> It triggers https://patchwork.kernel.org/patch/11087391/#22811745
+On Mon, Sep 09, 2019 at 07:02:46AM +0000, Yoshihiro Shimoda wrote:
+> Hi Veeraiyan,
 > 
-> Sure. But what does that mean?
-> PCI devices just not working?
-> Random memory corruption?
-> System lockup?
-> Anything else?
-
-Instead of translating the PCI DMA range to 0x40000000-0xffffffff , the
-PCI code in the aforementioned patches defaults to maximum range, which
-prevents various devices from working correctly, as the buffers get
-allocated above the 32bit boundary.
-
->>> As PCI/OF driver patches go in through different trees, is it safe to apply
->>> this patch now?
->>> Should they go in together?
->>
->> I didn't get any feedback on the other two patches, but this one here is
->> safe to go in either way.
->>
->>>>  arch/arm64/boot/dts/renesas/r8a7795.dtsi  | 1 +
->>>>  arch/arm64/boot/dts/renesas/r8a7796.dtsi  | 1 +
->>>>  arch/arm64/boot/dts/renesas/r8a77965.dtsi | 1 +
->>>
->>> Do we need similar patches for the other R-Car Gen3 and RZ/G2 DTS files?
->>> What about R-Car Gen2 and RZ/G1?
->> I suspect we need such patches for any ARM64 machine with PCIe with this
->> 32bit limitation.
+> > From: Veeraiyan Chidambaram, Sent: Friday, September 6, 2019 9:04 PM
+> > 
+> > From: Eugeniu Rosca <erosca@de.adit-jv.com>
+> > 
+> > Commit [1] enabled the possibility of checking the DVST (Device State
+> > Transition) bit of INTSTS0 (Interrupt Status Register 0) and calling
+> > the irq_dev_state() handler if the DVST bit is set. But neither
+> > commit [1] nor commit [2] actually enabled the DVSE (Device State
+> > Transition Interrupt Enable) bit in the INTENB0 (Interrupt Enable
+> > Register 0). As a consequence, irq_dev_state() handler is getting
+> > called as a side effect of other (non-DVSE) interrupts being fired,
+> > which definitely can't be relied upon, if DVST notifications are of
+> > any value.
+> > 
+> > Why this doesn't hurt is because usbhsg_irq_dev_state() currently
+> > doesn't do much except of a dev_dbg(). Once more work is added to
+> > the handler (e.g. detecting device "Suspended" state and notifying
+> > other USB gadget components about it), enabling DVSE becomes a hard
+> > requirement. Do it in a standalone commit for better visibility and
+> > clear explanation.
+> > 
+> > [1] f1407d5 ("usb: renesas_usbhs: Add Renesas USBHS common code")
+> > [2] 2f98382 ("usb: renesas_usbhs: Add Renesas USBHS Gadget")
+> > 
+> > Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
 > 
-> What about R-Car Gen2 and RZ/G1, which are ARM32, with LPAE?
+> I think your Signed-off-by is needed here and patch 2/3.
 
-Presumably we need that too ?
+Yes, I can't take this as-is without that.
 
--- 
-Best regards,
-Marek Vasut
+thanks,
+
+greg k-h
