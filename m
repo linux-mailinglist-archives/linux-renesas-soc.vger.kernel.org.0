@@ -2,60 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EDC5AD880
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2019 14:07:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CED74AD8CD
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2019 14:19:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390994AbfIIMHg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Sep 2019 08:07:36 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:42622 "EHLO
+        id S1726749AbfIIMTz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Sep 2019 08:19:55 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:44426 "EHLO
         mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390938AbfIIMHg (ORCPT
+        with ESMTP id S1725897AbfIIMTz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Sep 2019 08:07:36 -0400
-Received: by mail-ot1-f67.google.com with SMTP id c10so12141925otd.9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 09 Sep 2019 05:07:34 -0700 (PDT)
+        Mon, 9 Sep 2019 08:19:55 -0400
+Received: by mail-ot1-f67.google.com with SMTP id 21so12163122otj.11;
+        Mon, 09 Sep 2019 05:19:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Mk9ADFExmgWFdfyfavGrcG9nRZTCwgrAA9VLPJYyj1o=;
-        b=SZC9G/zV3uhevPBnOz/N6idhfVLRbyfIpwokZyNigtwsEZ41g6v3BeLvOuVdJcjKtt
-         5dyaq5EWjGSCApFHEzMNjDcArwn8pvNCAgPiL275XJo7saFT9npEwFBU4JzOMYROZUZ/
-         jVpoE1ifPMvB+yaI1p7yufsyqzn+APPwV6qVHLU/peEUjn8DaJ71xV+PULr7MjA5trtR
-         szo0/L1lP2eJwLWnAeak6ZwhJl/7twu9UH1bUE55MKBM8QcyUA/fX+ruuuDNOr+Nrubq
-         EQ/vxv+xQ0AQZDzAhqfekgWIexH7c7zsDM1Hwz7u5xf5SsPsV38G5Z3JQypBiqmjATOz
-         n7tQ==
-X-Gm-Message-State: APjAAAWAyhKLRb/ZJYRhbIBeeBfPx7OB003/nPP0g72odoakm8uIEtAy
-        NUtE79qj88Hv+ICvMCDiIwxxcZnQ3+Ybt5cyMes=
-X-Google-Smtp-Source: APXvYqyQe3qbhSVc0xarELFnci2vPyOFRzmLv0kWYELFFQLsiwyYbTsjCqS1HdoapMklgf/ueX9lrWbh9+IlQwBViX0=
-X-Received: by 2002:a9d:6c12:: with SMTP id f18mr19698512otq.297.1568030853893;
- Mon, 09 Sep 2019 05:07:33 -0700 (PDT)
+        bh=vAs+I/TUWNnuZxjBLkhMPEU/aB/qK/a1ubupalPvRNM=;
+        b=kvARhY7gMlC+QDG8ssfjOtovz7uqNALBJXUNhYyrUGeRtWtLErquyjWBBly8X9MNx6
+         43MsdwSppV2akqLOSzcJ2r7cEURUqE2F30VUyl+SRe8ooHjPmuhmrndJm0oS3N2K4j7D
+         lbKY3wPVUawd8DdbLpg/galjVEoIO/9vjfhrJ4qebFFTzaUf0vUCePTIMXDxhHo3mAjS
+         scGc17D4HwjyNXxqupKDL3sQ6bmHClyUWSzVvh0AyNlCuCdNbSn+0EQOTJ+FKhUcshNR
+         WuMIl9mARedT9waqPVori8qnJXU8CkQYm923b5G6YglqBChhGn9x/U/oDSPIyPS/QfCs
+         mLpw==
+X-Gm-Message-State: APjAAAXs4L/8onEmjVfw5XtXGVpxyt75UA0m0iJJVBRdeZIwct0WsEAr
+        XIzGaRVkBaz3dEAS/70HyHNlBWTytZQ0ibofUB4=
+X-Google-Smtp-Source: APXvYqyptPd5sOFScdZMIqoXjAUOP6zRtrFpMikBU6vLhMblwgtk1ROqKyFlh+vtR10XFif0HbP/vbM1Kbvhs9zwboA=
+X-Received: by 2002:a9d:6c12:: with SMTP id f18mr19752837otq.297.1568031594332;
+ Mon, 09 Sep 2019 05:19:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190904120114.1894-1-geert+renesas@glider.be>
- <20190904120114.1894-3-geert+renesas@glider.be> <20190905084259.ovzs4s4zgdil2gcw@verge.net.au>
-In-Reply-To: <20190905084259.ovzs4s4zgdil2gcw@verge.net.au>
+References: <1567675844-19247-1-git-send-email-biju.das@bp.renesas.com> <1567675844-19247-2-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1567675844-19247-2-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 9 Sep 2019 14:07:22 +0200
-Message-ID: <CAMuHMdW4jSO03Om+OX1y9uN3D-FH7j7kASj74gna9LbZDp3TmQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] ARM: dts: lager: Replace spaces by TABs
-To:     Simon Horman <horms@verge.net.au>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Mon, 9 Sep 2019 14:19:43 +0200
+Message-ID: <CAMuHMdUTMi4R3Qno+QvpxVMP64_ScV+uF0A13XXpOGCCR0c0zQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: arm: Document RZ/G2N SoC DT bindings
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Sep 5, 2019 at 10:43 AM Simon Horman <horms@verge.net.au> wrote:
-> On Wed, Sep 04, 2019 at 02:01:14PM +0200, Geert Uytterhoeven wrote:
-> > Make it easier to compare the file with other similar files.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Thu, Sep 5, 2019 at 11:37 AM Biju Das <biju.das@bp.renesas.com> wrote:
+> Add device tree bindings documentation for Renesas RZ/G2N (r8a774b1) SoC.
 >
-> Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
-Thanks, queued in renesas-devel for v5.5.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.5.
 
 Gr{oetje,eeting}s,
 
