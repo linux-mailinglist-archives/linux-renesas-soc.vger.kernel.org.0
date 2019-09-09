@@ -2,48 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EDD9AD7C9
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2019 13:18:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F025AD87F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2019 14:07:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391046AbfIILSW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Sep 2019 07:18:22 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:42633 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731115AbfIILSW (ORCPT
+        id S2387569AbfIIMHP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Sep 2019 08:07:15 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:45872 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387548AbfIIMHP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Sep 2019 07:18:22 -0400
-Received: by mail-ot1-f65.google.com with SMTP id c10so12017613otd.9;
-        Mon, 09 Sep 2019 04:18:21 -0700 (PDT)
+        Mon, 9 Sep 2019 08:07:15 -0400
+Received: by mail-oi1-f193.google.com with SMTP id o205so1052127oib.12
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 09 Sep 2019 05:07:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=zh4V8eaNqjPb0Ic/4Yf7AfafCdOdwH/svi7VuLX2orY=;
-        b=lLN11C23xfAH7i8bFQztnzIUJN81i90GGniVnzsT2bmlyFYCLNrQGkWJob05jaN5Tc
-         1+AK6jUxUmy+WuYw7ruNK11Ua85dawghegS6qiFg85Unr4yqzA7ar2vr3qf/DXW6KPp9
-         KVp2ZL96vMi/niRA20+Zrbk8bfuq7BSsP5NhpGIQJlpQUrApK1PRRwTT+5KceYW7q6v5
-         DgZuGyr5myrXrko2UYb1g5rrEuQ01tQWUYyV1s99xjGpl4pZg8ylnkiHUP2869R5WO5G
-         wS7NWD6eKWAmDOFFJzEnQsEogmxFg62zFdpuF8EAGlLoFeOeOteCQ5wqluIM3G51rHV+
-         BD/A==
-X-Gm-Message-State: APjAAAVbDR8NDNeUcE/mvg7XAZroA0fhM/l2EWgBGwRfO0TR+evpDvxi
-        Ys+Bh9rs/QEwzaJMaTHtPoZ6NLXgBHx9pJRMzBQ=
-X-Google-Smtp-Source: APXvYqxoJ5YE9dczWZW9yBoBQ0LHRTHR+SjV1aqmUHb5bh9Jk8Mb4XXtlEmXIZODlEij2FTkD0l0LwW/9wgClhVgq6E=
-X-Received: by 2002:a9d:5a06:: with SMTP id v6mr18090742oth.250.1568027900747;
- Mon, 09 Sep 2019 04:18:20 -0700 (PDT)
+        bh=GcWN6JoSzPdT2YQasnvkoiTiuyv6YpP5jkVBAOWJ7wU=;
+        b=faHNM2zaz7557/ivNPBl8+kdk3Zokh+rVB6z03I+LK7BkkxnGw/60+HCC4H+149kb6
+         5ZSkD0z0dGQzr396CH2wp6hranbhdElonVDCztA2hoVZjHRcTCMsZq/P/vG17TnKoLHr
+         4sKyK5pxyj24PgZE5Z/zMyW0v7D3Yd5fh8QgiudtTF6/cYaFSuxewZbSmcPiDeaOBrgN
+         KGHimoQceo4YHAPjiYl459fkqJIa756e8fmsWdpPNMqZIVclOp4UtXQR4/NGtHzAdU8P
+         1Jr+B4/QrS2g9S3gOR7pJg+5wtyisfAf+mHOSnQy07BPYPp3vLPdJke2JKPUSiFOc0qO
+         OQEA==
+X-Gm-Message-State: APjAAAUpncgS7HOG7Y8k4OiWJIn7hhKquPsFraW0r8q0iDo1qc8Wsy+v
+        EMQIl7wuGBZ2JjwsrK1fu77iBtdlbWvWlxVFmhusEQ==
+X-Google-Smtp-Source: APXvYqz6CQJdwW36jaVREq8gWS/vDse54eOV9TvdJEy0+ytD4t3GVhCOTgftvg8/XtED78+gA6uRAvFF5JCo+NWLX3A=
+X-Received: by 2002:aca:cdc7:: with SMTP id d190mr16221290oig.148.1568030834856;
+ Mon, 09 Sep 2019 05:07:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190907161634.27378-1-marek.vasut@gmail.com>
-In-Reply-To: <20190907161634.27378-1-marek.vasut@gmail.com>
+References: <20190904120114.1894-1-geert+renesas@glider.be>
+ <20190904120114.1894-2-geert+renesas@glider.be> <20190905084252.2y2ivmtwepsobbkr@verge.net.au>
+In-Reply-To: <20190905084252.2y2ivmtwepsobbkr@verge.net.au>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 9 Sep 2019 13:18:07 +0200
-Message-ID: <CAMuHMdXVhtE5Jmpu8QYv+P8pGtegr4MGhNGRwy4Y1wRQYmL2_Q@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: Add /soc dma-ranges
-To:     Marek Vasut <marek.vasut@gmail.com>
-Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+Date:   Mon, 9 Sep 2019 14:07:03 +0200
+Message-ID: <CAMuHMdUP5=71u4ORQp7rOJhbidX+1aa_bTP4=SqMYS_4sVX86g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ARM: dts: gose: Replace spaces by TABs
+To:     Simon Horman <horms@verge.net.au>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -51,27 +48,15 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marek,
-
-On Sat, Sep 7, 2019 at 6:16 PM <marek.vasut@gmail.com> wrote:
-> From: Marek Vasut <marek.vasut+renesas@gmail.com>
+On Thu, Sep 5, 2019 at 10:42 AM Simon Horman <horms@verge.net.au> wrote:
+> On Wed, Sep 04, 2019 at 02:01:13PM +0200, Geert Uytterhoeven wrote:
+> > Make it easier to compare the file with other similar files.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 >
-> Add dma-ranges property into /soc node to describe the DMA capabilities
-> of the bus. This is currently needed to translate PCI DMA ranges, which
-> are limited to 32bit addresses.
->
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+> Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
 
-> --- a/arch/arm64/boot/dts/renesas/r8a7795.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
-> @@ -330,6 +330,7 @@
->                 #address-cells = <2>;
->                 #size-cells = <2>;
->                 ranges;
-> +               dma-ranges = <0 0x40000000 0 0x40000000 0 0xc0000000>;
-
-Shouldn't the length be 0x80000000 (for all SoCs)?
-Or should we allow DMA to internal System RAM, too?
+Thanks, queued in renesas-devel for v5.5.
 
 Gr{oetje,eeting}s,
 
