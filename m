@@ -2,58 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A6BFADC43
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2019 17:41:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E928ADC5F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Sep 2019 17:46:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728636AbfIIPl0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Sep 2019 11:41:26 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:42638 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727649AbfIIPl0 (ORCPT
+        id S2388835AbfIIPq0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Sep 2019 11:46:26 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:57905 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729418AbfIIPq0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Sep 2019 11:41:26 -0400
-Received: by mail-lj1-f195.google.com with SMTP id y23so13219874lje.9
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 09 Sep 2019 08:41:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        b=mIM7cvZMo6wuHC0nmVZsWsa30V1s9rDJSBUwlmgMm0+feOyxB8oFvyxdU1IJOu0C5y
-         biAclWIYaGj9mTqgAFFhl7RkkCRtmDwgsu2NbOt26gioLfQLU0BzRhd4effd64Nr7VjJ
-         qG5hdfUmRePdMeDvXiRi2HoLejDumyU0H5iJFv2N+qDq4lCdC2/iypKLfibwXh5cn/hN
-         8w7eL6P3r66R7hgvLNo1cUgokT+obDfNwKNt8wK+jgBCHa2XxsvUrWs8dgoVvQariwrr
-         4pmf6H7GdnD6XzQglegE/8nzoMHpxeZ49R3Rm/ji9MycDqaZmwdoIdF04hVuA85gywvE
-         MlOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        b=draUcC8BJc/T/J8V4dZDu2qjIb3SxQIYBqB8rPPWIqeR078CBO3V/y4a5ovwHqACNK
-         cIyCz7HH2TP2bmJAitx3IqjVGRLMS4Oz/YPEqW5AT3ksnUxeKosBkjoEBayKmK5stjSg
-         +Z0Kp7ZaNQX7yVn2QU3IZQ8YlnsGn9Owir8/Wrx1JEE5+to2RDBupOqyeNCpr11S2NeF
-         LJ4CP0xUhJrx2XCxQIC/GIiqBPJg2skJYxuMGf9d4lSSO+esWxBp6GjD5vsIyI69By0S
-         aJvKZ1ZeO62upBK3oJOyc6+MrWZziVT4DGmKZVdyvQekLzNIrkp3uE444f+SptG/v+qC
-         CqlA==
-X-Gm-Message-State: APjAAAVsoccFD8eT1+KNLnpl6BvsHpO+qDmpsubvOyyuN6PFWMUnJY7p
-        qB2gg2u0FxUT4wljz7fGqzy3LDaO64FYUBHMGRJmtA==
-X-Google-Smtp-Source: APXvYqxRB1UsdelkXPIf9IdBwokcDDNAEGFH9Fzm4Sn3ffTnmc9djNrdpGEyQCoSvL7Z+PJVu05XwxJ0zjNcs14fnkU=
-X-Received: by 2002:a2e:9c99:: with SMTP id x25mr16391996lji.9.1568043684533;
- Mon, 09 Sep 2019 08:41:24 -0700 (PDT)
+        Mon, 9 Sep 2019 11:46:26 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id D3FE13C0579;
+        Mon,  9 Sep 2019 17:46:23 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Or0c0dXY5CWV; Mon,  9 Sep 2019 17:46:17 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id E3B073C0016;
+        Mon,  9 Sep 2019 17:46:17 +0200 (CEST)
+Received: from vmlxhi-070.adit-jv.com (10.72.93.148) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Mon, 9 Sep 2019
+ 17:46:17 +0200
+From:   Veeraiyan Chidambaram <external.veeraiyan.c@de.adit-jv.com>
+To:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+CC:     <linux-usb@vger.kernel.org>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        <external.veeraiyan.c@de.adit-jv.com>,
+        Veeraiyan Chidambaram <veeraiyan.chidambaram@in.bosch.com>
+Subject: [PATCH v4 1/3] usb: renesas_usbhs: simplify usbhs_status_get_device_state()
+Date:   Mon, 9 Sep 2019 17:46:12 +0200
+Message-ID: <1568043974-1236-1-git-send-email-external.veeraiyan.c@de.adit-jv.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 2002:ab3:741a:0:0:0:0:0 with HTTP; Mon, 9 Sep 2019 08:41:24 -0700 (PDT)
-Reply-To: kenmorganlawhouse@hotmail.com
-From:   ken morgan <kenmorganlawhouse5050@gmail.com>
-Date:   Tue, 10 Sep 2019 04:41:24 +1300
-Message-ID: <CAO+8TfykdbOcQbYi1_aR+Yhvwi_Q7fg9=9grR4uxic2wny5uVg@mail.gmail.com>
-Subject: Hello my dear i am Ken Morgan i have a fund transaction worth 15.5
- million US dollars that i want to discuss with you kindly get back to me for
- more details?
-To:     linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [10.72.93.148]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+From: Eugeniu Rosca <erosca@de.adit-jv.com>
+
+Similar to usbhs_status_get_ctrl_stage(), *_get_device_state() is not
+supposed to return any error code since its return value is the DVSQ
+bitfield of the INTSTS0 register. According to SoC HW manual rev1.00,
+every single value of DVSQ[2:0] is valid and none is an error:
+
+----8<----
+Device State
+000: Powered state
+001: Default state
+010: Address state
+011: Configuration state
+1xx: Suspended state
+----8<----
+
+Hence, simplify the function body. The motivation behind dropping the
+switch/case construct is being able to implement reading the suspended
+state. The latter (based on the above DVSQ[2:0] description) doesn't
+have a unique value, but is rather a list of states (which makes
+switch/case less suitable for reading/validating it):
+
+100: (Suspended) Powered state
+101: (Suspended) Default state
+110: (Suspended) Address state
+111: (Suspended) Configuration state
+
+Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+Signed-off-by: Veeraiyan Chidambaram <veeraiyan.chidambaram@in.bosch.com>
+---
+v4: patch sequence change
+v3: https://patchwork.kernel.org/patch/11137697/
+v2: https://patchwork.kernel.org/patch/11135111/
+v1: https://patchwork.kernel.org/patch/10581479/
+
+ drivers/usb/renesas_usbhs/mod.c | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
+
+diff --git a/drivers/usb/renesas_usbhs/mod.c b/drivers/usb/renesas_usbhs/mod.c
+index 7475c4f64724..4fbb1d538b82 100644
+--- a/drivers/usb/renesas_usbhs/mod.c
++++ b/drivers/usb/renesas_usbhs/mod.c
+@@ -170,17 +170,7 @@ void usbhs_mod_remove(struct usbhs_priv *priv)
+  */
+ int usbhs_status_get_device_state(struct usbhs_irq_state *irq_state)
+ {
+-	int state = irq_state->intsts0 & DVSQ_MASK;
+-
+-	switch (state) {
+-	case POWER_STATE:
+-	case DEFAULT_STATE:
+-	case ADDRESS_STATE:
+-	case CONFIGURATION_STATE:
+-		return state;
+-	}
+-
+-	return -EIO;
++	return (int)irq_state->intsts0 & DVSQ_MASK;
+ }
+ 
+ int usbhs_status_get_ctrl_stage(struct usbhs_irq_state *irq_state)
+-- 
+2.7.4
 
