@@ -2,79 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 94078AE4B4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Sep 2019 09:33:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3AE4AE705
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Sep 2019 11:31:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728963AbfIJHdO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Sep 2019 03:33:14 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:43050 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728157AbfIJHdO (ORCPT
+        id S2389959AbfIJJba (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Sep 2019 05:31:30 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:33584 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727825AbfIJJba (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Sep 2019 03:33:14 -0400
-Received: by mail-ot1-f68.google.com with SMTP id b2so16931403otq.10;
-        Tue, 10 Sep 2019 00:33:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5P01RYkKgcHPUYjswW70NifVp4Z0kf9Z1V54hUpct4o=;
-        b=DSxojzIVOSVtMwdbCZrEvMpH2wqOXYRZQ1i5yxZWqeIqv0g5QenZ3U3V6DaiYjAU7A
-         37/9wjhqXvzq9VREkeAVTwd8zUjkVsvYSH9ye0OF0gXD5Y/QrQa4+l8/V7v+C/1s+xgb
-         5UhsIb13KSBVxxKcGivSuiH2vBHxW3Vcm/bWyAnwxEHs1wkoRO7IHYkTBr5k/lyP+YSn
-         zT0sGo88un7xJ2IaLSv5OKKH/7OTXMveqRVBhi3HVwaSuZNKFydlz1nsYz0FlQBI7++8
-         4ZCqaix5+2Hp+gWD8B+7dsChs5ov9hRb1RZnwnCNt0CUe1cwnKUYlue9P+6P8f55p14x
-         zemA==
-X-Gm-Message-State: APjAAAXiFKNA4zLYjpioAJksfRh00tliRwPcgtbVHgvz58lrrYNwr7s/
-        T6ho40/RzwhyhVYrTznt2rseWFtSAUSU3uJfxmg=
-X-Google-Smtp-Source: APXvYqxvjvfB3lp1gpAc4xcpHpepOmJjAOO9w99Zz6FSJOl+rXJQVuknMhQYK1Zv06NkX5LG65XIVlBM2DfpxreJ7GQ=
-X-Received: by 2002:a05:6830:1196:: with SMTP id u22mr24870585otq.39.1568100791499;
- Tue, 10 Sep 2019 00:33:11 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190904121658.2617-1-geert+renesas@glider.be>
- <20190904121658.2617-2-geert+renesas@glider.be> <20190905085925.umc6khhp2nurdljo@verge.net.au>
-In-Reply-To: <20190905085925.umc6khhp2nurdljo@verge.net.au>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 10 Sep 2019 09:33:00 +0200
-Message-ID: <CAMuHMdVAM8LpCZiJPattkj2QsBrXJLKde-MB1Y3+iqC2DNegpA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] pinctrl: sh-pfc: r8a77990: Rename AVB_AVTP_{MATCH,CAPTURE}
- pin functions
-To:     Simon Horman <horms@verge.net.au>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Takeshi Kihara <takeshi.kihara.df@renesas.com>,
+        Tue, 10 Sep 2019 05:31:30 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 3868C3C0016;
+        Tue, 10 Sep 2019 11:31:27 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id VFZvJfaNJ9pe; Tue, 10 Sep 2019 11:31:21 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id CDA613C04C0;
+        Tue, 10 Sep 2019 11:31:21 +0200 (CEST)
+Received: from vmlxhi-070.adit-jv.com (10.72.93.148) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Tue, 10 Sep
+ 2019 11:31:21 +0200
+Date:   Tue, 10 Sep 2019 11:31:17 +0200
+From:   veeraiyan chidambaram <external.veeraiyan.c@de.adit-jv.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+CC:     Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        "REE erosca@DE.ADIT-JV.COM" <erosca@DE.ADIT-JV.COM>,
+        Veeraiyan Chidambaram <veeraiyan.chidambaram@in.bosch.com>
+Subject: Re: [PATCH v4 2/3] usb: renesas_usbhs: enable DVSE interrupt
+Message-ID: <20190910093117.GB9960@vmlxhi-070.adit-jv.com>
+References: <1568043974-1236-1-git-send-email-external.veeraiyan.c@de.adit-jv.com>
+ <1568043974-1236-2-git-send-email-external.veeraiyan.c@de.adit-jv.com>
+ <TYAPR01MB4544C419E30F3D3033086088D8B60@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <TYAPR01MB4544C419E30F3D3033086088D8B60@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.72.93.148]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Sep 5, 2019 at 10:59 AM Simon Horman <horms@verge.net.au> wrote:
-> On Wed, Sep 04, 2019 at 02:16:56PM +0200, Geert Uytterhoeven wrote:
-> > From: Takeshi Kihara <takeshi.kihara.df@renesas.com>
-> >
-> > The Hardware Manual Errata for Rev. 1.50 of April 10, 2019 renamed IPSR2
-> > register bit[23:20] value H'3 and register bit[27:24] value H'3 from
-> > AVB_AVTP_MATCH_A resp. AVB_AVTP_CAPTURE_A to AVB_AVTP_MATCH resp.
-> > AVB_AVTP_CAPTURE_A.
->
-> I think the trailing '_A' above is a typo.
->
-> That notwithstanding:
->
-> Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+Hello shimoda-san,
 
-Thanks, queueing in sh-pfc-for-v5.5 with the above fixed.
+Thanks for point out checkpatch warning. After resolving checkpatch warning,
+below  checkpatch warning is seen.
 
-Gr{oetje,eeting}s,
+WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+#23:
+[1] commit f1407d5c6624 ("usb: renesas_usbhs: Add Renesas USBHS common code")
 
-                        Geert
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+is this warning fine for you? .
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Regards,
+
+veeraiyan chidambaram.
+
+On Tue, Sep 10, 2019 at 04:45:29AM +0000, Yoshihiro Shimoda wrote:
+> Hi Veeraiyan,
+> 
+> Thank you for the patch!
+> 
+> > From: Veeraiyan Chidambaram, Sent: Tuesday, September 10, 2019 12:46 AM
+> <snip>
+> > Commit [1] enabled the possibility of checking the DVST (Device State
+> > Transition) bit of INTSTS0 (Interrupt Status Register 0) and calling
+> > the irq_dev_state() handler if the DVST bit is set. But neither
+> > commit [1] nor commit [2] actually enabled the DVSE (Device State
+> > Transition Interrupt Enable) bit in the INTENB0 (Interrupt Enable
+> > Register 0). As a consequence, irq_dev_state() handler is getting
+> > called as a side effect of other (non-DVSE) interrupts being fired,
+> > which definitely can't be relied upon, if DVST notifications are of
+> > any value.
+> > 
+> > Why this doesn't hurt is because usbhsg_irq_dev_state() currently
+> > doesn't do much except of a dev_dbg(). Once more work is added to
+> > the handler (e.g. detecting device "Suspended" state and notifying
+> > other USB gadget components about it), enabling DVSE becomes a hard
+> > requirement. Do it in a standalone commit for better visibility and
+> > clear explanation.
+> > 
+> > [1] f1407d5c6624 ("usb: renesas_usbhs: Add Renesas USBHS common code")
+> > [2] 2f98382dcdfe ("usb: renesas_usbhs: Add Renesas USBHS Gadget")
+> 
+> I'm afraid I should have realized but, according to checkpatch.pl,
+> these formats cause ERROR like below. So, they should be fixed.
+> 
+> ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit f1407d5c6624 ("usb: renesas_usbhs: Add Renesas USBHS common code")'
+> #90:
+> [1] f1407d5c6624 ("usb: renesas_usbhs: Add Renesas USBHS common code")
+> 
+> ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit 2f98382dcdfe ("usb: renesas_usbhs: Add Renesas USBHS Gadget")'
+> #91:
+> [2] 2f98382dcdfe ("usb: renesas_usbhs: Add Renesas USBHS Gadget")
+> 
+> Best regards,
+> Yoshihiro Shimoda
+> 
