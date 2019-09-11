@@ -2,79 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 96423B048E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Sep 2019 21:25:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BAD0B0494
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Sep 2019 21:35:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728415AbfIKTZU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Sep 2019 15:25:20 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:39460 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728105AbfIKTZU (ORCPT
+        id S1728582AbfIKTfP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Sep 2019 15:35:15 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:41729 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728285AbfIKTfP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Sep 2019 15:25:20 -0400
-Received: from localhost.localdomain (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CA3BC33A;
-        Wed, 11 Sep 2019 21:25:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1568229918;
-        bh=2zHvimOjrWy5RxcEvOUcnkpkQp9SWOPtz0B4fYTv0aI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=gFhfY6Pq333rek0/ggUALqlewfGTA3+vF7deVusSv8Pel1bfaBfkIdBkb9VdIPEnb
-         jO9BjWbIcxMpAE2AsvrjjMG2dCmuT1dSAN/HPpa6XNGfsIUO2tJXPKl25yzsoo6tX7
-         yFYQ5vF4V8Q1e4G9+hQ7neo+x5aNNc6NGLO9vhYY=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Wed, 11 Sep 2019 15:35:15 -0400
+Received: by mail-oi1-f195.google.com with SMTP id w17so1921397oiw.8;
+        Wed, 11 Sep 2019 12:35:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=penkjc+LnYL0IVOn0C5YqiNfiHGL74bK4bzlXB2bL6U=;
+        b=c8KSZyGQrcOkTOZL6cULasJgBcvhIsXujTL+ZH4qY842Q0IsqWMr9vEYeS4Htkqqi5
+         eKEHmdiWvMRHl3mK3FVJQf0G+730OPWNkguUjFEbWDyaxzZQw0vsPmpGwQZkWmao6WVY
+         vX7uTPl1gxVs2ybqUISHFVNsK9yzAT/QQbd+I6X9oXRO2AwDkCEhGn9kaeTgKE3/WiXI
+         c/qgnFFxouOsFU1qDE210iQNbgPBQLKsiDtuqCjc2o62bfNfmvwdUWeceTWc1bbbQaAo
+         zvHox0JGo7ftJi4pWhjkDHLHe4Z7iNm7yNaVHzL+DryMe/o0Rplb5lPSwbMVgaxAANsI
+         z9/g==
+X-Gm-Message-State: APjAAAVwkbBqfWQpQqlkjXIVEzmmDWX7J2Tt1mgp5U+OrSCXAeBoDxAZ
+        U7lftNaf8R2lZLNAba0S4p5PUDgz7sG3kMvhsnc=
+X-Google-Smtp-Source: APXvYqyJdRnqC2XFz9KVuyV7Z2Tg3fGD1B7L/xryD3+0MqDbsyKiCQF3MfIw1ksiQ17evudnCYwQkiCFnvpRB59HZWk=
+X-Received: by 2002:aca:f305:: with SMTP id r5mr5436595oih.131.1568230514186;
+ Wed, 11 Sep 2019 12:35:14 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190906135436.10622-1-jacopo+renesas@jmondi.org>
+ <20190906135436.10622-10-jacopo+renesas@jmondi.org> <49012496-1a6e-d62c-2882-45ed8aeb88f7@ideasonboard.com>
+In-Reply-To: <49012496-1a6e-d62c-2882-45ed8aeb88f7@ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 11 Sep 2019 21:35:02 +0200
+Message-ID: <CAMuHMdVfgsUVbsyH=Q9FGU_auLapUS-uTGgPDYzeX4wuXNd5cA@mail.gmail.com>
+Subject: Re: [PATCH v4 9/9] arm64: dts: renesas: Add CMM units to Gen3 SoCs
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Simon Horman <horms@verge.net.au>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        VenkataRajesh.Kalakodima@in.bosch.com,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR RENESAS),
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] drm: rcar-du: Add r8a77980 support
-Date:   Wed, 11 Sep 2019 20:25:01 +0100
-Message-Id: <20190911192502.16609-1-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Koji Matsuoka <koji.matsuoka.xm@renesas.com>, muroya@ksk.co.jp,
+        Harsha.ManjulaMallikarjun@in.bosch.com,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add direct support for the r8a77980 (V3H).
+Hi Kieran, Jacopo,
 
-The V3H shares a common, compatible configuration with the r8a77970
-(V3M) so that device info structure is reused.
+On Wed, Sep 11, 2019 at 8:16 PM Kieran Bingham
+<kieran.bingham+renesas@ideasonboard.com> wrote:
+> On 06/09/2019 14:54, Jacopo Mondi wrote:
+> > Add CMM units to Renesas R-Car Gen3 SoC that support it, and reference them
+> > from the Display Unit they are connected to.
+> >
+> > Sort the 'vsps' and 'renesas,cmm' entries in the DU unit consistently
+> > in all the involved DTS.
+>
+> I think if you chose the ordering in the r8a7795, then you only have to
+> adjust/correct the ordering in the r8a7796 and r8a77965 ...
+>
+> Especially as you haven't changed the ordering of r8a77970, and r8a77980
+> which have the status after the vsps entry.
+>
+>
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
- drivers/gpu/drm/rcar-du/rcar_du_drv.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+> > --- a/arch/arm64/boot/dts/renesas/r8a7795.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-index d1003d31cfaf..fc5b0949daf0 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-@@ -374,7 +374,10 @@ static const struct rcar_du_device_info rcar_du_r8a77970_info = {
- 		  | RCAR_DU_FEATURE_TVM_SYNC,
- 	.channels_mask = BIT(0),
- 	.routes = {
--		/* R8A77970 has one RGB output and one LVDS output. */
-+		/*
-+		 * R8A77970 and R8A77980 have one RGB output and one LVDS
-+		 * output.
-+		 */
- 		[RCAR_DU_OUTPUT_DPAD0] = {
- 			.possible_crtcs = BIT(0),
- 			.port = 0,
-@@ -432,6 +435,7 @@ static const struct of_device_id rcar_du_of_table[] = {
- 	{ .compatible = "renesas,du-r8a7796", .data = &rcar_du_r8a7796_info },
- 	{ .compatible = "renesas,du-r8a77965", .data = &rcar_du_r8a77965_info },
- 	{ .compatible = "renesas,du-r8a77970", .data = &rcar_du_r8a77970_info },
-+	{ .compatible = "renesas,du-r8a77980", .data = &rcar_du_r8a77970_info },
- 	{ .compatible = "renesas,du-r8a77990", .data = &rcar_du_r8a7799x_info },
- 	{ .compatible = "renesas,du-r8a77995", .data = &rcar_du_r8a7799x_info },
- 	{ }
+> > @@ -3142,9 +3178,11 @@
+> >                                <&cpg CPG_MOD 722>,
+> >                                <&cpg CPG_MOD 721>;
+> >                       clock-names = "du.0", "du.1", "du.2", "du.3";
+> > -                     vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
+> >                       status = "disabled";
+>
+> I'm not sure the vsps should be below the status = disabled line.
+>
+> I'd have this as:
+>
+>         clock-names...
+>         vsps...
+>         renesas,cmms...
+>                 <blank line>
+>         status...
+>                 <blank line>
+>         ports...
+
+Indeed.
+
+And better write "ports { ... }", so it's clear this is a subnode.
+
+>
+> >
+> > +                     vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
+
+And the above will become "renesas,vsps", needing another reordering?
+
+> > +                     renesas,cmms = <&cmm0 &cmm1 &cmm2 &cmm3>;
+>
+> I think these should be separated by comma's to show they are separate
+> references, or references to separate phandles or such.
+
+Yep, looks better, and makes the grouping clear.
+
+> The only precedence I could find was in pmu_a53:
+>
+>           interrupt-affinity = <&a53_0>, <&a53_1>, <&a53_2>, <&a53_3>;
+
+That's because most other phandle stuff has #<foo>-cells as non-zero.
+
+We do have
+
+    clocks = ... <&audio_clk_a>, <&audio_clk_b>, <&audio_clk_c>;
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.20.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
