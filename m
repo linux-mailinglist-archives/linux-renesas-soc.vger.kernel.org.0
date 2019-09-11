@@ -2,102 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A3018B00E3
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Sep 2019 18:06:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3928B0190
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Sep 2019 18:24:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728794AbfIKQGj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Sep 2019 12:06:39 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:36712 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728703AbfIKQGj (ORCPT
+        id S1729012AbfIKQYr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Sep 2019 12:24:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34422 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728840AbfIKQYq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Sep 2019 12:06:39 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AF88C33A;
-        Wed, 11 Sep 2019 18:06:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1568217997;
-        bh=F2dlj/MFhkCIb/9CSt/w8Fw5jSo4ioGNSYWJmqdIqPY=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=qdsaUQYM6hhd68U1apolZTzXB9co1nILTU0yuAVKimxwB0wlDzP++mspv/miVEfr+
-         An2oEmr6fbOzXHdV1hL2ArT97vQ9oQH32eOL8jyob6Pmp8r24Q37cG3PkZrB4R6ECs
-         BwWHzNIl91Psdsne5U5s8D+NNwhFBw7ylnvXCuGE=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH v4 2/9] dt-bindings: display, renesas,du: Document cmms
- property
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        laurent.pinchart@ideasonboard.com, geert@linux-m68k.org,
-        horms@verge.net.au, uli+renesas@fpond.eu,
-        VenkataRajesh.Kalakodima@in.bosch.com
-Cc:     airlied@linux.ie, daniel@ffwll.ch, koji.matsuoka.xm@renesas.com,
-        muroya@ksk.co.jp, Harsha.ManjulaMallikarjun@in.bosch.com,
-        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        robh+dt@kernel.org, mark.rutland@arm.com
-References: <20190906135436.10622-1-jacopo+renesas@jmondi.org>
- <20190906135436.10622-3-jacopo+renesas@jmondi.org>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <2bcbb30c-db36-38a1-dcff-4f4269c11ad6@ideasonboard.com>
-Date:   Wed, 11 Sep 2019 17:06:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Wed, 11 Sep 2019 12:24:46 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F377E2085B;
+        Wed, 11 Sep 2019 16:24:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1568219086;
+        bh=nApWuaHiyB7NQ87eyJsFD37zbhJzmEawweguSUSdI/s=;
+        h=In-Reply-To:References:Cc:To:From:Subject:Date:From;
+        b=H5q+Ra0U4Tn/7Hw56qhY0twx23YrDZH830WLWStjcJEsaWGnK7E1brelzp00TceBX
+         /GPI9xjt8XY2KWqrN9/UOrLTguRPTsh7zR/RqRZF7oIRalKTy4CSw5dJ2l9CwWc7J6
+         B3N9oA0xkW1Yq33hFIMU/Flapph/onIqkKM7qIEk=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20190906135436.10622-3-jacopo+renesas@jmondi.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAMuHMdVxktbMUn-JCO6Oz8zgG5V+dLv=3cMompErU33DkBG=0w@mail.gmail.com>
+References: <20190830134515.11925-1-geert+renesas@glider.be> <20190903220954.7753320882@mail.kernel.org> <CAMuHMdVxktbMUn-JCO6Oz8zgG5V+dLv=3cMompErU33DkBG=0w@mail.gmail.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+From:   Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH v2 0/8] clk: renesas: rcar-gen2/gen3: Switch to .determine_rate()
+User-Agent: alot/0.8.1
+Date:   Wed, 11 Sep 2019 09:24:45 -0700
+Message-Id: <20190911162445.F377E2085B@mail.kernel.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+Quoting Geert Uytterhoeven (2019-09-03 23:51:10)
+> Hi Stephen,
+>=20
+> On Wed, Sep 4, 2019 at 12:09 AM Stephen Boyd <sboyd@kernel.org> wrote:
+> > Quoting Geert Uytterhoeven (2019-08-30 06:45:07)
+> > > As the .round_rate() callback returns a long clock rate, it cannot
+> > > return clock rates that do not fit in signed long, but do fit in
+> > > unsigned long.  The newer .determine_rate() callback does not suffer
+> > > from this limitation.  In addition, .determine_rate() provides the
+> > > ability to specify a rate range.
+> > >
+> > > This patch series performs the customary preparatory cleanups, and
+> > > switches the Z (CPU) and SD clocks in the R-Car Gen2 and Gen3 clock
+> > > drivers from the .round_rate() to the .determine_rate() callback.
+> > > Note that the "div6" clock driver hasn't been converted yet, so div6
+> > > clocks still use .round_rate().
+> > >
+> > > Changes compared to v1[1]:
+> > >   - Add preparatory arithmetic division improvements
+> > >   - Split off cpg_sd_clock_calc_div() absorption and SD clock best ra=
+te
+> > >     calculation,
+> > >   - Use div_u64() for division by unsigned long,
+> > >
+> > > This has been tested on R-Car M2-W and various R-Car Gen3, and should
+> > > have no behavioral impact.
+> >
+> > From what I recall the rate range code is broken but I can't remember
+> > how. Anyway, I was just curious if you ran into any issues with that
+> > code.
+>=20
+> I didn't ran into any issues.  But please note that in all tested cases, =
+the
+> limits were 0 and ULONG_MAX anyway, so probably it didn't trigger the
+> broken cases in the rate range code.
+>=20
+> So, is it good to have .determine_rate() support in individual clock driv=
+ers
+> now, or do you want me to postpone the last 3 patches of my series until =
+the
+> rate range code is fixed?
+>=20
 
-On 06/09/2019 14:54, Jacopo Mondi wrote:
-> Document the newly added 'cmms' property which accepts a list of phandle
-> and channel index pairs that point to the CMM units available for each
-> Display Unit output video channel.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  Documentation/devicetree/bindings/display/renesas,du.txt | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/renesas,du.txt b/Documentation/devicetree/bindings/display/renesas,du.txt
-> index c97dfacad281..1773b0a2f54f 100644
-> --- a/Documentation/devicetree/bindings/display/renesas,du.txt
-> +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
-> @@ -45,6 +45,10 @@ Required Properties:
->      instance that serves the DU channel, and the channel index identifies the
->      LIF instance in that VSP.
-> 
-> +  - renesas,cmms: A list of phandles to the CMM instances present in the SoC,
-> +    one for each available DU channel. The property shall not be specified for
-> +    SoCs that do not provide any CMM (such as V3M and V3H).
-> +
->  Required nodes:
-> 
->  The connections to the DU output video ports are modeled using the OF graph
-> @@ -91,6 +95,7 @@ Example: R8A7795 (R-Car H3) ES2.0 DU
->  			 <&cpg CPG_MOD 721>;
->  		clock-names = "du.0", "du.1", "du.2", "du.3";
->  		vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
-> +		renesas,cmms = <&cmm0 &cmm1 &cmm2 &cmm3>;
-
-Should these be comma separated in the same fashion as the vsps are
-separated?
-
-I don't really mind either way though ...
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-
-> 
->  		ports {
->  			#address-cells = <1>;
-> --
-> 2.23.0
-> 
+It's fine to use .determine_rate() because we'll fix the problems in the
+clk framework. So no concern from me here. Just curious if you ran into
+any problems.
 
