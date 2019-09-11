@@ -2,479 +2,472 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D6E1AAFEE0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Sep 2019 16:39:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5238CB009F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Sep 2019 17:55:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728288AbfIKOjO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Sep 2019 10:39:14 -0400
-Received: from xavier.telenet-ops.be ([195.130.132.52]:33372 "EHLO
-        xavier.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728164AbfIKOjO (ORCPT
+        id S1728808AbfIKPzF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Sep 2019 11:55:05 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35680 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727839AbfIKPzF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Sep 2019 10:39:14 -0400
-Received: from ramsan ([84.194.98.4])
-        by xavier.telenet-ops.be with bizsmtp
-        id 0Ef42100405gfCL01Ef4Mv; Wed, 11 Sep 2019 16:39:10 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1i83lw-0006TC-16; Wed, 11 Sep 2019 16:39:04 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1i83lv-0003PI-VI; Wed, 11 Sep 2019 16:39:03 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc:     Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/RFC v2 5/5] gpio: Add GPIO Aggregator Driver
-Date:   Wed, 11 Sep 2019 16:38:58 +0200
-Message-Id: <20190911143858.13024-6-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190911143858.13024-1-geert+renesas@glider.be>
-References: <20190911143858.13024-1-geert+renesas@glider.be>
+        Wed, 11 Sep 2019 11:55:05 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7189A33A;
+        Wed, 11 Sep 2019 17:55:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1568217302;
+        bh=F/WAEGE5bSJL5pX6H+opA4klhH7FkmTeNtPy7PfymT0=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=uiPaJvFgtWkwsY3c8LofYJzpdhWCZtT90Q+/e+hWnozTvRurj04z29Ahc0rSxegAc
+         XGCxzF77j6cvt7oT+50su1tV+x9VnRTm5bA2YPUQY4dJP8gltP3kjolUhDzD0gGB53
+         SiDw/q1/f3W1lLovVuwpvdg1V/bVI/mHGeLnHdJE=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH v4 3/9] drm: rcar-du: Add support for CMM
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        laurent.pinchart@ideasonboard.com, geert@linux-m68k.org,
+        horms@verge.net.au, uli+renesas@fpond.eu,
+        VenkataRajesh.Kalakodima@in.bosch.com
+Cc:     airlied@linux.ie, daniel@ffwll.ch, koji.matsuoka.xm@renesas.com,
+        muroya@ksk.co.jp, Harsha.ManjulaMallikarjun@in.bosch.com,
+        linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org
+References: <20190906135436.10622-1-jacopo+renesas@jmondi.org>
+ <20190906135436.10622-4-jacopo+renesas@jmondi.org>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <d46b0e1b-d0a8-3e6b-41e5-029bf07c2cae@ideasonboard.com>
+Date:   Wed, 11 Sep 2019 16:54:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190906135436.10622-4-jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-GPIO controllers are exported to userspace using /dev/gpiochip*
-character devices.  Access control to these devices is provided by
-standard UNIX file system permissions, on an all-or-nothing basis:
-either a GPIO controller is accessible for a user, or it is not.
-Currently no mechanism exists to control access to individual GPIOs.
+Hi Jacopo,
 
-Hence add a GPIO driver to aggregate existing GPIOs, and expose them as
-a new gpiochip.  This is useful for implementing access control, and
-assigning a set of GPIOs to a specific user.
-Furthermore, this simplifies and hardens exporting GPIOs to a virtual
-machine, as the VM can just grab the full GPIO controller, and no longer
-needs to care about which GPIOs to grab and which not, reducing the
-attack surface.
+<This time replying to the mail with ML's included Doh!>
 
-Aggregated GPIO controllers are instantiated by writing to the
-"new_device" attribute file in sysfs:
+On 06/09/2019 14:43, Jacopo Mondi wrote:
+> Add a driver for the R-Car Display Unit Color Correction Module.
+>
+> In most of Gen3 SoCs, each DU output channel is provided with a CMM unit
+> to perform image enhancement and color correction.
+>
+> Add support for CMM through a driver that supports configuration of
+> the 1-dimensional LUT table. More advanced CMM feature will be
 
-    $ echo [<gpioA>] [<gpiochipB> <offsets>] ...
-            > /sys/bus/platform/drivers/gpio-aggregator/new_device
+s/feature/features/
 
-Where <gpioA> is a GPIO line name, <gpiochipB> is a GPIO chip label or
-name, and <offsets> is a comma-separated list of GPIO offsets and/or
-GPIO offset ranges.
+> implemented on top of this basic one.
 
-Likewise, aggregated GPIO controllers can be destroyed after use:
+s/basic/initial/
 
-    $ echo gpio-aggregator.<N> \
-            > /sys/bus/platform/drivers/gpio-aggregator/delete_device
+>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  drivers/gpu/drm/rcar-du/Kconfig    |   7 +
+>  drivers/gpu/drm/rcar-du/Makefile   |   1 +
+>  drivers/gpu/drm/rcar-du/rcar_cmm.c | 251 +++++++++++++++++++++++++++++
+>  drivers/gpu/drm/rcar-du/rcar_cmm.h |  61 +++++++
+>  4 files changed, 320 insertions(+)
+>  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.c
+>  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.h
+>
+> diff --git a/drivers/gpu/drm/rcar-du/Kconfig
+b/drivers/gpu/drm/rcar-du/Kconfig
+> index 1529849e217e..539d232790d1 100644
+> --- a/drivers/gpu/drm/rcar-du/Kconfig
+> +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> @@ -13,6 +13,13 @@ config DRM_RCAR_DU
+>  	  Choose this option if you have an R-Car chipset.
+>  	  If M is selected the module will be called rcar-du-drm.
+>
+> +config DRM_RCAR_CMM
+> +	bool "R-Car DU Color Management Module (CMM) Support"
+> +	depends on DRM && OF
+> +	depends on DRM_RCAR_DU
+> +	help
+> +	  Enable support for R-Car Color Management Module (CMM).
+> +
+>  config DRM_RCAR_DW_HDMI
+>  	tristate "R-Car DU Gen3 HDMI Encoder Support"
+>  	depends on DRM && OF
+> diff --git a/drivers/gpu/drm/rcar-du/Makefile
+b/drivers/gpu/drm/rcar-du/Makefile
+> index 6c2ed9c46467..4d1187ccc3e5 100644
+> --- a/drivers/gpu/drm/rcar-du/Makefile
+> +++ b/drivers/gpu/drm/rcar-du/Makefile
+> @@ -15,6 +15,7 @@ rcar-du-drm-$(CONFIG_DRM_RCAR_LVDS)	+= rcar_du_of.o \
+>  rcar-du-drm-$(CONFIG_DRM_RCAR_VSP)	+= rcar_du_vsp.o
+>  rcar-du-drm-$(CONFIG_DRM_RCAR_WRITEBACK) += rcar_du_writeback.o
+>
+> +obj-$(CONFIG_DRM_RCAR_CMM)		+= rcar_cmm.o
+>  obj-$(CONFIG_DRM_RCAR_DU)		+= rcar-du-drm.o
+>  obj-$(CONFIG_DRM_RCAR_DW_HDMI)		+= rcar_dw_hdmi.o
+>  obj-$(CONFIG_DRM_RCAR_LVDS)		+= rcar_lvds.o
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.c
+b/drivers/gpu/drm/rcar-du/rcar_cmm.c
+> new file mode 100644
+> index 000000000000..3cacdc4474c7
+> --- /dev/null
+> +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.c
+> @@ -0,0 +1,251 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * rcar_cmm.c -- R-Car Display Unit Color Management Module
+> + *
+> + * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
+> + */
+> +
+> +#include <linux/io.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +
+> +#include <drm/drm_color_mgmt.h>
+> +
+> +#include "rcar_cmm.h"
+> +
+> +#define CM2_LUT_CTRL		0x0000
+> +#define CM2_LUT_CTRL_LUT_EN	BIT(0)
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v2:
-  - Add missing initialization of i in gpio_virt_agg_probe(),
-  - Update for removed .need_valid_mask field and changed
-    .init_valid_mask() signature,
-  - Drop "virtual", rename to gpio-aggregator,
-  - Drop bogus FIXME related to gpiod_set_transitory() expectations,
-  - Use new GPIO Forwarder Helper,
-  - Lift limit on the maximum number of GPIOs,
-  - Improve parsing:
-      - add support for specifying GPIOs by line name,
-      - add support for specifying GPIO chips by ID,
-      - add support for GPIO offset ranges,
-      - names and offset specifiers must be separated by whitespace,
-      - GPIO offsets must separated by spaces,
-  - Use str_has_prefix() and kstrtouint().
+I'd have a new line here
 
-I didn't use argv_split(), as it doesn't support quoted strings yet,
-and GPIO line names can contain spaces.  Perhaps I should enhance
-argv_split() first, and use that?
----
- drivers/gpio/Kconfig           |   9 +
- drivers/gpio/Makefile          |   1 +
- drivers/gpio/gpio-aggregator.c | 333 +++++++++++++++++++++++++++++++++
- 3 files changed, 343 insertions(+)
- create mode 100644 drivers/gpio/gpio-aggregator.c
+> +#define CM2_LUT_TBL_BASE	0x0600
+> +#define CM2_LUT_TBL(__i)	(CM2_LUT_TBL_BASE + (__i) * 4)
+> +
+> +struct rcar_cmm {
+> +	void __iomem *base;
+> +	bool enabled;
+> +
+> +	/*
+> +	 * @lut:		1D-LUT status
+> +	 * @lut.enabled:	1D-LUT enabled flag
+> +	 * @lut.table:		Table of 1D-LUT entries scaled to hardware
+> +	 *			precision (8-bits per color component)
+> +	 */
+> +	struct {
+> +		bool enabled;
+> +		u32 table[CM2_LUT_SIZE];
+> +	} lut;
+> +};
+> +
+> +static inline int rcar_cmm_read(struct rcar_cmm *rcmm, u32 reg)
+> +{
+> +	return ioread32(rcmm->base + reg);
+> +}
+> +
+> +static inline void rcar_cmm_write(struct rcar_cmm *rcmm, u32 reg, u32
+data)
+> +{
+> +	iowrite32(data, rcmm->base + reg);
+> +}
+> +
+> +/*
+> + * rcar_cmm_lut_extract() - Scale down to hardware precision the DRM
+LUT table
+> + *			    entries and store them.
+> + * @rcmm: Pointer to the CMM device
+> + * @drm_lut: Pointer to the DRM LUT table
+> + */
+> +static void rcar_cmm_lut_extract(struct rcar_cmm *rcmm,
+> +				 const struct drm_color_lut *drm_lut)
+> +{
+> +	unsigned int i;
 
-diff --git a/drivers/gpio/Kconfig b/drivers/gpio/Kconfig
-index 29d3ce8debcca1f6..058aa68fd7015e7c 100644
---- a/drivers/gpio/Kconfig
-+++ b/drivers/gpio/Kconfig
-@@ -1483,6 +1483,15 @@ config GPIO_VIPERBOARD
- 
- endmenu
- 
-+config GPIO_AGGREGATOR
-+	tristate "GPIO Aggregator"
-+	select GPIOLIB_FWD
-+	help
-+	  This enabled the GPIO Aggregator, which provides a way to aggregate
-+	  existing GPIOs into a new GPIO device.
-+	  This is useful for assigning a collection of GPIOs to a user, or
-+	  exported them to a virtual machine.
-+
- config GPIO_MOCKUP
- 	tristate "GPIO Testing Driver"
- 	select IRQ_SIM
-diff --git a/drivers/gpio/Makefile b/drivers/gpio/Makefile
-index 8a0e685c92b69855..2ec9128bcfefa40a 100644
---- a/drivers/gpio/Makefile
-+++ b/drivers/gpio/Makefile
-@@ -26,6 +26,7 @@ obj-$(CONFIG_GPIO_74XX_MMIO)		+= gpio-74xx-mmio.o
- obj-$(CONFIG_GPIO_ADNP)			+= gpio-adnp.o
- obj-$(CONFIG_GPIO_ADP5520)		+= gpio-adp5520.o
- obj-$(CONFIG_GPIO_ADP5588)		+= gpio-adp5588.o
-+obj-$(CONFIG_GPIO_AGGREGATOR)		+= gpio-aggregator.o
- obj-$(CONFIG_GPIO_ALTERA_A10SR)		+= gpio-altera-a10sr.o
- obj-$(CONFIG_GPIO_ALTERA)  		+= gpio-altera.o
- obj-$(CONFIG_GPIO_AMD8111)		+= gpio-amd8111.o
-diff --git a/drivers/gpio/gpio-aggregator.c b/drivers/gpio/gpio-aggregator.c
-new file mode 100644
-index 0000000000000000..42485735bd823e02
---- /dev/null
-+++ b/drivers/gpio/gpio-aggregator.c
-@@ -0,0 +1,333 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+//
-+// GPIO Aggregator
-+//
-+// Copyright (C) 2019 Glider bvba
-+
-+#include <linux/ctype.h>
-+#include <linux/gpio/driver.h>
-+#include <linux/idr.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/platform_device.h>
-+#include <linux/string.h>
-+
-+#include "gpiolib.h"
-+#include "gpiolib-fwd.h"
-+
-+#define DRV_NAME	"gpio-aggregator"
-+
-+struct gpio_aggregator {
-+	struct platform_device *pdev;
-+};
-+
-+static DEFINE_MUTEX(gpio_aggregator_lock);	/* protects idr */
-+static DEFINE_IDR(gpio_aggregator_idr);
-+
-+static int gpiochip_match_label(struct gpio_chip *chip, void *data)
-+{
-+	return !strcmp(chip->label, data);
-+}
-+
-+static struct gpio_chip *gpiochip_find_by_label(const char *label)
-+{
-+	return gpiochip_find((void *)label, gpiochip_match_label);
-+}
-+
-+static int gpiochip_match_id(struct gpio_chip *chip, void *data)
-+{
-+	unsigned int id = (uintptr_t)data;
-+
-+	return id == chip->base || id == chip->gpiodev->id;
-+}
-+
-+static struct gpio_chip *gpiochip_find_by_id(const char *id)
-+{
-+	unsigned int x;
-+
-+	if (!str_has_prefix(id, "gpiochip"))
-+		return NULL;
-+
-+	if (kstrtouint(id + strlen("gpiochip"), 10, &x))
-+		return NULL;
-+
-+	return gpiochip_find((void *)(uintptr_t)x, gpiochip_match_id);
-+}
-+
-+static ssize_t new_device_store(struct device_driver *driver, const char *buf,
-+				size_t count)
-+{
-+	struct platform_device *pdev;
-+	struct gpio_aggregator *aggr;
-+	int res, id;
-+
-+	aggr = kzalloc(sizeof(*aggr), GFP_KERNEL);
-+	if (!aggr)
-+		return -ENOMEM;
-+
-+	mutex_lock(&gpio_aggregator_lock);
-+	id = idr_alloc(&gpio_aggregator_idr, aggr, 0, 0, GFP_KERNEL);
-+	mutex_unlock(&gpio_aggregator_lock);
-+
-+	if (id < 0) {
-+		res = id;
-+		goto free_ga;
-+	}
-+
-+	/* kernfs guarantees string termination, so count + 1 is safe */
-+	pdev = platform_device_register_data(NULL, DRV_NAME, id, buf,
-+					     count + 1);
-+	if (IS_ERR(pdev)) {
-+		res = PTR_ERR(pdev);
-+		goto remove_idr;
-+	}
-+
-+	aggr->pdev = pdev;
-+	return count;
-+
-+remove_idr:
-+	mutex_lock(&gpio_aggregator_lock);
-+	idr_remove(&gpio_aggregator_idr, id);
-+	mutex_unlock(&gpio_aggregator_lock);
-+free_ga:
-+	kfree(aggr);
-+	return res;
-+}
-+
-+static DRIVER_ATTR_WO(new_device);
-+
-+static ssize_t delete_device_store(struct device_driver *driver,
-+				   const char *buf, size_t count)
-+{
-+	struct gpio_aggregator *aggr;
-+	unsigned int id;
-+	int error;
-+
-+	if (!str_has_prefix(buf, DRV_NAME "."))
-+		return -EINVAL;
-+
-+	error = kstrtouint(buf + strlen(DRV_NAME "."), 10, &id);
-+	if (error)
-+		return error;
-+
-+	mutex_lock(&gpio_aggregator_lock);
-+	aggr = idr_remove(&gpio_aggregator_idr, id);
-+	mutex_unlock(&gpio_aggregator_lock);
-+	if (!aggr)
-+		return -ENOENT;
-+
-+	platform_device_unregister(aggr->pdev);
-+	kfree(aggr);
-+	return count;
-+}
-+static DRIVER_ATTR_WO(delete_device);
-+
-+static struct attribute *gpio_aggregator_attrs[] = {
-+	&driver_attr_new_device.attr,
-+	&driver_attr_delete_device.attr,
-+	NULL,
-+};
-+ATTRIBUTE_GROUPS(gpio_aggregator);
-+
-+static char *get_arg(struct device *dev, const char **args)
-+{
-+	const char *start = *args, *end;
-+	char *arg;
-+
-+	if (*start == '"') {
-+		/* Quoted arg */
-+		end = strchr(++start, '"');
-+		if (!end)
-+			return ERR_PTR(-EINVAL);
-+
-+		arg = devm_kasprintf(dev, GFP_KERNEL, "%.*s",
-+				     (int)(end++ - start), start);
-+	} else {
-+		/* Unquoted arg */
-+		for (end = start; *end && !isspace(*end); end++) ;
-+
-+		if (end == start)
-+			return ERR_PTR(-ENOENT);
-+
-+		arg = devm_kasprintf(dev, GFP_KERNEL, "%.*s",
-+				     (int)(end - start), start);
-+	}
-+	if (!arg)
-+		return ERR_PTR(-ENOMEM);
-+
-+	while (isspace(*end))
-+		end++;
-+
-+	*args = end;
-+	return arg;
-+}
-+
-+static int add_gpio(struct device *dev, struct gpio_desc ***descs,
-+		    unsigned int *n, struct gpio_desc *desc)
-+{
-+	struct gpio_desc **new_descs;
-+
-+	new_descs = devm_kmalloc_array(dev, *n + 1, sizeof(desc), GFP_KERNEL);
-+	if (!new_descs)
-+		return -ENOMEM;
-+
-+	if (*descs) {
-+		memcpy(new_descs, *descs, *n * sizeof(desc));
-+		devm_kfree(dev, *descs);
-+	}
-+
-+	new_descs[(*n)++] = desc;
-+	*descs = new_descs;
-+	return 0;
-+}
-+
-+static int gpio_aggregator_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	char *name, *offsets, *first, *last, *next;
-+	const char *args = dev_get_platdata(dev);
-+	struct gpio_desc **descs = NULL, *desc;
-+	unsigned int a, b, i, n = 0;
-+	struct gpiochip_fwd *fwd;
-+	struct gpio_chip *chip;
-+	int error;
-+
-+	while (isspace(*args))
-+		args++;
-+
-+	while (*args) {
-+		name = get_arg(dev, &args);
-+		if (IS_ERR(name)) {
-+			dev_err(dev, "Cannot get GPIO specifier: %ld\n",
-+				PTR_ERR(name));
-+			return PTR_ERR(name);
-+		}
-+
-+		desc = gpio_name_to_desc(name);
-+		if (desc) {
-+			/* Named GPIO line */
-+			error = add_gpio(dev, &descs, &n, desc);
-+			if (error)
-+				return error;
-+
-+			devm_kfree(dev, name);
-+			continue;
-+		}
-+
-+		/* GPIO chip + offsets */
-+		chip = gpiochip_find_by_label(name);
-+		if (!chip)
-+			chip = gpiochip_find_by_id(name);
-+		if (!chip) {
-+			dev_err(dev, "Cannot find gpiochip %s\n", name);
-+			return -EINVAL;
-+		}
-+
-+		offsets = get_arg(dev, &args);
-+		if (IS_ERR(offsets)) {
-+			dev_err(dev, "Cannot get GPIO offsets: %ld\n",
-+				PTR_ERR(offsets));
-+			return PTR_ERR(offsets);
-+		}
-+
-+		for (first = offsets; *first; first = next) {
-+			next = strchrnul(first, ',');
-+			if (*next)
-+				*next++ = '\0';
-+
-+			last = strchr(first, '-');
-+			if (last)
-+				*last++ = '\0';
-+
-+			if (kstrtouint(first, 10, &a)) {
-+				dev_err(dev, "Cannot parse gpio index %s\n",
-+					first);
-+				return -EINVAL;
-+			}
-+
-+			if (!last) {
-+				b = a;
-+			} else if (kstrtouint(last, 10, &b)) {
-+				dev_err(dev, "Cannot parse gpio index %s\n",
-+					last);
-+				return -EINVAL;
-+			}
-+
-+			for (i = a; i <= b; i++) {
-+				desc = gpiochip_get_desc(chip, i);
-+				if (IS_ERR(desc)) {
-+					dev_err(dev,
-+						"Cannot get GPIO %s/%u: %ld\n",
-+						name, i, PTR_ERR(desc));
-+					return PTR_ERR(desc);
-+				}
-+
-+				error = add_gpio(dev, &descs, &n, desc);
-+				if (error)
-+					return error;
-+			}
-+		}
-+
-+		devm_kfree(dev, offsets);
-+		devm_kfree(dev, name);
-+	}
-+
-+	if (!descs) {
-+		dev_err(dev, "No GPIOs specified\n");
-+		return -EINVAL;
-+	}
-+
-+	fwd = gpiochip_fwd_create(dev_name(dev), dev, n, descs);
-+	if (IS_ERR(fwd))
-+		return PTR_ERR(fwd);
-+
-+	platform_set_drvdata(pdev, fwd);
-+	return 0;
-+}
-+
-+static int gpio_aggregator_remove(struct platform_device *pdev)
-+{
-+	struct gpiochip_fwd *fwd = platform_get_drvdata(pdev);
-+
-+	return gpiochip_fwd_destroy(fwd);
-+}
-+
-+static struct platform_driver gpio_aggregator_driver = {
-+	.probe = gpio_aggregator_probe,
-+	.remove = gpio_aggregator_remove,
-+	.driver = {
-+		.name = DRV_NAME,
-+		.groups = gpio_aggregator_groups,
-+	},
-+};
-+
-+static int __init gpio_aggregator_init(void)
-+{
-+	return platform_driver_register(&gpio_aggregator_driver);
-+}
-+module_init(gpio_aggregator_init);
-+
-+static int __exit gpio_aggregator_idr_remove(int id, void *p, void *data)
-+{
-+	struct gpio_aggregator *aggr = p;
-+
-+	platform_device_unregister(aggr->pdev);
-+	kfree(aggr);
-+	return 0;
-+}
-+
-+static void __exit gpio_aggregator_exit(void)
-+{
-+	mutex_lock(&gpio_aggregator_lock);
-+	idr_for_each(&gpio_aggregator_idr, gpio_aggregator_idr_remove, NULL);
-+	idr_destroy(&gpio_aggregator_idr);
-+	mutex_unlock(&gpio_aggregator_lock);
-+
-+	platform_driver_unregister(&gpio_aggregator_driver);
-+}
-+module_exit(gpio_aggregator_exit);
-+
-+MODULE_AUTHOR("Geert Uytterhoeven <geert+renesas@glider.be>");
-+MODULE_DESCRIPTION("GPIO Aggregator");
-+MODULE_LICENSE("GPL v2");
--- 
-2.17.1
+I think you're missing the following here:
+
+	if (!drm_lut)
+		return;
+
+You mention below that drm_lut could be passed in as NULL, which would
+cause a segfault here otherwise.
+
+
+> +
+> +	for (i = 0; i < CM2_LUT_SIZE; ++i) {
+> +		const struct drm_color_lut *lut = &drm_lut[i];
+> +
+> +		rcmm->lut.table[i] = drm_color_lut_extract(lut->red, 8) << 16
+> +				   | drm_color_lut_extract(lut->green, 8) << 8
+> +				   | drm_color_lut_extract(lut->blue, 8);
+> +	}
+> +}
+> +
+> +/*
+> + * rcar_cmm_lut_write() - Write to hardware the LUT table entries
+from the
+> + *			  local table.
+> + * @rcmm: Pointer to the CMM device
+> + */
+> +static void rcar_cmm_lut_write(struct rcar_cmm *rcmm)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < CM2_LUT_SIZE; ++i)
+> +		rcar_cmm_write(rcmm, CM2_LUT_TBL(i), rcmm->lut.table[i]);
+> +}
+> +
+> +/*
+> + * rcar_cmm_setup() - Configure the CMM unit.
+> + * @pdev: The platform device associated with the CMM instance
+> + * @config: The CRTC-provided configuration.
+
+I don't think CRTC-provided should be hyphenated like that.
+Perhaps just:
+	"The colour management configuration".
+
+As I don't think who provides the configuration is relevant to the
+actual call.
+
+> + *
+> + * Configure the CMM unit with the CRTC-provided configuration.
+
+s/CRTC-provided/given/
+
+> + * Currently enabling, disabling and programming of the 1-D LUT unit is
+> + * supported.
+> + */
+> +int rcar_cmm_setup(struct platform_device *pdev,
+> +		   const struct rcar_cmm_config *config)
+> +{
+> +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
+> +
+> +	/*
+> +	 * As rcar_cmm_setup() is called by atomic commit tail helper, it might
+> +	 * be called when the CMM is disabled. As we can't program the hardware
+> +	 * in that case, store the configuration internally and apply it when
+> +	 * the CMM will be enabled by the CRTC through rcar_cmm_enable().
+> +	 */
+> +	if (!rcmm->enabled) {
+> +		if (!config->lut.enable)
+> +			return 0;
+> +
+> +		rcar_cmm_lut_extract(rcmm, config->lut.table);
+> +		rcmm->lut.enabled = true;
+> +
+> +		return 0;
+> +	}
+> +
+> +	/* Stop LUT operations if requested. */
+> +	if (!config->lut.enable) {
+> +		if (rcmm->lut.enabled) {
+> +			rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
+> +			rcmm->lut.enabled = false;
+> +		}
+> +
+> +		return 0;
+> +	}
+> +
+> +	/*
+> +	 * Enable LUT and program the new gamma table values.
+> +	 *
+> +	 * FIXME: In order to have stable operations it is required to first
+> +	 * enable the 1D-LUT and then program its table entries. This seems to
+> +	 * contradict what the chip manual reports, and will have to be
+> +	 * reconsidered when implementing support for double buffering.
+> +	 */
+> +	if (!rcmm->lut.enabled) {
+> +		rcar_cmm_write(rcmm, CM2_LUT_CTRL, CM2_LUT_CTRL_LUT_EN);
+> +		rcmm->lut.enabled = true;
+> +	}
+> +
+> +	rcar_cmm_lut_extract(rcmm, config->lut.table);
+> +	rcar_cmm_lut_write(rcmm);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(rcar_cmm_setup);
+> +
+> +/*
+> + * rcar_cmm_enable() - Enable the CMM unit.
+> + * @pdev: The platform device associated with the CMM instance
+> + *
+> + * Enable the CMM unit by enabling the parent clock and enabling the CMM
+> + * components, such as 1-D LUT, if requested.
+> + */
+> +int rcar_cmm_enable(struct platform_device *pdev)
+> +{
+> +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
+> +	int ret;
+> +
+> +	ret = pm_runtime_get_sync(&pdev->dev);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	/* Apply the LUT table values saved at rcar_cmm_setup() time. */
+> +	if (rcmm->lut.enabled) {
+> +		rcar_cmm_write(rcmm, CM2_LUT_CTRL, CM2_LUT_CTRL_LUT_EN);
+> +		rcar_cmm_lut_write(rcmm);
+> +	}
+> +
+> +	rcmm->enabled = true;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(rcar_cmm_enable);
+> +
+> +/*
+> + * rcar_cmm_disable() - Disable the CMM unit.
+> + * @pdev: The platform device associated with the CMM instance
+> + *
+> + * Disable the CMM unit by stopping the parent clock.
+> + */
+> +void rcar_cmm_disable(struct platform_device *pdev)
+> +{
+> +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
+> +
+> +	rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
+> +
+> +	pm_runtime_put(&pdev->dev);
+> +
+> +	rcmm->lut.enabled = false;
+> +	rcmm->enabled = false;
+> +}
+> +EXPORT_SYMBOL_GPL(rcar_cmm_disable);
+> +
+> +/*
+> + * rcar_cmm_init() - Make sure the CMM has probed.
+> + * @pdev: The platform device associated with the CMM instance
+> + *
+> + * Return: 0 if the CMM has probed, -EPROBE_DEFER otherwise
+> + */
+> +int rcar_cmm_init(struct platform_device *pdev)
+> +{
+> +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
+> +
+> +	if (!rcmm)
+> +		return -EPROBE_DEFER;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(rcar_cmm_init);
+> +
+> +static int rcar_cmm_probe(struct platform_device *pdev)
+> +{
+> +	struct rcar_cmm *rcmm;
+> +
+> +	rcmm = devm_kzalloc(&pdev->dev, sizeof(*rcmm), GFP_KERNEL);
+> +	if (!rcmm)
+> +		return -ENOMEM;
+> +	platform_set_drvdata(pdev, rcmm);
+> +
+> +	rcmm->base = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(rcmm->base))
+> +		return PTR_ERR(rcmm->base);
+> +
+> +	pm_runtime_enable(&pdev->dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static int rcar_cmm_remove(struct platform_device *pdev)
+> +{
+> +	pm_runtime_disable(&pdev->dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id rcar_cmm_of_table[] = {
+> +	{ .compatible = "renesas,rcar-gen3-cmm", },
+> +	{ .compatible = "renesas,rcar-gen2-cmm", },
+> +	{ },
+> +};
+> +MODULE_DEVICE_TABLE(of, rcar_cmm_of_table);
+> +
+> +static struct platform_driver rcar_cmm_platform_driver = {
+> +	.probe		= rcar_cmm_probe,
+> +	.remove		= rcar_cmm_remove,
+> +	.driver		= {
+> +		.name	= "rcar-cmm",
+> +		.of_match_table = rcar_cmm_of_table,
+> +	},
+> +};
+> +
+> +module_platform_driver(rcar_cmm_platform_driver);
+> +
+> +MODULE_AUTHOR("Jacopo Mondi <jacopo+renesas@jmondi.org>");
+> +MODULE_DESCRIPTION("Renesas R-Car CMM Driver");
+> +MODULE_LICENSE("GPL v2");
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.h
+b/drivers/gpu/drm/rcar-du/rcar_cmm.h
+> new file mode 100644
+> index 000000000000..15a2c874b6a6
+> --- /dev/null
+> +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.h
+> @@ -0,0 +1,61 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +/*
+> + * rcar_cmm.h -- R-Car Display Unit Color Management Module
+> + *
+> + * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
+> + */
+> +
+> +#ifndef __RCAR_CMM_H__
+> +#define __RCAR_CMM_H__
+> +
+> +#define CM2_LUT_SIZE		256
+> +
+> +struct drm_color_lut;
+> +struct platform_device;
+> +
+> +/**
+> + * struct rcar_cmm_config - CMM configuration
+> + *
+> + * @lut:	1D-LUT configuration
+> + * @lut.enable:	1D-LUT enable flag
+> + * @lut.table:	1D-LUT table entries. Might be set to NULL when the
+CMM has to
+> + *		be re-enabled but not re=programmed.
+
+So lut.table can be NULL ... See comment at rcar_cmm_lut_extract()
+
+> + */
+> +struct rcar_cmm_config {
+> +	struct {
+> +		bool enable;
+> +		struct drm_color_lut *table;
+> +	} lut;
+> +};
+> +
+> +#if IS_ENABLED(CONFIG_DRM_RCAR_CMM)
+> +int rcar_cmm_init(struct platform_device *pdev);
+> +
+> +int rcar_cmm_enable(struct platform_device *pdev);
+> +void rcar_cmm_disable(struct platform_device *pdev);
+> +
+> +int rcar_cmm_setup(struct platform_device *pdev,
+> +		   const struct rcar_cmm_config *config);
+> +#else
+> +static inline int rcar_cmm_init(struct platform_device *pdev)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline int rcar_cmm_enable(struct platform_device *pdev)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline void rcar_cmm_disable(struct platform_device *pdev)
+> +{
+> +}
+> +
+> +static int rcar_cmm_setup(struct platform_device *pdev,
+> +			  const struct rcar_cmm_config *config)
+> +{
+> +	return 0;
+> +}
+> +#endif /* IS_ENABLED(CONFIG_DRM_RCAR_CMM) */
+> +
+> +#endif /* __RCAR_CMM_H__ */
+>
 
