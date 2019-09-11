@@ -2,82 +2,164 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 32F45AFDA7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Sep 2019 15:23:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD2ABAFEF3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Sep 2019 16:39:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727912AbfIKNXE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Sep 2019 09:23:04 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:43273 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727656AbfIKNXE (ORCPT
+        id S1728085AbfIKOji (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Sep 2019 10:39:38 -0400
+Received: from xavier.telenet-ops.be ([195.130.132.52]:33402 "EHLO
+        xavier.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727599AbfIKOjM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Sep 2019 09:23:04 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 050853C04C0;
-        Wed, 11 Sep 2019 15:23:02 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id PbvkNzfcUyt1; Wed, 11 Sep 2019 15:22:56 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 8D3003C0016;
-        Wed, 11 Sep 2019 15:22:56 +0200 (CEST)
-Received: from vmlxhi-070.adit-jv.com (10.72.93.148) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Wed, 11 Sep
- 2019 15:22:56 +0200
-Date:   Wed, 11 Sep 2019 15:22:52 +0200
-From:   veeraiyan chidambaram <external.veeraiyan.c@de.adit-jv.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-CC:     Felipe Balbi <balbi@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        "REE erosca@DE.ADIT-JV.COM" <erosca@DE.ADIT-JV.COM>,
-        Veeraiyan Chidambaram <veeraiyan.chidambaram@in.bosch.com>
-Subject: Re: [PATCH v4 2/3] usb: renesas_usbhs: enable DVSE interrupt
-Message-ID: <20190911132252.GA22580@vmlxhi-070.adit-jv.com>
-References: <1568043974-1236-1-git-send-email-external.veeraiyan.c@de.adit-jv.com>
- <1568043974-1236-2-git-send-email-external.veeraiyan.c@de.adit-jv.com>
- <TYAPR01MB4544C419E30F3D3033086088D8B60@TYAPR01MB4544.jpnprd01.prod.outlook.com>
- <20190910093117.GB9960@vmlxhi-070.adit-jv.com>
- <TYAPR01MB45447960B4D77CB0C01B08BBD8B10@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <TYAPR01MB45447960B4D77CB0C01B08BBD8B10@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.72.93.148]
+        Wed, 11 Sep 2019 10:39:12 -0400
+Received: from ramsan ([84.194.98.4])
+        by xavier.telenet-ops.be with bizsmtp
+        id 0Ef42100105gfCL01Ef4Mu; Wed, 11 Sep 2019 16:39:10 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1i83lv-0006T2-Tj; Wed, 11 Sep 2019 16:39:03 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1i83lv-0003Ou-Qz; Wed, 11 Sep 2019 16:39:03 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH/RFC v2 0/5] gpio: Add GPIO Aggregator Driver
+Date:   Wed, 11 Sep 2019 16:38:53 +0200
+Message-Id: <20190911143858.13024-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello shimoda-san,
+	Hi all,
 
-Thanks a lot for those hints.
-On Wed, Sep 11, 2019 at 02:45:52AM +0000, Yoshihiro Shimoda wrote:
-> Hello Veeraiyan-san,
-> 
-> > From: veeraiyan chidambaram, Sent: Tuesday, September 10, 2019 6:31 PM
-> > 
-> > Hello shimoda-san,
-> > 
-> > Thanks for point out checkpatch warning. After resolving checkpatch warning,
-> > below  checkpatch warning is seen.
-> > 
-> > WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-> > #23:
-> > [1] commit f1407d5c6624 ("usb: renesas_usbhs: Add Renesas USBHS common code")
-> 
-> I checked other commit log, and it seems adding a new line is better like below:
-> 
-> [1] commit f1407d5c6624 ("usb: renesas_usbhs: Add Renesas USBHS common
->     code")
+GPIO controllers are exported to userspace using /dev/gpiochip*
+character devices.  Access control to these devices is provided by
+standard UNIX file system permissions, on an all-or-nothing basis:
+either a GPIO controller is accessible for a user, or it is not.
+Currently no mechanism exists to control access to individual GPIOs.
 
-I have fixed and submitted v5 patch https://patchwork.kernel.org/patch/11141085/.
+Hence this second RFC adds a GPIO driver to aggregate existing GPIOs,
+and expose them as a new gpiochip.  This is useful for implementing
+access control, and assigning a set of GPIOs to a specific user.
+Furthermore, this simplifies and hardens exporting GPIOs to a virtual
+machine, as the VM can just grab the full GPIO controller, and no longer
+needs to care about which GPIOs to grab and which not, reducing the
+attack surface.
 
-Best Regards,
-Veeraiyan Chidambaram
+Changes compared to v1[1]:
+  - Drop "virtual", rename to gpio-aggregator,
+  - Create and use new GPIO Forwarder Helper, to allow sharing code with
+    the GPIO inverter,
+  - Lift limit on the maximum number of GPIOs,
+  - Improve parsing of GPIO specifiers,
+  - Fix modular build.
+
+To do:
+  - Write proper documentation.
+
+Aggregating GPIOs and exposing them as a new gpiochip was suggested in
+response to my proof-of-concept for GPIO virtualization with QEMU[2][3].
+
+Aggregated GPIO controllers are instantiated and destroyed by writing to
+atribute files in sysfs.  Sample session on r8a7791/koelsch:
+
+  - Unbind LEDs from leds-gpio driver:
+
+	echo leds > /sys/bus/platform/drivers/leds-gpio/unbind
+
+  - Create aggregators:
+
+    $ echo e6052000.gpio 19,20 \
+	> /sys/bus/platform/drivers/gpio-aggregator/new_device
+
+    gpio-aggregator.0: gpio 0 => gpio-953 (?)
+    gpio-aggregator.0: gpio 1 => gpio-954 (?)
+    gpiochip_find_base: found new base at 778
+    gpio gpiochip8: (gpio-aggregator.0): added GPIO chardev (254:8)
+    gpiochip_setup_dev: registered GPIOs 778 to 779 on device: gpiochip8 (gpio-aggregator.0)
+
+    $ echo e6052000.gpio 21 e6050000.gpio 20-22 \
+	> /sys/bus/platform/drivers/gpio-aggregator/new_device
+
+    gpio-aggregator.1: gpio 0 => gpio-955 (?)
+    gpio-aggregator.1: gpio 1 => gpio-1012 (?)
+    gpio-aggregator.1: gpio 2 => gpio-1013 (?)
+    gpio-aggregator.1: gpio 3 => gpio-1014 (?)
+    gpiochip_find_base: found new base at 774
+    gpio gpiochip9: (gpio-aggregator.1): added GPIO chardev (254:9)
+    gpiochip_setup_dev: registered GPIOs 774 to 777 on device: gpiochip9 (gpio-aggregator.1)
+
+  - Adjust permissions on /dev/gpiochip[89] (optional)
+
+  - Control LEDs:
+
+    $ gpioset gpiochip8 0=0 1=1	# LED6 OFF, LED7 ON
+    $ gpioset gpiochip8 0=1 1=0	# LED6 ON, LED7 OFF
+    $ gpioset gpiochip9 0=0	# LED8 OFF
+    $ gpioset gpiochip9 0=1	# LED8 ON
+
+  - Destroy aggregators:
+
+    $ echo gpio-aggregator.0 \
+            > /sys/bus/platform/drivers/gpio-aggregator/delete_device
+    $ echo gpio-aggregator.1 \
+            > /sys/bus/platform/drivers/gpio-aggregator/delete_device
+
+Thanks for your comments!
+
+References:
+  - [1] "[PATCH RFC] gpio: Add Virtual Aggregator GPIO Driver"
+        (https://lore.kernel.org/lkml/20190705160536.12047-1-geert+renesas@glider.be/)
+  - [2] "[PATCH QEMU POC] Add a GPIO backend"
+	(https://lore.kernel.org/linux-renesas-soc/20181003152521.23144-1-geert+renesas@glider.be/)
+  - [3] "Getting To Blinky: Virt Edition / Making device pass-through
+	 work on embedded ARM"
+	(https://fosdem.org/2019/schedule/event/vai_getting_to_blinky/)
+
+Geert Uytterhoeven (5):
+  gpio: Export gpiod_{request,free}() to modular GPIO code
+  gpio: Export gpiochip_get_desc() to modular GPIO code
+  gpio: Export gpio_name_to_desc() to modular GPIO code
+  gpio: Add GPIO Forwarder Helper
+  gpio: Add GPIO Aggregator Driver
+
+ drivers/gpio/Kconfig           |  12 ++
+ drivers/gpio/Makefile          |   2 +
+ drivers/gpio/gpio-aggregator.c | 333 +++++++++++++++++++++++++++++++++
+ drivers/gpio/gpiolib-fwd.c     | 272 +++++++++++++++++++++++++++
+ drivers/gpio/gpiolib-fwd.h     |  16 ++
+ drivers/gpio/gpiolib.c         |   6 +-
+ drivers/gpio/gpiolib.h         |   1 +
+ 7 files changed, 641 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpio/gpio-aggregator.c
+ create mode 100644 drivers/gpio/gpiolib-fwd.c
+ create mode 100644 drivers/gpio/gpiolib-fwd.h
+
+-- 
+2.17.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
