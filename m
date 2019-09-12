@@ -2,49 +2,46 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C170B0B24
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Sep 2019 11:19:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 179BDB0B5C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Sep 2019 11:28:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730702AbfILJTj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Sep 2019 05:19:39 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:53404 "EHLO
+        id S1730434AbfILJ2B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Sep 2019 05:28:01 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53486 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730697AbfILJTj (ORCPT
+        with ESMTP id S1730218AbfILJ2B (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Sep 2019 05:19:39 -0400
+        Thu, 12 Sep 2019 05:28:01 -0400
 Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 999C933A;
-        Thu, 12 Sep 2019 11:19:33 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7B47C33A;
+        Thu, 12 Sep 2019 11:27:57 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1568279975;
-        bh=yVCvYCZZbPxG0tkBqHv6UMSt42gUfp0M7InihfE/bsw=;
+        s=mail; t=1568280478;
+        bh=FgX5shnvhvvsoMnj0Tz1lstVsVd+UPt97RfcttdFqtY=;
         h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=AqYTLRF28dITFTbmjDNlkAbLHUJWyOimtLE658EvBMR8vY3PSvcdGAPOHHr1FMvfR
-         WT/STnAUL1zQllbx7I3cKO3c4NX57PInCgVhHkI6cNszsJU3gcSMfoJxvWVBwntmFn
-         894tu3o/oxIUTdSj61TWMw+sPuGDYSIJHfd74gWk=
+        b=p6WRaHvpSsjpXIhZlIoRBGSPkosld2cPqGztYfu2fELLFxrwckNYbscqpv80weVS+
+         qiA3DVAMgHz3CEFRH3tb7HuFChutStKWCsSo0av+uigAM8h7O/eGWKUPMrOVpRHa9K
+         NaorDvf/+TAz39TX71OPrKtEPz2Mjggvjgju9tJQ=
 Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH v4 6/9] drm: rcar-du: crtc: Enable and disable CMMs
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+Subject: Re: [PATCH v4 5/9] drm: rcar-du: kms: Initialize CMM instances
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         laurent.pinchart@ideasonboard.com, geert@linux-m68k.org,
         horms@verge.net.au, uli+renesas@fpond.eu,
-        VenkataRajesh.Kalakodima@in.bosch.com, airlied@linux.ie,
-        daniel@ffwll.ch, koji.matsuoka.xm@renesas.com, muroya@ksk.co.jp,
-        Harsha.ManjulaMallikarjun@in.bosch.com,
+        VenkataRajesh.Kalakodima@in.bosch.com
+Cc:     airlied@linux.ie, daniel@ffwll.ch, koji.matsuoka.xm@renesas.com,
+        muroya@ksk.co.jp, Harsha.ManjulaMallikarjun@in.bosch.com,
         linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
         linux-kernel@vger.kernel.org
 References: <20190906135436.10622-1-jacopo+renesas@jmondi.org>
- <20190906135436.10622-7-jacopo+renesas@jmondi.org>
- <bc443263-5f20-f022-34c8-1e521243dec1@ideasonboard.com>
- <20190912080720.bn7bmu2o3gacrpf4@uno.localdomain>
+ <20190906135436.10622-6-jacopo+renesas@jmondi.org>
 From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Organization: Ideas on Board
-Message-ID: <a0f0554d-1bb0-fefa-a5d5-a252f7426c36@ideasonboard.com>
-Date:   Thu, 12 Sep 2019 10:19:30 +0100
+Message-ID: <331b5f7c-49fe-1578-8698-0e69c456e995@ideasonboard.com>
+Date:   Thu, 12 Sep 2019 10:27:54 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190912080720.bn7bmu2o3gacrpf4@uno.localdomain>
+In-Reply-To: <20190906135436.10622-6-jacopo+renesas@jmondi.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -55,160 +52,219 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Jacopo,
 
-On 12/09/2019 09:07, Jacopo Mondi wrote:
-> Hi Kieran,
+On 06/09/2019 14:54, Jacopo Mondi wrote:
+> Implement device tree parsing to collect the available CMM instances
+> described by the 'renesas,cmms' property. Associate CMMs with CRTCs and
+> store a mask of active CMMs in the DU group for later enablement.
 > 
-> On Wed, Sep 11, 2019 at 07:40:27PM +0100, Kieran Bingham wrote:
->> Hi Jacopo,
->>
->> On 06/09/2019 14:54, Jacopo Mondi wrote:
->>> Enable/disable the CMM associated with a CRTC at CRTC start and stop
->>> time and enable the CMM unit through the Display Extensional Functions
->>> register at group setup time.
->>>
->>> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
->>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
->>> ---
->>>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c  | 7 +++++++
->>>  drivers/gpu/drm/rcar-du/rcar_du_group.c | 8 ++++++++
->>>  drivers/gpu/drm/rcar-du/rcar_du_regs.h  | 5 +++++
->>>  3 files changed, 20 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
->>> index 23f1d6cc1719..3dac605c3a67 100644
->>> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
->>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
->>> @@ -21,6 +21,7 @@
->>>  #include <drm/drm_plane_helper.h>
->>>  #include <drm/drm_vblank.h>
->>>
->>> +#include "rcar_cmm.h"
->>>  #include "rcar_du_crtc.h"
->>>  #include "rcar_du_drv.h"
->>>  #include "rcar_du_encoder.h"
->>> @@ -619,6 +620,9 @@ static void rcar_du_crtc_stop(struct rcar_du_crtc *rcrtc)
->>>  	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
->>>  		rcar_du_vsp_disable(rcrtc);
->>>
->>> +	if (rcrtc->cmm)
->>> +		rcar_cmm_disable(rcrtc->cmm);
->>> +
->>>  	/*
->>>  	 * Select switch sync mode. This stops display operation and configures
->>>  	 * the HSYNC and VSYNC signals as inputs.
->>> @@ -686,6 +690,9 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
->>>  	}
->>>
->>>  	rcar_du_crtc_start(rcrtc);
->>> +
->>> +	if (rcrtc->cmm)
->>> +		rcar_cmm_enable(rcrtc->cmm);
->>>  }
->>>
->>>  static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
->>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
->>> index 9eee47969e77..25d0fc125d7a 100644
->>> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
->>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
->>> @@ -147,6 +147,14 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
->>>
->>>  	rcar_du_group_setup_pins(rgrp);
->>>
->>> +	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_CMM)) {
->>> +		u32 defr7 = DEFR7_CODE
->>> +			  | (rgrp->cmms_mask & BIT(1) ? DEFR7_CMME1 : 0)
->>> +			  | (rgrp->cmms_mask & BIT(0) ? DEFR7_CMME0 : 0);
->>> +
->>> +		rcar_du_group_write(rgrp, DEFR7, defr7);
->>> +	}
->>> +
->>
->> What's the effect here on platforms with a CMM, but with
->> CONFIG_DRM_RCAR_CMM unset?
->>
->> Will this incorrectly configure the DU ?
->>
->> Will it stall the display if the DU tries to interact with another
->> module which is not enabled?
+> Enforce the probe and suspend/resume ordering of DU and CMM by creating
+> a stateless device link between the two.
 > 
-> I recall I tested that (that's why I had to add stubs for CMM
-> functions, as I had linkage errors otherwise) and thing seems to be
-> fine as the CMM configuration/enblement resolve to an empty function.
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.c  |  6 +++
+>  drivers/gpu/drm/rcar-du/rcar_du_crtc.h  |  2 +
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.h   |  2 +
+>  drivers/gpu/drm/rcar-du/rcar_du_group.h |  2 +
+>  drivers/gpu/drm/rcar-du/rcar_du_kms.c   | 68 +++++++++++++++++++++++++
+>  5 files changed, 80 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> index 2da46e3dc4ae..23f1d6cc1719 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+> @@ -1194,6 +1194,12 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
+>  	if (ret < 0)
+>  		return ret;
+>  
+> +	/* CMM might be disabled for this CRTC. */
+> +	if (rcdu->cmms[swindex]) {
+> +		rcrtc->cmm = rcdu->cmms[swindex];
+> +		rgrp->cmms_mask |= BIT(hwindex % 2);
+> +	}
+> +
 
-Yes, I see the stubs to allow for linkage, but it's the hardware I'm
-concerned about. If it passes the tests and doesn't break then that's
-probably ok ... but I'm really weary that we're enabling a hardware
-pipeline with a disabled component in the middle.
-
-
-> Would you prefer to have this guarded by an #if IS_ENABLED() ?
-
-I don't think we need a compile time conditional, but I'd say it
-probably needs to be more about whether the CMM has actually probed or not
-
-Aha, and I see that in rcar_du_cmm_init() we already do a
-call to rcar_cmm_init(), which if fails will leave rcdu->cmms[i] as
-NULL. So that's catered for, which results in the rgrp->cmms_mask being
-correctly representative of whether there is a CMM connected or not.
-
- ... so I think that means the ...
- "if (rcar_du_has(rcdu, RCAR_DU_FEATURE_CMM))" is somewhat redundant:
-
-
-This could be:
-
-  if (rgrp->cmms_mask) {
-	u32 defr7 = DEFR7_CODE
-		  | (rgrp->cmms_mask & BIT(1) ? DEFR7_CMME1 : 0)
-		  | (rgrp->cmms_mask & BIT(0) ? DEFR7_CMME0 : 0);
-
-  rcar_du_group_write(rgrp, DEFR7, defr7);
-
-Or in fact, if we don't mind writing 0 to DEFR7 when there is no CMM
-(which is safe by the looks of things as DEFR7 is available on all
-platforms), then we can even remove the outer conditional, and leave
-this all up to the ternary operators to write the correct value to the
-defr7.
+Good - this checks out :-D
 
 
-Phew ... net result - your current code *is* safe with the
-CONFIG_DRM_RCAR_CMM option disabled. I'll leave it up to you if you want
-to simplify the code here and remove the RCAR_DU_FEATURE_CMM.
+>  	drm_crtc_helper_add(crtc, &crtc_helper_funcs);
+>  
+>  	/* Start with vertical blanking interrupt reporting disabled. */
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+> index 3b7fc668996f..5f2940c42225 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
+> @@ -39,6 +39,7 @@ struct rcar_du_vsp;
+>   * @vblank_wait: wait queue used to signal vertical blanking
+>   * @vblank_count: number of vertical blanking interrupts to wait for
+>   * @group: CRTC group this CRTC belongs to
+> + * @cmm: CMM associated with this CRTC
+>   * @vsp: VSP feeding video to this CRTC
+>   * @vsp_pipe: index of the VSP pipeline feeding video to this CRTC
+>   * @writeback: the writeback connector
+> @@ -64,6 +65,7 @@ struct rcar_du_crtc {
+>  	unsigned int vblank_count;
+>  
+>  	struct rcar_du_group *group;
+> +	struct platform_device *cmm;
+>  	struct rcar_du_vsp *vsp;
+>  	unsigned int vsp_pipe;
+>  
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> index a00dccc447aa..6316a1c5236c 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
+> @@ -13,6 +13,7 @@
+>  #include <linux/kernel.h>
+>  #include <linux/wait.h>
+>  
+> +#include "rcar_cmm.h"
+>  #include "rcar_du_crtc.h"
+>  #include "rcar_du_group.h"
+>  #include "rcar_du_vsp.h"
+> @@ -86,6 +87,7 @@ struct rcar_du_device {
+>  	struct rcar_du_encoder *encoders[RCAR_DU_OUTPUT_MAX];
+>  
+>  	struct rcar_du_group groups[RCAR_DU_MAX_GROUPS];
+> +	struct platform_device *cmms[RCAR_DU_MAX_CRTCS];
+>  	struct rcar_du_vsp vsps[RCAR_DU_MAX_VSPS];
+>  
+>  	struct {
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.h b/drivers/gpu/drm/rcar-du/rcar_du_group.h
+> index 87950c1f6a52..e9906609c635 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.h
+> @@ -22,6 +22,7 @@ struct rcar_du_device;
+>   * @mmio_offset: registers offset in the device memory map
+>   * @index: group index
+>   * @channels_mask: bitmask of populated DU channels in this group
+> + * @cmms_mask: bitmask of available CMMs in this group
+>   * @num_crtcs: number of CRTCs in this group (1 or 2)
+>   * @use_count: number of users of the group (rcar_du_group_(get|put))
+>   * @used_crtcs: number of CRTCs currently in use
+> @@ -37,6 +38,7 @@ struct rcar_du_group {
+>  	unsigned int index;
+>  
+>  	unsigned int channels_mask;
+> +	unsigned int cmms_mask;
+>  	unsigned int num_crtcs;
+>  	unsigned int use_count;
+>  	unsigned int used_crtcs;
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> index 2dc9caee8767..294630e56992 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+> @@ -17,7 +17,9 @@
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_vblank.h>
+>  
+> +#include <linux/device.h>
+>  #include <linux/of_graph.h>
+> +#include <linux/of_platform.h>
+>  #include <linux/wait.h>
+>  
+>  #include "rcar_du_crtc.h"
+> @@ -614,6 +616,67 @@ static int rcar_du_vsps_init(struct rcar_du_device *rcdu)
+>  	return ret;
+>  }
+>  
+> +static int rcar_du_cmm_init(struct rcar_du_device *rcdu)
+> +{
+> +	const struct device_node *np = rcdu->dev->of_node;
+> +	unsigned int i;
+> +	int cells;
+> +
+> +	cells = of_property_count_u32_elems(np, "renesas,cmms");
+> +	if (cells == -EINVAL)
+> +		return 0;
+> +
+> +	if (cells > rcdu->num_crtcs) {
+> +		dev_err(rcdu->dev,
+> +			"Invalid number of entries in 'renesas,cmms'\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	for (i = 0; i < cells; ++i) {
+> +		struct platform_device *pdev;
+> +		struct device_link *link;
+> +		struct device_node *cmm;
+> +		int ret;
+> +
+> +		cmm = of_parse_phandle(np, "renesas,cmms", i);
+> +		if (IS_ERR(cmm)) {
+> +			dev_err(rcdu->dev,
+> +				"Failed to parse 'renesas,cmms' property\n");
+> +			return PTR_ERR(cmm);
 
-As this RCAR_DU_FEATURE_CMM flag is only checked here, removing it would
-however simplify all of the rcar_du_device_info structures.
+Should we have a -ENOENT exception here somewhere?
 
-So - with or without the _FEATURE_CMM" simplification, this patch looks
-functional and safe so:
+Otherwise I think platforms without a CMM will fail, and new kernels
+with old DTBs would also fail ?
 
+(based on my interpretation in __of_parse_phandle_with_args() that not
+finding a requested phandle returns -ENOENT).
+
+
+Scratch that - I've just seen above with the
+  cells = of_property_count_u32_elems(np, "renesas,cmms");
+
+which will return 0 if this device doesn't have a CMM.
+
+So - this all looks good to me.
 
 Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
 
-> Thanks
->    j
->>
->>
->>>  	if (rcdu->info->gen >= 2) {
->>>  		rcar_du_group_setup_defr8(rgrp);
->>>  		rcar_du_group_setup_didsr(rgrp);
->>> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_regs.h b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
->>> index bc87f080b170..fb9964949368 100644
->>> --- a/drivers/gpu/drm/rcar-du/rcar_du_regs.h
->>> +++ b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
->>> @@ -197,6 +197,11 @@
->>>  #define DEFR6_MLOS1		(1 << 2)
->>>  #define DEFR6_DEFAULT		(DEFR6_CODE | DEFR6_TCNE1)
->>>
->>> +#define DEFR7			0x000ec
->>> +#define DEFR7_CODE		(0x7779 << 16)
->>> +#define DEFR7_CMME1		BIT(6)
->>> +#define DEFR7_CMME0		BIT(4)
->>> +
->>>  /* -----------------------------------------------------------------------------
->>>   * R8A7790-only Control Registers
->>>   */
->>>
->>
+
+
+> +		}
+> +
+> +		if (!of_device_is_available(cmm)) {
+> +			/* It's fine to have a phandle to a non-enabled CMM. */
+> +			of_node_put(cmm);
+> +			continue;
+> +		}
+> +
+> +		pdev = of_find_device_by_node(cmm);
+> +		if (IS_ERR(pdev)) {
+> +			dev_err(rcdu->dev, "No device found for CMM%u\n", i);
+> +			of_node_put(cmm);
+> +			return PTR_ERR(pdev);
+> +		}
+> +
+> +		of_node_put(cmm);
+> +
+> +		ret = rcar_cmm_init(pdev);
+> +		if (ret)
+> +			return ret;
+> +
+> +		link = device_link_add(rcdu->dev, &pdev->dev, DL_FLAG_STATELESS);
+> +		if (!link) {
+> +			dev_err(rcdu->dev,
+> +				"Failed to create device link to CMM%u\n", i);
+> +			return -EINVAL;
+> +		}
+> +
+> +		rcdu->cmms[i] = pdev;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  int rcar_du_modeset_init(struct rcar_du_device *rcdu)
+>  {
+>  	static const unsigned int mmio_offsets[] = {
+> @@ -704,6 +767,11 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
+>  			return ret;
+>  	}
+>  
+> +	/* Initialize the Color Management Modules. */
+> +	ret = rcar_du_cmm_init(rcdu);
+> +	if (ret)
+> +		return ret;> +
+>  	/* Create the CRTCs. */
+>  	for (swindex = 0, hwindex = 0; swindex < rcdu->num_crtcs; ++hwindex) {
+>  		struct rcar_du_group *rgrp;
+> 
 
