@@ -2,72 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB558B0E70
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Sep 2019 14:01:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73C6FB0E7B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Sep 2019 14:03:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731439AbfILMBS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Sep 2019 08:01:18 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:40058 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731472AbfILMBR (ORCPT
+        id S1731530AbfILMDR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Sep 2019 08:03:17 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:54488 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730454AbfILMDR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Sep 2019 08:01:17 -0400
-Received: by mail-lf1-f65.google.com with SMTP id d17so1251205lfa.7
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Sep 2019 05:01:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/+KUaKRozmj9MhbNeHfmxbGBvkbW3cvd5G+N9N9TBXM=;
-        b=GKv1qDnJSNRxPyoVA5mhBQU/+djHCITs/mJgu5UnUu/V/BNM4EkaJxhPIoQiXPK/6/
-         lzdLo397iX1mgkC5aSm7IL420wqfqyVnaCzdcEtSmsZW+iH2325tS3398AJve7mRdaO6
-         JJjRd5w0yJ6BZz60dwRQ/Ec9BkmgWDYRo9beV/fX8pxWTMw4Chp8RAWzA+5+Ln/9hWOz
-         A9A+LBNXviLTBak+0NnUkGKNfaeNfpsaf5/MBd3d8DfGT+bZh0icEpth2XIdJONnM9zW
-         7gyYH+X5olhxuE+AniDlfUtPXF86f++QHrAMjmcK9NyTdnAH0Go252exevHp2OhXVzH3
-         /Vbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/+KUaKRozmj9MhbNeHfmxbGBvkbW3cvd5G+N9N9TBXM=;
-        b=lA2PApii2qSVxU1yw0Ly3MeDpSYQP1onY1FEg6C92TpSoOxULjJGDWEqCzN98EMy7D
-         FQEqsWVeVrKydpzj8Y1DNJkC9am/07ePdDzDW7YR6XwGsmo1HaHnoxKb73SkH3IU2GgV
-         Q1PZT620aeV0U0MEMKhxvRJSZtcI2BFI8QYJrXyplhGCvemZLL73NcNfZQa2uBqajBU3
-         Fr1s7vK85uLOhvWk/G88FyvvmXxNFFr0puXHLjxDb80J+CKEnnY0eKKzx2Q//qe8W6Ee
-         2hTEPjkglO84DJLMkPasBzC4NrExQzEs1O+/AG6iM3Wh1XPJBOk+C+PqgThcIZtL7s1h
-         YIYQ==
-X-Gm-Message-State: APjAAAXrS+FvnHyjW95T7473iGJc5Mtw+mUOtR1raWhfhtbVzEJoRuCZ
-        Jo3nyno36dagmLuFWtgqsgoEv6yDE9DGGrFG2nk0dA==
-X-Google-Smtp-Source: APXvYqz7TmCb0iFOGja4A3HJL4YEW41PboaxDwufY4ujKzw1ClTCCkOCVi7WXFPfX/pILiG588HXmotxuzPvBcWEELg=
-X-Received: by 2002:a19:117:: with SMTP id 23mr27924292lfb.115.1568289675144;
- Thu, 12 Sep 2019 05:01:15 -0700 (PDT)
+        Thu, 12 Sep 2019 08:03:17 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0AA6F33A;
+        Thu, 12 Sep 2019 14:03:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1568289794;
+        bh=C+RrWY0EIzI5LrQTiBgIBlgI6Dg0MAQvhea9e5EBEPE=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=Ak6vkLhQupZNcO+qkxcIatxD/iSDy2C70/jLhCsqnseiK4SHFoC45tx6aA3nfx7YR
+         U18eXzZ1tde21tv9s5JxH0o/H465yLB8BFO7s1blMXM9gzMoUpzbTCBXn2PGsxjd7O
+         2kmPb67OFwvQjG9OSeysvhO6JPAiySXo56x55K4w=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH] arm: dts: renesas: r8a77980: Remove r8a77970 DU
+ compatible
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <20190912103734.1879-1-kieran.bingham+renesas@ideasonboard.com>
+ <CAMuHMdWb9qBDZqOs072u_pCRTaGGArAdUBLWbA5kGoU=KM4Y3A@mail.gmail.com>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <4ecb7e77-45e7-cf91-c8e3-0670d7ae25a7@ideasonboard.com>
+Date:   Thu, 12 Sep 2019 13:03:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190827093927.GB8443@mwanda>
-In-Reply-To: <20190827093927.GB8443@mwanda>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 12 Sep 2019 13:01:03 +0100
-Message-ID: <CACRpkdbG0bz40U8qFSvi6ds-8XiUSX+yj1uC4XynyAfJWfantA@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: sh-pfc: Unlock on error in sh_pfc_func_set_mux()
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        kernel-janitors@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAMuHMdWb9qBDZqOs072u_pCRTaGGArAdUBLWbA5kGoU=KM4Y3A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Aug 27, 2019 at 10:39 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+Hi Geert,
 
-> We need to unlock and enable IRQs before we return on this error path.
->
-> Fixes: 8a0cc47ccc7c ("pinctrl: sh-pfc: Rollback to mux if required when the gpio is freed")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+On 12/09/2019 12:56, Geert Uytterhoeven wrote:
+> On Thu, Sep 12, 2019 at 12:38 PM Kieran Bingham
+> <kieran.bingham+renesas@ideasonboard.com> wrote:
+>> The r8a77970 was added with an compatible string for a differnet device
+> 
+> different
 
-Applied for v5.4 with the ACKs.
+Also s/an/a/ ... Perhaps I should just step away from the keyboard
+today, I can't seem to type ! hehe
 
-Yours,
-Linus Walleij
+
+>> rather than adding the correct compatible to the driver.
+>>
+>> Remove the unnecessary compatible which is for a different platform.
+>>
+>> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> 
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+>> Please note, this patch should not be integrated until the renesas,du-r8a77980
+>> compatible string makes it into the DU [0].
+> 
+> Hence postponed.
+
+
+Thanks.
+--
+KB
+
+
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+
