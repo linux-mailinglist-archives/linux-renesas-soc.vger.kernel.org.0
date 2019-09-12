@@ -2,98 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C4C63B0A08
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Sep 2019 10:19:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79496B0A7B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Sep 2019 10:38:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726952AbfILITP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Sep 2019 04:19:15 -0400
-Received: from foss.arm.com ([217.140.110.172]:58718 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725775AbfILITO (ORCPT
+        id S1730083AbfILIio (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Sep 2019 04:38:44 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:42794 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726159AbfILIio (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Sep 2019 04:19:14 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 28AC71570;
-        Thu, 12 Sep 2019 01:19:14 -0700 (PDT)
-Received: from localhost (unknown [10.37.6.20])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 943183F71F;
-        Thu, 12 Sep 2019 01:19:13 -0700 (PDT)
-Date:   Thu, 12 Sep 2019 09:19:11 +0100
-From:   Andrew Murray <andrew.murray@arm.com>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+        Thu, 12 Sep 2019 04:38:44 -0400
+Received: by mail-ot1-f65.google.com with SMTP id c10so25283937otd.9;
+        Thu, 12 Sep 2019 01:38:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UqmT1HvR4vLWNY+7igxafksaREtgXv4jug7zkytal8c=;
+        b=NoPBKDuwX1z6ZR0qxn1tk1MTl0pgUw4I4HY3fozT92g7iB1f3/YoqrrfaINobd8zMl
+         q5pZWiqbd4iBf+iaCNyh5r3iA6JUGGxgc6fJdZWAtN5r3erI3YerB2T/eqxqDoAN5MJl
+         CDX6172gehtTD+pTUltm/h+GtgBpHhf6fkojB142JLLtr2VimNuZWqx7uVuQvizyrmj7
+         DZiJ0qQ0EdMiuDXi3qnew9O5wSeusYEsLhm/9YtuEWtunW+kq/xxWeDU8XEWW7Jb1Y/j
+         fNJROjTff9nK0OVpIc3F4JGxtCR0fppx5jMeE/bgyFMyo1XzdQhb/Y5vrIRoiMtyeaqP
+         /YMg==
+X-Gm-Message-State: APjAAAVwQp1EsIaAtBs8FexYEcVxk1OMKMs6Inq/PErkv98G8hYhtTZz
+        740tENQoABUsfciS7TQfgVQERn/PuYGjD6XgKB8=
+X-Google-Smtp-Source: APXvYqwmS/S8Pnl/jmGvW+6EP/j1YUSGZj/y2Dwhu2U29EPvQVhQDHGwxx1c1A+4Xwy3yWzEGu1X0jowl6fn/p52JIs=
+X-Received: by 2002:a9d:12ca:: with SMTP id g68mr615887otg.145.1568277523827;
+ Thu, 12 Sep 2019 01:38:43 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190905150528.20417-1-andrew.murray@arm.com>
+In-Reply-To: <20190905150528.20417-1-andrew.murray@arm.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 12 Sep 2019 10:38:32 +0200
+Message-ID: <CAMuHMdVHO3CHiNTheFvWKJ79p+3YYL6+i4nB9-nymBCorBYCUA@mail.gmail.com>
+Subject: Re: [PATCH] PCI: rcar: Remove unnecessary header include (../pci.h)
+To:     Andrew Murray <andrew.murray@arm.com>
 Cc:     Simon Horman <horms@verge.net.au>,
         Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] PCI: rcar: Remove unnecessary header include (../pci.h)
-Message-ID: <20190912081910.GZ9720@e119886-lin.cambridge.arm.com>
-References: <20190905150528.20417-1-andrew.murray@arm.com>
- <67fb0f5a-1bf1-596a-4012-8ae881220096@ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <67fb0f5a-1bf1-596a-4012-8ae881220096@ideasonboard.com>
-User-Agent: Mutt/1.10.1+81 (426a6c1) (2018-08-26)
+        Bjorn Helgaas <bhelgaas@google.com>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Sep 11, 2019 at 11:33:03PM +0100, Kieran Bingham wrote:
-> Hi Andy!
-> 
-> On 05/09/2019 16:05, Andrew Murray wrote:
-> > Remove unnecessary header include (../pci.h) since it doesn't
-> > provide any needed symbols.
-> 
-> This appears to have been added in 9e2aee80c78d ("PCI: Move private DT
-> related functions into private header")
+On Thu, Sep 5, 2019 at 8:33 PM Andrew Murray <andrew.murray@arm.com> wrote:
+> Remove unnecessary header include (../pci.h) since it doesn't
+> provide any needed symbols.
+>
+> Signed-off-by: Andrew Murray <andrew.murray@arm.com>
 
-Thanks, I never looked back at the history of this.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> 
-> Several other drivers were touched in that commit too.
-> 
-> Have you checked to see if any others can also be cleaned up?
+Gr{oetje,eeting}s,
 
-Yes I went through all the current drivers/pci/host/ files, I believe this
-was the only one.
+                        Geert
 
-> 
->  (I only ask, because I only see this single patch on linux-renesas-soc,
-> my apologies if others are on different lists.)
-> 
-> Regardless of that, this looks fine to me, and passes a cursory compile
-> check.
-> 
-> And I've just tried with pcie-xilinx, and pcie-altera, but both still
-> need this header - so perhaps pcie-rcar was just the odd one out.
-> 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Thanks,
-
-Andrew Murray
-
-> 
-> 
-> > Signed-off-by: Andrew Murray <andrew.murray@arm.com>
-> > ---
-> >  drivers/pci/controller/pcie-rcar.c | 2 --
-> >  1 file changed, 2 deletions(-)
-> > 
-> > diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
-> > index f6a669a9af41..ee1c38c2fac9 100644
-> > --- a/drivers/pci/controller/pcie-rcar.c
-> > +++ b/drivers/pci/controller/pcie-rcar.c
-> > @@ -30,8 +30,6 @@
-> >  #include <linux/pm_runtime.h>
-> >  #include <linux/slab.h>
-> >  
-> > -#include "../pci.h"
-> > -
-> >  #define PCIECAR			0x000010
-> >  #define PCIECCTLR		0x000018
-> >  #define  CONFIG_SEND_ENABLE	BIT(31)
-> > 
-> 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
