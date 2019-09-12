@@ -2,68 +2,164 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 79496B0A7B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Sep 2019 10:38:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0F42B0AB6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Sep 2019 10:56:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730083AbfILIio (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Sep 2019 04:38:44 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:42794 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726159AbfILIio (ORCPT
+        id S1730450AbfILI46 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Sep 2019 04:56:58 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:43641 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730420AbfILI46 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Sep 2019 04:38:44 -0400
-Received: by mail-ot1-f65.google.com with SMTP id c10so25283937otd.9;
-        Thu, 12 Sep 2019 01:38:44 -0700 (PDT)
+        Thu, 12 Sep 2019 04:56:58 -0400
+Received: by mail-lf1-f66.google.com with SMTP id u3so3556785lfl.10
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Sep 2019 01:56:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=O4rNsBBKosmEKuM20N1o+kTVCcH97Bng0NbBw9yNr8E=;
+        b=D3DKMYG24yUN1RDiYO9JGi5OzLJnsDAX1mduveT541WYCPUsRVLNeQV1gqCXQgLQnA
+         hSiysE5eP/ctTfnppUzrQP2sahmP2yiTiw5cgHoArQeUEzOcvqySc7NEkB3mq2JOPbqb
+         juhTRCK1xJvKgjLJjOaw9fyowdFgeNSXBHqzOVPQ3FI71LSnFKfrkfliHRc1JpIqWAv3
+         Iwkq20k06kaGR2jt1/Jec+6iT2dpYsmvt5MP2pWkVLAmxhvqyE+X931w6bdf2z831BDg
+         sDW1oCFvbn/+Q3/cq/Gj6AoYXkHffK4vgwEIVqhmEtZhQTeG31pOB+Je8xQdKsVuPJ7W
+         TUoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=UqmT1HvR4vLWNY+7igxafksaREtgXv4jug7zkytal8c=;
-        b=NoPBKDuwX1z6ZR0qxn1tk1MTl0pgUw4I4HY3fozT92g7iB1f3/YoqrrfaINobd8zMl
-         q5pZWiqbd4iBf+iaCNyh5r3iA6JUGGxgc6fJdZWAtN5r3erI3YerB2T/eqxqDoAN5MJl
-         CDX6172gehtTD+pTUltm/h+GtgBpHhf6fkojB142JLLtr2VimNuZWqx7uVuQvizyrmj7
-         DZiJ0qQ0EdMiuDXi3qnew9O5wSeusYEsLhm/9YtuEWtunW+kq/xxWeDU8XEWW7Jb1Y/j
-         fNJROjTff9nK0OVpIc3F4JGxtCR0fppx5jMeE/bgyFMyo1XzdQhb/Y5vrIRoiMtyeaqP
-         /YMg==
-X-Gm-Message-State: APjAAAVwQp1EsIaAtBs8FexYEcVxk1OMKMs6Inq/PErkv98G8hYhtTZz
-        740tENQoABUsfciS7TQfgVQERn/PuYGjD6XgKB8=
-X-Google-Smtp-Source: APXvYqwmS/S8Pnl/jmGvW+6EP/j1YUSGZj/y2Dwhu2U29EPvQVhQDHGwxx1c1A+4Xwy3yWzEGu1X0jowl6fn/p52JIs=
-X-Received: by 2002:a9d:12ca:: with SMTP id g68mr615887otg.145.1568277523827;
- Thu, 12 Sep 2019 01:38:43 -0700 (PDT)
+        bh=O4rNsBBKosmEKuM20N1o+kTVCcH97Bng0NbBw9yNr8E=;
+        b=TRy60gfMtSrTtAnHjNENYe4r+bUHRa3FI8V1HmoeAeKXkiqhhJDy9VA7GJpIW/fGZu
+         Ib40pSD2r4oAFq5R1rSSWH3KbWMc4bM4r0vBQDVHteqExsrBtW8u0ogyza4F8NzYBUgK
+         fw+HVIW3cqiJFkqMU+Hobho8wDVKB9ixZ6fisBTH9nLc0LyGcC7he2ZOl+Q56EIAFLuq
+         s7ki1iNscTChhJxscKkBiHmr+pxWAYFu1LVm9oTLSfCpyqnJYPdOy4VzawGxf5AaSv95
+         lLTuKxLQlWbpz/8/X0t3m6P4EaFDdaanXG4YPyCuYG8FPsyV56X9uVbW62HUpoxDUFww
+         KxKQ==
+X-Gm-Message-State: APjAAAUsWQ20BrwCrS+NpqAJ1gsAWFjpFvJD970GaGRPBUiIkaMLZsQX
+        P6ECGA/ger9A6SHRXxa9ygmAwxiR7qdv6GoPodnp5g==
+X-Google-Smtp-Source: APXvYqxylrMcLmkUlXrbh6djdas3oUwzeZqQnSvt9y91CIt5cYSOJplKhnz1LXiShn8fiV4G7ad4/5yw3Umgt3fgxhU=
+X-Received: by 2002:a19:48c3:: with SMTP id v186mr27114921lfa.141.1568278614888;
+ Thu, 12 Sep 2019 01:56:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190905150528.20417-1-andrew.murray@arm.com>
-In-Reply-To: <20190905150528.20417-1-andrew.murray@arm.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 12 Sep 2019 10:38:32 +0200
-Message-ID: <CAMuHMdVHO3CHiNTheFvWKJ79p+3YYL6+i4nB9-nymBCorBYCUA@mail.gmail.com>
-Subject: Re: [PATCH] PCI: rcar: Remove unnecessary header include (../pci.h)
-To:     Andrew Murray <andrew.murray@arm.com>
-Cc:     Simon Horman <horms@verge.net.au>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20190705160536.12047-1-geert+renesas@glider.be>
+In-Reply-To: <20190705160536.12047-1-geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 12 Sep 2019 09:56:43 +0100
+Message-ID: <CACRpkdZstL3PMtLN3VCDmHq7vSNdO0Q8Wf1sYb5VnwCMs=0uJQ@mail.gmail.com>
+Subject: Re: [PATCH RFC] gpio: Add Virtual Aggregator GPIO Driver
+To:     Geert Uytterhoeven <geert+renesas@glider.be>, adelva@google.com
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Alexander Graf <agraf@suse.de>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Sep 5, 2019 at 8:33 PM Andrew Murray <andrew.murray@arm.com> wrote:
-> Remove unnecessary header include (../pci.h) since it doesn't
-> provide any needed symbols.
+On Fri, Jul 5, 2019 at 5:05 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+
+> GPIO controllers are exported to userspace using /dev/gpiochip*
+> character devices.  Access control to these devices is provided by
+> standard UNIX file system permissions, on an all-or-nothing basis:
+> either a GPIO controller is accessible for a user, or it is not.
+> Currently no mechanism exists to control access to individual GPIOs.
 >
-> Signed-off-by: Andrew Murray <andrew.murray@arm.com>
+> Hence add a virtual GPIO driver to aggregate existing GPIOs (up to 32),
+> and expose them as a new gpiochip.  This is useful for implementing
+> access control, and assigning a set of GPIOs to a specific user.
+> Furthermore, it would simplify and harden exporting GPIOs to a virtual
+> machine, as the VM can just grab the full virtual GPIO controller, and
+> no longer needs to care about which GPIOs to grab and which not,
+> reducing the attack surface.
+>
+> Virtual GPIO controllers are instantiated by writing to the "new_device"
+> attribute file in sysfs:
+>
+>     $ echo "<gpiochipA> <gpioA1> [<gpioA2> ...]"
+>            "[, <gpiochipB> <gpioB1> [<gpioB2> ...]] ...]"
+>             > /sys/bus/platform/drivers/gpio-virt-agg/new_device
+>
+> Likewise, virtual GPIO controllers can be destroyed after use:
+>
+>     $ echo gpio-virt-agg.<N> \
+>             > /sys/bus/platform/drivers/gpio-virt-agg/delete_device
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> Aggregating GPIOs and exposing them as a new gpiochip was suggested in
+> response to my proof-of-concept for GPIO virtualization with QEMU[1][2].
+>
+> Sample session on r8a7791/koelsch:
+>
+>   - Disable the leds node in arch/arm/boot/dts/r8a7791-koelsch.dts
+>
+>   - Create virtual aggregators:
+>
+>     $ echo "e6052000.gpio 19 20" \
+>             > /sys/bus/platform/drivers/gpio-virt-agg/new_device
+>
+>     gpio-virt-agg gpio-virt-agg.0: GPIO 0 => e6052000.gpio/19
+>     gpio-virt-agg gpio-virt-agg.0: GPIO 1 => e6052000.gpio/20
+>     gpiochip_find_base: found new base at 778
+>     gpio gpiochip8: (gpio-virt-agg.0): added GPIO chardev (254:8)
+>     gpiochip_setup_dev: registered GPIOs 778 to 779 on device: gpiochip8 (gpio-virt-agg.0)
+>
+>     $ echo "e6052000.gpio 21, e6050000.gpio 20 21 22" \
+>             > /sys/bus/platform/drivers/gpio-virt-agg/new_device
+>
+>     gpio-virt-agg gpio-virt-agg.1: GPIO 0 => e6052000.gpio/21
+>     gpio-virt-agg gpio-virt-agg.1: GPIO 1 => e6050000.gpio/20
+>     gpio-virt-agg gpio-virt-agg.1: GPIO 2 => e6050000.gpio/21
+>     gpio-virt-agg gpio-virt-agg.1: GPIO 3 => e6050000.gpio/22
+>     gpiochip_find_base: found new base at 774
+>     gpio gpiochip9: (gpio-virt-agg.1): added GPIO chardev (254:9)
+>     gpiochip_setup_dev: registered GPIOs 774 to 777 on device: gpiochip9 (gpio-virt-agg.1)
+>
+>   - Adjust permissions on /dev/gpiochip[89] (optional)
+>
+>   - Control LEDs:
+>
+>     $ gpioset gpiochip8 0=0 1=1 # LED6 OFF, LED7 ON
+>     $ gpioset gpiochip8 0=1 1=0 # LED6 ON, LED7 OFF
+>     $ gpioset gpiochip9 0=0     # LED8 OFF
+>     $ gpioset gpiochip9 0=1     # LED8 ON
+>
+>   - Destroy virtual aggregators:
+>
+>     $ echo gpio-virt-agg.0 \
+>             > /sys/bus/platform/drivers/gpio-virt-agg/delete_device
+>     $ echo gpio-virt-agg.1 \
+>             > /sys/bus/platform/drivers/gpio-virt-agg/delete_device
+>
+> Thanks for your comments!
+>
+> References:
+>   - [1] "[PATCH QEMU POC] Add a GPIO backend"
+>         (https://lore.kernel.org/linux-renesas-soc/20181003152521.23144-1-geert+renesas@glider.be/)
+>   - [2] "Getting To Blinky: Virt Edition / Making device pass-through
+>          work on embedded ARM"
+>         (https://fosdem.org/2019/schedule/event/vai_getting_to_blinky/)
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+I'm looping in my friends at Google for this discussion.
 
-Gr{oetje,eeting}s,
+They need a virtualized gpio_chip for their Android emulator,
+and their current approach for other devices has been around
+using virtio in most cases and an emulated AC97 for the
+audio case as far as I remember.
 
-                        Geert
+It would be great to have their input on this so we can create a
+virtualization/aggregate that works for all.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Please include adelva@google.com on future postings of this!
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Yours,
+Linus Walleij
