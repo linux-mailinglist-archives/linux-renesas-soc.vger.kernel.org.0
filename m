@@ -2,90 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 52FECB1A63
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Sep 2019 11:04:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65679B1BBB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Sep 2019 12:49:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387536AbfIMJEK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Sep 2019 05:04:10 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:37348 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387513AbfIMJEJ (ORCPT
+        id S2387584AbfIMKtN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Sep 2019 06:49:13 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:49034 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387424AbfIMKtN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Sep 2019 05:04:09 -0400
-Received: from pendragon.ideasonboard.com (bl10-204-24.dsl.telepac.pt [85.243.204.24])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4DFB033A;
-        Fri, 13 Sep 2019 11:04:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1568365447;
-        bh=rBMYwvvqL3UBs1e6XFztfLKo2R8+K/g/9AvBH5KoQa0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZpddhD4Wm8ABiqJwt0ssORXff5gBpf5FQpURY4pipMIeYTH48wsk1C7BKluVcFLPD
-         o997vSNrqnHnVX7h3Bvsr1PmmEL0fW+vae3NDxcXf4ASWNvaxP82EdHYVZ6rCOw30S
-         KUI2lEiRSANkrnCFWRel45Xazuu0hEDEZRFgnB+E=
-Date:   Fri, 13 Sep 2019 12:03:59 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Simon Horman <horms@verge.net.au>
-Cc:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm: rcar-du: Add r8a77980 support
-Message-ID: <20190913090359.GC29992@pendragon.ideasonboard.com>
-References: <20190911192502.16609-1-kieran.bingham+renesas@ideasonboard.com>
- <70b94265-69f3-d18f-1b67-b5b814723b1b@cogentembedded.com>
- <20190913082129.lvusbp6pbcayqh5r@verge.net.au>
+        Fri, 13 Sep 2019 06:49:13 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 8B99C25AEB1;
+        Fri, 13 Sep 2019 20:49:11 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id 79498940513; Fri, 13 Sep 2019 12:49:09 +0200 (CEST)
+Date:   Fri, 13 Sep 2019 12:49:09 +0200
+From:   Simon Horman <horms@verge.net.au>
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Subject: Re: [PATCH 1/2] arm64: dts: renesas: r8a774c0: Create thermal zone
+ to support IPA
+Message-ID: <20190913104909.toczyywsofv4s577@verge.net.au>
+References: <1568364608-46548-1-git-send-email-biju.das@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190913082129.lvusbp6pbcayqh5r@verge.net.au>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1568364608-46548-1-git-send-email-biju.das@bp.renesas.com>
+Organisation: Horms Solutions BV
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
-
-On Fri, Sep 13, 2019 at 10:21:29AM +0200, Simon Horman wrote:
-> On Thu, Sep 12, 2019 at 01:00:41PM +0300, Sergei Shtylyov wrote:
-> > On 11.09.2019 22:25, Kieran Bingham wrote:
-> > 
-> > > Add direct support for the r8a77980 (V3H).
-> > > 
-> > > The V3H shares a common, compatible configuration with the r8a77970
-> > > (V3M) so that device info structure is reused.
-> > 
-> >    Do we really need to add yet another compatible in this case?
-> > I just added r8a77970 to the compatible prop in the r8a77980 DT. That's why
-> > a patch like this one didn't get posted by me.
+On Fri, Sep 13, 2019 at 09:50:07AM +0100, Biju Das wrote:
+> Setup a thermal zone driven by SoC temperature sensor.
+> Create passive trip points and bind them to CPUFreq cooling
+> device that supports power extension.
 > 
-> The reason for having per-SoC compat strings is that the IP blocks
-> are not versioned and while we can observe that there are similarities
-> between, f.e. the DU on the r8a77970 and r8a77980, we can't be certain that
-> differences may not emerge at some point. By having per-SoC compat strings
-> we have the flexibility for the driver to address any such differences as
-> the need arises.
+> Based on the work done by Dien Pham <dien.pham.ry@renesas.com>
+> and others for r8a77990 SoC.
 > 
-> My recollection is that this scheme has been adopted for non-versioned
-> Renesas IP blocks since June 2015 and uses of this scheme well before that.
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
-Sure, but we could use
+Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
 
-	compatible = "renesas,du-r8a77980", "renesas,du-r8a77970";
-
-in DT without updating the driver. If the r8a77980 turns out to be
-different, we'll then update the driver without a need to modify DT. I'm
-fine either way, so
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> > > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> ---
+>  arch/arm64/boot/dts/renesas/r8a774c0.dtsi | 19 ++++++++++++++++---
+>  1 file changed, 16 insertions(+), 3 deletions(-)
 > 
-> Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
-
--- 
-Regards,
-
-Laurent Pinchart
+> diff --git a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
+> index a1c2de9..764df4c 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
+> @@ -73,6 +73,7 @@
+>  			compatible = "arm,cortex-a53";
+>  			reg = <0>;
+>  			device_type = "cpu";
+> +			#cooling-cells = <2>;
+>  			power-domains = <&sysc R8A774C0_PD_CA53_CPU0>;
+>  			next-level-cache = <&L2_CA53>;
+>  			enable-method = "psci";
+> @@ -1905,18 +1906,30 @@
+>  	thermal-zones {
+>  		cpu-thermal {
+>  			polling-delay-passive = <250>;
+> -			polling-delay = <1000>;
+> -			thermal-sensors = <&thermal>;
+> +			polling-delay = <0>;
+> +			thermal-sensors = <&thermal 0>;
+> +			sustainable-power = <717>;
+>  
+>  			cooling-maps {
+> +				map0 {
+> +					trip = <&target>;
+> +					cooling-device = <&a53_0 0 2>;
+> +					contribution = <1024>;
+> +				};
+>  			};
+>  
+>  			trips {
+> -				cpu-crit {
+> +				sensor1_crit: sensor1-crit {
+>  					temperature = <120000>;
+>  					hysteresis = <2000>;
+>  					type = "critical";
+>  				};
+> +
+> +				target: trip-point1 {
+> +					temperature = <100000>;
+> +					hysteresis = <2000>;
+> +					type = "passive";
+> +				};
+>  			};
+>  		};
+>  	};
+> -- 
+> 2.7.4
+> 
