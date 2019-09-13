@@ -2,77 +2,153 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B391B1CC6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Sep 2019 14:02:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB31FB1D96
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Sep 2019 14:22:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729143AbfIMMCW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Sep 2019 08:02:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58562 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726771AbfIMMCW (ORCPT
+        id S1728521AbfIMMWC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Sep 2019 08:22:02 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:53332 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726771AbfIMMWC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Sep 2019 08:02:22 -0400
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3842F208C0;
-        Fri, 13 Sep 2019 12:02:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1568376141;
-        bh=f1icbhyLjDTw18ni73/UkubJFKFg7NU5Nz1H8j36deE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=khu/4l2AR5/wD9c4lxk37FnlVEsQufdiq4tIoPbX/mbmqLoivPTrDckQ5K0AM8B/A
-         qGBbzduXGLgm99Tx8CRhEfz9BYzBOFuzbDV/fjA9fO+SOHZ7pEVXjpQTxRa6aCu7Lf
-         0G0jf/JZDmg3q6N7Jg3Xf7CgxeGxsw1F/cOZVYJ0=
-Received: by mail-qt1-f175.google.com with SMTP id n7so33551408qtb.6;
-        Fri, 13 Sep 2019 05:02:21 -0700 (PDT)
-X-Gm-Message-State: APjAAAWJsCZLeG1+zFwOen/Di4KSPc/kq0XPVlICrbrGgz3WxahJ3hP9
-        3aLN6D3Q8O1WI+ohAXyitzADBxbtALjTr2Kc2g==
-X-Google-Smtp-Source: APXvYqxhImx0WCWl6gHAKAv4CO2JaiSe49Yyuisx+y0vlZXmgIej0DwlltGO3tbu29OwjF0BKoB68pGatJWBjYAsUlY=
-X-Received: by 2002:ac8:6941:: with SMTP id n1mr2485052qtr.143.1568376140388;
- Fri, 13 Sep 2019 05:02:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190908120528.9392-1-horms+renesas@verge.net.au>
-In-Reply-To: <20190908120528.9392-1-horms+renesas@verge.net.au>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Fri, 13 Sep 2019 13:02:08 +0100
-X-Gmail-Original-Message-ID: <CAL_JsqLN66LK3=4K9dLtHWd=nOAJ7ofKH6TKp058gqOV32rj8g@mail.gmail.com>
-Message-ID: <CAL_JsqLN66LK3=4K9dLtHWd=nOAJ7ofKH6TKp058gqOV32rj8g@mail.gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: arm: renesas: Convert 'renesas,prr' to json-schema
-To:     Simon Horman <horms+renesas@verge.net.au>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Fri, 13 Sep 2019 08:22:02 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id CBE5625AED5;
+        Fri, 13 Sep 2019 22:21:59 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id BEC26940513; Fri, 13 Sep 2019 14:21:57 +0200 (CEST)
+From:   Simon Horman <horms+renesas@verge.net.au>
+To:     Mark Brown <broonie@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Yoshihiro Kaneko <ykaneko0929@gmail.com>,
-        devicetree@vger.kernel.org,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Simon Horman <horms+renesas@verge.net.au>
+Subject: [PATCH] dt-bindings: hspi: Convert bindings to json-schema
+Date:   Fri, 13 Sep 2019 14:21:51 +0200
+Message-Id: <20190913122151.20264-1-horms+renesas@verge.net.au>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sun, Sep 8, 2019 at 11:14 PM Simon Horman <horms+renesas@verge.net.au> wrote:
->
-> Convert Renesas Product Register bindings documentation to json-schema.
->
-> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
-> ---
-> Based on v5.3-rc1
-> Tested using:
->   make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/arm/renesas,prr.yaml
->
-> v2
-> * Use simple enum for compat values
-> * Drop "" from compat values
-> * Only supply 'maxItems' property to 'reg'
-> ---
->  .../devicetree/bindings/arm/renesas,prr.txt        | 20 -------------
->  .../devicetree/bindings/arm/renesas,prr.yaml       | 35 ++++++++++++++++++++++
->  2 files changed, 35 insertions(+), 20 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/arm/renesas,prr.txt
->  create mode 100644 Documentation/devicetree/bindings/arm/renesas,prr.yaml
+Convert Renesas HSPI bindings documentation to json-schema.
+Also name bindings documentation file according to the compat string
+being documented.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+As a side effect of this change all currently supported/used compat
+strings are listed while no while card compat string is documented.
+This, in my opinion, is desirable as only supported hardware should
+be documented.
+
+Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+---
+Based on v5.3-rc1
+Tested using:
+  make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/spi/renesas,hspi.yaml
+---
+ .../devicetree/bindings/spi/renesas,hspi.yaml      | 54 ++++++++++++++++++++++
+ Documentation/devicetree/bindings/spi/sh-hspi.txt  | 26 -----------
+ 2 files changed, 54 insertions(+), 26 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/spi/renesas,hspi.yaml
+ delete mode 100644 Documentation/devicetree/bindings/spi/sh-hspi.txt
+
+diff --git a/Documentation/devicetree/bindings/spi/renesas,hspi.yaml b/Documentation/devicetree/bindings/spi/renesas,hspi.yaml
+new file mode 100644
+index 000000000000..94a64a33daf4
+--- /dev/null
++++ b/Documentation/devicetree/bindings/spi/renesas,hspi.yaml
+@@ -0,0 +1,54 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/spi/renesas,hspi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas HSPI
++
++maintainers:
++  - Geert Uytterhoeven <geert+renesas@glider.be>
++
++properties:
++  compatible:
++    items:
++      - enum:
++        - renesas,hspi-r8a7778 # R-Car M1A
++        - renesas,hspi-r8a7779 # R-Car H1
++      - const: renesas,hspi
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  '#address-cells':
++    const: 1
++
++  '#size-cells':
++    const: 0
++
++  # Pinctrl properties might be needed, too.
++  # See Documentation/devicetree/bindings/pinctrl/renesas,*.
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - '#address-cells'
++  - '#size-cells'
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    hspi0: spi@fffc7000 {
++        compatible = "renesas,hspi-r8a7778", "renesas,hspi";
++        reg = <0xfffc7000 0x18>;
++        interrupt-parent = <&gic>;
++        interrupts = <0 63 IRQ_TYPE_LEVEL_HIGH>;
++        #address-cells = <1>;
++        #size-cells = <0>;
++    };
++
+diff --git a/Documentation/devicetree/bindings/spi/sh-hspi.txt b/Documentation/devicetree/bindings/spi/sh-hspi.txt
+deleted file mode 100644
+index b9d1e4d11a77..000000000000
+--- a/Documentation/devicetree/bindings/spi/sh-hspi.txt
++++ /dev/null
+@@ -1,26 +0,0 @@
+-Renesas HSPI.
+-
+-Required properties:
+-- compatible       : "renesas,hspi-<soctype>", "renesas,hspi" as fallback.
+-		     Examples with soctypes are:
+-		       - "renesas,hspi-r8a7778" (R-Car M1)
+-		       - "renesas,hspi-r8a7779" (R-Car H1)
+-- reg              : Offset and length of the register set for the device
+-- interrupts       : Interrupt specifier
+-- #address-cells   : Must be <1>
+-- #size-cells      : Must be <0>
+-
+-Pinctrl properties might be needed, too.  See
+-Documentation/devicetree/bindings/pinctrl/renesas,*.
+-
+-Example:
+-
+-	hspi0: spi@fffc7000 {
+-		compatible = "renesas,hspi-r8a7778", "renesas,hspi";
+-		reg = <0xfffc7000 0x18>;
+-		interrupt-parent = <&gic>;
+-		interrupts = <0 63 IRQ_TYPE_LEVEL_HIGH>;
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-	};
+-
+-- 
+2.11.0
+
