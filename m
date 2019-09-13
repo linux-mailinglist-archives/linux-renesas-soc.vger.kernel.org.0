@@ -2,49 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22282B2325
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Sep 2019 17:14:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9557B2364
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Sep 2019 17:30:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403805AbfIMPOi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Sep 2019 11:14:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45654 "EHLO mail.kernel.org"
+        id S1729591AbfIMPaJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Sep 2019 11:30:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52404 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390291AbfIMPOi (ORCPT
+        id S1727452AbfIMPaJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Sep 2019 11:14:38 -0400
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+        Fri, 13 Sep 2019 11:30:09 -0400
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 47AC521479;
-        Fri, 13 Sep 2019 15:14:37 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5A30F20693;
+        Fri, 13 Sep 2019 15:30:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1568387677;
-        bh=3T9Q9sUaLhrkbNUz9itiLI8hNw/bZ4OSEdwwqFawRBk=;
+        s=default; t=1568388608;
+        bh=vTXXCERj5EHh2Nw1YV+UWJhkpIE7vv0OgxkEVMaexeE=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=p0JUzxOljyx5MU0pfObXCYvb4fB/+btO7ZimxmuTiSC5u4FLEd0ktKE1HWv3dgDfF
-         h675iqNGcxZuh1zzO7Qv1DhqItQskQR4IqT9dW5qWj21n29dI+BY50NscSiyPLaZ2y
-         OX5aS0/xsUo/GXuC2Kjodr2Z3qgnfebHz0RYlt0s=
-Received: by mail-qk1-f182.google.com with SMTP id z67so28407579qkb.12;
-        Fri, 13 Sep 2019 08:14:37 -0700 (PDT)
-X-Gm-Message-State: APjAAAU0SVg2Ssrnzy+MUo/5VuqKEKJJCxpCnTnb+rDmQtZ3GmTOvtc0
-        ocISw7MajHWuiTvssz7hz1xeQ9DAuZWAEf7tNQ==
-X-Google-Smtp-Source: APXvYqzq8j/xc7fUp5Hvbk5M34W55dIuuG8GxWSVX3oTzDuxMHC/PvPV6Jj9KhzLVxJdP7bE8uK9xylKTHLsAA7XJUg=
-X-Received: by 2002:a37:682:: with SMTP id 124mr46613503qkg.393.1568387676426;
- Fri, 13 Sep 2019 08:14:36 -0700 (PDT)
+        b=AZV9yT5JdBBFcOow27l2xFJXweHIlWEyk4bCGozjVrLBfkHt352ZDUUDXJ7MHpLOj
+         DltV2a+IKAV6vtfQV4nYSU0nMkDo+bQ1a+cqpWq8xkSYy4m+Ohj0oiVr7b7FWLt1aa
+         msFFprrNl8mt82L5ocWH87WHfLZTKMVri1kRMmes=
+Received: by mail-qk1-f177.google.com with SMTP id w2so5700368qkf.2;
+        Fri, 13 Sep 2019 08:30:08 -0700 (PDT)
+X-Gm-Message-State: APjAAAUheaHzkwOGwKNPzjFoJBlNflbktdgsoAuzcRWmVHFy8MVy4TfD
+        dz3qPQv3FRUMOr9tF3xaDXgKmfktbv0GjQvI9A==
+X-Google-Smtp-Source: APXvYqyeVvSIFeZmtCG6AT/49KUMwZ0DqrPecx1DbAZNlodqn4Fe5C5DL2ahpfIziIkkBqrKNmLLVlw7a94poZxftB8=
+X-Received: by 2002:a05:620a:549:: with SMTP id o9mr9153341qko.223.1568388607580;
+ Fri, 13 Sep 2019 08:30:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190907161634.27378-1-marek.vasut@gmail.com>
-In-Reply-To: <20190907161634.27378-1-marek.vasut@gmail.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Fri, 13 Sep 2019 16:14:24 +0100
-X-Gmail-Original-Message-ID: <CAL_JsqL47dQT-P78j4Ph61fsgA45Ha0AJjDajiMk52yFj++s+g@mail.gmail.com>
-Message-ID: <CAL_JsqL47dQT-P78j4Ph61fsgA45Ha0AJjDajiMk52yFj++s+g@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: Add /soc dma-ranges
+References: <20190907161537.27258-1-marek.vasut@gmail.com>
+In-Reply-To: <20190907161537.27258-1-marek.vasut@gmail.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Fri, 13 Sep 2019 16:29:55 +0100
+X-Gmail-Original-Message-ID: <CAL_JsqKSWD5EOGdvGS7Z8pd6OALRsqxv2GmVLd+9ZoOyPgbr-w@mail.gmail.com>
+Message-ID: <CAL_JsqKSWD5EOGdvGS7Z8pd6OALRsqxv2GmVLd+9ZoOyPgbr-w@mail.gmail.com>
+Subject: Re: [PATCH V2] of: Fix of_empty_ranges_quirk()
 To:     =?UTF-8?B?TWFyZWsgVmHFoXV0?= <marek.vasut@gmail.com>
-Cc:     "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
+Cc:     devicetree@vger.kernel.org,
         Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa@the-dreams.de>, devicetree@vger.kernel.org,
+        Frank Rowand <frowand.list@gmail.com>,
         "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
         <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -53,56 +51,26 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Sep 7, 2019 at 5:16 PM <marek.vasut@gmail.com> wrote:
+On Sat, Sep 7, 2019 at 5:15 PM <marek.vasut@gmail.com> wrote:
 >
 > From: Marek Vasut <marek.vasut+renesas@gmail.com>
 >
-> Add dma-ranges property into /soc node to describe the DMA capabilities
-> of the bus. This is currently needed to translate PCI DMA ranges, which
-> are limited to 32bit addresses.
+> The of_empty_ranges_quirk() returns a mix of boolean and signed integer
+> types, which cannot work well. Replace that with boolean only and fix
+> usage logic in of_translate_one() -- the check should trigger when the
+> ranges are NULL and the quirk is applicable on the hardware.
 
-FYI, I've started working on this problem and issues around
-dma-ranges/dma_mask. Hopefully I'll get some patches out next week.
+Just moving to boolean has seemed like weak justification for this
+churn, but now that I've seen your work on PCI dma-ranges it makes a
+bit more sense.
 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Wolfram Sang <wsa@the-dreams.de>
-> Cc: devicetree@vger.kernel.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> To: linux-arm-kernel@lists.infradead.org
-> ---
-> NOTE: This is needed for the following patches to work correctly:
->       https://patchwork.ozlabs.org/patch/1144870/
->       https://patchwork.ozlabs.org/patch/1144871/
-
-First I'm seeing those... Well, I do have v7 from 2+ years ago...
-
-Not sure if these take into account the new dma_bus_mask, but that
-should simplify solving the issue.
-
-> ---
->  arch/arm64/boot/dts/renesas/r8a7795.dtsi  | 1 +
->  arch/arm64/boot/dts/renesas/r8a7796.dtsi  | 1 +
->  arch/arm64/boot/dts/renesas/r8a77965.dtsi | 1 +
->  3 files changed, 3 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/renesas/r8a7795.dtsi b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
-> index 95deff66eeb6..2102140a6723 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a7795.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
-> @@ -330,6 +330,7 @@
->                 #address-cells = <2>;
->                 #size-cells = <2>;
->                 ranges;
-> +               dma-ranges = <0 0x40000000 0 0x40000000 0 0xc0000000>;
-
-Is the limitation in the bus or the PCI bridge or both? The commit
-message sounds like it's the PCI bridge in which case this is wrong
-(or incomplete). 'dma-ranges' should be on the bus node where the
-restriction/translation exists. For PCI devices, that's the PCI bridge
-node. So a 32-bit only PCI bridge should have a dma-ranges size of
-4GB. If the SoC bus has more restrictions, then that should be in the
-PCI bridge parent assuming that restriction also applies to other
-devices.
+We do have a problem that unlike 'ranges', 'dma-ranges' being missing
+probably needs to be treated as 1:1 translation. I can't really
+picture a case where dma-ranges would be used with a non-translatable
+address. Perhaps a module with optional DMA and the DMA is not hooked
+up. That could be expressed with dma-ranges with a 0 size or a
+different compatible. So your v1 patch was perhaps correct change in
+behavior, but only for dma-ranges. (I've written one that works in
+both cases).
 
 Rob
