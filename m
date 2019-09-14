@@ -2,68 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CA939B2C0A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Sep 2019 17:51:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4218CB2C20
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 14 Sep 2019 18:06:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726871AbfINPvA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 14 Sep 2019 11:51:00 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:32896 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726791AbfINPu7 (ORCPT
+        id S1727089AbfINQGR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 14 Sep 2019 12:06:17 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:33967 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726655AbfINQGR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 14 Sep 2019 11:50:59 -0400
-Received: by mail-wr1-f65.google.com with SMTP id b9so1206722wrs.0;
-        Sat, 14 Sep 2019 08:50:58 -0700 (PDT)
+        Sat, 14 Sep 2019 12:06:17 -0400
+Received: by mail-wr1-f67.google.com with SMTP id a11so25047902wrx.1;
+        Sat, 14 Sep 2019 09:06:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
+        h=from:subject:to:cc:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=778m3utKBTt1vYchtlPsYkKj5vNVb6Yzv/7CVJjEO8Q=;
-        b=HYbPwVq04HkBPUljTz+Bz6kD3q2GFcmF7SEleNcHSYPKPOKfdFWdESfN1rIDDtAM1V
-         jWKoDD1QFJV5bMSR/IImIvlaLy22Q63uR3J1g6+CaT4x8k+esdHhkQSWrLD2WYtipING
-         O8NH3A9cTK3e9cNInegxDwFEsHclQAJiC4iWXRnS5SdzHm0SakdPOiplLalwYM/Xe3XN
-         B545yJWHn9V9lPn6x72hcGX4eldrNyMuEET1A+vslN+KEEm6ACAe29GNjGquY4iWtEV7
-         8KIufgH4Y0NhuE3z6be8BC2uYrxuh0IryY+gHqaucSLgy6LzpFv5aLTFL9kmocjR9z/t
-         iqWA==
+        bh=Fa2EFV1hZz9a/AiipPZCCuOSItuJO4FZtqKzsCDWwAQ=;
+        b=jzH8HqJ/E4+gxm6fgz02cZicx/lDPDDUQ4eU27BU5edJUPPXBvmGDzfJjRBuSwpSX/
+         +Jx7Zop2orm+OQPpEfQqU5bPAXYx2c/cGBxkaEg/DQHwu8FpTWDVgHRT9A6271B7rHRW
+         sGtOxC13zJ2AEijregN5J4r5mkSjp6LU0k0cIeUP03XadT4pYfhhwxqwF++y3w6th3F+
+         qpeOGx4qYK/6901DaevjcYnYDuptm/ZThb+F+s7WWJt9j5zjOeky3ITbWYQJgAeQmScK
+         dyLdPO/1Dx7UuLwSXjjm1xOHoaxQH6IKl7gfNFIQm76PXeieqICg78XdgzlkgknIacdT
+         tZ6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=778m3utKBTt1vYchtlPsYkKj5vNVb6Yzv/7CVJjEO8Q=;
-        b=Mdi2KQN0BltyxwOu5LBQPneIIXSrbjC61CH/H+Sp9CIg7kgCXf0PYbaWZyVxF6x6kd
-         yjgwPviolsd193V+MyfoQtZR0ZTL+DIMHMQiFFYpozIWcKnVa6x5CQkQgejN5oYxIZx3
-         V3f0+Fk9f1gKA+xXhmaFuWLjKoSYs6AxDwu5Q9sGrILXyJFN9If0tQJxTeXXOj4QYKfS
-         V5ayTXsIK9VNDGbLzkFRnfUOFzPCMCrK7/b4CPqad+uEAOZiKUNxXMDnPFJsM53/fmTY
-         n7CNL5TNiVzVYS9Gx6aYPNCDeQSe8rN3RTq3X/Y+ZyoMHP1qWUsXCeSXYMQsm1Xi50ZO
-         7PYg==
-X-Gm-Message-State: APjAAAUI/HOi25aXOpPo5cpmtHCbLgcyEcL1jJQv1HAcIzp65jIeWjM1
-        ecax/haQ7RaeTl8KodUbmi3oqXEb
-X-Google-Smtp-Source: APXvYqwo1Vwe5g2Wrt+XyISdF7+xLZ9yteEIOcNsgHMGadz8yiRXUJofTMQWenDTB4I4hEalMfdnAw==
-X-Received: by 2002:adf:f287:: with SMTP id k7mr3122994wro.206.1568476257321;
-        Sat, 14 Sep 2019 08:50:57 -0700 (PDT)
+        bh=Fa2EFV1hZz9a/AiipPZCCuOSItuJO4FZtqKzsCDWwAQ=;
+        b=eyK+8Zd09Z6nUE3ja9Epx0dRuOunpsRtVBIUeCCaCWwDjbnXesCkQ+gcjE1Z7ObWOu
+         73tke7hTVC3bbFRbRD3byzu4TYreh2NhLS2wPbr7prqy1s7N90i6JOhVgH6KVHXBudXT
+         FMH2GQHQt5vP88umYy6dAJmHp8mnarhQNnu1Rt/avmrrbmYeqFyJd0t1qb/llPkhvgiS
+         4WeHOWqvpHZNrYyRsR8bqUASa9MzFnOaHepMcb6Ibobtcr5qppE5gFyzgYG6V9iQluvX
+         RvZytoLFfrVPshXk6EhJ5YaRFh3vum/5tl/sA/q+M7ISyYaDXNJjsjvL091JK7N2NUvH
+         NVGQ==
+X-Gm-Message-State: APjAAAXQ9rn5t79d1xfV4+EEb/m9hu0SOnAcCzLe/J4Pes/kYa7i9h/x
+        2lzobMUrODe3aUBKJ3AWTaqc5eyM
+X-Google-Smtp-Source: APXvYqyBvBIGv1pNOvSl/9WZIHPgLOXza16KuEBUZcTuNkK0+04fhWHxpEC7UaptojvnTjXS278EmQ==
+X-Received: by 2002:adf:dfc5:: with SMTP id q5mr45876970wrn.142.1568477174298;
+        Sat, 14 Sep 2019 09:06:14 -0700 (PDT)
 Received: from [192.168.1.4] (ip-86-49-35-8.net.upcbroadband.cz. [86.49.35.8])
-        by smtp.gmail.com with ESMTPSA id q14sm67908200wrc.77.2019.09.14.08.50.56
+        by smtp.gmail.com with ESMTPSA id x5sm46294679wrg.69.2019.09.14.09.06.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 14 Sep 2019 08:50:56 -0700 (PDT)
-Subject: Re: [PATCH] arm64: dts: renesas: Add /soc dma-ranges
-To:     Rob Herring <robh@kernel.org>
-Cc:     "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa@the-dreams.de>, devicetree@vger.kernel.org,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>
-References: <20190907161634.27378-1-marek.vasut@gmail.com>
- <CAL_JsqL47dQT-P78j4Ph61fsgA45Ha0AJjDajiMk52yFj++s+g@mail.gmail.com>
+        Sat, 14 Sep 2019 09:06:13 -0700 (PDT)
 From:   Marek Vasut <marek.vasut@gmail.com>
-Message-ID: <2d812f08-cacb-2ef2-8073-f03a22ec4033@gmail.com>
-Date:   Sat, 14 Sep 2019 17:50:55 +0200
+Subject: Re: [PATCH] arm64: dts: renesas: Add /soc dma-ranges
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20190907161634.27378-1-marek.vasut@gmail.com>
+ <CAMuHMdXVhtE5Jmpu8QYv+P8pGtegr4MGhNGRwy4Y1wRQYmL2_Q@mail.gmail.com>
+Message-ID: <f1b11b42-99ee-0484-550e-8758ec6fa559@gmail.com>
+Date:   Sat, 14 Sep 2019 17:53:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqL47dQT-P78j4Ph61fsgA45Ha0AJjDajiMk52yFj++s+g@mail.gmail.com>
+In-Reply-To: <CAMuHMdXVhtE5Jmpu8QYv+P8pGtegr4MGhNGRwy4Y1wRQYmL2_Q@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -72,42 +71,17 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 9/13/19 5:14 PM, Rob Herring wrote:
-> On Sat, Sep 7, 2019 at 5:16 PM <marek.vasut@gmail.com> wrote:
->>
->> From: Marek Vasut <marek.vasut+renesas@gmail.com>
+On 9/9/19 1:18 PM, Geert Uytterhoeven wrote:
+> Hi Marek,
+
+Hi,
+
+> On Sat, Sep 7, 2019 at 6:16 PM Marek Vasut wrote:
 >>
 >> Add dma-ranges property into /soc node to describe the DMA capabilities
 >> of the bus. This is currently needed to translate PCI DMA ranges, which
 >> are limited to 32bit addresses.
 > 
-> FYI, I've started working on this problem and issues around
-> dma-ranges/dma_mask. Hopefully I'll get some patches out next week.
-
-Thanks
-
->> ---
->> NOTE: This is needed for the following patches to work correctly:
->>       https://patchwork.ozlabs.org/patch/1144870/
->>       https://patchwork.ozlabs.org/patch/1144871/
-> 
-> First I'm seeing those... Well, I do have v7 from 2+ years ago...
-
-Right, this issue was dragging on for a very long time.
-
-> Not sure if these take into account the new dma_bus_mask, but that
-> should simplify solving the issue.
-
-What's that about ?
-
->> ---
->>  arch/arm64/boot/dts/renesas/r8a7795.dtsi  | 1 +
->>  arch/arm64/boot/dts/renesas/r8a7796.dtsi  | 1 +
->>  arch/arm64/boot/dts/renesas/r8a77965.dtsi | 1 +
->>  3 files changed, 3 insertions(+)
->>
->> diff --git a/arch/arm64/boot/dts/renesas/r8a7795.dtsi b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
->> index 95deff66eeb6..2102140a6723 100644
 >> --- a/arch/arm64/boot/dts/renesas/r8a7795.dtsi
 >> +++ b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
 >> @@ -330,6 +330,7 @@
@@ -116,25 +90,13 @@ What's that about ?
 >>                 ranges;
 >> +               dma-ranges = <0 0x40000000 0 0x40000000 0 0xc0000000>;
 > 
-> Is the limitation in the bus or the PCI bridge or both? The commit
-> message sounds like it's the PCI bridge in which case this is wrong
-> (or incomplete).
+> Shouldn't the length be 0x80000000 (for all SoCs)?
 
-I believe it is the PCI bridge too.
+Or should that match the amount of DRAM below 32bit boundary ?
 
-> 'dma-ranges' should be on the bus node where the
-> restriction/translation exists. For PCI devices, that's the PCI bridge
-> node. So a 32-bit only PCI bridge should have a dma-ranges size of
-> 4GB. If the SoC bus has more restrictions, then that should be in the
-> PCI bridge parent assuming that restriction also applies to other
-> devices.
+> Or should we allow DMA to internal System RAM, too?
 
-Would that mean the dma-ranges for /soc/pcie@fe000000/ [1], which is
-already present in the DTSi, is the one that should be used to determine
-the controller limitations ?
-
-[1]
-https://elixir.bootlin.com/linux/v5.3-rc8/source/arch/arm64/boot/dts/renesas/r8a7795.dtsi#L2653
+I think we should include SRAM, yes.
 
 -- 
 Best regards,
