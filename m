@@ -2,154 +2,267 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 11B1BB35FE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Sep 2019 09:55:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC433B37D1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Sep 2019 12:08:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725866AbfIPHy7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Sep 2019 03:54:59 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:51770 "EHLO
+        id S1727978AbfIPKI0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Sep 2019 06:08:26 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:55558 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726312AbfIPHy7 (ORCPT
+        with ESMTP id S1725865AbfIPKI0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Sep 2019 03:54:59 -0400
+        Mon, 16 Sep 2019 06:08:26 -0400
 Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 5549D25B705;
-        Mon, 16 Sep 2019 17:54:56 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 6B73325B705;
+        Mon, 16 Sep 2019 20:08:22 +1000 (AEST)
 Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id 4E17B944602; Mon, 16 Sep 2019 09:54:54 +0200 (CEST)
-Date:   Mon, 16 Sep 2019 09:54:54 +0200
-From:   Simon Horman <horms@verge.net.au>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Mark Brown <broonie@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        id 60F19944602; Mon, 16 Sep 2019 12:08:20 +0200 (CEST)
+From:   Simon Horman <horms+renesas@verge.net.au>
+To:     Zhang Rui <rui.zhang@intel.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Magnus Damm <magnus.damm@gmail.com>,
         Yoshihiro Kaneko <ykaneko0929@gmail.com>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] dt-bindings: hspi: Convert bindings to json-schema
-Message-ID: <20190916075454.ab7cg5icp72sa6qx@verge.net.au>
-References: <20190913122151.20264-1-horms+renesas@verge.net.au>
- <CAL_JsqKEym4i74AuTFvawBaB0_zBeh5KcBOY_OFheUV1oF4yEg@mail.gmail.com>
+        linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Simon Horman <horms+renesas@verge.net.au>
+Subject: [PATCH] dt-bindings: thermal: rcar-thermal: convert bindings to json-schema
+Date:   Mon, 16 Sep 2019 12:07:17 +0200
+Message-Id: <20190916100717.31472-1-horms+renesas@verge.net.au>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAL_JsqKEym4i74AuTFvawBaB0_zBeh5KcBOY_OFheUV1oF4yEg@mail.gmail.com>
-Organisation: Horms Solutions BV
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Sep 13, 2019 at 03:22:10PM -0500, Rob Herring wrote:
-> On Fri, Sep 13, 2019 at 7:22 AM Simon Horman <horms+renesas@verge.net.au> wrote:
-> >
-> > Convert Renesas HSPI bindings documentation to json-schema.
-> > Also name bindings documentation file according to the compat string
-> > being documented.
-> >
-> > As a side effect of this change all currently supported/used compat
-> > strings are listed while no while card compat string is documented.
-> > This, in my opinion, is desirable as only supported hardware should
-> > be documented.
-> >
-> > Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+Convert Renesas R-Car Thermal bindings documentation to json-schema.
+Also name bindings documentation file according to the compat string
+being documented.
 
-Hi Rob,
+As a side effect of this change all currently supported/used compat
+strings are listed while no while card compat string is documented.
+This, in my opinion, is desirable as only supported hardware should
+be documented.
 
-thanks for your review. I have sent v2 which I believe addresses
-the issues you have raised.
+Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+---
+Based on v5.3-rc1
+Tested using:
+  ARCH=arm make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/thermal/renesas,rcar-thermal.yaml
+---
+ .../devicetree/bindings/thermal/rcar-thermal.txt   |  78 ---------------
+ .../bindings/thermal/renesas,rcar-thermal.yaml     | 110 +++++++++++++++++++++
+ 2 files changed, 110 insertions(+), 78 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/thermal/rcar-thermal.txt
+ create mode 100644 Documentation/devicetree/bindings/thermal/renesas,rcar-thermal.yaml
 
-> > ---
-> > Based on v5.3-rc1
-> > Tested using:
-> >   make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/spi/renesas,hspi.yaml
-> > ---
-> >  .../devicetree/bindings/spi/renesas,hspi.yaml      | 54 ++++++++++++++++++++++
-> >  Documentation/devicetree/bindings/spi/sh-hspi.txt  | 26 -----------
-> >  2 files changed, 54 insertions(+), 26 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/spi/renesas,hspi.yaml
-> >  delete mode 100644 Documentation/devicetree/bindings/spi/sh-hspi.txt
-> >
-> > diff --git a/Documentation/devicetree/bindings/spi/renesas,hspi.yaml b/Documentation/devicetree/bindings/spi/renesas,hspi.yaml
-> > new file mode 100644
-> > index 000000000000..94a64a33daf4
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/spi/renesas,hspi.yaml
-> > @@ -0,0 +1,54 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/spi/renesas,hspi.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Renesas HSPI
-> > +
-> > +maintainers:
-> > +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> 
-> Add:
-> 
-> allOf:
->   - $ref: spi-controller.yaml#
-> 
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - enum:
-> > +        - renesas,hspi-r8a7778 # R-Car M1A
-> > +        - renesas,hspi-r8a7779 # R-Car H1
-> > +      - const: renesas,hspi
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> 
-> > +  '#address-cells':
-> > +    const: 1
-> > +
-> > +  '#size-cells':
-> > +    const: 0
-> 
-> And then these 2 can be dropped.
-> 
-> > +
-> > +  # Pinctrl properties might be needed, too.
-> > +  # See Documentation/devicetree/bindings/pinctrl/renesas,*.
-> 
-> If only a single state, you don't. For multiple states, we need to
-> document the names.
-> 
-> If not present, then they get added automagically so that
-> 'additionalProperties: false' works. But you can't use that here as
-> you'll have child nodes.
-> 
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - '#address-cells'
-> > +  - '#size-cells'
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > +
-> > +    hspi0: spi@fffc7000 {
-> > +        compatible = "renesas,hspi-r8a7778", "renesas,hspi";
-> > +        reg = <0xfffc7000 0x18>;
-> > +        interrupt-parent = <&gic>;
-> > +        interrupts = <0 63 IRQ_TYPE_LEVEL_HIGH>;
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +    };
-> > +
-> 
+diff --git a/Documentation/devicetree/bindings/thermal/rcar-thermal.txt b/Documentation/devicetree/bindings/thermal/rcar-thermal.txt
+deleted file mode 100644
+index 196112d23b1e..000000000000
+--- a/Documentation/devicetree/bindings/thermal/rcar-thermal.txt
++++ /dev/null
+@@ -1,78 +0,0 @@
+-* Renesas R-Car Thermal
+-
+-Required properties:
+-- compatible		: "renesas,thermal-<soctype>",
+-			   "renesas,rcar-gen2-thermal" (with thermal-zone) or
+-			   "renesas,rcar-thermal" (without thermal-zone) as
+-                           fallback except R-Car V3M/E3/D3 and RZ/G2E.
+-			  Examples with soctypes are:
+-			    - "renesas,thermal-r8a73a4" (R-Mobile APE6)
+-			    - "renesas,thermal-r8a7743" (RZ/G1M)
+-			    - "renesas,thermal-r8a7744" (RZ/G1N)
+-			    - "renesas,thermal-r8a774c0" (RZ/G2E)
+-			    - "renesas,thermal-r8a7779" (R-Car H1)
+-			    - "renesas,thermal-r8a7790" (R-Car H2)
+-			    - "renesas,thermal-r8a7791" (R-Car M2-W)
+-			    - "renesas,thermal-r8a7792" (R-Car V2H)
+-			    - "renesas,thermal-r8a7793" (R-Car M2-N)
+-			    - "renesas,thermal-r8a77970" (R-Car V3M)
+-			    - "renesas,thermal-r8a77990" (R-Car E3)
+-			    - "renesas,thermal-r8a77995" (R-Car D3)
+-- reg			: Address range of the thermal registers.
+-			  The 1st reg will be recognized as common register
+-			  if it has "interrupts".
+-
+-Option properties:
+-
+-- interrupts		: If present should contain 3 interrupts for
+-                          R-Car V3M/E3/D3 and RZ/G2E or 1 interrupt otherwise.
+-
+-Example (non interrupt support):
+-
+-thermal@ffc48000 {
+-	compatible = "renesas,thermal-r8a7779", "renesas,rcar-thermal";
+-	reg = <0xffc48000 0x38>;
+-};
+-
+-Example (interrupt support):
+-
+-thermal@e61f0000 {
+-	compatible = "renesas,thermal-r8a73a4", "renesas,rcar-thermal";
+-	reg = <0xe61f0000 0x14
+-		0xe61f0100 0x38
+-		0xe61f0200 0x38
+-		0xe61f0300 0x38>;
+-	interrupts = <0 69 IRQ_TYPE_LEVEL_HIGH>;
+-};
+-
+-Example (with thermal-zone):
+-
+-thermal-zones {
+-	cpu_thermal: cpu-thermal {
+-		polling-delay-passive	= <1000>;
+-		polling-delay		= <5000>;
+-
+-		thermal-sensors = <&thermal>;
+-
+-		trips {
+-			cpu-crit {
+-				temperature	= <115000>;
+-				hysteresis	= <0>;
+-				type		= "critical";
+-			};
+-		};
+-		cooling-maps {
+-		};
+-	};
+-};
+-
+-thermal: thermal@e61f0000 {
+-	compatible =	"renesas,thermal-r8a7790",
+-			"renesas,rcar-gen2-thermal",
+-			"renesas,rcar-thermal";
+-	reg = <0 0xe61f0000 0 0x14>, <0 0xe61f0100 0 0x38>;
+-	interrupts = <0 69 IRQ_TYPE_LEVEL_HIGH>;
+-	clocks = <&mstp5_clks R8A7790_CLK_THERMAL>;
+-	power-domains = <&cpg_clocks>;
+-	#thermal-sensor-cells = <0>;
+-};
+diff --git a/Documentation/devicetree/bindings/thermal/renesas,rcar-thermal.yaml b/Documentation/devicetree/bindings/thermal/renesas,rcar-thermal.yaml
+new file mode 100644
+index 000000000000..ab4cc3c35410
+--- /dev/null
++++ b/Documentation/devicetree/bindings/thermal/renesas,rcar-thermal.yaml
+@@ -0,0 +1,110 @@
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/thermal/renesas,rcar-thermal.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas R-Car Thermal
++
++maintainers:
++  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
++  - Geert Uytterhoeven <geert+renesas@glider.be>
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - renesas,thermal-r8a73a4       # R-Mobile APE6
++              - renesas,thermal-r8a7743       # RZ/G1M
++              - renesas,thermal-r8a7744       # RZ/G1N
++              - renesas,thermal-r8a7779       # R-Car H1
++              - renesas,thermal-r8a774c0      # RZ/G2E
++              - renesas,thermal-r8a77970      # R-Car V3M
++              - renesas,thermal-r8a77990      # R-Car E3
++              - renesas,thermal-r8a77995      # R-Car D3
++          - const: renesas,rcar-thermal       # Without thermal-zone
++
++      - items:
++          - enum:
++              - renesas,thermal-r8a7790       # R-Car H2
++              - renesas,thermal-r8a7791       # R-Car M2-W
++              - renesas,thermal-r8a7792       # R-Car V2H
++              - renesas,thermal-r8a7793       # R-Car M2-N
++          - const: renesas,rcar-gen2-thermal  # With thermal-zone
++          - const: renesas,rcar-thermal       # Without thermal-zone
++
++  reg:
++    # Address range of the thermal registers.
++    # The 1st reg will be recognized as common register if it has "interrupts".
++    minItems: 1
++
++  interrupts:
++    # If present should contain 3 interrupts for R-Car V3M/E3/D3 and RZ/G2E,
++    # otherwise 1 interrupt.
++    minItems: 1
++    maxItems: 3
++
++  clocks:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++
++examples :
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/clock/r8a7790-clock.h>
++
++ # Example (non interrupt support):
++  - |
++    thermal@ffc48000 {
++        compatible = "renesas,thermal-r8a7779", "renesas,rcar-thermal";
++        reg = <0xffc48000 0x38>;
++    };
++
++  # Example (interrupt support):
++  - |
++    thermal@e61f0000 {
++        compatible = "renesas,thermal-r8a73a4", "renesas,rcar-thermal";
++        reg = <0xe61f0000 0x14
++               0xe61f0100 0x38
++               0xe61f0200 0x38
++               0xe61f0300 0x38>;
++        interrupts = <0 69 IRQ_TYPE_LEVEL_HIGH>;
++    };
++
++  # Example (with thermal-zone):
++  - |
++    thermal-zones {
++        cpu_thermal: cpu-thermal {
++            polling-delay-passive = <1000>;
++            polling-delay = <5000>;
++
++            thermal-sensors = <&thermal>;
++
++            trips {
++                cpu-crit {
++                    temperature = <115000>;
++                    hysteresis = <0>;
++                    type = "critical";
++                };
++            };
++            cooling-maps {
++            };
++        };
++    };
++
++    thermal: thermal@e61f0000 {
++        compatible = "renesas,thermal-r8a7790",
++                     "renesas,rcar-gen2-thermal",
++                     "renesas,rcar-thermal";
++        reg = <0 0xe61f0000 0 0x14>, <0 0xe61f0100 0 0x38>;
++        interrupts = <0 69 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&mstp5_clks R8A7790_CLK_THERMAL>;
++        power-domains = <&cpg_clocks>;
++        #thermal-sensor-cells = <0>;
++    };
+-- 
+2.11.0
+
