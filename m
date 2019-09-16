@@ -2,267 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EC433B37D1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Sep 2019 12:08:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 533C0B3BE8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Sep 2019 15:56:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727978AbfIPKI0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Sep 2019 06:08:26 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:55558 "EHLO
-        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725865AbfIPKI0 (ORCPT
+        id S1727989AbfIPNzw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Sep 2019 09:55:52 -0400
+Received: from mail-eopbgr1300131.outbound.protection.outlook.com ([40.107.130.131]:31068
+        "EHLO APC01-HK2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2388106AbfIPNzv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Sep 2019 06:08:26 -0400
-Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 6B73325B705;
-        Mon, 16 Sep 2019 20:08:22 +1000 (AEST)
-Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id 60F19944602; Mon, 16 Sep 2019 12:08:20 +0200 (CEST)
-From:   Simon Horman <horms+renesas@verge.net.au>
-To:     Zhang Rui <rui.zhang@intel.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Kaneko <ykaneko0929@gmail.com>,
-        linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Simon Horman <horms+renesas@verge.net.au>
-Subject: [PATCH] dt-bindings: thermal: rcar-thermal: convert bindings to json-schema
-Date:   Mon, 16 Sep 2019 12:07:17 +0200
-Message-Id: <20190916100717.31472-1-horms+renesas@verge.net.au>
-X-Mailer: git-send-email 2.11.0
+        Mon, 16 Sep 2019 09:55:51 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hn2Tl3x5DkmA9mciUJk/Vx8hAtdw1jmsfvc4/jg6kg9pE4V3SirGUC0LqH1oA+5mKCBfuPsXM+S4ty3HA85d2Rn/Vt30x1A+2QMP3/fqOof9/t+ziV+N0dB4VgdPhU8chx3wQ/Q01VQIOzYYcK8BZsrqn8456NcekvnC7BAF8xKuBYmr8PJt1ZgSk0VCk9cQDB0BjnK84PdNdSa7vHVudTIPx2nlgAaL4yYJc1kTwT1q1Mi885yQP2W5H4ROFxuh+uaZm+7OUSkV8xn9Dd+GVi1XyBQzk+/dDMk2e8oUImuPuN7Go7c7MaImMfS0S4ZScAcTEcGWp1Pk+JSKdY4iZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gfkCwFkcq8tReNHrTOn1faXDKvS5YVVzk1uXfTIUVB8=;
+ b=BEiLMu9rKq4SYlumQ3/sC8EgUdHm4etLzxXbjGpGu1u4KdqS3DmIdrkKRUNjxfPFSMXaU+/4hBVzAPgPEWaK62wb6E4mY8HGRlPo81oS2Qy+jbF5WbcQFYm2Bf4DmxdaWiWdejOwdtzDIlu5EopOp2GXaBJbZiONgBTwXaAsvW4xM9S0r7jh2+CowQbKZPPzi1vHXphTPsUXV9VT3D/rqbAq6KXA8OGo5R9sInfKxkgtlI+VIQ64nI7KOuEmiON46QSKvD3FyvSrW3BARDN4A3c61Zc6OQ6l1fGUqxQA59z2MmzTbEQJ9ErEp45RI5DyAwpyC6VcFMQhOQD3zSrvAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gfkCwFkcq8tReNHrTOn1faXDKvS5YVVzk1uXfTIUVB8=;
+ b=oSOoTaz7q5RsAy1LhdXPCxBKvheTycd8Q9hNCuhZAzAvlTmVEy1qZLR+jBUXov8+bIrMKDR5p6VWzVq3ihkbxtRFTEdMlnsR/IWfbOU4Q79FmEsZuOJ2g3yN/lmfRZi/MPSzry9UugbApa6t76mS8zerDznEPIo2uLi7gDYy3mc=
+Received: from TY2PR01MB2924.jpnprd01.prod.outlook.com (20.177.98.81) by
+ TY2PR01MB2604.jpnprd01.prod.outlook.com (20.177.100.143) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2263.17; Mon, 16 Sep 2019 13:55:45 +0000
+Received: from TY2PR01MB2924.jpnprd01.prod.outlook.com
+ ([fe80::7ce4:f502:8430:51a]) by TY2PR01MB2924.jpnprd01.prod.outlook.com
+ ([fe80::7ce4:f502:8430:51a%7]) with mapi id 15.20.2263.023; Mon, 16 Sep 2019
+ 13:55:45 +0000
+From:   Gareth Williams <gareth.williams.jx@renesas.com>
+To:     "laurent.pinchart@ideasonboard.com" 
+        <laurent.pinchart@ideasonboard.com>,
+        "kieran.bingham+renesas@ideasonboard.com" 
+        <kieran.bingham+renesas@ideasonboard.com>
+CC:     "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Phil Edworthy <phil.edworthy@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Subject: DRM Driver implementation question
+Thread-Topic: DRM Driver implementation question
+Thread-Index: AdVslX1ZBzegHzojRVS64lgG04s8jg==
+Date:   Mon, 16 Sep 2019 13:55:45 +0000
+Message-ID: <TY2PR01MB29242CA3B8CBE834A5B0CC48DF8C0@TY2PR01MB2924.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=gareth.williams.jx@renesas.com; 
+x-originating-ip: [193.141.220.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 77e73d7f-9dc0-4037-0885-08d73aad928d
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:TY2PR01MB2604;
+x-ms-traffictypediagnostic: TY2PR01MB2604:|TY2PR01MB2604:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <TY2PR01MB2604388BC49EA2C4B804C4E5DF8C0@TY2PR01MB2604.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-forefront-prvs: 0162ACCC24
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(39860400002)(346002)(136003)(366004)(396003)(376002)(189003)(199004)(9686003)(4744005)(55016002)(33656002)(5660300002)(6436002)(54906003)(186003)(486006)(14454004)(3846002)(476003)(6116002)(110136005)(71200400001)(71190400001)(4326008)(7696005)(8936002)(478600001)(6506007)(25786009)(102836004)(26005)(81166006)(107886003)(66066001)(2906002)(99286004)(8676002)(256004)(86362001)(81156014)(66946007)(3480700005)(76116006)(2501003)(66446008)(66556008)(66476007)(305945005)(64756008)(7736002)(52536014)(74316002)(53936002)(316002);DIR:OUT;SFP:1102;SCL:1;SRVR:TY2PR01MB2604;H:TY2PR01MB2924.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 9ShJkW3AAmsdPZwPfujhJzKzf/0XNpJkReCSEkGv41q3M1vG+jr1hgv5lpm4dY5wWCwqYHbQ/TDlKq4Vz3uKbhxQll6LJ/FovXl85OEuKBDJGWkuMWlBla0jFsKNxf27uNf8+pwpFmm2B83Z8bR01Rtt5I8ik+lOwRqkpdRHIawMi6/roQamozWgqce1pGBpaOnNgUPXB87m3Bx9DIfCaJ3fayuK4D4SttBNfBSe4yMD3aqCJSxq0cB4EXeq2Cgk4k/SOSZ4zCbb9OWmYY9/BbNN9wHOThM/F75So9ESpFny66vS2dk022JzVqmRB2ZOJfgTfKCt1dNws2el9BLaxRhmzXFrLvWmBRyy3ELr4aH4weYkTN+wjL/cj0PlOJmOjfG0OCJBB2NbwdaeCD1sCQjzzAjgNu3MZjIwH4UEhDU=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 77e73d7f-9dc0-4037-0885-08d73aad928d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Sep 2019 13:55:45.5196
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Hc6SQAo0ptW1Zg77KQIHKsu7buYJB0CKRbr49TGlKjkDfD7iJMfo4aDXWVi8qzWyxo2FpG8GBT5nKS+rQxLpV8LCU0S32caD7ma9odcfx+0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB2604
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Convert Renesas R-Car Thermal bindings documentation to json-schema.
-Also name bindings documentation file according to the compat string
-being documented.
+Hi Laurent/Kieran,
 
-As a side effect of this change all currently supported/used compat
-strings are listed while no while card compat string is documented.
-This, in my opinion, is desirable as only supported hardware should
-be documented.
+I need to upstream a driver for a display controller that within its regist=
+ers memory region contains registers related to a PWM device. The PWM devic=
+e is for controlling the backlight of the display.
+Ideally, I would like to create a separated driver for the PWM, so that I c=
+an re-use "pwm-backlight", but since the registers for the PWM are right in=
+ the middle of the registers for the display controller I would need to ior=
+emap the memory region for the PWM registers region twice, once from the di=
+splay controller driver, and once from the PWM driver.
+Do you think that the double ioremap would be acceptable upstream?
 
-Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
----
-Based on v5.3-rc1
-Tested using:
-  ARCH=arm make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/thermal/renesas,rcar-thermal.yaml
----
- .../devicetree/bindings/thermal/rcar-thermal.txt   |  78 ---------------
- .../bindings/thermal/renesas,rcar-thermal.yaml     | 110 +++++++++++++++++++++
- 2 files changed, 110 insertions(+), 78 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/thermal/rcar-thermal.txt
- create mode 100644 Documentation/devicetree/bindings/thermal/renesas,rcar-thermal.yaml
+Kind Regards,
 
-diff --git a/Documentation/devicetree/bindings/thermal/rcar-thermal.txt b/Documentation/devicetree/bindings/thermal/rcar-thermal.txt
-deleted file mode 100644
-index 196112d23b1e..000000000000
---- a/Documentation/devicetree/bindings/thermal/rcar-thermal.txt
-+++ /dev/null
-@@ -1,78 +0,0 @@
--* Renesas R-Car Thermal
--
--Required properties:
--- compatible		: "renesas,thermal-<soctype>",
--			   "renesas,rcar-gen2-thermal" (with thermal-zone) or
--			   "renesas,rcar-thermal" (without thermal-zone) as
--                           fallback except R-Car V3M/E3/D3 and RZ/G2E.
--			  Examples with soctypes are:
--			    - "renesas,thermal-r8a73a4" (R-Mobile APE6)
--			    - "renesas,thermal-r8a7743" (RZ/G1M)
--			    - "renesas,thermal-r8a7744" (RZ/G1N)
--			    - "renesas,thermal-r8a774c0" (RZ/G2E)
--			    - "renesas,thermal-r8a7779" (R-Car H1)
--			    - "renesas,thermal-r8a7790" (R-Car H2)
--			    - "renesas,thermal-r8a7791" (R-Car M2-W)
--			    - "renesas,thermal-r8a7792" (R-Car V2H)
--			    - "renesas,thermal-r8a7793" (R-Car M2-N)
--			    - "renesas,thermal-r8a77970" (R-Car V3M)
--			    - "renesas,thermal-r8a77990" (R-Car E3)
--			    - "renesas,thermal-r8a77995" (R-Car D3)
--- reg			: Address range of the thermal registers.
--			  The 1st reg will be recognized as common register
--			  if it has "interrupts".
--
--Option properties:
--
--- interrupts		: If present should contain 3 interrupts for
--                          R-Car V3M/E3/D3 and RZ/G2E or 1 interrupt otherwise.
--
--Example (non interrupt support):
--
--thermal@ffc48000 {
--	compatible = "renesas,thermal-r8a7779", "renesas,rcar-thermal";
--	reg = <0xffc48000 0x38>;
--};
--
--Example (interrupt support):
--
--thermal@e61f0000 {
--	compatible = "renesas,thermal-r8a73a4", "renesas,rcar-thermal";
--	reg = <0xe61f0000 0x14
--		0xe61f0100 0x38
--		0xe61f0200 0x38
--		0xe61f0300 0x38>;
--	interrupts = <0 69 IRQ_TYPE_LEVEL_HIGH>;
--};
--
--Example (with thermal-zone):
--
--thermal-zones {
--	cpu_thermal: cpu-thermal {
--		polling-delay-passive	= <1000>;
--		polling-delay		= <5000>;
--
--		thermal-sensors = <&thermal>;
--
--		trips {
--			cpu-crit {
--				temperature	= <115000>;
--				hysteresis	= <0>;
--				type		= "critical";
--			};
--		};
--		cooling-maps {
--		};
--	};
--};
--
--thermal: thermal@e61f0000 {
--	compatible =	"renesas,thermal-r8a7790",
--			"renesas,rcar-gen2-thermal",
--			"renesas,rcar-thermal";
--	reg = <0 0xe61f0000 0 0x14>, <0 0xe61f0100 0 0x38>;
--	interrupts = <0 69 IRQ_TYPE_LEVEL_HIGH>;
--	clocks = <&mstp5_clks R8A7790_CLK_THERMAL>;
--	power-domains = <&cpg_clocks>;
--	#thermal-sensor-cells = <0>;
--};
-diff --git a/Documentation/devicetree/bindings/thermal/renesas,rcar-thermal.yaml b/Documentation/devicetree/bindings/thermal/renesas,rcar-thermal.yaml
-new file mode 100644
-index 000000000000..ab4cc3c35410
---- /dev/null
-+++ b/Documentation/devicetree/bindings/thermal/renesas,rcar-thermal.yaml
-@@ -0,0 +1,110 @@
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/thermal/renesas,rcar-thermal.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas R-Car Thermal
-+
-+maintainers:
-+  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
-+  - Geert Uytterhoeven <geert+renesas@glider.be>
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - enum:
-+              - renesas,thermal-r8a73a4       # R-Mobile APE6
-+              - renesas,thermal-r8a7743       # RZ/G1M
-+              - renesas,thermal-r8a7744       # RZ/G1N
-+              - renesas,thermal-r8a7779       # R-Car H1
-+              - renesas,thermal-r8a774c0      # RZ/G2E
-+              - renesas,thermal-r8a77970      # R-Car V3M
-+              - renesas,thermal-r8a77990      # R-Car E3
-+              - renesas,thermal-r8a77995      # R-Car D3
-+          - const: renesas,rcar-thermal       # Without thermal-zone
-+
-+      - items:
-+          - enum:
-+              - renesas,thermal-r8a7790       # R-Car H2
-+              - renesas,thermal-r8a7791       # R-Car M2-W
-+              - renesas,thermal-r8a7792       # R-Car V2H
-+              - renesas,thermal-r8a7793       # R-Car M2-N
-+          - const: renesas,rcar-gen2-thermal  # With thermal-zone
-+          - const: renesas,rcar-thermal       # Without thermal-zone
-+
-+  reg:
-+    # Address range of the thermal registers.
-+    # The 1st reg will be recognized as common register if it has "interrupts".
-+    minItems: 1
-+
-+  interrupts:
-+    # If present should contain 3 interrupts for R-Car V3M/E3/D3 and RZ/G2E,
-+    # otherwise 1 interrupt.
-+    minItems: 1
-+    maxItems: 3
-+
-+  clocks:
-+    maxItems: 1
-+
-+  power-domains:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+
-+examples :
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/clock/r8a7790-clock.h>
-+
-+ # Example (non interrupt support):
-+  - |
-+    thermal@ffc48000 {
-+        compatible = "renesas,thermal-r8a7779", "renesas,rcar-thermal";
-+        reg = <0xffc48000 0x38>;
-+    };
-+
-+  # Example (interrupt support):
-+  - |
-+    thermal@e61f0000 {
-+        compatible = "renesas,thermal-r8a73a4", "renesas,rcar-thermal";
-+        reg = <0xe61f0000 0x14
-+               0xe61f0100 0x38
-+               0xe61f0200 0x38
-+               0xe61f0300 0x38>;
-+        interrupts = <0 69 IRQ_TYPE_LEVEL_HIGH>;
-+    };
-+
-+  # Example (with thermal-zone):
-+  - |
-+    thermal-zones {
-+        cpu_thermal: cpu-thermal {
-+            polling-delay-passive = <1000>;
-+            polling-delay = <5000>;
-+
-+            thermal-sensors = <&thermal>;
-+
-+            trips {
-+                cpu-crit {
-+                    temperature = <115000>;
-+                    hysteresis = <0>;
-+                    type = "critical";
-+                };
-+            };
-+            cooling-maps {
-+            };
-+        };
-+    };
-+
-+    thermal: thermal@e61f0000 {
-+        compatible = "renesas,thermal-r8a7790",
-+                     "renesas,rcar-gen2-thermal",
-+                     "renesas,rcar-thermal";
-+        reg = <0 0xe61f0000 0 0x14>, <0 0xe61f0100 0 0x38>;
-+        interrupts = <0 69 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&mstp5_clks R8A7790_CLK_THERMAL>;
-+        power-domains = <&cpg_clocks>;
-+        #thermal-sensor-cells = <0>;
-+    };
--- 
-2.11.0
-
+Gareth=09
