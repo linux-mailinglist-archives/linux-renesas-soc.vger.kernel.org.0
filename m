@@ -2,127 +2,195 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B243B4D23
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2019 13:46:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F50BB4D69
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2019 14:06:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726776AbfIQLqO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Sep 2019 07:46:14 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:34736 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726207AbfIQLqO (ORCPT
+        id S1726999AbfIQMGx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Sep 2019 08:06:53 -0400
+Received: from mail-pf1-f181.google.com ([209.85.210.181]:44767 "EHLO
+        mail-pf1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726763AbfIQMGx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Sep 2019 07:46:14 -0400
-Received: by mail-oi1-f195.google.com with SMTP id 83so1059391oii.1;
-        Tue, 17 Sep 2019 04:46:13 -0700 (PDT)
+        Tue, 17 Sep 2019 08:06:53 -0400
+Received: by mail-pf1-f181.google.com with SMTP id q21so2028777pfn.11;
+        Tue, 17 Sep 2019 05:06:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=FmaO2hIKfEbiI+f6oV8Mh0M6shwqo+19QJDyKV05Pnw=;
+        b=OvS4ojQBeoC+/4WbqZFZaUwHBZ1lYe6ooi7JevjECbZZn8D6kRDPSYOQwopFlbpSX4
+         ieDN/xAqntB8jvkaNh++lCNmFRFf7aaa5kOEBaiWYIZbuMFascb7Cy9B/OA3IDAenv2q
+         03JXa2gx/TPNlqUmae2/1tLkyZrs/1OAH232IsCHLjGZjH0tGP8K4C6KL6fNo4bpjdZp
+         MHDGnDR+GwDFZzYZsPnm8ZItSzxX74uuWE1ZJbeDgjlinIHQrIXnnCWG+bQvdqQ5BURp
+         1eQ6hmehdzNcIoDyj8CRZtwbSSRxfsa1L9CDoUQztRRmFTScrLOsio8zxOFOP0uRn5/C
+         5j+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iQmgkBy929J7xJM6lySEJ2RGnrP3SzRTLUGUYlBX0sU=;
-        b=HwgNTJDKTl31C35oyunoRdG/Gop/nQwSz5Ly4r4I2HZcql8RRQmube18UeMIy0f3y7
-         v6muIEvnXXb9Z6ClKUcR9uLIvP/GDoWnCOWOi+TPCBXdg8WBRWbiE7SucOFsvc1x8snc
-         W1/HXF/p5Cx9ABpti0Ic2mS+zD+swaNAeNfmEWsTXlClkQOZPAhTMjc5VzeX3k8vsKWA
-         z8lExUfPdBqAmPfWldLYkZYXLseicBJrRtfyN4X9MY+5aSUfuXC49+2RhDRMpci4IM+H
-         HhTITBJXNmG5XBmP2moRfbk7sJyNQOAwVREn2y0UyItRLBPibb6wz/2HGVf7E27915Nh
-         aAQA==
-X-Gm-Message-State: APjAAAUgaWnM5a0tYAA926/f65r9RSGLAviSRiGRsk9yJs9b7OZ/gwj6
-        I+qOq0zUxs+UP4xwpchvI6VFxb+5qINYyzeVw4w=
-X-Google-Smtp-Source: APXvYqzTXjZEVBuKrH039W2b4srrBsE9xr3er4HJXAkLCSJ4cWnd1aTpjOyolHKADv0pTZdfq9cR13pL3FHNTPMA5LY=
-X-Received: by 2002:aca:dad4:: with SMTP id r203mr3338531oig.102.1568720773071;
- Tue, 17 Sep 2019 04:46:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190916100717.31472-1-horms+renesas@verge.net.au>
- <20190917113250.6q4mmyiaa7pdkbeb@verge.net.au> <CAMuHMdUDRdWoe8L49kDAwsv_46UzwKPiNz9WfEQyrX-o7XZhwQ@mail.gmail.com>
- <20190917114112.wh564oqhdmfhkm4u@verge.net.au>
-In-Reply-To: <20190917114112.wh564oqhdmfhkm4u@verge.net.au>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 17 Sep 2019 13:46:02 +0200
-Message-ID: <CAMuHMdWn42tJVVDws+0Hmxajpm9uHH-LrfB1oy4Ct=M-GMJRag@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: thermal: rcar-thermal: convert bindings to json-schema
-To:     Simon Horman <horms@verge.net.au>
-Cc:     Zhang Rui <rui.zhang@intel.com>,
-        Eduardo Valentin <edubezval@gmail.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Kaneko <ykaneko0929@gmail.com>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=FmaO2hIKfEbiI+f6oV8Mh0M6shwqo+19QJDyKV05Pnw=;
+        b=P12C9tVO7UbkAkd68/K7cZqxtZgTPtjuO8xqRoxaGLlHhuQu4yX/Ipzp55QQpLDbmI
+         /FPIVwwvkDqgNAjNtGllF8OY9+JLq0X8fOSzLYjqGljwkfBaSEk9W1uHueO3E/ESopQy
+         15xqQH1V7AMqt2J6MntJKxGz/NuCM+co9olqYWrIL2wa9lhFLGIjZ8nuCrQGMIJs+y9N
+         HlS2YUsDOtZTstU2+TyG4lo6IquAbmq+uddq2AXfKEUbiKpi0W1MNRO2zaN1FHeZkq/b
+         1T4Jgm/5AipNLyj6AzxSm++a2f8CwkyOdxf0nARXhnW7Yk4A1ATO1jGX/Ew97Xjq/mck
+         mcYQ==
+X-Gm-Message-State: APjAAAWXTgFrs6VYFiIJaxOGykij0dcVo74GaihSQAttX17t0G9SUKcs
+        jhezrbJjzeck1uqz2EetxPAP9h85
+X-Google-Smtp-Source: APXvYqxTBZL1mpcWMYnoO/gitpViJQgONQymTcvSiAu7iXlVGtKwTgzG1jJU1jPi74jz9FZOzD12FA==
+X-Received: by 2002:a17:90a:2a4a:: with SMTP id d10mr4596436pjg.72.1568722011592;
+        Tue, 17 Sep 2019 05:06:51 -0700 (PDT)
+Received: from localhost.localdomain (p1607031-ipngn15601marunouchi.tokyo.ocn.ne.jp. [153.204.132.31])
+        by smtp.gmail.com with ESMTPSA id c128sm2494200pfc.166.2019.09.17.05.06.49
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Tue, 17 Sep 2019 05:06:50 -0700 (PDT)
+From:   Yoshihiro Kaneko <ykaneko0929@gmail.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org
+Subject: [PATCH] dt-bindings: irqchip: renesas-irqc: convert bindings to json-schema
+Date:   Tue, 17 Sep 2019 21:06:12 +0900
+Message-Id: <1568721972-24266-1-git-send-email-ykaneko0929@gmail.com>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Simon,
+Convert Renesas Interrupt Controller bindings documentation to json-schema.
 
-On Tue, Sep 17, 2019 at 1:41 PM Simon Horman <horms@verge.net.au> wrote:
-> On Tue, Sep 17, 2019 at 01:37:39PM +0200, Geert Uytterhoeven wrote:
-> > On Tue, Sep 17, 2019 at 1:32 PM Simon Horman <horms@verge.net.au> wrote:
-> > > I missread the original bindings document and somehow missed
-> > > warnings emitted by dtbs_check. I now think the compat property should be
-> > > described as:
-> > >
-> > >   compatible:
-> > >     oneOf:
-> > >       - items:
-> > >           - enum:
-> > >               - renesas,thermal-r8a73a4       # R-Mobile APE6
-> > >               - renesas,thermal-r8a7779       # R-Car H1
-> > >           - const: renesas,rcar-thermal       # Without thermal-zone
-> > >
-> > >       - items:
-> > >           - enum:
-> > >               - renesas,thermal-r8a7790       # R-Car H2
-> > >               - renesas,thermal-r8a7791       # R-Car M2-W
-> > >               - renesas,thermal-r8a7792       # R-Car V2H
-> > >               - renesas,thermal-r8a7793       # R-Car M2-N
-> > >           - const: renesas,rcar-gen2-thermal  # With thermal-zone
-> > >           - const: renesas,rcar-thermal       # Without thermal-zone
-> > >
-> > >       - items:
-> > >           - enum:
-> > >               - renesas,thermal-r8a7743       # RZ/G1M
-> > >               - renesas,thermal-r8a7744       # RZ/G1N
-> > >           - const: renesas,rcar-gen2-thermal  # With thermal-zone
-> > >
-> > >       - items:
-> > >           - enum:
-> > >               - renesas,thermal-r8a774c0      # RZ/G2E
-> > >               - renesas,thermal-r8a77970      # R-Car V3M
-> > >               - renesas,thermal-r8a77990      # R-Car E3
-> > >               - renesas,thermal-r8a77995      # R-Car D3
-> >
-> > Perhaps we should (try to) get rid of the "Without thermal-zone" legacy?
-> > All R-Car Gen2 DTSes received thermal zones a while ago.
-> > R-Mobile APE6 and R-Car H1 still don't have them described, though.
->
-> Do you mean deprecate renesas,rcar-thermal ?
+Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
+---
+ .../bindings/interrupt-controller/renesas,irqc.txt | 48 ----------------
+ .../interrupt-controller/renesas,irqc.yaml         | 64 ++++++++++++++++++++++
+ 2 files changed, 64 insertions(+), 48 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.txt
+ create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.yaml
 
-Exactly.
-
-> If so that sounds reasonable if APE6 and R-Car H1 supports thermal-zones.
-> But I don't feel it belongs in this patch, which aims
-> to translate the documentation from one format to another
-
-OK.
-
-> (perhaps highlighting problems along the way :).
-
-That part has been activated, definitely ;-)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.txt b/Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.txt
+deleted file mode 100644
+index f977ea7..0000000
+--- a/Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.txt
++++ /dev/null
+@@ -1,48 +0,0 @@
+-DT bindings for the R-Mobile/R-Car/RZ/G interrupt controller
+-
+-Required properties:
+-
+-- compatible: must be "renesas,irqc-<soctype>" or "renesas,intc-ex-<soctype>",
+-	      and "renesas,irqc" as fallback.
+-  Examples with soctypes are:
+-    - "renesas,irqc-r8a73a4" (R-Mobile APE6)
+-    - "renesas,irqc-r8a7743" (RZ/G1M)
+-    - "renesas,irqc-r8a7744" (RZ/G1N)
+-    - "renesas,irqc-r8a7745" (RZ/G1E)
+-    - "renesas,irqc-r8a77470" (RZ/G1C)
+-    - "renesas,irqc-r8a7790" (R-Car H2)
+-    - "renesas,irqc-r8a7791" (R-Car M2-W)
+-    - "renesas,irqc-r8a7792" (R-Car V2H)
+-    - "renesas,irqc-r8a7793" (R-Car M2-N)
+-    - "renesas,irqc-r8a7794" (R-Car E2)
+-    - "renesas,intc-ex-r8a774a1" (RZ/G2M)
+-    - "renesas,intc-ex-r8a774c0" (RZ/G2E)
+-    - "renesas,intc-ex-r8a7795" (R-Car H3)
+-    - "renesas,intc-ex-r8a7796" (R-Car M3-W)
+-    - "renesas,intc-ex-r8a77965" (R-Car M3-N)
+-    - "renesas,intc-ex-r8a77970" (R-Car V3M)
+-    - "renesas,intc-ex-r8a77980" (R-Car V3H)
+-    - "renesas,intc-ex-r8a77990" (R-Car E3)
+-    - "renesas,intc-ex-r8a77995" (R-Car D3)
+-- #interrupt-cells: has to be <2>: an interrupt index and flags, as defined in
+-  interrupts.txt in this directory
+-- clocks: Must contain a reference to the functional clock.
+-
+-Optional properties:
+-
+-- any properties, listed in interrupts.txt, and any standard resource allocation
+-  properties
+-
+-Example:
+-
+-	irqc0: interrupt-controller@e61c0000 {
+-		compatible = "renesas,irqc-r8a7790", "renesas,irqc";
+-		#interrupt-cells = <2>;
+-		interrupt-controller;
+-		reg = <0 0xe61c0000 0 0x200>;
+-		interrupts = <0 0 IRQ_TYPE_LEVEL_HIGH>,
+-			     <0 1 IRQ_TYPE_LEVEL_HIGH>,
+-			     <0 2 IRQ_TYPE_LEVEL_HIGH>,
+-			     <0 3 IRQ_TYPE_LEVEL_HIGH>;
+-		clocks = <&mstp4_clks R8A7790_CLK_IRQC>;
+-	};
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.yaml b/Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.yaml
+new file mode 100644
+index 0000000..f08d368
+--- /dev/null
++++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.yaml
+@@ -0,0 +1,64 @@
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/interrupt-controller/renesas,irqc.yaml#
++$schema: http://devicetree.org/meta-schemas/interrupts.yaml#
++
++title: DT bindings for the R-Mobile/R-Car/RZ/G interrupt controller
++
++maintainers:
++  - Geert Uytterhoeven <geert+renesas@glider.be>
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - renesas,irqc-r8a73a4        # R-Mobile APE6
++          - renesas,irqc-r8a7743        # RZ/G1M
++          - renesas,irqc-r8a7744        # RZ/G1N
++          - renesas,irqc-r8a7745        # RZ/G1E
++          - renesas,irqc-r8a77470       # RZ/G1C
++          - renesas,irqc-r8a7790        # R-Car H2
++          - renesas,irqc-r8a7791        # R-Car M2-W
++          - renesas,irqc-r8a7792        # R-Car V2H
++          - renesas,irqc-r8a7793        # R-Car M2-N
++          - renesas,irqc-r8a7794        # R-Car E2
++          - renesas,intc-ex-r8a774a1    # RZ/G2M
++          - renesas,intc-ex-r8a774c0    # RZ/G2E
++          - renesas,intc-ex-r8a7795     # R-Car H3
++          - renesas,intc-ex-r8a7796     # R-Car M3-W
++          - renesas,intc-ex-r8a77965    # R-Car M3-N
++          - renesas,intc-ex-r8a77970    # R-Car V3M
++          - renesas,intc-ex-r8a77980    # R-Car V3H
++          - renesas,intc-ex-r8a77990    # R-Car E3
++          - renesas,intc-ex-r8a77995    # R-Car D3
++      - const: renesas,irqc
++
++  '#interrupt-cells':
++    # an interrupt index and flags, as defined in interrupts.txt in
++    # this directory
++    const: 2
++
++  clocks:
++    maxItems: 1
++
++required:
++  - compatible
++  - '#interrupt-cells'
++  - clocks
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/clock/r8a7790-clock.h>
++
++    irqc0: interrupt-controller@e61c0000 {
++        compatible = "renesas,irqc-r8a7790", "renesas,irqc";
++        #interrupt-cells = <2>;
++        interrupt-controller;
++        reg = <0 0xe61c0000 0 0x200>;
++        interrupts = <0 0 IRQ_TYPE_LEVEL_HIGH>,
++                     <0 1 IRQ_TYPE_LEVEL_HIGH>,
++                     <0 2 IRQ_TYPE_LEVEL_HIGH>,
++                     <0 3 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&mstp4_clks R8A7790_CLK_IRQC>;
++    };
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+1.9.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
