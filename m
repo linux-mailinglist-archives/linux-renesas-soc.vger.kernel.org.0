@@ -2,189 +2,232 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 16DB1B4D90
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2019 14:12:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DBFCB4DC2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2019 14:25:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726434AbfIQMMa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Sep 2019 08:12:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48680 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725270AbfIQMMa (ORCPT
+        id S1727179AbfIQMZv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Sep 2019 08:25:51 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:57045 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725901AbfIQMZu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Sep 2019 08:12:30 -0400
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D7D6C21897;
-        Tue, 17 Sep 2019 12:12:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1568722349;
-        bh=RDClN9OCGGuU7+G+2rLjYnl9jz1nIpTFt72Amd8/fCY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=LuZ++VE/D9AJ8mbTtK/KkyNISsBmSZHXN6ifmSTiKAYCiBROSU0J0ckMZj3ZQMWzI
-         ndlWYUYeQ2p7nfAuvG5vEAVniaSk/zYUkeZbe12vkZ/XFH1uq5NJVmL/NsZiuV3dHT
-         5XaRCJ200q+nK6vnouzS/cuFkdYO0B0/pRcyzU4Q=
-Received: by mail-qt1-f179.google.com with SMTP id n7so4051991qtb.6;
-        Tue, 17 Sep 2019 05:12:28 -0700 (PDT)
-X-Gm-Message-State: APjAAAXih0Q0hRxDWJSzkALG3OtOd4W4H2yXcdgPbCsQOJa6BL5IhI5h
-        dD8//xe0X8vXgjdyA+QkMrljmHZaLCzVd0auEw==
-X-Google-Smtp-Source: APXvYqw8kuSai60gIRHNcfn+daHA+Lff3Kp+JUQbdi1LSo3jFzrqgZ8JxwAPXMflo/hL8fZMfdfCr0eOnqwRm7/FlqA=
-X-Received: by 2002:ac8:100d:: with SMTP id z13mr3252907qti.224.1568722347960;
- Tue, 17 Sep 2019 05:12:27 -0700 (PDT)
+        Tue, 17 Sep 2019 08:25:50 -0400
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1iACY2-00073e-FZ; Tue, 17 Sep 2019 14:25:34 +0200
+Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1iACXy-0007cg-QF; Tue, 17 Sep 2019 14:25:30 +0200
+Date:   Tue, 17 Sep 2019 14:25:30 +0200
+From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Peter Rosin <peda@axentia.se>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Rob Herring <robh@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Will Deacon <will@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux IOMMU <iommu@lists.linux-foundation.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        Sascha Hauer <kernel@pengutronix.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v1 2/2] of: Let of_for_each_phandle fallback to
+ non-negative cell_count
+Message-ID: <20190917122530.3xy7sut3xdvzlomj@pengutronix.de>
+References: <20190824132846.8589-1-u.kleine-koenig@pengutronix.de>
+ <20190824132846.8589-2-u.kleine-koenig@pengutronix.de>
+ <20190913215809.GA11833@bogus>
+ <CAMuHMdV+pwoAA0zH_vQf2nKqzrgHP8rcMStyJbnuu2qviFC_qg@mail.gmail.com>
+ <20190917101303.t5otztdus7y3ayau@pengutronix.de>
+ <489c90fb-a135-4fd8-ecb9-46404bd3c234@axentia.se>
 MIME-Version: 1.0
-References: <20190916153357.3880-1-horms+renesas@verge.net.au> <20190916153357.3880-2-horms+renesas@verge.net.au>
-In-Reply-To: <20190916153357.3880-2-horms+renesas@verge.net.au>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Tue, 17 Sep 2019 07:12:16 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqJHiAmH0eeUMLH1q9X6e+88EVZrmMtM33rVWCyBAszY8A@mail.gmail.com>
-Message-ID: <CAL_JsqJHiAmH0eeUMLH1q9X6e+88EVZrmMtM33rVWCyBAszY8A@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: bus: simple-pm-bus: convert bindings to json-schema
-To:     Simon Horman <horms+renesas@verge.net.au>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Kaneko <ykaneko0929@gmail.com>,
-        devicetree@vger.kernel.org,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <489c90fb-a135-4fd8-ecb9-46404bd3c234@axentia.se>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Sep 16, 2019 at 10:35 AM Simon Horman
-<horms+renesas@verge.net.au> wrote:
->
-> Convert Simple Power-Managed Bus bindings documentation to json-schema.
->
-> As a side effect of this change only simple-pm-bus is used in example. A
-> follow-up patch will provide an example for the separately documented
-> Renesas Bus State Controller (BSC) that uses "renesas,bsc-sh73a0" and
-> "renesas,bsc" compat strings.
->
-> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
-> ---
-> * Tested using:
->   # ARCH=arm64 make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/bus/simple-pm-bus.yaml
->   # ARCH=arm   make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/bus/simple-pm-bus.yaml
-> ---
->  .../devicetree/bindings/bus/simple-pm-bus.txt      | 44 --------------
->  .../devicetree/bindings/bus/simple-pm-bus.yaml     | 68 ++++++++++++++++++++++
->  2 files changed, 68 insertions(+), 44 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/bus/simple-pm-bus.txt
->  create mode 100644 Documentation/devicetree/bindings/bus/simple-pm-bus.yaml
+On Tue, Sep 17, 2019 at 11:25:46AM +0000, Peter Rosin wrote:
+> On 2019-09-17 12:13, Uwe Kleine-König wrote:
+> > Hello Geert,
+> > 
+> > On Tue, Sep 17, 2019 at 11:40:25AM +0200, Geert Uytterhoeven wrote:
+> >> Hi Rob, Uwe,
+> >>
+> >> On Fri, Sep 13, 2019 at 11:58 PM Rob Herring <robh@kernel.org> wrote:
+> >>> On Sat, 24 Aug 2019 15:28:46 +0200, =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?=          wrote:
+> >>>> Referencing device tree nodes from a property allows to pass arguments.
+> >>>> This is for example used for referencing gpios. This looks as follows:
+> >>>>
+> >>>>       gpio_ctrl: gpio-controller {
+> >>>>               #gpio-cells = <2>
+> >>>>               ...
+> >>>>       }
+> >>>>
+> >>>>       someothernode {
+> >>>>               gpios = <&gpio_ctrl 5 0 &gpio_ctrl 3 0>;
+> >>>>               ...
+> >>>>       }
+> >>>>
+> >>>> To know the number of arguments this must be either fixed, or the
+> >>>> referenced node is checked for a $cells_name (here: "#gpio-cells")
+> >>>> property and with this information the start of the second reference can
+> >>>> be determined.
+> >>>>
+> >>>> Currently regulators are referenced with no additional arguments. To
+> >>>> allow some optional arguments without having to change all referenced
+> >>>> nodes this change introduces a way to specify a default cell_count. So
+> >>>> when a phandle is parsed we check for the $cells_name property and use
+> >>>> it as before if present. If it is not present we fall back to
+> >>>> cells_count if non-negative and only fail if cells_count is smaller than
+> >>>> zero.
+> >>>>
+> >>>> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> >>
+> >> This is now commit e42ee61017f58cd9 ("of: Let of_for_each_phandle fallback
+> >> to non-negative cell_count") in robh/for-next, which causes a lock-up when
+> >> booting a shmobile_defconfig kernel on r8a7791/koelsch:
+> >>
+> >> rcu: INFO: rcu_sched self-detected stall on CPU
+> >> rcu:     0-....: (2099 ticks this GP) idle=6fe/1/0x40000002
+> >> softirq=29/29 fqs=1050
+> >>  (t=2100 jiffies g=-1131 q=0)
+> >> NMI backtrace for cpu 0
+> >> CPU: 0 PID: 1 Comm: swapper/0 Not tainted
+> >> 5.3.0-rc2-shmobile-00050-ge42ee61017f58cd9 #376
+> >> Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
+> >> [<c010f8ac>] (unwind_backtrace) from [<c010b620>] (show_stack+0x10/0x14)
+> >> [<c010b620>] (show_stack) from [<c073d038>] (dump_stack+0x7c/0x9c)
+> >> [<c073d038>] (dump_stack) from [<c0742e80>] (nmi_cpu_backtrace+0xa0/0xb8)
+> >> [<c0742e80>] (nmi_cpu_backtrace) from [<c0742f1c>] (nmi_trigger_cpumask_backtrace+0x84/0x114)
+> >> [<c0742f1c>] (nmi_trigger_cpumask_backtrace) from [<c017d684>] (rcu_dump_cpu_stacks+0xac/0xc8)
+> >> [<c017d684>] (rcu_dump_cpu_stacks) from [<c017a598>] (rcu_sched_clock_irq+0x2ac/0x6b4)
+> >> [<c017a598>] (rcu_sched_clock_irq) from [<c0183980>] (update_process_times+0x30/0x5c)
+> >> [<c0183980>] (update_process_times) from [<c01941a8>] (tick_nohz_handler+0xcc/0x120)
+> >> [<c01941a8>] (tick_nohz_handler) from [<c05b1d40>] (arch_timer_handler_virt+0x28/0x30)
+> >> [<c05b1d40>] (arch_timer_handler_virt) from [<c016c9e0>] (handle_percpu_devid_irq+0xe8/0x21c)
+> >> [<c016c9e0>] (handle_percpu_devid_irq) from [<c0167a8c>] (generic_handle_irq+0x18/0x28)
+> >> [<c0167a8c>] (generic_handle_irq) from [<c0167b3c>] (__handle_domain_irq+0xa0/0xb4)
+> >> [<c0167b3c>] (__handle_domain_irq) from [<c03673ec>] (gic_handle_irq+0x58/0x90)
+> >> [<c03673ec>] (gic_handle_irq) from [<c0101a8c>] (__irq_svc+0x6c/0x90)
+> >> Exception stack(0xeb08dd30 to 0xeb08dd78)
+> >> dd20:                                     c0cc7514 20000013 00000005 00003b27
+> >> dd40: eb7c4020 c0cc750c 00000051 00000051 20000013 c0c66b08 eb1cdc00 00000018
+> >> dd60: 00000000 eb08dd80 c05c1a38 c0756c00 20000013 ffffffff
+> >> [<c0101a8c>] (__irq_svc) from [<c0756c00>] (_raw_spin_unlock_irqrestore+0x1c/0x20)
+> >> [<c0756c00>] (_raw_spin_unlock_irqrestore) from [<c05c1a38>] (of_find_node_by_phandle+0xcc/0xf0)
+> >> [<c05c1a38>] (of_find_node_by_phandle) from [<c05c1bb8>] (of_phandle_iterator_next+0x68/0x178)
+> >> [<c05c1bb8>] (of_phandle_iterator_next) from [<c05c22bc>] (of_count_phandle_with_args+0x5c/0x7c)
+> >> [<c05c22bc>] (of_count_phandle_with_args) from [<c053fc38>] (i2c_demux_pinctrl_probe+0x24/0x1fc)
+> >> [<c053fc38>] (i2c_demux_pinctrl_probe) from [<c04463c4>] (platform_drv_probe+0x48/0x94)
+> >> [<c04463c4>] (platform_drv_probe) from [<c0444a20>] (really_probe+0x1f0/0x2b8)
+> >> [<c0444a20>] (really_probe) from [<c0444e68>] (driver_probe_device+0x140/0x158)
+> >> [<c0444e68>] (driver_probe_device) from [<c0444ff0>] (device_driver_attach+0x44/0x5c)
+> >> [<c0444ff0>] (device_driver_attach) from [<c04450b4>] (__driver_attach+0xac/0xb4)
+> >> [<c04450b4>] (__driver_attach) from [<c0443178>] (bus_for_each_dev+0x64/0xa0)
+> >> [<c0443178>] (bus_for_each_dev) from [<c04438a8>] (bus_add_driver+0x148/0x1a8)
+> >> [<c04438a8>] (bus_add_driver) from [<c0445ad0>] (driver_register+0xac/0xf0)
+> >> [<c0445ad0>] (driver_register) from [<c0b010b0>] (do_one_initcall+0xa8/0x1d4)
+> >> [<c0b010b0>] (do_one_initcall) from [<c0b01448>] (kernel_init_freeable+0x26c/0x2c8)
+> >> [<c0b01448>] (kernel_init_freeable) from [<c0751c70>] (kernel_init+0x8/0x10c)
+> >> [<c0751c70>] (kernel_init) from [<c01010e8>] (ret_from_fork+0x14/0x2c)
+> >> Exception stack(0xeb08dfb0 to 0xeb08dff8)
+> >> dfa0:                                     00000000 00000000 00000000 00000000
+> >> dfc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+> >> dfe0: 00000000 00000000 00000000 00000000 00000013 00000000
+> >>
+> >> Presumably it loops forever, due to a conversion of -1 to unsigned
+> >> somewhere?
+> > 
+> > Hmm, I fail to see the culprit. i2c_demux_pinctrl_probe calls
+> > of_count_phandle_with_args with cells_name=NULL. With that I don't see
+> > how my patch changes anything as the only change is in an if
+> > (it->cells_name) block that shouldn't be relevant in your case.
+> > 
+> > Can you please verify that the loop in of_count_phandle_with_args is
+> > indeed not terminating, e.g. with
+> 
+> The below indicated else-branch was not touched by e42ee61017f58cd9,
+> which ends up setting the count to -1 (aka 0xff...ff in this case).
+> No?
+> 
+> int of_phandle_iterator_next(struct of_phandle_iterator *it)
+> {
+> 
+> 	...
+> 
+> 		if (it->cells_name) {
+> 
+> 			...
+> 
+> 		} else {
+> 			count = it->cell_count;    /* <---- SUSPECT!!! */
+> 		}
 
-> diff --git a/Documentation/devicetree/bindings/bus/simple-pm-bus.yaml b/Documentation/devicetree/bindings/bus/simple-pm-bus.yaml
-> new file mode 100644
-> index 000000000000..72a3644974e3
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/bus/simple-pm-bus.yaml
-> @@ -0,0 +1,68 @@
+Oh yeah, you're right. I'm a bit disappointed that I didn't spot this
+myself :-|
 
-SPDX tag?
+Untested patch to fix this problem:
 
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Simple Power-Managed Bus
-> +
-> +maintainers:
-> +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> +
-> +description: |
-> +  A Simple Power-Managed Bus is a transparent bus that doesn't need a real
-> +  driver, as it's typically initialized by the boot loader.
-> +
-> +  However, its bus controller is part of a PM domain, or under the control
-> +  of a functional clock.  Hence, the bus controller's PM domain and/or
-> +  clock must be enabled for child devices connected to the bus (either
-> +  on-SoC or externally) to function.
-> +
-> +  While "simple-pm-bus" follows the "simple-bus" set of properties, as
-> +  specified in the Devicetree Specification, it is not an extension of
-> +  "simple-bus".
-> +
-> +
-> +properties:
+diff --git a/drivers/of/base.c b/drivers/of/base.c
+index 2f25d2dfecfa..26f7a21d7187 100644
+--- a/drivers/of/base.c
++++ b/drivers/of/base.c
+@@ -1284,6 +1284,13 @@ int of_phandle_iterator_init(struct of_phandle_iterator *it,
+ 	const __be32 *list;
+ 	int size;
+ 
++	/*
++	 * one of cell_count or cells_name must be provided to determine the
++	 * argument length.
++	 */
++	if (cell_count < 0 && !cells_name)
++		return -EINVAL;
++
+ 	memset(it, 0, sizeof(*it));
+ 
+ 	list = of_get_property(np, list_name, &size);
+@@ -1765,6 +1772,18 @@ int of_count_phandle_with_args(const struct device_node *np, const char *list_na
+ 	struct of_phandle_iterator it;
+ 	int rc, cur_index = 0;
+ 
++	/* If cells_name is NULL we assume an cell_count of 0 */
++	if (cells_name == NULL) {
++		const __be32 *list;
++		int size;
++
++		list = of_get_property(np, list_name, &size);
++		if (!list)
++			return -ENOENT;
++
++		return size / sizeof(*list);
++	}
++
+ 	rc = of_phandle_iterator_init(&it, np, list_name, cells_name, -1);
+ 	if (rc)
+ 		return rc;
 
-Add $nodename in here.
+Best regards
+Uwe
 
-> +  compatible:
-> +    items:
-> +       - const: simple-pm-bus
-
-extra leading space.
-
-> +
-> +  '#address-cells':
-> +    const: 1
-> +
-> +  '#size-cells':
-> +    const: 1
-
-1 or 2 should be valid...
-
-> +
-> +  ranges:
-> +    # Mapping between parent address and child address spaces.
-> +    maxItems: 1
-
-empty or multiple ranges should be possible.
-
-> +
-> +  clocks:
-> +    # Functional clocks
-> +    # Required if power-domains is absent, optional otherwise
-> +    minItems: 1
-
-This will imply maxItems is 1 which I don't think you want.
-
-Though more than 1 starts to mean you need to know specifically what the h/w is.
-
-> +
-> +  power-domains:
-> +    # Required if clocks is absent, optional otherwise
-> +    minItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - '#address-cells'
-> +  - '#size-cells'
-> +  - ranges
-
-This will capture what you commented above:
-
-oneOf:
-  - required:
-      - clocks
-  - required:
-      - power-domains
-
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    bsc: bus@fec10000 {
-> +        compatible = "simple-pm-bus";
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-> +        ranges = <0 0 0x20000000>;
-> +        reg = <0xfec10000 0x400>;
-
-If you have reg, then it shouldn't be "simple-pm-bus" unless you can
-function without accessing the regs.
-
-> +        interrupts = <0 39 IRQ_TYPE_LEVEL_HIGH>;
-
-Not documented?
-
-> +        clocks = <&zb_clk>;
-> +        power-domains = <&pd_a4s>;
-> +    };
-> --
-> 2.11.0
->
+-- 
+Pengutronix e.K.                           | Uwe Kleine-König            |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
