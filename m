@@ -2,109 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DE5D2B4DD1
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2019 14:31:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15533B4E1C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2019 14:42:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727427AbfIQMbn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Sep 2019 08:31:43 -0400
-Received: from andre.telenet-ops.be ([195.130.132.53]:39550 "EHLO
-        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725901AbfIQMbn (ORCPT
+        id S1728405AbfIQMmf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Sep 2019 08:42:35 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:54339 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727308AbfIQMme (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Sep 2019 08:31:43 -0400
-Received: from ramsan ([84.194.98.4])
-        by andre.telenet-ops.be with bizsmtp
-        id 2cXg2100f05gfCL01cXgu2; Tue, 17 Sep 2019 14:31:40 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iACdw-0000Sl-K3
-        for linux-renesas-soc@vger.kernel.org; Tue, 17 Sep 2019 14:31:40 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iACdw-0007cm-Hf
-        for linux-renesas-soc@vger.kernel.org; Tue, 17 Sep 2019 14:31:40 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2019-09-17-v5.3
-Date:   Tue, 17 Sep 2019 14:31:40 +0200
-Message-Id: <20190917123140.29266-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Tue, 17 Sep 2019 08:42:34 -0400
+X-IronPort-AV: E=Sophos;i="5.64,516,1559487600"; 
+   d="scan'208";a="26574450"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 17 Sep 2019 21:42:31 +0900
+Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 9B7014235016;
+        Tue, 17 Sep 2019 21:42:28 +0900 (JST)
+From:   Biju Das <biju.das@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     Biju Das <biju.das@bp.renesas.com>, devicetree@vger.kernel.org,
+        Simon Horman <horms@verge.net.au>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 0/8] Add RZ/G2N SYSC/RST/Clock/PFC support
+Date:   Tue, 17 Sep 2019 13:35:28 +0100
+Message-Id: <1568723736-14714-1-git-send-email-biju.das@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I have pushed renesas-drivers-2019-09-17-v5.3 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+This patch series add SYSC/RST/Clock/PFC driver support for RZ/G2N SoC.
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM SoCs. It is created by merging (a) the for-next branches
-of various subsystem trees and (b) branches with driver code submitted
-or planned for submission to maintainers into the master branch of my
-renesas-devel.git tree.
+Biju Das (8):
+  dt-bindings: power: rcar-sysc: Document r8a774b1 sysc
+  soc: renesas: rcar-sysc: Add r8a774b1 support
+  dt-bindings: reset: rcar-rst: Document r8a774b1 reset module
+  soc: renesas: rcar-rst: Add support for RZ/G2N
+  dt-bindings: clock: renesas: cpg-mssr: Document r8a774b1 binding
+  clk: renesas: cpg-mssr: Add r8a774b1 support
+  dt-bindings: pinctrl: sh-pfc: Document r8a774b1 PFC support
+  pinctrl: sh-pfc: r8a77965: Add R8A774B1 PFC support
 
-Today's version is based on renesas-devel-2019-09-16-v5.3.
+ .../devicetree/bindings/clock/renesas,cpg-mssr.txt |  10 +-
+ .../bindings/pinctrl/renesas,pfc-pinctrl.txt       |   1 +
+ .../bindings/power/renesas,rcar-sysc.txt           |   1 +
+ .../devicetree/bindings/reset/renesas,rst.txt      |   1 +
+ drivers/clk/renesas/Kconfig                        |   5 +
+ drivers/clk/renesas/Makefile                       |   1 +
+ drivers/clk/renesas/r8a774b1-cpg-mssr.c            | 330 ++++++++
+ drivers/clk/renesas/renesas-cpg-mssr.c             |   6 +
+ drivers/clk/renesas/renesas-cpg-mssr.h             |   1 +
+ drivers/pinctrl/sh-pfc/Kconfig                     |   4 +
+ drivers/pinctrl/sh-pfc/Makefile                    |   1 +
+ drivers/pinctrl/sh-pfc/core.c                      |   6 +
+ drivers/pinctrl/sh-pfc/pfc-r8a77965.c              | 861 +++++++++++----------
+ drivers/pinctrl/sh-pfc/sh_pfc.h                    |   1 +
+ drivers/soc/renesas/Kconfig                        |   5 +
+ drivers/soc/renesas/Makefile                       |   1 +
+ drivers/soc/renesas/r8a774b1-sysc.c                |  35 +
+ drivers/soc/renesas/rcar-rst.c                     |   1 +
+ drivers/soc/renesas/rcar-sysc.c                    |   3 +
+ drivers/soc/renesas/rcar-sysc.h                    |   1 +
+ 20 files changed, 862 insertions(+), 413 deletions(-)
+ create mode 100644 drivers/clk/renesas/r8a774b1-cpg-mssr.c
+ create mode 100644 drivers/soc/renesas/r8a774b1-sysc.c
 
-Included branches with driver code:
-  - clk-renesas
-  - sh-pfc
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#renesas/topic/sdhi-manual-calib~1
-  - git://git.ragnatech.se/linux#for-renesas-drivers
+-- 
+2.7.4
 
-Included fixes:
-  - Revert "of: Let of_for_each_phandle fallback to non-negative cell_count"
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: renesas_defconfig: Enable R8A774B1 SoC
-  - [LOCAL] arm64: defconfig: Update renesas_defconfig
-
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#clockevents/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
-  - git://git.infradead.org/users/vkoul/slave-dma.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://github.com/bzolnier/linux.git#fbdev-for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/kishon/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
