@@ -2,172 +2,142 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 983EEB4E80
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2019 14:52:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B06FB4EA4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2019 15:00:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726181AbfIQMwo convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Sep 2019 08:52:44 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:38247 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725901AbfIQMwo (ORCPT
+        id S1726626AbfIQNAs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Sep 2019 09:00:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49348 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726523AbfIQNAs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Sep 2019 08:52:44 -0400
-Received: by mail-ot1-f66.google.com with SMTP id e11so1761990otl.5;
-        Tue, 17 Sep 2019 05:52:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=cGu+OKqa8P9FhmcrfusKIEOBVN7wjkZzGzIlcpxnAM4=;
-        b=YDGHOiH8Z2ke//JikJFiTQ4b+CXgil1DYPxcbgdq0fkW34HGDqEwrkiZJPiVsYWIHu
-         8/ss3Jmsnr3Et0gzx2GCOMuHXT5tPqjCyELSeuzuJ42j3HZuuO7Vi3nWowO7psxK5/oW
-         1GV73nRMwcjDbCj+7CPfIgTAwfLsGRtpCwTAAZvFbpkAcN0V+A2C82tZnAZ5dqQDHwdM
-         PngDPryYsnZLrqDXhS8iWYVLIvb7tOC1pTlXGe+0ovnOZrainDfkPCo2HdsGp6UnNwOi
-         /8z5ASbhbXjWXwO84ZSkROA+IrsAq4kph4eyb5pygXufmgfwb5pUyyll1KM/EoWRIU07
-         qMIw==
-X-Gm-Message-State: APjAAAUOIsG/ZD3xV9QLOI5PG26S7lQBnUeYNY0t1LXU+8T4AqXKUEQ6
-        bbilXmhC7wi36l4yQS8Llug0NK6t/430rUNQ9us=
-X-Google-Smtp-Source: APXvYqwF7djb29BU4JOekDq/w2ATaouFkjTZStu1zawPVEUhoivXp7Jzh/X/ybbkO0GGmU/IOqDimmtEJFBAiFablnE=
-X-Received: by 2002:a9d:5a06:: with SMTP id v6mr2514884oth.250.1568724762614;
- Tue, 17 Sep 2019 05:52:42 -0700 (PDT)
+        Tue, 17 Sep 2019 09:00:48 -0400
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 868212171F;
+        Tue, 17 Sep 2019 13:00:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1568725246;
+        bh=X4jhLlVfIWPwWC9KTpr/8HXl1E17S2vkdaVA4OMT1kY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=w23Lq/oJU+s6apUIRVuiK+YDX/N1xhNqJQlDdyNSTIIS4llYBBHacGEQ4aqAxGUuj
+         swxkGkjJb55MoIUleuTHruTOzw4PJ6ScUbiB8dK8dThqn73CtcAfz7yYD6OC1CjiEe
+         SgQHfXKUW6kyRCfP9dgas9zlDtsMiCLVoEctYW10=
+Received: by mail-qk1-f182.google.com with SMTP id y144so3853163qkb.7;
+        Tue, 17 Sep 2019 06:00:46 -0700 (PDT)
+X-Gm-Message-State: APjAAAX/xkEYXtg7QKUDjwjEkBtso4SZ9vUr0nHUSxdDBRDcOZFpFkkJ
+        u7abdOBnPiwyP+Uf9sKG1nzUVvD/kV8fww7gZQ==
+X-Google-Smtp-Source: APXvYqwdHDSINgFsGh7pd2VEEZGaLj8zK4i6nJuMiwayyOSSoGvfQtn7Pl9ax/5kobBzpP58bbURF5hI6SMlAzFUqBc=
+X-Received: by 2002:a37:be87:: with SMTP id o129mr3660621qkf.254.1568725245764;
+ Tue, 17 Sep 2019 06:00:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190824132846.8589-1-u.kleine-koenig@pengutronix.de>
- <20190824132846.8589-2-u.kleine-koenig@pengutronix.de> <20190913215809.GA11833@bogus>
- <CAMuHMdV+pwoAA0zH_vQf2nKqzrgHP8rcMStyJbnuu2qviFC_qg@mail.gmail.com>
- <20190917101303.t5otztdus7y3ayau@pengutronix.de> <489c90fb-a135-4fd8-ecb9-46404bd3c234@axentia.se>
- <20190917122530.3xy7sut3xdvzlomj@pengutronix.de>
-In-Reply-To: <20190917122530.3xy7sut3xdvzlomj@pengutronix.de>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 17 Sep 2019 14:52:31 +0200
-Message-ID: <CAMuHMdXk5uSk-v4vYVR1YO46gQd0mRYy5eEM6wOHqgkRTfyn-g@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] of: Let of_for_each_phandle fallback to
- non-negative cell_count
-To:     =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Peter Rosin <peda@axentia.se>, Rob Herring <robh@kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Will Deacon <will@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux IOMMU <iommu@lists.linux-foundation.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        Sascha Hauer <kernel@pengutronix.de>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20190917083634.11510-1-horms+renesas@verge.net.au>
+In-Reply-To: <20190917083634.11510-1-horms+renesas@verge.net.au>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 17 Sep 2019 08:00:34 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLCYp8nmvoHtCNcLDKOKJ1bmL5FxQPwSREBLSy2-fZ=Vg@mail.gmail.com>
+Message-ID: <CAL_JsqLCYp8nmvoHtCNcLDKOKJ1bmL5FxQPwSREBLSy2-fZ=Vg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: rtc: rtc-sh: convert bindings to json-schema
+To:     Simon Horman <horms+renesas@verge.net.au>
+Cc:     Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Yoshihiro Kaneko <ykaneko0929@gmail.com>,
+        "open list:REAL TIME CLOCK (RTC) SUBSYSTEM" 
+        <linux-rtc@vger.kernel.org>, devicetree@vger.kernel.org,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Uwe,
-
-On Tue, Sep 17, 2019 at 2:25 PM Uwe Kleine-König
-<u.kleine-koenig@pengutronix.de> wrote:
-> On Tue, Sep 17, 2019 at 11:25:46AM +0000, Peter Rosin wrote:
-> > On 2019-09-17 12:13, Uwe Kleine-König wrote:
-> > > On Tue, Sep 17, 2019 at 11:40:25AM +0200, Geert Uytterhoeven wrote:
-> > >> On Fri, Sep 13, 2019 at 11:58 PM Rob Herring <robh@kernel.org> wrote:
-> > >>> On Sat, 24 Aug 2019 15:28:46 +0200, =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?=          wrote:
-> > >>>> Referencing device tree nodes from a property allows to pass arguments.
-> > >>>> This is for example used for referencing gpios. This looks as follows:
-> > >>>>
-> > >>>>       gpio_ctrl: gpio-controller {
-> > >>>>               #gpio-cells = <2>
-> > >>>>               ...
-> > >>>>       }
-> > >>>>
-> > >>>>       someothernode {
-> > >>>>               gpios = <&gpio_ctrl 5 0 &gpio_ctrl 3 0>;
-> > >>>>               ...
-> > >>>>       }
-> > >>>>
-> > >>>> To know the number of arguments this must be either fixed, or the
-> > >>>> referenced node is checked for a $cells_name (here: "#gpio-cells")
-> > >>>> property and with this information the start of the second reference can
-> > >>>> be determined.
-> > >>>>
-> > >>>> Currently regulators are referenced with no additional arguments. To
-> > >>>> allow some optional arguments without having to change all referenced
-> > >>>> nodes this change introduces a way to specify a default cell_count. So
-> > >>>> when a phandle is parsed we check for the $cells_name property and use
-> > >>>> it as before if present. If it is not present we fall back to
-> > >>>> cells_count if non-negative and only fail if cells_count is smaller than
-> > >>>> zero.
-> > >>>>
-> > >>>> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
-> > >>
-> > >> This is now commit e42ee61017f58cd9 ("of: Let of_for_each_phandle fallback
-> > >> to non-negative cell_count") in robh/for-next, which causes a lock-up when
-> > >> booting a shmobile_defconfig kernel on r8a7791/koelsch:
-> > >>
-> > >> rcu: INFO: rcu_sched self-detected stall on CPU
-
-> Oh yeah, you're right. I'm a bit disappointed that I didn't spot this
-> myself :-|
+On Tue, Sep 17, 2019 at 3:37 AM Simon Horman <horms+renesas@verge.net.au> wrote:
 >
-> Untested patch to fix this problem:
+> Convert Real Time Clock for Renesas SH and ARM SoCs bindings documentation
+> to json-schema.  Also name bindings documentation file according to the
+> compat string being documented.
 >
-> diff --git a/drivers/of/base.c b/drivers/of/base.c
-> index 2f25d2dfecfa..26f7a21d7187 100644
-> --- a/drivers/of/base.c
-> +++ b/drivers/of/base.c
-> @@ -1284,6 +1284,13 @@ int of_phandle_iterator_init(struct of_phandle_iterator *it,
->         const __be32 *list;
->         int size;
+> Also correct syntax error in interrupts field in example.
 >
-> +       /*
-> +        * one of cell_count or cells_name must be provided to determine the
-> +        * argument length.
-> +        */
-> +       if (cell_count < 0 && !cells_name)
-> +               return -EINVAL;
+> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+> ---
+> * Based on v5.3
+> * Tested using:
+>   # ARCH=arm64 make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/bus/renesas,bsc.yaml
+>   # ARCH=arm   make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/bus/renesas,bsc.yaml
+> ---
+>  .../devicetree/bindings/rtc/renesas,sh-rtc.yaml    | 66 ++++++++++++++++++++++
+>  Documentation/devicetree/bindings/rtc/rtc-sh.txt   | 28 ---------
+>  2 files changed, 66 insertions(+), 28 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/rtc/renesas,sh-rtc.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/rtc/rtc-sh.txt
+>
+> diff --git a/Documentation/devicetree/bindings/rtc/renesas,sh-rtc.yaml b/Documentation/devicetree/bindings/rtc/renesas,sh-rtc.yaml
+> new file mode 100644
+> index 000000000000..07dbcd4436ce
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/rtc/renesas,sh-rtc.yaml
+> @@ -0,0 +1,66 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/rtc/renesas,sh-rtc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
->         memset(it, 0, sizeof(*it));
->
->         list = of_get_property(np, list_name, &size);
-> @@ -1765,6 +1772,18 @@ int of_count_phandle_with_args(const struct device_node *np, const char *list_na
->         struct of_phandle_iterator it;
->         int rc, cur_index = 0;
->
-> +       /* If cells_name is NULL we assume an cell_count of 0 */
-
-a cell count
-
-> +       if (cells_name == NULL) {
-> +               const __be32 *list;
-> +               int size;
+> +title: Real Time Clock for Renesas SH and ARM SoCs
 > +
-> +               list = of_get_property(np, list_name, &size);
-> +               if (!list)
-> +                       return -ENOENT;
+> +maintainers:
+> +  - Chris Brandt <chris.brandt@renesas.com>
+> +  - Geert Uytterhoeven <geert+renesas@glider.be>
 > +
-> +               return size / sizeof(*list);
-> +       }
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: renesas,r7s72100-rtc  # RZ/A1H
+> +      - const: renesas,sh-rtc
 > +
->         rc = of_phandle_iterator_init(&it, np, list_name, cells_name, -1);
->         if (rc)
->                 return rc;
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 3
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: alarm
+> +      - const: period
+> +      - const: carry
+> +
+> +  clocks:
+> +    # The functional clock source for the RTC controller must be listed
+> +    # first (if it exists). Additionally, potential clock counting sources
+> +    # are to be listed.
+> +    true
 
-Thanks, that fixes the boot for me!
+Surely you can give some range...
 
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> +
+> +  clock-names:
+> +    # The functional clock must be labeled as "fck". Other clocks
+> +    # may be named in accordance to the SoC hardware manuals.
+> +    true
 
-Gr{oetje,eeting}s,
+While not ideal, you can do:
 
-                        Geert
+minItems: 1
+maxItems: 4
+items:
+  enum: [ set, of, possible, clock, names, in, any, order ]
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Note 'items' here is a schema, not a list.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Your dt-schema install may need updating as I only recently adjusted
+the meta-schema to allow this.
+
+Rob
