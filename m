@@ -2,64 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CD08DB4E7E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2019 14:52:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF821B4E8F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2019 14:55:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726181AbfIQMwU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Sep 2019 08:52:20 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:57923 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725901AbfIQMwU (ORCPT
+        id S1726211AbfIQMzI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Sep 2019 08:55:08 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:1617 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725901AbfIQMzI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Sep 2019 08:52:20 -0400
+        Tue, 17 Sep 2019 08:55:08 -0400
 X-IronPort-AV: E=Sophos;i="5.64,516,1559487600"; 
-   d="scan'208";a="26574875"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 17 Sep 2019 21:52:18 +0900
+   d="scan'208";a="26794183"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 17 Sep 2019 21:55:06 +0900
 Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 4B0FA41ABBEA;
-        Tue, 17 Sep 2019 21:52:16 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 30B7B40065C4;
+        Tue, 17 Sep 2019 21:55:04 +0900 (JST)
 From:   Biju Das <biju.das@bp.renesas.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh+dt@kernel.org>,
+To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>
-Cc:     Biju Das <biju.das@bp.renesas.com>, linux-serial@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc:     Biju Das <biju.das@bp.renesas.com>,
         Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] dt-bindings: serial: sh-sci: Document r8a774b1 bindings
-Date:   Tue, 17 Sep 2019 13:45:24 +0100
-Message-Id: <1568724324-26995-1-git-send-email-biju.das@bp.renesas.com>
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Subject: [PATCH] dt-bindings: arm: renesas: Add HopeRun RZ/G2N boards
+Date:   Tue, 17 Sep 2019 13:48:12 +0100
+Message-Id: <1568724492-32087-1-git-send-email-biju.das@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-RZ/G2N (R8A774B1) SoC also has the R-Car Gen3 compatible SCIF and
-HSCIF ports, so document the SoC specific bindings.
+This patch adds board HiHope RZ/G2N (the main board, powered by
+the R8A774B1) and board HiHope RZ/G2 EX (the expansion board
+that sits on top of the HiHope RZ/G2N). Both boards are made
+by Jiangsu HopeRun Software Co., Ltd. (a.k.a. HopeRun).
 
 Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 ---
- Documentation/devicetree/bindings/serial/renesas,sci-serial.txt | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/devicetree/bindings/arm/renesas.yaml | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/serial/renesas,sci-serial.txt b/Documentation/devicetree/bindings/serial/renesas,sci-serial.txt
-index dd63151..b143d9a 100644
---- a/Documentation/devicetree/bindings/serial/renesas,sci-serial.txt
-+++ b/Documentation/devicetree/bindings/serial/renesas,sci-serial.txt
-@@ -26,6 +26,8 @@ Required properties:
-     - "renesas,hscif-r8a77470" for R8A77470 (RZ/G1C) HSCIF compatible UART.
-     - "renesas,scif-r8a774a1" for R8A774A1 (RZ/G2M) SCIF compatible UART.
-     - "renesas,hscif-r8a774a1" for R8A774A1 (RZ/G2M) HSCIF compatible UART.
-+    - "renesas,scif-r8a774b1" for R8A774B1 (RZ/G2N) SCIF compatible UART.
-+    - "renesas,hscif-r8a774b1" for R8A774B1 (RZ/G2N) HSCIF compatible UART.
-     - "renesas,scif-r8a774c0" for R8A774C0 (RZ/G2E) SCIF compatible UART.
-     - "renesas,hscif-r8a774c0" for R8A774C0 (RZ/G2E) HSCIF compatible UART.
-     - "renesas,scif-r8a7778" for R8A7778 (R-Car M1) SCIF compatible UART.
+diff --git a/Documentation/devicetree/bindings/arm/renesas.yaml b/Documentation/devicetree/bindings/arm/renesas.yaml
+index 9ad31f1..bc0b4ec 100644
+--- a/Documentation/devicetree/bindings/arm/renesas.yaml
++++ b/Documentation/devicetree/bindings/arm/renesas.yaml
+@@ -118,6 +118,14 @@ properties:
+ 
+       - description: RZ/G2N (R8A774B1)
+         items:
++          - enum:
++              - hoperun,hihope-rzg2n # HopeRun HiHope RZ/G2N platform
++          - const: renesas,r8a774b1
++
++      - items:
++          - enum:
++              - hoperun,hihope-rzg2-ex # HopeRun expansion board for HiHope RZ/G2 platforms
++          - const: hoperun,hihope-rzg2n
+           - const: renesas,r8a774b1
+ 
+       - description: RZ/G2E (R8A774C0)
 -- 
 2.7.4
 
