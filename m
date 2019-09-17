@@ -2,71 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EF821B4E8F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2019 14:55:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91A74B4E77
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2019 14:51:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726211AbfIQMzI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Sep 2019 08:55:08 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:1617 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725901AbfIQMzI (ORCPT
+        id S1725901AbfIQMvn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Sep 2019 08:51:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45220 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725917AbfIQMvn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Sep 2019 08:55:08 -0400
-X-IronPort-AV: E=Sophos;i="5.64,516,1559487600"; 
-   d="scan'208";a="26794183"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 17 Sep 2019 21:55:06 +0900
-Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 30B7B40065C4;
-        Tue, 17 Sep 2019 21:55:04 +0900 (JST)
-From:   Biju Das <biju.das@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     Biju Das <biju.das@bp.renesas.com>,
-        Simon Horman <horms@verge.net.au>,
+        Tue, 17 Sep 2019 08:51:43 -0400
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 29D4F218AE;
+        Tue, 17 Sep 2019 12:51:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1568724702;
+        bh=8HTUssJ30wmJ3525tuBKRrrjnbwk2zySpokpgctlMDU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=1uHhAjUQjIlqvRMEcXRDWSXV5OxlxLAP4lEsXxfuLJJxX9TZ49AOIIL/GEZ9FkwXq
+         1xevUYBmoOhmyK+PXmWYvHF/OYI9FtRZpT01pd6svZGxau07u4gNPXRbLdRvP8qFUr
+         nKsF3HK/cDUfoppvfOOMYiKL5qMG16PbCOs00RLQ=
+Received: by mail-qk1-f179.google.com with SMTP id 4so3817741qki.6;
+        Tue, 17 Sep 2019 05:51:42 -0700 (PDT)
+X-Gm-Message-State: APjAAAXDetFZflOijPeC//k4tMqt2oPxajjqSZt/UzJ896CtHFF+HdtQ
+        6o6S+33tL+4y/DadlpKucF0y7grMkbPG9HjLag==
+X-Google-Smtp-Source: APXvYqzGZsXAlPhiYh2alH7jD4hHEpI33KIoVHXQC9xRmxchQF6hwXrY16sEph5+/s5f2sKazHtQfHO0iFuWVh1oZd8=
+X-Received: by 2002:a37:682:: with SMTP id 124mr3420891qkg.393.1568724701388;
+ Tue, 17 Sep 2019 05:51:41 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190916075352.32108-1-horms+renesas@verge.net.au>
+In-Reply-To: <20190916075352.32108-1-horms+renesas@verge.net.au>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 17 Sep 2019 07:51:29 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLq7sUyh=E=D-Lk+Q=JrrKdsHkfsF88p=703mn-gwiLSA@mail.gmail.com>
+Message-ID: <CAL_JsqLq7sUyh=E=D-Lk+Q=JrrKdsHkfsF88p=703mn-gwiLSA@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: hspi: Convert bindings to json-schema
+To:     Simon Horman <horms+renesas@verge.net.au>
+Cc:     Mark Brown <broonie@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        Mark Rutland <mark.rutland@arm.com>,
         Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Subject: [PATCH] dt-bindings: arm: renesas: Add HopeRun RZ/G2N boards
-Date:   Tue, 17 Sep 2019 13:48:12 +0100
-Message-Id: <1568724492-32087-1-git-send-email-biju.das@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Yoshihiro Kaneko <ykaneko0929@gmail.com>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch adds board HiHope RZ/G2N (the main board, powered by
-the R8A774B1) and board HiHope RZ/G2 EX (the expansion board
-that sits on top of the HiHope RZ/G2N). Both boards are made
-by Jiangsu HopeRun Software Co., Ltd. (a.k.a. HopeRun).
+On Mon, Sep 16, 2019 at 2:54 AM Simon Horman <horms+renesas@verge.net.au> wrote:
+>
+> Convert Renesas HSPI bindings documentation to json-schema.
+> Also name bindings documentation file according to the compat string
+> being documented.
+>
+> As a side effect of this change all currently supported/used compat
+> strings are listed while no while card compat string is documented.
+> This, in my opinion, is desirable as only supported hardware should
+> be documented.
+>
+> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+> ---
+> Based on v5.3-rc1
+> Tested using:
+>   ARCH=arm make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/spi/renesas,hspi.yaml
+>
+> v2
+> - reference spi-controller.yaml# and thus do not document
+>   #address-cells and #size-cells properties.
+>   These properties are still listed as required.
+> - Drop comment regarding pinctrl properties.
+>   These are not needed as only one state, "default", is supported
+> - Document clocks and power-domains properties.
+>   The clocks property is required. Add these properties to the example.
+> - Drop unnecessary interrupt-parent property from example.
+> ---
+>  .../devicetree/bindings/spi/renesas,hspi.yaml      | 57 ++++++++++++++++++++++
+>  Documentation/devicetree/bindings/spi/sh-hspi.txt  | 26 ----------
+>  2 files changed, 57 insertions(+), 26 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/spi/renesas,hspi.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/spi/sh-hspi.txt
 
-Signed-off-by: Biju Das <biju.das@bp.renesas.com>
----
- Documentation/devicetree/bindings/arm/renesas.yaml | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/arm/renesas.yaml b/Documentation/devicetree/bindings/arm/renesas.yaml
-index 9ad31f1..bc0b4ec 100644
---- a/Documentation/devicetree/bindings/arm/renesas.yaml
-+++ b/Documentation/devicetree/bindings/arm/renesas.yaml
-@@ -118,6 +118,14 @@ properties:
- 
-       - description: RZ/G2N (R8A774B1)
-         items:
-+          - enum:
-+              - hoperun,hihope-rzg2n # HopeRun HiHope RZ/G2N platform
-+          - const: renesas,r8a774b1
-+
-+      - items:
-+          - enum:
-+              - hoperun,hihope-rzg2-ex # HopeRun expansion board for HiHope RZ/G2 platforms
-+          - const: hoperun,hihope-rzg2n
-           - const: renesas,r8a774b1
- 
-       - description: RZ/G2E (R8A774C0)
--- 
-2.7.4
-
+Reviewed-by: Rob Herring <robh@kernel.org>
