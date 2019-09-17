@@ -2,38 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 55645B4CE7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2019 13:29:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C833B4CF1
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2019 13:32:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726763AbfIQL3m (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Sep 2019 07:29:42 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:38950 "EHLO
+        id S1726688AbfIQLcz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Sep 2019 07:32:55 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:39002 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726616AbfIQL3m (ORCPT
+        with ESMTP id S1725270AbfIQLcz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Sep 2019 07:29:42 -0400
+        Tue, 17 Sep 2019 07:32:55 -0400
 Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 3D57025AD71;
-        Tue, 17 Sep 2019 21:29:40 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 44FCB25AD71;
+        Tue, 17 Sep 2019 21:32:52 +1000 (AEST)
 Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id 041519407F6; Tue, 17 Sep 2019 13:29:37 +0200 (CEST)
-Date:   Tue, 17 Sep 2019 13:29:37 +0200
+        id 4D2609407F6; Tue, 17 Sep 2019 13:32:50 +0200 (CEST)
+Date:   Tue, 17 Sep 2019 13:32:50 +0200
 From:   Simon Horman <horms@verge.net.au>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
+To:     Zhang Rui <rui.zhang@intel.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
+Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Yoshihiro Kaneko <ykaneko0929@gmail.com>,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: bus: simple-pm-bus: convert bindings to
+        linux-pm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: thermal: rcar-thermal: convert bindings to
  json-schema
-Message-ID: <20190917112937.g3jna2kc7rw7zynd@verge.net.au>
-References: <20190916153357.3880-1-horms+renesas@verge.net.au>
- <20190916153357.3880-2-horms+renesas@verge.net.au>
+Message-ID: <20190917113250.6q4mmyiaa7pdkbeb@verge.net.au>
+References: <20190916100717.31472-1-horms+renesas@verge.net.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190916153357.3880-2-horms+renesas@verge.net.au>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190916100717.31472-1-horms+renesas@verge.net.au>
 Organisation: Horms Solutions BV
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -41,176 +46,270 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Sep 16, 2019 at 05:33:56PM +0200, Simon Horman wrote:
-> Convert Simple Power-Managed Bus bindings documentation to json-schema.
+On Mon, Sep 16, 2019 at 12:07:17PM +0200, Simon Horman wrote:
+> Convert Renesas R-Car Thermal bindings documentation to json-schema.
+> Also name bindings documentation file according to the compat string
+> being documented.
 > 
-> As a side effect of this change only simple-pm-bus is used in example. A
-> follow-up patch will provide an example for the separately documented
-> Renesas Bus State Controller (BSC) that uses "renesas,bsc-sh73a0" and
-> "renesas,bsc" compat strings.
+> As a side effect of this change all currently supported/used compat
+> strings are listed while no while card compat string is documented.
+> This, in my opinion, is desirable as only supported hardware should
+> be documented.
 > 
 > Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
 > ---
-> * Tested using:
->   # ARCH=arm64 make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/bus/simple-pm-bus.yaml
->   # ARCH=arm   make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/bus/simple-pm-bus.yaml
+> Based on v5.3-rc1
+> Tested using:
+>   ARCH=arm make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/thermal/renesas,rcar-thermal.yaml
 > ---
->  .../devicetree/bindings/bus/simple-pm-bus.txt      | 44 --------------
->  .../devicetree/bindings/bus/simple-pm-bus.yaml     | 68 ++++++++++++++++++++++
->  2 files changed, 68 insertions(+), 44 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/bus/simple-pm-bus.txt
->  create mode 100644 Documentation/devicetree/bindings/bus/simple-pm-bus.yaml
+>  .../devicetree/bindings/thermal/rcar-thermal.txt   |  78 ---------------
+>  .../bindings/thermal/renesas,rcar-thermal.yaml     | 110 +++++++++++++++++++++
+>  2 files changed, 110 insertions(+), 78 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/thermal/rcar-thermal.txt
+>  create mode 100644 Documentation/devicetree/bindings/thermal/renesas,rcar-thermal.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/bus/simple-pm-bus.txt b/Documentation/devicetree/bindings/bus/simple-pm-bus.txt
+> diff --git a/Documentation/devicetree/bindings/thermal/rcar-thermal.txt b/Documentation/devicetree/bindings/thermal/rcar-thermal.txt
 > deleted file mode 100644
-> index 6f15037131ed..000000000000
-> --- a/Documentation/devicetree/bindings/bus/simple-pm-bus.txt
+> index 196112d23b1e..000000000000
+> --- a/Documentation/devicetree/bindings/thermal/rcar-thermal.txt
 > +++ /dev/null
-> @@ -1,44 +0,0 @@
-> -Simple Power-Managed Bus
-> -========================
-> -
-> -A Simple Power-Managed Bus is a transparent bus that doesn't need a real
-> -driver, as it's typically initialized by the boot loader.
-> -
-> -However, its bus controller is part of a PM domain, or under the control of a
-> -functional clock.  Hence, the bus controller's PM domain and/or clock must be
-> -enabled for child devices connected to the bus (either on-SoC or externally)
-> -to function.
-> -
-> -While "simple-pm-bus" follows the "simple-bus" set of properties, as specified
-> -in the Devicetree Specification, it is not an extension of "simple-bus".
-> -
+> @@ -1,78 +0,0 @@
+> -* Renesas R-Car Thermal
 > -
 > -Required properties:
-> -  - compatible: Must contain at least "simple-pm-bus".
-> -		Must not contain "simple-bus".
-> -		It's recommended to let this be preceded by one or more
-> -		vendor-specific compatible values.
-> -  - #address-cells, #size-cells, ranges: Must describe the mapping between
-> -		parent address and child address spaces.
+> -- compatible		: "renesas,thermal-<soctype>",
+> -			   "renesas,rcar-gen2-thermal" (with thermal-zone) or
+> -			   "renesas,rcar-thermal" (without thermal-zone) as
+> -                           fallback except R-Car V3M/E3/D3 and RZ/G2E.
+> -			  Examples with soctypes are:
+> -			    - "renesas,thermal-r8a73a4" (R-Mobile APE6)
+> -			    - "renesas,thermal-r8a7743" (RZ/G1M)
+> -			    - "renesas,thermal-r8a7744" (RZ/G1N)
+> -			    - "renesas,thermal-r8a774c0" (RZ/G2E)
+> -			    - "renesas,thermal-r8a7779" (R-Car H1)
+> -			    - "renesas,thermal-r8a7790" (R-Car H2)
+> -			    - "renesas,thermal-r8a7791" (R-Car M2-W)
+> -			    - "renesas,thermal-r8a7792" (R-Car V2H)
+> -			    - "renesas,thermal-r8a7793" (R-Car M2-N)
+> -			    - "renesas,thermal-r8a77970" (R-Car V3M)
+> -			    - "renesas,thermal-r8a77990" (R-Car E3)
+> -			    - "renesas,thermal-r8a77995" (R-Car D3)
+> -- reg			: Address range of the thermal registers.
+> -			  The 1st reg will be recognized as common register
+> -			  if it has "interrupts".
 > -
-> -Optional platform-specific properties for clock or PM domain control (at least
-> -one of them is required):
-> -  - clocks: Must contain a reference to the functional clock(s),
-> -  - power-domains: Must contain a reference to the PM domain.
-> -Please refer to the binding documentation for the clock and/or PM domain
-> -providers for more details.
+> -Option properties:
 > -
+> -- interrupts		: If present should contain 3 interrupts for
+> -                          R-Car V3M/E3/D3 and RZ/G2E or 1 interrupt otherwise.
 > -
-> -Example:
+> -Example (non interrupt support):
 > -
-> -	bsc: bus@fec10000 {
-> -		compatible = "renesas,bsc-sh73a0", "renesas,bsc",
-> -			     "simple-pm-bus";
-> -		#address-cells = <1>;
-> -		#size-cells = <1>;
-> -		ranges = <0 0 0x20000000>;
-> -		reg = <0xfec10000 0x400>;
-> -		interrupts = <0 39 IRQ_TYPE_LEVEL_HIGH>;
-> -		clocks = <&zb_clk>;
-> -		power-domains = <&pd_a4s>;
+> -thermal@ffc48000 {
+> -	compatible = "renesas,thermal-r8a7779", "renesas,rcar-thermal";
+> -	reg = <0xffc48000 0x38>;
+> -};
+> -
+> -Example (interrupt support):
+> -
+> -thermal@e61f0000 {
+> -	compatible = "renesas,thermal-r8a73a4", "renesas,rcar-thermal";
+> -	reg = <0xe61f0000 0x14
+> -		0xe61f0100 0x38
+> -		0xe61f0200 0x38
+> -		0xe61f0300 0x38>;
+> -	interrupts = <0 69 IRQ_TYPE_LEVEL_HIGH>;
+> -};
+> -
+> -Example (with thermal-zone):
+> -
+> -thermal-zones {
+> -	cpu_thermal: cpu-thermal {
+> -		polling-delay-passive	= <1000>;
+> -		polling-delay		= <5000>;
+> -
+> -		thermal-sensors = <&thermal>;
+> -
+> -		trips {
+> -			cpu-crit {
+> -				temperature	= <115000>;
+> -				hysteresis	= <0>;
+> -				type		= "critical";
+> -			};
+> -		};
+> -		cooling-maps {
+> -		};
 > -	};
-> diff --git a/Documentation/devicetree/bindings/bus/simple-pm-bus.yaml b/Documentation/devicetree/bindings/bus/simple-pm-bus.yaml
+> -};
+> -
+> -thermal: thermal@e61f0000 {
+> -	compatible =	"renesas,thermal-r8a7790",
+> -			"renesas,rcar-gen2-thermal",
+> -			"renesas,rcar-thermal";
+> -	reg = <0 0xe61f0000 0 0x14>, <0 0xe61f0100 0 0x38>;
+> -	interrupts = <0 69 IRQ_TYPE_LEVEL_HIGH>;
+> -	clocks = <&mstp5_clks R8A7790_CLK_THERMAL>;
+> -	power-domains = <&cpg_clocks>;
+> -	#thermal-sensor-cells = <0>;
+> -};
+> diff --git a/Documentation/devicetree/bindings/thermal/renesas,rcar-thermal.yaml b/Documentation/devicetree/bindings/thermal/renesas,rcar-thermal.yaml
 > new file mode 100644
-> index 000000000000..72a3644974e3
+> index 000000000000..ab4cc3c35410
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/bus/simple-pm-bus.yaml
-> @@ -0,0 +1,68 @@
+> +++ b/Documentation/devicetree/bindings/thermal/renesas,rcar-thermal.yaml
+> @@ -0,0 +1,110 @@
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
+> +$id: http://devicetree.org/schemas/thermal/renesas,rcar-thermal.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Simple Power-Managed Bus
+> +title: Renesas R-Car Thermal
 > +
 > +maintainers:
+> +  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
 > +  - Geert Uytterhoeven <geert+renesas@glider.be>
 > +
-> +description: |
-> +  A Simple Power-Managed Bus is a transparent bus that doesn't need a real
-> +  driver, as it's typically initialized by the boot loader.
-> +
-> +  However, its bus controller is part of a PM domain, or under the control
-> +  of a functional clock.  Hence, the bus controller's PM domain and/or
-> +  clock must be enabled for child devices connected to the bus (either
-> +  on-SoC or externally) to function.
-> +
-> +  While "simple-pm-bus" follows the "simple-bus" set of properties, as
-> +  specified in the Devicetree Specification, it is not an extension of
-> +  "simple-bus".
-> +
-> +
-
-There is an extra blank line above, I will plan to remove it in v2.
-
 > +properties:
 > +  compatible:
-> +    items:
-> +       - const: simple-pm-bus
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - renesas,thermal-r8a73a4       # R-Mobile APE6
+> +              - renesas,thermal-r8a7743       # RZ/G1M
+> +              - renesas,thermal-r8a7744       # RZ/G1N
+> +              - renesas,thermal-r8a7779       # R-Car H1
+> +              - renesas,thermal-r8a774c0      # RZ/G2E
+> +              - renesas,thermal-r8a77970      # R-Car V3M
+> +              - renesas,thermal-r8a77990      # R-Car E3
+> +              - renesas,thermal-r8a77995      # R-Car D3
+> +          - const: renesas,rcar-thermal       # Without thermal-zone
+> +
+> +      - items:
+> +          - enum:
+> +              - renesas,thermal-r8a7790       # R-Car H2
+> +              - renesas,thermal-r8a7791       # R-Car M2-W
+> +              - renesas,thermal-r8a7792       # R-Car V2H
+> +              - renesas,thermal-r8a7793       # R-Car M2-N
+> +          - const: renesas,rcar-gen2-thermal  # With thermal-zone
+> +          - const: renesas,rcar-thermal       # Without thermal-zone
 
-The following patch, for Renesas BSC, also
-describes the simple-pm-bus but also requires other compatible
-strings to be present.
+I missread the original bindings document and somehow missed
+warnings emitted by dtbs_check. I now think the compat property should be
+described as:
 
-In order to facilitate that I tried the following:
+  compatible:
+    oneOf:
+      - items:
+          - enum:
+              - renesas,thermal-r8a73a4       # R-Mobile APE6
+              - renesas,thermal-r8a7779       # R-Car H1
+          - const: renesas,rcar-thermal       # Without thermal-zone
 
-   compatible:
-      contains:
-         const: simple-pm-bus
-      additionalItems: true
+      - items:
+          - enum:
+              - renesas,thermal-r8a7790       # R-Car H2
+              - renesas,thermal-r8a7791       # R-Car M2-W
+              - renesas,thermal-r8a7792       # R-Car V2H
+              - renesas,thermal-r8a7793       # R-Car M2-N
+          - const: renesas,rcar-gen2-thermal  # With thermal-zone
+          - const: renesas,rcar-thermal       # Without thermal-zone
 
-This allows make dtbs_check DT_SCHEMA_FILES=.../simple-pm-bus.yaml to pass
-in cases where there are more compat strings pesent. However
-make dtbs_check DT_SCHEMA_FILES=...renesas,bsc.yaml (schema file
-introduced in following patch) fails in the case
-where the only compat string is simple-pm-bus.
+      - items:
+          - enum:
+              - renesas,thermal-r8a7743       # RZ/G1M
+              - renesas,thermal-r8a7744       # RZ/G1N
+          - const: renesas,rcar-gen2-thermal  # With thermal-zone
 
-make dtbs_check DT_SCHEMA_FILES=...renesas,bsc.yaml also fails
-due to the reg property not being present for the same compat case,
-which should be valid according to simple-pm-bus.yaml.
-
-Does anyone have any guidance on how to proceed?
+      - items:
+          - enum:
+              - renesas,thermal-r8a774c0      # RZ/G2E
+              - renesas,thermal-r8a77970      # R-Car V3M
+              - renesas,thermal-r8a77990      # R-Car E3
+              - renesas,thermal-r8a77995      # R-Car D3
 
 > +
-> +  '#address-cells':
-> +    const: 1
+> +  reg:
+> +    # Address range of the thermal registers.
+> +    # The 1st reg will be recognized as common register if it has "interrupts".
+> +    minItems: 1
+
+There may be any number of register blocks present and the
+"# Address range of the thermal registers." is very generic.
+So I think the above should be updated to:
+
+  reg: true
+    # The 1st reg will be recognized as common register if it has "interrupts".
+
 > +
-> +  '#size-cells':
-> +    const: 1
-> +
-> +  ranges:
-> +    # Mapping between parent address and child address spaces.
-> +    maxItems: 1
+> +  interrupts:
+> +    # If present should contain 3 interrupts for R-Car V3M/E3/D3 and RZ/G2E,
+> +    # otherwise 1 interrupt.
+> +    minItems: 1
+> +    maxItems: 3
 > +
 > +  clocks:
-> +    # Functional clocks
-> +    # Required if power-domains is absent, optional otherwise
-> +    minItems: 1
+> +    maxItems: 1
 > +
 > +  power-domains:
-> +    # Required if clocks is absent, optional otherwise
-> +    minItems: 1
+> +    maxItems: 1
 > +
 > +required:
 > +  - compatible
-> +  - '#address-cells'
-> +  - '#size-cells'
-> +  - ranges
+> +  - reg
 > +
-> +examples:
+> +examples :
 > +  - |
 > +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/clock/r8a7790-clock.h>
 > +
-> +    bsc: bus@fec10000 {
-> +        compatible = "simple-pm-bus";
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-> +        ranges = <0 0 0x20000000>;
-> +        reg = <0xfec10000 0x400>;
-> +        interrupts = <0 39 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&zb_clk>;
-> +        power-domains = <&pd_a4s>;
+> + # Example (non interrupt support):
+> +  - |
+> +    thermal@ffc48000 {
+> +        compatible = "renesas,thermal-r8a7779", "renesas,rcar-thermal";
+> +        reg = <0xffc48000 0x38>;
+> +    };
+> +
+> +  # Example (interrupt support):
+> +  - |
+> +    thermal@e61f0000 {
+> +        compatible = "renesas,thermal-r8a73a4", "renesas,rcar-thermal";
+> +        reg = <0xe61f0000 0x14
+> +               0xe61f0100 0x38
+> +               0xe61f0200 0x38
+> +               0xe61f0300 0x38>;
+> +        interrupts = <0 69 IRQ_TYPE_LEVEL_HIGH>;
+> +    };
+> +
+> +  # Example (with thermal-zone):
+> +  - |
+> +    thermal-zones {
+> +        cpu_thermal: cpu-thermal {
+> +            polling-delay-passive = <1000>;
+> +            polling-delay = <5000>;
+> +
+> +            thermal-sensors = <&thermal>;
+> +
+> +            trips {
+> +                cpu-crit {
+> +                    temperature = <115000>;
+> +                    hysteresis = <0>;
+> +                    type = "critical";
+> +                };
+> +            };
+> +            cooling-maps {
+> +            };
+> +        };
+> +    };
+> +
+> +    thermal: thermal@e61f0000 {
+> +        compatible = "renesas,thermal-r8a7790",
+> +                     "renesas,rcar-gen2-thermal",
+> +                     "renesas,rcar-thermal";
+> +        reg = <0 0xe61f0000 0 0x14>, <0 0xe61f0100 0 0x38>;
+> +        interrupts = <0 69 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&mstp5_clks R8A7790_CLK_THERMAL>;
+> +        power-domains = <&cpg_clocks>;
+> +        #thermal-sensor-cells = <0>;
 > +    };
 > -- 
 > 2.11.0
