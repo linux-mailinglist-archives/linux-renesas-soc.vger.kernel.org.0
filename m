@@ -2,135 +2,167 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CCA8B476E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2019 08:24:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FF10B49A0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2019 10:37:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387735AbfIQGYA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Sep 2019 02:24:00 -0400
-Received: from laurent.telenet-ops.be ([195.130.137.89]:54238 "EHLO
-        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387513AbfIQGYA (ORCPT
+        id S1730489AbfIQIhD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Sep 2019 04:37:03 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:34002 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730213AbfIQIhD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Sep 2019 02:24:00 -0400
-Received: from ramsan ([84.194.98.4])
-        by laurent.telenet-ops.be with bizsmtp
-        id 2WPv2100605gfCL01WPvzg; Tue, 17 Sep 2019 08:23:57 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iA6u3-00067C-3X; Tue, 17 Sep 2019 08:23:55 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iA6u3-0004QN-1k; Tue, 17 Sep 2019 08:23:55 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] drm: rcar_lvds: Fix color mismatches on R-Car H2 ES2.0 and later
-Date:   Tue, 17 Sep 2019 08:23:53 +0200
-Message-Id: <20190917062353.16966-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Tue, 17 Sep 2019 04:37:03 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id DA94F25AD71;
+        Tue, 17 Sep 2019 18:37:00 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id EC01F94055C; Tue, 17 Sep 2019 10:36:58 +0200 (CEST)
+From:   Simon Horman <horms+renesas@verge.net.au>
+To:     Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Yoshihiro Kaneko <ykaneko0929@gmail.com>,
+        linux-rtc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Simon Horman <horms+renesas@verge.net.au>
+Subject: [PATCH] dt-bindings: rtc: rtc-sh: convert bindings to json-schema
+Date:   Tue, 17 Sep 2019 10:36:34 +0200
+Message-Id: <20190917083634.11510-1-horms+renesas@verge.net.au>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Commit 5cca30ebe089be23 ("drm/rcar-du: Add LVDS_LANES quirk") states
-that LVDS lanes 1 and 3 are inverted on R-Car H2 ES1 only, and that the
-problem has been fixed in newer revisions.
+Convert Real Time Clock for Renesas SH and ARM SoCs bindings documentation
+to json-schema.  Also name bindings documentation file according to the
+compat string being documented.
 
-However, the code didn't take into account the actual hardware revision,
-thus applying the quirk also on newer hardware revisions, causing green
-color reversals.
+Also correct syntax error in interrupts field in example.
 
-Fix this by applying the quirk when running on R-Car H2 ES1.x only.
-
-Reported-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Fixes: c6a27fa41fabb35f ("drm: rcar-du: Convert LVDS encoder code to bridge driver")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
 ---
-Does anyone know if this was fixed in ES2.0, or in any earlier ES1.x?
-
-While the issue was present before aforementioned commit, I do not think
-there is a real need to fix the older code variant, as the new LVDS
-encoder was backported to v4.14-ltsi.
+* Based on v5.3
+* Tested using:
+  # ARCH=arm64 make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/bus/renesas,bsc.yaml
+  # ARCH=arm   make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/bus/renesas,bsc.yaml
 ---
- drivers/gpu/drm/rcar-du/rcar_lvds.c | 28 +++++++++++++++++++++-------
- 1 file changed, 21 insertions(+), 7 deletions(-)
+ .../devicetree/bindings/rtc/renesas,sh-rtc.yaml    | 66 ++++++++++++++++++++++
+ Documentation/devicetree/bindings/rtc/rtc-sh.txt   | 28 ---------
+ 2 files changed, 66 insertions(+), 28 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/rtc/renesas,sh-rtc.yaml
+ delete mode 100644 Documentation/devicetree/bindings/rtc/rtc-sh.txt
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-index 3fc7e6899cab5843..50c11a7f0467f746 100644
---- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-@@ -16,6 +16,7 @@
- #include <linux/of_graph.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
-+#include <linux/sys_soc.h>
- 
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
-@@ -842,8 +843,23 @@ static int rcar_lvds_get_clocks(struct rcar_lvds *lvds)
- 	return 0;
- }
- 
-+static const struct rcar_lvds_device_info rcar_lvds_r8a7790es1_info = {
-+	.gen = 2,
-+	.quirks = RCAR_LVDS_QUIRK_LANES,
-+	.pll_setup = rcar_lvds_pll_setup_gen2,
-+};
+diff --git a/Documentation/devicetree/bindings/rtc/renesas,sh-rtc.yaml b/Documentation/devicetree/bindings/rtc/renesas,sh-rtc.yaml
+new file mode 100644
+index 000000000000..07dbcd4436ce
+--- /dev/null
++++ b/Documentation/devicetree/bindings/rtc/renesas,sh-rtc.yaml
+@@ -0,0 +1,66 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/rtc/renesas,sh-rtc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+static const struct soc_device_attribute lvds_quirk_matches[] = {
-+	{
-+		.soc_id = "r8a7790", .revision = "ES1.*",
-+		.data = &rcar_lvds_r8a7790es1_info,
-+	},
-+	{ /* sentinel */ }
-+};
++title: Real Time Clock for Renesas SH and ARM SoCs
 +
- static int rcar_lvds_probe(struct platform_device *pdev)
- {
-+	const struct soc_device_attribute *attr;
- 	struct rcar_lvds *lvds;
- 	struct resource *mem;
- 	int ret;
-@@ -857,6 +873,10 @@ static int rcar_lvds_probe(struct platform_device *pdev)
- 	lvds->dev = &pdev->dev;
- 	lvds->info = of_device_get_match_data(&pdev->dev);
- 
-+	attr = soc_device_match(lvds_quirk_matches);
-+	if (attr)
-+		lvds->info = attr->data;
++maintainers:
++  - Chris Brandt <chris.brandt@renesas.com>
++  - Geert Uytterhoeven <geert+renesas@glider.be>
 +
- 	ret = rcar_lvds_parse_dt(lvds);
- 	if (ret < 0)
- 		return ret;
-@@ -893,12 +913,6 @@ static const struct rcar_lvds_device_info rcar_lvds_gen2_info = {
- 	.pll_setup = rcar_lvds_pll_setup_gen2,
- };
- 
--static const struct rcar_lvds_device_info rcar_lvds_r8a7790_info = {
--	.gen = 2,
--	.quirks = RCAR_LVDS_QUIRK_LANES,
--	.pll_setup = rcar_lvds_pll_setup_gen2,
--};
++properties:
++  compatible:
++    items:
++      - const: renesas,r7s72100-rtc  # RZ/A1H
++      - const: renesas,sh-rtc
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 3
++
++  interrupt-names:
++    items:
++      - const: alarm
++      - const: period
++      - const: carry
++
++  clocks:
++    # The functional clock source for the RTC controller must be listed
++    # first (if it exists). Additionally, potential clock counting sources
++    # are to be listed.
++    true
++
++  clock-names:
++    # The functional clock must be labeled as "fck". Other clocks
++    # may be named in accordance to the SoC hardware manuals.
++    true
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - interrupt-names
++  - clocks
++  - clock-names
++
++examples:
++  - |
++    #include <dt-bindings/clock/r7s72100-clock.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    rtc: rtc@fcff1000 {
++        compatible = "renesas,r7s72100-rtc", "renesas,sh-rtc";
++        reg = <0xfcff1000 0x2e>;
++        interrupts = <GIC_SPI 276 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 277 IRQ_TYPE_EDGE_RISING>,
++                     <GIC_SPI 278 IRQ_TYPE_EDGE_RISING>;
++        interrupt-names = "alarm", "period", "carry";
++        clocks = <&mstp6_clks R7S72100_CLK_RTC>, <&rtc_x1_clk>,
++                 <&rtc_x3_clk>, <&extal_clk>;
++        clock-names = "fck", "rtc_x1", "rtc_x3", "extal";
++    };
+diff --git a/Documentation/devicetree/bindings/rtc/rtc-sh.txt b/Documentation/devicetree/bindings/rtc/rtc-sh.txt
+deleted file mode 100644
+index 7676c7d28874..000000000000
+--- a/Documentation/devicetree/bindings/rtc/rtc-sh.txt
++++ /dev/null
+@@ -1,28 +0,0 @@
+-* Real Time Clock for Renesas SH and ARM SoCs
 -
- static const struct rcar_lvds_device_info rcar_lvds_gen3_info = {
- 	.gen = 3,
- 	.quirks = RCAR_LVDS_QUIRK_PWD,
-@@ -930,7 +944,7 @@ static const struct of_device_id rcar_lvds_of_table[] = {
- 	{ .compatible = "renesas,r8a7744-lvds", .data = &rcar_lvds_gen2_info },
- 	{ .compatible = "renesas,r8a774a1-lvds", .data = &rcar_lvds_gen3_info },
- 	{ .compatible = "renesas,r8a774c0-lvds", .data = &rcar_lvds_r8a77990_info },
--	{ .compatible = "renesas,r8a7790-lvds", .data = &rcar_lvds_r8a7790_info },
-+	{ .compatible = "renesas,r8a7790-lvds", .data = &rcar_lvds_gen2_info },
- 	{ .compatible = "renesas,r8a7791-lvds", .data = &rcar_lvds_gen2_info },
- 	{ .compatible = "renesas,r8a7793-lvds", .data = &rcar_lvds_gen2_info },
- 	{ .compatible = "renesas,r8a7795-lvds", .data = &rcar_lvds_gen3_info },
+-Required properties:
+-- compatible: Should be "renesas,r7s72100-rtc" and "renesas,sh-rtc" as a
+-  fallback.
+-- reg: physical base address and length of memory mapped region.
+-- interrupts: 3 interrupts for alarm, period, and carry.
+-- interrupt-names: The interrupts should be labeled as "alarm", "period", and
+-  "carry".
+-- clocks: The functional clock source for the RTC controller must be listed
+-  first (if exists). Additionally, potential clock counting sources are to be
+-  listed.
+-- clock-names: The functional clock must be labeled as "fck". Other clocks
+-  may be named in accordance to the SoC hardware manuals.
+-
+-
+-Example:
+-rtc: rtc@fcff1000 {
+-	compatible = "renesas,r7s72100-rtc", "renesas,sh-rtc";
+-	reg = <0xfcff1000 0x2e>;
+-	interrupts = <GIC_SPI 276 IRQ_TYPE_EDGE_RISING
+-		      GIC_SPI 277 IRQ_TYPE_EDGE_RISING
+-		      GIC_SPI 278 IRQ_TYPE_EDGE_RISING>;
+-	interrupt-names = "alarm", "period", "carry";
+-	clocks = <&mstp6_clks R7S72100_CLK_RTC>, <&rtc_x1_clk>,
+-		 <&rtc_x3_clk>, <&extal_clk>;
+-	clock-names = "fck", "rtc_x1", "rtc_x3", "extal";
+-};
 -- 
-2.17.1
+2.11.0
 
