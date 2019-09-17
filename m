@@ -2,180 +2,191 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 17345B4AEC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2019 11:41:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 010BDB4B7A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Sep 2019 12:04:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728795AbfIQJki convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Sep 2019 05:40:38 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:38769 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727534AbfIQJki (ORCPT
+        id S1726700AbfIQKE3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Sep 2019 06:04:29 -0400
+Received: from mo4-p01-ob.smtp.rzone.de ([81.169.146.167]:14556 "EHLO
+        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725904AbfIQKE3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Sep 2019 05:40:38 -0400
-Received: by mail-oi1-f196.google.com with SMTP id 7so2272331oip.5;
-        Tue, 17 Sep 2019 02:40:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=uCmhvMwVcStuHY/v3SQn/MtQSiOlz7f/42X793jLSYQ=;
-        b=Jo1up/lMJjjxsVJMkPUcYVgcuRIIjgTGYOnx3bODNDys91Dm3+zOhs+JHvdcnFdMWv
-         7jaQkEqGEtgDCQ6AO3VY+HcvY0TIoUh9/4zfk2c9QVLC8anTny/Zdkd4JheCjMO408L4
-         Ac1FD22qk1YARwS57LamqJT7GMSEH7ZbU+pCTs8U350yCcykJemC29Hf2cJBfAuo3lIM
-         fXq7Q3Te3dMyTXQnNDXzu6CVvLUWDNPEFDNh2+WswzX6+Duzx5b36kbeqRbAG1e8EGXo
-         IQZFhiizcilk+MgomYoe3X+ICPDQ7O0qNzCKR+SNN4ezYZaoukVEr8OSZnr7Mvb3Lhlm
-         zEHg==
-X-Gm-Message-State: APjAAAWtvfyzM0zQuwzScHTL+60aVuOc0Aff0UkDktZGKiqzm+NyaSwk
-        KkN3hQUi581aeXVQIuI2jsYQVQ425uy+XBeT1bo=
-X-Google-Smtp-Source: APXvYqy9QAOEl+I70QDj9XZms1oF+JXpX7r5yoYeHsSGg7Usn7nSuv+ezrLNvK9aaeHKMGjyGfXMvQQYURv3Ven7TAk=
-X-Received: by 2002:aca:cdc7:: with SMTP id d190mr2793514oig.148.1568713237546;
- Tue, 17 Sep 2019 02:40:37 -0700 (PDT)
+        Tue, 17 Sep 2019 06:04:29 -0400
+X-Greylist: delayed 3193 seconds by postgrey-1.27 at vger.kernel.org; Tue, 17 Sep 2019 06:04:28 EDT
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzmt2bYDnKIKaws6YXTsc4="
+X-RZG-CLASS-ID: mo00
+Received: from oxapp03-03.back.ox.d0m.de
+        by smtp-ox.front (RZmta 44.27.0 AUTH)
+        with ESMTPSA id j02f91v8HA4QAMS
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+        (Client did not present a certificate);
+        Tue, 17 Sep 2019 12:04:26 +0200 (CEST)
+Date:   Tue, 17 Sep 2019 12:04:26 +0200 (CEST)
+From:   Ulrich Hecht <uli@fpond.eu>
+To:     Simon Horman <horms+renesas@verge.net.au>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Yoshihiro Kaneko <ykaneko0929@gmail.com>,
+        linux-rtc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Message-ID: <947531396.233366.1568714666222@webmail.strato.com>
+In-Reply-To: <20190917083634.11510-1-horms+renesas@verge.net.au>
+References: <20190917083634.11510-1-horms+renesas@verge.net.au>
+Subject: Re: [PATCH] dt-bindings: rtc: rtc-sh: convert bindings to
+ json-schema
 MIME-Version: 1.0
-References: <20190824132846.8589-1-u.kleine-koenig@pengutronix.de>
- <20190824132846.8589-2-u.kleine-koenig@pengutronix.de> <20190913215809.GA11833@bogus>
-In-Reply-To: <20190913215809.GA11833@bogus>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 17 Sep 2019 11:40:25 +0200
-Message-ID: <CAMuHMdV+pwoAA0zH_vQf2nKqzrgHP8rcMStyJbnuu2qviFC_qg@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] of: Let of_for_each_phandle fallback to
- non-negative cell_count
-To:     Rob Herring <robh@kernel.org>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Will Deacon <will@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux IOMMU <iommu@lists.linux-foundation.org>,
-        linux-mediatek@lists.infradead.org,
-        Sascha Hauer <kernel@pengutronix.de>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
+X-Mailer: Open-Xchange Mailer v7.10.1-Rev20
+X-Originating-IP: 85.212.142.246
+X-Originating-Client: open-xchange-appsuite
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob, Uwe,
 
-On Fri, Sep 13, 2019 at 11:58 PM Rob Herring <robh@kernel.org> wrote:
-> On Sat, 24 Aug 2019 15:28:46 +0200, =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?=          wrote:
-> > Referencing device tree nodes from a property allows to pass arguments.
-> > This is for example used for referencing gpios. This looks as follows:
-> >
-> >       gpio_ctrl: gpio-controller {
-> >               #gpio-cells = <2>
-> >               ...
-> >       }
-> >
-> >       someothernode {
-> >               gpios = <&gpio_ctrl 5 0 &gpio_ctrl 3 0>;
-> >               ...
-> >       }
-> >
-> > To know the number of arguments this must be either fixed, or the
-> > referenced node is checked for a $cells_name (here: "#gpio-cells")
-> > property and with this information the start of the second reference can
-> > be determined.
-> >
-> > Currently regulators are referenced with no additional arguments. To
-> > allow some optional arguments without having to change all referenced
-> > nodes this change introduces a way to specify a default cell_count. So
-> > when a phandle is parsed we check for the $cells_name property and use
-> > it as before if present. If it is not present we fall back to
-> > cells_count if non-negative and only fail if cells_count is smaller than
-> > zero.
-> >
-> > Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> On September 17, 2019 at 10:36 AM Simon Horman <horms+renesas@verge.net.au> wrote:
+> 
+> 
+> Convert Real Time Clock for Renesas SH and ARM SoCs bindings documentation
+> to json-schema.  Also name bindings documentation file according to the
+> compat string being documented.
+> 
+> Also correct syntax error in interrupts field in example.
+> 
+> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+> ---
+> * Based on v5.3
+> * Tested using:
+>   # ARCH=arm64 make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/bus/renesas,bsc.yaml
+>   # ARCH=arm   make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/bus/renesas,bsc.yaml
+> ---
+>  .../devicetree/bindings/rtc/renesas,sh-rtc.yaml    | 66 ++++++++++++++++++++++
+>  Documentation/devicetree/bindings/rtc/rtc-sh.txt   | 28 ---------
+>  2 files changed, 66 insertions(+), 28 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/rtc/renesas,sh-rtc.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/rtc/rtc-sh.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/rtc/renesas,sh-rtc.yaml b/Documentation/devicetree/bindings/rtc/renesas,sh-rtc.yaml
+> new file mode 100644
+> index 000000000000..07dbcd4436ce
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/rtc/renesas,sh-rtc.yaml
+> @@ -0,0 +1,66 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/rtc/renesas,sh-rtc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Real Time Clock for Renesas SH and ARM SoCs
+> +
+> +maintainers:
+> +  - Chris Brandt <chris.brandt@renesas.com>
+> +  - Geert Uytterhoeven <geert+renesas@glider.be>
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - const: renesas,r7s72100-rtc  # RZ/A1H
+> +      - const: renesas,sh-rtc
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 3
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: alarm
+> +      - const: period
+> +      - const: carry
+> +
+> +  clocks:
+> +    # The functional clock source for the RTC controller must be listed
+> +    # first (if it exists). Additionally, potential clock counting sources
+> +    # are to be listed.
+> +    true
+> +
+> +  clock-names:
+> +    # The functional clock must be labeled as "fck". Other clocks
+> +    # may be named in accordance to the SoC hardware manuals.
+> +    true
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - interrupt-names
+> +  - clocks
+> +  - clock-names
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/r7s72100-clock.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +
+> +    rtc: rtc@fcff1000 {
+> +        compatible = "renesas,r7s72100-rtc", "renesas,sh-rtc";
+> +        reg = <0xfcff1000 0x2e>;
+> +        interrupts = <GIC_SPI 276 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 277 IRQ_TYPE_EDGE_RISING>,
+> +                     <GIC_SPI 278 IRQ_TYPE_EDGE_RISING>;
+> +        interrupt-names = "alarm", "period", "carry";
+> +        clocks = <&mstp6_clks R7S72100_CLK_RTC>, <&rtc_x1_clk>,
+> +                 <&rtc_x3_clk>, <&extal_clk>;
+> +        clock-names = "fck", "rtc_x1", "rtc_x3", "extal";
+> +    };
+> diff --git a/Documentation/devicetree/bindings/rtc/rtc-sh.txt b/Documentation/devicetree/bindings/rtc/rtc-sh.txt
+> deleted file mode 100644
+> index 7676c7d28874..000000000000
+> --- a/Documentation/devicetree/bindings/rtc/rtc-sh.txt
+> +++ /dev/null
+> @@ -1,28 +0,0 @@
+> -* Real Time Clock for Renesas SH and ARM SoCs
+> -
+> -Required properties:
+> -- compatible: Should be "renesas,r7s72100-rtc" and "renesas,sh-rtc" as a
+> -  fallback.
+> -- reg: physical base address and length of memory mapped region.
+> -- interrupts: 3 interrupts for alarm, period, and carry.
+> -- interrupt-names: The interrupts should be labeled as "alarm", "period", and
+> -  "carry".
+> -- clocks: The functional clock source for the RTC controller must be listed
+> -  first (if exists). Additionally, potential clock counting sources are to be
+> -  listed.
+> -- clock-names: The functional clock must be labeled as "fck". Other clocks
+> -  may be named in accordance to the SoC hardware manuals.
+> -
+> -
+> -Example:
+> -rtc: rtc@fcff1000 {
+> -	compatible = "renesas,r7s72100-rtc", "renesas,sh-rtc";
+> -	reg = <0xfcff1000 0x2e>;
+> -	interrupts = <GIC_SPI 276 IRQ_TYPE_EDGE_RISING
+> -		      GIC_SPI 277 IRQ_TYPE_EDGE_RISING
+> -		      GIC_SPI 278 IRQ_TYPE_EDGE_RISING>;
+> -	interrupt-names = "alarm", "period", "carry";
+> -	clocks = <&mstp6_clks R7S72100_CLK_RTC>, <&rtc_x1_clk>,
+> -		 <&rtc_x3_clk>, <&extal_clk>;
+> -	clock-names = "fck", "rtc_x1", "rtc_x3", "extal";
+> -};
+> -- 
+> 2.11.0
 
-This is now commit e42ee61017f58cd9 ("of: Let of_for_each_phandle fallback
-to non-negative cell_count") in robh/for-next, which causes a lock-up when
-booting a shmobile_defconfig kernel on r8a7791/koelsch:
+Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
-rcu: INFO: rcu_sched self-detected stall on CPU
-rcu:     0-....: (2099 ticks this GP) idle=6fe/1/0x40000002
-softirq=29/29 fqs=1050
- (t=2100 jiffies g=-1131 q=0)
-NMI backtrace for cpu 0
-CPU: 0 PID: 1 Comm: swapper/0 Not tainted
-5.3.0-rc2-shmobile-00050-ge42ee61017f58cd9 #376
-Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
-[<c010f8ac>] (unwind_backtrace) from [<c010b620>] (show_stack+0x10/0x14)
-[<c010b620>] (show_stack) from [<c073d038>] (dump_stack+0x7c/0x9c)
-[<c073d038>] (dump_stack) from [<c0742e80>] (nmi_cpu_backtrace+0xa0/0xb8)
-[<c0742e80>] (nmi_cpu_backtrace) from [<c0742f1c>]
-(nmi_trigger_cpumask_backtrace+0x84/0x114)
-[<c0742f1c>] (nmi_trigger_cpumask_backtrace) from [<c017d684>]
-(rcu_dump_cpu_stacks+0xac/0xc8)
-[<c017d684>] (rcu_dump_cpu_stacks) from [<c017a598>]
-(rcu_sched_clock_irq+0x2ac/0x6b4)
-[<c017a598>] (rcu_sched_clock_irq) from [<c0183980>]
-(update_process_times+0x30/0x5c)
-[<c0183980>] (update_process_times) from [<c01941a8>]
-(tick_nohz_handler+0xcc/0x120)
-[<c01941a8>] (tick_nohz_handler) from [<c05b1d40>]
-(arch_timer_handler_virt+0x28/0x30)
-[<c05b1d40>] (arch_timer_handler_virt) from [<c016c9e0>]
-(handle_percpu_devid_irq+0xe8/0x21c)
-[<c016c9e0>] (handle_percpu_devid_irq) from [<c0167a8c>]
-(generic_handle_irq+0x18/0x28)
-[<c0167a8c>] (generic_handle_irq) from [<c0167b3c>]
-(__handle_domain_irq+0xa0/0xb4)
-[<c0167b3c>] (__handle_domain_irq) from [<c03673ec>] (gic_handle_irq+0x58/0x90)
-[<c03673ec>] (gic_handle_irq) from [<c0101a8c>] (__irq_svc+0x6c/0x90)
-Exception stack(0xeb08dd30 to 0xeb08dd78)
-dd20:                                     c0cc7514 20000013 00000005 00003b27
-dd40: eb7c4020 c0cc750c 00000051 00000051 20000013 c0c66b08 eb1cdc00 00000018
-dd60: 00000000 eb08dd80 c05c1a38 c0756c00 20000013 ffffffff
-[<c0101a8c>] (__irq_svc) from [<c0756c00>]
-(_raw_spin_unlock_irqrestore+0x1c/0x20)
-[<c0756c00>] (_raw_spin_unlock_irqrestore) from [<c05c1a38>]
-(of_find_node_by_phandle+0xcc/0xf0)
-[<c05c1a38>] (of_find_node_by_phandle) from [<c05c1bb8>]
-(of_phandle_iterator_next+0x68/0x178)
-[<c05c1bb8>] (of_phandle_iterator_next) from [<c05c22bc>]
-(of_count_phandle_with_args+0x5c/0x7c)
-[<c05c22bc>] (of_count_phandle_with_args) from [<c053fc38>]
-(i2c_demux_pinctrl_probe+0x24/0x1fc)
-[<c053fc38>] (i2c_demux_pinctrl_probe) from [<c04463c4>]
-(platform_drv_probe+0x48/0x94)
-[<c04463c4>] (platform_drv_probe) from [<c0444a20>] (really_probe+0x1f0/0x2b8)
-[<c0444a20>] (really_probe) from [<c0444e68>] (driver_probe_device+0x140/0x158)
-[<c0444e68>] (driver_probe_device) from [<c0444ff0>]
-(device_driver_attach+0x44/0x5c)
-[<c0444ff0>] (device_driver_attach) from [<c04450b4>]
-(__driver_attach+0xac/0xb4)
-[<c04450b4>] (__driver_attach) from [<c0443178>] (bus_for_each_dev+0x64/0xa0)
-[<c0443178>] (bus_for_each_dev) from [<c04438a8>] (bus_add_driver+0x148/0x1a8)
-[<c04438a8>] (bus_add_driver) from [<c0445ad0>] (driver_register+0xac/0xf0)
-[<c0445ad0>] (driver_register) from [<c0b010b0>] (do_one_initcall+0xa8/0x1d4)
-[<c0b010b0>] (do_one_initcall) from [<c0b01448>]
-(kernel_init_freeable+0x26c/0x2c8)
-[<c0b01448>] (kernel_init_freeable) from [<c0751c70>] (kernel_init+0x8/0x10c)
-[<c0751c70>] (kernel_init) from [<c01010e8>] (ret_from_fork+0x14/0x2c)
-Exception stack(0xeb08dfb0 to 0xeb08dff8)
-dfa0:                                     00000000 00000000 00000000 00000000
-dfc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-dfe0: 00000000 00000000 00000000 00000000 00000013 00000000
+CU
+Uli
 
-Presumably it loops forever, due to a conversion of -1 to unsigned
-somewhere?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>
