@@ -2,136 +2,224 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DDDF6B6633
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Sep 2019 16:34:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EAB58B66B3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Sep 2019 17:05:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729083AbfIROeJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Sep 2019 10:34:09 -0400
-Received: from mail-eopbgr1320121.outbound.protection.outlook.com ([40.107.132.121]:60336
-        "EHLO APC01-PU1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727056AbfIROeI (ORCPT
+        id S2387415AbfIRPFt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Sep 2019 11:05:49 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:37325 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728330AbfIRPFt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Sep 2019 10:34:08 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fgpWR20cFw7I8bAMYVlC82vr23+t8f5PG8Kw4Ud/P8j/4UEdefuOE4HUKOV2R/6PuMOuifdzfvQnhcRx25fo3qc1mD1oPDfR+6CHjUQoApMwWN2PCCB4gdw1DmHkeYYzi6yl9zjQA7TplywkSEs8x0yj8Wx+O6ppRrLTc2N1hYCHGTdNjcClAw6m3hrpkOAJro5QkjD629gm0hyiRPF6C31YvUEaKg2JbZu6Nxh1ZcwebfQ/5DLW6g97Ycu2AvvsZ1d5qYojAIPv3DEYpFiI3HHSxg5/jmQWhS+CwyUjji9JF+gP89izrNf6jl6L0VAebCnXTISroOCqk2RjfPcJiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6YUooBcRdihS5xFS/3EQ5gOkc0Ng1eOm7f7IlkZggvg=;
- b=FdIoEB/RKB14HLIRW+xRRmr6xsCyjLkOrdj0jjsowV3obYeiDCb2k7Z2zPDV/nE2H2KQXR7X2I3onxn4PLZ7xauS7+k2ABdBJjdcOpXQIeyT9++xtKE/VA1w2R/VUt5cPQxZILx0n2pvStpRF2mJWKCzqzuq2Ui0uUyMzZtcvvQ7LaUdqpa1SlQNtYId5hcDPOrLMDbcJjDTtwdupzdvwf5YPEgrQc6GEaE9dLhwGskzEjr8M1E9YYBayggfYU1hksiiziOAPEutk0QQ2JFRL3D3mIcbMZXYWDb5GJnqROo77OxAzmh52OMvWzechTk2WQ/ltVx7/PBl67b1b6d5CA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
+        Wed, 18 Sep 2019 11:05:49 -0400
+Received: by mail-pg1-f194.google.com with SMTP id c17so15703pgg.4;
+        Wed, 18 Sep 2019 08:05:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6YUooBcRdihS5xFS/3EQ5gOkc0Ng1eOm7f7IlkZggvg=;
- b=WIpKRiWPmaGmFYoY0QaIroWqyRbyxnrsdMCGsHlZmj0M8XnN9JNhTwtZ4Y5IY3P99XzOZ1qVc0IhCDG+4Z9TAcpO0U78eDaj8F8Z1q6K1BlkGGQEDvcV9MsxGZKrSTQpET74utWrVAJvNv/VGXcCiz5Bf4ES+sMuCFzMIDewLbo=
-Received: from TY2PR01MB2924.jpnprd01.prod.outlook.com (20.177.98.81) by
- TY2PR01MB2810.jpnprd01.prod.outlook.com (20.177.100.76) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2263.24; Wed, 18 Sep 2019 14:34:04 +0000
-Received: from TY2PR01MB2924.jpnprd01.prod.outlook.com
- ([fe80::7ce4:f502:8430:51a]) by TY2PR01MB2924.jpnprd01.prod.outlook.com
- ([fe80::7ce4:f502:8430:51a%7]) with mapi id 15.20.2263.023; Wed, 18 Sep 2019
- 14:34:04 +0000
-From:   Gareth Williams <gareth.williams.jx@renesas.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=S8+DSKdJDupx7vBlIFaOZU3EN4XntW2KLafDePYTrEY=;
+        b=NqMTpDaHk/W5JfBpXsVWnYEV5UJmn+IM+BhfKFNOiXNURQZNM24TsaDC/M++BGdN/P
+         4gjpVzI+8kIohIO4KpTgy8uqykrVYHGLKiO0B9888w8wMHFd4sojhPlG57p0l4yLCSOA
+         3s+MaLwwiSflhkHlOO+Nc53e/7XUMa4IBKbyfB7t6+WE6Z8QQIh7CFRB0Mn3NoCYnNFq
+         Mxcnzv44CD7nJFZXnjjI5eh9G1kTQiOKiTLy6ic26idcKyDFjx64XbnxKh6pMRqTyEJI
+         eA6xFhvPy+wUimf0RzVxqUWjcYzdKYdqDLQqN1gehDH7TUKEzMwATM8MGWGD27CB3C/d
+         kXdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=S8+DSKdJDupx7vBlIFaOZU3EN4XntW2KLafDePYTrEY=;
+        b=f3EEzLi9ShLFZkGjGXlmUaO0nT7J7Qgoj7GlYdDL6lm0LyXfX0LShd6k5UyVn32VHt
+         q5HJhOIdMavjw6rQTJ7VUMuNj4Tk4LYglP9AevHndCUnbrEL2sAGajodO1VCywHPm3dN
+         VclYY5YrudX7w/B56BRUPxVBeVpij8jpNFasF2aO95onLbJv3RWnv+vGHcFyh9l9vyOL
+         g3mnYjvrbPZ/Az9gJ/Zy4/WjHlV4uZjOWkkW0MzcOtmsbPPk+D22dItXyb2DOfm4rrQm
+         jXfyP5mCMaVK/dcOWffK60ShrrijC5hA6GVJH4K2FSS4JCzq0YCKCBD7cwbvwx+9GJYy
+         afNg==
+X-Gm-Message-State: APjAAAXTGnokwsBpcyRW4JbpnYk5wIL3eL9n4oiLOIV82PXggCJSl/WW
+        PD7KtMgqX3043U/Rz5v5GsVPb8yr
+X-Google-Smtp-Source: APXvYqzYiSaEQ8pNAJ5zI5NP1Mx/LAV/tH5OtpnPQ98Y/X07sgHLTuBj27LNqu2SvhIAY3ra0d09sg==
+X-Received: by 2002:a62:3687:: with SMTP id d129mr4747229pfa.199.1568819148168;
+        Wed, 18 Sep 2019 08:05:48 -0700 (PDT)
+Received: from localhost.localdomain (p1607031-ipngn15601marunouchi.tokyo.ocn.ne.jp. [153.204.132.31])
+        by smtp.gmail.com with ESMTPSA id p1sm13738415pfb.112.2019.09.18.08.05.46
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Wed, 18 Sep 2019 08:05:47 -0700 (PDT)
+From:   Yoshihiro Kaneko <ykaneko0929@gmail.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Rob Herring <robh@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Phil Edworthy <phil.edworthy@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        "kieran.bingham+renesas@ideasonboard.com" 
-        <kieran.bingham+renesas@ideasonboard.com>
-Subject: RE: DRM Driver implementation question
-Thread-Topic: DRM Driver implementation question
-Thread-Index: AdVslX1ZBzegHzojRVS64lgG04s8jgAenS2AABbmTEAALXtJgAAC+tRg
-Date:   Wed, 18 Sep 2019 14:34:04 +0000
-Message-ID: <TY2PR01MB2924FAE6E54718ED44E0E4ABDF8E0@TY2PR01MB2924.jpnprd01.prod.outlook.com>
-References: <TY2PR01MB29242CA3B8CBE834A5B0CC48DF8C0@TY2PR01MB2924.jpnprd01.prod.outlook.com>
- <TYAPR01MB4544D0B345C809CD3555A9EFD88F0@TYAPR01MB4544.jpnprd01.prod.outlook.com>
- <TY2PR01MB292423C617848A66F61B1027DF8F0@TY2PR01MB2924.jpnprd01.prod.outlook.com>
- <20190918130331.GD6306@pendragon.ideasonboard.com>
-In-Reply-To: <20190918130331.GD6306@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=gareth.williams.jx@renesas.com; 
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 192bd398-f14a-4b5e-93ed-08d73c4541a2
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:TY2PR01MB2810;
-x-ms-traffictypediagnostic: TY2PR01MB2810:|TY2PR01MB2810:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TY2PR01MB28109C96DF28036177A44E07DF8E0@TY2PR01MB2810.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 01644DCF4A
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(39860400002)(366004)(136003)(346002)(396003)(376002)(199004)(51444003)(189003)(7696005)(86362001)(6246003)(6916009)(3846002)(76176011)(99286004)(316002)(25786009)(486006)(6506007)(2906002)(26005)(102836004)(66946007)(6116002)(54906003)(66556008)(66446008)(64756008)(5660300002)(6436002)(476003)(186003)(55016002)(9686003)(71200400001)(4326008)(52536014)(3480700005)(305945005)(74316002)(8936002)(33656002)(256004)(478600001)(71190400001)(81166006)(14454004)(76116006)(81156014)(66476007)(229853002)(7736002)(446003)(66066001)(11346002)(8676002);DIR:OUT;SFP:1102;SCL:1;SRVR:TY2PR01MB2810;H:TY2PR01MB2924.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: V4OZMMhzxQgh86xI8uI2/yCEfd4Au5/shb44840SGwbs/3FO2lauSL18d2Npjvok69ekvKqs/7XKO7I6IZuFxh6FDftu6ACDj24kL7TLZ+4kniS1ZdBdSFkjFWzAr92HhcvhvgpUrdFpcidPcbJO6tLJc0kNI0WYWRj84UwYtyfYeEIOHVaG8me3qFuLe/snBp+BDN7JvV34p0Ai14Cl/l7gM4O0wgpDuH8uLXALZ6hA5jsHsi1UBHwVyhj0M9HGm5dJFZ/muEN+SfyAsBt3HHgs9oHu5NqEkg1cmMIXHKwyDUmKtyMPGBplBeIY5/LqCfkPjij0sJSIzAblJ6DzusThaSkodXIhvvo7ZC4ir98VP6Kp+VTbYihJ9JlgsZh7KxKKebsjcdr8e2Ys3FqyGODGN6zFrkjpfFv7bJhcK1A=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 192bd398-f14a-4b5e-93ed-08d73c4541a2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Sep 2019 14:34:04.5589
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: HT+0cdxqkahTPYmJcH3H6lCPMONBRI02HruhZe/C77F2Y7GNGGa/JXHnQGURXsqiaq81L1HwFpmJLOreL6w043Tgx9FRTWU33vvvHgVy93I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR01MB2810
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org
+Subject: [PATCH v2] dt-bindings: irqchip: renesas-irqc: convert bindings to json-schema
+Date:   Thu, 19 Sep 2019 00:05:21 +0900
+Message-Id: <1568819121-32737-1-git-send-email-ykaneko0929@gmail.com>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgTGF1cmVudCwNCg0KT24gV2VkLCBTZXAgMTgsIDIwMTkgYXQgMDQ6MDQ6MzRQTSArMDAwMCwg
-TGF1cmVudCBQaW5jaGFydCB3cm90ZToNCj4gDQo+IEhpIEdhcmV0aCwNCj4gDQo+IFNvcnJ5IGZv
-ciB0aGUgZGVsYXllZCByZXNwb25zZSwgSSB3YXMgdHJhdmVsbGluZyBmb3IgdGhlIExpbnV4IA0K
-PiBQbHVtYmVycyBDb25mZXJlbmNlIGZvbGxvd2VkIGJ5IGEgY29kZSBjYW1wLg0KPiANCj4gT24g
-VHVlLCBTZXAgMTcsIDIwMTkgYXQgMDM6Mjc6MzRQTSArMDAwMCwgR2FyZXRoIFdpbGxpYW1zIHdy
-b3RlOg0KPiA+IEhpIFlvc2hpaGlybywNCj4gPg0KPiA+IFRoaXMgbG9va3MgbGlrZSBhbiBlbGVn
-YW50IHNvbHV0aW9uIHRoYXQgSSBjYW4gaW1wbGVtZW50Lg0KPiA+IE1hbnkgdGhhbmtzIGZvciBw
-b2ludGluZyBtZSBpbiBhIGdvb2QgZGlyZWN0aW9uLg0KPiA+DQo+ID4gPiBGcm9tOiBZb3NoaWhp
-cm8gU2hpbW9kYSwgU2VudDogVHVlc2RheSwgU2VwdGVtYmVyIDE3LCAyMDE5IDA1OjM5IA0KPiA+
-ID4gUE0NCj4gPiA+DQo+ID4gPiBIaSBHYXJldGgsDQo+ID4gPg0KPiA+ID4gPiBGcm9tOiBHYXJl
-dGggV2lsbGlhbXMsIFNlbnQ6IE1vbmRheSwgU2VwdGVtYmVyIDE2LCAyMDE5IDEwOjU2IFBNDQo+
-ID4gPiA+DQo+ID4gPiA+IEhpIExhdXJlbnQvS2llcmFuLA0KPiA+ID4gPg0KPiA+ID4gPiBJIG5l
-ZWQgdG8gdXBzdHJlYW0gYSBkcml2ZXIgZm9yIGEgZGlzcGxheSBjb250cm9sbGVyIHRoYXQgd2l0
-aGluIA0KPiA+ID4gPiBpdHMgcmVnaXN0ZXJzIG1lbW9yeSByZWdpb24gY29udGFpbnMgcmVnaXN0
-ZXJzIHJlbGF0ZWQgdG8gYSBQV00gDQo+ID4gPiA+IGRldmljZS4gVGhlIFBXTSBkZXZpY2UgaXMg
-Zm9yIGNvbnRyb2xsaW5nIHRoZSBiYWNrbGlnaHQgb2YgdGhlIA0KPiA+ID4gPiBkaXNwbGF5Lg0K
-PiA+ID4gPg0KPiA+ID4gPiBJZGVhbGx5LCBJIHdvdWxkIGxpa2UgdG8gY3JlYXRlIGEgc2VwYXJh
-dGVkIGRyaXZlciBmb3IgdGhlIFBXTSwgDQo+ID4gPiA+IHNvIHRoYXQgSSBjYW4gcmUtdXNlICJw
-d20tYmFja2xpZ2h0IiwgYnV0IHNpbmNlIHRoZSByZWdpc3RlcnMgDQo+ID4gPiA+IGZvciB0aGUg
-UFdNIGFyZSByaWdodCBpbiB0aGUgbWlkZGxlIG9mIHRoZSByZWdpc3RlcnMgZm9yIHRoZSANCj4g
-PiA+ID4gZGlzcGxheSBjb250cm9sbGVyIEkgd291bGQgbmVlZCB0byBpb3JlbWFwIHRoZSBtZW1v
-cnkgcmVnaW9uIGZvciANCj4gPiA+ID4gdGhlIFBXTSByZWdpc3RlcnMgcmVnaW9uIHR3aWNlLCBv
-bmNlIGZyb20gdGhlIGRpc3BsYXkgY29udHJvbGxlciANCj4gPiA+ID4gZHJpdmVyLCBhbmQgb25j
-ZSBmcm9tIHRoZSBQV00gZHJpdmVyLg0KPiA+ID4gPg0KPiA+ID4gPiBEbyB5b3UgdGhpbmsgdGhh
-dCB0aGUgZG91YmxlIGlvcmVtYXAgd291bGQgYmUgYWNjZXB0YWJsZSB1cHN0cmVhbT8NCj4gPiA+
-DQo+ID4gPiBJIHRoaW5rIHRoYXQgYW4gTUZEIGRyaXZlciBjYW4gc3VwcG9ydCBzdWNoIGhhcmR3
-YXJlLiBJIGNoZWNrZWQgDQo+ID4gPiBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3Mv
-bWZkIHJvdWdobHksIGFuZCB0aGVuIA0KPiA+ID4gYXRtZWwtaGxjZGMudHh0IHNlZW1zIHRvIGhh
-dmUgYSBkaXNwbGF5IGNvbnRyb2xsZXIgYW5kIGEgUFdNIGRldmljZS4NCj4gDQo+IFdoaWxlIE1G
-RCBzaG91bGQgdGVjaG5pY2FsbHkgd29yaywgSSB0aGluayBpdCdzIHF1aXRlIG92ZXJraWxsLiBZ
-b3UgDQo+IGNvdWxkIGluc3RlYWQgYnVuZGxlIGJvdGggdGhlIGRpc3BsYXkgY29udHJvbGxlciBh
-bmQgdGhlIFBXTSANCj4gY29udHJvbGxlciBpbiB0aGUgc2FtZSBkcml2ZXIuIFRoZSBkcml2ZXIg
-d291bGQgY3JlYXRlIGJvdGggYSBEUk0vS01TIA0KPiBkZXZpY2UgYW5kIGEgUFdNIGRldmljZS4g
-VGhlIERUIG5vZGUgZm9yIHlvdXIgZGV2aWNlIHdvdWxkIGNvbnRhaW4gYSANCj4gI3B3bS1jZWxs
-cyBwcm9wZXJ0eSBhbmQgY291bGQgdGh1cyBiZSByZWZlcmVuY2VkIGFzIGEgUFdNIGNvbnRyb2xs
-ZXIgDQo+IGJ5IHRoZSBiYWNrbGlnaHQgdXNpbmcgdGhlIHB3bXMgcHJvcGVydHkuDQpUaGlzIG1h
-a2VzIHNlbnNlLCBtYW55IHRoYW5rcyBmb3IgcG9pbnRpbmcgbWUgaW4gdGhlIGRpcmVjdGlvbi4N
-Cg0KPiANCj4gLS0NCj4gUmVnYXJkcywNCj4gDQo+IExhdXJlbnQgUGluY2hhcnQNCg0KS2luZCBS
-ZWdhcmRzLA0KDQpHYXJldGggV2lsbGlhbXMNCg==
+Convert Renesas Interrupt Controller bindings documentation to json-schema.
+
+Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
+---
+
+v2
+- Add SPDX tag.
+- Document interrupt-contoller, reg, interrupts, power-domains and resets
+  properties.
+- Add addtionalProperties.
+
+---
+ .../bindings/interrupt-controller/renesas,irqc.txt | 48 -------------
+ .../interrupt-controller/renesas,irqc.yaml         | 84 ++++++++++++++++++++++
+ 2 files changed, 84 insertions(+), 48 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.txt
+ create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.yaml
+
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.txt b/Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.txt
+deleted file mode 100644
+index f977ea7..0000000
+--- a/Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.txt
++++ /dev/null
+@@ -1,48 +0,0 @@
+-DT bindings for the R-Mobile/R-Car/RZ/G interrupt controller
+-
+-Required properties:
+-
+-- compatible: must be "renesas,irqc-<soctype>" or "renesas,intc-ex-<soctype>",
+-	      and "renesas,irqc" as fallback.
+-  Examples with soctypes are:
+-    - "renesas,irqc-r8a73a4" (R-Mobile APE6)
+-    - "renesas,irqc-r8a7743" (RZ/G1M)
+-    - "renesas,irqc-r8a7744" (RZ/G1N)
+-    - "renesas,irqc-r8a7745" (RZ/G1E)
+-    - "renesas,irqc-r8a77470" (RZ/G1C)
+-    - "renesas,irqc-r8a7790" (R-Car H2)
+-    - "renesas,irqc-r8a7791" (R-Car M2-W)
+-    - "renesas,irqc-r8a7792" (R-Car V2H)
+-    - "renesas,irqc-r8a7793" (R-Car M2-N)
+-    - "renesas,irqc-r8a7794" (R-Car E2)
+-    - "renesas,intc-ex-r8a774a1" (RZ/G2M)
+-    - "renesas,intc-ex-r8a774c0" (RZ/G2E)
+-    - "renesas,intc-ex-r8a7795" (R-Car H3)
+-    - "renesas,intc-ex-r8a7796" (R-Car M3-W)
+-    - "renesas,intc-ex-r8a77965" (R-Car M3-N)
+-    - "renesas,intc-ex-r8a77970" (R-Car V3M)
+-    - "renesas,intc-ex-r8a77980" (R-Car V3H)
+-    - "renesas,intc-ex-r8a77990" (R-Car E3)
+-    - "renesas,intc-ex-r8a77995" (R-Car D3)
+-- #interrupt-cells: has to be <2>: an interrupt index and flags, as defined in
+-  interrupts.txt in this directory
+-- clocks: Must contain a reference to the functional clock.
+-
+-Optional properties:
+-
+-- any properties, listed in interrupts.txt, and any standard resource allocation
+-  properties
+-
+-Example:
+-
+-	irqc0: interrupt-controller@e61c0000 {
+-		compatible = "renesas,irqc-r8a7790", "renesas,irqc";
+-		#interrupt-cells = <2>;
+-		interrupt-controller;
+-		reg = <0 0xe61c0000 0 0x200>;
+-		interrupts = <0 0 IRQ_TYPE_LEVEL_HIGH>,
+-			     <0 1 IRQ_TYPE_LEVEL_HIGH>,
+-			     <0 2 IRQ_TYPE_LEVEL_HIGH>,
+-			     <0 3 IRQ_TYPE_LEVEL_HIGH>;
+-		clocks = <&mstp4_clks R8A7790_CLK_IRQC>;
+-	};
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.yaml b/Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.yaml
+new file mode 100644
+index 0000000..18497c3
+--- /dev/null
++++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.yaml
+@@ -0,0 +1,84 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/interrupt-controller/renesas,irqc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: DT bindings for the R-Mobile/R-Car/RZ/G interrupt controller
++
++maintainers:
++  - Geert Uytterhoeven <geert+renesas@glider.be>
++
++properties:
++  compatible:
++    items:
++      - enum:
++          - renesas,irqc-r8a73a4        # R-Mobile APE6
++          - renesas,irqc-r8a7743        # RZ/G1M
++          - renesas,irqc-r8a7744        # RZ/G1N
++          - renesas,irqc-r8a7745        # RZ/G1E
++          - renesas,irqc-r8a77470       # RZ/G1C
++          - renesas,irqc-r8a7790        # R-Car H2
++          - renesas,irqc-r8a7791        # R-Car M2-W
++          - renesas,irqc-r8a7792        # R-Car V2H
++          - renesas,irqc-r8a7793        # R-Car M2-N
++          - renesas,irqc-r8a7794        # R-Car E2
++          - renesas,intc-ex-r8a774a1    # RZ/G2M
++          - renesas,intc-ex-r8a774c0    # RZ/G2E
++          - renesas,intc-ex-r8a7795     # R-Car H3
++          - renesas,intc-ex-r8a7796     # R-Car M3-W
++          - renesas,intc-ex-r8a77965    # R-Car M3-N
++          - renesas,intc-ex-r8a77970    # R-Car V3M
++          - renesas,intc-ex-r8a77980    # R-Car V3H
++          - renesas,intc-ex-r8a77990    # R-Car E3
++          - renesas,intc-ex-r8a77995    # R-Car D3
++      - const: renesas,irqc
++
++  '#interrupt-cells':
++    # an interrupt index and flags, as defined in interrupts.txt in
++    # this directory
++    const: 2
++
++  interrupt-controller: true
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    minItems: 1
++    maxItems: 32
++
++  clocks:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++required:
++  - compatible
++  - '#interrupt-cells'
++  - interrupt-controller
++  - reg
++  - clocks
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/clock/r8a7790-clock.h>
++
++    irqc0: interrupt-controller@e61c0000 {
++        compatible = "renesas,irqc-r8a7790", "renesas,irqc";
++        #interrupt-cells = <2>;
++        interrupt-controller;
++        reg = <0 0xe61c0000 0 0x200>;
++        interrupts = <0 0 IRQ_TYPE_LEVEL_HIGH>,
++                     <0 1 IRQ_TYPE_LEVEL_HIGH>,
++                     <0 2 IRQ_TYPE_LEVEL_HIGH>,
++                     <0 3 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&mstp4_clks R8A7790_CLK_IRQC>;
++    };
+-- 
+1.9.1
+
