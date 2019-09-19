@@ -2,198 +2,208 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D6C79B77B4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Sep 2019 12:48:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 501A8B78D9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Sep 2019 14:03:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388028AbfISKsk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Sep 2019 06:48:40 -0400
-Received: from mail-eopbgr1400114.outbound.protection.outlook.com ([40.107.140.114]:19510
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2387520AbfISKsj (ORCPT
+        id S2388590AbfISMDm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Sep 2019 08:03:42 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:57370 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388575AbfISMDm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Sep 2019 06:48:39 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Pb0crKHbadjqZg1t+2Qkc8WDqryJkmA1XDjbUkvonwA8eE/9kYnSVX+qeA0Io1TCyOMK8KM1T25ScSIMGd+r0+ZPQsHz9qtNIiFi+ysOwNkQnn7WI+dfNru3/jiGI8J6XsDVwjJlZB1oDEobDwlDe82wMoA6+0NjtLihR4eZWdq03kbDrcddPFprZtHMAN0F5s00tJCB2PfN9jZVlXA5Vb0PTPblRPosplL7tMpcqdV+i2sr8xRK1T9XS9cgUgWSrtYgFYcp6cCA/HE+Lm4EDnETytBXec5yN4VPgK2czmzfmCO4/jHxHmQQ9D4d7vzjmddmSUOC4I9bMpxKvRpAmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PGgh5lBqzgL/c4rOyefJYb4ecyVE/6Zg9zkG8GyHrkI=;
- b=jSxyqMPEs3Z9BsjpoflYJxFSQ7oZOxv+uBS34FMR8IalZ0FmDQVbGB1c2dZKEtEjATNTB2gUtnuzaW2znOsZD2x661V/1SF4Eo6tOo/FAIZlweWGzTkbxC6qI6Syvoorwm8QI4yje4G25dtug8Jc4loR+NpEn/W2wUaFcC2t2bi5nyFQ1cuuH80Q5AB6IxtNegMjG/mhfZtKb2ODLeKAjYJSCem7YI/D5EMxlTzszsOO7U4parqNQ6pX//zLz4z/X1j+EPxsVK6Yrre1OTdzw/FKsc6/yxRFF6tZ7H59pu7LWCcmukwfUlNkYYziB9N7qnxeKo8FsdCbV76s4zNeyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PGgh5lBqzgL/c4rOyefJYb4ecyVE/6Zg9zkG8GyHrkI=;
- b=BL/nxj2DR/2SCbJf0rONbO9vA6Bb8LGkahyACljIlSgJplbi4XPDb4/kPd2CJ+c1pReqKVPDcMFR1sBctNaeIOmfz9G5VeADAwLGkpam00/S/dvDZ/azsqHsPmOhMRpfztg6LGskkbgl5FXi1WoqDcqwrTk8c8QqoyTfGUj3v/0=
-Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com (52.134.242.17) by
- OSBPR01MB3288.jpnprd01.prod.outlook.com (52.134.255.211) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.20; Thu, 19 Sep 2019 10:48:36 +0000
-Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com
- ([fe80::746b:49c1:925d:e9eb]) by OSBPR01MB2103.jpnprd01.prod.outlook.com
- ([fe80::746b:49c1:925d:e9eb%5]) with mapi id 15.20.2263.023; Thu, 19 Sep 2019
- 10:48:36 +0000
-From:   Biju Das <biju.das@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms@verge.net.au>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Dien Pham <dien.pham.ry@rvc.renesas.com>,
-        TAKESHI KIHARA <takeshi.kihara.df@renesas.com>,
-        =?iso-8859-1?Q?Niklas_S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: Regarding CPU frequency reported by Salvator-X board
-Thread-Topic: Regarding CPU frequency reported by Salvator-X board
-Thread-Index: AdVu1v1XonYj+BwOSuOvcVeOj6Mplg==
-Date:   Thu, 19 Sep 2019 10:48:35 +0000
-Message-ID: <OSBPR01MB21035AD5CA51E3CCFE6F61C6B8890@OSBPR01MB2103.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=biju.das@bp.renesas.com; 
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 0f7bdf55-d53e-4985-c006-08d73ceeec48
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:OSBPR01MB3288;
-x-ms-traffictypediagnostic: OSBPR01MB3288:|OSBPR01MB3288:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <OSBPR01MB3288E56A77FAD16BE1E75766B8890@OSBPR01MB3288.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 016572D96D
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(346002)(396003)(376002)(136003)(366004)(39850400004)(189003)(199004)(53754006)(86362001)(6436002)(9686003)(2501003)(14454004)(66556008)(66476007)(486006)(256004)(478600001)(44832011)(81166006)(81156014)(55016002)(7696005)(64756008)(66946007)(33656002)(66446008)(2906002)(99286004)(76116006)(6506007)(305945005)(26005)(7736002)(8936002)(66066001)(25786009)(102836004)(5660300002)(74316002)(3846002)(6116002)(186003)(52536014)(316002)(476003)(71200400001)(71190400001)(8676002)(110136005);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB3288;H:OSBPR01MB2103.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
-received-spf: None (protection.outlook.com: bp.renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: djcEBUCBH6dYIcdxvpIBstqD4BqB2GOjHEwXJPcZjAradBbcTSWub79zWhKi6N8qEmyPFC67vTnGpHudbU8UXd2JaVAPBcj/mxgZxXFvFta3jbqREF0Yin6F43luiiwrIA717UXbVJ/J/5S3Mpwu5eDRxwuhlvviAbr3VSD85kUvlZMoPZSqfWi0PY0xt70alVHBJWUevw7kuaOvLKIHcCaNIhZL7MqBne9iNPfBcrsYZeLlWoKsUf1yIif+9u4j/6kVi40OlH7DyBKipF661puJutf4hZ59NKAw/9+gwz2ZwALmoBvaest4BZvlsYZAswEv5nhZzJtnkRr6+trrmXnPghcac0rjnMh31rKJlIS0FK/iU35sdc54ZB+BsDABoKVlct3VIszNPIhD3QgkF7xcWsVjm8r0+pQW5xiQZ9U=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        Thu, 19 Sep 2019 08:03:42 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 0999D25AD81;
+        Thu, 19 Sep 2019 22:03:39 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id 103A194444E; Thu, 19 Sep 2019 14:03:37 +0200 (CEST)
+Date:   Thu, 19 Sep 2019 14:03:36 +0200
+From:   Simon Horman <horms@verge.net.au>
+To:     Yoshihiro Kaneko <ykaneko0929@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2] dt-bindings: irqchip: renesas-irqc: convert bindings
+ to json-schema
+Message-ID: <20190919120333.77qabr675rne7zlu@verge.net.au>
+References: <1568819121-32737-1-git-send-email-ykaneko0929@gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f7bdf55-d53e-4985-c006-08d73ceeec48
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Sep 2019 10:48:35.8969
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: v1OSuYxssNaCdfrcuPG3anLUvf2+Hae1MyRJ6r8fx7afTfVUwd7HlsHCrzIlD9SrNtdiAuXz9V6vWBi5wceLJA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB3288
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1568819121-32737-1-git-send-email-ykaneko0929@gmail.com>
+Organisation: Horms Solutions BV
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi All,
+On Thu, Sep 19, 2019 at 12:05:21AM +0900, Yoshihiro Kaneko wrote:
+> Convert Renesas Interrupt Controller bindings documentation to json-schema.
+> 
+> Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
+> ---
+> 
+> v2
+> - Add SPDX tag.
+> - Document interrupt-contoller, reg, interrupts, power-domains and resets
+>   properties.
+> - Add addtionalProperties.
+> 
+> ---
+>  .../bindings/interrupt-controller/renesas,irqc.txt | 48 -------------
+>  .../interrupt-controller/renesas,irqc.yaml         | 84 ++++++++++++++++++++++
+>  2 files changed, 84 insertions(+), 48 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.txt
+>  create mode 100644 Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.txt b/Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.txt
+> deleted file mode 100644
+> index f977ea7..0000000
+> --- a/Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.txt
+> +++ /dev/null
+> @@ -1,48 +0,0 @@
+> -DT bindings for the R-Mobile/R-Car/RZ/G interrupt controller
+> -
+> -Required properties:
+> -
+> -- compatible: must be "renesas,irqc-<soctype>" or "renesas,intc-ex-<soctype>",
+> -	      and "renesas,irqc" as fallback.
+> -  Examples with soctypes are:
+> -    - "renesas,irqc-r8a73a4" (R-Mobile APE6)
+> -    - "renesas,irqc-r8a7743" (RZ/G1M)
+> -    - "renesas,irqc-r8a7744" (RZ/G1N)
+> -    - "renesas,irqc-r8a7745" (RZ/G1E)
+> -    - "renesas,irqc-r8a77470" (RZ/G1C)
+> -    - "renesas,irqc-r8a7790" (R-Car H2)
+> -    - "renesas,irqc-r8a7791" (R-Car M2-W)
+> -    - "renesas,irqc-r8a7792" (R-Car V2H)
+> -    - "renesas,irqc-r8a7793" (R-Car M2-N)
+> -    - "renesas,irqc-r8a7794" (R-Car E2)
+> -    - "renesas,intc-ex-r8a774a1" (RZ/G2M)
+> -    - "renesas,intc-ex-r8a774c0" (RZ/G2E)
+> -    - "renesas,intc-ex-r8a7795" (R-Car H3)
+> -    - "renesas,intc-ex-r8a7796" (R-Car M3-W)
+> -    - "renesas,intc-ex-r8a77965" (R-Car M3-N)
+> -    - "renesas,intc-ex-r8a77970" (R-Car V3M)
+> -    - "renesas,intc-ex-r8a77980" (R-Car V3H)
+> -    - "renesas,intc-ex-r8a77990" (R-Car E3)
+> -    - "renesas,intc-ex-r8a77995" (R-Car D3)
+> -- #interrupt-cells: has to be <2>: an interrupt index and flags, as defined in
+> -  interrupts.txt in this directory
+> -- clocks: Must contain a reference to the functional clock.
+> -
+> -Optional properties:
+> -
+> -- any properties, listed in interrupts.txt, and any standard resource allocation
+> -  properties
+> -
+> -Example:
+> -
+> -	irqc0: interrupt-controller@e61c0000 {
+> -		compatible = "renesas,irqc-r8a7790", "renesas,irqc";
+> -		#interrupt-cells = <2>;
+> -		interrupt-controller;
+> -		reg = <0 0xe61c0000 0 0x200>;
+> -		interrupts = <0 0 IRQ_TYPE_LEVEL_HIGH>,
+> -			     <0 1 IRQ_TYPE_LEVEL_HIGH>,
+> -			     <0 2 IRQ_TYPE_LEVEL_HIGH>,
+> -			     <0 3 IRQ_TYPE_LEVEL_HIGH>;
+> -		clocks = <&mstp4_clks R8A7790_CLK_IRQC>;
+> -	};
+> diff --git a/Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.yaml b/Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.yaml
+> new file mode 100644
+> index 0000000..18497c3
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,irqc.yaml
+> @@ -0,0 +1,84 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/interrupt-controller/renesas,irqc.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: DT bindings for the R-Mobile/R-Car/RZ/G interrupt controller
+> +
+> +maintainers:
+> +  - Geert Uytterhoeven <geert+renesas@glider.be>
+> +
+> +properties:
+> +  compatible:
+> +    items:
+> +      - enum:
+> +          - renesas,irqc-r8a73a4        # R-Mobile APE6
+> +          - renesas,irqc-r8a7743        # RZ/G1M
+> +          - renesas,irqc-r8a7744        # RZ/G1N
+> +          - renesas,irqc-r8a7745        # RZ/G1E
+> +          - renesas,irqc-r8a77470       # RZ/G1C
+> +          - renesas,irqc-r8a7790        # R-Car H2
+> +          - renesas,irqc-r8a7791        # R-Car M2-W
+> +          - renesas,irqc-r8a7792        # R-Car V2H
+> +          - renesas,irqc-r8a7793        # R-Car M2-N
+> +          - renesas,irqc-r8a7794        # R-Car E2
+> +          - renesas,intc-ex-r8a774a1    # RZ/G2M
+> +          - renesas,intc-ex-r8a774c0    # RZ/G2E
+> +          - renesas,intc-ex-r8a7795     # R-Car H3
+> +          - renesas,intc-ex-r8a7796     # R-Car M3-W
+> +          - renesas,intc-ex-r8a77965    # R-Car M3-N
+> +          - renesas,intc-ex-r8a77970    # R-Car V3M
+> +          - renesas,intc-ex-r8a77980    # R-Car V3H
+> +          - renesas,intc-ex-r8a77990    # R-Car E3
+> +          - renesas,intc-ex-r8a77995    # R-Car D3
+> +      - const: renesas,irqc
+> +
+> +  '#interrupt-cells':
+> +    # an interrupt index and flags, as defined in interrupts.txt in
+> +    # this directory
+> +    const: 2
+> +
+> +  interrupt-controller: true
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    minItems: 1
+> +    maxItems: 32
 
-I started testing  frequency mentioned in OPP table  with M3-W1.1 Salvator-=
-X board (NOT salvator-XS) using user space governor
+Is 'interrupts' required?
 
-The actual frequency reported for 0.5GHz(500000 KHz) is too much deviated f=
-rom the target  frequency
-[INFO] Target frequency: 500000 KHz
-[INFO] Actual frequency: 421874 KHz
-
-But if I change the extal value, as per the board schematic (16.6666MHz), t=
-he value is some what closer to target frequency.
-  &extal_clk {
--       clock-frequency =3D <16666666>;
-+       clock-frequency =3D <16666600>;
- };
-[INFO] Target frequency: 500000 KHz
-[INFO] Actual frequency: 468748 KHz
-
-Q1) Have any one  seen this issue? Please share your thoughts on this issue=
-.
-
-Note:-=20
-I am not seeing this issue on Salvator-XS board, where the extal_clk value=
-=3D 16640000(16.64MHz).
-
-Please see the logs
-with clock-frequency =3D <16666666>;
------------------------------------------------
-root@salvator-x:/cip-test-scripts# ./opp_t_001.sh
- [INFO] Testing cpufreq for policy:
- [INFO] /sys/devices/system/cpu/cpufreq/policy0
- [INFO]
- [INFO] CPUs affected:
- [INFO] 0 1
- [INFO]
- [INFO] Available frequencies:
- [INFO] 500000 1000000 1500000
- [INFO]
- [INFO] Target frequency: 500000 KHz
- [INFO] Actual frequency: 421874 KHz
- [INFO]
- [INFO] Target frequency: 1000000 KHz
- [INFO] Actual frequency: 937499 KHz
- [INFO]
- [INFO] Target frequency: 1500000 KHz
- [INFO] Actual frequency: 1499999 KHz
- [INFO]
- [INFO] Testing cpufreq for policy:
- [INFO] /sys/devices/system/cpu/cpufreq/policy2
- [INFO]
- [INFO] CPUs affected:
- [INFO] 2 3 4 5
- [INFO]
- [INFO] Available frequencies:
- [INFO] 800000 1000000 1200000
- [INFO]
- [INFO] Target frequency: 800000 KHz
- [INFO] Actual frequency: 749999 KHz
- [INFO]
- [INFO] Target frequency: 1000000 KHz
- [INFO] Actual frequency: 974999 KHz
- [INFO]
- [INFO] Target frequency: 1200000 KHz
- [INFO] Actual frequency: 1199999 KHz
-
-With clock-frequency =3D <16666600>
-----------------------------------------------
-root@salvator-x:/cip-test-scripts# ./opp_t_001.sh
- [INFO] Testing cpufreq for policy:
- [INFO] /sys/devices/system/cpu/cpufreq/policy0
- [INFO]
- [INFO] CPUs affected:
- [INFO] 0 1
- [INFO]
- [INFO] Available frequencies:
- [INFO] 500000 1000000 1500000
- [INFO]
- [INFO] Target frequency: 500000 KHz
- [INFO] Actual frequency: 468748 KHz
- [INFO]
- [INFO] Target frequency: 1000000 KHz
- [INFO] Actual frequency: 937496 KHz
- [INFO]
- [INFO] Target frequency: 1500000 KHz
- [INFO] Actual frequency: 1499994 KHz
- [INFO]
- [INFO] Testing cpufreq for policy:
- [INFO] /sys/devices/system/cpu/cpufreq/policy2
- [INFO]
- [INFO] CPUs affected:
- [INFO] 2 3 4 5
- [INFO]
- [INFO] Available frequencies:
- [INFO] 800000 1000000 1200000
- [INFO]
- [INFO] Target frequency: 800000 KHz
- [INFO] Actual frequency: 787496 KHz
- [INFO]
- [INFO] Target frequency: 1000000 KHz
- [INFO] Actual frequency: 974996 KHz
- [INFO]
- [INFO] Target frequency: 1200000 KHz
- [INFO] Actual frequency: 1199995 KHz
-
-Regards,
-Biju
-=20
-
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - '#interrupt-cells'
+> +  - interrupt-controller
+> +  - reg
+> +  - clocks
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/clock/r8a7790-clock.h>
+> +
+> +    irqc0: interrupt-controller@e61c0000 {
+> +        compatible = "renesas,irqc-r8a7790", "renesas,irqc";
+> +        #interrupt-cells = <2>;
+> +        interrupt-controller;
+> +        reg = <0 0xe61c0000 0 0x200>;
+> +        interrupts = <0 0 IRQ_TYPE_LEVEL_HIGH>,
+> +                     <0 1 IRQ_TYPE_LEVEL_HIGH>,
+> +                     <0 2 IRQ_TYPE_LEVEL_HIGH>,
+> +                     <0 3 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&mstp4_clks R8A7790_CLK_IRQC>;
+> +    };
+> -- 
+> 1.9.1
+> 
