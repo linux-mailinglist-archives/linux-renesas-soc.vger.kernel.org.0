@@ -2,71 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F542B90C8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Sep 2019 15:38:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3D8CB912D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Sep 2019 15:53:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728031AbfITNif (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 Sep 2019 09:38:35 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:43919 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726835AbfITNif (ORCPT
+        id S1727534AbfITNxN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 Sep 2019 09:53:13 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:35685 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727481AbfITNxN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 Sep 2019 09:38:35 -0400
-Received: by mail-oi1-f196.google.com with SMTP id t84so1747081oih.10;
-        Fri, 20 Sep 2019 06:38:35 -0700 (PDT)
+        Fri, 20 Sep 2019 09:53:13 -0400
+Received: by mail-oi1-f193.google.com with SMTP id x3so1815111oig.2;
+        Fri, 20 Sep 2019 06:53:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=U7SYpu/IKv9A1L7ri1/PD+Qii7rDc6Mb4V84bwV3zu8=;
-        b=IQ2015M21qbQ/joqpih/7/DGCCTUk8tjWX8s788VR1LRCdYD+r6/maw+BtyX62fXzF
-         HM9Uk9b6KxFmfBPrdiV0OXrYiBrC7qD+juoaeyKUqTUvzRtIs+T2dYmeyW4wcJJd7VLy
-         ywfFV2arFEuclpjG3gdnl2rKh0NNu0jHRenWCONr2u67Ux7zrAQQ0tWCO5TYa/g5wL5R
-         StGNmo6z1aMCzT9aQAKS7P4K4ymKfFKufGdFc3YzVVf4jA+LGLRHa6Aidu/7ZFe91Mi7
-         gEHSvQO06OoXU7N9/p5xlgvY2zrR7mw9HHm8ic/Razgh3bIjdaZxlJRrxzTs5cCE3fzS
-         PI0g==
-X-Gm-Message-State: APjAAAWES4mGnX+4OJhQbBuMbxd2LtIGixP9/kJ+gcs3WIzKCbG6Lzi5
-        KugJ9b7K+QS1Yj3Vlv4y38mexxe9binlA2q3f6g=
-X-Google-Smtp-Source: APXvYqw67ydlVXFpRTDwDbvUAIeUNKLYEQkD97I8eV/GUwXmYJHJyeTNAxbYLZDN4ARUAYp+5lhdOdt3kja0FCIfhP8=
-X-Received: by 2002:aca:f305:: with SMTP id r5mr2816182oih.131.1568986714503;
- Fri, 20 Sep 2019 06:38:34 -0700 (PDT)
+        bh=ew6nG7uE2nCglBGvtLTGWDJ9g6OFEZPeUvSfGAO1CvA=;
+        b=IAU/mk6WiSwaigieZcQpajVAoiautaBfkbsIPHVW4hGPEFuXnHqB179zLx6SpOjYgV
+         m/zaJqvWiioFLB7GaQnwAHVL6raQj58qK0R4/BvvDMKeLPqUaV48G4maj+pUqjEiYnFA
+         8s+ljXNFEEMt1Yc1gKdAsnzLQLmeXlHdV45aaViP5Lfh2rgSjTqA12bIKAYEnL4oAr4H
+         Ej2xvfSAkoVduhhrUxcpMauA0F8fzS+iXSBgGCvG6vi8aOk5wIBQlzUo9YGhzFq18h+R
+         UQMICcAsxYpZbJfofc2t6GbdstvqULXL1ZdiZibrRA3DEg0MT5wdHO/i5xZWcXauuJfd
+         Ktcg==
+X-Gm-Message-State: APjAAAXCJquuXUedhfXd2Bk8ILTLhKQl+UYkEGLk+rUYqg/IXdNPW1u7
+        u+bkOcQGNLki+VItC+cA8JoUDdr5wqxP2msdoAo=
+X-Google-Smtp-Source: APXvYqxyoTNvKH7T458ph8kh+7/xWwRdrE5jz5zjyMR4oIb1jJD/RFwuE2RDNv0DtrqX2JS96ax+IqIjH9IvJiK/VZw=
+X-Received: by 2002:aca:dad4:: with SMTP id r203mr3113597oig.102.1568987591649;
+ Fri, 20 Sep 2019 06:53:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <d80a685a-c3de-b9c9-ad32-e1da9308c393@web.de>
-In-Reply-To: <d80a685a-c3de-b9c9-ad32-e1da9308c393@web.de>
+References: <1568724324-26995-1-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1568724324-26995-1-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 20 Sep 2019 15:38:22 +0200
-Message-ID: <CAMuHMdVD4ktoacaqWSRxGehmO3ULrcFXCSTQ=JaxrUWhCTw-Lg@mail.gmail.com>
-Subject: Re: [PATCH] media: platform: Use devm_platform_ioremap_resource() in
- two functions
-To:     Markus Elfring <Markus.Elfring@web.de>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-mediatek@lists.infradead.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        kernel-janitors@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Himanshu Jha <himanshujha199640@gmail.com>
+Date:   Fri, 20 Sep 2019 15:53:00 +0200
+Message-ID: <CAMuHMdXOicpnUC7UNHT+P1bMsTKgm2oVsewnzjo4MmznwnNahA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: serial: sh-sci: Document r8a774b1 bindings
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms@verge.net.au>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Sep 18, 2019 at 11:30 AM Markus Elfring <Markus.Elfring@web.de> wrote:
-> From: Markus Elfring <elfring@users.sourceforge.net>
-> Date: Wed, 18 Sep 2019 11:20:48 +0200
+On Tue, Sep 17, 2019 at 2:52 PM Biju Das <biju.das@bp.renesas.com> wrote:
+> RZ/G2N (R8A774B1) SoC also has the R-Car Gen3 compatible SCIF and
+> HSCIF ports, so document the SoC specific bindings.
 >
-> Simplify these function implementations by using a known wrapper function.
->
-> This issue was detected by using the Coccinelle software.
->
-> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
