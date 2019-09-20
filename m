@@ -2,107 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B1E5B8EBA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Sep 2019 12:58:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F542B90C8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Sep 2019 15:38:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406050AbfITK6Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 Sep 2019 06:58:24 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:35685 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405611AbfITK6Y (ORCPT
+        id S1728031AbfITNif (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 Sep 2019 09:38:35 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:43919 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726835AbfITNif (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 Sep 2019 06:58:24 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id BBF233C057C;
-        Fri, 20 Sep 2019 12:58:20 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id tAlcWgkEYNsu; Fri, 20 Sep 2019 12:58:15 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 25BE63C04C0;
-        Fri, 20 Sep 2019 12:58:15 +0200 (CEST)
-Received: from vmlxhi-102.adit-jv.com (10.72.93.184) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Fri, 20 Sep
- 2019 12:58:14 +0200
-Date:   Fri, 20 Sep 2019 12:58:11 +0200
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Balasubramani Vivekanandan 
-        <balasubramani_vivekanandan@mentor.com>,
-        <linux-renesas-soc@vger.kernel.org>
-CC:     <fweisbec@gmail.com>, <tglx@linutronix.de>, <mingo@kernel.org>,
-        <erosca@de.adit-jv.com>, <linux-kernel@vger.kernel.org>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH V1 0/1] tick: broadcast-hrtimer: Fix a race in bc_set_next
-Message-ID: <20190920105811.GA16527@vmlxhi-102.adit-jv.com>
-References: <20190918144138.24839-1-balasubramani_vivekanandan@mentor.com>
+        Fri, 20 Sep 2019 09:38:35 -0400
+Received: by mail-oi1-f196.google.com with SMTP id t84so1747081oih.10;
+        Fri, 20 Sep 2019 06:38:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=U7SYpu/IKv9A1L7ri1/PD+Qii7rDc6Mb4V84bwV3zu8=;
+        b=IQ2015M21qbQ/joqpih/7/DGCCTUk8tjWX8s788VR1LRCdYD+r6/maw+BtyX62fXzF
+         HM9Uk9b6KxFmfBPrdiV0OXrYiBrC7qD+juoaeyKUqTUvzRtIs+T2dYmeyW4wcJJd7VLy
+         ywfFV2arFEuclpjG3gdnl2rKh0NNu0jHRenWCONr2u67Ux7zrAQQ0tWCO5TYa/g5wL5R
+         StGNmo6z1aMCzT9aQAKS7P4K4ymKfFKufGdFc3YzVVf4jA+LGLRHa6Aidu/7ZFe91Mi7
+         gEHSvQO06OoXU7N9/p5xlgvY2zrR7mw9HHm8ic/Razgh3bIjdaZxlJRrxzTs5cCE3fzS
+         PI0g==
+X-Gm-Message-State: APjAAAWES4mGnX+4OJhQbBuMbxd2LtIGixP9/kJ+gcs3WIzKCbG6Lzi5
+        KugJ9b7K+QS1Yj3Vlv4y38mexxe9binlA2q3f6g=
+X-Google-Smtp-Source: APXvYqw67ydlVXFpRTDwDbvUAIeUNKLYEQkD97I8eV/GUwXmYJHJyeTNAxbYLZDN4ARUAYp+5lhdOdt3kja0FCIfhP8=
+X-Received: by 2002:aca:f305:: with SMTP id r5mr2816182oih.131.1568986714503;
+ Fri, 20 Sep 2019 06:38:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20190918144138.24839-1-balasubramani_vivekanandan@mentor.com>
-User-Agent: Mutt/1.12.1+40 (7f8642d4ee82) (2019-06-28)
-X-Originating-IP: [10.72.93.184]
+References: <d80a685a-c3de-b9c9-ad32-e1da9308c393@web.de>
+In-Reply-To: <d80a685a-c3de-b9c9-ad32-e1da9308c393@web.de>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 20 Sep 2019 15:38:22 +0200
+Message-ID: <CAMuHMdVD4ktoacaqWSRxGehmO3ULrcFXCSTQ=JaxrUWhCTw-Lg@mail.gmail.com>
+Subject: Re: [PATCH] media: platform: Use devm_platform_ioremap_resource() in
+ two functions
+To:     Markus Elfring <Markus.Elfring@web.de>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-mediatek@lists.infradead.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        kernel-janitors@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        Himanshu Jha <himanshujha199640@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-+linux-renesas-soc
+On Wed, Sep 18, 2019 at 11:30 AM Markus Elfring <Markus.Elfring@web.de> wrote:
+> From: Markus Elfring <elfring@users.sourceforge.net>
+> Date: Wed, 18 Sep 2019 11:20:48 +0200
+>
+> Simplify these function implementations by using a known wrapper function.
+>
+> This issue was detected by using the Coccinelle software.
+>
+> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
 
-In hope that the issue reported in [1] was seen by other members of
-Renesas community.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-[1] https://lkml.org/lkml/2019/9/18/711
+Gr{oetje,eeting}s,
 
-On Wed, Sep 18, 2019 at 04:41:37PM +0200, Balasubramani Vivekanandan wrote:
-> I was investigating a rcu stall warning on ARM64 Renesas Rcar3
-> platform. On analysis I found that rcu stall warning was because the
-> rcu_preempt kthread was starved of cpu time. rcu_preempt was blocked in
-> the function schedule_timeout() and never woken up. On further
-> investigation I found that local timer interrupts were not happening on
-> the cpu where the rcu_preempt kthread was blocked. So the rcu_preempt
-> was not woken up after timeout.
-> I continued my analysis to debug why the timer failed on the cpu. I
-> found that when cpu goes through idle state cycle, the timer failure
-> happens. When the cpu enters the idle state it subscribes to the tick
-> broadcast clock and shutsdown the local timer. Then on exit from idle
-> state the local timer is programmed to fire interrupts. But I found that
-> the during the error scenario, cpu fails to program the local timer on
-> exit from idle state. The below code in
-> __tick_broadcast_oneshot_control() is where the idle code exit path goes
-> through and fails to program the timer hardware
-> 
-> now = ktime_get();
-> if (dev->next_event <= now) {
-> 	cpumask_set_cpu(cpu, tick_broadcast_force_mask);
-> 		goto out;
-> }
-> 
-> The value in next_event will be earlier than current time because the
-> tick broadcast clock did not wake up the cpu on its subcribed
-> timeout. Later when the cpu is woken up due to some other event this
-> condition will arise. After the cpu woken up, any further timeout
-> requests by any task on the cpu might fail to program the timer
-> hardware because the value in next_event will be earlier than the
-> current time.
-> Then I focussed on why the tick broadcast clock failed to wake up the
-> cpu. I noticed a race condition in the hrtimer based tick broadcast
-> clock. The race condition results in a condition where the tick
-> broadcast hrtimer is never restarted. I have created a patch to fix the
-> race condition. Please review 
-> 
-> Balasubramani Vivekanandan (1):
->   tick: broadcast-hrtimer: Fix a race in bc_set_next
-> 
->  kernel/time/tick-broadcast-hrtimer.c | 58 ++++++++++++++++++++++------
->  kernel/time/tick-broadcast.c         |  2 +
->  2 files changed, 48 insertions(+), 12 deletions(-)
-> 
-> -- 
-> 2.17.1
-> 
+                        Geert
 
 -- 
-Best Regards,
-Eugeniu
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
