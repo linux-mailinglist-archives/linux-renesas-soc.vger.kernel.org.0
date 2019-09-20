@@ -2,171 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C92DBB97DA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Sep 2019 21:35:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E029B97DF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Sep 2019 21:36:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729588AbfITTfh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 Sep 2019 15:35:37 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:41342 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726869AbfITTfh (ORCPT
+        id S1729485AbfITTgi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 Sep 2019 15:36:38 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:41663 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726442AbfITTgh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 Sep 2019 15:35:37 -0400
-Received: by mail-pg1-f196.google.com with SMTP id s1so3267094pgv.8;
-        Fri, 20 Sep 2019 12:35:36 -0700 (PDT)
+        Fri, 20 Sep 2019 15:36:37 -0400
+Received: by mail-pf1-f193.google.com with SMTP id q7so5168123pfh.8;
+        Fri, 20 Sep 2019 12:36:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
-        bh=k1LNWLTzufoAhsF/14MZiHJVb56pBySIo1G9IfUfnvo=;
-        b=KyDwBXYUkn1nA9uIhYuqNfSTz5J/4G54qOgKQJ3l8F/N6AoDkqevJeZwvuAJ+gd7Fo
-         uG6+6muNJb+E0kz/4RjoDFy9wkqZ/SgNFtCS6yLut1MUnTNU4rI/4mbJ51uPUFAM4+r9
-         M5vOL1nA+3qnUAcx/Dc9WdFhHStNUpRxNToPDUIe+HUgvz0Q+5UomTjGYl7BY3c3a9v3
-         0Z6vWbbe0LqQOowMBr9aYjNbcbZcWZPaKm8U4AuT2c9slOyv9SQFV1KJrYAx8ISflOXx
-         IGM6jjAiqJhaDGUi8s2RMJ6m8FO4qrKs5550sLc+30JULIu8nOuzX5zqlJpS/0565fs+
-         O2HA==
+        bh=yjUfSUmLnG245NxVkI3s8LV16rw5RLIekoYlk/qdTF8=;
+        b=P0gdsvnSktZj3qRiE53zWL7RtKLa0PEbXZlmvqzdjNAcrFoWTYFktmxbHqfStniX3c
+         go0hoGi69a1tlyGuWHbN164YAlU4VHtFUKen9tRMYNdEqIZ9Q6jr9Gex5BiKYPs0uolR
+         MsMm8Zib5SjNdjCemweFXUZwvEo8N6srUJCgEmAbJd141QswEiFNHcKv/q2+HfqCet3r
+         1AZiqdO6eJ2pc2Tz0xIyyRLw7TxyY/a8S1KHPe77ZKw5f7Gt8n4s/kVldQp/IP9F2xPi
+         uZ/knhhFXAVuk4ngFhilTiAe05mLYYAeX8WpsGD7DUvabtCVKwVXJ4L7iLnt13oJsvH1
+         5mnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=k1LNWLTzufoAhsF/14MZiHJVb56pBySIo1G9IfUfnvo=;
-        b=EZoyPl7eIR02cwTxvMH0ODXSgEcXhk7aD53uwNyo0RIa3QNEuZKOwZebBSNC0vHysf
-         Nx/6UTMFQrgzr1QKmtItAcZ1qzO1FS3251RgLCyPa47megxCM+OxFMkhGM3Qj007pUuW
-         2Jq6HxwfEquU4cUByI14QNVlCQoTLUSe4FkYfxz4Fp95DH5cHvoGl3M2GwMqYkWf05NC
-         Kn06RRZtSGRBxAWKDVlXnOL1jo5GRpsyEAxSGfmc24akxcdugkHWbqmp1PwTrsd5y1WW
-         JhVxRQKhGCeFltIi+W0wk7uJttKgf8zLvlmsXGj/AnAnQd17a+fSWXicblxPHHR+j0ne
-         slxw==
-X-Gm-Message-State: APjAAAUXB5oT0UB2VM3/xk91ObW/KkFq0MHYjXJUR0yTtifuqw0My0+3
-        BihV/ksc1RKCjiBaOByahWV7zTQ5
-X-Google-Smtp-Source: APXvYqxU2Q326rrAeAyBe6ebkoVEXZf5hxgbHhS5PXmLHYN8Glq+X2BFN6ew2Xcq4iNjstmY14eo1A==
-X-Received: by 2002:a17:90a:b114:: with SMTP id z20mr6607763pjq.113.1569008135876;
-        Fri, 20 Sep 2019 12:35:35 -0700 (PDT)
+        bh=yjUfSUmLnG245NxVkI3s8LV16rw5RLIekoYlk/qdTF8=;
+        b=mkKpdFaAla0jYBEHtrsnNsFAGZGB+ChkEdgTNkiJeumawwYLNyEZlgXvBGuoDI/03v
+         XfGrgPcAIOnwWRu+WWtuUMlMTwD24BHtXBJ+WbYyAuY6GeeG7fhFtaaO8+dSmTwLcz9w
+         cRKt5xUUQbhjlT28nWCKxloNvseloIFCa5o74LZN5JY6a9qCA0ygL2UIG+a7kYbxLZ/u
+         FKWOJtBHSCOm8TbCfu+5l+gEtQvoi4K+O8pm/LBl9o1QQ+WL99R/kIboOFEhpjc4Wpqh
+         S0oK85xnOP7TxsM16lWFqYt9LxHJ4pNvznThOfeWGTJZVSSsoYD03ZSYeRf76QnW51eh
+         jO9Q==
+X-Gm-Message-State: APjAAAX6fZA07R5TuTsJvbBHKr8FwfNCxf5dPSNBPELdnIc4vh9UushW
+        8je0WCsT+QPtF3zfaaNlUows54H3
+X-Google-Smtp-Source: APXvYqx7dyE3dAhX9vHFQVJhZyA6EBPgcvZuL017C7mMVjcw0iWBJSehGyzmf0+pmC2QUwYLXFB6OQ==
+X-Received: by 2002:a17:90a:bd0c:: with SMTP id y12mr6565481pjr.59.1569008196595;
+        Fri, 20 Sep 2019 12:36:36 -0700 (PDT)
 Received: from localhost.localdomain (KD118155013174.ppp-bb.dion.ne.jp. [118.155.13.174])
-        by smtp.gmail.com with ESMTPSA id l12sm972940pgs.44.2019.09.20.12.35.33
+        by smtp.gmail.com with ESMTPSA id x72sm2476921pfc.89.2019.09.20.12.36.34
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Fri, 20 Sep 2019 12:35:35 -0700 (PDT)
+        Fri, 20 Sep 2019 12:36:36 -0700 (PDT)
 From:   Yoshihiro Kaneko <ykaneko0929@gmail.com>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     Rob Herring <robh@kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Simon Horman <horms@verge.net.au>,
         Magnus Damm <magnus.damm@gmail.com>, devicetree@vger.kernel.org
-Subject: [PATCH] dt-bindings: pwm: renesas: pwm-rcar: convert bindings to json-schema
-Date:   Sat, 21 Sep 2019 04:35:27 +0900
-Message-Id: <1569008127-10555-1-git-send-email-ykaneko0929@gmail.com>
+Subject: [PATCH] dt-bindings: pwm: renesas: tpu: convert bindings to json-schema
+Date:   Sat, 21 Sep 2019 04:36:29 +0900
+Message-Id: <1569008189-10611-1-git-send-email-ykaneko0929@gmail.com>
 X-Mailer: git-send-email 1.9.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Convert Renesas R-Car PWM Timer Controller bindings documentation to
-json-schema.
+Convert Renesas R-Car Timer Pulse Unit PWM Controller bindings documentation
+to json-schema.
 
 Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
 ---
- .../devicetree/bindings/pwm/renesas,pwm-rcar.txt   | 40 -----------
- .../devicetree/bindings/pwm/renesas,pwm-rcar.yaml  | 77 ++++++++++++++++++++++
- 2 files changed, 77 insertions(+), 40 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.txt
- create mode 100644 Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.yaml
+ .../devicetree/bindings/pwm/renesas,tpu-pwm.txt    | 35 -----------
+ .../devicetree/bindings/pwm/renesas,tpu-pwm.yaml   | 69 ++++++++++++++++++++++
+ 2 files changed, 69 insertions(+), 35 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.txt
+ create mode 100644 Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml
 
-diff --git a/Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.txt b/Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.txt
+diff --git a/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.txt b/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.txt
 deleted file mode 100644
-index fbd6a4f..0000000
---- a/Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.txt
+index 848a92b..0000000
+--- a/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.txt
 +++ /dev/null
-@@ -1,40 +0,0 @@
--* Renesas R-Car PWM Timer Controller
+@@ -1,35 +0,0 @@
+-* Renesas R-Car Timer Pulse Unit PWM Controller
 -
 -Required Properties:
--- compatible: should be "renesas,pwm-rcar" and one of the following.
-- - "renesas,pwm-r8a7743": for RZ/G1M
-- - "renesas,pwm-r8a7744": for RZ/G1N
-- - "renesas,pwm-r8a7745": for RZ/G1E
-- - "renesas,pwm-r8a774a1": for RZ/G2M
-- - "renesas,pwm-r8a774c0": for RZ/G2E
-- - "renesas,pwm-r8a7778": for R-Car M1A
-- - "renesas,pwm-r8a7779": for R-Car H1
-- - "renesas,pwm-r8a7790": for R-Car H2
-- - "renesas,pwm-r8a7791": for R-Car M2-W
-- - "renesas,pwm-r8a7794": for R-Car E2
-- - "renesas,pwm-r8a7795": for R-Car H3
-- - "renesas,pwm-r8a7796": for R-Car M3-W
-- - "renesas,pwm-r8a77965": for R-Car M3-N
-- - "renesas,pwm-r8a77970": for R-Car V3M
-- - "renesas,pwm-r8a77980": for R-Car V3H
-- - "renesas,pwm-r8a77990": for R-Car E3
-- - "renesas,pwm-r8a77995": for R-Car D3
--- reg: base address and length of the registers block for the PWM.
--- #pwm-cells: should be 2. See pwm.txt in this directory for a description of
--  the cells format.
--- clocks: clock phandle and specifier pair.
--- pinctrl-0: phandle, referring to a default pin configuration node.
--- pinctrl-names: Set to "default".
 -
--Example: R8A7743 (RZ/G1M) PWM Timer node
+-  - compatible: must contain one or more of the following:
+-    - "renesas,tpu-r8a73a4": for R8A73A4 (R-Mobile APE6) compatible PWM controller.
+-    - "renesas,tpu-r8a7740": for R8A7740 (R-Mobile A1) compatible PWM controller.
+-    - "renesas,tpu-r8a7743": for R8A7743 (RZ/G1M) compatible PWM controller.
+-    - "renesas,tpu-r8a7744": for R8A7744 (RZ/G1N) compatible PWM controller.
+-    - "renesas,tpu-r8a7745": for R8A7745 (RZ/G1E) compatible PWM controller.
+-    - "renesas,tpu-r8a7790": for R8A7790 (R-Car H2) compatible PWM controller.
+-    - "renesas,tpu-r8a77970": for R8A77970 (R-Car V3M) compatible PWM
+-			      controller.
+-    - "renesas,tpu-r8a77980": for R8A77980 (R-Car V3H) compatible PWM
+-			      controller.
+-    - "renesas,tpu": for the generic TPU PWM controller; this is a fallback for
+-		     the entries listed above.
 -
--	pwm0: pwm@e6e30000 {
--		compatible = "renesas,pwm-r8a7743", "renesas,pwm-rcar";
--		reg = <0 0xe6e30000 0 0x8>;
--		clocks = <&cpg CPG_MOD 523>;
--		power-domains = <&sysc R8A7743_PD_ALWAYS_ON>;
--		resets = <&cpg 523>;
--		#pwm-cells = <2>;
--		pinctrl-0 = <&pwm0_pins>;
--		pinctrl-names = "default";
+-  - reg: Base address and length of each memory resource used by the PWM
+-    controller hardware module.
+-
+-  - #pwm-cells: should be 3. See pwm.txt in this directory for a description of
+-    the cells format. The only third cell flag supported by this binding is
+-    PWM_POLARITY_INVERTED.
+-
+-Please refer to pwm.txt in this directory for details of the common PWM bindings
+-used by client devices.
+-
+-Example: R8A7740 (R-Mobile A1) TPU controller node
+-
+-	tpu: pwm@e6600000 {
+-		compatible = "renesas,tpu-r8a7740", "renesas,tpu";
+-		reg = <0xe6600000 0x148>;
+-		#pwm-cells = <3>;
 -	};
-diff --git a/Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.yaml b/Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.yaml
+diff --git a/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml b/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml
 new file mode 100644
-index 0000000..0976cfd
+index 0000000..4908f00
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/pwm/renesas,pwm-rcar.yaml
-@@ -0,0 +1,77 @@
++++ b/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml
+@@ -0,0 +1,69 @@
 +# SPDX-License-Identifier: GPL-2.0
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/pwm/renesas,pwm-rcar.yaml#
++$id: http://devicetree.org/schemas/pwm/renesas,tpu-pwm.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Renesas R-Car PWM Timer Controller
++title: Renesas R-Car Timer Pulse Unit PWM Controller
 +
 +maintainers:
-+  - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
++  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 +
 +properties:
 +  compatible:
 +    items:
 +      - enum:
-+          - renesas,pwm-r8a7743   # RZ/G1M
-+          - renesas,pwm-r8a7744   # RZ/G1N
-+          - renesas,pwm-r8a7745   # RZ/G1E
-+          - renesas,pwm-r8a77470  # RZ/G1C
-+          - renesas,pwm-r8a774a1  # RZ/G2M
-+          - renesas,pwm-r8a774c0  # RZ/G2E
-+          - renesas,pwm-r8a7778   # R-Car M1A
-+          - renesas,pwm-r8a7779   # R-Car H1
-+          - renesas,pwm-r8a7790   # R-Car H2
-+          - renesas,pwm-r8a7791   # R-Car M2-W
-+          - renesas,pwm-r8a7794   # R-Car E2
-+          - renesas,pwm-r8a7795   # R-Car H3
-+          - renesas,pwm-r8a7796   # R-Car M3-W
-+          - renesas,pwm-r8a77965  # R-Car M3-N
-+          - renesas,pwm-r8a77970  # R-Car V3M
-+          - renesas,pwm-r8a77980  # R-Car V3H
-+          - renesas,pwm-r8a77990  # R-Car E3
-+          - renesas,pwm-r8a77995  # R-Car D3
-+      - const: renesas,pwm-rcar
++          - renesas,tpu-r8a73a4   # R-Mobile APE6
++          - renesas,tpu-r8a7740   # R-Mobile A1
++          - renesas,tpu-r8a7743   # RZ/G1M
++          - renesas,tpu-r8a7744   # RZ/G1N
++          - renesas,tpu-r8a7745   # RZ/G1E
++          - renesas,tpu-r8a7790   # R-Car H2
++          - renesas,tpu-r8a7795   # R-Car H3
++          - renesas,tpu-r8a7796   # R-Car M3-W
++          - renesas,tpu-r8a77965  # R-Car M3-N
++          - renesas,tpu-r8a77970  # R-Car V3M
++          - renesas,tpu-r8a77980  # R-Car V3H
++      - const: renesas,tpu
 +
 +  reg:
-+    # base address and length of the registers block for the PWM.
++    # Base address and length of each memory resource used by the PWM
++    # controller hardware module.
++    maxItems: 1
++
++  interrupts:
 +    maxItems: 1
 +
 +  '#pwm-cells':
-+    # should be 2. See pwm.txt in this directory for a description of
-+    # the cells format.
-+    const: 2
++    # should be 3. See pwm.txt in this directory for a description of
++    # the cells format. The only third cell flag supported by this binding is
++    # PWM_POLARITY_INVERTED.
++    const: 3
 +
 +  clocks:
-+    # clock phandle and specifier pair.
 +    maxItems: 1
 +
 +  power-domains:
@@ -179,24 +171,19 @@ index 0000000..0976cfd
 +  - compatible
 +  - reg
 +  - '#pwm-cells'
-+  - clocks
 +
 +additionalProperties: false
 +
 +examples:
 +  - |
-+    #include <dt-bindings/clock/r8a7743-cpg-mssr.h>
-+    #include <dt-bindings/power/r8a7743-sysc.h>
++    #include <dt-bindings/clock/r8a7740-clock.h>
 +
-+    pwm0: pwm@e6e30000 {
-+        compatible = "renesas,pwm-r8a7743", "renesas,pwm-rcar";
-+        reg = <0 0xe6e30000 0 0x8>;
-+        clocks = <&cpg CPG_MOD 523>;
-+        power-domains = <&sysc R8A7743_PD_ALWAYS_ON>;
-+        resets = <&cpg 523>;
-+        #pwm-cells = <2>;
-+        pinctrl-0 = <&pwm0_pins>;
-+        pinctrl-names = "default";
++    tpu: pwm@e6600000 {
++        compatible = "renesas,tpu-r8a7740", "renesas,tpu";
++        reg = <0xe6600000 0x148>;
++        clocks = <&mstp3_clks R8A7740_CLK_TPU0>;
++        power-domains = <&pd_a3sp>;
++        #pwm-cells = <3>;
 +    };
 -- 
 1.9.1
