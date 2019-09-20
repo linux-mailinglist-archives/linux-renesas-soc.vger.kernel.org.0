@@ -2,317 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7716AB8171
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Sep 2019 21:34:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5EF5B8946
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Sep 2019 04:27:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392349AbfISTeM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Sep 2019 15:34:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35394 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389652AbfISTeM (ORCPT
+        id S2405320AbfITC1Z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Sep 2019 22:27:25 -0400
+Received: from mail-eopbgr1410123.outbound.protection.outlook.com ([40.107.141.123]:56932
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2389457AbfITC1Z (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Sep 2019 15:34:12 -0400
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B9C7821924;
-        Thu, 19 Sep 2019 19:34:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1568921650;
-        bh=+CUvJCI/7IqSBXgdN6sRGavx1MrvIYeHONfgefFzPa0=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=OjS0DkYtAstelI4CpKwFNkgnV0gd/3XeeK6yYCYeen3m408okyXwQ8SCJ+GG52mU5
-         2WM0CEIeNqQXgo3lLVOFtRE+gyMVL3eYkPfd/OaOve0LlJcZC9eDb+7VqxAZCpFDjA
-         1HDQojQ0LsrMMmSwG+xfE9RZFnfLd4nv9uzxaO+E=
-Received: by mail-qk1-f178.google.com with SMTP id u186so4664653qkc.5;
-        Thu, 19 Sep 2019 12:34:10 -0700 (PDT)
-X-Gm-Message-State: APjAAAXBugqUQjtMaSIIg5iuzxbaKuKotSvIzZCasvDQKIZnM9MQXabZ
-        2LrVwxzorQVymQ4vcSSZONkN+u2ECtaQKui6kA==
-X-Google-Smtp-Source: APXvYqxTlzvU5G/7LsOlYQACfFRz4zpMe53+UHI+WV7ey+sGaDpo7n0xj91CXan1FYrIm19OBu7/ojsz4yxo2HQcEW4=
-X-Received: by 2002:a37:682:: with SMTP id 124mr4620208qkg.393.1568921649856;
- Thu, 19 Sep 2019 12:34:09 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190916153357.3880-1-horms+renesas@verge.net.au>
- <20190916153357.3880-2-horms+renesas@verge.net.au> <CAL_JsqJHiAmH0eeUMLH1q9X6e+88EVZrmMtM33rVWCyBAszY8A@mail.gmail.com>
- <20190919151014.4azdfh2feg5ot6no@verge.net.au>
-In-Reply-To: <20190919151014.4azdfh2feg5ot6no@verge.net.au>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Thu, 19 Sep 2019 14:33:58 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+y5o-jBX9emVpW+q7n+Tde2ON0TqHmm9gFj7emUURL7Q@mail.gmail.com>
-Message-ID: <CAL_Jsq+y5o-jBX9emVpW+q7n+Tde2ON0TqHmm9gFj7emUURL7Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: bus: simple-pm-bus: convert bindings to json-schema
-To:     Simon Horman <horms@verge.net.au>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Thu, 19 Sep 2019 22:27:25 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=XiSku/lDgxmjBFky3nUNUe0uoxo0Cx7Fozl6IXCVlMVTBhZUDSph7dv0qM3yljUAvs76oiaZehvvKiDBT/YbtvTi0/BobpFOepQD7BAbCleiMAz31BqWZXB8M35e7/GEKCY3qslz7YvHZ7HD0NRUUz8j55U4rybTagv2dhif9Ta+kqK6xTin8VZ27EdABGs9hmnmJ0N2/Ypdft49avO6pSuM86Rm2SoVMNvPaBphcBTxa9lYfg42Y/YXEIo4JzHgyxFisObIq9vdM4w+BbdKI7lyJdYzxlmPX0MKUPLUmRa2TKr96uNNkvMbgTBwTe3aSyddww9RFCsvEQWzId4HXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K5cjeEBHblYfCqDY/1f3w8WMWBUiR+UBQ9RIXs7EXNU=;
+ b=eyFtmZJPW9XY8+cUWEjOx5zy8TSa0Djf6Nwg96hI/KX7su3gi8fUrK2KZArouV0GTNVjoLVha76GEOTUu8vld5O0+ixnYiIH+eXtuN1I0NvMhj7LkkAeFgAzXZ9gKngnKocpML/olo9NPgdjY+WIucswYxYhZfJY7kRzcrjGktEv8MaAG3YpiGPXiCiK4DI07X7JVjSPHh1OP29QOFSjws4AvilD0S8os8mvPdHmIzvNzxDFgKVXCwMhHIC2P79Rww53pCmjEaoPuWh2YbH5MlyNYDMk5lbW+xW9Gyr7lRHb2kGcpgIyFlZQLm7lU5jJYmvH6AZCCNHAtPtBLuVMmg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=K5cjeEBHblYfCqDY/1f3w8WMWBUiR+UBQ9RIXs7EXNU=;
+ b=CxVEB0nTp8iY0NVgRbo51Rz0lQR4ZOj+IqGWJOx/ev/6tT7ODjcYT9Iigg8FwqRuHhFn9B0plVpurNkl4mB6O1ulIK8QJvPqMPikkeC/2OS5vwjQ6EgpwEAeP33B9296sMieDLRBKKCiDUq1UHFgjm8gfrFuAGKLt7bjU2JT7nQ=
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
+ TYAPR01MB3950.jpnprd01.prod.outlook.com (20.178.138.23) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2284.18; Fri, 20 Sep 2019 02:27:20 +0000
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::7da1:bfc1:6c7f:8977]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::7da1:bfc1:6c7f:8977%7]) with mapi id 15.20.2263.023; Fri, 20 Sep 2019
+ 02:27:20 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Veeraiyan Chidambaram <external.veeraiyan.c@de.adit-jv.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Kaneko <ykaneko0929@gmail.com>,
-        devicetree@vger.kernel.org,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+CC:     "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        "REE erosca@DE.ADIT-JV.COM" <erosca@DE.ADIT-JV.COM>,
+        Veeraiyan Chidambaram <veeraiyan.chidambaram@in.bosch.com>
+Subject: RE: [PATCH v5 1/3] usb: renesas_usbhs: simplify
+ usbhs_status_get_device_state()
+Thread-Topic: [PATCH v5 1/3] usb: renesas_usbhs: simplify
+ usbhs_status_get_device_state()
+Thread-Index: AQHVaKNao42qULC3gU6uMYp1la1FCacz5Bjg
+Date:   Fri, 20 Sep 2019 02:27:20 +0000
+Message-ID: <TYAPR01MB454437DB57E25E5C7122EAE7D8880@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+References: <1568207756-22325-1-git-send-email-external.veeraiyan.c@de.adit-jv.com>
+In-Reply-To: <1568207756-22325-1-git-send-email-external.veeraiyan.c@de.adit-jv.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [211.11.155.152]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 0cb11494-82bb-404b-94ea-08d73d72104e
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:TYAPR01MB3950;
+x-ms-traffictypediagnostic: TYAPR01MB3950:|TYAPR01MB3950:
+x-ms-exchange-purlcount: 1
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-microsoft-antispam-prvs: <TYAPR01MB39505688F578EC2B734D1589D8880@TYAPR01MB3950.jpnprd01.prod.outlook.com>
+x-ms-exchange-transport-forked: True
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 0166B75B74
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(39860400002)(366004)(376002)(346002)(396003)(136003)(189003)(199004)(6506007)(66946007)(14454004)(99286004)(107886003)(74316002)(2906002)(6306002)(55016002)(446003)(26005)(186003)(14444005)(6436002)(7696005)(71200400001)(86362001)(102836004)(76176011)(5660300002)(11346002)(7736002)(256004)(9686003)(305945005)(52536014)(81166006)(71190400001)(4326008)(966005)(66066001)(229853002)(486006)(8936002)(3846002)(33656002)(81156014)(316002)(64756008)(110136005)(6246003)(76116006)(25786009)(54906003)(8676002)(478600001)(476003)(66476007)(66446008)(6116002)(66556008);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB3950;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: WostcaklBBQwmTP3DF5KZTnWty5yqTNpoBXs/lK6M5fYtk7WvMnqzrJgaQVgs1c8gy+IFE4CGLBz3cIe9MY8s9n+Phdzp88t+8J6yghN2AlB26a0wF+hybCKyAcf/qk5CzIFrGdpMl7G64SWI5nmSpoSfrB3wvjNwbjSEFL05UZfjtFcyXCGW2e7Sqyok9KTXMekfgcsL4B6i5W61QX3VL79MJqvLvztdKjzT8m8gjQlKn52ODBYA9vNjTOcYvTH9p22cvLCYxPaml+yjmb43LkfRS1A76vp87CQ73g6+nBlEqjQk+Q85uNOcaxSQHzCCPbeVebGwiXHdWc1K6434QN8XR4yLEHTbjKzdaRRgvE1rCYel/wS1OMEg3nGRm1M7Q3Rq/5ixXlnXE8Fa4uDp8VxyCHiRgqd00lMP7gMtQA=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0cb11494-82bb-404b-94ea-08d73d72104e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Sep 2019 02:27:20.4276
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: mGgsg3420XDIz81zSsD98f7F5KcKMs/8fQp9jJ+onn8TrdJ7Y0ZqgcrDMYZGG2JM21fROHHcJUvOKVsJOqMoK/v1h6sP41+/AEmH+DBjIsPsEJPn2rZvWNge2c2dX2Sa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB3950
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Sep 19, 2019 at 10:10 AM Simon Horman <horms@verge.net.au> wrote:
->
-> On Tue, Sep 17, 2019 at 07:12:16AM -0500, Rob Herring wrote:
-> > On Mon, Sep 16, 2019 at 10:35 AM Simon Horman
-> > <horms+renesas@verge.net.au> wrote:
-> > >
-> > > Convert Simple Power-Managed Bus bindings documentation to json-schem=
-a.
-> > >
-> > > As a side effect of this change only simple-pm-bus is used in example=
-. A
-> > > follow-up patch will provide an example for the separately documented
-> > > Renesas Bus State Controller (BSC) that uses "renesas,bsc-sh73a0" and
-> > > "renesas,bsc" compat strings.
-> > >
-> > > Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
-> > > ---
-> > > * Tested using:
-> > >   # ARCH=3Darm64 make dtbs_check DT_SCHEMA_FILES=3DDocumentation/devi=
-cetree/bindings/bus/simple-pm-bus.yaml
-> > >   # ARCH=3Darm   make dtbs_check DT_SCHEMA_FILES=3DDocumentation/devi=
-cetree/bindings/bus/simple-pm-bus.yaml
-> > > ---
-> > >  .../devicetree/bindings/bus/simple-pm-bus.txt      | 44 ------------=
---
-> > >  .../devicetree/bindings/bus/simple-pm-bus.yaml     | 68 ++++++++++++=
-++++++++++
-> > >  2 files changed, 68 insertions(+), 44 deletions(-)
-> > >  delete mode 100644 Documentation/devicetree/bindings/bus/simple-pm-b=
-us.txt
-> > >  create mode 100644 Documentation/devicetree/bindings/bus/simple-pm-b=
-us.yaml
-> >
-> > > diff --git a/Documentation/devicetree/bindings/bus/simple-pm-bus.yaml=
- b/Documentation/devicetree/bindings/bus/simple-pm-bus.yaml
-> > > new file mode 100644
-> > > index 000000000000..72a3644974e3
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/bus/simple-pm-bus.yaml
-> > > @@ -0,0 +1,68 @@
-> >
-> > SPDX tag?
-> >
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/bus/simple-pm-bus.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Simple Power-Managed Bus
-> > > +
-> > > +maintainers:
-> > > +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> > > +
-> > > +description: |
-> > > +  A Simple Power-Managed Bus is a transparent bus that doesn't need =
-a real
-> > > +  driver, as it's typically initialized by the boot loader.
-> > > +
-> > > +  However, its bus controller is part of a PM domain, or under the c=
-ontrol
-> > > +  of a functional clock.  Hence, the bus controller's PM domain and/=
-or
-> > > +  clock must be enabled for child devices connected to the bus (eith=
-er
-> > > +  on-SoC or externally) to function.
-> > > +
-> > > +  While "simple-pm-bus" follows the "simple-bus" set of properties, =
-as
-> > > +  specified in the Devicetree Specification, it is not an extension =
-of
-> > > +  "simple-bus".
-> > > +
-> > > +
-> > > +properties:
-> >
-> > Add $nodename in here.
->
->
-> For now I have gone with:
->
->   $nodename:
->     pattern: "^bus@[0-9a-f]+$"
->
-> But this implies updating both msm8996.dtsi and the proposed
-> example (see below) to use bus@ rather than agnoc@.
->
-> If this is the right way to to then perhaps it is best to use the
-> following until msm8996.dtsi is updated.
+Hi Veeraiyan-san,
 
-I prefer to leave the warning there.
+> From: Veeraiyan Chidambaram, Sent: Wednesday, September 11, 2019 10:16 PM
+>=20
+> From: Eugeniu Rosca <erosca@de.adit-jv.com>
+>=20
+> Similar to usbhs_status_get_ctrl_stage(), *_get_device_state() is not
+> supposed to return any error code since its return value is the DVSQ
+> bitfield of the INTSTS0 register. According to SoC HW manual rev1.00,
+> every single value of DVSQ[2:0] is valid and none is an error:
+>=20
+> ----8<----
+> Device State
+> 000: Powered state
+> 001: Default state
+> 010: Address state
+> 011: Configuration state
+> 1xx: Suspended state
+> ----8<----
+>=20
+> Hence, simplify the function body. The motivation behind dropping the
+> switch/case construct is being able to implement reading the suspended
+> state. The latter (based on the above DVSQ[2:0] description) doesn't
+> have a unique value, but is rather a list of states (which makes
+> switch/case less suitable for reading/validating it):
+>=20
+> 100: (Suspended) Powered state
+> 101: (Suspended) Default state
+> 110: (Suspended) Address state
+> 111: (Suspended) Configuration state
+>=20
+> Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+> Signed-off-by: Veeraiyan Chidambaram <veeraiyan.chidambaram@in.bosch.com>
+> ---
+> v5: No change
+> v4: https://patchwork.kernel.org/patch/11138197/
 
->
->   $nodename:
->     pattern: "^(bus|agnoc)@[0-9a-f]+$"
->
-> >
-> > > +  compatible:
-> > > +    items:
-> > > +       - const: simple-pm-bus
-> >
-> > extra leading space.
-> >
-> > > +
-> > > +  '#address-cells':
-> > > +    const: 1
-> > > +
-> > > +  '#size-cells':
-> > > +    const: 1
-> >
-> > 1 or 2 should be valid...
-> >
-> > > +
-> > > +  ranges:
-> > > +    # Mapping between parent address and child address spaces.
-> > > +    maxItems: 1
-> >
-> > empty or multiple ranges should be possible.
-> >
-> > > +
-> > > +  clocks:
-> > > +    # Functional clocks
-> > > +    # Required if power-domains is absent, optional otherwise
-> > > +    minItems: 1
-> >
-> > This will imply maxItems is 1 which I don't think you want.
-> >
-> > Though more than 1 starts to mean you need to know specifically what th=
-e h/w is.
->
-> I have changed this to:
->
->   clocks: true
->     # Functional clocks
->     # Required if power-domains is absent, optional otherwise
->
-> > > +
-> > > +  power-domains:
-> > > +    # Required if clocks is absent, optional otherwise
-> > > +    minItems: 1
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - '#address-cells'
-> > > +  - '#size-cells'
-> > > +  - ranges
-> >
-> > This will capture what you commented above:
-> >
-> > oneOf:
-> >   - required:
-> >       - clocks
-> >   - required:
-> >       - power-domains
->
-> Thanks. Unfortunately dtbs_check does not seem happy
-> if both clocks and power-domains are present.
+As I sent on v4:
 
-I was thinking it was either or. Use 'anyOf' instead.
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
+Best regards,
+Yoshihiro Shimoda
 
->
-> # cr make dtbs_check DT_SCHEMA_FILES=3DDocumentation/devicetree/bindings/=
-bus/simple-pm-bus.yaml
-> ...
-> /home/horms/projects/linux/renesas/arch/arm/boot/dts/r8a73a4-ape6evm.dt.y=
-aml: bus@fec10000: {'compatible': ['renesas,bsc-r8a73a4', 'renesas,bsc', 's=
-imple-pm-bus'], '#address-cells': [[1]], '#size-cells': [[1]], 'ranges': [[=
-0, 0, 0, 536870912]], 'reg': [[0, 4274061312, 0, 1024]], 'clocks': [[27]], =
-'power-domains': [[15]], 'flash@0': {'compatible': ['cfi-flash', 'mtd-rom']=
-, 'reg': [[0, 134217728]], 'bank-width': [[2]], 'partitions': {'compatible'=
-: ['fixed-partitions'], '#address-cells': [[1]], '#size-cells': [[1]], 'par=
-tition@0': {'label': ['uboot'], 'reg': [[0, 262144]], 'read-only': True}, '=
-partition@40000': {'label': ['uboot-env'], 'reg': [[262144, 262144]], 'read=
--only': True}, 'partition@80000': {'label': ['flash'], 'reg': [[524288, 133=
-693440]]}}}, 'ethernet@8000000': {'compatible': ['smsc,lan9220', 'smsc,lan9=
-115'], 'reg': [[134217728, 4096]], 'interrupt-parent': [[18]], 'interrupts'=
-: [[8, 4]], 'phy-mode': ['mii'], 'reg-io-width': [[4]], 'smsc,irq-active-hi=
-gh': True, 'smsc,irq-push-pull': True, 'vdd33a-supply': [[23]], 'vddvario-s=
-upply': [[28]]}, '$nodename': ['bus@fec10000']} is valid under each of {'re=
-quired': ['power-domains']}, {'required': ['clocks']}
-> {'$filename': '/home/horms/projects/linux/renesas/Documentation/devicetre=
-e/bindings/bus/simple-pm-bus.yaml',
->  '$id': 'http://devicetree.org/schemas/bus/simple-pm-bus.yaml#',
->  '$schema': 'http://devicetree.org/meta-schemas/core.yaml#',
->  '$select_validator': <jsonschema.validators.create.<locals>.Validator ob=
-ject at 0x7fa9f2596048>,
->  'oneOf': [{'required': ['clocks']}, {'required': ['power-domains']}],
->  'patternProperties': {'pinctrl-[0-9]+': True},
->  'properties': {'#address-cells': {'items': {'items': {'const': 1},
->                                              'type': 'array'},
->                                    'type': 'array'},
->                 '#size-cells': {'items': {'items': {'enum': [1, 2]},
->                                           'type': 'array'},
->                                 'type': 'array'},
->                 '$nodename': {'additionalItems': False,
->                               'items': [{'pattern': '^(bus|agnoc)(@.*|-[0=
--9a-f])*$'}],
->                               'maxItems': 1,
->                               'minItems': 1,
->                               'type': 'array'},
->                 'clocks': True,
->                 'compatible': {'contains': {'const': 'simple-pm-bus'}},
->                 'phandle': True,
->                 'pinctrl-names': True,
->                 'power-domains': {'maxItems': 1, 'minItems': 1},
->                 'ranges': True,
->                 'status': True},
->  'required': ['compatible', '#address-cells', '#size-cells', 'ranges'],
->  'select': {'properties': {'compatible': {'contains': {'enum': ['simple-p=
-m-bus']}}},
->             'required': ['compatible']},
->  'title': 'Simple Power-Managed Bus'}
->
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > > +
-> > > +    bsc: bus@fec10000 {
-> > > +        compatible =3D "simple-pm-bus";
-> > > +        #address-cells =3D <1>;
-> > > +        #size-cells =3D <1>;
-> > > +        ranges =3D <0 0 0x20000000>;
-> > > +        reg =3D <0xfec10000 0x400>;
-> >
-> > If you have reg, then it shouldn't be "simple-pm-bus" unless you can
-> > function without accessing the regs.
-> >
-> > > +        interrupts =3D <0 39 IRQ_TYPE_LEVEL_HIGH>;
-> >
-> > Not documented?
-> >
-> > > +        clocks =3D <&zb_clk>;
-> > > +        power-domains =3D <&pd_a4s>;
-> > > +    };
->
-> As per discussion elsewhere in this thread, I have updated this to the
-> example in msm8996.dtsi.
->
->     agnoc@0 {
-
-s/agnoc/bus/
-
-Also there shouldn't be a unit address unless there's 'reg' or non-empty ra=
-nges.
-
-There's no reason that examples have to match anything real. Doing so
-just invites pointless fixes to examples.
-
->         power-domains =3D <&gcc AGGRE0_NOC_GDSC>;
->         compatible =3D "simple-pm-bus";
->         #address-cells =3D <1>;
->         #size-cells =3D <1>;
->         ranges;
->     };
->
-> > > --
-> > > 2.11.0
-> > >
-> >
