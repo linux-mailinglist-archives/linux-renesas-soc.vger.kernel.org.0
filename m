@@ -2,48 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CF1EB9430
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Sep 2019 17:40:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65974B943C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Sep 2019 17:41:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392894AbfITPkt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 Sep 2019 11:40:49 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:34749 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392871AbfITPkt (ORCPT
+        id S2393099AbfITPli (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 Sep 2019 11:41:38 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:36223 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391672AbfITPli (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 Sep 2019 11:40:49 -0400
-Received: by mail-ot1-f66.google.com with SMTP id m19so4720633otp.1;
-        Fri, 20 Sep 2019 08:40:49 -0700 (PDT)
+        Fri, 20 Sep 2019 11:41:38 -0400
+Received: by mail-ot1-f65.google.com with SMTP id 67so6585026oto.3;
+        Fri, 20 Sep 2019 08:41:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=zsScXEUmySG43NT07756HjHrKgcNIGYVrWMRIGTV/8g=;
-        b=Jx8gZpjCBJaLrRQSsTUm/D+s8N2uo59p10VBkUN9OdYDOpoWtdPGywfkeT7vA6EtcC
-         U+RFxI5YKgQhFMQnYxajY04v4ocGbNpEVK32/sN+PrujRdkUoi7RuU4qYZLXhNyq/TgR
-         rBcDeI9qdnRwC1TQtRk5XoB7qBy8LisbogIZfFp8RSNT47BZs1RGL02U39gOFchCixXs
-         vOuvTvoQj2N8fOop6B1AKldZKvPcHUci6oU1B3A+DQ/TIzUsTRNEx6PQjl7jEaQitKkQ
-         4vD++mkzG9i0vquPbR17eWFZWxlGVGbzZFGlMCfLjKdSv+Sk83TLWiflvB5iEKRkkTeL
-         krnw==
-X-Gm-Message-State: APjAAAUZTKBK6CkSR3XtbJJc0MfncpBVuPHQlXIGz9awSEWc6I4vpYIZ
-        KOj9iYa2k/f7mo7DxiMB07YwmOETlWCCtzjHPlw=
-X-Google-Smtp-Source: APXvYqztlaVsSbLvtVRamy1dDXJlCc3f3+817Lddei2383DYieWZ5Xt43wiUPdm+rFAcIFDYxauVygBSoLjU2mJfd+s=
-X-Received: by 2002:a9d:730d:: with SMTP id e13mr7750691otk.145.1568994048908;
- Fri, 20 Sep 2019 08:40:48 -0700 (PDT)
+        bh=ONjqYclRILSiONwW8nEyD+ABq5QQDUS/CzXxaDFud7o=;
+        b=M6MPmx4ovlwfu0QFGk1RXGHzZUpO1YN09oGMfyPg5ghMowhJoxG2C4TJqHJh25jOKV
+         TBZTsvjyU9p7XRr8Jy0/dq8sU5dg0LaOcP74HYtjr8IgCKMoaWR7OPUMmylU9N2DXgEW
+         Bn5XiP2+wqMXi4VMr4RYXYmtcIRsviTyw/E2TWvKtqaGlfD0Vm8/gWkYSlLieypwn0DQ
+         hsE6Q+WxLzayhr/H9dTg6DF1ttRaR1uCOD3pLmMHFTsnP4ItvirIKCSI9AmtKtBJMBn5
+         YZnAUUZHyH4/GEiPIRmMHcaRqarM3ogUXxJIBVECqfJSuMp/5og9ssMJZKv3m5I5nZzx
+         brWQ==
+X-Gm-Message-State: APjAAAWrE5+Ydalro5UirdPOgp4bZgA+nD2a6Wet1mxa+VpNVqBq9ky5
+        hyiMqa0R0eFFsf6a/zrnOeJM0+MWHsD4n+PxnHY=
+X-Google-Smtp-Source: APXvYqzMvjPotcPF9OaeCBy6I8RLjudF8lPOMEfna6gUHnSiFDDUFyqG9N6bE93h+JO1xHVyzwPfi1QW2MoCiOCHYRA=
+X-Received: by 2002:a9d:5a06:: with SMTP id v6mr11948956oth.250.1568994097713;
+ Fri, 20 Sep 2019 08:41:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <1568881036-4404-1-git-send-email-biju.das@bp.renesas.com> <1568881036-4404-6-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1568881036-4404-6-git-send-email-biju.das@bp.renesas.com>
+References: <1568881036-4404-1-git-send-email-biju.das@bp.renesas.com> <1568881036-4404-8-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1568881036-4404-8-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 20 Sep 2019 17:40:37 +0200
-Message-ID: <CAMuHMdXHx=Dbbk39ufdM-+byBHTjWByxcshcj1j2-fNn1LfnOw@mail.gmail.com>
-Subject: Re: [PATCH v2 5/8] dt-bindings: clock: renesas: cpg-mssr: Document
- r8a774b1 binding
+Date:   Fri, 20 Sep 2019 17:41:26 +0200
+Message-ID: <CAMuHMdX+urmvWYGy9cj8Xt9wAU8tYzm1eZ6jrXBySSEsB_wfOg@mail.gmail.com>
+Subject: Re: [PATCH v2 7/8] dt-bindings: pinctrl: sh-pfc: Document r8a774b1
+ PFC support
 To:     Biju Das <biju.das@bp.renesas.com>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -58,13 +57,12 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Thu, Sep 19, 2019 at 10:17 AM Biju Das <biju.das@bp.renesas.com> wrote:
-> Add binding documentation for the RZ/G2N (R8A774b1) Clock Pulse
-> Generator driver.
+> Document PFC support for the R8A774B1 SoC.
 >
 > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in clk-renesas-for-v5.5.
+i.e. will queue in sh-pfc-for-v5.5.
 
 Gr{oetje,eeting}s,
 
