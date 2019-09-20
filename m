@@ -2,270 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 467A1B935F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Sep 2019 16:47:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FA76B937B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Sep 2019 16:54:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393141AbfITOrK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 Sep 2019 10:47:10 -0400
-Received: from baptiste.telenet-ops.be ([195.130.132.51]:48950 "EHLO
-        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393140AbfITOrJ (ORCPT
+        id S2389217AbfITOyz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 Sep 2019 10:54:55 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:34073 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389185AbfITOyz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 Sep 2019 10:47:09 -0400
-Received: from ramsan ([84.194.98.4])
-        by baptiste.telenet-ops.be with bizsmtp
-        id 3qn62100405gfCL01qn6is; Fri, 20 Sep 2019 16:47:06 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iBKBe-0001PU-1S; Fri, 20 Sep 2019 16:47:06 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iBKBd-00078Z-VN; Fri, 20 Sep 2019 16:47:05 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] soc: renesas: rcar-sysc: Remove unneeded inclusion of <linux/bug.h>
-Date:   Fri, 20 Sep 2019 16:47:05 +0200
-Message-Id: <20190920144705.27394-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Fri, 20 Sep 2019 10:54:55 -0400
+Received: by mail-ot1-f65.google.com with SMTP id m19so4589068otp.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Sep 2019 07:54:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NDb30hKd9vs3z/WcUpB+wU4dKoX9DpnKApvtT8pobqs=;
+        b=PM74Xxs0bzUwlFx0q7JtRyFtk0m4rmhAN2rsE4MPOF73KXg9gpv8dcNXnyJNNdJRvB
+         rplBi1WiyncCGk1NrqLeZsPff241qCFITOAo1jC+OewIlUaVjmD54i+PN+nb0q+hLSfw
+         bZ2Lgoq2KGe8kcDDOYjej0Iuo8bDjToxTfWluPKdFE+NuO+ziERhV5Qhuz1DZAcMFYxp
+         arBGzn6UAoQ/EgAlVI++V16Rvxz0nf+cCTJNUbjAq/+hIMG29f4jlDFJuT4MVaRMxis1
+         SwWo5+kh4i+ZUVXEC/4wH806uWhnkyhM2eHVqqWzBsRoulZ9PNzd9LHuNHBOj7IU9HUv
+         JDRA==
+X-Gm-Message-State: APjAAAX51EABsqb0RyVHDtct8n5n5VgreoDEgrVhadEiBWSx8Bk9IKZe
+        TWSh7nEL+8JHUvA+GlgPitXnDVCkaU/KB3f+Ze8=
+X-Google-Smtp-Source: APXvYqw6eRX4aS/vz7UhWtah9Ici6Z2MWt+4J4lAwU6tkuuar4VNK7iTPl3RIqau00A1meWH35zyUoTzaBlygTY6EgA=
+X-Received: by 2002:a9d:404d:: with SMTP id o13mr6324206oti.39.1568991294343;
+ Fri, 20 Sep 2019 07:54:54 -0700 (PDT)
+MIME-Version: 1.0
+References: <1568881036-4404-1-git-send-email-biju.das@bp.renesas.com> <1568881036-4404-3-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1568881036-4404-3-git-send-email-biju.das@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 20 Sep 2019 16:54:42 +0200
+Message-ID: <CAMuHMdUvVKYZuzS7Z9uiN=KmdKm6GPnGS0oZbGZKfkbaUOB+Ng@mail.gmail.com>
+Subject: Re: [PATCH v2 2/8] soc: renesas: rcar-sysc: Add r8a774b1 support
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-No R-Car or RZ/G SYSC driver uses any of the definitions provided by
-<linux/bug.h>, hence there is no need to include this header file.
+Hi Biju,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-To be queued in renesas-devel for v5.5.
+On Thu, Sep 19, 2019 at 10:17 AM Biju Das <biju.das@bp.renesas.com> wrote:
+> Add support for RZ/G2N (R8A774B1) SoC power areas to the R-Car SYSC
+> driver.
+>
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
- drivers/soc/renesas/r8a7743-sysc.c  | 1 -
- drivers/soc/renesas/r8a7745-sysc.c  | 1 -
- drivers/soc/renesas/r8a77470-sysc.c | 1 -
- drivers/soc/renesas/r8a774a1-sysc.c | 1 -
- drivers/soc/renesas/r8a774c0-sysc.c | 1 -
- drivers/soc/renesas/r8a7779-sysc.c  | 1 -
- drivers/soc/renesas/r8a7790-sysc.c  | 1 -
- drivers/soc/renesas/r8a7791-sysc.c  | 1 -
- drivers/soc/renesas/r8a7792-sysc.c  | 1 -
- drivers/soc/renesas/r8a7794-sysc.c  | 1 -
- drivers/soc/renesas/r8a7795-sysc.c  | 1 -
- drivers/soc/renesas/r8a7796-sysc.c  | 1 -
- drivers/soc/renesas/r8a77965-sysc.c | 1 -
- drivers/soc/renesas/r8a77970-sysc.c | 1 -
- drivers/soc/renesas/r8a77980-sysc.c | 1 -
- drivers/soc/renesas/r8a77990-sysc.c | 1 -
- drivers/soc/renesas/r8a77995-sysc.c | 1 -
- 17 files changed, 17 deletions(-)
+Thanks for your patch!
 
-diff --git a/drivers/soc/renesas/r8a7743-sysc.c b/drivers/soc/renesas/r8a7743-sysc.c
-index edf6436e879fa662..4e2c0ab951b3dc7d 100644
---- a/drivers/soc/renesas/r8a7743-sysc.c
-+++ b/drivers/soc/renesas/r8a7743-sysc.c
-@@ -5,7 +5,6 @@
-  * Copyright (C) 2016 Cogent Embedded Inc.
-  */
- 
--#include <linux/bug.h>
- #include <linux/kernel.h>
- 
- #include <dt-bindings/power/r8a7743-sysc.h>
-diff --git a/drivers/soc/renesas/r8a7745-sysc.c b/drivers/soc/renesas/r8a7745-sysc.c
-index 65dc6b09cc858d38..865821a2f0c6f74d 100644
---- a/drivers/soc/renesas/r8a7745-sysc.c
-+++ b/drivers/soc/renesas/r8a7745-sysc.c
-@@ -5,7 +5,6 @@
-  * Copyright (C) 2016 Cogent Embedded Inc.
-  */
- 
--#include <linux/bug.h>
- #include <linux/kernel.h>
- 
- #include <dt-bindings/power/r8a7745-sysc.h>
-diff --git a/drivers/soc/renesas/r8a77470-sysc.c b/drivers/soc/renesas/r8a77470-sysc.c
-index cfa015e208ef0042..1eeb8018df506428 100644
---- a/drivers/soc/renesas/r8a77470-sysc.c
-+++ b/drivers/soc/renesas/r8a77470-sysc.c
-@@ -5,7 +5,6 @@
-  * Copyright (C) 2018 Renesas Electronics Corp.
-  */
- 
--#include <linux/bug.h>
- #include <linux/kernel.h>
- 
- #include <dt-bindings/power/r8a77470-sysc.h>
-diff --git a/drivers/soc/renesas/r8a774a1-sysc.c b/drivers/soc/renesas/r8a774a1-sysc.c
-index 9db51ff6f5edde4e..38ac2c689ff00a0c 100644
---- a/drivers/soc/renesas/r8a774a1-sysc.c
-+++ b/drivers/soc/renesas/r8a774a1-sysc.c
-@@ -7,7 +7,6 @@
-  * Copyright (C) 2016 Glider bvba
-  */
- 
--#include <linux/bug.h>
- #include <linux/kernel.h>
- 
- #include <dt-bindings/power/r8a774a1-sysc.h>
-diff --git a/drivers/soc/renesas/r8a774c0-sysc.c b/drivers/soc/renesas/r8a774c0-sysc.c
-index 40d1558aab37ca4d..c1c216f7d0733c44 100644
---- a/drivers/soc/renesas/r8a774c0-sysc.c
-+++ b/drivers/soc/renesas/r8a774c0-sysc.c
-@@ -7,7 +7,6 @@
-  */
- 
- #include <linux/bits.h>
--#include <linux/bug.h>
- #include <linux/kernel.h>
- #include <linux/sys_soc.h>
- 
-diff --git a/drivers/soc/renesas/r8a7779-sysc.c b/drivers/soc/renesas/r8a7779-sysc.c
-index 517aa40fa6e6d493..e24a7151d55f5835 100644
---- a/drivers/soc/renesas/r8a7779-sysc.c
-+++ b/drivers/soc/renesas/r8a7779-sysc.c
-@@ -5,7 +5,6 @@
-  * Copyright (C) 2016 Glider bvba
-  */
- 
--#include <linux/bug.h>
- #include <linux/kernel.h>
- 
- #include <dt-bindings/power/r8a7779-sysc.h>
-diff --git a/drivers/soc/renesas/r8a7790-sysc.c b/drivers/soc/renesas/r8a7790-sysc.c
-index 9b5a6bb621520963..b9afe7f6245b383c 100644
---- a/drivers/soc/renesas/r8a7790-sysc.c
-+++ b/drivers/soc/renesas/r8a7790-sysc.c
-@@ -5,7 +5,6 @@
-  * Copyright (C) 2016 Glider bvba
-  */
- 
--#include <linux/bug.h>
- #include <linux/kernel.h>
- 
- #include <dt-bindings/power/r8a7790-sysc.h>
-diff --git a/drivers/soc/renesas/r8a7791-sysc.c b/drivers/soc/renesas/r8a7791-sysc.c
-index acf545cdebfbe1f2..f00fa24522a3b236 100644
---- a/drivers/soc/renesas/r8a7791-sysc.c
-+++ b/drivers/soc/renesas/r8a7791-sysc.c
-@@ -5,7 +5,6 @@
-  * Copyright (C) 2016 Glider bvba
-  */
- 
--#include <linux/bug.h>
- #include <linux/kernel.h>
- 
- #include <dt-bindings/power/r8a7791-sysc.h>
-diff --git a/drivers/soc/renesas/r8a7792-sysc.c b/drivers/soc/renesas/r8a7792-sysc.c
-index 05b78525cc430bac..60aae242c43f570d 100644
---- a/drivers/soc/renesas/r8a7792-sysc.c
-+++ b/drivers/soc/renesas/r8a7792-sysc.c
-@@ -5,7 +5,6 @@
-  * Copyright (C) 2016 Cogent Embedded Inc.
-  */
- 
--#include <linux/bug.h>
- #include <linux/init.h>
- #include <linux/kernel.h>
- 
-diff --git a/drivers/soc/renesas/r8a7794-sysc.c b/drivers/soc/renesas/r8a7794-sysc.c
-index 0d42637fa6620994..72ef4e85458ff3a4 100644
---- a/drivers/soc/renesas/r8a7794-sysc.c
-+++ b/drivers/soc/renesas/r8a7794-sysc.c
-@@ -5,7 +5,6 @@
-  * Copyright (C) 2016 Glider bvba
-  */
- 
--#include <linux/bug.h>
- #include <linux/kernel.h>
- 
- #include <dt-bindings/power/r8a7794-sysc.h>
-diff --git a/drivers/soc/renesas/r8a7795-sysc.c b/drivers/soc/renesas/r8a7795-sysc.c
-index 7e15cd09c4eb4780..91074411b8cfe48f 100644
---- a/drivers/soc/renesas/r8a7795-sysc.c
-+++ b/drivers/soc/renesas/r8a7795-sysc.c
-@@ -6,7 +6,6 @@
-  */
- 
- #include <linux/bits.h>
--#include <linux/bug.h>
- #include <linux/kernel.h>
- #include <linux/sys_soc.h>
- 
-diff --git a/drivers/soc/renesas/r8a7796-sysc.c b/drivers/soc/renesas/r8a7796-sysc.c
-index a4eaa8d1f5d0f49d..d374622a667bbfbd 100644
---- a/drivers/soc/renesas/r8a7796-sysc.c
-+++ b/drivers/soc/renesas/r8a7796-sysc.c
-@@ -6,7 +6,6 @@
-  */
- 
- #include <linux/bits.h>
--#include <linux/bug.h>
- #include <linux/kernel.h>
- #include <linux/sys_soc.h>
- 
-diff --git a/drivers/soc/renesas/r8a77965-sysc.c b/drivers/soc/renesas/r8a77965-sysc.c
-index b5d8230d4bbc1b87..ff0b0d1169922bfb 100644
---- a/drivers/soc/renesas/r8a77965-sysc.c
-+++ b/drivers/soc/renesas/r8a77965-sysc.c
-@@ -8,7 +8,6 @@
-  */
- 
- #include <linux/bits.h>
--#include <linux/bug.h>
- #include <linux/kernel.h>
- 
- #include <dt-bindings/power/r8a77965-sysc.h>
-diff --git a/drivers/soc/renesas/r8a77970-sysc.c b/drivers/soc/renesas/r8a77970-sysc.c
-index b3033e3f0fd0b0ff..706258250600652e 100644
---- a/drivers/soc/renesas/r8a77970-sysc.c
-+++ b/drivers/soc/renesas/r8a77970-sysc.c
-@@ -6,7 +6,6 @@
-  */
- 
- #include <linux/bits.h>
--#include <linux/bug.h>
- #include <linux/kernel.h>
- 
- #include <dt-bindings/power/r8a77970-sysc.h>
-diff --git a/drivers/soc/renesas/r8a77980-sysc.c b/drivers/soc/renesas/r8a77980-sysc.c
-index e3b5ee1b3091dee1..39ca84a67daadd21 100644
---- a/drivers/soc/renesas/r8a77980-sysc.c
-+++ b/drivers/soc/renesas/r8a77980-sysc.c
-@@ -7,7 +7,6 @@
-  */
- 
- #include <linux/bits.h>
--#include <linux/bug.h>
- #include <linux/kernel.h>
- 
- #include <dt-bindings/power/r8a77980-sysc.h>
-diff --git a/drivers/soc/renesas/r8a77990-sysc.c b/drivers/soc/renesas/r8a77990-sysc.c
-index 1d2432020b7a15d2..9f92737dc3526ba2 100644
---- a/drivers/soc/renesas/r8a77990-sysc.c
-+++ b/drivers/soc/renesas/r8a77990-sysc.c
-@@ -6,7 +6,6 @@
-  */
- 
- #include <linux/bits.h>
--#include <linux/bug.h>
- #include <linux/kernel.h>
- #include <linux/sys_soc.h>
- 
-diff --git a/drivers/soc/renesas/r8a77995-sysc.c b/drivers/soc/renesas/r8a77995-sysc.c
-index 6243aaaf60fbb51c..efcc67e3d76dc513 100644
---- a/drivers/soc/renesas/r8a77995-sysc.c
-+++ b/drivers/soc/renesas/r8a77995-sysc.c
-@@ -5,7 +5,6 @@
-  * Copyright (C) 2017 Glider bvba
-  */
- 
--#include <linux/bug.h>
- #include <linux/kernel.h>
- 
- #include <dt-bindings/power/r8a77995-sysc.h>
+> --- /dev/null
+> +++ b/drivers/soc/renesas/r8a774b1-sysc.c
+> @@ -0,0 +1,35 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Renesas RZ/G2N System Controller
+> + * Copyright (C) 2019 Renesas Electronics Corp.
+> + *
+> + * Based on Renesas R-Car M3-W System Controller
+> + * Copyright (C) 2016 Glider bvba
+> + */
+> +
+> +#include <linux/bug.h>
+
+This include doesn't seem to be used?
+
+> +#include <linux/kernel.h>
+> +
+> +#include <dt-bindings/power/r8a774b1-sysc.h>
+> +
+> +#include "rcar-sysc.h"
+> +
+> +static const struct rcar_sysc_area r8a774b1_areas[] __initconst = {
+> +       { "always-on",      0, 0, R8A774B1_PD_ALWAYS_ON, -1, PD_ALWAYS_ON },
+> +       { "ca57-scu",   0x1c0, 0, R8A774B1_PD_CA57_SCU, R8A774B1_PD_ALWAYS_ON,
+> +         PD_SCU },
+> +       { "ca57-cpu0",   0x80, 0, R8A774B1_PD_CA57_CPU0, R8A774B1_PD_CA57_SCU,
+> +         PD_CPU_NOCR },
+> +       { "ca57-cpu1",   0x80, 1, R8A774B1_PD_CA57_CPU1, R8A774B1_PD_CA57_SCU,
+> +         PD_CPU_NOCR },
+> +       { "a3vc",       0x380, 0, R8A774B1_PD_A3VC,     R8A774B1_PD_ALWAYS_ON },
+> +       { "a3vp",       0x340, 0, R8A774B1_PD_A3VP,     R8A774B1_PD_ALWAYS_ON },
+> +       { "a2vc1",      0x3c0, 1, R8A774B1_PD_A2VC1,    R8A774B1_PD_A3VC },
+> +       { "3dg-a",      0x100, 0, R8A774B1_PD_3DG_A,    R8A774B1_PD_ALWAYS_ON },
+> +       { "3dg-b",      0x100, 1, R8A774B1_PD_3DG_B,    R8A774B1_PD_3DG_A },
+> +};
+> +
+> +const struct rcar_sysc_info r8a774b1_sysc_info __initconst = {
+> +       .areas = r8a774b1_areas,
+> +       .num_areas = ARRAY_SIZE(r8a774b1_areas),
+
+Given the Hardware User's Manual documents the presence of the SYSCEXTMASK
+register on RZ/G2N, you want to fill in the .extmask_{offs,val} fields, too.
+
+With the above fixed:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.17.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
