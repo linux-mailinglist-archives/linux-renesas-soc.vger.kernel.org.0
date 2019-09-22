@@ -2,176 +2,142 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 33789B9AD3
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 21 Sep 2019 01:43:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 846B9BA4DA
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Sep 2019 20:57:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407175AbfITXnW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 Sep 2019 19:43:22 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:33114 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404972AbfITXnW (ORCPT
+        id S2407921AbfIVSwb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 22 Sep 2019 14:52:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51508 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2407910AbfIVSwa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 Sep 2019 19:43:22 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 617A652C;
-        Sat, 21 Sep 2019 01:43:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1569022999;
-        bh=vZiDuXDgV4rHySGaRo3Glmw5rsjRyySnQEb8IHkuRKI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BUycMYD61CrVxhJQlgTH3stqpEZQ5zJqhWwNwcP6CdzunPj/m7wGzrAj+R389vT/2
-         simLcWOGen3edDrqqI67hulC8n/sMK5nYDd8ZPcB5UvJJazktfHLevng3D6QjWUKr1
-         EmkF5dLVb6jeSMA9JQZhedtwTiYAMcYNhdOH2cQ8=
-Date:   Sat, 21 Sep 2019 02:43:10 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] drm: rcar_lvds: Fix color mismatches on R-Car H2 ES2.0
- and later
-Message-ID: <20190920234310.GK12672@pendragon.ideasonboard.com>
-References: <20190917062353.16966-1-geert+renesas@glider.be>
- <20190920234003.GJ12672@pendragon.ideasonboard.com>
+        Sun, 22 Sep 2019 14:52:30 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2DA0B21A4A;
+        Sun, 22 Sep 2019 18:52:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1569178349;
+        bh=WytRyuAeD8r+lZci6Ro91yBin+ytXB3SZAzTOmA8unM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=GQ8mptiwOmtKUUWalX/TeZ9JYmNjrYE3WNWcNDMn8B1QML1IdmPbJb9eAxEwpBSJ/
+         b5+6XGgtHQB+za1N7OTxmkyhwcKlWHrmytjIXfWQv4syRU5fndjZ4gnb6BO+QhcxdU
+         FclBDJ/SZ/W3eIRu2j6P4vyxoE67ndIiis4ZyeHs=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Sasha Levin <sashal@kernel.org>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.2 106/185] soc: renesas: rmobile-sysc: Set GENPD_FLAG_ALWAYS_ON for always-on domain
+Date:   Sun, 22 Sep 2019 14:48:04 -0400
+Message-Id: <20190922184924.32534-106-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190922184924.32534-1-sashal@kernel.org>
+References: <20190922184924.32534-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190920234003.GJ12672@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Sep 21, 2019 at 02:40:03AM +0300, Laurent Pinchart wrote:
-> On Tue, Sep 17, 2019 at 08:23:53AM +0200, Geert Uytterhoeven wrote:
-> > Commit 5cca30ebe089be23 ("drm/rcar-du: Add LVDS_LANES quirk") states
-> > that LVDS lanes 1 and 3 are inverted on R-Car H2 ES1 only, and that the
-> > problem has been fixed in newer revisions.
-> > 
-> > However, the code didn't take into account the actual hardware revision,
-> > thus applying the quirk also on newer hardware revisions, causing green
-> > color reversals.
-> 
-> Oops :-S
-> 
-> > Fix this by applying the quirk when running on R-Car H2 ES1.x only.
-> > 
-> > Reported-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > Fixes: c6a27fa41fabb35f ("drm: rcar-du: Convert LVDS encoder code to bridge driver")
-> 
-> Shouldn't this be
-> 
-> Fixes: 5cca30ebe089be23 ("drm/rcar-du: Add LVDS_LANES quirk")
-> 
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > ---
-> > Does anyone know if this was fixed in ES2.0, or in any earlier ES1.x?
-> 
-> Or if there's any ES1.x other than ES1.0 ? :-)
-> 
-> > While the issue was present before aforementioned commit, I do not think
-> > there is a real need to fix the older code variant, as the new LVDS
-> > encoder was backported to v4.14-ltsi.
-> 
-> Probably not, but I think there's still value in pointing to the right
-> erroneous commit. It's a Fixes: tag, not a Backport-up-to: tag :-)
-> 
-> > ---
-> >  drivers/gpu/drm/rcar-du/rcar_lvds.c | 28 +++++++++++++++++++++-------
-> >  1 file changed, 21 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > index 3fc7e6899cab5843..50c11a7f0467f746 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > @@ -16,6 +16,7 @@
-> >  #include <linux/of_graph.h>
-> >  #include <linux/platform_device.h>
-> >  #include <linux/slab.h>
-> > +#include <linux/sys_soc.h>
-> >  
-> >  #include <drm/drm_atomic.h>
-> >  #include <drm/drm_atomic_helper.h>
-> > @@ -842,8 +843,23 @@ static int rcar_lvds_get_clocks(struct rcar_lvds *lvds)
-> >  	return 0;
-> >  }
-> >  
-> > +static const struct rcar_lvds_device_info rcar_lvds_r8a7790es1_info = {
-> > +	.gen = 2,
-> > +	.quirks = RCAR_LVDS_QUIRK_LANES,
-> > +	.pll_setup = rcar_lvds_pll_setup_gen2,
-> > +};
-> > +
-> > +static const struct soc_device_attribute lvds_quirk_matches[] = {
-> > +	{
-> > +		.soc_id = "r8a7790", .revision = "ES1.*",
-> 
-> Do you mind splitting this in two lines ?
+From: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Actually, it could be argued that having both on the same line is more
-readable. I'll let you decide what you like best.
+[ Upstream commit af0bc634728c0bc6a3f66f911f227d5c6396db88 ]
 
-> With these small issues fixes,
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> Please let me know if I should fix while applying or if you want to send
-> a new version.
-> 
-> > +		.data = &rcar_lvds_r8a7790es1_info,
-> > +	},
-> > +	{ /* sentinel */ }
-> > +};
-> > +
-> >  static int rcar_lvds_probe(struct platform_device *pdev)
-> >  {
-> > +	const struct soc_device_attribute *attr;
-> >  	struct rcar_lvds *lvds;
-> >  	struct resource *mem;
-> >  	int ret;
-> > @@ -857,6 +873,10 @@ static int rcar_lvds_probe(struct platform_device *pdev)
-> >  	lvds->dev = &pdev->dev;
-> >  	lvds->info = of_device_get_match_data(&pdev->dev);
-> >  
-> > +	attr = soc_device_match(lvds_quirk_matches);
-> > +	if (attr)
-> > +		lvds->info = attr->data;
-> > +
-> >  	ret = rcar_lvds_parse_dt(lvds);
-> >  	if (ret < 0)
-> >  		return ret;
-> > @@ -893,12 +913,6 @@ static const struct rcar_lvds_device_info rcar_lvds_gen2_info = {
-> >  	.pll_setup = rcar_lvds_pll_setup_gen2,
-> >  };
-> >  
-> > -static const struct rcar_lvds_device_info rcar_lvds_r8a7790_info = {
-> > -	.gen = 2,
-> > -	.quirks = RCAR_LVDS_QUIRK_LANES,
-> > -	.pll_setup = rcar_lvds_pll_setup_gen2,
-> > -};
-> > -
-> >  static const struct rcar_lvds_device_info rcar_lvds_gen3_info = {
-> >  	.gen = 3,
-> >  	.quirks = RCAR_LVDS_QUIRK_PWD,
-> > @@ -930,7 +944,7 @@ static const struct of_device_id rcar_lvds_of_table[] = {
-> >  	{ .compatible = "renesas,r8a7744-lvds", .data = &rcar_lvds_gen2_info },
-> >  	{ .compatible = "renesas,r8a774a1-lvds", .data = &rcar_lvds_gen3_info },
-> >  	{ .compatible = "renesas,r8a774c0-lvds", .data = &rcar_lvds_r8a77990_info },
-> > -	{ .compatible = "renesas,r8a7790-lvds", .data = &rcar_lvds_r8a7790_info },
-> > +	{ .compatible = "renesas,r8a7790-lvds", .data = &rcar_lvds_gen2_info },
-> >  	{ .compatible = "renesas,r8a7791-lvds", .data = &rcar_lvds_gen2_info },
-> >  	{ .compatible = "renesas,r8a7793-lvds", .data = &rcar_lvds_gen2_info },
-> >  	{ .compatible = "renesas,r8a7795-lvds", .data = &rcar_lvds_gen3_info },
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+Currently the R-Mobile "always-on" PM Domain is implemented by returning
+-EBUSY from the generic_pm_domain.power_off() callback, and doing
+nothing in the generic_pm_domain.power_on() callback.  However, this
+means the PM Domain core code is not aware of the semantics of this
+special domain, leading to boot warnings like the following on
+SH/R-Mobile SoCs:
 
+    sh_cmt e6130000.timer: PM domain c5 will not be powered off
+
+Fix this by making the always-on nature of the domain explicit instead,
+by setting the GENPD_FLAG_ALWAYS_ON flag.  This removes the need for the
+domain to provide power control callbacks.
+
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/soc/renesas/rmobile-sysc.c | 31 +++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/soc/renesas/rmobile-sysc.c b/drivers/soc/renesas/rmobile-sysc.c
+index 421ae1c887d82..54b616ad4a62a 100644
+--- a/drivers/soc/renesas/rmobile-sysc.c
++++ b/drivers/soc/renesas/rmobile-sysc.c
+@@ -48,12 +48,8 @@ struct rmobile_pm_domain *to_rmobile_pd(struct generic_pm_domain *d)
+ static int rmobile_pd_power_down(struct generic_pm_domain *genpd)
+ {
+ 	struct rmobile_pm_domain *rmobile_pd = to_rmobile_pd(genpd);
+-	unsigned int mask;
++	unsigned int mask = BIT(rmobile_pd->bit_shift);
+ 
+-	if (rmobile_pd->bit_shift == ~0)
+-		return -EBUSY;
+-
+-	mask = BIT(rmobile_pd->bit_shift);
+ 	if (rmobile_pd->suspend) {
+ 		int ret = rmobile_pd->suspend();
+ 
+@@ -80,14 +76,10 @@ static int rmobile_pd_power_down(struct generic_pm_domain *genpd)
+ 
+ static int __rmobile_pd_power_up(struct rmobile_pm_domain *rmobile_pd)
+ {
+-	unsigned int mask;
++	unsigned int mask = BIT(rmobile_pd->bit_shift);
+ 	unsigned int retry_count;
+ 	int ret = 0;
+ 
+-	if (rmobile_pd->bit_shift == ~0)
+-		return 0;
+-
+-	mask = BIT(rmobile_pd->bit_shift);
+ 	if (__raw_readl(rmobile_pd->base + PSTR) & mask)
+ 		return ret;
+ 
+@@ -122,11 +114,15 @@ static void rmobile_init_pm_domain(struct rmobile_pm_domain *rmobile_pd)
+ 	struct dev_power_governor *gov = rmobile_pd->gov;
+ 
+ 	genpd->flags |= GENPD_FLAG_PM_CLK | GENPD_FLAG_ACTIVE_WAKEUP;
+-	genpd->power_off		= rmobile_pd_power_down;
+-	genpd->power_on			= rmobile_pd_power_up;
+-	genpd->attach_dev		= cpg_mstp_attach_dev;
+-	genpd->detach_dev		= cpg_mstp_detach_dev;
+-	__rmobile_pd_power_up(rmobile_pd);
++	genpd->attach_dev = cpg_mstp_attach_dev;
++	genpd->detach_dev = cpg_mstp_detach_dev;
++
++	if (!(genpd->flags & GENPD_FLAG_ALWAYS_ON)) {
++		genpd->power_off = rmobile_pd_power_down;
++		genpd->power_on = rmobile_pd_power_up;
++		__rmobile_pd_power_up(rmobile_pd);
++	}
++
+ 	pm_genpd_init(genpd, gov ? : &simple_qos_governor, false);
+ }
+ 
+@@ -270,6 +266,11 @@ static void __init rmobile_setup_pm_domain(struct device_node *np,
+ 		break;
+ 
+ 	case PD_NORMAL:
++		if (pd->bit_shift == ~0) {
++			/* Top-level always-on domain */
++			pr_debug("PM domain %s is always-on domain\n", name);
++			pd->genpd.flags |= GENPD_FLAG_ALWAYS_ON;
++		}
+ 		break;
+ 	}
+ 
 -- 
-Regards,
+2.20.1
 
-Laurent Pinchart
