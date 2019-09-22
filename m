@@ -2,41 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E472FBAB15
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Sep 2019 21:55:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ACC9BAA77
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Sep 2019 21:53:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438738AbfIVTeY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 22 Sep 2019 15:34:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43680 "EHLO mail.kernel.org"
+        id S1728247AbfIVT0q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 22 Sep 2019 15:26:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49658 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390667AbfIVSrR (ORCPT
+        id S2405900AbfIVSvk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:47:17 -0400
+        Sun, 22 Sep 2019 14:51:40 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AD486214AF;
-        Sun, 22 Sep 2019 18:47:15 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 35E2721A4A;
+        Sun, 22 Sep 2019 18:51:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178036;
-        bh=WytRyuAeD8r+lZci6Ro91yBin+ytXB3SZAzTOmA8unM=;
+        s=default; t=1569178299;
+        bh=vXDkuYne+Hy4F82vAvYwB/USPCaWPvacv5O9Bg8gQqY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Ge1NLffjaNETjZ3E4pd1Xy8xagRJf1BHqPZwgOhCE2LDHC0A/fanLZt5AnH0ZrVLX
-         6MpxSz59rlMN/Gz7YrNRE6eZ7xfHB+OEbRBm8IDwYUW+rsQqaTicfp30i+TStt+vXY
-         F6+7sj+OXFJQWPjBXjT68TTTCmCSWE3niGswWLTQ=
+        b=i0+ogpOWdDp+Ksp+/KgMQBzEA+LzODEuwYoO45A7+mxRndd6Bk8YVh5d2RUC21QiG
+         ZMuecKxGoLq0ibBKhXH/BaHd2IMrkvHB7zBdddtsVx4TwnuxAg+IR9jlcSrpVGhX+B
+         iMkV+O7BsyO1ugUoUmKv/zEiWAMqE6kbgqGjoqg4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Sasha Levin <sashal@kernel.org>,
+Cc:     Colin Ian King <colin.king@canonical.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.3 117/203] soc: renesas: rmobile-sysc: Set GENPD_FLAG_ALWAYS_ON for always-on domain
-Date:   Sun, 22 Sep 2019 14:42:23 -0400
-Message-Id: <20190922184350.30563-117-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.2 073/185] media: vsp1: fix memory leak of dl on error return path
+Date:   Sun, 22 Sep 2019 14:47:31 -0400
+Message-Id: <20190922184924.32534-73-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190922184350.30563-1-sashal@kernel.org>
-References: <20190922184350.30563-1-sashal@kernel.org>
+In-Reply-To: <20190922184924.32534-1-sashal@kernel.org>
+References: <20190922184924.32534-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -46,97 +47,41 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Geert Uytterhoeven <geert+renesas@glider.be>
+From: Colin Ian King <colin.king@canonical.com>
 
-[ Upstream commit af0bc634728c0bc6a3f66f911f227d5c6396db88 ]
+[ Upstream commit 70c55c1ad1a76e804ee5330e134674f5d2741cb7 ]
 
-Currently the R-Mobile "always-on" PM Domain is implemented by returning
--EBUSY from the generic_pm_domain.power_off() callback, and doing
-nothing in the generic_pm_domain.power_on() callback.  However, this
-means the PM Domain core code is not aware of the semantics of this
-special domain, leading to boot warnings like the following on
-SH/R-Mobile SoCs:
+Currently when the call vsp1_dl_body_get fails and returns null the
+error return path leaks the allocation of dl. Fix this by kfree'ing
+dl before returning.
 
-    sh_cmt e6130000.timer: PM domain c5 will not be powered off
+Addresses-Coverity: ("Resource leak")
 
-Fix this by making the always-on nature of the domain explicit instead,
-by setting the GENPD_FLAG_ALWAYS_ON flag.  This removes the need for the
-domain to provide power control callbacks.
-
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
-Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+Fixes: 5d7936b8e27d ("media: vsp1: Convert display lists to use new body pool")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/soc/renesas/rmobile-sysc.c | 31 +++++++++++++++---------------
- 1 file changed, 16 insertions(+), 15 deletions(-)
+ drivers/media/platform/vsp1/vsp1_dl.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/soc/renesas/rmobile-sysc.c b/drivers/soc/renesas/rmobile-sysc.c
-index 421ae1c887d82..54b616ad4a62a 100644
---- a/drivers/soc/renesas/rmobile-sysc.c
-+++ b/drivers/soc/renesas/rmobile-sysc.c
-@@ -48,12 +48,8 @@ struct rmobile_pm_domain *to_rmobile_pd(struct generic_pm_domain *d)
- static int rmobile_pd_power_down(struct generic_pm_domain *genpd)
- {
- 	struct rmobile_pm_domain *rmobile_pd = to_rmobile_pd(genpd);
--	unsigned int mask;
-+	unsigned int mask = BIT(rmobile_pd->bit_shift);
+diff --git a/drivers/media/platform/vsp1/vsp1_dl.c b/drivers/media/platform/vsp1/vsp1_dl.c
+index 104b6f5145364..d7b43037e500a 100644
+--- a/drivers/media/platform/vsp1/vsp1_dl.c
++++ b/drivers/media/platform/vsp1/vsp1_dl.c
+@@ -557,8 +557,10 @@ static struct vsp1_dl_list *vsp1_dl_list_alloc(struct vsp1_dl_manager *dlm)
  
--	if (rmobile_pd->bit_shift == ~0)
--		return -EBUSY;
--
--	mask = BIT(rmobile_pd->bit_shift);
- 	if (rmobile_pd->suspend) {
- 		int ret = rmobile_pd->suspend();
- 
-@@ -80,14 +76,10 @@ static int rmobile_pd_power_down(struct generic_pm_domain *genpd)
- 
- static int __rmobile_pd_power_up(struct rmobile_pm_domain *rmobile_pd)
- {
--	unsigned int mask;
-+	unsigned int mask = BIT(rmobile_pd->bit_shift);
- 	unsigned int retry_count;
- 	int ret = 0;
- 
--	if (rmobile_pd->bit_shift == ~0)
--		return 0;
--
--	mask = BIT(rmobile_pd->bit_shift);
- 	if (__raw_readl(rmobile_pd->base + PSTR) & mask)
- 		return ret;
- 
-@@ -122,11 +114,15 @@ static void rmobile_init_pm_domain(struct rmobile_pm_domain *rmobile_pd)
- 	struct dev_power_governor *gov = rmobile_pd->gov;
- 
- 	genpd->flags |= GENPD_FLAG_PM_CLK | GENPD_FLAG_ACTIVE_WAKEUP;
--	genpd->power_off		= rmobile_pd_power_down;
--	genpd->power_on			= rmobile_pd_power_up;
--	genpd->attach_dev		= cpg_mstp_attach_dev;
--	genpd->detach_dev		= cpg_mstp_detach_dev;
--	__rmobile_pd_power_up(rmobile_pd);
-+	genpd->attach_dev = cpg_mstp_attach_dev;
-+	genpd->detach_dev = cpg_mstp_detach_dev;
-+
-+	if (!(genpd->flags & GENPD_FLAG_ALWAYS_ON)) {
-+		genpd->power_off = rmobile_pd_power_down;
-+		genpd->power_on = rmobile_pd_power_up;
-+		__rmobile_pd_power_up(rmobile_pd);
+ 	/* Get a default body for our list. */
+ 	dl->body0 = vsp1_dl_body_get(dlm->pool);
+-	if (!dl->body0)
++	if (!dl->body0) {
++		kfree(dl);
+ 		return NULL;
 +	}
-+
- 	pm_genpd_init(genpd, gov ? : &simple_qos_governor, false);
- }
  
-@@ -270,6 +266,11 @@ static void __init rmobile_setup_pm_domain(struct device_node *np,
- 		break;
- 
- 	case PD_NORMAL:
-+		if (pd->bit_shift == ~0) {
-+			/* Top-level always-on domain */
-+			pr_debug("PM domain %s is always-on domain\n", name);
-+			pd->genpd.flags |= GENPD_FLAG_ALWAYS_ON;
-+		}
- 		break;
- 	}
+ 	header_offset = dl->body0->max_entries * sizeof(*dl->body0->entries);
  
 -- 
 2.20.1
