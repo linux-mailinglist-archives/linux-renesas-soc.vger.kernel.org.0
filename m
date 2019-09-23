@@ -2,63 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A721EBB6BF
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Sep 2019 16:31:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 11520BB700
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Sep 2019 16:41:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394396AbfIWObG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Sep 2019 10:31:06 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:47382 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2394127AbfIWObF (ORCPT
+        id S2438146AbfIWOlm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Sep 2019 10:41:42 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:36815 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2437469AbfIWOlm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Sep 2019 10:31:05 -0400
+        Mon, 23 Sep 2019 10:41:42 -0400
 X-IronPort-AV: E=Sophos;i="5.64,540,1559487600"; 
-   d="scan'208";a="27259636"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 23 Sep 2019 23:31:03 +0900
+   d="scan'208";a="27040880"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 23 Sep 2019 23:41:40 +0900
 Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 6E5CB4212275;
-        Mon, 23 Sep 2019 23:31:01 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 560B24012C09;
+        Mon, 23 Sep 2019 23:41:38 +0900 (JST)
 From:   Biju Das <biju.das@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
 Cc:     Biju Das <biju.das@bp.renesas.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
         Simon Horman <horms@verge.net.au>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH] dt-bindings: timer: renesas: tmu: Document r8a774b1 bindings
-Date:   Mon, 23 Sep 2019 15:30:52 +0100
-Message-Id: <1569249052-1037-1-git-send-email-biju.das@bp.renesas.com>
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Subject: [PATCH] clk: renesas: r8a774b1: Add TMU clock
+Date:   Mon, 23 Sep 2019 15:41:28 +0100
+Message-Id: <1569249688-15821-1-git-send-email-biju.das@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Document RZ/G2N (R8A774B1) SoC in the Renesas TMU bindings.
+This patch adds the TMU clocks to the R8A774B1 SoC.
 
 Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 ---
- Documentation/devicetree/bindings/timer/renesas,tmu.txt | 1 +
- 1 file changed, 1 insertion(+)
+This patch depend upon the below patch
+https://patchwork.kernel.org/patch/11151827/
+---
+ drivers/clk/renesas/r8a774b1-cpg-mssr.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/timer/renesas,tmu.txt b/Documentation/devicetree/bindings/timer/renesas,tmu.txt
-index 9dff7e5..29159f4 100644
---- a/Documentation/devicetree/bindings/timer/renesas,tmu.txt
-+++ b/Documentation/devicetree/bindings/timer/renesas,tmu.txt
-@@ -11,6 +11,7 @@ Required Properties:
-   - compatible: must contain one or more of the following:
-     - "renesas,tmu-r8a7740" for the r8a7740 TMU
-     - "renesas,tmu-r8a774a1" for the r8a774A1 TMU
-+    - "renesas,tmu-r8a774b1" for the r8a774B1 TMU
-     - "renesas,tmu-r8a774c0" for the r8a774C0 TMU
-     - "renesas,tmu-r8a7778" for the r8a7778 TMU
-     - "renesas,tmu-r8a7779" for the r8a7779 TMU
+diff --git a/drivers/clk/renesas/r8a774b1-cpg-mssr.c b/drivers/clk/renesas/r8a774b1-cpg-mssr.c
+index 6cad6ba..c9af7091 100644
+--- a/drivers/clk/renesas/r8a774b1-cpg-mssr.c
++++ b/drivers/clk/renesas/r8a774b1-cpg-mssr.c
+@@ -110,6 +110,11 @@ static const struct cpg_core_clk r8a774b1_core_clks[] __initconst = {
+ };
+ 
+ static const struct mssr_mod_clk r8a774b1_mod_clks[] __initconst = {
++	DEF_MOD("tmu4",			 121,	R8A774B1_CLK_S0D6),
++	DEF_MOD("tmu3",			 122,	R8A774B1_CLK_S3D2),
++	DEF_MOD("tmu2",			 123,	R8A774B1_CLK_S3D2),
++	DEF_MOD("tmu1",			 124,	R8A774B1_CLK_S3D2),
++	DEF_MOD("tmu0",			 125,	R8A774B1_CLK_CP),
+ 	DEF_MOD("fdp1-0",		 119,	R8A774B1_CLK_S0D1),
+ 	DEF_MOD("scif5",		 202,	R8A774B1_CLK_S3D4),
+ 	DEF_MOD("scif4",		 203,	R8A774B1_CLK_S3D4),
 -- 
 2.7.4
 
