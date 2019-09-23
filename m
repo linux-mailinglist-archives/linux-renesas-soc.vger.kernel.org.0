@@ -2,141 +2,307 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E8CC5BADF2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Sep 2019 08:42:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C169BAE71
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Sep 2019 09:24:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404722AbfIWGmT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 23 Sep 2019 02:42:19 -0400
-Received: from mail-eopbgr1410132.outbound.protection.outlook.com ([40.107.141.132]:54893
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        id S2390274AbfIWHYv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Sep 2019 03:24:51 -0400
+Received: from mail-eopbgr30085.outbound.protection.outlook.com ([40.107.3.85]:40515
+        "EHLO EUR03-AM5-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2404408AbfIWGmT (ORCPT
+        id S2389719AbfIWHYu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 23 Sep 2019 02:42:19 -0400
+        Mon, 23 Sep 2019 03:24:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0VNW16wS9nXPqhCY2qLzM3t54qrCV/eC7CYLPD5gl0Q=;
+ b=ggA/OuL4Py+E5XEiw0BcftPSXM8yeQMWz7RMWoZ6D7ff7yIkBpXDxqDpaf5oNdXrWpbzvGKkcA9Hk8Ikk+oCorT4j04OdaDEb7FovsgTWb/rh/TqRlxfX1nTqazQGYffEaQ2CbXn7EUX5dONpkJ2uhQiv//RFw6OORKm3WYEKUE=
+Received: from DB6PR0801CA0066.eurprd08.prod.outlook.com (2603:10a6:4:2b::34)
+ by AM0PR08MB4468.eurprd08.prod.outlook.com (2603:10a6:208:145::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2284.18; Mon, 23 Sep
+ 2019 07:24:42 +0000
+Received: from VE1EUR03FT034.eop-EUR03.prod.protection.outlook.com
+ (2a01:111:f400:7e09::207) by DB6PR0801CA0066.outlook.office365.com
+ (2603:10a6:4:2b::34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2284.20 via Frontend
+ Transport; Mon, 23 Sep 2019 07:24:42 +0000
+Authentication-Results: spf=temperror (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; vger.kernel.org; dkim=pass (signature was verified)
+ header.d=armh.onmicrosoft.com;vger.kernel.org; dmarc=none action=none
+ header.from=arm.com;
+Received-SPF: TempError (protection.outlook.com: error in processing during
+ lookup of arm.com: DNS Timeout)
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ VE1EUR03FT034.mail.protection.outlook.com (10.152.18.85) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.2284.20 via Frontend Transport; Mon, 23 Sep 2019 07:24:40 +0000
+Received: ("Tessian outbound 5061e1b5386c:v31"); Mon, 23 Sep 2019 07:24:34 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: c7d1295e3cd5b193
+X-CR-MTA-TID: 64aa7808
+Received: from d662ad4798ff.2 (ip-172-16-0-2.eu-west-1.compute.internal [104.47.2.52])
+        by 64aa7808-outbound-1.mta.getcheckrecipient.com id FC8A64BE-91DC-4885-B43F-536B48960A92.1;
+        Mon, 23 Sep 2019 07:24:29 +0000
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com (mail-db5eur01lp2052.outbound.protection.outlook.com [104.47.2.52])
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id d662ad4798ff.2
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Mon, 23 Sep 2019 07:24:29 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bpS1NCKODoWZ+IVRgHMmsH0moAB1UTJD6u+eVx29d5S4LdRUWg5TdeSe7uDWdUCeTV8woi85i0AeD87zPfmPA2sDq0aAxrangK+vvoRMAR58M/AlbWbmeG31m5GvrtO0cs3Y23qbp7biNMOeIGYKOLCavQy7oLvJud7ch3xC4kUpGjEbLOQq0ElJ9xh0/b8lJAU+mEV2gODSqvZSq5rvOTtV17AJgrvRn/niU/co1VPz6elaeQZPRIP5o54RtRcC9fIVc5xLOjWe8aZrwLFj3+wwIJ7BC0yY9OSbHClRPEV7RY2rhYYZRmzgSqK+rUrlut9MfHOwKkC1OCRygVhwqQ==
+ b=RR/HvTlVRlctQiJQVzBS4B/pOIluKjMNMIgEaMBp5Ureppei5BZaB2+oinkxl3LRnYP7lDrfpTps3qQdlPvLJdjkoEHmUKsTp8TqP61PUMfCEjqEe11/f6+kTqHrk7FTiT7Z8QiVDeK8S04JoM/+5ICgt5Y39pAGBqpHIoZJoq6H5VmQ8jniWEPeEh5jgGE6wWA5u919mLz7hOL+Q9plI4yl2w3zYEiQKPFgdCyroJ4qhrDbpHsNeVAbWakN8UVvoHL6zJcYdtXU0PVSiF2LZK8AJcTBS5LYpGoV0WaSVpXaYB/iqq4g9aRlkAjo9+FQ887YPHr4D8vi0OJCRxQdww==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k/yuiO54jrBuoyXJqVnWtnMkzSXXqTa1aTWPjuzKRq0=;
- b=SfpWs1AHzHI9JeL1qU3Yl49uRVegzYsXRcCTfsSGvz4KltGH5wNNxkOLhvmq0S8CBZ6+jOFRpEWNNRh0nhlyQ8SwqVDpf4u74NvAfqg/vONR67XHgBwoMNtBIi4lfAN8/98eWcfY2ACl8WXySx6U2bWIvwzg+PA0mNhTXb/aaCHl5N/hfXIfuZRMzSjMgaVk8Lufhg8hgPTU5yNdG2DvdPnuQ/aK3h8kg/Fh+mkw+VbY6ewHjRLIsk2C6gHs+CZ+qLCBPYsGoptwXFeEb9SXgfw0wlap9Z8gFYvJc9fD+hQh8XIx0iIAq52Radjyj6wReiPt1tUFfnpRuPUfEnm/NA==
+ bh=0VNW16wS9nXPqhCY2qLzM3t54qrCV/eC7CYLPD5gl0Q=;
+ b=oBZDoIQOlQwTiFP+X/FigLiHsvpAJfIoiw3XyUk4QKx8xAfrabzuuKXAggp1nBC9AHxBqyfzI3ueBOBLSU6DRQeKSFMNgoiVGFuyaBgrqHUJuSmz07Tul3TZQUkXrLUHUuIek3Zv3MaJtrdYVwUYXcqS3pGWDRqaQ8dW53TOh5nZGoTaPM33Hg6ZLNNTcieGQEoOC8lIZBessV2E1+a39B/ztDIvTFtPfIzFFlGtpjcBoqAvRDi3QmCvhTUefc8pz5A1JOy81tXGnWCshw8z0D/WfvGN8H6BvGtU5ljKztZWiyhlxo+G6E5hC6g5vX93mXrldxJYnPBGpPeLJP8pog==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k/yuiO54jrBuoyXJqVnWtnMkzSXXqTa1aTWPjuzKRq0=;
- b=r9gN5z+oI8lDfe71j3AMyljTrNPIDZt9QklaAvC95qZHrJIGhSbxYsTYxp8uCDuLN9fgVp67FC4sYXopWgJE9tDrDX16zKThMYOgWd2sNpwqlvKssQswktfEU2/SxG5fSeQK8XexFke/HoTtSUbmM+gNf/O4OBWWg2C9BNGAkUk=
-Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com (52.134.242.17) by
- OSBPR01MB1655.jpnprd01.prod.outlook.com (52.134.227.15) with Microsoft SMTP
+ bh=0VNW16wS9nXPqhCY2qLzM3t54qrCV/eC7CYLPD5gl0Q=;
+ b=ggA/OuL4Py+E5XEiw0BcftPSXM8yeQMWz7RMWoZ6D7ff7yIkBpXDxqDpaf5oNdXrWpbzvGKkcA9Hk8Ikk+oCorT4j04OdaDEb7FovsgTWb/rh/TqRlxfX1nTqazQGYffEaQ2CbXn7EUX5dONpkJ2uhQiv//RFw6OORKm3WYEKUE=
+Received: from VE1PR08MB5006.eurprd08.prod.outlook.com (10.255.159.31) by
+ VE1PR08MB4799.eurprd08.prod.outlook.com (10.255.115.18) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.20; Mon, 23 Sep 2019 06:42:13 +0000
-Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com
- ([fe80::746b:49c1:925d:e9eb]) by OSBPR01MB2103.jpnprd01.prod.outlook.com
- ([fe80::746b:49c1:925d:e9eb%5]) with mapi id 15.20.2284.023; Mon, 23 Sep 2019
- 06:42:13 +0000
-From:   Biju Das <biju.das@bp.renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Subject: RE: [PATCH v2 2/8] soc: renesas: rcar-sysc: Add r8a774b1 support
-Thread-Topic: [PATCH v2 2/8] soc: renesas: rcar-sysc: Add r8a774b1 support
-Thread-Index: AQHVbsKuu8LKqdUXjU6PgkpjsCNDL6c0qSUAgAQsyLA=
-Date:   Mon, 23 Sep 2019 06:42:13 +0000
-Message-ID: <OSBPR01MB2103BCC545F3F4C4AFB3A61CB8850@OSBPR01MB2103.jpnprd01.prod.outlook.com>
-References: <1568881036-4404-1-git-send-email-biju.das@bp.renesas.com>
- <1568881036-4404-3-git-send-email-biju.das@bp.renesas.com>
- <CAMuHMdUvVKYZuzS7Z9uiN=KmdKm6GPnGS0oZbGZKfkbaUOB+Ng@mail.gmail.com>
-In-Reply-To: <CAMuHMdUvVKYZuzS7Z9uiN=KmdKm6GPnGS0oZbGZKfkbaUOB+Ng@mail.gmail.com>
-Accept-Language: en-GB, en-US
+ 15.20.2284.18; Mon, 23 Sep 2019 07:24:26 +0000
+Received: from VE1PR08MB5006.eurprd08.prod.outlook.com
+ ([fe80::a0a6:ad4c:b7a7:f879]) by VE1PR08MB5006.eurprd08.prod.outlook.com
+ ([fe80::a0a6:ad4c:b7a7:f879%5]) with mapi id 15.20.2284.023; Mon, 23 Sep 2019
+ 07:24:26 +0000
+From:   "james qian wang (Arm Technology China)" <james.qian.wang@arm.com>
+To:     "Lowry Li (Arm Technology China)" <Lowry.Li@arm.com>
+CC:     Liviu Dudau <Liviu.Dudau@arm.com>,
+        "maarten.lankhorst@linux.intel.com" 
+        <maarten.lankhorst@linux.intel.com>,
+        "seanpaul@chromium.org" <seanpaul@chromium.org>,
+        "airlied@linux.ie" <airlied@linux.ie>,
+        "daniel@ffwll.ch" <daniel@ffwll.ch>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>, nd <nd@arm.com>,
+        "maxime.ripard@bootlin.com" <maxime.ripard@bootlin.com>,
+        "Jonathan Chai (Arm Technology China)" <Jonathan.Chai@arm.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "Julien Yin (Arm Technology China)" <Julien.Yin@arm.com>,
+        "kieran.bingham+renesas@ideasonboard.com" 
+        <kieran.bingham+renesas@ideasonboard.com>,
+        "laurent.pinchart@ideasonboard.com" 
+        <laurent.pinchart@ideasonboard.com>,
+        Ayan Halder <Ayan.Halder@arm.com>,
+        "sean@poorly.run" <sean@poorly.run>
+Subject: Re: [v1,1/2] drm: Free the writeback_job when it with an empty fb
+Thread-Topic: [v1,1/2] drm: Free the writeback_job when it with an empty fb
+Thread-Index: AQHVcd/uPDLSm4oTDkStRUBRXbS/uA==
+Date:   Mon, 23 Sep 2019 07:24:26 +0000
+Message-ID: <20190923072419.GA17006@jamwan02-TSP300>
+References: <1564571048-15029-2-git-send-email-lowry.li@arm.com>
+In-Reply-To: <1564571048-15029-2-git-send-email-lowry.li@arm.com>
+Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=biju.das@bp.renesas.com; 
-x-originating-ip: [193.141.220.21]
+user-agent: Mutt/1.10.1 (2018-07-13)
+x-originating-ip: [113.29.88.7]
+x-clientproxiedby: HK2PR02CA0206.apcprd02.prod.outlook.com
+ (2603:1096:201:20::18) To VE1PR08MB5006.eurprd08.prod.outlook.com
+ (2603:10a6:803:113::31)
+Authentication-Results-Original: spf=none (sender IP is )
+ smtp.mailfrom=james.qian.wang@arm.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 4ade7b3d-a024-4a60-2a94-08d73ff12aca
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:OSBPR01MB1655;
-x-ms-traffictypediagnostic: OSBPR01MB1655:|OSBPR01MB1655:
+X-MS-Office365-Filtering-Correlation-Id: 558d73fc-8c29-4449-b218-08d73ff71956
+X-MS-Office365-Filtering-HT: Tenant
+X-Microsoft-Antispam-Untrusted: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4618075)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:VE1PR08MB4799;
+X-MS-TrafficTypeDiagnostic: VE1PR08MB4799:|VE1PR08MB4799:|AM0PR08MB4468:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <OSBPR01MB16552234E9587CE2D4C12448B8850@OSBPR01MB1655.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2657;
+X-Microsoft-Antispam-PRVS: <AM0PR08MB446825B1AC0C94AECC493E9DB3850@AM0PR08MB4468.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+x-ms-oob-tlc-oobclassifiers: OLM:41;OLM:41;
 x-forefront-prvs: 0169092318
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(376002)(39860400002)(136003)(366004)(346002)(396003)(51914003)(189003)(199004)(7736002)(81166006)(71190400001)(74316002)(9686003)(71200400001)(52536014)(316002)(66066001)(26005)(186003)(102836004)(33656002)(6506007)(66946007)(99286004)(76116006)(66476007)(66446008)(53546011)(64756008)(66556008)(6916009)(5660300002)(54906003)(3846002)(8936002)(305945005)(6116002)(446003)(2906002)(4326008)(14454004)(86362001)(476003)(44832011)(478600001)(81156014)(486006)(11346002)(6436002)(229853002)(256004)(107886003)(6246003)(76176011)(8676002)(55016002)(25786009)(7696005);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB1655;H:OSBPR01MB2103.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
-received-spf: None (protection.outlook.com: bp.renesas.com does not designate
+X-Forefront-Antispam-Report-Untrusted: SFV:NSPM;SFS:(10009020)(4636009)(7916004)(136003)(396003)(366004)(39850400004)(376002)(346002)(199004)(189003)(386003)(66066001)(4326008)(229853002)(478600001)(33656002)(6436002)(26005)(6636002)(6486002)(1076003)(25786009)(8936002)(186003)(316002)(7736002)(305945005)(58126008)(86362001)(81166006)(446003)(5660300002)(7416002)(6512007)(81156014)(476003)(11346002)(8676002)(486006)(9686003)(71190400001)(71200400001)(54906003)(66946007)(6116002)(3846002)(66556008)(66446008)(66476007)(52116002)(76176011)(33716001)(64756008)(14454004)(6246003)(99286004)(6506007)(55236004)(6862004)(256004)(102836004)(2906002);DIR:OUT;SFP:1101;SCL:1;SRVR:VE1PR08MB4799;H:VE1PR08MB5006.eurprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: arm.com does not designate
  permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: GxIOoxXtuebIzhMip40WSGhtuAy441Hmx+k/dknXlv3eDIWl6xP9+EPZ94gdHovo8saDirC7SGlIBhsz0vnXXN8kJFeazdQIWXnl+HES/uXwCvMbGDh4JAWtgpo+f66DGNCTzmJ2hTtooyDNr6hHGUFUZUasz5qQgjZkD3s6EHjFyfBudHOKiGk0jTy9uCWsmUoWzJlbin0Rw0LjoAFVrDdLcwreBOaw2ShDfoxUSOxC5RBn9y8ryD4gsuW+z/4Fymig+SJCTBSHFIr4PwC+m8oQEbYlO6O8ZSac4MAIhSr0os9KZqOCafx/AUpdlQwwjpCoDHQ5gPmwt/Y/6agb3QXesqvWMfImKWs0TMHi5ARByhW9GgouzAJ+5PAZT8I4g3z/3qr6XFwWHevHKcc3CR3SLhFypZ7dY4nT/e7KQYE=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Message-Info-Original: nu/8GwjlYPrJR7uWTxQHHN/V3edaq8k9qVZrsl78x2K3cBXiHxDFUM9bWTnhxyikC5coieVS0gOrJHxsT/azNFD0M3/LYFGS9XwM45wvetvASOmLAarjxlwNJqUGkFEYgtcfzsoE0huj8qyWu5c3hvn9dsZMxzitOrV/MscD7Ul4E6heTBjBLu2KOtuOxqs0lme7eyoVSbgfZBbQdpyENGOmGyW0mXNmxAaYhFYC53bsv8MbvPcu55w1Je02h5jnuinvC1f8Qs7tvJ7vuLgzMX8W1YxoMvFh9klf4qSwPCrRcpql/CIUggR3CjESxIxStKF9QjCPUpkIknUmqBE9U0yM+g3JxSINKmeqOc5hV+JvFJbE2qkbX5rqvafpb1RbHKkbSvpmvQEvLzO12Jj/1NSRJbZNNOqsXykfvt0TGsw=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <2817BAE5E83DDB4F9DB84419C25E7931@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ade7b3d-a024-4a60-2a94-08d73ff12aca
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2019 06:42:13.2125
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB4799
+Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=james.qian.wang@arm.com; 
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: VE1EUR03FT034.eop-EUR03.prod.protection.outlook.com
+X-Forefront-Antispam-Report: CIP:63.35.35.123;IPV:CAL;SCL:-1;CTRY:IE;EFV:NLI;SFV:NSPM;SFS:(10009020)(4636009)(7916004)(136003)(396003)(346002)(376002)(39860400002)(189003)(199004)(81166006)(186003)(26005)(4326008)(7736002)(6506007)(305945005)(36906005)(107886003)(33656002)(76176011)(386003)(450100002)(76130400001)(97756001)(99286004)(316002)(486006)(11346002)(446003)(126002)(229853002)(356004)(25786009)(22756006)(6246003)(9686003)(6512007)(102836004)(63350400001)(70586007)(58126008)(476003)(70206006)(50466002)(54906003)(6116002)(336012)(46406003)(2906002)(14454004)(6862004)(6486002)(6636002)(8676002)(1076003)(3846002)(478600001)(5660300002)(23726003)(8746002)(33716001)(8936002)(26826003)(66066001)(47776003)(86362001)(81156014);DIR:OUT;SFP:1101;SCL:1;SRVR:AM0PR08MB4468;H:64aa7808-outbound-1.mta.getcheckrecipient.com;FPR:;SPF:TempError;LANG:en;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;MX:1;A:1;
+X-MS-Office365-Filtering-Correlation-Id-Prvs: fde72182-c92c-47cd-ca0b-08d73ff71076
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(710020)(711020)(4605104)(1401327)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:AM0PR08MB4468;
+NoDisclaimer: True
+X-Forefront-PRVS: 0169092318
+X-Microsoft-Antispam-Message-Info: 7zL6wDl7B8P6Qrb3/hsIhT9gwy6/So+evr4F75DsiZVu2/V8GoGZ9FaJ5imhpfF2CrMoeAJyGVosEZM/9fbe/jWbukYmWyjXf3VKlcc8rZp3Ec015bHZkS3IpBoWhi77Svnh9taUp7j6oHo8axGThw9xe31EaZ6W1HwOkS0d3+OohVREWtRLDyVLTiLlROgNqkX1wYRQxqICea6qyRiIbiDuz0f+lENV50zYVzzmJAaF11p1Nj2cNlI6JYv4ymqRqfazWJt1ExY3aMFoE0SOgs6kGq7me+7o0kJTOG2xG/Q8mEYusd1Mo0SsfgGXpcnTIOJAE9yWl6D0yd8O75CVNnpaWeVLEYvuCPzCLGbvZAb1Dd2CQI8MLZq+/sZLSA5tuIN11qWSPShUQIquWXL+h++U7VFEIE/JhG40H2q6tMs=
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2019 07:24:40.8706
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: GT1ZSy+/oEChX+Hba4QlUH2C6/8UlpOX8lZBzYf1NWqW1kew9VXnWhETbElgIdlA54ztroyyZq5JpoTmErLN3w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB1655
+X-MS-Exchange-CrossTenant-Network-Message-Id: 558d73fc-8c29-4449-b218-08d73ff71956
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4468
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SEkgR2VlcnQsDQoNClRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrLg0KDQo+IFN1YmplY3Q6IFJlOiBb
-UEFUQ0ggdjIgMi84XSBzb2M6IHJlbmVzYXM6IHJjYXItc3lzYzogQWRkIHI4YTc3NGIxIHN1cHBv
-cnQNCj4gDQo+IEhpIEJpanUsDQo+IA0KPiBPbiBUaHUsIFNlcCAxOSwgMjAxOSBhdCAxMDoxNyBB
-TSBCaWp1IERhcyA8YmlqdS5kYXNAYnAucmVuZXNhcy5jb20+DQo+IHdyb3RlOg0KPiA+IEFkZCBz
-dXBwb3J0IGZvciBSWi9HMk4gKFI4QTc3NEIxKSBTb0MgcG93ZXIgYXJlYXMgdG8gdGhlIFItQ2Fy
-IFNZU0MNCj4gPiBkcml2ZXIuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBCaWp1IERhcyA8Ymlq
-dS5kYXNAYnAucmVuZXNhcy5jb20+DQo+IA0KPiBUaGFua3MgZm9yIHlvdXIgcGF0Y2ghDQo+IA0K
-PiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysgYi9kcml2ZXJzL3NvYy9yZW5lc2FzL3I4YTc3NGIx
-LXN5c2MuYw0KPiA+IEBAIC0wLDAgKzEsMzUgQEANCj4gPiArLy8gU1BEWC1MaWNlbnNlLUlkZW50
-aWZpZXI6IEdQTC0yLjANCj4gPiArLyoNCj4gPiArICogUmVuZXNhcyBSWi9HMk4gU3lzdGVtIENv
-bnRyb2xsZXINCj4gPiArICogQ29weXJpZ2h0IChDKSAyMDE5IFJlbmVzYXMgRWxlY3Ryb25pY3Mg
-Q29ycC4NCj4gPiArICoNCj4gPiArICogQmFzZWQgb24gUmVuZXNhcyBSLUNhciBNMy1XIFN5c3Rl
-bSBDb250cm9sbGVyDQo+ID4gKyAqIENvcHlyaWdodCAoQykgMjAxNiBHbGlkZXIgYnZiYQ0KPiA+
-ICsgKi8NCj4gPiArDQo+ID4gKyNpbmNsdWRlIDxsaW51eC9idWcuaD4NCj4gDQo+IFRoaXMgaW5j
-bHVkZSBkb2Vzbid0IHNlZW0gdG8gYmUgdXNlZD8NCg0KT0ssIFdpbGwgcmVtb3ZlIC4NCj4gPiAr
-I2luY2x1ZGUgPGxpbnV4L2tlcm5lbC5oPg0KPiA+ICsNCj4gPiArI2luY2x1ZGUgPGR0LWJpbmRp
-bmdzL3Bvd2VyL3I4YTc3NGIxLXN5c2MuaD4NCj4gPiArDQo+ID4gKyNpbmNsdWRlICJyY2FyLXN5
-c2MuaCINCj4gPiArDQo+ID4gK3N0YXRpYyBjb25zdCBzdHJ1Y3QgcmNhcl9zeXNjX2FyZWEgcjhh
-Nzc0YjFfYXJlYXNbXSBfX2luaXRjb25zdCA9IHsNCj4gPiArICAgICAgIHsgImFsd2F5cy1vbiIs
-ICAgICAgMCwgMCwgUjhBNzc0QjFfUERfQUxXQVlTX09OLCAtMSwNCj4gUERfQUxXQVlTX09OIH0s
-DQo+ID4gKyAgICAgICB7ICJjYTU3LXNjdSIsICAgMHgxYzAsIDAsIFI4QTc3NEIxX1BEX0NBNTdf
-U0NVLA0KPiBSOEE3NzRCMV9QRF9BTFdBWVNfT04sDQo+ID4gKyAgICAgICAgIFBEX1NDVSB9LA0K
-PiA+ICsgICAgICAgeyAiY2E1Ny1jcHUwIiwgICAweDgwLCAwLCBSOEE3NzRCMV9QRF9DQTU3X0NQ
-VTAsDQo+IFI4QTc3NEIxX1BEX0NBNTdfU0NVLA0KPiA+ICsgICAgICAgICBQRF9DUFVfTk9DUiB9
-LA0KPiA+ICsgICAgICAgeyAiY2E1Ny1jcHUxIiwgICAweDgwLCAxLCBSOEE3NzRCMV9QRF9DQTU3
-X0NQVTEsDQo+IFI4QTc3NEIxX1BEX0NBNTdfU0NVLA0KPiA+ICsgICAgICAgICBQRF9DUFVfTk9D
-UiB9LA0KPiA+ICsgICAgICAgeyAiYTN2YyIsICAgICAgIDB4MzgwLCAwLCBSOEE3NzRCMV9QRF9B
-M1ZDLA0KPiBSOEE3NzRCMV9QRF9BTFdBWVNfT04gfSwNCj4gPiArICAgICAgIHsgImEzdnAiLCAg
-ICAgICAweDM0MCwgMCwgUjhBNzc0QjFfUERfQTNWUCwNCj4gUjhBNzc0QjFfUERfQUxXQVlTX09O
-IH0sDQo+ID4gKyAgICAgICB7ICJhMnZjMSIsICAgICAgMHgzYzAsIDEsIFI4QTc3NEIxX1BEX0Ey
-VkMxLCAgICBSOEE3NzRCMV9QRF9BM1ZDIH0sDQo+ID4gKyAgICAgICB7ICIzZGctYSIsICAgICAg
-MHgxMDAsIDAsIFI4QTc3NEIxX1BEXzNER19BLA0KPiBSOEE3NzRCMV9QRF9BTFdBWVNfT04gfSwN
-Cj4gPiArICAgICAgIHsgIjNkZy1iIiwgICAgICAweDEwMCwgMSwgUjhBNzc0QjFfUERfM0RHX0Is
-ICAgIFI4QTc3NEIxX1BEXzNER19BDQo+IH0sDQo+ID4gK307DQo+ID4gKw0KPiA+ICtjb25zdCBz
-dHJ1Y3QgcmNhcl9zeXNjX2luZm8gcjhhNzc0YjFfc3lzY19pbmZvIF9faW5pdGNvbnN0ID0gew0K
-PiA+ICsgICAgICAgLmFyZWFzID0gcjhhNzc0YjFfYXJlYXMsDQo+ID4gKyAgICAgICAubnVtX2Fy
-ZWFzID0gQVJSQVlfU0laRShyOGE3NzRiMV9hcmVhcyksDQo+IA0KPiBHaXZlbiB0aGUgSGFyZHdh
-cmUgVXNlcidzIE1hbnVhbCBkb2N1bWVudHMgdGhlIHByZXNlbmNlIG9mIHRoZQ0KPiBTWVNDRVhU
-TUFTSyByZWdpc3RlciBvbiBSWi9HMk4sIHlvdSB3YW50IHRvIGZpbGwgaW4gdGhlIC5leHRtYXNr
-X3tvZmZzLHZhbH0NCj4gZmllbGRzLCB0b28uDQoNCldpbGwgU2VuZCBWMywgd2l0aCB0aGUgYWJv
-dmUgY2hhbmdlcy4NCg0KPiBXaXRoIHRoZSBhYm92ZSBmaXhlZDoNCj4gUmV2aWV3ZWQtYnk6IEdl
-ZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnQrcmVuZXNhc0BnbGlkZXIuYmU+DQo+IA0KPiBHcntvZXRq
-ZSxlZXRpbmd9cywNCj4gDQo+ICAgICAgICAgICAgICAgICAgICAgICAgIEdlZXJ0DQo+IA0KPiAt
-LQ0KPiBHZWVydCBVeXR0ZXJob2V2ZW4gLS0gVGhlcmUncyBsb3RzIG9mIExpbnV4IGJleW9uZCBp
-YTMyIC0tIGdlZXJ0QGxpbnV4LQ0KPiBtNjhrLm9yZw0KPiANCj4gSW4gcGVyc29uYWwgY29udmVy
-c2F0aW9ucyB3aXRoIHRlY2huaWNhbCBwZW9wbGUsIEkgY2FsbCBteXNlbGYgYSBoYWNrZXIuIEJ1
-dA0KPiB3aGVuIEknbSB0YWxraW5nIHRvIGpvdXJuYWxpc3RzIEkganVzdCBzYXkgInByb2dyYW1t
-ZXIiIG9yIHNvbWV0aGluZyBsaWtlIHRoYXQuDQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgLS0gTGludXMgVG9ydmFsZHMNCg==
+On Wed, Jul 31, 2019 at 11:04:38AM +0000, Lowry Li (Arm Technology China) w=
+rote:
+> From: "Lowry Li (Arm Technology China)" <Lowry.Li@arm.com>
+>=20
+> Adds the check if the writeback_job with an empty fb, then it should
+> be freed in atomic_check phase.
+>=20
+> With this change, the driver users will not check empty fb case any more.
+> So refined accordingly.
+>=20
+> Signed-off-by: Lowry Li (Arm Technology China) <lowry.li@arm.com>
+> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Looks good to me.
+
+Reviewed-by: James Qian Wang (Arm Technology China) <james.qian.wang@arm.co=
+m>
+
+And will push it to drm-misc-fixes
+
+James
+
+> ---
+>  drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c |  3 +--
+>  drivers/gpu/drm/arm/malidp_mw.c                          |  4 ++--
+>  drivers/gpu/drm/drm_atomic.c                             | 13 +++++++++-=
+---
+>  drivers/gpu/drm/rcar-du/rcar_du_writeback.c              |  4 ++--
+>  drivers/gpu/drm/vc4/vc4_txp.c                            |  5 ++---
+>  5 files changed, 16 insertions(+), 13 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c b/d=
+rivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
+> index 617e1f7..d6103dd 100644
+> --- a/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
+> +++ b/drivers/gpu/drm/arm/display/komeda/komeda_wb_connector.c
+> @@ -43,9 +43,8 @@
+>  	struct komeda_data_flow_cfg dflow;
+>  	int err;
+> =20
+> -	if (!writeback_job || !writeback_job->fb) {
+> +	if (!writeback_job)
+>  		return 0;
+> -	}
+> =20
+>  	if (!crtc_st->active) {
+>  		DRM_DEBUG_ATOMIC("Cannot write the composition result out on a inactiv=
+e CRTC.\n");
+> diff --git a/drivers/gpu/drm/arm/malidp_mw.c b/drivers/gpu/drm/arm/malidp=
+_mw.c
+> index 2e81252..a59227b 100644
+> --- a/drivers/gpu/drm/arm/malidp_mw.c
+> +++ b/drivers/gpu/drm/arm/malidp_mw.c
+> @@ -130,7 +130,7 @@ static void malidp_mw_connector_destroy(struct drm_co=
+nnector *connector)
+>  	struct drm_framebuffer *fb;
+>  	int i, n_planes;
+> =20
+> -	if (!conn_state->writeback_job || !conn_state->writeback_job->fb)
+> +	if (!conn_state->writeback_job)
+>  		return 0;
+> =20
+>  	fb =3D conn_state->writeback_job->fb;
+> @@ -247,7 +247,7 @@ void malidp_mw_atomic_commit(struct drm_device *drm,
+> =20
+>  	mw_state =3D to_mw_state(conn_state);
+> =20
+> -	if (conn_state->writeback_job && conn_state->writeback_job->fb) {
+> +	if (conn_state->writeback_job) {
+>  		struct drm_framebuffer *fb =3D conn_state->writeback_job->fb;
+> =20
+>  		DRM_DEV_DEBUG_DRIVER(drm->dev,
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index 419381a..14aeaf7 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -430,10 +430,15 @@ static int drm_atomic_connector_check(struct drm_co=
+nnector *connector,
+>  		return -EINVAL;
+>  	}
+> =20
+> -	if (writeback_job->out_fence && !writeback_job->fb) {
+> -		DRM_DEBUG_ATOMIC("[CONNECTOR:%d:%s] requesting out-fence without frame=
+buffer\n",
+> -				 connector->base.id, connector->name);
+> -		return -EINVAL;
+> +	if (!writeback_job->fb) {
+> +		if (writeback_job->out_fence) {
+> +			DRM_DEBUG_ATOMIC("[CONNECTOR:%d:%s] requesting out-fence without fram=
+ebuffer\n",
+> +					 connector->base.id, connector->name);
+> +			return -EINVAL;
+> +		}
+> +
+> +		drm_writeback_cleanup_job(writeback_job);
+> +		state->writeback_job =3D NULL;
+>  	}
+> =20
+>  	return 0;
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c b/drivers/gpu/dr=
+m/rcar-du/rcar_du_writeback.c
+> index ae07290..04efa78d 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_writeback.c
+> @@ -147,7 +147,7 @@ static int rcar_du_wb_enc_atomic_check(struct drm_enc=
+oder *encoder,
+>  	struct drm_device *dev =3D encoder->dev;
+>  	struct drm_framebuffer *fb;
+> =20
+> -	if (!conn_state->writeback_job || !conn_state->writeback_job->fb)
+> +	if (!conn_state->writeback_job)
+>  		return 0;
+> =20
+>  	fb =3D conn_state->writeback_job->fb;
+> @@ -221,7 +221,7 @@ void rcar_du_writeback_setup(struct rcar_du_crtc *rcr=
+tc,
+>  	unsigned int i;
+> =20
+>  	state =3D rcrtc->writeback.base.state;
+> -	if (!state || !state->writeback_job || !state->writeback_job->fb)
+> +	if (!state || !state->writeback_job)
+>  		return;
+> =20
+>  	fb =3D state->writeback_job->fb;
+> diff --git a/drivers/gpu/drm/vc4/vc4_txp.c b/drivers/gpu/drm/vc4/vc4_txp.=
+c
+> index 96f91c1..e92fa12 100644
+> --- a/drivers/gpu/drm/vc4/vc4_txp.c
+> +++ b/drivers/gpu/drm/vc4/vc4_txp.c
+> @@ -229,7 +229,7 @@ static int vc4_txp_connector_atomic_check(struct drm_=
+connector *conn,
+>  	int i;
+> =20
+>  	conn_state =3D drm_atomic_get_new_connector_state(state, conn);
+> -	if (!conn_state->writeback_job || !conn_state->writeback_job->fb)
+> +	if (!conn_state->writeback_job)
+>  		return 0;
+> =20
+>  	crtc_state =3D drm_atomic_get_new_crtc_state(state, conn_state->crtc);
+> @@ -269,8 +269,7 @@ static void vc4_txp_connector_atomic_commit(struct dr=
+m_connector *conn,
+>  	u32 ctrl;
+>  	int i;
+> =20
+> -	if (WARN_ON(!conn_state->writeback_job ||
+> -		    !conn_state->writeback_job->fb))
+> +	if (WARN_ON(!conn_state->writeback_job))
+>  		return;
+> =20
+>  	mode =3D &conn_state->crtc->state->adjusted_mode;
