@@ -2,28 +2,28 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 81416BCFC4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Sep 2019 19:02:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87A9DBCF90
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 24 Sep 2019 19:02:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2633155AbfIXQoY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 24 Sep 2019 12:44:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33444 "EHLO mail.kernel.org"
+        id S1729304AbfIXQ6t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 24 Sep 2019 12:58:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39040 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2633147AbfIXQoX (ORCPT
+        id S2633288AbfIXQrm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 24 Sep 2019 12:44:23 -0400
+        Tue, 24 Sep 2019 12:47:42 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 39B6921783;
-        Tue, 24 Sep 2019 16:44:21 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8CFBE217D9;
+        Tue, 24 Sep 2019 16:47:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569343462;
-        bh=lDL5rQ0iQjQPgcCdFBsieK5RO/jzJBnGB/H48wyFqpE=;
+        s=default; t=1569343661;
+        bh=Z1FXg++vbpg9xKSA6xmGTikQgX/VXgM9vHZDwXnfifc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MGutvuIVg4mbHxJ0lDIpoL1YJUCZ8ZSM3m0BZbtNgzwT5h0kSySAzGuiFOFM2RIzx
-         4qx5BCezBq/cWzc17QFyaQZoQODE74cyCSCVOtNHAJaSlviQR2tH0K/cn+g3T0NiaW
-         Tu3EZwv8rHA8gW1pqCdHiQboZE2+aJvsV+xCeCvs=
+        b=XjzcB8Wv8BrT5i/7uxMaYwNvczot2GT0b7f5RuPEorScljIz4rRbKvO2KnMDklaKG
+         WM+g+x73uUd1mTLEAU5dpKkP/P1auFt0Rdb/f30JIZ5JszbAEas0cU9a3FqNkuUQlx
+         lOHyr/Wvm7V+DsBHbEMw1DnuJWIoc2s+kAVn7Ckk=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -31,12 +31,12 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Ulf Hansson <ulf.hansson@linaro.org>,
         Sasha Levin <sashal@kernel.org>,
         linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.3 58/87] clk: renesas: cpg-mssr: Set GENPD_FLAG_ALWAYS_ON for clock domain
-Date:   Tue, 24 Sep 2019 12:41:14 -0400
-Message-Id: <20190924164144.25591-58-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.2 46/70] clk: renesas: cpg-mssr: Set GENPD_FLAG_ALWAYS_ON for clock domain
+Date:   Tue, 24 Sep 2019 12:45:25 -0400
+Message-Id: <20190924164549.27058-46-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190924164144.25591-1-sashal@kernel.org>
-References: <20190924164144.25591-1-sashal@kernel.org>
+In-Reply-To: <20190924164549.27058-1-sashal@kernel.org>
+References: <20190924164549.27058-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -69,10 +69,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
-index d4075b1306742..132cc96895e3a 100644
+index 9dfa28d6fd9f9..cbe5fb468b7f9 100644
 --- a/drivers/clk/renesas/renesas-cpg-mssr.c
 +++ b/drivers/clk/renesas/renesas-cpg-mssr.c
-@@ -551,7 +551,8 @@ static int __init cpg_mssr_add_clk_domain(struct device *dev,
+@@ -555,7 +555,8 @@ static int __init cpg_mssr_add_clk_domain(struct device *dev,
  
  	genpd = &pd->genpd;
  	genpd->name = np->name;
