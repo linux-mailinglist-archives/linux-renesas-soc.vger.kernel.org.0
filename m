@@ -2,52 +2,51 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EDDF9BDF0B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2019 15:33:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 23BD9BDFEB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2019 16:21:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391614AbfIYNdA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Sep 2019 09:33:00 -0400
-Received: from esa2.mentor.iphmx.com ([68.232.141.98]:58567 "EHLO
-        esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391613AbfIYNdA (ORCPT
+        id S1730636AbfIYOVa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Sep 2019 10:21:30 -0400
+Received: from esa4.mentor.iphmx.com ([68.232.137.252]:59585 "EHLO
+        esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726124AbfIYOVa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Sep 2019 09:33:00 -0400
-IronPort-SDR: S3GEvS/c5joOftr2zCT8j1JB/1bsRN84+3LAkZwptHkFSzFGVUs3+n1zRe8lhr+sjI5Tbv1fx0
- rNQjuQ+mVNwnMOFO01VujnZzPPMaOJ1GHS5jB+IjoZ8lBtlULlkXT1AxWWYPAKzav3iAAkRL3S
- tJZMwyljxMr+B2misWdabCMD1U3QiUYNfe8Uljr4t2n2UA2ImyFGEX/GsYcpUp4NrFjI0eKLvS
- ryOVJVLqzWXLwt0R72VufjYw0r/+HrAjAZ8fy2cBPYLRlw0OO7zYBhHWbYaDSxxp/ryUhFAt1V
- uUU=
+        Wed, 25 Sep 2019 10:21:30 -0400
+IronPort-SDR: MnWQXBrBLyiRfxzkV5StlPTjLghvYM+LStaI59Qsryi1fz4KoO1W6o5Fu5PZDQ0Q4xvLPbboaS
+ 6PlgW6m9LqKeijdjk9VkbjsbHClX5KZ3xie+6RF3FFXLXQh1Jg5ajZOeTWy5shDuG6bCKcAGOj
+ H5u2BAIAYRMIlbHT7T1xfg3tdDSGW4LtCT2/3Zk/K+YRzTryVH0CGRMuOo9UTtx++rxpubecCC
+ B5zqM2trjkvCNwC2/CBkdux46HoKAX7oJAP1IZnVl0oGZo/Y2OlAeo8go+63doLKSxel1hu0Tk
+ X/c=
 X-IronPort-AV: E=Sophos;i="5.64,548,1559548800"; 
-   d="scan'208";a="41625381"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa2.mentor.iphmx.com with ESMTP; 25 Sep 2019 05:32:59 -0800
-IronPort-SDR: VBiUJnzZLB/6RpjsCA5Q3ptfHMJzgF/pqiUrp1Hl0Bz8qHBuDaOhqW5xSB18lF7UB27iBiCFBe
- hbXFnjcjuPQ/A/Y4Y8nGrnPAAdJsA0HL3EZlv+Br807DF3C0lJXKg3KINCHqzPJmvSnmHYwmfW
- yFNbe6+xO+Uvsi6D/DF5ShJke/Cw1g5evCNpIuRbEX9kMx1v2PrN4msYwWbKi3Q794eaiLgy4Q
- gZjjsPC5ntRAFXXKptAnvT13k6jHaymARZk3sHpohjdkCq7uhH8k/8JPkYmnCPQMN/WcndaVou
- vzI=
-Date:   Wed, 25 Sep 2019 15:32:42 +0200
+   d="scan'208";a="41681861"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa4.mentor.iphmx.com with ESMTP; 25 Sep 2019 06:21:29 -0800
+IronPort-SDR: hqekn1t08ZqjQyEuo+SbW2dDhvXDgIu8Sa/70mJgJDo689BOFFjEqx6sxvqHqdJUjOChI6gyzJ
+ i3TilqlNEwovcn6p70RXI/jPVn+z+aPYoeKNGhmfDFyEABCB7XGlSbdnkJq0c0ISzTP+tB7qJJ
+ BN8llxvjg157RErRWzdpzOK3ybYbglhqxj4gjPArikKmks6zS9TyfBlXI2mzAl2AIURXr2/Rmt
+ 5RXfSl49wEyQ4ymkS5hhlcx6pe9a6M40v5EmuSlZKujXLQbZ5UqtF4s3LApUxHZe3Xt4fy4JQU
+ qSw=
 From:   Balasubramani Vivekanandan <balasubramani_vivekanandan@mentor.com>
 To:     <fweisbec@gmail.com>, <tglx@linutronix.de>, <mingo@kernel.org>,
         <peterz@infradead.org>
-CC:     <erosca@de.adit-jv.com>, <linux-kernel@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH V2 1/1] tick: broadcast-hrtimer: Fix a race in bc_set_next
-Message-ID: <20190925133242.GA4188@bala-ubuntu>
-References: <alpine.DEB.2.21.1909232041080.1934@nanos.tec.linutronix.de>
- <20190925115541.1170-1-balasubramani_vivekanandan@mentor.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+CC:     <balasubramani_vivekanandan@mentor.com>, <erosca@de.adit-jv.com>,
+        <linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH V2 1/1] tick: broadcast-hrtimer: Fix a race in bc_set_next
+Date:   Wed, 25 Sep 2019 16:20:28 +0200
+Message-ID: <20190925142029.13648-1-balasubramani_vivekanandan@mentor.com>
+X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190925115541.1170-1-balasubramani_vivekanandan@mentor.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20190925115541.1170-1-balasubramani_vivekanandan@mentor.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: SVR-IES-MBX-07.mgc.mentorg.com (139.181.222.7) To
+X-ClientProxiedBy: SVR-IES-MBX-09.mgc.mentorg.com (139.181.222.9) To
  svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-+ Peter Zijlstra, linux-renesas-soc
+Sorry, I missed to fix few checkpatch warnings. Corrected it now
+
 
