@@ -2,124 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 664F0BDA62
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2019 11:01:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDDF9BDF0B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 25 Sep 2019 15:33:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726623AbfIYJAg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 25 Sep 2019 05:00:36 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:34231 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726216AbfIYJAY (ORCPT
+        id S2391614AbfIYNdA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 25 Sep 2019 09:33:00 -0400
+Received: from esa2.mentor.iphmx.com ([68.232.141.98]:58567 "EHLO
+        esa2.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391613AbfIYNdA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 25 Sep 2019 05:00:24 -0400
-Received: from windsurf (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
-        (Authenticated sender: thomas.petazzoni@bootlin.com)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id A5CD4100009;
-        Wed, 25 Sep 2019 09:00:14 +0000 (UTC)
-Date:   Wed, 25 Sep 2019 11:00:13 +0200
-From:   Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Will Deacon <will@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Toan Le <toan@os.amperecomputing.com>,
-        Ley Foon Tan <lftan@altera.com>,
-        Tom Joseph <tjoseph@cadence.com>, Ray Jui <rjui@broadcom.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Ryder Lee <ryder.lee@mediatek.com>,
-        Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
-        Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
-        Simon Horman <horms@verge.net.au>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Michal Simek <michal.simek@xilinx.com>,
-        rfi@lists.rocketboards.org, linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        Nadav Haklai <nadavh@marvell.com>
-Subject: Re: [PATCH 06/11] PCI: of: Add inbound resource parsing to helpers
-Message-ID: <20190925110013.43ffbce6@windsurf>
-In-Reply-To: <20190924214630.12817-7-robh@kernel.org>
-References: <20190924214630.12817-1-robh@kernel.org>
-        <20190924214630.12817-7-robh@kernel.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Wed, 25 Sep 2019 09:33:00 -0400
+IronPort-SDR: S3GEvS/c5joOftr2zCT8j1JB/1bsRN84+3LAkZwptHkFSzFGVUs3+n1zRe8lhr+sjI5Tbv1fx0
+ rNQjuQ+mVNwnMOFO01VujnZzPPMaOJ1GHS5jB+IjoZ8lBtlULlkXT1AxWWYPAKzav3iAAkRL3S
+ tJZMwyljxMr+B2misWdabCMD1U3QiUYNfe8Uljr4t2n2UA2ImyFGEX/GsYcpUp4NrFjI0eKLvS
+ ryOVJVLqzWXLwt0R72VufjYw0r/+HrAjAZ8fy2cBPYLRlw0OO7zYBhHWbYaDSxxp/ryUhFAt1V
+ uUU=
+X-IronPort-AV: E=Sophos;i="5.64,548,1559548800"; 
+   d="scan'208";a="41625381"
+Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
+  by esa2.mentor.iphmx.com with ESMTP; 25 Sep 2019 05:32:59 -0800
+IronPort-SDR: VBiUJnzZLB/6RpjsCA5Q3ptfHMJzgF/pqiUrp1Hl0Bz8qHBuDaOhqW5xSB18lF7UB27iBiCFBe
+ hbXFnjcjuPQ/A/Y4Y8nGrnPAAdJsA0HL3EZlv+Br807DF3C0lJXKg3KINCHqzPJmvSnmHYwmfW
+ yFNbe6+xO+Uvsi6D/DF5ShJke/Cw1g5evCNpIuRbEX9kMx1v2PrN4msYwWbKi3Q794eaiLgy4Q
+ gZjjsPC5ntRAFXXKptAnvT13k6jHaymARZk3sHpohjdkCq7uhH8k/8JPkYmnCPQMN/WcndaVou
+ vzI=
+Date:   Wed, 25 Sep 2019 15:32:42 +0200
+From:   Balasubramani Vivekanandan <balasubramani_vivekanandan@mentor.com>
+To:     <fweisbec@gmail.com>, <tglx@linutronix.de>, <mingo@kernel.org>,
+        <peterz@infradead.org>
+CC:     <erosca@de.adit-jv.com>, <linux-kernel@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH V2 1/1] tick: broadcast-hrtimer: Fix a race in bc_set_next
+Message-ID: <20190925133242.GA4188@bala-ubuntu>
+References: <alpine.DEB.2.21.1909232041080.1934@nanos.tec.linutronix.de>
+ <20190925115541.1170-1-balasubramani_vivekanandan@mentor.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20190925115541.1170-1-balasubramani_vivekanandan@mentor.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [137.202.0.90]
+X-ClientProxiedBy: SVR-IES-MBX-07.mgc.mentorg.com (139.181.222.7) To
+ svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 24 Sep 2019 16:46:25 -0500
-Rob Herring <robh@kernel.org> wrote:
++ Peter Zijlstra, linux-renesas-soc
 
-> Extend devm_of_pci_get_host_bridge_resources() and
-> pci_parse_request_of_pci_ranges() helpers to also parse the inbound
-> addresses from DT 'dma-ranges' and populate a resource list with the
-> translated addresses. This will help ensure 'dma-ranges' is always
-> parsed in a consistent way.
-> 
-> Cc: Jingoo Han <jingoohan1@gmail.com>
-> Cc: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: Toan Le <toan@os.amperecomputing.com>
-> Cc: Ley Foon Tan <lftan@altera.com>
-> Cc: Tom Joseph <tjoseph@cadence.com>
-> Cc: Ray Jui <rjui@broadcom.com>
-> Cc: Scott Branden <sbranden@broadcom.com>
-> Cc: bcm-kernel-feedback-list@broadcom.com
-> Cc: Ryder Lee <ryder.lee@mediatek.com>
-> Cc: Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>
-> Cc: Hou Zhiqiang <Zhiqiang.Hou@nxp.com>
-> Cc: Simon Horman <horms@verge.net.au>
-> Cc: Shawn Lin <shawn.lin@rock-chips.com>
-> Cc: Heiko Stuebner <heiko@sntech.de>
-> Cc: Michal Simek <michal.simek@xilinx.com>
-> Cc: rfi@lists.rocketboards.org
-> Cc: linux-mediatek@lists.infradead.org
-> Cc: linux-renesas-soc@vger.kernel.org
-> Cc: linux-rockchip@lists.infradead.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../pci/controller/dwc/pcie-designware-host.c |  3 +-
->  drivers/pci/controller/pci-aardvark.c         |  2 +-
->  drivers/pci/controller/pci-ftpci100.c         |  3 +-
->  drivers/pci/controller/pci-host-common.c      |  2 +-
->  drivers/pci/controller/pci-v3-semi.c          |  2 +-
->  drivers/pci/controller/pci-versatile.c        |  2 +-
->  drivers/pci/controller/pci-xgene.c            |  1 +
->  drivers/pci/controller/pcie-altera.c          |  2 +-
->  drivers/pci/controller/pcie-cadence-host.c    |  2 +-
->  drivers/pci/controller/pcie-iproc-platform.c  |  1 +
->  drivers/pci/controller/pcie-mediatek.c        |  2 +-
->  drivers/pci/controller/pcie-mobiveil.c        |  4 +-
->  drivers/pci/controller/pcie-rcar.c            |  3 +-
->  drivers/pci/controller/pcie-rockchip-host.c   |  3 +-
->  drivers/pci/controller/pcie-xilinx-nwl.c      |  2 +-
->  drivers/pci/controller/pcie-xilinx.c          |  2 +-
->  drivers/pci/of.c                              | 44 ++++++++++++++++++-
->  drivers/pci/pci.h                             |  8 +++-
->  include/linux/pci.h                           |  2 +
->  19 files changed, 72 insertions(+), 18 deletions(-)
-
-for the AArdvark bits:
-
-Tested-by: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-(on Armada 3720-DB, with a E1000E NIC)
-
-Thomas
--- 
-Thomas Petazzoni, CTO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
