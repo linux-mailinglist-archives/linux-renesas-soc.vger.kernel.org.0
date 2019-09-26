@@ -2,47 +2,48 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F164BF307
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2019 14:30:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3B61BF30A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2019 14:31:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726417AbfIZMa4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Sep 2019 08:30:56 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:36550 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725787AbfIZMa4 (ORCPT
+        id S1726023AbfIZMbh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Sep 2019 08:31:37 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:39438 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725787AbfIZMbh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Sep 2019 08:30:56 -0400
-Received: by mail-oi1-f193.google.com with SMTP id k20so1913238oih.3;
-        Thu, 26 Sep 2019 05:30:54 -0700 (PDT)
+        Thu, 26 Sep 2019 08:31:37 -0400
+Received: by mail-ot1-f65.google.com with SMTP id s22so1813463otr.6;
+        Thu, 26 Sep 2019 05:31:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=y3b68w/pTPo2DCO6zay3jptE46Sk1GZsE/h59dkZ0Zw=;
-        b=GxqzckqW/57zG2WTfqjZJzX9BmIIrU02vkEwhX+XiXlb8v4G62GCWEWaFYrf6g61xv
-         DQbX798MkGW36Il8dDKLokMCHhUtZDiE2zqnCzDVpBm/Ah9A1ZKLbp47DHznwmhoTkVx
-         2Iuc7CmaiG0bB16SrnhLQ/gPg9I1Q4WbtPjrpdgplsMpXHFySdIUgNxGiFsba/mI1AR4
-         qWOVO5H/+W6kqhgbZpqca8mdtRo9A5HzYUMy+YL2s2XWtZBHStOtWxNE9fSeuPlmFLur
-         naXXZxIsNjjOVf6awFHSYoSGIiDrnDRiR9dIlPGNXm3kgRgxwWeIlo+dLCcwRjLg3SDd
-         fTdg==
-X-Gm-Message-State: APjAAAUW4QdeO10xX8jHhGtnrjTSN2NZibZ4VF61wdpzdmE5fgReqAFS
-        c9j2LJ+MbpbUDwU55RxM2y2HMOx+/zpjyC2PZ8c=
-X-Google-Smtp-Source: APXvYqwybBOXw1S7CoEiYB1tzxMTGZVXYkC5r/isn14EZrLeRd+TtNYxRqQomjPaqsJ2KiEJEBOYa3xjj1G3G3nI4hk=
-X-Received: by 2002:aca:cdc7:: with SMTP id d190mr2356068oig.148.1569501053979;
- Thu, 26 Sep 2019 05:30:53 -0700 (PDT)
+        bh=FI3A7aAInknT9ZHmm1wVzjamoB1+dc9hps/ZQ8A+OHk=;
+        b=Ulrr0NKWbX9lt1f6pX8WnOFiKikST8WSVjo2jDnzI7cKBFi307h+ipQvSRPLhglDOc
+         k7USorPDUov/zNb2XEPWFqQsHUM61HQrhk3gK8RRE7wbP1VyhtJZ7ETOi1sQHdtI0WIS
+         BfYOejvNCIFkDJjEdAwcCh6bVwN9h28PASiiEVOWzkIrVfAzjMtK6zZUbk1sxZ0vEXWW
+         OQMttypOmFjuJGBKL2r3D+iCrs4G+iRScu6wOsbQWH395wyNEfpDPFm8IljSsR/VDUj9
+         fL0BU5PZzz84FdhR9wC6xpzq12WGO3FcMaevRTmHnJaA8rm6jMFw+p0+PKRT6TvOT2j1
+         aJTw==
+X-Gm-Message-State: APjAAAUkiVFa1+YIx6iD7JfrvEtaAMpUwqlJ4hbnt+vwBCkC9L6Nis1z
+        zBTbgkiJHhSuvPr/hNhX9QvXjeZGtSnlc9hllUo=
+X-Google-Smtp-Source: APXvYqxxQaAPzxTZ8UKUwxlJeKeUOA7K3Y6zgMUWsxgUvHR/Hh/mJ+Axryt8cULzZyVk3FbYRR3AzHCDIo/omfJZ5wo=
+X-Received: by 2002:a9d:730d:: with SMTP id e13mr2381516otk.145.1569501094645;
+ Thu, 26 Sep 2019 05:31:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <1569245268-61920-1-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1569245268-61920-1-git-send-email-biju.das@bp.renesas.com>
+References: <1569248589-52372-1-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1569248589-52372-1-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 26 Sep 2019 14:30:42 +0200
-Message-ID: <CAMuHMdXZ9Ntwqynz_t+Xi+5c36ppzt0E1Pp3sFF4wW1nABXVzw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: gpio: rcar: Add DT binding for r8a774b1
+Date:   Thu, 26 Sep 2019 14:31:23 +0200
+Message-ID: <CAMuHMdU7L0ZuoJV=2UXB90qqZ+siXvE7cGfKmwwbd9aB2de4yA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: thermal: rcar-gen3-thermal: Add r8a774b1 support
 To:     Biju Das <biju.das@bp.renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Rob Herring <robh+dt@kernel.org>,
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Zhang Rui <rui.zhang@intel.com>,
+        Eduardo Valentin <edubezval@gmail.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
@@ -56,9 +57,8 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Sep 23, 2019 at 3:28 PM Biju Das <biju.das@bp.renesas.com> wrote:
-> Document Renesas' RZ/G2N (R8A774B1) GPIO blocks compatibility within the
-> relevant dt-bindings.
+On Mon, Sep 23, 2019 at 4:23 PM Biju Das <biju.das@bp.renesas.com> wrote:
+> Document RZ/G2N (R8A774B1) SoC bindings.
 >
 > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
