@@ -2,130 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0519DBEDC7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2019 10:49:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F499BEF2E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2019 12:02:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729854AbfIZItD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Sep 2019 04:49:03 -0400
-Received: from foss.arm.com ([217.140.110.172]:42610 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726962AbfIZItD (ORCPT
+        id S1725861AbfIZKC1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Sep 2019 06:02:27 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:41032 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725806AbfIZKC1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Sep 2019 04:49:03 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2D1901000;
-        Thu, 26 Sep 2019 01:49:02 -0700 (PDT)
-Received: from localhost (unknown [10.37.6.20])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 785163F67D;
-        Thu, 26 Sep 2019 01:49:01 -0700 (PDT)
-Date:   Thu, 26 Sep 2019 09:49:00 +0100
-From:   Andrew Murray <andrew.murray@arm.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     linux-pci@vger.kernel.org, Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Toan Le <toan@os.amperecomputing.com>,
-        Will Deacon <will@kernel.org>,
-        Ryder Lee <ryder.lee@mediatek.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        linux-rockchip@lists.infradead.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Ray Jui <rjui@broadcom.com>,
-        Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
-        Simon Horman <horms@verge.net.au>,
-        linux-mediatek@lists.infradead.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        Scott Branden <sbranden@broadcom.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        rfi@lists.rocketboards.org, linux-renesas-soc@vger.kernel.org,
-        Tom Joseph <tjoseph@cadence.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Ley Foon Tan <lftan@altera.com>
-Subject: Re: [PATCH 00/11] PCI dma-ranges parsing consolidation
-Message-ID: <20190926084859.GB9720@e119886-lin.cambridge.arm.com>
-References: <20190924214630.12817-1-robh@kernel.org>
+        Thu, 26 Sep 2019 06:02:27 -0400
+Received: from [65.39.69.237] (helo=nanos)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1iDQbF-0003Zu-9K; Thu, 26 Sep 2019 12:02:13 +0200
+Date:   Thu, 26 Sep 2019 12:01:48 +0200 (CEST)
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     Balasubramani Vivekanandan <balasubramani_vivekanandan@mentor.com>
+cc:     fweisbec@gmail.com, mingo@kernel.org, peterz@infradead.org,
+        erosca@de.adit-jv.com, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V2 1/1] tick: broadcast-hrtimer: Fix a race in
+ bc_set_next
+In-Reply-To: <20190925142029.13648-2-balasubramani_vivekanandan@mentor.com>
+Message-ID: <alpine.DEB.2.21.1909261144250.5528@nanos.tec.linutronix.de>
+References: <20190925115541.1170-1-balasubramani_vivekanandan@mentor.com> <20190925142029.13648-1-balasubramani_vivekanandan@mentor.com> <20190925142029.13648-2-balasubramani_vivekanandan@mentor.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190924214630.12817-1-robh@kernel.org>
-User-Agent: Mutt/1.10.1+81 (426a6c1) (2018-08-26)
+Content-Type: text/plain; charset=US-ASCII
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Sep 24, 2019 at 04:46:19PM -0500, Rob Herring wrote:
-> This series moves the DT 'dma-ranges' parsing into common helpers
-> utilizing a resource list. In the process of doing this, I noticed
-> several cases where pci_parse_request_of_pci_ranges() could be used so
-> I converted those drivers first. The last 5 patches make the actual
-> change to use the common 'dma_ranges' resource list. There's no
-> (intended) functional change in this series though I'm also working on
-> a separate series to improve the handling of 'dma-ranges' and dma
-> masks.
+On Wed, 25 Sep 2019, Balasubramani Vivekanandan wrote:
 > 
-> pci-rcar-gen2 is the only remaining driver doing its own dma-ranges
-> handling as it is still using the old ARM PCI functions. Looks like it
-> is the last one (in drivers/pci/).
+> Since it is now allowed to start the hrtimer from the callback, there is
 
-It also seems that pcie-tango is using of_pci_dma_range_parser_init
-and so parsing dma-ranges. Though it's using the dma_ranges for a
-slightly different purpose.
+Is now allowed? 
+
+> no need for the try to cancel logic. All that is now removed.
+
+Sure I can see that it is removed from the patch, but why and why is it
+correct?
+
+> [1]: rcu stall warnings noticed before this patch
+> 
+> [   26.477514] INFO: rcu_preempt detected stalls on CPUs/tasks:
+
+<SNIP>
+
+I which way is this backtrace giving any useful information about the
+problem?
+
+> 
+> Signed-off-by: Balasubramani Vivekanandan <balasubramani_vivekanandan@mentor.com>
+> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+
+Interesting. You claim authorship on that patch and then you put my SOB
+after yours just because you feel entitled to do so?
+
+I surely appreciate the time you spent to analyze the problem and I
+wouldn't have said anything if you just would have done the right thing:
+
+ 1) Write a changelog which explains why the change is actually correct
+
+ 2) Not wreckage the formatting which I intentionally did for readability
+    sake
+
+ 3) Add 'Originally-by: Thomas Gleixner' or at least having the courtesy to
+    mention that this is not your work.
 
 Thanks,
 
-Andrew Murray
+	tglx
 
-> 
-> Compile tested only.
-> 
-> Rob
-> 
-> Rob Herring (11):
->   PCI: aardvark: Use pci_parse_request_of_pci_ranges()
->   PCI: altera: Use pci_parse_request_of_pci_ranges()
->   PCI: mediatek: Use pci_parse_request_of_pci_ranges()
->   PCI: versatile: Enable COMPILE_TEST
->   PCI: versatile: Use pci_parse_request_of_pci_ranges()
->   PCI: of: Add inbound resource parsing to helpers
->   PCI: ftpci100: Use inbound resources for setup
->   PCI: v3-semi: Use inbound resources for setup
->   PCI: xgene: Use inbound resources for setup
->   PCI: iproc: Use inbound resources for setup
->   PCI: rcar: Use inbound resources for setup
-> 
->  drivers/pci/controller/Kconfig                |  2 +-
->  .../pci/controller/dwc/pcie-designware-host.c |  3 +-
->  drivers/pci/controller/pci-aardvark.c         | 58 ++---------------
->  drivers/pci/controller/pci-ftpci100.c         | 29 ++++-----
->  drivers/pci/controller/pci-host-common.c      |  2 +-
->  drivers/pci/controller/pci-v3-semi.c          | 40 +++++-------
->  drivers/pci/controller/pci-versatile.c        | 62 ++++--------------
->  drivers/pci/controller/pci-xgene.c            | 33 ++++------
->  drivers/pci/controller/pcie-altera.c          | 38 +----------
->  drivers/pci/controller/pcie-cadence-host.c    |  2 +-
->  drivers/pci/controller/pcie-iproc-platform.c  |  1 +
->  drivers/pci/controller/pcie-iproc.c           | 63 +++----------------
->  drivers/pci/controller/pcie-mediatek.c        | 47 +++++---------
->  drivers/pci/controller/pcie-mobiveil.c        |  4 +-
->  drivers/pci/controller/pcie-rcar.c            | 48 ++++++--------
->  drivers/pci/controller/pcie-rockchip-host.c   |  3 +-
->  drivers/pci/controller/pcie-xilinx-nwl.c      |  2 +-
->  drivers/pci/controller/pcie-xilinx.c          |  2 +-
->  drivers/pci/of.c                              | 44 ++++++++++++-
->  drivers/pci/pci.h                             |  8 ++-
->  include/linux/pci.h                           |  2 +
->  21 files changed, 162 insertions(+), 331 deletions(-)
-> 
-> --
-> 2.20.1
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+
