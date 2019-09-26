@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D1598BF30F
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2019 14:32:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D797BF311
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2019 14:33:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726004AbfIZMcs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Sep 2019 08:32:48 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:47031 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725836AbfIZMcs (ORCPT
+        id S1726001AbfIZMdN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Sep 2019 08:33:13 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:37341 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725836AbfIZMdN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Sep 2019 08:32:48 -0400
-Received: by mail-oi1-f196.google.com with SMTP id k25so1869854oiw.13;
-        Thu, 26 Sep 2019 05:32:47 -0700 (PDT)
+        Thu, 26 Sep 2019 08:33:13 -0400
+Received: by mail-oi1-f194.google.com with SMTP id i16so1910362oie.4;
+        Thu, 26 Sep 2019 05:33:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=g3/F54ORvGt97+MVaQvojy5npEbiPmHF087tgurHI6I=;
-        b=DZx5th6+HsLmJ0txcfFGKZEQIzjDs7eOaTTw8DMR7l0EzitRGAhG3dicTqCAS1DWLr
-         7S5j/D1vWOCnKHBfoWWTuZmUkywt6WYqolHGUudYNC+b8GwHjlgZBLC9L2ZeLxVhADUj
-         ziU26QGq6nEGvaVqqy4n/ZSUYnZ+5FtfmMHx6qy5wyecNkrzi76OjYfoDt9RWGbxnsrO
-         BzWCPh4AZG5tXADxZRt2E7mD+LjrXENjjqPm0yCH9GDatGDGgfrKq0NFHyC4jCl60pGk
-         qDiFYENbZl7IR4PxEUMgC2RyfZHKZXyynRrEiO8K85ptPAU/eKhNcDtV4rTA59JGu+3i
-         076g==
-X-Gm-Message-State: APjAAAXerhb2sG8/tnuJVYPfFULHbjQ6mD+Rt0oqvRwGXBuLIS+4Y5py
-        gOZit3W31GqYaUGPnz85AubMCZ3Vx6igpesvNpvJ3gvr
-X-Google-Smtp-Source: APXvYqyVlANqEkhoBoGyL0evymrpuGymIMJkMYY+2wZQlMct05w4drgpjYkxUJS7FOg8sdwbem3++7jDEHi0ed87IbE=
-X-Received: by 2002:aca:f305:: with SMTP id r5mr2289696oih.131.1569501166984;
- Thu, 26 Sep 2019 05:32:46 -0700 (PDT)
+        bh=ixPDmQpv6IvDjhKFXbWD1AybNlS7P0vOCrlo5gsvbsk=;
+        b=AnCdgDMs3xRf7eh1zKx7SE4LXpRrMR6ZZo4midgmCTTxwSi/MpSo6p8CV2WyoeRLPj
+         PGtlyxrThAkSwD+FRJwOdJXGEomK9I5E/DWObugFFRVdoa2GBHW0fwNrZslTDZQ0y65O
+         Q70IFdXJ+dYlOreIesBpFkk27ZblIpIXyTpk8VKsTFWylrTHNl5kbGkYZ2CRL9UqRoPh
+         UJ3JnqTViYeHagzBhnGh6C10ydRDU29hVZWW+W9qwtPRmFFHfbdEe6c5l0KvHcZY8e6k
+         DPqgaC/jsZ4KAnqT9IUTVaFP6Y4IukV7my7OKbKCKp5Ky0czrV+QD45pmdL5hoeafbcG
+         POJA==
+X-Gm-Message-State: APjAAAWQQaUdUXnC8ZkMnYix+A+X7chtIU+071zKTN8MmlZr74KaGef8
+        bt3hgGZ++azzU4Z+llmsz7IZT+YSy4ZTj9UG5hbCuxMd
+X-Google-Smtp-Source: APXvYqwGEqVd49LhDEE/K0Ft4JGHd6npO9KPK2pPwJRKdKbBExnqP7ysj+YLyLQdDq+k/d5MTDFrGH8TzS67xlvD110=
+X-Received: by 2002:aca:3908:: with SMTP id g8mr2531022oia.54.1569501192594;
+ Thu, 26 Sep 2019 05:33:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <1569248907-62107-1-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1569248907-62107-1-git-send-email-biju.das@bp.renesas.com>
+References: <1569249052-1037-1-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1569249052-1037-1-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 26 Sep 2019 14:32:35 +0200
-Message-ID: <CAMuHMdUa7A8s28Wfut-kEXBXnpHe0=ZYjkQqp93EdcM=YEka0Q@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: timer: renesas, cmt: Document r8a774b1 CMT support
+Date:   Thu, 26 Sep 2019 14:33:01 +0200
+Message-ID: <CAMuHMdWGiH86R6dNh6P7X_zR94CL6MCyPKQvkSXPMPPBNsF94w@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: timer: renesas: tmu: Document r8a774b1 bindings
 To:     Biju Das <biju.das@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -55,8 +55,8 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Sep 23, 2019 at 4:28 PM Biju Das <biju.das@bp.renesas.com> wrote:
-> Document SoC specific bindings for RZ/G2N (r8a774b1) SoC.
+On Mon, Sep 23, 2019 at 4:31 PM Biju Das <biju.das@bp.renesas.com> wrote:
+> Document RZ/G2N (R8A774B1) SoC in the Renesas TMU bindings.
 >
 > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
