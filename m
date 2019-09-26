@@ -2,83 +2,164 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 65854BEB74
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2019 06:55:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DE4DBED4E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2019 10:23:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391930AbfIZEzD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Sep 2019 00:55:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38200 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391864AbfIZEzD (ORCPT
+        id S1726558AbfIZIXG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Sep 2019 04:23:06 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:50626 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725815AbfIZIXG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Sep 2019 00:55:03 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 35321222BF;
-        Thu, 26 Sep 2019 04:55:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569473702;
-        bh=Dy3FWgnLF2rRHcTZKnQU1WGAzQbabQgxU3nhizjPzMY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=p0lpho/NYwDFBUrB/wdbmkktU3lh8S06jMi5TcKHj6MwV+sH7V19G9z7lNtk0qGl3
-         yQKRnZ+X3CKrzG55YUYfosfyLidXlVSpaXkoHWoP7OKIBUplShzswNBT4gsJPqMmRu
-         aR7tc61SIpi3J4ZwwwYZsLkhgnivE9B25jF6vp9c=
-Date:   Thu, 26 Sep 2019 06:54:59 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Chris Brandt <chris.brandt@renesas.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>, stable@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Chien Nguyen <chien.nguyen.eb@rvc.renesas.com>
-Subject: Re: [PATCH] i2c: riic: Clear NACK in tend isr
-Message-ID: <20190926045459.GA1560081@kroah.com>
-References: <20190925194327.28109-1-chris.brandt@renesas.com>
+        Thu, 26 Sep 2019 04:23:06 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id E6F8D25AF0D;
+        Thu, 26 Sep 2019 18:23:04 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id ECA80943750; Thu, 26 Sep 2019 10:23:02 +0200 (CEST)
+Date:   Thu, 26 Sep 2019 10:23:02 +0200
+From:   Simon Horman <horms@verge.net.au>
+To:     Navid Emamdoost <navid.emamdoost@gmail.com>
+Cc:     emamd001@umn.edu, smccaman@umn.edu, kjlu@umn.edu,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] soc: renesas: rcar-sysc: fix memory leak in
+ rcar_sysc_pd_init
+Message-ID: <20190926082302.smaruxtgamgwoxad@verge.net.au>
+References: <20190925210354.8845-1-navid.emamdoost@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190925194327.28109-1-chris.brandt@renesas.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20190925210354.8845-1-navid.emamdoost@gmail.com>
+Organisation: Horms Solutions BV
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Sep 25, 2019 at 02:43:27PM -0500, Chris Brandt wrote:
-> The NACKF flag should be cleared in INTRIICNAKI interrupt processing as
-> description in HW manual.
+Ni Navid,
+
+thanks for your patch.
+
+On Wed, Sep 25, 2019 at 04:03:53PM -0500, Navid Emamdoost wrote:
+> In rcar_sysc_pd_init when looping over info->areas errors may happen but
+> the error handling path does not clean up the intermediate allocated
+> memories.
 > 
-> This issue shows up quickly when PREEMPT_RT is applied and a device is
-> probed that is not plugged in (like a touchscreen controller). The result
-> is endless interrupts that halt system boot.
+> This patch changes the error handling path in major and a little the loop
+>  itself. Inside the loop if an error happens the current pd will be
+> released and then it goes to error handling path where it releases any
+>  previously allocated domains.
 > 
-> Fixes: 310c18a41450 ("i2c: riic: add driver")
-> Reported-by: Chien Nguyen <chien.nguyen.eb@rvc.renesas.com>
-> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+> Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
 > ---
->  drivers/i2c/busses/i2c-riic.c | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/soc/renesas/rcar-sysc.c | 27 ++++++++++++++++++++++++---
+>  1 file changed, 24 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/i2c/busses/i2c-riic.c b/drivers/i2c/busses/i2c-riic.c
-> index f31413fd9521..800414886f6b 100644
-> --- a/drivers/i2c/busses/i2c-riic.c
-> +++ b/drivers/i2c/busses/i2c-riic.c
-> @@ -202,6 +202,7 @@ static irqreturn_t riic_tend_isr(int irq, void *data)
->  	if (readb(riic->base + RIIC_ICSR2) & ICSR2_NACKF) {
->  		/* We got a NACKIE */
->  		readb(riic->base + RIIC_ICDRR);	/* dummy read */
-> +		riic_clear_set_bit(riic, ICSR2_NACKF, 0, RIIC_ICSR2);
->  		riic->err = -ENXIO;
->  	} else if (riic->bytes_left) {
->  		return IRQ_NONE;
+> diff --git a/drivers/soc/renesas/rcar-sysc.c b/drivers/soc/renesas/rcar-sysc.c
+> index 59b5e6b10272..f9613c1ee0a0 100644
+> --- a/drivers/soc/renesas/rcar-sysc.c
+> +++ b/drivers/soc/renesas/rcar-sysc.c
+> @@ -330,10 +330,10 @@ static int __init rcar_sysc_pd_init(void)
+>  {
+>  	const struct rcar_sysc_info *info;
+>  	const struct of_device_id *match;
+> -	struct rcar_pm_domains *domains;
+> +	struct rcar_pm_domains *domains = NULL;
+>  	struct device_node *np;
+>  	void __iomem *base;
+> -	unsigned int i;
+> +	unsigned int i, num_areas = 0;
+>  	int error;
+
+Please preserve reverse xmas tree sorting of local variables.
+
+>  	np = of_find_matching_node_and_match(NULL, rcar_sysc_matches, &match);
+> @@ -382,6 +382,7 @@ static int __init rcar_sysc_pd_init(void)
+>  		pd = kzalloc(sizeof(*pd) + strlen(area->name) + 1, GFP_KERNEL);
+>  		if (!pd) {
+>  			error = -ENOMEM;
+> +			num_areas = i;
+>  			goto out_put;
+>  		}
+>  
+> @@ -393,8 +394,11 @@ static int __init rcar_sysc_pd_init(void)
+>  		pd->flags = area->flags;
+>  
+>  		error = rcar_sysc_pd_setup(pd);
+> -		if (error)
+> +		if (error) {
+> +			kfree(pd);
+> +			num_areas = i;
+>  			goto out_put;
+> +		}
+>  
+>  		domains->domains[area->isr_bit] = &pd->genpd;
+>  
+> @@ -406,13 +410,30 @@ static int __init rcar_sysc_pd_init(void)
+>  		if (error) {
+>  			pr_warn("Failed to add PM subdomain %s to parent %u\n",
+>  				area->name, area->parent);
+> +			kfree(pd);
+> +			num_areas = i;
+>  			goto out_put;
+>  		}
+>  	}
+>  
+>  	error = of_genpd_add_provider_onecell(np, &domains->onecell_data);
+> +	of_node_put(np);
+> +
+> +	return error;
+>  
+>  out_put:
+> +	if (domains) {
+> +		for (i = 0; i < num_areas; i++) {
+> +			const struct rcar_sysc_area *area = &info->areas[i];
+> +
+> +			if (!area->name) {
+> +				/* Skip NULLified area */
+> +				continue;
+> +			}
+> +			kfree(domains->domains[area->isr_bit]);
+
+This cleanup doesn't feel correct to me.
+
+For one I think the allocated memory is at
+to_rcar_pd(domains->domains[area->isr_bit]);
+
+And for antoher I wonder if it is also necessary to unwind initialisation done
+by rcar_sysc_pd_setup() and pm_genpd_add_subdomain();
+
+I think this leads us to the heart of why such unwinding is not present
+and that is, I suspect, that its reasonably complex and in the event of
+failure the system is very likely unusable. So leaking a bit of memory,
+while unpleasent, doesn't effect the user experience.
+
+> +		}
+> +		kfree(domains);
+> +	}
+>  	of_node_put(np);
+>  	return error;
+
+I think it would be more in keeping with kernel coding style to add
+some extra labels for different error paths. I also think you can
+utilise the fact that i is already set to the number of allocated areas.
+
+Something like this (completely untested):
+
+out_free_areas:
+	while (--i > 0) {
+		/* Cleanup of 'i' goes here */
+	}
+out_free_domains:
+	kfree(domains);
+out_put:
+	of_node_put(np);
+	return error;
+
+>  }
 > -- 
-> 2.23.0
+> 2.17.1
 > 
-
-<formletter>
-
-This is not the correct way to submit patches for inclusion in the
-stable kernel tree.  Please read:
-    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-for how to do this properly.
-
-</formletter>
