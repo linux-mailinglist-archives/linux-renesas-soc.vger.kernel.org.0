@@ -2,100 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A41EABF622
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2019 17:45:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B54CBBF98B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2019 20:47:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727355AbfIZPpf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Sep 2019 11:45:35 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:46386 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726845AbfIZPpe (ORCPT
+        id S1728401AbfIZSrt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Sep 2019 14:47:49 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:33989 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728376AbfIZSrt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Sep 2019 11:45:34 -0400
-Received: by mail-ot1-f66.google.com with SMTP id f21so2379046otl.13;
-        Thu, 26 Sep 2019 08:45:34 -0700 (PDT)
+        Thu, 26 Sep 2019 14:47:49 -0400
+Received: by mail-wr1-f68.google.com with SMTP id a11so3954197wrx.1;
+        Thu, 26 Sep 2019 11:47:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ryqJFjqhK0qsWEG3QQBKixHuvJqyJfJ4Aw/rVEE5A9I=;
+        b=rhH02NuwoF9VoOpkaOIAFbN0LHsg6S/M7cW3o30H2SjDGioOJxljZr3z+Xro466V6C
+         TR6OYMADRkzLOLlSwAnwgqypOA/XrAsJkzaVPf21EbG6N8zXpRD2NQgEauXdw39k0MWy
+         ZvjJsy4yi1Ex6dJouPRhfm7eMjYYdfkaJaxyaC9Q+g8/j0edbVgdS7x2nu0a9r1GlL4k
+         IZ5p3WMb/emJOyAV0CMvPFU11c9GNjP/zu1OpjQdFxgYGF5+W+sesnTRTAePXdu9Q7Fq
+         Lqh+MByPQuGeuSdbJTMM0tnGj+Dhw0AFVneMDH7XcVTCcl4sqruVRUsShZ1a8YN7TacV
+         ++4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=FIWxszgfgisGPP3A+ce1ZeEImOz1s/va5HhSEsRsTJk=;
-        b=NnI3F5FHcKlYR2igduA7NCNB/GroR8KATNT5G+ZzjuchrxOC1pmrp+b3eGoBzHWVmf
-         l5vhclOlb3fm84+JHV7E5e8DUqNYEnO/a95osLecAFoCosAF+Mlt54ZS90FSf4lqdmvl
-         sbLB/eUInK6sFxSLUNFrSZJUSMRLlxzLNBW8phVXT9NBgztJE5AaQWKouhS+kzQU1gKJ
-         UPiWGuz/IPWHec6er/U8UyN2xGzyGP3j1NWdN1Lj6HAElqtzMJi4HpV1l9DCYGrPable
-         hxXwGDHTa3DPE6psXszlq4Ss68cjpffAFMelXuLVgQfYMuGC641RweW0g1b/sn3VXtL2
-         ChUA==
-X-Gm-Message-State: APjAAAXrOEYJb4ULnhpfMLTefBj0bmv9g8QGRf2bR8ghMi9/Tfpnl7N1
-        jGWqWfmbAZNnL7LVMHl1cNk1Y3Z86dkhZbEOUo8=
-X-Google-Smtp-Source: APXvYqzVuOaw6VZQW8p4uOOG8hUo6NV7jxRKRvUIGiQ/XZPsu7G6qBQC0jGmFPp6/MhluRh71PcTM5xga7jtfUWAKFQ=
-X-Received: by 2002:a9d:17e6:: with SMTP id j93mr3199131otj.297.1569512733783;
- Thu, 26 Sep 2019 08:45:33 -0700 (PDT)
+        bh=ryqJFjqhK0qsWEG3QQBKixHuvJqyJfJ4Aw/rVEE5A9I=;
+        b=i5B5TBxK8RjIPu/faaLbwHsqVYxbxHw7JcOYMcf8FwXbWqVvpIi6apkunYWjgtXB/C
+         jmT9bnuWojW9R3bl5zLxTYK4d1lGBVWdSFXN+NLbLWad7M8jn24e0LmDrwk5oD7rljl+
+         KaAWZc7SayZUPE5jEC4/kTnT23sPs9LjEzdUjKfOga/D+HcaSfSpcbW4g/KyxXRaSMfP
+         XETubfo8jE/MkcWL1Pu+LKAPLKkhgFp8jo7epgMMYoNrkcu0o+nmcMXeAWXs7QWkV0DF
+         RHyJCfLLq9B7j8mi2OeDUoAHkmw0lN7c3nkR4p6zaePYz89r8tN8u/BG0FLGH7p77OqO
+         4drQ==
+X-Gm-Message-State: APjAAAVCl/FJ+mLjfijoFnjqMw0AQ8FxdU5c+XJyRj2c0tMgCZupQ0KO
+        VVLufpy3a/dqa/qllv2RmeQ7y0cqHyqDs9ayyNM=
+X-Google-Smtp-Source: APXvYqyYUPV6BJDRNjwwq/QqSYvhg3ArB4udbRCgUSBEgbDKcOU11wjoomX4G43wIUkvOH+ytNEARQblrcA73bh/qss=
+X-Received: by 2002:adf:ef05:: with SMTP id e5mr3941816wro.127.1569523665464;
+ Thu, 26 Sep 2019 11:47:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <1569307744-42479-1-git-send-email-biju.das@bp.renesas.com>
- <CAMuHMdUsLCciw7KFudSC7pRqfwwaGH5iJSgv906kY342V+6ocQ@mail.gmail.com> <OSBPR01MB21036B8294382D1A7A50816BB8860@OSBPR01MB2103.jpnprd01.prod.outlook.com>
-In-Reply-To: <OSBPR01MB21036B8294382D1A7A50816BB8860@OSBPR01MB2103.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 26 Sep 2019 17:45:22 +0200
-Message-ID: <CAMuHMdXq1BaNSrOTqUkE34kS6i1kyEXLXe=S5pMdRiEvkD4fvw@mail.gmail.com>
-Subject: Re: [PATCH] mmc: renesas_sdhi_internal_dmac: Add r8a774b1 support
-To:     Biju Das <biju.das@bp.renesas.com>
-Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms@verge.net.au>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20190926101754.23106-1-chris.paterson2@renesas.com>
+In-Reply-To: <20190926101754.23106-1-chris.paterson2@renesas.com>
+From:   Ramesh Shanmugasundaram <rashanmu@gmail.com>
+Date:   Thu, 26 Sep 2019 19:47:08 +0100
+Message-ID: <CAJWpUEcNV_ZWE1WBGq5P2MOTmwzxCrn8s0eo6q0UcAtEeTUrTQ@mail.gmail.com>
+Subject: Re: [PATCH] [media] MAINTAINERS: Update MAX2175 & R-Car DRIF driver
+ maintainer email
+To:     Chris Paterson <chris.paterson2@renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hi Chris,
 
-On Thu, Sep 26, 2019 at 5:11 PM Biju Das <biju.das@bp.renesas.com> wrote:
-> > Subject: Re: [PATCH] mmc: renesas_sdhi_internal_dmac: Add r8a774b1 support
-> > On Tue, Sep 24, 2019 at 8:49 AM Biju Das <biju.das@bp.renesas.com> wrote:
-> > > This patch adds SDHI support for RZ/G2N (R8A774B1) SoC.
-> > >
-> > > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-> > > ---
-> > >  drivers/mmc/host/renesas_sdhi_internal_dmac.c | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >
-> > > diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-> > > b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-> > > index 751fe91..7c6020e 100644
-> > > --- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-> > > +++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
-> > > @@ -308,6 +308,7 @@ static const struct soc_device_attribute
-> > soc_whitelist[] = {
-> > >           .data = (void *)BIT(SDHI_INTERNAL_DMAC_ONE_RX_ONLY) },
-> > >         /* generic ones */
-> > >         { .soc_id = "r8a774a1" },
-> > > +       { .soc_id = "r8a774b1" },
-> > >         { .soc_id = "r8a774c0" },
-> > >         { .soc_id = "r8a77470" },
-> > >         { .soc_id = "r8a7795" },
-> >
-> > Is this sufficient?
-> > Do you need a tuning quirk entry in sdhi_quirks_match[]?
+Thank you for updating this.
+
+On Thu, 26 Sep 2019 at 11:18, Chris Paterson
+<chris.paterson2@renesas.com> wrote:
 >
-> Do you mean the  "quirks->manual_calibration"  as mentioned in the below patch ?
+> Ramesh is now using a new email address. Update the maintainer entry for
+> the MAX2175 SDR tuner and the Renesas R-Car DRIF drivers.
 >
-> https://patchwork.kernel.org/patch/11024131/
+> Signed-off-by: Chris Paterson <chris.paterson2@renesas.com>
 
-Exactly. Is RZ/G2N affected?
+Acked-by: Ramesh Shanmugasundaram <rashanmu@gmail.com>
 
-Gr{oetje,eeting}s,
+Thanks,
+Ramesh
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> ---
+>  MAINTAINERS | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 37dca6d70d87..948612fcf60b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -9873,7 +9873,7 @@ F:        Documentation/hwmon/max16065.rst
+>  F:     drivers/hwmon/max16065.c
+>
+>  MAX2175 SDR TUNER DRIVER
+> -M:     Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.com>
+> +M:     Ramesh Shanmugasundaram <rashanmu@gmail.com>
+>  L:     linux-media@vger.kernel.org
+>  T:     git git://linuxtv.org/media_tree.git
+>  S:     Maintained
+> @@ -10135,7 +10135,7 @@ F:      drivers/media/platform/renesas-ceu.c
+>  F:     include/media/drv-intf/renesas-ceu.h
+>
+>  MEDIA DRIVERS FOR RENESAS - DRIF
+> -M:     Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.com>
+> +M:     Ramesh Shanmugasundaram <rashanmu@gmail.com>
+>  L:     linux-media@vger.kernel.org
+>  L:     linux-renesas-soc@vger.kernel.org
+>  T:     git git://linuxtv.org/media_tree.git
+> --
+> 2.17.1
+>
