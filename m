@@ -2,49 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 28C1BBF3DC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2019 15:16:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 162B4BF445
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2019 15:43:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726332AbfIZNQ0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Sep 2019 09:16:26 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:37788 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725836AbfIZNQ0 (ORCPT
+        id S1726962AbfIZNni (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Sep 2019 09:43:38 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:37803 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726216AbfIZNni (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Sep 2019 09:16:26 -0400
-Received: by mail-ot1-f66.google.com with SMTP id k32so1958931otc.4
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Sep 2019 06:16:25 -0700 (PDT)
+        Thu, 26 Sep 2019 09:43:38 -0400
+Received: by mail-ot1-f67.google.com with SMTP id k32so2040282otc.4;
+        Thu, 26 Sep 2019 06:43:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=+cUIF9luptWP9IQvmCVttunB3wdHiRkfLkTGVbqWzwA=;
-        b=OHEsFgBd9AxMzCy8jhX+xWjDFw8/GYwaHT1RgLX0JQ0MD6mC4T0Uhf9IFsZrHh3DYD
-         EEabqfvrWJc8Kd5kUItNKW5t9UdpU/GFenvnw2awIyTIs+p3OTK+T9rQiTkgdQMnq+Ig
-         tuZYjcdVgJtz6pXBBi8lCbj1bYu9ZWd00s0baewEBU36EdmXP3tyoSADQb0z6LuJC1h+
-         93s0AhWjMFHNVXck8kXTOV9cEqyQSalJEPlWJLRO1v64aQE5GPyNnMV3QwYujXSpp9E0
-         6OF3VJ+kzqPvKGGDdUDuaULEyImNAULNBTm5ctRBHsp0bdY8VCyc5XM7tkrMgI1nK+aq
-         2r7Q==
-X-Gm-Message-State: APjAAAUv23/VAMi7H3DPToJV5S7Df6RGME/gE7PnRHE0HS6ubvslrfP8
-        /gASAcjjUwz/m93aaEjmtaJu2GPWrrAxgZve8yIM9ZzL
-X-Google-Smtp-Source: APXvYqx9Gl2wir+vt33OvhKwASb7DqsGekfVda0VCip69lk4x+uld19BdUN+mmN2AOXEmLn8Sxt+eIDReeWop3TqWLY=
-X-Received: by 2002:a9d:193:: with SMTP id e19mr2444584ote.107.1569503785339;
- Thu, 26 Sep 2019 06:16:25 -0700 (PDT)
+        bh=9iQoPR6Dtfrg/kE8q+V9kP7orp4W3/CCPYRyl7Gtb8k=;
+        b=guMkHhRJaJ3Ux/FHRXJT0P4MeUtGGiK/rkAENC+yUAMg6B+dXjh2IHQ0cVs8YesbiG
+         jxDK4UzarLmyjWne5gE0xMwVG/G/j6LSx5LZSF/2F2w5n2U/rivzwuBxIEN2ZXHUbxoz
+         K3oBtYN9GmcQPxgr/xSLsdFap8InPp8NRh2tifWzH+VTY6STM/h6McdUVpAKLSHdK/BU
+         esCDmp6AachOXo8h07G4B9W/buBcwQCWk6HI11B/fZjMGEzgtKloF6HNVjVPfyS5PBKU
+         51ff25v8PHhEkJVdgEDupt+UayXaQ/bAFi0yxuJVaSOKAAPziuxa/1xugqHDmsjXQoip
+         iztg==
+X-Gm-Message-State: APjAAAXFb0o9lnSWxSky/hJDnomBmfh2gUaQx8Ij1HA/DAUiiAimUEe4
+        9wNrdpxg+JebZBrpTN5NBe2p8oq+PnOAZK56XQo=
+X-Google-Smtp-Source: APXvYqzlY4Qa2PVNWrJbCqqT0iWOU7qRw7aWWoYKaXfqDi5MwjlVBKkxQqUWNJew3hac3avWmm/1CejGsR0tfw3UU/4=
+X-Received: by 2002:a9d:730d:: with SMTP id e13mr2635252otk.145.1569505417194;
+ Thu, 26 Sep 2019 06:43:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190917062353.16966-1-geert+renesas@glider.be>
- <20190920234003.GJ12672@pendragon.ideasonboard.com> <20190920234310.GK12672@pendragon.ideasonboard.com>
-In-Reply-To: <20190920234310.GK12672@pendragon.ideasonboard.com>
+References: <1569310619-31071-1-git-send-email-biju.das@bp.renesas.com>
+ <CAMuHMdXwpSeQPUtKT4g6Oa14w71WM9dw5xXj3DUZ8Qj6=9OM0g@mail.gmail.com> <OSBPR01MB2103FBD1E80060A718C32FCFB8860@OSBPR01MB2103.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSBPR01MB2103FBD1E80060A718C32FCFB8860@OSBPR01MB2103.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 26 Sep 2019 15:16:14 +0200
-Message-ID: <CAMuHMdUu9qaEvhx-cE3ggChOhwF8AiAB3txTj8t_apQn_kBxbw@mail.gmail.com>
-Subject: Re: [PATCH] drm: rcar_lvds: Fix color mismatches on R-Car H2 ES2.0
- and later
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
+Date:   Thu, 26 Sep 2019 15:43:26 +0200
+Message-ID: <CAMuHMdX1Q5p6X1+35Q1ApDC3REbxpBnG5vRncwbHXcCLmCXqxg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: i2c: sh_mobile: Add r8a774b1 support
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms@verge.net.au>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -52,95 +56,26 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+Hi Biju,
 
-On Sat, Sep 21, 2019 at 1:43 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Sat, Sep 21, 2019 at 02:40:03AM +0300, Laurent Pinchart wrote:
-> > On Tue, Sep 17, 2019 at 08:23:53AM +0200, Geert Uytterhoeven wrote:
-> > > Commit 5cca30ebe089be23 ("drm/rcar-du: Add LVDS_LANES quirk") states
-> > > that LVDS lanes 1 and 3 are inverted on R-Car H2 ES1 only, and that the
-> > > problem has been fixed in newer revisions.
+On Thu, Sep 26, 2019 at 2:49 PM Biju Das <biju.das@bp.renesas.com> wrote:
+> > Subject: Re: [PATCH] dt-bindings: i2c: sh_mobile: Add r8a774b1 support
+> >
+> > On Tue, Sep 24, 2019 at 9:37 AM Biju Das <biju.das@bp.renesas.com> wrote:
+> > > Document RZ/G2N (R8A774B1) SoC bindings.
 > > >
-> > > However, the code didn't take into account the actual hardware revision,
-> > > thus applying the quirk also on newer hardware revisions, causing green
-> > > color reversals.
+> > > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 > >
-> > Oops :-S
-
-Quite understandable, as there was no soc_device_match() in 2013...
-
-> > > Fix this by applying the quirk when running on R-Car H2 ES1.x only.
-> > >
-> > > Reported-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > > Fixes: c6a27fa41fabb35f ("drm: rcar-du: Convert LVDS encoder code to bridge driver")
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > >
-> > Shouldn't this be
+> > >  Documentation/devicetree/bindings/i2c/i2c-sh_mobile.txt | 1 +
 > >
-> > Fixes: 5cca30ebe089be23 ("drm/rcar-du: Add LVDS_LANES quirk")
+> > Documentation/devicetree/bindings/i2c/renesas,iic.txt
+>
+> OK. Will send V2 with the above file name change.
 
-Yes, that's where the issue was introduced. But see my original comment
-about backporting below.
-
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > > ---
-> > > Does anyone know if this was fixed in ES2.0, or in any earlier ES1.x?
-> >
-> > Or if there's any ES1.x other than ES1.0 ? :-)
-> >
-> > > While the issue was present before aforementioned commit, I do not think
-> > > there is a real need to fix the older code variant, as the new LVDS
-> > > encoder was backported to v4.14-ltsi.
-> >
-> > Probably not, but I think there's still value in pointing to the right
-> > erroneous commit. It's a Fixes: tag, not a Backport-up-to: tag :-)
-
-OK.
-
-> > > --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > > +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > > @@ -16,6 +16,7 @@
-> > >  #include <linux/of_graph.h>
-> > >  #include <linux/platform_device.h>
-> > >  #include <linux/slab.h>
-> > > +#include <linux/sys_soc.h>
-> > >
-> > >  #include <drm/drm_atomic.h>
-> > >  #include <drm/drm_atomic_helper.h>
-> > > @@ -842,8 +843,23 @@ static int rcar_lvds_get_clocks(struct rcar_lvds *lvds)
-> > >     return 0;
-> > >  }
-> > >
-> > > +static const struct rcar_lvds_device_info rcar_lvds_r8a7790es1_info = {
-> > > +   .gen = 2,
-> > > +   .quirks = RCAR_LVDS_QUIRK_LANES,
-> > > +   .pll_setup = rcar_lvds_pll_setup_gen2,
-> > > +};
-> > > +
-> > > +static const struct soc_device_attribute lvds_quirk_matches[] = {
-> > > +   {
-> > > +           .soc_id = "r8a7790", .revision = "ES1.*",
-> >
-> > Do you mind splitting this in two lines ?
-
-Yes I do: it makes it easier to locate fixes for early silicon.
-
-> Actually, it could be argued that having both on the same line is more
-> readable. I'll let you decide what you like best.
-
-I'm happy to hear you're reconsidering!
-
-> > With these small issues fixes,
-> >
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >
-> > Please let me know if I should fix while applying or if you want to send
-> > a new version.
-
-Feel free to fix (replace Fixes or add a second Fixes tag) while applying.
-
-Thanks!
+I don't know if that is needed.  Perhaps Wolfram is as good as git cherry-pick,
+when applying patches against changed filenames? ;-)
 
 Gr{oetje,eeting}s,
 
