@@ -2,87 +2,153 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A9F27BF370
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2019 14:55:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28C1BBF3DC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2019 15:16:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726496AbfIZMzB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Sep 2019 08:55:01 -0400
-Received: from pbmsgap02.intersil.com ([192.157.179.202]:48152 "EHLO
-        pbmsgap02.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725768AbfIZMzB (ORCPT
+        id S1726332AbfIZNQ0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Sep 2019 09:16:26 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:37788 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725836AbfIZNQ0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Sep 2019 08:55:01 -0400
-X-Greylist: delayed 1850 seconds by postgrey-1.27 at vger.kernel.org; Thu, 26 Sep 2019 08:55:00 EDT
-Received: from pps.filterd (pbmsgap02.intersil.com [127.0.0.1])
-        by pbmsgap02.intersil.com (8.16.0.27/8.16.0.27) with SMTP id x8QCCTIg009180;
-        Thu, 26 Sep 2019 08:20:06 -0400
-Received: from pbmxdp03.intersil.corp (pbmxdp03.pb.intersil.com [132.158.200.224])
-        by pbmsgap02.intersil.com with ESMTP id 2v60v8b350-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Thu, 26 Sep 2019 08:20:06 -0400
-Received: from pbmxdp01.intersil.corp (132.158.200.222) by
- pbmxdp03.intersil.corp (132.158.200.224) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.1531.3; Thu, 26 Sep 2019 08:20:05 -0400
-Received: from localhost.localdomain (132.158.202.109) by
- pbmxdp01.intersil.corp (132.158.200.222) with Microsoft SMTP Server id
- 15.1.1531.3 via Frontend Transport; Thu, 26 Sep 2019 08:20:04 -0400
-From:   Chris Brandt <chris.brandt@renesas.com>
-To:     Wolfram Sang <wsa@the-dreams.de>
-CC:     <linux-i2c@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        "Chris Brandt" <chris.brandt@renesas.com>,
-        <stable@vger.kernel.org>,
-        Chien Nguyen <chien.nguyen.eb@rvc.renesas.com>
-Subject: [PATCH v2] i2c: riic: Clear NACK in tend isr
-Date:   Thu, 26 Sep 2019 07:19:09 -0500
-Message-ID: <20190926121909.1795-1-chris.brandt@renesas.com>
-X-Mailer: git-send-email 2.23.0
+        Thu, 26 Sep 2019 09:16:26 -0400
+Received: by mail-ot1-f66.google.com with SMTP id k32so1958931otc.4
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 26 Sep 2019 06:16:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+cUIF9luptWP9IQvmCVttunB3wdHiRkfLkTGVbqWzwA=;
+        b=OHEsFgBd9AxMzCy8jhX+xWjDFw8/GYwaHT1RgLX0JQ0MD6mC4T0Uhf9IFsZrHh3DYD
+         EEabqfvrWJc8Kd5kUItNKW5t9UdpU/GFenvnw2awIyTIs+p3OTK+T9rQiTkgdQMnq+Ig
+         tuZYjcdVgJtz6pXBBi8lCbj1bYu9ZWd00s0baewEBU36EdmXP3tyoSADQb0z6LuJC1h+
+         93s0AhWjMFHNVXck8kXTOV9cEqyQSalJEPlWJLRO1v64aQE5GPyNnMV3QwYujXSpp9E0
+         6OF3VJ+kzqPvKGGDdUDuaULEyImNAULNBTm5ctRBHsp0bdY8VCyc5XM7tkrMgI1nK+aq
+         2r7Q==
+X-Gm-Message-State: APjAAAUv23/VAMi7H3DPToJV5S7Df6RGME/gE7PnRHE0HS6ubvslrfP8
+        /gASAcjjUwz/m93aaEjmtaJu2GPWrrAxgZve8yIM9ZzL
+X-Google-Smtp-Source: APXvYqx9Gl2wir+vt33OvhKwASb7DqsGekfVda0VCip69lk4x+uld19BdUN+mmN2AOXEmLn8Sxt+eIDReeWop3TqWLY=
+X-Received: by 2002:a9d:193:: with SMTP id e19mr2444584ote.107.1569503785339;
+ Thu, 26 Sep 2019 06:16:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-09-26_05:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=junk_notspam policy=junk score=0 suspectscore=2 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=621
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1908290000 definitions=main-1909260117
-X-Proofpoint-Spam-Reason: mlx
+References: <20190917062353.16966-1-geert+renesas@glider.be>
+ <20190920234003.GJ12672@pendragon.ideasonboard.com> <20190920234310.GK12672@pendragon.ideasonboard.com>
+In-Reply-To: <20190920234310.GK12672@pendragon.ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 26 Sep 2019 15:16:14 +0200
+Message-ID: <CAMuHMdUu9qaEvhx-cE3ggChOhwF8AiAB3txTj8t_apQn_kBxbw@mail.gmail.com>
+Subject: Re: [PATCH] drm: rcar_lvds: Fix color mismatches on R-Car H2 ES2.0
+ and later
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The NACKF flag should be cleared in INTRIICNAKI interrupt processing as
-description in HW manual.
+Hi Laurent,
 
-This issue shows up quickly when PREEMPT_RT is applied and a device is
-probed that is not plugged in (like a touchscreen controller). The result
-is endless interrupts that halt system boot.
+On Sat, Sep 21, 2019 at 1:43 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Sat, Sep 21, 2019 at 02:40:03AM +0300, Laurent Pinchart wrote:
+> > On Tue, Sep 17, 2019 at 08:23:53AM +0200, Geert Uytterhoeven wrote:
+> > > Commit 5cca30ebe089be23 ("drm/rcar-du: Add LVDS_LANES quirk") states
+> > > that LVDS lanes 1 and 3 are inverted on R-Car H2 ES1 only, and that the
+> > > problem has been fixed in newer revisions.
+> > >
+> > > However, the code didn't take into account the actual hardware revision,
+> > > thus applying the quirk also on newer hardware revisions, causing green
+> > > color reversals.
+> >
+> > Oops :-S
 
-Fixes: 310c18a41450 ("i2c: riic: add driver")
-Cc: stable@vger.kernel.org
-Reported-by: Chien Nguyen <chien.nguyen.eb@rvc.renesas.com>
-Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+Quite understandable, as there was no soc_device_match() in 2013...
 
----
-v2:
- * Added Cc for stable
----
- drivers/i2c/busses/i2c-riic.c | 1 +
- 1 file changed, 1 insertion(+)
+> > > Fix this by applying the quirk when running on R-Car H2 ES1.x only.
+> > >
+> > > Reported-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > > Fixes: c6a27fa41fabb35f ("drm: rcar-du: Convert LVDS encoder code to bridge driver")
+> >
+> > Shouldn't this be
+> >
+> > Fixes: 5cca30ebe089be23 ("drm/rcar-du: Add LVDS_LANES quirk")
 
-diff --git a/drivers/i2c/busses/i2c-riic.c b/drivers/i2c/busses/i2c-riic.c
-index f31413fd9521..800414886f6b 100644
---- a/drivers/i2c/busses/i2c-riic.c
-+++ b/drivers/i2c/busses/i2c-riic.c
-@@ -202,6 +202,7 @@ static irqreturn_t riic_tend_isr(int irq, void *data)
- 	if (readb(riic->base + RIIC_ICSR2) & ICSR2_NACKF) {
- 		/* We got a NACKIE */
- 		readb(riic->base + RIIC_ICDRR);	/* dummy read */
-+		riic_clear_set_bit(riic, ICSR2_NACKF, 0, RIIC_ICSR2);
- 		riic->err = -ENXIO;
- 	} else if (riic->bytes_left) {
- 		return IRQ_NONE;
+Yes, that's where the issue was introduced. But see my original comment
+about backporting below.
+
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > > ---
+> > > Does anyone know if this was fixed in ES2.0, or in any earlier ES1.x?
+> >
+> > Or if there's any ES1.x other than ES1.0 ? :-)
+> >
+> > > While the issue was present before aforementioned commit, I do not think
+> > > there is a real need to fix the older code variant, as the new LVDS
+> > > encoder was backported to v4.14-ltsi.
+> >
+> > Probably not, but I think there's still value in pointing to the right
+> > erroneous commit. It's a Fixes: tag, not a Backport-up-to: tag :-)
+
+OK.
+
+> > > --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> > > +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> > > @@ -16,6 +16,7 @@
+> > >  #include <linux/of_graph.h>
+> > >  #include <linux/platform_device.h>
+> > >  #include <linux/slab.h>
+> > > +#include <linux/sys_soc.h>
+> > >
+> > >  #include <drm/drm_atomic.h>
+> > >  #include <drm/drm_atomic_helper.h>
+> > > @@ -842,8 +843,23 @@ static int rcar_lvds_get_clocks(struct rcar_lvds *lvds)
+> > >     return 0;
+> > >  }
+> > >
+> > > +static const struct rcar_lvds_device_info rcar_lvds_r8a7790es1_info = {
+> > > +   .gen = 2,
+> > > +   .quirks = RCAR_LVDS_QUIRK_LANES,
+> > > +   .pll_setup = rcar_lvds_pll_setup_gen2,
+> > > +};
+> > > +
+> > > +static const struct soc_device_attribute lvds_quirk_matches[] = {
+> > > +   {
+> > > +           .soc_id = "r8a7790", .revision = "ES1.*",
+> >
+> > Do you mind splitting this in two lines ?
+
+Yes I do: it makes it easier to locate fixes for early silicon.
+
+> Actually, it could be argued that having both on the same line is more
+> readable. I'll let you decide what you like best.
+
+I'm happy to hear you're reconsidering!
+
+> > With these small issues fixes,
+> >
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >
+> > Please let me know if I should fix while applying or if you want to send
+> > a new version.
+
+Feel free to fix (replace Fixes or add a second Fixes tag) while applying.
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.23.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
