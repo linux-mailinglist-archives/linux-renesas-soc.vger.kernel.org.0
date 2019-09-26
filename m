@@ -2,211 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 59778BF465
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2019 15:51:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF63CBF4B5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2019 16:09:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726676AbfIZNvZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Sep 2019 09:51:25 -0400
-Received: from esa1.mentor.iphmx.com ([68.232.129.153]:55410 "EHLO
-        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726666AbfIZNvZ (ORCPT
+        id S1727033AbfIZOJ3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Sep 2019 10:09:29 -0400
+Received: from mail-eopbgr1410114.outbound.protection.outlook.com ([40.107.141.114]:11468
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726820AbfIZOJ2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Sep 2019 09:51:25 -0400
-IronPort-SDR: H/CpLf6B6RrM9/c/UnrR9RPXSJCagK3mAxFDVQFlgIxPMHqcGFEjJ7bMoXcIe1jEH6f5Wte9aS
- VWfPmE8MGVyQ3uJrUjnx1YoeMHHDYB/9SPBrC/NC9DmCbbeb222ypB51xCnAq2baAJmm6fi6Du
- WNj+itsuiVSGEr1UfFhK6NvE6a9BOQm5aE3reutK28bfmrm8rlAKzIBw2rz6IGVHdRojP/U4ku
- bkwmXgAjtSHCLJY4Al1yMm21pi0ZIvUKdmhVv5hN5BZgzd8DQFKxGA82knuyuF6cWd02ayQRtp
- K1c=
-X-IronPort-AV: E=Sophos;i="5.64,552,1559548800"; 
-   d="scan'208";a="43527459"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa1.mentor.iphmx.com with ESMTP; 26 Sep 2019 05:51:24 -0800
-IronPort-SDR: g8IfhtlMsb+bCUzaayMGKyrbczKaCiaLHFFiTgLW3eR1Q99J3lChR3MmZaGd9Nk98lGTbjLO7y
- tygZjHTdG+FN2R2UFpCZqk+ZIqOiQ2OSEnESx0CTYQKC7IJw815r0yhHdlGgq2fpgPYTkr4xFY
- X6x/26OJSbHjYs5E76vA4Xp3kHK1HGd2BCpwSf2+P4v5pQUFRbo5Y7E/0yrTegr9hRh54To1+T
- t82fYI+/5h0+A8FNo4k3H4mrxPpBylbeJLyvYItUsqqcc4enfdYv74/jPuJ2Rxfpl9Wr/d57o5
- CFM=
-From:   Balasubramani Vivekanandan <balasubramani_vivekanandan@mentor.com>
-To:     <fweisbec@gmail.com>, <tglx@linutronix.de>, <mingo@kernel.org>,
-        <peterz@infradead.org>
-CC:     <balasubramani_vivekanandan@mentor.com>, <erosca@de.adit-jv.com>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH V3 1/1] tick: broadcast-hrtimer: Fix a race in bc_set_next
-Date:   Thu, 26 Sep 2019 15:51:01 +0200
-Message-ID: <20190926135101.12102-2-balasubramani_vivekanandan@mentor.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190926135101.12102-1-balasubramani_vivekanandan@mentor.com>
-References: <alpine.DEB.2.21.1909261144250.5528@nanos.tec.linutronix.de>
- <20190926135101.12102-1-balasubramani_vivekanandan@mentor.com>
+        Thu, 26 Sep 2019 10:09:28 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jilNIPOvw354Mq22RA/S0HrVRQb+2fZU+4gf0MvLvJFdsKCvLIDUd0WtsW3cvilzz8HoKK6Va2+HSe7q4Mu3WPS2aSLDQEtvu9Ennv25XI9kMUfhAMtV4PHiAIObB6bYMbZ9bYnbzeDQ318a40K0ldEhSPDvvgKkAcTXzDX2zjM34nuLGSdnWWF/inj60JnXH/uqm5UGagyGsG0CWAEhJTA+Jm7Su1VA7ttKxsyWtvMzy3RBypH9HAeiXiy6/RoRG1u+GxncqOb0sWglb4JaQf2+jlEN35KdhMjX5sVY35syTSBTDpk6Ox93x4Za2Of8GDQmClB0QH8gpWmxMWhS/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xpjzVQDH2SMKqkCilgtIB5dv3EIHMnQp5Ey6RB480Ek=;
+ b=caFqQ6TUnOBi83p8EuTri36xZI5njGEk+ICbDjPeuBdZeEzfgmUn8kCTG17lqzBiirH8I11wl4Ug+Oq74rB2icZfnjkTVJ9FJRJ9zn4yV5DDvJkWN2/v+kmYAiG7YqsPRFyZKckWtD7JW1yPq70K/wKkeG+S4A8TlVijLtwbo21G0MEtTnjTH3KmR/bBf3zupOL5raj0CF0RkV0dACpTA/PmMe0Swhm4q2KRyBixpJc1UUNkh+aFq7P/TeEATHDZZGuMkggD5Lj+uHdA/p8Xp7v6/OS3ZQYa//HEdH26shdwEbq48wJ3Qkjt0d7btBvw0kkCVFG8tOOk7o0CEiXN3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xpjzVQDH2SMKqkCilgtIB5dv3EIHMnQp5Ey6RB480Ek=;
+ b=ChlwUncAw4eo5wn4CJfJeY7vI3/Yp28bNo+IdK8F5irBQPhMzh+8kpysneIquzEPFTMhwYdV08cYWpW4DWASiduD8Kb/dufejey1zxhEzJpwztVQtqR64ak4SX/g3l3CN7Ef2/yrNj6f42PhlaDUUUI8fOLw2q/Kp9v1DsJ/AiY=
+Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com (52.134.242.17) by
+ OSBPR01MB1495.jpnprd01.prod.outlook.com (52.134.228.13) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2284.25; Thu, 26 Sep 2019 14:09:24 +0000
+Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com
+ ([fe80::746b:49c1:925d:e9eb]) by OSBPR01MB2103.jpnprd01.prod.outlook.com
+ ([fe80::746b:49c1:925d:e9eb%5]) with mapi id 15.20.2284.023; Thu, 26 Sep 2019
+ 14:09:24 +0000
+From:   Biju Das <biju.das@bp.renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "dmaengine@vger.kernel.org" <dmaengine@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms@verge.net.au>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH] dt-bindings: dmaengine: rcar-dmac: Document R8A774B1
+ bindings
+Thread-Topic: [PATCH] dt-bindings: dmaengine: rcar-dmac: Document R8A774B1
+ bindings
+Thread-Index: AQHVchJJj9K9GNCdBUSdWHd8WwIIqKc96AiAgAAaSKA=
+Date:   Thu, 26 Sep 2019 14:09:24 +0000
+Message-ID: <OSBPR01MB210380CE9A07266238A03B41B8860@OSBPR01MB2103.jpnprd01.prod.outlook.com>
+References: <1569245078-26031-1-git-send-email-biju.das@bp.renesas.com>
+ <CAMuHMdW+AwUFTbN6+084jZdYdVHYdi1wzBGAxkreqcQCGXm8zw@mail.gmail.com>
+In-Reply-To: <CAMuHMdW+AwUFTbN6+084jZdYdVHYdi1wzBGAxkreqcQCGXm8zw@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=biju.das@bp.renesas.com; 
+x-originating-ip: [193.141.220.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 23714bb5-8d74-4f68-38f4-08d7428b22e0
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4618075)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:OSBPR01MB1495;
+x-ms-traffictypediagnostic: OSBPR01MB1495:|OSBPR01MB1495:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <OSBPR01MB1495DF7081650528E0AE3FD4B8860@OSBPR01MB1495.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 0172F0EF77
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(396003)(366004)(346002)(136003)(376002)(39850400004)(189003)(199004)(51914003)(52536014)(54906003)(81166006)(66476007)(11346002)(446003)(66946007)(7736002)(8936002)(33656002)(14454004)(26005)(86362001)(2906002)(6436002)(76116006)(476003)(66556008)(74316002)(102836004)(4744005)(305945005)(4326008)(5660300002)(25786009)(66066001)(7696005)(3846002)(256004)(6246003)(186003)(99286004)(55016002)(229853002)(71200400001)(6116002)(6916009)(81156014)(71190400001)(486006)(44832011)(8676002)(9686003)(66446008)(478600001)(64756008)(53546011)(6506007)(316002)(76176011);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB1495;H:OSBPR01MB2103.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
+received-spf: None (protection.outlook.com: bp.renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: rFP4muNBu1YprqNGEj/TyRkbenuaKQCaVxhouq/7IBznhXozdoZ0CONFFKLzbWlU6lRbGIiSKaNtrH7T+a+f8SSpDsJFhytEYx7QvLTYE0x55b9k8mNwxQWZLX921X6ASVH4mOaArs4YPpdzZ0DQN5lrmOdbl5QCcfU15Hh5VlYr6xTztaCr8GnyE+aPJlDx8TfOwh5qni5kLoKA5sWlJb3tkFfqRoUE3xIcRTWZbsMzVEI6myVqyPz9rrdIRpywE8Lo9hkimVrhR21F8aVyVSVgiAdPM7rqjny7VMPUvm7rD+JtY08eJE5dPh+/ONV1dOGU1H1qWO2zTv4KiGXs7xP74SnM60fq9a6k2/OWAU/18n/+D20oPnq5mwXqcvuG/LvjnDFKKvZECzW7oQwYY5Ct6xaiq3/dFY4qZQ9acXw=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: SVR-IES-MBX-09.mgc.mentorg.com (139.181.222.9) To
- svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2)
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 23714bb5-8d74-4f68-38f4-08d7428b22e0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Sep 2019 14:09:24.7392
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: c8wSbVYQ6Pnn2Z/cbn3vdgNy5HJXO+zptfHfhHaNJI+qOsYd9sSMbnK7nArXPxe+P7O1lvEQ+WEH9oMTJmklmg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB1495
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When a cpu requests broadcasting, before starting the tick broadcast
-hrtimer, bc_set_next() checks if the timer callback (bc_handler) is
-active using hrtimer_try_to_cancel(). But hrtimer_try_to_cancel() does
-not provide the required synchronization when the callback is active on
-other core.
-The callback could have already executed
-tick_handle_oneshot_broadcast() and could have also returned. But still
-there is a small time window where the hrtimer_try_to_cancel() returns
--1. In that case bc_set_next() returns without doing anything, but the
-next_event of the tick broadcast clock device is already set to a
-timeout value.
-
-In the race condition diagram below, CPU #1 is running the timer
-callback and CPU #2 is entering idle state and so calls bc_set_next().
-
-In the worst case, the next_event will contain an expiry time, but the
-hrtimer will not be started which happens when the racing callback
-returns HRTIMER_NORESTART. The hrtimer might never recover if all
-further requests from the CPUs to subscribe to tick broadcast have
-timeout greater than the next_event of tick broadcast clock device. This
-leads to cascading of failures and finally noticed as rcu stall
-warnings
-
-Here is a depiction of the race condition
-
-CPU #1 (Running timer callback)                   CPU #2 (Enter idle
-                                                  and subscribe to
-                                                  tick broadcast)
----------------------                             ---------------------
-
-__run_hrtimer()                                   tick_broadcast_enter()
-
-  bc_handler()                                      __tick_broadcast_oneshot_control()
-
-    tick_handle_oneshot_broadcast()
-
-      raw_spin_lock(&tick_broadcast_lock);
-
-      dev->next_event = KTIME_MAX;                  //wait for tick_broadcast_lock
-      //next_event for tick broadcast clock
-      set to KTIME_MAX since no other cores
-      subscribed to tick broadcasting
-
-      raw_spin_unlock(&tick_broadcast_lock);
-
-    if (dev->next_event == KTIME_MAX)
-      return HRTIMER_NORESTART
-    // callback function exits without
-       restarting the hrtimer                      //tick_broadcast_lock acquired
-                                                   raw_spin_lock(&tick_broadcast_lock);
-
-                                                   tick_broadcast_set_event()
-
-                                                     clockevents_program_event()
-
-                                                       dev->next_event = expires;
-
-                                                       bc_set_next()
-
-                                                         hrtimer_try_to_cancel()
-                                                         //returns -1 since the timer
-                                                         callback is active. Exits without
-                                                         restarting the timer
-  cpu_base->running = NULL;
-
-The comment that hrtimer cannot be armed from within the callback is
-wrong. It is fine to start the hrtimer from within the callback. Also it
-is safe to start the hrtimer from the enter/exit idle code while the
-broadcast handler is active. The enter/exit idle code and the broadcast
-handler are synchronized using tick_broadcast_lock. So there is no need
-for the existing try to cancel logic. All this can be removed which will
-eliminate the race condition as well.
-
-Originally-by: Thomas Gleixner <tglx@linutronix.de>
-Signed-off-by: Balasubramani Vivekanandan <balasubramani_vivekanandan@mentor.com>
----
- kernel/time/tick-broadcast-hrtimer.c | 58 ++++++++++++----------------
- 1 file changed, 25 insertions(+), 33 deletions(-)
-
-diff --git a/kernel/time/tick-broadcast-hrtimer.c b/kernel/time/tick-broadcast-hrtimer.c
-index c1f5bb590b5e..f070f9734792 100644
---- a/kernel/time/tick-broadcast-hrtimer.c
-+++ b/kernel/time/tick-broadcast-hrtimer.c
-@@ -42,39 +42,35 @@ static int bc_shutdown(struct clock_event_device *evt)
-  */
- static int bc_set_next(ktime_t expires, struct clock_event_device *bc)
- {
--	int bc_moved;
- 	/*
--	 * We try to cancel the timer first. If the callback is on
--	 * flight on some other cpu then we let it handle it. If we
--	 * were able to cancel the timer nothing can rearm it as we
--	 * own broadcast_lock.
-+	 * This is called either from enter/exit idle code or from the
-+	 * broadcast handler. In all cases tick_broadcast_lock is held.
- 	 *
--	 * However we can also be called from the event handler of
--	 * ce_broadcast_hrtimer itself when it expires. We cannot
--	 * restart the timer because we are in the callback, but we
--	 * can set the expiry time and let the callback return
--	 * HRTIMER_RESTART.
-+	 * hrtimer_cancel() cannot be called here neither from the
-+	 * broadcast handler nor from the enter/exit idle code. The idle
-+	 * code can run into the problem described in bc_shutdown() and the
-+	 * broadcast handler cannot wait for itself to complete for obvious
-+	 * reasons.
- 	 *
--	 * Since we are in the idle loop at this point and because
--	 * hrtimer_{start/cancel} functions call into tracing,
--	 * calls to these functions must be bound within RCU_NONIDLE.
-+	 * Each caller tries to arm the hrtimer on its own CPU, but if the
-+	 * handler is currently running hrtimer_start() does not move
-+	 * it. It keeps it on the CPU on which it is assigned at the
-+	 * moment.
- 	 */
--	RCU_NONIDLE(
--		{
--			bc_moved = hrtimer_try_to_cancel(&bctimer) >= 0;
--			if (bc_moved) {
--				hrtimer_start(&bctimer, expires,
--					      HRTIMER_MODE_ABS_PINNED_HARD);
--			}
--		}
--	);
--
--	if (bc_moved) {
--		/* Bind the "device" to the cpu */
--		bc->bound_on = smp_processor_id();
--	} else if (bc->bound_on == smp_processor_id()) {
--		hrtimer_set_expires(&bctimer, expires);
--	}
-+	RCU_NONIDLE( {
-+		hrtimer_start(&bctimer, expires, HRTIMER_MODE_ABS_PINNED_HARD);
-+		/*
-+		 * The core tick broadcast mode expects bc->bound_on to be set
-+		 * correctly to prevent a CPU which has the broadcast hrtimer
-+		 * armed from going deep idle.
-+		 *
-+		 * As tick_broadcast_lock is held, nothing can change the cpu
-+		 * base which was just established in hrtimer_start() above. So
-+		 * the below access is safe even without holding the hrtimer
-+		 * base lock.
-+		 */
-+		bc->bound_on = bctimer.base->cpu_base->cpu;
-+	} );
- 	return 0;
- }
- 
-@@ -100,10 +96,6 @@ static enum hrtimer_restart bc_handler(struct hrtimer *t)
- {
- 	ce_broadcast_hrtimer.event_handler(&ce_broadcast_hrtimer);
- 
--	if (clockevent_state_oneshot(&ce_broadcast_hrtimer))
--		if (ce_broadcast_hrtimer.next_event != KTIME_MAX)
--			return HRTIMER_RESTART;
--
- 	return HRTIMER_NORESTART;
- }
- 
--- 
-2.17.1
-
+DQpIaSBHZWVydCwNCg0KVGhhbmtzIGZvciB0aGUgZmVlZGJhY2suDQoNCj4gU3ViamVjdDogUmU6
+IFtQQVRDSF0gZHQtYmluZGluZ3M6IGRtYWVuZ2luZTogcmNhci1kbWFjOiBEb2N1bWVudA0KPiBS
+OEE3NzRCMSBiaW5kaW5ncw0KPiANCj4gT24gTW9uLCBTZXAgMjMsIDIwMTkgYXQgMzoyNCBQTSBC
+aWp1IERhcyA8YmlqdS5kYXNAYnAucmVuZXNhcy5jb20+DQo+IHdyb3RlOg0KPiA+IFJlbmVzYXMg
+UlovRzJOIChSOEE3NzRCMSkgU29DIGhhcyBETUEgY29udHJvbGxlcnMgY29tcGF0aWJsZSB3aXRo
+IHRoaXMNCj4gPiBkcml2ZXIsIHRoZXJlZm9yZSBkb2N1bWVudCBSWi9HMk4gc3BlY2lmaWMgYmlu
+ZGluZ3MuDQo+IA0KPiBQbGVhc2UgZG9uJ3QgbWVudGlvbiAiZHJpdmVyIiwgYXMgRFQgYmluZGlu
+Z3MgYXJlIGludGVuZGVkIHRvIGJlDQo+IGltcGxlbWVudGF0aW9uLWFnbm9zdGljLg0KDQpPSy4g
+V2lsbCBzZW5kIFYyIHdpdGhvdXQgbWVudGlvbmluZyAiZHJpdmVyIi4NCg0KPiA+IFNpZ25lZC1v
+ZmYtYnk6IEJpanUgRGFzIDxiaWp1LmRhc0BicC5yZW5lc2FzLmNvbT4NCj4gDQo+IEZvciB0aGUg
+YWN0dWFsIGNoYW5nZToNCj4gUmV2aWV3ZWQtYnk6IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnQr
+cmVuZXNhc0BnbGlkZXIuYmU+DQoNClJlZ2FyZHMsDQpCaWp1DQo=
