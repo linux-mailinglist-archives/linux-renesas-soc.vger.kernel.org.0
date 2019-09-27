@@ -2,66 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 33B11C0384
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2019 12:37:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A51EC03BB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2019 12:53:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726988AbfI0Kh3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Sep 2019 06:37:29 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:56641 "EHLO
+        id S1726549AbfI0Kxk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Sep 2019 06:53:40 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:27960 "EHLO
         relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725946AbfI0Kh3 (ORCPT
+        by vger.kernel.org with ESMTP id S1726796AbfI0Kxk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Sep 2019 06:37:29 -0400
+        Fri, 27 Sep 2019 06:53:40 -0400
 X-IronPort-AV: E=Sophos;i="5.64,555,1559487600"; 
-   d="scan'208";a="27461305"
+   d="scan'208";a="27462516"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 27 Sep 2019 19:37:26 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 27 Sep 2019 19:53:38 +0900
 Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 786AA41AF5F1;
-        Fri, 27 Sep 2019 19:37:24 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B568241F9341;
+        Fri, 27 Sep 2019 19:53:36 +0900 (JST)
 From:   Biju Das <biju.das@bp.renesas.com>
-To:     Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+To:     Joerg Roedel <joro@8bytes.org>
+Cc:     Biju Das <biju.das@bp.renesas.com>,
+        iommu@lists.linux-foundation.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     Biju Das <biju.das@bp.renesas.com>, dmaengine@vger.kernel.org,
-        devicetree@vger.kernel.org, Simon Horman <horms@verge.net.au>,
+        Simon Horman <horms@verge.net.au>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v2] dt-bindings: dmaengine: rcar-dmac: Document R8A774B1 bindings
-Date:   Fri, 27 Sep 2019 11:37:09 +0100
-Message-Id: <1569580629-55677-1-git-send-email-biju.das@bp.renesas.com>
+Subject: [PATCH v2] iommu/ipmmu-vmsa: Hook up r8a774b1 DT matching code
+Date:   Fri, 27 Sep 2019 11:53:21 +0100
+Message-Id: <1569581601-34027-1-git-send-email-biju.das@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Renesas RZ/G2N (R8A774B1) SoC also has the R-Car gen2/3 compatible
-DMA controllers, therefore document RZ/G2N specific bindings.
+Support RZ/G2N (R8A774B1) IPMMU.
 
 Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 V1-->V2
-  * Incorporated Geert's review comment
-  * Added Geert's reviewed by tag
+  * Incorporated Geet's review comment
+  * Added Geert's Reviewed-by tag
 ---
- Documentation/devicetree/bindings/dma/renesas,rcar-dmac.txt | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/iommu/ipmmu-vmsa.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.txt b/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.txt
-index 5a512c5..5551e92 100644
---- a/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.txt
-+++ b/Documentation/devicetree/bindings/dma/renesas,rcar-dmac.txt
-@@ -21,6 +21,7 @@ Required Properties:
- 		- "renesas,dmac-r8a7745" (RZ/G1E)
- 		- "renesas,dmac-r8a77470" (RZ/G1C)
- 		- "renesas,dmac-r8a774a1" (RZ/G2M)
-+		- "renesas,dmac-r8a774b1" (RZ/G2N)
- 		- "renesas,dmac-r8a774c0" (RZ/G2E)
- 		- "renesas,dmac-r8a7790" (R-Car H2)
- 		- "renesas,dmac-r8a7791" (R-Car M2-W)
+diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
+index ad0098c..9285be7 100644
+--- a/drivers/iommu/ipmmu-vmsa.c
++++ b/drivers/iommu/ipmmu-vmsa.c
+@@ -775,6 +775,7 @@ static int ipmmu_init_platform_device(struct device *dev,
+ 
+ static const struct soc_device_attribute soc_rcar_gen3[] = {
+ 	{ .soc_id = "r8a774a1", },
++	{ .soc_id = "r8a774b1", },
+ 	{ .soc_id = "r8a774c0", },
+ 	{ .soc_id = "r8a7795", },
+ 	{ .soc_id = "r8a7796", },
+@@ -786,6 +787,7 @@ static const struct soc_device_attribute soc_rcar_gen3[] = {
+ };
+ 
+ static const struct soc_device_attribute soc_rcar_gen3_whitelist[] = {
++	{ .soc_id = "r8a774b1", },
+ 	{ .soc_id = "r8a774c0", },
+ 	{ .soc_id = "r8a7795", .revision = "ES3.*" },
+ 	{ .soc_id = "r8a77965", },
+@@ -1008,6 +1010,9 @@ static const struct of_device_id ipmmu_of_ids[] = {
+ 		.compatible = "renesas,ipmmu-r8a774a1",
+ 		.data = &ipmmu_features_rcar_gen3,
+ 	}, {
++		.compatible = "renesas,ipmmu-r8a774b1",
++		.data = &ipmmu_features_rcar_gen3,
++	}, {
+ 		.compatible = "renesas,ipmmu-r8a774c0",
+ 		.data = &ipmmu_features_rcar_gen3,
+ 	}, {
 -- 
 2.7.4
 
