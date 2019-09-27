@@ -2,99 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 42686BFA6B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Sep 2019 22:09:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99719C0040
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2019 09:46:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727872AbfIZUJI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Sep 2019 16:09:08 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:40637 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727826AbfIZUJI (ORCPT
+        id S1726177AbfI0HqY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Sep 2019 03:46:24 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:60393 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726443AbfI0HqY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Sep 2019 16:09:08 -0400
-Received: by mail-wm1-f66.google.com with SMTP id b24so3851842wmj.5;
-        Thu, 26 Sep 2019 13:09:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=YTzDAcw9gbPn+mRJBI6qSPJU/C8hb0B7P6TDypbBA4E=;
-        b=CyEMak8EtCE86FpsbhlopviQJNKrauDIJ5jwwsZaxSFuZV38/imJ6QNKg2a3NZg2TO
-         dzYBCRQq2HsYSi2sFChJZ481fe133jhT5w39Yp+rz9C44bxS9UxXgJX3Sy6IdUBRkpJ6
-         1ucQ3Ga3ht+dFuMpuMXaDHvhervmdpJTga1F69+HD6t0YP2ZwX8klVS1pf41jIvGBy/l
-         VFy7uHQA6cQJW0RCqhMdvGqqhf1ElrbC+qQJG1byyIAcOwwt5qAgJXQ9kn4TLQrwwh/9
-         E55PeSTiiqPOq3a/po4rZhqH2vjgmnT5c2li1aL/SZ+zqTXsWX0qXybtmzopMv1TxXHK
-         M8NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=YTzDAcw9gbPn+mRJBI6qSPJU/C8hb0B7P6TDypbBA4E=;
-        b=M+/Qwl2RaZ18mpiqkQLku4FwdAxdnutsT6UzPfwZDzCPQWo4q7UmsutM8JOvxZioqW
-         RiOpOckQE4FxoIf3j6HHskaHCWqGS+7i52NPCfTaHu/gwTpRxP7jLz5JLV8two59PzpP
-         Oq+j+aaAjntosdI04/3kZjCleSaYC+txnyJ6juU3svjW0VQec63vuCm1Kpqv0fQhBBGe
-         IMmWMxJhLmCSrS1LR0+DDPH7rMdRDL3eLDJn6NDmc73X4ktyZP3fK0xlTaJsY+kcKdmO
-         /meIK6w9kt9dzrZLDmzSqM1SCrKBqX5s38DYkb3ueXEmleAZb/ATOTwsE7Mz4rSebVpz
-         AjHg==
-X-Gm-Message-State: APjAAAUQoEMVjZ/hmWbbC7eTvDNaCEMY7vFFqZp9JW16achuNFi5sBiE
-        m9AcaMiqGvB7kLpbsiYFYJJeeyxe
-X-Google-Smtp-Source: APXvYqxapfwxt9WSMkRC1OxiuZDvCN91dpJLvyhRXECYrNlDR2mH607VSDm8HUYeWzuzng1MvTazIA==
-X-Received: by 2002:a1c:7f54:: with SMTP id a81mr4671490wmd.100.1569528545830;
-        Thu, 26 Sep 2019 13:09:05 -0700 (PDT)
-Received: from [192.168.42.85] (cst-prg-31-94.cust.vodafone.cz. [46.135.31.94])
-        by smtp.gmail.com with ESMTPSA id a192sm3650781wma.1.2019.09.26.13.09.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Sep 2019 13:09:04 -0700 (PDT)
-Subject: Re: [PATCH] arm64: dts: renesas: Add /soc dma-ranges
-To:     Rob Herring <robh@kernel.org>
-Cc:     "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa@the-dreams.de>, devicetree@vger.kernel.org,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>
-References: <20190907161634.27378-1-marek.vasut@gmail.com>
- <CAL_JsqL47dQT-P78j4Ph61fsgA45Ha0AJjDajiMk52yFj++s+g@mail.gmail.com>
- <CAL_JsqK+SwX8Lu+-4UgpLVxL05yTcs8Af9mPVHqzbf6+HF9v3A@mail.gmail.com>
-From:   Marek Vasut <marek.vasut@gmail.com>
-Message-ID: <92e78919-741c-f709-c9b6-c5fb833f68b1@gmail.com>
-Date:   Thu, 26 Sep 2019 22:02:20 +0200
+        Fri, 27 Sep 2019 03:46:24 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id DkxGiK7OO9D4hDkxJiAq4S; Fri, 27 Sep 2019 09:46:22 +0200
+Subject: Re: [PATCH v3 0/6] rcar-vin: Add support for V4L2_FIELD_ALTERNATE
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20190904215409.30136-1-niklas.soderlund+renesas@ragnatech.se>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <4c2c7db5-7916-296e-b680-71aec9190006@xs4all.nl>
+Date:   Fri, 27 Sep 2019 09:46:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqK+SwX8Lu+-4UgpLVxL05yTcs8Af9mPVHqzbf6+HF9v3A@mail.gmail.com>
+In-Reply-To: <20190904215409.30136-1-niklas.soderlund+renesas@ragnatech.se>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfMIfT+r8hIRllF2jZGNfmq/Dxzo4bF/Se4lP5W4vN491tzyzay1/VebScs8kXE5OzgJP6SoHBXzL5W6r6ki4aRloNSabpDihzWetLg5bA7KmgPvazY2p
+ zebKjyFe00kBzMe11jZKy2a5CdrEQnwpnn9O1xRR1vnQaWA1WIZjaHtAl4Jjs1/5f+zg52ZXGrt1okta/XaTnUu5YRV7SQ+sFIuYbbxu8JsLNTyzJtRcvMDI
+ 5diP/fu+mgq3m3dukqVPyMQf8RwYWqOUi18geXK1yb/P5TBJHe+u5sH0bYZKhZXXSzVxyd4Jl19EFZSyktBnqXeAtAa/fCA5MUqGSTmQLV913/xtymTJCnNg
+ fahTFVsxGK8yOta+Va5NLjaU8KXekvmQUyGYzr1UF3HRUUele8I=
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 9/24/19 12:33 AM, Rob Herring wrote:
-> On Fri, Sep 13, 2019 at 10:14 AM Rob Herring <robh@kernel.org> wrote:
->>
->> On Sat, Sep 7, 2019 at 5:16 PM <marek.vasut@gmail.com> wrote:
->>>
->>> From: Marek Vasut <marek.vasut+renesas@gmail.com>
->>>
->>> Add dma-ranges property into /soc node to describe the DMA capabilities
->>> of the bus. This is currently needed to translate PCI DMA ranges, which
->>> are limited to 32bit addresses.
->>
->> FYI, I've started working on this problem and issues around
->> dma-ranges/dma_mask. Hopefully I'll get some patches out next week.
-> 
-> I've pushed out a branch here:
-> 
-> git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dma-masks
-> 
-> Can you test it on Renesas. I don't have a real platform having the issue.
+Hi Niklas,
 
-Due to ER/KR, I can only test it Monday-ish. I hope that's OK ?
+On 9/4/19 11:54 PM, Niklas Söderlund wrote:
+> Hi,
+> 
+> This series adds support for V4L2_FIELD_ALTERNATE to rcar-vin. This
+> removes a limitation in the driver where a video sources delivering
+> video using the alternating field format was forced to use the rcar-vin
+> interlacer and V4L2_FIELD_INTERLACED was delivers to the user. After
+> this series the use of the interlacer is still default but the user have
+> the option to explicit ask for alternate.
+> 
+> It is based on latest media-tree and tested on R-Car Gen2 and Gen3
+> hardware.
+> 
+> Patch 1/6, 2/6 and 3/6 prepares for the work by fixing a broken return
+> statement, use available macros and renaming a poorly variable. Patch
+> 4/6 fixes a problem with scaling (Gen2 only) which was found when
+> testing alternating between V4L2_FIELD_ALTERNATE and
+> V4L2_FIELD_INTERLACED. Patch 5/6 is the real change adding support for
+> the new field format. Last 6/6 takes advantage of that the hardware
+> interlacer is no longer a requirement and removes a bit of ugly code as
+> a result.
 
--- 
-Best regards,
-Marek Vasut
+I'm taking patches 1-5, but postpone merging patch 6/6 until it has
+been reviewed/acked by Laurent or Kieran.
+
+Regards,
+
+	Hans
+
+> 
+> Niklas Söderlund (6):
+>   rcar-vin: Fix incorrect return statement in rvin_try_format()
+>   rcar-vin: Make use of V4L2_FIELD_IS_INTERLACED() macro
+>   rcar-vin: Rename rectangle holding the video source information
+>   rcar-vin: Do not reset the crop and compose rectangles in s_fmt
+>   rcar-vin: Add support for V4L2_FIELD_ALTERNATE
+>   rcar-vin: Clean up how format is set on subdevice
+> 
+>  drivers/media/platform/rcar-vin/rcar-dma.c  |  54 ++++++-----
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c | 101 ++++++++++----------
+>  drivers/media/platform/rcar-vin/rcar-vin.h  |   4 +-
+>  3 files changed, 79 insertions(+), 80 deletions(-)
+> 
+
