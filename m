@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D759AC04D1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2019 14:07:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61718C0549
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Sep 2019 14:38:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726295AbfI0MHE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 27 Sep 2019 08:07:04 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:39184 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726087AbfI0MHE (ORCPT
+        id S1727435AbfI0MiR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 27 Sep 2019 08:38:17 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:38415 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725890AbfI0MiR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 27 Sep 2019 08:07:04 -0400
-Received: by mail-ot1-f68.google.com with SMTP id s22so2004291otr.6;
-        Fri, 27 Sep 2019 05:07:03 -0700 (PDT)
+        Fri, 27 Sep 2019 08:38:17 -0400
+Received: by mail-ot1-f67.google.com with SMTP id e11so2088820otl.5;
+        Fri, 27 Sep 2019 05:38:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=cQUfrwmtNA9Ew4P666b0rG4KYFsmfzKC7caBKHjOR7A=;
-        b=W8m7ZyTGJpiwmlRZmZ50KewVLpzrTP30eCAjEzzjxm+ZZqmaD1BOr7p/JnXzwbIPF5
-         ZSq1LJlq/M7fIkHxYqgONpuZ3Klcbc5tvYqStqygxJMVPzptIBtl9n29cGC8K2zkkMGI
-         PJ3eqLa0zvQZI6asqQhedG5Ts9ZVkbssR0bxb1NgB3GjgzwKMaQuT+Kvh/SP/UZU3pZV
-         5as1G7n2v11N/6D7B0BQPUCcwQNsmQvqofnZPkBq/qcCX/1xmynzy5lbeU+3lJFL5yHn
-         hBBd4H1Vm72CrYJh7dWZq7vC1fpXCCMRGJpCN43UkfyfOjGcE5fdglKbBFx0YuY3geCF
-         iYCA==
-X-Gm-Message-State: APjAAAVC/IidycCFW872z0OG4HINA9fmSfqG9i+kEGafZWcQ3vGjoIoP
-        q35s5hsv2oIHuPmwiCnPMgVAiMU6mTCkkigXo6Wh37dD2Vs=
-X-Google-Smtp-Source: APXvYqw91liXfST0dl+4xdw5CaXGSUDfkMlGkTAUpJkjnVji/bz+InlrkHEmdtczbDZxYDCO2f1/2hhRB9TstrUR0lk=
-X-Received: by 2002:a9d:404d:: with SMTP id o13mr2952804oti.39.1569586023005;
- Fri, 27 Sep 2019 05:07:03 -0700 (PDT)
+        bh=ZrtLlc4EAd9C0LDZUS2MwxsP3sVYIR69wiCz9aRBfmc=;
+        b=ahEnEb9xaLH37IWp+kzMfbdq26ki0gz9jrLsrYNt3rzA7IQhVdAnoEuuCPP/vcK1uP
+         c26ZVKIk9NOO7L5h/D1b3YYCAUcM1hM/hhqQAinyLXj/M299FAWnYGcb2RqKkleF2kHK
+         9cwnlvJpI2gMcyYhG859n8QBlTiwJ1zptCQxmi0xG0YG3Xzf3AeELxe7onKAUSRmrl60
+         VBOBHGIKb6tgWx0fU89u855PAo+Tkbdt5Wq0omkE22SxPNE8uWxS8jC61r22sXoz4OCG
+         cSxNXN0GGDnyiOC2oQ8SG5Mt9U9op4WuBJkZ+m7s9Mwp5YG7rmAuIXvoaymgp0+X182r
+         g21w==
+X-Gm-Message-State: APjAAAXdRCRqfLlN5sk+DlB301LBdbRVet+glQ+joXMV3rocJbT2+aS5
+        RyHgtjAIjlSyf8FT0vi3sMlw8Vrhib4Pc5QYiPA=
+X-Google-Smtp-Source: APXvYqy3LTzpbmpruzojcCljMIf+BYanzCbxfXlGJbILiUVjLDxJUJVDxiL10B6utP0X81xcMR1BWe6Ha6bFkR6o8i0=
+X-Received: by 2002:a9d:17e6:: with SMTP id j93mr3078604otj.297.1569587896485;
+ Fri, 27 Sep 2019 05:38:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <1568725530-55241-1-git-send-email-biju.das@bp.renesas.com> <1568725530-55241-2-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1568725530-55241-2-git-send-email-biju.das@bp.renesas.com>
+References: <1568725530-55241-1-git-send-email-biju.das@bp.renesas.com> <1568725530-55241-5-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1568725530-55241-5-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 27 Sep 2019 14:06:51 +0200
-Message-ID: <CAMuHMdW7erKQHKjf7ca2yjY-gUfQV5CHaT8HEoz7zPR26OnCnw@mail.gmail.com>
-Subject: Re: [PATCH 1/4] arm64: dts: renesas: Initial r8a774b1 SoC device tree
+Date:   Fri, 27 Sep 2019 14:38:05 +0200
+Message-ID: <CAMuHMdVNfurC1MATNePq8Veefyxgc_HPz4wYA++h_+7145UPHA@mail.gmail.com>
+Subject: Re: [PATCH 4/4] arm64: dts: renesas: Add HiHope RZ/G2N main board support
 To:     Biju Das <biju.das@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -57,27 +57,49 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 Hi Biju,
 
 On Tue, Sep 17, 2019 at 3:12 PM Biju Das <biju.das@bp.renesas.com> wrote:
-> Basic support for the RZ/G2N (R8A774B1) SoC. Added placeholders
-> to avoid compilation error with the common platform code.
+> Basic support for the HiHope RZ/G2N main board:
+>   - Memory,
+>   - Main crystal,
+>   - Serial console
 >
 > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
-Thanks for your patch!
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+One question below...
 
 > --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a774b1-hihope-rzg2n.dts
+> @@ -0,0 +1,26 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Device Tree Source for the HiHope RZ/G2N main board
+> + *
+> + * Copyright (C) 2019 Renesas Electronics Corp.
+> + */
+> +
+> +/dts-v1/;
+> +#include "r8a774b1.dtsi"
+> +#include "hihope-common.dtsi"
+> +
+> +/ {
+> +       model = "HopeRun HiHope RZ/G2N main board based on r8a774b1";
+> +       compatible = "hoperun,hihope-rzg2n", "renesas,r8a774b1";
+> +
+> +       memory@48000000 {
+> +               device_type = "memory";
+> +               /* first 128MB is reserved for secure area. */
+> +               reg = <0x0 0x48000000 0x0 0x78000000>;
+> +       };
+> +
+> +       memory@480000000 {
+> +               device_type = "memory";
+> +               reg = <0x4 0x80000000 0x0 0x80000000>;
+> +       };
+> +};
 
-> +               avb: ethernet@e6800000 {
-> +                       reg = <0 0xe6800000 0 0x800>, <0 0xe6a00000 0 0x10000>;
-
-According to the documentation, RZ/G2N does not have the stream buffer,
-so the second register block should be omitted.
-
-> +                       /* placeholder */
-> +               };
-
-The rest looks OK, so with the above fixed:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+So both the HiHope RZ/G2M and RZ/G2N boards have 4 GiB of RAM, while
+the latter has a narrower memory bus, so it must be wired differently?
 
 Gr{oetje,eeting}s,
 
