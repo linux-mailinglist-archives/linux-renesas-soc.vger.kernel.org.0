@@ -2,86 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AABC0C242F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2019 17:23:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 548E5C246D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2019 17:38:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731957AbfI3PXm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 30 Sep 2019 11:23:42 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:33062 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731276AbfI3PXm (ORCPT
+        id S1731938AbfI3Pii (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 30 Sep 2019 11:38:38 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:34774 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727767AbfI3Pii (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 30 Sep 2019 11:23:42 -0400
-Received: by mail-lf1-f65.google.com with SMTP id y127so7387118lfc.0
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 30 Sep 2019 08:23:40 -0700 (PDT)
+        Mon, 30 Sep 2019 11:38:38 -0400
+Received: by mail-wr1-f67.google.com with SMTP id a11so11913344wrx.1;
+        Mon, 30 Sep 2019 08:38:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:from:to:cc:references:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=PFWrtL6kjCWIw5AHUQmvARULYmo2lqWhXo2uuDZVytI=;
-        b=SpREBLtM36QAoEA7VOGF248QCPo4E/VAJS54VgF/pLnZDLtwzi8dETiaHR57OBrBt5
-         W4D9m4DWhlrfxDGQPy0QJtgHCFF4SxvVKLZskWV9SUK3Zeb2HnSSSzMH8KSRhz5fJWHy
-         uhWRo8Yyo4bztdHTaaa9VjJvz2R9nhmjSRQcycjnzPeI+QQOdWfPm56c+3dsB9FnExMV
-         4t81jQppwmubwur/4v7gJDoHQ8RdKpISY0Ia1NbpVXFra+FipWNWZxPVyoJs065mL9Oy
-         iSbnh9MDP6vUaxpMsP0UkIgkhr2+x3BEbS5E5082lEwNm4IHlJftK6Vx995f3ZtdnoZn
-         HU4Q==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=UKXLz9Q+LLB6BiMrKWPLQcSp+EA3Iu1euCxCi3Xv3c0=;
+        b=n9sASN4UUOQPMdZuPwJozxZDdv83KL9DUcPizbcn2bvZxDQqLtYacXWM+0rzQd/iGl
+         axWN+Xz3U8OgVrRGcEsgYLx81wnqMa1IoClrYmwTji0SPt0W7CRVEPsIhhY4lMNMFO5J
+         rvjVPdlA9pZe+NVWgksF+ZW6iZ+WkCUSX1Y8iRHEb3Dly6TnhLkrwfzj+3C3Ju/6diQJ
+         wrrBQ0K307e4QvincJsK2CUlfvBwNic9MR+oVXAruC21MwEhiiTIIKHuPiQfUNhGxzsu
+         Z31LYorgUhJuEBwlilPNFYQmRii/uKas8+Tpu87L+JNxqC/0m9FGO/wlpn6isaabt1SP
+         Sl8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=PFWrtL6kjCWIw5AHUQmvARULYmo2lqWhXo2uuDZVytI=;
-        b=QHw2q2EPa0/Eewdnr9paVU8BM7Ce2THe4dkzf6ZgHB2pWNR25tvEhR96P2Ojn6L7KF
-         XT94J27cCXV1HebRQX+Ijg/bKEFAPwd8ecSWMQwVakklYj7iBW04UCg+eUlLciUVP0d4
-         njlFse2QTDb3mQmj90r6/scXolmwXZqvOjSJN6+DzsUYkHK0x/gbGW0w/botGAh+lA0I
-         m1EJPZDjJ1rW23LECX7fkLI97xzoB6olsM8yPgRNY28PUCgwdK+dWaTknrpkQUgaUZfy
-         TCppgDbpzNEmFpwsywJMgwAmnMaEUVwEWdx5cvR1z3yk8MMSBw47nVkmREbWePJTBWQ9
-         OuvQ==
-X-Gm-Message-State: APjAAAUEiTc3S52rNz+Y+pT2My6DZG15LlObNRarLMrBMC7Q1GFEYKzV
-        8Js0jI9qtqfT4xjgSJqxRcB6Wa0wU4DIrA==
-X-Google-Smtp-Source: APXvYqx9Feb0gelX6GjlJ8/WQ9ni5jx48p3Alw9QAQbpYTOCk2Hl3y703v1a9l9XEYrYyO+jnUxkmA==
-X-Received: by 2002:a19:ec16:: with SMTP id b22mr12110048lfa.189.1569857020119;
-        Mon, 30 Sep 2019 08:23:40 -0700 (PDT)
-Received: from wasted.cogentembedded.com ([2a00:1fa0:467d:f1c8:1ca9:8602:259:4d25])
-        by smtp.gmail.com with ESMTPSA id r22sm3284667ljr.43.2019.09.30.08.23.38
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 30 Sep 2019 08:23:39 -0700 (PDT)
-Subject: Re: [PATCH] dt-bindings: sh_eth convert bindings to json-schema
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-To:     Simon Horman <horms+renesas@verge.net.au>,
-        David Miller <davem@davemloft.net>
-Cc:     Magnus Damm <magnus.damm@gmail.com>, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <20190930140352.12401-1-horms+renesas@verge.net.au>
- <fa068941-3456-070f-33de-dc3006bb45f6@cogentembedded.com>
-Organization: Cogent Embedded
-Message-ID: <200d8899-2fe7-44be-8945-897667e146ef@cogentembedded.com>
-Date:   Mon, 30 Sep 2019 18:23:37 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=UKXLz9Q+LLB6BiMrKWPLQcSp+EA3Iu1euCxCi3Xv3c0=;
+        b=ZNvgip3b/HjkQ0DwAcS8vqZDHfHuB7XCJnjqXy1jLieel6QzuUTSpJ1qVVFkaT7zVp
+         CjK4KjHwG+GBjlv4Y6i1lYv/njU1jTdV0fmTA1u62esh7xwHWodO4uVyLaF6SPIiBLIG
+         b6shiHbUpjLHjtXG/S0guBudGAtbU+6Yh/Vm0wHUf7CFKczEE+UX9Xs+kn6+7hLHbeOH
+         2LLKwmJcnjqhRS+ufCZs4Lp4ljhqvD7hxkw0Z+FYNjoI9Ioy0+B8/v6Y3Z3e2ILGuJc+
+         YzypaxdF2wSvKGpk4SIFZbn+FRO5s4NJkf6X/hE3rPFQnYXk9M8UmuCJINOzktikuypl
+         BMIw==
+X-Gm-Message-State: APjAAAX9D20OoZctz3hR8j5yB3dmT8UJsoo9fnRagZK7ivjxjg3iWCzX
+        sTSFlbkfLBy5vwmnwKNG50X3Ap+6
+X-Google-Smtp-Source: APXvYqzXeJsrBM05FF+CVOvVK9sssFUl+QHnshJfoiqGgKytLD4M4wEBeY+S6RBEqTKx0ZahcItYZA==
+X-Received: by 2002:adf:f287:: with SMTP id k7mr14564862wro.206.1569857914153;
+        Mon, 30 Sep 2019 08:38:34 -0700 (PDT)
+Received: from [192.168.1.4] (ip-86-49-35-8.net.upcbroadband.cz. [86.49.35.8])
+        by smtp.gmail.com with ESMTPSA id w12sm21332914wrg.47.2019.09.30.08.38.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Sep 2019 08:38:33 -0700 (PDT)
+Subject: Re: [PATCH] arm64: dts: renesas: Add /soc dma-ranges
+To:     Rob Herring <robh@kernel.org>
+Cc:     "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa@the-dreams.de>, devicetree@vger.kernel.org,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>
+References: <20190907161634.27378-1-marek.vasut@gmail.com>
+ <CAL_JsqL47dQT-P78j4Ph61fsgA45Ha0AJjDajiMk52yFj++s+g@mail.gmail.com>
+ <CAL_JsqK+SwX8Lu+-4UgpLVxL05yTcs8Af9mPVHqzbf6+HF9v3A@mail.gmail.com>
+ <0bf7c8c8-d03e-c08e-4879-3d3a2fb90ca7@gmail.com>
+ <CAL_JsqJf-TGE-SWWj=6AVbpfuN1AsEdDTSOCOk+iUzTT3yZSgw@mail.gmail.com>
+From:   Marek Vasut <marek.vasut@gmail.com>
+Message-ID: <9ff6eb72-a01d-37de-8aa1-671406f3d7ac@gmail.com>
+Date:   Mon, 30 Sep 2019 17:38:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <fa068941-3456-070f-33de-dc3006bb45f6@cogentembedded.com>
+In-Reply-To: <CAL_JsqJf-TGE-SWWj=6AVbpfuN1AsEdDTSOCOk+iUzTT3yZSgw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 09/30/2019 06:22 PM, Sergei Shtylyov wrote:
-
->> Convert Renesas Electronics SH EtherMAC bindings documentation to
->> json-schema.  Also name bindings documentation file according to the compat
->> string being documented.
+On 9/30/19 5:08 PM, Rob Herring wrote:
+> On Mon, Sep 30, 2019 at 7:45 AM Marek Vasut wrote:
 >>
->> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+>> On 9/24/19 12:33 AM, Rob Herring wrote:
+>>> On Fri, Sep 13, 2019 at 10:14 AM Rob Herring wrote:
+>>>>
+>>>> On Sat, Sep 7, 2019 at 5:16 PM wrote:
+>>>>>
+>>>>> From: Marek Vasut
+>>>>>
+>>>>> Add dma-ranges property into /soc node to describe the DMA capabilities
+>>>>> of the bus. This is currently needed to translate PCI DMA ranges, which
+>>>>> are limited to 32bit addresses.
+>>>>
+>>>> FYI, I've started working on this problem and issues around
+>>>> dma-ranges/dma_mask. Hopefully I'll get some patches out next week.
+>>>
+>>> I've pushed out a branch here:
+>>>
+>>> git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dma-masks
+>>>
+>>> Can you test it on Renesas. I don't have a real platform having the issue.
+>>
+>>
+>> With the following patches applied:
+>>       https://patchwork.ozlabs.org/patch/1144870/
+> 
+> I'd rather not have yet another instance of {dma-}ranges parsing code.
+> With this series[1], dma-ranges gets parsed into resource list for
+> you.
+> 
+>>       https://patchwork.ozlabs.org/patch/1144871/
+> 
+> How can this one be applied? It would conflict horribly. Plus I think
+> it duplicates what's in my series.
 
-   And of course I forgot the tag, here's it:
-
-Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+I fixed it up real quick, but apparently these are not needed indeed.
 
 [...]
 
-MBR, Sergei
+-- 
+Best regards,
+Marek Vasut
