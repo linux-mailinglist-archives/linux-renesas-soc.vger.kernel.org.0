@@ -2,68 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A8B7C23C6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2019 16:58:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C31FC23EC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2019 17:08:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731796AbfI3O6p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 30 Sep 2019 10:58:45 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:21809 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1731629AbfI3O6p (ORCPT
+        id S1731504AbfI3PIc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 30 Sep 2019 11:08:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34914 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731225AbfI3PIc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 30 Sep 2019 10:58:45 -0400
-X-IronPort-AV: E=Sophos;i="5.64,567,1559487600"; 
-   d="scan'208";a="27703171"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 30 Sep 2019 23:58:42 +0900
-Received: from rtamta01.rta.renesas.com (transport.eroom.renesas.com [143.103.48.75])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id BBC19423A9C2;
-        Mon, 30 Sep 2019 23:58:42 +0900 (JST)
-Received: from localhost.localdomain (unknown [172.27.18.241])
-        by rtamta01.rta.renesas.com (Postfix) with ESMTP id 4A12611A;
-        Mon, 30 Sep 2019 14:58:41 +0000 (UTC)
-From:   Chris Brandt <chris.brandt@renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Chris Brandt <chris.brandt@renesas.com>, stable@vger.kernel.org
-Subject: [PATCH] pinctrl: rza2: Fix gpio name typos
-Date:   Mon, 30 Sep 2019 09:58:04 -0500
-Message-Id: <20190930145804.30497-1-chris.brandt@renesas.com>
-X-Mailer: git-send-email 2.23.0
+        Mon, 30 Sep 2019 11:08:32 -0400
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7E052218DE;
+        Mon, 30 Sep 2019 15:08:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1569856111;
+        bh=Fp+52V3gN6sLDfZnvz4YS9HFrRO4+wFt/PSe7Tf/5aw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=hxPKGzCId/ZbUoZF1UIJZ/VCr/bVk+GIp8mrn4VXi0q1ssoLl3UdYpJWcC/4rU84N
+         FnXXm+Wnn1mDguj/c0OeuoaroLmvzqPQ/M2gwlqP6TAbGhFGp/XLbKwI1dfWatbjqA
+         3ANZuGUbaZ0VhcoFLNvt4libe25gZtyUyNZzoTu4=
+Received: by mail-qt1-f169.google.com with SMTP id f7so17454812qtq.7;
+        Mon, 30 Sep 2019 08:08:31 -0700 (PDT)
+X-Gm-Message-State: APjAAAXEVCNSUiQi7H2/mENsFioPK4Up1br2gECc858c4wmJf2lfNfCq
+        sxT5fk65+q3YpXv82BteZdmsnAm1e0WhDOKs1Q==
+X-Google-Smtp-Source: APXvYqwdbKZykrRJVvOGUuCRKPQsrzrj5n0WLj/vIuGy4RYdGBRfRlP4d6XFnA0ZTIbDwxJr+GXxP7zrGKoVrxGv2wU=
+X-Received: by 2002:ac8:6915:: with SMTP id e21mr25049775qtr.224.1569856110650;
+ Mon, 30 Sep 2019 08:08:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190907161634.27378-1-marek.vasut@gmail.com> <CAL_JsqL47dQT-P78j4Ph61fsgA45Ha0AJjDajiMk52yFj++s+g@mail.gmail.com>
+ <CAL_JsqK+SwX8Lu+-4UgpLVxL05yTcs8Af9mPVHqzbf6+HF9v3A@mail.gmail.com> <0bf7c8c8-d03e-c08e-4879-3d3a2fb90ca7@gmail.com>
+In-Reply-To: <0bf7c8c8-d03e-c08e-4879-3d3a2fb90ca7@gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Mon, 30 Sep 2019 10:08:19 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJf-TGE-SWWj=6AVbpfuN1AsEdDTSOCOk+iUzTT3yZSgw@mail.gmail.com>
+Message-ID: <CAL_JsqJf-TGE-SWWj=6AVbpfuN1AsEdDTSOCOk+iUzTT3yZSgw@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: Add /soc dma-ranges
+To:     Marek Vasut <marek.vasut@gmail.com>
+Cc:     "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa@the-dreams.de>, devicetree@vger.kernel.org,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Fix apparent copy/paste errors that were overlooked in the original driver.
-  "P0_4" -> "PF_4"
-  "P0_3" -> "PG_3"
+On Mon, Sep 30, 2019 at 7:45 AM Marek Vasut <marek.vasut@gmail.com> wrote:
+>
+> On 9/24/19 12:33 AM, Rob Herring wrote:
+> > On Fri, Sep 13, 2019 at 10:14 AM Rob Herring wrote:
+> >>
+> >> On Sat, Sep 7, 2019 at 5:16 PM wrote:
+> >>>
+> >>> From: Marek Vasut
+> >>>
+> >>> Add dma-ranges property into /soc node to describe the DMA capabilities
+> >>> of the bus. This is currently needed to translate PCI DMA ranges, which
+> >>> are limited to 32bit addresses.
+> >>
+> >> FYI, I've started working on this problem and issues around
+> >> dma-ranges/dma_mask. Hopefully I'll get some patches out next week.
+> >
+> > I've pushed out a branch here:
+> >
+> > git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dma-masks
+> >
+> > Can you test it on Renesas. I don't have a real platform having the issue.
+>
+>
+> With the following patches applied:
+>       https://patchwork.ozlabs.org/patch/1144870/
 
-Fixes: b59d0e782706 ("pinctrl: Add RZ/A2 pin and gpio controller")
-Cc: <stable@vger.kernel.org>
-Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
----
- drivers/pinctrl/pinctrl-rza2.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I'd rather not have yet another instance of {dma-}ranges parsing code.
+With this series[1], dma-ranges gets parsed into resource list for
+you.
 
-diff --git a/drivers/pinctrl/pinctrl-rza2.c b/drivers/pinctrl/pinctrl-rza2.c
-index 3be1d833bf25..eda88cdf870d 100644
---- a/drivers/pinctrl/pinctrl-rza2.c
-+++ b/drivers/pinctrl/pinctrl-rza2.c
-@@ -213,8 +213,8 @@ static const char * const rza2_gpio_names[] = {
- 	"PC_0", "PC_1", "PC_2", "PC_3", "PC_4", "PC_5", "PC_6", "PC_7",
- 	"PD_0", "PD_1", "PD_2", "PD_3", "PD_4", "PD_5", "PD_6", "PD_7",
- 	"PE_0", "PE_1", "PE_2", "PE_3", "PE_4", "PE_5", "PE_6", "PE_7",
--	"PF_0", "PF_1", "PF_2", "PF_3", "P0_4", "PF_5", "PF_6", "PF_7",
--	"PG_0", "PG_1", "PG_2", "P0_3", "PG_4", "PG_5", "PG_6", "PG_7",
-+	"PF_0", "PF_1", "PF_2", "PF_3", "PF_4", "PF_5", "PF_6", "PF_7",
-+	"PG_0", "PG_1", "PG_2", "PG_3", "PG_4", "PG_5", "PG_6", "PG_7",
- 	"PH_0", "PH_1", "PH_2", "PH_3", "PH_4", "PH_5", "PH_6", "PH_7",
- 	/* port I does not exist */
- 	"PJ_0", "PJ_1", "PJ_2", "PJ_3", "PJ_4", "PJ_5", "PJ_6", "PJ_7",
--- 
-2.23.0
+>       https://patchwork.ozlabs.org/patch/1144871/
 
+How can this one be applied? It would conflict horribly. Plus I think
+it duplicates what's in my series.
+
+Rob
+
+> on R8A7795 Salvator-XS, works fine.
+
+[1] https://lore.kernel.org/linux-arm-kernel/20190924214630.12817-7-robh@kernel.org/T/
