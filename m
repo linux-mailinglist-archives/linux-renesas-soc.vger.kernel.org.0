@@ -2,21 +2,21 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 088DAC202B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2019 13:54:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 998C0C2031
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 30 Sep 2019 13:54:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729590AbfI3Lw2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 30 Sep 2019 07:52:28 -0400
+        id S1729740AbfI3Lwc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 30 Sep 2019 07:52:32 -0400
 Received: from kirsty.vergenet.net ([202.4.237.240]:39712 "EHLO
         kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726314AbfI3Lw2 (ORCPT
+        with ESMTP id S1726314AbfI3Lwb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 30 Sep 2019 07:52:28 -0400
+        Mon, 30 Sep 2019 07:52:31 -0400
 Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id E61A425B786;
-        Mon, 30 Sep 2019 21:52:22 +1000 (AEST)
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 0D9BA25B81B;
+        Mon, 30 Sep 2019 21:52:23 +1000 (AEST)
 Received: by reginn.horms.nl (Postfix, from userid 7100)
-        id DAE2694443D; Mon, 30 Sep 2019 13:52:20 +0200 (CEST)
+        id F3927944448; Mon, 30 Sep 2019 13:52:20 +0200 (CEST)
 From:   Simon Horman <horms+renesas@verge.net.au>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -27,9 +27,9 @@ Cc:     Magnus Damm <magnus.damm@gmail.com>,
         devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
         Simon Horman <horms+renesas@verge.net.au>
-Subject: [PATCH v4 2/3] dt-bindings: bus: renesas-bsc: convert bindings to json-schema
-Date:   Mon, 30 Sep 2019 13:52:04 +0200
-Message-Id: <20190930115205.25204-3-horms+renesas@verge.net.au>
+Subject: [PATCH v4 3/3] arm64: dts: qcom: msm8996: Update simple-pm-bus node name to 'bus'
+Date:   Mon, 30 Sep 2019 13:52:05 +0200
+Message-Id: <20190930115205.25204-4-horms+renesas@verge.net.au>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190930115205.25204-1-horms+renesas@verge.net.au>
 References: <20190930115205.25204-1-horms+renesas@verge.net.au>
@@ -38,152 +38,66 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Convert Renesas Bus State Controller (BSC) bindings documentation to
-json-schema.
+Update simple-pm-bus node name from 'agnoc' to 'bus' reflecting the
+proposed binding description in json-schema which in turn reflects the
+Devicetree specification [1] v0.3-rc2.
+
+  "The name of a node should be somewhat generic, reflecting the function
+   of the device and not its precise programming model. If appropriate,
+   the name should be one of the following choices:
+     ...
+     * bus
+     ..."
+
+Also drop the unit address as there is neither a reg property nor
+non-empty ranges.
+
+[1] https://www.devicetree.org/specifications/
 
 Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
 ---
-* Based on v5.3
-* Tested using:
-  # ARCH=arm64 make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/bus/renesas,bsc.yaml
-  # ARCH=arm   make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/bus/renesas,bsc.yaml
+*** Compile tested only ***
 
 v4
-* No change
+* Update changelog
+* Update reference in apq8096-db820c.dtsi
 
 v3
 * v2 was miss-posted as v3
 
 v2
-* Add required field as suggested by Ulrich Hecht
-* Add custom 'select' in that leaves out "simple-pm-bus"
-  to avoid matching on users of the binding documented
-  in simple-pm-bus.yaml, which this binding extends
+* New patch
 ---
- .../devicetree/bindings/bus/renesas,bsc.txt        | 46 -----------------
- .../devicetree/bindings/bus/renesas,bsc.yaml       | 60 ++++++++++++++++++++++
- 2 files changed, 60 insertions(+), 46 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/bus/renesas,bsc.txt
- create mode 100644 Documentation/devicetree/bindings/bus/renesas,bsc.yaml
+ arch/arm64/boot/dts/qcom/apq8096-db820c.dtsi | 2 +-
+ arch/arm64/boot/dts/qcom/msm8996.dtsi        | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/bus/renesas,bsc.txt b/Documentation/devicetree/bindings/bus/renesas,bsc.txt
-deleted file mode 100644
-index 90e947269437..000000000000
---- a/Documentation/devicetree/bindings/bus/renesas,bsc.txt
-+++ /dev/null
-@@ -1,46 +0,0 @@
--Renesas Bus State Controller (BSC)
--==================================
--
--The Renesas Bus State Controller (BSC, sometimes called "LBSC within Bus
--Bridge", or "External Bus Interface") can be found in several Renesas ARM SoCs.
--It provides an external bus for connecting multiple external devices to the
--SoC, driving several chip select lines, for e.g. NOR FLASH, Ethernet and USB.
--
--While the BSC is a fairly simple memory-mapped bus, it may be part of a PM
--domain, and may have a gateable functional clock.
--Before a device connected to the BSC can be accessed, the PM domain
--containing the BSC must be powered on, and the functional clock
--driving the BSC must be enabled.
--
--The bindings for the BSC extend the bindings for "simple-pm-bus".
--
--
--Required properties
--  - compatible: Must contain an SoC-specific value, and "renesas,bsc" and
--		"simple-pm-bus" as fallbacks.
--                SoC-specific values can be:
--		"renesas,bsc-r8a73a4" for R-Mobile APE6 (r8a73a4)
--		"renesas,bsc-sh73a0" for SH-Mobile AG5 (sh73a0)
--  - #address-cells, #size-cells, ranges: Must describe the mapping between
--		parent address and child address spaces.
--  - reg: Must contain the base address and length to access the bus controller.
--
--Optional properties:
--  - interrupts: Must contain a reference to the BSC interrupt, if available.
--  - clocks: Must contain a reference to the functional clock, if available.
--  - power-domains: Must contain a reference to the PM domain, if available.
--
--
--Example:
--
--	bsc: bus@fec10000 {
--		compatible = "renesas,bsc-sh73a0", "renesas,bsc",
--			     "simple-pm-bus";
--		#address-cells = <1>;
--		#size-cells = <1>;
--		ranges = <0 0 0x20000000>;
--		reg = <0xfec10000 0x400>;
--		interrupts = <0 39 IRQ_TYPE_LEVEL_HIGH>;
--		clocks = <&zb_clk>;
--		power-domains = <&pd_a4s>;
--	};
-diff --git a/Documentation/devicetree/bindings/bus/renesas,bsc.yaml b/Documentation/devicetree/bindings/bus/renesas,bsc.yaml
-new file mode 100644
-index 000000000000..7d10b62a52d5
---- /dev/null
-+++ b/Documentation/devicetree/bindings/bus/renesas,bsc.yaml
-@@ -0,0 +1,60 @@
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/bus/renesas,bsc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas Bus State Controller (BSC)
-+
-+maintainers:
-+  - Geert Uytterhoeven <geert+renesas@glider.be>
-+
-+description: |
-+  The Renesas Bus State Controller (BSC, sometimes called "LBSC within Bus
-+  Bridge", or "External Bus Interface") can be found in several Renesas ARM
-+  SoCs.  It provides an external bus for connecting multiple external
-+  devices to the SoC, driving several chip select lines, for e.g. NOR
-+  FLASH, Ethernet and USB.
-+
-+  While the BSC is a fairly simple memory-mapped bus, it may be part of a
-+  PM domain, and may have a gateable functional clock.  Before a device
-+  connected to the BSC can be accessed, the PM domain containing the BSC
-+  must be powered on, and the functional clock driving the BSC must be
-+  enabled.
-+
-+  The bindings for the BSC extend the bindings for "simple-pm-bus".
-+
-+allOf:
-+  - $ref: simple-pm-bus.yaml#
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - renesas,bsc-r8a73a4  # R-Mobile APE6 (r8a73a4)
-+          - renesas,bsc-sh73a0   # SH-Mobile AG5 (sh73a0)
-+      - const: renesas,bsc
-+      - {} # simple-pm-bus, but not listed here to avoid false select
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+required:
-+  - reg
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    bsc: bus@fec10000 {
-+        compatible = "renesas,bsc-sh73a0", "renesas,bsc", "simple-pm-bus";
-+        #address-cells = <1>;
-+        #size-cells = <1>;
-+        ranges = <0 0 0x20000000>;
-+        reg = <0xfec10000 0x400>;
-+        interrupts = <0 39 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&zb_clk>;
-+        power-domains = <&pd_a4s>;
-+    };
+diff --git a/arch/arm64/boot/dts/qcom/apq8096-db820c.dtsi b/arch/arm64/boot/dts/qcom/apq8096-db820c.dtsi
+index 04ad2fb22b9a..5a2297777592 100644
+--- a/arch/arm64/boot/dts/qcom/apq8096-db820c.dtsi
++++ b/arch/arm64/boot/dts/qcom/apq8096-db820c.dtsi
+@@ -439,7 +439,7 @@
+ 			enable-active-high;
+ 		};
+ 
+-		agnoc@0 {
++		bus {
+ 			pcie@600000 {
+ 				status = "okay";
+ 				perst-gpio = <&msmgpio 35 GPIO_ACTIVE_LOW>;
+diff --git a/arch/arm64/boot/dts/qcom/msm8996.dtsi b/arch/arm64/boot/dts/qcom/msm8996.dtsi
+index 96c0a481f454..99f376ebd27e 100644
+--- a/arch/arm64/boot/dts/qcom/msm8996.dtsi
++++ b/arch/arm64/boot/dts/qcom/msm8996.dtsi
+@@ -1373,7 +1373,7 @@
+ 			clock-names = "iface", "bus";
+ 		};
+ 
+-		agnoc@0 {
++		bus {
+ 			power-domains = <&gcc AGGRE0_NOC_GDSC>;
+ 			compatible = "simple-pm-bus";
+ 			#address-cells = <1>;
 -- 
 2.11.0
 
