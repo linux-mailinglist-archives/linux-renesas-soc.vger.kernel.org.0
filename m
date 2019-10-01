@@ -2,71 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 81B9AC3F7E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Oct 2019 20:11:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB335C3F83
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Oct 2019 20:11:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731053AbfJASLM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Oct 2019 14:11:12 -0400
-Received: from andre.telenet-ops.be ([195.130.132.53]:46622 "EHLO
-        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730144AbfJASLM (ORCPT
+        id S1731461AbfJASLu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Oct 2019 14:11:50 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:52690 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727345AbfJASLt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Oct 2019 14:11:12 -0400
-Received: from ramsan ([84.194.98.4])
-        by andre.telenet-ops.be with bizsmtp
-        id 8JBA2100705gfCL01JBAMM; Tue, 01 Oct 2019 20:11:11 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iFMcA-0008Mo-C6; Tue, 01 Oct 2019 20:11:10 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iFMcA-0000Md-Ab; Tue, 01 Oct 2019 20:11:10 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Stephen Boyd <swboyd@chromium.org>,
-        linux-renesas-soc@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] phy: renesas: rcar-gen3-usb2: Use platform_get_irq_optional() for optional irq
-Date:   Tue,  1 Oct 2019 20:11:09 +0200
-Message-Id: <20191001181109.1355-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Tue, 1 Oct 2019 14:11:49 -0400
+Received: from pendragon.ideasonboard.com (modemcable151.96-160-184.mc.videotron.ca [184.160.96.151])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8240C23F;
+        Tue,  1 Oct 2019 20:11:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1569953507;
+        bh=1HV+NKrply/jtpF9YUXpvlwczOCbNiRqingnW6DmXkE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BdFgBDBfQUWJNUepRw6g5fwqDpP3L/BSm3b4MoCzb9m2HQd43DtCX2HH4lPLVmizP
+         Ir39CNZt9oyD5FEfjwjxbmcdnQw8sAAIEMf60o7IGHLSa1olUSNPsDs/yTPRUPEB6q
+         R0v4+qIrUVk3FoA2SZL7AvyPFuHobcKZ94QFDHWA=
+Date:   Tue, 1 Oct 2019 21:11:34 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Simon Horman <horms@verge.net.au>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Subject: Re: [PATCH 1/8] arm64: dts: renesas: hihope-common: Move du clk
+ properties out of common dtsi
+Message-ID: <20191001181134.GC4735@pendragon.ideasonboard.com>
+References: <1569932124-32010-1-git-send-email-biju.das@bp.renesas.com>
+ <1569932124-32010-2-git-send-email-biju.das@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1569932124-32010-2-git-send-email-biju.das@bp.renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-As platform_get_irq() now prints an error when the interrupt does not
-exist, a scary warning may be printed for an optional interrupt:
+Hi Biju,
 
-    phy_rcar_gen3_usb2 ee0a0200.usb-phy: IRQ index 0 not found
+Thank you for the patch.
 
-Fix this by calling platform_get_irq_optional() instead.
+On Tue, Oct 01, 2019 at 01:15:17PM +0100, Biju Das wrote:
+> RZ/G2N board is pin compatible with RZ/G2M board. However on the SoC
+> side RZ/G2N uses DU3 where as RZ/G2M uses DU2 for the DPAD. In order to
+> reuse the common dtsi for both the boards, it is required to move du clock
+> properties from common dtsi to board specific dts.
+> 
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
-Fixes: 7723f4c5ecdb8d83 ("driver core: platform: Add an error message to platform_get_irq*()")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-This is a fix for v5.4-rc1.
----
- drivers/phy/renesas/phy-rcar-gen3-usb2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+It would be nice if DT had a syntax that allowed extending an existing
+property. It would allow us to write
 
-diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-index b7f6b132439521ea..49ec67d46ccc5a37 100644
---- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-+++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-@@ -614,7 +614,7 @@ static int rcar_gen3_phy_usb2_probe(struct platform_device *pdev)
- 		return PTR_ERR(channel->base);
- 
- 	/* call request_irq for OTG */
--	irq = platform_get_irq(pdev, 0);
-+	irq = platform_get_irq_optional(pdev, 0);
- 	if (irq >= 0) {
- 		INIT_WORK(&channel->work, rcar_gen3_phy_usb2_work);
- 		irq = devm_request_irq(dev, irq, rcar_gen3_phy_usb2_irq,
+&du {
+	clocks += <&versaclock5 1>,
+		  <&x302_clk>,
+		  <&versaclock5 2>;
+	clock-names += "dclkin.0", "dclkin.1", "dclkin.2";
+};
+
+in hihope-common.dtsi and be done with it.
+
+Rob, do you think that's something worth adding ?
+
+In any case, until we have that, this patch looks good to me.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  arch/arm64/boot/dts/renesas/hihope-common.dtsi        |  8 --------
+>  arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m.dts | 11 +++++++++++
+>  2 files changed, 11 insertions(+), 8 deletions(-)
+> 
+> diff --git a/arch/arm64/boot/dts/renesas/hihope-common.dtsi b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
+> index 3e376d2..355d0a2 100644
+> --- a/arch/arm64/boot/dts/renesas/hihope-common.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
+> @@ -142,14 +142,6 @@
+>  };
+>  
+>  &du {
+> -	clocks = <&cpg CPG_MOD 724>,
+> -		 <&cpg CPG_MOD 723>,
+> -		 <&cpg CPG_MOD 722>,
+> -		 <&versaclock5 1>,
+> -		 <&x302_clk>,
+> -		 <&versaclock5 2>;
+> -	clock-names = "du.0", "du.1", "du.2",
+> -		      "dclkin.0", "dclkin.1", "dclkin.2";
+>  	status = "okay";
+>  };
+>  
+> diff --git a/arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m.dts b/arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m.dts
+> index 93ca973..96f2fb0 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m.dts
+> +++ b/arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m.dts
+> @@ -24,3 +24,14 @@
+>  		reg = <0x6 0x00000000 0x0 0x80000000>;
+>  	};
+>  };
+> +
+> +&du {
+> +	clocks = <&cpg CPG_MOD 724>,
+> +		 <&cpg CPG_MOD 723>,
+> +		 <&cpg CPG_MOD 722>,
+> +		 <&versaclock5 1>,
+> +		 <&x302_clk>,
+> +		 <&versaclock5 2>;
+> +	clock-names = "du.0", "du.1", "du.2",
+> +		      "dclkin.0", "dclkin.1", "dclkin.2";
+> +};
+
 -- 
-2.17.1
+Regards,
 
+Laurent Pinchart
