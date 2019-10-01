@@ -2,71 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B003C2A3A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Oct 2019 01:09:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A463C2D8C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Oct 2019 08:39:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731493AbfI3XGo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 30 Sep 2019 19:06:44 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:37980 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728073AbfI3XGo (ORCPT
+        id S1726672AbfJAGjQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Oct 2019 02:39:16 -0400
+Received: from mail-eopbgr1410133.outbound.protection.outlook.com ([40.107.141.133]:59712
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725777AbfJAGjQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 30 Sep 2019 19:06:44 -0400
-Received: by mail-ot1-f66.google.com with SMTP id e11so9891238otl.5;
-        Mon, 30 Sep 2019 16:06:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=TLweXOijwFdWK7zNbWqDh8rchrcqU7bnczWWmbnZWEc=;
-        b=THurTXQ9o7QVgCqQcOvbZq4p1SR495WtDjpQMQzWVaPA6sqYNC4Z7MmSi++XQEBGoT
-         N3AsRk5s9aXRmsJYgjJpHfl6IiUaU6A4M1OpcjKxc1Wer/UYcSxPtqhafJcUoF50CZq8
-         Flq0cB7pQ0ivw+6vQNT6JAq9HwUHe/98B1vE6x1HItm/P2NsXdwERWLfTViDjbLE0++G
-         Gg3+GT4dOiORLPV0P4KuEmN0lnWqw0B9r2UiIUjlODxvPsBw8yT45db3Sz8zPmrMPRGW
-         h4KRZ2JbuwFvnR66xa5qGy9E75N41YtWdMXoVkGeW5TqQfXdP/74PJFewX8doGCxEAo+
-         3UjA==
-X-Gm-Message-State: APjAAAXxF7IPY0h1kuXFamTdc6ot7AO/kMgjc1gm7t1F7pAImxhOF438
-        a45+O7sz046FIewe1ewkFDS0tS0=
-X-Google-Smtp-Source: APXvYqy9IdRxqr9jkjAfdLo8ZvulzWBwkEmpIj0mqCLCs+9tviGNsGq8m1QktiGsU7PZ7bH2zqbA7w==
-X-Received: by 2002:a05:6830:1e2d:: with SMTP id t13mr3153803otr.357.1569884801924;
-        Mon, 30 Sep 2019 16:06:41 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id n27sm4030641otr.32.2019.09.30.16.06.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2019 16:06:41 -0700 (PDT)
-Date:   Mon, 30 Sep 2019 18:06:39 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Biju Das <biju.das@bp.renesas.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Tue, 1 Oct 2019 02:39:16 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=du85uetPbfuU6+WYuclCfnF4Irbgiqk3ZHyn2eXi5BKqm4GjSQiUeBu/HHjwd76VUh5cZlMliKewvhG+6RzdC3svc+OQZ5gFpAtwFkqOu5QcgS8IyOpcX7fFpo/RAhe99cSKDnaiADJgaWxWiV9IiZzQGkMzBMHsVu6jnEQJpvEpegWsqRafkoRH8Ud+kHu55KyEvlq/7AXkMNPFx6CxGqnX2Gkyh3FcaxepczvYwDAteHRqd/tFDHGzxukmz0PXG1/tWWYO6j5sC37U4ote2vDlgkAHIEQNxNX+C2lDm8OrR7LxWlqsOnrCjMvgeY/M9xz+IsFEsh04ej73oZKHDQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dsqFKG2ZbXCscqFAJMhj0x8amFcVFZCjDBV78pkGSJk=;
+ b=Zi7eO/DMVtMTf87x0AYKVZFPRBdBzZ9c3wH/lfsP42m0h9JKpzk6EfDdKS/lrARD2XHCp56cmJEV/j6tMVJe9/AGnsgVtPyyoon0L9waQhfaJ/2iWqtAo2GxpG4dW/DOZaVes/2yt7vXpDTAhrvP7M8QBdGJKsEV5LWdnfUeUrX2/mBeNkwMDpoh+yP48yrxpKTygIn9x9ieZBaw4nRVvtEs1xwjR7KRnIX5S36WjSMEeBpbNtMMDMFSCGeZJMJdpwCIyJEIOdiQi1K29AVogg1C7ByfKCjJDmbD6fM6e0jfqJGZkRAMm49COzide9x82B+6piXTe/LP3mmaQYmXsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dsqFKG2ZbXCscqFAJMhj0x8amFcVFZCjDBV78pkGSJk=;
+ b=gYQczGyPwpsWtgssaq8HXowAaknWW4ADwLEpCZADkZHe/9kHJFN53IIgeGmhfYzWWQstPB/Q/qL4JKIrFSDuYHG7uTVnJJPk8H9Em51eesuvZwmVBWPKN+lj4eK1XWfwfXOa/PoeQuBduZ5ShvA2nnVOoZAMbgqtsYcBMP2sCvI=
+Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com (52.134.242.17) by
+ OSBPR01MB1751.jpnprd01.prod.outlook.com (52.134.227.142) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2305.17; Tue, 1 Oct 2019 06:39:12 +0000
+Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com
+ ([fe80::d5a0:9756:da13:2d6f]) by OSBPR01MB2103.jpnprd01.prod.outlook.com
+ ([fe80::d5a0:9756:da13:2d6f%7]) with mapi id 15.20.2305.017; Tue, 1 Oct 2019
+ 06:39:12 +0000
+From:   Biju Das <biju.das@bp.renesas.com>
+To:     Kishon Vijay Abraham I <kishon@ti.com>
+CC:     Simon Horman <horms+renesas@verge.net.au>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: serial: sh-sci: Document r8a774b1 bindings
-Message-ID: <20190930230639.GA28632@bogus>
-References: <1568724324-26995-1-git-send-email-biju.das@bp.renesas.com>
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: RE: [PATCH v2] phy: renesas: phy-rcar-gen2: Fix the array off by one
+ warning
+Thread-Topic: [PATCH v2] phy: renesas: phy-rcar-gen2: Fix the array off by one
+ warning
+Thread-Index: AQHVC+tiLLGvXBZAYUqFmAoy3pT9cqZ1Lr4AgND+19A=
+Date:   Tue, 1 Oct 2019 06:39:11 +0000
+Message-ID: <OSBPR01MB2103A204D26A26D5C8E35F3DB89D0@OSBPR01MB2103.jpnprd01.prod.outlook.com>
+References: <1558012923-29081-1-git-send-email-biju.das@bp.renesas.com>
+ <OSAPR01MB30894A7D5FE7983ED0D6E5B5D8070@OSAPR01MB3089.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSAPR01MB30894A7D5FE7983ED0D6E5B5D8070@OSAPR01MB3089.jpnprd01.prod.outlook.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=biju.das@bp.renesas.com; 
+x-originating-ip: [193.141.220.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9e5ff54d-27ff-4229-1ef1-08d7463a1214
+x-ms-office365-filtering-ht: Tenant
+x-ms-traffictypediagnostic: OSBPR01MB1751:|OSBPR01MB1751:
+x-ms-exchange-purlcount: 1
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <OSBPR01MB1751DF15F45C41EBBDA64014B89D0@OSBPR01MB1751.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5516;
+x-forefront-prvs: 0177904E6B
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(396003)(136003)(346002)(376002)(366004)(39850400004)(199004)(189003)(305945005)(66066001)(55016002)(86362001)(107886003)(966005)(6246003)(14444005)(478600001)(256004)(14454004)(66476007)(66446008)(64756008)(66556008)(66946007)(76116006)(71200400001)(316002)(7736002)(54906003)(6916009)(74316002)(6306002)(9686003)(71190400001)(102836004)(26005)(76176011)(99286004)(229853002)(4744005)(6436002)(8676002)(3846002)(486006)(52536014)(186003)(33656002)(476003)(8936002)(446003)(6116002)(2906002)(5660300002)(81166006)(81156014)(25786009)(11346002)(4326008)(7696005)(6506007)(44832011);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB1751;H:OSBPR01MB2103.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
+received-spf: None (protection.outlook.com: bp.renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: eFscxrNMj5DcH/uzqJNTnNHhe46xrW+evSjoRLBZC90WJ/sxVvHRehWZItyW1FAiQAvys5M9Q5R8rz5AhB1VT9ck1kiZ1IBHMdumSo8dacVvQNWnUoe/v2h9bNv3hAGezLfO7eq+7Ri/V80k1XjYSRAnQjUcdVHlDKqP+q6mFBDiJd3RSVIxWp032d84RfFnMEnnj0tzpwjLMHyQca2LhGEFYFNsh0320QYigcW4r4sV8zzMDpHNtOObFz5BL9th0UOfbE/D4YxU8n1L1vemCidDw9yqHcY2ky9m2j0kHOQtRV3vrcMmmhzILrFxxRTpHM6LuebGSQ9ZzA+4TBX5HydBbvzCFPXTDy1yVzTQV6IZ0G5Mox+rbGLqOasyyw2fDW2y/MpAfXiNqD5PAcHzgSB0jIZwLZlPfHQjDwCSNJyW/9JVqzhmQ8RWe73Gykx1h1XKDUTlVFqUbqltk0SqGg==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1568724324-26995-1-git-send-email-biju.das@bp.renesas.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9e5ff54d-27ff-4229-1ef1-08d7463a1214
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Oct 2019 06:39:11.9461
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: roCxVRfBV8i5avUiH0IewmR6vAj/hAlQHd7f1uu9Njk5YG0hoX0IDZ1ZQxhaWfafL4DpRejawhXcKdEYIacEMg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB1751
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 17 Sep 2019 13:45:24 +0100, Biju Das wrote:
-> RZ/G2N (R8A774B1) SoC also has the R-Car Gen3 compatible SCIF and
-> HSCIF ports, so document the SoC specific bindings.
-> 
-> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-> ---
->  Documentation/devicetree/bindings/serial/renesas,sci-serial.txt | 2 ++
->  1 file changed, 2 insertions(+)
-> 
+Hello Kishon,
 
-Acked-by: Rob Herring <robh@kernel.org>
+Are you happy with this patch? Please let me know.
+
+https://patchwork.kernel.org/patch/10946601/
+
+
+Regards,
+Biju
+
+> Subject: RE: [PATCH v2] phy: renesas: phy-rcar-gen2: Fix the array off by=
+ one
+> warning
+>=20
+> Hi Biju-san,
+>=20
+> > From: Biju Das, Sent: Thursday, May 16, 2019 10:22 PM
+> >
+> > Fix the below smatch warning by adding variable check rather than the
+> > hardcoded value.
+> > warn: array off by one? 'data->select_value[channel_num]'
+> >
+> > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>=20
+> Thank you for the patch!
+>=20
+> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>=20
+> Best regards,
+> Yoshihiro Shimoda
+
