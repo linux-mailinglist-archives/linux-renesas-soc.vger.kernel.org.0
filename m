@@ -2,78 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA8E7C34F4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Oct 2019 14:57:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95CCCC3609
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Oct 2019 15:41:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733193AbfJAM5X (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Oct 2019 08:57:23 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:45562 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732807AbfJAM5X (ORCPT
+        id S2388170AbfJANlw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Oct 2019 09:41:52 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:34825 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726898AbfJANlw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Oct 2019 08:57:23 -0400
-Received: by mail-ot1-f67.google.com with SMTP id 41so11392201oti.12
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 01 Oct 2019 05:57:22 -0700 (PDT)
+        Tue, 1 Oct 2019 09:41:52 -0400
+Received: by mail-oi1-f194.google.com with SMTP id x3so14447435oig.2;
+        Tue, 01 Oct 2019 06:41:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qdRXJ7/bLimXXoHyGGOJNns+W5w2/rbek84Miv0inNE=;
-        b=smAItVtccERJ86VhZ/ds77DCvYEyApoJ4As5fr3wZN81Yhc4CDInL99W8QcCX7q+LZ
-         bPJC31uuKC1vVZ853hxcSljDTQrSp70EfESZjwlOJqX2sQmB6ItaZltasfJHkKEtAp+n
-         xfutUVWFquGzDsVIuweHX/5gllQzXYSfMrnObPjMPlT5AQFz9G1t1ntRVuM1R+shHBER
-         F66cGpcOHYpgdKHxGXxnqPvteVx8cMhQjbQXciuLDROk6KElk7+/KzhSAhz01B9uNIXa
-         bqrbB1O2d8nVKH7JGUAmHiwz+5JImusKqqLJEC6qFbyJi2o+qQajRHZrTobBwrpHvUZY
-         H5yg==
-X-Gm-Message-State: APjAAAWNZZCGMI/jU/vuafg2n+mfk/zE0dcR9VX4K/BsFRpCE6Cc9ER9
-        biEfBCVHkUXc+6/hCjkKGVBHxGnNb1qZzzmf6Kldig==
-X-Google-Smtp-Source: APXvYqx7YLG4gGbyp+M7AUY2geTJMmYYlLM0isqQaLBE7XV4ung00d4T3m4PbTwfB2burtMBLvB4sH9a3BYpWfjs2a8=
-X-Received: by 2002:a9d:730d:: with SMTP id e13mr17006496otk.145.1569934642085;
- Tue, 01 Oct 2019 05:57:22 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=tB7ZzI9slzRkyB/NKt2yLakwQz4oIAuNh1K5WH9EW3I=;
+        b=m4TEs2vmzCiDynZ2QUerNqE79FYMqyDK2B6iYqa6am51WowrwIiQ8k1VmVPzkZJs5/
+         QbDwTUuto2RbQ9Dtd74PFff47JvzQwaMu36LEW9Wy9KeOwQIBzNZ8xcWBQZwPHsHbo38
+         60f8Zm1PmpViDJ8Fw06oRv/+JarQwDh+iS8E4nllIARYFotGVeRhjNA3iqXaR5FDcIAq
+         IMEJLCJZ2kLgzP+6W6vYD+Sr+GgnmkgoCeS5m3VsJoEc8WT7BL/eRrVRiDWoNjHjoAcs
+         atrjtbcZqDZ/I9LKFYZb5vvDXD/4uxH+ct8oPynpcfLvNDM8IYfqJi0KYkT4ivNujFuQ
+         0gPg==
+X-Gm-Message-State: APjAAAVaxvoppLT2ig+xxUMeRQN/iuyQMn0cGHi8ND+rf+14mI4qStOU
+        I7M4HqUG6QYTlWSGOX47Qw==
+X-Google-Smtp-Source: APXvYqz0OL9phdAxhE5mqvW9HwiUlHK1JCHdfaZJBoU6zRW18R8d9kkbTRTQjigQdMRgjNWNNOhjLg==
+X-Received: by 2002:aca:58c5:: with SMTP id m188mr3649522oib.74.1569937310961;
+        Tue, 01 Oct 2019 06:41:50 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id o184sm5301535oia.28.2019.10.01.06.41.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Oct 2019 06:41:50 -0700 (PDT)
+Date:   Tue, 1 Oct 2019 08:41:49 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Simon Horman <horms+renesas@verge.net.au>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Yoshihiro Kaneko <ykaneko0929@gmail.com>,
+        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Simon Horman <horms+renesas@verge.net.au>
+Subject: Re: [PATCH v4 1/3] dt-bindings: bus: simple-pm-bus: convert bindings
+ to json-schema
+Message-ID: <20191001134149.GA17853@bogus>
+References: <20190930115205.25204-1-horms+renesas@verge.net.au>
+ <20190930115205.25204-2-horms+renesas@verge.net.au>
 MIME-Version: 1.0
-References: <20190628175144.GA1043@ninjato>
-In-Reply-To: <20190628175144.GA1043@ninjato>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 1 Oct 2019 14:57:09 +0200
-Message-ID: <CAMuHMdWVsgdsd4=NBfgCt3CUNgQvmBa0T4E1DtW8YApN3XS_AQ@mail.gmail.com>
-Subject: Re: [PULL REQUEST] renesas/topic/sdhi-manual-calib for renesas drivers
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190930115205.25204-2-horms+renesas@verge.net.au>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+On Mon, 30 Sep 2019 13:52:03 +0200, Simon Horman wrote:
+> Convert Simple Power-Managed Bus bindings documentation to json-schema.
+> 
+> As a side effect of this change only simple-pm-bus is used in example. A
+> follow-up patch will provide an example for the separately documented
+> Renesas Bus State Controller (BSC) that uses "renesas,bsc-sh73a0" and
+> "renesas,bsc" compat strings.
+> 
+> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+> ---
+> * Based on v5.3
+> * Tested using:
+>   # ARCH=arm64 make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/bus/simple-pm-bus.yaml
+>   # ARCH=arm   make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/bus/simple-pm-bus.yaml
+> 
+> v4
+> * Only allow '@' after bus in nodename
+> * Allow #address-cells to be 1 or 2.
+> 
+> v3
+> * v2 was miss-posted as v3
+> 
+> v2
+> * Add SPDX line
+> * Remove extra blank line
+> * Add $nodename
+> * Remove extra leading space in compatible
+> * Update compatible to allow override by other schemas
+> * Allow #size-cells to be 1 or 2
+> * Do not limit ranges or clocks to 1 item
+> * Add anyOf requirement on ranges or clocks
+> * Update example based on msm8996.dtsi
+> ---
+>  .../devicetree/bindings/bus/simple-pm-bus.txt      | 44 -------------
+>  .../devicetree/bindings/bus/simple-pm-bus.yaml     | 75 ++++++++++++++++++++++
+>  2 files changed, 75 insertions(+), 44 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/bus/simple-pm-bus.txt
+>  create mode 100644 Documentation/devicetree/bindings/bus/simple-pm-bus.yaml
+> 
 
-On Fri, Jun 28, 2019 at 7:52 PM Wolfram Sang <wsa@the-dreams.de> wrote:
-> here is a topic branch for renesas-drivers. It was developed against
-> mmc/next because there were some patches in there I needed. I know that
-> -next branches are not good for renesas-drivers, so rebased to v5.2-rc6
-> and cherry-picked what I needed. Further comments from the cover-letter:
+Applied, thanks.
 
-> The following changes since commit 4b972a01a7da614b4796475f933094751a295a2f:
->
->   Linux 5.2-rc6 (2019-06-22 16:01:36 -0700)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/topic/sdhi-manual-calib
-
-I'm dropping this for today's release, as it contains a commit that has been
-reverted in mainline:
-
-> Niklas S??derlund (1):
->       mmc: tmio: move runtime PM enablement to the driver implementations
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Rob
