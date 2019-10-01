@@ -2,75 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 87609C38CB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Oct 2019 17:20:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56D6CC391E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Oct 2019 17:32:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726086AbfJAPUh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Oct 2019 11:20:37 -0400
-Received: from sauhun.de ([88.99.104.3]:48926 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726079AbfJAPUh (ORCPT
+        id S1726665AbfJAPb2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Oct 2019 11:31:28 -0400
+Received: from albert.telenet-ops.be ([195.130.137.90]:55420 "EHLO
+        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389775AbfJAPb1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Oct 2019 11:20:37 -0400
-Received: from localhost (p54B330B7.dip0.t-ipconnect.de [84.179.48.183])
-        by pokefinder.org (Postfix) with ESMTPSA id 0D2192C001C;
-        Tue,  1 Oct 2019 17:20:35 +0200 (CEST)
-Date:   Tue, 1 Oct 2019 17:20:34 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PULL REQUEST] renesas/topic/sdhi-manual-calib for renesas
- drivers
-Message-ID: <20191001152034.GA4377@kunai>
-References: <20190628175144.GA1043@ninjato>
- <CAMuHMdWVsgdsd4=NBfgCt3CUNgQvmBa0T4E1DtW8YApN3XS_AQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="SUOF0GtieIMvvwua"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWVsgdsd4=NBfgCt3CUNgQvmBa0T4E1DtW8YApN3XS_AQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Tue, 1 Oct 2019 11:31:27 -0400
+Received: from ramsan ([84.194.98.4])
+        by albert.telenet-ops.be with bizsmtp
+        id 8FXR2100D05gfCL06FXR0k; Tue, 01 Oct 2019 17:31:25 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1iFK7Z-0006mZ-Ah
+        for linux-renesas-soc@vger.kernel.org; Tue, 01 Oct 2019 17:31:25 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1iFK7Z-0006MQ-6y
+        for linux-renesas-soc@vger.kernel.org; Tue, 01 Oct 2019 17:31:25 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2019-10-01-v5.4-rc1
+Date:   Tue,  1 Oct 2019 17:31:25 +0200
+Message-Id: <20191001153125.24407-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+I have pushed renesas-drivers-2019-10-01-v5.4-rc1 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
---SUOF0GtieIMvvwua
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-Hi Geert,
+Today's version is based on renesas-devel-2019-10-01-v5.4-rc1.
 
-> I'm dropping this for today's release, as it contains a commit that has been
-> reverted in mainline:
+Included branches with driver code:
+  - clk-renesas
+  - sh-pfc
+  - git://git.ragnatech.se/linux#for-renesas-drivers
 
-This is fine. The rest of the patches are on hold anyhow because of
-Renesas internal SDHI investigations.
+Included fixes:
+  - ARM: shmobile: defconfig: Update shmobile_defconfig
+  - [LOCAL] arm64: defconfig: Update renesas_defconfig
 
-Thanks,
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#clockevents/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
+  - git://git.infradead.org/users/vkoul/slave-dma.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://github.com/bzolnier/linux.git#fbdev-for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/kishon/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
 
-   Wolfram
+Gr{oetje,eeting}s,
 
+						Geert
 
---SUOF0GtieIMvvwua
-Content-Type: application/pgp-signature; name="signature.asc"
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl2Tbr4ACgkQFA3kzBSg
-KbZxVg/+KhHGxYiJ5zxrKjAEqR2EI+eRXAy64mqqoac0rsiSG3ZV+7q63XYgN3Zc
-99jfgB5/mE28lp39/jEoxvKpROfnQBchbURaH9WeLv0s2tCVl8mhX92Gs48+hte3
-ZZw0dbmlB1L62eHTlU6rCftSNhtzJF85X8XNjo8uFn1K7VK2w4RCH0EbFXqkpaB4
-R2+5aTM6jscWRtqrxjqyXiiU1MqnUoWKWFvFXEO8kJwYeRPpfmM56dk4tmJcypsz
-4o6XWDD1ww620pVW4WmvDVKKQa/FT2kkzqPqLs+pYkDMHFc75XiUa9PkneAGjDSC
-MA0rxzZgcjG07ggBJ1tPSeKAoTQigejDhtp5VvZqPxPC3CZTDNeVIdeDI72ovWyW
-7ChMT3F8XaYciQjWTDkrreaK0wYiZd2wb53l3J9D2Fg0nokXR1LyUtpzq75Rbb0C
-uYqBtIrxK58wD/QXdhCdNpBhoIYhdAHSga5ED9dFkpyq60dvMxRhic+Ao7qo74T1
-O3XkRIjC1kUV1HyuHNbMEfH4vcP5RceMOHcyNp5JVlYyAHxzqakl8dhS6gogSwr0
-BLd/ttFNaYhXFCSJFXol+p4g8ecY92qqaqJlTd4wF+dtGGHVUL3cvMPPreFRb56k
-/fh96vynSAMBf4CaCnTS1JdV1U0ouawRRMDfSidGJq9O3vW02Dc=
-=SFVf
------END PGP SIGNATURE-----
-
---SUOF0GtieIMvvwua--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
