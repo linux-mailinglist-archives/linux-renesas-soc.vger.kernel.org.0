@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 36690C33FE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Oct 2019 14:16:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96E75C3400
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Oct 2019 14:16:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387691AbfJAMQI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Oct 2019 08:16:08 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:43307 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725821AbfJAMQI (ORCPT
+        id S1732725AbfJAMQK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Oct 2019 08:16:10 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:48654 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725821AbfJAMQK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Oct 2019 08:16:08 -0400
+        Tue, 1 Oct 2019 08:16:10 -0400
 X-IronPort-AV: E=Sophos;i="5.64,571,1559487600"; 
-   d="scan'208";a="27796508"
+   d="scan'208";a="28015479"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 01 Oct 2019 21:16:06 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 01 Oct 2019 21:16:09 +0900
 Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 51912428CBA6;
-        Tue,  1 Oct 2019 21:16:03 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7B4D14243F52;
+        Tue,  1 Oct 2019 21:16:06 +0900 (JST)
 From:   Biju Das <biju.das@bp.renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>
@@ -31,9 +31,9 @@ Cc:     Biju Das <biju.das@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Subject: [PATCH 6/8] arm64: dts: renesas: r8a774b1: Add PWM device nodes
-Date:   Tue,  1 Oct 2019 13:15:22 +0100
-Message-Id: <1569932124-32010-7-git-send-email-biju.das@bp.renesas.com>
+Subject: [PATCH 7/8] arm64: dts: renesas: hihope-rzg2-ex: Enable backlight
+Date:   Tue,  1 Oct 2019 13:15:23 +0100
+Message-Id: <1569932124-32010-8-git-send-email-biju.das@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1569932124-32010-1-git-send-email-biju.das@bp.renesas.com>
 References: <1569932124-32010-1-git-send-email-biju.das@bp.renesas.com>
@@ -42,94 +42,49 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch adds PWM device nodes to r8a774b1 SoC DT.
+This patch enables backlight support.
 
 Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 ---
- arch/arm64/boot/dts/renesas/r8a774b1.dtsi | 70 +++++++++++++++++++++++++++++++
- 1 file changed, 70 insertions(+)
+ arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-index 93b2e88..538e9ce 100644
---- a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-@@ -940,6 +940,76 @@
- 			/* placeholder */
- 		};
+diff --git a/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi b/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
+index 4280b19..70f9a2a 100644
+--- a/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
++++ b/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
+@@ -13,6 +13,14 @@
+ 	chosen {
+ 		bootargs = "ignore_loglevel rw root=/dev/nfs ip=on";
+ 	};
++
++	backlight {
++		compatible = "pwm-backlight";
++		pwms = <&pwm0 0 50000>;
++
++		brightness-levels = <0 2 8 16 32 64 128 255>;
++		default-brightness-level = <6>;
++	};
+ };
  
-+		pwm0: pwm@e6e30000 {
-+			compatible = "renesas,pwm-r8a774b1", "renesas,pwm-rcar";
-+			reg = <0 0xe6e30000 0 0x8>;
-+			#pwm-cells = <2>;
-+			clocks = <&cpg CPG_MOD 523>;
-+			resets = <&cpg 523>;
-+			power-domains = <&sysc R8A774B1_PD_ALWAYS_ON>;
-+			status = "disabled";
-+		};
+ &avb {
+@@ -82,4 +90,16 @@
+ 		groups = "can1_data";
+ 		function = "can1";
+ 	};
 +
-+		pwm1: pwm@e6e31000 {
-+			compatible = "renesas,pwm-r8a774b1", "renesas,pwm-rcar";
-+			reg = <0 0xe6e31000 0 0x8>;
-+			#pwm-cells = <2>;
-+			clocks = <&cpg CPG_MOD 523>;
-+			resets = <&cpg 523>;
-+			power-domains = <&sysc R8A774B1_PD_ALWAYS_ON>;
-+			status = "disabled";
-+		};
++	pwm0_pins: pwm0 {
++		groups = "pwm0";
++		function = "pwm0";
++	};
++};
 +
-+		pwm2: pwm@e6e32000 {
-+			compatible = "renesas,pwm-r8a774b1", "renesas,pwm-rcar";
-+			reg = <0 0xe6e32000 0 0x8>;
-+			#pwm-cells = <2>;
-+			clocks = <&cpg CPG_MOD 523>;
-+			resets = <&cpg 523>;
-+			power-domains = <&sysc R8A774B1_PD_ALWAYS_ON>;
-+			status = "disabled";
-+		};
++&pwm0 {
++	pinctrl-0 = <&pwm0_pins>;
++	pinctrl-names = "default";
 +
-+		pwm3: pwm@e6e33000 {
-+			compatible = "renesas,pwm-r8a774b1", "renesas,pwm-rcar";
-+			reg = <0 0xe6e33000 0 0x8>;
-+			#pwm-cells = <2>;
-+			clocks = <&cpg CPG_MOD 523>;
-+			resets = <&cpg 523>;
-+			power-domains = <&sysc R8A774B1_PD_ALWAYS_ON>;
-+			status = "disabled";
-+		};
-+
-+		pwm4: pwm@e6e34000 {
-+			compatible = "renesas,pwm-r8a774b1", "renesas,pwm-rcar";
-+			reg = <0 0xe6e34000 0 0x8>;
-+			#pwm-cells = <2>;
-+			clocks = <&cpg CPG_MOD 523>;
-+			resets = <&cpg 523>;
-+			power-domains = <&sysc R8A774B1_PD_ALWAYS_ON>;
-+			status = "disabled";
-+		};
-+
-+		pwm5: pwm@e6e35000 {
-+			compatible = "renesas,pwm-r8a774b1", "renesas,pwm-rcar";
-+			reg = <0 0xe6e35000 0 0x8>;
-+			#pwm-cells = <2>;
-+			clocks = <&cpg CPG_MOD 523>;
-+			resets = <&cpg 523>;
-+			power-domains = <&sysc R8A774B1_PD_ALWAYS_ON>;
-+			status = "disabled";
-+		};
-+
-+		pwm6: pwm@e6e36000 {
-+			compatible = "renesas,pwm-r8a774b1", "renesas,pwm-rcar";
-+			reg = <0 0xe6e36000 0 0x8>;
-+			#pwm-cells = <2>;
-+			clocks = <&cpg CPG_MOD 523>;
-+			resets = <&cpg 523>;
-+			power-domains = <&sysc R8A774B1_PD_ALWAYS_ON>;
-+			status = "disabled";
-+		};
-+
- 		scif0: serial@e6e60000 {
- 			compatible = "renesas,scif-r8a774b1",
- 				     "renesas,rcar-gen3-scif", "renesas,scif";
++	status = "okay";
+ };
 -- 
 2.7.4
 
