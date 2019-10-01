@@ -2,106 +2,99 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 56D6CC391E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Oct 2019 17:32:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA990C3F56
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  1 Oct 2019 20:05:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726665AbfJAPb2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 1 Oct 2019 11:31:28 -0400
-Received: from albert.telenet-ops.be ([195.130.137.90]:55420 "EHLO
-        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389775AbfJAPb1 (ORCPT
+        id S1731760AbfJASFz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 1 Oct 2019 14:05:55 -0400
+Received: from baptiste.telenet-ops.be ([195.130.132.51]:48672 "EHLO
+        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731724AbfJASFz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 1 Oct 2019 11:31:27 -0400
+        Tue, 1 Oct 2019 14:05:55 -0400
 Received: from ramsan ([84.194.98.4])
-        by albert.telenet-ops.be with bizsmtp
-        id 8FXR2100D05gfCL06FXR0k; Tue, 01 Oct 2019 17:31:25 +0200
+        by baptiste.telenet-ops.be with bizsmtp
+        id 8J5t2100E05gfCL01J5th0; Tue, 01 Oct 2019 20:05:53 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1iFK7Z-0006mZ-Ah
-        for linux-renesas-soc@vger.kernel.org; Tue, 01 Oct 2019 17:31:25 +0200
+        id 1iFMX3-0008KP-4V; Tue, 01 Oct 2019 20:05:53 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1iFK7Z-0006MQ-6y
-        for linux-renesas-soc@vger.kernel.org; Tue, 01 Oct 2019 17:31:25 +0200
+        id 1iFMX3-0000CZ-1z; Tue, 01 Oct 2019 20:05:53 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     linux-renesas-soc@vger.kernel.org
-Subject: renesas-drivers-2019-10-01-v5.4-rc1
-Date:   Tue,  1 Oct 2019 17:31:25 +0200
-Message-Id: <20191001153125.24407-1-geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Stephen Boyd <swboyd@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] pinctrl: sh-pfc: Do not use platform_get_irq() to count interrupts
+Date:   Tue,  1 Oct 2019 20:05:47 +0200
+Message-Id: <20191001180547.734-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-I have pushed renesas-drivers-2019-10-01-v5.4-rc1 to
-https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
+As platform_get_irq() now prints an error when the interrupt does not
+exist, counting interrupts by looping until failure causes the printing
+of scary messages like:
 
-This tree is meant to ease development of platform support and drivers
-for Renesas ARM SoCs. It is created by merging (a) the for-next branches
-of various subsystem trees and (b) branches with driver code submitted
-or planned for submission to maintainers into the master branch of my
-renesas-devel.git tree.
+    sh-pfc e6060000.pin-controller: IRQ index 0 not found
 
-Today's version is based on renesas-devel-2019-10-01-v5.4-rc1.
+Fix this by using the platform_irq_count() helper instead.
 
-Included branches with driver code:
-  - clk-renesas
-  - sh-pfc
-  - git://git.ragnatech.se/linux#for-renesas-drivers
+Fixes: 7723f4c5ecdb8d83 ("driver core: platform: Add an error message to platform_get_irq*()")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+This is a fix for v5.4-rc1.
+---
+ drivers/pinctrl/sh-pfc/core.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-Included fixes:
-  - ARM: shmobile: defconfig: Update shmobile_defconfig
-  - [LOCAL] arm64: defconfig: Update renesas_defconfig
+diff --git a/drivers/pinctrl/sh-pfc/core.c b/drivers/pinctrl/sh-pfc/core.c
+index b8640ad41bef26be..ce983247c9e28bfe 100644
+--- a/drivers/pinctrl/sh-pfc/core.c
++++ b/drivers/pinctrl/sh-pfc/core.c
+@@ -29,12 +29,12 @@
+ static int sh_pfc_map_resources(struct sh_pfc *pfc,
+ 				struct platform_device *pdev)
+ {
+-	unsigned int num_windows, num_irqs;
+ 	struct sh_pfc_window *windows;
+ 	unsigned int *irqs = NULL;
++	unsigned int num_windows;
+ 	struct resource *res;
+ 	unsigned int i;
+-	int irq;
++	int num_irqs;
+ 
+ 	/* Count the MEM and IRQ resources. */
+ 	for (num_windows = 0;; num_windows++) {
+@@ -42,17 +42,13 @@ static int sh_pfc_map_resources(struct sh_pfc *pfc,
+ 		if (!res)
+ 			break;
+ 	}
+-	for (num_irqs = 0;; num_irqs++) {
+-		irq = platform_get_irq(pdev, num_irqs);
+-		if (irq == -EPROBE_DEFER)
+-			return irq;
+-		if (irq < 0)
+-			break;
+-	}
+-
+ 	if (num_windows == 0)
+ 		return -EINVAL;
+ 
++	num_irqs = platform_irq_count(pdev);
++	if (num_irqs < 0)
++		return num_irqs;
++
+ 	/* Allocate memory windows and IRQs arrays. */
+ 	windows = devm_kcalloc(pfc->dev, num_windows, sizeof(*windows),
+ 			       GFP_KERNEL);
+-- 
+2.17.1
 
-Included subsystem trees:
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
-  - git://git.freedesktop.org/git/drm/drm.git#drm-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
-  - git://linuxtv.org/media_tree.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
-  - git://git.linaro.org/people/daniel.lezcano/linux.git#clockevents/next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
-  - git://git.infradead.org/users/vkoul/slave-dma.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
-  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
-  - git://github.com/bzolnier/linux.git#fbdev-for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
-  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
-  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/kishon/linux-phy.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
-  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
