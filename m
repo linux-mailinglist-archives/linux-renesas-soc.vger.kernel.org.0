@@ -2,111 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A8FAC8CBB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2019 17:21:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38DA9C8CE4
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2019 17:29:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728605AbfJBPVO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Oct 2019 11:21:14 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:10176 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726179AbfJBPVO (ORCPT
+        id S1726568AbfJBP3u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Oct 2019 11:29:50 -0400
+Received: from laurent.telenet-ops.be ([195.130.137.89]:60492 "EHLO
+        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726478AbfJBP3t (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Oct 2019 11:21:14 -0400
-X-IronPort-AV: E=Sophos;i="5.64,574,1559487600"; 
-   d="scan'208";a="27899365"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 03 Oct 2019 00:21:12 +0900
-Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7B4054006A99;
-        Thu,  3 Oct 2019 00:21:09 +0900 (JST)
-From:   Biju Das <biju.das@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     Biju Das <biju.das@bp.renesas.com>,
-        Simon Horman <horms@verge.net.au>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Subject: [PATCH v3 9/9] arm64: dts: renesas: Add support for Advantech idk-1110wr LVDS panel
-Date:   Wed,  2 Oct 2019 16:20:19 +0100
-Message-Id: <1570029619-43238-10-git-send-email-biju.das@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1570029619-43238-1-git-send-email-biju.das@bp.renesas.com>
-References: <1570029619-43238-1-git-send-email-biju.das@bp.renesas.com>
+        Wed, 2 Oct 2019 11:29:49 -0400
+Received: from ramsan ([84.194.98.4])
+        by laurent.telenet-ops.be with bizsmtp
+        id 8fVn2100n05gfCL01fVnvm; Wed, 02 Oct 2019 17:29:48 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1iFgZX-0000sZ-LH; Wed, 02 Oct 2019 17:29:47 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1iFgZX-00031d-Is; Wed, 02 Oct 2019 17:29:47 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Ulf Hansson <ulf.hansson@linaro.org>
+Cc:     Stephen Boyd <swboyd@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2] mmc: renesas_sdhi: Do not use platform_get_irq() to count interrupts
+Date:   Wed,  2 Oct 2019 17:29:46 +0200
+Message-Id: <20191002152946.11586-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch adds support for Advantech idk-1110wr LVDS panel.
-The HiHope RZ/G2[MN] is advertised as compatible with panel
-idk-1110wr from Advantech, however the panel isn't sold alongside
-the board.
+As platform_get_irq() now prints an error when the interrupt does not
+exist, counting interrupts by looping until failure causes the printing
+of scary messages like:
 
-Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- V1-->V2
-   * Incorporated Laurent's review comments
- V2-->V3
-   * Incorporated Laurent's review comments
----
- .../renesas/rzg2-advantech-idk-1110wr-panel.dtsi   | 41 ++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/rzg2-advantech-idk-1110wr-panel.dtsi
+    renesas_sdhi_internal_dmac ee140000.sd: IRQ index 1 not found
 
-diff --git a/arch/arm64/boot/dts/renesas/rzg2-advantech-idk-1110wr-panel.dtsi b/arch/arm64/boot/dts/renesas/rzg2-advantech-idk-1110wr-panel.dtsi
-new file mode 100644
-index 0000000..bcc2117
---- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/rzg2-advantech-idk-1110wr-panel.dtsi
-@@ -0,0 +1,41 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Device Tree Source for the Advantech idk-1110wr LVDS panel connected
-+ * to RZ/G2 boards
-+ *
-+ * Copyright (C) 2019 Renesas Electronics Corp.
-+ */
+Fix this by using the platform_irq_count() helper to avoid touching
+non-existent interrupts.
+
+Fixes: 7723f4c5ecdb8d83 ("driver core: platform: Add an error message to platform_get_irq*()")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+v2:
+  - Add Reviewed-by, Tested-by,
+  - Return failure in case num_irqs is zero, as before.
+
+This is a fix for v5.4-rc1.
+---
+ drivers/mmc/host/renesas_sdhi_core.c | 31 +++++++++++++++++-----------
+ 1 file changed, 19 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+index d4ada5cca2d14f6a..234551a68739b65b 100644
+--- a/drivers/mmc/host/renesas_sdhi_core.c
++++ b/drivers/mmc/host/renesas_sdhi_core.c
+@@ -646,8 +646,8 @@ int renesas_sdhi_probe(struct platform_device *pdev,
+ 	struct tmio_mmc_dma *dma_priv;
+ 	struct tmio_mmc_host *host;
+ 	struct renesas_sdhi *priv;
++	int num_irqs, irq, ret, i;
+ 	struct resource *res;
+-	int irq, ret, i;
+ 	u16 ver;
+ 
+ 	of_data = of_device_get_match_data(&pdev->dev);
+@@ -825,24 +825,31 @@ int renesas_sdhi_probe(struct platform_device *pdev,
+ 		host->hs400_complete = renesas_sdhi_hs400_complete;
+ 	}
+ 
+-	i = 0;
+-	while (1) {
++	num_irqs = platform_irq_count(pdev);
++	if (num_irqs < 0) {
++		ret = num_irqs;
++		goto eirq;
++	}
 +
-+/ {
-+	panel-lvds {
-+		compatible = "advantech,idk-1110wr", "panel-lvds";
++	/* There must be at least one IRQ source */
++	if (!num_irqs) {
++		ret = -ENXIO;
++		goto eirq;
++	}
 +
-+		width-mm = <223>;
-+		height-mm = <125>;
++	for (i = 0; i < num_irqs; i++) {
+ 		irq = platform_get_irq(pdev, i);
+-		if (irq < 0)
+-			break;
+-		i++;
++		if (irq < 0) {
++			ret = irq;
++			goto eirq;
++		}
 +
-+		data-mapping = "jeida-24";
-+
-+		panel-timing {
-+			/* 1024x600 @60Hz */
-+			clock-frequency = <51200000>;
-+			hactive = <1024>;
-+			vactive = <600>;
-+			hsync-len = <240>;
-+			hfront-porch = <40>;
-+			hback-porch = <40>;
-+			vfront-porch = <15>;
-+			vback-porch = <10>;
-+			vsync-len = <10>;
-+		};
-+
-+		port {
-+			panel_in: endpoint {
-+				remote-endpoint = <&lvds_connector>;
-+			};
-+		};
-+	};
-+};
-+
-+&lvds_connector {
-+	remote-endpoint = <&panel_in>;
-+};
+ 		ret = devm_request_irq(&pdev->dev, irq, tmio_mmc_irq, 0,
+ 				       dev_name(&pdev->dev), host);
+ 		if (ret)
+ 			goto eirq;
+ 	}
+ 
+-	/* There must be at least one IRQ source */
+-	if (!i) {
+-		ret = irq;
+-		goto eirq;
+-	}
+-
+ 	dev_info(&pdev->dev, "%s base at 0x%08lx max clock rate %u MHz\n",
+ 		 mmc_hostname(host->mmc), (unsigned long)
+ 		 (platform_get_resource(pdev, IORESOURCE_MEM, 0)->start),
 -- 
-2.7.4
+2.17.1
 
