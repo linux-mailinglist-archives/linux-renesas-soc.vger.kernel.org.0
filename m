@@ -2,92 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C334CC4A11
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2019 10:58:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10595C4A44
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2019 11:11:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726250AbfJBI6I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Oct 2019 04:58:08 -0400
-Received: from sauhun.de ([88.99.104.3]:57040 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725988AbfJBI6I (ORCPT
+        id S1726043AbfJBJLv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Oct 2019 05:11:51 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:36051 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725852AbfJBJLv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Oct 2019 04:58:08 -0400
-Received: from localhost (p54B33447.dip0.t-ipconnect.de [84.179.52.71])
-        by pokefinder.org (Postfix) with ESMTPSA id 3312A2C3720;
-        Wed,  2 Oct 2019 10:58:06 +0200 (CEST)
-Date:   Wed, 2 Oct 2019 10:58:05 +0200
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wed, 2 Oct 2019 05:11:51 -0400
+Received: by mail-lf1-f66.google.com with SMTP id x80so12171836lff.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 02 Oct 2019 02:11:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=snm/Nrqs5QlS5PiXAWfvh6paeZp4yNlu1hsumZL0i1o=;
+        b=M/2NAixWfPaMv3ZQW8Iwvj3sYZDoLYGfcGEUPMvVVvRTO0GZtIAGlDedHIPNizgtIs
+         /PLzYWTMsIkba6wIwEff4EucUGUk8nrIsz6BPQM3MbVfUA9LRQ+07VcP/QoWSp+XTN+K
+         JIccWCDorvAIj8F3AMn9ahODS2anPU/p9rqnJr/uzBkaGYdCwIQdsI1kz6bLqe8kUdrj
+         lE1kW7iIdsH7hTOiCe2dQKT4LufypcTvTrZYYOiDTGM6/D1FWO9PNg1ooBveodsGmmK5
+         8prq4eTWC19Vtg8J1G/aI/3slaof/k2pbJ/5Ol+djQc6jbctJ3JvALeC02h/qNrFaCHo
+         A4aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=snm/Nrqs5QlS5PiXAWfvh6paeZp4yNlu1hsumZL0i1o=;
+        b=tYRwAogI1sLPUsXKqDCEBwUCGqYRa7RQq/f3RaGautbL6oIdtJ/zJ0vgbQgQDgHe5i
+         qkBlhjSzghxq3qc/s7M/rNsYJYmRHzt/3eHiiVWZLkYagmK7gEeXidtrn+fegNp3PZ/g
+         bAHxocna6KPr0WeLVLSwk1FqSIsG81LegryiN+L8Gg5FiQmLnWQHasWvrESe5twWakCN
+         McoM0SUwfo97tSDMoGFsM+lqI23U8k2Dy0RvCAkgj7ppBYhUsFMRPkOBvL9R5OhA+X52
+         EGmy7KGpilXs7sx2T5RYtl6sRwLHEMY3tLILRKRiVM4bGlWqn9xqbalotsJFCxY4O7v3
+         W3CQ==
+X-Gm-Message-State: APjAAAX8NZ48yujKn28oEI8UZvmyRhoN/SzW/8vfUB5JpIxLsxUJFNpK
+        8yySDEaaARcUTCQKmX4bbYBXAw==
+X-Google-Smtp-Source: APXvYqxhVv3O71kzK8dErCIIZ8yCZStE0Zsvx1RSL5mpco8IJyDXSeXrRGypv1WRJKcw21Z5DvsCWw==
+X-Received: by 2002:a05:6512:210:: with SMTP id a16mr1605247lfo.42.1570007509119;
+        Wed, 02 Oct 2019 02:11:49 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:445f:5d29:e99c:20bb:1ee3:467? ([2a00:1fa0:445f:5d29:e99c:20bb:1ee3:467])
+        by smtp.gmail.com with ESMTPSA id k8sm5693214ljg.9.2019.10.02.02.11.47
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 02 Oct 2019 02:11:48 -0700 (PDT)
+Subject: Re: [PATCH] mmc: renesas_sdhi: Do not use platform_get_irq() to count
+ interrupts
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Ulf Hansson <ulf.hansson@linaro.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Jiri Slaby <jslaby@suse.com>,
-        Stephen Boyd <swboyd@chromium.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Stephen Boyd <swboyd@chromium.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] mmc: sh_mmcif: Use platform_get_irq_optional() for
- optional interrupt
-Message-ID: <20191002085805.GA10270@ninjato>
-References: <20191001180834.1158-1-geert+renesas@glider.be>
- <20191002081553.GB1388@ninjato>
- <TYAPR01MB454472C76E03930717A2898BD89C0@TYAPR01MB4544.jpnprd01.prod.outlook.com>
- <CAMuHMdWBghL8Em0OoCKjJdU7OiY_pV3Lmc=SXhV2yY=sKJJ-aw@mail.gmail.com>
+        linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20191001180703.910-1-geert+renesas@glider.be>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Message-ID: <bc48041c-df06-8108-9c45-3dfb1d527678@cogentembedded.com>
+Date:   Wed, 2 Oct 2019 12:11:45 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Nq2Wo0NMKNjxTN9z"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWBghL8Em0OoCKjJdU7OiY_pV3Lmc=SXhV2yY=sKJJ-aw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191001180703.910-1-geert+renesas@glider.be>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+On 01.10.2019 21:07, Geert Uytterhoeven wrote:
 
---Nq2Wo0NMKNjxTN9z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> As platform_get_irq() now prints an error when the interrupt does not
+> exist, counting interrupts by looping until failure causes the printing
 
+   s/the//?
 
-> Please cherry-pick the top commit from renesas-devel:
-> 6e47c841329eb9b0 ("ARM: fix __get_user_check() in case uaccess_* calls
-> are not inlined")
+> of scary messages like:
+> 
+>      renesas_sdhi_internal_dmac ee140000.sd: IRQ index 1 not found
+> 
+> Fix this by using the platform_irq_count() helper to avoid touching
+> non-existent interrupts.
+> 
+> Fixes: 7723f4c5ecdb8d83 ("driver core: platform: Add an error message to platform_get_irq*()")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> This is a fix for v5.4-rc1.
+> ---
+>   drivers/mmc/host/renesas_sdhi_core.c | 26 ++++++++++++++------------
+>   1 file changed, 14 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+> index d4ada5cca2d14f6a..122f429602d825bd 100644
+> --- a/drivers/mmc/host/renesas_sdhi_core.c
+> +++ b/drivers/mmc/host/renesas_sdhi_core.c
+[...]
+> @@ -825,24 +825,26 @@ int renesas_sdhi_probe(struct platform_device *pdev,
+>   		host->hs400_complete = renesas_sdhi_hs400_complete;
+>   	}
+>   
+> -	i = 0;
+> -	while (1) {
+> +	/* There must be at least one IRQ source */
+> +	num_irqs = platform_irq_count(pdev);
+> +	if (num_irqs < 1) {
+> +		ret = num_irqs;
+> +		goto eirq;
 
-Thanks a lot, Geert. I can confirm this patch fixes the issue I was
-seeing:
+    This will return 0 with failed probe if 'num_irqs' is 0, I don't think you 
+want this...
 
-Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+[...]
 
-Could you kindly forward this tag to Yamada-san or bounce me the patch
-so I can do it?
-
-Thanks again,
-
-   Wolfram
-
-
---Nq2Wo0NMKNjxTN9z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl2UZpkACgkQFA3kzBSg
-Kbbzrw/9Fy0DuET9/QhPpkciG0if9TcmOmULaCWrBLLTLmKs4VG8YrtkFAhLNXg9
-aobUjyTteybY6rXp3b/jlPmr6qgtQNlyYNmHx5h1Z967jnn6hpOMXlrpzMcaFfTS
-TvoaK7a0bFUc90O4PgSL75Lgn3zU5gGZl8ZJAf5h7Oc7cnfyKDr1UVtAvJrNki5Q
-zTjE7+FakyExml+DaPEQGYx5iLYYakIBsWOyVAGmIMHmKpp4nzYTutF+aFR0ezzW
-eKvscgdTBxPWVInFRV/vH4vy0KgMEHr0SG8K2HCAwoXvMni8mYP1gATzBjkJQODc
-szwuNgLfQ6rlrjFh2SDsqUozpk+Bgrz0u77K7ocZtLmBtGTvQ6/7wcKiecxNLSrp
-rAUBfF0VdJvK23BsuwYt3AAnjCYCu16bl/Fg/Sijh0va2MufQEQqISzIu1CNeEmy
-ETOrJV3VDl9u1GgUt4xBzrO1Nc1JrSxx68apKuQ2KmUpSAJ/Oi5FSftCb+Fra9lY
-43uFrAQ6njrGrVb0PbSg7d0PBIngV6KNyDZfwhy3qL8eid/bqn8R8/Pvbpk/5Evg
-oyJjx3fhe5iwdr4cEMaLn3shcbYNO/AaRllhijlaWST6RR3YA3yf5RnHjTs59RHo
-882RvFdxDr7gfBhbhZpDkm1imPA0VdFzxHGnhESstCwtlYNvcX8=
-=Csu1
------END PGP SIGNATURE-----
-
---Nq2Wo0NMKNjxTN9z--
+MBR, Sergei
