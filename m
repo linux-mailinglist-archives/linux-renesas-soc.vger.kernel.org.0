@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 75337C8CB9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2019 17:21:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A8FAC8CBB
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2019 17:21:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726708AbfJBPVK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Oct 2019 11:21:10 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:9998 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726179AbfJBPVK (ORCPT
+        id S1728605AbfJBPVO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Oct 2019 11:21:14 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:10176 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726179AbfJBPVO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Oct 2019 11:21:10 -0400
+        Wed, 2 Oct 2019 11:21:14 -0400
 X-IronPort-AV: E=Sophos;i="5.64,574,1559487600"; 
-   d="scan'208";a="28118120"
+   d="scan'208";a="27899365"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 03 Oct 2019 00:21:09 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 03 Oct 2019 00:21:12 +0900
 Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 51E614006A99;
-        Thu,  3 Oct 2019 00:21:06 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7B4054006A99;
+        Thu,  3 Oct 2019 00:21:09 +0900 (JST)
 From:   Biju Das <biju.das@bp.renesas.com>
 To:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>
@@ -31,9 +31,9 @@ Cc:     Biju Das <biju.das@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Subject: [PATCH v3 8/9] arm64: dts: renesas: hihope-rzg2-ex: Add LVDS support
-Date:   Wed,  2 Oct 2019 16:20:18 +0100
-Message-Id: <1570029619-43238-9-git-send-email-biju.das@bp.renesas.com>
+Subject: [PATCH v3 9/9] arm64: dts: renesas: Add support for Advantech idk-1110wr LVDS panel
+Date:   Wed,  2 Oct 2019 16:20:19 +0100
+Message-Id: <1570029619-43238-10-git-send-email-biju.das@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1570029619-43238-1-git-send-email-biju.das@bp.renesas.com>
 References: <1570029619-43238-1-git-send-email-biju.das@bp.renesas.com>
@@ -42,9 +42,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch adds LVDS support for RZ/G2[MN] boards.
+This patch adds support for Advantech idk-1110wr LVDS panel.
+The HiHope RZ/G2[MN] is advertised as compatible with panel
+idk-1110wr from Advantech, however the panel isn't sold alongside
+the board.
 
 Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
  V1-->V2
@@ -52,49 +56,57 @@ Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
  V2-->V3
    * Incorporated Laurent's review comments
 ---
- arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi | 29 +++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ .../renesas/rzg2-advantech-idk-1110wr-panel.dtsi   | 41 ++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/rzg2-advantech-idk-1110wr-panel.dtsi
 
-diff --git a/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi b/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
-index 70f9a2a..f9e7cf6 100644
---- a/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
-+++ b/arch/arm64/boot/dts/renesas/hihope-rzg2-ex.dtsi
-@@ -51,6 +51,35 @@
- 	status = "okay";
- };
- 
-+&gpio1 {
-+	/*
-+	 * When GP1_20 is LOW LVDS0 is connected to the LVDS connector
-+	 * When GP1_20 is HIGH LVDS0 is connected to the LT8918L
-+	 */
-+	lvds-connector-en-gpio {
-+		gpio-hog;
-+		gpios = <20 GPIO_ACTIVE_HIGH>;
-+		output-low;
-+		line-name = "lvds-connector-en-gpio";
-+	};
-+};
+diff --git a/arch/arm64/boot/dts/renesas/rzg2-advantech-idk-1110wr-panel.dtsi b/arch/arm64/boot/dts/renesas/rzg2-advantech-idk-1110wr-panel.dtsi
+new file mode 100644
+index 0000000..bcc2117
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/rzg2-advantech-idk-1110wr-panel.dtsi
+@@ -0,0 +1,41 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Device Tree Source for the Advantech idk-1110wr LVDS panel connected
++ * to RZ/G2 boards
++ *
++ * Copyright (C) 2019 Renesas Electronics Corp.
++ */
 +
-+&lvds0 {
-+	/*
-+	 * Please include the LVDS panel .dtsi file and uncomment the below line
-+	 * to enable LVDS panel connected to RZ/G2[MN] boards.
-+	 */
++/ {
++	panel-lvds {
++		compatible = "advantech,idk-1110wr", "panel-lvds";
 +
-+	/* status = "okay"; */
++		width-mm = <223>;
++		height-mm = <125>;
 +
-+	ports {
-+		port@1 {
-+			lvds_connector: endpoint {
++		data-mapping = "jeida-24";
++
++		panel-timing {
++			/* 1024x600 @60Hz */
++			clock-frequency = <51200000>;
++			hactive = <1024>;
++			vactive = <600>;
++			hsync-len = <240>;
++			hfront-porch = <40>;
++			hback-porch = <40>;
++			vfront-porch = <15>;
++			vback-porch = <10>;
++			vsync-len = <10>;
++		};
++
++		port {
++			panel_in: endpoint {
++				remote-endpoint = <&lvds_connector>;
 +			};
 +		};
 +	};
 +};
 +
- &pciec0 {
- 	status = "okay";
- };
++&lvds_connector {
++	remote-endpoint = <&panel_in>;
++};
 -- 
 2.7.4
 
