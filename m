@@ -2,122 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 82FBAC46C4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2019 06:50:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBABDC491B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2019 10:03:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726740AbfJBEuQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Oct 2019 00:50:16 -0400
-Received: from mail-eopbgr1400103.outbound.protection.outlook.com ([40.107.140.103]:21760
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726457AbfJBEuQ (ORCPT
+        id S1727040AbfJBICa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Oct 2019 04:02:30 -0400
+Received: from sauhun.de ([88.99.104.3]:56604 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725852AbfJBICa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Oct 2019 00:50:16 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YgUT/T7LohngmRw50kRurBeWTv42W4+vyi028CeEc/txR7uFyWYFgmPZuLLqkuISzR+Sk+Eo2miAGKFekt1Ba7ADGD0OCQf9jp5y+Noz5w9jy9z+xdd00XLXpdiMwqrF5U5vYCImI97nX0LVG1h3NEAzPd5f9ZjtsBm0wjAMm+1j6DlaA7LxxHOSpRnVHBvgjfs0VUKgnox0ac0bvC8wCiJ2dIjlhICTVieuCrJSn3D2Y7+59DNoTLBH2JJU08AE3nrjCFxFFvrgiaPels/0EuL9uZpsyJxkSxS/zsF4MTgDkVdnCr1dWoByIdIG+oT2ebbze/DmtYrLe6uhlVo4uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GtMvtdAxSN/TsD9ptmb5UsTUszvbHfK/c4Df3aFt5+w=;
- b=bO1waeBiHOIG76s5usxIPV1UksyYkkjWHaMg8n05aA5LMECJIgmUib+4l3a/XhbWSXjXVrd6kkKe3nIqEEclP6URFmVrxBImROZMyqsDs1jakXaoWUasonqNyyF4b52A8cv8i5ZZUj1S4kL7+PN9L3yVAuTfV3zyq4Z1S3a6XQyN2sfDf8uku7cspXlZZZTS/Gpuiwi3YTFus2OqZZYB0kvgVlVWnHSQefpYojRAYX2kqMZdhVDXgurst7SMu0wYdwFGasJ1pbCFfdm0OWXTdIyFvQBHLl9c4MZ5bKKKCGuy5Qshm520wx1Abw8/WohTGoFu8E7Ty+T9cLGbkGC2Tg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GtMvtdAxSN/TsD9ptmb5UsTUszvbHfK/c4Df3aFt5+w=;
- b=gLAfVl6qYjFGXTluDlc5dzsGBVSjoUpY/R0QXWSJHe2dW2PINZnUlAtXLaV18Hes5nRJWH7ruNbxIVl4akVNVYEZmI+whu1zzceKAo2cMzJRIepfuWofb7HfWowKKnFhNKgBMp+qz8TcP/k5OnLJUgH1/S3ld5tPw23s/sKKxx4=
-Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
- TYAPR01MB4880.jpnprd01.prod.outlook.com (20.179.186.16) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2305.20; Wed, 2 Oct 2019 04:50:13 +0000
-Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
- ([fe80::548:32de:c810:1947]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
- ([fe80::548:32de:c810:1947%4]) with mapi id 15.20.2305.022; Wed, 2 Oct 2019
- 04:50:13 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Stephen Boyd <swboyd@chromium.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] phy: renesas: rcar-gen3-usb2: Use
- platform_get_irq_optional() for optional irq
-Thread-Topic: [PATCH] phy: renesas: rcar-gen3-usb2: Use
- platform_get_irq_optional() for optional irq
-Thread-Index: AQHVeIOewimUnab5bUeUXUI+wtgUzadGyDEA
-Date:   Wed, 2 Oct 2019 04:50:13 +0000
-Message-ID: <TYAPR01MB4544AB2F6D2A49FCB0160893D89C0@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-References: <20191001181109.1355-1-geert+renesas@glider.be>
-In-Reply-To: <20191001181109.1355-1-geert+renesas@glider.be>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
-x-originating-ip: [150.249.235.54]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c1b14cba-bf3f-497c-8aca-08d746f4034d
-x-ms-office365-filtering-ht: Tenant
-x-ms-traffictypediagnostic: TYAPR01MB4880:
-x-microsoft-antispam-prvs: <TYAPR01MB488081BE78C410E4DA7F0AEBD89C0@TYAPR01MB4880.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5236;
-x-forefront-prvs: 0178184651
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(376002)(346002)(366004)(136003)(39850400004)(396003)(199004)(189003)(14454004)(229853002)(81156014)(476003)(86362001)(76176011)(8936002)(7696005)(8676002)(2906002)(186003)(66066001)(486006)(6506007)(14444005)(33656002)(102836004)(6246003)(26005)(256004)(11346002)(99286004)(446003)(6436002)(305945005)(54906003)(52536014)(9686003)(4744005)(5660300002)(74316002)(55016002)(7736002)(6116002)(71190400001)(81166006)(71200400001)(66946007)(66556008)(25786009)(64756008)(66476007)(66446008)(478600001)(4326008)(110136005)(3846002)(316002)(76116006);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB4880;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: fU2lnZ104LtJ1OiO36oQU4MGxOcQnMkToW57EnaB/fzE5AGBmJrk1vsRIGYawJ9brIPYz6QfqiV3c12IDivQjtOUhCEZOMiyeIPfxPBm8JH61SfCyal1zjLCWBYJSCXtXH9dqaMplnGBp9ULz4zFQSvAdY9h6zD0OLx+gOry8GEunhR8pLIKhfSFsgkCorjLb+XNqnFMlIeCwopyXgsbeIDG01khDW5LfhmdyARotprMgcl80EyMKm5Z+oMbIKl7zU2S2jXU0I2azPWwCVAFNpzYIcMTlGWI5P6wFddNbxC+WPPhW8PSMDPDGhU7OhECpIz1d0RIJm7rV4gB0EO4f/Cu7t/nca0/K9jExBUukGmFgs9Qt/AjrBKLwbCIhwpgl6AdvRp+t7XKSs6oR3gtHIIEYi05BKrv2psRjpnauKs=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Wed, 2 Oct 2019 04:02:30 -0400
+Received: from localhost (p54B33447.dip0.t-ipconnect.de [84.179.52.71])
+        by pokefinder.org (Postfix) with ESMTPSA id 846092C3720;
+        Wed,  2 Oct 2019 10:02:28 +0200 (CEST)
+Date:   Wed, 2 Oct 2019 10:02:25 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-renesas-soc@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mmc: renesas_sdhi: Do not use platform_get_irq() to
+ count interrupts
+Message-ID: <20191002080225.GA1388@ninjato>
+References: <20191001180703.910-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c1b14cba-bf3f-497c-8aca-08d746f4034d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Oct 2019 04:50:13.6063
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yGPMAB/ijJi4iCz3JWBAxel3SVelCriZm0F61ZwEyK6ViFy0kEWpUQ+tXDAcdlR/whUHIlnBKXlSa05xK6F2mylMYQMFQj4OsIOo7FllLT5jvlWK9aX/DY1/CqVuuhBi
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4880
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="5mCyUwZo2JvN/JJP"
+Content-Disposition: inline
+In-Reply-To: <20191001180703.910-1-geert+renesas@glider.be>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert-san,
 
-> From: Geert Uytterhoeven, Sent: Wednesday, October 2, 2019 3:11 AM
->=20
+--5mCyUwZo2JvN/JJP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Oct 01, 2019 at 08:07:03PM +0200, Geert Uytterhoeven wrote:
 > As platform_get_irq() now prints an error when the interrupt does not
-> exist, a scary warning may be printed for an optional interrupt:
+> exist, counting interrupts by looping until failure causes the printing
+> of scary messages like:
 >=20
->     phy_rcar_gen3_usb2 ee0a0200.usb-phy: IRQ index 0 not found
+>     renesas_sdhi_internal_dmac ee140000.sd: IRQ index 1 not found
 >=20
-> Fix this by calling platform_get_irq_optional() instead.
+> Fix this by using the platform_irq_count() helper to avoid touching
+> non-existent interrupts.
 >=20
 > Fixes: 7723f4c5ecdb8d83 ("driver core: platform: Add an error message to =
 platform_get_irq*()")
+
+We will see this fixes line a lot :/
+
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> This is a fix for v5.4-rc1.
-> ---
 
-Thank you for the patch!
+Have to admit, though, the new code looks much better. Tested on a
+Renesas R-Car M3-N:
 
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-And, I tested this patch on R-Car H3. So,
 
-Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+--5mCyUwZo2JvN/JJP
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Best regards,
-Yoshihiro Shimoda
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl2UWY0ACgkQFA3kzBSg
+Kbbu/Q/7BJHrrJMsb89JaYmOqiJQHsO2CvYEyzPFP17WQExQ2jxYjsILSTqWe0hW
++TvsDMcZ4FSoceakPqdsdm+J0m0qDs6seN4jll4LRAhHz3KYN9CXlyly9xnaPt94
+HpcfzFHy2DGlewIororso78IuY4eMlogf5fsh/U8gimj4I4w7U8onDsUcGqAkHwt
+spb7AjjZVGl9fCWSuSrHg0KvilQ2WvZGIi1grJayYWDRU5JEy5CbxJJx+BUrWOuD
+g/kUjyXXUqCluSq4A9jQkETP/vQfLABmeQ1N32RWeQNmQGY0BN9jMmE4R4scOsyt
+2rdxlgWKXzNx16xdASVvxth17gfv0paVu5FLA8Z/2XnV5loN3XASRPzdr7ULyKXK
+iRg3o53B82xVbiyMMMhvxwQ1XDKRh2MN/ouyWH/hoO9YD83x2SGy9Fln8ayK6rCW
+dAjHSBXsU9RuDAq6PuWZN+NbNt3a/99U2UugvcALABcNkr4qccgboW41ga9Otbah
+KAq5bfwywi8xYex1sNAW4HmSYpfbdM1lOEWJfHzgYSYIr10Gqv7en7zKkDpZK8gl
+iC7zpqhy7Mjz31FtBz1hWDskTQfg2TnB+YWmCDGNpKYxI0cF8po9AHWIiEuWF3af
+/qqfpT+frtN2dGACSDBFvDq0k9ncc1oEDSvs4/CI+gjSi19dzkI=
+=+hQN
+-----END PGP SIGNATURE-----
+
+--5mCyUwZo2JvN/JJP--
