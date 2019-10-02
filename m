@@ -2,66 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 05DFEC8B0E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2019 16:20:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1024C8B14
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  2 Oct 2019 16:20:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728287AbfJBOTq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 2 Oct 2019 10:19:46 -0400
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:42898 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728100AbfJBOT3 (ORCPT
+        id S1726574AbfJBOU6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 2 Oct 2019 10:20:58 -0400
+Received: from mga07.intel.com ([134.134.136.100]:36612 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726214AbfJBOU6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 2 Oct 2019 10:19:29 -0400
-Received: by mail-qk1-f196.google.com with SMTP id f16so15120294qkl.9;
-        Wed, 02 Oct 2019 07:19:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:from:subject:references
-         :in-reply-to:cc:cc:to;
-        bh=VEtMxesFQRhVgaXfLOksqFQ3dcoeyOCvDlUvGQrsuFo=;
-        b=SHW5fbScGckXwg1twupaQnPhg6ZbYvr8L6ogKyqPBzBJyRy3bALl3rAJIIK+cyM+Gc
-         0AGD1Zb3SA5TRIteNu0KbeEjMgXwZYAlOKJlomqOhEHwZw6tg4Wt+DE1Va82TeT3KNrC
-         SeiSzRAissFvHtug4lfNo8FQhOZJ4RmKp6Cbk6xPNodtyfkuKrjaYE9AlvWUdagNjMNo
-         FidFEbl9icI0UAkNVM2YJg05stNtHbHhfsHIITL5per2w45XmY9OkGfQ0Fd4QOu0fpLB
-         ylhMFJntFW4qWv67XI51L47eyA3Oj0YienCqSKE3W9AH1iHoC0JmPVH5mjzgKKT9K8pd
-         v16A==
-X-Gm-Message-State: APjAAAVDB8tk866GkERGYEvTbP3SBysDE0LUrdrZbJ/PX1fXstVDib1K
-        uUjhLa0dpBcfoR7UIcizjg==
-X-Google-Smtp-Source: APXvYqzagECSnvWAK2no15kXeuDvbNMmoSFzSS5uecaa8zyX8oPHLqD3j6y4NhItqADFSQbEDvOu5Q==
-X-Received: by 2002:a37:a705:: with SMTP id q5mr3945294qke.194.1570025968939;
-        Wed, 02 Oct 2019 07:19:28 -0700 (PDT)
-Received: from localhost ([132.205.230.8])
-        by smtp.gmail.com with ESMTPSA id b16sm14192592qtk.65.2019.10.02.07.19.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Oct 2019 07:19:28 -0700 (PDT)
-Message-ID: <5d94b1f0.1c69fb81.bc0b5.9a58@mx.google.com>
-Date:   Wed, 02 Oct 2019 09:19:25 -0500
-From:   Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] dt-bindings: iommu: ipmmu-vmsa: Add r8a774b1 support
-References: <1569310854-37057-1-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1569310854-37057-1-git-send-email-biju.das@bp.renesas.com>
-Cc:     Joerg Roedel <joro@8bytes.org>, Mark Rutland <mark.rutland@arm.com>
-Cc:     Biju Das <biju.das@bp.renesas.com>,
-        iommu@lists.linux-foundation.org, devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms@verge.net.au>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-To:     Biju Das <biju.das@bp.renesas.com>
+        Wed, 2 Oct 2019 10:20:58 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Oct 2019 07:20:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,574,1559545200"; 
+   d="scan'208";a="391592758"
+Received: from zhizhuan-mobl.ccr.corp.intel.com (HELO [10.255.28.55]) ([10.255.28.55])
+  by fmsmga005.fm.intel.com with ESMTP; 02 Oct 2019 07:20:53 -0700
+Subject: Re: [kbuild-all] Re: [PATCH] serial: sh-sci: Use
+ platform_get_irq_optional() for optional interrupts
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        kbuild test robot <lkp@intel.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>, kbuild-all@01.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20191001180743.1041-1-geert+renesas@glider.be>
+ <201910021701.JBV8khAI%lkp@intel.com>
+ <CAMuHMdWQhvWOMjEpJrXV0nuKUc=wT6Zi_ZLjKco0Lkgeis8NyQ@mail.gmail.com>
+From:   "Chen, Rong A" <rong.a.chen@intel.com>
+Message-ID: <26cf2dd9-2788-bc23-03c4-beb8ed68ef97@intel.com>
+Date:   Wed, 2 Oct 2019 22:20:52 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <CAMuHMdWQhvWOMjEpJrXV0nuKUc=wT6Zi_ZLjKco0Lkgeis8NyQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, 24 Sep 2019 08:40:54 +0100, Biju Das wrote:
-> Document RZ/G2N (R8A774B1) SoC bindings.
-> 
-> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-> ---
->  Documentation/devicetree/bindings/iommu/renesas,ipmmu-vmsa.txt | 1 +
->  1 file changed, 1 insertion(+)
-> 
+Hi Geert,
 
-Acked-by: Rob Herring <robh@kernel.org>
+Thanks for your clarification. we are on vacation this week, and we'll 
+take a look asap.
+
+Best Regards,
+Rong Chen
+
+On 10/2/2019 7:28 PM, Geert Uytterhoeven wrote:
+> Hi Kbuild test robot,
+>
+> On Wed, Oct 2, 2019 at 11:53 AM kbuild test robot <lkp@intel.com> wrote:
+>> I love your patch! Yet something to improve:
+>>
+>> [auto build test ERROR on tty/tty-testing]
+>> [cannot apply to v5.4-rc1 next-20191001]
+> Strange, this patch applies to all of v5.4-rc1, tty/tty-testing, and
+> next-20191001?
+>
+>> url:    https://github.com/0day-ci/linux/commits/Geert-Uytterhoeven/serial-sh-sci-Use-platform_get_irq_optional-for-optional-interrupts/20191002-171547
+> Oh, this is still the old tty/tty-testing before it was rebased to v5.4-rc1,
+> i.e. still based on v5.3-rc4.  That explains the build failure.
+>
+> That does not explain why you couldn't apply this patch to v5.4-rc1 and
+> next-20191001, though.
+>
+>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
+>> config: sparc64-allmodconfig (attached as .config)
+>> compiler: sparc64-linux-gcc (GCC) 7.4.0
+>> reproduce:
+>>          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>>          chmod +x ~/bin/make.cross
+>>          # save the attached .config to linux build tree
+>>          GCC_VERSION=7.4.0 make.cross ARCH=sparc64
+>>
+>> If you fix the issue, kindly add following tag
+>> Reported-by: kbuild test robot <lkp@intel.com>
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>     drivers/tty/serial/sh-sci.c: In function 'sci_init_single':
+>>>> drivers/tty/serial/sh-sci.c:2899:24: error: implicit declaration of function 'platform_get_irq_optional'; did you mean 'platform_get_irq_byname'? [-Werror=implicit-function-declaration]
+>>         sci_port->irqs[i] = platform_get_irq_optional(dev, i);
+>>                             ^~~~~~~~~~~~~~~~~~~~~~~~~
+>>                             platform_get_irq_byname
+>>     cc1: some warnings being treated as errors
+> FTR, not reproducible on sparc on v5.4-rc1, current tty/tty-testing, and
+> next-20191001.
+>
+> Gr{oetje,eeting}s,
+>
+>                          Geert
+>
 
