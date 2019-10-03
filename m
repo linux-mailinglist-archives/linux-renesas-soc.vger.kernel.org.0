@@ -2,105 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FC51C99E6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2019 10:29:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2D61C9B85
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2019 12:05:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727943AbfJCI3w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Oct 2019 04:29:52 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:40550 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727259AbfJCI3w (ORCPT
+        id S1726472AbfJCKCC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Oct 2019 06:02:02 -0400
+Received: from mail-vs1-f67.google.com ([209.85.217.67]:33207 "EHLO
+        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726978AbfJCKCC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Oct 2019 04:29:52 -0400
-Received: by mail-oi1-f196.google.com with SMTP id k9so1814385oib.7
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 03 Oct 2019 01:29:50 -0700 (PDT)
+        Thu, 3 Oct 2019 06:02:02 -0400
+Received: by mail-vs1-f67.google.com with SMTP id p13so1307256vso.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 03 Oct 2019 03:02:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=VBvqwmaIJ8fEwaxA8s+S3oVp3rkPvTX+z8hSKj1PS4c=;
-        b=0oNefL6B3FVIYs1SWGq/ggLp5+uLm/aPRIW59dbBP+8+SNxf0I9cwPjuUD2b3j/rLd
-         4kWl9M/vx9AhKhNJ/2psET9bk7C9WOZ+Y19XLdDAGm8uk8WaXRB899WaEPeKwLCVsrHl
-         InuR0WFRekVFVYnx0/2XErsoorX0EvAGkY1ZCAr6WYdglIXUZats0N8OlZQy7LY89jkU
-         71LkKbqZ5QP4zeGmG1jvbhW4rc8d9dAjsBThdljtUAIw/stfzZgkIsO41MHEpyHI83e3
-         +3uTDPH0bMZiAulBDD5KRSH9bR0IuAbu0N80u8VqWmkU1Lv8TrcRCQ9ZnQeb3v+DlViV
-         PR9Q==
+         :cc;
+        bh=WZwCwSWOc22kro/2vgaznXfgYQv3kw7oQQTG/2sS/lI=;
+        b=HOfcCttDVtAQO4QKBPRfTckaGADehLqGF2iEvR1F78kBciOlBBcNrpNWotOrVlki2Y
+         3IlmlUNSmZ7G+Yb3b+rYvA9vLbJScsfl2RJsabQw4O2WNoT5yxRrFomLCzhDBiko3eiA
+         LzrG2tJHBI0p9x/bqjLhg0qaN2czPFI5ZtgpiR4SnlxAiKSbdzc24AgaE+wLOcmARTpU
+         TTl5qTBXdZT9eMHKeRF08rGC62PxihtovXvH+cbl3o1lXu+1MZRPHSL8JJoGkV7CGFVt
+         JWjWRDMLY2Lv6Sh26QeG2c2vOn9gHUSpTBPrJp9680bPTzohE1+btOAq8gXypg47gWe8
+         GmuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=VBvqwmaIJ8fEwaxA8s+S3oVp3rkPvTX+z8hSKj1PS4c=;
-        b=Ti4R4aCuKTz3znylivlI1aZCgT8To1NZ6K89gXfU91wAFB/4wdUfVA3X9PHbIiiLBV
-         qwNw4nrZRvlImuZzPPGmV2Jf3CjlO8f1B2foDYPG9HN7hC7ehz1Wks9Mb6/u8bH0RLXc
-         ljgMHc8FXb8grJSV9g4hnpdoD8giqW/bQqyglp3CVP4e7iUh5NNdWxe3SXGpJYAMyz8p
-         vnMBdN6KtsqZGcEWanUja77qqUgQJhbOuh93Sq0XAMWESPM+JfmtY3bkWpsLmnvg/eIU
-         MT9p0P6ON1G6tIUnyd1jGkeBm7uo1T1Vs6+ow2T3odHcgEQJgdep/FpxtReborjNl+OF
-         ZzQA==
-X-Gm-Message-State: APjAAAXZGkkQ8FNFP8sVChkvIBCBlFV41m/kUdoopKGQDN2PGRkPw6RW
-        dTBI0oj4pzmG6a8/L0cvriVMUyCNqUjn2kxuWlyeXEGx
-X-Google-Smtp-Source: APXvYqwQjgl+zQPvXkvV61OuT3KyDHZ69iup+K/HVAZKO4++KAu2JrTfJ0zCjUNUNkiEOOnCO51LwdKqH+XcBvr/A7w=
-X-Received: by 2002:aca:4e85:: with SMTP id c127mr1881594oib.21.1570091389892;
- Thu, 03 Oct 2019 01:29:49 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=WZwCwSWOc22kro/2vgaznXfgYQv3kw7oQQTG/2sS/lI=;
+        b=F2HUbQ1kMFw3PhZze3zhyMqwNVn2JpavpgEG/OSogq/i6ys18SeB3qVfqOL1vBZXmm
+         zW/BzemHYmwlpzEPOcosS5J9OlkKENhcwGdDqxUl/7yYmWMt00vSfqFGOUoXEFrGHrHj
+         Nt6806NLOqa+uQ9fXkYDPl26WgeoZx+YqbKy3Z6kje+gps66bEXjNvAX5pA9UApEiwbh
+         yCKGK5cN0hPLqP2+wrC8DgnUvx/hd66Ck9m9O3BQq2/e28OwbuNdRkLPuFNaTXLCezH6
+         mDIwcnG2jNUDOPbGcPOmu0DxQmIhaFhZIWx+70+NI3zSn8f0/lSxqbbhfyFz7hT/8K5+
+         Ex7Q==
+X-Gm-Message-State: APjAAAW8fjIPVA3iU6IyPdliGYbDcyLSqgcPz/+Xv9eMZd1RCNRia36U
+        vYqqfVTF0Z9Ll+nGrR1NRHu2cbLmL+0HEaFhCVxSeA==
+X-Google-Smtp-Source: APXvYqyvTemNF6sB2ZOwkWKuYJdVxx6KlAP43NRkOij0K3U4Fa3wXm7HzorJbnnhEJ3ufyHC0AhucGjoXHSdz6Os5SA=
+X-Received: by 2002:a67:fc42:: with SMTP id p2mr4562222vsq.34.1570096921334;
+ Thu, 03 Oct 2019 03:02:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <1569245268-61920-1-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1569245268-61920-1-git-send-email-biju.das@bp.renesas.com>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Thu, 3 Oct 2019 10:29:38 +0200
-Message-ID: <CAMpxmJUtv61rSLprBQJr0X5B0MNM=B6WYu0qu6WjeLA9-qxFkw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: gpio: rcar: Add DT binding for r8a774b1
-To:     Biju Das <biju.das@bp.renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-gpio <linux-gpio@vger.kernel.org>,
-        linux-devicetree <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms@verge.net.au>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+References: <20190917183652.7310-1-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20190917183652.7310-1-wsa+renesas@sang-engineering.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Thu, 3 Oct 2019 12:01:25 +0200
+Message-ID: <CAPDyKFrDsYsOyhP7j0kGv=a7hYn88pYzM2gM8aaEJQQTgnD2VA@mail.gmail.com>
+Subject: Re: [PATCH] mmc: tmio: remove workaround for NON_REMOVABLE
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-pon., 23 wrz 2019 o 15:28 Biju Das <biju.das@bp.renesas.com> napisa=C5=82(a=
-):
+On Tue, 17 Sep 2019 at 20:36, Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
 >
-> Document Renesas' RZ/G2N (R8A774B1) GPIO blocks compatibility within the
-> relevant dt-bindings.
+> PM has been reworked, so eMMC gets now detected on R-Car H3 ES1.0 and
+> 2.0 as well as M3-N without the workaround. Card detect and write
+> protect also still work. Remove the workaround.
 >
-> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+
+Applied for next, thanks!
+
+Kind regards
+Uffe
+
+
 > ---
->  Documentation/devicetree/bindings/gpio/renesas,gpio-rcar.txt | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/mmc/host/tmio_mmc_core.c | 9 ---------
+>  1 file changed, 9 deletions(-)
 >
-> diff --git a/Documentation/devicetree/bindings/gpio/renesas,gpio-rcar.txt=
- b/Documentation/devicetree/bindings/gpio/renesas,gpio-rcar.txt
-> index f3f2c46..41e5fed 100644
-> --- a/Documentation/devicetree/bindings/gpio/renesas,gpio-rcar.txt
-> +++ b/Documentation/devicetree/bindings/gpio/renesas,gpio-rcar.txt
-> @@ -8,6 +8,7 @@ Required Properties:
->      - "renesas,gpio-r8a7745": for R8A7745 (RZ/G1E) compatible GPIO contr=
-oller.
->      - "renesas,gpio-r8a77470": for R8A77470 (RZ/G1C) compatible GPIO con=
-troller.
->      - "renesas,gpio-r8a774a1": for R8A774A1 (RZ/G2M) compatible GPIO con=
-troller.
-> +    - "renesas,gpio-r8a774b1": for R8A774B1 (RZ/G2N) compatible GPIO con=
-troller.
->      - "renesas,gpio-r8a774c0": for R8A774C0 (RZ/G2E) compatible GPIO con=
-troller.
->      - "renesas,gpio-r8a7778": for R8A7778 (R-Car M1) compatible GPIO con=
-troller.
->      - "renesas,gpio-r8a7779": for R8A7779 (R-Car H1) compatible GPIO con=
-troller.
+> diff --git a/drivers/mmc/host/tmio_mmc_core.c b/drivers/mmc/host/tmio_mmc_core.c
+> index 9b6e1001e77c..63dc37481fba 100644
+> --- a/drivers/mmc/host/tmio_mmc_core.c
+> +++ b/drivers/mmc/host/tmio_mmc_core.c
+> @@ -1208,15 +1208,6 @@ int tmio_mmc_host_probe(struct tmio_mmc_host *_host)
+>         if (!_host->reset)
+>                 _host->reset = tmio_mmc_reset;
+>
+> -       /*
+> -        * On Gen2+, eMMC with NONREMOVABLE currently fails because native
+> -        * hotplug gets disabled. It seems RuntimePM related yet we need further
+> -        * research. Since we are planning a PM overhaul anyway, let's enforce
+> -        * for now the device being active by enabling native hotplug always.
+> -        */
+> -       if (pdata->flags & TMIO_MMC_MIN_RCAR2)
+> -               _host->native_hotplug = true;
+> -
+>         /*
+>          * While using internal tmio hardware logic for card detection, we need
+>          * to ensure it stays powered for it to work.
 > --
-> 2.7.4
+> 2.20.1
 >
-
-Patch applied, thanks!
-
-Bart
