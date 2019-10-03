@@ -2,119 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 17047C98BC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2019 09:00:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FC51C99E6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2019 10:29:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726116AbfJCHA5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Oct 2019 03:00:57 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:35502 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726048AbfJCHA5 (ORCPT
+        id S1727943AbfJCI3w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Oct 2019 04:29:52 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:40550 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727259AbfJCI3w (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Oct 2019 03:00:57 -0400
-Received: by mail-ot1-f68.google.com with SMTP id z6so1385193otb.2;
-        Thu, 03 Oct 2019 00:00:56 -0700 (PDT)
+        Thu, 3 Oct 2019 04:29:52 -0400
+Received: by mail-oi1-f196.google.com with SMTP id k9so1814385oib.7
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 03 Oct 2019 01:29:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=VBvqwmaIJ8fEwaxA8s+S3oVp3rkPvTX+z8hSKj1PS4c=;
+        b=0oNefL6B3FVIYs1SWGq/ggLp5+uLm/aPRIW59dbBP+8+SNxf0I9cwPjuUD2b3j/rLd
+         4kWl9M/vx9AhKhNJ/2psET9bk7C9WOZ+Y19XLdDAGm8uk8WaXRB899WaEPeKwLCVsrHl
+         InuR0WFRekVFVYnx0/2XErsoorX0EvAGkY1ZCAr6WYdglIXUZats0N8OlZQy7LY89jkU
+         71LkKbqZ5QP4zeGmG1jvbhW4rc8d9dAjsBThdljtUAIw/stfzZgkIsO41MHEpyHI83e3
+         +3uTDPH0bMZiAulBDD5KRSH9bR0IuAbu0N80u8VqWmkU1Lv8TrcRCQ9ZnQeb3v+DlViV
+         PR9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=i/o7+lPyhXfByOmUhHhnpj0UsZcq/PhdEJ3X9OEuVos=;
-        b=cGAI+CpzvH6ji24osSufuUM611anUhP7+s387B9wT4USHRwC7S8JbO4YIJqQZZiPSo
-         /RDz93s9dArbMk2bA6p4wO4kO9VMn+0HUfFypLCAesg8SRPLAMaP1sFfLx2xHQc8GENp
-         YfYI1+B0jpINQv83upFxaTFS/oJFTIPcMeVEzzaHXFvypOpMx+2yI7qVAeEAP3MYGBCo
-         fZGsuiVyx0X7DjSl9DSjnNjqC62s41rPQ0w8pPmVBvdk7fDG0def2A7TixBOJyMfmT1l
-         RnQeeNsOpuc1O31w/MlkvFwewpfXoVa370DS0H0+jLk0HHULfAz8lr4YPtX+jVlHFCeo
-         hd1Q==
-X-Gm-Message-State: APjAAAWWNMWhkZCHjqM9MIxK1l18ZKCvtRPt6fczWWZ9RPQQXTEswxpy
-        INxH4Q44nStZzBNYKHXSqxxKKyJt0LxYheZDiQk=
-X-Google-Smtp-Source: APXvYqzcwfXnZWydi54Y7sZbiLsX7wlhg5cibkmkIhjdQluuVqjnRFAyl/Y6NdEU98qwbgG5YYIJw+1qUq1U0Wj9Qwg=
-X-Received: by 2002:a9d:6642:: with SMTP id q2mr5555345otm.250.1570086056314;
- Thu, 03 Oct 2019 00:00:56 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=VBvqwmaIJ8fEwaxA8s+S3oVp3rkPvTX+z8hSKj1PS4c=;
+        b=Ti4R4aCuKTz3znylivlI1aZCgT8To1NZ6K89gXfU91wAFB/4wdUfVA3X9PHbIiiLBV
+         qwNw4nrZRvlImuZzPPGmV2Jf3CjlO8f1B2foDYPG9HN7hC7ehz1Wks9Mb6/u8bH0RLXc
+         ljgMHc8FXb8grJSV9g4hnpdoD8giqW/bQqyglp3CVP4e7iUh5NNdWxe3SXGpJYAMyz8p
+         vnMBdN6KtsqZGcEWanUja77qqUgQJhbOuh93Sq0XAMWESPM+JfmtY3bkWpsLmnvg/eIU
+         MT9p0P6ON1G6tIUnyd1jGkeBm7uo1T1Vs6+ow2T3odHcgEQJgdep/FpxtReborjNl+OF
+         ZzQA==
+X-Gm-Message-State: APjAAAXZGkkQ8FNFP8sVChkvIBCBlFV41m/kUdoopKGQDN2PGRkPw6RW
+        dTBI0oj4pzmG6a8/L0cvriVMUyCNqUjn2kxuWlyeXEGx
+X-Google-Smtp-Source: APXvYqwQjgl+zQPvXkvV61OuT3KyDHZ69iup+K/HVAZKO4++KAu2JrTfJ0zCjUNUNkiEOOnCO51LwdKqH+XcBvr/A7w=
+X-Received: by 2002:aca:4e85:: with SMTP id c127mr1881594oib.21.1570091389892;
+ Thu, 03 Oct 2019 01:29:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191002170249.17366-1-brgl@bgdev.pl> <20191002170249.17366-4-brgl@bgdev.pl>
-In-Reply-To: <20191002170249.17366-4-brgl@bgdev.pl>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 3 Oct 2019 09:00:45 +0200
-Message-ID: <CAMuHMdXKXicew2iyU-09iVLuN7jAY85=grNbb3f7TSCnK14YwQ@mail.gmail.com>
-Subject: Re: [PATCH 3/6] gpio: em: use devm_platform_ioremap_resource()
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
+References: <1569245268-61920-1-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1569245268-61920-1-git-send-email-biju.das@bp.renesas.com>
+From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Date:   Thu, 3 Oct 2019 10:29:38 +0200
+Message-ID: <CAMpxmJUtv61rSLprBQJr0X5B0MNM=B6WYu0qu6WjeLA9-qxFkw@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: gpio: rcar: Add DT binding for r8a774b1
+To:     Biju Das <biju.das@bp.renesas.com>
 Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-gpio <linux-gpio@vger.kernel.org>,
+        linux-devicetree <devicetree@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Alban Bedel <albeu@free.fr>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Simon Horman <horms@verge.net.au>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-CC linux-renesas-soc
-
-On Wed, Oct 2, 2019 at 7:03 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+pon., 23 wrz 2019 o 15:28 Biju Das <biju.das@bp.renesas.com> napisa=C5=82(a=
+):
 >
-> There's no need to use the nocache variant of ioremap(). Switch to
-> using devm_platform_ioremap_resource().
+> Document Renesas' RZ/G2N (R8A774B1) GPIO blocks compatibility within the
+> relevant dt-bindings.
 >
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> --- a/drivers/gpio/gpio-em.c
-> +++ b/drivers/gpio/gpio-em.c
-> @@ -269,7 +269,7 @@ static void em_gio_irq_domain_remove(void *data)
->  static int em_gio_probe(struct platform_device *pdev)
->  {
->         struct em_gio_priv *p;
-> -       struct resource *io[2], *irq[2];
-> +       struct resource *irq[2];
->         struct gpio_chip *gpio_chip;
->         struct irq_chip *irq_chip;
->         struct device *dev = &pdev->dev;
-> @@ -285,25 +285,21 @@ static int em_gio_probe(struct platform_device *pdev)
->         platform_set_drvdata(pdev, p);
->         spin_lock_init(&p->sense_lock);
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> ---
+>  Documentation/devicetree/bindings/gpio/renesas,gpio-rcar.txt | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> -       io[0] = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -       io[1] = platform_get_resource(pdev, IORESOURCE_MEM, 1);
->         irq[0] = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
->         irq[1] = platform_get_resource(pdev, IORESOURCE_IRQ, 1);
+> diff --git a/Documentation/devicetree/bindings/gpio/renesas,gpio-rcar.txt=
+ b/Documentation/devicetree/bindings/gpio/renesas,gpio-rcar.txt
+> index f3f2c46..41e5fed 100644
+> --- a/Documentation/devicetree/bindings/gpio/renesas,gpio-rcar.txt
+> +++ b/Documentation/devicetree/bindings/gpio/renesas,gpio-rcar.txt
+> @@ -8,6 +8,7 @@ Required Properties:
+>      - "renesas,gpio-r8a7745": for R8A7745 (RZ/G1E) compatible GPIO contr=
+oller.
+>      - "renesas,gpio-r8a77470": for R8A77470 (RZ/G1C) compatible GPIO con=
+troller.
+>      - "renesas,gpio-r8a774a1": for R8A774A1 (RZ/G2M) compatible GPIO con=
+troller.
+> +    - "renesas,gpio-r8a774b1": for R8A774B1 (RZ/G2N) compatible GPIO con=
+troller.
+>      - "renesas,gpio-r8a774c0": for R8A774C0 (RZ/G2E) compatible GPIO con=
+troller.
+>      - "renesas,gpio-r8a7778": for R8A7778 (R-Car M1) compatible GPIO con=
+troller.
+>      - "renesas,gpio-r8a7779": for R8A7779 (R-Car H1) compatible GPIO con=
+troller.
+> --
+> 2.7.4
 >
-> -       if (!io[0] || !io[1] || !irq[0] || !irq[1]) {
-> +       if (!irq[0] || !irq[1]) {
->                 dev_err(dev, "missing IRQ or IOMEM\n");
->                 return -EINVAL;
->         }
->
-> -       p->base0 = devm_ioremap_nocache(dev, io[0]->start,
-> -                                       resource_size(io[0]));
-> -       if (!p->base0)
-> -               return -ENOMEM;
-> +       p->base0 = devm_platform_ioremap_resource(pdev, 0);
-> +       if (IS_ERR(p->base0))
-> +               return PTR_ERR(p->base0);
->
-> -       p->base1 = devm_ioremap_nocache(dev, io[1]->start,
-> -                                  resource_size(io[1]));
-> -       if (!p->base1)
-> -               return -ENOMEM;
-> +       p->base1 = devm_platform_ioremap_resource(pdev, 1);
-> +       if (IS_ERR(p->base1))
-> +               return PTR_ERR(p->base1);
->
->         if (of_property_read_u32(dev->of_node, "ngpios", &ngpios)) {
->                 dev_err(dev, "Missing ngpios OF property\n");
 
-Gr{oetje,eeting}s,
+Patch applied, thanks!
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Bart
