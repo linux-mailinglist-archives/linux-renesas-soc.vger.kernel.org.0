@@ -2,138 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 56C3BC98B9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2019 08:59:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17047C98BC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2019 09:00:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726393AbfJCG7G (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Oct 2019 02:59:06 -0400
-Received: from mail-eopbgr1410115.outbound.protection.outlook.com ([40.107.141.115]:11090
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726048AbfJCG7G (ORCPT
+        id S1726116AbfJCHA5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Oct 2019 03:00:57 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:35502 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726048AbfJCHA5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Oct 2019 02:59:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eKIU8gbwVkXF8gw330tEVmy1XpyFwKLrSyGkbtV2gAQ5CulqjQFMrB7pR7cCcT1mRIyl19fZNatflhyHkg80mlShz3Z/EUajeZUVt70SGtT5ewQl08dZyHWl+UOJnFNnmwcSMdKAPIm4jamiUGzDsU0ZrZM/jdy7QmnYSCy1BrvRkj82sER7xiHNJvuPfBFtJz68kAiKKiHb+PC8gkV+47BknjCw5eqTLdOT8HYZ0/neFEqHMo/5HPWil3DgRC/ec/cBZJj5RU4tD7F+MJ8j0aayklOodWgOJ9WLF5pSbX7b6r4gCfuTMr24GRtNOJiuxoy0TfUuVAw7UjomxY0ZaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=O+FjEsQiV2Iivui+tYsssuBwNZgLqlHC+ReVY1M/LJo=;
- b=AFfgl5TyjdpwGeJr+BcNbPxgtLKmBZbBM+iTWKPxIM32F3O4W8vCdOzmh8MaZzcGPfKR2zXhenriTfynRZIaEmfPALmq3mm8l65PAeuSdxtXaF39kUnwyEFlhLb4vcpr3+NNxYmdoIo3LYA0LFWYki8QjuwA8PLp10d+3sXkifiLsRruBB3bLn32cg2HtwgzmSc+z041hER5xt2lx9prFCT4ynNPsKX0zh3ckNRplEohiXNOZwl5p26UVAdmpH2HHkAXLNkaInJt7rOtE0mn9UszM9n5CWXWaJNpy4G7hqPGEEQnJh7JLeKqAkPQ9/DKHocAZxop3xpUHyDUK0Ft4w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=O+FjEsQiV2Iivui+tYsssuBwNZgLqlHC+ReVY1M/LJo=;
- b=n3H5I6PORpdxgFxIX+6hiC27ng0ONCGVnf5NfRlZvIkIQrqLuKc2q38hlKGOnYI6gDJTe5LqkeXFqYKoZJ8oJjYIeJeGMC9TzT7R0o5cFoaojvWCP41k53FSQbh4zEHTdJhzfeAt2zE6FdxVEyu7xxnx8sy8M6f+5oth6S8X9xc=
-Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com (52.134.242.17) by
- OSBPR01MB2023.jpnprd01.prod.outlook.com (52.134.243.14) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2305.20; Thu, 3 Oct 2019 06:59:02 +0000
-Received: from OSBPR01MB2103.jpnprd01.prod.outlook.com
- ([fe80::d5a0:9756:da13:2d6f]) by OSBPR01MB2103.jpnprd01.prod.outlook.com
- ([fe80::d5a0:9756:da13:2d6f%7]) with mapi id 15.20.2305.022; Thu, 3 Oct 2019
- 06:59:02 +0000
-From:   Biju Das <biju.das@bp.renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms@verge.net.au>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH] dt-bindings: timer: renesas, cmt: Document r8a774b1 CMT
- support
-Thread-Topic: [PATCH] dt-bindings: timer: renesas, cmt: Document r8a774b1 CMT
- support
-Thread-Index: AQHVchsy9YYAaMwKvEWMepy4B2mVP6dIXKcAgAAplGCAAAQcgIAAAUdw
-Date:   Thu, 3 Oct 2019 06:59:02 +0000
-Message-ID: <OSBPR01MB210385AC1DFB9D0C9329D237B89F0@OSBPR01MB2103.jpnprd01.prod.outlook.com>
-References: <1569248907-62107-1-git-send-email-biju.das@bp.renesas.com>
- <df05997f-e9c5-d226-68cd-6f1274995688@linaro.org>
- <OSBPR01MB21036A4E612729D5C5709E7BB89F0@OSBPR01MB2103.jpnprd01.prod.outlook.com>
- <CAMuHMdURzHLLC+0KsuBBdRShUDnfD8fPQcfo3kUctt1AxGFkzg@mail.gmail.com>
-In-Reply-To: <CAMuHMdURzHLLC+0KsuBBdRShUDnfD8fPQcfo3kUctt1AxGFkzg@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=biju.das@bp.renesas.com; 
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 53c44c55-5509-492e-ec23-08d747cf2c61
-x-ms-office365-filtering-ht: Tenant
-x-ms-traffictypediagnostic: OSBPR01MB2023:|OSBPR01MB2023:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <OSBPR01MB20238B186D26C790C4B1AB29B89F0@OSBPR01MB2023.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:386;
-x-forefront-prvs: 01792087B6
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(376002)(366004)(136003)(39860400002)(396003)(346002)(51914003)(189003)(199004)(86362001)(71200400001)(54906003)(66946007)(6506007)(71190400001)(3846002)(99286004)(81166006)(81156014)(7736002)(305945005)(25786009)(74316002)(4326008)(8936002)(14444005)(55016002)(6246003)(6916009)(9686003)(52536014)(64756008)(256004)(33656002)(2906002)(8676002)(478600001)(76176011)(6116002)(53546011)(66476007)(229853002)(26005)(7696005)(14454004)(186003)(102836004)(316002)(446003)(5660300002)(476003)(76116006)(11346002)(66446008)(66066001)(486006)(66556008)(44832011)(6436002);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB2023;H:OSBPR01MB2103.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
-received-spf: None (protection.outlook.com: bp.renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: XLIVvrToCcSQ5G1R76WPyvcHfsvj2tXeeHJnZmDQ5+vdeqIEYqtOnczv2wPxTWbTzk0YLk+KWLjkY4WIMcFyuzsTsHih6iL+QeR2yzZYnTtM2z2W5kd3fwGJnFAlUjjbH7al8jvbPehPnSPMclGgJTsNLiaiOUX0hmOTY2MBMnJypKzKJdQCUbpxC7WTw7SbuAHlpnSQ0xDNgEz5tgq9tyrx31NNFUiFBRSPPa3T+Rt9O8Yt5Ah0pr0IY5dnc/bpVu+SBunZG612SX+lIuj0uvAYDHBgHCKeyke9UPqGEf8e+1opVBj73nHVbN57/WrfywEFY/c/9B6SGmp9CLKUOMl6WdzNB5qvuGTGwi4WVLZ1oSDdW0PUdHzvHKbYMRHm+aSx4Xp+/Kxn6aO9G6zEwPGCh9NlCnvpFBu/wg9UIIs=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Thu, 3 Oct 2019 03:00:57 -0400
+Received: by mail-ot1-f68.google.com with SMTP id z6so1385193otb.2;
+        Thu, 03 Oct 2019 00:00:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=i/o7+lPyhXfByOmUhHhnpj0UsZcq/PhdEJ3X9OEuVos=;
+        b=cGAI+CpzvH6ji24osSufuUM611anUhP7+s387B9wT4USHRwC7S8JbO4YIJqQZZiPSo
+         /RDz93s9dArbMk2bA6p4wO4kO9VMn+0HUfFypLCAesg8SRPLAMaP1sFfLx2xHQc8GENp
+         YfYI1+B0jpINQv83upFxaTFS/oJFTIPcMeVEzzaHXFvypOpMx+2yI7qVAeEAP3MYGBCo
+         fZGsuiVyx0X7DjSl9DSjnNjqC62s41rPQ0w8pPmVBvdk7fDG0def2A7TixBOJyMfmT1l
+         RnQeeNsOpuc1O31w/MlkvFwewpfXoVa370DS0H0+jLk0HHULfAz8lr4YPtX+jVlHFCeo
+         hd1Q==
+X-Gm-Message-State: APjAAAWWNMWhkZCHjqM9MIxK1l18ZKCvtRPt6fczWWZ9RPQQXTEswxpy
+        INxH4Q44nStZzBNYKHXSqxxKKyJt0LxYheZDiQk=
+X-Google-Smtp-Source: APXvYqzcwfXnZWydi54Y7sZbiLsX7wlhg5cibkmkIhjdQluuVqjnRFAyl/Y6NdEU98qwbgG5YYIJw+1qUq1U0Wj9Qwg=
+X-Received: by 2002:a9d:6642:: with SMTP id q2mr5555345otm.250.1570086056314;
+ Thu, 03 Oct 2019 00:00:56 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 53c44c55-5509-492e-ec23-08d747cf2c61
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Oct 2019 06:59:02.3032
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: YOOiWSEU9orIJFwd1s6OP1wdH8bKEL/++KQHzBTZBtoZRwT8CYhzkV/HelZmVAj3z7hfhAVjw5kY85/BkmPrEg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB2023
+References: <20191002170249.17366-1-brgl@bgdev.pl> <20191002170249.17366-4-brgl@bgdev.pl>
+In-Reply-To: <20191002170249.17366-4-brgl@bgdev.pl>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 3 Oct 2019 09:00:45 +0200
+Message-ID: <CAMuHMdXKXicew2iyU-09iVLuN7jAY85=grNbb3f7TSCnK14YwQ@mail.gmail.com>
+Subject: Re: [PATCH 3/6] gpio: em: use devm_platform_ioremap_resource()
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Alban Bedel <albeu@free.fr>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgR2VlcnQsDQoNClRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrLg0KDQo+IFN1YmplY3Q6IFJlOiBb
-UEFUQ0hdIGR0LWJpbmRpbmdzOiB0aW1lcjogcmVuZXNhcywgY210OiBEb2N1bWVudCByOGE3NzRi
-MQ0KPiBDTVQgc3VwcG9ydA0KPiANCj4gSGkgQmlqdSwNCj4gDQo+IE9uIFRodSwgT2N0IDMsIDIw
-MTkgYXQgODozOSBBTSBCaWp1IERhcyA8YmlqdS5kYXNAYnAucmVuZXNhcy5jb20+IHdyb3RlOg0K
-PiA+ID4gU3ViamVjdDogUmU6IFtQQVRDSF0gZHQtYmluZGluZ3M6IHRpbWVyOiByZW5lc2FzLCBj
-bXQ6IERvY3VtZW50DQo+ID4gPiByOGE3NzRiMSBDTVQgc3VwcG9ydA0KPiA+ID4NCj4gPiA+IE9u
-IDIzLzA5LzIwMTkgMTY6MjgsIEJpanUgRGFzIHdyb3RlOg0KPiA+ID4gPiBEb2N1bWVudCBTb0Mg
-c3BlY2lmaWMgYmluZGluZ3MgZm9yIFJaL0cyTiAocjhhNzc0YjEpIFNvQy4NCj4gPiA+ID4NCj4g
-PiA+ID4gU2lnbmVkLW9mZi1ieTogQmlqdSBEYXMgPGJpanUuZGFzQGJwLnJlbmVzYXMuY29tPg0K
-PiA+ID4gPiAtLS0NCj4gPiA+ID4gIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy90
-aW1lci9yZW5lc2FzLGNtdC50eHQgfCAyICsrDQo+ID4gPiA+ICAxIGZpbGUgY2hhbmdlZCwgMiBp
-bnNlcnRpb25zKCspDQo+ID4gPiA+DQo+ID4gPiA+IGRpZmYgLS1naXQNCj4gPiA+ID4gYS9Eb2N1
-bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdGltZXIvcmVuZXNhcyxjbXQudHh0DQo+ID4g
-PiA+IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL3RpbWVyL3JlbmVzYXMsY210
-LnR4dA0KPiA+ID4gPiBpbmRleCBjNTIyMGJjLi43YjFmNDU0IDEwMDY0NA0KPiA+ID4gPiAtLS0g
-YS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvdGltZXIvcmVuZXNhcyxjbXQudHh0
-DQo+ID4gPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy90aW1lci9y
-ZW5lc2FzLGNtdC50eHQNCj4gPiA+ID4gQEAgLTMyLDYgKzMyLDggQEAgUmVxdWlyZWQgUHJvcGVy
-dGllczoNCj4gPiA+ID4gICAgICAtICJyZW5lc2FzLHI4YTc3NDcwLWNtdDEiIGZvciB0aGUgNDgt
-Yml0IENNVDEgZGV2aWNlIGluY2x1ZGVkDQo+ID4gPiA+IGluDQo+ID4gPiByOGE3NzQ3MC4NCj4g
-PiA+ID4gICAgICAtICJyZW5lc2FzLHI4YTc3NGExLWNtdDAiIGZvciB0aGUgMzItYml0IENNVDAg
-ZGV2aWNlIGluY2x1ZGVkDQo+ID4gPiA+IGluDQo+ID4gPiByOGE3NzRhMS4NCj4gPiA+ID4gICAg
-ICAtICJyZW5lc2FzLHI4YTc3NGExLWNtdDEiIGZvciB0aGUgNDgtYml0IENNVDEgZGV2aWNlIGlu
-Y2x1ZGVkDQo+ID4gPiA+IGluDQo+ID4gPiByOGE3NzRhMS4NCj4gPiA+ID4gKyAgICAtICJyZW5l
-c2FzLHI4YTc3NGIxLWNtdDAiIGZvciB0aGUgMzItYml0IENNVDAgZGV2aWNlIGluY2x1ZGVkDQo+
-ID4gPiA+ICsgaW4NCj4gPiA+IHI4YTc3NGIxLg0KPiA+ID4gPiArICAgIC0gInJlbmVzYXMscjhh
-Nzc0YjEtY210MSIgZm9yIHRoZSA0OC1iaXQgQ01UMSBkZXZpY2UgaW5jbHVkZWQNCj4gPiA+ID4g
-KyBpbg0KPiANCj4gIkNNVCBkZXZpY2VzIiwgY2ZyLiBjb21taXQgMWJlOGM5ZmQyYWM5YWQ3MyAo
-ImR0LWJpbmRpbmdzOiB0aW1lcjogcmVuZXNhcywNCj4gY210OiBVcGRhdGUgUi1DYXIgR2VuMyBD
-TVQxIHVzYWdlIikuDQoNCk9LLiBXaWxsIGNoYW5nZSB0aGlzLg0KDQo+ID4gPiByOGE3NzRiMS4N
-Cj4gPiA+ID4gICAgICAtICJyZW5lc2FzLHI4YTc3NGMwLWNtdDAiIGZvciB0aGUgMzItYml0IENN
-VDAgZGV2aWNlIGluY2x1ZGVkDQo+ID4gPiA+IGluDQo+ID4gPiByOGE3NzRjMC4NCj4gPiA+ID4g
-ICAgICAtICJyZW5lc2FzLHI4YTc3NGMwLWNtdDEiIGZvciB0aGUgNDgtYml0IENNVDEgZGV2aWNl
-IGluY2x1ZGVkDQo+ID4gPiA+IGluDQo+ID4gPiByOGE3NzRjMC4NCj4gPiA+ID4gICAgICAtICJy
-ZW5lc2FzLHI4YTc3OTAtY210MCIgZm9yIHRoZSAzMi1iaXQgQ01UMCBkZXZpY2UgaW5jbHVkZWQg
-aW4NCj4gcjhhNzc5MC4NCj4gPiA+ID4NCj4gPiA+DQo+ID4gPiBUaGUgcGF0Y2ggZG9lcyBub3Qg
-YXBwbHkgb24gdGlwL3RpbWVycw0KPiA+DQo+ID4gT0suIEkgd2lsbCByZWJhc2Ugb24gdG9wIG9m
-IHRpcC90aW1lcnMgYW5kIHdpbGwgc2VuZCBWMi4NCg0KUmVnYXJkcywNCkJpanUNCg==
+CC linux-renesas-soc
+
+On Wed, Oct 2, 2019 at 7:03 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+>
+> There's no need to use the nocache variant of ioremap(). Switch to
+> using devm_platform_ioremap_resource().
+>
+> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+> --- a/drivers/gpio/gpio-em.c
+> +++ b/drivers/gpio/gpio-em.c
+> @@ -269,7 +269,7 @@ static void em_gio_irq_domain_remove(void *data)
+>  static int em_gio_probe(struct platform_device *pdev)
+>  {
+>         struct em_gio_priv *p;
+> -       struct resource *io[2], *irq[2];
+> +       struct resource *irq[2];
+>         struct gpio_chip *gpio_chip;
+>         struct irq_chip *irq_chip;
+>         struct device *dev = &pdev->dev;
+> @@ -285,25 +285,21 @@ static int em_gio_probe(struct platform_device *pdev)
+>         platform_set_drvdata(pdev, p);
+>         spin_lock_init(&p->sense_lock);
+>
+> -       io[0] = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -       io[1] = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+>         irq[0] = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
+>         irq[1] = platform_get_resource(pdev, IORESOURCE_IRQ, 1);
+>
+> -       if (!io[0] || !io[1] || !irq[0] || !irq[1]) {
+> +       if (!irq[0] || !irq[1]) {
+>                 dev_err(dev, "missing IRQ or IOMEM\n");
+>                 return -EINVAL;
+>         }
+>
+> -       p->base0 = devm_ioremap_nocache(dev, io[0]->start,
+> -                                       resource_size(io[0]));
+> -       if (!p->base0)
+> -               return -ENOMEM;
+> +       p->base0 = devm_platform_ioremap_resource(pdev, 0);
+> +       if (IS_ERR(p->base0))
+> +               return PTR_ERR(p->base0);
+>
+> -       p->base1 = devm_ioremap_nocache(dev, io[1]->start,
+> -                                  resource_size(io[1]));
+> -       if (!p->base1)
+> -               return -ENOMEM;
+> +       p->base1 = devm_platform_ioremap_resource(pdev, 1);
+> +       if (IS_ERR(p->base1))
+> +               return PTR_ERR(p->base1);
+>
+>         if (of_property_read_u32(dev->of_node, "ngpios", &ngpios)) {
+>                 dev_err(dev, "Missing ngpios OF property\n");
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
