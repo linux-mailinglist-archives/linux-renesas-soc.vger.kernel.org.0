@@ -2,53 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 50772C9729
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2019 06:09:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D2D99C972C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  3 Oct 2019 06:10:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726116AbfJCEJm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 3 Oct 2019 00:09:42 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:39580 "EHLO
+        id S1726038AbfJCEKK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 3 Oct 2019 00:10:10 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:38481 "EHLO
         mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726038AbfJCEJm (ORCPT
+        with ESMTP id S1725951AbfJCEKK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 3 Oct 2019 00:09:42 -0400
-Received: by mail-wr1-f67.google.com with SMTP id r3so1268560wrj.6
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 02 Oct 2019 21:09:38 -0700 (PDT)
+        Thu, 3 Oct 2019 00:10:10 -0400
+Received: by mail-wr1-f67.google.com with SMTP id w12so1277423wro.5
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 02 Oct 2019 21:10:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=qhqBcseUSCZI9sdP2dsoF8RVoiwh+n77lWi/gir86ag=;
-        b=DKFRsvA7sr9mNDIJQoRVKf8OcVzYYJUFFaWAnMl+Y7aoaAjbUEzYxu5aWvaFroHBCh
-         dHhz1pjLntZ1a/unV7iVQfb6HoUkDd63W1MBTTeDVqONIHimNWy1KGhEG4qKcYXY1yWj
-         PDesHGyaagTa/eDU/vm7QoTkYtUCn3se6tqATrgTWQt5fk7cE6L24vankUdAkGyfWGoq
-         ifutdg7vjWbCzRfG/XHbfn5w7eKJAUxlsXohi16F2J0t15ex9JdR8WcRJb120Phr46mB
-         pmHRtJhkMwtQCQE3nBXUjWjAur87xz2OHQrRT6FXoxwxGQlC/eJ68KQxO9bIBwDLEE5v
-         72nA==
+        bh=hXoekmFxUp291lZsnKhr/5gF7rGsdUpmdR//qGKELrk=;
+        b=h4SWbapdQBjUdr4pxYw9MzSs6AdPL0EFZ80hWcOxwkkApBJb/9H3jIpaaCnxZQy9mP
+         ySa1wAxHHX3KmiNNI3PSzrwE9d97WbWazBEu5KHNNWuRzefwWs/Aj2bffptJgKnQS8Z+
+         GVlLEJbOG3mk8n19DwimoyM3UtGBJDDc0JET+1DTpcEQ+sX+UPzPS2IpfUxQZ0VBm12L
+         gTE0uXa7i8cBeUfjkc4Yx2FxxJbWRpOzg/X9CWdG8QQimUqjrujBdipf0kU2nBCtdGLd
+         Il1fK/7Pjx8cJMjjDUZUh+bhZEq+UoTQ6WLVglGcQ/FPWTg9Hfq36YonNADJwbKh3l8G
+         RdgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=qhqBcseUSCZI9sdP2dsoF8RVoiwh+n77lWi/gir86ag=;
-        b=EKSHJ9kSGF+s09MKT8iEvM/ipim+q1H0hVmwFaDeUJq7lq2pgC8jfOrxcAEdcx9u/U
-         YO1PE1fE5egG1gTyN1v1Z82udmuGy4YMtbIxfLSw0lvuIPJj5megeskC9CZFk5FkWqfX
-         UkPtV8trJRgGyicKSG+0ESB30BmHr5SbwudS89leobAZPcvuXJhq2mH/vnoL4DK8FwGl
-         tr3EMrhJAt1aFnBm4OJKn2NKKtXYj8JfYSlUnmtwy1MowG4L0loGaJ+5hlzQeT3uMP8W
-         Bkql5X3FQW+h1R04AR8sNQ77eTxgeMZe3q+/nfpa8dWeOt/smjBtIKGfaSABS0VhZJOD
-         EGwg==
-X-Gm-Message-State: APjAAAUlIRYtucOKTixXKhLeVVx4O0gzwtvMkZE7ahwD4L1awtcdoxxX
-        a7+PpboX629SiPsfCJXr0p+opsRPaek=
-X-Google-Smtp-Source: APXvYqweLrwyqq3XUtyrzhIGRaQqpTPLUTCgpvVCv+Xca6iLcIAYyDlz7nmxPcVvA6g6+odAlYyfTg==
-X-Received: by 2002:a5d:660c:: with SMTP id n12mr5496528wru.286.1570075777546;
-        Wed, 02 Oct 2019 21:09:37 -0700 (PDT)
+        bh=hXoekmFxUp291lZsnKhr/5gF7rGsdUpmdR//qGKELrk=;
+        b=kkygdLRmJghTfcAp62XbS/lAEhv3bexu7XORBP9aua08yezGuCbf4EMjnhwN9YxiC0
+         +tZm1PnrrfawiP3wgCgjQzYjBC86gh22fysSAUzHS4IJu6kLshbw+WbKRqLiS2OUo3dO
+         UDsOxyedsZazBl3djmWPfRY72iIc3reMdpc/091MDex03Eg2K81ozlHGm8DrdizCDD5a
+         +T2iRY0nBRkbu87k/MBcnxvYyYEq/KkoJEtnFoGZKJ+kvOE9Q0v0fZ3vE7n+riiqOn/X
+         PQkyQzS39Gx1bA+vUbRUZ0STTa5DjN8hIRgjkrRHnz2DtP1f1UQ5QeDqYuqCewQmZaSk
+         zcIg==
+X-Gm-Message-State: APjAAAX/mh/3mWKMVwYuTvbi4JedNajVE3FXxaFK5T9LfsAAFpAxwatY
+        0Dhoq2mY98zw4no0bmxh1oj7sxXTiXI=
+X-Google-Smtp-Source: APXvYqwuWpLs3LRjfkBxR3oghPCPxRVp2NGmpNUMuBbyFjUbkrJPTaOJvDCkjWCbU8a3+LBE4Xvxjw==
+X-Received: by 2002:adf:d848:: with SMTP id k8mr5217135wrl.254.1570075806567;
+        Wed, 02 Oct 2019 21:10:06 -0700 (PDT)
 Received: from ?IPv6:2a01:e34:ed2f:f020:d066:17e0:dce4:cd15? ([2a01:e34:ed2f:f020:d066:17e0:dce4:cd15])
-        by smtp.googlemail.com with ESMTPSA id y8sm1268988wrm.64.2019.10.02.21.09.36
+        by smtp.googlemail.com with ESMTPSA id q19sm2829082wra.89.2019.10.02.21.10.05
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 02 Oct 2019 21:09:36 -0700 (PDT)
-Subject: Re: [PATCH] dt-bindings: timer: renesas: tmu: Document r8a774b1
- bindings
+        Wed, 02 Oct 2019 21:10:05 -0700 (PDT)
+Subject: Re: [PATCH] dt-bindings: timer: renesas, cmt: Document r8a774b1 CMT
+ support
 To:     Biju Das <biju.das@bp.renesas.com>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>
@@ -58,7 +58,7 @@ Cc:     Thomas Gleixner <tglx@linutronix.de>, devicetree@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
         linux-renesas-soc@vger.kernel.org
-References: <1569249052-1037-1-git-send-email-biju.das@bp.renesas.com>
+References: <1569248907-62107-1-git-send-email-biju.das@bp.renesas.com>
 From:   Daniel Lezcano <daniel.lezcano@linaro.org>
 Openpgp: preference=signencrypt
 Autocrypt: addr=daniel.lezcano@linaro.org; prefer-encrypt=mutual; keydata=
@@ -149,12 +149,12 @@ Autocrypt: addr=daniel.lezcano@linaro.org; prefer-encrypt=mutual; keydata=
  y0s5uI05ZSXhqFs9iLlh3zNU1i6J1cdzA8BReoa3cKz4UiGKEffT857iMvT/ZmgSdYY57EgV
  UWm57SN2ok2Ii8AXlanH5SJPkbwJZhiB7kO0cjebmoA/1SA+5yTc3zEKKFuxcpfiXxt0d/OJ
  om6jCJ5/uKB5Cz9bJj0WdlvS2Xb11Jrs90MoVa74H5me4jOw7m9Yyg3qExOFOXUPFL6N
-Message-ID: <dd752192-8caf-39bf-5a91-27adb6a5f84b@linaro.org>
-Date:   Thu, 3 Oct 2019 06:09:35 +0200
+Message-ID: <df05997f-e9c5-d226-68cd-6f1274995688@linaro.org>
+Date:   Thu, 3 Oct 2019 06:10:04 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <1569249052-1037-1-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1569248907-62107-1-git-send-email-biju.das@bp.renesas.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -163,26 +163,27 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 23/09/2019 16:30, Biju Das wrote:
-> Document RZ/G2N (R8A774B1) SoC in the Renesas TMU bindings.
+On 23/09/2019 16:28, Biju Das wrote:
+> Document SoC specific bindings for RZ/G2N (r8a774b1) SoC.
 > 
 > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 > ---
->  Documentation/devicetree/bindings/timer/renesas,tmu.txt | 1 +
->  1 file changed, 1 insertion(+)
+>  Documentation/devicetree/bindings/timer/renesas,cmt.txt | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/timer/renesas,tmu.txt b/Documentation/devicetree/bindings/timer/renesas,tmu.txt
-> index 9dff7e5..29159f4 100644
-> --- a/Documentation/devicetree/bindings/timer/renesas,tmu.txt
-> +++ b/Documentation/devicetree/bindings/timer/renesas,tmu.txt
-> @@ -11,6 +11,7 @@ Required Properties:
->    - compatible: must contain one or more of the following:
->      - "renesas,tmu-r8a7740" for the r8a7740 TMU
->      - "renesas,tmu-r8a774a1" for the r8a774A1 TMU
-> +    - "renesas,tmu-r8a774b1" for the r8a774B1 TMU
->      - "renesas,tmu-r8a774c0" for the r8a774C0 TMU
->      - "renesas,tmu-r8a7778" for the r8a7778 TMU
->      - "renesas,tmu-r8a7779" for the r8a7779 TMU
+> diff --git a/Documentation/devicetree/bindings/timer/renesas,cmt.txt b/Documentation/devicetree/bindings/timer/renesas,cmt.txt
+> index c5220bc..7b1f454 100644
+> --- a/Documentation/devicetree/bindings/timer/renesas,cmt.txt
+> +++ b/Documentation/devicetree/bindings/timer/renesas,cmt.txt
+> @@ -32,6 +32,8 @@ Required Properties:
+>      - "renesas,r8a77470-cmt1" for the 48-bit CMT1 device included in r8a77470.
+>      - "renesas,r8a774a1-cmt0" for the 32-bit CMT0 device included in r8a774a1.
+>      - "renesas,r8a774a1-cmt1" for the 48-bit CMT1 device included in r8a774a1.
+> +    - "renesas,r8a774b1-cmt0" for the 32-bit CMT0 device included in r8a774b1.
+> +    - "renesas,r8a774b1-cmt1" for the 48-bit CMT1 device included in r8a774b1.
+>      - "renesas,r8a774c0-cmt0" for the 32-bit CMT0 device included in r8a774c0.
+>      - "renesas,r8a774c0-cmt1" for the 48-bit CMT1 device included in r8a774c0.
+>      - "renesas,r8a7790-cmt0" for the 32-bit CMT0 device included in r8a7790.
 > 
 
 The patch does not apply on tip/timers
