@@ -2,102 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 54357CBBAC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2019 15:29:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B938CBD68
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2019 16:37:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388340AbfJDN3w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Oct 2019 09:29:52 -0400
-Received: from foss.arm.com ([217.140.110.172]:45112 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387917AbfJDN3v (ORCPT
+        id S2389237AbfJDOhF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Oct 2019 10:37:05 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:39795 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2388697AbfJDOhF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Oct 2019 09:29:51 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3C85715A1;
-        Fri,  4 Oct 2019 06:29:51 -0700 (PDT)
-Received: from e119886-lin.cambridge.arm.com (unknown [10.37.6.20])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2A3F23F534;
-        Fri,  4 Oct 2019 06:29:50 -0700 (PDT)
-From:   Andrew Murray <andrew.murray@arm.com>
-To:     Simon Horman <horms@verge.net.au>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Phil Edworthy <phil.edworthy@renesas.com>
-Cc:     linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: [RFC PATCH] PCI: rcar: Fix incorrect programming of OB windows
-Date:   Fri,  4 Oct 2019 14:29:41 +0100
-Message-Id: <20191004132941.6660-1-andrew.murray@arm.com>
-X-Mailer: git-send-email 2.21.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Fri, 4 Oct 2019 10:37:05 -0400
+X-IronPort-AV: E=Sophos;i="5.67,256,1566831600"; 
+   d="scan'208";a="28306155"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 04 Oct 2019 23:37:02 +0900
+Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 09424426DFA5;
+        Fri,  4 Oct 2019 23:36:59 +0900 (JST)
+From:   Biju Das <biju.das@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Cc:     Biju Das <biju.das@bp.renesas.com>,
+        Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Subject: [PATCH v2 1/2] arm64: dts: renesas: r8a774a1: Remove audio port node
+Date:   Fri,  4 Oct 2019 15:36:34 +0100
+Message-Id: <1570199795-49169-1-git-send-email-biju.das@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The outbound windows (PCIEPAUR(x), PCIEPALR(x)) describe a mapping between
-a CPU address (which is determined by the window number 'x') and a
-programmed PCI address - Thus allowing the controller to translate CPU
-accesses into PCI accesses.
+This patch removes audio port node from SoC device tree and
+fixes the below dtb warning
 
-However the existing code incorrectly writes the CPU address - lets fix
-this by writing the PCI address instead.
+Warning (unit_address_vs_reg): /soc/sound@ec500000/ports/port@0: node has
+a unit name, but no reg property
 
-For memory transactions, existing DT users describe a 1:1 identity mapping
-and thus this change should have no effect. However the same isn't true for
-I/O.
-
-Fixes: c25da4778803 ("PCI: rcar: Add Renesas R-Car PCIe driver")
-Signed-off-by: Andrew Murray <andrew.murray@arm.com>
-
+Fixes: e77ad88d0c6228af65 ("arm64: dts: renesas: hihope-common: Add HDMI audio support")
+Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 ---
-This hasn't been tested, so keen for someone to give it a try.
+V1-->V2
+ * New patch.
 
-Also keen for someone to confirm my understanding that the RCar windows
-expect PCI addresses and that res->start refers to CPU addresses. If this
-is correct then it's possible the I/O doesn't work correctly.
+This patch depend upon
+https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=182581
 ---
- drivers/pci/controller/pcie-rcar.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ arch/arm64/boot/dts/renesas/hihope-common.dtsi | 20 +++++++++-----------
+ arch/arm64/boot/dts/renesas/r8a774a1.dtsi      | 11 -----------
+ 2 files changed, 9 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
-index f6a669a9af41..b28d726b4aba 100644
---- a/drivers/pci/controller/pcie-rcar.c
-+++ b/drivers/pci/controller/pcie-rcar.c
-@@ -332,11 +332,12 @@ static struct pci_ops rcar_pcie_ops = {
+diff --git a/arch/arm64/boot/dts/renesas/hihope-common.dtsi b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
+index 355d0a2..2c942a7 100644
+--- a/arch/arm64/boot/dts/renesas/hihope-common.dtsi
++++ b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
+@@ -86,7 +86,7 @@
+ 
+ 		label = "rcar-sound";
+ 
+-		dais = <&rsnd_port0>;
++		dais = <&rsnd_port>;
+ 	};
+ 
+ 	vbus0_usb2: regulator-vbus0-usb2 {
+@@ -183,7 +183,7 @@
+ 		port@2 {
+ 			reg = <2>;
+ 			dw_hdmi0_snd_in: endpoint {
+-				remote-endpoint = <&rsnd_endpoint0>;
++				remote-endpoint = <&rsnd_endpoint>;
+ 			};
+ 		};
+ 	};
+@@ -319,17 +319,15 @@
+ 	/* Single DAI */
+ 	#sound-dai-cells = <0>;
+ 
+-	ports {
+-		rsnd_port0: port@0 {
+-			rsnd_endpoint0: endpoint {
+-				remote-endpoint = <&dw_hdmi0_snd_in>;
++	rsnd_port: port {
++		rsnd_endpoint: endpoint {
++			remote-endpoint = <&dw_hdmi0_snd_in>;
+ 
+-				dai-format = "i2s";
+-				bitclock-master = <&rsnd_endpoint0>;
+-				frame-master = <&rsnd_endpoint0>;
++			dai-format = "i2s";
++			bitclock-master = <&rsnd_endpoint>;
++			frame-master = <&rsnd_endpoint>;
+ 
+-				playback = <&ssi2>;
+-			};
++			playback = <&ssi2>;
+ 		};
+ 	};
  };
+diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+index d179ee3..34a9f47 100644
+--- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
+@@ -1726,17 +1726,6 @@
+ 				      "ssi.1", "ssi.0";
+ 			status = "disabled";
  
- static void rcar_pcie_setup_window(int win, struct rcar_pcie *pcie,
--				   struct resource *res)
-+				   struct resource_entry *window)
- {
- 	/* Setup PCIe address space mappings for each resource */
- 	resource_size_t size;
- 	resource_size_t res_start;
-+	struct resource *res = window->res;
- 	u32 mask;
- 
- 	rcar_pci_write_reg(pcie, 0x00000000, PCIEPTCTLR(win));
-@@ -350,9 +351,9 @@ static void rcar_pcie_setup_window(int win, struct rcar_pcie *pcie,
- 	rcar_pci_write_reg(pcie, mask << 7, PCIEPAMR(win));
- 
- 	if (res->flags & IORESOURCE_IO)
--		res_start = pci_pio_to_address(res->start);
-+		res_start = pci_pio_to_address(res->start) - window->offset;
- 	else
--		res_start = res->start;
-+		res_start = res->start - window->offset;
- 
- 	rcar_pci_write_reg(pcie, upper_32_bits(res_start), PCIEPAUR(win));
- 	rcar_pci_write_reg(pcie, lower_32_bits(res_start) & ~0x7F,
-@@ -381,7 +382,7 @@ static int rcar_pcie_setup(struct list_head *resource, struct rcar_pcie *pci)
- 		switch (resource_type(res)) {
- 		case IORESOURCE_IO:
- 		case IORESOURCE_MEM:
--			rcar_pcie_setup_window(i, pci, res);
-+			rcar_pcie_setup_window(i, pci, win);
- 			i++;
- 			break;
- 		case IORESOURCE_BUS:
+-			ports {
+-				#address-cells = <1>;
+-				#size-cells = <0>;
+-				port@0 {
+-					reg = <0>;
+-				};
+-				port@1 {
+-					reg = <1>;
+-				};
+-			};
+-
+ 			rcar_sound,ctu {
+ 				ctu00: ctu-0 { };
+ 				ctu01: ctu-1 { };
 -- 
-2.21.0
+2.7.4
 
