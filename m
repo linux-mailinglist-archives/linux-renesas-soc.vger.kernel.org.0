@@ -2,67 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 74DE2CBA35
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2019 14:19:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2894CBB53
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2019 15:12:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728356AbfJDMTf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Oct 2019 08:19:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49908 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728288AbfJDMTe (ORCPT
+        id S2388008AbfJDNMX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Oct 2019 09:12:23 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:45464 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387917AbfJDNMX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Oct 2019 08:19:34 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F02F6215EA;
-        Fri,  4 Oct 2019 12:19:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570191573;
-        bh=EZhcaGWIbvQNFC3/x1R6aUD4//NbWdk3Zca6MrIdJoA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=za1MnphWmlCH0KGtsCgXp7XDwes6il1aMU0DBMP5JXqabUqKHFw9ml10Nnmcf7sww
-         ty3WB7F06h4uiq1fk5mjfqNANTflqXRjIPFDIfyrbPWrh7SZbpo4Sfa/O8FnauHU/K
-         ZZoNxwcoSUA1XWtO1Oij+4yTU48HUWSTrAFFWMXU=
-Date:   Fri, 4 Oct 2019 14:19:26 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Biju Das <biju.das@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Simon Horman <horms@verge.net.au>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Fri, 4 Oct 2019 09:12:23 -0400
+Received: by mail-pf1-f193.google.com with SMTP id y72so3856015pfb.12;
+        Fri, 04 Oct 2019 06:12:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ZUiox1R0hROdY9yZCRzopfRKb7Hpw5iaEBfomVYH688=;
+        b=Tkv5tyzstWxtAX48sv4MmTvBh/2aoOmbHQ4GWe3DDeEUh50Mu+CVc0XZnkyvxPeyZT
+         cv6SYzd1IkCbX5mhcjecpCkMXi3KAcWXx7iNZs0iX5qWTsmcYjIJe9MZeEg8LY2bFYEq
+         bqLR286u7JXrKHuteFWWBKTXqNtVnFmGWTPtZmvOLXs2uFZSrLuiIaGjShhdvVNZGAwc
+         Qj6+nqlrOc/NCWXMAaiVnNvg9mSr+c7vzl2D7rEjigosye6r5rITcHsQvMcoIr2NJ3dK
+         x+hP2Ce6iQ9h3gZV5DGObP4VZG09W9zJXvUz5CdSLIadPaFmag5HwtSfIFs5lS/LzmYy
+         RpKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ZUiox1R0hROdY9yZCRzopfRKb7Hpw5iaEBfomVYH688=;
+        b=BVjk3zNiU4gYFTNnpS/CduQS9HFQVUpVTjGgoBpwwigt+Z0DRGvTUudPDQRXMvg1Uu
+         7vb3JlzUvgRJrunSCL2l6DBYHmigp7/kf/7pKjmozY8N2UsjDFKNX8DB0ag8VxgvOWk5
+         K9nUnmb+frw26ryPmRx0h5+j6rUSFNzR5j3B1icLUFHtHCfEQmDThgdba6/KqRNHv5OA
+         61I3FPbvwDNXMHOGk1HI6dLSLfy9qcsYbUx3KZZV2c8GCxFGGH6cRZx6ksPpFr1Flu1C
+         ebOAp7neJhEMLGZsb+DACICQx80leVQArlLIbmhdUBnn74gbSw5kYsWSpL50hqtKsD6T
+         sucw==
+X-Gm-Message-State: APjAAAWgBrVMSkykea1UY2Lgbmz7eveYscpEWEbd1gKi42vXKsAXSqCX
+        A/gkMyD/+jFAtbOr3NNe0Ic=
+X-Google-Smtp-Source: APXvYqzlaXM5fjESQSK7RC4J4zjj6oZfbuc5mLrgPIL+rCnBhELyYRT4+WOBbnOQG2sxTANj+gZfnA==
+X-Received: by 2002:a17:90b:946:: with SMTP id dw6mr16904660pjb.48.1570194742398;
+        Fri, 04 Oct 2019 06:12:22 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id k15sm6194435pfa.65.2019.10.04.06.12.19
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 04 Oct 2019 06:12:21 -0700 (PDT)
+Subject: Re: [PATCH 1/7] dt-bindings: watchdog: renesas-wdt: Document r8a774b1
+ support
+To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Mark Brown <broonie@kernel.org>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>, linux-pci@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH RESEND v7 0/3] Add USB3.0 and TI HD3SS3220 driver support
-Message-ID: <20191004121926.GA409389@kroah.com>
-References: <1567584941-13690-1-git-send-email-biju.das@bp.renesas.com>
- <OSBPR01MB21033E657CB361169BE71D51B89F0@OSBPR01MB2103.jpnprd01.prod.outlook.com>
+        Biju Das <biju.das@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>, xu_shunji@hoperun.com
+References: <1570178133-21532-1-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1570178133-21532-2-git-send-email-fabrizio.castro@bp.renesas.com>
+From:   Guenter Roeck <linux@roeck-us.net>
+Message-ID: <eabf732e-33ba-8011-2cbc-f1df1f6dadb3@roeck-us.net>
+Date:   Fri, 4 Oct 2019 06:12:18 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <OSBPR01MB21033E657CB361169BE71D51B89F0@OSBPR01MB2103.jpnprd01.prod.outlook.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <1570178133-21532-2-git-send-email-fabrizio.castro@bp.renesas.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Oct 03, 2019 at 01:06:31PM +0000, Biju Das wrote:
-> Hi Greg,
+On 10/4/19 1:35 AM, Fabrizio Castro wrote:
+> RZ/G2N (a.k.a. R8A774B1) watchdog implementation is compatible
+> with R-Car Gen3, therefore add the relevant documentation.
 > 
-> Polite reminder.  
-> 
-> Are happy with the below patch series, since the dependency patches hit on mainline 5.4-rc1?
-> 
-> https://patchwork.kernel.org/project/linux-usb/list/?series=169305
+> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 
-Now queued up, thanks.
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
-greg k-h
+> ---
+>   Documentation/devicetree/bindings/watchdog/renesas,wdt.txt | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.txt b/Documentation/devicetree/bindings/watchdog/renesas,wdt.txt
+> index 9f365c1..a5bf04d 100644
+> --- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.txt
+> +++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.txt
+> @@ -10,6 +10,7 @@ Required properties:
+>   		 - "renesas,r8a7745-wdt" (RZ/G1E)
+>   		 - "renesas,r8a77470-wdt" (RZ/G1C)
+>   		 - "renesas,r8a774a1-wdt" (RZ/G2M)
+> +		 - "renesas,r8a774b1-wdt" (RZ/G2N)
+>   		 - "renesas,r8a774c0-wdt" (RZ/G2E)
+>   	         - "renesas,r8a7790-wdt" (R-Car H2)
+>   	         - "renesas,r8a7791-wdt" (R-Car M2-W)
+> 
+
