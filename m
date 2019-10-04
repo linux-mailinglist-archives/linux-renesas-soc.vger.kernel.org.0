@@ -2,108 +2,171 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ACDD4CC206
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2019 19:52:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE13ACC4FD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  4 Oct 2019 23:43:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388148AbfJDRwo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 4 Oct 2019 13:52:44 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:50818 "EHLO
-        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388197AbfJDRwo (ORCPT
+        id S1729195AbfJDVni (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 4 Oct 2019 17:43:38 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:46486 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729728AbfJDVnh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 4 Oct 2019 13:52:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
-        Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
-        List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
-        List-Archive; bh=YUurKKcNX2A3p1DuzcEuNuIKK3zu/r6glue8wknPYmY=; b=x3vprIromulT
-        fEalh3TZGPmRL7UV31cjbzSK5166YQ5d7y07Id1d7z0P4V38+gDaMM/qq3BayewZvSV40amI4DNBX
-        vWRimf37Ir8cCSYM7NblzV9c/KeUjWJlR5EhlycPj2VEYULZI1lVjW1AHxwjKjMC3vFARwT1IFnew
-        jHikE=;
-Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
-        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <broonie@sirena.co.uk>)
-        id 1iGRkp-0003ug-2j; Fri, 04 Oct 2019 17:52:35 +0000
-Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
-        id F20E92741EF0; Fri,  4 Oct 2019 18:52:33 +0100 (BST)
-From:   Mark Brown <broonie@kernel.org>
-To:     Biju Das <biju.das@bp.renesas.com>
-Cc:     alsa-devel@alsa-project.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        devicetree@vger.kernel.org,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Fri, 4 Oct 2019 17:43:37 -0400
+Received: by mail-pf1-f196.google.com with SMTP id q5so4645673pfg.13
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 04 Oct 2019 14:43:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=42znpoZzZjmG9yaRFQAzNvyi78UFWYqHsVeXsUAMBvM=;
+        b=MJ9Cw0wp0Mh+XkAZ37PArMbq3cXXTtMOK8MgPDNXCkP0yXajJDHPB5xaYgU0YftimM
+         IZ9Xr5C2yJosZi22FLfNZvyhDcgs9mFbobfjnE1WeFcBQ21xU74RMtcoRM+q4pMigeCm
+         sJyAZ9okOsrTu89hmigncAMqTy1HVXQqwb/PM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=42znpoZzZjmG9yaRFQAzNvyi78UFWYqHsVeXsUAMBvM=;
+        b=fJmDm6oxZSl/q60gj0b/pMm2yQV45JLj7vSLt8CXFHdkUvUemk96hG2OYUOuobPtOs
+         LiAVtubzMfUV39uwYg3Ylofki9t8tnt1/eqFdaL/2VqOYuDDP86xD7Dj51o2RVks67Sc
+         7wTU8ycW7ZIhBkGNkG0ACMa6vrl1vBADgBTWU/OLvnzeSqdPe5yuIYosiyBs/r+Tymye
+         uO4LtxogyrE23+ohMEcvQx3q377tBrptrCu9/860r+T98k5eqFkHh55J90dXzv17DY9Z
+         ZarTJyaMa6cctH4YfYoAVJcyji8vGRRKbhD+cu3x1ckqwxoGtQUNsDsOqAfSbC94kA2X
+         vfJw==
+X-Gm-Message-State: APjAAAWgMTMEiHTXWbVjZLVwi2XtdBMhQLMmxKa8Sih5LkCzJHQJp8AV
+        wEL/6J/mn5QoRN0O5yYH502mjQ==
+X-Google-Smtp-Source: APXvYqy1SG4O+l1PxmR4D+2nW3K5VMykMwaSO5DOFDZyCRsqYuEK129X6z1/RcOxIP4TfZnnBe0BMw==
+X-Received: by 2002:a17:90a:e017:: with SMTP id u23mr4003152pjy.55.1570225416541;
+        Fri, 04 Oct 2019 14:43:36 -0700 (PDT)
+Received: from smtp.gmail.com ([2620:15c:202:1:fa53:7765:582b:82b9])
+        by smtp.gmail.com with ESMTPSA id a11sm10446799pfg.94.2019.10.04.14.43.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Oct 2019 14:43:36 -0700 (PDT)
+From:   Stephen Boyd <swboyd@chromium.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        alsa-devel@alsa-project.org, Andrew Lunn <andrew@lunn.ch>,
+        Arnd Bergmann <arnd@arndb.de>, Dan Murphy <dmurphy@ti.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Grygorii Strashko <grygorii.strashko@ti.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Jean Delvare <jdelvare@suse.com>, Jiri Slaby <jslaby@suse.com>,
         Liam Girdwood <lgirdwood@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
+        linux-hwmon@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-omap@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-rtc@vger.kernel.org,
+        linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-usb@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Paul Cercueil <paul@crapouillou.net>,
+        Pavel Machek <pavel@ucw.cz>,
+        Richard Leitner <richard.leitner@skidata.com>,
+        Riku Voipio <riku.voipio@iki.fi>,
         Rob Herring <robh+dt@kernel.org>,
-        Simon Horman <horms@verge.net.au>
-Subject: Applied "ASoC: rsnd: Document r8a774b1 bindings" to the asoc tree
-In-Reply-To: <1570171940-42937-1-git-send-email-biju.das@bp.renesas.com>
-X-Patchwork-Hint: ignore
-Message-Id: <20191004175233.F20E92741EF0@ypsilon.sirena.org.uk>
-Date:   Fri,  4 Oct 2019 18:52:33 +0100 (BST)
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Takashi Iwai <tiwai@suse.com>
+Subject: [PATCH 00/10] Stop NULLifying match pointer in of_match_device()
+Date:   Fri,  4 Oct 2019 14:43:24 -0700
+Message-Id: <20191004214334.149976-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.23.0.581.g78d2f28ef7-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The patch
+of_match_device() uses of_match_ptr() to make the match table argument
+NULL via the pre-processor when CONFIG_OF=n. This makes life harder for
+compilers who think that match tables are never used and warn about
+unused variables when CONFIG_OF=n. This series changes various callers
+to use of_device_get_match_data() instead, which doesn't have this
+problem, and removes the of_match_ptr() usage from of_match_device() so
+that the compiler can stop complaining about unused variables. It will
+do dead code elimination instead and remove the match table if it isn't
+actually used.
 
-   ASoC: rsnd: Document r8a774b1 bindings
+Huge Cc list!
 
-has been applied to the asoc tree at
+Cc: Alessandro Zummo <a.zummo@towertech.it>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Alexandre Torgue <alexandre.torgue@st.com>
+Cc: <alsa-devel@alsa-project.org>
+Cc: Andrew Lunn <andrew@lunn.ch>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Dan Murphy <dmurphy@ti.com>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Frank Rowand <frowand.list@gmail.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Gregory Clement <gregory.clement@bootlin.com>
+Cc: Grygorii Strashko <grygorii.strashko@ti.com>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Cc: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Cc: Jacopo Mondi <jacopo@jmondi.org>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Jason Cooper <jason@lakedaemon.net>
+Cc: Jean Delvare <jdelvare@suse.com>
+Cc: Jiri Slaby <jslaby@suse.com>
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: <linux-hwmon@vger.kernel.org>
+Cc: <linux-leds@vger.kernel.org>
+Cc: <linux-media@vger.kernel.org>
+Cc: <linux-omap@vger.kernel.org>
+Cc: <linux-renesas-soc@vger.kernel.org>
+Cc: <linux-rtc@vger.kernel.org>
+Cc: <linux-serial@vger.kernel.org>
+Cc: <linux-spi@vger.kernel.org>
+Cc: <linux-usb@vger.kernel.org>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Paul Cercueil <paul@crapouillou.net>
+Cc: Pavel Machek <pavel@ucw.cz>
+Cc: Richard Leitner <richard.leitner@skidata.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>
+Cc: Rob Herring <robh+dt@kernel.org>
+Cc: Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
+Cc: Takashi Iwai <tiwai@suse.com>
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-5.5
+Stephen Boyd (10):
+  leds: pca953x: Use of_device_get_match_data()
+  media: renesas-ceu: Use of_device_get_match_data()
+  rtc: armada38x: Use of_device_get_match_data()
+  drivers: net: davinci_mdio: Use of_device_get_match_data()
+  serial: stm32: Use of_device_get_match_data()
+  usb: usb251xb: Use of_device_get_match_data()
+  ASoC: jz4740: Use of_device_get_match_data()
+  spi: gpio: Look for a device node instead of match
+  hwmon: (lm70) Avoid undefined reference to match table
+  of/device: Don't NULLify match table in of_match_device() with
+    CONFIG_OF=n
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.  
+ drivers/hwmon/lm70.c                   |  2 +-
+ drivers/leds/leds-pca9532.c            | 14 +----
+ drivers/media/platform/renesas-ceu.c   |  2 +-
+ drivers/net/ethernet/ti/davinci_mdio.c | 12 ++---
+ drivers/rtc/rtc-armada38x.c            | 10 ++--
+ drivers/spi/spi-gpio.c                 |  5 +-
+ drivers/tty/serial/stm32-usart.c       | 71 ++++++++++++--------------
+ drivers/tty/serial/stm32-usart.h       |  2 +-
+ drivers/usb/misc/usb251xb.c            | 12 ++---
+ include/linux/of_device.h              |  4 +-
+ sound/soc/jz4740/jz4740-i2s.c          |  5 +-
+ 11 files changed, 55 insertions(+), 84 deletions(-)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
-From 01400bfb2ea76a399448486e2d26f2f1b5a77787 Mon Sep 17 00:00:00 2001
-From: Biju Das <biju.das@bp.renesas.com>
-Date: Fri, 4 Oct 2019 07:52:20 +0100
-Subject: [PATCH] ASoC: rsnd: Document r8a774b1 bindings
-
-Document SoC specific bindings for RZ/G2N (r8a774b1) SoC.
-
-Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-Link: https://lore.kernel.org/r/1570171940-42937-1-git-send-email-biju.das@bp.renesas.com
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- Documentation/devicetree/bindings/sound/renesas,rsnd.txt | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/devicetree/bindings/sound/renesas,rsnd.txt b/Documentation/devicetree/bindings/sound/renesas,rsnd.txt
-index 5c52182f7dcf..797fd035434c 100644
---- a/Documentation/devicetree/bindings/sound/renesas,rsnd.txt
-+++ b/Documentation/devicetree/bindings/sound/renesas,rsnd.txt
-@@ -268,6 +268,7 @@ Required properties:
- 				    - "renesas,rcar_sound-r8a7745" (RZ/G1E)
- 				    - "renesas,rcar_sound-r8a77470" (RZ/G1C)
- 				    - "renesas,rcar_sound-r8a774a1" (RZ/G2M)
-+				    - "renesas,rcar_sound-r8a774b1" (RZ/G2N)
- 				    - "renesas,rcar_sound-r8a774c0" (RZ/G2E)
- 				    - "renesas,rcar_sound-r8a7778" (R-Car M1A)
- 				    - "renesas,rcar_sound-r8a7779" (R-Car H1)
+base-commit: 54ecb8f7028c5eb3d740bb82b0f1d90f2df63c5c
 -- 
-2.20.1
-
+Sent by a computer through tubes
