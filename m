@@ -2,65 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 95F2CCDF32
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2019 12:23:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03914CE031
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2019 13:24:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727395AbfJGKXp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Oct 2019 06:23:45 -0400
-Received: from xavier.telenet-ops.be ([195.130.132.52]:46226 "EHLO
-        xavier.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727416AbfJGKXo (ORCPT
+        id S1728005AbfJGLYH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Oct 2019 07:24:07 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:44435 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727993AbfJGLYE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Oct 2019 06:23:44 -0400
-Received: from ramsan ([84.194.98.4])
-        by xavier.telenet-ops.be with bizsmtp
-        id AaPh2100i05gfCL01aPhDx; Mon, 07 Oct 2019 12:23:42 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iHQB3-00087W-RI; Mon, 07 Oct 2019 12:23:41 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iHQB3-0003Ck-Q6; Mon, 07 Oct 2019 12:23:41 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/RFC 19/19] [LOCAL] arm64: renesas_defconfig: Enable R8A77961 SoC
-Date:   Mon,  7 Oct 2019 12:23:32 +0200
-Message-Id: <20191007102332.12196-20-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191007102332.12196-1-geert+renesas@glider.be>
-References: <20191007102332.12196-1-geert+renesas@glider.be>
+        Mon, 7 Oct 2019 07:24:04 -0400
+Received: by mail-ot1-f67.google.com with SMTP id 21so10574516otj.11;
+        Mon, 07 Oct 2019 04:24:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WqZ0XzDlhlGr2a1UtHuNmSm/QkiyD/3AO/AvtUWGMvU=;
+        b=ZruBQMLTkL2O+Ncgce5p7l2X8489/G2WVtVlnzmna+Jk9GxNbSlEyaYwV6An8249g3
+         +tpBXU7bgRTFQNFGUrNilFP4BusC3mK7okNpkokufkxwNky3A0xAWVmD6yaWtSejmqJK
+         YO+2zTrfM3Evz8kPmjeSXJzEwwLiEmn+XZuocEy7J2EIvnco2ZDKO4gJ9BtBJp8f0KgA
+         caIxAVSZ3omHLvepe9tKIqN33so9iuubk+9S52vQqUXBANllunE3cgUIpI/YQln1mOPo
+         H0FJ7FPBE5a0X5OMcqxNsUW9VLqXQ/qcg4qDO1U8EG4vsG08TeeJpOymZukFJ+/tj1Kk
+         Vw5Q==
+X-Gm-Message-State: APjAAAWgegwAbBSwnfPbE3f3FwJDbGOT0+oCzj1D7RGR0Ll0mddOaGgX
+        LR+4kBdTBp2hAqkvsP65X2nUcLK4QBq/u48CFZ4=
+X-Google-Smtp-Source: APXvYqwKsQE8YVPm8SadzZ9iSAkoysBnVWMPCezXYII+db+bef1DDM2wQFUwYqudzDMDtlKDPdsu5/eZiKvQtR7C2yw=
+X-Received: by 2002:a9d:17e6:: with SMTP id j93mr20857794otj.297.1570447442614;
+ Mon, 07 Oct 2019 04:24:02 -0700 (PDT)
+MIME-Version: 1.0
+References: <1570173363-4633-1-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1570173363-4633-1-git-send-email-biju.das@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 7 Oct 2019 13:23:51 +0200
+Message-ID: <CAMuHMdUC8PgaJ=_bPDtTOeagtpnX_B19P63sYkZXGGqjNxw6bQ@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: irqchip: renesas-irqc: Document r8a774b1 bindings
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms@verge.net.au>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable the Renesas R-Car M3-W+ (R8A77961) SoC in the ARM64
-renesas_defconfig.
+On Fri, Oct 4, 2019 at 9:16 AM Biju Das <biju.das@bp.renesas.com> wrote:
+> Document SoC specific bindings for RZ/G2N (r8a774b1) SoC.
+>
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Not intended for upstream inclusion.
----
- arch/arm64/configs/renesas_defconfig | 1 +
- 1 file changed, 1 insertion(+)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/arch/arm64/configs/renesas_defconfig b/arch/arm64/configs/renesas_defconfig
-index ff981485e7bb5b06..bc9a4cb8cc32b8d0 100644
---- a/arch/arm64/configs/renesas_defconfig
-+++ b/arch/arm64/configs/renesas_defconfig
-@@ -288,6 +288,7 @@ CONFIG_ARCH_R8A774B1=y
- CONFIG_ARCH_R8A774C0=y
- CONFIG_ARCH_R8A7795=y
- CONFIG_ARCH_R8A7796=y
-+CONFIG_ARCH_R8A77961=y
- CONFIG_ARCH_R8A77965=y
- CONFIG_ARCH_R8A77970=y
- CONFIG_ARCH_R8A77980=y
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.17.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
