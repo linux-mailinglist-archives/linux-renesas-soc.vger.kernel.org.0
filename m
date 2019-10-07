@@ -2,95 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4502FCDF30
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2019 12:23:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E68E0CDF25
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2019 12:23:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727502AbfJGKXq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Oct 2019 06:23:46 -0400
-Received: from laurent.telenet-ops.be ([195.130.137.89]:46900 "EHLO
-        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727467AbfJGKXp (ORCPT
+        id S1727376AbfJGKXo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Oct 2019 06:23:44 -0400
+Received: from andre.telenet-ops.be ([195.130.132.53]:49700 "EHLO
+        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727437AbfJGKXo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Oct 2019 06:23:45 -0400
+        Mon, 7 Oct 2019 06:23:44 -0400
 Received: from ramsan ([84.194.98.4])
-        by laurent.telenet-ops.be with bizsmtp
-        id AaPh2100N05gfCL01aPhTA; Mon, 07 Oct 2019 12:23:42 +0200
+        by andre.telenet-ops.be with bizsmtp
+        id AaPh2100S05gfCL01aPhM5; Mon, 07 Oct 2019 12:23:42 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1iHQB3-00086z-FE; Mon, 07 Oct 2019 12:23:41 +0200
+        id 1iHQB3-000872-Gl; Mon, 07 Oct 2019 12:23:41 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1iHQB3-0003CB-E1; Mon, 07 Oct 2019 12:23:41 +0200
+        id 1iHQB3-0003CE-F0; Mon, 07 Oct 2019 12:23:41 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Eugeniu Rosca <erosca@de.adit-jv.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH/RFC 08/19] dt-bindings: power: Add r8a77961 SYSC power domain definitions
-Date:   Mon,  7 Oct 2019 12:23:21 +0200
-Message-Id: <20191007102332.12196-9-geert+renesas@glider.be>
+Subject: [PATCH/RFC 09/19] dt-bindings: clock: Add r8a77961 CPG Core Clock Definitions
+Date:   Mon,  7 Oct 2019 12:23:22 +0200
+Message-Id: <20191007102332.12196-10-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191007102332.12196-1-geert+renesas@glider.be>
 References: <20191007102332.12196-1-geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add power domain indices for the R-Car M3-W+ (R8A77961) SoC.
+Add all Clock Pulse Generator Core Clock Outputs for the Renesas R-Car
+M3-W+ (R8A77961) SoC, as listed in Table 8.2b ("List of Clocks [R-Car
+M3-W/R-Car M3-W+]") of the R-Car Series, 3rd Generation Hardware User's
+Manual (Rev. 2.00, Jul. 31, 2019).  A gap is added for CSIREF, to
+preserve compatibility with the definitions for R-Car M3-W (R8A77960).
 
-Based on Rev. 2.00 of the R-Car Series, 3rd Generation, Hardware User’s
-Manual (Jul. 31, 2019).
+Note that internal CPG clocks (S0, S1, S2, S3, SDSRC, SSPSRC, and POST2)
+are not included, as they are used as internal clock sources only, and
+never referenced from DT.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- include/dt-bindings/power/r8a77961-sysc.h | 32 +++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
- create mode 100644 include/dt-bindings/power/r8a77961-sysc.h
+ include/dt-bindings/clock/r8a77961-cpg-mssr.h | 65 +++++++++++++++++++
+ 1 file changed, 65 insertions(+)
+ create mode 100644 include/dt-bindings/clock/r8a77961-cpg-mssr.h
 
-diff --git a/include/dt-bindings/power/r8a77961-sysc.h b/include/dt-bindings/power/r8a77961-sysc.h
+diff --git a/include/dt-bindings/clock/r8a77961-cpg-mssr.h b/include/dt-bindings/clock/r8a77961-cpg-mssr.h
 new file mode 100644
-index 0000000000000000..7a3800996f7c0252
+index 0000000000000000..7921d785546d12ce
 --- /dev/null
-+++ b/include/dt-bindings/power/r8a77961-sysc.h
-@@ -0,0 +1,32 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2019 Glider bvba
++++ b/include/dt-bindings/clock/r8a77961-cpg-mssr.h
+@@ -0,0 +1,65 @@
++/* SPDX-License-Identifier: GPL-2.0+
++ *
++ * Copyright (C) 2019 Renesas Electronics Corp.
 + */
-+#ifndef __DT_BINDINGS_POWER_R8A77961_SYSC_H__
-+#define __DT_BINDINGS_POWER_R8A77961_SYSC_H__
++#ifndef __DT_BINDINGS_CLOCK_R8A77961_CPG_MSSR_H__
++#define __DT_BINDINGS_CLOCK_R8A77961_CPG_MSSR_H__
 +
-+/*
-+ * These power domain indices match the numbers of the interrupt bits
-+ * representing the power areas in the various Interrupt Registers
-+ * (e.g. SYSCISR, Interrupt Status Register)
-+ */
++#include <dt-bindings/clock/renesas-cpg-mssr.h>
 +
-+#define R8A77961_PD_CA57_CPU0		 0
-+#define R8A77961_PD_CA57_CPU1		 1
-+#define R8A77961_PD_CA53_CPU0		 5
-+#define R8A77961_PD_CA53_CPU1		 6
-+#define R8A77961_PD_CA53_CPU2		 7
-+#define R8A77961_PD_CA53_CPU3		 8
-+#define R8A77961_PD_CA57_SCU		12
-+#define R8A77961_PD_CR7			13
-+#define R8A77961_PD_A3VC		14
-+#define R8A77961_PD_3DG_A		17
-+#define R8A77961_PD_3DG_B		18
-+#define R8A77961_PD_CA53_SCU		21
-+#define R8A77961_PD_A3IR		24
-+#define R8A77961_PD_A2VC1		26
++/* r8a77961 CPG Core Clocks */
++#define R8A77961_CLK_Z			0
++#define R8A77961_CLK_Z2			1
++#define R8A77961_CLK_ZR			2
++#define R8A77961_CLK_ZG			3
++#define R8A77961_CLK_ZTR			4
++#define R8A77961_CLK_ZTRD2		5
++#define R8A77961_CLK_ZT			6
++#define R8A77961_CLK_ZX			7
++#define R8A77961_CLK_S0D1		8
++#define R8A77961_CLK_S0D2		9
++#define R8A77961_CLK_S0D3		10
++#define R8A77961_CLK_S0D4		11
++#define R8A77961_CLK_S0D6		12
++#define R8A77961_CLK_S0D8		13
++#define R8A77961_CLK_S0D12		14
++#define R8A77961_CLK_S1D1		15
++#define R8A77961_CLK_S1D2		16
++#define R8A77961_CLK_S1D4		17
++#define R8A77961_CLK_S2D1		18
++#define R8A77961_CLK_S2D2		19
++#define R8A77961_CLK_S2D4		20
++#define R8A77961_CLK_S3D1		21
++#define R8A77961_CLK_S3D2		22
++#define R8A77961_CLK_S3D4		23
++#define R8A77961_CLK_LB			24
++#define R8A77961_CLK_CL			25
++#define R8A77961_CLK_ZB3			26
++#define R8A77961_CLK_ZB3D2		27
++#define R8A77961_CLK_ZB3D4		28
++#define R8A77961_CLK_CR			29
++#define R8A77961_CLK_CRD2		30
++#define R8A77961_CLK_SD0H		31
++#define R8A77961_CLK_SD0			32
++#define R8A77961_CLK_SD1H		33
++#define R8A77961_CLK_SD1			34
++#define R8A77961_CLK_SD2H		35
++#define R8A77961_CLK_SD2			36
++#define R8A77961_CLK_SD3H		37
++#define R8A77961_CLK_SD3			38
++#define R8A77961_CLK_SSP2		39
++#define R8A77961_CLK_SSP1		40
++#define R8A77961_CLK_SSPRS		41
++#define R8A77961_CLK_RPC			42
++#define R8A77961_CLK_RPCD2		43
++#define R8A77961_CLK_MSO			44
++#define R8A77961_CLK_CANFD		45
++#define R8A77961_CLK_HDMI		46
++#define R8A77961_CLK_CSI0		47
++/* CLK_CSIREF was removed */
++#define R8A77961_CLK_CP			49
++#define R8A77961_CLK_CPEX		50
++#define R8A77961_CLK_R			51
++#define R8A77961_CLK_OSC			52
 +
-+/* Always-on power area */
-+#define R8A77961_PD_ALWAYS_ON		32
-+
-+#endif /* __DT_BINDINGS_POWER_R8A77961_SYSC_H__ */
++#endif /* __DT_BINDINGS_CLOCK_R8A77961_CPG_MSSR_H__ */
 -- 
 2.17.1
 
