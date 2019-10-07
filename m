@@ -2,71 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 887F8CE4A2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2019 16:06:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35B40CE6DE
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2019 17:11:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727685AbfJGOGC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Oct 2019 10:06:02 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:50516 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727490AbfJGOGC (ORCPT
+        id S1727975AbfJGPKT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Oct 2019 11:10:19 -0400
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:42583 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727711AbfJGPKS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Oct 2019 10:06:02 -0400
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <colin.king@canonical.com>)
-        id 1iHTeC-0001ld-4b; Mon, 07 Oct 2019 14:06:00 +0000
-From:   Colin King <colin.king@canonical.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] pinctrl: rzn1: array reg_drive static, makes object smaller
-Date:   Mon,  7 Oct 2019 15:05:59 +0100
-Message-Id: <20191007140559.11840-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.20.1
+        Mon, 7 Oct 2019 11:10:18 -0400
+X-Originating-IP: 86.207.98.53
+Received: from localhost (aclermont-ferrand-651-1-259-53.w86-207.abo.wanadoo.fr [86.207.98.53])
+        (Authenticated sender: alexandre.belloni@bootlin.com)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 4F082E000E;
+        Mon,  7 Oct 2019 15:10:14 +0000 (UTC)
+Date:   Mon, 7 Oct 2019 17:10:14 +0200
+From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
+To:     Simon Horman <horms+renesas@verge.net.au>
+Cc:     Alessandro Zummo <a.zummo@towertech.it>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Yoshihiro Kaneko <ykaneko0929@gmail.com>,
+        linux-rtc@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2] dt-bindings: rtc: rtc-sh: convert bindings to
+ json-schema
+Message-ID: <20191007151014.GP4254@piout.net>
+References: <20190923121404.32585-1-horms+renesas@verge.net.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190923121404.32585-1-horms+renesas@verge.net.au>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+On 23/09/2019 14:14:04+0200, Simon Horman wrote:
+> Convert Real Time Clock for Renesas SH and ARM SoCs bindings documentation
+> to json-schema.  Also name bindings documentation file according to the
+> compat string being documented.
+> 
+> Also correct syntax error in interrupts field in example.
+> 
+> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-Don't populate the array reg_drive on the stack but instead make it
-static. Makes the object code smaller by 32 bytes.
-
-Before:
-   text	   data	    bss	    dec	    hex	filename
-  31991	  15696	      0	  47687	   ba47	drivers/pinctrl/pinctrl-rzn1.o
-
-After:
-   text	   data	    bss	    dec	    hex	filename
-  31863	  15792	      0	  47655	   ba27	drivers/pinctrl/pinctrl-rzn1.o
-
-(gcc version 9.2.1, amd64)
-
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/pinctrl/pinctrl-rzn1.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/pinctrl/pinctrl-rzn1.c b/drivers/pinctrl/pinctrl-rzn1.c
-index 0f6f8a10a53a..39538d40dbf3 100644
---- a/drivers/pinctrl/pinctrl-rzn1.c
-+++ b/drivers/pinctrl/pinctrl-rzn1.c
-@@ -487,7 +487,7 @@ static int rzn1_pinconf_get(struct pinctrl_dev *pctldev, unsigned int pin,
- {
- 	struct rzn1_pinctrl *ipctl = pinctrl_dev_get_drvdata(pctldev);
- 	enum pin_config_param param = pinconf_to_config_param(*config);
--	const u32 reg_drive[4] = { 4, 6, 8, 12 };
-+	static const u32 reg_drive[4] = { 4, 6, 8, 12 };
- 	u32 pull, drive, l1mux;
- 	u32 l1, l2, arg = 0;
- 
 -- 
-2.20.1
-
+Alexandre Belloni, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
