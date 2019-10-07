@@ -2,72 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 05E11CE182
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2019 14:23:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 887F8CE4A2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2019 16:06:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727514AbfJGMXi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Oct 2019 08:23:38 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:45186 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727511AbfJGMXi (ORCPT
+        id S1727685AbfJGOGC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Oct 2019 10:06:02 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:50516 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727490AbfJGOGC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Oct 2019 08:23:38 -0400
-Received: by mail-ot1-f65.google.com with SMTP id 41so10729585oti.12;
-        Mon, 07 Oct 2019 05:23:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sjGjU81BF4BU4Tpv6JoGP9zx2zLgEveBDC6zBeCPJfM=;
-        b=QqThq1WOhA1Rc88p949I5S4ZZvPIpOH3j88shzovFwrMGHUiUKQ1FrxkP0d6kgbO4r
-         r3EF4bmjKG515snMVnGtVAoJr2YYUBgw40sCMAqbclp7rQ3EeARMN3M4Jv7vHiRUiDUD
-         DAVGKJoP0jO3dNtS6xKLcve7AY9Z43PU8lVIP7f/lH+ZTkHu6i9q37Zd81arnCW3ZfsY
-         zEbY4hHlLUKuRG4reoJ/Z47qvo+RF2FXD52clzzomnFwBZSt5iR/juZ6tYO1a6jaIu6h
-         WH+iNg9tU6JQro5Ls4o3i3gRq+rn4B/29C7KhXJYaZfnfSYhZumcNbYzD6SUltnGNKaj
-         NnZQ==
-X-Gm-Message-State: APjAAAXkg22Fwf6xoYGWxJlGCiNlPMEIwp7lfaVYMbyXOv/Yfjefbi1d
-        bi/KdXBHHAkvOvqlBmXlXZQNoz2NqcAZ5aOm/iWkl1lx
-X-Google-Smtp-Source: APXvYqwrsMhuaKmEC6atgG+qyrsZ5tlgmWbokMDoanrskwv+CgFup11sxZv5HMO4kDOESENX7TeRI9bNvctN3Bwmbq8=
-X-Received: by 2002:a9d:730d:: with SMTP id e13mr1265787otk.145.1570451017714;
- Mon, 07 Oct 2019 05:23:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190930145804.30497-1-chris.brandt@renesas.com>
-In-Reply-To: <20190930145804.30497-1-chris.brandt@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 7 Oct 2019 14:23:26 +0200
-Message-ID: <CAMuHMdWUq8hroJxZb=8aJVCSjUEyDJS_X8NbEUti54jJZYsj=g@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: rza2: Fix gpio name typos
-To:     Chris Brandt <chris.brandt@renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Mon, 7 Oct 2019 10:06:02 -0400
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <colin.king@canonical.com>)
+        id 1iHTeC-0001ld-4b; Mon, 07 Oct 2019 14:06:00 +0000
+From:   Colin King <colin.king@canonical.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Linus Walleij <linus.walleij@linaro.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        stable <stable@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] pinctrl: rzn1: array reg_drive static, makes object smaller
+Date:   Mon,  7 Oct 2019 15:05:59 +0100
+Message-Id: <20191007140559.11840-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Sep 30, 2019 at 4:58 PM Chris Brandt <chris.brandt@renesas.com> wrote:
-> Fix apparent copy/paste errors that were overlooked in the original driver.
->   "P0_4" -> "PF_4"
->   "P0_3" -> "PG_3"
->
-> Fixes: b59d0e782706 ("pinctrl: Add RZ/A2 pin and gpio controller")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+From: Colin Ian King <colin.king@canonical.com>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in sh-pfc-for-v5.5.
+Don't populate the array reg_drive on the stack but instead make it
+static. Makes the object code smaller by 32 bytes.
 
-Gr{oetje,eeting}s,
+Before:
+   text	   data	    bss	    dec	    hex	filename
+  31991	  15696	      0	  47687	   ba47	drivers/pinctrl/pinctrl-rzn1.o
 
-                        Geert
+After:
+   text	   data	    bss	    dec	    hex	filename
+  31863	  15792	      0	  47655	   ba27	drivers/pinctrl/pinctrl-rzn1.o
 
+(gcc version 9.2.1, amd64)
+
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/pinctrl/pinctrl-rzn1.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/pinctrl/pinctrl-rzn1.c b/drivers/pinctrl/pinctrl-rzn1.c
+index 0f6f8a10a53a..39538d40dbf3 100644
+--- a/drivers/pinctrl/pinctrl-rzn1.c
++++ b/drivers/pinctrl/pinctrl-rzn1.c
+@@ -487,7 +487,7 @@ static int rzn1_pinconf_get(struct pinctrl_dev *pctldev, unsigned int pin,
+ {
+ 	struct rzn1_pinctrl *ipctl = pinctrl_dev_get_drvdata(pctldev);
+ 	enum pin_config_param param = pinconf_to_config_param(*config);
+-	const u32 reg_drive[4] = { 4, 6, 8, 12 };
++	static const u32 reg_drive[4] = { 4, 6, 8, 12 };
+ 	u32 pull, drive, l1mux;
+ 	u32 l1, l2, arg = 0;
+ 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.20.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
