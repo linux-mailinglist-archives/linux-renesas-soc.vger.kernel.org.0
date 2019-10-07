@@ -2,74 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 529FFCE074
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2019 13:29:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF204CE07D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  7 Oct 2019 13:30:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727511AbfJGL3i (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 7 Oct 2019 07:29:38 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:41216 "EHLO
+        id S1727496AbfJGLat (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 7 Oct 2019 07:30:49 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:40417 "EHLO
         mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727496AbfJGL3i (ORCPT
+        with ESMTP id S1727490AbfJGLat (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 7 Oct 2019 07:29:38 -0400
-Received: by mail-ot1-f65.google.com with SMTP id g13so10617842otp.8;
-        Mon, 07 Oct 2019 04:29:36 -0700 (PDT)
+        Mon, 7 Oct 2019 07:30:49 -0400
+Received: by mail-ot1-f65.google.com with SMTP id y39so10619096ota.7;
+        Mon, 07 Oct 2019 04:30:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=az517lk7l2JjiWVDEoNmqTwk0kRxY6zy3XGdpUQGK/8=;
-        b=LkTKZ1jkTeR9yI8V0jI2BMS4vWkM1lrdRGvFjv2U/v9CUsNia4pyTKepMgQfyCb8xq
-         2x6q8JWXETwICqM0pE9CwEOgojNWw2BawBHFz6+vpnYNn0hK0Jy5rjFaZkYX9QgzSiXi
-         22O/9liKNXmhrKZouwa5RvTQQwF8ujXVy772raIrcj82tuc3C52wbovFNYPOQZB7N2yr
-         N+GsgYbTzdokG5j2HUghX20zk6E9uQo5wB9oYz4xEZGQf66uVn08bQ0Pco7fVBHtPssK
-         99TAzno7dYIWzIRsK4t/rBJwyNwbaPDczv55PfXt1Ic/vw9HAdNrmGxdhLnZGLNzxYb0
-         jfJg==
-X-Gm-Message-State: APjAAAVpWTK8hUhhsaTcy8Jp2UmHsePaUZT825Pdkxr0wB0pTGGfbbVH
-        R7Iy3k683Qnv9Vfnft7C/WkKqamieL30sAeQtNM=
-X-Google-Smtp-Source: APXvYqxRQNEZnEmH0p+/FXVlkwQGADEscR1yu73btXK3QB7lvmhgAJErpoReSODDZljCt9iJfWcgiO2rZ6AK2ADzaic=
-X-Received: by 2002:a9d:730d:: with SMTP id e13mr1096381otk.145.1570447776392;
- Mon, 07 Oct 2019 04:29:36 -0700 (PDT)
+        bh=7F0WkJv48+GPGKyb1Dgf9OLKRcqPwFjYveqQlob2kvM=;
+        b=CK9ah5jPwKoYfH8whGvfCSbF4JUo0tB5vv6QheUJAVUYf8B2asBSpzKFKD1O3ha2XZ
+         5SxwKo4na/ftDS9cT2QbqtOPqzflWr2Rgypd5qt3bsbQLajJKW6qGhX0ZfeQTkipe6Yh
+         4JmmZBczek2uVT9Z38JXgNNI2ieVjw7RoZxYtZPvj53Cf1MbyQKfFOzGOV1E+LRO6xdl
+         ZDlUOkJZp/M2GpbOi6XX1z+9BMD+dYXr+4bW8CaOPEHZvOwqdtzcz0Cax5bLbb6AOd2t
+         Hajv9PGLnzKq8OHsapn8Z7h/bIKzN6w4rnjMaX0ZKmy1jHXXXc8iECgPzWVK4pwffKoe
+         1RIg==
+X-Gm-Message-State: APjAAAXv2V3dlOY4QqwAU2d4PVjW4cXxxmaQyXJ2eABueTZculzf5gR+
+        0uPogyxdZbecunlqA0bJLeI4e68NJBfrl41+lEw=
+X-Google-Smtp-Source: APXvYqwnbiaCerhQZkfhR6ihvCrToXIJMFZIzVImomPLDjPNDMH9GS3mk5H/WRI6pkMRCXHijjz82wobtOwBNezlmtY=
+X-Received: by 2002:a9d:404d:: with SMTP id o13mr11215187oti.39.1570447847197;
+ Mon, 07 Oct 2019 04:30:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <1570178133-21532-1-git-send-email-fabrizio.castro@bp.renesas.com> <1570178133-21532-4-git-send-email-fabrizio.castro@bp.renesas.com>
-In-Reply-To: <1570178133-21532-4-git-send-email-fabrizio.castro@bp.renesas.com>
+References: <1569931360-17196-1-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1569931360-17196-1-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 7 Oct 2019 13:29:25 +0200
-Message-ID: <CAMuHMdX4P_5Bu2dO_kVtFFyOOTycm2jFqk8qNAzH3XEeePfG0Q@mail.gmail.com>
-Subject: Re: [PATCH 3/7] dt-bindings: PCI: rcar: Add device tree support for r8a774b1
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+Date:   Mon, 7 Oct 2019 13:30:36 +0200
+Message-ID: <CAMuHMdVrO9+cCd_C_ANRjMNSo2yasrUXzhQUeZmau_c9FT8bCA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: pwm: rcar: Add r8a774b1 support
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Mark Brown <broonie@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-pci <linux-pci@vger.kernel.org>,
+        Linux PWM List <linux-pwm@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms@verge.net.au>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>, xu_shunji@hoperun.com
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Oct 4, 2019 at 10:35 AM Fabrizio Castro
-<fabrizio.castro@bp.renesas.com> wrote:
-> Add PCIe support for the RZ/G2N (a.k.a. R8A774B1).
+On Tue, Oct 1, 2019 at 2:03 PM Biju Das <biju.das@bp.renesas.com> wrote:
+> Document RZ/G2N (R8A774B1) SoC bindings.
 >
-> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
