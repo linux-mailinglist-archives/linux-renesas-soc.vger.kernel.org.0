@@ -2,59 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C3BDCCF2A6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2019 08:17:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56184CF6DD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2019 12:18:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729928AbfJHGRo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Oct 2019 02:17:44 -0400
-Received: from mgwym02.jp.fujitsu.com ([211.128.242.41]:32513 "EHLO
-        mgwym02.jp.fujitsu.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729693AbfJHGRo (ORCPT
+        id S1729790AbfJHKSH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Oct 2019 06:18:07 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:4760 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1730118AbfJHKSH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Oct 2019 02:17:44 -0400
-Received: from yt-mxoi2.gw.nic.fujitsu.com (unknown [192.168.229.69]) by mgwym02.jp.fujitsu.com with smtp
-         id 08e4_8807_0c26c005_fa3c_4fe0_a5ea_32bb296121c3;
-        Tue, 08 Oct 2019 15:06:24 +0900
-Received: from durio.utsfd.cs.fujitsu.co.jp (durio.utsfd.cs.fujitsu.co.jp [10.24.20.112])
-        by yt-mxoi2.gw.nic.fujitsu.com (Postfix) with ESMTP id 76D3FAC0127
-        for <linux-renesas-soc@vger.kernel.org>; Tue,  8 Oct 2019 15:06:23 +0900 (JST)
-Received: by durio.utsfd.cs.fujitsu.co.jp (Postfix, from userid 1008)
-        id 427681FF420; Tue,  8 Oct 2019 15:06:23 +0900 (JST)
-From:   Keiya Nobuta <nobuta.keiya@fujitsu.com>
-To:     geert+renesas@glider.be
-Cc:     linux-renesas-soc@vger.kernel.org, nobuta.keiya@fujitsu.com
-Subject: [PATCH 3/4] pinctrl: sh-pfc: pfc-r8a7796: Fix typo in pinmux macro for SCL3
-Date:   Tue,  8 Oct 2019 15:06:18 +0900
-Message-Id: <20191008060619.30237-3-nobuta.keiya@fujitsu.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191008060619.30237-1-nobuta.keiya@fujitsu.com>
-References: <20191008060619.30237-1-nobuta.keiya@fujitsu.com>
-X-TM-AS-GCONF: 00
+        Tue, 8 Oct 2019 06:18:07 -0400
+X-IronPort-AV: E=Sophos;i="5.67,270,1566831600"; 
+   d="scan'208";a="28576496"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 08 Oct 2019 19:18:05 +0900
+Received: from localhost.localdomain (unknown [10.166.17.210])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 32BF3400C0B0;
+        Tue,  8 Oct 2019 19:18:05 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     horms@verge.net.au, linux-pci@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org, stable@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH] PCI: rcar: Fix writing the MACCTLR register value
+Date:   Tue,  8 Oct 2019 19:18:04 +0900
+Message-Id: <1570529884-20888-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SCL3 is assigned to GPSR2 bit7 referred by IP1_23_20 macro.
+According to the R-Car Gen2/3 manual, the bit 0 of MACCTLR register
+should be written by 0. To avoid unexpected behaviors from this
+incorrect setting, this patch fixes it.
 
-Signed-off-by: Keiya Nobuta <nobuta.keiya@fujitsu.com>
+Fixes: b3327f7fae66 ("PCI: rcar: Try increasing PCIe link speed to 5 GT/s at boot")
+Cc: <stable@vger.kernel.org> # v4.9+
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 ---
- drivers/pinctrl/sh-pfc/pfc-r8a7796.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/pci/controller/pcie-rcar.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/pinctrl/sh-pfc/pfc-r8a7796.c b/drivers/pinctrl/sh-pfc/pfc-r8a7796.c
-index 61db7c7..3689f76 100644
---- a/drivers/pinctrl/sh-pfc/pfc-r8a7796.c
-+++ b/drivers/pinctrl/sh-pfc/pfc-r8a7796.c
-@@ -729,7 +729,7 @@ static const u16 pinmux_data[] = {
- 	PINMUX_IPSR_PHYS_MSEL(IP1_23_20, HRX3_D,		I2C_SEL_3_0,	SEL_HSCIF3_3),
- 	PINMUX_IPSR_PHYS_MSEL(IP1_23_20, VI4_DATA7_B,		I2C_SEL_3_0,	SEL_VIN4_1),
- 	PINMUX_IPSR_PHYS_MSEL(IP1_23_20, IERX_B,		I2C_SEL_3_0,	SEL_IEBUS_1),
--	PINMUX_IPSR_PHYS(IP0_23_20,	SCL3,			I2C_SEL_3_1),
-+	PINMUX_IPSR_PHYS(IP1_23_20,	SCL3,			I2C_SEL_3_1),
+diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
+index f6a669a..9eb9b25 100644
+--- a/drivers/pci/controller/pcie-rcar.c
++++ b/drivers/pci/controller/pcie-rcar.c
+@@ -93,6 +93,7 @@
+ #define  LINK_SPEED_2_5GTS	(1 << 16)
+ #define  LINK_SPEED_5_0GTS	(2 << 16)
+ #define MACCTLR			0x011058
++#define  MACCTLR_RESERVED	BIT(0)
+ #define  SPEED_CHANGE		BIT(24)
+ #define  SCRAMBLE_DISABLE	BIT(27)
+ #define PMSR			0x01105c
+@@ -427,7 +428,8 @@ static void rcar_pcie_force_speedup(struct rcar_pcie *pcie)
+ 		rcar_pci_write_reg(pcie, macsr, MACSR);
  
- 	PINMUX_IPSR_PHYS_MSEL(IP1_27_24, PWM2_A,		I2C_SEL_3_0,	SEL_PWM2_0),
- 	PINMUX_IPSR_PHYS_MSEL(IP1_27_24, HTX3_D,		I2C_SEL_3_0,	SEL_HSCIF3_3),
+ 	/* Start link speed change */
+-	rcar_rmw32(pcie, MACCTLR, SPEED_CHANGE, SPEED_CHANGE);
++	rcar_rmw32(pcie, MACCTLR, SPEED_CHANGE | MACCTLR_RESERVED,
++		   SPEED_CHANGE);
+ 
+ 	while (timeout--) {
+ 		macsr = rcar_pci_read_reg(pcie, MACSR);
 -- 
 2.7.4
 
