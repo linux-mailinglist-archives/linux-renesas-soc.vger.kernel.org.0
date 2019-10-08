@@ -2,69 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 56184CF6DD
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2019 12:18:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 879F6CF718
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  8 Oct 2019 12:39:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729790AbfJHKSH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Oct 2019 06:18:07 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:4760 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1730118AbfJHKSH (ORCPT
+        id S1729893AbfJHKjG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Oct 2019 06:39:06 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:25755 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729790AbfJHKjG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Oct 2019 06:18:07 -0400
+        Tue, 8 Oct 2019 06:39:06 -0400
 X-IronPort-AV: E=Sophos;i="5.67,270,1566831600"; 
-   d="scan'208";a="28576496"
+   d="scan'208";a="28359337"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 08 Oct 2019 19:18:05 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 32BF3400C0B0;
-        Tue,  8 Oct 2019 19:18:05 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     horms@verge.net.au, linux-pci@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org, stable@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH] PCI: rcar: Fix writing the MACCTLR register value
-Date:   Tue,  8 Oct 2019 19:18:04 +0900
-Message-Id: <1570529884-20888-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+  by relmlie6.idc.renesas.com with ESMTP; 08 Oct 2019 19:39:03 +0900
+Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 55637400C0B8;
+        Tue,  8 Oct 2019 19:38:59 +0900 (JST)
+From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms@verge.net.au>,
+        Vinod Koul <vkoul@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>, dmaengine@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Subject: [PATCH 00/10] Add USB2/USB3/INTC-EX support to RZ/G2N
+Date:   Tue,  8 Oct 2019 11:38:42 +0100
+Message-Id: <1570531132-21856-1-git-send-email-fabrizio.castro@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-According to the R-Car Gen2/3 manual, the bit 0 of MACCTLR register
-should be written by 0. To avoid unexpected behaviors from this
-incorrect setting, this patch fixes it.
+Dear All,
 
-Fixes: b3327f7fae66 ("PCI: rcar: Try increasing PCIe link speed to 5 GT/s at boot")
-Cc: <stable@vger.kernel.org> # v4.9+
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/pci/controller/pcie-rcar.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+this series adds USB 2.0, USB 3.0, and INTC-EX support to the RZ/G2N
+SoC specfic dtsi.
 
-diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
-index f6a669a..9eb9b25 100644
---- a/drivers/pci/controller/pcie-rcar.c
-+++ b/drivers/pci/controller/pcie-rcar.c
-@@ -93,6 +93,7 @@
- #define  LINK_SPEED_2_5GTS	(1 << 16)
- #define  LINK_SPEED_5_0GTS	(2 << 16)
- #define MACCTLR			0x011058
-+#define  MACCTLR_RESERVED	BIT(0)
- #define  SPEED_CHANGE		BIT(24)
- #define  SCRAMBLE_DISABLE	BIT(27)
- #define PMSR			0x01105c
-@@ -427,7 +428,8 @@ static void rcar_pcie_force_speedup(struct rcar_pcie *pcie)
- 		rcar_pci_write_reg(pcie, macsr, MACSR);
- 
- 	/* Start link speed change */
--	rcar_rmw32(pcie, MACCTLR, SPEED_CHANGE, SPEED_CHANGE);
-+	rcar_rmw32(pcie, MACCTLR, SPEED_CHANGE | MACCTLR_RESERVED,
-+		   SPEED_CHANGE);
- 
- 	while (timeout--) {
- 		macsr = rcar_pci_read_reg(pcie, MACSR);
+This series depends on the following patches:
+* https://patchwork.kernel.org/cover/11166155/
+* https://patchwork.kernel.org/cover/11157129/
+* https://patchwork.kernel.org/cover/11158259/
+* https://patchwork.kernel.org/cover/11171325/
+* https://patchwork.kernel.org/cover/11173787/
+* https://patchwork.kernel.org/patch/11174777/
+
+Thanks,
+Fab
+
+Fabrizio Castro (10):
+  dt-bindings: rcar-gen3-phy-usb2: Add r8a774b1 support
+  dt-bindings: dmaengine: usb-dmac: Add binding for r8a774b1
+  dt-bindings: usb: renesas_usbhs: Add r8a774b1 support
+  dt-bindings: rcar-gen3-phy-usb3: Add r8a774b1 support
+  dt-bindings: usb-xhci: Add r8a774b1 support
+  dt-bindings: usb: renesas_usb3: Document r8a774b1 support
+  arm64: dts: renesas: r8a774b1: Add USB2.0 phy and host (EHCI/OHCI)
+    device nodes
+  arm64: dts: renesas: r8a774b1: Add USB-DMAC and HSUSB device nodes
+  arm64: dts: renesas: r8a774b1: Add USB3.0 device nodes
+  arm64: dts: renesas: r8a774b1: Add INTC-EX device node
+
+ .../devicetree/bindings/dma/renesas,usb-dmac.txt   |   1 +
+ .../devicetree/bindings/phy/rcar-gen3-phy-usb2.txt |   2 +
+ .../devicetree/bindings/phy/rcar-gen3-phy-usb3.txt |   2 +
+ .../devicetree/bindings/usb/renesas,usb3-peri.txt  |   1 +
+ .../devicetree/bindings/usb/renesas,usbhs.txt      |   1 +
+ Documentation/devicetree/bindings/usb/usb-xhci.txt |   1 +
+ arch/arm64/boot/dts/renesas/r8a774b1.dtsi          | 138 +++++++++++++++++++--
+ 7 files changed, 136 insertions(+), 10 deletions(-)
+
 -- 
 2.7.4
 
