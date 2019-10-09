@@ -2,75 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 81BCBD12D0
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 17:32:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFE4DD13C2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 18:13:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731144AbfJIPcE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Oct 2019 11:32:04 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:40751 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729644AbfJIPcE (ORCPT
+        id S1731375AbfJIQN1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Oct 2019 12:13:27 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:49141 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1731426AbfJIQN1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Oct 2019 11:32:04 -0400
-Received: by mail-oi1-f196.google.com with SMTP id k9so2104355oib.7;
-        Wed, 09 Oct 2019 08:32:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pj9tjAnDc8iLQihhsMD5mfW9PPSTfA4XaUb/MOWRYIw=;
-        b=AAxTZdfkp8E59/y4BrjgmywUnhKETOP76D0f1jXZcfVqnJ89A2XH3TGwqtoKt9rQhe
-         sW+Pmbq2LE3l18rpTKar7pP6aGNg+F3KRyXEb0aCMxgTVF1Yg9pzq/eMDbVRlFKAKKjX
-         3qt1KPLVwXMZdu6kcIDxdKNteLebLmG+NELmpHlEuxCjCjC5XyT/lLd4hMiV2kObG+Zo
-         EmhWlqXWEDUs3PP3hcPUvNvWmbxsCU0E94skbVF2mosIFqkTuf1XX8770bBq497h7aVL
-         SJsvv1sg+qNmGAEoQGYNKkqCoXL7MJc9pGtQQh6CzhlFQNoF4L3DA1pv3R8Qxb3a1XnU
-         eQ0A==
-X-Gm-Message-State: APjAAAVJcJElPdEMposT9iDsJFke4qCTIaHP676o+d8zyZY9wDXxDrdL
-        Spp7iRqHjWestc+zsYDe2lfA2bAz/IAUpe7yhYY=
-X-Google-Smtp-Source: APXvYqyg0DPnkodAIUWYnwxuCI1rQIZYcBCt+bZis9NcW1GFg24xT11r34A8e3ZC3j752zjco0fFSC/uxrAdeFBEuRM=
-X-Received: by 2002:a05:6808:3b4:: with SMTP id n20mr2808137oie.131.1570635121721;
- Wed, 09 Oct 2019 08:32:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <1570029619-43238-1-git-send-email-biju.das@bp.renesas.com> <1570029619-43238-9-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1570029619-43238-9-git-send-email-biju.das@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 9 Oct 2019 17:31:50 +0200
-Message-ID: <CAMuHMdWWekewwvASHv+XPdUqFtUUBiHVG9wNi8h+uwMKKnO_6A@mail.gmail.com>
-Subject: Re: [PATCH v3 8/9] arm64: dts: renesas: hihope-rzg2-ex: Add LVDS support
-To:     Biju Das <biju.das@bp.renesas.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
+        Wed, 9 Oct 2019 12:13:27 -0400
+X-IronPort-AV: E=Sophos;i="5.67,276,1566831600"; 
+   d="scan'208";a="28696663"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 10 Oct 2019 01:13:24 +0900
+Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 97C8A4015EDD;
+        Thu, 10 Oct 2019 01:13:22 +0900 (JST)
+From:   Biju Das <biju.das@bp.renesas.com>
+To:     Kishon Vijay Abraham I <kishon@ti.com>
+Cc:     Biju Das <biju.das@bp.renesas.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Simon Horman <horms@verge.net.au>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2 RESEND] phy: renesas: phy-rcar-gen2: Fix the array off by one warning
+Date:   Wed,  9 Oct 2019 17:12:49 +0100
+Message-Id: <1570637569-41057-1-git-send-email-biju.das@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Oct 2, 2019 at 5:21 PM Biju Das <biju.das@bp.renesas.com> wrote:
-> This patch adds LVDS support for RZ/G2[MN] boards.
->
-> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Fix the below smatch warning by adding variable check rather than the
+hardcoded value.
+warn: array off by one? 'data->select_value[channel_num]'
 
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.5.
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+V1-->V2 
+  * Incorporated Geert's review comments.
+    (https://patchwork.kernel.org/patch/10944837/)
+V2-->V2 Resend
+  * Rebased to phy next.
+---
+ drivers/phy/renesas/phy-rcar-gen2.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/drivers/phy/renesas/phy-rcar-gen2.c b/drivers/phy/renesas/phy-rcar-gen2.c
+index 2926e49..2e279ac 100644
+--- a/drivers/phy/renesas/phy-rcar-gen2.c
++++ b/drivers/phy/renesas/phy-rcar-gen2.c
+@@ -71,6 +71,7 @@ struct rcar_gen2_phy_driver {
+ struct rcar_gen2_phy_data {
+ 	const struct phy_ops *gen2_phy_ops;
+ 	const u32 (*select_value)[PHYS_PER_CHANNEL];
++	const u32 num_channels;
+ };
+ 
+ static int rcar_gen2_phy_init(struct phy *p)
+@@ -271,11 +272,13 @@ static const u32 usb20_select_value[][PHYS_PER_CHANNEL] = {
+ static const struct rcar_gen2_phy_data rcar_gen2_usb_phy_data = {
+ 	.gen2_phy_ops = &rcar_gen2_phy_ops,
+ 	.select_value = pci_select_value,
++	.num_channels = ARRAY_SIZE(pci_select_value),
+ };
+ 
+ static const struct rcar_gen2_phy_data rz_g1c_usb_phy_data = {
+ 	.gen2_phy_ops = &rz_g1c_phy_ops,
+ 	.select_value = usb20_select_value,
++	.num_channels = ARRAY_SIZE(usb20_select_value),
+ };
+ 
+ static const struct of_device_id rcar_gen2_phy_match_table[] = {
+@@ -389,7 +392,7 @@ static int rcar_gen2_phy_probe(struct platform_device *pdev)
+ 		channel->selected_phy = -1;
+ 
+ 		error = of_property_read_u32(np, "reg", &channel_num);
+-		if (error || channel_num > 2) {
++		if (error || channel_num >= data->num_channels) {
+ 			dev_err(dev, "Invalid \"reg\" property\n");
+ 			of_node_put(np);
+ 			return error;
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.7.4
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
