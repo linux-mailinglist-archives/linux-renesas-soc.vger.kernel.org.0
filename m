@@ -2,44 +2,46 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 87A58D0E96
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 14:22:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95C95D0E99
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 14:22:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729566AbfJIMWC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Oct 2019 08:22:02 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:32884 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727286AbfJIMWB (ORCPT
+        id S1729566AbfJIMWd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Oct 2019 08:22:33 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:37329 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727286AbfJIMWd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Oct 2019 08:22:01 -0400
-Received: by mail-ot1-f65.google.com with SMTP id 60so1536657otu.0;
-        Wed, 09 Oct 2019 05:22:01 -0700 (PDT)
+        Wed, 9 Oct 2019 08:22:33 -0400
+Received: by mail-ot1-f68.google.com with SMTP id k32so1531461otc.4;
+        Wed, 09 Oct 2019 05:22:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=KWr6oPUwAuwrnV32eWlXtyz3eItdS6g6djRp+GIKmfA=;
-        b=jpC0R0/cEHi2+kEKC7tVZZRhJRTwSJa+BcySSsblB0YID1i46vrbkUfiISu6B48Eye
-         AWtwd92F3C+5p+3ASqMb+HaC17awnQddLWEVy8lIkTTBeUBy4R/KYCMRRfpRMgI8YVy4
-         33QkezXNdfLD9JgwbE8kFrPdbAssOURQxBAdjGsHDEq5lhgLFLVDnrsOB4tO1pIgaIox
-         9mTCwYG+uoK0PPVGIq3Cqn/gb6Drxcagd7Cj9qRT5zB0jMM4TmlQl8oTl+82+2Fikzvs
-         2Jn7/P1JTiV0zxKvEDKdHJswrYBwc2n1TldQwIR5KZuey4jzfCT7SMZkzgOsI1X798Hu
-         qYxA==
-X-Gm-Message-State: APjAAAVdQdQcbQ50O3bGgL2KbB1wFN41Wsavy4wVPkHQHldM1EKrAXF5
-        t1tsCZR02DjqaoCHlVm3T5YZCI6JGmEk1mFFaIk=
-X-Google-Smtp-Source: APXvYqw6NUTcn6SeDA8o9uFTdunSYPY+GzZmW4NrM3TVgTAYIb9bHk6V0QYmS+jFyc93E3fv8PhG6MmrwqTVCTiPHPM=
-X-Received: by 2002:a9d:7345:: with SMTP id l5mr2598472otk.39.1570623720963;
- Wed, 09 Oct 2019 05:22:00 -0700 (PDT)
+        bh=xC1UlE1u0JStb57nVPQ7CBGmDgiAu3OcmWsjU39D7TQ=;
+        b=C5YfhMNwOn5rCl+jPAOyaQvqW+Lpk9u1Svhl1Ngyyznlv7Pp8zEIHR7bgdZ7vVDIsj
+         4/cvbDdOI+LLgisn1l5EBrC27dyTmAbjtRKtbasLxWQu4dD7zgrL9abseGbueuX/LJLE
+         Qx5NtAf5qNtxKSdoEYpOlQ0QWNIn5TSIt20+1/UkNj9/fL8L0JNUq6u0wqIusilfmav1
+         foDaEgxCjbCjNMxYYyRiG4JMCXSQ5NqHKcpT8r2jrlQ2tF9LvTkazEt5d5HvGcvFoT1A
+         DzrjayeSY8G+wdYiuSCYjTc3C6ekrPBuyUcZ9LCjgqxCLtwuqz5MSou1sAXhrHZXRD3O
+         N5lw==
+X-Gm-Message-State: APjAAAVlDEo3+TQitj1lTyaI3xLcxzXYbM73ZHwtkydxjwzuaCW5wpT6
+        KK4TiWG8GS+hPxwW4MjvMok5D2xXEFk7HzttsGE=
+X-Google-Smtp-Source: APXvYqyQGwipLgN1wicN2waQYaBVy7rTHWOXkeVYsQO7NAbqbXJmdsjjCVYhbuprpQIHEJDyquuYbEMDxYX5J1tTV6c=
+X-Received: by 2002:a9d:70d0:: with SMTP id w16mr2433733otj.107.1570623750637;
+ Wed, 09 Oct 2019 05:22:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <1569313375-53428-1-git-send-email-biju.das@bp.renesas.com> <1569313375-53428-7-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1569313375-53428-7-git-send-email-biju.das@bp.renesas.com>
+References: <1569313375-53428-1-git-send-email-biju.das@bp.renesas.com> <1569313375-53428-8-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1569313375-53428-8-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 9 Oct 2019 14:21:49 +0200
-Message-ID: <CAMuHMdX8aTfmjOT2mn4=M++-T7hv2ck44qh8=xVEZfNC94Kwmw@mail.gmail.com>
-Subject: Re: [PATCH 6/7] arm64: dts: renesas: r8a774b1: Tie SYS-DMAC to IPMMU-DS0/1
+Date:   Wed, 9 Oct 2019 14:22:19 +0200
+Message-ID: <CAMuHMdWsncjG8CtfSZt4iC9ZvWWyM8sM9gmwRCaY_H=jhSn+9A@mail.gmail.com>
+Subject: Re: [PATCH 7/7] arm64: dts: renesas: r8a774b1: Connect Ethernet-AVB
+ to IPMMU-DS0
 To:     Biju Das <biju.das@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Simon Horman <horms@verge.net.au>,
         Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
@@ -54,10 +56,9 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Tue, Sep 24, 2019 at 10:23 AM Biju Das <biju.das@bp.renesas.com> wrote:
-> Hook up r8a774b1 DMAC nodes to the IPMMUs. In particular SYS-DMAC0
-> gets tied to IPMMU-DS0, and SYS-DMAC1 and SYS-DMAC2 get tied to IPMMU-DS1.
+> Add IPMMU-DS0 to the Ethernet-AVB device node.
 >
-> Based on work for the r8a7796 by Magnus Damm.
+> Based on work by Magnus Damm for the r8a7795.
 >
 > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
