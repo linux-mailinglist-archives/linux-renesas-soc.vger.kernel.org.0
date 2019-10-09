@@ -2,133 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 12E11D0FB5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 15:12:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E15BD10D7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 16:07:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731219AbfJINMj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Oct 2019 09:12:39 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:34429 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731049AbfJINMj (ORCPT
+        id S1731381AbfJIOH3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Oct 2019 10:07:29 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:36576 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731291AbfJIOH3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Oct 2019 09:12:39 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id B38171BF20F;
-        Wed,  9 Oct 2019 13:12:34 +0000 (UTC)
-Date:   Wed, 9 Oct 2019 15:14:20 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Stephen Boyd <swboyd@chromium.org>, linux-kernel@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 02/10] media: renesas-ceu: Use of_device_get_match_data()
-Message-ID: <20191009131420.g4wdxa5t2ljiab2l@uno.localdomain>
-References: <20191004214334.149976-1-swboyd@chromium.org>
- <20191004214334.149976-3-swboyd@chromium.org>
- <20191009095440.6e834ecf@coco.lan>
+        Wed, 9 Oct 2019 10:07:29 -0400
+Received: by mail-ot1-f66.google.com with SMTP id 67so1827038oto.3;
+        Wed, 09 Oct 2019 07:07:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Xoqu4/6gzZJfqydmLWCZZExTM+Z/HHchEI/c3BMPIcY=;
+        b=T/mfS4YAhhPvuePxJ6MIJOcbml47SI6B5hvCOOLVEdt+DFDJO1PHQ0q047P//wVQKC
+         rXsR0Hextecd6M7RP0EiWHlv/E45lpCuAAdrOY5X8abxrZFyAqIUB+N1vXJr0+yMYqGm
+         0zSocij5OnAFpz5DCvTY6AGVSd/GJUEXn/O0l1Gt6KkJ0g9lCNXeKY2MikxaqNqV6CKR
+         UwGPEhbCpdvOsk53BNCDQ0455AV1fESSjyDh0uujWJOpTKESIBp6F8/LSf9UmtDLU/0U
+         dEW3FGbf6xA2B+2WJsxWejL5ZQy5rmHAVpbmcBk2KZ6P1xMPBCDms0ZHnG5Am839nJyw
+         z9Fw==
+X-Gm-Message-State: APjAAAWDOBNUSdM4ji4yctZcJ00mJ9AGKCDHn6k6X3r/4FFSkc4QCZLA
+        LqQFBCw7YVeqazeIcJ+EJFG3pClb8NU3LtIROvc=
+X-Google-Smtp-Source: APXvYqxG9nKgXLSoFI7/giibY8i89eFKiPK6JRXt8GaE/1srOdt2enUGLSmmEHLF6Cfzpg5dHk5/eRRLlvpTtbTZ5ZA=
+X-Received: by 2002:a05:6830:1b75:: with SMTP id d21mr3034304ote.145.1570630048241;
+ Wed, 09 Oct 2019 07:07:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="yyqmrurhzcbwilu3"
-Content-Disposition: inline
-In-Reply-To: <20191009095440.6e834ecf@coco.lan>
-User-Agent: NeoMutt/20180716
+References: <1570531132-21856-1-git-send-email-fabrizio.castro@bp.renesas.com> <1570531132-21856-8-git-send-email-fabrizio.castro@bp.renesas.com>
+In-Reply-To: <1570531132-21856-8-git-send-email-fabrizio.castro@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 9 Oct 2019 16:07:17 +0200
+Message-ID: <CAMuHMdV8+Rsb53dsMEoRMk3Oj7yEqbhJ7CTNz-Z90ZZaBkZV8Q@mail.gmail.com>
+Subject: Re: [PATCH 07/10] arm64: dts: renesas: r8a774b1: Add USB2.0 phy and
+ host (EHCI/OHCI) device nodes
+To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Cc:     Simon Horman <horms@verge.net.au>, Vinod Koul <vkoul@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>, dmaengine@vger.kernel.org,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
---yyqmrurhzcbwilu3
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
-Sorry,
-   totally missed it
-
-On Wed, Oct 09, 2019 at 09:54:40AM -0300, Mauro Carvalho Chehab wrote:
-> Em Fri,  4 Oct 2019 14:43:26 -0700
-> Stephen Boyd <swboyd@chromium.org> escreveu:
+On Tue, Oct 8, 2019 at 12:39 PM Fabrizio Castro
+<fabrizio.castro@bp.renesas.com> wrote:
+> Add USB2.0 phy and host (EHCI/OHCI) device nodes on RZ/G2N SoC dtsi.
 >
-> > This driver can use the replacement API instead of calling
-> > of_match_device() and then dereferencing the pointer that is returned.
-> > This nicely avoids referencing the match table when it is undefined with
-> > configurations where CONFIG_OF=n.
-> >
-> > Cc: Arnd Bergmann <arnd@arndb.de>
-> > Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> > Cc: Jacopo Mondi <jacopo@jmondi.org>
-> > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > Cc: Rob Herring <robh+dt@kernel.org>
-> > Cc: Frank Rowand <frowand.list@gmail.com>
-> > Cc: <linux-media@vger.kernel.org>
-> > Cc: <linux-renesas-soc@vger.kernel.org>
-> > Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> > ---
-> >
-> > Please ack or pick for immediate merge so the last patch can be merged.
->
-> Feel free to merge it via your tree:
->
-> Acked-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
->
+> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 
-The CEU driver does probably not need this as the dereferencing of the
-pointer returned by of_match_device() is guarded by
-IS_ENABLED(CONFIG_OF), but surely this does not hurt and it's nicer to
-read.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.5.
 
-With Mauro's ack mine is probably not needed, but:
-Acked-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Gr{oetje,eeting}s,
 
-Thanks
-   j
->
-> >
-> >  drivers/media/platform/renesas-ceu.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/platform/renesas-ceu.c b/drivers/media/platform/renesas-ceu.c
-> > index 197b3991330d..60518bbc2cd5 100644
-> > --- a/drivers/media/platform/renesas-ceu.c
-> > +++ b/drivers/media/platform/renesas-ceu.c
-> > @@ -1679,7 +1679,7 @@ static int ceu_probe(struct platform_device *pdev)
-> >  	v4l2_async_notifier_init(&ceudev->notifier);
-> >
-> >  	if (IS_ENABLED(CONFIG_OF) && dev->of_node) {
-> > -		ceu_data = of_match_device(ceu_of_match, dev)->data;
-> > +		ceu_data = of_device_get_match_data(dev);
-> >  		num_subdevs = ceu_parse_dt(ceudev);
-> >  	} else if (dev->platform_data) {
-> >  		/* Assume SH4 if booting with platform data. */
->
->
->
-> Thanks,
-> Mauro
+                        Geert
 
---yyqmrurhzcbwilu3
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl2d3SwACgkQcjQGjxah
-VjygUhAAhXBeSvuYWzjdo23jPGMvoLueN77MU0RKZYyiVTxGeOygwNSJIqYYQCoD
-4J/QfP05RmeX++f0mAwX0Pcizyki7nwWBkT6+6EfLYQKWgariDZlbeI6dThQxK+Z
-ErdTfceYG/9XPPlfKbdVbJuzg9boZ6FBc1+KQ96ceP05FeFwX/LrF7ythI/KOfkL
-OBDu1vCgrDUCX1EdUWyHRyXvrMKK1CJ4EVpYJzWBuElUtTjMNAkYg8jGb65uYzWn
-ko3nDjSWA22pUMXULfJ2UbL+U9zH0OMRwErNF2Vxnd5+xk8ikxLopBEg2iNJhKVT
-BMQs0DGbsZgt9A1hEWGG1z8Ucvai9FKdW158CVPcHdey+JUlcR/Rc8IBvtoYMwrW
-cr/Aeyws3qQXty3R0+XeVD3ROhOyAm1IN3yqBMdaBpy3uOiBXY3EF23ytEcA0tYz
-STOg445+0m7Zwj2rt35abAp0KVfBcz3KMoxYKjQwTVWM1LAiV58nangbBWYspm/x
-L5PspcBXjfhMIr4HclYh5KsXqt2ELmFKt7Yzn0zcQ7hwyt7EhiCpl56viQLUttka
-jIx3+LbPEC+oo1GZAfVR2oBdvLuYxvT2eH6RWP4G4sWjfaAPviL9W7c+4B+DQpc5
-DBk9GLxIlYI+Oip/M/dwhFj9lFiP+AovjRjGq5l9HshDrPbBDlU=
-=1szO
------END PGP SIGNATURE-----
-
---yyqmrurhzcbwilu3--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
