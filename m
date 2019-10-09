@@ -2,110 +2,86 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DAA45D09BA
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 10:26:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 206BDD0A23
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 10:49:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730218AbfJII0x (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Oct 2019 04:26:53 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:30789 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729592AbfJII0x (ORCPT
+        id S1729616AbfJIItM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Oct 2019 04:49:12 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:43602 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725440AbfJIItL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Oct 2019 04:26:53 -0400
-X-IronPort-AV: E=Sophos;i="5.67,273,1566831600"; 
-   d="scan'208";a="28451943"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 09 Oct 2019 17:26:50 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5B1BE41A3B1F;
-        Wed,  9 Oct 2019 17:26:50 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     joro@8bytes.org
-Cc:     iommu@lists.linux-foundation.org,
-        linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH 3/3] iommu/ipmmu-vmsa: Add utlb_offset_base
-Date:   Wed,  9 Oct 2019 17:26:49 +0900
-Message-Id: <1570609609-1332-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1570609609-1332-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1570609609-1332-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Wed, 9 Oct 2019 04:49:11 -0400
+Received: by mail-lj1-f194.google.com with SMTP id n14so1597476ljj.10
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 09 Oct 2019 01:49:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Fw68qKfNBJ3MG20DUBqZIzVWDe20WI/LhFnx7roFxhs=;
+        b=k8jh3KUK49JxXE6byOUawxlBLoaHRDdaZPoEFbuQJTg4/15q2NUtUb/W5jpqOyX6bS
+         rqDd/e1ZuWc5mygYvEpbOYoHqosAx+8LI4KBntbJQqqGN7UVpY7NlNOHk8oksgUNmCok
+         alhnWOJLr8ca/e0Fpa2MtDm0bMkwDRGDMi8Gnc2BzNTf/I4s1r91pjeHfu8pnqsd04x4
+         FB7NN83/9VJjtlGjWiwfTVlBDJYCCerQeFvFG6Ti2iVeF+uR34VIo84hAyNPRrIZiCNB
+         9h4SWjpYnfhXcgO1qzySVBeKfC3cJjr+84SodfHoEqN8Gx26E3kcZFbCRBOvZN4vh4Cy
+         5uiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Fw68qKfNBJ3MG20DUBqZIzVWDe20WI/LhFnx7roFxhs=;
+        b=GEFmRf9tGbN96kHp5KO3YSQ14qrh6s/too0bWTKWcBiIgvc02H8KIAjW/RX5UBhkDB
+         4FgL/0ZGhrifwdow2C8EXGenKEC2u35OPboixe4s05qNOlYj38q6yp2Zykv/o6UPFxTA
+         McK1YYOnRR6scdR4Jn0d78vIKZr/QeKH7qMgCFr30Qzqn3fl+d3JsI0mNnuoPa4OTPcA
+         eo5ZYGe5jtj7T5eP/KCsJX0fSfLIW/+ebHSdru+65OudsnDXNZHK3f1IFrwZe9mpVKe5
+         uhO/t1/F7zSuVrNIklnem72PYoBJauulAr5qZlqlfsWdnXAArvebejqBBjcxsK0b5Ooc
+         WfMA==
+X-Gm-Message-State: APjAAAXwg/TmHeCaciMnOM0LVqQAitFq0vdP1BrKFZxLuBZ/OqQZYzLx
+        MfSMJQibEfYhMvg7FeD0JTNDzBDIUSepaQ==
+X-Google-Smtp-Source: APXvYqwRBfPUz4nmbVDYIdMECrm/KMEnqoMdu7wPMUcBwNhPxmh9+WUSgtLHQd3IGwU9SeIICSilUg==
+X-Received: by 2002:a2e:5dd5:: with SMTP id v82mr1629021lje.54.1570610949674;
+        Wed, 09 Oct 2019 01:49:09 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:88d:9246:fcd9:ed2e:f8ad:568f? ([2a00:1fa0:88d:9246:fcd9:ed2e:f8ad:568f])
+        by smtp.gmail.com with ESMTPSA id z72sm312363ljb.98.2019.10.09.01.49.08
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 09 Oct 2019 01:49:08 -0700 (PDT)
+Subject: Re: [PATCH v2] PCI: rcar: Fix writing the MACCTLR register value
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        horms@verge.net.au, linux-pci@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org, stable@vger.kernel.org
+References: <1570593791-6958-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Message-ID: <2b0f09cd-323d-864d-09df-40d431693f19@cogentembedded.com>
+Date:   Wed, 9 Oct 2019 11:48:59 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <1570593791-6958-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Since we will have changed memory mapping of the IPMMU in the future,
-this patch adds a utlb_offset_base into struct ipmmu_features
-for IMUCTR and IMUASID registers.
-No behavior change.
+On 09.10.2019 7:03, Yoshihiro Shimoda wrote:
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/iommu/ipmmu-vmsa.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+> According to the R-Car Gen2/3 manual, the bit 0 of MACCTLR register
+> should be written to 0 because the register is set to 1 on reset.
 
-diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
-index 76fb250..bc00e58 100644
---- a/drivers/iommu/ipmmu-vmsa.c
-+++ b/drivers/iommu/ipmmu-vmsa.c
-@@ -52,6 +52,7 @@ struct ipmmu_features {
- 	bool cache_snoop;
- 	u32 ctx_offset_base;
- 	u32 ctx_offset_stride;
-+	u32 utlb_offset_base;
- };
- 
- struct ipmmu_vmsa_device {
-@@ -285,6 +286,11 @@ static void ipmmu_ctx_write_all(struct ipmmu_vmsa_domain *domain,
- 	ipmmu_ctx_write_root(domain, reg, data);
- }
- 
-+static u32 ipmmu_utlb_reg(struct ipmmu_vmsa_device *mmu, unsigned int reg)
-+{
-+	return mmu->features->utlb_offset_base + reg;
-+}
-+
- /* -----------------------------------------------------------------------------
-  * TLB and microTLB Management
-  */
-@@ -330,9 +336,9 @@ static void ipmmu_utlb_enable(struct ipmmu_vmsa_domain *domain,
- 	 */
- 
- 	/* TODO: What should we set the ASID to ? */
--	ipmmu_write(mmu, IMUASID(utlb), 0);
-+	ipmmu_write(mmu, ipmmu_utlb_reg(mmu, IMUASID(utlb)), 0);
- 	/* TODO: Do we need to flush the microTLB ? */
--	ipmmu_write(mmu, IMUCTR(utlb),
-+	ipmmu_write(mmu, ipmmu_utlb_reg(mmu, IMUCTR(utlb)),
- 		    IMUCTR_TTSEL_MMU(domain->context_id) | IMUCTR_FLUSH |
- 		    IMUCTR_MMUEN);
- 	mmu->utlb_ctx[utlb] = domain->context_id;
-@@ -346,7 +352,7 @@ static void ipmmu_utlb_disable(struct ipmmu_vmsa_domain *domain,
- {
- 	struct ipmmu_vmsa_device *mmu = domain->mmu;
- 
--	ipmmu_write(mmu, IMUCTR(utlb), 0);
-+	ipmmu_write(mmu, ipmmu_utlb_reg(mmu, IMUCTR(utlb)), 0);
- 	mmu->utlb_ctx[utlb] = IPMMU_CTX_INVALID;
- }
- 
-@@ -995,6 +1001,7 @@ static const struct ipmmu_features ipmmu_features_default = {
- 	.cache_snoop = true,
- 	.ctx_offset_base = 0,
- 	.ctx_offset_stride = 0x40,
-+	.utlb_offset_base = 0,
- };
- 
- static const struct ipmmu_features ipmmu_features_rcar_gen3 = {
-@@ -1008,6 +1015,7 @@ static const struct ipmmu_features ipmmu_features_rcar_gen3 = {
- 	.cache_snoop = false,
- 	.ctx_offset_base = 0,
- 	.ctx_offset_stride = 0x40,
-+	.utlb_offset_base = 0,
- };
- 
- static const struct of_device_id ipmmu_of_ids[] = {
--- 
-2.7.4
+    The bit 0 set to 1, not the whole register (it has 1s also in the
+bits 16-23).
 
+> To avoid unexpected behaviors from this incorrect setting, this
+> patch fixes it.
+> 
+> Fixes: b3327f7fae66 ("PCI: rcar: Try increasing PCIe link speed to 5 GT/s at boot")
+> Cc: <stable@vger.kernel.org> # v4.9+
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+
+[...]
+
+MBR, Sergei
