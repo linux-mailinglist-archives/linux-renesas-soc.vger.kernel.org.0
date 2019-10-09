@@ -2,98 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D2DEDD0DA1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 13:30:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 482BAD0DFC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 13:52:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728054AbfJILax (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Oct 2019 07:30:53 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:37231 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725914AbfJILax (ORCPT
+        id S1728200AbfJILwf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Oct 2019 07:52:35 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:42328 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725962AbfJILwe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Oct 2019 07:30:53 -0400
-Received: by mail-ot1-f68.google.com with SMTP id k32so1407692otc.4;
-        Wed, 09 Oct 2019 04:30:52 -0700 (PDT)
+        Wed, 9 Oct 2019 07:52:34 -0400
+Received: by mail-ot1-f66.google.com with SMTP id c10so1436207otd.9;
+        Wed, 09 Oct 2019 04:52:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=RXacikU0AKH0a8cL4TI2rXH1Tzq/pqcytSrL8Dn3Zw8=;
-        b=RTx/AK10bD48wEe69Kaq2wVkXqU9LfM94WzgBfIzOgSe9MbJE3QZlyBKnylXqrBZm+
-         QVxeurGffn9nO2rXbQgqJ4ckJMW9kjSrjPgFbmEsFzTZef3upW0z67R5IqAXVYhsSmGS
-         irDCJ659yXOUuaX3qK2Rn8COhDCjsQvMmX7xQejYwYRbw0Aw9WCu+9OdFNV3Hc9nzaaj
-         kZfA9wSE4ftzEx3nmZJI4iel85twVP0/cEfAypzblpPMoHW7qlTXchEPafUDGPRfXRnD
-         4c2kAmNCKiB1j/SLdVRxZGEjthOhsGSc6EBDPDN+ELDL7PQvzP5U67qQ6Tr+AgK9miuW
-         wJyA==
-X-Gm-Message-State: APjAAAXTtUdJ+AanwiDQHkdF7qCUsvKDu6S/4G0Z8KPrtBQMYVQqTnye
-        uU4VCMTf7koM4BsFlMd2yFfde67KkjB/8tEOEEM=
-X-Google-Smtp-Source: APXvYqzgv6KySzCyCwbije3dycoip8/EkYhTSn/U8sbafZ+9IuVjS3Kvl7zSNX2/eZ2v4y89W5Lxm4LkZubFMtHPYi4=
-X-Received: by 2002:a9d:7a82:: with SMTP id l2mr2385387otn.297.1570620652071;
- Wed, 09 Oct 2019 04:30:52 -0700 (PDT)
+        bh=KVHLQjNWxvYRmshyMYw/gi35m7+OrE3WV8vC99l1C2c=;
+        b=cGcCwHKtMRmXM7Tx6mT+rH8G8/Km5M6/fDNUZ/KlYTTfIkb510KmxPtp2wx352lF4G
+         UbycKeAURIGsxQjuulV9cfwiAWu/PGRWaQZcn011n29uSJ4vZ6vAgVdWKvqs9PmrfC0w
+         GA3fG4unVKheQLQOScsdv1LPy2Hf048+yuxI1NUFtD4KXyePHH8jLc8cJtCEAASHuwf9
+         eLIVZxecEwMxA/JdXlUnyiurpYaOuapkqtbdNkPZT2eBGa8l2PxanmvMhvZtaC+r6AOD
+         34ChMVo1ymObwWKsVs4N1TAXb98oh9EcULk3kfvLahbpIzVX2ZIhuBlQWhaVfdDscnYC
+         BxOw==
+X-Gm-Message-State: APjAAAU+htJhHvhTqQYkOH9dvgN54B9vGJanDeKumrSASFOV1JuhzeRE
+        AggJISRJqaXlQNkHmgxXVKJt+lLWv8XkSEQcs64=
+X-Google-Smtp-Source: APXvYqzSRG/aEwWP0KGLYwQOucI5+t8MBsJMuF+o5Z+rWLJKg8KQ8QT3VeBdK9cgWHIqwtZ8kDr0xZ6XIL9ExGdm6jo=
+X-Received: by 2002:a9d:70d0:: with SMTP id w16mr2328731otj.107.1570621953600;
+ Wed, 09 Oct 2019 04:52:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <1570619086-30088-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1570619086-30088-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+References: <1569831527-1250-1-git-send-email-biju.das@bp.renesas.com> <1569831527-1250-2-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1569831527-1250-2-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 9 Oct 2019 13:30:40 +0200
-Message-ID: <CAMuHMdWpxCwOL4Ewd_CQOMMXq9vKQ0zJCW0A0ume_XtsdEtwJA@mail.gmail.com>
-Subject: Re: [PATCH v3] PCI: rcar: Fix missing MACCTLR register setting in rcar_pcie_hw_init()
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Simon Horman <horms@verge.net.au>,
-        linux-pci <linux-pci@vger.kernel.org>,
+Date:   Wed, 9 Oct 2019 13:52:22 +0200
+Message-ID: <CAMuHMdWU_YOpMWOrm9ENox8a40RG5JgkWuWqKWahuwVoXGWdfQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] arm64: dts: renesas: r8a774b1: Add SYS-DMAC device nodes
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        stable <stable@vger.kernel.org>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
-
-On Wed, Oct 9, 2019 at 1:05 PM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> According to the R-Car Gen2/3 manual, the bit 0 of MACCTLR register
-> should be written to 0 before enabling PCIETCTLR.CFINIT because
-> the bit 0 is set to 1 on reset. To avoid unexpected behaviors from
-> this incorrect setting, this patch fixes it.
+On Mon, Sep 30, 2019 at 10:19 AM Biju Das <biju.das@bp.renesas.com> wrote:
+> Add sys-dmac[0-2] device nodes for RZ/G2N (R8A774B1) SoC.
 >
-> Fixes: c25da4778803 ("PCI: rcar: Add Renesas R-Car PCIe driver")
-> Cc: <stable@vger.kernel.org> # v3.16+
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  Changes from v2:
->  - Change the subject.
->  - Fix commit log again.
->  - Add the register setting into the initialization, instead of speedup.
->  - Change commit hash/target version on Fixes and Cc stable tags.
->  - Add Geert-san's Reviewed-by.
->  https://patchwork.kernel.org/patch/11180429/
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
-Thanks for the update!
-
-> --- a/drivers/pci/controller/pcie-rcar.c
-> +++ b/drivers/pci/controller/pcie-rcar.c
-> @@ -93,6 +93,7 @@
->  #define  LINK_SPEED_2_5GTS     (1 << 16)
->  #define  LINK_SPEED_5_0GTS     (2 << 16)
->  #define MACCTLR                        0x011058
-> +#define  MACCTLR_RESERVED      BIT(0)
->  #define  SPEED_CHANGE          BIT(24)
->  #define  SCRAMBLE_DISABLE      BIT(27)
->  #define PMSR                   0x01105c
-> @@ -615,6 +616,8 @@ static int rcar_pcie_hw_init(struct rcar_pcie *pcie)
->         if (IS_ENABLED(CONFIG_PCI_MSI))
->                 rcar_pci_write_reg(pcie, 0x801f0000, PCIEMSITXR);
->
-> +       rcar_rmw32(pcie, MACCTLR, MACCTLR_RESERVED, 0);
-> +
->         /* Finish initialization - establish a PCI Express link */
->         rcar_pci_write_reg(pcie, CFINIT, PCIETCTLR);
-
-I guess the same should be added to rcar_pcie_resume_noirq(),
-as s2ram on R-Car Gen3 powers down the SoC?
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.5.
 
 Gr{oetje,eeting}s,
 
