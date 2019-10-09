@@ -2,100 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A0313D0F3B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 14:54:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69B93D0F40
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 14:55:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731087AbfJIMys (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Oct 2019 08:54:48 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:53976 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730757AbfJIMys (ORCPT
+        id S1731087AbfJIMzq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Oct 2019 08:55:46 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:45414 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730901AbfJIMzq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Oct 2019 08:54:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=k5TxblSZf2IuXWK7WL2O815ZfD+uD0inXCDcm1S7FoI=; b=tisLDzszi0X6OWW++ayPEDQ7f
-        tvCQ72kYedXEXf6w0+mmECXepSg1K8MaEsyhlJTytdr7SNYz8swKiItIvkn1GjXPi2QvvcHsv3rXm
-        SydPOEfntcL4CX3DEmU3sakbmMPoRletbjyurt9jxlKOCZ6zsmYlpsGIcJJkBljDeQWudgCFWFAB5
-        Z4ZAvnN+MzarzP+zQs/7+3MuG3DDdZ4fHtGPgGye+MqwiumJQIiOfkAZxWY6fs/ZMv3sEXmZa7MFp
-        Ic92R18eKW8SqxCdn8DOFherE28vaETfQ7hCT6q7qAyoyQ5KMNUK9OM9WZyR9L8d67uvWkqwyYpLj
-        5791pxU+Q==;
-Received: from 177.205.100.4.dynamic.adsl.gvt.net.br ([177.205.100.4] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iIBUM-0002v7-4W; Wed, 09 Oct 2019 12:54:46 +0000
-Date:   Wed, 9 Oct 2019 09:54:40 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 02/10] media: renesas-ceu: Use
- of_device_get_match_data()
-Message-ID: <20191009095440.6e834ecf@coco.lan>
-In-Reply-To: <20191004214334.149976-3-swboyd@chromium.org>
-References: <20191004214334.149976-1-swboyd@chromium.org>
-        <20191004214334.149976-3-swboyd@chromium.org>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Wed, 9 Oct 2019 08:55:46 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x99CtIGm074801;
+        Wed, 9 Oct 2019 07:55:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1570625718;
+        bh=4F8IOaFmkDhgqK8FE/8gEilQXn6BOCg0bJtfF8lkjrY=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=GqJseYgpd9K4vZVbDRuKQvj71KsUkK6ls2rHcN5eOm/Zi5ybeORbW8VuP1LUP32e9
+         lNIYP9J7UoDML5+aqouDO2BB0rKR5wcgdi4/wxehBuG89C6yOd/Da1urzdKX4QqWIL
+         6CvzVf9orzMdY89aUU8yEywj3xcQzybKAAMTd+es=
+Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x99CtI8L103817
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 9 Oct 2019 07:55:18 -0500
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 9 Oct
+ 2019 07:55:15 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Wed, 9 Oct 2019 07:55:15 -0500
+Received: from [172.24.190.233] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x99CtCTN103470;
+        Wed, 9 Oct 2019 07:55:15 -0500
+Subject: Re: [PATCH v2] phy: renesas: phy-rcar-gen2: Fix the array off by one
+ warning
+To:     Biju Das <biju.das@bp.renesas.com>
+CC:     Simon Horman <horms+renesas@verge.net.au>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+References: <1558012923-29081-1-git-send-email-biju.das@bp.renesas.com>
+ <OSAPR01MB30894A7D5FE7983ED0D6E5B5D8070@OSAPR01MB3089.jpnprd01.prod.outlook.com>
+ <OSBPR01MB2103A204D26A26D5C8E35F3DB89D0@OSBPR01MB2103.jpnprd01.prod.outlook.com>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <8ecdceea-a698-7f6a-7a33-4684b9e139c6@ti.com>
+Date:   Wed, 9 Oct 2019 18:24:47 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <OSBPR01MB2103A204D26A26D5C8E35F3DB89D0@OSBPR01MB2103.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Em Fri,  4 Oct 2019 14:43:26 -0700
-Stephen Boyd <swboyd@chromium.org> escreveu:
+Hi Biju,
 
-> This driver can use the replacement API instead of calling
-> of_match_device() and then dereferencing the pointer that is returned.
-> This nicely avoids referencing the match table when it is undefined with
-> configurations where CONFIG_OF=n.
+On 01/10/19 12:09 PM, Biju Das wrote:
+> Hello Kishon,
 > 
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> Cc: Jacopo Mondi <jacopo@jmondi.org>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Frank Rowand <frowand.list@gmail.com>
-> Cc: <linux-media@vger.kernel.org>
-> Cc: <linux-renesas-soc@vger.kernel.org>
-> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
-> ---
+> Are you happy with this patch? Please let me know.
 > 
-> Please ack or pick for immediate merge so the last patch can be merged.
-
-Feel free to merge it via your tree:
-
-Acked-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> https://patchwork.kernel.org/patch/10946601/
 
 
+Can you resend the patch with the updated tags please?
+
+Thanks
+Kishon
 > 
->  drivers/media/platform/renesas-ceu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/renesas-ceu.c b/drivers/media/platform/renesas-ceu.c
-> index 197b3991330d..60518bbc2cd5 100644
-> --- a/drivers/media/platform/renesas-ceu.c
-> +++ b/drivers/media/platform/renesas-ceu.c
-> @@ -1679,7 +1679,7 @@ static int ceu_probe(struct platform_device *pdev)
->  	v4l2_async_notifier_init(&ceudev->notifier);
->  
->  	if (IS_ENABLED(CONFIG_OF) && dev->of_node) {
-> -		ceu_data = of_match_device(ceu_of_match, dev)->data;
-> +		ceu_data = of_device_get_match_data(dev);
->  		num_subdevs = ceu_parse_dt(ceudev);
->  	} else if (dev->platform_data) {
->  		/* Assume SH4 if booting with platform data. */
-
-
-
-Thanks,
-Mauro
+> Regards,
+> Biju
+> 
+>> Subject: RE: [PATCH v2] phy: renesas: phy-rcar-gen2: Fix the array off by one
+>> warning
+>>
+>> Hi Biju-san,
+>>
+>>> From: Biju Das, Sent: Thursday, May 16, 2019 10:22 PM
+>>>
+>>> Fix the below smatch warning by adding variable check rather than the
+>>> hardcoded value.
+>>> warn: array off by one? 'data->select_value[channel_num]'
+>>>
+>>> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+>>> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+>>> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>
+>> Thank you for the patch!
+>>
+>> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>>
+>> Best regards,
+>> Yoshihiro Shimoda
+> 
