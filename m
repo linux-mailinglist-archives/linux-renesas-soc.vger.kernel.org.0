@@ -2,92 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AFD0D0414
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 01:27:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58B93D05A9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 04:44:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728792AbfJHX17 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 8 Oct 2019 19:27:59 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:40626 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725908AbfJHX16 (ORCPT
+        id S1730382AbfJICoJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 8 Oct 2019 22:44:09 -0400
+Received: from mail-eopbgr1410091.outbound.protection.outlook.com ([40.107.141.91]:35872
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1730354AbfJICoJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 8 Oct 2019 19:27:58 -0400
-Received: by mail-lj1-f196.google.com with SMTP id 7so535422ljw.7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 08 Oct 2019 16:27:57 -0700 (PDT)
+        Tue, 8 Oct 2019 22:44:09 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=B5afQZMbA4ItJyTNTioqKzpVkhQg9F6v16DkIAMK2XHLA+UWO2L7K7fHaIdJHTkLdJn9QuJY6ujVVrQhZoieyaXdeA1vZU+n0eWZRwMg3Seu4SvaPSGgJLJD8UenbZ6JcJzN2zBlagLzFiZM0v0FzTZpNZ+Ga01nnvodjMz/nk/V03iiBaIMLLDtD3zTYZtRvmXQVTVBb9z3NPl8QtZ+uFAva8rAv5Gc1Idbc6Foiqvc1wXXWPhcd9sMwymThU6p2HcOQELBxC0eoNkTae8NyKXn0knl+tKCWyWojBiSYAKz+xZITKkLOVkVg9oLpC3C2P6SJ2SDilCil1LmmZLLZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PQ9ZijLRqhIP7+UKDUPnHP/K2r4W7Z/V1aw531tISSA=;
+ b=JPhc8RpijfpYkm/mvrN2TjzJjg424EY8SgRgW38bOVT/r/bVGhFbucN1npvZgdrWh7Pr8SWMdRr/8IopcMPO0puDw+ZeCjzh0n/rNmEp7KLpNLjdEH3v0NEeZACanUyP2iuDjjubgAUs+jNNSizC3wIWN1HmK8K1nsLFHjblrhgi7kV8X42xhRnDfs1YucBfOT9TuOFBoafu+78Wq9Yz835lqX97IauccQlnGrkNdpfu9rVnLVd7GICMxZ3Kq815j6N0TOPKOM9Uead9Bd880orV2IVST7SF59h7es63uUMNX2cF/lI/SYVGtvmT2T1KW/vIxwQ4sYwMhe8kva+PsA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=r2XrtlPnwB37Sf3FR/Fika8Jyhj3TAKbxeiMwS8qsL8=;
-        b=rK+KKWZh66VCDcKOL9C48fZUQMzC7b07PRFl+R51aVXZMnlbDx+1/6qjqvn9B7I0L8
-         CtNaQDYoR9Ea9kqWNQjp33KNa2SHok1ITgDClGRgfJ7mzYIU0P5Ir7U3qdy463jM4nSV
-         0CSC6A/10pSZk9nWXmn0gq8JNtmsGx4jiRh3TqR5hCN7PSlr5RnAnbQiZUsacKSsXL8H
-         1EYwpHRJTFysLCF5bT/gtGVcTCYgvbbqN34Kw9ih+q3pbcRmk+WUdTSOa0fDTBFhD7DB
-         Jz3dtINNYdoYD/GzX/jfGUI13ojh7SixQ0IPNADW3jd8Q1Noxs4IWErAKlzhkyfzGnU3
-         I/Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=r2XrtlPnwB37Sf3FR/Fika8Jyhj3TAKbxeiMwS8qsL8=;
-        b=HvGCva3qEwPLxBpAmFRh+JrsuTtlgmCvkWBPFjMEC4Hf0APRkb1uFUd/i43gwmo+ar
-         rk/uwsme5Iizs72p4GFVWFJY/BWtnsJ+g4xrrHHe5rzxfHF2IiNhBuS8y61SSnzXzeKM
-         CuO2Ov4Hh9yAuar011tJvDM+L2I3ldwM1ta84qKKkFXsX6HEYXz/gWBzn0jpk2grLY8h
-         XsnM6arxfjgXwdyR3zdPJjL3zFQvZ0RmPGlENnZzGfRV0qegkYzUduWp69+6pG/XQB+0
-         E0tzvj3APY1nbb2f66TAYADUvdhV3F5WSTTSG//5bUVFGTNWy+AaHi9we5X9b5XV0riB
-         DkUg==
-X-Gm-Message-State: APjAAAXJuP53fBJM+h0pGT0jXbILx3SRInoP5aYS6xpWieuqoUkaaXRO
-        UVB0e7z+jhui/e9aPSBGYl+0D95QuIc=
-X-Google-Smtp-Source: APXvYqzzZX5CXYFAjCyTG/jaDjCXC+MgvKiLmbH8YHM3MxAk3vg/5iUOv0uaASYtz2JyFUS3FQsJhw==
-X-Received: by 2002:a2e:2b91:: with SMTP id r17mr424292ljr.1.1570577276905;
-        Tue, 08 Oct 2019 16:27:56 -0700 (PDT)
-Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
-        by smtp.gmail.com with ESMTPSA id x17sm34892lji.62.2019.10.08.16.27.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Oct 2019 16:27:55 -0700 (PDT)
-Date:   Wed, 9 Oct 2019 01:27:55 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Simon Horman <horms@verge.net.au>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/2] rcar-vin: Define which hardware supports NV12
-Message-ID: <20191008232755.GX1322@bigcity.dyn.berto.se>
-References: <20190906144029.24080-1-niklas.soderlund+renesas@ragnatech.se>
- <20190906144029.24080-2-niklas.soderlund+renesas@ragnatech.se>
- <20190908122059.llolcptapnruy5gj@verge.net.au>
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PQ9ZijLRqhIP7+UKDUPnHP/K2r4W7Z/V1aw531tISSA=;
+ b=pSzyBoMw7sw54xb74G3DoDthSCSYNaMqqYVcITZR+pCIUvEbmZT3JHtbF/QjyjN01oBuvRuXmdYY2vkgJ9GvS+SVPOg1r4wRQGm6E3XFpLNDcofG0cuDuy8fmXNCZDaj89GyGn1MQaNBIxUdAcYP7jXbVhAd8yrkfaWCCo6cOZE=
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
+ TYAPR01MB3662.jpnprd01.prod.outlook.com (20.178.138.81) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2327.24; Wed, 9 Oct 2019 02:44:05 +0000
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::548:32de:c810:1947]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::548:32de:c810:1947%4]) with mapi id 15.20.2327.026; Wed, 9 Oct 2019
+ 02:44:05 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        "horms@verge.net.au" <horms@verge.net.au>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
+CC:     "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: RE: [PATCH] PCI: rcar: Fix writing the MACCTLR register value
+Thread-Topic: [PATCH] PCI: rcar: Fix writing the MACCTLR register value
+Thread-Index: AQHVfcGtff3+BjoJJEeBF0T/hedvKadQ6yGAgACv//A=
+Date:   Wed, 9 Oct 2019 02:44:05 +0000
+Message-ID: <TYAPR01MB4544A787E2FC5BDE45FF7816D8950@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+References: <1570529884-20888-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <2ae9793a-2500-496f-2e18-927237fbd02a@cogentembedded.com>
+In-Reply-To: <2ae9793a-2500-496f-2e18-927237fbd02a@cogentembedded.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [150.249.235.54]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 509c3936-22dd-4fcf-a8de-08d74c628d21
+x-ms-office365-filtering-ht: Tenant
+x-ms-traffictypediagnostic: TYAPR01MB3662:
+x-microsoft-antispam-prvs: <TYAPR01MB3662E22E6F81B78F9270184CD8950@TYAPR01MB3662.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:644;
+x-forefront-prvs: 018577E36E
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(376002)(39860400002)(396003)(346002)(366004)(136003)(199004)(189003)(66476007)(186003)(2906002)(54906003)(110136005)(4326008)(14454004)(76116006)(316002)(33656002)(99286004)(256004)(66446008)(2501003)(64756008)(66556008)(26005)(6246003)(229853002)(76176011)(8676002)(81166006)(81156014)(486006)(66066001)(66946007)(86362001)(52536014)(74316002)(4744005)(7696005)(2201001)(7736002)(5660300002)(3846002)(8936002)(305945005)(6116002)(478600001)(6436002)(71190400001)(71200400001)(9686003)(102836004)(476003)(53546011)(6506007)(11346002)(25786009)(446003)(55016002);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB3662;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: LjHidq3O1mkF+a+rAf6M2yo1PpT2Jh7vyVYlW0TWVFO5Jb1dsJOuE0F4VU/016vXuw4QrCJ6PDQ/ZMTvmIH/4tOXrHDUCTRYwMwVpbnxE9ihCoiM2MBIBU8MECC9UvIQVo8XMnQ5JG4BP6jX6DXq33Kx1XfrF65ZSS5Iw84ha+0pNhR4qB0Y8PAPnlDQ2bxoqR6iK91M5cJ8FKROGhivGvP3jWyRMQ/yT0TuZPzGjdQypAYe/HXUW+UYwj350C/DWRghUZSKfv/05A6KaFgB9TkeiddFB97FOYF+BYXbUCu7Rgpw+1O+vc2ERj6WyJfA7X6+fI7UqfgrR8Y2e/nfKZl7vcq1Yr6f+NkVIZKlGBkSE6rZDcYjs0gQivM/mghEh5sF5fvHIH28AwOV6VHGbnz1w8vUrjN9QFCphqfXfS4=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190908122059.llolcptapnruy5gj@verge.net.au>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 509c3936-22dd-4fcf-a8de-08d74c628d21
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Oct 2019 02:44:05.3154
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 70cidffmCbtqebBeVeYfDTRDgdT/mctYL1ap/BDe98uVI3mWMTF3xIJfIPCngYtXJ0unMmZQXeACh5UaDBaMjSSq+UcvkAP9NC9Gj20GHmESCxfnRhP9Lr+arNZK1w5M
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB3662
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Simon,
-
-Sorry for missing this mail.
-
-On 2019-09-08 13:20:59 +0100, Simon Horman wrote:
-> On Fri, Sep 06, 2019 at 04:40:28PM +0200, Niklas Söderlund wrote:
-> > Most but not all Gen3 boards support outputting NV12, add a flag to
-> > indicate which boards.
-> > 
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> 
-> Hi Niklas,
-> 
-> is this a board or SoC / ES version property ?
-> 
-> 
-
-This is a SoC property.
-
--- 
-Regards,
-Niklas Söderlund
+SGVsbG8gU2VyZ2VpLXNhbiwNCg0KPiBGcm9tOiBTZXJnZWkgU2h0eWx5b3YsIFNlbnQ6IFdlZG5l
+c2RheSwgT2N0b2JlciA5LCAyMDE5IDE6MTMgQU0NCj4gDQo+IEhlbGxvIQ0KPiANCj4gT24gMTAv
+MDgvMjAxOSAwMToxOCBQTSwgWW9zaGloaXJvIFNoaW1vZGEgd3JvdGU6DQo+IA0KPiA+IEFjY29y
+ZGluZyB0byB0aGUgUi1DYXIgR2VuMi8zIG1hbnVhbCwgdGhlIGJpdCAwIG9mIE1BQ0NUTFIgcmVn
+aXN0ZXINCj4gPiBzaG91bGQgYmUgd3JpdHRlbiBieSAwLiBUbyBhdm9pZCB1bmV4cGVjdGVkIGJl
+aGF2aW9ycyBmcm9tIHRoaXMNCj4gDQo+ICAgIHMvYnkvdG8vLiBJJ2QgYWxzbyBtZW50aW9uIHRo
+YXQgdGhpcyBiaXQgaXMgc2V0IHRvIDEgb24gcmVzZXQuDQoNClRoYW5rIHlvdSBmb3IgeW91ciBy
+ZXZpZXchIEknbGwgZml4IGl0Lg0KDQpCZXN0IHJlZ2FyZHMsDQpZb3NoaWhpcm8gU2hpbW9kYQ0K
+DQo+ID4gaW5jb3JyZWN0IHNldHRpbmcsIHRoaXMgcGF0Y2ggZml4ZXMgaXQuDQo+ID4NCj4gPiBG
+aXhlczogYjMzMjdmN2ZhZTY2ICgiUENJOiByY2FyOiBUcnkgaW5jcmVhc2luZyBQQ0llIGxpbmsg
+c3BlZWQgdG8gNSBHVC9zIGF0IGJvb3QiKQ0KPiA+IENjOiA8c3RhYmxlQHZnZXIua2VybmVsLm9y
+Zz4gIyB2NC45Kw0KPiA+IFNpZ25lZC1vZmYtYnk6IFlvc2hpaGlybyBTaGltb2RhIDx5b3NoaWhp
+cm8uc2hpbW9kYS51aEByZW5lc2FzLmNvbT4NCj4gDQo+IFJldmlld2VkLWJ5OiBTZXJnZWkgU2h0
+eWx5b3YgPHNlcmdlaS5zaHR5bHlvdkBjb2dlbnRlbWJlZGRlZC5jb20+DQo+IA0KPiBbLi4uXQ0K
+PiANCj4gTUJSLCBTZXJnZWkNCg==
