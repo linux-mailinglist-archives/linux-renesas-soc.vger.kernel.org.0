@@ -2,76 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 41D52D129E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 17:28:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81BCBD12D0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 17:32:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731385AbfJIP2T (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Oct 2019 11:28:19 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:45566 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731370AbfJIP2S (ORCPT
+        id S1731144AbfJIPcE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Oct 2019 11:32:04 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:40751 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729644AbfJIPcE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Oct 2019 11:28:18 -0400
-Received: by mail-ot1-f68.google.com with SMTP id 41so2047487oti.12;
-        Wed, 09 Oct 2019 08:28:17 -0700 (PDT)
+        Wed, 9 Oct 2019 11:32:04 -0400
+Received: by mail-oi1-f196.google.com with SMTP id k9so2104355oib.7;
+        Wed, 09 Oct 2019 08:32:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=oNZ+n3OtX3na0ohvcbS8SQf8eEI7FgG1atzrBqih6OY=;
-        b=hHZBNA6AIRTAdcd+DXUoxT4nD9PZ6SC1UsCuCZwx+/74MuPXgSB9nXwDR8b9uBBzxt
-         +M97SuGSgdGxK70GZi05s84hH3CtKSAUUb6pQubhdnNG4u25z056e2EM1XYqntDYua3M
-         V1VuH9UA5TEmXnFAE/TYosbVSQfmgQPy7SWXViSyTTzcIxX6ioVbLFVEEDvAfjwnSzHB
-         /xgm159cfYsWy9ZIbMyXB6tD5Z0UKjUlZBEaWSRTlgnszkKJj9RNSL+tTQVk2WCvLkfl
-         xfnwgvBXkDXiaUxfbxoz3v9EcbkIbByHe+fRwPB8YVW0rxnbaKOwPIVujqx33esTcOQW
-         Th/g==
-X-Gm-Message-State: APjAAAV0eDWNqrd0OKY6Pnld1ZpGG+Fp7Y+MwOQzV8/tMC23cZ5qpgmJ
-        5T/bwTdO/x4sgTivoyOROO8xMGE4esza+SzmNlM=
-X-Google-Smtp-Source: APXvYqw3ZyNq6jFBTnHzS5gssLfE4DTID8I3qd8m84Q2kJvxaTWtxYsQx05sqIr5tsbvXGxgM7EoCiB2ZB97ZSP64/I=
-X-Received: by 2002:a9d:7a82:: with SMTP id l2mr3423323otn.297.1570634897533;
- Wed, 09 Oct 2019 08:28:17 -0700 (PDT)
+        bh=pj9tjAnDc8iLQihhsMD5mfW9PPSTfA4XaUb/MOWRYIw=;
+        b=AAxTZdfkp8E59/y4BrjgmywUnhKETOP76D0f1jXZcfVqnJ89A2XH3TGwqtoKt9rQhe
+         sW+Pmbq2LE3l18rpTKar7pP6aGNg+F3KRyXEb0aCMxgTVF1Yg9pzq/eMDbVRlFKAKKjX
+         3qt1KPLVwXMZdu6kcIDxdKNteLebLmG+NELmpHlEuxCjCjC5XyT/lLd4hMiV2kObG+Zo
+         EmhWlqXWEDUs3PP3hcPUvNvWmbxsCU0E94skbVF2mosIFqkTuf1XX8770bBq497h7aVL
+         SJsvv1sg+qNmGAEoQGYNKkqCoXL7MJc9pGtQQh6CzhlFQNoF4L3DA1pv3R8Qxb3a1XnU
+         eQ0A==
+X-Gm-Message-State: APjAAAVJcJElPdEMposT9iDsJFke4qCTIaHP676o+d8zyZY9wDXxDrdL
+        Spp7iRqHjWestc+zsYDe2lfA2bAz/IAUpe7yhYY=
+X-Google-Smtp-Source: APXvYqyg0DPnkodAIUWYnwxuCI1rQIZYcBCt+bZis9NcW1GFg24xT11r34A8e3ZC3j752zjco0fFSC/uxrAdeFBEuRM=
+X-Received: by 2002:a05:6808:3b4:: with SMTP id n20mr2808137oie.131.1570635121721;
+ Wed, 09 Oct 2019 08:32:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <1570178133-21532-1-git-send-email-fabrizio.castro@bp.renesas.com> <1570178133-21532-8-git-send-email-fabrizio.castro@bp.renesas.com>
-In-Reply-To: <1570178133-21532-8-git-send-email-fabrizio.castro@bp.renesas.com>
+References: <1570029619-43238-1-git-send-email-biju.das@bp.renesas.com> <1570029619-43238-9-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1570029619-43238-9-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 9 Oct 2019 17:28:06 +0200
-Message-ID: <CAMuHMdVh2=84=BaEw+aTvXC35K6A0KG2-18sgbvTxtqaan275Q@mail.gmail.com>
-Subject: Re: [PATCH 7/7] arm64: dts: renesas: hihope-rzg2-ex: Let the board
- specific DT decide about pciec1
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Date:   Wed, 9 Oct 2019 17:31:50 +0200
+Message-ID: <CAMuHMdWWekewwvASHv+XPdUqFtUUBiHVG9wNi8h+uwMKKnO_6A@mail.gmail.com>
+Subject: Re: [PATCH v3 8/9] arm64: dts: renesas: hihope-rzg2-ex: Add LVDS support
+To:     Biju Das <biju.das@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Mark Brown <broonie@kernel.org>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Bjorn Helgaas <bhelgaas@google.com>,
         Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        Linux Watchdog Mailing List <linux-watchdog@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>, xu_shunji@hoperun.com
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Oct 4, 2019 at 10:36 AM Fabrizio Castro
-<fabrizio.castro@bp.renesas.com> wrote:
-> The plan for the HiHope RZ/G2N board is to enable pciec0 by default,
-> and use pciec1 physical interface for SATA (as SATA and PCIE1 share
-> the same physical interface), therefore move pciec1 enabling away
-> from hihope-rzg2-ex.
+On Wed, Oct 2, 2019 at 5:21 PM Biju Das <biju.das@bp.renesas.com> wrote:
+> This patch adds LVDS support for RZ/G2[MN] boards.
 >
-> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-devel for v5.5.
