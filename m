@@ -2,42 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E580D0F01
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 14:42:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8FFBD0F08
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 14:44:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729699AbfJIMmq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Oct 2019 08:42:46 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:42900 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727878AbfJIMmq (ORCPT
+        id S1728200AbfJIMoG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Oct 2019 08:44:06 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:33768 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727878AbfJIMoF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Oct 2019 08:42:46 -0400
-Received: by mail-oi1-f194.google.com with SMTP id i185so1582102oif.9;
-        Wed, 09 Oct 2019 05:42:44 -0700 (PDT)
+        Wed, 9 Oct 2019 08:44:05 -0400
+Received: by mail-oi1-f195.google.com with SMTP id a15so1622457oic.0;
+        Wed, 09 Oct 2019 05:44:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=cBfAD750pnPHdkDA3FXKrBrUC37mCD/kmwSQTQIfDYQ=;
-        b=Rj+VK3cHv41+9jPEh4T+UPATjcGKIYybVIrHadeSq0Gv8YYOuuvdQJvf9W2mz8UyEq
-         356Y75Ptmr3gf4B+MTzcwP2ISNv9L7Aw3mn5p7s30GfGwi8edvKvzjPUpXL3wbU8jvVD
-         V12wrCgAPwbOEQhLjsXGPx+Cojw1mcR+hdNhHvx/vnFOw2w+0XwjaxC4sxZuBwt8/y4b
-         gb66vC7G9Gb2+k9z/j7A0gjjMQTx+9le0TfwHy/brt1eBNSKMdJWUubVqiOn7j3iqhPi
-         cUNgKZbO/9lhnZLWcLr8KnNVwH0m6MN71X48x3bKgP3WZJOJhkDOlW0NmoDQMqFg6pRe
-         8A7g==
-X-Gm-Message-State: APjAAAWlkeDIDCRBzngXqIRTuNDgx9flTZ93g2xsy1aBhdeBpv+m+jFh
-        ntMuOSEJyhcMfjzEi5WfnCrUGlV7dxqWlKUchOk=
-X-Google-Smtp-Source: APXvYqwxU+pwr9Xo7Oc7GxwIcW8/MXwe4JAheXnbvG9XLFxCG1T4gCCpcFaWgkGPFsA6p6jRmFOfoKmZNvqK8VplDCI=
-X-Received: by 2002:a54:4e89:: with SMTP id c9mr1963807oiy.148.1570624964208;
- Wed, 09 Oct 2019 05:42:44 -0700 (PDT)
+        bh=icN27BrZ6Y7pxtEUa7O+ySDdsAcLuOxBOPHh5mGCMPw=;
+        b=EoTkv061sTuB60U/Ue56nY/yFxsUnEQoBB7rkwyQ00IoA8w9qSCKmI6gyTOsxrFvUS
+         cnKZdEZ/yfGX0cy3wSg6CglLhqQohKv63pxcOkTHkZszOW1/GXflpLIYIPzJrd3AKhkN
+         sP4SjLOON7XP/Fiy2BH2TJZ0+PD627vBUNnQGgSrUwemfK8qiwAr/t+YxvfjBs5Tw0zt
+         DDoRsO4XyZrf8yi6tbW+IVOeUXIqmPyBhEUOsWFKyfhuHVUU6wAs0GIyzLHraUdI+zzt
+         AhTkxAFDjq1C5EYxZNIeTGYzsAdteC9q9DyHo3xmlwMg/Ku59U2KE5semR9phyYqoT4n
+         6dUA==
+X-Gm-Message-State: APjAAAUESC+Bh1ozk2vypWUyO4bfsuoyABpON3WV4U9zdy8UAgBPaVGA
+        THaGcnLWV5+hyq1ubfn3xPSLydl7LQgxvOlsQQA=
+X-Google-Smtp-Source: APXvYqzFNmrXKoysYtQrP911odQBjo57ZZe67oUkrYXrFk4cMbVodd6J/I/OLgBsHMqVLfSHsoCZ4hFkLoKFJSC+/BI=
+X-Received: by 2002:aca:4bd2:: with SMTP id y201mr2171797oia.102.1570625043421;
+ Wed, 09 Oct 2019 05:44:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <1570029619-43238-1-git-send-email-biju.das@bp.renesas.com> <1570029619-43238-5-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1570029619-43238-5-git-send-email-biju.das@bp.renesas.com>
+References: <1570029619-43238-1-git-send-email-biju.das@bp.renesas.com> <1570029619-43238-6-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1570029619-43238-6-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 9 Oct 2019 14:42:33 +0200
-Message-ID: <CAMuHMdUoX4V_-k-nwYb6bgRBkL6Kv2029vqoG=b0LKPNoynFDQ@mail.gmail.com>
-Subject: Re: [PATCH v3 4/9] arm64: dts: renesas: r8a774b1-hihope-rzg2n: Add
- display clock properties
+Date:   Wed, 9 Oct 2019 14:43:52 +0200
+Message-ID: <CAMuHMdW930P+9sH5ADTOer4PJr+KFC-e=cVbw_LHHdyr-zzF0Q@mail.gmail.com>
+Subject: Re: [PATCH v3 5/9] arm64: dts: renesas: r8a774b1: Add FDP1 device nodes
 To:     Biju Das <biju.das@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
@@ -56,8 +55,8 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Oct 2, 2019 at 5:20 PM Biju Das <biju.das@bp.renesas.com> wrote:
-> Add display clock properties for the HiHope RZ/G2N board.
+On Wed, Oct 2, 2019 at 5:21 PM Biju Das <biju.das@bp.renesas.com> wrote:
+> The r8a774b1 has a single FDP1 instance.
 >
 > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
