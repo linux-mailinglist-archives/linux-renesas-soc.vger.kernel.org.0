@@ -2,44 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FF36D0E6B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 14:10:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76222D0E70
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 14:12:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729699AbfJIMKk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Oct 2019 08:10:40 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:37293 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727570AbfJIMKk (ORCPT
+        id S1729883AbfJIMMc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Oct 2019 08:12:32 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:35049 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729575AbfJIMMb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Oct 2019 08:10:40 -0400
-Received: by mail-oi1-f194.google.com with SMTP id i16so1519293oie.4;
-        Wed, 09 Oct 2019 05:10:40 -0700 (PDT)
+        Wed, 9 Oct 2019 08:12:31 -0400
+Received: by mail-ot1-f65.google.com with SMTP id z6so1513906otb.2;
+        Wed, 09 Oct 2019 05:12:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=LPQnsv8sQwjZbPG4P6FTqtKdcWAbFS3YudLvMpZP3P8=;
-        b=dOms7nG3d9DGpyhaYIvJtczHRo0MhdUsLp+7W049o9tnjbq453qi397Y1tfTk2Ougn
-         saXKnDNSKKFhGtI8VnhbFwHaVa0QrHLIE9SytQHnUMWlZ8DZec3jW6U5D8C8rTCebNMe
-         AUriFocYZlCA3XjtVdIZVAw79Jqtb+e8p5wp5kBJBCdLqscW9chemIX6g7/wYEDnu0pO
-         zmUcIFncNjXgiT87ISwoyFpM5Hlp+RIDhJZxnZb04OTNlRY5UF3m2n9ne0c+OSqvCZIG
-         Aq2q6qlmVXz/Hrhu5JxlgLkUmyhlECdlRNW/PatDSaIjMzUnI92OMN4OSJZ8QTUwS/tR
-         pn1A==
-X-Gm-Message-State: APjAAAUCmX8onDIaHf1EgnbUA5cf+fhW6qv90yFiVTVTgOn6aMw5vYJn
-        YKHMY6Z2uGKNJ3NzVDbo19oxcrzZmRlwSV1mFp4=
-X-Google-Smtp-Source: APXvYqzCmCs3j4XaZFDbfZ1sQlofzrbClEtmt4FrS8R89Y5t2kvVUmapZ9cD677t/r7874VgcGFMf6WaG63pRv7tA5g=
-X-Received: by 2002:aca:882:: with SMTP id 124mr2002872oii.54.1570623039734;
- Wed, 09 Oct 2019 05:10:39 -0700 (PDT)
+        bh=YLTdLv74z7n0WfP1qWsaQTH75YWa6v89HfTqpzcJOyk=;
+        b=VpcNHLxdVhy/nGrJmQB3uCmQgp7ApwyepcrJ33VUvWPXAVEhJkmylju5Gjo8VFjX75
+         JUTY5/SQ7lEtAw+vLiBT0E+oWtwAc6GaS3CLMGGYUBO0ZEcbnoagm8q9yBoaZ6qWkuqW
+         17ZS8vlS7wzK1OLMY20RMsx5DhyyLL0LxZqndW3oyL7n8VIZ63g4WMbKNmTnexcZitZS
+         aUY3f2TcXGGCj0l51S3ML1zmjwCkU2b+PauZMG1/dDXli+pM6qx1b3RhD5C/JfkE2AlV
+         zopbPn/PiYYJQxEGZg5cTxhELtFsfu0zecTiYq0aycdNx9yVQBFJXtu1BP3/RMbxGsjY
+         l57w==
+X-Gm-Message-State: APjAAAUZCFf+tVeczTcKGLb/lqjy53/RSyc89Y92uxwzqi0ozPy2Ru4W
+        2yxBldc7dnir0GV+Eyz6fhBJAbgQ+W+296pZ91A=
+X-Google-Smtp-Source: APXvYqzRxKol2X2my+G+va0HXOBiEafa4qCHBesegxU+VPsF2+KElhJJjnsxc58cN7t/a+uOVvqrO+1n3AbSH2qFyLY=
+X-Received: by 2002:a9d:70d0:: with SMTP id w16mr2399023otj.107.1570623149369;
+ Wed, 09 Oct 2019 05:12:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <1569313375-53428-1-git-send-email-biju.das@bp.renesas.com> <1569313375-53428-2-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1569313375-53428-2-git-send-email-biju.das@bp.renesas.com>
+References: <1569313375-53428-1-git-send-email-biju.das@bp.renesas.com> <1569313375-53428-3-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1569313375-53428-3-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 9 Oct 2019 14:10:28 +0200
-Message-ID: <CAMuHMdVaGN5QSxQWW8h8fogr8fBjW67FZmhiKGzFCj8y3sJpKQ@mail.gmail.com>
-Subject: Re: [PATCH 1/7] arm64: dts: renesas: r8a774b1: Add SDHI support
+Date:   Wed, 9 Oct 2019 14:12:18 +0200
+Message-ID: <CAMuHMdXmEhtMPEHD=aFNjzzMZReYrpy1w=9R=D2ytGPUz5KjFQ@mail.gmail.com>
+Subject: Re: [PATCH 2/7] arm64: dts: renesas: r8a774b1: Add I2C and IIC-DVFS support
 To:     Biju Das <biju.das@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Simon Horman <horms@verge.net.au>,
         Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
@@ -54,7 +55,8 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Tue, Sep 24, 2019 at 10:23 AM Biju Das <biju.das@bp.renesas.com> wrote:
-> Add SDHI support for the r8a774b1 SoC.
+> Add the I2C[0-6] and IIC Bus Interface for DVFS (IIC for DVFS)
+> devices nodes to the r8a774b1 device tree.
 >
 > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
