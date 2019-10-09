@@ -2,45 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76222D0E70
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 14:12:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBFFBD0E7E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 14:15:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729883AbfJIMMc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Oct 2019 08:12:32 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:35049 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729575AbfJIMMb (ORCPT
+        id S1730933AbfJIMPl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Oct 2019 08:15:41 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:45549 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730696AbfJIMPl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Oct 2019 08:12:31 -0400
-Received: by mail-ot1-f65.google.com with SMTP id z6so1513906otb.2;
-        Wed, 09 Oct 2019 05:12:29 -0700 (PDT)
+        Wed, 9 Oct 2019 08:15:41 -0400
+Received: by mail-oi1-f195.google.com with SMTP id o205so1497105oib.12;
+        Wed, 09 Oct 2019 05:15:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=YLTdLv74z7n0WfP1qWsaQTH75YWa6v89HfTqpzcJOyk=;
-        b=VpcNHLxdVhy/nGrJmQB3uCmQgp7ApwyepcrJ33VUvWPXAVEhJkmylju5Gjo8VFjX75
-         JUTY5/SQ7lEtAw+vLiBT0E+oWtwAc6GaS3CLMGGYUBO0ZEcbnoagm8q9yBoaZ6qWkuqW
-         17ZS8vlS7wzK1OLMY20RMsx5DhyyLL0LxZqndW3oyL7n8VIZ63g4WMbKNmTnexcZitZS
-         aUY3f2TcXGGCj0l51S3ML1zmjwCkU2b+PauZMG1/dDXli+pM6qx1b3RhD5C/JfkE2AlV
-         zopbPn/PiYYJQxEGZg5cTxhELtFsfu0zecTiYq0aycdNx9yVQBFJXtu1BP3/RMbxGsjY
-         l57w==
-X-Gm-Message-State: APjAAAUZCFf+tVeczTcKGLb/lqjy53/RSyc89Y92uxwzqi0ozPy2Ru4W
-        2yxBldc7dnir0GV+Eyz6fhBJAbgQ+W+296pZ91A=
-X-Google-Smtp-Source: APXvYqzRxKol2X2my+G+va0HXOBiEafa4qCHBesegxU+VPsF2+KElhJJjnsxc58cN7t/a+uOVvqrO+1n3AbSH2qFyLY=
-X-Received: by 2002:a9d:70d0:: with SMTP id w16mr2399023otj.107.1570623149369;
- Wed, 09 Oct 2019 05:12:29 -0700 (PDT)
+        bh=56rMhv5Euflc7BoXbba4SkLdcy6wH5VnbhNOnz/E2CY=;
+        b=EqLIusjX7Vck3+txMIkHUNMc1lKLe/HibPp2OEvAZvZ+rgkVNHjp5qwNTGYuIAcPi1
+         pUn7wqtnTMMggp/vJoGN8gULbjlSk6cs7mCj/2iXs3635WKUS136ZCWSl62lQeEJmJ2h
+         OdQ4f8bGvsImRd5kYJNDnYS6HlscX6A6LF8Y6BrNDJL2l4nIF3VEQRwTcCdWEq33kkar
+         GYLP0zcNF9KD4tRHW3VX7rhjvGY0xSqS8JiZhDKw3p2h1vOtdS4IKpPD+ETHFhJqsVxV
+         urXm8pgq+vXztdvyW7dRXpbBUnn0PKG4DMUYACeIVtkI530Xl247xNbb7w1KgK8Qg/9p
+         GrTw==
+X-Gm-Message-State: APjAAAUia8reSyN4QpsrtPufziRbuzjyd1UGztJz7JZViV/g0rvux93U
+        s5HNRrAaDV/PuU90rNikaLjPN3PVqeEfQL0J0ww=
+X-Google-Smtp-Source: APXvYqylDK1sKxUJ9Q1zI5x9p7eYwKQ3xVCCzyOglCltoSgvhGy68OYnSbxjQciP0RpUWq1eqphvjwieL1XDnUz1gQ8=
+X-Received: by 2002:a05:6808:3b4:: with SMTP id n20mr1885352oie.131.1570623339011;
+ Wed, 09 Oct 2019 05:15:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <1569313375-53428-1-git-send-email-biju.das@bp.renesas.com> <1569313375-53428-3-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1569313375-53428-3-git-send-email-biju.das@bp.renesas.com>
+References: <1569313375-53428-1-git-send-email-biju.das@bp.renesas.com> <1569313375-53428-4-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1569313375-53428-4-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 9 Oct 2019 14:12:18 +0200
-Message-ID: <CAMuHMdXmEhtMPEHD=aFNjzzMZReYrpy1w=9R=D2ytGPUz5KjFQ@mail.gmail.com>
-Subject: Re: [PATCH 2/7] arm64: dts: renesas: r8a774b1: Add I2C and IIC-DVFS support
+Date:   Wed, 9 Oct 2019 14:15:28 +0200
+Message-ID: <CAMuHMdUvDTPMa3sa9yJSdxs8jFu4O6+uXw6FzdkteTrtkY_j2Q@mail.gmail.com>
+Subject: Re: [PATCH 3/7] arm64: dts: renesas: r8a774b1: Add IPMMU device nodes
 To:     Biju Das <biju.das@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
         Simon Horman <horms@verge.net.au>,
         Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
@@ -55,8 +54,7 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Tue, Sep 24, 2019 at 10:23 AM Biju Das <biju.das@bp.renesas.com> wrote:
-> Add the I2C[0-6] and IIC Bus Interface for DVFS (IIC for DVFS)
-> devices nodes to the r8a774b1 device tree.
+> Add RZ/G2N (R8A774B1) IPMMU nodes.
 >
 > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
