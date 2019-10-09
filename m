@@ -2,70 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EA52CD1197
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 16:43:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 016ECD11AD
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 16:46:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731168AbfJIOnI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Oct 2019 10:43:08 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:42965 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731133AbfJIOnI (ORCPT
+        id S1731458AbfJIOqp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Oct 2019 10:46:45 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:37711 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730546AbfJIOqp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Oct 2019 10:43:08 -0400
-Received: by mail-ot1-f66.google.com with SMTP id c10so1917075otd.9;
-        Wed, 09 Oct 2019 07:43:07 -0700 (PDT)
+        Wed, 9 Oct 2019 10:46:45 -0400
+Received: by mail-oi1-f196.google.com with SMTP id i16so1977136oie.4;
+        Wed, 09 Oct 2019 07:46:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=yOIw38zD/ngNIg+xiz6Rbo3Jdwlcuf3nU+5nbTT8sV0=;
-        b=borU7pg/yY7wtYipu5Oq8+zMUmREUzW0w29JTbrIek4Hb20hPKiSrGcPwa2V14Qjum
-         oYRAidRZF2a7AlQpm8GkoquqgKLL6pLHfIkZTNtD4vkE/39sO7NhxpYn+HfEXJnIDQ1A
-         BxYabMa+fSRpnlDJ3y8hnqgbSzDTevwCHXMocr3UvYD6oAirjpWOKSOEHEiqzv5ZvKSX
-         sJf3H6sEDaKaCDoDbB+uccM16trZUh+J4Fj9HGjmag+SiR2nLgHF0/55WSbFHfA4Nv13
-         wunZSKQKDeOF1wHK4NdKguHQsTZtWpdLPNyId2qACcXau1/bm1pmw1b9zPdZMQcQiykM
-         kodA==
-X-Gm-Message-State: APjAAAVUh4sM3Z6LqLbyts+7jmdrRqI2NPgVw8fRol0v80l0zg1YFonA
-        yzYlx+xoX2v61LM276ATbDsMqJUpYR03D0FhG2Y=
-X-Google-Smtp-Source: APXvYqxft/u7/XRb6nPeiCWFxPpaJowaExImgMdOt4nCer4aDN+X7hyxDQILaidnjOoe0WuTCqJnO3OSvFCZ8bO3zVk=
-X-Received: by 2002:a05:6830:1b75:: with SMTP id d21mr3231975ote.145.1570632187381;
- Wed, 09 Oct 2019 07:43:07 -0700 (PDT)
+        bh=jQ8//cgF/MdGwkLH3S81V64s0B/McThxx1cJtyBuGXs=;
+        b=BB2ePX6VHOjDs5jDdjaIqV/d20YrijMEHDK/xMyhUSW1Ejx7X3uBg6/JgXzSX6JFb1
+         H68duKiO9aJAu1a6VlqbNVLXbMA/2PUzVTNKLLnHz1rfc08T1hJmqzd/uQTJlteeFmn2
+         W0O85KeHLAnatETn8026eaCOcJNKc58C052HufFAGSwhy8EsmvosLVhJaNb9St7z/sIK
+         L/eKDqnyAnGpLXSw1uX+MmvgJjlWG/6y0Rz1/1hzG7X4FrxIh4YQhtZV7LA8F31kYH+6
+         Ed0N6O8XFofRH98hAvfwOKkxnA53G7VU+HdjSs9YeN4RBbXEXp9zujKBWEnQqQtMZH4W
+         /C5g==
+X-Gm-Message-State: APjAAAWLjSIJLsG/tou2+HVfEidj0Hb9wbi0Nij8SvdIUdtR8crX2wMK
+        6seLhb9hWlvCKW+YwcO6c6si8ObM3oJQvaYl2Bc=
+X-Google-Smtp-Source: APXvYqwbJngcF2ptkcG56glKoADjMSOQr9Zg5lgecq4L3Khi2aUy+ZLPK2S4KsBNllxCPlIcgLmGn862vtdZaRdjwac=
+X-Received: by 2002:aca:882:: with SMTP id 124mr2733201oii.54.1570632404559;
+ Wed, 09 Oct 2019 07:46:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <1570531132-21856-1-git-send-email-fabrizio.castro@bp.renesas.com> <1570531132-21856-11-git-send-email-fabrizio.castro@bp.renesas.com>
-In-Reply-To: <1570531132-21856-11-git-send-email-fabrizio.castro@bp.renesas.com>
+References: <1570200761-884-1-git-send-email-biju.das@bp.renesas.com> <1570200761-884-2-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1570200761-884-2-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 9 Oct 2019 16:42:56 +0200
-Message-ID: <CAMuHMdVSqWMqTq3wS43jX5bi+RhjzfH8CEJpTz5JySUUxq_DfA@mail.gmail.com>
-Subject: Re: [PATCH 10/10] arm64: dts: renesas: r8a774b1: Add INTC-EX device node
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Simon Horman <horms@verge.net.au>, Vinod Koul <vkoul@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
+Date:   Wed, 9 Oct 2019 16:46:33 +0200
+Message-ID: <CAMuHMdVphPX63DvdCsj1AtsnMz53THdf92LpMeKQhZPOubX5cw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] arm64: dts: renesas: r8a774b1: Add Sound and Audio
+ DMAC device nodes
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Magnus Damm <magnus.damm@gmail.com>, dmaengine@vger.kernel.org,
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        USB list <linux-usb@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Oct 8, 2019 at 12:39 PM Fabrizio Castro
-<fabrizio.castro@bp.renesas.com> wrote:
-> Add support for the Interrupt Controller for External Devices
-> (INTC-EX) on RZ/G2N.
+On Fri, Oct 4, 2019 at 4:53 PM Biju Das <biju.das@bp.renesas.com> wrote:
+> Based on a similar patch of the R8A7796 device tree
+> by Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>.
 >
-> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-devel for v5.5.
