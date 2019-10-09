@@ -2,46 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BEF2D0E2A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 14:04:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3E01D0E31
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  9 Oct 2019 14:04:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730659AbfJIMEG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 9 Oct 2019 08:04:06 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:35860 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730110AbfJIMEG (ORCPT
+        id S1731043AbfJIMEu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 9 Oct 2019 08:04:50 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:34064 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730490AbfJIMEt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 9 Oct 2019 08:04:06 -0400
-Received: by mail-ot1-f68.google.com with SMTP id 67so1483302oto.3;
-        Wed, 09 Oct 2019 05:04:06 -0700 (PDT)
+        Wed, 9 Oct 2019 08:04:49 -0400
+Received: by mail-ot1-f67.google.com with SMTP id m19so1497025otp.1;
+        Wed, 09 Oct 2019 05:04:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=eXoBZAgNzk9dMk0zZsU2RF/GITwghS1YERrh4cWdOC8=;
-        b=GDskh3kYLQtD5gRblV1Gh3b5uQqzejfy/yJ7P9er+uMSD7SDa0k6pZq2TFOGfiPvau
-         6k7wYbv97pvSHteeqcAwMdTDk6AtDFAPMulwRPgWsP8/+M5rkVE+RL4FFx7XadouHNLm
-         mUEx/ppCB5oJKWkoD4VVY768GT+F8YSQt+i554aP8hd+wdrxr+wZMyeWFhGymJ3KEXNT
-         vtXQ33M1rs/RULgF6aUjzIyafM3HWqDon3mbzgDrz7HOZGYtyWDCCNIsQo0L4OLQwa9H
-         hcHGDTY/BNHftffdUbQ2IkPeRr1oz1jMexuY3ZXeQNRQysA2kWJk/GMZXAG8CuEyNFC6
-         tvCw==
-X-Gm-Message-State: APjAAAUKYYtFdjwVW1RzNaRVZA5VZfkgPwfqHqg8oCn4kh61cNT9JDgX
-        Vpc5CJkykdrxiqHW413up3SCiCYZlfhhhUpvTAs=
-X-Google-Smtp-Source: APXvYqwAr+6a2aiLeUfEO7o+UCNO8Ftc2fmS0CmrtAt8YTPq10+RnRyJWr9k8fs71Oj30qpogsLagAks/RUAfW2L/6E=
-X-Received: by 2002:a05:6830:1685:: with SMTP id k5mr2526951otr.250.1570622645649;
- Wed, 09 Oct 2019 05:04:05 -0700 (PDT)
+        bh=q8FTdSY6XN6/eDlgeh8RSX47FXM44up9sU1rauzfpKA=;
+        b=MAdGlNchcOF1qEHJGZHTAzemWvfFmpA428P0rU4WCKR0JSqQrMuyC1JP9Nqec1A8oR
+         63gJzAmd6FuyIJhDXtuaKf9ew1jMowFfBh61lWX+p1oPo3wAsFrCoe2ORPbQ/2ZgCpg7
+         VQr82VGpU0nTbnjaTJ1IZaXR267TrOrChbDjAQLk4cu/kcXShodpkcozpDoumfjPsmNY
+         7EiuNwVO7OyQAhOfMozfsd9LTdFo3qp/TZpXEToDL4xXLJR9zm39VE0SnN1Jh4ztZmYZ
+         mvlSZGU3Jjscq+TMu2ioH94W0RUDZkxGtFamWOE3dW5ENQCsLZcsDRQGSrjGI2V2Ikn5
+         iH2A==
+X-Gm-Message-State: APjAAAWNWFAAincEyeRUAinkIqFvl2uO/B+OM84hXRWfb9Cv34HCSutq
+        TCuDJdvjoTEHcUvZS/DyEn4uVwZmYXIhf5zyOrQ=
+X-Google-Smtp-Source: APXvYqzFAqNS4jqf9q9Sif0vs5CRpi2AisEP5HnrE6pv78YMGv1jwppU3+4u6ulCvBRYTjpjQ7qTO6jQTGJCsLUzEg0=
+X-Received: by 2002:a05:6830:1b75:: with SMTP id d21mr2546762ote.145.1570622689199;
+ Wed, 09 Oct 2019 05:04:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <1569831527-1250-1-git-send-email-biju.das@bp.renesas.com> <1569831527-1250-4-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1569831527-1250-4-git-send-email-biju.das@bp.renesas.com>
+References: <1569831527-1250-1-git-send-email-biju.das@bp.renesas.com> <1569831527-1250-5-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1569831527-1250-5-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 9 Oct 2019 14:03:54 +0200
-Message-ID: <CAMuHMdXytj51svKY0in3ddYsb4cSZ=Y0xuzOZiUJp3mn9BxLjQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/5] arm64: dts: renesas: r8a774b1: Add GPIO device nodes
+Date:   Wed, 9 Oct 2019 14:04:38 +0200
+Message-ID: <CAMuHMdXGu6dR3F44V-krzVYDhsQR-gsDu6PfsgjV3iU-fVWPBw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] arm64: dts: renesas: r8a774b1: Add Ethernet AVB node
 To:     Biju Das <biju.das@bp.renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
@@ -55,7 +54,8 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Mon, Sep 30, 2019 at 10:19 AM Biju Das <biju.das@bp.renesas.com> wrote:
-> Add GPIO device nodes to the DT of the r8a774b1 SoC.
+> This patch adds the SoC specific part of the Ethernet AVB
+> device tree node.
 >
 > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
