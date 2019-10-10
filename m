@@ -2,126 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 07C94D29A8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Oct 2019 14:38:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5965AD29AB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 10 Oct 2019 14:38:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387673AbfJJMhy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 10 Oct 2019 08:37:54 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:19968 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2387639AbfJJMhy (ORCPT
+        id S2387742AbfJJMiL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 10 Oct 2019 08:38:11 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:33204 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387639AbfJJMiL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 10 Oct 2019 08:37:54 -0400
-X-IronPort-AV: E=Sophos;i="5.67,280,1566831600"; 
-   d="scan'208";a="28789744"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 10 Oct 2019 21:37:52 +0900
-Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 7748A4000901;
-        Thu, 10 Oct 2019 21:37:48 +0900 (JST)
-From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        "David S. Miller" <davem@davemloft.net>,
+        Thu, 10 Oct 2019 08:38:11 -0400
+Received: by mail-ot1-f67.google.com with SMTP id 60so4716820otu.0;
+        Thu, 10 Oct 2019 05:38:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4qIl5Q0cpTSTyu9BKpvC+aBjKt93LKsnZQHGynN8G00=;
+        b=hFZyovspR55qAjT2fzqutumYwgEthyhH+htiQqS9iYztvFRIO4yhYfTQd4+lbi5PjZ
+         xvAP4DlE4bFiGvm66NV/96TtRLTmbjAQjIYUpGzFVFk33q9eV3Uw1zEHijDJY0TiDFGh
+         iC6UZuj2IX7qcQvnmPEJW7iPdUFXhGINmTivpto/npL5tTZx/JM6WRXCnzo3Cr59mcjx
+         Jng/oBgy5OsiyMgfU4iWlofJVsJ9WFZ+7zjpgdzERF6D5lbbMbd41PXYgJjBhQzBKkMe
+         7XeFjt7v2OoUVoYYUjuFpCmWRj8slpLXgppgNRt2b4zeZMS2TRxQjJEKzuepBQyHH0Mz
+         S6Ng==
+X-Gm-Message-State: APjAAAWAQWC6LULM/HF5CK36v/tExn9Au0npI39DDyqb6ZGBc/7o8o5A
+        ZJA22OCxBFn0ABJfdEokl+QsW/Krn5ChvYYRaKU=
+X-Google-Smtp-Source: APXvYqwIotQZuQSWAXzuPSkkIkyRBFEcQoKddSe4MXvYzFseOD++iDlBilpoBTlUYj7HIeGUTnlfywhnQN8mA+zUr88=
+X-Received: by 2002:a9d:7a82:: with SMTP id l2mr7636706otn.297.1570711090630;
+ Thu, 10 Oct 2019 05:38:10 -0700 (PDT)
+MIME-Version: 1.0
+References: <1569837778-55874-1-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1569837778-55874-1-git-send-email-biju.das@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 10 Oct 2019 14:37:59 +0200
+Message-ID: <CAMuHMdV3uWpkYVM+PwXboXBfrbdjT9LAiyPfrD_ERjf_iPPLgw@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a774b1-hihope-rzg2n: Enable HS400 mode
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
         Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-can@vger.kernel.org,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: [PATCH 3/3] arm64: dts: renesas: r8a774b1: Add CAN and CAN FD support
-Date:   Thu, 10 Oct 2019 13:37:29 +0100
-Message-Id: <1570711049-5691-4-git-send-email-fabrizio.castro@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1570711049-5691-1-git-send-email-fabrizio.castro@bp.renesas.com>
-References: <1570711049-5691-1-git-send-email-fabrizio.castro@bp.renesas.com>
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add CAN and CAN FD support to the RZ/G2N SoC specific dtsi.
+On Mon, Sep 30, 2019 at 12:03 PM Biju Das <biju.das@bp.renesas.com> wrote:
+> This patch enables HS400 mode on HiHope RZ/G2N board.
+>
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
-Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
----
- arch/arm64/boot/dts/renesas/r8a774b1.dtsi | 48 +++++++++++++++++++++++++++++--
- 1 file changed, 45 insertions(+), 3 deletions(-)
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.5.
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-index 80b8b2e..bfea6df 100644
---- a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-@@ -994,18 +994,60 @@
- 		};
- 
- 		can0: can@e6c30000 {
-+			compatible = "renesas,can-r8a774b1",
-+				     "renesas,rcar-gen3-can";
- 			reg = <0 0xe6c30000 0 0x1000>;
--			/* placeholder */
-+			interrupts = <GIC_SPI 186 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 916>,
-+				 <&cpg CPG_CORE R8A774B1_CLK_CANFD>,
-+				 <&can_clk>;
-+			clock-names = "clkp1", "clkp2", "can_clk";
-+			assigned-clocks = <&cpg CPG_CORE R8A774B1_CLK_CANFD>;
-+			assigned-clock-rates = <40000000>;
-+			power-domains = <&sysc R8A774B1_PD_ALWAYS_ON>;
-+			resets = <&cpg 916>;
-+			status = "disabled";
- 		};
- 
- 		can1: can@e6c38000 {
-+			compatible = "renesas,can-r8a774b1",
-+				     "renesas,rcar-gen3-can";
- 			reg = <0 0xe6c38000 0 0x1000>;
--			/* placeholder */
-+			interrupts = <GIC_SPI 187 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 915>,
-+				 <&cpg CPG_CORE R8A774B1_CLK_CANFD>,
-+				 <&can_clk>;
-+			clock-names = "clkp1", "clkp2", "can_clk";
-+			assigned-clocks = <&cpg CPG_CORE R8A774B1_CLK_CANFD>;
-+			assigned-clock-rates = <40000000>;
-+			power-domains = <&sysc R8A774B1_PD_ALWAYS_ON>;
-+			resets = <&cpg 915>;
-+			status = "disabled";
- 		};
- 
- 		canfd: can@e66c0000 {
-+			compatible = "renesas,r8a774b1-canfd",
-+				     "renesas,rcar-gen3-canfd";
- 			reg = <0 0xe66c0000 0 0x8000>;
--			/* placeholder */
-+			interrupts = <GIC_SPI 29 IRQ_TYPE_LEVEL_HIGH>,
-+				   <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 914>,
-+				 <&cpg CPG_CORE R8A774B1_CLK_CANFD>,
-+				 <&can_clk>;
-+			clock-names = "fck", "canfd", "can_clk";
-+			assigned-clocks = <&cpg CPG_CORE R8A774B1_CLK_CANFD>;
-+			assigned-clock-rates = <40000000>;
-+			power-domains = <&sysc R8A774B1_PD_ALWAYS_ON>;
-+			resets = <&cpg 914>;
-+			status = "disabled";
-+
-+			channel0 {
-+				status = "disabled";
-+			};
-+
-+			channel1 {
-+				status = "disabled";
-+			};
- 		};
- 
- 		pwm0: pwm@e6e30000 {
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.7.4
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
