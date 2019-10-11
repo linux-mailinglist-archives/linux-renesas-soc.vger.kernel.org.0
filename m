@@ -2,85 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 90CF2D3EB0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Oct 2019 13:46:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3C54D3F0E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Oct 2019 13:55:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727538AbfJKLqO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Oct 2019 07:46:14 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:45367 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727198AbfJKLqO (ORCPT
+        id S1727709AbfJKLyF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Oct 2019 07:54:05 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:46707 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727198AbfJKLyF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Oct 2019 07:46:14 -0400
-Received: by mail-ot1-f65.google.com with SMTP id 41so7667084oti.12;
-        Fri, 11 Oct 2019 04:46:13 -0700 (PDT)
+        Fri, 11 Oct 2019 07:54:05 -0400
+Received: by mail-ot1-f68.google.com with SMTP id 89so7673266oth.13
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 11 Oct 2019 04:54:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=juzV2eSp/H++DwK4H0Bphy8wWrKxuELOEBeublEi6po=;
-        b=HasfCzUE+Q/mtjS24nGWEqpouO0aP5vrvarkVTtXoWIKtksVMPCjBuylPHN0SyMswT
-         buCgK5J/BjQEMsAZ0pklLKUJmwlASr608Kub/Q4yjidJGu2v1Gw1QRwG9IO4pxD2gJk2
-         QbZ6dCCsRVAc/QdCw+3dGyGPuZC5yEes0smMov+oIWr6q0iLAulPrpIJFuj7BnbTcPv4
-         By6E9RdMYHThNGCFE0voKzWe/JzBNj1DQEYRbT0e6B9/4NfWUZefb4I8g5WbleJv6Iht
-         z2aXZ2D14wCGBOBf0kzMnsMVBuEJI0KgQJMB5/cqQx27KUlnwMDg2GR4K5ddKdzpmLlw
-         qNAg==
-X-Gm-Message-State: APjAAAVSOu9vnrdfP71xAx4PMNj+tpxa6EL1ZzdlDJft/t+rH1ie47Ed
-        +m1tCQKfF5Wd951NJ1ru6BQMA4o14L3tJ2/tv1Xf+ROj
-X-Google-Smtp-Source: APXvYqwmLjg8XGGh3E8+Mly0taJ/4b0SinKvjRPp3H99ZSjUxE3pQ9sqJWUF3CcbyUMTKBW3gKROkBPCZpbSmkASMqE=
-X-Received: by 2002:a9d:70d0:: with SMTP id w16mr11385266otj.107.1570794372939;
- Fri, 11 Oct 2019 04:46:12 -0700 (PDT)
+        bh=ll+ZGZLXHxBCnVaZviDFpPP23aAB0ssHwz6UYY/uKEw=;
+        b=GNz1bRCcdZLn4SHTj1KWMmn6fARLoAdR4hOPLMs675ypQZmeFCwIRVnfomJce8R1Vy
+         L1PZ5eP+PqpxthqHOJX+OAg198CGxz+jGoW4XON9MWZjxqnie74copzLi7JB8+kMZhdk
+         SRWm7C3+EhcULrZuR7oBQ/d/6jnlgz6NrzvteFjMUZdLOMz8w2w9aeevcz70DOZBR256
+         8hdf0O6bJ5oxSP6tGuekzMVlqyoQL0CkDCp/ZNOaumGCva0WB6hSzm/Sj7ROAaBFn+0r
+         W4iFucU0fFByBfuOAx8aTxkpTLjvRgeNQxuURRFpgkrTtnM4Han2jUdZac6mSvM+RUeS
+         QKqA==
+X-Gm-Message-State: APjAAAVSSD1Wfcu4CoR1lH7RQIJi02mAAgqA2Wy8/MAkNtEwlNRG2uxo
+        oWIbF2teoW75a6qJIA3Kf2fkeQxF6ilBYWRGc1o=
+X-Google-Smtp-Source: APXvYqyd37E9W+P4ICRfJCWfopf/DkWYboP0bWpZgr2QwLdeu5WNUJSM0qtuFjST13cShBxAMqE0EnR9MHuMIwxk1Hc=
+X-Received: by 2002:a05:6830:1544:: with SMTP id l4mr4333161otp.297.1570794844722;
+ Fri, 11 Oct 2019 04:54:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191007140559.11840-1-colin.king@canonical.com>
-In-Reply-To: <20191007140559.11840-1-colin.king@canonical.com>
+References: <1570437605-15804-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1570437605-15804-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 11 Oct 2019 13:46:01 +0200
-Message-ID: <CAMuHMdUYvNaCYHDK_=HnyyAKa4Zqr+0xe0QnO0KzKpZws4YsCw@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: rzn1: array reg_drive static, makes object smaller
-To:     Colin King <colin.king@canonical.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        kernel-janitors@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Date:   Fri, 11 Oct 2019 13:53:53 +0200
+Message-ID: <CAMuHMdWdR8WNQXMFLwuQgj=NTD-ZeadLmOYkttmOX5BbB-7cXg@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: add iommus into R-Car Gen3 sdhi/mmc nodes
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Colin,
-
-On Mon, Oct 7, 2019 at 4:06 PM Colin King <colin.king@canonical.com> wrote:
-> From: Colin Ian King <colin.king@canonical.com>
+On Mon, Oct 7, 2019 at 10:40 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> This patch adds iommus properties into R-Car Gen3 SoCs'
+> sdhi/mmc nodes.
 >
-> Don't populate the array reg_drive on the stack but instead make it
-> static. Makes the object code smaller by 32 bytes.
->
-> Before:
->    text    data     bss     dec     hex filename
->   31991   15696       0   47687    ba47 drivers/pinctrl/pinctrl-rzn1.o
->
-> After:
->    text    data     bss     dec     hex filename
->   31863   15792       0   47655    ba27 drivers/pinctrl/pinctrl-rzn1.o
->
-> (gcc version 9.2.1, amd64)
->
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-
-Thanks for your patch!
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in sh-pfc-for-v5.5.
-
-FTR, on arm32, it saves 64 bytes:
-
-   8594     148       0    8742    2226 drivers/pinctrl/pinctrl-rzn1.o.before
-   8530     148       0    8678    21e6 drivers/pinctrl/pinctrl-rzn1.o.after
-
-BTW, what debug options do you have enabled, to get a binary that's
-more than 5x as large? Amd64 code generation can't be that bad...
+i.e. will queue in renesas-devel for v5.5.
 
 Gr{oetje,eeting}s,
 
