@@ -2,75 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CE86D43D1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Oct 2019 17:09:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5FF6D46DD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Oct 2019 19:46:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726692AbfJKPJk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Oct 2019 11:09:40 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:36308 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726631AbfJKPJk (ORCPT
+        id S1728532AbfJKRqY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Oct 2019 13:46:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36744 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728470AbfJKRqY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Oct 2019 11:09:40 -0400
-Received: by mail-oi1-f194.google.com with SMTP id k20so8278188oih.3;
-        Fri, 11 Oct 2019 08:09:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=2jMHwOitJSgKBIWAGaWAYObwjrzeoaV9e3k/7PTkxAo=;
-        b=NqWUWcnsC2CiDRPX1jpB3mzt34z5i1PcZUEy3XrMRvX3joEynaxzSeBsAibfYQwx5l
-         +4/ve9FxjXclRKCeYnqYI0jGsPqrpYTZAnU5bFb/3/3dNhGqLCT8cRZjW6THr/ZNsLe7
-         Jk0at4ydmF1AQzemBK3DZIn1/U2Zscr441CqTYuqVcN2131UDvrS9LU9S9iGlqsKKPOT
-         X5TaS0fCGCOoHA74b4RFpCSY7IQAIsfoZwvkapU6CxZO4QpHlvKFazFh5xGYgmXxf9nr
-         2ECu/Yd8ntCPVPDkZovaSRZMLhZaM9lDulJhNjmwu43Xpys61Hf5awUpgt0rnt78B76P
-         OyNg==
-X-Gm-Message-State: APjAAAU4nAdwn/Uv7nUMwa1niQD0B07QKVRdEUmX96gfKp8UE5WzC+JU
-        BuERP2LDPBPsBSJit5gYoQ==
-X-Google-Smtp-Source: APXvYqyQphDcWaDmhFGH6AE2aMBJbIU0akQPLklrY1sN/qLpnHos7OJ9vKkSYJ/YrhkXyboxiGZo0A==
-X-Received: by 2002:aca:aac1:: with SMTP id t184mr12087565oie.165.1570806579346;
-        Fri, 11 Oct 2019 08:09:39 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id y16sm2649391otg.7.2019.10.11.08.09.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Oct 2019 08:09:38 -0700 (PDT)
-Date:   Fri, 11 Oct 2019 10:09:37 -0500
+        Fri, 11 Oct 2019 13:46:24 -0400
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CC72221835;
+        Fri, 11 Oct 2019 17:46:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1570815982;
+        bh=cCan5WfHyvTySsprLa8MG8Pk1yN1pL0Z22pVSVDHh+Q=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=kcGnYOdV0Afs5sCaIDGthExPA/LdjfuVpPz8r6/CNgjKpA1ovDmjO7x3Hqnbn0YFZ
+         3+GAwzd8KrSWa8Q7Qhx1pOhdgOlXyfNkZSp32SKCAAMlBojSTo64A+kVaoI44xDRDI
+         OgSm5uOMzRQNbEkT5JiXmYrSsneal+N5vUmp7BPw=
+Received: by mail-qk1-f170.google.com with SMTP id x4so5719325qkx.5;
+        Fri, 11 Oct 2019 10:46:22 -0700 (PDT)
+X-Gm-Message-State: APjAAAWIaAbUueCaNEvXda/fZdl6OHQpOWlhWNiRSljXu8lj2fuQTQ31
+        /vsX7u4thkxsyWJgElhR51lUCMTMWrw3/7h2Yg==
+X-Google-Smtp-Source: APXvYqx8NWxIkgR2gwBZKvDxeeXE3vkunAfy2ZjWqHue5z6OeFFUywQNqB23lykYwT24W4jiQ/KDjMZvYec9Euj/cdE=
+X-Received: by 2002:a37:98c1:: with SMTP id a184mr15759520qke.119.1570815981911;
+ Fri, 11 Oct 2019 10:46:21 -0700 (PDT)
+MIME-Version: 1.0
+References: <1569527977-21213-1-git-send-email-ykaneko0929@gmail.com>
+ <20191010220709.GA1314@bogus> <CAMuHMdWR3HnT1-yp+i0OXAr2xF-6MANJDuXz1hj9WC1eUJjRAQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdWR3HnT1-yp+i0OXAr2xF-6MANJDuXz1hj9WC1eUJjRAQ@mail.gmail.com>
 From:   Rob Herring <robh@kernel.org>
-To:     Biju Das <biju.das@bp.renesas.com>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
+Date:   Fri, 11 Oct 2019 12:46:10 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+9Am1KPE_=TX7_c+sdMt09hPzxXfz0kk53+pF13WtVxw@mail.gmail.com>
+Message-ID: <CAL_Jsq+9Am1KPE_=TX7_c+sdMt09hPzxXfz0kk53+pF13WtVxw@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: irqchip: renesas: intc-irqpin: convert
+ bindings to json-schema
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Yoshihiro Kaneko <ykaneko0929@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Simon Horman <horms@verge.net.au>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] dt-bindings: i2c: rcar: Add r8a774b1 support
-Message-ID: <20191011150937.GA11786@bogus>
-References: <1570175998-50891-1-git-send-email-biju.das@bp.renesas.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1570175998-50891-1-git-send-email-biju.das@bp.renesas.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri,  4 Oct 2019 08:59:58 +0100, Biju Das wrote:
-> Document RZ/G2N (R8A774B1) I2C compatibility with the relevant driver
-> dt-bindings.
-> 
-> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> V1-->V2
->  * Rebased on top of next.
-> ---
->  Documentation/devicetree/bindings/i2c/renesas,i2c.txt | 1 +
->  1 file changed, 1 insertion(+)
-> 
+On Fri, Oct 11, 2019 at 1:57 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+>
+> Hi Rob, Kaneko-san,
+>
+> On Fri, Oct 11, 2019 at 12:07 AM Rob Herring <robh@kernel.org> wrote:
+> > On Fri, Sep 27, 2019 at 04:59:37AM +0900, Yoshihiro Kaneko wrote:
+> > > Convert R-/SH-Mobile IRQPin Controller bindings documentation to json-schema.
+> > >
+> > > Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
+>
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/interrupt-controller/renesas,intc-irqpin.yaml
+> > > @@ -0,0 +1,102 @@
+> > > +# SPDX-License-Identifier: GPL-2.0
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/interrupt-controller/renesas,intc-irqpin.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: DT bindings for the R-/SH-Mobile irqpin controller
+> > > +
+> > > +maintainers:
+> > > +  - Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> Looks like I received many maintainerships recently ;-)
 
-Acked-by: Rob Herring <robh@kernel.org>
+Maybe I should have called it something else, but I view this as who's
+the owner not who applies it. There are lots of binding files with no
+maintainer, so it's me by default. I wanted to avoid that and not by
+having 4K MAINTAINERS entries.
+
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    items:
+> > > +      - enum:
+> > > +          - renesas,intc-irqpin-r8a7740  # R-Mobile A1
+> > > +          - renesas,intc-irqpin-r8a7778  # R-Car M1A
+> > > +          - renesas,intc-irqpin-r8a7779  # R-Car H1
+> > > +          - renesas,intc-irqpin-sh73a0   # SH-Mobile AG5
+> > > +      - const: renesas,intc-irqpin
+> > > +
+> > > +  reg:
+> > > +    # Base address and length of each register bank used by the external
+> > > +    # IRQ pins driven by the interrupt controller hardware module. The base
+> > > +    # addresses, length and number of required register banks varies with
+> > > +    # soctype.
+> > > +    minItems: 1
+>
+> minItems: 5
+>
+> > > +    maxItems: 6
+> >
+> > Every entry is the same thing?
+>
+> No they're not.
+>
+> First entry is the Interrupt control register.
+> Second entry is the Interrupt priority register.
+> Third entry is the Interrupt source register.
+> Fourth entry is the Interrupt mask register.
+> Fifth entry is the Interrupt mask clear register.
+> Sixth entry is the optional Interrupt control register for ICR0 with IRLM bit.
+
+So this should be an 'items' list with these descriptions.
+
+Rob
