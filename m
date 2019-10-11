@@ -2,86 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 32435D3C20
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Oct 2019 11:19:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81C7AD3E8D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 11 Oct 2019 13:35:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726585AbfJKJTn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 11 Oct 2019 05:19:43 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:44156 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726863AbfJKJTn (ORCPT
+        id S1727670AbfJKLf6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 11 Oct 2019 07:35:58 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:43050 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727226AbfJKLf6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 11 Oct 2019 05:19:43 -0400
-Received: by mail-ot1-f66.google.com with SMTP id 21so7360520otj.11;
-        Fri, 11 Oct 2019 02:19:42 -0700 (PDT)
+        Fri, 11 Oct 2019 07:35:58 -0400
+Received: by mail-ot1-f68.google.com with SMTP id o44so7642641ota.10;
+        Fri, 11 Oct 2019 04:35:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=2T/zHCiz5lRoZLCCsEBaHrm43xLEtwr/JLAYUvgdwzE=;
-        b=rY3Uf9LdWgDBPCwqd0My70ixRNRbWYt9jmFcAzct/2Ytmoe4DkGa8BbaoMIeGEKdFR
-         t34MKotWVmuCHtD1xmOdvRmSZmqnmijOzXam6yRSRs0lskZvp4LzmRIPiQuFYbBEgRLn
-         xgl/Li70P0BXy19+uRoaLjIFF+TlXeqsvOe3vxnJvPABEGeGLfgstnqKqios3zicV+Tk
-         gJslr5+YODcCqUPpTLOQonRps+lQaBf1K8Yk5PatVJrdakdRrznSR0ZQ/2SzUTJRW2zU
-         eUjS9wvzRAuZzwLgZ1PxfAPlnoVQNY52od7z6+azmp/ddMgX7ccZThXDPZcTRTaH724Q
-         rVzw==
-X-Gm-Message-State: APjAAAW9xCJNZSKIm+W1gm4Py4m2UDOXqjZxPUknVrL9cIVGBUmjMMWp
-        1qeqsWxQZEYVN3QxsV9Hnt4FGjtG4OyGhOZz0SU=
-X-Google-Smtp-Source: APXvYqzLdkyO6uQN8+aYqrrf0f1ZoJ5UC4uoBKWGKBUzVnWDCeCgMeWJjJBH6Q06m328j8fpzF+F7jTX6lgsPrk7ois=
-X-Received: by 2002:a05:6830:1685:: with SMTP id k5mr11530897otr.250.1570785582416;
- Fri, 11 Oct 2019 02:19:42 -0700 (PDT)
+        bh=eQSek2+Ho2Ulz7LNP3UdpjPuZ/YQSt2HjlRgL5fCL6Y=;
+        b=d3FTUNpWqPpaRdt8FEuyUldr0i3BafhdWp1r8Zq0AAKsUCn2riz3SV1Jtn4IIjmHLm
+         GZFylZ6ETs5fFWHzIAqVtpoEFLLdw6OaztYNoP31JbHARFdBfDg5YmjphbEA4GBTlC+b
+         rVvvg71QVpGqKRH575rCaADqcxVMuRAAe7UAfP/nftQDWqDZVZmETRHYxKSQ8gwHNVVp
+         tKEMWoE8nANFaTAHnqY52dbya0KxQk0UxFHYHZ34S3n21VXfMMkGdElrmpxlml43HtOH
+         f7rVdJBmNzziqh6fy4eDbiyKrSHnMfK8QQHz5+LjQqK7ANXVHXnui8+sY0weQJ73Cg4g
+         c8Jg==
+X-Gm-Message-State: APjAAAUVlyMEizYCdYQ5JUm8YMGu0XDcR2aTRYpmwRym0HDKH60sJNVo
+        Ime33vyA8+IZ+4QQ81UtPXBGj6Vt4L8KSI9wYZR0AA==
+X-Google-Smtp-Source: APXvYqwzhaMNxsHt9lNC9D5mBZHX/T/3d317QVtdONRKrfd357WKkSloDwVAzMu5lCQ7i1vNHEvtgf6aeQxQsbqWjno=
+X-Received: by 2002:a9d:70d0:: with SMTP id w16mr11357390otj.107.1570793757276;
+ Fri, 11 Oct 2019 04:35:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191010123046.15291-1-geert+renesas@glider.be>
- <20191011073515.2933918c@canb.auug.org.au> <fc7ec17b-c61b-842e-13d9-1e154ce2a654@cogentembedded.com>
-In-Reply-To: <fc7ec17b-c61b-842e-13d9-1e154ce2a654@cogentembedded.com>
+References: <1570029619-43238-1-git-send-email-biju.das@bp.renesas.com> <1570029619-43238-10-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1570029619-43238-10-git-send-email-biju.das@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 11 Oct 2019 11:19:30 +0200
-Message-ID: <CAMuHMdVurk2akpKFAGKoNN2YxPMBMx2VrvUfTfCX-AiUaFAcxQ@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Remove Simon as Renesas SoC Co-Maintainer
-To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Cc:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+Date:   Fri, 11 Oct 2019 13:35:45 +0200
+Message-ID: <CAMuHMdWnzydAvfdTD2QD=sHaRmN5HR7gsX60iJZTJtg_8mGK8w@mail.gmail.com>
+Subject: Re: [PATCH v3 9/9] arm64: dts: renesas: Add support for Advantech
+ idk-1110wr LVDS panel
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
         Simon Horman <horms@verge.net.au>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Kevin Hilman <khilman@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sergei,
-
-On Fri, Oct 11, 2019 at 11:00 AM Sergei Shtylyov
-<sergei.shtylyov@cogentembedded.com> wrote:
-> On 10.10.2019 23:35, Stephen Rothwell wrote:
-> >> At the end of the v5.3 upstream kernel development cycle, Simon stepped
-> >> down from his role as Renesas SoC maintainer.
-> >>
-> >> Remove his maintainership, git repository, and branch from the
-> >> MAINTAINERS file, and add an entry to the CREDITS file to honor his
-> >> work.
-> >>
-> >> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >
-> > So, I will remove Simon's Renesas tree from linux-next and rename the
-> > renesas-geert tree to be renesas, OK?
+On Wed, Oct 2, 2019 at 5:21 PM Biju Das <biju.das@bp.renesas.com> wrote:
+> This patch adds support for Advantech idk-1110wr LVDS panel.
+> The HiHope RZ/G2[MN] is advertised as compatible with panel
+> idk-1110wr from Advantech, however the panel isn't sold alongside
+> the board.
 >
->     I thought Geert's new repo is called renesas-devel?
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-The repository is called "renesas-devel".
-The branch Stephen pulls is "next" (colloquially called "renesas-next" ;-)
-The linux-next-specific handle Stephen uses is called "renesas".
-
-Cfr. "git show next-20191011:Next/Trees | grep renesas".
-
-I hope this clears up the confusion...
+Thanks, queued in renesas-devel for v5.5.
 
 Gr{oetje,eeting}s,
 
