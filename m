@@ -2,108 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 87E8DD4D45
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 12 Oct 2019 07:49:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD9E8D58E3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Oct 2019 02:08:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726947AbfJLFtR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 12 Oct 2019 01:49:17 -0400
-Received: from kirsty.vergenet.net ([202.4.237.240]:32948 "EHLO
-        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726671AbfJLFtR (ORCPT
+        id S1729431AbfJNAIK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 13 Oct 2019 20:08:10 -0400
+Received: from vsp-unauthed02.binero.net ([195.74.38.227]:63190 "EHLO
+        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728982AbfJNAIJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 12 Oct 2019 01:49:17 -0400
-Received: from penelope.horms.nl (ip4dab7138.direct-adsl.nl [77.171.113.56])
-        by kirsty.vergenet.net (Postfix) with ESMTPA id 13C9A25B7C7;
-        Sat, 12 Oct 2019 16:49:15 +1100 (AEDT)
-Received: by penelope.horms.nl (Postfix, from userid 7100)
-        id 9C68CE20369; Sat, 12 Oct 2019 07:49:11 +0200 (CEST)
-Date:   Sat, 12 Oct 2019 07:49:11 +0200
-From:   Simon Horman <horms@verge.net.au>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Kevin Hilman <khilman@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: Remove Simon as Renesas SoC Co-Maintainer
-Message-ID: <20191012054907.nxqmuuwzgpydkk2o@verge.net.au>
-References: <20191010123046.15291-1-geert+renesas@glider.be>
+        Sun, 13 Oct 2019 20:08:09 -0400
+X-Halon-ID: adf85926-ee16-11e9-903a-005056917f90
+Authorized-sender: niklas@soderlund.pp.se
+Received: from bismarck.berto.se (unknown [84.172.88.101])
+        by bin-vsp-out-02.atm.binero.net (Halon) with ESMTPA
+        id adf85926-ee16-11e9-903a-005056917f90;
+        Mon, 14 Oct 2019 02:08:03 +0200 (CEST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2] rcar-vin: Do not enumerate unsupported pixel formats
+Date:   Mon, 14 Oct 2019 02:07:50 +0200
+Message-Id: <20191014000750.2863254-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191010123046.15291-1-geert+renesas@glider.be>
-Organisation: Horms Solutions BV
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Oct 10, 2019 at 02:30:46PM +0200, Geert Uytterhoeven wrote:
-> At the end of the v5.3 upstream kernel development cycle, Simon stepped
-> down from his role as Renesas SoC maintainer.
-> 
-> Remove his maintainership, git repository, and branch from the
-> MAINTAINERS file, and add an entry to the CREDITS file to honor his
-> work.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+If a pixel format is not supported by the hardware NULL is returned by
+rvin_format_from_pixel() for that fourcc. Verify that the pixel format
+is supported using this or skip it when enumerating.
 
-Acked-by: Simon Horman <horms@verge.net.au>
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/media/platform/rcar-vin/rcar-v4l2.c | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
-> ---
->  CREDITS     | 4 ++++
->  MAINTAINERS | 4 ----
->  2 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/CREDITS b/CREDITS
-> index 8b67a85844b55d88..031605d46b4d5cc1 100644
-> --- a/CREDITS
-> +++ b/CREDITS
-> @@ -1637,6 +1637,10 @@ S: Panoramastrasse 18
->  S: D-69126 Heidelberg
->  S: Germany
->  
-> +N: Simon Horman
-> +M: horms@verge.net.au
-> +D: Renesas ARM/ARM64 SoC maintainer
-> +
->  N: Christopher Horn
->  E: chorn@warwick.net
->  D: Miscellaneous sysctl hacks
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 94ce075907a0b9aa..d44d6732510df746 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2165,12 +2165,10 @@ F:	arch/arm64/boot/dts/realtek/
->  F:	Documentation/devicetree/bindings/arm/realtek.yaml
->  
->  ARM/RENESAS ARM64 ARCHITECTURE
-> -M:	Simon Horman <horms@verge.net.au>
->  M:	Geert Uytterhoeven <geert+renesas@glider.be>
->  M:	Magnus Damm <magnus.damm@gmail.com>
->  L:	linux-renesas-soc@vger.kernel.org
->  Q:	http://patchwork.kernel.org/project/linux-renesas-soc/list/
-> -T:	git git://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas.git next
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
->  S:	Supported
->  F:	arch/arm64/boot/dts/renesas/
-> @@ -2282,12 +2280,10 @@ S:	Maintained
->  F:	drivers/media/platform/s5p-mfc/
->  
->  ARM/SHMOBILE ARM ARCHITECTURE
-> -M:	Simon Horman <horms@verge.net.au>
->  M:	Geert Uytterhoeven <geert+renesas@glider.be>
->  M:	Magnus Damm <magnus.damm@gmail.com>
->  L:	linux-renesas-soc@vger.kernel.org
->  Q:	http://patchwork.kernel.org/project/linux-renesas-soc/list/
-> -T:	git git://git.kernel.org/pub/scm/linux/kernel/git/horms/renesas.git next
->  T:	git git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
->  S:	Supported
->  F:	arch/arm/boot/dts/emev2*
-> -- 
-> 2.17.1
-> 
+diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+index 9a9b89c0dc0b3be4..13b7cd5d2e40415a 100644
+--- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
++++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+@@ -296,12 +296,22 @@ static int rvin_g_fmt_vid_cap(struct file *file, void *priv,
+ static int rvin_enum_fmt_vid_cap(struct file *file, void *priv,
+ 				 struct v4l2_fmtdesc *f)
+ {
+-	if (f->index >= ARRAY_SIZE(rvin_formats))
+-		return -EINVAL;
+-
+-	f->pixelformat = rvin_formats[f->index].fourcc;
++	struct rvin_dev *vin = video_drvdata(file);
++	unsigned int i;
++	int matched;
++
++	matched = -1;
++	for (i = 0; i < ARRAY_SIZE(rvin_formats); i++) {
++		if (rvin_format_from_pixel(vin, rvin_formats[i].fourcc))
++			matched++;
++
++		if (matched == f->index) {
++			f->pixelformat = rvin_formats[i].fourcc;
++			return 0;
++		}
++	}
+ 
+-	return 0;
++	return -EINVAL;
+ }
+ 
+ static int rvin_g_selection(struct file *file, void *fh,
+-- 
+2.23.0
+
