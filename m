@@ -2,88 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 08989D69AC
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Oct 2019 20:46:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 947F9D6A66
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Oct 2019 21:54:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732279AbfJNSqI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Oct 2019 14:46:08 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:45218 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726169AbfJNSqI (ORCPT
+        id S1730031AbfJNTyx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Oct 2019 15:54:53 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:45014 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730006AbfJNTyx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Oct 2019 14:46:08 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 1BE7E3C04C1;
-        Mon, 14 Oct 2019 20:46:06 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id IjD9bq8Hj1kl; Mon, 14 Oct 2019 20:46:00 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 0DCF63C003F;
-        Mon, 14 Oct 2019 20:46:00 +0200 (CEST)
-Received: from vmlxhi-102.adit-jv.com (10.72.93.184) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Mon, 14 Oct
- 2019 20:45:59 +0200
-Date:   Mon, 14 Oct 2019 20:45:56 +0200
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-CC:     <linux-renesas-soc@vger.kernel.org>,
+        Mon, 14 Oct 2019 15:54:53 -0400
+Received: by mail-oi1-f194.google.com with SMTP id w6so14723009oie.11;
+        Mon, 14 Oct 2019 12:54:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=XhCUwO3XcoZWA0lhfOAn10hxUA8j/Rc+tU2JUBRZEKU=;
+        b=tvYZw0/lkF64Ipy5K1yVlyJvZuKF/yhAqiiBFEyXdoZNDztEljli5UiMsxrUdkzKpC
+         wmzd8xueC642KrWXouyXRe8JLB2ACennDARQMhDaYmP3HcWhgRmmU5gGPDzZWN0yk9uz
+         WtIYKC+jAQUhfU2iXfNvDYohu95ORkE6XyoKhME4Eq980iL6cGqu/Y1rcMyW1BQeFuds
+         1bJ3FqAc/dsZQHSncWPLay1OyNzTzkipIPnFh+y/4jY+BIvuowBYX6QSWmXDNGy8fG5Q
+         YjSEaofEFAn7nfJrzZjDsGFg/sa5Q2se8S70AhdyLNW3b1mxXV1552yyPfeiXPI63DIe
+         NgPw==
+X-Gm-Message-State: APjAAAXNFgNQxh3lkOhPiYyawCOceauSdj2Zg1PEH3Pjqj+FxOGKzsT1
+        zf2TK+0OwaEHZO1u8Kg9ofalTn0=
+X-Google-Smtp-Source: APXvYqy7yioDgEjsKi7M+Drs+tKhyYVoxvGwwlK2NnsmyJlGPTvC1ZoVjbk4nW2xEVfwkPG5JYzE0w==
+X-Received: by 2002:aca:eac2:: with SMTP id i185mr26462013oih.9.1571082892264;
+        Mon, 14 Oct 2019 12:54:52 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id b31sm6014243otc.70.2019.10.14.12.54.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Oct 2019 12:54:51 -0700 (PDT)
+Date:   Mon, 14 Oct 2019 14:54:51 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Simon Horman <horms+renesas@verge.net.au>
+Cc:     Mark Brown <broonie@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Mark Rutland <mark.rutland@arm.com>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH/RFC 03/19] dt-bindings: clock: renesas: cpg-mssr:
- Document r8a77961 support
-Message-ID: <20191014184410.GA10366@vmlxhi-102.adit-jv.com>
-References: <20191007102332.12196-1-geert+renesas@glider.be>
- <20191007102332.12196-4-geert+renesas@glider.be>
+        Yoshihiro Kaneko <ykaneko0929@gmail.com>,
+        linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Simon Horman <horms+renesas@verge.net.au>,
+        "hange-folder>?" <toggle-mailboxes@bogus>
+Subject: Re: [PATCH] dt-bindings: spi: sh-msiof: Convert bindings to
+ json-schema
+Message-ID: <20191014195451.GA22084@bogus>
+References: <20190926102533.17829-1-horms+renesas@verge.net.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191007102332.12196-4-geert+renesas@glider.be>
-User-Agent: Mutt/1.12.1+40 (7f8642d4ee82) (2019-06-28)
-X-Originating-IP: [10.72.93.184]
+In-Reply-To: <20190926102533.17829-1-horms+renesas@verge.net.au>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Oct 07, 2019 at 12:23:16PM +0200, Geert Uytterhoeven wrote:
-> Add DT binding documentation for the Clock Pulse Generator / Module
-> Standby and Software Reset block in the Renesas R-Car M3-W+ (R8A77961)
-> SoC.
+On Thu, 26 Sep 2019 12:25:33 +0200, Simon Horman wrote:
+> Convert Renesas HSPI bindings documentation to json-schema.
+> Also name bindings documentation file according to the compat string
+> being documented.
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
 > ---
->  .../devicetree/bindings/clock/renesas,cpg-mssr.txt       | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
+> Based on v5.3
+> Tested using:
+>   ARCH=arm   make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
+>   ARCH=arm64 make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
+> ---
+>  .../devicetree/bindings/spi/renesas,sh-msiof.yaml  | 158 +++++++++++++++++++++
+>  Documentation/devicetree/bindings/spi/sh-msiof.txt | 105 --------------
+>  2 files changed, 158 insertions(+), 105 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/spi/renesas,sh-msiof.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/spi/sh-msiof.txt
 > 
-> diff --git a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.txt b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.txt
-> index b5edebeb12b40638..b9b0927b7c780699 100644
-> --- a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.txt
-> +++ b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.txt
 
-[..]
+Applied, thanks.
 
-> @@ -42,10 +43,10 @@ Required Properties:
->    - clock-names: List of external parent clock names. Valid names are:
->        - "extal" (r7s9210, r8a7743, r8a7744, r8a7745, r8a77470, r8a774a1,
->  		 r8a774b1, r8a774c0, r8a7790, r8a7791, r8a7792, r8a7793,
-> -		 r8a7794, r8a7795, r8a7796, r8a77965, r8a77970, r8a77980,
-> -		 r8a77990, r8a77995)
-> -      - "extalr" (r8a774a1, r8a774b1, r8a7795, r8a7796, r8a77965, r8a77970,
-> -		  r8a77980)
-> +		 r8a7794, r8a7795, r8a7796, r8a77961, r8a77965, r8a77970,
-> +		 r8a77980, r8a77990, r8a77995)
-> +      - "extalr" (r8a774a1, r8a774b1, r8a7795, r8a7796, r8a77961, r8a77965,
-> +		  r8a77970, r8a77980)
->        - "usb_extal" (r8a7743, r8a7744, r8a7745, r8a77470, r8a7790, r8a7791,
->  		     r8a7793, r8a7794)
-
-Not easy to review, but 'git show --color-words' comes to the rescue :)
-
--- 
-Best Regards,
-Eugeniu
+Rob
