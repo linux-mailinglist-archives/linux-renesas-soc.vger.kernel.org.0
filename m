@@ -2,82 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CED2DD692B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Oct 2019 20:10:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08989D69AC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Oct 2019 20:46:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732952AbfJNSKi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Oct 2019 14:10:38 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:42484 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732457AbfJNSKh (ORCPT
+        id S1732279AbfJNSqI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Oct 2019 14:46:08 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:45218 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726169AbfJNSqI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Oct 2019 14:10:37 -0400
-Received: by mail-oi1-f196.google.com with SMTP id i185so14480042oif.9;
-        Mon, 14 Oct 2019 11:10:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=brydErWP+N2L9d45tYVCDfdcZY1kzeEdeJQZ2XYUiZo=;
-        b=TXPVhyeXjtUdUYpjGtu4SE7rID1M0RgSDE6WBllbzcrMmr4tbz5KiIX5iwxQ5mz/xM
-         nXbvcAIdnC51YHEFya/fomT1XhlUkqyhCyutDYysXVfYVZLcyXj58XTCUmXI3fGOZHYX
-         H4VFDw486Tcg3gntoMrFzfvrca5WRiDpMug8JewydoDYijIvtczq2BQOuLXHGJMnq842
-         o4oKXay3/RwpHeLZJ+oaZxtWvhdFI4/8AOdIbV80Fhz4DJHEK3nOIqeA5+COCzSJrel9
-         7hAE1NZ1s1gjuv6OPytIHlrVRvTWZnDDvXG+8DD66eSucexYYgU6w3q45Z4zIGQlJbVV
-         kNmA==
-X-Gm-Message-State: APjAAAWm3Id9Liyoi0K1egrnZrB9KKmVU97yNjES8heJo2IPaisOYfzK
-        +vcXosHbhPRMAbO+2i7QEA==
-X-Google-Smtp-Source: APXvYqw5KLzQfOtdpfE9+NWsb+KZJWl/E35ubmw5Tmx1d08+KqazubLPhRc7Qqi25jW0DFupNKrczw==
-X-Received: by 2002:aca:5786:: with SMTP id l128mr283018oib.34.1571076636754;
-        Mon, 14 Oct 2019 11:10:36 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id n127sm5791292oia.0.2019.10.14.11.10.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2019 11:10:36 -0700 (PDT)
-Date:   Mon, 14 Oct 2019 13:10:35 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-can@vger.kernel.org,
-        netdev@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: Re: [PATCH net-next v2 2/3] dt-bindings: can: rcar_canfd: document
- r8a774b1 support
-Message-ID: <20191014181035.GA2613@bogus>
-References: <1570717560-7431-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1570717560-7431-3-git-send-email-fabrizio.castro@bp.renesas.com>
+        Mon, 14 Oct 2019 14:46:08 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 1BE7E3C04C1;
+        Mon, 14 Oct 2019 20:46:06 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id IjD9bq8Hj1kl; Mon, 14 Oct 2019 20:46:00 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 0DCF63C003F;
+        Mon, 14 Oct 2019 20:46:00 +0200 (CEST)
+Received: from vmlxhi-102.adit-jv.com (10.72.93.184) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Mon, 14 Oct
+ 2019 20:45:59 +0200
+Date:   Mon, 14 Oct 2019 20:45:56 +0200
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+CC:     <linux-renesas-soc@vger.kernel.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [PATCH/RFC 03/19] dt-bindings: clock: renesas: cpg-mssr:
+ Document r8a77961 support
+Message-ID: <20191014184410.GA10366@vmlxhi-102.adit-jv.com>
+References: <20191007102332.12196-1-geert+renesas@glider.be>
+ <20191007102332.12196-4-geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <1570717560-7431-3-git-send-email-fabrizio.castro@bp.renesas.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191007102332.12196-4-geert+renesas@glider.be>
+User-Agent: Mutt/1.12.1+40 (7f8642d4ee82) (2019-06-28)
+X-Originating-IP: [10.72.93.184]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 10 Oct 2019 15:25:59 +0100, Fabrizio Castro wrote:
-> Document the support for rcar_canfd on R8A774B1 SoC devices.
+On Mon, Oct 07, 2019 at 12:23:16PM +0200, Geert Uytterhoeven wrote:
+> Add DT binding documentation for the Clock Pulse Generator / Module
+> Standby and Software Reset block in the Renesas R-Car M3-W+ (R8A77961)
+> SoC.
 > 
-> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
-> v1->v2:
-> * Added the R8A774B1 to the clock paragraph according to Geert's comment
+>  .../devicetree/bindings/clock/renesas,cpg-mssr.txt       | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
 > 
->  Documentation/devicetree/bindings/net/can/rcar_canfd.txt | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
+> diff --git a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.txt b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.txt
+> index b5edebeb12b40638..b9b0927b7c780699 100644
+> --- a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.txt
+> +++ b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.txt
 
-Acked-by: Rob Herring <robh@kernel.org>
+[..]
+
+> @@ -42,10 +43,10 @@ Required Properties:
+>    - clock-names: List of external parent clock names. Valid names are:
+>        - "extal" (r7s9210, r8a7743, r8a7744, r8a7745, r8a77470, r8a774a1,
+>  		 r8a774b1, r8a774c0, r8a7790, r8a7791, r8a7792, r8a7793,
+> -		 r8a7794, r8a7795, r8a7796, r8a77965, r8a77970, r8a77980,
+> -		 r8a77990, r8a77995)
+> -      - "extalr" (r8a774a1, r8a774b1, r8a7795, r8a7796, r8a77965, r8a77970,
+> -		  r8a77980)
+> +		 r8a7794, r8a7795, r8a7796, r8a77961, r8a77965, r8a77970,
+> +		 r8a77980, r8a77990, r8a77995)
+> +      - "extalr" (r8a774a1, r8a774b1, r8a7795, r8a7796, r8a77961, r8a77965,
+> +		  r8a77970, r8a77980)
+>        - "usb_extal" (r8a7743, r8a7744, r8a7745, r8a77470, r8a7790, r8a7791,
+>  		     r8a7793, r8a7794)
+
+Not easy to review, but 'git show --color-words' comes to the rescue :)
+
+-- 
+Best Regards,
+Eugeniu
