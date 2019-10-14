@@ -2,159 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B35BD58F0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Oct 2019 02:16:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83924D5BC0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Oct 2019 08:58:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728691AbfJNAQb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 13 Oct 2019 20:16:31 -0400
-Received: from bin-mail-out-06.binero.net ([195.74.38.229]:29875 "EHLO
-        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729374AbfJNAQb (ORCPT
+        id S1730078AbfJNG6H (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Oct 2019 02:58:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58696 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730080AbfJNG6H (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 13 Oct 2019 20:16:31 -0400
-X-Halon-ID: af99f8c2-ee17-11e9-837a-0050569116f7
-Authorized-sender: niklas@soderlund.pp.se
-Received: from bismarck.berto.se (unknown [84.172.88.101])
-        by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
-        id af99f8c2-ee17-11e9-837a-0050569116f7;
-        Mon, 14 Oct 2019 02:15:12 +0200 (CEST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Simon Horman <horms+renesas@verge.net.au>
-Subject: [PATCH v2 2/2] rcar-vin: Add support for outputting NV12
-Date:   Mon, 14 Oct 2019 02:16:15 +0200
-Message-Id: <20191014001615.2865301-3-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191014001615.2865301-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20191014001615.2865301-1-niklas.soderlund+renesas@ragnatech.se>
+        Mon, 14 Oct 2019 02:58:07 -0400
+Received: from localhost (unknown [122.167.124.160])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 43C2220673;
+        Mon, 14 Oct 2019 06:58:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1571036287;
+        bh=j+ZrsNnjof4PoEK/2IEQvlBYczLMVw1tpD+JZhWdrVU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Wb2Z2KvHPcPM22VfNaSIPzAcvAqngWNI2/BVZI5JOc2bSKao6YsK+xPhydVnTRiWl
+         fP+cRr4vCnwyAczxLIchLLL6HxM/IOdw3oBpGrl0/S1XI7WEjAlsb+MAl+nPgr07cs
+         VxqoAMY+oMhL1e4cQRd2vCxFYF+K6d5wZOflOx5Y=
+Date:   Mon, 14 Oct 2019 12:28:02 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     vinod.koul@intel.com, dmaengine@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 0/4] dmaengine: rcar-dmac: use of_data and add
+ dma-channel-mask support
+Message-ID: <20191014065802.GA2654@vkoul-mobl>
+References: <1568010892-17606-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1568010892-17606-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Most Gen3 boards can output frames in NV12 format, add support for this
-with a runtime check that the running hardware supports it.
+On 09-09-19, 15:34, Yoshihiro Shimoda wrote:
+> This patch series is based on the latest slave-dma.git / next branch.
+> 
+> Changes from v2:
+>  - Rebase the latest slave-dma.git / next branch (In other words,
+>    this patch series doesn't depend any other branches.
+>  - Cherry-picked a patch which is contained in v5.3-rc8 to solve any
+>    dependency. (I'm not sure whether this is a right way or not...)
+>   https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=169317
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
----
- drivers/media/platform/rcar-vin/rcar-dma.c  |  5 ++-
- drivers/media/platform/rcar-vin/rcar-v4l2.c | 39 +++++++++++++++++----
- 2 files changed, 37 insertions(+), 7 deletions(-)
+Sorry for delay, I was on vacation + conference. Yeah ideally I would
+merge fixes and this wouldn't be the case.
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index af4f774149f08597..cf9029efeb0450cb 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -118,6 +118,7 @@
- #define VNDMR_ABIT		(1 << 2)
- #define VNDMR_DTMD_YCSEP	(1 << 1)
- #define VNDMR_DTMD_ARGB		(1 << 0)
-+#define VNDMR_DTMD_YCSEP_420	(3 << 0)
- 
- /* Video n Data Mode Register 2 bits */
- #define VNDMR2_VPS		(1 << 30)
-@@ -701,11 +702,13 @@ static int rvin_setup(struct rvin_dev *vin)
- 	 * Output format
- 	 */
- 	switch (vin->format.pixelformat) {
-+	case V4L2_PIX_FMT_NV12:
- 	case V4L2_PIX_FMT_NV16:
- 		rvin_write(vin,
- 			   ALIGN(vin->format.bytesperline * vin->format.height,
- 				 0x80), VNUVAOF_REG);
--		dmr = VNDMR_DTMD_YCSEP;
-+		dmr = vin->format.pixelformat == V4L2_PIX_FMT_NV12 ?
-+			VNDMR_DTMD_YCSEP_420 : VNDMR_DTMD_YCSEP;
- 		output_is_yuv = true;
- 		break;
- 	case V4L2_PIX_FMT_YUYV:
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index 13b7cd5d2e40415a..9e2e63ffcc47acad 100644
---- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -30,6 +30,10 @@
-  */
- 
- static const struct rvin_video_format rvin_formats[] = {
-+	{
-+		.fourcc			= V4L2_PIX_FMT_NV12,
-+		.bpp			= 1,
-+	},
- 	{
- 		.fourcc			= V4L2_PIX_FMT_NV16,
- 		.bpp			= 1,
-@@ -72,6 +76,9 @@ const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
- 	if (vin->info->model == RCAR_M1 && pixelformat == V4L2_PIX_FMT_XBGR32)
- 		return NULL;
- 
-+	if (pixelformat == V4L2_PIX_FMT_NV12 && !vin->info->nv12)
-+		return NULL;
-+
- 	for (i = 0; i < ARRAY_SIZE(rvin_formats); i++)
- 		if (rvin_formats[i].fourcc == pixelformat)
- 			return rvin_formats + i;
-@@ -90,17 +97,29 @@ static u32 rvin_format_bytesperline(struct rvin_dev *vin,
- 	if (WARN_ON(!fmt))
- 		return -EINVAL;
- 
--	align = pix->pixelformat == V4L2_PIX_FMT_NV16 ? 0x20 : 0x10;
-+	switch (pix->pixelformat) {
-+	case V4L2_PIX_FMT_NV12:
-+	case V4L2_PIX_FMT_NV16:
-+		align = 0x20;
-+		break;
-+	default:
-+		align = 0x10;
-+		break;
-+	}
- 
- 	return ALIGN(pix->width, align) * fmt->bpp;
- }
- 
- static u32 rvin_format_sizeimage(struct v4l2_pix_format *pix)
- {
--	if (pix->pixelformat == V4L2_PIX_FMT_NV16)
-+	switch (pix->pixelformat) {
-+	case V4L2_PIX_FMT_NV12:
-+		return pix->bytesperline * pix->height * 3 / 2;
-+	case V4L2_PIX_FMT_NV16:
- 		return pix->bytesperline * pix->height * 2;
--
--	return pix->bytesperline * pix->height;
-+	default:
-+		return pix->bytesperline * pix->height;
-+	}
- }
- 
- static void rvin_format_align(struct rvin_dev *vin, struct v4l2_pix_format *pix)
-@@ -124,8 +143,16 @@ static void rvin_format_align(struct rvin_dev *vin, struct v4l2_pix_format *pix)
- 		break;
- 	}
- 
--	/* HW limit width to a multiple of 32 (2^5) for NV16 else 2 (2^1) */
--	walign = vin->format.pixelformat == V4L2_PIX_FMT_NV16 ? 5 : 1;
-+	/* HW limit width to a multiple of 32 (2^5) for NV12/16 else 2 (2^1) */
-+	switch (vin->format.pixelformat) {
-+	case V4L2_PIX_FMT_NV12:
-+	case V4L2_PIX_FMT_NV16:
-+		walign = 5;
-+		break;
-+	default:
-+		walign = 1;
-+		break;
-+	}
- 
- 	/* Limit to VIN capabilities */
- 	v4l_bound_align_image(&pix->width, 2, vin->info->max_width, walign,
+patch1 is no longer needed now, I have applied the rest
+
+Thanks
 -- 
-2.23.0
-
+~Vinod
