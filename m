@@ -2,42 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D1930D5F4F
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Oct 2019 11:49:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D393D5F53
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Oct 2019 11:50:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730942AbfJNJt6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Oct 2019 05:49:58 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:37957 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730677AbfJNJt6 (ORCPT
+        id S1730677AbfJNJum (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Oct 2019 05:50:42 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:35567 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725989AbfJNJum (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Oct 2019 05:49:58 -0400
-Received: by mail-ot1-f65.google.com with SMTP id e11so13260820otl.5
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Oct 2019 02:49:57 -0700 (PDT)
+        Mon, 14 Oct 2019 05:50:42 -0400
+Received: by mail-ot1-f67.google.com with SMTP id z6so13280516otb.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Oct 2019 02:50:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Nf+fM/3PuyBlhAi8/6Sa2Tnn3eMSHcjqaBNGv0oGHEI=;
-        b=uVGuLtRl1Cqn6QgQ1Ovj9+bbK4LLZYo8CmE2ApIyB2HM9truFPdSZSr/ZTtTucnK1g
-         vjZDeN281SqyVEeGRR3CHN/seZZiojjOWQuiYQ/QEqRnHBC6HzaQjyEtx3Chpycq2I1d
-         3Ap4nDWbBglXh0vxUKi0sW3ktLNtdCooMpPn1FbGH9TscgG9DgaUSrWmDzSFnb0oYZYe
-         v+1b4p8vwqQYSZ4u84AZNsfefFhh4uvAiFyXiQY5S0fT4f6Xej8qYzkMg2IUUtuInrXe
-         NJEu6YuoNWgDMZDBAzowpZm+7F9eFJWxoTbCOIhrmaUU2b/Ey19uvJB7GCrJVsDPxLtj
-         VjVw==
-X-Gm-Message-State: APjAAAU7pmH+ND7oN1OAgP6wwO3s6A9F14aFL8hjGDqKB/ClHbsaEmJ6
-        A6cGbiqTo/YpLpYdXWlZB+oQx8rYNsuIOB9PDCEiBuzf
-X-Google-Smtp-Source: APXvYqxqdVthY4lHlI0mfmTJR9lGcdeNSdsTk1PQz3Im02cfxj4QQE+Uq6xheLSn2iUrvQpEZWQP34gt8eW10EDw/Ds=
-X-Received: by 2002:a9d:7345:: with SMTP id l5mr14333732otk.39.1571046597579;
- Mon, 14 Oct 2019 02:49:57 -0700 (PDT)
+        bh=aMTFgXV+94TB6eDFcoNjCRUwv09PwLf1Mc0g3dSknUQ=;
+        b=aWh0edojWJsWyn2YUnEGS1YNIWXNyEDu1W8VOOo1Q1tgvZvhI4pqnSF3SqmXzeh5Wl
+         aaCXZI0/bNnK4N1SdKUt8cpJc1xZBOSTaYvhwSB4qV3TULmWszP8zp4a7o3mo9AWcFjr
+         VN5Hr7pfFarES/KIBjHEkYMYzIVDMHMMKMmqnK7giK0InzIv0MxzC3GLsr4uWeZBezu3
+         LEdhZKsAa+DZPzTaCc0vsUNJIDhW1yUqk9FeDJnmLzcbmA/azGM2OJePFmt/2ZF6m5p+
+         sG14m8Y0zOSGFDHOVBtTg40SOb/h6dvXBh1zueDAZ4c6yP86KmS5d6HUCM+DKS8jj8B/
+         l7bg==
+X-Gm-Message-State: APjAAAVEPCGEGm+WpH+w1j0spB9A6gaKGKnDHbR2jPWWedk+TZrlOZAY
+        nqRD14C450gIdIm8cvBWb+XlcN3mhvGq2DmrSiM=
+X-Google-Smtp-Source: APXvYqwT0Kbt/7HAIXP6EmzQMyTCKOx8N1xqlLIUAPbbRfgNmtd5CZsE2KKU4Z8XhSffaFZ2QkM2Bf2TbbGwhs6aMDU=
+X-Received: by 2002:a05:6830:1544:: with SMTP id l4mr9264706otp.297.1571046640222;
+ Mon, 14 Oct 2019 02:50:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191008060619.30237-1-nobuta.keiya@fujitsu.com> <20191008060619.30237-4-nobuta.keiya@fujitsu.com>
-In-Reply-To: <20191008060619.30237-4-nobuta.keiya@fujitsu.com>
+References: <20191008060112.29819-1-nobuta.keiya@fujitsu.com>
+In-Reply-To: <20191008060112.29819-1-nobuta.keiya@fujitsu.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 14 Oct 2019 11:49:46 +0200
-Message-ID: <CAMuHMdW4AAPfrqy3Y2qJFEgeD7=cCaydLh3=UOWZD65rXM6rJQ@mail.gmail.com>
-Subject: Re: [PATCH 4/4] pinctrl: sh-pfc: pfc-r8a77965: Fix typo in pinmux
- macro for SCL3
+Date:   Mon, 14 Oct 2019 11:50:29 +0200
+Message-ID: <CAMuHMdViaYdAvS09PNgNkk-jNQe=sBsfJduRoRZLCi_ydo6HpA@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: sh-pfc: Fix PINMUX_IPSR_PHYS() to set to GPSR
 To:     Keiya Nobuta <nobuta.keiya@fujitsu.com>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
@@ -47,11 +46,16 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Oct 8, 2019 at 8:06 AM Keiya Nobuta <nobuta.keiya@fujitsu.com> wrote:
-> SCL3 is assigned to GPSR2 bit7 referred by IP1_23_20 macro.
+On Tue, Oct 8, 2019 at 8:02 AM Keiya Nobuta <nobuta.keiya@fujitsu.com> wrote:
+> This patch allows PINMUX_IPSR_PHYS() to set bits to GPSR.
+> When assigning function to pin, GPSR should be set peripheral function.
+> For example in using SCL3, GPSR2 bit7 (PWM1_A pin) should be set to
+> peripheral function.
 >
 > Signed-off-by: Keiya Nobuta <nobuta.keiya@fujitsu.com>
 
+Fixes: 50d1ba1764b3e00a ("pinctrl: sh-pfc: Add physical pin
+multiplexing helper macros")
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in sh-pfc-for-v5.5.
 
