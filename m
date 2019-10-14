@@ -2,41 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F138BD5F4E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Oct 2019 11:49:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1930D5F4F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 14 Oct 2019 11:49:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731073AbfJNJte (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 14 Oct 2019 05:49:34 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:45068 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730941AbfJNJte (ORCPT
+        id S1730942AbfJNJt6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 14 Oct 2019 05:49:58 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:37957 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730677AbfJNJt6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 14 Oct 2019 05:49:34 -0400
-Received: by mail-oi1-f196.google.com with SMTP id o205so13203048oib.12
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Oct 2019 02:49:33 -0700 (PDT)
+        Mon, 14 Oct 2019 05:49:58 -0400
+Received: by mail-ot1-f65.google.com with SMTP id e11so13260820otl.5
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 14 Oct 2019 02:49:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
         bh=Nf+fM/3PuyBlhAi8/6Sa2Tnn3eMSHcjqaBNGv0oGHEI=;
-        b=C1N6i+KGR5beHjJrNBbOss0PhSnIH7kgSSDqRWUzOzWYaSi5qptK7yzOZ0wRAgVzFc
-         /4IW/Gl+T5XeB+FTMi6+4Ljuhaye2I6thwOsVl5DgALoJLJLxpnY2Grn26W2BVxuQ5o+
-         bc6dXD0z2chRWpIZGTN5EKPctG/UKSTBgHu5RTBGuJh7nbxzu2iBioPTzNByUDtXOlEv
-         Vg7d3UXiGtn0vjy2x5YYOeKnZ/jFD38kp/aKjdRCxBk6L5hpQ7fozXWgKnWE48qCbI24
-         pymMv7PdQN35pkLM5UzMkx9Tv0voCx3d3hTd3wdqGBVukXKw/vfQ2TyJuRIuUaLUXlfD
-         uXmA==
-X-Gm-Message-State: APjAAAVVVxoAKW2jS+I2FK9RHsISj3KlM1Y9xQv50BiI5Xu0jHjX9/E1
-        ULRrFCkSoFpgc2xtoSx/lxxnkMAjpADzVSHOmg8=
-X-Google-Smtp-Source: APXvYqyqsYafD1ffC3ybhHM/Gkki83bdcpsNV2rgnmLDlVJYxwyrYX+g61329klXGzwrA9sAhsgv4VB8yK0syB81sZc=
-X-Received: by 2002:a54:4e89:: with SMTP id c9mr22536336oiy.148.1571046573419;
- Mon, 14 Oct 2019 02:49:33 -0700 (PDT)
+        b=uVGuLtRl1Cqn6QgQ1Ovj9+bbK4LLZYo8CmE2ApIyB2HM9truFPdSZSr/ZTtTucnK1g
+         vjZDeN281SqyVEeGRR3CHN/seZZiojjOWQuiYQ/QEqRnHBC6HzaQjyEtx3Chpycq2I1d
+         3Ap4nDWbBglXh0vxUKi0sW3ktLNtdCooMpPn1FbGH9TscgG9DgaUSrWmDzSFnb0oYZYe
+         v+1b4p8vwqQYSZ4u84AZNsfefFhh4uvAiFyXiQY5S0fT4f6Xej8qYzkMg2IUUtuInrXe
+         NJEu6YuoNWgDMZDBAzowpZm+7F9eFJWxoTbCOIhrmaUU2b/Ey19uvJB7GCrJVsDPxLtj
+         VjVw==
+X-Gm-Message-State: APjAAAU7pmH+ND7oN1OAgP6wwO3s6A9F14aFL8hjGDqKB/ClHbsaEmJ6
+        A6cGbiqTo/YpLpYdXWlZB+oQx8rYNsuIOB9PDCEiBuzf
+X-Google-Smtp-Source: APXvYqxqdVthY4lHlI0mfmTJR9lGcdeNSdsTk1PQz3Im02cfxj4QQE+Uq6xheLSn2iUrvQpEZWQP34gt8eW10EDw/Ds=
+X-Received: by 2002:a9d:7345:: with SMTP id l5mr14333732otk.39.1571046597579;
+ Mon, 14 Oct 2019 02:49:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191008060619.30237-1-nobuta.keiya@fujitsu.com> <20191008060619.30237-3-nobuta.keiya@fujitsu.com>
-In-Reply-To: <20191008060619.30237-3-nobuta.keiya@fujitsu.com>
+References: <20191008060619.30237-1-nobuta.keiya@fujitsu.com> <20191008060619.30237-4-nobuta.keiya@fujitsu.com>
+In-Reply-To: <20191008060619.30237-4-nobuta.keiya@fujitsu.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 14 Oct 2019 11:49:22 +0200
-Message-ID: <CAMuHMdXZL3AbxRVSoSz5f7qenj6KqALLVtWk0Bk0sWJ=dxthgA@mail.gmail.com>
-Subject: Re: [PATCH 3/4] pinctrl: sh-pfc: pfc-r8a7796: Fix typo in pinmux
+Date:   Mon, 14 Oct 2019 11:49:46 +0200
+Message-ID: <CAMuHMdW4AAPfrqy3Y2qJFEgeD7=cCaydLh3=UOWZD65rXM6rJQ@mail.gmail.com>
+Subject: Re: [PATCH 4/4] pinctrl: sh-pfc: pfc-r8a77965: Fix typo in pinmux
  macro for SCL3
 To:     Keiya Nobuta <nobuta.keiya@fujitsu.com>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
