@@ -2,117 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CFC0D7865
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Oct 2019 16:26:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 530A0D78C2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Oct 2019 16:37:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732662AbfJOO0k (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Oct 2019 10:26:40 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:55748 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732050AbfJOO0k (ORCPT
+        id S1732803AbfJOOhE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Oct 2019 10:37:04 -0400
+Received: from bin-mail-out-06.binero.net ([195.74.38.229]:8077 "EHLO
+        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732599AbfJOOhA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Oct 2019 10:26:40 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6066B324;
-        Tue, 15 Oct 2019 16:26:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1571149598;
-        bh=hSdNGSSn5zc6mkejUmeqIoT8CVOAQ/twmh0YdLHeH+o=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=mEDe4FAheoUDNwti7vv8FKUNaowQCfW1YFt/S+SvDJtxZOPsbMHfBKWw3G+DMAI01
-         rpFSW2xzRslhHapJtvtGno4nMPinthakiNafukrcXzCkhp65xy2pph3khkkI+rJgS5
-         t0nzccfeMmxoU7me05bt9PnE4edElreGkhEmqRaw=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH v5 3/8] drm: rcar-du: Add support for CMM
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        laurent.pinchart@ideasonboard.com, geert@linux-m68k.org,
-        horms@verge.net.au, uli+renesas@fpond.eu,
-        VenkataRajesh.Kalakodima@in.bosch.com, airlied@linux.ie,
-        daniel@ffwll.ch, koji.matsuoka.xm@renesas.com, muroya@ksk.co.jp,
-        Harsha.ManjulaMallikarjun@in.bosch.com, ezequiel@collabora.com,
-        seanpaul@chromium.org, linux-renesas-soc@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20191015104621.62514-1-jacopo+renesas@jmondi.org>
- <20191015104621.62514-4-jacopo+renesas@jmondi.org>
- <2aefe646-45db-aafa-b22b-e1cf9616259d@ideasonboard.com>
- <20191015133320.uj4y5twxfkyopqi5@uno.localdomain>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <2e6e5e8d-e502-5957-5708-4e4d7ef84d8e@ideasonboard.com>
-Date:   Tue, 15 Oct 2019 15:26:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Tue, 15 Oct 2019 10:37:00 -0400
+X-Halon-ID: ffc6f0d1-ef58-11e9-837a-0050569116f7
+Authorized-sender: niklas@soderlund.pp.se
+Received: from bismarck.berto.se (unknown [84.172.88.101])
+        by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
+        id ffc6f0d1-ef58-11e9-837a-0050569116f7;
+        Tue, 15 Oct 2019 16:35:36 +0200 (CEST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Helen Koike <helen.koike@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/3] v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
+Date:   Tue, 15 Oct 2019 16:35:49 +0200
+Message-Id: <20191015143552.317669-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <20191015133320.uj4y5twxfkyopqi5@uno.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 15/10/2019 14:33, Jacopo Mondi wrote:
-> Hi Kieran, thanks for review
+Hi,
 
-<snip>
+First of this series is based on work done by Helen in 2017 [1], I have 
+synced with her that it's OK for me to takeover the work.
 
->>> +config DRM_RCAR_CMM
->>> +	bool "R-Car DU Color Management Module (CMM) Support"
->>> +	depends on DRM && OF
->>> +	depends on DRM_RCAR_DU
->>
->>
->> DRM_RCAR_DU already depends on both DRM && OF, so I wonder if those are
->> needed to be specified explicitly.
->>
->> Doesn't hurt of course, but I see DRM_RCAR_DW_HDMI does the same, and so
->> does DRM_RCAR_LVDS, so I don't think you need to remove it.
->>
-> 
-> I did the same as it is done for HDMI and LVDS here. The extra
-> dependencies could be dropped yes, I chose to be consistent.
+This series aims to reduce the amount of boiler plate code in video 
+device drivers who's inputs and/or outputs are controlled by the Media 
+Controller instead of the V4L2 API.
 
-Consistent is fine with me.
+Patch 1/3 adds the core parts of this change by adding a new video 
+device capability flag V4L2_CAP_IO_MC which if set provides helper 
+implementations for the get, set and enum inputs and outputs ioctrls 
+freeing the video device driver from the need to implement them.
 
+Patch 2/3 and 3/3 converts the R-Car VIN and Intel IPU3 drivers to use 
+this new flag and delete the now redundant boiler plate code. I'm sure 
+more video device drivers can make use of this new flag but as I can 
+only test on these two platforms I have limited my changes to those.
 
-<snip>
+1. https://patchwork.linuxtv.org/patch/41857/
 
->>> +struct rcar_cmm {
->>> +	void __iomem *base;
->>> +
->>> +	/*
->>> +	 * @lut:		1D-LUT status
->>> +	 * @lut.enabled:	1D-LUT enabled flag
->>> +	 */
->>> +	struct {
->>> +		bool enabled;
->>> +	} lut;
->>
->> This used to be a more complex structure in an earlier version storing a
->> cached version of the table. Now that the cached entry is removed, does
->> this need to be such a complex structure rather than just say, a bool
->> lut_enabled?
->>
->> (We will soon add an equivalent clu_enabled too, but I don't know what
->> other per-table options we'll need.)
->>
->> In fact, we'll potentially have other options specific to the HGO, and
->> CSC at some point in the future - so grouping by entity is indeed a good
->> thing IMO.
-> 
-> You are right, I pondered a bit it this was worth it, but I assume the
-> other CMM functions would have required some more complex fields so I
-> chose to keep it separate. I have no problem to make this a
-> lut_enabled, but I fear as soon as we support say, double buffering
-> for the lut, having a dedicated struct would be nice.
-> 
-> Is it ok if I keep this the way it is?
+Niklas Söderlund (3):
+  v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
+  rcar-vin: Make use of V4L2_CAP_IO_MC
+  staging/intel-ipu3: Make use of V4L2_CAP_IO_MC
 
-Certainly fine for me. (That's what I tried to imply with "so grouping
-by entity is indeed a good thing IMO.")
+ .../media/uapi/v4l/vidioc-querycap.rst        |  3 +
+ .../media/videodev2.h.rst.exceptions          |  1 +
+ drivers/media/platform/rcar-vin/rcar-v4l2.c   | 17 +---
+ drivers/media/v4l2-core/v4l2-dev.c            | 24 +++--
+ drivers/media/v4l2-core/v4l2-ioctl.c          | 87 ++++++++++++++++++-
+ drivers/staging/media/ipu3/ipu3-v4l2.c        | 60 +------------
+ include/uapi/linux/videodev2.h                |  2 +
+ 7 files changed, 110 insertions(+), 84 deletions(-)
 
-<snip>
---
-Kieran
+-- 
+2.23.0
+
