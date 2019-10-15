@@ -2,68 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 80851D743B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Oct 2019 13:10:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58529D7447
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Oct 2019 13:12:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728771AbfJOLKL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Oct 2019 07:10:11 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:54410 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728701AbfJOLKK (ORCPT
+        id S1728827AbfJOLMC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Oct 2019 07:12:02 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:52452 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726054AbfJOLMB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Oct 2019 07:10:10 -0400
-Received: from localhost.localdomain (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5DFB6324;
-        Tue, 15 Oct 2019 13:10:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1571137808;
-        bh=7N/vcjbHUP634pkpqBeAjmGDVE5vc9IYL17LL66ggYA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=DMZ18oLzOuFiSYcHagG1uWOS3uDg9Gw9QZ9QyBWya5l/VJuCfw7fj2fs3JPuL1y6s
-         ru/54BzQXggP6gL33xbOeeuMaxBCI3TlyYRbwHgPXw/AJF1E/Ye11Eh9xRK19b3FOD
-         Thm95Zg/dypdQYxxDFM0GWw53BBQBQYvUgTWOSMg=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jiri Kosina <trivial@kernel.org>,
-        linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] drm/omapdrm: Fix trivial spelling
-Date:   Tue, 15 Oct 2019 12:09:59 +0100
-Message-Id: <20191015110959.30605-1-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Tue, 15 Oct 2019 07:12:01 -0400
+X-IronPort-AV: E=Sophos;i="5.67,299,1566831600"; 
+   d="scan'208";a="28928920"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 15 Oct 2019 20:12:00 +0900
+Received: from localhost.localdomain (unknown [10.166.17.210])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 484AD4207866;
+        Tue, 15 Oct 2019 20:12:00 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     joro@8bytes.org
+Cc:     iommu@lists.linux-foundation.org,
+        linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v2 0/6] iommu/ipmmu-vmsa: minor updates
+Date:   Tue, 15 Oct 2019 20:11:54 +0900
+Message-Id: <1571137920-15314-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Fix trivial spelling identified while examining the code.
+This patch series is based on the latest iommu.git / next branch
+to modify the driver in the future's new hardware.
 
-	s/supprted./supported./
+Changes from v1:
+ - Remove all unused register definitions instead of selective.
+   so that I didn't add Geert-san's Reviewed-by in the patch [1/3].
+ - To improve code readability, add comments to the register definitions
+   and add some helper functions.
+ https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=184741
 
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
- drivers/gpu/drm/omapdrm/omap_crtc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Yoshihiro Shimoda (6):
+  iommu/ipmmu-vmsa: Remove all unused register definitions
+  iommu/ipmmu-vmsa: tidyup register definitions
+  iommu/ipmmu-vmsa: Add helper functions for MMU "context" registers
+  iommu/ipmmu-vmsa: Calculate context registers' offset instead of a
+    macro
+  iommu/ipmmu-vmsa: Add helper functions for "uTLB" registers
+  iommu/ipmmu-vmsa: Add utlb_offset_base
 
-diff --git a/drivers/gpu/drm/omapdrm/omap_crtc.c b/drivers/gpu/drm/omapdrm/omap_crtc.c
-index 3c5ddbf30e97..fce7e944a280 100644
---- a/drivers/gpu/drm/omapdrm/omap_crtc.c
-+++ b/drivers/gpu/drm/omapdrm/omap_crtc.c
-@@ -831,7 +831,7 @@ struct drm_crtc *omap_crtc_init(struct drm_device *dev,
- 	 * OMAP_DSS_CHANNEL_DIGIT. X server assumes 256 element gamma
- 	 * tables so lets use that. Size of HW gamma table can be
- 	 * extracted with dispc_mgr_gamma_size(). If it returns 0
--	 * gamma table is not supprted.
-+	 * gamma table is not supported.
- 	 */
- 	if (priv->dispc_ops->mgr_gamma_size(priv->dispc, channel)) {
- 		unsigned int gamma_lut_size = 256;
+ drivers/iommu/ipmmu-vmsa.c | 214 +++++++++++++++++++--------------------------
+ 1 file changed, 89 insertions(+), 125 deletions(-)
+
 -- 
-2.20.1
+2.7.4
 
