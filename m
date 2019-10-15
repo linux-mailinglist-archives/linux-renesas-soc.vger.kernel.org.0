@@ -2,28 +2,28 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EC3FD7597
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Oct 2019 13:54:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6F93D76DE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Oct 2019 14:52:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726281AbfJOLyB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Oct 2019 07:54:01 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:54760 "EHLO
+        id S1726715AbfJOMwi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Oct 2019 08:52:38 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:55110 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725790AbfJOLyB (ORCPT
+        with ESMTP id S1726236AbfJOMwi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Oct 2019 07:54:01 -0400
+        Tue, 15 Oct 2019 08:52:38 -0400
 Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EBEE7324;
-        Tue, 15 Oct 2019 13:53:57 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC79C324;
+        Tue, 15 Oct 2019 14:52:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1571140438;
-        bh=GOcxkzBHUdKgh7wgi7igSzOrX0FbKhs4iiGt/kI06yk=;
+        s=mail; t=1571143953;
+        bh=1aKucOk2h/oCtJg0twcZEVkJejTDtUaSm4RIl8SFyhY=;
         h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=Zdl3c5hhhMFnXeJLnl2dqjS4huDIDJHrWT5Qb+oh7U9nW5Dumr70JgcYyd3MecrZz
-         PqSs0mCBkTQVLoasJmGTavuebXGlWQXxNSuPBqExEYiCev9K3R1yjPmznPx9An7Dlo
-         B2H5gg1nrwYAxCsr1uCkwimrLP19L5lH7ZNm11mY=
+        b=phbd9OHrGyuMR+WYkIeQn53m/2Vrx7R77hYqQYrQjf5shQgFMf4HwA4pY/1VOAMVt
+         aH1bEEJ5cSWtU04qj/rgneEUg59HZaJlSuRX6ICd2TpwO1oA8kf/CIn+IyKz/cl2yp
+         GITrapsoaHJ9DVuYDOFbWSFTIYjMiaMkgssMnJ34=
 Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH v5 3/8] drm: rcar-du: Add support for CMM
+Subject: Re: [PATCH v5 7/8] arm64: dts: renesas: Add CMM units to Gen3 SoCs
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         laurent.pinchart@ideasonboard.com, geert@linux-m68k.org,
         horms@verge.net.au, uli+renesas@fpond.eu,
@@ -32,17 +32,18 @@ Cc:     airlied@linux.ie, daniel@ffwll.ch, koji.matsuoka.xm@renesas.com,
         muroya@ksk.co.jp, Harsha.ManjulaMallikarjun@in.bosch.com,
         ezequiel@collabora.com, seanpaul@chromium.org,
         linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        robh+dt@kernel.org, mark.rutland@arm.com
 References: <20191015104621.62514-1-jacopo+renesas@jmondi.org>
- <20191015104621.62514-4-jacopo+renesas@jmondi.org>
+ <20191015104621.62514-8-jacopo+renesas@jmondi.org>
 From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Organization: Ideas on Board
-Message-ID: <2aefe646-45db-aafa-b22b-e1cf9616259d@ideasonboard.com>
-Date:   Tue, 15 Oct 2019 12:53:55 +0100
+Message-ID: <84f7b344-6a3a-edcc-3f3d-588825516bc2@ideasonboard.com>
+Date:   Tue, 15 Oct 2019 13:52:29 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191015104621.62514-4-jacopo+renesas@jmondi.org>
+In-Reply-To: <20191015104621.62514-8-jacopo+renesas@jmondi.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -54,358 +55,284 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 Hi Jacopo,
 
 On 15/10/2019 11:46, Jacopo Mondi wrote:
-> Add a driver for the R-Car Display Unit Color Correction Module.
+> Add CMM units to Renesas R-Car Gen3 SoC that support it, and reference them
+> from the Display Unit they are connected to.
 > 
-> In most of Gen3 SoCs, each DU output channel is provided with a CMM unit
-> to perform image enhancement and color correction.
-> 
-> Add support for CMM through a driver that supports configuration of
-> the 1-dimensional LUT table. More advanced CMM features will be
-> implemented on top of this initial one.
+> Sort the 'vsps', 'renesas,cmm' and 'status' properties in the DU unit
+> consistently in all the involved DTS.
 > 
 
-This is looking good to me.
+Going through this, I think I'm happy, except for a 'future' gotcha
+detailed below.
 
-I have patches which start to add CLU on top of this, which refactor
-things slightly - but I don't think that refactoring needs to be in this
-series, and this version is independent and looks good ... thus:
+The H3-N is possibly going to cause some issues (not
+supporting/connecting/using the CMM2) ... but as we don't really have
+that yet ... I'm going to say "la la la " ... and put this here:
 
 Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
 
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
->  drivers/gpu/drm/rcar-du/Kconfig    |   7 +
->  drivers/gpu/drm/rcar-du/Makefile   |   1 +
->  drivers/gpu/drm/rcar-du/rcar_cmm.c | 198 +++++++++++++++++++++++++++++
->  drivers/gpu/drm/rcar-du/rcar_cmm.h |  60 +++++++++
->  4 files changed, 266 insertions(+)
->  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.c
->  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.h
+>  arch/arm64/boot/dts/renesas/r8a7795.dtsi  | 39 +++++++++++++++++++++++
+>  arch/arm64/boot/dts/renesas/r8a7796.dtsi  | 31 +++++++++++++++++-
+>  arch/arm64/boot/dts/renesas/r8a77965.dtsi | 31 +++++++++++++++++-
+>  arch/arm64/boot/dts/renesas/r8a77990.dtsi | 21 ++++++++++++
+>  arch/arm64/boot/dts/renesas/r8a77995.dtsi | 21 ++++++++++++
+>  5 files changed, 141 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
-> index 1529849e217e..539d232790d1 100644
-> --- a/drivers/gpu/drm/rcar-du/Kconfig
-> +++ b/drivers/gpu/drm/rcar-du/Kconfig
-> @@ -13,6 +13,13 @@ config DRM_RCAR_DU
->  	  Choose this option if you have an R-Car chipset.
->  	  If M is selected the module will be called rcar-du-drm.
->  
-> +config DRM_RCAR_CMM
-> +	bool "R-Car DU Color Management Module (CMM) Support"
-> +	depends on DRM && OF
-> +	depends on DRM_RCAR_DU
+> diff --git a/arch/arm64/boot/dts/renesas/r8a7795.dtsi b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
+> index 6675462f7585..e16757af8c27 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a7795.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
+> @@ -2939,6 +2939,42 @@
+>  			iommus = <&ipmmu_vi1 10>;
+>  		};
+> 
+> +		cmm0: cmm@fea40000 {
+> +			compatible = "renesas,r8a7795-cmm",
+> +				     "renesas,rcar-gen3-cmm";
+> +			reg = <0 0xfea40000 0 0x1000>;
+> +			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+> +			clocks = <&cpg CPG_MOD 711>;
+> +			resets = <&cpg 711>;
+> +		};
+> +
+> +		cmm1: cmm@fea50000 {
+> +			compatible = "renesas,r8a7795-cmm",
+> +				     "renesas,rcar-gen3-cmm";
+> +			reg = <0 0xfea50000 0 0x1000>;
+> +			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+> +			clocks = <&cpg CPG_MOD 710>;
+> +			resets = <&cpg 710>;
+> +		};
+> +
+> +		cmm2: cmm@fea60000 {
+> +			compatible = "renesas,r8a7795-cmm",
+> +				     "renesas,rcar-gen3-cmm";
+> +			reg = <0 0xfea60000 0 0x1000>;
+> +			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+> +			clocks = <&cpg CPG_MOD 709>;
+> +			resets = <&cpg 709>;
+> +		};
+
+Yeouch. CMM2 is not available on the H3-N - but as far as I can tell the
+H3-N is an R8A7795 ...
+
+Geert, How will we differentiate this, or perhaps it just won't matter.
+
+The key part here will be handling it in the DU perhaps anyway.
 
 
-DRM_RCAR_DU already depends on both DRM && OF, so I wonder if those are
-needed to be specified explicitly.
-
-Doesn't hurt of course, but I see DRM_RCAR_DW_HDMI does the same, and so
-does DRM_RCAR_LVDS, so I don't think you need to remove it.
-
-> +	help
-> +	  Enable support for R-Car Color Management Module (CMM).
 > +
->  config DRM_RCAR_DW_HDMI
->  	tristate "R-Car DU Gen3 HDMI Encoder Support"
->  	depends on DRM && OF
-> diff --git a/drivers/gpu/drm/rcar-du/Makefile b/drivers/gpu/drm/rcar-du/Makefile
-> index 6c2ed9c46467..4d1187ccc3e5 100644
-> --- a/drivers/gpu/drm/rcar-du/Makefile
-> +++ b/drivers/gpu/drm/rcar-du/Makefile
-> @@ -15,6 +15,7 @@ rcar-du-drm-$(CONFIG_DRM_RCAR_LVDS)	+= rcar_du_of.o \
->  rcar-du-drm-$(CONFIG_DRM_RCAR_VSP)	+= rcar_du_vsp.o
->  rcar-du-drm-$(CONFIG_DRM_RCAR_WRITEBACK) += rcar_du_writeback.o
->  
-> +obj-$(CONFIG_DRM_RCAR_CMM)		+= rcar_cmm.o
->  obj-$(CONFIG_DRM_RCAR_DU)		+= rcar-du-drm.o
->  obj-$(CONFIG_DRM_RCAR_DW_HDMI)		+= rcar_dw_hdmi.o
->  obj-$(CONFIG_DRM_RCAR_LVDS)		+= rcar_lvds.o
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.c b/drivers/gpu/drm/rcar-du/rcar_cmm.c
-> new file mode 100644
-> index 000000000000..9675a8587dee
-> --- /dev/null
-> +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.c
-> @@ -0,0 +1,198 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * rcar_cmm.c -- R-Car Display Unit Color Management Module
-> + *
-> + * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
-> + */
+> +		cmm3: cmm@fea70000 {
+> +			compatible = "renesas,r8a7795-cmm",
+> +				     "renesas,rcar-gen3-cmm";
+> +			reg = <0 0xfea70000 0 0x1000>;
+> +			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+> +			clocks = <&cpg CPG_MOD 708>;
+> +			resets = <&cpg 708>;
+> +		};
 > +
-> +#include <linux/io.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
+>  		csi20: csi2@fea80000 {
+>  			compatible = "renesas,r8a7795-csi2";
+>  			reg = <0 0xfea80000 0 0x10000>;
+> @@ -3142,7 +3178,10 @@
+>  				 <&cpg CPG_MOD 722>,
+>  				 <&cpg CPG_MOD 721>;
+>  			clock-names = "du.0", "du.1", "du.2", "du.3";
 > +
-> +#include <drm/drm_color_mgmt.h>
+> +			renesas,cmms = <&cmm0>, <&cmm1>, <&cmm2>, <&cmm3>;
+>  			vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
 > +
-> +#include "rcar_cmm.h"
+>  			status = "disabled";
+> 
+>  			ports {
+> diff --git a/arch/arm64/boot/dts/renesas/r8a7796.dtsi b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
+> index 822c96601d3c..597c47f3f994 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a7796.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
+> @@ -2641,6 +2641,33 @@
+>  			renesas,fcp = <&fcpvi0>;
+>  		};
+> 
+> +		cmm0: cmm@fea40000 {
+> +			compatible = "renesas,r8a7796-cmm",
+> +				     "renesas,rcar-gen3-cmm";
+> +			reg = <0 0xfea40000 0 0x1000>;
+> +			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
+> +			clocks = <&cpg CPG_MOD 711>;
+> +			resets = <&cpg 711>;
+> +		};
 > +
-> +#define CM2_LUT_CTRL		0x0000
-> +#define CM2_LUT_CTRL_LUT_EN	BIT(0)
-> +#define CM2_LUT_TBL_BASE	0x0600
-> +#define CM2_LUT_TBL(__i)	(CM2_LUT_TBL_BASE + (__i) * 4)
+> +		cmm1: cmm@fea50000 {
+> +			compatible = "renesas,r8a7796-cmm",
+> +				     "renesas,rcar-gen3-cmm";
+> +			reg = <0 0xfea50000 0 0x1000>;
+> +			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
+> +			clocks = <&cpg CPG_MOD 710>;
+> +			resets = <&cpg 710>;
+> +		};
 > +
-> +struct rcar_cmm {
-> +	void __iomem *base;
+> +		cmm2: cmm@fea60000 {
+> +			compatible = "renesas,r8a7796-cmm",
+> +				     "renesas,rcar-gen3-cmm";
+> +			reg = <0 0xfea60000 0 0x1000>;
+> +			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
+> +			clocks = <&cpg CPG_MOD 709>;
+> +			resets = <&cpg 709>;
+> +		};
 > +
-> +	/*
-> +	 * @lut:		1D-LUT status
-> +	 * @lut.enabled:	1D-LUT enabled flag
-> +	 */
-> +	struct {
-> +		bool enabled;
-> +	} lut;
-
-This used to be a more complex structure in an earlier version storing a
-cached version of the table. Now that the cached entry is removed, does
-this need to be such a complex structure rather than just say, a bool
-lut_enabled?
-
-(We will soon add an equivalent clu_enabled too, but I don't know what
-other per-table options we'll need.)
-
-In fact, we'll potentially have other options specific to the HGO, and
-CSC at some point in the future - so grouping by entity is indeed a good
-thing IMO.
-
-> +};
+>  		csi20: csi2@fea80000 {
+>  			compatible = "renesas,r8a7796-csi2";
+>  			reg = <0 0xfea80000 0 0x10000>;
+> @@ -2791,10 +2818,12 @@
+>  				 <&cpg CPG_MOD 723>,
+>  				 <&cpg CPG_MOD 722>;
+>  			clock-names = "du.0", "du.1", "du.2";
+> -			status = "disabled";
+> 
+> +			renesas,cmms = <&cmm0>, <&cmm1>, <&cmm2>;
+>  			vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>;
+> 
+> +			status = "disabled";
 > +
-> +static inline int rcar_cmm_read(struct rcar_cmm *rcmm, u32 reg)
-> +{
-> +	return ioread32(rcmm->base + reg);
-> +}
+>  			ports {
+>  				#address-cells = <1>;
+>  				#size-cells = <0>;
+> diff --git a/arch/arm64/boot/dts/renesas/r8a77965.dtsi b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+> index 4ae163220f60..c3da8d26ccba 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+> @@ -2320,6 +2320,33 @@
+>  			resets = <&cpg 611>;
+>  		};
+> 
+> +		cmm0: cmm@fea40000 {
+> +			compatible = "renesas,r8a77965-cmm",
+> +				     "renesas,rcar-gen3-cmm";
+> +			reg = <0 0xfea40000 0 0x1000>;
+> +			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
+> +			clocks = <&cpg CPG_MOD 711>;
+> +			resets = <&cpg 711>;
+> +		};
 > +
-> +static inline void rcar_cmm_write(struct rcar_cmm *rcmm, u32 reg, u32 data)
-> +{
-> +	iowrite32(data, rcmm->base + reg);
-> +}
+> +		cmm1: cmm@fea50000 {
+> +			compatible = "renesas,r8a77965-cmm",
+> +				     "renesas,rcar-gen3-cmm";
+> +			reg = <0 0xfea50000 0 0x1000>;
+> +			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
+> +			clocks = <&cpg CPG_MOD 710>;
+> +			resets = <&cpg 710>;
+> +		};
 > +
-> +/*
-> + * rcar_cmm_lut_write() - Scale the DRM LUT table entries to hardware precision
-> + *			  and write to the CMM registers.
-> + * @rcmm: Pointer to the CMM device
-> + * @drm_lut: Pointer to the DRM LUT table
-> + */
-> +static void rcar_cmm_lut_write(struct rcar_cmm *rcmm,
-> +			       const struct drm_color_lut *drm_lut)
-> +{
-> +	unsigned int i;
+> +		cmm3: cmm@fea70000 {
+> +			compatible = "renesas,r8a77965-cmm",
+> +				     "renesas,rcar-gen3-cmm";
+> +			reg = <0 0xfea70000 0 0x1000>;
+> +			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
+> +			clocks = <&cpg CPG_MOD 708>;
+> +			resets = <&cpg 708>;
+> +		};
 > +
-> +	for (i = 0; i < CM2_LUT_SIZE; ++i) {
-> +		u32 entry =  drm_color_lut_extract(drm_lut[i].red, 8) << 16
-> +			  | drm_color_lut_extract(drm_lut[i].green, 8) << 8
-> +			  | drm_color_lut_extract(drm_lut[i].blue, 8);
+>  		csi20: csi2@fea80000 {
+>  			compatible = "renesas,r8a77965-csi2";
+>  			reg = <0 0xfea80000 0 0x10000>;
+> @@ -2467,10 +2494,12 @@
+>  				 <&cpg CPG_MOD 723>,
+>  				 <&cpg CPG_MOD 721>;
+>  			clock-names = "du.0", "du.1", "du.3";
+> -			status = "disabled";
+> 
+> +			renesas,cmms = <&cmm0>, <&cmm1>, <&cmm3>;
+>  			vsps = <&vspd0 0>, <&vspd1 0>, <&vspd0 1>;
+> 
+> +			status = "disabled";
 > +
-> +		rcar_cmm_write(rcmm, CM2_LUT_TBL(i), entry);
-> +	}
-> +}
+>  			ports {
+>  				#address-cells = <1>;
+>  				#size-cells = <0>;
+> diff --git a/arch/arm64/boot/dts/renesas/r8a77990.dtsi b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+> index 455954c3d98e..bab9b7f96c72 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+> @@ -1727,6 +1727,24 @@
+>  			iommus = <&ipmmu_vi0 9>;
+>  		};
+> 
+> +		cmm0: cmm@fea40000 {
+> +			compatible = "renesas,r8a77990-cmm",
+> +				     "renesas,rcar-gen3-cmm";
+> +			reg = <0 0xfea40000 0 0x1000>;
+> +			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
+> +			clocks = <&cpg CPG_MOD 711>;
+> +			resets = <&cpg 711>;
+> +		};
 > +
-> +/*
-> + * rcar_cmm_setup() - Configure the CMM unit.
-> + * @pdev: The platform device associated with the CMM instance
-> + * @config: The CMM unit configuration
-> + *
-> + * Configure the CMM unit with the given configuration. Currently enabling,
-> + * disabling and programming of the 1-D LUT unit is supported.
-> + */
-> +int rcar_cmm_setup(struct platform_device *pdev,
-> +		   const struct rcar_cmm_config *config)
-> +{
-> +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
+> +		cmm1: cmm@fea50000 {
+> +			compatible = "renesas,r8a77990-cmm",
+> +				     "renesas,rcar-gen3-cmm";
+> +			reg = <0 0xfea50000 0 0x1000>;
+> +			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
+> +			clocks = <&cpg CPG_MOD 710>;
+> +			resets = <&cpg 710>;
+> +		};
 > +
-> +	/* Disable LUT if requested. */
-> +	if (!config->lut.enable) {
-> +		if (rcmm->lut.enabled) {
-> +			rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
-> +			rcmm->lut.enabled = false;
-> +		}
+>  		csi40: csi2@feaa0000 {
+>  			compatible = "renesas,r8a77990-csi2";
+>  			reg = <0 0xfeaa0000 0 0x10000>;
+> @@ -1768,7 +1786,10 @@
+>  			clock-names = "du.0", "du.1";
+>  			resets = <&cpg 724>;
+>  			reset-names = "du.0";
 > +
-> +		return 0;
-> +	}
+> +			renesas,cmms = <&cmm0>, <&cmm1>;
+>  			vsps = <&vspd0 0>, <&vspd1 0>;
 > +
-> +	/* Enable LUT and program the new gamma table values. */
-> +	if (!rcmm->lut.enabled) {
-> +		rcar_cmm_write(rcmm, CM2_LUT_CTRL, CM2_LUT_CTRL_LUT_EN);
-> +		rcmm->lut.enabled = true;
-> +	}
+>  			status = "disabled";
+> 
+>  			ports {
+> diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+> index 183fef86cf7c..871c70cc2d2e 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+> @@ -993,6 +993,24 @@
+>  			iommus = <&ipmmu_vi0 9>;
+>  		};
+> 
+> +		cmm0: cmm@fea40000 {
+> +			compatible = "renesas,r8a77995-cmm",
+> +				     "renesas,rcar-gen3-cmm";
+> +			reg = <0 0xfea40000 0 0x1000>;
+> +			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
+> +			clocks = <&cpg CPG_MOD 711>;
+> +			resets = <&cpg 711>;
+> +		};
 > +
-> +	rcar_cmm_lut_write(rcmm, config->lut.table);
+> +		cmm1: cmm@fea50000 {
+> +			compatible = "renesas,r8a77995-cmm",
+> +				     "renesas,rcar-gen3-cmm";
+> +			reg = <0 0xfea50000 0 0x1000>;
+> +			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
+> +			clocks = <&cpg CPG_MOD 710>;
+> +			resets = <&cpg 710>;
+> +		};
 > +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(rcar_cmm_setup);
+>  		du: display@feb00000 {
+>  			compatible = "renesas,du-r8a77995";
+>  			reg = <0 0xfeb00000 0 0x40000>;
+> @@ -1003,7 +1021,10 @@
+>  			clock-names = "du.0", "du.1";
+>  			resets = <&cpg 724>;
+>  			reset-names = "du.0";
 > +
-> +/*
-> + * rcar_cmm_enable() - Enable the CMM unit.
-> + * @pdev: The platform device associated with the CMM instance
-> + *
-> + * Enable the CMM unit by enabling the parent clock.
-> + */
-> +int rcar_cmm_enable(struct platform_device *pdev)
-> +{
-> +	int ret;
+> +			renesas,cmms = <&cmm0>, <&cmm1>;
+>  			vsps = <&vspd0 0>, <&vspd1 0>;
 > +
-> +	ret = pm_runtime_get_sync(&pdev->dev);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(rcar_cmm_enable);
-> +
-> +/*
-> + * rcar_cmm_disable() - Disable the CMM unit.
-> + * @pdev: The platform device associated with the CMM instance
-> + *
-> + * Disable the CMM unit by stopping the parent clock.
-> + */
-> +void rcar_cmm_disable(struct platform_device *pdev)
-> +{
-> +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
-> +
-> +	rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
-> +	rcmm->lut.enabled = false;
-> +
-> +	pm_runtime_put(&pdev->dev);
-> +}
-> +EXPORT_SYMBOL_GPL(rcar_cmm_disable);
-> +
-> +/*
-> + * rcar_cmm_init() - Initialize the CMM
-> + * @pdev: The platform device associated with the CMM instance
-> + *
-> + * Return: 0 on success, -EPROBE_DEFER if the CMM is not available yet,
-> + *         -ENODEV if the DRM_RCAR_CMM config option is disabled
-> + */
-> +int rcar_cmm_init(struct platform_device *pdev)
-> +{
-> +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
-> +
-> +	if (!rcmm)
-> +		return -EPROBE_DEFER;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(rcar_cmm_init);
-> +
-> +static int rcar_cmm_probe(struct platform_device *pdev)
-> +{
-> +	struct rcar_cmm *rcmm;
-> +
-> +	rcmm = devm_kzalloc(&pdev->dev, sizeof(*rcmm), GFP_KERNEL);
-> +	if (!rcmm)
-> +		return -ENOMEM;
-> +	platform_set_drvdata(pdev, rcmm);
-> +
-> +	rcmm->base = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(rcmm->base))
-> +		return PTR_ERR(rcmm->base);
-> +
-> +	pm_runtime_enable(&pdev->dev);
-> +
-> +	return 0;
-> +}
-> +
-> +static int rcar_cmm_remove(struct platform_device *pdev)
-> +{
-> +	pm_runtime_disable(&pdev->dev);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id rcar_cmm_of_table[] = {
-> +	{ .compatible = "renesas,rcar-gen3-cmm", },
-> +	{ .compatible = "renesas,rcar-gen2-cmm", },
-> +	{ },
-> +};
-> +MODULE_DEVICE_TABLE(of, rcar_cmm_of_table);
-> +
-> +static struct platform_driver rcar_cmm_platform_driver = {
-> +	.probe		= rcar_cmm_probe,
-> +	.remove		= rcar_cmm_remove,
-> +	.driver		= {
-> +		.name	= "rcar-cmm",
-> +		.of_match_table = rcar_cmm_of_table,
-> +	},
-> +};
-> +
-> +module_platform_driver(rcar_cmm_platform_driver);
-> +
-> +MODULE_AUTHOR("Jacopo Mondi <jacopo+renesas@jmondi.org>");
-> +MODULE_DESCRIPTION("Renesas R-Car CMM Driver");
-> +MODULE_LICENSE("GPL v2");
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.h b/drivers/gpu/drm/rcar-du/rcar_cmm.h
-> new file mode 100644
-> index 000000000000..358ec03cf48a
-> --- /dev/null
-> +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.h
-> @@ -0,0 +1,60 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ */
-> +/*
-> + * rcar_cmm.h -- R-Car Display Unit Color Management Module
-> + *
-> + * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
-> + */
-> +
-> +#ifndef __RCAR_CMM_H__
-> +#define __RCAR_CMM_H__
-> +
-> +#define CM2_LUT_SIZE		256
-> +
-> +struct drm_color_lut;
-> +struct platform_device;
-> +
-> +/**
-> + * struct rcar_cmm_config - CMM configuration
-> + *
-> + * @lut:	1D-LUT configuration
-> + * @lut.enable:	1D-LUT enable flag
-> + * @lut.table:	1D-LUT table entries
-> + */
-> +struct rcar_cmm_config {
-> +	struct {
-> +		bool enable;
-> +		struct drm_color_lut *table;
-> +	} lut;
-> +};
-> +
-> +#if IS_ENABLED(CONFIG_DRM_RCAR_CMM)
-> +int rcar_cmm_init(struct platform_device *pdev);
-> +
-> +int rcar_cmm_enable(struct platform_device *pdev);
-> +void rcar_cmm_disable(struct platform_device *pdev);
-> +
-> +int rcar_cmm_setup(struct platform_device *pdev,
-> +		   const struct rcar_cmm_config *config);
-> +#else
-> +static inline int rcar_cmm_init(struct platform_device *pdev)
-> +{
-> +	return -ENODEV;
-
-Excellent :-D
-
-> +}
-> +
-> +static inline int rcar_cmm_enable(struct platform_device *pdev)
-> +{
-> +	return 0;
-> +}
-> +
-> +static inline void rcar_cmm_disable(struct platform_device *pdev)
-> +{
-> +}
-> +
-> +static inline int rcar_cmm_setup(struct platform_device *pdev,
-> +				 const struct rcar_cmm_config *config)
-> +{
-> +	return 0;
-> +}
-> +#endif /* IS_ENABLED(CONFIG_DRM_RCAR_CMM) */
-> +
-> +#endif /* __RCAR_CMM_H__ */
+>  			status = "disabled";
+> 
+>  			ports {
+> --
+> 2.23.0
 > 
 
