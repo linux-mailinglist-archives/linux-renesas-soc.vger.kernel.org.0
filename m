@@ -2,82 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BBEF7D77EE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Oct 2019 16:03:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CFC0D7865
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Oct 2019 16:26:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732428AbfJOODQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Oct 2019 10:03:16 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:42585 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732170AbfJOODQ (ORCPT
+        id S1732662AbfJOO0k (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Oct 2019 10:26:40 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:55748 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732050AbfJOO0k (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Oct 2019 10:03:16 -0400
-Received: by mail-oi1-f196.google.com with SMTP id i185so16845042oif.9;
-        Tue, 15 Oct 2019 07:03:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lOjJLF7sukvj2eKb65vV1HI25D8NmeruWTF/C6krm1Q=;
-        b=bjxevdDoTVfJ4gqJeH+FKT9XM3NZqH/LwPfYRFhcWwHSxLfriO01Jtn3V3Mpqczqkb
-         LHlhvvYXAC1asDG8OYBRWESpcyepJzeITzH8wJF1aGOnpzjo4HZa2/fmeB7duk4iK60D
-         6cmKCskWo6zDJqebLvmK+nGDo3p3sac6VRDBgSOZDIvXh+k0o+Q7NuIazdB12u4/5J2o
-         p4iYV5VEOBGkXcgsmvMlFfz8q03YTtll/OWlaRSRQeFx9lKyu/CWptHZiq/VLSQpIt57
-         T+vjBMCm5WZ7YkYVSFolmAqB4fDIrw86s7eYFt/xCnN61SEYJZu1YMvGJ+ijCEvOC2n/
-         GrHQ==
-X-Gm-Message-State: APjAAAXrZWDPydm8xYtfDoRmP0OQfVER1D/MsaTCIKJDeVDUy8LTkV4u
-        0TrAcL1KCCdnhN5HoPz69/CYpjC9ihAw13LzsVI=
-X-Google-Smtp-Source: APXvYqyr2Z8Smipppw7iBN2DU7emj0QxlbQzT35YfXNX6ZmXYwoICBBJd/mbfEEWv1S0yH9hYhQVJ4X3dWgp6QTqlV4=
-X-Received: by 2002:aca:882:: with SMTP id 124mr29310652oii.54.1571148195408;
- Tue, 15 Oct 2019 07:03:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191015104621.62514-1-jacopo+renesas@jmondi.org> <20191015104621.62514-2-jacopo+renesas@jmondi.org>
-In-Reply-To: <20191015104621.62514-2-jacopo+renesas@jmondi.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 15 Oct 2019 16:03:04 +0200
-Message-ID: <CAMuHMdVr=eVJWMC=oHsfUE8=ODj8aMw2Wq1nr0Cd+ngxW7nuMA@mail.gmail.com>
-Subject: Re: [PATCH v5 1/8] dt-bindings: display: renesas,cmm: Add R-Car CMM documentation
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Simon Horman <horms@verge.net.au>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        VenkataRajesh.Kalakodima@in.bosch.com,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Koji Matsuoka <koji.matsuoka.xm@renesas.com>, muroya@ksk.co.jp,
+        Tue, 15 Oct 2019 10:26:40 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6066B324;
+        Tue, 15 Oct 2019 16:26:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1571149598;
+        bh=hSdNGSSn5zc6mkejUmeqIoT8CVOAQ/twmh0YdLHeH+o=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=mEDe4FAheoUDNwti7vv8FKUNaowQCfW1YFt/S+SvDJtxZOPsbMHfBKWw3G+DMAI01
+         rpFSW2xzRslhHapJtvtGno4nMPinthakiNafukrcXzCkhp65xy2pph3khkkI+rJgS5
+         t0nzccfeMmxoU7me05bt9PnE4edElreGkhEmqRaw=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH v5 3/8] drm: rcar-du: Add support for CMM
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        laurent.pinchart@ideasonboard.com, geert@linux-m68k.org,
+        horms@verge.net.au, uli+renesas@fpond.eu,
+        VenkataRajesh.Kalakodima@in.bosch.com, airlied@linux.ie,
+        daniel@ffwll.ch, koji.matsuoka.xm@renesas.com, muroya@ksk.co.jp,
         Harsha.ManjulaMallikarjun@in.bosch.com, ezequiel@collabora.com,
-        Sean Paul <seanpaul@chromium.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+        seanpaul@chromium.org, linux-renesas-soc@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20191015104621.62514-1-jacopo+renesas@jmondi.org>
+ <20191015104621.62514-4-jacopo+renesas@jmondi.org>
+ <2aefe646-45db-aafa-b22b-e1cf9616259d@ideasonboard.com>
+ <20191015133320.uj4y5twxfkyopqi5@uno.localdomain>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <2e6e5e8d-e502-5957-5708-4e4d7ef84d8e@ideasonboard.com>
+Date:   Tue, 15 Oct 2019 15:26:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20191015133320.uj4y5twxfkyopqi5@uno.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+On 15/10/2019 14:33, Jacopo Mondi wrote:
+> Hi Kieran, thanks for review
 
-On Tue, Oct 15, 2019 at 12:44 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
-> Add device tree bindings documentation for the Renesas R-Car Display
-> Unit Color Management Module.
->
-> CMM is the image enhancement module available on each R-Car DU video
-> channel on R-Car Gen2 and Gen3 SoCs (V3H and V3M excluded).
+<snip>
 
-V2H is excluded, too.
+>>> +config DRM_RCAR_CMM
+>>> +	bool "R-Car DU Color Management Module (CMM) Support"
+>>> +	depends on DRM && OF
+>>> +	depends on DRM_RCAR_DU
+>>
+>>
+>> DRM_RCAR_DU already depends on both DRM && OF, so I wonder if those are
+>> needed to be specified explicitly.
+>>
+>> Doesn't hurt of course, but I see DRM_RCAR_DW_HDMI does the same, and so
+>> does DRM_RCAR_LVDS, so I don't think you need to remove it.
+>>
+> 
+> I did the same as it is done for HDMI and LVDS here. The extra
+> dependencies could be dropped yes, I chose to be consistent.
 
-Gr{oetje,eeting}s,
+Consistent is fine with me.
 
-                        Geert
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+<snip>
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+>>> +struct rcar_cmm {
+>>> +	void __iomem *base;
+>>> +
+>>> +	/*
+>>> +	 * @lut:		1D-LUT status
+>>> +	 * @lut.enabled:	1D-LUT enabled flag
+>>> +	 */
+>>> +	struct {
+>>> +		bool enabled;
+>>> +	} lut;
+>>
+>> This used to be a more complex structure in an earlier version storing a
+>> cached version of the table. Now that the cached entry is removed, does
+>> this need to be such a complex structure rather than just say, a bool
+>> lut_enabled?
+>>
+>> (We will soon add an equivalent clu_enabled too, but I don't know what
+>> other per-table options we'll need.)
+>>
+>> In fact, we'll potentially have other options specific to the HGO, and
+>> CSC at some point in the future - so grouping by entity is indeed a good
+>> thing IMO.
+> 
+> You are right, I pondered a bit it this was worth it, but I assume the
+> other CMM functions would have required some more complex fields so I
+> chose to keep it separate. I have no problem to make this a
+> lut_enabled, but I fear as soon as we support say, double buffering
+> for the lut, having a dedicated struct would be nice.
+> 
+> Is it ok if I keep this the way it is?
+
+Certainly fine for me. (That's what I tried to imply with "so grouping
+by entity is indeed a good thing IMO.")
+
+<snip>
+--
+Kieran
