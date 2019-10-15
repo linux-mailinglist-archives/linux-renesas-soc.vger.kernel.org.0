@@ -2,141 +2,339 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A8C43D7E6D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Oct 2019 20:08:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1485ED7E68
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Oct 2019 20:06:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727360AbfJOSIM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Oct 2019 14:08:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39740 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725820AbfJOSIL (ORCPT
+        id S2389028AbfJOSGM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Oct 2019 14:06:12 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:57592 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725820AbfJOSGM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Oct 2019 14:08:11 -0400
-Received: from localhost (unknown [38.98.37.135])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2BB3620659;
-        Tue, 15 Oct 2019 18:08:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571162890;
-        bh=5AnmJWnwSLd45t+Cg3Vuhkl5YGkWgQB/xzBwzn/ZTNQ=;
+        Tue, 15 Oct 2019 14:06:12 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 63B93324;
+        Tue, 15 Oct 2019 20:06:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1571162768;
+        bh=gGZ92IHX4aErxdxSECBpzax+mh5hsPtQqSv5CKMIOcw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bzzJ8FU6Wp971eJ1oy+xtv0AxDMMXHoC32JRAFGGLP6TugImeZF2hNNI6JBe5oaG0
-         7/+XL8BpBWi0stVAC8iXLkGDKUX51ZrssNGCOyJSbOPnmbfpKOQLLh6r/Z7CENqbyf
-         vIJ+AKdLDfp5VEKiZPyhpkxevylD3OaUvyEa1hqY=
-Date:   Tue, 15 Oct 2019 19:54:22 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Michal Simek <michal.simek@xilinx.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Michal Simek <monstr@monstr.eu>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] serial: core: Use cons->index for preferred console
- registration
-Message-ID: <20191015175422.GA1072965@kroah.com>
-References: <4a877f1c7189a7c45b59a6ebfc3de607e8758949.1567434470.git.michal.simek@xilinx.com>
- <CAMuHMdWY2VsY-CyAxSvpm1XYicAWqU7NORSQofQ+T195DwyLUg@mail.gmail.com>
- <7284590f-2b74-1b47-2d61-783ad8d5f46f@monstr.eu>
- <CAMuHMdWZYALZB1bP5Mtoq4Nj5iubzdWBf1vRY9Mh5QvjCDhBgA@mail.gmail.com>
- <622f4c5e-e3ed-3f91-254d-78d905de79c9@xilinx.com>
+        b=eXlx+rz4JfFCNkXO/MpQUDisyDAnlsYX4gM3rx5ozAyNJNmhB+JupPV/wfmXsVEWP
+         jE/RuY6ozqxR+qiDsAi9vtvEzVADlTCYPE0N7m4C2wpXZDBYZ3QnkHhQIwiUHLP6rf
+         gryuhbu+fleqi8xI2VRp3+YtGhYfe0YxhmVs0QmU=
+Date:   Tue, 15 Oct 2019 21:06:05 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, geert@linux-m68k.org,
+        horms@verge.net.au, uli+renesas@fpond.eu,
+        VenkataRajesh.Kalakodima@in.bosch.com, airlied@linux.ie,
+        daniel@ffwll.ch, koji.matsuoka.xm@renesas.com, muroya@ksk.co.jp,
+        Harsha.ManjulaMallikarjun@in.bosch.com, ezequiel@collabora.com,
+        seanpaul@chromium.org, linux-renesas-soc@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, robh+dt@kernel.org,
+        mark.rutland@arm.com
+Subject: Re: [PATCH v5 7/8] arm64: dts: renesas: Add CMM units to Gen3 SoCs
+Message-ID: <20191015180605.GO4875@pendragon.ideasonboard.com>
+References: <20191015104621.62514-1-jacopo+renesas@jmondi.org>
+ <20191015104621.62514-8-jacopo+renesas@jmondi.org>
+ <84f7b344-6a3a-edcc-3f3d-588825516bc2@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <622f4c5e-e3ed-3f91-254d-78d905de79c9@xilinx.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <84f7b344-6a3a-edcc-3f3d-588825516bc2@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Oct 15, 2019 at 04:36:56PM +0200, Michal Simek wrote:
-> On 15. 10. 19 11:51, Geert Uytterhoeven wrote:
-> > Hi Michal,
+Hi Jacopo and Kieran,
+
+On Tue, Oct 15, 2019 at 01:52:29PM +0100, Kieran Bingham wrote:
+> On 15/10/2019 11:46, Jacopo Mondi wrote:
+> > Add CMM units to Renesas R-Car Gen3 SoC that support it, and reference them
+> > from the Display Unit they are connected to.
 > > 
-> > On Tue, Oct 15, 2019 at 11:22 AM Michal Simek <monstr@monstr.eu> wrote:
-> >> On 15. 10. 19 11:19, Geert Uytterhoeven wrote:
-> >>> On Mon, Sep 2, 2019 at 4:29 PM Michal Simek <michal.simek@xilinx.com> wrote:
-> >>>> The reason for this patch is xilinx_uartps driver which create one dynamic
-> >>>> instance per IP with unique major and minor combinations. drv->nr is in
-> >>>> this case all the time setup to 1. That means that uport->line is all the
-> >>>> time setup to 0 and drv->tty_driver->name_base is doing shift in name to
-> >>>> for example ttyPS3.
-> >>>>
-> >>>> register_console() is looping over console_cmdline array and looking for
-> >>>> proper name/index combination which is in our case ttyPS/3.
-> >>>> That's why every instance of driver needs to be registered with proper
-> >>>> combination of name/number (ttyPS/3). Using uport->line is doing
-> >>>> registration with ttyPS/0 which is wrong that's why proper console index
-> >>>> should be used which is in cons->index field.
-> >>>>
-> >>>> Also it is visible that recording console should be done based on
-> >>>> information about console not about the port but in most cases numbers are
-> >>>> the same and xilinx_uartps is only one exception now.
-> >>>>
-> >>>> Signed-off-by: Michal Simek <michal.simek@xilinx.com>
-> >>>
-> >>> This is now commit 91daae03188e0dd1 ("serial: core: Use cons->index
-> >>> for preferred console registration") in tty-next.
-> >>>
-> >>> This has been bisected to break the serial console on (at least)
-> >>> r8a7791/koelsch and r8a7795/h3-salvator-xs.
-> >>>
-> >>> The line "printk: console [ttySC0] enabled" is no longer printed.
-> >>> The system continues booting without any serial console output, and the
-> >>> login prompt never appears on the serial console.
-> >>>
-> >>> Reverting this commit fixes the issue.
-> >>
-> >> Sorry for trouble with this patch. Can you please point me to dts files
-> >> for these boards and also what's the value you have in uport->line and
-> > 
-> > arch/arm/boot/dts/r8a7791-koelsch.dts
-> > arch/arm64/boot/dts/renesas/r8a7795-salvator-xs.dts
-> > 
-> >> uport->cons->index?
-> > 
-> > On r8a7791/koelsch:
-> > 
-> >     Serial: 8250/16550 driver, 4 ports, IRQ sharing disabled
-> >     platform serial8250: uport->line = 0, uport->cons->index = -1
-> >     platform serial8250: uport->line = 1, uport->cons->index = -1
-> >     platform serial8250: uport->line = 2, uport->cons->index = -1
-> >     platform serial8250: uport->line = 3, uport->cons->index = -1
-> >     SuperH (H)SCI(F) driver initialized
-> >   * sh-sci e6e60000.serial: uport->line = 0, uport->cons->index = -1
-> >   * e6e60000.serial: ttySC0 at MMIO 0xe6e60000 (irq = 79, base_baud =
-> > 0) is a scif
-> >     printk: console [ttySC0] enabled
-> >     sh-sci e6e68000.serial: uport->line = 1, uport->cons->index = 0
-> >     e6e68000.serial: ttySC1 at MMIO 0xe6e68000 (irq = 80, base_baud =
-> > 0) is a scif
-> > 
-> > On r8a7795/salvator-xs:
-> > 
-> >     sh-sci e6550000.serial: uport->line = 1, uport->cons->index = -1
-> >     e6550000.serial: ttySC1 at MMIO 0xe6550000 (irq = 34, base_baud =
-> > 0) is a hscif
-> >   * sh-sci e6e88000.serial: uport->line = 0, uport->cons->index = -1
-> >   * e6e88000.serial: ttySC0 at MMIO 0xe6e88000 (irq = 120, base_baud =
-> > 0) is a scif
-> >     printk: console [ttySC0] enabled
-> > 
-> > Actual serial consoles marked with *.
-> > 
-> > There are no 8250 serial ports in the system, shmobile_defconfig just includes
-> > driver support for it.
+> > Sort the 'vsps', 'renesas,cmm' and 'status' properties in the DU unit
+> > consistently in all the involved DTS.
 > 
-> ok. I will take a look at why it is not initialized in this case. Do you
-> have any qemu available for these boards?
+> Going through this, I think I'm happy, except for a 'future' gotcha
+> detailed below.
 > 
-> Greg: Please revert this patch I will investigate why it is failing.
+> The H3-N is possibly going to cause some issues (not
+> supporting/connecting/using the CMM2) ... but as we don't really have
+> that yet ... I'm going to say "la la la " ... and put this here:
+> 
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> 
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > ---
+> >  arch/arm64/boot/dts/renesas/r8a7795.dtsi  | 39 +++++++++++++++++++++++
+> >  arch/arm64/boot/dts/renesas/r8a7796.dtsi  | 31 +++++++++++++++++-
+> >  arch/arm64/boot/dts/renesas/r8a77965.dtsi | 31 +++++++++++++++++-
+> >  arch/arm64/boot/dts/renesas/r8a77990.dtsi | 21 ++++++++++++
+> >  arch/arm64/boot/dts/renesas/r8a77995.dtsi | 21 ++++++++++++
+> >  5 files changed, 141 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/arch/arm64/boot/dts/renesas/r8a7795.dtsi b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
+> > index 6675462f7585..e16757af8c27 100644
+> > --- a/arch/arm64/boot/dts/renesas/r8a7795.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
+> > @@ -2939,6 +2939,42 @@
+> >  			iommus = <&ipmmu_vi1 10>;
+> >  		};
+> > 
+> > +		cmm0: cmm@fea40000 {
+> > +			compatible = "renesas,r8a7795-cmm",
+> > +				     "renesas,rcar-gen3-cmm";
+> > +			reg = <0 0xfea40000 0 0x1000>;
+> > +			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+> > +			clocks = <&cpg CPG_MOD 711>;
+> > +			resets = <&cpg 711>;
+> > +		};
+> > +
+> > +		cmm1: cmm@fea50000 {
+> > +			compatible = "renesas,r8a7795-cmm",
+> > +				     "renesas,rcar-gen3-cmm";
+> > +			reg = <0 0xfea50000 0 0x1000>;
+> > +			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+> > +			clocks = <&cpg CPG_MOD 710>;
+> > +			resets = <&cpg 710>;
+> > +		};
+> > +
+> > +		cmm2: cmm@fea60000 {
+> > +			compatible = "renesas,r8a7795-cmm",
+> > +				     "renesas,rcar-gen3-cmm";
+> > +			reg = <0 0xfea60000 0 0x1000>;
+> > +			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+> > +			clocks = <&cpg CPG_MOD 709>;
+> > +			resets = <&cpg 709>;
+> > +		};
+> 
+> Yeouch. CMM2 is not available on the H3-N - but as far as I can tell the
+> H3-N is an R8A7795 ...
+> 
+> Geert, How will we differentiate this, or perhaps it just won't matter.
+> 
+> The key part here will be handling it in the DU perhaps anyway.
 
-Which patch exactly?  Can you provide a revert?  That makes it easiest
-for me.
+I think we'll figure it out when we'll have more information about the
+H3-N, and in particular if DU2 will be present (but not usable) or
+completely absent. In the latter case we'll need a separate .dtsi.
 
-thanks,
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-greg k-h
+> > +
+> > +		cmm3: cmm@fea70000 {
+> > +			compatible = "renesas,r8a7795-cmm",
+> > +				     "renesas,rcar-gen3-cmm";
+> > +			reg = <0 0xfea70000 0 0x1000>;
+> > +			power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+> > +			clocks = <&cpg CPG_MOD 708>;
+> > +			resets = <&cpg 708>;
+> > +		};
+> > +
+> >  		csi20: csi2@fea80000 {
+> >  			compatible = "renesas,r8a7795-csi2";
+> >  			reg = <0 0xfea80000 0 0x10000>;
+> > @@ -3142,7 +3178,10 @@
+> >  				 <&cpg CPG_MOD 722>,
+> >  				 <&cpg CPG_MOD 721>;
+> >  			clock-names = "du.0", "du.1", "du.2", "du.3";
+> > +
+> > +			renesas,cmms = <&cmm0>, <&cmm1>, <&cmm2>, <&cmm3>;
+> >  			vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
+> > +
+> >  			status = "disabled";
+> > 
+> >  			ports {
+> > diff --git a/arch/arm64/boot/dts/renesas/r8a7796.dtsi b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
+> > index 822c96601d3c..597c47f3f994 100644
+> > --- a/arch/arm64/boot/dts/renesas/r8a7796.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
+> > @@ -2641,6 +2641,33 @@
+> >  			renesas,fcp = <&fcpvi0>;
+> >  		};
+> > 
+> > +		cmm0: cmm@fea40000 {
+> > +			compatible = "renesas,r8a7796-cmm",
+> > +				     "renesas,rcar-gen3-cmm";
+> > +			reg = <0 0xfea40000 0 0x1000>;
+> > +			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
+> > +			clocks = <&cpg CPG_MOD 711>;
+> > +			resets = <&cpg 711>;
+> > +		};
+> > +
+> > +		cmm1: cmm@fea50000 {
+> > +			compatible = "renesas,r8a7796-cmm",
+> > +				     "renesas,rcar-gen3-cmm";
+> > +			reg = <0 0xfea50000 0 0x1000>;
+> > +			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
+> > +			clocks = <&cpg CPG_MOD 710>;
+> > +			resets = <&cpg 710>;
+> > +		};
+> > +
+> > +		cmm2: cmm@fea60000 {
+> > +			compatible = "renesas,r8a7796-cmm",
+> > +				     "renesas,rcar-gen3-cmm";
+> > +			reg = <0 0xfea60000 0 0x1000>;
+> > +			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
+> > +			clocks = <&cpg CPG_MOD 709>;
+> > +			resets = <&cpg 709>;
+> > +		};
+> > +
+> >  		csi20: csi2@fea80000 {
+> >  			compatible = "renesas,r8a7796-csi2";
+> >  			reg = <0 0xfea80000 0 0x10000>;
+> > @@ -2791,10 +2818,12 @@
+> >  				 <&cpg CPG_MOD 723>,
+> >  				 <&cpg CPG_MOD 722>;
+> >  			clock-names = "du.0", "du.1", "du.2";
+> > -			status = "disabled";
+> > 
+> > +			renesas,cmms = <&cmm0>, <&cmm1>, <&cmm2>;
+> >  			vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>;
+> > 
+> > +			status = "disabled";
+> > +
+> >  			ports {
+> >  				#address-cells = <1>;
+> >  				#size-cells = <0>;
+> > diff --git a/arch/arm64/boot/dts/renesas/r8a77965.dtsi b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+> > index 4ae163220f60..c3da8d26ccba 100644
+> > --- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+> > @@ -2320,6 +2320,33 @@
+> >  			resets = <&cpg 611>;
+> >  		};
+> > 
+> > +		cmm0: cmm@fea40000 {
+> > +			compatible = "renesas,r8a77965-cmm",
+> > +				     "renesas,rcar-gen3-cmm";
+> > +			reg = <0 0xfea40000 0 0x1000>;
+> > +			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
+> > +			clocks = <&cpg CPG_MOD 711>;
+> > +			resets = <&cpg 711>;
+> > +		};
+> > +
+> > +		cmm1: cmm@fea50000 {
+> > +			compatible = "renesas,r8a77965-cmm",
+> > +				     "renesas,rcar-gen3-cmm";
+> > +			reg = <0 0xfea50000 0 0x1000>;
+> > +			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
+> > +			clocks = <&cpg CPG_MOD 710>;
+> > +			resets = <&cpg 710>;
+> > +		};
+> > +
+> > +		cmm3: cmm@fea70000 {
+> > +			compatible = "renesas,r8a77965-cmm",
+> > +				     "renesas,rcar-gen3-cmm";
+> > +			reg = <0 0xfea70000 0 0x1000>;
+> > +			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
+> > +			clocks = <&cpg CPG_MOD 708>;
+> > +			resets = <&cpg 708>;
+> > +		};
+> > +
+> >  		csi20: csi2@fea80000 {
+> >  			compatible = "renesas,r8a77965-csi2";
+> >  			reg = <0 0xfea80000 0 0x10000>;
+> > @@ -2467,10 +2494,12 @@
+> >  				 <&cpg CPG_MOD 723>,
+> >  				 <&cpg CPG_MOD 721>;
+> >  			clock-names = "du.0", "du.1", "du.3";
+> > -			status = "disabled";
+> > 
+> > +			renesas,cmms = <&cmm0>, <&cmm1>, <&cmm3>;
+> >  			vsps = <&vspd0 0>, <&vspd1 0>, <&vspd0 1>;
+> > 
+> > +			status = "disabled";
+> > +
+> >  			ports {
+> >  				#address-cells = <1>;
+> >  				#size-cells = <0>;
+> > diff --git a/arch/arm64/boot/dts/renesas/r8a77990.dtsi b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+> > index 455954c3d98e..bab9b7f96c72 100644
+> > --- a/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+> > @@ -1727,6 +1727,24 @@
+> >  			iommus = <&ipmmu_vi0 9>;
+> >  		};
+> > 
+> > +		cmm0: cmm@fea40000 {
+> > +			compatible = "renesas,r8a77990-cmm",
+> > +				     "renesas,rcar-gen3-cmm";
+> > +			reg = <0 0xfea40000 0 0x1000>;
+> > +			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
+> > +			clocks = <&cpg CPG_MOD 711>;
+> > +			resets = <&cpg 711>;
+> > +		};
+> > +
+> > +		cmm1: cmm@fea50000 {
+> > +			compatible = "renesas,r8a77990-cmm",
+> > +				     "renesas,rcar-gen3-cmm";
+> > +			reg = <0 0xfea50000 0 0x1000>;
+> > +			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
+> > +			clocks = <&cpg CPG_MOD 710>;
+> > +			resets = <&cpg 710>;
+> > +		};
+> > +
+> >  		csi40: csi2@feaa0000 {
+> >  			compatible = "renesas,r8a77990-csi2";
+> >  			reg = <0 0xfeaa0000 0 0x10000>;
+> > @@ -1768,7 +1786,10 @@
+> >  			clock-names = "du.0", "du.1";
+> >  			resets = <&cpg 724>;
+> >  			reset-names = "du.0";
+> > +
+> > +			renesas,cmms = <&cmm0>, <&cmm1>;
+> >  			vsps = <&vspd0 0>, <&vspd1 0>;
+> > +
+> >  			status = "disabled";
+> > 
+> >  			ports {
+> > diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+> > index 183fef86cf7c..871c70cc2d2e 100644
+> > --- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+> > @@ -993,6 +993,24 @@
+> >  			iommus = <&ipmmu_vi0 9>;
+> >  		};
+> > 
+> > +		cmm0: cmm@fea40000 {
+> > +			compatible = "renesas,r8a77995-cmm",
+> > +				     "renesas,rcar-gen3-cmm";
+> > +			reg = <0 0xfea40000 0 0x1000>;
+> > +			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
+> > +			clocks = <&cpg CPG_MOD 711>;
+> > +			resets = <&cpg 711>;
+> > +		};
+> > +
+> > +		cmm1: cmm@fea50000 {
+> > +			compatible = "renesas,r8a77995-cmm",
+> > +				     "renesas,rcar-gen3-cmm";
+> > +			reg = <0 0xfea50000 0 0x1000>;
+> > +			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
+> > +			clocks = <&cpg CPG_MOD 710>;
+> > +			resets = <&cpg 710>;
+> > +		};
+> > +
+> >  		du: display@feb00000 {
+> >  			compatible = "renesas,du-r8a77995";
+> >  			reg = <0 0xfeb00000 0 0x40000>;
+> > @@ -1003,7 +1021,10 @@
+> >  			clock-names = "du.0", "du.1";
+> >  			resets = <&cpg 724>;
+> >  			reset-names = "du.0";
+> > +
+> > +			renesas,cmms = <&cmm0>, <&cmm1>;
+> >  			vsps = <&vspd0 0>, <&vspd1 0>;
+> > +
+> >  			status = "disabled";
+> > 
+> >  			ports {
+
+-- 
+Regards,
+
+Laurent Pinchart
