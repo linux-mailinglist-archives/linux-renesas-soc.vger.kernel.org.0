@@ -2,71 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 28D24D73A5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Oct 2019 12:45:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD891D7408
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 15 Oct 2019 12:58:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731187AbfJOKpR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 15 Oct 2019 06:45:17 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:43761 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731166AbfJOKpQ (ORCPT
+        id S1731594AbfJOK6n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 15 Oct 2019 06:58:43 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:55418 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726054AbfJOK6n (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 15 Oct 2019 06:45:16 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.lan (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id F0D4BC0004;
-        Tue, 15 Oct 2019 10:45:11 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     laurent.pinchart@ideasonboard.com,
-        kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
-        horms@verge.net.au, uli+renesas@fpond.eu,
-        VenkataRajesh.Kalakodima@in.bosch.com
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, airlied@linux.ie,
-        daniel@ffwll.ch, koji.matsuoka.xm@renesas.com, muroya@ksk.co.jp,
-        Harsha.ManjulaMallikarjun@in.bosch.com, ezequiel@collabora.com,
-        seanpaul@chromium.org, linux-renesas-soc@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v5 8/8] drm: rcar-du: kms: Expand comment in vsps parsing routine
-Date:   Tue, 15 Oct 2019 12:46:21 +0200
-Message-Id: <20191015104621.62514-9-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191015104621.62514-1-jacopo+renesas@jmondi.org>
-References: <20191015104621.62514-1-jacopo+renesas@jmondi.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Tue, 15 Oct 2019 06:58:43 -0400
+X-IronPort-AV: E=Sophos;i="5.67,299,1566831600"; 
+   d="scan'208";a="28927857"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 15 Oct 2019 19:58:41 +0900
+Received: from be1yocto.ree.adwin.renesas.com (unknown [172.29.43.62])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 213A64006DFD;
+        Tue, 15 Oct 2019 19:58:37 +0900 (JST)
+From:   Biju Das <biju.das@bp.renesas.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Cc:     Biju Das <biju.das@bp.renesas.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms@verge.net.au>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Subject: [PATCH 0/4] Add VIN/CSI-2 support
+Date:   Tue, 15 Oct 2019 11:57:54 +0100
+Message-Id: <1571137078-28922-1-git-send-email-biju.das@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Expand comment in the 'vsps' parsing routine to specify the LIF
-channel index defaults to 0 in case the second cell of the property
-is not specified to remain compatible with older DT bindings.
+This patch series add VIN/CSI-2 driver support for RZ/G2N SoC.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
- drivers/gpu/drm/rcar-du/rcar_du_kms.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Biju Das (4):
+  media: dt-bindings: rcar-vin: Add R8A774B1 support
+  media: dt-bindings: rcar-csi2: Add R8A774B1 support
+  media: rcar-vin: Enable support for R8A774B1
+  media: rcar-csi2: Enable support for R8A774B1
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-index 7c9fb5860e54..186422ac552b 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-@@ -587,7 +587,11 @@ static int rcar_du_vsps_init(struct rcar_du_device *rcdu)
- 
- 		vsps[j].crtcs_mask |= BIT(i);
- 
--		/* Store the VSP pointer and pipe index in the CRTC. */
-+		/*
-+		 * Store the VSP pointer and pipe index in the CRTC. If the
-+		 * second cell of the 'vsps' specifier isn't present, default
-+		 * to 0 to remain compatible with older DT bindings.
-+		 */
- 		rcdu->crtcs[i].vsp = &rcdu->vsps[j];
- 		rcdu->crtcs[i].vsp_pipe = cells >= 1 ? args.args[0] : 0;
- 	}
+ Documentation/devicetree/bindings/media/renesas,csi2.txt | 1 +
+ Documentation/devicetree/bindings/media/renesas,vin.txt  | 1 +
+ drivers/media/platform/rcar-vin/rcar-core.c              | 4 ++++
+ drivers/media/platform/rcar-vin/rcar-csi2.c              | 4 ++++
+ 4 files changed, 10 insertions(+)
+
 -- 
-2.23.0
+2.7.4
 
