@@ -2,100 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EA52D8BCD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Oct 2019 10:54:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BA6AD8BD1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Oct 2019 10:54:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733038AbfJPIyY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Oct 2019 04:54:24 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:43653 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732135AbfJPIyY (ORCPT
+        id S2389510AbfJPIyy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Oct 2019 04:54:54 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:38265 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732135AbfJPIyx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Oct 2019 04:54:24 -0400
-Received: by mail-ot1-f66.google.com with SMTP id o44so19463607ota.10
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Oct 2019 01:54:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eE0fE70lvKBK40kuTLTesxoLAh4ymv8unjZ71vsj99c=;
-        b=eRbwJ3oLNPengpweDJfmtwW/Ja2gYRCihv18bot16Z6z/rSIJP1JA9VP9zC3zfryvh
-         SfD9DCQ/uxu7wksZSEHfu31LxV9KZ9s4ZPFnIfdrKhryiv/4ETDDp9PK8ZhcOt9ojz8Y
-         gQ2NnAbnPxeftqmk+EqAHCL3jS5EsHqTOOTnqmtoaWNyBHpcI7ee0zDrNgwBlrvnu4iW
-         g+77qKKRuhQ9yPIXzLSQZYE7gxtivvqGlMti/F0F05wff9dxUL7+N2AEUVXgSgahOl1y
-         l2934vIVcckeGpkEzqvqva8FuwRlCO5DuJgJGHfswzwKsQoZFkkenheWiCb8lT1KF48U
-         QqVw==
-X-Gm-Message-State: APjAAAWbfmgsPkz2RmfWgYiShRwHcx9xjN9B5n5xFhqNj9OFwQFI6YTt
-        s/rxr9ncWZE3LSQrML5F5K2BYlS9VZEtKZq2mLg=
-X-Google-Smtp-Source: APXvYqwigLMDNG6pynTRnnXvWfpOvaEqJfvYhD6FOr/bOOIHmYQcRcHjfvubWgsoqlcfuY96Y0U0c26kOtPChigjN50=
-X-Received: by 2002:a9d:7345:: with SMTP id l5mr23211247otk.39.1571216063456;
- Wed, 16 Oct 2019 01:54:23 -0700 (PDT)
+        Wed, 16 Oct 2019 04:54:53 -0400
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 87D0224000E;
+        Wed, 16 Oct 2019 08:54:48 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     laurent.pinchart@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
+        horms@verge.net.au, uli+renesas@fpond.eu
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, airlied@linux.ie,
+        daniel@ffwll.ch, linux-renesas-soc@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v6 0/8] drm: rcar-du: Add Color Management Module (CMM)
+Date:   Wed, 16 Oct 2019 10:55:40 +0200
+Message-Id: <20191016085548.105703-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20191007102332.12196-1-geert+renesas@glider.be>
- <20191007102332.12196-18-geert+renesas@glider.be> <20191014175742.GA10194@vmlxhi-102.adit-jv.com>
-In-Reply-To: <20191014175742.GA10194@vmlxhi-102.adit-jv.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 16 Oct 2019 10:54:12 +0200
-Message-ID: <CAMuHMdU2CbuaS6yd8BTmkSx4h_kGF-ca2BRwjUcOaaX8EN02fA@mail.gmail.com>
-Subject: Re: [PATCH/RFC 17/19] arm64: dts: renesas: Add support for
- Salvator-XS with R-Car M3-W+
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Eugeniu,
+Minimal increment to the CMM series, this time should really be the last one.
 
-On Mon, Oct 14, 2019 at 7:57 PM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
-> On Mon, Oct 07, 2019 at 12:23:30PM +0200, Geert Uytterhoeven wrote:
-> > Add initial support for the Renesas Salvator-X 2nd version development
-> > board equipped with an R-Car M3-W+ SiP with 8 (2 x 4) GiB of RAM.
-> >
-> > The memory map is as follows:
-> >   - Bank0: 4GiB RAM : 0x000048000000 -> 0x000bfffffff
-> >                     0x000480000000 -> 0x004ffffffff
-> >   - Bank1: 4GiB RAM : 0x000600000000 -> 0x006ffffffff
-> >
-> > Based on a patch in the BSP by Takeshi Kihara
-> > <takeshi.kihara.df@renesas.com>.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> >  arch/arm64/boot/dts/renesas/Makefile          |  1 +
-> >  .../boot/dts/renesas/r8a77961-salvator-xs.dts | 31 +++++++++++++++++++
-> >  2 files changed, 32 insertions(+)
-> >  create mode 100644 arch/arm64/boot/dts/renesas/r8a77961-salvator-xs.dts
->
-> It is common practice in Renesas BSP to specify the SiP memory
-> split by suffixing the DTB names with '-{2,4}x{2,4}g' [1].
->
-> Has this ever been discussed on ML?
->
-> Here in particular, it would allow M3-W+ 2x4GiB Salvator-XS and
-> M3-W+ 2x2GiB (or any other DRAM split flavor of) Salvator-XS to
-> coexist in harmony, if the latter pops up at any point.
+Just missing Rob's ack on [1/8] and Laurent's one on [5/8].
 
-With mainline U-Boot, the memory configuration is passed from ATF
-through U-Boot to Linux, see e.g. "ARM: renesas: Configure DRAM size
-from ATF DT fragment" [1], so there's no longer a need to maintain
-multiple DTS files.
+Changelog is minimal:
+CMM
+- Remove the cmm_config.enable flag. The cmm_config.table field validity is
+  used to enable/disable the LUT operations
+- Expand comments as suggested by Laurent
 
-[1] https://gitlab.denx.de/u-boot/u-boot/commit/175f5027345c7feaa41e8f4201778814bf72fe37
+CRTC
+- use drm_color_lut_size() to check the LUT table size
+- Inline calls to rcar_cmm_enable()/disable()
+- Add TODO entries as suggested by Laurent
 
-Gr{oetje,eeting}s,
+For the record, the full series changelog is available at:
+https://paste.debian.net/1107427/
 
-                        Geert
+v5 from yesterday with informations on testing is available at:
+https://lkml.org/lkml/2019/10/15/337
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Geert will you collect for DTS patches for the next release?
+I assume the DU changes go through Laurent instead ?
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks
+   j
+
+Jacopo Mondi (8):
+  dt-bindings: display: renesas,cmm: Add R-Car CMM documentation
+  dt-bindings: display, renesas,du: Document cmms property
+  drm: rcar-du: Add support for CMM
+  drm: rcar-du: kms: Initialize CMM instances
+  drm: rcar-du: crtc: Control CMM operations
+  drm: rcar-du: crtc: Register GAMMA_LUT properties
+  arm64: dts: renesas: Add CMM units to Gen3 SoCs
+  drm: rcar-du: kms: Expand comment in vsps parsing routine
+
+ .../bindings/display/renesas,cmm.yaml         |  67 ++++++
+ .../bindings/display/renesas,du.txt           |   5 +
+ arch/arm64/boot/dts/renesas/r8a7795.dtsi      |  39 ++++
+ arch/arm64/boot/dts/renesas/r8a7796.dtsi      |  31 ++-
+ arch/arm64/boot/dts/renesas/r8a77965.dtsi     |  31 ++-
+ arch/arm64/boot/dts/renesas/r8a77990.dtsi     |  21 ++
+ arch/arm64/boot/dts/renesas/r8a77995.dtsi     |  21 ++
+ drivers/gpu/drm/rcar-du/Kconfig               |   7 +
+ drivers/gpu/drm/rcar-du/Makefile              |   1 +
+ drivers/gpu/drm/rcar-du/rcar_cmm.c            | 212 ++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_cmm.h            |  58 +++++
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c        |  65 ++++++
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.h        |   2 +
+ drivers/gpu/drm/rcar-du/rcar_du_drv.h         |   2 +
+ drivers/gpu/drm/rcar-du/rcar_du_group.c       |  10 +
+ drivers/gpu/drm/rcar-du/rcar_du_group.h       |   2 +
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c         |  82 ++++++-
+ drivers/gpu/drm/rcar-du/rcar_du_regs.h        |   5 +
+ 18 files changed, 658 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/renesas,cmm.yaml
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.h
+
+--
+2.23.0
+
