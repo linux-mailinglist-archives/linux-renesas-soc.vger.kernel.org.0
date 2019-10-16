@@ -2,31 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BA6AD8BD1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Oct 2019 10:54:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD6CDD8BD3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Oct 2019 10:54:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389510AbfJPIyy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Oct 2019 04:54:54 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:38265 "EHLO
+        id S2404073AbfJPIy6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Oct 2019 04:54:58 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:46209 "EHLO
         relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732135AbfJPIyx (ORCPT
+        with ESMTP id S1732135AbfJPIy6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Oct 2019 04:54:53 -0400
+        Wed, 16 Oct 2019 04:54:58 -0400
 Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 87D0224000E;
-        Wed, 16 Oct 2019 08:54:48 +0000 (UTC)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 553CC24000C;
+        Wed, 16 Oct 2019 08:54:53 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
 To:     laurent.pinchart@ideasonboard.com,
         kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
         horms@verge.net.au, uli+renesas@fpond.eu
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, airlied@linux.ie,
         daniel@ffwll.ch, linux-renesas-soc@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6 0/8] drm: rcar-du: Add Color Management Module (CMM)
-Date:   Wed, 16 Oct 2019 10:55:40 +0200
-Message-Id: <20191016085548.105703-1-jacopo+renesas@jmondi.org>
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, robh+dt@kernel.org,
+        mark.rutland@arm.com
+Subject: [PATCH v6 1/8] dt-bindings: display: renesas,cmm: Add R-Car CMM documentation
+Date:   Wed, 16 Oct 2019 10:55:41 +0200
+Message-Id: <20191016085548.105703-2-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191016085548.105703-1-jacopo+renesas@jmondi.org>
+References: <20191016085548.105703-1-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -34,66 +38,93 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Minimal increment to the CMM series, this time should really be the last one.
+Add device tree bindings documentation for the Renesas R-Car Display
+Unit Color Management Module.
 
-Just missing Rob's ack on [1/8] and Laurent's one on [5/8].
+CMM is the image enhancement module available on each R-Car DU video
+channel on R-Car Gen2 and Gen3 SoCs (V3H and V3M excluded).
 
-Changelog is minimal:
-CMM
-- Remove the cmm_config.enable flag. The cmm_config.table field validity is
-  used to enable/disable the LUT operations
-- Expand comments as suggested by Laurent
-
-CRTC
-- use drm_color_lut_size() to check the LUT table size
-- Inline calls to rcar_cmm_enable()/disable()
-- Add TODO entries as suggested by Laurent
-
-For the record, the full series changelog is available at:
-https://paste.debian.net/1107427/
-
-v5 from yesterday with informations on testing is available at:
-https://lkml.org/lkml/2019/10/15/337
-
-Geert will you collect for DTS patches for the next release?
-I assume the DU changes go through Laurent instead ?
-
-Thanks
-   j
-
-Jacopo Mondi (8):
-  dt-bindings: display: renesas,cmm: Add R-Car CMM documentation
-  dt-bindings: display, renesas,du: Document cmms property
-  drm: rcar-du: Add support for CMM
-  drm: rcar-du: kms: Initialize CMM instances
-  drm: rcar-du: crtc: Control CMM operations
-  drm: rcar-du: crtc: Register GAMMA_LUT properties
-  arm64: dts: renesas: Add CMM units to Gen3 SoCs
-  drm: rcar-du: kms: Expand comment in vsps parsing routine
-
- .../bindings/display/renesas,cmm.yaml         |  67 ++++++
- .../bindings/display/renesas,du.txt           |   5 +
- arch/arm64/boot/dts/renesas/r8a7795.dtsi      |  39 ++++
- arch/arm64/boot/dts/renesas/r8a7796.dtsi      |  31 ++-
- arch/arm64/boot/dts/renesas/r8a77965.dtsi     |  31 ++-
- arch/arm64/boot/dts/renesas/r8a77990.dtsi     |  21 ++
- arch/arm64/boot/dts/renesas/r8a77995.dtsi     |  21 ++
- drivers/gpu/drm/rcar-du/Kconfig               |   7 +
- drivers/gpu/drm/rcar-du/Makefile              |   1 +
- drivers/gpu/drm/rcar-du/rcar_cmm.c            | 212 ++++++++++++++++++
- drivers/gpu/drm/rcar-du/rcar_cmm.h            |  58 +++++
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c        |  65 ++++++
- drivers/gpu/drm/rcar-du/rcar_du_crtc.h        |   2 +
- drivers/gpu/drm/rcar-du/rcar_du_drv.h         |   2 +
- drivers/gpu/drm/rcar-du/rcar_du_group.c       |  10 +
- drivers/gpu/drm/rcar-du/rcar_du_group.h       |   2 +
- drivers/gpu/drm/rcar-du/rcar_du_kms.c         |  82 ++++++-
- drivers/gpu/drm/rcar-du/rcar_du_regs.h        |   5 +
- 18 files changed, 658 insertions(+), 3 deletions(-)
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+---
+ .../bindings/display/renesas,cmm.yaml         | 67 +++++++++++++++++++
+ 1 file changed, 67 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/renesas,cmm.yaml
- create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.c
- create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.h
 
+diff --git a/Documentation/devicetree/bindings/display/renesas,cmm.yaml b/Documentation/devicetree/bindings/display/renesas,cmm.yaml
+new file mode 100644
+index 000000000000..a57037b9e9ba
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/renesas,cmm.yaml
+@@ -0,0 +1,67 @@
++# SPDX-License-Identifier: GPL-2.0-only
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/renesas,cmm.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas R-Car Color Management Module (CMM)
++
++maintainers:
++  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
++  - Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
++  - Jacopo Mondi <jacopo+renesas@jmondi.org>
++
++description: |+
++  Renesas R-Car color management module connected to R-Car DU video channels.
++  It provides image enhancement functions such as 1-D look-up tables (LUT),
++  3-D look-up tables (CLU), 1D-histogram generation (HGO), and color
++  space conversion (CSC).
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++        - enum:
++          - renesas,r8a7795-cmm
++          - renesas,r8a7796-cmm
++          - renesas,r8a77965-cmm
++          - renesas,r8a77990-cmm
++          - renesas,r8a77995-cmm
++        - const: renesas,rcar-gen3-cmm
++      - items:
++        - const: renesas,rcar-gen2-cmm
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - resets
++  - power-domains
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/r8a7796-cpg-mssr.h>
++    #include <dt-bindings/power/r8a7796-sysc.h>
++
++    cmm0: cmm@fea40000 {
++         compatible = "renesas,r8a7796-cmm",
++                      "renesas,rcar-gen3-cmm";
++         reg = <0 0xfea40000 0 0x1000>;
++         power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
++         clocks = <&cpg CPG_MOD 711>;
++         resets = <&cpg 711>;
++    };
 --
 2.23.0
 
