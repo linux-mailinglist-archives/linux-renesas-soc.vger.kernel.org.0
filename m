@@ -2,43 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 81949D8B1F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Oct 2019 10:35:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA8F6D8B9F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Oct 2019 10:46:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388867AbfJPIfq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Oct 2019 04:35:46 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:34231 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388821AbfJPIfp (ORCPT
+        id S1727880AbfJPIqn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Oct 2019 04:46:43 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:35016 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726640AbfJPIqn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Oct 2019 04:35:45 -0400
-Received: by mail-oi1-f194.google.com with SMTP id 83so19334610oii.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Oct 2019 01:35:44 -0700 (PDT)
+        Wed, 16 Oct 2019 04:46:43 -0400
+Received: by mail-ot1-f68.google.com with SMTP id z6so19467914otb.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Oct 2019 01:46:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=+Gub+KFVoNwF4iDiCY7GyicFuHBxdD3PyaJ+yzMEziI=;
-        b=gnJTITIfQ/EunrofmnBfhXgSwDylOVX4RgUL5jnJ+k11K3eEsFlBRjUoG340BGglx1
-         viI7+n0d7SnAOTClxWlCmwsScgo208ruqzdebHhBJOeFmtPjdgRLHLFrGS/ThAZb4Oh8
-         DHKD7vHTmJSz1JIf+ScYvSPSe6Dc2bLMU3ytpM8OjltWuwPBsqfnz5mjtmTpnrkz/0Yt
-         OSYulXfTZH2wGfbWEYXEx/h8ijAzA/gSl7F9CF/Ynpgi6tn9Es/+LYqF1akBTzjhHAb8
-         +WoCu30wwiLZu/D82bG01ftnlzmssaEwYVKTbjMOXXsCwa2GEPf56j0Wy1rjm1CmTi22
-         7oHw==
-X-Gm-Message-State: APjAAAX8SLNEGgNFX85noP4qO/MLicwxqIP0+h2ICoZnU9ejlY6TSdgO
-        Iqz4ziyoU4gu+AmV+3qT8nK2KYatFk9TOVK3JigT+J0p
-X-Google-Smtp-Source: APXvYqwNg8TjJh2DFGfmtnTFMtgQpnsIEZ+0hlZdCKSdos4cMCWhJnxOPABVV1n03e3dUIvyZqDlNlmcFnpJIQEWdLo=
-X-Received: by 2002:a05:6808:3b4:: with SMTP id n20mr2337509oie.131.1571214943652;
- Wed, 16 Oct 2019 01:35:43 -0700 (PDT)
+        bh=nPVe7NLWaLgM1xNxlcgYC1n8G1aLlWfHYkgZQNAiM9w=;
+        b=QUvsIq4NbXRG1B0F+dMXrjoXCMPev4bg0mjWHea4rtL12hecpxx1uC+3AA98puzAlA
+         QFqs5jy7epZGTmr+WyddOVIt7rQX59vTDm26Z3yKt5iEkaCbOM7jujRFaQTuWYkTcIR2
+         bMycmbwHsiZgs3Dt5FXiRHa+IqbpCXaSJ+Vy6wEZDRNfmSAHv4ZKzYKdv/+mBnB6Lkuj
+         Kc0eLAhkjpI7INg+zB/VmhPiCRx0j/qn6Pg9ZbrTurn4z9K85/804Zw3yFwgCnCv9HwR
+         nTOM4mu/RNlIY7cxomb4N3gxg5TRAOJ3bofwndp8P6UHoeCOCxBbt3iLjDxaGjH/4Xa6
+         4GBg==
+X-Gm-Message-State: APjAAAWYKf5W3pRvgM4B7HVgNSVCttwnMJwqvNre32/0EkqwVtLdhpu9
+        z1YhTQvymFqJpVULS8+6LrvL6ftjS6+9ppMRKqk=
+X-Google-Smtp-Source: APXvYqw8NYNspDqIeRuTTrqQYRoSHEXqLf1iCWZ/1VkD7YABVAS1JC0Ocj78qaQf1zl7nbAtDvl55QijiWdkK6ACf3E=
+X-Received: by 2002:a05:6830:1685:: with SMTP id k5mr1931249otr.250.1571215601764;
+ Wed, 16 Oct 2019 01:46:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191007102332.12196-1-geert+renesas@glider.be>
- <20191007102332.12196-4-geert+renesas@glider.be> <20191014184410.GA10366@vmlxhi-102.adit-jv.com>
-In-Reply-To: <20191014184410.GA10366@vmlxhi-102.adit-jv.com>
+References: <20191007102332.12196-1-geert+renesas@glider.be> <20191014195842.GB10366@vmlxhi-102.adit-jv.com>
+In-Reply-To: <20191014195842.GB10366@vmlxhi-102.adit-jv.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 16 Oct 2019 10:35:32 +0200
-Message-ID: <CAMuHMdUbNOsKFGfD3Bt_cxJM9n92XjkE9KOwt03Rgn=rFhk8HQ@mail.gmail.com>
-Subject: Re: [PATCH/RFC 03/19] dt-bindings: clock: renesas: cpg-mssr: Document
- r8a77961 support
+Date:   Wed, 16 Oct 2019 10:46:30 +0200
+Message-ID: <CAMuHMdWgeTfVnxhH2v_BSn8FWHH5CwjOinMvQxJa+3wVzgDZ3w@mail.gmail.com>
+Subject: Re: [PATCH/RFC 00/19] arm64: dts: renesas: Initial support for R-Car M3-W+
 To:     Eugeniu Rosca <erosca@de.adit-jv.com>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
@@ -53,47 +51,86 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Eugeniu,
 
-On Mon, Oct 14, 2019 at 8:46 PM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
-> On Mon, Oct 07, 2019 at 12:23:16PM +0200, Geert Uytterhoeven wrote:
-> > Add DT binding documentation for the Clock Pulse Generator / Module
-> > Standby and Software Reset block in the Renesas R-Car M3-W+ (R8A77961)
-> > SoC.
+On Mon, Oct 14, 2019 at 9:58 PM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
+> On Mon, Oct 07, 2019 at 12:23:13PM +0200, Geert Uytterhoeven wrote:
+> > This RFC patch series adds support for the R-Car M3-W+ (R8A77961) SoC
+> > and the Salvator-XS board with R-Car M3-W+.  This SoC is a derivative of
+> > R-Car M3-W (R8A77960), and also known as R-Car M3-W ES3.0.
+> > As this is an RFC, I'm sending it to a limited audience.
 > >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> >  .../devicetree/bindings/clock/renesas,cpg-mssr.txt       | 9 +++++----
-> >  1 file changed, 5 insertions(+), 4 deletions(-)
+> > Based on experience with previous SoCs in the R-Car Gen3 family, the
+> > following design decisions were made:
+> >   - Use different compatible values (r8a77961-based),
+>
+> Given that a potentially incomplete list of M3-W compatible strings
+> counts 40 occurrences [1] and this series adds only 7 [2], current RFC
+> looks like the first step in a multi-phase approach. Do you plan to add
+> the missing r8a77961 compatibles in the next revision or do you expect
+> other people to contribute those later?
+
+This is indeed a multi-phase approach.
+I plan to add more later, and welcome other people in our team to do so, too.
+However, as we currently have limited (remote) access, we cannot
+add/test all other devices.
+So if you have hardware access, any help is welcome.
+
+> >   - Use different clock and SYSC DT binding definitions
+> >     (R8A77961-based), but the same numerical values, to allow sharing
+> >     drivers,
+> >   - Share the pin control driver,
+> >   - Share the clock driver,
+> >   - Share the system controller driver.
 > >
-> > diff --git a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.txt b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.txt
-> > index b5edebeb12b40638..b9b0927b7c780699 100644
-> > --- a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.txt
-> > +++ b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.txt
+> > While the DT ABI is stable (hence we cannot s/r8a7796/r8a77960/ in DTS),
+> > kernel source code and kernel config symbols can be changed at any
+> > time.  As changing kernel config symbols impacts the user, they weren't
+> > renamed yet.
+> >
+> > Questions:
+> >   - What's the board part number of Salvator-XS with R-Car M3-W+?
 >
-> [..]
->
-> > @@ -42,10 +43,10 @@ Required Properties:
-> >    - clock-names: List of external parent clock names. Valid names are:
-> >        - "extal" (r7s9210, r8a7743, r8a7744, r8a7745, r8a77470, r8a774a1,
-> >                r8a774b1, r8a774c0, r8a7790, r8a7791, r8a7792, r8a7793,
-> > -              r8a7794, r8a7795, r8a7796, r8a77965, r8a77970, r8a77980,
-> > -              r8a77990, r8a77995)
-> > -      - "extalr" (r8a774a1, r8a774b1, r8a7795, r8a7796, r8a77965, r8a77970,
-> > -               r8a77980)
-> > +              r8a7794, r8a7795, r8a7796, r8a77961, r8a77965, r8a77970,
-> > +              r8a77980, r8a77990, r8a77995)
-> > +      - "extalr" (r8a774a1, r8a774b1, r8a7795, r8a7796, r8a77961, r8a77965,
-> > +               r8a77970, r8a77980)
-> >        - "usb_extal" (r8a7743, r8a7744, r8a7745, r8a77470, r8a7790, r8a7791,
-> >                    r8a7793, r8a7794)
->
-> Not easy to review, but 'git show --color-words' comes to the rescue :)
+> I guess my board is an exception, since it got the SiP simply upgraded
+> from SoC ES1.x to ES3.0 by resoldering. IOW the board carries the same
+> serial number as M3-ES1.1 Salvator-XS.
 
-Exactly ;-)
+Yes, AFAIK, all Salvator-X and Salvator-XS boards have the same PCB
+(modulo minor revision updates), and support all of H3/M3-W/M3-N SiPs
+(except for H3 ES1.x, which is not supported by the -XS variant).
+So upgraded boards retain their original part number.
 
-$ git help wshow
-'wshow' is aliased to 'show --color-words'
-$ git help wlog
-'wlog' is aliased to 'log --color-words'
+> >   - Should the R8A77961 config symbols be dropped?
+> >       - CONFIG_ARCH_R8A77961
+> >       - CONFIG_CLK_R8A77961
+> >       - CONFIG_PINCTRL_PFC_R8A77961
+> >       - CONFIG_SYSC_R8A77961
+> >
+> >   - If not, should the R8A7796 config symbols be renamed?
+> >       - CONFIG_ARCH_R8A7796 to CONFIG_ARCH_R8A77960?
+> >       - CONFIG_CLK_R8A7796 to CONFIG_CLK_R8A77960?
+> >       - CONFIG_PINCTRL_PFC_R8A7796 to CONFIG_PINCTRL_PFC_R8A77960?
+> >       - CONFIG_SYSC_R8A7796 to CONFIG_SYSC_R8A77960?
+> >     Due to dependencies on CONFIG_ARCH_R8A7796, this should be a single
+> >     commit.
+>
+> [2 cents] Both adding CONFIG_*_R8A77961 and renaming CONFIG_*_R8A7796 to
+> CONFIG_*_R8A77960 make sense to me.
+>
+> > Related questions for old R-Car H3 ES1.x support:
+> >   - Should CONFIG_PINCTRL_PFC_R8A77950 be added, to allow compiling out
+> >     R-Car H3 ES1.x pin control support?
+>
+> [2 cents] Adding CONFIG_*_R8A77950 makes sense in spite of the fact that
+> R8A77950 is not documented in R-Car HW man. In fact, it is quite clear
+> why R8A77950 is _not_ documented while R8A77960 _is_ documented. The
+> former is obsolete (the community is nice by not obliterating its
+> support) while the latter is expected to hit the market.
+>
+> >     If yes, should CONFIG_PINCTRL_PFC_R8A7795 be renamed to
+> >     CONFIG_PINCTRL_PFC_R8A77951?
+>
+> In a perfect/ideal world, I would say yes.
+
+Thanks for your feedback!
 
 Gr{oetje,eeting}s,
 
