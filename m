@@ -2,101 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CC26D878C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Oct 2019 06:38:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67BF3D8921
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Oct 2019 09:14:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727838AbfJPEic (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Oct 2019 00:38:32 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:51055 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726502AbfJPEic (ORCPT
+        id S1732718AbfJPHOF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Oct 2019 03:14:05 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:38790 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729950AbfJPHOF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Oct 2019 00:38:32 -0400
-X-IronPort-AV: E=Sophos;i="5.67,302,1566831600"; 
-   d="scan'208";a="29207818"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 16 Oct 2019 13:38:30 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 2CFC7400C749;
-        Wed, 16 Oct 2019 13:38:28 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     balbi@kernel.org
-Cc:     gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH] usb: gadget: udc: renesas_usb3: Fix __le16 warnings
-Date:   Wed, 16 Oct 2019 13:38:28 +0900
-Message-Id: <1571200708-23381-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Wed, 16 Oct 2019 03:14:05 -0400
+Received: by mail-oi1-f195.google.com with SMTP id m16so19150709oic.5;
+        Wed, 16 Oct 2019 00:14:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vR/DF8NnvLBtYj6d1UO5P3iWy/f9WW2aETA6hKwnMMo=;
+        b=ThgQp+Z4XerevnK0O/jN79bR+WlRv4cEE3Nsk4XWaHr/K6BCysZD9wDokWNwU0rZ4n
+         +MphsvM5/rrIDHn13xraBKSJhia8jyox0hNnFxRULO6Ymb6ZwakRlL+rGbJYSZmIonN3
+         uSba/OlnqxnOytUuoReDdlWHYq8ucaBjonzTo+0ygjAsP/pIgLcf+NRuYlWST10GUokS
+         ceGO667ftpdEuESZn+AWNJnlm+shJi0Rnk3+feqqaWVd1ryaT6TUITBhP346SfKbASHm
+         hy40JwKOMhx/HjjJ7QnqYbEJljhVps7WWgQTBKtJP1RUDFtwpAkgX3w2iFhLBDgaAdW6
+         48nA==
+X-Gm-Message-State: APjAAAXANXDd5AKep6sz1G4gKjep17DbRX5sdiBnPiEM0h0vcmoio6oX
+        GCg4dqdOcrPs/HJaBN0tmUp/Nata4SyYQZhqN7E=
+X-Google-Smtp-Source: APXvYqyjDpHvY1ThHWWkEsvyNPlWeYinMvSL6meDup1e1RV6xs2lrp17E4jKYV29/ShYZ1JeLrehviKQ4PYjU+MvzL0=
+X-Received: by 2002:a54:4e89:: with SMTP id c9mr2086782oiy.148.1571210044353;
+ Wed, 16 Oct 2019 00:14:04 -0700 (PDT)
+MIME-Version: 1.0
+References: <1571137078-28922-1-git-send-email-biju.das@bp.renesas.com> <1571137078-28922-2-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1571137078-28922-2-git-send-email-biju.das@bp.renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 16 Oct 2019 09:13:53 +0200
+Message-ID: <CAMuHMdXfOoS8rdkjyuWirYmPnBUYbB_WJQ03hX7vWHwLDbHg2g@mail.gmail.com>
+Subject: Re: [PATCH 1/4] media: dt-bindings: rcar-vin: Add R8A774B1 support
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms@verge.net.au>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch fixes the following sparse warnings by using
-a macro and a suitable variable type.
+On Tue, Oct 15, 2019 at 12:58 PM Biju Das <biju.das@bp.renesas.com> wrote:
+> Document support for the VIN module in the Renesas RZ/G2N (R8A774B1) SoC.
+>
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
-drivers/usb/gadget/udc/renesas_usb3.c:1547:17: warning: restricted __le16 degrades to integer
-drivers/usb/gadget/udc/renesas_usb3.c:1550:43: warning: incorrect type in argument 2 (different base types)
-drivers/usb/gadget/udc/renesas_usb3.c:1550:43:    expected unsigned short [usertype] addr
-drivers/usb/gadget/udc/renesas_usb3.c:1550:43:    got restricted __le16 [usertype] wValue
-drivers/usb/gadget/udc/renesas_usb3.c:1607:24: warning: incorrect type in assignment (different base types)
-drivers/usb/gadget/udc/renesas_usb3.c:1607:24:    expected unsigned short [assigned] [usertype] status
-drivers/usb/gadget/udc/renesas_usb3.c:1607:24:    got restricted __le16 [usertype]
-drivers/usb/gadget/udc/renesas_usb3.c:1775:17: warning: restricted __le16 degrades to integer
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- drivers/usb/gadget/udc/renesas_usb3.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+Gr{oetje,eeting}s,
 
-diff --git a/drivers/usb/gadget/udc/renesas_usb3.c b/drivers/usb/gadget/udc/renesas_usb3.c
-index e098f16..3370314 100644
---- a/drivers/usb/gadget/udc/renesas_usb3.c
-+++ b/drivers/usb/gadget/udc/renesas_usb3.c
-@@ -1544,10 +1544,10 @@ static void usb3_set_device_address(struct renesas_usb3 *usb3, u16 addr)
- static bool usb3_std_req_set_address(struct renesas_usb3 *usb3,
- 				     struct usb_ctrlrequest *ctrl)
- {
--	if (ctrl->wValue >= 128)
-+	if (le16_to_cpu(ctrl->wValue) >= 128)
- 		return true;	/* stall */
- 
--	usb3_set_device_address(usb3, ctrl->wValue);
-+	usb3_set_device_address(usb3, le16_to_cpu(ctrl->wValue));
- 	usb3_set_p0_con_for_no_data(usb3);
- 
- 	return false;
-@@ -1582,6 +1582,7 @@ static bool usb3_std_req_get_status(struct renesas_usb3 *usb3,
- 	struct renesas_usb3_ep *usb3_ep;
- 	int num;
- 	u16 status = 0;
-+	__le16 tx_data;
- 
- 	switch (ctrl->bRequestType & USB_RECIP_MASK) {
- 	case USB_RECIP_DEVICE:
-@@ -1604,10 +1605,10 @@ static bool usb3_std_req_get_status(struct renesas_usb3 *usb3,
- 	}
- 
- 	if (!stall) {
--		status = cpu_to_le16(status);
-+		tx_data = cpu_to_le16(status);
- 		dev_dbg(usb3_to_dev(usb3), "get_status: req = %p\n",
- 			usb_req_to_usb3_req(usb3->ep0_req));
--		usb3_pipe0_internal_xfer(usb3, &status, sizeof(status),
-+		usb3_pipe0_internal_xfer(usb3, &tx_data, sizeof(tx_data),
- 					 usb3_pipe0_get_status_completion);
- 	}
- 
-@@ -1772,7 +1773,7 @@ static bool usb3_std_req_set_sel(struct renesas_usb3 *usb3,
- static bool usb3_std_req_set_configuration(struct renesas_usb3 *usb3,
- 					   struct usb_ctrlrequest *ctrl)
- {
--	if (ctrl->wValue > 0)
-+	if (le16_to_cpu(ctrl->wValue) > 0)
- 		usb3_set_bit(usb3, USB_COM_CON_CONF, USB3_USB_COM_CON);
- 	else
- 		usb3_clear_bit(usb3, USB_COM_CON_CONF, USB3_USB_COM_CON);
+                        Geert
+
 -- 
-2.7.4
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
