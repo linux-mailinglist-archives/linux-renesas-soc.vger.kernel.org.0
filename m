@@ -2,60 +2,58 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B2FFD94E1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Oct 2019 17:04:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03DD3D94F2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Oct 2019 17:06:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732478AbfJPPEC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Oct 2019 11:04:02 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:35065 "EHLO
+        id S1728342AbfJPPGm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Oct 2019 11:06:42 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:41195 "EHLO
         mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732037AbfJPPEB (ORCPT
+        with ESMTP id S1725294AbfJPPGl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Oct 2019 11:04:01 -0400
-Received: by mail-wr1-f66.google.com with SMTP id v8so28493279wrt.2
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Oct 2019 08:03:59 -0700 (PDT)
+        Wed, 16 Oct 2019 11:06:41 -0400
+Received: by mail-wr1-f66.google.com with SMTP id p4so12609981wrm.8
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Oct 2019 08:06:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=ZsIuFSZoAF84xio6tou4hU2jKWe79d+owypYXV+Dx2I=;
-        b=gfQUZhfMkCePYJ1vged0e9f3OoWeSXwSYQfZHo16E0yOj6aGnJV7aI/XoCC8Q6RaKI
-         uvklpcGciAMwMSQiVYKlad06H1F9bFjnYvNUhX0z4/5Jcm47orCHk1vBrqXrgc951kUy
-         ac50DmxQy4cBBQt+6L2tw6ImaRvYE6D5YjKJo/qfDsHyEGfrrZ25TvrMVlnzbvJ3iKza
-         ldgD43hilzmfycQ41zRvQlNuUpcOqjrWF2L2lMn9uIEcnhqFU34VzrcUgKsS85D8uJrj
-         6d44dzeY/QemoLhE8CDqkCKuwe3ienbCu81evJziezsS08oQ0RNkUb9NH5t89I3rJugH
-         tIXw==
+        bh=WawX6FPb5UQxA1hBePmcFrZsX5o2L9QeOmOiRbRGefc=;
+        b=KuH/HWksavUSxiaFNvsAGCivKDDFSrZPa8mx35nonFJ4Rs1BJDg6JK2A/HRTdlxNe1
+         Gh9gNuDONzu3ZCe/nZTsKyvn0ARD/epkxMOetAfE+vVWfbYyFE5Dj1PPC8I44VCasQuM
+         NI50hg0IjSixRW+CaxWnBO7K1raaaGcQ1egn1I75Hkhe0iYwU1oC/5aGqOSvZNCktcRX
+         Mt4Qtwb4katYv+nWSD3/XA04kRey6Lc+nTs/yneqtgF0+eqI6EYQp8i5czp6GVMQ0/Im
+         oyRmo5aIYN2ERUP7zXOCkcOgvXjdfubwkN9ESjEkTzDt72sp24AfrLfQQ4d0qcMVi3Jn
+         6Qcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=ZsIuFSZoAF84xio6tou4hU2jKWe79d+owypYXV+Dx2I=;
-        b=O1fsN4YQi1vaIj/HuQeMlNIfKKg5S0DInZ8kZJo3bwnHFq3QREnAwWZcD2U87iCBwV
-         kKAQQFw+Z27oF2hHdgfAO0gT3H+q41a2MF+xbuEy5ol/cbVshJpqrp14OXy8LVxX78OO
-         ce4oEbAtW8DPc0M01WxocRmHaVxWrG1ZnDjFriBlzXsIRtQEv94VR6CSc88PozcAxt65
-         WK5vv2n44P8h2nu4RrSMDINoFKCGZsf9oXL2b6ESjMyVcOrD75a06p/6LrMBdpA/9ElM
-         OtrIos3hb4+g+7LD9tg62lnM6Xsay97XRycoOpACsXnk/1BMePq/xog8QUrcJDLKmjRL
-         VUWw==
-X-Gm-Message-State: APjAAAWtJPrq3Dm01rjBODbZs4b4KMHfz0Az/zx4FmsE3K5tXb9ngHRT
-        N0cVlE75WYQokwdxM7h2hH9d/Q==
-X-Google-Smtp-Source: APXvYqyFxo6VS0GAeMs9BV/x9f51Uq3hmdbaYelc5BXp3cWahhidTh5iXnU+hnWodew+uaYg713wdw==
-X-Received: by 2002:adf:fa87:: with SMTP id h7mr3320876wrr.304.1571238238934;
-        Wed, 16 Oct 2019 08:03:58 -0700 (PDT)
+        bh=WawX6FPb5UQxA1hBePmcFrZsX5o2L9QeOmOiRbRGefc=;
+        b=ADu/g4lPoj3d25L1Vz5DGRxPx5aI31bsFiYh/Sz7KT7VEHFrhnu++oK4r3ngeNgvrQ
+         D8WEGNlJnyJDY0HMjv7Or+2SlSYynd4V4Sexvwr0N7cV2bihKi4GdcVQjsIVrPL53+ZV
+         kTCx8yNV1V3DeY8xs2Ef77MQMSPJXdfYTF1E3b/AR+baRSxDlHBuLHNsOWyJ5gaCDxL0
+         YjPnrtKExKO3Ddmon+2QzUn2wmKEkG9FbLzq4F9ri3niW3PTiA9IU3f5P4pB+cdhV8E1
+         X/U4PecJluD/FsCLJ0+XIuRLhdZeFTdn15TOlM0xin1zbemq/T/53+CwnJDAhPKUceBe
+         KBLg==
+X-Gm-Message-State: APjAAAXpAFZbsh575GfLousxDMNFygbZkhDlftu0ldPoxLmfO+yEz6en
+        2YqpV4xa4zMT4gWUubRuIDl5aSjFFlQ=
+X-Google-Smtp-Source: APXvYqyqEcKZi87xLQVR25qRL8FmNn3M77pW1keKMng3qpZEzCv7Isk6IcytMq5jWRQCPqr3cgmzPw==
+X-Received: by 2002:a5d:444b:: with SMTP id x11mr3160396wrr.207.1571238398583;
+        Wed, 16 Oct 2019 08:06:38 -0700 (PDT)
 Received: from ?IPv6:2a01:e34:ed2f:f020:75dd:9b83:7d04:b72e? ([2a01:e34:ed2f:f020:75dd:9b83:7d04:b72e])
-        by smtp.googlemail.com with ESMTPSA id z15sm13665469wrr.19.2019.10.16.08.03.57
+        by smtp.googlemail.com with ESMTPSA id f18sm2906378wmh.43.2019.10.16.08.06.37
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 16 Oct 2019 08:03:58 -0700 (PDT)
-Subject: Re: [PATCH v4 0/4] clocksource/drivers/timer-of/renesas-ostm
- improvements
+        Wed, 16 Oct 2019 08:06:38 -0700 (PDT)
+Subject: Re: [PATCH] clocksource/drivers/sh_mtu2: Do not loop using
+ platform_get_irq_by_name()
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Thomas Gleixner <tglx@linutronix.de>
-Cc:     Chris Brandt <chris.brandt@renesas.com>,
-        Rob Herring <robh@kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+Cc:     Stephen Boyd <swboyd@chromium.org>,
         linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20191016144747.29538-1-geert+renesas@glider.be>
+References: <20191016143003.28561-1-geert+renesas@glider.be>
 From:   Daniel Lezcano <daniel.lezcano@linaro.org>
 Openpgp: preference=signencrypt
 Autocrypt: addr=daniel.lezcano@linaro.org; prefer-encrypt=mutual; keydata=
@@ -146,12 +144,12 @@ Autocrypt: addr=daniel.lezcano@linaro.org; prefer-encrypt=mutual; keydata=
  y0s5uI05ZSXhqFs9iLlh3zNU1i6J1cdzA8BReoa3cKz4UiGKEffT857iMvT/ZmgSdYY57EgV
  UWm57SN2ok2Ii8AXlanH5SJPkbwJZhiB7kO0cjebmoA/1SA+5yTc3zEKKFuxcpfiXxt0d/OJ
  om6jCJ5/uKB5Cz9bJj0WdlvS2Xb11Jrs90MoVa74H5me4jOw7m9Yyg3qExOFOXUPFL6N
-Message-ID: <8f412aed-8283-eca6-5aa4-91a494f9fe1e@linaro.org>
-Date:   Wed, 16 Oct 2019 17:03:57 +0200
+Message-ID: <e8e88948-8dc3-5d89-c9bd-83d20de7ee16@linaro.org>
+Date:   Wed, 16 Oct 2019 17:06:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191016144747.29538-1-geert+renesas@glider.be>
+In-Reply-To: <20191016143003.28561-1-geert+renesas@glider.be>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -160,19 +158,24 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 16/10/2019 16:47, Geert Uytterhoeven wrote:
-> 	Hi Daniel, Thomas,
+On 16/10/2019 16:30, Geert Uytterhoeven wrote:
+> As platform_get_irq_by_name() now prints an error when the interrupt
+> does not exist, looping over possibly non-existing interrupts causes the
+> printing of scary messages like:
 > 
-> This patch series converts the Renesas OSTM driver to the timer-of
-> framework, and makes device names unique.
+>     sh_mtu2 fcff0000.timer: IRQ tgi1a not found
+>     sh_mtu2 fcff0000.timer: IRQ tgi2a not found
 > 
-> Changes compared to v3 ("[PATCH v3 0/3] clocksource/drivers/ostm:
-> Miscellaneous improvements",
-> https://lore.kernel.org/lkml/20190807084635.24173-1-geert+renesas@glider.be/):
->   - Dropped applied [PATCH 1/3],
->   - Dropped obsolete [PATCH 2/3],
->   - Convert to timer_of as requested by Daniel,
->   - Add new timer-of improvements.
+> Fix this by using the platform_irq_count() helper, to avoid touching
+> non-existent interrupts.  Limit the returned number of interrupts to the
+> maximum number of channels currently supported by the driver in a
+> future-proof way, i.e. using ARRAY_SIZE() instead of a hardcoded number.
+> 
+> Fixes: 7723f4c5ecdb8d83 ("driver core: platform: Add an error message to platform_get_irq*()")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> This is a fix for v5.4.
+> ---
 
 Applied, thanks!
 
