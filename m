@@ -2,99 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 51B14D94A1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Oct 2019 17:00:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7483D94CC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Oct 2019 17:02:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389534AbfJPPAI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Oct 2019 11:00:08 -0400
-Received: from foss.arm.com ([217.140.110.172]:42296 "EHLO foss.arm.com"
+        id S2393172AbfJPPCQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Oct 2019 11:02:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39618 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388925AbfJPPAI (ORCPT
+        id S2393123AbfJPPCQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Oct 2019 11:00:08 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F2DFF142F;
-        Wed, 16 Oct 2019 08:00:07 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (unknown [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F29863F68E;
-        Wed, 16 Oct 2019 08:00:06 -0700 (PDT)
-Date:   Wed, 16 Oct 2019 16:00:01 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     marek.vasut@gmail.com
-Cc:     linux-pci@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH V3 2/3] PCI: rcar: Do not abort on too many inbound
- dma-ranges
-Message-ID: <20191016150001.GA7457@e121166-lin.cambridge.arm.com>
-References: <20190809175741.7066-1-marek.vasut@gmail.com>
- <20190809175741.7066-2-marek.vasut@gmail.com>
+        Wed, 16 Oct 2019 11:02:16 -0400
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A129A21A4C;
+        Wed, 16 Oct 2019 15:02:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1571238135;
+        bh=WfD3t0sOjn0IeRh/fxGxBgyuFYh2uz6Bl2g2olvFPCs=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=oVcWndIeLBrN1dxqtfaQdGl5ih419TuNLsVrvVkSNtG6HzaoxUpnbuGwRrcUSGPii
+         Ltm5cEek/qy2eQgJ/wS062dHuO63leEnK9QAwK4U45nDTvZkYUM9LCkWo7to2tERKm
+         gFBZgIXi6BfM5S/bLwAvaEers78yLTAaHJcia9eI=
+Received: by mail-qk1-f174.google.com with SMTP id f16so23034718qkl.9;
+        Wed, 16 Oct 2019 08:02:15 -0700 (PDT)
+X-Gm-Message-State: APjAAAX+ICjvdv0/U+jbsQbPPDAEQ2AmdFx66z2WAo+RwCFus7vNrVdI
+        8kB8vWdVoO7a94cwpRRWQZPElma5PgIZ16Jzlw==
+X-Google-Smtp-Source: APXvYqwIgxUwPf/s3sC4AudetBNSqYxFoA0xPNh/UnC4v7MU1s4IRnaWSFhGgS/6m+dhMqCc0QMp0cOsku4Rj7MAdD0=
+X-Received: by 2002:a37:9847:: with SMTP id a68mr4997426qke.223.1571238134770;
+ Wed, 16 Oct 2019 08:02:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190809175741.7066-2-marek.vasut@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20191016144747.29538-1-geert+renesas@glider.be> <20191016144747.29538-3-geert+renesas@glider.be>
+In-Reply-To: <20191016144747.29538-3-geert+renesas@glider.be>
+From:   Rob Herring <robh@kernel.org>
+Date:   Wed, 16 Oct 2019 10:02:03 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+t+JqeS9+xUb2Fv=_3RRKx=c1Jssn4U3SpWu++zECfGw@mail.gmail.com>
+Message-ID: <CAL_Jsq+t+JqeS9+xUb2Fv=_3RRKx=c1Jssn4U3SpWu++zECfGw@mail.gmail.com>
+Subject: Re: [PATCH v4 2/4] clocksource/drivers/timer-of: Use unique device
+ name instead of timer
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Aug 09, 2019 at 07:57:40PM +0200, marek.vasut@gmail.com wrote:
-> From: Marek Vasut <marek.vasut+renesas@gmail.com>
-> 
-> In case the "dma-ranges" DT property contains either too many ranges
-> or the range start address is unaligned in such a way that populating
-> the range into the controller requires multiple entries, a situation
-> may occur where all ranges cannot be loaded into the controller.
-> 
-> Currently, the driver refuses to probe in such a situation. Relax this
-> behavior, load as many ranges as possible and warn if some ranges do
-> not fit anymore.
-
-Patches (1) and (3) are fine but I do not think this one is.
-
-Firmware (DT) should provide dma-ranges according to what HW can handle,
-more so given that other subsystems (eg IOMMU) rely on the dma-ranges
-value to set-up eg DMA - if there is a mismatch between PCI host inbound
-regions and software structures describing DMA'able ranges all bets are
-off.
-
-I would not merge this specific patch but let me know what you think.
-
-Thanks,
-Lorenzo
-
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> Cc: Wolfram Sang <wsa@the-dreams.de>
-> Cc: linux-renesas-soc@vger.kernel.org
-> To: linux-pci@vger.kernel.org
+On Wed, Oct 16, 2019 at 9:52 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> If a hardware-specific driver does not provide a name, the timer-of core
+> falls back to device_node.name.  Due to generic DT node naming policies,
+> that name is almost always "timer", and thus doesn't identify the actual
+> timer used.
+>
+> Fix this by using device_node.full_name instead, which includes the unit
+> addrees.
+>
+> Example impact on /proc/timer_list:
+>
+>     -Clock Event Device: timer
+>     +Clock Event Device: timer@fcfec400
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
-> V2: Update on top of 1/3
-> V3: No change
+> v4:
+>   - New.
 > ---
->  drivers/pci/controller/pcie-rcar.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
-> index 56a6433eb70b..e2735005ffd3 100644
-> --- a/drivers/pci/controller/pcie-rcar.c
-> +++ b/drivers/pci/controller/pcie-rcar.c
-> @@ -1049,8 +1049,9 @@ static int rcar_pcie_inbound_ranges(struct rcar_pcie *pcie,
->  
->  	while (cpu_addr < cpu_end) {
->  		if (idx >= MAX_NR_INBOUND_MAPS - 1) {
-> -			dev_err(pcie->dev, "Failed to map inbound regions!\n");
-> -			return -EINVAL;
-> +			dev_warn(pcie->dev,
-> +				 "Too many inbound regions, not all are mapped.\n");
-> +			break;
->  		}
->  		/*
->  		 * Set up 64-bit inbound regions as the range parser doesn't
-> -- 
-> 2.20.1
-> 
+>  drivers/clocksource/timer-of.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+
+Good. One less device_node.name pointer use to get rid of. I want to
+drop it from the struct and stop storing both node name strings.
+
+Reviewed-by: Rob Herring <robh@kernel.org>
+
+Rob
