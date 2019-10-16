@@ -2,62 +2,60 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A75D2D892D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Oct 2019 09:15:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CDB2D89D1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Oct 2019 09:36:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727708AbfJPHPE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Oct 2019 03:15:04 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:33440 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726408AbfJPHPD (ORCPT
+        id S1726747AbfJPHgX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Oct 2019 03:36:23 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:38179 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726545AbfJPHgX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Oct 2019 03:15:03 -0400
-Received: by mail-oi1-f195.google.com with SMTP id a15so19168482oic.0;
-        Wed, 16 Oct 2019 00:15:03 -0700 (PDT)
+        Wed, 16 Oct 2019 03:36:23 -0400
+Received: by mail-ot1-f66.google.com with SMTP id e11so19291052otl.5
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Oct 2019 00:36:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=HRYpCLt3Zu2Jol0KfAG/CiW7D1ttFW6PzRiG7cHGNLA=;
-        b=pCS3MwHv81JoEA1XuCi65BNRNeQme2w9veQoLyqfFlmrLYkgV3p8E6G8/iNAr8z9M8
-         HUr8XnR81jBn+MTMOivJ0CGh/5zWOLsHdY1Z0T+qwtd0PQM5kaYw0uXqqLi3qEFUxf7V
-         IcP/eZut7RHEiPcmfaVFrohu41K/epOrXOH9QWoQQ17AA1gvx6P5w1YD9CN1kN2NNHcK
-         aj1fVVUK85q5PaMSsroPAu20VZic9ilKxzaE6cMPWQ2xY1BvpF/nsRvFFSI6fi2Qt6KF
-         Dt3QwA+JWqbPHeBzhvNvioKi24/LmYq4K22c5BJvP468THNa78A592C46S+MWM6IREs5
-         JMNw==
-X-Gm-Message-State: APjAAAW117TlC4q4/tFlww3LBSslreW3xUsZYV3aluqUUdzPOMsOPsT+
-        HG6mAjDJgrHLFOvyRda0BtG7gxBdUx4r+iA+Tw4=
-X-Google-Smtp-Source: APXvYqwEnucWD/2pkPt36+F5Q4ljE9C+21OYu/+zrGayOTIy2kHFtKteeshcN4BPrwKB8ccFmzqRkd4auXw0EBBcubo=
-X-Received: by 2002:a05:6808:3b4:: with SMTP id n20mr2089571oie.131.1571210102814;
- Wed, 16 Oct 2019 00:15:02 -0700 (PDT)
+        bh=VKlKYK3Agmex6deuTVUQE83h0hGOdqjmBwzrY4fqhkw=;
+        b=UcdaD6Uv3JfHnxO0pWW4C/hn+sQVMNejYPrBOu7gNsEkfunBwCGIGies7x9pa2V2Dm
+         DN85PZN2loMzrqYIomapmHD85XitYAYEDGN+YFiaRUku/l94243FdNS79ejAeqPV9CT9
+         f2veu7Ac/lHEjhFpEw/WljEOXcx4agG093Hfd+0+mzkUi5uhiLiWwwKlO+PFPTw1+vDL
+         183+PacN4TZRRFpHZMBSYkMn1xc+tOSVuBfmzS8qs8x5ukpoAZ67Z+DOT08lEI65cTha
+         xIVkBKQ3mkU4NY0MqYSOxChszfOjFZBXFQDUqkZAeUoawXki94som7SCaT3wu47eBNez
+         Ez1g==
+X-Gm-Message-State: APjAAAURRbIhjm4uLc77eCDDN290BvbSY6AAHh/0ywb/ZgyqvkkJQlTR
+        5TrpXmG6YDh1s3BwP8Gamb+VlVagu0aETDsJCs8C17Mh
+X-Google-Smtp-Source: APXvYqyyn5FBJqt67FRHYhBN2jsTn8BDc1bUJgGx284dUJ1pfQq3aX4htY8iyZow7JvzN9mlauSUGvyxLrINRvAYUyI=
+X-Received: by 2002:a9d:70d0:: with SMTP id w16mr15675460otj.107.1571211381219;
+ Wed, 16 Oct 2019 00:36:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <1571137078-28922-1-git-send-email-biju.das@bp.renesas.com> <1571137078-28922-5-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1571137078-28922-5-git-send-email-biju.das@bp.renesas.com>
+References: <1571137920-15314-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1571137920-15314-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1571137920-15314-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 16 Oct 2019 09:14:51 +0200
-Message-ID: <CAMuHMdVGrT4fsB=x=FzMoJhBtQ_r6SuYF-wZ9BJMfkxP=HXNNg@mail.gmail.com>
-Subject: Re: [PATCH 4/4] media: rcar-csi2: Enable support for R8A774B1
-To:     Biju Das <biju.das@bp.renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms@verge.net.au>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Date:   Wed, 16 Oct 2019 09:36:10 +0200
+Message-ID: <CAMuHMdXCWcy_uX3-Z6Ao=ROTLM52Vxk=we-oKQ_H51hTem4n9Q@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] iommu/ipmmu-vmsa: Add helper functions for MMU
+ "context" registers
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Joerg Roedel <joro@8bytes.org>,
+        Linux IOMMU <iommu@lists.linux-foundation.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Oct 15, 2019 at 12:58 PM Biju Das <biju.das@bp.renesas.com> wrote:
-> Add the MIPI CSI-2 driver support for RZ/G2N(R8A774B1) SoC.
-> The CSI-2 module of RZ/G2N is similar to R-Car M3-N.
+On Tue, Oct 15, 2019 at 2:10 PM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> Since we will have changed memory mapping of the IPMMU in the future,
+> This patch adds helper functions ipmmu_ctx_{reg,read,write}()
+> for MMU "context" registers. No behavior change.
 >
-> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
