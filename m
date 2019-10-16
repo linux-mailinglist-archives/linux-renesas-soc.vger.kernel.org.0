@@ -2,86 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EF813D93E5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Oct 2019 16:31:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BFD0D93F5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 16 Oct 2019 16:33:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393025AbfJPObF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Oct 2019 10:31:05 -0400
-Received: from michel.telenet-ops.be ([195.130.137.88]:56938 "EHLO
-        michel.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390135AbfJPObF (ORCPT
+        id S2392232AbfJPOdK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Oct 2019 10:33:10 -0400
+Received: from xavier.telenet-ops.be ([195.130.132.52]:37408 "EHLO
+        xavier.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392214AbfJPOdK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Oct 2019 10:31:05 -0400
+        Wed, 16 Oct 2019 10:33:10 -0400
 Received: from ramsan ([84.194.98.4])
-        by michel.telenet-ops.be with bizsmtp
-        id EEX22100F05gfCL06EX2rS; Wed, 16 Oct 2019 16:31:04 +0200
+        by xavier.telenet-ops.be with bizsmtp
+        id EEZ82100N05gfCL01EZ856; Wed, 16 Oct 2019 16:33:08 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1iKkKM-0003mx-Ee; Wed, 16 Oct 2019 16:31:02 +0200
+        id 1iKkMO-0003nj-CK; Wed, 16 Oct 2019 16:33:08 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1iKkKM-0007UF-C8; Wed, 16 Oct 2019 16:31:02 +0200
+        id 1iKkMO-0007YO-Aq; Wed, 16 Oct 2019 16:33:08 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Stephen Boyd <swboyd@chromium.org>, linux-spi@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+To:     Magnus Damm <magnus.damm@gmail.com>,
+        Chris Brandt <chris.brandt@renesas.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] spi: rspi: Use platform_get_irq_byname_optional() for optional irqs
-Date:   Wed, 16 Oct 2019 16:31:01 +0200
-Message-Id: <20191016143101.28738-1-geert+renesas@glider.be>
+Subject: [PATCH] soc: renesas: Add missing check for non-zero product register address
+Date:   Wed, 16 Oct 2019 16:33:06 +0200
+Message-Id: <20191016143306.28995-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-As platform_get_irq_byname() now prints an error when the interrupt
-does not exist, scary warnings may be printed for optional interrupts:
+If the DTB for a device with an RZ/A2 SoC lacks a device node for the
+BSID register, the ID validation code falls back to using a register at
+address 0x0, which leads to undefined behavior (e.g. reading back a
+random value).
 
-    renesas_spi e6b10000.spi: IRQ rx not found
-    renesas_spi e6b10000.spi: IRQ mux not found
+This could be fixed by letting fam_rza2.reg point to the actual BSID
+register.  However, the hardcoded fallbacks were meant for backwards
+compatibility with old DTBs only, not for new SoCs.  Hence fix this by
+validating renesas_family.reg before using it.
 
-Fix this by calling platform_get_irq_byname_optional() instead.
-Remove the no longer needed printing of platform_get_irq errors, as the
-remaining calls to platform_get_irq() and platform_get_irq_byname() take
-care of that.
-
-Fixes: 7723f4c5ecdb8d83 ("driver core: platform: Add an error message to platform_get_irq*()")
+Fixes: 175f435f44b724e3 ("soc: renesas: identify RZ/A2")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-This is a fix for v5.4.
----
- drivers/spi/spi-rspi.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ drivers/soc/renesas/renesas-soc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/spi/spi-rspi.c b/drivers/spi/spi-rspi.c
-index 15f5723d9f9524d9..7222c7689c3c4cea 100644
---- a/drivers/spi/spi-rspi.c
-+++ b/drivers/spi/spi-rspi.c
-@@ -1257,9 +1257,9 @@ static int rspi_probe(struct platform_device *pdev)
- 	ctlr->flags = ops->flags;
- 	ctlr->dev.of_node = pdev->dev.of_node;
- 
--	ret = platform_get_irq_byname(pdev, "rx");
-+	ret = platform_get_irq_byname_optional(pdev, "rx");
- 	if (ret < 0) {
--		ret = platform_get_irq_byname(pdev, "mux");
-+		ret = platform_get_irq_byname_optional(pdev, "mux");
- 		if (ret < 0)
- 			ret = platform_get_irq(pdev, 0);
- 		if (ret >= 0)
-@@ -1270,10 +1270,6 @@ static int rspi_probe(struct platform_device *pdev)
- 		if (ret >= 0)
- 			rspi->tx_irq = ret;
+diff --git a/drivers/soc/renesas/renesas-soc.c b/drivers/soc/renesas/renesas-soc.c
+index 5dc2ae55f746a48a..85aaf85ce6b192d9 100644
+--- a/drivers/soc/renesas/renesas-soc.c
++++ b/drivers/soc/renesas/renesas-soc.c
+@@ -337,7 +337,7 @@ static int __init renesas_soc_init(void)
+ 	if (np) {
+ 		chipid = of_iomap(np, 0);
+ 		of_node_put(np);
+-	} else if (soc->id) {
++	} else if (soc->id && family->reg) {
+ 		chipid = ioremap(family->reg, 4);
  	}
--	if (ret < 0) {
--		dev_err(&pdev->dev, "platform_get_irq error\n");
--		goto error2;
--	}
- 
- 	if (rspi->rx_irq == rspi->tx_irq) {
- 		/* Single multiplexed interrupt */
+ 	if (chipid) {
 -- 
 2.17.1
 
