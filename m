@@ -2,83 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E92ADA21E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 01:26:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 066C0DA276
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 01:50:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406712AbfJPXZ7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Oct 2019 19:25:59 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:41785 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726595AbfJPXZ7 (ORCPT
+        id S2388485AbfJPXu5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 16 Oct 2019 19:50:57 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:25929 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728701AbfJPXu5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Oct 2019 19:25:59 -0400
-Received: by mail-pf1-f195.google.com with SMTP id q7so350016pfh.8
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 16 Oct 2019 16:25:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=message-id:mime-version:content-transfer-encoding:in-reply-to
-         :references:from:to:cc:subject:user-agent:date;
-        bh=Qrvxi8VNIEP80MdoyXCLvX2dInmjYNYid6pa9CMx9/Y=;
-        b=C1LD66Kn8oz6QcB4JFdprXZte3otJEvF9M2x3YmxrvIbQz6oHdj2oYpj6OogvYQljn
-         rf6QL47fvOLb9HjbUEL+2zH59ECPYOgGXzagCFaZwp5GT1KcjTwrwM9pucVnjfhIlqBD
-         ciUxzWRdllOfvxfpCZ3JK+oraf4kD0CEdfFdU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:mime-version
-         :content-transfer-encoding:in-reply-to:references:from:to:cc:subject
-         :user-agent:date;
-        bh=Qrvxi8VNIEP80MdoyXCLvX2dInmjYNYid6pa9CMx9/Y=;
-        b=bE6hvfdxUBOkWN/WKuAxVqrICgJCAU7ezqJqnr3sRV1gNga9BKnajKvAQ2/ARMjwOV
-         OqE2kHlbWtOHuXLoWSQFc9CzUQMqXjN7GORxhq8tCdgepTfFODP43FHWGmUUKE0wd74R
-         Hx+f3fVwI2OJ7tpy8QN+R2kTtK1hUB8ltnsur08pfJnbrrMb1QPZ/3YOk0Zh1psEu4Bf
-         hZQCCeLxuCWUh83VSYvrqvmLV0poMBo+8COPbPqol9IfgovkY8jsCBehdty2tp/XpELd
-         ariIWdbgmH1j+5xdLGoA4eX7hXRyWuU9UtpyQqzdbKx1uRZ/9up2kqtB2oBTMTs4LNPA
-         j51g==
-X-Gm-Message-State: APjAAAWOmZpAJJB9kVo4REcr5sr0eHpbYVQ/e4strNbFkZNSHGNYTdPC
-        b3nzZpiijTWRngiKD7D7QaF4jA==
-X-Google-Smtp-Source: APXvYqzwan96igiVoJXoXnp0dlhIkgKisPOSNOslthiLl2WjZnd3MQpnyD29PbzVpemNzqdv3BAF4A==
-X-Received: by 2002:a65:644c:: with SMTP id s12mr708041pgv.319.1571268358755;
-        Wed, 16 Oct 2019 16:25:58 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:1:fa53:7765:582b:82b9])
-        by smtp.gmail.com with ESMTPSA id y6sm182241pfp.82.2019.10.16.16.25.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2019 16:25:58 -0700 (PDT)
-Message-ID: <5da7a706.1c69fb81.7818.0cfe@mx.google.com>
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20191016143101.28738-1-geert+renesas@glider.be>
-References: <20191016143101.28738-1-geert+renesas@glider.be>
-From:   Stephen Boyd <swboyd@chromium.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Mark Brown <broonie@kernel.org>
-Cc:     linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH] spi: rspi: Use platform_get_irq_byname_optional() for optional irqs
-User-Agent: alot/0.8.1
-Date:   Wed, 16 Oct 2019 16:25:57 -0700
+        Wed, 16 Oct 2019 19:50:57 -0400
+Date:   17 Oct 2019 08:50:54 +0900
+X-IronPort-AV: E=Sophos;i="5.67,305,1566831600"; 
+   d="scan'208";a="29271370"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 17 Oct 2019 08:50:54 +0900
+Received: from morimoto-PC.renesas.com (unknown [10.166.18.140])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 067A44008C75;
+        Thu, 17 Oct 2019 08:50:43 +0900 (JST)
+Message-ID: <878spkuu5o.wl-kuninori.morimoto.gx@renesas.com>
+From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To:     Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Takashi Iwai <tiwai@suse.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        <linux-kernel@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>,
+        Junya Monden <jmonden@jp.adit-jv.com>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        Jiada Wang <jiada_wang@mentor.com>,
+        Timo Wischer <twischer@de.adit-jv.com>,
+        <stable@vger.kernel.org>
+Subject: Re: [PATCH] ASoC: rsnd: Reinitialize bit clock inversion flag for every format setting
+In-Reply-To: <20191016124255.7442-1-erosca@de.adit-jv.com>
+References: <20191016124255.7442-1-erosca@de.adit-jv.com>
+User-Agent: Wanderlust/2.15.9 Emacs/24.5 Mule/6.0
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Geert Uytterhoeven (2019-10-16 07:31:01)
-> As platform_get_irq_byname() now prints an error when the interrupt
-> does not exist, scary warnings may be printed for optional interrupts:
->=20
->     renesas_spi e6b10000.spi: IRQ rx not found
->     renesas_spi e6b10000.spi: IRQ mux not found
->=20
-> Fix this by calling platform_get_irq_byname_optional() instead.
-> Remove the no longer needed printing of platform_get_irq errors, as the
-> remaining calls to platform_get_irq() and platform_get_irq_byname() take
-> care of that.
->=20
-> Fixes: 7723f4c5ecdb8d83 ("driver core: platform: Add an error message to =
-platform_get_irq*()")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Hi
+
+> Unlike other format-related DAI parameters, rdai->bit_clk_inv flag
+> is not properly re-initialized when setting format for new stream
+> processing. The inversion, if requested, is then applied not to default,
+> but to a previous value, which leads to SCKP bit in SSICR register being
+> set incorrectly.
+> Fix this by re-setting the flag to its initial value, determined by format.
+> 
+> Fixes: 1a7889ca8aba3 ("ASoC: rsnd: fixup SND_SOC_DAIFMT_xB_xF behavior")
+> Cc: Andrew Gabbasov <andrew_gabbasov@mentor.com>
+> Cc: Jiada Wang <jiada_wang@mentor.com>
+> Cc: Timo Wischer <twischer@de.adit-jv.com>
+> Cc: stable@vger.kernel.org # v3.17+
+> Signed-off-by: Junya Monden <jmonden@jp.adit-jv.com>
+> Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
 > ---
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
