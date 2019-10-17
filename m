@@ -2,220 +2,166 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A890ADAEA6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 15:42:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7A51DAEEF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 16:00:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436694AbfJQNmd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Oct 2019 09:42:33 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:56249 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2436617AbfJQNmc (ORCPT
+        id S2437365AbfJQOAP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Oct 2019 10:00:15 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:40751 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2437275AbfJQOAP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Oct 2019 09:42:32 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.lan (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 0EAFE1BF207;
-        Thu, 17 Oct 2019 13:42:25 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     laurent.pinchart@ideasonboard.com,
-        kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
-        horms@verge.net.au, uli+renesas@fpond.eu
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, airlied@linux.ie,
-        daniel@ffwll.ch, linux-renesas-soc@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v6.1 5/8] drm: rcar-du: crtc: Control CMM operations
-Date:   Thu, 17 Oct 2019 15:44:09 +0200
-Message-Id: <20191017134409.535740-1-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191016085548.105703-6-jacopo+renesas@jmondi.org>
-References: <20191016085548.105703-6-jacopo+renesas@jmondi.org>
+        Thu, 17 Oct 2019 10:00:15 -0400
+Received: by mail-wm1-f66.google.com with SMTP id b24so2653638wmj.5;
+        Thu, 17 Oct 2019 07:00:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ho9hHtEoiD9z6LT1AaMW0OmfFWET0fxL0uTws2EXWjQ=;
+        b=kErgLvLhHRktTMtS+eHbAIQIdS7k9ZWfrceiJIvnEjKXQtAc7HKT1Yq5CWT+Pvey51
+         ar2hIF9A4vkWIDQzBsV8JCLt0jINOCJlo8AiU8LkCYeIKSF150vfML29yaNGXtewy/JZ
+         gll/8QGpO7tPpg8zBC9jYhH0786DiCCrabZWFJ5SalV9WvKXT7b39Lwe7iiOUpJHmqxX
+         S+2wy/a83IS6ahUwBuZPEFogq+oWfJ5mQWGh+4XEGfUy9mFDvM+W5Br7t9e0aLZn355X
+         jDuyzfrr/XPRROj4y1ilJevgVANOGemfiyixhKU4UZp7s6Ny3JC9PNVfNxm6VzsArTvv
+         unmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ho9hHtEoiD9z6LT1AaMW0OmfFWET0fxL0uTws2EXWjQ=;
+        b=clX6uo2rA8HYmRNpwEg7C34NqZx+HRxVMkqiJxxUHuFHwl8TcwWx8pCWqVe93aFW4L
+         mGpPU9SI0UUop0gjQMkbmkv/BEqDOzQv1z3i4kBQ06EUqfaa22DOmgFlvsiS4EgvZz4b
+         eZXempqKIbQ/Tr/Jdy72YwIOo8DytNbkuJlrImFFBOxrSOvPCCMBDt7o/75Pn55t0nT0
+         c3tGSX/U+R3ITXkwtguX7cbmIp9A72xw4SOkcBzonFgAK/ybqK/t4FQ24lXRFiDE57qw
+         HnUNHhmYpf+hhvRdGsvGTYtveO1rsUxbsRXlrQLbjUSUFIVi0gu0rJAE2uMMfNou7j7r
+         9/mQ==
+X-Gm-Message-State: APjAAAW9HLyTglF4ZZT4XeMb7ZrFSu49n7dahgpPBCcJYElWgGlbHbth
+        wCSDlHsU5XFqOZfSewLx6GVH58ff
+X-Google-Smtp-Source: APXvYqwpsm5tjoaUumTd5mK/xxgwcOCR3HgqvuMXb4xu6XunKiv/jZe6HB9RwVpYe1KZX4d53143Mw==
+X-Received: by 2002:a1c:ed0d:: with SMTP id l13mr2996195wmh.54.1571320811671;
+        Thu, 17 Oct 2019 07:00:11 -0700 (PDT)
+Received: from [192.168.1.4] (ip-86-49-35-8.net.upcbroadband.cz. [86.49.35.8])
+        by smtp.gmail.com with ESMTPSA id l11sm2319389wmh.34.2019.10.17.07.00.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Oct 2019 07:00:11 -0700 (PDT)
+Subject: Re: [PATCH V3 2/3] PCI: rcar: Do not abort on too many inbound
+ dma-ranges
+To:     Robin Murphy <robin.murphy@arm.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Rob Herring <robh@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        PCI <linux-pci@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>
+References: <20190809175741.7066-1-marek.vasut@gmail.com>
+ <20190809175741.7066-2-marek.vasut@gmail.com>
+ <20191016150001.GA7457@e121166-lin.cambridge.arm.com>
+ <c4353d63-6f78-92b3-91c9-acc9327e1d80@gmail.com>
+ <20191016152601.GB7457@e121166-lin.cambridge.arm.com>
+ <75fb3519-80eb-fec2-d3eb-cc1b884fef25@gmail.com>
+ <20191016161846.GC7457@e121166-lin.cambridge.arm.com>
+ <CAL_JsqL2c-ODMkOo1tAJh8JeF0VRXahCq2zF2fX8dZV8wpQj+Q@mail.gmail.com>
+ <c835701d-ff0e-f1b8-af16-fe53febe5519@gmail.com>
+ <CAL_Jsq+4uaFJzk5jUPw+KssZvnji0WDh+QcFMok99XXntEhNTQ@mail.gmail.com>
+ <88099c4f-4fb4-626e-f66f-3eb8861dfb2c@gmail.com>
+ <CAL_JsqLzmk5dfn0Re3y7VjY5ehE29vKLOV-2tM5B_jPbB2YiPQ@mail.gmail.com>
+ <06d093b2-dcc2-a01f-fce0-5db0bc47325e@gmail.com>
+ <CAMuHMdXjZs6Gvar3o7wXd2-1tkPtpt3qxZLG5vzDfrCG4d9SeQ@mail.gmail.com>
+ <ca16e883-27d3-2cd0-7d71-fa9b169dcccd@gmail.com>
+ <ccf8a4f9-1758-bafc-797c-714f06810db3@arm.com>
+From:   Marek Vasut <marek.vasut@gmail.com>
+Message-ID: <6af92fb1-a154-3e03-d239-0417da5a5094@gmail.com>
+Date:   Thu, 17 Oct 2019 16:00:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <ccf8a4f9-1758-bafc-797c-714f06810db3@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Implement CMM handling in the crtc begin and enable atomic callbacks,
-and enable CMM unit through the Display Extensional Functions
-register at group setup time.
+On 10/17/19 3:06 PM, Robin Murphy wrote:
+> On 17/10/2019 11:55, Marek Vasut wrote:
+>> On 10/17/19 9:06 AM, Geert Uytterhoeven wrote:
+>>
+>> [...]
+>>
+>>>>>>> I suppose if your intent is to use inbound windows as a poor man's
+>>>>>>> IOMMU to prevent accesses to the holes, then yes you would list them
+>>>>>>> out. But I think that's wrong and difficult to maintain. You'd also
+>>>>>>> need to deal with reserved-memory regions too.
+>>>>>>
+>>>>>> What's the problem with that? The bootloader has all that information
+>>>>>> and can patch the DT correctly. In fact, in my specific case, I have
+>>>>>> platform which can be populated with differently sized DRAM, so the
+>>>>>> holes are also dynamically calculated ; there is no one DT then, the
+>>>>>> bootloader is responsible to generate the dma-ranges accordingly.
+>>>>>
+>>>>> The problems are it doesn't work:
+>>>>>
+>>>>> Your dma-mask and offset are not going to be correct.
+>>>>>
+>>>>> You are running out of inbound windows. Your patch does nothing to
+>>>>> solve that. The solution would be merging multiple dma-ranges entries
+>>>>> to a single inbound window. We'd have to do that both for dma-mask and
+>>>>> inbound windows. The former would also have to figure out which
+>>>>> entries apply to setting up dma-mask. I'm simply suggesting just do
+>>>>> that up front and avoid any pointless splits.
+>>>>
+>>>> But then the PCI device can trigger a transaction to non-existent DRAM
+>>>> and cause undefined behavior. Surely we do not want that ?
+>>>
+>>> The PCI device will trigger transactions to memory only when instructed
+>>> to do so by Linux, right?  Hence if Linux takes into account
+>>> chosen/memory
+>>> and dma-ranges, there is no problem?
+>>
+>> Unless of course the remote device initiates a transfer. And if the
+>> controller is programmed such that accesses to the missing DRAM in the
+>> holes are not filtered out by the controller, then the controller will
+>> gladly let the transaction through. Do we really want to let this
+>> happen ?
+> 
+> If you've got devices making random unsolicited accesses then who's to
+> say they wouldn't also hit valid windows and corrupt memory? If it's
+> happening at all you've already lost.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Not necessarily. If your controller is programmed correctly with just
+the ranges that are valid, then it will filter out at least the accesses
+outside of valid memory. If it is programmed incorrectly, as you
+suggest, then the accesses will go through, causing undefined behavior.
 
----
-v6 -> v6.1
-- Drop check for CMM in rcar_du_cmm_check as if the gamma_table property is
-  available, a CMM unit for this CRTC was registered
-- Add TODO note to investigate how the activation order of CMM and CRTC
-  impact on the first displayed fram
----
+And note that there is such weird buggy PCI hardware. A slightly
+unrelated example are some of the ath9k, which are generating spurious
+MSIs even if they are in legacy PCI IRQ mode. If the controller is
+configured correctly, even those buggy cards work, because it can filter
+the spurious MSIs out. If not, they do not.
 
- drivers/gpu/drm/rcar-du/rcar_du_crtc.c  | 61 +++++++++++++++++++++++++
- drivers/gpu/drm/rcar-du/rcar_du_group.c | 10 ++++
- drivers/gpu/drm/rcar-du/rcar_du_regs.h  |  5 ++
- 3 files changed, 76 insertions(+)
+That's why I would prefer to configure the controller correctly, not
+just hope that nothing bad will come out of misconfiguring it slightly.
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-index 23f1d6cc1719..3f0f16946f42 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
-@@ -21,6 +21,7 @@
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_vblank.h>
+> And realistically, if the address
+> isn't valid then it's not going to make much difference anyway - in
+> probably 99% of cases, either the transaction doesn't hit a window and
+> the host bridge returns a completer abort, or it does hit a window, the
+> AXI side returns DECERR or SLVERR, and the host bridge translates that
+> into a completer abort. Consider also that many PCI IPs don't have
+> discrete windows and just map the entirety of PCI mem space directly to
+> the system PA space.
 
-+#include "rcar_cmm.h"
- #include "rcar_du_crtc.h"
- #include "rcar_du_drv.h"
- #include "rcar_du_encoder.h"
-@@ -474,6 +475,45 @@ static void rcar_du_crtc_wait_page_flip(struct rcar_du_crtc *rcrtc)
- 	rcar_du_crtc_finish_page_flip(rcrtc);
- }
+And in that 1% of cases, we are OK with failure which could have been
+easily prevented if the controller was programmed correctly ? That does
+not look like a good thing.
 
-+/* -----------------------------------------------------------------------------
-+ * Color Management Module (CMM)
-+ */
-+
-+static int rcar_du_cmm_check(struct drm_crtc *crtc,
-+			     struct drm_crtc_state *state)
-+{
-+	struct drm_property_blob *drm_lut = state->gamma_lut;
-+	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-+	struct device *dev = rcrtc->dev->dev;
-+
-+	if (!drm_lut)
-+		return 0;
-+
-+	/* We only accept fully populated LUT tables. */
-+	if (drm_color_lut_size(drm_lut) != CM2_LUT_SIZE) {
-+		dev_err(dev, "invalid gamma lut size: %lu bytes\n",
-+			drm_lut->length);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static void rcar_du_cmm_setup(struct drm_crtc *crtc)
-+{
-+	struct drm_property_blob *drm_lut = crtc->state->gamma_lut;
-+	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
-+	struct rcar_cmm_config cmm_config = {};
-+
-+	if (!rcrtc->cmm)
-+		return;
-+
-+	if (drm_lut)
-+		cmm_config.lut.table = (struct drm_color_lut *)drm_lut->data;
-+
-+	rcar_cmm_setup(rcrtc->cmm, &cmm_config);
-+}
-+
- /* -----------------------------------------------------------------------------
-  * Start/Stop and Suspend/Resume
-  */
-@@ -619,6 +659,9 @@ static void rcar_du_crtc_stop(struct rcar_du_crtc *rcrtc)
- 	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
- 		rcar_du_vsp_disable(rcrtc);
-
-+	if (rcrtc->cmm)
-+		rcar_cmm_disable(rcrtc->cmm);
-+
- 	/*
- 	 * Select switch sync mode. This stops display operation and configures
- 	 * the HSYNC and VSYNC signals as inputs.
-@@ -642,6 +685,11 @@ static int rcar_du_crtc_atomic_check(struct drm_crtc *crtc,
- {
- 	struct rcar_du_crtc_state *rstate = to_rcar_crtc_state(state);
- 	struct drm_encoder *encoder;
-+	int ret;
-+
-+	ret = rcar_du_cmm_check(crtc, state);
-+	if (ret)
-+		return ret;
-
- 	/* Store the routes from the CRTC output to the DU outputs. */
- 	rstate->outputs = 0;
-@@ -667,6 +715,8 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
- 	struct rcar_du_crtc_state *rstate = to_rcar_crtc_state(crtc->state);
- 	struct rcar_du_device *rcdu = rcrtc->dev;
-
-+	if (rcrtc->cmm)
-+		rcar_cmm_enable(rcrtc->cmm);
- 	rcar_du_crtc_get(rcrtc);
-
- 	/*
-@@ -686,6 +736,13 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
- 	}
-
- 	rcar_du_crtc_start(rcrtc);
-+
-+	/*
-+	 * TODO: The chip manual indicates that CMM tables should be written
-+	 * after the DU channel has been activated. Investigate the impact
-+	 * of this restriction on the first displayed frame.
-+	 */
-+	rcar_du_cmm_setup(crtc);
- }
-
- static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
-@@ -739,6 +796,10 @@ static void rcar_du_crtc_atomic_begin(struct drm_crtc *crtc,
- 	 */
- 	rcar_du_crtc_get(rcrtc);
-
-+	/* If the active state changed, we let .atomic_enable handle CMM. */
-+	if (crtc->state->color_mgmt_changed && !crtc->state->active_changed)
-+		rcar_du_cmm_setup(crtc);
-+
- 	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
- 		rcar_du_vsp_atomic_begin(rcrtc);
- }
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-index 9eee47969e77..88a783ceb3e9 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-@@ -135,6 +135,7 @@ static void rcar_du_group_setup_didsr(struct rcar_du_group *rgrp)
- static void rcar_du_group_setup(struct rcar_du_group *rgrp)
- {
- 	struct rcar_du_device *rcdu = rgrp->dev;
-+	u32 defr7 = DEFR7_CODE;
-
- 	/* Enable extended features */
- 	rcar_du_group_write(rgrp, DEFR, DEFR_CODE | DEFR_DEFE);
-@@ -147,6 +148,15 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
-
- 	rcar_du_group_setup_pins(rgrp);
-
-+	/*
-+	 * TODO: Handle routing of the DU output to CMM dynamically, as we
-+	 * should bypass CMM completely when no color management feature is
-+	 * used.
-+	 */
-+	defr7 |= (rgrp->cmms_mask & BIT(1) ? DEFR7_CMME1 : 0) |
-+		 (rgrp->cmms_mask & BIT(0) ? DEFR7_CMME0 : 0);
-+	rcar_du_group_write(rgrp, DEFR7, defr7);
-+
- 	if (rcdu->info->gen >= 2) {
- 		rcar_du_group_setup_defr8(rgrp);
- 		rcar_du_group_setup_didsr(rgrp);
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_regs.h b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-index bc87f080b170..fb9964949368 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-@@ -197,6 +197,11 @@
- #define DEFR6_MLOS1		(1 << 2)
- #define DEFR6_DEFAULT		(DEFR6_CODE | DEFR6_TCNE1)
-
-+#define DEFR7			0x000ec
-+#define DEFR7_CODE		(0x7779 << 16)
-+#define DEFR7_CMME1		BIT(6)
-+#define DEFR7_CMME0		BIT(4)
-+
- /* -----------------------------------------------------------------------------
-  * R8A7790-only Control Registers
-  */
---
-2.23.0
-
+> I don't believe this is a valid argument for anything whichever way round.
+-- 
+Best regards,
+Marek Vasut
