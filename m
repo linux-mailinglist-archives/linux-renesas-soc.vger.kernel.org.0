@@ -2,76 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BF5AEDADFF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 15:14:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91DE1DAE04
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 15:15:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394360AbfJQNOy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Oct 2019 09:14:54 -0400
-Received: from [217.140.110.172] ([217.140.110.172]:42824 "EHLO foss.arm.com"
-        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
-        id S2394358AbfJQNOx (ORCPT
+        id S2394403AbfJQNPJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Oct 2019 09:15:09 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:44279 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2394358AbfJQNPJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Oct 2019 09:14:53 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0FB691AED;
-        Thu, 17 Oct 2019 06:14:31 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AF35C3F6C4;
-        Thu, 17 Oct 2019 06:14:29 -0700 (PDT)
-Date:   Thu, 17 Oct 2019 14:14:27 +0100
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Simon Horman <horms@verge.net.au>
-Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] MAINTAINERS: Add Marek and Shimoda-san as R-Car PCIE
- co-maintainers
-Message-ID: <20191017131427.GF9589@e121166-lin.cambridge.arm.com>
-References: <20191016120249.16776-1-horms@verge.net.au>
+        Thu, 17 Oct 2019 09:15:09 -0400
+Received: by mail-ot1-f66.google.com with SMTP id 21so1805133otj.11;
+        Thu, 17 Oct 2019 06:15:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=X4y1bL0W15R+iE+SZario6x1aoorMFx/lA03Hqcj+uo=;
+        b=XjClrDWNDoaEXM8jCzjqpU7bb2QHSY1Wr6yi813YTp4ULQQ7Pt4ZhSbzAt2RR1y3RG
+         KaKZm4RQz+9hJbZU1dUjEWaQpt7XCRr7lvjsDHXy7e6d7TEsNDmZ852T/8Q7dMSLNJNz
+         xxwWW0gQJuCTX+X/vcYKoIHPBzsBiBX0h33iLH5ZecWP0g/O51n9Qfs/GHJGw13hYp3x
+         1f0mme5exwofv236ZHhr9Qj4qMTfBfcEX21BUYryC1pY3sS5vFRWXdGpYm+nmazMWHKs
+         tYiK9PXkvcFSFLC+c7cJUmi3C5CBTtrCGtND6HHdZRINfidTc6OqvMyxZYWcaXvTc2HT
+         sxzQ==
+X-Gm-Message-State: APjAAAUAhVeRdlUvonNz2r3WsGU+TMDJauai94bBViQD0B+PTJjdPu18
+        sVtCtdbC8na1DAcDzyODZa2I2Uz5ZNE0ZrZflLo=
+X-Google-Smtp-Source: APXvYqx6Cyj0duUJOmyaICT1oznRv0AsWMh3/W9MVZ9kCrwp9V1GSyE7je5R0ohOloX8VfE95wNZLLERLoGqQy+zYsU=
+X-Received: by 2002:a9d:7345:: with SMTP id l5mr3037382otk.39.1571318108713;
+ Thu, 17 Oct 2019 06:15:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191016120249.16776-1-horms@verge.net.au>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <1e48cafb-6ec5-0573-4829-03e36f9d3d82@codethink.co.uk>
+In-Reply-To: <1e48cafb-6ec5-0573-4829-03e36f9d3d82@codethink.co.uk>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 17 Oct 2019 15:14:57 +0200
+Message-ID: <CAMuHMdWMbQeFciY-wet0onMrGOCsB+PrTs03Nf=TdjLiaFsnKg@mail.gmail.com>
+Subject: Re: drivers/pinctrl/sh-pfc/pfc-sh7734.c multiple define of TCLK1_B
+To:     Ben Dooks <ben.dooks@codethink.co.uk>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Oct 16, 2019 at 02:02:49PM +0200, Simon Horman wrote:
-> At the end of the v5.3 upstream development cycle I stepped down
-> from my role at Renesas.
-> 
-> Pass maintainership of the R-Car PCIE to Marek and Shimoda-san.
-> 
-> Signed-off-by: Simon Horman <horms@verge.net.au>
-> ---
->  MAINTAINERS | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+Hi Ben,
 
-Applied to pci/misc, thanks.
+On Thu, Oct 17, 2019 at 1:54 PM Ben Dooks <ben.dooks@codethink.co.uk> wrote:
+> drivers/pinctrl/sh-pfc/pfc-sh7734.c hsa TCLK1_B defined twice.
+> Not sure how to fix, so reporting it here:
+>
+>    1453          GPIO_FN(RD_WR), GPIO_FN(TCLK1_B),
+>    1454          GPIO_FN(EX_WAIT0), GPIO_FN(TCLK1_B),
 
-Lorenzo
+Thanks, nice catch!
 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 783569e3c4b4..b61ade7afd64 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12337,7 +12337,8 @@ F:	Documentation/devicetree/bindings/pci/nvidia,tegra20-pcie.txt
->  F:	drivers/pci/controller/pci-tegra.c
->  
->  PCI DRIVER FOR RENESAS R-CAR
-> -M:	Simon Horman <horms@verge.net.au>
-> +M:	Marek Vasut <marek.vasut+renesas@gmail.com>
-> +M:	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
->  L:	linux-pci@vger.kernel.org
->  L:	linux-renesas-soc@vger.kernel.org
->  S:	Maintained
-> -- 
-> 2.11.0
-> 
+Looks like (a) someone accidentally jumped to the wrong row in the
+datasheet when entering this, and (b) we need more runtime checks to
+catch bugs like this.
+
+Will fix...
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
