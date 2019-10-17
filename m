@@ -2,22 +2,22 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F03BBDACA6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 14:48:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45F10DACA9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 14:48:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502543AbfJQMsN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Oct 2019 08:48:13 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:4203 "EHLO huawei.com"
+        id S2502557AbfJQMsT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Oct 2019 08:48:19 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4241 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729344AbfJQMsN (ORCPT
+        id S2502554AbfJQMsT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Oct 2019 08:48:13 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id 2EBA61F014ACEAE9646D;
-        Thu, 17 Oct 2019 20:48:11 +0800 (CST)
-Received: from localhost (10.133.213.239) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.439.0; Thu, 17 Oct 2019
- 20:48:04 +0800
+        Thu, 17 Oct 2019 08:48:19 -0400
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id DB37F1BC907B28B1DAF3;
+        Thu, 17 Oct 2019 20:48:15 +0800 (CST)
+Received: from localhost (10.133.213.239) by DGGEMS405-HUB.china.huawei.com
+ (10.3.19.205) with Microsoft SMTP Server id 14.3.439.0; Thu, 17 Oct 2019
+ 20:48:08 +0800
 From:   YueHaibing <yuehaibing@huawei.com>
 To:     <linus.walleij@linaro.org>, <manivannan.sadhasivam@linaro.org>,
         <afaerber@suse.de>, <f.fainelli@gmail.com>, <rjui@broadcom.com>,
@@ -35,9 +35,9 @@ CC:     <linux-arm-kernel@lists.infradead.org>,
         <haojian.zhuang@gmail.com>, <wens@csie.org>,
         <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
         <agross@kernel.org>, YueHaibing <yuehaibing@huawei.com>
-Subject: [PATCH -next 01/30] pinctrl: pxa25x: use devm_platform_ioremap_resource() to simplify code
-Date:   Thu, 17 Oct 2019 20:26:11 +0800
-Message-ID: <20191017122640.22976-2-yuehaibing@huawei.com>
+Subject: [PATCH -next 03/30] pinctrl: cygnus-mux: use devm_platform_ioremap_resource() to simplify code
+Date:   Thu, 17 Oct 2019 20:26:13 +0800
+Message-ID: <20191017122640.22976-4-yuehaibing@huawei.com>
 X-Mailer: git-send-email 2.10.2.windows.1
 In-Reply-To: <20191017122640.22976-1-yuehaibing@huawei.com>
 References: <20191017122640.22976-1-yuehaibing@huawei.com>
@@ -55,43 +55,39 @@ This is detected by coccinelle.
 
 Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 ---
- drivers/pinctrl/pxa/pinctrl-pxa25x.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ drivers/pinctrl/bcm/pinctrl-cygnus-mux.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/pinctrl/pxa/pinctrl-pxa25x.c b/drivers/pinctrl/pxa/pinctrl-pxa25x.c
-index 8d12470..9564069 100644
---- a/drivers/pinctrl/pxa/pinctrl-pxa25x.c
-+++ b/drivers/pinctrl/pxa/pinctrl-pxa25x.c
-@@ -216,25 +216,20 @@ static int pxa25x_pinctrl_probe(struct platform_device *pdev)
- 	void __iomem *base_af[8];
- 	void __iomem *base_dir[4];
- 	void __iomem *base_sleep[4];
+diff --git a/drivers/pinctrl/bcm/pinctrl-cygnus-mux.c b/drivers/pinctrl/bcm/pinctrl-cygnus-mux.c
+index dcab220..4344c57 100644
+--- a/drivers/pinctrl/bcm/pinctrl-cygnus-mux.c
++++ b/drivers/pinctrl/bcm/pinctrl-cygnus-mux.c
+@@ -940,7 +940,6 @@ static int cygnus_mux_log_init(struct cygnus_pinctrl *pinctrl)
+ static int cygnus_pinmux_probe(struct platform_device *pdev)
+ {
+ 	struct cygnus_pinctrl *pinctrl;
 -	struct resource *res;
+ 	int i, ret;
+ 	struct pinctrl_pin_desc *pins;
+ 	unsigned num_pins = ARRAY_SIZE(cygnus_pins);
+@@ -953,15 +952,13 @@ static int cygnus_pinmux_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, pinctrl);
+ 	spin_lock_init(&pinctrl->lock);
  
 -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	base_af[0] = devm_ioremap_resource(&pdev->dev, res);
-+	base_af[0] = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(base_af[0]))
- 		return PTR_ERR(base_af[0]);
+-	pinctrl->base0 = devm_ioremap_resource(&pdev->dev, res);
++	pinctrl->base0 = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(pinctrl->base0)) {
+ 		dev_err(&pdev->dev, "unable to map I/O space\n");
+ 		return PTR_ERR(pinctrl->base0);
+ 	}
  
 -	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
--	base_dir[0] = devm_ioremap_resource(&pdev->dev, res);
-+	base_dir[0] = devm_platform_ioremap_resource(pdev, 1);
- 	if (IS_ERR(base_dir[0]))
- 		return PTR_ERR(base_dir[0]);
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 2);
--	base_dir[3] = devm_ioremap_resource(&pdev->dev, res);
-+	base_dir[3] = devm_platform_ioremap_resource(pdev, 2);
- 	if (IS_ERR(base_dir[3]))
- 		return PTR_ERR(base_dir[3]);
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 3);
--	base_sleep[0] = devm_ioremap_resource(&pdev->dev, res);
-+	base_sleep[0] = devm_platform_ioremap_resource(pdev, 3);
- 	if (IS_ERR(base_sleep[0]))
- 		return PTR_ERR(base_sleep[0]);
- 
+-	pinctrl->base1 = devm_ioremap_resource(&pdev->dev, res);
++	pinctrl->base1 = devm_platform_ioremap_resource(pdev, 1);
+ 	if (IS_ERR(pinctrl->base1)) {
+ 		dev_err(&pdev->dev, "unable to map I/O space\n");
+ 		return PTR_ERR(pinctrl->base1);
 -- 
 2.7.4
 
