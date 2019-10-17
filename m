@@ -2,168 +2,425 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 61018DB0A4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 17:01:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E26F1DB70A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 21:11:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2409419AbfJQPBd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Oct 2019 11:01:33 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:46247 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731768AbfJQPBd (ORCPT
+        id S2439261AbfJQTL3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Oct 2019 15:11:29 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:51792 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2439259AbfJQTL3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Oct 2019 11:01:33 -0400
-Received: by mail-wr1-f68.google.com with SMTP id o18so2710750wrv.13;
-        Thu, 17 Oct 2019 08:01:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=rPrR6jLmExayGLjzUJ+1X2I2i+nxJQ6cJru8S2n0YGE=;
-        b=XKEY2z+9NUaFx+epe00hL3NEtw2A0m77/3pA5mWSX4B1X1zG4vqgw4tnBvWjuo2SCe
-         IB7BnhknNc6gHfOOGn6zwOGRIdN+Z9BlDF8MoO4xpz3Rknt6Ic3gWWKrWMNn2XZmUddg
-         96zgCy2kr34oLdicP8oT0nKY+zVOuUq9cJLCy0UrKKTrvUXh4rDT4J7Z8o2j7KFZemE0
-         yTvMwJ6LEFc6v/pWvrh9a+9bt1fcgj3h3xY7aid3Gbx9TwhLwvjq7p19P6SmE0I8GBcE
-         vQQFdSmbnnTkoh8XWs+wkKXSZ4dLE2f0yomSb3snKt66IKbLMF1E8JVEKTJeC4ak5Dps
-         7ulA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=rPrR6jLmExayGLjzUJ+1X2I2i+nxJQ6cJru8S2n0YGE=;
-        b=migcLxH01HerDTOtmFnOlAFLYf2RTwjfRE5IQOSDn+zLqCvbm4RtxYUb42gDdp8Qz2
-         Xsm0lzLkXUFj5oegtCfPA3PSIfmFhEXjNezlcelr5VvFKQy4XlEgqBI5LkXpPZnxckqh
-         jMUSczsQJtu9/Jm2qC5YmJof9VTkBsfYoR3OUQ5Plnd29Z8JXyk8AdQfE1wva1fQyJFN
-         +nL+70wmricndWKp7PXvVBEEow0DYh80UTGUTiyocybdM6yygjnPfIDB0McZZ3m9+1xk
-         4BuxozzOlivznoUpaDzIrueS20N1y5vhWlpeBnAf2RPR8HjJzKZzHDf2mzyRakziI5Wq
-         270g==
-X-Gm-Message-State: APjAAAVO4a/kv5BWiAjEkYYd2eGGbxUcCZDFNDYK8klNKQohyFmy1pJT
-        Ze5B03nb9CaxcGAWCDd9+TKsHSWg
-X-Google-Smtp-Source: APXvYqxgirmv6RHXW2ZaXtoOFIbaujB6C4m9d5azJuRjAboLzesmBwnqshGT8rlvyaNzechziWxwBw==
-X-Received: by 2002:a5d:4108:: with SMTP id l8mr3310654wrp.391.1571324488434;
-        Thu, 17 Oct 2019 08:01:28 -0700 (PDT)
-Received: from [192.168.1.4] (ip-86-49-35-8.net.upcbroadband.cz. [86.49.35.8])
-        by smtp.gmail.com with ESMTPSA id a9sm3252107wmf.14.2019.10.17.08.01.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Oct 2019 08:01:27 -0700 (PDT)
-Subject: Re: [PATCH V3 2/3] PCI: rcar: Do not abort on too many inbound
- dma-ranges
-To:     Rob Herring <robh@kernel.org>
-Cc:     Robin Murphy <robin.murphy@arm.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        PCI <linux-pci@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>
-References: <20190809175741.7066-1-marek.vasut@gmail.com>
- <20191016150001.GA7457@e121166-lin.cambridge.arm.com>
- <c4353d63-6f78-92b3-91c9-acc9327e1d80@gmail.com>
- <20191016152601.GB7457@e121166-lin.cambridge.arm.com>
- <75fb3519-80eb-fec2-d3eb-cc1b884fef25@gmail.com>
- <20191016161846.GC7457@e121166-lin.cambridge.arm.com>
- <CAL_JsqL2c-ODMkOo1tAJh8JeF0VRXahCq2zF2fX8dZV8wpQj+Q@mail.gmail.com>
- <c835701d-ff0e-f1b8-af16-fe53febe5519@gmail.com>
- <CAL_Jsq+4uaFJzk5jUPw+KssZvnji0WDh+QcFMok99XXntEhNTQ@mail.gmail.com>
- <88099c4f-4fb4-626e-f66f-3eb8861dfb2c@gmail.com>
- <CAL_JsqLzmk5dfn0Re3y7VjY5ehE29vKLOV-2tM5B_jPbB2YiPQ@mail.gmail.com>
- <06d093b2-dcc2-a01f-fce0-5db0bc47325e@gmail.com>
- <CAMuHMdXjZs6Gvar3o7wXd2-1tkPtpt3qxZLG5vzDfrCG4d9SeQ@mail.gmail.com>
- <ca16e883-27d3-2cd0-7d71-fa9b169dcccd@gmail.com>
- <ccf8a4f9-1758-bafc-797c-714f06810db3@arm.com>
- <6af92fb1-a154-3e03-d239-0417da5a5094@gmail.com>
- <CAL_JsqKEjzO3s=bBf_TxTAXTzLTcX=8ccFXLfowhPOHWzNET9A@mail.gmail.com>
-From:   Marek Vasut <marek.vasut@gmail.com>
-Message-ID: <5a19fcd3-2071-334a-1c4a-59d07f4a387d@gmail.com>
-Date:   Thu, 17 Oct 2019 17:01:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Thu, 17 Oct 2019 15:11:29 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F1BC6500;
+        Thu, 17 Oct 2019 21:11:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1571339486;
+        bh=cLv6dvX62jsIe0ZT/xHTokp//1tjeM6yUQFaK10EMNM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=FapWaoM5128lf2nDfYZ00G8jEaN6dF7g7kqRsUiLMUEnATBtr/hZEHok1e3lVnRaW
+         DAbC82fOE6uZ55LuJg+jR3BAJKWNoTCze0ZhJEhsnW5mF5Wx18PtlUJSl46Bkg08b5
+         LXCkmLEhUaAtHrutmDyuahU9+U1DdXRPQm4wlMDk=
+Date:   Thu, 17 Oct 2019 22:11:22 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
+        horms@verge.net.au, uli+renesas@fpond.eu, airlied@linux.ie,
+        daniel@ffwll.ch, linux-renesas-soc@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 6.1 3/8] drm: rcar-du: Add support for CMM
+Message-ID: <20191017191122.GF4901@pendragon.ideasonboard.com>
+References: <20191016085548.105703-4-jacopo+renesas@jmondi.org>
+ <20191017134332.535677-1-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqKEjzO3s=bBf_TxTAXTzLTcX=8ccFXLfowhPOHWzNET9A@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20191017134332.535677-1-jacopo+renesas@jmondi.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 10/17/19 4:36 PM, Rob Herring wrote:
-[...]>>>>> The PCI device will trigger transactions to memory only when
-instructed
->>>>> to do so by Linux, right?  Hence if Linux takes into account
->>>>> chosen/memory
->>>>> and dma-ranges, there is no problem?
->>>>
->>>> Unless of course the remote device initiates a transfer. And if the
->>>> controller is programmed such that accesses to the missing DRAM in the
->>>> holes are not filtered out by the controller, then the controller will
->>>> gladly let the transaction through. Do we really want to let this
->>>> happen ?
->>>
->>> If you've got devices making random unsolicited accesses then who's to
->>> say they wouldn't also hit valid windows and corrupt memory? If it's
->>> happening at all you've already lost.
->>
->> Not necessarily. If your controller is programmed correctly with just
->> the ranges that are valid, then it will filter out at least the accesses
->> outside of valid memory. If it is programmed incorrectly, as you
->> suggest, then the accesses will go through, causing undefined behavior.
->>
->> And note that there is such weird buggy PCI hardware. A slightly
->> unrelated example are some of the ath9k, which are generating spurious
->> MSIs even if they are in legacy PCI IRQ mode. If the controller is
->> configured correctly, even those buggy cards work, because it can filter
->> the spurious MSIs out. If not, they do not.
+Hi Jacopo,
+
+Thank you for the patch.
+
+On Thu, Oct 17, 2019 at 03:43:32PM +0200, Jacopo Mondi wrote:
+> Add a driver for the R-Car Display Unit Color Correction Module.
 > 
-> How do those devices work on h/w without inbound window configuration
-> or they don't?
-
-With legacy IRQs.
-
-> How do the spurious MSIs only go to invalid addresses and not valid addresses?
-
-They do not, the point was, there is such broken hardware so the
-controller should be programmed correctly.
-
->> That's why I would prefer to configure the controller correctly, not
->> just hope that nothing bad will come out of misconfiguring it slightly.
+> In most of Gen3 SoCs, each DU output channel is provided with a CMM unit
+> to perform image enhancement and color correction.
 > 
-> Again, just handling the first N dma-ranges entries and ignoring the
-> rest is not 'configure the controller correctly'.
-
-It's the best effort thing to do. It's well possible the next generation
-of the controller will have more windows, so could accommodate the whole
-list of ranges.
-
-Thinking about this further, this patch should be OK either way, if
-there is a DT which defines more DMA ranges than the controller can
-handle, handling some is better than failing outright -- a PCI which
-works with a subset of memory is better than PCI that does not work at all.
-
->>> And realistically, if the address
->>> isn't valid then it's not going to make much difference anyway - in
->>> probably 99% of cases, either the transaction doesn't hit a window and
->>> the host bridge returns a completer abort, or it does hit a window, the
->>> AXI side returns DECERR or SLVERR, and the host bridge translates that
->>> into a completer abort. Consider also that many PCI IPs don't have
->>> discrete windows and just map the entirety of PCI mem space directly to
->>> the system PA space.
->>
->> And in that 1% of cases, we are OK with failure which could have been
->> easily prevented if the controller was programmed correctly ? That does
->> not look like a good thing.
+> Add support for CMM through a driver that supports configuration of
+> the 1-dimensional LUT table. More advanced CMM features will be
+> implemented on top of this initial one.
 > 
-> You don't need dma-ranges if you want to handle holes in DRAM. Use
-> memblock to get this information. Then it will work if you boot using
-> UEFI too.
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> 
+> ---
+> v6 -> v6.1
+> - Expand rcar_cmm_setup() function documentation to detail its relationship
+>   with rcar_cmm_enable() and their call order precedence.
+> ---
+> 
+>  drivers/gpu/drm/rcar-du/Kconfig    |   7 +
+>  drivers/gpu/drm/rcar-du/Makefile   |   1 +
+>  drivers/gpu/drm/rcar-du/rcar_cmm.c | 217 +++++++++++++++++++++++++++++
+>  drivers/gpu/drm/rcar-du/rcar_cmm.h |  58 ++++++++
+>  4 files changed, 283 insertions(+)
+>  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.c
+>  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.h
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+> index 1529849e217e..539d232790d1 100644
+> --- a/drivers/gpu/drm/rcar-du/Kconfig
+> +++ b/drivers/gpu/drm/rcar-du/Kconfig
+> @@ -13,6 +13,13 @@ config DRM_RCAR_DU
+>  	  Choose this option if you have an R-Car chipset.
+>  	  If M is selected the module will be called rcar-du-drm.
+> 
+> +config DRM_RCAR_CMM
+> +	bool "R-Car DU Color Management Module (CMM) Support"
+> +	depends on DRM && OF
+> +	depends on DRM_RCAR_DU
+> +	help
+> +	  Enable support for R-Car Color Management Module (CMM).
+> +
+>  config DRM_RCAR_DW_HDMI
+>  	tristate "R-Car DU Gen3 HDMI Encoder Support"
+>  	depends on DRM && OF
+> diff --git a/drivers/gpu/drm/rcar-du/Makefile b/drivers/gpu/drm/rcar-du/Makefile
+> index 6c2ed9c46467..4d1187ccc3e5 100644
+> --- a/drivers/gpu/drm/rcar-du/Makefile
+> +++ b/drivers/gpu/drm/rcar-du/Makefile
+> @@ -15,6 +15,7 @@ rcar-du-drm-$(CONFIG_DRM_RCAR_LVDS)	+= rcar_du_of.o \
+>  rcar-du-drm-$(CONFIG_DRM_RCAR_VSP)	+= rcar_du_vsp.o
+>  rcar-du-drm-$(CONFIG_DRM_RCAR_WRITEBACK) += rcar_du_writeback.o
+> 
+> +obj-$(CONFIG_DRM_RCAR_CMM)		+= rcar_cmm.o
+>  obj-$(CONFIG_DRM_RCAR_DU)		+= rcar-du-drm.o
+>  obj-$(CONFIG_DRM_RCAR_DW_HDMI)		+= rcar_dw_hdmi.o
+>  obj-$(CONFIG_DRM_RCAR_LVDS)		+= rcar_lvds.o
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.c b/drivers/gpu/drm/rcar-du/rcar_cmm.c
+> new file mode 100644
+> index 000000000000..952316eb202b
+> --- /dev/null
+> +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.c
+> @@ -0,0 +1,217 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * rcar_cmm.c -- R-Car Display Unit Color Management Module
+> + *
+> + * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
+> + */
+> +
+> +#include <linux/io.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +
+> +#include <drm/drm_color_mgmt.h>
+> +
+> +#include "rcar_cmm.h"
+> +
+> +#define CM2_LUT_CTRL		0x0000
+> +#define CM2_LUT_CTRL_LUT_EN	BIT(0)
+> +#define CM2_LUT_TBL_BASE	0x0600
+> +#define CM2_LUT_TBL(__i)	(CM2_LUT_TBL_BASE + (__i) * 4)
+> +
+> +struct rcar_cmm {
+> +	void __iomem *base;
+> +
+> +	/*
+> +	 * @lut:		1D-LUT state
+> +	 * @lut.enabled:	1D-LUT enabled flag
+> +	 */
+> +	struct {
+> +		bool enabled;
+> +	} lut;
+> +};
+> +
+> +static inline int rcar_cmm_read(struct rcar_cmm *rcmm, u32 reg)
+> +{
+> +	return ioread32(rcmm->base + reg);
+> +}
+> +
+> +static inline void rcar_cmm_write(struct rcar_cmm *rcmm, u32 reg, u32 data)
+> +{
+> +	iowrite32(data, rcmm->base + reg);
+> +}
+> +
+> +/*
+> + * rcar_cmm_lut_write() - Scale the DRM LUT table entries to hardware precision
+> + *			  and write to the CMM registers
+> + * @rcmm: Pointer to the CMM device
+> + * @drm_lut: Pointer to the DRM LUT table
+> + */
+> +static void rcar_cmm_lut_write(struct rcar_cmm *rcmm,
+> +			       const struct drm_color_lut *drm_lut)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < CM2_LUT_SIZE; ++i) {
+> +		u32 entry = drm_color_lut_extract(drm_lut[i].red, 8) << 16
+> +			  | drm_color_lut_extract(drm_lut[i].green, 8) << 8
+> +			  | drm_color_lut_extract(drm_lut[i].blue, 8);
+> +
+> +		rcar_cmm_write(rcmm, CM2_LUT_TBL(i), entry);
+> +	}
+> +}
+> +
+> +/*
+> + * rcar_cmm_setup() - Configure the CMM unit
+> + * @pdev: The platform device associated with the CMM instance
+> + * @config: The CMM unit configuration
+> + *
+> + * Configure the CMM unit with the given configuration. Currently enabling,
+> + * disabling and programming of the 1-D LUT unit is supported.
+> + *
+> + * As rcar_cmm_setup() accesses the CMM registers the unit should be powered
+> + * and its functional clock enabled. To guarantee this, before any call to
+> + * this function is made, the CMM unit has to be enabled by calling
+> + * rcar_cmm_enable() first.
 
-Do you have any further details about this ?
+We seem to have trouble agreeing on the right level of detail :-) It's
+no big deal, and I'll take this patch in my tree, but I'd like to
+explain my rationale, hoping that you'll prove me wrong or I'll convince
+you :-)
 
-> dma-ranges at the PCI bridge should be restrictions in the PCI bridge,
-> not ones somewhere else in the system.
+Documenting a public API (this function is exported) is making a
+contract. The documentation should state what the contract is, in order
+for the caller to know how to use it. That's the level of detail I think
+we need : anything that's part of the contract should be documented
+(hence my review of the previous version). On the other hand, how the
+function operates internally isn't part of the contract. The fact that
+it accesses registers is internal implementation, as is the fact that
+the functional clock should be enabled. That part thus isn't something
+that needs to be documented externally, doing so would expand the API
+contract, and the caller may rely on it. It's not a concern here, but in
+general, if you document in a public API a side effect of a function,
+then you won't be able to modify that function later in a way that would
+modify that side effect. Of course, here we're dealing with an internal
+API and we can modify both the CMM and the DU side in any case. Striking
+the right level of details in documentation is not easy, and I hope that
+this explanation can be of general usefulness.
+
+This being said,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> + *
+> + * TODO: Add support for LUT double buffer operations to avoid updating the
+> + * LUT table entries while a frame is being displayed.
+> + */
+> +int rcar_cmm_setup(struct platform_device *pdev,
+> +		   const struct rcar_cmm_config *config)
+> +{
+> +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
+> +
+> +	/* Disable LUT if no table is provided. */
+> +	if (!config->lut.table) {
+> +		if (rcmm->lut.enabled) {
+> +			rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
+> +			rcmm->lut.enabled = false;
+> +		}
+> +
+> +		return 0;
+> +	}
+> +
+> +	/* Enable LUT and program the new gamma table values. */
+> +	if (!rcmm->lut.enabled) {
+> +		rcar_cmm_write(rcmm, CM2_LUT_CTRL, CM2_LUT_CTRL_LUT_EN);
+> +		rcmm->lut.enabled = true;
+> +	}
+> +
+> +	rcar_cmm_lut_write(rcmm, config->lut.table);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(rcar_cmm_setup);
+> +
+> +/*
+> + * rcar_cmm_enable() - Enable the CMM unit
+> + * @pdev: The platform device associated with the CMM instance
+> + *
+> + * When the output of the corresponding DU channel is routed to the CMM unit,
+> + * the unit shall be enabled before the DU channel is started, and remain
+> + * enabled until the channel is stopped. The CMM unit shall be disabled with
+> + * rcar_cmm_disable().
+> + *
+> + * Calls to rcar_cmm_enable() and rcar_cmm_disable() are not reference-counted.
+> + * It is an error to attempt to enable an already enabled CMM unit, or to
+> + * attempt to disable a disabled unit.
+> + */
+> +int rcar_cmm_enable(struct platform_device *pdev)
+> +{
+> +	int ret;
+> +
+> +	ret = pm_runtime_get_sync(&pdev->dev);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(rcar_cmm_enable);
+> +
+> +/*
+> + * rcar_cmm_disable() - Disable the CMM unit
+> + * @pdev: The platform device associated with the CMM instance
+> + *
+> + * See rcar_cmm_enable() for usage information.
+> + *
+> + * Disabling the CMM unit disable all the internal processing blocks. The CMM
+> + * state shall thus be restored with rcar_cmm_setup() when re-enabling the CMM
+> + * unit after the next rcar_cmm_enable() call.
+> + */
+> +void rcar_cmm_disable(struct platform_device *pdev)
+> +{
+> +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
+> +
+> +	rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
+> +	rcmm->lut.enabled = false;
+> +
+> +	pm_runtime_put(&pdev->dev);
+> +}
+> +EXPORT_SYMBOL_GPL(rcar_cmm_disable);
+> +
+> +/*
+> + * rcar_cmm_init() - Initialize the CMM unit
+> + * @pdev: The platform device associated with the CMM instance
+> + *
+> + * Return: 0 on success, -EPROBE_DEFER if the CMM is not available yet,
+> + *         -ENODEV if the DRM_RCAR_CMM config option is disabled
+> + */
+> +int rcar_cmm_init(struct platform_device *pdev)
+> +{
+> +	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
+> +
+> +	if (!rcmm)
+> +		return -EPROBE_DEFER;
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(rcar_cmm_init);
+> +
+> +static int rcar_cmm_probe(struct platform_device *pdev)
+> +{
+> +	struct rcar_cmm *rcmm;
+> +
+> +	rcmm = devm_kzalloc(&pdev->dev, sizeof(*rcmm), GFP_KERNEL);
+> +	if (!rcmm)
+> +		return -ENOMEM;
+> +	platform_set_drvdata(pdev, rcmm);
+> +
+> +	rcmm->base = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(rcmm->base))
+> +		return PTR_ERR(rcmm->base);
+> +
+> +	pm_runtime_enable(&pdev->dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static int rcar_cmm_remove(struct platform_device *pdev)
+> +{
+> +	pm_runtime_disable(&pdev->dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id rcar_cmm_of_table[] = {
+> +	{ .compatible = "renesas,rcar-gen3-cmm", },
+> +	{ .compatible = "renesas,rcar-gen2-cmm", },
+> +	{ },
+> +};
+> +MODULE_DEVICE_TABLE(of, rcar_cmm_of_table);
+> +
+> +static struct platform_driver rcar_cmm_platform_driver = {
+> +	.probe		= rcar_cmm_probe,
+> +	.remove		= rcar_cmm_remove,
+> +	.driver		= {
+> +		.name	= "rcar-cmm",
+> +		.of_match_table = rcar_cmm_of_table,
+> +	},
+> +};
+> +
+> +module_platform_driver(rcar_cmm_platform_driver);
+> +
+> +MODULE_AUTHOR("Jacopo Mondi <jacopo+renesas@jmondi.org>");
+> +MODULE_DESCRIPTION("Renesas R-Car CMM Driver");
+> +MODULE_LICENSE("GPL v2");
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.h b/drivers/gpu/drm/rcar-du/rcar_cmm.h
+> new file mode 100644
+> index 000000000000..b5f7ec6db04a
+> --- /dev/null
+> +++ b/drivers/gpu/drm/rcar-du/rcar_cmm.h
+> @@ -0,0 +1,58 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+> +/*
+> + * rcar_cmm.h -- R-Car Display Unit Color Management Module
+> + *
+> + * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
+> + */
+> +
+> +#ifndef __RCAR_CMM_H__
+> +#define __RCAR_CMM_H__
+> +
+> +#define CM2_LUT_SIZE		256
+> +
+> +struct drm_color_lut;
+> +struct platform_device;
+> +
+> +/**
+> + * struct rcar_cmm_config - CMM configuration
+> + *
+> + * @lut:	1D-LUT configuration
+> + * @lut.table:	1D-LUT table entries. Disable LUT operations when NULL
+> + */
+> +struct rcar_cmm_config {
+> +	struct {
+> +		struct drm_color_lut *table;
+> +	} lut;
+> +};
+> +
+> +#if IS_ENABLED(CONFIG_DRM_RCAR_CMM)
+> +int rcar_cmm_init(struct platform_device *pdev);
+> +
+> +int rcar_cmm_enable(struct platform_device *pdev);
+> +void rcar_cmm_disable(struct platform_device *pdev);
+> +
+> +int rcar_cmm_setup(struct platform_device *pdev,
+> +		   const struct rcar_cmm_config *config);
+> +#else
+> +static inline int rcar_cmm_init(struct platform_device *pdev)
+> +{
+> +	return -ENODEV;
+> +}
+> +
+> +static inline int rcar_cmm_enable(struct platform_device *pdev)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline void rcar_cmm_disable(struct platform_device *pdev)
+> +{
+> +}
+> +
+> +static inline int rcar_cmm_setup(struct platform_device *pdev,
+> +				 const struct rcar_cmm_config *config)
+> +{
+> +	return 0;
+> +}
+> +#endif /* IS_ENABLED(CONFIG_DRM_RCAR_CMM) */
+> +
+> +#endif /* __RCAR_CMM_H__ */
 
 -- 
-Best regards,
-Marek Vasut
+Regards,
+
+Laurent Pinchart
