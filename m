@@ -2,76 +2,385 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 91DE1DAE04
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 15:15:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDB68DAEA4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 15:41:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394403AbfJQNPJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Oct 2019 09:15:09 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:44279 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2394358AbfJQNPJ (ORCPT
+        id S2436668AbfJQNl4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Oct 2019 09:41:56 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:55631 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2436617AbfJQNl4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Oct 2019 09:15:09 -0400
-Received: by mail-ot1-f66.google.com with SMTP id 21so1805133otj.11;
-        Thu, 17 Oct 2019 06:15:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=X4y1bL0W15R+iE+SZario6x1aoorMFx/lA03Hqcj+uo=;
-        b=XjClrDWNDoaEXM8jCzjqpU7bb2QHSY1Wr6yi813YTp4ULQQ7Pt4ZhSbzAt2RR1y3RG
-         KaKZm4RQz+9hJbZU1dUjEWaQpt7XCRr7lvjsDHXy7e6d7TEsNDmZ852T/8Q7dMSLNJNz
-         xxwWW0gQJuCTX+X/vcYKoIHPBzsBiBX0h33iLH5ZecWP0g/O51n9Qfs/GHJGw13hYp3x
-         1f0mme5exwofv236ZHhr9Qj4qMTfBfcEX21BUYryC1pY3sS5vFRWXdGpYm+nmazMWHKs
-         tYiK9PXkvcFSFLC+c7cJUmi3C5CBTtrCGtND6HHdZRINfidTc6OqvMyxZYWcaXvTc2HT
-         sxzQ==
-X-Gm-Message-State: APjAAAUAhVeRdlUvonNz2r3WsGU+TMDJauai94bBViQD0B+PTJjdPu18
-        sVtCtdbC8na1DAcDzyODZa2I2Uz5ZNE0ZrZflLo=
-X-Google-Smtp-Source: APXvYqx6Cyj0duUJOmyaICT1oznRv0AsWMh3/W9MVZ9kCrwp9V1GSyE7je5R0ohOloX8VfE95wNZLLERLoGqQy+zYsU=
-X-Received: by 2002:a9d:7345:: with SMTP id l5mr3037382otk.39.1571318108713;
- Thu, 17 Oct 2019 06:15:08 -0700 (PDT)
+        Thu, 17 Oct 2019 09:41:56 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.lan (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 7786C40005;
+        Thu, 17 Oct 2019 13:41:51 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     laurent.pinchart@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
+        horms@verge.net.au, uli+renesas@fpond.eu
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, airlied@linux.ie,
+        daniel@ffwll.ch, linux-renesas-soc@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 6.1 3/8] drm: rcar-du: Add support for CMM
+Date:   Thu, 17 Oct 2019 15:43:32 +0200
+Message-Id: <20191017134332.535677-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191016085548.105703-4-jacopo+renesas@jmondi.org>
+References: <20191016085548.105703-4-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-References: <1e48cafb-6ec5-0573-4829-03e36f9d3d82@codethink.co.uk>
-In-Reply-To: <1e48cafb-6ec5-0573-4829-03e36f9d3d82@codethink.co.uk>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 17 Oct 2019 15:14:57 +0200
-Message-ID: <CAMuHMdWMbQeFciY-wet0onMrGOCsB+PrTs03Nf=TdjLiaFsnKg@mail.gmail.com>
-Subject: Re: drivers/pinctrl/sh-pfc/pfc-sh7734.c multiple define of TCLK1_B
-To:     Ben Dooks <ben.dooks@codethink.co.uk>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Ben,
+Add a driver for the R-Car Display Unit Color Correction Module.
 
-On Thu, Oct 17, 2019 at 1:54 PM Ben Dooks <ben.dooks@codethink.co.uk> wrote:
-> drivers/pinctrl/sh-pfc/pfc-sh7734.c hsa TCLK1_B defined twice.
-> Not sure how to fix, so reporting it here:
->
->    1453          GPIO_FN(RD_WR), GPIO_FN(TCLK1_B),
->    1454          GPIO_FN(EX_WAIT0), GPIO_FN(TCLK1_B),
+In most of Gen3 SoCs, each DU output channel is provided with a CMM unit
+to perform image enhancement and color correction.
 
-Thanks, nice catch!
+Add support for CMM through a driver that supports configuration of
+the 1-dimensional LUT table. More advanced CMM features will be
+implemented on top of this initial one.
 
-Looks like (a) someone accidentally jumped to the wrong row in the
-datasheet when entering this, and (b) we need more runtime checks to
-catch bugs like this.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-Will fix...
+---
+v6 -> v6.1
+- Expand rcar_cmm_setup() function documentation to detail its relationship
+  with rcar_cmm_enable() and their call order precedence.
+---
 
-Gr{oetje,eeting}s,
+ drivers/gpu/drm/rcar-du/Kconfig    |   7 +
+ drivers/gpu/drm/rcar-du/Makefile   |   1 +
+ drivers/gpu/drm/rcar-du/rcar_cmm.c | 217 +++++++++++++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_cmm.h |  58 ++++++++
+ 4 files changed, 283 insertions(+)
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.c
+ create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.h
 
-                        Geert
+diff --git a/drivers/gpu/drm/rcar-du/Kconfig b/drivers/gpu/drm/rcar-du/Kconfig
+index 1529849e217e..539d232790d1 100644
+--- a/drivers/gpu/drm/rcar-du/Kconfig
++++ b/drivers/gpu/drm/rcar-du/Kconfig
+@@ -13,6 +13,13 @@ config DRM_RCAR_DU
+ 	  Choose this option if you have an R-Car chipset.
+ 	  If M is selected the module will be called rcar-du-drm.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
++config DRM_RCAR_CMM
++	bool "R-Car DU Color Management Module (CMM) Support"
++	depends on DRM && OF
++	depends on DRM_RCAR_DU
++	help
++	  Enable support for R-Car Color Management Module (CMM).
++
+ config DRM_RCAR_DW_HDMI
+ 	tristate "R-Car DU Gen3 HDMI Encoder Support"
+ 	depends on DRM && OF
+diff --git a/drivers/gpu/drm/rcar-du/Makefile b/drivers/gpu/drm/rcar-du/Makefile
+index 6c2ed9c46467..4d1187ccc3e5 100644
+--- a/drivers/gpu/drm/rcar-du/Makefile
++++ b/drivers/gpu/drm/rcar-du/Makefile
+@@ -15,6 +15,7 @@ rcar-du-drm-$(CONFIG_DRM_RCAR_LVDS)	+= rcar_du_of.o \
+ rcar-du-drm-$(CONFIG_DRM_RCAR_VSP)	+= rcar_du_vsp.o
+ rcar-du-drm-$(CONFIG_DRM_RCAR_WRITEBACK) += rcar_du_writeback.o
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
++obj-$(CONFIG_DRM_RCAR_CMM)		+= rcar_cmm.o
+ obj-$(CONFIG_DRM_RCAR_DU)		+= rcar-du-drm.o
+ obj-$(CONFIG_DRM_RCAR_DW_HDMI)		+= rcar_dw_hdmi.o
+ obj-$(CONFIG_DRM_RCAR_LVDS)		+= rcar_lvds.o
+diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.c b/drivers/gpu/drm/rcar-du/rcar_cmm.c
+new file mode 100644
+index 000000000000..952316eb202b
+--- /dev/null
++++ b/drivers/gpu/drm/rcar-du/rcar_cmm.c
+@@ -0,0 +1,217 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * rcar_cmm.c -- R-Car Display Unit Color Management Module
++ *
++ * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
++ */
++
++#include <linux/io.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
++
++#include <drm/drm_color_mgmt.h>
++
++#include "rcar_cmm.h"
++
++#define CM2_LUT_CTRL		0x0000
++#define CM2_LUT_CTRL_LUT_EN	BIT(0)
++#define CM2_LUT_TBL_BASE	0x0600
++#define CM2_LUT_TBL(__i)	(CM2_LUT_TBL_BASE + (__i) * 4)
++
++struct rcar_cmm {
++	void __iomem *base;
++
++	/*
++	 * @lut:		1D-LUT state
++	 * @lut.enabled:	1D-LUT enabled flag
++	 */
++	struct {
++		bool enabled;
++	} lut;
++};
++
++static inline int rcar_cmm_read(struct rcar_cmm *rcmm, u32 reg)
++{
++	return ioread32(rcmm->base + reg);
++}
++
++static inline void rcar_cmm_write(struct rcar_cmm *rcmm, u32 reg, u32 data)
++{
++	iowrite32(data, rcmm->base + reg);
++}
++
++/*
++ * rcar_cmm_lut_write() - Scale the DRM LUT table entries to hardware precision
++ *			  and write to the CMM registers
++ * @rcmm: Pointer to the CMM device
++ * @drm_lut: Pointer to the DRM LUT table
++ */
++static void rcar_cmm_lut_write(struct rcar_cmm *rcmm,
++			       const struct drm_color_lut *drm_lut)
++{
++	unsigned int i;
++
++	for (i = 0; i < CM2_LUT_SIZE; ++i) {
++		u32 entry = drm_color_lut_extract(drm_lut[i].red, 8) << 16
++			  | drm_color_lut_extract(drm_lut[i].green, 8) << 8
++			  | drm_color_lut_extract(drm_lut[i].blue, 8);
++
++		rcar_cmm_write(rcmm, CM2_LUT_TBL(i), entry);
++	}
++}
++
++/*
++ * rcar_cmm_setup() - Configure the CMM unit
++ * @pdev: The platform device associated with the CMM instance
++ * @config: The CMM unit configuration
++ *
++ * Configure the CMM unit with the given configuration. Currently enabling,
++ * disabling and programming of the 1-D LUT unit is supported.
++ *
++ * As rcar_cmm_setup() accesses the CMM registers the unit should be powered
++ * and its functional clock enabled. To guarantee this, before any call to
++ * this function is made, the CMM unit has to be enabled by calling
++ * rcar_cmm_enable() first.
++ *
++ * TODO: Add support for LUT double buffer operations to avoid updating the
++ * LUT table entries while a frame is being displayed.
++ */
++int rcar_cmm_setup(struct platform_device *pdev,
++		   const struct rcar_cmm_config *config)
++{
++	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
++
++	/* Disable LUT if no table is provided. */
++	if (!config->lut.table) {
++		if (rcmm->lut.enabled) {
++			rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
++			rcmm->lut.enabled = false;
++		}
++
++		return 0;
++	}
++
++	/* Enable LUT and program the new gamma table values. */
++	if (!rcmm->lut.enabled) {
++		rcar_cmm_write(rcmm, CM2_LUT_CTRL, CM2_LUT_CTRL_LUT_EN);
++		rcmm->lut.enabled = true;
++	}
++
++	rcar_cmm_lut_write(rcmm, config->lut.table);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(rcar_cmm_setup);
++
++/*
++ * rcar_cmm_enable() - Enable the CMM unit
++ * @pdev: The platform device associated with the CMM instance
++ *
++ * When the output of the corresponding DU channel is routed to the CMM unit,
++ * the unit shall be enabled before the DU channel is started, and remain
++ * enabled until the channel is stopped. The CMM unit shall be disabled with
++ * rcar_cmm_disable().
++ *
++ * Calls to rcar_cmm_enable() and rcar_cmm_disable() are not reference-counted.
++ * It is an error to attempt to enable an already enabled CMM unit, or to
++ * attempt to disable a disabled unit.
++ */
++int rcar_cmm_enable(struct platform_device *pdev)
++{
++	int ret;
++
++	ret = pm_runtime_get_sync(&pdev->dev);
++	if (ret < 0)
++		return ret;
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(rcar_cmm_enable);
++
++/*
++ * rcar_cmm_disable() - Disable the CMM unit
++ * @pdev: The platform device associated with the CMM instance
++ *
++ * See rcar_cmm_enable() for usage information.
++ *
++ * Disabling the CMM unit disable all the internal processing blocks. The CMM
++ * state shall thus be restored with rcar_cmm_setup() when re-enabling the CMM
++ * unit after the next rcar_cmm_enable() call.
++ */
++void rcar_cmm_disable(struct platform_device *pdev)
++{
++	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
++
++	rcar_cmm_write(rcmm, CM2_LUT_CTRL, 0);
++	rcmm->lut.enabled = false;
++
++	pm_runtime_put(&pdev->dev);
++}
++EXPORT_SYMBOL_GPL(rcar_cmm_disable);
++
++/*
++ * rcar_cmm_init() - Initialize the CMM unit
++ * @pdev: The platform device associated with the CMM instance
++ *
++ * Return: 0 on success, -EPROBE_DEFER if the CMM is not available yet,
++ *         -ENODEV if the DRM_RCAR_CMM config option is disabled
++ */
++int rcar_cmm_init(struct platform_device *pdev)
++{
++	struct rcar_cmm *rcmm = platform_get_drvdata(pdev);
++
++	if (!rcmm)
++		return -EPROBE_DEFER;
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(rcar_cmm_init);
++
++static int rcar_cmm_probe(struct platform_device *pdev)
++{
++	struct rcar_cmm *rcmm;
++
++	rcmm = devm_kzalloc(&pdev->dev, sizeof(*rcmm), GFP_KERNEL);
++	if (!rcmm)
++		return -ENOMEM;
++	platform_set_drvdata(pdev, rcmm);
++
++	rcmm->base = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(rcmm->base))
++		return PTR_ERR(rcmm->base);
++
++	pm_runtime_enable(&pdev->dev);
++
++	return 0;
++}
++
++static int rcar_cmm_remove(struct platform_device *pdev)
++{
++	pm_runtime_disable(&pdev->dev);
++
++	return 0;
++}
++
++static const struct of_device_id rcar_cmm_of_table[] = {
++	{ .compatible = "renesas,rcar-gen3-cmm", },
++	{ .compatible = "renesas,rcar-gen2-cmm", },
++	{ },
++};
++MODULE_DEVICE_TABLE(of, rcar_cmm_of_table);
++
++static struct platform_driver rcar_cmm_platform_driver = {
++	.probe		= rcar_cmm_probe,
++	.remove		= rcar_cmm_remove,
++	.driver		= {
++		.name	= "rcar-cmm",
++		.of_match_table = rcar_cmm_of_table,
++	},
++};
++
++module_platform_driver(rcar_cmm_platform_driver);
++
++MODULE_AUTHOR("Jacopo Mondi <jacopo+renesas@jmondi.org>");
++MODULE_DESCRIPTION("Renesas R-Car CMM Driver");
++MODULE_LICENSE("GPL v2");
+diff --git a/drivers/gpu/drm/rcar-du/rcar_cmm.h b/drivers/gpu/drm/rcar-du/rcar_cmm.h
+new file mode 100644
+index 000000000000..b5f7ec6db04a
+--- /dev/null
++++ b/drivers/gpu/drm/rcar-du/rcar_cmm.h
+@@ -0,0 +1,58 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
++/*
++ * rcar_cmm.h -- R-Car Display Unit Color Management Module
++ *
++ * Copyright (C) 2019 Jacopo Mondi <jacopo+renesas@jmondi.org>
++ */
++
++#ifndef __RCAR_CMM_H__
++#define __RCAR_CMM_H__
++
++#define CM2_LUT_SIZE		256
++
++struct drm_color_lut;
++struct platform_device;
++
++/**
++ * struct rcar_cmm_config - CMM configuration
++ *
++ * @lut:	1D-LUT configuration
++ * @lut.table:	1D-LUT table entries. Disable LUT operations when NULL
++ */
++struct rcar_cmm_config {
++	struct {
++		struct drm_color_lut *table;
++	} lut;
++};
++
++#if IS_ENABLED(CONFIG_DRM_RCAR_CMM)
++int rcar_cmm_init(struct platform_device *pdev);
++
++int rcar_cmm_enable(struct platform_device *pdev);
++void rcar_cmm_disable(struct platform_device *pdev);
++
++int rcar_cmm_setup(struct platform_device *pdev,
++		   const struct rcar_cmm_config *config);
++#else
++static inline int rcar_cmm_init(struct platform_device *pdev)
++{
++	return -ENODEV;
++}
++
++static inline int rcar_cmm_enable(struct platform_device *pdev)
++{
++	return 0;
++}
++
++static inline void rcar_cmm_disable(struct platform_device *pdev)
++{
++}
++
++static inline int rcar_cmm_setup(struct platform_device *pdev,
++				 const struct rcar_cmm_config *config)
++{
++	return 0;
++}
++#endif /* IS_ENABLED(CONFIG_DRM_RCAR_CMM) */
++
++#endif /* __RCAR_CMM_H__ */
+--
+2.23.0
+
