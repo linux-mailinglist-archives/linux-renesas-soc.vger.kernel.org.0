@@ -2,117 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 18D90DADBA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 15:00:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BC8CDADD3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 15:06:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391038AbfJQNA5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Oct 2019 09:00:57 -0400
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:47009 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389512AbfJQNA5 (ORCPT
+        id S2394186AbfJQNGo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Oct 2019 09:06:44 -0400
+Received: from [217.140.110.172] ([217.140.110.172]:42638 "EHLO foss.arm.com"
+        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
+        id S1726898AbfJQNGo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Oct 2019 09:00:57 -0400
-Received: by mail-pl1-f194.google.com with SMTP id q24so1088893plr.13
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Oct 2019 06:00:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=yfYp7qhZbl65vNKUTYsaxlWaCnBTNx7GglyjHYhUNIE=;
-        b=K/QVAoxCRRVNlHuppUhAVFzLPGRyb1qTL2zA24HcsSkfncwvmhMgdeJPnhVPP6qPVV
-         8N6DiV+y7xDvSi5kSxnKlW+Bn5wnpY4yxsHrRezVPj0NumwFiRHUzLp6CDBnwZDlpj6Z
-         p1g9Fo+8cepblVehZurYU4snoQ1hiF4EOZXxMqMYOQ1Whz35LcyXzmxTpxXPYjHBskZD
-         uOB1WyDaRulr4qWPaZxUnGSfdME/meS6RVkenfo4MARBhTfbMPLbHT5i4KEAkeqlZnbt
-         nu4dzLy11xSO7YlCBv7W6lJGLd/3QL2f2RpWHrDVyq5B1JGcZDM4kQ+p8r7VUlGRObqX
-         jniQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=yfYp7qhZbl65vNKUTYsaxlWaCnBTNx7GglyjHYhUNIE=;
-        b=J+YkK9g7pbHQ79TLbYl5HdnZOPQmJa8L40zNHMQETxyY+cvItMSZzvTQs/smMQ3ZEG
-         5BVP7p3DfrmRnIVZZFgJPMlFPMy52OAk4W04z4yZqmR+OGbgNZZZaJ4uXX8eb2VPwejw
-         uT1EQMNO/+cgR6wmb7/mr0if0ZahYH1W/dJVlfTXPoz9Myzb2vc0o2HTizf15gZzILDT
-         B3qnjfDcDJMaihI3C5ymI4LGVqc0W5A9iPlKLHi5MwLsjOHPO/gQ87rXY1ExZ7Ndp6Ht
-         QKaZl0j00qSy6o4Vw7P3F5WgHbIKewAG3Y/6A/0MM6EGZEsD+B/NVSZbYENYJrVQ3dfw
-         QlFw==
-X-Gm-Message-State: APjAAAWQG6jLnwZmrJ2YUnwnNMeo1N7shYbeDCqz9fdF3bnwh1Xk+XqL
-        lUolAV9iQU9cKlcJzydJ6p6U
-X-Google-Smtp-Source: APXvYqwXeZAaSYCvV1FS/rjh8RsCufqorARnCkghqamNFA/Ehwy/l+zGZEoGNx2xjhw2EnTl69o8bg==
-X-Received: by 2002:a17:902:b611:: with SMTP id b17mr3852502pls.23.1571317256478;
-        Thu, 17 Oct 2019 06:00:56 -0700 (PDT)
-Received: from mani ([103.59.133.81])
-        by smtp.gmail.com with ESMTPSA id o64sm7246854pjb.24.2019.10.17.06.00.49
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 17 Oct 2019 06:00:55 -0700 (PDT)
-Date:   Thu, 17 Oct 2019 18:30:44 +0530
-From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To:     YueHaibing <yuehaibing@huawei.com>
-Cc:     linus.walleij@linaro.org, afaerber@suse.de, f.fainelli@gmail.com,
-        rjui@broadcom.com, sbranden@broadcom.com,
-        bcm-kernel-feedback-list@broadcom.com, jesper.nilsson@axis.com,
-        lars.persson@axis.com, ludovic.desroches@microchip.com,
-        nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
-        baruch@tkos.co.il, linux-arm-kernel@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@axis.com, linux-oxnas@groups.io,
-        linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-tegra@vger.kernel.org, vz@mleia.com, narmstrong@baylibre.com,
-        geert+renesas@glider.be, daniel@zonque.org,
-        haojian.zhuang@gmail.com, wens@csie.org, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, agross@kernel.org
-Subject: Re: [PATCH -next 26/30] pinctrl: bm1880: use
- devm_platform_ioremap_resource() to simplify code
-Message-ID: <20191017130044.GB25046@mani>
-References: <20191017122640.22976-1-yuehaibing@huawei.com>
- <20191017122640.22976-27-yuehaibing@huawei.com>
+        Thu, 17 Oct 2019 09:06:44 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EFBA81993;
+        Thu, 17 Oct 2019 06:06:23 -0700 (PDT)
+Received: from [10.1.197.57] (unknown [10.1.197.57])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EB1C83F6C4;
+        Thu, 17 Oct 2019 06:06:22 -0700 (PDT)
+Subject: Re: [PATCH V3 2/3] PCI: rcar: Do not abort on too many inbound
+ dma-ranges
+To:     Marek Vasut <marek.vasut@gmail.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Rob Herring <robh@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        PCI <linux-pci@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>
+References: <20190809175741.7066-1-marek.vasut@gmail.com>
+ <20190809175741.7066-2-marek.vasut@gmail.com>
+ <20191016150001.GA7457@e121166-lin.cambridge.arm.com>
+ <c4353d63-6f78-92b3-91c9-acc9327e1d80@gmail.com>
+ <20191016152601.GB7457@e121166-lin.cambridge.arm.com>
+ <75fb3519-80eb-fec2-d3eb-cc1b884fef25@gmail.com>
+ <20191016161846.GC7457@e121166-lin.cambridge.arm.com>
+ <CAL_JsqL2c-ODMkOo1tAJh8JeF0VRXahCq2zF2fX8dZV8wpQj+Q@mail.gmail.com>
+ <c835701d-ff0e-f1b8-af16-fe53febe5519@gmail.com>
+ <CAL_Jsq+4uaFJzk5jUPw+KssZvnji0WDh+QcFMok99XXntEhNTQ@mail.gmail.com>
+ <88099c4f-4fb4-626e-f66f-3eb8861dfb2c@gmail.com>
+ <CAL_JsqLzmk5dfn0Re3y7VjY5ehE29vKLOV-2tM5B_jPbB2YiPQ@mail.gmail.com>
+ <06d093b2-dcc2-a01f-fce0-5db0bc47325e@gmail.com>
+ <CAMuHMdXjZs6Gvar3o7wXd2-1tkPtpt3qxZLG5vzDfrCG4d9SeQ@mail.gmail.com>
+ <ca16e883-27d3-2cd0-7d71-fa9b169dcccd@gmail.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <ccf8a4f9-1758-bafc-797c-714f06810db3@arm.com>
+Date:   Thu, 17 Oct 2019 14:06:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191017122640.22976-27-yuehaibing@huawei.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <ca16e883-27d3-2cd0-7d71-fa9b169dcccd@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Oct 17, 2019 at 08:26:36PM +0800, YueHaibing wrote:
-> Use devm_platform_ioremap_resource() to simplify the code a bit.
-> This is detected by coccinelle.
+On 17/10/2019 11:55, Marek Vasut wrote:
+> On 10/17/19 9:06 AM, Geert Uytterhoeven wrote:
 > 
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> [...]
+> 
+>>>>>> I suppose if your intent is to use inbound windows as a poor man's
+>>>>>> IOMMU to prevent accesses to the holes, then yes you would list them
+>>>>>> out. But I think that's wrong and difficult to maintain. You'd also
+>>>>>> need to deal with reserved-memory regions too.
+>>>>>
+>>>>> What's the problem with that? The bootloader has all that information
+>>>>> and can patch the DT correctly. In fact, in my specific case, I have
+>>>>> platform which can be populated with differently sized DRAM, so the
+>>>>> holes are also dynamically calculated ; there is no one DT then, the
+>>>>> bootloader is responsible to generate the dma-ranges accordingly.
+>>>>
+>>>> The problems are it doesn't work:
+>>>>
+>>>> Your dma-mask and offset are not going to be correct.
+>>>>
+>>>> You are running out of inbound windows. Your patch does nothing to
+>>>> solve that. The solution would be merging multiple dma-ranges entries
+>>>> to a single inbound window. We'd have to do that both for dma-mask and
+>>>> inbound windows. The former would also have to figure out which
+>>>> entries apply to setting up dma-mask. I'm simply suggesting just do
+>>>> that up front and avoid any pointless splits.
+>>>
+>>> But then the PCI device can trigger a transaction to non-existent DRAM
+>>> and cause undefined behavior. Surely we do not want that ?
+>>
+>> The PCI device will trigger transactions to memory only when instructed
+>> to do so by Linux, right?  Hence if Linux takes into account chosen/memory
+>> and dma-ranges, there is no problem?
+> 
+> Unless of course the remote device initiates a transfer. And if the
+> controller is programmed such that accesses to the missing DRAM in the
+> holes are not filtered out by the controller, then the controller will
+> gladly let the transaction through. Do we really want to let this happen ?
 
-Acked-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+If you've got devices making random unsolicited accesses then who's to 
+say they wouldn't also hit valid windows and corrupt memory? If it's 
+happening at all you've already lost. And realistically, if the address 
+isn't valid then it's not going to make much difference anyway - in 
+probably 99% of cases, either the transaction doesn't hit a window and 
+the host bridge returns a completer abort, or it does hit a window, the 
+AXI side returns DECERR or SLVERR, and the host bridge translates that 
+into a completer abort. Consider also that many PCI IPs don't have 
+discrete windows and just map the entirety of PCI mem space directly to 
+the system PA space.
 
-Thanks,
-Mani
+I don't believe this is a valid argument for anything whichever way round.
 
-> ---
->  drivers/pinctrl/pinctrl-bm1880.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/pinctrl/pinctrl-bm1880.c b/drivers/pinctrl/pinctrl-bm1880.c
-> index 63b130c..f7dff4f 100644
-> --- a/drivers/pinctrl/pinctrl-bm1880.c
-> +++ b/drivers/pinctrl/pinctrl-bm1880.c
-> @@ -1308,15 +1308,13 @@ static struct pinctrl_desc bm1880_desc = {
->  static int bm1880_pinctrl_probe(struct platform_device *pdev)
->  
->  {
-> -	struct resource *res;
->  	struct bm1880_pinctrl *pctrl;
->  
->  	pctrl = devm_kzalloc(&pdev->dev, sizeof(*pctrl), GFP_KERNEL);
->  	if (!pctrl)
->  		return -ENOMEM;
->  
-> -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	pctrl->base = devm_ioremap_resource(&pdev->dev, res);
-> +	pctrl->base = devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(pctrl->base))
->  		return PTR_ERR(pctrl->base);
->  
-> -- 
-> 2.7.4
-> 
-> 
+Robin.
