@@ -2,22 +2,22 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4300EDAD49
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 14:50:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58634DAD45
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 14:50:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502611AbfJQMs2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Oct 2019 08:48:28 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:59558 "EHLO huawei.com"
+        id S2502614AbfJQMs3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Oct 2019 08:48:29 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:4242 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2502556AbfJQMs0 (ORCPT
+        id S2502555AbfJQMs0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Thu, 17 Oct 2019 08:48:26 -0400
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id B8427EC39B2F6B85D09E;
-        Thu, 17 Oct 2019 20:48:16 +0800 (CST)
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 8AC5BB2FB796D21AB281;
+        Thu, 17 Oct 2019 20:48:21 +0800 (CST)
 Received: from localhost (10.133.213.239) by DGGEMS403-HUB.china.huawei.com
  (10.3.19.203) with Microsoft SMTP Server id 14.3.439.0; Thu, 17 Oct 2019
- 20:48:06 +0800
+ 20:48:13 +0800
 From:   YueHaibing <yuehaibing@huawei.com>
 To:     <linus.walleij@linaro.org>, <manivannan.sadhasivam@linaro.org>,
         <afaerber@suse.de>, <f.fainelli@gmail.com>, <rjui@broadcom.com>,
@@ -35,9 +35,9 @@ CC:     <linux-arm-kernel@lists.infradead.org>,
         <haojian.zhuang@gmail.com>, <wens@csie.org>,
         <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
         <agross@kernel.org>, YueHaibing <yuehaibing@huawei.com>
-Subject: [PATCH -next 02/30] pinctrl: pxa27x: use devm_platform_ioremap_resource() to simplify code
-Date:   Thu, 17 Oct 2019 20:26:12 +0800
-Message-ID: <20191017122640.22976-3-yuehaibing@huawei.com>
+Subject: [PATCH -next 05/30] pinctrl: nsp-gpio: use devm_platform_ioremap_resource() to simplify code
+Date:   Thu, 17 Oct 2019 20:26:15 +0800
+Message-ID: <20191017122640.22976-6-yuehaibing@huawei.com>
 X-Mailer: git-send-email 2.10.2.windows.1
 In-Reply-To: <20191017122640.22976-1-yuehaibing@huawei.com>
 References: <20191017122640.22976-1-yuehaibing@huawei.com>
@@ -55,43 +55,39 @@ This is detected by coccinelle.
 
 Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 ---
- drivers/pinctrl/pxa/pinctrl-pxa27x.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ drivers/pinctrl/bcm/pinctrl-nsp-gpio.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/pinctrl/pxa/pinctrl-pxa27x.c b/drivers/pinctrl/pxa/pinctrl-pxa27x.c
-index 64943e8..48ccfb5 100644
---- a/drivers/pinctrl/pxa/pinctrl-pxa27x.c
-+++ b/drivers/pinctrl/pxa/pinctrl-pxa27x.c
-@@ -508,25 +508,20 @@ static int pxa27x_pinctrl_probe(struct platform_device *pdev)
- 	void __iomem *base_af[8];
- 	void __iomem *base_dir[4];
- 	void __iomem *base_sleep[4];
+diff --git a/drivers/pinctrl/bcm/pinctrl-nsp-gpio.c b/drivers/pinctrl/bcm/pinctrl-nsp-gpio.c
+index e67ae52..8db87e5 100644
+--- a/drivers/pinctrl/bcm/pinctrl-nsp-gpio.c
++++ b/drivers/pinctrl/bcm/pinctrl-nsp-gpio.c
+@@ -613,7 +613,6 @@ static const struct of_device_id nsp_gpio_of_match[] = {
+ static int nsp_gpio_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
 -	struct resource *res;
+ 	struct nsp_gpio *chip;
+ 	struct gpio_chip *gc;
+ 	u32 val, count;
+@@ -631,15 +630,13 @@ static int nsp_gpio_probe(struct platform_device *pdev)
+ 	chip->dev = dev;
+ 	platform_set_drvdata(pdev, chip);
  
 -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	base_af[0] = devm_ioremap_resource(&pdev->dev, res);
-+	base_af[0] = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(base_af[0]))
- 		return PTR_ERR(base_af[0]);
+-	chip->base = devm_ioremap_resource(dev, res);
++	chip->base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(chip->base)) {
+ 		dev_err(dev, "unable to map I/O memory\n");
+ 		return PTR_ERR(chip->base);
+ 	}
  
 -	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
--	base_dir[0] = devm_ioremap_resource(&pdev->dev, res);
-+	base_dir[0] = devm_platform_ioremap_resource(pdev, 1);
- 	if (IS_ERR(base_dir[0]))
- 		return PTR_ERR(base_dir[0]);
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 2);
--	base_dir[3] = devm_ioremap_resource(&pdev->dev, res);
-+	base_dir[3] = devm_platform_ioremap_resource(pdev, 2);
- 	if (IS_ERR(base_dir[3]))
- 		return PTR_ERR(base_dir[3]);
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 3);
--	base_sleep[0] = devm_ioremap_resource(&pdev->dev, res);
-+	base_sleep[0] = devm_platform_ioremap_resource(pdev, 3);
- 	if (IS_ERR(base_sleep[0]))
- 		return PTR_ERR(base_sleep[0]);
- 
+-	chip->io_ctrl = devm_ioremap_resource(dev, res);
++	chip->io_ctrl = devm_platform_ioremap_resource(pdev, 1);
+ 	if (IS_ERR(chip->io_ctrl)) {
+ 		dev_err(dev, "unable to map I/O memory\n");
+ 		return PTR_ERR(chip->io_ctrl);
 -- 
 2.7.4
 
