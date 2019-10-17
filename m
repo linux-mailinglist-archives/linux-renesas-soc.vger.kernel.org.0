@@ -2,162 +2,136 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DC48DAD6A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 14:53:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7756FDAD8A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 14:56:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731973AbfJQMwS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Oct 2019 08:52:18 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:38977 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726506AbfJQMwR (ORCPT
+        id S1729409AbfJQM4M (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Oct 2019 08:56:12 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:34814 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729124AbfJQM4L (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Oct 2019 08:52:17 -0400
-Received: by mail-wm1-f66.google.com with SMTP id v17so2407744wml.4;
-        Thu, 17 Oct 2019 05:52:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Fku2RnOxGv4zaKqVP5kIkNCGUU7a/SQjY418THGkTpE=;
-        b=YcGz7/+2KBfu00lJ4kIc6oJFv2Dj65kYVMSk0+yRUdNphnaSUytpTpnJUXveNrG4MF
-         bLqy5+bthQEvAX4SY2dRuWERSfyF1ocpW6WT0eYsSPSrLXbb+psT2X3hUMAtzFeofP9b
-         VGPoHeFGkW3bQ00824SjG9+p5Tmzcb4sUe7rvrbnXf4phaG0yIMWq/yXNVgkZ2mtTD9r
-         MC0PzA07DMWv5Bn68l/rK2EZtEvhYYkhw8X7BN5UQniDMlEXHf2MMwtnl8OyHA/mo99M
-         COfyvlo4j8NYC15muLR3o7qca4SakNMoYWUljbQQyvEhceoY6NfT63F+jc08Zytiad20
-         ya/Q==
+        Thu, 17 Oct 2019 08:56:11 -0400
+Received: by mail-oi1-f194.google.com with SMTP id 83so2065618oii.1;
+        Thu, 17 Oct 2019 05:56:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Fku2RnOxGv4zaKqVP5kIkNCGUU7a/SQjY418THGkTpE=;
-        b=jz3DJLV9gk1Rg7uW0PDJmgSe/vgxuH3QDWETTxlmrpxQ4+XoEynThPi7ZP6B1UXcB5
-         kcFHU8bFYQigsjLu91dn0mJHpFl5jI9aw5O1tWq/qwlA77jhdFiGgcaNUvNC0S2gMM8r
-         w91W38XFDZ1+YLs9dPJuWqM5VycFSiV/DwCLDJmSwFawE4hRFaCc5eeJT5Av6tKcbx6D
-         mSE8z/Of1xj9wnpJvtlK5UShV3wZ5WHrmT3sMeVAt6GJhmhFUGLSxyHHW+SXpEWJRgpB
-         pOFwFeYp8I1TGWTxgG+RloJSBBd5MIy1xpKFxTXtjafeydFD/R6aM5N0cj0FHRIeBrob
-         4t4Q==
-X-Gm-Message-State: APjAAAWlkb/GN4JYQGr2kYE8s3VBSXoH+Djg9stQ6JTZqRZuLxYfN5XR
-        jk8yQLO15rV8W6Prrn8+Zkk=
-X-Google-Smtp-Source: APXvYqxXVdwZKFcae4UW9WkJTpM0WU2xLxCUyMYPr6Iqbbvkq1A3T7bAB+o7wt/5KP+X/chk/Eh6+w==
-X-Received: by 2002:a1c:720a:: with SMTP id n10mr2968261wmc.0.1571316733871;
-        Thu, 17 Oct 2019 05:52:13 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id 63sm2283799wri.25.2019.10.17.05.52.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2019 05:52:12 -0700 (PDT)
-Date:   Thu, 17 Oct 2019 14:52:11 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     YueHaibing <yuehaibing@huawei.com>
-Cc:     linus.walleij@linaro.org, manivannan.sadhasivam@linaro.org,
-        afaerber@suse.de, f.fainelli@gmail.com, rjui@broadcom.com,
-        sbranden@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
-        jesper.nilsson@axis.com, lars.persson@axis.com,
-        ludovic.desroches@microchip.com, nicolas.ferre@microchip.com,
-        alexandre.belloni@bootlin.com, baruch@tkos.co.il,
-        linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@axis.com,
-        linux-oxnas@groups.io, linux-renesas-soc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
-        vz@mleia.com, narmstrong@baylibre.com, geert+renesas@glider.be,
-        daniel@zonque.org, haojian.zhuang@gmail.com, wens@csie.org,
-        jonathanh@nvidia.com, agross@kernel.org
-Subject: Re: [PATCH -next 10/30] pinctrl: tegra: use
- devm_platform_ioremap_resource() to simplify code
-Message-ID: <20191017125211.GA3768303@ulmo>
-References: <20191017122640.22976-1-yuehaibing@huawei.com>
- <20191017122640.22976-11-yuehaibing@huawei.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jCmtCgtBiiFJU5hn3NT2kzh4dnuPiZZINwubQDKuTj8=;
+        b=mzCNJtiF0wM7R/HS7yfby24LFO8AfqmXB166VUbWYuqW1gbKUB2L5gXYO2ka76MxPa
+         3V8PBywtIfRmMVYN9no9UcdwAFKZn5e2XkPOKufaoRkB9MFJ8+dUsk8WGz+OptUQaY1i
+         aXRECxrAJv0Tun77j/0D0iAevFAYF2o6Y+cLrcIMJIRxu7gwzLOoGbbBYOYJZdH10EBx
+         y0q05ZlQ+MjdGeBa2BX0dkR8OKGTmZJiNKZVMFzlOTdZjmBuuMHPEA+I2E9LvDSA5CC4
+         Kp9zEFKF3NBMWTN8zdq5J7xWI8DaUIuzgenZNRa/slD7USPXyG2/sCFrUD+ryczNDefr
+         dEfg==
+X-Gm-Message-State: APjAAAUcoI07zU2TaTRB1FZSumS7BfZqfK0B5RlmVZ4ZISS2uC3f+C9M
+        ii/NTBfK54m3RpQ/p8VwBEV0JiWRyxT9kZAXCy6yOjbj
+X-Google-Smtp-Source: APXvYqy5RDhqMEfVOwJ6hvWU5q92MMw+x2vGvUbDRvxE2qxwk2Nmdc/1GS9R+iCxoIJcSopADXhaQZ5hycAFP/rqBpo=
+X-Received: by 2002:aca:230c:: with SMTP id e12mr2893076oie.153.1571316970585;
+ Thu, 17 Oct 2019 05:56:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="OXfL5xGRrasGEqWY"
-Content-Disposition: inline
-In-Reply-To: <20191017122640.22976-11-yuehaibing@huawei.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+References: <20191016102520.124370-1-jacopo+renesas@jmondi.org>
+In-Reply-To: <20191016102520.124370-1-jacopo+renesas@jmondi.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 17 Oct 2019 14:55:58 +0200
+Message-ID: <CAMuHMdUH0LrZ6iEuN1aWCTt_-jpgp=EjxubMAVdp11HLL=ayyQ@mail.gmail.com>
+Subject: Re: [PATCH] iio: adc: max9611: Defer probe on POR read
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     linux-iio@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Linux I2C <linux-i2c@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Jacopo,
 
---OXfL5xGRrasGEqWY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+CC i2c
 
-On Thu, Oct 17, 2019 at 08:26:20PM +0800, YueHaibing wrote:
-> Use devm_platform_ioremap_resource() to simplify the code a bit.
-> This is detected by coccinelle.
->=20
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-> ---
->  drivers/pinctrl/tegra/pinctrl-tegra-xusb.c | 4 +---
->  drivers/pinctrl/tegra/pinctrl-tegra.c      | 3 +--
->  2 files changed, 2 insertions(+), 5 deletions(-)
+On Wed, Oct 16, 2019 at 12:23 PM Jacopo Mondi <jacopo+renesas@jmondi.org> wrote:
+> The max9611 driver tests communications with the chip by reading the die
+> temperature during the probe function. If the temperature register
+> POR (power-on reset) value is returned from the test read, defer probe to
+> give the chip a bit more time to properly exit from reset.
+>
+> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-Acked-by: Thierry Reding <treding@nvidia.com>
+Thanks for your patch!
 
-> diff --git a/drivers/pinctrl/tegra/pinctrl-tegra-xusb.c b/drivers/pinctrl=
-/tegra/pinctrl-tegra-xusb.c
-> index f2fa1f7..6f7b376 100644
-> --- a/drivers/pinctrl/tegra/pinctrl-tegra-xusb.c
-> +++ b/drivers/pinctrl/tegra/pinctrl-tegra-xusb.c
-> @@ -873,7 +873,6 @@ int tegra_xusb_padctl_legacy_probe(struct platform_de=
-vice *pdev)
->  {
->  	struct tegra_xusb_padctl *padctl;
->  	const struct of_device_id *match;
-> -	struct resource *res;
->  	struct phy *phy;
->  	int err;
-> =20
-> @@ -894,8 +893,7 @@ int tegra_xusb_padctl_legacy_probe(struct platform_de=
-vice *pdev)
->  	match =3D of_match_node(tegra_xusb_padctl_of_match, pdev->dev.of_node);
->  	padctl->soc =3D match->data;
-> =20
-> -	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	padctl->regs =3D devm_ioremap_resource(&pdev->dev, res);
-> +	padctl->regs =3D devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(padctl->regs))
->  		return PTR_ERR(padctl->regs);
-> =20
-> diff --git a/drivers/pinctrl/tegra/pinctrl-tegra.c b/drivers/pinctrl/tegr=
-a/pinctrl-tegra.c
-> index e9a7cbb..692d8b3 100644
-> --- a/drivers/pinctrl/tegra/pinctrl-tegra.c
-> +++ b/drivers/pinctrl/tegra/pinctrl-tegra.c
-> @@ -781,8 +781,7 @@ int tegra_pinctrl_probe(struct platform_device *pdev,
->  		return -ENOMEM;
-> =20
->  	for (i =3D 0; i < pmx->nbanks; i++) {
-> -		res =3D platform_get_resource(pdev, IORESOURCE_MEM, i);
-> -		pmx->regs[i] =3D devm_ioremap_resource(&pdev->dev, res);
-> +		pmx->regs[i] =3D devm_platform_ioremap_resource(pdev, i);
->  		if (IS_ERR(pmx->regs[i]))
->  			return PTR_ERR(pmx->regs[i]);
->  	}
-> --=20
-> 2.7.4
->=20
->=20
+> Geert,
+>   I've not been able to reproduce the issue on my boards (M3-N
+> Salvator-XS and M3-W Salvator-X). As you reported the issue you might be
+> able to reproduce it, could you please test this?
 
---OXfL5xGRrasGEqWY
-Content-Type: application/pgp-signature; name="signature.asc"
+I can reproduce it on Salvator-XS with R-Car H3 ES2.0.
+According to my logs, I've seen the issue on all Salvator-X(S) boards,
+but not with the same frequency.  Probability is highest on H3 ES2.0
+(ca. 5% of the boots since I first saw the issue), followed by H3 ES1.0,
+M3-W, and M3-N.
 
------BEGIN PGP SIGNATURE-----
+After more investigation, my findings are:
+  1. I cannot reproduce the issue if the max9611 driver is modular.
+     Is it related to using max9611 "too soon" after i2c bus init?
+     How can "i2c bus init" impact a slave device?
+     Perhaps due to pin configuration, e.g. changing from another pin
+     function or GPIO to function i2c4?
+  2. Adding a delay at the top of max9611_init() fixes the issue.
+     This would explain why the issue is less likely to happy on slower
+     SoCs like M3-N.
+  3. Disabling all other i2c slaves on i2c4 in DTS fixes the issue.
+     Before, max9611 was initialized last, so this moves init earlier,
+     contradicting theory #1.
+  4. Just disabling the adv7482 (which registers 11 dummies i2c slaves)
+     in DTS does not fix the issue.
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2oY/kACgkQ3SOs138+
-s6FgNw/+NID79dubYxesxorqI1f3Qx/IwcfoDiRN4AKvBhcJwBc3NKVGf/hLYpqL
-YuiRdhCR9PDTEAhuX5Hk86vPnUn4G9c7PXHjcCnXJS05Bf4HOuCvrEvKhn1aBSJg
-BKpQYyXht8ekGsWrhu6lHAs5TGDL+mqaw6OrDh0llnlnRSrWMeYIntmqhN9hWNUA
-r0dlzs3Kt4uxPwJ+LD/yLHdaMLHsL7FVzZOyODJgrS7iepKhPNFNxshPH75xVQo7
-FxzRu3voR+YjModyfO5X83hg8FnKh85Lvc5Ovhm7rjjWrQo73xCv2YfYjL6O5opg
-Ig2FBF2R3zyUzxNvg2xOuLD29Jf0Rbb48V8A3VkTzcSTSU4I6Pp91O+IJzSI3NPV
-Q+JtwCuflch6NG4JcvDJPCfqy6gUftF9c7/jcd8XFF/fFYdbwcpouUyOkifrbZh6
-uRyvEvKoR5Tdy+wolglL2srp9kHFUJbBgUKmvkuN9IP5297f1/SMeHhQTJ9NRWOd
-YcnQZsbNoJsUjNiE4v81BsXcWle7IANdhhY2vZShNcJxZATiektLeCO4FmN+pCIV
-nII5+ZV2MPnJk0xxu3w0/0AYbQbJAFaXHLvB/zhYcJcAyAC47qyv6K1s24zj/i1T
-FWPpngjetj8eTK50ENzsHDS46hyVpvQsVHsjuckItF1R3bmExPo=
-=hNUZ
------END PGP SIGNATURE-----
+Unfortunately i2c4 is exposed on a 60-pin Samtec QSH connector only,
+for which I have no breakout adapter.
 
---OXfL5xGRrasGEqWY--
+Wolfram: do you have any clues?
+
+> Also, I opted for deferring probe instead of arbitrary repeat the
+> temperature read. What's your opinion?
+
+While this is probably OK if the max9611 driver is built-in, I'm afraid
+this may lead to unbounded delays for a reprobe in case the driver
+is modular.
+
+> --- a/drivers/iio/adc/max9611.c
+> +++ b/drivers/iio/adc/max9611.c
+> @@ -80,6 +80,7 @@
+>   * The complete formula to calculate temperature is:
+>   *     ((adc_read >> 7) * 1000) / (1 / 480 * 1000)
+>   */
+> +#define MAX9611_TEMP_POR               0x8000
+>  #define MAX9611_TEMP_MAX_POS           0x7f80
+>  #define MAX9611_TEMP_MAX_NEG           0xff80
+>  #define MAX9611_TEMP_MIN_NEG           0xd980
+> @@ -480,8 +481,10 @@ static int max9611_init(struct max9611_dev *max9611)
+>         if (ret)
+>                 return ret;
+>
+> -       regval &= MAX9611_TEMP_MASK;
+> +       if (regval == MAX9611_TEMP_POR)
+> +               return -EPROBE_DEFER;
+>
+> +       regval &= MAX9611_TEMP_MASK;
+>         if ((regval > MAX9611_TEMP_MAX_POS &&
+>              regval < MAX9611_TEMP_MIN_NEG) ||
+>              regval > MAX9611_TEMP_MAX_NEG) {
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
