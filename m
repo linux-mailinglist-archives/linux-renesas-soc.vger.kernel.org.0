@@ -2,114 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 50856DA3C4
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 04:32:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46535DA5F2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 09:06:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406843AbfJQCcS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 16 Oct 2019 22:32:18 -0400
-Received: from mail-eopbgr1400137.outbound.protection.outlook.com ([40.107.140.137]:15671
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2389860AbfJQCcQ (ORCPT
+        id S2403842AbfJQHGl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Oct 2019 03:06:41 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:36646 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390955AbfJQHGl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 16 Oct 2019 22:32:16 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AOLTXdie2jbGcSB8wRzAu/x6RKKt9QIxrB7Pt0U7CzH2iCk3paXhv+uaD48mdtLb0QVRPblRGah7+rL7Aa/rBFIeuCBjx9ZAW+6iSK3HtvzVN9ebo0BuyPkQ1nouYaFjXBzVyAXmjJ3ilr4aHmAdgjhLCLN4MTQMq3c6MH8VM6W+2oplzy87I4cnY6AH2xThUy/0W3o0XiL1RlIa3JK4GlXEZ4bQ2ZJGNMvvN2VY4e+b7xCRS4TypowCB5Hff1IO0sK0GpwDjyTWNqkux4uRPRWMlzv9c/vFoW4SJyN7pCTuh9dCJNqXFtwo+k3cBUL1271xRSnJyz2uUGnSe5ecbw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ypibnnDy2Tltr6OEbpKVMxiISIXXNKDK5fG1Buhs8VA=;
- b=Z2+r/SQv2XUBkkeGGKk7xiN72fHWNr4lj97mY/HCOoyQ6YJy0MmpsvIkFz20mUoCjU9109B/kvS/1yfNiYeqb7uNHYypJ6QO/U/0D0I0TV2AB7n36FmvcdbNMSsFg4E82m4pId3m0oJ/9LUvJuuEGYVdO59qhY7aMUrgOgJLOuyzLk9iAkdrQGjAENYqS+FZ18zyfp3YecoQoQaEyU0RnnyYgtAuAmZwso73V1+xEPy4jAkMoo9vzuBw++4vJR7WqEFefHOq5gVGGiYuA8eGI8xcK/ucYlH+f0CPIyrbDLJrBa0cbbdOo85d3hzrdIuqI9DKkI92iJr0aBgSRJU+tw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ypibnnDy2Tltr6OEbpKVMxiISIXXNKDK5fG1Buhs8VA=;
- b=Axfwq3U59lKjdla6fPHs3CCkSmVIkJN3STLx8WdO/ScwSd7hUyq82jkgzyOC1oKQAu4llZ150J9I0zEAbzWLyTqECm8HbJSv//khCGf1lNJ2uEcN59ZGrcOHCzp3/41XnAOqBIhHaHkHa4kJOUTotBoER1NofJKac7CBrONtsHk=
-Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
- TYAPR01MB2960.jpnprd01.prod.outlook.com (20.177.102.18) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2347.21; Thu, 17 Oct 2019 02:32:14 +0000
-Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
- ([fe80::548:32de:c810:1947]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
- ([fe80::548:32de:c810:1947%4]) with mapi id 15.20.2347.023; Thu, 17 Oct 2019
- 02:32:14 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Simon Horman <horms@verge.net.au>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>
-CC:     Bjorn Helgaas <bhelgaas@google.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] MAINTAINERS: Add Marek and Shimoda-san as R-Car PCIE
- co-maintainers
-Thread-Topic: [PATCH] MAINTAINERS: Add Marek and Shimoda-san as R-Car PCIE
- co-maintainers
-Thread-Index: AQHVhBm2hDyM+Q9Dm0i41nHHfxWio6deHaEg
-Date:   Thu, 17 Oct 2019 02:32:14 +0000
-Message-ID: <TYAPR01MB454495E9D84990F00AA9BB3DD86D0@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-References: <20191016120249.16776-1-horms@verge.net.au>
-In-Reply-To: <20191016120249.16776-1-horms@verge.net.au>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
-x-originating-ip: [150.249.235.54]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: f5cb7170-89e3-45c2-5dbd-08d752aa3879
-x-ms-office365-filtering-ht: Tenant
-x-ms-traffictypediagnostic: TYAPR01MB2960:|TYAPR01MB2960:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TYAPR01MB296055C2142DABDD75054425D86D0@TYAPR01MB2960.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 01930B2BA8
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(396003)(346002)(136003)(366004)(376002)(39860400002)(189003)(199004)(26005)(186003)(7696005)(86362001)(99286004)(478600001)(76116006)(316002)(52536014)(33656002)(110136005)(4744005)(71190400001)(5660300002)(14454004)(54906003)(25786009)(102836004)(6506007)(71200400001)(66066001)(76176011)(4326008)(486006)(6116002)(3846002)(11346002)(446003)(476003)(229853002)(2906002)(6436002)(256004)(74316002)(7736002)(66556008)(305945005)(6246003)(66446008)(8676002)(8936002)(81166006)(81156014)(55016002)(64756008)(66476007)(66946007)(9686003);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB2960;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: +0QWIFcKDD07O4i856xK2FMaMQSBiC+R7v/8TEREebojkOvsTpPj9+rYvrU3e4cNiRLKOoMjMpnWfQeeVsFIpt2UBE/4mRTBIf683TAFk5D0npc3m8GNChrHv4xThR2vQgUSpus9h1Mp3UNBfMKUY3Lg5kqKz4c5HWQl0x+o13d2QIZdAD/A1gbX7woG7/BFXAVsR0ikPtbcKJXTbrAGyUsvoz7h1/KVbyAIKTruXplkBKYE6Qj1njqZobdEDGlT/0xPoAGNePguTY8+nKBQuKZd4zKc1I7DRgc+vdnWk+f6RNL+84/8DNV7gFWMsAnDU/YdQVIxHpCcp911Jk6xPcXDkV++qQoE4NuQLbvT40Nv5LGzodfbNQOkAfBirTIRAcUpIR0isGtIMb39mbE/DOoEuow6S/EPcnSteklBiQU=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Thu, 17 Oct 2019 03:06:41 -0400
+Received: by mail-oi1-f194.google.com with SMTP id k20so1271323oih.3;
+        Thu, 17 Oct 2019 00:06:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KoD1gXkj+uPMIphVtiMiHHjtVVnPOV5pbUQpup2Dm88=;
+        b=igHSdA4Ffc4Gjzfrwoh93Mvff9d663pIb+CJB+bCvWDlED1V812vOfgG+dXgFC7tWe
+         dT4WMexUr5FCYskuyrWLuAIktBFRlrNiLyMvtDOOlB+5k8oaqEKIFz5/xOGccllErEnS
+         DXqP/Ld/r6c6nFIoWmVZ7txx39aNOqCC1yp4po3jiZHyK/8CCKZTQdAhejFeKF84jEUu
+         6xzVhzSrHrLnyiBS2m1zTK+orbgre4LTbPFFevsDdmI6pG/NwGbWkywSOM87aof81UFg
+         5hQSU5HXAIc6Rsh90zSKjIj5q7I01QjZDjy659iLxiJLPnermdE3lgrdyibIZYhKPx4V
+         CGcA==
+X-Gm-Message-State: APjAAAWaRqnxzF3Y5unmDJJgH9JVgXYqV8d/iXye54wbNrDCiQBLOJE/
+        PJ5mOiCcXpojJvzZiM6ToLhKlnnQHJ5yvcmDdWo=
+X-Google-Smtp-Source: APXvYqzZmWn3+8+jVAxbGVbbCLoMzjLUyXAtK0iQE7uBrkB/Ncm7aDk4fidFX4vitEUvMniLlyCcchkRFpMM6N14+Ug=
+X-Received: by 2002:a05:6808:3b4:: with SMTP id n20mr1852668oie.131.1571295998827;
+ Thu, 17 Oct 2019 00:06:38 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5cb7170-89e3-45c2-5dbd-08d752aa3879
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Oct 2019 02:32:14.0471
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: lojHi/RbjhxXkmb6Tepxkf1riaSYtXD0JqbCWVRhtdOH9IyeFum+Nqfb6Gm+zV0KfNVpUshgrdaALBN8P/X+/JQfMNPrB/NFUqflAp2cmCqrweSoFT34GwzAyeLIHq/4
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB2960
+References: <20190809175741.7066-1-marek.vasut@gmail.com> <20190809175741.7066-2-marek.vasut@gmail.com>
+ <20191016150001.GA7457@e121166-lin.cambridge.arm.com> <c4353d63-6f78-92b3-91c9-acc9327e1d80@gmail.com>
+ <20191016152601.GB7457@e121166-lin.cambridge.arm.com> <75fb3519-80eb-fec2-d3eb-cc1b884fef25@gmail.com>
+ <20191016161846.GC7457@e121166-lin.cambridge.arm.com> <CAL_JsqL2c-ODMkOo1tAJh8JeF0VRXahCq2zF2fX8dZV8wpQj+Q@mail.gmail.com>
+ <c835701d-ff0e-f1b8-af16-fe53febe5519@gmail.com> <CAL_Jsq+4uaFJzk5jUPw+KssZvnji0WDh+QcFMok99XXntEhNTQ@mail.gmail.com>
+ <88099c4f-4fb4-626e-f66f-3eb8861dfb2c@gmail.com> <CAL_JsqLzmk5dfn0Re3y7VjY5ehE29vKLOV-2tM5B_jPbB2YiPQ@mail.gmail.com>
+ <06d093b2-dcc2-a01f-fce0-5db0bc47325e@gmail.com>
+In-Reply-To: <06d093b2-dcc2-a01f-fce0-5db0bc47325e@gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 17 Oct 2019 09:06:27 +0200
+Message-ID: <CAMuHMdXjZs6Gvar3o7wXd2-1tkPtpt3qxZLG5vzDfrCG4d9SeQ@mail.gmail.com>
+Subject: Re: [PATCH V3 2/3] PCI: rcar: Do not abort on too many inbound dma-ranges
+To:     Marek Vasut <marek.vasut@gmail.com>
+Cc:     Rob Herring <robh@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        PCI <linux-pci@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Simon-san,
+Hi Marek,
 
-> From: Simon Horman, Sent: Wednesday, October 16, 2019 9:03 PM
->=20
-> At the end of the v5.3 upstream development cycle I stepped down
-> from my role at Renesas.
->=20
-> Pass maintainership of the R-Car PCIE to Marek and Shimoda-san.
->=20
-> Signed-off-by: Simon Horman <horms@verge.net.au>
+On Thu, Oct 17, 2019 at 12:33 AM Marek Vasut <marek.vasut@gmail.com> wrote:
+> On 10/17/19 12:26 AM, Rob Herring wrote:
+> [...]
+> >>>> You can have multiple non-continuous DRAM banks for example. And an
+> >>>> entry for SRAM optionally. Each DRAM bank and/or the SRAM should have a
+> >>>> separate dma-ranges entry, right ?
+> >>>
+> >>> Not necessarily. We really only want to define the minimum we have to.
+> >>> The ideal system is no dma-ranges. Is each bank at a different
+> >>> relative position compared to the CPU's view of the system. That would
+> >>> seem doubtful for just DRAM banks. Perhaps DRAM and SRAM could change.
+> >>
+> >> Is that a question ? Anyway, yes, there is a bit of DRAM below the 32bit
+> >> boundary and some more above the 32bit boundary. These two banks don't
+> >> need to be continuous. And then you could add the SRAM into the mix.
+> >
+> > Continuous is irrelevant. My question was in more specific terms is
+> > (bank1 addr - bank0 addr) different for CPU's view (i.e phys addr) vs.
+> > PCI host view (i.e. bus addr)? If not, then that is 1 translation and
+> > 1 dma-ranges entry.
+>
+> I don't think it's different in that aspect. Except the bus has this
+> 32bit limitation, where it only sees subset of the DRAM.
+>
+> Why should the DMA ranges incorrectly cover also the DRAM which is not
+> present ?
+>
+> >>> I suppose if your intent is to use inbound windows as a poor man's
+> >>> IOMMU to prevent accesses to the holes, then yes you would list them
+> >>> out. But I think that's wrong and difficult to maintain. You'd also
+> >>> need to deal with reserved-memory regions too.
+> >>
+> >> What's the problem with that? The bootloader has all that information
+> >> and can patch the DT correctly. In fact, in my specific case, I have
+> >> platform which can be populated with differently sized DRAM, so the
+> >> holes are also dynamically calculated ; there is no one DT then, the
+> >> bootloader is responsible to generate the dma-ranges accordingly.
+> >
+> > The problems are it doesn't work:
+> >
+> > Your dma-mask and offset are not going to be correct.
+> >
+> > You are running out of inbound windows. Your patch does nothing to
+> > solve that. The solution would be merging multiple dma-ranges entries
+> > to a single inbound window. We'd have to do that both for dma-mask and
+> > inbound windows. The former would also have to figure out which
+> > entries apply to setting up dma-mask. I'm simply suggesting just do
+> > that up front and avoid any pointless splits.
+>
+> But then the PCI device can trigger a transaction to non-existent DRAM
+> and cause undefined behavior. Surely we do not want that ?
 
-Thank you very much for your support until now!
+The PCI device will trigger transactions to memory only when instructed
+to do so by Linux, right?  Hence if Linux takes into account chosen/memory
+and dma-ranges, there is no problem?
 
-Acked-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > You are setting up random inbound windows. The bootloader can't assume
+> > what order the OS parses dma-ranges, and the OS can't assume what
+> > order the bootloader writes the entries.
+>
+> But the OS can assume the ranges are correct and cover only valid
+> memory, right ? That is, memory into which the PCI controller can safely
+> access.
 
-Best regards,
-Yoshihiro Shimoda
+Gr{oetje,eeting}s,
 
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
