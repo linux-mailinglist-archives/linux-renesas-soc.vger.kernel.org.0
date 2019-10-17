@@ -2,71 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D3868DADE1
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 15:09:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF5AEDADFF
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 15:14:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394263AbfJQNJI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Oct 2019 09:09:08 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:60963 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726898AbfJQNJI (ORCPT
+        id S2394360AbfJQNOy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 17 Oct 2019 09:14:54 -0400
+Received: from [217.140.110.172] ([217.140.110.172]:42824 "EHLO foss.arm.com"
+        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
+        id S2394358AbfJQNOx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Oct 2019 09:09:08 -0400
-Received: from localhost (aclermont-ferrand-651-1-259-53.w86-207.abo.wanadoo.fr [86.207.98.53])
-        (Authenticated sender: alexandre.belloni@bootlin.com)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 8A42E100018;
-        Thu, 17 Oct 2019 13:09:02 +0000 (UTC)
-Date:   Thu, 17 Oct 2019 15:09:02 +0200
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     YueHaibing <yuehaibing@huawei.com>
-Cc:     linus.walleij@linaro.org, manivannan.sadhasivam@linaro.org,
-        afaerber@suse.de, f.fainelli@gmail.com, rjui@broadcom.com,
-        sbranden@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
-        jesper.nilsson@axis.com, lars.persson@axis.com,
-        ludovic.desroches@microchip.com, nicolas.ferre@microchip.com,
-        baruch@tkos.co.il, linux-arm-kernel@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@axis.com, linux-oxnas@groups.io,
-        linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-tegra@vger.kernel.org, vz@mleia.com, narmstrong@baylibre.com,
-        geert+renesas@glider.be, daniel@zonque.org,
-        haojian.zhuang@gmail.com, wens@csie.org, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, agross@kernel.org
-Subject: Re: [PATCH -next 00/30] pinctrl: use
- devm_platform_ioremap_resource() to simplify code
-Message-ID: <20191017130902.GE3125@piout.net>
-References: <20191017122640.22976-1-yuehaibing@huawei.com>
+        Thu, 17 Oct 2019 09:14:53 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0FB691AED;
+        Thu, 17 Oct 2019 06:14:31 -0700 (PDT)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AF35C3F6C4;
+        Thu, 17 Oct 2019 06:14:29 -0700 (PDT)
+Date:   Thu, 17 Oct 2019 14:14:27 +0100
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Simon Horman <horms@verge.net.au>
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: Add Marek and Shimoda-san as R-Car PCIE
+ co-maintainers
+Message-ID: <20191017131427.GF9589@e121166-lin.cambridge.arm.com>
+References: <20191016120249.16776-1-horms@verge.net.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191017122640.22976-1-yuehaibing@huawei.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20191016120249.16776-1-horms@verge.net.au>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
-
-On 17/10/2019 20:26:10+0800, YueHaibing wrote:
-> devm_platform_ioremap_resource() internally have platform_get_resource()
-> and devm_ioremap_resource() in it. So instead of calling them separately
-> use devm_platform_ioremap_resource() directly.
+On Wed, Oct 16, 2019 at 02:02:49PM +0200, Simon Horman wrote:
+> At the end of the v5.3 upstream development cycle I stepped down
+> from my role at Renesas.
 > 
+> Pass maintainership of the R-Car PCIE to Marek and Shimoda-san.
+> 
+> Signed-off-by: Simon Horman <horms@verge.net.au>
+> ---
+>  MAINTAINERS | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-Shouldn't we stop with this insanity? The net gain is exactly 2 lines
-per driver and this puts the full review load on the maintainers.
+Applied to pci/misc, thanks.
 
-We end up with crap like:
+Lorenzo
 
-https://lore.kernel.org/lkml/9bbcce19c777583815c92ce3c2ff2586@www.loen.fr/
-
-What is the end goal here ?
-
-platform_get_resource and devm_ioremap_resource will have to stay even
-after you have done the conversion.
-
--- 
-Alexandre Belloni, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 783569e3c4b4..b61ade7afd64 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -12337,7 +12337,8 @@ F:	Documentation/devicetree/bindings/pci/nvidia,tegra20-pcie.txt
+>  F:	drivers/pci/controller/pci-tegra.c
+>  
+>  PCI DRIVER FOR RENESAS R-CAR
+> -M:	Simon Horman <horms@verge.net.au>
+> +M:	Marek Vasut <marek.vasut+renesas@gmail.com>
+> +M:	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>  L:	linux-pci@vger.kernel.org
+>  L:	linux-renesas-soc@vger.kernel.org
+>  S:	Maintained
+> -- 
+> 2.11.0
+> 
