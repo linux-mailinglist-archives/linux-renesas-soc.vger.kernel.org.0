@@ -2,100 +2,236 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D7A9DBC81
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2019 07:09:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72CD8DC01F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2019 10:39:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2503633AbfJRFGN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Oct 2019 01:06:13 -0400
-Received: from mta-p5.oit.umn.edu ([134.84.196.205]:58374 "EHLO
-        mta-p5.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2504076AbfJRFFW (ORCPT
+        id S2407647AbfJRIi4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Oct 2019 04:38:56 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:11276 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727903AbfJRIi4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Oct 2019 01:05:22 -0400
-X-Greylist: delayed 600 seconds by postgrey-1.27 at vger.kernel.org; Fri, 18 Oct 2019 01:05:20 EDT
-Received: from localhost (unknown [127.0.0.1])
-        by mta-p5.oit.umn.edu (Postfix) with ESMTP id B1E69C7E
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Oct 2019 04:47:07 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p5.oit.umn.edu ([127.0.0.1])
-        by localhost (mta-p5.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id qO3y1NFE5_bc for <linux-renesas-soc@vger.kernel.org>;
-        Thu, 17 Oct 2019 23:47:07 -0500 (CDT)
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
-        (using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mta-p5.oit.umn.edu (Postfix) with ESMTPS id 89FD4C80
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Oct 2019 23:47:07 -0500 (CDT)
-Received: by mail-io1-f71.google.com with SMTP id z10so7137813ioj.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Oct 2019 21:47:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=umn.edu; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=EUxpZ3T7vF3Kc+2RT08v4EEjAUSgYRvb0sha4nlMD8s=;
-        b=bdTw0PeubzcFLX1DriNm0Yl8F6jO9UQoufbrtSDEs2MigRgqIOl6EgA0X//E19MR66
-         XpcdNRPB7qQNjzC43YxSWiD+KXoP8weegm1HXd7uoxT+1wgQ9KiBhqajAmyu8pEyt+fH
-         qkvk2dC0jbqXNKfd71ZkAnX1/hNKlEHhYQaOkcRslt/U5CG7CZkuukajp9Au3eF39qDP
-         IwRkhylUXdMbDkN5jqdMIUmSzuYH9W3wQ3cniFfx1nhZDFZlBDqyp61SR0djcWU0Xa8h
-         q1xO07n9Kf4GAytT3Et9g44q/7pV5QhhZ/7v8uUpvS7dcD5R2ovx/hygqf0lz2X81X/i
-         GnZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=EUxpZ3T7vF3Kc+2RT08v4EEjAUSgYRvb0sha4nlMD8s=;
-        b=jnLzRonEuNfu6DbBfSgG56pPFzhzGG5RzcBUkvPi0uy4fwgR6CLVkiY6/2og9BUQwB
-         Cn+o/v5fNH/p0AmWe3EqCeqvf+hopNSdmak5sMfn4uHoeXBJwdpt7thkWIXquGWhurm5
-         tPo7Yxtd/XxC+tkK7iJ7DxdMNTtUOEaI3jH70Yq+GhdCQW4k9nLy5sNQePDbjlXFsy4B
-         svn+rkMgkaONLVdY+mjjeJIQTEZu4VhBkKIjxQaJdHi3C+y0uzPbzpoMH2R0Jk7bMEKY
-         0u92kZEUA4G5q0zG+H5NNFE+CRBIZn++acXxFvZ7n9oj6/PFYKgAwpdT2Jk73JeUvII8
-         lkYA==
-X-Gm-Message-State: APjAAAV53HxbbYNHL4aVIjuMpEoxIa/f32j5PZ6/1U50zx6VFzWhqSwS
-        jGHrqP2UJ2A1eeLvrwxg7GmXeTunkWzi1EKaBGr2QwdsCS/kEv+gKgXVZaCSxwN4isXnlBesIEe
-        K9y4Du/Dm9+D8R9P+qPGgXE1PuAt0eRLAndI=
-X-Received: by 2002:a5d:8b8b:: with SMTP id p11mr6820749iol.2.1571374026858;
-        Thu, 17 Oct 2019 21:47:06 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqzRFDJCsdCcPC5eb4L2SDx6043c6Gt8bq+dQz12A8oxvmQA4iLvhp+dkRZ6xTeypxz8f1Vy/g==
-X-Received: by 2002:a5d:8b8b:: with SMTP id p11mr6820730iol.2.1571374026580;
-        Thu, 17 Oct 2019 21:47:06 -0700 (PDT)
-Received: from bee.dtc.umn.edu (cs-bee-u.cs.umn.edu. [128.101.106.63])
-        by smtp.gmail.com with ESMTPSA id j2sm1968315ile.24.2019.10.17.21.47.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2019 21:47:05 -0700 (PDT)
-From:   Kangjie Lu <kjlu@umn.edu>
-To:     kjlu@umn.edu
-Cc:     Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: rcar_drif: fix a memory disclosure
-Date:   Thu, 17 Oct 2019 23:47:00 -0500
-Message-Id: <20191018044701.4786-1-kjlu@umn.edu>
-X-Mailer: git-send-email 2.17.1
+        Fri, 18 Oct 2019 04:38:56 -0400
+X-IronPort-AV: E=Sophos;i="5.67,311,1566831600"; 
+   d="scan'208";a="29424813"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 18 Oct 2019 17:38:53 +0900
+Received: from localhost.localdomain (unknown [10.166.17.210])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 62E564004BD5;
+        Fri, 18 Oct 2019 17:38:53 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     kishon@ti.com, robh+dt@kernel.org, mark.rutland@arm.com
+Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH] dt-bindings: phy: renesas: usb2-phy: convert bindings to json-schema
+Date:   Fri, 18 Oct 2019 17:38:53 +0900
+Message-Id: <1571387933-23397-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-"f->fmt.sdr.reserved" is uninitialized. As other peer drivers
-like msi2500 and airspy do, the fix initializes it to avoid
-memory disclosures.
+Convert Renesas R-Car generation 3 USB 2.0 PHY bindings documentation
+to json-schema.
 
-Signed-off-by: Kangjie Lu <kjlu@umn.edu>
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 ---
- drivers/media/platform/rcar_drif.c | 1 +
- 1 file changed, 1 insertion(+)
+ .../devicetree/bindings/phy/rcar-gen3-phy-usb2.txt |  70 --------------
+ .../devicetree/bindings/phy/renesas,usb2-phy.yaml  | 106 +++++++++++++++++++++
+ 2 files changed, 106 insertions(+), 70 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
+ create mode 100644 Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
 
-diff --git a/drivers/media/platform/rcar_drif.c b/drivers/media/platform/rcar_drif.c
-index 608e5217ccd5..0f267a237b42 100644
---- a/drivers/media/platform/rcar_drif.c
-+++ b/drivers/media/platform/rcar_drif.c
-@@ -912,6 +912,7 @@ static int rcar_drif_g_fmt_sdr_cap(struct file *file, void *priv,
- {
- 	struct rcar_drif_sdr *sdr = video_drvdata(file);
- 
-+	memset(f->fmt.sdr.reserved, 0, sizeof(f->fmt.sdr.reserved));
- 	f->fmt.sdr.pixelformat = sdr->fmt->pixelformat;
- 	f->fmt.sdr.buffersize = sdr->fmt->buffersize;
- 
+diff --git a/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt b/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
+deleted file mode 100644
+index 7734b21..00000000
+--- a/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
++++ /dev/null
+@@ -1,70 +0,0 @@
+-* Renesas R-Car generation 3 USB 2.0 PHY
+-
+-This file provides information on what the device node for the R-Car generation
+-3, RZ/G1C, RZ/G2 and RZ/A2 USB 2.0 PHY contain.
+-
+-Required properties:
+-- compatible: "renesas,usb2-phy-r7s9210" if the device is a part of an R7S9210
+-	      SoC.
+-	      "renesas,usb2-phy-r8a77470" if the device is a part of an R8A77470
+-	      SoC.
+-	      "renesas,usb2-phy-r8a774a1" if the device is a part of an R8A774A1
+-	      SoC.
+-	      "renesas,usb2-phy-r8a774b1" if the device is a part of an R8A774B1
+-	      SoC.
+-	      "renesas,usb2-phy-r8a774c0" if the device is a part of an R8A774C0
+-	      SoC.
+-	      "renesas,usb2-phy-r8a7795" if the device is a part of an R8A7795
+-	      SoC.
+-	      "renesas,usb2-phy-r8a7796" if the device is a part of an R8A7796
+-	      SoC.
+-	      "renesas,usb2-phy-r8a77965" if the device is a part of an
+-	      R8A77965 SoC.
+-	      "renesas,usb2-phy-r8a77990" if the device is a part of an
+-	      R8A77990 SoC.
+-	      "renesas,usb2-phy-r8a77995" if the device is a part of an
+-	      R8A77995 SoC.
+-	      "renesas,rcar-gen3-usb2-phy" for a generic R-Car Gen3, RZ/G2 or
+-	      RZ/A2 compatible device.
+-
+-	      When compatible with the generic version, nodes must list the
+-	      SoC-specific version corresponding to the platform first
+-	      followed by the generic version.
+-
+-- reg: offset and length of the partial USB 2.0 Host register block.
+-- clocks: clock phandle and specifier pair(s).
+-- #phy-cells: see phy-bindings.txt in the same directory, must be <1> (and
+-	      using <0> is deprecated).
+-
+-The phandle's argument in the PHY specifier is the INT_STATUS bit of controller:
+-- 1 = USBH_INTA (OHCI)
+-- 2 = USBH_INTB (EHCI)
+-- 3 = UCOM_INT (OTG and BC)
+-
+-Optional properties:
+-To use a USB channel where USB 2.0 Host and HSUSB (USB 2.0 Peripheral) are
+-combined, the device tree node should set interrupt properties to use the
+-channel as USB OTG:
+-- interrupts: interrupt specifier for the PHY.
+-- vbus-supply: Phandle to a regulator that provides power to the VBUS. This
+-	       regulator will be managed during the PHY power on/off sequence.
+-- renesas,no-otg-pins: boolean, specify when a board does not provide proper
+-		       otg pins.
+-- dr_mode: string, indicates the working mode for the PHY. Can be "host",
+-           "peripheral", or "otg". Should be set if otg controller is not used.
+-
+-
+-Example (R-Car H3):
+-
+-	usb-phy@ee080200 {
+-		compatible = "renesas,usb2-phy-r8a7795", "renesas,rcar-gen3-usb2-phy";
+-		reg = <0 0xee080200 0 0x700>;
+-		interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
+-		clocks = <&cpg CPG_MOD 703>;
+-	};
+-
+-	usb-phy@ee0a0200 {
+-		compatible = "renesas,usb2-phy-r8a7795", "renesas,rcar-gen3-usb2-phy";
+-		reg = <0 0xee0a0200 0 0x700>;
+-		clocks = <&cpg CPG_MOD 702>;
+-	};
+diff --git a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+new file mode 100644
+index 00000000..0f109c2
+--- /dev/null
++++ b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+@@ -0,0 +1,106 @@
++# SPDX-License-Identifier: GPL-2.0-only
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/phy/renesas,usb2-phy.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas R-Car generation 3 USB 2.0 PHY
++
++maintainers:
++  - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - renesas,usb2-phy-r8a77470 # RZ/G1C
++      - items:
++          - enum:
++              - renesas,usb2-phy-r7s9210  # RZ/A2
++              - renesas,usb2-phy-r8a774a1 # RZ/G2M
++              - renesas,usb2-phy-r8a774b1 # RZ/G2N
++              - renesas,usb2-phy-r8a774c0 # RZ/G2E
++              - renesas,usb2-phy-r8a7795  # R-Car H3
++              - renesas,usb2-phy-r8a7796  # R-Car M3-W
++              - renesas,usb2-phy-r8a77965 # R-Car M3-N
++              - renesas,usb2-phy-r8a77990 # R-Car E3
++              - renesas,usb2-phy-r8a77995 # R-Car D3
++          - const: renesas,rcar-gen3-usb2-phy
++
++  reg:
++    # base address and length of the registers block for the PHY.
++    maxItems: 1
++
++  clocks:
++    # clock phandle and specifier pair(s).
++    minItems: 1
++    maxItems: 2
++
++  clock-names:
++    # for RZ/A2
++    minItems: 1
++    maxItems: 2
++    items:
++      - const: fck
++      - const: usb_x1
++
++  '#phy-cells':
++    # see phy-bindings.txt in the same directory
++    enum: [0, 1]  # and 0 is deprecated.
++
++  interrupts:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    minItems: 1
++    maxItems: 2
++
++  vbus-supply:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: |
++      Phandle to a regulator that provides power to the VBUS. This regulator
++      will be managed during the PHY power on/off sequence.
++
++  renesas,no-otg-pins:
++    $ref: /schemas/types.yaml#/definitions/flag
++    description: |
++      specify when a board does not provide proper otg pins.
++
++  dr_mode:
++    $ref: /schemas/types.yaml#/definitions/string
++    description: |
++      indicates the working mode for the PHY. Can be "host", "peripheral", or
++      "otg". Should be set if otg controller is not used.
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - '#phy-cells'
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/r8a7795-sysc.h>
++
++    usb-phy@ee080200 {
++        compatible = "renesas,usb2-phy-r8a7795", "renesas,rcar-gen3-usb2-phy";
++        reg = <0 0xee080200 0 0x700>;
++        interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&cpg CPG_MOD 703>;
++        #phy-cells = <1>;
++    };
++
++    usb-phy@ee0a0200 {
++        compatible = "renesas,usb2-phy-r8a7795", "renesas,rcar-gen3-usb2-phy";
++        reg = <0 0xee0a0200 0 0x700>;
++        clocks = <&cpg CPG_MOD 702>;
++        #phy-cells = <1>;
++    };
 -- 
-2.17.1
+2.7.4
 
