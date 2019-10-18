@@ -2,192 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC210DC023
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2019 10:39:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA09EDC1E2
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2019 11:54:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2632817AbfJRIjR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Oct 2019 04:39:17 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:44409 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727903AbfJRIjR (ORCPT
+        id S2391008AbfJRJyM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Oct 2019 05:54:12 -0400
+Received: from [217.140.110.172] ([217.140.110.172]:60334 "EHLO foss.arm.com"
+        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
+        id S2389081AbfJRJyM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Oct 2019 04:39:17 -0400
-X-IronPort-AV: E=Sophos;i="5.67,311,1566831600"; 
-   d="scan'208";a="29209172"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 18 Oct 2019 17:39:14 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 65ACA4000C6E;
-        Fri, 18 Oct 2019 17:39:14 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     kishon@ti.com, robh+dt@kernel.org, mark.rutland@arm.com
-Cc:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH] dt-bindings: phy: renesas: usb3-phy: convert bindings to json-schema
-Date:   Fri, 18 Oct 2019 17:39:14 +0900
-Message-Id: <1571387954-23446-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Fri, 18 Oct 2019 05:54:12 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 38B4A494;
+        Fri, 18 Oct 2019 02:53:49 -0700 (PDT)
+Received: from e121166-lin.cambridge.arm.com (unknown [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1A24F3F6C4;
+        Fri, 18 Oct 2019 02:53:47 -0700 (PDT)
+Date:   Fri, 18 Oct 2019 10:53:45 +0100
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Marek Vasut <marek.vasut@gmail.com>
+Cc:     Rob Herring <robh@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        PCI <linux-pci@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH V3 2/3] PCI: rcar: Do not abort on too many inbound
+ dma-ranges
+Message-ID: <20191018095345.GD25918@e121166-lin.cambridge.arm.com>
+References: <CAL_Jsq+4uaFJzk5jUPw+KssZvnji0WDh+QcFMok99XXntEhNTQ@mail.gmail.com>
+ <88099c4f-4fb4-626e-f66f-3eb8861dfb2c@gmail.com>
+ <CAL_JsqLzmk5dfn0Re3y7VjY5ehE29vKLOV-2tM5B_jPbB2YiPQ@mail.gmail.com>
+ <06d093b2-dcc2-a01f-fce0-5db0bc47325e@gmail.com>
+ <CAMuHMdXjZs6Gvar3o7wXd2-1tkPtpt3qxZLG5vzDfrCG4d9SeQ@mail.gmail.com>
+ <ca16e883-27d3-2cd0-7d71-fa9b169dcccd@gmail.com>
+ <ccf8a4f9-1758-bafc-797c-714f06810db3@arm.com>
+ <6af92fb1-a154-3e03-d239-0417da5a5094@gmail.com>
+ <CAL_JsqKEjzO3s=bBf_TxTAXTzLTcX=8ccFXLfowhPOHWzNET9A@mail.gmail.com>
+ <5a19fcd3-2071-334a-1c4a-59d07f4a387d@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5a19fcd3-2071-334a-1c4a-59d07f4a387d@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Convert Renesas R-Car generation 3 USB 3.0 PHY bindings documentation
-to json-schema.
+On Thu, Oct 17, 2019 at 05:01:26PM +0200, Marek Vasut wrote:
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
----
- .../devicetree/bindings/phy/rcar-gen3-phy-usb3.txt | 52 --------------
- .../devicetree/bindings/phy/renesas,usb3-phy.yaml  | 80 ++++++++++++++++++++++
- 2 files changed, 80 insertions(+), 52 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb3.txt
- create mode 100644 Documentation/devicetree/bindings/phy/renesas,usb3-phy.yaml
+[...]
 
-diff --git a/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb3.txt b/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb3.txt
-deleted file mode 100644
-index 0fe433b..00000000
---- a/Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb3.txt
-+++ /dev/null
-@@ -1,52 +0,0 @@
--* Renesas R-Car generation 3 USB 3.0 PHY
--
--This file provides information on what the device node for the R-Car generation
--3 and RZ/G2 USB 3.0 PHY contain.
--If you want to enable spread spectrum clock (ssc), you should use USB_EXTAL
--instead of USB3_CLK. However, if you don't want to these features, you don't
--need this driver.
--
--Required properties:
--- compatible: "renesas,r8a774a1-usb3-phy" if the device is a part of an R8A774A1
--	      SoC.
--	      "renesas,r8a774b1-usb3-phy" if the device is a part of an R8A774B1
--	      SoC.
--	      "renesas,r8a7795-usb3-phy" if the device is a part of an R8A7795
--	      SoC.
--	      "renesas,r8a7796-usb3-phy" if the device is a part of an R8A7796
--	      SoC.
--	      "renesas,r8a77965-usb3-phy" if the device is a part of an
--	      R8A77965 SoC.
--	      "renesas,rcar-gen3-usb3-phy" for a generic R-Car Gen3 or RZ/G2
--	      compatible device.
--
--	      When compatible with the generic version, nodes must list the
--	      SoC-specific version corresponding to the platform first
--	      followed by the generic version.
--
--- reg: offset and length of the USB 3.0 PHY register block.
--- clocks: A list of phandles and clock-specifier pairs.
--- clock-names: Name of the clocks.
--  - The funcional clock must be "usb3-if".
--  - The usb3's external clock must be "usb3s_clk".
--  - The usb2's external clock must be "usb_extal". If you want to use the ssc,
--    the clock-frequency must not be 0.
--- #phy-cells: see phy-bindings.txt in the same directory, must be <0>.
--
--Optional properties:
--- renesas,ssc-range: Enable/disable spread spectrum clock (ssc) by using
--		     the following values as u32:
--			- 0 (or the property doesn't exist): disable the ssc
--			- 4980: enable the ssc as -4980 ppm
--			- 4492: enable the ssc as -4492 ppm
--			- 4003: enable the ssc as -4003 ppm
--
--Example (R-Car H3):
--
--	usb-phy@e65ee000 {
--		compatible = "renesas,r8a7795-usb3-phy",
--			     "renesas,rcar-gen3-usb3-phy";
--		reg = <0 0xe65ee000 0 0x90>;
--		clocks = <&cpg CPG_MOD 328>, <&usb3s0_clk>, <&usb_extal>;
--		clock-names = "usb3-if", "usb3s_clk", "usb_extal";
--	};
-diff --git a/Documentation/devicetree/bindings/phy/renesas,usb3-phy.yaml b/Documentation/devicetree/bindings/phy/renesas,usb3-phy.yaml
-new file mode 100644
-index 00000000..42239e3
---- /dev/null
-+++ b/Documentation/devicetree/bindings/phy/renesas,usb3-phy.yaml
-@@ -0,0 +1,80 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/phy/renesas,usb3-phy.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Renesas R-Car generation 3 USB 3.0 PHY
-+
-+maintainers:
-+  - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+          - enum:
-+              - renesas,r8a774a1-usb3-phy # RZ/G2M
-+              - renesas,r8a774b1-usb3-phy # RZ/G2N
-+              - renesas,r8a7795-usb3-phy  # R-Car H3
-+              - renesas,r8a7796-usb3-phy  # R-Car M3-W
-+              - renesas,r8a77965-usb3-phy # R-Car M3-N
-+          - const: renesas,rcar-gen3-usb3-phy
-+
-+  reg:
-+    # base address and length of the registers block for the PHY.
-+    maxItems: 1
-+
-+  clocks:
-+    # A list of phandles and clock-specifier pairs.
-+    maxItems: 3
-+
-+  clock-names:
-+    # If you want to use the ssc, the clock-frequency of usb_extal
-+    # must not be 0.
-+    maxItems: 3
-+    items:
-+      - const: usb3-if # The funcional clock
-+      - const: usb3s_clk # The usb3's external clock
-+      - const: usb_extal # The usb2's external clock
-+
-+  '#phy-cells':
-+    # see phy-bindings.txt in the same directory
-+    const: 0
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+  renesas,ssc-range:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: |
-+      Enable/disable spread spectrum clock (ssc) by using the following values
-+       - 0 (or the property doesn't exist): disable the ssc
-+       - 4980: enable the ssc as -4980 ppm
-+       - 4492: enable the ssc as -4492 ppm
-+       - 4003: enable the ssc as -4003 ppm
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - '#phy-cells'
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
-+    #include <dt-bindings/power/r8a7795-sysc.h>
-+
-+    usb-phy@e65ee000 {
-+        compatible = "renesas,r8a7795-usb3-phy", "renesas,rcar-gen3-usb3-phy";
-+        reg = <0 0xe65ee000 0 0x90>;
-+        clocks = <&cpg CPG_MOD 328>, <&usb3s0_clk>, <&usb_extal>;
-+        clock-names = "usb3-if", "usb3s_clk", "usb_extal";
-+        #phy-cells = <0>;
-+    };
--- 
-2.7.4
+> > Again, just handling the first N dma-ranges entries and ignoring the
+> > rest is not 'configure the controller correctly'.
+> 
+> It's the best effort thing to do. It's well possible the next generation
+> of the controller will have more windows, so could accommodate the whole
+> list of ranges.
+> 
+> Thinking about this further, this patch should be OK either way, if
+> there is a DT which defines more DMA ranges than the controller can
+> handle, handling some is better than failing outright -- a PCI which
+> works with a subset of memory is better than PCI that does not work at all.
 
+OK to sum it up, this patch is there to deal with u-boot adding multiple
+dma-ranges to DT. I still do not understand the benefit given that for
+DMA masks they are useless as Rob pointed out and ditto for inbound
+windows programming (given that AFAICS the PCI controller filters out
+any transaction that does not fall within its inbound windows by default
+so adding dma-ranges has the net effect of widening the DMA'able address
+space rather than limiting it).
+
+In short, what's the benefit of adding more dma-ranges regions to the
+DT (and consequently handling them in the kernel) ?
+
+Thanks,
+Lorenzo
+
+> >>> And realistically, if the address
+> >>> isn't valid then it's not going to make much difference anyway - in
+> >>> probably 99% of cases, either the transaction doesn't hit a window and
+> >>> the host bridge returns a completer abort, or it does hit a window, the
+> >>> AXI side returns DECERR or SLVERR, and the host bridge translates that
+> >>> into a completer abort. Consider also that many PCI IPs don't have
+> >>> discrete windows and just map the entirety of PCI mem space directly to
+> >>> the system PA space.
+> >>
+> >> And in that 1% of cases, we are OK with failure which could have been
+> >> easily prevented if the controller was programmed correctly ? That does
+> >> not look like a good thing.
+> > 
+> > You don't need dma-ranges if you want to handle holes in DRAM. Use
+> > memblock to get this information. Then it will work if you boot using
+> > UEFI too.
+> 
+> Do you have any further details about this ?
+> 
+> > dma-ranges at the PCI bridge should be restrictions in the PCI bridge,
+> > not ones somewhere else in the system.
+> 
+> -- 
+> Best regards,
+> Marek Vasut
