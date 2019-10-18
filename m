@@ -2,189 +2,229 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E209FDCA22
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2019 18:00:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C245DCBC7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2019 18:45:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728923AbfJRQA4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Oct 2019 12:00:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51692 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726506AbfJRQA4 (ORCPT
+        id S2408749AbfJRQpF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Oct 2019 12:45:05 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:38774 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728368AbfJRQpF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Oct 2019 12:00:56 -0400
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1571414454;
-        bh=E7bHklQWY313M+JJk6Yryt9zH7/CTnEfwG/cAFyofwI=;
-        h=Subject:From:Date:To:Cc:From;
-        b=Kf/jAVJB2suv50o/3SkQk44GWXtWAX9Dxkd8MY2fFmR8YCfB4wb17Vw5/S6bQxNvC
-         4evtH5yAz0/VdOjs9In2BoYfn3HE33kq0QfDjsGCPFttORbzggPhJbHziWZ9bnqXG6
-         jOw0YZaazRNqZgcpQZenT9AhwwTuDxZik8jAUCCI=
+        Fri, 18 Oct 2019 12:45:05 -0400
+Received: by mail-wr1-f66.google.com with SMTP id o15so6542070wru.5;
+        Fri, 18 Oct 2019 09:45:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=iao99ffljQkTwVvoIY/DgFl4/2MHo7g1Hxp/adq8o0A=;
+        b=JWgGWs7rgDpLtWZVbfiK0JNJ3wtUlaU1ta5U1CtbLYAzDzlQ7IQalY86rbNYxLEsjR
+         pNJRYaolfT/MODkz5ZUvK/akgtzdcdQoVFxxcmIOo/4pNiwVb+X9qj4bjQIuuhOkp5p9
+         8xlNTm7Ro3ysB4GAtP2Lx+a6gm7h/du9NAdT/q2g9EuHpbkSFNe+n+7aKCRioEyq5rWJ
+         F1aMb5elQRcU/xkviG2jM5ZYcjU1QbPEefR0mgMjAqk3n/sMMpjSuchXUfFJ2pZ7jLtC
+         B74TX0OmS2G1s9ywrUbcsRqhfa79Y96OKokGjuVLh2/gTm8Y9gb6ZyrDhdIe397luJ7V
+         b7zQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=iao99ffljQkTwVvoIY/DgFl4/2MHo7g1Hxp/adq8o0A=;
+        b=KXuhX7FSOnrP9CTarem4oZhrTJySIo9uJM5QLWt4y3wwjduckVA2GRhDGLiZMbzAAI
+         QQTkvFR6Vu28L/Z/gJNSyf4bml6ntcgJ52pXu6c8gLWm/MVu+/Gl5R6YNVSW+Jnh9Epu
+         7eY+195VgkCaK0zrTLnMepZcfh9CsPEStjKlcOqE+iD39/58oSRDVQTYSR6PW8rydgNN
+         +caoUjHQJrrANX3pM8FNNdE6XE7P/9YONEXIzyv05tcPrPsCNrP5xygSpyeRHI0NC3Hh
+         w8Na1nBPymgXtmhnDgaVFGggvhw+6Pu6MLKjA9Iaw/dlqk7f83lvz2AwaKSM4u4h1+ey
+         WvsA==
+X-Gm-Message-State: APjAAAVuggFc/wRj3MeUtCB9D7Kp0NE+oAhZ1rm1S9rSl6Hr8gXT7Ict
+        THlLEv6nyHXyePVBCDY0OgaQZmrp
+X-Google-Smtp-Source: APXvYqyGO0wFzJuEAD/3ny/2f8WJdQ5admFuY7gkfbZ5j+rNHiEUDNEZde7xJg8zqZVo5x5Hpzy76g==
+X-Received: by 2002:a5d:43c3:: with SMTP id v3mr7556248wrr.41.1571417101409;
+        Fri, 18 Oct 2019 09:45:01 -0700 (PDT)
+Received: from [192.168.1.4] (ip-86-49-35-8.net.upcbroadband.cz. [86.49.35.8])
+        by smtp.gmail.com with ESMTPSA id t203sm6958357wmf.42.2019.10.18.09.44.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Oct 2019 09:45:00 -0700 (PDT)
+Subject: Re: [PATCH V3 2/3] PCI: rcar: Do not abort on too many inbound
+ dma-ranges
+To:     Robin Murphy <robin.murphy@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc:     Rob Herring <robh@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        PCI <linux-pci@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>
+References: <CAL_Jsq+4uaFJzk5jUPw+KssZvnji0WDh+QcFMok99XXntEhNTQ@mail.gmail.com>
+ <88099c4f-4fb4-626e-f66f-3eb8861dfb2c@gmail.com>
+ <CAL_JsqLzmk5dfn0Re3y7VjY5ehE29vKLOV-2tM5B_jPbB2YiPQ@mail.gmail.com>
+ <06d093b2-dcc2-a01f-fce0-5db0bc47325e@gmail.com>
+ <CAMuHMdXjZs6Gvar3o7wXd2-1tkPtpt3qxZLG5vzDfrCG4d9SeQ@mail.gmail.com>
+ <ca16e883-27d3-2cd0-7d71-fa9b169dcccd@gmail.com>
+ <ccf8a4f9-1758-bafc-797c-714f06810db3@arm.com>
+ <6af92fb1-a154-3e03-d239-0417da5a5094@gmail.com>
+ <CAL_JsqKEjzO3s=bBf_TxTAXTzLTcX=8ccFXLfowhPOHWzNET9A@mail.gmail.com>
+ <5a19fcd3-2071-334a-1c4a-59d07f4a387d@gmail.com>
+ <20191018095345.GD25918@e121166-lin.cambridge.arm.com>
+ <fd53f532-9b78-a64e-6d34-bda5a7639586@gmail.com>
+ <ce7d16ab-31b8-0992-b1d7-24f4a652ce5f@arm.com>
+ <3f2f3868-676c-edc4-0de1-d42b63186128@gmail.com>
+ <931e7132-b680-3e9a-bb1e-af05811907fc@arm.com>
+From:   Marek Vasut <marek.vasut@gmail.com>
+Message-ID: <32591ef7-9792-4874-512c-ce3bcc3e9998@gmail.com>
+Date:   Fri, 18 Oct 2019 18:44:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <931e7132-b680-3e9a-bb1e-af05811907fc@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork housekeeping for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <157141445455.10796.1736283998717091538.git-patchwork-housekeeping@kernel.org>
-Date:   Fri, 18 Oct 2019 16:00:54 +0000
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     konstantin@linuxfoundation.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Latest series: [v3] R-Car DU: LVDS dual-link mode support (2019-05-28T14:12:24)
-  Superseding: [v2] R-Car DU: LVDS dual-link mode support (2019-05-11T21:06:53):
-    [v2,01/10] drm: bridge: Add dual_link field to the drm_bridge_timings structure
-    [v2,02/10] dt-bindings: display: bridge: thc63lvd1024: Document dual-link operation
-    [v2,03/10] drm: bridge: thc63: Report input bus mode through bridge timings
-    [v2,04/10] dt-bindings: display: renesas: lvds: Add renesas,companion property
-    [v2,05/10] drm: rcar-du: lvds: Remove LVDS double-enable checks
-    [v2,06/10] drm: rcar-du: lvds: Add support for dual-link mode
-    [v2,07/10] drm: rcar-du: Skip LVDS1 output on Gen3 when using dual-link LVDS mode
-    [v2,09/10,HACK] arm64: dts: renesas: draak: Enable LVDS dual-link operation
-    [v2,10/10,HACK] arm64: dts: renesas: ebisu: Enable LVDS dual-link operation
+On 10/18/19 5:44 PM, Robin Murphy wrote:
+> On 18/10/2019 15:26, Marek Vasut wrote:
+>> On 10/18/19 2:53 PM, Robin Murphy wrote:
+>>> On 18/10/2019 13:22, Marek Vasut wrote:
+>>>> On 10/18/19 11:53 AM, Lorenzo Pieralisi wrote:
+>>>>> On Thu, Oct 17, 2019 at 05:01:26PM +0200, Marek Vasut wrote:
+>>>>>
+>>>>> [...]
+>>>>>
+>>>>>>> Again, just handling the first N dma-ranges entries and ignoring the
+>>>>>>> rest is not 'configure the controller correctly'.
+>>>>>>
+>>>>>> It's the best effort thing to do. It's well possible the next
+>>>>>> generation
+>>>>>> of the controller will have more windows, so could accommodate the
+>>>>>> whole
+>>>>>> list of ranges.
+>>>
+>>> In the context of DT describing the platform that doesn't make any
+>>> sense. It's like saying it's fine for U-Boot to also describe a bunch of
+>>> non-existent CPUs just because future SoCs might have them. Just because
+>>> the system would probably still boot doesn't mean it's right.
+>>
+>> It's the exact opposite of what you just described -- the last release
+>> of U-Boot currently populates a subset of the DMA ranges, not a
+>> superset. The dma-ranges in the Linux DT currently are a superset of
+>> available DRAM on the platform.
+> 
+> I'm not talking about the overall coverage of addresses - I've already
+> made clear what I think about that - I'm talking about the *number* of
+> individual entries. If the DT binding defines that dma-ranges entries
+> directly represent bridge windows, then the bootloader for a given
+> platform should never generate more entries than that platform has
+> actual windows, because to do otherwise would be bogus.
 
-Latest series: [v4] dt-bindings: display: renesas,cmm: Add R-Car CMM documentation (2019-09-06T13:54:28)
-  Superseding: [v1] dt-bindings: display: renesas,cmm: Add R-Car CMM documentation (2019-06-06T14:22:00):
-    [01/20] dt-bindings: display: renesas,cmm: Add R-Car CMM documentation
-    [02/20] dt-bindings: display, renesas,du: Document cmms property
-    [03/20] dt-bindings: display, renesas,du: Update 'vsps' in example
-    [04/20] clk: renesas: r8a7796: Add CMM clocks
-    [05/20] clk: renesas: r8a7795: Add CMM clocks
-    [06/20] clk: renesas: r8a77965: Add CMM clocks
-    [07/20] clk: renesas: r8a77990: Add CMM clocks
-    [08/20] clk: renesas: r8a77995: Add CMM clocks
-    [09/20] arm64: dts: renesas: r8a7796: Add CMM units
-    [10/20] arm64: dts: renesas: r8a7795: Add CMM units
-    [11/20] arm64: dts: renesas: r8a77965: Add CMM units
-    [12/20] arm64: dts: renesas: r8a77990: Add CMM units
-    [13/20] arm64: dts: renesas: r8a77995: Add CMM units
-    [14/20] drm: rcar-du: Add support for CMM
-    [15/20] drm: rcar-du: Claim CMM support for Gen3 SoCs
-    [16/20] drm: rcar-du: kms: Collect CMM instances
-    [17/20] drm: rcar-du: crtc: Enable and disable CMMs
-    [18/20] drm: rcar-du: group: Enable DU's CMM extension
-    [19/20] drm: rcar-du: crtc: Register GAMMA_LUT properties
-    [20/20] drm: rcar-du: kms: Update CMM in atomic commit tail
+I have a feeling that's not how Rob defined the dma-ranges in this
+discussion though.
 
-Latest series: [v6] ARM: mach-shmobile: Don't init CNTVOFF/counter if PSCI is available (2019-05-29T16:05:00)
-  Superseding: [v4] ARM: mach-shmobile: Don't init CNTVOFF/counter if PSCI is available (2019-05-14T16:06:52):
-    [V4] ARM: mach-shmobile: Don't init CNTVOFF/counter if PSCI is available
-  Superseding: [v5] ARM: mach-shmobile: Don't init CNTVOFF/counter if PSCI is available (2019-05-17T09:58:13):
-    [V5] ARM: mach-shmobile: Don't init CNTVOFF/counter if PSCI is available
+>>>>>> Thinking about this further, this patch should be OK either way, if
+>>>>>> there is a DT which defines more DMA ranges than the controller can
+>>>>>> handle, handling some is better than failing outright -- a PCI which
+>>>>>> works with a subset of memory is better than PCI that does not work
+>>>>>> at all.
+>>>>>
+>>>>> OK to sum it up, this patch is there to deal with u-boot adding
+>>>>> multiple
+>>>>> dma-ranges to DT.
+>>>>
+>>>> Yes, this patch was posted over two months ago, about the same time
+>>>> this
+>>>> functionality was posted for inclusion in U-Boot. It made it into
+>>>> recent
+>>>> U-Boot release, but there was no feedback on the Linux patch until
+>>>> recently.
+>>>>
+>>>> U-Boot can be changed for the next release, assuming we agree on how it
+>>>> should behave.
+>>>>
+>>>>> I still do not understand the benefit given that for
+>>>>> DMA masks they are useless as Rob pointed out and ditto for inbound
+>>>>> windows programming (given that AFAICS the PCI controller filters out
+>>>>> any transaction that does not fall within its inbound windows by
+>>>>> default
+>>>>> so adding dma-ranges has the net effect of widening the DMA'able
+>>>>> address
+>>>>> space rather than limiting it).
+>>>>>
+>>>>> In short, what's the benefit of adding more dma-ranges regions to the
+>>>>> DT (and consequently handling them in the kernel) ?
+>>>>
+>>>> The benefit is programming the controller inbound windows correctly.
+>>>> But if there is a better way to do that, I am open to implement that.
+>>>> Are there any suggestions / examples of that ?
+>>>
+>>> The crucial thing is that once we improve the existing "dma-ranges"
+>>> handling in the DMA layer such that it *does* consider multiple entries
+>>> properly, platforms presenting ranges which don't actually exist will
+>>> almost certainly start going wrong, and are either going to have to fix
+>>> their broken bootloaders or try to make a case for platform-specific
+>>> workarounds in core code.
+>> Again, this is exactly the other way around, the dma-ranges populated by
+>> U-Boot cover only existing DRAM. The single dma-range in Linux DT covers
+>> even the holes without existing DRAM.
+>>
+>> So even if the Linux dma-ranges handling changes, there should be no
+>> problem.
+> 
+> Say you have a single hardware window, and this DT property (1-cell
+> numbers for simplicity:
+> 
+>     dma-ranges = <0x00000000 0x00000000 0x80000000>;
+> 
+> Driver reads one entry and programs the window to 2GB@0, DMA setup
+> parses the first entry and sets device masks to 0x7fffffff, and
+> everything's fine.
+> 
+> Now say we describe the exact same address range this way instead:
+> 
+>     dma-ranges = <0x00000000 0x00000000 0x40000000,
+>               0x40000000 0x40000000 0x40000000>;
+> 
+> Driver reads one entry and programs the window to 1GB@0, DMA setup
+> parses the first entry and sets device masks to 0x3fffffff, and *today*,
+> things are suboptimal but happen to work.
+> 
+> Now say we finally get round to fixing the of_dma code to properly
+> generate DMA masks that actually include all usable address bits, a user
+> upgrades their kernel package, and reboots with that same DT...
+> 
+> Driver reads one entry and programs the window to 1GB@0, DMA setup
+> parses all entries and sets device masks to 0x7fffffff, devices start
+> randomly failing or throwing DMA errors half the time, angry user looks
+> at the changelog to find that somebody decided their now-corrupted
+> filesystem is less important than the fact that hey, at least the
+> machine didn't refuse to boot because the DT was obviously wrong. Are
+> you sure that shouldn't be a problem?
 
-Latest series: [v2] drm: rcar_lvds: Fix dual link mode operations (2019-08-05T16:18:37)
-  Superseding: [v1] drm: rcar_lvds: Fix dual link mode operations (2019-07-23T16:57:00):
-    drm: rcar_lvds: Fix dual link mode operations
+I think you picked a rather special case here and arrived as a DMA mask
+which just fails in this special case. Such special case doesn't happen
+here, and even if it did, I would expect Linux to merge those two ranges
+or do something sane ? If the DMA mask is set incorrectly, that's a bug
+of the DMA code I would think.
 
-Latest series: [v2] dt-bindings: usb: renease_{usbhs,gen3} Rename bindings documentation files (2019-07-03T08:35:12)
-  Superseding: [v1] dt-bindings: usb: renease_{usbhs,gen3} Rename bindings documentation files (2019-06-17T09:06:01):
-    [1/2] dt-bindings: usb: renesas_usbhs: Rename bindings documentation file
-    [2/2] dt-bindings: usb: renesas_gen3: Rename bindings documentation file
+What DMA mask would you get if those two entries had a gap inbetween
+them ? E.g.:
 
-Latest series: [v2] ARM: dts: r8a779x: Configure PMIC IRQ pinmux (2019-05-15T08:23:26)
-  Superseding: [v1] ARM: dts: r8a779x: Configure PMIC IRQ pinmux (2019-05-02T14:06:34):
-    ARM: dts: r8a779x: Configure PMIC IRQ pinmux
+ dma-ranges = <0x00000000 0x00000000 0x20000000,
+               0x40000000 0x40000000 0x20000000>;
 
-Latest series: [v4] usb: Add host and device support for RZ/A2 (2019-05-15T15:20:43)
-  Superseding: [v3] usb: Add host and device support for RZ/A2 (2019-05-14T14:55:54):
-    [v3,01/15] ARM: dts: r7s9210: Add USB clock
-    [v3,02/15] ARM: dts: rza2mevb: Add 48MHz USB clock
+> Now, if you want to read the DT binding as less strict and let it just
+> describe some arbitrarily-complex set of address ranges that should be
+> valid for DMA, that's not insurmountable; you just need more complex
+> logic in your driver capable of calculating how best to cover *all*
+> those ranges using the available number of windows.
 
-Latest series: [v4] dt-bindings: display: renesas: du: Document optional reset properties (2019-10-16T15:12:15)
-  Superseding: [v3] dt-bindings: display: renesas: du: Document optional reset properties (2019-06-12T13:57:23):
-    [v3] dt-bindings: display: renesas: du: Document optional reset properties
-
-Latest series: [v3] Add dual-LVDS panel support to EK874 (2019-08-28T18:36:34)
-  Superseding: [v1] Add dual-LVDS panel support to EK874 (2019-08-02T07:33:57):
-    [PATCH/RFC,01/12] dt-bindings: display: renesas: lvds: RZ/G2E needs renesas,companion too
-    [PATCH/RFC,02/12] dt-bindings: display: renesas: lvds: Document renesas,swap-data
-    [PATCH/RFC,03/12] dt-bindings: panel: lvds: Add dual-link LVDS display support
-    [PATCH/RFC,04/12] dt-bindings: display: Add bindings for Advantech IDK-2121WR
-    [PATCH/RFC,05/12] drm: rcar-du: lvds: Add data swap support
-    [PATCH/RFC,06/12] drm: rcar-du: lvds: Do not look at ports for identifying bridges
-    [PATCH/RFC,07/12] drm: rcar-du: lvds: Add support for dual link panels
-    [PATCH/RFC,08/12] drm: rcar-du: lvds: Fix bridge_to_rcar_lvds
-    [PATCH/RFC,09/12] drm: rcar-du: lvds: Fix companion's mode
-    [PATCH/RFC,10/12] arm64: dts: renesas: r8a774c0: Point LVDS0 to its companion LVDS1
-    [PATCH/RFC,11/12] arm64: dts: renesas: cat874: Add definition for 12V regulator
-  Superseding: [v2] Add dual-LVDS panel support to EK874 (2019-08-15T11:04:24):
-    [v2,1/9] dt-bindings: panel: lvds: Add dual-link LVDS display support
-    [v2,2/9] dt-bindings: display: Add bindings for Advantech IDK-2121WR
-    [v2,3/9] drm: Rename drm_bridge_timings to drm_timings
-    [v2,4/9] drm/timings: Add link flags
-    [v2,5/9] drm/panel: Add timings field to drm_panel
-    [v2,6/9] drm: rcar-du: lvds: Fix companion's mode
-    [v2,7/9] drm: rcar-du: lvds: Add dual-LVDS panels support
-    [v2,8/9] drm/panel: lvds: Add support for the IDK-2121WR
-
-Latest series: [v1] Add WLAN/BT support (2019-07-05T10:15:17)
-  Superseding: [v1] Add WLAN/BT support (2019-05-16T08:59:24):
-    [1/2] arm64: dts: renesas: r8a774c0-cat874: Add WLAN support
-    [2/2] arm64: dts: renesas: r8a774c0-cat874: Add BT support
-
-Latest series: [v4] dmaengine: rcar-dmac: use of_data and add dma-channel-mask support (2019-10-03T03:58:03)
-  Superseding: [v2] dmaengine: rcar-dmac: use of_data and add dma-channel-mask support (2019-09-04T08:24:35):
-    [v2,1/3] dmaengine: rcar-dmac: Use of_data values instead of a macro
-    [v2,2/3] dmaengine: rcar-dmac: Use devm_platform_ioremap_resource()
-    [v2,3/3] dmaengine: rcar-dmac: Add dma-channel-mask property support
-  Superseding: [v3] dmaengine: rcar-dmac: use of_data and add dma-channel-mask support (2019-09-09T06:34:48):
-    [v3,1/4] dmaengine: rcar-dmac: Fix DMACHCLR handling if iommu is mapped
-
-Latest series: [v3] ravb: implement MTU change while device is up (2019-08-20T19:01:26)
-  Superseding: [v2] ravb: implement MTU change while device is up (2019-06-05T15:14:20):
-    [v2] ravb: implement MTU change while device is up
-
-Latest series: [v2] dt-bindings: clk: emev2: Rename bindings documentation file (2019-08-21T09:15:16)
-  Superseding: [v1] dt-bindings: clk: emev2: Rename bindings documentation file (2019-08-19T13:56:30):
-    dt-bindings: clk: emev2: Rename bindings documentation file
-
-Latest series: [v2] v4l: rcar-fcp: Read IP version register at probe time (2019-08-14T14:54:17)
-  Superseding: [v1] v4l: rcar-fcp: Read IP version register at probe time (2019-06-08T12:53:31):
-    v4l: rcar-fcp: Read IP version register at probe time
-
-Latest series: [v2] dt-bindings: i2c: renesas: Rename bindings documentation files (2019-08-09T21:30:02)
-  Superseding: [v1] dt-bindings: i2c: renesas: Rename bindings documentation files (2019-07-24T12:15:56):
-    [1/4] dt-bindings: i2c: sh_mobile: Rename bindings documentation file
-    [2/4] dt-bindings: i2c: rcar: Rename bindings documentation file
-    [3/4] dt-bindings: i2c: riic: Rename bindings documentation file
-    [4/4] dt-bindings: i2c: riic: Rename bindings documentation file
-
-Latest series: [v3] tick: broadcast-hrtimer: Fix a race in bc_set_next (2019-09-26T13:51:01)
-  Superseding: [v2] tick: broadcast-hrtimer: Fix a race in bc_set_next (2019-09-25T14:20:29):
-    [V2,1/1] tick: broadcast-hrtimer: Fix a race in bc_set_next
-
-Latest series: [v2] Add LVDS panel support to HiHope RZ/G2M (2019-08-29T11:38:31)
-  Superseding: [v1] Add LVDS panel support to HiHope RZ/G2M (2019-08-29T10:21:45):
-    [1/2] dt-bindings: display: Add idk-1110wr binding
-
-Latest series: [v6] drm: rcar-du: Add Color Management Module (CMM) (2019-10-16T08:55:40)
-  Superseding: [v3] drm: rcar-du: Add Color Management Module (CMM) (2019-08-25T13:51:40):
-    [v3,01/14] dt-bindings: display: renesas,cmm: Add R-Car CMM documentation
-    [v3,02/14] dt-bindings: display, renesas,du: Document cmms property
-    [v3,03/14] arm64: dts: renesas: r8a7796: Add CMM units
-    [v3,04/14] arm64: dts: renesas: r8a7795: Add CMM units
-    [v3,05/14] arm64: dts: renesas: r8a77965: Add CMM units
-    [v3,06/14] arm64: dts: renesas: r8a77990: Add CMM units
-    [v3,07/14] arm64: dts: renesas: r8a77995: Add CMM units
-    [v3,08/14] drm: rcar-du: Add support for CMM
-    [v3,09/14] drm: rcar-du: Claim CMM support for Gen3 SoCs
-    [v3,10/14] drm: rcar-du: kms: Collect CMM instances
-    [v3,11/14] drm: rcar-du: crtc: Enable and disable CMMs
-    [v3,12/14] drm: rcar-du: crtc: Register GAMMA_LUT properties
-    [v3,13/14] drm: rcar-du: kms: Update CMM in atomic commit tail
-    [v3,14/14] drm: rcar-du: Force CMM enablement when resuming
-  Superseding: [v5] drm: rcar-du: Add Color Management Module (CMM) (2019-10-15T10:46:13):
-    [v5,1/8] dt-bindings: display: renesas,cmm: Add R-Car CMM documentation
-    [v5,2/8] dt-bindings: display, renesas,du: Document cmms property
-    [v5,3/8] drm: rcar-du: Add support for CMM
-    [v5,4/8] drm: rcar-du: kms: Initialize CMM instances
-    [v5,5/8] drm: rcar-du: crtc: Control CMM operations
-    [v5,6/8] drm: rcar-du: crtc: Register GAMMA_LUT properties
-    [v5,8/8] drm: rcar-du: kms: Expand comment in vsps parsing routine
-
+That's what the driver does with this patchset, except it's not possible
+to cover all those ranges. It covers them as well as it can.
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+Best regards,
+Marek Vasut
