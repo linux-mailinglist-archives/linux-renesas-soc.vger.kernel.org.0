@@ -2,53 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 878C0DCD64
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2019 20:07:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19C14DCD76
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2019 20:08:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2505772AbfJRSHj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 18 Oct 2019 14:07:39 -0400
-Received: from heliosphere.sirena.org.uk ([172.104.155.198]:45488 "EHLO
+        id S2505744AbfJRSHN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Oct 2019 14:07:13 -0400
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:45072 "EHLO
         heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2634478AbfJRSHW (ORCPT
+        with ESMTP id S2505723AbfJRSHM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 18 Oct 2019 14:07:22 -0400
+        Fri, 18 Oct 2019 14:07:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=sirena.org.uk; s=20170815-heliosphere; h=Date:Message-Id:In-Reply-To:
         Subject:Cc:To:From:Sender:Reply-To:MIME-Version:Content-Type:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
         Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:References:
         List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
-        List-Archive; bh=dHAwUaRTj6WzF3k5/983amBt+WSwLh0j0L7nOIxWmDw=; b=dyuu+/tMviLx
-        TOcnOCm5pCzaLOxSuAVGQpml4EQrF+FxOrYBy56ouq5fq2JdCDiLh/vtMyQeMAVw997JNd6e6+Kws
-        XKigfZ4ajuB+jjwbCoUiZcfzLhmOyxzCnWrt1Ssjwh+Em14kpVGlJVAdUJ07dpsd96lo/kQ+2KcVp
-        hSfyw=;
+        List-Archive; bh=M0UtU+P76tl6I2am1+6jBwzAm5xDDtoU2k1GZJCX7To=; b=azqjrrAseLwD
+        FH25w6rk3SvM79q5WQcFnMd54zSIBaoSVYVMaeUyfY4UcvJlOUDfeU0kaPN/BAnpBoG24n1p6/5qy
+        iASsW4d3nzMCdtSGFgeIa3oZbWlIqKj6B70XJp6eqs5vUZjC325KhOkxT//hJfmlmalTSjEHtm83n
+        ZXzl4=;
 Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=ypsilon.sirena.org.uk)
         by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <broonie@sirena.co.uk>)
-        id 1iLWeT-0004Fm-3M; Fri, 18 Oct 2019 18:07:01 +0000
+        id 1iLWeb-0004H6-1h; Fri, 18 Oct 2019 18:07:09 +0000
 Received: by ypsilon.sirena.org.uk (Postfix, from userid 1000)
-        id 819E72743276; Fri, 18 Oct 2019 19:07:00 +0100 (BST)
+        id 7D0022743276; Fri, 18 Oct 2019 19:07:08 +0100 (BST)
 From:   Mark Brown <broonie@kernel.org>
-To:     Junya Monden <jmonden@jp.adit-jv.com>
-Cc:     alsa-devel@alsa-project.org,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Jiada Wang <jiada_wang@mentor.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        linux-kernel@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Mark Brown <broonie@kernel.org>, stable@vger.kernel.org,
-        stable@vger.kernel.org, Takashi Iwai <tiwai@suse.com>,
-        Timo Wischer <twischer@de.adit-jv.com>
-Subject: Applied "ASoC: rsnd: Reinitialize bit clock inversion flag for every format setting" to the asoc tree
-In-Reply-To: <20191016124255.7442-1-erosca@de.adit-jv.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-spi@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+        Stephen Boyd <swboyd@chromium.org>
+Subject: Applied "spi: rspi: Use platform_get_irq_byname_optional() for optional irqs" to the spi tree
+In-Reply-To: <20191016143101.28738-1-geert+renesas@glider.be>
 X-Patchwork-Hint: ignore
-Message-Id: <20191018180700.819E72743276@ypsilon.sirena.org.uk>
-Date:   Fri, 18 Oct 2019 19:07:00 +0100 (BST)
+Message-Id: <20191018180708.7D0022743276@ypsilon.sirena.org.uk>
+Date:   Fri, 18 Oct 2019 19:07:08 +0100 (BST)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -56,11 +46,11 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 The patch
 
-   ASoC: rsnd: Reinitialize bit clock inversion flag for every format setting
+   spi: rspi: Use platform_get_irq_byname_optional() for optional irqs
 
-has been applied to the asoc tree at
+has been applied to the spi tree at
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-5.4
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-5.4
 
 All being well this means that it will be integrated into the linux-next
 tree (usually sometime in the next 24 hours) and sent to Linus during
@@ -81,45 +71,59 @@ to this mail.
 Thanks,
 Mark
 
-From 22e58665a01006d05f0239621f7d41cacca96cc4 Mon Sep 17 00:00:00 2001
-From: Junya Monden <jmonden@jp.adit-jv.com>
-Date: Wed, 16 Oct 2019 14:42:55 +0200
-Subject: [PATCH] ASoC: rsnd: Reinitialize bit clock inversion flag for every
- format setting
+From 2de860b4a7a0bd5a4b5bd3bff0e6a615495df4ba Mon Sep 17 00:00:00 2001
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+Date: Wed, 16 Oct 2019 16:31:01 +0200
+Subject: [PATCH] spi: rspi: Use platform_get_irq_byname_optional() for
+ optional irqs
 
-Unlike other format-related DAI parameters, rdai->bit_clk_inv flag
-is not properly re-initialized when setting format for new stream
-processing. The inversion, if requested, is then applied not to default,
-but to a previous value, which leads to SCKP bit in SSICR register being
-set incorrectly.
-Fix this by re-setting the flag to its initial value, determined by format.
+As platform_get_irq_byname() now prints an error when the interrupt
+does not exist, scary warnings may be printed for optional interrupts:
 
-Fixes: 1a7889ca8aba3 ("ASoC: rsnd: fixup SND_SOC_DAIFMT_xB_xF behavior")
-Cc: Andrew Gabbasov <andrew_gabbasov@mentor.com>
-Cc: Jiada Wang <jiada_wang@mentor.com>
-Cc: Timo Wischer <twischer@de.adit-jv.com>
-Cc: stable@vger.kernel.org # v3.17+
-Signed-off-by: Junya Monden <jmonden@jp.adit-jv.com>
-Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Link: https://lore.kernel.org/r/20191016124255.7442-1-erosca@de.adit-jv.com
+    renesas_spi e6b10000.spi: IRQ rx not found
+    renesas_spi e6b10000.spi: IRQ mux not found
+
+Fix this by calling platform_get_irq_byname_optional() instead.
+Remove the no longer needed printing of platform_get_irq errors, as the
+remaining calls to platform_get_irq() and platform_get_irq_byname() take
+care of that.
+
+Fixes: 7723f4c5ecdb8d83 ("driver core: platform: Add an error message to platform_get_irq*()")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Link: https://lore.kernel.org/r/20191016143101.28738-1-geert+renesas@glider.be
 Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- sound/soc/sh/rcar/core.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/spi/spi-rspi.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/sound/soc/sh/rcar/core.c b/sound/soc/sh/rcar/core.c
-index bda5b958d0dc..e9596c2096cd 100644
---- a/sound/soc/sh/rcar/core.c
-+++ b/sound/soc/sh/rcar/core.c
-@@ -761,6 +761,7 @@ static int rsnd_soc_dai_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- 	}
+diff --git a/drivers/spi/spi-rspi.c b/drivers/spi/spi-rspi.c
+index 15f5723d9f95..7222c7689c3c 100644
+--- a/drivers/spi/spi-rspi.c
++++ b/drivers/spi/spi-rspi.c
+@@ -1257,9 +1257,9 @@ static int rspi_probe(struct platform_device *pdev)
+ 	ctlr->flags = ops->flags;
+ 	ctlr->dev.of_node = pdev->dev.of_node;
  
- 	/* set format */
-+	rdai->bit_clk_inv = 0;
- 	switch (fmt & SND_SOC_DAIFMT_FORMAT_MASK) {
- 	case SND_SOC_DAIFMT_I2S:
- 		rdai->sys_delay = 0;
+-	ret = platform_get_irq_byname(pdev, "rx");
++	ret = platform_get_irq_byname_optional(pdev, "rx");
+ 	if (ret < 0) {
+-		ret = platform_get_irq_byname(pdev, "mux");
++		ret = platform_get_irq_byname_optional(pdev, "mux");
+ 		if (ret < 0)
+ 			ret = platform_get_irq(pdev, 0);
+ 		if (ret >= 0)
+@@ -1270,10 +1270,6 @@ static int rspi_probe(struct platform_device *pdev)
+ 		if (ret >= 0)
+ 			rspi->tx_irq = ret;
+ 	}
+-	if (ret < 0) {
+-		dev_err(&pdev->dev, "platform_get_irq error\n");
+-		goto error2;
+-	}
+ 
+ 	if (rspi->rx_irq == rspi->tx_irq) {
+ 		/* Single multiplexed interrupt */
 -- 
 2.20.1
 
