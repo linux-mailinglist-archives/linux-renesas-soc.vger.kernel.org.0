@@ -2,113 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B1A1DB720
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 17 Oct 2019 21:14:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D7A9DBC81
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2019 07:09:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393240AbfJQTOF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 17 Oct 2019 15:14:05 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:51862 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727397AbfJQTOF (ORCPT
+        id S2503633AbfJRFGN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 18 Oct 2019 01:06:13 -0400
+Received: from mta-p5.oit.umn.edu ([134.84.196.205]:58374 "EHLO
+        mta-p5.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2504076AbfJRFFW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 17 Oct 2019 15:14:05 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 99907500;
-        Thu, 17 Oct 2019 21:14:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1571339643;
-        bh=T8QQ+jvwcbYP+lrdGA0O9pZdbwxhTK5RoFxJAWwUBPc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TY3TajZBX4fjw741T+diLe6XUhE1h7+4ch7BZjIZ2DXjuGVRj+zMFmPY4s6E0oWOV
-         P5q7A9OQolmzTi/nz9dEP5SYKlDjViHDDIY+H6+JeI/tMfV3haJ5cofbDjOFpbjC1S
-         NWSjbcUdkV8F0JzwCmAX8vFEbmw/7QI4+2a5ccks=
-Date:   Thu, 17 Oct 2019 22:14:00 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
-        horms@verge.net.au, uli+renesas@fpond.eu, airlied@linux.ie,
-        daniel@ffwll.ch, linux-renesas-soc@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 0/8] drm: rcar-du: Add Color Management Module (CMM)
-Message-ID: <20191017191400.GH4901@pendragon.ideasonboard.com>
-References: <20191016085548.105703-1-jacopo+renesas@jmondi.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20191016085548.105703-1-jacopo+renesas@jmondi.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Fri, 18 Oct 2019 01:05:22 -0400
+X-Greylist: delayed 600 seconds by postgrey-1.27 at vger.kernel.org; Fri, 18 Oct 2019 01:05:20 EDT
+Received: from localhost (unknown [127.0.0.1])
+        by mta-p5.oit.umn.edu (Postfix) with ESMTP id B1E69C7E
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 18 Oct 2019 04:47:07 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at umn.edu
+Received: from mta-p5.oit.umn.edu ([127.0.0.1])
+        by localhost (mta-p5.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id qO3y1NFE5_bc for <linux-renesas-soc@vger.kernel.org>;
+        Thu, 17 Oct 2019 23:47:07 -0500 (CDT)
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
+        (using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mta-p5.oit.umn.edu (Postfix) with ESMTPS id 89FD4C80
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Oct 2019 23:47:07 -0500 (CDT)
+Received: by mail-io1-f71.google.com with SMTP id z10so7137813ioj.1
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 17 Oct 2019 21:47:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=umn.edu; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=EUxpZ3T7vF3Kc+2RT08v4EEjAUSgYRvb0sha4nlMD8s=;
+        b=bdTw0PeubzcFLX1DriNm0Yl8F6jO9UQoufbrtSDEs2MigRgqIOl6EgA0X//E19MR66
+         XpcdNRPB7qQNjzC43YxSWiD+KXoP8weegm1HXd7uoxT+1wgQ9KiBhqajAmyu8pEyt+fH
+         qkvk2dC0jbqXNKfd71ZkAnX1/hNKlEHhYQaOkcRslt/U5CG7CZkuukajp9Au3eF39qDP
+         IwRkhylUXdMbDkN5jqdMIUmSzuYH9W3wQ3cniFfx1nhZDFZlBDqyp61SR0djcWU0Xa8h
+         q1xO07n9Kf4GAytT3Et9g44q/7pV5QhhZ/7v8uUpvS7dcD5R2ovx/hygqf0lz2X81X/i
+         GnZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=EUxpZ3T7vF3Kc+2RT08v4EEjAUSgYRvb0sha4nlMD8s=;
+        b=jnLzRonEuNfu6DbBfSgG56pPFzhzGG5RzcBUkvPi0uy4fwgR6CLVkiY6/2og9BUQwB
+         Cn+o/v5fNH/p0AmWe3EqCeqvf+hopNSdmak5sMfn4uHoeXBJwdpt7thkWIXquGWhurm5
+         tPo7Yxtd/XxC+tkK7iJ7DxdMNTtUOEaI3jH70Yq+GhdCQW4k9nLy5sNQePDbjlXFsy4B
+         svn+rkMgkaONLVdY+mjjeJIQTEZu4VhBkKIjxQaJdHi3C+y0uzPbzpoMH2R0Jk7bMEKY
+         0u92kZEUA4G5q0zG+H5NNFE+CRBIZn++acXxFvZ7n9oj6/PFYKgAwpdT2Jk73JeUvII8
+         lkYA==
+X-Gm-Message-State: APjAAAV53HxbbYNHL4aVIjuMpEoxIa/f32j5PZ6/1U50zx6VFzWhqSwS
+        jGHrqP2UJ2A1eeLvrwxg7GmXeTunkWzi1EKaBGr2QwdsCS/kEv+gKgXVZaCSxwN4isXnlBesIEe
+        K9y4Du/Dm9+D8R9P+qPGgXE1PuAt0eRLAndI=
+X-Received: by 2002:a5d:8b8b:: with SMTP id p11mr6820749iol.2.1571374026858;
+        Thu, 17 Oct 2019 21:47:06 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzRFDJCsdCcPC5eb4L2SDx6043c6Gt8bq+dQz12A8oxvmQA4iLvhp+dkRZ6xTeypxz8f1Vy/g==
+X-Received: by 2002:a5d:8b8b:: with SMTP id p11mr6820730iol.2.1571374026580;
+        Thu, 17 Oct 2019 21:47:06 -0700 (PDT)
+Received: from bee.dtc.umn.edu (cs-bee-u.cs.umn.edu. [128.101.106.63])
+        by smtp.gmail.com with ESMTPSA id j2sm1968315ile.24.2019.10.17.21.47.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Oct 2019 21:47:05 -0700 (PDT)
+From:   Kangjie Lu <kjlu@umn.edu>
+To:     kjlu@umn.edu
+Cc:     Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] media: rcar_drif: fix a memory disclosure
+Date:   Thu, 17 Oct 2019 23:47:00 -0500
+Message-Id: <20191018044701.4786-1-kjlu@umn.edu>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+"f->fmt.sdr.reserved" is uninitialized. As other peer drivers
+like msi2500 and airspy do, the fix initializes it to avoid
+memory disclosures.
 
-Thank you for your work.
+Signed-off-by: Kangjie Lu <kjlu@umn.edu>
+---
+ drivers/media/platform/rcar_drif.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-On Wed, Oct 16, 2019 at 10:55:40AM +0200, Jacopo Mondi wrote:
-> Minimal increment to the CMM series, this time should really be the last one.
-> 
-> Just missing Rob's ack on [1/8] and Laurent's one on [5/8].
-> 
-> Changelog is minimal:
-> CMM
-> - Remove the cmm_config.enable flag. The cmm_config.table field validity is
->   used to enable/disable the LUT operations
-> - Expand comments as suggested by Laurent
-> 
-> CRTC
-> - use drm_color_lut_size() to check the LUT table size
-> - Inline calls to rcar_cmm_enable()/disable()
-> - Add TODO entries as suggested by Laurent
-> 
-> For the record, the full series changelog is available at:
-> https://paste.debian.net/1107427/
-> 
-> v5 from yesterday with informations on testing is available at:
-> https://lkml.org/lkml/2019/10/15/337
-> 
-> Geert will you collect for DTS patches for the next release?
-> I assume the DU changes go through Laurent instead ?
-
-I've taken patch 1/8 to 6/8 and 8/8 in my tree. I expected Geert to take
-7/8.
-
-> Jacopo Mondi (8):
->   dt-bindings: display: renesas,cmm: Add R-Car CMM documentation
->   dt-bindings: display, renesas,du: Document cmms property
->   drm: rcar-du: Add support for CMM
->   drm: rcar-du: kms: Initialize CMM instances
->   drm: rcar-du: crtc: Control CMM operations
->   drm: rcar-du: crtc: Register GAMMA_LUT properties
->   arm64: dts: renesas: Add CMM units to Gen3 SoCs
->   drm: rcar-du: kms: Expand comment in vsps parsing routine
-> 
->  .../bindings/display/renesas,cmm.yaml         |  67 ++++++
->  .../bindings/display/renesas,du.txt           |   5 +
->  arch/arm64/boot/dts/renesas/r8a7795.dtsi      |  39 ++++
->  arch/arm64/boot/dts/renesas/r8a7796.dtsi      |  31 ++-
->  arch/arm64/boot/dts/renesas/r8a77965.dtsi     |  31 ++-
->  arch/arm64/boot/dts/renesas/r8a77990.dtsi     |  21 ++
->  arch/arm64/boot/dts/renesas/r8a77995.dtsi     |  21 ++
->  drivers/gpu/drm/rcar-du/Kconfig               |   7 +
->  drivers/gpu/drm/rcar-du/Makefile              |   1 +
->  drivers/gpu/drm/rcar-du/rcar_cmm.c            | 212 ++++++++++++++++++
->  drivers/gpu/drm/rcar-du/rcar_cmm.h            |  58 +++++
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.c        |  65 ++++++
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.h        |   2 +
->  drivers/gpu/drm/rcar-du/rcar_du_drv.h         |   2 +
->  drivers/gpu/drm/rcar-du/rcar_du_group.c       |  10 +
->  drivers/gpu/drm/rcar-du/rcar_du_group.h       |   2 +
->  drivers/gpu/drm/rcar-du/rcar_du_kms.c         |  82 ++++++-
->  drivers/gpu/drm/rcar-du/rcar_du_regs.h        |   5 +
->  18 files changed, 658 insertions(+), 3 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/renesas,cmm.yaml
->  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.c
->  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.h
-> 
-
+diff --git a/drivers/media/platform/rcar_drif.c b/drivers/media/platform/rcar_drif.c
+index 608e5217ccd5..0f267a237b42 100644
+--- a/drivers/media/platform/rcar_drif.c
++++ b/drivers/media/platform/rcar_drif.c
+@@ -912,6 +912,7 @@ static int rcar_drif_g_fmt_sdr_cap(struct file *file, void *priv,
+ {
+ 	struct rcar_drif_sdr *sdr = video_drvdata(file);
+ 
++	memset(f->fmt.sdr.reserved, 0, sizeof(f->fmt.sdr.reserved));
+ 	f->fmt.sdr.pixelformat = sdr->fmt->pixelformat;
+ 	f->fmt.sdr.buffersize = sdr->fmt->buffersize;
+ 
 -- 
-Regards,
+2.17.1
 
-Laurent Pinchart
