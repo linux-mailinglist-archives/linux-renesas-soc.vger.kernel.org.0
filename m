@@ -2,42 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 89228DC379
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2019 13:02:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29F7FDC37F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 18 Oct 2019 13:02:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2633624AbfJRLBK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S2633622AbfJRLBK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Fri, 18 Oct 2019 07:01:10 -0400
-Received: from laurent.telenet-ops.be ([195.130.137.89]:47696 "EHLO
-        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2633621AbfJRLBH (ORCPT
+Received: from baptiste.telenet-ops.be ([195.130.132.51]:60120 "EHLO
+        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2633619AbfJRLBH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
         Fri, 18 Oct 2019 07:01:07 -0400
 Received: from ramsan ([84.194.98.4])
-        by laurent.telenet-ops.be with bizsmtp
-        id Ez142100i05gfCL01z148H; Fri, 18 Oct 2019 13:01:05 +0200
+        by baptiste.telenet-ops.be with bizsmtp
+        id Ez142100H05gfCL01z14uo; Fri, 18 Oct 2019 13:01:04 +0200
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1iLQ0G-0005q3-JW; Fri, 18 Oct 2019 13:01:04 +0200
+        id 1iLQ0G-0005q3-IE; Fri, 18 Oct 2019 13:01:04 +0200
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1iLPEt-0006s8-Va; Fri, 18 Oct 2019 12:12:07 +0200
+        id 1iLPF3-0006t5-Kd; Fri, 18 Oct 2019 12:12:17 +0200
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PULL 5/5] Renesas DT binding updates for v5.5
-Date:   Fri, 18 Oct 2019 12:11:36 +0200
-Message-Id: <20191018101136.26350-6-geert+renesas@glider.be>
+Subject: [GIT PULL] clk: renesas: Updates for v5.5
+Date:   Fri, 18 Oct 2019 12:12:12 +0200
+Message-Id: <20191018101212.26432-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191018101136.26350-1-geert+renesas@glider.be>
-References: <20191018101136.26350-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
+
+	Hi Mike, Stephen,
 
 The following changes since commit 54ecb8f7028c5eb3d740bb82b0f1d90f2df63c5c:
 
@@ -45,31 +44,76 @@ The following changes since commit 54ecb8f7028c5eb3d740bb82b0f1d90f2df63c5c:
 
 are available in the Git repository at:
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-dt-bindings-for-v5.5-tag1
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/clk-renesas-for-v5.5-tag1
 
-for you to fetch changes up to 4d3cae42544775c71521e8ed5adb64c1839036b9:
+for you to fetch changes up to 56278c8fcb71874d591907d654272d511ce3597c:
 
-  dt-bindings: reset: rcar-rst: Document r8a774b1 reset module (2019-10-01 09:52:34 +0200)
-
-----------------------------------------------------------------
-Renesas DT binding updates for v5.5
-
-  - RZ/G2M update for the Renesas Timer Unit bindings,
-  - Support for the new RZ/G2N (r8a774b1) SoC and the HiHope RZ/G2N
-    board.
+  clk: renesas: r8a774b1: Add TMU clock (2019-10-07 14:29:53 +0200)
 
 ----------------------------------------------------------------
-Biju Das (4):
-      dt-bindings: arm: renesas: Document RZ/G2N SoC DT bindings
-      dt-bindings: arm: renesas: Add HopeRun RZ/G2N boards
-      dt-bindings: power: rcar-sysc: Document r8a774b1 sysc
-      dt-bindings: reset: rcar-rst: Document r8a774b1 reset module
+clk: renesas: Updates for v5.5
 
-Fabrizio Castro (1):
-      dt-bindings: timer: renesas: tmu: Document r8a774a1 bindings
+  - Add support for the new RZ/G2N (r8a774b1) SoC,
+  - Remove R-Car Gen2 legacy DT clock support,
+  - Improve arithmetic divisions on R-Car Gen2 and Gen3,
+  - Improve R-Car Gen3 SD clock handling,
+  - Minor cleanups.
 
- Documentation/devicetree/bindings/arm/renesas.yaml           | 12 ++++++++++++
- .../devicetree/bindings/power/renesas,rcar-sysc.txt          |  1 +
- Documentation/devicetree/bindings/reset/renesas,rst.txt      |  1 +
- Documentation/devicetree/bindings/timer/renesas,tmu.txt      |  1 +
- 4 files changed, 15 insertions(+)
+Note that the new Renesas RZ/G2N DT Binding Definitions are shared by
+driver and DT source files, and thus included in 3 pull requests:
+  - "[GIT PULL] clk: renesas: Updates for v5.5] (for clk),
+  - "[GIT PULL 3/5] Renesas ARM64 DT updates for v5.5" (for arm-soc),
+  - "[GIT PULL 4/5] Renesas driver updates for v5.5" (for arm-soc).
+
+If you prefer to merge this dependency explicitly, please pull tag
+renesas-r8a774b1-dt-binding-defs-tag first.
+
+Thanks for pulling!
+
+----------------------------------------------------------------
+Biju Das (5):
+      dt-bindings: power: Add r8a774b1 SYSC power domain definitions
+      dt-bindings: clk: Add r8a774b1 CPG Core Clock Definitions
+      dt-bindings: clock: renesas: cpg-mssr: Document r8a774b1 binding
+      clk: renesas: cpg-mssr: Add r8a774b1 support
+      clk: renesas: r8a774b1: Add TMU clock
+
+Geert Uytterhoeven (6):
+      clk: renesas: Remove R-Car Gen2 legacy DT clock support
+      clk: renesas: rcar-gen2: Improve arithmetic divisions
+      clk: renesas: rcar-gen3: Improve arithmetic divisions
+      clk: renesas: rcar-gen3: Avoid double table iteration in SD .set_rate()
+      clk: renesas: rcar-gen3: Absorb cpg_sd_clock_calc_div()
+      clk: renesas: rcar-gen3: Loop to find best rate in cpg_sd_clock_round_rate()
+
+Markus Elfring (1):
+      clk: renesas: mstp: Delete unnecessary kfree() in cpg_mstp_clocks_init()
+
+ .../devicetree/bindings/clock/renesas,cpg-mssr.txt |  10 +-
+ drivers/clk/renesas/Kconfig                        |  25 +-
+ drivers/clk/renesas/Makefile                       |   2 +-
+ drivers/clk/renesas/clk-mstp.c                     |   4 +-
+ drivers/clk/renesas/clk-rcar-gen2.c                | 457 ---------------------
+ drivers/clk/renesas/r8a774b1-cpg-mssr.c            | 327 +++++++++++++++
+ drivers/clk/renesas/rcar-gen2-cpg.c                |   6 +-
+ drivers/clk/renesas/rcar-gen3-cpg.c                |  37 +-
+ drivers/clk/renesas/renesas-cpg-mssr.c             |   6 +
+ drivers/clk/renesas/renesas-cpg-mssr.h             |   1 +
+ include/dt-bindings/clock/r8a774b1-cpg-mssr.h      |  57 +++
+ include/dt-bindings/power/r8a774b1-sysc.h          |  26 ++
+ 12 files changed, 449 insertions(+), 509 deletions(-)
+ delete mode 100644 drivers/clk/renesas/clk-rcar-gen2.c
+ create mode 100644 drivers/clk/renesas/r8a774b1-cpg-mssr.c
+ create mode 100644 include/dt-bindings/clock/r8a774b1-cpg-mssr.h
+ create mode 100644 include/dt-bindings/power/r8a774b1-sysc.h
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
