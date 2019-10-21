@@ -2,52 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F90CDE179
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Oct 2019 02:38:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD1A0DE180
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Oct 2019 02:39:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726607AbfJUAif (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 20 Oct 2019 20:38:35 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:46372 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726576AbfJUAif (ORCPT
+        id S1726663AbfJUAjZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 20 Oct 2019 20:39:25 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:41539 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726200AbfJUAjZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 20 Oct 2019 20:38:35 -0400
-Received: by mail-lj1-f195.google.com with SMTP id d1so11340884ljl.13
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 20 Oct 2019 17:38:34 -0700 (PDT)
+        Sun, 20 Oct 2019 20:39:25 -0400
+Received: by mail-lj1-f194.google.com with SMTP id f5so11383063ljg.8
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 20 Oct 2019 17:39:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=cUqtT92AZ9lrnd20Di/UpzfjLJC1pbg37G7/c5IKKgY=;
-        b=p21Noq3CV55U0A8VkoqX9m278rUiKa/xxLlh7wdB854lwoLBsD/p2++t0xmNEycGIK
-         ANYQQ14P9emosdRn1GHlGds1elZqSmc61JQxwsOk+HFpvm/lrsd1yD/4YJTzbmMzt+Q5
-         KTMY/zdvQSJLiuV3K6AQ1QGcIBpkc4R37ftWyRLh9IAm8FQQEHlxsp1q6SfVBobY10Xw
-         7AExxFLYrCcP18tEtj8tAyDAm0jUCs4v0IoD/0RrJvvr1mMcc/9hWRivKyNDU07OfqMx
-         gzbCsW2jvKPzSCUdmmeSrghFYS3dB0zTeJxQvDHXdK684lBmD+LdrJJQqxko/+eHauF9
-         /HVg==
+        bh=9FExjd8Mw+5S7YMEqY/A4+by9kWereoTqCBatm9VlSY=;
+        b=bKfda/5lV6mWSWAiZpVxxNgMPBVwZY2DPWmhX6/nmnzg2UVxlImBP+/CfiJfb0DiYB
+         w9AfDMSY2xb7TJKWzJ0+yMgQCi8J1xBfKrV90PGs/IEDPvEiqamNKpZqVWxgVnPWKGYm
+         VN/CkYJn3XGCMykhmOivjJ0NuoUfJFVlSmhq7Xl76tAXV8UZroBJtxN4TpJwd1ySaSUC
+         AaUBJg36OCzkyyf51aFEd1O4z9D+UjGo/4Y2R/zIT6yqBY2hyQ2lWAyh03UyWv4Mk6X2
+         lSmCEqBEonc5NP58z1JO+HSpRadEiRVD11I6IW2n1nbWguPbe6WtLVRLwW/8m44zqXMN
+         cG7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=cUqtT92AZ9lrnd20Di/UpzfjLJC1pbg37G7/c5IKKgY=;
-        b=NadjZEVoWiLcKQUGHkso/UKEQfln1yYttTGeU1/71S/6k4bWj4Oe7lKnyxPSp750CB
-         QHZnOngv4tZLLlu8FLrOadogu/4ER81zbnc23fhGzcSX9TATCWDKfWW1R+nqunzEvc0P
-         uwFoE/qqn3c0vY10SQjkMSdtbLW7kX7GT3H2uqRbwRrJFRmnzFIJOaUdRY1LrtyghExK
-         2ITAL8Jo15P7tqpYbWmFa515zhz2CMpglwbWbmnTMO01RBYePAVmzhqcX1cZaK4WIkon
-         PIZs+nlQ25EBwkyKklSPL8JcLfQzVhsoDrELce8fRQkUzv7qVlm7l2m4ojFh06B/HYAG
-         NMcQ==
-X-Gm-Message-State: APjAAAWmIBInKzKnKB1Ov86NRw6fDUrnO2nc4PNRl+SPtjD6WPs3A5XE
-        PApCAs6gfzCjM1/LqjbRBGvR6s6lYlSvmzJfPxWgnGaG
-X-Google-Smtp-Source: APXvYqx+Sv2qws2AyWYB+jVZthwdqV3ztSd28/13A632cZQGo2Czb2JB4I8085joST3g83E93e5BoQ6uVRT+sDP11QY=
-X-Received: by 2002:a2e:9f4d:: with SMTP id v13mr12883755ljk.183.1571618313283;
- Sun, 20 Oct 2019 17:38:33 -0700 (PDT)
+        bh=9FExjd8Mw+5S7YMEqY/A4+by9kWereoTqCBatm9VlSY=;
+        b=q0bbjQS77han5hF29/6ARCSbO9mkJMUzn2qZs5CpWkweZA/ouvN7+C7HbxKE9M4HZH
+         1rNqKm/6YwGz8wbnwwsWKhglY865tgqpEyC+kq1XetsGaEz99qfCUBQZCK+DQx+2CAiJ
+         chFSS8p2+XlnsvyFfPftDv8Gl/oTNo3EaXm/gMRJWj7aMH2EAxm4L3vzvWo2blqekUFv
+         OsOPMRZr32Zn/uml10kkE3W6m5EvleyeCv5NlouszcevP3qZiuB/gDrg4YmpwiVz7wDR
+         08Lfm+AVNytJU3rtBypFp/sXeUYIYXuhjaBh1K54GQMT7+p44UviEKCF+HuJBe2fMEX/
+         iMCA==
+X-Gm-Message-State: APjAAAU/+6ZoFLoKuHWa9d70Ctzig8ltgoLRS5M1QrMtO2xY2GGnkmAB
+        sWLOjt9tZFnk9Z79eu+FYAC180h4qp3GYmqOYUnEcQ==
+X-Google-Smtp-Source: APXvYqzWOeDq45DqnffOCq2/ChHGoqMhScnvErLh5JbufOO4hYwyRCMdCCsjftBVaXnakQZF8XtaUFolXzMPZX14iKU=
+X-Received: by 2002:a05:651c:1202:: with SMTP id i2mr6489156lja.218.1571618361501;
+ Sun, 20 Oct 2019 17:39:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191016200647.32050-1-robh@kernel.org> <20191016200647.32050-13-robh@kernel.org>
-In-Reply-To: <20191016200647.32050-13-robh@kernel.org>
+References: <20191016200647.32050-1-robh@kernel.org> <20191016200647.32050-17-robh@kernel.org>
+In-Reply-To: <20191016200647.32050-17-robh@kernel.org>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Mon, 21 Oct 2019 02:38:20 +0200
-Message-ID: <CACRpkdaxm-mdULkgm3NwncizELJ14SgLAnGLVy6UE+dUXN2ynQ@mail.gmail.com>
-Subject: Re: [PATCH v2 12/25] PCI: v3-semi: Use pci_parse_request_of_pci_ranges()
+Date:   Mon, 21 Oct 2019 02:39:07 +0200
+Message-ID: <CACRpkdYjY0JZCCfb9r9A2GKmO03hHXNCqGmy6qqBkLfOdZZdEQ@mail.gmail.com>
+Subject: Re: [PATCH v2 16/25] PCI: versatile: Use pci_parse_request_of_pci_ranges()
 To:     Rob Herring <robh@kernel.org>
 Cc:     Andrew Murray <andrew.murray@arm.com>,
         Bjorn Helgaas <bhelgaas@google.com>,
@@ -84,17 +84,19 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Wed, Oct 16, 2019 at 10:07 PM Rob Herring <robh@kernel.org> wrote:
 
-> Convert V3 host bridge to use the common
+> Convert ARM Versatile host bridge to use the common
 > pci_parse_request_of_pci_ranges().
 >
-> Cc: Linus Walleij <linus.walleij@linaro.org>
+> There's no need to assign the resources to a temporary list first. Just
+> use bridge->windows directly and remove all the temporary list handling.
+>
 > Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> Cc: Andrew Murray <andrew.murray@arm.com>
 > Cc: Bjorn Helgaas <bhelgaas@google.com>
 > Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
 > v2:
-> - New patch
+> - Fix 'mem' initial value to 1
+> - Remove temporary resource list
 
 Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
