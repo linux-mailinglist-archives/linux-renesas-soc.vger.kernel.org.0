@@ -2,107 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 101D1DE0D0
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Oct 2019 00:05:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F90CDE179
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 21 Oct 2019 02:38:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726539AbfJTWFw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 20 Oct 2019 18:05:52 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:46746 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726496AbfJTWFw (ORCPT
+        id S1726607AbfJUAif (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 20 Oct 2019 20:38:35 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:46372 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726576AbfJUAif (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 20 Oct 2019 18:05:52 -0400
-Received: by mail-lj1-f193.google.com with SMTP id d1so11168839ljl.13
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 20 Oct 2019 15:05:50 -0700 (PDT)
+        Sun, 20 Oct 2019 20:38:35 -0400
+Received: by mail-lj1-f195.google.com with SMTP id d1so11340884ljl.13
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 20 Oct 2019 17:38:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=iUMa5QoMRlHLJqsynLbu/hpJbEC1VIDyLoIQW8s0r9s=;
-        b=kbHe5OvbVNtkyq6JSWrrjlbEhmXrUq4zaQBlBOFRjwyxCKK6ARW14hoWM8SarEtNcs
-         nRkkwzk/t7Q+wuaUSS9x0v8yg0EhCn6kBH6D4bZ09iXTpEYtHFB3SpGv/nkG71StkcJz
-         2O9GbUsV6cZ66kN+Otifgq7EsguR/X2+dnAtV8C2zATib0+qicD4jjqr0BlRYbTrcgYw
-         nF9R4Mq2J2KTr9h+/KTGTCG8IW+FoeAwI8eF4eU31xrRWMxlKcDpCvdSc2+R8s0+45Ez
-         KWqIB82pkZjvvVsmgN+I24bHZkrqMq1fV206A5UK2Atc/wimC8opCYf9J0Sko3Zo+LmY
-         vZ5A==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cUqtT92AZ9lrnd20Di/UpzfjLJC1pbg37G7/c5IKKgY=;
+        b=p21Noq3CV55U0A8VkoqX9m278rUiKa/xxLlh7wdB854lwoLBsD/p2++t0xmNEycGIK
+         ANYQQ14P9emosdRn1GHlGds1elZqSmc61JQxwsOk+HFpvm/lrsd1yD/4YJTzbmMzt+Q5
+         KTMY/zdvQSJLiuV3K6AQ1QGcIBpkc4R37ftWyRLh9IAm8FQQEHlxsp1q6SfVBobY10Xw
+         7AExxFLYrCcP18tEtj8tAyDAm0jUCs4v0IoD/0RrJvvr1mMcc/9hWRivKyNDU07OfqMx
+         gzbCsW2jvKPzSCUdmmeSrghFYS3dB0zTeJxQvDHXdK684lBmD+LdrJJQqxko/+eHauF9
+         /HVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=iUMa5QoMRlHLJqsynLbu/hpJbEC1VIDyLoIQW8s0r9s=;
-        b=k621MQg7d0f+ZDih9Ib5+fQ0Y/s+ln+PeodkHruMFHvdkpOS6kKjGDKYBsHAyC5kAF
-         lpOis72eDGvZaRMx/FHlZ/OtyIHtQho6/lUvvzJ2ymSwiqFhqRIHMm98FOD60ovp1XUB
-         jzPxwU9v0e/bWwFRILH+XRAajZdAe/qANhmygdeDLTZBDH4Lm/nB0mGzCnU/vqbzHmUq
-         MeIOA7F7y5tLmiMVDGVnX4KSEgiOKbembWbX4/u4jem+t/YMfJJTNZrH9fMm4x0tP+Vn
-         hWSkaYrRrKG/3aOYqgRVZm+bXhhqlo764xHmQKZdFFrkYNWrFe240odkqlw3Loc4EqXh
-         4ipw==
-X-Gm-Message-State: APjAAAWEPXagFK4V75oSeul8az7KdLegqzWZnU5ZnAukTZhGHNRqynwI
-        CD64Ns+w0L9ndLXcfVWl/0znIQ==
-X-Google-Smtp-Source: APXvYqxPyuMIupeV/16Itd+J1ki2mprFeli1CjiyppU2YJniKudicVPAQI8wojvxnpK5GeVvGJnNmw==
-X-Received: by 2002:a2e:8945:: with SMTP id b5mr8423266ljk.215.1571609149787;
-        Sun, 20 Oct 2019 15:05:49 -0700 (PDT)
-Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
-        by smtp.gmail.com with ESMTPSA id i11sm6465930ljb.74.2019.10.20.15.05.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Oct 2019 15:05:48 -0700 (PDT)
-Date:   Mon, 21 Oct 2019 00:05:48 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Biju Das <biju.das@bp.renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms@verge.net.au>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Subject: Re: [PATCH 0/4] Add VIN/CSI-2 support
-Message-ID: <20191020220548.GG13372@bigcity.dyn.berto.se>
-References: <1571137078-28922-1-git-send-email-biju.das@bp.renesas.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cUqtT92AZ9lrnd20Di/UpzfjLJC1pbg37G7/c5IKKgY=;
+        b=NadjZEVoWiLcKQUGHkso/UKEQfln1yYttTGeU1/71S/6k4bWj4Oe7lKnyxPSp750CB
+         QHZnOngv4tZLLlu8FLrOadogu/4ER81zbnc23fhGzcSX9TATCWDKfWW1R+nqunzEvc0P
+         uwFoE/qqn3c0vY10SQjkMSdtbLW7kX7GT3H2uqRbwRrJFRmnzFIJOaUdRY1LrtyghExK
+         2ITAL8Jo15P7tqpYbWmFa515zhz2CMpglwbWbmnTMO01RBYePAVmzhqcX1cZaK4WIkon
+         PIZs+nlQ25EBwkyKklSPL8JcLfQzVhsoDrELce8fRQkUzv7qVlm7l2m4ojFh06B/HYAG
+         NMcQ==
+X-Gm-Message-State: APjAAAWmIBInKzKnKB1Ov86NRw6fDUrnO2nc4PNRl+SPtjD6WPs3A5XE
+        PApCAs6gfzCjM1/LqjbRBGvR6s6lYlSvmzJfPxWgnGaG
+X-Google-Smtp-Source: APXvYqx+Sv2qws2AyWYB+jVZthwdqV3ztSd28/13A632cZQGo2Czb2JB4I8085joST3g83E93e5BoQ6uVRT+sDP11QY=
+X-Received: by 2002:a2e:9f4d:: with SMTP id v13mr12883755ljk.183.1571618313283;
+ Sun, 20 Oct 2019 17:38:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1571137078-28922-1-git-send-email-biju.das@bp.renesas.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+References: <20191016200647.32050-1-robh@kernel.org> <20191016200647.32050-13-robh@kernel.org>
+In-Reply-To: <20191016200647.32050-13-robh@kernel.org>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 21 Oct 2019 02:38:20 +0200
+Message-ID: <CACRpkdaxm-mdULkgm3NwncizELJ14SgLAnGLVy6UE+dUXN2ynQ@mail.gmail.com>
+Subject: Re: [PATCH v2 12/25] PCI: v3-semi: Use pci_parse_request_of_pci_ranges()
+To:     Rob Herring <robh@kernel.org>
+Cc:     Andrew Murray <andrew.murray@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
+        Ley Foon Tan <lftan@altera.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Ray Jui <rjui@broadcom.com>, rfi@lists.rocketboards.org,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Simon Horman <horms@verge.net.au>,
+        Srinath Mannam <srinath.mannam@broadcom.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Toan Le <toan@os.amperecomputing.com>,
+        Tom Joseph <tjoseph@cadence.com>, Will Deacon <will@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+On Wed, Oct 16, 2019 at 10:07 PM Rob Herring <robh@kernel.org> wrote:
 
-Thanks for your work.
+> Convert V3 host bridge to use the common
+> pci_parse_request_of_pci_ranges().
+>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> Cc: Andrew Murray <andrew.murray@arm.com>
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+> v2:
+> - New patch
 
-On 2019-10-15 11:57:54 +0100, Biju Das wrote:
-> This patch series add VIN/CSI-2 driver support for RZ/G2N SoC.
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
-For the whole series,
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> 
-> Biju Das (4):
->   media: dt-bindings: rcar-vin: Add R8A774B1 support
->   media: dt-bindings: rcar-csi2: Add R8A774B1 support
->   media: rcar-vin: Enable support for R8A774B1
->   media: rcar-csi2: Enable support for R8A774B1
-> 
->  Documentation/devicetree/bindings/media/renesas,csi2.txt | 1 +
->  Documentation/devicetree/bindings/media/renesas,vin.txt  | 1 +
->  drivers/media/platform/rcar-vin/rcar-core.c              | 4 ++++
->  drivers/media/platform/rcar-vin/rcar-csi2.c              | 4 ++++
->  4 files changed, 10 insertions(+)
-> 
-> -- 
-> 2.7.4
-> 
-
--- 
-Regards,
-Niklas Söderlund
+Yours,
+Linus Walleij
