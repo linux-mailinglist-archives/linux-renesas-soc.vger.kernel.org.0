@@ -2,81 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E8C1AE1587
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Oct 2019 11:15:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC406E1A05
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Oct 2019 14:29:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390802AbfJWJPP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Oct 2019 05:15:15 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:38508 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2390666AbfJWJPP (ORCPT
+        id S2391305AbfJWM3W (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Oct 2019 08:29:22 -0400
+Received: from michel.telenet-ops.be ([195.130.137.88]:37370 "EHLO
+        michel.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730402AbfJWM3V (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Oct 2019 05:15:15 -0400
-X-IronPort-AV: E=Sophos;i="5.68,220,1569250800"; 
-   d="scan'208";a="29796384"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 23 Oct 2019 18:15:14 +0900
-Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0DE1A41D0CAF;
-        Wed, 23 Oct 2019 18:15:10 +0900 (JST)
-From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-To:     Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
+        Wed, 23 Oct 2019 08:29:21 -0400
+Received: from ramsan ([84.194.98.4])
+        by michel.telenet-ops.be with bizsmtp
+        id H0VK2100505gfCL060VKmx; Wed, 23 Oct 2019 14:29:20 +0200
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1iNFlP-0000FR-3e; Wed, 23 Oct 2019 14:29:19 +0200
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1iNFlP-0003B7-1d; Wed, 23 Oct 2019 14:29:19 +0200
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>
-Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-ide@vger.kernel.org,
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
         devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Simon Horman <horms@verge.net.au>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: [PATCH v2] dt-bindings: ata: sata_rcar: Add r8a774b1 support
-Date:   Wed, 23 Oct 2019 10:15:06 +0100
-Message-Id: <1571822106-16258-1-git-send-email-fabrizio.castro@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
+        linux-arm-kernel@lists.infradead.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2 0/5] dt-bindings: arm: renesas: Add core r8a77961 support
+Date:   Wed, 23 Oct 2019 14:29:06 +0200
+Message-Id: <20191023122911.12166-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Document SATA support for the RZ/G2N, no driver change required.
+	Hi all,
 
-Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v1->v2:
-* Prepended "dt-bindings: " to commit title as per Geert's comment
+This patch series updates the Renesas DT binding documentation for core
+components on the new R-Car M3-W+ (R8A77961) SoC, and for the
+Salvator-XS development board equipped with this SoC.
 
- Documentation/devicetree/bindings/ata/sata_rcar.txt | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Changes compared to v1[1]:
+  - Split in per-subsystem series,
+  - Add Reviewed-by,
+  - Add board part number.
 
-diff --git a/Documentation/devicetree/bindings/ata/sata_rcar.txt b/Documentation/devicetree/bindings/ata/sata_rcar.txt
-index 4268e17..a2fbdc9 100644
---- a/Documentation/devicetree/bindings/ata/sata_rcar.txt
-+++ b/Documentation/devicetree/bindings/ata/sata_rcar.txt
-@@ -2,6 +2,7 @@
- 
- Required properties:
- - compatible		: should contain one or more of the following:
-+			  - "renesas,sata-r8a774b1" for RZ/G2N
- 			  - "renesas,sata-r8a7779" for R-Car H1
- 			  - "renesas,sata-r8a7790-es1" for R-Car H2 ES1
- 			  - "renesas,sata-r8a7790" for R-Car H2 other than ES1
-@@ -9,8 +10,10 @@ Required properties:
- 			  - "renesas,sata-r8a7793" for R-Car M2-N
- 			  - "renesas,sata-r8a7795" for R-Car H3
- 			  - "renesas,sata-r8a77965" for R-Car M3-N
--			  - "renesas,rcar-gen2-sata" for a generic R-Car Gen2 compatible device
--			  - "renesas,rcar-gen3-sata" for a generic R-Car Gen3 compatible device
-+			  - "renesas,rcar-gen2-sata" for a generic R-Car Gen2
-+			     compatible device
-+			  - "renesas,rcar-gen3-sata" for a generic R-Car Gen3 or
-+			     RZ/G2 compatible device
- 			  - "renesas,rcar-sata" is deprecated
- 
- 			  When compatible with the generic version nodes
+I intend to queue this series in renesas-devel for v5.5.
+The last patch will be put on a branch shared between driver and DTS.
+
+Thanks for your comments!
+
+[1] "[PATCH/RFC 00/19] arm64: dts: renesas: Initial support for R-Car M3-W+"
+    https://lore.kernel.org/linux-renesas-soc/20191007102332.12196-1-geert+renesas@glider.be/
+
+Geert Uytterhoeven (5):
+  dt-bindings: arm: renesas: Document R-Car M3-W+ SoC DT bindings
+  dt-bindings: arm: renesas: Add Salvator-XS board with R-Car M3-W+
+  dt-bindings: reset: rcar-rst: Document r8a77961 support
+  dt-bindings: power: rcar-sysc: Document r8a77961 support
+  dt-bindings: power: Add r8a77961 SYSC power domain definitions
+
+ .../devicetree/bindings/arm/renesas.yaml      |  6 ++++
+ .../bindings/power/renesas,rcar-sysc.txt      |  1 +
+ .../devicetree/bindings/reset/renesas,rst.txt |  1 +
+ include/dt-bindings/power/r8a77961-sysc.h     | 32 +++++++++++++++++++
+ 4 files changed, 40 insertions(+)
+ create mode 100644 include/dt-bindings/power/r8a77961-sysc.h
+
 -- 
-2.7.4
+2.17.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
