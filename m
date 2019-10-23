@@ -2,78 +2,240 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 478CAE12F8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Oct 2019 09:22:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E28EE13F1
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 23 Oct 2019 10:20:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389459AbfJWHW1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 23 Oct 2019 03:22:27 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:33838 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731524AbfJWHW1 (ORCPT
+        id S2390214AbfJWIUz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 23 Oct 2019 04:20:55 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:57485 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2390020AbfJWIUz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 23 Oct 2019 03:22:27 -0400
-Received: by mail-oi1-f194.google.com with SMTP id 83so16542084oii.1;
-        Wed, 23 Oct 2019 00:22:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TOaUWyi/x9JZGeLAJtv/bTsxt59bZqT5nf8AkAwdah0=;
-        b=PasBKWcsWtOxaUcd3g5c5Y9cea1AmFsYgIg6FUvSwgdLmXyK7Ee12Kx1/KU0TwaOKf
-         oOHF3JnrMB+AmTjhWN0lGkU4FQxZotQme4x6dMz5ApMMuNHLfikXExOJJB0DTWx5KXKy
-         UcyD5Z+vCO7DfCC83rLJCR4/j7BgjquCZH94uGi39BVlgpYTp8hkjdiENa/zpfl4pHaF
-         P3HXb+BjHL5noNJsdaxfGOIWk6hlWTy2WYrU/7bXxsdMCDVUqvRSIDGjn006QAAtsVE4
-         M/rsPwBrmPnMeTCThI4226Q6p+6fF2K7z1pyok0z0L6G79bogrhgFvjeI+ybqo+M9vB8
-         oE0g==
-X-Gm-Message-State: APjAAAW7KNj+tRvbFZPWf4N5ylGiPUV18hlCsSG1MbhE6YxiF15zSDn7
-        flwJC9HPydRxT4ldvEqBgpP2is1DQ8/7X1cArSA=
-X-Google-Smtp-Source: APXvYqzsr3XeKcQn61PFHf2SGc7J2g+d0f3gAwX4hrPcrdjZJlMXSyaeDBlcX+lUVj31AitjhNwWrzH38NO0lFIscTg=
-X-Received: by 2002:a54:4e89:: with SMTP id c9mr6106926oiy.148.1571815346600;
- Wed, 23 Oct 2019 00:22:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <1571761279-17347-1-git-send-email-fabrizio.castro@bp.renesas.com> <1571761279-17347-3-git-send-email-fabrizio.castro@bp.renesas.com>
-In-Reply-To: <1571761279-17347-3-git-send-email-fabrizio.castro@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 23 Oct 2019 09:22:15 +0200
-Message-ID: <CAMuHMdXOr_kyZbva5Es8awh9J63w07KS_iJ+J_2bCyBKxB=uPQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: renesas: r8a774b1: Add SATA controller node
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>, linux-ide@vger.kernel.org,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Simon Horman <horms@verge.net.au>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Content-Type: text/plain; charset="UTF-8"
+        Wed, 23 Oct 2019 04:20:55 -0400
+X-IronPort-AV: E=Sophos;i="5.68,220,1569250800"; 
+   d="scan'208";a="29789660"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 23 Oct 2019 17:20:53 +0900
+Received: from localhost.localdomain (unknown [10.166.252.89])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 937174007F2B;
+        Wed, 23 Oct 2019 17:20:53 +0900 (JST)
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     gregkh@linuxfoundation.org, robh+dt@kernel.org,
+        mark.rutland@arm.com
+Cc:     linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH] dt-bindings: usb: renesas_usbhs: convert bindings to json-schema
+Date:   Wed, 23 Oct 2019 17:20:08 +0900
+Message-Id: <1571818808-12495-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Oct 22, 2019 at 6:21 PM Fabrizio Castro
-<fabrizio.castro@bp.renesas.com> wrote:
-> Add the SATA controller node to the RZ/G2N SoC specific
-> dtsi.
->
-> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Convert Renesas USBHS (HS-USB) controller bindings documentation
+to json-schema.
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-i.e. will queue in renesas-devel for v5.5.
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ .../devicetree/bindings/usb/renesas,usbhs.txt      |  58 ----------
+ .../devicetree/bindings/usb/renesas,usbhs.yaml     | 121 +++++++++++++++++++++
+ 2 files changed, 121 insertions(+), 58 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/usb/renesas,usbhs.txt
+ create mode 100644 Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/Documentation/devicetree/bindings/usb/renesas,usbhs.txt b/Documentation/devicetree/bindings/usb/renesas,usbhs.txt
+deleted file mode 100644
+index 06abe99..00000000
+--- a/Documentation/devicetree/bindings/usb/renesas,usbhs.txt
++++ /dev/null
+@@ -1,58 +0,0 @@
+-Renesas Electronics USBHS driver
+-
+-Required properties:
+-  - compatible: Must contain one or more of the following:
+-
+-	- "renesas,usbhs-r8a7743" for r8a7743 (RZ/G1M) compatible device
+-	- "renesas,usbhs-r8a7744" for r8a7744 (RZ/G1N) compatible device
+-	- "renesas,usbhs-r8a7745" for r8a7745 (RZ/G1E) compatible device
+-	- "renesas,usbhs-r8a77470" for r8a77470 (RZ/G1C) compatible device
+-	- "renesas,usbhs-r8a774a1" for r8a774a1 (RZ/G2M) compatible device
+-	- "renesas,usbhs-r8a774b1" for r8a774b1 (RZ/G2N) compatible device
+-	- "renesas,usbhs-r8a774c0" for r8a774c0 (RZ/G2E) compatible device
+-	- "renesas,usbhs-r8a7790" for r8a7790 (R-Car H2) compatible device
+-	- "renesas,usbhs-r8a7791" for r8a7791 (R-Car M2-W) compatible device
+-	- "renesas,usbhs-r8a7792" for r8a7792 (R-Car V2H) compatible device
+-	- "renesas,usbhs-r8a7793" for r8a7793 (R-Car M2-N) compatible device
+-	- "renesas,usbhs-r8a7794" for r8a7794 (R-Car E2) compatible device
+-	- "renesas,usbhs-r8a7795" for r8a7795 (R-Car H3) compatible device
+-	- "renesas,usbhs-r8a7796" for r8a7796 (R-Car M3-W) compatible device
+-	- "renesas,usbhs-r8a77965" for r8a77965 (R-Car M3-N) compatible device
+-	- "renesas,usbhs-r8a77990" for r8a77990 (R-Car E3) compatible device
+-	- "renesas,usbhs-r8a77995" for r8a77995 (R-Car D3) compatible device
+-	- "renesas,usbhs-r7s72100" for r7s72100 (RZ/A1) compatible device
+-	- "renesas,usbhs-r7s9210" for r7s9210 (RZ/A2) compatible device
+-	- "renesas,rcar-gen2-usbhs" for R-Car Gen2 or RZ/G1 compatible devices
+-	- "renesas,rcar-gen3-usbhs" for R-Car Gen3 or RZ/G2 compatible devices
+-	- "renesas,rza1-usbhs" for RZ/A1 compatible device
+-	- "renesas,rza2-usbhs" for RZ/A2 compatible device
+-
+-	When compatible with the generic version, nodes must list the
+-	SoC-specific version corresponding to the platform first followed
+-	by the generic version.
+-
+-  - reg: Base address and length of the register for the USBHS
+-  - interrupts: Interrupt specifier for the USBHS
+-  - clocks: A list of phandle + clock specifier pairs.
+-	    - In case of "renesas,rcar-gen3-usbhs", two clocks are required.
+-	      First clock should be peripheral and second one should be host.
+-	    - In case of except above, one clock is required. First clock
+-	      should be peripheral.
+-
+-Optional properties:
+-  - renesas,buswait: Integer to use BUSWAIT register
+-  - renesas,enable-gpio: A gpio specifier to check GPIO determining if USB
+-			 function should be enabled
+-  - phys: phandle + phy specifier pair
+-  - phy-names: must be "usb"
+-  - dmas: Must contain a list of references to DMA specifiers.
+-  - dma-names : named "ch%d", where %d is the channel number ranging from zero
+-                to the number of channels (DnFIFOs) minus one.
+-
+-Example:
+-	usbhs: usb@e6590000 {
+-		compatible = "renesas,usbhs-r8a7790", "renesas,rcar-gen2-usbhs";
+-		reg = <0 0xe6590000 0 0x100>;
+-		interrupts = <0 107 IRQ_TYPE_LEVEL_HIGH>;
+-		clocks = <&mstp7_clks R8A7790_CLK_HSUSB>;
+-	};
+diff --git a/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml b/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
+new file mode 100644
+index 00000000..cb80a06
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/renesas,usbhs.yaml
+@@ -0,0 +1,121 @@
++# SPDX-License-Identifier: GPL-2.0-only
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/renesas,usbhs.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas USBHS (HS-USB) controller
++
++maintainers:
++  - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - renesas,usbhs-r7s72100 # RZ/A1
++          - const: renesas,rza1-usbhs
++
++      - items:
++          - enum:
++              - renesas,usbhs-r7s9210 # RZ/A2
++          - const: renesas,rza2-usbhs
++
++      - items:
++          - enum:
++              - renesas,usbhs-r8a7743  # RZ/G1M
++              - renesas,usbhs-r8a7744  # RZ/G1N
++              - renesas,usbhs-r8a7745  # RZ/G1E
++              - renesas,usbhs-r8a77470 # RZ/G1C
++              - renesas,usbhs-r8a7790  # R-Car H2
++              - renesas,usbhs-r8a7791  # R-Car M2-W
++              - renesas,usbhs-r8a7792  # R-Car V2H
++              - renesas,usbhs-r8a7793  # R-Car M2-N
++              - renesas,usbhs-r8a7794  # R-Car E2
++          - const: renesas,rcar-gen2-usbhs
++
++      - items:
++          - enum:
++              - renesas,usbhs-r8a774a1 # RZ/G2M
++              - renesas,usbhs-r8a774b1 # RZ/G2N
++              - renesas,usbhs-r8a774c0 # RZ/G2E
++              - renesas,usbhs-r8a7795  # R-Car H3
++              - renesas,usbhs-r8a7796  # R-Car M3-W
++              - renesas,usbhs-r8a77965 # R-Car M3-N
++              - renesas,usbhs-r8a77990 # R-Car E3
++              - renesas,usbhs-r8a77995 # R-Car D3
++          - const: renesas,rcar-gen3-usbhs
++
++  reg:
++    # base address and length of the registers block for the controller.
++    maxItems: 1
++
++  clocks:
++    # clock phandle and specifier pair(s).
++    minItems: 1
++    maxItems: 2
++
++  interrupts:
++    maxItems: 1
++
++  renesas,buswait:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: |
++      Integer to use BUSWAIT register.
++
++  renesas,enable-gpio:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description: |
++      gpio specifier to check GPIO determining if USB function should be
++      enabled.
++
++  phys:
++    description: phandle + phy specifier pair.
++
++  phy-names:
++    const: usb
++
++  dmas:
++    minItems: 2
++    maxItems: 4
++
++  dma-names:
++    minItems: 2
++    maxItems: 4
++    items:
++      enum: [ch0, ch1, ch2, ch3]
++
++  dr_mode:
++    $ref: /schemas/types.yaml#/definitions/string
++    description: |
++      See generic.txt.
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    minItems: 1
++    maxItems: 2
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - interrupts
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/r8a7790-cpg-mssr.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/r8a7790-sysc.h>
++
++    usbhs: usb@e6590000 {
++        compatible = "renesas,usbhs-r8a7790", "renesas,rcar-gen2-usbhs";
++        reg = <0 0xe6590000 0 0x100>;
++        interrupts = <GIC_SPI 107 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&cpg CPG_MOD 704>;
++    };
++
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.7.4
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
