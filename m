@@ -2,78 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 51C75E33B0
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Oct 2019 15:14:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DB0BE376D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Oct 2019 18:08:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502437AbfJXNOd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Oct 2019 09:14:33 -0400
-Received: from laurent.telenet-ops.be ([195.130.137.89]:40450 "EHLO
-        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2502405AbfJXNOc (ORCPT
+        id S2407783AbfJXQIC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Oct 2019 12:08:02 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:60810 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2407736AbfJXQIC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Oct 2019 09:14:32 -0400
-Received: from ramsan ([84.195.182.253])
-        by laurent.telenet-ops.be with bizsmtp
-        id HREV210015USYZQ01REV1m; Thu, 24 Oct 2019 15:14:31 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iNcwe-00068n-UD; Thu, 24 Oct 2019 15:14:28 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iNcwe-0004Nk-RD; Thu, 24 Oct 2019 15:14:28 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] media: dt-bindings: rcar_vin: Document RZ/G1 per-board settings
-Date:   Thu, 24 Oct 2019 15:14:23 +0200
-Message-Id: <20191024131423.16799-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Thu, 24 Oct 2019 12:08:02 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2799F97D;
+        Thu, 24 Oct 2019 18:07:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1571933279;
+        bh=E0u5EGQJgZFUyiN+Ew4wg2qtOTUGASZhDXrztK1WyO0=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=nK/l8OmNlr+RjJ4eWy01G5S9BFuLZsObwsMCONjJKC/kaZkBY8z7jPRQm0BBcch4U
+         bbWW+D0tQbS7hYJZWZ8vClhZJltzm7iIcHofp0suThr/cj5SjPy5nxjZW+W+rIKSyI
+         //QU+xHQ3S03d+JQsooZ7EbvQynLp3yL1mITvn6M=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH] media: fdp1: Fix R-Car M3-N naming in debug message
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20191024130916.16444-1-geert+renesas@glider.be>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <05a62983-5132-0fcb-2e8e-70b95d44730f@ideasonboard.com>
+Date:   Thu, 24 Oct 2019 17:07:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20191024130916.16444-1-geert+renesas@glider.be>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The R-Car Gen2 per-board settings apply to RZ/G1, too.
+Hi Geert,
 
-Fixes: 1d14a5eaa156b0b3 ("media: dt-bindings: media: rcar_vin: add device tree support for r8a774[35]")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- Documentation/devicetree/bindings/media/renesas,vin.txt | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 24/10/2019 14:09, Geert Uytterhoeven wrote:
+> The official name is "R-Car M3-N", not "R-Car M3N".
+> 
+> Fixes: 4e8c120de9268fc2 ("media: fdp1: Support M3N and E3 platforms")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/media/platform/rcar_fdp1.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/rcar_fdp1.c b/drivers/media/platform/rcar_fdp1.c
+> index cb93a13e1777a53e..97bed45360f088d0 100644
+> --- a/drivers/media/platform/rcar_fdp1.c
+> +++ b/drivers/media/platform/rcar_fdp1.c
+> @@ -2369,7 +2369,7 @@ static int fdp1_probe(struct platform_device *pdev)
+>  		dprintk(fdp1, "FDP1 Version R-Car H3\n");
+>  		break;
+>  	case FD1_IP_M3N:
 
-diff --git a/Documentation/devicetree/bindings/media/renesas,vin.txt b/Documentation/devicetree/bindings/media/renesas,vin.txt
-index aa217b0962797712..221fcc416d1ac598 100644
---- a/Documentation/devicetree/bindings/media/renesas,vin.txt
-+++ b/Documentation/devicetree/bindings/media/renesas,vin.txt
-@@ -43,7 +43,7 @@ on Gen3 and RZ/G2 platforms to a CSI-2 receiver.
- Additionally, an alias named vinX will need to be created to specify
- which video input device this is.
- 
--The per-board settings Gen2 platforms:
-+The per-board settings for Gen2 and RZ/G1 platforms:
- 
- - port - sub-node describing a single endpoint connected to the VIN
-   from external SoC pins as described in video-interfaces.txt[1].
-@@ -63,7 +63,7 @@ The per-board settings Gen2 platforms:
-     - data-enable-active: polarity of CLKENB signal, see [1] for
-       description. Default is active high.
- 
--The per-board settings Gen3 and RZ/G2 platforms:
-+The per-board settings for Gen3 and RZ/G2 platforms:
- 
- Gen3 and RZ/G2 platforms can support both a single connected parallel input
- source from external SoC pins (port@0) and/or multiple parallel input sources
--- 
-2.17.1
+Should the FD1_IP_M3N naming also be updated accordingly?
+I guess that's not so important.
+
+Either way, up to you.
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> -		dprintk(fdp1, "FDP1 Version R-Car M3N\n");
+> +		dprintk(fdp1, "FDP1 Version R-Car M3-N\n");
+>  		break;
+>  	case FD1_IP_E3:
+>  		dprintk(fdp1, "FDP1 Version R-Car E3\n");
+> 
 
