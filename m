@@ -2,43 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DAA55E3077
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Oct 2019 13:35:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FAF7E3122
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 24 Oct 2019 13:45:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391380AbfJXLfC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Oct 2019 07:35:02 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:41511 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390184AbfJXLfB (ORCPT
+        id S2439173AbfJXLp5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Oct 2019 07:45:57 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:34745 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2438939AbfJXLp5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Oct 2019 07:35:01 -0400
-Received: by mail-ot1-f66.google.com with SMTP id 94so416269oty.8;
-        Thu, 24 Oct 2019 04:35:01 -0700 (PDT)
+        Thu, 24 Oct 2019 07:45:57 -0400
+Received: by mail-oi1-f193.google.com with SMTP id 83so20341217oii.1;
+        Thu, 24 Oct 2019 04:45:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=J4PbOQfqm9akiqgjwMOPLZWIcMjV9yQd7nxa6MaNJhw=;
-        b=ihyAPG0rMfnTB9Vdu/pONpu45Qq+AS3ePmk42gGqVS5BwAgQttfZ/2uIWaRgS3NZZC
-         O2thCVzfkrnWEHJ3uO/d/R3nrYTb4tqioo+TQN48JENPRzw/eDpq35w7Gut9e1UYXfY1
-         rw5iUA4Zn+/dtUKLO1ddWbigChkMm2p9+A0G76+kBxO8tucMikeHzCxsvSK+cgDDOY2X
-         T6zytIhg3nFKRcewkkAC8ww3wLc84LrzXn2Muz/5v9yvdyF8QSYb9eDYnNACfPfohlA1
-         5eKwyGHMtABNAZBegSvCnCDpNK4V+BUOsbgbvs0uRb+L6GAzOgFQPbX33doIUaLdXZwr
-         TlgQ==
-X-Gm-Message-State: APjAAAWq2C6Xe6VcjaB9C9jWINyDhHYoCZ8J+ILUFjstVYu+ahIftg5X
-        0iOkaFAYRsnOlvMcl5zCPkFeU0jJBqXzm7qQdeI=
-X-Google-Smtp-Source: APXvYqx2VCYaJ04ssYc62/0iTmPxcEDnkTjfMDN/WmE/qVFET5J3lGb2kaY7rRUjTSwtt6GQGuoBP77OFhxkM3SxTc0=
-X-Received: by 2002:a9d:7d19:: with SMTP id v25mr1847064otn.250.1571916900501;
- Thu, 24 Oct 2019 04:35:00 -0700 (PDT)
+        bh=xapP1tQVHBFB4u5IRo6bt1XmdgDLSW79Eo21jhd+1ys=;
+        b=nKKitKBFfQliYORkF6LbkqaGtHQ1U88yd8yLJUYHhm4OdFsk9ukOyOukGSuSNP7fB+
+         y5Y/be9GePk+mKJd0x7APc+NAK0hjuxJOsL9sz3a0s4/Fy6rxFTRn1LhsGSFayfVEJiy
+         3h4TUBARcNmJNMuCp6aU2zCYU2Zn0Jlj9f7NQyNyo98GP0S0oJ3m5B6tVY0IVWyic6Nw
+         xT7MIl9a9A9o8oUJhPkqHv0uBSyHJXsFdCDKRjUL2KLv52kQaq/vvmuzg4UrQ/nzQDZ5
+         ggIEfzoSG4cPEBWP8wp7dFPQf+WAedDfIbmkRmOWvFCu39HBWa3DD5e2gvSg5bcPe/Fc
+         7N4w==
+X-Gm-Message-State: APjAAAUAl9GPHSXOa+jkj7yafy4N33OGWxHrAOry2HT2xC5QbJHVcT+r
+        So9Ak4qvFYAphLZEWZ/OZT+0nLB98gef+w34aDM=
+X-Google-Smtp-Source: APXvYqyYrTTKmO7hOqrCTJfyf96D1kruRxrWcBoOiIEfJhdm5CfrfxUVO0e52Qb0mTkw6VqHzQVre7gs5e1H2KbWLpI=
+X-Received: by 2002:aca:882:: with SMTP id 124mr4319026oii.54.1571917556040;
+ Thu, 24 Oct 2019 04:45:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <1571915821-1620-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1571915821-1620-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1571915821-1620-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1571915821-1620-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1571915821-1620-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 24 Oct 2019 13:34:49 +0200
-Message-ID: <CAMuHMdU=58w=4A0WcqytFfyV_Q11BgYaDNsMsA8Z15mnm--ang@mail.gmail.com>
-Subject: Re: [PATCH 2/3] clk: renesas: rcar-usb2-clock-sel: Add multiple
- clocks management
+Date:   Thu, 24 Oct 2019 13:45:45 +0200
+Message-ID: <CAMuHMdXLOh3j-CFb3008DkXVAmq2MWCSW0SqzPoBBeq5v1qwoA@mail.gmail.com>
+Subject: Re: [PATCH 1/3] dt-bindings: clock: renesas: rcar-usb2-clock-sel: Fix
+ clock[-name]s properties
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -59,62 +59,48 @@ Hi Shimoda-san,
 
 On Thu, Oct 24, 2019 at 1:17 PM Yoshihiro Shimoda
 <yoshihiro.shimoda.uh@renesas.com> wrote:
-> This hardware needs to enable clocks of both host and peripheral.
-> So, this patch adds multiple clocks management.
+> Since the hardware requires to enable both USB 2.0 host and peripheral
+> functional clock, this patch fixes the documentation.
+> Fortunately, no one has this device node for now, so that we don't
+> need to think of backward compatibility.
 >
+> Fixes: 311accb64570 ("clk: renesas: rcar-usb2-clock-sel: Add R-Car USB 2.0 clock selector PHY")
 > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Thanks for your patch!
+Thanks four your patch!
 
-> --- a/drivers/clk/renesas/rcar-usb2-clock-sel.c
-> +++ b/drivers/clk/renesas/rcar-usb2-clock-sel.c
-> @@ -53,14 +60,32 @@ static void usb2_clock_sel_disable_extal_only(struct usb2_clock_sel_priv *priv)
->
->  static int usb2_clock_sel_enable(struct clk_hw *hw)
->  {
-> -       usb2_clock_sel_enable_extal_only(to_priv(hw));
-> +       struct usb2_clock_sel_priv *priv = to_priv(hw);
-> +       int i, ret;
-> +
-> +       for (i = 0; i < CLK_NUM; i++) {
-> +               ret = clk_prepare_enable(priv->clks[i]);
-> +               if (ret) {
-> +                       while (--i >= 0)
-> +                               clk_disable_unprepare(priv->clks[i]);
-> +                       return ret;
-> +               }
-> +       }
+Looks good to me, so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-You can use the clk_bulk_* APIs, instead of open-coding the same
-operation.
+I'm just wondering about the inconsistent use of "_" and "-" in clock
+names, but I don't have a better suggestion ("hs-usb-if", "usb_extal",
+and "usb_xtal" do match the datasheet), so let's ignore my OCD ;-)
 
-> @@ -131,6 +156,14 @@ static int rcar_usb2_clock_sel_probe(struct platform_device *pdev)
->         pm_runtime_enable(dev);
->         pm_runtime_get_sync(dev);
+> --- a/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.txt
+> +++ b/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.txt
+> @@ -38,7 +38,8 @@ Required properties:
+>  - reg: offset and length of the USB 2.0 clock selector register block.
+>  - clocks: A list of phandles and specifier pairs.
+>  - clock-names: Name of the clocks.
+> - - The functional clock must be "ehci_ohci"
+> + - The functional clock of USB 2.0 host side must be "ehci_ohci"
 
-pm_runtime_get_sync() will have already enabled the first module clock listed in
-the DT "clocks" property.
+"_" means "and".
 
-If you want the driver to manage all clocks itself, perhaps the PM Runtime
-calls should be dropped?
+> + - The functional clock of HS-USB side must be "hs-usb-if"
 
-> +       priv->clks[CLK_INDEX_EHCI_OHCI] = devm_clk_get(dev, "ehci_ohci");
-> +       if (IS_ERR(priv->clks[CLK_INDEX_EHCI_OHCI]))
-> +               return PTR_ERR(priv->clks[CLK_INDEX_EHCI_OHCI]);
-> +
-> +       priv->clks[CLK_INDEX_HS_USB] = devm_clk_get(dev, "hs-usb-if");
-> +       if (IS_ERR(priv->clks[CLK_INDEX_HS_USB]))
-> +               return PTR_ERR(priv->clks[CLK_INDEX_HS_USB]);
-> +
->         clk = devm_clk_get(dev, "usb_extal");
->         if (!IS_ERR(clk) && !clk_prepare_enable(clk)) {
->                 priv->extal = !!clk_get_rate(clk);
+"-" means concatenation of terms.
+
+>   - The USB_EXTAL clock pin must be "usb_extal"
+>   - The USB_XTAL clock pin must be "usb_xtal"
+
+"_" means concatenation of terms.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
