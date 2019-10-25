@@ -2,44 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AF18E44C7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2019 09:45:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 501B4E44CF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2019 09:47:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437123AbfJYHpi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Oct 2019 03:45:38 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:36340 "EHLO
+        id S2437153AbfJYHrQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Oct 2019 03:47:16 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:42681 "EHLO
         mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731944AbfJYHpi (ORCPT
+        with ESMTP id S1727275AbfJYHrQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Oct 2019 03:45:38 -0400
-Received: by mail-oi1-f194.google.com with SMTP id j7so940312oib.3;
-        Fri, 25 Oct 2019 00:45:37 -0700 (PDT)
+        Fri, 25 Oct 2019 03:47:16 -0400
+Received: by mail-oi1-f194.google.com with SMTP id i185so921163oif.9;
+        Fri, 25 Oct 2019 00:47:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=s6ZC++eR+Anvq5w5y2toT3ro/1GmNiaawbRNGBDM50Y=;
-        b=qA1zxFah6vxcYrisH/RrG6cgK8CCAmUSxV1MbwNJZ6DqB0ADmpsM2/nk8sh+BSL0rh
-         gael0Q7PdkHAsbvnDgapS5oevlHLfP0lBTBEt+Lt1DVhR6RqzX9irHSkyqnc9lNe8qR7
-         Etj5NwIzebhRVP38HZeKTuxq5d+9rK6xIQ8W/r9zHv+QWpjNBkO05Cw/LLZ87QYHE9au
-         IE9hd/wQ0XE4RbJFdPESazny1NnS3dBYmKfc2WRnBk7dKzZY+THZfMHAxix8RDu4oGrT
-         nIAAOa61l37Ljy/rrLb0aHp8KoiOflOYuWJ1NjIXWBb803+NCHMtHGeyusXiy8N21ozx
-         E/vQ==
-X-Gm-Message-State: APjAAAUFiQOJ7PhFCkkC9SI00kHY7u3SpMh+P0IHCjDJe2km6E0WBat7
-        KdWscS6oBN7goquFrKyje3fII3m0LtLK7/e7Plw=
-X-Google-Smtp-Source: APXvYqwrJVHLeRWEm8u0/pVLScO1RueLURI19t5fuFsx6fFs9yX3/eVfltzcs95hGJA2rxAlGpZXVbs1xyVphVRpSQs=
-X-Received: by 2002:a05:6808:3b4:: with SMTP id n20mr1684536oie.131.1571989537298;
- Fri, 25 Oct 2019 00:45:37 -0700 (PDT)
+        bh=8zZtV2+T6wNs6wwQzlNZ1qpgoJVUirP0Vg0dJEJ2LHU=;
+        b=MHxrOpqGq4xo2+2n54Zv07nd8+wD33s5MSB9p5hig9053aIh1VzVnKhdPl2RPyoIhg
+         TCa10jY5nfKHiR7lp2VP41IV8Pvt0c1JEvDgeabkWGXmW7C+qVHu7OPCmJZ3TLIP+AHP
+         ivTrc8TwGR6H9cR2O+073confFc37sI++1kGu6GivUIWIfCItq4EsHXJnb6yVJ2pSKrx
+         kf3xfdBmwgWx4stDFIdDVm8VPm2FM+M5VOTN7PSsOt3WEmBfhdS9baC0kHImt4zG1aa5
+         V7n52Vy8boCURcHqStzQ+Wm8VqzwaqgT1eCiPCkALyJfFAW3RB0TzZFaE/RN0ulzx7ZI
+         Bdxg==
+X-Gm-Message-State: APjAAAXlmPwRly66QOWc8F+AvJlvz0pMzUBfSp0/z52GRzhiSsUebnlC
+        BdZoDb4Xduvzw8yKLt4LiUROOn5E61AJllBfADw=
+X-Google-Smtp-Source: APXvYqz2j1UKxPbK8D0J/lYB0lvG5GuWdZkQfM2ar/MyijONb1BrRq7aN1+gUIH15B2ywbc4PnGj5rJ7bKq9QfnqEE0=
+X-Received: by 2002:aca:882:: with SMTP id 124mr1813914oii.54.1571989635617;
+ Fri, 25 Oct 2019 00:47:15 -0700 (PDT)
 MIME-Version: 1.0
 References: <1571915821-1620-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1571915821-1620-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <CAMuHMdXLOh3j-CFb3008DkXVAmq2MWCSW0SqzPoBBeq5v1qwoA@mail.gmail.com> <TYAPR01MB45447511CC1DE9D16E031927D8650@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYAPR01MB45447511CC1DE9D16E031927D8650@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+ <1571915821-1620-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <CAMuHMdU=58w=4A0WcqytFfyV_Q11BgYaDNsMsA8Z15mnm--ang@mail.gmail.com> <TYAPR01MB4544D5F2A77FBBA7B0AF7EBDD8650@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYAPR01MB4544D5F2A77FBBA7B0AF7EBDD8650@TYAPR01MB4544.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 25 Oct 2019 09:45:26 +0200
-Message-ID: <CAMuHMdVCOCCy1MUiP04FGr9zVLbKDby-owbcMMwUNa7-MfcJgA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: clock: renesas: rcar-usb2-clock-sel: Fix
- clock[-name]s properties
+Date:   Fri, 25 Oct 2019 09:47:04 +0200
+Message-ID: <CAMuHMdV7upJi78CymxVYKzDdFWb-qHrnohfnULbNfXjF-QXKRA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] clk: renesas: rcar-usb2-clock-sel: Add multiple
+ clocks management
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -58,63 +58,29 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Shimoda-san,
 
-On Fri, Oct 25, 2019 at 3:29 AM Yoshihiro Shimoda
+On Fri, Oct 25, 2019 at 3:36 AM Yoshihiro Shimoda
 <yoshihiro.shimoda.uh@renesas.com> wrote:
-> > From: Geert Uytterhoeven, Sent: Thursday, October 24, 2019 8:46 PM
-> > On Thu, Oct 24, 2019 at 1:17 PM Yoshihiro Shimoda
-> > <yoshihiro.shimoda.uh@renesas.com> wrote:
-> > > Since the hardware requires to enable both USB 2.0 host and peripheral
-> > > functional clock, this patch fixes the documentation.
-> > > Fortunately, no one has this device node for now, so that we don't
-> > > need to think of backward compatibility.
-> > >
-> > > Fixes: 311accb64570 ("clk: renesas: rcar-usb2-clock-sel: Add R-Car USB 2.0 clock selector PHY")
-> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> >
-> > Thanks four your patch!
-> >
-> > Looks good to me, so
-> > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> Thank you for your review!
->
-> > I'm just wondering about the inconsistent use of "_" and "-" in clock
-> > names, but I don't have a better suggestion ("hs-usb-if", "usb_extal",
-> > and "usb_xtal" do match the datasheet), so let's ignore my OCD ;-)
->
-> I intended to match the names with the datasheet, but "ehci_ohci" doesn't match though...
-> So, should I change the "ehci_ohci" to "ehci/ohci"?
+> > From: Geert Uytterhoeven, Sent: Thursday, October 24, 2019 8:35 PM
+> <snip>
+> > > --- a/drivers/clk/renesas/rcar-usb2-clock-sel.c
+> > > +++ b/drivers/clk/renesas/rcar-usb2-clock-sel.c
 
-I think that's up to you.  Both are fine to me.
-Given this is USB2, using "ehci" only may be fine, too.
+> > > @@ -131,6 +156,14 @@ static int rcar_usb2_clock_sel_probe(struct platform_device *pdev)
+> > >         pm_runtime_enable(dev);
+> > >         pm_runtime_get_sync(dev);
+> >
+> > pm_runtime_get_sync() will have already enabled the first module clock listed in
+> > the DT "clocks" property.
+> >
+> > If you want the driver to manage all clocks itself, perhaps the PM Runtime
+> > calls should be dropped?
+>
+> I'm thinking PM Runtime calls are related to power domain control so that we cannot
+> drop it. Or, since the hardware is the Always-on domain, can we drop it anyway?
 
-Note that
-  - the only other clock with a slash in its name in the datasheet is
-    "ths/thc", which we call "thermal" in the clock drivers,
-  - the "ehci/ohci" clocks are called "ehciN" or "usb-ehci" in the clock
-    drivers.
-Nothing relies on those names, though, and they're not part of any ABI,
-unlike the ehci/ohci clock input in this binding.
-
-> > > --- a/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.txt
-> > > +++ b/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.txt
-> > > @@ -38,7 +38,8 @@ Required properties:
-> > >  - reg: offset and length of the USB 2.0 clock selector register block.
-> > >  - clocks: A list of phandles and specifier pairs.
-> > >  - clock-names: Name of the clocks.
-> > > - - The functional clock must be "ehci_ohci"
-> > > + - The functional clock of USB 2.0 host side must be "ehci_ohci"
-> >
-> > "_" means "and".
-> >
-> > > + - The functional clock of HS-USB side must be "hs-usb-if"
-> >
-> > "-" means concatenation of terms.
-> >
-> > >   - The USB_EXTAL clock pin must be "usb_extal"
-> > >   - The USB_XTAL clock pin must be "usb_xtal"
-> >
-> > "_" means concatenation of terms.
+That's right: if the hardware block ever ends up in a non-always-on
+power domain,
+you won't have a choice but to use PM Runtime.
 
 Gr{oetje,eeting}s,
 
