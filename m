@@ -2,114 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F0CDFE41DA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2019 04:52:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 333F9E4384
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2019 08:22:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391305AbfJYCwl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Oct 2019 22:52:41 -0400
-Received: from mail-eopbgr1400120.outbound.protection.outlook.com ([40.107.140.120]:41184
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1732696AbfJYCwl (ORCPT
+        id S2392326AbfJYGWG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Oct 2019 02:22:06 -0400
+Received: from mail-vs1-f66.google.com ([209.85.217.66]:44390 "EHLO
+        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726636AbfJYGWF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Oct 2019 22:52:41 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aklBFH99vG9xIi80qqRRIrqESCZU70Uv6xoJLfcnoXmcxJRu2vAQ04NJoijkuYH2+l+HHXDoI00Rxr0/lEDKYmxaWzXwc5uFR+qAcaGKciUKh66661RzCj00GjDdk63xh61AdsCIsDBUUGJ5K9oCcQ0CGDnvO2kt1k222vD5JI4rnBYGo4oCkpNpOf5yYAoCRCs077j3MzmBeGkbf0Z+7ApmsSwYQuM6XRqRndvtsO9JI0+2fFaVWY8qXBjW51f52VykeX9ZeLWtsZkeXByvpgDa4fONFrkTjGUGZWHFfKDK8kdVGsNMurVrukYFIYWkzouFNeSIadYPCYJpicxYiw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PPWe3yeEQMNhYykgbHflZ6CQKxpAv4ljpYH/6D+B718=;
- b=XPPCI2LJpR8xyD1FiPQvmeR7uJb6istMV47TtcPtltXldSK9QTn9bT9sybq19THuQbcM2jTm2gxJmIm8equJUFlKY1tvNUA1hrv7b/AEh5G+Xj7EFGA6bsL1reTV2VgONFpH3M+6aNDov+tePV3MTEil5moj8cCRMWJwwx3V4ibX7m7EZGHlr4wXfjfURHFy30IXWoKBe737p0yYoPA6px8WKq+CZEgAhhJ/X/nRbZRShVUIpFBpOjnYeWbsxnwecLZjArNBPS12ouaItT9t30nyRz2GnYacqt6IeHgeYvxvEEuVjajsuBoa6W2x7y9od5hnItj4+G/kmZKtRC0N+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
+        Fri, 25 Oct 2019 02:22:05 -0400
+Received: by mail-vs1-f66.google.com with SMTP id j85so700762vsd.11
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 24 Oct 2019 23:22:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PPWe3yeEQMNhYykgbHflZ6CQKxpAv4ljpYH/6D+B718=;
- b=ofkgmHW5K7cs7fNBceRXPJSRDdntraq4inSzP8VFv4h96fXAaQglw+w+do2e9YNutcEeAl/IK8MlTdE7l6fGdUYXqZWSNeymiCIe1SDB9lj6962zjrtU1ocJOKQntd2kmUGGVmTKROcodGfY51JF2lLt2wSExJgxhcCF5WTtt+s=
-Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
- TYAPR01MB4381.jpnprd01.prod.outlook.com (20.179.186.79) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2367.21; Fri, 25 Oct 2019 02:52:38 +0000
-Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
- ([fe80::548:32de:c810:1947]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
- ([fe80::548:32de:c810:1947%4]) with mapi id 15.20.2387.025; Fri, 25 Oct 2019
- 02:52:38 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-CC:     "REE erosca@DE.ADIT-JV.COM" <erosca@DE.ADIT-JV.COM>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: RE: [PATCH v2 07/11] arm64: dts: renesas: Prepare for rename of
- ARCH_R8A7796 to ARCH_R8A77960
-Thread-Topic: [PATCH v2 07/11] arm64: dts: renesas: Prepare for rename of
- ARCH_R8A7796 to ARCH_R8A77960
-Thread-Index: AQHViZ4rKskMR7cIOkyfg2MM6vfcyadqqyOQ
-Date:   Fri, 25 Oct 2019 02:52:38 +0000
-Message-ID: <TYAPR01MB45444DAF3E0921859E01F2E0D8650@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-References: <20191023123342.13100-1-geert+renesas@glider.be>
- <20191023123342.13100-8-geert+renesas@glider.be>
-In-Reply-To: <20191023123342.13100-8-geert+renesas@glider.be>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
-x-originating-ip: [150.249.235.54]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: d6848a2e-ccc8-446d-1563-08d758f6659f
-x-ms-traffictypediagnostic: TYAPR01MB4381:
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-microsoft-antispam-prvs: <TYAPR01MB43814A7C2A67AC307010D190D8650@TYAPR01MB4381.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
-x-forefront-prvs: 02015246A9
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(39860400002)(366004)(376002)(396003)(136003)(346002)(189003)(199004)(64756008)(76116006)(66946007)(256004)(66476007)(5660300002)(486006)(25786009)(74316002)(11346002)(71200400001)(71190400001)(316002)(4326008)(66556008)(66446008)(66066001)(110136005)(54906003)(476003)(14454004)(6246003)(446003)(478600001)(99286004)(86362001)(33656002)(7736002)(76176011)(8936002)(2906002)(9686003)(7696005)(6116002)(3846002)(55016002)(6436002)(102836004)(4744005)(186003)(26005)(6506007)(229853002)(81166006)(52536014)(305945005)(8676002)(81156014);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB4381;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: LpX4jgxIVrKoKTvhoRnY5Lpli3Gg91hb+iOnO+WkpbBzoD3DrOhC30IOtRR1hsOkjIjVcFUh7b5/Tqbm/o4rB4Ez+gdERatLFjy+wG5lBMMlOvZPst59QA/VVx2qzdpytTKhJRr1WS0F+cGUb57m/nTj5eUF2pRiddNxEoSQK912CvPEsIkgryC3857dSph5B8JgOUaC2TZlY5uA5mELnaCLHiq2PN1hsHKxhV1K7243VV3Mwd00dehoz1kNKnbm7IvFkCrItM3l9cTGAFrTrEEWelRn7s99iVPeFaDiK9TgSqwqsq0Hv/Bn63whTOVdbkFfzDqGR7dgcmTtTktao81FeJ6BI5Cox4oNQOYggzW85hNxk7Aj3X4d3urA9E7hxt5x0nITkrhYiamtVOBEw8fBAfwu311SENkOr79SQ4jsLJRYhCNjr/i4o5ek7HD/
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=oUL/r7QZtD5Ik+k2QRguXLUKLdY7EAed/NAwUT/KY9U=;
+        b=YkJqbTmbOF5cohmL/g/+uoCAwxRXy1dQhsX1PJrYc6ElZ8izugxwmqt35fiIp8AqcL
+         wOiGxbnliG6GzP0WPRZ2s4V+dOq+uRI5tY+C+Mm4LnoqjVCd/CGOepcsky7zo6cMaXCl
+         uDSobeaCDFn5kRs03sTbj8x3yrW8ADJntp4xIiYPOVzpqhsOy23V57RnBjWzcI8K+hc8
+         HLuGPhL9/FPvJBYaygHquxJGLTJswf1XRov/ecy5JC6D+xcwdPEv2XxTnWDVdxoX0Mzk
+         ue07QJkhM2Tkqcenl8WeqMjvi9tw+lsyfkI6fUhrLmzj0e1UD9Woh0fl8ljoqRE1kLy+
+         9NVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oUL/r7QZtD5Ik+k2QRguXLUKLdY7EAed/NAwUT/KY9U=;
+        b=Woa2z1i29mnGI2ukO5a9NtmY1W9UE2+Y+D9Kf1NSsWEhkOgmd8n6oByuTL+8p9dgKP
+         KTM6V2Hj9PJhPoDqqJbW1lG05d2N1bqEl7FHNyR0TzqOh15uMc0m8sYXYB2ywp2BfWNZ
+         8QziJdenghSK6MLBvwrBzG+UL7/RZEFihc9BJ4WM9m1KnOQXT7OkygIdat8FznvNHMIs
+         LyI3/WBGJCw3pPmcAfxmsJMoYsnQ4so3MJg4NYlzwd/LI0ddDS/Xaz7Qa1+ClmF8dapX
+         +mg19+wQ5IhFnx9wBZ24KwCtMMYTkVZl+h/HC8bnwnx0c/Jyp85V7IYgejThHFAbpCR1
+         K0pA==
+X-Gm-Message-State: APjAAAUuNVJBZSjfNWTUJLwc3I/UJQyA1OuOFuoOefscmSYHVDca8w7j
+        2IX7R8rER32i9uylZL2d364uwE3RjKZG3+t0iwdlVLsH
+X-Google-Smtp-Source: APXvYqw5kucyKKTM4IBkVmuVSkXxrf+2icqFYYo3E7o0rpC8KcPOlAdN91kDqK9Uvn+4QRgO8N4e4C44TueMtYXlkNI=
+X-Received: by 2002:a67:7944:: with SMTP id u65mr1136558vsc.10.1571984524684;
+ Thu, 24 Oct 2019 23:22:04 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d6848a2e-ccc8-446d-1563-08d758f6659f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Oct 2019 02:52:38.4509
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: IoSHGFLdyQmjG714/mfeF8QeLilMTqukfKUBj9BYuzciEo13lo1ptpr9gwNvBEATjfxUoQPSWl555mUF82oaDxXfI/vGOr+T7I2SlgifYnFkcxDDs806WOWyKUJBVsFK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4381
+References: <20191018101221.26483-1-geert+renesas@glider.be>
+In-Reply-To: <20191018101221.26483-1-geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 25 Oct 2019 08:21:52 +0200
+Message-ID: <CACRpkdYodPRSb0QKLaPQm6k8Bk_N2xMvuR4c9v6rvFAAOPodjQ@mail.gmail.com>
+Subject: Re: [GIT PULL] pinctrl: sh-pfc: Updates for v5.5
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert-san,
+On Fri, Oct 18, 2019 at 1:01 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-> From: Geert Uytterhoeven, Sent: Wednesday, October 23, 2019 9:34 PM
->=20
-> CONFIG_ARCH_R8A7796 for R-Car M3-W (R8A77960) will be renamed to
-> CONFIG_ARCH_R8A77960, to avoid confusion with R-Car M3-W+ (R8A77961),
-> which will use CONFIG_ARCH_R8A77961.
->=20
-> Relax dependencies by handling both symbols.
->=20
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> The following changes since commit 54ecb8f7028c5eb3d740bb82b0f1d90f2df63c5c:
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/sh-pfc-for-v5.5-tag1
+>   pinctrl: sh-pfc: pfc-r8a77965: Fix typo in pinmux macro for SCL3 (2019-10-14 12:11:12 +0200)
 
-Thank you for the patch!
+Pulled in to my devel branch, thanks! Sorry for the delay.
 
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-
-Best regards,
-Yoshihiro Shimoda
-
+Yours,
+Linus Walleij
