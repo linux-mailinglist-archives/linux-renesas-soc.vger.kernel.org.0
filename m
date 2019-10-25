@@ -2,46 +2,55 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DD8BE4620
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2019 10:47:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DAD0E466B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2019 10:57:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408581AbfJYIrI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Oct 2019 04:47:08 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:43799 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2408566AbfJYIrG (ORCPT
+        id S2438120AbfJYI5s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Oct 2019 04:57:48 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:35066 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726120AbfJYI5s (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Oct 2019 04:47:06 -0400
-Received: by mail-ot1-f68.google.com with SMTP id z20so1459019otk.10;
-        Fri, 25 Oct 2019 01:47:05 -0700 (PDT)
+        Fri, 25 Oct 2019 04:57:48 -0400
+Received: by mail-ot1-f67.google.com with SMTP id z6so1526366otb.2;
+        Fri, 25 Oct 2019 01:57:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=DoJczN+PCPEBJvD5MiZA3h3v1VZ07mO7fWjvQsmxpoo=;
-        b=GJsC8EHlADoxJqntdnjian9Wqg66KZ4+SeA83GlNj4AVuxYN45ehmdbLQZd73pcKT8
-         sGqVQOBh8OZmXQ3QBuOIyI0PhoQdFpoMEejI0F2aB/EaH65QkOHmmhL1Ob9RutdzH9A5
-         JW20/DF4EYpRH8csMBuaFm6udh8f0+NW8xUxEDNtn3HQpSkWsN9ZUk6numluRyw6WUae
-         WIwRz3W247ztlDAFHzg1D+lvmYZFipgpisCM20J0ig5XUbZTU6zdR18z6fPD8gxKe7wI
-         Sw1ghjGSOasIECGBoewrlBFKgl0x69NFcupGz5ns1w4sEzs9gqg3YkSaeYTO89wKxS/J
-         h0SQ==
-X-Gm-Message-State: APjAAAXZoOBwtYOVDJrKjav9D0M/ZrSA72uNvbKxyIxRRWVEiw7B7iUw
-        Wq96Sp/aEgBEdxUFXtcRW3/RYJXcsWJcH7sPOgoicg//
-X-Google-Smtp-Source: APXvYqxtaukGa9kru2/JTSrA7brj+MDNDbUcMU/53UF9Ll0L4Jj8XHV2gaQx3vGnSCzMhUfKBNtDoYmS+3ZYS9PxKW8=
-X-Received: by 2002:a9d:7d19:: with SMTP id v25mr1793171otn.250.1571993224673;
- Fri, 25 Oct 2019 01:47:04 -0700 (PDT)
+        bh=hNHqqS4Uc9aqlwR5IUsahyveCLTdtc01wm1P+k/r7h0=;
+        b=uOH5WMqc0j/GBrfMhauo4B5kZSMX6KMnz0uJSYZZcc0i5RSUN73uGrYC0/Q/F21lyQ
+         bOSBMDYd+OJFR/MMyYCONd+5cnzaYqqVWxXMtX3Smz/morDlG2SzXwTE9I/4sCA4L2ti
+         MH/K8/4ucucscwF4oAx0KGfEZqRgTGg5kZ0G5L9cxjJIWfa1O9CE47/KBclZ7RNNe30D
+         mM1hbIAexEbW6op8EsNBesfpF5+MF1ttj/F87P+9KSJM6pARV/AVnWcawmWnNRVCX3Xi
+         3JJUzHC+Rpiyxg4U2GIKVjOFGkYulR1WpIqRtDE7NNjWGD4BVEH46pNmMC7UPpXpMMeX
+         LN2w==
+X-Gm-Message-State: APjAAAX1puTDH4ezYay+BE+FfBAsU87o3A2q7lCQN1Pa/nNowpDSDbr6
+        uRJiMqmcUb11GVdcTVSreFRNSs8XSIt0sqfvHPw=
+X-Google-Smtp-Source: APXvYqwXZ5hSYo/AaHShqXVhnQPKDDrnniy5ZvaPofKAgeVdRshvXovvQWZivoZJvC/1yJ44x0fPG9nRDYpCtv3h8RQ=
+X-Received: by 2002:a05:6830:1bc3:: with SMTP id v3mr951363ota.145.1571993865998;
+ Fri, 25 Oct 2019 01:57:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191024130916.16444-1-geert+renesas@glider.be> <05a62983-5132-0fcb-2e8e-70b95d44730f@ideasonboard.com>
-In-Reply-To: <05a62983-5132-0fcb-2e8e-70b95d44730f@ideasonboard.com>
+References: <1571915821-1620-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1571915821-1620-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <CAMuHMdU=58w=4A0WcqytFfyV_Q11BgYaDNsMsA8Z15mnm--ang@mail.gmail.com>
+ <TYAPR01MB4544D5F2A77FBBA7B0AF7EBDD8650@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+ <CAMuHMdV7upJi78CymxVYKzDdFWb-qHrnohfnULbNfXjF-QXKRA@mail.gmail.com> <TYAPR01MB4544D173479B25DB73CBFF3CD8650@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYAPR01MB4544D173479B25DB73CBFF3CD8650@TYAPR01MB4544.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 25 Oct 2019 10:46:53 +0200
-Message-ID: <CAMuHMdX4xikRtojAWgWecEfqjrOw+aEGaW2HFvDkvJbwHxb1qA@mail.gmail.com>
-Subject: Re: [PATCH] media: fdp1: Fix R-Car M3-N naming in debug message
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
+Date:   Fri, 25 Oct 2019 10:57:34 +0200
+Message-ID: <CAMuHMdWJSjG9h_T75br2OHh6bGeUt2o=MrP1sFdA9f_jm47Hfw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] clk: renesas: rcar-usb2-clock-sel: Add multiple
+ clocks management
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -49,39 +58,45 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
+Hi Shimoda-san,
 
-On Thu, Oct 24, 2019 at 6:08 PM Kieran Bingham
-<kieran.bingham+renesas@ideasonboard.com> wrote:
-> On 24/10/2019 14:09, Geert Uytterhoeven wrote:
-> > The official name is "R-Car M3-N", not "R-Car M3N".
+On Fri, Oct 25, 2019 at 10:44 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> > From: Geert Uytterhoeven, Sent: Friday, October 25, 2019 4:47 PM
+> > On Fri, Oct 25, 2019 at 3:36 AM Yoshihiro Shimoda
+> > <yoshihiro.shimoda.uh@renesas.com> wrote:
+> > > > From: Geert Uytterhoeven, Sent: Thursday, October 24, 2019 8:35 PM
+> > > <snip>
+> > > > > --- a/drivers/clk/renesas/rcar-usb2-clock-sel.c
+> > > > > +++ b/drivers/clk/renesas/rcar-usb2-clock-sel.c
 > >
-> > Fixes: 4e8c120de9268fc2 ("media: fdp1: Support M3N and E3 platforms")
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> >  drivers/media/platform/rcar_fdp1.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > > @@ -131,6 +156,14 @@ static int rcar_usb2_clock_sel_probe(struct platform_device *pdev)
+> > > > >         pm_runtime_enable(dev);
+> > > > >         pm_runtime_get_sync(dev);
+> > > >
+> > > > pm_runtime_get_sync() will have already enabled the first module clock listed in
+> > > > the DT "clocks" property.
+> > > >
+> > > > If you want the driver to manage all clocks itself, perhaps the PM Runtime
+> > > > calls should be dropped?
+> > >
+> > > I'm thinking PM Runtime calls are related to power domain control so that we cannot
+> > > drop it. Or, since the hardware is the Always-on domain, can we drop it anyway?
 > >
-> > diff --git a/drivers/media/platform/rcar_fdp1.c b/drivers/media/platform/rcar_fdp1.c
-> > index cb93a13e1777a53e..97bed45360f088d0 100644
-> > --- a/drivers/media/platform/rcar_fdp1.c
-> > +++ b/drivers/media/platform/rcar_fdp1.c
-> > @@ -2369,7 +2369,7 @@ static int fdp1_probe(struct platform_device *pdev)
-> >               dprintk(fdp1, "FDP1 Version R-Car H3\n");
-> >               break;
-> >       case FD1_IP_M3N:
+> > That's right: if the hardware block ever ends up in a non-always-on
+> > power domain,
+> > you won't have a choice but to use PM Runtime.
 >
-> Should the FD1_IP_M3N naming also be updated accordingly?
-> I guess that's not so important.
->
-> Either way, up to you.
+> So, should I keep the PM Runtime calls?
 
-Na, you can't use hyphens in preprocessor definitions ;-)
-FD1_IP_M3N is consistent with FD1_IP_M3W, and not user-visible.
+I think they're good to have.
+Just make sure the PM Runtime status matches the state of the other
+clocks.
 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> # In such the case, I should add to describe power-domains property into
+> # the dt-binding doc though :)
 
-Thanks!
+Indeed.
 
 Gr{oetje,eeting}s,
 
