@@ -2,101 +2,71 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C8FD2E4878
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2019 12:20:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F4D1E4C55
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2019 15:34:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407954AbfJYKUS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Oct 2019 06:20:18 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:47014 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407901AbfJYKUS (ORCPT
+        id S2504781AbfJYNeJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Oct 2019 09:34:09 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:46078 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2504780AbfJYNeI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Oct 2019 06:20:18 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 351DE33A;
-        Fri, 25 Oct 2019 12:20:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1571998815;
-        bh=CZ1kjEvWoR7EfFvii7Hgk5UMP852bJTvCb6Z2n2Tdmg=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=NrDIHKURylRCdZ0pO+c4gHoJGNziQUt/r1DOVnLRTkYJB4e22fsKQA7klVphyCUB7
-         SsGykYJ5sv1G/8f/TQKP02Z+xVXszWlC0fM6wI/efB5uklZZoKHrkNSdvvLYAusuif
-         L75GRnft5wWPqi+DiUQFcQT6FozP43Ez4gHzrdFw=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH] media: fdp1: Fix R-Car M3-N naming in debug message
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <20191024130916.16444-1-geert+renesas@glider.be>
- <05a62983-5132-0fcb-2e8e-70b95d44730f@ideasonboard.com>
- <CAMuHMdX4xikRtojAWgWecEfqjrOw+aEGaW2HFvDkvJbwHxb1qA@mail.gmail.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <0d8fb393-a1ad-e4d7-5cdb-1da72a7d3110@ideasonboard.com>
-Date:   Fri, 25 Oct 2019 11:20:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Fri, 25 Oct 2019 09:34:08 -0400
+Received: by mail-oi1-f193.google.com with SMTP id o205so1615842oib.12;
+        Fri, 25 Oct 2019 06:34:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=iUx4xBejI/bMHyocAzAYVHDj3igErzHqOpH7ANpRK3s=;
+        b=MHscxQ0pZptiDIlX0rN4nU+0hNEgCMXqLecB8o7/JZpJBiYd6s5vNg33EpvbmCn9Zq
+         f/WNi0X2g43s6FsWb6YrbwmLZbipl5KAvLZrXyR6KRN1A3lofv6/iy3MSody8BJ6nRlq
+         ZsGBA5YHXhDm7GIhgku+a2RkOXuvlZMt3miHM81Lsjaq6OnBk0TO9E28GbBHx3bPWw5u
+         MDteMTaN1qBTuUqB5dsYRFu+cHfPWPP47niyzFhAZF7bzO2ea7XVZnVOe/fcrqXWqmfX
+         vU4YlM6SiQ+DXAEQVnRQG+SHj0YIN4WQ54j19DV7W2T0oSfGKWaHf2hYtMeSmsDLpGQR
+         yAkQ==
+X-Gm-Message-State: APjAAAU0EmuiVqvOtv1vWVbkgSlcyLLtB0ODDcod4eQrPa1xfYdlcS+P
+        z84e8A5AwqUcbOR1uRPMXwBUyqg6yd8Gh3jxqmw=
+X-Google-Smtp-Source: APXvYqxAOGdO/wj9UkmiDR4PxV5ipsPdG60be1raRikztn0fXd5AqBMfMeUxpsKU+jxgNsGXUXjpeFI0ChQC09meEhM=
+X-Received: by 2002:aca:fc92:: with SMTP id a140mr2928341oii.153.1572010446895;
+ Fri, 25 Oct 2019 06:34:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdX4xikRtojAWgWecEfqjrOw+aEGaW2HFvDkvJbwHxb1qA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20190908120528.9392-1-horms+renesas@verge.net.au>
+In-Reply-To: <20190908120528.9392-1-horms+renesas@verge.net.au>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 25 Oct 2019 15:33:55 +0200
+Message-ID: <CAMuHMdWrOn1wmi4YTNB251pLnNO1cXLX-ZszBV-+5cVLDB_QWw@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: arm: renesas: Convert 'renesas, prr' to json-schema
+To:     Simon Horman <horms+renesas@verge.net.au>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Yoshihiro Kaneko <ykaneko0929@gmail.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On Mon, Sep 9, 2019 at 12:14 AM Simon Horman <horms+renesas@verge.net.au> wrote:
+> Convert Renesas Product Register bindings documentation to json-schema.
+>
+> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
 
-On 25/10/2019 09:46, Geert Uytterhoeven wrote:
-> Hi Kieran,
-> 
-> On Thu, Oct 24, 2019 at 6:08 PM Kieran Bingham
-> <kieran.bingham+renesas@ideasonboard.com> wrote:
->> On 24/10/2019 14:09, Geert Uytterhoeven wrote:
->>> The official name is "R-Car M3-N", not "R-Car M3N".
->>>
->>> Fixes: 4e8c120de9268fc2 ("media: fdp1: Support M3N and E3 platforms")
->>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->>> ---
->>>  drivers/media/platform/rcar_fdp1.c | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/media/platform/rcar_fdp1.c b/drivers/media/platform/rcar_fdp1.c
->>> index cb93a13e1777a53e..97bed45360f088d0 100644
->>> --- a/drivers/media/platform/rcar_fdp1.c
->>> +++ b/drivers/media/platform/rcar_fdp1.c
->>> @@ -2369,7 +2369,7 @@ static int fdp1_probe(struct platform_device *pdev)
->>>               dprintk(fdp1, "FDP1 Version R-Car H3\n");
->>>               break;
->>>       case FD1_IP_M3N:
->>
->> Should the FD1_IP_M3N naming also be updated accordingly?
->> I guess that's not so important.
->>
->> Either way, up to you.
-> 
-> Na, you can't use hyphens in preprocessor definitions ;-)> FD1_IP_M3N is consistent with FD1_IP_M3W, and not user-visible.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.5.
 
-Hahaha - of course :-D , I meant with M3_N but as we already have IP_M3W
-I think we're fine.
+Gr{oetje,eeting}s,
 
+                        Geert
 
->> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
-> Thanks!
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-No worries
-
---
-KB
-
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
