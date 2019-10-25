@@ -2,76 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C595E5071
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2019 17:49:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D2EAE571D
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 26 Oct 2019 01:36:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388025AbfJYPtq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Oct 2019 11:49:46 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:57447 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730061AbfJYPtq (ORCPT
+        id S1725954AbfJYXge (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Oct 2019 19:36:34 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:46212 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725847AbfJYXge (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Oct 2019 11:49:46 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id C14CB3C04C1;
-        Fri, 25 Oct 2019 17:49:43 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id Av7n7kLoul8U; Fri, 25 Oct 2019 17:49:38 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 6E0213C009D;
-        Fri, 25 Oct 2019 17:49:38 +0200 (CEST)
-Received: from vmlxhi-102.adit-jv.com (10.72.93.184) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Fri, 25 Oct
- 2019 17:49:38 +0200
-Date:   Fri, 25 Oct 2019 17:49:34 +0200
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-CC:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        <devicetree@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH v2 0/5] dt-bindings: arm: renesas: Add core r8a77961
- support
-Message-ID: <20191025154924.GA25877@vmlxhi-102.adit-jv.com>
-References: <20191023122911.12166-1-geert+renesas@glider.be>
+        Fri, 25 Oct 2019 19:36:34 -0400
+Received: by mail-oi1-f193.google.com with SMTP id c2so2676736oic.13;
+        Fri, 25 Oct 2019 16:36:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=zGcJ7bfctCdlUW4jRyBejRVotK09mQ4mxQ5sxW55+Ok=;
+        b=ozIt9+1F78CGsoKuzrP/s6iYw0qv4UkXo6nkoPolQAW/TiUeItvcGM3xnk5GFaDhtX
+         EefnyP8GSRye6rf0SDCzJ26Ot1q9YpAQ2mqbrl1HRIQDh6DVsnd7n+fwRYd4CSeRBo+S
+         7R9D2VjCqLfqxVjT6vd8jrczHOKIrW21ENvfXJ2BjPvjN8wHr3CzS5J2G4sXoQYwSqIy
+         EpdKQrhx9G/J11p+DFls0ThfZlBr3wC/uBZJyPGTbtldvYf+XQT52jBIO0uAj+RX5ly1
+         2jPrSfwwC/aX9DqEDt8GkL9ZzTJwX+juTxEn4FeCeM177wlnv8Te14wmTgslMb6OOFwg
+         zVgQ==
+X-Gm-Message-State: APjAAAWQgCCuA6Fv8aIHKW9kCg4R+oBZH2gYuq/ON/8pGjWdeCSr7RCF
+        rAiLm3CKrcgna3eHXen5YQ==
+X-Google-Smtp-Source: APXvYqyDvUjg+Vr1NWH5LDuxuu2+wEll9CmzHa5U7i/mJ5HB4WmswhL8J3qYCbo9xDQef1QSAExk2g==
+X-Received: by 2002:a05:6808:1d4:: with SMTP id x20mr5196885oic.36.1572046591383;
+        Fri, 25 Oct 2019 16:36:31 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id b12sm1214085otp.72.2019.10.25.16.36.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Oct 2019 16:36:30 -0700 (PDT)
+Date:   Fri, 25 Oct 2019 18:36:30 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Cc:     Jens Axboe <axboe@kernel.dk>, Mark Rutland <mark.rutland@arm.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>, linux-ide@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Simon Horman <horms@verge.net.au>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Subject: Re: [PATCH v2] dt-bindings: ata: sata_rcar: Add r8a774b1 support
+Message-ID: <20191025233630.GA10027@bogus>
+References: <1571822106-16258-1-git-send-email-fabrizio.castro@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191023122911.12166-1-geert+renesas@glider.be>
-User-Agent: Mutt/1.12.1+40 (7f8642d4ee82) (2019-06-28)
-X-Originating-IP: [10.72.93.184]
+In-Reply-To: <1571822106-16258-1-git-send-email-fabrizio.castro@bp.renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
-
-On Wed, Oct 23, 2019 at 02:29:06PM +0200, Geert Uytterhoeven wrote:
-> 	Hi all,
+On Wed, 23 Oct 2019 10:15:06 +0100, Fabrizio Castro wrote:
+> Document SATA support for the RZ/G2N, no driver change required.
 > 
-> This patch series updates the Renesas DT binding documentation for core
-> components on the new R-Car M3-W+ (R8A77961) SoC, and for the
-> Salvator-XS development board equipped with this SoC.
+> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v1->v2:
+> * Prepended "dt-bindings: " to commit title as per Geert's comment
 > 
-> Changes compared to v1[1]:
->   - Split in per-subsystem series,
->   - Add Reviewed-by,
->   - Add board part number.
+>  Documentation/devicetree/bindings/ata/sata_rcar.txt | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 > 
-> I intend to queue this series in renesas-devel for v5.5.
 
-I've reviewed the whole series. Thanks!
+Applied, thanks.
 
-Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-
--- 
-Best Regards,
-Eugeniu
+Rob
