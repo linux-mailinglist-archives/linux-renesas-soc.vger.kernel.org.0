@@ -2,44 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 501B4E44CF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2019 09:47:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 702E6E44EB
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2019 09:54:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437153AbfJYHrQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Oct 2019 03:47:16 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:42681 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727275AbfJYHrQ (ORCPT
+        id S2437334AbfJYHyY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 25 Oct 2019 03:54:24 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:38226 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727275AbfJYHyY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Oct 2019 03:47:16 -0400
-Received: by mail-oi1-f194.google.com with SMTP id i185so921163oif.9;
-        Fri, 25 Oct 2019 00:47:16 -0700 (PDT)
+        Fri, 25 Oct 2019 03:54:24 -0400
+Received: by mail-ot1-f65.google.com with SMTP id e11so1373436otl.5;
+        Fri, 25 Oct 2019 00:54:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=8zZtV2+T6wNs6wwQzlNZ1qpgoJVUirP0Vg0dJEJ2LHU=;
-        b=MHxrOpqGq4xo2+2n54Zv07nd8+wD33s5MSB9p5hig9053aIh1VzVnKhdPl2RPyoIhg
-         TCa10jY5nfKHiR7lp2VP41IV8Pvt0c1JEvDgeabkWGXmW7C+qVHu7OPCmJZ3TLIP+AHP
-         ivTrc8TwGR6H9cR2O+073confFc37sI++1kGu6GivUIWIfCItq4EsHXJnb6yVJ2pSKrx
-         kf3xfdBmwgWx4stDFIdDVm8VPm2FM+M5VOTN7PSsOt3WEmBfhdS9baC0kHImt4zG1aa5
-         V7n52Vy8boCURcHqStzQ+Wm8VqzwaqgT1eCiPCkALyJfFAW3RB0TzZFaE/RN0ulzx7ZI
-         Bdxg==
-X-Gm-Message-State: APjAAAXlmPwRly66QOWc8F+AvJlvz0pMzUBfSp0/z52GRzhiSsUebnlC
-        BdZoDb4Xduvzw8yKLt4LiUROOn5E61AJllBfADw=
-X-Google-Smtp-Source: APXvYqz2j1UKxPbK8D0J/lYB0lvG5GuWdZkQfM2ar/MyijONb1BrRq7aN1+gUIH15B2ywbc4PnGj5rJ7bKq9QfnqEE0=
-X-Received: by 2002:aca:882:: with SMTP id 124mr1813914oii.54.1571989635617;
- Fri, 25 Oct 2019 00:47:15 -0700 (PDT)
+        bh=KS3PyvGOQVRjhujgYYQHT4eUVn91juOdqv3qbYfKx1M=;
+        b=SzErPE9H3IpK6ZgdID0pG0kwtoxtp7F/Oof/SSIFgENzttYP+jGbs8JD+VOoWrF+6t
+         lyXIynHSosT7BlOE73lTyuNE/7P7+x3lrMZprtBpxGkd4gPw6kFnA0+dh/X/F/wcOEjs
+         4UCZeLm/U0O3f9E93wfg+FxKP6MBGubp6vjHZ+u2xpcHr47utC2u6BFLnrc/SYDhDBCL
+         uVgFMKVM91PRZIteQKy2oK6U3yDvUyJ+SmS+yw5WY0MgDqprMhNuaF2gVReff8BMotOW
+         aUgEdhhnIgGahTAese4eF5A+bH/gXsapPdlZh2IWU/d+nHYsvFWeckBl9wIhnQvVTtng
+         ihAg==
+X-Gm-Message-State: APjAAAXXAJpJhhudp47ZrLc3GQk5HhXCwPNcolvIFZapdcEWecwbTFWZ
+        P1Joz/41oMkGumnBICgkCnlrzM8m//8i8pKupuA=
+X-Google-Smtp-Source: APXvYqzMxXTMtLrRQLX/dEURksOk7PCufo61wOnQ/mZs63v+ADl3uLwP1Tm04da4I4m2aNnuGwiIBNcRO8G3ne3Mao4=
+X-Received: by 2002:a9d:7345:: with SMTP id l5mr1618764otk.39.1571990063180;
+ Fri, 25 Oct 2019 00:54:23 -0700 (PDT)
 MIME-Version: 1.0
 References: <1571915821-1620-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1571915821-1620-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <CAMuHMdU=58w=4A0WcqytFfyV_Q11BgYaDNsMsA8Z15mnm--ang@mail.gmail.com> <TYAPR01MB4544D5F2A77FBBA7B0AF7EBDD8650@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYAPR01MB4544D5F2A77FBBA7B0AF7EBDD8650@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+ <1571915821-1620-4-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <CAMuHMdXuD4trBjqjgvZ3bimtDEHj4VNeG5-5NHFXkrOvYPd4=w@mail.gmail.com> <TYAPR01MB4544AA3E636D8CCF46623B23D8650@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYAPR01MB4544AA3E636D8CCF46623B23D8650@TYAPR01MB4544.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 25 Oct 2019 09:47:04 +0200
-Message-ID: <CAMuHMdV7upJi78CymxVYKzDdFWb-qHrnohfnULbNfXjF-QXKRA@mail.gmail.com>
-Subject: Re: [PATCH 2/3] clk: renesas: rcar-usb2-clock-sel: Add multiple
- clocks management
+Date:   Fri, 25 Oct 2019 09:54:11 +0200
+Message-ID: <CAMuHMdX1tGGebY7bRwQAzt5CwPSGtqSXXsB=-J_R2N2zCM0J1g@mail.gmail.com>
+Subject: Re: [PATCH 3/3] clk: renesas: rcar-usb2-clock-sel: Add reset_control
 To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc:     Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>,
@@ -58,35 +57,45 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Shimoda-san,
 
-On Fri, Oct 25, 2019 at 3:36 AM Yoshihiro Shimoda
+On Fri, Oct 25, 2019 at 3:42 AM Yoshihiro Shimoda
 <yoshihiro.shimoda.uh@renesas.com> wrote:
-> > From: Geert Uytterhoeven, Sent: Thursday, October 24, 2019 8:35 PM
+> > From: Geert Uytterhoeven, Sent: Thursday, October 24, 2019 8:26 PM
 > <snip>
+> > > This hardware needs to deassert resets of both host and peripheral.
+> > > So, this patch adds reset control.
+> >
+> > If the hardware needs it, probably you want to make CLK_RCAR_USB2_CLOCK_SEL
+> > select RESET_CONTROLLER?
+>
+> You're correct. I'll fix it.
+>
+> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> >
 > > > --- a/drivers/clk/renesas/rcar-usb2-clock-sel.c
 > > > +++ b/drivers/clk/renesas/rcar-usb2-clock-sel.c
-
-> > > @@ -131,6 +156,14 @@ static int rcar_usb2_clock_sel_probe(struct platform_device *pdev)
-> > >         pm_runtime_enable(dev);
-> > >         pm_runtime_get_sync(dev);
 > >
-> > pm_runtime_get_sync() will have already enabled the first module clock listed in
-> > the DT "clocks" property.
+> > > @@ -164,6 +172,10 @@ static int rcar_usb2_clock_sel_probe(struct platform_device *pdev)
+> > >         if (IS_ERR(priv->clks[CLK_INDEX_HS_USB]))
+> > >                 return PTR_ERR(priv->clks[CLK_INDEX_HS_USB]);
+> > >
+> > > +       priv->rsts = devm_reset_control_array_get_optional_shared(&pdev->dev);
 > >
-> > If you want the driver to manage all clocks itself, perhaps the PM Runtime
-> > calls should be dropped?
+> > If the reset is really needed, you should not use the optional API.
 >
-> I'm thinking PM Runtime calls are related to power domain control so that we cannot
-> drop it. Or, since the hardware is the Always-on domain, can we drop it anyway?
+> That's true. So, I'll use devm_reset_control_array_get(&pdev->dev, true, false)
 
-That's right: if the hardware block ever ends up in a non-always-on
-power domain,
-you won't have a choice but to use PM Runtime.
+Any reason you need the array version? Are there multiple resets to be
+specified? No longer shared?
+
+Which brings to my attention you forgot to document the resets in the
+DT bindings ;-)
+
 
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
