@@ -2,40 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 045B2E41BE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2019 04:47:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F18C6E41CF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 25 Oct 2019 04:48:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390778AbfJYCr6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 24 Oct 2019 22:47:58 -0400
-Received: from mail-eopbgr1400109.outbound.protection.outlook.com ([40.107.140.109]:12720
+        id S2390933AbfJYCsz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 24 Oct 2019 22:48:55 -0400
+Received: from mail-eopbgr1400091.outbound.protection.outlook.com ([40.107.140.91]:6212
         "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728416AbfJYCr6 (ORCPT
+        id S1728416AbfJYCsz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 24 Oct 2019 22:47:58 -0400
+        Thu, 24 Oct 2019 22:48:55 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LWmh74jeA4m+oDNZ2pHfRXeiET+u9fi++aorzubWY2KIiBbkYI3Vl0ECLjMaU3UJ1dY0q65p/V5tfdsLBrYmvcxicENkfq8AhOXiofWX+B9B5CpcUBAif23XxzrIez2Zs3Q2o4yUxobPsnMoR2PIrCtC0yahw+38lPO9QAEmugIU7MafxTVU5eMsMYqd8MTtD5R9pJYnQnDy1lUu/759sd1clvfAiIDh94gFTpf03L8u7QHoWV7BIw30EVvn43by4YdbdUVrucgh9X4xKFYPaG/eTsoNGCMuvhG5b7Fp24YcbDnMmu6jrW9iqkKF7Eyqv8YL93JcKRta47nNuduroQ==
+ b=nm0MxeGzLwiTKLVJO42ZDRhFKE3YqZSywArJRRwI1X09kZXzSXmohYm+oQTSDRrZMCHNNcW03/G2cUHcuDbBeM0J2OuoKxLGMj8liTksqQMgg8Yt3Ll+Q7eRBMCSQIPpFTllksFUCN1uQcxYSSwOyzIoN2Cg9V+RjUe5UmXmElIqZ+XEkidQMOMz5CcA3W9uUG4DbMZ/vnIXvG/tiOBpD2YUVHmDsTQ4FnHLT7c+4UuOiYR5tkC1yU9aCibFP+yhsuAyFBrQ93qmEVpbXMubxCGZ6fmhgKuK71Tk+DJ/xfI/+QAIS/eAcY7TreJTm6Q7lWTG9b8rjyUjE4BlEZZkMg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=av1jNuMHbxXcMObTGyFo1HdeFU6fu8BlWUMCnW9puUs=;
- b=e9IsO4Z7lrvqHB+fWGe/e6aBErAAbE3kkCSzcH+SwQReVX9TpYmgYChxIu5K3fyg3S4qBk6tGvSnSww7Olmuw6d+LIzZMUOEbkMz5XX9jIPycY67+gDlY/8QSeCQrxSy9EMKbvK1KYjkljKypDYBfWal2zPTV+smXmSDbcVdqB1BBsOYVBNLE+Fl+vV60b2WQcrmLWj3tbWsz4UUFqRQUCFigyejvRTnJJcWq+lefbMNOJwwg9uSyHzJZ+JPc0yVJ2nD1+pdvYyIp2URy9OQn8rUzBTGQmJqM22TDzmeKv3cwU04BN4VyWT3hTgGhfp9PQE/5jGB3pfGifR7ZJ5VVA==
+ bh=cqlfTdTQZ6rz9AHQ+DlP0x75SvUewIPP/HhhOTZQkXI=;
+ b=j7mXaJd+M5ygNPwY2UND5XTiLeBKiwUzlONGu/M6lMPGP2bSvaUlbkcN/ydelaEoTKkm9PrryNiy5iL2hvxtQGJUbUe9miolWXe46buRnMAKI7B7fhkUNJd7Sm/FhFZNTy0rhpoTT6hsruHSNMJmBEgRRKexdb77umUK8KNqhS4DQ5HZW6UZtWdr4bzTloa4B3+dcTgWszSD0j2ulY5LhyBAQArwZ7X/q1SwTF4Q2hOkG/ILmOlvRwIGG0BYkt9YG3lgS/gUMW4Jy6oA5iX1z5dRw8WN96WWZB1tCpWJbs34yj7jx1oPswzucIre4FlAO4YsgMfiHMNTk8+adXEXNQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
  dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=av1jNuMHbxXcMObTGyFo1HdeFU6fu8BlWUMCnW9puUs=;
- b=p7nv22SiHn+WiNrepp+BgYzOLXSPx7VI+x/XlyEAlrTDiXIntOFLf2NeIbrqYiyM13+gj73wAmNcu402N97bUCSIlLT8VFxRaoArvHpNQzJI8NyKFpmTnRxF/80yRu332gn+PhrLI1KG1O+RlgQV1YuDxA4QfGHxtM0DFfweJ8s=
+ bh=cqlfTdTQZ6rz9AHQ+DlP0x75SvUewIPP/HhhOTZQkXI=;
+ b=Bctyuu4fYQD4GhkAgUhXIjtYg8jnTADTCubmBVPmRLE2v4rTP1c4n52XKh46aGIhQPCT1jHZ0RuoIZtJ/b1ST40zJ6sDiMkxkz1soZi7kk4bK7lvYWJcV8sIJaUsgOvL2okcm6VSq+OIWumKJeWuEgMbfW09Cvy9v0TF/em4KSI=
 Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
- TYAPR01MB2847.jpnprd01.prod.outlook.com (20.177.105.82) with Microsoft SMTP
+ TYAPR01MB2256.jpnprd01.prod.outlook.com (52.133.178.149) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2387.22; Fri, 25 Oct 2019 02:47:55 +0000
+ 15.20.2387.22; Fri, 25 Oct 2019 02:48:53 +0000
 Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
  ([fe80::548:32de:c810:1947]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
  ([fe80::548:32de:c810:1947%4]) with mapi id 15.20.2387.025; Fri, 25 Oct 2019
- 02:47:55 +0000
+ 02:48:53 +0000
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>
@@ -45,16 +45,16 @@ CC:     "REE erosca@DE.ADIT-JV.COM" <erosca@DE.ADIT-JV.COM>,
         "linux-arm-kernel@lists.infradead.org" 
         <linux-arm-kernel@lists.infradead.org>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: RE: [PATCH v2 01/11] soc: renesas: Rename SYSC_R8A7796 to
- SYSC_R8A77960
-Thread-Topic: [PATCH v2 01/11] soc: renesas: Rename SYSC_R8A7796 to
- SYSC_R8A77960
-Thread-Index: AQHViZ4kD8vHtMSr70arGVjkn2d/Xqdqqduw
-Date:   Fri, 25 Oct 2019 02:47:54 +0000
-Message-ID: <TYAPR01MB45445B654E998FF48324A37CD8650@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+Subject: RE: [PATCH v2 02/11] soc: renesas: Add ARCH_R8A77960 for existing
+ R-Car M3-W
+Thread-Topic: [PATCH v2 02/11] soc: renesas: Add ARCH_R8A77960 for existing
+ R-Car M3-W
+Thread-Index: AQHViZ4iImr5zKIEe0GmayNB7TtcD6dqqiEg
+Date:   Fri, 25 Oct 2019 02:48:52 +0000
+Message-ID: <TYAPR01MB4544A1921B1BC6A94610D795D8650@TYAPR01MB4544.jpnprd01.prod.outlook.com>
 References: <20191023123342.13100-1-geert+renesas@glider.be>
- <20191023123342.13100-2-geert+renesas@glider.be>
-In-Reply-To: <20191023123342.13100-2-geert+renesas@glider.be>
+ <20191023123342.13100-3-geert+renesas@glider.be>
+In-Reply-To: <20191023123342.13100-3-geert+renesas@glider.be>
 Accept-Language: ja-JP, en-US
 Content-Language: ja-JP
 X-MS-Has-Attach: 
@@ -64,31 +64,31 @@ authentication-results: spf=none (sender IP is )
 x-originating-ip: [150.249.235.54]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 157548e9-0d96-4a6f-cd82-08d758f5bc92
-x-ms-traffictypediagnostic: TYAPR01MB2847:
+x-ms-office365-filtering-correlation-id: f569ddce-acfe-4f2b-2c1e-08d758f5df3c
+x-ms-traffictypediagnostic: TYAPR01MB2256:
 x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-microsoft-antispam-prvs: <TYAPR01MB2847D9C4D3256E939C0E9987D8650@TYAPR01MB2847.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-microsoft-antispam-prvs: <TYAPR01MB22565479CE14F8F7861E7EDBD8650@TYAPR01MB2256.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
 x-forefront-prvs: 02015246A9
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(396003)(346002)(39860400002)(376002)(136003)(366004)(189003)(199004)(446003)(9686003)(66946007)(3846002)(6116002)(229853002)(478600001)(6436002)(4326008)(55016002)(71190400001)(6246003)(11346002)(5660300002)(71200400001)(14454004)(4744005)(256004)(2906002)(7696005)(110136005)(54906003)(102836004)(6506007)(99286004)(76176011)(305945005)(66066001)(7736002)(74316002)(52536014)(8936002)(33656002)(486006)(476003)(25786009)(316002)(186003)(66446008)(81156014)(81166006)(66476007)(66556008)(76116006)(26005)(8676002)(86362001)(64756008);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB2847;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(376002)(366004)(39860400002)(136003)(396003)(346002)(199004)(189003)(5660300002)(86362001)(99286004)(316002)(33656002)(110136005)(54906003)(2906002)(66556008)(64756008)(71200400001)(71190400001)(11346002)(446003)(66446008)(76116006)(66476007)(52536014)(476003)(66946007)(256004)(81166006)(81156014)(76176011)(4744005)(7696005)(186003)(26005)(305945005)(8936002)(6506007)(6436002)(66066001)(7736002)(74316002)(102836004)(486006)(14454004)(4326008)(9686003)(8676002)(25786009)(6246003)(55016002)(229853002)(3846002)(6116002)(478600001);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB2256;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
 received-spf: None (protection.outlook.com: renesas.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: QizEFl6EEaLkOc8951XCKs/Ju2Bx4u9pAVD1GIv4F3SexZbBR/DaTNby9QwafHXJb20eUKyIOFz0dh1VdRYGwOFdD+uLGDVnL1jlUjX67qG5Wz7fuRz/Yg4DzxrOEPSabCrtS+SBA7Q/STaofS9QN7YlD57JD2428BX8cYvWMZ60S207xx0mdRSQ8ZTmMI3VrY7MEiP47WNEJdlR68ehTFAG1lqZxqEc0avOPUh0mRn7bbyojwu6b8WukcsthSOPGD0X9+dKEkYEgSSsygymsqRbwzl6/FFmmSOb2QLJQgWu3ys36COHLuO+G42HpI7mHtcvTCTb68GzlJmvc7FXbIkjuUgCuoL1BHK+Wc1lP/7FtlI1FS1KfBKqcz5zJ8jxzxqVCHQbYJFU3jYCpiKwUc9jpGuj+BnwUuhEL0A/nHKCgNEhdA44F//aJdVCbTKa
+x-microsoft-antispam-message-info: AMi/4wgETQdXTi9uK0Pkz95n5LApn3f4b7jYnvIp/M6hVo8ilM0jjtaezdmxB0t1SjyJ6oXs2t37vKfMHdEjOebMeOkQNQBNi2UjazZEokm/zkVjU+Xh3CfCYQjxWuUdIMNAwvkLUK/pIdPB9Rop7ZJJoF31FL4VxfuLja1v2+fvTaaBUwoXAT3ukBHG0Xo72MClJ4Lv4/AYFfbhSx+IQKcBFSpRJEVLGK0TItNag1P1syKeo+gAskW+Cw3mX1Uy9vqlUz5z99xx3pq8IqPLFhlRIeO8qDqZdqVNxL1m6vhVzQTfpO1sI4RO9DfDO3GGZUxsHtiTiI1pwErkY7BSWyAVk/dYTFIctVUtXroYajrxqAYMEf6//I+VkS14tqZMvb6QiE/87XgKVOUjCiBJ7sD4P2h6LjVBBHf+yz0RG9hGGSVLiDYYGJ3NH3QdlNii
 x-ms-exchange-transport-forked: True
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 157548e9-0d96-4a6f-cd82-08d758f5bc92
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Oct 2019 02:47:54.9194
+X-MS-Exchange-CrossTenant-Network-Message-Id: f569ddce-acfe-4f2b-2c1e-08d758f5df3c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Oct 2019 02:48:53.0069
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mR2HBcVSJZ9KjaAQ20OC1BoO8TLOO4yNFrqTmykvh1vnkG2KIzJh75qu7CBkhphny/4E5JpDYTpORw2FMNwQSHrlDrSChRkVL8E8E5uLCAXGzMK6FridelVVmqdzKVsk
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB2847
+X-MS-Exchange-CrossTenant-userprincipalname: 6m0L7qBBiFsT7dlKFUHvJGXb7udhFXiob2dBBMjJTGFEvREzrKe7cnwRbSThpAWZx9qODtyG9iaWt5IpWaPHonPSWMngKv0l8rBGNw+Lmd+bTJz3o3TcDrqW4M9YDJMB
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB2256
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -98,11 +98,14 @@ Hi Geert-san,
 
 > From: Geert Uytterhoeven, Sent: Wednesday, October 23, 2019 9:34 PM
 >=20
-> Rename CONFIG_SYSC_R8A7796 for R-Car M3-W (R8A77960) to
-> CONFIG_SYSC_R8A77960, to avoid confusion with R-Car M3-W+ (R8A77961),
-> which will use CONFIG_SYSC_R8A77961.
+> Add CONFIG_ARCH_R8A77960 as a new config symbol for R-Car M3-W
+> (R8A77960), to replace CONFIG_ARCH_R8A7796, and avoid confusion with
+> R-Car M3-W+ (R8A77961), which will use CONFIG_ARCH_R8A77961.
 >=20
-> Rename r8a7796_sysc_info and r8a7796_sysc_init for consistency.
+> Note that for now, CONFIG_ARCH_R8A7796 is retained, and just selects
+> CONFIG_ARCH_R8A77960.  This relaxes dependencies of other subsystems on
+> the SoC configuration symbol, and provides a smooth transition path for
+> config files through "make oldconfig".
 >=20
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
