@@ -2,108 +2,116 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BB98E5A5B
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 26 Oct 2019 14:08:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9647BE5E71
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 26 Oct 2019 20:06:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726189AbfJZMIo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 26 Oct 2019 08:08:44 -0400
-Received: from mail-il1-f194.google.com ([209.85.166.194]:42572 "EHLO
-        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726162AbfJZMIo (ORCPT
+        id S1726291AbfJZSGm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 26 Oct 2019 14:06:42 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:39623 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726262AbfJZSGm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 26 Oct 2019 08:08:44 -0400
-Received: by mail-il1-f194.google.com with SMTP id o16so4128152ilq.9
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 26 Oct 2019 05:08:44 -0700 (PDT)
+        Sat, 26 Oct 2019 14:06:42 -0400
+Received: by mail-wr1-f68.google.com with SMTP id a11so5722451wra.6;
+        Sat, 26 Oct 2019 11:06:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=qU5RsG9SRhmXJxZ/TH2tRPZyE3CCGzpG3S5xb5efR90=;
-        b=DKromX0O6ZmA9cX57GdslYVKPtnj0wxATKHsp5RG5xITD4+f5ww87RClBcL3VYjV3g
-         Fxb3GsIVYUuC1LxuBzmfKt5WkZdURNJV1x+68JSBka53sQex56WYDAT2bGwio4TjAdbY
-         zCcLW6cor4aNhMYRBWiPZO1/LAAsCLC1xBV6ICxJ/f/cdKHZTioi1I1GzLG9t1EdSEG2
-         Fmk4Xhtn37kkyaEe+M8H++xnb5M1Q2udbRsdlng6mxVuJKEHIXhVfE39H/7FebzSFX8H
-         hPvSF5pxh9jxBym5jYezfmwmdEriEnw0aPBITI8A6iWEnYsJonMK7DwZHk/stqiuu98J
-         RiaQ==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=1zAlr4sErex79x9Z4Q4GWkec7C6gUtbO/zStZ0PB9mY=;
+        b=KVp3H+YnddgfFZXKq7V9vuKT8OWgA9iKAvfw/kRJVUs2HS6ggnJ4ciCl1EB4xNUtuG
+         bEIty5flPbhZlPfkOZRv57ZcSRq+rxizAss7nF35t3m/ELgUF22PvXgqS27tTj4MrxJf
+         XGoPu7Eywhf6r+iQo+xJlJ4PFHhk44+oDRkesia1aCNuMFSUMo+AT3MCJBht0klN5kIk
+         6fGBAzmv9XdGLKLA7OMCbldugGCXxk9I71kd3ljNKcW7hkioutyiBBeN51h1tZHE3lod
+         uDRvrtnQm/22/akofuf/YWn4BwYPuR92JXwxpoNJGqT8Qw/vvRDRw/XID2g/FqwNm6mL
+         xtZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=qU5RsG9SRhmXJxZ/TH2tRPZyE3CCGzpG3S5xb5efR90=;
-        b=meTRKOZ57nt6Sa7HAuetJLZptUAdh/NlVOjTskwmxeWN1P7Nm1NIQpnjWSe1upLA8/
-         8zrzY45+OUmIVM2THFM6ZgNjvSw3RcZpgeuyXioXsi2VQBjLVC/1spPRrQrwrfHeBvfq
-         h12zg3n12EiuhyS5XfIK5uHKIef3+okAl75EVrZFzPMPc2f5FsYmQBmJj2c75LqpoHn9
-         UdtaijmjrQ5dj+NfY0w2WDOJFHTOq8iXCilTQGAzjEAmPaqCPOuKkwoDaKQREu2H4yHv
-         HJHuDXvr9oxTPLJXT5+AL5FMub/7JTDzy7Kp+SluUXwrGKowiZvywdbWrl6fP0QFOLEx
-         Tqnw==
-X-Gm-Message-State: APjAAAVeirZa8f0uXx/odHMO9orGatFZv3tbHWwzZ1N3uwvcqz7HeYdn
-        ztt9Sky79qgQ/koTAO/oQMaLZQ1EyaZGRVpJIFrjo/gX
-X-Google-Smtp-Source: APXvYqxTDE3btaAOKG4F5dM/Yfw/0hOeG0Hd/8JTh+BW2U92hL3gWmViQq4lVfRN4h0a6JG+CpELrSmx5PL7PNRmjf0=
-X-Received: by 2002:a92:9a17:: with SMTP id t23mr10068334ili.40.1572091723726;
- Sat, 26 Oct 2019 05:08:43 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=1zAlr4sErex79x9Z4Q4GWkec7C6gUtbO/zStZ0PB9mY=;
+        b=DV8uVRudSU5qKW5ltBpvSbGiz2LFWi2chOiB7dUwyj6/YNKT2PK3cYfeCmpV55i0OY
+         fnReEdVaakIkPYWilVdQvmSmzLNxxLQ1R8FrpwiDSmDV2NR26SL/gSPm9N06xiiEatxZ
+         IRMUhl+XaAY4RyG8CzobS5NmmgVYs9c67i8inZQRgm7sEAibLzsfqnZVHSjuTYWLB8vz
+         N6+9MUfNUFU16xhb6kYOpY+7kOr2msRKHPiyeNzubMMaTf4IJN1GVZUd3ihOVV6zgxO9
+         9i4GovT9Ns5a4bnrz7Jdm/SmMVn84xoEvLMG4VetjCNxoLYAEc21n4t3ODbFwH+ANSpA
+         FKxQ==
+X-Gm-Message-State: APjAAAV+nfL2u3d6GPBoh2HoeDnZJetPBkk2m3mSw/ps8/0z6nYUxfrh
+        i988gazAUBdV20H2Ue6mA7D0OLx3
+X-Google-Smtp-Source: APXvYqyDa6iMDIxlwT3yI7rXWJqPUih8LosVCXzjmKTBStzeiKe3SmiCgJ1qZuYNj32TnFJU1J571w==
+X-Received: by 2002:adf:ea50:: with SMTP id j16mr7934048wrn.295.1572113200321;
+        Sat, 26 Oct 2019 11:06:40 -0700 (PDT)
+Received: from [192.168.1.4] (ip-86-49-35-8.net.upcbroadband.cz. [86.49.35.8])
+        by smtp.gmail.com with ESMTPSA id l22sm10686043wrb.45.2019.10.26.11.06.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 26 Oct 2019 11:06:39 -0700 (PDT)
+Subject: Re: [PATCH V3 2/3] PCI: rcar: Do not abort on too many inbound
+ dma-ranges
+To:     Andrew Murray <andrew.murray@arm.com>
+Cc:     Simon Horman <horms@verge.net.au>, linux-pci@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        linux-renesas-soc@vger.kernel.org
+References: <20190809175741.7066-1-marek.vasut@gmail.com>
+ <20190809175741.7066-2-marek.vasut@gmail.com>
+ <20190816132305.gyyml5r3xsimmoor@verge.net.au>
+ <8f1871ed-4820-1985-0090-bb9e2d8803d8@gmail.com>
+ <20191021101805.GM47056@e119886-lin.cambridge.arm.com>
+From:   Marek Vasut <marek.vasut@gmail.com>
+Message-ID: <fef9502f-d51c-b922-afb3-8891267ae6c3@gmail.com>
+Date:   Sat, 26 Oct 2019 20:03:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191024122224.11776-1-geert+renesas@glider.be>
-In-Reply-To: <20191024122224.11776-1-geert+renesas@glider.be>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Sat, 26 Oct 2019 14:08:33 +0200
-Message-ID: <CAMRc=Me9Cc=O6t_3cLW5Ow=-XgurQ1x_RpfHe4Lxhb2QB6_WgA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/2] gpio: renesas: Use proper irq_chip name
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20191021101805.GM47056@e119886-lin.cambridge.arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-czw., 24 pa=C5=BA 2019 o 14:22 Geert Uytterhoeven <geert+renesas@glider.be>
-napisa=C5=82(a):
->
->         Hi Linus, Bartosz,
->
-> Recently, Marc pointed out some common misconceptions w.r.t. the .name
-> and .parent_device fields in struct irq_chip.  This patch series fixes
-> the names in the Renesas GPIO controller drivers.
->
-> Changes compared to v1[*]:
->   - Drop irqchip patches applied to the irqchip tree.
->
-> Thanks for applying!
->
-> [*] https://lore.kernel.org/linux-renesas-soc/20190607095858.10028-1-geer=
-t+renesas@glider.be/
->
-> Geert Uytterhoeven (2):
->   gpio: em: Use proper irq_chip name
->   gpio: rcar: Use proper irq_chip name
->
->  drivers/gpio/gpio-em.c   | 2 +-
->  drivers/gpio/gpio-rcar.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> --
-> 2.17.1
->
-> Gr{oetje,eeting}s,
->
->                                                 Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
-8k.org
->
-> In personal conversations with technical people, I call myself a hacker. =
-But
-> when I'm talking to journalists I just say "programmer" or something like=
- that.
->                                                             -- Linus Torv=
-alds
+On 10/21/19 12:18 PM, Andrew Murray wrote:
+[...]
+>>>> In case the "dma-ranges" DT property contains either too many ranges
+>>>> or the range start address is unaligned in such a way that populating
+>>>> the range into the controller requires multiple entries, a situation
+>>>> may occur where all ranges cannot be loaded into the controller.
+>>>>
+>>>> Currently, the driver refuses to probe in such a situation. Relax this
+>>>> behavior, load as many ranges as possible and warn if some ranges do
+>>>> not fit anymore.
+>>>
+>>> What is the motivation for relaxing this?
+>>
+>> U-Boot can fill the ranges in properly now, the list would be longer in
+>> such a case and the driver would fail to probe (because the list is
+>> longer than what the hardware can support).
+> 
+> Is this the U-Boot patch you refer to:
+> 
+> https://patchwork.ozlabs.org/patch/1129436/
 
-Both applied, thanks!
+Yes.
 
-Bartosz
+> As pci_set_region is called with the same address for PCI and CPU memory
+> this implies there is a 1:1 mapping - therefore I don't see a need for
+> multiple mappings for each DRAM bank. (Also if this controller has a
+> 32 bit limitation, shouldn't this code limit the addresses before calling
+> pci_set_region?).
+It would certainly be helpful to know about this dma-ranges detail
+earlier, this whole thing could've been avoided. Now all I can do is get
+that patch reverted for the next U-Boot release.
+
+But this still leaves me with one open question -- how do I figure out
+what to program into the PCI controller inbound windows, so that the
+controller correctly filters inbound transfers which are targetting
+nonexisting memory ?
+
+-- 
+Best regards,
+Marek Vasut
