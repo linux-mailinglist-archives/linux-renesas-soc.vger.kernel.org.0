@@ -2,83 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E3339E5790
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 26 Oct 2019 02:22:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BB98E5A5B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 26 Oct 2019 14:08:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725881AbfJZAWZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 25 Oct 2019 20:22:25 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:35020 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725865AbfJZAWZ (ORCPT
+        id S1726189AbfJZMIo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 26 Oct 2019 08:08:44 -0400
+Received: from mail-il1-f194.google.com ([209.85.166.194]:42572 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726162AbfJZMIo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 25 Oct 2019 20:22:25 -0400
-Received: by mail-oi1-f196.google.com with SMTP id n16so489401oig.2;
-        Fri, 25 Oct 2019 17:22:25 -0700 (PDT)
+        Sat, 26 Oct 2019 08:08:44 -0400
+Received: by mail-il1-f194.google.com with SMTP id o16so4128152ilq.9
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 26 Oct 2019 05:08:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=qU5RsG9SRhmXJxZ/TH2tRPZyE3CCGzpG3S5xb5efR90=;
+        b=DKromX0O6ZmA9cX57GdslYVKPtnj0wxATKHsp5RG5xITD4+f5ww87RClBcL3VYjV3g
+         Fxb3GsIVYUuC1LxuBzmfKt5WkZdURNJV1x+68JSBka53sQex56WYDAT2bGwio4TjAdbY
+         zCcLW6cor4aNhMYRBWiPZO1/LAAsCLC1xBV6ICxJ/f/cdKHZTioi1I1GzLG9t1EdSEG2
+         Fmk4Xhtn37kkyaEe+M8H++xnb5M1Q2udbRsdlng6mxVuJKEHIXhVfE39H/7FebzSFX8H
+         hPvSF5pxh9jxBym5jYezfmwmdEriEnw0aPBITI8A6iWEnYsJonMK7DwZHk/stqiuu98J
+         RiaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=sD4+t4O6I6/yZhYnM4tEH5BwgfVk2lbaDmYQkcXTSss=;
-        b=bIhRNJiq+XDcyzZbjNCkXtk6Z6gfnIG65URm3REhs+T5wPrI66YnDKgarBaVbMXgHo
-         hPwtcGMul0jOaRigNCg9cSRUb2qNDklVXyy6G2HrhM6yjabhfh4/yi99ecQDuBELhVuG
-         N4oIwReRmtranj2EL1VepAPoZiOTS2clv8B1F7IcfjrO/8gVlXm38iZZRnGNYKsp5Mf/
-         yJmEK5JunsgluNwEkzWNivBfMRu47Xbb44ka1mL9v0fzA4NX3z8uIKp6GZDwrgOgolEb
-         0r05koOV7Y7XFFWvHvAACD/KdCGWgp3OLyqxCuIVA+FiFBweRlmuUNpW0NYRQyZ13n/U
-         lseQ==
-X-Gm-Message-State: APjAAAWei0K/BfnygqqBnG4y1Ofgq6vqQNn/BKnyFC99OyGvYHuaT06d
-        CurnlTYhVellzcTalCDQfg==
-X-Google-Smtp-Source: APXvYqzsZncJeOkIGZCFFf85Cr89J0uYfd90yKvsRDYwFdeZQ5fBsMc84Nw4AHv7I6cSQQVxvqdMqQ==
-X-Received: by 2002:aca:1703:: with SMTP id j3mr5091232oii.94.1572049344641;
-        Fri, 25 Oct 2019 17:22:24 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id p184sm1062879oia.11.2019.10.25.17.22.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2019 17:22:24 -0700 (PDT)
-Date:   Fri, 25 Oct 2019 19:22:23 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        linux-serial@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH v2] dt-bindings: serial: sh-sci: Document r8a77961
- bindings
-Message-ID: <20191026002223.GA14822@bogus>
-References: <20191023123010.12501-1-geert+renesas@glider.be>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=qU5RsG9SRhmXJxZ/TH2tRPZyE3CCGzpG3S5xb5efR90=;
+        b=meTRKOZ57nt6Sa7HAuetJLZptUAdh/NlVOjTskwmxeWN1P7Nm1NIQpnjWSe1upLA8/
+         8zrzY45+OUmIVM2THFM6ZgNjvSw3RcZpgeuyXioXsi2VQBjLVC/1spPRrQrwrfHeBvfq
+         h12zg3n12EiuhyS5XfIK5uHKIef3+okAl75EVrZFzPMPc2f5FsYmQBmJj2c75LqpoHn9
+         UdtaijmjrQ5dj+NfY0w2WDOJFHTOq8iXCilTQGAzjEAmPaqCPOuKkwoDaKQREu2H4yHv
+         HJHuDXvr9oxTPLJXT5+AL5FMub/7JTDzy7Kp+SluUXwrGKowiZvywdbWrl6fP0QFOLEx
+         Tqnw==
+X-Gm-Message-State: APjAAAVeirZa8f0uXx/odHMO9orGatFZv3tbHWwzZ1N3uwvcqz7HeYdn
+        ztt9Sky79qgQ/koTAO/oQMaLZQ1EyaZGRVpJIFrjo/gX
+X-Google-Smtp-Source: APXvYqxTDE3btaAOKG4F5dM/Yfw/0hOeG0Hd/8JTh+BW2U92hL3gWmViQq4lVfRN4h0a6JG+CpELrSmx5PL7PNRmjf0=
+X-Received: by 2002:a92:9a17:: with SMTP id t23mr10068334ili.40.1572091723726;
+ Sat, 26 Oct 2019 05:08:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191023123010.12501-1-geert+renesas@glider.be>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191024122224.11776-1-geert+renesas@glider.be>
+In-Reply-To: <20191024122224.11776-1-geert+renesas@glider.be>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Sat, 26 Oct 2019 14:08:33 +0200
+Message-ID: <CAMRc=Me9Cc=O6t_3cLW5Ow=-XgurQ1x_RpfHe4Lxhb2QB6_WgA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] gpio: renesas: Use proper irq_chip name
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 23 Oct 2019 14:30:10 +0200, Geert Uytterhoeven wrote:
-> Document support for the SCIF and HSCIF serial ports in the Renesas
-> R-Car M3-W+ (R8A77961) SoC.
-> 
-> Update all references to R-Car M3-W from "r8a7796" to "r8a77960", to
-> avoid confusion between R-Car M3-W (R8A77960) and M3-W+.
-> 
-> No driver update is needed.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
-> v2:
->   - Split v1[1] in per-subsystem series,
->   - Add Reviewed-by,
->   - Update R-Car M3-W references.
-> 
-> [1] "[PATCH/RFC 00/19] arm64: dts: renesas: Initial support for R-Car M3-W+"
->     https://lore.kernel.org/linux-renesas-soc/20191007102332.12196-1-geert+renesas@glider.be/
-> ---
->  .../devicetree/bindings/serial/renesas,sci-serial.txt       | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
+czw., 24 pa=C5=BA 2019 o 14:22 Geert Uytterhoeven <geert+renesas@glider.be>
+napisa=C5=82(a):
+>
+>         Hi Linus, Bartosz,
+>
+> Recently, Marc pointed out some common misconceptions w.r.t. the .name
+> and .parent_device fields in struct irq_chip.  This patch series fixes
+> the names in the Renesas GPIO controller drivers.
+>
+> Changes compared to v1[*]:
+>   - Drop irqchip patches applied to the irqchip tree.
+>
+> Thanks for applying!
+>
+> [*] https://lore.kernel.org/linux-renesas-soc/20190607095858.10028-1-geer=
+t+renesas@glider.be/
+>
+> Geert Uytterhoeven (2):
+>   gpio: em: Use proper irq_chip name
+>   gpio: rcar: Use proper irq_chip name
+>
+>  drivers/gpio/gpio-em.c   | 2 +-
+>  drivers/gpio/gpio-rcar.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> --
+> 2.17.1
+>
+> Gr{oetje,eeting}s,
+>
+>                                                 Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                                             -- Linus Torv=
+alds
 
-Acked-by: Rob Herring <robh@kernel.org>
+Both applied, thanks!
+
+Bartosz
