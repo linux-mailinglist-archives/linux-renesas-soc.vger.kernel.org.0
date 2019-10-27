@@ -2,137 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A36BE5FAF
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 26 Oct 2019 23:06:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA863E685C
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 27 Oct 2019 22:30:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726392AbfJZVGt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 26 Oct 2019 17:06:49 -0400
-Received: from foss.arm.com ([217.140.110.172]:50612 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726386AbfJZVGt (ORCPT
+        id S1729562AbfJ0VSo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 27 Oct 2019 17:18:44 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:43642 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731301AbfJ0VSn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 26 Oct 2019 17:06:49 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 763521FB;
-        Sat, 26 Oct 2019 14:06:48 -0700 (PDT)
-Received: from localhost (unknown [10.37.6.20])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DD1AF3F71F;
-        Sat, 26 Oct 2019 14:06:47 -0700 (PDT)
-Date:   Sat, 26 Oct 2019 22:06:46 +0100
-From:   Andrew Murray <andrew.murray@arm.com>
-To:     Marek Vasut <marek.vasut@gmail.com>
-Cc:     Simon Horman <horms@verge.net.au>, linux-pci@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Sun, 27 Oct 2019 17:18:43 -0400
+Received: by mail-ot1-f68.google.com with SMTP id b19so3108817otq.10;
+        Sun, 27 Oct 2019 14:18:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=fumAfoD2Cgq/W1me+bNa2XFuOCsUJ9eItZbMC35oeBg=;
+        b=QeZOjxjfOH9PUYOggfNU2A9vl3Zr8boDGZVyvn49g6bHIsS5z9orvLmPrK6NZAnO8V
+         gXfAgX3a3+WHBgs4bkwdyXYaLrs1H80D6Xu0mPe6vWioWo+aQdXnSEpSsazLqDx0/lX6
+         gA+vXsyblPGwkE1gq6qLESm1KSd+XVxMOAQ5gMO2O0KtPnbzHHNRbX3x/uM4s0fRKwgz
+         XItE76HCESOCp0A6AwVlJBgvTFKFSzmKbSn+Lj/VEYB+J0ALMQW/Tdo1kSGxziwKBQzq
+         3neLZ7CdOWQUYx5khb1xcAVH6cCdRR2lUA9x9tpkp6mCI9XbYr0/ua3ymg2daDb1MApb
+         rOWQ==
+X-Gm-Message-State: APjAAAVsGE9v099IXwpgmFobaS9zMloSMLg923IP/pwAoD2CkwkPNi30
+        4hQ1owu4RH92+P3DzqATfQ==
+X-Google-Smtp-Source: APXvYqzG8ppYlt5HgNNVMSLWpbai9B37LgrsOvjc5cRBt5wj6xqVDeDqtmmzOElGsRgYOH6eefweag==
+X-Received: by 2002:a9d:4c07:: with SMTP id l7mr380968otf.206.1572211121743;
+        Sun, 27 Oct 2019 14:18:41 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id y4sm2498157oig.32.2019.10.27.14.18.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Oct 2019 14:18:40 -0700 (PDT)
+Date:   Sun, 27 Oct 2019 16:18:40 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        linux-renesas-soc@vger.kernel.org, Robin.Murphy@arm.com
-Subject: Re: [PATCH V3 2/3] PCI: rcar: Do not abort on too many inbound
- dma-ranges
-Message-ID: <20191026210645.GB47056@e119886-lin.cambridge.arm.com>
-References: <20190809175741.7066-1-marek.vasut@gmail.com>
- <20190809175741.7066-2-marek.vasut@gmail.com>
- <20190816132305.gyyml5r3xsimmoor@verge.net.au>
- <8f1871ed-4820-1985-0090-bb9e2d8803d8@gmail.com>
- <20191021101805.GM47056@e119886-lin.cambridge.arm.com>
- <fef9502f-d51c-b922-afb3-8891267ae6c3@gmail.com>
- <20191026203627.GA47056@e119886-lin.cambridge.arm.com>
+        Simon Horman <horms@verge.net.au>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Subject: Re: [PATCH 1/4] media: dt-bindings: rcar-vin: Add R8A774B1 support
+Message-ID: <20191027211840.GA498@bogus>
+References: <1571137078-28922-1-git-send-email-biju.das@bp.renesas.com>
+ <1571137078-28922-2-git-send-email-biju.das@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191026203627.GA47056@e119886-lin.cambridge.arm.com>
-User-Agent: Mutt/1.10.1+81 (426a6c1) (2018-08-26)
+In-Reply-To: <1571137078-28922-2-git-send-email-biju.das@bp.renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Oct 26, 2019 at 09:36:28PM +0100, Andrew Murray wrote:
-> On Sat, Oct 26, 2019 at 08:03:12PM +0200, Marek Vasut wrote:
-> > On 10/21/19 12:18 PM, Andrew Murray wrote:
-> > [...]
-> > >>>> In case the "dma-ranges" DT property contains either too many ranges
-> > >>>> or the range start address is unaligned in such a way that populating
-> > >>>> the range into the controller requires multiple entries, a situation
-> > >>>> may occur where all ranges cannot be loaded into the controller.
-> > >>>>
-> > >>>> Currently, the driver refuses to probe in such a situation. Relax this
-> > >>>> behavior, load as many ranges as possible and warn if some ranges do
-> > >>>> not fit anymore.
-> > >>>
-> > >>> What is the motivation for relaxing this?
-> > >>
-> > >> U-Boot can fill the ranges in properly now, the list would be longer in
-> > >> such a case and the driver would fail to probe (because the list is
-> > >> longer than what the hardware can support).
-> > > 
-> > > Is this the U-Boot patch you refer to:
-> > > 
-> > > https://patchwork.ozlabs.org/patch/1129436/
-> > 
-> > Yes.
-> > 
-> > > As pci_set_region is called with the same address for PCI and CPU memory
-> > > this implies there is a 1:1 mapping - therefore I don't see a need for
-> > > multiple mappings for each DRAM bank. (Also if this controller has a
-> > > 32 bit limitation, shouldn't this code limit the addresses before calling
-> > > pci_set_region?).
-> > It would certainly be helpful to know about this dma-ranges detail
-> > earlier, this whole thing could've been avoided. Now all I can do is get
-> > that patch reverted for the next U-Boot release.
+On Tue, 15 Oct 2019 11:57:55 +0100, Biju Das wrote:
+> Document support for the VIN module in the Renesas RZ/G2N (R8A774B1) SoC.
 > 
-> Yes, I can appreciate the frustration this delay has caused. Though as there
-> are now more reviewers for PCI controllers on this list, future patches ought
-> to get feedback sooner.
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> ---
+>  Documentation/devicetree/bindings/media/renesas,vin.txt | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> > 
-> > But this still leaves me with one open question -- how do I figure out
-> > what to program into the PCI controller inbound windows, so that the
-> > controller correctly filters inbound transfers which are targetting
-> > nonexisting memory ?
-> 
-> Your driver should program into the RC->CPU windows, the exact ranges
-> described in the dma-ranges. Whilst also respecting the alignment and
-> max-size rules your controller has (e.g. the existing upstream logic
-> and also the new logic that recalculates the alignment per entry).
-> 
-> As far as I can tell from looking at your U-Boot patch, I think I'd expect
-> a single dma-range to be presented in the DT, that describes
-> 0:0xFFFFFFFF => 0:0xFFFFFFFF. This is because 1) I understand your
-> controller is limited to 32 bits. And 2) there is a linear mapping between
-> PCI and CPU addresses (given that the second and third arguments on
-> pci_set_region are both the same).
-> 
-> As you point out, this range includes lots of things that you don't
-> want the RC to touch - such as non-existent memory. This is OK, when
-> Linux programs addresses into the various EP's for them to DMA to host
-> memory, it uses its own logic to select addresses that are in RAM, the
-> purpose of the dma-range is to describe what the CPU RAM address looks
-> like from the perspective of the RC (for example if the RC was wired
-> with an offset such that made memory writes from the RC made to
-> 0x00000000 end up on the system map at 0x80000000, we need to tell Linux
-> about this offset. Otherwise when a EP device driver programs a DMA
-> address of a RAM buffer at 0x90000000, it'll end up targetting
-> 0x110000000. Thankfully our dma-range will tell Linux to apply an offset
-> such that the actual address written to the EP is 0x10000000.).
 
-That last sentence should have read "Thankfully our dma-range will tell the
-RC to use its address translation such that the actual address written on the
-bus by the RC is 0x10000000.)."
-
-Thanks,
-
-Andrew Murray
-
-> 
-> In your case the dma-range also serves to describe a limit to the range
-> of addresses we can reach.
-> 
-> Thanks,
-> 
-> Andrew Murray
-> 
-> > 
-> > -- 
-> > Best regards,
-> > Marek Vasut
+Acked-by: Rob Herring <robh@kernel.org>
