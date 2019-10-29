@@ -2,73 +2,202 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 56E50E7E02
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Oct 2019 02:27:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0D9AE7E47
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Oct 2019 02:57:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729247AbfJ2B1w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 28 Oct 2019 21:27:52 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:39766 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729240AbfJ2B1w (ORCPT
+        id S1730296AbfJ2B5M (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 28 Oct 2019 21:57:12 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:45398 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727263AbfJ2B5M (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 28 Oct 2019 21:27:52 -0400
-Received: by mail-oi1-f194.google.com with SMTP id v138so7619621oif.6;
-        Mon, 28 Oct 2019 18:27:51 -0700 (PDT)
+        Mon, 28 Oct 2019 21:57:12 -0400
+Received: by mail-oi1-f195.google.com with SMTP id k2so2543582oij.12;
+        Mon, 28 Oct 2019 18:57:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=TEulik8cnhQ+VqODNguMZ+O09MeXVI0Qyw3vC+O/bsA=;
-        b=NFX9Mql4DD6IQIvdamCufMWv6v8RWm8Utn9kNkeZeFHK9aaGdlatm3bVVpcm+yWf9z
-         BkKetcU6sPGE8U92WPwVLzRQO1TxVJuyxQkQAziYtouq3Hrbjazh89ri/1rzvql8vvO4
-         L2QMFFR9eJE+3qHDl/TC1krh5MmDTKSnhTt4cx8tNdEoTN783HHpXSZ3c55LPvbp5G3I
-         990mXK8npKE0yUv1d6gyCOiQ1bUNZ9dnL+2mYA/iuLnmdRJqH3DLBgxc1Rdr6JzU8BsW
-         tVxG88LI73zB6FMkI3WA5Wr5Ysfq8xRshkUl/K9EBfMHiwdMwZxw5t+SraAwma6ATeK2
-         Pb2w==
-X-Gm-Message-State: APjAAAWLhwAt+rq7YZbVIAtAQOA9PdydtfwFZxBtTw5aMWncO67vXJPJ
-        4aPLLb5YDtrs34o1h91Ufg==
-X-Google-Smtp-Source: APXvYqwDcCkqpZ8q4ekbZuZqKsM8FBF3v6KEw83zBxUXFFvbt3dborLzAvNtvweRT+511cQ5mflMtg==
-X-Received: by 2002:a05:6808:aad:: with SMTP id r13mr1717377oij.169.1572312471469;
-        Mon, 28 Oct 2019 18:27:51 -0700 (PDT)
+        bh=UUvsimCWepZAnu4Afn/bbCgm53OKcJoilG//7RIuHsg=;
+        b=iRuK7P4JlwgjNx2UilTnYZC8yt72wuwI0f7o3uBvYYvW+k6B60ac4ekq25iZsxJMzI
+         Bb9Q+qJhgHAVqEhWfEuaw7iLy7RO95xd5MxMnp7nYL9zgpzQ6O00MXbVxS2I8IisqksZ
+         mSSRWIgX35wtaMHxO3jT8KUvTlUBkxEG8rxvSQe4gdA0LjAEWRJZhYl4NI3/aDynDApu
+         +lWq7QID2gfr0u2caERXCQ0Ay49jwByUHXIxm4hNblr1YRXzNv+X4lQonDPnlXnUCyku
+         W64LkYiZWRx/2AjeXOHfJmOcxzRAJOyWU2TGJhGNYNi8TgwSyhox+q7soubwv4sFeWP9
+         M/MQ==
+X-Gm-Message-State: APjAAAUYchHzgw3IZvafEYwExHAikY7Tc41OrqSkdjKXTbx6M8JF/pCd
+        XciF5nk1UMYVnTZwPu7y3A==
+X-Google-Smtp-Source: APXvYqxkbrUEED6jWLHlJsz7uKLNRWrYdrAjFf7ywC8zRjX5a6SE2q7TJluJR4FujLl9xIx8TCkqYw==
+X-Received: by 2002:a05:6808:341:: with SMTP id j1mr1814643oie.106.1572314230268;
+        Mon, 28 Oct 2019 18:57:10 -0700 (PDT)
 Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id l32sm1507528otl.74.2019.10.28.18.27.50
+        by smtp.gmail.com with ESMTPSA id s66sm4217236otb.65.2019.10.28.18.57.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Oct 2019 18:27:50 -0700 (PDT)
-Date:   Mon, 28 Oct 2019 20:27:50 -0500
+        Mon, 28 Oct 2019 18:57:09 -0700 (PDT)
+Date:   Mon, 28 Oct 2019 20:57:08 -0500
 From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH] dt-bindings: clock: renesas: rcar-usb2-clock-sel: Fix
- typo in example
-Message-ID: <20191029012750.GA25620@bogus>
-References: <20191016145650.30003-1-geert+renesas@glider.be>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     kishon@ti.com, mark.rutland@arm.com, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: phy: renesas: usb2-phy: convert bindings to
+ json-schema
+Message-ID: <20191029015708.GA29561@bogus>
+References: <1571387933-23397-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191016145650.30003-1-geert+renesas@glider.be>
+In-Reply-To: <1571387933-23397-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 16 Oct 2019 16:56:50 +0200, Geert Uytterhoeven wrote:
-> The documented compatible value for R-Car H3 is
-> "renesas,r8a7795-rcar-usb2-clock-sel", not
-> "renesas,r8a77950-rcar-usb2-clock-sel".
+On Fri, Oct 18, 2019 at 05:38:53PM +0900, Yoshihiro Shimoda wrote:
+> Convert Renesas R-Car generation 3 USB 2.0 PHY bindings documentation
+> to json-schema.
 > 
-> Fixes: 311accb64570db45 ("clk: renesas: rcar-usb2-clock-sel: Add R-Car USB 2.0 clock selector PHY")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 > ---
-> This binding has no DTS users in upstream, nor in the BSP?
-> ---
->  .../devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.txt   | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+>  .../devicetree/bindings/phy/rcar-gen3-phy-usb2.txt |  70 --------------
+>  .../devicetree/bindings/phy/renesas,usb2-phy.yaml  | 106 +++++++++++++++++++++
+>  2 files changed, 106 insertions(+), 70 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
+>  create mode 100644 Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
 
-Acked-by: Rob Herring <robh@kernel.org>
+
+> diff --git a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> new file mode 100644
+> index 00000000..0f109c2
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> @@ -0,0 +1,106 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/phy/renesas,usb2-phy.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas R-Car generation 3 USB 2.0 PHY
+> +
+> +maintainers:
+> +  - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+
+This:
+
+> +      - items:
+> +          - enum:
+> +              - renesas,usb2-phy-r8a77470 # RZ/G1C
+
+You can simplify to just:
+
+         - const: renesas,usb2-phy-r8a77470 # RZ/G1C
+
+> +      - items:
+> +          - enum:
+> +              - renesas,usb2-phy-r7s9210  # RZ/A2
+> +              - renesas,usb2-phy-r8a774a1 # RZ/G2M
+> +              - renesas,usb2-phy-r8a774b1 # RZ/G2N
+> +              - renesas,usb2-phy-r8a774c0 # RZ/G2E
+> +              - renesas,usb2-phy-r8a7795  # R-Car H3
+> +              - renesas,usb2-phy-r8a7796  # R-Car M3-W
+> +              - renesas,usb2-phy-r8a77965 # R-Car M3-N
+> +              - renesas,usb2-phy-r8a77990 # R-Car E3
+> +              - renesas,usb2-phy-r8a77995 # R-Car D3
+> +          - const: renesas,rcar-gen3-usb2-phy
+> +
+> +  reg:
+> +    # base address and length of the registers block for the PHY.
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    # clock phandle and specifier pair(s).
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  clock-names:
+> +    # for RZ/A2
+> +    minItems: 1
+> +    maxItems: 2
+> +    items:
+> +      - const: fck
+> +      - const: usb_x1
+> +
+> +  '#phy-cells':
+> +    # see phy-bindings.txt in the same directory
+
+Drop this so we don't have to fix later.
+
+> +    enum: [0, 1]  # and 0 is deprecated.
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    minItems: 1
+> +    maxItems: 2
+
+Needs 'items' to define each entry.
+
+> +
+> +  vbus-supply:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+
+Can drop this, *-supply already has a type.
+
+> +    description: |
+> +      Phandle to a regulator that provides power to the VBUS. This regulator
+> +      will be managed during the PHY power on/off sequence.
+> +
+> +  renesas,no-otg-pins:
+> +    $ref: /schemas/types.yaml#/definitions/flag
+> +    description: |
+> +      specify when a board does not provide proper otg pins.
+> +
+> +  dr_mode:
+> +    $ref: /schemas/types.yaml#/definitions/string
+
+I think we already have a common definition, so just 'true' is enough.
+
+> +    description: |
+> +      indicates the working mode for the PHY. Can be "host", "peripheral", or
+> +      "otg". Should be set if otg controller is not used.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - '#phy-cells'
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/power/r8a7795-sysc.h>
+> +
+> +    usb-phy@ee080200 {
+> +        compatible = "renesas,usb2-phy-r8a7795", "renesas,rcar-gen3-usb2-phy";
+> +        reg = <0 0xee080200 0 0x700>;
+> +        interrupts = <GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&cpg CPG_MOD 703>;
+> +        #phy-cells = <1>;
+> +    };
+> +
+> +    usb-phy@ee0a0200 {
+> +        compatible = "renesas,usb2-phy-r8a7795", "renesas,rcar-gen3-usb2-phy";
+> +        reg = <0 0xee0a0200 0 0x700>;
+> +        clocks = <&cpg CPG_MOD 702>;
+> +        #phy-cells = <1>;
+> +    };
+> -- 
+> 2.7.4
+> 
