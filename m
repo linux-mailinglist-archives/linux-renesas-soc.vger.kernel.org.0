@@ -2,74 +2,125 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EB26E900D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Oct 2019 20:37:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E659E90BE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Oct 2019 21:20:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729240AbfJ2ThP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 29 Oct 2019 15:37:15 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:45434 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727395AbfJ2ThP (ORCPT
+        id S1726068AbfJ2UUF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 29 Oct 2019 16:20:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60510 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725951AbfJ2UUF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 29 Oct 2019 15:37:15 -0400
-Received: by mail-ot1-f67.google.com with SMTP id 41so10805025oti.12;
-        Tue, 29 Oct 2019 12:37:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=JKwdF0XUZpiXTAflIrtHaGtCwxCnO26IPczKRhKbFkY=;
-        b=gMRgNg/OAUdgKNAIz1vcWWogBEsKVbmN1AsSdZD/sSzMvAf2DTaNvDffuUph7tZ8Ra
-         dlLFhQJEXwjOjGX9QZQtGtsRDH/Ra7c67ssJ2ALKVI88ZAwoLgewH5MmBhP9KaXkqRlL
-         ocbNMvOTsM6csf6EgsF5DpHtiQj0xYuxMYfhnN566lkgL7Qj2qiWbxBDzb50V8btKb+Z
-         uDtrEGZdaepMj5ble7j+uqGhwgLHTB6Yvqd0qgEQo78Z5brSWUU/QzFQ0BEBN00TDOh9
-         1RgcuTYFNSAO64dtWFJ/dKAVp7R2NqrVJg4T9JzufJ04c5pMMmaQGjbr3UobmYLNRQEG
-         YZVQ==
-X-Gm-Message-State: APjAAAWAtCgvNQQd3STZEyfRe+K4MPd+2peDiBH9+i/fbbLWedByr6mS
-        Y/rnuog/fIMTdUpQMUmYM1bp4dE=
-X-Google-Smtp-Source: APXvYqw2WApP58XDy54/mEOFfzSBSp6IjXH8bD2FMIAeWNuewPZGLF+4mD7in+MMZhw6PaX7gRQR3Q==
-X-Received: by 2002:a9d:6a0e:: with SMTP id g14mr10203172otn.351.1572377834042;
-        Tue, 29 Oct 2019 12:37:14 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id d27sm2504792ote.11.2019.10.29.12.37.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2019 12:37:13 -0700 (PDT)
-Date:   Tue, 29 Oct 2019 14:37:12 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH] media: dt-bindings: rcar_vin: Document RZ/G1 per-board
- settings
-Message-ID: <20191029193712.GA14204@bogus>
-References: <20191024131423.16799-1-geert+renesas@glider.be>
+        Tue, 29 Oct 2019 16:20:05 -0400
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3E3DF2086A;
+        Tue, 29 Oct 2019 20:20:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572380404;
+        bh=Clnomsacv7T6a/ubml3afB3fbMamN9cVGn6ssr4l9qY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=S/8rYQezY07m5/GuMp+eUDHBLwmHpdOZheShfDHSS0hS/0TCprkl6ldKq5gKVDIyW
+         P1t9wBcIP2MPDRDtsHKYMWNwZe8Nblj6cSyyGnQpVgsTCSR/+lYKFuFbfcjLqXdhMP
+         lCrKFEYbyLKtfKqPEYsSY+I+THwku5JITalxHVS4=
+Received: by mail-qt1-f174.google.com with SMTP id l3so896qtp.2;
+        Tue, 29 Oct 2019 13:20:04 -0700 (PDT)
+X-Gm-Message-State: APjAAAXaYPfVSYvJiP4EUh8kgUy5mjz288IKjy8VleAyYt/qLUnmZvs/
+        bTKdSfsfAWCoLTvy4xnW+5w1pGtLYBrTE1xWKA==
+X-Google-Smtp-Source: APXvYqxabGX/POiNRA0N56A14M3a7t/UWULx2rYZa74WIi4+N6DZNC2UX/jDPYkIQG5TuAM8HOsEpCdBSi3MN/Svr1k=
+X-Received: by 2002:ac8:70c4:: with SMTP id g4mr1134179qtp.136.1572380403327;
+ Tue, 29 Oct 2019 13:20:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191024131423.16799-1-geert+renesas@glider.be>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <1571387933-23397-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <20191029015708.GA29561@bogus> <TYAPR01MB4544FD4F09FAA09F7AF79EF0D8610@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYAPR01MB4544FD4F09FAA09F7AF79EF0D8610@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 29 Oct 2019 15:19:52 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+H-4V=v0GTUgTXAiwOtn_BoMtcMpinb1v51V_Jy9mBXA@mail.gmail.com>
+Message-ID: <CAL_Jsq+H-4V=v0GTUgTXAiwOtn_BoMtcMpinb1v51V_Jy9mBXA@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: phy: renesas: usb2-phy: convert bindings to json-schema
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "kishon@ti.com" <kishon@ti.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 24 Oct 2019 15:14:23 +0200, Geert Uytterhoeven wrote:
-> The R-Car Gen2 per-board settings apply to RZ/G1, too.
-> 
-> Fixes: 1d14a5eaa156b0b3 ("media: dt-bindings: media: rcar_vin: add device tree support for r8a774[35]")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  Documentation/devicetree/bindings/media/renesas,vin.txt | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
+On Mon, Oct 28, 2019 at 11:14 PM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+>
+> Hi Rob,
+>
+> Thank you for your review!
+>
+> > From: Rob Herring, Sent: Tuesday, October 29, 2019 10:57 AM
+> >
+> > On Fri, Oct 18, 2019 at 05:38:53PM +0900, Yoshihiro Shimoda wrote:
+> > > Convert Renesas R-Car generation 3 USB 2.0 PHY bindings documentation
+> > > to json-schema.
+> > >
+> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > > ---
+> > >  .../devicetree/bindings/phy/rcar-gen3-phy-usb2.txt |  70 --------------
+> > >  .../devicetree/bindings/phy/renesas,usb2-phy.yaml  | 106 +++++++++++++++++++++
+> > >  2 files changed, 106 insertions(+), 70 deletions(-)
+> > >  delete mode 100644 Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
+> > >  create mode 100644 Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> >
+> >
+> > > diff --git a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> > b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> > > new file mode 100644
+> > > index 00000000..0f109c2
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> > > @@ -0,0 +1,106 @@
+> > > +# SPDX-License-Identifier: GPL-2.0-only
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/phy/renesas,usb2-phy.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Renesas R-Car generation 3 USB 2.0 PHY
+> > > +
+> > > +maintainers:
+> > > +  - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    oneOf:
+> >
+> > This:
+>
+> What does the "This:" mean?
 
-Acked-by: Rob Herring <robh@kernel.org>
+I was referring to the 3 lines below. I was trying to be clear which
+lines to replace with just 'const'.
+
+> If I replaced the "oneOf:" with "This:",
+> the following error happens when "make dt_binding_check":
+>
+>   SCHEMA  Documentation/devicetree/bindings/processed-schema.yaml
+> warning: no schema found in file: Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> [snip]/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml: ignoring, error in schema 'compatible'
+> Documentation/devicetree/bindings/Makefile:33: recipe for target 'Documentation/devicetree/bindings/processed-schema.yaml' failed
+> make[1]: *** [Documentation/devicetree/bindings/processed-schema.yaml] Error 255
+> Makefile:1263: recipe for target 'dt_binding_check' failed
+> make: *** [dt_binding_check] Error 2
+>
+> > > +      - items:
+> > > +          - enum:
+> > > +              - renesas,usb2-phy-r8a77470 # RZ/G1C
+> >
+> > You can simplify to just:
+> >
+> >          - const: renesas,usb2-phy-r8a77470 # RZ/G1C
+>
+> I'll fix it.
