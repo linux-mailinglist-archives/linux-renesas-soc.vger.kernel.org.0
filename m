@@ -2,125 +2,135 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E659E90BE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Oct 2019 21:20:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8BB7E92DD
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Oct 2019 23:12:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726068AbfJ2UUF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 29 Oct 2019 16:20:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60510 "EHLO mail.kernel.org"
+        id S1726096AbfJ2WM1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 29 Oct 2019 18:12:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55160 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725951AbfJ2UUF (ORCPT
+        id S1725840AbfJ2WM0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 29 Oct 2019 16:20:05 -0400
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        Tue, 29 Oct 2019 18:12:26 -0400
+Received: from localhost (unknown [69.71.4.100])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3E3DF2086A;
-        Tue, 29 Oct 2019 20:20:04 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8DFA92054F;
+        Tue, 29 Oct 2019 22:12:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572380404;
-        bh=Clnomsacv7T6a/ubml3afB3fbMamN9cVGn6ssr4l9qY=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=S/8rYQezY07m5/GuMp+eUDHBLwmHpdOZheShfDHSS0hS/0TCprkl6ldKq5gKVDIyW
-         P1t9wBcIP2MPDRDtsHKYMWNwZe8Nblj6cSyyGnQpVgsTCSR/+lYKFuFbfcjLqXdhMP
-         lCrKFEYbyLKtfKqPEYsSY+I+THwku5JITalxHVS4=
-Received: by mail-qt1-f174.google.com with SMTP id l3so896qtp.2;
-        Tue, 29 Oct 2019 13:20:04 -0700 (PDT)
-X-Gm-Message-State: APjAAAXaYPfVSYvJiP4EUh8kgUy5mjz288IKjy8VleAyYt/qLUnmZvs/
-        bTKdSfsfAWCoLTvy4xnW+5w1pGtLYBrTE1xWKA==
-X-Google-Smtp-Source: APXvYqxabGX/POiNRA0N56A14M3a7t/UWULx2rYZa74WIi4+N6DZNC2UX/jDPYkIQG5TuAM8HOsEpCdBSi3MN/Svr1k=
-X-Received: by 2002:ac8:70c4:: with SMTP id g4mr1134179qtp.136.1572380403327;
- Tue, 29 Oct 2019 13:20:03 -0700 (PDT)
+        s=default; t=1572387146;
+        bh=yEsO971/WTtVJLXlhquhSunZEYk3y36yVtfl9IyRQc8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=JQxF2ReJIJ7HE+ov3dSB9pHFT4qEi+2+PRmzDYx/wE97ofUZJlW9AL3HMlRzQ534u
+         3INp7qC4QAwRRUAO0VGQTijuKTP3jKlSyVc2yKtF5bUgCIK3Y3FeNYPGxWXM2SjaNl
+         djqjvmJIiduYTwavBL4KBL29ax5z4eFrsCgHSXDM=
+Date:   Tue, 29 Oct 2019 17:12:24 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc:     Rob Herring <robh@kernel.org>,
+        Andrew Murray <andrew.murray@arm.com>,
+        linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        Christoph Hellwig <hch@infradead.org>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
+        Ley Foon Tan <lftan@altera.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Ray Jui <rjui@broadcom.com>, rfi@lists.rocketboards.org,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Simon Horman <horms@verge.net.au>,
+        Srinath Mannam <srinath.mannam@broadcom.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Toan Le <toan@os.amperecomputing.com>,
+        Tom Joseph <tjoseph@cadence.com>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v3 19/25] PCI: of: Add inbound resource parsing to helpers
+Message-ID: <20191029221224.GA117069@google.com>
 MIME-Version: 1.0
-References: <1571387933-23397-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <20191029015708.GA29561@bogus> <TYAPR01MB4544FD4F09FAA09F7AF79EF0D8610@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYAPR01MB4544FD4F09FAA09F7AF79EF0D8610@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 29 Oct 2019 15:19:52 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+H-4V=v0GTUgTXAiwOtn_BoMtcMpinb1v51V_Jy9mBXA@mail.gmail.com>
-Message-ID: <CAL_Jsq+H-4V=v0GTUgTXAiwOtn_BoMtcMpinb1v51V_Jy9mBXA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: phy: renesas: usb2-phy: convert bindings to json-schema
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     "kishon@ti.com" <kishon@ti.com>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191029110751.GB27171@e121166-lin.cambridge.arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Oct 28, 2019 at 11:14 PM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
->
-> Hi Rob,
->
-> Thank you for your review!
->
-> > From: Rob Herring, Sent: Tuesday, October 29, 2019 10:57 AM
-> >
-> > On Fri, Oct 18, 2019 at 05:38:53PM +0900, Yoshihiro Shimoda wrote:
-> > > Convert Renesas R-Car generation 3 USB 2.0 PHY bindings documentation
-> > > to json-schema.
-> > >
-> > > Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > > ---
-> > >  .../devicetree/bindings/phy/rcar-gen3-phy-usb2.txt |  70 --------------
-> > >  .../devicetree/bindings/phy/renesas,usb2-phy.yaml  | 106 +++++++++++++++++++++
-> > >  2 files changed, 106 insertions(+), 70 deletions(-)
-> > >  delete mode 100644 Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
-> > >  create mode 100644 Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
-> >
-> >
-> > > diff --git a/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
-> > b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
-> > > new file mode 100644
-> > > index 00000000..0f109c2
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
-> > > @@ -0,0 +1,106 @@
-> > > +# SPDX-License-Identifier: GPL-2.0-only
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/phy/renesas,usb2-phy.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Renesas R-Car generation 3 USB 2.0 PHY
-> > > +
-> > > +maintainers:
-> > > +  - Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    oneOf:
-> >
-> > This:
->
-> What does the "This:" mean?
+On Tue, Oct 29, 2019 at 11:07:51AM +0000, Lorenzo Pieralisi wrote:
+> On Mon, Oct 28, 2019 at 11:32:50AM -0500, Rob Herring wrote:
+> > Extend devm_of_pci_get_host_bridge_resources() and
+> > pci_parse_request_of_pci_ranges() helpers to also parse the inbound
+> > addresses from DT 'dma-ranges' and populate a resource list with the
+> > translated addresses. This will help ensure 'dma-ranges' is always
+> > parsed in a consistent way.
+> > 
+> > Cc: Jingoo Han <jingoohan1@gmail.com>
+> > Cc: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+> > Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> > Cc: Bjorn Helgaas <bhelgaas@google.com>
+> > Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+> > Cc: Will Deacon <will@kernel.org>
+> > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > Cc: Toan Le <toan@os.amperecomputing.com>
+> > Cc: Ley Foon Tan <lftan@altera.com>
+> > Cc: Tom Joseph <tjoseph@cadence.com>
+> > Cc: Ray Jui <rjui@broadcom.com>
+> > Cc: Scott Branden <sbranden@broadcom.com>
+> > Cc: bcm-kernel-feedback-list@broadcom.com
+> > Cc: Ryder Lee <ryder.lee@mediatek.com>
+> > Cc: Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>
+> > Cc: Hou Zhiqiang <Zhiqiang.Hou@nxp.com>
+> > Cc: Simon Horman <horms@verge.net.au>
+> > Cc: Shawn Lin <shawn.lin@rock-chips.com>
+> > Cc: Heiko Stuebner <heiko@sntech.de>
+> > Cc: Michal Simek <michal.simek@xilinx.com>
+> > Cc: rfi@lists.rocketboards.org
+> > Cc: linux-mediatek@lists.infradead.org
+> > Cc: linux-renesas-soc@vger.kernel.org
+> > Cc: linux-rockchip@lists.infradead.org
+> > Tested-by: Thomas Petazzoni <thomas.petazzoni@bootlin.com> # for AArdvark
+> > Reviewed-by: Andrew Murray <andrew.murray@arm.com>
+> > Acked-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+> > ---
+> > v2:
+> >  - Fix crash in INIT_LIST_HEAD when ib_resources is NULL
+> > ---
+> >  .../pci/controller/dwc/pcie-designware-host.c |  3 +-
+> >  drivers/pci/controller/pci-aardvark.c         |  2 +-
+> >  drivers/pci/controller/pci-ftpci100.c         |  3 +-
+> >  drivers/pci/controller/pci-host-common.c      |  2 +-
+> >  drivers/pci/controller/pci-v3-semi.c          |  3 +-
+> >  drivers/pci/controller/pci-versatile.c        |  3 +-
+> >  drivers/pci/controller/pci-xgene.c            |  3 +-
+> >  drivers/pci/controller/pcie-altera.c          |  2 +-
+> >  drivers/pci/controller/pcie-cadence-host.c    |  2 +-
+> >  drivers/pci/controller/pcie-iproc-platform.c  |  3 +-
+> >  drivers/pci/controller/pcie-mediatek.c        |  2 +-
+> >  drivers/pci/controller/pcie-mobiveil.c        |  3 +-
+> >  drivers/pci/controller/pcie-rcar.c            |  3 +-
+> >  drivers/pci/controller/pcie-rockchip-host.c   |  3 +-
+> >  drivers/pci/controller/pcie-xilinx-nwl.c      |  3 +-
+> >  drivers/pci/controller/pcie-xilinx.c          |  3 +-
+> >  drivers/pci/of.c                              | 45 ++++++++++++++++++-
+> >  drivers/pci/pci.h                             |  8 +++-
+> >  include/linux/pci.h                           |  9 ++--
+> >  19 files changed, 82 insertions(+), 23 deletions(-)
+> 
+> Hi Bjorn,
+> 
+> please let me know if you are OK with this patch, the series is
+> ready to go upstream IMO.
 
-I was referring to the 3 lines below. I was trying to be clear which
-lines to replace with just 'const'.
+Yep, looks good to me.  If you want it:
 
-> If I replaced the "oneOf:" with "This:",
-> the following error happens when "make dt_binding_check":
->
->   SCHEMA  Documentation/devicetree/bindings/processed-schema.yaml
-> warning: no schema found in file: Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
-> [snip]/Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml: ignoring, error in schema 'compatible'
-> Documentation/devicetree/bindings/Makefile:33: recipe for target 'Documentation/devicetree/bindings/processed-schema.yaml' failed
-> make[1]: *** [Documentation/devicetree/bindings/processed-schema.yaml] Error 255
-> Makefile:1263: recipe for target 'dt_binding_check' failed
-> make: *** [dt_binding_check] Error 2
->
-> > > +      - items:
-> > > +          - enum:
-> > > +              - renesas,usb2-phy-r8a77470 # RZ/G1C
-> >
-> > You can simplify to just:
-> >
-> >          - const: renesas,usb2-phy-r8a77470 # RZ/G1C
->
-> I'll fix it.
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
