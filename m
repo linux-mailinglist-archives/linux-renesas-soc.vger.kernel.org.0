@@ -2,228 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DF35DE8C47
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Oct 2019 16:59:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 70648E8DAA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Oct 2019 18:09:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389940AbfJ2P7u (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 29 Oct 2019 11:59:50 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:50626 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390038AbfJ2P7t (ORCPT
+        id S2390653AbfJ2RJe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 29 Oct 2019 13:09:34 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:34463 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390580AbfJ2RJe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 29 Oct 2019 11:59:49 -0400
-Received: by mail-wm1-f66.google.com with SMTP id 11so3197954wmk.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 29 Oct 2019 08:59:47 -0700 (PDT)
+        Tue, 29 Oct 2019 13:09:34 -0400
+Received: by mail-ed1-f67.google.com with SMTP id b72so11355145edf.1;
+        Tue, 29 Oct 2019 10:09:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jW6z4fKWJsBlYxKn7twBcd7IWPitytMCLX6jbiyT3C8=;
-        b=R58RieOynQzxeOkYflDGPYNaowJp2iGxd/hBMRiOQ6dXaUV6q/dEFJAfuprFleLnbr
-         2UZ5Py8YcpQPPN5KcmEqcPFoA8f7jGrIj/2s3Lca0AM9uzgIy+YlDBbF1PbzWdoY0MnS
-         tbwtvlpJiWkIC5PmqYdS4J3BO6xh9HNEDLYkE=
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=2O8IL+ejqrHAt/B3T8PJtPkWmYd6qZ0pu3QY913ujZ4=;
+        b=I8podoTXJc72YKRax0xgaRJZf/wa98oKW3MDiklQqDPszLXm2BvvT9ccEsqBpZiPqo
+         lG+FUxIPruIO8zvYLFNRxQC0n6ASTTVYHerFfhi+i3lBUViLfyqiFnbAC5lXbgODIukV
+         7KAGkO5aJ3hQhWTVs0eSrR8MHynPQgm4CEpcgKYVsizFew5Izwsh3ASpTjF+C3pnDV5i
+         YeygHTjYuf/r0fo6wqSWSgnsJN0boNA6XRfj2A+J+v0Jv+dYbhPJ0NLYK+ZaIk8GltwL
+         FiFWiXk+dpsp2skdqF6cjA2KyHbamnC2GKoFbItjKyT7Af3gi4YgU/5uOUqD8LqSogmo
+         /s8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jW6z4fKWJsBlYxKn7twBcd7IWPitytMCLX6jbiyT3C8=;
-        b=ZgOmLA9EvJeqruGnZDZ9So1Xs3iHljCqV8Yv1kd3vKhTGT7RoV9N1ucc7I6aZiL+vb
-         J7muE1DuXerXI/Lta8fLG3UeI9h4HF1RlpwUtADgn/qXeXBW5KPiMYN/a+pU4+yjb4Jr
-         lU7UjGuroMFnIxpDsWr0JyDLSwIQyj+cFkuX3BwCF5CHWRhzrbz5Jd8bl7fgrnvIWL2y
-         Jj8iL38mlFma6IPTkG1OoIvR58nihq6mpOuDL9+x3GMgXIpO3Pf2uC7+VBRujnw3MSbg
-         BWjMvrwuO8dZs6+YGqapEqEdzXJ8GTdv1KP7Q7sYMuAEB1rIh55sXybMhKMUkzUOexhj
-         uTbw==
-X-Gm-Message-State: APjAAAWjyoua4KtPyxGgbcImAAhMqx9HD8BEClLmL47mrL50Psg1az36
-        NMjtyP2dnTlcAHhZEw1JSPRF1p+FSmm4/jRf80sW6g==
-X-Google-Smtp-Source: APXvYqyUalWNgn46AHsfEyAbE1JclhNBGQx9jhMwfsntmJynyRXE6Rw4WOC1O2HAw7rZ07ZQDAROcByNyjIizGr51ZM=
-X-Received: by 2002:a05:600c:142:: with SMTP id w2mr4773242wmm.121.1572364786709;
- Tue, 29 Oct 2019 08:59:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191028163256.8004-1-robh@kernel.org> <20191028163256.8004-24-robh@kernel.org>
-In-Reply-To: <20191028163256.8004-24-robh@kernel.org>
-From:   Srinath Mannam <srinath.mannam@broadcom.com>
-Date:   Tue, 29 Oct 2019 21:29:35 +0530
-Message-ID: <CABe79T4p-YJp7nNx0iyyx46PFWBC57H-2+VL=RM9rKK-X4qdFg@mail.gmail.com>
-Subject: Re: [PATCH v3 23/25] PCI: iproc: Use inbound resources for setup
-To:     Rob Herring <robh@kernel.org>
-Cc:     Andrew Murray <andrew.murray@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        linux-pci@vger.kernel.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=2O8IL+ejqrHAt/B3T8PJtPkWmYd6qZ0pu3QY913ujZ4=;
+        b=Q7Rf6G39wuGF5iV9BymsasYyZUisDtbankX/oEgBR8DVoY6sb8HygaUpnE/UxR0owV
+         aAVJAR7a06LAqiu3DtqPcwQGnSt7ymMxf1/aMQVTKFiLLFC6uEDOtL0X27UuBio35MRz
+         p62E+Wwk169o9mE+fg/d2msrAtNKkQ+BUPvgs38mAQiSmLy98WjQ4JUS9Kdw4wNHkleF
+         DSsBhFb57onxhXnn8iCuVI3HcJKQAhS53j8xN7dGYR3PhQUkPugB1Oyt6H4maBr5WoRN
+         hXY6g/mRCNWVhv8VU53gCrwQOcO0oLSGlz7FmknF/0VS5TGJfsRaUSO/fx9BIQS2OOsp
+         IrbQ==
+X-Gm-Message-State: APjAAAUODeuktpMEbinX8FMwcEbMFYFi0UCUo2D3oZdLrQ3yyVSlbpSG
+        Zmj5VglVSBAjCvloUQFVIRE=
+X-Google-Smtp-Source: APXvYqzN6nO/rdvriDSOKfgs8ORvJ+YZoiUi1EOmiBvKDfzuhZ/MHuRR6HMaCrYDVfDmhiEPTwC5+g==
+X-Received: by 2002:a50:8dc5:: with SMTP id s5mr27163817edh.115.1572368971986;
+        Tue, 29 Oct 2019 10:09:31 -0700 (PDT)
+Received: from [10.67.50.53] ([192.19.223.252])
+        by smtp.googlemail.com with ESMTPSA id s8sm686953edj.6.2019.10.29.10.09.22
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 29 Oct 2019 10:09:30 -0700 (PDT)
+Subject: Re: [PATCH v3 07/25] PCI: iproc: Use
+ pci_parse_request_of_pci_ranges()
+To:     Srinath Mannam <srinath.mannam@broadcom.com>,
+        Rob Herring <robh@kernel.org>
+Cc:     Heiko Stuebner <heiko@sntech.de>,
         Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
-        Ley Foon Tan <lftan@altera.com>,
+        linux-pci@vger.kernel.org,
         Linus Walleij <linus.walleij@linaro.org>,
-        linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
         Matthias Brugger <matthias.bgg@gmail.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Ray Jui <rjui@broadcom.com>, rfi@lists.rocketboards.org,
-        Ryder Lee <ryder.lee@mediatek.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Simon Horman <horms@verge.net.au>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Toan Le <toan@os.amperecomputing.com>,
-        Tom Joseph <tjoseph@cadence.com>, Will Deacon <will@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Will Deacon <will@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        linux-rockchip@lists.infradead.org,
+        BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        linux-mediatek@lists.infradead.org,
+        Andrew Murray <andrew.murray@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Scott Branden <sbranden@broadcom.com>,
+        Jingoo Han <jingoohan1@gmail.com>, rfi@lists.rocketboards.org,
+        linux-renesas-soc@vger.kernel.org,
+        Tom Joseph <tjoseph@cadence.com>,
+        Simon Horman <horms@verge.net.au>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Ley Foon Tan <lftan@altera.com>
+References: <20191028163256.8004-1-robh@kernel.org>
+ <20191028163256.8004-8-robh@kernel.org>
+ <CABe79T4uF0vnxAbbR-ckr4uBpni3KmD2RYqSS_jUh-KRDFLvzQ@mail.gmail.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=f.fainelli@gmail.com; prefer-encrypt=mutual; keydata=
+ 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
+ M5kY0ACeNhCZJvZ5g4C2Lc9fcTHu8jxmEkI=
+Message-ID: <31166369-42a0-fe0b-8d6c-8c9486deb009@gmail.com>
+Date:   Tue, 29 Oct 2019 10:09:18 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <CABe79T4uF0vnxAbbR-ckr4uBpni3KmD2RYqSS_jUh-KRDFLvzQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+On 10/29/19 8:58 AM, Srinath Mannam wrote:
+> Hi Rob,
+> 
+> I reviewed and verified this change.. It is working fine.
 
-I reviewed and verified this change.. It is working fine.
-
-Regards,
-Srinath.
-
-On Mon, Oct 28, 2019 at 10:03 PM Rob Herring <robh@kernel.org> wrote:
->
-> Now that the helpers provide the inbound resources in the host bridge
-> 'dma_ranges' resource list, convert Broadcom iProc host bridge to use
-> the resource list to setup the inbound addresses.
->
-> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Ray Jui <rjui@broadcom.com>
-> Cc: Scott Branden <sbranden@broadcom.com>
-> Cc: bcm-kernel-feedback-list@broadcom.com
-> Reviewed-by: Andrew Murray <andrew.murray@arm.com>
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> v2:
->  - Fix iproc_pcie_paxb_v2_msi_steer() to use resource_entry
-> ---
->  drivers/pci/controller/pcie-iproc.c | 77 +++++++----------------------
->  1 file changed, 17 insertions(+), 60 deletions(-)
->
-> diff --git a/drivers/pci/controller/pcie-iproc.c b/drivers/pci/controller/pcie-iproc.c
-> index 223335ee791a..f4d78e66846e 100644
-> --- a/drivers/pci/controller/pcie-iproc.c
-> +++ b/drivers/pci/controller/pcie-iproc.c
-> @@ -1122,15 +1122,16 @@ static int iproc_pcie_ib_write(struct iproc_pcie *pcie, int region_idx,
->  }
->
->  static int iproc_pcie_setup_ib(struct iproc_pcie *pcie,
-> -                              struct of_pci_range *range,
-> +                              struct resource_entry *entry,
->                                enum iproc_pcie_ib_map_type type)
->  {
->         struct device *dev = pcie->dev;
->         struct iproc_pcie_ib *ib = &pcie->ib;
->         int ret;
->         unsigned int region_idx, size_idx;
-> -       u64 axi_addr = range->cpu_addr, pci_addr = range->pci_addr;
-> -       resource_size_t size = range->size;
-> +       u64 axi_addr = entry->res->start;
-> +       u64 pci_addr = entry->res->start - entry->offset;
-> +       resource_size_t size = resource_size(entry->res);
->
->         /* iterate through all IARR mapping regions */
->         for (region_idx = 0; region_idx < ib->nr_regions; region_idx++) {
-> @@ -1182,66 +1183,19 @@ static int iproc_pcie_setup_ib(struct iproc_pcie *pcie,
->         return ret;
->  }
->
-> -static int iproc_pcie_add_dma_range(struct device *dev,
-> -                                   struct list_head *resources,
-> -                                   struct of_pci_range *range)
-> -{
-> -       struct resource *res;
-> -       struct resource_entry *entry, *tmp;
-> -       struct list_head *head = resources;
-> -
-> -       res = devm_kzalloc(dev, sizeof(struct resource), GFP_KERNEL);
-> -       if (!res)
-> -               return -ENOMEM;
-> -
-> -       resource_list_for_each_entry(tmp, resources) {
-> -               if (tmp->res->start < range->cpu_addr)
-> -                       head = &tmp->node;
-> -       }
-> -
-> -       res->start = range->cpu_addr;
-> -       res->end = res->start + range->size - 1;
-> -
-> -       entry = resource_list_create_entry(res, 0);
-> -       if (!entry)
-> -               return -ENOMEM;
-> -
-> -       entry->offset = res->start - range->cpu_addr;
-> -       resource_list_add(entry, head);
-> -
-> -       return 0;
-> -}
-> -
->  static int iproc_pcie_map_dma_ranges(struct iproc_pcie *pcie)
->  {
->         struct pci_host_bridge *host = pci_host_bridge_from_priv(pcie);
-> -       struct of_pci_range range;
-> -       struct of_pci_range_parser parser;
-> -       int ret;
-> -       LIST_HEAD(resources);
-> -
-> -       /* Get the dma-ranges from DT */
-> -       ret = of_pci_dma_range_parser_init(&parser, pcie->dev->of_node);
-> -       if (ret)
-> -               return ret;
-> +       struct resource_entry *entry;
-> +       int ret = 0;
->
-> -       for_each_of_pci_range(&parser, &range) {
-> -               ret = iproc_pcie_add_dma_range(pcie->dev,
-> -                                              &resources,
-> -                                              &range);
-> -               if (ret)
-> -                       goto out;
-> +       resource_list_for_each_entry(entry, &host->dma_ranges) {
->                 /* Each range entry corresponds to an inbound mapping region */
-> -               ret = iproc_pcie_setup_ib(pcie, &range, IPROC_PCIE_IB_MAP_MEM);
-> +               ret = iproc_pcie_setup_ib(pcie, entry, IPROC_PCIE_IB_MAP_MEM);
->                 if (ret)
-> -                       goto out;
-> +                       break;
->         }
->
-> -       list_splice_init(&resources, &host->dma_ranges);
-> -
-> -       return 0;
-> -out:
-> -       pci_free_resource_list(&resources);
->         return ret;
->  }
->
-> @@ -1276,13 +1230,16 @@ static int iproce_pcie_get_msi(struct iproc_pcie *pcie,
->  static int iproc_pcie_paxb_v2_msi_steer(struct iproc_pcie *pcie, u64 msi_addr)
->  {
->         int ret;
-> -       struct of_pci_range range;
-> +       struct resource_entry entry;
-> +
-> +       memset(&entry, 0, sizeof(entry));
-> +       entry.res = &entry.__res;
->
-> -       memset(&range, 0, sizeof(range));
-> -       range.size = SZ_32K;
-> -       range.pci_addr = range.cpu_addr = msi_addr & ~(range.size - 1);
-> +       msi_addr &= ~(SZ_32K - 1);
-> +       entry.res->start = msi_addr;
-> +       entry.res->end = msi_addr + SZ_32K - 1;
->
-> -       ret = iproc_pcie_setup_ib(pcie, &range, IPROC_PCIE_IB_MAP_IO);
-> +       ret = iproc_pcie_setup_ib(pcie, &entry, IPROC_PCIE_IB_MAP_IO);
->         return ret;
->  }
->
-> --
-> 2.20.1
->
+You can make that more explicit with a Reviewed-by and Tested-by tag,
+that way it gets picked up by patchwork and can be part of the commit
+message when this gets applied.
+-- 
+Florian
