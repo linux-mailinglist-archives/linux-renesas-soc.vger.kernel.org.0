@@ -2,101 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E896E8749
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Oct 2019 12:37:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE819E8AEE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 29 Oct 2019 15:38:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731789AbfJ2Lhz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 29 Oct 2019 07:37:55 -0400
-Received: from foss.arm.com ([217.140.110.172]:51030 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727799AbfJ2Lhz (ORCPT
+        id S2389185AbfJ2OiI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 29 Oct 2019 10:38:08 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:46041 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388885AbfJ2OiI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 29 Oct 2019 07:37:55 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DE7891F1;
-        Tue, 29 Oct 2019 04:37:54 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DB83D3F71E;
-        Tue, 29 Oct 2019 04:37:53 -0700 (PDT)
-Date:   Tue, 29 Oct 2019 11:37:49 +0000
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     marek.vasut@gmail.com
-Cc:     linux-pci@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Andrew Murray <andrew.murray@arm.com>,
+        Tue, 29 Oct 2019 10:38:08 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 5A08D3C0582;
+        Tue, 29 Oct 2019 15:38:05 +0100 (CET)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id aAdtT_z4Yddc; Tue, 29 Oct 2019 15:37:59 +0100 (CET)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 653233C0585;
+        Tue, 29 Oct 2019 15:37:56 +0100 (CET)
+Received: from vmlxhi-102.adit-jv.com (10.72.93.184) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Tue, 29 Oct
+ 2019 15:37:56 +0100
+Date:   Tue, 29 Oct 2019 15:37:53 +0100
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+CC:     <horms@verge.net.au>, <linux-pci@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <stable@vger.kernel.org>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH V4 1/2] PCI: rcar: Move the inbound index check
-Message-ID: <20191029113749.GA1635@e121166-lin.cambridge.arm.com>
-References: <20191026182659.2390-1-marek.vasut@gmail.com>
+        Yohhei Fukui <yohhei.fukui@denso-ten.com>,
+        Asano Yasushi <yasano@jp.adit-jv.com>,
+        Steffen Pengel <spengel@jp.adit-jv.com>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [PATCH v4] PCI: rcar: Fix missing MACCTLR register setting in
+ rcar_pcie_hw_init()
+Message-ID: <20191029143753.GA28404@vmlxhi-102.adit-jv.com>
+References: <1570769432-15358-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-In-Reply-To: <20191026182659.2390-1-marek.vasut@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1570769432-15358-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+User-Agent: Mutt/1.12.1+40 (7f8642d4ee82) (2019-06-28)
+X-Originating-IP: [10.72.93.184]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Oct 26, 2019 at 08:26:58PM +0200, marek.vasut@gmail.com wrote:
-> From: Marek Vasut <marek.vasut+renesas@gmail.com>
-> 
-> Since the $idx variable value is stored across multiple calls to
-> rcar_pcie_inbound_ranges() function, and the $idx value is used to
-> index registers which are written, subsequent calls might cause
-> the $idx value to be high enough to trigger writes into nonexistent
-> registers.
-> 
-> Fix this by moving the $idx value check to the beginning of the loop.
-> 
-> Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
-> Reviewed-by: Andrew Murray <andrew.murray@arm.com>
-> Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> Cc: Wolfram Sang <wsa@the-dreams.de>
-> Cc: linux-renesas-soc@vger.kernel.org
-> To: linux-pci@vger.kernel.org
-> ---
-> V2: New patch
-> V3: Adjust the check to idx >= MAX_NR_INBOUND_MAPS - 1
-> V4: Rebase on next/master
-> ---
->  drivers/pci/controller/pcie-rcar.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+Dear Shimoda-san, dear reviewers,
 
-Applied both patches to pci/rcar, thanks !
+On Fri, Oct 11, 2019 at 01:50:32PM +0900, Yoshihiro Shimoda wrote:
+> According to the R-Car Gen2/3 manual, the bit 0 of MACCTLR register
+> should be written to 0 before enabling PCIETCTLR.CFINIT because
+> the bit 0 is set to 1 on reset. To avoid unexpected behaviors from
+> this incorrect setting, this patch fixes it.
 
-Lorenzo
+Your development and reviewing effort to reach v4 is very appreciated.
 
-> diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
-> index e45bb2a7bfa5..b2a5c3e94245 100644
-> --- a/drivers/pci/controller/pcie-rcar.c
-> +++ b/drivers/pci/controller/pcie-rcar.c
-> @@ -1049,6 +1049,10 @@ static int rcar_pcie_inbound_ranges(struct rcar_pcie *pcie,
->  	mask &= ~0xf;
->  
->  	while (cpu_addr < cpu_end) {
-> +		if (idx >= MAX_NR_INBOUND_MAPS - 1) {
-> +			dev_err(pcie->dev, "Failed to map inbound regions!\n");
-> +			return -EINVAL;
-> +		}
->  		/*
->  		 * Set up 64-bit inbound regions as the range parser doesn't
->  		 * distinguish between 32 and 64-bit types.
-> @@ -1068,11 +1072,6 @@ static int rcar_pcie_inbound_ranges(struct rcar_pcie *pcie,
->  		pci_addr += size;
->  		cpu_addr += size;
->  		idx += 2;
-> -
-> -		if (idx > MAX_NR_INBOUND_MAPS) {
-> -			dev_err(pcie->dev, "Failed to map inbound regions!\n");
-> -			return -EINVAL;
-> -		}
->  	}
->  	*index = idx;
->  
-> -- 
-> 2.23.0
+However, in the context of some internal reviews of this patch, we are
+having hard times reconciling the change with our (possibly incomplete
+or inaccurate) interpretation of the R-Car3 HW User’s Manual (Rev.2.00
+Jul 2019). The latter says in
+Chapter "54. PCIE Controller" / "(2) Initial Setting of PCI Express":
+
+ ----snip----
+ Be sure to write the initial value (= H'80FF 0000) to MACCTLR before
+ enabling PCIETCTLR.CFINIT.
+ ----snip----
+
+Is my assumption correct that the description of this patch is a
+rewording of the above quote from the manual or is there another more
+precise statement referring to resetting LSB only (w/o touching the
+rest of the MACCTLR bits)?
+
+If it is only the LSB which "should be written to 0 before enabling
+PCIETCTLR.CFINIT", would you agree that the statement quoted from the
+manual would better be rephrased appropriately? TIA.
+
 > 
+> Fixes: c25da4778803 ("PCI: rcar: Add Renesas R-Car PCIe driver")
+> Fixes: be20bbcb0a8c ("PCI: rcar: Add the initialization of PCIe link in resume_noirq()")
+> Cc: <stable@vger.kernel.org> # v5.2+
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+-- 
+Best Regards,
+Eugeniu
