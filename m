@@ -2,581 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D130E9E08
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Oct 2019 15:56:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 003E5EA132
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Oct 2019 17:09:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726259AbfJ3O4b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 30 Oct 2019 10:56:31 -0400
-Received: from foss.arm.com ([217.140.110.172]:35842 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726602AbfJ3O4b (ORCPT
+        id S1726846AbfJ3P7S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Oct 2019 11:59:18 -0400
+Received: from mail-vk1-f195.google.com ([209.85.221.195]:32969 "EHLO
+        mail-vk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729080AbfJ3P5b (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 30 Oct 2019 10:56:31 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 17C881FB;
-        Wed, 30 Oct 2019 07:56:30 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4BB1A3F6C4;
-        Wed, 30 Oct 2019 07:56:26 -0700 (PDT)
-Date:   Wed, 30 Oct 2019 14:56:21 +0000
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>
-Cc:     Srinath Mannam <srinath.mannam@broadcom.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Andrew Murray <andrew.murray@arm.com>,
-        linux-pci@vger.kernel.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
-        Ley Foon Tan <lftan@altera.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Ray Jui <rjui@broadcom.com>, rfi@lists.rocketboards.org,
-        Ryder Lee <ryder.lee@mediatek.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Simon Horman <horms@verge.net.au>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Toan Le <toan@os.amperecomputing.com>,
-        Tom Joseph <tjoseph@cadence.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v3 19/25] PCI: of: Add inbound resource parsing to helpers
-Message-ID: <20191030145621.GA29602@e121166-lin.cambridge.arm.com>
-References: <20191028163256.8004-1-robh@kernel.org>
- <20191028163256.8004-20-robh@kernel.org>
- <20191029110751.GB27171@e121166-lin.cambridge.arm.com>
- <CABe79T7LPi-XvzARVh-_oVnv1Dr=Uzztps-W2vTr_7gSeiPFQg@mail.gmail.com>
- <20191029173406.GA25104@e121166-lin.cambridge.arm.com>
- <CABe79T5Cd30jFfTr1RRsMZ85sohwk64ZW1qb_LGHvns90WBpGw@mail.gmail.com>
- <20191030114839.GA16067@e121166-lin.cambridge.arm.com>
- <e5d2af18-0263-df56-7586-b0d31143a7e4@arm.com>
+        Wed, 30 Oct 2019 11:57:31 -0400
+Received: by mail-vk1-f195.google.com with SMTP id p68so610277vkd.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 30 Oct 2019 08:57:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yJeQS9cFeGl1OPSSl6cPS0WOzk7e89rbPQpCN40pRm4=;
+        b=mo1Ke15458v/vlvhjBXcmWHlSfc7pqPA7K38Pbo+8VtoaUcrWE1z6EHBDJG+096Gyp
+         Z21AqErrPKNDAlc6XNJCZBKhaZi0UJoPkSCJJx92vLPauys7MOe+Q6BnX8+0VqPOm8Qp
+         Y878FL6Aa5z+2w2CESN6cvHxxGiv3/MdI/m36jumjIjzS5Xg8wxzgAHZYg4Puefdo4dT
+         gdJLuEWpBBzHo5Fx4KUeqSZreK836lUWLIYyX0nB4gD9xeV5yFXKcbr36eSo3nZsYJuL
+         dtaWLTXbSllV84m/yULlfhSMnksqPYJOsgQneVjKKJRlOjiWc7UXO0t2cLUi/Al3vefC
+         wC2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yJeQS9cFeGl1OPSSl6cPS0WOzk7e89rbPQpCN40pRm4=;
+        b=K7zyCYAvpISB1IvDPrPleoBmJNQ+3OKKmcQpzL1ZS6gHZSbSrmmhuVPhmx8VOjjhYo
+         aT3YQHvaJ1uM1DAy4EivRIMYen5gOV2W4zOXVXJfaPKVewi4owANAo53hEo1ARv0/TT7
+         tDvXWiZTSyu06/0S4MB2WnShr6EuYShoBwrUWDkxyQyE5AGAS+tnkes/SIHh2Nlr/IzO
+         Vac3F8sS8Pf19gVKujXNp8dEJ8TgUxaxOp9cN/1lktUsJLvRmM0tdulNJ65upRYtOuYx
+         7+bn+B+u2hNF9zPo+N9GAlPkECMjBGzne4EE6GQClPdGl/jMrRVz7aqT9jUbKD/08gYT
+         FehQ==
+X-Gm-Message-State: APjAAAXSPkgB3DOBvnFw9zxFIhcscC3Xmu3PVwHB031Nd78FeoEvg37U
+        3c9PI2yYwF9u1Chr8y3lRosw+sOA+LIaqO3kwWv8cA==
+X-Google-Smtp-Source: APXvYqwXf+9b2dlOFi2XWNYH+wHUypr7rezsWHjr1zgOe7uguG/zo+9y/AtodCpKvf0rggo+VpvTzzgQzhHJmZYD82U=
+X-Received: by 2002:a1f:2f51:: with SMTP id v78mr15068742vkv.101.1572451050456;
+ Wed, 30 Oct 2019 08:57:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e5d2af18-0263-df56-7586-b0d31143a7e4@arm.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <1569307744-42479-1-git-send-email-biju.das@bp.renesas.com>
+In-Reply-To: <1569307744-42479-1-git-send-email-biju.das@bp.renesas.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Wed, 30 Oct 2019 16:56:54 +0100
+Message-ID: <CAPDyKFrHbytKUeGkT0sVAmhcgc65x4miv+cLgMLj7jDcGzJxUg@mail.gmail.com>
+Subject: Re: [PATCH] mmc: renesas_sdhi_internal_dmac: Add r8a774b1 support
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms@verge.net.au>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Oct 30, 2019 at 12:49:59PM +0000, Robin Murphy wrote:
-> On 30/10/2019 11:48, Lorenzo Pieralisi wrote:
-> > [+Cc Robin]
-> > 
-> > On Wed, Oct 30, 2019 at 12:14:54PM +0530, Srinath Mannam wrote:
-> > > Hi Lorenzo,
-> > > 
-> > > Thanks for the details.
-> > > Based on Robin's comment in the old patch, I thought dma_ranges list
-> > > will be in sorted order.
-> > > https://lore.kernel.org/lkml/741a4210-251c-9c00-d4a7-bc7ebf8cd57b@arm.com/
-> > > 
-> > > Now, another patch is required to sort the list before reserving in
-> > > iova_reserve_pci_windows() function.
-> > > 
-> > > Regards,
-> > > Srinath.
-> > 
-> > Don't top-post please.
-> > 
-> > https://en.wikipedia.org/wiki/Posting_style#Top-posting
-> > 
-> > Yes, the dma_ranges list must be sorted somehow I reckon
-> > iova_reserve_pci_windows() is where it should be done (since that's
-> > where the requirement is) or it can be done in
-> > devm_of_pci_get_host_bridge_resources().
-> > 
-> > Thoughts ?
-> 
-> Right, strictly it's only iova_reserve_pci_windows() that needs the list
-> sorted, it just worked out that maintaining the list in sorted order by
-> construction took a fair bit less code than explicitly sorting it. In terms
-> of preserving that behaviour in a slightly more generalised fashion I
-> suppose we could add something like:
-> 
-> void pci_add_resource_offset_sorted(struct list_head *resources,
-> 				struct resource *res,
-> 				resource_size_t offset)
-> {
-> 	struct resource_entry *entry;
-> 
-> 	resource_list_for_each_entry(entry, resources)
-> 		if (entry->res.start > res.start)
-> 			break;
-> 	
-> 	pci_add_resource_offset(&entry->node, res, offset);
-> }
-> 
-> but if you'd rather add a specific resource_list_sort() or even just
-> open-code it in iommu-dma, I don't have any real preference. The "least code
-> necessary" approach definitely made sense when individual drivers were
-> expected to build their own lists, but once it gets generalised then having
-> a sensible and robust API becomes a more important consideration.
+On Tue, 24 Sep 2019 at 08:49, Biju Das <biju.das@bp.renesas.com> wrote:
+>
+> This patch adds SDHI support for RZ/G2N (R8A774B1) SoC.
+>
+> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
 
-I think that open coding it in iommu-dma is fine, @RobH would you be
-able to add this to the series please ? I think it should be added to
-prevent any regressions, we can't rely on dma-ranges entries order in DT
-files.
+Applied for next, thanks!
 
-Thanks !
-Lorenzo
+Kind regards
+Uffe
 
 
-> Robin.
-> 
-> > 
-> > Lorenzo
-> > 
-> > > On Tue, Oct 29, 2019 at 11:04 PM Lorenzo Pieralisi
-> > > <lorenzo.pieralisi@arm.com> wrote:
-> > > > 
-> > > > On Tue, Oct 29, 2019 at 09:26:51PM +0530, Srinath Mannam wrote:
-> > > > > Hi Lorenzo,
-> > > > > 
-> > > > > All changes are looks good to me.
-> > > > > I have one doubt regarding, resources added in the
-> > > > > "bridge->dma_ranges" list are expected to be in sorted order which are
-> > > > > used in "iova_reserve_pci_windows". Please correct me if I missed any
-> > > > > patch specific to this.
-> > > > 
-> > > > No I don't think so, it is just that we need to decide which piece of
-> > > > code should sort that list, whether in this patchset or by patching the
-> > > > kernel in iova_reserve_pci_windows().
-> > > > 
-> > > > I tend to think the sorting should be done in iova_reserve_pci_windows()
-> > > > because that's where the requirement is.
-> > > > 
-> > > > Lorenzo
-> > > > 
-> > > > > Regards,
-> > > > > Srinath.
-> > > > > 
-> > > > > On Tue, Oct 29, 2019 at 4:37 PM Lorenzo Pieralisi
-> > > > > <lorenzo.pieralisi@arm.com> wrote:
-> > > > > > 
-> > > > > > On Mon, Oct 28, 2019 at 11:32:50AM -0500, Rob Herring wrote:
-> > > > > > > Extend devm_of_pci_get_host_bridge_resources() and
-> > > > > > > pci_parse_request_of_pci_ranges() helpers to also parse the inbound
-> > > > > > > addresses from DT 'dma-ranges' and populate a resource list with the
-> > > > > > > translated addresses. This will help ensure 'dma-ranges' is always
-> > > > > > > parsed in a consistent way.
-> > > > > > > 
-> > > > > > > Cc: Jingoo Han <jingoohan1@gmail.com>
-> > > > > > > Cc: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-> > > > > > > Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> > > > > > > Cc: Bjorn Helgaas <bhelgaas@google.com>
-> > > > > > > Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-> > > > > > > Cc: Will Deacon <will@kernel.org>
-> > > > > > > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > > > > > > Cc: Toan Le <toan@os.amperecomputing.com>
-> > > > > > > Cc: Ley Foon Tan <lftan@altera.com>
-> > > > > > > Cc: Tom Joseph <tjoseph@cadence.com>
-> > > > > > > Cc: Ray Jui <rjui@broadcom.com>
-> > > > > > > Cc: Scott Branden <sbranden@broadcom.com>
-> > > > > > > Cc: bcm-kernel-feedback-list@broadcom.com
-> > > > > > > Cc: Ryder Lee <ryder.lee@mediatek.com>
-> > > > > > > Cc: Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>
-> > > > > > > Cc: Hou Zhiqiang <Zhiqiang.Hou@nxp.com>
-> > > > > > > Cc: Simon Horman <horms@verge.net.au>
-> > > > > > > Cc: Shawn Lin <shawn.lin@rock-chips.com>
-> > > > > > > Cc: Heiko Stuebner <heiko@sntech.de>
-> > > > > > > Cc: Michal Simek <michal.simek@xilinx.com>
-> > > > > > > Cc: rfi@lists.rocketboards.org
-> > > > > > > Cc: linux-mediatek@lists.infradead.org
-> > > > > > > Cc: linux-renesas-soc@vger.kernel.org
-> > > > > > > Cc: linux-rockchip@lists.infradead.org
-> > > > > > > Tested-by: Thomas Petazzoni <thomas.petazzoni@bootlin.com> # for AArdvark
-> > > > > > > Reviewed-by: Andrew Murray <andrew.murray@arm.com>
-> > > > > > > Acked-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-> > > > > > > Signed-off-by: Rob Herring <robh@kernel.org>
-> > > > > > > ---
-> > > > > > > v2:
-> > > > > > >   - Fix crash in INIT_LIST_HEAD when ib_resources is NULL
-> > > > > > > ---
-> > > > > > >   .../pci/controller/dwc/pcie-designware-host.c |  3 +-
-> > > > > > >   drivers/pci/controller/pci-aardvark.c         |  2 +-
-> > > > > > >   drivers/pci/controller/pci-ftpci100.c         |  3 +-
-> > > > > > >   drivers/pci/controller/pci-host-common.c      |  2 +-
-> > > > > > >   drivers/pci/controller/pci-v3-semi.c          |  3 +-
-> > > > > > >   drivers/pci/controller/pci-versatile.c        |  3 +-
-> > > > > > >   drivers/pci/controller/pci-xgene.c            |  3 +-
-> > > > > > >   drivers/pci/controller/pcie-altera.c          |  2 +-
-> > > > > > >   drivers/pci/controller/pcie-cadence-host.c    |  2 +-
-> > > > > > >   drivers/pci/controller/pcie-iproc-platform.c  |  3 +-
-> > > > > > >   drivers/pci/controller/pcie-mediatek.c        |  2 +-
-> > > > > > >   drivers/pci/controller/pcie-mobiveil.c        |  3 +-
-> > > > > > >   drivers/pci/controller/pcie-rcar.c            |  3 +-
-> > > > > > >   drivers/pci/controller/pcie-rockchip-host.c   |  3 +-
-> > > > > > >   drivers/pci/controller/pcie-xilinx-nwl.c      |  3 +-
-> > > > > > >   drivers/pci/controller/pcie-xilinx.c          |  3 +-
-> > > > > > >   drivers/pci/of.c                              | 45 ++++++++++++++++++-
-> > > > > > >   drivers/pci/pci.h                             |  8 +++-
-> > > > > > >   include/linux/pci.h                           |  9 ++--
-> > > > > > >   19 files changed, 82 insertions(+), 23 deletions(-)
-> > > > > > 
-> > > > > > Hi Bjorn,
-> > > > > > 
-> > > > > > please let me know if you are OK with this patch, the series is
-> > > > > > ready to go upstream IMO.
-> > > > > > 
-> > > > > > Thanks,
-> > > > > > Lorenzo
-> > > > > > 
-> > > > > > > diff --git a/drivers/pci/controller/dwc/pcie-designware-host.c b/drivers/pci/controller/dwc/pcie-designware-host.c
-> > > > > > > index aeec8b65eb97..f7b1d80c4a0a 100644
-> > > > > > > --- a/drivers/pci/controller/dwc/pcie-designware-host.c
-> > > > > > > +++ b/drivers/pci/controller/dwc/pcie-designware-host.c
-> > > > > > > @@ -342,7 +342,8 @@ int dw_pcie_host_init(struct pcie_port *pp)
-> > > > > > >        if (!bridge)
-> > > > > > >                return -ENOMEM;
-> > > > > > > 
-> > > > > > > -     ret = pci_parse_request_of_pci_ranges(dev, &bridge->windows, NULL);
-> > > > > > > +     ret = pci_parse_request_of_pci_ranges(dev, &bridge->windows,
-> > > > > > > +                                           &bridge->dma_ranges, NULL);
-> > > > > > >        if (ret)
-> > > > > > >                return ret;
-> > > > > > > 
-> > > > > > > diff --git a/drivers/pci/controller/pci-aardvark.c b/drivers/pci/controller/pci-aardvark.c
-> > > > > > > index 9cbeba507f0c..b34eaa2cd762 100644
-> > > > > > > --- a/drivers/pci/controller/pci-aardvark.c
-> > > > > > > +++ b/drivers/pci/controller/pci-aardvark.c
-> > > > > > > @@ -939,7 +939,7 @@ static int advk_pcie_probe(struct platform_device *pdev)
-> > > > > > >        }
-> > > > > > > 
-> > > > > > >        ret = pci_parse_request_of_pci_ranges(dev, &bridge->windows,
-> > > > > > > -                                           &bus);
-> > > > > > > +                                           &bridge->dma_ranges, &bus);
-> > > > > > >        if (ret) {
-> > > > > > >                dev_err(dev, "Failed to parse resources\n");
-> > > > > > >                return ret;
-> > > > > > > diff --git a/drivers/pci/controller/pci-ftpci100.c b/drivers/pci/controller/pci-ftpci100.c
-> > > > > > > index 75603348b88a..66288b94e92d 100644
-> > > > > > > --- a/drivers/pci/controller/pci-ftpci100.c
-> > > > > > > +++ b/drivers/pci/controller/pci-ftpci100.c
-> > > > > > > @@ -477,7 +477,8 @@ static int faraday_pci_probe(struct platform_device *pdev)
-> > > > > > >        if (IS_ERR(p->base))
-> > > > > > >                return PTR_ERR(p->base);
-> > > > > > > 
-> > > > > > > -     ret = pci_parse_request_of_pci_ranges(dev, &host->windows, NULL);
-> > > > > > > +     ret = pci_parse_request_of_pci_ranges(dev, &host->windows,
-> > > > > > > +                                           &host->dma_ranges, NULL);
-> > > > > > >        if (ret)
-> > > > > > >                return ret;
-> > > > > > > 
-> > > > > > > diff --git a/drivers/pci/controller/pci-host-common.c b/drivers/pci/controller/pci-host-common.c
-> > > > > > > index c8cb9c5188a4..250a3fc80ec6 100644
-> > > > > > > --- a/drivers/pci/controller/pci-host-common.c
-> > > > > > > +++ b/drivers/pci/controller/pci-host-common.c
-> > > > > > > @@ -27,7 +27,7 @@ static struct pci_config_window *gen_pci_init(struct device *dev,
-> > > > > > >        struct pci_config_window *cfg;
-> > > > > > > 
-> > > > > > >        /* Parse our PCI ranges and request their resources */
-> > > > > > > -     err = pci_parse_request_of_pci_ranges(dev, resources, &bus_range);
-> > > > > > > +     err = pci_parse_request_of_pci_ranges(dev, resources, NULL, &bus_range);
-> > > > > > >        if (err)
-> > > > > > >                return ERR_PTR(err);
-> > > > > > > 
-> > > > > > > diff --git a/drivers/pci/controller/pci-v3-semi.c b/drivers/pci/controller/pci-v3-semi.c
-> > > > > > > index 96677520f6c1..2209c7671115 100644
-> > > > > > > --- a/drivers/pci/controller/pci-v3-semi.c
-> > > > > > > +++ b/drivers/pci/controller/pci-v3-semi.c
-> > > > > > > @@ -776,7 +776,8 @@ static int v3_pci_probe(struct platform_device *pdev)
-> > > > > > >        if (IS_ERR(v3->config_base))
-> > > > > > >                return PTR_ERR(v3->config_base);
-> > > > > > > 
-> > > > > > > -     ret = pci_parse_request_of_pci_ranges(dev, &host->windows, NULL);
-> > > > > > > +     ret = pci_parse_request_of_pci_ranges(dev, &host->windows,
-> > > > > > > +                                           &host->dma_ranges, NULL);
-> > > > > > >        if (ret)
-> > > > > > >                return ret;
-> > > > > > > 
-> > > > > > > diff --git a/drivers/pci/controller/pci-versatile.c b/drivers/pci/controller/pci-versatile.c
-> > > > > > > index eae1b859990b..b911359b6d81 100644
-> > > > > > > --- a/drivers/pci/controller/pci-versatile.c
-> > > > > > > +++ b/drivers/pci/controller/pci-versatile.c
-> > > > > > > @@ -92,7 +92,8 @@ static int versatile_pci_probe(struct platform_device *pdev)
-> > > > > > >        if (IS_ERR(versatile_cfg_base[1]))
-> > > > > > >                return PTR_ERR(versatile_cfg_base[1]);
-> > > > > > > 
-> > > > > > > -     ret = pci_parse_request_of_pci_ranges(dev, &bridge->windows, NULL);
-> > > > > > > +     ret = pci_parse_request_of_pci_ranges(dev, &bridge->windows,
-> > > > > > > +                                           NULL, NULL);
-> > > > > > >        if (ret)
-> > > > > > >                return ret;
-> > > > > > > 
-> > > > > > > diff --git a/drivers/pci/controller/pci-xgene.c b/drivers/pci/controller/pci-xgene.c
-> > > > > > > index 7d0f0395a479..9408269d943d 100644
-> > > > > > > --- a/drivers/pci/controller/pci-xgene.c
-> > > > > > > +++ b/drivers/pci/controller/pci-xgene.c
-> > > > > > > @@ -627,7 +627,8 @@ static int xgene_pcie_probe(struct platform_device *pdev)
-> > > > > > >        if (ret)
-> > > > > > >                return ret;
-> > > > > > > 
-> > > > > > > -     ret = pci_parse_request_of_pci_ranges(dev, &bridge->windows, NULL);
-> > > > > > > +     ret = pci_parse_request_of_pci_ranges(dev, &bridge->windows,
-> > > > > > > +                                           &bridge->dma_ranges, NULL);
-> > > > > > >        if (ret)
-> > > > > > >                return ret;
-> > > > > > > 
-> > > > > > > diff --git a/drivers/pci/controller/pcie-altera.c b/drivers/pci/controller/pcie-altera.c
-> > > > > > > index ba025efeae28..b447c3e4abad 100644
-> > > > > > > --- a/drivers/pci/controller/pcie-altera.c
-> > > > > > > +++ b/drivers/pci/controller/pcie-altera.c
-> > > > > > > @@ -800,7 +800,7 @@ static int altera_pcie_probe(struct platform_device *pdev)
-> > > > > > >        }
-> > > > > > > 
-> > > > > > >        ret = pci_parse_request_of_pci_ranges(dev, &bridge->windows,
-> > > > > > > -                                           NULL);
-> > > > > > > +                                           &bridge->dma_ranges, NULL);
-> > > > > > >        if (ret) {
-> > > > > > >                dev_err(dev, "Failed add resources\n");
-> > > > > > >                return ret;
-> > > > > > > diff --git a/drivers/pci/controller/pcie-cadence-host.c b/drivers/pci/controller/pcie-cadence-host.c
-> > > > > > > index 97e251090b4f..a8f7a6284c3e 100644
-> > > > > > > --- a/drivers/pci/controller/pcie-cadence-host.c
-> > > > > > > +++ b/drivers/pci/controller/pcie-cadence-host.c
-> > > > > > > @@ -211,7 +211,7 @@ static int cdns_pcie_host_init(struct device *dev,
-> > > > > > >        int err;
-> > > > > > > 
-> > > > > > >        /* Parse our PCI ranges and request their resources */
-> > > > > > > -     err = pci_parse_request_of_pci_ranges(dev, resources, &bus_range);
-> > > > > > > +     err = pci_parse_request_of_pci_ranges(dev, resources, NULL, &bus_range);
-> > > > > > >        if (err)
-> > > > > > >                return err;
-> > > > > > > 
-> > > > > > > diff --git a/drivers/pci/controller/pcie-iproc-platform.c b/drivers/pci/controller/pcie-iproc-platform.c
-> > > > > > > index 375d815f7301..ff0a81a632a1 100644
-> > > > > > > --- a/drivers/pci/controller/pcie-iproc-platform.c
-> > > > > > > +++ b/drivers/pci/controller/pcie-iproc-platform.c
-> > > > > > > @@ -95,7 +95,8 @@ static int iproc_pcie_pltfm_probe(struct platform_device *pdev)
-> > > > > > >        if (IS_ERR(pcie->phy))
-> > > > > > >                return PTR_ERR(pcie->phy);
-> > > > > > > 
-> > > > > > > -     ret = pci_parse_request_of_pci_ranges(dev, &bridge->windows, NULL);
-> > > > > > > +     ret = pci_parse_request_of_pci_ranges(dev, &bridge->windows,
-> > > > > > > +                                           &bridge->dma_ranges, NULL);
-> > > > > > >        if (ret) {
-> > > > > > >                dev_err(dev, "unable to get PCI host bridge resources\n");
-> > > > > > >                return ret;
-> > > > > > > diff --git a/drivers/pci/controller/pcie-mediatek.c b/drivers/pci/controller/pcie-mediatek.c
-> > > > > > > index d9206a3cd56b..cb982891b22b 100644
-> > > > > > > --- a/drivers/pci/controller/pcie-mediatek.c
-> > > > > > > +++ b/drivers/pci/controller/pcie-mediatek.c
-> > > > > > > @@ -1034,7 +1034,7 @@ static int mtk_pcie_setup(struct mtk_pcie *pcie)
-> > > > > > >        int err;
-> > > > > > > 
-> > > > > > >        err = pci_parse_request_of_pci_ranges(dev, windows,
-> > > > > > > -                                           &bus);
-> > > > > > > +                                           &host->dma_ranges, &bus);
-> > > > > > >        if (err)
-> > > > > > >                return err;
-> > > > > > > 
-> > > > > > > diff --git a/drivers/pci/controller/pcie-mobiveil.c b/drivers/pci/controller/pcie-mobiveil.c
-> > > > > > > index 4eab8624ce4d..257ba49c177c 100644
-> > > > > > > --- a/drivers/pci/controller/pcie-mobiveil.c
-> > > > > > > +++ b/drivers/pci/controller/pcie-mobiveil.c
-> > > > > > > @@ -875,7 +875,8 @@ static int mobiveil_pcie_probe(struct platform_device *pdev)
-> > > > > > >        }
-> > > > > > > 
-> > > > > > >        /* parse the host bridge base addresses from the device tree file */
-> > > > > > > -     ret = pci_parse_request_of_pci_ranges(dev, &bridge->windows, NULL);
-> > > > > > > +     ret = pci_parse_request_of_pci_ranges(dev, &bridge->windows,
-> > > > > > > +                                           &bridge->dma_ranges, NULL);
-> > > > > > >        if (ret) {
-> > > > > > >                dev_err(dev, "Getting bridge resources failed\n");
-> > > > > > >                return ret;
-> > > > > > > diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
-> > > > > > > index f6a669a9af41..b8d6e86a5539 100644
-> > > > > > > --- a/drivers/pci/controller/pcie-rcar.c
-> > > > > > > +++ b/drivers/pci/controller/pcie-rcar.c
-> > > > > > > @@ -1138,7 +1138,8 @@ static int rcar_pcie_probe(struct platform_device *pdev)
-> > > > > > >        pcie->dev = dev;
-> > > > > > >        platform_set_drvdata(pdev, pcie);
-> > > > > > > 
-> > > > > > > -     err = pci_parse_request_of_pci_ranges(dev, &pcie->resources, NULL);
-> > > > > > > +     err = pci_parse_request_of_pci_ranges(dev, &pcie->resources,
-> > > > > > > +                                           &bridge->dma_ranges, NULL);
-> > > > > > >        if (err)
-> > > > > > >                goto err_free_bridge;
-> > > > > > > 
-> > > > > > > diff --git a/drivers/pci/controller/pcie-rockchip-host.c b/drivers/pci/controller/pcie-rockchip-host.c
-> > > > > > > index f375e55ea02e..ee83f8494ee9 100644
-> > > > > > > --- a/drivers/pci/controller/pcie-rockchip-host.c
-> > > > > > > +++ b/drivers/pci/controller/pcie-rockchip-host.c
-> > > > > > > @@ -1004,7 +1004,8 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
-> > > > > > >        if (err < 0)
-> > > > > > >                goto err_deinit_port;
-> > > > > > > 
-> > > > > > > -     err = pci_parse_request_of_pci_ranges(dev, &bridge->windows, &bus_res);
-> > > > > > > +     err = pci_parse_request_of_pci_ranges(dev, &bridge->windows,
-> > > > > > > +                                           &bridge->dma_ranges, &bus_res);
-> > > > > > >        if (err)
-> > > > > > >                goto err_remove_irq_domain;
-> > > > > > > 
-> > > > > > > diff --git a/drivers/pci/controller/pcie-xilinx-nwl.c b/drivers/pci/controller/pcie-xilinx-nwl.c
-> > > > > > > index e135a4b60489..9bd1427f2fd6 100644
-> > > > > > > --- a/drivers/pci/controller/pcie-xilinx-nwl.c
-> > > > > > > +++ b/drivers/pci/controller/pcie-xilinx-nwl.c
-> > > > > > > @@ -843,7 +843,8 @@ static int nwl_pcie_probe(struct platform_device *pdev)
-> > > > > > >                return err;
-> > > > > > >        }
-> > > > > > > 
-> > > > > > > -     err = pci_parse_request_of_pci_ranges(dev, &bridge->windows, NULL);
-> > > > > > > +     err = pci_parse_request_of_pci_ranges(dev, &bridge->windows,
-> > > > > > > +                                           &bridge->dma_ranges, NULL);
-> > > > > > >        if (err) {
-> > > > > > >                dev_err(dev, "Getting bridge resources failed\n");
-> > > > > > >                return err;
-> > > > > > > diff --git a/drivers/pci/controller/pcie-xilinx.c b/drivers/pci/controller/pcie-xilinx.c
-> > > > > > > index 257702288787..98e55297815b 100644
-> > > > > > > --- a/drivers/pci/controller/pcie-xilinx.c
-> > > > > > > +++ b/drivers/pci/controller/pcie-xilinx.c
-> > > > > > > @@ -645,7 +645,8 @@ static int xilinx_pcie_probe(struct platform_device *pdev)
-> > > > > > >                return err;
-> > > > > > >        }
-> > > > > > > 
-> > > > > > > -     err = pci_parse_request_of_pci_ranges(dev, &bridge->windows, NULL);
-> > > > > > > +     err = pci_parse_request_of_pci_ranges(dev, &bridge->windows,
-> > > > > > > +                                           &bridge->dma_ranges, NULL);
-> > > > > > >        if (err) {
-> > > > > > >                dev_err(dev, "Getting bridge resources failed\n");
-> > > > > > >                return err;
-> > > > > > > diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-> > > > > > > index f3da49a31db4..0b1e4623dfcf 100644
-> > > > > > > --- a/drivers/pci/of.c
-> > > > > > > +++ b/drivers/pci/of.c
-> > > > > > > @@ -257,7 +257,9 @@ EXPORT_SYMBOL_GPL(of_pci_check_probe_only);
-> > > > > > >    */
-> > > > > > >   int devm_of_pci_get_host_bridge_resources(struct device *dev,
-> > > > > > >                        unsigned char busno, unsigned char bus_max,
-> > > > > > > -                     struct list_head *resources, resource_size_t *io_base)
-> > > > > > > +                     struct list_head *resources,
-> > > > > > > +                     struct list_head *ib_resources,
-> > > > > > > +                     resource_size_t *io_base)
-> > > > > > >   {
-> > > > > > >        struct device_node *dev_node = dev->of_node;
-> > > > > > >        struct resource *res, tmp_res;
-> > > > > > > @@ -340,6 +342,42 @@ int devm_of_pci_get_host_bridge_resources(struct device *dev,
-> > > > > > >                pci_add_resource_offset(resources, res, res->start - range.pci_addr);
-> > > > > > >        }
-> > > > > > > 
-> > > > > > > +     /* Check for dma-ranges property */
-> > > > > > > +     if (!ib_resources)
-> > > > > > > +             return 0;
-> > > > > > > +     err = of_pci_dma_range_parser_init(&parser, dev_node);
-> > > > > > > +     if (err)
-> > > > > > > +             return 0;
-> > > > > > > +
-> > > > > > > +     dev_dbg(dev, "Parsing dma-ranges property...\n");
-> > > > > > > +     for_each_of_pci_range(&parser, &range) {
-> > > > > > > +             /*
-> > > > > > > +              * If we failed translation or got a zero-sized region
-> > > > > > > +              * then skip this range
-> > > > > > > +              */
-> > > > > > > +             if (((range.flags & IORESOURCE_TYPE_BITS) != IORESOURCE_MEM) ||
-> > > > > > > +                 range.cpu_addr == OF_BAD_ADDR || range.size == 0)
-> > > > > > > +                     continue;
-> > > > > > > +
-> > > > > > > +             dev_info(dev, "IB MEM %#010llx..%#010llx -> %#010llx\n",
-> > > > > > > +                      range.cpu_addr,
-> > > > > > > +                      range.cpu_addr + range.size - 1, range.pci_addr);
-> > > > > > > +
-> > > > > > > +
-> > > > > > > +             err = of_pci_range_to_resource(&range, dev_node, &tmp_res);
-> > > > > > > +             if (err)
-> > > > > > > +                     continue;
-> > > > > > > +
-> > > > > > > +             res = devm_kmemdup(dev, &tmp_res, sizeof(tmp_res), GFP_KERNEL);
-> > > > > > > +             if (!res) {
-> > > > > > > +                     err = -ENOMEM;
-> > > > > > > +                     goto failed;
-> > > > > > > +             }
-> > > > > > > +
-> > > > > > > +             pci_add_resource_offset(ib_resources, res,
-> > > > > > > +                                     res->start - range.pci_addr);
-> > > > > > > +     }
-> > > > > > > +
-> > > > > > >        return 0;
-> > > > > > > 
-> > > > > > >   failed:
-> > > > > > > @@ -482,6 +520,7 @@ EXPORT_SYMBOL_GPL(of_irq_parse_and_map_pci);
-> > > > > > > 
-> > > > > > >   int pci_parse_request_of_pci_ranges(struct device *dev,
-> > > > > > >                                    struct list_head *resources,
-> > > > > > > +                                 struct list_head *ib_resources,
-> > > > > > >                                    struct resource **bus_range)
-> > > > > > >   {
-> > > > > > >        int err, res_valid = 0;
-> > > > > > > @@ -489,8 +528,10 @@ int pci_parse_request_of_pci_ranges(struct device *dev,
-> > > > > > >        struct resource_entry *win, *tmp;
-> > > > > > > 
-> > > > > > >        INIT_LIST_HEAD(resources);
-> > > > > > > +     if (ib_resources)
-> > > > > > > +             INIT_LIST_HEAD(ib_resources);
-> > > > > > >        err = devm_of_pci_get_host_bridge_resources(dev, 0, 0xff, resources,
-> > > > > > > -                                                 &iobase);
-> > > > > > > +                                                 ib_resources, &iobase);
-> > > > > > >        if (err)
-> > > > > > >                return err;
-> > > > > > > 
-> > > > > > > diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-> > > > > > > index 3f6947ee3324..6692c4fe4290 100644
-> > > > > > > --- a/drivers/pci/pci.h
-> > > > > > > +++ b/drivers/pci/pci.h
-> > > > > > > @@ -633,11 +633,15 @@ static inline void pci_release_bus_of_node(struct pci_bus *bus) { }
-> > > > > > >   #if defined(CONFIG_OF_ADDRESS)
-> > > > > > >   int devm_of_pci_get_host_bridge_resources(struct device *dev,
-> > > > > > >                        unsigned char busno, unsigned char bus_max,
-> > > > > > > -                     struct list_head *resources, resource_size_t *io_base);
-> > > > > > > +                     struct list_head *resources,
-> > > > > > > +                     struct list_head *ib_resources,
-> > > > > > > +                     resource_size_t *io_base);
-> > > > > > >   #else
-> > > > > > >   static inline int devm_of_pci_get_host_bridge_resources(struct device *dev,
-> > > > > > >                        unsigned char busno, unsigned char bus_max,
-> > > > > > > -                     struct list_head *resources, resource_size_t *io_base)
-> > > > > > > +                     struct list_head *resources,
-> > > > > > > +                     struct list_head *ib_resources,
-> > > > > > > +                     resource_size_t *io_base)
-> > > > > > >   {
-> > > > > > >        return -EINVAL;
-> > > > > > >   }
-> > > > > > > diff --git a/include/linux/pci.h b/include/linux/pci.h
-> > > > > > > index f9088c89a534..5cb94916eaa1 100644
-> > > > > > > --- a/include/linux/pci.h
-> > > > > > > +++ b/include/linux/pci.h
-> > > > > > > @@ -2278,6 +2278,7 @@ struct irq_domain;
-> > > > > > >   struct irq_domain *pci_host_bridge_of_msi_domain(struct pci_bus *bus);
-> > > > > > >   int pci_parse_request_of_pci_ranges(struct device *dev,
-> > > > > > >                                    struct list_head *resources,
-> > > > > > > +                                 struct list_head *ib_resources,
-> > > > > > >                                    struct resource **bus_range);
-> > > > > > > 
-> > > > > > >   /* Arch may override this (weak) */
-> > > > > > > @@ -2286,9 +2287,11 @@ struct device_node *pcibios_get_phb_of_node(struct pci_bus *bus);
-> > > > > > >   #else        /* CONFIG_OF */
-> > > > > > >   static inline struct irq_domain *
-> > > > > > >   pci_host_bridge_of_msi_domain(struct pci_bus *bus) { return NULL; }
-> > > > > > > -static inline int pci_parse_request_of_pci_ranges(struct device *dev,
-> > > > > > > -                                               struct list_head *resources,
-> > > > > > > -                                               struct resource **bus_range)
-> > > > > > > +static inline int
-> > > > > > > +pci_parse_request_of_pci_ranges(struct device *dev,
-> > > > > > > +                             struct list_head *resources,
-> > > > > > > +                             struct list_head *ib_resources,
-> > > > > > > +                             struct resource **bus_range)
-> > > > > > >   {
-> > > > > > >        return -EINVAL;
-> > > > > > >   }
-> > > > > > > --
-> > > > > > > 2.20.1
-> > > > > > > 
+> ---
+>  drivers/mmc/host/renesas_sdhi_internal_dmac.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+> index 751fe91..7c6020e 100644
+> --- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+> +++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+> @@ -308,6 +308,7 @@ static const struct soc_device_attribute soc_whitelist[] = {
+>           .data = (void *)BIT(SDHI_INTERNAL_DMAC_ONE_RX_ONLY) },
+>         /* generic ones */
+>         { .soc_id = "r8a774a1" },
+> +       { .soc_id = "r8a774b1" },
+>         { .soc_id = "r8a774c0" },
+>         { .soc_id = "r8a77470" },
+>         { .soc_id = "r8a7795" },
+> --
+> 2.7.4
+>
