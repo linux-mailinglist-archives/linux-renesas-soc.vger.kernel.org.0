@@ -2,120 +2,149 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EA6BFEA1D6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Oct 2019 17:34:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D7E6EEA60F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 30 Oct 2019 23:18:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726425AbfJ3Qer (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 30 Oct 2019 12:34:47 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:55252 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726261AbfJ3Qeq (ORCPT
+        id S1726878AbfJ3WSm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 30 Oct 2019 18:18:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43388 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726268AbfJ3WSm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 30 Oct 2019 12:34:46 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id D87733C0585;
-        Wed, 30 Oct 2019 17:34:42 +0100 (CET)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id gPYWxzqq8IGP; Wed, 30 Oct 2019 17:34:35 +0100 (CET)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        Wed, 30 Oct 2019 18:18:42 -0400
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id D77463C0582;
-        Wed, 30 Oct 2019 17:34:35 +0100 (CET)
-Received: from vmlxhi-102.adit-jv.com (10.72.93.184) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Wed, 30 Oct
- 2019 17:34:35 +0100
-Date:   Wed, 30 Oct 2019 17:34:31 +0100
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-CC:     <horms@verge.net.au>, <linux-pci@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <stable@vger.kernel.org>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        Asano Yasushi <yasano@jp.adit-jv.com>,
-        Yohhei Fukui <yohhei.fukui@denso-ten.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH 2/2] PCI: rcar: Fix missing MACCTLR register setting in
- initialize sequence
-Message-ID: <20191030163431.GA882@vmlxhi-102.adit-jv.com>
-References: <1572434824-1850-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1572434824-1850-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        by mail.kernel.org (Postfix) with ESMTPSA id 9497021882;
+        Wed, 30 Oct 2019 22:18:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572473921;
+        bh=KXnSbsAAWNtCnNIRiRuY3XaAOcznmr5R0czUsGNXlaM=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=UYLN3RSiWYlCbWXm7Zh6AR6mBxGcDuSGCjTZH+4UEAn1CVusNojtpR1reex7tDZzD
+         6RmMDYI0Okp1zbFZ47wqxIRSsLZuYpinecoXb0EzOk8qfbFpBNYl1h22mveRyxQu6z
+         jJcO/m+8sCt1oJryUULbnkAXuhgKKPpOrBB+gFYE=
+Received: by mail-qk1-f177.google.com with SMTP id y81so4616698qkb.7;
+        Wed, 30 Oct 2019 15:18:41 -0700 (PDT)
+X-Gm-Message-State: APjAAAUaHTyLhRIoIFQO4z7eJtSv/kWw1cz5nSa47D5hiYCyG+ctVSw+
+        aWTuKHpRy6W1BHhSo7OCMPv4EinAiWPPf4pPmw==
+X-Google-Smtp-Source: APXvYqyp1TmLDPU7JV8Uc2XE/f3ay6qbIYSjmXJOmvlHtUg9AIgbAle9T0b9MdpOlJRvwwYy2QFCjoRw6RVgGDS1g7Q=
+X-Received: by 2002:a37:f703:: with SMTP id q3mr2342852qkj.254.1572473920561;
+ Wed, 30 Oct 2019 15:18:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <1572434824-1850-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-User-Agent: Mutt/1.12.1+40 (7f8642d4ee82) (2019-06-28)
-X-Originating-IP: [10.72.93.184]
+References: <20191028163256.8004-1-robh@kernel.org> <20191028163256.8004-20-robh@kernel.org>
+ <20191029110751.GB27171@e121166-lin.cambridge.arm.com> <CABe79T7LPi-XvzARVh-_oVnv1Dr=Uzztps-W2vTr_7gSeiPFQg@mail.gmail.com>
+ <20191029173406.GA25104@e121166-lin.cambridge.arm.com> <CABe79T5Cd30jFfTr1RRsMZ85sohwk64ZW1qb_LGHvns90WBpGw@mail.gmail.com>
+ <20191030114839.GA16067@e121166-lin.cambridge.arm.com> <e5d2af18-0263-df56-7586-b0d31143a7e4@arm.com>
+ <20191030145621.GA29602@e121166-lin.cambridge.arm.com>
+In-Reply-To: <20191030145621.GA29602@e121166-lin.cambridge.arm.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Wed, 30 Oct 2019 17:18:25 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+9U3E7hQsg0yqJqMJrcZ2n4UfK_es+5-4qg=VCSHiL5g@mail.gmail.com>
+Message-ID: <CAL_Jsq+9U3E7hQsg0yqJqMJrcZ2n4UfK_es+5-4qg=VCSHiL5g@mail.gmail.com>
+Subject: Re: [PATCH v3 19/25] PCI: of: Add inbound resource parsing to helpers
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc:     Robin Murphy <robin.murphy@arm.com>,
+        Srinath Mannam <srinath.mannam@broadcom.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Andrew Murray <andrew.murray@arm.com>,
+        PCI <linux-pci@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
+        Ley Foon Tan <lftan@altera.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Ray Jui <rjui@broadcom.com>, rfi@lists.rocketboards.org,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Simon Horman <horms@verge.net.au>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Toan Le <toan@os.amperecomputing.com>,
+        Tom Joseph <tjoseph@cadence.com>, Will Deacon <will@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello Shimoda-san, hi Geert, hi Sergei,
+On Wed, Oct 30, 2019 at 9:56 AM Lorenzo Pieralisi
+<lorenzo.pieralisi@arm.com> wrote:
+>
+> On Wed, Oct 30, 2019 at 12:49:59PM +0000, Robin Murphy wrote:
+> > On 30/10/2019 11:48, Lorenzo Pieralisi wrote:
+> > > [+Cc Robin]
+> > >
+> > > On Wed, Oct 30, 2019 at 12:14:54PM +0530, Srinath Mannam wrote:
+> > > > Hi Lorenzo,
+> > > >
+> > > > Thanks for the details.
+> > > > Based on Robin's comment in the old patch, I thought dma_ranges list
+> > > > will be in sorted order.
+> > > > https://lore.kernel.org/lkml/741a4210-251c-9c00-d4a7-bc7ebf8cd57b@arm.com/
+> > > >
+> > > > Now, another patch is required to sort the list before reserving in
+> > > > iova_reserve_pci_windows() function.
+> > > >
+> > > > Regards,
+> > > > Srinath.
+> > >
+> > > Don't top-post please.
+> > >
+> > > https://en.wikipedia.org/wiki/Posting_style#Top-posting
+> > >
+> > > Yes, the dma_ranges list must be sorted somehow I reckon
+> > > iova_reserve_pci_windows() is where it should be done (since that's
+> > > where the requirement is) or it can be done in
+> > > devm_of_pci_get_host_bridge_resources().
+> > >
+> > > Thoughts ?
+> >
+> > Right, strictly it's only iova_reserve_pci_windows() that needs the list
+> > sorted, it just worked out that maintaining the list in sorted order by
+> > construction took a fair bit less code than explicitly sorting it. In terms
+> > of preserving that behaviour in a slightly more generalised fashion I
+> > suppose we could add something like:
+> >
+> > void pci_add_resource_offset_sorted(struct list_head *resources,
+> >                               struct resource *res,
+> >                               resource_size_t offset)
+> > {
+> >       struct resource_entry *entry;
+> >
+> >       resource_list_for_each_entry(entry, resources)
+> >               if (entry->res.start > res.start)
+> >                       break;
+> >
+> >       pci_add_resource_offset(&entry->node, res, offset);
+> > }
+> >
+> > but if you'd rather add a specific resource_list_sort() or even just
+> > open-code it in iommu-dma, I don't have any real preference. The "least code
+> > necessary" approach definitely made sense when individual drivers were
+> > expected to build their own lists, but once it gets generalised then having
+> > a sensible and robust API becomes a more important consideration.
+>
+> I think that open coding it in iommu-dma is fine, @RobH would you be
+> able to add this to the series please ? I think it should be added to
+> prevent any regressions, we can't rely on dma-ranges entries order in DT
+> files.
 
-On Wed, Oct 30, 2019 at 08:27:04PM +0900, Yoshihiro Shimoda wrote:
-> According to the R-Car Gen2/3 manual, "Be sure to write the initial
-> value (= H'80FF 0000) to MACCTLR before enabling PCIETCTLR.CFINIT."
-> To avoid unexpected behaviors, this patch fixes it.
-> 
-> Fixes: c25da4778803 ("PCI: rcar: Add Renesas R-Car PCIe driver")
-> Fixes: be20bbcb0a8c ("PCI: rcar: Add the initialization of PCIe link in resume_noirq()")
-> Cc: <stable@vger.kernel.org> # v5.2+
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> ---
->  drivers/pci/controller/pcie-rcar.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
-> index 40d8c54..d470ab8 100644
-> --- a/drivers/pci/controller/pcie-rcar.c
-> +++ b/drivers/pci/controller/pcie-rcar.c
-> @@ -91,6 +91,7 @@
->  #define  LINK_SPEED_2_5GTS	(1 << 16)
->  #define  LINK_SPEED_5_0GTS	(2 << 16)
->  #define MACCTLR			0x011058
-> +#define  MACCTLR_INIT_VAL	0x80ff0000
+I don't think it's good to be modifying the list as a side effect of
+calling iova_reserve_pci_windows() and making a copy of it wouldn't be
+great either. So I'm just going to keep it sorted in
+devm_of_pci_get_host_bridge_resources().
 
-Actually, I do believe there is an inconsistency in the manual,
-since the following statements pretty much contradict one another:
-
-1. (as quoted by Shimoda-san from "Initial Setting of PCI Express")
-   > Be sure to write the initial value (= H'80FF 0000) to MACCTLR
-   > before enabling PCIETCTLR.CFINIT.
-2. Description of SPCHG bit in "54.2.98 MAC Control Register (MACCTLR)"
-   > Only writing 1 is valid and writing 0 is invalid.
-
-The last "invalid" sounds like "bad things can happen" aka "expect
-undefined behaviors" when SPCHG is written "0".
-
-While leaving the decision on the patch inclusion to the maintainers, I
-hope, in the long run, Renesas can resolve the documentation conflict
-with the HW team and the tech writers.
-
->  #define  SPEED_CHANGE		BIT(24)
->  #define  SCRAMBLE_DISABLE	BIT(27)
->  #define PMSR			0x01105c
-> @@ -613,6 +614,8 @@ static int rcar_pcie_hw_init(struct rcar_pcie *pcie)
->  	if (IS_ENABLED(CONFIG_PCI_MSI))
->  		rcar_pci_write_reg(pcie, 0x801f0000, PCIEMSITXR);
->  
-> +	rcar_pci_write_reg(pcie, MACCTLR_INIT_VAL, MACCTLR);
-> +
->  	/* Finish initialization - establish a PCI Express link */
->  	rcar_pci_write_reg(pcie, CFINIT, PCIETCTLR);
->  
-> @@ -1235,6 +1238,7 @@ static int rcar_pcie_resume_noirq(struct device *dev)
->  		return 0;
->  
->  	/* Re-establish the PCIe link */
-> +	rcar_pci_write_reg(pcie, MACCTLR_INIT_VAL, MACCTLR);
->  	rcar_pci_write_reg(pcie, CFINIT, PCIETCTLR);
->  	return rcar_pcie_wait_for_dl(pcie);
->  }
-
--- 
-Best Regards,
-Eugeniu
+Rob
