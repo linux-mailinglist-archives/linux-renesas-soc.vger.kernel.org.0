@@ -2,22 +2,22 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 49B3CEBE40
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Nov 2019 08:03:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BB37EBE45
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Nov 2019 08:03:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728529AbfKAHDN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Nov 2019 03:03:13 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:50866 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728606AbfKAHDM (ORCPT
+        id S1729485AbfKAHDO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 1 Nov 2019 03:03:14 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:63273 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728989AbfKAHDN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Nov 2019 03:03:12 -0400
+        Fri, 1 Nov 2019 03:03:13 -0400
 X-IronPort-AV: E=Sophos;i="5.68,254,1569250800"; 
-   d="scan'208";a="30391606"
+   d="scan'208";a="30605230"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 01 Nov 2019 16:03:11 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 01 Nov 2019 16:03:11 +0900
 Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id A884D419B1DC;
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id BB9FE419B1D2;
         Fri,  1 Nov 2019 16:03:11 +0900 (JST)
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 To:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
@@ -25,9 +25,9 @@ To:     mturquette@baylibre.com, sboyd@kernel.org, robh+dt@kernel.org,
 Cc:     linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH v3 1/4] dt-bindings: clock: renesas: rcar-usb2-clock-sel: Fix clock[-name]s properties
-Date:   Fri,  1 Nov 2019 16:03:08 +0900
-Message-Id: <1572591791-11280-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v3 2/4] dt-bindings: clock: renesas: rcar-usb2-clock-sel: Add power-domains and resets properties
+Date:   Fri,  1 Nov 2019 16:03:09 +0900
+Message-Id: <1572591791-11280-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1572591791-11280-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 References: <1572591791-11280-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
@@ -36,43 +36,37 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Since the hardware requires to enable both USB 2.0 host and peripheral
-functional clock, this patch fixes the documentation.
+This patch adds missing required properties of power-domains and resets.
 Fortunately, no one has this device node for now, so that we don't
 need to think of backward compatibility.
 
 Fixes: 311accb64570 ("clk: renesas: rcar-usb2-clock-sel: Add R-Car USB 2.0 clock selector PHY")
 Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- .../devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.txt     | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ .../devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.txt        | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.txt b/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.txt
-index 83f6c6a..5c1903f 100644
+index 5c1903f..8e96640 100644
 --- a/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.txt
 +++ b/Documentation/devicetree/bindings/clock/renesas,rcar-usb2-clock-sel.txt
-@@ -38,7 +38,8 @@ Required properties:
- - reg: offset and length of the USB 2.0 clock selector register block.
- - clocks: A list of phandles and specifier pairs.
- - clock-names: Name of the clocks.
-- - The functional clock must be "ehci_ohci"
-+ - The functional clock of USB 2.0 host side must be "ehci_ohci"
-+ - The functional clock of HS-USB side must be "hs-usb-if"
+@@ -43,6 +43,9 @@ Required properties:
   - The USB_EXTAL clock pin must be "usb_extal"
   - The USB_XTAL clock pin must be "usb_xtal"
  - #clock-cells: Must be 0
-@@ -49,7 +50,8 @@ Example (R-Car H3):
- 		compatible = "renesas,r8a7795-rcar-usb2-clock-sel",
- 			     "renesas,rcar-gen3-usb2-clock-sel";
- 		reg = <0 0xe6590630 0 0x02>;
--		clocks = <&cpg CPG_MOD 703>, <&usb_extal>, <&usb_xtal>;
--		clock-names = "ehci_ohci", "usb_extal", "usb_xtal";
-+		clocks = <&cpg CPG_MOD 703>, <&cpg CPG_MOD 704>,
-+			 <&usb_extal>, <&usb_xtal>;
-+		clock-names = "ehci_ohci", "hs-usb-if", "usb_extal", "usb_xtal";
++- power-domains: A phandle and symbolic PM domain specifier.
++                 See power/renesas,rcar-sysc.txt.
++- resets: A list of phandles and specifier pairs.
+ 
+ Example (R-Car H3):
+ 
+@@ -54,4 +57,6 @@ Example (R-Car H3):
+ 			 <&usb_extal>, <&usb_xtal>;
+ 		clock-names = "ehci_ohci", "hs-usb-if", "usb_extal", "usb_xtal";
  		#clock-cells = <0>;
++		power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
++		resets = <&cpg 703>, <&cpg 704>;
  	};
 -- 
 2.7.4
