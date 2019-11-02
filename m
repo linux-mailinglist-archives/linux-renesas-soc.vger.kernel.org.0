@@ -2,85 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 843CFEC640
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  1 Nov 2019 16:59:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50CA5ECEA1
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  2 Nov 2019 13:16:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726866AbfKAP7U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 1 Nov 2019 11:59:20 -0400
-Received: from albert.telenet-ops.be ([195.130.137.90]:46322 "EHLO
-        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726912AbfKAP7U (ORCPT
+        id S1726923AbfKBMQ3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 2 Nov 2019 08:16:29 -0400
+Received: from mail-io1-f67.google.com ([209.85.166.67]:43839 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726430AbfKBMQ3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 1 Nov 2019 11:59:20 -0400
-Received: from ramsan ([84.195.182.253])
-        by albert.telenet-ops.be with bizsmtp
-        id LfzJ2100A5USYZQ06fzJBy; Fri, 01 Nov 2019 16:59:18 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iQZKY-0002s0-3u; Fri, 01 Nov 2019 16:59:18 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iQZKY-0008Ex-1q; Fri, 01 Nov 2019 16:59:18 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] pinctrl: sh-pfc: Updates for v5.5 (take two)
-Date:   Fri,  1 Nov 2019 16:59:16 +0100
-Message-Id: <20191101155916.31629-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Sat, 2 Nov 2019 08:16:29 -0400
+Received: by mail-io1-f67.google.com with SMTP id c11so13654286iom.10
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 02 Nov 2019 05:16:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=wxcZzS3cKDtizBHzu5MYBxfKlvrYJgDnLg6QIaSCRD8=;
+        b=oZN8jRPelKnFo1NxbuHkWwBgtprdny1Z1c44/pfyImXfqCDVwRHjOYymB4JMWCOnbT
+         Kg20tfKcQKLgs+nx2WaPc4Y+8gYbcXZLSFLGpzw1EJEgOYF/SP5IvZt0LkXkxrnY4Odc
+         YFQH4PIfgenr5gX0oqVxtyKsuKPBszVML9BLsewpD0TzD7X/nvHYOCcXvPI/es5SR4qk
+         5M/1uI7yPT3vkstjT4SesLj/cpK3O77lLckwZyTzBu3S8WWsO65k2r5ZNT760BIe+1ww
+         S0KzMyPOdV62LA700b0aITKGwlD+13rnpXnL4uDOswfFITfbB1gD0BJUoA27VZ6t02zl
+         MZCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=wxcZzS3cKDtizBHzu5MYBxfKlvrYJgDnLg6QIaSCRD8=;
+        b=oIEAnm5VhcGuToP2uNYRxWP+XXkXEfGrC25WrIzhLZnR4C4OpudWf+M7LpZ9sALlTF
+         JyoW2EyXBax5bpcTor0/K9kvMyYpUqVMHxvAGcE1qdSd0Pg1SH+adFflveuro9Zubk5g
+         o+76ppvq/mfNkTM4uUp7+qf1TqLfMK1IOMkj9NJ1RdXR9AZPoC3tXAJ0sFEthAG1ZfKv
+         esxnqjPSlyd36n+dkrXJaQoS+Fv/CtQJt8toOaEJO+tLjDte30kcks+CSZeks1gNiVqo
+         smHO7At0HvX4IASQ7ohi7Q3YRHn51vfs2MBZ9UKH2xl9zYelu24l5McFj+vfe6+k6kyD
+         h8rg==
+X-Gm-Message-State: APjAAAWzOQU/PN/g715kTx3TUaLLbMAe+BBXD+Hzi0dzZYBkP0LVOySF
+        25zGFZS0UR3io0LKi/QcyZTWR7Zq2UXUbn5hbiI=
+X-Google-Smtp-Source: APXvYqza4cXzXVByjO0vFgyNbbRzrGqxAeGMtbaWuakZ9fqSAXbmfz4O2bIfmfNGBHl3P87I3T6Hxo8fg/9ojX/uV0A=
+X-Received: by 2002:a02:3085:: with SMTP id q127mr1406004jaq.140.1572696987062;
+ Sat, 02 Nov 2019 05:16:27 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a6b:4a10:0:0:0:0:0 with HTTP; Sat, 2 Nov 2019 05:16:26 -0700 (PDT)
+From:   Miss Basirat Ibrahim <tarhouni805@gmail.com>
+Date:   Sat, 2 Nov 2019 13:16:26 +0100
+Message-ID: <CAGD2OubikKuf+p7c75T28GLyXrrFW9XqD_j7TSWLMmdr4w=p6w@mail.gmail.com>
+Subject: With due respect From Miss Basirat Ibrahim
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi Linus,
+Hi
 
-The following changes since commit f846d1e704f2d07a7f359f65eac2c8cac565db35:
+My Name is Miss.Basirat Ibrahim from Libya, am 23 years old, am
+presently in St.Christopher's Parish for refugee in Burkina Faso under
+United Nations High commission for Refugee,
 
-  pinctrl: sh-pfc: pfc-r8a77965: Fix typo in pinmux macro for SCL3 (2019-10-14 12:11:12 +0200)
+ I lost my parents in the recent war in  Libya, right now I am in
+Burkina Faso, please save my life i am in danger need your help in
+transferring my inheritance, my father left behind for me in a Bank in
+Burkina Faso here,
 
-are available in the Git repository at:
+ i have every necessary document for the fund, all i needed is a
+foreigner who will
+stand as the foreign partner to my father and beneficiary of the fund.
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/sh-pfc-for-v5.5-tag2
+The money deposited in the Bank is US10.5 MILLION UNITED STATES
+DOLLAR) I just need this fund to be transfer to your bank account so
+that i will come over to your country and complete my education as you
+know that my country have been in deep crisis due to the war .And I
+cannot go back there again because I have nobody again all of my
+family were killed in the war. If you are interested to save me and
+help me receive my inheritance fund into your bank account with utmost
+good faith
 
-for you to fetch changes up to 884caadad128efad8e00c1cdc3177bc8912ee8ec:
+Please get back to me.through my private Email    hm36813999@gmail.com
 
-  pinctrl: sh-pfc: sh7734: Fix duplicate TCLK1_B (2019-11-01 13:42:52 +0100)
-
-----------------------------------------------------------------
-pinctrl: sh-pfc: Updates for v5.5 (take two)
-
-  - Add support for the new R-Car M3-W+ (r8a77961) SoC,
-  - Small fixes and cleanups.
-
-Thanks for pulling!
-
-----------------------------------------------------------------
-Geert Uytterhoeven (5):
-      pinctrl: sh-pfc: Do not use platform_get_irq() to count interrupts
-      dt-bindings: pinctrl: sh-pfc: Document r8a77961 support
-      pinctrl: sh-pfc: Rename PINCTRL_PFC_R8A7796 to PINCTRL_PFC_R8A77960
-      pinctrl: sh-pfc: r8a7796: Add R8A77961 PFC support
-      pinctrl: sh-pfc: sh7734: Fix duplicate TCLK1_B
-
- .../bindings/pinctrl/renesas,pfc-pinctrl.txt       |  3 +-
- arch/sh/include/cpu-sh4/cpu/sh7734.h               |  2 +-
- drivers/pinctrl/sh-pfc/Kconfig                     |  8 ++++--
- drivers/pinctrl/sh-pfc/Makefile                    |  3 +-
- drivers/pinctrl/sh-pfc/core.c                      | 26 +++++++++--------
- drivers/pinctrl/sh-pfc/pfc-r8a7796.c               | 33 ++++++++++++++++++++--
- drivers/pinctrl/sh-pfc/pfc-sh7734.c                |  4 +--
- drivers/pinctrl/sh-pfc/sh_pfc.h                    |  3 +-
- 8 files changed, 59 insertions(+), 23 deletions(-)
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+Miss.Basirat Ibrahim.
