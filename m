@@ -2,90 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 06100EE393
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Nov 2019 16:21:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA449EE3F8
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Nov 2019 16:37:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727998AbfKDPVZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Nov 2019 10:21:25 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:46558 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727796AbfKDPVZ (ORCPT
+        id S1728287AbfKDPhA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Nov 2019 10:37:00 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:43984 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727838AbfKDPhA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Nov 2019 10:21:25 -0500
-Received: by mail-oi1-f193.google.com with SMTP id b19so5137150oib.13
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 Nov 2019 07:21:24 -0800 (PST)
+        Mon, 4 Nov 2019 10:37:00 -0500
+Received: by mail-lj1-f195.google.com with SMTP id y23so7210836ljh.10
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 04 Nov 2019 07:36:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=m6CiWPA8G8Uq1GDWejV2PJcbtK9o73yo5NgLPE2/PkE=;
-        b=B57C7oyusn/XXPB/BbpXcX9E6OTMYls5dmpYswFDOtHZQ2YtIUJ8+EGBOuNziP5AA1
-         U42+xE7mrJ7lJZJTzWaG75BEzqpY+W+pcMzOsCecn7NTWPXMYkX2G5HsoW4c02EeaeMa
-         uzCGs15fchbdJxLWdUPX08PvYHpbEebEBGLNc1QjAKE4Qm3GNI6LgZHnJJct/BYr0aEr
-         TVe1astEbgi5ranJr1yPrVOBcC0o+EGD7SH8qvEZqc8yn3MzZQhj3An51SLOS8mLPIz9
-         r1wXzQrXc8iB217lkj6NHNss1vSPVPAUu52Yul+2/mHuY2Ux0nEiFmhy7oID/3Tusw6O
-         b90g==
+         :cc;
+        bh=mdxeFfhQgznpfAiSWIisxt5zYno5MrBI+bRv45ilKfM=;
+        b=LtF+hy7+QduhX4D1sBo/t8cAdWbvTGDJSrswP3Au2jV9SJPsCup7keYfG3iuhkS1no
+         zzgayqbcnC8bGkqgp0wE0bCP4jkgpZBf9Sf339HmjjAVG0Y/D//d7GMtj8t7iyRMuM4/
+         uHaovGQiqn3yZyFTU+XQ/ZBBq8/nGYvOJ/LAPqo+QqlYX+f0QZuXUzEY7Un7PFIDfQuT
+         ZyoNS4OAbhVscOP8Ujkxz3CCOb50T5wQ3YKtnK8ZowT4NT/Ngr7HSoTWF+/7V0rbXlU/
+         UcmGh14P/a4YUh6DZg5+a5FtVaaHU2pgGYdnzyRgkY3C025yOsklAjhWi4IuZVRsSxIJ
+         Pn0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=m6CiWPA8G8Uq1GDWejV2PJcbtK9o73yo5NgLPE2/PkE=;
-        b=sEOafhk3c58aJ7YKPUMr807lGPzbzeFb2SLZCLVYt5WvdD7C6vGaNhvtSZ8EFiyZPF
-         bAMHp9xmZ+7RbgAollIPSYpiJble+J8LTtdL0QjBh2R3sTpz7Z9OeqPd4NOIMsTIDaYV
-         UGNBqAUOo+PExn5Av31/AuUkNK6e2Iqu9zmtKimShxKV6a4M8hFNy58aS9ZHczqB+6TV
-         5olkfVcidG6xp91Y+zValubXseV+wRXiZItTAitKyMs8xOrTU/itYmz77cqhACuvqGsv
-         Dab8+l5aS6ymbQlNKTQHR4Jf/jbtD2Yi1uPKUOYYFucD6i7l42O/mxMQmPhaw9uO1gNj
-         B3Ug==
-X-Gm-Message-State: APjAAAVzQ3BzaAcO6entQYEm1qAdY901ZQpuAU+SiDMDXrcEOd1OfPbM
-        /izwKxMgYeUJnQxVZ/5dgGokpQ2f8kyoIF+4ewbzjw==
-X-Google-Smtp-Source: APXvYqz55/vf+SDcpUSsfFygQWFfODvKL1/3uXVYuWSV2BxOR+bMOfXXZe12DieuRhmKN2UxlL2TYw/PuA4UynGaZPw=
-X-Received: by 2002:a05:6808:498:: with SMTP id z24mr4589053oid.114.1572880884297;
- Mon, 04 Nov 2019 07:21:24 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=mdxeFfhQgznpfAiSWIisxt5zYno5MrBI+bRv45ilKfM=;
+        b=Fe0pY1ElAcBcCYYswpef3qWVEiDhNR2BfpVTABCbUulY2E4oBEG1K8amWNQB+5imih
+         N4CzCcsynSDbEBIeiMNzBNBobc+Qavx8qwoeCP/DSX4EmjylXGlYdfqijPvSQoxE7yWi
+         GptnZ5bai+FRb9Zz2mfr1AZ4zm/GuTeFFle/jTGRGggGrCCjo7GVyep7Ef/XKyQTkWLd
+         GVvgS3D/grxFUME2QufhUrFunYv7dAdWIwj9kwgiIOwo/bT78AgJnMEHIT881ekS8L/T
+         vUKyTvL7PIR4lBdcQPeWZQg0ub8+X54x8t8BFz/L9KHy1mG08hBGr+KQymN1bFMFwq+8
+         TnZQ==
+X-Gm-Message-State: APjAAAUrCqLuWBqZaa0eNrxWbLW7RpoqtP/6QF9Jj5v1RapppMnPewbd
+        NytCWR/tyzMz9GsVSI2ZPTT6Os2rYyi/3ULhwgXDWw==
+X-Google-Smtp-Source: APXvYqyD/PWAgwBFdTE576nF/DEWwR43uXjHxOXVUrs2eN44diLVHtAsTMDUcHc9UItK6bxTkRj5qhwvR2CtIw2DfHQ=
+X-Received: by 2002:a2e:9a12:: with SMTP id o18mr11827632lji.191.1572881816784;
+ Mon, 04 Nov 2019 07:36:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20191024122224.11776-1-geert+renesas@glider.be>
- <20191024122224.11776-2-geert+renesas@glider.be> <CACRpkdZ5DB4fBDpkCG7NMrRohHcejj0EfjqN882c5wc+pahW2A@mail.gmail.com>
-In-Reply-To: <CACRpkdZ5DB4fBDpkCG7NMrRohHcejj0EfjqN882c5wc+pahW2A@mail.gmail.com>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Mon, 4 Nov 2019 16:21:13 +0100
-Message-ID: <CAMpxmJUnbYGwd0ZudV=aSddviYGaHqr9n9eHZzS7HrOrV3vBdw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] gpio: em: Use proper irq_chip name
-To:     Linus Walleij <linus.walleij@linaro.org>
+References: <20191024122224.11776-1-geert+renesas@glider.be> <CAMRc=Me9Cc=O6t_3cLW5Ow=-XgurQ1x_RpfHe4Lxhb2QB6_WgA@mail.gmail.com>
+In-Reply-To: <CAMRc=Me9Cc=O6t_3cLW5Ow=-XgurQ1x_RpfHe4Lxhb2QB6_WgA@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 4 Nov 2019 16:36:45 +0100
+Message-ID: <CACRpkdbbLWfp2Nb7=83VrQ4LHgF8eR8z5y7fgKYGO6Qg2LkAuA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] gpio: renesas: Use proper irq_chip name
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Marc Zyngier <marc.zyngier@arm.com>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-pon., 4 lis 2019 o 16:10 Linus Walleij <linus.walleij@linaro.org> napisa=C5=
-=82(a):
->
-> On Thu, Oct 24, 2019 at 2:22 PM Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
->
-> > The irq_chip .name field should contain the device's class name, not th=
-e
-> > instance's name.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> > Untested due to lack of hardware.
-> > .parent_device not filled in as this driver doesn't use Runtime PM.
-> >
-> > v2:
-> >   - No changes.
->
-> Patch applied.
->
+On Sat, Oct 26, 2019 at 2:08 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+> > Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Oops I already have those in my tree. I'll back them out before the next PR=
-.
+> Both applied, thanks!
 
-Bart
+Ooops missed this, I pull them out of my tree.
 
-> Yours,
-> Linus Walleij
+Yours,
+Linus Walleij
