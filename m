@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D3B7DEE556
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Nov 2019 17:58:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 79CE4EE558
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  4 Nov 2019 17:58:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728174AbfKDQ6X (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 4 Nov 2019 11:58:23 -0500
+        id S1728356AbfKDQ62 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 4 Nov 2019 11:58:28 -0500
 Received: from relmlor2.renesas.com ([210.160.252.172]:23786 "EHLO
         relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727861AbfKDQ6X (ORCPT
+        by vger.kernel.org with ESMTP id S1727861AbfKDQ62 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 4 Nov 2019 11:58:23 -0500
+        Mon, 4 Nov 2019 11:58:28 -0500
 X-IronPort-AV: E=Sophos;i="5.68,267,1569250800"; 
-   d="scan'208";a="30581909"
+   d="scan'208";a="30581912"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 05 Nov 2019 01:58:22 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 05 Nov 2019 01:58:27 +0900
 Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 3D8E44005E08;
-        Tue,  5 Nov 2019 01:58:18 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 08FE44005E08;
+        Tue,  5 Nov 2019 01:58:22 +0900 (JST)
 From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 To:     Neil Armstrong <narmstrong@baylibre.com>,
         David Airlie <airlied@linux.ie>,
@@ -38,9 +38,9 @@ Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: [PATCH v2 2/4] dt-bindings: display: bridge: Repurpose lvds-encoder
-Date:   Mon,  4 Nov 2019 16:58:01 +0000
-Message-Id: <1572886683-4919-3-git-send-email-fabrizio.castro@bp.renesas.com>
+Subject: [PATCH v2 3/4] ARM: dts: iwg20d-q7-common: Add LCD support
+Date:   Mon,  4 Nov 2019 16:58:02 +0000
+Message-Id: <1572886683-4919-4-git-send-email-fabrizio.castro@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1572886683-4919-1-git-send-email-fabrizio.castro@bp.renesas.com>
 References: <1572886683-4919-1-git-send-email-fabrizio.castro@bp.renesas.com>
@@ -49,219 +49,155 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-In an effort to repurpose lvds-encoder.c to also serve the
-function of LVDS decoders, we ended up defining a new "generic"
-compatible string, therefore adapt the dt-bindings to fit the
-new purpose. Also, convert the dt-bindings from .txt to .yaml
-while at it.
+The iwg20d comes with a 7" capacitive touch screen, therefore
+add support for it.
 
 Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 
 ---
 v1->v2:
-* Converted to dt-schema as per Neil's comment
+* No change
 ---
- .../bindings/display/bridge/lvds-codec.yaml        | 117 +++++++++++++++++++++
- .../bindings/display/bridge/lvds-transmitter.txt   |  66 ------------
- 2 files changed, 117 insertions(+), 66 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
- delete mode 100644 Documentation/devicetree/bindings/display/bridge/lvds-transmitter.txt
+ arch/arm/boot/dts/iwg20d-q7-common.dtsi  | 85 ++++++++++++++++++++++++++++++++
+ arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi |  1 -
+ 2 files changed, 85 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-new file mode 100644
-index 0000000..ff79bc2
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-@@ -0,0 +1,117 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/bridge/lvds-codec.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/arch/arm/boot/dts/iwg20d-q7-common.dtsi b/arch/arm/boot/dts/iwg20d-q7-common.dtsi
+index ae75a1db..3428b8d 100644
+--- a/arch/arm/boot/dts/iwg20d-q7-common.dtsi
++++ b/arch/arm/boot/dts/iwg20d-q7-common.dtsi
+@@ -46,6 +46,49 @@
+ 		clock-frequency = <26000000>;
+ 	};
+ 
++	lcd_backlight: backlight {
++		compatible = "pwm-backlight";
 +
-+title: Trasnparent LVDS encoders and LVDS decoders
++		pwms = <&pwm3 0 5000000 0>;
++		brightness-levels = <0 4 8 16 32 64 128 255>;
++		default-brightness-level = <7>;
++		enable-gpios = <&gpio5 14 GPIO_ACTIVE_HIGH>;
++	};
 +
-+maintainers:
-+  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
++	lvds-receiver {
++		compatible = "lvds-decoder";
++		powerdown = <&gpio7 25 GPIO_ACTIVE_LOW>;
 +
-+description: |
-+  This binding supports transparent LVDS encoders and LVDS decoders that don't
-+  require any configuration.
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
 +
-+  LVDS is a physical layer specification defined in ANSI/TIA/EIA-644-A. Multiple
-+  incompatible data link layers have been used over time to transmit image data
-+  to LVDS panels. This binding targets devices compatible with the following
-+  specifications only.
++			port@0 {
++				reg = <0>;
++				lvds_receiver_in: endpoint {
++					remote-endpoint = <&lvds0_out>;
++				};
++			};
++			port@1 {
++				reg = <1>;
++				lvds_receiver_out: endpoint {
++					remote-endpoint = <&panel_in>;
++				};
++			};
++		};
++	};
 +
-+  [JEIDA] "Digital Interface Standards for Monitor", JEIDA-59-1999, February
-+  1999 (Version 1.0), Japan Electronic Industry Development Association (JEIDA)
-+  [LDI] "Open LVDS Display Interface", May 1999 (Version 0.95), National
-+  Semiconductor
-+  [VESA] "VESA Notebook Panel Standard", October 2007 (Version 1.0), Video
-+  Electronics Standards Association (VESA)
++	panel {
++		compatible = "edt,etm0700g0dh6", "simple-panel";
++		backlight = <&lcd_backlight>;
 +
-+  Those devices have been marketed under the FPD-Link and FlatLink brand names
-+  among others.
++		port {
++			panel_in: endpoint {
++				remote-endpoint = <&lvds_receiver_out>;
++			};
++		};
++	};
 +
-+properties:
-+  compatible:
-+    description: |
-+      Any encoder or decoder compatible with this generic binding, but with
-+      additional properties not listed here, must define its own binding and
-+      list a device specific compatible first followed by the generic compatible
-+    items:
-+      - enum:
-+        - lvds-encoder # for LVDS encoders
-+        - lvds-decoder # for LVDS decoders
+ 	reg_1p5v: 1p5v {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "1P5V";
+@@ -120,6 +163,18 @@
+ 	status = "okay";
+ };
+ 
++&du {
++	status = "okay";
++};
 +
-+  ports:
-+    type: object
-+    description: |
-+      This device has two video ports. Their connections are modeled using the
-+      OF graph bindings specified in Documentation/devicetree/bindings/graph.txt
-+    properties:
-+      port@0:
-+        type: object
-+        description: |
-+          With LVDS encoders port 0 is for parallel input
-+          With LVDS decoders port 0 is for LVDS input
++&gpio2 {
++	touch-interrupt {
++		gpio-hog;
++		gpios = <12 GPIO_ACTIVE_LOW>;
++		input;
++	};
++};
 +
-+      port@1:
-+        type: object
-+        description: |
-+          With LVDS encoders port 1 is for LVDS output
-+          With LVDS decoders port 1 is for parallel output
+ &hsusb {
+ 	status = "okay";
+ 	pinctrl-0 = <&usb0_pins>;
+@@ -147,6 +202,25 @@
+ 		VDDIO-supply = <&reg_3p3v>;
+ 		VDDD-supply = <&reg_1p5v>;
+ 	};
 +
-+required:
-+  - compatible
-+  - ports
++	touch: touchpanel@38 {
++		compatible = "edt,edt-ft5406";
++		reg = <0x38>;
++		interrupt-parent = <&gpio2>;
++		interrupts = <12 IRQ_TYPE_EDGE_FALLING>;
++	};
++};
 +
-+examples:
-+  - |
-+    lvds-encoder {
-+      compatible = "lvds-encoder";
++&lvds0 {
++	status = "okay";
 +
-+      ports {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++	ports {
++		port@1 {
++			lvds0_out: endpoint {
++				remote-endpoint = <&lvds_receiver_in>;
++			};
++		};
++	};
+ };
+ 
+ &pci0 {
+@@ -180,6 +254,11 @@
+ 		function = "i2c2";
+ 	};
+ 
++	pwm3_pins: pwm3 {
++		groups = "pwm3";
++		function = "pwm3";
++	};
 +
-+        port@0 {
-+          reg = <0>;
+ 	scif0_pins: scif0 {
+ 		groups = "scif0_data_d";
+ 		function = "scif0";
+@@ -218,6 +297,12 @@
+ 	};
+ };
+ 
++&pwm3 {
++	pinctrl-0 = <&pwm3_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++};
 +
-+          lvds_enc_in: endpoint {
-+            remote-endpoint = <&display_out_rgb>;
-+          };
-+        };
-+
-+        port@1 {
-+          reg = <1>;
-+
-+          lvds_enc_out: endpoint {
-+            remote-endpoint = <&lvds_panel_in>;
-+          };
-+        };
-+      };
-+    };
-+
-+  - |
-+    lvds-decoder {
-+      compatible = "lvds-decoder";
-+
-+      ports {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        port@0 {
-+          reg = <0>;
-+
-+          lvds_dec_in: endpoint {
-+            remote-endpoint = <&display_out_lvds>;
-+          };
-+        };
-+
-+        port@1 {
-+          reg = <1>;
-+
-+          lvds_dec_out: endpoint {
-+            remote-endpoint = <&rgb_panel_in>;
-+          };
-+        };
-+      };
-+    };
-+
-+...
-diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-transmitter.txt b/Documentation/devicetree/bindings/display/bridge/lvds-transmitter.txt
-deleted file mode 100644
-index 60091db..0000000
---- a/Documentation/devicetree/bindings/display/bridge/lvds-transmitter.txt
-+++ /dev/null
-@@ -1,66 +0,0 @@
--Parallel to LVDS Encoder
--------------------------
--
--This binding supports the parallel to LVDS encoders that don't require any
--configuration.
--
--LVDS is a physical layer specification defined in ANSI/TIA/EIA-644-A. Multiple
--incompatible data link layers have been used over time to transmit image data
--to LVDS panels. This binding targets devices compatible with the following
--specifications only.
--
--[JEIDA] "Digital Interface Standards for Monitor", JEIDA-59-1999, February
--1999 (Version 1.0), Japan Electronic Industry Development Association (JEIDA)
--[LDI] "Open LVDS Display Interface", May 1999 (Version 0.95), National
--Semiconductor
--[VESA] "VESA Notebook Panel Standard", October 2007 (Version 1.0), Video
--Electronics Standards Association (VESA)
--
--Those devices have been marketed under the FPD-Link and FlatLink brand names
--among others.
--
--
--Required properties:
--
--- compatible: Must be "lvds-encoder"
--
--  Any encoder compatible with this generic binding, but with additional
--  properties not listed here, must list a device specific compatible first
--  followed by this generic compatible.
--
--Required nodes:
--
--This device has two video ports. Their connections are modeled using the OF
--graph bindings specified in Documentation/devicetree/bindings/graph.txt.
--
--- Video port 0 for parallel input
--- Video port 1 for LVDS output
--
--
--Example
---------
--
--lvds-encoder {
--	compatible = "lvds-encoder";
--
--	ports {
--		#address-cells = <1>;
--		#size-cells = <0>;
--
--		port@0 {
--			reg = <0>;
--
--			lvds_enc_in: endpoint {
--				remote-endpoint = <&display_out_rgb>;
--			};
--		};
--
--		port@1 {
--			reg = <1>;
--
--			lvds_enc_out: endpoint {
--				remote-endpoint = <&lvds_panel_in>;
--			};
--		};
--	};
--};
+ &rcar_sound {
+ 	pinctrl-0 = <&sound_pins>;
+ 	pinctrl-names = "default";
+diff --git a/arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi b/arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi
+index 0e99df2..ede2e0c 100644
+--- a/arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi
++++ b/arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi
+@@ -39,7 +39,6 @@
+ &du {
+ 	pinctrl-0 = <&du_pins>;
+ 	pinctrl-names = "default";
+-	status = "okay";
+ 
+ 	ports {
+ 		port@0 {
 -- 
 2.7.4
 
