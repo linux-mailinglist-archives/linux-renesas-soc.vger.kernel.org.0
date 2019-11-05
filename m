@@ -2,107 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D7A21F0731
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Nov 2019 21:46:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 859BFF098A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Nov 2019 23:31:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727095AbfKEUq2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Nov 2019 15:46:28 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:40337 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727821AbfKEUq2 (ORCPT
+        id S1730087AbfKEWbK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Nov 2019 17:31:10 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:35818 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728515AbfKEWbJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Nov 2019 15:46:28 -0500
-Received: by mail-lj1-f195.google.com with SMTP id q2so16914828ljg.7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 05 Nov 2019 12:46:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=aYeTHAQ0OepBDrED6WaK/4DCT6cYyjmx78u4P2RJHfM=;
-        b=QJMZTJzJCohXd2yT0ueXO2wV1wZCZ6r60VZ7gbF6iqZK8jeIZN4fZRDeORtIOUJt+B
-         rLk+O1vLAhPksOUMfP+sswQ+i9Y3O8bHn8lKBKQ6bwdgjAX8lRBH2posrso4Cu4TkZmD
-         iiVM8ugcD3Jo33kBQbwYINzK826CKycVtYR1S6+mvnSSRlwRG79T58ABNlMjaxKsogsG
-         jHS1cGWt0SFgGxcSxUVE2VeDg7zFp2a2x7DEfsJd5sxipP0qC7r1scpVhhU5u2jQC5fN
-         P+wth1gSxoRToRgLvU0DoXcTwRTXdHjbfmAwEiKMbOg7zMyMk1qXTCWkvP+TO8vO1Ctv
-         qoaw==
+        Tue, 5 Nov 2019 17:31:09 -0500
+Received: by mail-oi1-f194.google.com with SMTP id n16so19143986oig.2;
+        Tue, 05 Nov 2019 14:31:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=aYeTHAQ0OepBDrED6WaK/4DCT6cYyjmx78u4P2RJHfM=;
-        b=evUeNF6O6SogvXEpAMjPWISRq/gx9YYl59CXIQo67p4MMPQtoFjDCH/C0eicvR0wi5
-         F6q9x+aFhHAm2naZgVEwBnH2MAZmS8BUyHkmXBZKDtLVLO6IiuYkMt7GvUSg070NIDK3
-         6QbEmi5wbcJovv/FdHcAzMTu9oFWlVq9s59zPvvyb5ud903PCNHtfU6REe/YC8psJC4g
-         nDcrLGXBJZ18eIjBfKNdmb5oUVllAo+bph1RsGAtXhlNyxuDtnr9e9ckamXyN7KruCT2
-         WC2Y96J4hSLGhv3t3uF4PWQUpclp96PpwmvwpNaDxEgYjoTw37qDP75s0qt/+IKEzxV5
-         nusQ==
-X-Gm-Message-State: APjAAAWN8Q9eN/zVVZ93G1GMoyZZWFvUghAonHADlC+7Ot0Dl4u+YH8s
-        vbrvycPkjspU/J7HBKNSCkWW1A==
-X-Google-Smtp-Source: APXvYqyw6NHD40DYjwQahlg2dvo4mhdS8WfCRdfTQ2QXHMkTYBceoTN5yR5O7gcqrTPrfJI7Rkk5sw==
-X-Received: by 2002:a2e:320c:: with SMTP id y12mr24170826ljy.7.1572986784538;
-        Tue, 05 Nov 2019 12:46:24 -0800 (PST)
-Received: from wasted.cogentembedded.com ([2a00:1fa0:4676:82ae:81fa:6a29:87ee:449b])
-        by smtp.gmail.com with ESMTPSA id f5sm8189979ljn.24.2019.11.05.12.46.23
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 05 Nov 2019 12:46:23 -0800 (PST)
-Subject: Re: [PATCH v2 2/2] phy: Renesas R-Car gen3 PCIe PHY driver
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     Kishon Vijay Abraham I <kishon@ti.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=P7DS8UNeHFmRF9Ai42oFGqJ59k+5UylJEgaKrw08XWM=;
+        b=Cfbw30q8KU/mGUpS2WendGh0eF7LRluyRstghVZAnNwFrHLJ/x9yheBMff6/F+/7t2
+         K5K9rAjVCUjWLLMmXcYCGnDBOW2z1h0+Cb5LThEG82JZBBdboQON/V6fs39f1XDFK8qm
+         VSN8YDq6Dwkg/FfaoyCwR02Ds+GIUfMT71ZrMqSExw+0j3Jh6Q4r3lOwsxDbfEv+kuNB
+         O7xws/uPd/IWhgMdKOJ8x0wvZchil3aq2199b0C9R0+WVtGJB7cbDfDzbPY06+BwUyPG
+         EBTIWi87vSQvGC8lOpAIO4l7AC0CrdVV11AfJeUsfpMXwBDzc6n9Z79OYrbDxmBtPDK5
+         H67A==
+X-Gm-Message-State: APjAAAXtjeYeJHp5LTjQAYCsttf2XarAe3nel3SvW9r0aA9fq2H1msUA
+        vo2a5IjYtdS0PNFvwcZb5g==
+X-Google-Smtp-Source: APXvYqwjhmMiPRy7nJVXI6Asqm9ZybIl+fIpC8DPgsMZgHWYu7TXGKfBgJrTq0u5lMK6YlasMsrn/Q==
+X-Received: by 2002:aca:c4d3:: with SMTP id u202mr1198832oif.59.1572993068836;
+        Tue, 05 Nov 2019 14:31:08 -0800 (PST)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id u130sm6315754oib.56.2019.11.05.14.31.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2019 14:31:08 -0800 (PST)
+Date:   Tue, 5 Nov 2019 16:31:07 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     kishon@ti.com, robh+dt@kernel.org, mark.rutland@arm.com,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-References: <04384ce6-b696-715d-2072-345654e3fccf@cogentembedded.com>
- <9e69a1ea-b52b-4295-c898-e1ac4df26f97@cogentembedded.com>
- <20191104132743.GA13342@vmlxhi-102.adit-jv.com>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Organization: Cogent Embedded
-Message-ID: <48467080-9c49-fd64-c39a-6e379f21b639@cogentembedded.com>
-Date:   Tue, 5 Nov 2019 23:46:18 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [PATCH v2] dt-bindings: phy: renesas: usb2-phy: convert bindings
+ to json-schema
+Message-ID: <20191105223107.GA16214@bogus>
+References: <1572592763-12396-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-In-Reply-To: <20191104132743.GA13342@vmlxhi-102.adit-jv.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1572592763-12396-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
-
-On 11/04/2019 04:27 PM, Eugeniu Rosca wrote:
-
-[...]
-
->> This PHY is  still  mostly undocumented -- the only documented registers
->> exist on R-Car V3H (R8A77980) SoC where this PHY stays in a powered-down
->> state after a reset and thus  we  must power it up for PCIe to work...
+On Fri,  1 Nov 2019 16:19:23 +0900, Yoshihiro Shimoda wrote:
+> Convert Renesas R-Car generation 3 USB 2.0 PHY bindings documentation
+> to json-schema.
 > 
-> Indeed, this [1] PCIE PHY driver looks entirely V3H-focused and looking
-> at the "Table 54.5 PCIE Controller Phy Register Configuration" in Rcar3
-> HW User’s Manual Rev.2.00 Jul 2019, _all_ except one PCIE PHY register
-> (PHY_CLK_RST) exist on V3H and no other Rcar3 SoC.
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> ---
+>  Changes from v1:
+>  - Use const for RZ/G1C's compatible.
+>  - Add resets' descriptions.
+>  - Remove dr_mode descrption. 
+>  https://patchwork.kernel.org/patch/11197805/
 > 
-> So, except PHY_CLK_RST, this driver appears to be doomed to R8A77980.
-> Ironically, PHY_CLK_RST is exactly the register we now need to manage
-> to implement "Internal Reference Clock Supply" (HW man Chapter 54.3.14).
+>  .../devicetree/bindings/phy/rcar-gen3-phy-usb2.txt |  70 --------------
+>  .../devicetree/bindings/phy/renesas,usb2-phy.yaml  | 103 +++++++++++++++++++++
+>  2 files changed, 103 insertions(+), 70 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/phy/rcar-gen3-phy-usb2.txt
+>  create mode 100644 Documentation/devicetree/bindings/phy/renesas,usb2-phy.yaml
+> 
 
-   Do you have in mind a working approach to switch internal/external clocks?
-phy_set_mode()?
-
-> Just to avoid any surprises on our side, do you see any issues in
-> extending the driver to the whole R-Car3 family, even if only for the
-> sake of controlling the non-V3H PHY_CLK_RST register?
-
-   Depends on the previous question...
-
-> [1] 2ce7f2f425ef74 ("phy: Renesas R-Car gen3 PCIe PHY driver")
-
-MBR, Sergei
+Reviewed-by: Rob Herring <robh@kernel.org>
