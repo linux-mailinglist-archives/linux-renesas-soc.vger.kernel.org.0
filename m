@@ -2,101 +2,198 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E1517F0264
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Nov 2019 17:14:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 029B9F03D4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  5 Nov 2019 18:08:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390007AbfKEQOd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 5 Nov 2019 11:14:33 -0500
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:45714 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389760AbfKEQOd (ORCPT
+        id S2390181AbfKERH7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 5 Nov 2019 12:07:59 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45180 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387833AbfKERH7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 5 Nov 2019 11:14:33 -0500
-Received: by mail-oi1-f194.google.com with SMTP id k2so17996382oij.12;
-        Tue, 05 Nov 2019 08:14:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ds6VYusfCqeI+CxBbQC5l0BjKnCAgOPSpeG/INpDB7s=;
-        b=FBlrFgPecd6Nu8kPxi/cwjUB24zhVlI59+tBHHEmwpLDCU5HCKwaOSeozM3vhUsSJH
-         ujZXUTPGTlstysbtmTN3y+Mqmh1M0qIMQ//gJNdrGe8uLKwDa4DFZTi7qlNZIUPp05L3
-         GQU5oKbH+08397LWNkAOVq9QpjKjU7dP3uJJ9eWCdb4qdigdnS3nPJXcu+Wav7gPw+rn
-         y/XO+0r422gid4bep8TXoUrA7xAllLoSsIJH4NUa82moG60LIhZboq44NarhTy3NcYhB
-         pKWbFYLA5w59p+ygsdFFKHk+5KY2FJPCVb8eM9reFDDny7tIrrHMfzg+N/8yBpXyurgR
-         9xLQ==
-X-Gm-Message-State: APjAAAUF6Sv+6anaWx1mkGiJF5EytPmnOLJrShbsQIvfyTSOunVZWtX0
-        BcwVUMXEikQ40sE37VrAcVuSehHN4YEuYoG87Yw=
-X-Google-Smtp-Source: APXvYqweOH2gctOiMkOfsylw9IuOXcy7+Rtobt+PETLBgPWqINBQvTUx4ZjcibUTN+3TaAgCY5UmWMrEgoOR73cwrbA=
-X-Received: by 2002:aca:fc92:: with SMTP id a140mr4437471oii.153.1572970472082;
- Tue, 05 Nov 2019 08:14:32 -0800 (PST)
+        Tue, 5 Nov 2019 12:07:59 -0500
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9F63A21D7D;
+        Tue,  5 Nov 2019 17:07:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572973678;
+        bh=982pnP21u6SLHEwMF1WidZv9LQW97H7o7tJaYDJdzz8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=0DSgrhZ2NAQhUICtqBtKwZHph/j5WuH2vsCL7/O/tCwFJfttlXO//skvCyIcr6fdd
+         Q8tAcB47lt7ul0ex99vhOzzEr+FfuPk5P3fG+KSCRRyuYA7q31PBff6umt9ZGQnPMm
+         P3/5t/FhJMZP3RezivC4wWbs0XUqdezmJOg8OjR8=
+Received: by mail-qt1-f171.google.com with SMTP id r22so20259514qtt.2;
+        Tue, 05 Nov 2019 09:07:58 -0800 (PST)
+X-Gm-Message-State: APjAAAVp24RjoZLDVSW6uAQG13XPxpYCi5HoLiNG/nj+cMho7XWHpHQl
+        K6xoOJJXWiH0FCh1SlXO469XK/f7M6OAKQlvPg==
+X-Google-Smtp-Source: APXvYqz9/z2im9e76vhu3PDX2geLlkCL/9xOMZgc1KJo/mqie7zy7vcexLdTcRMCQUecwC+40LweB/fouXV5OHZ5gYU=
+X-Received: by 2002:ac8:458c:: with SMTP id l12mr19273736qtn.300.1572973677688;
+ Tue, 05 Nov 2019 09:07:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20191016085548.105703-1-jacopo+renesas@jmondi.org> <20191017191400.GH4901@pendragon.ideasonboard.com>
-In-Reply-To: <20191017191400.GH4901@pendragon.ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 5 Nov 2019 17:14:20 +0100
-Message-ID: <CAMuHMdWTCF30+JpztF-p-5JqHS5ALiAs5E0Jo82DCgpu99NZ7w@mail.gmail.com>
-Subject: Re: [PATCH v6 0/8] drm: rcar-du: Add Color Management Module (CMM)
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Simon Horman <horms@verge.net.au>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
+References: <1572886683-4919-1-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1572886683-4919-3-git-send-email-fabrizio.castro@bp.renesas.com>
+ <CAL_JsqJ+xus0GDWb0Px6HKDBzOt1yjwCCkQrfMspubwG+LZOdQ@mail.gmail.com> <TY1PR01MB1770F97A73768451B2ED8A22C07E0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY1PR01MB1770F97A73768451B2ED8A22C07E0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 5 Nov 2019 11:07:46 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqL6Nzr2oBh51PZnQfBUK1ggDcZUrLaSP2GvEycwFAwJZw@mail.gmail.com>
+Message-ID: <CAL_JsqL6Nzr2oBh51PZnQfBUK1ggDcZUrLaSP2GvEycwFAwJZw@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] dt-bindings: display: bridge: Repurpose lvds-encoder
+To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Cc:     Neil Armstrong <narmstrong@baylibre.com>,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Peter Rosin <peda@axentia.se>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
-
-On Thu, Oct 17, 2019 at 9:14 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Wed, Oct 16, 2019 at 10:55:40AM +0200, Jacopo Mondi wrote:
-> > Minimal increment to the CMM series, this time should really be the last one.
-> >
-> > Just missing Rob's ack on [1/8] and Laurent's one on [5/8].
-> >
-> > Changelog is minimal:
-> > CMM
-> > - Remove the cmm_config.enable flag. The cmm_config.table field validity is
-> >   used to enable/disable the LUT operations
-> > - Expand comments as suggested by Laurent
-> >
-> > CRTC
-> > - use drm_color_lut_size() to check the LUT table size
-> > - Inline calls to rcar_cmm_enable()/disable()
-> > - Add TODO entries as suggested by Laurent
-> >
-> > For the record, the full series changelog is available at:
-> > https://paste.debian.net/1107427/
-> >
-> > v5 from yesterday with informations on testing is available at:
-> > https://lkml.org/lkml/2019/10/15/337
-> >
-> > Geert will you collect for DTS patches for the next release?
-> > I assume the DU changes go through Laurent instead ?
+On Tue, Nov 5, 2019 at 3:33 AM Fabrizio Castro
+<fabrizio.castro@bp.renesas.com> wrote:
 >
-> I've taken patch 1/8 to 6/8 and 8/8 in my tree. I expected Geert to take
-> 7/8.
+> Hello Rob,
+>
+> Thank you for your feedback!
+>
+> > From: Rob Herring <robh+dt@kernel.org>
+> > Sent: 04 November 2019 21:23
+> > Subject: Re: [PATCH v2 2/4] dt-bindings: display: bridge: Repurpose lvds-encoder
+> >
+> > On Mon, Nov 4, 2019 at 10:58 AM Fabrizio Castro
+> > <fabrizio.castro@bp.renesas.com> wrote:
+> > >
+> > > In an effort to repurpose lvds-encoder.c to also serve the
+> > > function of LVDS decoders, we ended up defining a new "generic"
+> > > compatible string, therefore adapt the dt-bindings to fit the
+> > > new purpose. Also, convert the dt-bindings from .txt to .yaml
+> > > while at it.
+> >
+> > "Also, ... while at it." is a sign for split into 2 patches.
+>
+> Will split into 2 patches
+>
+> >
+> > > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> > >
+> > > ---
+> > > v1->v2:
+> > > * Converted to dt-schema as per Neil's comment
+> > > ---
+> > >  .../bindings/display/bridge/lvds-codec.yaml        | 117 +++++++++++++++++++++
+> > >  .../bindings/display/bridge/lvds-transmitter.txt   |  66 ------------
+> > >  2 files changed, 117 insertions(+), 66 deletions(-)
+> > >  create mode 100644 Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> > >  delete mode 100644 Documentation/devicetree/bindings/display/bridge/lvds-transmitter.txt
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> > b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> > > new file mode 100644
+> > > index 0000000..ff79bc2
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> > > @@ -0,0 +1,117 @@
+> > > +# SPDX-License-Identifier: GPL-2.0
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/display/bridge/lvds-codec.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Trasnparent LVDS encoders and LVDS decoders
+> >
+> > Typo
+>
+> Will fix
+>
+> >
+> > > +
+> > > +maintainers:
+> > > +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > +
+> > > +description: |
+> > > +  This binding supports transparent LVDS encoders and LVDS decoders that don't
+> > > +  require any configuration.
+> > > +
+> > > +  LVDS is a physical layer specification defined in ANSI/TIA/EIA-644-A. Multiple
+> > > +  incompatible data link layers have been used over time to transmit image data
+> > > +  to LVDS panels. This binding targets devices compatible with the following
+> > > +  specifications only.
+> > > +
+> > > +  [JEIDA] "Digital Interface Standards for Monitor", JEIDA-59-1999, February
+> > > +  1999 (Version 1.0), Japan Electronic Industry Development Association (JEIDA)
+> > > +  [LDI] "Open LVDS Display Interface", May 1999 (Version 0.95), National
+> > > +  Semiconductor
+> > > +  [VESA] "VESA Notebook Panel Standard", October 2007 (Version 1.0), Video
+> > > +  Electronics Standards Association (VESA)
+> > > +
+> > > +  Those devices have been marketed under the FPD-Link and FlatLink brand names
+> > > +  among others.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    description: |
+> > > +      Any encoder or decoder compatible with this generic binding, but with
+> > > +      additional properties not listed here, must define its own binding and
+> > > +      list a device specific compatible first followed by the generic compatible
+> > > +    items:
+> > > +      - enum:
+> >
+> > You can drop 'items' when there's only 1.
+>
+> Will drop
+>
+> >
+> > > +        - lvds-encoder # for LVDS encoders
+> > > +        - lvds-decoder # for LVDS decoders
+> > > +
+> > > +  ports:
+> > > +    type: object
+> > > +    description: |
+> > > +      This device has two video ports. Their connections are modeled using the
+> > > +      OF graph bindings specified in Documentation/devicetree/bindings/graph.txt
+> > > +    properties:
+> > > +      port@0:
+> > > +        type: object
+> > > +        description: |
+> > > +          With LVDS encoders port 0 is for parallel input
+> > > +          With LVDS decoders port 0 is for LVDS input
+> > > +
+> > > +      port@1:
+> > > +        type: object
+> > > +        description: |
+> > > +          With LVDS encoders port 1 is for LVDS output
+> > > +          With LVDS decoders port 1 is for parallel output
+> >
+> > port@* are required, right?
+>
+> Yes, port@0 and port@1 are both required, similarly to:
+> Documentation/devicetree/bindings/display/st,stm32-dsi.yaml
+> therefore I have put "ports" under "required", in a similar fashion.
+> What's the right way of specifying this?
 
-And so I did. 7/8 is now in arm-soc/for-next.
+Same as any other property:
 
-However, your drm/du/next branch seems to contain 7/8 instead of 8/8?
+required:
+  - port@0
+  - port@1
 
-Gr{oetje,eeting}s,
+At the correct level of course.
 
-                        Geert
-
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Rob
