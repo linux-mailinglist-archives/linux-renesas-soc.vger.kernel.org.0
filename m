@@ -2,112 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 719F7F1EF8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Nov 2019 20:37:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F168F200D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Nov 2019 21:46:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732203AbfKFTgh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 6 Nov 2019 14:36:37 -0500
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:39083 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726713AbfKFTgh (ORCPT
+        id S1732411AbfKFUqA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 6 Nov 2019 15:46:00 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33426 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727376AbfKFUqA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 6 Nov 2019 14:36:37 -0500
-Received: by mail-wr1-f67.google.com with SMTP id a11so27452716wra.6;
-        Wed, 06 Nov 2019 11:36:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Yf803qGOor/Cot7/OEfF6HTN0BEeLkegGJ0D7t2YoFs=;
-        b=QytuGrv5RaR8aHt2W6tADBMSK2iQnketqSww+UVW4+YHUos01ZC70IfPiU1ae0l8qy
-         EJrDiVxd2jztoK/QS4LEgMtoPk3aik9YUmAwXk1AwLGl1V4X7zUv8cJXwNIhMATYlOXn
-         bW3qI/FDnQ0+R01cCECxVGt7X1RrUW3SnkfkdE4hFzo0W4SFm+dF/RReN0CoPNDthv47
-         oPMQS65MuUFV0MYWPqsU9Eetkt7BOPlHzW0u2C9nhm7e3QSFxdnIKJDq4n61s9CaYG7X
-         7EqeJ+lilFzCWetYDPeNufRQiMHXEg3pgRy8g7JkRGbhECdh4NsNGqCP2tVBoesBlw0N
-         SwyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Yf803qGOor/Cot7/OEfF6HTN0BEeLkegGJ0D7t2YoFs=;
-        b=Ocyh6451wW1PJlOwDeACw3kigGTnionBEqmk7pgnczpvw04Zw/zwirtWraWLL6LAn6
-         bfodq48pKsbR+jOwvpPAghQYlqtl/mxfXXjPLklJZ/lN5o/bUUuxH5Q0QZ0f2oLv7Nn3
-         UgfXkNv0aJ9yhHRRxH3KGmYiN/vyiKHBxAaz4JpdVZ4eSUA3JT6JtBa/SA+7L/fmS8g2
-         yybR5m+dQMkLbteaNMxETi6viLKBR1STc1CU/4UWocxD+68GCqZjgjxgy/AEXS57P2UF
-         pXnQQvjNHB9vVVm5vxQmib1sobtwve1y2UqNiJZ7hV0pBH41E/cfEV1sV/IAYY5OUtxi
-         i72g==
-X-Gm-Message-State: APjAAAXqRtCZsB9sIqJpbYxJMBWEy6LYn/1ZTkiIYaS6mO7lSvwHdfrZ
-        6HqxJOpZV1bYkQh0SIKdz24=
-X-Google-Smtp-Source: APXvYqwiFZfPLdQy6v/nz6k2CH2RqPsaqZfFr+dpybZn29YX1r2YujalQoWrrhG/dLD8IDDpq/MJXg==
-X-Received: by 2002:a5d:5091:: with SMTP id a17mr4555540wrt.249.1573068994407;
-        Wed, 06 Nov 2019 11:36:34 -0800 (PST)
-Received: from prasmi.home ([2a00:23c6:d18:6d00:1d3d:daa8:4e74:8240])
-        by smtp.gmail.com with ESMTPSA id 76sm4311737wma.0.2019.11.06.11.36.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2019 11:36:33 -0800 (PST)
-From:   Lad Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-pci@vger.kernel.org
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Murray <andrew.murray@arm.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 5/5] misc: pci_endpoint_test: add device-id for RZ/G2 pcie controller
-Date:   Wed,  6 Nov 2019 19:36:09 +0000
-Message-Id: <20191106193609.19645-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191106193609.19645-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20191106193609.19645-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Wed, 6 Nov 2019 15:46:00 -0500
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B14A120869;
+        Wed,  6 Nov 2019 20:45:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1573073159;
+        bh=8EobBLdg79BFoLW8z+BryoGeSM6L13OfS+/VN6yROKM=;
+        h=In-Reply-To:References:Subject:From:To:Cc:Date:From;
+        b=oY84uH53kicG5g/Aec/DaE31sE1u7PRypCK2hfInsLsk49g4rcGFVwm/mTzTp2qxR
+         W3w0jwu/xCvpsDorwK83rau4PwqFn9J0ISe4eXPbJzCIX1E21PuCc45j0Guls4slmO
+         gSRCBY4GHRSQfb5/m0Mp+4JkYIf4UAAd8aOMr170=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20191018101212.26432-1-geert+renesas@glider.be>
+References: <20191018101212.26432-1-geert+renesas@glider.be>
+Subject: Re: [GIT PULL] clk: renesas: Updates for v5.5
+From:   Stephen Boyd <sboyd@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>
+Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+User-Agent: alot/0.8.1
+Date:   Wed, 06 Nov 2019 12:45:58 -0800
+Message-Id: <20191106204559.B14A120869@mail.kernel.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Quoting Geert Uytterhoeven (2019-10-18 03:12:12)
+>         Hi Mike, Stephen,
+>=20
+> The following changes since commit 54ecb8f7028c5eb3d740bb82b0f1d90f2df63c=
+5c:
+>=20
+>   Linux 5.4-rc1 (2019-09-30 10:35:40 -0700)
+>=20
+> are available in the Git repository at:
+>=20
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
+ tags/clk-renesas-for-v5.5-tag1
+>=20
+> for you to fetch changes up to 56278c8fcb71874d591907d654272d511ce3597c:
+>=20
+>   clk: renesas: r8a774b1: Add TMU clock (2019-10-07 14:29:53 +0200)
+>=20
+> ----------------------------------------------------------------
 
-Signed-off-by: Lad, Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/misc/pci_endpoint_test.c | 3 +++
- 1 file changed, 3 insertions(+)
+Thanks. Picked this description from here too.
 
-diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
-index a5e317073d95..346b03b6e4b9 100644
---- a/drivers/misc/pci_endpoint_test.c
-+++ b/drivers/misc/pci_endpoint_test.c
-@@ -66,6 +66,8 @@
- 
- #define PCI_DEVICE_ID_TI_AM654			0xb00c
- 
-+#define PCI_DEVICE_ID_RENESAS_RZG2		0x002d
-+
- #define is_am654_pci_dev(pdev)		\
- 		((pdev)->device == PCI_DEVICE_ID_TI_AM654)
- 
-@@ -797,6 +799,7 @@ static const struct pci_device_id pci_endpoint_test_tbl[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_TI, PCI_DEVICE_ID_TI_AM654),
- 	  .driver_data = (kernel_ulong_t)&am654_data
- 	},
-+	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_RZG2) },
- 	{ }
- };
- MODULE_DEVICE_TABLE(pci, pci_endpoint_test_tbl);
--- 
-2.20.1
 
