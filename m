@@ -2,45 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D9281F1426
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Nov 2019 11:40:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37515F15D9
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  6 Nov 2019 13:11:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731151AbfKFKkl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 6 Nov 2019 05:40:41 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39640 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727239AbfKFKkl (ORCPT
+        id S1729164AbfKFMLC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 6 Nov 2019 07:11:02 -0500
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:33606 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727652AbfKFMLC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 6 Nov 2019 05:40:41 -0500
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573036840;
-        bh=H/+57jYWtnEpeUna1217Af9xMSUOqOg+F4Vw+bDuvIM=;
-        h=Subject:From:Date:To:From;
-        b=zh/cj4DKp/YuqiQImiBh6eA9Cg8Ns6U0KH+XbW9iRjBg00Lwu8cut9uaRMRfOaA2Y
-         iJ1dvyMdxlvQd/+hGJKzVMlBO3gA6F8/2CxyFpCVGrJsSnBTY7hzh5ZXbLQ5XFDSWq
-         ufoxSY/5drJhR+fKj0LgiGSWEpSxaf1BB4BHNAlk=
+        Wed, 6 Nov 2019 07:11:02 -0500
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 79DAE3C057C;
+        Wed,  6 Nov 2019 13:11:00 +0100 (CET)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id rb6-f3ahMltD; Wed,  6 Nov 2019 13:10:54 +0100 (CET)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id DC5A93C009D;
+        Wed,  6 Nov 2019 13:10:54 +0100 (CET)
+Received: from vmlxhi-102.adit-jv.com (10.72.93.184) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Wed, 6 Nov 2019
+ 13:10:54 +0100
+Date:   Wed, 6 Nov 2019 13:10:51 +0100
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+CC:     Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [PATCH v2 2/2] phy: Renesas R-Car gen3 PCIe PHY driver
+Message-ID: <20191106121051.GA6564@vmlxhi-102.adit-jv.com>
+References: <04384ce6-b696-715d-2072-345654e3fccf@cogentembedded.com>
+ <9e69a1ea-b52b-4295-c898-e1ac4df26f97@cogentembedded.com>
+ <20191104132743.GA13342@vmlxhi-102.adit-jv.com>
+ <48467080-9c49-fd64-c39a-6e379f21b639@cogentembedded.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork housekeeping for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <157303684058.6047.8490887809936769683.git-patchwork-housekeeping@kernel.org>
-Date:   Wed, 06 Nov 2019 10:40:40 +0000
-To:     linux-renesas-soc@vger.kernel.org
+In-Reply-To: <48467080-9c49-fd64-c39a-6e379f21b639@cogentembedded.com>
+User-Agent: Mutt/1.12.1+40 (7f8642d4ee82) (2019-06-28)
+X-Originating-IP: [10.72.93.184]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Latest series: [v2] dt-bindings: usb: renesas_usbhs: convert bindings to json-schema (2019-11-06T10:34:43)
-  Superseding: [v1] dt-bindings: usb: renesas_usbhs: convert bindings to json-schema (2019-10-23T08:20:08):
-    dt-bindings: usb: renesas_usbhs: convert bindings to json-schema
+Hi Sergei,
 
-Latest series: [v2] dt-bindings: usb: renesas: usb3-peri: convert bindings to json-schema (2019-11-06T10:34:53)
-  Superseding: [v1] dt-bindings: usb: renesas: usb3-peri: convert bindings to json-schema (2019-10-23T08:20:16):
-    dt-bindings: usb: renesas: usb3-peri: convert bindings to json-schema
+On Tue, Nov 05, 2019 at 11:46:18PM +0300, Sergei Shtylyov wrote:
+> Hello!
+> 
+> On 11/04/2019 04:27 PM, Eugeniu Rosca wrote:
+> 
+> [...]
+> 
+> >> This PHY is  still  mostly undocumented -- the only documented registers
+> >> exist on R-Car V3H (R8A77980) SoC where this PHY stays in a powered-down
+> >> state after a reset and thus  we  must power it up for PCIe to work...
+> > 
+> > Indeed, this [1] PCIE PHY driver looks entirely V3H-focused and looking
+> > at the "Table 54.5 PCIE Controller Phy Register Configuration" in Rcar3
+> > HW User’s Manual Rev.2.00 Jul 2019, _all_ except one PCIE PHY register
+> > (PHY_CLK_RST) exist on V3H and no other Rcar3 SoC.
+> > 
+> > So, except PHY_CLK_RST, this driver appears to be doomed to R8A77980.
+> > Ironically, PHY_CLK_RST is exactly the register we now need to manage
+> > to implement "Internal Reference Clock Supply" (HW man Chapter 54.3.14).
+> 
+>    Do you have in mind a working approach to switch internal/external clocks?
+> phy_set_mode()?
 
+Thanks to Andrew (CC), the approach is to implement a new binding
+"use-internal-reference-clock" and, based on its setting in DT,
+write the appropriate value (0) into the PHY_REF_USE_PAD bit of
+PHY_CLK_RST register, just as described in Chapter "54.3.14 Internal
+Reference Clock Supply" of R-Car3 HW manual. We don't employ the
+generic phy_set_mode().
+
+If you are fine with this approach, then we will try to find some time
+to push Andrew's patches to you in the following days.
+
+> > Just to avoid any surprises on our side, do you see any issues in
+> > extending the driver to the whole R-Car3 family, even if only for the
+> > sake of controlling the non-V3H PHY_CLK_RST register?
+> 
+>    Depends on the previous question...
+> 
+> > [1] 2ce7f2f425ef74 ("phy: Renesas R-Car gen3 PCIe PHY driver")
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+Best Regards,
+Eugeniu
