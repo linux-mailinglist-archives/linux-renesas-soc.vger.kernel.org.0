@@ -2,124 +2,221 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB2B0F22F5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 00:59:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CDE1F22EB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 00:57:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727381AbfKFX7b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 6 Nov 2019 18:59:31 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:33910 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727369AbfKFX7a (ORCPT
+        id S1727504AbfKFX5D (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 6 Nov 2019 18:57:03 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:36861 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727498AbfKFX5D (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 6 Nov 2019 18:59:30 -0500
-Received: by mail-wm1-f68.google.com with SMTP id v3so3513360wmh.1;
-        Wed, 06 Nov 2019 15:59:29 -0800 (PST)
+        Wed, 6 Nov 2019 18:57:03 -0500
+Received: by mail-lj1-f195.google.com with SMTP id k15so179141lja.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 Nov 2019 15:57:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=pYc1ZEuv8q0KG5E79mea0IAenws1iMJ4L6QA4R1lfVY=;
-        b=kvK67h3fYcWBmNBhk+w65SIcEgm9PvCe2zJ3e1TJO+o52SeF8hx8GgnX1DBB/LT2SD
-         j0Z5CqFHdmnXMj5sx0Tu5/dZpVKiSAMIWMl+3HsoVyrmmeFi09faiDu8OEM63Dzozlkn
-         YNN1jnyWillG0L2GjgMQN3zd8oyqjkijdV+fNQia7msX8wxRR+6jMUIyyM0xzweHLG+J
-         g7T1fy/i5yTLBGgg2zxLBYqJ6Ym6HUryLgrSEfB/jNuAP0/pJbIfLG4VRKffyNGYYa5Z
-         TBSFPEK6Xd4fwELoaG/HOLCIPvnPyAF4ee/0rBJ7m3/dpeTVZbrQ0wH9JIZDW47VDuHJ
-         SiXA==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=xfQdZv3rlCqFdF3pxkbe5faxXsBGkHBJR+o8Kau/hvg=;
+        b=EyJuna9uSI2254aYkiVpAO3g+oM2C3fd3/s+ZZz2bJq0xgHRtLo41z+6yiG50VQNh2
+         mdx4k9n5dKvC29qZ5LFx2koZt1WcG5MXtO6XDTQqigarmE0d9mXrs9jiQAPDK27rSGbZ
+         ko6KWoZWYFB+vA1Rdgp4RovX55O3z1mNz80KGRvvsPyJa+hJRY0yJpavfjNf59wfU8hz
+         IuI0M7FZSg11McpGakH+elyz/EJRmjZxTfNTnOWJy8Eo0wqa7guYXP/SyDMAJM49Z36o
+         a75pFyV/1fYYCrSHjcqBMF6AjnMFkh1Qz1H2WJm5RuuKUUVc7You+Ep+flT6+ryap07i
+         /d8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=pYc1ZEuv8q0KG5E79mea0IAenws1iMJ4L6QA4R1lfVY=;
-        b=E5fLs5myd++UfXnbcJ8E0E8z8Zl1JUwWBGSU0/GclSlvK6IhVX6hNt7BKaasGRrMQJ
-         tQW929DNbTfnASTAGtsGBhdQ8aeDX2HzFyBMDPMoZPGnE/o8S9P+ksvlbt0O5CWyEKTg
-         LZGKzlKIIIWR8fBqL09EsVZI5RzoOloGBhLNENBeQR8WbF2zC0fTWp05LH9Kd3dFP6dv
-         bxCd05iSbuq55iILcbqVD/MR6js2i+jllzll7dwFWqLxSHW9VAOYb423pJanEFwbnEpd
-         RdT1FmYPEgDytOCznuk9VtwlQtAfjx1VSSQtQnXneQIOlyUVy2IiZtuZfHJhyeC6jSqB
-         Raog==
-X-Gm-Message-State: APjAAAU0LrnWCNrCRhruyJA8uIuxidY5BI0efrZQc+T/5hLegm5yB9wS
-        AKhfC2PSqlsTqy2enksiwGQ=
-X-Google-Smtp-Source: APXvYqz4a4H5Uoy7rSYdGlqvNJE0lcHmzcfZs1JsT4P7wLXGRdWcJdrlLQZT3eQTWfwnQcTYVH7EJw==
-X-Received: by 2002:a1c:2dd0:: with SMTP id t199mr181746wmt.58.1573084768367;
-        Wed, 06 Nov 2019 15:59:28 -0800 (PST)
-Received: from [192.168.1.4] (ip-86-49-35-8.net.upcbroadband.cz. [86.49.35.8])
-        by smtp.gmail.com with ESMTPSA id d11sm423476wrf.80.2019.11.06.15.59.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Nov 2019 15:59:27 -0800 (PST)
-Subject: Re: [PATCH V3 2/3] PCI: rcar: Do not abort on too many inbound
- dma-ranges
-To:     Andrew Murray <andrew.murray@arm.com>
-Cc:     Simon Horman <horms@verge.net.au>, linux-pci@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        linux-renesas-soc@vger.kernel.org, Robin.Murphy@arm.com
-References: <20190809175741.7066-1-marek.vasut@gmail.com>
- <20190809175741.7066-2-marek.vasut@gmail.com>
- <20190816132305.gyyml5r3xsimmoor@verge.net.au>
- <8f1871ed-4820-1985-0090-bb9e2d8803d8@gmail.com>
- <20191021101805.GM47056@e119886-lin.cambridge.arm.com>
- <fef9502f-d51c-b922-afb3-8891267ae6c3@gmail.com>
- <20191026203627.GA47056@e119886-lin.cambridge.arm.com>
-From:   Marek Vasut <marek.vasut@gmail.com>
-Message-ID: <9c46a2d2-00bd-3854-8060-fc7389751f3f@gmail.com>
-Date:   Thu, 7 Nov 2019 00:37:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=xfQdZv3rlCqFdF3pxkbe5faxXsBGkHBJR+o8Kau/hvg=;
+        b=SO54Mr7NVILD3dhNjS4vXpQMuWr5wTMBe8mHe1khPCw8W5TEQbrFhYwM/mQjYf+YIX
+         wHwpjDhHaeD81vdVfnmojydBQlEWYRFB/+zLPUVEzS4XVhyTLJpsxg6oH9qizS4YuJjD
+         caBqRN79YaBonchTK+YnVGxi4bCeqA7GUjsdJj9X9Zrdkj4YrKYmxxIaeVYmqqicIVvT
+         G7eG3WjffgXYclh3rJZ40sE+V0D6Q45ZKxvj50Y6fycfue/VvPU5lOHibzfRnJNAmhbe
+         T1Bk554ZtZcgN9DeATOsyrSnWjoTOJBnr6f+pk04sCKne1BWYGsQ5FuCuA+YrP+BiJEZ
+         ba5g==
+X-Gm-Message-State: APjAAAXpaK92qwVl6VJQop0Rg/wDyZPteB4iQL2uHmWYSzlRHlGuheEU
+        1HaUN62qzXhWoOkym5NkmcOUJQ==
+X-Google-Smtp-Source: APXvYqxUdGwuJzHIcm8kxeUmpbzTlnr0AgVzUhUfheJ3YbSig2noVKVTlztwVCEkbIKedJAVsjUSqw==
+X-Received: by 2002:a2e:2419:: with SMTP id k25mr69255ljk.59.1573084619546;
+        Wed, 06 Nov 2019 15:56:59 -0800 (PST)
+Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
+        by smtp.gmail.com with ESMTPSA id y21sm127159ljm.25.2019.11.06.15.56.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Nov 2019 15:56:58 -0800 (PST)
+Date:   Thu, 7 Nov 2019 00:56:58 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     joro@8bytes.org, iommu@lists.linux-foundation.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 1/6] iommu/ipmmu-vmsa: Remove all unused register
+ definitions
+Message-ID: <20191106235658.GB18345@bigcity.dyn.berto.se>
+References: <1573007750-16611-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1573007750-16611-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-In-Reply-To: <20191026203627.GA47056@e119886-lin.cambridge.arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1573007750-16611-2-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 10/26/19 10:36 PM, Andrew Murray wrote:
-[...]>> But this still leaves me with one open question -- how do I
-figure out
->> what to program into the PCI controller inbound windows, so that the
->> controller correctly filters inbound transfers which are targetting
->> nonexisting memory ?
-> 
-> Your driver should program into the RC->CPU windows, the exact ranges
-> described in the dma-ranges. Whilst also respecting the alignment and
-> max-size rules your controller has (e.g. the existing upstream logic
-> and also the new logic that recalculates the alignment per entry).
-> 
-> As far as I can tell from looking at your U-Boot patch, I think I'd expect
-> a single dma-range to be presented in the DT, that describes
-> 0:0xFFFFFFFF => 0:0xFFFFFFFF. This is because 1) I understand your
-> controller is limited to 32 bits. And 2) there is a linear mapping between
-> PCI and CPU addresses (given that the second and third arguments on
-> pci_set_region are both the same).
-> 
-> As you point out, this range includes lots of things that you don't
-> want the RC to touch - such as non-existent memory. This is OK, when
-> Linux programs addresses into the various EP's for them to DMA to host
-> memory, it uses its own logic to select addresses that are in RAM, the
-> purpose of the dma-range is to describe what the CPU RAM address looks
-> like from the perspective of the RC (for example if the RC was wired
-> with an offset such that made memory writes from the RC made to
-> 0x00000000 end up on the system map at 0x80000000, we need to tell Linux
-> about this offset. Otherwise when a EP device driver programs a DMA
-> address of a RAM buffer at 0x90000000, it'll end up targetting
-> 0x110000000. Thankfully our dma-range will tell Linux to apply an offset
-> such that the actual address written to the EP is 0x10000000.).
+Hi Shimoda-san,
 
-I understand that Linux programs the endpoints correctly. However this
-still doesn't prevent the endpoint from being broken and from sending a
-transaction to that non-existent memory. The PCI controller can prevent
-that and in an automotive SoC, I would very much like the PCI controller
-to do just that, rather than hope that the endpoint would always work.
+Thanks for your work.
 
-> In your case the dma-range also serves to describe a limit to the range
-> of addresses we can reach.
+On 2019-11-06 11:35:45 +0900, Yoshihiro Shimoda wrote:
+> To support different registers memory mapping hardware easily
+> in the future, this patch removes all unused register
+> definitions.
+> 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-[...]
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+> ---
+>  drivers/iommu/ipmmu-vmsa.c | 76 ----------------------------------------------
+>  1 file changed, 76 deletions(-)
+> 
+> diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
+> index 5904c23..c4ec166 100644
+> --- a/drivers/iommu/ipmmu-vmsa.c
+> +++ b/drivers/iommu/ipmmu-vmsa.c
+> @@ -102,122 +102,46 @@ static struct ipmmu_vmsa_device *to_ipmmu(struct device *dev)
+>  #define IM_CTX_SIZE			0x40
+>  
+>  #define IMCTR				0x0000
+> -#define IMCTR_TRE			(1 << 17)
+> -#define IMCTR_AFE			(1 << 16)
+> -#define IMCTR_RTSEL_MASK		(3 << 4)
+> -#define IMCTR_RTSEL_SHIFT		4
+> -#define IMCTR_TREN			(1 << 3)
+>  #define IMCTR_INTEN			(1 << 2)
+>  #define IMCTR_FLUSH			(1 << 1)
+>  #define IMCTR_MMUEN			(1 << 0)
+>  
+> -#define IMCAAR				0x0004
+> -
+>  #define IMTTBCR				0x0008
+>  #define IMTTBCR_EAE			(1 << 31)
+> -#define IMTTBCR_PMB			(1 << 30)
+> -#define IMTTBCR_SH1_NON_SHAREABLE	(0 << 28)	/* R-Car Gen2 only */
+> -#define IMTTBCR_SH1_OUTER_SHAREABLE	(2 << 28)	/* R-Car Gen2 only */
+> -#define IMTTBCR_SH1_INNER_SHAREABLE	(3 << 28)	/* R-Car Gen2 only */
+> -#define IMTTBCR_SH1_MASK		(3 << 28)	/* R-Car Gen2 only */
+> -#define IMTTBCR_ORGN1_NC		(0 << 26)	/* R-Car Gen2 only */
+> -#define IMTTBCR_ORGN1_WB_WA		(1 << 26)	/* R-Car Gen2 only */
+> -#define IMTTBCR_ORGN1_WT		(2 << 26)	/* R-Car Gen2 only */
+> -#define IMTTBCR_ORGN1_WB		(3 << 26)	/* R-Car Gen2 only */
+> -#define IMTTBCR_ORGN1_MASK		(3 << 26)	/* R-Car Gen2 only */
+> -#define IMTTBCR_IRGN1_NC		(0 << 24)	/* R-Car Gen2 only */
+> -#define IMTTBCR_IRGN1_WB_WA		(1 << 24)	/* R-Car Gen2 only */
+> -#define IMTTBCR_IRGN1_WT		(2 << 24)	/* R-Car Gen2 only */
+> -#define IMTTBCR_IRGN1_WB		(3 << 24)	/* R-Car Gen2 only */
+> -#define IMTTBCR_IRGN1_MASK		(3 << 24)	/* R-Car Gen2 only */
+> -#define IMTTBCR_TSZ1_MASK		(7 << 16)
+> -#define IMTTBCR_TSZ1_SHIFT		16
+> -#define IMTTBCR_SH0_NON_SHAREABLE	(0 << 12)	/* R-Car Gen2 only */
+> -#define IMTTBCR_SH0_OUTER_SHAREABLE	(2 << 12)	/* R-Car Gen2 only */
+>  #define IMTTBCR_SH0_INNER_SHAREABLE	(3 << 12)	/* R-Car Gen2 only */
+> -#define IMTTBCR_SH0_MASK		(3 << 12)	/* R-Car Gen2 only */
+> -#define IMTTBCR_ORGN0_NC		(0 << 10)	/* R-Car Gen2 only */
+>  #define IMTTBCR_ORGN0_WB_WA		(1 << 10)	/* R-Car Gen2 only */
+> -#define IMTTBCR_ORGN0_WT		(2 << 10)	/* R-Car Gen2 only */
+> -#define IMTTBCR_ORGN0_WB		(3 << 10)	/* R-Car Gen2 only */
+> -#define IMTTBCR_ORGN0_MASK		(3 << 10)	/* R-Car Gen2 only */
+> -#define IMTTBCR_IRGN0_NC		(0 << 8)	/* R-Car Gen2 only */
+>  #define IMTTBCR_IRGN0_WB_WA		(1 << 8)	/* R-Car Gen2 only */
+> -#define IMTTBCR_IRGN0_WT		(2 << 8)	/* R-Car Gen2 only */
+> -#define IMTTBCR_IRGN0_WB		(3 << 8)	/* R-Car Gen2 only */
+> -#define IMTTBCR_IRGN0_MASK		(3 << 8)	/* R-Car Gen2 only */
+> -#define IMTTBCR_SL0_TWOBIT_LVL_3	(0 << 6)	/* R-Car Gen3 only */
+> -#define IMTTBCR_SL0_TWOBIT_LVL_2	(1 << 6)	/* R-Car Gen3 only */
+>  #define IMTTBCR_SL0_TWOBIT_LVL_1	(2 << 6)	/* R-Car Gen3 only */
+> -#define IMTTBCR_SL0_LVL_2		(0 << 4)
+>  #define IMTTBCR_SL0_LVL_1		(1 << 4)
+> -#define IMTTBCR_TSZ0_MASK		(7 << 0)
+> -#define IMTTBCR_TSZ0_SHIFT		O
+>  
+>  #define IMBUSCR				0x000c
+>  #define IMBUSCR_DVM			(1 << 2)
+> -#define IMBUSCR_BUSSEL_SYS		(0 << 0)
+> -#define IMBUSCR_BUSSEL_CCI		(1 << 0)
+> -#define IMBUSCR_BUSSEL_IMCAAR		(2 << 0)
+> -#define IMBUSCR_BUSSEL_CCI_IMCAAR	(3 << 0)
+>  #define IMBUSCR_BUSSEL_MASK		(3 << 0)
+>  
+>  #define IMTTLBR0			0x0010
+>  #define IMTTUBR0			0x0014
+> -#define IMTTLBR1			0x0018
+> -#define IMTTUBR1			0x001c
+>  
+>  #define IMSTR				0x0020
+> -#define IMSTR_ERRLVL_MASK		(3 << 12)
+> -#define IMSTR_ERRLVL_SHIFT		12
+> -#define IMSTR_ERRCODE_TLB_FORMAT	(1 << 8)
+> -#define IMSTR_ERRCODE_ACCESS_PERM	(4 << 8)
+> -#define IMSTR_ERRCODE_SECURE_ACCESS	(5 << 8)
+> -#define IMSTR_ERRCODE_MASK		(7 << 8)
+>  #define IMSTR_MHIT			(1 << 4)
+>  #define IMSTR_ABORT			(1 << 2)
+>  #define IMSTR_PF			(1 << 1)
+>  #define IMSTR_TF			(1 << 0)
+>  
+>  #define IMMAIR0				0x0028
+> -#define IMMAIR1				0x002c
+> -#define IMMAIR_ATTR_MASK		0xff
+> -#define IMMAIR_ATTR_DEVICE		0x04
+> -#define IMMAIR_ATTR_NC			0x44
+> -#define IMMAIR_ATTR_WBRWA		0xff
+> -#define IMMAIR_ATTR_SHIFT(n)		((n) << 3)
+> -#define IMMAIR_ATTR_IDX_NC		0
+> -#define IMMAIR_ATTR_IDX_WBRWA		1
+> -#define IMMAIR_ATTR_IDX_DEV		2
+>  
+>  #define IMELAR				0x0030	/* IMEAR on R-Car Gen2 */
+>  #define IMEUAR				0x0034	/* R-Car Gen3 only */
+>  
+> -#define IMPCTR				0x0200
+> -#define IMPSTR				0x0208
+> -#define IMPEAR				0x020c
+> -#define IMPMBA(n)			(0x0280 + ((n) * 4))
+> -#define IMPMBD(n)			(0x02c0 + ((n) * 4))
+> -
+>  #define IMUCTR(n)			((n) < 32 ? IMUCTR0(n) : IMUCTR32(n))
+>  #define IMUCTR0(n)			(0x0300 + ((n) * 16))
+>  #define IMUCTR32(n)			(0x0600 + (((n) - 32) * 16))
+> -#define IMUCTR_FIXADDEN			(1 << 31)
+> -#define IMUCTR_FIXADD_MASK		(0xff << 16)
+> -#define IMUCTR_FIXADD_SHIFT		16
+>  #define IMUCTR_TTSEL_MMU(n)		((n) << 4)
+> -#define IMUCTR_TTSEL_PMB		(8 << 4)
+> -#define IMUCTR_TTSEL_MASK		(15 << 4)
+>  #define IMUCTR_FLUSH			(1 << 1)
+>  #define IMUCTR_MMUEN			(1 << 0)
+>  
+>  #define IMUASID(n)			((n) < 32 ? IMUASID0(n) : IMUASID32(n))
+>  #define IMUASID0(n)			(0x0308 + ((n) * 16))
+>  #define IMUASID32(n)			(0x0608 + (((n) - 32) * 16))
+> -#define IMUASID_ASID8_MASK		(0xff << 8)
+> -#define IMUASID_ASID8_SHIFT		8
+> -#define IMUASID_ASID0_MASK		(0xff << 0)
+> -#define IMUASID_ASID0_SHIFT		0
+>  
+>  /* -----------------------------------------------------------------------------
+>   * Root device handling
+> -- 
+> 2.7.4
+> 
 
 -- 
-Best regards,
-Marek Vasut
+Regards,
+Niklas Söderlund
