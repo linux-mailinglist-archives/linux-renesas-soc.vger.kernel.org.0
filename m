@@ -2,149 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C4DCEF2989
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 09:44:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1F38F29C4
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 09:52:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733164AbfKGIop (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 Nov 2019 03:44:45 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:43333 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727120AbfKGIoo (ORCPT
+        id S1733209AbfKGIwS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 7 Nov 2019 03:52:18 -0500
+Received: from mailgate1.rohmeurope.com ([178.15.145.194]:49802 "EHLO
+        mailgate1.rohmeurope.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727120AbfKGIwR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 Nov 2019 03:44:44 -0500
-Received: by mail-ot1-f67.google.com with SMTP id l14so1307207oti.10;
-        Thu, 07 Nov 2019 00:44:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=41NEiPopACB8w8/wi96XPwORusZtZyFOe+6fXdB5oWI=;
-        b=NI65yWNHYzw3WUfYaSgg+0OwZsjJvaeLUXBcd1dVigp1vSRsHHiLLEihivro1QXy4j
-         R9h0q5sfZFZniTzaTnfjF8lsPd52y7jPSA9jytSWou1mnDJVqCnpu77gb8zNI+qhomC1
-         PZNVy8tOjSImByW2DAIHV+xCLFHeAyi2cg+D4/uV4QOhY8SwPsh+JWzqlX7z1HTj/ttF
-         HNpmoV8geq5XlcmR5SZCNgGrhp0rPvlXvkJBfnaFYMJ/i1EEDx0dyT/bDrCC7BeUBp3U
-         Oc2Os/EPiYAk+3VmFFkHKT8YzJPGzWRbwbeHVLzxH22NmRgFRaIcR4mMBnO6nLVprC1W
-         p4hg==
-X-Gm-Message-State: APjAAAWjy/fyBi5YNXpt8OmswGXfVzBFwssrW8MLuc9JavkMuPqKW4n/
-        cFOukMWg49eHwIGwnZtlh1PnewQq8s+CfIQiTHk=
-X-Google-Smtp-Source: APXvYqyLd+e060V3vapvpupJ//7p928pbjWfrqP8a74RfAwxyKf0nla2NjyjPYziuD+6o8scdy87CzLXM7S3IlcXjQw=
-X-Received: by 2002:a05:6830:2363:: with SMTP id r3mr2078530oth.39.1573116282410;
- Thu, 07 Nov 2019 00:44:42 -0800 (PST)
+        Thu, 7 Nov 2019 03:52:17 -0500
+X-AuditID: c0a8fbf4-199ff70000001fa6-ff-5dc3db3fd332
+Received: from smtp.reu.rohmeu.com (will-cas002.reu.rohmeu.com [192.168.251.178])
+        by mailgate1.rohmeurope.com (Symantec Messaging Gateway) with SMTP id 8E.72.08102.F3BD3CD5; Thu,  7 Nov 2019 09:52:16 +0100 (CET)
+Received: from WILL-MAIL002.REu.RohmEu.com ([fe80::e0c3:e88c:5f22:d174]) by
+ WILL-CAS002.REu.RohmEu.com ([fe80::fc24:4cbc:e287:8659%12]) with mapi id
+ 14.03.0439.000; Thu, 7 Nov 2019 09:52:11 +0100
+From:   "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>
+To:     "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        "nandor.han@vaisala.com" <nandor.han@vaisala.com>
+CC:     "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v2 0/2] Add definition for GPIO direction
+Thread-Topic: [PATCH v2 0/2] Add definition for GPIO direction
+Thread-Index: AQHVlJrx7wcBaYPaxUmQrQAzc732Rad+AIyAgAAhVYCAAS5RgIAABxwA
+Date:   Thu, 7 Nov 2019 08:52:11 +0000
+Message-ID: <2ca76ecb58b9e6377925d6790ff4f7722604f57b.camel@fi.rohmeurope.com>
+References: <cover.1573029228.git.matti.vaittinen@fi.rohmeurope.com>
+         <20191106120846.5bunrqj3uz4khih5@earth.universe>
+         <ddcd02cc6c709837a28cae2cbfa672c506927659.camel@fi.rohmeurope.com>
+         <20191106142441.GC32742@smile.fi.intel.com>
+         <CACRpkdZ2F3zR2bdHgUV9GJX8iSojiM34BTWizTV_z+j7sS4jtw@mail.gmail.com>
+In-Reply-To: <CACRpkdZ2F3zR2bdHgUV9GJX8iSojiM34BTWizTV_z+j7sS4jtw@mail.gmail.com>
+Accept-Language: en-US, de-DE
+Content-Language: de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [213.255.186.46]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <854708258CFAAF48AF358D516979CCB9@de.rohmeurope.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20191106193609.19645-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20191106193609.19645-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20191106193609.19645-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 7 Nov 2019 09:44:31 +0100
-Message-ID: <CAMuHMdVZwgVnq2kwjNJQHfvUH0sk6M7Hz-AJR82jMOsCNfW9wQ@mail.gmail.com>
-Subject: Re: [PATCH 3/5] PCI: rcar: Add R-Car PCIe endpoint device tree bindings
-To:     Lad Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Murray <andrew.murray@arm.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0hTYRjHe885bq+XU+82bW9WQqMLRU4lgwVW+xCyikIp+lANO+bJSbvI
+        2RStD2klMS+l5q2VF8wsUspmlqgDnVIpmB9C8RblJUENTZRJKKtztlK/nPf/Pv/n9/xfOA8k
+        pWWiYJhktLCckdErRH5U+4sVe6h6pFMb7logVC1foCrvdimhWirvoVTljwuBqmj1OaGyTwz4
+        qJqm5wjV3fkSoIaa/nstYs38YJZYU9AbqhkdaBNpKrpjNY01tzQjTf2UZtEeEgMv+kfFM5bU
+        c0mJxrBjV/x1X2vKRMkfJGnT716RGSBXkg0gxCgS53Sps4EflKJ+gFfyin2ygS9/+QiwtV4p
+        9IhQFM4eEgs9gegXwJ3jhUC4kMgNsGMhhxQAGTqKe99MEoIORMfwp7pSyqujsbW9FgiaQrtx
+        Xnu3p06js9jVOk56k5sIXFCc70n2RbG4st3tAQDaia0Zc56hJJJj+9SypwcjhGva+kivDsLT
+        E+5/dQV2/B6jhFeTaD9+3RLmlWrc8EPmnbILF+WMib1PkODuR5NUPthq2xBgW4dt67BtA2zb
+        AFcBn5cAG5gkfSJjYSOUHJui5Ew6A39cNRnswPuPl5rBH+dJJyAgcIJtkFAE0YecTq10c7wp
+        IV3HmHVxXIqeNTsBhqQikL58v0MrpROY9BssZ/pvbYeUQk7vGyvQSpGQdZ1lk1nuv7sDQgWm
+        c4c6tVIJxyayadeS9JZ1m4C+wnC/4EAza0xgOSbFoosTtiPOzK+HYAXwuS4Bp83JjIGvetEe
+        EAHzp8urSTjaUMF/u8qfVZNSymgyssFy+ogAIAHQpRjX4maAHAKFjFYLbgC/7mvTZvgggg8K
+        H3QKQRZm3QrOAJJIcW7f503KDoMoemE2Vv394ZaGqpi5PU+eyoyXfE+Ryqmbp3++l4X2hLuK
+        HPTBJXfdhdZ8V9QweLE3c3a19oHBKs1szeqvr250pLqX39b5+8lDqmOsx/VZK4uryppVrU9d
+        yfjQ+eXDY857+Iy+cvTEbl1z5HLAsOxOb3PON4eCMuuYiAMkZ2b+AuiBlI+rAwAA
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
-
-On Wed, Nov 6, 2019 at 8:36 PM Lad Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> This patch adds the bindings for the R-Car PCIe endpoint driver.
->
-> Signed-off-by: Lad, Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Thanks for your patch!
-
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pci/rcar-pci-ep.txt
-> @@ -0,0 +1,43 @@
-> +* Renesas R-Car PCIe Endpoint Controller DT description
-> +
-> +Required properties:
-> +           "renesas,pcie-ep-r8a774c0" for the R8A774C0 SoC;
-> +           "renesas,pcie-ep-rcar-gen3" for a generic R-Car Gen3 or
-> +                                    RZ/G2 compatible device.
-
-Unless I'm missing something, this is for the exact same hardware block as
-Documentation/devicetree/bindings/pci/rcar-pci.txt?
-So shouldn't you amend those bindings, instead of adding new compatible
-values?
-Please remember that DT describes hardware, not software policy.
-So IMHO choosing between host and endpoint is purely a configuration
-issue, and could be indicated by the presence or lack of some DT properties.
-E.g. host mode requires both "bus-range" and "device_type" properties,
-so their absence could indicate endpoint mode.
-
-> +- reg: Five register ranges as listed in the reg-names property
-> +- reg-names: Must include the following names
-> +       - "apb-base"
-> +       - "memory0"
-> +       - "memory1"
-> +       - "memory2"
-> +       - "memory3"
-
-What is the purpose of the last 4 regions?
-Can they be chosen by the driver, at runtime?
-
-> +- resets: Must contain phandles to PCIe-related reset lines exposed by IP block
-> +- clocks: from common clock binding: clock specifiers for the PCIe controller
-> +        clock.
-> +- clock-names: from common clock binding: should be "pcie".
-> +
-> +Optional Property:
-> +- max-functions: Maximum number of functions that can be configured (default 1).
-> +
-> +Example:
-> +
-> +SoC-specific DT Entry:
-> +
-> +       pcie_ep: pcie_ep@fe000000 {
-> +               compatible = "renesas,pcie-r8a7791", "renesas,pcie-rcar-gen2";
-
-These compatible values do not match with the ones above
-(but they match with what I'd like to see ;-)
-
-> +               reg = <0 0xfe000000 0 0x80000>,
-> +                       <0x0 0xfe100000 0 0x100000>,
-> +                       <0x0 0xfe200000 0 0x200000>,
-> +                       <0x0 0x30000000 0 0x8000000>,
-> +                       <0x0 0x38000000 0 0x8000000>;
-> +               reg-names = "apb-base", "memory0", "memory1", "memory2", "memory3";
-> +               clocks = <&cpg CPG_MOD 319>;
-> +               clock-names = "pcie";
-> +               power-domains = <&sysc R8A774C0_PD_ALWAYS_ON>;
-> +               resets = <&cpg 319>;
-> +       };
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+DQpPbiBUaHUsIDIwMTktMTEtMDcgYXQgMDk6MjYgKzAxMDAsIExpbnVzIFdhbGxlaWogd3JvdGU6
+DQo+IE9uIFdlZCwgTm92IDYsIDIwMTkgYXQgMzoyNSBQTSBhbmRyaXkuc2hldmNoZW5rb0BsaW51
+eC5pbnRlbC5jb20NCj4gPGFuZHJpeS5zaGV2Y2hlbmtvQGxpbnV4LmludGVsLmNvbT4gd3JvdGU6
+DQo+ID4gT24gV2VkLCBOb3YgMDYsIDIwMTkgYXQgMTI6MjU6MThQTSArMDAwMCwgVmFpdHRpbmVu
+LCBNYXR0aSB3cm90ZToNCj4gPiA+IElmIG5vIG9uZQ0KPiA+ID4gZWxzZSB3aWxsIHRha2UgdGhl
+IHBpbmN0cmwgcGFydCB0aGVuIEkgY2FuIHByb2JhYmx5IGRvIHBpbmN0cmwNCj4gPiA+IHBhdGNo
+ZXMNCj4gPiA+IGZvciB2NS42IGN5Y2xlLg0KPiA+IA0KPiA+IEZvciBwaW4gY29udHJvbCBJbnRl
+bCwgc2luY2Ugd2Ugc2VuZCBQUiB0byBMaW51cyBhbmQgaXQgd29uJ3QgYmUNCj4gPiBkaWZmZXJl
+bnQgdG8NCj4gPiBoaW0sIHdlIHdvdWxkIGxpa2UgdG8gc2VlIHBhdGNoIHBlciBkcml2ZXIuDQo+
+IA0KPiBJdCBpcyBnZW5lcmFsbHkgZ29vZCB0byBidW5kbGUgdGhlc2UgY2hhbmdlcyBiZWNhdXNl
+IHNvIG1hbnkNCj4gZHJpdmVyIG1haW50YWluZXJzIGFyZSBwYXNzaXZlLiAoTm90IEludGVsISkN
+Cg0KVGhhdCByZW1pbmRlZCBtZS4uIEkgZ290ICd1bmtub3duIHJlY2lwaWVudCcgcmVwbGllcw0K
+PG5hbmRvci5oYW5AZ2UuY29tPjogNTUwIDUuMS4xIE5vIHN1Y2ggdXNlciAtIHBwDQo8c2VtaS5t
+YWxpbmVuQGdlLmNvbT46IDU1MCA1LjEuMSBObyBzdWNoIHVzZXIgLSBwcA0KDQpmcm9tIGJvdGgg
+U2VtaSBhbmQgTmFuZG9yIC0gd2hvIHNlZW0gdG8gYmUgdGhlIG9ubHkgbWFpbnRhaW5lcnMgbGlz
+dGVkDQpmb3IgWFJBMTQwMyBHUElPIEVYUEFOREVSIGluIE1BSU5UQUlORVJTLg0KDQpYUkExNDAz
+IEdQSU8gRVhQQU5ERVINCk06ICAgICAgTmFuZG9yIEhhbiA8bmFuZG9yLmhhbkBnZS5jb20+DQpN
+OiAgICAgIFNlbWkgTWFsaW5lbiA8c2VtaS5tYWxpbmVuQGdlLmNvbT4NCkw6ICAgICAgbGludXgt
+Z3Bpb0B2Z2VyLmtlcm5lbC5vcmcNClM6ICAgICAgTWFpbnRhaW5lZA0KRjogICAgICBkcml2ZXJz
+L2dwaW8vZ3Bpby14cmExNDAzLmMNCkY6ICAgICAgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2Jp
+bmRpbmdzL2dwaW8vZ3Bpby14cmExNDAzLnR4dA0KDQpBbnlvbmUga25vd3MgbmV3IG1haWwgYWRk
+cmVzc2VzIG9yIHBlcmhhcHMgdGhlIHNlcGFyYXRlIGVudHJ5DQpmb3IgWFJBMTQwMyBzaG91bGQg
+YmUgcmVtb3ZlZD8gDQoNCj4gSWYgeW91IGFyZSBjb25jZXJuZWQsIHdoYXQgYWJvdXQgd2UganVz
+dCBtYWtlIGEgc2VwYXJhdGUgcGF0Y2gNCj4gZm9yIHRoZSBkcml2ZXJzIHVuZGVyIGRyaXZlcnMv
+cGluY3RybC9pbnRlbCBhbmQgYnVuZGxlIHRoZSByZXN0Pw0KPiBQb3NzaWJseSBHZWVydCB3YW50
+IHRoZSBzaC1wZmMgY2hhbmdlcyBzZXBhcmF0ZWx5IGFzIHdlbGwNCj4gYXMgaGUgYnVpbGQgaGlz
+IG93biBwaW5jdHJsIGNoYW5nZXMuDQo+IA0KPiBSb3VnaCBjb25zZW5zdXMgYW5kIHdvcmtpbmcg
+cGF0Y2hlcy4NCg0KSW4gZ2VuZXJhbCAtIFdoaWNoIG9uZSBpcyBoYXJkZXI/IHhEDQoNCkJ1dCB0
+aGlzIHdvcmtzIGZvciBtZS4NCg0KQnIsDQoJTWF0dGkgVmFpdHRpbmVuDQo=
