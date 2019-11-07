@@ -2,115 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C07F8F28E7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 09:13:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4390F290D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 09:26:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726791AbfKGINp convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 Nov 2019 03:13:45 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:40798 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726734AbfKGINo (ORCPT
+        id S1726800AbfKGI04 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 7 Nov 2019 03:26:56 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:40289 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726734AbfKGI0z (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 Nov 2019 03:13:44 -0500
-Received: by mail-oi1-f196.google.com with SMTP id 22so1200811oip.7;
-        Thu, 07 Nov 2019 00:13:44 -0800 (PST)
+        Thu, 7 Nov 2019 03:26:55 -0500
+Received: by mail-lf1-f66.google.com with SMTP id f4so899818lfk.7
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 Nov 2019 00:26:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=phBcDJeV7MBF9bQlMf3ij0UKdSYwA8jjd7G8D30t7c4=;
+        b=w831tmAcyO3WLobHnTFPXruCYHGzWnUTx/uZyJ/iUgE03JdHww/AN01RKTeoGK7q1Y
+         ZKPihTKqt27Xq7S028dxWg0FcqROJrXYML0gFgvwwZ95AWUo0BxoMpLlJ2CiOvyvj3DV
+         Pqp4z9yseR+vxvE//5tdnk2/vy3vkEwz8tieVo5bgouEo5C/ztCMvH5niylhD3JKyEek
+         2tNBNlYN+m3B9N9Mqk++ZMScppwq06kAl3s2tZxl+Crg26SsGDktlVLmRnkXQwm2i75s
+         wY8bQkWdc1ydO3iGEnfTH3Vq4SndDluLLJ8Q+tKS4i6/evlJASOohKZALrHx2L0ECP01
+         q9Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=9nazdWnirCfxRXV5xY0vu3a90rtbot0vudbsckGOh3k=;
-        b=R6FLxNBT6oJsh7IS6rUSAyvdr/KK88kS5u03hbPKcL5Mp1SW81MxaFX8xf9yF8aii8
-         s5nvQaOvgTWcUwORzz2eiK3lRZtkeQaCnnUQobWFgwRPyIYCDc6JjW3qAM7pD+m4aoP9
-         fcWlo/PvJf0q1JRq1qbCrIwU98XBE7i/Yu/qvBRZ0qtZVvlSRIEggN1FgJpwBnhpSf2v
-         mlzkiNjcn7tZ8ybMLkuRuheqQQ/QPU8gCNGG9mUHfFfEbg3MYzUtKd7wXr78Hov5kq+u
-         WLGnb+kGFVVn7LyChDCVyI8FYpKybnMR5f2lQYzBO2Ogj0czy7hOaD1+TdsU13V3Yf8w
-         le8Q==
-X-Gm-Message-State: APjAAAWJRIFZVAU3H1EYHmr/mzrGVqVbwrBjylqBMnyOtYRsN3tmAzJF
-        p/A9WLvE2fQ+DtocbsX7cou0Mt4oYLOiSe/Uk2m+zTAR
-X-Google-Smtp-Source: APXvYqzG1X4VVM8A9RduBROmxxiAeni2cVDVws2za6mhTCF+gL1IaXOEdsNzB0P7I7PMf7pp/itm0o9nb1eq2VQiVZI=
-X-Received: by 2002:aca:3a86:: with SMTP id h128mr2176021oia.131.1573114423794;
- Thu, 07 Nov 2019 00:13:43 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=phBcDJeV7MBF9bQlMf3ij0UKdSYwA8jjd7G8D30t7c4=;
+        b=Dula92GEDIP46m9s6DmQrVIpGI3S8qrBadrIhLVjD6XIMbSH3EgDnfrt3CVdE6bDtp
+         MRarI1ZbCgP+wESg9LoFLz8JEHxyRfzJ9A4nHgPP/VvURYcHhfVpb9aKoViNRZ2gWrD4
+         XlnmgVuI5HSY7O62kZp8Tr/miL1XuZJgl2IPdyyDlOC+IkXFfyI5BAy+l9eOqORf0Ael
+         p4VfLddrXZM+Z/iDJ3O7FHsdI/iSCFxgMpFQ/JTgfCx3Z21XAmjfG0/9Ikdo530BGS3b
+         qivMyegwJRc9WfIlf6xrnu1GYRIZimNcgsa+R5DUPtQ56VI4QhP2WLMWVd4Iz8GQXF6N
+         ZMfw==
+X-Gm-Message-State: APjAAAV7lA8WWJ6Y4QUh5jR0EasMr2Wuvdj5xaPTFmw/euyqILKUKxdz
+        3NpOyBpSuU9rQ5KHya3SWUamaiyXLWBzik/cE71bxpoAhdA=
+X-Google-Smtp-Source: APXvYqzOH6yF2eurwi6G7Zy/OVyjeTcC1ZJhGmUN59KPuUZStRkxzGBAq+3zPJWvq1cDxiYLHmvPgnV1gSqFJY+xKlM=
+X-Received: by 2002:ac2:4a8f:: with SMTP id l15mr1437066lfp.5.1573115214130;
+ Thu, 07 Nov 2019 00:26:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20191106232304.2332121-1-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdW-i+L0pQx1WRWUZ6_BWF0ujQ-4s9TXNfAM9w5OHcgR+g@mail.gmail.com> <20191107074722.GH18345@bigcity.dyn.berto.se>
-In-Reply-To: <20191107074722.GH18345@bigcity.dyn.berto.se>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 7 Nov 2019 09:13:32 +0100
-Message-ID: <CAMuHMdWnt=8BDKKZco_0GMfOncT9r6CZ1P-rXZN19Dmc_ti4wA@mail.gmail.com>
-Subject: Re: [PATCH] rcar-vin: Limit NV12 availability to supported VIN
- channels only
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <cover.1573029228.git.matti.vaittinen@fi.rohmeurope.com>
+ <20191106120846.5bunrqj3uz4khih5@earth.universe> <ddcd02cc6c709837a28cae2cbfa672c506927659.camel@fi.rohmeurope.com>
+ <20191106142441.GC32742@smile.fi.intel.com>
+In-Reply-To: <20191106142441.GC32742@smile.fi.intel.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 7 Nov 2019 09:26:43 +0100
+Message-ID: <CACRpkdZ2F3zR2bdHgUV9GJX8iSojiM34BTWizTV_z+j7sS4jtw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] Add definition for GPIO direction
+To:     "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+On Wed, Nov 6, 2019 at 3:25 PM andriy.shevchenko@linux.intel.com
+<andriy.shevchenko@linux.intel.com> wrote:
+> On Wed, Nov 06, 2019 at 12:25:18PM +0000, Vaittinen, Matti wrote:
 
-On Thu, Nov 7, 2019 at 8:47 AM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> On 2019-11-07 08:41:11 +0100, Geert Uytterhoeven wrote:
-> > On Thu, Nov 7, 2019 at 12:25 AM Niklas Söderlund
-> > <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > > When adding support for NV12 it was overlooked that the pixel format is
-> > > only supported on some VIN channels. Fix this by adding a check to only
-> > > accept NV12 on the supported channels (0, 1, 4, 5, 8, 9, 12 and 13).
-> > >
-> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> >
-> > Thanks for your patch!
-> >
-> > > --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > > +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > > @@ -76,7 +76,12 @@ const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
-> > >         if (vin->info->model == RCAR_M1 && pixelformat == V4L2_PIX_FMT_XBGR32)
-> > >                 return NULL;
-> > >
-> > > -       if (pixelformat == V4L2_PIX_FMT_NV12 && !vin->info->nv12)
-> > > +       /*
-> > > +        * If NV12 is supported it's only supported on some channels (0, 1, 4,
-> > > +        * 5, 8, 9, 12 and 13).
-> >
-> > Is this true for all SoCs, or do you need a vin->info->model == RCAR_GEN3
-> > check?
+> > If no one
+> > else will take the pinctrl part then I can probably do pinctrl patches
+> > for v5.6 cycle.
 >
-> NV12 is only supported by most Gen3 SoCs, but no extra check is needed
-> as vin->info->nv12 is only set for the Gen3 SoCs that can support NV12.
+> For pin control Intel, since we send PR to Linus and it won't be different to
+> him, we would like to see patch per driver.
 
-Thanks, had missed the meaning of the vin->info->nv12 check.
+It is generally good to bundle these changes because so many
+driver maintainers are passive. (Not Intel!)
 
-> > > +        */
-> > > +       if (pixelformat == V4L2_PIX_FMT_NV12 &&
-> > > +           (!vin->info->nv12 || BIT(vin->id) & 0xcccc))
-> > >                 return NULL;
-> >
-> > So 0xcccc = ~(BIT(0) | BIT(1) | BIT(4) | ...)?
->
-> Yes.
->
-> > What if you ever have an id larger than 15?
-> > Wouldn't it be safer to check for !(BIT(vin->id) & 0x3333)?
->
-> There is no SoC with more then 16 VIN instances, today... Maybe your
-> suggestion of the inverted check makes more sens. Will respin a v2.
+If you are concerned, what about we just make a separate patch
+for the drivers under drivers/pinctrl/intel and bundle the rest?
+Possibly Geert want the sh-pfc changes separately as well
+as he build his own pinctrl changes.
 
-OK.  BTW, the code may look nicer if you start using a
-"switch (pixelformat) { ... }" block to handle all special cases.
+Rough consensus and working patches.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Yours,
+Linus Walleij
