@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 45815F2564
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 03:28:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31537F256B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 03:29:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727778AbfKGC2N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 6 Nov 2019 21:28:13 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:47308 "EHLO
+        id S1732382AbfKGC3k (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 6 Nov 2019 21:29:40 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:47364 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727328AbfKGC2N (ORCPT
+        with ESMTP id S1727328AbfKGC3k (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 6 Nov 2019 21:28:13 -0500
+        Wed, 6 Nov 2019 21:29:40 -0500
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C7B57329;
-        Thu,  7 Nov 2019 03:28:09 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 39F532D1;
+        Thu,  7 Nov 2019 03:29:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1573093690;
-        bh=g8WCwZH0F1Be0j0AjbbhXu+pCdV/dxFX9Y1zX3Y9JE8=;
+        s=mail; t=1573093778;
+        bh=10cPkHoiL4VtxxYfO8BfkPKU8pAwjaQbgE/SdPHPfQA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bxv8j5xOQ1YZTjo6AFlNB4lz27SBs4nQrZ7GbjDNGMl01tt8r8KWijppWCcHeeOpI
-         L1P39vChxcZYH110na1olQ3GwoymnwRpB18vdsgOpVNbSMCdj9/W78e3pEPx99tgGq
-         i9eua8vTCyKExw7O3dFoLsHzJyKDFX/DSIoLGhkY=
-Date:   Thu, 7 Nov 2019 04:28:01 +0200
+        b=vd58pCKjdA2EL4jUIFi6vRgerVlSxLI8b8ge/+SngBcPDCbAyprNVTwSyaWBJQx32
+         DBAhLPmZXi2i9p1819pI5XLJeaWlhTrHSm/Bopy43pmwOaFYA2mFu8iAhdZBGnS+gc
+         /Db91FIIItFZU+nnIi2FPkrmr7Ve0yhrj8DmzkOo=
+Date:   Thu, 7 Nov 2019 04:29:29 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
@@ -33,15 +33,15 @@ Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Magnus Damm <magnus.damm@gmail.com>,
         dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
         devicetree@vger.kernel.org
-Subject: Re: [PATCH 3/3] arm64: dts: renesas: rcar-gen3: Replace "vsps" by
- "renesas,vsps"
-Message-ID: <20191107022801.GJ4878@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 1/3] dt-bindings: display: renesas: du: Add vendor prefix
+ to vsps property
+Message-ID: <20191107022929.GK4878@pendragon.ideasonboard.com>
 References: <20191105183504.21447-1-geert+renesas@glider.be>
- <20191105183504.21447-4-geert+renesas@glider.be>
+ <20191105183504.21447-2-geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20191105183504.21447-4-geert+renesas@glider.be>
+In-Reply-To: <20191105183504.21447-2-geert+renesas@glider.be>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -52,180 +52,59 @@ Hi Geert,
 
 Thank you for the patch.
 
-On Tue, Nov 05, 2019 at 07:35:04PM +0100, Geert Uytterhoeven wrote:
+On Tue, Nov 05, 2019 at 07:35:02PM +0100, Geert Uytterhoeven wrote:
 > The Renesas-specific "vsps" property lacks a vendor prefix.
 > Add a "renesas," prefix to comply with DT best practises.
 > 
+> Move "renesas,vsps" below "renesas,cmms" to preserve alphabetical sort
+> order.
+> 
+> Fixes: 06711e6385a4ab4c ("drm: rcar-du: Document the vsps property in the DT bindings")
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> This depends on '[PATCH 2/3] drm: rcar-du: Recognize "renesas,vsps" in
-> addition to "vsps"'.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-(once 2/3 will be upstream)
+and taken in my tree.
 
 > ---
->  arch/arm64/boot/dts/renesas/r8a774a1.dtsi    | 2 +-
->  arch/arm64/boot/dts/renesas/r8a774b1.dtsi    | 2 +-
->  arch/arm64/boot/dts/renesas/r8a774c0.dtsi    | 3 ++-
->  arch/arm64/boot/dts/renesas/r8a7795-es1.dtsi | 2 +-
->  arch/arm64/boot/dts/renesas/r8a7795.dtsi     | 3 ++-
->  arch/arm64/boot/dts/renesas/r8a7796.dtsi     | 2 +-
->  arch/arm64/boot/dts/renesas/r8a77965.dtsi    | 2 +-
->  arch/arm64/boot/dts/renesas/r8a77970.dtsi    | 3 ++-
->  arch/arm64/boot/dts/renesas/r8a77980.dtsi    | 3 ++-
->  arch/arm64/boot/dts/renesas/r8a77990.dtsi    | 2 +-
->  arch/arm64/boot/dts/renesas/r8a77995.dtsi    | 2 +-
->  11 files changed, 15 insertions(+), 11 deletions(-)
+>  .../devicetree/bindings/display/renesas,du.txt       | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-> index 34a9f472fbb43072..0a48b53c3f9dcd69 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-> @@ -2640,7 +2640,7 @@
->  			clock-names = "du.0", "du.1", "du.2";
->  			status = "disabled";
+> diff --git a/Documentation/devicetree/bindings/display/renesas,du.txt b/Documentation/devicetree/bindings/display/renesas,du.txt
+> index f6fdaa67c257a046..eb4ae41fe41f83c7 100644
+> --- a/Documentation/devicetree/bindings/display/renesas,du.txt
+> +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
+> @@ -41,15 +41,15 @@ Required Properties:
+>        supplied they must be named "dclkin.x" with "x" being the input clock
+>        numerical index.
 >  
-> -			vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>;
-> +			renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>;
+> -  - vsps: A list of phandle and channel index tuples to the VSPs that handle
+> -    the memory interfaces for the DU channels. The phandle identifies the VSP
+> -    instance that serves the DU channel, and the channel index identifies the
+> -    LIF instance in that VSP.
+> -
+>    - renesas,cmms: A list of phandles to the CMM instances present in the SoC,
+>      one for each available DU channel. The property shall not be specified for
+>      SoCs that do not provide any CMM (such as V3M and V3H).
 >  
->  			ports {
->  				#address-cells = <1>;
-> diff --git a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-> index fe78387e4bb866ec..2ef0e136c84dcd25 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-> @@ -2486,7 +2486,7 @@
->  			clock-names = "du.0", "du.1", "du.3";
->  			status = "disabled";
->  
-> -			vsps = <&vspd0 0>, <&vspd1 0>, <&vspd0 1>;
-> +			renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd0 1>;
->  
->  			ports {
->  				#address-cells = <1>;
-> diff --git a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
-> index c7bdc3606323fc97..40aceb6681474f0d 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
-> @@ -1813,7 +1813,8 @@
->  			clocks = <&cpg CPG_MOD 724>,
->  				 <&cpg CPG_MOD 723>;
->  			clock-names = "du.0", "du.1";
-> -			vsps = <&vspd0 0>, <&vspd1 0>;
-> +			renesas,vsps = <&vspd0 0>, <&vspd1 0>;
+> +  - renesas,vsps: A list of phandle and channel index tuples to the VSPs that
+> +    handle the memory interfaces for the DU channels. The phandle identifies the
+> +    VSP instance that serves the DU channel, and the channel index identifies
+> +    the LIF instance in that VSP.
 > +
->  			status = "disabled";
+>  Required nodes:
 >  
->  			ports {
-> diff --git a/arch/arm64/boot/dts/renesas/r8a7795-es1.dtsi b/arch/arm64/boot/dts/renesas/r8a7795-es1.dtsi
-> index 14d8513d2a47336f..29b20e8aca5863e4 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a7795-es1.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a7795-es1.dtsi
-> @@ -30,7 +30,7 @@
->  };
+>  The connections to the DU output video ports are modeled using the OF graph
+> @@ -96,8 +96,8 @@ Example: R8A7795 (R-Car H3) ES2.0 DU
+>  			 <&cpg CPG_MOD 722>,
+>  			 <&cpg CPG_MOD 721>;
+>  		clock-names = "du.0", "du.1", "du.2", "du.3";
+> -		vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
+>  		renesas,cmms = <&cmm0>, <&cmm1>, <&cmm2>, <&cmm3>;
+> +		renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
 >  
->  &du {
-> -	vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd3 0>;
-> +	renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd3 0>;
->  };
->  
->  &fcpvb1 {
-> diff --git a/arch/arm64/boot/dts/renesas/r8a7795.dtsi b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
-> index fde6ec122d3b4006..c7b4ece0ab3ee03f 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a7795.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a7795.dtsi
-> @@ -3184,7 +3184,8 @@
->  			clock-names = "du.0", "du.1", "du.2", "du.3";
->  
->  			renesas,cmms = <&cmm0>, <&cmm1>, <&cmm2>, <&cmm3>;
-> -			vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>, <&vspd0 1>;
-> +			renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>,
-> +				       <&vspd0 1>;
->  
->  			status = "disabled";
->  
-> diff --git a/arch/arm64/boot/dts/renesas/r8a7796.dtsi b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
-> index b9db882b0351155c..95fa1608add896bf 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a7796.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a7796.dtsi
-> @@ -2824,7 +2824,7 @@
->  			clock-names = "du.0", "du.1", "du.2";
->  
->  			renesas,cmms = <&cmm0>, <&cmm1>, <&cmm2>;
-> -			vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>;
-> +			renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>;
->  
->  			status = "disabled";
->  
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77965.dtsi b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-> index bdbe197774d2f659..fb48dabb25adaf77 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-> @@ -2500,7 +2500,7 @@
->  			clock-names = "du.0", "du.1", "du.3";
->  
->  			renesas,cmms = <&cmm0>, <&cmm1>, <&cmm3>;
-> -			vsps = <&vspd0 0>, <&vspd1 0>, <&vspd0 1>;
-> +			renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd0 1>;
->  
->  			status = "disabled";
->  
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77970.dtsi b/arch/arm64/boot/dts/renesas/r8a77970.dtsi
-> index 0d0558e53533f0dc..c47608c3e0fa066f 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77970.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a77970.dtsi
-> @@ -1121,7 +1121,8 @@
->  			clock-names = "du.0";
->  			power-domains = <&sysc R8A77970_PD_ALWAYS_ON>;
->  			resets = <&cpg 724>;
-> -			vsps = <&vspd0 0>;
-> +			renesas,vsps = <&vspd0 0>;
-> +
->  			status = "disabled";
->  
->  			ports {
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77980.dtsi b/arch/arm64/boot/dts/renesas/r8a77980.dtsi
-> index 4d86669af819f089..53a01265233901fe 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77980.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a77980.dtsi
-> @@ -1496,7 +1496,8 @@
->  			clock-names = "du.0";
->  			power-domains = <&sysc R8A77980_PD_ALWAYS_ON>;
->  			resets = <&cpg 724>;
-> -			vsps = <&vspd0 0>;
-> +			renesas,vsps = <&vspd0 0>;
-> +
->  			status = "disabled";
->  
->  			ports {
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77990.dtsi b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-> index 67a6824a962c57a1..8283eb311eac6334 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-> @@ -1791,7 +1791,7 @@
->  			reset-names = "du.0";
->  
->  			renesas,cmms = <&cmm0>, <&cmm1>;
-> -			vsps = <&vspd0 0>, <&vspd1 0>;
-> +			renesas,vsps = <&vspd0 0>, <&vspd1 0>;
->  
->  			status = "disabled";
->  
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-> index e6ee2b709ba61bd3..d969d7347cf872a4 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-> @@ -1024,7 +1024,7 @@
->  			reset-names = "du.0";
->  
->  			renesas,cmms = <&cmm0>, <&cmm1>;
-> -			vsps = <&vspd0 0>, <&vspd1 0>;
-> +			renesas,vsps = <&vspd0 0>, <&vspd1 0>;
->  
->  			status = "disabled";
->  
+>  		ports {
+>  			#address-cells = <1>;
 
 -- 
 Regards,
