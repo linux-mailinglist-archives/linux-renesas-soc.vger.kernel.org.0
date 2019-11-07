@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 871A9F3940
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 21:11:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DF60F3943
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 21:11:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726785AbfKGULM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 Nov 2019 15:11:12 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:21886 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725893AbfKGULM (ORCPT
+        id S1725882AbfKGULR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 7 Nov 2019 15:11:17 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:20583 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725906AbfKGULR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 Nov 2019 15:11:12 -0500
+        Thu, 7 Nov 2019 15:11:17 -0500
 X-IronPort-AV: E=Sophos;i="5.68,279,1569250800"; 
-   d="scan'208";a="30895643"
+   d="scan'208";a="31108927"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 08 Nov 2019 05:11:11 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 08 Nov 2019 05:11:15 +0900
 Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id ED01A4009F8D;
-        Fri,  8 Nov 2019 05:11:06 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id A23854009F8A;
+        Fri,  8 Nov 2019 05:11:11 +0900 (JST)
 From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 To:     Neil Armstrong <narmstrong@baylibre.com>,
         David Airlie <airlied@linux.ie>,
@@ -38,61 +38,203 @@ Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: [PATCH v3 0/7] Add LCD panel support to iwg20d
-Date:   Thu,  7 Nov 2019 20:10:56 +0000
-Message-Id: <1573157463-14070-1-git-send-email-fabrizio.castro@bp.renesas.com>
+Subject: [PATCH v3 1/7] dt-bindings: display: bridge: Convert lvds-transmitter binding to json-schema
+Date:   Thu,  7 Nov 2019 20:10:57 +0000
+Message-Id: <1573157463-14070-2-git-send-email-fabrizio.castro@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1573157463-14070-1-git-send-email-fabrizio.castro@bp.renesas.com>
+References: <1573157463-14070-1-git-send-email-fabrizio.castro@bp.renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The iW-RainboW-G20D-Qseven RZ/G1M,G1N Qseven Development Platform
-comes with a 7" capacitive display kit from Emerging Display
-Technologies Corporation (EDT). This series adds all that's
-necessary for supporting it.
+Convert the lvds-transmitter binding to DT schema format using
+json-schema.
 
-Thanks,
-Fab
+Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 
+---
 v2->v3:
-* Split the dt-schema patch in two pathes as per Rob's comment
-* Made fixes to the dt-schema according to Rob's comment
-* Made fixes to the lvds-codec driver according to Jacopo's comments
-* Added two new patches:
-  * drm: Define DRM_MODE_CONNECTOR_PARALLEL
-  * drm/panel: panel-simple: Add connector type for etm0700g0dh6
+* Extracted conversion to dt-schema as per Rob's comment
 v1->v2:
-* Convert dt-bindings to dt-schema
-
-Fabrizio Castro (7):
-  dt-bindings: display: bridge: Convert lvds-transmitter binding to
-    json-schema
-  drm/bridge: Repurpose lvds-encoder.c
-  dt-bindings: display: bridge: Repurpose lvds-encoder
-  drm: Define DRM_MODE_CONNECTOR_PARALLEL
-  drm/panel: panel-simple: Add connector type for etm0700g0dh6
-  ARM: dts: iwg20d-q7-common: Add LCD support
-  ARM: shmobile_defconfig: Enable support for panels from EDT
-
- .../bindings/display/bridge/lvds-codec.yaml        | 120 ++++++++++++++++
- .../bindings/display/bridge/lvds-transmitter.txt   |  66 ---------
- arch/arm/boot/dts/iwg20d-q7-common.dtsi            |  85 +++++++++++
- arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi           |   1 -
- arch/arm/configs/shmobile_defconfig                |   3 +
- drivers/gpu/drm/bridge/Kconfig                     |   8 +-
- drivers/gpu/drm/bridge/Makefile                    |   2 +-
- drivers/gpu/drm/bridge/lvds-codec.c                | 131 +++++++++++++++++
- drivers/gpu/drm/bridge/lvds-encoder.c              | 155 ---------------------
- drivers/gpu/drm/drm_connector.c                    |   1 +
- drivers/gpu/drm/panel/panel-simple.c               |   1 +
- include/uapi/drm/drm_mode.h                        |   1 +
- 12 files changed, 347 insertions(+), 227 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+* Converted to dt-schema as per Neil's comment
+---
+ .../bindings/display/bridge/lvds-transmitter.txt   | 66 ----------------
+ .../bindings/display/bridge/lvds-transmitter.yaml  | 91 ++++++++++++++++++++++
+ 2 files changed, 91 insertions(+), 66 deletions(-)
  delete mode 100644 Documentation/devicetree/bindings/display/bridge/lvds-transmitter.txt
- create mode 100644 drivers/gpu/drm/bridge/lvds-codec.c
- delete mode 100644 drivers/gpu/drm/bridge/lvds-encoder.c
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/lvds-transmitter.yaml
 
+diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-transmitter.txt b/Documentation/devicetree/bindings/display/bridge/lvds-transmitter.txt
+deleted file mode 100644
+index 60091db..0000000
+--- a/Documentation/devicetree/bindings/display/bridge/lvds-transmitter.txt
++++ /dev/null
+@@ -1,66 +0,0 @@
+-Parallel to LVDS Encoder
+-------------------------
+-
+-This binding supports the parallel to LVDS encoders that don't require any
+-configuration.
+-
+-LVDS is a physical layer specification defined in ANSI/TIA/EIA-644-A. Multiple
+-incompatible data link layers have been used over time to transmit image data
+-to LVDS panels. This binding targets devices compatible with the following
+-specifications only.
+-
+-[JEIDA] "Digital Interface Standards for Monitor", JEIDA-59-1999, February
+-1999 (Version 1.0), Japan Electronic Industry Development Association (JEIDA)
+-[LDI] "Open LVDS Display Interface", May 1999 (Version 0.95), National
+-Semiconductor
+-[VESA] "VESA Notebook Panel Standard", October 2007 (Version 1.0), Video
+-Electronics Standards Association (VESA)
+-
+-Those devices have been marketed under the FPD-Link and FlatLink brand names
+-among others.
+-
+-
+-Required properties:
+-
+-- compatible: Must be "lvds-encoder"
+-
+-  Any encoder compatible with this generic binding, but with additional
+-  properties not listed here, must list a device specific compatible first
+-  followed by this generic compatible.
+-
+-Required nodes:
+-
+-This device has two video ports. Their connections are modeled using the OF
+-graph bindings specified in Documentation/devicetree/bindings/graph.txt.
+-
+-- Video port 0 for parallel input
+-- Video port 1 for LVDS output
+-
+-
+-Example
+--------
+-
+-lvds-encoder {
+-	compatible = "lvds-encoder";
+-
+-	ports {
+-		#address-cells = <1>;
+-		#size-cells = <0>;
+-
+-		port@0 {
+-			reg = <0>;
+-
+-			lvds_enc_in: endpoint {
+-				remote-endpoint = <&display_out_rgb>;
+-			};
+-		};
+-
+-		port@1 {
+-			reg = <1>;
+-
+-			lvds_enc_out: endpoint {
+-				remote-endpoint = <&lvds_panel_in>;
+-			};
+-		};
+-	};
+-};
+diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-transmitter.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-transmitter.yaml
+new file mode 100644
+index 0000000..5be163a
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/lvds-transmitter.yaml
+@@ -0,0 +1,91 @@
++# SPDX-License-Identifier: GPL-2.0
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/lvds-transmitter.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Parallel to LVDS Encoder
++
++maintainers:
++  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
++
++description: |
++  This binding supports the parallel to LVDS encoders that don't require any
++  configuration.
++
++  LVDS is a physical layer specification defined in ANSI/TIA/EIA-644-A. Multiple
++  incompatible data link layers have been used over time to transmit image data
++  to LVDS panels. This binding targets devices compatible with the following
++  specifications only.
++
++  [JEIDA] "Digital Interface Standards for Monitor", JEIDA-59-1999, February
++  1999 (Version 1.0), Japan Electronic Industry Development Association (JEIDA)
++  [LDI] "Open LVDS Display Interface", May 1999 (Version 0.95), National
++  Semiconductor
++  [VESA] "VESA Notebook Panel Standard", October 2007 (Version 1.0), Video
++  Electronics Standards Association (VESA)
++
++  Those devices have been marketed under the FPD-Link and FlatLink brand names
++  among others.
++
++properties:
++  compatible:
++    description: |
++      Any encoder or decoder compatible with this generic binding, but with
++      additional properties not listed here, must define its own binding and
++      list a device specific compatible first followed by the generic compatible
++    enum:
++      - lvds-encoder
++
++  ports:
++    type: object
++    description: |
++      This device has two video ports. Their connections are modeled using the
++      OF graph bindings specified in Documentation/devicetree/bindings/graph.txt
++    properties:
++      port@0:
++        type: object
++        description: |
++          Port 0 is for parallel input
++
++      port@1:
++        type: object
++        description: |
++          Port 1 is for LVDS output
++
++    required:
++      - port@0
++      - port@1
++
++required:
++  - compatible
++  - ports
++
++examples:
++  - |
++    lvds-encoder {
++      compatible = "lvds-encoder";
++
++      ports {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        port@0 {
++          reg = <0>;
++
++          lvds_enc_in: endpoint {
++            remote-endpoint = <&display_out_rgb>;
++          };
++        };
++
++        port@1 {
++          reg = <1>;
++
++          lvds_enc_out: endpoint {
++            remote-endpoint = <&lvds_panel_in>;
++          };
++        };
++      };
++    };
++
++...
 -- 
 2.7.4
 
