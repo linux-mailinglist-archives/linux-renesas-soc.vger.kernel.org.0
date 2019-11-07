@@ -2,193 +2,511 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 75E8DF36B5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 19:12:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FC1EF36E3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 19:17:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725797AbfKGSMN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 Nov 2019 13:12:13 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:60140 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726049AbfKGSMN (ORCPT
+        id S1725710AbfKGSRg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 7 Nov 2019 13:17:36 -0500
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:58943 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727735AbfKGSRd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 Nov 2019 13:12:13 -0500
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5AA3C99A;
-        Thu,  7 Nov 2019 19:12:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1573150330;
-        bh=qY+9wqw2HKjEleKyepixfIuCgZVEoPDFaahUGDwjj9U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IalNoteqDBi42927UGCCa5rhXplV5XO4SMZO08+97RIpbJNDkQp1a58JXQWsNGqgD
-         +vkONog7X97rmGJ3qI+EKSiMHpRp37v2qUoIL3ZELdg1ps5R7cSfpKdRe4v+W2l1oi
-         GW2j+y11mkyXk7NPXpA2fC+WzoKQrma0CRlv1D3U=
-Date:   Thu, 7 Nov 2019 20:12:00 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Thu, 7 Nov 2019 13:17:33 -0500
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 52CC8C0005;
+        Thu,  7 Nov 2019 18:17:22 +0000 (UTC)
+Date:   Thu, 7 Nov 2019 19:19:20 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
+Cc:     Neil Armstrong <narmstrong@baylibre.com>,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Simon Horman <horms@verge.net.au>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Simon Horman <horms@verge.net.au>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Peter Rosin <peda@axentia.se>, dri-devel@lists.freedesktop.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        linux-renesas-soc@vger.kernel.org,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: Re: [PATCH v3 2/8] dt-bindings: display: Add idk-2121wr binding
-Message-ID: <20191107181200.GB24231@pendragon.ideasonboard.com>
-References: <1567017402-5895-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1567017402-5895-3-git-send-email-fabrizio.castro@bp.renesas.com>
+Subject: Re: [PATCH v2 1/4] drm/bridge: Repurpose lvds-encoder.c
+Message-ID: <20191107181920.yh2suj3e2gra3iip@uno.localdomain>
+References: <1572886683-4919-1-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1572886683-4919-2-git-send-email-fabrizio.castro@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="2jd77g337ufxysbc"
 Content-Disposition: inline
-In-Reply-To: <1567017402-5895-3-git-send-email-fabrizio.castro@bp.renesas.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1572886683-4919-2-git-send-email-fabrizio.castro@bp.renesas.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+
+--2jd77g337ufxysbc
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
 Hi Fabrizio,
+  thanks for the patch.
 
-Thank you for the patch.
-
-On Wed, Aug 28, 2019 at 07:36:36PM +0100, Fabrizio Castro wrote:
-> Add binding for the idk-2121wr LVDS panel from Advantech.
-> 
-> Some panel-specific documentation can be found here:
-> https://buy.advantech.eu/Displays/Embedded-LCD-Kits-High-Brightness/model-IDK-2121WR-K2FHA2E.htm
-> 
+On Mon, Nov 04, 2019 at 04:58:00PM +0000, Fabrizio Castro wrote:
+> lvds-encoder.c implementation is also suitable for LVDS decoders,
+> not just LVDS encoders.
+> Instead of creating a new driver for addressing support for
+> transparent LVDS decoders, repurpose lvds-encoder.c for the greater
+> good.
+>
 > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> 
+>
 > ---
-> v2->v3:
-> * new patch
+> v1->v2:
+> * No change
 > ---
->  .../display/panel/advantech,idk-2121wr.yaml        | 90 ++++++++++++++++++++++
->  1 file changed, 90 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml b/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
+>  drivers/gpu/drm/bridge/Kconfig        |   8 +-
+>  drivers/gpu/drm/bridge/Makefile       |   2 +-
+>  drivers/gpu/drm/bridge/lvds-codec.c   | 169 ++++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/bridge/lvds-encoder.c | 155 -------------------------------
+>  4 files changed, 174 insertions(+), 160 deletions(-)
+>  create mode 100644 drivers/gpu/drm/bridge/lvds-codec.c
+>  delete mode 100644 drivers/gpu/drm/bridge/lvds-encoder.c
+>
+> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> index 3436297..9e75ca4e 100644
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -45,14 +45,14 @@ config DRM_DUMB_VGA_DAC
+>  	  Support for non-programmable RGB to VGA DAC bridges, such as ADI
+>  	  ADV7123, TI THS8134 and THS8135 or passive resistor ladder DACs.
+>
+> -config DRM_LVDS_ENCODER
+> -	tristate "Transparent parallel to LVDS encoder support"
+> +config DRM_LVDS_CODEC
+> +	tristate "Transparent LVDS encoders and decoders support"
+>  	depends on OF
+>  	select DRM_KMS_HELPER
+>  	select DRM_PANEL_BRIDGE
+>  	help
+> -	  Support for transparent parallel to LVDS encoders that don't require
+> -	  any configuration.
+> +	  Support for transparent LVDS encoders and LVDS decoders that don't
+> +	  require any configuration.
+>
+>  config DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW
+>  	tristate "MegaChips stdp4028-ge-b850v3-fw and stdp2690-ge-b850v3-fw"
+> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
+> index 4934fcf..8a9178a 100644
+> --- a/drivers/gpu/drm/bridge/Makefile
+> +++ b/drivers/gpu/drm/bridge/Makefile
+> @@ -2,7 +2,7 @@
+>  obj-$(CONFIG_DRM_ANALOGIX_ANX78XX) += analogix-anx78xx.o
+>  obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
+>  obj-$(CONFIG_DRM_DUMB_VGA_DAC) += dumb-vga-dac.o
+> -obj-$(CONFIG_DRM_LVDS_ENCODER) += lvds-encoder.o
+> +obj-$(CONFIG_DRM_LVDS_CODEC) += lvds-codec.o
+>  obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
+>  obj-$(CONFIG_DRM_NXP_PTN3460) += nxp-ptn3460.o
+>  obj-$(CONFIG_DRM_PARADE_PS8622) += parade-ps8622.o
+> diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
 > new file mode 100644
-> index 0000000..b2ccdc8
+> index 0000000..8a1979c
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
-> @@ -0,0 +1,90 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/advantech,idk-2121wr.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/drivers/gpu/drm/bridge/lvds-codec.c
+> @@ -0,0 +1,169 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Copyright (C) 2016 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> + */
 > +
-> +title: Advantech IDK-2121WR 21.5" Full-HD dual-LVDS panel
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_device.h>
+> +#include <linux/of_graph.h>
+> +#include <linux/platform_device.h>
 > +
-> +maintainers:
-> +  - Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> +  - Thierry Reding <thierry.reding@gmail.com>
+> +#include <drm/drm_bridge.h>
+> +#include <drm/drm_panel.h>
 > +
-> +description: |
-> +  The IDK-2121WR from Advantech is a Full-HD dual-LVDS panel.
+> +struct lvds_codec {
+> +	struct drm_bridge bridge;
+> +	struct drm_bridge *panel_bridge;
+> +	struct gpio_desc *powerdown_gpio;
+> +	u32 connector_type;
+> +};
 > +
-> +  The panels expects odd pixels from the first port, and even pixels from
+> +static int lvds_codec_attach(struct drm_bridge *bridge)
+> +{
+> +	struct lvds_codec *lvds_codec = container_of(bridge,
+> +							 struct lvds_codec,
+> +							 bridge);
+> +
 
-s/panels/panel/
-Maybe s/from the/on the/g ?
+Weird indentation. Align to open ( to match the rest of the driver's
+style.
 
-> +  the second port, therefore the ports must be marked accordingly.
+> +	return drm_bridge_attach(bridge->encoder, lvds_codec->panel_bridge,
+> +				 bridge);
+> +}
 > +
-> +allOf:
-> +  - $ref: lvds.yaml#
-> +  - $ref: ../bus-timings/lvds.yaml#
+> +static void lvds_codec_enable(struct drm_bridge *bridge)
+> +{
+> +	struct lvds_codec *lvds_codec = container_of(bridge,
+> +							 struct lvds_codec,
+> +							 bridge);
 > +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - const: advantech,idk-2121wr
-> +      - {} # panel-lvds, but not listed here to avoid false select
-> +
-> +  data-mapping:
-> +    const: vesa-24
-> +
-> +  width-mm:
-> +    const: 476
-> +
-> +  height-mm:
-> +    const: 268
-> +
-> +  panel-timing: true
-> +  ports: true
-> +
-> +additionalProperties: false
-> +
-> +required:
-> +  - compatible
 
-Shouldn't data-mapping, width-mm, height-mm and ports be required too ?
+Here too
 
-As you mentioned in the cover letter, validating ports, port and the new
-dual-lvds-*-pixels properties would be nice. I'm not YAML schema
-specialist, so I'm fine with a best effort approach here, but as far as
-I understand Rob proposed a way forward, could you try it ?
+> +	if (lvds_codec->powerdown_gpio)
+> +		gpiod_set_value_cansleep(lvds_codec->powerdown_gpio, 0);
+> +}
+> +
+> +static void lvds_codec_disable(struct drm_bridge *bridge)
+> +{
+> +	struct lvds_codec *lvds_codec = container_of(bridge,
+> +							 struct lvds_codec,
+> +							 bridge);
+> +
+> +	if (lvds_codec->powerdown_gpio)
+> +		gpiod_set_value_cansleep(lvds_codec->powerdown_gpio, 1);
+> +}
+> +
+> +static struct drm_bridge_funcs funcs = {
+> +	.attach = lvds_codec_attach,
+> +	.enable = lvds_codec_enable,
+> +	.disable = lvds_codec_disable,
+> +};
+> +
+> +static int lvds_codec_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct device_node *port;
+> +	struct device_node *endpoint;
+> +	struct device_node *panel_node;
+> +	struct drm_panel *panel;
+> +	struct lvds_codec *lvds_codec;
+> +
+> +	lvds_codec = devm_kzalloc(dev, sizeof(*lvds_codec), GFP_KERNEL);
+> +	if (!lvds_codec)
+> +		return -ENOMEM;
+> +
+> +	lvds_codec->connector_type = (u32)
+> +		of_device_get_match_data(&pdev->dev);
 
-Apart from that, the bindings look sne to me, so
+Fits in 1 line
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> +	lvds_codec->powerdown_gpio = devm_gpiod_get_optional(dev, "powerdown",
+> +							       GPIOD_OUT_HIGH);
+> +	if (IS_ERR(lvds_codec->powerdown_gpio)) {
+> +		int err = PTR_ERR(lvds_codec->powerdown_gpio);
+> +
+> +		if (err != -EPROBE_DEFER)
+> +			dev_err(dev, "powerdown GPIO failure: %d\n", err);
+> +		return err;
 
-once the above issues get addressed.
+I know it was there already, but this seems a bit unusual for the
+minimal gain of having a printout in the very unlikely case the
+gpiod_get() operations fails. I would just return PTR_ERR().
+
+> +	}
+> +
+> +	/* Locate the panel DT node. */
+> +	port = of_graph_get_port_by_id(dev->of_node, 1);
+> +	if (!port) {
+> +		dev_dbg(dev, "port 1 not found\n");
+> +		return -ENXIO;
+> +	}
+> +
+> +	endpoint = of_get_child_by_name(port, "endpoint");
+> +	of_node_put(port);
+> +	if (!endpoint) {
+> +		dev_dbg(dev, "no endpoint for port 1\n");
+> +		return -ENXIO;
+> +	}
+
+I know it was there already, but this could be simplified with
+of_graph_get_endpoint_by_regs()
+> +
+> +	panel_node = of_graph_get_remote_port_parent(endpoint);
+> +	of_node_put(endpoint);
+> +	if (!panel_node) {
+> +		dev_dbg(dev, "no remote endpoint for port 1\n");
+> +		return -ENXIO;
+> +	}
+
+Or even better, simplify these three with of_graph_get_remote_node()
 
 > +
-> +examples:
-> +  - |+
-> +    panel-lvds {
-> +      compatible = "advantech,idk-2121wr", "panel-lvds";
+> +	panel = of_drm_find_panel(panel_node);
+> +	of_node_put(panel_node);
+> +	if (IS_ERR(panel)) {
+> +		dev_dbg(dev, "panel not found, deferring probe\n");
+> +		return PTR_ERR(panel);
+> +	}
 > +
-> +      width-mm = <476>;
-> +      height-mm = <268>;
-> +
-> +      data-mapping = "vesa-24";
-> +
-> +      panel-timing {
-> +        clock-frequency = <148500000>;
-> +        hactive = <1920>;
-> +        vactive = <1080>;
-> +        hsync-len = <44>;
-> +        hfront-porch = <88>;
-> +        hback-porch = <148>;
-> +        vfront-porch = <4>;
-> +        vback-porch = <36>;
-> +        vsync-len = <5>;
-> +      };
-> +
-> +      ports {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        port@0 {
-> +          reg = <0>;
-> +          dual-lvds-odd-pixels;
-> +          panel_in0: endpoint {
-> +            remote-endpoint = <&lvds0_out>;
-> +          };
-> +        };
-> +
-> +        port@1 {
-> +          reg = <1>;
-> +          dual-lvds-even-pixels;
-> +          panel_in1: endpoint {
-> +            remote-endpoint = <&lvds1_out>;
-> +          };
-> +        };
-> +      };
-> +    };
-> +
-> +...
+> +	lvds_codec->panel_bridge =
+> +		devm_drm_panel_bridge_add_typed(dev, panel,
+> +						lvds_codec->connector_type);
 
--- 
-Regards,
+The function documentation reports this as deprecated and suggested to
+use the non-typed version. Do you think it could work for this new
+codec driver ?
 
-Laurent Pinchart
+> +	if (IS_ERR(lvds_codec->panel_bridge))
+> +		return PTR_ERR(lvds_codec->panel_bridge);
+> +
+> +	/* The panel_bridge bridge is attached to the panel's of_node,
+> +	 * but we need a bridge attached to our of_node for our user
+> +	 * to look up.
+> +	 */
+> +	lvds_codec->bridge.of_node = dev->of_node;
+> +	lvds_codec->bridge.funcs = &funcs;
+> +	drm_bridge_add(&lvds_codec->bridge);
+> +
+> +	platform_set_drvdata(pdev, lvds_codec);
+> +
+> +	return 0;
+> +}
+> +
+> +static int lvds_codec_remove(struct platform_device *pdev)
+> +{
+> +	struct lvds_codec *lvds_codec = platform_get_drvdata(pdev);
+> +
+> +	drm_bridge_remove(&lvds_codec->bridge);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id lvds_codec_match[] = {
+> +	{
+> +		.compatible = "lvds-encoder",
+> +		.data = (void *)DRM_MODE_CONNECTOR_LVDS
+
+In case you for for drm_panel_bridge_add() you could drop the type
+
+> +	},
+> +	{
+> +		.compatible = "thine,thc63lvdm83d",
+> +		.data = (void *)DRM_MODE_CONNECTOR_LVDS,
+> +	},
+> +	{
+> +		.compatible = "lvds-decoder",
+> +		.data = (void *)DRM_MODE_CONNECTOR_Unknown,
+> +	},
+
+Which decoder are you using? This is a generic fallback, but I would
+expect compatible for a real device to appear in DTS.
+
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(of, lvds_codec_match);
+> +
+> +static struct platform_driver lvds_codec_driver = {
+> +	.probe	= lvds_codec_probe,
+> +	.remove	= lvds_codec_remove,
+> +	.driver		= {
+> +		.name		= "lvds-codec",
+> +		.of_match_table	= lvds_codec_match,
+> +	},
+> +};
+> +module_platform_driver(lvds_codec_driver);
+> +
+> +MODULE_AUTHOR("Laurent Pinchart <laurent.pinchart@ideasonboard.com>");
+> +MODULE_DESCRIPTION("Driver for transparent LVDS encoders and LVDS decoders");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/gpu/drm/bridge/lvds-encoder.c b/drivers/gpu/drm/bridge/lvds-encoder.c
+> deleted file mode 100644
+> index e2132a8..0000000
+> --- a/drivers/gpu/drm/bridge/lvds-encoder.c
+> +++ /dev/null
+> @@ -1,155 +0,0 @@
+> -// SPDX-License-Identifier: GPL-2.0-or-later
+> -/*
+> - * Copyright (C) 2016 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> - */
+> -
+> -#include <linux/gpio/consumer.h>
+> -#include <linux/module.h>
+> -#include <linux/of.h>
+> -#include <linux/of_graph.h>
+> -#include <linux/platform_device.h>
+> -
+> -#include <drm/drm_bridge.h>
+> -#include <drm/drm_panel.h>
+> -
+> -struct lvds_encoder {
+> -	struct drm_bridge bridge;
+> -	struct drm_bridge *panel_bridge;
+> -	struct gpio_desc *powerdown_gpio;
+> -};
+> -
+> -static int lvds_encoder_attach(struct drm_bridge *bridge)
+> -{
+> -	struct lvds_encoder *lvds_encoder = container_of(bridge,
+> -							 struct lvds_encoder,
+> -							 bridge);
+> -
+> -	return drm_bridge_attach(bridge->encoder, lvds_encoder->panel_bridge,
+> -				 bridge);
+> -}
+> -
+> -static void lvds_encoder_enable(struct drm_bridge *bridge)
+> -{
+> -	struct lvds_encoder *lvds_encoder = container_of(bridge,
+> -							 struct lvds_encoder,
+> -							 bridge);
+> -
+> -	if (lvds_encoder->powerdown_gpio)
+> -		gpiod_set_value_cansleep(lvds_encoder->powerdown_gpio, 0);
+> -}
+> -
+> -static void lvds_encoder_disable(struct drm_bridge *bridge)
+> -{
+> -	struct lvds_encoder *lvds_encoder = container_of(bridge,
+> -							 struct lvds_encoder,
+> -							 bridge);
+> -
+> -	if (lvds_encoder->powerdown_gpio)
+> -		gpiod_set_value_cansleep(lvds_encoder->powerdown_gpio, 1);
+> -}
+> -
+> -static struct drm_bridge_funcs funcs = {
+> -	.attach = lvds_encoder_attach,
+> -	.enable = lvds_encoder_enable,
+> -	.disable = lvds_encoder_disable,
+> -};
+> -
+> -static int lvds_encoder_probe(struct platform_device *pdev)
+> -{
+> -	struct device *dev = &pdev->dev;
+> -	struct device_node *port;
+> -	struct device_node *endpoint;
+> -	struct device_node *panel_node;
+> -	struct drm_panel *panel;
+> -	struct lvds_encoder *lvds_encoder;
+> -
+> -	lvds_encoder = devm_kzalloc(dev, sizeof(*lvds_encoder), GFP_KERNEL);
+> -	if (!lvds_encoder)
+> -		return -ENOMEM;
+> -
+> -	lvds_encoder->powerdown_gpio = devm_gpiod_get_optional(dev, "powerdown",
+> -							       GPIOD_OUT_HIGH);
+> -	if (IS_ERR(lvds_encoder->powerdown_gpio)) {
+> -		int err = PTR_ERR(lvds_encoder->powerdown_gpio);
+> -
+> -		if (err != -EPROBE_DEFER)
+> -			dev_err(dev, "powerdown GPIO failure: %d\n", err);
+> -		return err;
+> -	}
+> -
+> -	/* Locate the panel DT node. */
+> -	port = of_graph_get_port_by_id(dev->of_node, 1);
+> -	if (!port) {
+> -		dev_dbg(dev, "port 1 not found\n");
+> -		return -ENXIO;
+> -	}
+> -
+> -	endpoint = of_get_child_by_name(port, "endpoint");
+> -	of_node_put(port);
+> -	if (!endpoint) {
+> -		dev_dbg(dev, "no endpoint for port 1\n");
+> -		return -ENXIO;
+> -	}
+> -
+> -	panel_node = of_graph_get_remote_port_parent(endpoint);
+> -	of_node_put(endpoint);
+> -	if (!panel_node) {
+> -		dev_dbg(dev, "no remote endpoint for port 1\n");
+> -		return -ENXIO;
+> -	}
+> -
+> -	panel = of_drm_find_panel(panel_node);
+> -	of_node_put(panel_node);
+> -	if (IS_ERR(panel)) {
+> -		dev_dbg(dev, "panel not found, deferring probe\n");
+> -		return PTR_ERR(panel);
+> -	}
+> -
+> -	lvds_encoder->panel_bridge =
+> -		devm_drm_panel_bridge_add_typed(dev, panel,
+> -						DRM_MODE_CONNECTOR_LVDS);
+> -	if (IS_ERR(lvds_encoder->panel_bridge))
+> -		return PTR_ERR(lvds_encoder->panel_bridge);
+> -
+> -	/* The panel_bridge bridge is attached to the panel's of_node,
+> -	 * but we need a bridge attached to our of_node for our user
+> -	 * to look up.
+> -	 */
+> -	lvds_encoder->bridge.of_node = dev->of_node;
+> -	lvds_encoder->bridge.funcs = &funcs;
+> -	drm_bridge_add(&lvds_encoder->bridge);
+> -
+> -	platform_set_drvdata(pdev, lvds_encoder);
+> -
+> -	return 0;
+> -}
+> -
+> -static int lvds_encoder_remove(struct platform_device *pdev)
+> -{
+> -	struct lvds_encoder *lvds_encoder = platform_get_drvdata(pdev);
+> -
+> -	drm_bridge_remove(&lvds_encoder->bridge);
+> -
+> -	return 0;
+> -}
+> -
+> -static const struct of_device_id lvds_encoder_match[] = {
+> -	{ .compatible = "lvds-encoder" },
+> -	{ .compatible = "thine,thc63lvdm83d" },
+> -	{},
+> -};
+> -MODULE_DEVICE_TABLE(of, lvds_encoder_match);
+> -
+> -static struct platform_driver lvds_encoder_driver = {
+> -	.probe	= lvds_encoder_probe,
+> -	.remove	= lvds_encoder_remove,
+> -	.driver		= {
+> -		.name		= "lvds-encoder",
+> -		.of_match_table	= lvds_encoder_match,
+> -	},
+> -};
+> -module_platform_driver(lvds_encoder_driver);
+> -
+> -MODULE_AUTHOR("Laurent Pinchart <laurent.pinchart@ideasonboard.com>");
+> -MODULE_DESCRIPTION("Transparent parallel to LVDS encoder");
+> -MODULE_LICENSE("GPL");
+> --
+> 2.7.4
+>
+
+--2jd77g337ufxysbc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl3EYCgACgkQcjQGjxah
+Vjxzhg/7BbE1IZa6VF7Kjxsk7oQ0LxV0jzMTIvG4Lx1In/fwgK5hrZnq4XGH/W4P
+8NOlsphwFZRPjsd/NX4twd2ssocfsmgKnlaDm3dCVW2SA4k2RHHx1B2W7PKzlWxz
+3KXFqlg1Qz8dzJ6tYpvdi8mdQuGnQwl/9PZrjQH+/qJoZ7J7DeJlEWbqnlJTUjTK
+SAxOxOwwsxye88tgclbDVOsAmW7wL56iXK7rFBX6ZgRbZgtbduoJg+qVxLPnJ2JI
++r3kW9v9DGaQa12zNe7Wdq5jf2HPbxz1vL5ZxpSfVLZeBPAVwiziMS31FqSI9ViS
+ttXe5XO+lI74NIfihrFvE0WlfE1D9ct09wmm2AqyTGTdJ4PTL4pWkdidGXTJukUR
+6uu3n+SEK2ur1EOcOTR4d9lJkDz2hGhwaapS6STw0STTdAPvBEoORAwcZvgoME3o
+tKAbbNg8TLcuVLh1B/PRcHWazCwmLD7UUHeFXODYSlMAu1LWNsQ1jcWJvZyaasvy
+/1akUG2HJxbp1mhRhPmNlgxyTAsKibVjun4RzAwSpKfNuVH39O9e6m0/p50PqSJf
+jclkaBibVvcsrLgkZfccYOHwX7WIgkeDhRS5joRtM6k9uFajOHIXbLeZinxcFTAl
+Iv2jtlJeGDnFDTDy5IUBZ4WI6dKB7wnZHfe7sutbvQQRS0VXPek=
+=RN/1
+-----END PGP SIGNATURE-----
+
+--2jd77g337ufxysbc--
