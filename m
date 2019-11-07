@@ -2,511 +2,348 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FC1EF36E3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 19:17:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F1D9F3889
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 20:26:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725710AbfKGSRg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 Nov 2019 13:17:36 -0500
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:58943 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727735AbfKGSRd (ORCPT
+        id S1725818AbfKGT0e (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 7 Nov 2019 14:26:34 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:60824 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725785AbfKGT0e (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 Nov 2019 13:17:33 -0500
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 52CC8C0005;
-        Thu,  7 Nov 2019 18:17:22 +0000 (UTC)
-Date:   Thu, 7 Nov 2019 19:19:20 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
+        Thu, 7 Nov 2019 14:26:34 -0500
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C3E7971D;
+        Thu,  7 Nov 2019 20:26:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1573154791;
+        bh=BTjvrnkouWPguQyJ5E5PL72S3gkRE72vanKVV4Lz0HY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HFW77gimpx+nQZiUUzjKYt4Boqsz8CFp7kaCMQjJJCjHaUkosan5zswJZIcVbuQCB
+         8Sp4mVGgsdFy0A6YE3rvMcI9lcvBJxUQSLyxO9XqjLCV1oS7+V/nWOAxbtd0g+I8D6
+         I9p4JYi9j/OChFuJYYK97Gyfw/AxfDzPl0Ll9x7U=
+Date:   Thu, 7 Nov 2019 21:26:21 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Neil Armstrong <narmstrong@baylibre.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Simon Horman <horms@verge.net.au>,
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, Simon Horman <horms@verge.net.au>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Peter Rosin <peda@axentia.se>, dri-devel@lists.freedesktop.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: Re: [PATCH v2 1/4] drm/bridge: Repurpose lvds-encoder.c
-Message-ID: <20191107181920.yh2suj3e2gra3iip@uno.localdomain>
-References: <1572886683-4919-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1572886683-4919-2-git-send-email-fabrizio.castro@bp.renesas.com>
+        Jacopo Mondi <jacopo+renesas@jmondi.org>, sam@ravnborg.org
+Subject: Re: [PATCH v3 3/8] drm: Add bus timings helper
+Message-ID: <20191107192621.GH24983@pendragon.ideasonboard.com>
+References: <1567017402-5895-1-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1567017402-5895-4-git-send-email-fabrizio.castro@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="2jd77g337ufxysbc"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1572886683-4919-2-git-send-email-fabrizio.castro@bp.renesas.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <1567017402-5895-4-git-send-email-fabrizio.castro@bp.renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-
---2jd77g337ufxysbc
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
 Hi Fabrizio,
-  thanks for the patch.
 
-On Mon, Nov 04, 2019 at 04:58:00PM +0000, Fabrizio Castro wrote:
-> lvds-encoder.c implementation is also suitable for LVDS decoders,
-> not just LVDS encoders.
-> Instead of creating a new driver for addressing support for
-> transparent LVDS decoders, repurpose lvds-encoder.c for the greater
-> good.
->
+Thank you for the patch.
+
+On Wed, Aug 28, 2019 at 07:36:37PM +0100, Fabrizio Castro wrote:
+> Helper to provide bus timing information.
+
+You may want to expand this a bit. And actually fix it too, as the
+helper you introduce isn't related to timings (same for the subject
+line).
+
 > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
->
+> 
 > ---
-> v1->v2:
-> * No change
+> v2->v3:
+> * new patch
 > ---
->  drivers/gpu/drm/bridge/Kconfig        |   8 +-
->  drivers/gpu/drm/bridge/Makefile       |   2 +-
->  drivers/gpu/drm/bridge/lvds-codec.c   | 169 ++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/bridge/lvds-encoder.c | 155 -------------------------------
->  4 files changed, 174 insertions(+), 160 deletions(-)
->  create mode 100644 drivers/gpu/drm/bridge/lvds-codec.c
->  delete mode 100644 drivers/gpu/drm/bridge/lvds-encoder.c
->
-> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
-> index 3436297..9e75ca4e 100644
-> --- a/drivers/gpu/drm/bridge/Kconfig
-> +++ b/drivers/gpu/drm/bridge/Kconfig
-> @@ -45,14 +45,14 @@ config DRM_DUMB_VGA_DAC
->  	  Support for non-programmable RGB to VGA DAC bridges, such as ADI
->  	  ADV7123, TI THS8134 and THS8135 or passive resistor ladder DACs.
->
-> -config DRM_LVDS_ENCODER
-> -	tristate "Transparent parallel to LVDS encoder support"
-> +config DRM_LVDS_CODEC
-> +	tristate "Transparent LVDS encoders and decoders support"
->  	depends on OF
->  	select DRM_KMS_HELPER
->  	select DRM_PANEL_BRIDGE
->  	help
-> -	  Support for transparent parallel to LVDS encoders that don't require
-> -	  any configuration.
-> +	  Support for transparent LVDS encoders and LVDS decoders that don't
-> +	  require any configuration.
->
->  config DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW
->  	tristate "MegaChips stdp4028-ge-b850v3-fw and stdp2690-ge-b850v3-fw"
-> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
-> index 4934fcf..8a9178a 100644
-> --- a/drivers/gpu/drm/bridge/Makefile
-> +++ b/drivers/gpu/drm/bridge/Makefile
-> @@ -2,7 +2,7 @@
->  obj-$(CONFIG_DRM_ANALOGIX_ANX78XX) += analogix-anx78xx.o
->  obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
->  obj-$(CONFIG_DRM_DUMB_VGA_DAC) += dumb-vga-dac.o
-> -obj-$(CONFIG_DRM_LVDS_ENCODER) += lvds-encoder.o
-> +obj-$(CONFIG_DRM_LVDS_CODEC) += lvds-codec.o
->  obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
->  obj-$(CONFIG_DRM_NXP_PTN3460) += nxp-ptn3460.o
->  obj-$(CONFIG_DRM_PARADE_PS8622) += parade-ps8622.o
-> diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
+>  drivers/gpu/drm/Makefile          |  3 +-
+>  drivers/gpu/drm/drm_bus_timings.c | 97 +++++++++++++++++++++++++++++++++++++++
+>  include/drm/drm_bus_timings.h     | 21 +++++++++
+>  3 files changed, 120 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/gpu/drm/drm_bus_timings.c
+>  create mode 100644 include/drm/drm_bus_timings.h
+> 
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 9f0d2ee..a270063 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -17,7 +17,8 @@ drm-y       :=	drm_auth.o drm_cache.o \
+>  		drm_plane.o drm_color_mgmt.o drm_print.o \
+>  		drm_dumb_buffers.o drm_mode_config.o drm_vblank.o \
+>  		drm_syncobj.o drm_lease.o drm_writeback.o drm_client.o \
+> -		drm_client_modeset.o drm_atomic_uapi.o drm_hdcp.o
+> +		drm_client_modeset.o drm_atomic_uapi.o drm_hdcp.o \
+> +		drm_bus_timings.o
+>  
+>  drm-$(CONFIG_DRM_LEGACY) += drm_legacy_misc.o drm_bufs.o drm_context.o drm_dma.o drm_scatter.o drm_lock.o
+>  drm-$(CONFIG_DRM_LIB_RANDOM) += lib/drm_random.o
+> diff --git a/drivers/gpu/drm/drm_bus_timings.c b/drivers/gpu/drm/drm_bus_timings.c
 > new file mode 100644
-> index 0000000..8a1979c
+> index 0000000..e2ecd22
 > --- /dev/null
-> +++ b/drivers/gpu/drm/bridge/lvds-codec.c
-> @@ -0,0 +1,169 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Copyright (C) 2016 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> + */
-> +
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_device.h>
+> +++ b/drivers/gpu/drm/drm_bus_timings.c
+> @@ -0,0 +1,97 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +#include <drm/drm_bus_timings.h>
+> +#include <linux/errno.h>
 > +#include <linux/of_graph.h>
-> +#include <linux/platform_device.h>
+> +#include <linux/of.h>
+> +#include <linux/types.h>
 > +
-> +#include <drm/drm_bridge.h>
-> +#include <drm/drm_panel.h>
+> +#define DRM_OF_LVDS_ODD		1
+> +#define DRM_OF_LVDS_EVEN	2
 > +
-> +struct lvds_codec {
-> +	struct drm_bridge bridge;
-> +	struct drm_bridge *panel_bridge;
-> +	struct gpio_desc *powerdown_gpio;
-> +	u32 connector_type;
-> +};
-> +
-> +static int lvds_codec_attach(struct drm_bridge *bridge)
+> +static int drm_of_lvds_get_port_pixels_type(struct device_node *port_node)
 > +{
-> +	struct lvds_codec *lvds_codec = container_of(bridge,
-> +							 struct lvds_codec,
-> +							 bridge);
+> +	bool even_pixels, odd_pixels;
 > +
+> +	even_pixels = of_property_read_bool(port_node, "dual-lvds-even-pixels");
+> +	odd_pixels = of_property_read_bool(port_node, "dual-lvds-odd-pixels");
+> +	return  even_pixels * DRM_OF_LVDS_EVEN + odd_pixels * DRM_OF_LVDS_ODD;
 
-Weird indentation. Align to open ( to match the rest of the driver's
-style.
+s/  / /
 
-> +	return drm_bridge_attach(bridge->encoder, lvds_codec->panel_bridge,
-> +				 bridge);
+But I would make these bitflags.
+
+enum drm_of_lvds_pixels {
+	DRM_OF_LVDS_EVEN = BIT(0),
+	DRM_OF_LVDS_ODD = BIT(1),
+};
+
+static int drm_of_lvds_get_port_pixels_type(struct device_node *port)
+{
+	bool even_pixels = of_property_read_bool(port, "dual-lvds-even-pixels");
+	bool odd_pixels = of_property_read_bool(port, "dual-lvds-odd-pixels");
+
+	return (even_pixels ? DRM_OF_LVDS_EVEN : 0) |
+	       (odd_pixels ? DRM_OF_LVDS_ODD : 0);
+}
+
 > +}
 > +
-> +static void lvds_codec_enable(struct drm_bridge *bridge)
+> +/**
+> + * drm_of_lvds_get_dual_link_configuration - get the dual-LVDS configuration
+
+Should we name this drm_of_lvds_get_dual_link_pixel_order to better
+reflect its purpose ?
+
+> + * @p1: device tree node corresponding to the first port of the source
+> + * @p2: device tree node corresponding to the second port of the source
+
+Maybe port1 and port2 to make this more explicit ?
+
+> + *
+> + * An LVDS dual-link bus is made of two connections, even pixels transit on one
+> + * connection, and odd pixels transit on the other connection.
+
+To match the DT bindings documentation, I would recommand
+
+"An LVDS dual-link connection is made of two links, with even pixels
+transitting on one link, and odd pixels on the other link."
+
+> + * This function walks the DT (from the source ports to the sink ports) looking
+> + * for a dual-LVDS bus. A dual-LVDS bus is identfied by markers found on the DT
+> + * ports of the sink device(s). If such a bus is found, this function returns
+> + * its configuration (either p1 connected to the even pixels port and p2
+> + * connected to the odd pixels port, or p1 connected to the odd pixels port and
+> + * p2 connected to the even pixels port).
+
+"walking the DT" sounds like the function goes through the whole graph.
+How about the following ?
+
+/**
+ * drm_of_lvds_get_dual_link_pixel_order - Get LVDS dual-link pixel order
+ * @port1: First DT port node of the Dual-link LVDS source
+ * @port2: Second DT port node of the Dual-link LVDS source
+ *
+ * An LVDS dual-link connection is made of two links, with even pixels
+ * transitting on one link, and odd pixels on the other link. This function
+ * returns, for two ports of an LVDS dual-link source, which port shall transmit
+ * the even and off pixels, based on the requirements of the connected sink.
+ *
+ * The pixel order is determined from the dual-lvds-even-pixels and
+ * dual-lvds-odd-pixels properties in the sink's DT port nodes. If those
+ * properties are not present, or if their usage is not valid, this function
+ * returns -EINVAL.
+ *
+ * @port1 and @port2 are typically DT sibling nodes, but may have different
+ * parents when, for instance, two separate LVDS encoders carry the even and odd
+ * pixels.
+ *
+ * Return:
+ * * DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS - @port1 carries even pixels and @port2
+ *   carries odd pixels
+ * * DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS - @port1 carries odd pixels and @port1
+ *   carries even pixels
+ * * -EINVAL - @port1 and @port2 are not connected to a dual-link LVDS sink, or
+ *   the sink configuration is invalid
+ */
+
+We could also add -EPIPE as a return code for the case where port1 or
+port2 are not connected.
+
+> + *
+> + * Return: A code describing the bus configuration when a valid dual-LVDS bus is
+> + * found, or an error code when no valid dual-LVDS bus is found
+> + *
+> + * Possible codes for the bus configuration are:
+> + *
+> + * - DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS: when p1 is connected to the even pixels
+> + *   port and p2 is connected to the odd pixels port
+> + * - DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS: when p1 is connected to the odd pixels
+> + *   port and p2 is connected to the even pixels port
+> + *
+> + */
+> +int drm_of_lvds_get_dual_link_configuration(const struct device_node *p1,
+> +					    const struct device_node *p2)
 > +{
-> +	struct lvds_codec *lvds_codec = container_of(bridge,
-> +							 struct lvds_codec,
-> +							 bridge);
-> +
+> +	struct device_node *remote_p1 = NULL, *remote_p2 = NULL;
+> +	struct device_node *parent_p1 = NULL, *parent_p2 = NULL;
 
-Here too
+There's no need to initialize those two variables.
 
-> +	if (lvds_codec->powerdown_gpio)
-> +		gpiod_set_value_cansleep(lvds_codec->powerdown_gpio, 0);
-> +}
-> +
-> +static void lvds_codec_disable(struct drm_bridge *bridge)
-> +{
-> +	struct lvds_codec *lvds_codec = container_of(bridge,
-> +							 struct lvds_codec,
-> +							 bridge);
-> +
-> +	if (lvds_codec->powerdown_gpio)
-> +		gpiod_set_value_cansleep(lvds_codec->powerdown_gpio, 1);
-> +}
-> +
-> +static struct drm_bridge_funcs funcs = {
-> +	.attach = lvds_codec_attach,
-> +	.enable = lvds_codec_enable,
-> +	.disable = lvds_codec_disable,
-> +};
-> +
-> +static int lvds_codec_probe(struct platform_device *pdev)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct device_node *port;
-> +	struct device_node *endpoint;
-> +	struct device_node *panel_node;
-> +	struct drm_panel *panel;
-> +	struct lvds_codec *lvds_codec;
-> +
-> +	lvds_codec = devm_kzalloc(dev, sizeof(*lvds_codec), GFP_KERNEL);
-> +	if (!lvds_codec)
-> +		return -ENOMEM;
-> +
-> +	lvds_codec->connector_type = (u32)
-> +		of_device_get_match_data(&pdev->dev);
+> +	struct device_node *ep1 = NULL, *ep2 = NULL;
+> +	u32 reg_p1, reg_p2;
+> +	int ret = -EINVAL, remote_p1_pt, remote_p2_pt;
 
-Fits in 1 line
-
-> +	lvds_codec->powerdown_gpio = devm_gpiod_get_optional(dev, "powerdown",
-> +							       GPIOD_OUT_HIGH);
-> +	if (IS_ERR(lvds_codec->powerdown_gpio)) {
-> +		int err = PTR_ERR(lvds_codec->powerdown_gpio);
-> +
-> +		if (err != -EPROBE_DEFER)
-> +			dev_err(dev, "powerdown GPIO failure: %d\n", err);
-> +		return err;
-
-I know it was there already, but this seems a bit unusual for the
-minimal gain of having a printout in the very unlikely case the
-gpiod_get() operations fails. I would just return PTR_ERR().
-
-> +	}
-> +
-> +	/* Locate the panel DT node. */
-> +	port = of_graph_get_port_by_id(dev->of_node, 1);
-> +	if (!port) {
-> +		dev_dbg(dev, "port 1 not found\n");
-> +		return -ENXIO;
-> +	}
-> +
-> +	endpoint = of_get_child_by_name(port, "endpoint");
-> +	of_node_put(port);
-> +	if (!endpoint) {
-> +		dev_dbg(dev, "no endpoint for port 1\n");
-> +		return -ENXIO;
-> +	}
-
-I know it was there already, but this could be simplified with
-of_graph_get_endpoint_by_regs()
-> +
-> +	panel_node = of_graph_get_remote_port_parent(endpoint);
-> +	of_node_put(endpoint);
-> +	if (!panel_node) {
-> +		dev_dbg(dev, "no remote endpoint for port 1\n");
-> +		return -ENXIO;
-> +	}
-
-Or even better, simplify these three with of_graph_get_remote_node()
+Please split this last line, as it otherwise hides the initialization of
+ret in the middle.
 
 > +
-> +	panel = of_drm_find_panel(panel_node);
-> +	of_node_put(panel_node);
-> +	if (IS_ERR(panel)) {
-> +		dev_dbg(dev, "panel not found, deferring probe\n");
-> +		return PTR_ERR(panel);
-> +	}
-> +
-> +	lvds_codec->panel_bridge =
-> +		devm_drm_panel_bridge_add_typed(dev, panel,
-> +						lvds_codec->connector_type);
+> +	if (!p1 || !p2)
+> +		return ret;
 
-The function documentation reports this as deprecated and suggested to
-use the non-typed version. Do you think it could work for this new
-codec driver ?
+You can return -EINVAL directly.
 
-> +	if (IS_ERR(lvds_codec->panel_bridge))
-> +		return PTR_ERR(lvds_codec->panel_bridge);
-> +
-> +	/* The panel_bridge bridge is attached to the panel's of_node,
-> +	 * but we need a bridge attached to our of_node for our user
-> +	 * to look up.
+
+> +	if (of_property_read_u32(p1, "reg", &reg_p1) ||
+> +	    of_property_read_u32(p2, "reg", &reg_p2))
+> +		return ret;
+
+Same here.
+
+> +	parent_p1 = of_get_parent(p1);
+> +	parent_p2 = of_get_parent(p2);
+> +	if (!parent_p1 || !parent_p2)
+> +		goto done;
+> +	ep1 = of_graph_get_endpoint_by_regs(parent_p1, reg_p1, 0);
+> +	ep2 = of_graph_get_endpoint_by_regs(parent_p2, reg_p2, 0);
+> +	if (!ep1 || !ep2)
+> +		goto done;
+
+If you only support the first endpoint, this should be mentioned in the
+documentation. Alternatively you could pass the endpoint nodes instead
+of the port nodes, or you could pass the endpoint number.
+
+It's also a bit inefficient to use of_graph_get_endpoint_by_regs() when
+you already have the port nodes. How about adding the following helper
+function ?
+
+struct device_node *of_graph_get_port_endpoint(struct device_node *port, int reg)
+{
+	struct device_node *endpoint = NULL;
+
+	for_each_child_of_node(port, endpoint) {
+		u32 id;
+
+		if (!of_node_name_eq(endpoint, "endpoint") ||
+			continue;
+
+		if (reg == -1)
+			return endpoint;
+
+		if (of_property_read_u32(node, "reg", &id) < 0)
+			continue;
+
+		if (reg == id)
+			return endpoint;
+	}
+
+	return NULL;
+}
+
+If you're concerned that adding a core helper would delay this patch
+series, you could add it as a local helper, and move it to of_graph.h in
+a second step.
+
+> +	remote_p1 = of_graph_get_remote_port(ep1);
+> +	remote_p2 = of_graph_get_remote_port(ep2);
+> +	if (!remote_p1 || !remote_p2)
+> +		goto done;
+> +	remote_p1_pt = drm_of_lvds_get_port_pixels_type(remote_p1);
+> +	remote_p2_pt = drm_of_lvds_get_port_pixels_type(remote_p2);
+> +	/*
+> +	 * A valid dual-lVDS bus is found when one remote port is marked with
+> +	 * "dual-lvds-even-pixels", and the other remote port is marked with
+> +	 * "dual-lvds-odd-pixels", bail out if the markers are not right.
 > +	 */
-> +	lvds_codec->bridge.of_node = dev->of_node;
-> +	lvds_codec->bridge.funcs = &funcs;
-> +	drm_bridge_add(&lvds_codec->bridge);
+> +	if (!remote_p1_pt || !remote_p2_pt ||
+> +	    remote_p1_pt + remote_p2_pt != DRM_OF_LVDS_EVEN + DRM_OF_LVDS_ODD)
+> +		goto done;
+> +	if (remote_p1_pt == DRM_OF_LVDS_EVEN)
+> +		/* The sink expects even pixels through the first port */
+> +		ret = DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS;
+> +	else
+> +		/* The sink expects odd pixels through the first port */
+> +		ret = DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS;
 > +
-> +	platform_set_drvdata(pdev, lvds_codec);
-> +
-> +	return 0;
+> +done:
+> +	of_node_put(ep1);
+> +	of_node_put(ep2);
+> +	of_node_put(parent_p1);
+> +	of_node_put(parent_p2);
+> +	of_node_put(remote_p1);
+> +	of_node_put(remote_p2);
+> +	return ret;
+
+This is heavy, I would add blank lines to make the code easier to read.
+
 > +}
+> +EXPORT_SYMBOL_GPL(drm_of_lvds_get_dual_link_configuration);
+> diff --git a/include/drm/drm_bus_timings.h b/include/drm/drm_bus_timings.h
+> new file mode 100644
+> index 0000000..db8a385
+> --- /dev/null
+> +++ b/include/drm/drm_bus_timings.h
+> @@ -0,0 +1,21 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef __DRM_BUS_TIMINGS__
+> +#define __DRM_BUS_TIMINGS__
 > +
-> +static int lvds_codec_remove(struct platform_device *pdev)
+> +struct device_node;
+> +
+> +#define DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS	0
+> +#define DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS	1
+
+These should be documented with kerneldoc. How about also turning them
+into an enum ?
+
+> +
+> +#ifdef CONFIG_OF
+> +int drm_of_lvds_get_dual_link_configuration(const struct device_node *p1,
+> +					    const struct device_node *p2);
+> +#else
+> +int drm_of_lvds_get_dual_link_configuration(const struct device_node *p1,
+> +					    const struct device_node *p2)
 > +{
-> +	struct lvds_codec *lvds_codec = platform_get_drvdata(pdev);
-> +
-> +	drm_bridge_remove(&lvds_codec->bridge);
-> +
-> +	return 0;
+> +	return -EINVAL;
 > +}
+> +#endif
 > +
-> +static const struct of_device_id lvds_codec_match[] = {
-> +	{
-> +		.compatible = "lvds-encoder",
-> +		.data = (void *)DRM_MODE_CONNECTOR_LVDS
+> +#endif /* __DRM_BUS_TIMINGS__ */
 
-In case you for for drm_panel_bridge_add() you could drop the type
+-- 
+Regards,
 
-> +	},
-> +	{
-> +		.compatible = "thine,thc63lvdm83d",
-> +		.data = (void *)DRM_MODE_CONNECTOR_LVDS,
-> +	},
-> +	{
-> +		.compatible = "lvds-decoder",
-> +		.data = (void *)DRM_MODE_CONNECTOR_Unknown,
-> +	},
-
-Which decoder are you using? This is a generic fallback, but I would
-expect compatible for a real device to appear in DTS.
-
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, lvds_codec_match);
-> +
-> +static struct platform_driver lvds_codec_driver = {
-> +	.probe	= lvds_codec_probe,
-> +	.remove	= lvds_codec_remove,
-> +	.driver		= {
-> +		.name		= "lvds-codec",
-> +		.of_match_table	= lvds_codec_match,
-> +	},
-> +};
-> +module_platform_driver(lvds_codec_driver);
-> +
-> +MODULE_AUTHOR("Laurent Pinchart <laurent.pinchart@ideasonboard.com>");
-> +MODULE_DESCRIPTION("Driver for transparent LVDS encoders and LVDS decoders");
-> +MODULE_LICENSE("GPL");
-> diff --git a/drivers/gpu/drm/bridge/lvds-encoder.c b/drivers/gpu/drm/bridge/lvds-encoder.c
-> deleted file mode 100644
-> index e2132a8..0000000
-> --- a/drivers/gpu/drm/bridge/lvds-encoder.c
-> +++ /dev/null
-> @@ -1,155 +0,0 @@
-> -// SPDX-License-Identifier: GPL-2.0-or-later
-> -/*
-> - * Copyright (C) 2016 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> - */
-> -
-> -#include <linux/gpio/consumer.h>
-> -#include <linux/module.h>
-> -#include <linux/of.h>
-> -#include <linux/of_graph.h>
-> -#include <linux/platform_device.h>
-> -
-> -#include <drm/drm_bridge.h>
-> -#include <drm/drm_panel.h>
-> -
-> -struct lvds_encoder {
-> -	struct drm_bridge bridge;
-> -	struct drm_bridge *panel_bridge;
-> -	struct gpio_desc *powerdown_gpio;
-> -};
-> -
-> -static int lvds_encoder_attach(struct drm_bridge *bridge)
-> -{
-> -	struct lvds_encoder *lvds_encoder = container_of(bridge,
-> -							 struct lvds_encoder,
-> -							 bridge);
-> -
-> -	return drm_bridge_attach(bridge->encoder, lvds_encoder->panel_bridge,
-> -				 bridge);
-> -}
-> -
-> -static void lvds_encoder_enable(struct drm_bridge *bridge)
-> -{
-> -	struct lvds_encoder *lvds_encoder = container_of(bridge,
-> -							 struct lvds_encoder,
-> -							 bridge);
-> -
-> -	if (lvds_encoder->powerdown_gpio)
-> -		gpiod_set_value_cansleep(lvds_encoder->powerdown_gpio, 0);
-> -}
-> -
-> -static void lvds_encoder_disable(struct drm_bridge *bridge)
-> -{
-> -	struct lvds_encoder *lvds_encoder = container_of(bridge,
-> -							 struct lvds_encoder,
-> -							 bridge);
-> -
-> -	if (lvds_encoder->powerdown_gpio)
-> -		gpiod_set_value_cansleep(lvds_encoder->powerdown_gpio, 1);
-> -}
-> -
-> -static struct drm_bridge_funcs funcs = {
-> -	.attach = lvds_encoder_attach,
-> -	.enable = lvds_encoder_enable,
-> -	.disable = lvds_encoder_disable,
-> -};
-> -
-> -static int lvds_encoder_probe(struct platform_device *pdev)
-> -{
-> -	struct device *dev = &pdev->dev;
-> -	struct device_node *port;
-> -	struct device_node *endpoint;
-> -	struct device_node *panel_node;
-> -	struct drm_panel *panel;
-> -	struct lvds_encoder *lvds_encoder;
-> -
-> -	lvds_encoder = devm_kzalloc(dev, sizeof(*lvds_encoder), GFP_KERNEL);
-> -	if (!lvds_encoder)
-> -		return -ENOMEM;
-> -
-> -	lvds_encoder->powerdown_gpio = devm_gpiod_get_optional(dev, "powerdown",
-> -							       GPIOD_OUT_HIGH);
-> -	if (IS_ERR(lvds_encoder->powerdown_gpio)) {
-> -		int err = PTR_ERR(lvds_encoder->powerdown_gpio);
-> -
-> -		if (err != -EPROBE_DEFER)
-> -			dev_err(dev, "powerdown GPIO failure: %d\n", err);
-> -		return err;
-> -	}
-> -
-> -	/* Locate the panel DT node. */
-> -	port = of_graph_get_port_by_id(dev->of_node, 1);
-> -	if (!port) {
-> -		dev_dbg(dev, "port 1 not found\n");
-> -		return -ENXIO;
-> -	}
-> -
-> -	endpoint = of_get_child_by_name(port, "endpoint");
-> -	of_node_put(port);
-> -	if (!endpoint) {
-> -		dev_dbg(dev, "no endpoint for port 1\n");
-> -		return -ENXIO;
-> -	}
-> -
-> -	panel_node = of_graph_get_remote_port_parent(endpoint);
-> -	of_node_put(endpoint);
-> -	if (!panel_node) {
-> -		dev_dbg(dev, "no remote endpoint for port 1\n");
-> -		return -ENXIO;
-> -	}
-> -
-> -	panel = of_drm_find_panel(panel_node);
-> -	of_node_put(panel_node);
-> -	if (IS_ERR(panel)) {
-> -		dev_dbg(dev, "panel not found, deferring probe\n");
-> -		return PTR_ERR(panel);
-> -	}
-> -
-> -	lvds_encoder->panel_bridge =
-> -		devm_drm_panel_bridge_add_typed(dev, panel,
-> -						DRM_MODE_CONNECTOR_LVDS);
-> -	if (IS_ERR(lvds_encoder->panel_bridge))
-> -		return PTR_ERR(lvds_encoder->panel_bridge);
-> -
-> -	/* The panel_bridge bridge is attached to the panel's of_node,
-> -	 * but we need a bridge attached to our of_node for our user
-> -	 * to look up.
-> -	 */
-> -	lvds_encoder->bridge.of_node = dev->of_node;
-> -	lvds_encoder->bridge.funcs = &funcs;
-> -	drm_bridge_add(&lvds_encoder->bridge);
-> -
-> -	platform_set_drvdata(pdev, lvds_encoder);
-> -
-> -	return 0;
-> -}
-> -
-> -static int lvds_encoder_remove(struct platform_device *pdev)
-> -{
-> -	struct lvds_encoder *lvds_encoder = platform_get_drvdata(pdev);
-> -
-> -	drm_bridge_remove(&lvds_encoder->bridge);
-> -
-> -	return 0;
-> -}
-> -
-> -static const struct of_device_id lvds_encoder_match[] = {
-> -	{ .compatible = "lvds-encoder" },
-> -	{ .compatible = "thine,thc63lvdm83d" },
-> -	{},
-> -};
-> -MODULE_DEVICE_TABLE(of, lvds_encoder_match);
-> -
-> -static struct platform_driver lvds_encoder_driver = {
-> -	.probe	= lvds_encoder_probe,
-> -	.remove	= lvds_encoder_remove,
-> -	.driver		= {
-> -		.name		= "lvds-encoder",
-> -		.of_match_table	= lvds_encoder_match,
-> -	},
-> -};
-> -module_platform_driver(lvds_encoder_driver);
-> -
-> -MODULE_AUTHOR("Laurent Pinchart <laurent.pinchart@ideasonboard.com>");
-> -MODULE_DESCRIPTION("Transparent parallel to LVDS encoder");
-> -MODULE_LICENSE("GPL");
-> --
-> 2.7.4
->
-
---2jd77g337ufxysbc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl3EYCgACgkQcjQGjxah
-Vjxzhg/7BbE1IZa6VF7Kjxsk7oQ0LxV0jzMTIvG4Lx1In/fwgK5hrZnq4XGH/W4P
-8NOlsphwFZRPjsd/NX4twd2ssocfsmgKnlaDm3dCVW2SA4k2RHHx1B2W7PKzlWxz
-3KXFqlg1Qz8dzJ6tYpvdi8mdQuGnQwl/9PZrjQH+/qJoZ7J7DeJlEWbqnlJTUjTK
-SAxOxOwwsxye88tgclbDVOsAmW7wL56iXK7rFBX6ZgRbZgtbduoJg+qVxLPnJ2JI
-+r3kW9v9DGaQa12zNe7Wdq5jf2HPbxz1vL5ZxpSfVLZeBPAVwiziMS31FqSI9ViS
-ttXe5XO+lI74NIfihrFvE0WlfE1D9ct09wmm2AqyTGTdJ4PTL4pWkdidGXTJukUR
-6uu3n+SEK2ur1EOcOTR4d9lJkDz2hGhwaapS6STw0STTdAPvBEoORAwcZvgoME3o
-tKAbbNg8TLcuVLh1B/PRcHWazCwmLD7UUHeFXODYSlMAu1LWNsQ1jcWJvZyaasvy
-/1akUG2HJxbp1mhRhPmNlgxyTAsKibVjun4RzAwSpKfNuVH39O9e6m0/p50PqSJf
-jclkaBibVvcsrLgkZfccYOHwX7WIgkeDhRS5joRtM6k9uFajOHIXbLeZinxcFTAl
-Iv2jtlJeGDnFDTDy5IUBZ4WI6dKB7wnZHfe7sutbvQQRS0VXPek=
-=RN/1
------END PGP SIGNATURE-----
-
---2jd77g337ufxysbc--
+Laurent Pinchart
