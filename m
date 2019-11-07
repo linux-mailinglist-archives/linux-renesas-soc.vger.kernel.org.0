@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 88E2DF39E7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 21:55:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 661B8F39EB
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 21:56:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725828AbfKGUze (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 Nov 2019 15:55:34 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35814 "EHLO
+        id S1725906AbfKGU4b (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 7 Nov 2019 15:56:31 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35852 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725818AbfKGUzd (ORCPT
+        with ESMTP id S1725818AbfKGU4a (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 Nov 2019 15:55:33 -0500
+        Thu, 7 Nov 2019 15:56:30 -0500
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6E4D671D;
-        Thu,  7 Nov 2019 21:55:31 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9E6AA71D;
+        Thu,  7 Nov 2019 21:56:28 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1573160131;
-        bh=T/JTmFFKWPUIC/UNcZMUFodIIgOi+wflNsrXPviHW2w=;
+        s=mail; t=1573160188;
+        bh=XOVqC1Za2WqOkjZOMkB346Qf0kLFRLSch16UrNY1ZsQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XuK82nb+Q1K+FJVDzzYmfvW2S0k/ajGaf3N3O9VrdXbRmJ5Y4jP0h9qnPIJCqb30s
-         5S8M96lKYTy+8H7rzFizbPsvuEF+4sPbArZ7bdDjqNL02tO/U9SOqqROB58QURScWx
-         LQ591kEzntMEBbp32XVyoE26SFycos1p21+5Dthk=
-Date:   Thu, 7 Nov 2019 22:55:20 +0200
+        b=hRTD0NYmi8ynBwpnxpxSjN+1xthvaX8AjFVrvKFIwAwMx1AQnoWgItF3Nx40NU3BM
+         Mm5cokGjY7nzwEv9jQEtADT86OeuSy0YnuR1TJXgTBFB9hg7Jxpecpcb3grXCKgBMA
+         EjPjS7vKsnyPsv/kkziHLLTlFAofNBqY/vDb7IKY=
+Date:   Thu, 7 Nov 2019 22:56:18 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 Cc:     Neil Armstrong <narmstrong@baylibre.com>,
@@ -40,14 +40,15 @@ Cc:     Neil Armstrong <narmstrong@baylibre.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: Re: [PATCH v3 6/7] ARM: dts: iwg20d-q7-common: Add LCD support
-Message-ID: <20191107205520.GR24983@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 7/7] ARM: shmobile_defconfig: Enable support for
+ panels from EDT
+Message-ID: <20191107205618.GS24983@pendragon.ideasonboard.com>
 References: <1573157463-14070-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1573157463-14070-7-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1573157463-14070-8-git-send-email-fabrizio.castro@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1573157463-14070-7-git-send-email-fabrizio.castro@bp.renesas.com>
+In-Reply-To: <1573157463-14070-8-git-send-email-fabrizio.castro@bp.renesas.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -58,9 +59,10 @@ Hi Fabrizio,
 
 Thank you for the patch.
 
-On Thu, Nov 07, 2019 at 08:11:02PM +0000, Fabrizio Castro wrote:
-> The iwg20d comes with a 7" capacitive touch screen, therefore
-> add support for it.
+On Thu, Nov 07, 2019 at 08:11:03PM +0000, Fabrizio Castro wrote:
+> The iwg20d comes with an LCD panel from Emerging Display
+> Technologies Corporation (EDT), therefore enable what's
+> required to support it.
 > 
 > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 > 
@@ -70,163 +72,34 @@ On Thu, Nov 07, 2019 at 08:11:02PM +0000, Fabrizio Castro wrote:
 > v1->v2:
 > * No change
 > ---
->  arch/arm/boot/dts/iwg20d-q7-common.dtsi  | 85 ++++++++++++++++++++++++++++++++
->  arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi |  1 -
->  2 files changed, 85 insertions(+), 1 deletion(-)
+>  arch/arm/configs/shmobile_defconfig | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> diff --git a/arch/arm/boot/dts/iwg20d-q7-common.dtsi b/arch/arm/boot/dts/iwg20d-q7-common.dtsi
-> index ae75a1db..3428b8d 100644
-> --- a/arch/arm/boot/dts/iwg20d-q7-common.dtsi
-> +++ b/arch/arm/boot/dts/iwg20d-q7-common.dtsi
-> @@ -46,6 +46,49 @@
->  		clock-frequency = <26000000>;
->  	};
->  
-> +	lcd_backlight: backlight {
-> +		compatible = "pwm-backlight";
-> +
-> +		pwms = <&pwm3 0 5000000 0>;
-> +		brightness-levels = <0 4 8 16 32 64 128 255>;
-> +		default-brightness-level = <7>;
-> +		enable-gpios = <&gpio5 14 GPIO_ACTIVE_HIGH>;
-> +	};
-> +
-> +	lvds-receiver {
-> +		compatible = "lvds-decoder";
+> diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
+> index c6c7035..ab416a5 100644
+> --- a/arch/arm/configs/shmobile_defconfig
+> +++ b/arch/arm/configs/shmobile_defconfig
+> @@ -66,6 +66,7 @@ CONFIG_INPUT_EVDEV=y
+>  CONFIG_KEYBOARD_GPIO=y
+>  # CONFIG_INPUT_MOUSE is not set
+>  CONFIG_INPUT_TOUCHSCREEN=y
+> +CONFIG_TOUCHSCREEN_EDT_FT5X06=y
 
-A specific compatible string is required.
+Do these options need to be built-in, or could modules work too ?
 
-I think the lvds-decoder driver should error out at probe time if only
-one compatible string is listed.
-
-> +		powerdown = <&gpio7 25 GPIO_ACTIVE_LOW>;
-
-powerdown-gpios ?
-
-> +
-> +		ports {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			port@0 {
-> +				reg = <0>;
-> +				lvds_receiver_in: endpoint {
-> +					remote-endpoint = <&lvds0_out>;
-> +				};
-> +			};
-> +			port@1 {
-> +				reg = <1>;
-> +				lvds_receiver_out: endpoint {
-> +					remote-endpoint = <&panel_in>;
-> +				};
-> +			};
-> +		};
-> +	};
-> +
-> +	panel {
-> +		compatible = "edt,etm0700g0dh6", "simple-panel";
-
-There's no "simple-panel" compatible string defined anywhere as far as I
-can tell.
-
-> +		backlight = <&lcd_backlight>;
-> +
-> +		port {
-> +			panel_in: endpoint {
-> +				remote-endpoint = <&lvds_receiver_out>;
-> +			};
-> +		};
-> +	};
-> +
->  	reg_1p5v: 1p5v {
->  		compatible = "regulator-fixed";
->  		regulator-name = "1P5V";
-> @@ -120,6 +163,18 @@
->  	status = "okay";
->  };
->  
-> +&du {
-> +	status = "okay";
-> +};
-> +
-> +&gpio2 {
-> +	touch-interrupt {
-> +		gpio-hog;
-> +		gpios = <12 GPIO_ACTIVE_LOW>;
-> +		input;
-> +	};
-
-Do you need this, with the touchpanel@38 node already listing the
-interrupt ?
-
-> +};
-> +
->  &hsusb {
->  	status = "okay";
->  	pinctrl-0 = <&usb0_pins>;
-> @@ -147,6 +202,25 @@
->  		VDDIO-supply = <&reg_3p3v>;
->  		VDDD-supply = <&reg_1p5v>;
->  	};
-> +
-> +	touch: touchpanel@38 {
-> +		compatible = "edt,edt-ft5406";
-> +		reg = <0x38>;
-> +		interrupt-parent = <&gpio2>;
-> +		interrupts = <12 IRQ_TYPE_EDGE_FALLING>;
-> +	};
-> +};
-> +
-> +&lvds0 {
-> +	status = "okay";
-> +
-> +	ports {
-> +		port@1 {
-> +			lvds0_out: endpoint {
-> +				remote-endpoint = <&lvds_receiver_in>;
-> +			};
-> +		};
-> +	};
->  };
->  
->  &pci0 {
-> @@ -180,6 +254,11 @@
->  		function = "i2c2";
->  	};
->  
-> +	pwm3_pins: pwm3 {
-> +		groups = "pwm3";
-> +		function = "pwm3";
-> +	};
-> +
->  	scif0_pins: scif0 {
->  		groups = "scif0_data_d";
->  		function = "scif0";
-> @@ -218,6 +297,12 @@
->  	};
->  };
->  
-> +&pwm3 {
-> +	pinctrl-0 = <&pwm3_pins>;
-> +	pinctrl-names = "default";
-> +	status = "okay";
-> +};
-> +
->  &rcar_sound {
->  	pinctrl-0 = <&sound_pins>;
->  	pinctrl-names = "default";
-> diff --git a/arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi b/arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi
-> index 0e99df2..ede2e0c 100644
-> --- a/arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi
-> +++ b/arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi
-> @@ -39,7 +39,6 @@
->  &du {
->  	pinctrl-0 = <&du_pins>;
->  	pinctrl-names = "default";
-> -	status = "okay";
->  
->  	ports {
->  		port@0 {
+>  CONFIG_TOUCHSCREEN_ST1232=y
+>  CONFIG_INPUT_MISC=y
+>  CONFIG_INPUT_ADXL34X=y
+> @@ -125,7 +126,9 @@ CONFIG_VIDEO_ADV7604=y
+>  CONFIG_VIDEO_ML86V7667=y
+>  CONFIG_DRM=y
+>  CONFIG_DRM_RCAR_DU=y
+> +CONFIG_DRM_PANEL_SIMPLE=y
+>  CONFIG_DRM_DUMB_VGA_DAC=y
+> +CONFIG_DRM_LVDS_CODEC=y
+>  CONFIG_DRM_SII902X=y
+>  CONFIG_DRM_I2C_ADV7511=y
+>  CONFIG_DRM_I2C_ADV7511_AUDIO=y
 
 -- 
 Regards,
