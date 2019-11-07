@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 84C92F3949
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 21:11:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7982BF394B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 21:11:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726829AbfKGULb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 Nov 2019 15:11:31 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:14789 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725906AbfKGULb (ORCPT
+        id S1726616AbfKGULg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 7 Nov 2019 15:11:36 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:32690 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725906AbfKGULg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 Nov 2019 15:11:31 -0500
+        Thu, 7 Nov 2019 15:11:36 -0500
 X-IronPort-AV: E=Sophos;i="5.68,279,1569250800"; 
-   d="scan'208";a="31108944"
+   d="scan'208";a="30895668"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 08 Nov 2019 05:11:30 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 08 Nov 2019 05:11:35 +0900
 Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id E18844008C62;
-        Fri,  8 Nov 2019 05:11:25 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 939F64008C62;
+        Fri,  8 Nov 2019 05:11:30 +0900 (JST)
 From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 To:     Neil Armstrong <narmstrong@baylibre.com>,
         David Airlie <airlied@linux.ie>,
@@ -38,9 +38,9 @@ Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: [PATCH v3 4/7] drm: Define DRM_MODE_CONNECTOR_PARALLEL
-Date:   Thu,  7 Nov 2019 20:11:00 +0000
-Message-Id: <1573157463-14070-5-git-send-email-fabrizio.castro@bp.renesas.com>
+Subject: [PATCH v3 5/7] drm/panel: panel-simple: Add connector type for etm0700g0dh6
+Date:   Thu,  7 Nov 2019 20:11:01 +0000
+Message-Id: <1573157463-14070-6-git-send-email-fabrizio.castro@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1573157463-14070-1-git-send-email-fabrizio.castro@bp.renesas.com>
 References: <1573157463-14070-1-git-send-email-fabrizio.castro@bp.renesas.com>
@@ -49,9 +49,8 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The existing DRM_MODE_CONNECTOR_ definitions don't seem to
-describe the connector for RGB/Parallel embedded displays,
-hence add DRM_MODE_CONNECTOR_PARALLEL.
+Add connector type for the etm0700g0dh6 from Emerging Display
+Technologies (EDT).
 
 Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 
@@ -59,34 +58,21 @@ Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 v2->v3:
 * New patch
 ---
- drivers/gpu/drm/drm_connector.c | 1 +
- include/uapi/drm/drm_mode.h     | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/gpu/drm/panel/panel-simple.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-index 2166000..b233029 100644
---- a/drivers/gpu/drm/drm_connector.c
-+++ b/drivers/gpu/drm/drm_connector.c
-@@ -93,6 +93,7 @@ static struct drm_conn_prop_enum_list drm_connector_enum_list[] = {
- 	{ DRM_MODE_CONNECTOR_DPI, "DPI" },
- 	{ DRM_MODE_CONNECTOR_WRITEBACK, "Writeback" },
- 	{ DRM_MODE_CONNECTOR_SPI, "SPI" },
-+	{ DRM_MODE_CONNECTOR_PARALLEL, "Parallel" },
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 5d48768..82065ff 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -1342,6 +1342,7 @@ static const struct panel_desc edt_etm0700g0dh6 = {
+ 	},
+ 	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
+ 	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
++	.connector_type = DRM_MODE_CONNECTOR_PARALLEL,
  };
  
- void drm_connector_ida_init(void)
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index 735c8cf..5852f47 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -362,6 +362,7 @@ enum drm_mode_subconnector {
- #define DRM_MODE_CONNECTOR_DPI		17
- #define DRM_MODE_CONNECTOR_WRITEBACK	18
- #define DRM_MODE_CONNECTOR_SPI		19
-+#define DRM_MODE_CONNECTOR_PARALLEL	20
- 
- struct drm_mode_get_connector {
- 
+ static const struct panel_desc edt_etm0700g0bdh6 = {
 -- 
 2.7.4
 
