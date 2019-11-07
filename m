@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 61CB6F39C9
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 21:49:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 88E2DF39E7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 21:55:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727362AbfKGUs7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 Nov 2019 15:48:59 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35718 "EHLO
+        id S1725828AbfKGUze (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 7 Nov 2019 15:55:34 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35814 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727361AbfKGUs7 (ORCPT
+        with ESMTP id S1725818AbfKGUzd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 Nov 2019 15:48:59 -0500
+        Thu, 7 Nov 2019 15:55:33 -0500
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 44AAD71D;
-        Thu,  7 Nov 2019 21:48:56 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6E4D671D;
+        Thu,  7 Nov 2019 21:55:31 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1573159736;
-        bh=pmzvKL0wtmMTBCZNxQBXqoocDPWwX/PcDpvrlBEmGQg=;
+        s=mail; t=1573160131;
+        bh=T/JTmFFKWPUIC/UNcZMUFodIIgOi+wflNsrXPviHW2w=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KKfWVT+LZqmLZZDVydKtyIlOtV8wgQvtJ2kFE+L7+ICbspPUg0OH7E9tl9n44sx/s
-         DIx2YaQsFjBcPyUMh8WC6mOkLd0N2Q8xCuCCd47PuUyhLbP0cSo2eYtErfdW9DnKoi
-         4KshitWefmZtx8hJAQUof5bBOGCUCDSvhuQNjkjk=
-Date:   Thu, 7 Nov 2019 22:48:46 +0200
+        b=XuK82nb+Q1K+FJVDzzYmfvW2S0k/ajGaf3N3O9VrdXbRmJ5Y4jP0h9qnPIJCqb30s
+         5S8M96lKYTy+8H7rzFizbPsvuEF+4sPbArZ7bdDjqNL02tO/U9SOqqROB58QURScWx
+         LQ591kEzntMEBbp32XVyoE26SFycos1p21+5Dthk=
+Date:   Thu, 7 Nov 2019 22:55:20 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 Cc:     Neil Armstrong <narmstrong@baylibre.com>,
@@ -40,15 +40,14 @@ Cc:     Neil Armstrong <narmstrong@baylibre.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: Re: [PATCH v3 5/7] drm/panel: panel-simple: Add connector type for
- etm0700g0dh6
-Message-ID: <20191107204846.GQ24983@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v3 6/7] ARM: dts: iwg20d-q7-common: Add LCD support
+Message-ID: <20191107205520.GR24983@pendragon.ideasonboard.com>
 References: <1573157463-14070-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1573157463-14070-6-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1573157463-14070-7-git-send-email-fabrizio.castro@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1573157463-14070-6-git-send-email-fabrizio.castro@bp.renesas.com>
+In-Reply-To: <1573157463-14070-7-git-send-email-fabrizio.castro@bp.renesas.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -59,35 +58,175 @@ Hi Fabrizio,
 
 Thank you for the patch.
 
-On Thu, Nov 07, 2019 at 08:11:01PM +0000, Fabrizio Castro wrote:
-> Add connector type for the etm0700g0dh6 from Emerging Display
-> Technologies (EDT).
+On Thu, Nov 07, 2019 at 08:11:02PM +0000, Fabrizio Castro wrote:
+> The iwg20d comes with a 7" capacitive touch screen, therefore
+> add support for it.
 > 
 > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 > 
 > ---
 > v2->v3:
-> * New patch
+> * No change
+> v1->v2:
+> * No change
 > ---
->  drivers/gpu/drm/panel/panel-simple.c | 1 +
->  1 file changed, 1 insertion(+)
+>  arch/arm/boot/dts/iwg20d-q7-common.dtsi  | 85 ++++++++++++++++++++++++++++++++
+>  arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi |  1 -
+>  2 files changed, 85 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 5d48768..82065ff 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -1342,6 +1342,7 @@ static const struct panel_desc edt_etm0700g0dh6 = {
->  	},
->  	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
->  	.bus_flags = DRM_BUS_FLAG_DE_HIGH | DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE,
-> +	.connector_type = DRM_MODE_CONNECTOR_PARALLEL,
+> diff --git a/arch/arm/boot/dts/iwg20d-q7-common.dtsi b/arch/arm/boot/dts/iwg20d-q7-common.dtsi
+> index ae75a1db..3428b8d 100644
+> --- a/arch/arm/boot/dts/iwg20d-q7-common.dtsi
+> +++ b/arch/arm/boot/dts/iwg20d-q7-common.dtsi
+> @@ -46,6 +46,49 @@
+>  		clock-frequency = <26000000>;
+>  	};
+>  
+> +	lcd_backlight: backlight {
+> +		compatible = "pwm-backlight";
+> +
+> +		pwms = <&pwm3 0 5000000 0>;
+> +		brightness-levels = <0 4 8 16 32 64 128 255>;
+> +		default-brightness-level = <7>;
+> +		enable-gpios = <&gpio5 14 GPIO_ACTIVE_HIGH>;
+> +	};
+> +
+> +	lvds-receiver {
+> +		compatible = "lvds-decoder";
 
-I still think we should have a DRM_MODE_CONNECTOR_PANEL, but regardless,
-this panel seems to match DRM_MODE_CONNECTOR_DPI.
+A specific compatible string is required.
 
+I think the lvds-decoder driver should error out at probe time if only
+one compatible string is listed.
+
+> +		powerdown = <&gpio7 25 GPIO_ACTIVE_LOW>;
+
+powerdown-gpios ?
+
+> +
+> +		ports {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			port@0 {
+> +				reg = <0>;
+> +				lvds_receiver_in: endpoint {
+> +					remote-endpoint = <&lvds0_out>;
+> +				};
+> +			};
+> +			port@1 {
+> +				reg = <1>;
+> +				lvds_receiver_out: endpoint {
+> +					remote-endpoint = <&panel_in>;
+> +				};
+> +			};
+> +		};
+> +	};
+> +
+> +	panel {
+> +		compatible = "edt,etm0700g0dh6", "simple-panel";
+
+There's no "simple-panel" compatible string defined anywhere as far as I
+can tell.
+
+> +		backlight = <&lcd_backlight>;
+> +
+> +		port {
+> +			panel_in: endpoint {
+> +				remote-endpoint = <&lvds_receiver_out>;
+> +			};
+> +		};
+> +	};
+> +
+>  	reg_1p5v: 1p5v {
+>  		compatible = "regulator-fixed";
+>  		regulator-name = "1P5V";
+> @@ -120,6 +163,18 @@
+>  	status = "okay";
 >  };
 >  
->  static const struct panel_desc edt_etm0700g0bdh6 = {
+> +&du {
+> +	status = "okay";
+> +};
+> +
+> +&gpio2 {
+> +	touch-interrupt {
+> +		gpio-hog;
+> +		gpios = <12 GPIO_ACTIVE_LOW>;
+> +		input;
+> +	};
+
+Do you need this, with the touchpanel@38 node already listing the
+interrupt ?
+
+> +};
+> +
+>  &hsusb {
+>  	status = "okay";
+>  	pinctrl-0 = <&usb0_pins>;
+> @@ -147,6 +202,25 @@
+>  		VDDIO-supply = <&reg_3p3v>;
+>  		VDDD-supply = <&reg_1p5v>;
+>  	};
+> +
+> +	touch: touchpanel@38 {
+> +		compatible = "edt,edt-ft5406";
+> +		reg = <0x38>;
+> +		interrupt-parent = <&gpio2>;
+> +		interrupts = <12 IRQ_TYPE_EDGE_FALLING>;
+> +	};
+> +};
+> +
+> +&lvds0 {
+> +	status = "okay";
+> +
+> +	ports {
+> +		port@1 {
+> +			lvds0_out: endpoint {
+> +				remote-endpoint = <&lvds_receiver_in>;
+> +			};
+> +		};
+> +	};
+>  };
+>  
+>  &pci0 {
+> @@ -180,6 +254,11 @@
+>  		function = "i2c2";
+>  	};
+>  
+> +	pwm3_pins: pwm3 {
+> +		groups = "pwm3";
+> +		function = "pwm3";
+> +	};
+> +
+>  	scif0_pins: scif0 {
+>  		groups = "scif0_data_d";
+>  		function = "scif0";
+> @@ -218,6 +297,12 @@
+>  	};
+>  };
+>  
+> +&pwm3 {
+> +	pinctrl-0 = <&pwm3_pins>;
+> +	pinctrl-names = "default";
+> +	status = "okay";
+> +};
+> +
+>  &rcar_sound {
+>  	pinctrl-0 = <&sound_pins>;
+>  	pinctrl-names = "default";
+> diff --git a/arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi b/arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi
+> index 0e99df2..ede2e0c 100644
+> --- a/arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi
+> +++ b/arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi
+> @@ -39,7 +39,6 @@
+>  &du {
+>  	pinctrl-0 = <&du_pins>;
+>  	pinctrl-names = "default";
+> -	status = "okay";
+>  
+>  	ports {
+>  		port@0 {
 
 -- 
 Regards,
