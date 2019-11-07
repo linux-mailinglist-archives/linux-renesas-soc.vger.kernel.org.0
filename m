@@ -2,151 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4172CF28C6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 09:10:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C07F8F28E7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 09:13:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727415AbfKGIKh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 Nov 2019 03:10:37 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:46856 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727012AbfKGIKh (ORCPT
+        id S1726791AbfKGINp convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 7 Nov 2019 03:13:45 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:40798 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726734AbfKGINo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 Nov 2019 03:10:37 -0500
-Received: by mail-oi1-f195.google.com with SMTP id n14so1161700oie.13;
-        Thu, 07 Nov 2019 00:10:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1Ln1GAykiZS8RusuR4H+KQoetDdyYBnG1RhAd3RuDvU=;
-        b=XIQjJ1KkwJwDO2WBDAlhOf60GzfwCkkbNwnxofI1gvr56DlMnJZNb4jHhH9l+siPjy
-         7XUMhHNlxMeUd0C8IsfA/1LUeakE2mhibVwGsvSfeeV6D1unTFUY+jfFqzTPIcRQl5X+
-         gWKfPOXD3nsSRoQRnk8+d5iIA5qxdNdnYM0aAjr5pCDue/7MNTnR9v4pFaetY9pKAOIL
-         RcPun1cI3Qh9hzQ1HJD8sMy57glLs6u3q1iXmG7lA0FwoChXUDNfAOgr2ETpotB//xIX
-         UnxYVtmQXIYLoaVGsh7uTHXu6+JIFIEnRncdelUnehHP33ZJr4CmSpidqTtDpVy7SPn3
-         mHlQ==
+        Thu, 7 Nov 2019 03:13:44 -0500
+Received: by mail-oi1-f196.google.com with SMTP id 22so1200811oip.7;
+        Thu, 07 Nov 2019 00:13:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1Ln1GAykiZS8RusuR4H+KQoetDdyYBnG1RhAd3RuDvU=;
-        b=jXkXFJEFNJU9WLirEP/Sn7tJJOv6Ym6nWlh3UeBnYz+C86DGtGD/tU9C9pLIbJVm/t
-         cY6A1cv9WUqmSVWYSHSgNT6WGhhjzZXoNB+G9cVhYsa5x9omHRALVeRA3Yhr/el8QLzR
-         jXCn52QdIvdJ4y0i/8WQ5TJd4mYRIhTo5eSf86pNAqC7th98jkzn0sX777IhQUkg7IVP
-         eKzQ28sTXuAG+YAjEsoozPHjlNE3bH48DE6Y5/w11eM9KWOYYBplVhmUfOyW3w21X5pL
-         xdNFP1Xl33HGB8r147wHcntSqb6IEw9CVyA+t5dh3zkugZdla/vHYRQP83gVC5FEl9fh
-         7G2w==
-X-Gm-Message-State: APjAAAXu1tPNCNl+tKGRcIL8KNNGOANBC/XVvMZgQwqGcY6mVN9CtSJu
-        irTMf6I/L0dapihTroB/BkaHlp8qb3MzSp9MAWc=
-X-Google-Smtp-Source: APXvYqyCsRHXrlcNyFDdWgqpUGNUi9JY2dnU8nu8fLaBJBr7i8H4CEPtAXOaCsi6gmrcZ/dmVtw/Dn8k5G1I4v7yMqw=
-X-Received: by 2002:a05:6808:3cf:: with SMTP id o15mr2227687oie.7.1573114236156;
- Thu, 07 Nov 2019 00:10:36 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=9nazdWnirCfxRXV5xY0vu3a90rtbot0vudbsckGOh3k=;
+        b=R6FLxNBT6oJsh7IS6rUSAyvdr/KK88kS5u03hbPKcL5Mp1SW81MxaFX8xf9yF8aii8
+         s5nvQaOvgTWcUwORzz2eiK3lRZtkeQaCnnUQobWFgwRPyIYCDc6JjW3qAM7pD+m4aoP9
+         fcWlo/PvJf0q1JRq1qbCrIwU98XBE7i/Yu/qvBRZ0qtZVvlSRIEggN1FgJpwBnhpSf2v
+         mlzkiNjcn7tZ8ybMLkuRuheqQQ/QPU8gCNGG9mUHfFfEbg3MYzUtKd7wXr78Hov5kq+u
+         WLGnb+kGFVVn7LyChDCVyI8FYpKybnMR5f2lQYzBO2Ogj0czy7hOaD1+TdsU13V3Yf8w
+         le8Q==
+X-Gm-Message-State: APjAAAWJRIFZVAU3H1EYHmr/mzrGVqVbwrBjylqBMnyOtYRsN3tmAzJF
+        p/A9WLvE2fQ+DtocbsX7cou0Mt4oYLOiSe/Uk2m+zTAR
+X-Google-Smtp-Source: APXvYqzG1X4VVM8A9RduBROmxxiAeni2cVDVws2za6mhTCF+gL1IaXOEdsNzB0P7I7PMf7pp/itm0o9nb1eq2VQiVZI=
+X-Received: by 2002:aca:3a86:: with SMTP id h128mr2176021oia.131.1573114423794;
+ Thu, 07 Nov 2019 00:13:43 -0800 (PST)
 MIME-Version: 1.0
-References: <20191106193609.19645-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20191106193609.19645-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <OSBPR01MB210380ACAF35B2FE94F1589EB8780@OSBPR01MB2103.jpnprd01.prod.outlook.com>
-In-Reply-To: <OSBPR01MB210380ACAF35B2FE94F1589EB8780@OSBPR01MB2103.jpnprd01.prod.outlook.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Thu, 7 Nov 2019 08:10:09 +0000
-Message-ID: <CA+V-a8vJrJ8Rw5OgYZN7o_i1R9ZZUfmuMWnzA0PF+pZus0o1SQ@mail.gmail.com>
-Subject: Re: [PATCH 3/5] PCI: rcar: Add R-Car PCIe endpoint device tree bindings
-To:     Biju Das <biju.das@bp.renesas.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Murray <andrew.murray@arm.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20191106232304.2332121-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdW-i+L0pQx1WRWUZ6_BWF0ujQ-4s9TXNfAM9w5OHcgR+g@mail.gmail.com> <20191107074722.GH18345@bigcity.dyn.berto.se>
+In-Reply-To: <20191107074722.GH18345@bigcity.dyn.berto.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 7 Nov 2019 09:13:32 +0100
+Message-ID: <CAMuHMdWnt=8BDKKZco_0GMfOncT9r6CZ1P-rXZN19Dmc_ti4wA@mail.gmail.com>
+Subject: Re: [PATCH] rcar-vin: Limit NV12 availability to supported VIN
+ channels only
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Biju,
+Hi Niklas,
 
-Thank you for the review.
+On Thu, Nov 7, 2019 at 8:47 AM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> On 2019-11-07 08:41:11 +0100, Geert Uytterhoeven wrote:
+> > On Thu, Nov 7, 2019 at 12:25 AM Niklas Söderlund
+> > <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > > When adding support for NV12 it was overlooked that the pixel format is
+> > > only supported on some VIN channels. Fix this by adding a check to only
+> > > accept NV12 on the supported channels (0, 1, 4, 5, 8, 9, 12 and 13).
+> > >
+> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> >
+> > Thanks for your patch!
+> >
+> > > --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > > +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > > @@ -76,7 +76,12 @@ const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
+> > >         if (vin->info->model == RCAR_M1 && pixelformat == V4L2_PIX_FMT_XBGR32)
+> > >                 return NULL;
+> > >
+> > > -       if (pixelformat == V4L2_PIX_FMT_NV12 && !vin->info->nv12)
+> > > +       /*
+> > > +        * If NV12 is supported it's only supported on some channels (0, 1, 4,
+> > > +        * 5, 8, 9, 12 and 13).
+> >
+> > Is this true for all SoCs, or do you need a vin->info->model == RCAR_GEN3
+> > check?
+>
+> NV12 is only supported by most Gen3 SoCs, but no extra check is needed
+> as vin->info->nv12 is only set for the Gen3 SoCs that can support NV12.
 
-On Thu, Nov 7, 2019 at 7:39 AM Biju Das <biju.das@bp.renesas.com> wrote:
->
-> Hi Prabhakar,
->
-> Thanks for the patch
->
-> > Subject: [PATCH 3/5] PCI: rcar: Add R-Car PCIe endpoint device tree bindings
-> >
-> > From: "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > This patch adds the bindings for the R-Car PCIe endpoint driver.
-> >
-> > Signed-off-by: Lad, Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  .../devicetree/bindings/pci/rcar-pci-ep.txt   | 43 +++++++++++++++++++
-> >  1 file changed, 43 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/pci/rcar-pci-ep.txt
-> >
-> > diff --git a/Documentation/devicetree/bindings/pci/rcar-pci-ep.txt
-> > b/Documentation/devicetree/bindings/pci/rcar-pci-ep.txt
-> > new file mode 100644
-> > index 000000000000..b8c8616ca007
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/pci/rcar-pci-ep.txt
-> > @@ -0,0 +1,43 @@
-> > +* Renesas R-Car PCIe Endpoint Controller DT description
-> > +
-> > +Required properties:
-> > +         "renesas,pcie-ep-r8a774c0" for the R8A774C0 SoC;
-> > +         "renesas,pcie-ep-rcar-gen3" for a generic R-Car Gen3 or
-> > +                                  RZ/G2 compatible device.
-> > +
-> > +         When compatible with the generic version, nodes must list the
-> > +         SoC-specific version corresponding to the platform first
-> > +         followed by the generic version.
-> > +
-> > +- reg: Five register ranges as listed in the reg-names property
-> > +- reg-names: Must include the following names
-> > +     - "apb-base"
-> > +     - "memory0"
-> > +     - "memory1"
-> > +     - "memory2"
-> > +     - "memory3"
-> > +- resets: Must contain phandles to PCIe-related reset lines exposed by IP
-> > block
-> > +- clocks: from common clock binding: clock specifiers for the PCIe controller
-> > +      clock.
-> > +- clock-names: from common clock binding: should be "pcie".
-> > +
-> > +Optional Property:
-> > +- max-functions: Maximum number of functions that can be configured
-> > (default 1).
-> > +
-> > +Example:
-> > +
-> > +SoC-specific DT Entry:
-> > +
-> > +     pcie_ep: pcie_ep@fe000000 {
-> > +             compatible = "renesas,pcie-r8a7791", "renesas,pcie-rcar-
-> > gen2";
->
-> I believe it is currently tested on RZ/G2E. so please use the same.
->
-Yes you are correct its tested on RZ/G2E board, ill fix it in next iteration.
+Thanks, had missed the meaning of the vin->info->nv12 check.
 
-Cheers,
---Prabhakar
+> > > +        */
+> > > +       if (pixelformat == V4L2_PIX_FMT_NV12 &&
+> > > +           (!vin->info->nv12 || BIT(vin->id) & 0xcccc))
+> > >                 return NULL;
+> >
+> > So 0xcccc = ~(BIT(0) | BIT(1) | BIT(4) | ...)?
+>
+> Yes.
+>
+> > What if you ever have an id larger than 15?
+> > Wouldn't it be safer to check for !(BIT(vin->id) & 0x3333)?
+>
+> There is no SoC with more then 16 VIN instances, today... Maybe your
+> suggestion of the inverted check makes more sens. Will respin a v2.
+
+OK.  BTW, the code may look nicer if you start using a
+"switch (pixelformat) { ... }" block to handle all special cases.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
