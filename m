@@ -2,86 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 896F8F2AED
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 10:42:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE394F2DEE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 13:09:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387687AbfKGJmD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 Nov 2019 04:42:03 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:37561 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726866AbfKGJmD (ORCPT
+        id S1726873AbfKGMJH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 7 Nov 2019 07:09:07 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:47440 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727344AbfKGMJH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 Nov 2019 04:42:03 -0500
-Received: by mail-lj1-f195.google.com with SMTP id l20so1499402lje.4
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 07 Nov 2019 01:42:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=i/2upOf+ToEC0X7aDUoyPsf/uIOH1Z199aS+2zA08HY=;
-        b=vz7uguaCHovA0rMYWj5wR/bludYJNai5H4KlogJ+KpPalT2T2RPHx3QJUM8ilj5PoN
-         hiiJGFXUR/wkAJ0SwnbIjeJQRwa5qVZ1zvgGKFoOn2BdRDtrwhTv3dvxcQRy2iSX6qpw
-         g3Ch7OZkBQZt+xlB4q5sTwGWg3emH2NiEqNmp/31itI3KcQ6CQ+2r/+/Lelt5pxGJ0m1
-         ejfvxncfIAp51k3/uqLiAKBxQ95d5touIzsqvZI9DuTm3EKUSew3WfzLxyHVp2S/i2hR
-         58tx+MhoSy3p8e2mcUJzZPl7XO6y+V4fmx0/63aLVuN8BK2RBpNur1m6r8jP/AtPxji9
-         XDFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=i/2upOf+ToEC0X7aDUoyPsf/uIOH1Z199aS+2zA08HY=;
-        b=YSb7ckTfn+4Iyzu1fNGAXMxZFqKWOsHTo0BtXRdon65O6BZYoD0Arrg6Jz2EigazcJ
-         8rsXjVnaXn3d/VRHuFL/zB1cxpwxkzlcioBB8mj6VSgp1q/XkIRNJZaLhwgy2UsgWWcI
-         gZieQ+24oYqNeKW2fYZXG8Jk3PkVXUwz0VSKzrL6TXesVa9YoitwLTL04C86PCGE0hw1
-         7zAu5lVfZ7u8K/gMGUbncEY50qgnyb+T3R5Ebps4x/FyufyLhtu4RkY7A2cN0BfR8HmC
-         l4/lilpnwplK7LhMm3CsWTCOJnMgGBl9HNgKUSvN0iDliwkCbWaWRGfZKwE0opagrnZc
-         xLcQ==
-X-Gm-Message-State: APjAAAW9B3XOR/LlGALSvwhdsvRtPGS6aAKImlAfT8qo3EEUQPm73oRQ
-        VDJYfBpkmmHv6lDni4R7gyeg0spS1SZueg==
-X-Google-Smtp-Source: APXvYqykzMioZfauLIt/7bx9nL20xI4tgGROKYzes4GYrPM+Yt9UBP6ofKEFZHIMq37c1cPyLgOC6Q==
-X-Received: by 2002:a2e:8981:: with SMTP id c1mr1738479lji.8.1573119721423;
-        Thu, 07 Nov 2019 01:42:01 -0800 (PST)
-Received: from ?IPv6:2a00:1fa0:60c:64b7:8889:9be8:c06d:65af? ([2a00:1fa0:60c:64b7:8889:9be8:c06d:65af])
-        by smtp.gmail.com with ESMTPSA id q124sm748066ljq.93.2019.11.07.01.42.00
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 07 Nov 2019 01:42:00 -0800 (PST)
-Subject: Re: [PATCH] rcar-vin: Use correct pixel format when aligning format
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20191106232546.2332745-1-niklas.soderlund+renesas@ragnatech.se>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <2b5e6447-563c-ec3d-81df-4a925449d3df@cogentembedded.com>
-Date:   Thu, 7 Nov 2019 12:41:36 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Thu, 7 Nov 2019 07:09:07 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: sre)
+        with ESMTPSA id 763D728F853
+Received: by earth.universe (Postfix, from userid 1000)
+        id F27DB3C0C78; Thu,  7 Nov 2019 13:08:59 +0100 (CET)
+Date:   Thu, 7 Nov 2019 13:08:59 +0100
+From:   Sebastian Reichel <sebastian.reichel@collabora.com>
+To:     "Vaittinen, Matti" <Matti.Vaittinen@fi.rohmeurope.com>,
+        Ian Ray <ian.ray@ge.com>, Nandor Han <nandor.han@vaisala.com>
+Cc:     "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "geert+renesas@glider.be" <geert+renesas@glider.be>,
+        "linus.walleij@linaro.org" <linus.walleij@linaro.org>,
+        "andrew@aj.id.au" <andrew@aj.id.au>,
+        "bgolaszewski@baylibre.com" <bgolaszewski@baylibre.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v2 0/2] Add definition for GPIO direction
+Message-ID: <20191107120859.zoml7cmxbtaetjsk@earth.universe>
+References: <cover.1573029228.git.matti.vaittinen@fi.rohmeurope.com>
+ <20191106120846.5bunrqj3uz4khih5@earth.universe>
+ <ddcd02cc6c709837a28cae2cbfa672c506927659.camel@fi.rohmeurope.com>
+ <20191106142441.GC32742@smile.fi.intel.com>
+ <CACRpkdZ2F3zR2bdHgUV9GJX8iSojiM34BTWizTV_z+j7sS4jtw@mail.gmail.com>
+ <2ca76ecb58b9e6377925d6790ff4f7722604f57b.camel@fi.rohmeurope.com>
 MIME-Version: 1.0
-In-Reply-To: <20191106232546.2332745-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="folqfx6rberhaf33"
+Content-Disposition: inline
+In-Reply-To: <2ca76ecb58b9e6377925d6790ff4f7722604f57b.camel@fi.rohmeurope.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
 
-On 07.11.2019 2:25, Niklas Söderlund wrote:
+--folqfx6rberhaf33
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> When aligning the format the pixel format that are being processed shall
+Hi,
 
-    a/are/is/?
+On Thu, Nov 07, 2019 at 08:52:11AM +0000, Vaittinen, Matti wrote:
+> That reminded me.. I got 'unknown recipient' replies
+> <nandor.han@ge.com>: 550 5.1.1 No such user - pp
+> <semi.malinen@ge.com>: 550 5.1.1 No such user - pp
+>=20
+> from both Semi and Nandor - who seem to be the only maintainers listed
+> for XRA1403 GPIO EXPANDER in MAINTAINERS.
+>=20
+> XRA1403 GPIO EXPANDER
+> M:      Nandor Han <nandor.han@ge.com>
+> M:      Semi Malinen <semi.malinen@ge.com>
+> L:      linux-gpio@vger.kernel.org
+> S:      Maintained
+> F:      drivers/gpio/gpio-xra1403.c
+> F:      Documentation/devicetree/bindings/gpio/gpio-xra1403.txt
+>=20
+> Anyone knows new mail addresses or perhaps the separate entry
+> for XRA1403 should be removed?
 
-> be used to figure out alignment constraints, not the currently active
-> pixel format. The alignment might be part of a try operation and shall
-> not be effected by the active format. Fix this by looking at the correct
-> pixel format.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-[...]
++cc new mail address from Nandor Han
++cc Ian Ray with valid GE mail address
 
-MBR, Sergei
+-- Sebastian
+
+--folqfx6rberhaf33
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl3ECVgACgkQ2O7X88g7
++pqKSw/+ONn6O1gk/4+S4c2JkCLB7H8lCrV50kxU2YmcYNaDSI8VjaSEp1LTOuDp
++4Ja/OJ1zrVQOfT31pVmq6j4OsFIkmELfjYuWJbTIaVKDFCjgSG42bIPPpY/n7my
+a/Tk0KXXSJ/bZ2X/KS4Ji2vMdVw/ILs/cJYZLvexWVZu5XxXuSodbGWnObWkha88
+wWMn0ec7ECXaVyxKWlK/XwuEEr09c8TphiyE2KgC5l0LZoWKnEEVM2/VXPJXLmsh
+aZCWP1WOHb8ozvF6KXzlfVu47N7tWvUMyBYaOSfqb7M5ftJ+y9U3U5I5oSv97ROY
+N2oqWgCuYzOxrgsWFOXZXuJ3sQ6d70opOF5mUccQ4xjpIrty56H5bnLkXrfy0XeS
+sYjhmDpsbvreOmGIIV0HLiLdAknXBsVviiMYcMN4qxlzAYn97/jdrMoLEbTF/zMX
+AWOpIF5+RxZfNsLTfum3ePkCkHT5vhskznEIyc/WCN3e7kg47oP8Wjy92NB/Q86U
+i0DkrGjg2hXJrNohjFX4RWz75AErn1QmpKxydkKPysA74l5TOp08Jpgqf+taLiKQ
+EuxlhgyNgKH6i1z3hhBR23ZzTluCHjYW3omivrJPXFI9pnuBD50YmoCMQf0wPBMo
+QgPVkIT1ty/hVDGOva1DL94EDaA3xaeMaGiviES1YriaYKNHTwc=
+=CiYZ
+-----END PGP SIGNATURE-----
+
+--folqfx6rberhaf33--
