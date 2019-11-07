@@ -2,203 +2,317 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9318BF38DC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 20:42:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2721F38F2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 20:50:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727078AbfKGTmj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 7 Nov 2019 14:42:39 -0500
-Received: from mail-eopbgr1400139.outbound.protection.outlook.com ([40.107.140.139]:26176
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725844AbfKGTmj (ORCPT
+        id S1725818AbfKGTun (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 7 Nov 2019 14:50:43 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:33482 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725385AbfKGTun (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 7 Nov 2019 14:42:39 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=H/yErBdpq7mLxS6kyUj0/FawySvdRbBf58tUm/AAE/Yb8VbbM87FMoGMGaykcQjRa9BYJIFHaoULUFUE41UuayeTl9BPrNA2Rgh9Ap7ZPqubuyKab1fi9of5JEwRiq/WwbL4ZBsMdD4B++wmgIHWcIQutv+wvwjIKePfm0Mlcqvwn5npiWFL+mwkN1CBK9ihkFsbHofTBtWjeUmngRLZ6225yNQsrcdFQfo527VdmLwjfh5jqNc2KORKHg5dJfkizAP2CAn4YT8GWw/xcQQ/ypaOBPAudkY37MYpjVS0BYaDhRaIxORn3dtlCf6sQK5/b1f5dgzi9SFYBFJB0DYP7Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iZZn+saoiIsyX8sU3FRJhuPouRvDo8p9bY2Nh0PbrDo=;
- b=Y+3ij+xOtbhc7P6dGulZ5K9rUGsvivvrB9yx2PMMgoimLDqwzJKZgxIdrNq5AlWfpWgAHQLs7DORFZ5m+uTAF8ocKo208MkCCHVYlcDx9NeratVL3hXLynj7KaNd+PlpIHrM94mEneoNmjeQbX+58MpuvDMtYyDu+jZddABeEEd0JslbYEzT1uftubSbR7K8e6MUJ1axNwJKm/oUplhNWdZZzKPvb5moT7HcZZar9j6m4wbwyBeU41TeBLP5UfbSZA6ZuYMBc+9ZppzYC4d5yNwVEYjE/mrU+5oG4cqmNZQ3W4g6Gu6Cug+mG5iHsKjmQ63u+KX7lu6hyMPFjnKUWA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iZZn+saoiIsyX8sU3FRJhuPouRvDo8p9bY2Nh0PbrDo=;
- b=iN6YmSCfAEBiOWpNYCnZ3T9XTNnzxk9Cwwdq7I8fJ7I3+PxF9dGFZg0AR35548RIQfoA29BwtesFGcukdB/239FXqreBcAR6nj6Yn3p85irpogmaVgTtBlEIYMF8STfnPvI4TGl8vthnn1OutKo49V6AmqJQR9uzUttMTGHetHU=
-Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com (52.133.163.13) by
- TY1PR01MB1804.jpnprd01.prod.outlook.com (52.133.162.145) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2430.24; Thu, 7 Nov 2019 19:42:32 +0000
-Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com
- ([fe80::18df:cd2b:3b80:f287]) by TY1PR01MB1770.jpnprd01.prod.outlook.com
- ([fe80::18df:cd2b:3b80:f287%7]) with mapi id 15.20.2408.028; Thu, 7 Nov 2019
- 19:42:31 +0000
-From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-To:     Rob Herring <robh+dt@kernel.org>
-CC:     Neil Armstrong <narmstrong@baylibre.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Simon Horman <horms@verge.net.au>,
+        Thu, 7 Nov 2019 14:50:43 -0500
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 582CF71D;
+        Thu,  7 Nov 2019 20:50:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1573156240;
+        bh=fm+qn3RI1EcWmdOOQijQXQwT/H0Oe7l3klLogtVG9P0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=P6VtBV0mLa3LO14YiBTzAy0WnIfEWAU8hDeU42k2IDMpkarRf6ssKGNQnhJzLq3IJ
+         Du62q95jOsll8yQ1kTeeMAu+uuE/0Qy2Gxt1SUHA33BO/b3QBNzP5VY69ny0qe8DyF
+         H63HeD+CeDqpKaR58mMtyMv8p0QvRK+NkkVpZSy0=
+Date:   Thu, 7 Nov 2019 21:50:30 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Cc:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Simon Horman <horms@verge.net.au>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Peter Rosin <peda@axentia.se>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: RE: [PATCH v2 2/4] dt-bindings: display: bridge: Repurpose
- lvds-encoder
-Thread-Topic: [PATCH v2 2/4] dt-bindings: display: bridge: Repurpose
- lvds-encoder
-Thread-Index: AQHVkzESR2xpe9fL00q33GVpoGbh06d7hZaAgADCn0CAAIh/AIADTzOw
-Date:   Thu, 7 Nov 2019 19:42:30 +0000
-Message-ID: <TY1PR01MB177056A1C63DDE5EEE8329BBC0780@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-References: <1572886683-4919-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1572886683-4919-3-git-send-email-fabrizio.castro@bp.renesas.com>
- <CAL_JsqJ+xus0GDWb0Px6HKDBzOt1yjwCCkQrfMspubwG+LZOdQ@mail.gmail.com>
- <TY1PR01MB1770F97A73768451B2ED8A22C07E0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
- <CAL_JsqL6Nzr2oBh51PZnQfBUK1ggDcZUrLaSP2GvEycwFAwJZw@mail.gmail.com>
-In-Reply-To: <CAL_JsqL6Nzr2oBh51PZnQfBUK1ggDcZUrLaSP2GvEycwFAwJZw@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=fabrizio.castro@bp.renesas.com; 
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 841ce889-04c9-4095-d13c-08d763baa166
-x-ms-traffictypediagnostic: TY1PR01MB1804:|TY1PR01MB1804:
-x-ms-exchange-purlcount: 2
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TY1PR01MB1804DF3C73B4225032C72C52C0780@TY1PR01MB1804.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 0214EB3F68
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(136003)(396003)(376002)(366004)(39860400002)(346002)(189003)(199004)(71190400001)(7736002)(71200400001)(76116006)(52536014)(14444005)(256004)(5660300002)(6436002)(6116002)(99286004)(229853002)(25786009)(66446008)(64756008)(66556008)(54906003)(66946007)(66476007)(4326008)(86362001)(305945005)(55016002)(316002)(6306002)(3846002)(9686003)(6506007)(14454004)(76176011)(478600001)(33656002)(6246003)(186003)(26005)(7696005)(7416002)(11346002)(81166006)(102836004)(8936002)(2906002)(53546011)(81156014)(8676002)(966005)(476003)(74316002)(66066001)(446003)(44832011)(486006);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1804;H:TY1PR01MB1770.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
-received-spf: None (protection.outlook.com: bp.renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: RF/h1kngdgXH3O6TparFa0NeeMLejIjXL3D9OKlEWwLL+RHGuoxcAw8wsospTv1eCQP8vmRqrJk55hYv5dlqMb63VyRVVyR2zaLJTUCVLduk7AvZL8W3F1nKj5NluyMYUZJT4BoZ6CU8WljwryIcbGs88msyOnCaFvn4D5uKbD1vDux2CsjPl7qQApHZI+HcFOVxpdqdnY1b6KXocreAlOyAoLO//UquFbDIV/Qncp1dDrrp7of3Y5V870NbWjUd/ILBGyvCQeJurRBUk6ybojDQAdeC5dn9G84sstFCg9efr1lEKTnj0wyXCtuV2IhmozF7aXZQchAJ1kGy7uDaaC/GyBSyFz1O8PDoChscIz/qio7qtQg8guknH+9yRCZqH7pZEF2/reMI/iNZjdLiYB9dsxkRR49oIT7BisegQ5d33Spy4ZvRIY4g6HVCLIW3hG+NJD2pD7dwUrKi4EC2iH+NHPQY9vstMWoSQ9RCNUY=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Jacopo Mondi <jacopo+renesas@jmondi.org>, sam@ravnborg.org
+Subject: Re: [PATCH v3 4/8] drm: rcar-du: lvds: Add dual-LVDS panels support
+Message-ID: <20191107195030.GI24983@pendragon.ideasonboard.com>
+References: <1567017402-5895-1-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1567017402-5895-5-git-send-email-fabrizio.castro@bp.renesas.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 841ce889-04c9-4095-d13c-08d763baa166
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Nov 2019 19:42:31.3124
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: N27/aI72mzHxPxu3nqz8DIofsL0ecn36fRf9B+mLrrncdoKiwkDqOOeEDCsAsfuyeYRVvfzBJk6Z4lkyz74DMXFAc5X1ON/YYLEmILRL3/I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1804
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1567017402-5895-5-git-send-email-fabrizio.castro@bp.renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGVsbG8gUm9iLA0KDQpUaGFuayB5b3UgZm9yIHlvdXIgZmVlZGJhY2shDQoNCj4gRnJvbTogUm9i
-IEhlcnJpbmcgPHJvYmgrZHRAa2VybmVsLm9yZz4NCj4gU2VudDogMDUgTm92ZW1iZXIgMjAxOSAx
-NzowOA0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYyIDIvNF0gZHQtYmluZGluZ3M6IGRpc3BsYXk6
-IGJyaWRnZTogUmVwdXJwb3NlIGx2ZHMtZW5jb2Rlcg0KPiANCj4gT24gVHVlLCBOb3YgNSwgMjAx
-OSBhdCAzOjMzIEFNIEZhYnJpemlvIENhc3Rybw0KPiA8ZmFicml6aW8uY2FzdHJvQGJwLnJlbmVz
-YXMuY29tPiB3cm90ZToNCj4gPg0KPiA+IEhlbGxvIFJvYiwNCj4gPg0KPiA+IFRoYW5rIHlvdSBm
-b3IgeW91ciBmZWVkYmFjayENCj4gPg0KPiA+ID4gRnJvbTogUm9iIEhlcnJpbmcgPHJvYmgrZHRA
-a2VybmVsLm9yZz4NCj4gPiA+IFNlbnQ6IDA0IE5vdmVtYmVyIDIwMTkgMjE6MjMNCj4gPiA+IFN1
-YmplY3Q6IFJlOiBbUEFUQ0ggdjIgMi80XSBkdC1iaW5kaW5nczogZGlzcGxheTogYnJpZGdlOiBS
-ZXB1cnBvc2UgbHZkcy1lbmNvZGVyDQo+ID4gPg0KPiA+ID4gT24gTW9uLCBOb3YgNCwgMjAxOSBh
-dCAxMDo1OCBBTSBGYWJyaXppbyBDYXN0cm8NCj4gPiA+IDxmYWJyaXppby5jYXN0cm9AYnAucmVu
-ZXNhcy5jb20+IHdyb3RlOg0KPiA+ID4gPg0KPiA+ID4gPiBJbiBhbiBlZmZvcnQgdG8gcmVwdXJw
-b3NlIGx2ZHMtZW5jb2Rlci5jIHRvIGFsc28gc2VydmUgdGhlDQo+ID4gPiA+IGZ1bmN0aW9uIG9m
-IExWRFMgZGVjb2RlcnMsIHdlIGVuZGVkIHVwIGRlZmluaW5nIGEgbmV3ICJnZW5lcmljIg0KPiA+
-ID4gPiBjb21wYXRpYmxlIHN0cmluZywgdGhlcmVmb3JlIGFkYXB0IHRoZSBkdC1iaW5kaW5ncyB0
-byBmaXQgdGhlDQo+ID4gPiA+IG5ldyBwdXJwb3NlLiBBbHNvLCBjb252ZXJ0IHRoZSBkdC1iaW5k
-aW5ncyBmcm9tIC50eHQgdG8gLnlhbWwNCj4gPiA+ID4gd2hpbGUgYXQgaXQuDQo+ID4gPg0KPiA+
-ID4gIkFsc28sIC4uLiB3aGlsZSBhdCBpdC4iIGlzIGEgc2lnbiBmb3Igc3BsaXQgaW50byAyIHBh
-dGNoZXMuDQo+ID4NCj4gPiBXaWxsIHNwbGl0IGludG8gMiBwYXRjaGVzDQo+ID4NCj4gPiA+DQo+
-ID4gPiA+IFNpZ25lZC1vZmYtYnk6IEZhYnJpemlvIENhc3RybyA8ZmFicml6aW8uY2FzdHJvQGJw
-LnJlbmVzYXMuY29tPg0KPiA+ID4gPg0KPiA+ID4gPiAtLS0NCj4gPiA+ID4gdjEtPnYyOg0KPiA+
-ID4gPiAqIENvbnZlcnRlZCB0byBkdC1zY2hlbWEgYXMgcGVyIE5laWwncyBjb21tZW50DQo+ID4g
-PiA+IC0tLQ0KPiA+ID4gPiAgLi4uL2JpbmRpbmdzL2Rpc3BsYXkvYnJpZGdlL2x2ZHMtY29kZWMu
-eWFtbCAgICAgICAgfCAxMTcgKysrKysrKysrKysrKysrKysrKysrDQo+ID4gPiA+ICAuLi4vYmlu
-ZGluZ3MvZGlzcGxheS9icmlkZ2UvbHZkcy10cmFuc21pdHRlci50eHQgICB8ICA2NiAtLS0tLS0t
-LS0tLS0NCj4gPiA+ID4gIDIgZmlsZXMgY2hhbmdlZCwgMTE3IGluc2VydGlvbnMoKyksIDY2IGRl
-bGV0aW9ucygtKQ0KPiA+ID4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2
-aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9sdmRzLWNvZGVjLnlhbWwNCj4gPiA+ID4g
-IGRlbGV0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvZGlz
-cGxheS9icmlkZ2UvbHZkcy10cmFuc21pdHRlci50eHQNCj4gPiA+ID4NCj4gPiA+ID4gZGlmZiAt
-LWdpdCBhL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9kaXNwbGF5L2JyaWRnZS9s
-dmRzLWNvZGVjLnlhbWwNCj4gPiA+IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
-L2Rpc3BsYXkvYnJpZGdlL2x2ZHMtY29kZWMueWFtbA0KPiA+ID4gPiBuZXcgZmlsZSBtb2RlIDEw
-MDY0NA0KPiA+ID4gPiBpbmRleCAwMDAwMDAwLi5mZjc5YmMyDQo+ID4gPiA+IC0tLSAvZGV2L251
-bGwNCj4gPiA+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3Bs
-YXkvYnJpZGdlL2x2ZHMtY29kZWMueWFtbA0KPiA+ID4gPiBAQCAtMCwwICsxLDExNyBAQA0KPiA+
-ID4gPiArIyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMA0KPiA+ID4gPiArJVlBTUwg
-MS4yDQo+ID4gPiA+ICstLS0NCj4gPiA+ID4gKyRpZDogaHR0cDovL2RldmljZXRyZWUub3JnL3Nj
-aGVtYXMvZGlzcGxheS9icmlkZ2UvbHZkcy1jb2RlYy55YW1sIw0KPiA+ID4gPiArJHNjaGVtYTog
-aHR0cDovL2RldmljZXRyZWUub3JnL21ldGEtc2NoZW1hcy9jb3JlLnlhbWwjDQo+ID4gPiA+ICsN
-Cj4gPiA+ID4gK3RpdGxlOiBUcmFzbnBhcmVudCBMVkRTIGVuY29kZXJzIGFuZCBMVkRTIGRlY29k
-ZXJzDQo+ID4gPg0KPiA+ID4gVHlwbw0KPiA+DQo+ID4gV2lsbCBmaXgNCj4gPg0KPiA+ID4NCj4g
-PiA+ID4gKw0KPiA+ID4gPiArbWFpbnRhaW5lcnM6DQo+ID4gPiA+ICsgIC0gTGF1cmVudCBQaW5j
-aGFydCA8bGF1cmVudC5waW5jaGFydCtyZW5lc2FzQGlkZWFzb25ib2FyZC5jb20+DQo+ID4gPiA+
-ICsNCj4gPiA+ID4gK2Rlc2NyaXB0aW9uOiB8DQo+ID4gPiA+ICsgIFRoaXMgYmluZGluZyBzdXBw
-b3J0cyB0cmFuc3BhcmVudCBMVkRTIGVuY29kZXJzIGFuZCBMVkRTIGRlY29kZXJzIHRoYXQgZG9u
-J3QNCj4gPiA+ID4gKyAgcmVxdWlyZSBhbnkgY29uZmlndXJhdGlvbi4NCj4gPiA+ID4gKw0KPiA+
-ID4gPiArICBMVkRTIGlzIGEgcGh5c2ljYWwgbGF5ZXIgc3BlY2lmaWNhdGlvbiBkZWZpbmVkIGlu
-IEFOU0kvVElBL0VJQS02NDQtQS4gTXVsdGlwbGUNCj4gPiA+ID4gKyAgaW5jb21wYXRpYmxlIGRh
-dGEgbGluayBsYXllcnMgaGF2ZSBiZWVuIHVzZWQgb3ZlciB0aW1lIHRvIHRyYW5zbWl0IGltYWdl
-IGRhdGENCj4gPiA+ID4gKyAgdG8gTFZEUyBwYW5lbHMuIFRoaXMgYmluZGluZyB0YXJnZXRzIGRl
-dmljZXMgY29tcGF0aWJsZSB3aXRoIHRoZSBmb2xsb3dpbmcNCj4gPiA+ID4gKyAgc3BlY2lmaWNh
-dGlvbnMgb25seS4NCj4gPiA+ID4gKw0KPiA+ID4gPiArICBbSkVJREFdICJEaWdpdGFsIEludGVy
-ZmFjZSBTdGFuZGFyZHMgZm9yIE1vbml0b3IiLCBKRUlEQS01OS0xOTk5LCBGZWJydWFyeQ0KPiA+
-ID4gPiArICAxOTk5IChWZXJzaW9uIDEuMCksIEphcGFuIEVsZWN0cm9uaWMgSW5kdXN0cnkgRGV2
-ZWxvcG1lbnQgQXNzb2NpYXRpb24gKEpFSURBKQ0KPiA+ID4gPiArICBbTERJXSAiT3BlbiBMVkRT
-IERpc3BsYXkgSW50ZXJmYWNlIiwgTWF5IDE5OTkgKFZlcnNpb24gMC45NSksIE5hdGlvbmFsDQo+
-ID4gPiA+ICsgIFNlbWljb25kdWN0b3INCj4gPiA+ID4gKyAgW1ZFU0FdICJWRVNBIE5vdGVib29r
-IFBhbmVsIFN0YW5kYXJkIiwgT2N0b2JlciAyMDA3IChWZXJzaW9uIDEuMCksIFZpZGVvDQo+ID4g
-PiA+ICsgIEVsZWN0cm9uaWNzIFN0YW5kYXJkcyBBc3NvY2lhdGlvbiAoVkVTQSkNCj4gPiA+ID4g
-Kw0KPiA+ID4gPiArICBUaG9zZSBkZXZpY2VzIGhhdmUgYmVlbiBtYXJrZXRlZCB1bmRlciB0aGUg
-RlBELUxpbmsgYW5kIEZsYXRMaW5rIGJyYW5kIG5hbWVzDQo+ID4gPiA+ICsgIGFtb25nIG90aGVy
-cy4NCj4gPiA+ID4gKw0KPiA+ID4gPiArcHJvcGVydGllczoNCj4gPiA+ID4gKyAgY29tcGF0aWJs
-ZToNCj4gPiA+ID4gKyAgICBkZXNjcmlwdGlvbjogfA0KPiA+ID4gPiArICAgICAgQW55IGVuY29k
-ZXIgb3IgZGVjb2RlciBjb21wYXRpYmxlIHdpdGggdGhpcyBnZW5lcmljIGJpbmRpbmcsIGJ1dCB3
-aXRoDQo+ID4gPiA+ICsgICAgICBhZGRpdGlvbmFsIHByb3BlcnRpZXMgbm90IGxpc3RlZCBoZXJl
-LCBtdXN0IGRlZmluZSBpdHMgb3duIGJpbmRpbmcgYW5kDQo+ID4gPiA+ICsgICAgICBsaXN0IGEg
-ZGV2aWNlIHNwZWNpZmljIGNvbXBhdGlibGUgZmlyc3QgZm9sbG93ZWQgYnkgdGhlIGdlbmVyaWMg
-Y29tcGF0aWJsZQ0KPiA+ID4gPiArICAgIGl0ZW1zOg0KPiA+ID4gPiArICAgICAgLSBlbnVtOg0K
-PiA+ID4NCj4gPiA+IFlvdSBjYW4gZHJvcCAnaXRlbXMnIHdoZW4gdGhlcmUncyBvbmx5IDEuDQo+
-ID4NCj4gPiBXaWxsIGRyb3ANCj4gPg0KPiA+ID4NCj4gPiA+ID4gKyAgICAgICAgLSBsdmRzLWVu
-Y29kZXIgIyBmb3IgTFZEUyBlbmNvZGVycw0KPiA+ID4gPiArICAgICAgICAtIGx2ZHMtZGVjb2Rl
-ciAjIGZvciBMVkRTIGRlY29kZXJzDQo+ID4gPiA+ICsNCj4gPiA+ID4gKyAgcG9ydHM6DQo+ID4g
-PiA+ICsgICAgdHlwZTogb2JqZWN0DQo+ID4gPiA+ICsgICAgZGVzY3JpcHRpb246IHwNCj4gPiA+
-ID4gKyAgICAgIFRoaXMgZGV2aWNlIGhhcyB0d28gdmlkZW8gcG9ydHMuIFRoZWlyIGNvbm5lY3Rp
-b25zIGFyZSBtb2RlbGVkIHVzaW5nIHRoZQ0KPiA+ID4gPiArICAgICAgT0YgZ3JhcGggYmluZGlu
-Z3Mgc3BlY2lmaWVkIGluIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9ncmFwaC50
-eHQNCj4gPiA+ID4gKyAgICBwcm9wZXJ0aWVzOg0KPiA+ID4gPiArICAgICAgcG9ydEAwOg0KPiA+
-ID4gPiArICAgICAgICB0eXBlOiBvYmplY3QNCj4gPiA+ID4gKyAgICAgICAgZGVzY3JpcHRpb246
-IHwNCj4gPiA+ID4gKyAgICAgICAgICBXaXRoIExWRFMgZW5jb2RlcnMgcG9ydCAwIGlzIGZvciBw
-YXJhbGxlbCBpbnB1dA0KPiA+ID4gPiArICAgICAgICAgIFdpdGggTFZEUyBkZWNvZGVycyBwb3J0
-IDAgaXMgZm9yIExWRFMgaW5wdXQNCj4gPiA+ID4gKw0KPiA+ID4gPiArICAgICAgcG9ydEAxOg0K
-PiA+ID4gPiArICAgICAgICB0eXBlOiBvYmplY3QNCj4gPiA+ID4gKyAgICAgICAgZGVzY3JpcHRp
-b246IHwNCj4gPiA+ID4gKyAgICAgICAgICBXaXRoIExWRFMgZW5jb2RlcnMgcG9ydCAxIGlzIGZv
-ciBMVkRTIG91dHB1dA0KPiA+ID4gPiArICAgICAgICAgIFdpdGggTFZEUyBkZWNvZGVycyBwb3J0
-IDEgaXMgZm9yIHBhcmFsbGVsIG91dHB1dA0KPiA+ID4NCj4gPiA+IHBvcnRAKiBhcmUgcmVxdWly
-ZWQsIHJpZ2h0Pw0KPiA+DQo+ID4gWWVzLCBwb3J0QDAgYW5kIHBvcnRAMSBhcmUgYm90aCByZXF1
-aXJlZCwgc2ltaWxhcmx5IHRvOg0KPiA+IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
-cy9kaXNwbGF5L3N0LHN0bTMyLWRzaS55YW1sDQo+ID4gdGhlcmVmb3JlIEkgaGF2ZSBwdXQgInBv
-cnRzIiB1bmRlciAicmVxdWlyZWQiLCBpbiBhIHNpbWlsYXIgZmFzaGlvbi4NCj4gPiBXaGF0J3Mg
-dGhlIHJpZ2h0IHdheSBvZiBzcGVjaWZ5aW5nIHRoaXM/DQo+IA0KPiBTYW1lIGFzIGFueSBvdGhl
-ciBwcm9wZXJ0eToNCj4gDQo+IHJlcXVpcmVkOg0KPiAgIC0gcG9ydEAwDQo+ICAgLSBwb3J0QDEN
-Cj4gDQo+IEF0IHRoZSBjb3JyZWN0IGxldmVsIG9mIGNvdXJzZS4NCg0KR290Y2hhDQoNCldpbGwg
-c2VuZCB2MyBzaG9ydGx5Lg0KDQpUaGFua3MsDQpGYWINCg0KPiANCj4gUm9iDQo=
+Hi Fabrizio,
+
+Thank you for the patch.
+
+On Wed, Aug 28, 2019 at 07:36:38PM +0100, Fabrizio Castro wrote:
+> The driver doesn't support dual-link LVDS displays, and the way
+> it identifies bridges won't allow for dual-LVDS displays to be
+> connected. Also, it's not possible to swap even and odd pixels
+> around in case the wiring isn't taking advantage of the default
+> hardware configuration. Further more, the "mode" of the companion
+> encoder should be same as the mode of the primary encoder.
+> 
+> Rework the driver to improve all of the above, so that it can
+> support dual-LVDS displays.
+
+That's lots of changes in one patch, could it be split to ease review ?
+Also, should the commit message be reworded to explain what the patch
+does, instead of enumerating issues ? When there's a single issue being
+addressed in a patch it's usually fine, but there the change is larger,
+without an explanation of how you intend to fix the issues I can't tell
+if the code really matches your intent.
+
+> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> 
+> ---
+> v2->v3:
+> * reworked to take advantange of the new dt-bindings
+> * squashed in the patche for fixing the companion's mode
+> 
+> Laurent,
+> 
+> unfortunately the best way to get the companion encoder to use
+> the same mode as the primary encoder is setting the mode directly
+> without calling into rcar_lvds_mode_set for the companion encoder,
+> as the below test fails for the companion encoder in
+> rcar_lvds_get_lvds_mode:
+> if (!info->num_bus_formats || !info->bus_formats)
+
+Would "[PATCH] drm: rcar-du: lvds: Get mode from state" help here ?
+Maybe you could review that patch, I could then include it in my -next
+branch, your work would be simplified, and everybody would be happy ?
+:-)
+
+> Anyhow, setting the mode for the companion encoder doesn't seem
+> to be mandary according to the experiments I have been running,
+> but the HW User's Manual doesn't really say much about this,
+> therefore I think the safest option is still to set the mode for
+> the companion encoder.
+
+I agree it should be done.
+
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c | 110 +++++++++++++++++++++---------------
+>  1 file changed, 65 insertions(+), 45 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> index 3fe0b86..dfec5e7 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> @@ -20,6 +20,8 @@
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+> +#include <drm/drm_bus_timings.h>
+> +#include <drm/drm_of.h>
+>  #include <drm/drm_panel.h>
+>  #include <drm/drm_probe_helper.h>
+>  
+> @@ -69,6 +71,7 @@ struct rcar_lvds {
+>  
+>  	struct drm_bridge *companion;
+>  	bool dual_link;
+> +	bool stripe_swap_data;
+>  };
+>  
+>  #define bridge_to_rcar_lvds(b) \
+> @@ -439,12 +442,20 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
+>  	rcar_lvds_write(lvds, LVDCHCR, lvdhcr);
+>  
+>  	if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK) {
+> -		/*
+> -		 * Configure vertical stripe based on the mode of operation of
+> -		 * the connected device.
+> -		 */
+> -		rcar_lvds_write(lvds, LVDSTRIPE,
+> -				lvds->dual_link ? LVDSTRIPE_ST_ON : 0);
+> +		u32 lvdstripe = 0;
+> +
+> +		if (lvds->dual_link)
+> +			/*
+> +			 * Configure vertical stripe based on the mode of
+> +			 * operation of the connected device.
+> +			 *
+> +			 * ST_SWAP from LVD1STRIPE is reserved, do not set
+> +			 * in the companion LVDS
+> +			 */
+> +			lvdstripe = LVDSTRIPE_ST_ON |
+> +				(lvds->companion && lvds->stripe_swap_data ?
+> +				 LVDSTRIPE_ST_SWAP : 0);
+> +		rcar_lvds_write(lvds, LVDSTRIPE, lvdstripe);
+>  	}
+>  
+>  	/*
+> @@ -603,6 +614,11 @@ static void rcar_lvds_mode_set(struct drm_bridge *bridge,
+>  	lvds->display_mode = *adjusted_mode;
+>  
+>  	rcar_lvds_get_lvds_mode(lvds);
+> +	if (lvds->companion) {
+> +		struct rcar_lvds *companion_lvds = bridge_to_rcar_lvds(
+> +							lvds->companion);
+> +		companion_lvds->mode = lvds->mode;
+> +	}
+>  }
+>  
+>  static int rcar_lvds_attach(struct drm_bridge *bridge)
+> @@ -667,9 +683,10 @@ EXPORT_SYMBOL_GPL(rcar_lvds_dual_link);
+>  static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
+>  {
+>  	const struct of_device_id *match;
+> -	struct device_node *companion;
+> +	struct device_node *companion, *p0 = NULL, *p1 = NULL;
+>  	struct device *dev = lvds->dev;
+> -	int ret = 0;
+> +	struct rcar_lvds *companion_lvds;
+> +	int ret = 0, dual_link;
+>  
+>  	/* Locate the companion LVDS encoder for dual-link operation, if any. */
+>  	companion = of_parse_phandle(dev->of_node, "renesas,companion", 0);
+> @@ -687,16 +704,50 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
+>  		goto done;
+>  	}
+>  
+> +	/*
+> +	 * We need to work out if the sink is expecting us to function in
+> +	 * dual-link mode. We do this by looking at the DT port nodes we are
+> +	 * connected to, if they are marked as expecting even pixels and
+> +	 * odd pixels than we need to enable vertical stripe output
+> +	 */
+> +	p0 = of_graph_get_port_by_id(dev->of_node, 1);
+> +	p1 = of_graph_get_port_by_id(companion, 1);
+> +	dual_link = drm_of_lvds_get_dual_link_configuration(p0, p1);
+
+You can call of_node_put(p0) and of_node_put(p1) here instead of adding
+them at the end of the function.
+
+> +	if (dual_link >= DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS) {
+> +		dev_dbg(dev, "Dual-link configuration detected\n");
+> +		lvds->dual_link = true;
+> +	} else {
+> +		/* dual-link mode is not required */
+> +		dev_dbg(dev, "Single-link configuration detected\n");
+> +		goto done;
+> +	}
+
+Missing blank line here.
+
+> +	/*
+> +	 * We may need to swap even and odd pixels around in case the wiring
+> +	 * doesn't match the default configuration.
+> +	 * By default we generate even pixels from this encoder and odd pixels
+> +	 * from the companion encoder, but if p0 is connected to the port
+> +	 * expecting ood pixels, and p1 is connected to the port expecting even
+> +	 * pixels, then we need to swap even and odd pixels around
+> +	 */
+> +	if (dual_link == DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS) {
+> +		dev_dbg(dev, "Data swapping required\n");
+> +		lvds->stripe_swap_data = true;
+> +	}
+> +
+>  	lvds->companion = of_drm_find_bridge(companion);
+>  	if (!lvds->companion) {
+>  		ret = -EPROBE_DEFER;
+>  		goto done;
+>  	}
+> +	companion_lvds = bridge_to_rcar_lvds(lvds->companion);
+> +	companion_lvds->dual_link = lvds->dual_link;
+
+I don't like poking directly in the companion like this :-( Can't we let
+the companion detect dual link mode itself ?
+
+>  
+>  	dev_dbg(dev, "Found companion encoder %pOF\n", companion);
+>  
+>  done:
+>  	of_node_put(companion);
+> +	of_node_put(p0);
+> +	of_node_put(p1);
+>  
+>  	return ret;
+>  }
+> @@ -704,10 +755,7 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
+>  static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
+>  {
+>  	struct device_node *local_output = NULL;
+> -	struct device_node *remote_input = NULL;
+>  	struct device_node *remote = NULL;
+> -	struct device_node *node;
+> -	bool is_bridge = false;
+>  	int ret = 0;
+>  
+>  	local_output = of_graph_get_endpoint_by_regs(lvds->dev->of_node, 1, 0);
+> @@ -735,45 +783,17 @@ static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
+>  		goto done;
+>  	}
+>  
+
+I think you can also drop all the code above.
+
+> -	remote_input = of_graph_get_remote_endpoint(local_output);
+> -
+> -	for_each_endpoint_of_node(remote, node) {
+> -		if (node != remote_input) {
+> -			/*
+> -			 * We've found one endpoint other than the input, this
+> -			 * must be a bridge.
+> -			 */
+> -			is_bridge = true;
+> -			of_node_put(node);
+> -			break;
+> -		}
+> -	}
+> -
+> -	if (is_bridge) {
+> -		lvds->next_bridge = of_drm_find_bridge(remote);
+> -		if (!lvds->next_bridge) {
+> -			ret = -EPROBE_DEFER;
+> -			goto done;
+> -		}
+> -
+> -		if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK)
+> -			lvds->dual_link = lvds->next_bridge->timings
+> -					? lvds->next_bridge->timings->dual_link
+> -					: false;
+
+Aren't you breaking backward compatibility with this change ? Unless I'm
+mistaken you're now requiring the new DT properties, and the existing DT
+that include a thc63lvd1024 won't have them.
+
+> -	} else {
+> -		lvds->panel = of_drm_find_panel(remote);
+> -		if (IS_ERR(lvds->panel)) {
+> -			ret = PTR_ERR(lvds->panel);
+> -			goto done;
+> -		}
+> +	ret = drm_of_find_panel_or_bridge(lvds->dev->of_node, 1, 0,
+> +					  &lvds->panel, &lvds->next_bridge);
+> +	if (ret) {
+> +		ret = -EPROBE_DEFER;
+
+Shouldn't you return ret instead of overriding it ?
+
+> +		goto done;
+>  	}
+> -
+> -	if (lvds->dual_link)
+> +	if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK)
+>  		ret = rcar_lvds_parse_dt_companion(lvds);
+>  
+>  done:
+>  	of_node_put(local_output);
+> -	of_node_put(remote_input);
+>  	of_node_put(remote);
+>  
+>  	/*
+
+-- 
+Regards,
+
+Laurent Pinchart
