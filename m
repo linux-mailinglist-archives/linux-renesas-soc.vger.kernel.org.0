@@ -2,130 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BBDE5F231B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 01:11:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C39BCF2374
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  7 Nov 2019 01:44:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727228AbfKGALH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 6 Nov 2019 19:11:07 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:37755 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727296AbfKGALH (ORCPT
+        id S1732784AbfKGAou (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 6 Nov 2019 19:44:50 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:34682 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732730AbfKGAot (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 6 Nov 2019 19:11:07 -0500
-Received: by mail-lj1-f196.google.com with SMTP id l20so203785lje.4
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 06 Nov 2019 16:11:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=t29L8pHs1xG8RkPaoBvRVOiIoBVujBGtSMYiRlmYjVE=;
-        b=OAdQ+KsKiqDB9xQ7oq5ZPDOzzwG97KbHoOqeMqEibD7QPpjsuJhAI7Cft08HkNpGg+
-         ei74ztX3onpYg824xTaD3+yUvyz/l+y2oUKrxdbMY80sISVWlNdKKkC7/uee8Y6N1CcY
-         x0NcLz1wgaOK25ytY0YAi0QoSmi7cyiEiQDRnDXtps5Xvjrc7entKTKs0RWxBdyGkp6r
-         6q7lMMCI9umbJkFFbd7IlFQVQnT70OeiBstlm8HuaO53te7QeBFXaLqzzludIF3JHYf1
-         7OqP9dnTfPFjQoZLizgmy+6cOWi2fObDnYp8Sn/RGcOjO15QoPPuIkEHY1/VJLezNySh
-         +XxQ==
+        Wed, 6 Nov 2019 19:44:49 -0500
+Received: by mail-oi1-f194.google.com with SMTP id l202so460407oig.1;
+        Wed, 06 Nov 2019 16:44:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=t29L8pHs1xG8RkPaoBvRVOiIoBVujBGtSMYiRlmYjVE=;
-        b=FiLc7bRPmVblLCw45TEBRKxd08Bj+UwKhrnuskdg3sBS86h8I/fTuuXl8cTYaDv6qk
-         1DJoe6WJhe8ycqIA5nkn5hoxFxrsyAYFXDCpfEPHRO/NxlFj+MBatvP0ebNELf7ItbK5
-         o3fZLJaAekYc+K75vk4ZZKgMCy6T4OOc8ivb2nBQMQSj3PoHZFYsfsDDm33nHZ29EQIv
-         nhX2hx4zkERyqUex+EdpjVCnvTHqHmRBPhty5qyQ9poCcg3gXqIF8vUu539LSRdUbit7
-         ZHQc89LJ4Ki41ltq5Bd21YvETyUF1W/lk4zBiiVCfl74Lrp5tg1yakOkifwApiVF9V9d
-         1pLw==
-X-Gm-Message-State: APjAAAWNR/4MSFm0CAbT0ovKRMMU0sXJ8PWdSEpGsmVh/mLE3/Hfex00
-        HSragagUgwLW0Mm05I2mwmKI6Q==
-X-Google-Smtp-Source: APXvYqwcCzcfy4vXW68zINBR9vMAZfZrg1ZzfCfum+hibvhaKKo7kAAzkGbwPeRkSRmqfQBuiRatJA==
-X-Received: by 2002:a2e:9e97:: with SMTP id f23mr101367ljk.89.1573085465185;
-        Wed, 06 Nov 2019 16:11:05 -0800 (PST)
-Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
-        by smtp.gmail.com with ESMTPSA id q26sm138561lfo.65.2019.11.06.16.11.04
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=0A6Sl7zSjHp0Gn3fGjWaLM1DGcUnZEOa8sMsOQfIiPU=;
+        b=t22UPpwhYxTq13KRKfcuj4aSjuZLiE63ZcNaddIoPf0xTGx+ELcJs3bJI3L3HM7Z84
+         EeCJn5ALhZ0+ZRqI/pF3/NdNUpE2wxlmsg61aGWj6NQ+Sqo5EqIeaeAhiqrY8Nr88FTU
+         BBiLCdr3XWocCnHlogYVKREL8CyrttKya6nCVq21B8E9E5yuYHbq2e93BqwDozyTKfik
+         nSGqf8qlX/nQQA7FLd6Yi2SG85qf9w3NfuhA/LBh4ouzsvSPpd6TQHx3ISdXc5pAenF+
+         CKNo2k0k2R/kCvMVsYuaf9WFLIVFIZA5LPqozVZUOzd/8CtIQD8E3lpz3P+I2hYFTJk0
+         ZMbw==
+X-Gm-Message-State: APjAAAX6eaJLZxysqAzV37NwSMN/Ns8wbR/1AhbivtT6LfrF43LdKtqJ
+        sG+2gzcIcoJuVhw3AOxYVP3qaDI=
+X-Google-Smtp-Source: APXvYqyfsqvPVgFUWcwXVoPnoSlHymygFq5/jTwO77h/Hv9a1kU1pcDbot6gwp0R/54F7mjEIf2REA==
+X-Received: by 2002:aca:1101:: with SMTP id 1mr772110oir.103.1573087488847;
+        Wed, 06 Nov 2019 16:44:48 -0800 (PST)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id a9sm202045otc.75.2019.11.06.16.44.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2019 16:11:04 -0800 (PST)
-Date:   Thu, 7 Nov 2019 01:11:03 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     joro@8bytes.org, iommu@lists.linux-foundation.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 6/6] iommu/ipmmu-vmsa: Add utlb_offset_base
-Message-ID: <20191107001103.GG18345@bigcity.dyn.berto.se>
-References: <1573007750-16611-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1573007750-16611-7-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Wed, 06 Nov 2019 16:44:48 -0800 (PST)
+Date:   Wed, 6 Nov 2019 18:44:47 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH 1/3] dt-bindings: display: renesas: du: Add vendor prefix
+ to vsps property
+Message-ID: <20191107004447.GA14493@bogus>
+References: <20191105183504.21447-1-geert+renesas@glider.be>
+ <20191105183504.21447-2-geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1573007750-16611-7-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <20191105183504.21447-2-geert+renesas@glider.be>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
-
-Thanks for your patch,
-
-On 2019-11-06 11:35:50 +0900, Yoshihiro Shimoda wrote:
-> Since we will have changed memory mapping of the IPMMU in the future,
-> this patch adds a utlb_offset_base into struct ipmmu_features
-> for IMUCTR and IMUASID registers. No behavior change.
+On Tue,  5 Nov 2019 19:35:02 +0100, Geert Uytterhoeven wrote:
+> The Renesas-specific "vsps" property lacks a vendor prefix.
+> Add a "renesas," prefix to comply with DT best practises.
 > 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
+> Move "renesas,vsps" below "renesas,cmms" to preserve alphabetical sort
+> order.
+> 
+> Fixes: 06711e6385a4ab4c ("drm: rcar-du: Document the vsps property in the DT bindings")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  drivers/iommu/ipmmu-vmsa.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/iommu/ipmmu-vmsa.c b/drivers/iommu/ipmmu-vmsa.c
-> index 82da486..c813436 100644
-> --- a/drivers/iommu/ipmmu-vmsa.c
-> +++ b/drivers/iommu/ipmmu-vmsa.c
-> @@ -52,6 +52,7 @@ struct ipmmu_features {
->  	bool cache_snoop;
->  	unsigned int ctx_offset_base;
->  	unsigned int ctx_offset_stride;
-> +	unsigned int utlb_offset_base;
->  };
->  
->  struct ipmmu_vmsa_device {
-> @@ -232,7 +233,7 @@ static void ipmmu_ctx_write_all(struct ipmmu_vmsa_domain *domain,
->  
->  static u32 ipmmu_utlb_reg(struct ipmmu_vmsa_device *mmu, unsigned int reg)
->  {
-> -	return reg;
-> +	return mmu->features->utlb_offset_base + reg;
->  }
->  
->  static void ipmmu_imuasid_write(struct ipmmu_vmsa_device *mmu,
-> @@ -958,6 +959,7 @@ static const struct ipmmu_features ipmmu_features_default = {
->  	.cache_snoop = true,
->  	.ctx_offset_base = 0,
->  	.ctx_offset_stride = 0x40,
-> +	.utlb_offset_base = 0,
->  };
->  
->  static const struct ipmmu_features ipmmu_features_rcar_gen3 = {
-> @@ -971,6 +973,7 @@ static const struct ipmmu_features ipmmu_features_rcar_gen3 = {
->  	.cache_snoop = false,
->  	.ctx_offset_base = 0,
->  	.ctx_offset_stride = 0x40,
-> +	.utlb_offset_base = 0,
->  };
->  
->  static const struct of_device_id ipmmu_of_ids[] = {
-> -- 
-> 2.7.4
+>  .../devicetree/bindings/display/renesas,du.txt       | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 > 
 
--- 
-Regards,
-Niklas Söderlund
+Acked-by: Rob Herring <robh@kernel.org>
