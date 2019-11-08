@@ -2,154 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C07E2F435A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Nov 2019 10:32:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D14AF435F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Nov 2019 10:33:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730005AbfKHJc5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 8 Nov 2019 04:32:57 -0500
-Received: from mail-eopbgr1400094.outbound.protection.outlook.com ([40.107.140.94]:15680
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726987AbfKHJc5 (ORCPT
+        id S1730308AbfKHJdn convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 8 Nov 2019 04:33:43 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:34242 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726987AbfKHJdn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 8 Nov 2019 04:32:57 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=IB0Ppltea+gtI+lMY2NnIg7SlMxUTMkG2GpIYa7T2EUNPfXCZBD56R+AhgxzZfRSaL8k85K6Eye3LCdeZDy0FICTTMDxMHH83ELcOlNBdWzg6xNC3WreVdkiz+UQPUCgWzkozw/wqPk/nju+m5b6TaRWKBhBDE1ma/azekW7kjCsGmrp1t4XCuddP4PlT5Ry5KS+d4XETQpk7GaeonOYi3tLVI+SsRzvwj8dfuHRvyqU2xMFgtl8M7WxyFlVDFUpfrsIiKSIg/foujEgncZUM/q0ynKx3sga23tRD1ii/0aEdKcDyToaXh+nN9xo2NNm+rC0/ic/ZTi6HCw3VOqmRA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e0GYLgh1Oylvckau9k/rhiEoX3H1moI5UffS8DhQndI=;
- b=P35ExcYcIvcu0cpGAdD2sYyXdLUageSJR5PIhuKAp6hWAublVRqPdBj7HdzCkbzS1nrwmFmx30Nufsf9m8Ng31mFz2QkgHrYt+FcNChGVW7+qoRiGzXwn1eu9Zr+wXxMg5pGytMNlL8yOVIJNvBv9YhkDI2vemmbGfpF/02b7LznJyIe/yZQZ8JxXhJn6rIqiVZveuMwx/8z97XYdZy750jrSh+3GawHWUaw2wwwtCkC1hMH4n3FVWKtGE/NPazLwZRwEjqioWz6MUQk0NwrvYvYyoovIi6Fj3uw8PL3N22DxBMHaBCe3J+bSkD4AkyoaCIdZnxGpKGWSiMw9IU0CA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e0GYLgh1Oylvckau9k/rhiEoX3H1moI5UffS8DhQndI=;
- b=om1fXBJLCtVQ5ke7SmglR2vkfbS4rE6UrBG1mu0y7hdpxhZsOi1dgwshO8gRxwHICj78ySgVhMkra4hEB/ndx/7ZhyOOFNzgSlt4p7AJCfiWj0jaq3CXrpMfwZy+5DWNddpCwtur+t7vaKA23BwbPUd6lXM2deJNi7LSlxosrVE=
-Received: from TYXPR01MB1775.jpnprd01.prod.outlook.com (52.133.167.146) by
- TYXPR01MB1534.jpnprd01.prod.outlook.com (52.133.168.12) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2430.20; Fri, 8 Nov 2019 09:32:53 +0000
-Received: from TYXPR01MB1775.jpnprd01.prod.outlook.com
- ([fe80::91c8:fb22:e4a6:8518]) by TYXPR01MB1775.jpnprd01.prod.outlook.com
- ([fe80::91c8:fb22:e4a6:8518%7]) with mapi id 15.20.2430.023; Fri, 8 Nov 2019
- 09:32:53 +0000
-From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Neil Armstrong <narmstrong@baylibre.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Peter Rosin <peda@axentia.se>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Sam Ravnborg <sam@ravnborg.org>
-Subject: RE: [PATCH v3 4/7] drm: Define DRM_MODE_CONNECTOR_PARALLEL
-Thread-Topic: [PATCH v3 4/7] drm: Define DRM_MODE_CONNECTOR_PARALLEL
-Thread-Index: AQHVlaeMDgqMlHoMwk2u0QM5Tlax0KeALa0AgADUNkA=
-Date:   Fri, 8 Nov 2019 09:32:53 +0000
-Message-ID: <TYXPR01MB177521E753ABF296097F094CC07B0@TYXPR01MB1775.jpnprd01.prod.outlook.com>
-References: <1573157463-14070-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1573157463-14070-5-git-send-email-fabrizio.castro@bp.renesas.com>
- <20191107204656.GP24983@pendragon.ideasonboard.com>
-In-Reply-To: <20191107204656.GP24983@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=fabrizio.castro@bp.renesas.com; 
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: af69eaaa-77dc-4326-c4dd-08d7642ea138
-x-ms-traffictypediagnostic: TYXPR01MB1534:|TYXPR01MB1534:
-x-ms-exchange-purlcount: 1
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TYXPR01MB1534D498DDD701A8E8E85D05C07B0@TYXPR01MB1534.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0215D7173F
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(346002)(396003)(376002)(39850400004)(136003)(366004)(189003)(199004)(66066001)(55016002)(478600001)(81156014)(81166006)(8676002)(2906002)(99286004)(71200400001)(71190400001)(6436002)(6306002)(7416002)(9686003)(14454004)(86362001)(305945005)(25786009)(256004)(33656002)(6916009)(54906003)(229853002)(8936002)(966005)(3846002)(6116002)(6506007)(7736002)(53546011)(64756008)(4326008)(316002)(6246003)(102836004)(66476007)(26005)(486006)(186003)(76176011)(5660300002)(74316002)(52536014)(446003)(7696005)(66556008)(11346002)(76116006)(66946007)(66446008)(44832011)(476003);DIR:OUT;SFP:1102;SCL:1;SRVR:TYXPR01MB1534;H:TYXPR01MB1775.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
-received-spf: None (protection.outlook.com: bp.renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: cT85mqz2BFC1TzA45Q8SCujXfXr31Owj+5bfMtUvsfiMmrn9KH3g4Euf+9kQct+zZYaRU2z0MFbvtpbpndbzNCNiF7v3rjgCpPfRwmwrP/UUkxIk83Tv1+1uUJKfuSuh8kkiQtQCOjVP2Od0UvDHWP/3W2ON02u38iDEmKlmI3W1RnfjEXLW5+bzdNNHpSZ5BVDHKMcmPLD/qRqeGmLScKKfiLbVJtamjVPcj3Z/ppq6rTb8K+J5D/RSOSvGLmY9DyAo62SN9pqtqjkrjoaPbAt3nOGdnWc8cNjRL+3wX2/aFW4wZot5tKy9I8ZHrYx0sOlJzGMZhi6hqIlawQ25y5qariEDwmwcL90+djgp01k7is0tLX3V3yY2gZysT6CdqzAueOWyxo1Py6K2FQX6aOHq1TH9aRVsapg4UZxVVTjHExrRNQFmtwKN7H380OQTleZAOw2kt8cIqAGjo8nsiR2KPsd11R+bKOLzCkAlFt8=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Fri, 8 Nov 2019 04:33:43 -0500
+Received: by mail-oi1-f193.google.com with SMTP id l202so4704803oig.1;
+        Fri, 08 Nov 2019 01:33:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=2dWaxqF8rfWEKlhxrUDolmxOv7bMB+rw5GOiRRDS8Zw=;
+        b=lSh0YTOc4PZLvcvqAVqcHsFKVY8WBFYLQadqvw8nGpcxV1O1TuxZbJFmzkVmNMyP3L
+         ZQAZI2g7kDA03ONsr+d+zDsIw2ywuXmEeuVrpiHz6USElU9XaXT5U+rSaIQ4ajJhsuoX
+         mNuNtJkkSYatFrcJcg8IYHADQFHYp+AQ+d3fPo1ajzS0C6XZO+y3hJqQkVaPFez7nE2E
+         R+TFse1t0giG7ayfRbPGA42yB0vgqMqoTUguwT3xGyJdOLF9TQ8UVwIt7Ef6YOiJZdEh
+         BojFgbgwRcEkiolbSafAklFpCIQgdiKXclVc1mJc1vR+ENH9z6c1Ks9Vk+rNYmAWCzvt
+         VWbA==
+X-Gm-Message-State: APjAAAVAAOQJAkwjrftKthBJcGnKFoLqJnO+q4EIq8CYYj4AaIzIO3fX
+        ebLXQFq0UEvFs68wBALwv9ml7o7YC/tTFtOwSVs=
+X-Google-Smtp-Source: APXvYqzfQjea78gd4p8b62nSkVFUDVwI7knisR46MH7d3a9aIY+g6wy9d+QJK4Mm5iAoZgtA6JoYH/ckk+tbgbS4ZxI=
+X-Received: by 2002:aca:fc92:: with SMTP id a140mr8161860oii.153.1573205622066;
+ Fri, 08 Nov 2019 01:33:42 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: af69eaaa-77dc-4326-c4dd-08d7642ea138
-X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Nov 2019 09:32:53.0341
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 856+4SgcECiXFlfSDxqEoNssG/3KAajDqo9fO2RfCPO6AVc0PGbckzQ/6WQvsGbRtnKoRadkDVjLgrNwChgbtNhBoKeTTZ3YP6MKcH2BE+c=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYXPR01MB1534
+References: <20191108021609.2584272-1-niklas.soderlund+renesas@ragnatech.se> <20191108021609.2584272-3-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20191108021609.2584272-3-niklas.soderlund+renesas@ragnatech.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 8 Nov 2019 10:33:31 +0100
+Message-ID: <CAMuHMdW3cidfTp-GK_3oO-jLJpF310R4Cojvme8oMfpwqSX73g@mail.gmail.com>
+Subject: Re: [PATCH 2/3] dt-bindings: rcar-vin: Document compatibility string
+ for R8A77470
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgTGF1cmVudCwNCg0KVGhhbmsgeW91IGZvciB5b3VyIGZlZWRiYWNrIQ0KDQo+IEZyb206IGRl
-dmljZXRyZWUtb3duZXJAdmdlci5rZXJuZWwub3JnIDxkZXZpY2V0cmVlLW93bmVyQHZnZXIua2Vy
-bmVsLm9yZz4gT24gQmVoYWxmIE9mIExhdXJlbnQgUGluY2hhcnQNCj4gU2VudDogMDcgTm92ZW1i
-ZXIgMjAxOSAyMDo0Nw0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYzIDQvN10gZHJtOiBEZWZpbmUg
-RFJNX01PREVfQ09OTkVDVE9SX1BBUkFMTEVMDQo+IA0KPiBIaSBGYWJyaXppbywNCj4gDQo+IChD
-QydpbmcgU2FtKQ0KPiANCj4gVGhhbmsgeW91IGZvciB0aGUgcGF0Y2guDQo+IA0KPiBPbiBUaHUs
-IE5vdiAwNywgMjAxOSBhdCAwODoxMTowMFBNICswMDAwLCBGYWJyaXppbyBDYXN0cm8gd3JvdGU6
-DQo+ID4gVGhlIGV4aXN0aW5nIERSTV9NT0RFX0NPTk5FQ1RPUl8gZGVmaW5pdGlvbnMgZG9uJ3Qg
-c2VlbSB0bw0KPiA+IGRlc2NyaWJlIHRoZSBjb25uZWN0b3IgZm9yIFJHQi9QYXJhbGxlbCBlbWJl
-ZGRlZCBkaXNwbGF5cywNCj4gPiBoZW5jZSBhZGQgRFJNX01PREVfQ09OTkVDVE9SX1BBUkFMTEVM
-Lg0KPiANCj4gUGxlYXNlLCBuby4gV2UgYWxyZWFkeSBoYXZlIHRvbyBtYW55IGNvbm5lY3RvciB0
-eXBlcyBmb3IgcGFuZWxzLCB3aGVuDQo+IHVzZXJzcGFjZSBzaG91bGQgcmVhbGx5IG5vdCBjYXJl
-LiBEUk1fTU9ERV9DT05ORUNUT1JfTFZEUywNCj4gRFJNX01PREVfQ09OTkVDVE9SX2VEUCwgRFJN
-X01PREVfQ09OTkVDVE9SX0RTSSwgRFJNX01PREVfQ09OTkVDVE9SX0RQSQ0KPiBhbmQgcHJvYmFi
-bHkgRFJNX01PREVfQ09OTkVDVE9SX1NQSSBzaG91bGQgaGF2ZSBiZWVuDQo+IERSTV9NT0RFX0NP
-Tk5FQ1RPUl9QQU5FTC4NCj4gDQo+IFRoaXMgaGFzIGJlZW4gZGlzY3Vzc2VkIGluIFsxXS4gTGV0
-J3MgaW5zdGVhZCBkZWZpbmUgYQ0KPiBEUk1fTU9ERV9DT05ORUNUT1JfUEFORUwsIHBvc3NpYmx5
-IGFzIGFuIGFsaWFzIHRvIG9uZSBvZiB0aGUgZXhpc3RpbmcNCj4gdHlwZXMsIGFuZCBkZXByZWNh
-dGUgdGhlIG90aGVyIHR5cGVzLg0KPiANCj4gWzFdIGh0dHBzOi8vd3d3LnNwaW5pY3MubmV0L2xp
-c3RzL2RyaS1kZXZlbC9tc2cyMjQ2MzguaHRtbA0KDQpUaGFuayB5b3UgZm9yIHRoZSBwb2ludGVy
-IGFuZCB0aGUgZm9yIHRoZSBkZXRhaWxzLiBUaGF0IGNsYXJpZmllcyB0aGluZ3MgYSBsb3QuDQpJ
-biBteSBjYXNlLCBhcyB5b3UgbWVudGlvbmVkIGluIHRoZSBwYXRjaCB0byBzaW1wbGUgcGFuZWws
-IEkgY2FuIHVzZSBhbg0KZXhpc3RpbmcgZGVmaW5pdGlvbiwgdGhlcmVmb3JlIEkgdGhpbmsgaXQn
-cyBiZXN0IGlmIERSTV9NT0RFX0NPTk5FQ1RPUl9QQU5FTA0KZ2V0cyBhZGRlZCB3aGVuIHRoZXJl
-IGlzIGEgdmFsaWQgdXNlIGNhc2UuDQoNClRoYW5rcywNCkZhYg0KDQo+IA0KPiA+IFNpZ25lZC1v
-ZmYtYnk6IEZhYnJpemlvIENhc3RybyA8ZmFicml6aW8uY2FzdHJvQGJwLnJlbmVzYXMuY29tPg0K
-PiA+DQo+ID4gLS0tDQo+ID4gdjItPnYzOg0KPiA+ICogTmV3IHBhdGNoDQo+ID4gLS0tDQo+ID4g
-IGRyaXZlcnMvZ3B1L2RybS9kcm1fY29ubmVjdG9yLmMgfCAxICsNCj4gPiAgaW5jbHVkZS91YXBp
-L2RybS9kcm1fbW9kZS5oICAgICB8IDEgKw0KPiA+ICAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0
-aW9ucygrKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fY29ubmVj
-dG9yLmMgYi9kcml2ZXJzL2dwdS9kcm0vZHJtX2Nvbm5lY3Rvci5jDQo+ID4gaW5kZXggMjE2NjAw
-MC4uYjIzMzAyOSAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Nvbm5lY3Rv
-ci5jDQo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9jb25uZWN0b3IuYw0KPiA+IEBAIC05
-Myw2ICs5Myw3IEBAIHN0YXRpYyBzdHJ1Y3QgZHJtX2Nvbm5fcHJvcF9lbnVtX2xpc3QgZHJtX2Nv
-bm5lY3Rvcl9lbnVtX2xpc3RbXSA9IHsNCj4gPiAgCXsgRFJNX01PREVfQ09OTkVDVE9SX0RQSSwg
-IkRQSSIgfSwNCj4gPiAgCXsgRFJNX01PREVfQ09OTkVDVE9SX1dSSVRFQkFDSywgIldyaXRlYmFj
-ayIgfSwNCj4gPiAgCXsgRFJNX01PREVfQ09OTkVDVE9SX1NQSSwgIlNQSSIgfSwNCj4gPiArCXsg
-RFJNX01PREVfQ09OTkVDVE9SX1BBUkFMTEVMLCAiUGFyYWxsZWwiIH0sDQo+ID4gIH07DQo+ID4N
-Cj4gPiAgdm9pZCBkcm1fY29ubmVjdG9yX2lkYV9pbml0KHZvaWQpDQo+ID4gZGlmZiAtLWdpdCBh
-L2luY2x1ZGUvdWFwaS9kcm0vZHJtX21vZGUuaCBiL2luY2x1ZGUvdWFwaS9kcm0vZHJtX21vZGUu
-aA0KPiA+IGluZGV4IDczNWM4Y2YuLjU4NTJmNDcgMTAwNjQ0DQo+ID4gLS0tIGEvaW5jbHVkZS91
-YXBpL2RybS9kcm1fbW9kZS5oDQo+ID4gKysrIGIvaW5jbHVkZS91YXBpL2RybS9kcm1fbW9kZS5o
-DQo+ID4gQEAgLTM2Miw2ICszNjIsNyBAQCBlbnVtIGRybV9tb2RlX3N1YmNvbm5lY3RvciB7DQo+
-ID4gICNkZWZpbmUgRFJNX01PREVfQ09OTkVDVE9SX0RQSQkJMTcNCj4gPiAgI2RlZmluZSBEUk1f
-TU9ERV9DT05ORUNUT1JfV1JJVEVCQUNLCTE4DQo+ID4gICNkZWZpbmUgRFJNX01PREVfQ09OTkVD
-VE9SX1NQSQkJMTkNCj4gPiArI2RlZmluZSBEUk1fTU9ERV9DT05ORUNUT1JfUEFSQUxMRUwJMjAN
-Cj4gPg0KPiA+ICBzdHJ1Y3QgZHJtX21vZGVfZ2V0X2Nvbm5lY3RvciB7DQo+ID4NCj4gDQo+IC0t
-DQo+IFJlZ2FyZHMsDQo+IA0KPiBMYXVyZW50IFBpbmNoYXJ0DQo=
+Hi Niklas,
+
+On Fri, Nov 8, 2019 at 3:17 AM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> When adding the compatibility string for R8A77470 (RZ/G1C) to the
+> rcar-vin driver the string was never document in the bindings, add it
+
+... adding to the DTS? The driver didn't need an update.
+
+Seems like it fell through the cracks:
+https://lore.kernel.org/linux-renesas-soc/1554969262-15028-16-git-send-email-cv-dong@jinso.co.jp/
+
+> now.
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
