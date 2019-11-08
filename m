@@ -2,113 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F915F4245
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Nov 2019 09:37:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4410BF4248
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  8 Nov 2019 09:39:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730573AbfKHIhJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 8 Nov 2019 03:37:09 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:38724 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726987AbfKHIhI (ORCPT
+        id S1726072AbfKHIjF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 8 Nov 2019 03:39:05 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:46481 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725975AbfKHIjF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 8 Nov 2019 03:37:08 -0500
-Received: by mail-oi1-f196.google.com with SMTP id a14so4563048oid.5;
-        Fri, 08 Nov 2019 00:37:08 -0800 (PST)
+        Fri, 8 Nov 2019 03:39:05 -0500
+Received: by mail-oi1-f193.google.com with SMTP id n14so4534097oie.13;
+        Fri, 08 Nov 2019 00:39:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Y06rTA9jyJ3Mxb7FOxzfvb/JyrQ6mJjiIx0NSmTLT3w=;
-        b=AWGAXSm2c0Yspjg8qNfi6qHsKYdT1nOowipVHrrzRIY4GxtI7ot9O1Zfw5uq7Adp4D
-         7KfRmLixTQMMcHFngqAPbmevJXWNkAFvVp2FGkS/uTgGnJo0jmGk7tLLqX4G/YHHLvGT
-         ibBR54MlIv1+6/lMYCcfxYHazihL/v3mSsfp9o1jEqaBSAZ3sdAgc36l/8UWMZlyN8PX
-         bUsafmAfcbSAcF1YsJwSH+a6wkfcIbcgwEOoJ2aaB/+QRPVOCYNHmREqkROQb8cxTlum
-         jALbQIj5xwQApIVc7L1uH0gCudKUV4DxpiZIUWmmYaOehXsJ8E3KpW5Jb30VK47HvwIm
-         ZIbA==
-X-Gm-Message-State: APjAAAUSMGdMvDVklv3rjLryuFKYu1rOj0IhzB18+1Psp8NdeXGr7EtS
-        yE2/G58kgV/i2hcCJbqH7LJI+yt+fMKEVFOHUJ0=
-X-Google-Smtp-Source: APXvYqw443xjtR/GhQGqZswNAQFjWLyPmQgXA4uSDYnc1ZjfU91/njipFK4I8i0EWJx17iUi7lyKc1yYaFBEyegxbZY=
-X-Received: by 2002:aca:fc92:: with SMTP id a140mr7932910oii.153.1573202227574;
- Fri, 08 Nov 2019 00:37:07 -0800 (PST)
+        bh=Ab7roXemwsexQ4pZVt0+wLuisyumzWp4nsGXFOH95TE=;
+        b=Eqv88tFAnDf7OjG5p/uw/sEZviLHfwankmexg+/wDAWQSjEuFSJjk2O66zp0JhUi1g
+         +9hSoPgn4dF0pilhjrtb/c/NkYar+r9TeVi4UUQo6O1nh/fRlqhdCYHJg4D0ozjPA98P
+         oso903MiEbNqsgKGI3DbF8FRodR57WqR4PqYCPPWkXxKAEDaWwSljhb3tHikD37ParXv
+         kmlMuuaIIgW1/OS8f2gel98mRClFM6472cEzMkWcabqdUkB8PeRUY+D9y5jNc+LAycCT
+         bgFVU5y0w/RkYCGuSMJZmjOsrJS7BgVItRazJMpaytFMhy6cfT8fCu5LOPxe525B3Vs5
+         r/wA==
+X-Gm-Message-State: APjAAAWV+hVKJagIcpRUIi1DJ2xFjjVI0VsAkQ6wIxyPo/DrmzgflOcQ
+        vc8JKEkT9f2Dapq/WsCB2f6J6EWMEfxKF0lEOes=
+X-Google-Smtp-Source: APXvYqx1pYglmvIlKKi2hmb01xlG+jxOqv5ULo4mbjRsK0Uyjgk44sHfMZS77WJg/zzTBmxr52XsKToqRgTubSJYBag=
+X-Received: by 2002:a05:6808:b17:: with SMTP id s23mr8565059oij.102.1573202344561;
+ Fri, 08 Nov 2019 00:39:04 -0800 (PST)
 MIME-Version: 1.0
-References: <20191106193609.19645-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20191106193609.19645-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdVZwgVnq2kwjNJQHfvUH0sk6M7Hz-AJR82jMOsCNfW9wQ@mail.gmail.com>
- <CA+V-a8swtOUaxKnCdiTV5wvvxLEJ6XdODL=7bvQmFKY0zQTj2w@mail.gmail.com>
- <CAMuHMdXkbWkQgswMNL7Dw7_jucH+MsuAW+-CjoGVYsm=tjShRw@mail.gmail.com> <CA+V-a8sS4gX8o__R_pHK2Otb=s_aAWbtvDLfOhAQAJb77Jz_Sw@mail.gmail.com>
-In-Reply-To: <CA+V-a8sS4gX8o__R_pHK2Otb=s_aAWbtvDLfOhAQAJb77Jz_Sw@mail.gmail.com>
+References: <1573157463-14070-1-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1573157463-14070-8-git-send-email-fabrizio.castro@bp.renesas.com> <20191107205618.GS24983@pendragon.ideasonboard.com>
+In-Reply-To: <20191107205618.GS24983@pendragon.ideasonboard.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 8 Nov 2019 09:36:56 +0100
-Message-ID: <CAMuHMdVDdweR5Mx+RLnKCkw0kb2J=AMsAPoFm8PVbxsY2u-EvA@mail.gmail.com>
-Subject: Re: [PATCH 3/5] PCI: rcar: Add R-Car PCIe endpoint device tree bindings
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+Date:   Fri, 8 Nov 2019 09:38:53 +0100
+Message-ID: <CAMuHMdXePqHtaBqocXLPd0WPsNK_CyQMwGnGL=oUVPx=HM-8wQ@mail.gmail.com>
+Subject: Re: [PATCH v3 7/7] ARM: shmobile_defconfig: Enable support for panels
+ from EDT
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Murray <andrew.murray@arm.com>,
+        Peter Rosin <peda@axentia.se>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Biju Das <biju.das@bp.renesas.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hi Laurent,
 
-On Thu, Nov 7, 2019 at 11:46 PM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
-> On Thu, Nov 7, 2019 at 8:08 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Thu, Nov 7, 2019 at 10:26 AM Lad, Prabhakar
-> > <prabhakar.csengg@gmail.com> wrote:
-> > > On Thu, Nov 7, 2019 at 8:44 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > On Wed, Nov 6, 2019 at 8:36 PM Lad Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> > > > > From: "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > >
-> > > > > This patch adds the bindings for the R-Car PCIe endpoint driver.
-> > > > >
-> > > > > Signed-off-by: Lad, Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >
-> > > > > --- /dev/null
-> > > > > +++ b/Documentation/devicetree/bindings/pci/rcar-pci-ep.txt
-
-> > > > > +- reg: Five register ranges as listed in the reg-names property
-> > > > > +- reg-names: Must include the following names
-> > > > > +       - "apb-base"
-> > > > > +       - "memory0"
-> > > > > +       - "memory1"
-> > > > > +       - "memory2"
-> > > > > +       - "memory3"
-> > > >
-> > > > What is the purpose of the last 4 regions?
-> > > > Can they be chosen by the driver, at runtime?
-> > > >
-> > > no the driver cannot choose them at runtime, as these are the only
-> > > PCIE memory(0/1/2/3) ranges
-> > > in the AXI address space where host memory can be mapped.
+On Thu, Nov 7, 2019 at 9:56 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Thu, Nov 07, 2019 at 08:11:03PM +0000, Fabrizio Castro wrote:
+> > The iwg20d comes with an LCD panel from Emerging Display
+> > Technologies Corporation (EDT), therefore enable what's
+> > required to support it.
 > >
-> > Are they fixed by the PCIe hardware, i.e. could they be looked up by the
-> > driver based on the compatible value?
+> > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 > >
-> yes they are fixed by the PCIe hardware and could be looked up by the driver
-> based on the compatible value.
+> > ---
+> > v2->v3:
+> > * No change
+> > v1->v2:
+> > * No change
+> > ---
+> >  arch/arm/configs/shmobile_defconfig | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
+> > index c6c7035..ab416a5 100644
+> > --- a/arch/arm/configs/shmobile_defconfig
+> > +++ b/arch/arm/configs/shmobile_defconfig
+> > @@ -66,6 +66,7 @@ CONFIG_INPUT_EVDEV=y
+> >  CONFIG_KEYBOARD_GPIO=y
+> >  # CONFIG_INPUT_MOUSE is not set
+> >  CONFIG_INPUT_TOUCHSCREEN=y
+> > +CONFIG_TOUCHSCREEN_EDT_FT5X06=y
+>
+> Do these options need to be built-in, or could modules work too ?
 
-Thanks, so we don't need to describe them in DT.
+All Renesas-specific config options in shmobile_defconfig are builtin,
+unlike in multi_v7_defconfig and arm64_defconfig.
 
 Gr{oetje,eeting}s,
 
