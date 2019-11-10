@@ -2,104 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ABF1FF619E
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  9 Nov 2019 22:26:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44354F627D
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Nov 2019 03:44:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726515AbfKIV0c (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 9 Nov 2019 16:26:32 -0500
-Received: from sauhun.de ([88.99.104.3]:47938 "EHLO pokefinder.org"
+        id S1727002AbfKJCn3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 9 Nov 2019 21:43:29 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41614 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726485AbfKIV0c (ORCPT
+        id S1726754AbfKJCn2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 9 Nov 2019 16:26:32 -0500
-Received: from localhost (p54B337EF.dip0.t-ipconnect.de [84.179.55.239])
-        by pokefinder.org (Postfix) with ESMTPSA id C8F952C04F2;
-        Sat,  9 Nov 2019 22:26:28 +0100 (CET)
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Jean Delvare <jdelvare@suse.de>,
-        linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH] i2c: remove helpers for ref-counting clients
-Date:   Sat,  9 Nov 2019 22:26:15 +0100
-Message-Id: <20191109212615.9254-1-wsa+renesas@sang-engineering.com>
+        Sat, 9 Nov 2019 21:43:28 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 711B421882;
+        Sun, 10 Nov 2019 02:43:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1573353808;
+        bh=2enzXx7lcGEUB/VfRd3pDz675b+yj6Xt/n4BUBuGZ00=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=btd9Y6OdlC0+lxy/F58LWhj3bqBK67H6Vv/vuOFIoDcJN8ZbQrotLuwFv+XeioNe3
+         81Wi6DHxjkGvtfqPQeJLdT7GdIhGj9E9LtY6gY402pXZV9iPB1Fr/XB/thqsxwfqHI
+         4KHRmix5fmjlGTManY1pZUKH/NX18kSLMQ8+OMC4=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Sasha Levin <sashal@kernel.org>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 105/191] phy: renesas: rcar-gen3-usb2: fix vbus_ctrl for role sysfs
+Date:   Sat,  9 Nov 2019 21:38:47 -0500
+Message-Id: <20191110024013.29782-105-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191110024013.29782-1-sashal@kernel.org>
+References: <20191110024013.29782-1-sashal@kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-There are no in-tree users of these helpers anymore, and there
-shouldn't. Most use cases went away once the driver model started to
-refcount for us. There have been users like the media subsystem, but
-they all switched to better refcounting methods meanwhile. Media did
-this in 2008. Last user (IPMI) left 2018. Remove this cruft.
+From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+[ Upstream commit 09938ea9d136243e8d1fed6d4d7a257764f28f6d ]
+
+This patch fixes and issue that the vbus_ctrl is disabled by
+rcar_gen3_init_from_a_peri_to_a_host(), so a usb host cannot
+supply the vbus.
+
+Note that this condition will exit when the otg irq happens
+even if we don't apply this patch.
+
+Fixes: 9bb86777fb71 ("phy: rcar-gen3-usb2: add sysfs for usb role swap")
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/i2c/i2c-core-base.c | 32 --------------------------------
- include/linux/i2c.h         |  3 ---
- 2 files changed, 35 deletions(-)
+ drivers/phy/renesas/phy-rcar-gen3-usb2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-index 9c55d24c7a30..5a44a92ed1fb 100644
---- a/drivers/i2c/i2c-core-base.c
-+++ b/drivers/i2c/i2c-core-base.c
-@@ -1743,38 +1743,6 @@ EXPORT_SYMBOL(i2c_del_driver);
+diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+index 6fb2b69695905..d22b1ec2e58c7 100644
+--- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
++++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
+@@ -199,7 +199,7 @@ static void rcar_gen3_init_from_a_peri_to_a_host(struct rcar_gen3_chan *ch)
+ 	val = readl(usb2_base + USB2_OBINTEN);
+ 	writel(val & ~USB2_OBINT_BITS, usb2_base + USB2_OBINTEN);
  
- /* ------------------------------------------------------------------------- */
+-	rcar_gen3_enable_vbus_ctrl(ch, 0);
++	rcar_gen3_enable_vbus_ctrl(ch, 1);
+ 	rcar_gen3_init_for_host(ch);
  
--/**
-- * i2c_use_client - increments the reference count of the i2c client structure
-- * @client: the client being referenced
-- *
-- * Each live reference to a client should be refcounted. The driver model does
-- * that automatically as part of driver binding, so that most drivers don't
-- * need to do this explicitly: they hold a reference until they're unbound
-- * from the device.
-- *
-- * A pointer to the client with the incremented reference counter is returned.
-- */
--struct i2c_client *i2c_use_client(struct i2c_client *client)
--{
--	if (client && get_device(&client->dev))
--		return client;
--	return NULL;
--}
--EXPORT_SYMBOL(i2c_use_client);
--
--/**
-- * i2c_release_client - release a use of the i2c client structure
-- * @client: the client being no longer referenced
-- *
-- * Must be called when a user of a client is finished with it.
-- */
--void i2c_release_client(struct i2c_client *client)
--{
--	if (client)
--		put_device(&client->dev);
--}
--EXPORT_SYMBOL(i2c_release_client);
--
- struct i2c_cmd_arg {
- 	unsigned	cmd;
- 	void		*arg;
-diff --git a/include/linux/i2c.h b/include/linux/i2c.h
-index 8f512b992acd..23583f76c6dc 100644
---- a/include/linux/i2c.h
-+++ b/include/linux/i2c.h
-@@ -861,9 +861,6 @@ static inline bool i2c_client_has_driver(struct i2c_client *client)
- 	return !IS_ERR_OR_NULL(client) && client->dev.driver;
- }
- 
--extern struct i2c_client *i2c_use_client(struct i2c_client *client);
--extern void i2c_release_client(struct i2c_client *client);
--
- /* call the i2c_client->command() of all attached clients with
-  * the given arguments */
- extern void i2c_clients_command(struct i2c_adapter *adap,
+ 	writel(val | USB2_OBINT_BITS, usb2_base + USB2_OBINTEN);
 -- 
 2.20.1
 
