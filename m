@@ -2,28 +2,28 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 44354F627D
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Nov 2019 03:44:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29D3DF6420
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 10 Nov 2019 03:57:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727002AbfKJCn3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 9 Nov 2019 21:43:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41614 "EHLO mail.kernel.org"
+        id S1728352AbfKJC5e (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 9 Nov 2019 21:57:34 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47278 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726754AbfKJCn2 (ORCPT
+        id S1729454AbfKJC4s (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 9 Nov 2019 21:43:28 -0500
+        Sat, 9 Nov 2019 21:56:48 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 711B421882;
-        Sun, 10 Nov 2019 02:43:27 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9275821D7E;
+        Sun, 10 Nov 2019 02:47:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573353808;
-        bh=2enzXx7lcGEUB/VfRd3pDz675b+yj6Xt/n4BUBuGZ00=;
+        s=default; t=1573354047;
+        bh=5WJiAT5XHNPt7tsfOK7uUb9wu5fkg7bQm1JKF/rfFXU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=btd9Y6OdlC0+lxy/F58LWhj3bqBK67H6Vv/vuOFIoDcJN8ZbQrotLuwFv+XeioNe3
-         81Wi6DHxjkGvtfqPQeJLdT7GdIhGj9E9LtY6gY402pXZV9iPB1Fr/XB/thqsxwfqHI
-         4KHRmix5fmjlGTManY1pZUKH/NX18kSLMQ8+OMC4=
+        b=htae9CG/V8tU01e40/ry287Av2FeYnUsnglYFokD7+pyVYTQyYFSFTQORu1QHrrXG
+         cwSQJBfx9lMBpGx/DotzNv6I+WFxkVSPXHrTzPWFFQs/cfU2nZe1HPGsud9nhzvCnR
+         aN5ufz8xYYGMnZ/2AfBjbOC/KBpUbvuN+p+VYI/s=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
@@ -31,12 +31,12 @@ Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
         Kishon Vijay Abraham I <kishon@ti.com>,
         Sasha Levin <sashal@kernel.org>,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 105/191] phy: renesas: rcar-gen3-usb2: fix vbus_ctrl for role sysfs
-Date:   Sat,  9 Nov 2019 21:38:47 -0500
-Message-Id: <20191110024013.29782-105-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 058/109] phy: renesas: rcar-gen3-usb2: fix vbus_ctrl for role sysfs
+Date:   Sat,  9 Nov 2019 21:44:50 -0500
+Message-Id: <20191110024541.31567-58-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191110024013.29782-1-sashal@kernel.org>
-References: <20191110024013.29782-1-sashal@kernel.org>
+In-Reply-To: <20191110024541.31567-1-sashal@kernel.org>
+References: <20191110024541.31567-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -67,10 +67,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/phy/renesas/phy-rcar-gen3-usb2.c b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-index 6fb2b69695905..d22b1ec2e58c7 100644
+index e8fe80312820d..7f5e36bfeee8d 100644
 --- a/drivers/phy/renesas/phy-rcar-gen3-usb2.c
 +++ b/drivers/phy/renesas/phy-rcar-gen3-usb2.c
-@@ -199,7 +199,7 @@ static void rcar_gen3_init_from_a_peri_to_a_host(struct rcar_gen3_chan *ch)
+@@ -195,7 +195,7 @@ static void rcar_gen3_init_from_a_peri_to_a_host(struct rcar_gen3_chan *ch)
  	val = readl(usb2_base + USB2_OBINTEN);
  	writel(val & ~USB2_OBINT_BITS, usb2_base + USB2_OBINTEN);
  
