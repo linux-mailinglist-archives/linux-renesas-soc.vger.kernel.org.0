@@ -2,41 +2,46 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2446CF75D1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Nov 2019 15:00:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D507F75F6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Nov 2019 15:07:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726843AbfKKOAe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 11 Nov 2019 09:00:34 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55088 "EHLO mail.kernel.org"
+        id S1726832AbfKKOHE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 11 Nov 2019 09:07:04 -0500
+Received: from 8bytes.org ([81.169.241.247]:51282 "EHLO theia.8bytes.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726811AbfKKOAe (ORCPT
+        id S1726811AbfKKOHE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 11 Nov 2019 09:00:34 -0500
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573480833;
-        bh=x2s+ZcEnQxQwdlwXph04MpmyTyy/OZUVAkCnGJNoDb4=;
-        h=Subject:From:Date:To:From;
-        b=uizCoWHP4ViCRWqvL6Rt7FsyLzT8QpTICw4nI9oaxEmRI9EFY36GPDbIHgzLECMv6
-         R2tNLutzU/TC4fciFeqQ4VMI4LBbewlENlujUzJpS8y0xmUyDUQVT1cy3xOw8tRo5T
-         4sKTTN/at/RlOWhAJkUCYYEKAwgW9wk/v1LzMAXA=
+        Mon, 11 Nov 2019 09:07:04 -0500
+Received: by theia.8bytes.org (Postfix, from userid 1000)
+        id 720F2120; Mon, 11 Nov 2019 15:07:02 +0100 (CET)
+Date:   Mon, 11 Nov 2019 15:07:01 +0100
+From:   Joerg Roedel <joro@8bytes.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     iommu@lists.linux-foundation.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 0/6] iommu/ipmmu-vmsa: minor updates
+Message-ID: <20191111140700.GB18333@8bytes.org>
+References: <1573007750-16611-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork housekeeping for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <157348083395.417.16391370394029843514.git-patchwork-housekeeping@kernel.org>
-Date:   Mon, 11 Nov 2019 14:00:33 +0000
-To:     linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1573007750-16611-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Latest series: [v2] media: bindings: video-interfaces: Update the example (2019-11-11T14:00:55)
-  Superseding: [v1] media: bindings: video-interfaces: Update the example (2019-08-22T21:04:33):
-    media: bindings: video-interfaces: Update the example
+On Wed, Nov 06, 2019 at 11:35:44AM +0900, Yoshihiro Shimoda wrote:
+> Yoshihiro Shimoda (6):
+>   iommu/ipmmu-vmsa: Remove all unused register definitions
+>   iommu/ipmmu-vmsa: tidyup register definitions
+>   iommu/ipmmu-vmsa: Add helper functions for MMU "context" registers
+>   iommu/ipmmu-vmsa: Calculate context registers' offset instead of a
+>     macro
+>   iommu/ipmmu-vmsa: Add helper functions for "uTLB" registers
+>   iommu/ipmmu-vmsa: Add utlb_offset_base
+> 
+>  drivers/iommu/ipmmu-vmsa.c | 214 +++++++++++++++++++--------------------------
+>  1 file changed, 89 insertions(+), 125 deletions(-)
 
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+Applied, thanks.
