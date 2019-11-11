@@ -2,236 +2,309 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B1C6F7478
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Nov 2019 14:04:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 48213F75CA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 11 Nov 2019 14:59:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726845AbfKKNEi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 11 Nov 2019 08:04:38 -0500
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:59787 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726810AbfKKNEi (ORCPT
+        id S1726888AbfKKN7O (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 11 Nov 2019 08:59:14 -0500
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:52119 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726811AbfKKN7O (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 11 Nov 2019 08:04:38 -0500
+        Mon, 11 Nov 2019 08:59:14 -0500
 X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+Received: from uno.lan (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id BC69F20003;
-        Mon, 11 Nov 2019 13:04:29 +0000 (UTC)
-Date:   Mon, 11 Nov 2019 14:06:24 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     "Kalakodima Venkata Rajesh (RBEI/ECF3)" 
-        <VenkataRajesh.Kalakodima@in.bosch.com>
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 8059840005;
+        Mon, 11 Nov 2019 13:59:08 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Niklas Soderlund <niklas.soderlund@ragnatech.se>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms@verge.net.au>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "kieran.bingham+renesas@ideasonboard.com" 
-        <kieran.bingham+renesas@ideasonboard.com>,
-        "geert@linux-m68k.org" <geert@linux-m68k.org>,
-        "horms@verge.net.au" <horms@verge.net.au>,
-        "uli+renesas@fpond.eu" <uli+renesas@fpond.eu>,
-        "airlied@linux.ie" <airlied@linux.ie>,
-        "daniel@ffwll.ch" <daniel@ffwll.ch>,
-        "koji.matsuoka.xm@renesas.com" <koji.matsuoka.xm@renesas.com>,
-        "muroya@ksk.co.jp" <muroya@ksk.co.jp>,
-        "Harsha Manjula Mallikarjun (RBEI/ECF3)" 
-        <Harsha.ManjulaMallikarjun@in.bosch.com>,
-        "ezequiel@collabora.com" <ezequiel@collabora.com>,
-        "seanpaul@chromium.org" <seanpaul@chromium.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v5 0/8] drm: rcar-du: Add Color Management Module (CMM)
-Message-ID: <20191111130624.auplcgd2nwyaw5f3@uno.localdomain>
-References: <20191015104621.62514-1-jacopo+renesas@jmondi.org>
- <e731216a728c4035af88c92b70756197@in.bosch.com>
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v2] media: bindings: video-interfaces: Update the example
+Date:   Mon, 11 Nov 2019 15:00:55 +0100
+Message-Id: <20191111140055.88054-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="u6q34lyragniy4ty"
-Content-Disposition: inline
-In-Reply-To: <e731216a728c4035af88c92b70756197@in.bosch.com>
-User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+The example provided by the video-interface.txt file uses compatible
+values for drivers which are have been removed a long time ago. To avoid
+generating confusion, replace the existing example with a new one using
+upstream maintained and more modern devices.
 
---u6q34lyragniy4ty
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+---
 
-Hello,
+Re-proposing the example update, taking into account Niklas' comments about
+removing most of the commits there.
 
-On Mon, Nov 11, 2019 at 11:21:28AM +0000, Kalakodima Venkata Rajesh (RBEI/ECF3) wrote:
-> Hi Jacopo,
->
-> Please find comments below.
->
-> Best regards,
->
-> Rajesh Kv
-> RBEI/ECF3
->
-> > -----Original Message-----
-> > From: linux-kernel-owner@vger.kernel.org <linux-kernel-
-> > owner@vger.kernel.org> On Behalf Of Jacopo Mondi
-> > Sent: Tuesday, October 15, 2019 4:16 PM
-> > To: laurent.pinchart@ideasonboard.com;
-> > kieran.bingham+renesas@ideasonboard.com; geert@linux-m68k.org;
-> > horms@verge.net.au; uli+renesas@fpond.eu; Kalakodima Venkata Rajesh
-> > (RBEI/ECF3) <VenkataRajesh.Kalakodima@in.bosch.com>
-> > Cc: Jacopo Mondi <jacopo+renesas@jmondi.org>; airlied@linux.ie;
-> > daniel@ffwll.ch; koji.matsuoka.xm@renesas.com; muroya@ksk.co.jp; Harsha
-> > Manjula Mallikarjun (RBEI/ECF3) <Harsha.ManjulaMallikarjun@in.bosch.com>;
-> > ezequiel@collabora.com; seanpaul@chromium.org; linux-renesas-
-> > soc@vger.kernel.org; dri-devel@lists.freedesktop.org; linux-
-> > kernel@vger.kernel.org
-> > Subject: [PATCH v5 0/8] drm: rcar-du: Add Color Management Module (CMM)
-> >
-> > References:
-> > A reference to the v1 cover letter, with some background on the CMM is
-> > available here:
-> > https://lkml.org/lkml/2019/6/6/583
-> > v2:
-> > https://lore.kernel.org/linux-renesas-soc/20190706140746.29132-10-
-> > jacopo+renesas@jmondi.org/
-> > v3:
-> > https://lore.kernel.org/linux-renesas-soc/20190825135154.11488-1-
-> > jacopo+renesas@jmondi.org/
-> > v4:
-> > https://lore.kernel.org/linux-renesas-soc/20190906135436.10622-1-
-> > jacopo+renesas@jmondi.org/
-> >
-> > Again, quite a consistent changelog, mostly due to the developments happened
-> > on Ezequiel's VOP unit following Sean's advices.
-> >
-> > I here implemented the same, and moved the CMM handling to the crtc being
-> > and enable callbacks. As a result the overall implementation results quite a lot
-> > simplified, mostly on the CMM driver side.
-> >
-> > I have dropped tags and acks on the CMM driver and CMM enablement patches
-> > in DU crtc driver because of the number of changes.
-> >
-> > A more detailed change log:
-> >
-> > - Rebased on renesas-devel-2019-10-07-v5.4-rc4
-> >
-> > * Bindings/DT
-> > - Included Rob's comments on the yaml file license and the use of 'OneOf'
-> >   in the compatible property description
-> > - Use the bracketed style suggested by Kieran for the 'renesas,cmm' property
-> >   introduced in patch 2
-> > - Re-order the properties in the SoC DTS files as suggested by Kieran
-> >
-> > * CMM/DU
-> > - As anticipated, moved CMM management to the crtc from the atomic commit
-> > tail
-> >   helper where it was implemented in v4
-> >   This allow to correctly support resume/suspend and proper ordering of the
-> > CMM
-> >   enable and setup operations (enable -before- setup)
-> > - As a consequence the CMM driver is greatly simplified by removing the need
-> >   to cache the LUT table entries provided to cmm_setup() and later re-apply
-> >   them at enable time.
-> > - Better support handling of disabled CMM config option by returning -ENODEV
-> >   at cmm_init() time as suggested by Kieran.
-> >
-> > * Testing
-> > I have tested by injecting a color inversion LUT table and enabling/disabling it
-> > every 50 displayed frames:
-> > https://jmondi.org/cgit/kmsxx/log/?h=gamma_lut
-> >
-> > CMM functionalities are retained between suspend/resume cycles (tested with
-> > suspend-to-idle) without requiring a re-programming of the LUT tables.
-> >
-> > Testing with real world use cases might be beneficial. Rajesh are you still
-> > interested in giving this series a spin
->
-> I have tested version v3 of CMM module with a demo application based on libdrm
-> library. I could successfully test setting of Gamma LUT.
+Laurent suggested to move the example to json-schema, but being this file mostly
+used as reference for the common video properties description, I'm not sure
+bindings in yaml format make sense here.
 
-\o/
 
-If you want to, please send your Tested-by tag, so that it can be
-collected, as CMM support will be collected for the v5.6 merge window, as we
-had a small issue that prevented v6 from being part of the v5.5 one.
+---
+ .../bindings/media/video-interfaces.txt       | 210 ++++++++++--------
+ 1 file changed, 116 insertions(+), 94 deletions(-)
 
->
-> Next step is to test on full featured graphics stack i.e. involving Weston and OpenGL.
-> Weston can set Gamma. I have to stop this work for a while due to other high prio activities.
-> I plan to resume soon.
->
+diff --git a/Documentation/devicetree/bindings/media/video-interfaces.txt b/Documentation/devicetree/bindings/media/video-interfaces.txt
+index f884ada0bffc..955bd6f52cda 100644
+--- a/Documentation/devicetree/bindings/media/video-interfaces.txt
++++ b/Documentation/devicetree/bindings/media/video-interfaces.txt
+@@ -153,123 +153,145 @@ Optional endpoint properties
+ Example
+ -------
 
-Thanks for testing and please keep us posted!
+-The example snippet below describes two data pipelines.  ov772x and imx074 are
+-camera sensors with a parallel and serial (MIPI CSI-2) video bus respectively.
+-Both sensors are on the I2C control bus corresponding to the i2c0 controller
+-node.  ov772x sensor is linked directly to the ceu0 video host interface.
+-imx074 is linked to ceu0 through the MIPI CSI-2 receiver (csi2). ceu0 has a
+-(single) DMA engine writing captured data to memory.  ceu0 node has a single
+-'port' node which may indicate that at any time only one of the following data
+-pipelines can be active: ov772x -> ceu0 or imx074 -> csi2 -> ceu0.
+-
+-	ceu0: ceu@fe910000 {
+-		compatible = "renesas,sh-mobile-ceu";
+-		reg = <0xfe910000 0xa0>;
+-		interrupts = <0x880>;
+-
+-		mclk: master_clock {
+-			compatible = "renesas,ceu-clock";
+-			#clock-cells = <1>;
+-			clock-frequency = <50000000>;	/* Max clock frequency */
+-			clock-output-names = "mclk";
+-		};
++The example snippet below describes two data pipelines connected to a video
++DMA engine (VIN4) which has a direct parallel video bus connection to an HDMI
++video decoder at port@0 and a data path to a CSI-2 receiver connected to an
++image sensor (imx074) at port@1.
 
-Thanks
-   j
+-		port {
++The parallel HDMI video decoder links directly to the VIN input port 0, and the
++bus configuration at both ends is specified in each endpoint.
++
++The imx074 sensor connects to the CSI-2 receiver and the MIPI CSI-2 serial bus
++configuration is specified in the respective endpoints as well. The CSI-2
++receiver is then linked to the DMA engine through a direct data path which does
++not require any endpoint configuration.
++
++i2c0: i2c@e6500000 {
++
++	hdmi-decoder@4c {
++		compatible = "adi,adv7612";
++		reg = <0x4c>;
++
++		ports {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
 
-> >
-> > Laurent, Kieran, could we fast-track review of this and hopefully try to have it
-> > merged for v5.5 ?
-> >
-> > Thanks Ezequiel for having suggested me this solution.
-> >
-> > Thanks
-> >    j
-> >
-> > Jacopo Mondi (8):
-> >   dt-bindings: display: renesas,cmm: Add R-Car CMM documentation
-> >   dt-bindings: display, renesas,du: Document cmms property
-> >   drm: rcar-du: Add support for CMM
-> >   drm: rcar-du: kms: Initialize CMM instances
-> >   drm: rcar-du: crtc: Control CMM operations
-> >   drm: rcar-du: crtc: Register GAMMA_LUT properties
-> >   arm64: dts: renesas: Add CMM units to Gen3 SoCs
-> >   drm: rcar-du: kms: Expand comment in vsps parsing routine
-> >
-> >  .../bindings/display/renesas,cmm.yaml         |  67 ++++++
-> >  .../bindings/display/renesas,du.txt           |   5 +
-> >  arch/arm64/boot/dts/renesas/r8a7795.dtsi      |  39 ++++
-> >  arch/arm64/boot/dts/renesas/r8a7796.dtsi      |  31 ++-
-> >  arch/arm64/boot/dts/renesas/r8a77965.dtsi     |  31 ++-
-> >  arch/arm64/boot/dts/renesas/r8a77990.dtsi     |  21 ++
-> >  arch/arm64/boot/dts/renesas/r8a77995.dtsi     |  21 ++
-> >  drivers/gpu/drm/rcar-du/Kconfig               |   7 +
-> >  drivers/gpu/drm/rcar-du/Makefile              |   1 +
-> >  drivers/gpu/drm/rcar-du/rcar_cmm.c            | 198 ++++++++++++++++++
-> >  drivers/gpu/drm/rcar-du/rcar_cmm.h            |  60 ++++++
-> >  drivers/gpu/drm/rcar-du/rcar_du_crtc.c        |  89 ++++++++
-> >  drivers/gpu/drm/rcar-du/rcar_du_crtc.h        |   2 +
-> >  drivers/gpu/drm/rcar-du/rcar_du_drv.h         |   2 +
-> >  drivers/gpu/drm/rcar-du/rcar_du_group.c       |   5 +
-> >  drivers/gpu/drm/rcar-du/rcar_du_group.h       |   2 +
-> >  drivers/gpu/drm/rcar-du/rcar_du_kms.c         |  82 +++++++-
-> >  drivers/gpu/drm/rcar-du/rcar_du_regs.h        |   5 +
-> >  18 files changed, 665 insertions(+), 3 deletions(-)  create mode 100644
-> > Documentation/devicetree/bindings/display/renesas,cmm.yaml
-> >  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.c
-> >  create mode 100644 drivers/gpu/drm/rcar-du/rcar_cmm.h
-> >
-> > --
-> > 2.23.0
->
+-			/* Parallel bus endpoint */
+-			ceu0_1: endpoint@1 {
+-				reg = <1>;		/* Local endpoint # */
+-				remote = <&ov772x_1_1>;	/* Remote phandle */
+-				bus-width = <8>;	/* Used data lines */
+-				data-shift = <2>;	/* Lines 9:2 are used */
+-
+-				/* If hsync-active/vsync-active are missing,
+-				   embedded BT.656 sync is used */
+-				hsync-active = <0>;	/* Active low */
+-				vsync-active = <0>;	/* Active low */
+-				data-active = <1>;	/* Active high */
+-				pclk-sample = <1>;	/* Rising */
+-			};
+-
+-			/* MIPI CSI-2 bus endpoint */
+-			ceu0_0: endpoint@0 {
++			port@0 {
+ 				reg = <0>;
+-				remote = <&csi2_2>;
++				adv7612_in: endpoint {
++					remote-endpoint = <&hdmi_con_in>;
++				};
+ 			};
+-		};
+-	};
 
---u6q34lyragniy4ty
-Content-Type: application/pgp-signature; name="signature.asc"
+-	i2c0: i2c@fff20000 {
+-		...
+-		ov772x_1: camera@21 {
+-			compatible = "ovti,ov772x";
+-			reg = <0x21>;
+-			vddio-supply = <&regulator1>;
+-			vddcore-supply = <&regulator2>;
+-
+-			clock-frequency = <20000000>;
+-			clocks = <&mclk 0>;
+-			clock-names = "xclk";
+-
+-			port {
+-				/* With 1 endpoint per port no need for addresses. */
+-				ov772x_1_1: endpoint {
++			port@2 {
++				reg = <2>;
++				adv7612_out: endpoint {
++					bus-type = 5;
+ 					bus-width = <8>;
+-					remote-endpoint = <&ceu0_1>;
+-					hsync-active = <1>;
+-					vsync-active = <0>; /* Who came up with an
+-							       inverter here ?... */
+-					data-active = <1>;
+-					pclk-sample = <1>;
++					pclk-sample = <0>;
++					hsync-active = <0>;
++					vsync-active = <1>;
++					remote-endpoint = <&vin4_digital_in>;
+ 				};
+ 			};
+ 		};
++	};
 
------BEGIN PGP SIGNATURE-----
+-		imx074: camera@1a {
+-			compatible = "sony,imx074";
+-			reg = <0x1a>;
+-			vddio-supply = <&regulator1>;
+-			vddcore-supply = <&regulator2>;
+-
+-			clock-frequency = <30000000>;	/* Shared clock with ov772x_1 */
+-			clocks = <&mclk 0>;
+-			clock-names = "sysclk";		/* Assuming this is the
+-							   name in the datasheet */
+-			port {
+-				imx074_1: endpoint {
+-					clock-lanes = <0>;
+-					data-lanes = <1 2>;
+-					remote-endpoint = <&csi2_1>;
+-				};
++	imx074: camera@1a {
++		compatible = "sony,imx074";
++		reg = <0x1a>;
++
++		rotation = <180>;
++
++		port {
++			imx074_1: endpoint {
++				bus-type = 4;
++				data-lanes = <1 2>;
++				remote-endpoint = <&csi20_in>;
+ 			};
+ 		};
+ 	};
++};
++
++csi20: csi2@fea80000 {
++	compatible = "renesas,r8a7795-csi2";
++	reg = <0 0xfea80000 0 0x10000>;
++	interrupts = <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>;
++	clocks = <&cpg CPG_MOD 714>;
++	power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
++	resets = <&cpg 714>;
 
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl3JXMoACgkQcjQGjxah
-VjyHxw//YOPTQ1K5syH6PsaJ8ptTzm+gh0f9gDufusYADRI2Pu8CURR7OZwHUBxd
-8rUwEMagvQDWbGwL2okFnlxcnKYygiH49mMSiSUWoWaI8+iOBhDgwVxJSIc8Gr9F
-zcX/bCfgNVR3zcCkd7+hTXu5f/Ymw5jpa64I5aFxILmfK2JV2WQgdBvY7Se2eT8g
-mC1z1x21BDKvGfsTAtdGYE9HI/bda50VshbBSgYDIb8YyVvEQlVPcl2DZKCN2cyh
-RV/87uiIGclAgW5buhhBAmQticmUBCXGTJWhkcEUCkqYH5R/hgtjV9SI00AhY4Ws
-sxTA1PA6A/Qs2WBYl2+UDwenrqBdwg+uFDevOIkh3P5p+AD5GCowy7TMbgbVJUE7
-USIHzzYB1Ai+arUW5XAybgVupKNvD+UVGTPj04XD0aBoRc2vKE27bwWR9VdpsTBv
-TRNNTQIxg5i2Qpv23DyhsqM3AaqPqCQM95zgBPjpT5IZ/vvqgX+SDLm6KqqgWvlT
-/mCnVMu26HhPN6yw9IM4Ea6S6SGpq1OxWozbvUQFrw4zbn9jXBkW9sspUkUe2ZTv
-WJ0as519wvCWkqcXsLc/XnX/OaekD9KtatUObE2bLFsLAOwDlXt83gjIpAu+4lzQ
-/V9Isg6cOR1Nqx7j8+I5MdBnPNxwi7Oarl5Pd9EANRy/CSUBtTk=
-=io+m
------END PGP SIGNATURE-----
+-	csi2: csi2@ffc90000 {
+-		compatible = "renesas,sh-mobile-csi2";
+-		reg = <0xffc90000 0x1000>;
+-		interrupts = <0x17a0>;
++	ports {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
 
---u6q34lyragniy4ty--
+-		port@1 {
+-			compatible = "renesas,csi2c";	/* One of CSI2I and CSI2C. */
+-			reg = <1>;			/* CSI-2 PHY #1 of 2: PHY_S,
+-							   PHY_M has port address 0,
+-							   is unused. */
+-			csi2_1: endpoint {
+-				clock-lanes = <0>;
+-				data-lanes = <2 1>;
++		port@0 {
++			reg = <0>;
++
++			csi20_in: endpoint {
++				bus-type = 4;
++				data-lanes = <1 2>;
+ 				remote-endpoint = <&imx074_1>;
+ 			};
+ 		};
+-		port@2 {
+-			reg = <2>;			/* port 2: link to the CEU */
+
+-			csi2_2: endpoint {
+-				remote-endpoint = <&ceu0_0>;
++		port@1 {
++			reg = <1>;
++
++			csi20vin4: endpoint {
++				remote-endpoint = <&vin4csi20>;
++			};
++		};
++	};
++};
++
++vin4: video@e6ef4000 {
++	compatible = "renesas,vin-r8a7795";
++	reg = <0 0xe6ef4000 0 0x1000>;
++	interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
++	clocks = <&cpg CPG_MOD 807>;
++	power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
++	resets = <&cpg 807>;
++	renesas,id = <4>;
++
++	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		/* Parallel input port: HDMI decoder */
++		port@0 {
++			reg = <0>;
++
++			vin4_digital_in: endpoint {
++				bus-type = 5;
++				bus-width = <8>;
++				data-shift = <2>;
++				data-active = <1>;
++				pclk-sample = <0>;
++				hsync-active = <0>;
++				vsync-active = <0>;
++				remote-endpoint = <&adv7612_out>;
++			};
++		};
++
++
++		/* Data path to the MIPI CSI-2 receiver. */
++		port@1 {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			reg =<1>;
++
++			vin4csi20: endpoint@0 {
++				reg = <0>;
++				remote-endpoint = <&csi20vin4>;
++			};
++
++			/* Not connected in this example. */
++			vin4csi41: endpoint@3 {
++				reg = <3>;
++				remote-endpoint = <&csi41vin4>;
+ 			};
+ 		};
+ 	};
++};
+--
+2.23.0
+
