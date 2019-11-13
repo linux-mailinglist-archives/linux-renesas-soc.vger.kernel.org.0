@@ -2,23 +2,23 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AAC60FB43C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Nov 2019 16:52:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 05164FB43E
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Nov 2019 16:52:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728105AbfKMPw1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Nov 2019 10:52:27 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:43910 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727907AbfKMPw1 (ORCPT
+        id S1728110AbfKMPwc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Nov 2019 10:52:32 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:59620 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727907AbfKMPwc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Nov 2019 10:52:27 -0500
+        Wed, 13 Nov 2019 10:52:32 -0500
 X-IronPort-AV: E=Sophos;i="5.68,300,1569250800"; 
-   d="scan'208";a="31593939"
+   d="scan'208";a="31380911"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 14 Nov 2019 00:52:26 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 14 Nov 2019 00:52:31 +0900
 Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id ADDC2400EE6B;
-        Thu, 14 Nov 2019 00:52:21 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id B7DA1400ED5C;
+        Thu, 14 Nov 2019 00:52:26 +0900 (JST)
 From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 To:     Neil Armstrong <narmstrong@baylibre.com>,
         David Airlie <airlied@linux.ie>,
@@ -38,9 +38,9 @@ Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: [PATCH v4 09/13] dt-bindings: display: bridge: lvds-codec: Document ti,ds90cf384a
-Date:   Wed, 13 Nov 2019 15:51:28 +0000
-Message-Id: <1573660292-10629-10-git-send-email-fabrizio.castro@bp.renesas.com>
+Subject: [PATCH v4 10/13] ARM: dts: iwg20d-q7-common: Add LCD support
+Date:   Wed, 13 Nov 2019 15:51:29 +0000
+Message-Id: <1573660292-10629-11-git-send-email-fabrizio.castro@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1573660292-10629-1-git-send-email-fabrizio.castro@bp.renesas.com>
 References: <1573660292-10629-1-git-send-email-fabrizio.castro@bp.renesas.com>
@@ -49,47 +49,161 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The DS90CF384A from TI is a transparent LVDS receiver (decoder),
-and therefore it is compatible with the lvds-codec driver and
-bindings.
-
-Document the ti,ds90cf384a compatible string with the dt-bindings.
-No driver change required.
+The iwg20d comes with a 7" capacitive touch screen, therefore
+add support for it.
 
 Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 
 ---
 v3->v4:
-* New patch
+* Reworked compatibility of DT node lvds-receiver
+* s/powerdown/powerdown-gpios/g in lvds-receiver
+* Reworked compatibility of DT node panel
+v2->v3:
+* No change
+v1->v2:
+* No change
 ---
- Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ arch/arm/boot/dts/iwg20d-q7-common.dtsi  | 85 ++++++++++++++++++++++++++++++++
+ arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi |  1 -
+ 2 files changed, 85 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-index 0ecc8a4..21f8c6e 100644
---- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-@@ -40,7 +40,10 @@ properties:
-           - ti,ds90c187       # For the TI DS90C187 FPD-Link Serializer
-           - ti,sn75lvds83     # For the TI SN75LVDS83 FlatLink transmitter
-         - const: lvds-encoder # Generic LVDS encoder compatible fallback
--      - const: lvds-decoder   # Generic LVDS decoders compatible fallback
-+      - items:
-+        - enum:
-+          - ti,ds90cf384a     # For the DS90CF384A FPD-Link LVDS Receiver
-+        - const: lvds-decoder # Generic LVDS decoders compatible fallback
+diff --git a/arch/arm/boot/dts/iwg20d-q7-common.dtsi b/arch/arm/boot/dts/iwg20d-q7-common.dtsi
+index ae75a1db..ab5ae93 100644
+--- a/arch/arm/boot/dts/iwg20d-q7-common.dtsi
++++ b/arch/arm/boot/dts/iwg20d-q7-common.dtsi
+@@ -46,6 +46,49 @@
+ 		clock-frequency = <26000000>;
+ 	};
  
-   ports:
-     type: object
-@@ -102,7 +105,7 @@ examples:
++	lcd_backlight: backlight {
++		compatible = "pwm-backlight";
++
++		pwms = <&pwm3 0 5000000 0>;
++		brightness-levels = <0 4 8 16 32 64 128 255>;
++		default-brightness-level = <7>;
++		enable-gpios = <&gpio5 14 GPIO_ACTIVE_HIGH>;
++	};
++
++	lvds-receiver {
++		compatible = "ti,ds90cf384a", "lvds-decoder";
++		powerdown-gpios = <&gpio7 25 GPIO_ACTIVE_LOW>;
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++				lvds_receiver_in: endpoint {
++					remote-endpoint = <&lvds0_out>;
++				};
++			};
++			port@1 {
++				reg = <1>;
++				lvds_receiver_out: endpoint {
++					remote-endpoint = <&panel_in>;
++				};
++			};
++		};
++	};
++
++	panel {
++		compatible = "edt,etm0700g0dh6";
++		backlight = <&lcd_backlight>;
++
++		port {
++			panel_in: endpoint {
++				remote-endpoint = <&lvds_receiver_out>;
++			};
++		};
++	};
++
+ 	reg_1p5v: 1p5v {
+ 		compatible = "regulator-fixed";
+ 		regulator-name = "1P5V";
+@@ -120,6 +163,18 @@
+ 	status = "okay";
+ };
  
-   - |
-     lvds-decoder {
--      compatible = "lvds-decoder";
-+      compatible = "ti,ds90cf384a", "lvds-decoder";
++&du {
++	status = "okay";
++};
++
++&gpio2 {
++	touch-interrupt {
++		gpio-hog;
++		gpios = <12 GPIO_ACTIVE_LOW>;
++		input;
++	};
++};
++
+ &hsusb {
+ 	status = "okay";
+ 	pinctrl-0 = <&usb0_pins>;
+@@ -147,6 +202,25 @@
+ 		VDDIO-supply = <&reg_3p3v>;
+ 		VDDD-supply = <&reg_1p5v>;
+ 	};
++
++	touch: touchpanel@38 {
++		compatible = "edt,edt-ft5406";
++		reg = <0x38>;
++		interrupt-parent = <&gpio2>;
++		interrupts = <12 IRQ_TYPE_EDGE_FALLING>;
++	};
++};
++
++&lvds0 {
++	status = "okay";
++
++	ports {
++		port@1 {
++			lvds0_out: endpoint {
++				remote-endpoint = <&lvds_receiver_in>;
++			};
++		};
++	};
+ };
  
-       ports {
-         #address-cells = <1>;
+ &pci0 {
+@@ -180,6 +254,11 @@
+ 		function = "i2c2";
+ 	};
+ 
++	pwm3_pins: pwm3 {
++		groups = "pwm3";
++		function = "pwm3";
++	};
++
+ 	scif0_pins: scif0 {
+ 		groups = "scif0_data_d";
+ 		function = "scif0";
+@@ -218,6 +297,12 @@
+ 	};
+ };
+ 
++&pwm3 {
++	pinctrl-0 = <&pwm3_pins>;
++	pinctrl-names = "default";
++	status = "okay";
++};
++
+ &rcar_sound {
+ 	pinctrl-0 = <&sound_pins>;
+ 	pinctrl-names = "default";
+diff --git a/arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi b/arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi
+index 0e99df2..ede2e0c 100644
+--- a/arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi
++++ b/arch/arm/boot/dts/iwg20d-q7-dbcm-ca.dtsi
+@@ -39,7 +39,6 @@
+ &du {
+ 	pinctrl-0 = <&du_pins>;
+ 	pinctrl-names = "default";
+-	status = "okay";
+ 
+ 	ports {
+ 		port@0 {
 -- 
 2.7.4
 
