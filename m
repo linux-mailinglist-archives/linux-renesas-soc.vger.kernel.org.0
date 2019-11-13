@@ -2,136 +2,120 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D4CDFAC62
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Nov 2019 09:55:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B9557FACD8
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Nov 2019 10:22:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726173AbfKMIyE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Nov 2019 03:54:04 -0500
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:52943 "EHLO
-        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726086AbfKMIyE (ORCPT
+        id S1726422AbfKMJVs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Nov 2019 04:21:48 -0500
+Received: from andre.telenet-ops.be ([195.130.132.53]:51884 "EHLO
+        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727319AbfKMJVq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Nov 2019 03:54:04 -0500
-X-Originating-IP: 93.34.114.233
-Received: from uno.localdomain (93-34-114-233.ip49.fastwebnet.it [93.34.114.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 30C766000E;
-        Wed, 13 Nov 2019 08:53:57 +0000 (UTC)
-Date:   Wed, 13 Nov 2019 09:55:58 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-Cc:     mazziesaccount@gmail.com,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 1/2] pinctrl: rza1: remove unnecerssary static inline
- function
-Message-ID: <20191113085558.l6rde7xug3paoojf@uno.localdomain>
-References: <20191112141748.GA22061@localhost.localdomain>
+        Wed, 13 Nov 2019 04:21:46 -0500
+Received: from ramsan ([84.195.182.253])
+        by andre.telenet-ops.be with bizsmtp
+        id RMMk2100G5USYZQ01MMkEE; Wed, 13 Nov 2019 10:21:44 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1iUoqO-0001qZ-7m; Wed, 13 Nov 2019 10:21:44 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1iUoqO-0006Bh-5R; Wed, 13 Nov 2019 10:21:44 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] iio: adc: max9611: Fix too short conversion time delay
+Date:   Wed, 13 Nov 2019 10:21:33 +0100
+Message-Id: <20191113092133.23723-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="bwknto7takkwphs5"
-Content-Disposition: inline
-In-Reply-To: <20191112141748.GA22061@localhost.localdomain>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+As of commit b9ddd5091160793e ("iio: adc: max9611: Fix temperature
+reading in probe"), max9611 initialization sometimes fails on the
+Salvator-X(S) development board with:
 
---bwknto7takkwphs5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+    max9611 4-007f: Invalid value received from ADC 0x8000: aborting
+    max9611: probe of 4-007f failed with error -5
 
-Hi Matti,
+The max9611 driver tests communications with the chip by reading the die
+temperature during the probe function, which returns an invalid value.
 
-On Tue, Nov 12, 2019 at 04:17:48PM +0200, Matti Vaittinen wrote:
-> Having static inline oneliner does not benefit too much when it is
-> only called from another oneliner function. Remove some of the
-> 'onion'. This simplifies also the coming usage of the gpiolib
-> defines. We can do conversion from chip bits to gpiolib direction
-> defines as last step in the get_direction callback. Drivers can
-> use chip specific values in driver internal functions and do
-> conversion only once.
+According to the datasheet, the typical ADC conversion time is 2 ms, but
+no minimum or maximum values are provided.  However, the driver assumes
+a 1 ms conversion time.  Usually the usleep_range() call returns after
+more than 1.8 ms, hence it succeeds.  When it returns earlier, the data
+register may be read too early, and the previous measurement value will
+be returned.  After boot, this is the temperature POR (power-on reset)
+value, causing the failure above.
 
-I assume your: "[PATCH 2/2] pinctrl: Use new GPIO_LINE_DIRECTION"
-supersedes this one, am I right ?
+Fix this by increasing the delay from 1000-2000 µs to 2000-2200 µs.
 
-Thanks
-  j
+Note that this issue has always been present, but it was exposed by the
+aformentioned commit.
 
->
-> Signed-off-by: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
-> ---
->  drivers/pinctrl/pinctrl-rza1.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
->
-> diff --git a/drivers/pinctrl/pinctrl-rza1.c b/drivers/pinctrl/pinctrl-rza1.c
-> index 017fc6b3e27e..215db220d795 100644
-> --- a/drivers/pinctrl/pinctrl-rza1.c
-> +++ b/drivers/pinctrl/pinctrl-rza1.c
-> @@ -617,12 +617,6 @@ static void rza1_pin_reset(struct rza1_port *port, unsigned int pin)
->  	spin_unlock_irqrestore(&port->lock, irqflags);
->  }
->
-> -static inline int rza1_pin_get_direction(struct rza1_port *port,
-> -					 unsigned int pin)
-> -{
-> -	return !!rza1_get_bit(port, RZA1_PM_REG, pin);
-> -}
-> -
->  /**
->   * rza1_pin_set_direction() - set I/O direction on a pin in port mode
->   *
-> @@ -783,7 +777,7 @@ static int rza1_gpio_get_direction(struct gpio_chip *chip, unsigned int gpio)
->  {
->  	struct rza1_port *port = gpiochip_get_data(chip);
->
-> -	return rza1_pin_get_direction(port, gpio);
-> +	return !!rza1_get_bit(port, RZA1_PM_REG, gpio);
->  }
->
->  static int rza1_gpio_direction_input(struct gpio_chip *chip,
->
-> base-commit: 70d97e099bb426ecb3ad4bf31e88dbf2ef4b2e4c
-> --
-> 2.21.0
->
->
-> --
-> Matti Vaittinen, Linux device drivers
-> ROHM Semiconductors, Finland SWDC
-> Kiviharjunlenkki 1E
-> 90220 OULU
-> FINLAND
->
-> ~~~ "I don't think so," said Rene Descartes. Just then he vanished ~~~
-> Simon says - in Latin please.
-> ~~~ "non cogito me" dixit Rene Descarte, deinde evanescavit ~~~
-> Thanks to Simon Glass for the translation =]
+Fixes: 69780a3bbc0b1e7e ("iio: adc: Add Maxim max9611 ADC driver")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+This problem was exposed in v5.3.
 
---bwknto7takkwphs5
-Content-Type: application/pgp-signature; name="signature.asc"
+After this patch, probing of the two max9611 sensors succeeded during
+ca. 3000 boot cycles on Salvator-X(S) boards, equipped with various
+R-Car H3/M3-W/M3-N SoCs.
+---
+ drivers/iio/adc/max9611.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/drivers/iio/adc/max9611.c b/drivers/iio/adc/max9611.c
+index da073d72f649f829..b0755f25356d700d 100644
+--- a/drivers/iio/adc/max9611.c
++++ b/drivers/iio/adc/max9611.c
+@@ -89,6 +89,11 @@
+ #define MAX9611_TEMP_SCALE_NUM		1000000
+ #define MAX9611_TEMP_SCALE_DIV		2083
+ 
++/*
++ * Conversion time is 2 ms (typically)
++ */
++#define MAX9611_CONV_TIME_US_RANGE	2000, 2200
++
+ struct max9611_dev {
+ 	struct device *dev;
+ 	struct i2c_client *i2c_client;
+@@ -238,9 +243,9 @@ static int max9611_read_single(struct max9611_dev *max9611,
+ 
+ 	/*
+ 	 * need a delay here to make register configuration
+-	 * stabilize. 1 msec at least, from empirical testing.
++	 * stabilize.
+ 	 */
+-	usleep_range(1000, 2000);
++	usleep_range(MAX9611_CONV_TIME_US_RANGE);
+ 
+ 	ret = i2c_smbus_read_word_swapped(max9611->i2c_client, reg_addr);
+ 	if (ret < 0) {
+@@ -507,7 +512,7 @@ static int max9611_init(struct max9611_dev *max9611)
+ 			MAX9611_REG_CTRL2, 0);
+ 		return ret;
+ 	}
+-	usleep_range(1000, 2000);
++	usleep_range(MAX9611_CONV_TIME_US_RANGE);
+ 
+ 	return 0;
+ }
+-- 
+2.17.1
 
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl3LxR4ACgkQcjQGjxah
-Vjzu3A//VcmxB+zLrhFkIPEXStslWNxWBzlOPrVt1zEIGbpxgVBin7IaP30h4gml
-GrPxtZom3KkKbzbIYlS5syNycjxUT3NjYs2Yur4DBnAhvkoxrFLfprhjjX0fL170
-18RZJoH74NJYsjiDzbRRJQfN6JSNVgJ0XFCyLmQKhBA5K7UC4BT2hSvsLzzQ0neJ
-jXhtQ+VKayIDQ/lUArvoABE7V6wX+F4app7eZ+xkSPq1ptUByob6mr9wV7WMONNh
-qBd+U/+nV8ywD3qUWwDt//77FGZYbXM/mdKf3moYnvD8BYTaIA0l4MRoYuAh0bKg
-SLimFdCoBznxP4syuhiil5aDYhY21fK3XymjbBnoKHw3SlmJn2488eOdiDy1ErCy
-dT258CLPbO6YyI1aNxyZyIlWhWlavkM5/FvS4R+IUIJzJiT177gSWD2uTX0i8kd4
-3GIF63YcoUaJjNDGMRMla4tbDOgee3mdssRWDEynQlmYu3AV6krBF0tkRU8JaIaE
-l0kSRUPo6bxWsH+HFhNrXMGP3JSrfU26cR7t+V9intAxWaGmteXZV2ph1CjeMW8e
-gsa0GSGjvm5aEganXEi1pXoHD+5Fg34/6UHY7XYYQXkaFl7f92Cmkoc4EomfWkAR
-kpwLSvI76WXbaP6bKEH7FqWAyUcHEIzrBMqIWYBKx90aHEWiRAs=
-=SZJk
------END PGP SIGNATURE-----
-
---bwknto7takkwphs5--
