@@ -2,109 +2,115 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 33483FB5C8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Nov 2019 17:57:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A78BFB5E0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Nov 2019 18:04:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726443AbfKMQ5B (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Nov 2019 11:57:01 -0500
-Received: from pb-smtp20.pobox.com ([173.228.157.52]:61832 "EHLO
-        pb-smtp20.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726129AbfKMQ5B (ORCPT
+        id S1727001AbfKMREm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Nov 2019 12:04:42 -0500
+Received: from pandora.armlinux.org.uk ([78.32.30.218]:43802 "EHLO
+        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726613AbfKMREm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Nov 2019 11:57:01 -0500
-Received: from pb-smtp20.pobox.com (unknown [127.0.0.1])
-        by pb-smtp20.pobox.com (Postfix) with ESMTP id 20AD68A425;
-        Wed, 13 Nov 2019 11:56:59 -0500 (EST)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
-        :cc:subject:in-reply-to:message-id:references:mime-version
-        :content-type; s=sasl; bh=pudSezJJWI5D7ZGH/IF+MpD7h3I=; b=uRPfX4
-        vKo4OKXna7Y+91GWdi6TaykezvjDC7BBKE0E20ZisLzaZNK74KETZSOMRZywFzoi
-        l2HDs4jb3gSXorRzIQ0hUgUJJ93qp+aVJQgkf2iaOmxBxxWMoGsdQ0Th8Ymx1VbX
-        985h3+Tf56Zgsd2WlDFTdL2G5eFS9KxrHd0co=
-Received: from pb-smtp20.sea.icgroup.com (unknown [127.0.0.1])
-        by pb-smtp20.pobox.com (Postfix) with ESMTP id 1894A8A424;
-        Wed, 13 Nov 2019 11:56:59 -0500 (EST)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
- h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=QmE2jItILXUvOoeWFAt50Cg29O3nq4PJ382w4qPIZ4Q=; b=HMzWf0A677dZLOgP1Be2DX1oawuadBHmJvQ5Eq/d0mMpyexQDOQBop31VKK9KSB3sGffBh+kwqIA7ifhgVcPkxARGOyRNZLJUknRZeWmIA7ADg19QoPfk1y6cZ7M/qCp3z7tPAuka3RdI/ktMQhGQ9pIXLZXj4qfUrqPcKo2JuA=
-Received: from yoda.home (unknown [24.203.50.76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by pb-smtp20.pobox.com (Postfix) with ESMTPSA id EFECC8A423;
-        Wed, 13 Nov 2019 11:56:55 -0500 (EST)
-        (envelope-from nico@fluxnic.net)
-Received: from xanadu.home (xanadu.home [192.168.2.2])
-        by yoda.home (Postfix) with ESMTPSA id 0E9462DA0227;
-        Wed, 13 Nov 2019 11:56:54 -0500 (EST)
-Date:   Wed, 13 Nov 2019 11:56:53 -0500 (EST)
-From:   Nicolas Pitre <nico@fluxnic.net>
-To:     =?ISO-8859-15?Q?Uwe_Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
+        Wed, 13 Nov 2019 12:04:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=C2QNnRLON1yM7HplcQbHE6Soc3XK8SdkjG3qnRqou0s=; b=M/w2tVs3GhHvSL/BmJLeErQx8
+        D40WW/t8ajXR/5N7kfi/V+5ft9/YXhH9ov5fsFhVcPyFv/5zYjalxbQDcWdKiPJaIqo4Yi4lAR+Fi
+        aMZ+n+LdYEKNvIWC4ceznLR+t5YSZmc26nG60uvEIWOsUgB8ZtG+P5m/GZOdggcfaVljol1o4ucol
+        Jd/igNztrjFvOFh4Pp/wbF9VF7knUXCi5QwXsdXMVVcmMVXLRigeXlIDryavyIccPDSgY0q1ZBI4y
+        RYYZxiVCdG/paSpYRHina3DlK0YhC6hfAYw0kXuq79qhq6rZOOydImIpkUKWr6WFPBLbBqUZvkkWC
+        u3x1woM8Q==;
+Received: from shell.armlinux.org.uk ([2001:4d48:ad52:3201:5054:ff:fe00:4ec]:55748)
+        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.90_1)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1iUw4B-0005e6-KM; Wed, 13 Nov 2019 17:04:27 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1iUw49-0002bd-41; Wed, 13 Nov 2019 17:04:25 +0000
+Date:   Wed, 13 Nov 2019 17:04:25 +0000
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Nicolas Pitre <nico@fluxnic.net>,
         Eric Miao <eric.miao@nvidia.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
         Chris Brandt <chris.brandt@renesas.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Subject: Re: [PATCH/RFC] ARM: boot: Relax kernel image alignment for RZ/A
  with CS3 SDRAM
-In-Reply-To: <20191113104037.e45j37xoxeztvut3@pengutronix.de>
-Message-ID: <nycvar.YSQ.7.76.1911131151510.7180@knanqh.ubzr>
-References: <20191113102729.29303-1-geert+renesas@glider.be> <20191113104037.e45j37xoxeztvut3@pengutronix.de>
-User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
+Message-ID: <20191113170425.GQ25745@shell.armlinux.org.uk>
+References: <20191113102729.29303-1-geert+renesas@glider.be>
+ <20191113103919.GM25745@shell.armlinux.org.uk>
+ <CAMuHMdXWsUChMA+_6sdavo8nd-9icX6nsN7unSfMMViOQrUVMQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1842071205-1573664214=:7180"
-X-Pobox-Relay-ID: 996898E2-0636-11EA-95D8-B0405B776F7B-78420484!pb-smtp20.pobox.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXWsUChMA+_6sdavo8nd-9icX6nsN7unSfMMViOQrUVMQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Wed, Nov 13, 2019 at 02:32:19PM +0100, Geert Uytterhoeven wrote:
+> Hi Russell,
+> 
+> On Wed, Nov 13, 2019 at 11:39 AM Russell King - ARM Linux admin
+> <linux@armlinux.org.uk> wrote:
+> > On Wed, Nov 13, 2019 at 11:27:29AM +0100, Geert Uytterhoeven wrote:
+> > > The RZA2MEVB sub board has 64 MiB of SDRAM at 0x0C000000 (CS3 space).
+> > > Hence the mask for CONFIG_AUTO_ZRELADDR needs to be changed, otherwise
+> > > the system will crash because it will try to decompress a zImage or
+> > > uImage to a non-RAM garbage address.
+> > >
+> > > Based on a patch in the BSP by Chris Brandt <chris.brandt@renesas.com>.
+> > >
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > ---
+> > > No idea what to do with the rest of the comment, or if this breaks
+> > > existing platforms.
+> >
+> > We occasionally have discussions about this - the last one was a big
+> > one in Edinburgh, and the answer is we can't change this in mainline.
+> > They've also come up on the mailing lists as well.
+> >
+> > I'm not going to rehash this old argument yet again - the comment
+> > details the reason for it, and is there to prevent exactly this.
+> 
+> Sorry, I wasn't aware of that discussion.
+> I had a chat about this at ELC-E with Arnd, and he was open to this change.
+> 
+> > If someone is silly enough to come up with a platform that violates
+> > the documented 32-bit ARM booting protocol, then they can't expect
+> > the kernel to bend to their platform's requirements at the expense of
+> > already merged platforms.
+> 
+> Documentation/arm/booting.rst:
+>   1. The kernel should be placed in the first 128MiB of RAM: check.
+>   2. A safe location is just above the 128MiB boundary from start of RAM:
+>      oops. Not all platforms have more than 128 MiB of RAM...
+> 
+> An alternative is to fall to the builtin 4 MiB of SRAM, or the 8 MiB of
+> HyperRAM on RZA2MEVB, but doing that requires using XIP.
+> Which brings us to your response in the other email:
+> 
+> > Are we going back to non-multi-platform kernels? ;)
+> 
+> Good question! ;-)
+> 
+>   1. CONFIG_AUTO_ZRELADDR=n
+>   2. CONFIG_XIP_KERNEL=y
 
---8323328-1842071205-1573664214=:7180
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+If you're using an XIP kernel, you are by definition not using the
+decompressor.
 
-On Wed, 13 Nov 2019, Uwe Kleine-K=F6nig wrote:
-
-> On Wed, Nov 13, 2019 at 11:27:29AM +0100, Geert Uytterhoeven wrote:
-> > The RZA2MEVB sub board has 64 MiB of SDRAM at 0x0C000000 (CS3 space).
->=20
-> This wording is misleading. You don't adapt the limit because 128 MiB >
-> the amount of RAM on that platform but because the alignment of the CS3
-> space isn't a multiple of 128 MiB. So I suggest:
->=20
-> 	On the RZA2MEVB the SDRAM's base is at 0x0C000000 which isn't
-> 	aligned to 128 MiB. So to ensure the assumptions of the
-> 	decompressor are valid the used alignment must be decreased.
->=20
-> > Hence the mask for CONFIG_AUTO_ZRELADDR needs to be changed, otherwis=
-e
-> > the system will crash because it will try to decompress a zImage or
-> > uImage to a non-RAM garbage address.
-> >=20
-> > Based on a patch in the BSP by Chris Brandt <chris.brandt@renesas.com=
->.
-> >=20
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> > No idea what to do with the rest of the comment, or if this breaks
-> > existing platforms.
->=20
-> I would assume that it indeed breaks existing platforms. So maybe bette=
-r
-> make this configurable, default to 128 MiB and select it to 64 MiB on
-> the affected platform? If the resulting kernel supports also other
-> machines a warning (at compile time) might be a good idea.
-
-Better yet could involve fetching the actual physical RAM start address=20
-from the DTB when present. This 128 MB mask was just a shortcut to keep=20
-things simple.
-
-
-Nicolas
---8323328-1842071205-1573664214=:7180--
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
+According to speedtest.net: 11.9Mbps down 500kbps up
