@@ -2,107 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C2F5BFAE25
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Nov 2019 11:11:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 015DDFAE4B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Nov 2019 11:14:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726389AbfKMKLI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Nov 2019 05:11:08 -0500
-Received: from andre.telenet-ops.be ([195.130.132.53]:47440 "EHLO
-        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727080AbfKMKLI (ORCPT
+        id S1727491AbfKMKO5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Nov 2019 05:14:57 -0500
+Received: from xavier.telenet-ops.be ([195.130.132.52]:40406 "EHLO
+        xavier.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727453AbfKMKO5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Nov 2019 05:11:08 -0500
+        Wed, 13 Nov 2019 05:14:57 -0500
 Received: from ramsan ([84.195.182.253])
-        by andre.telenet-ops.be with bizsmtp
-        id RNB52100j5USYZQ01NB5ne; Wed, 13 Nov 2019 11:11:06 +0100
+        by xavier.telenet-ops.be with bizsmtp
+        id RNEu2100q5USYZQ01NEupn; Wed, 13 Nov 2019 11:14:54 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1iUpc9-0002JV-SH; Wed, 13 Nov 2019 11:11:05 +0100
+        id 1iUpfq-0002Lt-IQ; Wed, 13 Nov 2019 11:14:54 +0100
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1iUpc9-0007FU-RD; Wed, 13 Nov 2019 11:11:05 +0100
+        id 1iUpfq-0007Kt-GB; Wed, 13 Nov 2019 11:14:54 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+To:     Wolfram Sang <wsa@the-dreams.de>,
+        Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] gpio: em: Use platform_get_irq() to obtain interrupts
-Date:   Wed, 13 Nov 2019 11:11:03 +0100
-Message-Id: <20191113101103.27821-1-geert+renesas@glider.be>
+Subject: [PATCH] i2c: rcar: Remove superfluous call to clk_get_rate()
+Date:   Wed, 13 Nov 2019 11:14:53 +0100
+Message-Id: <20191113101453.28157-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Use the platform_get_irq() helper instead of handling resources
-directly.
+Variable "rate" already contains the current clock rate, so use that
+rather than calling clk_get_rate() again.
 
+Fixes: 8d0494037bb2af32 ("i2c: rcar: get clock rate only once and simplify calculation")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-Compile-tested only.
----
- drivers/gpio/gpio-em.c | 21 +++++++++------------
- 1 file changed, 9 insertions(+), 12 deletions(-)
+ drivers/i2c/busses/i2c-rcar.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpio/gpio-em.c b/drivers/gpio/gpio-em.c
-index adc281daacff4896..17a243c528adeaf8 100644
---- a/drivers/gpio/gpio-em.c
-+++ b/drivers/gpio/gpio-em.c
-@@ -269,13 +269,12 @@ static void em_gio_irq_domain_remove(void *data)
- static int em_gio_probe(struct platform_device *pdev)
- {
- 	struct em_gio_priv *p;
--	struct resource *irq[2];
- 	struct gpio_chip *gpio_chip;
- 	struct irq_chip *irq_chip;
- 	struct device *dev = &pdev->dev;
- 	const char *name = dev_name(dev);
- 	unsigned int ngpios;
--	int ret;
-+	int irq[2], ret;
+diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
+index 531c01100b560be3..879f0e61a4968a08 100644
+--- a/drivers/i2c/busses/i2c-rcar.c
++++ b/drivers/i2c/busses/i2c-rcar.c
+@@ -317,7 +317,7 @@ static int rcar_i2c_clock_calculate(struct rcar_i2c_priv *priv, struct i2c_timin
  
- 	p = devm_kzalloc(dev, sizeof(*p), GFP_KERNEL);
- 	if (!p)
-@@ -285,13 +284,13 @@ static int em_gio_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, p);
- 	spin_lock_init(&p->sense_lock);
+ scgd_find:
+ 	dev_dbg(dev, "clk %d/%d(%lu), round %u, CDF:0x%x, SCGD: 0x%x\n",
+-		scl, t->bus_freq_hz, clk_get_rate(priv->clk), round, cdf, scgd);
++		scl, t->bus_freq_hz, rate, round, cdf, scgd);
  
--	irq[0] = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
--	irq[1] = platform_get_resource(pdev, IORESOURCE_IRQ, 1);
-+	irq[0] = platform_get_irq(pdev, 0);
-+	if (irq[0] < 0)
-+		return irq[0];
- 
--	if (!irq[0] || !irq[1]) {
--		dev_err(dev, "missing IRQ or IOMEM\n");
--		return -EINVAL;
--	}
-+	irq[1] = platform_get_irq(pdev, 1);
-+	if (irq[1] < 0)
-+		return irq[1];
- 
- 	p->base0 = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(p->base0))
-@@ -342,14 +341,12 @@ static int em_gio_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	if (devm_request_irq(dev, irq[0]->start,
--			     em_gio_irq_handler, 0, name, p)) {
-+	if (devm_request_irq(dev, irq[0], em_gio_irq_handler, 0, name, p)) {
- 		dev_err(dev, "failed to request low IRQ\n");
- 		return -ENOENT;
- 	}
- 
--	if (devm_request_irq(dev, irq[1]->start,
--			     em_gio_irq_handler, 0, name, p)) {
-+	if (devm_request_irq(dev, irq[1], em_gio_irq_handler, 0, name, p)) {
- 		dev_err(dev, "failed to request high IRQ\n");
- 		return -ENOENT;
- 	}
+ 	/* keep icccr value */
+ 	priv->icccr = scgd << cdf_width | cdf;
 -- 
 2.17.1
 
