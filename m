@@ -2,118 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D08F2FAE1B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Nov 2019 11:09:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2F5BFAE25
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Nov 2019 11:11:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727074AbfKMKJl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Nov 2019 05:09:41 -0500
-Received: from albert.telenet-ops.be ([195.130.137.90]:46564 "EHLO
-        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726389AbfKMKJl (ORCPT
+        id S1726389AbfKMKLI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Nov 2019 05:11:08 -0500
+Received: from andre.telenet-ops.be ([195.130.132.53]:47440 "EHLO
+        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727080AbfKMKLI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Nov 2019 05:09:41 -0500
+        Wed, 13 Nov 2019 05:11:08 -0500
 Received: from ramsan ([84.195.182.253])
-        by albert.telenet-ops.be with bizsmtp
-        id RN9f2100P5USYZQ06N9fXv; Wed, 13 Nov 2019 11:09:39 +0100
+        by andre.telenet-ops.be with bizsmtp
+        id RNB52100j5USYZQ01NB5ne; Wed, 13 Nov 2019 11:11:06 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1iUpal-0002J6-BY; Wed, 13 Nov 2019 11:09:39 +0100
+        id 1iUpc9-0002JV-SH; Wed, 13 Nov 2019 11:11:05 +0100
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1iUpal-0007Bx-8o; Wed, 13 Nov 2019 11:09:39 +0100
+        id 1iUpc9-0007FU-RD; Wed, 13 Nov 2019 11:11:05 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>
-Cc:     linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] iio: adc: max9611: Make enum relations more future proof
-Date:   Wed, 13 Nov 2019 11:09:38 +0100
-Message-Id: <20191113100938.27604-1-geert+renesas@glider.be>
+Subject: [PATCH] gpio: em: Use platform_get_irq() to obtain interrupts
+Date:   Wed, 13 Nov 2019 11:11:03 +0100
+Message-Id: <20191113101103.27821-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The relations between enum values and array indices values are currently
-not enforced by the code, which makes them fragile w.r.t. future
-changes.
-
-Fix this by:
-  1. Using designated array initializers, to make sure array indices and
-     enums values match,
-  2. Linking max9611_csa_gain enum values to the corresponding
-     max9611_conf_ids enum values, as the latter is cast to the former
-     in max9611_read_csa_voltage().
-
-No change in generated code.
+Use the platform_get_irq() helper instead of handling resources
+directly.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/iio/adc/max9611.c | 36 +++++++++++-------------------------
- 1 file changed, 11 insertions(+), 25 deletions(-)
+Compile-tested only.
+---
+ drivers/gpio/gpio-em.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/iio/adc/max9611.c b/drivers/iio/adc/max9611.c
-index b0755f25356d700d..cb306ff1a5d6a0b2 100644
---- a/drivers/iio/adc/max9611.c
-+++ b/drivers/iio/adc/max9611.c
-@@ -114,22 +114,17 @@ enum max9611_conf_ids {
-  *		      where data shall be read from
-  */
- static const unsigned int max9611_mux_conf[][2] = {
--	/* CONF_SENSE_1x */
--	{ MAX9611_MUX_SENSE_1x, MAX9611_REG_CSA_DATA },
--	/* CONF_SENSE_4x */
--	{ MAX9611_MUX_SENSE_4x, MAX9611_REG_CSA_DATA },
--	/* CONF_SENSE_8x */
--	{ MAX9611_MUX_SENSE_8x, MAX9611_REG_CSA_DATA },
--	/* CONF_IN_VOLT */
--	{ MAX9611_INPUT_VOLT, MAX9611_REG_RS_DATA },
--	/* CONF_TEMP */
--	{ MAX9611_MUX_TEMP, MAX9611_REG_TEMP_DATA },
-+	[CONF_SENSE_1x]	= { MAX9611_MUX_SENSE_1x, MAX9611_REG_CSA_DATA },
-+	[CONF_SENSE_4x]	= { MAX9611_MUX_SENSE_4x, MAX9611_REG_CSA_DATA },
-+	[CONF_SENSE_8x]	= { MAX9611_MUX_SENSE_8x, MAX9611_REG_CSA_DATA },
-+	[CONF_IN_VOLT]	= { MAX9611_INPUT_VOLT, MAX9611_REG_RS_DATA },
-+	[CONF_TEMP]	= { MAX9611_MUX_TEMP, MAX9611_REG_TEMP_DATA },
- };
+diff --git a/drivers/gpio/gpio-em.c b/drivers/gpio/gpio-em.c
+index adc281daacff4896..17a243c528adeaf8 100644
+--- a/drivers/gpio/gpio-em.c
++++ b/drivers/gpio/gpio-em.c
+@@ -269,13 +269,12 @@ static void em_gio_irq_domain_remove(void *data)
+ static int em_gio_probe(struct platform_device *pdev)
+ {
+ 	struct em_gio_priv *p;
+-	struct resource *irq[2];
+ 	struct gpio_chip *gpio_chip;
+ 	struct irq_chip *irq_chip;
+ 	struct device *dev = &pdev->dev;
+ 	const char *name = dev_name(dev);
+ 	unsigned int ngpios;
+-	int ret;
++	int irq[2], ret;
  
- enum max9611_csa_gain {
--	CSA_GAIN_1x,
--	CSA_GAIN_4x,
--	CSA_GAIN_8x,
-+	CSA_GAIN_1x = CONF_SENSE_1x,
-+	CSA_GAIN_4x = CONF_SENSE_4x,
-+	CSA_GAIN_8x = CONF_SENSE_8x,
- };
+ 	p = devm_kzalloc(dev, sizeof(*p), GFP_KERNEL);
+ 	if (!p)
+@@ -285,13 +284,13 @@ static int em_gio_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, p);
+ 	spin_lock_init(&p->sense_lock);
  
- enum max9611_csa_gain_params {
-@@ -147,18 +142,9 @@ enum max9611_csa_gain_params {
-  * value; use this structure to retrieve the correct LSB and offset values.
-  */
- static const unsigned int max9611_gain_conf[][2] = {
--	{ /* [0] CSA_GAIN_1x */
--		MAX9611_CSA_1X_LSB_nV,
--		MAX9611_CSA_1X_OFFS_RAW,
--	},
--	{ /* [1] CSA_GAIN_4x */
--		MAX9611_CSA_4X_LSB_nV,
--		MAX9611_CSA_4X_OFFS_RAW,
--	},
--	{ /* [2] CSA_GAIN_8x */
--		MAX9611_CSA_8X_LSB_nV,
--		MAX9611_CSA_8X_OFFS_RAW,
--	},
-+	[CSA_GAIN_1x] = { MAX9611_CSA_1X_LSB_nV, MAX9611_CSA_1X_OFFS_RAW, },
-+	[CSA_GAIN_4x] = { MAX9611_CSA_4X_LSB_nV, MAX9611_CSA_4X_OFFS_RAW, },
-+	[CSA_GAIN_8x] = { MAX9611_CSA_8X_LSB_nV, MAX9611_CSA_8X_OFFS_RAW, },
- };
+-	irq[0] = platform_get_resource(pdev, IORESOURCE_IRQ, 0);
+-	irq[1] = platform_get_resource(pdev, IORESOURCE_IRQ, 1);
++	irq[0] = platform_get_irq(pdev, 0);
++	if (irq[0] < 0)
++		return irq[0];
  
- enum max9611_chan_addrs {
+-	if (!irq[0] || !irq[1]) {
+-		dev_err(dev, "missing IRQ or IOMEM\n");
+-		return -EINVAL;
+-	}
++	irq[1] = platform_get_irq(pdev, 1);
++	if (irq[1] < 0)
++		return irq[1];
+ 
+ 	p->base0 = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(p->base0))
+@@ -342,14 +341,12 @@ static int em_gio_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
+-	if (devm_request_irq(dev, irq[0]->start,
+-			     em_gio_irq_handler, 0, name, p)) {
++	if (devm_request_irq(dev, irq[0], em_gio_irq_handler, 0, name, p)) {
+ 		dev_err(dev, "failed to request low IRQ\n");
+ 		return -ENOENT;
+ 	}
+ 
+-	if (devm_request_irq(dev, irq[1]->start,
+-			     em_gio_irq_handler, 0, name, p)) {
++	if (devm_request_irq(dev, irq[1], em_gio_irq_handler, 0, name, p)) {
+ 		dev_err(dev, "failed to request high IRQ\n");
+ 		return -ENOENT;
+ 	}
 -- 
 2.17.1
 
