@@ -2,43 +2,24 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C2731FAD73
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Nov 2019 10:46:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23E92FADD0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Nov 2019 10:56:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727222AbfKMJqe convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Nov 2019 04:46:34 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:37799 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725996AbfKMJqd (ORCPT
+        id S1727641AbfKMJ4m (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Nov 2019 04:56:42 -0500
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:37319 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727626AbfKMJ4m (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Nov 2019 04:46:33 -0500
-Received: by mail-oi1-f193.google.com with SMTP id y194so1218427oie.4;
-        Wed, 13 Nov 2019 01:46:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=grATdiINrLQEcjShNKetMHR+1iFUrTj1Oa6wxu6nBC8=;
-        b=eydRv2+RcZ1p3E04nROAsIM4JJmmCQ9CXgB9ztszZ70YtViFy9cHtParOFLhV0wlrO
-         ba/CVyibzzKKn645L0PqCU7e1n9ZFUcv3jXFLivq4UnVZ/clf5ofMKWt60OikSUrjzuG
-         8+kRTpQlAlnvNKpIwNqji/crBB4bZtD0s/J13aBJg4tqY55MI6laN1I8Jqyu/CvfBWkE
-         VWT3l8VJ4rl3Uglwc9bf2phs+oR/hUmhMPED/a4lipEhm/W8Ggr5nUC+3T9VTJngeKeM
-         en5kQ0ZlrOlzmjvf/NK/yi+0C97rvvmrBy38TuHnBrLjMF/s70FCq96T4svMyCrIH7Fp
-         Pphw==
-X-Gm-Message-State: APjAAAUngXhpigi/usK03BVN1WwUdq5ayGwbM2L5cF6HthcIaUbUOQXI
-        JRTBrCQc1mqBHqyWxth+S2HH2iTGIqj+pzZvpsU=
-X-Google-Smtp-Source: APXvYqw+WwVtEe652SidlkvEW7B6vqqkKKweJ/P/bvZDfiZHNkn+wQC3h+/WzUWedgTHJtP2cYCoaHreFx44nnvn/Uk=
-X-Received: by 2002:aca:3a86:: with SMTP id h128mr2099125oia.131.1573638392868;
- Wed, 13 Nov 2019 01:46:32 -0800 (PST)
-MIME-Version: 1.0
-References: <20191113092133.23723-1-geert+renesas@glider.be> <20191113093828.vk5qqtlr7bs5z5fb@uno.localdomain>
-In-Reply-To: <20191113093828.vk5qqtlr7bs5z5fb@uno.localdomain>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 13 Nov 2019 10:46:21 +0100
-Message-ID: <CAMuHMdUeY62SBvzgHCMxjeDO6f_c3isbw82FKJatzny=qiDULQ@mail.gmail.com>
-Subject: Re: [PATCH] iio: adc: max9611: Fix too short conversion time delay
-To:     Jacopo Mondi <jacopo@jmondi.org>
+        Wed, 13 Nov 2019 04:56:42 -0500
+X-Originating-IP: 93.34.114.233
+Received: from uno.localdomain (93-34-114-233.ip49.fastwebnet.it [93.34.114.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id E79A24000B;
+        Wed, 13 Nov 2019 09:56:36 +0000 (UTC)
+Date:   Wed, 13 Nov 2019 10:58:31 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Jonathan Cameron <jic23@kernel.org>,
@@ -49,88 +30,152 @@ Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         linux-iio@vger.kernel.org,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Subject: Re: [PATCH] iio: adc: max9611: Fix too short conversion time delay
+Message-ID: <20191113095831.ipezy2ganb7tk73i@uno.localdomain>
+References: <20191113092133.23723-1-geert+renesas@glider.be>
+ <20191113093828.vk5qqtlr7bs5z5fb@uno.localdomain>
+ <CAMuHMdUeY62SBvzgHCMxjeDO6f_c3isbw82FKJatzny=qiDULQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="4nrix7m2kjdzc3cg"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUeY62SBvzgHCMxjeDO6f_c3isbw82FKJatzny=qiDULQ@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
 
-On Wed, Nov 13, 2019 at 10:36 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
-> On Wed, Nov 13, 2019 at 10:21:33AM +0100, Geert Uytterhoeven wrote:
-> > As of commit b9ddd5091160793e ("iio: adc: max9611: Fix temperature
-> > reading in probe"), max9611 initialization sometimes fails on the
-> > Salvator-X(S) development board with:
-> >
-> >     max9611 4-007f: Invalid value received from ADC 0x8000: aborting
-> >     max9611: probe of 4-007f failed with error -5
-> >
-> > The max9611 driver tests communications with the chip by reading the die
-> > temperature during the probe function, which returns an invalid value.
-> >
-> > According to the datasheet, the typical ADC conversion time is 2 ms, but
-> > no minimum or maximum values are provided.  However, the driver assumes
-> > a 1 ms conversion time.  Usually the usleep_range() call returns after
-> > more than 1.8 ms, hence it succeeds.  When it returns earlier, the data
-> > register may be read too early, and the previous measurement value will
-> > be returned.  After boot, this is the temperature POR (power-on reset)
-> > value, causing the failure above.
-> >
-> > Fix this by increasing the delay from 1000-2000 µs to 2000-2200 µs.
-> >
-> > Note that this issue has always been present, but it was exposed by the
-> > aformentioned commit.
-> >
-> > Fixes: 69780a3bbc0b1e7e ("iio: adc: Add Maxim max9611 ADC driver")
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> > This problem was exposed in v5.3.
-> >
-> > After this patch, probing of the two max9611 sensors succeeded during
-> > ca. 3000 boot cycles on Salvator-X(S) boards, equipped with various
-> > R-Car H3/M3-W/M3-N SoCs.
-> > ---
-> >  drivers/iio/adc/max9611.c | 11 ++++++++---
-> >  1 file changed, 8 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/iio/adc/max9611.c b/drivers/iio/adc/max9611.c
-> > index da073d72f649f829..b0755f25356d700d 100644
-> > --- a/drivers/iio/adc/max9611.c
-> > +++ b/drivers/iio/adc/max9611.c
-> > @@ -89,6 +89,11 @@
-> >  #define MAX9611_TEMP_SCALE_NUM               1000000
-> >  #define MAX9611_TEMP_SCALE_DIV               2083
-> >
-> > +/*
-> > + * Conversion time is 2 ms (typically)
-> > + */
-> > +#define MAX9611_CONV_TIME_US_RANGE   2000, 2200
-> > +
+--4nrix7m2kjdzc3cg
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Geert,
+
+On Wed, Nov 13, 2019 at 10:46:21AM +0100, Geert Uytterhoeven wrote:
+> Hi Jacopo,
 >
-> Is a 20% sleep range enough or should it be slightly lengthen ?
-
-10%?
-
-This only impacts the variation, so what really happens depends on the
-rate of the hrtimer (if present).
-On R-Car Gen3, I think that uses the ARM Architectured Timer (cp15),
-which has a period of 120 ns.
-
-> Apart from this, thanks a lot for finding the issue root cause!
+> On Wed, Nov 13, 2019 at 10:36 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
+> > On Wed, Nov 13, 2019 at 10:21:33AM +0100, Geert Uytterhoeven wrote:
+> > > As of commit b9ddd5091160793e ("iio: adc: max9611: Fix temperature
+> > > reading in probe"), max9611 initialization sometimes fails on the
+> > > Salvator-X(S) development board with:
+> > >
+> > >     max9611 4-007f: Invalid value received from ADC 0x8000: aborting
+> > >     max9611: probe of 4-007f failed with error -5
+> > >
+> > > The max9611 driver tests communications with the chip by reading the =
+die
+> > > temperature during the probe function, which returns an invalid value.
+> > >
+> > > According to the datasheet, the typical ADC conversion time is 2 ms, =
+but
+> > > no minimum or maximum values are provided.  However, the driver assum=
+es
+> > > a 1 ms conversion time.  Usually the usleep_range() call returns after
+> > > more than 1.8 ms, hence it succeeds.  When it returns earlier, the da=
+ta
+> > > register may be read too early, and the previous measurement value wi=
+ll
+> > > be returned.  After boot, this is the temperature POR (power-on reset)
+> > > value, causing the failure above.
+> > >
+> > > Fix this by increasing the delay from 1000-2000 =C2=B5s to 2000-2200 =
+=C2=B5s.
+> > >
+> > > Note that this issue has always been present, but it was exposed by t=
+he
+> > > aformentioned commit.
+> > >
+> > > Fixes: 69780a3bbc0b1e7e ("iio: adc: Add Maxim max9611 ADC driver")
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > ---
+> > > This problem was exposed in v5.3.
+> > >
+> > > After this patch, probing of the two max9611 sensors succeeded during
+> > > ca. 3000 boot cycles on Salvator-X(S) boards, equipped with various
+> > > R-Car H3/M3-W/M3-N SoCs.
+> > > ---
+> > >  drivers/iio/adc/max9611.c | 11 ++++++++---
+> > >  1 file changed, 8 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/drivers/iio/adc/max9611.c b/drivers/iio/adc/max9611.c
+> > > index da073d72f649f829..b0755f25356d700d 100644
+> > > --- a/drivers/iio/adc/max9611.c
+> > > +++ b/drivers/iio/adc/max9611.c
+> > > @@ -89,6 +89,11 @@
+> > >  #define MAX9611_TEMP_SCALE_NUM               1000000
+> > >  #define MAX9611_TEMP_SCALE_DIV               2083
+> > >
+> > > +/*
+> > > + * Conversion time is 2 ms (typically)
+> > > + */
+> > > +#define MAX9611_CONV_TIME_US_RANGE   2000, 2200
+> > > +
+> >
+> > Is a 20% sleep range enough or should it be slightly lengthen ?
 >
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> 10%?
 
-Thanks!
+Ehrm... yes :/
 
-Gr{oetje,eeting}s,
+>
+> This only impacts the variation, so what really happens depends on the
+> rate of the hrtimer (if present).
+> On R-Car Gen3, I think that uses the ARM Architectured Timer (cp15),
+> which has a period of 120 ns.
+>
 
-                        Geert
+I'm not questioning the hrtimer rate, I'm questioning what would be an
+ideal interval to coalesce this with as much other delays as possible,
+but I think we're good and this is really a minor thing mostly for my
+personal education, as I've seen mentioned in other reviews a 20%
+range is usually suggested (found no mention of that in
+timers-howto.rst though)
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Thanks again for fixing this
+  j
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> > Apart from this, thanks a lot for finding the issue root cause!
+> >
+> > Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>
+> Thanks!
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
+> --
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m6=
+8k.org
+>
+> In personal conversations with technical people, I call myself a hacker. =
+But
+> when I'm talking to journalists I just say "programmer" or something like=
+ that.
+>                                 -- Linus Torvalds
+
+--4nrix7m2kjdzc3cg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl3L08cACgkQcjQGjxah
+Vjz2VBAAmVgNax3Q2EqlMa191fXpyMMKE1rVyVhEmTpY6CjHQjCAIeTsnb/POqZU
+6BM6jZ2WNkpb3zHxRlRjURKkJUsupTgCZS+ifYNTraIoqXuY3PYpXPo6/lOHMGb5
+/vSDaLPF5sAiy4z670Gh3trgi3JZzWl0cLKpPCrUGa+TiSO3ifD0yAqAjQN4//0M
+fKoWokKRvVLsXX1ZkuryKZdDkKq9JDIjui4xDQHGo+2P4oexg7iF735msbXuyH/w
+VJ43+qQYktd9+lST8JYMf/c8aMDh8NGMs3m+DKxkvBiIzVySY9k2eGMcS4VUXjy+
+r4SnFpmYoxJOpMRIdOOCn3ZkCEQRmfkuLBIZUgLd8gu3yKsvfD+hSr5V89wUSvVl
+QBnSXCIRKUefcUWSR9P8O+CmyF//n/EipO9+Dm4l3SPuZPPJx/3UdG6UwsqaCxdI
+Yo5RXVFPP70Xae29ufeqMCN0vP8tMuqMYuBdQhbXqy0hDSCZVI2KOEnnhhy/GITr
+EiDoEKcBGQuGv43zG8Dv9W/ISpVmlH/0Yvt0Y47iShVE6szWFGyWswK3sRjLuuF+
+xDGxWMsAtCfeCCfM0CB2cJjTqq4TAtseep6Vprj2FPZkfUSQsjLeJChVlvtMMBDl
+idDM6QYmNMJEKCtw2RdCKFJncu5hhPwAvfiFyNjOa7CWkjsI8rY=
+=evql
+-----END PGP SIGNATURE-----
+
+--4nrix7m2kjdzc3cg--
