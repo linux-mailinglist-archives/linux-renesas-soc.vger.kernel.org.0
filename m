@@ -2,69 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 36A6BFADF1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Nov 2019 11:04:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D08F2FAE1B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Nov 2019 11:09:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727630AbfKMKEc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Nov 2019 05:04:32 -0500
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:53069 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727611AbfKMKEb (ORCPT
+        id S1727074AbfKMKJl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Nov 2019 05:09:41 -0500
+Received: from albert.telenet-ops.be ([195.130.137.90]:46564 "EHLO
+        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726389AbfKMKJl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Nov 2019 05:04:31 -0500
-X-Originating-IP: 93.34.114.233
-Received: from uno.lan (93-34-114-233.ip49.fastwebnet.it [93.34.114.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 41675C0002;
-        Wed, 13 Nov 2019 10:04:27 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     laurent.pinchart@ideasonboard.com,
-        kieran.bingham+renesas@ideasonboard.com, geert@linux-m68k.org,
-        horms@verge.net.au, uli+renesas@fpond.eu
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, airlied@linux.ie,
-        daniel@ffwll.ch, linux-renesas-soc@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v7 7/7] drm: rcar-du: kms: Expand comment in vsps parsing routine
-Date:   Wed, 13 Nov 2019 11:05:56 +0100
-Message-Id: <20191113100556.15616-8-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191113100556.15616-1-jacopo+renesas@jmondi.org>
-References: <20191113100556.15616-1-jacopo+renesas@jmondi.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Wed, 13 Nov 2019 05:09:41 -0500
+Received: from ramsan ([84.195.182.253])
+        by albert.telenet-ops.be with bizsmtp
+        id RN9f2100P5USYZQ06N9fXv; Wed, 13 Nov 2019 11:09:39 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1iUpal-0002J6-BY; Wed, 13 Nov 2019 11:09:39 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1iUpal-0007Bx-8o; Wed, 13 Nov 2019 11:09:39 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>
+Cc:     linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] iio: adc: max9611: Make enum relations more future proof
+Date:   Wed, 13 Nov 2019 11:09:38 +0100
+Message-Id: <20191113100938.27604-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Expand comment in the 'vsps' parsing routine to specify the LIF
-channel index defaults to 0 in case the second cell of the property
-is not specified to remain compatible with older DT bindings.
+The relations between enum values and array indices values are currently
+not enforced by the code, which makes them fragile w.r.t. future
+changes.
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Fix this by:
+  1. Using designated array initializers, to make sure array indices and
+     enums values match,
+  2. Linking max9611_csa_gain enum values to the corresponding
+     max9611_conf_ids enum values, as the latter is cast to the former
+     in max9611_read_csa_voltage().
+
+No change in generated code.
+
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_kms.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/iio/adc/max9611.c | 36 +++++++++++-------------------------
+ 1 file changed, 11 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-index 7c9fb5860e54..186422ac552b 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-@@ -587,7 +587,11 @@ static int rcar_du_vsps_init(struct rcar_du_device *rcdu)
+diff --git a/drivers/iio/adc/max9611.c b/drivers/iio/adc/max9611.c
+index b0755f25356d700d..cb306ff1a5d6a0b2 100644
+--- a/drivers/iio/adc/max9611.c
++++ b/drivers/iio/adc/max9611.c
+@@ -114,22 +114,17 @@ enum max9611_conf_ids {
+  *		      where data shall be read from
+  */
+ static const unsigned int max9611_mux_conf[][2] = {
+-	/* CONF_SENSE_1x */
+-	{ MAX9611_MUX_SENSE_1x, MAX9611_REG_CSA_DATA },
+-	/* CONF_SENSE_4x */
+-	{ MAX9611_MUX_SENSE_4x, MAX9611_REG_CSA_DATA },
+-	/* CONF_SENSE_8x */
+-	{ MAX9611_MUX_SENSE_8x, MAX9611_REG_CSA_DATA },
+-	/* CONF_IN_VOLT */
+-	{ MAX9611_INPUT_VOLT, MAX9611_REG_RS_DATA },
+-	/* CONF_TEMP */
+-	{ MAX9611_MUX_TEMP, MAX9611_REG_TEMP_DATA },
++	[CONF_SENSE_1x]	= { MAX9611_MUX_SENSE_1x, MAX9611_REG_CSA_DATA },
++	[CONF_SENSE_4x]	= { MAX9611_MUX_SENSE_4x, MAX9611_REG_CSA_DATA },
++	[CONF_SENSE_8x]	= { MAX9611_MUX_SENSE_8x, MAX9611_REG_CSA_DATA },
++	[CONF_IN_VOLT]	= { MAX9611_INPUT_VOLT, MAX9611_REG_RS_DATA },
++	[CONF_TEMP]	= { MAX9611_MUX_TEMP, MAX9611_REG_TEMP_DATA },
+ };
  
- 		vsps[j].crtcs_mask |= BIT(i);
+ enum max9611_csa_gain {
+-	CSA_GAIN_1x,
+-	CSA_GAIN_4x,
+-	CSA_GAIN_8x,
++	CSA_GAIN_1x = CONF_SENSE_1x,
++	CSA_GAIN_4x = CONF_SENSE_4x,
++	CSA_GAIN_8x = CONF_SENSE_8x,
+ };
  
--		/* Store the VSP pointer and pipe index in the CRTC. */
-+		/*
-+		 * Store the VSP pointer and pipe index in the CRTC. If the
-+		 * second cell of the 'vsps' specifier isn't present, default
-+		 * to 0 to remain compatible with older DT bindings.
-+		 */
- 		rcdu->crtcs[i].vsp = &rcdu->vsps[j];
- 		rcdu->crtcs[i].vsp_pipe = cells >= 1 ? args.args[0] : 0;
- 	}
+ enum max9611_csa_gain_params {
+@@ -147,18 +142,9 @@ enum max9611_csa_gain_params {
+  * value; use this structure to retrieve the correct LSB and offset values.
+  */
+ static const unsigned int max9611_gain_conf[][2] = {
+-	{ /* [0] CSA_GAIN_1x */
+-		MAX9611_CSA_1X_LSB_nV,
+-		MAX9611_CSA_1X_OFFS_RAW,
+-	},
+-	{ /* [1] CSA_GAIN_4x */
+-		MAX9611_CSA_4X_LSB_nV,
+-		MAX9611_CSA_4X_OFFS_RAW,
+-	},
+-	{ /* [2] CSA_GAIN_8x */
+-		MAX9611_CSA_8X_LSB_nV,
+-		MAX9611_CSA_8X_OFFS_RAW,
+-	},
++	[CSA_GAIN_1x] = { MAX9611_CSA_1X_LSB_nV, MAX9611_CSA_1X_OFFS_RAW, },
++	[CSA_GAIN_4x] = { MAX9611_CSA_4X_LSB_nV, MAX9611_CSA_4X_OFFS_RAW, },
++	[CSA_GAIN_8x] = { MAX9611_CSA_8X_LSB_nV, MAX9611_CSA_8X_OFFS_RAW, },
+ };
+ 
+ enum max9611_chan_addrs {
 -- 
-2.23.0
+2.17.1
 
