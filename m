@@ -2,48 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C6658FAE5F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Nov 2019 11:20:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 19682FAE6D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 13 Nov 2019 11:27:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726613AbfKMKUw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 13 Nov 2019 05:20:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53326 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726340AbfKMKUv (ORCPT
+        id S1726339AbfKMK1f (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 13 Nov 2019 05:27:35 -0500
+Received: from xavier.telenet-ops.be ([195.130.132.52]:42040 "EHLO
+        xavier.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726165AbfKMK1f (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 13 Nov 2019 05:20:51 -0500
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573640451;
-        bh=3bYBr1ZH7kaHYj8iNDZvViQ28dW3SBpI/m0+encuV84=;
-        h=Subject:From:Date:To:From;
-        b=VmGeWlUTcJexnt2NySnc5ayxrfeSRo/NQZUmoAjujdsiewlRH4dz6RDXfhbgL3Xae
-         O12j/Z+lJrMpulrKLT1P9HbS2dKhm62knvvXIb18GQRdNTK9r9W9l4O54Ds3r2inYT
-         qMUEUEUShnwTurt9mJZarwimqMGBR+H7ATVUc0+I=
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork housekeeping for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <157364045147.17627.16917487911066458129.git-patchwork-housekeeping@kernel.org>
-Date:   Wed, 13 Nov 2019 10:20:51 +0000
-To:     linux-renesas-soc@vger.kernel.org
+        Wed, 13 Nov 2019 05:27:35 -0500
+Received: from ramsan ([84.195.182.253])
+        by xavier.telenet-ops.be with bizsmtp
+        id RNTW2100M5USYZQ01NTWQT; Wed, 13 Nov 2019 11:27:32 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1iUps2-0002S2-Lf; Wed, 13 Nov 2019 11:27:30 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1iUps2-0007dR-Ic; Wed, 13 Nov 2019 11:27:30 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Russell King <linux@armlinux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Eric Miao <eric.miao@nvidia.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Chris Brandt <chris.brandt@renesas.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH/RFC] ARM: boot: Relax kernel image alignment for RZ/A with CS3 SDRAM
+Date:   Wed, 13 Nov 2019 11:27:29 +0100
+Message-Id: <20191113102729.29303-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Latest series: [v7] drm: rcar-du: Add Color Management Module (CMM) (2019-11-13T10:05:49)
-  Superseding: [v6] drm: rcar-du: Add Color Management Module (CMM) (2019-10-16T08:55:40):
-    [v6,1/8] dt-bindings: display: renesas,cmm: Add R-Car CMM documentation
-    [v6,2/8] dt-bindings: display, renesas,du: Document cmms property
-    [v6,3/8] drm: rcar-du: Add support for CMM
-    [v6,4/8] drm: rcar-du: kms: Initialize CMM instances
-    [v6,5/8] drm: rcar-du: crtc: Control CMM operations
-    [v6,6/8] drm: rcar-du: crtc: Register GAMMA_LUT properties
-    [v6,7/8] arm64: dts: renesas: Add CMM units to Gen3 SoCs
-    [v6,8/8] drm: rcar-du: kms: Expand comment in vsps parsing routine
+The RZA2MEVB sub board has 64 MiB of SDRAM at 0x0C000000 (CS3 space).
+Hence the mask for CONFIG_AUTO_ZRELADDR needs to be changed, otherwise
+the system will crash because it will try to decompress a zImage or
+uImage to a non-RAM garbage address.
 
+Based on a patch in the BSP by Chris Brandt <chris.brandt@renesas.com>.
 
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+No idea what to do with the rest of the comment, or if this breaks
+existing platforms.
+
+Thanks for your comments!
+---
+ arch/arm/boot/compressed/head.S | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/arch/arm/boot/compressed/head.S b/arch/arm/boot/compressed/head.S
+index 93dffed0ac6e02b4..cfee6bd1e7a0a582 100644
+--- a/arch/arm/boot/compressed/head.S
++++ b/arch/arm/boot/compressed/head.S
+@@ -231,10 +231,10 @@ not_angel:
+ 		 * address.
+ 		 *
+ 		 * This alignment is a balance between the requirements of
+-		 * different platforms - we have chosen 128MB to allow
++		 * different platforms - we have chosen 64MB to allow
+ 		 * platforms which align the start of their physical memory
+-		 * to 128MB to use this feature, while allowing the zImage
+-		 * to be placed within the first 128MB of memory on other
++		 * to 64MB to use this feature, while allowing the zImage
++		 * to be placed within the first 64MB of memory on other
+ 		 * platforms.  Increasing the alignment means we place
+ 		 * stricter alignment requirements on the start of physical
+ 		 * memory, but relaxing it means that we break people who
+@@ -242,7 +242,7 @@ not_angel:
+ 		 * of this range.
+ 		 */
+ 		mov	r4, pc
+-		and	r4, r4, #0xf8000000
++		and	r4, r4, #0xfc000000
+ 		/* Determine final kernel image address. */
+ 		add	r4, r4, #TEXT_OFFSET
+ #else
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+2.17.1
+
