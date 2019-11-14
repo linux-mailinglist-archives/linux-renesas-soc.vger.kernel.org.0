@@ -2,149 +2,554 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A2399FC689
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Nov 2019 13:49:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DAC2FC89A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Nov 2019 15:15:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726386AbfKNMtT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Nov 2019 07:49:19 -0500
-Received: from mail-vk1-f194.google.com ([209.85.221.194]:38837 "EHLO
-        mail-vk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726270AbfKNMtT (ORCPT
+        id S1726901AbfKNOPI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Nov 2019 09:15:08 -0500
+Received: from mail-oi1-f180.google.com ([209.85.167.180]:36279 "EHLO
+        mail-oi1-f180.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726592AbfKNOPI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Nov 2019 07:49:19 -0500
-Received: by mail-vk1-f194.google.com with SMTP id o82so1431264vka.5
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 14 Nov 2019 04:49:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=b1Q/m149A5PiemLfT6SquJYIvD0phNlImqR3A8L8/X0=;
-        b=oDQOBZJMEqbwzWlmHcUKV9gnBv6LEuxHn1x4GtULF1fRydbf3dBCCVMd1Z5cWdSNjQ
-         c1ZTfSEqLGcacYp4m6Xm4fNvVBRSarsr3C/Qo32kdAYLIvdZoIq8XnJjrKKL/EVY0hXh
-         AG+WANyP6rcYS8fVx4CvjjYVZl9VEdZT1qBZZ8G9+s37MUakC7E2nqlmdemIT13yjDak
-         0uOxTYdCgIS9sR/eXC6qNR5EHvj0AFE6c7zco+xBwItSrqedQROlEYCqCE4gT1XvImup
-         wNUFikPH3cdaqOScbjGf5gCbCledicHsIM/Zyn/bqFrDWLDWmBLqCqdwSUToAS7WCgl/
-         8fPw==
+        Thu, 14 Nov 2019 09:15:08 -0500
+Received: by mail-oi1-f180.google.com with SMTP id j7so5380485oib.3;
+        Thu, 14 Nov 2019 06:15:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=b1Q/m149A5PiemLfT6SquJYIvD0phNlImqR3A8L8/X0=;
-        b=J5RL7VJWz1ib4WEN8viYH4flnIRwZ5x9jliBMDwyVIGMz/EAv535tDJBTMiUWi0gVq
-         FkZXlD1wYbyUgHKlgGvXg44ZqtrdeFcUEFGCznESRqD/Y3mt0Osk6t2NsWZeLOYwdnFy
-         ubSDY6tDZ1MQl8+Y2uaw5vomnacu5N9M2oiBIIMqTFhKHouwzJrd1CA1XTnxiztjA4xf
-         5oZBN89ii+DFfw4750cfDUmliidIGfdAfngfZR/DcEZBJJegm+jZ9xpojwZNdbSAdwAy
-         iCdEm6ko5KGuHMC/9qtLf12mUgWyUuWt/V7WLq7WRIlu1wavI3rAUdLkzKrhxkRV1Krr
-         i8Xg==
-X-Gm-Message-State: APjAAAXUn8Yd45rmg7cX7TlJBs0EMFixU7u57ETydCw90k7cYyFkWVVF
-        Hb5zbwgu2g1tjLVWmylc3nfkqBTsdjNLiicFt5TqUA==
-X-Google-Smtp-Source: APXvYqzeR1eD9xbTpxqtVCXbvQ0errOunVTWRox8BRoqYOgFufup0NzneBdevNKkYj3L0OW3QOUm0DwWKPTS2uChrsA=
-X-Received: by 2002:a1f:fe0a:: with SMTP id l10mr4953847vki.59.1573735757811;
- Thu, 14 Nov 2019 04:49:17 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=gcL+cCps1XEbvom3DJi1H0YNvrqxKgbmfQNhyR0Wbes=;
+        b=bAIwWJTdREJImQbxcnCr+2coOOt+fCcMWxWf6XghLYch5egAQpE3wgKNDqBWUMotvt
+         2kaZs2m1itR4OTH7wNChZaEr3Z9a6vTBD5gws7152PppecwcHsxeahnZvcu6KmcSCBJN
+         TZuonG22dOKwKB9XkadjO4xjX6bZids6iMngYP+CRm9T6xy7HbOycdOuHod8xN1/XAhG
+         v05PPCtHqDg8NAmr7E1rcpEqqixZZ5Qdc7K+dPfmsYo8w0yK4ANrI/S7D1hyBt8VPdDJ
+         RFXypyee1VFCh+rnEmfknJQMude/fNd7OPJd9h4i8diiB8bRxmezN8qXrNF0sIZzfe8J
+         kdrg==
+X-Gm-Message-State: APjAAAV4ljt2IGbkplExS0oJO8epLsssX+EBpXYM49cCQXBPVlbZmiza
+        y3yhju++U6s0bmuS59nW7FbBc6I=
+X-Google-Smtp-Source: APXvYqxnCbw04IOwN/6GS6ahDFop3WLjpbLkwgzwAgxcL6xh0k+ed/GJmNMOjAIf0XpQQatPW5n64Q==
+X-Received: by 2002:aca:450:: with SMTP id 77mr3723326oie.113.1573740906604;
+        Thu, 14 Nov 2019 06:15:06 -0800 (PST)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id z66sm1938576ota.54.2019.11.14.06.15.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Nov 2019 06:15:05 -0800 (PST)
+Date:   Thu, 14 Nov 2019 08:15:05 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 3/3] dt-bindings: rcar-vin: Convert bindings to
+ json-schema
+Message-ID: <20191114141505.GA22574@bogus>
+References: <20191108021609.2584272-1-niklas.soderlund+renesas@ragnatech.se>
+ <20191108021609.2584272-4-niklas.soderlund+renesas@ragnatech.se>
+ <20191112094231.ssi2qaksvn7djxmq@uno.localdomain>
 MIME-Version: 1.0
-References: <20191112134808.23546-1-erosca@de.adit-jv.com> <20191112204952.GA2976@kunai>
- <CAPDyKFq8oVk26ruNA_R8HDXhMGKhDeHnL0q82xi40g1aeo109A@mail.gmail.com> <20191114113743.GA19656@vmlxhi-102.adit-jv.com>
-In-Reply-To: <20191114113743.GA19656@vmlxhi-102.adit-jv.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Thu, 14 Nov 2019 13:48:41 +0100
-Message-ID: <CAPDyKFp5iqrFDM1EWnYBwFmQAiAA5FADDLAyuVVBgMu4Sx=x5w@mail.gmail.com>
-Subject: Re: [PATCH] mmc: renesas_sdhi_internal_dmac: Add MMC_CAP_ERASE to
- Gen3 SoCs
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     Wolfram Sang <wsa@the-dreams.de>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191112094231.ssi2qaksvn7djxmq@uno.localdomain>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 14 Nov 2019 at 12:37, Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
->
-> Hi everyone,
->
-> On Thu, Nov 14, 2019 at 11:56:23AM +0100, Ulf Hansson wrote:
-> > On Tue, 12 Nov 2019 at 21:49, Wolfram Sang <wsa@the-dreams.de> wrote:
-> > >
-> > > On Tue, Nov 12, 2019 at 02:48:08PM +0100, Eugeniu Rosca wrote:
-> > > > From: Harish Jenny K N <harish_kandiga@mentor.com>
-> > > >
-> > > > Enable MMC_CAP_ERASE capability in the driver to allow
-> > > > erase/discard/trim requests.
-> > > >
-> > > > Suggested-by: Andrew Gabbasov <andrew_gabbasov@mentor.com>
-> > > > Signed-off-by: Harish Jenny K N <harish_kandiga@mentor.com>
-> > > > [erosca: Forward-port and test on v5.4-rc7 using H3ULCB-KF:
-> > > >          "blkdiscard /dev/mmcblk0" passes with this patch applied
-> > > >          and complains otherwise:
-> > > >        "BLKDISCARD ioctl failed: Operation not supported"]
-> > > > Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-> > >
-> > > Looks good to me. Just a generic question, probably more for Ulf:
-> > >
-> > > Why does this CAP_ERASE exist? As I understand, the driver only needs to
-> > > set the flag and no further handling is required. Why would a driver not
-> > > set this flag and not support erase/trim commands?
+On Tue, Nov 12, 2019 at 10:42:31AM +0100, Jacopo Mondi wrote:
+> Hi Niklas,
+>    thanks for the patch
+> 
+> On Fri, Nov 08, 2019 at 03:16:09AM +0100, Niklas Söderlund wrote:
+> > Convert Renesas R-Car VIN bindings documentation to json-schema.
 > >
-> > I am working on removing the cap, altogether. Step by step, this is
-> > getting closer now.
+> > As the examples in the bindings now can be tested add a new one which
+> > describes how the both a parallel and a CSI-2 source can be connected on
+> > Gen3 SoCs.
 > >
-> > The main problem has been about busy detect timeouts, as an erase
-> > command may have a very long busy timeout. On the host side, they
-> > typically need to respect the cmd->busy_timeout for the request, and
-> > if it can't because of some HW limitation, it needs to set
-> > mmc->max_busy_timeout.
->
-> FWIW we've discussed such concerns internally, based on past commits
-> which either disable [1-2] busy timeouts or increase their value [3].
->
-> To get a feeling if this is relevant for R-Car3, I've run blkdiscard on
-> a 64 GiB eMMC without noticing any issues on v5.4-rc7. Hopefully this
-> is sufficient as testing?
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > ---
+> >  .../devicetree/bindings/media/renesas,vin.txt | 217 ----------
+> >  .../bindings/media/renesas,vin.yaml           | 409 ++++++++++++++++++
+> >  2 files changed, 409 insertions(+), 217 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/media/renesas,vin.txt
+> >  create mode 100644 Documentation/devicetree/bindings/media/renesas,vin.yaml
 
-Let's first take a step back, because I don't know how the HW busy
-detection works for your controller.
 
-I have noticed there is TMIO_STAT_CMD_BUSY bit being set for some
-variants, which seems to cause renesas_sdhi_wait_idle() to loop for a
-pre-defined number of loops/timeout. This looks scary, but I can't
-tell if it's really a problem.
+> > diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > new file mode 100644
+> > index 0000000000000000..be261d9a98d62dcd
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > @@ -0,0 +1,409 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> 
+> I think you should use GPL-2.0-only
+> 
+> > +# Copyright (C) 2019 Renesas Electronics Corp.
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/renesas,vin.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Renesas R-Car Video Input (VIN)
+> > +
+> > +maintainers:
+> > +  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> 
+> I also put the mailing lists here, not sure if that's desired.
 
-BTW, do you know what TMIO_STAT_CMD_BUSY actually is monitoring?
+Not really. A Renesas list is fine, but no need for linux-media as the 
+file path will pick that up.
 
-I have also noticed that MMC_CAP_WAIT_WHILE_BUSY isn't set for any of
-the renesas/tmio variant hosts. Is that simply because the HW doesn't
-support this? Or because implementation is missing?
+> > +
+> > +description: |-
+> > +  The R-Car Video Input (VIN) device provides video input capabilities for the
+> > +  Renesas R-Car family of devices.
+> > +
+> > +  Each VIN instance has a single parallel input that supports RGB and YUV video,
+> > +  with both external synchronization and BT.656 synchronization for the latter.
+> > +  Depending on the instance the VIN input is connected to external SoC pins, or
+> > +  on Gen3 and RZ/G2 platforms to a CSI-2 receiver.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - items:
+> > +        - enum:
+> > +          - renesas,vin-r8a7743  # RZ/G1M
+> > +          - renesas,vin-r8a7744  # RZ/G1N
+> > +          - renesas,vin-r8a7745  # RZ/G1E
+> > +          - renesas,vin-r8a77470 # RZ/G1C
+> > +          - renesas,vin-r8a7790  # R-Car H2
+> > +          - renesas,vin-r8a7791  # R-Car M2-W
+> > +          - renesas,vin-r8a7792  # R-Car V2H
+> > +          - renesas,vin-r8a7793  # R-Car M2-N
+> > +          - renesas,vin-r8a7794  # R-Car E2
+> > +        - const: renesas,rcar-gen2-vin # Generic R-Car Gen2 or RZ/G1
+> > +
+> > +      - items:
+> > +        - enum:
+> > +          - renesas,vin-r8a774a1 # RZ/G2M
+> > +          - renesas,vin-r8a774b1 # RZ/G2N
+> > +          - renesas,vin-r8a774c0 # RZ/G2E
+> > +          - renesas,vin-r8a7778  # R-Car M1
+> > +          - renesas,vin-r8a7779  # R-Car H1
+> > +          - renesas,vin-r8a7795  # R-Car H3
+> > +          - renesas,vin-r8a7796  # R-Car M3-W
+> > +          - renesas,vin-r8a77965 # R-Car M3-N
+> > +          - renesas,vin-r8a77970 # R-Car V3M
+> > +          - renesas,vin-r8a77980 # R-Car V3H
+> > +          - renesas,vin-r8a77990 # R-Car E3
+> > +          - renesas,vin-r8a77995 # R-Car D3
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    maxItems: 1
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  resets:
+> > +    maxItems: 1
+> > +
+> > +  #The per-board settings for Gen2 and RZ/G1 platforms:
+> > +  port:
+> > +    type: object
+> > +    description: |-
+> > +      A node containing a parallel input with a singel endpoint definitions as
+> > +      documented in
+> > +      Documentation/devicetree/bindings/media/video-interfaces.txt
+> > +
+> > +    properties:
+> > +      reg:
+> > +        const: 1
+> 
+> Do you need reg for the single 'port' ?
+> 
+> > +
+> > +      endpoint:
+> > +        type: object
+> > +
+> > +        properties:
+> > +          hsync-active:
+> > +            description: |-
+> > +              Default is active high. If both HSYNC and VSYNC polarities are not
+> > +              specified, embedded synchronization is selected.
+> > +            enum: [ 0, 1 ]
+> > +
+> > +          vsync-active:
+> > +            description: |-
+> > +              Default is active high. If both HSYNC and VSYNC polarities are not
+> > +              specified, embedded synchronization is selected.
+> > +            enum: [ 0, 1 ]
+> > +
+> > +          field-active-even:
+> > +            description: Default is active high.
+> > +            enum: [ 0, 1 ]
+> > +
+> > +          bus-width:
+> > +            enum: [ 8, 10, 12, 16, 24, 32 ]
+> > +
+> > +          data-shift:
+> > +            enum: [ 0, 8 ]
+> > +
+> > +          data-enable-active:
+> > +            description: Polarity of CLKENB signal, default is active high.
+> > +            enum: [ 0, 1 ]
+> > +
+> > +          pclk-sample:
+> > +            enum: [ 0, 1 ]
+> > +
+> > +          data-active:
+> > +            enum: [ 0, 1 ]
+> > +
+> > +          remote-endpoint:
+> > +            maxItems: 1
+> > +
+> > +        required:
+> > +          - remote-endpoint
+> > +
+> > +        additionalProperties: false
+> > +
+> > +    additionalProperties: false
+> > +
+> > +  #The per-board settings for Gen3 and RZ/G2 platforms:
+> > +  renesas,id:
+> > +    description: VIN channel number
+> > +    allOf:
+> > +      - $ref: /schemas/types.yaml#/definitions/uint32
+> > +      - enum: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]
+> > +
+> > +  ports:
+> > +    type: object
+> > +    description: |-
+> > +      A node containing input nodes with endpoint definitions as documented in
+> > +      Documentation/devicetree/bindings/media/video-interfaces.txt
+> > +
+> > +    properties:
+> > +      port@0:
+> > +        type: object
+> > +        description: |-
+> > +          Input port node, single endpoint describing a parallel input source.
+> > +
+> > +        properties:
+> > +          reg:
+> > +            const: 0
+> > +
+> > +          endpoint:
+> > +            type: object
+> > +
+> > +            properties:
+> > +              hsync-active:
+> > +                description: |-
 
-If you want to run a test that stretches the behaviour on the timeout
-path, I would rather use an SD-card (the older the better). For eMMCs
-the erase likely translates to a trim/discard, which is far more
-quicker than a real erase - as is what happens on an old SD card.
+Drop the literal block (|-).
 
->
+> > +                  Default is active high. If both HSYNC and VSYNC polarities are not
+> > +                  specified, embedded synchronization is selected.
+
+Express defaults as a schema:
+
+default: 1
+
+> > +                enum: [ 0, 1 ]
+
+Unless a subset of possible values apply, assume this is defined 
+elsewhere (hopefully someone converts video-interfaces.txt to schema 
+soon).
+
+> > +
+> > +              vsync-active:
+> > +                description: |-
+> > +                  Default is active high. If both HSYNC and VSYNC polarities are not
+> > +                  specified, embedded synchronization is selected.
+> > +                enum: [ 0, 1 ]
+> > +
+> > +              field-active-even:
+> > +                description: Default is active high.
+> > +                enum: [ 0, 1 ]
+> > +
+> > +              bus-width:
+> > +                enum: [ 8, 10, 12, 16, 24, 32 ]
+> > +
+> > +              data-shift:
+> > +                enum: [ 0, 8 ]
+> 
+> Why are those two not described ? I feel like or you either refrain
+> from describing all poperties and point the reader to
+> video-interfaces.txt, or you describe all of them, at least to provide
+> an indication of the default if the property is not specified.
+> 
+> > +
+> > +              data-enable-active:
+> > +                description: Polarity of CLKENB signal, default is active high.
+> > +                enum: [ 0, 1 ]
+> > +
+> > +              pclk-sample:
+> > +                enum: [ 0, 1 ]
+> > +
+> > +              data-active:
+> > +                enum: [ 0, 1 ]
+> > +
+> > +              remote-endpoint:
+> > +                maxItems: 1
+
+Just 'true' is enough here. Assume it's defined as a phandle elsewhere.
+
+> > +
+> > +            required:
+> > +              - remote-endpoint
+> > +
+> > +            additionalProperties: false
+> > +
+> > +        additionalProperties: false
+> > +
+> > +      port@1:
+> > +        type: object
+> > +        description: |-
+> > +          Input port node, multiple endpoints describing all the R-Car CSI-2
+> > +          modules connected the VIN.
+> > +
+> > +        properties:
+> > +          '#address-cells':
+> > +            const: 1
+> > +
+> > +          '#size-cells':
+> > +            const: 0
+> > +
+> > +          reg:
+> > +            const: 1
+> > +
+> > +          endpoint@0:
+> > +            type: object
+> > +            description: Endpoint connected to CSI20.
+> > +
+> > +            properties:
+> > +              reg:
+> > +                const: 0
+> > +
+> > +              remote-endpoint:
+> > +                maxItems: 1
+> > +
+> > +            required:
+> > +              - reg
+> > +              - remote-endpoint
+> > +
+> > +            additionalProperties: false
+> > +
+> > +          endpoint@1:
+> > +            type: object
+> > +            description: Endpoint connected to CSI21.
+> > +
+> > +            properties:
+> > +              reg:
+> > +                const: 1
+> > +
+> > +              remote-endpoint:
+> > +                maxItems: 1
+> > +
+> > +            required:
+> > +              - reg
+> > +              - remote-endpoint
+> > +
+> > +            additionalProperties: false
+> > +
+> > +          endpoint@2:
+> > +            type: object
+> > +            description: Endpoint connected to CSI40.
+> > +
+> > +            properties:
+> > +              reg:
+> > +                const: 2
+> > +
+> > +              remote-endpoint:
+> > +                maxItems: 1
+> > +
+> > +            required:
+> > +              - reg
+> > +              - remote-endpoint
+> > +
+> > +            additionalProperties: false
+> > +
+> > +          endpoint@3:
+> > +            type: object
+> > +            description: Endpoint connected to CSI41.
+> > +
+> > +            properties:
+> > +              reg:
+> > +                const: 3
+> > +
+> > +              remote-endpoint:
+> > +                maxItems: 1
+> > +
+> > +            required:
+> > +              - reg
+> > +              - remote-endpoint
+> 
+> Here and in the other endpoints of port@1, do you need required
+> properties ? As I read in writing-schema.rts:
+> "Unless noted otherwise, all properties are required."
+
+That is referring to schema properties ($id, properties, title, etc.), 
+not binding properties. That's also just the top-level 
+properties/keywords. If that's confusing, try reading the meta-schemas 
+which has schema keywords as both properties and schema.
+
+
+> > +
+> > +            additionalProperties: false
+> > +
+> > +        additionalProperties: false
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - clocks
+> > +  - power-domains
+> > +  - resets
+> > +
+> > +if:
+> > +  properties:
+> > +    compatible:
+> > +      contains:
+> > +        anyOf:
+> > +          - const: renesas,vin-r8a7778
+> > +          - const: renesas,vin-r8a7779
+> > +          - const: renesas,rcar-gen2-vin
+> > +then:
+> > +  required:
+> > +    - port
+> > +else:
+> > +  required:
+> > +    - renesas,id
+> > +    - ports
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  # Device node example for Gen2 platform
+> > +  - |
+> > +    #include <dt-bindings/clock/r8a7790-cpg-mssr.h>
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/power/r8a7790-sysc.h>
+> > +
+> > +    vin1: vin@e6ef1000 {
+> > +            compatible = "renesas,vin-r8a7790",
+> > +                         "renesas,rcar-gen2-vin";
+> > +            reg = <0 0xe6ef1000 0 0x1000>;
+> > +            interrupts = <GIC_SPI 189 IRQ_TYPE_LEVEL_HIGH>;
+> > +            clocks = <&cpg CPG_MOD 810>;
+> > +            power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
+> > +            resets = <&cpg 810>;
+> > +
+> > +            port {
+> > +                    vin1ep0: endpoint {
+> > +                            remote-endpoint = <&adv7180>;
+> > +                            bus-width = <8>;
+> > +                    };
+> > +            };
+> > +    };
+> > +
+> > +  # Device node example for Gen3 platform with only CSI-2
+> > +  - |
+> > +    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/power/r8a7795-sysc.h>
+> > +
+> > +    vin0: video@e6ef0000 {
+> > +            compatible = "renesas,vin-r8a7795";
+> > +            reg = <0 0xe6ef0000 0 0x1000>;
+> > +            interrupts = <GIC_SPI 188 IRQ_TYPE_LEVEL_HIGH>;
+> > +            clocks = <&cpg CPG_MOD 811>;
+> > +            power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+> > +            resets = <&cpg 811>;
+> > +            renesas,id = <0>;
+> > +
+> > +            ports {
+> > +                    #address-cells = <1>;
+> > +                    #size-cells = <0>;
+> > +
+> > +                    port@1 {
+> > +                            #address-cells = <1>;
+> > +                            #size-cells = <0>;
+> > +
+> > +                            reg = <1>;
+> > +
+> > +                            vin0csi20: endpoint@0 {
+> > +                                    reg = <0>;
+> > +                                    remote-endpoint= <&csi20vin0>;
+> > +                            };
+> > +                            vin0csi40: endpoint@2 {
+> > +                                    reg = <2>;
+> > +                                    remote-endpoint= <&csi40vin0>;
+> > +                            };
+> > +                    };
+> > +            };
+> > +    };
+> > +
+> > +  # Device node example for Gen3 platform with CSI-2 and parallel
+> > +  - |
+> > +    #include <dt-bindings/clock/r8a77970-cpg-mssr.h>
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/power/r8a77970-sysc.h>
+> > +
+> > +    vin2: video@e6ef2000 {
+> > +            compatible = "renesas,vin-r8a77970";
+> > +            reg = <0 0xe6ef2000 0 0x1000>;
+> > +            interrupts = <GIC_SPI 190 IRQ_TYPE_LEVEL_HIGH>;
+> > +            clocks = <&cpg CPG_MOD 809>;
+> > +            power-domains = <&sysc R8A77970_PD_ALWAYS_ON>;
+> > +            resets = <&cpg 809>;
+> > +            renesas,id = <2>;
+> > +
+> > +            ports {
+> > +                    #address-cells = <1>;
+> > +                    #size-cells = <0>;
+> > +
+> > +                    port@0 {
+> > +                            reg = <0>;
+> > +
+> > +                            vin2_in: endpoint {
+> > +                                    remote-endpoint = <&adv7612_out>;
+> > +                                    hsync-active = <0>;
+> > +                                    vsync-active = <0>;
+> > +                            };
+> > +                    };
+> > +
+> > +                    port@1 {
+> > +                            #address-cells = <1>;
+> > +                            #size-cells = <0>;
+> > +
+> > +                            reg = <1>;
+> > +
+> > +                            vin2csi40: endpoint@2 {
+> > +                                    reg = <2>;
+> > +                                    remote-endpoint = <&csi40vin2>;
+> > +                            };
+> > +                    };
+> > +            };
+> > +    };
+> 
+> I can't really comment on the json-schema most complex parts, but from
+> a device point of view, minors apart, it seems sane to me.
+> 
+> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+> 
+> Thanks
+>   j
+> 
+> > --
+> > 2.23.0
 > >
-> > Once that is fixed for all, we can drop CAP_ERASE.
-> >
-> > Kind regards
-> > Uffe
->
-> [1] 93caf8e69eac76 ("omap_hsmmc: add erase capability")
-> [2] b13d1f0f9ad64b ("mmc: omap: Add erase capability")
-> [3] ec30f11e821f2d ("mmc: rtsx_usb: Use the provided busy timeout from the mmc core")
->
-> --
-> Best Regards,
-> Eugeniu
 
-Kind regards
-Uffe
+
