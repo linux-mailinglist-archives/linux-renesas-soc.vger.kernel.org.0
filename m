@@ -2,69 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BEE9FC0BC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Nov 2019 08:28:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7470EFC0C5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 14 Nov 2019 08:31:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725914AbfKNH2H (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Nov 2019 02:28:07 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:42407 "EHLO
+        id S1725920AbfKNHbS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 14 Nov 2019 02:31:18 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:39576 "EHLO
         mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725852AbfKNH2H (ORCPT
+        with ESMTP id S1725601AbfKNHbS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Nov 2019 02:28:07 -0500
-Received: by mail-lj1-f195.google.com with SMTP id n5so5481799ljc.9
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Nov 2019 23:28:04 -0800 (PST)
+        Thu, 14 Nov 2019 02:31:18 -0500
+Received: by mail-lj1-f195.google.com with SMTP id p18so5510740ljc.6
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 13 Nov 2019 23:31:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to
          :user-agent;
-        bh=7LYxoRWjL+BfmaiaO4yHLvcOVfFYwdP3LQ5KEb/iCqA=;
-        b=lLpGY1EeeB58zg2ICzMYDxxayftxkWpkZ+rUfDQZA5b6THGhWNXCBkQge1iJGoQeh9
-         vtnr8AYeWrtLMPMpa/Kvkww0aLrplf+bCXNU/7P43Kd08MkOlEp+qMnKN29LLWoyPeMh
-         baMmylAzuNebdW3lvcqA+E+B/HCxQsNeD3hhOkvVOItK4QACAgbs2zbM0vjN+d8tdw00
-         gARy5GU1LS6JY8UcAbfNdirN19lQVInax3tQw+2ECq8V6rtI9Dg2qJQXjdKRL/UsEA08
-         twTMw6fXmY3xuWg7VwlhknSOWII+lz4LgfmIECOYwZ5MTRqMEqqoEYbb2MlaWEMP3qgf
-         Objw==
+        bh=HDmK777Muy/RUNrWUo+/QpLFz6vy7W9CQ749DrBLJws=;
+        b=P0BQZKyXxwoV2Lt1GZIignlM5iQRYq7/iHlcODI8j14SWfKEatXzGzjhYQ9SbrbXIg
+         XPLmrJRPB7kb0pBC0qi7XRazE7iPYQo9qo6uFtpTTzYc2I3Xg119cSM/m8vqlIG3IEib
+         EhMmwWdIHKEodc94ymwufb7CVH/y94YBINnP8KrykZ/f/XRw1WUAu6HldZJfPX0nd10M
+         lRSuHAWvwVrIrb3YsCU3+FD6ScX3MhEq/OymbP8aYflggBfkTb8R5D4hMdTFVGn3tjdb
+         Qgnamcjt+gSs62OLlFO0j3artU9ZI3IVcno9EusAQuH+JghYpLkFpcoUq3m8zcO1j76K
+         ckRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to:user-agent;
-        bh=7LYxoRWjL+BfmaiaO4yHLvcOVfFYwdP3LQ5KEb/iCqA=;
-        b=e3x1xTleylAGvChlE5RFwQiVY36/0TQJqKIlyU/Y2M/bjwmogyupTVcIp2wy8Cg9HI
-         1PvuiUUCmUXPJM2vtNfzm3JjT4c8NDaOmUyRvpITgOxsdPuEK+l2hOeUxx5QaCb2HrYC
-         gJSbIMx1vlQQvBgrJ2IVGS1VAD9Y1LDf1pC/C3eij2d7dSWbatROVI3vC7BB6etOOx4v
-         hQaQP+RVacjqBKFejMQF8TS87FPJo1g2Krm60Ge6kbZdjkrhS1RlF+L5DAdY6pa/a47S
-         89yk50FRgLwpbuL3PM2nUK7dg2eqDvrQxplNbqvRB5mGaGIpqOa22V69DaxSrhXnIT+e
-         MtOQ==
-X-Gm-Message-State: APjAAAUlsaYDrnMKNJbW1dcqlQ0cV2ut5in0NAdJtVyt2wPlYXqyPhNQ
-        rgQAaQXFPjaUF9HhvJfi0BqF+Q==
-X-Google-Smtp-Source: APXvYqxzzQQfIG+9jI5a1L+d+DpNn464CqTZoMFWJxPnSfZ1W7fCIUCgPFagE0pV7GCadiSt7dpX6w==
-X-Received: by 2002:a2e:97d3:: with SMTP id m19mr2998566ljj.56.1573716484202;
-        Wed, 13 Nov 2019 23:28:04 -0800 (PST)
+        bh=HDmK777Muy/RUNrWUo+/QpLFz6vy7W9CQ749DrBLJws=;
+        b=ofOXa2TPH6SX1AikIoGbMcO/oGExJB9PelaDU3cL1OpwNN4Pc3O8QK5agJB47ZMOCF
+         YCQnJNyy1ZU6TvvnAgyS4G7N0RkFygZ5D1rG3fEmBAgxilJ0MD0JblQAgO+nf3zsJGqZ
+         RUdLcRoU7c49gz+KLaHr+IozKeOe1g8EogRNUoD1Dn05ww3VxkL8S+n248ZLo6sl3U0f
+         YWddB33XQKvSEGkRwgsdJgDLlKMhtIX1ubxRt0+aB+njutP5pPTojfekBLFoy/uxtNge
+         woSd/IDz2Zbg51MG3lshBxEuxuU84Ee1ERixz1kxxwqFFVrZuwmOqysM98osz0b7/xHJ
+         QoXg==
+X-Gm-Message-State: APjAAAXx4MH4o/ziprqEQG2NFjPx5ueMMEPe3BApxE9ZNXYKhjANP5z2
+        ZNOdqJp5XTGmnYuaFHPhnuZMJGO7W6Y=
+X-Google-Smtp-Source: APXvYqwrYyRE8aFTbbFiwZCK/8jSeBdpVZb2X90fP2DbDFnss2O6+E2Tw9Dp+7MqISO7utRMGWJROA==
+X-Received: by 2002:a2e:8518:: with SMTP id j24mr5048715lji.13.1573716676235;
+        Wed, 13 Nov 2019 23:31:16 -0800 (PST)
 Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
-        by smtp.gmail.com with ESMTPSA id u12sm1985300lje.1.2019.11.13.23.28.03
+        by smtp.gmail.com with ESMTPSA id z17sm1921882ljz.30.2019.11.13.23.31.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2019 23:28:03 -0800 (PST)
-Date:   Thu, 14 Nov 2019 08:28:03 +0100
+        Wed, 13 Nov 2019 23:31:15 -0800 (PST)
+Date:   Thu, 14 Nov 2019 08:31:15 +0100
 From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
         <niklas.soderlund@ragnatech.se>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] iio: adc: max9611: Make enum relations more future proof
-Message-ID: <20191114072803.GC26902@bigcity.dyn.berto.se>
-References: <20191113100938.27604-1-geert+renesas@glider.be>
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        Guennadi Liakhovetski <g.liakhovetski@gmx.de>,
+        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] i2c: rcar: Remove superfluous call to clk_get_rate()
+Message-ID: <20191114073115.GD26902@bigcity.dyn.berto.se>
+References: <20191113101453.28157-1-geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191113100938.27604-1-geert+renesas@glider.be>
+In-Reply-To: <20191113101453.28157-1-geert+renesas@glider.be>
 User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -73,87 +70,34 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Geert,
 
-Looks good.
+Thanks for your work.
 
-On 2019-11-13 11:09:38 +0100, Geert Uytterhoeven wrote:
-> The relations between enum values and array indices values are currently
-> not enforced by the code, which makes them fragile w.r.t. future
-> changes.
+On 2019-11-13 11:14:53 +0100, Geert Uytterhoeven wrote:
+> Variable "rate" already contains the current clock rate, so use that
+> rather than calling clk_get_rate() again.
 > 
-> Fix this by:
->   1. Using designated array initializers, to make sure array indices and
->      enums values match,
->   2. Linking max9611_csa_gain enum values to the corresponding
->      max9611_conf_ids enum values, as the latter is cast to the former
->      in max9611_read_csa_voltage().
-> 
-> No change in generated code.
-> 
+> Fixes: 8d0494037bb2af32 ("i2c: rcar: get clock rate only once and simplify calculation")
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
 > ---
->  drivers/iio/adc/max9611.c | 36 +++++++++++-------------------------
->  1 file changed, 11 insertions(+), 25 deletions(-)
+>  drivers/i2c/busses/i2c-rcar.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/iio/adc/max9611.c b/drivers/iio/adc/max9611.c
-> index b0755f25356d700d..cb306ff1a5d6a0b2 100644
-> --- a/drivers/iio/adc/max9611.c
-> +++ b/drivers/iio/adc/max9611.c
-> @@ -114,22 +114,17 @@ enum max9611_conf_ids {
->   *		      where data shall be read from
->   */
->  static const unsigned int max9611_mux_conf[][2] = {
-> -	/* CONF_SENSE_1x */
-> -	{ MAX9611_MUX_SENSE_1x, MAX9611_REG_CSA_DATA },
-> -	/* CONF_SENSE_4x */
-> -	{ MAX9611_MUX_SENSE_4x, MAX9611_REG_CSA_DATA },
-> -	/* CONF_SENSE_8x */
-> -	{ MAX9611_MUX_SENSE_8x, MAX9611_REG_CSA_DATA },
-> -	/* CONF_IN_VOLT */
-> -	{ MAX9611_INPUT_VOLT, MAX9611_REG_RS_DATA },
-> -	/* CONF_TEMP */
-> -	{ MAX9611_MUX_TEMP, MAX9611_REG_TEMP_DATA },
-> +	[CONF_SENSE_1x]	= { MAX9611_MUX_SENSE_1x, MAX9611_REG_CSA_DATA },
-> +	[CONF_SENSE_4x]	= { MAX9611_MUX_SENSE_4x, MAX9611_REG_CSA_DATA },
-> +	[CONF_SENSE_8x]	= { MAX9611_MUX_SENSE_8x, MAX9611_REG_CSA_DATA },
-> +	[CONF_IN_VOLT]	= { MAX9611_INPUT_VOLT, MAX9611_REG_RS_DATA },
-> +	[CONF_TEMP]	= { MAX9611_MUX_TEMP, MAX9611_REG_TEMP_DATA },
->  };
+> diff --git a/drivers/i2c/busses/i2c-rcar.c b/drivers/i2c/busses/i2c-rcar.c
+> index 531c01100b560be3..879f0e61a4968a08 100644
+> --- a/drivers/i2c/busses/i2c-rcar.c
+> +++ b/drivers/i2c/busses/i2c-rcar.c
+> @@ -317,7 +317,7 @@ static int rcar_i2c_clock_calculate(struct rcar_i2c_priv *priv, struct i2c_timin
 >  
->  enum max9611_csa_gain {
-> -	CSA_GAIN_1x,
-> -	CSA_GAIN_4x,
-> -	CSA_GAIN_8x,
-> +	CSA_GAIN_1x = CONF_SENSE_1x,
-> +	CSA_GAIN_4x = CONF_SENSE_4x,
-> +	CSA_GAIN_8x = CONF_SENSE_8x,
->  };
+>  scgd_find:
+>  	dev_dbg(dev, "clk %d/%d(%lu), round %u, CDF:0x%x, SCGD: 0x%x\n",
+> -		scl, t->bus_freq_hz, clk_get_rate(priv->clk), round, cdf, scgd);
+> +		scl, t->bus_freq_hz, rate, round, cdf, scgd);
 >  
->  enum max9611_csa_gain_params {
-> @@ -147,18 +142,9 @@ enum max9611_csa_gain_params {
->   * value; use this structure to retrieve the correct LSB and offset values.
->   */
->  static const unsigned int max9611_gain_conf[][2] = {
-> -	{ /* [0] CSA_GAIN_1x */
-> -		MAX9611_CSA_1X_LSB_nV,
-> -		MAX9611_CSA_1X_OFFS_RAW,
-> -	},
-> -	{ /* [1] CSA_GAIN_4x */
-> -		MAX9611_CSA_4X_LSB_nV,
-> -		MAX9611_CSA_4X_OFFS_RAW,
-> -	},
-> -	{ /* [2] CSA_GAIN_8x */
-> -		MAX9611_CSA_8X_LSB_nV,
-> -		MAX9611_CSA_8X_OFFS_RAW,
-> -	},
-> +	[CSA_GAIN_1x] = { MAX9611_CSA_1X_LSB_nV, MAX9611_CSA_1X_OFFS_RAW, },
-> +	[CSA_GAIN_4x] = { MAX9611_CSA_4X_LSB_nV, MAX9611_CSA_4X_OFFS_RAW, },
-> +	[CSA_GAIN_8x] = { MAX9611_CSA_8X_LSB_nV, MAX9611_CSA_8X_OFFS_RAW, },
->  };
->  
->  enum max9611_chan_addrs {
+>  	/* keep icccr value */
+>  	priv->icccr = scgd << cdf_width | cdf;
 > -- 
 > 2.17.1
 > 
