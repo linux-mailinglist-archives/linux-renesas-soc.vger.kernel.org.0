@@ -2,75 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 73CEAFDF63
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Nov 2019 14:54:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AD40FE1E0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Nov 2019 16:49:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727412AbfKONye (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 15 Nov 2019 08:54:34 -0500
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:34947 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727406AbfKONyd (ORCPT
+        id S1727664AbfKOPts (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Nov 2019 10:49:48 -0500
+Received: from mail-io1-f66.google.com ([209.85.166.66]:35125 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727715AbfKOPtq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 15 Nov 2019 08:54:33 -0500
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 6166C3C009C;
-        Fri, 15 Nov 2019 14:54:31 +0100 (CET)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id jjwboKzUmcTj; Fri, 15 Nov 2019 14:54:26 +0100 (CET)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 75B393C04C1;
-        Fri, 15 Nov 2019 14:54:25 +0100 (CET)
-Received: from vmlxhi-102.adit-jv.com (10.72.93.184) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Fri, 15 Nov
- 2019 14:54:25 +0100
-Date:   Fri, 15 Nov 2019 14:54:22 +0100
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>
-CC:     Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>
-Subject: Re: [PATCH] mmc: renesas_sdhi_internal_dmac: Add MMC_CAP_ERASE to
- Gen3 SoCs
-Message-ID: <20191115135422.GA12691@vmlxhi-102.adit-jv.com>
-References: <20191112134808.23546-1-erosca@de.adit-jv.com>
- <20191112204952.GA2976@kunai>
- <CAPDyKFq8oVk26ruNA_R8HDXhMGKhDeHnL0q82xi40g1aeo109A@mail.gmail.com>
- <20191114113743.GA19656@vmlxhi-102.adit-jv.com>
- <CAPDyKFp5iqrFDM1EWnYBwFmQAiAA5FADDLAyuVVBgMu4Sx=x5w@mail.gmail.com>
- <20191114220744.GA17678@vmlxhi-102.adit-jv.com>
- <CAPDyKFoXEFbK_7-Nmkhz2_Sifc=hiPEGmUHKsp4=Baye86TCOg@mail.gmail.com>
- <20191115125109.GA32576@lxhi-065.adit-jv.com>
+        Fri, 15 Nov 2019 10:49:46 -0500
+Received: by mail-io1-f66.google.com with SMTP id x21so10947136ior.2
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 15 Nov 2019 07:49:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=X5NAAOrJ3bS32ihsXavVCESX6DNfXdWEE7aVqtLVIHM=;
+        b=T96mBsWswYjsm0w7ecYkWpV509ib/ulk9bHbI0Xwo0rzkePegh7rSfOcmzGbyf8vTc
+         lns/HOXyf4/6jOYDVIgZ/CZyIfN2m2y88qVdmXSABhNsP0MXDIRsHGSOOd7wWkwuGiQx
+         ehcoBpFXp6INIFq3jwmveina1L3fsWjpzHRhMvlhwo8OJ8Dy4xuFXwCrYZiL/Ja/dmiU
+         sEvBblBcC09ww5H/W1Li3rJXBc1TYjMn46kjeboNwYGUiqFeNnjz46iJxarBlBzUTpau
+         7EU4w1MkRxjhgPFrJ2/ipVqnuE4IawmENFYcW1JVUg9OFLrEKZvfb77T8+3XayPV4Zd+
+         KrHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=X5NAAOrJ3bS32ihsXavVCESX6DNfXdWEE7aVqtLVIHM=;
+        b=AS1gjSarS/bHG7v6oJVUdaKKMA1jYK86DcwLbR9OrTo/5Ya/rLYH7+wbHZjmnUINI7
+         lsTt72OYXaySxG4M3hV8flAnAKJxQPNLjP9Rx1Yg9ZHRZqD04pAZIQ3jbx+8C/sZAwDg
+         s5aSN4J4NmnTnYUohvCmnb4OzDXaqD78p3ZVGWv9tZuA0GtIVqDhDGKwxtcpxMOX4Ey2
+         j+fuRVQsk0yi30QCc6K+f2FKObww7g9C7RGdjZ29IxSQ6WWx1IYYYFIFw44E/dGMWgXu
+         XmSupED9Z7J4STVO8Wgz3F1tF3aay74+60K6FnSu/hfoXOctxRxHpo59eTYTJOD2+6kC
+         V/Ww==
+X-Gm-Message-State: APjAAAWCre2TYRItt+jaubDm3BOQXIoddIwAAw8SVQ8DSvFrDZ4vGsv9
+        2RWOgp8ey0Kl431QoaLfcnWCLr3T5YJYfG+oAg==
+X-Google-Smtp-Source: APXvYqxEj1beLI6zhjihT/lmX2Dk324PGcIr8veC5c+0F/PFQKT7AeNYgljOGh72OwNqCMMZvqGkvMbSAqCkDjgGkjg=
+X-Received: by 2002:a5e:8e02:: with SMTP id a2mr1343031ion.269.1573832982053;
+ Fri, 15 Nov 2019 07:49:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20191115125109.GA32576@lxhi-065.adit-jv.com>
-User-Agent: Mutt/1.12.1+40 (7f8642d4ee82) (2019-06-28)
-X-Originating-IP: [10.72.93.184]
+Received: by 2002:a02:7749:0:0:0:0:0 with HTTP; Fri, 15 Nov 2019 07:49:41
+ -0800 (PST)
+Reply-To: moneygram.1820@outlook.fr
+From:   "Ms.Mary Coster" <info.zennitbankplcnigerian@gmail.com>
+Date:   Fri, 15 Nov 2019 16:49:41 +0100
+Message-ID: <CABHzvrkUQbbmg0Gr7foD3OjAJiY7Fd37=SW3mU=fnOPOcOyNdQ@mail.gmail.com>
+Subject: Goodnews, I have deposited your transfer total amount US$4.8million
+ Dollars with Money Gram this morning. we agreed you will be receiving it
+ $5000.00 daily.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-[to facilitate version tracking]
-
-Superseded by:
-https://lore.kernel.org/linux-renesas-soc/20191115134430.12621-1-erosca@de.adit-jv.com/
-("[PATCH v2] mmc: tmio: Add MMC_CAP_ERASE to allow erase/discard/trim requests")
-
--- 
-Best Regards,
-Eugeniu
+Attn, Dear
+Goodnews, I have deposited your transfer total amount US$4.8million
+Dollars with Money Gram this morning. we agreed you will be receiving
+it $5000.00 daily.
+Contact Mr. John Dave Director, Money Gram to pick up your first Money
+Gram payment $5000.00 today.
+Contact Person; Mr. John Dave Director, Money Gram,International
+Remittance-Benin
+Email; moneygram.1820@outlook.fr
+Telephone; +229 62619517
+Please re-confirm your address to him once again such as listed below.
+1.Your Full Name..............................
+2.Address.........................
+3.Country....................
+4.Sex.........................................
+5.Your telephone numbers..........................
+6. Copy of your ID...........................
+This is to avoid sending your funds to wrong person, He is waiting to
+hear from you urgent today.
+Let me know once you pick up your transfer $5000.00 today.
+Finally, Note I have paid for the service fees, but only money will
+send to him is $90.00 transfer fee before you can pick up the transfer
+today.
+Ask, Mr. John Dave Director, Money Gram to give you direction where to
+send your transfer fee $90.00 only to Him Immediately so that you can
+pick up $5000.00 us dollars today.
+Thanks for undrstanding.
+Mary Coster
+m.coster@aol.com
