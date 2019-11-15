@@ -2,50 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB37EFD2AF
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Nov 2019 03:05:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 89FEAFD762
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 15 Nov 2019 08:53:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727223AbfKOCFg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 14 Nov 2019 21:05:36 -0500
-Received: from shards.monkeyblade.net ([23.128.96.9]:57534 "EHLO
-        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726956AbfKOCFg (ORCPT
+        id S1727199AbfKOHxr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 15 Nov 2019 02:53:47 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:44296 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725829AbfKOHxr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 14 Nov 2019 21:05:36 -0500
-Received: from localhost (unknown [IPv6:2601:601:9f00:1e2::3d5])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id 4D06014B79F63;
-        Thu, 14 Nov 2019 18:05:35 -0800 (PST)
-Date:   Thu, 14 Nov 2019 18:05:34 -0800 (PST)
-Message-Id: <20191114.180534.798049573672936806.davem@davemloft.net>
-To:     uli+renesas@fpond.eu
-Cc:     linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org,
-        sergei.shtylyov@cogentembedded.com, niklas.soderlund@ragnatech.se,
-        wsa@the-dreams.de, horms@verge.net.au, magnus.damm@gmail.com,
-        geert@glider.be
-Subject: Re: [PATCH v4] ravb: implement MTU change while device is up
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <20191114014949.31057-1-uli+renesas@fpond.eu>
-References: <20191114014949.31057-1-uli+renesas@fpond.eu>
-X-Mailer: Mew version 6.8 on Emacs 26.1
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Thu, 14 Nov 2019 18:05:35 -0800 (PST)
+        Fri, 15 Nov 2019 02:53:47 -0500
+Received: by mail-ot1-f66.google.com with SMTP id c19so7271784otr.11;
+        Thu, 14 Nov 2019 23:53:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6ZHuccE/95KXLQImkLtOEDMk/sqf7jY5QUv/r90SYzw=;
+        b=Hm3ie+nTD/b9EF00oIdirV9FNVVp6P95IDxe5YEZeJYUZouiKbmDAOXe60UQuNcbGk
+         QKOUYt1uvIo1zOLiJ1tp3D2kDWEqSKbq7OB+bCxgg3q5Z+Ch15P8a1bkg4KQiJsST1Qz
+         XQ6fL9LcPCplzrkiDvNNeDlXeNRSz/z2bdcB+LWqWAMHTij9ie+ah0gOOmEl+8mxvN9S
+         IcXrh98bFKTZSx9lf91y4AfW25Af2ntYxRsdCY8Zv1QvBD/EfMMq0jXEuYl9ABtsDxCu
+         MUgtttSMMv0m+TuNezRqmjoEK/hh4d6JAVVi0uSko/ikzz4wa2axFdiz5YJ6+ErTGDM9
+         oO3A==
+X-Gm-Message-State: APjAAAUjNMAJSFtNMxAqEe0EEM+6cVeP5PclWEciz7Uwz/TL4T6utr2r
+        ngilNwF4j+U0v6j+2YfJj/IUGYgsjvvBxktOKTNX0w==
+X-Google-Smtp-Source: APXvYqzk3G/z/EdYihyFqa9HiPqmkoti86ph8Fzpm/afY5conxIn2WKpd9AlGFYNe4kHlYz/JwUZT23rgY/tnvtrm5k=
+X-Received: by 2002:a05:6830:1047:: with SMTP id b7mr1144052otp.107.1573804425957;
+ Thu, 14 Nov 2019 23:53:45 -0800 (PST)
+MIME-Version: 1.0
+References: <20191113101453.28157-1-geert+renesas@glider.be> <20191114203940.GA7213@kunai>
+In-Reply-To: <20191114203940.GA7213@kunai>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 15 Nov 2019 08:53:34 +0100
+Message-ID: <CAMuHMdUpfAtt2QZUCFgmk5uYN+x0BBYBEA27nEp_k4WguV8h8Q@mail.gmail.com>
+Subject: Re: [PATCH] i2c: rcar: Remove superfluous call to clk_get_rate()
+To:     Wolfram Sang <wsa@the-dreams.de>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Guennadi Liakhovetski <g.liakhovetski@gmx.de>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Ulrich Hecht <uli+renesas@fpond.eu>
-Date: Thu, 14 Nov 2019 02:49:49 +0100
+Hi Wolfram,
 
-> Pre-allocates buffers sufficient for the maximum supported MTU (2026) in
-> order to eliminate the possibility of resource exhaustion when changing the
-> MTU while the device is up.
-> 
-> Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
+On Thu, Nov 14, 2019 at 9:39 PM Wolfram Sang <wsa@the-dreams.de> wrote:
+> On Wed, Nov 13, 2019 at 11:14:53AM +0100, Geert Uytterhoeven wrote:
+> > Variable "rate" already contains the current clock rate, so use that
+> > rather than calling clk_get_rate() again.
+> >
+> > Fixes: 8d0494037bb2af32 ("i2c: rcar: get clock rate only once and simplify calculation")
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> Applied to for-next, thanks! I agree with Luca, though, and dropped the
+> Fixes: line because this is not a bugfix.
 
-Applied.
+OK, thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
