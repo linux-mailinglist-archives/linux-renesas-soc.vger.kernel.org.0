@@ -2,257 +2,153 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AF46FEB89
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Nov 2019 10:49:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1B2CFEF16
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Nov 2019 16:56:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726595AbfKPJta (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 16 Nov 2019 04:49:30 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:53533 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726366AbfKPJta (ORCPT
+        id S1731684AbfKPP4Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 16 Nov 2019 10:56:24 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:45533 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731675AbfKPP4X (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 16 Nov 2019 04:49:30 -0500
-Received: from [IPv6:2001:983:e9a7:1:a4e1:babe:5472:a07]
- ([IPv6:2001:983:e9a7:1:a4e1:babe:5472:a07])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id VuhqiV5cyecrtVuhrisDgi; Sat, 16 Nov 2019 10:49:27 +0100
-Subject: Re: [PATCH v2 4/6] v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Helen Koike <helen.koike@collabora.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20191115235559.806041-1-niklas.soderlund+renesas@ragnatech.se>
- <20191115235559.806041-5-niklas.soderlund+renesas@ragnatech.se>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <e8261b94-da58-0f3e-1910-c4a7f6906fb6@xs4all.nl>
-Date:   Sat, 16 Nov 2019 10:49:26 +0100
+        Sat, 16 Nov 2019 10:56:23 -0500
+Received: by mail-wr1-f65.google.com with SMTP id z10so14235366wrs.12;
+        Sat, 16 Nov 2019 07:56:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=gLTRaPPwtJ3K9nh3qqgcTMjSi8M/0U9rDvtpI862WLs=;
+        b=guseDXw+VmTigoJWqP62o17VmQNWJ8E4GWd5IIq4gAZOARKZPBUQoe7/I/DDvHFJDD
+         cPgCRB/86IRKnUohfw/4NbfOuK3aDKCjPOLVB2Z3JhDUdGW2rZAE2GYIouQ+nRFvjgon
+         G1F68xwwlrXKcnyZq29m/FKy3VmzzI9QlsamwsmfLsv+SYEOa16icNjHfKjkYfSOnvaR
+         MKdPv/1LtnScYak+PPzUUrvd3Ry/Nv3Hg3Hq4jx6+rXpsqIPEBhKceK8ka6sDpyzBt6V
+         Yp/K1ub8n9A3AeuZcx+9g5wWehBryrzsH0Gsx/wyrV+0EOaW+9CEg5ISzYSrHrtI8NyN
+         GLCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=gLTRaPPwtJ3K9nh3qqgcTMjSi8M/0U9rDvtpI862WLs=;
+        b=pwoK6CdLUUPt1/MFfKPYI53vjRg3mU7VVy2IXZaJpmUImJJsi0a9x7jw0l66hdjgKi
+         b2I/fON/Y3TxtkzJnclxBAhDbBX6B+Mu/9ybxFq0Pvz1ATmTgHEHNV1BfX+VQvfohYKv
+         n12kGPwmPbdf7yMHjQL0FY2HSbOASMnDiO5XvHBb+/vm1eHSh2uykR2VF75orA/V4vwp
+         JgAqF3gkZW9a7xYK/Lu2aStwBDhg+XDidv8sYA34DHSl8olbVzK2fU5lrMOEAKj3Nydo
+         VfYoomoivlFXn1FANEwNfErXerVCjK0q2Qx8P/mYVi5R/pbfjHZIvMbx0TlDEi0yrBCE
+         ABAQ==
+X-Gm-Message-State: APjAAAXc/X/6UB0g4mZ9mTRXetWmqAuP4x7nF/x254CDvbkk0Ywbxm5J
+        mTXr9VrIbSVhWs6p3M+A4b9qoCgy
+X-Google-Smtp-Source: APXvYqxblfXkeWlPwNsQ1+mAsLiqe1bwWEjBqZowk103SVPAQuJtFl220YWJrmWlUi40r5CJOdjRtA==
+X-Received: by 2002:adf:fe89:: with SMTP id l9mr844796wrr.368.1573919780499;
+        Sat, 16 Nov 2019 07:56:20 -0800 (PST)
+Received: from [192.168.1.4] (ip-86-49-35-8.net.upcbroadband.cz. [86.49.35.8])
+        by smtp.gmail.com with ESMTPSA id 65sm19018517wrs.9.2019.11.16.07.56.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 16 Nov 2019 07:56:19 -0800 (PST)
+Subject: Re: [PATCH V3 2/3] PCI: rcar: Do not abort on too many inbound
+ dma-ranges
+To:     Andrew Murray <andrew.murray@arm.com>
+Cc:     Simon Horman <horms@verge.net.au>, linux-pci@vger.kernel.org,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        linux-renesas-soc@vger.kernel.org, Robin.Murphy@arm.com
+References: <20190809175741.7066-1-marek.vasut@gmail.com>
+ <20190809175741.7066-2-marek.vasut@gmail.com>
+ <20190816132305.gyyml5r3xsimmoor@verge.net.au>
+ <8f1871ed-4820-1985-0090-bb9e2d8803d8@gmail.com>
+ <20191021101805.GM47056@e119886-lin.cambridge.arm.com>
+ <fef9502f-d51c-b922-afb3-8891267ae6c3@gmail.com>
+ <20191026203627.GA47056@e119886-lin.cambridge.arm.com>
+ <9c46a2d2-00bd-3854-8060-fc7389751f3f@gmail.com>
+ <20191107141906.GB43905@e119886-lin.cambridge.arm.com>
+From:   Marek Vasut <marek.vasut@gmail.com>
+Message-ID: <3424b83c-4693-0259-ac3d-ea10a3f98377@gmail.com>
+Date:   Sat, 16 Nov 2019 16:48:45 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191115235559.806041-5-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20191107141906.GB43905@e119886-lin.cambridge.arm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfA6TqBWQWXC2RrFR/G2E/DLS3vj2sKz3037/o1l5eorzIgB10zW8pBGvmLJcHzZiWAkUAsjlqeyXrgyK3o48bJ89bhB6Ic8FJl5pPOkUJjGPkv7UQAzt
- PMjwqPWtgJZmD50V9j53t8Xdw/l/3UkW2zXZ+4/Jg+RD/wbdpGHXcW8DAX4j+KWE+j0auaPwby8qc6g5oH6T1kn+fOIan8UVWdU3yscUVM7HuD89qUIYulHD
- mf2DGH5vZLztKPGxjIpYHkM0bHMu9DSQodSiRJMyjuyACO78CLlFtXI/i5mbetQ7a0eeGXRBc252EswpHM1fyB4UdQTldL5TBPPoFrc6CIqzB3AVyPl0n0oS
- aWn2wZEQu4de1AH6gSmND50TrTPETcExMpOzkzmved04KgF+pvIkqzb/HrqPmZo+SBPghWyRfcRAvQ5F3QXF+lFSLMkwA029uG7xApyPF6mfdUXiyM4+Qsyl
- VVxZULk26hqSrlUvP6s0+OFt2Bc5xbVB4WtZBg==
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 11/16/19 12:55 AM, Niklas Söderlund wrote:
-> Add a video device capability flag to indicate that its inputs and/or
-> outputs are controlled by the Media Controller instead of the V4L2 API.
-> When this flag is set, ioctl for enum inputs and outputs are
-> automatically enabled and programmed to call a helper function.
+On 11/7/19 3:19 PM, Andrew Murray wrote:
+> On Thu, Nov 07, 2019 at 12:37:44AM +0100, Marek Vasut wrote:
+>> On 10/26/19 10:36 PM, Andrew Murray wrote:
+>> [...]>> But this still leaves me with one open question -- how do I
+>> figure out
+>>>> what to program into the PCI controller inbound windows, so that the
+>>>> controller correctly filters inbound transfers which are targetting
+>>>> nonexisting memory ?
+>>>
+>>> Your driver should program into the RC->CPU windows, the exact ranges
+>>> described in the dma-ranges. Whilst also respecting the alignment and
+>>> max-size rules your controller has (e.g. the existing upstream logic
+>>> and also the new logic that recalculates the alignment per entry).
+>>>
+>>> As far as I can tell from looking at your U-Boot patch, I think I'd expect
+>>> a single dma-range to be presented in the DT, that describes
+>>> 0:0xFFFFFFFF => 0:0xFFFFFFFF. This is because 1) I understand your
+>>> controller is limited to 32 bits. And 2) there is a linear mapping between
+>>> PCI and CPU addresses (given that the second and third arguments on
+>>> pci_set_region are both the same).
+>>>
+>>> As you point out, this range includes lots of things that you don't
+>>> want the RC to touch - such as non-existent memory. This is OK, when
+>>> Linux programs addresses into the various EP's for them to DMA to host
+>>> memory, it uses its own logic to select addresses that are in RAM, the
+>>> purpose of the dma-range is to describe what the CPU RAM address looks
+>>> like from the perspective of the RC (for example if the RC was wired
+>>> with an offset such that made memory writes from the RC made to
+>>> 0x00000000 end up on the system map at 0x80000000, we need to tell Linux
+>>> about this offset. Otherwise when a EP device driver programs a DMA
+>>> address of a RAM buffer at 0x90000000, it'll end up targetting
+>>> 0x110000000. Thankfully our dma-range will tell Linux to apply an offset
+>>> such that the actual address written to the EP is 0x10000000.).
+>>
+>> I understand that Linux programs the endpoints correctly. However this
+>> still doesn't prevent the endpoint from being broken and from sending a
+>> transaction to that non-existent memory.
 > 
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  .../media/uapi/v4l/vidioc-querycap.rst        |  3 ++
->  .../media/videodev2.h.rst.exceptions          |  1 +
->  drivers/media/v4l2-core/v4l2-dev.c            | 10 ++++--
->  drivers/media/v4l2-core/v4l2-ioctl.c          | 36 +++++++++++++++++++
->  include/uapi/linux/videodev2.h                |  2 ++
->  5 files changed, 50 insertions(+), 2 deletions(-)
+> Correct.
 > 
-> diff --git a/Documentation/media/uapi/v4l/vidioc-querycap.rst b/Documentation/media/uapi/v4l/vidioc-querycap.rst
-> index 5f9930195d624c73..8b621ecb906afe96 100644
-> --- a/Documentation/media/uapi/v4l/vidioc-querycap.rst
-> +++ b/Documentation/media/uapi/v4l/vidioc-querycap.rst
-> @@ -264,6 +264,9 @@ specification the ioctl returns an ``EINVAL`` error code.
->      * - ``V4L2_CAP_TOUCH``
->        - 0x10000000
->        - This is a touch device.
-> +    * - ``V4L2_CAP_IO_MC``
-> +      - 0x20000000
-> +      - The inputs and/or outputs of this device are controlled by the Media Controller see :ref:`media_controller`.
-
-'see' should start a new sentence. So: ... Controller. See ...
-
-I also think this needs a more detailed description. At minimum this should explain that there is only one
-input and/or output as seen from userspace and it depends on the topology from/to which actual video source the
-video device captures/outputs its video.
-
-And be very precise when you are talking about inputs/outputs: are those the inputs/outputs as seen from
-userspace, or the inputs/outputs to the video I/O entity?
-
->      * - ``V4L2_CAP_DEVICE_CAPS``
->        - 0x80000000
->        - The driver fills the ``device_caps`` field. This capability can
-> diff --git a/Documentation/media/videodev2.h.rst.exceptions b/Documentation/media/videodev2.h.rst.exceptions
-> index cb6ccf91776e6b56..a625fb90e3a989a7 100644
-> --- a/Documentation/media/videodev2.h.rst.exceptions
-> +++ b/Documentation/media/videodev2.h.rst.exceptions
-> @@ -176,6 +176,7 @@ replace define V4L2_CAP_STREAMING device-capabilities
->  replace define V4L2_CAP_META_OUTPUT device-capabilities
->  replace define V4L2_CAP_DEVICE_CAPS device-capabilities
->  replace define V4L2_CAP_TOUCH device-capabilities
-> +replace define V4L2_CAP_IO_MC device-capabilities
->  
->  # V4L2 pix flags
->  replace define V4L2_PIX_FMT_PRIV_MAGIC :c:type:`v4l2_pix_format`
-> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-> index 4293df8d664f70b3..f0f5fcaa618c7be8 100644
-> --- a/drivers/media/v4l2-core/v4l2-dev.c
-> +++ b/drivers/media/v4l2-core/v4l2-dev.c
-> @@ -725,7 +725,6 @@ static void determine_valid_ioctls(struct video_device *vdev)
->  		SET_VALID_IOCTL(ops, VIDIOC_G_STD, vidioc_g_std);
->  		if (is_rx) {
->  			SET_VALID_IOCTL(ops, VIDIOC_QUERYSTD, vidioc_querystd);
-> -			SET_VALID_IOCTL(ops, VIDIOC_ENUMINPUT, vidioc_enum_input);
->  			set_bit(_IOC_NR(VIDIOC_G_INPUT), valid_ioctls);
->  			set_bit(_IOC_NR(VIDIOC_S_INPUT), valid_ioctls);
->  			SET_VALID_IOCTL(ops, VIDIOC_ENUMAUDIO, vidioc_enumaudio);
-> @@ -733,14 +732,21 @@ static void determine_valid_ioctls(struct video_device *vdev)
->  			SET_VALID_IOCTL(ops, VIDIOC_S_AUDIO, vidioc_s_audio);
->  			SET_VALID_IOCTL(ops, VIDIOC_QUERY_DV_TIMINGS, vidioc_query_dv_timings);
->  			SET_VALID_IOCTL(ops, VIDIOC_S_EDID, vidioc_s_edid);
-> +			if (vdev->device_caps & V4L2_CAP_IO_MC)
-
-Add an is_io_mc bool at the top and use that.
-
-> +				set_bit(_IOC_NR(VIDIOC_ENUMINPUT), valid_ioctls);
-> +			else
-> +				SET_VALID_IOCTL(ops, VIDIOC_ENUMINPUT, vidioc_enum_input);
-
-Ah, now I see why you did things the way you did in patch 1.
-
-This is confusing in this series: for once I think it is better if patches 1 and 4 are
-combined in a single patch.
-
-In any case, this means that the G/S_IN/OUTPUT ioctls should only be valid if:
-
-- CAP_IO_MC is set
-- or the vidioc_g/s_in/output op is set by the driver
-- or the vidioc_enum_in/output op is set by the driver
-
-I've been wondering: now that we know what the device caps are we can do a much
-better job of validating if the driver supports the right ioctls.
-
-We've been relying on v4l2-compliance for that, but part of the v4l2-compliance
-validation can be done here instead, issuing a WARN_ON if the driver forgets to
-implement something that it should have implemented.
-
-Something for a future patch, though.
-
->  		}
->  		if (is_tx) {
-> -			SET_VALID_IOCTL(ops, VIDIOC_ENUMOUTPUT, vidioc_enum_output);
->  			set_bit(_IOC_NR(VIDIOC_G_OUTPUT), valid_ioctls);
->  			set_bit(_IOC_NR(VIDIOC_S_OUTPUT), valid_ioctls);
->  			SET_VALID_IOCTL(ops, VIDIOC_ENUMAUDOUT, vidioc_enumaudout);
->  			SET_VALID_IOCTL(ops, VIDIOC_G_AUDOUT, vidioc_g_audout);
->  			SET_VALID_IOCTL(ops, VIDIOC_S_AUDOUT, vidioc_s_audout);
-> +			if (vdev->device_caps & V4L2_CAP_IO_MC)
-> +				set_bit(_IOC_NR(VIDIOC_ENUMOUTPUT), valid_ioctls);
-> +			else
-> +				SET_VALID_IOCTL(ops, VIDIOC_ENUMOUTPUT, vidioc_enum_output);
->  		}
->  		if (ops->vidioc_g_parm || ops->vidioc_g_std)
->  			set_bit(_IOC_NR(VIDIOC_G_PARM), valid_ioctls);
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 4a461de28677c5a8..a1c048c8fe6eff2f 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1085,6 +1085,36 @@ static int v4l_querycap(const struct v4l2_ioctl_ops *ops,
->  	return ret;
->  }
->  
-> +static int v4l2_ioctl_enum_input_mc(struct file *file, void *priv,
-> +				    struct v4l2_input *i)
-> +{
-> +	struct video_device *vfd = video_devdata(file);
-> +
-> +	if (i->index > 0)
-
-Just say: if (i->index)
-
-> +		return -EINVAL;
-> +
-> +	memset(i, 0, sizeof(*i));
-
-Not needed, everything after index is already zeroed.
-
-> +	strlcpy(i->name, vfd->name, sizeof(i->name));
-
-strscpy
-
-> +	i->type = V4L2_INPUT_TYPE_CAMERA;
-> +
-> +	return 0;
-> +}
-> +
-> +static int v4l2_ioctl_enum_output_mc(struct file *file, void *priv,
-> +				     struct v4l2_output *o)
-> +{
-> +	struct video_device *vfd = video_devdata(file);
-> +
-> +	if (o->index > 0)
-> +		return -EINVAL;
-> +
-> +	memset(o, 0, sizeof(*o));
-> +	strlcpy(o->name, vfd->name, sizeof(o->name));
-
-Same comments as for v4l2_ioctl_enum_input_mc.
-
-> +	o->type = V4L2_OUTPUT_TYPE_ANALOG;
-> +
-> +	return 0;
-> +}
-> +
->  static int v4l2_ioctl_g_single_input(struct file *file, void *priv, unsigned int *i)
->  {
->  	*i = 0;
-> @@ -1181,6 +1211,9 @@ static int v4l_enuminput(const struct v4l2_ioctl_ops *ops,
->  	if (is_valid_ioctl(vfd, VIDIOC_S_STD))
->  		p->capabilities |= V4L2_IN_CAP_STD;
->  
-> +	if (vfd->device_caps & V4L2_CAP_IO_MC)
-> +		return v4l2_ioctl_enum_input_mc(file, fh, p);
-
-I think you can incorporate the code of v4l2_ioctl_enum_input_mc
-here instead of creating a separate function. It's a matter of taste, though.
-
-> +
->  	return ops->vidioc_enum_input(file, fh, p);
->  }
->  
-> @@ -1199,6 +1232,9 @@ static int v4l_enumoutput(const struct v4l2_ioctl_ops *ops,
->  	if (is_valid_ioctl(vfd, VIDIOC_S_STD))
->  		p->capabilities |= V4L2_OUT_CAP_STD;
->  
-> +	if (vfd->device_caps & V4L2_CAP_IO_MC)
-> +		return v4l2_ioctl_enum_output_mc(file, fh, p);
-
-If you DO keep separate functions, then it is better to move v4l2_ioctl_enum_output_mc
-to just before this function, so the two are close together.
-
-> +
->  	return ops->vidioc_enum_output(file, fh, p);
->  }
->  
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 04481c717fee75c4..c97b55bc19eb892a 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -487,6 +487,8 @@ struct v4l2_capability {
->  
->  #define V4L2_CAP_TOUCH                  0x10000000  /* Is a touch device */
->  
-> +#define V4L2_CAP_IO_MC			0x20000000  /* Is input/output controlled by the media controller */
-> +
->  #define V4L2_CAP_DEVICE_CAPS            0x80000000  /* sets device capabilities field */
->  
->  /*
+>> The PCI controller can prevent
+>> that and in an automotive SoC, I would very much like the PCI controller
+>> to do just that, rather than hope that the endpoint would always work.
 > 
+> OK I understand - At least when working on the assumption that your RC will
+> block RC->CPU transactions that are not described in any of it's windows.
+> Thus you want to use the dma-ranges as a means to configure your controller
+> to do this.
 
-Regards,
+Yes
 
-	Hans
+> What actually happens if you have a broken endpoint that reads/writes to
+> non-existent memory on this hardware? Ideally the RC would generate a
+> CA or UR back to the endpoint - does something else happen? Lockup, dead RC,
+> performance issues?
+
+The behavior is undefined.
+
+> Using built-in features of the RC to prevent it from sending transactions
+> to non-existent addresses is clearly helpful. But of course it doesn't stop
+> a broken EP from writing to existent addresses, so only provides limited
+> protection.
+
+Correct.
+
+> Despite the good intentions here, it doesn't seem like dma-ranges is
+> designed for this purpose and as the hardware has limited ranges it will
+> only be best-effort.
+So what other options do we have ?
+
+-- 
+Best regards,
+Marek Vasut
