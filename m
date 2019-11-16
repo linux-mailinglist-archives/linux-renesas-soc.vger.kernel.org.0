@@ -2,149 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 85B0FFF36D
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Nov 2019 17:25:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AEE04FF40B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Nov 2019 17:48:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731312AbfKPQZd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 16 Nov 2019 11:25:33 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46186 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727737AbfKPQZ2 (ORCPT
+        id S1727908AbfKPQsp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 16 Nov 2019 11:48:45 -0500
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:60713 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727741AbfKPQso (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 16 Nov 2019 11:25:28 -0500
-Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1E3C821844;
-        Sat, 16 Nov 2019 16:25:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573921527;
-        bh=tKlAqIyvgm/BFvXM2Gzz+MPd2tkf5PYpf/ev0HUdeHY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=UODgzqzWaywxJGPpgNbLnK2smJSPt5HlG68zONKsKA6sF6efou8n7XUF5B3SbdvI3
-         mXBluCOmsPqBSm86Ungf7+VXXrrHRydQ6DLHZOW2wyl0J2u95J7OEGZOp9s415P9wY
-         7DhWKJkwoFFSIHF4oxNnBLfH9qPOzu3SRgMv2NO4=
-Date:   Sat, 16 Nov 2019 16:25:22 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= 
-        <niklas.soderlund@ragnatech.se>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] iio: adc: max9611: Make enum relations more future
- proof
-Message-ID: <20191116162522.1e68243c@archlinux>
-In-Reply-To: <20191114072803.GC26902@bigcity.dyn.berto.se>
-References: <20191113100938.27604-1-geert+renesas@glider.be>
-        <20191114072803.GC26902@bigcity.dyn.berto.se>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        Sat, 16 Nov 2019 11:48:44 -0500
+X-Originating-IP: 93.34.114.233
+Received: from uno.lan (93-34-114-233.ip49.fastwebnet.it [93.34.114.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 547ACE0008;
+        Sat, 16 Nov 2019 16:48:39 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [RFT 0/4] GMSL Refresh (would be v6)
+Date:   Sat, 16 Nov 2019 17:50:30 +0100
+Message-Id: <20191116165034.39001-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 14 Nov 2019 08:28:03 +0100
-Niklas S=C3=B6derlund <niklas.soderlund@ragnatech.se> wrote:
+Hello this is refersh of our GMSL work.
 
-> Hi Geert,
->=20
-> Looks good.
->=20
-> On 2019-11-13 11:09:38 +0100, Geert Uytterhoeven wrote:
-> > The relations between enum values and array indices values are currently
-> > not enforced by the code, which makes them fragile w.r.t. future
-> > changes.
-> >=20
-> > Fix this by:
-> >   1. Using designated array initializers, to make sure array indices and
-> >      enums values match,
-> >   2. Linking max9611_csa_gain enum values to the corresponding
-> >      max9611_conf_ids enum values, as the latter is cast to the former
-> >      in max9611_read_csa_voltage().
-> >=20
-> > No change in generated code.
-> >=20
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be> =20
->=20
-> Reviewed-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.se>
+Current situation is the following:
+- Kieran sent a full v4 with multiplexed stream support and has a v5 branch in
+  his repository with v4 review comment fixes on top
 
-Looks good to me, but I'd like to leave a little longer for any
-feedback from Jacopo as author of the driver.
+	I rebased the multiplexed stream's series on latest media-master
+	https://jmondi.org/cgit/linux/log/?h=v4l2-mux/media-master/v6
 
-Thanks,
+	On top of that I took Kieran's v5 and re-applied on top:
+	https://jmondi.org/cgit/linux/log/?h=jmondi/gmsl/kieran/v6
 
-Jonathan
->=20
-> > ---
-> >  drivers/iio/adc/max9611.c | 36 +++++++++++-------------------------
-> >  1 file changed, 11 insertions(+), 25 deletions(-)
-> >=20
-> > diff --git a/drivers/iio/adc/max9611.c b/drivers/iio/adc/max9611.c
-> > index b0755f25356d700d..cb306ff1a5d6a0b2 100644
-> > --- a/drivers/iio/adc/max9611.c
-> > +++ b/drivers/iio/adc/max9611.c
-> > @@ -114,22 +114,17 @@ enum max9611_conf_ids {
-> >   *		      where data shall be read from
-> >   */
-> >  static const unsigned int max9611_mux_conf[][2] =3D {
-> > -	/* CONF_SENSE_1x */
-> > -	{ MAX9611_MUX_SENSE_1x, MAX9611_REG_CSA_DATA },
-> > -	/* CONF_SENSE_4x */
-> > -	{ MAX9611_MUX_SENSE_4x, MAX9611_REG_CSA_DATA },
-> > -	/* CONF_SENSE_8x */
-> > -	{ MAX9611_MUX_SENSE_8x, MAX9611_REG_CSA_DATA },
-> > -	/* CONF_IN_VOLT */
-> > -	{ MAX9611_INPUT_VOLT, MAX9611_REG_RS_DATA },
-> > -	/* CONF_TEMP */
-> > -	{ MAX9611_MUX_TEMP, MAX9611_REG_TEMP_DATA },
-> > +	[CONF_SENSE_1x]	=3D { MAX9611_MUX_SENSE_1x, MAX9611_REG_CSA_DATA },
-> > +	[CONF_SENSE_4x]	=3D { MAX9611_MUX_SENSE_4x, MAX9611_REG_CSA_DATA },
-> > +	[CONF_SENSE_8x]	=3D { MAX9611_MUX_SENSE_8x, MAX9611_REG_CSA_DATA },
-> > +	[CONF_IN_VOLT]	=3D { MAX9611_INPUT_VOLT, MAX9611_REG_RS_DATA },
-> > +	[CONF_TEMP]	=3D { MAX9611_MUX_TEMP, MAX9611_REG_TEMP_DATA },
-> >  };
-> > =20
-> >  enum max9611_csa_gain {
-> > -	CSA_GAIN_1x,
-> > -	CSA_GAIN_4x,
-> > -	CSA_GAIN_8x,
-> > +	CSA_GAIN_1x =3D CONF_SENSE_1x,
-> > +	CSA_GAIN_4x =3D CONF_SENSE_4x,
-> > +	CSA_GAIN_8x =3D CONF_SENSE_8x,
-> >  };
-> > =20
-> >  enum max9611_csa_gain_params {
-> > @@ -147,18 +142,9 @@ enum max9611_csa_gain_params {
-> >   * value; use this structure to retrieve the correct LSB and offset va=
-lues.
-> >   */
-> >  static const unsigned int max9611_gain_conf[][2] =3D {
-> > -	{ /* [0] CSA_GAIN_1x */
-> > -		MAX9611_CSA_1X_LSB_nV,
-> > -		MAX9611_CSA_1X_OFFS_RAW,
-> > -	},
-> > -	{ /* [1] CSA_GAIN_4x */
-> > -		MAX9611_CSA_4X_LSB_nV,
-> > -		MAX9611_CSA_4X_OFFS_RAW,
-> > -	},
-> > -	{ /* [2] CSA_GAIN_8x */
-> > -		MAX9611_CSA_8X_LSB_nV,
-> > -		MAX9611_CSA_8X_OFFS_RAW,
-> > -	},
-> > +	[CSA_GAIN_1x] =3D { MAX9611_CSA_1X_LSB_nV, MAX9611_CSA_1X_OFFS_RAW, },
-> > +	[CSA_GAIN_4x] =3D { MAX9611_CSA_4X_LSB_nV, MAX9611_CSA_4X_OFFS_RAW, },
-> > +	[CSA_GAIN_8x] =3D { MAX9611_CSA_8X_LSB_nV, MAX9611_CSA_8X_OFFS_RAW, },
-> >  };
-> > =20
-> >  enum max9611_chan_addrs {
-> > --=20
-> > 2.17.1
-> >  =20
->=20
+- Niklas sent a v1 (which sould have been a v5) which removes multiplexed
+  streams and only support one camera and was meant for inclusion but is still
+  floating around in linux-media, mostly because some of the comments on
+  Kieran's v4 still applied there, if I'm not mistaken.
+
+	I took Niklas' single stream max9286 and replaced the original
+	bindings with a json-schema version
+	https://jmondi.org/cgit/linux/log/?h=jmondi/gmsl/niklas/v6
+
+I bumped all versions to v6 to avoid further confusion.
+
+Not having a working GMSL setup I would ask to Kieran or Niklas to test this
+version so that we can try re-send the single stream max9286 version with new
+yaml bindings for inclusion.
+
+(I kept linux-media e devicetree out as I would like to test the patches before
+expanding the receivers list)
+
+Thanks
+   j
+
+Jacopo Mondi (2):
+  arm64: dts: renesas: Add Maxim GMSL expansion board
+  arm64: dts: renesas: r8a7796=salvator-x: Include GMSL
+
+Laurent Pinchart (1):
+  dt-bindings: media: i2c: Add bindings for Maxim Integrated MAX9286
+
+Niklas Söderlund (1):
+  max9286: Add MAX9286 driver
+
+ .../bindings/media/i2c/maxim,max9286.yaml     |  286 +++++
+ MAINTAINERS                                   |   10 +
+ .../boot/dts/renesas/r8a7795-salvator-x.dts   |    1 +
+ .../boot/dts/renesas/salvator-x-max9286.dtsi  |  394 ++++++
+ drivers/media/i2c/Kconfig                     |   11 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/max9286.c                   | 1081 +++++++++++++++++
+ 7 files changed, 1784 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+ create mode 100644 arch/arm64/boot/dts/renesas/salvator-x-max9286.dtsi
+ create mode 100644 drivers/media/i2c/max9286.c
+
+--
+2.23.0
 
