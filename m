@@ -2,189 +2,75 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 374E7FF45F
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 16 Nov 2019 18:32:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 90871FF85C
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 17 Nov 2019 08:21:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727743AbfKPRcp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 16 Nov 2019 12:32:45 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37722 "EHLO mail.kernel.org"
+        id S1726322AbfKQHVx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 17 Nov 2019 02:21:53 -0500
+Received: from sauhun.de ([88.99.104.3]:60248 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727642AbfKPRcp (ORCPT
+        id S1726047AbfKQHVx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 16 Nov 2019 12:32:45 -0500
-Received: from archlinux (cpc149474-cmbg20-2-0-cust94.5-4.cable.virginm.net [82.4.196.95])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7CAAB216F4;
-        Sat, 16 Nov 2019 17:32:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573925564;
-        bh=mpNFsfEeInlH3gh4xKrQMyoGDIZbQFulbhHFQfnpjw0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=kKWTAlz2Tx1YpKBdjcGZKlvPHsOOZH1COF8qrC4uewTjgaztbbjmQ+yOBrIIqmNxj
-         ehVqdLmz2dsSI7muNyh9ESDFXUyOq/GEvmZVTGk+HebhlRQWhbrFXr8pJQVF665inh
-         FCpiYAv/PMb5IxnQkJuke6VbHtKcpvGRKrDRjYBA=
-Date:   Sat, 16 Nov 2019 17:32:39 +0000
-From:   Jonathan Cameron <jic23@kernel.org>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= 
-        <niklas.soderlund@ragnatech.se>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] iio: adc: max9611: Make enum relations more future
- proof
-Message-ID: <20191116173239.120b9783@archlinux>
-In-Reply-To: <20191116165444.4fsqfrzimachyal3@uno.localdomain>
-References: <20191113100938.27604-1-geert+renesas@glider.be>
-        <20191114072803.GC26902@bigcity.dyn.berto.se>
-        <20191116162522.1e68243c@archlinux>
-        <20191116165444.4fsqfrzimachyal3@uno.localdomain>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        Sun, 17 Nov 2019 02:21:53 -0500
+Received: from localhost (unknown [94.230.152.199])
+        by pokefinder.org (Postfix) with ESMTPSA id 08BD12C01C5;
+        Sun, 17 Nov 2019 08:21:50 +0100 (CET)
+Date:   Sun, 17 Nov 2019 08:21:50 +0100
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jean Delvare <jdelvare@suse.de>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] i2c: remove helpers for ref-counting clients
+Message-ID: <20191117072150.GA885@kunai>
+References: <20191109212615.9254-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="gKMricLos+KVdGMg"
+Content-Disposition: inline
+In-Reply-To: <20191109212615.9254-1-wsa+renesas@sang-engineering.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, 16 Nov 2019 17:54:44 +0100
-Jacopo Mondi <jacopo@jmondi.org> wrote:
 
-> Hello,
+--gKMricLos+KVdGMg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sat, Nov 09, 2019 at 10:26:15PM +0100, Wolfram Sang wrote:
+> There are no in-tree users of these helpers anymore, and there
+> shouldn't. Most use cases went away once the driver model started to
+> refcount for us. There have been users like the media subsystem, but
+> they all switched to better refcounting methods meanwhile. Media did
+> this in 2008. Last user (IPMI) left 2018. Remove this cruft.
 >=20
-> On Sat, Nov 16, 2019 at 04:25:22PM +0000, Jonathan Cameron wrote:
-> > On Thu, 14 Nov 2019 08:28:03 +0100
-> > Niklas S=C3=B6derlund <niklas.soderlund@ragnatech.se> wrote:
-> > =20
-> > > Hi Geert,
-> > >
-> > > Looks good.
-> > >
-> > > On 2019-11-13 11:09:38 +0100, Geert Uytterhoeven wrote: =20
-> > > > The relations between enum values and array indices values are curr=
-ently
-> > > > not enforced by the code, which makes them fragile w.r.t. future
-> > > > changes.
-> > > >
-> > > > Fix this by:
-> > > >   1. Using designated array initializers, to make sure array indice=
-s and
-> > > >      enums values match,
-> > > >   2. Linking max9611_csa_gain enum values to the corresponding
-> > > >      max9611_conf_ids enum values, as the latter is cast to the for=
-mer
-> > > >      in max9611_read_csa_voltage().
-> > > >
-> > > > No change in generated code.
-> > > >
-> > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be> =20
-> > >
-> > > Reviewed-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatec=
-h.se> =20
-> >
-> > Looks good to me, but I'd like to leave a little longer for any
-> > feedback from Jacopo as author of the driver. =20
->=20
-> yeah, sorry I've been sloppy.. I meant to give the patches a run, but
-> it seems there are only syntactic changes here, which indeed make the
-> code more robust.
->=20
-> Even if not tested, please add
-> Acked-by: Jacopo Mondi <jacopo@jmondi.org>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Thanks!
+Applied to for-next, thanks!
 
-Applied to the togreg branch of iio.git and pushed out as testing
-for the autobuilders to poke at it.
 
-Thanks,
+--gKMricLos+KVdGMg
+Content-Type: application/pgp-signature; name="signature.asc"
 
-J
->=20
-> Thanks
->   j
->=20
-> >
-> > Thanks,
-> >
-> > Jonathan =20
-> > > =20
-> > > > ---
-> > > >  drivers/iio/adc/max9611.c | 36 +++++++++++-------------------------
-> > > >  1 file changed, 11 insertions(+), 25 deletions(-)
-> > > >
-> > > > diff --git a/drivers/iio/adc/max9611.c b/drivers/iio/adc/max9611.c
-> > > > index b0755f25356d700d..cb306ff1a5d6a0b2 100644
-> > > > --- a/drivers/iio/adc/max9611.c
-> > > > +++ b/drivers/iio/adc/max9611.c
-> > > > @@ -114,22 +114,17 @@ enum max9611_conf_ids {
-> > > >   *		      where data shall be read from
-> > > >   */
-> > > >  static const unsigned int max9611_mux_conf[][2] =3D {
-> > > > -	/* CONF_SENSE_1x */
-> > > > -	{ MAX9611_MUX_SENSE_1x, MAX9611_REG_CSA_DATA },
-> > > > -	/* CONF_SENSE_4x */
-> > > > -	{ MAX9611_MUX_SENSE_4x, MAX9611_REG_CSA_DATA },
-> > > > -	/* CONF_SENSE_8x */
-> > > > -	{ MAX9611_MUX_SENSE_8x, MAX9611_REG_CSA_DATA },
-> > > > -	/* CONF_IN_VOLT */
-> > > > -	{ MAX9611_INPUT_VOLT, MAX9611_REG_RS_DATA },
-> > > > -	/* CONF_TEMP */
-> > > > -	{ MAX9611_MUX_TEMP, MAX9611_REG_TEMP_DATA },
-> > > > +	[CONF_SENSE_1x]	=3D { MAX9611_MUX_SENSE_1x, MAX9611_REG_CSA_DATA =
-},
-> > > > +	[CONF_SENSE_4x]	=3D { MAX9611_MUX_SENSE_4x, MAX9611_REG_CSA_DATA =
-},
-> > > > +	[CONF_SENSE_8x]	=3D { MAX9611_MUX_SENSE_8x, MAX9611_REG_CSA_DATA =
-},
-> > > > +	[CONF_IN_VOLT]	=3D { MAX9611_INPUT_VOLT, MAX9611_REG_RS_DATA },
-> > > > +	[CONF_TEMP]	=3D { MAX9611_MUX_TEMP, MAX9611_REG_TEMP_DATA },
-> > > >  };
-> > > >
-> > > >  enum max9611_csa_gain {
-> > > > -	CSA_GAIN_1x,
-> > > > -	CSA_GAIN_4x,
-> > > > -	CSA_GAIN_8x,
-> > > > +	CSA_GAIN_1x =3D CONF_SENSE_1x,
-> > > > +	CSA_GAIN_4x =3D CONF_SENSE_4x,
-> > > > +	CSA_GAIN_8x =3D CONF_SENSE_8x,
-> > > >  };
-> > > >
-> > > >  enum max9611_csa_gain_params {
-> > > > @@ -147,18 +142,9 @@ enum max9611_csa_gain_params {
-> > > >   * value; use this structure to retrieve the correct LSB and offse=
-t values.
-> > > >   */
-> > > >  static const unsigned int max9611_gain_conf[][2] =3D {
-> > > > -	{ /* [0] CSA_GAIN_1x */
-> > > > -		MAX9611_CSA_1X_LSB_nV,
-> > > > -		MAX9611_CSA_1X_OFFS_RAW,
-> > > > -	},
-> > > > -	{ /* [1] CSA_GAIN_4x */
-> > > > -		MAX9611_CSA_4X_LSB_nV,
-> > > > -		MAX9611_CSA_4X_OFFS_RAW,
-> > > > -	},
-> > > > -	{ /* [2] CSA_GAIN_8x */
-> > > > -		MAX9611_CSA_8X_LSB_nV,
-> > > > -		MAX9611_CSA_8X_OFFS_RAW,
-> > > > -	},
-> > > > +	[CSA_GAIN_1x] =3D { MAX9611_CSA_1X_LSB_nV, MAX9611_CSA_1X_OFFS_RA=
-W, },
-> > > > +	[CSA_GAIN_4x] =3D { MAX9611_CSA_4X_LSB_nV, MAX9611_CSA_4X_OFFS_RA=
-W, },
-> > > > +	[CSA_GAIN_8x] =3D { MAX9611_CSA_8X_LSB_nV, MAX9611_CSA_8X_OFFS_RA=
-W, },
-> > > >  };
-> > > >
-> > > >  enum max9611_chan_addrs {
-> > > > --
-> > > > 2.17.1
-> > > > =20
-> > > =20
-> > =20
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl3Q9OkACgkQFA3kzBSg
+KbYxiA//U0A4/LrM166YRQn5IKHVVc9zXi/J0DCXl9kE4Luo/Lexd8sKF1J+D33J
+t2Q+Qiw++MiFF2+lLnrAU+sfJGj4pRSU5874CVF56oUdGygQ+FI9u2sEt+UG4aFE
+wEiLySOebVUProNKIlsbb1h0nQ6fR01TGHNMAKqRvNiqTJxi+AWOJCSoCN3he8l5
+Y2kg3s8a2gNefJ8BQRPuARHYAcysNaHtIcZFT8G8tCCPNI08UlQU+eSHYW021cVn
+rfkctvIDjjTQOnoa4QX4EjvKIqDJcNMy4OWHbGRpdDquFW524ZXsKdGYCe70o9G0
+X1GltUR126aQgf1BSR/gwmKar/KrIas01ysfXI7pbH1BO1hv6kVGZi6cpWw86Dmm
+vz9STNMMaPW31ky9hv6pHMZu5RkrvuiCeYXySber4bdggSzbm5ILDtYByG+T1ctQ
+iT7viLWwnFuBXzZIruNZDdN1T81oriTNG897roP/n4hc5yzrOdjr1oaMOD6IeoB+
+jnlTagm3YZd7EUzEVRc4orW+QVNt96DCK+EsEpraXRAQz0Dsc3K/VvTlKdI+xTzd
+TlGm/e8DKBLVhad2AQZqSky9Ovo7Rst0ZD7YQG+YkrLHLtBPGjarRq9J1gQMXDhT
+6IQmIfblmdrc+Zpi9A1CvN48VmJgKz6Q0elrSa9567JrEf6apHk=
+=XZ/m
+-----END PGP SIGNATURE-----
+
+--gKMricLos+KVdGMg--
