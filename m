@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E0FE100F96
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2019 00:58:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D88A100F9B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2019 01:01:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726830AbfKRX6J (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Nov 2019 18:58:09 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:60518 "EHLO
+        id S1726895AbfKSABF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Nov 2019 19:01:05 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:60584 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726809AbfKRX6J (ORCPT
+        with ESMTP id S1726809AbfKSABE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Nov 2019 18:58:09 -0500
+        Mon, 18 Nov 2019 19:01:04 -0500
 Received: from pendragon.ideasonboard.com (unknown [38.98.37.142])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B2CBA563;
-        Tue, 19 Nov 2019 00:58:06 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 38954563;
+        Tue, 19 Nov 2019 01:00:58 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1574121487;
-        bh=Mxk6rk2xF2thaig3R3p3Gkx/6h3F0FLe6+BRnlHkuvc=;
+        s=mail; t=1574121661;
+        bh=0G6D7k7W4EaNrXqaHxBB7y8OSebrjI5ZIkP5EkJU2WE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NTexvwR44K59XOTHnJRxJQvxBcwFnXbk3AfI2NBTZi6Rq+VAuiQ+0UR4zoN58y8oH
-         Ji1ZOecBBRIinFjIGawGntKHcFhbjCX+4W/c5GKv1mA4KDnW34UCdB0oLORRcecfTk
-         6k8R2ibCJdXr2pUM5YttJEg3QiL9gHVi6N+wmkAs=
-Date:   Tue, 19 Nov 2019 01:57:55 +0200
+        b=AIlXJHRPi2csO9B3816K4Sfip5ehecIDEWekJvtxXHFWBCsEv5pqWLB1JI2EWd8Jl
+         9PbELbavp/lDd+nM3yWTYaejNNZY0KEev0kPrbSzN5n7GIt6WG0mvk1J3S0jFQnyII
+         VTHhtLJmETchwnGEf0FCTVAVKbMH0cnbdVgJVWwY=
+Date:   Tue, 19 Nov 2019 02:00:47 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 Cc:     Neil Armstrong <narmstrong@baylibre.com>,
@@ -40,15 +40,14 @@ Cc:     Neil Armstrong <narmstrong@baylibre.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: Re: [PATCH v4 04/13] dt-bindings: display: bridge: lvds-transmitter:
- Document "ti,sn75lvds83"
-Message-ID: <20191118235755.GD5171@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v4 05/13] drm/bridge: Repurpose lvds-encoder.c
+Message-ID: <20191119000047.GE5171@pendragon.ideasonboard.com>
 References: <1573660292-10629-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1573660292-10629-5-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1573660292-10629-6-git-send-email-fabrizio.castro@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1573660292-10629-5-git-send-email-fabrizio.castro@bp.renesas.com>
+In-Reply-To: <1573660292-10629-6-git-send-email-fabrizio.castro@bp.renesas.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -59,10 +58,16 @@ Hi Fabrizio,
 
 Thank you for the patch.
 
-On Wed, Nov 13, 2019 at 03:51:23PM +0000, Fabrizio Castro wrote:
-> Compatible string "ti,sn75lvds83" is being used by device tree
-> rk3188-bqedison2qc.dts, but it's not documented anywhere, therefore
-> document it within lvds-transmitter.yaml.
+On Wed, Nov 13, 2019 at 03:51:24PM +0000, Fabrizio Castro wrote:
+> lvds-encoder.c implementation is also suitable for LVDS decoders,
+> not just LVDS encoders.
+> Instead of creating a new driver for addressing support for
+> transparent LVDS decoders, repurpose lvds-encoder.c for the greater
+> good with this patch.
+> 
+> This patch only "rebrands" the lvds-encoder.c driver, to make it
+> suitable for hosting LVDS decoders support. The actual support for
+> LVDS decoders will come with a later patch.
 > 
 > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 
@@ -70,23 +75,235 @@ Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
 > v3->v4:
-> * New patch
+> * The patch now only renames the driver (with related data structures
+>   and build options), changes the description of the module, and
+>   refreshes the copyright
+> v2->v3:
+> * No change
+> v1->v2:
+> * No change
 > ---
->  Documentation/devicetree/bindings/display/bridge/lvds-transmitter.yaml | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/gpu/drm/bridge/Kconfig                     |  8 +-
+>  drivers/gpu/drm/bridge/Makefile                    |  2 +-
+>  .../drm/bridge/{lvds-encoder.c => lvds-codec.c}    | 97 +++++++++++-----------
+>  3 files changed, 53 insertions(+), 54 deletions(-)
+>  rename drivers/gpu/drm/bridge/{lvds-encoder.c => lvds-codec.c} (45%)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-transmitter.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-transmitter.yaml
-> index a8326ce..27de616 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/lvds-transmitter.yaml
-> +++ b/Documentation/devicetree/bindings/display/bridge/lvds-transmitter.yaml
-> @@ -37,6 +37,7 @@ properties:
->        - enum:
->          - ti,ds90c185       # For the TI DS90C185 FPD-Link Serializer
->          - ti,ds90c187       # For the TI DS90C187 FPD-Link Serializer
-> +        - ti,sn75lvds83     # For the TI SN75LVDS83 FlatLink transmitter
->        - const: lvds-encoder # Generic LVDS encoder compatible fallback
+> diff --git a/drivers/gpu/drm/bridge/Kconfig b/drivers/gpu/drm/bridge/Kconfig
+> index 3436297..fbbea46 100644
+> --- a/drivers/gpu/drm/bridge/Kconfig
+> +++ b/drivers/gpu/drm/bridge/Kconfig
+> @@ -45,14 +45,14 @@ config DRM_DUMB_VGA_DAC
+>  	  Support for non-programmable RGB to VGA DAC bridges, such as ADI
+>  	  ADV7123, TI THS8134 and THS8135 or passive resistor ladder DACs.
 >  
->    ports:
+> -config DRM_LVDS_ENCODER
+> -	tristate "Transparent parallel to LVDS encoder support"
+> +config DRM_LVDS_CODEC
+> +	tristate "Transparent LVDS encoders and decoders support"
+>  	depends on OF
+>  	select DRM_KMS_HELPER
+>  	select DRM_PANEL_BRIDGE
+>  	help
+> -	  Support for transparent parallel to LVDS encoders that don't require
+> -	  any configuration.
+> +	  Support for transparent LVDS encoders and decoders that don't
+> +	  require any configuration.
+>  
+>  config DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW
+>  	tristate "MegaChips stdp4028-ge-b850v3-fw and stdp2690-ge-b850v3-fw"
+> diff --git a/drivers/gpu/drm/bridge/Makefile b/drivers/gpu/drm/bridge/Makefile
+> index 4934fcf..8a9178a 100644
+> --- a/drivers/gpu/drm/bridge/Makefile
+> +++ b/drivers/gpu/drm/bridge/Makefile
+> @@ -2,7 +2,7 @@
+>  obj-$(CONFIG_DRM_ANALOGIX_ANX78XX) += analogix-anx78xx.o
+>  obj-$(CONFIG_DRM_CDNS_DSI) += cdns-dsi.o
+>  obj-$(CONFIG_DRM_DUMB_VGA_DAC) += dumb-vga-dac.o
+> -obj-$(CONFIG_DRM_LVDS_ENCODER) += lvds-encoder.o
+> +obj-$(CONFIG_DRM_LVDS_CODEC) += lvds-codec.o
+>  obj-$(CONFIG_DRM_MEGACHIPS_STDPXXXX_GE_B850V3_FW) += megachips-stdpxxxx-ge-b850v3-fw.o
+>  obj-$(CONFIG_DRM_NXP_PTN3460) += nxp-ptn3460.o
+>  obj-$(CONFIG_DRM_PARADE_PS8622) += parade-ps8622.o
+> diff --git a/drivers/gpu/drm/bridge/lvds-encoder.c b/drivers/gpu/drm/bridge/lvds-codec.c
+> similarity index 45%
+> rename from drivers/gpu/drm/bridge/lvds-encoder.c
+> rename to drivers/gpu/drm/bridge/lvds-codec.c
+> index e2132a8..b5801a2 100644
+> --- a/drivers/gpu/drm/bridge/lvds-encoder.c
+> +++ b/drivers/gpu/drm/bridge/lvds-codec.c
+> @@ -1,5 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-or-later
+>  /*
+> + * Copyright (C) 2019 Renesas Electronics Corporation
+>   * Copyright (C) 2016 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>   */
+>  
+> @@ -12,65 +13,62 @@
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_panel.h>
+>  
+> -struct lvds_encoder {
+> +struct lvds_codec {
+>  	struct drm_bridge bridge;
+>  	struct drm_bridge *panel_bridge;
+>  	struct gpio_desc *powerdown_gpio;
+>  };
+>  
+> -static int lvds_encoder_attach(struct drm_bridge *bridge)
+> +static int lvds_codec_attach(struct drm_bridge *bridge)
+>  {
+> -	struct lvds_encoder *lvds_encoder = container_of(bridge,
+> -							 struct lvds_encoder,
+> -							 bridge);
+> +	struct lvds_codec *lvds_codec = container_of(bridge,
+> +						     struct lvds_codec, bridge);
+>  
+> -	return drm_bridge_attach(bridge->encoder, lvds_encoder->panel_bridge,
+> +	return drm_bridge_attach(bridge->encoder, lvds_codec->panel_bridge,
+>  				 bridge);
+>  }
+>  
+> -static void lvds_encoder_enable(struct drm_bridge *bridge)
+> +static void lvds_codec_enable(struct drm_bridge *bridge)
+>  {
+> -	struct lvds_encoder *lvds_encoder = container_of(bridge,
+> -							 struct lvds_encoder,
+> -							 bridge);
+> +	struct lvds_codec *lvds_codec = container_of(bridge,
+> +						     struct lvds_codec, bridge);
+>  
+> -	if (lvds_encoder->powerdown_gpio)
+> -		gpiod_set_value_cansleep(lvds_encoder->powerdown_gpio, 0);
+> +	if (lvds_codec->powerdown_gpio)
+> +		gpiod_set_value_cansleep(lvds_codec->powerdown_gpio, 0);
+>  }
+>  
+> -static void lvds_encoder_disable(struct drm_bridge *bridge)
+> +static void lvds_codec_disable(struct drm_bridge *bridge)
+>  {
+> -	struct lvds_encoder *lvds_encoder = container_of(bridge,
+> -							 struct lvds_encoder,
+> -							 bridge);
+> +	struct lvds_codec *lvds_codec = container_of(bridge,
+> +						     struct lvds_codec, bridge);
+>  
+> -	if (lvds_encoder->powerdown_gpio)
+> -		gpiod_set_value_cansleep(lvds_encoder->powerdown_gpio, 1);
+> +	if (lvds_codec->powerdown_gpio)
+> +		gpiod_set_value_cansleep(lvds_codec->powerdown_gpio, 1);
+>  }
+>  
+>  static struct drm_bridge_funcs funcs = {
+> -	.attach = lvds_encoder_attach,
+> -	.enable = lvds_encoder_enable,
+> -	.disable = lvds_encoder_disable,
+> +	.attach = lvds_codec_attach,
+> +	.enable = lvds_codec_enable,
+> +	.disable = lvds_codec_disable,
+>  };
+>  
+> -static int lvds_encoder_probe(struct platform_device *pdev)
+> +static int lvds_codec_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+>  	struct device_node *port;
+>  	struct device_node *endpoint;
+>  	struct device_node *panel_node;
+>  	struct drm_panel *panel;
+> -	struct lvds_encoder *lvds_encoder;
+> +	struct lvds_codec *lvds_codec;
+>  
+> -	lvds_encoder = devm_kzalloc(dev, sizeof(*lvds_encoder), GFP_KERNEL);
+> -	if (!lvds_encoder)
+> +	lvds_codec = devm_kzalloc(dev, sizeof(*lvds_codec), GFP_KERNEL);
+> +	if (!lvds_codec)
+>  		return -ENOMEM;
+>  
+> -	lvds_encoder->powerdown_gpio = devm_gpiod_get_optional(dev, "powerdown",
+> -							       GPIOD_OUT_HIGH);
+> -	if (IS_ERR(lvds_encoder->powerdown_gpio)) {
+> -		int err = PTR_ERR(lvds_encoder->powerdown_gpio);
+> +	lvds_codec->powerdown_gpio = devm_gpiod_get_optional(dev, "powerdown",
+> +							     GPIOD_OUT_HIGH);
+> +	if (IS_ERR(lvds_codec->powerdown_gpio)) {
+> +		int err = PTR_ERR(lvds_codec->powerdown_gpio);
+>  
+>  		if (err != -EPROBE_DEFER)
+>  			dev_err(dev, "powerdown GPIO failure: %d\n", err);
+> @@ -105,51 +103,52 @@ static int lvds_encoder_probe(struct platform_device *pdev)
+>  		return PTR_ERR(panel);
+>  	}
+>  
+> -	lvds_encoder->panel_bridge =
+> +	lvds_codec->panel_bridge =
+>  		devm_drm_panel_bridge_add_typed(dev, panel,
+>  						DRM_MODE_CONNECTOR_LVDS);
+> -	if (IS_ERR(lvds_encoder->panel_bridge))
+> -		return PTR_ERR(lvds_encoder->panel_bridge);
+> +	if (IS_ERR(lvds_codec->panel_bridge))
+> +		return PTR_ERR(lvds_codec->panel_bridge);
+>  
+> -	/* The panel_bridge bridge is attached to the panel's of_node,
+> +	/*
+> +	 * The panel_bridge bridge is attached to the panel's of_node,
+>  	 * but we need a bridge attached to our of_node for our user
+>  	 * to look up.
+>  	 */
+> -	lvds_encoder->bridge.of_node = dev->of_node;
+> -	lvds_encoder->bridge.funcs = &funcs;
+> -	drm_bridge_add(&lvds_encoder->bridge);
+> +	lvds_codec->bridge.of_node = dev->of_node;
+> +	lvds_codec->bridge.funcs = &funcs;
+> +	drm_bridge_add(&lvds_codec->bridge);
+>  
+> -	platform_set_drvdata(pdev, lvds_encoder);
+> +	platform_set_drvdata(pdev, lvds_codec);
+>  
+>  	return 0;
+>  }
+>  
+> -static int lvds_encoder_remove(struct platform_device *pdev)
+> +static int lvds_codec_remove(struct platform_device *pdev)
+>  {
+> -	struct lvds_encoder *lvds_encoder = platform_get_drvdata(pdev);
+> +	struct lvds_codec *lvds_codec = platform_get_drvdata(pdev);
+>  
+> -	drm_bridge_remove(&lvds_encoder->bridge);
+> +	drm_bridge_remove(&lvds_codec->bridge);
+>  
+>  	return 0;
+>  }
+>  
+> -static const struct of_device_id lvds_encoder_match[] = {
+> +static const struct of_device_id lvds_codec_match[] = {
+>  	{ .compatible = "lvds-encoder" },
+>  	{ .compatible = "thine,thc63lvdm83d" },
+>  	{},
+>  };
+> -MODULE_DEVICE_TABLE(of, lvds_encoder_match);
+> +MODULE_DEVICE_TABLE(of, lvds_codec_match);
+>  
+> -static struct platform_driver lvds_encoder_driver = {
+> -	.probe	= lvds_encoder_probe,
+> -	.remove	= lvds_encoder_remove,
+> +static struct platform_driver lvds_codec_driver = {
+> +	.probe	= lvds_codec_probe,
+> +	.remove	= lvds_codec_remove,
+>  	.driver		= {
+> -		.name		= "lvds-encoder",
+> -		.of_match_table	= lvds_encoder_match,
+> +		.name		= "lvds-codec",
+> +		.of_match_table	= lvds_codec_match,
+>  	},
+>  };
+> -module_platform_driver(lvds_encoder_driver);
+> +module_platform_driver(lvds_codec_driver);
+>  
+>  MODULE_AUTHOR("Laurent Pinchart <laurent.pinchart@ideasonboard.com>");
+> -MODULE_DESCRIPTION("Transparent parallel to LVDS encoder");
+> +MODULE_DESCRIPTION("LVDS encoders and decoders");
+>  MODULE_LICENSE("GPL");
 
 -- 
 Regards,
