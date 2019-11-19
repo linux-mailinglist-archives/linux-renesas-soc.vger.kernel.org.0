@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2398E100FC7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2019 01:16:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9BE0100FCC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2019 01:19:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726933AbfKSAQh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Nov 2019 19:16:37 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:60922 "EHLO
+        id S1726911AbfKSATe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Nov 2019 19:19:34 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:32800 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726809AbfKSAQh (ORCPT
+        with ESMTP id S1726809AbfKSATe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Nov 2019 19:16:37 -0500
+        Mon, 18 Nov 2019 19:19:34 -0500
 Received: from pendragon.ideasonboard.com (unknown [38.98.37.142])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AA4A9563;
-        Tue, 19 Nov 2019 01:16:30 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF3F0563;
+        Tue, 19 Nov 2019 01:19:28 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1574122594;
-        bh=8DSMhIt1red9wOEJPGSQTtqxJri+IPOlQSZhcYRsBJY=;
+        s=mail; t=1574122771;
+        bh=vlkuKu9sK/q05JyLvuh2kZKytL/A+MShiE20ocAAk4w=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=I5JiWhYw3hHwBr6G3BJc16LkawhbHXpGMS+xZJTLk9uApp5X+yD0UhF2qi59OWZyA
-         dDymuEHfNRLSwJWE2W0wVVTcM+OH80TGKTqwElh3G0fx7nWYXVAHuga65OhRy+AIqP
-         NpWODRRsf22OR6GAgxVdHCokeOVln9iC6AHNgdkY=
-Date:   Tue, 19 Nov 2019 02:16:16 +0200
+        b=i35tMmEh6BW60LUKlcTqtPW3FRbRE1M4KDX4lJqey0kJh4PoV26D8z61OZouuqlF2
+         bHGTxuHcCeBcFWDc+EAUpRdkMf5QyYhewkInc0df+ob22XIjk9y2khyBamV6YXrNsU
+         ZuDZQAj9qtNjEjLAxvjqfTpKr4Qjus5KBsx/oAF8=
+Date:   Tue, 19 Nov 2019 02:19:08 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 Cc:     Neil Armstrong <narmstrong@baylibre.com>,
@@ -40,15 +40,15 @@ Cc:     Neil Armstrong <narmstrong@baylibre.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: Re: [PATCH v4 12/13] [HACK] drm/bridge: lvds-codec: Enforce device
- specific compatible strings
-Message-ID: <20191119001616.GL5171@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v4 13/13] [HACK] dt-bindings: display: bridge:
+ lvds-codec: Absorb thine,thc63lvdm83d.txt
+Message-ID: <20191119001908.GM5171@pendragon.ideasonboard.com>
 References: <1573660292-10629-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1573660292-10629-13-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1573660292-10629-14-git-send-email-fabrizio.castro@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1573660292-10629-13-git-send-email-fabrizio.castro@bp.renesas.com>
+In-Reply-To: <1573660292-10629-14-git-send-email-fabrizio.castro@bp.renesas.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -59,150 +59,117 @@ Hi Fabrizio,
 
 Thank you for the patch.
 
-On Wed, Nov 13, 2019 at 03:51:31PM +0000, Fabrizio Castro wrote:
-> The lvds-codec driver is a generic stub for transparent LVDS
-> encoders and decoders.
-> It's good practice to list a device specific compatible string
-
-s/good practice/mandatory/
-
-> before the generic fallback (if any) in the DT node for the relevant
-> LVDS encoder/decoder, and it's also required by the dt-bindings.
-> A notable exception to the generic fallback mechanism is the case
-> of "thine,thc63lvdm83d", as documented in:
-> Documentation/devicetree/bindings/display/bridge/thine,thc63lvdm83d.txt
-> This patch enforces the adoption of a device specific compatible
-> string (as fist string in the list), by using markers for the
-
-s/fist/first/
-
-> compatible string we match against and the index of the matching
-> compatible string in the list.
+On Wed, Nov 13, 2019 at 03:51:32PM +0000, Fabrizio Castro wrote:
+> At this point in time, compatible string "thine,thc63lvdm83d" is
+> backed by the lvds-codec driver, and the documentation contained
+> in thine,thc63lvdm83d.txt is basically the same as the one
+> contained in lvds-codec.yaml (generic fallback compatible string
+> aside), therefore absorb thine,thc63lvdm83d.txt.
 > 
 > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 > 
 > ---
 > Hi Laurent,
 > 
-> I don't think we need to do anything in the driver to address your
-> comment, as we can "enforce" this with the bindings (please see the
-> next patch, as it would help with the "enforcing" of the compatible
-> string for the thine device).
-> I am sending this patch only so that you can see what a possible
-> solution in the driver could look like.
-> 
+> what do you think about this patch?
+
+I think it's good :-)
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+It however doesn't address my concern that resulted in patch 12/13. A
+DTB could still contain only lvds-encoder or lvds-decoder, even if the
+DT bindings forbid it. Adding a check in the driver would enforce the
+use of a device-specific compatible string. It adds quite a bit of
+complexity though :-S
+
 > v3->v4:
-> * New patch addressing the below comment from Laurent:
-> "I think the lvds-decoder driver should error out at probe time if only
-> one compatible string is listed."
+> * New patch
 > ---
->  drivers/gpu/drm/bridge/lvds-codec.c | 55 +++++++++++++++++++++++++++++++++----
->  1 file changed, 49 insertions(+), 6 deletions(-)
+>  .../bindings/display/bridge/lvds-codec.yaml        |  5 +--
+>  .../bindings/display/bridge/thine,thc63lvdm83d.txt | 50 ----------------------
+>  2 files changed, 2 insertions(+), 53 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/bridge/thine,thc63lvdm83d.txt
 > 
-> diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
-> index 784bbd3..145c25d 100644
-> --- a/drivers/gpu/drm/bridge/lvds-codec.c
-> +++ b/drivers/gpu/drm/bridge/lvds-codec.c
-> @@ -14,11 +14,16 @@
->  #include <drm/drm_bridge.h>
->  #include <drm/drm_panel.h>
+> diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> index 21f8c6e..420bfce 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+> @@ -30,9 +30,6 @@ description: |
 >  
-> +struct lvds_codec_data {
-> +	u32 connector_type;
-> +	bool device_specific;
-> +};
-> +
->  struct lvds_codec {
->  	struct drm_bridge bridge;
->  	struct drm_bridge *panel_bridge;
->  	struct gpio_desc *powerdown_gpio;
-> -	u32 connector_type;
-> +	const struct lvds_codec_data *data;
->  };
+>  properties:
+>    compatible:
+> -    description: |
+> -      Must list the device specific compatible string first, followed by the
+> -      generic compatible string.
+>      oneOf:
+>        - items:
+>          - enum:
+> @@ -44,6 +41,8 @@ properties:
+>          - enum:
+>            - ti,ds90cf384a     # For the DS90CF384A FPD-Link LVDS Receiver
+>          - const: lvds-decoder # Generic LVDS decoders compatible fallback
+> +      - enum:
+> +        - thine,thc63lvdm83d  # For the THC63LVDM83D LVDS serializer
 >  
->  static int lvds_codec_attach(struct drm_bridge *bridge)
-> @@ -65,7 +70,30 @@ static int lvds_codec_probe(struct platform_device *pdev)
->  	if (!lvds_codec)
->  		return -ENOMEM;
->  
-> -	lvds_codec->connector_type = (u32)of_device_get_match_data(&pdev->dev);
-> +	lvds_codec->data = of_device_get_match_data(&pdev->dev);
-> +	if (!lvds_codec->data)
-> +		return -EINVAL;
-> +
-> +	/*
-> +	 * If we haven't matched a device specific compatible string, we need
-> +	 * to work out if the generic compatible string we matched against was
-> +	 * listed first in the compatible property.
-> +	 */
-
-Can't we do this unconditionally, and thus drop the lvds_codec_data
-structure ?
-
-> +	if (!lvds_codec->data->device_specific) {
-> +		const struct of_device_id *match;
-> +		int compatible_index;
-> +
-> +		match = of_match_node(dev->driver->of_match_table,
-> +				      dev->of_node);
-> +		compatible_index = of_property_match_string(dev->of_node,
-> +							    "compatible",
-> +							    match->compatible);
-> +		if (compatible_index == 0) {
-> +			dev_err(dev, "Device specific compatible needed\n");
-> +			return -EINVAL;
-> +		}
-> +	}
-> +
->  	lvds_codec->powerdown_gpio = devm_gpiod_get_optional(dev, "powerdown",
->  							     GPIOD_OUT_HIGH);
->  	if (IS_ERR(lvds_codec->powerdown_gpio)) {
-> @@ -92,7 +120,7 @@ static int lvds_codec_probe(struct platform_device *pdev)
->  
->  	lvds_codec->panel_bridge =
->  		devm_drm_panel_bridge_add_typed(dev, panel,
-> -						lvds_codec->connector_type);
-> +					lvds_codec->data->connector_type);
->  	if (IS_ERR(lvds_codec->panel_bridge))
->  		return PTR_ERR(lvds_codec->panel_bridge);
->  
-> @@ -119,18 +147,33 @@ static int lvds_codec_remove(struct platform_device *pdev)
->  	return 0;
->  }
->  
-> +static const struct lvds_codec_data lvds_codec_decoder_data = {
-> +	.connector_type = DRM_MODE_CONNECTOR_DPI,
-> +	.device_specific = false,
-> +};
-> +
-> +static const struct lvds_codec_data lvds_codec_encoder_data = {
-> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-> +	.device_specific = false,
-> +};
-> +
-> +static const struct lvds_codec_data lvds_codec_thc63lvdm83d_data = {
-> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-> +	.device_specific = true,
-> +};
-> +
->  static const struct of_device_id lvds_codec_match[] = {
->  	{
->  		.compatible = "lvds-decoder",
-> -		.data = (void *)DRM_MODE_CONNECTOR_DPI,
-> +		.data = &lvds_codec_decoder_data,
->  	},
->  	{
->  		.compatible = "lvds-encoder",
-> -		.data = (void *)DRM_MODE_CONNECTOR_LVDS,
-> +		.data = &lvds_codec_encoder_data,
->  	},
->  	{
->  		.compatible = "thine,thc63lvdm83d",
-> -		.data = (void *)DRM_MODE_CONNECTOR_LVDS,
-> +		.data = &lvds_codec_thc63lvdm83d_data,
->  	},
->  	{},
->  };
+>    ports:
+>      type: object
+> diff --git a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvdm83d.txt b/Documentation/devicetree/bindings/display/bridge/thine,thc63lvdm83d.txt
+> deleted file mode 100644
+> index fee3c88..0000000
+> --- a/Documentation/devicetree/bindings/display/bridge/thine,thc63lvdm83d.txt
+> +++ /dev/null
+> @@ -1,50 +0,0 @@
+> -THine Electronics THC63LVDM83D LVDS serializer
+> -----------------------------------------------
+> -
+> -The THC63LVDM83D is an LVDS serializer designed to support pixel data
+> -transmission between a host and a flat panel.
+> -
+> -Required properties:
+> -
+> -- compatible: Should be "thine,thc63lvdm83d"
+> -
+> -Optional properties:
+> -
+> -- powerdown-gpios: Power down control GPIO (the /PWDN pin, active low).
+> -
+> -Required nodes:
+> -
+> -The THC63LVDM83D has two video ports. Their connections are modeled using the
+> -OFgraph bindings specified in Documentation/devicetree/bindings/graph.txt.
+> -
+> -- Video port 0 for CMOS/TTL input
+> -- Video port 1 for LVDS output
+> -
+> -
+> -Example
+> --------
+> -
+> -	lvds_enc: encoder@0 {
+> -		compatible = "thine,thc63lvdm83d";
+> -
+> -		ports {
+> -			#address-cells = <1>;
+> -			#size-cells = <0>;
+> -
+> -			port@0 {
+> -				reg = <0>;
+> -
+> -				lvds_enc_in: endpoint@0 {
+> -					remote-endpoint = <&rgb_out>;
+> -				};
+> -			};
+> -
+> -			port@1 {
+> -				reg = <1>;
+> -
+> -				lvds_enc_out: endpoint@0 {
+> -					remote-endpoint = <&panel_in>;
+> -				};
+> -			};
+> -		};
+> -	};
 
 -- 
 Regards,
