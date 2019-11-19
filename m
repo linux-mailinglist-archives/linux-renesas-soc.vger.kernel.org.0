@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F2D8100FBB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2019 01:12:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2398E100FC7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2019 01:16:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726933AbfKSAMp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 18 Nov 2019 19:12:45 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:60876 "EHLO
+        id S1726933AbfKSAQh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 18 Nov 2019 19:16:37 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:60922 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726809AbfKSAMo (ORCPT
+        with ESMTP id S1726809AbfKSAQh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 18 Nov 2019 19:12:44 -0500
+        Mon, 18 Nov 2019 19:16:37 -0500
 Received: from pendragon.ideasonboard.com (unknown [38.98.37.142])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9BADA563;
-        Tue, 19 Nov 2019 01:12:40 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AA4A9563;
+        Tue, 19 Nov 2019 01:16:30 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1574122362;
-        bh=GP7ciNLF5eYh1JLsO7mIhGa5Max5aGk7MjHNaTeyNj0=;
+        s=mail; t=1574122594;
+        bh=8DSMhIt1red9wOEJPGSQTtqxJri+IPOlQSZhcYRsBJY=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FIQFJhjB+x0+JCrFULqVLROHhIBXIa/3vM+E/rQCPVpwiFb8klbstYT0K/3VdEbcV
-         3R4kQTKtrtcnFe1LqihWK0pFXR8l/HdFDnfJ/B20jjm1+7sIWeMqJ4zreJQj/md6ds
-         Zi3Q3KXflkjwlotTsPDlxo42m0qwctGr3M/w3ysQ=
-Date:   Tue, 19 Nov 2019 02:12:26 +0200
+        b=I5JiWhYw3hHwBr6G3BJc16LkawhbHXpGMS+xZJTLk9uApp5X+yD0UhF2qi59OWZyA
+         dDymuEHfNRLSwJWE2W0wVVTcM+OH80TGKTqwElh3G0fx7nWYXVAHuga65OhRy+AIqP
+         NpWODRRsf22OR6GAgxVdHCokeOVln9iC6AHNgdkY=
+Date:   Tue, 19 Nov 2019 02:16:16 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 Cc:     Neil Armstrong <narmstrong@baylibre.com>,
@@ -40,15 +40,15 @@ Cc:     Neil Armstrong <narmstrong@baylibre.com>,
         Biju Das <biju.das@bp.renesas.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: Re: [PATCH v4 11/13] ARM: shmobile_defconfig: Enable support for
- panels from EDT
-Message-ID: <20191119001226.GK5171@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v4 12/13] [HACK] drm/bridge: lvds-codec: Enforce device
+ specific compatible strings
+Message-ID: <20191119001616.GL5171@pendragon.ideasonboard.com>
 References: <1573660292-10629-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1573660292-10629-12-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1573660292-10629-13-git-send-email-fabrizio.castro@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1573660292-10629-12-git-send-email-fabrizio.castro@bp.renesas.com>
+In-Reply-To: <1573660292-10629-13-git-send-email-fabrizio.castro@bp.renesas.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -59,50 +59,150 @@ Hi Fabrizio,
 
 Thank you for the patch.
 
-On Wed, Nov 13, 2019 at 03:51:30PM +0000, Fabrizio Castro wrote:
-> The iwg20d comes with an LCD panel from Emerging Display
-> Technologies Corporation (EDT), therefore enable what's
-> required to support it.
+On Wed, Nov 13, 2019 at 03:51:31PM +0000, Fabrizio Castro wrote:
+> The lvds-codec driver is a generic stub for transparent LVDS
+> encoders and decoders.
+> It's good practice to list a device specific compatible string
+
+s/good practice/mandatory/
+
+> before the generic fallback (if any) in the DT node for the relevant
+> LVDS encoder/decoder, and it's also required by the dt-bindings.
+> A notable exception to the generic fallback mechanism is the case
+> of "thine,thc63lvdm83d", as documented in:
+> Documentation/devicetree/bindings/display/bridge/thine,thc63lvdm83d.txt
+> This patch enforces the adoption of a device specific compatible
+> string (as fist string in the list), by using markers for the
+
+s/fist/first/
+
+> compatible string we match against and the index of the matching
+> compatible string in the list.
 > 
 > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-
-Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-I expect Geert to pick this up.
-
-> ---
-> v3->v4:
-> * No change
-> v2->v3:
-> * No change
-> v1->v2:
-> * No change
-> ---
->  arch/arm/configs/shmobile_defconfig | 3 +++
->  1 file changed, 3 insertions(+)
 > 
-> diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
-> index c6c7035..ab416a5 100644
-> --- a/arch/arm/configs/shmobile_defconfig
-> +++ b/arch/arm/configs/shmobile_defconfig
-> @@ -66,6 +66,7 @@ CONFIG_INPUT_EVDEV=y
->  CONFIG_KEYBOARD_GPIO=y
->  # CONFIG_INPUT_MOUSE is not set
->  CONFIG_INPUT_TOUCHSCREEN=y
-> +CONFIG_TOUCHSCREEN_EDT_FT5X06=y
->  CONFIG_TOUCHSCREEN_ST1232=y
->  CONFIG_INPUT_MISC=y
->  CONFIG_INPUT_ADXL34X=y
-> @@ -125,7 +126,9 @@ CONFIG_VIDEO_ADV7604=y
->  CONFIG_VIDEO_ML86V7667=y
->  CONFIG_DRM=y
->  CONFIG_DRM_RCAR_DU=y
-> +CONFIG_DRM_PANEL_SIMPLE=y
->  CONFIG_DRM_DUMB_VGA_DAC=y
-> +CONFIG_DRM_LVDS_CODEC=y
->  CONFIG_DRM_SII902X=y
->  CONFIG_DRM_I2C_ADV7511=y
->  CONFIG_DRM_I2C_ADV7511_AUDIO=y
+> ---
+> Hi Laurent,
+> 
+> I don't think we need to do anything in the driver to address your
+> comment, as we can "enforce" this with the bindings (please see the
+> next patch, as it would help with the "enforcing" of the compatible
+> string for the thine device).
+> I am sending this patch only so that you can see what a possible
+> solution in the driver could look like.
+> 
+> v3->v4:
+> * New patch addressing the below comment from Laurent:
+> "I think the lvds-decoder driver should error out at probe time if only
+> one compatible string is listed."
+> ---
+>  drivers/gpu/drm/bridge/lvds-codec.c | 55 +++++++++++++++++++++++++++++++++----
+>  1 file changed, 49 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
+> index 784bbd3..145c25d 100644
+> --- a/drivers/gpu/drm/bridge/lvds-codec.c
+> +++ b/drivers/gpu/drm/bridge/lvds-codec.c
+> @@ -14,11 +14,16 @@
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_panel.h>
+>  
+> +struct lvds_codec_data {
+> +	u32 connector_type;
+> +	bool device_specific;
+> +};
+> +
+>  struct lvds_codec {
+>  	struct drm_bridge bridge;
+>  	struct drm_bridge *panel_bridge;
+>  	struct gpio_desc *powerdown_gpio;
+> -	u32 connector_type;
+> +	const struct lvds_codec_data *data;
+>  };
+>  
+>  static int lvds_codec_attach(struct drm_bridge *bridge)
+> @@ -65,7 +70,30 @@ static int lvds_codec_probe(struct platform_device *pdev)
+>  	if (!lvds_codec)
+>  		return -ENOMEM;
+>  
+> -	lvds_codec->connector_type = (u32)of_device_get_match_data(&pdev->dev);
+> +	lvds_codec->data = of_device_get_match_data(&pdev->dev);
+> +	if (!lvds_codec->data)
+> +		return -EINVAL;
+> +
+> +	/*
+> +	 * If we haven't matched a device specific compatible string, we need
+> +	 * to work out if the generic compatible string we matched against was
+> +	 * listed first in the compatible property.
+> +	 */
+
+Can't we do this unconditionally, and thus drop the lvds_codec_data
+structure ?
+
+> +	if (!lvds_codec->data->device_specific) {
+> +		const struct of_device_id *match;
+> +		int compatible_index;
+> +
+> +		match = of_match_node(dev->driver->of_match_table,
+> +				      dev->of_node);
+> +		compatible_index = of_property_match_string(dev->of_node,
+> +							    "compatible",
+> +							    match->compatible);
+> +		if (compatible_index == 0) {
+> +			dev_err(dev, "Device specific compatible needed\n");
+> +			return -EINVAL;
+> +		}
+> +	}
+> +
+>  	lvds_codec->powerdown_gpio = devm_gpiod_get_optional(dev, "powerdown",
+>  							     GPIOD_OUT_HIGH);
+>  	if (IS_ERR(lvds_codec->powerdown_gpio)) {
+> @@ -92,7 +120,7 @@ static int lvds_codec_probe(struct platform_device *pdev)
+>  
+>  	lvds_codec->panel_bridge =
+>  		devm_drm_panel_bridge_add_typed(dev, panel,
+> -						lvds_codec->connector_type);
+> +					lvds_codec->data->connector_type);
+>  	if (IS_ERR(lvds_codec->panel_bridge))
+>  		return PTR_ERR(lvds_codec->panel_bridge);
+>  
+> @@ -119,18 +147,33 @@ static int lvds_codec_remove(struct platform_device *pdev)
+>  	return 0;
+>  }
+>  
+> +static const struct lvds_codec_data lvds_codec_decoder_data = {
+> +	.connector_type = DRM_MODE_CONNECTOR_DPI,
+> +	.device_specific = false,
+> +};
+> +
+> +static const struct lvds_codec_data lvds_codec_encoder_data = {
+> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+> +	.device_specific = false,
+> +};
+> +
+> +static const struct lvds_codec_data lvds_codec_thc63lvdm83d_data = {
+> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+> +	.device_specific = true,
+> +};
+> +
+>  static const struct of_device_id lvds_codec_match[] = {
+>  	{
+>  		.compatible = "lvds-decoder",
+> -		.data = (void *)DRM_MODE_CONNECTOR_DPI,
+> +		.data = &lvds_codec_decoder_data,
+>  	},
+>  	{
+>  		.compatible = "lvds-encoder",
+> -		.data = (void *)DRM_MODE_CONNECTOR_LVDS,
+> +		.data = &lvds_codec_encoder_data,
+>  	},
+>  	{
+>  		.compatible = "thine,thc63lvdm83d",
+> -		.data = (void *)DRM_MODE_CONNECTOR_LVDS,
+> +		.data = &lvds_codec_thc63lvdm83d_data,
+>  	},
+>  	{},
+>  };
 
 -- 
 Regards,
