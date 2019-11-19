@@ -2,150 +2,138 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 20E7C102CFC
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2019 20:48:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27338102DBF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 19 Nov 2019 21:47:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727036AbfKSTsE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Nov 2019 14:48:04 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42816 "EHLO mail.kernel.org"
+        id S1727253AbfKSUr3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 19 Nov 2019 15:47:29 -0500
+Received: from sauhun.de ([88.99.104.3]:39314 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726874AbfKSTsE (ORCPT
+        id S1726948AbfKSUr3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Nov 2019 14:48:04 -0500
-Received: from localhost (unknown [69.71.4.100])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E2C3D22448;
-        Tue, 19 Nov 2019 19:48:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574192883;
-        bh=cAv2x1VIfRqAvu828nQrCjKw3vsBDLRbeyu1OEbN3/A=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=tRWp+Dg41oZAbbhNQeDTc4CtcR54uyH4NDkh5a3EEJxjUgHGaPZQssOYenugljM/b
-         ZcGiapX3Z+gjZCXJCpjL8UPtlsVRSzZtApPIEhjrKAT78saH/xUdHgtm/hFNsy+Y4c
-         7v8cytYcxwa+AQzsGaL0aN52CVbuSzv/ynd5eiAI=
-Date:   Tue, 19 Nov 2019 13:48:00 -0600
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Rob Herring <robh@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Andrew Murray <andrew.murray@arm.com>,
-        Srinath Mannam <srinath.mannam@broadcom.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] PCI: of: Restore alignment/indentation in host bridge
- window table
-Message-ID: <20191119194800.GA204901@google.com>
+        Tue, 19 Nov 2019 15:47:29 -0500
+Received: from localhost (x590ed545.dyn.telefonica.de [89.14.213.69])
+        by pokefinder.org (Postfix) with ESMTPSA id DA19C2C0505;
+        Tue, 19 Nov 2019 21:47:26 +0100 (CET)
+Date:   Tue, 19 Nov 2019 21:47:26 +0100
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] mmc: tmio: remove workaround for NON_REMOVABLE
+Message-ID: <20191119204725.GA1454@kunai>
+References: <20190917183652.7310-1-wsa+renesas@sang-engineering.com>
+ <CAMuHMdVYYveVeF4+16vi8zk+0yVZMMJnMvKbLms7CbQ6w00uVg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="opJtzjQTFsWo+cga"
 Content-Disposition: inline
-In-Reply-To: <20191119191505.25286-1-geert+renesas@glider.be>
+In-Reply-To: <CAMuHMdVYYveVeF4+16vi8zk+0yVZMMJnMvKbLms7CbQ6w00uVg@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Nov 19, 2019 at 08:15:05PM +0100, Geert Uytterhoeven wrote:
-> Since the printing of the inbound resources was added, alignment and
-> indentation of the host bridge window table is broken because of two
-> reasons:
->   1. The "IB MEM" row header is longer than the other headers,
->   2. Inbound ranges typically extend beyond 32-bit address space, and thus
->      don't fit in "#010llx".
-> 
-> Fix this by extending the row header field to 6 characters, and the
-> format string to 40-bit addresses.
-> 
-> Use "%6s" to handle field size and right-alignment, instead of manual
-> preparation using error-prone snprintf() calls.  Use the exact same
-> format string for both cases, to allow sharing.
-> 
-> Impact on kernel boot log on r8a7791/koelsch:
-> 
->      rcar-pcie fe000000.pcie: host bridge /soc/pcie@fe000000 ranges:
->     -rcar-pcie fe000000.pcie:    IO 0xfe100000..0xfe1fffff -> 0x00000000
->     -rcar-pcie fe000000.pcie:   MEM 0xfe200000..0xfe3fffff -> 0xfe200000
->     -rcar-pcie fe000000.pcie:   MEM 0x30000000..0x37ffffff -> 0x30000000
->     -rcar-pcie fe000000.pcie:   MEM 0x38000000..0x3fffffff -> 0x38000000
->     -rcar-pcie fe000000.pcie: IB MEM 0x40000000..0xbfffffff -> 0x40000000
->     -rcar-pcie fe000000.pcie: IB MEM 0x200000000..0x2ffffffff -> 0x200000000
->     +rcar-pcie fe000000.pcie:       IO 0x00fe100000..0x00fe1fffff -> 0x0000000000
->     +rcar-pcie fe000000.pcie:      MEM 0x00fe200000..0x00fe3fffff -> 0x00fe200000
->     +rcar-pcie fe000000.pcie:      MEM 0x0030000000..0x0037ffffff -> 0x0030000000
->     +rcar-pcie fe000000.pcie:      MEM 0x0038000000..0x003fffffff -> 0x0038000000
->     +rcar-pcie fe000000.pcie:   IB MEM 0x0040000000..0x00bfffffff -> 0x0040000000
->     +rcar-pcie fe000000.pcie:   IB MEM 0x0200000000..0x02ffffffff -> 0x0200000000
-> 
-> Fixes: 52ac576f88f9f701 ("PCI: of: Add inbound resource parsing to helpers")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-This is fine with me, and since it applies on top of 52ac576f88f9f701
-(longer than the usual 12-char SHA1, BTW), which is on Lorenzo's
-pci/mmio-dma-ranges branch, I assume Lorenzo will be the one to take
-care of this.
+--opJtzjQTFsWo+cga
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-pci_register_host_bridge() prints some of this info like this:
+Hi Geert,
 
-  pci_bus 0000:00: root bus resource [io  0x0000-0x0cf7 window]
-  pci_bus 0000:00: root bus resource [io  0x0d00-0xffff window]
-  pci_bus 0000:00: root bus resource [mem 0x000a0000-0x000bffff window]
-  pci_bus 0000:00: root bus resource [mem 0xdc800000-0xfebfffff window]
+thanks for the report!
 
-Is there any opportunity for consolidating these or at least making
-the format the same?
+> Interestingly, this patch has been part of renesas-drivers since the
+> 2019-10-15-v5.4-rc3 release, without real issues.
 
-I assume we're currently printing most of that info twice, once
-in devm_of_pci_get_host_bridge_resources() and again in
-pci_register_host_bridge()?
+Huh, interesting. With which branch does this appear then? linux-next?
 
-> ---
->  drivers/pci/of.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/pci/of.c b/drivers/pci/of.c
-> index e7e12adcff3a3836..81ceeaa6f1d5a2c5 100644
-> --- a/drivers/pci/of.c
-> +++ b/drivers/pci/of.c
-> @@ -265,7 +265,7 @@ static int devm_of_pci_get_host_bridge_resources(struct device *dev,
->  	struct resource *bus_range;
->  	struct of_pci_range range;
->  	struct of_pci_range_parser parser;
-> -	char range_type[4];
-> +	const char *range_type;
->  	int err;
->  
->  	if (io_base)
-> @@ -299,12 +299,12 @@ static int devm_of_pci_get_host_bridge_resources(struct device *dev,
->  	for_each_of_pci_range(&parser, &range) {
->  		/* Read next ranges element */
->  		if ((range.flags & IORESOURCE_TYPE_BITS) == IORESOURCE_IO)
-> -			snprintf(range_type, 4, " IO");
-> +			range_type = "IO";
->  		else if ((range.flags & IORESOURCE_TYPE_BITS) == IORESOURCE_MEM)
-> -			snprintf(range_type, 4, "MEM");
-> +			range_type = "MEM";
->  		else
-> -			snprintf(range_type, 4, "err");
-> -		dev_info(dev, "  %s %#010llx..%#010llx -> %#010llx\n",
-> +			range_type = "err";
-> +		dev_info(dev, "  %6s %#012llx..%#012llx -> %#012llx\n",
->  			 range_type, range.cpu_addr,
->  			 range.cpu_addr + range.size - 1, range.pci_addr);
->  
-> @@ -359,8 +359,8 @@ static int devm_of_pci_get_host_bridge_resources(struct device *dev,
->  		    range.cpu_addr == OF_BAD_ADDR || range.size == 0)
->  			continue;
->  
-> -		dev_info(dev, "IB MEM %#010llx..%#010llx -> %#010llx\n",
-> -			 range.cpu_addr,
-> +		dev_info(dev, "  %6s %#012llx..%#012llx -> %#012llx\n",
-> +			 "IB MEM", range.cpu_addr,
->  			 range.cpu_addr + range.size - 1, range.pci_addr);
->  
->  
-> -- 
-> 2.17.1
-> 
+> Today, it was fairly reproducible, so I managed to bisect it to commit
+> 7a7dab237027939c ("mmc: tmio: remove workaround for NON_REMOVABLE") in
+> mmc/next.  Reverting this commit fixes the issue.
+
+Hmm, probably we should do the revert despite our discusstion here. And
+then resend the original patch after we figured the cause of this hang.
+
+> The issue can also be fixed by:
+>   1. enabling the hs400_4taps and/or hs400_disabled quirks in
+>      sdhi_quirks_match[], OR
+>   2. forcing use_4tap =3D true in renesas_sdhi_check_scc_error().
+>=20
+> Salvator-X(S) with R-Car H3 ES1.0 & ES2.0, or M3-W ES1.0, the issue
+> does not show up (probably because of sdhi_quirks_match[]).
+>=20
+> Do you have a clue?
+
+Not very clear. M3-N is not a 4tap-device, so this can't be a fix.
+However, both disabling HS400 as well as using 4tap will prevent the SCC
+error checking in renesas_sdhi_check_scc_error(). I'd assume the SCC
+hangs.
+
+I am working on an issue where the SCC hangs, but this has to do with
+always providing the SCC clock (SDnH). I don't really see the connection
+of that to RuntimePM yet, though :/
+
+Can you test this simple workaround patch instead of the revert just so
+we get an idea if these issues are related?
+
+Thanks,
+
+   Wolfram
+
+=46rom: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Date: Thu, 27 Jun 2019 11:05:06 +0200
+Subject: [PATCH] WIP: clk: renesas: rcar-gen3: enable SDnH clk for HS modes
+
+When switching to HS400, we shortly need to switch back to plain HS
+mode, but we still need the SDnH clock, so the SCC of SDHI can work.
+So, make sure SDnH is still active, then.
+
+FIXME: needs verification from the BSP/HW team!
+
+Not-yet-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ drivers/clk/renesas/rcar-gen3-cpg.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/clk/renesas/rcar-gen3-cpg.c b/drivers/clk/renesas/rcar=
+-gen3-cpg.c
+index d25c8ba00a65..043ab6ed9d55 100644
+--- a/drivers/clk/renesas/rcar-gen3-cpg.c
++++ b/drivers/clk/renesas/rcar-gen3-cpg.c
+@@ -263,7 +263,7 @@ static const struct sd_div_table cpg_sd_div_table[] =3D=
+ {
+ /*	CPG_SD_DIV_TABLE_DATA(stp_hck,  stp_ck,   sd_srcfc,   sd_fc,  sd_div) */
+ 	CPG_SD_DIV_TABLE_DATA(0,        0,        0,          1,        4),
+ 	CPG_SD_DIV_TABLE_DATA(0,        0,        1,          1,        8),
+-	CPG_SD_DIV_TABLE_DATA(1,        0,        2,          1,       16),
++	CPG_SD_DIV_TABLE_DATA(0,        0,        2,          1,       16),
+ 	CPG_SD_DIV_TABLE_DATA(1,        0,        3,          1,       32),
+ 	CPG_SD_DIV_TABLE_DATA(1,        0,        4,          1,       64),
+ 	CPG_SD_DIV_TABLE_DATA(0,        0,        0,          0,        2),
+
+
+--opJtzjQTFsWo+cga
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl3UVNkACgkQFA3kzBSg
+KbZOTQ/7B6eBJbnmW9Rru8Opu8vPDdch0in8T8HhA3VmDlu9P8ikTqY94IraLWKU
+qoi472Zc7T/S+LdSBHSn7Qtu+VotuspSf2Qp0wEIs80P4B2rPtma9SEnHvwOw3VT
+c0nYHP1278YLbxW3dbUHKN7d4mFJzddj46dhqgsUIgRXSqYlGrGwsQaZ/KefizxG
+S9vgVBRwZZQyF5L0OPBQzREKpZV4w+BoZZ7xAjnq3hz0dPZUlymLb4krjoxb9bHz
++bGDARH4ppMVxJT32BNCuPXuQtBCrvaGhnLTReIuedHJL7K78Rx9uwQn4C8atAHE
+LxZ0ohlPfYl6lgSnmn2c1iC3zWFLMY6/R3spdc4H4wZ1lJO2ipb2yK7nAnG6u/E9
+8lGvQpHKXqiO9D3AgRFD1JGIsEySQJj51q/0C16PlVW0iyfCliEQuWsmTRAglShD
+KasRjC9+/nMi+PvmFc7CFTQAunULCNR+XKcTtKJIyOctLZxzJ5hBbC+bjMCg1Ua2
+veNdS02YeDbYBv1fMX2m4qY0+nxw+mOyVE/3xhR3pjDh5HhYkGXbEAw67SjEOnbQ
+O9i+Gq2ZMdFRyN2QzMf6r2br3CTNjYPv2kgMirHeTOK18zBPQnRG1sKH6ueZlWmg
+OB6pii6IMLK5n4A/tRG/b6EvXuoqFj2M05sS9G3x9iWAT0LP2gc=
+=TgfA
+-----END PGP SIGNATURE-----
+
+--opJtzjQTFsWo+cga--
