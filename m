@@ -2,149 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 58B581040D8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2019 17:33:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44C3F10413A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2019 17:46:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729079AbfKTQdU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 Nov 2019 11:33:20 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:51050 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729036AbfKTQdT (ORCPT
+        id S1732883AbfKTQqC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Nov 2019 11:46:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40490 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729901AbfKTQqC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 Nov 2019 11:33:19 -0500
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 48ED5559;
-        Wed, 20 Nov 2019 17:33:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1574267597;
-        bh=vfgZDOKE4qnjzlxP7fvp9Dhnl8MS3WvYa4Ybwsk1K/U=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=AFT8IDgndVs844PX6qyGRYdob+SBaTgjfBLuoRvE1vDE+4fLqiB75kgnQj+9DgT0R
-         T/pjtiTzL2pbNmpj+cZKWeEvXf0Tw7+giXXceAqwtFN701iNsu38kXgZ4EtU/8RmC7
-         m3gC7lYNPxDFefb+pDidusmC0+2Opo7H8rDNt3DA=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [RFT 0/4] GMSL Refresh (would be v6)
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20191116165034.39001-1-jacopo+renesas@jmondi.org>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <7d5f2a2e-3592-ab7b-2a0c-23373b2dbd2f@ideasonboard.com>
-Date:   Wed, 20 Nov 2019 16:33:15 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Wed, 20 Nov 2019 11:46:02 -0500
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EEC0020895;
+        Wed, 20 Nov 2019 16:46:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1574268361;
+        bh=R6SyimNGQdLtKwjwUdKxJ320G/EPgQrR9kg29Psq5yU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=jmceyR3LJHIz0w3HzRscmksCTlcPlDgJWFZalPz+nP0bd4CZwC1wiEUQ5u2k9vNWJ
+         DFDzBzoQ5nKbTq2QPnAzM1mA8mn1KRuWl0T0j18DrJpWia3ZyLCjArUYzukF314peb
+         aj4anLFnIvEp7JiX7R1/InSspip7Uu8sfYRH12po=
+Received: by mail-qk1-f171.google.com with SMTP id q70so321711qke.12;
+        Wed, 20 Nov 2019 08:46:00 -0800 (PST)
+X-Gm-Message-State: APjAAAW4rjpEHvJ9A7A4K4I1/D9V2P0nJAxjJ3l8lxm81v1jteeQPTq1
+        IrIESX7wL5jDNHrRe8DuB6fWN0s+f3FLhEa1kg==
+X-Google-Smtp-Source: APXvYqyQsCsFWc9QmmtpDwHH2Qlb9K29LoKr0bRhwaNQe0r2nm77ICaneDWw99PkBech78rMFBTJ7acTuCde/90tiCQ=
+X-Received: by 2002:a05:620a:205d:: with SMTP id d29mr3294545qka.152.1574268360061;
+ Wed, 20 Nov 2019 08:46:00 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191116165034.39001-1-jacopo+renesas@jmondi.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+References: <20191119191505.25286-1-geert+renesas@glider.be> <20191120162750.GA3279@e121166-lin.cambridge.arm.com>
+In-Reply-To: <20191120162750.GA3279@e121166-lin.cambridge.arm.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Wed, 20 Nov 2019 10:45:48 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqL_kLOGM0QyCHo-vM14P42YQ4Ny+YJS0Ysh-3X2FDTg_A@mail.gmail.com>
+Message-ID: <CAL_JsqL_kLOGM0QyCHo-vM14P42YQ4Ny+YJS0Ysh-3X2FDTg_A@mail.gmail.com>
+Subject: Re: [PATCH] PCI: of: Restore alignment/indentation in host bridge
+ window table
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Andrew Murray <andrew.murray@arm.com>,
+        Srinath Mannam <srinath.mannam@broadcom.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        PCI <linux-pci@vger.kernel.org>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Jacopo,
+On Wed, Nov 20, 2019 at 10:27 AM Lorenzo Pieralisi
+<lorenzo.pieralisi@arm.com> wrote:
+>
+> On Tue, Nov 19, 2019 at 08:15:05PM +0100, Geert Uytterhoeven wrote:
+> > Since the printing of the inbound resources was added, alignment and
+> > indentation of the host bridge window table is broken because of two
+> > reasons:
+> >   1. The "IB MEM" row header is longer than the other headers,
+> >   2. Inbound ranges typically extend beyond 32-bit address space, and thus
+> >      don't fit in "#010llx".
+> >
+> > Fix this by extending the row header field to 6 characters, and the
+> > format string to 40-bit addresses.
+> >
+> > Use "%6s" to handle field size and right-alignment, instead of manual
+> > preparation using error-prone snprintf() calls.  Use the exact same
+> > format string for both cases, to allow sharing.
+> >
+> > Impact on kernel boot log on r8a7791/koelsch:
+> >
+> >      rcar-pcie fe000000.pcie: host bridge /soc/pcie@fe000000 ranges:
+> >     -rcar-pcie fe000000.pcie:    IO 0xfe100000..0xfe1fffff -> 0x00000000
+> >     -rcar-pcie fe000000.pcie:   MEM 0xfe200000..0xfe3fffff -> 0xfe200000
+> >     -rcar-pcie fe000000.pcie:   MEM 0x30000000..0x37ffffff -> 0x30000000
+> >     -rcar-pcie fe000000.pcie:   MEM 0x38000000..0x3fffffff -> 0x38000000
+> >     -rcar-pcie fe000000.pcie: IB MEM 0x40000000..0xbfffffff -> 0x40000000
+> >     -rcar-pcie fe000000.pcie: IB MEM 0x200000000..0x2ffffffff -> 0x200000000
+> >     +rcar-pcie fe000000.pcie:       IO 0x00fe100000..0x00fe1fffff -> 0x0000000000
+> >     +rcar-pcie fe000000.pcie:      MEM 0x00fe200000..0x00fe3fffff -> 0x00fe200000
+> >     +rcar-pcie fe000000.pcie:      MEM 0x0030000000..0x0037ffffff -> 0x0030000000
+> >     +rcar-pcie fe000000.pcie:      MEM 0x0038000000..0x003fffffff -> 0x0038000000
+> >     +rcar-pcie fe000000.pcie:   IB MEM 0x0040000000..0x00bfffffff -> 0x0040000000
+> >     +rcar-pcie fe000000.pcie:   IB MEM 0x0200000000..0x02ffffffff -> 0x0200000000
+> >
+> > Fixes: 52ac576f88f9f701 ("PCI: of: Add inbound resource parsing to helpers")
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ---
+> >  drivers/pci/of.c | 14 +++++++-------
+> >  1 file changed, 7 insertions(+), 7 deletions(-)
+>
+> Hi Rob,
+>
+> do you mind if I squash this patch in the Fixes: above ?
 
-Thanks for this refresh. The key part here is the refresh of the
-V4L2-Mux series, which is what had previously blocked the GMSL series.
+No, LGTM.
 
-Will you post/publish the vl42-mux series on the linux-media mailinglist?
-
-I know there are other interested parties who are looking at such topics
-- so highlighting the latest version might be beneficial to promoting
-discussions.
-
-
-On 16/11/2019 16:50, Jacopo Mondi wrote:
-> Hello this is refersh of our GMSL work.
-> 
-> Current situation is the following:
-> - Kieran sent a full v4 with multiplexed stream support and has a v5 branch in
->   his repository with v4 review comment fixes on top
-> 
-> 	I rebased the multiplexed stream's series on latest media-master
-> 	https://jmondi.org/cgit/linux/log/?h=v4l2-mux/media-master/v6
-> 
-> 	On top of that I took Kieran's v5 and re-applied on top:
-> 	https://jmondi.org/cgit/linux/log/?h=jmondi/gmsl/kieran/v6
-> 
-> - Niklas sent a v1 (which sould have been a v5) which removes multiplexed
->   streams and only support one camera and was meant for inclusion but is still
->   floating around in linux-media, mostly because some of the comments on
->   Kieran's v4 still applied there, if I'm not mistaken.
-> 
-> 	I took Niklas' single stream max9286 and replaced the original
-> 	bindings with a json-schema version
-> 	https://jmondi.org/cgit/linux/log/?h=jmondi/gmsl/niklas/v6
-> 
-> I bumped all versions to v6 to avoid further confusion.
-> 
-> Not having a working GMSL setup I would ask to Kieran or Niklas to test this
-> version so that we can try re-send the single stream max9286 version with new
-> yaml bindings for inclusion.
-
-Thanks, I can confirm that the rebase to current master was successful
-(based on your branch with the version of patches based on my gmsl/v5)
-
-
-As we now have two forks of the GMSL I'm going to rebase these such that
-the separation between current topics is clear:
-
- - MAX9286 with support for a single camera (and only a single MAX9286)
-	- This we could/should hope to get upstream
- - MAX9286 VC support
-	- (requires the V4L2-Mux support of course)
- - MAX9286 dual device workaround (not suitable for upstream currently)
-	- Required to function on the Salvator-XS GMSL board.
-
-Once I've done (and tested this) I'll make a new posting (should we call
-this v6? or v6.1?)
-
-
-In the meantime, I will not be making changes to the RDACM20, so if you
-wish to get started investigating the separation topic here - then I
-don't think you are blocked on me.
-
---
-Regards
-
-Kieran
-
-
-
-
-> (I kept linux-media e devicetree out as I would like to test the patches before
-> expanding the receivers list)
-> 
-> Thanks
->    j
-> 
-> Jacopo Mondi (2):
->   arm64: dts: renesas: Add Maxim GMSL expansion board
->   arm64: dts: renesas: r8a7796=salvator-x: Include GMSL
-> 
-> Laurent Pinchart (1):
->   dt-bindings: media: i2c: Add bindings for Maxim Integrated MAX9286
-> 
-> Niklas Söderlund (1):
->   max9286: Add MAX9286 driver
-> 
->  .../bindings/media/i2c/maxim,max9286.yaml     |  286 +++++
->  MAINTAINERS                                   |   10 +
->  .../boot/dts/renesas/r8a7795-salvator-x.dts   |    1 +
->  .../boot/dts/renesas/salvator-x-max9286.dtsi  |  394 ++++++
->  drivers/media/i2c/Kconfig                     |   11 +
->  drivers/media/i2c/Makefile                    |    1 +
->  drivers/media/i2c/max9286.c                   | 1081 +++++++++++++++++
->  7 files changed, 1784 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
->  create mode 100644 arch/arm64/boot/dts/renesas/salvator-x-max9286.dtsi
->  create mode 100644 drivers/media/i2c/max9286.c
-> 
-> --
-> 2.23.0
-> 
-
+Rob
