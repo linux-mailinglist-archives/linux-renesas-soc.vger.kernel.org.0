@@ -2,73 +2,120 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8414E1031F6
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2019 04:18:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EED75103588
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2019 08:47:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727362AbfKTDSF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 19 Nov 2019 22:18:05 -0500
-Received: from shards.monkeyblade.net ([23.128.96.9]:49180 "EHLO
-        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727264AbfKTDSF (ORCPT
+        id S1727230AbfKTHrJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Nov 2019 02:47:09 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:42031 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727008AbfKTHrJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 19 Nov 2019 22:18:05 -0500
-Received: from localhost (unknown [IPv6:2601:601:9f00:1e2::3d5])
-        (using TLSv1 with cipher AES256-SHA (256/256 bits))
-        (Client did not present a certificate)
-        (Authenticated sender: davem-davemloft)
-        by shards.monkeyblade.net (Postfix) with ESMTPSA id 4FDA2146D5FD8;
-        Tue, 19 Nov 2019 19:18:04 -0800 (PST)
-Date:   Tue, 19 Nov 2019 19:18:03 -0800 (PST)
-Message-Id: <20191119.191803.1036643221927656820.davem@davemloft.net>
-To:     geert@linux-m68k.org
-Cc:     f.fainelli@gmail.com, geert+renesas@glider.be,
-        yuehaibing@huawei.com, andrew@lunn.ch, hkallweit1@gmail.com,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mdio_bus: Fix init if CONFIG_RESET_CONTROLLER=n
-From:   David Miller <davem@davemloft.net>
-In-Reply-To: <CAMuHMdW+Lkj1VRbS-1Qw8YsbPYueFrM770eBRv=e_sTg8vbiVg@mail.gmail.com>
-References: <20191119112524.24841-1-geert+renesas@glider.be>
-        <1afede33-897b-8718-d977-351357dffe4f@gmail.com>
-        <CAMuHMdW+Lkj1VRbS-1Qw8YsbPYueFrM770eBRv=e_sTg8vbiVg@mail.gmail.com>
-X-Mailer: Mew version 6.8 on Emacs 26.1
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
-X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Tue, 19 Nov 2019 19:18:04 -0800 (PST)
+        Wed, 20 Nov 2019 02:47:09 -0500
+Received: by mail-oi1-f196.google.com with SMTP id o12so11524098oic.9;
+        Tue, 19 Nov 2019 23:47:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uH17i9VqVXMVKtgDKg0Cq09oKBpoxUDf16GI7SgDM64=;
+        b=dUmXJsDKvFcvSoUCdsDfaRlBQS0uEoyMW4OLna9SW7qpgVJed8pOVXsb6d8nwcF1GA
+         JYxgLFYzraXfF/gar6wfB4ZBlG5ZhaJ+rnx0w3z1PqBDyoVzLVdy6Tnoo1U7E5TvKolR
+         uRL773ZED7DNKneu2EedU3+dunl0grkKOUNgoUOb+s7Y5Wri97I6i5Q0mo+7AoX/773Q
+         HkTUdEGnZS7G2QHW1bBbxERcmG2F9yi2fNXDSbvEPrKi+FmHsxQwgtWHzvRLq8piUQp9
+         SlqdidU8Dt4ZAE7oqOLeV298hQfTekFC5xX88yCyZWqTc8+S6ZZ5ohTq/x/EgB8h2Brw
+         LJbg==
+X-Gm-Message-State: APjAAAWGBFj+aYnt4L5bnjyGQwEt8XFqTPGs6lkOcYKgqvRqUHxIsgGI
+        W3evhxKXvHZU2hmBkoSlJ/JZ9IxcNT3OHjUlhVOYT90A
+X-Google-Smtp-Source: APXvYqwuJ1b/hFm8Qxa/NpiH2pxSQcR6UDGho+bR9Z94EwecsMHAUrz55k+tU/l36kfYmQSkFHvMaukQHz4FAUCd6eY=
+X-Received: by 2002:aca:fc92:: with SMTP id a140mr1487718oii.153.1574236027863;
+ Tue, 19 Nov 2019 23:47:07 -0800 (PST)
+MIME-Version: 1.0
+References: <20190917183652.7310-1-wsa+renesas@sang-engineering.com>
+ <CAMuHMdVYYveVeF4+16vi8zk+0yVZMMJnMvKbLms7CbQ6w00uVg@mail.gmail.com> <20191119204725.GA1454@kunai>
+In-Reply-To: <20191119204725.GA1454@kunai>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 20 Nov 2019 08:46:56 +0100
+Message-ID: <CAMuHMdV+W62MkSRuYZNT0ezOt_KkyStfoeZohu7m1pOP=4a0HQ@mail.gmail.com>
+Subject: Re: [PATCH] mmc: tmio: remove workaround for NON_REMOVABLE
+To:     Wolfram Sang <wsa@the-dreams.de>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 19 Nov 2019 19:55:53 +0100
+Hi Wolfram,
 
-> Hi Florian,
-> 
-> On Tue, Nov 19, 2019 at 7:05 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
->> On 11/19/19 3:25 AM, Geert Uytterhoeven wrote:
->> > Commit 1d4639567d970de0 ("mdio_bus: Fix PTR_ERR applied after
->> > initialization to constant") accidentally changed a check from -ENOTSUPP
->> > to -ENOSYS, causing failures if reset controller support is not enabled.
->> > E.g. on r7s72100/rskrza1:
->> >
->> >     sh-eth e8203000.ethernet: MDIO init failed: -524
->> >     sh-eth: probe of e8203000.ethernet failed with error -524
->> >
->> > Fixes: 1d4639567d970de0 ("mdio_bus: Fix PTR_ERR applied after initialization to constant")
->> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->>
->> This has been fixed in the "net" tree with:
->>
->> https://git.kernel.org/pub/scm/linux/kernel/git/davem/net.git/commit/?id=075e238d12c21c8bde700d21fb48be7a3aa80194
-> 
-> Ah, hadn't seen that one.
-> 
-> However, that one (a) keeps the unneeded check for -ENOSYS, and (b)
-> carries a wrong Fixes tag.
+On Tue, Nov 19, 2019 at 9:47 PM Wolfram Sang <wsa@the-dreams.de> wrote:
+> > Interestingly, this patch has been part of renesas-drivers since the
+> > 2019-10-15-v5.4-rc3 release, without real issues.
+>
+> Huh, interesting. With which branch does this appear then? linux-next?
 
-Linus took Geert's fix so I reverted the one in 'net' and cherry picked
-Geert's fix from Linus's tree.
+renesas-drivers
 
-Just FYI...
+I can reproduce this with renesas-drivers-2019-11-19-v5.4-rc8 and
+renesas_defconfig by booting a ramdisk, and reading from /dev/mmcblk1.
+
+Also with renesas-drivers-2019-10-15-v5.4-rc3.
+So some of my local code on top must have impacted the behavior.
+
+> > Today, it was fairly reproducible, so I managed to bisect it to commit
+> > 7a7dab237027939c ("mmc: tmio: remove workaround for NON_REMOVABLE") in
+> > mmc/next.  Reverting this commit fixes the issue.
+>
+> Hmm, probably we should do the revert despite our discusstion here. And
+> then resend the original patch after we figured the cause of this hang.
+>
+> > The issue can also be fixed by:
+> >   1. enabling the hs400_4taps and/or hs400_disabled quirks in
+> >      sdhi_quirks_match[], OR
+> >   2. forcing use_4tap = true in renesas_sdhi_check_scc_error().
+> >
+> > Salvator-X(S) with R-Car H3 ES1.0 & ES2.0, or M3-W ES1.0, the issue
+> > does not show up (probably because of sdhi_quirks_match[]).
+> >
+> > Do you have a clue?
+>
+> Not very clear. M3-N is not a 4tap-device, so this can't be a fix.
+> However, both disabling HS400 as well as using 4tap will prevent the SCC
+> error checking in renesas_sdhi_check_scc_error(). I'd assume the SCC
+> hangs.
+
+Makes sense.
+
+> I am working on an issue where the SCC hangs, but this has to do with
+> always providing the SCC clock (SDnH). I don't really see the connection
+> of that to RuntimePM yet, though :/
+
+Makes sense: this is consistent with the behavior when accessing
+registers without enabling the corresponding module clock: it hangs.
+So this can happen with other clocks, too.
+One more reason not to delegate clock handling to a guest, as doing it
+wrong can take down the host, too...
+
+> Can you test this simple workaround patch instead of the revert just so
+> we get an idea if these issues are related?
+
+Thanks, applying your workaround on top of
+renesas-drivers-2019-11-19-v5.4-rc8 fixes the issue.
+
+This fix is part of renesas/topic/sdhi-manual-calib, right?
+And thus has been present in some renesas-drivers release, but was
+dropped _before_ the 2019-10-15-v5.4-rc3 release.
+
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
