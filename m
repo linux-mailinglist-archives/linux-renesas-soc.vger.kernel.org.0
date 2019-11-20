@@ -2,118 +2,143 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EED75103588
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2019 08:47:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B02ED103637
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2019 09:49:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727230AbfKTHrJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 Nov 2019 02:47:09 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:42031 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727008AbfKTHrJ (ORCPT
+        id S1727976AbfKTItZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Nov 2019 03:49:25 -0500
+Received: from mail-qv1-f68.google.com ([209.85.219.68]:40299 "EHLO
+        mail-qv1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727909AbfKTItZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 Nov 2019 02:47:09 -0500
-Received: by mail-oi1-f196.google.com with SMTP id o12so11524098oic.9;
-        Tue, 19 Nov 2019 23:47:08 -0800 (PST)
+        Wed, 20 Nov 2019 03:49:25 -0500
+Received: by mail-qv1-f68.google.com with SMTP id i3so9389344qvv.7;
+        Wed, 20 Nov 2019 00:49:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=uH17i9VqVXMVKtgDKg0Cq09oKBpoxUDf16GI7SgDM64=;
-        b=dUmXJsDKvFcvSoUCdsDfaRlBQS0uEoyMW4OLna9SW7qpgVJed8pOVXsb6d8nwcF1GA
-         JYxgLFYzraXfF/gar6wfB4ZBlG5ZhaJ+rnx0w3z1PqBDyoVzLVdy6Tnoo1U7E5TvKolR
-         uRL773ZED7DNKneu2EedU3+dunl0grkKOUNgoUOb+s7Y5Wri97I6i5Q0mo+7AoX/773Q
-         HkTUdEGnZS7G2QHW1bBbxERcmG2F9yi2fNXDSbvEPrKi+FmHsxQwgtWHzvRLq8piUQp9
-         SlqdidU8Dt4ZAE7oqOLeV298hQfTekFC5xX88yCyZWqTc8+S6ZZ5ohTq/x/EgB8h2Brw
-         LJbg==
-X-Gm-Message-State: APjAAAWGBFj+aYnt4L5bnjyGQwEt8XFqTPGs6lkOcYKgqvRqUHxIsgGI
-        W3evhxKXvHZU2hmBkoSlJ/JZ9IxcNT3OHjUlhVOYT90A
-X-Google-Smtp-Source: APXvYqwuJ1b/hFm8Qxa/NpiH2pxSQcR6UDGho+bR9Z94EwecsMHAUrz55k+tU/l36kfYmQSkFHvMaukQHz4FAUCd6eY=
-X-Received: by 2002:aca:fc92:: with SMTP id a140mr1487718oii.153.1574236027863;
- Tue, 19 Nov 2019 23:47:07 -0800 (PST)
+        bh=U7zfNdmgpyMiboihJa1xiLHQ3jUJYyUMIT0Y6QJ7Ulc=;
+        b=udUUlmrHK2QtoQJAgkKU87gIQ7Eg5+tahrXLo561bkxmkafJzlipih929OidOYiXoC
+         4uMQXYvTGCLLYS2214W/Pgi2kUy4FUJG27fy5Z7JMJJdl1VYRZasBxjuHGnoHRrktls7
+         Dy2ngDpV8ppTIyTICERN141djmmga6BQLoGFgjulrHa4n2vL0PchonNXvJPiv9yvb/Zm
+         2srZZRhcRF6XNsee6ghb0Bvzb8/U7FxqvnWvfQ3TR0qnwxg2ivtI7x+ttC8RQjKrW4NL
+         XKBwr5QwJTEvVArrB6t2WqzdFkCedqNthDR5VKkK4EZzJcWjT6Y7aj/yhsIyp/o71eVD
+         hLxA==
+X-Gm-Message-State: APjAAAWmwMoe2tyKezHgE4gUlC29DvUpOjJ0OLMSPaU5EuvGhjnwbM5w
+        s7zLJ0BSx7sNCDamaTfouY5lP5uwgxBcvB9SgZA=
+X-Google-Smtp-Source: APXvYqzoC89VsyKqH8kM+v4dtaa6bLp+LA8RW0cstsBLyISicvDtIlO4aN1V8hZ2omsd9l0HY5hQ+UHjdp9Z6QCWhbg=
+X-Received: by 2002:a0c:e90b:: with SMTP id a11mr1449888qvo.229.1574239763803;
+ Wed, 20 Nov 2019 00:49:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20190917183652.7310-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdVYYveVeF4+16vi8zk+0yVZMMJnMvKbLms7CbQ6w00uVg@mail.gmail.com> <20191119204725.GA1454@kunai>
-In-Reply-To: <20191119204725.GA1454@kunai>
+References: <20191119191505.25286-1-geert+renesas@glider.be> <20191119194800.GA204901@google.com>
+In-Reply-To: <20191119194800.GA204901@google.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 20 Nov 2019 08:46:56 +0100
-Message-ID: <CAMuHMdV+W62MkSRuYZNT0ezOt_KkyStfoeZohu7m1pOP=4a0HQ@mail.gmail.com>
-Subject: Re: [PATCH] mmc: tmio: remove workaround for NON_REMOVABLE
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Wed, 20 Nov 2019 09:49:12 +0100
+Message-ID: <CAMuHMdULQ6-tSy79XRo8d3ujrxXfCcHDzduX2fnVZku80ofLFg@mail.gmail.com>
+Subject: Re: [PATCH] PCI: of: Restore alignment/indentation in host bridge
+ window table
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     Rob Herring <robh@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Andrew Murray <andrew.murray@arm.com>,
+        Srinath Mannam <srinath.mannam@broadcom.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Hi Bjorn,
 
-On Tue, Nov 19, 2019 at 9:47 PM Wolfram Sang <wsa@the-dreams.de> wrote:
-> > Interestingly, this patch has been part of renesas-drivers since the
-> > 2019-10-15-v5.4-rc3 release, without real issues.
->
-> Huh, interesting. With which branch does this appear then? linux-next?
-
-renesas-drivers
-
-I can reproduce this with renesas-drivers-2019-11-19-v5.4-rc8 and
-renesas_defconfig by booting a ramdisk, and reading from /dev/mmcblk1.
-
-Also with renesas-drivers-2019-10-15-v5.4-rc3.
-So some of my local code on top must have impacted the behavior.
-
-> > Today, it was fairly reproducible, so I managed to bisect it to commit
-> > 7a7dab237027939c ("mmc: tmio: remove workaround for NON_REMOVABLE") in
-> > mmc/next.  Reverting this commit fixes the issue.
->
-> Hmm, probably we should do the revert despite our discusstion here. And
-> then resend the original patch after we figured the cause of this hang.
->
-> > The issue can also be fixed by:
-> >   1. enabling the hs400_4taps and/or hs400_disabled quirks in
-> >      sdhi_quirks_match[], OR
-> >   2. forcing use_4tap = true in renesas_sdhi_check_scc_error().
+On Tue, Nov 19, 2019 at 8:48 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> On Tue, Nov 19, 2019 at 08:15:05PM +0100, Geert Uytterhoeven wrote:
+> > Since the printing of the inbound resources was added, alignment and
+> > indentation of the host bridge window table is broken because of two
+> > reasons:
+> >   1. The "IB MEM" row header is longer than the other headers,
+> >   2. Inbound ranges typically extend beyond 32-bit address space, and thus
+> >      don't fit in "#010llx".
 > >
-> > Salvator-X(S) with R-Car H3 ES1.0 & ES2.0, or M3-W ES1.0, the issue
-> > does not show up (probably because of sdhi_quirks_match[]).
+> > Fix this by extending the row header field to 6 characters, and the
+> > format string to 40-bit addresses.
 > >
-> > Do you have a clue?
+> > Use "%6s" to handle field size and right-alignment, instead of manual
+> > preparation using error-prone snprintf() calls.  Use the exact same
+> > format string for both cases, to allow sharing.
+> >
+> > Impact on kernel boot log on r8a7791/koelsch:
+> >
+> >      rcar-pcie fe000000.pcie: host bridge /soc/pcie@fe000000 ranges:
+> >     -rcar-pcie fe000000.pcie:    IO 0xfe100000..0xfe1fffff -> 0x00000000
+> >     -rcar-pcie fe000000.pcie:   MEM 0xfe200000..0xfe3fffff -> 0xfe200000
+> >     -rcar-pcie fe000000.pcie:   MEM 0x30000000..0x37ffffff -> 0x30000000
+> >     -rcar-pcie fe000000.pcie:   MEM 0x38000000..0x3fffffff -> 0x38000000
+> >     -rcar-pcie fe000000.pcie: IB MEM 0x40000000..0xbfffffff -> 0x40000000
+> >     -rcar-pcie fe000000.pcie: IB MEM 0x200000000..0x2ffffffff -> 0x200000000
+> >     +rcar-pcie fe000000.pcie:       IO 0x00fe100000..0x00fe1fffff -> 0x0000000000
+> >     +rcar-pcie fe000000.pcie:      MEM 0x00fe200000..0x00fe3fffff -> 0x00fe200000
+> >     +rcar-pcie fe000000.pcie:      MEM 0x0030000000..0x0037ffffff -> 0x0030000000
+> >     +rcar-pcie fe000000.pcie:      MEM 0x0038000000..0x003fffffff -> 0x0038000000
+> >     +rcar-pcie fe000000.pcie:   IB MEM 0x0040000000..0x00bfffffff -> 0x0040000000
+> >     +rcar-pcie fe000000.pcie:   IB MEM 0x0200000000..0x02ffffffff -> 0x0200000000
+> >
+> > Fixes: 52ac576f88f9f701 ("PCI: of: Add inbound resource parsing to helpers")
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 >
-> Not very clear. M3-N is not a 4tap-device, so this can't be a fix.
-> However, both disabling HS400 as well as using 4tap will prevent the SCC
-> error checking in renesas_sdhi_check_scc_error(). I'd assume the SCC
-> hangs.
+> This is fine with me, and since it applies on top of 52ac576f88f9f701
+> (longer than the usual 12-char SHA1, BTW), which is on Lorenzo's
+> pci/mmio-dma-ranges branch, I assume Lorenzo will be the one to take
+> care of this.
+>
+> pci_register_host_bridge() prints some of this info like this:
+>
+>   pci_bus 0000:00: root bus resource [io  0x0000-0x0cf7 window]
+>   pci_bus 0000:00: root bus resource [io  0x0d00-0xffff window]
+>   pci_bus 0000:00: root bus resource [mem 0x000a0000-0x000bffff window]
+>   pci_bus 0000:00: root bus resource [mem 0xdc800000-0xfebfffff window]
+>
+> Is there any opportunity for consolidating these or at least making
+> the format the same?
+>
+> I assume we're currently printing most of that info twice, once
+> in devm_of_pci_get_host_bridge_resources() and again in
+> pci_register_host_bridge()?
 
-Makes sense.
+(after ignoring PCIe link down, as I don't have a spare PCIe card to plug in)
 
-> I am working on an issue where the SCC hangs, but this has to do with
-> always providing the SCC clock (SDnH). I don't really see the connection
-> of that to RuntimePM yet, though :/
+  rcar-pcie fe000000.pcie: host bridge /soc/pcie@fe000000 ranges:
+  rcar-pcie fe000000.pcie:       IO 0x00fe100000..0x00fe1fffff -> 0x0000000000
+  rcar-pcie fe000000.pcie:      MEM 0x00fe200000..0x00fe3fffff -> 0x00fe200000
+  rcar-pcie fe000000.pcie:      MEM 0x0030000000..0x0037ffffff -> 0x0030000000
+  rcar-pcie fe000000.pcie:      MEM 0x0038000000..0x003fffffff -> 0x0038000000
+  rcar-pcie fe000000.pcie:   IB MEM 0x0040000000..0x00bfffffff -> 0x0040000000
+  rcar-pcie fe000000.pcie:   IB MEM 0x0200000000..0x02ffffffff -> 0x0200000000
+  rcar-pcie fe000000.pcie: PCIe link down (ignored)
+  rcar-pcie fe000000.pcie: PCIe x4: link up
+  rcar-pcie fe000000.pcie: PCI host bridge to bus 0002:00
+  pci_bus 0002:00: root bus resource [bus 00-ff]
+  pci_bus 0002:00: root bus resource [io  0x0000-0xfffff]
+  pci_bus 0002:00: root bus resource [mem 0xfe200000-0xfe3fffff]
+  pci_bus 0002:00: root bus resource [mem 0x30000000-0x37ffffff]
+  pci_bus 0002:00: root bus resource [mem 0x38000000-0x3fffffff pref]
+  pci 0002:00:00.0: [1912:001f] type 01 class 0x060400
+  pci 0002:00:00.0: enabling Extended Tags
+  pci 0002:00:00.0: PME# supported from D0 D3hot D3cold
+  PCI: bus0: Fast back to back transfers disabled
 
-Makes sense: this is consistent with the behavior when accessing
-registers without enabling the corresponding module clock: it hangs.
-So this can happen with other clocks, too.
-One more reason not to delegate clock handling to a guest, as doing it
-wrong can take down the host, too...
-
-> Can you test this simple workaround patch instead of the revert just so
-> we get an idea if these issues are related?
-
-Thanks, applying your workaround on top of
-renesas-drivers-2019-11-19-v5.4-rc8 fixes the issue.
-
-This fix is part of renesas/topic/sdhi-manual-calib, right?
-And thus has been present in some renesas-drivers release, but was
-dropped _before_ the 2019-10-15-v5.4-rc3 release.
-
+So some, but not all, info is indeed duplicated.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
