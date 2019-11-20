@@ -2,128 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 260C71037C2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2019 11:42:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 054B21040C2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2019 17:27:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728581AbfKTKmo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 Nov 2019 05:42:44 -0500
-Received: from albert.telenet-ops.be ([195.130.137.90]:52054 "EHLO
-        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728777AbfKTKmn (ORCPT
+        id S1732051AbfKTQ15 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Nov 2019 11:27:57 -0500
+Received: from foss.arm.com ([217.140.110.172]:42262 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729857AbfKTQ15 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 Nov 2019 05:42:43 -0500
-Received: from ramsan ([84.195.182.253])
-        by albert.telenet-ops.be with bizsmtp
-        id UAif210035USYZQ06Aifvk; Wed, 20 Nov 2019 11:42:40 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iXNRW-0007LP-Vi; Wed, 20 Nov 2019 11:42:38 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iXNRW-00084S-TZ; Wed, 20 Nov 2019 11:42:38 +0100
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     =?UTF-8?q?Marek=20Beh=C3=BAn?= <marek.behun@nic.cz>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        David Bauer <mail@david-bauer.net>,
-        "David S . Miller" <davem@davemloft.net>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: Re: [PATCH net 1/1] mdio_bus: fix mdio_register_device when RESET_CONTROLLER is disabled
-Date:   Wed, 20 Nov 2019 11:42:34 +0100
-Message-Id: <alpine.DEB.2.21.1911201053330.25420@ramsan.of.borg>
-X-Mailer: git-send-email 2.17.1
+        Wed, 20 Nov 2019 11:27:57 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8079E1FB;
+        Wed, 20 Nov 2019 08:27:56 -0800 (PST)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3148F3F703;
+        Wed, 20 Nov 2019 08:27:55 -0800 (PST)
+Date:   Wed, 20 Nov 2019 16:27:50 +0000
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh@kernel.org>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        Andrew Murray <andrew.murray@arm.com>,
+        Srinath Mannam <srinath.mannam@broadcom.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] PCI: of: Restore alignment/indentation in host bridge
+ window table
+Message-ID: <20191120162750.GA3279@e121166-lin.cambridge.arm.com>
+References: <20191119191505.25286-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-In-Reply-To: <20191119102744.GD32742@smile.fi.intel.com>
-References: <20191118181505.32298-1-marek.behun@nic.cz> <20191119102744.GD32742@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191119191505.25286-1-geert+renesas@glider.be>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
- 	Hi all,
+On Tue, Nov 19, 2019 at 08:15:05PM +0100, Geert Uytterhoeven wrote:
+> Since the printing of the inbound resources was added, alignment and
+> indentation of the host bridge window table is broken because of two
+> reasons:
+>   1. The "IB MEM" row header is longer than the other headers,
+>   2. Inbound ranges typically extend beyond 32-bit address space, and thus
+>      don't fit in "#010llx".
+> 
+> Fix this by extending the row header field to 6 characters, and the
+> format string to 40-bit addresses.
+> 
+> Use "%6s" to handle field size and right-alignment, instead of manual
+> preparation using error-prone snprintf() calls.  Use the exact same
+> format string for both cases, to allow sharing.
+> 
+> Impact on kernel boot log on r8a7791/koelsch:
+> 
+>      rcar-pcie fe000000.pcie: host bridge /soc/pcie@fe000000 ranges:
+>     -rcar-pcie fe000000.pcie:    IO 0xfe100000..0xfe1fffff -> 0x00000000
+>     -rcar-pcie fe000000.pcie:   MEM 0xfe200000..0xfe3fffff -> 0xfe200000
+>     -rcar-pcie fe000000.pcie:   MEM 0x30000000..0x37ffffff -> 0x30000000
+>     -rcar-pcie fe000000.pcie:   MEM 0x38000000..0x3fffffff -> 0x38000000
+>     -rcar-pcie fe000000.pcie: IB MEM 0x40000000..0xbfffffff -> 0x40000000
+>     -rcar-pcie fe000000.pcie: IB MEM 0x200000000..0x2ffffffff -> 0x200000000
+>     +rcar-pcie fe000000.pcie:       IO 0x00fe100000..0x00fe1fffff -> 0x0000000000
+>     +rcar-pcie fe000000.pcie:      MEM 0x00fe200000..0x00fe3fffff -> 0x00fe200000
+>     +rcar-pcie fe000000.pcie:      MEM 0x0030000000..0x0037ffffff -> 0x0030000000
+>     +rcar-pcie fe000000.pcie:      MEM 0x0038000000..0x003fffffff -> 0x0038000000
+>     +rcar-pcie fe000000.pcie:   IB MEM 0x0040000000..0x00bfffffff -> 0x0040000000
+>     +rcar-pcie fe000000.pcie:   IB MEM 0x0200000000..0x02ffffffff -> 0x0200000000
+> 
+> Fixes: 52ac576f88f9f701 ("PCI: of: Add inbound resource parsing to helpers")
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/pci/of.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
 
-On Tue, 19 Nov 2019, Andy Shevchenko wrote:
-> On Mon, Nov 18, 2019 at 07:15:05PM +0100, Marek Behún wrote:
->> When CONFIG_RESET_CONTROLLER is disabled, the
->> devm_reset_control_get_exclusive function returns -ENOTSUPP. This is not
->> handled in subsequent check and then the mdio device fails to probe.
->>
->> When CONFIG_RESET_CONTROLLER is enabled, its code checks in OF for reset
->> device, and since it is not present, returns -ENOENT. -ENOENT is handled.
->> Add -ENOTSUPP also.
->>
->> This happened to me when upgrading kernel on Turris Omnia. You either
->> have to enable CONFIG_RESET_CONTROLLER or use this patch.
->
-> In the long term prospective shouldn't it use
-> reset_control_get_optional_exclusive() instead?
+Hi Rob,
 
-I was thinking the same, hence I tried.
+do you mind if I squash this patch in the Fixes: above ?
 
-Without a reset (i.e. the returned reset is now NULL instead of
--ENOENT):
+Thanks,
+Lorenzo
 
-     WARNING: CPU: 1 PID: 120 at drivers/base/dd.c:519 really_probe+0xb0/0x314
-     Modules linked in:
-     CPU: 1 PID: 120 Comm: kworker/1:2 Not tainted 5.4.0-rc8-koelsch-08348-gbc6931ed2139022b-dirty #615
-     Hardware name: Generic R-Car Gen2 (Flattened Device Tree)
-     Workqueue: events deferred_probe_work_func
-     [<c020e268>] (unwind_backtrace) from [<c020a428>] (show_stack+0x10/0x14)
-     [<c020a428>] (show_stack) from [<c07a075c>] (dump_stack+0x88/0xa8)
-     [<c07a075c>] (dump_stack) from [<c0220980>] (__warn+0xb8/0xd0)
-     [<c0220980>] (__warn) from [<c0220a08>] (warn_slowpath_fmt+0x70/0x9c)
-     [<c0220a08>] (warn_slowpath_fmt) from [<c05150b0>] (really_probe+0xb0/0x314)
-     [<c05150b0>] (really_probe) from [<c0515598>] (driver_probe_device+0x13c/0x154)
-     [<c0515598>] (driver_probe_device) from [<c0513784>] (bus_for_each_drv+0xa0/0xb4)
-     [<c0513784>] (bus_for_each_drv) from [<c05153c0>] (__device_attach+0xac/0x124)
-     [<c05153c0>] (__device_attach) from [<c05143f0>] (bus_probe_device+0x28/0x80)
-     [<c05143f0>] (bus_probe_device) from [<c051227c>] (device_add+0x4d8/0x698)
-     [<c051227c>] (device_add) from [<c0581110>] (phy_device_register+0x3c/0x74)
-     [<c0581110>] (phy_device_register) from [<c0675efc>] (of_mdiobus_register_phy+0x144/0x17c)
-     [<c0675efc>] (of_mdiobus_register_phy) from [<c06760f8>] (of_mdiobus_register+0x1c4/0x2d0)
-     [<c06760f8>] (of_mdiobus_register) from [<c0589f18>] (sh_eth_drv_probe+0x778/0x8ac)
-     [<c0589f18>] (sh_eth_drv_probe) from [<c0516ce8>] (platform_drv_probe+0x48/0x94)
-     [<c0516ce8>] (platform_drv_probe) from [<c05151f8>] (really_probe+0x1f8/0x314)
-     [<c05151f8>] (really_probe) from [<c0515598>] (driver_probe_device+0x13c/0x154)
-
-The difference with the non-optional case is that
-__devm_reset_control_get() registers a cleanup function if there's
-no error condition, even for NULL (which is futile, will send a patch).
-
-However, more importantly, mdiobus_register_reset() calls a devm_*()
-function on "&mdiodev->dev" ("mdio_bus ee700000.ethernet-ffffffff:01"),
-which is a different device than the one being probed
-(("ee700000.ethernet"), see also the callstack below).
-In fact "&mdiodev->dev" hasn't been probed yet, leading to the WARNING
-when it is probed later.
-
-     [<c0582de8>] (mdiobus_register_device) from [<c05810e0>] (phy_device_register+0xc/0x74)
-     [<c05810e0>] (phy_device_register) from [<c0675ef4>] (of_mdiobus_register_phy+0x144/0x17c)
-     [<c0675ef4>] (of_mdiobus_register_phy) from [<c06760f0>] (of_mdiobus_register+0x1c4/0x2d0)
-     [<c06760f0>] (of_mdiobus_register) from [<c0589f0c>] (sh_eth_drv_probe+0x778/0x8ac)
-     [<c0589f0c>] (sh_eth_drv_probe) from [<c0516ce8>] (platform_drv_probe+0x48/0x94)
-
-Has commit 71dd6c0dff51b5f1 ("net: phy: add support for
-reset-controller") been tested with an actual reset present?
-
-Are Ethernet drivers not (no longer) allowed to register MDIO busses?
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
- 						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
- 							    -- Linus Torvalds
+> diff --git a/drivers/pci/of.c b/drivers/pci/of.c
+> index e7e12adcff3a3836..81ceeaa6f1d5a2c5 100644
+> --- a/drivers/pci/of.c
+> +++ b/drivers/pci/of.c
+> @@ -265,7 +265,7 @@ static int devm_of_pci_get_host_bridge_resources(struct device *dev,
+>  	struct resource *bus_range;
+>  	struct of_pci_range range;
+>  	struct of_pci_range_parser parser;
+> -	char range_type[4];
+> +	const char *range_type;
+>  	int err;
+>  
+>  	if (io_base)
+> @@ -299,12 +299,12 @@ static int devm_of_pci_get_host_bridge_resources(struct device *dev,
+>  	for_each_of_pci_range(&parser, &range) {
+>  		/* Read next ranges element */
+>  		if ((range.flags & IORESOURCE_TYPE_BITS) == IORESOURCE_IO)
+> -			snprintf(range_type, 4, " IO");
+> +			range_type = "IO";
+>  		else if ((range.flags & IORESOURCE_TYPE_BITS) == IORESOURCE_MEM)
+> -			snprintf(range_type, 4, "MEM");
+> +			range_type = "MEM";
+>  		else
+> -			snprintf(range_type, 4, "err");
+> -		dev_info(dev, "  %s %#010llx..%#010llx -> %#010llx\n",
+> +			range_type = "err";
+> +		dev_info(dev, "  %6s %#012llx..%#012llx -> %#012llx\n",
+>  			 range_type, range.cpu_addr,
+>  			 range.cpu_addr + range.size - 1, range.pci_addr);
+>  
+> @@ -359,8 +359,8 @@ static int devm_of_pci_get_host_bridge_resources(struct device *dev,
+>  		    range.cpu_addr == OF_BAD_ADDR || range.size == 0)
+>  			continue;
+>  
+> -		dev_info(dev, "IB MEM %#010llx..%#010llx -> %#010llx\n",
+> -			 range.cpu_addr,
+> +		dev_info(dev, "  %6s %#012llx..%#012llx -> %#012llx\n",
+> +			 "IB MEM", range.cpu_addr,
+>  			 range.cpu_addr + range.size - 1, range.pci_addr);
+>  
+>  
+> -- 
+> 2.17.1
+> 
