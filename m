@@ -2,105 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 44C3F10413A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 20 Nov 2019 17:46:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5089B10489F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Nov 2019 03:40:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732883AbfKTQqC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 20 Nov 2019 11:46:02 -0500
-Received: from mail.kernel.org ([198.145.29.99]:40490 "EHLO mail.kernel.org"
+        id S1726689AbfKUCk3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 20 Nov 2019 21:40:29 -0500
+Received: from vps0.lunn.ch ([185.16.172.187]:48838 "EHLO vps0.lunn.ch"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729901AbfKTQqC (ORCPT
+        id S1726634AbfKUCk2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 20 Nov 2019 11:46:02 -0500
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EEC0020895;
-        Wed, 20 Nov 2019 16:46:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574268361;
-        bh=R6SyimNGQdLtKwjwUdKxJ320G/EPgQrR9kg29Psq5yU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=jmceyR3LJHIz0w3HzRscmksCTlcPlDgJWFZalPz+nP0bd4CZwC1wiEUQ5u2k9vNWJ
-         DFDzBzoQ5nKbTq2QPnAzM1mA8mn1KRuWl0T0j18DrJpWia3ZyLCjArUYzukF314peb
-         aj4anLFnIvEp7JiX7R1/InSspip7Uu8sfYRH12po=
-Received: by mail-qk1-f171.google.com with SMTP id q70so321711qke.12;
-        Wed, 20 Nov 2019 08:46:00 -0800 (PST)
-X-Gm-Message-State: APjAAAW4rjpEHvJ9A7A4K4I1/D9V2P0nJAxjJ3l8lxm81v1jteeQPTq1
-        IrIESX7wL5jDNHrRe8DuB6fWN0s+f3FLhEa1kg==
-X-Google-Smtp-Source: APXvYqyQsCsFWc9QmmtpDwHH2Qlb9K29LoKr0bRhwaNQe0r2nm77ICaneDWw99PkBech78rMFBTJ7acTuCde/90tiCQ=
-X-Received: by 2002:a05:620a:205d:: with SMTP id d29mr3294545qka.152.1574268360061;
- Wed, 20 Nov 2019 08:46:00 -0800 (PST)
+        Wed, 20 Nov 2019 21:40:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+        s=20171124; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+        Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+        List-Post:List-Owner:List-Archive;
+        bh=Y4wjRpQvsAPhU0ecdnz6Kh4okkQOALRAUnYIw6eZfqg=; b=QQGLgBNXJ2zuXQWXmGy6ADebxO
+        Vpc+tAldP65ZncaFN9Brw9ADK6Yh+QNIrbfl/ukIl/g/8a7Wvpq74DVqBYlaVEZH3qLaudBZZ+IJh
+        mi7valFbQMCPVTTZSJW0mBCup+bJxPzoUaHBJmtP8dpcvSx12xsTdofwNcMZ3HcVfGcQ=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.92.2)
+        (envelope-from <andrew@lunn.ch>)
+        id 1iXbtP-000707-0F; Thu, 21 Nov 2019 03:08:23 +0100
+Date:   Thu, 21 Nov 2019 03:08:22 +0100
+From:   Andrew Lunn <andrew@lunn.ch>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        David Bauer <mail@david-bauer.net>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Marek =?iso-8859-1?Q?Beh=FAn?= <marek.behun@nic.cz>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        David Bauer <mail@david-bauer.net>,
+        "David S. Miller" <davem@davemloft.net>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        netdev@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH net 1/1] mdio_bus: fix mdio_register_device when
+ RESET_CONTROLLER is disabled
+Message-ID: <20191121020822.GD18325@lunn.ch>
+References: <20191118181505.32298-1-marek.behun@nic.cz>
+ <20191119102744.GD32742@smile.fi.intel.com>
+ <alpine.DEB.2.21.1911201053330.25420@ramsan.of.borg>
 MIME-Version: 1.0
-References: <20191119191505.25286-1-geert+renesas@glider.be> <20191120162750.GA3279@e121166-lin.cambridge.arm.com>
-In-Reply-To: <20191120162750.GA3279@e121166-lin.cambridge.arm.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Wed, 20 Nov 2019 10:45:48 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqL_kLOGM0QyCHo-vM14P42YQ4Ny+YJS0Ysh-3X2FDTg_A@mail.gmail.com>
-Message-ID: <CAL_JsqL_kLOGM0QyCHo-vM14P42YQ4Ny+YJS0Ysh-3X2FDTg_A@mail.gmail.com>
-Subject: Re: [PATCH] PCI: of: Restore alignment/indentation in host bridge
- window table
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Andrew Murray <andrew.murray@arm.com>,
-        Srinath Mannam <srinath.mannam@broadcom.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        PCI <linux-pci@vger.kernel.org>,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.21.1911201053330.25420@ramsan.of.borg>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Nov 20, 2019 at 10:27 AM Lorenzo Pieralisi
-<lorenzo.pieralisi@arm.com> wrote:
->
-> On Tue, Nov 19, 2019 at 08:15:05PM +0100, Geert Uytterhoeven wrote:
-> > Since the printing of the inbound resources was added, alignment and
-> > indentation of the host bridge window table is broken because of two
-> > reasons:
-> >   1. The "IB MEM" row header is longer than the other headers,
-> >   2. Inbound ranges typically extend beyond 32-bit address space, and thus
-> >      don't fit in "#010llx".
-> >
-> > Fix this by extending the row header field to 6 characters, and the
-> > format string to 40-bit addresses.
-> >
-> > Use "%6s" to handle field size and right-alignment, instead of manual
-> > preparation using error-prone snprintf() calls.  Use the exact same
-> > format string for both cases, to allow sharing.
-> >
-> > Impact on kernel boot log on r8a7791/koelsch:
-> >
-> >      rcar-pcie fe000000.pcie: host bridge /soc/pcie@fe000000 ranges:
-> >     -rcar-pcie fe000000.pcie:    IO 0xfe100000..0xfe1fffff -> 0x00000000
-> >     -rcar-pcie fe000000.pcie:   MEM 0xfe200000..0xfe3fffff -> 0xfe200000
-> >     -rcar-pcie fe000000.pcie:   MEM 0x30000000..0x37ffffff -> 0x30000000
-> >     -rcar-pcie fe000000.pcie:   MEM 0x38000000..0x3fffffff -> 0x38000000
-> >     -rcar-pcie fe000000.pcie: IB MEM 0x40000000..0xbfffffff -> 0x40000000
-> >     -rcar-pcie fe000000.pcie: IB MEM 0x200000000..0x2ffffffff -> 0x200000000
-> >     +rcar-pcie fe000000.pcie:       IO 0x00fe100000..0x00fe1fffff -> 0x0000000000
-> >     +rcar-pcie fe000000.pcie:      MEM 0x00fe200000..0x00fe3fffff -> 0x00fe200000
-> >     +rcar-pcie fe000000.pcie:      MEM 0x0030000000..0x0037ffffff -> 0x0030000000
-> >     +rcar-pcie fe000000.pcie:      MEM 0x0038000000..0x003fffffff -> 0x0038000000
-> >     +rcar-pcie fe000000.pcie:   IB MEM 0x0040000000..0x00bfffffff -> 0x0040000000
-> >     +rcar-pcie fe000000.pcie:   IB MEM 0x0200000000..0x02ffffffff -> 0x0200000000
-> >
-> > Fixes: 52ac576f88f9f701 ("PCI: of: Add inbound resource parsing to helpers")
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> >  drivers/pci/of.c | 14 +++++++-------
-> >  1 file changed, 7 insertions(+), 7 deletions(-)
->
-> Hi Rob,
->
-> do you mind if I squash this patch in the Fixes: above ?
+> The difference with the non-optional case is that
+> __devm_reset_control_get() registers a cleanup function if there's
+> no error condition, even for NULL (which is futile, will send a patch).
+> 
+> However, more importantly, mdiobus_register_reset() calls a devm_*()
+> function on "&mdiodev->dev" ("mdio_bus ee700000.ethernet-ffffffff:01"),
+> which is a different device than the one being probed
+> (("ee700000.ethernet"), see also the callstack below).
+> In fact "&mdiodev->dev" hasn't been probed yet, leading to the WARNING
+> when it is probed later.
+> 
+>     [<c0582de8>] (mdiobus_register_device) from [<c05810e0>] (phy_device_register+0xc/0x74)
+>     [<c05810e0>] (phy_device_register) from [<c0675ef4>] (of_mdiobus_register_phy+0x144/0x17c)
+>     [<c0675ef4>] (of_mdiobus_register_phy) from [<c06760f0>] (of_mdiobus_register+0x1c4/0x2d0)
+>     [<c06760f0>] (of_mdiobus_register) from [<c0589f0c>] (sh_eth_drv_probe+0x778/0x8ac)
+>     [<c0589f0c>] (sh_eth_drv_probe) from [<c0516ce8>] (platform_drv_probe+0x48/0x94)
+> 
+> Has commit 71dd6c0dff51b5f1 ("net: phy: add support for
+> reset-controller") been tested with an actual reset present?
+> 
+> Are Ethernet drivers not (no longer) allowed to register MDIO busses?
 
-No, LGTM.
+That is not good. The devm_reset_control_get() call need replaces with
+an unmanaged version, and a call to reset_control_put() added to
+mdiobus_unregister_device().
 
-Rob
+David, could you look at this, it was a patch from you that added
+this.
+
+	Andrew
