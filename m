@@ -2,219 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C5FC810589B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 21 Nov 2019 18:33:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C539B1065AE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Nov 2019 07:26:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726541AbfKURdk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 21 Nov 2019 12:33:40 -0500
-Received: from relay10.mail.gandi.net ([217.70.178.230]:58475 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726379AbfKURdk (ORCPT
+        id S1728312AbfKVGZu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Nov 2019 01:25:50 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55840 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726714AbfKVFu6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 21 Nov 2019 12:33:40 -0500
-Received: from uno.localdomain (93-34-114-233.ip49.fastwebnet.it [93.34.114.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id D9A19240008;
-        Thu, 21 Nov 2019 17:33:37 +0000 (UTC)
-Date:   Thu, 21 Nov 2019 18:35:41 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] max9286: simplify i2c-mux parsing
-Message-ID: <20191121173541.sb4ycbinjkhvzmso@uno.localdomain>
-References: <20191116165034.39001-1-jacopo+renesas@jmondi.org>
- <20191121165631.5744-1-kieran.bingham@ideasonboard.com>
+        Fri, 22 Nov 2019 00:50:58 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E834620726;
+        Fri, 22 Nov 2019 05:50:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1574401857;
+        bh=7DS8nQvITiDoPvFXUkkqn4Bs2erk92HkQ7idQB7DNKM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=tVzen5CMgELAgivuF50Dd0DugidYIwJDvntPJuh3SLat4nMpFh4f7PVogQEKtI5f1
+         J850y1nFXhE5VN9knTYOfappAgxkS6wy9GTr3nVTaTqFFHcbgogERHpZkSPLFPzDSP
+         Icrhe1mCIm6YBxQ9j64iwRQTqXGY6a9UlLr96LNI=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Sasha Levin <sashal@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 094/219] pinctrl: sh-pfc: r8a77990: Fix MOD_SEL0 SEL_I2C1 field width
+Date:   Fri, 22 Nov 2019 00:47:06 -0500
+Message-Id: <20191122054911.1750-87-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191122054911.1750-1-sashal@kernel.org>
+References: <20191122054911.1750-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="vfvvexuoguzdgswj"
-Content-Disposition: inline
-In-Reply-To: <20191121165631.5744-1-kieran.bingham@ideasonboard.com>
-User-Agent: NeoMutt/20180716
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+From: Geert Uytterhoeven <geert+renesas@glider.be>
 
---vfvvexuoguzdgswj
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+[ Upstream commit 755a5b805fa7ff22e2934d67501efd92109f41ea ]
 
-Hi Kieran,
+The SEL_I2C1 (MOD_SEL0[21:20]) field in Module Select Register 0 has a
+width of 2 bits, i.e. it allows programming one out of 4 different
+configurations.
+However, the MOD_SEL0_21_20 macro contains 8 values instead of 4,
+overflowing into the subsequent fields in the register, and thus breaking
+the configuration of the latter.
 
-On Thu, Nov 21, 2019 at 04:56:31PM +0000, Kieran Bingham wrote:
->  - Identify each enabled i2c-mux channel in a single pass
->
-> The parse_dt function iterates each node in the i2c-mux for each endpoint looking for a match.
-> The only purpose of these iterations is to determine if the corresponding i2c-channel
-> is enabled. (status = 'okay').
->
-> Iterate the i2c-mux nodes in a single pass storing the enable state
-> in a local i2c_mux_mask for use when parsing the endpoints.
->
+Fix this by dropping the bogus last 4 values, including the non-existent
+SEL_I2C1_4 configuration.
 
-I very much agree with this :)
+Fixes: 6d4036a1e3b3ac0f ("pinctrl: sh-pfc: Initial R8A77990 PFC support")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/pinctrl/sh-pfc/pfc-r8a77990.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> ---
->  drivers/media/i2c/max9286.c | 84 +++++++++++++++----------------------
->  1 file changed, 34 insertions(+), 50 deletions(-)
->
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index 34cb6f3b40c2..a36132becdc7 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -1097,55 +1097,6 @@ static int max9286_is_bound(struct device *dev, void *data)
->  	return 0;
->  }
->
-> -static struct device_node *max9286_get_i2c_by_id(struct device_node *parent,
-> -						 u32 id)
-> -{
-> -	struct device_node *i2c_mux;
-> -	struct device_node *child;
-> -
-> -	/* Balance the of_node_put() performed by of_find_node_by_name() */
-> -	of_node_get(parent);
-> -
-> -	i2c_mux = of_find_node_by_name(parent, "i2c-mux");
-> -	if (!i2c_mux) {
-> -		printk("max9286: Failed to find i2c-mux node\n");
-> -		return NULL;
-> -	}
-> -
-> -	for_each_child_of_node(i2c_mux, child) {
-> -		u32 i2c_id = 0;
-> -
-> -		if (of_node_cmp(child->name, "i2c") != 0)
-> -			continue;
-> -		of_property_read_u32(child, "reg", &i2c_id);
-> -		if (id == i2c_id)
-> -			return child;
-> -	}
-> -
-> -	return NULL;
-> -}
-> -
-> -static int max9286_check_i2c_bus_by_id(struct device *dev, int id)
-> -{
-> -	struct device_node *i2c_np;
-> -
-> -	i2c_np = max9286_get_i2c_by_id(dev->of_node, id);
-> -	if (!i2c_np) {
-> -		dev_err(dev, "Failed to find corresponding i2c@%u\n", id);
-> -		return -ENODEV;
-> -	}
-> -
-> -	if (!of_device_is_available(i2c_np)) {
-> -		dev_dbg(dev, "Skipping port %u with disabled I2C bus\n", id);
-> -		of_node_put(i2c_np);
-> -		return -ENODEV;
-> -	}
-> -
-> -	of_node_put(i2c_np);
-> -
-> -	return 0;
-> -}
-> -
->  static void max9286_cleanup_dt(struct max9286_priv *priv)
->  {
->  	struct max9286_source *source;
-> @@ -1167,11 +1118,44 @@ static void max9286_cleanup_dt(struct max9286_priv *priv)
->  static int max9286_parse_dt(struct max9286_priv *priv)
->  {
->  	struct device *dev = &priv->client->dev;
-> +	struct device_node *i2c_mux;
-> +	struct device_node *child = NULL;
->  	struct device_node *ep_np = NULL;
+diff --git a/drivers/pinctrl/sh-pfc/pfc-r8a77990.c b/drivers/pinctrl/sh-pfc/pfc-r8a77990.c
+index b81c807ac54d5..d2fcf7f7b9668 100644
+--- a/drivers/pinctrl/sh-pfc/pfc-r8a77990.c
++++ b/drivers/pinctrl/sh-pfc/pfc-r8a77990.c
+@@ -395,7 +395,7 @@ FM(IP12_31_28)	IP12_31_28	FM(IP13_31_28)	IP13_31_28	FM(IP14_31_28)	IP14_31_28	FM
+ #define MOD_SEL0_24		FM(SEL_HSCIF0_0)		FM(SEL_HSCIF0_1)
+ #define MOD_SEL0_23		FM(SEL_HSCIF1_0)		FM(SEL_HSCIF1_1)
+ #define MOD_SEL0_22		FM(SEL_HSCIF2_0)		FM(SEL_HSCIF2_1)
+-#define MOD_SEL0_21_20		FM(SEL_I2C1_0)			FM(SEL_I2C1_1)			FM(SEL_I2C1_2)			FM(SEL_I2C1_3)		FM(SEL_I2C1_4)		F_(0, 0)	F_(0, 0)	F_(0, 0)
++#define MOD_SEL0_21_20		FM(SEL_I2C1_0)			FM(SEL_I2C1_1)			FM(SEL_I2C1_2)			FM(SEL_I2C1_3)
+ #define MOD_SEL0_19_18_17	FM(SEL_I2C2_0)			FM(SEL_I2C2_1)			FM(SEL_I2C2_2)			FM(SEL_I2C2_3)		FM(SEL_I2C2_4)		F_(0, 0)	F_(0, 0)	F_(0, 0)
+ #define MOD_SEL0_16		FM(SEL_NDFC_0)			FM(SEL_NDFC_1)
+ #define MOD_SEL0_15		FM(SEL_PWM0_0)			FM(SEL_PWM0_1)
+-- 
+2.20.1
 
-Nit: could you re-use child or ep_np ?
-
-> +	unsigned int i2c_mux_mask = 0;
->  	int ret;
->
-> +	/* Balance the of_node_put() performed by of_find_node_by_name() */
-
-Do you need this comment ?
-
-> +	of_node_get(dev->of_node);
-> +	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
-> +	if (!i2c_mux) {
-> +		dev_err(dev, "Failed to find i2c-mux node\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* Identify which i2c-mux channels are enabled */
-> +	for_each_child_of_node(i2c_mux, child) {
-> +		u32 id = 0;
-> +
-> +		if (of_node_cmp(child->name, "i2c") != 0)
-> +			continue;
-
-With the new bindings in yaml format and the associated verification,
-this should not happen.
-
-> +
-> +		of_property_read_u32(child, "reg", &id);
-> +		if (id >= MAX9286_NUM_GMSL)
-> +			continue;
-> +
-> +		if (!of_device_is_available(child)) {
-> +			dev_dbg(dev, "Skipping port %u with disabled I2C bus\n", id);
-> +			continue;
-> +		}
-> +
-> +		i2c_mux_mask |= BIT(id);
-> +	}
-> +	of_node_put(child);
-> +	of_node_put(i2c_mux);
-> +
->  	v4l2_async_notifier_init(&priv->notifier);
->
-> +	/* Parse the endpoints */
->  	for_each_endpoint_of_node(dev->of_node, ep_np) {
-
-dev->of_node is reused here, do you need to get it again ?
-
-All minors though, squash this on the next max9286 submission if you
-feel to.
-
-Thanks
-   j
-
->  		struct max9286_source *source;
->  		struct of_endpoint ep;
-> @@ -1214,7 +1198,7 @@ static int max9286_parse_dt(struct max9286_priv *priv)
->  		}
->
->  		/* Skip if the corresponding GMSL link is unavailable. */
-> -		if (max9286_check_i2c_bus_by_id(dev, ep.port))
-> +		if (!(i2c_mux_mask & BIT(ep.port)))
->  			continue;
->
->  		if (priv->sources[ep.port].fwnode) {
-> --
-> 2.20.1
->
-
---vfvvexuoguzdgswj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl3Wyu0ACgkQcjQGjxah
-Vjy3Pg//ZaEkg+NgZafsxJpXphumiT6bnmMmWcQClYjtqwUM/YlpTL9Pnhl8aijb
-TqU7mVv3ZXb4P4ybDkwg1U9JAmEDbhINFURSL/eXASQtWfU00iq5Q7gant9ifbp8
-K2JH+FpUrwsn8qeX1oFKs69aTvYJkaXRN0KW77izgxyj7Tpo//33ZuBGhFT6CTDv
-4i837BnlnQbUbN7LMfazBS9jx3nRl2LFFuhMrVMr4xnJ+A7xxzWwoBLMUCLPMfoN
-NY9U6dM4MNz2Et7gsbwH1b+CdoQnJAt033MrjxmyOv1xQtfAEeAfU3jo00HXN/gt
-pnqN1jdcEVkZm8uDqPU4K2rOSP8CEvl6fpFR2PEwq8AxguYaipGFJtwhN73Ro6QK
-c8YApGGZiPSrlSxENnxqKSR/zS1kj5uajDnZ/zOIn2rDtPn2ifInshpydRNYcYhe
-Gw/l7dtiBeGkJJT9j67BzIRGyMiOP1dGihakscoc3LrL4Xw27Jdh4cVQJIQ3Ze2D
-HwiyN2iuBtYM8Y7NjJIiItR21/naWTxUFSrxtYf5PiOzMXELEuhYzTdUe4lHDRRx
-bfnmlTRC3HeF8SuiCX4tCCBF4rfq8T2ROtDzkWAkwm048TushSPs8wxGl//YrNmQ
-vUHjwSzsokV7eBRYBcGw1XIKXucVs4jNh5z0ucnkhQurLuoDoUA=
-=TYiB
------END PGP SIGNATURE-----
-
---vfvvexuoguzdgswj--
