@@ -2,60 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 40D9D106436
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Nov 2019 07:16:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B4DD106658
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 22 Nov 2019 07:31:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729530AbfKVGNz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 22 Nov 2019 01:13:55 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:61957 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729514AbfKVGNy (ORCPT
+        id S1727418AbfKVG3h (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 22 Nov 2019 01:29:37 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54302 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727387AbfKVFt5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 22 Nov 2019 01:13:54 -0500
-X-IronPort-AV: E=Sophos;i="5.69,228,1571670000"; 
-   d="scan'208";a="32153148"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 22 Nov 2019 15:13:51 +0900
-Received: from localhost.localdomain (unknown [10.166.17.210])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id C0654400D0F7;
-        Fri, 22 Nov 2019 15:13:51 +0900 (JST)
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: [PATCH RFC 4/4] mmc: host: renesas_sdhi_sys_dmac: Set dma_buswidth value to 32 byte
-Date:   Fri, 22 Nov 2019 15:13:51 +0900
-Message-Id: <1574403231-18512-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1574403231-18512-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-References: <1574403231-18512-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+        Fri, 22 Nov 2019 00:49:57 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 893E82070B;
+        Fri, 22 Nov 2019 05:49:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1574401796;
+        bh=hRQeDkByL8QEKVXoXktXKnPJwQx473J1hBcnIlZEy3k=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=l5567OOMi2HSqclILq58Q5cIb6CZeh3LJv9ABLD3KHsja1Mm2JyIZjc/PC9uhVPJM
+         ZCMA8leDHLzoV8QCpyFAXfi/b8wammknZ12Ofzbt4hPzLQGt+k0AxT5OX6nQ1yLoSj
+         su6zgTVsJBLyt9MMx/70piwmQ4j5PlPI6nDLEosY=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        Sasha Levin <sashal@kernel.org>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 043/219] arm64: dts: renesas: draak: Fix CVBS input
+Date:   Fri, 22 Nov 2019 00:46:15 -0500
+Message-Id: <20191122054911.1750-36-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191122054911.1750-1-sashal@kernel.org>
+References: <20191122054911.1750-1-sashal@kernel.org>
+MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-To improve performance, this patch sets dma_buswidth value to 32
-when transfer size is multiples of 32. In other words, a sd card
-transfer's size if not multiples of 32, this driver uses PIO
-and then the performance will be down.
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+[ Upstream commit 6f61a2c8f1f6163c7e08c77c5f71df0427e4d2f6 ]
+
+A typo in the adv7180 DT node prevents successful probing of the VIN.
+Fix it.
+
+Fixes: 6a0942c20f5c ("arm64: dts: renesas: draak: Describe CVBS input")
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Acked-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/mmc/host/renesas_sdhi_sys_dmac.c | 2 +-
+ arch/arm64/boot/dts/renesas/r8a77995-draak.dts | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/mmc/host/renesas_sdhi_sys_dmac.c b/drivers/mmc/host/renesas_sdhi_sys_dmac.c
-index 09137cc..65e71b6 100644
---- a/drivers/mmc/host/renesas_sdhi_sys_dmac.c
-+++ b/drivers/mmc/host/renesas_sdhi_sys_dmac.c
-@@ -58,7 +58,7 @@ static const struct renesas_sdhi_of_data of_rcar_gen2_compatible = {
- 	.capabilities	= MMC_CAP_SD_HIGHSPEED | MMC_CAP_SDIO_IRQ |
- 			  MMC_CAP_CMD23,
- 	.capabilities2	= MMC_CAP2_NO_WRITE_PROTECT,
--	.dma_buswidth	= DMA_SLAVE_BUSWIDTH_4_BYTES,
-+	.dma_buswidth	= DMA_SLAVE_BUSWIDTH_32_BYTES,
- 	.dma_rx_offset	= 0x2000,
- 	.scc_offset	= 0x0300,
- 	.taps		= rcar_gen2_scc_taps,
+diff --git a/arch/arm64/boot/dts/renesas/r8a77995-draak.dts b/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
+index a8e8f2669d4c5..1b8f19ee257f0 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
++++ b/arch/arm64/boot/dts/renesas/r8a77995-draak.dts
+@@ -188,7 +188,7 @@
+ 		compatible = "adi,adv7180cp";
+ 		reg = <0x20>;
+ 
+-		port {
++		ports {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
+ 
 -- 
-2.7.4
+2.20.1
 
