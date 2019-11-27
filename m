@@ -2,142 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22A0D10B171
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Nov 2019 15:33:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CBF1310B38A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Nov 2019 17:39:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726696AbfK0Odr convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Nov 2019 09:33:47 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:37618 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726655AbfK0Odr (ORCPT
+        id S1726937AbfK0QjD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Nov 2019 11:39:03 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:36950 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726593AbfK0QjC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Nov 2019 09:33:47 -0500
-Received: by mail-oi1-f195.google.com with SMTP id 128so12195533oih.4;
-        Wed, 27 Nov 2019 06:33:46 -0800 (PST)
+        Wed, 27 Nov 2019 11:39:02 -0500
+Received: by mail-pg1-f193.google.com with SMTP id b10so11146973pgd.4;
+        Wed, 27 Nov 2019 08:39:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=a5uCI8sDk06L3eBN4lbKYbKhhJe2khqKsQK/HeBIflE=;
+        b=q6/t6QHFrX/IIKybww/twC4NWcDBGujHbbW6ZuVds6JG9ulrqK5lGwr1HEBFZ4qBMz
+         KqP6zyPrBs3/04rc8fYDrdNoQdEevLJOUBc8uPUWa+zRDeHtu8gR8xl/QIibsnwYu0yL
+         UoN8lGq5hVtEUcpRqBZH8G0VcwLCbbVIwQNS/gH4HJ2CfGuoozN/DCE7dcd32FEsYFb4
+         0EzrAg0jCspjpo+faC6Swl+nwb9tiK0BlLK9a+ro9ULbguCqhX1B5Hgz+HaxnPV0DafW
+         ov01MNMyPRgxNBLbfpIaQoX5yHLNMiAgPGNW2CvWdKalrlQc+yPBiubqa6nDWJtJDMfy
+         RKeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=p4HQ0sBvX9KwKME5QSEdWqGhxNVzafG2qhuy+QctP4M=;
-        b=uIu88hPH1HKUcJ9FxgIQiprCpNhBB3D/sjX+Z3Buoc3AY63eSySYBxawinLs6HB6ak
-         zufvG2EoASpJW4XPnzxzHwG1rlMVyeKe3ZNCeUEHK7NaAQEPF3hHHk/ZT6rbeQB3ct6r
-         ELxVeKaPffJqNdMQnrI5XdNkjLZC8Rjz9wPZIeG+PZqXI7EQpkrCLxR3w7Luf9iDTPV5
-         /quCP4xMzEftrmR/M6Gtrmkh1AlUIy7P9LNX9/hcFqFLk8M15dB6JogP3eYYNFrK4cNo
-         H2vByTo8FwlazB57PN3FpoWbmHSaDHpdWyhrRK7Q/SY+v4kCx9+mtCuStIq08XIKNkMo
-         s7sA==
-X-Gm-Message-State: APjAAAXTwa0AZ28VipTYnZc8636eEGfZjcCxegeiRt/BV5yfvpHuyTBl
-        pd46WN4VEFe4E4sOpkoN6hELorBye9nwkAivyhU=
-X-Google-Smtp-Source: APXvYqxCCNIKdr71l4+aem/37DJmvPbfkWnFnSlhjT3Aiy6bb+myMARYI5vlJfzw8lh/LBhhdEQ2bi0iWvwnKGpu9eY=
-X-Received: by 2002:a05:6808:b17:: with SMTP id s23mr4564212oij.102.1574865225731;
- Wed, 27 Nov 2019 06:33:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-6-geert+renesas@glider.be> <20191127141529.GA18189@vmlxhi-102.adit-jv.com>
-In-Reply-To: <20191127141529.GA18189@vmlxhi-102.adit-jv.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 27 Nov 2019 15:33:34 +0100
-Message-ID: <CAMuHMdVMoo0rJ-Ji1ek-DqHEkRqM5Fk5o9RzQV08Z8SSdS9APA@mail.gmail.com>
-Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=a5uCI8sDk06L3eBN4lbKYbKhhJe2khqKsQK/HeBIflE=;
+        b=NzTwzobKSCPDYRsCZwFx6QolHW3Bqx5g71vD41DfkdBTBDebo7/3P7y8J8BB0ERK/T
+         /wn3LcRC6tEQpJcV+ABazn4r8FYPT4K4uvbNp7lHedFfIhLc7EHR7WGXXTB3VfXyp5LK
+         mApelIjIQiFdIXZbXtVRkl1n5hCZ1Wbhqi+rt5GBzdz4Tahkm6HcUix33TNLCmKPG1CY
+         A+Eqq6aDYLEW8RUQcfKHz5OAdFKJw71vTAAZlvOOoLfOgZEM/hTagMDTqx+Cmdc2DzBK
+         m2fh7QvjzUtczyLAG+1pVsqHNkr9IFIXFY/aCXAI+gy1lX7Img3w+LkxYnpWiss8zM+p
+         eXKg==
+X-Gm-Message-State: APjAAAUnJo9fEV9fc+ysmef8Vcy+h4Iw3dJO2UByd6lkKnUNQmZnHvYL
+        DPTVK2ALq7PfnR/TzGfAxsY=
+X-Google-Smtp-Source: APXvYqyhFzYRUOGgpal+39IdvGP69h56LXE8h32YtVVh0FuJl/Vspv8GKTCoDBf/zWCNFBX2XPiQ7g==
+X-Received: by 2002:a62:aa0a:: with SMTP id e10mr47148355pff.46.1574872741931;
+        Wed, 27 Nov 2019 08:39:01 -0800 (PST)
+Received: from nishad ([106.51.232.103])
+        by smtp.gmail.com with ESMTPSA id c17sm17084710pfo.42.2019.11.27.08.38.54
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 27 Nov 2019 08:39:01 -0800 (PST)
+Date:   Wed, 27 Nov 2019 22:08:50 +0530
+From:   Nishad Kamdar <nishadkamdar@gmail.com>
+To:     Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Sean Wang <sean.wang@kernel.org>,
         Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Joe Perches <joe@perches.com>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org,
+        linux-amlogic@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/5] pinctrl: Use the correct style for SPDX License
+ Identifier
+Message-ID: <cover.1574871463.git.nishadkamdar@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Eugeniu,
+This patch corrects the SPDX License Identifier style
+in the pinctrl driver related files.
 
-On Wed, Nov 27, 2019 at 3:15 PM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
-> On Wed, Nov 27, 2019 at 09:42:51AM +0100, Geert Uytterhoeven wrote:
-> > +static bool isrange(const char *s)
-> > +{
-> > +     size_t n = strlen(s);
->
-> Cppcheck 1.40-18521-ge6d692d96058:
-> drivers/gpio/gpio-aggregator.c:69:11: style: Variable 'n' is assigned a value that is never used. [unreadVariable]
->
-> Smatch v0.5.0-6150-gc1ed13e4ee7b:
-> drivers/gpio/gpio-aggregator.c:69 isrange() warn: unused return: n = strlen()
+Changes made by using a script provided by Joe Perches here:
+https://lkml.org/lkml/2019/2/7/46
+and some manual changes.
 
-Correct, this is a remainder of code present temporarily during development.
-Will drop.
+Nishad Kamdar (5):
+  pinctrl: actions: Use the correct style for SPDX License Identifier
+  pinctrl: mediatek: Use the correct style for SPDX License Identifier
+  pinctrl: meson-axg: Use the correct style for SPDX License Identifier
+  pinctrl: sh-pfc: Use the correct style for SPDX License Identifier
+  pinctrl: stm32: Use the correct style for SPDX License Identifier
 
-(where are the days gcc itself warned about that?)
-
-> > +     aggr->lookups->dev_id = kasprintf(GFP_KERNEL, "%s.%d", DRV_NAME, id);
-> > +     if (!aggr->lookups) {
-> > +             res = -ENOMEM;
-> > +             goto remove_idr;
-> > +     }
->
-> s/aggr->lookups/aggr->lookups->dev_id/ ?
-
-Thanks, will fix.
-
-> > +static int gpio_fwd_get_multiple(struct gpio_chip *chip, unsigned long *mask,
-> > +                              unsigned long *bits)
-> > +{
-> > +     struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
-> > +     unsigned long *values, flags;
->
-> gcc 9.2.1:
-> warning: ‘flags’ may be used uninitialized in this function [-Wmaybe-uninitialized]
->
-> [..]
->
-> > +static void gpio_fwd_set_multiple(struct gpio_chip *chip, unsigned long *mask,
-> > +                               unsigned long *bits)
-> > +{
-> > +     struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
-> > +     unsigned long *values, flags;
->
-> gcc 9.2.1, same as above:
-> warning: ‘flags’ may be used uninitialized in this function [-Wmaybe-uninitialized]
-
-So newer gcc is (again) no longer smart enough to notice the check is
-the same for initializer and user...
-
-> Should these be silenced like in 2bf593f101f3ca ("xilinx_uartps.c:
-> suppress "may be used uninitialised" warning") ?
-
-TBH, I'm not a big fan of silencing false positives.
-But if people like to see flags preinitialized to zero, that can be done...
-
-> I plan to do some runtime testing soon.
-
-Thanks, looking forward to the results!
-
-Gr{oetje,eeting}s,
-
-                        Geert
+ drivers/pinctrl/actions/pinctrl-owl.h         | 2 +-
+ drivers/pinctrl/mediatek/pinctrl-mtk-mt2712.h | 2 +-
+ drivers/pinctrl/meson/pinctrl-meson-axg-pmx.h | 2 +-
+ drivers/pinctrl/sh-pfc/core.h                 | 4 ++--
+ drivers/pinctrl/sh-pfc/sh_pfc.h               | 4 ++--
+ drivers/pinctrl/stm32/pinctrl-stm32.h         | 2 +-
+ 6 files changed, 8 insertions(+), 8 deletions(-)
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.17.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
