@@ -2,204 +2,191 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 67B7010AA93
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Nov 2019 07:08:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EF0A10AC10
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Nov 2019 09:43:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726446AbfK0GIa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Nov 2019 01:08:30 -0500
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:43110 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726092AbfK0GIa (ORCPT
+        id S1726947AbfK0Ina (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Nov 2019 03:43:30 -0500
+Received: from andre.telenet-ops.be ([195.130.132.53]:43652 "EHLO
+        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726729AbfK0InK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Nov 2019 01:08:30 -0500
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id xAR68ATE043987;
-        Wed, 27 Nov 2019 00:08:10 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1574834890;
-        bh=JZc1B8RG/YeMTo2s/ibzN/Eaqy05JPcFJLaIF51oXpc=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=rDqjV4QMMrb55FIJgfbdwesvYoqebW+NdP/vKFSp3Ds9OTNe0YCZbTIdfECAp1V5E
-         nuEWG+4NvH4aknsDljjRrRl841LOspwEFH3uwU1syK3xtGVtuP2Br0L+m7w5HHz0D0
-         VpTBKfKLSlHYLykmJGDbf6fOpODYdg0keEQQAmzk=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xAR68Adw029429
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 27 Nov 2019 00:08:10 -0600
-Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 27
- Nov 2019 00:08:10 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Wed, 27 Nov 2019 00:08:10 -0600
-Received: from [10.24.69.157] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id xAR680Wc026149;
-        Wed, 27 Nov 2019 00:08:01 -0600
-Subject: Re: [PATCH 0/5] Add support for PCIe controller to work in endpoint
- mode on R-Car SoCs.
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
+        Wed, 27 Nov 2019 03:43:10 -0500
+Received: from ramsan ([84.195.182.253])
+        by andre.telenet-ops.be with bizsmtp
+        id Wwiu2100b5USYZQ01wiuXS; Wed, 27 Nov 2019 09:43:07 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1iZsuU-0000xd-K7; Wed, 27 Nov 2019 09:42:54 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1iZsuU-0004No-H4; Wed, 27 Nov 2019 09:42:54 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc:     Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-pci <linux-pci@vger.kernel.org>
-CC:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Murray <andrew.murray@arm.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20191106193609.19645-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CA+V-a8tVK7oUYggTb5Vi3agMp4CH8gtiKDHet09DzE5-LAfiew@mail.gmail.com>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <a0d5b159-001a-a013-ba1d-a0eeb3c89ffa@ti.com>
-Date:   Wed, 27 Nov 2019 11:37:18 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <CA+V-a8tVK7oUYggTb5Vi3agMp4CH8gtiKDHet09DzE5-LAfiew@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v3 0/7] gpio: Add GPIO Aggregator/Repeater
+Date:   Wed, 27 Nov 2019 09:42:46 +0100
+Message-Id: <20191127084253.16356-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Prabhakar,
+	Hi all,
 
-On 26/11/19 8:03 PM, Lad, Prabhakar wrote:
-> Hi Bjorn/Kishon,
-> 
-> Gentle ping for this patch set.
+GPIO controllers are exported to userspace using /dev/gpiochip*
+character devices.  Access control to these devices is provided by
+standard UNIX file system permissions, on an all-or-nothing basis:
+either a GPIO controller is accessible for a user, or it is not.
+Currently no mechanism exists to control access to individual GPIOs.
 
-Reviewed them now. Sorry for the delay.
+Hence this adds a GPIO driver to aggregate existing GPIOs, and expose
+them as a new gpiochip.  This is useful for implementing access control,
+and assigning a set of GPIOs to a specific user.  Furthermore, this
+simplifies and hardens exporting GPIOs to a virtual machine, as the VM
+can just grab the full GPIO controller, and no longer needs to care
+about which GPIOs to grab and which not, reducing the attack surface.
 
-Thanks
-Kishon
+Recently, other use cases have been discovered[1]:
+  - Describing GPIO inverters in DT, as a generic GPIO Repeater,
+  - Describing simple GPIO-operated devices in DT, and using the GPIO
+    Aggregator as a generic GPIO driver for userspace.
 
-> 
-> On Wed, Nov 6, 2019 at 7:36 PM Lad Prabhakar <prabhakar.csengg@gmail.com> wrote:
->>
->> From: "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
->>
->> This patch series adds support for PCIe controller on rcar to work in endpoint mode,
->> this also extends the epf framework to handle multiple outbound regions.
->>
-> Cheers,
-> --Prabhakar Lad
-> 
-> 
->> Note:
->> The cadence/rockchip/designware endpoint drivers are build tested only.
->>
->> Endpoint configuration:
->> $ cd /sys/kernel/config/pci_ep
->> $ mkdir functions/pci_epf_test/func1
->> $ echo 0x1912 > functions/pci_epf_test/func1/vendorid
->> $ echo 0x002d > functions/pci_epf_test/func1/deviceid
->> $ echo 32 > functions/pci_epf_test/func1/msi_interrupts
->> $ ln -s functions/pci_epf_test/func1/ controllers/fe000000.pcie_ep/
->> $ echo 1 > controllers/fe000000.pcie_ep/start
->>
->> Host side results:
->> lspci output:
->> 01:00.0 Unassigned class [ff00]: Renesas Technology Corp. Device 002d
->>         Flags: bus master, fast devsel, latency 0, IRQ 103
->>         Memory at fe200200 (64-bit, non-prefetchable) [size=128]
->>         Memory at fe200000 (64-bit, non-prefetchable) [size=256]
->>         Memory at fe200100 (64-bit, non-prefetchable) [size=256]
->>         Capabilities: [40] Power Management version 3
->>         Capabilities: [50] MSI: Enable- Count=1/1 Maskable+ 64bit+
->>         Capabilities: [70] Express Endpoint, MSI 00
->>         Capabilities: [100] Virtual Channel
->>         Kernel driver in use: pci-endpoint-test
->>
->> pcitest results:
->>
->> BAR tests
->>
->> BAR0:           OKAY
->> BAR1:           NOT OKAY
->> BAR2:           OKAY
->> BAR3:           NOT OKAY
->> BAR4:           OKAY
->> BAR5:           NOT OKAY
->>
->> Interrupt tests
->>
->> SET IRQ TYPE TO LEGACY:         OKAY
->> LEGACY IRQ:     OKAY
->> Read Tests
->>
->> SET IRQ TYPE TO LEGACY:         OKAY
->> READ (      1 bytes):           OKAY
->> READ (   1024 bytes):           OKAY
->> READ (   1025 bytes):           OKAY
->> READ (1024000 bytes):           OKAY
->> READ (1024001 bytes):           OKAY
->>
->> Write Tests
->>
->> WRITE (      1 bytes):          OKAY
->> WRITE (   1024 bytes):          OKAY
->> WRITE (   1025 bytes):          OKAY
->> WRITE (1024000 bytes):          OKAY
->> WRITE (1024001 bytes):          OKAY
->>
->> Copy Tests
->>
->> COPY (      1 bytes):           OKAY
->> COPY (   1024 bytes):           OKAY
->> COPY (   1025 bytes):           OKAY
->> COPY (1024000 bytes):           OKAY
->> COPY (1024001 bytes):           OKAY
->>
->> BAR tests for 1/3/5 fail because its configured to use 64bit bars
->>
->> Lad, Prabhakar (5):
->>   pci: pcie-rcar: preparation for adding endpoint support
->>   pci: endpoint: add support to handle multiple base for mapping
->>     outbound memory
->>   PCI: rcar: Add R-Car PCIe endpoint device tree bindings
->>   pci: rcar: add support for rcar pcie controller in endpoint mode
->>   misc: pci_endpoint_test: add device-id for RZ/G2 pcie controller
->>
->>  .../devicetree/bindings/pci/rcar-pci-ep.txt   |   43 +
->>  arch/arm64/configs/defconfig                  |    2 +-
->>  arch/arm64/configs/renesas_defconfig          |    2 +-
->>  drivers/misc/pci_endpoint_test.c              |    3 +
->>  drivers/pci/controller/Kconfig                |   11 +-
->>  drivers/pci/controller/Makefile               |    3 +-
->>  .../pci/controller/dwc/pcie-designware-ep.c   |   30 +-
->>  drivers/pci/controller/pcie-cadence-ep.c      |   11 +-
->>  drivers/pci/controller/pcie-rcar-ep.c         |  483 +++++++
->>  drivers/pci/controller/pcie-rcar-host.c       | 1058 ++++++++++++++
->>  drivers/pci/controller/pcie-rcar.c            | 1231 +----------------
->>  drivers/pci/controller/pcie-rcar.h            |  129 ++
->>  drivers/pci/controller/pcie-rockchip-ep.c     |   13 +-
->>  drivers/pci/endpoint/functions/pci-epf-test.c |   29 +-
->>  drivers/pci/endpoint/pci-epc-core.c           |    7 +-
->>  drivers/pci/endpoint/pci-epc-mem.c            |  189 ++-
->>  include/linux/pci-epc.h                       |   43 +-
->>  17 files changed, 2016 insertions(+), 1271 deletions(-)
->>  create mode 100644 Documentation/devicetree/bindings/pci/rcar-pci-ep.txt
->>  create mode 100644 drivers/pci/controller/pcie-rcar-ep.c
->>  create mode 100644 drivers/pci/controller/pcie-rcar-host.c
->>  create mode 100644 drivers/pci/controller/pcie-rcar.h
->>
->> --
->> 2.20.1
->>
+Changes compared to v2[2] (more details in the individual patches):
+  - Integrate GPIO Repeater functionality,
+  - Absorb GPIO forwarder library, as the Aggregator and Repeater are
+    now a single driver,
+  - Use the aggregator parameters to create a GPIO lookup table instead
+    of an array of GPIO descriptors,
+  - Add documentation,
+  - New patches:
+      - "gpiolib: Add GPIOCHIP_NAME definition",
+      - "gpiolib: Add support for gpiochipN-based table lookup",
+      - "gpiolib: Add support for GPIO line table lookup",
+      - "dt-bindings: gpio: Add gpio-repeater bindings",
+      - "docs: gpio: Add GPIO Aggregator/Repeater documentation",
+      - "MAINTAINERS: Add GPIO Aggregator/Repeater section".
+  - Dropped patches:
+      - "gpio: Export gpiod_{request,free}() to modular GPIO code",
+      - "gpio: Export gpiochip_get_desc() to modular GPIO code",
+      - "gpio: Export gpio_name_to_desc() to modular GPIO code",
+      - "gpio: Add GPIO Forwarder Helper".
+
+Changes compared to v1[3]:
+  - Drop "virtual", rename to gpio-aggregator,
+  - Create and use new GPIO Forwarder Helper, to allow sharing code with
+    the GPIO inverter,
+  - Lift limit on the maximum number of GPIOs,
+  - Improve parsing of GPIO specifiers,
+  - Fix modular build.
+
+Aggregating GPIOs and exposing them as a new gpiochip was suggested in
+response to my proof-of-concept for GPIO virtualization with QEMU[4][5].
+
+For the first use case, aggregated GPIO controllers are instantiated and
+destroyed by writing to atribute files in sysfs.
+Sample session on the Renesas Koelsch development board:
+
+  - Unbind LEDs from leds-gpio driver:
+
+        echo leds > /sys/bus/platform/drivers/leds-gpio/unbind
+
+  - Create aggregators:
+
+    $ echo e6052000.gpio 19,20 \
+        > /sys/bus/platform/drivers/gpio-aggregator/new_device
+
+    gpio-aggregator gpio-aggregator.0: gpio 0 => gpio-953 (gpio-aggregator.0)
+    gpio-aggregator gpio-aggregator.0: gpio 1 => gpio-954 (gpio-aggregator.0)
+    gpiochip_find_base: found new base at 778
+    gpio gpiochip8: (gpio-aggregator.0): added GPIO chardev (254:8)
+    gpiochip_setup_dev: registered GPIOs 778 to 779 on device: gpiochip8 (gpio-aggregator.0)
+
+    $ echo e6052000.gpio 21 e6050000.gpio 20-22 \
+        > /sys/bus/platform/drivers/gpio-aggregator/new_device
+
+    gpio-aggregator gpio-aggregator.1: gpio 0 => gpio-955 (gpio-aggregator.1)
+    gpio-aggregator gpio-aggregator.1: gpio 1 => gpio-1012 (gpio-aggregator.1)
+    gpio-aggregator gpio-aggregator.1: gpio 2 => gpio-1013 (gpio-aggregator.1)
+    gpio-aggregator gpio-aggregator.1: gpio 3 => gpio-1014 (gpio-aggregator.1)
+    gpiochip_find_base: found new base at 774
+    gpio gpiochip9: (gpio-aggregator.1): added GPIO chardev (254:9)
+    gpiochip_setup_dev: registered GPIOs 774 to 777 on device: gpiochip9 (gpio-aggregator.1)
+
+  - Adjust permissions on /dev/gpiochip[89] (optional)
+
+  - Control LEDs:
+
+    $ gpioset gpiochip8 0=0 1=1 # LED6 OFF, LED7 ON
+    $ gpioset gpiochip8 0=1 1=0 # LED6 ON, LED7 OFF
+    $ gpioset gpiochip9 0=0     # LED8 OFF
+    $ gpioset gpiochip9 0=1     # LED8 ON
+
+  - Destroy aggregators:
+
+    $ echo gpio-aggregator.0 \
+            > /sys/bus/platform/drivers/gpio-aggregator/delete_device
+    $ echo gpio-aggregator.1 \
+            > /sys/bus/platform/drivers/gpio-aggregator/delete_device
+
+Thanks for your comments!
+
+References:
+  [1] "[PATCH V4 2/2] gpio: inverter: document the inverter bindings"
+      (https://lore.kernel.org/linux-gpio/1561699236-18620-3-git-send-email-harish_kandiga@mentor.com/)
+  [2] "[PATCH/RFC v2 0/5] gpio: Add GPIO Aggregator Driver"
+      (https://lore.kernel.org/linux-gpio/20190911143858.13024-1-geert+renesas@glider.be/)
+  [3] "[PATCH RFC] gpio: Add Virtual Aggregator GPIO Driver"
+      (https://lore.kernel.org/lkml/20190705160536.12047-1-geert+renesas@glider.be/)
+  [4] "[PATCH QEMU POC] Add a GPIO backend"
+      (https://lore.kernel.org/linux-renesas-soc/20181003152521.23144-1-geert+renesas@glider.be/)
+  [5] "Getting To Blinky: Virt Edition / Making device pass-through
+       work on embedded ARM"
+      (https://fosdem.org/2019/schedule/event/vai_getting_to_blinky/)
+
+Geert Uytterhoeven (7):
+  gpiolib: Add GPIOCHIP_NAME definition
+  gpiolib: Add support for gpiochipN-based table lookup
+  gpiolib: Add support for GPIO line table lookup
+  dt-bindings: gpio: Add gpio-repeater bindings
+  gpio: Add GPIO Aggregator/Repeater driver
+  docs: gpio: Add GPIO Aggregator/Repeater documentation
+  MAINTAINERS: Add GPIO Aggregator/Repeater section
+
+ .../admin-guide/gpio/gpio-aggregator.rst      | 111 ++++
+ Documentation/admin-guide/gpio/index.rst      |   1 +
+ .../bindings/gpio/gpio-repeater.yaml          |  53 ++
+ MAINTAINERS                                   |   8 +
+ drivers/gpio/Kconfig                          |  13 +
+ drivers/gpio/Makefile                         |   1 +
+ drivers/gpio/gpio-aggregator.c                | 587 ++++++++++++++++++
+ drivers/gpio/gpiolib-sysfs.c                  |   7 +-
+ drivers/gpio/gpiolib.c                        |  38 +-
+ drivers/gpio/gpiolib.h                        |   2 +
+ include/linux/gpio/machine.h                  |   2 +-
+ 11 files changed, 815 insertions(+), 8 deletions(-)
+ create mode 100644 Documentation/admin-guide/gpio/gpio-aggregator.rst
+ create mode 100644 Documentation/devicetree/bindings/gpio/gpio-repeater.yaml
+ create mode 100644 drivers/gpio/gpio-aggregator.c
+
+-- 
+2.17.1
+
