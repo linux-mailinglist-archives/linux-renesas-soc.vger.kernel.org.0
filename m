@@ -2,77 +2,222 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E638010BC5A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Nov 2019 22:20:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B6A310BD18
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Nov 2019 22:28:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731652AbfK0VUb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Nov 2019 16:20:31 -0500
-Received: from smtprelay0028.hostedemail.com ([216.40.44.28]:35402 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727454AbfK0VI6 (ORCPT
+        id S1731707AbfK0VBY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Nov 2019 16:01:24 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:35332 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730867AbfK0VBX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Nov 2019 16:08:58 -0500
-X-Greylist: delayed 540 seconds by postgrey-1.27 at vger.kernel.org; Wed, 27 Nov 2019 16:08:57 EST
-Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com [10.5.19.251])
-        by smtpgrave07.hostedemail.com (Postfix) with ESMTP id 738B71802EC06;
-        Wed, 27 Nov 2019 20:59:57 +0000 (UTC)
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay04.hostedemail.com (Postfix) with ESMTP id 794C21802587B;
-        Wed, 27 Nov 2019 20:59:55 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 50,0,0,,d41d8cd98f00b204,joe@perches.com,:::::::::::::::::::::::::::::::::::::::,RULES_HIT:41:355:379:599:967:973:982:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1537:1561:1593:1594:1711:1714:1730:1747:1777:1792:2393:2525:2560:2563:2682:2685:2828:2859:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3622:3865:3867:3872:3874:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4321:5007:6117:6742:7901:8985:9025:10004:10400:10848:11232:11658:11914:12043:12050:12297:12740:12895:13069:13255:13311:13357:13439:13894:14181:14659:14721:21080:21627:21788:30054:30060:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
-X-HE-Tag: goose47_391d3abea6950
-X-Filterd-Recvd-Size: 2157
-Received: from XPS-9350.home (unknown [47.151.135.224])
-        (Authenticated sender: joe@perches.com)
-        by omf02.hostedemail.com (Postfix) with ESMTPA;
-        Wed, 27 Nov 2019 20:59:52 +0000 (UTC)
-Message-ID: <ae40eb808f420f5de4a140b8757dfbc426a8cf90.camel@perches.com>
-Subject: Re: [PATCH 4/5] pinctrl: sh-pfc: Use the correct style for SPDX
- License Identifier
-From:   Joe Perches <joe@perches.com>
-To:     Andreas =?ISO-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Nishad Kamdar <nishadkamdar@gmail.com>
-Cc:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Sean Wang <sean.wang@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-mediatek@lists.infradead.org,
-        linux-gpio <linux-gpio@vger.kernel.org>,
-        linux-amlogic <linux-amlogic@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Date:   Wed, 27 Nov 2019 12:59:25 -0800
-In-Reply-To: <9bacc7d9-6bd9-0b7c-18cd-d614796397dd@suse.de>
-References: <cover.1574871463.git.nishadkamdar@gmail.com>
-         <5a7ed2e4b58ba7ff2f0638a2435a3a1e1c62c9f6.1574871463.git.nishadkamdar@gmail.com>
-         <CAMuHMdUqfRioTBV27AKx9zv9YuSqEod6x+A4aguf=h20TDXr6w@mail.gmail.com>
-         <9bacc7d9-6bd9-0b7c-18cd-d614796397dd@suse.de>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.34.1-2 
+        Wed, 27 Nov 2019 16:01:23 -0500
+Received: by mail-ot1-f68.google.com with SMTP id 23so18597804otf.2;
+        Wed, 27 Nov 2019 13:01:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2ac89QnwXY1s2UQiWSXiKkMzWwZZELPTycnFpQTsI8k=;
+        b=kvcHH3nnhTPYry+j463BIxgQ9Ii5HD9eMaJbuQd0OQtfseBeHWrGm+iBgVf46+0u+C
+         Tc1N2LcLP/tpwdRodDCVa+57+u8Xg2FS5VVrpscrVh71OZCqvVsod3s/JFeIgTHCzwDn
+         euFLQvQ5h7vzsk0i+3Hvh7RWWMwcR2JWjJA4/CZyStpzb3+87tBv9yBDzsTPqHiwQ7LB
+         clZaaj5s70gJv8DNFLJ6toBOKPQa1iGYn1ZOqCPBK/MttFNhpehhGxAGJgOp+i1Ycj9N
+         jYNDObQkN32HhWzV3OfHJZn6De8abVa/JW4gJYcw5MBXFGqYLSc/3QvMFvai3H93EXI7
+         jFFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2ac89QnwXY1s2UQiWSXiKkMzWwZZELPTycnFpQTsI8k=;
+        b=ZNS/2ou1HXTZXixT2lWDEzBsmjyJlB9VSQiGi6EaHo6870G9yNhM1MS44vQclWzSe0
+         sVVIIuf3N0dK5xAnC1hMM48CDvSPb7Wbht2uNYKvCBGFeXeG/h+C0zH0/ieg9J0Rrk5s
+         m9VWuqNT8tlUXom1FPN3LFhY5AeIsggujzy1EtOn0pV5EkfrwEA4JJDrLzr3LacrU2nn
+         +Iyegx32Y79D3peZL4+KfJl88YgfLUedTJP9Ro9GF8mYZyrMGvKtRebQ3bHeLA9Jf2/k
+         ZxpucNsu6z5UpEfcPZLfifljvLW8DJqGRaVRWd80YivMZz9oqpnfubvnEKPbNBKdwkM+
+         r+kQ==
+X-Gm-Message-State: APjAAAWzCiCFJSTvVgg4tPzhDgtPnQ3MpD4iZgn1VoZHZPoK7lCrpymb
+        deMUvEcfpivsv1czyvXvNmd1LGRqhlfjbBhWyec=
+X-Google-Smtp-Source: APXvYqzVAIMvmzOXzIjb8en0KWeCG4Yp6la02S+G7LSrtyaX1iBKqdgps6COS4Dy32ficJ3yWMXhqJdHmlcipenvR1c=
+X-Received: by 2002:a05:6830:1089:: with SMTP id y9mr5269545oto.176.1574888481942;
+ Wed, 27 Nov 2019 13:01:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191106193609.19645-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20191106193609.19645-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAMuHMdVZwgVnq2kwjNJQHfvUH0sk6M7Hz-AJR82jMOsCNfW9wQ@mail.gmail.com>
+ <CA+V-a8swtOUaxKnCdiTV5wvvxLEJ6XdODL=7bvQmFKY0zQTj2w@mail.gmail.com>
+ <CAMuHMdXkbWkQgswMNL7Dw7_jucH+MsuAW+-CjoGVYsm=tjShRw@mail.gmail.com>
+ <20191113040802.GA8269@bogus> <3b218f7f-78a8-c158-80ac-67a3b9f5970c@ti.com>
+In-Reply-To: <3b218f7f-78a8-c158-80ac-67a3b9f5970c@ti.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 27 Nov 2019 21:00:55 +0000
+Message-ID: <CA+V-a8u5B4CdQZw6dxKd2xfs56UsghMKMrRd=2g4yo8bmCgkXQ@mail.gmail.com>
+Subject: Re: [PATCH 3/5] PCI: rcar: Add R-Car PCIe endpoint device tree bindings
+To:     Kishon Vijay Abraham I <kishon@ti.com>
+Cc:     Rob Herring <robh@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Murray <andrew.murray@arm.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, 2019-11-27 at 21:55 +0100, Andreas Färber wrote:
-> However, if we're touching these lines anyway, shouldn't we be updating
-> the SPDX Identifier to GPL-2.0-only while at it?
+Hi Kishon,
 
-Probably better to do that with a treewide script one day.
+On Wed, Nov 27, 2019 at 5:45 AM Kishon Vijay Abraham I <kishon@ti.com> wrote:
+>
+> Hi,
+>
+> On 13/11/19 9:38 AM, Rob Herring wrote:
+> > On Thu, Nov 07, 2019 at 09:08:35PM +0100, Geert Uytterhoeven wrote:
+> >> Hi Prabhakar,
+> >>
+> >> On Thu, Nov 7, 2019 at 10:26 AM Lad, Prabhakar
+> >> <prabhakar.csengg@gmail.com> wrote:
+> >>> On Thu, Nov 7, 2019 at 8:44 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> >>>> On Wed, Nov 6, 2019 at 8:36 PM Lad Prabhakar <prabhakar.csengg@gmail.com> wrote:
+> >>>>> From: "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >>>>>
+> >>>>> This patch adds the bindings for the R-Car PCIe endpoint driver.
+> >>>>>
+> >>>>> Signed-off-by: Lad, Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >>>>
+> >>>> Thanks for your patch!
+> >>>>
+> >>>>> --- /dev/null
+> >>>>> +++ b/Documentation/devicetree/bindings/pci/rcar-pci-ep.txt
+> >>>>> @@ -0,0 +1,43 @@
+> >>>>> +* Renesas R-Car PCIe Endpoint Controller DT description
+> >>>>> +
+> >>>>> +Required properties:
+> >>>>> +           "renesas,pcie-ep-r8a774c0" for the R8A774C0 SoC;
+> >>>>> +           "renesas,pcie-ep-rcar-gen3" for a generic R-Car Gen3 or
+> >>>>> +                                    RZ/G2 compatible device.
+> >>>>
+> >>>> Unless I'm missing something, this is for the exact same hardware block as
+> >>>> Documentation/devicetree/bindings/pci/rcar-pci.txt?
+> >>>> So shouldn't you amend those bindings, instead of adding new compatible
+> >>>> values?
+> >>>> Please remember that DT describes hardware, not software policy.
+> >>>> So IMHO choosing between host and endpoint is purely a configuration
+> >>>> issue, and could be indicated by the presence or lack of some DT properties.
+> >>>> E.g. host mode requires both "bus-range" and "device_type" properties,
+> >>>> so their absence could indicate endpoint mode.
+> >>>>
+> >>> yes its the same hardware block as described in the rcar-pci.txt, I
+> >>> did think about amending it
+> >>> but  it might turn out to be bit messy,
+> >>>
+> >>> required properties host ======required properties Endpoint
+> >>> ====================||==================
+> >>> 1: reg                                || reg
+> >>> 2:bus-range                      || reg names
+> >>> 3: device_type                  || resets
+> >>> 4: ranges                          || clocks
+> >>> 5: dma-ranges                  || clock-names
+> >>> 6: interrupts                      ||
+> >>> 7: interrupt-cells               ||
+> >>> 8: interrupt-map-mask     ||
+> >>> 9: clocks                          ||
+> >>> 10: clock-names             ||
+> >>
+> >> We have a similar situation with SPI, where a controller can operate in
+> >> master or slave mode, based on the absence or presence of the
+> >> "spi-slave" DT property.
+> >>
+> >>> and if I go ahead with the same compatible string that would mean to
+> >>> add support for endpoint
+> >>> mode in the host driver itself. I did follow the examples of
+> >>
+> >> You can still have two separate drivers, binding against the same
+> >> compatible value.  Just let the .probe() function return -ENODEV if it
+> >> discovers (by looking at DT properties) if the node is configured for
+> >> the other mode.
+> >> Which brings us to my next questions: is there any code that could be
+> >> shared between the drivers for the two modes?
+> >>
+> >>> rockchip/cadence/designware where
+> >>> its the same hardware block but has two different binding files one
+> >>> for host mode and other for
+> >>> endpoint mode.
+> >>
+> >> Having two separate DT binding documents sounds fine to me, if unifying
+> >> them makes things too complex.
+> >> However, I think they should use the same compatible value, because the
+> >> hardware block is the same, but just used in a different mode.
+> >>
+> >> Rob/Mark: Any input from the DT maintainers?
+> >
+> > Separate files makes sense because different modes will want to
+> > include different common schemas. We've generally been doing different
+> > compatibles too which makes validating the node has the right set of
+> > properties easier.
+> >
+> >>>>> +- reg: Five register ranges as listed in the reg-names property
+> >>>>> +- reg-names: Must include the following names
+> >>>>> +       - "apb-base"
+> >>>>> +       - "memory0"
+> >>>>> +       - "memory1"
+> >>>>> +       - "memory2"
+> >>>>> +       - "memory3"
+> >>>>
+> >>>> What is the purpose of the last 4 regions?
+> >>>> Can they be chosen by the driver, at runtime?
+> >>>>
+> >>> no the driver cannot choose them at runtime, as these are the only
+> >>> PCIE memory(0/1/2/3) ranges
+> >>> in the AXI address space where host memory can be mapped.
+> >>
+> >> Are they fixed by the PCIe hardware, i.e. could they be looked up by the
+> >> driver based on the compatible value?
+> >
+> > That would be strange for a memory range.
+> >
+> > Sounds like like 'ranges' though I'm not sure if 'ranges' for an EP
+> > makes sense or what that should look like.
+>
+> These are similar to "memory node" with multiple address, size pairs. I'm
+> thinking if these should be added as a subnode within PCIe EP controller device
+> tree node?
+>
++1
 
-https://lkml.org/lkml/2018/8/16/487
+something similar like below ?
 
+       pcie_ep: pcie_ep@fe000000 {
+               compatible = "renesas,pcie-r8a7791", "renesas,pcie-rcar-gen2";
+               reg = <0 0xfe000000 0 0x80000>;
+               reg-names = "apb-base";
+               clocks = <&cpg CPG_MOD 319>;
+               clock-names = "pcie";
+               power-domains = <&sysc R8A774C0_PD_ALWAYS_ON>;
+               resets = <&cpg 319>;
+               mem-region {
+                       base =  <0x0 0xfe100000 0 0x100000>,
+                                    <0x0 0xfe200000 0 0x200000>,
+                                    <0x0 0x30000000 0 0x8000000>,
+                                    <0x0 0x38000000 0 0x8000000>;
+                };
+       };
 
+Cheers,
+--Prabhakar
