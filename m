@@ -2,88 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EE92910ABF9
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Nov 2019 09:43:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3EBB10B0EC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 27 Nov 2019 15:15:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726937AbfK0InM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 27 Nov 2019 03:43:12 -0500
-Received: from baptiste.telenet-ops.be ([195.130.132.51]:52852 "EHLO
-        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726975AbfK0InK (ORCPT
+        id S1726729AbfK0OPl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 27 Nov 2019 09:15:41 -0500
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:43267 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726320AbfK0OPl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 27 Nov 2019 03:43:10 -0500
-Received: from ramsan ([84.195.182.253])
-        by baptiste.telenet-ops.be with bizsmtp
-        id Wwiu2100b5USYZQ01wiua4; Wed, 27 Nov 2019 09:43:09 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iZsuU-0000xw-RV; Wed, 27 Nov 2019 09:42:54 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iZsuU-0004PA-P7; Wed, 27 Nov 2019 09:42:54 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>,
+        Wed, 27 Nov 2019 09:15:41 -0500
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id E725A3C057C;
+        Wed, 27 Nov 2019 15:15:37 +0100 (CET)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id bipKjdt3AzRZ; Wed, 27 Nov 2019 15:15:32 +0100 (CET)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id D79383C00BE;
+        Wed, 27 Nov 2019 15:15:32 +0100 (CET)
+Received: from vmlxhi-102.adit-jv.com (10.72.93.184) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Wed, 27 Nov
+ 2019 15:15:32 +0100
+Date:   Wed, 27 Nov 2019 15:15:29 +0100
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+CC:     Linus Walleij <linus.walleij@linaro.org>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     Alexander Graf <graf@amazon.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
         Peter Maydell <peter.maydell@linaro.org>,
         Paolo Bonzini <pbonzini@redhat.com>,
         Phil Reid <preid@electromag.com.au>,
         Marc Zyngier <marc.zyngier@arm.com>,
         Christoffer Dall <christoffer.dall@arm.com>,
         Magnus Damm <magnus.damm@gmail.com>,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v3 7/7] MAINTAINERS: Add GPIO Aggregator/Repeater section
-Date:   Wed, 27 Nov 2019 09:42:53 +0100
-Message-Id: <20191127084253.16356-8-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191127084253.16356-1-geert+renesas@glider.be>
+        <linux-gpio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <qemu-devel@nongnu.org>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
+Message-ID: <20191127141529.GA18189@vmlxhi-102.adit-jv.com>
 References: <20191127084253.16356-1-geert+renesas@glider.be>
+ <20191127084253.16356-6-geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191127084253.16356-6-geert+renesas@glider.be>
+User-Agent: Mutt/1.12.1+40 (7f8642d4ee82) (2019-06-28)
+X-Originating-IP: [10.72.93.184]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add a maintainership section for the GPIO Aggregator/Repeater, covering
-documentation, Device Tree bindings, and driver source code.
+Hi Geert,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Harish: Do you want to be listed as maintainer, too?
+Many thanks for the series upgrade.
+A few static-analysis findings below (could be false positives).
 
-v3:
-  - New.
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+On Wed, Nov 27, 2019 at 09:42:51AM +0100, Geert Uytterhoeven wrote:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e5949b6827b72f2b..0f12ebdaa8faa76b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7043,6 +7043,14 @@ S:	Maintained
- F:	Documentation/firmware-guide/acpi/gpio-properties.rst
- F:	drivers/gpio/gpiolib-acpi.c
- 
-+GPIO AGGREGATOR/REPEATER
-+M:	Geert Uytterhoeven <geert+renesas@glider.be>
-+L:	linux-gpio@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/admin-guide/gpio/gpio-aggregator.rst
-+F:	Documentation/devicetree/bindings/gpio/gpio-repeater.yaml
-+F:	drivers/gpio/gpio-aggregator.c
-+
- GPIO IR Transmitter
- M:	Sean Young <sean@mess.org>
- L:	linux-media@vger.kernel.org
+[..]
+
+> +static bool isrange(const char *s)
+> +{
+> +	size_t n = strlen(s);
+
+Cppcheck 1.40-18521-ge6d692d96058:
+drivers/gpio/gpio-aggregator.c:69:11: style: Variable 'n' is assigned a value that is never used. [unreadVariable]
+
+Smatch v0.5.0-6150-gc1ed13e4ee7b:
+drivers/gpio/gpio-aggregator.c:69 isrange() warn: unused return: n = strlen()
+
+[..]
+
+> +	aggr->lookups->dev_id = kasprintf(GFP_KERNEL, "%s.%d", DRV_NAME, id);
+> +	if (!aggr->lookups) {
+> +		res = -ENOMEM;
+> +		goto remove_idr;
+> +	}
+
+s/aggr->lookups/aggr->lookups->dev_id/ ?
+
+[..]
+
+> +static int gpio_fwd_get_multiple(struct gpio_chip *chip, unsigned long *mask,
+> +				 unsigned long *bits)
+> +{
+> +	struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
+> +	unsigned long *values, flags;
+
+gcc 9.2.1:
+warning: ‘flags’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+
+[..]
+
+> +static void gpio_fwd_set_multiple(struct gpio_chip *chip, unsigned long *mask,
+> +				  unsigned long *bits)
+> +{
+> +	struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
+> +	unsigned long *values, flags;
+
+gcc 9.2.1, same as above:
+warning: ‘flags’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+
+Should these be silenced like in 2bf593f101f3ca ("xilinx_uartps.c:
+suppress "may be used uninitialised" warning") ?
+
+I plan to do some runtime testing soon.
+
 -- 
-2.17.1
-
+Best Regards,
+Eugeniu
