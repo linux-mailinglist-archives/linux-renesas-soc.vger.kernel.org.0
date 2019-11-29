@@ -2,33 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A4F2010D51C
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Nov 2019 12:46:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A2CB10D5BC
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Nov 2019 13:36:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726586AbfK2LqB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Nov 2019 06:46:01 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35600 "EHLO
+        id S1726684AbfK2Mg3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 29 Nov 2019 07:36:29 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35766 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725892AbfK2LqB (ORCPT
+        with ESMTP id S1726608AbfK2Mg3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Nov 2019 06:46:01 -0500
+        Fri, 29 Nov 2019 07:36:29 -0500
 Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 11EC323F;
-        Fri, 29 Nov 2019 12:45:58 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BFD8B23F;
+        Fri, 29 Nov 2019 13:36:26 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1575027958;
-        bh=HfJtYMq3H8DRkuTkQHN1bHi0lSI+fDSl9Talkigl/1Y=;
+        s=mail; t=1575030987;
+        bh=RbOj+Kv/G4GExeyVtmfsXPC/vCgyB2fyetu01Xw3mtg=;
         h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=CSB7m6KkjaLz/rlr5oqhnxs48RWuzoM0RM7NVeMq0uf/xNhvTUmfgp+fW+XDxUXqP
-         GDQV/G46onrtqAkyYG12XLlJtt/hK5cvgTOYEe3R4Qj6q8J7wOP9g/UX8kx3yJ+0qn
-         ADoPowNDj4IUah06mbEzXDRdEW2jWDYrjR6Is6qM=
+        b=UdEow7oR5HF1+Uy54cTgzCfHW3Tr2kuQAkCys/YSx40n+oTMWYOTbqiqKt2wU6+sk
+         41lvf0BvymTTwOyfIS+cRA9tjwbFkESY3QbgoxnYBvh1smJIEzKMVW6IXayuoXAnvc
+         6J9LDQcvGJk+A19msXfdadQh34TUx7AV/L+Mm5D0=
 Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH] max9286: simplify i2c-mux parsing
+Subject: Re: [PATCH] max9286: Improve mux-state readbility
 To:     Jacopo Mondi <jacopo@jmondi.org>
 Cc:     linux-renesas-soc@vger.kernel.org
 References: <20191116165034.39001-1-jacopo+renesas@jmondi.org>
- <20191121165631.5744-1-kieran.bingham@ideasonboard.com>
- <20191121173541.sb4ycbinjkhvzmso@uno.localdomain>
+ <20191128162706.704-1-kieran.bingham@ideasonboard.com>
+ <20191129091420.tgqzm4jqj7lknbfz@uno.localdomain>
+ <dab13648-9559-5a41-b08e-499cf6b58aea@ideasonboard.com>
+ <20191129113512.s6rioibgxuxpbanb@uno.localdomain>
 From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
@@ -76,15 +78,15 @@ Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
  AfYnB4JBDLmLzBFavQfvonSfbitgXwCG3vS+9HEwAjU30Bar1PEOmIbiAoMzuKeRm2LVpmq4
  WZw01QYHU/GUV/zHJSFk
 Organization: Ideas on Board
-Message-ID: <a951c2c4-b590-491e-77e1-2a8d2793c6f8@ideasonboard.com>
-Date:   Fri, 29 Nov 2019 11:45:55 +0000
+Message-ID: <fc8102c7-a104-138c-bbe6-94dfcce921d2@ideasonboard.com>
+Date:   Fri, 29 Nov 2019 12:36:24 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191121173541.sb4ycbinjkhvzmso@uno.localdomain>
+In-Reply-To: <20191129113512.s6rioibgxuxpbanb@uno.localdomain>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -92,193 +94,422 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Jacopo,
 
-On 21/11/2019 17:35, Jacopo Mondi wrote:
+On 29/11/2019 11:35, Jacopo Mondi wrote:
 > Hi Kieran,
 > 
-> On Thu, Nov 21, 2019 at 04:56:31PM +0000, Kieran Bingham wrote:
->>  - Identify each enabled i2c-mux channel in a single pass
+> On Fri, Nov 29, 2019 at 11:13:00AM +0000, Kieran Bingham wrote:
+>> Hi Jacopo,
 >>
->> The parse_dt function iterates each node in the i2c-mux for each endpoint looking for a match.
->> The only purpose of these iterations is to determine if the corresponding i2c-channel
->> is enabled. (status = 'okay').
+>> Thanks for reviewing this :D
 >>
->> Iterate the i2c-mux nodes in a single pass storing the enable state
->> in a local i2c_mux_mask for use when parsing the endpoints.
+>> On 29/11/2019 09:14, Jacopo Mondi wrote:
+>>> Hi Kieran,
+>>>
+>>> On Thu, Nov 28, 2019 at 04:27:06PM +0000, Kieran Bingham wrote:
+>>>> The MAX9286 implements an I2C mux which we maintain in an open state
+>>>> while we are streaming from the cameras.
+>>>>
+>>>> The development code for the MAX9286 uses an integer value with
+>>>> arbitrary state values to control these state transitions. This is
+>>>> highlighted ith a FIXME and is difficult to interpret the meaning of the
+>>>
+>>> s/ith/with
+>>
+>> ack.
+>>
+>>>
+>>>> values 0, 1, 2.
+>>>>
+>>>> Introduce an enum to declare the intent of each state, and comment the
+>>>> states accordingly.
+>>>>
+>>>> This state transition is only needed for the multi-channel support, and
+>>>> will not be included in the single-channel max9286 posting.
+>>>>
+>>>> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+>>>> ---
+>>>>  drivers/media/i2c/max9286.c | 63 +++++++++++++++++++++++--------------
+>>>>  1 file changed, 40 insertions(+), 23 deletions(-)
+>>>>
+>>>> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+>>>> index eed00ff1dee4..a9c3e7411bda 100644
+>>>> --- a/drivers/media/i2c/max9286.c
+>>>> +++ b/drivers/media/i2c/max9286.c
+>>>> @@ -144,7 +144,7 @@ struct max9286_priv {
+>>>>  	struct media_pad pads[MAX9286_N_PADS];
+>>>>  	struct regulator *regulator;
+>>>>  	bool poc_enabled;
+>>>> -	int streaming;
+>>>> +	int mux_state;
+>>>>
+>>>>  	struct i2c_mux_core *mux;
+>>>>  	unsigned int mux_channel;
+>>>> @@ -221,16 +221,39 @@ static int max9286_write(struct max9286_priv *priv, u8 reg, u8 val)
+>>>>   * I2C Multiplexer
+>>>>   */
+>>>>
+>>>> +enum max9286_i2c_mux_state {
+>>>
+>>> Let the bikeshedding begin here
+>>>
+>>>> +	/*
+>>>> +	 * The I2C Mux will enable only a single channel (both forward, and
+>>>
+>>> s/Mux/mux
+>>
+>> Ack.
+>>
+>>>
+>>>> +	 * reverse) at a time, and to reduce I2C bus bandwidth, it will only
+>>>> +	 * reconfigure the channel when a write is requested to a different
+>>>> +	 * channel.
+>>>
+>>> I won't here explain what a mux channel select does
+>>
+>> I was trying to explain what /this state/ does ...
+>> I can streamline this.
+>>
+>>>
+>>>> +	 */
+>>>> +	MAX9286_I2C_MUX_STATE_CHANNEL = 0,
+>>>
+>>> To me, this should be the initial state of the mux, where all channels
+>>> are closed.
+>>>
+>>
+>> I actually started with a _CLOSED here, but I determined that _CLOSED
+>> was redundant, as _CLOSED is simply _CHANNEL with a channel id of -1.
+>>
+>> And when in _CLOSED, the next 'write' should be of type _CHANNEL, as in
+>> it should configure only a single channel, and open only that channel.
+>>
+>>
+>>> The state machine to me should look like:
+>>>
+>>>         init() -> i2c_mux_close() -> mux_state = CLOSED;
+>>>         all transaction selects/deselect a single channel>
+>>>         s_stream(1) -> mux_state = REQUEST_OPEN
+>>
+>> I also had a REQUEST_OPEN, but I deemed it also to be a bit redundant,
+>> as the external (not mux components) which adapt the mux_state should
+>> only care about two states - Either it's open or on channel.
+>>
+>> I almost wonder if I should put in a helper function to make mux_state
+>> private to the i2c_mux functions ... but I think that's overkill.
+>>
+>>
+>>>         first transaction opens all channels -> mux_state = OPEN
+>>>         all successive transactions with (mux_state = OPEN) are nop
+>>>
+>>>         s_stream(0) -> i2c_mux_close() -> mux_state = CLOSED
+>>>         all transaction selects/deselect a single channel until next s_stream(1)
+>>>
+>>> For this state I propose MAX9286_I2C_MUX_STATE_CLOSED
+>>>
+>>>> +
+>>>> +	/*
+>>>> +	 * The I2C mux will be configured with all ports open. All I2C writes
+>>>> +	 * will be transmitted to all remote I2C devices, and where multiple
+>>>> +	 * devices have the same address, the write will be received by all of
+>>>> +	 * them.
+>>>> +	 */
+>>>> +	MAX9286_I2C_MUX_STATE_OPEN,
+>>>
+>>> I propose MAX9286_I2C_MUX_STATE_REQUEST_OPEN
+>>>
+>>>> +
+>>>> +	/*
+>>>> +	 * The I2C mux is configured with all ports open.
+>>>> +	 *
+>>>> +	 * No reconfiguration of the I2C mux channel select is required.
+>>>> +	 */
+>>>> +	MAX9286_I2C_MUX_STATE_DISABLE_SELECT,
+>>>
+>>> I propose MAX9286_I2C_MUX_STATE_OPEN
+>>
+>> I had this as 'MUX_STATE_OPENED', but it felt like what it was really
+>> doing was just 'disabling select' operations, hence I renamed it.
+>>
+>> It's also 'internal' and I wouldn't expect the no nmax9286_i2c_mux_
+>> functions to reference this enum value.
+>>
+>> My further reasoning to keep this as DISABLE_SELECT is that ifsomeone
+>> set this state (not that anyone ever should), when the mux was closed -
+>> it would remain closed.
 >>
 > 
-> I very much agree with this :)
+> Ok, let's see what other thinks... anyway, that's your code so if you
+> feel strong about this, I'm fine with what you have
 
-Great,
+Ok,
 
-> 
->> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
->> ---
->>  drivers/media/i2c/max9286.c | 84 +++++++++++++++----------------------
->>  1 file changed, 34 insertions(+), 50 deletions(-)
+
+>>> Could all these be shorten to MAX9286_MUX_.... ?
 >>
->> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
->> index 34cb6f3b40c2..a36132becdc7 100644
->> --- a/drivers/media/i2c/max9286.c
->> +++ b/drivers/media/i2c/max9286.c
->> @@ -1097,55 +1097,6 @@ static int max9286_is_bound(struct device *dev, void *data)
->>  	return 0;
->>  }
+>> I think so, I was just following the function naming.
 >>
->> -static struct device_node *max9286_get_i2c_by_id(struct device_node *parent,
->> -						 u32 id)
->> -{
->> -	struct device_node *i2c_mux;
->> -	struct device_node *child;
->> -
->> -	/* Balance the of_node_put() performed by of_find_node_by_name() */
->> -	of_node_get(parent);
->> -
->> -	i2c_mux = of_find_node_by_name(parent, "i2c-mux");
->> -	if (!i2c_mux) {
->> -		printk("max9286: Failed to find i2c-mux node\n");
->> -		return NULL;
->> -	}
->> -
->> -	for_each_child_of_node(i2c_mux, child) {
->> -		u32 i2c_id = 0;
->> -
->> -		if (of_node_cmp(child->name, "i2c") != 0)
->> -			continue;
->> -		of_property_read_u32(child, "reg", &i2c_id);
->> -		if (id == i2c_id)
->> -			return child;
->> -	}
->> -
->> -	return NULL;
->> -}
->> -
->> -static int max9286_check_i2c_bus_by_id(struct device *dev, int id)
->> -{
->> -	struct device_node *i2c_np;
->> -
->> -	i2c_np = max9286_get_i2c_by_id(dev->of_node, id);
->> -	if (!i2c_np) {
->> -		dev_err(dev, "Failed to find corresponding i2c@%u\n", id);
->> -		return -ENODEV;
->> -	}
->> -
->> -	if (!of_device_is_available(i2c_np)) {
->> -		dev_dbg(dev, "Skipping port %u with disabled I2C bus\n", id);
->> -		of_node_put(i2c_np);
->> -		return -ENODEV;
->> -	}
->> -
->> -	of_node_put(i2c_np);
->> -
->> -	return 0;
->> -}
->> -
->>  static void max9286_cleanup_dt(struct max9286_priv *priv)
->>  {
->>  	struct max9286_source *source;
->> @@ -1167,11 +1118,44 @@ static void max9286_cleanup_dt(struct max9286_priv *priv)
->>  static int max9286_parse_dt(struct max9286_priv *priv)
->>  {
->>  	struct device *dev = &priv->client->dev;
->> +	struct device_node *i2c_mux;
->> +	struct device_node *child = NULL;
->>  	struct device_node *ep_np = NULL;
-> 
-> Nit: could you re-use child or ep_np ?
-
-Yes, that would reduce local vars. I'll do this now.
-
-
-> 
->> +	unsigned int i2c_mux_mask = 0;
->>  	int ret;
 >>
->> +	/* Balance the of_node_put() performed by of_find_node_by_name() */
-> 
-> Do you need this comment ?
-
-
-It was non-obvious to me at least when I added it /why/ I had to get it.
-But perhaps now I've got further along, it's more clear why.
-
-DT references are a pain :-D
-Lots of places where they are implicitly reduced in loops etc..
-
-
-
->> +	of_node_get(dev->of_node);
->> +	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
->> +	if (!i2c_mux) {
->> +		dev_err(dev, "Failed to find i2c-mux node\n");
->> +		return -EINVAL;
->> +	}
->> +
->> +	/* Identify which i2c-mux channels are enabled */
->> +	for_each_child_of_node(i2c_mux, child) {
->> +		u32 id = 0;
->> +
->> +		if (of_node_cmp(child->name, "i2c") != 0)
->> +			continue;
-> 
-> With the new bindings in yaml format and the associated verification,
-> this should not happen.
-
-Aha, yes I think you're right - well in that case I'm happy to drop it,
-and simplify the code.
->> +
->> +		of_property_read_u32(child, "reg", &id);
->> +		if (id >= MAX9286_NUM_GMSL)
->> +			continue;
->> +
->> +		if (!of_device_is_available(child)) {
->> +			dev_dbg(dev, "Skipping port %u with disabled I2C bus\n", id);
->> +			continue;
->> +		}
->> +
->> +		i2c_mux_mask |= BIT(id);
->> +	}
->> +	of_node_put(child);
->> +	of_node_put(i2c_mux);
->> +
->>  	v4l2_async_notifier_init(&priv->notifier);
+>>>> +};
+>>>> +
+>>>>  static int max9286_i2c_mux_close(struct max9286_priv *priv)
+>>>>  {
+>>>> -	/* FIXME: See note in max9286_i2c_mux_select() */
+>>>> -	if (priv->streaming)
+>>>> -		return 0;
+>>>
+>>> I don't get why we had this one here. Do you agree it was not
+>>> necessary ? I guess so, since you dropped it...
 >>
->> +	/* Parse the endpoints */
->>  	for_each_endpoint_of_node(dev->of_node, ep_np) {
+>>
+>> Exactly, I couldn't see any reason for this to be here, and I also
+>> couldn't see it being used, as _close It doesn't get called after an
+>> s_stream operation as far as I can tell. It's only currently closed
+>> during _probe and _init.
+>>
+>> However, if at some other point, someone wanted to call _close, I would
+>> expect it to close all of the channels.
+>>
+>>>
+>>>>  	/*
+>>>>  	 * Ensure that both the forward and reverse channel are disabled on the
+>>>> -	 * mux, and that the channel ID is invalidated to ensure we reconfigure
+>>>> -	 * on the next select call.
+>>>> +	 * mux, and that the channel state and ID is invalidated to ensure we
+>>>> +	 * reconfigure on the next max9286_i2c_mux_select() call.
+>>>>  	 */
+>>>> +	priv->mux_state = MAX9286_I2C_MUX_STATE_CHANNEL;
+>>
+>> Note here that we set the mux_channel to -1, and thus the state is set
+>> to _CHANNEL as discussed above, because on the next operation - we
+>> expect either the write to go to the specific channel, /or/ if someone
+>> has set MAX9286_I2C_MUX_STATE_OPEN explicitly the select call will send
+>> it to all channels.
+>>
+>> Those are the only two options as far as I can tell, so adding extra
+>> states of '_CLOSED' seems redundant, and adds unecessary complexity to me.
 > 
-> dev->of_node is reused here, do you need to get it again ?
+> _CLOSED was meant to replace _CHANNEL in my proposal.
+> No worries though
 
-Urggh, no idea ... I'll investigate.
-The earlier one crashed on me, this one did not ... but better to get it
-'right'.
+Ah I see, as in just a different name. My concern with _CLOSED though is
+that we do not close the channel after each write, and _CLOSED could
+potentially give the impression that we do ...
 
-
-> All minors though, squash this on the next max9286 submission if you
-> feel to.
-
-Thanks.
-
---
-Kieran
-
-
+>>>>  	priv->mux_channel = -1;
+>>>>  	max9286_write(priv, 0x0a, 0x00);
+>>>>  	usleep_range(3000, 5000);
+>>>> @@ -242,23 +265,19 @@ static int max9286_i2c_mux_select(struct i2c_mux_core *muxc, u32 chan)
+>>>>  {
+>>>>  	struct max9286_priv *priv = i2c_mux_priv(muxc);
+>>>>
+>>>> -	/*
+>>>> -	 * FIXME: This state keeping is a hack and do the job. It should
+>>>> -	 * be should be reworked. One option to consider is that once all
+>>>> -	 * cameras are programmed the mux selection logic should be disabled
+>>>> -	 * and all all reverse and forward channels enable all the time.
+>>>> -	 *
+>>>> -	 * In any case this logic with a int that have two states should be
+>>>> -	 * reworked!
+>>>> -	 */
+>>>> -	if (priv->streaming == 1) {
+>>>> -		max9286_write(priv, 0x0a, 0xff);
+>>>> -		priv->streaming = 2;
+>>>> +	/* channel select is disabled when configured in the opened state. */
+>>>
+>>> Channel
+>>
+>> Ack.
+>>
+>>
+>>>
+>>>> +	if (priv->mux_state == MAX9286_I2C_MUX_STATE_DISABLE_SELECT)
+>>>>  		return 0;
+>>>> -	} else if (priv->streaming == 2) {
+>>>> +
+>>>> +	if (priv->mux_state == MAX9286_I2C_MUX_STATE_OPEN) {
+>>>> +		/* Open all channels on the MAX9286 */
+>>>> +		max9286_write(priv, 0x0a, 0xff);
+>>>> +		priv->mux_state = MAX9286_I2C_MUX_STATE_DISABLE_SELECT;
+>>>
+>>> Shouldn't we sleep 3-5ms when changing the forward/reverse channel
+>>> configuration ?
+>>
+>> Based on the comments below, we probably do - and this has been missing.
+>>
 > 
+> Yes, was not there in first place
+> 
+>>>
+>>>>  		return 0;
+>>>>  	}
+>>>>
+>>>> +	/* Handling for MAX9286_I2C_MUX_STATE_CHANNEL */
+>>>> +
+>>>
+>>> Empty line
+>>> Do you need this comment ?
+>>
+>> I wanted to clarify that of the 3 states, the lines above explicitly
+>> handle the MAX9286_I2C_MUX_STATE_DISABLE_SELECT,  and the
+>> MAX9286_I2C_MUX_STATE_OPEN states, so it's left 'implicit' that the code
+>> below is MAX9286_I2C_MUX_STATE_CHANNEL.
+>>
+>> I added the comment to make it more explicit.
+>>
+>> I didn't want to move all the code into a switch statement which would
+>> be my only alternative otherwise I think.
+>>
+>>
+>>
+>>
+>>>>  	if (priv->mux_channel == chan)
+>>>>  		return 0;
+>>>>
+>>>> @@ -441,8 +460,7 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
+>>>>  	int ret;
+>>>>
+>>>>  	if (enable) {
+>>>> -		/* FIXME: See note in max9286_i2c_mux_select() */
+>>>> -		priv->streaming = 1;
+>>>> +		priv->mux_state = MAX9286_I2C_MUX_STATE_OPEN;
+>>>>
+>>>>  		/* Start all cameras. */
+>>>>  		for_each_source(priv, source) {
+>>>> @@ -490,8 +508,7 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
+>>>>  		for_each_source(priv, source)
+>>>>  			v4l2_subdev_call(source->sd, video, s_stream, 0);
+>>>>
+>>>> -		/* FIXME: See note in max9286_i2c_mux_select() */
+>>>> -		priv->streaming = 0;
+>>>> +		priv->mux_state = MAX9286_I2C_MUX_STATE_CHANNEL;
+>>>
+>>> Shouldn't we call i2c_mux_close() here, and let it close all channels
+>>> and reset the mux state ? If the mux is not closed by writing
+>>> 0x0a = 0x00 but the state is here reset to STATE_CHANNEL all
+>>> successive i2c_mux_select() call will re-open channel-by-channel a mux
+>>> that is already open, won't they ?
+>>
+>> I have not modified the actual state transitions from your original
+>> implementation, so I think you're the expert here. This is your code,
+>> just renamed.
+> 
+> I know, this was a question not strictly related to your changes
+> 
+>>
+>> (Ok perhaps that's not true, I removed the state check at
+>> max9286_i2c_mux_close above)
+>>
+>> So - thinking it through ... Yes, you are right - this will leave all
+>> the channels open. This is the behaviour we had before this patch though
+>> so I wonder if this could explain any of the issues we've had.
+>>
+>> I don't /think/ so - because
+>>   A) we probably reset the board a lot,
+>>   B) I don't think we've had issues starting and stopping streams, but
+>>      we haven't done enough testing there.
+> 
+> Also, it won't hurt to have the mux open all the time after we have
+> configured addresses properly. It just does not feel 'right'
+
+Indeed, and while it may not hurt, it leads to a point where we get the
+following conditions :
+
+(O=Open, _=Closed)
+
+1 2 3 4
+O _ _ _ // Write to 1
+_ O _ _ // Write to 2
+_ _ O _ // Write to 3
+_ _ _ O // Write to 4
+
+O O O O // StreamOn   // MAX9286_I2C_MUX_STATE_OPEN
+O O O O // StreamOff  // MAX9286_I2C_MUX_STATE_CHANNEL
+
+O O O O // Write to 1
+_ O O O // Write to 2
+_ _ O O // Write to 3
+_ _ _ O // Write to 4
+
+O _ _ _ // Write to 1
+
+O O O O // StreamOn   // MAX9286_I2C_MUX_STATE_OPEN
+O O O O // StreamOff  // MAX9286_I2C_MUX_STATE_CHANNEL
+
+... Continues
+
+I will indeed fix this by calling mux_close when we stop streaming.
+At least then we will have a consistent state as we expect.
+
+
+In fact from all that I think that means we would likely be better to have:
+
+
+/* Opens all channels on the MUX and disables individual select lines */
+static int max9286_i2c_mux_open(struct max9286_priv *priv)
+{
+	/* Open all channels on the MAX9286 */
+	max9286_write(priv, 0x0a, 0xff);
+	usleep_range(3000, 5000);
+
+	priv->mux_state = MAX9286_I2C_MUX_STATE_DISABLE_SELECT;
+
+	return 0;
+}
+
+static int max9286_i2c_mux_close(struct max9286_priv *priv)
+{
+	priv->mux_state = MAX9286_I2C_MUX_STATE_CHANNEL;
+	priv->mux_channel = -1;
+	max9286_write(priv, 0x0a, 0x00);
+	usleep_range(3000, 5000);
+	return 0;
+}
+
+static int max9286_i2c_mux_select(struct i2c_mux_core *muxc, u32 chan)
+{
+	struct max9286_priv *priv = i2c_mux_priv(muxc);
+
+	/* channel select is disabled when configured in the opend state. */
+	if (priv->mux_state == MAX9286_I2C_MUX_STATE_DISABLE_SELECT)
+		return 0;
+
+	/* Handling for MAX9286_I2C_MUX_STATE_CHANNEL */
+
+	if (priv->mux_channel == chan)
+		return 0;
+
+	...
+}
+
+Which makes the intentions much clearer, and stops other sections of the
+driver from directly modifying the 'private' mux_state.
+
+
+>>> Overall, I very much agree we need this patch, so thanks for having
+>>> addressed it!
+>>
+>> No problem, I needed to go through to understand what the three states
+>> (0, 1, 2) were, so this is what I came up with.
+>>
+>> Thanks for your comments, I'll await any further comments to the above
+>> then do a respin before collapsing it into the multi-stream support patch.
+>>
+>> Or do you think we should keep things as separate patches on top of the
+>> 'single' camera support? I don't want to end up in a GMSL==100 patches
+>> to track case again if we can avoid it .., So I'd like to keep it down
+>> to three managable topics :
+>>
+>>  Patch 1) A single camera support, (should apply and run on linux-media)
+>>  Patch 2) Support for multiple streams (requires v4l2-mux)
+>>  Patch 3) Support for 2 MAX9286 on one bus (not upstreamable currently)
+> 
+> I very much agree with this plan!
+
+Great, I'm on the right track then.
+
 > Thanks
 >    j
 > 
->>  		struct max9286_source *source;
->>  		struct of_endpoint ep;
->> @@ -1214,7 +1198,7 @@ static int max9286_parse_dt(struct max9286_priv *priv)
->>  		}
->>
->>  		/* Skip if the corresponding GMSL link is unavailable. */
->> -		if (max9286_check_i2c_bus_by_id(dev, ep.port))
->> +		if (!(i2c_mux_mask & BIT(ep.port)))
->>  			continue;
->>
->>  		if (priv->sources[ep.port].fwnode) {
->> --
->> 2.20.1
->>
 
 -- 
 Regards
