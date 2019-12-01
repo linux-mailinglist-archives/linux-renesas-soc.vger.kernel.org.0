@@ -2,188 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE1AB10D613
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 29 Nov 2019 14:26:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83ADC10E308
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  1 Dec 2019 19:21:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726608AbfK2N0t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 29 Nov 2019 08:26:49 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:36454 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726741AbfK2N0t (ORCPT
+        id S1727308AbfLASVD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 1 Dec 2019 13:21:03 -0500
+Received: from mtax.cdmx.gob.mx ([187.141.35.197]:9691 "EHLO mtax.cdmx.gob.mx"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727252AbfLASVD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 29 Nov 2019 08:26:49 -0500
-Received: from localhost.localdomain (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E71BD23F;
-        Fri, 29 Nov 2019 14:26:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1575034007;
-        bh=bHWyJdgi+Lnwg4MyVoc1m04jrSp/ct3qpcBehkDWFkc=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JUgaYzRUby7PQ0hH5Ski48yPxLjWyPW4pBVjsMZZEWtVEiZVbjykSgOSo3Nilu4XE
-         fWfDu/cmAetk1m68xQEjWQ9AnXxISP2k5nR0c7Zh62nrdNoYpzltTPKQvDagcwyFGq
-         jZm6CUquX9KWQGSjGckKRnUohhZ6rLfoA2W07Ruw=
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-To:     linux-renesas-soc@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH] max9286: Improve mux-state readbility [v2]
-Date:   Fri, 29 Nov 2019 13:26:43 +0000
-Message-Id: <20191129132643.6429-1-kieran.bingham@ideasonboard.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191128162706.704-1-kieran.bingham@ideasonboard.com>
-References: <20191128162706.704-1-kieran.bingham@ideasonboard.com>
+        Sun, 1 Dec 2019 13:21:03 -0500
+X-Greylist: delayed 6625 seconds by postgrey-1.27 at vger.kernel.org; Sun, 01 Dec 2019 13:21:02 EST
+X-NAI-Header: Modified by McAfee Email Gateway (4500)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cdmx.gob.mx; s=72359050-3965-11E6-920A-0192F7A2F08E;
+        t=1575217635; h=DKIM-Filter:X-Virus-Scanned:
+         Content-Type:MIME-Version:Content-Transfer-Encoding:
+         Content-Description:Subject:To:From:Date:Message-Id:
+         X-AnalysisOut:X-AnalysisOut:X-AnalysisOut:
+         X-AnalysisOut:X-AnalysisOut:X-SAAS-TrackingID:
+         X-NAI-Spam-Flag:X-NAI-Spam-Threshold:X-NAI-Spam-Score:
+         X-NAI-Spam-Rules:X-NAI-Spam-Version; bh=M
+        8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs4
+        8=; b=qW2HUTDIZNTiprJfk2Ku1KOZlH1W6S32MZUjhgu4wqau
+        DrN5X0tW1icPk5WB2nxBOUPmHXZxQTi+MMgLFwKLY84ifrJKMe
+        j98uwVTuk6DCOrm1y8ejJErPkPyBDWWSKXSAT1603ynvMZQWXQ
+        LX1u6Y8Kpelrf6Dy8POdADyFpqg=
+Received: from cdmx.gob.mx (correo.cdmx.gob.mx [10.250.108.150]) by mtax.cdmx.gob.mx with smtp
+        (TLS: TLSv1/SSLv3,256bits,ECDHE-RSA-AES256-GCM-SHA384)
+         id 1dee_6536_1fd5ef8a_3a67_483a_881b_15e46b14d77c;
+        Sun, 01 Dec 2019 10:27:14 -0600
+Received: from localhost (localhost [127.0.0.1])
+        by cdmx.gob.mx (Postfix) with ESMTP id 4C0AF1E2666;
+        Sun,  1 Dec 2019 10:18:50 -0600 (CST)
+Received: from cdmx.gob.mx ([127.0.0.1])
+        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id ygQOUU0MRigH; Sun,  1 Dec 2019 10:18:50 -0600 (CST)
+Received: from localhost (localhost [127.0.0.1])
+        by cdmx.gob.mx (Postfix) with ESMTP id 49AFC1E2FA3;
+        Sun,  1 Dec 2019 10:14:15 -0600 (CST)
+DKIM-Filter: OpenDKIM Filter v2.9.2 cdmx.gob.mx 49AFC1E2FA3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cdmx.gob.mx;
+        s=72359050-3965-11E6-920A-0192F7A2F08E; t=1575216855;
+        bh=M8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs48=;
+        h=Content-Type:MIME-Version:Content-Transfer-Encoding:Subject:To:
+         From:Date:Message-Id;
+        b=gXbuT88L0tGEOm6HjwRNbRfg+0CI9fM03yJ/MpKnDohPK/9sfreqEKB96967x56BU
+         rvdVswRpJ0r21lgHKdEjaPr6t4lRE2kB1hJfeC9qmUoKqJRlDhxXtGq8JLX4/x90pn
+         07/fZnhdyJARI5oWxMqaO2ok+OK+kel8RCnpIc/U=
+X-Virus-Scanned: amavisd-new at cdmx.gob.mx
+Received: from cdmx.gob.mx ([127.0.0.1])
+        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id Uj8oIbzoDBqT; Sun,  1 Dec 2019 10:14:15 -0600 (CST)
+Received: from [192.168.0.104] (unknown [188.125.168.160])
+        by cdmx.gob.mx (Postfix) with ESMTPSA id 2B27C1E2DFF;
+        Sun,  1 Dec 2019 10:05:06 -0600 (CST)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Congratulations
+To:     Recipients <aac-styfe@cdmx.gob.mx>
+From:   "Bishop Johnr" <aac-styfe@cdmx.gob.mx>
+Date:   Sun, 01 Dec 2019 17:05:00 +0100
+Message-Id: <20191201160507.2B27C1E2DFF@cdmx.gob.mx>
+X-AnalysisOut: [v=2.2 cv=Ibr3YSia c=1 sm=1 tr=0 p=6K-Ig8iNAUou4E5wYCEA:9 p]
+X-AnalysisOut: [=zRI05YRXt28A:10 a=T6zFoIZ12MK39YzkfxrL7A==:117 a=9152RP8M]
+X-AnalysisOut: [6GQqDhC/mI/QXQ==:17 a=8nJEP1OIZ-IA:10 a=pxVhFHJ0LMsA:10 a=]
+X-AnalysisOut: [pGLkceISAAAA:8 a=wPNLvfGTeEIA:10 a=M8O0W8wq6qAA:10 a=Ygvjr]
+X-AnalysisOut: [iKHvHXA2FhpO6d-:22]
+X-SAAS-TrackingID: 0e9e3ed5.0.48578459.00-2377.81665046.s12p02m013.mxlogic.net
+X-NAI-Spam-Flag: NO
+X-NAI-Spam-Threshold: 3
+X-NAI-Spam-Score: -5000
+X-NAI-Spam-Rules: 1 Rules triggered
+        WHITELISTED=-5000
+X-NAI-Spam-Version: 2.3.0.9418 : core <6686> : inlines <7165> : streams
+ <1840193> : uri <2949750>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The MAX9286 implements an I2C mux which we maintain in an open state
-while we are streaming from the cameras.
+Money was donated to you by Mr and Mrs Allen and Violet Large, just contact=
+ them with this email for more information =
 
-The development code for the MAX9286 uses an integer value with
-arbitrary state values to control these state transitions. This is
-highlighted with a FIXME and is difficult to interpret the meaning of the
-values 0, 1, 2.
 
-Introduce a new function call max9286_i2c_mux_open() to make it clear
-when a component opens all the mux channels, and update the usage
-in s_stream() to max9286_i2c_mux_close() the mux on stop stream.
-
-We previously had missed an occasion to sleep after an update to the I2C
-Fwd/Rev channels, so all writes to this configuration register are moved
-to a helper: max9286_i2c_mux_configure() which guarantees the delay.
-
-Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
----
- drivers/media/i2c/max9286.c | 74 ++++++++++++++++++-------------------
- 1 file changed, 37 insertions(+), 37 deletions(-)
-
-diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index 5b8dfa652d50..b34fb31c6db5 100644
---- a/drivers/media/i2c/max9286.c
-+++ b/drivers/media/i2c/max9286.c
-@@ -144,7 +144,7 @@ struct max9286_priv {
- 	struct media_pad pads[MAX9286_N_PADS];
- 	struct regulator *regulator;
- 	bool poc_enabled;
--	int streaming;
-+	int mux_state;
- 
- 	struct i2c_mux_core *mux;
- 	unsigned int mux_channel;
-@@ -221,57 +221,59 @@ static int max9286_write(struct max9286_priv *priv, u8 reg, u8 val)
-  * I2C Multiplexer
-  */
- 
--static int max9286_i2c_mux_close(struct max9286_priv *priv)
-+enum max9286_i2c_mux_state {
-+	MAX9286_MUX_CLOSED = 0,
-+	MAX9286_MUX_OPEN,
-+};
-+
-+static void max9286_i2c_mux_configure(struct max9286_priv *priv, u8 conf)
-+{
-+	max9286_write(priv, 0x0a, conf);
-+
-+	/*
-+	 * We must sleep after any change to the forward or reverse channel
-+	 * configuration.
-+	 */
-+	usleep_range(3000, 5000);
-+}
-+
-+static void max9286_i2c_mux_open(struct max9286_priv *priv)
-+{
-+	/* Open all channels on the MAX9286 */
-+	max9286_i2c_mux_configure(priv, 0xff);
-+
-+	priv->mux_state = MAX9286_MUX_OPEN;
-+}
-+
-+static void max9286_i2c_mux_close(struct max9286_priv *priv)
- {
--	/* FIXME: See note in max9286_i2c_mux_select() */
--	if (priv->streaming)
--		return 0;
- 	/*
- 	 * Ensure that both the forward and reverse channel are disabled on the
- 	 * mux, and that the channel ID is invalidated to ensure we reconfigure
--	 * on the next select call.
-+	 * on the next max9286_i2c_mux_select() call.
- 	 */
--	priv->mux_channel = -1;
--	max9286_write(priv, 0x0a, 0x00);
--	usleep_range(3000, 5000);
-+	max9286_i2c_mux_configure(priv, 0x00);
- 
--	return 0;
-+	priv->mux_state = MAX9286_MUX_CLOSED;
-+	priv->mux_channel = -1;
- }
- 
- static int max9286_i2c_mux_select(struct i2c_mux_core *muxc, u32 chan)
- {
- 	struct max9286_priv *priv = i2c_mux_priv(muxc);
- 
--	/*
--	 * FIXME: This state keeping is a hack and do the job. It should
--	 * be should be reworked. One option to consider is that once all
--	 * cameras are programmed the mux selection logic should be disabled
--	 * and all all reverse and forward channels enable all the time.
--	 *
--	 * In any case this logic with a int that have two states should be
--	 * reworked!
--	 */
--	if (priv->streaming == 1) {
--		max9286_write(priv, 0x0a, 0xff);
--		priv->streaming = 2;
--		return 0;
--	} else if (priv->streaming == 2) {
-+	/* channel select is disabled when configured in the opened state. */
-+	if (priv->mux_state == MAX9286_MUX_OPEN)
- 		return 0;
--	}
- 
- 	if (priv->mux_channel == chan)
- 		return 0;
- 
- 	priv->mux_channel = chan;
- 
--	max9286_write(priv, 0x0a,
--		      MAX9286_FWDCCEN(chan) | MAX9286_REVCCEN(chan));
--
--	/*
--	 * We must sleep after any change to the forward or reverse channel
--	 * configuration.
--	 */
--	usleep_range(3000, 5000);
-+	max9286_i2c_mux_configure(priv,
-+				  MAX9286_FWDCCEN(chan) |
-+				  MAX9286_REVCCEN(chan));
- 
- 	return 0;
- }
-@@ -441,8 +443,7 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
- 	int ret;
- 
- 	if (enable) {
--		/* FIXME: See note in max9286_i2c_mux_select() */
--		priv->streaming = 1;
-+		max9286_i2c_mux_open(priv);
- 
- 		/* Start all cameras. */
- 		for_each_source(priv, source) {
-@@ -490,8 +491,7 @@ static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
- 		for_each_source(priv, source)
- 			v4l2_subdev_call(source->sd, video, s_stream, 0);
- 
--		/* FIXME: See note in max9286_i2c_mux_select() */
--		priv->streaming = 0;
-+		max9286_i2c_mux_close(priv);
- 	}
- 
- 	return 0;
--- 
-2.20.1
-
+EMail: allenandvioletlargeaward@gmail.com
