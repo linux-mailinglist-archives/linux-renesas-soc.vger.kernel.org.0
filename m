@@ -2,41 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 26EC210E711
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Dec 2019 09:50:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 19AB610E71B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Dec 2019 09:54:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726251AbfLBIu5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Dec 2019 03:50:57 -0500
-Received: from sauhun.de ([88.99.104.3]:41972 "EHLO pokefinder.org"
+        id S1726428AbfLBIyv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Dec 2019 03:54:51 -0500
+Received: from sauhun.de ([88.99.104.3]:42010 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725977AbfLBIu5 (ORCPT
+        id S1726350AbfLBIyu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Dec 2019 03:50:57 -0500
+        Mon, 2 Dec 2019 03:54:50 -0500
 Received: from localhost (p54B3363C.dip0.t-ipconnect.de [84.179.54.60])
-        by pokefinder.org (Postfix) with ESMTPSA id 64ADC2C04A3;
-        Mon,  2 Dec 2019 09:50:55 +0100 (CET)
-Date:   Mon, 2 Dec 2019 09:50:55 +0100
+        by pokefinder.org (Postfix) with ESMTPSA id B15772C04A3;
+        Mon,  2 Dec 2019 09:54:48 +0100 (CET)
+Date:   Mon, 2 Dec 2019 09:54:48 +0100
 From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] mmc: tmio: remove workaround for NON_REMOVABLE
-Message-ID: <20191202085055.GC1266@kunai>
-References: <20190917183652.7310-1-wsa+renesas@sang-engineering.com>
- <CAMuHMdVYYveVeF4+16vi8zk+0yVZMMJnMvKbLms7CbQ6w00uVg@mail.gmail.com>
- <20191119204725.GA1454@kunai>
- <CAMuHMdV+W62MkSRuYZNT0ezOt_KkyStfoeZohu7m1pOP=4a0HQ@mail.gmail.com>
- <20191121085702.GA1184@ninjato>
- <CAMuHMdVHN_wVuqFn3UcbFWxGPLxc5TfbMBRAWpptdt9M36JRHQ@mail.gmail.com>
- <20191121111025.GB1184@ninjato>
- <20191202082041.GA1266@kunai>
- <CAMuHMdXLr627Tn88+Cu8tUVMviBdypR_rpO6dk-3UBwTWzYvAQ@mail.gmail.com>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc:     "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH RFC 4/4] mmc: host: renesas_sdhi_sys_dmac: Set
+ dma_buswidth value to 32 byte
+Message-ID: <20191202085448.GD1266@kunai>
+References: <1574403231-18512-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <1574403231-18512-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <20191128210728.GA864@kunai>
+ <TYAPR01MB45448366F6EB1F581CD399F7D8430@TYAPR01MB4544.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="MnLPg7ZWsaic7Fhd"
+        protocol="application/pgp-signature"; boundary="LKTjZJSUETSlgu2t"
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdXLr627Tn88+Cu8tUVMviBdypR_rpO6dk-3UBwTWzYvAQ@mail.gmail.com>
+In-Reply-To: <TYAPR01MB45448366F6EB1F581CD399F7D8430@TYAPR01MB4544.jpnprd01.prod.outlook.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -44,38 +39,62 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---MnLPg7ZWsaic7Fhd
+--LKTjZJSUETSlgu2t
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Shimoda-san,
+
+> > 1) can't we set dma_priv->dma_buswidth at runtime when we know what the
+> > card is capable of? Either DMA_SLAVE_BUSWIDTH_32_BYTES or
+> > DMA_SLAVE_BUSWIDTH_4_BYTES? Then we don't need to fallback to PIO.
+> > AFAIS, we only Gen2 sets .dma_buswidth in of_data, so we could even
+> > remove it from of_data entirely?
+>=20
+> As I replied to Ulrich-san on other email thread, for now, rcar-dmac has =
+a limitation
+> on dmaengine_slave_config(), we should not call it at runtime. But, I don=
+'t think
+> any sd card have such a limitation. In other words, if rcar-dmac doesn't =
+have
+> the limitation, I think we can change the buswidth at runtime and then we=
+ can
+> remove the .dma_buswidth from of_data.
+
+So, that I understand correctly: The DMAC limitation is because of the
+driver and not because of the HW? If so, is it hard/planned to be fixed?
+
+> I also grepped in drivers/dma, and all dmaengine drivers except Renesas r=
+elated
+> SoCs don't support DMA_SLAVE_BUSWIDTH_32_BYTES. So, I think no driver uses
+> the 32 bytes on mmc/hosts :)
+
+Wow, we are bleeding edge with this? :)
+
+Thanks,
+
+   Wolfram
 
 
-> How do you reboot in between tests?
-> I usually use /sbin/reboot if the target booted fine, and the (remote
-> controlled)
-> reset button if the target locked up.
-
-I use mostly the reset button. As I recall, last week the issue happened
-even after a cold boot... but I can retry using 'reboot'.
-
-
---MnLPg7ZWsaic7Fhd
+--LKTjZJSUETSlgu2t
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl3k0GoACgkQFA3kzBSg
-Kbbeaw//dgw3xvErcMS2vegYr6NF9JyBJoEugx3q+6ujEKosngb1PEi/IdltuY8S
-RD9Yo7KQdnhQBmwBiqOsa9f0Gdcu5ZmHyYQ/E9qGjlsR42zXg5N12ZYGoe65NJhG
-BRgZD7TmXUk/tEd3HjbrQmXfsDbAxnKkbjrLMSRQ4/TeUCuzNuVl7xy9dHS5YCVv
-B7cJJ4L7S6itunFgzJoeHLCdbG65rhHHrybPRHYBWDMosG80mRRtMjQanCBZlwVk
-lPU/rPPzyI95kGkZZoYmK76yCMUtVLgUx9xi/mlfRp5xyUow2zGehc/VhxHjNYeW
-3fVM0MWtIfPH4oGFmVKYxK+22GHbc9pN9iYEVVWATyu5zMgA4TEMH2qrHpkQ7Nz6
-zwP4Hpui0KLe4uhrK3LXf7DBxo5TYUDboB21ePGUd5xMUy8j4hbbElt68zv0rMcd
-bA906EpouXJ73lyovln3y9vbckYkg56/Gg6AWWK3napyE9Q6JxlF6XHjHy40dElM
-gNJZFfTjVlvYsFZChLsj4FatAld6BNjcUT119d1YkhSqSpcAfn5WsUfmmURkRQsO
-dUoE2+zL3SgcWzzeMAArerAkLmJ6lNKmTOzL0+/XyWfZ/nO0OjNg+FZlH+bB2WXg
-1pgc+JsuL+SeCsrbOcLcCXjIrJPfkSe9DYYC/ytTNfET2EMiEws=
-=30SF
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl3k0VcACgkQFA3kzBSg
+KbZoNg//ezhUoYdzJAmhqBtU+A8clC0LGkYkhcHMACjFXxbNrnB4/S2THO+pWP3b
+SKdHfaQRflbhEWBz+QnuUWlWlgxhTI+nbst86rrXlMbk/deTzkt8CMkXNVQApWIF
+s0lFZIQTHa+YvmuLL7y3qmfLLAo7Epo1w0VLfxhjtK9EajZ1ryRjtyTWRVIEcy0o
+FTh59GSnZ+ykePlRBQL9p/Lq35D7ZX6++967Ig/eqCVBNrfDWmWptKOpkpnho8lk
+TDs8wK4YBzrZa8/PGbXvKDdAU4Y3a/91/A2udBUUizQYnPOJYsHYzapDl0oisIPe
+Kuvmu94Rg2/Nt28wncVE0Hd6xjL5mRh3BEBfxpkFCRL5gz3kB2/QjQsJfLdNsCuL
+TwgQUmX3lDWs7Gm8ODDuJtwpH7tCavQhvTwmNzw7UDMPWaMpcFHSVQP13VkXjShj
+N+5MBlefKOMMxHNHd/SraJ8tsdRdj204plAYcrnbUCZbdOUaVnafLy4EAyXlVyVm
+WzpA1H6G/u8lvlGoL3UJbii6rpwzZlsL+ulsExKdBbzRdOGnGCinJXg4fUF5HmUF
+IdQ4vugPST9SSSN6MQ7KEBOtYnLdR8pv1EQLZRoMVPkw+bkoa31WyMpPTjC4CTiB
+0VFtMRJlLBNk4dOXodIpTMH/bNvDUBSYZp0JibBQeznd3I84KoQ=
+=6+7V
 -----END PGP SIGNATURE-----
 
---MnLPg7ZWsaic7Fhd--
+--LKTjZJSUETSlgu2t--
