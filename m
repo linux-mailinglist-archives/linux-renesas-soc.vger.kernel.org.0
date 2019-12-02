@@ -2,290 +2,328 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C05F10E7D6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Dec 2019 10:42:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B483D10EC0F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Dec 2019 16:06:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727312AbfLBJmZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Dec 2019 04:42:25 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:55688 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726516AbfLBJmZ (ORCPT
+        id S1727431AbfLBPGS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Dec 2019 10:06:18 -0500
+Received: from mail-eopbgr1400103.outbound.protection.outlook.com ([40.107.140.103]:51808
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727413AbfLBPGS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Dec 2019 04:42:25 -0500
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 81932DD;
-        Mon,  2 Dec 2019 10:42:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1575279741;
-        bh=CJ9EKy9GD3pmgiuuqszs9TmlcNonnvP01gpT9zZMShw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=V4EK0qUsUWrspiB9A+zbhzHJgijD2tv2xBmg6vK0ZyUTrE55SygjtWGVe9qs1XXPV
-         Wr61yGx4Bon9ZNPPhIu9c7vA9UC4eslIyMhDCimsqn/JUewYnOoDvpphYucf4xs+GL
-         xMkd2GW6+g3EVAmCpGEEhns8KJ3IY7RItlmXE3fw=
-Date:   Mon, 2 Dec 2019 11:42:13 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Peter Rosin <peda@axentia.se>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
+        Mon, 2 Dec 2019 10:06:18 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gXpJUoxvTQUZnI1vKoyu/Bdc+/RdLACenQOm5QgDVjFqP4t9U4WM4pbkKR6RufqQmi5RovFJrJJmV4nDcKMjnW62iejH/RV1I34S7xUmFIYulaECCZXbRit0+sVKwuZEclx0l+MY1/XtG3sSiZgTdQflCTJcjsv3Wt8mammPCfHKyjRcMtrsvSChXW63nsq+NVSYYy5XjPN7s4hXwi5dngeNN4BtUXFyGeabdeYY/hy5U5NgwJmvw8W8djeDJLI1r+mk74RZcUg3eTTfbLO3Y0XWh62tVx8Okcd8YSMVVe2zQg6nQiVYuMQW9MGoX9pre9Wmpc4ps0tj/sXOEqPgWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bo8TZb0QC8Dvy/NbXrKdM9Wptt3/Uk059oibZbjaL4w=;
+ b=Vu9f1EbZ7uJ8KZb2Vs1oguLmR+DQIEo+YD0Yh5RT54DM/pfl6E54HyqhA1J6VYJvZiN4ZeIovnOHteeXgBavv6rQkJ+7t7+5870SeNmL3PZxCTa+NQtH4yevKY8pzJIOAZ4rCE3Nd/RSFdHUTr0znhx4qdaD2SSAF+1RzcFVVMLRkpUkf+Uxx7B2PtoQ3SR8wRkQkCKPPzFIybWA114d87X6EeTxLe8519Vqtxghhb31Umk/oZqT6pVAdRiyHjecbCOBNN11taOCp7bYYeN9k43bpaTNA92Td9tkxjxDS8fGpp0goS5540NTMGe3v+LzED9kPMiURPqKuccMo2upYw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bo8TZb0QC8Dvy/NbXrKdM9Wptt3/Uk059oibZbjaL4w=;
+ b=MT9JJ1Dr6p701t05ZSchFNmjxOTgmjxoykDW+LTi1ABSX1oM5W7cOoWNEVMRgyn7RfAlrRCK0kp9nC40+ykHbRPtuGD5+ltfWPZsZSuJVicbFqiWUv79hGUKi1WNulMHgEwxRzSMerZYbTfLT4dAbune4Bd2v21ij9z1IaRr4O8=
+Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com (52.133.163.13) by
+ TY1PR01MB1833.jpnprd01.prod.outlook.com (52.133.163.145) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2495.22; Mon, 2 Dec 2019 15:06:13 +0000
+Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com
+ ([fe80::5166:5e51:90f5:3ee1]) by TY1PR01MB1770.jpnprd01.prod.outlook.com
+ ([fe80::5166:5e51:90f5:3ee1%7]) with mapi id 15.20.2495.014; Mon, 2 Dec 2019
+ 15:06:13 +0000
+From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+CC:     "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Subject: Re: [PATCH v4 12/13] [HACK] drm/bridge: lvds-codec: Enforce device
- specific compatible strings
-Message-ID: <20191202094213.GA4929@pendragon.ideasonboard.com>
-References: <1573660292-10629-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1573660292-10629-13-git-send-email-fabrizio.castro@bp.renesas.com>
- <20191119001616.GL5171@pendragon.ideasonboard.com>
- <TY1PR01MB17706CE49FF46891A398C6A6C04C0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
- <20191119215155.GB17590@pendragon.ideasonboard.com>
- <TY1PR01MB1770BF7EE9488A746632E1E0C04E0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
- <CAMuHMdVXu+yXyMbM0RtqAEgZbeu1gz4osjkEPjNQmqwbYM-pOg@mail.gmail.com>
- <TY1PR01MB1770D82E521EBBCBE5F6D572C04A0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+        Biju Das <biju.das@bp.renesas.com>
+Subject: RE: [PATCH] drm: rcar-du: lvds: Get mode from state
+Thread-Topic: [PATCH] drm: rcar-du: lvds: Get mode from state
+Thread-Index: AQHVg6/ZoqgnXEtOHUG426Czz4f2haenNdag
+Date:   Mon, 2 Dec 2019 15:06:13 +0000
+Message-ID: <TY1PR01MB1770F50373A7E518388EEA4AC0430@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+References: <20191015232521.9455-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20191015232521.9455-1-laurent.pinchart+renesas@ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=fabrizio.castro@bp.renesas.com; 
+x-originating-ip: [193.141.220.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 56392dd1-b024-438e-c4dc-08d777392c6c
+x-ms-traffictypediagnostic: TY1PR01MB1833:|TY1PR01MB1833:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <TY1PR01MB18337043A5DAE0FA8253E0B4C0430@TY1PR01MB1833.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 0239D46DB6
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(396003)(39860400002)(136003)(346002)(376002)(366004)(199004)(189003)(9686003)(66476007)(2501003)(66556008)(66946007)(8676002)(55016002)(52536014)(76176011)(7696005)(26005)(66066001)(66446008)(64756008)(186003)(76116006)(99286004)(256004)(14444005)(446003)(11346002)(229853002)(5024004)(6506007)(107886003)(102836004)(53546011)(6436002)(6246003)(3846002)(478600001)(6116002)(2906002)(305945005)(7736002)(25786009)(5660300002)(4326008)(14454004)(33656002)(86362001)(110136005)(44832011)(54906003)(74316002)(71190400001)(71200400001)(316002)(81156014)(81166006)(8936002);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1833;H:TY1PR01MB1770.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
+received-spf: None (protection.outlook.com: bp.renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: dKS/pU5NULWxsdWNE1kB+9gj4mR3dyVHHjPHJ17NrgGEgLkY9cKvaO8wuv7Rc3tmoJkkGpX9q596QMCp8P2G8BplxiYUVIf8GLi1bZi8A9W8cQkpOPTN3SwV2aCIKjVxUINYJ1PvPeletmRv1HJNBrXYz+8C6+SXRyzRIuYspVJqmtDVLRxsXKzftKZmTIWppGxoFxyhHWM44c5S5DVoryhudkAgSPPsC2J50bcQFd0iNdG7ZtYGpF1LAUYU8G+aYy6o7wt/RB9kPW8jA7liTOyLDHduzTBPqrd+wzQ+UAkALvPGyzms9aiCUSP9L6k2lNTON8/wgtK/URkauQHD77h6OxmCX8keilWyUiDMqlxeJNXkSqOwwKWz872LTMXkXDYjIz6eXSrede8xJDYOvO8lV+wvP8QQApqRReflW6Q5mTZxt3CaOeq9p6IRENIU
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <TY1PR01MB1770D82E521EBBCBE5F6D572C04A0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56392dd1-b024-438e-c4dc-08d777392c6c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Dec 2019 15:06:13.6062
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: fJqWVNbKmNeUNU3RJm892fD0WTpocOY3Rw1dowwc5gxqgw5xMn0+39UhBV94Vf549HATQCtJT+rlqOJIlINyEtQ18uKEaVRluVr8F4Uo6Vg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1833
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Fabrizio,
+Hello Laurent,
 
-On Mon, Nov 25, 2019 at 11:17:25AM +0000, Fabrizio Castro wrote:
-> On 22 November 2019 08:17 Geert Uytterhoeven wrote:
-> > On Thu, Nov 21, 2019 at 5:00 PM Fabrizio Castro wrote:
-> >> On 19 November 2019 21:52 Laurent Pinchart wrote:
-> >>> On Tue, Nov 19, 2019 at 11:17:34AM +0000, Fabrizio Castro wrote:
-> >>>> On 19 November 2019 00:16 Laurent Pinchart wrote:
-> >>>>> On Wed, Nov 13, 2019 at 03:51:31PM +0000, Fabrizio Castro wrote:
-> >>>>>> The lvds-codec driver is a generic stub for transparent LVDS
-> >>>>>> encoders and decoders.
-> >>>>>> It's good practice to list a device specific compatible string
-> >>>>>> before the generic fallback (if any) in the DT node for the relevant
-> >>>>>> LVDS encoder/decoder, and it's also required by the dt-bindings.
-> >>>>>> A notable exception to the generic fallback mechanism is the case
-> >>>>>> of "thine,thc63lvdm83d", as documented in:
-> >>>>>> Documentation/devicetree/bindings/display/bridge/thine,thc63lvdm83d.txt
-> >>>>>> This patch enforces the adoption of a device specific compatible
-> >>>>>> string (as fist string in the list), by using markers for the
-> >>>>>> compatible string we match against and the index of the matching
-> >>>>>> compatible string in the list.
-> >>>>>>
-> >>>>>> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> >>>>>>
-> >>>>>> ---
-> >>>>>> Hi Laurent,
-> >>>>>>
-> >>>>>> I don't think we need to do anything in the driver to address your
-> >>>>>> comment, as we can "enforce" this with the bindings (please see the
-> >>>>>> next patch, as it would help with the "enforcing" of the compatible
-> >>>>>> string for the thine device).
-> >>>>>> I am sending this patch only so that you can see what a possible
-> >>>>>> solution in the driver could look like.
-> >>>>>>
-> >>>>>> v3->v4:
-> >>>>>> * New patch addressing the below comment from Laurent:
-> >>>>>> "I think the lvds-decoder driver should error out at probe time if only
-> >>>>>> one compatible string is listed."
-> >>>>>>
-> >>>>>> --- a/drivers/gpu/drm/bridge/lvds-codec.c
-> >>>>>> +++ b/drivers/gpu/drm/bridge/lvds-codec.c
-> >>>>>>
-> >>>>>> @@ -65,7 +70,30 @@ static int lvds_codec_probe(struct platform_device *pdev)
-> >>>>>>         if (!lvds_codec)
-> >>>>>>                 return -ENOMEM;
-> >>>>>>
-> >>>>>> -       lvds_codec->connector_type = (u32)of_device_get_match_data(&pdev->dev);
-> >>>>>> +       lvds_codec->data = of_device_get_match_data(&pdev->dev);
-> >>>>>> +       if (!lvds_codec->data)
-> >>>>>> +               return -EINVAL;
-> >>>>>> +
-> >>>>>> +       /*
-> >>>>>> +        * If we haven't matched a device specific compatible string, we need
-> >>>>>> +        * to work out if the generic compatible string we matched against was
-> >>>>>> +        * listed first in the compatible property.
-> >>>>>> +        */
-> >>>>>
-> >>>>> Can't we do this unconditionally, and thus drop the lvds_codec_data
-> >>>>> structure ?
-> >>>>
-> >>>> I don't think so, and the reason for this is that we have a corner case for
-> >>>> thine,thc63lvdm83d. Here is what's allowed (according to the documentation)
-> >>>> from what's supported upstream (+ this series):
-> >>>> "ti,ds90c185", "lvds-encoder"
-> >>>> "ti,ds90c187", "lvds-encoder"
-> >>>> "ti,sn75lvds83", "lvds-encoder"
-> >>>> "ti,ds90cf384a", "lvds-decoder"
-> >>>> "thine,thc63lvdm83d"
-> >>>>
-> >>>> As you can see from the examples above, in most cases it's enough to say it's
-> >>>> all good when we match a compatible string with index > 0, but for the thine
-> >>>> device you _have_ to match the string with index 0 as that's what's currently
-> >>>> documented (please see thine,thc63lvdm83d.txt) and that's what's supported
-> >>>> by device trees already (please see arch/arm/boot/dts/r8a7779-marzen.dts).
-> >>>
-> >>> How about the following logic ?
-> >>>
-> >>>       if (match_index("lvds-encoder") == 0 ||
-> >>>           match_index("lvds-decoder") == 0)
-> >>>               return -EINVAL;
-> >>>
-> >>>
-> >>
-> >> Now I see what you mean
-> >>
-> >>>> This patch "classifies" compatible strings, and it considers a good match
-> >>>> device specific compatible strings, or generic compatible strings as long
-> >>>> as they are not listed first.
-> >>>>
-> >>>> These days you can leverage the yaml files to validate the device trees,
-> >>>> therefore we should be focusing on writing yaml files in such a way we only
-> >>>> pass the checks we mean to, and by checks I mean:
-> >>>> make dtbs_check
-> >>>>
-> >>>> or more specifically, for this series:
-> >>>> make dtbs_check  DT_SCHEMA_FILES=Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> >>>>
-> >>>> and that's of course on top of make dt_binding_check.
-> >>>
-> >>> Sure, but that doesn't prevent anyone ignoring the validation.
-> >>>
-> >>>> It's a very common requirement to have a part number specific compatible
-> >>>> string first followed by a generic (fallback) compatible string in the device trees,
-> >>>> most drivers for Renesas SoCs have similar requirements.
-> >>>>
-> >>>> If we start doing this here, we'll end up doing it elsewhere as well, and I really
-> >>>> think we shouldn't, but others may see things differently, so I'll wait for others
-> >>>> (and yourself with further comments) to jump in before doing any more work
-> >>>> on this patch.
-> >>>
-> >>> I agree with this argument, it would set a precedent, and is probably
-> >>> not worth duplicating similar code in all drivers. I wonder if this is
-> >>> something we could handle with core helpers, but maybe it's overkill.
-> >>
-> >> I was hoping others would comment as well, but perhaps this topic is not too exciting.
-> >>
-> >> Geert, what do you think about this? Is this something we should enforce
-> >> in drivers?
-> > 
-> > So IIUIC, you want to enforce the presence of both specific and generic
-> > compatible values (in that order) in the driver (except for
-> > "thine,thc63lvdm83d", as that predates the introduction of the generic
-> > compatible value)?
-> 
-> Yeah, this is what Laurent would want ideally.
-> 
-> > However, the driver would not really care about the actual hardware-specific
-> > value, as it would still match against the generic one, and the
-> > hardware-specific one may not even be listed in the driver's match table?
-> 
-> Exactly.
-> 
-> > By definition, you can have one or more compatible values listed in a
-> > device node, from most-specific to least-specific.  Typically the driver
-> > cannot know if a more specific value is missing, but YAML DT binding
-> > validation can.
-> > 
-> > In this case it is a bit special, as there is a generic one involved, so
-> > you can assume there should be a more specific one, too.
-> > If you want to handle this in the core, you probably need to add an
-> > "is_generic" flag to struct of_device_id.
-> 
-> That's actually an interesting way of looking at this.
-> Laurent?
+Thank you for your patch!
 
-I like the idea, it's better than doing it in each driver.
+> From: linux-renesas-soc-owner@vger.kernel.org <linux-renesas-soc-owner@vg=
+er.kernel.org> On Behalf Of Laurent Pinchart
+> Sent: 16 October 2019 00:25
+> Subject: [PATCH] drm: rcar-du: lvds: Get mode from state
+>=20
+> The R-Car LVDS encoder driver implements the bridge .mode_set()
+> operation for the sole purpose of storing the mode in the LVDS private
+> data, to be used later when enabling the encoder.
+>=20
+> Switch to the bridge .atomic_enable() and .atomic_disable() operations
+> in order to access the global atomic state, and get the mode from the
+> state instead. Remove both the unneeded .mode_set() operation and the
+> display_mode and mode fields storing state data from the rcar_lvds
+> private structure.
+>=20
+> As a side effect we get the CRTC from the state, replace the CRTC
+> pointer retrieved through the bridge's encoder that shouldn't be used by
+> atomic drivers.
+>=20
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
+m>
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c | 125 ++++++++++++++--------------
+>  1 file changed, 61 insertions(+), 64 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-d=
+u/rcar_lvds.c
+> index 8c6c172bbf2e..8f355ea07cb5 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> @@ -65,9 +65,6 @@ struct rcar_lvds {
+>  		struct clk *dotclkin[2];	/* External DU clocks */
+>  	} clocks;
+>=20
+> -	struct drm_display_mode display_mode;
+> -	enum rcar_lvds_mode mode;
+> -
+>  	struct drm_bridge *companion;
+>  	bool dual_link;
+>  };
+> @@ -402,10 +399,51 @@ EXPORT_SYMBOL_GPL(rcar_lvds_clk_disable);
+>   * Bridge
+>   */
+>=20
+> -static void rcar_lvds_enable(struct drm_bridge *bridge)
+> +static enum rcar_lvds_mode rcar_lvds_get_lvds_mode(struct rcar_lvds *lvd=
+s,
+> +					const struct drm_connector *connector)
+> +{
+> +	const struct drm_display_info *info;
+> +	enum rcar_lvds_mode mode;
+> +
+> +	/*
+> +	 * There is no API yet to retrieve LVDS mode from a bridge, only panels
+> +	 * are supported.
+> +	 */
+> +	if (!lvds->panel)
+> +		return RCAR_LVDS_MODE_JEIDA;
+> +
+> +	info =3D &connector->display_info;
+> +	if (!info->num_bus_formats || !info->bus_formats) {
+> +		dev_err(lvds->dev, "no LVDS bus format reported\n");
+> +		return RCAR_LVDS_MODE_JEIDA;
+> +	}
+> +
+> +	switch (info->bus_formats[0]) {
+> +	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
+> +	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
+> +		mode =3D RCAR_LVDS_MODE_JEIDA;
+> +		break;
+> +	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
+> +		mode =3D RCAR_LVDS_MODE_VESA;
+> +		break;
+> +	default:
+> +		dev_err(lvds->dev, "unsupported LVDS bus format 0x%04x\n",
+> +			info->bus_formats[0]);
+> +		return RCAR_LVDS_MODE_JEIDA;
+> +	}
+> +
+> +	if (info->bus_flags & DRM_BUS_FLAG_DATA_LSB_TO_MSB)
+> +		mode |=3D RCAR_LVDS_MODE_MIRROR;
+> +
+> +	return mode;
+> +}
+> +
+> +static void rcar_lvds_atomic_enable(struct drm_bridge *bridge,
+> +				    struct drm_atomic_state *state)
+>  {
+>  	struct rcar_lvds *lvds =3D bridge_to_rcar_lvds(bridge);
+> -	const struct drm_display_mode *mode =3D &lvds->display_mode;
+> +	struct drm_connector *connector;
+> +	struct drm_crtc *crtc;
+>  	u32 lvdhcr;
+>  	u32 lvdcr0;
+>  	int ret;
+> @@ -414,6 +452,11 @@ static void rcar_lvds_enable(struct drm_bridge *brid=
+ge)
+>  	if (ret < 0)
+>  		return;
+>=20
+> +	/* Retrieve the connector and CRTC through the atomic state. */
+> +	connector =3D drm_atomic_get_new_connector_for_encoder(state,
+> +							     bridge->encoder);
+> +	crtc =3D drm_atomic_get_new_connector_state(state, connector)->crtc;
+> +
+>  	/* Enable the companion LVDS encoder in dual-link mode. */
+>  	if (lvds->dual_link && lvds->companion)
+>  		lvds->companion->funcs->enable(lvds->companion);
 
-> > Rob/Mark?
+This should call atomic_enable now, therefore I take this won't work as-is =
+on
+a system with a companion encoder. Do you mind testing this patch on a dual=
+-LVDS
+capable system?
 
-Ping ?
+Thanks,
+Fab
 
-> >>>>>> +       if (!lvds_codec->data->device_specific) {
-> >>>>>> +               const struct of_device_id *match;
-> >>>>>> +               int compatible_index;
-> >>>>>> +
-> >>>>>> +               match = of_match_node(dev->driver->of_match_table,
-> >>>>>> +                                     dev->of_node);
-> >>>>>> +               compatible_index = of_property_match_string(dev->of_node,
-> >>>>>> +                                                           "compatible",
-> >>>>>> +                                                           match->compatible);
-> >>>>>> +               if (compatible_index == 0) {
-> >>>>>> +                       dev_err(dev, "Device specific compatible needed\n");
-> >>>>>> +                       return -EINVAL;
-> > 
-> > -ENODEV?
-> > So a "more generic" driver can take over?
-> > 
-> >>>>>> +               }
-> >>>>>> +       }
-> >>>>>> +
-> >>>>>>         lvds_codec->powerdown_gpio = devm_gpiod_get_optional(dev, "powerdown",
-> >>>>>>                                                              GPIOD_OUT_HIGH);
-> >>>>>>         if (IS_ERR(lvds_codec->powerdown_gpio)) {
-> >>>>>> @@ -92,7 +120,7 @@ static int lvds_codec_probe(struct platform_device *pdev)
-> >>>>>>
-> >>>>>>         lvds_codec->panel_bridge =
-> >>>>>>                 devm_drm_panel_bridge_add_typed(dev, panel,
-> >>>>>> -                                               lvds_codec->connector_type);
-> >>>>>> +                                       lvds_codec->data->connector_type);
-> >>>>>>         if (IS_ERR(lvds_codec->panel_bridge))
-> >>>>>>                 return PTR_ERR(lvds_codec->panel_bridge);
-> >>>>>>
-> >>>>>> @@ -119,18 +147,33 @@ static int lvds_codec_remove(struct platform_device *pdev)
-> >>>>>>         return 0;
-> >>>>>>  }
-> >>>>>>
-> >>>>>> +static const struct lvds_codec_data lvds_codec_decoder_data = {
-> >>>>>> +       .connector_type = DRM_MODE_CONNECTOR_DPI,
-> >>>>>> +       .device_specific = false,
-> >>>>>> +};
-> >>>>>> +
-> >>>>>> +static const struct lvds_codec_data lvds_codec_encoder_data = {
-> >>>>>> +       .connector_type = DRM_MODE_CONNECTOR_LVDS,
-> >>>>>> +       .device_specific = false,
-> >>>>>> +};
-> >>>>>> +
-> >>>>>> +static const struct lvds_codec_data lvds_codec_thc63lvdm83d_data = {
-> >>>>>> +       .connector_type = DRM_MODE_CONNECTOR_LVDS,
-> >>>>>> +       .device_specific = true,
-> >>>>>> +};
-> >>>>>> +
-> >>>>>>  static const struct of_device_id lvds_codec_match[] = {
-> >>>>>>         {
-> >>>>>>                 .compatible = "lvds-decoder",
-> >>>>>> -               .data = (void *)DRM_MODE_CONNECTOR_DPI,
-> >>>>>> +               .data = &lvds_codec_decoder_data,
-> >>>>>>         },
-> >>>>>>         {
-> >>>>>>                 .compatible = "lvds-encoder",
-> >>>>>> -               .data = (void *)DRM_MODE_CONNECTOR_LVDS,
-> >>>>>> +               .data = &lvds_codec_encoder_data,
-> >>>>>>         },
-> >>>>>>         {
-> >>>>>>                 .compatible = "thine,thc63lvdm83d",
-> >>>>>> -               .data = (void *)DRM_MODE_CONNECTOR_LVDS,
-> >>>>>> +               .data = &lvds_codec_thc63lvdm83d_data,
-> >>>>>>         },
-> >>>>>>         {},
-> >>>>>>  };
+> @@ -452,18 +495,20 @@ static void rcar_lvds_enable(struct drm_bridge *bri=
+dge)
+>  	 * PLL clock configuration on all instances but the companion in
+>  	 * dual-link mode.
+>  	 */
+> -	if (!lvds->dual_link || lvds->companion)
+> +	if (!lvds->dual_link || lvds->companion) {
+> +		const struct drm_crtc_state *crtc_state =3D
+> +			drm_atomic_get_new_crtc_state(state, crtc);
+> +		const struct drm_display_mode *mode =3D
+> +			&crtc_state->adjusted_mode;
+> +
+>  		lvds->info->pll_setup(lvds, mode->clock * 1000);
+> +	}
+>=20
+>  	/* Set the LVDS mode and select the input. */
+> -	lvdcr0 =3D lvds->mode << LVDCR0_LVMD_SHIFT;
+> +	lvdcr0 =3D rcar_lvds_get_lvds_mode(lvds, connector) << LVDCR0_LVMD_SHIF=
+T;
+>=20
+>  	if (lvds->bridge.encoder) {
+> -		/*
+> -		 * FIXME: We should really retrieve the CRTC through the state,
+> -		 * but how do we get a state pointer?
+> -		 */
+> -		if (drm_crtc_index(lvds->bridge.encoder->crtc) =3D=3D 2)
+> +		if (drm_crtc_index(crtc) =3D=3D 2)
+>  			lvdcr0 |=3D LVDCR0_DUSEL;
+>  	}
+>=20
+> @@ -520,7 +565,8 @@ static void rcar_lvds_enable(struct drm_bridge *bridg=
+e)
+>  	}
+>  }
+>=20
+> -static void rcar_lvds_disable(struct drm_bridge *bridge)
+> +static void rcar_lvds_atomic_disable(struct drm_bridge *bridge,
+> +				     struct drm_atomic_state *state)
+>  {
+>  	struct rcar_lvds *lvds =3D bridge_to_rcar_lvds(bridge);
+>=20
+> @@ -558,54 +604,6 @@ static bool rcar_lvds_mode_fixup(struct drm_bridge *=
+bridge,
+>  	return true;
+>  }
+>=20
+> -static void rcar_lvds_get_lvds_mode(struct rcar_lvds *lvds)
+> -{
+> -	struct drm_display_info *info =3D &lvds->connector.display_info;
+> -	enum rcar_lvds_mode mode;
+> -
+> -	/*
+> -	 * There is no API yet to retrieve LVDS mode from a bridge, only panels
+> -	 * are supported.
+> -	 */
+> -	if (!lvds->panel)
+> -		return;
+> -
+> -	if (!info->num_bus_formats || !info->bus_formats) {
+> -		dev_err(lvds->dev, "no LVDS bus format reported\n");
+> -		return;
+> -	}
+> -
+> -	switch (info->bus_formats[0]) {
+> -	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
+> -	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
+> -		mode =3D RCAR_LVDS_MODE_JEIDA;
+> -		break;
+> -	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
+> -		mode =3D RCAR_LVDS_MODE_VESA;
+> -		break;
+> -	default:
+> -		dev_err(lvds->dev, "unsupported LVDS bus format 0x%04x\n",
+> -			info->bus_formats[0]);
+> -		return;
+> -	}
+> -
+> -	if (info->bus_flags & DRM_BUS_FLAG_DATA_LSB_TO_MSB)
+> -		mode |=3D RCAR_LVDS_MODE_MIRROR;
+> -
+> -	lvds->mode =3D mode;
+> -}
+> -
+> -static void rcar_lvds_mode_set(struct drm_bridge *bridge,
+> -			       const struct drm_display_mode *mode,
+> -			       const struct drm_display_mode *adjusted_mode)
+> -{
+> -	struct rcar_lvds *lvds =3D bridge_to_rcar_lvds(bridge);
+> -
+> -	lvds->display_mode =3D *adjusted_mode;
+> -
+> -	rcar_lvds_get_lvds_mode(lvds);
+> -}
+> -
+>  static int rcar_lvds_attach(struct drm_bridge *bridge)
+>  {
+>  	struct rcar_lvds *lvds =3D bridge_to_rcar_lvds(bridge);
+> @@ -647,10 +645,9 @@ static void rcar_lvds_detach(struct drm_bridge *brid=
+ge)
+>  static const struct drm_bridge_funcs rcar_lvds_bridge_ops =3D {
+>  	.attach =3D rcar_lvds_attach,
+>  	.detach =3D rcar_lvds_detach,
+> -	.enable =3D rcar_lvds_enable,
+> -	.disable =3D rcar_lvds_disable,
+> +	.atomic_enable =3D rcar_lvds_atomic_enable,
+> +	.atomic_disable =3D rcar_lvds_atomic_disable,
+>  	.mode_fixup =3D rcar_lvds_mode_fixup,
+> -	.mode_set =3D rcar_lvds_mode_set,
+>  };
+>=20
+>  bool rcar_lvds_dual_link(struct drm_bridge *bridge)
+> --
+> Regards,
+>=20
+> Laurent Pinchart
 
--- 
-Regards,
-
-Laurent Pinchart
