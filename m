@@ -2,99 +2,129 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 19AB610E71B
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Dec 2019 09:54:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6771910E725
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Dec 2019 09:55:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726428AbfLBIyv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Dec 2019 03:54:51 -0500
-Received: from sauhun.de ([88.99.104.3]:42010 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726350AbfLBIyu (ORCPT
+        id S1726707AbfLBIz5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Dec 2019 03:55:57 -0500
+Received: from baptiste.telenet-ops.be ([195.130.132.51]:39276 "EHLO
+        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726106AbfLBIz5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Dec 2019 03:54:50 -0500
-Received: from localhost (p54B3363C.dip0.t-ipconnect.de [84.179.54.60])
-        by pokefinder.org (Postfix) with ESMTPSA id B15772C04A3;
-        Mon,  2 Dec 2019 09:54:48 +0100 (CET)
-Date:   Mon, 2 Dec 2019 09:54:48 +0100
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH RFC 4/4] mmc: host: renesas_sdhi_sys_dmac: Set
- dma_buswidth value to 32 byte
-Message-ID: <20191202085448.GD1266@kunai>
-References: <1574403231-18512-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <1574403231-18512-5-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <20191128210728.GA864@kunai>
- <TYAPR01MB45448366F6EB1F581CD399F7D8430@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+        Mon, 2 Dec 2019 03:55:57 -0500
+Received: from ramsan ([84.195.182.253])
+        by baptiste.telenet-ops.be with bizsmtp
+        id Ywvn2100Q5USYZQ01wvopW; Mon, 02 Dec 2019 09:55:54 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1ibhUh-0002ZA-RE; Mon, 02 Dec 2019 09:55:47 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1ibhUh-0005lK-Oo; Mon, 02 Dec 2019 09:55:47 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Jonathan Cameron <jic23@kernel.org>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2] iio: adc: max9611: Fix too short conversion time delay
+Date:   Mon,  2 Dec 2019 09:55:46 +0100
+Message-Id: <20191202085546.21655-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="LKTjZJSUETSlgu2t"
-Content-Disposition: inline
-In-Reply-To: <TYAPR01MB45448366F6EB1F581CD399F7D8430@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+As of commit b9ddd5091160793e ("iio: adc: max9611: Fix temperature
+reading in probe"), max9611 initialization sometimes fails on the
+Salvator-X(S) development board with:
 
---LKTjZJSUETSlgu2t
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+    max9611 4-007f: Invalid value received from ADC 0x8000: aborting
+    max9611: probe of 4-007f failed with error -5
 
-Hi Shimoda-san,
+The max9611 driver tests communications with the chip by reading the die
+temperature during the probe function, which returns an invalid value.
 
-> > 1) can't we set dma_priv->dma_buswidth at runtime when we know what the
-> > card is capable of? Either DMA_SLAVE_BUSWIDTH_32_BYTES or
-> > DMA_SLAVE_BUSWIDTH_4_BYTES? Then we don't need to fallback to PIO.
-> > AFAIS, we only Gen2 sets .dma_buswidth in of_data, so we could even
-> > remove it from of_data entirely?
->=20
-> As I replied to Ulrich-san on other email thread, for now, rcar-dmac has =
-a limitation
-> on dmaengine_slave_config(), we should not call it at runtime. But, I don=
-'t think
-> any sd card have such a limitation. In other words, if rcar-dmac doesn't =
-have
-> the limitation, I think we can change the buswidth at runtime and then we=
- can
-> remove the .dma_buswidth from of_data.
+According to the datasheet, the typical ADC conversion time is 2 ms, but
+no minimum or maximum values are provided.  Maxim Technical Support
+confirmed this was tested with temperature Ta=25 degreeC, and promised
+to inform me if a maximum/minimum value is available (they didn't get
+back to me, so I assume it is not).
 
-So, that I understand correctly: The DMAC limitation is because of the
-driver and not because of the HW? If so, is it hard/planned to be fixed?
+However, the driver assumes a 1 ms conversion time.  Usually the
+usleep_range() call returns after more than 1.8 ms, hence it succeeds.
+When it returns earlier, the data register may be read too early, and
+the previous measurement value will be returned.  After boot, this is
+the temperature POR (power-on reset) value, causing the failure above.
 
-> I also grepped in drivers/dma, and all dmaengine drivers except Renesas r=
-elated
-> SoCs don't support DMA_SLAVE_BUSWIDTH_32_BYTES. So, I think no driver uses
-> the 32 bytes on mmc/hosts :)
+Fix this by increasing the delay from 1000-2000 µs to 3000-3300 µs.
 
-Wow, we are bleeding edge with this? :)
+Note that this issue has always been present, but it was exposed by the
+aformentioned commit.
 
-Thanks,
+Fixes: 69780a3bbc0b1e7e ("iio: adc: Add Maxim max9611 ADC driver")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+---
+After this patch, probing of the two max9611 sensors succeeded during
+ca. 3000 boot cycles on Salvator-X(S) boards, equipped with various
+R-Car H3/M3-W/M3-N SoCs.
 
-   Wolfram
+v2:
+  - Add Reviewed-by,
+  - Add feedback from Maxim Technical Support,
+  - Increase delay from 2000-2200 µs to 3000-3300 µs to play safe.
+---
+ drivers/iio/adc/max9611.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/iio/adc/max9611.c b/drivers/iio/adc/max9611.c
+index da073d72f649f829..135793db4fad6b2c 100644
+--- a/drivers/iio/adc/max9611.c
++++ b/drivers/iio/adc/max9611.c
+@@ -89,6 +89,12 @@
+ #define MAX9611_TEMP_SCALE_NUM		1000000
+ #define MAX9611_TEMP_SCALE_DIV		2083
+ 
++/*
++ * Conversion time is 2 ms (typically) at Ta=25 degreeC
++ * No maximum value is known, so play it safe.
++ */
++#define MAX9611_CONV_TIME_US_RANGE	3000, 3300
++
+ struct max9611_dev {
+ 	struct device *dev;
+ 	struct i2c_client *i2c_client;
+@@ -238,9 +244,9 @@ static int max9611_read_single(struct max9611_dev *max9611,
+ 
+ 	/*
+ 	 * need a delay here to make register configuration
+-	 * stabilize. 1 msec at least, from empirical testing.
++	 * stabilize.
+ 	 */
+-	usleep_range(1000, 2000);
++	usleep_range(MAX9611_CONV_TIME_US_RANGE);
+ 
+ 	ret = i2c_smbus_read_word_swapped(max9611->i2c_client, reg_addr);
+ 	if (ret < 0) {
+@@ -507,7 +513,7 @@ static int max9611_init(struct max9611_dev *max9611)
+ 			MAX9611_REG_CTRL2, 0);
+ 		return ret;
+ 	}
+-	usleep_range(1000, 2000);
++	usleep_range(MAX9611_CONV_TIME_US_RANGE);
+ 
+ 	return 0;
+ }
+-- 
+2.17.1
 
---LKTjZJSUETSlgu2t
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl3k0VcACgkQFA3kzBSg
-KbZoNg//ezhUoYdzJAmhqBtU+A8clC0LGkYkhcHMACjFXxbNrnB4/S2THO+pWP3b
-SKdHfaQRflbhEWBz+QnuUWlWlgxhTI+nbst86rrXlMbk/deTzkt8CMkXNVQApWIF
-s0lFZIQTHa+YvmuLL7y3qmfLLAo7Epo1w0VLfxhjtK9EajZ1ryRjtyTWRVIEcy0o
-FTh59GSnZ+ykePlRBQL9p/Lq35D7ZX6++967Ig/eqCVBNrfDWmWptKOpkpnho8lk
-TDs8wK4YBzrZa8/PGbXvKDdAU4Y3a/91/A2udBUUizQYnPOJYsHYzapDl0oisIPe
-Kuvmu94Rg2/Nt28wncVE0Hd6xjL5mRh3BEBfxpkFCRL5gz3kB2/QjQsJfLdNsCuL
-TwgQUmX3lDWs7Gm8ODDuJtwpH7tCavQhvTwmNzw7UDMPWaMpcFHSVQP13VkXjShj
-N+5MBlefKOMMxHNHd/SraJ8tsdRdj204plAYcrnbUCZbdOUaVnafLy4EAyXlVyVm
-WzpA1H6G/u8lvlGoL3UJbii6rpwzZlsL+ulsExKdBbzRdOGnGCinJXg4fUF5HmUF
-IdQ4vugPST9SSSN6MQ7KEBOtYnLdR8pv1EQLZRoMVPkw+bkoa31WyMpPTjC4CTiB
-0VFtMRJlLBNk4dOXodIpTMH/bNvDUBSYZp0JibBQeznd3I84KoQ=
-=6+7V
------END PGP SIGNATURE-----
-
---LKTjZJSUETSlgu2t--
