@@ -2,49 +2,49 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 18F8410F00C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Dec 2019 20:33:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AD7010F011
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Dec 2019 20:33:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728059AbfLBTdK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Dec 2019 14:33:10 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:42914 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727963AbfLBTdK (ORCPT
+        id S1728108AbfLBTdM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Dec 2019 14:33:12 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:40904 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728031AbfLBTdM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Dec 2019 14:33:10 -0500
-Received: by mail-lj1-f196.google.com with SMTP id e28so798494ljo.9;
-        Mon, 02 Dec 2019 11:33:08 -0800 (PST)
+        Mon, 2 Dec 2019 14:33:12 -0500
+Received: by mail-lf1-f68.google.com with SMTP id y5so777554lfy.7;
+        Mon, 02 Dec 2019 11:33:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=kQQWTzPxFOvUW0DGcl4YpgZWZHH+8BFvj48Hp2FKfa8=;
-        b=P7qfmJB7gvDRX9cK4SwTcYkfCK+h7HfN6dil8iCxOUJpUAmm2axESYkmf6IUXBX3Uq
-         WcmlNpE+pVguPwT3omJfvN4fWDZrMuwuXEfiWzGRCml/b3t3ZWCkG9cu3t157dFuaOZ4
-         knqGQ/aw7yV6rIykXAsY3sKhFeY0GXLkogBkJISKrtaz0Sg96uheXMKaETsEE+NqE9IT
-         ZdhniU0NKn8/PWLne5hKZW5BgXUi5yRzYPX6+vg4Ld9cFLnyLSViVJjpseH9TI5H5NnG
-         s3acjDx6kOTjbCM4IaA1oKdjgaptx3ddRgMYzaOgdb/V3KEUtBt6imN+MtGr+WV3pNPE
-         w16g==
+        bh=V7Sk0vtzr45wZ8IS1NkDSiSilaqDlsnOxAQYOrMwYkQ=;
+        b=EgYXvkPFPix9mbJArMrY8NeAkHpQ9d4jaCKh0z+eSI2RmTfxI6tH0nxQoT6w+sfmnc
+         fEtWvBZZpb/e0PdKql1qA648r08sAQTI7p2ddc2eh7wyiuAkat9URK0IBltoqyZR1HrI
+         2KYqXQ6I4wfNDDRDfRQx1XAA9+rZyRAOBAcGnrcvpdMy1FIKVzTaq3NQs0tQtVOBd13a
+         AlUvXyOntqtmiTqGA/9lTfjOA9eBIqXjLki2aaZnLSK0VMZiXajnqwTmh8DW9W2HgIMK
+         O9MnTorcTW8e095CaKaVXszFUwz1gLMc2cA+nfXuOn523h4SJyoz4OjTmZcynePZ5Cmv
+         +OyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=kQQWTzPxFOvUW0DGcl4YpgZWZHH+8BFvj48Hp2FKfa8=;
-        b=Ila2nrzMGiomJsOiIeK2bl9sLRedoaUTbbI3I/2vbgbMh3EOqemmdklRL8YoDzGwdy
-         B2MSPyxpa3AEF26FGV+QUf631j9Q/ZL5sFYH1jitngwK4jo1HR6n2lEJyN/nKFkTyUjw
-         x5C6vlCEZeFweSkU8yF9uAayApEZ/IrdSUHANfDWjIhomzNPRhP2W1qR3koPYrHWO4+N
-         lzbnIS3ynxMpXDEAg6bHd47MquPaCpL9nL8Gdf+7NzVXWH62e2wGIpLS9w54BVRx+Qdq
-         ENZLjoG2pWRhRLZib4LmtXeJymGmZoRWwqKjiv6xviU9F5oK2WFyXB3c+w/enx9gobC2
-         Wgkw==
-X-Gm-Message-State: APjAAAV5gMnXnCYZiFxx1uSFPBsvSLYTgpPwW9CLYz6K6hLTpsrOXeeY
-        dY7/3NQO2OghfWpGdmxCvSw=
-X-Google-Smtp-Source: APXvYqwYpJfjizEaD5IBDV4xc3cEeqEstQeeKZaXT9Z/vSBZFIXZ28HzUNDZprk6Zlxob1NmomY5yg==
-X-Received: by 2002:a2e:7202:: with SMTP id n2mr243436ljc.194.1575315187338;
-        Mon, 02 Dec 2019 11:33:07 -0800 (PST)
+        bh=V7Sk0vtzr45wZ8IS1NkDSiSilaqDlsnOxAQYOrMwYkQ=;
+        b=ZV9EkMAJONiFENCgp5fbHcmKm17QfhrwFi0v9qDyUEzJ93g6ukf+ijoy2c+cSJ1IaF
+         3qXczWtPLUrDIvqzCdIY8Vh65unfAOuQQgdg3CUvax4rB+M9y2BkBoHbFE9BL5GVWiQw
+         lbmQfiX9sZUvtHnyHMTGivLezo0pjvYL0f9jHCQYQt5A1+MjFNuJrRc66RXZ3idI+Jpd
+         I7Bg24zp5PyFOsh+s6Lo13GENg0HL0qap4tmIl0R+M0nLtmO4wxnhZadRaji0eOxx/NR
+         UZCDEmEiput/GgiHiMvMtiZwKwZ0941ZFgWBw5CW8Hki/yGVOvz6zYZvVbSha8ud5Kyv
+         WPwQ==
+X-Gm-Message-State: APjAAAW3HEGh32b1d31Sl74rixqO/wAg85JaZuNW1D11tYdI0pnfkD/3
+        /G507Fdw7RMv0LFBJLM48zI=
+X-Google-Smtp-Source: APXvYqyFg/v6//X8iyL25Oa8adNguLHzFky+6g9PTX8HCXsO+nj0VFmTRx6UWZsUGh8DbeL+sZm8kg==
+X-Received: by 2002:ac2:5388:: with SMTP id g8mr410915lfh.43.1575315189008;
+        Mon, 02 Dec 2019 11:33:09 -0800 (PST)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
-        by smtp.gmail.com with ESMTPSA id g13sm79482lfb.74.2019.12.02.11.33.05
+        by smtp.gmail.com with ESMTPSA id g13sm79482lfb.74.2019.12.02.11.33.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Dec 2019 11:33:06 -0800 (PST)
+        Mon, 02 Dec 2019 11:33:08 -0800 (PST)
 From:   Sam Ravnborg <sam@ravnborg.org>
 To:     dri-devel@lists.freedesktop.org,
         Thierry Reding <thierry.reding@gmail.com>,
@@ -71,11 +71,10 @@ Cc:     Abhinav Kumar <abhinavk@codeaurora.org>,
         Purism Kernel Team <kernel@puri.sm>,
         Sean Paul <sean@poorly.run>, Stefan Agner <stefan@agner.ch>,
         Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Maxime Ripard <maxime.ripard@bootlin.com>
-Subject: [PATCH v1 02/26] drm/panel: add backlight support
-Date:   Mon,  2 Dec 2019 20:32:06 +0100
-Message-Id: <20191202193230.21310-3-sam@ravnborg.org>
+        Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH v1 03/26] drm/panel: simple: use drm_panel backlight support
+Date:   Mon,  2 Dec 2019 20:32:07 +0100
+Message-Id: <20191202193230.21310-4-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191202193230.21310-1-sam@ravnborg.org>
 References: <20191202193230.21310-1-sam@ravnborg.org>
@@ -86,175 +85,153 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Panels often supports backlight as specified in a device tree.
-Update the drm_panel infrastructure to support this to
-simplify the drivers.
-
-With this the panel driver just needs to add the following to the
-probe() function:
-
-    err = drm_panel_of_backlight(panel);
-    if (err)
-            return err;
-
-Then drm_panel will handle all the rest.
-
-v2:
-- Drop test of CONFIG_DRM_PANEL in header-file (Laurent)
-- do not enable backlight if ->enable() returns an error
+Use drm_panel infrastructure for backlight.
+Replace direct calls with drm_panel_*() calls
+to utilize the drm_panel support.
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <maxime.ripard@bootlin.com>
-Cc: Sean Paul <sean@poorly.run>
+cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
 ---
- drivers/gpu/drm/drm_panel.c | 49 +++++++++++++++++++++++++++++++++++--
- include/drm/drm_panel.h     | 23 +++++++++++++++++
- 2 files changed, 70 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/panel/panel-simple.c | 50 ++++++----------------------
+ 1 file changed, 11 insertions(+), 39 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-index 2d59cdd05e50..35609c90e467 100644
---- a/drivers/gpu/drm/drm_panel.c
-+++ b/drivers/gpu/drm/drm_panel.c
-@@ -21,6 +21,7 @@
+diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+index 72f69709f349..a5df6d6dd455 100644
+--- a/drivers/gpu/drm/panel/panel-simple.c
++++ b/drivers/gpu/drm/panel/panel-simple.c
+@@ -21,7 +21,6 @@
   * DEALINGS IN THE SOFTWARE.
   */
  
-+#include <linux/backlight.h>
- #include <linux/err.h>
+-#include <linux/backlight.h>
+ #include <linux/delay.h>
+ #include <linux/gpio/consumer.h>
  #include <linux/module.h>
+@@ -105,7 +104,6 @@ struct panel_simple {
  
-@@ -196,13 +197,18 @@ EXPORT_SYMBOL(drm_panel_unprepare);
-  */
- int drm_panel_enable(struct drm_panel *panel)
+ 	const struct panel_desc *desc;
+ 
+-	struct backlight_device *backlight;
+ 	struct regulator *supply;
+ 	struct i2c_adapter *ddc;
+ 
+@@ -236,12 +234,6 @@ static int panel_simple_disable(struct drm_panel *panel)
+ 	if (!p->enabled)
+ 		return 0;
+ 
+-	if (p->backlight) {
+-		p->backlight->props.power = FB_BLANK_POWERDOWN;
+-		p->backlight->props.state |= BL_CORE_FBBLANK;
+-		backlight_update_status(p->backlight);
+-	}
+-
+ 	if (p->desc->delay.disable)
+ 		msleep(p->desc->delay.disable);
+ 
+@@ -307,12 +299,6 @@ static int panel_simple_enable(struct drm_panel *panel)
+ 	if (p->desc->delay.enable)
+ 		msleep(p->desc->delay.enable);
+ 
+-	if (p->backlight) {
+-		p->backlight->props.state &= ~BL_CORE_FBBLANK;
+-		p->backlight->props.power = FB_BLANK_UNBLANK;
+-		backlight_update_status(p->backlight);
+-	}
+-
+ 	p->enabled = true;
+ 
+ 	return 0;
+@@ -414,9 +400,9 @@ static void panel_simple_parse_panel_timing_node(struct device *dev,
+ 
+ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
  {
-+	int ret = 0;
-+
- 	if (!panel)
- 		return -EINVAL;
+-	struct device_node *backlight, *ddc;
+ 	struct panel_simple *panel;
+ 	struct display_timing dt;
++	struct device_node *ddc;
+ 	int err;
  
- 	if (panel->funcs && panel->funcs->enable)
--		return panel->funcs->enable(panel);
-+		ret = panel->funcs->enable(panel);
+ 	panel = devm_kzalloc(dev, sizeof(*panel), GFP_KERNEL);
+@@ -442,24 +428,13 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+ 		return err;
+ 	}
  
--	return 0;
-+	if (ret >= 0)
-+		backlight_enable(panel->backlight);
+-	backlight = of_parse_phandle(dev->of_node, "backlight", 0);
+-	if (backlight) {
+-		panel->backlight = of_find_backlight_by_node(backlight);
+-		of_node_put(backlight);
+-
+-		if (!panel->backlight)
+-			return -EPROBE_DEFER;
+-	}
+-
+ 	ddc = of_parse_phandle(dev->of_node, "ddc-i2c-bus", 0);
+ 	if (ddc) {
+ 		panel->ddc = of_find_i2c_adapter_by_node(ddc);
+ 		of_node_put(ddc);
+ 
+-		if (!panel->ddc) {
+-			err = -EPROBE_DEFER;
+-			goto free_backlight;
+-		}
++		if (!panel->ddc)
++			return -EPROBE_DEFER;
+ 	}
+ 
+ 	if (!of_get_display_timing(dev->of_node, "panel-timing", &dt))
+@@ -468,6 +443,10 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+ 	drm_panel_init(&panel->base, dev, &panel_simple_funcs,
+ 		       desc->connector_type);
+ 
++	err = drm_panel_of_backlight(&panel->base);
++	if (err)
++		goto free_ddc;
 +
-+	return ret;
+ 	err = drm_panel_add(&panel->base);
+ 	if (err < 0)
+ 		goto free_ddc;
+@@ -479,9 +458,6 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
+ free_ddc:
+ 	if (panel->ddc)
+ 		put_device(&panel->ddc->dev);
+-free_backlight:
+-	if (panel->backlight)
+-		put_device(&panel->backlight->dev);
+ 
+ 	return err;
  }
- EXPORT_SYMBOL(drm_panel_enable);
+@@ -491,16 +467,12 @@ static int panel_simple_remove(struct device *dev)
+ 	struct panel_simple *panel = dev_get_drvdata(dev);
  
-@@ -221,6 +227,8 @@ int drm_panel_disable(struct drm_panel *panel)
- 	if (!panel)
- 		return -EINVAL;
+ 	drm_panel_remove(&panel->base);
+-
+-	panel_simple_disable(&panel->base);
+-	panel_simple_unprepare(&panel->base);
++	drm_panel_disable(&panel->base);
++	drm_panel_unprepare(&panel->base);
  
-+	backlight_disable(panel->backlight);
-+
- 	if (panel->funcs && panel->funcs->disable)
- 		return panel->funcs->disable(panel);
+ 	if (panel->ddc)
+ 		put_device(&panel->ddc->dev);
  
-@@ -289,6 +297,43 @@ struct drm_panel *of_drm_find_panel(const struct device_node *np)
- EXPORT_SYMBOL(of_drm_find_panel);
- #endif
- 
-+#ifdef CONFIG_BACKLIGHT_CLASS_DEVICE
-+/**
-+ * drm_panel_of_backlight - use backlight device node for backlight
-+ * @panel: DRM panel
-+ *
-+ * Use this function to enable backlight handling if your panel
-+ * uses device tree and has a backlight handle.
-+ *
-+ * When panel is enabled backlight will be enabled after a
-+ * successfull call to &drm_panel_funcs.enable()
-+ *
-+ * When panel is disabled backlight will be disabled before the
-+ * call to &drm_panel_funcs.disable().
-+ *
-+ * A typical implementation for a panel driver supporting device tree
-+ * will call this function and then backlight just works.
-+ *
-+ * Return: 0 on success or a negative error code on failure.
-+ */
-+int drm_panel_of_backlight(struct drm_panel *panel)
-+{
-+	struct backlight_device *backlight;
-+
-+	if (!panel || !panel->dev)
-+		return -EINVAL;
-+
-+	backlight = devm_of_find_backlight(panel->dev);
-+
-+	if (IS_ERR(backlight))
-+                return PTR_ERR(backlight);
-+
-+	panel->backlight = backlight;
-+	return 0;
-+}
-+EXPORT_SYMBOL(drm_panel_of_backlight);
-+#endif
-+
- MODULE_AUTHOR("Thierry Reding <treding@nvidia.com>");
- MODULE_DESCRIPTION("DRM panel infrastructure");
- MODULE_LICENSE("GPL and additional rights");
-diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-index ce8da64022b4..d30c98567384 100644
---- a/include/drm/drm_panel.h
-+++ b/include/drm/drm_panel.h
-@@ -28,6 +28,7 @@
- #include <linux/errno.h>
- #include <linux/list.h>
- 
-+struct backlight_device;
- struct device_node;
- struct drm_connector;
- struct drm_device;
-@@ -59,6 +60,10 @@ struct display_timing;
-  *
-  * To save power when no video data is transmitted, a driver can power down
-  * the panel. This is the job of the .unprepare() function.
-+ *
-+ * Backlight can be handled automatically if configured using
-+ * drm_panel_of_backlight(). Then the driver do not need to implement the
-+ * functionality to enable/disable backlight.
-  */
- struct drm_panel_funcs {
- 	/**
-@@ -132,6 +137,15 @@ struct drm_panel {
- 	 */
- 	struct device *dev;
- 
-+	/**
-+	 * @backlight:
-+	 *
-+	 * Backlight device, used to turn on backlight after
-+	 * the call to enable(), and to turn off
-+	 * backlight before call to disable().
-+	 */
-+	struct backlight_device *backlight;
-+
- 	/**
- 	 * @funcs:
- 	 *
-@@ -183,4 +197,13 @@ static inline struct drm_panel *of_drm_find_panel(const struct device_node *np)
+-	if (panel->backlight)
+-		put_device(&panel->backlight->dev);
+-
+ 	return 0;
  }
- #endif
  
-+#if IS_ENABLED(CONFIG_BACKLIGHT_CLASS_DEVICE)
-+int drm_panel_of_backlight(struct drm_panel *panel);
-+#else
-+static inline int drm_panel_of_backlight(struct drm_panel *panel)
-+{
-+	return -EINVAL;
-+}
-+#endif
-+
- #endif
+@@ -508,8 +480,8 @@ static void panel_simple_shutdown(struct device *dev)
+ {
+ 	struct panel_simple *panel = dev_get_drvdata(dev);
+ 
+-	panel_simple_disable(&panel->base);
+-	panel_simple_unprepare(&panel->base);
++	drm_panel_disable(&panel->base);
++	drm_panel_unprepare(&panel->base);
+ }
+ 
+ static const struct drm_display_mode ampire_am_480272h3tmqw_t01h_mode = {
 -- 
 2.20.1
 
