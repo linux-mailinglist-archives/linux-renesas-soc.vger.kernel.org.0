@@ -2,49 +2,49 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 930CD10F058
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Dec 2019 20:33:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56DE910F088
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Dec 2019 20:34:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728174AbfLBTdp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Dec 2019 14:33:45 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:46761 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728154AbfLBTdp (ORCPT
+        id S1728179AbfLBTdr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Dec 2019 14:33:47 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:46799 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728168AbfLBTdq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Dec 2019 14:33:45 -0500
-Received: by mail-lf1-f65.google.com with SMTP id a17so739829lfi.13;
-        Mon, 02 Dec 2019 11:33:42 -0800 (PST)
+        Mon, 2 Dec 2019 14:33:46 -0500
+Received: by mail-lj1-f193.google.com with SMTP id z17so775264ljk.13;
+        Mon, 02 Dec 2019 11:33:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=+FHuLNwTdHR6blgVNr/owkQfKdgYFCUT0XTY+HsYKBg=;
-        b=jAXzCXL9OdEFsuNU1Rs/H2FYtD6pIirQWfm5U6evmlkFIskQuthJt9AUIdScaihjmF
-         52FsG/8XdjrE41j+He/A6yyC4jP5mmYdG1kZ3G0ZpJVzEHwZBztYfRt+kcQL2kUFvh/L
-         yW9AezRVYJMkZnaGMdTL3Q+YhbEZoA/RoEjQTerZESKzRJxS03HIJ86GOmWGZdCBzUSS
-         HnP3Mu25UOP/ytQcsx+HDzNsMONGSLUwbpSZNLe1q8ni4NI8jZwpxIZdbWOnX8+nOUiY
-         2wlEgN8ddWA+US468fwzh7tyFb1t3BA0PgXvb1U/3gWy/qnyLg82pgFzUE6eqnZk0Tcq
-         RD/A==
+        bh=M6n2l/EBcueNmX8f7XdGTcQ8vUUpCGLFuWYhReTcoKE=;
+        b=IoKSmzU7gpDxUkxl0EdaC0gWScyLrTcPd3YGGa7b4HdIqDI8G1e8FafzmGs6jogxMu
+         4PaXLxX2BIT63x1BMLWqC0EPxIfNV0uUXhjGCBjRnJ95PdBZFSepRhXi48HzJsmPgR6p
+         nThEDz1xjPUYPgGBuMacP2vLvP9wWncj/fCylCldeMQpyFCLJm5HWIrbkmRKu/suIXcT
+         vIYjVTMiZs6FqypDWxZOFvWoZcnXdjd+tuFuhS6aQUTO3t/0WeH9ez7RD5TQj5BoePw9
+         HzDH58XmVFP8bucXCVQ2dtV46btVIkJ2YXGk7aWvtGn8MUVFB/j0ggZVaoWoBhBKZ+LB
+         gSjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=+FHuLNwTdHR6blgVNr/owkQfKdgYFCUT0XTY+HsYKBg=;
-        b=MFOSGYxq/EAtBRuzg6cYcEnUElck2Y8pumRydPQ3QLgE04Pln0gmsthgW5RKDM79tp
-         bElxoF22v4ZNMMlqmVkwdGmZ0XxIZr81g+77T7lKVH8G8JzeES2ac2CDPHUXTjvqQQKh
-         F9EFawOFstT4HL24dizDNRQprUUjKXGXA73a9G5qrE3OdAu2Nx6FRooTZFQXzQymszHl
-         WiCIO+SEvWVTiKvFY9jloDXG7dnPMiSsFc1DuxBaXjJoBSOJCOXA+XNC6kjFeiFo0uwm
-         05KuM9ONE8uhh3/uV6nINp0HABQKORtgocHMLo7hvOGeXsU+jK0bGzL13SROAXciOZoa
-         Eoeg==
-X-Gm-Message-State: APjAAAU4SunCJTV1BZCcjkji0ajJerYPHzLDIHRzb+VJc1vUrSiYtYsc
-        K6UWyOpLfRgPFhFPt3syY1Q=
-X-Google-Smtp-Source: APXvYqzGlpVDHTn2zIkxekoAh78y1wVNAMIONaXD45gxrFXPhUl9H7ermaRGNE/MDT+fhbkWwEN1Ww==
-X-Received: by 2002:a19:2213:: with SMTP id i19mr408485lfi.83.1575315222087;
-        Mon, 02 Dec 2019 11:33:42 -0800 (PST)
+        bh=M6n2l/EBcueNmX8f7XdGTcQ8vUUpCGLFuWYhReTcoKE=;
+        b=ORvUTb0iT8dSn2XumLtCYiqz9sTCOiT5alyq/BLoMRG5kpy70SwqYJZKU22WpVaMNH
+         bYiMbxumjErRJm4irWdtV04CYOHsjQgOsA/jkFfJHYXMtRM3N0d4HamYM0AfvNzQ5Ar7
+         Is8+AMY4Z80XAZY8cz13j+nHSNi/S+feJSubp7PA7PZ1ylUENpEr6y+t84FG5dBfFFcn
+         JxJdZRzaqIcRwfScFvWrnJSsg8kjPSgLX5DK7S+4r1EsobjoAXUgUJv5RizNdrzxQy78
+         gafZ8REI7yoV6bsa9Ij2EaCN0u5rDSqmDEOXxfwQYGP313xMXiFVInIR6ZPifptMK4nv
+         E05w==
+X-Gm-Message-State: APjAAAWd5D9Z6XJQAyZfrH4y0ghYje/bcHfupD8LhXs0lLHWO3OjV5sI
+        5gsozUPvx30uohQMXnW2LCs=
+X-Google-Smtp-Source: APXvYqyrVRyyR4w53XWdXd/Ds8WXmJXF4JV6lta6C9GpnzvDF7NujpVpoOacgf9V4KFroqTFA7Q4PA==
+X-Received: by 2002:a2e:8804:: with SMTP id x4mr277866ljh.2.1575315224026;
+        Mon, 02 Dec 2019 11:33:44 -0800 (PST)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
-        by smtp.gmail.com with ESMTPSA id g13sm79482lfb.74.2019.12.02.11.33.40
+        by smtp.gmail.com with ESMTPSA id g13sm79482lfb.74.2019.12.02.11.33.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Dec 2019 11:33:41 -0800 (PST)
+        Mon, 02 Dec 2019 11:33:43 -0800 (PST)
 From:   Sam Ravnborg <sam@ravnborg.org>
 To:     dri-devel@lists.freedesktop.org,
         Thierry Reding <thierry.reding@gmail.com>,
@@ -72,9 +72,9 @@ Cc:     Abhinav Kumar <abhinavk@codeaurora.org>,
         Sean Paul <sean@poorly.run>, Stefan Agner <stefan@agner.ch>,
         Tomi Valkeinen <tomi.valkeinen@ti.com>,
         Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v1 20/26] drm/panel: seiko-43wvf1g: use drm_panel backlight support
-Date:   Mon,  2 Dec 2019 20:32:24 +0100
-Message-Id: <20191202193230.21310-21-sam@ravnborg.org>
+Subject: [PATCH v1 21/26] drm/panel: sharp-lq101r1sx01: use drm_panel backlight support
+Date:   Mon,  2 Dec 2019 20:32:25 +0100
+Message-Id: <20191202193230.21310-22-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191202193230.21310-1-sam@ravnborg.org>
 References: <20191202193230.21310-1-sam@ravnborg.org>
@@ -91,108 +91,93 @@ Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/panel/panel-seiko-43wvf1g.c | 36 ++++-----------------
- 1 file changed, 6 insertions(+), 30 deletions(-)
+ .../gpu/drm/panel/panel-sharp-lq101r1sx01.c   | 21 +++++++------------
+ 1 file changed, 7 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-index 4b345a242b3f..e7e00b23c975 100644
---- a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-+++ b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-@@ -6,7 +6,6 @@
-  * Based on Panel Simple driver by Thierry Reding <treding@nvidia.com>
+diff --git a/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c b/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c
+index 17d406f49c3d..b5d1977221a7 100644
+--- a/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c
++++ b/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c
+@@ -3,7 +3,6 @@
+  * Copyright (C) 2014 NVIDIA Corporation
   */
  
 -#include <linux/backlight.h>
  #include <linux/delay.h>
+ #include <linux/gpio/consumer.h>
  #include <linux/module.h>
- #include <linux/of.h>
-@@ -46,7 +45,6 @@ struct seiko_panel {
- 	bool prepared;
- 	bool enabled;
- 	const struct seiko_panel_desc *desc;
+@@ -23,7 +22,6 @@ struct sharp_panel {
+ 	struct mipi_dsi_device *link1;
+ 	struct mipi_dsi_device *link2;
+ 
 -	struct backlight_device *backlight;
- 	struct regulator *dvdd;
- 	struct regulator *avdd;
- };
-@@ -127,12 +125,6 @@ static int seiko_panel_disable(struct drm_panel *panel)
- 	if (!p->enabled)
+ 	struct regulator *supply;
+ 
+ 	bool prepared;
+@@ -94,8 +92,6 @@ static int sharp_panel_disable(struct drm_panel *panel)
+ 	if (!sharp->enabled)
  		return 0;
  
--	if (p->backlight) {
--		p->backlight->props.power = FB_BLANK_POWERDOWN;
--		p->backlight->props.state |= BL_CORE_FBBLANK;
--		backlight_update_status(p->backlight);
--	}
+-	backlight_disable(sharp->backlight);
 -
- 	p->enabled = false;
+ 	sharp->enabled = false;
  
  	return 0;
-@@ -196,12 +188,6 @@ static int seiko_panel_enable(struct drm_panel *panel)
- 	if (p->enabled)
+@@ -258,8 +254,6 @@ static int sharp_panel_enable(struct drm_panel *panel)
+ 	if (sharp->enabled)
  		return 0;
  
--	if (p->backlight) {
--		p->backlight->props.state &= ~BL_CORE_FBBLANK;
--		p->backlight->props.power = FB_BLANK_UNBLANK;
--		backlight_update_status(p->backlight);
--	}
+-	backlight_enable(sharp->backlight);
 -
- 	p->enabled = true;
+ 	sharp->enabled = true;
  
  	return 0;
-@@ -227,7 +213,6 @@ static const struct drm_panel_funcs seiko_panel_funcs = {
- static int seiko_panel_probe(struct device *dev,
- 					const struct seiko_panel_desc *desc)
+@@ -317,7 +311,7 @@ MODULE_DEVICE_TABLE(of, sharp_of_match);
+ 
+ static int sharp_panel_add(struct sharp_panel *sharp)
  {
--	struct device_node *backlight;
- 	struct seiko_panel *panel;
- 	int err;
+-	struct device *dev = &sharp->link1->dev;
++	int ret;
  
-@@ -247,18 +232,13 @@ static int seiko_panel_probe(struct device *dev,
- 	if (IS_ERR(panel->avdd))
- 		return PTR_ERR(panel->avdd);
+ 	sharp->mode = &default_mode;
  
--	backlight = of_parse_phandle(dev->of_node, "backlight", 0);
--	if (backlight) {
--		panel->backlight = of_find_backlight_by_node(backlight);
--		of_node_put(backlight);
+@@ -325,14 +319,13 @@ static int sharp_panel_add(struct sharp_panel *sharp)
+ 	if (IS_ERR(sharp->supply))
+ 		return PTR_ERR(sharp->supply);
+ 
+-	sharp->backlight = devm_of_find_backlight(dev);
 -
--		if (!panel->backlight)
--			return -EPROBE_DEFER;
--	}
+-	if (IS_ERR(sharp->backlight))
+-		return PTR_ERR(sharp->backlight);
 -
- 	drm_panel_init(&panel->base, dev, &seiko_panel_funcs,
- 		       DRM_MODE_CONNECTOR_DPI);
+ 	drm_panel_init(&sharp->base, &sharp->link1->dev, &sharp_panel_funcs,
+ 		       DRM_MODE_CONNECTOR_DSI);
  
-+	err = drm_panel_of_backlight(&panel->base);
-+	if (err)
-+		return err;
++	ret = drm_panel_of_backlight(&sharp->base);
++	if (ret)
++		return ret;
 +
- 	err = drm_panel_add(&panel->base);
+ 	return drm_panel_add(&sharp->base);
+ }
+ 
+@@ -408,7 +401,7 @@ static int sharp_panel_remove(struct mipi_dsi_device *dsi)
+ 		return 0;
+ 	}
+ 
+-	err = sharp_panel_disable(&sharp->base);
++	err = drm_panel_disable(&sharp->base);
  	if (err < 0)
- 		return err;
-@@ -273,11 +253,7 @@ static int seiko_panel_remove(struct platform_device *pdev)
- 	struct seiko_panel *panel = dev_get_drvdata(&pdev->dev);
+ 		dev_err(&dsi->dev, "failed to disable panel: %d\n", err);
  
- 	drm_panel_remove(&panel->base);
--
--	seiko_panel_disable(&panel->base);
--
--	if (panel->backlight)
--		put_device(&panel->backlight->dev);
-+	drm_panel_disable(&panel->base);
+@@ -429,7 +422,7 @@ static void sharp_panel_shutdown(struct mipi_dsi_device *dsi)
+ 	if (!sharp)
+ 		return;
  
- 	return 0;
- }
-@@ -286,7 +262,7 @@ static void seiko_panel_shutdown(struct platform_device *pdev)
- {
- 	struct seiko_panel *panel = dev_get_drvdata(&pdev->dev);
- 
--	seiko_panel_disable(&panel->base);
-+	drm_panel_disable(&panel->base);
+-	sharp_panel_disable(&sharp->base);
++	drm_panel_disable(&sharp->base);
  }
  
- static const struct display_timing seiko_43wvf1g_timing = {
+ static struct mipi_dsi_driver sharp_panel_driver = {
 -- 
 2.20.1
 
