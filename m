@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C0FFD10F7E2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2019 07:39:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35BDA10F7FF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2019 07:44:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727126AbfLCGjt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Dec 2019 01:39:49 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:56442 "EHLO
+        id S1727330AbfLCGoY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Dec 2019 01:44:24 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:56520 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726991AbfLCGjt (ORCPT
+        with ESMTP id S1726521AbfLCGoY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Dec 2019 01:39:49 -0500
+        Tue, 3 Dec 2019 01:44:24 -0500
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 70227309;
-        Tue,  3 Dec 2019 07:39:46 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6C443309;
+        Tue,  3 Dec 2019 07:44:21 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1575355186;
-        bh=NKJAGVwnbEA5vcxRJnNw/eHXqWVE7J8TQMaQ6WQ1rME=;
+        s=mail; t=1575355461;
+        bh=g/3jjUGzt/ZPk4oebHW3YfmYOgHqwdzbZQuepaZXnZ8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=D14DfDQGqmcPI/cWzbaSwFmIu2oGRWeQ94ouc59CDImFZ8t3SX6+BbiXsn2fRsOZk
-         Tnv6M49uf5jSzTHOa93zxLqOpHWEUA/ltoic1as76ib31vB5+Oo8hU9R8nUV2Cj5eu
-         z/3+mXvqwo0HuNNUiRzpAUwj6s6qiSBMTuin2TnY=
-Date:   Tue, 3 Dec 2019 08:39:40 +0200
+        b=v2/pr/F9edrxg9ZBPVTOYa8P9ikzqJhOu4ROsO8ftPE8VHwx4EgD78nZi+ZYlO0mB
+         5H3mAZICncryXfGSu8OoTEKCEe2GYcFlMRt+09pOXdmEMFp0scnGdQG6U2hkbu/HCd
+         s+eKKGxEAQHDPgJZtE9suYSiN0MVpAb6R2OBuXY4=
+Date:   Tue, 3 Dec 2019 08:44:14 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Sam Ravnborg <sam@ravnborg.org>
 Cc:     dri-devel@lists.freedesktop.org,
@@ -48,16 +48,18 @@ Cc:     dri-devel@lists.freedesktop.org,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Purism Kernel Team <kernel@puri.sm>,
         Sean Paul <sean@poorly.run>, Stefan Agner <stefan@agner.ch>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v1 03/26] drm/panel: simple: use drm_panel backlight
- support
-Message-ID: <20191203063940.GC4730@pendragon.ideasonboard.com>
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Eric Anholt <eric@anholt.net>
+Subject: Re: [PATCH v1 04/26] drm: get drm_bridge_panel connector via helper
+Message-ID: <20191203064414.GD4730@pendragon.ideasonboard.com>
 References: <20191202193230.21310-1-sam@ravnborg.org>
- <20191202193230.21310-4-sam@ravnborg.org>
+ <20191202193230.21310-5-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20191202193230.21310-4-sam@ravnborg.org>
+In-Reply-To: <20191202193230.21310-5-sam@ravnborg.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -68,163 +70,114 @@ Hi Sam,
 
 Thank you for the patch.
 
-On Mon, Dec 02, 2019 at 08:32:07PM +0100, Sam Ravnborg wrote:
-> Use drm_panel infrastructure for backlight.
-> Replace direct calls with drm_panel_*() calls
-> to utilize the drm_panel support.
+On Mon, Dec 02, 2019 at 08:32:08PM +0100, Sam Ravnborg wrote:
+> The drm_connector created by drm_panel_bridge was accessed
+> via drm_panel.connector.
+> Avoid the detour around drm_panel by providing a simple get method.
+> This avoids direct access to the connector field in drm_panel in
+> the two users.
+
+You may want to add that this is needed to prepare for removal of
+drm_panel.connector.
+
+> Update pl111 and tve200 to use the new helper.
 > 
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Andrzej Hajda <a.hajda@samsung.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
+> Cc: Eric Anholt <eric@anholt.net>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
 > ---
->  drivers/gpu/drm/panel/panel-simple.c | 50 ++++++----------------------
->  1 file changed, 11 insertions(+), 39 deletions(-)
+>  drivers/gpu/drm/bridge/panel.c      | 16 ++++++++++++++++
+>  drivers/gpu/drm/pl111/pl111_drv.c   |  2 +-
+>  drivers/gpu/drm/tve200/tve200_drv.c |  2 +-
+>  include/drm/drm_bridge.h            |  1 +
+>  4 files changed, 19 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> index 72f69709f349..a5df6d6dd455 100644
-> --- a/drivers/gpu/drm/panel/panel-simple.c
-> +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -21,7 +21,6 @@
->   * DEALINGS IN THE SOFTWARE.
->   */
->  
-> -#include <linux/backlight.h>
->  #include <linux/delay.h>
->  #include <linux/gpio/consumer.h>
->  #include <linux/module.h>
-> @@ -105,7 +104,6 @@ struct panel_simple {
->  
->  	const struct panel_desc *desc;
->  
-> -	struct backlight_device *backlight;
->  	struct regulator *supply;
->  	struct i2c_adapter *ddc;
->  
-> @@ -236,12 +234,6 @@ static int panel_simple_disable(struct drm_panel *panel)
->  	if (!p->enabled)
->  		return 0;
->  
-> -	if (p->backlight) {
-> -		p->backlight->props.power = FB_BLANK_POWERDOWN;
-> -		p->backlight->props.state |= BL_CORE_FBBLANK;
-> -		backlight_update_status(p->backlight);
-> -	}
-> -
->  	if (p->desc->delay.disable)
->  		msleep(p->desc->delay.disable);
->  
-> @@ -307,12 +299,6 @@ static int panel_simple_enable(struct drm_panel *panel)
->  	if (p->desc->delay.enable)
->  		msleep(p->desc->delay.enable);
->  
-> -	if (p->backlight) {
-> -		p->backlight->props.state &= ~BL_CORE_FBBLANK;
-> -		p->backlight->props.power = FB_BLANK_UNBLANK;
-> -		backlight_update_status(p->backlight);
-> -	}
-> -
->  	p->enabled = true;
->  
->  	return 0;
-> @@ -414,9 +400,9 @@ static void panel_simple_parse_panel_timing_node(struct device *dev,
->  
->  static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
->  {
-> -	struct device_node *backlight, *ddc;
->  	struct panel_simple *panel;
->  	struct display_timing dt;
-> +	struct device_node *ddc;
->  	int err;
->  
->  	panel = devm_kzalloc(dev, sizeof(*panel), GFP_KERNEL);
-> @@ -442,24 +428,13 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
->  		return err;
->  	}
->  
-> -	backlight = of_parse_phandle(dev->of_node, "backlight", 0);
-> -	if (backlight) {
-> -		panel->backlight = of_find_backlight_by_node(backlight);
-> -		of_node_put(backlight);
-> -
-> -		if (!panel->backlight)
-> -			return -EPROBE_DEFER;
-> -	}
-> -
->  	ddc = of_parse_phandle(dev->of_node, "ddc-i2c-bus", 0);
->  	if (ddc) {
->  		panel->ddc = of_find_i2c_adapter_by_node(ddc);
->  		of_node_put(ddc);
->  
-> -		if (!panel->ddc) {
-> -			err = -EPROBE_DEFER;
-> -			goto free_backlight;
-> -		}
-> +		if (!panel->ddc)
-> +			return -EPROBE_DEFER;
->  	}
->  
->  	if (!of_get_display_timing(dev->of_node, "panel-timing", &dt))
-> @@ -468,6 +443,10 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
->  	drm_panel_init(&panel->base, dev, &panel_simple_funcs,
->  		       desc->connector_type);
->  
-> +	err = drm_panel_of_backlight(&panel->base);
-> +	if (err)
-> +		goto free_ddc;
+> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+> index f4e293e7cf64..c5e27b81588a 100644
+> --- a/drivers/gpu/drm/bridge/panel.c
+> +++ b/drivers/gpu/drm/bridge/panel.c
+> @@ -289,3 +289,19 @@ struct drm_bridge *devm_drm_panel_bridge_add_typed(struct device *dev,
+>  	return bridge;
+>  }
+>  EXPORT_SYMBOL(devm_drm_panel_bridge_add_typed);
 > +
->  	err = drm_panel_add(&panel->base);
->  	if (err < 0)
->  		goto free_ddc;
-> @@ -479,9 +458,6 @@ static int panel_simple_probe(struct device *dev, const struct panel_desc *desc)
->  free_ddc:
->  	if (panel->ddc)
->  		put_device(&panel->ddc->dev);
-> -free_backlight:
-> -	if (panel->backlight)
-> -		put_device(&panel->backlight->dev);
->  
->  	return err;
->  }
-> @@ -491,16 +467,12 @@ static int panel_simple_remove(struct device *dev)
->  	struct panel_simple *panel = dev_get_drvdata(dev);
->  
->  	drm_panel_remove(&panel->base);
-> -
-> -	panel_simple_disable(&panel->base);
-> -	panel_simple_unprepare(&panel->base);
-> +	drm_panel_disable(&panel->base);
-> +	drm_panel_unprepare(&panel->base);
->  
->  	if (panel->ddc)
->  		put_device(&panel->ddc->dev);
->  
-> -	if (panel->backlight)
-> -		put_device(&panel->backlight->dev);
-> -
->  	return 0;
->  }
->  
-> @@ -508,8 +480,8 @@ static void panel_simple_shutdown(struct device *dev)
->  {
->  	struct panel_simple *panel = dev_get_drvdata(dev);
->  
-> -	panel_simple_disable(&panel->base);
-> -	panel_simple_unprepare(&panel->base);
-> +	drm_panel_disable(&panel->base);
-> +	drm_panel_unprepare(&panel->base);
+> +/**
+> + * drm_panel_bridge_connector - return pointer to connector
 
-Without your panel double-disable protection series, you risk disabling
-the backlight twice. I think backlight_disable() will work fine, but you
-may want to double-check.
+Maybe "return the connector for the panel bridge" ?
 
-With this checked (and possibly addressed if needed),
+> + *
+> + * drm_panel_bridge creates the connector.
+> + * This function gives external access to the connector.
+> + *
+> + * Returns: Pointer to drm_conneector
+
+s/drm_conneector/drm_connector/
+
+> + */
+> +struct drm_connector *drm_panel_bridge_connector(struct drm_bridge *bridge)
+> +{
+> +	struct panel_bridge * panel_bridge;
+
+s/\* panel_bridge/*panel_bridge/
+
+There's also a missing blank line, didn't checkpatch warn about this ?
+
+With those small issues fixed,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
->  }
+> +	panel_bridge = drm_bridge_to_panel_bridge(bridge);
+> +
+> +	return &panel_bridge->connector;
+> +}
+> diff --git a/drivers/gpu/drm/pl111/pl111_drv.c b/drivers/gpu/drm/pl111/pl111_drv.c
+> index 63dfcda04147..aa8aa8d9e405 100644
+> --- a/drivers/gpu/drm/pl111/pl111_drv.c
+> +++ b/drivers/gpu/drm/pl111/pl111_drv.c
+> @@ -166,7 +166,7 @@ static int pl111_modeset_init(struct drm_device *dev)
+>  	priv->bridge = bridge;
+>  	if (panel) {
+>  		priv->panel = panel;
+> -		priv->connector = panel->connector;
+> +		priv->connector = drm_panel_bridge_connector(bridge);
+>  	}
 >  
->  static const struct drm_display_mode ampire_am_480272h3tmqw_t01h_mode = {
+>  	ret = pl111_display_init(dev);
+> diff --git a/drivers/gpu/drm/tve200/tve200_drv.c b/drivers/gpu/drm/tve200/tve200_drv.c
+> index 954b09c948eb..00ba9e5ce130 100644
+> --- a/drivers/gpu/drm/tve200/tve200_drv.c
+> +++ b/drivers/gpu/drm/tve200/tve200_drv.c
+> @@ -110,7 +110,7 @@ static int tve200_modeset_init(struct drm_device *dev)
+>  	}
+>  
+>  	priv->panel = panel;
+> -	priv->connector = panel->connector;
+> +	priv->connector = drm_panel_bridge_connector(bridge);
+>  	priv->bridge = bridge;
+>  
+>  	dev_info(dev->dev, "attached to panel %s\n",
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index c0a2286a81e9..9a4902accfe5 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -438,6 +438,7 @@ struct drm_bridge *devm_drm_panel_bridge_add(struct device *dev,
+>  struct drm_bridge *devm_drm_panel_bridge_add_typed(struct device *dev,
+>  						   struct drm_panel *panel,
+>  						   u32 connector_type);
+> +struct drm_connector *drm_panel_bridge_connector(struct drm_bridge *bridge);
+>  #endif
+>  
+>  #endif
 
 -- 
 Regards,
