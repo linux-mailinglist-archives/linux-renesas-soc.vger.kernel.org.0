@@ -2,52 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DDCE010FE9D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2019 14:23:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AF2210FEB8
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2019 14:25:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726659AbfLCNXE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Dec 2019 08:23:04 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:40829 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726521AbfLCNXD (ORCPT
+        id S1726086AbfLCNZT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Dec 2019 08:25:19 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:44519 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726107AbfLCNZT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Dec 2019 08:23:03 -0500
-Received: by mail-lf1-f67.google.com with SMTP id y5so2938750lfy.7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Dec 2019 05:23:02 -0800 (PST)
+        Tue, 3 Dec 2019 08:25:19 -0500
+Received: by mail-lf1-f68.google.com with SMTP id v201so2904651lfa.11
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Dec 2019 05:25:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lefF5BM/gcR+So8Ygs7RCzWIIBhGl0bonM5D7lIAz2M=;
-        b=ZwcHFup3L1FGPGk2xtvdRZFPmqpjl+1VvQLCjzq0rimrVIVqaG32x7PCDfBwRBdhIo
-         wfFVMCzt/nwBpmmu726MfJIBszKsNjFvMWKcURMFeYoJFnyFPvGbWfNUAkjmA0arprAH
-         xxbwDWIJo9nDwD2K3RFDnub+OayDe800qVEItuex48rNok6smlLWT62Pp3P8wxG/YbWQ
-         q5dde7mJTd61eoUyIeQ0PMpdo8DxM6TZOnmuYEYlu4eIbFMQ/aYRNjWF4Qj24lP7V1JO
-         X4rGteLiKCtTpowk5xUuEB1HkwUeJ5Mr5SgOtJornUUaf2Dz/nR/O6sc39dTBk+hVW6X
-         1kmQ==
+         :cc:content-transfer-encoding;
+        bh=9a1hL+PexI1M8Jq7K439+8ni7/mVSuwFTy8tepPE5ag=;
+        b=xvis201gXI3TiO7rQvoI1mKBfSgzASqAd5iNB/gKNTcG/vn4Yqzhacn1uV/53tfqU8
+         kD2NRTag5a/3oe4AJYonE/5qZUY9d/e3gtDw1PcpmJ/wbepHuPFpAO2vAYkoiRl+EaUf
+         eNzFxpDgdSJ7gWNidrFThpe2xiov+axfIBro+R28+EWkRF0w07eNS6dozJjhFBRBpmMt
+         usXLfgmME3MTm5zAC5CIERmWX1iAN+xefTx1Q2ApRqbMrUAp3Ylf9AiZA9HwCUstvsYg
+         6tssUWKZp25YEHHE3kRX0wSoNqFps0sLQNBE4276+BCka+7PILtOjKGV7mxPqc5LGtcR
+         hgNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lefF5BM/gcR+So8Ygs7RCzWIIBhGl0bonM5D7lIAz2M=;
-        b=YRzZcnz18DCK1fWVwu1ryzVBgavUrwhLjoIvwxMnL79gQmH/CzBF0Acoc9NTru1WsF
-         EE50qxa430Av6UgpwYVB4pxu9Q6FAQrqHdrLApR5JoOJuBN8y8HW2JlICEd4446RfA5E
-         Wi4PCEV3s+ciHv4PFCS+4vg81d1oqVjFk0RaROhf8Az2rO8jANDA+QVPFPpq2eLE3Yul
-         k7oK7WA561MVvaydeL1P3gSoCFNq7I8CfDzUqvLZUxbI/KVGGUnYI3yQGAW4R0bAz5Qk
-         9iJwdsw+AAfiPot43/DhB6H3HnYw6mvfgrl2wq2i+QVTda7YuobzNvocxyqJ02TWMUgo
-         3lVA==
-X-Gm-Message-State: APjAAAUs65JJykpVop1GXIN4m4CnNuE+zyQ1RPGaPNWQwtSJr7F1/ZGZ
-        dgqozHnstH+fphfoee3luMMrilGmyvjwHq1KVwzH6Q==
-X-Google-Smtp-Source: APXvYqx22ebZnmuYdNzG9TrFSZg4isgk95/zsKEGLemAt431mQBCED4F4+fJ5lhPiKhrPXI40LsyMbi9cYOMTmUUeRQ=
-X-Received: by 2002:ac2:5083:: with SMTP id f3mr1970416lfm.135.1575379381560;
- Tue, 03 Dec 2019 05:23:01 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=9a1hL+PexI1M8Jq7K439+8ni7/mVSuwFTy8tepPE5ag=;
+        b=lTi/SSUGPpqFuDKTQZSHLQuC3FBY4QXAq06MgxEpqqDvRJGfnEqeLLRMX5ocfhukVH
+         KqJLh1OUnS+Ivjk8Qi+lEVnjHss621Y63/LCddHV/FPKcVSn6lnsKw+9H5ZDBFyWLQ1b
+         nXYrDk5zlvMDg9/fFd4uO8Lpfi2atZsEm5XTQfuPamY2dDB+JFKpw+g6KEIOb50R5CJ5
+         tene8vZ5AeAR50lyir4yy4f6gwa3MUDzz4TzGQruGqonb6BvxPC71VGfBur8ppuOTahP
+         nooVJ7ZCpetFKTrWWvzhK2pA+B8kB3fEpXk9NESxWWG5j1evgRFHw8VrJv/iIiixtTRf
+         S30w==
+X-Gm-Message-State: APjAAAVio8oPTu/KwvcKQpWsONZYdA6K8jV4TUnAlnJfuPMnkDZdEdy2
+        GYPQIHEa0m3FYuf1ul1KMbltQf3dy0XxnGEeA8i3Rw==
+X-Google-Smtp-Source: APXvYqxTXADDPAMH7cAkcCdHzl2vjK+aV5Roq/rNhp0U0HmtoXe1KfDsidebtQJoYG7+XHWaVda6PVL/JLS+4QQ0S+k=
+X-Received: by 2002:a19:7611:: with SMTP id c17mr2569127lff.86.1575379516980;
+ Tue, 03 Dec 2019 05:25:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20191202193230.21310-1-sam@ravnborg.org> <20191202193230.21310-5-sam@ravnborg.org>
-In-Reply-To: <20191202193230.21310-5-sam@ravnborg.org>
+References: <20191202193230.21310-1-sam@ravnborg.org> <20191202193230.21310-6-sam@ravnborg.org>
+In-Reply-To: <20191202193230.21310-6-sam@ravnborg.org>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 3 Dec 2019 14:22:50 +0100
-Message-ID: <CACRpkdYT8u2Liq60xtTWeLc2q-R16XWtE1YstGp2WTgM2Cc6CA@mail.gmail.com>
-Subject: Re: [PATCH v1 04/26] drm: get drm_bridge_panel connector via helper
+Date:   Tue, 3 Dec 2019 14:25:04 +0100
+Message-ID: <CACRpkdb9c__FUBWE6j6g9uFwYRE6CrX8gu2gbHZ-xPpZ+YkF6Q@mail.gmail.com>
+Subject: Re: [PATCH v1 05/26] drm/panel: add drm_connector argument to get_modes()
 To:     Sam Ravnborg <sam@ravnborg.org>
 Cc:     "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
         Thierry Reding <thierry.reding@gmail.com>,
@@ -75,10 +75,11 @@ Cc:     "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
         Purism Kernel Team <kernel@puri.sm>,
         Sean Paul <sean@poorly.run>, Stefan Agner <stefan@agner.ch>,
         Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Eric Anholt <eric@anholt.net>
+        Stefan Mavrodiev <stefan@olimex.com>,
+        Robert Chiras <robert.chiras@nxp.com>,
+        =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -86,28 +87,29 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Mon, Dec 2, 2019 at 8:33 PM Sam Ravnborg <sam@ravnborg.org> wrote:
 
-> The drm_connector created by drm_panel_bridge was accessed
-> via drm_panel.connector.
-> Avoid the detour around drm_panel by providing a simple get method.
-> This avoids direct access to the connector field in drm_panel in
-> the two users.
->
-> Update pl111 and tve200 to use the new helper.
+> Today the bridge creates the drm_connector, but that is planned
+> to be moved to the display drivers.
+> To facilitate this, update drm_panel_funcs.get_modes() to
+> take drm_connector as an argument.
+> All panel drivers implementing get_modes() are updated.
 >
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Andrzej Hajda <a.hajda@samsung.com>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> Cc: Jonas Karlman <jonas@kwiboo.se>
-> Cc: Jernej Skrabec <jernej.skrabec@siol.net>
-> Cc: Eric Anholt <eric@anholt.net>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
 > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 > Cc: Maxime Ripard <mripard@kernel.org>
 > Cc: David Airlie <airlied@linux.ie>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Jagan Teki <jagan@amarulasolutions.com>
+> Cc: Stefan Mavrodiev <stefan@olimex.com>
+> Cc: Robert Chiras <robert.chiras@nxp.com>
+> Cc: "Guido G=C3=BCnther" <agx@sigxcpu.org>
+> Cc: Purism Kernel Team <kernel@puri.sm>
 
-With the little issues found by Laurent fixed:
+This looks reasonable to me.
+
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
