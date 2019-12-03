@@ -2,125 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0003F11010F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2019 16:20:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 687B21101C5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2019 17:05:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726959AbfLCPUi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Dec 2019 10:20:38 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:38589 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726057AbfLCPUi (ORCPT
+        id S1726949AbfLCQFD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Dec 2019 11:05:03 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:38930 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726516AbfLCQFD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Dec 2019 10:20:38 -0500
-Received: by mail-lj1-f195.google.com with SMTP id k8so4275321ljh.5
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Dec 2019 07:20:37 -0800 (PST)
+        Tue, 3 Dec 2019 11:05:03 -0500
+Received: by mail-lj1-f193.google.com with SMTP id e10so4442841ljj.6
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Dec 2019 08:05:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=m3zQ0bKSvISFi+1fBMi3jNVJYg+1MoT8ThtuF+2ovSQ=;
-        b=AWHhNjjjjGYoZzrFZIUydXTE8P04GoVEj/nkxXov5Xl+m6KVTmezfYzIS189Xbp2d9
-         AoBT8kGo9Ilce7YjmHJ3BR2nLuZhHz+3UDJ/UUeou1iPTqwGwNddK1xb8tuMlXbwtqUv
-         IvCc9hkMqkDp2pZ1+fqZfUoFvFdi6r9t/BjcweQbftCQDIBBsX3LPi/p1NolQb2re4oG
-         PcRRUdNQdc96SBz0HlnkEujZ0AHARIftTj2fcd6E527NVp6lJFODir0h6yiz4ltMi1q/
-         ex1vgLswTSItO9QwCbjS0LEF/qs2+n2yDsn1fJAg1JwWMO95Ffh1DJlmg/hRr4/s9Iog
-         mqEg==
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=from:subject:to:cc:references:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ISxgLk82KYg9gcCYMQW4c3ORz6YkAHuAhHBO9CgaMTE=;
+        b=EpZg4MNfgVquGvO4fH/X5H+3P+UFIyXs1dvDST18rfRasIrdEob3Vz7delQ08QikL9
+         HwLUZjCnZcsKyEi3G8SToHRvBaZdnFFcsPnG4k/5YWG/cwZB1DsyOMnn3iHOgJ5jBhRF
+         0/tv0b27SOMfdHAAS9uvvyzYHSvJz29jXZ8Ghn8P74JIXgbqiQ8Xmf3E7xd0IOJWjYpt
+         v9k8TskKjI/UpljG8OYXfqRkCLbkH8b4DSia7T8a+v1EfZoGxKC3CBVYnqYDmqJFopMg
+         3Xur2LBWPfoAUY+YgoW9CnTNt3+RV4Uwq2EleIYU8L5WljjTjJj4DuITTMBVU0AW9mEM
+         J5uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=m3zQ0bKSvISFi+1fBMi3jNVJYg+1MoT8ThtuF+2ovSQ=;
-        b=D+p9P3Qd1B0sOv4i2WsfaDa74DAKmCzr1HmJK34gzYST/lMMo1JsOhvTcc+CctHeX/
-         gnsX8dhe6McdRGXmPI/pX7x22SB+y9NHSz1VnCP89VCNHjYrMbcwBq9BMLBdhwwESo/V
-         9ZPos9ue/mg8XbLFzW4hIr0cZ9ehZmCs0R0a6zM5k1S68mnkGR+os/TXDc9zZKtkYeIY
-         bj4Ij4k8lb1Q5j87IWp7iz8DefkP4FAFKcmrvLJOA8yLkd/COyM6259uVuSsIVhZEwQk
-         O/3JytFv/ELMVQlLCpyEehxmYaqLHQ/l6Na6/Oavgzoi/7tg7HDxkYQ+LJ5MOAFek6Pq
-         DgOQ==
-X-Gm-Message-State: APjAAAVDj5KVEARJwFzXoKk9MJMAtKf5RAEJh/loBL2rREGVCVEbAB2R
-        KGC+2u+Ba9Doi4Ahb3SCxTq4hBeEWzlzPx8TDfb5MQ==
-X-Google-Smtp-Source: APXvYqzeswPvfb4bN8LEsJSRL/PyxST5l5bJCtG71jQQSWLOGmPl2rs5haGp6u2c8kSn123mUXgOro1vUhgVEbncNNQ=
-X-Received: by 2002:a2e:9ec4:: with SMTP id h4mr2954959ljk.77.1575386436713;
- Tue, 03 Dec 2019 07:20:36 -0800 (PST)
+        h=x-gm-message-state:from:subject:to:cc:references:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=ISxgLk82KYg9gcCYMQW4c3ORz6YkAHuAhHBO9CgaMTE=;
+        b=UzuISBBVg+LpONznj1bIiGGYs9dXKbV6kriA7Up5E6u+NEJm/Eq2FRsB1xEGfCH8CW
+         cUqWj6e/Yl0xIoYnE7LoD/z76yyATBq+w5u021Yc0z+ihqgiS/2+8nJva1S6Ufey2HoZ
+         SuOxrgaovY1ix3oHEtqqJT6xqa+1+9AbrUR8aCllnd4/TSgCQdmtnqMgkfKE+YDbuljb
+         dsyAqUkBIFjxz7o/idFTnnUU8x2QW9uTrrfFBHjTvfo8hqm/fiY/uthIsfebtD7DYYKT
+         2HbRNglmRB9LnBG+F2RIOaDASw+ZeMhIUcZwfZgmcpu8E03Ltx0Pkv6A1YWDe959m0fy
+         1BAA==
+X-Gm-Message-State: APjAAAU1iHhsPIin95DkuwxaxkhsXb+v+DxrgPfPTOFzv5h/o3Htk/h3
+        r6UNAXDy4NKqd5k3Ebk2onztWA==
+X-Google-Smtp-Source: APXvYqwyp3PFALxnKddtKsL8vY1KS7etYmE6Qhye0Iq2Sqts4Tc5bj5UbJeYQy+vhfctVJQU7uj6RA==
+X-Received: by 2002:a2e:85d5:: with SMTP id h21mr3018520ljj.243.1575389101408;
+        Tue, 03 Dec 2019 08:05:01 -0800 (PST)
+Received: from wasted.cogentembedded.com ([2a00:1fa0:6d1:3848:12e:c7de:68cf:5575])
+        by smtp.gmail.com with ESMTPSA id y192sm1791884lfa.63.2019.12.03.08.04.59
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 03 Dec 2019 08:05:00 -0800 (PST)
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Subject: Re: [PATCH 6/6] dt-bindings: spi: Document Renesas SPIBSC bindings
+To:     Chris Brandt <Chris.Brandt@renesas.com>,
+        Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        Mason Yang <masonccyang@mxic.com.tw>
+References: <20191203034519.5640-1-chris.brandt@renesas.com>
+ <20191203034519.5640-7-chris.brandt@renesas.com>
+ <17e66541-41fb-26ed-c87b-15c59ab57bef@cogentembedded.com>
+ <TY1PR01MB156262E8D33A0624457CAE248A420@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+Organization: Cogent Embedded
+Message-ID: <6c2cb15b-896c-e749-8b33-02da46fbc222@cogentembedded.com>
+Date:   Tue, 3 Dec 2019 19:04:58 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-References: <20191202193230.21310-1-sam@ravnborg.org> <20191202193230.21310-8-sam@ravnborg.org>
- <20191203074659.ilsyv4yx7pzw5vax@gilmour.lan>
-In-Reply-To: <20191203074659.ilsyv4yx7pzw5vax@gilmour.lan>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 3 Dec 2019 16:20:24 +0100
-Message-ID: <CACRpkdZrReQs08+bXS7s7eJ-K76nMGvRgQ-L-1-baunEtiF40g@mail.gmail.com>
-Subject: Re: [PATCH v1 07/26] drm/panel: remove get_timings
-To:     Maxime Ripard <mripard@kernel.org>
-Cc:     Sam Ravnborg <sam@ravnborg.org>,
-        "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Abhinav Kumar <abhinavk@codeaurora.org>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Jitao Shi <jitao.shi@mediatek.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        linux-tegra@vger.kernel.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Purism Kernel Team <kernel@puri.sm>,
-        Sean Paul <sean@poorly.run>, Stefan Agner <stefan@agner.ch>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <TY1PR01MB156262E8D33A0624457CAE248A420@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Maxime,
+On 12/03/2019 04:27 PM, Chris Brandt wrote:
 
-On Tue, Dec 3, 2019 at 8:47 AM Maxime Ripard <mripard@kernel.org> wrote:
+>>> +- flash: should be represented by a subnode of the SPIBSC node,
+>>> +	 its "compatible" property contains "jedec,spi-nor" if SPI is used.
+>>
+>>     Are any other flash variants supported?
+> 
+> Do you mean other types of SPI flash?
 
-> Using only the mode as we do currently has a bunch of shortcomings as
-> almost no encoder will be able to provide the typical pixel clock, and
-> that situation leads to multiple things:
->
->   - If someone working on one encoder wants to upstream a panel they
->     have tested, chances are this will not be the typical pixel clock
->     / timings being used but rather the one that will match what that
->     SoC is capable of. Trouble comes when a second user comes in with
->     a different encoder and different capabilities, and then we have a
->     maintainance fight over which timing is the true timing (with a
->     significant chance that none of them are).
->
->   - If we can't match the pixel clock, we currently have no easy way
->     to make the usual measures of reducing / growing the porches and
->     blankings areas to match the pixel clock we can provide, since we
->     don't have an easy way to get the tolerance on those timings for a
->     given panel. There's some ad hoc solutions on some drivers (I
->     think vc4 has that?) to ignore the panel and just play around with
->     the timings, but I think this should be generalised.
+   No, I mean flashes connected via different buses, like HyperBus with the gen3 SoC RPC-IF.
+If SPI's the only bu supported, there's no point saying "if SPI is used".
 
-I've been confused with these things as they look today and it seems
-the whole struct drm_display_mode could need some improvement?
+[...]
+> Chris
 
-If .clock is supposed to be htotal * vtotal * vrefresh, what is the
-.clock doing there anyway.
-
-Sadly I am too inexperienced to realize where the tolerances should
-be stated, but I guess just stating that hsync_start etc are typical,
-then specify some tolerance for each would help a bit?
-
-On the DSI displays in video mode there is also this EOL area
-which seems to be where the logic is normally just idling for a
-while, that can be adjusted on some hardware as well, but
-I don't quite understand it admittedly. Sometimes I wonder if
-anyone really understands DSI... :/
-
-Yours,
-Linus Walleij
+MBR, Sergei
