@@ -2,26 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 94B6510F9E3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2019 09:34:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF2DE10FA07
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2019 09:39:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726107AbfLCIeB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Dec 2019 03:34:01 -0500
-Received: from asavdk4.altibox.net ([109.247.116.15]:35460 "EHLO
+        id S1726057AbfLCIjn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Dec 2019 03:39:43 -0500
+Received: from asavdk4.altibox.net ([109.247.116.15]:35880 "EHLO
         asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725773AbfLCIeB (ORCPT
+        with ESMTP id S1725907AbfLCIjn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Dec 2019 03:34:01 -0500
+        Tue, 3 Dec 2019 03:39:43 -0500
 Received: from ravnborg.org (unknown [158.248.194.18])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by asavdk4.altibox.net (Postfix) with ESMTPS id 33C3D80478;
-        Tue,  3 Dec 2019 09:33:53 +0100 (CET)
-Date:   Tue, 3 Dec 2019 09:33:51 +0100
+        by asavdk4.altibox.net (Postfix) with ESMTPS id 5E20E80477;
+        Tue,  3 Dec 2019 09:39:37 +0100 (CET)
+Date:   Tue, 3 Dec 2019 09:39:36 +0100
 From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Maxime Ripard <mripard@kernel.org>
 Cc:     dri-devel@lists.freedesktop.org,
         Thierry Reding <thierry.reding@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Abhinav Kumar <abhinavk@codeaurora.org>,
         Andrzej Hajda <a.hajda@samsung.com>,
         Benjamin Gaignard <benjamin.gaignard@linaro.org>,
@@ -37,78 +38,129 @@ Cc:     dri-devel@lists.freedesktop.org,
         linux-rockchip@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
         Neil Armstrong <narmstrong@baylibre.com>,
         NXP Linux Team <linux-imx@nxp.com>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Purism Kernel Team <kernel@puri.sm>,
         Sean Paul <sean@poorly.run>, Stefan Agner <stefan@agner.ch>,
         Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v1 0/26] drm/panel infrastructure + backlight update
-Message-ID: <20191203083351.GA30687@ravnborg.org>
+Subject: Re: [PATCH v1 07/26] drm/panel: remove get_timings
+Message-ID: <20191203083935.GB30687@ravnborg.org>
 References: <20191202193230.21310-1-sam@ravnborg.org>
- <20191203072443.GK4730@pendragon.ideasonboard.com>
+ <20191202193230.21310-8-sam@ravnborg.org>
+ <20191203074659.ilsyv4yx7pzw5vax@gilmour.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191203072443.GK4730@pendragon.ideasonboard.com>
+In-Reply-To: <20191203074659.ilsyv4yx7pzw5vax@gilmour.lan>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 X-CMAE-Score: 0
 X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
         a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10
-        a=9hfdOVt4OdhUXmoMrC4A:9 a=CjuIK1q_8ugA:10
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+        a=pGLkceISAAAA:8 a=P1BnusSwAAAA:8 a=QyXUC8HyAAAA:8 a=VwQbUJbxAAAA:8
+        a=-nbbn2pJxVWvY7Vi8LwA:9 a=Vfx8YJUf9hFrv8O-:21 a=HM9-6MrTAUSx7c7w:21
+        a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=D0XLA9XvdZm18NrgonBM:22
+        a=AjGcO6oz07-iQ99wixmX:22
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent.
+Hi Maxime.
 
-> > This patchset include a couple of different
-> > things - all related to panels.
-> > 
-> > - The panel callbacks are optional - so drop error if
-> >   callback is not present.
-> >  
-> > - Add support for backlight in drm_panel.
-> >   This allows us to make much simpler backlight
-> >   support to most panels.
-> >   The patchset include conversion of most of the
-> >   trivial cases.
-> > 
-> > - Drop drm_connector from drm_panel.
-> >   This change required many changes to most
-> >   panels and many bridges and display drivers.
-> >   This is by far the most invasive change in this patchset.
-> > 
-> > - Drop the unused get_timings() callback.
-> >   No users, so no need to keep it around.
-> > 
-> > With this patchset drm_panel_(attach|detach) are nop's
-> > but they are kept for now.
-> > 
-> > A few of these patches has been sent out before - but versioning
-> > started again from v1 - as the most patches are new.
-> > 
-> > I have tested the panel-simple changes, and thus some
-> > of the infrastructure changes.
-> > The testing was done on an earlier iteration - and I ended
-> > up submitting this as Laurent and others started to depend on it.
-> > Jitao has a patch to add more callbacks, and I wanted the
-> > simplification of the callbacks before we add more callbacks.
+On Tue, Dec 03, 2019 at 08:46:59AM +0100, Maxime Ripard wrote:
+> Hi,
 > 
-> Great series !!! Thanks for working on this.
-And likewise - thanks for the detailed reviews!
+> On Mon, Dec 02, 2019 at 08:32:11PM +0100, Sam Ravnborg wrote:
+> > There was no users - so remove it.
+> > The callback was implemented in two drivers - deleted.
+> >
+> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Thierry Reding <thierry.reding@gmail.com>
+> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> > Cc: Sam Ravnborg <sam@ravnborg.org>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: David Airlie <airlied@linux.ie>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > ---
+> >  drivers/gpu/drm/panel/panel-seiko-43wvf1g.c | 18 ------------------
+> >  drivers/gpu/drm/panel/panel-simple.c        | 18 ------------------
+> >  include/drm/drm_panel.h                     |  9 ---------
+> >  3 files changed, 45 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
+> > index b878930b17e4..3bcba64235c4 100644
+> > --- a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
+> > +++ b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
+> > @@ -217,30 +217,12 @@ static int seiko_panel_get_modes(struct drm_panel *panel,
+> >  	return seiko_panel_get_fixed_modes(p, connector);
+> >  }
+> >
+> > -static int seiko_panel_get_timings(struct drm_panel *panel,
+> > -				    unsigned int num_timings,
+> > -				    struct display_timing *timings)
+> > -{
+> > -	struct seiko_panel *p = to_seiko_panel(panel);
+> > -	unsigned int i;
+> > -
+> > -	if (p->desc->num_timings < num_timings)
+> > -		num_timings = p->desc->num_timings;
+> > -
+> > -	if (timings)
+> > -		for (i = 0; i < num_timings; i++)
+> > -			timings[i] = p->desc->timings[i];
+> > -
+> > -	return p->desc->num_timings;
+> > -}
+> > -
+> >  static const struct drm_panel_funcs seiko_panel_funcs = {
+> >  	.disable = seiko_panel_disable,
+> >  	.unprepare = seiko_panel_unprepare,
+> >  	.prepare = seiko_panel_prepare,
+> >  	.enable = seiko_panel_enable,
+> >  	.get_modes = seiko_panel_get_modes,
+> > -	.get_timings = seiko_panel_get_timings,
+> >  };
+> 
+> If anything, I think we should grow the usage of timings and / or make
+> it usable by everyone.
+> 
+> Using only the mode as we do currently has a bunch of shortcomings as
+> almost no encoder will be able to provide the typical pixel clock, and
+> that situation leads to multiple things:
+> 
+>   - If someone working on one encoder wants to upstream a panel they
+>     have tested, chances are this will not be the typical pixel clock
+>     / timings being used but rather the one that will match what that
+>     SoC is capable of. Trouble comes when a second user comes in with
+>     a different encoder and different capabilities, and then we have a
+>     maintainance fight over which timing is the true timing (with a
+>     significant chance that none of them are).
+> 
+>   - If we can't match the pixel clock, we currently have no easy way
+>     to make the usual measures of reducing / growing the porches and
+>     blankings areas to match the pixel clock we can provide, since we
+>     don't have an easy way to get the tolerance on those timings for a
+>     given panel. There's some ad hoc solutions on some drivers (I
+>     think vc4 has that?) to ignore the panel and just play around with
+>     the timings, but I think this should be generalised.
+> 
+> Timings solves the first case since we have the operating range now
+> and not a single set of timings, and it solves the second since we can
+> use that range to take those measures instead of taking a shot in the
+> dark.
+> 
+> I appreciate that it's pretty far from where we are today, but
+> removing the get_timings means that all the timings already defined in
+> the panel drivers are becoming useless too, and that eventually it
+> will get removed.
 
-I have a patch to remove drm_panel_(attach|detach),
-but they was not included because there is also a patchset floating
-that add more functionality to these.
+Thanks for this nice explanation. I will drop the patch,
+and add an entry to my TODO list to look closer at this later.
+There are things to improve in this area.
 
-I will address the feedback, it looked all straighforward, and post
-an updated series.
-
-> drm/panel: remove get_timings
-I will drop this patch as we may need this later.
+So the conclusion is more work rather than removing code :-)
 
 	Sam
