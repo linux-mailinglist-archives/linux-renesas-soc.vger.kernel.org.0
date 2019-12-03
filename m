@@ -2,98 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 687B21101C5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2019 17:05:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2498B11026C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2019 17:35:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726949AbfLCQFD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Dec 2019 11:05:03 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:38930 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726516AbfLCQFD (ORCPT
+        id S1726550AbfLCQfn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Dec 2019 11:35:43 -0500
+Received: from mail-eopbgr1400117.outbound.protection.outlook.com ([40.107.140.117]:11489
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726105AbfLCQfn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Dec 2019 11:05:03 -0500
-Received: by mail-lj1-f193.google.com with SMTP id e10so4442841ljj.6
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Dec 2019 08:05:02 -0800 (PST)
+        Tue, 3 Dec 2019 11:35:43 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dJ+jjv5wxr78SOOkKxCOAbRApNa5QmWb2dVI52+RQzVMcW4yBLxroztel0Qz/xwHs7KqXOk6R6Vn/lH4cxo3dUUReuZMNSDsWCS7yftVU7/TG2HcUt2c7yKJmBBYjGjmskKufd7mhbF2sjP694A/0aZ5Lxcvc+6zJKbf/96ppslWNPm8BAn95O+MzP/rso3Mv/5svhdiWZPa3ZKllGm+zA2k1D2SQx6s0uVmS9+N20iy2G1olGOqj53feMnE1Ug9pkQqwAYzTQ/5XWsk/5H9mR11WOIZDbANX2N58JGv1s12kbSthr/oIqjZMFPvnQ2S1n/odR4ZmQPDIesarqTrqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Rx1i0f/Bqyc/K8pskulnB02d9PcGtshw0+86LciV2xI=;
+ b=KE9Gh2ru0ryYDwBwn2Tu65Ys8pgAIzHBVb9/Mqsidy6UyNR5Wlr3UvZ07Cm1Z2+dspIr9hysYomwG3vDwO91yVgecy+hr9Ncs89J1IHrFeAsIiOzfEzLoX/gFH9kRWTozWZzvmG6IxSPOygjt/pt+XEmXzcdpR8/r27PZubla7pzoaTT2Pjmx0Gysfzq83q15XGy9GWrCWMu0M3sTCPGtlifAoslm8BM0gWCFYR1tb6mdYT0GEif6fzmoOAriK4MX4b9F8ZpZBMB1WDxWkcEqyyCUbsiT0MqjQVdLk7IObp4aaL8qO4omkHQo1FW3gVBCqbuBIYVYPV8UG2f8/XGVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=from:subject:to:cc:references:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ISxgLk82KYg9gcCYMQW4c3ORz6YkAHuAhHBO9CgaMTE=;
-        b=EpZg4MNfgVquGvO4fH/X5H+3P+UFIyXs1dvDST18rfRasIrdEob3Vz7delQ08QikL9
-         HwLUZjCnZcsKyEi3G8SToHRvBaZdnFFcsPnG4k/5YWG/cwZB1DsyOMnn3iHOgJ5jBhRF
-         0/tv0b27SOMfdHAAS9uvvyzYHSvJz29jXZ8Ghn8P74JIXgbqiQ8Xmf3E7xd0IOJWjYpt
-         v9k8TskKjI/UpljG8OYXfqRkCLbkH8b4DSia7T8a+v1EfZoGxKC3CBVYnqYDmqJFopMg
-         3Xur2LBWPfoAUY+YgoW9CnTNt3+RV4Uwq2EleIYU8L5WljjTjJj4DuITTMBVU0AW9mEM
-         J5uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=ISxgLk82KYg9gcCYMQW4c3ORz6YkAHuAhHBO9CgaMTE=;
-        b=UzuISBBVg+LpONznj1bIiGGYs9dXKbV6kriA7Up5E6u+NEJm/Eq2FRsB1xEGfCH8CW
-         cUqWj6e/Yl0xIoYnE7LoD/z76yyATBq+w5u021Yc0z+ihqgiS/2+8nJva1S6Ufey2HoZ
-         SuOxrgaovY1ix3oHEtqqJT6xqa+1+9AbrUR8aCllnd4/TSgCQdmtnqMgkfKE+YDbuljb
-         dsyAqUkBIFjxz7o/idFTnnUU8x2QW9uTrrfFBHjTvfo8hqm/fiY/uthIsfebtD7DYYKT
-         2HbRNglmRB9LnBG+F2RIOaDASw+ZeMhIUcZwfZgmcpu8E03Ltx0Pkv6A1YWDe959m0fy
-         1BAA==
-X-Gm-Message-State: APjAAAU1iHhsPIin95DkuwxaxkhsXb+v+DxrgPfPTOFzv5h/o3Htk/h3
-        r6UNAXDy4NKqd5k3Ebk2onztWA==
-X-Google-Smtp-Source: APXvYqwyp3PFALxnKddtKsL8vY1KS7etYmE6Qhye0Iq2Sqts4Tc5bj5UbJeYQy+vhfctVJQU7uj6RA==
-X-Received: by 2002:a2e:85d5:: with SMTP id h21mr3018520ljj.243.1575389101408;
-        Tue, 03 Dec 2019 08:05:01 -0800 (PST)
-Received: from wasted.cogentembedded.com ([2a00:1fa0:6d1:3848:12e:c7de:68cf:5575])
-        by smtp.gmail.com with ESMTPSA id y192sm1791884lfa.63.2019.12.03.08.04.59
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 03 Dec 2019 08:05:00 -0800 (PST)
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Subject: Re: [PATCH 6/6] dt-bindings: spi: Document Renesas SPIBSC bindings
-To:     Chris Brandt <Chris.Brandt@renesas.com>,
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Rx1i0f/Bqyc/K8pskulnB02d9PcGtshw0+86LciV2xI=;
+ b=ni8lmd5KjCtLOiuXl/+PTDaEdQu0xZFbUAMbhjxFLRoNpCJnEuKzmlChPuIYysR0PMBFkcbDErYsYqhkI1axyt+uVRyvcvj3+LwquegRKbo9Q8JGkBP4ECpflyWcJ21mxWsdl6CtjK3MOi9c68OWLXKJELRyrCsxqgaU+BLVhv0=
+Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com (52.133.163.12) by
+ TY1PR01MB1658.jpnprd01.prod.outlook.com (52.133.162.23) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2516.12; Tue, 3 Dec 2019 16:35:40 +0000
+Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com
+ ([fe80::74db:232e:f59e:83f2]) by TY1PR01MB1562.jpnprd01.prod.outlook.com
+ ([fe80::74db:232e:f59e:83f2%3]) with mapi id 15.20.2516.003; Tue, 3 Dec 2019
+ 16:35:40 +0000
+From:   Chris Brandt <Chris.Brandt@renesas.com>
+To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
         Mark Brown <broonie@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>
-Cc:     "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+CC:     "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
         "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
         Mason Yang <masonccyang@mxic.com.tw>
+Subject: RE: [PATCH 6/6] dt-bindings: spi: Document Renesas SPIBSC bindings
+Thread-Topic: [PATCH 6/6] dt-bindings: spi: Document Renesas SPIBSC bindings
+Thread-Index: AQHVqYxRjjQT6EPsk0uhvsHduSJ+e6eoIQoAgAA7ZYCAADdKAIAABRSg
+Date:   Tue, 3 Dec 2019 16:35:40 +0000
+Message-ID: <TY1PR01MB156225E0916668BA4F05F2948A420@TY1PR01MB1562.jpnprd01.prod.outlook.com>
 References: <20191203034519.5640-1-chris.brandt@renesas.com>
  <20191203034519.5640-7-chris.brandt@renesas.com>
  <17e66541-41fb-26ed-c87b-15c59ab57bef@cogentembedded.com>
  <TY1PR01MB156262E8D33A0624457CAE248A420@TY1PR01MB1562.jpnprd01.prod.outlook.com>
-Organization: Cogent Embedded
-Message-ID: <6c2cb15b-896c-e749-8b33-02da46fbc222@cogentembedded.com>
-Date:   Tue, 3 Dec 2019 19:04:58 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
+ <6c2cb15b-896c-e749-8b33-02da46fbc222@cogentembedded.com>
+In-Reply-To: <6c2cb15b-896c-e749-8b33-02da46fbc222@cogentembedded.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcY2JyYW5kdDAxXGFwcGRhdGFccm9hbWluZ1wwOWQ4NDliNi0zMmQzLTRhNDAtODVlZS02Yjg0YmEyOWUzNWJcbXNnc1xtc2ctZWY5YmMyODktMTVlYS0xMWVhLWFhNTEtOTRlNmY3Njc5M2FlXGFtZS10ZXN0XGVmOWJjMjhhLTE1ZWEtMTFlYS1hYTUxLTk0ZTZmNzY3OTNhZWJvZHkudHh0IiBzej0iNjE2IiB0PSIxMzIxOTg2NDUzODUzNDI4MDIiIGg9IlBxSituRHNvKzdrQXdSam04MkQ1QUxvNWNNOD0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-rorf: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Chris.Brandt@renesas.com; 
+x-originating-ip: [75.60.247.61]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: ccb9904e-b360-40d3-298b-08d7780ed576
+x-ms-traffictypediagnostic: TY1PR01MB1658:
+x-microsoft-antispam-prvs: <TY1PR01MB165839652C96C2945C2EF26C8A420@TY1PR01MB1658.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 02408926C4
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(136003)(346002)(39860400002)(396003)(376002)(366004)(199004)(189003)(99286004)(66946007)(86362001)(256004)(229853002)(76176011)(478600001)(54906003)(7696005)(186003)(316002)(52536014)(110136005)(6436002)(446003)(66556008)(64756008)(66446008)(76116006)(11346002)(66476007)(25786009)(7416002)(6246003)(4744005)(102836004)(6116002)(8936002)(81166006)(81156014)(26005)(3846002)(2906002)(8676002)(7736002)(305945005)(33656002)(74316002)(9686003)(55016002)(14454004)(5660300002)(6506007)(71190400001)(71200400001)(4326008);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1658;H:TY1PR01MB1562.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: vut12ucPpQ0beKwrTh0mRAaFewua5KOoN9wQBip+XsxX8csXE2S49eOLtw0BR6Rp3w34K5tffa14JpMqRDaKNOa3v0aEUVDniJ8VuQcwF8dF3U+nm5C+dEaKR09ikNmwg0ExqUAjfb/W21WzDjfzoBVY1RT8HP4ZaCZyGuUlRA27Kl3auNeh9ZfRsxdG2FF+RPIqSnMDTOjiLRyzlrzguO2XqAw2ozxSumhkM+o2bENvlenN5Ku/JdMrZ5wTNcurMwIuxyVSHE/AkTWg+K6+5xAOZwqat72kYtQB9TgYyy8l1THYl5DHdYtzrAwIvtUhyFUlyx/PVyEfbPm+7TwtQHVRoE5CTCHGUhR5kVkZnMflMt4ycwMwfLLeEA4POlsva452CgrIJLX3aPE71KyjxpJHlbdc4+pyYwbgCGf0nj1yj+6CCRXvZHjBCc3mgfig
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <TY1PR01MB156262E8D33A0624457CAE248A420@TY1PR01MB1562.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ccb9904e-b360-40d3-298b-08d7780ed576
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Dec 2019 16:35:40.0471
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: VfnDTXM0ZDarLJYneKu9PSMR+RKIJlVxciYAucGM+WsjTnWdaUd7G0JY9dgypljIufwgyACHSwKKVJNm/Z5IbrrHzbh5Wp5rKF93wjvak+4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1658
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 12/03/2019 04:27 PM, Chris Brandt wrote:
-
->>> +- flash: should be represented by a subnode of the SPIBSC node,
->>> +	 its "compatible" property contains "jedec,spi-nor" if SPI is used.
->>
->>     Are any other flash variants supported?
-> 
-> Do you mean other types of SPI flash?
-
-   No, I mean flashes connected via different buses, like HyperBus with the gen3 SoC RPC-IF.
-If SPI's the only bu supported, there's no point saying "if SPI is used".
-
-[...]
-> Chris
-
-MBR, Sergei
+T24gVHVlLCBEZWMgMywgMjAxOSAxLCBTZXJnZWkgU2h0eWx5b3Ygd3JvdGU6DQo+ID4gRG8geW91
+IG1lYW4gb3RoZXIgdHlwZXMgb2YgU1BJIGZsYXNoPw0KPiANCj4gICAgTm8sIEkgbWVhbiBmbGFz
+aGVzIGNvbm5lY3RlZCB2aWEgZGlmZmVyZW50IGJ1c2VzLCBsaWtlIEh5cGVyQnVzIHdpdGggdGhl
+DQo+IGdlbjMgU29DIFJQQy1JRi4NCj4gSWYgU1BJJ3MgdGhlIG9ubHkgYnUgc3VwcG9ydGVkLCB0
+aGVyZSdzIG5vIHBvaW50IHNheWluZyAiaWYgU1BJIGlzIHVzZWQiLg0KDQpPSywgSSBzZWUgeW91
+ciBwb2ludC4gSSB3aWxsIHJlbW92ZSB0aGUgJ2lmJy4NCg0KVGhlIGhhcmR3YXJlIGluIFJaL0Ey
+IGFsc28gc3VwcG9ydHMgSHlwZXJGbGFzaCBhbmQgT2N0YUZsYXNoIChzYW1lIGFzIGdlbjMpLCBi
+dXQNClJaL0ExIG9ubHkgc3VwcG9ydHMgU1BJIGZsYXNoLg0KVGhlcmVmb3JlIHRoaXMgZHJpdmVy
+IGRvZXMgbm90IHRvdWNoIFBIWUNOVC5QSFlNRU0gYW5kIGFzc3VtZXMgaXQgaXMgYXQgMC4NCg0K
+Q2hyaXMNCg==
