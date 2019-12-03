@@ -2,165 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DF2DE10FA07
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2019 09:39:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C479B10FA30
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2019 09:51:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726057AbfLCIjn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Dec 2019 03:39:43 -0500
-Received: from asavdk4.altibox.net ([109.247.116.15]:35880 "EHLO
-        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725907AbfLCIjn (ORCPT
+        id S1726017AbfLCIvf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Dec 2019 03:51:35 -0500
+Received: from esa1.mentor.iphmx.com ([68.232.129.153]:63297 "EHLO
+        esa1.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725773AbfLCIve (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Dec 2019 03:39:43 -0500
-Received: from ravnborg.org (unknown [158.248.194.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk4.altibox.net (Postfix) with ESMTPS id 5E20E80477;
-        Tue,  3 Dec 2019 09:39:37 +0100 (CET)
-Date:   Tue, 3 Dec 2019 09:39:36 +0100
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Maxime Ripard <mripard@kernel.org>
-Cc:     dri-devel@lists.freedesktop.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Abhinav Kumar <abhinavk@codeaurora.org>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Jitao Shi <jitao.shi@mediatek.com>,
+        Tue, 3 Dec 2019 03:51:34 -0500
+IronPort-SDR: dsSR1wFM82w41QEe91uCLCS3a93jGz8SCMS1FIQofYoPqq9j2vabdlMnkkUnO85HGlOE3JlEWx
+ hxZzpZh/lfzIdFDWw1Li1pvIT8RCb1JqeuWvpdSjEtjz06NWapo6dAdKmHkbsCB09eUqGJrEEW
+ 5dDpCEyM5CAwO8OxKNrGBjQGqSC2WDdqJPOVcL1IwxvsYX7a9svPcg0UwfrgXWpCB6LFjHu6fZ
+ HEHTIKV5Mabg+/ydxLFir7TdQp1aPxfB5g6X0OGItiVvdrVchRx3M1Nq5MB0RwkDJWk4BCtyVp
+ 7+w=
+X-IronPort-AV: E=Sophos;i="5.69,272,1571731200"; 
+   d="scan'208";a="45593533"
+Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
+  by esa1.mentor.iphmx.com with ESMTP; 03 Dec 2019 00:51:33 -0800
+IronPort-SDR: V31aPAlTL4Jd77N/4vFkI/ULg0cF5PBYkzlUKlSwB5TqW2oengXeZXGIIUezjAPeS45uGXetRj
+ k8fdcbh6lAth0z2rEc/o8A8Yjx1Gs9FJcj8ClHn/v7e9trEbTEqyktunDgxc+NGMNzDE3uUt+H
+ tVPkPMHeGKWmqIn4OYYFVSQrHux/WyXhsdu22AjmEmoi5aXIBAP1OBiJIM2OD+5+c39ZCXjbpa
+ 5nlSWx1IxowCPCDsJce0jzoNxMJv4XdCFGcMxbpF2S+x4ddCnnoky/Je4mZZIOCotBY7rKE4oJ
+ 6+w=
+Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Linus Walleij <linus.walleij@linaro.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Purism Kernel Team <kernel@puri.sm>,
-        Sean Paul <sean@poorly.run>, Stefan Agner <stefan@agner.ch>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v1 07/26] drm/panel: remove get_timings
-Message-ID: <20191203083935.GB30687@ravnborg.org>
-References: <20191202193230.21310-1-sam@ravnborg.org>
- <20191202193230.21310-8-sam@ravnborg.org>
- <20191203074659.ilsyv4yx7pzw5vax@gilmour.lan>
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>
+References: <20191127084253.16356-1-geert+renesas@glider.be>
+ <20191127084253.16356-6-geert+renesas@glider.be>
+ <585c4ad9-31fc-e87e-07c4-b8d6aa09c7e4@mentor.com>
+ <CAMuHMdW-n8ao7t7156WYxRg7v8+ojXsRgHGUOax=9nBo2F5xOw@mail.gmail.com>
+From:   Harish Jenny K N <harish_kandiga@mentor.com>
+Message-ID: <d44598a5-184e-078c-1d6c-a99b522f7e26@mentor.com>
+Date:   Tue, 3 Dec 2019 14:21:21 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191203074659.ilsyv4yx7pzw5vax@gilmour.lan>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
-        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
-        a=pGLkceISAAAA:8 a=P1BnusSwAAAA:8 a=QyXUC8HyAAAA:8 a=VwQbUJbxAAAA:8
-        a=-nbbn2pJxVWvY7Vi8LwA:9 a=Vfx8YJUf9hFrv8O-:21 a=HM9-6MrTAUSx7c7w:21
-        a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=D0XLA9XvdZm18NrgonBM:22
-        a=AjGcO6oz07-iQ99wixmX:22
+In-Reply-To: <CAMuHMdW-n8ao7t7156WYxRg7v8+ojXsRgHGUOax=9nBo2F5xOw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [137.202.0.90]
+X-ClientProxiedBy: svr-ies-mbx-05.mgc.mentorg.com (139.181.222.5) To
+ svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Maxime.
 
-On Tue, Dec 03, 2019 at 08:46:59AM +0100, Maxime Ripard wrote:
-> Hi,
-> 
-> On Mon, Dec 02, 2019 at 08:32:11PM +0100, Sam Ravnborg wrote:
-> > There was no users - so remove it.
-> > The callback was implemented in two drivers - deleted.
-> >
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > ---
-> >  drivers/gpu/drm/panel/panel-seiko-43wvf1g.c | 18 ------------------
-> >  drivers/gpu/drm/panel/panel-simple.c        | 18 ------------------
-> >  include/drm/drm_panel.h                     |  9 ---------
-> >  3 files changed, 45 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-> > index b878930b17e4..3bcba64235c4 100644
-> > --- a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-> > +++ b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-> > @@ -217,30 +217,12 @@ static int seiko_panel_get_modes(struct drm_panel *panel,
-> >  	return seiko_panel_get_fixed_modes(p, connector);
-> >  }
-> >
-> > -static int seiko_panel_get_timings(struct drm_panel *panel,
-> > -				    unsigned int num_timings,
-> > -				    struct display_timing *timings)
-> > -{
-> > -	struct seiko_panel *p = to_seiko_panel(panel);
-> > -	unsigned int i;
-> > -
-> > -	if (p->desc->num_timings < num_timings)
-> > -		num_timings = p->desc->num_timings;
-> > -
-> > -	if (timings)
-> > -		for (i = 0; i < num_timings; i++)
-> > -			timings[i] = p->desc->timings[i];
-> > -
-> > -	return p->desc->num_timings;
-> > -}
-> > -
-> >  static const struct drm_panel_funcs seiko_panel_funcs = {
-> >  	.disable = seiko_panel_disable,
-> >  	.unprepare = seiko_panel_unprepare,
-> >  	.prepare = seiko_panel_prepare,
-> >  	.enable = seiko_panel_enable,
-> >  	.get_modes = seiko_panel_get_modes,
-> > -	.get_timings = seiko_panel_get_timings,
-> >  };
-> 
-> If anything, I think we should grow the usage of timings and / or make
-> it usable by everyone.
-> 
-> Using only the mode as we do currently has a bunch of shortcomings as
-> almost no encoder will be able to provide the typical pixel clock, and
-> that situation leads to multiple things:
-> 
->   - If someone working on one encoder wants to upstream a panel they
->     have tested, chances are this will not be the typical pixel clock
->     / timings being used but rather the one that will match what that
->     SoC is capable of. Trouble comes when a second user comes in with
->     a different encoder and different capabilities, and then we have a
->     maintainance fight over which timing is the true timing (with a
->     significant chance that none of them are).
-> 
->   - If we can't match the pixel clock, we currently have no easy way
->     to make the usual measures of reducing / growing the porches and
->     blankings areas to match the pixel clock we can provide, since we
->     don't have an easy way to get the tolerance on those timings for a
->     given panel. There's some ad hoc solutions on some drivers (I
->     think vc4 has that?) to ignore the panel and just play around with
->     the timings, but I think this should be generalised.
-> 
-> Timings solves the first case since we have the operating range now
-> and not a single set of timings, and it solves the second since we can
-> use that range to take those measures instead of taking a shot in the
-> dark.
-> 
-> I appreciate that it's pretty far from where we are today, but
-> removing the get_timings means that all the timings already defined in
-> the panel drivers are becoming useless too, and that eventually it
-> will get removed.
+On 03/12/19 1:47 PM, Geert Uytterhoeven wrote:
+> Hi Harish,
+>
+> On Tue, Dec 3, 2019 at 6:42 AM Harish Jenny K N
+> <harish_kandiga@mentor.com> wrote:
+>>> +static int gpio_aggregator_probe(struct platform_device *pdev)
+>>> +{
+>>> +     struct device *dev = &pdev->dev;
+>>> +     struct gpio_desc **descs;
+>>> +     struct gpiochip_fwd *fwd;
+>>> +     int i, n;
+>>> +
+>>> +     n = gpiod_count(dev, NULL);
+>>> +     if (n < 0)
+>>> +             return n;
+>>> +
+>>> +     descs = devm_kmalloc_array(dev, n, sizeof(*descs), GFP_KERNEL);
+>>> +     if (!descs)
+>>> +             return -ENOMEM;
+>>> +
+>>> +     for (i = 0; i < n; i++) {
+>>> +             descs[i] = devm_gpiod_get_index(dev, NULL, i, GPIOD_ASIS);
+>> can you please add this check as well as we need to return EPROBE_DEFER.
+>>
+>> if (desc[i] == ERR_PTR(-ENOENT))
+>> <                 return -EPROBE_DEFER;
+> So gpiod_get_index() nevers return -EPROBE_DEFER, but returns -ENOENT
+> instead?
+> How can a driver distinguish between "GPIO not found" and "gpiochip driver
+> not yet initialized"?
+> Worse, so the *_optional() variants will return NULL in both cases, too, so
+> the caller will always fall back to optional GPIO not present?
+>
+> Or am I missing something?
+>
+> Gr{oetje,eeting}s,
+>
+>                         Geert
 
-Thanks for this nice explanation. I will drop the patch,
-and add an entry to my TODO list to look closer at this later.
-There are things to improve in this area.
 
-So the conclusion is more work rather than removing code :-)
+We had earlier tested our changes on 4.14 kernel and the explicit return of -EPROBE_DEFER was needed in the inverter driver.
 
-	Sam
+probably the commit 6662ae6af82df10259a70c7569b4c12ea7f3ba93 ( gpiolib: Keep returning EPROBE_DEFER when we should)
+
+has fixed the issue and now it returns -EPROBE_DEFER.  you can ignore this comment as of now. I will test and let you know if needed.
+
+
+Thanks,
+
+Harish
+
