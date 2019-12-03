@@ -2,149 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EED9810FA85
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2019 10:14:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D49210FC0E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  3 Dec 2019 11:51:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725907AbfLCJOk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Dec 2019 04:14:40 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:45589 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725774AbfLCJOk (ORCPT
+        id S1725939AbfLCKvW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 3 Dec 2019 05:51:22 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:36051 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725829AbfLCKvV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Dec 2019 04:14:40 -0500
-Received: by mail-lj1-f196.google.com with SMTP id d20so2846425ljc.12
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 03 Dec 2019 01:14:38 -0800 (PST)
+        Tue, 3 Dec 2019 05:51:21 -0500
+Received: by mail-wr1-f67.google.com with SMTP id z3so3091028wru.3;
+        Tue, 03 Dec 2019 02:51:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ibxFTL99nZfGHgHM7+x1YjdXfnhpJpkrDP8f+skOgIA=;
-        b=D1iAE8q/KGABGizwZDSHslb0vJSyb6mfOsgUOU5f9eHBmQSg5VVoVDk9qzDiWjm8TH
-         ZbfkV2/Tzb8krPdKRy5GQAVGUumDG3MjbWYZM/hYSi1v+ggIW+qKRsoQO9h39BC+bKf4
-         7q+YxrOcThwl2gCSYjJCR+EUXfTp7TaiUpj+VI8iYqlsLx/5aNqO0epOS1i1LrXKtymc
-         4zKD5FPduu0rIc/O24Q3VOqetgh6qwnGhPopGhLk5EFT4O2ksJBzqnVV4lphKs9uIkio
-         1IWqEwxC9TC9oKF5QMsYq5bTHdeeTpMaDluyq2YbC6+531DD1K0YpyamEpe1VZ/8aDUr
-         6O3w==
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=aVH1wKqnS/0tpLzx3r/GAf1NKCehOyA/BPLaY/A9mZw=;
+        b=bcu1flX4c17aWB0jdh6P6lZDIp/SLk/qdtJsKK+v1cgpyZysw5D8BZTfLyywHxESb/
+         VbPx8AvNhzB4UezAY9fDA6YZEIwwIbWLpRUT7ffXDaeqnOU+vtIbypDjkrn9knnOeTKC
+         lTKLKrvjcaTIsswNVoEAvjFcdX+t6BmlifXBAfwXCH9u4CLrNKNuFISMAOfA/L5bdHWy
+         /9jY3s23Uwo3yZJSAuqrE1qGmH7CgWfGkf+C1i0/V4a9wAiblr4Msd4W2DkxhHoWYHcM
+         7wdRPGB4fmqEulF7xyADd4vTG0DwEFv/aLwoThA10b2vKiINmT+yKPM/SJ6cmpjyUKkC
+         X1eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ibxFTL99nZfGHgHM7+x1YjdXfnhpJpkrDP8f+skOgIA=;
-        b=q7beNJSWL9iYDYbu9bnigzYjEBk8zwzab7jOn9s5nOXtsxwP9qwzDFKHvwkxrdGwtW
-         SimWteBARk2XWMv9j4c2JJLcBuqAeg5Q1cA1zeMFJ0DFCIKL63zKIfp2MWfPoZwi6ArQ
-         EEeOtRqhfnphmgGfydQsB2wB+VmLLNtfuhx3WKpaFLfP94BDMt43H4feBaUvSLGZa7AH
-         MJ0UZJO9KPNE/OB7VreCoyibZqYrCO2Z1wQbmpItxg7+79i9Q0m7Rf3mAIfjueBb5FVV
-         ZSjcr2ms3fqQfie65pouJf66HoL1xhhM7dzbmCz/4b8qXRHgsqAqG9StRM3szaQxhe3V
-         FMRA==
-X-Gm-Message-State: APjAAAWy+K2k/ZwPwBtdXNkQT7SSrZdx5DX34VZD7MY7CiupWmz3GdiP
-        0KODM24K/nxF8UE1n12L8+SjcQ==
-X-Google-Smtp-Source: APXvYqwEJaOurJTgEbZzE6L+uZ+yr4/MMM2YE/gfBOM2AublB9oN8kuUTft3TfQtUehuFY2JI3Psgg==
-X-Received: by 2002:a2e:864f:: with SMTP id i15mr1841990ljj.29.1575364478041;
-        Tue, 03 Dec 2019 01:14:38 -0800 (PST)
-Received: from ?IPv6:2a00:1fa0:603:a130:f42a:4975:5c69:31d3? ([2a00:1fa0:603:a130:f42a:4975:5c69:31d3])
-        by smtp.gmail.com with ESMTPSA id y21sm975720ljm.25.2019.12.03.01.14.36
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 03 Dec 2019 01:14:37 -0800 (PST)
-Subject: Re: [PATCH 6/6] dt-bindings: spi: Document Renesas SPIBSC bindings
-To:     Chris Brandt <chris.brandt@renesas.com>,
-        Mark Brown <broonie@kernel.org>,
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=aVH1wKqnS/0tpLzx3r/GAf1NKCehOyA/BPLaY/A9mZw=;
+        b=e04dAZJCrx9mjPP0+eI9a687aclqvH3XgEM/NJiODUtOiwnc7VI2QLSeaqWeWcyt9K
+         Z8JuZuEUB/85FcYZPk4kTymmU0nnUUkfpn5Nnw0vjJnYaWnNGo4MfPTnxQitDqp4Tw66
+         oTb8nvmEfYqsJebhNvQ+qv4tONnTaRC/jv7DW5K5EofDdYKaTBwRR/UvE+Q6s337IEo8
+         O1/jKB5XWn7bYS0PPbSvNHcD9Pmv0DHYLu7gWVZGVJmj+r56E19tu5iWcPOCMoApBE31
+         1+yBXd+6pX/Es+usqYHWKWp9DY3lBKybSV0puWW3vJNp2JNXU/GEkIsToOETkD8QjRPB
+         N2Zg==
+X-Gm-Message-State: APjAAAXKByzlHccUxAJTnC6KCrBN6ynRC0k88U7+nPU/lzqM8UfpFvUB
+        l06zx9FFmaqmKqmg19d02/A=
+X-Google-Smtp-Source: APXvYqwmQ0zWTmSyqUGQ+uwoCR4ldO/zmwY8wc11jDimSnmv1YmHJBk/u09q6d+wdYGUiW8KtCogYA==
+X-Received: by 2002:adf:ef10:: with SMTP id e16mr4196456wro.336.1575370278677;
+        Tue, 03 Dec 2019 02:51:18 -0800 (PST)
+Received: from x230 (ipb218f57a.dynamic.kabel-deutschland.de. [178.24.245.122])
+        by smtp.gmail.com with ESMTPSA id m8sm2618228wmf.8.2019.12.03.02.51.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Dec 2019 02:51:17 -0800 (PST)
+From:   Eugeniu Rosca <roscaeugeniu@gmail.com>
+X-Google-Original-From: Eugeniu Rosca <erosca@de.adit-jv.com>
+Date:   Tue, 3 Dec 2019 11:51:03 +0100
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Mason Yang <masonccyang@mxic.com.tw>
-References: <20191203034519.5640-1-chris.brandt@renesas.com>
- <20191203034519.5640-7-chris.brandt@renesas.com>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <17e66541-41fb-26ed-c87b-15c59ab57bef@cogentembedded.com>
-Date:   Tue, 3 Dec 2019 12:14:30 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
+Message-ID: <20191203105103.GA20470@x230>
+References: <20191127084253.16356-1-geert+renesas@glider.be>
+ <20191127084253.16356-6-geert+renesas@glider.be>
 MIME-Version: 1.0
-In-Reply-To: <20191203034519.5640-7-chris.brandt@renesas.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191127084253.16356-6-geert+renesas@glider.be>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hi Geert,
 
-On 03.12.2019 6:45, Chris Brandt wrote:
+On Wed, Nov 27, 2019 at 09:42:51AM +0100, Geert Uytterhoeven wrote:
+> +static int gpio_aggregator_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct gpio_desc **descs;
+> +	struct gpiochip_fwd *fwd;
+> +	int i, n;
 
-> Document the bindings used by the Renesas SPI bus space controller.
-> 
-> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
-> ---
->   .../bindings/spi/spi-renesas-spibsc.txt       | 48 +++++++++++++++++++
->   1 file changed, 48 insertions(+)
->   create mode 100644 Documentation/devicetree/bindings/spi/spi-renesas-spibsc.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/spi/spi-renesas-spibsc.txt b/Documentation/devicetree/bindings/spi/spi-renesas-spibsc.txt
-> new file mode 100644
-> index 000000000000..b5f7081d2d1e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/spi/spi-renesas-spibsc.txt
-> @@ -0,0 +1,48 @@
-> +Renesas SPI Bus Space Controller (SPIBSC) Device Tree Bindings
-> +
-> +Otherwise referred to as the "SPI Multi I/O Bus Controller" in SoC hardware
-> +manuals. This controller was designed specifically for accessing SPI flash
-> +devices.
-> +
-> +Required properties:
-> +- compatible: should be an SoC-specific compatible value, followed by
-> +		"renesas,spibsc" as a fallback.
-> +		supported SoC-specific values are:
-> +		"renesas,r7s72100-spibsc"	(RZ/A1)
-> +		"renesas,r7s9210-spibsc"	(RZ/A2)
-> +- reg: should contain three register areas:
-> +       first for the base address of SPIBSC registers,
-> +       second for the direct mapping read mode
+FWIW/FTR, doing some blind creation and deletion of gpio aggregator
+chips [1] on R-Car H3ULCB overnight, kmemleak reported once [2]. Not
+sure this is something 100% reproducible.
 
-    That's only 2 areas, not 3. :-)
+[1] while true; do \
+   echo e6055400.gpio 12,13 > /sys/bus/platform/drivers/gpio-aggregator/new_device; \
+   echo gpio-aggregator.0 > /sys/bus/platform/drivers/gpio-aggregator/delete_device; \
+   done 
 
-> +- clocks: should contain the clock phandle/specifier pair for the module clock.
-> +- power-domains: should contain the power domain phandle/specifier pair.
-> +- #address-cells: should be 1
-> +- #size-cells: should be 0
-> +- flash: should be represented by a subnode of the SPIBSC node,
-> +	 its "compatible" property contains "jedec,spi-nor" if SPI is used.
+[2] unreferenced object 0xffff0006d2c2e000 (size 128):
+  comm "kworker/3:1", pid 55, jiffies 4294676978 (age 38546.676s)
+  hex dump (first 32 bytes):
+    00 d9 d2 d3 06 00 ff ff 0c 00 e0 0f ff ff ff ff  ................
+    01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<00000000a8e18c13>] slab_post_alloc_hook+0x8c/0x94
+    [<000000006f419a4f>] __kmalloc+0x170/0x218
+    [<0000000060d185ea>] kobj_map+0x78/0x1c0
+    [<00000000c96645f3>] cdev_add+0x68/0x94
+    [<00000000a7a5a8ac>] cdev_device_add+0x74/0x90
+    [<00000000497871d3>] gpiochip_setup_dev+0x84/0x1f0
+    [<00000000b993f95f>] gpiochip_add_data_with_key+0xbcc/0x11f0
+    [<00000000fd728c0e>] devm_gpiochip_add_data+0x60/0xa8
+    [<00000000442e34c1>] gpio_aggregator_probe+0x210/0x3c8
+    [<00000000076e13fb>] platform_drv_probe+0x70/0xe4
+    [<00000000de84b58b>] really_probe+0x2d8/0x434
+    [<00000000c95c9784>] driver_probe_device+0x15c/0x16c
+    [<00000000afb7dd4f>] __device_attach_driver+0xdc/0x120
+    [<00000000efa40cae>] bus_for_each_drv+0x12c/0x154
+    [<00000000c149acef>] __device_attach+0x148/0x1e0
+    [<00000000a74fd158>] device_initial_probe+0x24/0x30
 
-    Are any other flash variants supported?
-
-> +
-> +Example:
-> +
-> +	spibsc: spi@1f800000 {
-> +		compatible = "renesas,r7s9210-spibsc", "renesas,spibsc";
-> +		reg = <0x1f800000 0x8c>, <0x20000000 0x10000000 >;
-> +		clocks = <&cpg CPG_MOD 83>;
-> +		power-domains = <&cpg>;
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +
-> +		flash@0 {
-> +			compatible = "jedec,spi-nor";
-> +			reg = <0>;
-> +			spi-max-frequency = <40000000>;
-> +
-> +			partitions {
-> +				compatible = "fixed-partitions";
-> +				#address-cells = <1>;
-> +				#size-cells = <1>;
-> +
-> +				partition@0000000 {
-> +					label = "u-boot";
-> +					reg = <0x00000000 0x80000>;
-> +				};
-> +			};
-> +		};
-
-MBR, Sergei
+-- 
+Best Regards,
+Eugeniu
