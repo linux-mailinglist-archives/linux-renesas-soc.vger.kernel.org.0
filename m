@@ -2,100 +2,111 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EB08A112B1E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2019 13:14:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8657A112B51
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2019 13:22:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727472AbfLDMOW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Dec 2019 07:14:22 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:42398 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727445AbfLDMOW (ORCPT
+        id S1727832AbfLDMWX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Dec 2019 07:22:23 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:34945 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727781AbfLDMWS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Dec 2019 07:14:22 -0500
-Received: by mail-oi1-f195.google.com with SMTP id j22so6611565oij.9;
-        Wed, 04 Dec 2019 04:14:21 -0800 (PST)
+        Wed, 4 Dec 2019 07:22:18 -0500
+Received: by mail-ed1-f66.google.com with SMTP id f8so6483035edv.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Dec 2019 04:22:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=SWzs3svZdfoJNhQZue5B0UPApGf3QNVhTsPQAsjB3v0=;
+        b=itksFv5A2JLOzo6XVqVzXmSzWKIpGqZTNHrb4xFvrqPmHJ7WwaeLkksg0/ZJSVtv31
+         pzvXZ3OHhHMsql2Vo9oheJQHErj5CDGd5ZvPVjxDn+I4JgVPrQl1nkJy5Nb7wvQoUvM+
+         46lpgbsOy0h7DJvRAy1OQQg0Oi/exT7Imiyfeu4Gtmu6VGYFysEjNlBfvwObnE6M1THW
+         GbhC/d5DVONSKdw6y/qH20L4wjeyxlxCBE+xa1i44NzWc0HgEODgSNCM/bGDvmjdXP55
+         pwYVn13D99Hhzzv+p4qHdhRZEM3zwIJF+S9QDszHcSxOoAqtygRSNU+xVzjWpE9QCD88
+         4SHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gyltMSwaGXAux8Z3E1Rs/8+GQsTqCMlqwz9wEprYuxI=;
-        b=qLWp7sO2ECMTDQgb+3QyLoEYzIQ2A9L4W+BG7LhccZqbYaUq8B7EHV9iPcm+Tt+cl1
-         HGC7M9qcFwgW67HyP6dLkgaML7LAiA/YlCq3LV9YMpsRIJ9X6FIAslWWm09oQuNek1k0
-         YfB3vfB42XYC39ua8t+OsoNEsrqZbYCMra9pw2ZpQ0br/wUqL4UnfDzw28AXqovQYtuh
-         y40EUjh0V6pWQnXAdlYIiNVeFJvbRbeYVNbJRtrm1qwpLUIIjqTaMnXVKGeN2MxO4gAt
-         3spc5o1NBP+mLZiUipyfWdqawC55gypORoL5iSvxGfuVwVfM/RQts+D8/FMcZCoVoDMy
-         FUlw==
-X-Gm-Message-State: APjAAAXpEQnGDfdi5t64lRwAbmdrfCcruulzaBN/5DrngQWdKUDAetRi
-        XdVb+NUPstQD1sXy32laY45l3G8e5BqdwnFNdNA=
-X-Google-Smtp-Source: APXvYqw8Fs1+GeWP1j9ni3BiJ585N8x8j9pInrEEwGCzSDYGx3Bebh2yBXnZb5CHErF17b0reE6WRUv9j4VhTCJ0ntE=
-X-Received: by 2002:a05:6808:8ec:: with SMTP id d12mr530181oic.131.1575461661003;
- Wed, 04 Dec 2019 04:14:21 -0800 (PST)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=SWzs3svZdfoJNhQZue5B0UPApGf3QNVhTsPQAsjB3v0=;
+        b=hQ3KioAYVkpZMAmflVxlTjW370e6/HclRmaNtisY0zAi6XGIaExWaxQNlXYYRgnnwL
+         zKm/NBj317J/9IvsfoXkO9EbTfd3XwR5DfwNnUW5elf7Ga5YGSOYKDT4ws2aSkGEYqyy
+         HcLU97L1MwVETiKz/ePt/mTCycMf8qtAkQzwsjO5/VdWNfrdaPx7uVnq8meX/OjuuvOm
+         ZqRwn0AyVKkd9FFidGCmGSeOTcoiaHhHlmTPl9rLVTwfMMRggkpP6q8EUFM7kTcG1q5v
+         hUj/HsFZNNiCc2Pch9DjREb26GLLJ6AhvQgPPAWZIfSYpqF6E3SLt/lEMEC9NmwUd6Mr
+         /mUw==
+X-Gm-Message-State: APjAAAVDG7KA/fIskPooRh/cVMldHHQvlzhCKNGGQaeBiyjZmvys6a4Y
+        PsbM679pTstCkDbtx99hZk3ikyNPL7oL7aODicM=
+X-Google-Smtp-Source: APXvYqwlH4d/NgUk6+TTgeshJl/W0Z846j+vPwdmJMmvDKA5s5alEIOymc5OFboGvVzTvSBGNMpJNF0KpHbTN+gxpY4=
+X-Received: by 2002:aa7:d84b:: with SMTP id f11mr3689948eds.96.1575462136339;
+ Wed, 04 Dec 2019 04:22:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20191203034519.5640-1-chris.brandt@renesas.com>
- <20191203034519.5640-5-chris.brandt@renesas.com> <20191203141944.GI1998@sirena.org.uk>
- <CAMuHMdXk5DDebriHxmtz0NWF_zDhBK=fBZugdUfmEAyU0O4zMQ@mail.gmail.com> <20191204112528.GQ1998@sirena.org.uk>
-In-Reply-To: <20191204112528.GQ1998@sirena.org.uk>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 4 Dec 2019 13:14:09 +0100
-Message-ID: <CAMuHMdXY4Po4p0uL_6VU7ia4R7i7F5N+GA4MUaQfhGFvpgLT7g@mail.gmail.com>
-Subject: Re: [PATCH 4/6] spi: Add SPIBSC driver
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Chris Brandt <chris.brandt@renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Mason Yang <masonccyang@mxic.com.tw>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Received: by 2002:a05:6402:22dc:0:0:0:0 with HTTP; Wed, 4 Dec 2019 04:22:15
+ -0800 (PST)
+Reply-To: moneygram.1820@outlook.fr
+From:   "Rev.Dr Emmanuel Okoye CEO Ecobank-benin" <eco.bank1204@gmail.com>
+Date:   Wed, 4 Dec 2019 13:22:15 +0100
+Message-ID: <CAOE+jABwsq4QTifFZJGuzmZ8p9kMY_tMmS5N39hvEALE6d=OJw@mail.gmail.com>
+Subject: God has remembered your prayers I have already sent you Money Gram
+ payment of $5000.00 today, MG 1029-8096
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Mark,
+Attn, dear Beneficiary.
 
-On Wed, Dec 4, 2019 at 12:25 PM Mark Brown <broonie@kernel.org> wrote:
-> On Tue, Dec 03, 2019 at 07:29:45PM +0100, Geert Uytterhoeven wrote:
-> > On Tue, Dec 3, 2019 at 3:19 PM Mark Brown <broonie@kernel.org> wrote:
-> > > > +     pm_runtime_put(&pdev->dev);
-> > > > +     pm_runtime_disable(&pdev->dev);
->
-> > > There seems to be no purpose in the runtime PM code in this
-> > > driver, there's no PM operations of any kind and the driver holds
-> > > a runtime PM reference for the entire lifetime of the device.
->
-> > It matters for the clock domain (assumed the module clock is not always
-> > marked as a critical clock).
->
-> That seems like a problem with what the clock domains are doing
-> surely?  The default is supposed to be that if runtime PM isn't
-> enabled we get the behaviour the driver is manually implementing
+God has remembered your prayers
+I have already sent you Money Gram payment of $5000.00 today, MG 1029-8096
+This is because we have finally concluded to effect your transfer
+funds of $4.8,000.000usd
+through MONEY GRAM International Fund transfer Service
+Each payment will be sending to you by $5000.00 daily until the
+($4.8,000.000usd) is completely transferred
+we have this morning sent  MONEY GRAM payment of $5,000.00 in your name today
+So contact the MONEY GRAM Agent to pick up this first payment of $5000 now
 
-Unfortunately not: if the driver doesn't implement Runtime PM, the
-default is to not do anything.  Later, unused clocks will be disabled,
-and the device will stop functioning.
+Contact person Mrs. Alan Ude
+Dir. MONEY GRAM Service,Benin
+Phone number: +229 98856728
+E-mail: moneygram.1820@outlook.fr
 
-> here.  Besides, if this is actually impacting power management
-> I'd expect us to be letting the IP idle rather than holding it
-> powered up all the time.
+Ask him to give you the complete mtcn, sender name, question and
+answer to enable you
+pick up the $5000.00 sent today,
+Also you are instructed to re-confirm your information's
+to Mrs.Alan Ude as listed below to avoid wrong transactions.
 
-That would be better, definitely.  However, that's just an optimization over
-holding it powered up all the time.
+(1Your Full name:............................................
+(2 Phone number.....................................................
+(3 Contact address:.....................................
+(4 Age:..................................................................
+(5 Country..............................................
+(6) Sex .................................................................
+(7) your occupation...........................................
 
-Gr{oetje,eeting}s,
+(8)Passport/By Attach or Drivers License Number:
+Contact Mrs. Alan Ude for your MONEY GRAM payment of $4.8,000.000usd
+Note please: I have paid service fees for you but the only money you
+are required
+to send to Mrs. Alan Ude is $90.00 only Transfer fee before you can
+pick up your transfer today.
 
-                        Geert
+Send it to via Money Gram
+Receiver's Name-----Alan Ude
+Country----------Benin
+Address-----------Cotonou
+Quest--------Honest
+Ans-----------Trust
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+I done all my best for you to receive your transfer now ok.
+We need your urgent reply
+Best Regards
+Rev.Dr Emmanuel Okoye
+CEO Ecobank-benin
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+If we did not receive it urgent from you today,
+I will go ahead and release you funds to Mrs. Lyndia Ppaulson as your
+representative.
