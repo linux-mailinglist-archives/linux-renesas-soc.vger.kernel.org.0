@@ -2,42 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AF1B11274A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2019 10:28:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BDB9111275C
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2019 10:30:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725971AbfLDJ2t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Dec 2019 04:28:49 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:46621 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725922AbfLDJ2t (ORCPT
+        id S1727403AbfLDJaD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Dec 2019 04:30:03 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:41916 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727398AbfLDJaC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Dec 2019 04:28:49 -0500
-Received: by mail-oi1-f196.google.com with SMTP id a124so6185089oii.13;
-        Wed, 04 Dec 2019 01:28:49 -0800 (PST)
+        Wed, 4 Dec 2019 04:30:02 -0500
+Received: by mail-ot1-f67.google.com with SMTP id r27so5715154otc.8;
+        Wed, 04 Dec 2019 01:30:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=WoYCd7jK2NSLr3Li1krvLX96B9IpnuR1gtBKn3604rQ=;
-        b=NuFzCEZuOEhdyE4yg0T6mZYOihUpur8wxp+Oqp9Ecivf9gtc8zfLVTa40QPpDBhHYn
-         xWO7AV4BH2ySONoO/Ay7sINp+F+T1EBxog42qaSO/dCqQ1YjearHgCZJ64LYUEzV9W0e
-         FMOigENtxm93PTNhMAU7cSB8vSDgTjb2ivVcQerE4yLY+w1WkHO5u4eqTdzblFyeVBx+
-         h1vfiPxVRAXnucYv1nn2HKsv95YDnCTPX48bUSyi4I/BkHSjD4ruOvUtgOSBBJG+KGdt
-         6hVHu7+7QihDr/693T/BwTcA86cEK7he/AWIvIu28xN1qNcuxN77/HySo5SN6JFeAhAq
-         Afvw==
-X-Gm-Message-State: APjAAAVYmElQGsELLKYjy2euVbNBnvMcW339IuY4yyCSR6Si4LwAts1H
-        D2urT3osKfpP+0Pv5D3NhHfJJddJJA3qZi3KTqE=
-X-Google-Smtp-Source: APXvYqy4BLSEPB7UDOJOYogzMIx9VEcX62yUQ2ZP9FMCWXEdHV8bO1U77hSKs55OBb654ugRwNdwLzTXSzbvciZ6qZo=
-X-Received: by 2002:aca:4e87:: with SMTP id c129mr1684575oib.153.1575451728902;
- Wed, 04 Dec 2019 01:28:48 -0800 (PST)
+        bh=Z4sTlkFw5+wOHxM+qW/GDcoDE8PYgsA3jAbxBgaLJKA=;
+        b=UXpp6nbMBJLWasgVfuth5rPhe/1/1UIK5Ot/PQGdYXiIgs2MGObY6vlPlboT7fX25G
+         0z7dI84ezXjAKPhkYkhNfw8yngKZ44p1FLYbyO9cbxLXxPEPa/jVE4sEy4fvUjZYg45x
+         FmBZ/aapF3fO7ytDdmE5BlGQAHRHvcVufVo2g8rvcag2DJVfKzPMC23TdqVLTgLQ1guI
+         aTCAY5T/xu2tzCj75qaV3YKBlNd/nenU2ycqsTEmE8vgnbM/2GMG8iV8GeQZ7Fo989ht
+         zx9NqA+4NnbNdLYcK7aJEJGIpUL27ueliS4MHMJ83nj3ws9PKgGiT6t3bzORfkzGMh2C
+         Nqsw==
+X-Gm-Message-State: APjAAAVq4EklpNab/Wu6VC4JXeM7l/Rc9CSxzxpsRXr/43MqeD575CGX
+        fgQ86AsNpMYEvauThyuboBqqQoRfcgbK9KWXK4T4D+7r
+X-Google-Smtp-Source: APXvYqxXFXXECc2XcZW+SQ1oOt5NJVd5cG6kfZ6K9h0lyRxftV54zclUNBfsY6eV5OFdlabziq4SLQc92VoPUM+2feg=
+X-Received: by 2002:a9d:19ed:: with SMTP id k100mr1747591otk.297.1575451802149;
+ Wed, 04 Dec 2019 01:30:02 -0800 (PST)
 MIME-Version: 1.0
-References: <20191203200513.1758-1-wsa+renesas@sang-engineering.com> <20191203200513.1758-4-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20191203200513.1758-4-wsa+renesas@sang-engineering.com>
+References: <20191203200513.1758-1-wsa+renesas@sang-engineering.com> <20191203200513.1758-5-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20191203200513.1758-5-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 4 Dec 2019 10:28:37 +0100
-Message-ID: <CAMuHMdUzFS559JZyhDb==OUOs=PpU7yPR3DOMkccZ7i-mTFQsg@mail.gmail.com>
-Subject: Re: [PATCH 3/5] mmc: renesas_sdhi: make quirks info accessible
- outside probe()
+Date:   Wed, 4 Dec 2019 10:29:50 +0100
+Message-ID: <CAMuHMdXANypfbcB+0VDp7VobHnFTFRZO8o-Z8+WV1yq94VyqYA@mail.gmail.com>
+Subject: Re: [PATCH 4/5] mmc: renesas_sdhi: remove 4taps as a TMIO flag
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
@@ -50,7 +49,8 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 On Tue, Dec 3, 2019 at 9:06 PM Wolfram Sang
 <wsa+renesas@sang-engineering.com> wrote:
-> We will need that for a later patch.
+> Now that the quirks structure is accesible, we can remove the TMIO flag
+> for HS400 using only 4 taps. This is Renesas specific anyhow.
 >
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
