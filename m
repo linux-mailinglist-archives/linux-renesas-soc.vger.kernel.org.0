@@ -2,106 +2,184 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7306B112849
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2019 10:47:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EF4F112851
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2019 10:47:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725971AbfLDJre (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Dec 2019 04:47:34 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:40600 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726893AbfLDJre (ORCPT
+        id S1727009AbfLDJry (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Dec 2019 04:47:54 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:43956 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726893AbfLDJrx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Dec 2019 04:47:34 -0500
-Received: by mail-lj1-f194.google.com with SMTP id s22so7309322ljs.7
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Dec 2019 01:47:32 -0800 (PST)
+        Wed, 4 Dec 2019 04:47:53 -0500
+Received: by mail-wr1-f66.google.com with SMTP id d16so3079493wre.10
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Dec 2019 01:47:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=G93r9hSvUWxgt3yBIvCkJ+xgQP9VrLAvhpX54ZmMAJo=;
-        b=AbKGkvljSsanuuqNbL4Wo7QDV3/59IVsq0SZDobwuNMXiY6gvqJkMk2QLS268GsqTj
-         ZmhK93i2lrdx0KkZnVlcN0W+fTSqmovil89zzZ7aNeQF6fDfEnSejNV84pAAvO25u4tc
-         ZMaZbzVCll0j27lXFGIbt2uIR6Y7PC9OEP8InkomeajI94SXMs6GXSUuwF9E36Wut50o
-         Lb7DqpXnPIfNxxVNofeb/Lu4IXybhWxPa5Z55kPa5sjSCAF4oOwX6TZoSX9fLeIycF9s
-         /2d4L2iJpINYVon0xkzK7DtS1BQDXKbQ0Ej+2Pg7SPxtCLchkf3KbmjmEAfBTfSQ1iiu
-         hzUA==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=nUdWcCxekLeFMDxvcujgfAEAbAWtlApWfV7PYiJfUJk=;
+        b=Pll/orGq1IfyiAKUYWN6G2acirexQXuI5LIS2uQT6IlXhuW8X1vz7/Dn/gHgOaS6NK
+         huaal0U4LwwRJzu70M7avAlqcfECyJUbP1xzsLbqhYHE0pKKVNaq4/zdJu73r1du0TQB
+         wo3uf0zJeN/w6NoZllZo7EVKSUp6LF7rvA4LYxbI5OLKGKGj7ROn3ouPxZCoF44rQcnP
+         0DtrZcw2+HTiqtkMO2Wpt+73mtY1d1sft0pCcLOZJc6ASQIv3irB2MWFPBQGYpjHTgzW
+         rsDl+R3SFhTbvxla4nZmr0hE5i8K3OnD64QoKnxoC4rHv2dsNH3uIfNnldO8X6BWS4TP
+         cYdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=G93r9hSvUWxgt3yBIvCkJ+xgQP9VrLAvhpX54ZmMAJo=;
-        b=BvD1j3XABr0VXECR+8KhO5JsCIjdANcCBS4dDvURXftETDAC2KP5KCKSLkurdKDBzP
-         +f9DxMcvvkqO/RjXXautpRChEaVM+Gz3VrFyOHwfT/hEER5X6J9nGbrIMAwDwJ0KZPTJ
-         OZUNWNv7KRrjgItxB8UZMfvB7VB8KN2rd0XRJmMe3pGtu1j2O4i2xymOLhd/9RDPDx2u
-         XTn4DDMjF/4YewLEbOBSdCtX2IkbiyLcTe59YE1y9ayhaxemV+JywUNldPyvEVu7OB4w
-         wZhTtk9Dm74Mz/aZ0SqP5y973WaZ5rHjFGQvvhaD29emB2ZzT44SD7Yi4Rfm/HxJ1kff
-         N+1g==
-X-Gm-Message-State: APjAAAWC04Shy9ga1YQh51kApAB8VnXTrG6T9JcbBLem6nMfCG+FRBSB
-        DqHQd87Dhu+Ks4WvhzcFPX/YYViMzUHp0g==
-X-Google-Smtp-Source: APXvYqzdx3vzXl4t5Le6eL6Hu4xLBaLoKktIe7I2Yps7eDUTjAAFSbmTVs4Xx81n+l3XSLCqwJ77hw==
-X-Received: by 2002:a2e:8eda:: with SMTP id e26mr1306713ljl.65.1575452852013;
-        Wed, 04 Dec 2019 01:47:32 -0800 (PST)
-Received: from ?IPv6:2a00:1fa0:6cb:3eec:c491:ac74:fd08:8d43? ([2a00:1fa0:6cb:3eec:c491:ac74:fd08:8d43])
-        by smtp.gmail.com with ESMTPSA id g15sm2211562ljk.8.2019.12.04.01.47.30
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 04 Dec 2019 01:47:31 -0800 (PST)
-Subject: Re: [PATCH 4/5] mmc: renesas_sdhi: remove 4taps as a TMIO flag
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-mmc@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-References: <20191203200513.1758-1-wsa+renesas@sang-engineering.com>
- <20191203200513.1758-5-wsa+renesas@sang-engineering.com>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <6789764c-0b90-0b0c-eba8-d545ec1b99ee@cogentembedded.com>
-Date:   Wed, 4 Dec 2019 12:47:22 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=nUdWcCxekLeFMDxvcujgfAEAbAWtlApWfV7PYiJfUJk=;
+        b=SoUu6nwZnw8VS/At9xgKtBGkFtdBC67e1C0vkCJUs5guY4iMDrmrFf2ArudhNdgDs3
+         9KV8A1bnQJDzo3gzwOo1xq5aKM5eUAbOgI8VVH9ZmgU/JjQJtMR8z37rOejMN15beFto
+         cgW10EYMEJ4azyvpYpOCLmY841dsTTIgl+pMijb3NlhgQTzZcAgAuoUnK76nEI4c0rpY
+         chh5/X9efGygTjf3se+rBB+y3hJN4fgB9OPXftostqZpgE/eUNYoacDBMBThFbD0Ps5G
+         MMwkP/Jy6GrDWC+vQh1sp5j2FuhZl8u0B1ZdqygnMEj2qDq8ylifC1E8+zP8SmlQZJLb
+         XMMw==
+X-Gm-Message-State: APjAAAXJn55Zywrn9K2bQyuNHK+nVduXnhctWyJ0VvNV9oMAl1IV73w9
+        4HZoT5J69AyvfyxJEAbASTwLSQ==
+X-Google-Smtp-Source: APXvYqweyVggL0J5SQNi6hKbn22bvo4CUaUJ5obDRItJYXjMPgmMB/E2hFto2npEuG1XdZ4eBodgyA==
+X-Received: by 2002:a5d:640d:: with SMTP id z13mr2913510wru.181.1575452870670;
+        Wed, 04 Dec 2019 01:47:50 -0800 (PST)
+Received: from dell ([2.27.167.28])
+        by smtp.gmail.com with ESMTPSA id 60sm8178016wrn.86.2019.12.04.01.47.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Dec 2019 01:47:50 -0800 (PST)
+Date:   Wed, 4 Dec 2019 09:47:41 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Chris Brandt <Chris.Brandt@renesas.com>,
+        Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Mason Yang <masonccyang@mxic.com.tw>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Subject: Re: [PATCH 2/6] ARM: dts: r7s72100: Add SPIBSC clocks
+Message-ID: <20191204094741.GC3468@dell>
+References: <20191203034519.5640-1-chris.brandt@renesas.com>
+ <20191203034519.5640-3-chris.brandt@renesas.com>
+ <CAMuHMdXUVdG_PMQEpz=QWLCaabfK8Mc41zFiymXJ4Rx_C2gzdg@mail.gmail.com>
+ <TY1PR01MB1562F44E4FB80788922CE9BE8A420@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+ <CAMuHMdX_sD+UHnOF+bdbT99zfK1V92+1kVzGnb9JXJyBd-Y5-w@mail.gmail.com>
+ <20191204083821.GA3468@dell>
+ <CAMuHMdXC+=2nH51ASu0u3WUchjM5bC_bROgcYM-OrsM7OgZpbg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191203200513.1758-5-wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdXC+=2nH51ASu0u3WUchjM5bC_bROgcYM-OrsM7OgZpbg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+On Wed, 04 Dec 2019, Geert Uytterhoeven wrote:
 
-On 03.12.2019 23:05, Wolfram Sang wrote:
-
-> Now that the quirks structure is accesible, we can remove the TMIO flag
-
-    Accessible?
-
-> for HS400 using only 4 taps. This is Renesas specific anyhow.
+> Hi Lee,
 > 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->   drivers/mmc/host/renesas_sdhi_core.c | 8 +++-----
->   include/linux/mfd/tmio.h             | 3 ---
->   2 files changed, 3 insertions(+), 8 deletions(-)
+> On Wed, Dec 4, 2019 at 9:38 AM Lee Jones <lee.jones@linaro.org> wrote:
+> > On Tue, 03 Dec 2019, Geert Uytterhoeven wrote:
+> > > On Tue, Dec 3, 2019 at 7:58 PM Chris Brandt <Chris.Brandt@renesas.com> wrote:
+> > > > On Tue, Dec 3, 2019, Geert Uytterhoeven wrote:
+> > > > > > +                       reg = <0x3fefa000 0x100>, <0x18000000
+> > > > > > + 0x4000000>;
+> > > > >
+> > > > > The second region conflicts with the XIP flash@18000000 in
+> > > > > arch/arm/boot/dts/r7s72100-gr-peach.dts.
+> > > > > Yes, I know it is the same device ;-)
+> > > >
+> > > > Is that just an FYI?? Or do you have some suggestion??
+> > >
+> > > Can the flash subnode be compatible with "mtd-rom", even if the parent node
+> > > is kept disabled?
+> > >
+> > > > > > +                       clock-critical = <4>; /* spibsc0 */
+> > > > >
+> > > > > Iff we go this clock-critical route, I think this should be specified in the
+> > > > > board-specific .dts instead of in the SoC-specific .dtsi.
+> > > >
+> > > > OK, that's fine. It makes more sense to be in the .dts because it's a board
+> > > > design decision. I will remove it from the patch.
+> > > >
+> > > > The one 'tricky' thing is that the <4> is the index into the number of clocks.
+> > > >
+> > > > So in the Renesas BSP where it includes the VDC5 LCD controllers,
+> > > >
+> > > > clock-output-names = "i2c0", "i2c1", "i2c2", "i2c3", "vdc50", "vdc51", "spibsc0", "spibsc1";
+> > > >
+> > > > the <4> needs to become a <6>.
+> > >
+> > > Unless you pass "clkidx" instead of "i" to of_clk_detect_critical() in [1],
+> > > and use "clock-critical = <R7S72100_CLK_SPIBSC0>" in DT?
+> > >
+> > > Unfortunately the exact semantics of clock-critical were never documented.
+> > > Lee?
+> >
+> > /**
+> >  * of_clk_detect_critical() - set CLK_IS_CRITICAL flag from Device Tree
+> >  * @np: Device node pointer associated with clock provider
+> >  * @index: clock index
+> >  * @flags: pointer to top-level framework flags
+> >  *
+> >  * Detects if the clock-critical property exists and, if so, sets the
+> >  * corresponding CLK_IS_CRITICAL flag.
+> >  *
+> >  * Do not use this function. It exists only for legacy Device Tree
+> >  * bindings, such as the one-clock-per-node style that are outdated.
+> >  * Those bindings typically put all clock data into .dts and the Linux
+> >  * driver has no clock data, thus making it impossible to set this flag
+> >  * correctly from the driver. Only those drivers may call
+> >  * of_clk_detect_critical from their setup functions.
+> >  *
+> >  * Return: error code or zero on success
+> >  */
+> >
+> > If this meets the criteria, the API is pretty simple/self
+> > explanatory.  What are you having trouble with?
 > 
-> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-> index 2c743429e1e3..8ee6298d5a51 100644
-> --- a/drivers/mmc/host/renesas_sdhi_core.c
-> +++ b/drivers/mmc/host/renesas_sdhi_core.c
-[...]
-> @@ -488,7 +488,8 @@ static int renesas_sdhi_select_tuning(struct tmio_mmc_host *host)
->   static bool renesas_sdhi_check_scc_error(struct tmio_mmc_host *host)
->   {
->   	struct renesas_sdhi *priv = host_to_priv(host);
-> -	bool use_4tap = host->pdata->flags & TMIO_MMC_HAVE_4TAP_HS400;
-> +	bool use_4tap = priv->quirks && priv->quirks->hs400_4taps;
-> +
+> What exactly is the "index" parameter?  This value is matched against
+> the values of the "clock-critical" (array) property, but it is described
+> nowhere in the DT bindings.
+> stih407-clock.dtsi seems to assume this value is an index into the
+> clock-output-names array?
+> Can we use it as a value of "clock-indices" instead?
 
-    Extra empty line?
+of_clk_detect_critical(), the consumer of the device tree property
+'clock-critical', is a helper.  Neither deliver any auto-magical
+functionality.  Simply providing an index into the property will not
+do anything useful.  It's up to the vendor's clock driver to handle.
 
->   
->   	/*
->   	 * Skip checking SCC errors when running on 4 taps in HS400 mode as
-[...]
+The vendor driver can call of_clk_detect_critical() with *any* index
+it sees fit.  If it matches a number listed in the 'clock-critical'
+array, the CLK_IS_CRITICAL flag is set in the flags pointed to by the
+3rd function parameter.
 
-MBR, Sergei
+Take a look at some of the call sites in drivers/clk/st/* for further
+clarification.
+
+> > > Thanks!
+> > >
+> > > [1] "[PATCH 1/6] clk: renesas: mstp: Add critical clock from device
+> > > tree support"
+> > >     https://lore.kernel.org/linux-renesas-soc/20191203034519.5640-2-chris.brandt@renesas.com/
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
