@@ -2,43 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4241A1121C1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2019 04:09:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 41B2A1123F0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2019 08:57:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726824AbfLDDJw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 3 Dec 2019 22:09:52 -0500
-Received: from mail-eopbgr1400111.outbound.protection.outlook.com ([40.107.140.111]:53312
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726804AbfLDDJw (ORCPT
+        id S1726599AbfLDH5n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Dec 2019 02:57:43 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:45962 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726053AbfLDH5n (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 3 Dec 2019 22:09:52 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=a4lFI+Gcb8+5Sp58DJ7he2I3abKriG2iN7/bg6VtYFtbqvPWUDLTfunvlNBZOzpXb+VUjqWJVArp0qpAa8qKm46LRatx/xul6GzWtaU4YieDWCzAO++1oixPo5PWUAaAfIKVGAS7LNynRVB7P+rycVDz8PN8j+Er+ELYlmFKm+G8j4jXBSlllKRtJ75hNqjykZMdFi35To8/xtPdU9FvRls4Eo4omANglxAXPpcn2ZMYHhzcs5i68c/JGh3Vf9K68RwLsSg3REXztsjw8G8wDSsprs3cVwe3T5wL5GPTae3oLBuh9sZkWtWnk0MDfaxUeFU+gnvtzIKUn4+WiM2fGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qMS2jmU5TDoOWCSuh9uh8kLjmLh1N13nBafFywpdjNE=;
- b=VEQ3GsyfIS4v835xIDdeu121OJbDQAKZLzSKWEmYKLFbCmiP8RZwB1fWca5KK1CGBs2BHyOB49i7k0oTsIJ5Dwa44wLAldK6XgW5bRKk9UIhLaUBwMj45P2RkBFuEPh5D7OOZIgFbiMzbIopAWVABHR3Pv9aIjPZXM3CBNSY70YLBJRAJWfijI878L4iXteXfw6gah+L25If9Ay2lpFtjn78C81FFs/vCVWBKnF4HPCsk+KBQQpFQ/XytwYmF8o8Zn7eI/7eNAvcMwDRqo1aSiO3judXbFDKr8mWNEcIHkAcaCMm1bAKZIEzWirQ1hpnTWZU6ORpw7wG14k5arDDdA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qMS2jmU5TDoOWCSuh9uh8kLjmLh1N13nBafFywpdjNE=;
- b=SNv6W3x8Y0XeWLXCreCE/Qu7Y5F9MvyXFN6LrseGq/Ku0qp/PcRI6sZNUzPRqzMFkYNScU4TZYOoLM67OfJkpKPrAacMYLdyrpNBB8CNk3lJ8CQN3c1eikrzewrdWabUSDAOVVRGqqrwGvPdT0et5pEeXU5zpjzlqKr9KZzt+6M=
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com (52.133.163.12) by
- TY1SPR01MB1.jpnprd01.prod.outlook.com (52.133.164.23) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2516.12; Wed, 4 Dec 2019 03:09:49 +0000
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::74db:232e:f59e:83f2]) by TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::74db:232e:f59e:83f2%3]) with mapi id 15.20.2516.003; Wed, 4 Dec 2019
- 03:09:49 +0000
-From:   Chris Brandt <Chris.Brandt@renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Wed, 4 Dec 2019 02:57:43 -0500
+Received: by mail-oi1-f196.google.com with SMTP id v10so3948377oiv.12;
+        Tue, 03 Dec 2019 23:57:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=O4LalYjsnfEaSEeb2Zehe/J93R0bKGaAEEsomnP7Lc4=;
+        b=PRvqFkHg9bv4mpYaE8XKLbG5GEGz7O2LmBAOb0awr22hFcyxza1O0PDVjIJpdGdVHk
+         d31/MqFt7uNNCkMexqygSi45B6yBlCTTN8VAWs8aQ8LbcklnBxASRl4esqhDjxVaxJIe
+         QeU/SGP+0L9wqy5L77nm4gcZSSk1DPyn4ozhi+Yll0tK/lomRrPwwOeLm8LgUAY4yAOx
+         jMD1BFVXNc7xqYEkLlGqh14jceyBAVx/n0hTDOvWaSAGZSQRXov0bIvVEHB4hkX4bPlW
+         27yZSoJ6+f+MRkI/fsHwGb9eFrEPPkYY1+4LzUL1AtULQ0+jX4R0691fggYv+4ZMoiDx
+         t8KA==
+X-Gm-Message-State: APjAAAX8MT75CbnQsq+QicFbCqVwwfCeYx053cIbgIcVlv57jPrHZiVv
+        nVwk1dlI4i7uFyi+/2AvQiVVgtDHL3TFK4azgClJAg==
+X-Google-Smtp-Source: APXvYqzjyb4FJbVQHtyhh2tGF9RdLiHEpGR+02icu52LShy7lvntJoGkd+WARmtOCmx9JC+h7OytDime9XYsdUgzjLY=
+X-Received: by 2002:aca:4e87:: with SMTP id c129mr1455643oib.153.1575446262417;
+ Tue, 03 Dec 2019 23:57:42 -0800 (PST)
+MIME-Version: 1.0
+References: <20191203034519.5640-1-chris.brandt@renesas.com>
+ <20191203034519.5640-6-chris.brandt@renesas.com> <CAMuHMdXS_dSEGdMzHFuYraP=dU5WQFM+9DbPW1rFYH2reG2QhA@mail.gmail.com>
+ <TY1PR01MB1562E550DD31E799446F0FD48A420@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY1PR01MB1562E550DD31E799446F0FD48A420@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 4 Dec 2019 08:57:31 +0100
+Message-ID: <CAMuHMdVO2ud70cxVUHpCpvvZiMidHG1091bg3iOoOnFGOqpqWQ@mail.gmail.com>
+Subject: Re: [PATCH 5/6] ARM: dts: r7s9210: Add SPIBSC Device support
+To:     Chris Brandt <Chris.Brandt@renesas.com>
+Cc:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Michael Turquette <mturquette@baylibre.com>,
@@ -50,71 +52,36 @@ CC:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
         linux-clk <linux-clk@vger.kernel.org>,
         Mason Yang <masonccyang@mxic.com.tw>,
         Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Subject: RE: [PATCH 3/6] clk: renesas: r7s9210: Add SPIBSC clock
-Thread-Topic: [PATCH 3/6] clk: renesas: r7s9210: Add SPIBSC clock
-Thread-Index: AQHVqYw+LjFTYBzcx0ONO00s2jlMoaeowc4AgAACl6CAABw1AIAAaP+A
-Date:   Wed, 4 Dec 2019 03:09:48 +0000
-Message-ID: <TY1PR01MB1562AB46693003DB54D57C0C8A5D0@TY1PR01MB1562.jpnprd01.prod.outlook.com>
-References: <20191203034519.5640-1-chris.brandt@renesas.com>
- <20191203034519.5640-4-chris.brandt@renesas.com>
- <CAMuHMdUxCdJXyY15f6sr+QFNpg9FLsa5pL3171bm_meJcBNR2g@mail.gmail.com>
- <TY1PR01MB1562D198A463C18B1D810DF48A420@TY1PR01MB1562.jpnprd01.prod.outlook.com>
- <CAMuHMdXKn3GN5toqH=s4=KuEhEO_10Qi9EAyC_VT4-E4XOWdHA@mail.gmail.com>
-In-Reply-To: <CAMuHMdXKn3GN5toqH=s4=KuEhEO_10Qi9EAyC_VT4-E4XOWdHA@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcY2JyYW5kdDAxXGFwcGRhdGFccm9hbWluZ1wwOWQ4NDliNi0zMmQzLTRhNDAtODVlZS02Yjg0YmEyOWUzNWJcbXNnc1xtc2ctODY2MTg5ODgtMTY0My0xMWVhLWFhNTEtOTRlNmY3Njc5M2FlXGFtZS10ZXN0XDg2NjE4OTg5LTE2NDMtMTFlYS1hYTUxLTk0ZTZmNzY3OTNhZWJvZHkudHh0IiBzej0iMTAxMiIgdD0iMTMyMTk5MDI1ODcxOTM5NDQzIiBoPSIxZnZIQUJTWFpzV1UzSWxzTU1VZ3BvMHJHb3M9IiBpZD0iIiBibD0iMCIgYm89IjEiLz48L21ldGE+
-x-dg-rorf: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Chris.Brandt@renesas.com; 
-x-originating-ip: [75.60.247.61]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 252fa417-33a9-4a03-db82-08d778676c4c
-x-ms-traffictypediagnostic: TY1SPR01MB1:
-x-microsoft-antispam-prvs: <TY1SPR01MB181F2E7DF0A1DD91D36A88A5D0@TY1SPR01MB1.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0241D5F98C
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(346002)(39860400002)(136003)(366004)(396003)(376002)(199004)(189003)(99286004)(86362001)(11346002)(66946007)(256004)(14444005)(229853002)(76116006)(64756008)(66556008)(66446008)(54906003)(478600001)(7696005)(316002)(186003)(52536014)(446003)(66476007)(76176011)(6436002)(25786009)(6246003)(4744005)(81156014)(26005)(8936002)(102836004)(6116002)(3846002)(2906002)(8676002)(74316002)(7736002)(305945005)(81166006)(55016002)(9686003)(5660300002)(6916009)(14454004)(6506007)(71190400001)(33656002)(71200400001)(4326008)(7416002);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1SPR01MB1;H:TY1PR01MB1562.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 3QHK8dsjRoPpPOCEI+e4EtXCIUxuW+D6DHBi2/GDsN5WMUmePb+25OBn3wt77v/uvrHWV960eoIo5cPCrj+GdiG/0aPUTvXBagxd91A5aMNXz+mukKNAPnt5HgAGgVYrvUXVMpuWZsePc+1qLFo75T3aAz4nytLlIGkH+ENRiRahzhXxIFOVucqbncIR11ikJdmoQ9YcccYdbbQflTI52AzN0p8sU3sVzZU+0idH+CGCjzS3JO2b1k7jG3UAN831qIeNqicXjPpzt0Yga9yxUIUDaRvAUvRRladB1JDusDycip6+zezPHOkpdCwggJ0hRvZ5nXq3Qc0n6ai3xFch3sKxud6mSREfIU5cwJyi8deY9I2MfgJUPwThmuW17flba1fCkiWkbn5LEmxrgAEOkJzm0RRUQW0n/GKkbvNSyKsOoR4jQuLjeRxwpMfT+3CE
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 252fa417-33a9-4a03-db82-08d778676c4c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Dec 2019 03:09:48.8946
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: +Bhaxz8LeAzEixOglZe4czfG8QkynWrYkgevRyrMcJFd29lDisrv959vHgQdfcMcNjEKmqJOU8+9+dcdfJ3s+BNnJvmjqoMDgm9CCtq0t3A=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1SPR01MB1
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgR2VlcnQsDQoNCj4gPiBXZWxsLi4udGVjaG5pY2FsbHkuLi55b3UgZG9uJ3QgbmVlZCB0aGUg
-Im10ZC1yb20iIHBhcnRpdGlvbiB3aGVuIHVzaW5nDQo+ID4gdGhlIEFYRlMgZmlsZSBzeXN0ZW0u
-IEJ1dCwgd2UgY2FuIG1ha2UgYSBydWxlIHRoYXQgeW91IGhhdmUgdG8gdXNlIGl0DQo+IHJlZ2Fy
-ZGxlc3MuDQo+IA0KPiBKdXN0IHdvbmRlcmluZywgaG93IGRvZXMgQVhGUyBhY2Nlc3MgdGhlIEZM
-QVNIIHdpdGhvdXQgaXQgYmVpbmcgbWFwcGVkIHVzaW5nDQo+ICJtdGQtcm9tIj8NCg0KaW9yZWFt
-cCBpbiB0aGUgZHJpdmVyICh0aGUgcGh5c2ljYWwgYWRkcmVzcyBnZXRzIHBhc3NlZCBhcyBhbiBh
-cmd1bWVudCkuDQpCdXQsIGFzIHRoZSBEQVggcGVvcGxlIGZvdW5kIG91dCwgaW9yZW1hcCBpbiBh
-IGZpbGUgc3lzdGVtIGRyaXZlcnMgaXMgYSANCmJpZyBuby1ubyB3aGVuIHlvdSBhcmUgdHJ5aW5n
-IHRvIGdldCBhIG5ldyBmaWxlIHN5c3RlbSBpbnRvIG1haW5saW5lLg0KTmljb2xhcyAoUGl0cmUp
-IGFsc28gcmFuIGludG8gdGhpcyB3aGVuIGhlIHdhcyBhZGRpbmcgWElQIHN1cHBvcnQgdG8gDQpj
-cmFtZnMgbGFzdCB5ZWFyLi4uLmhlbmNlIG10ZC1yb20gaXMgbWFuZGF0b3J5IGZvciB0aGF0Lg0K
-DQpJIHdvdWxkIGxpa2UgdXMgdG8gYmUgYWJsZSB0byBmbGFnIGEgY2xvY2sgYXMgY3JpdGljYWwg
-d2l0aG91dCBhIA0Kc3BlY2lmaWMgdXNlIGNhc2UgdG8gbG9vayBmb3IgKGllLCBsb29raW5nIGZv
-ciBtdGQtcm9tKS4NCg0KRm9yIFJaL0ExLCB3ZSdyZSBhbGwgc2V0IGJlY2F1c2Ugd2UgY2FuIGRv
-IGl0IGluIHRoZSBib2FyZCdzIC5kc3QuIEVhc3khDQoNCkkganVzdCB3aXNoIGl0IHdhcyB0aGF0
-IGVhc3kgZm9yIFJaL0EyICh1c2luZyB0aGUgbmV3ZXIgcmVuZXNhcy1jcGctbXNzcg0KZHJpdmVy
-KS4NCg0KDQpDaHJpcw0K
+Hi Chris,
+
+On Tue, Dec 3, 2019 at 11:38 PM Chris Brandt <Chris.Brandt@renesas.com> wrote:
+> On Tue, Dec 3, 2019, Geert Uytterhoeven wrote:
+> > > +                       reg = <0x1f800000 0x8c>, <0x20000000
+> > > + 0x10000000 >;
+> >
+> > Any specific reason you're using 0x8c, not 0x100?
+>
+> Because....I keep forgetting what is the latest 'correct' size:
+>   A. The exact size of the register range
+> or
+>   B. The size rounded up to look nicer
+
+C. The size used by the on-chip address decoder providing the module's
+   select signal? I doubt that's not a power of two ;-)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
