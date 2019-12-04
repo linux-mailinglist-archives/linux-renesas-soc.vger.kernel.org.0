@@ -2,52 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F0B71127E2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2019 10:39:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3170B112820
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2019 10:45:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727158AbfLDJjZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Dec 2019 04:39:25 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:44248 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725994AbfLDJjZ (ORCPT
+        id S1727617AbfLDJpL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Dec 2019 04:45:11 -0500
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:35194 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727477AbfLDJpK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Dec 2019 04:39:25 -0500
-Received: by mail-ot1-f68.google.com with SMTP id x3so5711851oto.11;
-        Wed, 04 Dec 2019 01:39:24 -0800 (PST)
+        Wed, 4 Dec 2019 04:45:10 -0500
+Received: by mail-oi1-f195.google.com with SMTP id k196so6294894oib.2;
+        Wed, 04 Dec 2019 01:45:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=r68woAwhCK1qjFF8W9blpfPBitT2ZWsac1/qcNxzMBY=;
-        b=XptLqZQJoF1E8jog71oZ2tcZnb3o1R3gqREyzYjm3k32rIw7gI4Bm+LAN0bkCOLi8l
-         a1ubAjz9spsoKn48gEF0EmcX/EWUzFZe+++yKbTOazs9PXV3rCgF4FCMd8xrp4AyOEif
-         CcYyhtK4JltHOhcSfPax4PSKszwyYWI62XCsZtBGAU8vJ2tEEjEN3HvGqOGvcAWApWH9
-         uVidA8xYqMlbuv3nUc6J1FlGfMAKljrPVraCrUwF2+6pQEkeKB6KidO7UECFsoAvEedW
-         CZFPk8Z17BLEGmm8OedoiRSr4HL+8DQAJmw/6ZMxdEyUike2VL+dd+RMw5RT84WFJA6s
-         ZaoA==
-X-Gm-Message-State: APjAAAVWrtsrvdG5H8c/8Q0Q26x4mL+2zc3p9EtuYzCxDs0c9LYs1eM/
-        P60v5m1KV7LtX6tVUgg3KiyV/s+JLKMV2b1bvLE=
-X-Google-Smtp-Source: APXvYqxb2OvuzOjZVhu0BXxZhKn56TcEFB2YErS0vprOPsHa+8jbt0OFR6jWY/B7Q4BHNY7rYPOOWRjrxlvW6Ox22F4=
-X-Received: by 2002:a9d:5d10:: with SMTP id b16mr1780277oti.250.1575452363034;
- Wed, 04 Dec 2019 01:39:23 -0800 (PST)
+        bh=Sn3GoKemI1El8JqS5twJQIiPYozPSCLpRDmsgWRhXeE=;
+        b=QSXj24GLRgVW9wvJrrRK62IjJfxiJ0a00FubqTMRG4xSLUCO2Uot5sMeVk/uTnvNYS
+         gcks9uCW2EzCR0ibuuw6wp8t5IUxca1yaw0LwqjqEjv4sPQhEv/o8SXkP/jpU98g/dmd
+         7yUrwZuc2ccrBbh0PXPNsN0XNSGExB+AhJqzfMRr+qaPKuPZhar4NF9cxdmpre6L6CZi
+         2EbwRWEdYm1JuqhIVE+E7vDHe/lq/Z5AsmZshfS/T2aCRfY4Q3BNEaX5s4nlpEVgGvFU
+         ZmsY6sh434lBiW7UfQABDO//kz+oC5RUuhcRE7D8Uex4Hd8og/kfxpfro92OBlfyFS4i
+         daMA==
+X-Gm-Message-State: APjAAAXgc657NtNP3lDPYavdyiHE1vCBtrFtAIsLD/A5nn8FX+jAWYbB
+        2niqM4L+c3ECHW35f+0qdulI8Mdoi7l9ZV0LMrk=
+X-Google-Smtp-Source: APXvYqyFdoiX3QkSFz9a7pGlvBMc3HbT2eNIYjrYPMc28lbEuSNQAE2c130gjQNvc9b54PcXj+H0LOtgdY3vVpbi/ig=
+X-Received: by 2002:a05:6808:8ec:: with SMTP id d12mr113452oic.131.1575452709539;
+ Wed, 04 Dec 2019 01:45:09 -0800 (PST)
 MIME-Version: 1.0
-References: <20191203203301.2202-1-wsa+renesas@sang-engineering.com> <20191203203301.2202-3-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20191203203301.2202-3-wsa+renesas@sang-engineering.com>
+References: <20191203203301.2202-1-wsa+renesas@sang-engineering.com> <20191203203301.2202-2-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20191203203301.2202-2-wsa+renesas@sang-engineering.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 4 Dec 2019 10:39:11 +0100
-Message-ID: <CAMuHMdXkO0Vb5q+3xfdV6tdcQX0avEocVOihbC-xZgqpwsMHpw@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/2] mmc: renesas_sdhi: enfore manual correction for Gen3
+Date:   Wed, 4 Dec 2019 10:44:58 +0100
+Message-ID: <CAMuHMdUnC=PM0iM7NwoeVLb2v=r4g-uUU3h4dBn9-St75fLyAw@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/2] mmc: renesas_sdhi: Add manual correction
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
 Cc:     Linux MMC List <linux-mmc@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Takeshi Saito <takeshi.saito.xv@renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-enforce?
+Hi Wolfram,
+
+On Tue, Dec 3, 2019 at 9:33 PM Wolfram Sang
+<wsa+renesas@sang-engineering.com> wrote:
+> Pretty much like the BSP patch. Just some rebasing, refactorization and
+> updates of the commit message. I especially changed the original
+> calculation from:
+>
+> +               host->tap_set = (host->tap_set +
+> +                                host->tap_num + 1) % host->tap_num;
+>
+>  to:
+>
+> +               host->tap_set = (host->tap_set + 1) % host->tap_num;
+>
+> (same for -1). Because "+ tap_num % tap_num" is a NOOP. Or did I miss
+> something?
+
+Since all variables are unsigned, this should be equivalent.
+BTW, why is tap_set unsigned long instead of unsigned int?
+And perhaps it should be moved from host to priv?
 
 Gr{oetje,eeting}s,
 
