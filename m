@@ -2,138 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 26ABC1124AB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2019 09:24:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CA7711255B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2019 09:38:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726217AbfLDIX7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Dec 2019 03:23:59 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:52630 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725951AbfLDIX7 (ORCPT
+        id S1726856AbfLDIid (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Dec 2019 03:38:33 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:51767 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726679AbfLDIid (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Dec 2019 03:23:59 -0500
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 96AD92E5;
-        Wed,  4 Dec 2019 09:23:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1575447836;
-        bh=nyd4XgcLyCSTsQupfb4xv5PHTwGKyb6g5i8r8JAXHVc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=afblBDczenWomfuQolNaMdlOwLQiZ6lBV1+s5nJP0cq1IIYRBma4GLk/PiEl+OtYX
-         p027OZRpAYqWRLrPJbKXCuPmvfGr2Sr42a6ZZYqXhDrEx2SSotyu6yAjzMUGInB7Mt
-         j6ljitY8cjSQla2EKxmJfgOxHwZT1feGlJFqj7SI=
-Date:   Wed, 4 Dec 2019 10:23:49 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Maxime Ripard <mripard@kernel.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Abhinav Kumar <abhinavk@codeaurora.org>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Jitao Shi <jitao.shi@mediatek.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
+        Wed, 4 Dec 2019 03:38:33 -0500
+Received: by mail-wm1-f68.google.com with SMTP id g206so6069225wme.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Dec 2019 00:38:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=ParemWJI/n3SRaHe2+emu1Uz8fq8wC/gKNUHTDS5UZA=;
+        b=I7KtYnyek5P0gcpiPIk3bBEEuE4asY8oupB3ktcj4a+Zlqh3iJEq00gSYseHDHFA1k
+         npRaWnG1YQdVAzGC705aKfaffcpFxVFg3EIW5eB08uRvsTwXLJrdA/rKOQODQaaSYp9G
+         Bl4wOYG7N75IxhMZvVe/qTQ3Dybq1QU+R/Iq15cm1Wb/SO2XaLWfyRmzPzWY4qTBtvjE
+         P9UL817iJzoubCEecetvcYIo9Q5MT+iK6+QI+Gs4DR+nIq7wLkAJTd7Lg7+qwSiBRwG3
+         XGxJWSSqTOkTo0xnO5fH8TrN0exJvvhERHsi18OX6rWz6STVCITNp16EkSXl2AgG5IRm
+         YlZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=ParemWJI/n3SRaHe2+emu1Uz8fq8wC/gKNUHTDS5UZA=;
+        b=mRPfVmDVvx3SzIZSY8FnYkfm+tcMjqiZP25QQvkZC2+eO5x7bdguDgTL8afGD80/32
+         OPJS3uOJbK6iihsedTvLHUuVJW2Y14THlNw5HnwfVyrzzPBN4L9nlaLVRfi2FSbzdZLe
+         cI69LDhlgWNvk62QUQ/xGe+2W8qAo9wW7iSrFEbrhOyWgBuQgcbd6IvgY01hzbhFq9A5
+         vPtGN1vdJQBJGQZeTtJWIaESMXCBwRrUlBEiUWEZp8OYz5qa8IWGXOlhs4ofD1g8iSl1
+         TqBGBCZhzAGBjKso8BpjNgqRueqRtsiUb5ISRgVDpIsumP47+Z1CO/oNWJnN/E0gIW0v
+         6bpg==
+X-Gm-Message-State: APjAAAVtlbzS4K70no56cOLJ0OOknUCKZhMddEH536Ipv2Nic1+lW1Gx
+        LO/tVBC6UTXaMsPMfw4kmp56xA==
+X-Google-Smtp-Source: APXvYqxJaxqhbIwl3EXEj5JJcorn8bsz0Y2qMyfYC0/6j9OurqtOKq56dRGJl4zjgTb+4IE9o3KbUA==
+X-Received: by 2002:a1c:7e0e:: with SMTP id z14mr40884745wmc.52.1575448711046;
+        Wed, 04 Dec 2019 00:38:31 -0800 (PST)
+Received: from dell ([2.27.167.28])
+        by smtp.gmail.com with ESMTPSA id n30sm5805552wmd.3.2019.12.04.00.38.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Dec 2019 00:38:30 -0800 (PST)
+Date:   Wed, 4 Dec 2019 08:38:21 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Chris Brandt <Chris.Brandt@renesas.com>,
+        Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        linux-tegra@vger.kernel.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Purism Kernel Team <kernel@puri.sm>,
-        Sean Paul <sean@poorly.run>, Stefan Agner <stefan@agner.ch>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v1 07/26] drm/panel: remove get_timings
-Message-ID: <20191204082349.GA6705@pendragon.ideasonboard.com>
-References: <20191202193230.21310-1-sam@ravnborg.org>
- <20191202193230.21310-8-sam@ravnborg.org>
- <20191203074659.ilsyv4yx7pzw5vax@gilmour.lan>
- <CACRpkdZrReQs08+bXS7s7eJ-K76nMGvRgQ-L-1-baunEtiF40g@mail.gmail.com>
- <20191204081650.4n4ehbub4n7pxdom@gilmour.lan>
+        linux-clk <linux-clk@vger.kernel.org>,
+        Mason Yang <masonccyang@mxic.com.tw>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Subject: Re: [PATCH 2/6] ARM: dts: r7s72100: Add SPIBSC clocks
+Message-ID: <20191204083821.GA3468@dell>
+References: <20191203034519.5640-1-chris.brandt@renesas.com>
+ <20191203034519.5640-3-chris.brandt@renesas.com>
+ <CAMuHMdXUVdG_PMQEpz=QWLCaabfK8Mc41zFiymXJ4Rx_C2gzdg@mail.gmail.com>
+ <TY1PR01MB1562F44E4FB80788922CE9BE8A420@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+ <CAMuHMdX_sD+UHnOF+bdbT99zfK1V92+1kVzGnb9JXJyBd-Y5-w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20191204081650.4n4ehbub4n7pxdom@gilmour.lan>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdX_sD+UHnOF+bdbT99zfK1V92+1kVzGnb9JXJyBd-Y5-w@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Maxime,
+On Tue, 03 Dec 2019, Geert Uytterhoeven wrote:
 
-On Wed, Dec 04, 2019 at 09:16:50AM +0100, Maxime Ripard wrote:
-> On Tue, Dec 03, 2019 at 04:20:24PM +0100, Linus Walleij wrote:
-> > On Tue, Dec 3, 2019 at 8:47 AM Maxime Ripard wrote:
-> >
-> > > Using only the mode as we do currently has a bunch of shortcomings as
-> > > almost no encoder will be able to provide the typical pixel clock, and
-> > > that situation leads to multiple things:
+> Hi Chris,
+> 
+> CC Lee (for clock-critical)
+> 
+> On Tue, Dec 3, 2019 at 7:58 PM Chris Brandt <Chris.Brandt@renesas.com> wrote:
+> > On Tue, Dec 3, 2019, Geert Uytterhoeven wrote:
+> > > > +                       reg = <0x3fefa000 0x100>, <0x18000000
+> > > > + 0x4000000>;
 > > >
-> > >   - If someone working on one encoder wants to upstream a panel they
-> > >     have tested, chances are this will not be the typical pixel clock
-> > >     / timings being used but rather the one that will match what that
-> > >     SoC is capable of. Trouble comes when a second user comes in with
-> > >     a different encoder and different capabilities, and then we have a
-> > >     maintainance fight over which timing is the true timing (with a
-> > >     significant chance that none of them are).
+> > > The second region conflicts with the XIP flash@18000000 in
+> > > arch/arm/boot/dts/r7s72100-gr-peach.dts.
+> > > Yes, I know it is the same device ;-)
+> >
+> > Is that just an FYI?? Or do you have some suggestion??
+> 
+> Can the flash subnode be compatible with "mtd-rom", even if the parent node
+> is kept disabled?
+> 
+> > > > +                       clock-critical = <4>; /* spibsc0 */
 > > >
-> > >   - If we can't match the pixel clock, we currently have no easy way
-> > >     to make the usual measures of reducing / growing the porches and
-> > >     blankings areas to match the pixel clock we can provide, since we
-> > >     don't have an easy way to get the tolerance on those timings for a
-> > >     given panel. There's some ad hoc solutions on some drivers (I
-> > >     think vc4 has that?) to ignore the panel and just play around with
-> > >     the timings, but I think this should be generalised.
+> > > Iff we go this clock-critical route, I think this should be specified in the
+> > > board-specific .dts instead of in the SoC-specific .dtsi.
 > >
-> > I've been confused with these things as they look today and it seems
-> > the whole struct drm_display_mode could need some improvement?
+> > OK, that's fine. It makes more sense to be in the .dts because it's a board
+> > design decision. I will remove it from the patch.
 > >
-> > If .clock is supposed to be htotal * vtotal * vrefresh, what is the
-> > .clock doing there anyway.
+> > The one 'tricky' thing is that the <4> is the index into the number of clocks.
+> >
+> > So in the Renesas BSP where it includes the VDC5 LCD controllers,
+> >
+> > clock-output-names = "i2c0", "i2c1", "i2c2", "i2c3", "vdc50", "vdc51", "spibsc0", "spibsc1";
+> >
+> > the <4> needs to become a <6>.
 > 
-> It's one thing I wonder as well. I guess it's just more convenient for
-> everyone, since it's exposed by the VESA modes (iirc) and a lot of
-> drivers really care about the clock.
+> Unless you pass "clkidx" instead of "i" to of_clk_detect_critical() in [1],
+> and use "clock-critical = <R7S72100_CLK_SPIBSC0>" in DT?
+> 
+> Unfortunately the exact semantics of clock-critical were never documented.
+> Lee?
 
-My understanding is that the clock is the authoritative parameter, while
-vrefresh is offered as a convenience to avoid calculating it manually
-through drivers.
+/**
+ * of_clk_detect_critical() - set CLK_IS_CRITICAL flag from Device Tree
+ * @np: Device node pointer associated with clock provider
+ * @index: clock index
+ * @flags: pointer to top-level framework flags
+ *
+ * Detects if the clock-critical property exists and, if so, sets the
+ * corresponding CLK_IS_CRITICAL flag.
+ *
+ * Do not use this function. It exists only for legacy Device Tree
+ * bindings, such as the one-clock-per-node style that are outdated.
+ * Those bindings typically put all clock data into .dts and the Linux
+ * driver has no clock data, thus making it impossible to set this flag
+ * correctly from the driver. Only those drivers may call
+ * of_clk_detect_critical from their setup functions.
+ *
+ * Return: error code or zero on success
+ */
 
-> > Sadly I am too inexperienced to realize where the tolerances should
-> > be stated, but I guess just stating that hsync_start etc are typical,
-> > then specify some tolerance for each would help a bit?
+If this meets the criteria, the API is pretty simple/self
+explanatory.  What are you having trouble with?
+
+> Thanks!
 > 
-> The timings structure discussed in the patch that started this
-> discussion is actually doing this nicely, you have for each timing the
-> minimum, typical and maximum value. The current issue with it though
-> is that it's pretty difficult to use it, since it's not really tied to
-> any of the panel code (or DRM helpers). The only driver that was
-> supporting it was omapdrm and it was removed recently.
+> [1] "[PATCH 1/6] clk: renesas: mstp: Add critical clock from device
+> tree support"
+>     https://lore.kernel.org/linux-renesas-soc/20191203034519.5640-2-chris.brandt@renesas.com/
 > 
-> If we really wanted to support it, one path forward I can see would be
-> to make the timings structure the primary one, and only use
-> drm_display_mode for userspace facing code, and generate it from the
-> timings. This would be a pretty invasive change though...
 > 
-> > On the DSI displays in video mode there is also this EOL area
-> > which seems to be where the logic is normally just idling for a
-> > while, that can be adjusted on some hardware as well, but
-> > I don't quite understand it admittedly. Sometimes I wonder if
-> > anyone really understands DSI... :/
+> Gr{oetje,eeting}s,
 > 
-> I'm not aware of any EOL area in MIPI-DSI that would make the hardware
-> idle, don't you mean LP-11?
+>                         Geert
+> 
 
 -- 
-Regards,
-
-Laurent Pinchart
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
