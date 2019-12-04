@@ -2,1094 +2,169 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D7CC112C57
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2019 14:11:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BAA6E112CA0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Dec 2019 14:31:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727635AbfLDNLS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Dec 2019 08:11:18 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:56438 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726215AbfLDNLS (ORCPT
+        id S1727973AbfLDNbZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Dec 2019 08:31:25 -0500
+Received: from mail-eopbgr1400107.outbound.protection.outlook.com ([40.107.140.107]:6127
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727850AbfLDNbY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Dec 2019 08:11:18 -0500
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 889B12E5;
-        Wed,  4 Dec 2019 14:11:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1575465069;
-        bh=Mf9w+P7BYj5heY2fTF3CwGf+2+dMzi+yqZ9BmY1UtAI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mlWzolgmOnXaQJfgX4ZMl/DsFk+tsvEA1VofvNjJv4A4DJdwlEixlJupAVppOpkaB
-         AsI+S4Hp9SrdgxFAkh7USGR46LABFO+kPhPtgDEBdENy6RJnpRuRdfcpvIhM2BpdLJ
-         mh4VNU/d/bRMSVHyg2HWOeIlPqfNdwrvxhYrQaP0=
-Date:   Wed, 4 Dec 2019 15:11:02 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Guido =?utf-8?Q?G=C3=BCnther?= <guido.gunther@puri.sm>
-Cc:     Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Abhinav Kumar <abhinavk@codeaurora.org>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Jitao Shi <jitao.shi@mediatek.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Purism Kernel Team <kernel@puri.sm>,
-        Sean Paul <sean@poorly.run>, Stefan Agner <stefan@agner.ch>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Stefan Mavrodiev <stefan@olimex.com>,
-        Robert Chiras <robert.chiras@nxp.com>
-Subject: Re: [PATCH v1 05/26] drm/panel: add drm_connector argument to
- get_modes()
-Message-ID: <20191204131102.GA4852@pendragon.ideasonboard.com>
-References: <20191202193230.21310-1-sam@ravnborg.org>
- <20191202193230.21310-6-sam@ravnborg.org>
- <20191204120804.GC18094@bogon.m.sigxcpu.org>
+        Wed, 4 Dec 2019 08:31:24 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Y60DW9zXDUiHyPVK4J90b4ka8oKyDkBLySTJBGGXaksmv4h9F0r5tiUKrHU5RpKGXD5fqS6jFJR4idlLUU5fqbFxJ3/Q5pPrRba+P91EyX/SUAGsXMbcA8MlC/KZ5w1LR+/yfmzoSYgNP8bai3Pdfio0fXdFvDcym93miNQfwt/jpleybI98PZWcrFUWTvRLBvJTi9zIqmA/x2qVtigTH0Nemmrcgx2g/kgzH1niiqDf5dgHyhNXqQ/aHZ67/9S7U2K/HAvJFHrv6qEonNKaO49BZbdpoDYJiZ47MYzXe+Cjmov5IlYm7S8GKygyylmkCKYQzqgYdu+YN+s7xcnzYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mwH9zS6s9FTL0up9iZv9OXp7e7Js2qdzAmQLOEVwZU4=;
+ b=SrKiYMKgrLWdv04YtKTiJ64TyENz0OWAqJ/BzwOfKXBPCQwOVgGTBPNyMpT5vIeQUDR8x4mly2HU7ZxeJ3Bt0ZEP0JRmlpAicI58xUDXoV9QNvy0qtZVwwwUGW9hSXYF7s6vXhJL/qOK1C/OG9n66X7rqEU81ed/Pc7d5Ar4FVIX1indGXDsFGPy1tOE2rWE9sfoWmH851LlWjV3wIjZhbsKK0U2hn3e9PnNxxrknuPuRy5X1KLf8FYkTw/ePa4a/H8Bqmb0Kv0ey7oYd0wlilxfP5VBI+tb1hDVTlEv5p5eRQcDr2ZxaGl/kJhtoYfMio9bmoZUxDqTXKMLZe9Olg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mwH9zS6s9FTL0up9iZv9OXp7e7Js2qdzAmQLOEVwZU4=;
+ b=Iy++PkfakTpbhgRzRPmQN0SNvD7pHDgLA/0dnX99zBEqHLVsi8u3mY0ruyxmfoYBZnt+wldBx7XVzSFJMsDsZwJ6bBS0t/+f3msauAuPeKC+J65lneXa3U+S4fzshlY6a0qKyFTsRL6Vv6mWIsXi7HrkP/l2t/+yOgqbgq9BuRc=
+Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com (52.133.163.12) by
+ TY1PR01MB1465.jpnprd01.prod.outlook.com (52.133.160.140) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2495.22; Wed, 4 Dec 2019 13:31:19 +0000
+Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com
+ ([fe80::74db:232e:f59e:83f2]) by TY1PR01MB1562.jpnprd01.prod.outlook.com
+ ([fe80::74db:232e:f59e:83f2%3]) with mapi id 15.20.2516.003; Wed, 4 Dec 2019
+ 13:31:19 +0000
+From:   Chris Brandt <Chris.Brandt@renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Mason Yang <masonccyang@mxic.com.tw>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Subject: RE: [PATCH 6/6] dt-bindings: spi: Document Renesas SPIBSC bindings
+Thread-Topic: [PATCH 6/6] dt-bindings: spi: Document Renesas SPIBSC bindings
+Thread-Index: AQHVqYxRjjQT6EPsk0uhvsHduSJ+e6eow+OAgAAcgACAACHMAIAArCeAgABEDRA=
+Date:   Wed, 4 Dec 2019 13:31:18 +0000
+Message-ID: <TY1PR01MB1562322613FC52617312F14E8A5D0@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+References: <20191203034519.5640-1-chris.brandt@renesas.com>
+ <20191203034519.5640-7-chris.brandt@renesas.com>
+ <CAMuHMdVBYpuoK7hcyNLK-mAdpTQz3ohTGXuYdFPHdpU5RoPr6Q@mail.gmail.com>
+ <CAMuHMdV7XY7FB9pBsxuWxGsqYaD9n1Y+XZXEJO5OsuigjjUgpw@mail.gmail.com>
+ <TY1PR01MB1562A6AFD8D0807B345B7A208A5D0@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+ <CAMuHMdUn3h1VjYkARTFBqMij5aYg2mJSVErwceHc0NATBo+_hw@mail.gmail.com>
+In-Reply-To: <CAMuHMdUn3h1VjYkARTFBqMij5aYg2mJSVErwceHc0NATBo+_hw@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcY2JyYW5kdDAxXGFwcGRhdGFccm9hbWluZ1wwOWQ4NDliNi0zMmQzLTRhNDAtODVlZS02Yjg0YmEyOWUzNWJcbXNnc1xtc2ctNTk0ZjFhOGUtMTY5YS0xMWVhLWFhNTEtOTRlNmY3Njc5M2FlXGFtZS10ZXN0XDU5NGYxYThmLTE2OWEtMTFlYS1hYTUxLTk0ZTZmNzY3OTNhZWJvZHkudHh0IiBzej0iMzgzMyIgdD0iMTMyMTk5Mzk4Nzc3OTQwOTI0IiBoPSJLc2JLQnNYVTh1TWc1ZEM5OEx0eWF4VE80UXc9IiBpZD0iIiBibD0iMCIgYm89IjEiLz48L21ldGE+
+x-dg-rorf: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Chris.Brandt@renesas.com; 
+x-originating-ip: [75.60.247.61]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 37db6f0f-5585-46e7-350b-08d778be3eec
+x-ms-traffictypediagnostic: TY1PR01MB1465:
+x-microsoft-antispam-prvs: <TY1PR01MB146569DB8B6D8296D102184D8A5D0@TY1PR01MB1465.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 0241D5F98C
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(346002)(39860400002)(136003)(366004)(396003)(376002)(199004)(189003)(6246003)(9686003)(76176011)(6436002)(86362001)(186003)(14444005)(26005)(4326008)(66446008)(5660300002)(316002)(6916009)(54906003)(55016002)(76116006)(102836004)(7696005)(7736002)(66556008)(14454004)(66476007)(66946007)(64756008)(52536014)(6506007)(33656002)(229853002)(8676002)(3846002)(99286004)(74316002)(11346002)(25786009)(8936002)(305945005)(81166006)(6116002)(478600001)(7416002)(71190400001)(71200400001)(81156014)(2906002);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1465;H:TY1PR01MB1562.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: YF6Fl9x3faw8tkoMJx+L6aGdacc9XOXNgV8aCo11WwIasuz8X/F0rWL4goQA13Mg7lcU1spvEZwFW7MDOByJlbut9f+/1BP1MrzukFd28EbOTQ72ITjO7dOXauGUB0kQzEL5QT+AiYmi6FkSkgXYdB1o2K2S3sz/QavTaRcRKt6Q82oL/WjlKpzK8jS9waL5bDfceUp3o1BYToV+Ie/ZMkkucbMooBSAwOMbDrh0HZB27jirdk5QthIuVCGzChE2ir/UBWREvRZmvyZKPJfeZyMKAfsKLLfxa/Wtp1eIpmnkJCYxAvHIHjhsWGw5swbhvn/D3EQlDgUBoChegfj+1H0vRgKF+kV1Qo0Wla1C4c2NFUj2KTnGqMbjk+tSgwBEaQaTT1uIP2zYdLYTOBjPAD8K7IqmwJYAr2d5yFF1m6pNXDApZsH74ilCeAIsCDs1
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191204120804.GC18094@bogon.m.sigxcpu.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37db6f0f-5585-46e7-350b-08d778be3eec
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Dec 2019 13:31:18.9832
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LXNffY+Y6CL0Y+eM+0xcWKTGSNg42Uw4lvwIMO21wPgJLndDHLvyxhUjUcrrP5St/admAhHqGQ5nBkfqj0ek+0ikzQw1Vsp20qxONTVeGo4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1465
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Guido,
-
-On Wed, Dec 04, 2019 at 01:08:04PM +0100, Guido Günther wrote:
-> On Mon, Dec 02, 2019 at 08:32:09PM +0100, Sam Ravnborg wrote:
-> > Today the bridge creates the drm_connector, but that is planned
-> > to be moved to the display drivers.
-> 
-> Do you have a reference for that move at hand?
-
-https://patchwork.kernel.org/cover/10805353/
-
-Not something that will be enforced right away, but I think it will
-simplify display controller drivers, so I'll advocate switching to that
-model.
-
-> > To facilitate this, update drm_panel_funcs.get_modes() to
-> > take drm_connector as an argument.
-> > All panel drivers implementing get_modes() are updated.
-> > 
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Thierry Reding <thierry.reding@gmail.com>
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > Cc: Jagan Teki <jagan@amarulasolutions.com>
-> > Cc: Stefan Mavrodiev <stefan@olimex.com>
-> > Cc: Robert Chiras <robert.chiras@nxp.com>
-> > Cc: "Guido Günther" <agx@sigxcpu.org>
-> > Cc: Purism Kernel Team <kernel@puri.sm>
-> > ---
-> >  drivers/gpu/drm/drm_panel.c                   |  2 +-
-> >  drivers/gpu/drm/panel/panel-arm-versatile.c   |  4 +--
-> >  .../drm/panel/panel-feiyang-fy07024di26a30d.c |  4 +--
-> >  drivers/gpu/drm/panel/panel-ilitek-ili9322.c  |  5 ++--
-> >  drivers/gpu/drm/panel/panel-ilitek-ili9881c.c |  8 +++---
-> >  drivers/gpu/drm/panel/panel-innolux-p079zca.c | 13 +++++----
-> >  .../gpu/drm/panel/panel-jdi-lt070me05000.c    |  9 ++++---
-> >  .../drm/panel/panel-kingdisplay-kd097d04.c    | 11 ++++----
-> >  drivers/gpu/drm/panel/panel-lg-lb035q02.c     |  4 +--
-> >  drivers/gpu/drm/panel/panel-lg-lg4573.c       |  8 +++---
-> >  drivers/gpu/drm/panel/panel-lvds.c            |  4 +--
-> >  drivers/gpu/drm/panel/panel-nec-nl8048hl11.c  |  4 +--
-> >  drivers/gpu/drm/panel/panel-novatek-nt39016.c |  4 +--
-> >  .../drm/panel/panel-olimex-lcd-olinuxino.c    |  4 +--
-> >  .../gpu/drm/panel/panel-orisetech-otm8009a.c  |  9 ++++---
-> >  .../drm/panel/panel-osd-osd101t2587-53ts.c    |  9 ++++---
-> >  .../drm/panel/panel-panasonic-vvx10f034n00.c  |  9 ++++---
-> >  .../drm/panel/panel-raspberrypi-touchscreen.c |  4 +--
-> >  drivers/gpu/drm/panel/panel-raydium-rm67191.c |  6 ++---
-> >  drivers/gpu/drm/panel/panel-raydium-rm68200.c |  9 ++++---
-> >  .../drm/panel/panel-rocktech-jh057n00900.c    |  9 ++++---
-> >  drivers/gpu/drm/panel/panel-ronbo-rb070d30.c  | 10 +++----
-> >  drivers/gpu/drm/panel/panel-samsung-ld9040.c  |  4 +--
-> >  drivers/gpu/drm/panel/panel-samsung-s6d16d0.c |  4 +--
-> >  drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c |  4 +--
-> >  .../gpu/drm/panel/panel-samsung-s6e63j0x03.c  |  4 +--
-> >  drivers/gpu/drm/panel/panel-samsung-s6e63m0.c |  4 +--
-> >  drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c |  4 +--
-> >  drivers/gpu/drm/panel/panel-seiko-43wvf1g.c   |  9 ++++---
-> >  .../gpu/drm/panel/panel-sharp-lq101r1sx01.c   |  9 ++++---
-> >  .../gpu/drm/panel/panel-sharp-ls037v7dw01.c   |  4 +--
-> >  .../gpu/drm/panel/panel-sharp-ls043t1le01.c   |  9 ++++---
-> >  drivers/gpu/drm/panel/panel-simple.c          | 27 ++++++++++---------
-> >  drivers/gpu/drm/panel/panel-sitronix-st7701.c |  9 ++++---
-> >  .../gpu/drm/panel/panel-sitronix-st7789v.c    |  8 +++---
-> >  drivers/gpu/drm/panel/panel-sony-acx565akm.c  |  4 +--
-> >  drivers/gpu/drm/panel/panel-tpo-td028ttec1.c  |  4 +--
-> >  drivers/gpu/drm/panel/panel-tpo-td043mtea1.c  |  4 +--
-> >  drivers/gpu/drm/panel/panel-tpo-tpg110.c      |  4 +--
-> >  drivers/gpu/drm/panel/panel-truly-nt35597.c   |  4 +--
-> >  include/drm/drm_panel.h                       |  3 ++-
-> >  41 files changed, 141 insertions(+), 130 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-> > index 35609c90e467..9927e28d93e6 100644
-> > --- a/drivers/gpu/drm/drm_panel.c
-> > +++ b/drivers/gpu/drm/drm_panel.c
-> > @@ -252,7 +252,7 @@ int drm_panel_get_modes(struct drm_panel *panel)
-> >  		return -EINVAL;
-> >  
-> >  	if (panel->funcs && panel->funcs->get_modes)
-> > -		return panel->funcs->get_modes(panel);
-> > +		return panel->funcs->get_modes(panel, panel->connector);
-> >  
-> >  	return 0;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-arm-versatile.c b/drivers/gpu/drm/panel/panel-arm-versatile.c
-> > index a0574dc03e16..41aa91f60979 100644
-> > --- a/drivers/gpu/drm/panel/panel-arm-versatile.c
-> > +++ b/drivers/gpu/drm/panel/panel-arm-versatile.c
-> > @@ -260,9 +260,9 @@ static int versatile_panel_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int versatile_panel_get_modes(struct drm_panel *panel)
-> > +static int versatile_panel_get_modes(struct drm_panel *panel,
-> > +				     struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct versatile_panel *vpanel = to_versatile_panel(panel);
-> >  	struct drm_display_mode *mode;
-> >  
-> > diff --git a/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c b/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
-> > index 98f184b81187..37d6b7390954 100644
-> > --- a/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
-> > +++ b/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
-> > @@ -162,9 +162,9 @@ static const struct drm_display_mode feiyang_default_mode = {
-> >  	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
-> >  };
-> >  
-> > -static int feiyang_get_modes(struct drm_panel *panel)
-> > +static int feiyang_get_modes(struct drm_panel *panel,
-> > +			     struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct feiyang *ctx = panel_to_feiyang(panel);
-> >  	struct drm_display_mode *mode;
-> >  
-> > diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9322.c b/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
-> > index 24955bec1958..8fd4c0521841 100644
-> > --- a/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
-> > +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9322.c
-> > @@ -641,9 +641,9 @@ static const struct drm_display_mode itu_r_bt_656_720_mode = {
-> >  	.flags = 0,
-> >  };
-> >  
-> > -static int ili9322_get_modes(struct drm_panel *panel)
-> > +static int ili9322_get_modes(struct drm_panel *panel,
-> > +			     struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct ili9322 *ili = panel_to_ili9322(panel);
-> >  	struct drm_display_mode *mode;
-> >  	struct drm_display_info *info;
-> > @@ -655,7 +655,6 @@ static int ili9322_get_modes(struct drm_panel *panel)
-> >  		info->bus_flags |= DRM_BUS_FLAG_PIXDATA_DRIVE_POSEDGE;
-> >  	else
-> >  		info->bus_flags |= DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE;
-> > -
-> >  	if (ili->conf->de_active_high)
-> >  		info->bus_flags |= DRM_BUS_FLAG_DE_HIGH;
-> >  	else
-> > diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-> > index e8789e460a16..1c67a668d6bf 100644
-> > --- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-> > +++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-> > @@ -387,9 +387,9 @@ static const struct drm_display_mode bananapi_default_mode = {
-> >  	.vtotal		= 1280 + 10 + 10 + 20,
-> >  };
-> >  
-> > -static int ili9881c_get_modes(struct drm_panel *panel)
-> > +static int ili9881c_get_modes(struct drm_panel *panel,
-> > +			      struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct ili9881c *ctx = panel_to_ili9881c(panel);
-> >  	struct drm_display_mode *mode;
-> >  
-> > @@ -407,8 +407,8 @@ static int ili9881c_get_modes(struct drm_panel *panel)
-> >  	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> >  	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = 62;
-> > -	panel->connector->display_info.height_mm = 110;
-> > +	connector->display_info.width_mm = 62;
-> > +	connector->display_info.height_mm = 110;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-innolux-p079zca.c b/drivers/gpu/drm/panel/panel-innolux-p079zca.c
-> > index 83df1ac4211f..facf1bab2532 100644
-> > --- a/drivers/gpu/drm/panel/panel-innolux-p079zca.c
-> > +++ b/drivers/gpu/drm/panel/panel-innolux-p079zca.c
-> > @@ -403,7 +403,8 @@ static const struct panel_desc innolux_p097pfg_panel_desc = {
-> >  	.sleep_mode_delay = 100, /* T15 */
-> >  };
-> >  
-> > -static int innolux_panel_get_modes(struct drm_panel *panel)
-> > +static int innolux_panel_get_modes(struct drm_panel *panel,
-> > +				   struct drm_connector *connector)
-> >  {
-> >  	struct innolux_panel *innolux = to_innolux_panel(panel);
-> >  	const struct drm_display_mode *m = innolux->desc->mode;
-> > @@ -418,13 +419,11 @@ static int innolux_panel_get_modes(struct drm_panel *panel)
-> >  
-> >  	drm_mode_set_name(mode);
-> >  
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm =
-> > -			innolux->desc->size.width;
-> > -	panel->connector->display_info.height_mm =
-> > -			innolux->desc->size.height;
-> > -	panel->connector->display_info.bpc = innolux->desc->bpc;
-> > +	connector->display_info.width_mm = innolux->desc->size.width;
-> > +	connector->display_info.height_mm = innolux->desc->size.height;
-> > +	connector->display_info.bpc = innolux->desc->bpc;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
-> > index 56364a93f0b8..e6b650a64fdb 100644
-> > --- a/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
-> > +++ b/drivers/gpu/drm/panel/panel-jdi-lt070me05000.c
-> > @@ -300,7 +300,8 @@ static const struct drm_display_mode default_mode = {
-> >  		.flags = 0,
-> >  };
-> >  
-> > -static int jdi_panel_get_modes(struct drm_panel *panel)
-> > +static int jdi_panel_get_modes(struct drm_panel *panel,
-> > +			       struct drm_connector *connector)
-> >  {
-> >  	struct drm_display_mode *mode;
-> >  	struct jdi_panel *jdi = to_jdi_panel(panel);
-> > @@ -316,10 +317,10 @@ static int jdi_panel_get_modes(struct drm_panel *panel)
-> >  
-> >  	drm_mode_set_name(mode);
-> >  
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = 95;
-> > -	panel->connector->display_info.height_mm = 151;
-> > +	connector->display_info.width_mm = 95;
-> > +	connector->display_info.height_mm = 151;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c b/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c
-> > index 45f96556ec8c..e6f53d56daf9 100644
-> > --- a/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c
-> > +++ b/drivers/gpu/drm/panel/panel-kingdisplay-kd097d04.c
-> > @@ -333,7 +333,8 @@ static const struct drm_display_mode default_mode = {
-> >  	.vrefresh = 60,
-> >  };
-> >  
-> > -static int kingdisplay_panel_get_modes(struct drm_panel *panel)
-> > +static int kingdisplay_panel_get_modes(struct drm_panel *panel,
-> > +				       struct drm_connector *connector)
-> >  {
-> >  	struct drm_display_mode *mode;
-> >  
-> > @@ -347,11 +348,11 @@ static int kingdisplay_panel_get_modes(struct drm_panel *panel)
-> >  
-> >  	drm_mode_set_name(mode);
-> >  
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = 147;
-> > -	panel->connector->display_info.height_mm = 196;
-> > -	panel->connector->display_info.bpc = 8;
-> > +	connector->display_info.width_mm = 147;
-> > +	connector->display_info.height_mm = 196;
-> > +	connector->display_info.bpc = 8;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-lg-lb035q02.c b/drivers/gpu/drm/panel/panel-lg-lb035q02.c
-> > index 7a1385e834f0..7a3bd4d80c79 100644
-> > --- a/drivers/gpu/drm/panel/panel-lg-lb035q02.c
-> > +++ b/drivers/gpu/drm/panel/panel-lg-lb035q02.c
-> > @@ -141,9 +141,9 @@ static const struct drm_display_mode lb035q02_mode = {
-> >  	.height_mm = 53,
-> >  };
-> >  
-> > -static int lb035q02_get_modes(struct drm_panel *panel)
-> > +static int lb035q02_get_modes(struct drm_panel *panel,
-> > +			      struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &lb035q02_mode);
-> > diff --git a/drivers/gpu/drm/panel/panel-lg-lg4573.c b/drivers/gpu/drm/panel/panel-lg-lg4573.c
-> > index db4865a4c2b9..fc6572b4e2f9 100644
-> > --- a/drivers/gpu/drm/panel/panel-lg-lg4573.c
-> > +++ b/drivers/gpu/drm/panel/panel-lg-lg4573.c
-> > @@ -209,9 +209,9 @@ static const struct drm_display_mode default_mode = {
-> >  	.vrefresh = 60,
-> >  };
-> >  
-> > -static int lg4573_get_modes(struct drm_panel *panel)
-> > +static int lg4573_get_modes(struct drm_panel *panel,
-> > +			    struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &default_mode);
-> > @@ -227,8 +227,8 @@ static int lg4573_get_modes(struct drm_panel *panel)
-> >  	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> >  	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = 61;
-> > -	panel->connector->display_info.height_mm = 103;
-> > +	connector->display_info.width_mm = 61;
-> > +	connector->display_info.height_mm = 103;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-lvds.c b/drivers/gpu/drm/panel/panel-lvds.c
-> > index 2405f26e5d31..f6d58a60e514 100644
-> > --- a/drivers/gpu/drm/panel/panel-lvds.c
-> > +++ b/drivers/gpu/drm/panel/panel-lvds.c
-> > @@ -106,10 +106,10 @@ static int panel_lvds_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int panel_lvds_get_modes(struct drm_panel *panel)
-> > +static int panel_lvds_get_modes(struct drm_panel *panel,
-> > +				struct drm_connector *connector)
-> >  {
-> >  	struct panel_lvds *lvds = to_panel_lvds(panel);
-> > -	struct drm_connector *connector = lvds->panel.connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_create(lvds->panel.drm);
-> > diff --git a/drivers/gpu/drm/panel/panel-nec-nl8048hl11.c b/drivers/gpu/drm/panel/panel-nec-nl8048hl11.c
-> > index fd593532ab23..a6ccdb09aace 100644
-> > --- a/drivers/gpu/drm/panel/panel-nec-nl8048hl11.c
-> > +++ b/drivers/gpu/drm/panel/panel-nec-nl8048hl11.c
-> > @@ -123,9 +123,9 @@ static const struct drm_display_mode nl8048_mode = {
-> >  	.height_mm = 53,
-> >  };
-> >  
-> > -static int nl8048_get_modes(struct drm_panel *panel)
-> > +static int nl8048_get_modes(struct drm_panel *panel,
-> > +			    struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &nl8048_mode);
-> > diff --git a/drivers/gpu/drm/panel/panel-novatek-nt39016.c b/drivers/gpu/drm/panel/panel-novatek-nt39016.c
-> > index 60ccedce530c..91ea49c05611 100644
-> > --- a/drivers/gpu/drm/panel/panel-novatek-nt39016.c
-> > +++ b/drivers/gpu/drm/panel/panel-novatek-nt39016.c
-> > @@ -206,11 +206,11 @@ static int nt39016_disable(struct drm_panel *drm_panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int nt39016_get_modes(struct drm_panel *drm_panel)
-> > +static int nt39016_get_modes(struct drm_panel *drm_panel,
-> > +			     struct drm_connector *connector)
-> >  {
-> >  	struct nt39016 *panel = to_nt39016(drm_panel);
-> >  	const struct nt39016_panel_info *panel_info = panel->panel_info;
-> > -	struct drm_connector *connector = drm_panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(drm_panel->drm, &panel_info->display_mode);
-> > diff --git a/drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c b/drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c
-> > index 8738ef1b66dc..2b7e0dfebc5e 100644
-> > --- a/drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c
-> > +++ b/drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.c
-> > @@ -141,10 +141,10 @@ static int lcd_olinuxino_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int lcd_olinuxino_get_modes(struct drm_panel *panel)
-> > +static int lcd_olinuxino_get_modes(struct drm_panel *panel,
-> > +				   struct drm_connector *connector)
-> >  {
-> >  	struct lcd_olinuxino *lcd = to_lcd_olinuxino(panel);
-> > -	struct drm_connector *connector = lcd->panel.connector;
-> >  	struct lcd_olinuxino_info *lcd_info = &lcd->eeprom.info;
-> >  	struct drm_device *drm = lcd->panel.drm;
-> >  	struct lcd_olinuxino_mode *lcd_mode;
-> > diff --git a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
-> > index bf1f928b215f..4e1606c79072 100644
-> > --- a/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
-> > +++ b/drivers/gpu/drm/panel/panel-orisetech-otm8009a.c
-> > @@ -349,7 +349,8 @@ static int otm8009a_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int otm8009a_get_modes(struct drm_panel *panel)
-> > +static int otm8009a_get_modes(struct drm_panel *panel,
-> > +			      struct drm_connector *connector)
-> >  {
-> >  	struct drm_display_mode *mode;
-> >  
-> > @@ -364,10 +365,10 @@ static int otm8009a_get_modes(struct drm_panel *panel)
-> >  	drm_mode_set_name(mode);
-> >  
-> >  	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = mode->width_mm;
-> > -	panel->connector->display_info.height_mm = mode->height_mm;
-> > +	connector->display_info.width_mm = mode->width_mm;
-> > +	connector->display_info.height_mm = mode->height_mm;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c b/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
-> > index 2b40913899d8..b3e010288c10 100644
-> > --- a/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
-> > +++ b/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
-> > @@ -112,7 +112,8 @@ static const struct drm_display_mode default_mode_osd101t2587 = {
-> >  	.flags = DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC,
-> >  };
-> >  
-> > -static int osd101t2587_panel_get_modes(struct drm_panel *panel)
-> > +static int osd101t2587_panel_get_modes(struct drm_panel *panel,
-> > +				       struct drm_connector *connector)
-> >  {
-> >  	struct osd101t2587_panel *osd101t2587 = ti_osd_panel(panel);
-> >  	struct drm_display_mode *mode;
-> > @@ -128,10 +129,10 @@ static int osd101t2587_panel_get_modes(struct drm_panel *panel)
-> >  
-> >  	drm_mode_set_name(mode);
-> >  
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = 217;
-> > -	panel->connector->display_info.height_mm = 136;
-> > +	connector->display_info.width_mm = 217;
-> > +	connector->display_info.height_mm = 136;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c b/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
-> > index 664605071d34..19a6eb4637c8 100644
-> > --- a/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
-> > +++ b/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
-> > @@ -166,7 +166,8 @@ static const struct drm_display_mode default_mode = {
-> >  	.vrefresh = 60,
-> >  };
-> >  
-> > -static int wuxga_nt_panel_get_modes(struct drm_panel *panel)
-> > +static int wuxga_nt_panel_get_modes(struct drm_panel *panel,
-> > +				    struct drm_connector *connector)
-> >  {
-> >  	struct drm_display_mode *mode;
-> >  
-> > @@ -180,10 +181,10 @@ static int wuxga_nt_panel_get_modes(struct drm_panel *panel)
-> >  
-> >  	drm_mode_set_name(mode);
-> >  
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = 217;
-> > -	panel->connector->display_info.height_mm = 136;
-> > +	connector->display_info.width_mm = 217;
-> > +	connector->display_info.height_mm = 136;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-> > index 09824e92fc78..732b7111395e 100644
-> > --- a/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-> > +++ b/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
-> > @@ -311,9 +311,9 @@ static int rpi_touchscreen_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int rpi_touchscreen_get_modes(struct drm_panel *panel)
-> > +static int rpi_touchscreen_get_modes(struct drm_panel *panel,
-> > +				     struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_device *drm = panel->drm;
-> >  	unsigned int i, num = 0;
-> >  	static const u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-> > diff --git a/drivers/gpu/drm/panel/panel-raydium-rm67191.c b/drivers/gpu/drm/panel/panel-raydium-rm67191.c
-> > index fd67fc6185c4..123bb68cfcb7 100644
-> > --- a/drivers/gpu/drm/panel/panel-raydium-rm67191.c
-> > +++ b/drivers/gpu/drm/panel/panel-raydium-rm67191.c
-> > @@ -436,9 +436,9 @@ static int rad_panel_disable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int rad_panel_get_modes(struct drm_panel *panel)
-> > +static int rad_panel_get_modes(struct drm_panel *panel,
-> > +			       struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &default_mode);
-> > @@ -451,7 +451,7 @@ static int rad_panel_get_modes(struct drm_panel *panel)
-> >  
-> >  	drm_mode_set_name(mode);
-> >  	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> >  	connector->display_info.width_mm = mode->width_mm;
-> >  	connector->display_info.height_mm = mode->height_mm;
-> > diff --git a/drivers/gpu/drm/panel/panel-raydium-rm68200.c b/drivers/gpu/drm/panel/panel-raydium-rm68200.c
-> > index 994e855721f4..66fa975308ec 100644
-> > --- a/drivers/gpu/drm/panel/panel-raydium-rm68200.c
-> > +++ b/drivers/gpu/drm/panel/panel-raydium-rm68200.c
-> > @@ -335,7 +335,8 @@ static int rm68200_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int rm68200_get_modes(struct drm_panel *panel)
-> > +static int rm68200_get_modes(struct drm_panel *panel,
-> > +			     struct drm_connector *connector)
-> >  {
-> >  	struct drm_display_mode *mode;
-> >  
-> > @@ -350,10 +351,10 @@ static int rm68200_get_modes(struct drm_panel *panel)
-> >  	drm_mode_set_name(mode);
-> >  
-> >  	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = mode->width_mm;
-> > -	panel->connector->display_info.height_mm = mode->height_mm;
-> > +	connector->display_info.width_mm = mode->width_mm;
-> > +	connector->display_info.height_mm = mode->height_mm;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-rocktech-jh057n00900.c b/drivers/gpu/drm/panel/panel-rocktech-jh057n00900.c
-> > index 31234b79d3b1..b2d61cab3cad 100644
-> > --- a/drivers/gpu/drm/panel/panel-rocktech-jh057n00900.c
-> > +++ b/drivers/gpu/drm/panel/panel-rocktech-jh057n00900.c
-> > @@ -230,7 +230,8 @@ static const struct drm_display_mode default_mode = {
-> >  	.height_mm   = 130,
-> >  };
-> >  
-> > -static int jh057n_get_modes(struct drm_panel *panel)
-> > +static int jh057n_get_modes(struct drm_panel *panel,
-> > +			    struct drm_connector *connector)
-> >  {
-> >  	struct jh057n *ctx = panel_to_jh057n(panel);
-> >  	struct drm_display_mode *mode;
-> > @@ -246,9 +247,9 @@ static int jh057n_get_modes(struct drm_panel *panel)
-> >  	drm_mode_set_name(mode);
-> >  
-> >  	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> > -	panel->connector->display_info.width_mm = mode->width_mm;
-> > -	panel->connector->display_info.height_mm = mode->height_mm;
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	connector->display_info.width_mm = mode->width_mm;
-> > +	connector->display_info.height_mm = mode->height_mm;
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c b/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-> > index 170a5cda21b9..57a462ce221e 100644
-> > --- a/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-> > +++ b/drivers/gpu/drm/panel/panel-ronbo-rb070d30.c
-> > @@ -120,9 +120,9 @@ static const struct drm_display_mode default_mode = {
-> >  	.height_mm	= 85,
-> >  };
-> >  
-> > -static int rb070d30_panel_get_modes(struct drm_panel *panel)
-> > +static int rb070d30_panel_get_modes(struct drm_panel *panel,
-> > +				    struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct rb070d30_panel *ctx = panel_to_rb070d30_panel(panel);
-> >  	struct drm_display_mode *mode;
-> >  	static const u32 bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-> > @@ -140,9 +140,9 @@ static int rb070d30_panel_get_modes(struct drm_panel *panel)
-> >  	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> >  	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.bpc = 8;
-> > -	panel->connector->display_info.width_mm = mode->width_mm;
-> > -	panel->connector->display_info.height_mm = mode->height_mm;
-> > +	connector->display_info.bpc = 8;
-> > +	connector->display_info.width_mm = mode->width_mm;
-> > +	connector->display_info.height_mm = mode->height_mm;
-> >  	drm_display_info_set_bus_formats(&connector->display_info,
-> >  					 &bus_format, 1);
-> >  
-> > diff --git a/drivers/gpu/drm/panel/panel-samsung-ld9040.c b/drivers/gpu/drm/panel/panel-samsung-ld9040.c
-> > index 250809ba37c7..3c52f15f7a1c 100644
-> > --- a/drivers/gpu/drm/panel/panel-samsung-ld9040.c
-> > +++ b/drivers/gpu/drm/panel/panel-samsung-ld9040.c
-> > @@ -261,9 +261,9 @@ static int ld9040_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int ld9040_get_modes(struct drm_panel *panel)
-> > +static int ld9040_get_modes(struct drm_panel *panel,
-> > +			    struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct ld9040 *ctx = panel_to_ld9040(panel);
-> >  	struct drm_display_mode *mode;
-> >  
-> > diff --git a/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c b/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
-> > index e3a0397e953e..71939ab757b1 100644
-> > --- a/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
-> > +++ b/drivers/gpu/drm/panel/panel-samsung-s6d16d0.c
-> > @@ -143,9 +143,9 @@ static int s6d16d0_disable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int s6d16d0_get_modes(struct drm_panel *panel)
-> > +static int s6d16d0_get_modes(struct drm_panel *panel,
-> > +			     struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &samsung_s6d16d0_mode);
-> > diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c b/drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c
-> > index 938ab72c5540..8e0236ba6145 100644
-> > --- a/drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c
-> > +++ b/drivers/gpu/drm/panel/panel-samsung-s6e3ha2.c
-> > @@ -645,9 +645,9 @@ static const struct s6e3ha2_panel_desc samsung_s6e3hf2 = {
-> >  	.type = HF2_TYPE,
-> >  };
-> >  
-> > -static int s6e3ha2_get_modes(struct drm_panel *panel)
-> > +static int s6e3ha2_get_modes(struct drm_panel *panel,
-> > +			     struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct s6e3ha2 *ctx = container_of(panel, struct s6e3ha2, panel);
-> >  	struct drm_display_mode *mode;
-> >  
-> > diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c b/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c
-> > index a60635e9226d..c939d5bde4f0 100644
-> > --- a/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c
-> > +++ b/drivers/gpu/drm/panel/panel-samsung-s6e63j0x03.c
-> > @@ -400,9 +400,9 @@ static int s6e63j0x03_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int s6e63j0x03_get_modes(struct drm_panel *panel)
-> > +static int s6e63j0x03_get_modes(struct drm_panel *panel,
-> > +				struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &default_mode);
-> > diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-> > index ba01af0b14fd..1d099092e754 100644
-> > --- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-> > +++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-> > @@ -362,9 +362,9 @@ static int s6e63m0_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int s6e63m0_get_modes(struct drm_panel *panel)
-> > +static int s6e63m0_get_modes(struct drm_panel *panel,
-> > +			     struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &default_mode);
-> > diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c b/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c
-> > index dbced6501204..8a028d2bd0d6 100644
-> > --- a/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c
-> > +++ b/drivers/gpu/drm/panel/panel-samsung-s6e8aa0.c
-> > @@ -920,9 +920,9 @@ static int s6e8aa0_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int s6e8aa0_get_modes(struct drm_panel *panel)
-> > +static int s6e8aa0_get_modes(struct drm_panel *panel,
-> > +			     struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct s6e8aa0 *ctx = panel_to_s6e8aa0(panel);
-> >  	struct drm_display_mode *mode;
-> >  
-> > diff --git a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-> > index b3619ba443bd..b878930b17e4 100644
-> > --- a/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-> > +++ b/drivers/gpu/drm/panel/panel-seiko-43wvf1g.c
-> > @@ -56,9 +56,9 @@ static inline struct seiko_panel *to_seiko_panel(struct drm_panel *panel)
-> >  	return container_of(panel, struct seiko_panel, base);
-> >  }
-> >  
-> > -static int seiko_panel_get_fixed_modes(struct seiko_panel *panel)
-> > +static int seiko_panel_get_fixed_modes(struct seiko_panel *panel,
-> > +				       struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->base.connector;
-> >  	struct drm_device *drm = panel->base.drm;
-> >  	struct drm_display_mode *mode;
-> >  	unsigned int i, num = 0;
-> > @@ -208,12 +208,13 @@ static int seiko_panel_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int seiko_panel_get_modes(struct drm_panel *panel)
-> > +static int seiko_panel_get_modes(struct drm_panel *panel,
-> > +				 struct drm_connector *connector)
-> >  {
-> >  	struct seiko_panel *p = to_seiko_panel(panel);
-> >  
-> >  	/* add hard-coded panel modes */
-> > -	return seiko_panel_get_fixed_modes(p);
-> > +	return seiko_panel_get_fixed_modes(p, connector);
-> >  }
-> >  
-> >  static int seiko_panel_get_timings(struct drm_panel *panel,
-> > diff --git a/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c b/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c
-> > index 5e136c3ba185..e797b700661a 100644
-> > --- a/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c
-> > +++ b/drivers/gpu/drm/panel/panel-sharp-lq101r1sx01.c
-> > @@ -278,7 +278,8 @@ static const struct drm_display_mode default_mode = {
-> >  	.vrefresh = 60,
-> >  };
-> >  
-> > -static int sharp_panel_get_modes(struct drm_panel *panel)
-> > +static int sharp_panel_get_modes(struct drm_panel *panel,
-> > +				 struct drm_connector *connector)
-> >  {
-> >  	struct drm_display_mode *mode;
-> >  
-> > @@ -292,10 +293,10 @@ static int sharp_panel_get_modes(struct drm_panel *panel)
-> >  
-> >  	drm_mode_set_name(mode);
-> >  
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = 217;
-> > -	panel->connector->display_info.height_mm = 136;
-> > +	connector->display_info.width_mm = 217;
-> > +	connector->display_info.height_mm = 136;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c b/drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c
-> > index eeab7998c7de..7103a945f0e8 100644
-> > --- a/drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c
-> > +++ b/drivers/gpu/drm/panel/panel-sharp-ls037v7dw01.c
-> > @@ -100,9 +100,9 @@ static const struct drm_display_mode ls037v7dw01_mode = {
-> >  	.height_mm = 75,
-> >  };
-> >  
-> > -static int ls037v7dw01_get_modes(struct drm_panel *panel)
-> > +static int ls037v7dw01_get_modes(struct drm_panel *panel,
-> > +				 struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &ls037v7dw01_mode);
-> > diff --git a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c b/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
-> > index b963ba4ab589..85ae6cffdbfb 100644
-> > --- a/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
-> > +++ b/drivers/gpu/drm/panel/panel-sharp-ls043t1le01.c
-> > @@ -210,7 +210,8 @@ static const struct drm_display_mode default_mode = {
-> >  	.vrefresh = 60,
-> >  };
-> >  
-> > -static int sharp_nt_panel_get_modes(struct drm_panel *panel)
-> > +static int sharp_nt_panel_get_modes(struct drm_panel *panel,
-> > +				    struct drm_connector *connector)
-> >  {
-> >  	struct drm_display_mode *mode;
-> >  
-> > @@ -224,10 +225,10 @@ static int sharp_nt_panel_get_modes(struct drm_panel *panel)
-> >  
-> >  	drm_mode_set_name(mode);
-> >  
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = 54;
-> > -	panel->connector->display_info.height_mm = 95;
-> > +	connector->display_info.width_mm = 54;
-> > +	connector->display_info.height_mm = 95;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> > index a5df6d6dd455..d6299fe6d276 100644
-> > --- a/drivers/gpu/drm/panel/panel-simple.c
-> > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> > @@ -117,9 +117,9 @@ static inline struct panel_simple *to_panel_simple(struct drm_panel *panel)
-> >  	return container_of(panel, struct panel_simple, base);
-> >  }
-> >  
-> > -static unsigned int panel_simple_get_timings_modes(struct panel_simple *panel)
-> > +static unsigned int panel_simple_get_timings_modes(struct panel_simple *panel,
-> > +						   struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->base.connector;
-> >  	struct drm_device *drm = panel->base.drm;
-> >  	struct drm_display_mode *mode;
-> >  	unsigned int i, num = 0;
-> > @@ -150,9 +150,9 @@ static unsigned int panel_simple_get_timings_modes(struct panel_simple *panel)
-> >  	return num;
-> >  }
-> >  
-> > -static unsigned int panel_simple_get_display_modes(struct panel_simple *panel)
-> > +static unsigned int panel_simple_get_display_modes(struct panel_simple *panel,
-> > +						   struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->base.connector;
-> >  	struct drm_device *drm = panel->base.drm;
-> >  	struct drm_display_mode *mode;
-> >  	unsigned int i, num = 0;
-> > @@ -181,9 +181,9 @@ static unsigned int panel_simple_get_display_modes(struct panel_simple *panel)
-> >  	return num;
-> >  }
-> >  
-> > -static int panel_simple_get_non_edid_modes(struct panel_simple *panel)
-> > +static int panel_simple_get_non_edid_modes(struct panel_simple *panel,
-> > +					   struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->base.connector;
-> >  	struct drm_device *drm = panel->base.drm;
-> >  	struct drm_display_mode *mode;
-> >  	bool has_override = panel->override_mode.type;
-> > @@ -204,7 +204,7 @@ static int panel_simple_get_non_edid_modes(struct panel_simple *panel)
-> >  
-> >  	/* Only add timings if override was not there or failed to validate */
-> >  	if (num == 0 && panel->desc->num_timings)
-> > -		num = panel_simple_get_timings_modes(panel);
-> > +		num = panel_simple_get_timings_modes(panel, connector);
-> >  
-> >  	/*
-> >  	 * Only add fixed modes if timings/override added no mode.
-> > @@ -214,7 +214,7 @@ static int panel_simple_get_non_edid_modes(struct panel_simple *panel)
-> >  	 */
-> >  	WARN_ON(panel->desc->num_timings && panel->desc->num_modes);
-> >  	if (num == 0)
-> > -		num = panel_simple_get_display_modes(panel);
-> > +		num = panel_simple_get_display_modes(panel, connector);
-> >  
-> >  	connector->display_info.bpc = panel->desc->bpc;
-> >  	connector->display_info.width_mm = panel->desc->size.width;
-> > @@ -304,23 +304,24 @@ static int panel_simple_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int panel_simple_get_modes(struct drm_panel *panel)
-> > +static int panel_simple_get_modes(struct drm_panel *panel,
-> > +				  struct drm_connector *connector)
-> >  {
-> >  	struct panel_simple *p = to_panel_simple(panel);
-> >  	int num = 0;
-> >  
-> >  	/* probe EDID if a DDC bus is available */
-> >  	if (p->ddc) {
-> > -		struct edid *edid = drm_get_edid(panel->connector, p->ddc);
-> > -		drm_connector_update_edid_property(panel->connector, edid);
-> > +		struct edid *edid = drm_get_edid(connector, p->ddc);
-> > +		drm_connector_update_edid_property(connector, edid);
-> >  		if (edid) {
-> > -			num += drm_add_edid_modes(panel->connector, edid);
-> > +			num += drm_add_edid_modes(connector, edid);
-> >  			kfree(edid);
-> >  		}
-> >  	}
-> >  
-> >  	/* add hard-coded panel modes */
-> > -	num += panel_simple_get_non_edid_modes(p);
-> > +	num += panel_simple_get_non_edid_modes(p, connector);
-> >  
-> >  	return num;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7701.c b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-> > index ee3f23f45755..3ed3b1d6d82d 100644
-> > --- a/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-> > +++ b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-> > @@ -264,7 +264,8 @@ static int st7701_unprepare(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int st7701_get_modes(struct drm_panel *panel)
-> > +static int st7701_get_modes(struct drm_panel *panel,
-> > +			    struct drm_connector *connector)
-> >  {
-> >  	struct st7701 *st7701 = panel_to_st7701(panel);
-> >  	const struct drm_display_mode *desc_mode = st7701->desc->mode;
-> > @@ -280,10 +281,10 @@ static int st7701_get_modes(struct drm_panel *panel)
-> >  	}
-> >  
-> >  	drm_mode_set_name(mode);
-> > -	drm_mode_probed_add(panel->connector, mode);
-> > +	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = desc_mode->width_mm;
-> > -	panel->connector->display_info.height_mm = desc_mode->height_mm;
-> > +	connector->display_info.width_mm = desc_mode->width_mm;
-> > +	connector->display_info.height_mm = desc_mode->height_mm;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-> > index 108a85bb6667..836b01331505 100644
-> > --- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-> > +++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
-> > @@ -170,9 +170,9 @@ static const struct drm_display_mode default_mode = {
-> >  	.vrefresh = 60,
-> >  };
-> >  
-> > -static int st7789v_get_modes(struct drm_panel *panel)
-> > +static int st7789v_get_modes(struct drm_panel *panel,
-> > +			     struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &default_mode);
-> > @@ -188,8 +188,8 @@ static int st7789v_get_modes(struct drm_panel *panel)
-> >  	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-> >  	drm_mode_probed_add(connector, mode);
-> >  
-> > -	panel->connector->display_info.width_mm = 61;
-> > -	panel->connector->display_info.height_mm = 103;
-> > +	connector->display_info.width_mm = 61;
-> > +	connector->display_info.height_mm = 103;
-> >  
-> >  	return 1;
-> >  }
-> > diff --git a/drivers/gpu/drm/panel/panel-sony-acx565akm.c b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
-> > index d6387d8f88a3..841dc73c443d 100644
-> > --- a/drivers/gpu/drm/panel/panel-sony-acx565akm.c
-> > +++ b/drivers/gpu/drm/panel/panel-sony-acx565akm.c
-> > @@ -521,9 +521,9 @@ static const struct drm_display_mode acx565akm_mode = {
-> >  	.height_mm = 46,
-> >  };
-> >  
-> > -static int acx565akm_get_modes(struct drm_panel *panel)
-> > +static int acx565akm_get_modes(struct drm_panel *panel,
-> > +			       struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &acx565akm_mode);
-> > diff --git a/drivers/gpu/drm/panel/panel-tpo-td028ttec1.c b/drivers/gpu/drm/panel/panel-tpo-td028ttec1.c
-> > index c44d6a65c0aa..5230176bd8e6 100644
-> > --- a/drivers/gpu/drm/panel/panel-tpo-td028ttec1.c
-> > +++ b/drivers/gpu/drm/panel/panel-tpo-td028ttec1.c
-> > @@ -287,9 +287,9 @@ static const struct drm_display_mode td028ttec1_mode = {
-> >  	.height_mm = 58,
-> >  };
-> >  
-> > -static int td028ttec1_get_modes(struct drm_panel *panel)
-> > +static int td028ttec1_get_modes(struct drm_panel *panel,
-> > +				struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &td028ttec1_mode);
-> > diff --git a/drivers/gpu/drm/panel/panel-tpo-td043mtea1.c b/drivers/gpu/drm/panel/panel-tpo-td043mtea1.c
-> > index 621b65feec07..716f8ed1cc45 100644
-> > --- a/drivers/gpu/drm/panel/panel-tpo-td043mtea1.c
-> > +++ b/drivers/gpu/drm/panel/panel-tpo-td043mtea1.c
-> > @@ -346,9 +346,9 @@ static const struct drm_display_mode td043mtea1_mode = {
-> >  	.height_mm = 56,
-> >  };
-> >  
-> > -static int td043mtea1_get_modes(struct drm_panel *panel)
-> > +static int td043mtea1_get_modes(struct drm_panel *panel,
-> > +				struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct drm_display_mode *mode;
-> >  
-> >  	mode = drm_mode_duplicate(panel->drm, &td043mtea1_mode);
-> > diff --git a/drivers/gpu/drm/panel/panel-tpo-tpg110.c b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
-> > index 1a5418ae2ccf..e74cd9d418cf 100644
-> > --- a/drivers/gpu/drm/panel/panel-tpo-tpg110.c
-> > +++ b/drivers/gpu/drm/panel/panel-tpo-tpg110.c
-> > @@ -384,9 +384,9 @@ static int tpg110_enable(struct drm_panel *panel)
-> >   * presents the mode that is configured for the system under use,
-> >   * and which is detected by reading the registers of the display.
-> >   */
-> > -static int tpg110_get_modes(struct drm_panel *panel)
-> > +static int tpg110_get_modes(struct drm_panel *panel,
-> > +			    struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct tpg110 *tpg = to_tpg110(panel);
-> >  	struct drm_display_mode *mode;
-> >  
-> > diff --git a/drivers/gpu/drm/panel/panel-truly-nt35597.c b/drivers/gpu/drm/panel/panel-truly-nt35597.c
-> > index 0feea2456e14..012ca62bf30e 100644
-> > --- a/drivers/gpu/drm/panel/panel-truly-nt35597.c
-> > +++ b/drivers/gpu/drm/panel/panel-truly-nt35597.c
-> > @@ -454,9 +454,9 @@ static int truly_nt35597_enable(struct drm_panel *panel)
-> >  	return 0;
-> >  }
-> >  
-> > -static int truly_nt35597_get_modes(struct drm_panel *panel)
-> > +static int truly_nt35597_get_modes(struct drm_panel *panel,
-> > +				   struct drm_connector *connector)
-> >  {
-> > -	struct drm_connector *connector = panel->connector;
-> >  	struct truly_nt35597 *ctx = panel_to_ctx(panel);
-> >  	struct drm_display_mode *mode;
-> >  	const struct nt35597_config *config;
-> > diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-> > index d30c98567384..a5f7199807f2 100644
-> > --- a/include/drm/drm_panel.h
-> > +++ b/include/drm/drm_panel.h
-> > @@ -100,7 +100,8 @@ struct drm_panel_funcs {
-> >  	 * Add modes to the connector that the panel is attached to and
-> >  	 * return the number of modes added.
-> >  	 */
-> > -	int (*get_modes)(struct drm_panel *panel);
-> > +	int (*get_modes)(struct drm_panel *panel,
-> > +			 struct drm_connector *connector);
-> >  
-> >  	/**
-> >  	 * @get_timings:
-
--- 
-Regards,
-
-Laurent Pinchart
+SGkgR2VlcnQsDQoNCj4gVG8gYXZvaWQgZnV0dXJlIHByb2JsZW1zLCB5b3UgcHJvYmFibHkgZG8g
+d2FudCB0byBzcGVjaWZ5IHNwaS10eC1idXMtd2lkdGggPQ0KPiA8ND4gYW5kIHNwaS1yeC1idXMt
+d2lkdGggPSA8ND4gaW4gRFRTIG5vdy4NCg0KSSBkaWRuJ3QgZG8gdGhhdCBiZWNhdXNlIGlmIHRo
+ZSBNVEQgbGF5ZXIgdGhlbiB0aGlua3MgSSAnd2FudCcgdG8gZG8gNC1iaXQgYWNjZXNzLCB0aGVu
+IHRoYXQgaW50cm9kdWNlcyBhIG5ldyBwcm9ibGVtIHRoZSBzb2x2ZS4NClRoZSBNVEQgbGF5ZXIg
+bWlnaHQgc3RhcnQgc2VuZGluZyBkb3duIFFVQUQgUkVBRCBjb21tYW5kcyB0byB0aGUgZXh0ZXJu
+YWwgU1BJIGFuZCB0aGVuIHRoZSBTUEkgRmxhc2ggd2lsbCBzdGFydCBzZW5kaW5nIGJhY2sgZGF0
+YSBvbiBhbGwgNCBsaW5lcywgYnV0IHRoZSBjb250cm9sbGVyIGlzIG9ubHkgY29uZmlndXJlZCBm
+b3IgMS1iaXQgdHJhbnNmZXJzLg0KDQpJIGhvbmVzdGx5IGRvbid0IGtub3cgd2hlbi93aHkgdGhl
+IE1URCBsYXllciBkZWNpZGVzIG9uIHN3aXRjaCBmcm9tIDEtYml0IHRvIDQtYml0IG1vZGUsIHNv
+IHdoaWxlIHRoZSBib2FyZCBoYXJkd2FyZSBpcyB3aXJlZCBmb3IgNC1iaXQgKGFzIHRoZSBEVCB3
+b3VsZCBkb2N1bWVudCksIHdlIGFyZSBub3QgcmVhZHkgdG8gYmUgZG9pbmcgNC1iaXQganVzdCB5
+ZXQuDQpJIGp1c3Qgd2FudCB0byB0cnkgYW5kIGdldCB0aGUgZHJpdmVyIGluIGF0IGZpcnN0Li4u
+LnRoZW4gd2UgY2FuIG1ha2UgaXQgZG8gZmFuY3kgc3R1ZmYgbGF0ZXIuDQoNCklmIHNvbWVvbmUg
+Y2FuIHRlbGwgbWUgdGhhdCBldmVuIGlmICJzcGktcngtYnVzLXdpZHRoID0gPDQ+IiBpcyBwdXQg
+SSB0aGUgYm9hcmQgRFRTLCB0aGUgc3BpIHdpbGwgc3RpbGwgb25seSBkbyAxLWJpdCB0cmFuc2Zl
+cnMgdW50aWwgdGhlIGFwcGxpY2F0aW9uIHNwZWNpYWxseSBlbmFibGVzIDQtYml0IG1vZGUsIHRo
+ZW4gSSdtIGZpbmUgd2l0aCBhZGQgYnVzLXdpZHRoPTw0PiBpbiB0aGUgRFRTLg0KDQpVbmxlc3Mu
+Li4uSSBkaWQgbm90IHVuZGVyc3RhbmQgeW91IG1lYW5pbmcuLi4uDQoNCkRpZCB5b3UgbWVhbiBw
+dXQgJ3NwaS1yeC1idXMtd2lkdGggPSA8ND4nIGluIHRoZSAuZHRzaT8/Pz8gICh0aGVuIEkgY2Fu
+IG92ZXJyaWRlIGl0IGJhY2sgdG8gPDE+ICB0aGF0IGluIHRoZSBib2FyZCAuZHRzKT8/Pw0KDQoN
+Cg0KPiA+IEJhc2ljYWxseSwgaXQncyBsaWtlIHRoZSAncm9sZSBzd2l0Y2gnIGluIHRoZSBVU0Ig
+T1RHIGRyaXZlcnMuDQo+IA0KPiBJZiB5b3Ugd2FudCB0byBkbyB0aGF0LCBib3RoIGNvbmZpZ3Vy
+YXRpb25zIHNob3VsZCBiZSBkZXNjcmliZWQgaW4gRFQsIGFuZCB3ZQ0KPiBuZWVkIGEgd2F5IHRv
+IHNwZWNpZnkgd2hhdCdzIGJlaW5nIHVzZWQuDQo+IEkgZ3Vlc3MgaWYgdGhlIGRpcmVjdCBtYXBw
+ZWQgbW9kZSBpcyB1c2VkLCB5b3UgYWx3YXlzIHdhbnQgdG8gYm9vdCB0aGUga2VybmVsDQo+IHVz
+aW5nIHRoYXQgbW9kZSwgYW5kIG9ubHkgc3dpdGNoIHRvIFNQSSBtb2RlIHRlbXBvcmFyaWx5IGFm
+dGVyIGJvb3Q/ICBTbyB0aGF0DQo+IGNvdWxkIGJlIGhhbmRsZWQgYnkgbWFudWFsbHkgdW5iaW5k
+aW5nIHRoZSBkcml2ZXIgZnJvbSBwaHlzbWFwLWZsYXNoLCBhbmQNCj4gZm9yY2luZyBhIGJpbmQg
+dG8gc3BpYnNjLCBhbGwgZnJvbSBzeXNmcy4NCg0KWWVzLCBJIGFncmVlLiBUaGF0IGlzIHdoYXQg
+SSB3b3VsZCBzdWdnZXN0IHRvIHNvbWVvbmUuIChJIHN1Z2dlc3QgdW5iaW5kL2JpbmQgZm9yIGEg
+bG90IG9mIHNpdHVhdGlvbnMgdGhhdCBwZW9wbGUgYXNrIG1lIHdoYXQgdG8gZG8pLg0KDQo+IChX
+aGljaCBjdXRzIHRoZSBicmFuY2ggdGhlIGtlcm5lbCBpcyBzaXR0aW5nIG9uIGluIHRoZSBjYXNl
+IG9mIFhJUC4uLikNClhJUCBpcyBhIHNwZWNpYWwgY2FzZSBhbGwgaW4gaXQncyBvd24uLi4uLndo
+aWNoIGlzIHdoeSB3ZSB1c2VzIGEgY29tcGxldGVseSBzcGVjaWFsIGRyaXZlciBmb3IgUi9XIGlu
+IFhJUCBtb2RlLi4ud2hpY2ggaXMgb3V0IG9mIHNjb3BlIGZyb20gbWFpbmxpbmUuDQpUaGUgY2Fz
+ZSBJJ20gdGFsa2luZyBhYm92ZSB3b3VsZCBwcm9iYWJseSBiZWZvcmUgYW4gUi1DYXIgb3IgUlov
+RyB1c2UgY2FzZS4gQnV0LCBzaW5jZSBubyBvbmUgaGFzIHN0YXRlZCBhIHVzZSBjYXNlIGxpa2Ug
+dGhhdCwgaXQncyB2ZXJ5IGxvdyBvbiB0aGUgcHJpb3JpdHkgbGlzdC4NCg0KDQo+ID4gU28gbXkg
+c3VnZ2VzdGlvbiBpcyB0byBmb3JnZXQgYWJvdXQgdHJ5aW5nIHRvICdzdXBwb3J0JyBkaXJlY3Qg
+bW9kZSBpbg0KPiA+IHRoaXMgZHJpdmVyIGF0IHRoZSBtb21lbnQuIElmIHlvdSdyZSB1c2luZyB0
+aGlzIEhXIGZvciBzb21ldGhpbmcgbGlrZQ0KPiA+IFhJUCwgdGhlbiBkb24ndCBlbmFibGUgdGhp
+cyBkcml2ZXIgYXQgYWxsICh3aGljaCBpcyB3aGF0IHdlIGhhdmUgYmVlbg0KPiA+IGRvaW5nKS4N
+Cj4gDQo+IFN0aWxsLCB0aGUgZGlyZWN0LW1hcHBlZCBtb2RlIHNob3VsZCBiZSBkZXNjcmliZWQg
+aW4gRFQsIHdoZW4gdXNlZC4NCj4gYXJjaC9hcm0vYm9vdC9kdHMvcjdzNzIxMDAtZ3ItcGVhY2gu
+ZHRzIGRvZXMgZGVzY3JpYmUgdGhlIEZMQVNILCBidXQgZmFpbHMgdG8NCj4gZGVzY3JpYmUgdGhl
+IGV4YWN0IHRvcG9sb2d5IChmbGFzaCBpcyBhIGNoaWxkIG9mIHNwaWJzYywgYW5kIHRodXMgcmVs
+aWVzIG9uDQo+IHRoZSBzcGlic2MgbW9kdWxlIGNsb2NrIGJlaW5nIHR1cm5lZCBvbikuDQoNCkkg
+Y2FuIGFncmVlIHdpdGggdGhhdC4uLi5hbmQgd2UgZ28gYmFjayB0byBteSBmaXJzdCBpZGVhOiBJ
+ZiB5b3UgYXJlICd1c2luZycgdGhlIFNQSUJTQyBmb3IgYW55dGhpbmcgKFhJUCBvciBTUEkgbW9k
+ZSkgdGhlbiB5b3UgZGVzY3JpYmUgdGhhdCBpbiBEVC4gQW5kIHdoZW4gdGhlIGRyaXZlciBwcm9i
+ZXMsIGlmIGl0IGRvZXMgbm90IHNlZSBhICdzcGktbm9yJyBwYXJ0aXRpb24sIGl0IGRvZXMgbm90
+IHJlZ2lzdGVyIGEgc3BpLWNvbnRyb2xsZXIsIGJ1dCBpdCBkb2VzIGtlZXAgdGhlIGNsb2NrIChw
+b3dlcikgb24gdGhlIGVudGlyZSB0aW1lICh1bnRpbCByZW1vdmVkKS4NCg0KRm9yIEdSLVBFQUNI
+LCB3ZSB3b3VsZCBqdXN0IGhhdmUgdG8gZ28gYmFjayBhbmQgcHV0IHRoZSBxc3BpQDE4MDAwMDAw
+ICh3aGljaCBpcyBjdXJyZW50bHkgYXQgdGhlIHJvb3QpIG5vZGUgdW5kZXIgYSBzcGlic2Mgbm9k
+ZS4NCg0KT2YgY291cnNlIGFsc28gaWYgd2UgZG8gYWxsIHRoaXMsIHdlIGNvdWxkIGRyb3AgYWxs
+IHRoZSBwYXRjaGVzIGZvciBlbmFibGluZyAnY3JpdGljYWwgY2xvY2tzJyB0aGF0IHdlcmUgbmVl
+ZGVkIHRvIGNvdmVyIHRoZSBYSVAgY2FzZXMuDQoNCg0KPiBCVFcsIHdoZW4gdXNpbmcgc3BpYnNj
+IGluIGRpcmVjdC1tYXBwZWQgbW9kZTogaWYgeW91IHR1cm4gb2YgYW5kIG9uIGFnYWluIHRoZQ0K
+PiBtb2R1bGUgY2xvY2ssIGRvZXMgdGhlIHNwaWJzYyBuZWVkIHJlcHJvZ3JhbW1pbmc/DQoNCk5v
+cGUuIEV2ZXJ5dGhpbmcgd2lsbCBzdGF5IHRoZSBzYW1lIChqdXN0IGxpa2UgYWxsIHRoZSBvdGhl
+ciBwZXJpcGhlcmFscykuIFRoZSBvbmx5IHRoaW5nIHlvdSAnbWlnaHQnIHdhbnQgdG8gZG8gaXMg
+Zmx1c2ggdGhlIHJlYWQgY2FjaGUgKGVzcGVjaWFsbHkgaWYgeW91IGRpc2Nvbm5lY3RlZCBpdCBi
+ZWNhdXNlIHlvdSB3ZXJlIGdvaW5nIHRvIGdvIG91dCBhbmQgcmUtd3JpdGUgc29tZSBvZiB0aGUg
+Zmxhc2ggaW4gU1BJIG1vZGUpLg0KDQpDaHJpcw0KDQo=
