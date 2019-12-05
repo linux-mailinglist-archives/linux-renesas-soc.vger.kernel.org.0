@@ -2,153 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F2AA31142F6
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2019 15:49:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B1711143FC
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2019 16:48:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729641AbfLEOtA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Dec 2019 09:49:00 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:35647 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729535AbfLEOs7 (ORCPT
+        id S1729145AbfLEPsV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Dec 2019 10:48:21 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:44114 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726028AbfLEPsV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Dec 2019 09:48:59 -0500
-Received: by mail-pf1-f194.google.com with SMTP id b19so1733467pfo.2;
-        Thu, 05 Dec 2019 06:48:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=zerf2jeTJ9T1+KiLBXKGAOgo3NLhscKc1xofy5L3cP8=;
-        b=tEjy3aWT847idRVE/j0aVnV+HovrelpV9vx0sXBsnUpcJaSTMtuUK9EonXSlEmpgl1
-         C9VryYh2cCZrCnW8vu2GEUIhS1quctAlNiL9Goa66xRuo0oShIqxqmUSmNhGAeIJPKeY
-         /A3gYs7IiEIeQA4LyulxkKV9s+CaUGdgFzH+NntG0IJb9eilyvi8inTVBpLPGMehSs4w
-         lehgRMa8jyYGgcqGj5AaOkBlnGaKbs6EkfVa5PiGSw9yWeIiUj8f1Ys/bthnCuqbtMi6
-         vVroLppUxdUsWEDqOJWh3TBslzixAHJdllVIo9pZnzHDN0pMjuA/LYn3EKuhbYS6pzSL
-         T3sA==
+        Thu, 5 Dec 2019 10:48:21 -0500
+Received: by mail-oi1-f193.google.com with SMTP id d62so3116108oia.11;
+        Thu, 05 Dec 2019 07:48:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=zerf2jeTJ9T1+KiLBXKGAOgo3NLhscKc1xofy5L3cP8=;
-        b=oMrENHTDz5jfxUP1hAX0PAyMvShgCVepN+VWI0AKmAD9ze091kgNZ+FlQl9S44jKYj
-         G+/mJB8XUeVpS+Y121B5lDhVtoJSYDggyyFZSmfNEStvJ4J64gssy+m44JrLkgvJPiCI
-         d0kFSt0BHhCLMCM2HwkE4jiXd8p22PxIiUFt+ox++IF2W6GAYV681BAN1t0UlV8vRklA
-         KQvkkWIQgnp00C+hUI07obnASj3z37HqzeX1zMW9ig5lyt0oVXytq1mSs6NX8kbeb7Kx
-         UN1VGOiV9BvSAL9gVhViwINrgr+VO/0V54Vfn9hHnBC5d0NcptM8wEEQM8pAeN4kAbRS
-         kOBQ==
-X-Gm-Message-State: APjAAAXTAAA3Nb3/G1+Re093vJNlsXdgfffeKiQUb/R5Od6KzZawzWcG
-        vi/7gOPJmmmZoDu+JjtvjJM=
-X-Google-Smtp-Source: APXvYqyoEwFvj/ecUcKGhOn5iUEfeT3IoooJMwY33IQjpCOk/nMjVc0JZT4J+N3pT6rDv4VDA3+2oQ==
-X-Received: by 2002:aa7:98cd:: with SMTP id e13mr9039200pfm.56.1575557338720;
-        Thu, 05 Dec 2019 06:48:58 -0800 (PST)
-Received: from nishad ([106.51.232.103])
-        by smtp.gmail.com with ESMTPSA id z130sm12175224pgz.6.2019.12.05.06.48.52
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 05 Dec 2019 06:48:58 -0800 (PST)
-Date:   Thu, 5 Dec 2019 20:18:48 +0530
-From:   Nishad Kamdar <nishadkamdar@gmail.com>
-To:     Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Sean Wang <sean.wang@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joe Perches <joe@perches.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org,
-        linux-amlogic@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/5] pinctrl: actions: Use the correct style for SPDX
- License Identifier
-Message-ID: <20191205144844.GA2903@nishad>
-References: <cover.1574871463.git.nishadkamdar@gmail.com>
- <5b588fc885efca6efdc73869aa4b1eeeb3d6f6c5.1574871463.git.nishadkamdar@gmail.com>
- <c76290a7-b9bb-7f70-e750-04fe6fdbb7e1@suse.de>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XZiF8L55aoKSCKIPsroK6TKVziAXxA4eopxQuCxnWPg=;
+        b=j7xCbNPAfUIVLs3H6M0n+STqooL2KHW3AZu0fnhSi6JXSUVXpOWAfEJfOq77tZmXsC
+         PvbQTcCprSRxnlQBefSzfksWVMkz3Xi/krtKb6OuuKqrhef+3BySnxiD8JELF9VdnIoT
+         Kk68rwSbeTWJ4yF5b6gdwGHYEmS+Tcb5IgOspEXuu2nkyElGTzugOv3CTsGcs9bfsGGC
+         PkzD2JgJtRqBQcyMJPgcPbDxnMJtwlnupUtEKYzaiNb73MHUNR+6SzEvfPj7i4NlYPBM
+         lK7ryuw5nhy0Fh/sBjAOm5NPp3MDRwhzO8SeRKCz0iBHa0Q1zyqE67cfngChMjsXbNMq
+         3sLQ==
+X-Gm-Message-State: APjAAAV4Zh13ePUuWklTaK6sOlnhWeYbXNfzjkEmGjXjEmKkc44+nGNB
+        ltSeZjY91Lz5u/+Lhdv68F0xNDmTtkurAwyOGpU=
+X-Google-Smtp-Source: APXvYqw/+zkbokRYmfSgQpeCPIqliBYTc3RYgcji0fDJoOYlF/6LAGPuT8XtB0B9Q+xDPgtWc3MSZasdOt39nB2UEYI=
+X-Received: by 2002:aca:4a41:: with SMTP id x62mr7347186oia.148.1575560900523;
+ Thu, 05 Dec 2019 07:48:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c76290a7-b9bb-7f70-e750-04fe6fdbb7e1@suse.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <20191203034519.5640-1-chris.brandt@renesas.com>
+ <20191203034519.5640-7-chris.brandt@renesas.com> <CAMuHMdVBYpuoK7hcyNLK-mAdpTQz3ohTGXuYdFPHdpU5RoPr6Q@mail.gmail.com>
+ <CAMuHMdV7XY7FB9pBsxuWxGsqYaD9n1Y+XZXEJO5OsuigjjUgpw@mail.gmail.com>
+ <TY1PR01MB1562A6AFD8D0807B345B7A208A5D0@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+ <CAMuHMdUn3h1VjYkARTFBqMij5aYg2mJSVErwceHc0NATBo+_hw@mail.gmail.com> <TY1PR01MB1562322613FC52617312F14E8A5D0@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY1PR01MB1562322613FC52617312F14E8A5D0@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 5 Dec 2019 16:48:09 +0100
+Message-ID: <CAMuHMdVy_0e5_94a-G83Tt14XsxmLFOpstvSP6Yw8m9oRW_eZg@mail.gmail.com>
+Subject: Re: [PATCH 6/6] dt-bindings: spi: Document Renesas SPIBSC bindings
+To:     Chris Brandt <Chris.Brandt@renesas.com>
+Cc:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Mason Yang <masonccyang@mxic.com.tw>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Nov 27, 2019 at 10:02:08PM +0100, Andreas Färber wrote:
-> Am 27.11.19 um 17:40 schrieb Nishad Kamdar:
-> > This patch corrects the SPDX License Identifier style in
-> > header file related Actions Semi OWL pinctrl driver.
-> 
-> Owl
-> 
-I used the same format mentioned below, which also says OWL.
-Meybe we can change both of them in a separate patch.
+Hi Chris,
 
-> > For C header files Documentation/process/license-rules.rst
-> > mandates C-like comments (opposed to C source files where
-> > C++ style should be used).
-> > 
-> > Changes made by using a script provided by Joe Perches here:
-> > https://lkml.org/lkml/2019/2/7/46.
-> > 
-> > Suggested-by: Joe Perches <joe@perches.com>
-> > Signed-off-by: Nishad Kamdar <nishadkamdar@gmail.com>
-> > ---
-> >  drivers/pinctrl/actions/pinctrl-owl.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/pinctrl/actions/pinctrl-owl.h b/drivers/pinctrl/actions/pinctrl-owl.h
-> > index dae2e8363fd5..feee7ad7e27e 100644
-> > --- a/drivers/pinctrl/actions/pinctrl-owl.h
-> > +++ b/drivers/pinctrl/actions/pinctrl-owl.h
-> > @@ -1,4 +1,4 @@
-> > -// SPDX-License-Identifier: GPL-2.0+
-> > +/* SPDX-License-Identifier: GPL-2.0+ */
-> 
-> This is not a uapi or asm header, which that /* */ rule was later added
-> for, I thought?
+On Wed, Dec 4, 2019 at 2:31 PM Chris Brandt <Chris.Brandt@renesas.com> wrote:
+> > To avoid future problems, you probably do want to specify spi-tx-bus-width =
+> > <4> and spi-rx-bus-width = <4> in DTS now.
 >
+> I didn't do that because if the MTD layer then thinks I 'want' to do 4-bit access, then that introduces a new problem the solve.
+> The MTD layer might start sending down QUAD READ commands to the external SPI and then the SPI Flash will start sending back data on all 4 lines, but the controller is only configured for 1-bit transfers.
+>
+> I honestly don't know when/why the MTD layer decides on switch from 1-bit to 4-bit mode, so while the board hardware is wired for 4-bit (as the DT would document), we are not ready to be doing 4-bit just yet.
+> I just want to try and get the driver in at first....then we can make it do fancy stuff later.
+>
+> If someone can tell me that even if "spi-rx-bus-width = <4>" is put I the board DTS, the spi will still only do 1-bit transfers until the application specially enables 4-bit mode, then I'm fine with add bus-width=<4> in the DTS.
 
-I might be wrong but I think it applies to this file too as there as there is a SPDX
-identifier in the first place.
-> >  /*
-> >   * OWL SoC's Pinctrl definitions
-> >   *
-> 
-> Not objecting, just making sure we're not blindly refactoring code.
-> 
+Your spibsc driver does:
 
-I am not sure what you are trying to say here, but the SPDX identifier
-requires an independent block comment. Hence placed the obove code in a
-separate block comment. Everything else is as it is.
+    master->mode_bits = SPI_CPOL | SPI_CPHA;
 
-> If doing this, I suggest updating to GPL-2.0-or-later.
-> 
+i.e. SPI_[TR]X_{QUAD,DUAL} are not set, so it should not try those modes.
 
-We can do this in a separate patch as this patch only talks about
-the style.
+At least on RSK+RZA1, the FLASHes are wired in quad mode, so you
+should describe the hardware in DT.
 
-> Regards,
-> Andreas
-> 
-> -- 
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 Nürnberg, Germany
-> GF: Felix Imendörffer
-> HRB 36809 (AG Nürnberg)
+>
+> Unless....I did not understand you meaning....
+>
+> Did you mean put 'spi-rx-bus-width = <4>' in the .dtsi????  (then I can override it back to <1>  that in the board .dts)???
 
-Thanks very much for your time and review.
+No, in the board .dtb.
 
-Regards,
-Nishad
+> > BTW, when using spibsc in direct-mapped mode: if you turn of and on again the
+> > module clock, does the spibsc need reprogramming?
+>
+> Nope. Everything will stay the same (just like all the other peripherals). The only thing you 'might' want to do is flush the read cache (especially if you disconnected it because you were going to go out and re-write some of the flash in SPI mode).
+
+Good. So that means the MTD driver can be modular.  Unused clocks are
+turned off at boot, and can be turned on when the mtd-rom driver is loaded
+and activated.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
