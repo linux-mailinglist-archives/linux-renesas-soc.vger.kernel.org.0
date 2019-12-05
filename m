@@ -2,115 +2,153 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 175C511420B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2019 14:59:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2AA31142F6
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2019 15:49:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729547AbfLEN7e (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Dec 2019 08:59:34 -0500
-Received: from andre.telenet-ops.be ([195.130.132.53]:40700 "EHLO
-        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729524AbfLEN7e (ORCPT
+        id S1729641AbfLEOtA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Dec 2019 09:49:00 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:35647 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729535AbfLEOs7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Dec 2019 08:59:34 -0500
-Received: from ramsan ([84.195.182.253])
-        by andre.telenet-ops.be with bizsmtp
-        id aDzY210095USYZQ01DzYRT; Thu, 05 Dec 2019 14:59:33 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1icrfI-0002LA-6h; Thu, 05 Dec 2019 14:59:32 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1icrfI-0001xL-5K; Thu, 05 Dec 2019 14:59:32 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
+        Thu, 5 Dec 2019 09:48:59 -0500
+Received: by mail-pf1-f194.google.com with SMTP id b19so1733467pfo.2;
+        Thu, 05 Dec 2019 06:48:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=zerf2jeTJ9T1+KiLBXKGAOgo3NLhscKc1xofy5L3cP8=;
+        b=tEjy3aWT847idRVE/j0aVnV+HovrelpV9vx0sXBsnUpcJaSTMtuUK9EonXSlEmpgl1
+         C9VryYh2cCZrCnW8vu2GEUIhS1quctAlNiL9Goa66xRuo0oShIqxqmUSmNhGAeIJPKeY
+         /A3gYs7IiEIeQA4LyulxkKV9s+CaUGdgFzH+NntG0IJb9eilyvi8inTVBpLPGMehSs4w
+         lehgRMa8jyYGgcqGj5AaOkBlnGaKbs6EkfVa5PiGSw9yWeIiUj8f1Ys/bthnCuqbtMi6
+         vVroLppUxdUsWEDqOJWh3TBslzixAHJdllVIo9pZnzHDN0pMjuA/LYn3EKuhbYS6pzSL
+         T3sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=zerf2jeTJ9T1+KiLBXKGAOgo3NLhscKc1xofy5L3cP8=;
+        b=oMrENHTDz5jfxUP1hAX0PAyMvShgCVepN+VWI0AKmAD9ze091kgNZ+FlQl9S44jKYj
+         G+/mJB8XUeVpS+Y121B5lDhVtoJSYDggyyFZSmfNEStvJ4J64gssy+m44JrLkgvJPiCI
+         d0kFSt0BHhCLMCM2HwkE4jiXd8p22PxIiUFt+ox++IF2W6GAYV681BAN1t0UlV8vRklA
+         KQvkkWIQgnp00C+hUI07obnASj3z37HqzeX1zMW9ig5lyt0oVXytq1mSs6NX8kbeb7Kx
+         UN1VGOiV9BvSAL9gVhViwINrgr+VO/0V54Vfn9hHnBC5d0NcptM8wEEQM8pAeN4kAbRS
+         kOBQ==
+X-Gm-Message-State: APjAAAXTAAA3Nb3/G1+Re093vJNlsXdgfffeKiQUb/R5Od6KzZawzWcG
+        vi/7gOPJmmmZoDu+JjtvjJM=
+X-Google-Smtp-Source: APXvYqyoEwFvj/ecUcKGhOn5iUEfeT3IoooJMwY33IQjpCOk/nMjVc0JZT4J+N3pT6rDv4VDA3+2oQ==
+X-Received: by 2002:aa7:98cd:: with SMTP id e13mr9039200pfm.56.1575557338720;
+        Thu, 05 Dec 2019 06:48:58 -0800 (PST)
+Received: from nishad ([106.51.232.103])
+        by smtp.gmail.com with ESMTPSA id z130sm12175224pgz.6.2019.12.05.06.48.52
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 05 Dec 2019 06:48:58 -0800 (PST)
+Date:   Thu, 5 Dec 2019 20:18:48 +0530
+From:   Nishad Kamdar <nishadkamdar@gmail.com>
+To:     Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Sean Wang <sean.wang@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Joe Perches <joe@perches.com>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org,
+        linux-amlogic@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 6/6] arm64: dts: renesas: r8a77961: Add SDHI nodes
-Date:   Thu,  5 Dec 2019 14:59:30 +0100
-Message-Id: <20191205135930.7454-7-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191205135930.7454-1-geert+renesas@glider.be>
-References: <20191205135930.7454-1-geert+renesas@glider.be>
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/5] pinctrl: actions: Use the correct style for SPDX
+ License Identifier
+Message-ID: <20191205144844.GA2903@nishad>
+References: <cover.1574871463.git.nishadkamdar@gmail.com>
+ <5b588fc885efca6efdc73869aa4b1eeeb3d6f6c5.1574871463.git.nishadkamdar@gmail.com>
+ <c76290a7-b9bb-7f70-e750-04fe6fdbb7e1@suse.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c76290a7-b9bb-7f70-e750-04fe6fdbb7e1@suse.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add device nodes for the SDHI Interfaces on the Renesas R-Car M3-W+
-(r8a77961) SoC.
+On Wed, Nov 27, 2019 at 10:02:08PM +0100, Andreas Färber wrote:
+> Am 27.11.19 um 17:40 schrieb Nishad Kamdar:
+> > This patch corrects the SPDX License Identifier style in
+> > header file related Actions Semi OWL pinctrl driver.
+> 
+> Owl
+> 
+I used the same format mentioned below, which also says OWL.
+Meybe we can change both of them in a separate patch.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Test procedure (eMMC):
-  1. "hd /dev/mmcblk0boot1".
----
- arch/arm64/boot/dts/renesas/r8a77961.dtsi | 39 +++++++++++++++++++++--
- 1 file changed, 36 insertions(+), 3 deletions(-)
+> > For C header files Documentation/process/license-rules.rst
+> > mandates C-like comments (opposed to C source files where
+> > C++ style should be used).
+> > 
+> > Changes made by using a script provided by Joe Perches here:
+> > https://lkml.org/lkml/2019/2/7/46.
+> > 
+> > Suggested-by: Joe Perches <joe@perches.com>
+> > Signed-off-by: Nishad Kamdar <nishadkamdar@gmail.com>
+> > ---
+> >  drivers/pinctrl/actions/pinctrl-owl.h | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/pinctrl/actions/pinctrl-owl.h b/drivers/pinctrl/actions/pinctrl-owl.h
+> > index dae2e8363fd5..feee7ad7e27e 100644
+> > --- a/drivers/pinctrl/actions/pinctrl-owl.h
+> > +++ b/drivers/pinctrl/actions/pinctrl-owl.h
+> > @@ -1,4 +1,4 @@
+> > -// SPDX-License-Identifier: GPL-2.0+
+> > +/* SPDX-License-Identifier: GPL-2.0+ */
+> 
+> This is not a uapi or asm header, which that /* */ rule was later added
+> for, I thought?
+>
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-index 26bffffe7c544bb4..81e089458ce5b770 100644
---- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-@@ -905,18 +905,51 @@
- 		};
- 
- 		sdhi0: sd@ee100000 {
-+			compatible = "renesas,sdhi-r8a77961",
-+				     "renesas,rcar-gen3-sdhi";
- 			reg = <0 0xee100000 0 0x2000>;
--			/* placeholder */
-+			interrupts = <GIC_SPI 165 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 314>;
-+			max-frequency = <200000000>;
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			resets = <&cpg 314>;
-+			status = "disabled";
-+		};
-+
-+		sdhi1: sd@ee120000 {
-+			compatible = "renesas,sdhi-r8a77961",
-+				     "renesas,rcar-gen3-sdhi";
-+			reg = <0 0xee120000 0 0x2000>;
-+			interrupts = <GIC_SPI 166 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 313>;
-+			max-frequency = <200000000>;
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			resets = <&cpg 313>;
-+			status = "disabled";
- 		};
- 
- 		sdhi2: sd@ee140000 {
-+			compatible = "renesas,sdhi-r8a77961",
-+				     "renesas,rcar-gen3-sdhi";
- 			reg = <0 0xee140000 0 0x2000>;
--			/* placeholder */
-+			interrupts = <GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 312>;
-+			max-frequency = <200000000>;
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			resets = <&cpg 312>;
-+			status = "disabled";
- 		};
- 
- 		sdhi3: sd@ee160000 {
-+			compatible = "renesas,sdhi-r8a77961",
-+				     "renesas,rcar-gen3-sdhi";
- 			reg = <0 0xee160000 0 0x2000>;
--			/* placeholder */
-+			interrupts = <GIC_SPI 168 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&cpg CPG_MOD 311>;
-+			max-frequency = <200000000>;
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+			resets = <&cpg 311>;
-+			status = "disabled";
- 		};
- 
- 		gic: interrupt-controller@f1010000 {
--- 
-2.17.1
+I might be wrong but I think it applies to this file too as there as there is a SPDX
+identifier in the first place.
+> >  /*
+> >   * OWL SoC's Pinctrl definitions
+> >   *
+> 
+> Not objecting, just making sure we're not blindly refactoring code.
+> 
 
+I am not sure what you are trying to say here, but the SPDX identifier
+requires an independent block comment. Hence placed the obove code in a
+separate block comment. Everything else is as it is.
+
+> If doing this, I suggest updating to GPL-2.0-or-later.
+> 
+
+We can do this in a separate patch as this patch only talks about
+the style.
+
+> Regards,
+> Andreas
+> 
+> -- 
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 Nürnberg, Germany
+> GF: Felix Imendörffer
+> HRB 36809 (AG Nürnberg)
+
+Thanks very much for your time and review.
+
+Regards,
+Nishad
