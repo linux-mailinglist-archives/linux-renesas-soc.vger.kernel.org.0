@@ -2,65 +2,77 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 13A591141E7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2019 14:47:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B560114217
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2019 14:59:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729587AbfLENrz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Dec 2019 08:47:55 -0500
-Received: from michel.telenet-ops.be ([195.130.137.88]:51486 "EHLO
-        michel.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729552AbfLENrz (ORCPT
+        id S1729530AbfLEN7i (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Dec 2019 08:59:38 -0500
+Received: from laurent.telenet-ops.be ([195.130.137.89]:55348 "EHLO
+        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729531AbfLEN7i (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Dec 2019 08:47:55 -0500
+        Thu, 5 Dec 2019 08:59:38 -0500
 Received: from ramsan ([84.195.182.253])
-        by michel.telenet-ops.be with bizsmtp
-        id aDns2100D5USYZQ06DnsAz; Thu, 05 Dec 2019 14:47:52 +0100
+        by laurent.telenet-ops.be with bizsmtp
+        id aDzY210065USYZQ01DzYQ6; Thu, 05 Dec 2019 14:59:36 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1icrU0-0002E6-A6; Thu, 05 Dec 2019 14:47:52 +0100
+        id 1icrfI-0002Ks-1D; Thu, 05 Dec 2019 14:59:32 +0100
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1icrU0-0001oT-9I; Thu, 05 Dec 2019 14:47:52 +0100
+        id 1icrfH-0001x4-VR; Thu, 05 Dec 2019 14:59:31 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Guenter Roeck <linux@roeck-us.net>,
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     Eugeniu Rosca <erosca@de.adit-jv.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
+        Mark Rutland <mark.rutland@arm.com>,
         linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dt-bindings: watchdog: renesas-wdt: Document r8a77961 support
-Date:   Thu,  5 Dec 2019 14:47:51 +0100
-Message-Id: <20191205134751.6928-1-geert+renesas@glider.be>
+Subject: [PATCH 0/6] arm64: dts: renesas: r8a77961: Add more device nodes
+Date:   Thu,  5 Dec 2019 14:59:24 +0100
+Message-Id: <20191205135930.7454-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Document support for the Watchdog Timer in the Renesas R-Car M3-W+
-(R8A77961) SoC.
+	Hi all,
 
-No driver update is needed.
+This patch series broadens support for the R-Car M3-W+ (aka R-Car M3-W
+ES3.0) Soc (R8A77961), by adding more device nodes to its DT source
+file, up to what can be tested reasonably using remote access.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- Documentation/devicetree/bindings/watchdog/renesas,wdt.txt | 1 +
- 1 file changed, 1 insertion(+)
+This has been tested on a Salvator-XS development board.
+More details can be found in the individual patches.
 
-diff --git a/Documentation/devicetree/bindings/watchdog/renesas,wdt.txt b/Documentation/devicetree/bindings/watchdog/renesas,wdt.txt
-index a5bf04dba410aced..79b3c62f183d26dc 100644
---- a/Documentation/devicetree/bindings/watchdog/renesas,wdt.txt
-+++ b/Documentation/devicetree/bindings/watchdog/renesas,wdt.txt
-@@ -19,6 +19,7 @@ Required properties:
- 	         - "renesas,r8a7794-wdt" (R-Car E2)
- 	         - "renesas,r8a7795-wdt" (R-Car H3)
- 	         - "renesas,r8a7796-wdt" (R-Car M3-W)
-+	         - "renesas,r8a77961-wdt" (R-Car M3-W+)
- 		 - "renesas,r8a77965-wdt" (R-Car M3-N)
- 	         - "renesas,r8a77970-wdt" (R-Car V3M)
- 	         - "renesas,r8a77990-wdt" (R-Car E3)
+To be queued in renesas-devel for v5.6.
+
+Thanks for your comments!
+
+Geert Uytterhoeven (6):
+  arm64: dts: renesas: r8a77961: Add RWDT node
+  arm64: dts: renesas: r8a77961: Add GPIO nodes
+  arm64: dts: renesas: r8a77961: Add RAVB node
+  arm64: dts: renesas: r8a77961: Add SYS-DMAC nodes
+  arm64: dts: renesas: r8a77961: Add I2C nodes
+  arm64: dts: renesas: r8a77961: Add SDHI nodes
+
+ arch/arm64/boot/dts/renesas/r8a77961.dtsi | 390 +++++++++++++++++++++-
+ 1 file changed, 377 insertions(+), 13 deletions(-)
+
 -- 
 2.17.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
