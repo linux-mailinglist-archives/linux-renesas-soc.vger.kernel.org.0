@@ -2,253 +2,124 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1131F114656
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2019 18:56:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12CB9114658
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2019 18:56:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730182AbfLER4O (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Dec 2019 12:56:14 -0500
-Received: from mail-qv1-f68.google.com ([209.85.219.68]:39483 "EHLO
-        mail-qv1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729711AbfLER4O (ORCPT
+        id S1730220AbfLER4S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Dec 2019 12:56:18 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:37399 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730189AbfLER4S (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Dec 2019 12:56:14 -0500
-Received: by mail-qv1-f68.google.com with SMTP id y8so1612383qvk.6;
-        Thu, 05 Dec 2019 09:56:13 -0800 (PST)
+        Thu, 5 Dec 2019 12:56:18 -0500
+Received: by mail-lj1-f196.google.com with SMTP id u17so4623770lja.4
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 05 Dec 2019 09:56:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=uBdc6tAdaDbdHfwIgPMwkMeOlhCvhzqvHxjkUnPKKyc=;
-        b=P8s90vb58VmKhLYpki6zTr+33BWbPiCP+lB303nru6CX5sd5JurxgkyzGkwXIrECVv
-         18KHZASPN0B1R22YsTE4pKB3VlqFDVUBpLyphe3c6t478HNAzYxUVk35aqVneHwbYUdZ
-         ZGPdtmSDiewN/w7fKwkVv6K1N1t7boYmhG1a9zPu045gs8U+9cHCclpimX92uG7/Hhyb
-         OCzTLoQhDr59Ju1lPAnbnX0uyht2DiwZE5VK6epFCoVQH0xMGqVOxYhgrvncVTU3itOy
-         0NEBOgP7arVX/1DaUxPOz326J2ych72bsv10nsOQ/PMEJD2FuyJyf1x5h4veZvzyw4Zi
-         8xrw==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=c4t/2lH9ADnhGOla0nH+1fkWqSg9AnmdrIjfqIOk9Mk=;
+        b=CyujlaIgveuIQDkTmHRARroODnsP0l8ebNnlLr/WwEPrOwxoaZlQ5YdC3DgODinCQJ
+         1C8ddc4GaR6+7eqhAuEXg31uUCj25Cxi0wVoB+sGU9GWG6wDSgSPbUZI+ByIP4ah6M08
+         UZhP+FgJwszIcvqzSztw0pERIUaFw5kVqyK1SxUgitraUbWqETN9gfFeO4R7pBmdfvBK
+         Gjl0aBteS2rtODUFNnWnYJFZ/2h7lCzFTOn+6Gownz6WOFkDJU9zI9P2bwuYyGRjSXAs
+         VJJNHdAVLJ2tt/NlY8AYKOJXaW9cQU/S0+4N/3eDBgO3XytmNMZ1JhAufPh5Mj88hiH5
+         lZEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=uBdc6tAdaDbdHfwIgPMwkMeOlhCvhzqvHxjkUnPKKyc=;
-        b=Lr56DzOPXsc+WimHYppmzcAcpocq7u194Z8XIh5k7YKf3z4TsYi0wV/Kgm3guUbh5K
-         lPodKzwgDGxlc/91hG9u2dSC34MbB497gy6JpqmOUiq7GLAbdA2hN3sriA81Cf7SPQk0
-         8glg4kra36sSTq/bdGP65hT5XZY2DpF/RKSYbOvHG48QqzOONs0fzDR2FMek69q2w+jg
-         YT/lhN3VgZEm7xuMEkNF2LGXlUJzsqfTEpNfyADcl3LMm41j4EPLqN8u+9NRmxzUyRxw
-         p94KQ50n6t2vxWMzUuaak0WpJFtuon6m6WizV0MQSQXuicfYTgH78gGtfQEKIbmh/8PT
-         D4uQ==
-X-Gm-Message-State: APjAAAWUzq1a+SCuSm12O8nffCLG6VK6gu2Bd4UCuQ2dB34wFxeSNo4S
-        0kzHcY7egU7sa+PxdDLXtjFYzdLuC0DzBXHLbtA=
-X-Google-Smtp-Source: APXvYqxsfjMbJimky0Slu9Gm3PSpPimUV4lVFsuPZgK0g7ak4i7DrFu1uUqJtDVrwoypiJmR+0thY9zswvWPt9f96zk=
-X-Received: by 2002:a0c:e4cc:: with SMTP id g12mr8781528qvm.237.1575568572639;
- Thu, 05 Dec 2019 09:56:12 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=c4t/2lH9ADnhGOla0nH+1fkWqSg9AnmdrIjfqIOk9Mk=;
+        b=FesDOwJaRJHO0DdDAYWBijeD6FrFlIxqHOvTT3rwA2Ba7KwxcGmGjlsEzug7K0jRKD
+         92Thqawal10cUAYkjlj/HB7Ng39qK/Zl5R+//CAL7bMAUx3+tnnuCp7ptYzTK1xVCeI5
+         +cGNIjKRhgAAE/BqypVCGw0ESjJenGaMfKDzpIABNEJ/iNi/KMZRq+QvqubwMtd6lQ8+
+         Got6p7LgGjo30/yJdL0U0/uzN4elTdDG2Djj6dJwQOMSWj/+11+QMZpkbGWTLiVJFx7O
+         MlYympx1jMe7MKjpF0nYUfSmDwcWnVUKT5AL4+zwtkvkXwP4Vdl1l6DmRE/8PcZoESwt
+         wDHw==
+X-Gm-Message-State: APjAAAX4ZYsbf1NjtkEjc2RR3h2d07jIETeyKtVkgujx7jAOquFBBn/D
+        yR1PstC8kdJhr5U0FBAGoz+rbFj8HD8=
+X-Google-Smtp-Source: APXvYqztueSe84EvxOgy/5oWqGBVCnt1FjjfsdvaYI9RZmrsOXFgNBejQD6MS3BEIRTsJ7T1F5v8wg==
+X-Received: by 2002:a05:651c:204f:: with SMTP id t15mr6593009ljo.240.1575568576925;
+        Thu, 05 Dec 2019 09:56:16 -0800 (PST)
+Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
+        by smtp.gmail.com with ESMTPSA id z13sm5332330ljh.21.2019.12.05.09.56.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Dec 2019 09:56:16 -0800 (PST)
+Date:   Thu, 5 Dec 2019 18:56:15 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>, netdev@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: net: ravb: Document r8a77961 support
+Message-ID: <20191205175615.GG28879@bigcity.dyn.berto.se>
+References: <20191205134504.6533-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <20191028163256.8004-1-robh@kernel.org> <20191028163256.8004-11-robh@kernel.org>
-In-Reply-To: <20191028163256.8004-11-robh@kernel.org>
-From:   Enric Balletbo Serra <eballetbo@gmail.com>
-Date:   Thu, 5 Dec 2019 18:56:01 +0100
-Message-ID: <CAFqH_51-BMWSGGBpoKxA3UK+yPHSpPgok5i=daSC0KS5oc5ueA@mail.gmail.com>
-Subject: Re: [PATCH v3 10/25] PCI: rockchip: Use pci_parse_request_of_pci_ranges()
-To:     Rob Herring <robh@kernel.org>
-Cc:     Andrew Murray <andrew.murray@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
-        linux-pci@vger.kernel.org, Shawn Lin <shawn.lin@rock-chips.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Toan Le <toan@os.amperecomputing.com>,
-        Will Deacon <will@kernel.org>,
-        Ryder Lee <ryder.lee@mediatek.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Ray Jui <rjui@broadcom.com>,
-        Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
-        Simon Horman <horms@verge.net.au>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Scott Branden <sbranden@broadcom.com>,
-        Jingoo Han <jingoohan1@gmail.com>, rfi@lists.rocketboards.org,
-        linux-renesas-soc@vger.kernel.org,
-        Tom Joseph <tjoseph@cadence.com>,
-        Srinath Mannam <srinath.mannam@broadcom.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Ley Foon Tan <lftan@altera.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191205134504.6533-1-geert+renesas@glider.be>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+Hi Geert,
 
-Missatge de Rob Herring <robh@kernel.org> del dia dl., 28 d=E2=80=99oct. 20=
-19
-a les 17:38:
->
-> Convert the Rockchip host bridge to use the common
-> pci_parse_request_of_pci_ranges().
->
-> There's no need to assign the resources to a temporary list first. Just
-> use bridge->windows directly and remove all the temporary list handling.
->
-> Cc: Shawn Lin <shawn.lin@rock-chips.com>
-> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> Cc: Andrew Murray <andrew.murray@arm.com>
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Heiko Stuebner <heiko@sntech.de>
-> Cc: linux-rockchip@lists.infradead.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
+Thanks for your work.
+
+On 2019-12-05 14:45:04 +0100, Geert Uytterhoeven wrote:
+> Document support for the Ethernet AVB interface in the Renesas R-Car
+> M3-W+ (R8A77961) SoC.
+> 
+> Update all references to R-Car M3-W from "r8a7796" to "r8a77960", to
+> avoid confusion between R-Car M3-W (R8A77960) and M3-W+.
+> 
+> No driver update is needed.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
 > ---
+>  Documentation/devicetree/bindings/net/renesas,ravb.txt | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/net/renesas,ravb.txt b/Documentation/devicetree/bindings/net/renesas,ravb.txt
+> index 5df4aa7f681154ee..87dad2dd8ca0cd6c 100644
+> --- a/Documentation/devicetree/bindings/net/renesas,ravb.txt
+> +++ b/Documentation/devicetree/bindings/net/renesas,ravb.txt
+> @@ -21,7 +21,8 @@ Required properties:
+>        - "renesas,etheravb-r8a774b1" for the R8A774B1 SoC.
+>        - "renesas,etheravb-r8a774c0" for the R8A774C0 SoC.
+>        - "renesas,etheravb-r8a7795" for the R8A7795 SoC.
+> -      - "renesas,etheravb-r8a7796" for the R8A7796 SoC.
+> +      - "renesas,etheravb-r8a7796" for the R8A77960 SoC.
+> +      - "renesas,etheravb-r8a77961" for the R8A77961 SoC.
+>        - "renesas,etheravb-r8a77965" for the R8A77965 SoC.
+>        - "renesas,etheravb-r8a77970" for the R8A77970 SoC.
+>        - "renesas,etheravb-r8a77980" for the R8A77980 SoC.
+> @@ -37,8 +38,8 @@ Required properties:
+>  - reg: Offset and length of (1) the register block and (2) the stream buffer.
+>         The region for the register block is mandatory.
+>         The region for the stream buffer is optional, as it is only present on
+> -       R-Car Gen2 and RZ/G1 SoCs, and on R-Car H3 (R8A7795), M3-W (R8A7796),
+> -       and M3-N (R8A77965).
+> +       R-Car Gen2 and RZ/G1 SoCs, and on R-Car H3 (R8A7795), M3-W (R8A77960),
+> +       M3-W+ (R8A77961), and M3-N (R8A77965).
+>  - interrupts: A list of interrupt-specifiers, one for each entry in
+>  	      interrupt-names.
+>  	      If interrupt-names is not present, an interrupt specifier
+> -- 
+> 2.17.1
+> 
 
-I just tested mainline on my Samsung Chromebook Plus, and since
-yesterday I'm getting a "synchronous external abort" [1]. After a
-bisection, I found that this patch triggers the issue (this patch was
-merged yesterday)
-
-I didn't look in detail yet, but if you have any idea of what could be
-the problem, that would be great.
-
-Thanks,
- Enric
-
-[1] https://hastebin.com/adasegihiw.rb
-
->  drivers/pci/controller/pcie-rockchip-host.c | 36 ++++-----------------
->  1 file changed, 7 insertions(+), 29 deletions(-)
->
-> diff --git a/drivers/pci/controller/pcie-rockchip-host.c b/drivers/pci/co=
-ntroller/pcie-rockchip-host.c
-> index ef8e677ce9d1..8d2e6f2e141e 100644
-> --- a/drivers/pci/controller/pcie-rockchip-host.c
-> +++ b/drivers/pci/controller/pcie-rockchip-host.c
-> @@ -950,14 +950,10 @@ static int rockchip_pcie_probe(struct platform_devi=
-ce *pdev)
->         struct device *dev =3D &pdev->dev;
->         struct pci_bus *bus, *child;
->         struct pci_host_bridge *bridge;
-> +       struct resource *bus_res;
->         struct resource_entry *win;
-> -       resource_size_t io_base;
-> -       struct resource *mem;
-> -       struct resource *io;
->         int err;
->
-> -       LIST_HEAD(res);
-> -
->         if (!dev->of_node)
->                 return -ENODEV;
->
-> @@ -995,29 +991,20 @@ static int rockchip_pcie_probe(struct platform_devi=
-ce *pdev)
->         if (err < 0)
->                 goto err_deinit_port;
->
-> -       err =3D devm_of_pci_get_host_bridge_resources(dev, 0, 0xff,
-> -                                                   &res, &io_base);
-> +       err =3D pci_parse_request_of_pci_ranges(dev, &bridge->windows, &b=
-us_res);
->         if (err)
->                 goto err_remove_irq_domain;
->
-> -       err =3D devm_request_pci_bus_resources(dev, &res);
-> -       if (err)
-> -               goto err_free_res;
-> +       rockchip->root_bus_nr =3D bus_res->start;
->
->         /* Get the I/O and memory ranges from DT */
-> -       resource_list_for_each_entry(win, &res) {
-> +       resource_list_for_each_entry(win, &bridge->windows) {
->                 switch (resource_type(win->res)) {
->                 case IORESOURCE_IO:
->                         io =3D win->res;
->                         io->name =3D "I/O";
->                         rockchip->io_size =3D resource_size(io);
->                         rockchip->io_bus_addr =3D io->start - win->offset=
-;
-> -                       err =3D pci_remap_iospace(io, io_base);
-> -                       if (err) {
-> -                               dev_warn(dev, "error %d: failed to map re=
-source %pR\n",
-> -                                        err, io);
-> -                               continue;
-> -                       }
->                         rockchip->io =3D io;
->                         break;
->                 case IORESOURCE_MEM:
-> @@ -1026,9 +1013,6 @@ static int rockchip_pcie_probe(struct platform_devi=
-ce *pdev)
->                         rockchip->mem_size =3D resource_size(mem);
->                         rockchip->mem_bus_addr =3D mem->start - win->offs=
-et;
->                         break;
-> -               case IORESOURCE_BUS:
-> -                       rockchip->root_bus_nr =3D win->res->start;
-> -                       break;
->                 default:
->                         continue;
->                 }
-> @@ -1036,15 +1020,14 @@ static int rockchip_pcie_probe(struct platform_de=
-vice *pdev)
->
->         err =3D rockchip_pcie_cfg_atu(rockchip);
->         if (err)
-> -               goto err_unmap_iospace;
-> +               goto err_remove_irq_domain;
->
->         rockchip->msg_region =3D devm_ioremap(dev, rockchip->msg_bus_addr=
-, SZ_1M);
->         if (!rockchip->msg_region) {
->                 err =3D -ENOMEM;
-> -               goto err_unmap_iospace;
-> +               goto err_remove_irq_domain;
->         }
->
-> -       list_splice_init(&res, &bridge->windows);
->         bridge->dev.parent =3D dev;
->         bridge->sysdata =3D rockchip;
->         bridge->busnr =3D 0;
-> @@ -1054,7 +1037,7 @@ static int rockchip_pcie_probe(struct platform_devi=
-ce *pdev)
->
->         err =3D pci_scan_root_bus_bridge(bridge);
->         if (err < 0)
-> -               goto err_unmap_iospace;
-> +               goto err_remove_irq_domain;
->
->         bus =3D bridge->bus;
->
-> @@ -1068,10 +1051,6 @@ static int rockchip_pcie_probe(struct platform_dev=
-ice *pdev)
->         pci_bus_add_devices(bus);
->         return 0;
->
-> -err_unmap_iospace:
-> -       pci_unmap_iospace(rockchip->io);
-> -err_free_res:
-> -       pci_free_resource_list(&res);
->  err_remove_irq_domain:
->         irq_domain_remove(rockchip->irq_domain);
->  err_deinit_port:
-> @@ -1097,7 +1076,6 @@ static int rockchip_pcie_remove(struct platform_dev=
-ice *pdev)
->
->         pci_stop_root_bus(rockchip->root_bus);
->         pci_remove_root_bus(rockchip->root_bus);
-> -       pci_unmap_iospace(rockchip->io);
->         irq_domain_remove(rockchip->irq_domain);
->
->         rockchip_pcie_deinit_phys(rockchip);
-> --
-> 2.20.1
->
->
-> _______________________________________________
-> Linux-mediatek mailing list
-> Linux-mediatek@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-mediatek
+-- 
+Regards,
+Niklas Söderlund
