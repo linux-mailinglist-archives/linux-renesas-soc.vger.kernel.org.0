@@ -2,135 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CF791150EC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2019 14:19:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D318E1150F1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2019 14:20:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726201AbfLFNTt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Dec 2019 08:19:49 -0500
-Received: from michel.telenet-ops.be ([195.130.137.88]:37686 "EHLO
-        michel.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726128AbfLFNTs (ORCPT
+        id S1726201AbfLFNUe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Dec 2019 08:20:34 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37318 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726193AbfLFNUe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Dec 2019 08:19:48 -0500
-Received: from ramsan ([84.195.182.253])
-        by michel.telenet-ops.be with bizsmtp
-        id adKm210035USYZQ06dKmN3; Fri, 06 Dec 2019 14:19:46 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1idDWL-00069B-UC; Fri, 06 Dec 2019 14:19:45 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1idDWL-0007Tm-RC; Fri, 06 Dec 2019 14:19:45 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Jonathan Cameron <jic23@kernel.org>,
-        Hartmut Knaack <knaack.h@gmx.de>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-iio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v3] iio: adc: max9611: Fix too short conversion time delay
-Date:   Fri,  6 Dec 2019 14:19:44 +0100
-Message-Id: <20191206131944.28707-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Fri, 6 Dec 2019 08:20:34 -0500
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1575638433;
+        bh=xpxp/nk+/ja8Dkzy7DbiPobrh4md5mQAWx8lWxTtwf8=;
+        h=Subject:From:Date:To:From;
+        b=RfdCTYYnI8HZQ2SLG5Rb9Z0yXm6BE3zbH4uZS8PlMCF6K0iwZH+a8EyV1780drE8L
+         Ms7XwIqAFsk2cauDIDD4gR+ZLy4CH1SJk3QbjTIXMgJsvyk8iwlwrpQMgzpcVmV/zu
+         HCh2JyxVLi+xn4LsHk21lzAaDULMLFbp5DU254dc=
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Subject: Patchwork housekeeping for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <157563843359.24655.15340994116431750695.git-patchwork-housekeeping@kernel.org>
+Date:   Fri, 06 Dec 2019 13:20:33 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-As of commit b9ddd5091160793e ("iio: adc: max9611: Fix temperature
-reading in probe"), max9611 initialization sometimes fails on the
-Salvator-X(S) development board with:
+Latest series: [v3] iio: adc: max9611: Fix too short conversion time delay (2019-12-06T13:19:44)
+  Superseding: [v2] iio: adc: max9611: Fix too short conversion time delay (2019-12-02T08:55:46):
+    [v2] iio: adc: max9611: Fix too short conversion time delay
 
-    max9611 4-007f: Invalid value received from ADC 0x8000: aborting
-    max9611: probe of 4-007f failed with error -5
 
-The max9611 driver tests communications with the chip by reading the die
-temperature during the probe function, which returns an invalid value.
-
-According to the datasheet, the typical ADC conversion time is 2 ms, but
-no minimum or maximum values are provided.  Maxim Technical Support
-confirmed this was tested with temperature Ta=25 degreeC, and promised
-to inform me if a maximum/minimum value is available (they didn't get
-back to me, so I assume it is not).
-
-However, the driver assumes a 1 ms conversion time.  Usually the
-usleep_range() call returns after more than 1.8 ms, hence it succeeds.
-When it returns earlier, the data register may be read too early, and
-the previous measurement value will be returned.  After boot, this is
-the temperature POR (power-on reset) value, causing the failure above.
-
-Fix this by increasing the delay from 1000-2000 µs to 3000-3300 µs.
-
-Note that this issue has always been present, but it was exposed by the
-aformentioned commit.
-
-Fixes: 69780a3bbc0b1e7e ("iio: adc: Add Maxim max9611 ADC driver")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
-After this patch, probing of the two max9611 sensors succeeded during
-ca. 3000 boot cycles on Salvator-X(S) boards, equipped with various
-R-Car H3/M3-W/M3-N SoCs.
-
-v3:
-  - Add Reviewed-by,
-  - Join split comment line,
-
-v2:
-  - Add Reviewed-by,
-  - Add feedback from Maxim Technical Support,
-  - Increase delay from 2000-2200 µs to 3000-3300 µs to play safe.
----
- drivers/iio/adc/max9611.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/iio/adc/max9611.c b/drivers/iio/adc/max9611.c
-index bf76dfb3f2c9530b..6250d4bf46dc9642 100644
---- a/drivers/iio/adc/max9611.c
-+++ b/drivers/iio/adc/max9611.c
-@@ -89,6 +89,12 @@
- #define MAX9611_TEMP_SCALE_NUM		1000000
- #define MAX9611_TEMP_SCALE_DIV		2083
- 
-+/*
-+ * Conversion time is 2 ms (typically) at Ta=25 degreeC
-+ * No maximum value is known, so play it safe
-+ */
-+#define MAX9611_CONV_TIME_US_RANGE	3000, 3300
-+
- struct max9611_dev {
- 	struct device *dev;
- 	struct i2c_client *i2c_client;
-@@ -223,10 +229,9 @@ static int max9611_read_single(struct max9611_dev *max9611,
- 	}
- 
- 	/*
--	 * need a delay here to make register configuration
--	 * stabilize. 1 msec at least, from empirical testing.
-+	 * need a delay here to make register configuration stabilize.
- 	 */
--	usleep_range(1000, 2000);
-+	usleep_range(MAX9611_CONV_TIME_US_RANGE);
- 
- 	ret = i2c_smbus_read_word_swapped(max9611->i2c_client, reg_addr);
- 	if (ret < 0) {
-@@ -493,7 +498,7 @@ static int max9611_init(struct max9611_dev *max9611)
- 			MAX9611_REG_CTRL2, 0);
- 		return ret;
- 	}
--	usleep_range(1000, 2000);
-+	usleep_range(MAX9611_CONV_TIME_US_RANGE);
- 
- 	return 0;
- }
 -- 
-2.17.1
-
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
