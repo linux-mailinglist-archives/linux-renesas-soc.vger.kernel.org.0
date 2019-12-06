@@ -2,70 +2,226 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F9D0115104
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2019 14:32:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 401A311515F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2019 14:52:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726171AbfLFNc6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Dec 2019 08:32:58 -0500
-Received: from xavier.telenet-ops.be ([195.130.132.52]:60070 "EHLO
-        xavier.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726195AbfLFNc6 (ORCPT
+        id S1726272AbfLFNwP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Dec 2019 08:52:15 -0500
+Received: from foss.arm.com ([217.140.110.172]:44240 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726234AbfLFNwP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Dec 2019 08:32:58 -0500
-Received: from ramsan ([84.195.182.253])
-        by xavier.telenet-ops.be with bizsmtp
-        id adYw210015USYZQ01dYwqB; Fri, 06 Dec 2019 14:32:56 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1idDj5-0006IU-U6; Fri, 06 Dec 2019 14:32:55 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1idDj5-0006Cb-SP; Fri, 06 Dec 2019 14:32:55 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] clk: renesas: rcar-gen2: Change multipliers and dividers to u8
-Date:   Fri,  6 Dec 2019 14:32:54 +0100
-Message-Id: <20191206133254.23800-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Fri, 6 Dec 2019 08:52:15 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5A82C1FB;
+        Fri,  6 Dec 2019 05:52:14 -0800 (PST)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B257F3F718;
+        Fri,  6 Dec 2019 05:52:10 -0800 (PST)
+Date:   Fri, 6 Dec 2019 13:52:01 +0000
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Enric Balletbo Serra <eballetbo@gmail.com>
+Cc:     Rob Herring <robh@kernel.org>,
+        Andrew Murray <andrew.murray@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
+        linux-pci@vger.kernel.org, Shawn Lin <shawn.lin@rock-chips.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Toan Le <toan@os.amperecomputing.com>,
+        Will Deacon <will@kernel.org>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Ray Jui <rjui@broadcom.com>,
+        Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
+        Simon Horman <horms@verge.net.au>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Scott Branden <sbranden@broadcom.com>,
+        Jingoo Han <jingoohan1@gmail.com>, rfi@lists.rocketboards.org,
+        linux-renesas-soc@vger.kernel.org,
+        Tom Joseph <tjoseph@cadence.com>,
+        Srinath Mannam <srinath.mannam@broadcom.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Ley Foon Tan <lftan@altera.com>
+Subject: Re: [PATCH v3 10/25] PCI: rockchip: Use
+ pci_parse_request_of_pci_ranges()
+Message-ID: <20191206135151.GA26562@e121166-lin.cambridge.arm.com>
+References: <20191028163256.8004-1-robh@kernel.org>
+ <20191028163256.8004-11-robh@kernel.org>
+ <CAFqH_51-BMWSGGBpoKxA3UK+yPHSpPgok5i=daSC0KS5oc5ueA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFqH_51-BMWSGGBpoKxA3UK+yPHSpPgok5i=daSC0KS5oc5ueA@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-All multipliers and dividers are small.
-Storing them in u8 instead of unsigned int reduces kernel size for a
-generic kernel by ca. 0.5 KiB.
+On Thu, Dec 05, 2019 at 06:56:01PM +0100, Enric Balletbo Serra wrote:
+> Hi Rob,
+> 
+> Missatge de Rob Herring <robh@kernel.org> del dia dl., 28 d’oct. 2019
+> a les 17:38:
+> >
+> > Convert the Rockchip host bridge to use the common
+> > pci_parse_request_of_pci_ranges().
+> >
+> > There's no need to assign the resources to a temporary list first. Just
+> > use bridge->windows directly and remove all the temporary list handling.
+> >
+> > Cc: Shawn Lin <shawn.lin@rock-chips.com>
+> > Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> > Cc: Andrew Murray <andrew.murray@arm.com>
+> > Cc: Bjorn Helgaas <bhelgaas@google.com>
+> > Cc: Heiko Stuebner <heiko@sntech.de>
+> > Cc: linux-rockchip@lists.infradead.org
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+> > ---
+> 
+> I just tested mainline on my Samsung Chromebook Plus, and since
+> yesterday I'm getting a "synchronous external abort" [1]. After a
+> bisection, I found that this patch triggers the issue (this patch was
+> merged yesterday)
+> 
+> I didn't look in detail yet, but if you have any idea of what could be
+> the problem, that would be great.
+> 
+> Thanks,
+>  Enric
+> 
+> [1] https://hastebin.com/adasegihiw.rb
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-To be queued in clk-renesas-for-v5.6.
+Could you please post the kernel log again ?
 
- drivers/clk/renesas/rcar-gen2-cpg.h | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Lorenzo
 
-diff --git a/drivers/clk/renesas/rcar-gen2-cpg.h b/drivers/clk/renesas/rcar-gen2-cpg.h
-index db2f57ef2f9984e4..bdcd4a38d48d01bd 100644
---- a/drivers/clk/renesas/rcar-gen2-cpg.h
-+++ b/drivers/clk/renesas/rcar-gen2-cpg.h
-@@ -24,10 +24,10 @@ enum rcar_gen2_clk_types {
- };
- 
- struct rcar_gen2_cpg_pll_config {
--	unsigned int extal_div;
--	unsigned int pll1_mult;
--	unsigned int pll3_mult;
--	unsigned int pll0_mult;		/* leave as zero if PLL0CR exists */
-+	u8 extal_div;
-+	u8 pll1_mult;
-+	u8 pll3_mult;
-+	u8 pll0_mult;		/* leave as zero if PLL0CR exists */
- };
- 
- struct clk *rcar_gen2_cpg_clk_register(struct device *dev,
--- 
-2.17.1
-
+> >  drivers/pci/controller/pcie-rockchip-host.c | 36 ++++-----------------
+> >  1 file changed, 7 insertions(+), 29 deletions(-)
+> >
+> > diff --git a/drivers/pci/controller/pcie-rockchip-host.c b/drivers/pci/controller/pcie-rockchip-host.c
+> > index ef8e677ce9d1..8d2e6f2e141e 100644
+> > --- a/drivers/pci/controller/pcie-rockchip-host.c
+> > +++ b/drivers/pci/controller/pcie-rockchip-host.c
+> > @@ -950,14 +950,10 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
+> >         struct device *dev = &pdev->dev;
+> >         struct pci_bus *bus, *child;
+> >         struct pci_host_bridge *bridge;
+> > +       struct resource *bus_res;
+> >         struct resource_entry *win;
+> > -       resource_size_t io_base;
+> > -       struct resource *mem;
+> > -       struct resource *io;
+> >         int err;
+> >
+> > -       LIST_HEAD(res);
+> > -
+> >         if (!dev->of_node)
+> >                 return -ENODEV;
+> >
+> > @@ -995,29 +991,20 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
+> >         if (err < 0)
+> >                 goto err_deinit_port;
+> >
+> > -       err = devm_of_pci_get_host_bridge_resources(dev, 0, 0xff,
+> > -                                                   &res, &io_base);
+> > +       err = pci_parse_request_of_pci_ranges(dev, &bridge->windows, &bus_res);
+> >         if (err)
+> >                 goto err_remove_irq_domain;
+> >
+> > -       err = devm_request_pci_bus_resources(dev, &res);
+> > -       if (err)
+> > -               goto err_free_res;
+> > +       rockchip->root_bus_nr = bus_res->start;
+> >
+> >         /* Get the I/O and memory ranges from DT */
+> > -       resource_list_for_each_entry(win, &res) {
+> > +       resource_list_for_each_entry(win, &bridge->windows) {
+> >                 switch (resource_type(win->res)) {
+> >                 case IORESOURCE_IO:
+> >                         io = win->res;
+> >                         io->name = "I/O";
+> >                         rockchip->io_size = resource_size(io);
+> >                         rockchip->io_bus_addr = io->start - win->offset;
+> > -                       err = pci_remap_iospace(io, io_base);
+> > -                       if (err) {
+> > -                               dev_warn(dev, "error %d: failed to map resource %pR\n",
+> > -                                        err, io);
+> > -                               continue;
+> > -                       }
+> >                         rockchip->io = io;
+> >                         break;
+> >                 case IORESOURCE_MEM:
+> > @@ -1026,9 +1013,6 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
+> >                         rockchip->mem_size = resource_size(mem);
+> >                         rockchip->mem_bus_addr = mem->start - win->offset;
+> >                         break;
+> > -               case IORESOURCE_BUS:
+> > -                       rockchip->root_bus_nr = win->res->start;
+> > -                       break;
+> >                 default:
+> >                         continue;
+> >                 }
+> > @@ -1036,15 +1020,14 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
+> >
+> >         err = rockchip_pcie_cfg_atu(rockchip);
+> >         if (err)
+> > -               goto err_unmap_iospace;
+> > +               goto err_remove_irq_domain;
+> >
+> >         rockchip->msg_region = devm_ioremap(dev, rockchip->msg_bus_addr, SZ_1M);
+> >         if (!rockchip->msg_region) {
+> >                 err = -ENOMEM;
+> > -               goto err_unmap_iospace;
+> > +               goto err_remove_irq_domain;
+> >         }
+> >
+> > -       list_splice_init(&res, &bridge->windows);
+> >         bridge->dev.parent = dev;
+> >         bridge->sysdata = rockchip;
+> >         bridge->busnr = 0;
+> > @@ -1054,7 +1037,7 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
+> >
+> >         err = pci_scan_root_bus_bridge(bridge);
+> >         if (err < 0)
+> > -               goto err_unmap_iospace;
+> > +               goto err_remove_irq_domain;
+> >
+> >         bus = bridge->bus;
+> >
+> > @@ -1068,10 +1051,6 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
+> >         pci_bus_add_devices(bus);
+> >         return 0;
+> >
+> > -err_unmap_iospace:
+> > -       pci_unmap_iospace(rockchip->io);
+> > -err_free_res:
+> > -       pci_free_resource_list(&res);
+> >  err_remove_irq_domain:
+> >         irq_domain_remove(rockchip->irq_domain);
+> >  err_deinit_port:
+> > @@ -1097,7 +1076,6 @@ static int rockchip_pcie_remove(struct platform_device *pdev)
+> >
+> >         pci_stop_root_bus(rockchip->root_bus);
+> >         pci_remove_root_bus(rockchip->root_bus);
+> > -       pci_unmap_iospace(rockchip->io);
+> >         irq_domain_remove(rockchip->irq_domain);
+> >
+> >         rockchip_pcie_deinit_phys(rockchip);
+> > --
+> > 2.20.1
+> >
+> >
+> > _______________________________________________
+> > Linux-mediatek mailing list
+> > Linux-mediatek@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-mediatek
