@@ -2,67 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D6342115429
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2019 16:25:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD880115453
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2019 16:35:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726246AbfLFPZw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Dec 2019 10:25:52 -0500
-Received: from mail-eopbgr1400110.outbound.protection.outlook.com ([40.107.140.110]:3808
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        id S1726250AbfLFPfL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Dec 2019 10:35:11 -0500
+Received: from mail-eopbgr1410128.outbound.protection.outlook.com ([40.107.141.128]:30560
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726268AbfLFPZv (ORCPT
+        id S1726298AbfLFPfK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Dec 2019 10:25:51 -0500
+        Fri, 6 Dec 2019 10:35:10 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=m71wPa5a3Z10W0p1tYR0rh1SohjY7/vibpHzQXLXQInCn3ai0XXnVjQsZ8ump6Zq5I+9oXZkRi44gI30xZZyeoimPZ1HwTchG6u7Asd+SlQH9pdUGMhxsrzFY77vgpkHt1p5ayZjWmD59J9lZlkkqqY9lKRBD8IvPQmWcZ3n7sJgRy530TUQpktCkQn2B+RsB7wsP+1UnSSXMjqUCXWrtbAHQZJ0i+VVxOyd7IejIuPPsbaYT5XEXJLcEUubAfBhsJ+pP9ezb6TtaxVZRUPJykObAErQ0aWOhf5e154wogXwLqBW4g8GgxHjPMgMfXl0Gphcdj9k8O1OjLUkzq+ljw==
+ b=gj3RAqo6c+aVKNAVXuz7SQVWKIjC/G0sU9TKhklSPKPUKylLc8eIoXguNKnK6DFUXhatFsty0JPk/ulFHAAcOCizbTThdbfjupNgvrvKqqWg5bfu49Ab3nrBQp7QX82E8q/nAbTl2kDNKSbUK2nOOmV7Z+Vca2jfvA6JNKUB2gVDscWGr180sMfVIfEz/1Zw25IpdaO9uVJ+TTt5KjkJLOTUlq58fwKHnCo6uQl6LSdHVskgGIbJTWFO6i4cAIc4RFRrVU/PBBZ9xC2mD7uxys6geFWT2bzJx6ulWxIvHLWdzUsvNKdgEMnhtYbgYTsUWhyp24+jQ5OZICpzqcGfUQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YwmJalBA45l1sMLj/E79Bt6pXorVXGECa6xnn7b9x6I=;
- b=dy0G+KVre9wOkV/UZiLoNBHbD581D0lQpIpNeVwvECbOYUliwMn7z5y9kX/X8bEGp2CBhqnEP7nxy1mFPDMoz51ptBU9NrRfBqvTVqaUAk2X41Sd8PjbopN6BvaOmNVnDgDx/ifc5RnqQnQkwGWF/nMzHoIylFpj8SIjSwpcybNy6b+oC3e+7SV5UEToUahq9nfAcT6dhAvjAMlyeYOZWhaFILA+ZCAOSvqV1VQHv9W7+G9Md+O9hvHnW395mEvcPt7RakHMGovslYBtRM25qOSWaUZiYRuhB7kPszpWIuWWnpsvsM2KTquDwh+XXkPcbg4EZKdoPFiOr2n5TVk1iQ==
+ bh=htPEIv0BA7EL6SY810ynofi84b6l2RNcL7AcjD017VQ=;
+ b=J0YwN5wymv5X5XEbEtdVB4dsopUek5m44t4lr3W23nNwGu11YOIlktr1Cr+8/W76b//NIDVq8W0geVcpXXxqazT82vsEuboVYV5deXgi4nCY8yunaFn2AjNO+864MLYtBtgT+B6oxgkao0NThhG/Q4D7gNcAdcvS5+LtRFw6H5a9r+2CSl9IMTnC8EV6kSndK86dD0skaaGBV+ldpGZysQVixjo+Ge3xKSAzCB2Moda9yQ5iYPGjRHbx20RXfUZ2cIyRvPconaDnsCzhMh4IARswK4kgOc6avz3ttYl93VlEXO7ryT05SGDuwM91Z6EgLW8RTJQh3OEKpUoKUPiwag==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
  header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YwmJalBA45l1sMLj/E79Bt6pXorVXGECa6xnn7b9x6I=;
- b=mmoT+oltbnc6cpzla+xepSGsj+hIhvUkHfQyzVZM9OllMooaiQh+oa6tawi/gtTFCv0aaNcCyh2Wmmj41rPgdF2bvBMsXn0tcJ6icJ/TNWJZgxiSLR21fo7kYk30io7/vv4Hp+R0l85NSsQcStn9ZDJIF45/t8fMcV79JoZgH2w=
+ bh=htPEIv0BA7EL6SY810ynofi84b6l2RNcL7AcjD017VQ=;
+ b=hjt6tPhLP8dH6I3GGosL+XHGAtjHj2X3w/yPdPUZEr2MV9FHuVbaQZ5Ec5KS9SHKdHFbDoFp02N+Viliwo3SBa4k/YWLGgk63iCtUnrV+U/AZVkk1/5X+O/pSPE1wAdcoJSVu5Fyo7DcuQBRrjUgR281CV1TQKYqx0C3VCfQeJk=
 Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com (52.133.163.13) by
- TY1PR01MB1739.jpnprd01.prod.outlook.com (52.133.163.139) with Microsoft SMTP
+ TY1PR01MB1882.jpnprd01.prod.outlook.com (52.133.162.12) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2495.22; Fri, 6 Dec 2019 15:25:47 +0000
+ 15.20.2516.12; Fri, 6 Dec 2019 15:35:04 +0000
 Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com
  ([fe80::5166:5e51:90f5:3ee1]) by TY1PR01MB1770.jpnprd01.prod.outlook.com
  ([fe80::5166:5e51:90f5:3ee1%7]) with mapi id 15.20.2495.014; Fri, 6 Dec 2019
- 15:25:47 +0000
+ 15:35:04 +0000
 From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-To:     Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Simon Horman <horms@verge.net.au>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
         Biju Das <biju.das@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         "sam@ravnborg.org" <sam@ravnborg.org>
-Subject: RE: [PATCH v3 3/8] drm: Add bus timings helper
-Thread-Topic: [PATCH v3 3/8] drm: Add bus timings helper
-Thread-Index: AQHVXc+Y3hDaAH3FzUeScbXcTlar7KeAhtmAgAABDYCALU8E4A==
-Date:   Fri, 6 Dec 2019 15:25:47 +0000
-Message-ID: <TY1PR01MB1770CEC02DD2832E668EE88CC05F0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+Subject: RE: [PATCH v3 4/8] drm: rcar-du: lvds: Add dual-LVDS panels support
+Thread-Topic: [PATCH v3 4/8] drm: rcar-du: lvds: Add dual-LVDS panels support
+Thread-Index: AQHVXc+a4sxzNvBKBk6mVuGaWHO146eAjZgAgC1J9UA=
+Date:   Fri, 6 Dec 2019 15:35:04 +0000
+Message-ID: <TY1PR01MB17701956FEB859A01B9FF9FDC05F0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
 References: <1567017402-5895-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1567017402-5895-4-git-send-email-fabrizio.castro@bp.renesas.com>
- <20191107192621.GH24983@pendragon.ideasonboard.com>
- <20191107193007.GT23790@phenom.ffwll.local>
-In-Reply-To: <20191107193007.GT23790@phenom.ffwll.local>
+ <1567017402-5895-5-git-send-email-fabrizio.castro@bp.renesas.com>
+ <20191107195030.GI24983@pendragon.ideasonboard.com>
+In-Reply-To: <20191107195030.GI24983@pendragon.ideasonboard.com>
 Accept-Language: en-GB, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -72,402 +68,218 @@ authentication-results: spf=none (sender IP is )
 x-originating-ip: [193.141.220.21]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: d068c3f6-89f8-4d0f-2c05-08d77a60919b
-x-ms-traffictypediagnostic: TY1PR01MB1739:|TY1PR01MB1739:
+x-ms-office365-filtering-correlation-id: 2117a03e-01bd-47d8-1682-08d77a61ddc8
+x-ms-traffictypediagnostic: TY1PR01MB1882:|TY1PR01MB1882:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TY1PR01MB1739E92945763AE4635BC573C05F0@TY1PR01MB1739.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:276;
+x-microsoft-antispam-prvs: <TY1PR01MB188294AB9C1F86A01E81E1D4C05F0@TY1PR01MB1882.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
 x-forefront-prvs: 0243E5FD68
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(396003)(136003)(376002)(39860400002)(366004)(346002)(189003)(199004)(26005)(76116006)(52536014)(966005)(66946007)(64756008)(2906002)(7416002)(74316002)(66446008)(81166006)(30864003)(54906003)(305945005)(86362001)(33656002)(66556008)(478600001)(8936002)(55016002)(5660300002)(66476007)(53546011)(6506007)(229853002)(316002)(102836004)(81156014)(186003)(71190400001)(110136005)(8676002)(7696005)(4326008)(44832011)(76176011)(99286004)(71200400001)(9686003);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1739;H:TY1PR01MB1770.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(366004)(136003)(376002)(39860400002)(346002)(396003)(189003)(199004)(81156014)(102836004)(8936002)(2906002)(81166006)(305945005)(74316002)(8676002)(4326008)(9686003)(33656002)(71190400001)(6916009)(26005)(71200400001)(55016002)(53546011)(7416002)(6506007)(66946007)(52536014)(5660300002)(76116006)(229853002)(99286004)(66476007)(86362001)(316002)(7696005)(76176011)(478600001)(66446008)(66556008)(54906003)(64756008)(186003)(44832011);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1882;H:TY1PR01MB1770.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
 received-spf: None (protection.outlook.com: bp.renesas.com does not designate
  permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: rekcO9aZ+Ry4dePNTLlOX5ndPtcCr2YPiE3Dv37u924wl4KRUkznwj0VFaKdNgEXu7PxO6jcs/zRswNujHq3LH0wl3t7wsZrS4wH8dxcTxiiIntzDG02dilApYOESC0PZOtkxQXMfOoHj33bbElH/+hrOXckeROuVlJN35R2wcSDw5/OTSbfaANPx80AsJv+i1jf+J6L+KNBnGgD5m41VLwdyK1GEvlLm9q6yrCR51oNAMV/hinYowIUArjEDelr7J1j8Q5DvWIyNRprB3DLDvCnHii0iXE6GJsD+R8P8DaeTAeTMDbtG+mnfYE5pRxTL5OBRoy5UjhIrr3jCT7xESQIYXytq7RD8h2NAcsV2j0loBuqR9CL/ujZDV4DQBMi4UEOFPO6mI6RrgB8UXmJoyU4AvNPv0oVJORgO6qleUwZc3VZYQmZlSuuTnngk6CpjU2LbIikq0Q0JXRKa+Dfo/XnILrnIo0amEa+Qun9G7M=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+x-microsoft-antispam-message-info: AC0NjPWWPs5ED+HVgcRNWqO3ElxAfveqbR9ZCHn0/3JSIDSqZ5HjvkqZozga52c9c8BqutCuBz6VyTKeMElHaAM7OwBurUWkbYK8xmMcwvCO3FZpL+t0gXdYHaLdlSO9NOILGPCAW3VSiKyDRAMmiZfs1/epG3IGex4yhvLf9hm03DhS6y+qpmqNACzM/3M6nXvfKCnRiABB5AFkmKvEc8yzO1LJfwZOFhDLwYixIQlSkHa7xwrcoc+DFgjkABXL025F69EIwtBa40+LMXqaHiQWsT9CxPF3tLkjZ6skETfnzCZpPSOTJSHKor3hsYpqWqzcNnW8I3QwFlCH7Hdg7b6AyexY2epj27HYv2PfImOy4NdD5ECNzSNDeQ+jDzgbwfLtHzDi46SGHqO9fJ+Cmnt25bl2W7lFnDMVh28inUYiWcnN//WLn1e2Zzc1pQog
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
 X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d068c3f6-89f8-4d0f-2c05-08d77a60919b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Dec 2019 15:25:47.2690
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2117a03e-01bd-47d8-1682-08d77a61ddc8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Dec 2019 15:35:04.5869
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: m20H7GT4EWg7VJeP4P2pYqGSTAu2qBVjsEiYr0y3Wgmx3JrJyIjJ+FWpDYxlwdHf3SEO3Uh1v5n0Dbj/ct/5nxdy5TsfJfBS1NXnu6ubV1A=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1739
+X-MS-Exchange-CrossTenant-userprincipalname: NYU3dYZjEeQQIylkvFBUkINt+1lVr+Q/hsjDR7rkHp+iZff6Vd0Dnb3bYITdK8ld6M50YJKZUhRgnHwWaMM6YiZI75HatgyX3AUWwVg+gd8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1882
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Daniel,
-
-Thank you for your feedback!
-
-> From: Daniel Vetter <daniel.vetter@ffwll.ch> On Behalf Of Daniel Vetter
-> Sent: 07 November 2019 19:30
-> Subject: Re: [PATCH v3 3/8] drm: Add bus timings helper
->=20
-> On Thu, Nov 07, 2019 at 09:26:21PM +0200, Laurent Pinchart wrote:
-> > Hi Fabrizio,
-> >
-> > Thank you for the patch.
-> >
-> > On Wed, Aug 28, 2019 at 07:36:37PM +0100, Fabrizio Castro wrote:
-> > > Helper to provide bus timing information.
-> >
-> > You may want to expand this a bit. And actually fix it too, as the
-> > helper you introduce isn't related to timings (same for the subject
-> > line).
->=20
-> Also the kerneldoc needs to be pulled into the templates under
-> Documentation/gpu. And since it's just one function, why not put this int=
-o
-> drm_of.c? Gets rid of a pile of overhead.
-
-Yeah, you are right, will try and pull this into drm_of.c in v4.
-
-Thanks!
-
-Fab
-
->=20
-> >
-> > > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> > >
-> > > ---
-> > > v2->v3:
-> > > * new patch
-> > > ---
-> > >  drivers/gpu/drm/Makefile          |  3 +-
-> > >  drivers/gpu/drm/drm_bus_timings.c | 97 +++++++++++++++++++++++++++++=
-++++++++++
-> > >  include/drm/drm_bus_timings.h     | 21 +++++++++
-> > >  3 files changed, 120 insertions(+), 1 deletion(-)
-> > >  create mode 100644 drivers/gpu/drm/drm_bus_timings.c
-> > >  create mode 100644 include/drm/drm_bus_timings.h
-> > >
-> > > diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> > > index 9f0d2ee..a270063 100644
-> > > --- a/drivers/gpu/drm/Makefile
-> > > +++ b/drivers/gpu/drm/Makefile
-> > > @@ -17,7 +17,8 @@ drm-y       :=3D	drm_auth.o drm_cache.o \
-> > >  		drm_plane.o drm_color_mgmt.o drm_print.o \
-> > >  		drm_dumb_buffers.o drm_mode_config.o drm_vblank.o \
-> > >  		drm_syncobj.o drm_lease.o drm_writeback.o drm_client.o \
-> > > -		drm_client_modeset.o drm_atomic_uapi.o drm_hdcp.o
-> > > +		drm_client_modeset.o drm_atomic_uapi.o drm_hdcp.o \
-> > > +		drm_bus_timings.o
-> > >
-> > >  drm-$(CONFIG_DRM_LEGACY) +=3D drm_legacy_misc.o drm_bufs.o drm_conte=
-xt.o drm_dma.o drm_scatter.o drm_lock.o
-> > >  drm-$(CONFIG_DRM_LIB_RANDOM) +=3D lib/drm_random.o
-> > > diff --git a/drivers/gpu/drm/drm_bus_timings.c b/drivers/gpu/drm/drm_=
-bus_timings.c
-> > > new file mode 100644
-> > > index 0000000..e2ecd22
-> > > --- /dev/null
-> > > +++ b/drivers/gpu/drm/drm_bus_timings.c
-> > > @@ -0,0 +1,97 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
->=20
-> DRM core is supposed to be MIT.
-> -Daniel
->=20
-> > > +#include <drm/drm_bus_timings.h>
-> > > +#include <linux/errno.h>
-> > > +#include <linux/of_graph.h>
-> > > +#include <linux/of.h>
-> > > +#include <linux/types.h>
-> > > +
-> > > +#define DRM_OF_LVDS_ODD		1
-> > > +#define DRM_OF_LVDS_EVEN	2
-> > > +
-> > > +static int drm_of_lvds_get_port_pixels_type(struct device_node *port=
-_node)
-> > > +{
-> > > +	bool even_pixels, odd_pixels;
-> > > +
-> > > +	even_pixels =3D of_property_read_bool(port_node, "dual-lvds-even-pi=
-xels");
-> > > +	odd_pixels =3D of_property_read_bool(port_node, "dual-lvds-odd-pixe=
-ls");
-> > > +	return  even_pixels * DRM_OF_LVDS_EVEN + odd_pixels * DRM_OF_LVDS_O=
-DD;
-> >
-> > s/  / /
-> >
-> > But I would make these bitflags.
-> >
-> > enum drm_of_lvds_pixels {
-> > 	DRM_OF_LVDS_EVEN =3D BIT(0),
-> > 	DRM_OF_LVDS_ODD =3D BIT(1),
-> > };
-> >
-> > static int drm_of_lvds_get_port_pixels_type(struct device_node *port)
-> > {
-> > 	bool even_pixels =3D of_property_read_bool(port, "dual-lvds-even-pixel=
-s");
-> > 	bool odd_pixels =3D of_property_read_bool(port, "dual-lvds-odd-pixels"=
-);
-> >
-> > 	return (even_pixels ? DRM_OF_LVDS_EVEN : 0) |
-> > 	       (odd_pixels ? DRM_OF_LVDS_ODD : 0);
-> > }
-> >
-> > > +}
-> > > +
-> > > +/**
-> > > + * drm_of_lvds_get_dual_link_configuration - get the dual-LVDS confi=
-guration
-> >
-> > Should we name this drm_of_lvds_get_dual_link_pixel_order to better
-> > reflect its purpose ?
-> >
-> > > + * @p1: device tree node corresponding to the first port of the sour=
-ce
-> > > + * @p2: device tree node corresponding to the second port of the sou=
-rce
-> >
-> > Maybe port1 and port2 to make this more explicit ?
-> >
-> > > + *
-> > > + * An LVDS dual-link bus is made of two connections, even pixels tra=
-nsit on one
-> > > + * connection, and odd pixels transit on the other connection.
-> >
-> > To match the DT bindings documentation, I would recommand
-> >
-> > "An LVDS dual-link connection is made of two links, with even pixels
-> > transitting on one link, and odd pixels on the other link."
-> >
-> > > + * This function walks the DT (from the source ports to the sink por=
-ts) looking
-> > > + * for a dual-LVDS bus. A dual-LVDS bus is identfied by markers foun=
-d on the DT
-> > > + * ports of the sink device(s). If such a bus is found, this functio=
-n returns
-> > > + * its configuration (either p1 connected to the even pixels port an=
-d p2
-> > > + * connected to the odd pixels port, or p1 connected to the odd pixe=
-ls port and
-> > > + * p2 connected to the even pixels port).
-> >
-> > "walking the DT" sounds like the function goes through the whole graph.
-> > How about the following ?
-> >
-> > /**
-> >  * drm_of_lvds_get_dual_link_pixel_order - Get LVDS dual-link pixel ord=
-er
-> >  * @port1: First DT port node of the Dual-link LVDS source
-> >  * @port2: Second DT port node of the Dual-link LVDS source
-> >  *
-> >  * An LVDS dual-link connection is made of two links, with even pixels
-> >  * transitting on one link, and odd pixels on the other link. This func=
-tion
-> >  * returns, for two ports of an LVDS dual-link source, which port shall=
- transmit
-> >  * the even and off pixels, based on the requirements of the connected =
-sink.
-> >  *
-> >  * The pixel order is determined from the dual-lvds-even-pixels and
-> >  * dual-lvds-odd-pixels properties in the sink's DT port nodes. If thos=
-e
-> >  * properties are not present, or if their usage is not valid, this fun=
-ction
-> >  * returns -EINVAL.
-> >  *
-> >  * @port1 and @port2 are typically DT sibling nodes, but may have diffe=
-rent
-> >  * parents when, for instance, two separate LVDS encoders carry the eve=
-n and odd
-> >  * pixels.
-> >  *
-> >  * Return:
-> >  * * DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS - @port1 carries even pixels an=
-d @port2
-> >  *   carries odd pixels
-> >  * * DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS - @port1 carries odd pixels and=
- @port1
-> >  *   carries even pixels
-> >  * * -EINVAL - @port1 and @port2 are not connected to a dual-link LVDS =
-sink, or
-> >  *   the sink configuration is invalid
-> >  */
-> >
-> > We could also add -EPIPE as a return code for the case where port1 or
-> > port2 are not connected.
-> >
-> > > + *
-> > > + * Return: A code describing the bus configuration when a valid dual=
--LVDS bus is
-> > > + * found, or an error code when no valid dual-LVDS bus is found
-> > > + *
-> > > + * Possible codes for the bus configuration are:
-> > > + *
-> > > + * - DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS: when p1 is connected to the=
- even pixels
-> > > + *   port and p2 is connected to the odd pixels port
-> > > + * - DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS: when p1 is connected to the=
- odd pixels
-> > > + *   port and p2 is connected to the even pixels port
-> > > + *
-> > > + */
-> > > +int drm_of_lvds_get_dual_link_configuration(const struct device_node=
- *p1,
-> > > +					    const struct device_node *p2)
-> > > +{
-> > > +	struct device_node *remote_p1 =3D NULL, *remote_p2 =3D NULL;
-> > > +	struct device_node *parent_p1 =3D NULL, *parent_p2 =3D NULL;
-> >
-> > There's no need to initialize those two variables.
-> >
-> > > +	struct device_node *ep1 =3D NULL, *ep2 =3D NULL;
-> > > +	u32 reg_p1, reg_p2;
-> > > +	int ret =3D -EINVAL, remote_p1_pt, remote_p2_pt;
-> >
-> > Please split this last line, as it otherwise hides the initialization o=
-f
-> > ret in the middle.
-> >
-> > > +
-> > > +	if (!p1 || !p2)
-> > > +		return ret;
-> >
-> > You can return -EINVAL directly.
-> >
-> >
-> > > +	if (of_property_read_u32(p1, "reg", &reg_p1) ||
-> > > +	    of_property_read_u32(p2, "reg", &reg_p2))
-> > > +		return ret;
-> >
-> > Same here.
-> >
-> > > +	parent_p1 =3D of_get_parent(p1);
-> > > +	parent_p2 =3D of_get_parent(p2);
-> > > +	if (!parent_p1 || !parent_p2)
-> > > +		goto done;
-> > > +	ep1 =3D of_graph_get_endpoint_by_regs(parent_p1, reg_p1, 0);
-> > > +	ep2 =3D of_graph_get_endpoint_by_regs(parent_p2, reg_p2, 0);
-> > > +	if (!ep1 || !ep2)
-> > > +		goto done;
-> >
-> > If you only support the first endpoint, this should be mentioned in the
-> > documentation. Alternatively you could pass the endpoint nodes instead
-> > of the port nodes, or you could pass the endpoint number.
-> >
-> > It's also a bit inefficient to use of_graph_get_endpoint_by_regs() when
-> > you already have the port nodes. How about adding the following helper
-> > function ?
-> >
-> > struct device_node *of_graph_get_port_endpoint(struct device_node *port=
-, int reg)
-> > {
-> > 	struct device_node *endpoint =3D NULL;
-> >
-> > 	for_each_child_of_node(port, endpoint) {
-> > 		u32 id;
-> >
-> > 		if (!of_node_name_eq(endpoint, "endpoint") ||
-> > 			continue;
-> >
-> > 		if (reg =3D=3D -1)
-> > 			return endpoint;
-> >
-> > 		if (of_property_read_u32(node, "reg", &id) < 0)
-> > 			continue;
-> >
-> > 		if (reg =3D=3D id)
-> > 			return endpoint;
-> > 	}
-> >
-> > 	return NULL;
-> > }
-> >
-> > If you're concerned that adding a core helper would delay this patch
-> > series, you could add it as a local helper, and move it to of_graph.h i=
-n
-> > a second step.
-> >
-> > > +	remote_p1 =3D of_graph_get_remote_port(ep1);
-> > > +	remote_p2 =3D of_graph_get_remote_port(ep2);
-> > > +	if (!remote_p1 || !remote_p2)
-> > > +		goto done;
-> > > +	remote_p1_pt =3D drm_of_lvds_get_port_pixels_type(remote_p1);
-> > > +	remote_p2_pt =3D drm_of_lvds_get_port_pixels_type(remote_p2);
-> > > +	/*
-> > > +	 * A valid dual-lVDS bus is found when one remote port is marked wi=
-th
-> > > +	 * "dual-lvds-even-pixels", and the other remote port is marked wit=
-h
-> > > +	 * "dual-lvds-odd-pixels", bail out if the markers are not right.
-> > > +	 */
-> > > +	if (!remote_p1_pt || !remote_p2_pt ||
-> > > +	    remote_p1_pt + remote_p2_pt !=3D DRM_OF_LVDS_EVEN + DRM_OF_LVDS=
-_ODD)
-> > > +		goto done;
-> > > +	if (remote_p1_pt =3D=3D DRM_OF_LVDS_EVEN)
-> > > +		/* The sink expects even pixels through the first port */
-> > > +		ret =3D DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS;
-> > > +	else
-> > > +		/* The sink expects odd pixels through the first port */
-> > > +		ret =3D DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS;
-> > > +
-> > > +done:
-> > > +	of_node_put(ep1);
-> > > +	of_node_put(ep2);
-> > > +	of_node_put(parent_p1);
-> > > +	of_node_put(parent_p2);
-> > > +	of_node_put(remote_p1);
-> > > +	of_node_put(remote_p2);
-> > > +	return ret;
-> >
-> > This is heavy, I would add blank lines to make the code easier to read.
-> >
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(drm_of_lvds_get_dual_link_configuration);
-> > > diff --git a/include/drm/drm_bus_timings.h b/include/drm/drm_bus_timi=
-ngs.h
-> > > new file mode 100644
-> > > index 0000000..db8a385
-> > > --- /dev/null
-> > > +++ b/include/drm/drm_bus_timings.h
-> > > @@ -0,0 +1,21 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0 */
-> > > +#ifndef __DRM_BUS_TIMINGS__
-> > > +#define __DRM_BUS_TIMINGS__
-> > > +
-> > > +struct device_node;
-> > > +
-> > > +#define DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS	0
-> > > +#define DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS	1
-> >
-> > These should be documented with kerneldoc. How about also turning them
-> > into an enum ?
-> >
-> > > +
-> > > +#ifdef CONFIG_OF
-> > > +int drm_of_lvds_get_dual_link_configuration(const struct device_node=
- *p1,
-> > > +					    const struct device_node *p2);
-> > > +#else
-> > > +int drm_of_lvds_get_dual_link_configuration(const struct device_node=
- *p1,
-> > > +					    const struct device_node *p2)
-> > > +{
-> > > +	return -EINVAL;
-> > > +}
-> > > +#endif
-> > > +
-> > > +#endif /* __DRM_BUS_TIMINGS__ */
-> >
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
->=20
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+SGkgTGF1cmVudCwNCg0KPiBGcm9tOiBsaW51eC1yZW5lc2FzLXNvYy1vd25lckB2Z2VyLmtlcm5l
+bC5vcmcgPGxpbnV4LXJlbmVzYXMtc29jLW93bmVyQHZnZXIua2VybmVsLm9yZz4gT24gQmVoYWxm
+IE9mIExhdXJlbnQgUGluY2hhcnQNCj4gU2VudDogMDcgTm92ZW1iZXIgMjAxOSAxOTo1MQ0KPiBT
+dWJqZWN0OiBSZTogW1BBVENIIHYzIDQvOF0gZHJtOiByY2FyLWR1OiBsdmRzOiBBZGQgZHVhbC1M
+VkRTIHBhbmVscyBzdXBwb3J0DQo+IA0KPiBIaSBGYWJyaXppbywNCj4gDQo+IFRoYW5rIHlvdSBm
+b3IgdGhlIHBhdGNoLg0KPiANCj4gT24gV2VkLCBBdWcgMjgsIDIwMTkgYXQgMDc6MzY6MzhQTSAr
+MDEwMCwgRmFicml6aW8gQ2FzdHJvIHdyb3RlOg0KPiA+IFRoZSBkcml2ZXIgZG9lc24ndCBzdXBw
+b3J0IGR1YWwtbGluayBMVkRTIGRpc3BsYXlzLCBhbmQgdGhlIHdheQ0KPiA+IGl0IGlkZW50aWZp
+ZXMgYnJpZGdlcyB3b24ndCBhbGxvdyBmb3IgZHVhbC1MVkRTIGRpc3BsYXlzIHRvIGJlDQo+ID4g
+Y29ubmVjdGVkLiBBbHNvLCBpdCdzIG5vdCBwb3NzaWJsZSB0byBzd2FwIGV2ZW4gYW5kIG9kZCBw
+aXhlbHMNCj4gPiBhcm91bmQgaW4gY2FzZSB0aGUgd2lyaW5nIGlzbid0IHRha2luZyBhZHZhbnRh
+Z2Ugb2YgdGhlIGRlZmF1bHQNCj4gPiBoYXJkd2FyZSBjb25maWd1cmF0aW9uLiBGdXJ0aGVyIG1v
+cmUsIHRoZSAibW9kZSIgb2YgdGhlIGNvbXBhbmlvbg0KPiA+IGVuY29kZXIgc2hvdWxkIGJlIHNh
+bWUgYXMgdGhlIG1vZGUgb2YgdGhlIHByaW1hcnkgZW5jb2Rlci4NCj4gPg0KPiA+IFJld29yayB0
+aGUgZHJpdmVyIHRvIGltcHJvdmUgYWxsIG9mIHRoZSBhYm92ZSwgc28gdGhhdCBpdCBjYW4NCj4g
+PiBzdXBwb3J0IGR1YWwtTFZEUyBkaXNwbGF5cy4NCj4gDQo+IFRoYXQncyBsb3RzIG9mIGNoYW5n
+ZXMgaW4gb25lIHBhdGNoLCBjb3VsZCBpdCBiZSBzcGxpdCB0byBlYXNlIHJldmlldyA/DQo+IEFs
+c28sIHNob3VsZCB0aGUgY29tbWl0IG1lc3NhZ2UgYmUgcmV3b3JkZWQgdG8gZXhwbGFpbiB3aGF0
+IHRoZSBwYXRjaA0KPiBkb2VzLCBpbnN0ZWFkIG9mIGVudW1lcmF0aW5nIGlzc3VlcyA/IFdoZW4g
+dGhlcmUncyBhIHNpbmdsZSBpc3N1ZSBiZWluZw0KPiBhZGRyZXNzZWQgaW4gYSBwYXRjaCBpdCdz
+IHVzdWFsbHkgZmluZSwgYnV0IHRoZXJlIHRoZSBjaGFuZ2UgaXMgbGFyZ2VyLA0KPiB3aXRob3V0
+IGFuIGV4cGxhbmF0aW9uIG9mIGhvdyB5b3UgaW50ZW5kIHRvIGZpeCB0aGUgaXNzdWVzIEkgY2Fu
+J3QgdGVsbA0KPiBpZiB0aGUgY29kZSByZWFsbHkgbWF0Y2hlcyB5b3VyIGludGVudC4NCg0KU29y
+cnkgZm9yIHRoZSBwYWluLCBJJ2xsIHNwbGl0IHRoaXMgcGF0Y2ggaW50byBzbWFsbGVyIHBhdGNo
+ZXMuDQoNCj4gDQo+ID4gU2lnbmVkLW9mZi1ieTogRmFicml6aW8gQ2FzdHJvIDxmYWJyaXppby5j
+YXN0cm9AYnAucmVuZXNhcy5jb20+DQo+ID4NCj4gPiAtLS0NCj4gPiB2Mi0+djM6DQo+ID4gKiBy
+ZXdvcmtlZCB0byB0YWtlIGFkdmFudGFuZ2Ugb2YgdGhlIG5ldyBkdC1iaW5kaW5ncw0KPiA+ICog
+c3F1YXNoZWQgaW4gdGhlIHBhdGNoZSBmb3IgZml4aW5nIHRoZSBjb21wYW5pb24ncyBtb2RlDQo+
+ID4NCj4gPiBMYXVyZW50LA0KPiA+DQo+ID4gdW5mb3J0dW5hdGVseSB0aGUgYmVzdCB3YXkgdG8g
+Z2V0IHRoZSBjb21wYW5pb24gZW5jb2RlciB0byB1c2UNCj4gPiB0aGUgc2FtZSBtb2RlIGFzIHRo
+ZSBwcmltYXJ5IGVuY29kZXIgaXMgc2V0dGluZyB0aGUgbW9kZSBkaXJlY3RseQ0KPiA+IHdpdGhv
+dXQgY2FsbGluZyBpbnRvIHJjYXJfbHZkc19tb2RlX3NldCBmb3IgdGhlIGNvbXBhbmlvbiBlbmNv
+ZGVyLA0KPiA+IGFzIHRoZSBiZWxvdyB0ZXN0IGZhaWxzIGZvciB0aGUgY29tcGFuaW9uIGVuY29k
+ZXIgaW4NCj4gPiByY2FyX2x2ZHNfZ2V0X2x2ZHNfbW9kZToNCj4gPiBpZiAoIWluZm8tPm51bV9i
+dXNfZm9ybWF0cyB8fCAhaW5mby0+YnVzX2Zvcm1hdHMpDQo+IA0KPiBXb3VsZCAiW1BBVENIXSBk
+cm06IHJjYXItZHU6IGx2ZHM6IEdldCBtb2RlIGZyb20gc3RhdGUiIGhlbHAgaGVyZSA/DQo+IE1h
+eWJlIHlvdSBjb3VsZCByZXZpZXcgdGhhdCBwYXRjaCwgSSBjb3VsZCB0aGVuIGluY2x1ZGUgaXQg
+aW4gbXkgLW5leHQNCj4gYnJhbmNoLCB5b3VyIHdvcmsgd291bGQgYmUgc2ltcGxpZmllZCwgYW5k
+IGV2ZXJ5Ym9keSB3b3VsZCBiZSBoYXBweSA/DQo+IDotKQ0KDQpJIGdhdmUgdGhhdCBhIHRyeSwg
+aXQgZG9lc24ndCB3b3JrIGZvciBtZSwgZXZlbiBhZnRlciBmaXhpbmcgdGhlIE5VTEwNCnBvaW50
+ZXIuIFBlcmhhcHMgd2UgY291bGQgZmluYWxpemUgdGhpcyBzZXJpZXMgZmlyc3QgYW5kIHRoZW4g
+d2UgY291bGQgZmlndXJlDQp0aGF0IHBhdGNoIG91dCBuZXh0Pw0KDQo+IA0KPiA+IEFueWhvdywg
+c2V0dGluZyB0aGUgbW9kZSBmb3IgdGhlIGNvbXBhbmlvbiBlbmNvZGVyIGRvZXNuJ3Qgc2VlbQ0K
+PiA+IHRvIGJlIG1hbmRhcnkgYWNjb3JkaW5nIHRvIHRoZSBleHBlcmltZW50cyBJIGhhdmUgYmVl
+biBydW5uaW5nLA0KPiA+IGJ1dCB0aGUgSFcgVXNlcidzIE1hbnVhbCBkb2Vzbid0IHJlYWxseSBz
+YXkgbXVjaCBhYm91dCB0aGlzLA0KPiA+IHRoZXJlZm9yZSBJIHRoaW5rIHRoZSBzYWZlc3Qgb3B0
+aW9uIGlzIHN0aWxsIHRvIHNldCB0aGUgbW9kZSBmb3INCj4gPiB0aGUgY29tcGFuaW9uIGVuY29k
+ZXIuDQo+IA0KPiBJIGFncmVlIGl0IHNob3VsZCBiZSBkb25lLg0KPiANCj4gPiAtLS0NCj4gPiAg
+ZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9sdmRzLmMgfCAxMTAgKysrKysrKysrKysrKysr
+KysrKysrLS0tLS0tLS0tLS0tLS0tDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA2NSBpbnNlcnRpb25z
+KCspLCA0NSBkZWxldGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
+cm0vcmNhci1kdS9yY2FyX2x2ZHMuYyBiL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfbHZk
+cy5jDQo+ID4gaW5kZXggM2ZlMGI4Ni4uZGZlYzVlNyAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJz
+L2dwdS9kcm0vcmNhci1kdS9yY2FyX2x2ZHMuYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9y
+Y2FyLWR1L3JjYXJfbHZkcy5jDQo+ID4gQEAgLTIwLDYgKzIwLDggQEANCj4gPiAgI2luY2x1ZGUg
+PGRybS9kcm1fYXRvbWljLmg+DQo+ID4gICNpbmNsdWRlIDxkcm0vZHJtX2F0b21pY19oZWxwZXIu
+aD4NCj4gPiAgI2luY2x1ZGUgPGRybS9kcm1fYnJpZGdlLmg+DQo+ID4gKyNpbmNsdWRlIDxkcm0v
+ZHJtX2J1c190aW1pbmdzLmg+DQo+ID4gKyNpbmNsdWRlIDxkcm0vZHJtX29mLmg+DQo+ID4gICNp
+bmNsdWRlIDxkcm0vZHJtX3BhbmVsLmg+DQo+ID4gICNpbmNsdWRlIDxkcm0vZHJtX3Byb2JlX2hl
+bHBlci5oPg0KPiA+DQo+ID4gQEAgLTY5LDYgKzcxLDcgQEAgc3RydWN0IHJjYXJfbHZkcyB7DQo+
+ID4NCj4gPiAgCXN0cnVjdCBkcm1fYnJpZGdlICpjb21wYW5pb247DQo+ID4gIAlib29sIGR1YWxf
+bGluazsNCj4gPiArCWJvb2wgc3RyaXBlX3N3YXBfZGF0YTsNCj4gPiAgfTsNCj4gPg0KPiA+ICAj
+ZGVmaW5lIGJyaWRnZV90b19yY2FyX2x2ZHMoYikgXA0KPiA+IEBAIC00MzksMTIgKzQ0MiwyMCBA
+QCBzdGF0aWMgdm9pZCByY2FyX2x2ZHNfZW5hYmxlKHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2Up
+DQo+ID4gIAlyY2FyX2x2ZHNfd3JpdGUobHZkcywgTFZEQ0hDUiwgbHZkaGNyKTsNCj4gPg0KPiA+
+ICAJaWYgKGx2ZHMtPmluZm8tPnF1aXJrcyAmIFJDQVJfTFZEU19RVUlSS19EVUFMX0xJTkspIHsN
+Cj4gPiAtCQkvKg0KPiA+IC0JCSAqIENvbmZpZ3VyZSB2ZXJ0aWNhbCBzdHJpcGUgYmFzZWQgb24g
+dGhlIG1vZGUgb2Ygb3BlcmF0aW9uIG9mDQo+ID4gLQkJICogdGhlIGNvbm5lY3RlZCBkZXZpY2Uu
+DQo+ID4gLQkJICovDQo+ID4gLQkJcmNhcl9sdmRzX3dyaXRlKGx2ZHMsIExWRFNUUklQRSwNCj4g
+PiAtCQkJCWx2ZHMtPmR1YWxfbGluayA/IExWRFNUUklQRV9TVF9PTiA6IDApOw0KPiA+ICsJCXUz
+MiBsdmRzdHJpcGUgPSAwOw0KPiA+ICsNCj4gPiArCQlpZiAobHZkcy0+ZHVhbF9saW5rKQ0KPiA+
+ICsJCQkvKg0KPiA+ICsJCQkgKiBDb25maWd1cmUgdmVydGljYWwgc3RyaXBlIGJhc2VkIG9uIHRo
+ZSBtb2RlIG9mDQo+ID4gKwkJCSAqIG9wZXJhdGlvbiBvZiB0aGUgY29ubmVjdGVkIGRldmljZS4N
+Cj4gPiArCQkJICoNCj4gPiArCQkJICogU1RfU1dBUCBmcm9tIExWRDFTVFJJUEUgaXMgcmVzZXJ2
+ZWQsIGRvIG5vdCBzZXQNCj4gPiArCQkJICogaW4gdGhlIGNvbXBhbmlvbiBMVkRTDQo+ID4gKwkJ
+CSAqLw0KPiA+ICsJCQlsdmRzdHJpcGUgPSBMVkRTVFJJUEVfU1RfT04gfA0KPiA+ICsJCQkJKGx2
+ZHMtPmNvbXBhbmlvbiAmJiBsdmRzLT5zdHJpcGVfc3dhcF9kYXRhID8NCj4gPiArCQkJCSBMVkRT
+VFJJUEVfU1RfU1dBUCA6IDApOw0KPiA+ICsJCXJjYXJfbHZkc193cml0ZShsdmRzLCBMVkRTVFJJ
+UEUsIGx2ZHN0cmlwZSk7DQo+ID4gIAl9DQo+ID4NCj4gPiAgCS8qDQo+ID4gQEAgLTYwMyw2ICs2
+MTQsMTEgQEAgc3RhdGljIHZvaWQgcmNhcl9sdmRzX21vZGVfc2V0KHN0cnVjdCBkcm1fYnJpZGdl
+ICpicmlkZ2UsDQo+ID4gIAlsdmRzLT5kaXNwbGF5X21vZGUgPSAqYWRqdXN0ZWRfbW9kZTsNCj4g
+Pg0KPiA+ICAJcmNhcl9sdmRzX2dldF9sdmRzX21vZGUobHZkcyk7DQo+ID4gKwlpZiAobHZkcy0+
+Y29tcGFuaW9uKSB7DQo+ID4gKwkJc3RydWN0IHJjYXJfbHZkcyAqY29tcGFuaW9uX2x2ZHMgPSBi
+cmlkZ2VfdG9fcmNhcl9sdmRzKA0KPiA+ICsJCQkJCQkJbHZkcy0+Y29tcGFuaW9uKTsNCj4gPiAr
+CQljb21wYW5pb25fbHZkcy0+bW9kZSA9IGx2ZHMtPm1vZGU7DQo+ID4gKwl9DQo+ID4gIH0NCj4g
+Pg0KPiA+ICBzdGF0aWMgaW50IHJjYXJfbHZkc19hdHRhY2goc3RydWN0IGRybV9icmlkZ2UgKmJy
+aWRnZSkNCj4gPiBAQCAtNjY3LDkgKzY4MywxMCBAQCBFWFBPUlRfU1lNQk9MX0dQTChyY2FyX2x2
+ZHNfZHVhbF9saW5rKTsNCj4gPiAgc3RhdGljIGludCByY2FyX2x2ZHNfcGFyc2VfZHRfY29tcGFu
+aW9uKHN0cnVjdCByY2FyX2x2ZHMgKmx2ZHMpDQo+ID4gIHsNCj4gPiAgCWNvbnN0IHN0cnVjdCBv
+Zl9kZXZpY2VfaWQgKm1hdGNoOw0KPiA+IC0Jc3RydWN0IGRldmljZV9ub2RlICpjb21wYW5pb247
+DQo+ID4gKwlzdHJ1Y3QgZGV2aWNlX25vZGUgKmNvbXBhbmlvbiwgKnAwID0gTlVMTCwgKnAxID0g
+TlVMTDsNCj4gPiAgCXN0cnVjdCBkZXZpY2UgKmRldiA9IGx2ZHMtPmRldjsNCj4gPiAtCWludCBy
+ZXQgPSAwOw0KPiA+ICsJc3RydWN0IHJjYXJfbHZkcyAqY29tcGFuaW9uX2x2ZHM7DQo+ID4gKwlp
+bnQgcmV0ID0gMCwgZHVhbF9saW5rOw0KPiA+DQo+ID4gIAkvKiBMb2NhdGUgdGhlIGNvbXBhbmlv
+biBMVkRTIGVuY29kZXIgZm9yIGR1YWwtbGluayBvcGVyYXRpb24sIGlmIGFueS4gKi8NCj4gPiAg
+CWNvbXBhbmlvbiA9IG9mX3BhcnNlX3BoYW5kbGUoZGV2LT5vZl9ub2RlLCAicmVuZXNhcyxjb21w
+YW5pb24iLCAwKTsNCj4gPiBAQCAtNjg3LDE2ICs3MDQsNTAgQEAgc3RhdGljIGludCByY2FyX2x2
+ZHNfcGFyc2VfZHRfY29tcGFuaW9uKHN0cnVjdCByY2FyX2x2ZHMgKmx2ZHMpDQo+ID4gIAkJZ290
+byBkb25lOw0KPiA+ICAJfQ0KPiA+DQo+ID4gKwkvKg0KPiA+ICsJICogV2UgbmVlZCB0byB3b3Jr
+IG91dCBpZiB0aGUgc2luayBpcyBleHBlY3RpbmcgdXMgdG8gZnVuY3Rpb24gaW4NCj4gPiArCSAq
+IGR1YWwtbGluayBtb2RlLiBXZSBkbyB0aGlzIGJ5IGxvb2tpbmcgYXQgdGhlIERUIHBvcnQgbm9k
+ZXMgd2UgYXJlDQo+ID4gKwkgKiBjb25uZWN0ZWQgdG8sIGlmIHRoZXkgYXJlIG1hcmtlZCBhcyBl
+eHBlY3RpbmcgZXZlbiBwaXhlbHMgYW5kDQo+ID4gKwkgKiBvZGQgcGl4ZWxzIHRoYW4gd2UgbmVl
+ZCB0byBlbmFibGUgdmVydGljYWwgc3RyaXBlIG91dHB1dA0KPiA+ICsJICovDQo+ID4gKwlwMCA9
+IG9mX2dyYXBoX2dldF9wb3J0X2J5X2lkKGRldi0+b2Zfbm9kZSwgMSk7DQo+ID4gKwlwMSA9IG9m
+X2dyYXBoX2dldF9wb3J0X2J5X2lkKGNvbXBhbmlvbiwgMSk7DQo+ID4gKwlkdWFsX2xpbmsgPSBk
+cm1fb2ZfbHZkc19nZXRfZHVhbF9saW5rX2NvbmZpZ3VyYXRpb24ocDAsIHAxKTsNCj4gDQo+IFlv
+dSBjYW4gY2FsbCBvZl9ub2RlX3B1dChwMCkgYW5kIG9mX25vZGVfcHV0KHAxKSBoZXJlIGluc3Rl
+YWQgb2YgYWRkaW5nDQo+IHRoZW0gYXQgdGhlIGVuZCBvZiB0aGUgZnVuY3Rpb24uDQoNCkknbGwg
+YmUgcmVzdHJ1Y3R1cmluZyB0aGlzIGNvZGUgYSBsaXR0bGUsIGFuZCBJJ2xsIG1vdmUgdGhlIHB1
+dCB1cCBoZXJlLCBhcyB5b3Ugc3VnZ2VzdGVkDQoNCj4gDQo+ID4gKwlpZiAoZHVhbF9saW5rID49
+IERSTV9MVkRTX0RVQUxfTElOS19FVkVOX09ERF9QSVhFTFMpIHsNCj4gPiArCQlkZXZfZGJnKGRl
+diwgIkR1YWwtbGluayBjb25maWd1cmF0aW9uIGRldGVjdGVkXG4iKTsNCj4gPiArCQlsdmRzLT5k
+dWFsX2xpbmsgPSB0cnVlOw0KPiA+ICsJfSBlbHNlIHsNCj4gPiArCQkvKiBkdWFsLWxpbmsgbW9k
+ZSBpcyBub3QgcmVxdWlyZWQgKi8NCj4gPiArCQlkZXZfZGJnKGRldiwgIlNpbmdsZS1saW5rIGNv
+bmZpZ3VyYXRpb24gZGV0ZWN0ZWRcbiIpOw0KPiA+ICsJCWdvdG8gZG9uZTsNCj4gPiArCX0NCj4g
+DQo+IE1pc3NpbmcgYmxhbmsgbGluZSBoZXJlLg0KDQpUaGFua3MNCg0KPiANCj4gPiArCS8qDQo+
+ID4gKwkgKiBXZSBtYXkgbmVlZCB0byBzd2FwIGV2ZW4gYW5kIG9kZCBwaXhlbHMgYXJvdW5kIGlu
+IGNhc2UgdGhlIHdpcmluZw0KPiA+ICsJICogZG9lc24ndCBtYXRjaCB0aGUgZGVmYXVsdCBjb25m
+aWd1cmF0aW9uLg0KPiA+ICsJICogQnkgZGVmYXVsdCB3ZSBnZW5lcmF0ZSBldmVuIHBpeGVscyBm
+cm9tIHRoaXMgZW5jb2RlciBhbmQgb2RkIHBpeGVscw0KPiA+ICsJICogZnJvbSB0aGUgY29tcGFu
+aW9uIGVuY29kZXIsIGJ1dCBpZiBwMCBpcyBjb25uZWN0ZWQgdG8gdGhlIHBvcnQNCj4gPiArCSAq
+IGV4cGVjdGluZyBvb2QgcGl4ZWxzLCBhbmQgcDEgaXMgY29ubmVjdGVkIHRvIHRoZSBwb3J0IGV4
+cGVjdGluZyBldmVuDQo+ID4gKwkgKiBwaXhlbHMsIHRoZW4gd2UgbmVlZCB0byBzd2FwIGV2ZW4g
+YW5kIG9kZCBwaXhlbHMgYXJvdW5kDQo+ID4gKwkgKi8NCj4gPiArCWlmIChkdWFsX2xpbmsgPT0g
+RFJNX0xWRFNfRFVBTF9MSU5LX09ERF9FVkVOX1BJWEVMUykgew0KPiA+ICsJCWRldl9kYmcoZGV2
+LCAiRGF0YSBzd2FwcGluZyByZXF1aXJlZFxuIik7DQo+ID4gKwkJbHZkcy0+c3RyaXBlX3N3YXBf
+ZGF0YSA9IHRydWU7DQo+ID4gKwl9DQo+ID4gKw0KPiA+ICAJbHZkcy0+Y29tcGFuaW9uID0gb2Zf
+ZHJtX2ZpbmRfYnJpZGdlKGNvbXBhbmlvbik7DQo+ID4gIAlpZiAoIWx2ZHMtPmNvbXBhbmlvbikg
+ew0KPiA+ICAJCXJldCA9IC1FUFJPQkVfREVGRVI7DQo+ID4gIAkJZ290byBkb25lOw0KPiA+ICAJ
+fQ0KPiA+ICsJY29tcGFuaW9uX2x2ZHMgPSBicmlkZ2VfdG9fcmNhcl9sdmRzKGx2ZHMtPmNvbXBh
+bmlvbik7DQo+ID4gKwljb21wYW5pb25fbHZkcy0+ZHVhbF9saW5rID0gbHZkcy0+ZHVhbF9saW5r
+Ow0KPiANCj4gSSBkb24ndCBsaWtlIHBva2luZyBkaXJlY3RseSBpbiB0aGUgY29tcGFuaW9uIGxp
+a2UgdGhpcyA6LSggQ2FuJ3Qgd2UgbGV0DQo+IHRoZSBjb21wYW5pb24gZGV0ZWN0IGR1YWwgbGlu
+ayBtb2RlIGl0c2VsZiA/DQoNCkkgZG9uJ3QgbGlrZSBpdCBlaXRoZXIsIGJ1dCB0aGUgY29tcGFu
+aW9uIGVuY29kZXIgZG9lc24ndCBob2xkIGEgcmVmZXJlbmNlIHRvIHRoZQ0KUHJpbWFyeSBlbmNv
+ZGVyIHJpZ2h0IG5vdywgc28gd2Ugd291bGQgbmVlZCB0byBjaGFuZ2Ugc3RyYXRlZ3kgZm9yIHRo
+aXMuDQpJIHRoaW5rIHBlcmhhcHMgd2UgY291bGQgYWRkIHRoaXMgc29sdXRpb24gdG8gdGhlIGRy
+aXZlciwgYW5kIHRoZW4gd2UgZml4IGl0DQpwcm9wZXJseSBsYXRlciBvbj8NCg0KPiANCj4gPg0K
+PiA+ICAJZGV2X2RiZyhkZXYsICJGb3VuZCBjb21wYW5pb24gZW5jb2RlciAlcE9GXG4iLCBjb21w
+YW5pb24pOw0KPiA+DQo+ID4gIGRvbmU6DQo+ID4gIAlvZl9ub2RlX3B1dChjb21wYW5pb24pOw0K
+PiA+ICsJb2Zfbm9kZV9wdXQocDApOw0KPiA+ICsJb2Zfbm9kZV9wdXQocDEpOw0KPiA+DQo+ID4g
+IAlyZXR1cm4gcmV0Ow0KPiA+ICB9DQo+ID4gQEAgLTcwNCwxMCArNzU1LDcgQEAgc3RhdGljIGlu
+dCByY2FyX2x2ZHNfcGFyc2VfZHRfY29tcGFuaW9uKHN0cnVjdCByY2FyX2x2ZHMgKmx2ZHMpDQo+
+ID4gIHN0YXRpYyBpbnQgcmNhcl9sdmRzX3BhcnNlX2R0KHN0cnVjdCByY2FyX2x2ZHMgKmx2ZHMp
+DQo+ID4gIHsNCj4gPiAgCXN0cnVjdCBkZXZpY2Vfbm9kZSAqbG9jYWxfb3V0cHV0ID0gTlVMTDsN
+Cj4gPiAtCXN0cnVjdCBkZXZpY2Vfbm9kZSAqcmVtb3RlX2lucHV0ID0gTlVMTDsNCj4gPiAgCXN0
+cnVjdCBkZXZpY2Vfbm9kZSAqcmVtb3RlID0gTlVMTDsNCj4gPiAtCXN0cnVjdCBkZXZpY2Vfbm9k
+ZSAqbm9kZTsNCj4gPiAtCWJvb2wgaXNfYnJpZGdlID0gZmFsc2U7DQo+ID4gIAlpbnQgcmV0ID0g
+MDsNCj4gPg0KPiA+ICAJbG9jYWxfb3V0cHV0ID0gb2ZfZ3JhcGhfZ2V0X2VuZHBvaW50X2J5X3Jl
+Z3MobHZkcy0+ZGV2LT5vZl9ub2RlLCAxLCAwKTsNCj4gPiBAQCAtNzM1LDQ1ICs3ODMsMTcgQEAg
+c3RhdGljIGludCByY2FyX2x2ZHNfcGFyc2VfZHQoc3RydWN0IHJjYXJfbHZkcyAqbHZkcykNCj4g
+PiAgCQlnb3RvIGRvbmU7DQo+ID4gIAl9DQo+ID4NCj4gDQo+IEkgdGhpbmsgeW91IGNhbiBhbHNv
+IGRyb3AgYWxsIHRoZSBjb2RlIGFib3ZlLg0KPiANCj4gPiAtCXJlbW90ZV9pbnB1dCA9IG9mX2dy
+YXBoX2dldF9yZW1vdGVfZW5kcG9pbnQobG9jYWxfb3V0cHV0KTsNCj4gPiAtDQo+ID4gLQlmb3Jf
+ZWFjaF9lbmRwb2ludF9vZl9ub2RlKHJlbW90ZSwgbm9kZSkgew0KPiA+IC0JCWlmIChub2RlICE9
+IHJlbW90ZV9pbnB1dCkgew0KPiA+IC0JCQkvKg0KPiA+IC0JCQkgKiBXZSd2ZSBmb3VuZCBvbmUg
+ZW5kcG9pbnQgb3RoZXIgdGhhbiB0aGUgaW5wdXQsIHRoaXMNCj4gPiAtCQkJICogbXVzdCBiZSBh
+IGJyaWRnZS4NCj4gPiAtCQkJICovDQo+ID4gLQkJCWlzX2JyaWRnZSA9IHRydWU7DQo+ID4gLQkJ
+CW9mX25vZGVfcHV0KG5vZGUpOw0KPiA+IC0JCQlicmVhazsNCj4gPiAtCQl9DQo+ID4gLQl9DQo+
+ID4gLQ0KPiA+IC0JaWYgKGlzX2JyaWRnZSkgew0KPiA+IC0JCWx2ZHMtPm5leHRfYnJpZGdlID0g
+b2ZfZHJtX2ZpbmRfYnJpZGdlKHJlbW90ZSk7DQo+ID4gLQkJaWYgKCFsdmRzLT5uZXh0X2JyaWRn
+ZSkgew0KPiA+IC0JCQlyZXQgPSAtRVBST0JFX0RFRkVSOw0KPiA+IC0JCQlnb3RvIGRvbmU7DQo+
+ID4gLQkJfQ0KPiA+IC0NCj4gPiAtCQlpZiAobHZkcy0+aW5mby0+cXVpcmtzICYgUkNBUl9MVkRT
+X1FVSVJLX0RVQUxfTElOSykNCj4gPiAtCQkJbHZkcy0+ZHVhbF9saW5rID0gbHZkcy0+bmV4dF9i
+cmlkZ2UtPnRpbWluZ3MNCj4gPiAtCQkJCQk/IGx2ZHMtPm5leHRfYnJpZGdlLT50aW1pbmdzLT5k
+dWFsX2xpbmsNCj4gPiAtCQkJCQk6IGZhbHNlOw0KPiANCj4gQXJlbid0IHlvdSBicmVha2luZyBi
+YWNrd2FyZCBjb21wYXRpYmlsaXR5IHdpdGggdGhpcyBjaGFuZ2UgPyBVbmxlc3MgSSdtDQo+IG1p
+c3Rha2VuIHlvdSdyZSBub3cgcmVxdWlyaW5nIHRoZSBuZXcgRFQgcHJvcGVydGllcywgYW5kIHRo
+ZSBleGlzdGluZyBEVA0KPiB0aGF0IGluY2x1ZGUgYSB0aGM2M2x2ZDEwMjQgd29uJ3QgaGF2ZSB0
+aGVtLg0KDQpVbmZvcnR1bmF0ZWx5IEkgYW0gYnJlYWtpbmcgYmFja3dhcmQgY29tcGF0aWJpbGl0
+eSBoZXJlLiBXaWxsIGJlIG1vcmUgY2FyZWZ1bA0KaW4gdjQsIHNvcnJ5IQ0KDQo+IA0KPiA+IC0J
+fSBlbHNlIHsNCj4gPiAtCQlsdmRzLT5wYW5lbCA9IG9mX2RybV9maW5kX3BhbmVsKHJlbW90ZSk7
+DQo+ID4gLQkJaWYgKElTX0VSUihsdmRzLT5wYW5lbCkpIHsNCj4gPiAtCQkJcmV0ID0gUFRSX0VS
+UihsdmRzLT5wYW5lbCk7DQo+ID4gLQkJCWdvdG8gZG9uZTsNCj4gPiAtCQl9DQo+ID4gKwlyZXQg
+PSBkcm1fb2ZfZmluZF9wYW5lbF9vcl9icmlkZ2UobHZkcy0+ZGV2LT5vZl9ub2RlLCAxLCAwLA0K
+PiA+ICsJCQkJCSAgJmx2ZHMtPnBhbmVsLCAmbHZkcy0+bmV4dF9icmlkZ2UpOw0KPiA+ICsJaWYg
+KHJldCkgew0KPiA+ICsJCXJldCA9IC1FUFJPQkVfREVGRVI7DQo+IA0KPiBTaG91bGRuJ3QgeW91
+IHJldHVybiByZXQgaW5zdGVhZCBvZiBvdmVycmlkaW5nIGl0ID8NCg0KQ2FuIGRvDQoNCg0KVGhh
+bmtzLA0KRmFiDQoNCj4gDQo+ID4gKwkJZ290byBkb25lOw0KPiA+ICAJfQ0KPiA+IC0NCj4gPiAt
+CWlmIChsdmRzLT5kdWFsX2xpbmspDQo+ID4gKwlpZiAobHZkcy0+aW5mby0+cXVpcmtzICYgUkNB
+Ul9MVkRTX1FVSVJLX0RVQUxfTElOSykNCj4gPiAgCQlyZXQgPSByY2FyX2x2ZHNfcGFyc2VfZHRf
+Y29tcGFuaW9uKGx2ZHMpOw0KPiA+DQo+ID4gIGRvbmU6DQo+ID4gIAlvZl9ub2RlX3B1dChsb2Nh
+bF9vdXRwdXQpOw0KPiA+IC0Jb2Zfbm9kZV9wdXQocmVtb3RlX2lucHV0KTsNCj4gPiAgCW9mX25v
+ZGVfcHV0KHJlbW90ZSk7DQo+ID4NCj4gPiAgCS8qDQo+IA0KPiAtLQ0KPiBSZWdhcmRzLA0KPiAN
+Cj4gTGF1cmVudCBQaW5jaGFydA0K
