@@ -2,219 +2,230 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 902D9115203
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2019 15:08:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D101115204
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2019 15:09:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726256AbfLFOIu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Dec 2019 09:08:50 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42938 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726234AbfLFOIu (ORCPT
+        id S1726237AbfLFOJI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Dec 2019 09:09:08 -0500
+Received: from foss.arm.com ([217.140.110.172]:45790 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726234AbfLFOJI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Dec 2019 09:08:50 -0500
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E3D82E5;
-        Fri,  6 Dec 2019 15:08:47 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1575641327;
-        bh=GDkTs3n1qcQISR/c6xpjMyWUhzrKF4S7na4S6XDJWTk=;
-        h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
-        b=pGXYLyuljS9uYf9H5HcG4oxFRjS2SxliDuu2UOb89lnhIfjx7jIVFN9HEY36u5Hra
-         jNGeW1D6ZJJ6ifgkimCUe2tcGEIKFDgvIR5WbnXf6tcgTjdnCevD88kJNt4HJ6MWNQ
-         ayAptBbsHUvZbjXgozlbmuxjG940KTjsGhcuwElk=
-Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH 2/3] media: i2c: max9286: Add GPIO chip controller
-To:     Jacopo Mondi <jacopo@jmondi.org>, linux-renesas-soc@vger.kernel.org
-References: <20191116165034.39001-1-jacopo+renesas@jmondi.org>
- <20191206140520.10457-1-kieran.bingham@ideasonboard.com>
- <20191206140520.10457-2-kieran.bingham@ideasonboard.com>
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
- 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
- WZw01QYHU/GUV/zHJSFk
-Organization: Ideas on Board
-Message-ID: <318ef28f-08fa-cded-965f-ecdfa62dcbb7@ideasonboard.com>
-Date:   Fri, 6 Dec 2019 14:08:44 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Fri, 6 Dec 2019 09:09:08 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9397D1FB;
+        Fri,  6 Dec 2019 06:09:07 -0800 (PST)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F249A3F718;
+        Fri,  6 Dec 2019 06:09:03 -0800 (PST)
+Date:   Fri, 6 Dec 2019 14:09:01 +0000
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Enric Balletbo Serra <eballetbo@gmail.com>
+Cc:     Rob Herring <robh@kernel.org>,
+        Andrew Murray <andrew.murray@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
+        linux-pci@vger.kernel.org, Shawn Lin <shawn.lin@rock-chips.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Toan Le <toan@os.amperecomputing.com>,
+        Will Deacon <will@kernel.org>,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Ray Jui <rjui@broadcom.com>,
+        Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
+        Simon Horman <horms@verge.net.au>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Scott Branden <sbranden@broadcom.com>,
+        Jingoo Han <jingoohan1@gmail.com>, rfi@lists.rocketboards.org,
+        linux-renesas-soc@vger.kernel.org,
+        Tom Joseph <tjoseph@cadence.com>,
+        Srinath Mannam <srinath.mannam@broadcom.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Ley Foon Tan <lftan@altera.com>
+Subject: Re: [PATCH v3 10/25] PCI: rockchip: Use
+ pci_parse_request_of_pci_ranges()
+Message-ID: <20191206140901.GB26562@e121166-lin.cambridge.arm.com>
+References: <20191028163256.8004-1-robh@kernel.org>
+ <20191028163256.8004-11-robh@kernel.org>
+ <CAFqH_51-BMWSGGBpoKxA3UK+yPHSpPgok5i=daSC0KS5oc5ueA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20191206140520.10457-2-kieran.bingham@ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFqH_51-BMWSGGBpoKxA3UK+yPHSpPgok5i=daSC0KS5oc5ueA@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello me,
-
-On 06/12/2019 14:05, Kieran Bingham wrote:
-> Provide a GPIO chip to control the two output lines available on the
-> MAX9286.
+On Thu, Dec 05, 2019 at 06:56:01PM +0100, Enric Balletbo Serra wrote:
+> Hi Rob,
 > 
-> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> ---
->  drivers/media/i2c/max9286.c | 68 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 68 insertions(+)
+> Missatge de Rob Herring <robh@kernel.org> del dia dl., 28 d’oct. 2019
+> a les 17:38:
+> >
+> > Convert the Rockchip host bridge to use the common
+> > pci_parse_request_of_pci_ranges().
+> >
+> > There's no need to assign the resources to a temporary list first. Just
+> > use bridge->windows directly and remove all the temporary list handling.
+> >
+> > Cc: Shawn Lin <shawn.lin@rock-chips.com>
+> > Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> > Cc: Andrew Murray <andrew.murray@arm.com>
+> > Cc: Bjorn Helgaas <bhelgaas@google.com>
+> > Cc: Heiko Stuebner <heiko@sntech.de>
+> > Cc: linux-rockchip@lists.infradead.org
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+> > ---
 > 
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index 6ea08fd87811..c34e7b5c7447 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -13,6 +13,7 @@
->  #include <linux/delay.h>
->  #include <linux/device.h>
->  #include <linux/fwnode.h>
-> +#include <linux/gpio/driver.h>
->  #include <linux/i2c.h>
->  #include <linux/i2c-mux.h>
->  #include <linux/module.h>
-> @@ -58,6 +59,8 @@
->  #define MAX9286_HVSRC_D0		(2 << 0)
->  #define MAX9286_HVSRC_D14		(1 << 0)
->  #define MAX9286_HVSRC_D18		(0 << 0)
-> +/* Register 0x0f */
-> +#define MAX9286_0X0F_RESERVED		BIT(3)
->  /* Register 0x12 */
->  #define MAX9286_CSILANECNT(n)		(((n) - 1) << 6)
->  #define MAX9286_CSIDBL			BIT(5)
-> @@ -145,6 +148,9 @@ struct max9286_priv {
->  	struct regulator *regulator;
->  	bool poc_enabled;
->  
-> +	struct gpio_chip gpio;
-> +	u8 gpio_state;
-> +
->  	struct i2c_mux_core *mux;
->  	unsigned int mux_channel;
->  	bool mux_open;
-> @@ -712,6 +718,60 @@ static const struct of_device_id max9286_dt_ids[] = {
->  };
->  MODULE_DEVICE_TABLE(of, max9286_dt_ids);
->  
-> +static void max9286_gpio_set(struct gpio_chip *chip,
-> +			     unsigned int offset, int value)
-> +{
-> +	struct max9286_priv *priv = gpiochip_get_data(chip);
-> +
-> +	if (value)
-> +		priv->gpio_state |= BIT(offset);
-> +	else
-> +		priv->gpio_state &= ~BIT(offset);
-> +
-> +	max9286_write(priv, 0x0f, MAX9286_0X0F_RESERVED | priv->gpio_state);
-> +}
-> +
-> +static int max9286_gpio_get(struct gpio_chip *chip, unsigned int offset)
-> +{
-> +	struct max9286_priv *priv = gpiochip_get_data(chip);
-> +
-> +	return priv->gpio_state & BIT(offset);
-> +}
-> +
-> +static int max9286_gpio(struct max9286_priv *priv)
-> +{
-> +	struct device *dev = &priv->client->dev;
-> +	struct gpio_chip *gpio = &priv->gpio;
-> +	int ret;
-> +
-> +	static const char * const names[] = {
-> +		"GPIO0OUT",
-> +		"GPIO1OUT",
-> +	};
-> +
-> +	/* Configure the GPIO */
-> +	gpio->label = dev_name(dev);
-> +	gpio->parent = dev;
-> +	gpio->owner = THIS_MODULE;
-> +	gpio->of_node = dev->of_node;
-> +	gpio->ngpio = 2;
-> +	gpio->set = max9286_gpio_set;
-> +	gpio->get = max9286_gpio_get;
-> +	gpio->can_sleep = true;
-> +	gpio->names = names;
-> +
-> +	/* GPIO values default to high */
-> +	priv->gpio_state = BIT(0) | BIT(1);
-> +
-> +	ret = devm_gpiochip_add_data(dev, gpio, priv);
-> +	if (ret)
-> +		dev_err(dev, "Unable to create gpio_chip\n");
-> +
-> +	dev_err(dev, "Created gpio_chip for MAX9286\n");
+> I just tested mainline on my Samsung Chromebook Plus, and since
+> yesterday I'm getting a "synchronous external abort" [1]. After a
+> bisection, I found that this patch triggers the issue (this patch was
+> merged yesterday)
 
-This debug line should be removed of course.
+This patch standalone triggers a compilation error - so it does
+trigger a bisection but not the one you are enquiring about.
 
-Now removed.
+Can you try to bisect it again and report back please ?
 
-> +
-> +	return ret;
-> +}
-> +
->  static int max9286_init(struct device *dev)
->  {
->  	struct max9286_priv *priv;
-> @@ -984,6 +1044,14 @@ static int max9286_probe(struct i2c_client *client)
->  	if (ret)
->  		return ret;
->  
-> +	/*
-> +	 * It is possible to set up the power regulator from the GPIO lines,
-> +	 * so it needs to be set up early.
-> +	 */
-> +	ret = max9286_gpio(priv);
-> +	if (ret)
-> +		return ret;
-> +
->  	priv->regulator = regulator_get(&client->dev, "poc");
->  	if (IS_ERR(priv->regulator)) {
->  		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
+Thanks,
+Lorenzo
+
+> I didn't look in detail yet, but if you have any idea of what could be
+> the problem, that would be great.
 > 
-
--- 
-Regards
---
-Kieran
+> Thanks,
+>  Enric
+> 
+> [1] https://hastebin.com/adasegihiw.rb
+> 
+> >  drivers/pci/controller/pcie-rockchip-host.c | 36 ++++-----------------
+> >  1 file changed, 7 insertions(+), 29 deletions(-)
+> >
+> > diff --git a/drivers/pci/controller/pcie-rockchip-host.c b/drivers/pci/controller/pcie-rockchip-host.c
+> > index ef8e677ce9d1..8d2e6f2e141e 100644
+> > --- a/drivers/pci/controller/pcie-rockchip-host.c
+> > +++ b/drivers/pci/controller/pcie-rockchip-host.c
+> > @@ -950,14 +950,10 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
+> >         struct device *dev = &pdev->dev;
+> >         struct pci_bus *bus, *child;
+> >         struct pci_host_bridge *bridge;
+> > +       struct resource *bus_res;
+> >         struct resource_entry *win;
+> > -       resource_size_t io_base;
+> > -       struct resource *mem;
+> > -       struct resource *io;
+> >         int err;
+> >
+> > -       LIST_HEAD(res);
+> > -
+> >         if (!dev->of_node)
+> >                 return -ENODEV;
+> >
+> > @@ -995,29 +991,20 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
+> >         if (err < 0)
+> >                 goto err_deinit_port;
+> >
+> > -       err = devm_of_pci_get_host_bridge_resources(dev, 0, 0xff,
+> > -                                                   &res, &io_base);
+> > +       err = pci_parse_request_of_pci_ranges(dev, &bridge->windows, &bus_res);
+> >         if (err)
+> >                 goto err_remove_irq_domain;
+> >
+> > -       err = devm_request_pci_bus_resources(dev, &res);
+> > -       if (err)
+> > -               goto err_free_res;
+> > +       rockchip->root_bus_nr = bus_res->start;
+> >
+> >         /* Get the I/O and memory ranges from DT */
+> > -       resource_list_for_each_entry(win, &res) {
+> > +       resource_list_for_each_entry(win, &bridge->windows) {
+> >                 switch (resource_type(win->res)) {
+> >                 case IORESOURCE_IO:
+> >                         io = win->res;
+> >                         io->name = "I/O";
+> >                         rockchip->io_size = resource_size(io);
+> >                         rockchip->io_bus_addr = io->start - win->offset;
+> > -                       err = pci_remap_iospace(io, io_base);
+> > -                       if (err) {
+> > -                               dev_warn(dev, "error %d: failed to map resource %pR\n",
+> > -                                        err, io);
+> > -                               continue;
+> > -                       }
+> >                         rockchip->io = io;
+> >                         break;
+> >                 case IORESOURCE_MEM:
+> > @@ -1026,9 +1013,6 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
+> >                         rockchip->mem_size = resource_size(mem);
+> >                         rockchip->mem_bus_addr = mem->start - win->offset;
+> >                         break;
+> > -               case IORESOURCE_BUS:
+> > -                       rockchip->root_bus_nr = win->res->start;
+> > -                       break;
+> >                 default:
+> >                         continue;
+> >                 }
+> > @@ -1036,15 +1020,14 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
+> >
+> >         err = rockchip_pcie_cfg_atu(rockchip);
+> >         if (err)
+> > -               goto err_unmap_iospace;
+> > +               goto err_remove_irq_domain;
+> >
+> >         rockchip->msg_region = devm_ioremap(dev, rockchip->msg_bus_addr, SZ_1M);
+> >         if (!rockchip->msg_region) {
+> >                 err = -ENOMEM;
+> > -               goto err_unmap_iospace;
+> > +               goto err_remove_irq_domain;
+> >         }
+> >
+> > -       list_splice_init(&res, &bridge->windows);
+> >         bridge->dev.parent = dev;
+> >         bridge->sysdata = rockchip;
+> >         bridge->busnr = 0;
+> > @@ -1054,7 +1037,7 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
+> >
+> >         err = pci_scan_root_bus_bridge(bridge);
+> >         if (err < 0)
+> > -               goto err_unmap_iospace;
+> > +               goto err_remove_irq_domain;
+> >
+> >         bus = bridge->bus;
+> >
+> > @@ -1068,10 +1051,6 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
+> >         pci_bus_add_devices(bus);
+> >         return 0;
+> >
+> > -err_unmap_iospace:
+> > -       pci_unmap_iospace(rockchip->io);
+> > -err_free_res:
+> > -       pci_free_resource_list(&res);
+> >  err_remove_irq_domain:
+> >         irq_domain_remove(rockchip->irq_domain);
+> >  err_deinit_port:
+> > @@ -1097,7 +1076,6 @@ static int rockchip_pcie_remove(struct platform_device *pdev)
+> >
+> >         pci_stop_root_bus(rockchip->root_bus);
+> >         pci_remove_root_bus(rockchip->root_bus);
+> > -       pci_unmap_iospace(rockchip->io);
+> >         irq_domain_remove(rockchip->irq_domain);
+> >
+> >         rockchip_pcie_deinit_phys(rockchip);
+> > --
+> > 2.20.1
+> >
+> >
+> > _______________________________________________
+> > Linux-mediatek mailing list
+> > Linux-mediatek@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-mediatek
