@@ -2,114 +2,94 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A5ABC114877
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Dec 2019 22:07:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F26EE114A35
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2019 01:23:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730023AbfLEVG4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Dec 2019 16:06:56 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:42505 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729145AbfLEVG4 (ORCPT
+        id S1725988AbfLFAXq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Dec 2019 19:23:46 -0500
+Received: from sauhun.de ([88.99.104.3]:35496 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725959AbfLFAXq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Dec 2019 16:06:56 -0500
-Received: by mail-ot1-f65.google.com with SMTP id 66so3890328otd.9;
-        Thu, 05 Dec 2019 13:06:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=kfZJgMdMZnEWqYp4l6MRhDa+lgrmX+5UPFpYfdvrZFQ=;
-        b=SoZxAsjeHAmoEf4nNdWHdNcH1eSxQGcAMlZkojEugsfwFP+PMHN/5fG+rRd+a6QsrN
-         UZ2nSGHtgB7j38V6j9TPs0jIXrA+Q5OOtGsGzONxVQ+ynCqo2IadyilFgPosg3/gOxdf
-         3VEQNi8ZiUF0J5ebBwjKwSVnI1m2V/fb8mcJFHJJz5VZSTeZbTV0nOK1nLiSW1ghecYD
-         /flwLufgKqBJxGPODZgph7WUClg+7YA1/B3cJsgJ2UGN4Qxyfg9Ma3+VFf8vsxZlveMq
-         0WbZLwUoPFak+8xVRRFjNI2Gvm8RxNzKG0Q3uoWlDgAn4m8Ds/4u1RwXhKM2C0/9CGja
-         C50A==
-X-Gm-Message-State: APjAAAVKlfEd2gTkmkWLBWw8xtEUxm7kwBuU/TsAzv72M3BjbzhHMyv2
-        7TT0vK57ZYd3gRo5ej7OQA==
-X-Google-Smtp-Source: APXvYqz+giNRZ8MeXlmxtPAkMj15JPvC0Xm4AbR1+kfJ6wADHeXGxnfrjZfPcXGkJATVHVwmwkF53w==
-X-Received: by 2002:a9d:75c7:: with SMTP id c7mr2839523otl.181.1575580014993;
-        Thu, 05 Dec 2019 13:06:54 -0800 (PST)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id r25sm3819723otk.22.2019.12.05.13.06.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2019 13:06:54 -0800 (PST)
-Date:   Thu, 5 Dec 2019 15:06:53 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 4/7] dt-bindings: gpio: Add gpio-repeater bindings
-Message-ID: <20191205210653.GA29969@bogus>
-References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-5-geert+renesas@glider.be>
+        Thu, 5 Dec 2019 19:23:46 -0500
+Received: from localhost (p54B33754.dip0.t-ipconnect.de [84.179.55.84])
+        by pokefinder.org (Postfix) with ESMTPSA id D98032C0484;
+        Fri,  6 Dec 2019 01:23:42 +0100 (CET)
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH] i2c: remove i2c_new_dummy() API
+Date:   Fri,  6 Dec 2019 01:23:22 +0100
+Message-Id: <20191206002322.12801-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191127084253.16356-5-geert+renesas@glider.be>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Nov 27, 2019 at 09:42:50AM +0100, Geert Uytterhoeven wrote:
-> Add Device Tree bindings for a GPIO repeater, with optional translation
-> of physical signal properties.  This is useful for describing explicitly
-> the presence of e.g. an inverter on a GPIO line, and was inspired by the
-> non-YAML gpio-inverter bindings by Harish Jenny K N
-> <harish_kandiga@mentor.com>[1].
-> 
-> Note that this is different from a GPIO Nexus Node[2], which cannot do
-> physical signal property translation.
+All in-kernel users have been converted to
+{devm_}i2c_new_dummy_device(). Remove the old API.
 
-It can't? Why not? The point of the passthru mask is to not do 
-translation of flags, but without it you are always doing translation of 
-cells.
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+---
+ drivers/i2c/i2c-core-base.c | 23 -----------------------
+ include/linux/i2c.h         |  6 ------
+ 2 files changed, 29 deletions(-)
 
-> 
-> While an inverter can be described implicitly by exchanging the
-> GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW flags, this has its limitations.
-> Each GPIO line has only a single GPIO_ACTIVE_* flag, but applies to both
-> th provider and consumer sides:
->   1. The GPIO provider (controller) looks at the flags to know the
->      polarity, so it can translate between logical (active/not active)
->      and physical (high/low) signal levels.
->   2. While the signal polarity is usually fixed on the GPIO consumer
->      side (e.g. an LED is tied to either the supply voltage or GND),
->      it may be configurable on some devices, and both sides need to
->      agree.  Hence the GPIO_ACTIVE_* flag as seen by the consumer must
->      match the actual polarity.
->      There exists a similar issue with interrupt flags, where both the
->      interrupt controller and the device generating the interrupt need
->      to agree, which breaks in the presence of a physical inverter not
->      described in DT (see e.g. [3]).
+diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
+index 9333c865d4a9..9f8dcd3f8385 100644
+--- a/drivers/i2c/i2c-core-base.c
++++ b/drivers/i2c/i2c-core-base.c
+@@ -896,29 +896,6 @@ struct i2c_client *i2c_new_dummy_device(struct i2c_adapter *adapter, u16 address
+ }
+ EXPORT_SYMBOL_GPL(i2c_new_dummy_device);
+ 
+-/**
+- * i2c_new_dummy - return a new i2c device bound to a dummy driver
+- * @adapter: the adapter managing the device
+- * @address: seven bit address to be used
+- * Context: can sleep
+- *
+- * This deprecated function has the same functionality as @i2c_new_dummy_device,
+- * it just returns NULL instead of an ERR_PTR in case of an error for
+- * compatibility with current I2C API. It will be removed once all users are
+- * converted.
+- *
+- * This returns the new i2c client, which should be saved for later use with
+- * i2c_unregister_device(); or NULL to indicate an error.
+- */
+-struct i2c_client *i2c_new_dummy(struct i2c_adapter *adapter, u16 address)
+-{
+-	struct i2c_client *ret;
+-
+-	ret = i2c_new_dummy_device(adapter, address);
+-	return IS_ERR(ret) ? NULL : ret;
+-}
+-EXPORT_SYMBOL_GPL(i2c_new_dummy);
+-
+ struct i2c_dummy_devres {
+ 	struct i2c_client *client;
+ };
+diff --git a/include/linux/i2c.h b/include/linux/i2c.h
+index d2f786706657..d1baf8d57536 100644
+--- a/include/linux/i2c.h
++++ b/include/linux/i2c.h
+@@ -466,12 +466,6 @@ i2c_new_probed_device(struct i2c_adapter *adap,
+ /* Common custom probe functions */
+ extern int i2c_probe_func_quick_read(struct i2c_adapter *adap, unsigned short addr);
+ 
+-/* For devices that use several addresses, use i2c_new_dummy() to make
+- * client handles for the extra addresses.
+- */
+-extern struct i2c_client *
+-i2c_new_dummy(struct i2c_adapter *adap, u16 address);
+-
+ extern struct i2c_client *
+ i2c_new_dummy_device(struct i2c_adapter *adapter, u16 address);
+ 
+-- 
+2.20.1
 
-Adding an inverted flag as I've suggested would also solve this issue.
-
-> 
-> [1] "[PATCH V4 2/2] gpio: inverter: document the inverter bindings"
->     https://lore.kernel.org/linux-gpio/1561699236-18620-3-git-send-email-harish_kandiga@mentor.com/
-> 
-> [2] Devicetree Specification v0.3-rc2, Section 2.5
->     https://github.com/devicetree-org/devicetree-specification/releases/tag/v0.3-rc2
-> 
-> [3] "[PATCH] wlcore/wl18xx: Add invert-irq OF property for physically
->     inverted IRQ"
->     https://lore.kernel.org/linux-renesas-soc/20190607172958.20745-1-erosca@de.adit-jv.com/
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
