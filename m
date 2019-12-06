@@ -2,190 +2,170 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F6D21153D2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2019 16:04:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FF0A1153EE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2019 16:10:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726246AbfLFPEI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Dec 2019 10:04:08 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59768 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726268AbfLFPEI (ORCPT
+        id S1726251AbfLFPKy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Dec 2019 10:10:54 -0500
+Received: from mail-eopbgr1400123.outbound.protection.outlook.com ([40.107.140.123]:14560
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726222AbfLFPKy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Dec 2019 10:04:08 -0500
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9D76024670;
-        Fri,  6 Dec 2019 15:04:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1575644646;
-        bh=jPJwScBR/kR2jMlDE4CcAeUQqWtkoB9V5dhy5jvHoYI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=FWzt3o8rVfNQENYFugbI5qMw8n7DZBJzZazHuODQ6HTwMEtPCsUBAa4PTFRUhD7h1
-         E0EMt8GjGDy6t38/ZmSmhSieq3PSRVr2KbV3E/nsObtyNU6MlpwNuYFEjcCwG6tneQ
-         0tEBEkyyvinR7/GTUMgWW5HE3+pQ0VJ7Qad7uMek=
-Received: by mail-qk1-f180.google.com with SMTP id k6so6731512qki.5;
-        Fri, 06 Dec 2019 07:04:06 -0800 (PST)
-X-Gm-Message-State: APjAAAVNlXmfaacdzrXe4aSxKflU8Ye43TWpv9LHk6oi9afRgT0J65HS
-        zQhDtlOEpvHgY59n/9/3W+THrkoCfWndIq4Zxw==
-X-Google-Smtp-Source: APXvYqz11Uc4S+0EnTxk9RiQ7iSeUe78Ipt/lzkcHz8/CyqUMTGF8hqkCnBzU0/LVJc/gCTUhQ4F6R82XS4cagT7C4U=
-X-Received: by 2002:ae9:f205:: with SMTP id m5mr14467285qkg.152.1575644645684;
- Fri, 06 Dec 2019 07:04:05 -0800 (PST)
-MIME-Version: 1.0
-References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-5-geert+renesas@glider.be> <20191205210653.GA29969@bogus>
- <CAMuHMdXKPC7-XaezodwL1Dhvke6PUVSZEbvN-sm3Uh6T61qbhQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdXKPC7-XaezodwL1Dhvke6PUVSZEbvN-sm3Uh6T61qbhQ@mail.gmail.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Fri, 6 Dec 2019 09:03:53 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqJLJPSYroX0mbBUpgWPV0oEvKEUNC-VZt4XFDF8tLuNFA@mail.gmail.com>
-Message-ID: <CAL_JsqJLJPSYroX0mbBUpgWPV0oEvKEUNC-VZt4XFDF8tLuNFA@mail.gmail.com>
-Subject: Re: [PATCH v3 4/7] dt-bindings: gpio: Add gpio-repeater bindings
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        Fri, 6 Dec 2019 10:10:54 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RyAboIst5VyCyNeGqmQADl/UnDT6NlhN452anZFNVJhllWOWgX0AUEJ/GOAlTFPQZTys8ZD5Lx+mR+RdOpqvktglxx/WMK2dFyyQpMrzGRhQmJyV5lm2BsBsFcAieLmjgh+Q05oTR3edxA76E0MyIN7UQtC6QR4/OnuGugRSSr1PlzuwYlnX2ONZiKrBXDkdZ2dvLl2oxmdYfIlg1ttslfxi3KOIS8XCOehjr0zVUhJV0oXLKupa/jWgMF9swcgpbR7q0mgsb696pB65uQ3djrGzhwOQAzeXGNksMDepY80yab+mSc+1LUQ6YyByAWUosCqv6FS86PTw3N4Mc1jV5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=f98c2X4xMpMoKBp9ynGi/A09SXVvCvofYn6D3Nn2rng=;
+ b=Ke5msFHhUpFLWjMmSqWLukCl9n8Lp+iDDisCBdMdUrJbILwgRtgNvxZN6R3+oIIUx4mNR9mGIL5Y3jo5VMxrzOIXO/CIgZWHSuLvqJob7i/xmesi0MdkIkevS84jGzNIc8KpFLkZI18+Lc3wHu3tcMOl59JWml7Acu7B7XM2BYopvjkgCGhXKO4/dbb+0n4CBKtDm92g31cwh/A4ryAP5D16UotcdQ6TfYL4m3tStsoqehxRmO2mlKUiiLqKyfeSoB8Zyi31Eci2fZTGcwL2IyS5SRd1oz/+CPIsh4oS9R5Os0AFk8oddEr4nvMBcSYPetCnmf1KFAICwtAN35iwrg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=f98c2X4xMpMoKBp9ynGi/A09SXVvCvofYn6D3Nn2rng=;
+ b=UErJBqt/ziM1+msmdkBN0+Fk2XXaL/FV33amX9+8NN0YaMguL2+e8vRuO8RbA5PNrp9DiYcyUEYM51j53c1cDGcc8NIZQ3kEwkNNCkI0rqqxQ2YKCtiFFIUHsltus4RutLBiEGvIsdE3VAGO0ww39xaHH7ipyBjCNXogjfggOyA=
+Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com (52.133.163.13) by
+ TY1PR01MB1546.jpnprd01.prod.outlook.com (52.133.162.13) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2495.19; Fri, 6 Dec 2019 15:10:47 +0000
+Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com
+ ([fe80::5166:5e51:90f5:3ee1]) by TY1PR01MB1770.jpnprd01.prod.outlook.com
+ ([fe80::5166:5e51:90f5:3ee1%7]) with mapi id 15.20.2495.014; Fri, 6 Dec 2019
+ 15:10:47 +0000
+From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+To:     Rob Herring <robh+dt@kernel.org>
+CC:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
         Mark Rutland <mark.rutland@arm.com>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Sam Ravnborg <sam@ravnborg.org>
+Subject: RE: [PATCH v3 1/8] dt-bindings: display: Add bindings for LVDS
+ bus-timings
+Thread-Topic: [PATCH v3 1/8] dt-bindings: display: Add bindings for LVDS
+ bus-timings
+Thread-Index: AQHVXc+S57mj9oC72Eeu0P6rCOw/zacSKVsAgJunKjA=
+Date:   Fri, 6 Dec 2019 15:10:46 +0000
+Message-ID: <TY1PR01MB1770295520291BECDC4D4A1BC05F0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+References: <1567017402-5895-1-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1567017402-5895-2-git-send-email-fabrizio.castro@bp.renesas.com>
+ <CAL_JsqKWWCpEeBd4UFaqBVffS-OxUNAHfvtJKcGsLDR+f=Uytg@mail.gmail.com>
+In-Reply-To: <CAL_JsqKWWCpEeBd4UFaqBVffS-OxUNAHfvtJKcGsLDR+f=Uytg@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=fabrizio.castro@bp.renesas.com; 
+x-originating-ip: [193.141.220.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 6bdd666b-1cf2-4c85-75b1-08d77a5e78ec
+x-ms-traffictypediagnostic: TY1PR01MB1546:|TY1PR01MB1546:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <TY1PR01MB1546A11A768CBEBACA6AF522C05F0@TY1PR01MB1546.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 0243E5FD68
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(39860400002)(346002)(366004)(136003)(396003)(376002)(189003)(199004)(4326008)(9686003)(26005)(71190400001)(81166006)(2906002)(55016002)(8676002)(8936002)(966005)(71200400001)(86362001)(478600001)(186003)(7696005)(316002)(74316002)(7416002)(76176011)(33656002)(305945005)(102836004)(66446008)(54906003)(229853002)(76116006)(53546011)(99286004)(5660300002)(66946007)(44832011)(6506007)(52536014)(66476007)(64756008)(81156014)(66556008);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1546;H:TY1PR01MB1770.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
+received-spf: None (protection.outlook.com: bp.renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: ZFxjwT4cKZh31ogSXOxEhVCtaRgnYlpXt7Npst04zggoJN+MiP0KFQPMDjh6WyxZtZGybDygSRhORuStnJ2EqH0Pzr0/gCknZrpbS0wysR3ENRLd8C6wrDDc7Lzf/QdaqjTlRiddodT+qtHNgx/GemckpOrgSD6Qk8YVhffSfZU4hUjMCgWosJgNHvOtcV8YjVvl2zr4NC7Y8HhubuW80rNMHk30A4IWcFdEG8F3FZdihC3UJkAjJZIMKRWK5uz4CFmaNTdPTzGP0dwdAq1YshAj/AcuyFh87g4JUfMYWXnUWP+6jrRY4TE8cpF+6hjvhavVpFvH/2FN6UBIFT7gU/8XUZrZaZPyfNffTarjkCKjeokAiQ6XovEQmbmi1WE/qSZVswKDirweHHZyMwBxiitiAZEivwFPgEk0yS6k2UhK5MT+krFyjxHfxXk3NFyMq2Xa1g3A5GeclKXH6lVb7aGPslZEYOcqrl5lnheVr+k=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6bdd666b-1cf2-4c85-75b1-08d77a5e78ec
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Dec 2019 15:10:46.5984
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5U/UNmq72CHT3/cI6AH5jTYiynNEhdN+KgpbkiqJqkRRhso3k62MNZ/lS6EFvTS3dcYSoAsWhjg6Gw4K27onbHPXPFRnSHg7CxrJXn9wn2Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1546
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Dec 6, 2019 at 3:17 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Rob,
->
-> On Thu, Dec 5, 2019 at 10:06 PM Rob Herring <robh@kernel.org> wrote:
-> > On Wed, Nov 27, 2019 at 09:42:50AM +0100, Geert Uytterhoeven wrote:
-> > > Add Device Tree bindings for a GPIO repeater, with optional translation
-> > > of physical signal properties.  This is useful for describing explicitly
-> > > the presence of e.g. an inverter on a GPIO line, and was inspired by the
-> > > non-YAML gpio-inverter bindings by Harish Jenny K N
-> > > <harish_kandiga@mentor.com>[1].
-> > >
-> > > Note that this is different from a GPIO Nexus Node[2], which cannot do
-> > > physical signal property translation.
-> >
-> > It can't? Why not? The point of the passthru mask is to not do
-> > translation of flags, but without it you are always doing translation of
-> > cells.
->
-> Thanks for pushing me deeper into nexuses!
-> You're right, you can map from one type to another.
-> However, you cannot handle the "double inversion" of an ACTIVE_LOW
-> signal with a physical inverter added:
->
->         nexus: led-nexus {
->                 #gpio-cells = <2>;
->                 gpio-map = <0 0 &gpio2 19 GPIO_ACTIVE_LOW>,     // inverted
->                            <1 0 &gpio2 20 GPIO_ACTIVE_HIGH>,    // noninverted
->                            <2 0 &gpio2 21 GPIO_ACTIVE_LOW>;     // inverted
->                 gpio-map-mask = <3 0>;
->                 // default gpio-map-pass-thru = <0 0>;
->         };
->
->         leds {
->                 compatible = "gpio-leds";
->                 led6-inverted {
->                         gpios = <&nexus 0 GPIO_ACTIVE_HIGH>;
->                 };
->                 led7-noninverted {
->                         gpios = <&nexus 1 GPIO_ACTIVE_HIGH>;
->                 };
->                 led8-double-inverted {  // FAILS: still inverted
->                         gpios = <&nexus 2 GPIO_ACTIVE_LOW>;
->                 };
->         };
->
-> It "works" if the last entry in gpio-map is changed to GPIO_ACTIVE_HIGH.
-> Still, the consumer would see the final translated polarity, and not the
-> actual one it needs to program the consumer for.
-
-I'm not really following. Why isn't a double inversion just the same
-as no inversion?
-
-> > > While an inverter can be described implicitly by exchanging the
-> > > GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW flags, this has its limitations.
-> > > Each GPIO line has only a single GPIO_ACTIVE_* flag, but applies to both
-> > > th provider and consumer sides:
-> > >   1. The GPIO provider (controller) looks at the flags to know the
-> > >      polarity, so it can translate between logical (active/not active)
-> > >      and physical (high/low) signal levels.
-> > >   2. While the signal polarity is usually fixed on the GPIO consumer
-> > >      side (e.g. an LED is tied to either the supply voltage or GND),
-> > >      it may be configurable on some devices, and both sides need to
-> > >      agree.  Hence the GPIO_ACTIVE_* flag as seen by the consumer must
-> > >      match the actual polarity.
-> > >      There exists a similar issue with interrupt flags, where both the
-> > >      interrupt controller and the device generating the interrupt need
-> > >      to agree, which breaks in the presence of a physical inverter not
-> > >      described in DT (see e.g. [3]).
-> >
-> > Adding an inverted flag as I've suggested would also solve this issue.
->
-> As per your suggestion in "Re: [PATCH V4 2/2] gpio: inverter: document
-> the inverter bindings"?
-> https://lore.kernel.org/linux-devicetree/CAL_JsqLp___2O-naU+2PPQy0QmJX6+aN3hByz-OB9+qFvWgN9Q@mail.gmail.com/
->
-> Oh, now I understand. I was misguided by Harish' interpretation
-> https://lore.kernel.org/linux-devicetree/dde73334-a26d-b53f-6b97-4101c1cdc185@mentor.com/
-> which assumed an "inverted" property, e.g.
->
->     inverted = /bits/ 8 <0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0>;
->
-> But you actually meant a new GPIO_INVERTED flag, to be ORed into the 2nd
-> cell of a GPIO specifier? I.e. add to include/dt-bindings/gpio/gpio.h"
->
->     /* Bit 6 expresses the presence of a physical inverter */
->     #define GPIO_INVERTED 64
-
-Exactly.
-
-> We need to be very careful in defining to which side the GPIO_ACTIVE_*
-> applies to (consumer?), and which side the GPIO_INVERTED flag (provider?).
-> Still, this doesn't help if e.g. a FET is used instead of a push-pull
-> inverter, as the former needs translation of other flags (which the
-> nexus can do, the caveats above still applies, though).
-
-Yes. Historically the cells values are meaningful to the provider and
-opaque to the consumer. Standardized cell values changes that
-somewhat. I think we want the active flag to be from the provider's
-prospective because the provider always needs to know. The consumer
-often doesn't need to know. That also means things work without the
-GPIO_INVERTED flag if the consumer doesn't care which is what we have
-today already and we can't go back in time.
-
-
-> Same for adding IRQ_TYPE_INVERTED.
-
-I suppose so, yes.
-
-> Related issue: how to handle physical inverters on SPI chip select lines,
-> if the SPI slave can be configured for both polarities?
-
-Good question. Perhaps in a different way because we have to handle
-both h/w controlled and gpio chip selects.
-
-However, how would one configure the polarity in the device in the
-first place? You have to assert the CS first to give a command to
-reprogram it.
-
-Rob
+SGkgUm9iLA0KDQo+IEZyb206IFJvYiBIZXJyaW5nIDxyb2JoK2R0QGtlcm5lbC5vcmc+DQo+IFNl
+bnQ6IDI5IEF1Z3VzdCAyMDE5IDE1OjAzDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjMgMS84XSBk
+dC1iaW5kaW5nczogZGlzcGxheTogQWRkIGJpbmRpbmdzIGZvciBMVkRTIGJ1cy10aW1pbmdzDQo+
+IA0KPiBPbiBXZWQsIEF1ZyAyOCwgMjAxOSBhdCAxOjM2IFBNIEZhYnJpemlvIENhc3Rybw0KPiA8
+ZmFicml6aW8uY2FzdHJvQGJwLnJlbmVzYXMuY29tPiB3cm90ZToNCj4gPg0KPiA+IER1YWwtTFZE
+UyBjb25uZWN0aW9ucyBuZWVkIG1hcmtlcnMgaW4gdGhlIERULCB0aGlzIHBhdGNoIGFkZHMNCj4g
+PiBzb21lIGNvbW1vbiBkb2N1bWVudGF0aW9uIHRvIGJlIHJlZmVyZW5jZWQgYnkgYm90aCBwYW5l
+bHMgYW5kDQo+ID4gYnJpZGdlcy4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IEZhYnJpemlvIENh
+c3RybyA8ZmFicml6aW8uY2FzdHJvQGJwLnJlbmVzYXMuY29tPg0KPiA+DQo+ID4gLS0tDQo+ID4g
+djItPnYzOg0KPiA+ICogbmV3IHBhdGNoDQo+ID4gLS0tDQo+ID4gIC4uLi9iaW5kaW5ncy9kaXNw
+bGF5L2J1cy10aW1pbmdzL2x2ZHMueWFtbCAgICAgICAgIHwgMzggKysrKysrKysrKysrKysrKysr
+KysrKw0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMzggaW5zZXJ0aW9ucygrKQ0KPiA+ICBjcmVhdGUg
+bW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnVz
+LXRpbWluZ3MvbHZkcy55YW1sDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9k
+ZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnVzLXRpbWluZ3MvbHZkcy55YW1sIGIvRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL2Rpc3BsYXkvYnVzLQ0KPiB0aW1pbmdzL2x2ZHMu
+eWFtbA0KPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4gaW5kZXggMDAwMDAwMC4uZjM1YjU1
+YQ0KPiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
+YmluZGluZ3MvZGlzcGxheS9idXMtdGltaW5ncy9sdmRzLnlhbWwNCj4gPiBAQCAtMCwwICsxLDM4
+IEBADQo+ID4gKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjANCj4gDQo+IChHUEwt
+Mi4wLW9ubHkgT1IgQlNELTItQ2xhdXNlKSBpcyBwcmVmZXJyZWQgZm9yIG5ldyBiaW5kaW5ncy4N
+Cj4gDQo+ID4gKyVZQU1MIDEuMg0KPiA+ICstLS0NCj4gPiArJGlkOiBodHRwOi8vZGV2aWNldHJl
+ZS5vcmcvc2NoZW1hcy9kaXNwbGF5L2J1cy10aW1pbmdzL2x2ZHMueWFtbCMNCj4gPiArJHNjaGVt
+YTogaHR0cDovL2RldmljZXRyZWUub3JnL21ldGEtc2NoZW1hcy9jb3JlLnlhbWwjDQo+ID4gKw0K
+PiA+ICt0aXRsZTogQ29tbW9uIFByb3BlcnRpZXMgZm9yIGJ1cyB0aW1pbmdzIG9mIExWRFMgaW50
+ZXJmYWNlcw0KPiA+ICsNCj4gPiArbWFpbnRhaW5lcnM6DQo+ID4gKyAgLSBUaGllcnJ5IFJlZGlu
+ZyA8dGhpZXJyeS5yZWRpbmdAZ21haWwuY29tPg0KPiA+ICsgIC0gRmFicml6aW8gQ2FzdHJvIDxm
+YWJyaXppby5jYXN0cm9AYnAucmVuZXNhcy5jb20+DQo+ID4gKw0KPiA+ICtkZXNjcmlwdGlvbjog
+fA0KPiA+ICsgIFRoaXMgZG9jdW1lbnQgZGVmaW5lcyBkZXZpY2UgdHJlZSBwcm9wZXJ0aWVzIGNv
+bW1vbiB0byBMVkRTIGFuZCBkdWFsLUxWRFMNCj4gPiArICBpbnRlcmZhY2VzLCB3aGVyZSBhIGR1
+YWwtTFZEUyBpbnRlcmZhY2UgaXMgYSBkdWFsLWxpbmsgY29ubmVjdGlvbiB3aXRoIGV2ZW4NCj4g
+PiArICBwaXhlbHMgdHJhdmVsaW5nIG9uIG9uZSBjb25uZWN0aW9uLCBhbmQgd2l0aCBvZGQgcGl4
+ZWxzIHRyYXZlbGluZyBvbiB0aGUgb3RoZXINCj4gPiArICBjb25uZWN0aW9uLg0KPiA+ICsgIFRo
+aXMgZG9jdW1lbnQgZG9lc24ndCBjb25zdGl0dWUgYSBkZXZpY2UgdHJlZSBiaW5kaW5nIHNwZWNp
+ZmljYXRpb24gYnkgaXRzZWxmDQo+IA0KPiB0eXBvOiBjb25zdGl0dXRlDQo+IA0KPiA+ICsgIGJ1
+dCBpcyBtZWFudCB0byBiZSByZWZlcmVuY2VkIGJ5IGRldmljZSB0cmVlIGJpbmRpbmdzLg0KPiA+
+ICsgIFdoZW4gcmVmZXJlbmNlZCBmcm9tIHBhbmVsIG9yIGJyaWRnZSBkZXZpY2UgdHJlZSBiaW5k
+aW5ncywgdGhlIHByb3BlcnRpZXMNCj4gPiArICBkZWZpbmVkIGluIHRoaXMgZG9jdW1lbnQgYXJl
+IGRlZmluZWQgYXMgZm9sbG93cy4gVGhlIHBhbmVsIGFuZCBicmlkZ2UgZGV2aWNlDQo+ID4gKyAg
+dHJlZSBiaW5kaW5ncyBhcmUgcmVzcG9uc2libGUgZm9yIGRlZmluaW5nIHdoZXRoZXIgZWFjaCBw
+cm9wZXJ0eSBpcyByZXF1aXJlZA0KPiA+ICsgIG9yIG9wdGlvbmFsLg0KPiA+ICsNCj4gPiArcHJv
+cGVydGllczoNCj4gPiArICBkdWFsLWx2ZHMtZXZlbi1waXhlbHM6DQo+ID4gKyAgICB0eXBlOiBi
+b29sZWFuDQo+ID4gKyAgICBkZXNjcmlwdGlvbjoNCj4gPiArICAgICAgVGhpcyBwcm9wZXJ0eSBp
+cyBzcGVjaWZpYyB0byBhbiBpbnB1dCBwb3J0IG9mIGEgc2luayBkZXZpY2UuIFdoZW4NCj4gDQo+
+IFRoZSBzY2hlbWEgc2hvdWxkIGRlZmluZSB3aGF0IG5vZGVzIHRoZXNlIGdvIGluLiBUaGUgZGVz
+Y3JpcHRpb24gc2VlbXMNCj4gdG8gaW5kaWNhdGUgaW4gJ3BvcnQnIG5vZGVzIChvciBlbmRwb2lu
+dD8pLCBidXQgeW91ciB1c2UgaW4gdGhlIHBhbmVsDQo+IGJpbmRpbmcgcHV0cyB0aGVtIGluIHRo
+ZSBwYXJlbnQuDQo+IA0KPiA+ICsgICAgICBzcGVjaWZpZWQsIGl0IG1hcmtzIHRoZSBwb3J0IGFz
+IHJlY2lwaWVudCBvZiBldmVuLXBpeGVscy4NCj4gPiArDQo+ID4gKyAgZHVhbC1sdmRzLW9kZC1w
+aXhlbHM6DQo+ID4gKyAgICB0eXBlOiBib29sZWFuDQo+ID4gKyAgICBkZXNjcmlwdGlvbjoNCj4g
+PiArICAgICAgVGhpcyBwcm9wZXJ0eSBpcyBzcGVjaWZpYyB0byBhbiBpbnB1dCBwb3J0IG9mIGEg
+c2luayBkZXZpY2UuIFdoZW4NCj4gPiArICAgICAgc3BlY2lmaWVkLCBpdCBtYXJrcyB0aGUgcG9y
+dCBhcyByZWNpcGllbnQgb2Ygb2RkLXBpeGVscy4NCj4gDQo+IEhvd2V2ZXIsIEkgZG9uJ3QgdGhp
+bmsgeW91IGV2ZW4gbmVlZCB0aGVzZS4gQSBwYW5lbCdzIHBvcnQgbnVtYmVycyBhcmUNCj4gZml4
+ZWQgY2FuIGltcGx5IGV2ZW4gb3Igb2RkLiBGb3IgZXhhbXBsZSBwb3J0QDAgY2FuIGJlIGV2ZW4g
+YW5kIHBvcnRAMQ0KPiBjYW4gYmUgb2RkLiBUaGUgcG9ydCBudW1iZXJpbmcgaXMgdHlwaWNhbGx5
+IHBhbmVsIHNwZWNpZmljLCBidXQgd2UgbWF5DQo+IGJlIGFibGUgdG8gZGVmaW5lIHRoZSBudW1i
+ZXJpbmcgZ2VuZXJpY2FsbHkgaWYgd2UgZG9uJ3QgYWxyZWFkeSBoYXZlDQo+IHBhbmVscyB3aXRo
+IG11bHRpcGxlIHBvcnRzLg0KDQpUaGUgcG9ydHMgb24gdGhlIHJlY2VpdmluZyBlbmQgb2YgdGhl
+IGxpbmsgY2FuIGJlIGlkZW50aWZpZWQgYnkgYW55IG51bWJlciwNCm5vdCBuZWNlc3NhcmlseSAw
+IGFuZCAxLiBTaW5jZSBhdCB0aGlzIHBvaW50IGluIHRpbWUgd2Ugb25seSBoYXZlIDEgdXNlIGNh
+c2UNCmZvciB0aGlzIEknbGwgbWVyZ2UgdGhlIGdlbmVyaWMgYW5kIHBhbmVsIHNwZWNpZmljIGR0
+LXNjaGVtYXMgdG9nZXRoZXIsIGZvcg0Kc2ltcGxpY2l0eS4NClBlcmhhcHMgd2UgY2FuIHNwbGl0
+IHRoZW0gYmFjayBvbmNlIHdlIGhhdmUgYSBzZWNvbmQgdXNlIGNhc2U/DQpJJ2xsIHNlbmQgYSBu
+ZXcgcGF0Y2ggc2hvcnRseS4NCg0KVGhhbmsgeW91IHZlcnkgbXVjaCBmb3IgeW91ciBoZWxwIGFu
+ZCB5b3VyIHBhdGllbmNlIQ0KDQpGYWINCg0KPiANCj4gQWxzbywgYXJlbid0IHRoZXJlIGR1YWwg
+bGluayBEU0kgcGFuZWxzPw0KPiANCj4gUm9iDQo=
