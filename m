@@ -2,41 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D318E1150F1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2019 14:20:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F9D0115104
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2019 14:32:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726201AbfLFNUe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Dec 2019 08:20:34 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37318 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726193AbfLFNUe (ORCPT
+        id S1726171AbfLFNc6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Dec 2019 08:32:58 -0500
+Received: from xavier.telenet-ops.be ([195.130.132.52]:60070 "EHLO
+        xavier.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726195AbfLFNc6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Dec 2019 08:20:34 -0500
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1575638433;
-        bh=xpxp/nk+/ja8Dkzy7DbiPobrh4md5mQAWx8lWxTtwf8=;
-        h=Subject:From:Date:To:From;
-        b=RfdCTYYnI8HZQ2SLG5Rb9Z0yXm6BE3zbH4uZS8PlMCF6K0iwZH+a8EyV1780drE8L
-         Ms7XwIqAFsk2cauDIDD4gR+ZLy4CH1SJk3QbjTIXMgJsvyk8iwlwrpQMgzpcVmV/zu
-         HCh2JyxVLi+xn4LsHk21lzAaDULMLFbp5DU254dc=
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork housekeeping for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <157563843359.24655.15340994116431750695.git-patchwork-housekeeping@kernel.org>
-Date:   Fri, 06 Dec 2019 13:20:33 +0000
-To:     linux-renesas-soc@vger.kernel.org
+        Fri, 6 Dec 2019 08:32:58 -0500
+Received: from ramsan ([84.195.182.253])
+        by xavier.telenet-ops.be with bizsmtp
+        id adYw210015USYZQ01dYwqB; Fri, 06 Dec 2019 14:32:56 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1idDj5-0006IU-U6; Fri, 06 Dec 2019 14:32:55 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1idDj5-0006Cb-SP; Fri, 06 Dec 2019 14:32:55 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] clk: renesas: rcar-gen2: Change multipliers and dividers to u8
+Date:   Fri,  6 Dec 2019 14:32:54 +0100
+Message-Id: <20191206133254.23800-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Latest series: [v3] iio: adc: max9611: Fix too short conversion time delay (2019-12-06T13:19:44)
-  Superseding: [v2] iio: adc: max9611: Fix too short conversion time delay (2019-12-02T08:55:46):
-    [v2] iio: adc: max9611: Fix too short conversion time delay
+All multipliers and dividers are small.
+Storing them in u8 instead of unsigned int reduces kernel size for a
+generic kernel by ca. 0.5 KiB.
 
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued in clk-renesas-for-v5.6.
 
+ drivers/clk/renesas/rcar-gen2-cpg.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/clk/renesas/rcar-gen2-cpg.h b/drivers/clk/renesas/rcar-gen2-cpg.h
+index db2f57ef2f9984e4..bdcd4a38d48d01bd 100644
+--- a/drivers/clk/renesas/rcar-gen2-cpg.h
++++ b/drivers/clk/renesas/rcar-gen2-cpg.h
+@@ -24,10 +24,10 @@ enum rcar_gen2_clk_types {
+ };
+ 
+ struct rcar_gen2_cpg_pll_config {
+-	unsigned int extal_div;
+-	unsigned int pll1_mult;
+-	unsigned int pll3_mult;
+-	unsigned int pll0_mult;		/* leave as zero if PLL0CR exists */
++	u8 extal_div;
++	u8 pll1_mult;
++	u8 pll3_mult;
++	u8 pll0_mult;		/* leave as zero if PLL0CR exists */
+ };
+ 
+ struct clk *rcar_gen2_cpg_clk_register(struct device *dev,
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+2.17.1
+
