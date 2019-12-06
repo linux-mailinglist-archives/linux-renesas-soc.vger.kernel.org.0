@@ -2,284 +2,231 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AD880115453
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2019 16:35:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5917A115461
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2019 16:36:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726250AbfLFPfL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Dec 2019 10:35:11 -0500
-Received: from mail-eopbgr1410128.outbound.protection.outlook.com ([40.107.141.128]:30560
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726298AbfLFPfK (ORCPT
+        id S1726312AbfLFPgn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Dec 2019 10:36:43 -0500
+Received: from foss.arm.com ([217.140.110.172]:48216 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726250AbfLFPgm (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Dec 2019 10:35:10 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gj3RAqo6c+aVKNAVXuz7SQVWKIjC/G0sU9TKhklSPKPUKylLc8eIoXguNKnK6DFUXhatFsty0JPk/ulFHAAcOCizbTThdbfjupNgvrvKqqWg5bfu49Ab3nrBQp7QX82E8q/nAbTl2kDNKSbUK2nOOmV7Z+Vca2jfvA6JNKUB2gVDscWGr180sMfVIfEz/1Zw25IpdaO9uVJ+TTt5KjkJLOTUlq58fwKHnCo6uQl6LSdHVskgGIbJTWFO6i4cAIc4RFRrVU/PBBZ9xC2mD7uxys6geFWT2bzJx6ulWxIvHLWdzUsvNKdgEMnhtYbgYTsUWhyp24+jQ5OZICpzqcGfUQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=htPEIv0BA7EL6SY810ynofi84b6l2RNcL7AcjD017VQ=;
- b=J0YwN5wymv5X5XEbEtdVB4dsopUek5m44t4lr3W23nNwGu11YOIlktr1Cr+8/W76b//NIDVq8W0geVcpXXxqazT82vsEuboVYV5deXgi4nCY8yunaFn2AjNO+864MLYtBtgT+B6oxgkao0NThhG/Q4D7gNcAdcvS5+LtRFw6H5a9r+2CSl9IMTnC8EV6kSndK86dD0skaaGBV+ldpGZysQVixjo+Ge3xKSAzCB2Moda9yQ5iYPGjRHbx20RXfUZ2cIyRvPconaDnsCzhMh4IARswK4kgOc6avz3ttYl93VlEXO7ryT05SGDuwM91Z6EgLW8RTJQh3OEKpUoKUPiwag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=htPEIv0BA7EL6SY810ynofi84b6l2RNcL7AcjD017VQ=;
- b=hjt6tPhLP8dH6I3GGosL+XHGAtjHj2X3w/yPdPUZEr2MV9FHuVbaQZ5Ec5KS9SHKdHFbDoFp02N+Viliwo3SBa4k/YWLGgk63iCtUnrV+U/AZVkk1/5X+O/pSPE1wAdcoJSVu5Fyo7DcuQBRrjUgR281CV1TQKYqx0C3VCfQeJk=
-Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com (52.133.163.13) by
- TY1PR01MB1882.jpnprd01.prod.outlook.com (52.133.162.12) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2516.12; Fri, 6 Dec 2019 15:35:04 +0000
-Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com
- ([fe80::5166:5e51:90f5:3ee1]) by TY1PR01MB1770.jpnprd01.prod.outlook.com
- ([fe80::5166:5e51:90f5:3ee1%7]) with mapi id 15.20.2495.014; Fri, 6 Dec 2019
- 15:35:04 +0000
-From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Fri, 6 Dec 2019 10:36:42 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BB8D031B;
+        Fri,  6 Dec 2019 07:36:41 -0800 (PST)
+Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 25D843F718;
+        Fri,  6 Dec 2019 07:36:38 -0800 (PST)
+Date:   Fri, 6 Dec 2019 15:36:33 +0000
+From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Andrew Murray <andrew.murray@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        Christoph Hellwig <hch@infradead.org>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
+        Ley Foon Tan <lftan@altera.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Ray Jui <rjui@broadcom.com>, rfi@lists.rocketboards.org,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
         Simon Horman <horms@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        "sam@ravnborg.org" <sam@ravnborg.org>
-Subject: RE: [PATCH v3 4/8] drm: rcar-du: lvds: Add dual-LVDS panels support
-Thread-Topic: [PATCH v3 4/8] drm: rcar-du: lvds: Add dual-LVDS panels support
-Thread-Index: AQHVXc+a4sxzNvBKBk6mVuGaWHO146eAjZgAgC1J9UA=
-Date:   Fri, 6 Dec 2019 15:35:04 +0000
-Message-ID: <TY1PR01MB17701956FEB859A01B9FF9FDC05F0@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-References: <1567017402-5895-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1567017402-5895-5-git-send-email-fabrizio.castro@bp.renesas.com>
- <20191107195030.GI24983@pendragon.ideasonboard.com>
-In-Reply-To: <20191107195030.GI24983@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=fabrizio.castro@bp.renesas.com; 
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 2117a03e-01bd-47d8-1682-08d77a61ddc8
-x-ms-traffictypediagnostic: TY1PR01MB1882:|TY1PR01MB1882:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TY1PR01MB188294AB9C1F86A01E81E1D4C05F0@TY1PR01MB1882.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 0243E5FD68
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(366004)(136003)(376002)(39860400002)(346002)(396003)(189003)(199004)(81156014)(102836004)(8936002)(2906002)(81166006)(305945005)(74316002)(8676002)(4326008)(9686003)(33656002)(71190400001)(6916009)(26005)(71200400001)(55016002)(53546011)(7416002)(6506007)(66946007)(52536014)(5660300002)(76116006)(229853002)(99286004)(66476007)(86362001)(316002)(7696005)(76176011)(478600001)(66446008)(66556008)(54906003)(64756008)(186003)(44832011);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1882;H:TY1PR01MB1770.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
-received-spf: None (protection.outlook.com: bp.renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: AC0NjPWWPs5ED+HVgcRNWqO3ElxAfveqbR9ZCHn0/3JSIDSqZ5HjvkqZozga52c9c8BqutCuBz6VyTKeMElHaAM7OwBurUWkbYK8xmMcwvCO3FZpL+t0gXdYHaLdlSO9NOILGPCAW3VSiKyDRAMmiZfs1/epG3IGex4yhvLf9hm03DhS6y+qpmqNACzM/3M6nXvfKCnRiABB5AFkmKvEc8yzO1LJfwZOFhDLwYixIQlSkHa7xwrcoc+DFgjkABXL025F69EIwtBa40+LMXqaHiQWsT9CxPF3tLkjZ6skETfnzCZpPSOTJSHKor3hsYpqWqzcNnW8I3QwFlCH7Hdg7b6AyexY2epj27HYv2PfImOy4NdD5ECNzSNDeQ+jDzgbwfLtHzDi46SGHqO9fJ+Cmnt25bl2W7lFnDMVh28inUYiWcnN//WLn1e2Zzc1pQog
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Srinath Mannam <srinath.mannam@broadcom.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Toan Le <toan@os.amperecomputing.com>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Will Deacon <will@kernel.org>, eballetbo@gmail.com
+Subject: Re: [PATCH v3 11/25] PCI: rockchip: Drop storing driver private
+ outbound resource data
+Message-ID: <20191206153633.GA18142@e121166-lin.cambridge.arm.com>
+References: <20191028163256.8004-1-robh@kernel.org>
+ <20191028163256.8004-12-robh@kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2117a03e-01bd-47d8-1682-08d77a61ddc8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Dec 2019 15:35:04.5869
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: NYU3dYZjEeQQIylkvFBUkINt+1lVr+Q/hsjDR7rkHp+iZff6Vd0Dnb3bYITdK8ld6M50YJKZUhRgnHwWaMM6YiZI75HatgyX3AUWwVg+gd8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1882
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191028163256.8004-12-robh@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgTGF1cmVudCwNCg0KPiBGcm9tOiBsaW51eC1yZW5lc2FzLXNvYy1vd25lckB2Z2VyLmtlcm5l
-bC5vcmcgPGxpbnV4LXJlbmVzYXMtc29jLW93bmVyQHZnZXIua2VybmVsLm9yZz4gT24gQmVoYWxm
-IE9mIExhdXJlbnQgUGluY2hhcnQNCj4gU2VudDogMDcgTm92ZW1iZXIgMjAxOSAxOTo1MQ0KPiBT
-dWJqZWN0OiBSZTogW1BBVENIIHYzIDQvOF0gZHJtOiByY2FyLWR1OiBsdmRzOiBBZGQgZHVhbC1M
-VkRTIHBhbmVscyBzdXBwb3J0DQo+IA0KPiBIaSBGYWJyaXppbywNCj4gDQo+IFRoYW5rIHlvdSBm
-b3IgdGhlIHBhdGNoLg0KPiANCj4gT24gV2VkLCBBdWcgMjgsIDIwMTkgYXQgMDc6MzY6MzhQTSAr
-MDEwMCwgRmFicml6aW8gQ2FzdHJvIHdyb3RlOg0KPiA+IFRoZSBkcml2ZXIgZG9lc24ndCBzdXBw
-b3J0IGR1YWwtbGluayBMVkRTIGRpc3BsYXlzLCBhbmQgdGhlIHdheQ0KPiA+IGl0IGlkZW50aWZp
-ZXMgYnJpZGdlcyB3b24ndCBhbGxvdyBmb3IgZHVhbC1MVkRTIGRpc3BsYXlzIHRvIGJlDQo+ID4g
-Y29ubmVjdGVkLiBBbHNvLCBpdCdzIG5vdCBwb3NzaWJsZSB0byBzd2FwIGV2ZW4gYW5kIG9kZCBw
-aXhlbHMNCj4gPiBhcm91bmQgaW4gY2FzZSB0aGUgd2lyaW5nIGlzbid0IHRha2luZyBhZHZhbnRh
-Z2Ugb2YgdGhlIGRlZmF1bHQNCj4gPiBoYXJkd2FyZSBjb25maWd1cmF0aW9uLiBGdXJ0aGVyIG1v
-cmUsIHRoZSAibW9kZSIgb2YgdGhlIGNvbXBhbmlvbg0KPiA+IGVuY29kZXIgc2hvdWxkIGJlIHNh
-bWUgYXMgdGhlIG1vZGUgb2YgdGhlIHByaW1hcnkgZW5jb2Rlci4NCj4gPg0KPiA+IFJld29yayB0
-aGUgZHJpdmVyIHRvIGltcHJvdmUgYWxsIG9mIHRoZSBhYm92ZSwgc28gdGhhdCBpdCBjYW4NCj4g
-PiBzdXBwb3J0IGR1YWwtTFZEUyBkaXNwbGF5cy4NCj4gDQo+IFRoYXQncyBsb3RzIG9mIGNoYW5n
-ZXMgaW4gb25lIHBhdGNoLCBjb3VsZCBpdCBiZSBzcGxpdCB0byBlYXNlIHJldmlldyA/DQo+IEFs
-c28sIHNob3VsZCB0aGUgY29tbWl0IG1lc3NhZ2UgYmUgcmV3b3JkZWQgdG8gZXhwbGFpbiB3aGF0
-IHRoZSBwYXRjaA0KPiBkb2VzLCBpbnN0ZWFkIG9mIGVudW1lcmF0aW5nIGlzc3VlcyA/IFdoZW4g
-dGhlcmUncyBhIHNpbmdsZSBpc3N1ZSBiZWluZw0KPiBhZGRyZXNzZWQgaW4gYSBwYXRjaCBpdCdz
-IHVzdWFsbHkgZmluZSwgYnV0IHRoZXJlIHRoZSBjaGFuZ2UgaXMgbGFyZ2VyLA0KPiB3aXRob3V0
-IGFuIGV4cGxhbmF0aW9uIG9mIGhvdyB5b3UgaW50ZW5kIHRvIGZpeCB0aGUgaXNzdWVzIEkgY2Fu
-J3QgdGVsbA0KPiBpZiB0aGUgY29kZSByZWFsbHkgbWF0Y2hlcyB5b3VyIGludGVudC4NCg0KU29y
-cnkgZm9yIHRoZSBwYWluLCBJJ2xsIHNwbGl0IHRoaXMgcGF0Y2ggaW50byBzbWFsbGVyIHBhdGNo
-ZXMuDQoNCj4gDQo+ID4gU2lnbmVkLW9mZi1ieTogRmFicml6aW8gQ2FzdHJvIDxmYWJyaXppby5j
-YXN0cm9AYnAucmVuZXNhcy5jb20+DQo+ID4NCj4gPiAtLS0NCj4gPiB2Mi0+djM6DQo+ID4gKiBy
-ZXdvcmtlZCB0byB0YWtlIGFkdmFudGFuZ2Ugb2YgdGhlIG5ldyBkdC1iaW5kaW5ncw0KPiA+ICog
-c3F1YXNoZWQgaW4gdGhlIHBhdGNoZSBmb3IgZml4aW5nIHRoZSBjb21wYW5pb24ncyBtb2RlDQo+
-ID4NCj4gPiBMYXVyZW50LA0KPiA+DQo+ID4gdW5mb3J0dW5hdGVseSB0aGUgYmVzdCB3YXkgdG8g
-Z2V0IHRoZSBjb21wYW5pb24gZW5jb2RlciB0byB1c2UNCj4gPiB0aGUgc2FtZSBtb2RlIGFzIHRo
-ZSBwcmltYXJ5IGVuY29kZXIgaXMgc2V0dGluZyB0aGUgbW9kZSBkaXJlY3RseQ0KPiA+IHdpdGhv
-dXQgY2FsbGluZyBpbnRvIHJjYXJfbHZkc19tb2RlX3NldCBmb3IgdGhlIGNvbXBhbmlvbiBlbmNv
-ZGVyLA0KPiA+IGFzIHRoZSBiZWxvdyB0ZXN0IGZhaWxzIGZvciB0aGUgY29tcGFuaW9uIGVuY29k
-ZXIgaW4NCj4gPiByY2FyX2x2ZHNfZ2V0X2x2ZHNfbW9kZToNCj4gPiBpZiAoIWluZm8tPm51bV9i
-dXNfZm9ybWF0cyB8fCAhaW5mby0+YnVzX2Zvcm1hdHMpDQo+IA0KPiBXb3VsZCAiW1BBVENIXSBk
-cm06IHJjYXItZHU6IGx2ZHM6IEdldCBtb2RlIGZyb20gc3RhdGUiIGhlbHAgaGVyZSA/DQo+IE1h
-eWJlIHlvdSBjb3VsZCByZXZpZXcgdGhhdCBwYXRjaCwgSSBjb3VsZCB0aGVuIGluY2x1ZGUgaXQg
-aW4gbXkgLW5leHQNCj4gYnJhbmNoLCB5b3VyIHdvcmsgd291bGQgYmUgc2ltcGxpZmllZCwgYW5k
-IGV2ZXJ5Ym9keSB3b3VsZCBiZSBoYXBweSA/DQo+IDotKQ0KDQpJIGdhdmUgdGhhdCBhIHRyeSwg
-aXQgZG9lc24ndCB3b3JrIGZvciBtZSwgZXZlbiBhZnRlciBmaXhpbmcgdGhlIE5VTEwNCnBvaW50
-ZXIuIFBlcmhhcHMgd2UgY291bGQgZmluYWxpemUgdGhpcyBzZXJpZXMgZmlyc3QgYW5kIHRoZW4g
-d2UgY291bGQgZmlndXJlDQp0aGF0IHBhdGNoIG91dCBuZXh0Pw0KDQo+IA0KPiA+IEFueWhvdywg
-c2V0dGluZyB0aGUgbW9kZSBmb3IgdGhlIGNvbXBhbmlvbiBlbmNvZGVyIGRvZXNuJ3Qgc2VlbQ0K
-PiA+IHRvIGJlIG1hbmRhcnkgYWNjb3JkaW5nIHRvIHRoZSBleHBlcmltZW50cyBJIGhhdmUgYmVl
-biBydW5uaW5nLA0KPiA+IGJ1dCB0aGUgSFcgVXNlcidzIE1hbnVhbCBkb2Vzbid0IHJlYWxseSBz
-YXkgbXVjaCBhYm91dCB0aGlzLA0KPiA+IHRoZXJlZm9yZSBJIHRoaW5rIHRoZSBzYWZlc3Qgb3B0
-aW9uIGlzIHN0aWxsIHRvIHNldCB0aGUgbW9kZSBmb3INCj4gPiB0aGUgY29tcGFuaW9uIGVuY29k
-ZXIuDQo+IA0KPiBJIGFncmVlIGl0IHNob3VsZCBiZSBkb25lLg0KPiANCj4gPiAtLS0NCj4gPiAg
-ZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9sdmRzLmMgfCAxMTAgKysrKysrKysrKysrKysr
-KysrKysrLS0tLS0tLS0tLS0tLS0tDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA2NSBpbnNlcnRpb25z
-KCspLCA0NSBkZWxldGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9k
-cm0vcmNhci1kdS9yY2FyX2x2ZHMuYyBiL2RyaXZlcnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfbHZk
-cy5jDQo+ID4gaW5kZXggM2ZlMGI4Ni4uZGZlYzVlNyAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJz
-L2dwdS9kcm0vcmNhci1kdS9yY2FyX2x2ZHMuYw0KPiA+ICsrKyBiL2RyaXZlcnMvZ3B1L2RybS9y
-Y2FyLWR1L3JjYXJfbHZkcy5jDQo+ID4gQEAgLTIwLDYgKzIwLDggQEANCj4gPiAgI2luY2x1ZGUg
-PGRybS9kcm1fYXRvbWljLmg+DQo+ID4gICNpbmNsdWRlIDxkcm0vZHJtX2F0b21pY19oZWxwZXIu
-aD4NCj4gPiAgI2luY2x1ZGUgPGRybS9kcm1fYnJpZGdlLmg+DQo+ID4gKyNpbmNsdWRlIDxkcm0v
-ZHJtX2J1c190aW1pbmdzLmg+DQo+ID4gKyNpbmNsdWRlIDxkcm0vZHJtX29mLmg+DQo+ID4gICNp
-bmNsdWRlIDxkcm0vZHJtX3BhbmVsLmg+DQo+ID4gICNpbmNsdWRlIDxkcm0vZHJtX3Byb2JlX2hl
-bHBlci5oPg0KPiA+DQo+ID4gQEAgLTY5LDYgKzcxLDcgQEAgc3RydWN0IHJjYXJfbHZkcyB7DQo+
-ID4NCj4gPiAgCXN0cnVjdCBkcm1fYnJpZGdlICpjb21wYW5pb247DQo+ID4gIAlib29sIGR1YWxf
-bGluazsNCj4gPiArCWJvb2wgc3RyaXBlX3N3YXBfZGF0YTsNCj4gPiAgfTsNCj4gPg0KPiA+ICAj
-ZGVmaW5lIGJyaWRnZV90b19yY2FyX2x2ZHMoYikgXA0KPiA+IEBAIC00MzksMTIgKzQ0MiwyMCBA
-QCBzdGF0aWMgdm9pZCByY2FyX2x2ZHNfZW5hYmxlKHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2Up
-DQo+ID4gIAlyY2FyX2x2ZHNfd3JpdGUobHZkcywgTFZEQ0hDUiwgbHZkaGNyKTsNCj4gPg0KPiA+
-ICAJaWYgKGx2ZHMtPmluZm8tPnF1aXJrcyAmIFJDQVJfTFZEU19RVUlSS19EVUFMX0xJTkspIHsN
-Cj4gPiAtCQkvKg0KPiA+IC0JCSAqIENvbmZpZ3VyZSB2ZXJ0aWNhbCBzdHJpcGUgYmFzZWQgb24g
-dGhlIG1vZGUgb2Ygb3BlcmF0aW9uIG9mDQo+ID4gLQkJICogdGhlIGNvbm5lY3RlZCBkZXZpY2Uu
-DQo+ID4gLQkJICovDQo+ID4gLQkJcmNhcl9sdmRzX3dyaXRlKGx2ZHMsIExWRFNUUklQRSwNCj4g
-PiAtCQkJCWx2ZHMtPmR1YWxfbGluayA/IExWRFNUUklQRV9TVF9PTiA6IDApOw0KPiA+ICsJCXUz
-MiBsdmRzdHJpcGUgPSAwOw0KPiA+ICsNCj4gPiArCQlpZiAobHZkcy0+ZHVhbF9saW5rKQ0KPiA+
-ICsJCQkvKg0KPiA+ICsJCQkgKiBDb25maWd1cmUgdmVydGljYWwgc3RyaXBlIGJhc2VkIG9uIHRo
-ZSBtb2RlIG9mDQo+ID4gKwkJCSAqIG9wZXJhdGlvbiBvZiB0aGUgY29ubmVjdGVkIGRldmljZS4N
-Cj4gPiArCQkJICoNCj4gPiArCQkJICogU1RfU1dBUCBmcm9tIExWRDFTVFJJUEUgaXMgcmVzZXJ2
-ZWQsIGRvIG5vdCBzZXQNCj4gPiArCQkJICogaW4gdGhlIGNvbXBhbmlvbiBMVkRTDQo+ID4gKwkJ
-CSAqLw0KPiA+ICsJCQlsdmRzdHJpcGUgPSBMVkRTVFJJUEVfU1RfT04gfA0KPiA+ICsJCQkJKGx2
-ZHMtPmNvbXBhbmlvbiAmJiBsdmRzLT5zdHJpcGVfc3dhcF9kYXRhID8NCj4gPiArCQkJCSBMVkRT
-VFJJUEVfU1RfU1dBUCA6IDApOw0KPiA+ICsJCXJjYXJfbHZkc193cml0ZShsdmRzLCBMVkRTVFJJ
-UEUsIGx2ZHN0cmlwZSk7DQo+ID4gIAl9DQo+ID4NCj4gPiAgCS8qDQo+ID4gQEAgLTYwMyw2ICs2
-MTQsMTEgQEAgc3RhdGljIHZvaWQgcmNhcl9sdmRzX21vZGVfc2V0KHN0cnVjdCBkcm1fYnJpZGdl
-ICpicmlkZ2UsDQo+ID4gIAlsdmRzLT5kaXNwbGF5X21vZGUgPSAqYWRqdXN0ZWRfbW9kZTsNCj4g
-Pg0KPiA+ICAJcmNhcl9sdmRzX2dldF9sdmRzX21vZGUobHZkcyk7DQo+ID4gKwlpZiAobHZkcy0+
-Y29tcGFuaW9uKSB7DQo+ID4gKwkJc3RydWN0IHJjYXJfbHZkcyAqY29tcGFuaW9uX2x2ZHMgPSBi
-cmlkZ2VfdG9fcmNhcl9sdmRzKA0KPiA+ICsJCQkJCQkJbHZkcy0+Y29tcGFuaW9uKTsNCj4gPiAr
-CQljb21wYW5pb25fbHZkcy0+bW9kZSA9IGx2ZHMtPm1vZGU7DQo+ID4gKwl9DQo+ID4gIH0NCj4g
-Pg0KPiA+ICBzdGF0aWMgaW50IHJjYXJfbHZkc19hdHRhY2goc3RydWN0IGRybV9icmlkZ2UgKmJy
-aWRnZSkNCj4gPiBAQCAtNjY3LDkgKzY4MywxMCBAQCBFWFBPUlRfU1lNQk9MX0dQTChyY2FyX2x2
-ZHNfZHVhbF9saW5rKTsNCj4gPiAgc3RhdGljIGludCByY2FyX2x2ZHNfcGFyc2VfZHRfY29tcGFu
-aW9uKHN0cnVjdCByY2FyX2x2ZHMgKmx2ZHMpDQo+ID4gIHsNCj4gPiAgCWNvbnN0IHN0cnVjdCBv
-Zl9kZXZpY2VfaWQgKm1hdGNoOw0KPiA+IC0Jc3RydWN0IGRldmljZV9ub2RlICpjb21wYW5pb247
-DQo+ID4gKwlzdHJ1Y3QgZGV2aWNlX25vZGUgKmNvbXBhbmlvbiwgKnAwID0gTlVMTCwgKnAxID0g
-TlVMTDsNCj4gPiAgCXN0cnVjdCBkZXZpY2UgKmRldiA9IGx2ZHMtPmRldjsNCj4gPiAtCWludCBy
-ZXQgPSAwOw0KPiA+ICsJc3RydWN0IHJjYXJfbHZkcyAqY29tcGFuaW9uX2x2ZHM7DQo+ID4gKwlp
-bnQgcmV0ID0gMCwgZHVhbF9saW5rOw0KPiA+DQo+ID4gIAkvKiBMb2NhdGUgdGhlIGNvbXBhbmlv
-biBMVkRTIGVuY29kZXIgZm9yIGR1YWwtbGluayBvcGVyYXRpb24sIGlmIGFueS4gKi8NCj4gPiAg
-CWNvbXBhbmlvbiA9IG9mX3BhcnNlX3BoYW5kbGUoZGV2LT5vZl9ub2RlLCAicmVuZXNhcyxjb21w
-YW5pb24iLCAwKTsNCj4gPiBAQCAtNjg3LDE2ICs3MDQsNTAgQEAgc3RhdGljIGludCByY2FyX2x2
-ZHNfcGFyc2VfZHRfY29tcGFuaW9uKHN0cnVjdCByY2FyX2x2ZHMgKmx2ZHMpDQo+ID4gIAkJZ290
-byBkb25lOw0KPiA+ICAJfQ0KPiA+DQo+ID4gKwkvKg0KPiA+ICsJICogV2UgbmVlZCB0byB3b3Jr
-IG91dCBpZiB0aGUgc2luayBpcyBleHBlY3RpbmcgdXMgdG8gZnVuY3Rpb24gaW4NCj4gPiArCSAq
-IGR1YWwtbGluayBtb2RlLiBXZSBkbyB0aGlzIGJ5IGxvb2tpbmcgYXQgdGhlIERUIHBvcnQgbm9k
-ZXMgd2UgYXJlDQo+ID4gKwkgKiBjb25uZWN0ZWQgdG8sIGlmIHRoZXkgYXJlIG1hcmtlZCBhcyBl
-eHBlY3RpbmcgZXZlbiBwaXhlbHMgYW5kDQo+ID4gKwkgKiBvZGQgcGl4ZWxzIHRoYW4gd2UgbmVl
-ZCB0byBlbmFibGUgdmVydGljYWwgc3RyaXBlIG91dHB1dA0KPiA+ICsJICovDQo+ID4gKwlwMCA9
-IG9mX2dyYXBoX2dldF9wb3J0X2J5X2lkKGRldi0+b2Zfbm9kZSwgMSk7DQo+ID4gKwlwMSA9IG9m
-X2dyYXBoX2dldF9wb3J0X2J5X2lkKGNvbXBhbmlvbiwgMSk7DQo+ID4gKwlkdWFsX2xpbmsgPSBk
-cm1fb2ZfbHZkc19nZXRfZHVhbF9saW5rX2NvbmZpZ3VyYXRpb24ocDAsIHAxKTsNCj4gDQo+IFlv
-dSBjYW4gY2FsbCBvZl9ub2RlX3B1dChwMCkgYW5kIG9mX25vZGVfcHV0KHAxKSBoZXJlIGluc3Rl
-YWQgb2YgYWRkaW5nDQo+IHRoZW0gYXQgdGhlIGVuZCBvZiB0aGUgZnVuY3Rpb24uDQoNCkknbGwg
-YmUgcmVzdHJ1Y3R1cmluZyB0aGlzIGNvZGUgYSBsaXR0bGUsIGFuZCBJJ2xsIG1vdmUgdGhlIHB1
-dCB1cCBoZXJlLCBhcyB5b3Ugc3VnZ2VzdGVkDQoNCj4gDQo+ID4gKwlpZiAoZHVhbF9saW5rID49
-IERSTV9MVkRTX0RVQUxfTElOS19FVkVOX09ERF9QSVhFTFMpIHsNCj4gPiArCQlkZXZfZGJnKGRl
-diwgIkR1YWwtbGluayBjb25maWd1cmF0aW9uIGRldGVjdGVkXG4iKTsNCj4gPiArCQlsdmRzLT5k
-dWFsX2xpbmsgPSB0cnVlOw0KPiA+ICsJfSBlbHNlIHsNCj4gPiArCQkvKiBkdWFsLWxpbmsgbW9k
-ZSBpcyBub3QgcmVxdWlyZWQgKi8NCj4gPiArCQlkZXZfZGJnKGRldiwgIlNpbmdsZS1saW5rIGNv
-bmZpZ3VyYXRpb24gZGV0ZWN0ZWRcbiIpOw0KPiA+ICsJCWdvdG8gZG9uZTsNCj4gPiArCX0NCj4g
-DQo+IE1pc3NpbmcgYmxhbmsgbGluZSBoZXJlLg0KDQpUaGFua3MNCg0KPiANCj4gPiArCS8qDQo+
-ID4gKwkgKiBXZSBtYXkgbmVlZCB0byBzd2FwIGV2ZW4gYW5kIG9kZCBwaXhlbHMgYXJvdW5kIGlu
-IGNhc2UgdGhlIHdpcmluZw0KPiA+ICsJICogZG9lc24ndCBtYXRjaCB0aGUgZGVmYXVsdCBjb25m
-aWd1cmF0aW9uLg0KPiA+ICsJICogQnkgZGVmYXVsdCB3ZSBnZW5lcmF0ZSBldmVuIHBpeGVscyBm
-cm9tIHRoaXMgZW5jb2RlciBhbmQgb2RkIHBpeGVscw0KPiA+ICsJICogZnJvbSB0aGUgY29tcGFu
-aW9uIGVuY29kZXIsIGJ1dCBpZiBwMCBpcyBjb25uZWN0ZWQgdG8gdGhlIHBvcnQNCj4gPiArCSAq
-IGV4cGVjdGluZyBvb2QgcGl4ZWxzLCBhbmQgcDEgaXMgY29ubmVjdGVkIHRvIHRoZSBwb3J0IGV4
-cGVjdGluZyBldmVuDQo+ID4gKwkgKiBwaXhlbHMsIHRoZW4gd2UgbmVlZCB0byBzd2FwIGV2ZW4g
-YW5kIG9kZCBwaXhlbHMgYXJvdW5kDQo+ID4gKwkgKi8NCj4gPiArCWlmIChkdWFsX2xpbmsgPT0g
-RFJNX0xWRFNfRFVBTF9MSU5LX09ERF9FVkVOX1BJWEVMUykgew0KPiA+ICsJCWRldl9kYmcoZGV2
-LCAiRGF0YSBzd2FwcGluZyByZXF1aXJlZFxuIik7DQo+ID4gKwkJbHZkcy0+c3RyaXBlX3N3YXBf
-ZGF0YSA9IHRydWU7DQo+ID4gKwl9DQo+ID4gKw0KPiA+ICAJbHZkcy0+Y29tcGFuaW9uID0gb2Zf
-ZHJtX2ZpbmRfYnJpZGdlKGNvbXBhbmlvbik7DQo+ID4gIAlpZiAoIWx2ZHMtPmNvbXBhbmlvbikg
-ew0KPiA+ICAJCXJldCA9IC1FUFJPQkVfREVGRVI7DQo+ID4gIAkJZ290byBkb25lOw0KPiA+ICAJ
-fQ0KPiA+ICsJY29tcGFuaW9uX2x2ZHMgPSBicmlkZ2VfdG9fcmNhcl9sdmRzKGx2ZHMtPmNvbXBh
-bmlvbik7DQo+ID4gKwljb21wYW5pb25fbHZkcy0+ZHVhbF9saW5rID0gbHZkcy0+ZHVhbF9saW5r
-Ow0KPiANCj4gSSBkb24ndCBsaWtlIHBva2luZyBkaXJlY3RseSBpbiB0aGUgY29tcGFuaW9uIGxp
-a2UgdGhpcyA6LSggQ2FuJ3Qgd2UgbGV0DQo+IHRoZSBjb21wYW5pb24gZGV0ZWN0IGR1YWwgbGlu
-ayBtb2RlIGl0c2VsZiA/DQoNCkkgZG9uJ3QgbGlrZSBpdCBlaXRoZXIsIGJ1dCB0aGUgY29tcGFu
-aW9uIGVuY29kZXIgZG9lc24ndCBob2xkIGEgcmVmZXJlbmNlIHRvIHRoZQ0KUHJpbWFyeSBlbmNv
-ZGVyIHJpZ2h0IG5vdywgc28gd2Ugd291bGQgbmVlZCB0byBjaGFuZ2Ugc3RyYXRlZ3kgZm9yIHRo
-aXMuDQpJIHRoaW5rIHBlcmhhcHMgd2UgY291bGQgYWRkIHRoaXMgc29sdXRpb24gdG8gdGhlIGRy
-aXZlciwgYW5kIHRoZW4gd2UgZml4IGl0DQpwcm9wZXJseSBsYXRlciBvbj8NCg0KPiANCj4gPg0K
-PiA+ICAJZGV2X2RiZyhkZXYsICJGb3VuZCBjb21wYW5pb24gZW5jb2RlciAlcE9GXG4iLCBjb21w
-YW5pb24pOw0KPiA+DQo+ID4gIGRvbmU6DQo+ID4gIAlvZl9ub2RlX3B1dChjb21wYW5pb24pOw0K
-PiA+ICsJb2Zfbm9kZV9wdXQocDApOw0KPiA+ICsJb2Zfbm9kZV9wdXQocDEpOw0KPiA+DQo+ID4g
-IAlyZXR1cm4gcmV0Ow0KPiA+ICB9DQo+ID4gQEAgLTcwNCwxMCArNzU1LDcgQEAgc3RhdGljIGlu
-dCByY2FyX2x2ZHNfcGFyc2VfZHRfY29tcGFuaW9uKHN0cnVjdCByY2FyX2x2ZHMgKmx2ZHMpDQo+
-ID4gIHN0YXRpYyBpbnQgcmNhcl9sdmRzX3BhcnNlX2R0KHN0cnVjdCByY2FyX2x2ZHMgKmx2ZHMp
-DQo+ID4gIHsNCj4gPiAgCXN0cnVjdCBkZXZpY2Vfbm9kZSAqbG9jYWxfb3V0cHV0ID0gTlVMTDsN
-Cj4gPiAtCXN0cnVjdCBkZXZpY2Vfbm9kZSAqcmVtb3RlX2lucHV0ID0gTlVMTDsNCj4gPiAgCXN0
-cnVjdCBkZXZpY2Vfbm9kZSAqcmVtb3RlID0gTlVMTDsNCj4gPiAtCXN0cnVjdCBkZXZpY2Vfbm9k
-ZSAqbm9kZTsNCj4gPiAtCWJvb2wgaXNfYnJpZGdlID0gZmFsc2U7DQo+ID4gIAlpbnQgcmV0ID0g
-MDsNCj4gPg0KPiA+ICAJbG9jYWxfb3V0cHV0ID0gb2ZfZ3JhcGhfZ2V0X2VuZHBvaW50X2J5X3Jl
-Z3MobHZkcy0+ZGV2LT5vZl9ub2RlLCAxLCAwKTsNCj4gPiBAQCAtNzM1LDQ1ICs3ODMsMTcgQEAg
-c3RhdGljIGludCByY2FyX2x2ZHNfcGFyc2VfZHQoc3RydWN0IHJjYXJfbHZkcyAqbHZkcykNCj4g
-PiAgCQlnb3RvIGRvbmU7DQo+ID4gIAl9DQo+ID4NCj4gDQo+IEkgdGhpbmsgeW91IGNhbiBhbHNv
-IGRyb3AgYWxsIHRoZSBjb2RlIGFib3ZlLg0KPiANCj4gPiAtCXJlbW90ZV9pbnB1dCA9IG9mX2dy
-YXBoX2dldF9yZW1vdGVfZW5kcG9pbnQobG9jYWxfb3V0cHV0KTsNCj4gPiAtDQo+ID4gLQlmb3Jf
-ZWFjaF9lbmRwb2ludF9vZl9ub2RlKHJlbW90ZSwgbm9kZSkgew0KPiA+IC0JCWlmIChub2RlICE9
-IHJlbW90ZV9pbnB1dCkgew0KPiA+IC0JCQkvKg0KPiA+IC0JCQkgKiBXZSd2ZSBmb3VuZCBvbmUg
-ZW5kcG9pbnQgb3RoZXIgdGhhbiB0aGUgaW5wdXQsIHRoaXMNCj4gPiAtCQkJICogbXVzdCBiZSBh
-IGJyaWRnZS4NCj4gPiAtCQkJICovDQo+ID4gLQkJCWlzX2JyaWRnZSA9IHRydWU7DQo+ID4gLQkJ
-CW9mX25vZGVfcHV0KG5vZGUpOw0KPiA+IC0JCQlicmVhazsNCj4gPiAtCQl9DQo+ID4gLQl9DQo+
-ID4gLQ0KPiA+IC0JaWYgKGlzX2JyaWRnZSkgew0KPiA+IC0JCWx2ZHMtPm5leHRfYnJpZGdlID0g
-b2ZfZHJtX2ZpbmRfYnJpZGdlKHJlbW90ZSk7DQo+ID4gLQkJaWYgKCFsdmRzLT5uZXh0X2JyaWRn
-ZSkgew0KPiA+IC0JCQlyZXQgPSAtRVBST0JFX0RFRkVSOw0KPiA+IC0JCQlnb3RvIGRvbmU7DQo+
-ID4gLQkJfQ0KPiA+IC0NCj4gPiAtCQlpZiAobHZkcy0+aW5mby0+cXVpcmtzICYgUkNBUl9MVkRT
-X1FVSVJLX0RVQUxfTElOSykNCj4gPiAtCQkJbHZkcy0+ZHVhbF9saW5rID0gbHZkcy0+bmV4dF9i
-cmlkZ2UtPnRpbWluZ3MNCj4gPiAtCQkJCQk/IGx2ZHMtPm5leHRfYnJpZGdlLT50aW1pbmdzLT5k
-dWFsX2xpbmsNCj4gPiAtCQkJCQk6IGZhbHNlOw0KPiANCj4gQXJlbid0IHlvdSBicmVha2luZyBi
-YWNrd2FyZCBjb21wYXRpYmlsaXR5IHdpdGggdGhpcyBjaGFuZ2UgPyBVbmxlc3MgSSdtDQo+IG1p
-c3Rha2VuIHlvdSdyZSBub3cgcmVxdWlyaW5nIHRoZSBuZXcgRFQgcHJvcGVydGllcywgYW5kIHRo
-ZSBleGlzdGluZyBEVA0KPiB0aGF0IGluY2x1ZGUgYSB0aGM2M2x2ZDEwMjQgd29uJ3QgaGF2ZSB0
-aGVtLg0KDQpVbmZvcnR1bmF0ZWx5IEkgYW0gYnJlYWtpbmcgYmFja3dhcmQgY29tcGF0aWJpbGl0
-eSBoZXJlLiBXaWxsIGJlIG1vcmUgY2FyZWZ1bA0KaW4gdjQsIHNvcnJ5IQ0KDQo+IA0KPiA+IC0J
-fSBlbHNlIHsNCj4gPiAtCQlsdmRzLT5wYW5lbCA9IG9mX2RybV9maW5kX3BhbmVsKHJlbW90ZSk7
-DQo+ID4gLQkJaWYgKElTX0VSUihsdmRzLT5wYW5lbCkpIHsNCj4gPiAtCQkJcmV0ID0gUFRSX0VS
-UihsdmRzLT5wYW5lbCk7DQo+ID4gLQkJCWdvdG8gZG9uZTsNCj4gPiAtCQl9DQo+ID4gKwlyZXQg
-PSBkcm1fb2ZfZmluZF9wYW5lbF9vcl9icmlkZ2UobHZkcy0+ZGV2LT5vZl9ub2RlLCAxLCAwLA0K
-PiA+ICsJCQkJCSAgJmx2ZHMtPnBhbmVsLCAmbHZkcy0+bmV4dF9icmlkZ2UpOw0KPiA+ICsJaWYg
-KHJldCkgew0KPiA+ICsJCXJldCA9IC1FUFJPQkVfREVGRVI7DQo+IA0KPiBTaG91bGRuJ3QgeW91
-IHJldHVybiByZXQgaW5zdGVhZCBvZiBvdmVycmlkaW5nIGl0ID8NCg0KQ2FuIGRvDQoNCg0KVGhh
-bmtzLA0KRmFiDQoNCj4gDQo+ID4gKwkJZ290byBkb25lOw0KPiA+ICAJfQ0KPiA+IC0NCj4gPiAt
-CWlmIChsdmRzLT5kdWFsX2xpbmspDQo+ID4gKwlpZiAobHZkcy0+aW5mby0+cXVpcmtzICYgUkNB
-Ul9MVkRTX1FVSVJLX0RVQUxfTElOSykNCj4gPiAgCQlyZXQgPSByY2FyX2x2ZHNfcGFyc2VfZHRf
-Y29tcGFuaW9uKGx2ZHMpOw0KPiA+DQo+ID4gIGRvbmU6DQo+ID4gIAlvZl9ub2RlX3B1dChsb2Nh
-bF9vdXRwdXQpOw0KPiA+IC0Jb2Zfbm9kZV9wdXQocmVtb3RlX2lucHV0KTsNCj4gPiAgCW9mX25v
-ZGVfcHV0KHJlbW90ZSk7DQo+ID4NCj4gPiAgCS8qDQo+IA0KPiAtLQ0KPiBSZWdhcmRzLA0KPiAN
-Cj4gTGF1cmVudCBQaW5jaGFydA0K
+[+Eric]
+
+On Mon, Oct 28, 2019 at 11:32:42AM -0500, Rob Herring wrote:
+> The Rockchip host bridge driver doesn't need to store outboard resources
+> in its private struct as they are already stored in struct
+> pci_host_bridge.
+> 
+> Cc: Shawn Lin <shawn.lin@rock-chips.com>
+> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> Cc: Andrew Murray <andrew.murray@arm.com>
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Heiko Stuebner <heiko@sntech.de>
+> Cc: linux-rockchip@lists.infradead.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  drivers/pci/controller/pcie-rockchip-host.c | 54 +++++++++------------
+>  drivers/pci/controller/pcie-rockchip.h      |  5 --
+>  2 files changed, 23 insertions(+), 36 deletions(-)
+> 
+> diff --git a/drivers/pci/controller/pcie-rockchip-host.c b/drivers/pci/controller/pcie-rockchip-host.c
+> index 8d2e6f2e141e..f375e55ea02e 100644
+> --- a/drivers/pci/controller/pcie-rockchip-host.c
+> +++ b/drivers/pci/controller/pcie-rockchip-host.c
+> @@ -806,19 +806,28 @@ static int rockchip_pcie_prog_ib_atu(struct rockchip_pcie *rockchip,
+>  static int rockchip_pcie_cfg_atu(struct rockchip_pcie *rockchip)
+>  {
+>  	struct device *dev = rockchip->dev;
+> +	struct pci_host_bridge *bridge = pci_host_bridge_from_priv(rockchip);
+> +	struct resource_entry *entry;
+> +	u64 pci_addr, size;
+>  	int offset;
+>  	int err;
+>  	int reg_no;
+>  
+>  	rockchip_pcie_cfg_configuration_accesses(rockchip,
+>  						 AXI_WRAPPER_TYPE0_CFG);
+> +	entry = resource_list_first_type(&bridge->windows, IORESOURCE_MEM);
+> +	if (!entry)
+> +		return -ENODEV;
+> +
+> +	size = resource_size(entry->res);
+> +	pci_addr = entry->res->start - entry->offset;
+> +	rockchip->msg_bus_addr = pci_addr;
+>  
+> -	for (reg_no = 0; reg_no < (rockchip->mem_size >> 20); reg_no++) {
+> +	for (reg_no = 0; reg_no < (size >> 20); reg_no++) {
+>  		err = rockchip_pcie_prog_ob_atu(rockchip, reg_no + 1,
+>  						AXI_WRAPPER_MEM_WRITE,
+>  						20 - 1,
+> -						rockchip->mem_bus_addr +
+> -						(reg_no << 20),
+> +						pci_addr + (reg_no << 20),
+>  						0);
+>  		if (err) {
+>  			dev_err(dev, "program RC mem outbound ATU failed\n");
+> @@ -832,14 +841,20 @@ static int rockchip_pcie_cfg_atu(struct rockchip_pcie *rockchip)
+>  		return err;
+>  	}
+>  
+> -	offset = rockchip->mem_size >> 20;
+> -	for (reg_no = 0; reg_no < (rockchip->io_size >> 20); reg_no++) {
+> +	entry = resource_list_first_type(&bridge->windows, IORESOURCE_IO);
+> +	if (!entry)
+> +		return -ENODEV;
+> +
+> +	size = resource_size(entry->res);
+> +	pci_addr = entry->res->start - entry->offset;
+> +
+> +	offset = size >> 20;
+
+Just trying to find what triggers:
+
+https://lore.kernel.org/linux-pci/CAFqH_52BiQJzNEzd_0pB3K+JmzVOVikYQo0xfiC0J-DwiXdtqw@mail.gmail.com/T/#u
+
+I think this offset calculation changed the behaviour:
+
+Before:
+
+> -	offset = rockchip->mem_size >> 20;
+
+Now:
+
+> +	offset = size >> 20;
+
+size must be the IORESOURCE_MEM resource size instead we are using the
+IORESOURCE_IO size so IIUC the ATU window setup may be compromised.
+
+Lorenzo
+
+> +	for (reg_no = 0; reg_no < (size >> 20); reg_no++) {
+>  		err = rockchip_pcie_prog_ob_atu(rockchip,
+>  						reg_no + 1 + offset,
+>  						AXI_WRAPPER_IO_WRITE,
+>  						20 - 1,
+> -						rockchip->io_bus_addr +
+> -						(reg_no << 20),
+> +						pci_addr + (reg_no << 20),
+>  						0);
+>  		if (err) {
+>  			dev_err(dev, "program RC io outbound ATU failed\n");
+> @@ -852,8 +867,7 @@ static int rockchip_pcie_cfg_atu(struct rockchip_pcie *rockchip)
+>  				  AXI_WRAPPER_NOR_MSG,
+>  				  20 - 1, 0, 0);
+>  
+> -	rockchip->msg_bus_addr = rockchip->mem_bus_addr +
+> -					((reg_no + offset) << 20);
+> +	rockchip->msg_bus_addr += ((reg_no + offset) << 20);
+>  	return err;
+>  }
+>  
+> @@ -951,7 +965,6 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
+>  	struct pci_bus *bus, *child;
+>  	struct pci_host_bridge *bridge;
+>  	struct resource *bus_res;
+> -	struct resource_entry *win;
+>  	int err;
+>  
+>  	if (!dev->of_node)
+> @@ -997,27 +1010,6 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
+>  
+>  	rockchip->root_bus_nr = bus_res->start;
+>  
+> -	/* Get the I/O and memory ranges from DT */
+> -	resource_list_for_each_entry(win, &bridge->windows) {
+> -		switch (resource_type(win->res)) {
+> -		case IORESOURCE_IO:
+> -			io = win->res;
+> -			io->name = "I/O";
+> -			rockchip->io_size = resource_size(io);
+> -			rockchip->io_bus_addr = io->start - win->offset;
+> -			rockchip->io = io;
+> -			break;
+> -		case IORESOURCE_MEM:
+> -			mem = win->res;
+> -			mem->name = "MEM";
+> -			rockchip->mem_size = resource_size(mem);
+> -			rockchip->mem_bus_addr = mem->start - win->offset;
+> -			break;
+> -		default:
+> -			continue;
+> -		}
+> -	}
+> -
+>  	err = rockchip_pcie_cfg_atu(rockchip);
+>  	if (err)
+>  		goto err_remove_irq_domain;
+> diff --git a/drivers/pci/controller/pcie-rockchip.h b/drivers/pci/controller/pcie-rockchip.h
+> index 8e87a059ce73..bef42a803b56 100644
+> --- a/drivers/pci/controller/pcie-rockchip.h
+> +++ b/drivers/pci/controller/pcie-rockchip.h
+> @@ -304,13 +304,8 @@ struct rockchip_pcie {
+>  	struct	irq_domain *irq_domain;
+>  	int     offset;
+>  	struct pci_bus *root_bus;
+> -	struct resource *io;
+> -	phys_addr_t io_bus_addr;
+> -	u32     io_size;
+>  	void    __iomem *msg_region;
+> -	u32     mem_size;
+>  	phys_addr_t msg_bus_addr;
+> -	phys_addr_t mem_bus_addr;
+>  	bool is_rc;
+>  	struct resource *mem_res;
+>  };
+> -- 
+> 2.20.1
+> 
