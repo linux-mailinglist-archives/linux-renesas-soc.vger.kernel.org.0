@@ -2,115 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FE451154A8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2019 16:55:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 210AD115560
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Dec 2019 17:33:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726352AbfLFPz3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Dec 2019 10:55:29 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:37312 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726350AbfLFPz3 (ORCPT
+        id S1726261AbfLFQdF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Dec 2019 11:33:05 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:55948 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726258AbfLFQdF (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Dec 2019 10:55:29 -0500
-Received: by mail-lf1-f67.google.com with SMTP id b15so5640573lfc.4
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 06 Dec 2019 07:55:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=UQ8toDsRC0YNjw3gGw86jGVjw7PA7mTM+776H0WBXh4=;
-        b=vp0xmB8wiGHqs05Yg9DJZX7OJ6uzvnsiliouPnT4IAqCsSrxtxKSksoxURAwaPZHUh
-         V7HHgskW8E0hMSp97tiApMxCvuDVKnEmumEgR+1MsmloEdueu2PkQ2D3ieXaMXP7EEWQ
-         1McjCML/TDvUew/yOwq9QxVv8juleopDDX49ZH3CW5LX+64AyNdz389aWeb/zqjDUIlq
-         rkCR7GPz2amiI5KFv+Xg3NgWoyuKuNvod5UwVGQI1SxenODncn257JanXSyuNTh4UdSU
-         1+V25zZoTp6mEKLlePJZf4jSYn+d4DYg4NLxTuslVpzqCbt+Mbbj9vqHDBEaFC0gv9/Z
-         tbBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=UQ8toDsRC0YNjw3gGw86jGVjw7PA7mTM+776H0WBXh4=;
-        b=hdm1Zkh4qLRPb1hpOlNOItTCQFOjZRnEw0DxnaPBa2fTzxKWEC2cmEsv0garoeK3yj
-         l6rrMLV1JrqAfDeMt1r4t3umbSPR431SR78RQJQSxRD0pUtXEYqgJ5Vgm8qyBhL1oaEn
-         RnpgXBgE6VDT5BLosanEcby6qtGmRPKEg6/WErF/B/0RDJBYIseY/5u9t39VeBJ2fcp5
-         FZPhdNeJgKbnUgFVdXSJtuSiwj3E2ynDj0q9tOlY8EcdhKGNnPOGLVv+AyCeV/iLcBSr
-         OUDipet0sqJE0FUp8V7UqgmvtkSOrJLl6C/XbKeA3rdH8w67nZjAXbXexrEm0RBBkF/r
-         zIjA==
-X-Gm-Message-State: APjAAAXh0dzcndujX3Ux6z2uLpdTV7wLI0GMidX2/llMOOIG5HyCV2hv
-        YZfHbp3O2sgYTvkjDPM9ktbEMg==
-X-Google-Smtp-Source: APXvYqwX1XqeLRAU/UEqcrk+OubpQKYZPUPDrfOgmMrTwL128pFAiNeTQX4J9+SmhK741myLDkrO6g==
-X-Received: by 2002:ac2:4a61:: with SMTP id q1mr8858590lfp.36.1575647726105;
-        Fri, 06 Dec 2019 07:55:26 -0800 (PST)
-Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
-        by smtp.gmail.com with ESMTPSA id p4sm6936176lji.107.2019.12.06.07.55.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Dec 2019 07:55:25 -0800 (PST)
-Date:   Fri, 6 Dec 2019 16:55:24 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org
-Subject: Re: [PATCH] clk: renesas: rcar-gen2: Change multipliers and dividers
- to u8
-Message-ID: <20191206155524.GI28879@bigcity.dyn.berto.se>
-References: <20191206133254.23800-1-geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191206133254.23800-1-geert+renesas@glider.be>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+        Fri, 6 Dec 2019 11:33:05 -0500
+X-IronPort-AV: E=Sophos;i="5.69,285,1571670000"; 
+   d="scan'208";a="33693100"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie5.idc.renesas.com with ESMTP; 07 Dec 2019 01:33:03 +0900
+Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id E6135400D4D7;
+        Sat,  7 Dec 2019 01:32:57 +0900 (JST)
+From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+To:     Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sean Paul <sean@poorly.run>,
+        Andrzej Hajda <a.hajda@samsung.com>
+Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        ebiharaml@si-linux.co.jp
+Subject: [PATCH v4 0/7] Add dual-LVDS panel support to EK874
+Date:   Fri,  6 Dec 2019 16:32:47 +0000
+Message-Id: <1575649974-31472-1-git-send-email-fabrizio.castro@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Dear All,
 
-Thanks for your work.
+this series adds support for dual-LVDS panel IDK-2121WR
+from Advantech:
+https://buy.advantech.eu/Displays/Embedded-LCD-Kits-High-Brightness/model-IDK-2121WR-K2FHA2E.htm
 
-On 2019-12-06 14:32:54 +0100, Geert Uytterhoeven wrote:
-> All multipliers and dividers are small.
-> Storing them in u8 instead of unsigned int reduces kernel size for a
-> generic kernel by ca. 0.5 KiB.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> To be queued in clk-renesas-for-v5.6.
+V4 incorporates most of the comments received from v3, making it significantly
+different from v3: patch "drm: rcar-du: lvds: Add dual-LVDS panels support"
+has been split in 4 patches, patches
+"dt-bindings: display: Add bindings for LVDS bus-timings" and
+"dt-bindings: display: Add idk-2121wr binding" have been merged together,
+and a few issues have been fixed.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Thanks,
+Fab
 
-> 
->  drivers/clk/renesas/rcar-gen2-cpg.h | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/clk/renesas/rcar-gen2-cpg.h b/drivers/clk/renesas/rcar-gen2-cpg.h
-> index db2f57ef2f9984e4..bdcd4a38d48d01bd 100644
-> --- a/drivers/clk/renesas/rcar-gen2-cpg.h
-> +++ b/drivers/clk/renesas/rcar-gen2-cpg.h
-> @@ -24,10 +24,10 @@ enum rcar_gen2_clk_types {
->  };
->  
->  struct rcar_gen2_cpg_pll_config {
-> -	unsigned int extal_div;
-> -	unsigned int pll1_mult;
-> -	unsigned int pll3_mult;
-> -	unsigned int pll0_mult;		/* leave as zero if PLL0CR exists */
-> +	u8 extal_div;
-> +	u8 pll1_mult;
-> +	u8 pll3_mult;
-> +	u8 pll0_mult;		/* leave as zero if PLL0CR exists */
->  };
->  
->  struct clk *rcar_gen2_cpg_clk_register(struct device *dev,
-> -- 
-> 2.17.1
-> 
+Fabrizio Castro (7):
+  drm: of: Add drm_of_lvds_get_dual_link_pixel_order
+  drm: rcar-du: lvds: Improve identification of panels
+  drm: rcar-du: lvds: Get dual link configuration from DT
+  drm: rcar-du: lvds: Allow for even and odd pixels swap
+  drm: rcar-du: lvds: Fix mode for companion encoder
+  dt-bindings: display: Add idk-2121wr binding
+  arm64: dts: renesas: Add EK874 board with idk-2121wr display support
+
+ .../display/panel/advantech,idk-2121wr.yaml        | 128 ++++++++++++++++++
+ arch/arm64/boot/dts/renesas/Makefile               |   3 +-
+ .../boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts | 116 +++++++++++++++++
+ drivers/gpu/drm/drm_of.c                           | 104 +++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_lvds.c                | 143 ++++++++++++++-------
+ include/drm/drm_of.h                               |  20 +++
+ 6 files changed, 468 insertions(+), 46 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts
 
 -- 
-Regards,
-Niklas Söderlund
+2.7.4
+
