@@ -2,49 +2,49 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98601115C8A
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Dec 2019 15:04:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DDC80115C8B
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Dec 2019 15:04:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726399AbfLGOE3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 7 Dec 2019 09:04:29 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:39515 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726425AbfLGOE2 (ORCPT
+        id S1726474AbfLGOEb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 7 Dec 2019 09:04:31 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:36177 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726397AbfLGOEb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 7 Dec 2019 09:04:28 -0500
-Received: by mail-lj1-f196.google.com with SMTP id e10so10696953ljj.6;
-        Sat, 07 Dec 2019 06:04:27 -0800 (PST)
+        Sat, 7 Dec 2019 09:04:31 -0500
+Received: by mail-lj1-f193.google.com with SMTP id r19so10734004ljg.3;
+        Sat, 07 Dec 2019 06:04:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=63FAYeXHOLWZvE39+BvFTQvx8rk1mNWwTMgVp4w9KIs=;
-        b=HqZQqzcXLz6qqDnZBbtAncz09h4HHdF2Rkf9L00gHYZQMGeLF4pATtZsOyBRySDv3s
-         Bl3agh2QBKbOWCqCed3xKaiQ1hIYC4wfRE3lkCWQUbcCp2hc82VNbjrgwBfWtPlyOUUj
-         TJPJwwUs5scJ4AZ3yh3dgLIhOcFzhQCvGwbnLzxnHt909E9Zlma812SMN43OXAbuKxhA
-         TH6UiuR0tJW2YyO2/ggmZGxM7VQ+KvuhI20nEw/+PuNfy6SuD4QeOEzWmGd6pbg/zb+1
-         IKovefo+w7fUJoUZPp71KIiPRelS6vNLmT9JDbi+oRq5TSvBn3wWF86rEoCCs2oWMu1x
-         V6Sw==
+        bh=PEkkKHiq+AcHePdv87qZ46O+yNk0TpaePUBzT0oWsAc=;
+        b=ZfHiRiueSHRoMm/wWPg2IEAFbC+nin4k5/h6+jqp6YAW6dtNdKpHxhLUqyQBrdiW5X
+         IS69T1/XMFvXqXGcc956VzDbI9EAU0LALkPtX5E1ULJfoYNnPXw878/lGy/5UDWRyoZn
+         lOJzZCmr3W4w+L4mhA22VZAR5ei76vWyygf4hVaS3BMOuchXlSmvt1qbmiOnS6ogFTSO
+         AFppLqocMVslabJ7DToSGuHPtYw6gN3Q4temBKQ8tfmnNP9Mpz7mwHqyqb78C40OcI3S
+         W84v8/HgfHEL4T9hbGi/iSwgNqm/ytbENpyqiJ1UF+/MPBXwVyJpguDgnGdveWD5YDi/
+         QtIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=63FAYeXHOLWZvE39+BvFTQvx8rk1mNWwTMgVp4w9KIs=;
-        b=JvJRMPjWK2HmoI98XNDr47hctZ8Z3llxdMDZ+SHlUqZpqKGPndb6j5FImOntS4cFV9
-         3GCxwn3OTLnTZKkat/elRfK3ERSitCW47k+eeXilslZOEaKcLLmsijXJ2aEaxKf30u6H
-         rMoCzx2l6niGP1GtbOqmkVh9PVProjT5S+8jZEVDffaL+AcnV1aJS08yYgwqHXbgmfV4
-         UFaYSF3L1q4MatwhnwkPbGfy4bNygQ5fVglViZRGGHtS0HOCTxZV9dhQ214ZPaUrrqWh
-         w5IT/XuI2IM4ZaZICwGPD1xktc2FnUtG2vQ0FGBZy7asssJhvC7yFbh/T1BAtobX1Yfn
-         TdeQ==
-X-Gm-Message-State: APjAAAXl6aSoNd87hhvR5dwqO7rqHI+s7EQZS/WSLzU8Bv8EoZuy0IOI
-        1Jv9XFT4KAqlE4G6JKGCVMg=
-X-Google-Smtp-Source: APXvYqwCXvyDmoKVIc4zlBB2XBU0M9Y6CN9iEAOB/MhVUE9gB+QmdDrvfL6CdFab3+wa1LcGnDUevg==
-X-Received: by 2002:a2e:548:: with SMTP id 69mr11532790ljf.67.1575727466338;
-        Sat, 07 Dec 2019 06:04:26 -0800 (PST)
+        bh=PEkkKHiq+AcHePdv87qZ46O+yNk0TpaePUBzT0oWsAc=;
+        b=pxAVgcnvX99aksBXP559DDFXnApmvGHUnpAEkDXiiP6TOa9Qk+e0GyYaYXsH6mkeaw
+         n7TIcrCcWeTmN8/Fq/5EaFXRj3uuaSQVIev7b0iiu2qQVh0RAaV7cFXajE3+CZjKktZ0
+         NGwIbmBdAoNZ+QPjzrU3xqCwjIArRo7un4vYZojlp/jcbTey3Zyaz+d/KHHrbpOxFmA1
+         F1HMFUHUUQsuSiBaTa5vdNE77JpR4mZ1ILzY8w1arr1Dn8488BpTkC+TXo+NimsvlI+6
+         kRg2FOy3OYu/W1TTtbw77CuOwMytpeDTz6MIMuGpk13AF6CxsENNfGP2HaCb7ffWfk3T
+         d60w==
+X-Gm-Message-State: APjAAAVi3vZRNQE0Z+yTGyKN48rzwA5auEfc0Mk3vdCURYz3cFLEFu1P
+        HQxbX6HVdnReMiqRmd9YO6c=
+X-Google-Smtp-Source: APXvYqyvSwIE32v2Kp9t6aC1p3mZ5oj9u6z9msGZC5D9TpRLAqQ5hY1QRbeh6HQns7Z439S/CNir0g==
+X-Received: by 2002:a2e:978d:: with SMTP id y13mr11771522lji.103.1575727468217;
+        Sat, 07 Dec 2019 06:04:28 -0800 (PST)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
-        by smtp.gmail.com with ESMTPSA id w17sm5644188lfn.22.2019.12.07.06.04.24
+        by smtp.gmail.com with ESMTPSA id w17sm5644188lfn.22.2019.12.07.06.04.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Dec 2019 06:04:25 -0800 (PST)
+        Sat, 07 Dec 2019 06:04:27 -0800 (PST)
 From:   Sam Ravnborg <sam@ravnborg.org>
 To:     dri-devel@lists.freedesktop.org,
         Thierry Reding <thierry.reding@gmail.com>,
@@ -72,9 +72,9 @@ Cc:     Abhinav Kumar <abhinavk@codeaurora.org>,
         Purism Kernel Team <kernel@puri.sm>,
         Sean Paul <sean@poorly.run>, Stefan Agner <stefan@agner.ch>,
         Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCH v2 09/25] drm/panel: ilitek-ili9881c: use drm_panel backlight support
-Date:   Sat,  7 Dec 2019 15:03:37 +0100
-Message-Id: <20191207140353.23967-10-sam@ravnborg.org>
+Subject: [PATCH v2 10/25] drm/panel: innolux-p079zca: use drm_panel backlight support
+Date:   Sat,  7 Dec 2019 15:03:38 +0100
+Message-Id: <20191207140353.23967-11-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191207140353.23967-1-sam@ravnborg.org>
 References: <20191207140353.23967-1-sam@ravnborg.org>
@@ -92,81 +92,101 @@ Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/panel/panel-ilitek-ili9881c.c | 19 +++----------------
- 1 file changed, 3 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/panel/panel-innolux-p079zca.c | 28 ++++++-------------
+ 1 file changed, 8 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-index 31e5a4e67750..f54077c216a3 100644
---- a/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
-+++ b/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c
+diff --git a/drivers/gpu/drm/panel/panel-innolux-p079zca.c b/drivers/gpu/drm/panel/panel-innolux-p079zca.c
+index b9de37a8a0c5..7419f1f0acee 100644
+--- a/drivers/gpu/drm/panel/panel-innolux-p079zca.c
++++ b/drivers/gpu/drm/panel/panel-innolux-p079zca.c
 @@ -3,7 +3,6 @@
-  * Copyright (C) 2017-2018, Bootlin
+  * Copyright (c) 2017, Fuzhou Rockchip Electronics Co., Ltd
   */
  
 -#include <linux/backlight.h>
  #include <linux/delay.h>
- #include <linux/device.h>
- #include <linux/err.h>
-@@ -25,7 +24,6 @@ struct ili9881c {
- 	struct drm_panel	panel;
- 	struct mipi_dsi_device	*dsi;
+ #include <linux/gpio/consumer.h>
+ #include <linux/module.h>
+@@ -52,7 +51,6 @@ struct innolux_panel {
+ 	struct mipi_dsi_device *link;
+ 	const struct panel_desc *desc;
  
 -	struct backlight_device *backlight;
- 	struct regulator	*power;
- 	struct gpio_desc	*reset;
- };
-@@ -348,7 +346,6 @@ static int ili9881c_enable(struct drm_panel *panel)
- 	msleep(120);
+ 	struct regulator_bulk_data *supplies;
+ 	struct gpio_desc *enable_gpio;
  
- 	mipi_dsi_dcs_set_display_on(ctx->dsi);
--	backlight_enable(ctx->backlight);
+@@ -72,8 +70,6 @@ static int innolux_panel_disable(struct drm_panel *panel)
+ 	if (!innolux->enabled)
+ 		return 0;
+ 
+-	backlight_disable(innolux->backlight);
+-
+ 	innolux->enabled = false;
  
  	return 0;
- }
-@@ -357,7 +354,6 @@ static int ili9881c_disable(struct drm_panel *panel)
+@@ -204,18 +200,10 @@ static int innolux_panel_prepare(struct drm_panel *panel)
+ static int innolux_panel_enable(struct drm_panel *panel)
  {
- 	struct ili9881c *ctx = panel_to_ili9881c(panel);
+ 	struct innolux_panel *innolux = to_innolux_panel(panel);
+-	int ret;
  
--	backlight_disable(ctx->backlight);
- 	return mipi_dsi_dcs_set_display_off(ctx->dsi);
- }
+ 	if (innolux->enabled)
+ 		return 0;
  
-@@ -423,7 +419,6 @@ static const struct drm_panel_funcs ili9881c_funcs = {
+-	ret = backlight_enable(innolux->backlight);
+-	if (ret) {
+-		DRM_DEV_ERROR(panel->dev,
+-			      "Failed to enable backlight %d\n", ret);
+-		return ret;
+-	}
+-
+ 	innolux->enabled = true;
  
- static int ili9881c_dsi_probe(struct mipi_dsi_device *dsi)
- {
--	struct device_node *np;
- 	struct ili9881c *ctx;
- 	int ret;
- 
-@@ -448,14 +443,9 @@ static int ili9881c_dsi_probe(struct mipi_dsi_device *dsi)
- 		return PTR_ERR(ctx->reset);
+ 	return 0;
+@@ -482,13 +470,13 @@ static int innolux_panel_add(struct mipi_dsi_device *dsi,
+ 		innolux->enable_gpio = NULL;
  	}
  
--	np = of_parse_phandle(dsi->dev.of_node, "backlight", 0);
--	if (np) {
--		ctx->backlight = of_find_backlight_by_node(np);
--		of_node_put(np);
+-	innolux->backlight = devm_of_find_backlight(dev);
+-	if (IS_ERR(innolux->backlight))
+-		return PTR_ERR(innolux->backlight);
 -
--		if (!ctx->backlight)
--			return -EPROBE_DEFER;
--	}
-+	ret = drm_panel_of_backlight(&ctx->panel);
-+	if (ret)
-+		return ret;
+ 	drm_panel_init(&innolux->base, dev, &innolux_panel_funcs,
+ 		       DRM_MODE_CONNECTOR_DSI);
  
- 	ret = drm_panel_add(&ctx->panel);
- 	if (ret < 0)
-@@ -475,9 +465,6 @@ static int ili9881c_dsi_remove(struct mipi_dsi_device *dsi)
- 	mipi_dsi_detach(dsi);
- 	drm_panel_remove(&ctx->panel);
++	err = drm_panel_of_backlight(&innolux->base);
++	if (err)
++		return err;
++
+ 	err = drm_panel_add(&innolux->base);
+ 	if (err < 0)
+ 		return err;
+@@ -526,12 +514,12 @@ static int innolux_panel_remove(struct mipi_dsi_device *dsi)
+ 	struct innolux_panel *innolux = mipi_dsi_get_drvdata(dsi);
+ 	int err;
  
--	if (ctx->backlight)
--		put_device(&ctx->backlight->dev);
--
- 	return 0;
+-	err = innolux_panel_unprepare(&innolux->base);
++	err = drm_panel_unprepare(&innolux->base);
+ 	if (err < 0)
+ 		DRM_DEV_ERROR(&dsi->dev, "failed to unprepare panel: %d\n",
+ 			      err);
+ 
+-	err = innolux_panel_disable(&innolux->base);
++	err = drm_panel_disable(&innolux->base);
+ 	if (err < 0)
+ 		DRM_DEV_ERROR(&dsi->dev, "failed to disable panel: %d\n", err);
+ 
+@@ -549,8 +537,8 @@ static void innolux_panel_shutdown(struct mipi_dsi_device *dsi)
+ {
+ 	struct innolux_panel *innolux = mipi_dsi_get_drvdata(dsi);
+ 
+-	innolux_panel_unprepare(&innolux->base);
+-	innolux_panel_disable(&innolux->base);
++	drm_panel_unprepare(&innolux->base);
++	drm_panel_disable(&innolux->base);
  }
  
+ static struct mipi_dsi_driver innolux_panel_driver = {
 -- 
 2.20.1
 
