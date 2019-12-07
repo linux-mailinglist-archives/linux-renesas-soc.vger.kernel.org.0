@@ -2,49 +2,49 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 02754115C9C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Dec 2019 15:04:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 67F0E115C9F
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Dec 2019 15:04:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726461AbfLGOEi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 7 Dec 2019 09:04:38 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:35273 "EHLO
+        id S1726528AbfLGOEk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 7 Dec 2019 09:04:40 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:44956 "EHLO
         mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726399AbfLGOEi (ORCPT
+        with ESMTP id S1726425AbfLGOEj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 7 Dec 2019 09:04:38 -0500
-Received: by mail-lj1-f193.google.com with SMTP id j6so10737423lja.2;
-        Sat, 07 Dec 2019 06:04:36 -0800 (PST)
+        Sat, 7 Dec 2019 09:04:39 -0500
+Received: by mail-lj1-f193.google.com with SMTP id c19so10648032lji.11;
+        Sat, 07 Dec 2019 06:04:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=QgFTzPZd3zR98m50NY0shuKpKVuv4VS4hyjW7Qv2Omk=;
-        b=jrIBA/vqZodxViATSQARFkZD7wiEmAHsUlNjZymh8plju65SezxDVb232LWzAO7ZIW
-         kFmv4T1O4tF5vglDYs7mo4WPhnmXCBga6BPzrqpFEBPGLxUnHCEBoSwvhJwtj7oRuhlS
-         6rwymBSXbUJPHSE7F/TU8cIy0yfuhOGxq2EqTEjr+GR83yUN1lmmKWt05j/V1aizGnHO
-         wgK6mWeVCzmN88mPT83aIwPcsTK3vHQyFbEpBjVUFt4zCSV0mYD0xYZ3Pshw39dUtj4c
-         43kY3UcyVgHIbBrvs4Oc2i2daiu7MlFv1k5I9puW67OdIwCy5GI7bOhctWxExoJ6EIrm
-         kodA==
+        bh=nh+auvkxV6hzFWp6G1ySZlQ+h5mj84VTfDwYW3UcNEg=;
+        b=GLR0ghga41ugllFnX9V68j3o6mCPObjN2evzL1OX/t2lGBgTB8wmIPLgwwMBOpjpDq
+         Nk8zbYrhiz40wWzyaxFyDCOx9Qp3c7eNa8A/95q5A1Qqh83tyWD1BVp0y4VctW8mG+WZ
+         DAA9mowrjQXH5AcAt80VyzXd/OACUG56WyF75bVLrPavuEBdVpRprBVKB4AV35/ONJLz
+         6OVdFjErq0R1IIbK1uTpO/rvDNpe+vSvtO8NekSaF7kbDOnEy/SGbQ4OnXGYt3pmaEeA
+         mb8xoiJxNRlo37czxRawcLQfn8YURT2gt7i/+ojRcPc73xXdZuJ4AZGjcgILa50pJKcz
+         KvKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=QgFTzPZd3zR98m50NY0shuKpKVuv4VS4hyjW7Qv2Omk=;
-        b=Eh/BG4TXa8OMaKHFAuJedlIuPxEHUUtnEiFPpOXQ3J0qFZWtKiwNDvNQU+MA5mg/3f
-         W2/Sz9FybzBuIBpk/hBuLeVHnm0bpULdA5I5aSTGKC/wkCD8i3N0BHP3ZtX9ItgUjESq
-         8melf2ak4HI6+vOSrMncDYSZYvKOXv7WqfXzzFuPw90+EDigubLe2GUxhk940MMpRkam
-         A55i+O/uXaHRYYnis/isSPZB5bZ6osuUQSjEeF+JHMBM9Y07W8C9cXcr37vRx4OdN/UN
-         VEPJ3t+mmJZYVU+rL2mhexx7kZPcEBPF8po+ZjY2SkM7KygbnBM0nY6G0quu5U+3z/Q+
-         8nrQ==
-X-Gm-Message-State: APjAAAVZi/FMQB+eq+QQQleePrxC7S5+apRFaP+sMhUWuNvJebem+4av
-        cj7v31P/oVUv2YemfJ3bZM0=
-X-Google-Smtp-Source: APXvYqwqO/B3zDP/lU5w3BMKEFkPcSjN9evJVHeZCNcA2LQ9S+SRHMryllzKBI+PlPdvQ9Zo/y8d+Q==
-X-Received: by 2002:a2e:9b58:: with SMTP id o24mr11509631ljj.197.1575727475273;
-        Sat, 07 Dec 2019 06:04:35 -0800 (PST)
+        bh=nh+auvkxV6hzFWp6G1ySZlQ+h5mj84VTfDwYW3UcNEg=;
+        b=USwkPAt9pJBwAdOasOfF/pkl9BapnDy15ZH0fnmwwfKWNe/uxoihBGGzDBFG6lrWtQ
+         xyX0gnZuo3A+sTO3tVlR8BeYFE6sLV1AxW3MjoKgS2bSpd4k3gRAt2SBEFz2nJsSXZK8
+         mMAgqY9Zaw//VfTrpkQiTXT86ZduSrRMKWe0jRs9O8w9hpU1p2uNfDze0bMUa4j2/wcW
+         WrSJHdeqVIVx/ia7sBVFq874o4/h6NmKM9pSzfVcS8QlEtSWdmDmLb1gPW1d0+7u3HOr
+         cQ1ko/HXb4319YtFSgM6ISCwPvkuXcgdIWJAO170dyw78qqQXcZ86icV9ewrL078ilO3
+         ApLA==
+X-Gm-Message-State: APjAAAV/YgLX9moqYZwCSyXmNUzMFdU7lXu/Njr63DzJ+hxrbRHP0GTX
+        mIAOaoICO/60VHt+wSp/7gY=
+X-Google-Smtp-Source: APXvYqwiY4N+GIwVJEZXPGgmoqNV1sicVH+q4kCFtsUl1LtIrxYJcm5qUL/ngh8pFMnKlvdyCiPdfA==
+X-Received: by 2002:a2e:2418:: with SMTP id k24mr12093950ljk.49.1575727477038;
+        Sat, 07 Dec 2019 06:04:37 -0800 (PST)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
-        by smtp.gmail.com with ESMTPSA id w17sm5644188lfn.22.2019.12.07.06.04.33
+        by smtp.gmail.com with ESMTPSA id w17sm5644188lfn.22.2019.12.07.06.04.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Dec 2019 06:04:34 -0800 (PST)
+        Sat, 07 Dec 2019 06:04:36 -0800 (PST)
 From:   Sam Ravnborg <sam@ravnborg.org>
 To:     dri-devel@lists.freedesktop.org,
         Thierry Reding <thierry.reding@gmail.com>,
@@ -72,9 +72,9 @@ Cc:     Abhinav Kumar <abhinavk@codeaurora.org>,
         Purism Kernel Team <kernel@puri.sm>,
         Sean Paul <sean@poorly.run>, Stefan Agner <stefan@agner.ch>,
         Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCH v2 14/25] drm/panel: osd-osd101t2587-53ts: use drm_panel backlight support
-Date:   Sat,  7 Dec 2019 15:03:42 +0100
-Message-Id: <20191207140353.23967-15-sam@ravnborg.org>
+Subject: [PATCH v2 15/25] drm/panel: panasonic-vvx10f034n00: use drm_panel backlight support
+Date:   Sat,  7 Dec 2019 15:03:43 +0100
+Message-Id: <20191207140353.23967-16-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191207140353.23967-1-sam@ravnborg.org>
 References: <20191207140353.23967-1-sam@ravnborg.org>
@@ -92,22 +92,22 @@ Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- .../drm/panel/panel-osd-osd101t2587-53ts.c    | 24 +++++++------------
- 1 file changed, 9 insertions(+), 15 deletions(-)
+ .../drm/panel/panel-panasonic-vvx10f034n00.c  | 45 +++----------------
+ 1 file changed, 6 insertions(+), 39 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c b/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
-index 2734b4835dfa..3a0229d60095 100644
---- a/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
-+++ b/drivers/gpu/drm/panel/panel-osd-osd101t2587-53ts.c
-@@ -4,7 +4,6 @@
-  *  Author: Peter Ujfalusi <peter.ujfalusi@ti.com>
+diff --git a/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c b/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
+index 579ac0d86ea4..4e15bff5a1b5 100644
+--- a/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
++++ b/drivers/gpu/drm/panel/panel-panasonic-vvx10f034n00.c
+@@ -7,7 +7,6 @@
+  * Based on AUO panel driver by Rob Clark <robdclark@gmail.com>
   */
  
 -#include <linux/backlight.h>
+ #include <linux/delay.h>
  #include <linux/module.h>
  #include <linux/of.h>
- #include <linux/regulator/consumer.h>
-@@ -20,7 +19,6 @@ struct osd101t2587_panel {
+@@ -31,7 +30,6 @@ struct wuxga_nt_panel {
  	struct drm_panel base;
  	struct mipi_dsi_device *dsi;
  
@@ -115,74 +115,101 @@ index 2734b4835dfa..3a0229d60095 100644
  	struct regulator *supply;
  
  	bool prepared;
-@@ -42,8 +40,6 @@ static int osd101t2587_panel_disable(struct drm_panel *panel)
- 	if (!osd101t2587->enabled)
+@@ -62,12 +60,6 @@ static int wuxga_nt_panel_disable(struct drm_panel *panel)
+ 
+ 	mipi_ret = mipi_dsi_shutdown_peripheral(wuxga_nt->dsi);
+ 
+-	if (wuxga_nt->backlight) {
+-		wuxga_nt->backlight->props.power = FB_BLANK_POWERDOWN;
+-		wuxga_nt->backlight->props.state |= BL_CORE_FBBLANK;
+-		bl_ret = backlight_update_status(wuxga_nt->backlight);
+-	}
+-
+ 	wuxga_nt->enabled = false;
+ 
+ 	return mipi_ret ? mipi_ret : bl_ret;
+@@ -142,12 +134,6 @@ static int wuxga_nt_panel_enable(struct drm_panel *panel)
+ 	if (wuxga_nt->enabled)
  		return 0;
  
--	backlight_disable(osd101t2587->backlight);
+-	if (wuxga_nt->backlight) {
+-		wuxga_nt->backlight->props.power = FB_BLANK_UNBLANK;
+-		wuxga_nt->backlight->props.state &= ~BL_CORE_FBBLANK;
+-		backlight_update_status(wuxga_nt->backlight);
+-	}
 -
- 	ret = mipi_dsi_shutdown_peripheral(osd101t2587->dsi);
+ 	wuxga_nt->enabled = true;
  
- 	osd101t2587->enabled = false;
-@@ -91,8 +87,6 @@ static int osd101t2587_panel_enable(struct drm_panel *panel)
- 	if (ret)
- 		return ret;
- 
--	backlight_enable(osd101t2587->backlight);
--
- 	osd101t2587->enabled = true;
- 
- 	return ret;
-@@ -158,18 +152,19 @@ MODULE_DEVICE_TABLE(of, osd101t2587_of_match);
- static int osd101t2587_panel_add(struct osd101t2587_panel *osd101t2587)
+ 	return 0;
+@@ -206,7 +192,6 @@ MODULE_DEVICE_TABLE(of, wuxga_nt_of_match);
+ static int wuxga_nt_panel_add(struct wuxga_nt_panel *wuxga_nt)
  {
- 	struct device *dev = &osd101t2587->dsi->dev;
-+	int ret;
- 
- 	osd101t2587->supply = devm_regulator_get(dev, "power");
- 	if (IS_ERR(osd101t2587->supply))
- 		return PTR_ERR(osd101t2587->supply);
- 
--	osd101t2587->backlight = devm_of_find_backlight(dev);
--	if (IS_ERR(osd101t2587->backlight))
--		return PTR_ERR(osd101t2587->backlight);
--
- 	drm_panel_init(&osd101t2587->base, &osd101t2587->dsi->dev,
- 		       &osd101t2587_panel_funcs, DRM_MODE_CONNECTOR_DSI);
- 
-+	ret = drm_panel_of_backlight(&osd101t2587->base);
-+	if (ret)
-+		return ret;
-+
- 	return drm_panel_add(&osd101t2587->base);
- }
- 
-@@ -215,12 +210,11 @@ static int osd101t2587_panel_remove(struct mipi_dsi_device *dsi)
- 	struct osd101t2587_panel *osd101t2587 = mipi_dsi_get_drvdata(dsi);
+ 	struct device *dev = &wuxga_nt->dsi->dev;
+-	struct device_node *np;
  	int ret;
  
--	ret = osd101t2587_panel_disable(&osd101t2587->base);
-+	ret = drm_panel_disable(&osd101t2587->base);
- 	if (ret < 0)
- 		dev_warn(&dsi->dev, "failed to disable panel: %d\n", ret);
+ 	wuxga_nt->mode = &default_mode;
+@@ -215,38 +200,20 @@ static int wuxga_nt_panel_add(struct wuxga_nt_panel *wuxga_nt)
+ 	if (IS_ERR(wuxga_nt->supply))
+ 		return PTR_ERR(wuxga_nt->supply);
  
--	osd101t2587_panel_unprepare(&osd101t2587->base);
+-	np = of_parse_phandle(dev->of_node, "backlight", 0);
+-	if (np) {
+-		wuxga_nt->backlight = of_find_backlight_by_node(np);
+-		of_node_put(np);
 -
-+	drm_panel_unprepare(&osd101t2587->base);
- 	drm_panel_remove(&osd101t2587->base);
+-		if (!wuxga_nt->backlight)
+-			return -EPROBE_DEFER;
+-	}
+-
+ 	drm_panel_init(&wuxga_nt->base, &wuxga_nt->dsi->dev,
+ 		       &wuxga_nt_panel_funcs, DRM_MODE_CONNECTOR_DSI);
  
- 	ret = mipi_dsi_detach(dsi);
-@@ -234,8 +228,8 @@ static void osd101t2587_panel_shutdown(struct mipi_dsi_device *dsi)
- {
- 	struct osd101t2587_panel *osd101t2587 = mipi_dsi_get_drvdata(dsi);
+-	ret = drm_panel_add(&wuxga_nt->base);
+-	if (ret < 0)
+-		goto put_backlight;
+-
+-	return 0;
+-
+-put_backlight:
+-	if (wuxga_nt->backlight)
+-		put_device(&wuxga_nt->backlight->dev);
++	ret = drm_panel_of_backlight(&wuxga_nt->base);
++	if (ret)
++		return ret;
  
--	osd101t2587_panel_disable(&osd101t2587->base);
--	osd101t2587_panel_unprepare(&osd101t2587->base);
-+	drm_panel_disable(&osd101t2587->base);
-+	drm_panel_unprepare(&osd101t2587->base);
+-	return ret;
++	return drm_panel_add(&wuxga_nt->base);
  }
  
- static struct mipi_dsi_driver osd101t2587_panel_driver = {
+ static void wuxga_nt_panel_del(struct wuxga_nt_panel *wuxga_nt)
+ {
+ 	if (wuxga_nt->base.dev)
+ 		drm_panel_remove(&wuxga_nt->base);
+-
+-	if (wuxga_nt->backlight)
+-		put_device(&wuxga_nt->backlight->dev);
+ }
+ 
+ static int wuxga_nt_panel_probe(struct mipi_dsi_device *dsi)
+@@ -281,7 +248,7 @@ static int wuxga_nt_panel_remove(struct mipi_dsi_device *dsi)
+ 	struct wuxga_nt_panel *wuxga_nt = mipi_dsi_get_drvdata(dsi);
+ 	int ret;
+ 
+-	ret = wuxga_nt_panel_disable(&wuxga_nt->base);
++	ret = drm_panel_disable(&wuxga_nt->base);
+ 	if (ret < 0)
+ 		dev_err(&dsi->dev, "failed to disable panel: %d\n", ret);
+ 
+@@ -298,7 +265,7 @@ static void wuxga_nt_panel_shutdown(struct mipi_dsi_device *dsi)
+ {
+ 	struct wuxga_nt_panel *wuxga_nt = mipi_dsi_get_drvdata(dsi);
+ 
+-	wuxga_nt_panel_disable(&wuxga_nt->base);
++	drm_panel_disable(&wuxga_nt->base);
+ }
+ 
+ static struct mipi_dsi_driver wuxga_nt_panel_driver = {
 -- 
 2.20.1
 
