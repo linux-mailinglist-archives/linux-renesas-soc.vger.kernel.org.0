@@ -2,49 +2,49 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 55BDB115CBC
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Dec 2019 15:04:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 696E5115CC3
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Dec 2019 15:04:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726423AbfLGOEw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 7 Dec 2019 09:04:52 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:37994 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726490AbfLGOEv (ORCPT
+        id S1726479AbfLGOEx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 7 Dec 2019 09:04:53 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:39546 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726399AbfLGOEx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 7 Dec 2019 09:04:51 -0500
-Received: by mail-lj1-f195.google.com with SMTP id k8so10695767ljh.5;
-        Sat, 07 Dec 2019 06:04:49 -0800 (PST)
+        Sat, 7 Dec 2019 09:04:53 -0500
+Received: by mail-lj1-f196.google.com with SMTP id e10so10697734ljj.6;
+        Sat, 07 Dec 2019 06:04:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=tMLaH1DcHQ+vslghT8+TRlkI4S2XQo8E4UTpDmragvw=;
-        b=D5+RmOPm/+yiH3s+zhgEQGpCAmW0YXmO48/99b7aaUbSUOvDCUGN6xw3aJGZok+YIl
-         iOJ+GDzDZKJQC457IWNLRwXQHFFwdVfDRnUxN+Q7eaI6POWbKXfSJ8cw7sb4/mHRBbpi
-         ynYuv49Pik/w7Xr+hnv7Fi0/jsE3DCzwGrHOx8y12KhtuP7nx4tbQpEOjP15CtyBnrUX
-         XF9CEacwHFVlssgCdD8nufa44SMQTmfwEHhskW5VZv72NI/qHuVzIXGwQbkNs2JJwkcG
-         qRlj1jvP7/PKAwsYvBF1P1bdl67vM/vuuvfH12DLL0tbY5NLpnHWbygQMkLMGPC8O8NJ
-         sHbg==
+        bh=MB8F/gszf2cRKXpRo2VrQVMb2VRddLrgS3cljPlLt24=;
+        b=U4xN8GN0VPGdaO0AWtyf6QNMU6m6GH++MkTsmxwi2KAjxIa1YJgJ8HSo/kVZ/oXAzn
+         q83znx4fzd/G/OpFJmM6CAiN8Pgp0sCApYTH2XNHRcbDRklBLdWaY75dTGz3YrNod2VA
+         RkaVGJC49ElYYqCRnVrHZunYO9+hDv9eBo931BevMWXMwqisYsqZDen0w3833qVKdgG9
+         s4fx3xuCFRmxJ5nHIgrOtwi22oS6HxZLNe+rnRUZh8C9XNOdtzIyv3NGUJT8er74Pdh0
+         WBvUy9rr9uNu8/DnprIlGZdSvditWsW7o3qXTjedfkIoteUK0Tphpvjdf74rklqpqMao
+         kIvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=tMLaH1DcHQ+vslghT8+TRlkI4S2XQo8E4UTpDmragvw=;
-        b=GtD7fhVV/Afe0YJBucjCesD8HIyjA8vj+7Jpzq1+VdandKBr6MeKRy+B8SBMMn6DSZ
-         WsBlkwzyBmh3Juxd5KrfmtOcoghlp5b49SHQ6LDCrdqfzV9l90wBTGvLIQo4UNnjQxAU
-         aOATDjWBmtFG4sWj2DwQz7wvBstcoRzAEUOnMqSmgHUp4dG0dzz5luBKyhrGHr9v+4bs
-         IzN2Jewtl/fp+vyxA7IPIFzDOF99JUNB8sz+3GTg5QdI4t4A6RWHm6iybIhv+PobYVmx
-         wv/F2WuC1R/jyv9OJCBG3ywrgcAzH3n6eaGSJNu8eDUz02f7PcdSc18koB6bu1Ny0G9e
-         NXYQ==
-X-Gm-Message-State: APjAAAV9DznIzbwatchuQGpPJyMnz9xjvrP2Obln8ZoJbFEVKFkFqxeI
-        lmEcO1GL7ce5THbumaMjl38=
-X-Google-Smtp-Source: APXvYqy+3wJ62tFG4eYTppjZHiTHnpCgFKPf2bYaW1HgVGCJ9bYH7aEQPcT0zxepBy1VmMfRB5FgmQ==
-X-Received: by 2002:a05:651c:153:: with SMTP id c19mr11950509ljd.237.1575727489236;
-        Sat, 07 Dec 2019 06:04:49 -0800 (PST)
+        bh=MB8F/gszf2cRKXpRo2VrQVMb2VRddLrgS3cljPlLt24=;
+        b=GtNPbGY1+v1n9Xxoy1rcAumG3C5bRgvpUVJ9cGcKBljXtogd4JQffVyVijt50HPXAz
+         lR7Ej2Lm+v/FH50uP84GMnbeWFqfrazJDnfwUN1h8ZGzrm8+ftosv6BWbsbGkPckq4H8
+         MUBmtbxEZOMesHFnyDWJ4m5+WCAE7lfc16YvQOdcXOqrLD9vdnNtSxDomqC3f6NIui8E
+         IWmqZDCWfM3+GvYcU+WeDnTeycHX4pJ5er73QLxnXXZkf7rFDFs06ejfwuQ2P4eNW2yl
+         ZfEHLp//VkCmV9X9GWejZzbV5cTnvc0tfPiYqiX5znlZI/O7K439PUqUo48dN3Cx6HYK
+         rEdA==
+X-Gm-Message-State: APjAAAVM2/TAK83VCD05rxEgOBLYxxX6M7dUBxI7rX7gQfTBrNti7KHo
+        O7ROA8bjv4ddZDH6yIMsJTs=
+X-Google-Smtp-Source: APXvYqx9J1DRR8LiccaW8h+Ak6WWGoNOve+yafSt4KrzKSCNMRhs/EjfonWGrZJnRRbGVrZODAwZ4Q==
+X-Received: by 2002:a2e:144b:: with SMTP id 11mr11535632lju.216.1575727490861;
+        Sat, 07 Dec 2019 06:04:50 -0800 (PST)
 Received: from saturn.lan (18.158-248-194.customer.lyse.net. [158.248.194.18])
-        by smtp.gmail.com with ESMTPSA id w17sm5644188lfn.22.2019.12.07.06.04.47
+        by smtp.gmail.com with ESMTPSA id w17sm5644188lfn.22.2019.12.07.06.04.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Dec 2019 06:04:48 -0800 (PST)
+        Sat, 07 Dec 2019 06:04:50 -0800 (PST)
 From:   Sam Ravnborg <sam@ravnborg.org>
 To:     dri-devel@lists.freedesktop.org,
         Thierry Reding <thierry.reding@gmail.com>,
@@ -72,9 +72,9 @@ Cc:     Abhinav Kumar <abhinavk@codeaurora.org>,
         Purism Kernel Team <kernel@puri.sm>,
         Sean Paul <sean@poorly.run>, Stefan Agner <stefan@agner.ch>,
         Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: [PATCH v2 22/25] drm/panel: sitronix-st7701: use drm_panel backlight support
-Date:   Sat,  7 Dec 2019 15:03:50 +0100
-Message-Id: <20191207140353.23967-23-sam@ravnborg.org>
+Subject: [PATCH v2 23/25] drm/panel: sitronix-st7789v: use drm_panel backlight support
+Date:   Sat,  7 Dec 2019 15:03:51 +0100
+Message-Id: <20191207140353.23967-24-sam@ravnborg.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191207140353.23967-1-sam@ravnborg.org>
 References: <20191207140353.23967-1-sam@ravnborg.org>
@@ -89,71 +89,107 @@ Use the backlight support in drm_panel to simplify the driver
 
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Thierry Reding <thierry.reding@gmail.com>
 Cc: Sam Ravnborg <sam@ravnborg.org>
 ---
- drivers/gpu/drm/panel/panel-sitronix-st7701.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ .../gpu/drm/panel/panel-sitronix-st7789v.c    | 37 ++-----------------
+ 1 file changed, 4 insertions(+), 33 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7701.c b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-index c08a865a2a93..4b4f2558e3b4 100644
---- a/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-+++ b/drivers/gpu/drm/panel/panel-sitronix-st7701.c
-@@ -9,7 +9,6 @@
- #include <drm/drm_panel.h>
- #include <drm/drm_print.h>
+diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
+index ebefe2f4c26b..cc02c54c1b2e 100644
+--- a/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
++++ b/drivers/gpu/drm/panel/panel-sitronix-st7789v.c
+@@ -3,7 +3,6 @@
+  * Copyright (C) 2017 Free Electrons
+  */
  
 -#include <linux/backlight.h>
- #include <linux/gpio/consumer.h>
  #include <linux/delay.h>
+ #include <linux/gpio/consumer.h>
  #include <linux/module.h>
-@@ -103,7 +102,6 @@ struct st7701 {
- 	struct mipi_dsi_device *dsi;
- 	const struct st7701_panel_desc *desc;
- 
--	struct backlight_device *backlight;
- 	struct regulator_bulk_data *supplies;
+@@ -116,7 +115,6 @@ struct st7789v {
+ 	struct drm_panel panel;
+ 	struct spi_device *spi;
  	struct gpio_desc *reset;
- 	unsigned int sleep_delay;
-@@ -223,7 +221,6 @@ static int st7701_enable(struct drm_panel *panel)
- 	struct st7701 *st7701 = panel_to_st7701(panel);
+-	struct backlight_device *backlight;
+ 	struct regulator *power;
+ };
  
- 	ST7701_DSI(st7701, MIPI_DCS_SET_DISPLAY_ON, 0x00);
--	backlight_enable(st7701->backlight);
+@@ -323,12 +321,6 @@ static int st7789v_enable(struct drm_panel *panel)
+ {
+ 	struct st7789v *ctx = panel_to_st7789v(panel);
  
+-	if (ctx->backlight) {
+-		ctx->backlight->props.state &= ~BL_CORE_FBBLANK;
+-		ctx->backlight->props.power = FB_BLANK_UNBLANK;
+-		backlight_update_status(ctx->backlight);
+-	}
+-
+ 	return st7789v_write_command(ctx, MIPI_DCS_SET_DISPLAY_ON);
+ }
+ 
+@@ -339,12 +331,6 @@ static int st7789v_disable(struct drm_panel *panel)
+ 
+ 	ST7789V_TEST(ret, st7789v_write_command(ctx, MIPI_DCS_SET_DISPLAY_OFF));
+ 
+-	if (ctx->backlight) {
+-		ctx->backlight->props.power = FB_BLANK_POWERDOWN;
+-		ctx->backlight->props.state |= BL_CORE_FBBLANK;
+-		backlight_update_status(ctx->backlight);
+-	}
+-
  	return 0;
  }
-@@ -232,7 +229,6 @@ static int st7701_disable(struct drm_panel *panel)
+ 
+@@ -370,7 +356,6 @@ static const struct drm_panel_funcs st7789v_drm_funcs = {
+ 
+ static int st7789v_probe(struct spi_device *spi)
  {
- 	struct st7701 *st7701 = panel_to_st7701(panel);
+-	struct device_node *backlight;
+ 	struct st7789v *ctx;
+ 	int ret;
  
--	backlight_disable(st7701->backlight);
- 	ST7701_DSI(st7701, MIPI_DCS_SET_DISPLAY_OFF, 0x00);
- 
- 	return 0;
-@@ -366,10 +362,6 @@ static int st7701_dsi_probe(struct mipi_dsi_device *dsi)
- 		return PTR_ERR(st7701->reset);
+@@ -394,26 +379,15 @@ static int st7789v_probe(struct spi_device *spi)
+ 		return PTR_ERR(ctx->reset);
  	}
  
--	st7701->backlight = devm_of_find_backlight(&dsi->dev);
--	if (IS_ERR(st7701->backlight))
--		return PTR_ERR(st7701->backlight);
+-	backlight = of_parse_phandle(spi->dev.of_node, "backlight", 0);
+-	if (backlight) {
+-		ctx->backlight = of_find_backlight_by_node(backlight);
+-		of_node_put(backlight);
 -
- 	drm_panel_init(&st7701->panel, &dsi->dev, &st7701_funcs,
- 		       DRM_MODE_CONNECTOR_DSI);
- 
-@@ -384,6 +376,10 @@ static int st7701_dsi_probe(struct mipi_dsi_device *dsi)
- 	 */
- 	st7701->sleep_delay = 120 + desc->panel_sleep_delay;
- 
-+	ret = drm_panel_of_backlight(&st7701->panel);
+-		if (!ctx->backlight)
+-			return -EPROBE_DEFER;
+-	}
++	ret = drm_panel_of_backlight(&ctx->panel);
 +	if (ret)
 +		return ret;
-+
- 	ret = drm_panel_add(&st7701->panel);
+ 
+ 	ret = drm_panel_add(&ctx->panel);
  	if (ret < 0)
- 		return ret;
+-		goto err_free_backlight;
++		return ret;
+ 
+ 	return 0;
+-
+-err_free_backlight:
+-	if (ctx->backlight)
+-		put_device(&ctx->backlight->dev);
+-
+-	return ret;
+ }
+ 
+ static int st7789v_remove(struct spi_device *spi)
+@@ -422,9 +396,6 @@ static int st7789v_remove(struct spi_device *spi)
+ 
+ 	drm_panel_remove(&ctx->panel);
+ 
+-	if (ctx->backlight)
+-		put_device(&ctx->backlight->dev);
+-
+ 	return 0;
+ }
+ 
 -- 
 2.20.1
 
