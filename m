@@ -2,104 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C2A16116AA5
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2019 11:14:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33C53116ABC
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2019 11:17:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727202AbfLIKOT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Dec 2019 05:14:19 -0500
-Received: from michel.telenet-ops.be ([195.130.137.88]:50488 "EHLO
-        michel.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726377AbfLIKOS (ORCPT
+        id S1727202AbfLIKRj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Dec 2019 05:17:39 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:38138 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726279AbfLIKRj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Dec 2019 05:14:18 -0500
-Received: from ramsan ([84.195.182.253])
-        by michel.telenet-ops.be with bizsmtp
-        id bmEG2100A5USYZQ06mEGNd; Mon, 09 Dec 2019 11:14:16 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1ieG3U-0003mm-CM; Mon, 09 Dec 2019 11:14:16 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1ieG3U-0006x9-AO; Mon, 09 Dec 2019 11:14:16 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] [LOCAL] arm64: renesas_defconfig: Refresh for v5.5-rc1
-Date:   Mon,  9 Dec 2019 11:14:13 +0100
-Message-Id: <20191209101413.26686-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Mon, 9 Dec 2019 05:17:39 -0500
+Received: by mail-ot1-f68.google.com with SMTP id h20so11700851otn.5;
+        Mon, 09 Dec 2019 02:17:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=y7flbq6+7YTjmESDNTJ4OzwE7ryXBG98KKcLk04ran8=;
+        b=O9h9oCKXI8QyPSIsTruKomXA+HFse0/yYn/VJnTz/Xp9IGlD471kENT7wmSNYLmK7d
+         aF51qnKPcrWY4N1rFflG+gNdk8Q74dU96RlJBNUso2m5yJfTyKq0J2w3FDERp7c59kNZ
+         kRrx/MPvc41mcNFGHIG+aMLaA41fu3D3TwMyN+F0NdHTjiDaVi+XE4cXE58qysx0gvBx
+         hSmBmxlBtEKw/cpJeKr17JNnUch3GC6uj6Qgg1jtkw46syQNcHjO18v2sAr4F5xgV5/I
+         Jpr5puyhljzgBywZWDRtjJOxfmQ3qSyUN/NLtAahjwiXUFoSUTCgb+eKXIZYJJ2uDvwB
+         HmBg==
+X-Gm-Message-State: APjAAAXyeLZU5CL9+czLVHqpMEORY0ymHZFyLyX3Tt8SKHa0es4nf3WB
+        oAyTxGtiBbjc278H/SeAaRAMvaFxzFGEf5LOaow=
+X-Google-Smtp-Source: APXvYqxddFupz55wwOQITZ3Eom64vQFZfo4vNjcw+JJLnpiE1RU3C/1uMCrZ0t0QSH5gpJnQBZZHhg/WnzmsJ3f+x6M=
+X-Received: by 2002:a9d:2073:: with SMTP id n106mr20867827ota.145.1575886658196;
+ Mon, 09 Dec 2019 02:17:38 -0800 (PST)
+MIME-Version: 1.0
+References: <1569249052-1037-1-git-send-email-biju.das@bp.renesas.com>
+ <dd752192-8caf-39bf-5a91-27adb6a5f84b@linaro.org> <CAMuHMdVvgS17NW7srZ37x5QD3qtZkGQY9xE_97bvF8bwAcmLvg@mail.gmail.com>
+ <OSBPR01MB21035DCC73952DBC72C139B2B84E0@OSBPR01MB2103.jpnprd01.prod.outlook.com>
+ <CAMuHMdU530kruHOf1POKQ_jyvMMU=KY5TEVRgtQg54SHDaGX9A@mail.gmail.com>
+In-Reply-To: <CAMuHMdU530kruHOf1POKQ_jyvMMU=KY5TEVRgtQg54SHDaGX9A@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 9 Dec 2019 11:17:27 +0100
+Message-ID: <CAMuHMdW7NkDk2keWx9vJtRSJ4SVuSk6NVLTcCCS6zpDF-Y5AFQ@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: timer: renesas: tmu: Document r8a774b1 bindings
+To:     Biju Das <biju.das@bp.renesas.com>
+Cc:     Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms@verge.net.au>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Update the defconfig for Renesas R-Car Gen3 boards:
-  - Re-enable CONFIG_DEBUG_FS, as this is needed for e.g. systemd in
-    Debian 9 (no longer auto-enabled since commit 0e4a459f56c32d3e
-    ("tracing: Remove unnecessary DEBUG_FS dependency")),
-  - Disable CONFIG_ARM64_ERRATUM_1542419 (not applicable),
-  - Disable CONFIG_CAVIUM_TX2_ERRATUM_219 (not applicable),
-  - Remove CONFIG_TASKSTATS=y and CONFIG_TASK_DELAY_ACCT=y
-    (auto-enabled since commit c7892db5dd6afe92 ("KVM: arm64: Select
-    TASK_DELAY_ACCT+TASKSTATS rather than SCHEDSTATS")),
-  - Remove CONFIG_THERMAL_GOV_POWER_ALLOCATOR=y (depends on
-    CONFIG_ENERGY_MODEL since commit a4e893e802e6a807 ("thermal:
-    cpu_cooling: Migrate to using the EM framework")),
+On Thu, Nov 21, 2019 at 9:55 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Thu, Nov 21, 2019 at 9:52 AM Biju Das <biju.das@bp.renesas.com> wrote:
+> > Any update on the below binding patch?
+>
+> If it won't appear in v5.5-rc1, my plan is to queue it in renesas-devel
+> for v5.6.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Should we enable CONFIG_ENERGY_MODEL?
-Probably not, as CONFIG_CPU_FREQ_GOV_PERFORMANCE is enabled, cfr. the
-description of commit 48da6f80057c3f8d ("arm64: defconfig: Enable
-CONFIG_ENERGY_MODEL").
----
- arch/arm64/configs/renesas_defconfig | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Queued.
 
-diff --git a/arch/arm64/configs/renesas_defconfig b/arch/arm64/configs/renesas_defconfig
-index 109aef9c7da45d9a..f509da1473dfe1fa 100644
---- a/arch/arm64/configs/renesas_defconfig
-+++ b/arch/arm64/configs/renesas_defconfig
-@@ -8,8 +8,6 @@ CONFIG_PREEMPT=y
- CONFIG_IRQ_TIME_ACCOUNTING=y
- CONFIG_BSD_PROCESS_ACCT=y
- CONFIG_BSD_PROCESS_ACCT_V3=y
--CONFIG_TASKSTATS=y
--CONFIG_TASK_DELAY_ACCT=y
- CONFIG_TASK_XACCT=y
- CONFIG_TASK_IO_ACCOUNTING=y
- CONFIG_IKCONFIG=y
-@@ -29,10 +27,12 @@ CONFIG_BLK_DEV_INITRD=y
- # CONFIG_COMPAT_BRK is not set
- CONFIG_PROFILING=y
- CONFIG_ARCH_RENESAS=y
-+# CONFIG_ARM64_ERRATUM_1542419 is not set
- # CONFIG_CAVIUM_ERRATUM_22375 is not set
- # CONFIG_CAVIUM_ERRATUM_23154 is not set
- # CONFIG_CAVIUM_ERRATUM_27456 is not set
- # CONFIG_CAVIUM_ERRATUM_30115 is not set
-+# CONFIG_CAVIUM_TX2_ERRATUM_219 is not set
- # CONFIG_QCOM_FALKOR_ERRATUM_1003 is not set
- # CONFIG_QCOM_FALKOR_ERRATUM_1009 is not set
- # CONFIG_QCOM_QDF2400_ERRATUM_0065 is not set
-@@ -139,7 +139,6 @@ CONFIG_GPIO_RCAR=y
- CONFIG_GPIO_PCA953X=y
- CONFIG_GPIO_BD9571MWV=y
- CONFIG_THERMAL=y
--CONFIG_THERMAL_GOV_POWER_ALLOCATOR=y
- CONFIG_CPU_THERMAL=y
- CONFIG_THERMAL_EMULATION=y
- CONFIG_RCAR_THERMAL=y
-@@ -328,6 +327,7 @@ CONFIG_CMA_SIZE_MBYTES=128
- CONFIG_CMA_ALIGNMENT=9
- CONFIG_PRINTK_TIME=y
- CONFIG_MAGIC_SYSRQ=y
-+CONFIG_DEBUG_FS=y
- CONFIG_DEBUG_KERNEL=y
- # CONFIG_SCHED_DEBUG is not set
- # CONFIG_DEBUG_PREEMPT is not set
--- 
-2.17.1
 
+> > > -----Original Message-----
+> > > From: Geert Uytterhoeven <geert@linux-m68k.org>
+> > > Sent: Thursday, October 3, 2019 7:51 AM
+> > > To: Daniel Lezcano <daniel.lezcano@linaro.org>
+> > > Cc: Biju Das <biju.das@bp.renesas.com>; Rob Herring
+> > > <robh+dt@kernel.org>; Mark Rutland <mark.rutland@arm.com>; Thomas
+> > > Gleixner <tglx@linutronix.de>; open list:OPEN FIRMWARE AND FLATTENED
+> > > DEVICE TREE BINDINGS <devicetree@vger.kernel.org>; Geert Uytterhoeven
+> > > <geert+renesas@glider.be>; Simon Horman <horms@verge.net.au>; Chris
+> > > Paterson <Chris.Paterson2@renesas.com>; Fabrizio Castro
+> > > <fabrizio.castro@bp.renesas.com>; Linux-Renesas <linux-renesas-
+> > > soc@vger.kernel.org>
+> > > Subject: Re: [PATCH] dt-bindings: timer: renesas: tmu: Document r8a774b1
+> > > bindings
+> > >
+> > > Hi Daniel,
+> > >
+> > > On Thu, Oct 3, 2019 at 6:09 AM Daniel Lezcano <daniel.lezcano@linaro.org>
+> > > wrote:
+> > > > On 23/09/2019 16:30, Biju Das wrote:
+> > > > > Document RZ/G2N (R8A774B1) SoC in the Renesas TMU bindings.
+> > > > >
+> > > > > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> > > > > ---
+> > > > >  Documentation/devicetree/bindings/timer/renesas,tmu.txt | 1 +
+> > > > >  1 file changed, 1 insertion(+)
+> > > > >
+> > > > > diff --git a/Documentation/devicetree/bindings/timer/renesas,tmu.txt
+> > > > > b/Documentation/devicetree/bindings/timer/renesas,tmu.txt
+> > > > > index 9dff7e5..29159f4 100644
+> > > > > --- a/Documentation/devicetree/bindings/timer/renesas,tmu.txt
+> > > > > +++ b/Documentation/devicetree/bindings/timer/renesas,tmu.txt
+> > > > > @@ -11,6 +11,7 @@ Required Properties:
+> > > > >    - compatible: must contain one or more of the following:
+> > > > >      - "renesas,tmu-r8a7740" for the r8a7740 TMU
+> > > > >      - "renesas,tmu-r8a774a1" for the r8a774A1 TMU
+> > > > > +    - "renesas,tmu-r8a774b1" for the r8a774B1 TMU
+> > > > >      - "renesas,tmu-r8a774c0" for the r8a774C0 TMU
+> > > > >      - "renesas,tmu-r8a7778" for the r8a7778 TMU
+> > > > >      - "renesas,tmu-r8a7779" for the r8a7779 TMU
+> > > > >
+> > > >
+> > > > The patch does not apply on tip/timers
+> > >
+> > > That's expected, as I queued the previous change in renesas-dt-bindings-for-
+> > > v5.5, cfr.
+> > > https://lore.kernel.org/linux-renesas-soc/244ca7ac-54d1-d07d-762f-
+> > > e832b0e2a267@linaro.org/
+> > >
+> > > Do you want me to know this in renesas-dt-bindings-for-v5.5?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
