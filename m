@@ -2,128 +2,144 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B7DD11729A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2019 18:16:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 376C3117506
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2019 19:59:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725904AbfLIRQn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Dec 2019 12:16:43 -0500
-Received: from mail-lj1-f175.google.com ([209.85.208.175]:34611 "EHLO
-        mail-lj1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726335AbfLIRQm (ORCPT
+        id S1726888AbfLIS7V (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Dec 2019 13:59:21 -0500
+Received: from foss.arm.com ([217.140.110.172]:42362 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726674AbfLIS7V (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Dec 2019 12:16:42 -0500
-Received: by mail-lj1-f175.google.com with SMTP id m6so16560873ljc.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 09 Dec 2019 09:16:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=6iI9lVnNH0UerpE1bqPQXNj2mhvS1xA7PcDef5F/gq4=;
-        b=mR1y/P/bsXVYdOXFe+gzP8Zx+TPszIIkDMmW+dwhMwGMkI7ExOmKWYaFMX8bN1t+F9
-         qj7X1paf5T8B09y3Tc2Guldv0ZAdxJ7YdOJnmFsohxFishgjq7UB6KGFhNm27tDnNy6b
-         59EPegpLJ3rDltgIz79c/aixut12eQtABsSvuz/l6gqVjXTkSzNotRwf2FY3uJpPe+nh
-         Ox8z2/3rOmSNjkaK3qlqt0RlB580fBFcwwKdSjlNg8FCWIpauBTR2kZNWptlVfAG3Okd
-         dlrCtNwGY7g3xe8YrGv+ArpF7ePEJY7ULSdDuqN9+gPz0AI4fTLBCKjy486Jfs9lwvKH
-         xdBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=6iI9lVnNH0UerpE1bqPQXNj2mhvS1xA7PcDef5F/gq4=;
-        b=rO93PsAcQS81gH2xQ3EuhGqIJM3B/K3gE1tTOgkEUSoTfjKaYME5JZfe/ZSvtqutIs
-         6GVya9GZkdxjSAaxJn4USgWyXIVfHFOuynv//llnXa6mbPQmfiYPCZHIFB8hxwmUqcJe
-         IXzqgrSwUbDem+MkDRQ056zbMYI9uSIHqX/pfdQlnjGd3BQx2ePoTIQiRgV0j5znmLfl
-         t3e7rCl3gIgtC+3cWg8jYulEL74Inr8FMoHckv5MHU1rm1kmLM6EbN9p/kZ5UI3acf+k
-         oFGPc0qmmPB6q5VvAeWkWv+IgwVWsCBRjPb+8jBwQkmlKEMRL+o5l4nJcg+OTdLMuKSi
-         sw5w==
-X-Gm-Message-State: APjAAAXFb1JdK1vsdKuqaZ1LM4yo188mSoGtcKhC/Xr0HxVhLqK/0AbW
-        KOakWCDA9ugEeeJ8Qof7xoQD+g==
-X-Google-Smtp-Source: APXvYqzl9cFxZSPvvpaQIXgXdff1sFs4hGHEOy5+qo4OsYmYemYSxedzspKdfjczzVboniC0F2/dCA==
-X-Received: by 2002:a2e:9e4c:: with SMTP id g12mr17287507ljk.15.1575911800327;
-        Mon, 09 Dec 2019 09:16:40 -0800 (PST)
-Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
-        by smtp.gmail.com with ESMTPSA id h24sm236983ljl.80.2019.12.09.09.16.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Dec 2019 09:16:39 -0800 (PST)
-Date:   Mon, 9 Dec 2019 18:16:39 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Mark Brown <broonie@kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Mon, 9 Dec 2019 13:59:21 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E9D79328;
+        Mon,  9 Dec 2019 10:59:20 -0800 (PST)
+Received: from localhost (unknown [10.37.6.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6653F3F6CF;
+        Mon,  9 Dec 2019 10:59:20 -0800 (PST)
+Date:   Mon, 09 Dec 2019 18:59:18 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     alsa-devel@alsa-project.org, Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
         Liam Girdwood <lgirdwood@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: Regulator probe on demand (or circular dependencies)
-Message-ID: <20191209171639.GA27340@bigcity.dyn.berto.se>
-References: <23236201-a387-7257-35a4-ee4ed2f6bfd0@ideasonboard.com>
- <20191209163755.GF5483@sirena.org.uk>
- <d7003d64-e838-9dcb-8c61-d6567ff6eb69@ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d7003d64-e838-9dcb-8c61-d6567ff6eb69@ideasonboard.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+        linux-renesas-soc@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+        Nilkanth Ahirrao <anilkanth@jp.adit-jv.com>,
+        Takashi Iwai <tiwai@suse.com>
+Subject: Applied "ASoC: rsnd: Calculate DALIGN inversion at run-time" to the asoc tree
+In-Reply-To: <20191202155834.22582-1-geert+renesas@glider.be>
+Message-Id: <applied-20191202155834.22582-1-geert+renesas@glider.be>
+X-Patchwork-Hint: ignore
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
+The patch
 
-On 2019-12-09 17:03:38 +0000, Kieran Bingham wrote:
-> Hi Mark,
-> 
-> Thanks for getting back to me,
-> 
-> On 09/12/2019 16:37, Mark Brown wrote:
-> > On Fri, Dec 06, 2019 at 04:38:04PM +0000, Kieran Bingham wrote:
-> > 
-> >> The MAX9286 also exposes 2 GPIO pins, as such I have configured the
-> >> MAX9286 driver [1] to expose a gpio-chip [2].
-> > 
-> > So this seems like a MFD then?  The nice thing about using the MFD
-> > subsystem is that it means that the drivers for the various subsystems
-> > on the device can instantiate in any order and defer separately without
-> > interfering with each other which seems like it's the issue here.
-> 
-> Well that's part of the problem... the V4L2 async framework can not
-> currently support the device performing a probe-defer at all, so it
-> *will* fail later (and crash currently).
-> 
-> I hope we can fix this sometime - but it's a recurring pain point it
-> seems. Unless it's just our video-capture driver, I'll have to dig
-> deeper here, and check with Niklas.
+   ASoC: rsnd: Calculate DALIGN inversion at run-time
 
-The problem is that we can't register, unregister and re-regsiter a 
-video device in a sane way. One easy solution to this is to not register 
-the max9286 v4l2 subdevice until we know that the probe do not need to 
-be deferred as this would sidestep the whole v4l2 issue described above.
+has been applied to the asoc tree at
 
-> 
-> 
-> >>  - is there anything I can do here within regulator_dev_lookup() to
-> >>    attempt creating the regulator_dev 'on-demand' when
-> >>    of_find_regulator_by_node(node) returns empty? (or is that crazy, and
-> >>    just a rabbit-hole?)
-> > 
-> > This seems like a terrible idea, you'll have a half baked regulator in
-> > the system which will need special casing all over the place and
-> > doubtless be an ongoing source of bugs.
-> 
-> Thanks - that's essentially what I'm glad to hear /before/ going down
-> some rabbit hole. I'll re-evaluate with the team, and see what the next
-> best steps are.
-> 
-> -- 
-> Regards
-> --
-> Kieran
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-5.6
 
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.  
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
+From 49df1e3925824cf44e590daac635974270185841 Mon Sep 17 00:00:00 2001
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+Date: Mon, 2 Dec 2019 16:58:34 +0100
+Subject: [PATCH] ASoC: rsnd: Calculate DALIGN inversion at run-time
+
+There is no need to store the inverted DALIGN values in the table, as
+they can easily be calculated at run-time.  This also protects against
+the introduction of inconsistencies between normal and inverted values
+by a future table modification.
+
+Reorder the two subexpressions in the AND check, to perform the least
+expensive check first.
+
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Link: https://lore.kernel.org/r/20191202155834.22582-1-geert+renesas@glider.be
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ sound/soc/sh/rcar/core.c | 31 +++++++++++++------------------
+ 1 file changed, 13 insertions(+), 18 deletions(-)
+
+diff --git a/sound/soc/sh/rcar/core.c b/sound/soc/sh/rcar/core.c
+index 399dc6e9bde5..d20f03dfdee6 100644
+--- a/sound/soc/sh/rcar/core.c
++++ b/sound/soc/sh/rcar/core.c
+@@ -376,20 +376,15 @@ u32 rsnd_get_adinr_bit(struct rsnd_mod *mod, struct rsnd_dai_stream *io)
+  */
+ u32 rsnd_get_dalign(struct rsnd_mod *mod, struct rsnd_dai_stream *io)
+ {
+-	static const u32 dalign_values[8][2] = {
+-		{0x76543210, 0x67452301},
+-		{0x00000032, 0x00000023},
+-		{0x00007654, 0x00006745},
+-		{0x00000076, 0x00000067},
+-		{0xfedcba98, 0xefcdab89},
+-		{0x000000ba, 0x000000ab},
+-		{0x0000fedc, 0x0000efcd},
+-		{0x000000fe, 0x000000ef},
++	static const u32 dalign_values[8] = {
++		0x76543210, 0x00000032, 0x00007654, 0x00000076,
++		0xfedcba98, 0x000000ba, 0x0000fedc, 0x000000fe,
+ 	};
+-	int id = 0, inv;
++	int id = 0;
+ 	struct rsnd_mod *ssiu = rsnd_io_to_mod_ssiu(io);
+ 	struct rsnd_mod *target;
+ 	struct snd_pcm_runtime *runtime = rsnd_io_to_runtime(io);
++	u32 dalign;
+ 
+ 	/*
+ 	 * *Hardware* L/R and *Software* L/R are inverted for 16bit data.
+@@ -425,15 +420,15 @@ u32 rsnd_get_dalign(struct rsnd_mod *mod, struct rsnd_dai_stream *io)
+ 	if (mod == ssiu)
+ 		id = rsnd_mod_id_sub(mod);
+ 
+-	/* Non target mod or non 16bit needs normal DALIGN */
+-	if ((snd_pcm_format_width(runtime->format) != 16) ||
+-	    (mod != target))
+-		inv = 0;
+-	/* Target mod needs inverted DALIGN when 16bit */
+-	else
+-		inv = 1;
++	dalign = dalign_values[id];
++
++	if (mod == target && snd_pcm_format_width(runtime->format) == 16) {
++		/* Target mod needs inverted DALIGN when 16bit */
++		dalign = (dalign & 0xf0f0f0f0) >> 4 |
++			 (dalign & 0x0f0f0f0f) << 4;
++	}
+ 
+-	return dalign_values[id][inv];
++	return dalign;
+ }
+ 
+ u32 rsnd_get_busif_shift(struct rsnd_dai_stream *io, struct rsnd_mod *mod)
 -- 
-Regards,
-Niklas Söderlund
+2.20.1
+
