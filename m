@@ -2,144 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 376C3117506
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2019 19:59:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E1C51175F2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2019 20:34:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726888AbfLIS7V (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Dec 2019 13:59:21 -0500
-Received: from foss.arm.com ([217.140.110.172]:42362 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726674AbfLIS7V (ORCPT
+        id S1726777AbfLITeO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Dec 2019 14:34:14 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:35003 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726354AbfLITeO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Dec 2019 13:59:21 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E9D79328;
-        Mon,  9 Dec 2019 10:59:20 -0800 (PST)
-Received: from localhost (unknown [10.37.6.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6653F3F6CF;
-        Mon,  9 Dec 2019 10:59:20 -0800 (PST)
-Date:   Mon, 09 Dec 2019 18:59:18 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     alsa-devel@alsa-project.org, Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-        Nilkanth Ahirrao <anilkanth@jp.adit-jv.com>,
-        Takashi Iwai <tiwai@suse.com>
-Subject: Applied "ASoC: rsnd: Calculate DALIGN inversion at run-time" to the asoc tree
-In-Reply-To: <20191202155834.22582-1-geert+renesas@glider.be>
-Message-Id: <applied-20191202155834.22582-1-geert+renesas@glider.be>
-X-Patchwork-Hint: ignore
+        Mon, 9 Dec 2019 14:34:14 -0500
+Received: by mail-oi1-f193.google.com with SMTP id k196so7477121oib.2;
+        Mon, 09 Dec 2019 11:34:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gPj5BnCRFlVLAcTocdSdKOif0Ppf6lvvauzu7g3ZWKw=;
+        b=TGBAOSU73tA20LO5J0gKwaJsLh7g8tzWmTqEPLKkjtv5IWhrf4Wcmv0TXnjxqgL1jF
+         yBC1O9bdvqMQq33RimLfL/ksA1Cmyr9qX8HizrOeGMJgCGR+VypKI90KWVIoUC19NG/A
+         LxhIOMr49DTnR+kFuE1K+xhQo/h3YX60NAmSqfVkq+5yGWjSLz8cPG2muk7XT+RGrvE6
+         aGpiRRBDspUMs+FPalSct5iyOLq7ynW6eGQViB/TzVqd5+aYS9ddd2PDvQ4NUzUTgQCg
+         EElt3hH8q9QNFd9+31jFkmAGqM/x10Mo7GsOHgGzf8cyenhvU58jyvRwLv8GNEU0lGxg
+         y52A==
+X-Gm-Message-State: APjAAAW1d5eON/a4zDieha6S1Uq4P/Zz08jbswp223vrkwFt8ShnqxtS
+        59S1XLycvi56/e6LdB5kPojw8B+KYykPdKELydY=
+X-Google-Smtp-Source: APXvYqwJ0Yps000beZiYNpb0g4ISSQQDOIbeEGH4u9DT8U2zSZ93q58ESvoZEPACv8jSmyP8+1aFBlobGs4verKHE88=
+X-Received: by 2002:aca:4e87:: with SMTP id c129mr624324oib.153.1575920053160;
+ Mon, 09 Dec 2019 11:34:13 -0800 (PST)
+MIME-Version: 1.0
+References: <20191206134202.18784-1-chris.brandt@renesas.com>
+ <20191206134202.18784-3-chris.brandt@renesas.com> <CAMuHMdXW6_tCcx_DE66qBSTK8XmWyWm82ZD6h-N5YX_+xcvBtw@mail.gmail.com>
+ <TY1PR01MB1562BC84E2ECF81487A780D38A580@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY1PR01MB1562BC84E2ECF81487A780D38A580@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 9 Dec 2019 20:34:02 +0100
+Message-ID: <CAMuHMdWM79gxugmxiQVdGoivN5mAXT+5sMNOmJ-YyPyOZ39W=Q@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] dt-bindings: spi: Document Renesas SPIBSC bindings
+To:     Chris Brandt <Chris.Brandt@renesas.com>
+Cc:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Mason Yang <masonccyang@mxic.com.tw>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The patch
+Hi Chris,
 
-   ASoC: rsnd: Calculate DALIGN inversion at run-time
+On Mon, Dec 9, 2019 at 4:45 PM Chris Brandt <Chris.Brandt@renesas.com> wrote:
+> On Mon, Dec 9, 2019, Geert Uytterhoeven wrote:
+> > > +    # This example is for "External Address Space Read Mode"
+> > > +    spibsc: spi@1f800000 {
+> > > +        compatible = "renesas,r7s9210-spibsc";
+> > > +        reg = <0x1f800000 0x100>, <0x20000000 0x10000000>;
+> > > +        clocks = <&cpg CPG_MOD 83>;
+> > > +        power-domains = <&cpg>;
+> > > +        interrupts = <GIC_SPI 445 IRQ_TYPE_LEVEL_HIGH>;
+> > > +        #address-cells = <1>;
+> > > +        #size-cells = <0>;
+> > > +    };
+> > > +    flash@20000000 {
+> >
+> > This does not describe the hardware topology: the flash node should be a
+> > subnode of the spibsc node, as it relies on the spibsc being clocked.
+>
+> So for the "XIP" case, I originally tried adding an "mtd-rom" flash node
+> under the spibsc node, but then the mtd-rom part never got probed. I
+> guess that was because it didn't register a SPI controller.
 
-has been applied to the asoc tree at
+To probe subnodes, your node needs to either be compatible with e.g.
+"simple-bus", or have its own driver that calls of_platform_populate().
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-5.6
+> But, I guess if we go your method...
+> >     spibsc: spi@1f800000 {
+> >                 compatible = "renesas,r7s9210-spibsc", "simple-pm-bus";
+>
+> Then after the spibsc driver fails and the "simple-pm-bus" driver tries,
+> it will succeed and the simple-pm-bus driver will start probing the
+> subnodes (in my case, the mtd-rom).
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.  
+Yes, and unlike "simple-bus", "simple-pm-bus" does handle Runtime PM,
+so the clock will be enabled when needed.
+BTW, I still think "simple-bus" should handle Runtime PM, and
+"simple-pm-bus" should not exist.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+> > and applying "[PATCH] mtd: maps: physmap: Add minimal Runtime PM support"[1],
+> > the memory-mapped case should work, without your spibsc driver.
+>
+> Good.
+> So we can add the SPI-BSC clocks for RZ/A1 and RZ/A2 (even without the
+> SPI-BSC driver) and still have a working solution for XIP_KERNEL.
+>
+> So in the end, this all seems like a very simple solution to get
+> everything I wanted with minimal complexity.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+Exactly.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+> But, if Sergei is going a completely different route for R-Car, I guess
+> I need to understand that first what he is trying to do before I really
+> push for this driver getting in.
+> Again, this driver was only when using the SPI-BSC HW, not the full
+> (different) R/W HyperFlash controller HW. That would be a separate driver.
 
-Thanks,
-Mark
+Yeah, the "real" serial FLASH functionality needs its own driver.
+How to fit all the SPI/QSPI/HF pieces together in a working driver is
+still TBD.
 
-From 49df1e3925824cf44e590daac635974270185841 Mon Sep 17 00:00:00 2001
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-Date: Mon, 2 Dec 2019 16:58:34 +0100
-Subject: [PATCH] ASoC: rsnd: Calculate DALIGN inversion at run-time
+Gr{oetje,eeting}s,
 
-There is no need to store the inverted DALIGN values in the table, as
-they can easily be calculated at run-time.  This also protects against
-the introduction of inconsistencies between normal and inverted values
-by a future table modification.
+                        Geert
 
-Reorder the two subexpressions in the AND check, to perform the least
-expensive check first.
-
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-Acked-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Link: https://lore.kernel.org/r/20191202155834.22582-1-geert+renesas@glider.be
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- sound/soc/sh/rcar/core.c | 31 +++++++++++++------------------
- 1 file changed, 13 insertions(+), 18 deletions(-)
-
-diff --git a/sound/soc/sh/rcar/core.c b/sound/soc/sh/rcar/core.c
-index 399dc6e9bde5..d20f03dfdee6 100644
---- a/sound/soc/sh/rcar/core.c
-+++ b/sound/soc/sh/rcar/core.c
-@@ -376,20 +376,15 @@ u32 rsnd_get_adinr_bit(struct rsnd_mod *mod, struct rsnd_dai_stream *io)
-  */
- u32 rsnd_get_dalign(struct rsnd_mod *mod, struct rsnd_dai_stream *io)
- {
--	static const u32 dalign_values[8][2] = {
--		{0x76543210, 0x67452301},
--		{0x00000032, 0x00000023},
--		{0x00007654, 0x00006745},
--		{0x00000076, 0x00000067},
--		{0xfedcba98, 0xefcdab89},
--		{0x000000ba, 0x000000ab},
--		{0x0000fedc, 0x0000efcd},
--		{0x000000fe, 0x000000ef},
-+	static const u32 dalign_values[8] = {
-+		0x76543210, 0x00000032, 0x00007654, 0x00000076,
-+		0xfedcba98, 0x000000ba, 0x0000fedc, 0x000000fe,
- 	};
--	int id = 0, inv;
-+	int id = 0;
- 	struct rsnd_mod *ssiu = rsnd_io_to_mod_ssiu(io);
- 	struct rsnd_mod *target;
- 	struct snd_pcm_runtime *runtime = rsnd_io_to_runtime(io);
-+	u32 dalign;
- 
- 	/*
- 	 * *Hardware* L/R and *Software* L/R are inverted for 16bit data.
-@@ -425,15 +420,15 @@ u32 rsnd_get_dalign(struct rsnd_mod *mod, struct rsnd_dai_stream *io)
- 	if (mod == ssiu)
- 		id = rsnd_mod_id_sub(mod);
- 
--	/* Non target mod or non 16bit needs normal DALIGN */
--	if ((snd_pcm_format_width(runtime->format) != 16) ||
--	    (mod != target))
--		inv = 0;
--	/* Target mod needs inverted DALIGN when 16bit */
--	else
--		inv = 1;
-+	dalign = dalign_values[id];
-+
-+	if (mod == target && snd_pcm_format_width(runtime->format) == 16) {
-+		/* Target mod needs inverted DALIGN when 16bit */
-+		dalign = (dalign & 0xf0f0f0f0) >> 4 |
-+			 (dalign & 0x0f0f0f0f) << 4;
-+	}
- 
--	return dalign_values[id][inv];
-+	return dalign;
- }
- 
- u32 rsnd_get_busif_shift(struct rsnd_dai_stream *io, struct rsnd_mod *mod)
 -- 
-2.20.1
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
