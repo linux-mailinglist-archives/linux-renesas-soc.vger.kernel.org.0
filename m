@@ -2,148 +2,254 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E334115E80
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  7 Dec 2019 21:29:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3AC6116490
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2019 01:50:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726555AbfLGU3A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 7 Dec 2019 15:29:00 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:35273 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726718AbfLGU3A (ORCPT
+        id S1726659AbfLIAu3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 8 Dec 2019 19:50:29 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:49774 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726621AbfLIAu2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 7 Dec 2019 15:29:00 -0500
-Received: by mail-lj1-f194.google.com with SMTP id j6so11345875lja.2
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 07 Dec 2019 12:28:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=l2Bez8LdoluwsORjwCrpP+ORceYmTvmMN1fTDoAmM20=;
-        b=YPH9mj0Kpv04KhAttwgYfeRxoLsTRerNnVEWXNEmSiGXVVtmex1Xt6OXiOS3bhbOkL
-         px0mSPW7+X1FG4sDoeEfD1M24YYU2d2Gfmc0v55TdiToVI9CaQb8KI+Ycwa9iwo7nSP4
-         Oi6aVD4YHbgGxMoyTHM85piOKkbTTUSxrnK/v3WJCNm1+shNe+i0ug68uW8ijb7WFNok
-         qmEJGpLp6NI5IQML85sqnEYisDfdHKUWT3JRuvThUVwlD/gRf93GkPmif5fQGyNztp0Y
-         zWXgfmYBtSLRQceaVuceJknnC8vVyoAfW+M3DL1ihw/4H6jdL9j4U7ZegWzRi5wYqOqv
-         Lraw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=l2Bez8LdoluwsORjwCrpP+ORceYmTvmMN1fTDoAmM20=;
-        b=aj5UCcOiu2jsxHkCddbbJji/V8uw24a48PFn35kxKq246wEpuOkzZpaH0uOtQeM2Z3
-         sHVjHiObMU1hWOidE35nH5HUrM6CP/qdQ/IjAz05kPTlY1Uat62PwkSqmjZNKq0ZkHia
-         D1H9ggAT1QLSmQfmOp35AlD+iMgi3xmsg60lcHmY0YQ1VMc0jvAbVO52tmzesxALm841
-         vR5Lg0Omtb/+8TwzvXeYAoPMb8SnxwxtLrQx5q0KVWdUABWdqjYE+FiFvBlJbje1NKNc
-         2TkVBoBRYp+6aAsWvi5G1GXHAgxfHwvd/WDar7wzVwx7l5CP/X9N+d4Bw7bASSqp7U6e
-         fCOw==
-X-Gm-Message-State: APjAAAXFmt27Zm3nox7DfeCMIBcEodqRjLmZyHlO6jAfHNEEJspBTVyM
-        Cv6mtwqDeYkq+zodh/vz/ZgaTw==
-X-Google-Smtp-Source: APXvYqyAYjqX+4BcVE2Sz01P1Gs79GkHwoh28QlbVnZ/sLKD9B7bxtxDLOonL3K55m0asDMMvJU3kQ==
-X-Received: by 2002:a2e:9687:: with SMTP id q7mr12472790lji.80.1575750537704;
-        Sat, 07 Dec 2019 12:28:57 -0800 (PST)
-Received: from wasted.cogentembedded.com ([2a00:1fa0:4830:260e:ff6:21f7:4d8b:4a84])
-        by smtp.gmail.com with ESMTPSA id a9sm8561722lfk.23.2019.12.07.12.28.56
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 07 Dec 2019 12:28:57 -0800 (PST)
-Subject: Re: [PATCH v2 0/6] spi: Add Renesas SPIBSC controller
-To:     Chris Brandt <chris.brandt@renesas.com>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
-        Mason Yang <masonccyang@mxic.com.tw>
-References: <20191206134202.18784-1-chris.brandt@renesas.com>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Organization: Cogent Embedded
-Message-ID: <922cfa46-efb5-9e6d-67ea-3ac505b8211c@cogentembedded.com>
-Date:   Sat, 7 Dec 2019 23:28:55 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
+        Sun, 8 Dec 2019 19:50:28 -0500
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CE90A52B;
+        Mon,  9 Dec 2019 01:50:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1575852625;
+        bh=05qu6A8LjmvyF+V1mQN3igr/hkyti8yhAOb0TcMEjBA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aPM7SCEVSQZJXE7EyZ2dRxMJ+M1xpN1dnPsbeDQZ7R6amo1/qxXroZt3KnEHlq8aF
+         jp/X4dSfBpcS6P7eA+PLl37xwevqOUhRe3+jf+WOPqMAhk7GVf0kN7+T4oqhk3Konp
+         TpKjRjJSuaJsGi2it/bEbmeLOBvSCx989iQjdPdY=
+Date:   Mon, 9 Dec 2019 02:50:18 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sam Ravnborg <sam@ravnborg.org>
+Cc:     dri-devel@lists.freedesktop.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Abhinav Kumar <abhinavk@codeaurora.org>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Jagan Teki <jagan@amarulasolutions.com>,
+        Jitao Shi <jitao.shi@mediatek.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Purism Kernel Team <kernel@puri.sm>,
+        Sean Paul <sean@poorly.run>, Stefan Agner <stefan@agner.ch>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v2 01/25] drm/drm_panel: no error when no callback
+Message-ID: <20191209005018.GJ14311@pendragon.ideasonboard.com>
+References: <20191207140353.23967-1-sam@ravnborg.org>
+ <20191207140353.23967-2-sam@ravnborg.org>
 MIME-Version: 1.0
-In-Reply-To: <20191206134202.18784-1-chris.brandt@renesas.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20191207140353.23967-2-sam@ravnborg.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+Hi Sam,
 
-  Thank you for having mty on CC:, I might have missed oit otherwise... :-)
+Thank you for the patch.
 
-On 12/06/2019 04:41 PM, Chris Brandt wrote:
-
-> The Renesas SPI Bus Space Controller (SPIBSC) HW was specifically designed for
-> accessing Serial flash devices (QSPI,
-
-   The initial design did only support SPI, hence the SPI in the name.
-
-> HyperFlash, Octa Flash). In the hardware
-
-   Only added in "2nd generation" controllers, like on R-Car gen3, RZ/A2. 
-
-> manuals, it is almost always labeled as the "Renesas SPI Multi I/O Bus Controller".
-
-   Not seeing "Renesas" but the rest looks consistent across the manuals.
-
-> However, the HW IP is usually referred to within Renesas as the "SPI BSC".
-
-   Poor name for the 2nd generation controllers which also support at least HyperFlash.
-
-> Yes, the R-Car team nicknamed it RPC (for "Reduced Pin Count" flash) after HyperFash
-> support was added...but I personally think that RPC is not a good name for this
-> HW block.
-
-   SPIBSC is also misleading... RPC-IF seems misleading too as it's only spelled out
-in the R-Car gen3 and RZ/A2H manuals. 
-
-> This driver has been tested on an RZ/A1H RSK and RZ/A2M EVB.
-
-   In the SPI mode only, I assume?
-
-   What I have now is the core driver (or rather a library) placed under drivers/memory/
-and the SPI and HyperFlash front ends in drivers/spi/ and drivers/mtd/hyperbus/ respectfully.
-I'm almost ready to post the core driver/bindings, the SPI driver still needs some Mark Brown's
-comments addressed, and the HyperFlash driver is also ready but needs the existing HyperBus
-infrastructure properly fixed up (having a draft patch now)...
-
-> The testing mostly consisted of formatting an area as JFFS2 and doing copying
-> of files and such.
-
-   Did the same (or at least tried to :-) and I must admit that writing doesn't work with
-any of the front ends... I still need to get this fixed.
-
-> While the HW changed a little between the RZ/A1 and RZ/A2 generations, the IP
-> block in the RZ/A2M was taken from the R-Car H3 design, so in theory this
-> driver should work for R-Car Gen3 as well.
-
-   I don't think it's a good idea to use the SPI dedicated driver on R-Car gen3, I would rather
-see the RZ/A1 using the RPC-IF driver/library to reduce the code duplication...
-
-> =========================
-> Version 2 changes
-> =========================
-> * I got rid of all the critical clock stuff. The idea is is that if you are
->   planning on using the SPI BSC, even in XIP mode, it should be described in DT.
+On Sat, Dec 07, 2019 at 03:03:29PM +0100, Sam Ravnborg wrote:
+> The callbacks in drm_panel_funcs are optional, so do not
+> return an error just because no callback is assigned.
 > 
-> * There is no actual 'runtime pm' implmented in the driver at the moment, and
->   so just the standard enable/disable clock API is used.
+> v2:
+> - Document what functions in drm_panel_funcs are optional (Laurent)
+> - Return -EOPNOTSUPP if get_modes() is not assigned (Laurent)
+>   (Sam: -EOPNOTSUPP seems to best error code in this situation)
+> 
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> ---
+>  drivers/gpu/drm/drm_panel.c | 35 +++++++++++++++++++++++++----------
+>  include/drm/drm_panel.h     | 18 ++++++++++++++++--
+>  2 files changed, 41 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
+> index ed7985c0535a..4ab7229fb22b 100644
+> --- a/drivers/gpu/drm/drm_panel.c
+> +++ b/drivers/gpu/drm/drm_panel.c
+> @@ -151,10 +151,13 @@ EXPORT_SYMBOL(drm_panel_detach);
+>   */
+>  int drm_panel_prepare(struct drm_panel *panel)
+>  {
+> -	if (panel && panel->funcs && panel->funcs->prepare)
+> +	if (!panel)
+> +		return -EINVAL;
+> +
+> +	if (panel->funcs && panel->funcs->prepare)
+>  		return panel->funcs->prepare(panel);
+>  
+> -	return panel ? -ENOSYS : -EINVAL;
+> +	return 0;
+>  }
+>  EXPORT_SYMBOL(drm_panel_prepare);
+>  
+> @@ -171,10 +174,13 @@ EXPORT_SYMBOL(drm_panel_prepare);
+>   */
+>  int drm_panel_unprepare(struct drm_panel *panel)
+>  {
+> -	if (panel && panel->funcs && panel->funcs->unprepare)
+> +	if (!panel)
+> +		return -EINVAL;
+> +
+> +	if (panel->funcs && panel->funcs->unprepare)
+>  		return panel->funcs->unprepare(panel);
+>  
+> -	return panel ? -ENOSYS : -EINVAL;
+> +	return 0;
+>  }
+>  EXPORT_SYMBOL(drm_panel_unprepare);
+>  
+> @@ -190,10 +196,13 @@ EXPORT_SYMBOL(drm_panel_unprepare);
+>   */
+>  int drm_panel_enable(struct drm_panel *panel)
+>  {
+> -	if (panel && panel->funcs && panel->funcs->enable)
+> +	if (!panel)
+> +		return -EINVAL;
+> +
+> +	if (panel->funcs && panel->funcs->enable)
+>  		return panel->funcs->enable(panel);
+>  
+> -	return panel ? -ENOSYS : -EINVAL;
+> +	return 0;
+>  }
+>  EXPORT_SYMBOL(drm_panel_enable);
+>  
+> @@ -209,10 +218,13 @@ EXPORT_SYMBOL(drm_panel_enable);
+>   */
+>  int drm_panel_disable(struct drm_panel *panel)
+>  {
+> -	if (panel && panel->funcs && panel->funcs->disable)
+> +	if (!panel)
+> +		return -EINVAL;
+> +
+> +	if (panel->funcs && panel->funcs->disable)
+>  		return panel->funcs->disable(panel);
+>  
+> -	return panel ? -ENOSYS : -EINVAL;
+> +	return 0;
+>  }
+>  EXPORT_SYMBOL(drm_panel_disable);
+>  
+> @@ -228,10 +240,13 @@ EXPORT_SYMBOL(drm_panel_disable);
+>   */
+>  int drm_panel_get_modes(struct drm_panel *panel)
+>  {
+> -	if (panel && panel->funcs && panel->funcs->get_modes)
+> +	if (!panel)
+> +		return -EINVAL;
+> +
+> +	if (panel->funcs && panel->funcs->get_modes)
+>  		return panel->funcs->get_modes(panel);
+>  
+> -	return panel ? -ENOSYS : -EINVAL;
+> +	return -EOPNOTSUPP;
+>  }
+>  EXPORT_SYMBOL(drm_panel_get_modes);
+>  
+> diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
+> index ce8da64022b4..d71655b2634c 100644
+> --- a/include/drm/drm_panel.h
+> +++ b/include/drm/drm_panel.h
+> @@ -65,6 +65,8 @@ struct drm_panel_funcs {
+>  	 * @prepare:
+>  	 *
+>  	 * Turn on panel and perform set up.
+> +	 *
+> +	 * This function is optional.
+>  	 */
+>  	int (*prepare)(struct drm_panel *panel);
+>  
+> @@ -72,6 +74,8 @@ struct drm_panel_funcs {
+>  	 * @enable:
+>  	 *
+>  	 * Enable panel (turn on back light, etc.).
+> +	 *
+> +	 * This function is optional.
+>  	 */
+>  	int (*enable)(struct drm_panel *panel);
+>  
+> @@ -79,6 +83,8 @@ struct drm_panel_funcs {
+>  	 * @disable:
+>  	 *
+>  	 * Disable panel (turn off back light, etc.).
+> +	 *
+> +	 * This function is optional.
+>  	 */
+>  	int (*disable)(struct drm_panel *panel);
+>  
+> @@ -86,14 +92,20 @@ struct drm_panel_funcs {
+>  	 * @unprepare:
+>  	 *
+>  	 * Turn off panel.
+> +	 *
+> +	 * This function is optional.
+>  	 */
+>  	int (*unprepare)(struct drm_panel *panel);
+>  
+>  	/**
+>  	 * @get_modes:
+>  	 *
+> -	 * Add modes to the connector that the panel is attached to and
+> -	 * return the number of modes added.
+> +	 * Add modes to the connector that the panel is attached to.
+> +	 *
+> +	 * This function is mandatory.
+> +	 *
+> +	 * Returns the number of modes added, -EOPNOTSUPP if callback
+> +	 * is missing, -EINVAL if panel is NULL.
 
-   My code does have RPM enabled and used.
+This applies to drm_panel_get_modes, not &drm_panel_funcs.get_modes.
+Here you should just have
 
-> * The compatible string "jedec,spi-nor" will be used to determine if a spi controller
->   needs to be regitered or not. At the moment there is no setup needed for
->   running in XIP mode, so we just need to signal that the peripheral clock should
->   be left on and then we're done.
+ 	 *
+ 	 * Add modes to the connector that the panel is attached to and
+ 	 * return the number of modes added.
++	 *
++	 * This function is mandatory.
+ 	 */
+ 	int (*get_modes)(struct drm_panel *panel);
+ 
+>  	 */
+>  	int (*get_modes)(struct drm_panel *panel);
+>  
+> @@ -102,6 +114,8 @@ struct drm_panel_funcs {
+>  	 *
+>  	 * Copy display timings into the provided array and return
+>  	 * the number of display timings available.
+> +	 *
+> +	 * This function is optional.
+>  	 */
+>  	int (*get_timings)(struct drm_panel *panel, unsigned int num_timings,
+>  			   struct display_timing *timings);
 
-[...]
+-- 
+Regards,
 
-MBR, Sergei
+Laurent Pinchart
