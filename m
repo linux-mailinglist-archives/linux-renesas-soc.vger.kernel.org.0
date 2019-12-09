@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D3AC6116490
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2019 01:50:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F139F1164A3
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Dec 2019 01:56:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726659AbfLIAu3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 8 Dec 2019 19:50:29 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:49774 "EHLO
+        id S1726826AbfLIA4E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 8 Dec 2019 19:56:04 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:49858 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726621AbfLIAu2 (ORCPT
+        with ESMTP id S1726596AbfLIA4D (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 8 Dec 2019 19:50:28 -0500
+        Sun, 8 Dec 2019 19:56:03 -0500
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CE90A52B;
-        Mon,  9 Dec 2019 01:50:24 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E011752B;
+        Mon,  9 Dec 2019 01:56:00 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1575852625;
-        bh=05qu6A8LjmvyF+V1mQN3igr/hkyti8yhAOb0TcMEjBA=;
+        s=mail; t=1575852961;
+        bh=J6yIt17nBqwPKwVZXRtdxjHrhpUgI8Kou5WpdOIZ5YE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=aPM7SCEVSQZJXE7EyZ2dRxMJ+M1xpN1dnPsbeDQZ7R6amo1/qxXroZt3KnEHlq8aF
-         jp/X4dSfBpcS6P7eA+PLl37xwevqOUhRe3+jf+WOPqMAhk7GVf0kN7+T4oqhk3Konp
-         TpKjRjJSuaJsGi2it/bEbmeLOBvSCx989iQjdPdY=
-Date:   Mon, 9 Dec 2019 02:50:18 +0200
+        b=T5cbUBsZJFEm8iBpxpsDzOaQbbEBdWh0bc55kfLncjhrFA90srpzIJTF5ep242mQO
+         b5t70DxIKO2bWncxDKMv8rEKTqbMGB6Wc4rf0t1JrZ0hGjCETsQDuEAh6St3IsX09H
+         Vk/pTQgLD1qS5KsBNhE3mVt1u8/X3js4Qn7p822U=
+Date:   Mon, 9 Dec 2019 02:55:54 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Sam Ravnborg <sam@ravnborg.org>
 Cc:     dri-devel@lists.freedesktop.org,
@@ -48,15 +48,16 @@ Cc:     dri-devel@lists.freedesktop.org,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Purism Kernel Team <kernel@puri.sm>,
         Sean Paul <sean@poorly.run>, Stefan Agner <stefan@agner.ch>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v2 01/25] drm/drm_panel: no error when no callback
-Message-ID: <20191209005018.GJ14311@pendragon.ideasonboard.com>
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>
+Subject: Re: [PATCH v2 02/25] drm/panel: add backlight support
+Message-ID: <20191209005554.GK14311@pendragon.ideasonboard.com>
 References: <20191207140353.23967-1-sam@ravnborg.org>
- <20191207140353.23967-2-sam@ravnborg.org>
+ <20191207140353.23967-3-sam@ravnborg.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20191207140353.23967-2-sam@ravnborg.org>
+In-Reply-To: <20191207140353.23967-3-sam@ravnborg.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -67,187 +68,230 @@ Hi Sam,
 
 Thank you for the patch.
 
-On Sat, Dec 07, 2019 at 03:03:29PM +0100, Sam Ravnborg wrote:
-> The callbacks in drm_panel_funcs are optional, so do not
-> return an error just because no callback is assigned.
+On Sat, Dec 07, 2019 at 03:03:30PM +0100, Sam Ravnborg wrote:
+> Panels often supports backlight as specified in a device tree.
+
+s/supports/support/
+
+> Update the drm_panel infrastructure to support this to
+> simplify the drivers.
+> 
+> With this the panel driver just needs to add the following to the
+> probe() function:
+> 
+>     err = drm_panel_of_backlight(panel);
+>     if (err)
+>             return err;
+> 
+> Then drm_panel will handle all the rest.
+> 
+> There is one caveat with the backlight support.
+> If drm_panel_(enable|disable) are called multiple times
+> in row then backlight_(enable|disable) will be called multiple times.
+
+s/in row/in a row/
+
+> The above will happen when a panel drivers unconditionally
+> calls drm_panel_disable() in their shutdown() function,
+> whan the panel is already disabled and then shutdown() is called.
+> 
+> Reading the backlight code it seems safe to call
+> the backlight_(enable|disable) several times.
+> 
+> v3:
+> - Improve comments, fix grammar (Laurent)
+> - Do not fail in drm_panel_of_backlight() if no DT support (Laurent)
+> - Log if backlight_(enable|disable) fails (Laurent)
+> - Improve drm_panel_of_backlight() docs
+> - Updated changelog with backlight analysis (triggered by Laurent)
 > 
 > v2:
-> - Document what functions in drm_panel_funcs are optional (Laurent)
-> - Return -EOPNOTSUPP if get_modes() is not assigned (Laurent)
->   (Sam: -EOPNOTSUPP seems to best error code in this situation)
+> - Drop test of CONFIG_DRM_PANEL in header-file (Laurent)
+> - do not enable backlight if ->enable() returns an error
 > 
 > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
 > Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <maxime.ripard@bootlin.com>
+> Cc: Sean Paul <sean@poorly.run>
 > Cc: David Airlie <airlied@linux.ie>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
 > ---
->  drivers/gpu/drm/drm_panel.c | 35 +++++++++++++++++++++++++----------
->  include/drm/drm_panel.h     | 18 ++++++++++++++++--
->  2 files changed, 41 insertions(+), 12 deletions(-)
+>  drivers/gpu/drm/drm_panel.c | 58 ++++++++++++++++++++++++++++++++++++-
+>  include/drm/drm_panel.h     | 25 ++++++++++++++++
+>  2 files changed, 82 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/gpu/drm/drm_panel.c b/drivers/gpu/drm/drm_panel.c
-> index ed7985c0535a..4ab7229fb22b 100644
+> index 4ab7229fb22b..c312d5eb214d 100644
 > --- a/drivers/gpu/drm/drm_panel.c
 > +++ b/drivers/gpu/drm/drm_panel.c
-> @@ -151,10 +151,13 @@ EXPORT_SYMBOL(drm_panel_detach);
+> @@ -21,11 +21,13 @@
+>   * DEALINGS IN THE SOFTWARE.
 >   */
->  int drm_panel_prepare(struct drm_panel *panel)
->  {
-> -	if (panel && panel->funcs && panel->funcs->prepare)
-> +	if (!panel)
-> +		return -EINVAL;
-> +
-> +	if (panel->funcs && panel->funcs->prepare)
->  		return panel->funcs->prepare(panel);
 >  
-> -	return panel ? -ENOSYS : -EINVAL;
-> +	return 0;
->  }
->  EXPORT_SYMBOL(drm_panel_prepare);
+> +#include <linux/backlight.h>
+>  #include <linux/err.h>
+>  #include <linux/module.h>
 >  
-> @@ -171,10 +174,13 @@ EXPORT_SYMBOL(drm_panel_prepare);
->   */
->  int drm_panel_unprepare(struct drm_panel *panel)
->  {
-> -	if (panel && panel->funcs && panel->funcs->unprepare)
-> +	if (!panel)
-> +		return -EINVAL;
-> +
-> +	if (panel->funcs && panel->funcs->unprepare)
->  		return panel->funcs->unprepare(panel);
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_panel.h>
+> +#include <drm/drm_print.h>
 >  
-> -	return panel ? -ENOSYS : -EINVAL;
-> +	return 0;
->  }
->  EXPORT_SYMBOL(drm_panel_unprepare);
->  
-> @@ -190,10 +196,13 @@ EXPORT_SYMBOL(drm_panel_unprepare);
+>  static DEFINE_MUTEX(panel_lock);
+>  static LIST_HEAD(panel_list);
+> @@ -196,11 +198,20 @@ EXPORT_SYMBOL(drm_panel_unprepare);
 >   */
 >  int drm_panel_enable(struct drm_panel *panel)
 >  {
-> -	if (panel && panel->funcs && panel->funcs->enable)
-> +	if (!panel)
-> +		return -EINVAL;
+> +	int ret = 0;
 > +
-> +	if (panel->funcs && panel->funcs->enable)
->  		return panel->funcs->enable(panel);
+>  	if (!panel)
+>  		return -EINVAL;
 >  
-> -	return panel ? -ENOSYS : -EINVAL;
-> +	return 0;
+>  	if (panel->funcs && panel->funcs->enable)
+> -		return panel->funcs->enable(panel);
+> +		ret = panel->funcs->enable(panel);
+> +
+> +	if (ret < 0)
+> +		return ret;
+
+You can move this within the above if () block and avoid initializing
+ret to 0:
+
+	if (panel->funcs && panel->funcs->enable) {
+		ret = panel->funcs->enable(panel);
+		if (ret < 0)
+			return ret;
+	}
+
+With these small issues addressed,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +	ret = backlight_enable(panel->backlight);
+> +	if (ret < 0)
+> +		DRM_DEV_INFO(panel->dev, "failed to enable backlight: %d\n", ret);
+>  
+>  	return 0;
 >  }
->  EXPORT_SYMBOL(drm_panel_enable);
->  
-> @@ -209,10 +218,13 @@ EXPORT_SYMBOL(drm_panel_enable);
+> @@ -218,9 +229,15 @@ EXPORT_SYMBOL(drm_panel_enable);
 >   */
 >  int drm_panel_disable(struct drm_panel *panel)
 >  {
-> -	if (panel && panel->funcs && panel->funcs->disable)
-> +	if (!panel)
-> +		return -EINVAL;
+> +	int ret;
 > +
-> +	if (panel->funcs && panel->funcs->disable)
+>  	if (!panel)
+>  		return -EINVAL;
+>  
+> +	ret = backlight_disable(panel->backlight);
+> +	if (ret < 0)
+> +		DRM_DEV_INFO(panel->dev, "failed to disable backlight: %d\n", ret);
+> +
+>  	if (panel->funcs && panel->funcs->disable)
 >  		return panel->funcs->disable(panel);
 >  
-> -	return panel ? -ENOSYS : -EINVAL;
-> +	return 0;
->  }
->  EXPORT_SYMBOL(drm_panel_disable);
+> @@ -289,6 +306,45 @@ struct drm_panel *of_drm_find_panel(const struct device_node *np)
+>  EXPORT_SYMBOL(of_drm_find_panel);
+>  #endif
 >  
-> @@ -228,10 +240,13 @@ EXPORT_SYMBOL(drm_panel_disable);
->   */
->  int drm_panel_get_modes(struct drm_panel *panel)
->  {
-> -	if (panel && panel->funcs && panel->funcs->get_modes)
-> +	if (!panel)
+> +#ifdef CONFIG_BACKLIGHT_CLASS_DEVICE
+> +/**
+> + * drm_panel_of_backlight - use backlight device node for backlight
+> + * @panel: DRM panel
+> + *
+> + * Use this function to enable backlight handling if your panel
+> + * uses device tree and has a backlight phandle.
+> + *
+> + * When the panel is enabled backlight will be enabled after a
+> + * successfull call to &drm_panel_funcs.enable()
+> + *
+> + * When the panel is disabled backlight will be disabled before the
+> + * call to &drm_panel_funcs.disable().
+> + *
+> + * A typical implementation for a panel driver supporting device tree
+> + * will call this function at probe time. Backlight will then be handled
+> + * transparently without requiring any intervention from the driver.
+> + * drm_panel_of_backlight() must be called after the call to drm_panel_init().
+> + *
+> + * Return: 0 on success or a negative error code on failure.
+> + */
+> +int drm_panel_of_backlight(struct drm_panel *panel)
+> +{
+> +	struct backlight_device *backlight;
+> +
+> +	if (!panel || !panel->dev)
 > +		return -EINVAL;
 > +
-> +	if (panel->funcs && panel->funcs->get_modes)
->  		return panel->funcs->get_modes(panel);
->  
-> -	return panel ? -ENOSYS : -EINVAL;
-> +	return -EOPNOTSUPP;
->  }
->  EXPORT_SYMBOL(drm_panel_get_modes);
->  
+> +	backlight = devm_of_find_backlight(panel->dev);
+> +
+> +	if (IS_ERR(backlight))
+> +                return PTR_ERR(backlight);
+> +
+> +	panel->backlight = backlight;
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(drm_panel_of_backlight);
+> +#endif
+> +
+>  MODULE_AUTHOR("Thierry Reding <treding@nvidia.com>");
+>  MODULE_DESCRIPTION("DRM panel infrastructure");
+>  MODULE_LICENSE("GPL and additional rights");
 > diff --git a/include/drm/drm_panel.h b/include/drm/drm_panel.h
-> index ce8da64022b4..d71655b2634c 100644
+> index d71655b2634c..c751c9b17df0 100644
 > --- a/include/drm/drm_panel.h
 > +++ b/include/drm/drm_panel.h
-> @@ -65,6 +65,8 @@ struct drm_panel_funcs {
->  	 * @prepare:
->  	 *
->  	 * Turn on panel and perform set up.
-> +	 *
-> +	 * This function is optional.
->  	 */
->  	int (*prepare)(struct drm_panel *panel);
+> @@ -28,6 +28,7 @@
+>  #include <linux/errno.h>
+>  #include <linux/list.h>
 >  
-> @@ -72,6 +74,8 @@ struct drm_panel_funcs {
->  	 * @enable:
->  	 *
->  	 * Enable panel (turn on back light, etc.).
-> +	 *
-> +	 * This function is optional.
->  	 */
->  	int (*enable)(struct drm_panel *panel);
->  
-> @@ -79,6 +83,8 @@ struct drm_panel_funcs {
->  	 * @disable:
->  	 *
->  	 * Disable panel (turn off back light, etc.).
-> +	 *
-> +	 * This function is optional.
->  	 */
->  	int (*disable)(struct drm_panel *panel);
->  
-> @@ -86,14 +92,20 @@ struct drm_panel_funcs {
->  	 * @unprepare:
->  	 *
->  	 * Turn off panel.
-> +	 *
-> +	 * This function is optional.
->  	 */
->  	int (*unprepare)(struct drm_panel *panel);
->  
+> +struct backlight_device;
+>  struct device_node;
+>  struct drm_connector;
+>  struct drm_device;
+> @@ -59,6 +60,10 @@ struct display_timing;
+>   *
+>   * To save power when no video data is transmitted, a driver can power down
+>   * the panel. This is the job of the .unprepare() function.
+> + *
+> + * Backlight can be handled automatically if configured using
+> + * drm_panel_of_backlight(). Then the driver does not need to implement the
+> + * functionality to enable/disable backlight.
+>   */
+>  struct drm_panel_funcs {
 >  	/**
->  	 * @get_modes:
->  	 *
-> -	 * Add modes to the connector that the panel is attached to and
-> -	 * return the number of modes added.
-> +	 * Add modes to the connector that the panel is attached to.
-> +	 *
-> +	 * This function is mandatory.
-> +	 *
-> +	 * Returns the number of modes added, -EOPNOTSUPP if callback
-> +	 * is missing, -EINVAL if panel is NULL.
-
-This applies to drm_panel_get_modes, not &drm_panel_funcs.get_modes.
-Here you should just have
-
- 	 *
- 	 * Add modes to the connector that the panel is attached to and
- 	 * return the number of modes added.
-+	 *
-+	 * This function is mandatory.
- 	 */
- 	int (*get_modes)(struct drm_panel *panel);
- 
+> @@ -146,6 +151,17 @@ struct drm_panel {
 >  	 */
->  	int (*get_modes)(struct drm_panel *panel);
+>  	struct device *dev;
 >  
-> @@ -102,6 +114,8 @@ struct drm_panel_funcs {
->  	 *
->  	 * Copy display timings into the provided array and return
->  	 * the number of display timings available.
+> +	/**
+> +	 * @backlight:
 > +	 *
-> +	 * This function is optional.
->  	 */
->  	int (*get_timings)(struct drm_panel *panel, unsigned int num_timings,
->  			   struct display_timing *timings);
+> +	 * Backlight device, used to turn on backlight after the call
+> +	 * to enable(), and to turn off backlight before the call to
+> +	 * disable().
+> +	 * backlight is set by drm_panel_of_backlight() and drivers
+> +	 * shall not assign it.
+> +	 */
+> +	struct backlight_device *backlight;
+> +
+>  	/**
+>  	 * @funcs:
+>  	 *
+> @@ -197,4 +213,13 @@ static inline struct drm_panel *of_drm_find_panel(const struct device_node *np)
+>  }
+>  #endif
+>  
+> +#if IS_ENABLED(CONFIG_BACKLIGHT_CLASS_DEVICE)
+> +int drm_panel_of_backlight(struct drm_panel *panel);
+> +#else
+> +static inline int drm_panel_of_backlight(struct drm_panel *panel)
+> +{
+> +	return 0;
+> +}
+> +#endif
+> +
+>  #endif
 
 -- 
 Regards,
