@@ -2,117 +2,272 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F24F118E95
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2019 18:09:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CFE8118F14
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2019 18:33:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727568AbfLJRJl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Dec 2019 12:09:41 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:36926 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727553AbfLJRJl (ORCPT
+        id S1727542AbfLJRdt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Dec 2019 12:33:49 -0500
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:36196 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727211AbfLJRdt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Dec 2019 12:09:41 -0500
-Received: by mail-lj1-f194.google.com with SMTP id u17so20773111lja.4
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Dec 2019 09:09:40 -0800 (PST)
+        Tue, 10 Dec 2019 12:33:49 -0500
+Received: by mail-qt1-f196.google.com with SMTP id k11so3533860qtm.3;
+        Tue, 10 Dec 2019 09:33:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=K8JiV5XMl1ac7XRD5k/O7VNVwdh93m34JRZ/SLdtoRs=;
-        b=ZX6+qqMxhPUpUTDWrJnuNPHxxz5etn1hLQ1wuYuHaoGAb1gSrHBhPbjk2TX99LxMeG
-         9agC5GfNWc4RhmnVU3DAFqYRBoOoWP7bve2KSpH0mS0Bk7WQmvglH+l9E1Gx3eVbLwYZ
-         FkILqbcx4HbsBJQ6atLX/RCvk7xnThcheD693wemIlwoYjKEwMcPPE5FQD+SPpWb7hXP
-         B3J9xhfJ62yfg6+cRj2gGA39+2LkRV2mR59v/ttAhgtjavJ0FbeLAGCJK/+NKi0T7Wnj
-         8YngHG/7TaGTZZLWQ5brkgQKqK/yTKwIDabygCg3Vf1zIUO4bOo2QJq6hpdnZW67pNkl
-         o9fQ==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bynIErLNBlB92x5ntLmPPlvU7muN8l4GAC/bEBaefYo=;
+        b=O9qgebLMf8mkxzuEi3jcRh8lUhC+or6jckvWtxxYK2f5ovrd3xuQ9vVwXezxLvwNH9
+         RVBpaCKIOOxBsH+m1f1FuOMxyPUC7ZsaP71k9sU1iNxpB3IYwkoPuHGWv3XIbfAIxWTr
+         PBlnI7vDMXZYgZ45x0SSjQmGzRx/7jMSy8MorehCjY7cPXAkqIlAhTnmD/Qm/pIOZtnr
+         qS8OrFzUqTnkSbxW65sm4GLZTFosVbQe2VV0wR4gC3z/IFdcuWN3eDZdlk5wCUp9CmQs
+         linjEtobGzCedSTTF9k9ZBkftyg09rJcN8NfwCBbFCIFIgWTqERmFLPGAw+mJXYKUJCf
+         esSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=K8JiV5XMl1ac7XRD5k/O7VNVwdh93m34JRZ/SLdtoRs=;
-        b=EygRyVqKa32yclQNNUe0RqaMKwd90dd/i1VyADmlklMRoocYOZ4l5Zdn+p55oYgbXM
-         mCXcwmSjO4m3H0J+OJRNQGw7lngFYkypr39LwfanQzI3PwQkn6ADoUDohaJKfETEV+I9
-         +nDHG9jboYxd3OFa7NS/1eJIjRHf17VXuvcZJGZxSpZgi/91dzWSIFO287+ujK/CaPg0
-         /Lg9/bwSuglS53z3mW0AbLdumKbHUleW+kzqSBPwU7yHMEiDP9hAUcxOBQRVxojQzVTd
-         C85ngMaazkYS0Lv+vYxJtMxoVaF5y+fkGDiSfppLdHMFcSyVxhtB693k5lKzpuRnufer
-         69fg==
-X-Gm-Message-State: APjAAAXwtJ7LSto1u29YpJ1qApCHL0SStkBYBpB22tWuhj6K4MGrI9Es
-        lVvuILBPykN10bIIkRFOiIsm+Q==
-X-Google-Smtp-Source: APXvYqwSNC3AoVowSGKWAMoJO0wCskeX6zxpbF6jEyh/Z2ToHaoH1Qc1J4IoiIVdIrO7JnqeEDq8gg==
-X-Received: by 2002:a2e:880c:: with SMTP id x12mr18636490ljh.44.1575997779156;
-        Tue, 10 Dec 2019 09:09:39 -0800 (PST)
-Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
-        by smtp.gmail.com with ESMTPSA id k25sm2099775lji.42.2019.12.10.09.09.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Dec 2019 09:09:38 -0800 (PST)
-Date:   Tue, 10 Dec 2019 18:09:37 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ARM: shmobile: defconfig: Restore debugfs support
-Message-ID: <20191210170937.GA6956@bigcity.dyn.berto.se>
-References: <20191209101327.26571-1-geert+renesas@glider.be>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bynIErLNBlB92x5ntLmPPlvU7muN8l4GAC/bEBaefYo=;
+        b=nKthkByonlXnGJCs4hCFibW0wP+JIqnP6bO4jZXp/7DcIEY41Q6/Cw1nBB3CoP+Tlz
+         175IgHs0Bdgmr9R9hb4eFevPb+fvMldd0ZUTiwC50d0y9pDFfk4+TkLRLcEu4CVtbz96
+         HuE0vtZLa4whp1CGoPiqPWFsxp6ncqI8dCyCG9mMgZuyBxRdmDF9yXsBFSCfpN7SXJJM
+         aBaXLtaOjY2DB0XbKKJek87AV7ipmoIZdgrR2rh05bU/2zscd4y8bscHIu+vn6uqNbWc
+         ehwOgwxQwx5Tvp2P7b0wQ+6mQjXHtdbhn/+eom8oajRZaQQb4eXHGLHz0PNXZepRFb4q
+         jbUw==
+X-Gm-Message-State: APjAAAVcm8CsWqI+rRyopxhY2piuZWr5Yfalzrlx7Kyrm/BSe+AtOXsx
+        U0HZgrM+l4ypTq3gIrcAA5ys7nY36UyrdK+/bTx5yzQCbW0=
+X-Google-Smtp-Source: APXvYqyvf2ncQmsBuOdQcfUdcDXLi4gyc8GHOcsttBii5RgFwT7Lu6CMRWNBWntvdYfl3VkyWSrtOunBnuovVP0XaKY=
+X-Received: by 2002:aed:3fb7:: with SMTP id s52mr5722106qth.311.1575999227782;
+ Tue, 10 Dec 2019 09:33:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191209101327.26571-1-geert+renesas@glider.be>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+References: <20191028163256.8004-1-robh@kernel.org> <20191028163256.8004-12-robh@kernel.org>
+ <20191206153633.GA18142@e121166-lin.cambridge.arm.com>
+In-Reply-To: <20191206153633.GA18142@e121166-lin.cambridge.arm.com>
+From:   Enric Balletbo Serra <eballetbo@gmail.com>
+Date:   Tue, 10 Dec 2019 18:33:36 +0100
+Message-ID: <CAFqH_53nX74vD6-T2ao0x540wq_NbN671H5i2fwbo6NaCgc4KQ@mail.gmail.com>
+Subject: Re: [PATCH v3 11/25] PCI: rockchip: Drop storing driver private
+ outbound resource data
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc:     Rob Herring <robh@kernel.org>,
+        Andrew Murray <andrew.murray@arm.com>,
+        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Christoph Hellwig <hch@infradead.org>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
+        Ley Foon Tan <lftan@altera.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        linux-renesas-soc@vger.kernel.org,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Ray Jui <rjui@broadcom.com>, rfi@lists.rocketboards.org,
+        Ryder Lee <ryder.lee@mediatek.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Simon Horman <horms@verge.net.au>,
+        Srinath Mannam <srinath.mannam@broadcom.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Toan Le <toan@os.amperecomputing.com>,
+        Tom Joseph <tjoseph@cadence.com>, Will Deacon <will@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Lorenzo,
 
-Thanks for your patch.
+Many thanks to look at this.
 
-On 2019-12-09 11:13:27 +0100, Geert Uytterhoeven wrote:
-> Since commit 0e4a459f56c32d3e ("tracing: Remove unnecessary DEBUG_FS
-> dependency"), CONFIG_DEBUG_FS is no longer auto-enabled.  This breaks
-> booting Debian 9, as systemd needs debugfs:
-> 
->     [FAILED] Failed to mount /sys/kernel/debug.
->     See 'systemctl status sys-kernel-debug.mount' for details.
->     [DEPEND] Dependency failed for Local File Systems.
->     ...
->     You are in emergGive root password for maintenance
->     (or press Control-D to continue):
-> 
-> Fix this by enabling CONFIG_DEBUG_FS explicitly.
-> 
-> See also commit 18977008f44c66bd ("ARM: multi_v7_defconfig: Restore
-> debugfs support").
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Missatge de Lorenzo Pieralisi <lorenzo.pieralisi@arm.com> del dia dv.,
+6 de des. 2019 a les 16:36:
+>
+> [+Eric]
+>
+> On Mon, Oct 28, 2019 at 11:32:42AM -0500, Rob Herring wrote:
+> > The Rockchip host bridge driver doesn't need to store outboard resources
+> > in its private struct as they are already stored in struct
+> > pci_host_bridge.
+> >
+> > Cc: Shawn Lin <shawn.lin@rock-chips.com>
+> > Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> > Cc: Andrew Murray <andrew.murray@arm.com>
+> > Cc: Bjorn Helgaas <bhelgaas@google.com>
+> > Cc: Heiko Stuebner <heiko@sntech.de>
+> > Cc: linux-rockchip@lists.infradead.org
+> > Signed-off-by: Rob Herring <robh@kernel.org>
+> > ---
+> >  drivers/pci/controller/pcie-rockchip-host.c | 54 +++++++++------------
+> >  drivers/pci/controller/pcie-rockchip.h      |  5 --
+> >  2 files changed, 23 insertions(+), 36 deletions(-)
+> >
+> > diff --git a/drivers/pci/controller/pcie-rockchip-host.c b/drivers/pci/controller/pcie-rockchip-host.c
+> > index 8d2e6f2e141e..f375e55ea02e 100644
+> > --- a/drivers/pci/controller/pcie-rockchip-host.c
+> > +++ b/drivers/pci/controller/pcie-rockchip-host.c
+> > @@ -806,19 +806,28 @@ static int rockchip_pcie_prog_ib_atu(struct rockchip_pcie *rockchip,
+> >  static int rockchip_pcie_cfg_atu(struct rockchip_pcie *rockchip)
+> >  {
+> >       struct device *dev = rockchip->dev;
+> > +     struct pci_host_bridge *bridge = pci_host_bridge_from_priv(rockchip);
+> > +     struct resource_entry *entry;
+> > +     u64 pci_addr, size;
+> >       int offset;
+> >       int err;
+> >       int reg_no;
+> >
+> >       rockchip_pcie_cfg_configuration_accesses(rockchip,
+> >                                                AXI_WRAPPER_TYPE0_CFG);
+> > +     entry = resource_list_first_type(&bridge->windows, IORESOURCE_MEM);
+> > +     if (!entry)
+> > +             return -ENODEV;
+> > +
+> > +     size = resource_size(entry->res);
+> > +     pci_addr = entry->res->start - entry->offset;
+> > +     rockchip->msg_bus_addr = pci_addr;
+> >
+> > -     for (reg_no = 0; reg_no < (rockchip->mem_size >> 20); reg_no++) {
+> > +     for (reg_no = 0; reg_no < (size >> 20); reg_no++) {
+> >               err = rockchip_pcie_prog_ob_atu(rockchip, reg_no + 1,
+> >                                               AXI_WRAPPER_MEM_WRITE,
+> >                                               20 - 1,
+> > -                                             rockchip->mem_bus_addr +
+> > -                                             (reg_no << 20),
+> > +                                             pci_addr + (reg_no << 20),
+> >                                               0);
+> >               if (err) {
+> >                       dev_err(dev, "program RC mem outbound ATU failed\n");
+> > @@ -832,14 +841,20 @@ static int rockchip_pcie_cfg_atu(struct rockchip_pcie *rockchip)
+> >               return err;
+> >       }
+> >
+> > -     offset = rockchip->mem_size >> 20;
+> > -     for (reg_no = 0; reg_no < (rockchip->io_size >> 20); reg_no++) {
+> > +     entry = resource_list_first_type(&bridge->windows, IORESOURCE_IO);
+> > +     if (!entry)
+> > +             return -ENODEV;
+> > +
+> > +     size = resource_size(entry->res);
+> > +     pci_addr = entry->res->start - entry->offset;
+> > +
+> > +     offset = size >> 20;
+>
+> Just trying to find what triggers:
+>
+> https://lore.kernel.org/linux-pci/CAFqH_52BiQJzNEzd_0pB3K+JmzVOVikYQo0xfiC0J-DwiXdtqw@mail.gmail.com/T/#u
+>
+> I think this offset calculation changed the behaviour:
+>
+> Before:
+>
+> > -     offset = rockchip->mem_size >> 20;
+>
+> Now:
+>
+> > +     offset = size >> 20;
+>
+> size must be the IORESOURCE_MEM resource size instead we are using the
+> IORESOURCE_IO size so IIUC the ATU window setup may be compromised.
+>
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Are you suggesting that something like this [1] fixes the issue?
 
-> ---
-> To be queued as a fix for v5.5.
-> ---
->  arch/arm/configs/shmobile_defconfig | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
-> index 7f0985e023313b57..64fa849f8bbe0617 100644
-> --- a/arch/arm/configs/shmobile_defconfig
-> +++ b/arch/arm/configs/shmobile_defconfig
-> @@ -215,4 +215,5 @@ CONFIG_DMA_CMA=y
->  CONFIG_CMA_SIZE_MBYTES=64
->  CONFIG_PRINTK_TIME=y
->  # CONFIG_ENABLE_MUST_CHECK is not set
-> +CONFIG_DEBUG_FS=y
->  CONFIG_DEBUG_KERNEL=y
-> -- 
-> 2.17.1
-> 
+Indeed,I don't see the warning with this applied and wifi which is
+connected via pcie is working. But I don't get why the offset should
+be from the MEM resource instead of the IO resource.
 
--- 
-Regards,
-Niklas Söderlund
+[1] https://pastebin.com/FBj95gNR
+
+Thanks,
+ Enric
+
+> Lorenzo
+>
+> > +     for (reg_no = 0; reg_no < (size >> 20); reg_no++) {
+> >               err = rockchip_pcie_prog_ob_atu(rockchip,
+> >                                               reg_no + 1 + offset,
+> >                                               AXI_WRAPPER_IO_WRITE,
+> >                                               20 - 1,
+> > -                                             rockchip->io_bus_addr +
+> > -                                             (reg_no << 20),
+> > +                                             pci_addr + (reg_no << 20),
+> >                                               0);
+> >               if (err) {
+> >                       dev_err(dev, "program RC io outbound ATU failed\n");
+> > @@ -852,8 +867,7 @@ static int rockchip_pcie_cfg_atu(struct rockchip_pcie *rockchip)
+> >                                 AXI_WRAPPER_NOR_MSG,
+> >                                 20 - 1, 0, 0);
+> >
+> > -     rockchip->msg_bus_addr = rockchip->mem_bus_addr +
+> > -                                     ((reg_no + offset) << 20);
+> > +     rockchip->msg_bus_addr += ((reg_no + offset) << 20);
+> >       return err;
+> >  }
+> >
+> > @@ -951,7 +965,6 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
+> >       struct pci_bus *bus, *child;
+> >       struct pci_host_bridge *bridge;
+> >       struct resource *bus_res;
+> > -     struct resource_entry *win;
+> >       int err;
+> >
+> >       if (!dev->of_node)
+> > @@ -997,27 +1010,6 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
+> >
+> >       rockchip->root_bus_nr = bus_res->start;
+> >
+> > -     /* Get the I/O and memory ranges from DT */
+> > -     resource_list_for_each_entry(win, &bridge->windows) {
+> > -             switch (resource_type(win->res)) {
+> > -             case IORESOURCE_IO:
+> > -                     io = win->res;
+> > -                     io->name = "I/O";
+> > -                     rockchip->io_size = resource_size(io);
+> > -                     rockchip->io_bus_addr = io->start - win->offset;
+> > -                     rockchip->io = io;
+> > -                     break;
+> > -             case IORESOURCE_MEM:
+> > -                     mem = win->res;
+> > -                     mem->name = "MEM";
+> > -                     rockchip->mem_size = resource_size(mem);
+> > -                     rockchip->mem_bus_addr = mem->start - win->offset;
+> > -                     break;
+> > -             default:
+> > -                     continue;
+> > -             }
+> > -     }
+> > -
+> >       err = rockchip_pcie_cfg_atu(rockchip);
+> >       if (err)
+> >               goto err_remove_irq_domain;
+> > diff --git a/drivers/pci/controller/pcie-rockchip.h b/drivers/pci/controller/pcie-rockchip.h
+> > index 8e87a059ce73..bef42a803b56 100644
+> > --- a/drivers/pci/controller/pcie-rockchip.h
+> > +++ b/drivers/pci/controller/pcie-rockchip.h
+> > @@ -304,13 +304,8 @@ struct rockchip_pcie {
+> >       struct  irq_domain *irq_domain;
+> >       int     offset;
+> >       struct pci_bus *root_bus;
+> > -     struct resource *io;
+> > -     phys_addr_t io_bus_addr;
+> > -     u32     io_size;
+> >       void    __iomem *msg_region;
+> > -     u32     mem_size;
+> >       phys_addr_t msg_bus_addr;
+> > -     phys_addr_t mem_bus_addr;
+> >       bool is_rc;
+> >       struct resource *mem_res;
+> >  };
+> > --
+> > 2.20.1
+> >
