@@ -2,212 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 10BA51184F7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2019 11:26:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E07F11894B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2019 14:10:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727207AbfLJK0U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Dec 2019 05:26:20 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:57470 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727016AbfLJK0U (ORCPT
+        id S1727480AbfLJNKZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Dec 2019 08:10:25 -0500
+Received: from mail-vs1-f65.google.com ([209.85.217.65]:38755 "EHLO
+        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727535AbfLJNKY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Dec 2019 05:26:20 -0500
-Received: from [192.168.43.26] (unknown [80.2.20.123])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 045DB9D0;
-        Tue, 10 Dec 2019 11:26:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1575973578;
-        bh=FODNq3sfhhF12e9BPNoAawzjOqp4zO3vuPDD2hNOrgY=;
-        h=Reply-To:Subject:From:To:Cc:References:Date:In-Reply-To:From;
-        b=twCd1NWw/keqPWeN6e4cP11aHaBzoUgvqRMyzpbBVOa7EqPOK7181DmZE+dod4r/v
-         09khQQTWr7erygY5QZSv6fzYcdbWsGCGZMREGPmy8LbbyorK97BaSpDGTdRYg0iUAr
-         rediDoKINsJlt++t/yyPWjRp/elbrmGEPLZf4RCo=
-Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH 1/3] media: i2c: max9286: Remove redundant
- max9286_i2c_mux_state
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <20191116165034.39001-1-jacopo+renesas@jmondi.org>
- <20191206140520.10457-1-kieran.bingham@ideasonboard.com>
- <CAMuHMdVF6ecH3+9rBN3p3X3rKkP1-kM-4gui8EC3kEx_AWpNFg@mail.gmail.com>
- <32505e5a-8b95-166a-ffa0-15aded842edf@ideasonboard.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
- 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
- WZw01QYHU/GUV/zHJSFk
-Organization: Ideas on Board
-Message-ID: <d84375d8-a819-3ff9-385a-4c8b6d76e914@ideasonboard.com>
-Date:   Tue, 10 Dec 2019 10:26:13 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Tue, 10 Dec 2019 08:10:24 -0500
+Received: by mail-vs1-f65.google.com with SMTP id y195so12967049vsy.5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Dec 2019 05:10:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=NSgXLY7zn19iKGK0lMSKicsXOogf2N1V6mwuOTacvso=;
+        b=vFmxC2HFI6hes3oDbNBxlB7e0dsTQISm/o7uGplKJlNntWAXykRoxseuGeOWfL8Nrc
+         oG/p72shYHiyVdWlxhO6k5FJoVVYtEOnQ/oOwC1IZJYxMaWvcP9KLStM+w8/cndN9zGi
+         tLT7zg6pSYI3ur0g9WtUFtQtQU4uP4H/wZKJxmCd2NXJOgwuAC2T9xrpNdmIN4Z8gdGj
+         XKfjT2CUSFAeSc1gdurBT2wT8zd69Q5XzAmAnFSayl3eHVccd5j3BxNiM84OJ6xYV4D/
+         n7vm3UR105hvKvKJnwuyoHOxI80UpeLwS00vidyxYxpm4iIf8BL0L0qHrd8F262G0OUI
+         YzCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=NSgXLY7zn19iKGK0lMSKicsXOogf2N1V6mwuOTacvso=;
+        b=kDIY6uOd6Jb3RhYpXn7gNXMlw1bXyEXAQPrhrC0jpHGuf2qW8ECZwFLjzhMyGx1j8S
+         5mIvTMUGT3tExauwOHUmdYAsHK6lLeFEwzTGoxpYHBQiydwGDHlePoTyKtPQ6CGIKXid
+         iEl9H10YDOd34JCV5WiXje8rZq5N3vML9WVqVT+Zp8h1ZkqGMI4vt8OtJkKByJyp+R85
+         aggEwNJjnO6+bdieff12RnNnVtncgORZYmaX+QJq2WA+O8iJm20NB+HKP7KSvU/BTavp
+         SadGed8G7SEQ9RiShYmADX0ZWN/QmLlCK45vkeNwbqnQAvJ1uOcEuOZYlj71Pyfixs7g
+         wojQ==
+X-Gm-Message-State: APjAAAUI3WEZyo9wrqYgTt5zRlR436bRl5na/Mfa+obir2ZbFe1udDjm
+        KVZbjS5m8lgBly77sGszDnGSjPM3jFn/xFjnU+4LLtu2
+X-Google-Smtp-Source: APXvYqxJRyVUMS3rG+TK07GWx93zHpQLUw1qnfmkvDmlYwKOM2YcUVvarh+8ZagtE16HG1PSCyMugCWFPdBpVnbG1W8=
+X-Received: by 2002:a05:6102:5d1:: with SMTP id v17mr24811015vsf.200.1575983423704;
+ Tue, 10 Dec 2019 05:10:23 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <32505e5a-8b95-166a-ffa0-15aded842edf@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20191203194859.917-1-wsa@the-dreams.de>
+In-Reply-To: <20191203194859.917-1-wsa@the-dreams.de>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Tue, 10 Dec 2019 14:09:47 +0100
+Message-ID: <CAPDyKFrngFAOUF0QN7+yjAyo3XxS9asT0Q5350i8K9h2TBavwQ@mail.gmail.com>
+Subject: Re: [PATCH] mmc: renesas_sdhi: remove whitelist for internal DMAC
+To:     Wolfram Sang <wsa@the-dreams.de>
+Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi All,
+On Tue, 3 Dec 2019 at 20:49, Wolfram Sang <wsa@the-dreams.de> wrote:
+>
+> From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+>
+> We know now that there won't be Gen3 SoCs with both, SYS-DMAC and
+> internal DMAC. We removed the blacklisting for SYS-DMAC already, so we
+> can remove the whitelisting for internal DMAC, too. This makes adding
+> new SoCs easier. We keep the quirk handling, of course.
+>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-On 06/12/2019 14:22, Kieran Bingham wrote:
-> Hi Geert,
-> 
-> On 06/12/2019 14:10, Geert Uytterhoeven wrote:
->> Hi Kieran,
->>
->> On Fri, Dec 6, 2019 at 3:05 PM Kieran Bingham
->> <kieran.bingham@ideasonboard.com> wrote:
->>> While simplifying the i2c-mux state, the states were stored in an enum
->>> (initially there were three).
->>>
->>> This has now simplified down to 2 states, open and closed - and can be
->>> represented easily in a bool.
->>>
->>> It 'could' also be represented within the mux_channel, but I don't want
->>> to pollute that further than the '-1' value which is already stored in
->>> there to represent no channel selected.
->>>
->>> Remove the max9286_i2c_mux_state and replace with a bool mux_open flag,
->>> and move the location within the private struct to be more appropriate.
->>>
->>> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Applied for next, thanks!
 
-Folding this patch into the max9286 driver without correcting for holes,
-as I believe it's better to group the associated variables together, and
-accept the small loss, as the structure is very large so it's a small
-proportion.
-
---
-Kieran
+Kind regards
+Uffe
 
 
->>
->> Thanks for your patch!
->>
->>> --- a/drivers/media/i2c/max9286.c
->>> +++ b/drivers/media/i2c/max9286.c
->>> @@ -144,10 +144,10 @@ struct max9286_priv {
->>>         struct media_pad pads[MAX9286_N_PADS];
->>>         struct regulator *regulator;
->>>         bool poc_enabled;
->>> -       int mux_state;
->>>
->>>         struct i2c_mux_core *mux;
->>>         unsigned int mux_channel;
->>> +       bool mux_open;
->>
->> Please keep all booleans together, to fill up holes due to alignment
->> restrictions.
-> 
-> I was trying to group related i2c_mux items, but I do indeed see a
-> strong argument there...
-> 
-> /me digs out pahole just to have a look :-D (but I know what the answer is)
-> 
-> struct max9286_priv {
-> struct i2c_client *        client;               /*     0     8 */
-> struct gpio_desc *         gpiod_pwdn;           /*     8     8 */
-> struct v4l2_subdev         sd;                   /*    16   320 */
-> /* --- cacheline 5 boundary (320 bytes) was 16 bytes ago --- */
-> struct media_pad           pads[5];              /*   336   280 */
-> /* --- cacheline 9 boundary (576 bytes) was 40 bytes ago --- */
-> struct regulator *         regulator;            /*   616     8 */
-> struct dentry *            dbgroot;              /*   624     8 */
-> bool                       poc_enabled;          /*   632     1 */
-> 
-> /* XXX 7 bytes hole, try to pack */
-> /* --- cacheline 10 boundary (640 bytes) --- */
-> 
-> struct gpio_chip           gpio;                 /*   640   600 */
-> /* --- cacheline 19 boundary (1216 bytes) was 24 bytes ago --- */
-> 
-> u8                         gpio_state;           /*  1240     1 */
-> /* XXX 7 bytes hole, try to pack */
-> 
-> struct i2c_mux_core *      mux;                  /*  1248     8 /
-> unsigned int               mux_channel;          /*  1256     4 */
-> bool                       mux_open;             /*  1260     1 */
-> /* XXX 3 bytes hole, try to pack */
-> 
-> struct v4l2_ctrl_handler   ctrls;                /*  1264   296 */
-> /* --- cacheline 24 boundary (1536 bytes) was 24 bytes ago --- */
-> struct v4l2_mbus_framefmt  fmt[4];               /*  1560   192 */
-> /* --- cacheline 27 boundary (1728 bytes) was 24 bytes ago --- */
-> unsigned int               nsources;             /*  1752     4 */
-> unsigned int               source_mask;          /*  1756     4 */
-> unsigned int               route_mask;           /*  1760     4 */
-> unsigned int               csi2_data_lanes;      /*  1764     4 */
-> struct max9286_source      sources[4];           /*  1768   288 */
-> /* --- cacheline 32 boundary (2048 bytes) was 8 bytes ago --- */
-> struct v4l2_async_notifier notifier;             /*  2056    96 */
-> 
-> /* size: 2152, cachelines: 34, members: 20 */
-> /* sum members: 2135, holes: 3, sum holes: 17 */
-> /* last cacheline: 40 bytes */
-> };
-> 
-> 
-> 
-> Hrm ... this one really pulls me in both directions ...
-> Which is the lesser evil - memory holes or ungrouped variables?
-> 
+> ---
+>  drivers/mmc/host/renesas_sdhi_internal_dmac.c | 23 ++++---------------
+>  1 file changed, 4 insertions(+), 19 deletions(-)
+>
+> diff --git a/drivers/mmc/host/renesas_sdhi_internal_dmac.c b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+> index 68fb39a74b8b..47ac53e91241 100644
+> --- a/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+> +++ b/drivers/mmc/host/renesas_sdhi_internal_dmac.c
+> @@ -298,38 +298,23 @@ static const struct tmio_mmc_dma_ops renesas_sdhi_internal_dmac_dma_ops = {
+>   * Whitelist of specific R-Car Gen3 SoC ES versions to use this DMAC
+>   * implementation as others may use a different implementation.
+>   */
+> -static const struct soc_device_attribute soc_whitelist[] = {
+> -       /* specific ones */
+> +static const struct soc_device_attribute soc_dma_quirks[] = {
+>         { .soc_id = "r7s9210",
+>           .data = (void *)BIT(SDHI_INTERNAL_DMAC_ADDR_MODE_FIXED_ONLY) },
+>         { .soc_id = "r8a7795", .revision = "ES1.*",
+>           .data = (void *)BIT(SDHI_INTERNAL_DMAC_ONE_RX_ONLY) },
+>         { .soc_id = "r8a7796", .revision = "ES1.0",
+>           .data = (void *)BIT(SDHI_INTERNAL_DMAC_ONE_RX_ONLY) },
+> -       /* generic ones */
+> -       { .soc_id = "r8a774a1" },
+> -       { .soc_id = "r8a774b1" },
+> -       { .soc_id = "r8a774c0" },
+> -       { .soc_id = "r8a77470" },
+> -       { .soc_id = "r8a7795" },
+> -       { .soc_id = "r8a7796" },
+> -       { .soc_id = "r8a77965" },
+> -       { .soc_id = "r8a77970" },
+> -       { .soc_id = "r8a77980" },
+> -       { .soc_id = "r8a77990" },
+> -       { .soc_id = "r8a77995" },
+>         { /* sentinel */ }
+>  };
+>
+>  static int renesas_sdhi_internal_dmac_probe(struct platform_device *pdev)
+>  {
+> -       const struct soc_device_attribute *soc = soc_device_match(soc_whitelist);
+> +       const struct soc_device_attribute *soc = soc_device_match(soc_dma_quirks);
+>         struct device *dev = &pdev->dev;
+>
+> -       if (!soc)
+> -               return -ENODEV;
+> -
+> -       global_flags |= (unsigned long)soc->data;
+> +       if (soc)
+> +               global_flags |= (unsigned long)soc->data;
+>
+>         dev->dma_parms = devm_kzalloc(dev, sizeof(*dev->dma_parms), GFP_KERNEL);
+>         if (!dev->dma_parms)
 > --
-> Kieran
-> 
-> 
-> 
->> Gr{oetje,eeting}s,
->>
->>                         Geert
->>
-
--- 
-Regards
---
-Kieran
+> 2.20.1
+>
