@@ -2,35 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F314119C45
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2019 23:22:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57845119C56
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2019 23:29:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727070AbfLJWVl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Dec 2019 17:21:41 -0500
-Received: from sauhun.de ([88.99.104.3]:42794 "EHLO pokefinder.org"
+        id S1726568AbfLJW2q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Dec 2019 17:28:46 -0500
+Received: from sauhun.de ([88.99.104.3]:42872 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727068AbfLJWVl (ORCPT
+        id S1726062AbfLJW2q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Dec 2019 17:21:41 -0500
+        Tue, 10 Dec 2019 17:28:46 -0500
 Received: from localhost (p54B330BE.dip0.t-ipconnect.de [84.179.48.190])
-        by pokefinder.org (Postfix) with ESMTPSA id A76B32C0616;
-        Tue, 10 Dec 2019 23:21:39 +0100 (CET)
-Date:   Tue, 10 Dec 2019 23:21:39 +0100
+        by pokefinder.org (Postfix) with ESMTPSA id D30092C0616;
+        Tue, 10 Dec 2019 23:28:44 +0100 (CET)
+Date:   Tue, 10 Dec 2019 23:28:44 +0100
 From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Ulf Hansson <ulf.hansson@linaro.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [PATCH 0/5] mmc: renesas_sdhi: prepare for recent HS400 updates
-Message-ID: <20191210222139.GC8683@kunai>
-References: <20191203200513.1758-1-wsa+renesas@sang-engineering.com>
- <CAPDyKFpXanmDQq-minnX4KNLVSMatOQRnuT59sDdAZC_MDkp8A@mail.gmail.com>
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Takeshi Saito <takeshi.saito.xv@renesas.com>
+Subject: Re: [RFC PATCH 1/2] mmc: renesas_sdhi: Add manual correction
+Message-ID: <20191210222844.GD8683@kunai>
+References: <20191203203301.2202-1-wsa+renesas@sang-engineering.com>
+ <20191203203301.2202-2-wsa+renesas@sang-engineering.com>
+ <CAMuHMdUnC=PM0iM7NwoeVLb2v=r4g-uUU3h4dBn9-St75fLyAw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="+nBD6E3TurpgldQp"
+        protocol="application/pgp-signature"; boundary="eqp4TxRxnD4KrmFZ"
 Content-Disposition: inline
-In-Reply-To: <CAPDyKFpXanmDQq-minnX4KNLVSMatOQRnuT59sDdAZC_MDkp8A@mail.gmail.com>
+In-Reply-To: <CAMuHMdUnC=PM0iM7NwoeVLb2v=r4g-uUU3h4dBn9-St75fLyAw@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -38,34 +40,41 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---+nBD6E3TurpgldQp
+--eqp4TxRxnD4KrmFZ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 
-> Applied for next and by fixing up the comments for patch 4, thanks!
+> BTW, why is tap_set unsigned long instead of unsigned int?
 
-Thanks for fixing it up, Ulf!
+Because we use bitmap functions on it, and those have all unsigned long
+as arguments.
+
+> And perhaps it should be moved from host to priv?
+
+That would be great, but other tap_* variables are still used in
+tmio_mmc_core.c. We maybe can refactor all tap handling into
+renesas_sdhi_core.c meanwhile, but this is a seperate issue.
 
 
---+nBD6E3TurpgldQp
+--eqp4TxRxnD4KrmFZ
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl3wGnMACgkQFA3kzBSg
-KbY9JA//YKcg0TY5VmstRvyECWMbNg3r+7gnMK64TVUO7p1x6RwxG/bmDTWux9fv
-aVEaU6J/tEvu5F/nwSeWIdKwwPjvPn3BgLD8pkowztjXKUbGAVGNhVBRGx99WmLd
-QAM8zkkp2yQ4QeS7bq9y0ljbKhzIWETFRiU7w18CgRmJLKtIvGuyM+5mSdoe89AK
-fuX8kqtO5l9M6/j04fMNeVb3wkMX5hkk1eHvmBZ+MMCNAUwLaSk4UReX1OPtCGTL
-Lz87J+tgfvxrfBw1FmC2afvUV5cRyrY3NPN5eBAEndkamH2c1U8DSuyvBVvOGHVn
-fbfKmOWlCynGOFVaDiSq3tDYcVvODrAINTF6YUmECOuYr5Xt/rBmkk024Nzfl+VE
-eljvPO6OyHLt2K+Ayu777EMShfnm6IF9p9t/MZsOjaaO5vidUW3gyLg17XaqmouE
-foLituluMEGe7A6gTlqm9GUN+S4R5+8siDbk1/0JJ3Y4lbsUJ4QM0X7gl6XvIfzU
-gA/DE7uBQw4INBEJekUc/cSjnmyD8Z20eMXymDB+ebzXcrOMnSSkPKe6YR65/nGK
-vvG/cGCtI1L1R8h0q4fDotG3+Hl6+IPltC8hhO2eisGwl6ngF3eLAgtuwKhZGFRc
-EMgprYysU4KA4fc44AFN9oT/BeaC8sGam8WUe0aD4u5Ef+5WyDs=
-=r2E+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl3wHBwACgkQFA3kzBSg
+KbbuKRAAqfD3i7udERBXmVc3CyprYC/uqLNmwwL9pFIQ+3FhIVEZSam41jBmp4xR
+Bu+ae4mCq4g3MMG8YhLq4q8rlUEBYwQTzu6xVQUy1JevmLliCcOwg++O0vwvyAtH
+u5CBp7nz8QkGrJzW+wwLI/4fXBm+RuxJMd+sOwi1Y7K0I0yCh4U3EADfoSLPVJSO
+BZ3myw/tzx0aMLzOHnb/SOcp9z0MGL2iP0LuV0h90eMlX9tVpcG5qTEcI+4p3TLN
+Qpe9Ido5ibp1bX3PNwNZRfPgrXuCWeXMbaVv+AqwyNul17R5RsObI3vBhas4vVAQ
+3qeBSs2WrLxBQE1UUICzK+R4xyNkm8D+Pa8SouVzZYDAh7VhKfuBJKihzWP208uq
+TVDFYdz8lO2KXwvffMuGXGaj057N6uUrr/NWkBPLNBjpbOnM8OkkCiJMoM4uIYLP
+7z1S/fMGJq1ZIor4VlfJMoxQB/3yvv/omne4PGBL//PFVU4zM4UrIU4h9cFSAjiW
+UKweT4ejPLZJvt5BRLTgAYh5emkzK6o6xCQ0tHd/UMZmASYlzH+YFOsV5LwLhf1d
+oXvA54HgoTwYutGudvXN/7dGzRlg2vzudhvP3ZFthd70IZkhFI2Li8e2TcBTND5G
+FBSYoqOlnxkVny6D7+VlA9iRi63JXB7/qFtvd3ksvjZlbjN7Img=
+=2Qi1
 -----END PGP SIGNATURE-----
 
---+nBD6E3TurpgldQp--
+--eqp4TxRxnD4KrmFZ--
