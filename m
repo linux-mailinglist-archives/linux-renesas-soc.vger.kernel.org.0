@@ -2,107 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 01DAA11990E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2019 22:46:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57D8C119AE0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2019 23:10:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726741AbfLJVmW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Dec 2019 16:42:22 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:35190 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729898AbfLJVeB (ORCPT
+        id S1728777AbfLJWEZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Dec 2019 17:04:25 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35232 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728766AbfLJWEY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Dec 2019 16:34:01 -0500
-Received: by mail-lj1-f193.google.com with SMTP id j6so21604522lja.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Dec 2019 13:34:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=sfwPNW+0w7SYOVN5vzqnBaCzSrm1enkZiO9HCQzgqjc=;
-        b=ELDYffyPwLTppPAGsVU3YxNSQOLOcATsg+IC8f7KpshW1lI8HVOS/LPhBAsT3ufSID
-         fT8v7xNJc4kv0wTGrieBMQqsRE05FMAqAlQlWeqPYjlA6ow0ox6lVlQeD3a0gHQCNpvO
-         UQuarskxChn5qju4s1+DdsIwkp9B7GHuVeF6VYnrRLMyisteUJaHFhFjU/S8KbDGs+wP
-         PxqBkBxPJ4ttyp+Sef34gOKwQPC9beuKUBnoGOn5XjUWMEO9A2EEJEl1u9PnSr5O44Lx
-         VMiuT+azPKHva2915rPrbzbWb1+RwsYjjYQJPUWnIZz+Df5kMzfE10XKxc8RFFUbhxa5
-         icmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sfwPNW+0w7SYOVN5vzqnBaCzSrm1enkZiO9HCQzgqjc=;
-        b=ALnvx7uQIgut7EecdGxT4ATASsm6CbGuLUXpP8PEig8+GLXKNdsq+SxI/IzPSMIivU
-         9wE4pIsJXIo1zB9NGrNSbwbf/JHnppobaDkLS59lQuSVPBxs0u0bbmeAEbsT1FwbjhPg
-         2TmFehnFO2sJM4hOf8aqqGgfhZCLF+tpIqVjThWwKuFvWMl6M3IncILlq7uzDJAKxuFq
-         0N4sQILc76NI1H4f5dFhgB6ovU6gNzz81qpFSLPaLv68t9h+nn4z6uBlhLOnEkGkPYVf
-         SN2ljAqYjh2WrFQGaCHINMArwMNkqU5dFw2Rkyek1VC6JhKR65YdAwwB5jHpTRY++26+
-         CfNA==
-X-Gm-Message-State: APjAAAUw2zV6jxCFCk8DYHRaLU0hBaEVwL6+hBumHgiB3bAR2tT/slJj
-        m+MvEU3bU8UPnDT+CQ5LeRiKZJDIX0YZOHEntGyMcQ==
-X-Google-Smtp-Source: APXvYqxlNtTXCGGpW9eRPgRQxUIXYH1CqIcL6wpo3KqsA4rHt7y1htGJhYXnIDuRbtBsJbNT4EJP7YmxbMU5QzD97u0=
-X-Received: by 2002:a2e:9587:: with SMTP id w7mr21298405ljh.42.1576013639357;
- Tue, 10 Dec 2019 13:33:59 -0800 (PST)
+        Tue, 10 Dec 2019 17:04:24 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8133B20828;
+        Tue, 10 Dec 2019 22:04:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576015464;
+        bh=WjS0Tq7OrsE2NjIqEF56Rkua9+801ORAczYUD93TxZA=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Kjznzty4CyoJKchwddGfw6fAevhHQplhVIUAmT6050/Fo+rroC4VW0F52l+eri3OH
+         kDwHllNWTXJQ8TW/y/BYvduw89kncH5qJFGIhm5MJfRdy1OfN8051sAA3+Wy86Yh1/
+         Zkg//xp+9tnYxcmP7tlGD7uUxOSSG3n3BpMV62xc=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Ben Dooks <ben.dooks@codethink.co.uk>,
+        Sasha Levin <sashal@kernel.org>, linux-sh@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 070/130] pinctrl: sh-pfc: sh7734: Fix duplicate TCLK1_B
+Date:   Tue, 10 Dec 2019 17:02:01 -0500
+Message-Id: <20191210220301.13262-70-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191210220301.13262-1-sashal@kernel.org>
+References: <20191210220301.13262-1-sashal@kernel.org>
 MIME-Version: 1.0
-References: <20191202193230.21310-1-sam@ravnborg.org> <20191202193230.21310-8-sam@ravnborg.org>
- <20191203074659.ilsyv4yx7pzw5vax@gilmour.lan> <CACRpkdZrReQs08+bXS7s7eJ-K76nMGvRgQ-L-1-baunEtiF40g@mail.gmail.com>
- <20191204081650.4n4ehbub4n7pxdom@gilmour.lan>
-In-Reply-To: <20191204081650.4n4ehbub4n7pxdom@gilmour.lan>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 10 Dec 2019 22:33:48 +0100
-Message-ID: <CACRpkdZ7jg7JwNk12m9pGXOVBxHRta8nBWmpdqFvfQHB=8LptA@mail.gmail.com>
-Subject: Re: [PATCH v1 07/26] drm/panel: remove get_timings
-To:     Maxime Ripard <mripard@kernel.org>
-Cc:     Sam Ravnborg <sam@ravnborg.org>,
-        "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Abhinav Kumar <abhinavk@codeaurora.org>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Jagan Teki <jagan@amarulasolutions.com>,
-        Jitao Shi <jitao.shi@mediatek.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        linux-tegra@vger.kernel.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Purism Kernel Team <kernel@puri.sm>,
-        Sean Paul <sean@poorly.run>, Stefan Agner <stefan@agner.ch>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>
-Content-Type: text/plain; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Dec 4, 2019 at 9:16 AM Maxime Ripard <mripard@kernel.org> wrote:
-> On Tue, Dec 03, 2019 at 04:20:24PM +0100, Linus Walleij wrote:
+From: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> > On the DSI displays in video mode there is also this EOL area
-> > which seems to be where the logic is normally just idling for a
-> > while, that can be adjusted on some hardware as well, but
-> > I don't quite understand it admittedly. Sometimes I wonder if
-> > anyone really understands DSI... :/
->
-> I'm not aware of any EOL area in MIPI-DSI that would make the hardware
-> idle, don't you mean LP-11?
+[ Upstream commit 884caadad128efad8e00c1cdc3177bc8912ee8ec ]
 
-I think in the spec the bubble used for this is tagged "BLLP"
-Blanking-Line-Low-Power or something.
+The definitions for bit field [19:18] of the Peripheral Function Select
+Register 3 were accidentally copied from bit field [20], leading to
+duplicates for the TCLK1_B function, and missing TCLK0, CAN_CLK_B, and
+ET0_ETXD4 functions.
 
-IIUC it is possible for displays to either receive continuous NULL
-packets or blanking packets or go to LP mode in this area.
+Fix this by adding the missing GPIO_FN_CAN_CLK_B and GPIO_FN_ET0_ETXD4
+enum values, and correcting the functions.
 
-And since that is not there for e.g. DPI displays I feel it adds
-another layer of confusion to timings.
+Reported-by: Ben Dooks <ben.dooks@codethink.co.uk>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Link: https://lore.kernel.org/r/20191024131308.16659-1-geert+renesas@glider.be
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ arch/sh/include/cpu-sh4/cpu/sh7734.h | 2 +-
+ drivers/pinctrl/sh-pfc/pfc-sh7734.c  | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-Yours,
-Linus Walleij
+diff --git a/arch/sh/include/cpu-sh4/cpu/sh7734.h b/arch/sh/include/cpu-sh4/cpu/sh7734.h
+index 96f0246ad2f2b..82b63208135ae 100644
+--- a/arch/sh/include/cpu-sh4/cpu/sh7734.h
++++ b/arch/sh/include/cpu-sh4/cpu/sh7734.h
+@@ -134,7 +134,7 @@ enum {
+ 	GPIO_FN_EX_WAIT1, GPIO_FN_SD1_DAT0_A, GPIO_FN_DREQ2, GPIO_FN_CAN1_TX_C,
+ 		GPIO_FN_ET0_LINK_C, GPIO_FN_ET0_ETXD5_A,
+ 	GPIO_FN_EX_WAIT0, GPIO_FN_TCLK1_B,
+-	GPIO_FN_RD_WR, GPIO_FN_TCLK0,
++	GPIO_FN_RD_WR, GPIO_FN_TCLK0, GPIO_FN_CAN_CLK_B, GPIO_FN_ET0_ETXD4,
+ 	GPIO_FN_EX_CS5, GPIO_FN_SD1_CMD_A, GPIO_FN_ATADIR, GPIO_FN_QSSL_B,
+ 		GPIO_FN_ET0_ETXD3_A,
+ 	GPIO_FN_EX_CS4, GPIO_FN_SD1_WP_A, GPIO_FN_ATAWR, GPIO_FN_QMI_QIO1_B,
+diff --git a/drivers/pinctrl/sh-pfc/pfc-sh7734.c b/drivers/pinctrl/sh-pfc/pfc-sh7734.c
+index 33232041ee86d..3eccc9b3ca84a 100644
+--- a/drivers/pinctrl/sh-pfc/pfc-sh7734.c
++++ b/drivers/pinctrl/sh-pfc/pfc-sh7734.c
+@@ -1453,7 +1453,7 @@ static const struct pinmux_func pinmux_func_gpios[] = {
+ 	GPIO_FN(ET0_ETXD2_A),
+ 	GPIO_FN(EX_CS5), GPIO_FN(SD1_CMD_A), GPIO_FN(ATADIR), GPIO_FN(QSSL_B),
+ 	GPIO_FN(ET0_ETXD3_A),
+-	GPIO_FN(RD_WR), GPIO_FN(TCLK1_B),
++	GPIO_FN(RD_WR), GPIO_FN(TCLK0), GPIO_FN(CAN_CLK_B), GPIO_FN(ET0_ETXD4),
+ 	GPIO_FN(EX_WAIT0), GPIO_FN(TCLK1_B),
+ 	GPIO_FN(EX_WAIT1), GPIO_FN(SD1_DAT0_A), GPIO_FN(DREQ2),
+ 		GPIO_FN(CAN1_TX_C), GPIO_FN(ET0_LINK_C), GPIO_FN(ET0_ETXD5_A),
+@@ -1949,7 +1949,7 @@ static const struct pinmux_cfg_reg pinmux_config_regs[] = {
+ 	    /* IP3_20 [1] */
+ 		FN_EX_WAIT0, FN_TCLK1_B,
+ 	    /* IP3_19_18 [2] */
+-		FN_RD_WR, FN_TCLK1_B, 0, 0,
++		FN_RD_WR, FN_TCLK0, FN_CAN_CLK_B, FN_ET0_ETXD4,
+ 	    /* IP3_17_15 [3] */
+ 		FN_EX_CS5, FN_SD1_CMD_A, FN_ATADIR, FN_QSSL_B,
+ 		FN_ET0_ETXD3_A, 0, 0, 0,
+-- 
+2.20.1
+
