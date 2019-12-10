@@ -2,42 +2,53 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BC554118BB2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2019 15:55:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 383CD118BF4
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2019 16:04:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727562AbfLJOzU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Dec 2019 09:55:20 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:41533 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727420AbfLJOzT (ORCPT
+        id S1727514AbfLJPE4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Dec 2019 10:04:56 -0500
+Received: from mail-yw1-f67.google.com ([209.85.161.67]:46307 "EHLO
+        mail-yw1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727506AbfLJPE4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Dec 2019 09:55:19 -0500
-Received: by mail-ot1-f65.google.com with SMTP id r27so15701560otc.8;
-        Tue, 10 Dec 2019 06:55:19 -0800 (PST)
+        Tue, 10 Dec 2019 10:04:56 -0500
+Received: by mail-yw1-f67.google.com with SMTP id u139so7347375ywf.13
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Dec 2019 07:04:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=l4p02kg6PQgUAxsLiq+h/2nhVm9uCC+HtafrymcdyAs=;
+        b=oxEoiB3fALraSZfRXamPHXCm06Mz7IquqV6ft8yeKIH7ICYr6hxbK6Mc1Sm7pAUFyP
+         4qkZHEWlGrGBA95NfxuqOwT8s1K3/hHF7obL11LCSPC9iU1V90oSmEplAekKuVoXKa+L
+         FhnH9yIcf4LJkP0x+GFfrkshDXPFOD44hfvQsBh9KZ8t+wh7ToYfMR2Jsvad5l1IueAr
+         QeoPuoEK3Hu7d5xbwt//MJTHcKL0SY9RR+QiAOQ8jnGQHlYe8W2xTYmoGJps0uDFbzDA
+         OVZ2Xbk3NKuJ3jl5AN8q2ARDmYxcifdglpRpoQdoy2o3ZsbEc4bp13C/9n06uDzf6Rq5
+         qqkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=sxfx8pYcfnvd3lqW1qImtgwu7XzTFQuwrY147FPzqGI=;
-        b=YRyoRk57De2c4zcSJKKnR566euN0kLevtMG85WIwzl6M5FpKJB8pwbGP7AXKM/AxNd
-         Nld0WUKfOFGhYIP/P9/7IIHExb8cIuXnM2VW/xex87Lf5HVnpdP+yYZU174NpKDyQRqc
-         2lQt2tl7oYMNaEalKntzAUizrWIu8B49ampjbXzPOC4n2KaUwLcPzTLHIk2VqO4abL8n
-         QjNJ1sFFblQfRywwVVOrgjukQnGbtxQ9ISQBA+XLye86Jh/jJc/lzK6TjDoOQ5pheEkr
-         LmVFfg6HKM+rjMQ2DaOyJQ4QOd2/zeDn5oj/guSfnIwQvfgcJ55XIdh1eE8uDWCdC3U1
-         CXtg==
-X-Gm-Message-State: APjAAAWk81x3IigLOJ6XIdcsylnqR2yoJuBQKGsBAL23Rtm7sziZQ8S+
-        x6acJ/4ojIc5MjGLF5ICbGRdyGWB1Sgva0N0gRY=
-X-Google-Smtp-Source: APXvYqyvpesdaROFU80iQbYfg6jNyZzt/R79xRmZAAQaMqkHwq20yaDGs/xYgnPW9xtctjeHu1wtxLpcUrAqR6E22Hg=
-X-Received: by 2002:a9d:6c81:: with SMTP id c1mr24883423otr.39.1575989718977;
- Tue, 10 Dec 2019 06:55:18 -0800 (PST)
+        bh=l4p02kg6PQgUAxsLiq+h/2nhVm9uCC+HtafrymcdyAs=;
+        b=joHibPrqr0Wtr4VzZuUcVYpjvJeZuVDQl/Gd6rMz7e+TNiraxZ3yjtFVThUAi0Nd7f
+         GdcBc5o/uiSfBxNooRIIh8ZO2y5U8xY5AYWtWokqAgbVXpPybOc8+1brJZIo43rvrQFD
+         gkPzxjOrw/qqvTX8rWN9YtoO76sHRWySLSZuZya2AYh8a2wDkdFLdoFI0cpdx++Fns8W
+         6KTs5rWLFHlo3f8+hxMyenJXQQjIa+GSFi2eEN9L+h4iB+LMJ+OWvKX8tKaVVmE1dEKd
+         A7Jt70vpRMiz3S8aEuRj8QkRvG98Xy0aDZhfh6G+Ms4KFyJXanhumMprSVgFg4ap0UDx
+         W+AA==
+X-Gm-Message-State: APjAAAVfaaHMXfYfLO3+TjzcoBzvQ/8iaOR2n63AQ7U5BdE7qmDQcPgW
+        J5E0NSkFNMjurjPvBYE75npryiRdMtp4i/6vbIT5/A==
+X-Google-Smtp-Source: APXvYqyN2FVaQ2x2qixGmbbzQqSf+Jx9Sy9uU7Vj94WqOdWlaVju/EzKyhrxyJXQNwuNHRhtMmQstjt8+oPE2JjqTjk=
+X-Received: by 2002:a81:114f:: with SMTP id 76mr24360176ywr.174.1575990295223;
+ Tue, 10 Dec 2019 07:04:55 -0800 (PST)
 MIME-Version: 1.0
-References: <20191030184844.84219-1-edumazet@google.com>
-In-Reply-To: <20191030184844.84219-1-edumazet@google.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 10 Dec 2019 15:55:08 +0100
-Message-ID: <CAMuHMdVK=dUxhJh1pjLe4bGn3V=FHJ_90oga0USRBw-wSqd8Pw@mail.gmail.com>
+References: <20191030184844.84219-1-edumazet@google.com> <CAMuHMdVK=dUxhJh1pjLe4bGn3V=FHJ_90oga0USRBw-wSqd8Pw@mail.gmail.com>
+In-Reply-To: <CAMuHMdVK=dUxhJh1pjLe4bGn3V=FHJ_90oga0USRBw-wSqd8Pw@mail.gmail.com>
+From:   Eric Dumazet <edumazet@google.com>
+Date:   Tue, 10 Dec 2019 07:04:43 -0800
+Message-ID: <CANn89iK5oLcLm2bL=Q5+oTrKrd1q_QkEQpAQSfyjDSSeM22Dfw@mail.gmail.com>
 Subject: Re: [PATCH] dma-debug: increase HASH_SIZE
-To:     Eric Dumazet <edumazet@google.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Christoph Hellwig <hch@lst.de>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         Eric Dumazet <eric.dumazet@gmail.com>,
@@ -49,59 +60,16 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Oct 30, 2019 at 8:13 PM Eric Dumazet <edumazet@google.com> wrote:
-> With modern NIC, it is not unusual having about ~256,000 active dma
-> mappings. Hash size of 1024 buckets is too small.
->
-> Forcing full cache line per bucket does not seem useful,
-> especially now that we have a contention on free_entries_lock
-> for allocations and freeing of entries. Better using space
-> to fit more buckets.
->
-> Signed-off-by: Eric Dumazet <edumazet@google.com>
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> ---
->  kernel/dma/debug.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/kernel/dma/debug.c b/kernel/dma/debug.c
-> index 4ad74f5987ea9e95f9bb5e2d1592254e367d24fb..35e2a853bff9c482d789ab331d79aaee07753a97 100644
-> --- a/kernel/dma/debug.c
-> +++ b/kernel/dma/debug.c
-> @@ -27,7 +27,7 @@
->
->  #include <asm/sections.h>
->
-> -#define HASH_SIZE       1024ULL
-> +#define HASH_SIZE       16384ULL
->  #define HASH_FN_SHIFT   13
->  #define HASH_FN_MASK    (HASH_SIZE - 1)
->
-> @@ -87,7 +87,7 @@ typedef bool (*match_fn)(struct dma_debug_entry *, struct dma_debug_entry *);
->  struct hash_bucket {
->         struct list_head list;
->         spinlock_t lock;
-> -} ____cacheline_aligned_in_smp;
-> +};
->
->  /* Hash list to save the allocated dma addresses */
->  static struct hash_bucket dma_entry_hash[HASH_SIZE];
+On Tue, Dec 10, 2019 at 6:55 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 
-JFTR, this increases dma_entry_hash size by 327680 bytes, and pushes
-a few more boards beyond their bootloader-imposed kernel size limits.
+> JFTR, this increases dma_entry_hash size by 327680 bytes, and pushes
+> a few more boards beyond their bootloader-imposed kernel size limits.
+>
+> Disabling CONFIG_DMA_API_DEBUG fixes that.
+> Of course the real fix is to fix the bootloaders...
+>
 
-Disabling CONFIG_DMA_API_DEBUG fixes that.
-Of course the real fix is to fix the bootloaders...
+Hi Geert
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Maybe we can make the hash size arch-dependent, or better dynamically
+allocate this memory ?
