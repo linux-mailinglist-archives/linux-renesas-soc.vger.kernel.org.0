@@ -2,33 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 915E91184DB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2019 11:21:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1E081184EC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Dec 2019 11:24:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727063AbfLJKVN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Dec 2019 05:21:13 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:57212 "EHLO
+        id S1727107AbfLJKYu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Dec 2019 05:24:50 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:57246 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727032AbfLJKVN (ORCPT
+        with ESMTP id S1726915AbfLJKYu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Dec 2019 05:21:13 -0500
+        Tue, 10 Dec 2019 05:24:50 -0500
 Received: from [192.168.43.26] (unknown [80.2.20.123])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 687E29D0;
-        Tue, 10 Dec 2019 11:21:11 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7FD249D0;
+        Tue, 10 Dec 2019 11:24:47 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1575973271;
-        bh=FJ0Sc8bhMg725PRVVcKqE4scPUFngmtC7FfR9zT2qzc=;
-        h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
-        b=pl31elOP8mYyPTDuvqL/Vg3p/e3NkvL5/4W2Z5sgKXASLKQct6lhyBzCGEfi9qs2C
-         zZKyPM24558nkgHQlyAFyoFUznO1qAtI5+5+NeZoBx4da91HI+bhkQRmmj5x+ZRn+e
-         ksZgHr+4S/xm3f2Un/bYm9ArdrUQ5K6d/L9R26m0=
+        s=mail; t=1575973488;
+        bh=SOAhAl1mYgDCiQmKdpCDJC1HfEjoGcnneSrBRjf3Sp8=;
+        h=Reply-To:Subject:From:To:References:Date:In-Reply-To:From;
+        b=BwmVWh4zBWS4kolvu5NChbN3dAzSG+ZR7BU+RKNLCjRvk1+pGmuknXB8X+Jvke5kB
+         bY0iHXbs7Y+kPpoEndcMehH23yt07YrdvXRydGgMNgAvWOllcunVc3iyJoZ74zxz9w
+         QNL0eNmszoDaKEWudVl0aBmlLnyrgZZhQCntU0ck=
 Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH 3/3] media: i2c: max9286: Provide optional enable-gpio
-To:     Jacopo Mondi <jacopo@jmondi.org>, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/3] media: i2c: max9286: Add GPIO chip controller
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>,
+        linux-renesas-soc@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
 References: <20191116165034.39001-1-jacopo+renesas@jmondi.org>
  <20191206140520.10457-1-kieran.bingham@ideasonboard.com>
- <20191206140520.10457-3-kieran.bingham@ideasonboard.com>
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+ <20191206140520.10457-2-kieran.bingham@ideasonboard.com>
+ <318ef28f-08fa-cded-965f-ecdfa62dcbb7@ideasonboard.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
  mQINBFYE/WYBEACs1PwjMD9rgCu1hlIiUA1AXR4rv2v+BCLUq//vrX5S5bjzxKAryRf0uHat
@@ -75,12 +79,12 @@ Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
  AfYnB4JBDLmLzBFavQfvonSfbitgXwCG3vS+9HEwAjU30Bar1PEOmIbiAoMzuKeRm2LVpmq4
  WZw01QYHU/GUV/zHJSFk
 Organization: Ideas on Board
-Message-ID: <a4bca6d3-8e2e-2771-57d6-6d250b3df6b5@ideasonboard.com>
-Date:   Tue, 10 Dec 2019 10:21:07 +0000
+Message-ID: <41131ad2-9405-c364-9ee2-8cc997968b7e@ideasonboard.com>
+Date:   Tue, 10 Dec 2019 10:24:43 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191206140520.10457-3-kieran.bingham@ideasonboard.com>
+In-Reply-To: <318ef28f-08fa-cded-965f-ecdfa62dcbb7@ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -89,77 +93,152 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi all,
+Hi All,
 
-On 06/12/2019 14:05, Kieran Bingham wrote:
-> The MAX9286 has a negated PWDN line which must be raised to enable the
-> device.  On the Eagle-V3M this pin is connected to a GPIO on the
-> io_expander.
+On 06/12/2019 14:08, Kieran Bingham wrote:
+> Hello me,
 > 
-> Provide an enable-gpio dt property to specify the link, and ensure that
-> the line is handled in the driver accordingly.
-> 
-> This can also provide the abiltiy to manage low power states and
-> runtime-pm at a later date by fully powering down the chip.
-> 
-> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> On 06/12/2019 14:05, Kieran Bingham wrote:
+>> Provide a GPIO chip to control the two output lines available on the
+>> MAX9286.
 
-I'm happy that this one isn't going to cause any contention, and I'm
-going to fold this one into the driver.
+A separate mail thread to Mark Brown regarding the regulator topic [0]
+has suggested that this should be implemented as an MFD.
+
+Does anyone have any comments on this approach? I know we've discussed
+the use of the MFD framework on this driver before ... thus perhaps it
+might be a bit contentious ...
+
+Due to this, I am not yet going to fold this patch into the max9286 driver.
+
+[0] Regulator probe on demand (or circular dependencies)
+ https://lore.kernel.org/linux-renesas-soc/20191209171639.GA27340@bigcity.dyn.berto.se/T/#t
 
 --
+Regards
+
 Kieran
 
 
-> ---
->  drivers/media/i2c/max9286.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+
+>> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+>> ---
+>>  drivers/media/i2c/max9286.c | 68 +++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 68 insertions(+)
+>>
+>> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+>> index 6ea08fd87811..c34e7b5c7447 100644
+>> --- a/drivers/media/i2c/max9286.c
+>> +++ b/drivers/media/i2c/max9286.c
+>> @@ -13,6 +13,7 @@
+>>  #include <linux/delay.h>
+>>  #include <linux/device.h>
+>>  #include <linux/fwnode.h>
+>> +#include <linux/gpio/driver.h>
+>>  #include <linux/i2c.h>
+>>  #include <linux/i2c-mux.h>
+>>  #include <linux/module.h>
+>> @@ -58,6 +59,8 @@
+>>  #define MAX9286_HVSRC_D0		(2 << 0)
+>>  #define MAX9286_HVSRC_D14		(1 << 0)
+>>  #define MAX9286_HVSRC_D18		(0 << 0)
+>> +/* Register 0x0f */
+>> +#define MAX9286_0X0F_RESERVED		BIT(3)
+>>  /* Register 0x12 */
+>>  #define MAX9286_CSILANECNT(n)		(((n) - 1) << 6)
+>>  #define MAX9286_CSIDBL			BIT(5)
+>> @@ -145,6 +148,9 @@ struct max9286_priv {
+>>  	struct regulator *regulator;
+>>  	bool poc_enabled;
+>>  
+>> +	struct gpio_chip gpio;
+>> +	u8 gpio_state;
+>> +
+>>  	struct i2c_mux_core *mux;
+>>  	unsigned int mux_channel;
+>>  	bool mux_open;
+>> @@ -712,6 +718,60 @@ static const struct of_device_id max9286_dt_ids[] = {
+>>  };
+>>  MODULE_DEVICE_TABLE(of, max9286_dt_ids);
+>>  
+>> +static void max9286_gpio_set(struct gpio_chip *chip,
+>> +			     unsigned int offset, int value)
+>> +{
+>> +	struct max9286_priv *priv = gpiochip_get_data(chip);
+>> +
+>> +	if (value)
+>> +		priv->gpio_state |= BIT(offset);
+>> +	else
+>> +		priv->gpio_state &= ~BIT(offset);
+>> +
+>> +	max9286_write(priv, 0x0f, MAX9286_0X0F_RESERVED | priv->gpio_state);
+>> +}
+>> +
+>> +static int max9286_gpio_get(struct gpio_chip *chip, unsigned int offset)
+>> +{
+>> +	struct max9286_priv *priv = gpiochip_get_data(chip);
+>> +
+>> +	return priv->gpio_state & BIT(offset);
+>> +}
+>> +
+>> +static int max9286_gpio(struct max9286_priv *priv)
+>> +{
+>> +	struct device *dev = &priv->client->dev;
+>> +	struct gpio_chip *gpio = &priv->gpio;
+>> +	int ret;
+>> +
+>> +	static const char * const names[] = {
+>> +		"GPIO0OUT",
+>> +		"GPIO1OUT",
+>> +	};
+>> +
+>> +	/* Configure the GPIO */
+>> +	gpio->label = dev_name(dev);
+>> +	gpio->parent = dev;
+>> +	gpio->owner = THIS_MODULE;
+>> +	gpio->of_node = dev->of_node;
+>> +	gpio->ngpio = 2;
+>> +	gpio->set = max9286_gpio_set;
+>> +	gpio->get = max9286_gpio_get;
+>> +	gpio->can_sleep = true;
+>> +	gpio->names = names;
+>> +
+>> +	/* GPIO values default to high */
+>> +	priv->gpio_state = BIT(0) | BIT(1);
+>> +
+>> +	ret = devm_gpiochip_add_data(dev, gpio, priv);
+>> +	if (ret)
+>> +		dev_err(dev, "Unable to create gpio_chip\n");
+>> +
+>> +	dev_err(dev, "Created gpio_chip for MAX9286\n");
 > 
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index c34e7b5c7447..67065cd99d8d 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -13,6 +13,7 @@
->  #include <linux/delay.h>
->  #include <linux/device.h>
->  #include <linux/fwnode.h>
-> +#include <linux/gpio/consumer.h>
->  #include <linux/gpio/driver.h>
->  #include <linux/i2c.h>
->  #include <linux/i2c-mux.h>
-> @@ -143,6 +144,7 @@ struct max9286_source {
->  
->  struct max9286_priv {
->  	struct i2c_client *client;
-> +	struct gpio_desc *gpiod_pwdn;
->  	struct v4l2_subdev sd;
->  	struct media_pad pads[MAX9286_N_PADS];
->  	struct regulator *regulator;
-> @@ -1044,6 +1046,14 @@ static int max9286_probe(struct i2c_client *client)
->  	if (ret)
->  		return ret;
->  
-> +	priv->gpiod_pwdn = devm_gpiod_get_optional(&client->dev, "enable",
-> +						   GPIOD_OUT_HIGH);
-> +	if (IS_ERR(priv->gpiod_pwdn))
-> +		return PTR_ERR(priv->gpiod_pwdn);
-> +
-> +	gpiod_set_consumer_name(priv->gpiod_pwdn, "max9286-pwdn");
-> +	gpiod_set_value_cansleep(priv->gpiod_pwdn, 1);
-> +
->  	/*
->  	 * It is possible to set up the power regulator from the GPIO lines,
->  	 * so it needs to be set up early.
-> @@ -1117,6 +1127,9 @@ static int max9286_remove(struct i2c_client *client)
->  	regulator_put(priv->regulator);
->  
->  	max9286_cleanup_dt(priv);
-> +
-> +	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
-> +
->  	kfree(priv);
->  
->  	return 0;
+> This debug line should be removed of course.
+> 
+> Now removed.
+> 
+>> +
+>> +	return ret;
+>> +}
+>> +
+>>  static int max9286_init(struct device *dev)
+>>  {
+>>  	struct max9286_priv *priv;
+>> @@ -984,6 +1044,14 @@ static int max9286_probe(struct i2c_client *client)
+>>  	if (ret)
+>>  		return ret;
+>>  
+>> +	/*
+>> +	 * It is possible to set up the power regulator from the GPIO lines,
+>> +	 * so it needs to be set up early.
+>> +	 */
+>> +	ret = max9286_gpio(priv);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>>  	priv->regulator = regulator_get(&client->dev, "poc");
+>>  	if (IS_ERR(priv->regulator)) {
+>>  		if (PTR_ERR(priv->regulator) != -EPROBE_DEFER)
+>>
 > 
 
 -- 
