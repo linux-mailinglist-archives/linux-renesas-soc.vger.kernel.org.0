@@ -2,76 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1513011B8E8
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2019 17:35:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DEA111B941
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2019 17:55:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730447AbfLKQf0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Dec 2019 11:35:26 -0500
-Received: from pbmsgap02.intersil.com ([192.157.179.202]:60818 "EHLO
-        pbmsgap02.intersil.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730107AbfLKQf0 (ORCPT
+        id S1730679AbfLKQzN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Dec 2019 11:55:13 -0500
+Received: from foss.arm.com ([217.140.110.172]:39442 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727118AbfLKQzN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Dec 2019 11:35:26 -0500
-X-Greylist: delayed 1686 seconds by postgrey-1.27 at vger.kernel.org; Wed, 11 Dec 2019 11:35:26 EST
-Received: from pps.filterd (pbmsgap02.intersil.com [127.0.0.1])
-        by pbmsgap02.intersil.com (8.16.0.27/8.16.0.27) with SMTP id xBBG2sOW011995;
-        Wed, 11 Dec 2019 11:07:11 -0500
-Received: from pbmxdp02.intersil.corp (pbmxdp02.pb.intersil.com [132.158.200.223])
-        by pbmsgap02.intersil.com with ESMTP id 2wr74gk1j6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-        Wed, 11 Dec 2019 11:07:11 -0500
-Received: from pbmxdp01.intersil.corp (132.158.200.222) by
- pbmxdp02.intersil.corp (132.158.200.223) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id
- 15.1.1531.3; Wed, 11 Dec 2019 11:07:10 -0500
-Received: from localhost.localdomain (132.158.202.109) by
- pbmxdp01.intersil.corp (132.158.200.222) with Microsoft SMTP Server id
- 15.1.1531.3 via Frontend Transport; Wed, 11 Dec 2019 11:07:09 -0500
-From:   Chris Brandt <chris.brandt@renesas.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>
-CC:     <linux-gpio@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        "Chris Brandt" <chris.brandt@renesas.com>
-Subject: [PATCH] pinctrl: rza1: reduce printed messages
-Date:   Wed, 11 Dec 2019 11:06:38 -0500
-Message-ID: <20191211160638.31853-1-chris.brandt@renesas.com>
-X-Mailer: git-send-email 2.23.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-12-11_04:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=junk_notspam policy=junk score=0 suspectscore=2 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1911200000 definitions=main-1912110135
-X-Proofpoint-Spam-Reason: mlx
+        Wed, 11 Dec 2019 11:55:13 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D622D30E;
+        Wed, 11 Dec 2019 08:55:12 -0800 (PST)
+Received: from localhost (unknown [10.37.6.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 56A4E3F52E;
+        Wed, 11 Dec 2019 08:55:12 -0800 (PST)
+Date:   Wed, 11 Dec 2019 16:55:10 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-spi@vger.kernel.org,
+        Mark Brown <broonie@kernel.org>,
+        Simon Horman <horms+renesas@verge.net.au>
+Subject: Applied "spi: rspi: Remove obsolete platform_device_id entries" to the spi tree
+In-Reply-To: <20191211131553.23960-1-geert+renesas@glider.be>
+Message-Id: <applied-20191211131553.23960-1-geert+renesas@glider.be>
+X-Patchwork-Hint: ignore
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Since this message is printed for each port, it creates a lot of output
-during boot and would serve better only during debugging.
+The patch
 
-Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
+   spi: rspi: Remove obsolete platform_device_id entries
+
+has been applied to the spi tree at
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-5.6
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.  
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
+From 851c902fd2d09b2ed85181e74b43477b7a3882be Mon Sep 17 00:00:00 2001
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+Date: Wed, 11 Dec 2019 14:15:53 +0100
+Subject: [PATCH] spi: rspi: Remove obsolete platform_device_id entries
+
+Since commits 05104c266ae9a167 ("ARM: shmobile: r7s72100: genmai: Remove
+legacy board file") and a483dcbfa21f919c ("ARM: shmobile: lager: Remove
+legacy board support", RZ/A1 and R-Car Gen2 SoCs are only supported in
+generic DT-only ARM multi-platform builds.  The driver doesn't need to
+match platform devices by name anymore for these platforms, hence remove
+the corresponding platform_device_id entries.
+
+The platform_device_id entry for "rspi" is retained, as it is used by
+the SH7757 platform, which hasn't been converted to DT yet.
+
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Simon Horman <horms+renesas@verge.net.au>
+Link: https://lore.kernel.org/r/20191211131553.23960-1-geert+renesas@glider.be
+Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- drivers/pinctrl/pinctrl-rza1.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/spi/spi-rspi.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/pinctrl/pinctrl-rza1.c b/drivers/pinctrl/pinctrl-rza1.c
-index 017fc6b3e27e..86e5bf59bde5 100644
---- a/drivers/pinctrl/pinctrl-rza1.c
-+++ b/drivers/pinctrl/pinctrl-rza1.c
-@@ -1235,7 +1235,7 @@ static int rza1_parse_gpiochip(struct rza1_pinctrl *rza1_pctl,
+diff --git a/drivers/spi/spi-rspi.c b/drivers/spi/spi-rspi.c
+index 7222c7689c3c..74a12f4dee84 100644
+--- a/drivers/spi/spi-rspi.c
++++ b/drivers/spi/spi-rspi.c
+@@ -1314,8 +1314,6 @@ static int rspi_probe(struct platform_device *pdev)
  
- 	pinctrl_add_gpio_range(rza1_pctl->pctl, range);
+ static const struct platform_device_id spi_driver_ids[] = {
+ 	{ "rspi",	(kernel_ulong_t)&rspi_ops },
+-	{ "rspi-rz",	(kernel_ulong_t)&rspi_rz_ops },
+-	{ "qspi",	(kernel_ulong_t)&qspi_ops },
+ 	{},
+ };
  
--	dev_info(rza1_pctl->dev, "Parsed gpiochip %s with %d pins\n",
-+	dev_dbg(rza1_pctl->dev, "Parsed gpiochip %s with %d pins\n",
- 		 chip->label, chip->ngpio);
- 
- 	return 0;
 -- 
-2.23.0
+2.20.1
 
