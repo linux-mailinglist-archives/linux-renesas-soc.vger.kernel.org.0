@@ -2,81 +2,64 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DA0EB11A865
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2019 10:59:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD94811A87B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2019 11:02:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728543AbfLKJ7F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Dec 2019 04:59:05 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:52509 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728027AbfLKJ7F (ORCPT
+        id S1728370AbfLKKCY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Dec 2019 05:02:24 -0500
+Received: from michel.telenet-ops.be ([195.130.137.88]:50508 "EHLO
+        michel.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727888AbfLKKCX (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Dec 2019 04:59:05 -0500
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1ieyll-0002rK-EC; Wed, 11 Dec 2019 10:58:57 +0100
-Message-ID: <60952c5ac36510ff5be0733b15352828e0f2e41f.camel@pengutronix.de>
-Subject: Re: [PATCH RFC 2/2] memory: add Renesas RPC-IF driver
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mason Yang <masonccyang@mxic.com.tw>,
-        linux-spi@vger.kernel.org, Chris Brandt <chris.brandt@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-Date:   Wed, 11 Dec 2019 10:58:53 +0100
-In-Reply-To: <4db876ed-1ccc-e3be-311d-30cd52f40259@cogentembedded.com>
-References: <cb7022c9-0059-4eb2-7910-aab42124fa1c@cogentembedded.com>
-         <4db876ed-1ccc-e3be-311d-30cd52f40259@cogentembedded.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+        Wed, 11 Dec 2019 05:02:23 -0500
+Received: from ramsan ([84.195.182.253])
+        by michel.telenet-ops.be with bizsmtp
+        id ca2M2100K5USYZQ06a2MpW; Wed, 11 Dec 2019 11:02:21 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1ieyp3-0007NN-Bi; Wed, 11 Dec 2019 11:02:21 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1ieyp3-0001nJ-9k; Wed, 11 Dec 2019 11:02:21 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] clk: renesas: Remove use of ARCH_R8A7796
+Date:   Wed, 11 Dec 2019 11:02:20 +0100
+Message-Id: <20191211100220.6854-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sergei,
+CONFIG_ARCH_R8A7796 was renamed to CONFIG_ARCH_R8A77960 in commit
+39e57e14d7eaf818 ("soc: renesas: Add ARCH_R8A77960 for existing R-Car
+M3-W"), so its users can be removed.
 
-On Tue, 2019-12-10 at 22:39 +0300, Sergei Shtylyov wrote:
-[...]
-> --- /dev/null
-> +++ linux/drivers/memory/renesas-rpc-if.c
-> @@ -0,0 +1,590 @@
-[...]
-> +int rpcif_io_xfer(struct rpcif *rpc)
-> +{
-[...]
-> +	default:
-> +		regmap_write(rpc->regmap, RPCIF_SMENR, rpc->enable);
-> +		regmap_write(rpc->regmap, RPCIF_SMCR,
-> +			     rpc->smcr | RPCIF_SMCR_SPIE);
-> +		ret = wait_msg_xfer_end(rpc);
-> +		if (ret)
-> +			goto err_out;
-> +	}
-> +
-> +exit:
-> +	pm_runtime_put(rpc->dev);
-> +	return ret;
-> +
-> +err_out:
-> +	ret = reset_control_reset(rpc->rstc);
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+To be queued in clk-renesas-for-v5.6.
 
-If wait_msg_xfer_end() returned an error, but the reset succeeds, this
-will cause rpcif_io_xfer() to report success as well. I suspect you do
-not want to overwrite ret at this point.
+ drivers/clk/renesas/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +	rpcif_hw_init(rpc, rpc->bus_size == 2);
-> +	goto exit;
-> +}
-> +EXPORT_SYMBOL(rpcif_io_xfer);
-
-regards
-Philipp
+diff --git a/drivers/clk/renesas/Kconfig b/drivers/clk/renesas/Kconfig
+index 4cd846bc98cc2ec0..94ef2bac289fb45a 100644
+--- a/drivers/clk/renesas/Kconfig
++++ b/drivers/clk/renesas/Kconfig
+@@ -21,7 +21,7 @@ config CLK_RENESAS
+ 	select CLK_R8A7792 if ARCH_R8A7792
+ 	select CLK_R8A7794 if ARCH_R8A7794
+ 	select CLK_R8A7795 if ARCH_R8A7795
+-	select CLK_R8A77960 if ARCH_R8A77960 || ARCH_R8A7796
++	select CLK_R8A77960 if ARCH_R8A77960
+ 	select CLK_R8A77961 if ARCH_R8A77961
+ 	select CLK_R8A77965 if ARCH_R8A77965
+ 	select CLK_R8A77970 if ARCH_R8A77970
+-- 
+2.17.1
 
