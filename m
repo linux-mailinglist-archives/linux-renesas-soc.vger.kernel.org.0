@@ -2,94 +2,81 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E1A711A7AE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2019 10:43:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA0EB11A865
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2019 10:59:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728420AbfLKJnT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Dec 2019 04:43:19 -0500
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:57187 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728265AbfLKJnT (ORCPT
+        id S1728543AbfLKJ7F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Dec 2019 04:59:05 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:52509 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728027AbfLKJ7F (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Dec 2019 04:43:19 -0500
-X-Originating-IP: 93.34.114.233
-Received: from uno.localdomain (93-34-114-233.ip49.fastwebnet.it [93.34.114.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id A5F2E1BF204;
-        Wed, 11 Dec 2019 09:43:16 +0000 (UTC)
-Date:   Wed, 11 Dec 2019 10:45:24 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] rcar-vin: Support V4L2_FIELD_SEQ_{TB,BT}
-Message-ID: <20191211094524.5jruiyuftyh77z7a@uno.localdomain>
-References: <20191210020559.170594-1-niklas.soderlund+renesas@ragnatech.se>
+        Wed, 11 Dec 2019 04:59:05 -0500
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1ieyll-0002rK-EC; Wed, 11 Dec 2019 10:58:57 +0100
+Message-ID: <60952c5ac36510ff5be0733b15352828e0f2e41f.camel@pengutronix.de>
+Subject: Re: [PATCH RFC 2/2] memory: add Renesas RPC-IF driver
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mason Yang <masonccyang@mxic.com.tw>,
+        linux-spi@vger.kernel.org, Chris Brandt <chris.brandt@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+Date:   Wed, 11 Dec 2019 10:58:53 +0100
+In-Reply-To: <4db876ed-1ccc-e3be-311d-30cd52f40259@cogentembedded.com>
+References: <cb7022c9-0059-4eb2-7910-aab42124fa1c@cogentembedded.com>
+         <4db876ed-1ccc-e3be-311d-30cd52f40259@cogentembedded.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="wzszm6cgjwy6wcce"
-Content-Disposition: inline
-In-Reply-To: <20191210020559.170594-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Sergei,
 
---wzszm6cgjwy6wcce
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2019-12-10 at 22:39 +0300, Sergei Shtylyov wrote:
+[...]
+> --- /dev/null
+> +++ linux/drivers/memory/renesas-rpc-if.c
+> @@ -0,0 +1,590 @@
+[...]
+> +int rpcif_io_xfer(struct rpcif *rpc)
+> +{
+[...]
+> +	default:
+> +		regmap_write(rpc->regmap, RPCIF_SMENR, rpc->enable);
+> +		regmap_write(rpc->regmap, RPCIF_SMCR,
+> +			     rpc->smcr | RPCIF_SMCR_SPIE);
+> +		ret = wait_msg_xfer_end(rpc);
+> +		if (ret)
+> +			goto err_out;
+> +	}
+> +
+> +exit:
+> +	pm_runtime_put(rpc->dev);
+> +	return ret;
+> +
+> +err_out:
+> +	ret = reset_control_reset(rpc->rstc);
 
-Hi Niklas,
+If wait_msg_xfer_end() returned an error, but the reset succeeds, this
+will cause rpcif_io_xfer() to report success as well. I suspect you do
+not want to overwrite ret at this point.
 
-On Tue, Dec 10, 2019 at 03:05:57AM +0100, Niklas S=C3=B6derlund wrote:
-> Hi,
->
-> This series add support for sequential filed formats to rcar-vin. The
-> series is based on the media-tree and tested on both R-Car Gen2 and Gen3
-> boards without regressions.
->
-> Patch 1/2 prepares for the new filed formats by reworking and renaming
-> an existing struct member while 2/2 adds support for the two new field
-> formats.
+> +	rpcif_hw_init(rpc, rpc->bus_size == 2);
+> +	goto exit;
+> +}
+> +EXPORT_SYMBOL(rpcif_io_xfer);
 
-Please try to add a changelog, otherwise I have to read my comments in v2
-and manually check what has been addressed or not
+regards
+Philipp
 
->
-> Niklas S=C3=B6derlund (2):
->   rcar-vin: Move hardware buffer tracking to own struct
->   rcar-vin: Add support for V4L2_FIELD_SEQ_{TB,BT}
->
->  drivers/media/platform/rcar-vin/rcar-dma.c  | 91 ++++++++++++++++-----
->  drivers/media/platform/rcar-vin/rcar-v4l2.c |  5 ++
->  drivers/media/platform/rcar-vin/rcar-vin.h  | 28 ++++++-
->  3 files changed, 100 insertions(+), 24 deletions(-)
->
-> --
-> 2.24.0
->
-
---wzszm6cgjwy6wcce
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl3wurQACgkQcjQGjxah
-VjzeAhAAt8Qg5K/pjxpoTkCq2qD2ZB71a2zOmPmotrIScjqCvKSOv6GJ/3Bx2GQD
-brbVJDYoayN0EfmCN1HivUHroHRo3eYQie6Y6MAiYCoE2iIKvIv54tZArG7wB8M8
-0XctJKcEQmp0Wzc8cyVqroyvW0SN+MfrxMnaSScfO/TLW4L5tzrgPcxKVVu3BcK0
-S0V00HBJalmhUliupGaWmQ9urrbNfTi66B4Ne+DAtPqJzwnjKVuN4J8p0mdS7+Pi
-fqbagWFxUy8+ylP7lUGlTqU1Fka691Fu1hA0HxTfLvjWZbNUSEIKYkgRtCRrsEI/
-2iZlstxjkLJbK8/p7rHPBwnG/AP8i/ajtEeUrv/t6+U6uBilcY8+D7bK00hauR2W
-vlJdARX0qZev9KeWqqdLahyd7bHgkFjlZKMlH1Y2WEvNsxGZmvTvgvggANnzcfn8
-pCf3TJ/LRsPlfrbxDvR7btTpX141gRIdvavypAB0GuXW9BiAL+ERF8FceWE9xKQU
-KDEJqAb+JVZiDzThSTyQmVdVf6/Z9mdVufSRPHMeltiYTgRR8e7/3iwuLiyGJLgX
-YpUE2HVoCCJx/UurMGRLf0u2eEdi6JSyiEaSncEwEHtnpUhM3DXi8m8GaRFuVztK
-Qv+uMWo3a3CyJPzVoz1J3nJ9p0o+1MMs0hRaIdtk05RJ43EtX1E=
-=HfLo
------END PGP SIGNATURE-----
-
---wzszm6cgjwy6wcce--
