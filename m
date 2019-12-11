@@ -2,115 +2,213 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3583011BACE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2019 18:58:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 30A1B11BC85
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2019 20:09:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730570AbfLKR6W (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Dec 2019 12:58:22 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:49996 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729228AbfLKR6W (ORCPT
+        id S1726785AbfLKTJu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Dec 2019 14:09:50 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:33900 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726487AbfLKTJu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Dec 2019 12:58:22 -0500
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0D3C652B;
-        Wed, 11 Dec 2019 18:58:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1576087100;
-        bh=w6hxSAYFaBlRN3FRpDpJY4p+b3nFU7gY3PN6ltgvz4A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PN1FKI5TiIvv/X9HxZ/rCbJCusFSWiVoQIcMyyXWTVexwWOwVxfDlWQCzeLB4qCHb
-         nn2dooqa/8nUaEBg4/IaipTr3wbrv7KrEhG9WnY9qwsCkyre3wBrrVrluClI4rrjdH
-         7Yz30r0KvyXtytM+1XkAq51B7Whdw6sXikWXlxSE=
-Date:   Wed, 11 Dec 2019 19:58:11 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        koji.matsuoka.xm@renesas.com, takeshi.kihara.df@renesas.com,
-        harunobu.kurokawa.dn@renesas.com, khiem.nguyen.xt@renesas.com,
-        hien.dang.eb@renesas.com
-Subject: Re: [PATCH] media: vsp1: tidyup VI6_HGT_LBn_H() macro
-Message-ID: <20191211175811.GC4863@pendragon.ideasonboard.com>
-References: <redmine.issue-245033.20191211005426@dm.renesas.com>
- <redmine.issue-245033.20191211005426.161918957b73008d@dm.renesas.com>
- <87k173bp76.wl-kuninori.morimoto.gx@renesas.com>
- <fb1648d4-3949-01c1-7d13-679b9b8540dd@ideasonboard.com>
+        Wed, 11 Dec 2019 14:09:50 -0500
+Received: by mail-lf1-f68.google.com with SMTP id l18so17586133lfc.1
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Dec 2019 11:09:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=F2hQxSbx80dzLoD4LOY/tQag3ZJk3szWSla+aYe1eXQ=;
+        b=BAtcnlT6l6osRO74rPsAcoDcc7Pz5AYSWxMDHZnkVtqtiMNRq3KTghuXR3LRUeC9FN
+         epR2ZIgbZ13gPSCJBuA6N8ySJ44OEe+ebev3VWjXhTbW/ub94AEPDCROZKc5xz7IXqDn
+         gwQnZHAoJrzKOqKEh8YC9JUeyRRDgTzv8i7nIhwg0GXeIBeFMA1Qq/VTm7PCVN3a751T
+         Qu2ryWBegnDr2vryhXyaVmH0gzRUMCWa0FmLXrrbYkZaPb89koL7AiwUKWJASsgMOT8l
+         GGxqE8KFhs6DZkjKcVosiY39EC6rS5oN25gpJ7CrAtnxg+r/zENASUiAsNpNT2dEm9Wq
+         xOwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=F2hQxSbx80dzLoD4LOY/tQag3ZJk3szWSla+aYe1eXQ=;
+        b=Zok945ea+Str/gyRVihYruULiC3Ryp1TT7EACgDN8gO2hPhIiAVCkGcp9VlwuwuYlE
+         0ed8wEMLiU6cyRBPD1kOrcFuXBgMai/tOqyeXuKuQfg23pfy9DxBqCnL7tdtr40XbMSm
+         +M0cB2q9FW9fy5UYO7nZCCnF1BsCWqlai+uxNIJiVwy30SIuc7Ynvfci1VbddPJla1yu
+         cwu6ryGpKlkZEkeKk0coVsviJreBePsh0ltLLTVcEzZ+RHBysgso1ueuTnJRKApO15x/
+         0JHb3vATPW1wfqdkUjnJKCsIo5BgD22blP/bKZHYODh7ekRIXUYA1dQg3RJHOMzswPE0
+         XYXw==
+X-Gm-Message-State: APjAAAVb4WYZbTFzUYQK6AafcdbYzeRqW4zNhEuEJ+C+CMXY6P0CAPpY
+        zTNK9p8lVUNEE2ku2snMEgtJqA==
+X-Google-Smtp-Source: APXvYqwTP8Syk9MFdAQXoVHE+1eQSGVsmkwJrqYhkYsHqy4MBoe0ip6R2MXyz6m6Qk6ncdoSD8mJ+A==
+X-Received: by 2002:a19:f10e:: with SMTP id p14mr3282287lfh.3.1576091387397;
+        Wed, 11 Dec 2019 11:09:47 -0800 (PST)
+Received: from wasted.cogentembedded.com ([2a00:1fa0:8d8:12fe:a87e:d4b8:621e:2b62])
+        by smtp.gmail.com with ESMTPSA id i5sm1708098ljj.29.2019.12.11.11.09.45
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 11 Dec 2019 11:09:46 -0800 (PST)
+Subject: Re: [PATCH v2 0/6] spi: Add Renesas SPIBSC controller
+To:     Chris Brandt <Chris.Brandt@renesas.com>,
+        Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        Mason Yang <masonccyang@mxic.com.tw>
+References: <20191206134202.18784-1-chris.brandt@renesas.com>
+ <922cfa46-efb5-9e6d-67ea-3ac505b8211c@cogentembedded.com>
+ <TY1PR01MB156215E8668C0317FA0826B18A580@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Organization: Cogent Embedded
+Message-ID: <e6a73df5-31c4-3472-f7bc-a0984f1f5380@cogentembedded.com>
+Date:   Wed, 11 Dec 2019 22:09:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
+In-Reply-To: <TY1PR01MB156215E8668C0317FA0826B18A580@TY1PR01MB1562.jpnprd01.prod.outlook.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <fb1648d4-3949-01c1-7d13-679b9b8540dd@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello,
+On 12/09/2019 06:10 PM, Chris Brandt wrote:
 
-On Wed, Dec 11, 2019 at 12:59:57PM +0000, Kieran Bingham wrote:
-> Hi Morimoto-san,
+>>> The Renesas SPI Bus Space Controller (SPIBSC) HW was specifically
+>>> designed for accessing Serial flash devices (QSPI,
+>>
+>>    The initial design did only support SPI, hence the SPI in the name.
 > 
-> Thank you for the patch,
-
-Likewise :-)
-
-> On 11/12/2019 01:55, Kuninori Morimoto wrote:
-> > 
-> > From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> > 
-> > The address of VSP2_VI6_HGT_LBx_H are
-> > 	VSP2_VI6_HGT_LB0_H : 0x3428
-> > 	VSP2_VI6_HGT_LB1_H : 0x3430
-> > 	VSP2_VI6_HGT_LB2_H : 0x3438
-> > 	VSP2_VI6_HGT_LB3_H : 0x3440
-> > 
-> > Thus, VI6_HGT_LBn_H() macro should start from 0x3420 instead of 0x3430.
-> > This patch fixup it.
+> The more important part is the "Bus Space Controller". Meaning the main 
+> purpose of this hardware was to allow the CPU to access serial flash 
+> directly (as in, XIP).
 > 
-> I think this deserves a fixes tag:
+> "SPI-BSC" was the internal name for the HW but does not appear in any of
+> the hardware manual. The hardware manuals (even the MCUs) only say "SPI
+> Multi I/O Bus Controller".
+> Even the R-car gen3 manual says 'SPI':  "SPI Multi I/O Bus Controller 
+> (RPC)".
 > 
-> Fixes: 26e0ca22c3b8 ("[media] v4l: Renesas R-Car VSP1 driver")
-
-Given that this macro is not used, we could argue that it doesn't fix
-anything yet :-) I'd rather avoid having this backported to stable
-kernels as it's not useful to have it there, and thus not add a Fixes
-tag. Kieran, would that be OK with you ?
-
-> > Reported-by: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
-> > Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+> I have no idea why the R-Car people felt they needed to put "RPC" in the
+> hardware manual as the title of the chapter. (Although, "Multi I/O" is 
+> just as bad as a name)
+>  
+> I did make the request to the RZ/G team to not put "RPC" in the title of
+> the chapter in any future RZ/G hardware manuals.
 > 
-> Otherwise,
+> Since QSPI, HyperFlash and OctaFlash are all 'serial' Flash 
+> technologies, I would be find with a driver name of "SBSC" ("Serial Bus Space 
+> Controller") which at least looks closer to what is in all the hardware 
+> manuals.
+
+   How about "Serial Flash Controller" instead?
+
+>>    SPIBSC is also misleading... RPC-IF seems misleading too as it's only
+>> spelled out in the R-Car gen3 and RZ/A2H manuals.
 > 
-> Yes I can clearly see that this offset is marked as H'3428 at page 32-39
-> within the Gen3 datasheet.
+> In the RZ/A2 manual, "RPC" is only used to label the 3 new external pins
+> that were added for HyperFlash.
+
+   Sorry, I was to hasty to check the RZ/A2H manual before typing. :-/
+
+>   RPC_RESET# , RPC_WP# , RPC_INT#
+> But of course they were just copied from the R-Car manual.
 > 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> But, maybe that's enough about the name for now.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+   OK. :-)
 
-and taken in my branch.
+>>> This driver has been tested on an RZ/A1H RSK and RZ/A2M EVB.
+>>
+>>    In the SPI mode only, I assume?
+> 
+> Yes. At the moment, there are only requests from users for QSPI flash access
+> (RZ/A and RZ/G users).
 
-> > ---
-> >  drivers/media/platform/vsp1/vsp1_regs.h | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/platform/vsp1/vsp1_regs.h b/drivers/media/platform/vsp1/vsp1_regs.h
-> > index 5c67ff9..fe3130d 100644
-> > --- a/drivers/media/platform/vsp1/vsp1_regs.h
-> > +++ b/drivers/media/platform/vsp1/vsp1_regs.h
-> > @@ -706,7 +706,7 @@
-> >  #define VI6_HGT_HUE_AREA_LOWER_SHIFT	16
-> >  #define VI6_HGT_HUE_AREA_UPPER_SHIFT	0
-> >  #define VI6_HGT_LB_TH			0x3424
-> > -#define VI6_HGT_LBn_H(n)		(0x3438 + (n) * 8)
-> > +#define VI6_HGT_LBn_H(n)		(0x3428 + (n) * 8)
-> >  #define VI6_HGT_LBn_V(n)		(0x342c + (n) * 8)
-> >  #define VI6_HGT_HISTO(m, n)		(0x3450 + (m) * 128 + (n) * 4)
-> >  #define VI6_HGT_MAXMIN			0x3750
+   I keep being told by the management that we need HyperFlash too. :-)
+In our BSP development, our engineers went "same hardware, 2 drivers"
+way (with different "compatibles" per driver)...
 
--- 
-Regards,
+> The RZ/A2M EVB was laid out to support all the different combinations of
+> serial flashes (by populating different chips). That is why there is 
+> already Segger J-link support for QSPI, Hyper and Octa for the RZ/A2.
+> 
+> I will admit, to developed this driver for the "SPI-BSC" HW, I have been
+> using an XIP kernel (XIP from another HyperFlash / HyperRAM combo chip 
+> on the board) because I didn't feel like moving all the switches to use 
+> SDRAM and a uImage kernel.
+> The RZ/A2M has a HyperFlash controller (for R/W), a OctaBus controller 
+> (for R/W) and the SPI BSC (Read-only).
 
-Laurent Pinchart
+   Seen these...
+
+>>    What I have now is the core driver (or rather a library) placed under
+>> drivers/memory/ and the SPI and HyperFlash front ends in drivers/spi/ and
+>> drivers/mtd/hyperbus/ respectfully.
+>> I'm almost ready to post the core driver/bindings, the SPI driver still needs
+>> some Mark Brown's comments addressed, and the HyperFlash driver is also ready
+>> but needs the existing HyperBus infrastructure properly fixed up (having a
+>> draft patch now)...
+
+> But are these for the HyperBus controller? Or the SPI-BSC controller?
+> They are 2 different controllers, so you would think they would have 2 different drivers.
+
+   R-Car gen3 only has RPC-IF, no separate HyperBus controller, so the second case.
+
+>>> The testing mostly consisted of formatting an area as JFFS2 and doing
+>>> copying of files and such.
+>>
+>>    Did the same (or at least tried to :-) and I must admit that writing
+>> doesn't work with any of the front ends... I still need to get this fixed.
+
+   The last word from our BSP people was that JFFS2 doesn't work with the HyperFLash
+dedicated BSP driver... :-/
+
+> That's the part I'm confused about. I saw the last patch series that 
+> made it up to v17 but still didn't get in. Although, it did look very 
+> complicated.
+> You can see from my SPI-BSC driver, it's basically 2 function: a SPI 
+
+   I'll read/try it next thing...
+
+> write and SPI read. The upper layer sends you down data to write, and you 
+> just write it. In theory, if a HyperFlash MTD layer was sending down 
+> data, the commands bytes would be different, but the procedure would be the 
+> same.
+
+   Yeah, the commands are different...
+
+>>> While the HW changed a little between the RZ/A1 and RZ/A2 generations,
+>>> the IP block in the RZ/A2M was taken from the R-Car H3 design, so in
+>>> theory this driver should work for R-Car Gen3 as well.
+>>
+>>    I don't think it's a good idea to use the SPI dedicated driver on R-Car
+>> gen3, I would rather see the RZ/A1 using the RPC-IF driver/library to reduce
+>> the code duplication...
+> 
+> I agree on not having competing drivers. Especially since future RZ/A 
+> and RZ/G devices will most likely continue to include this HW.
+
+> However, the driver I posted is pretty simple and works. Does the 
+> HyperFlash MTD
+
+   There's no HF library, only front end driver.
+   The real library covers both SPI and HF. The only difference between the two
+is the h/w setup (minor difference).
+
+> library that you are proposing have a very different API than 
+> just 'send bytes' and 'receive bytes'?
+
+   There's "prepare" and "transfer" APIs and also "direct map read" API.
+
+> Chris
+
+MBR, Sergei
