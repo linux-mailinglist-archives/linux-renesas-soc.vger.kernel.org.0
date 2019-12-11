@@ -2,73 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4056D11ABD2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2019 14:16:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F41511AC71
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2019 14:52:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729131AbfLKNQB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Dec 2019 08:16:01 -0500
-Received: from baptiste.telenet-ops.be ([195.130.132.51]:48800 "EHLO
-        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729132AbfLKNQB (ORCPT
+        id S1729267AbfLKNwZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Dec 2019 08:52:25 -0500
+Received: from michel.telenet-ops.be ([195.130.137.88]:32946 "EHLO
+        michel.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727851AbfLKNwZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Dec 2019 08:16:01 -0500
+        Wed, 11 Dec 2019 08:52:25 -0500
 Received: from ramsan ([84.195.182.253])
-        by baptiste.telenet-ops.be with bizsmtp
-        id cdFz2100F5USYZQ01dFzny; Wed, 11 Dec 2019 14:15:59 +0100
+        by michel.telenet-ops.be with bizsmtp
+        id cdsP2100W5USYZQ06dsPMJ; Wed, 11 Dec 2019 14:52:24 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1if1qR-0000mm-CX; Wed, 11 Dec 2019 14:15:59 +0100
+        id 1if2Pf-00014D-MF; Wed, 11 Dec 2019 14:52:23 +0100
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1if1qR-0006FB-B7; Wed, 11 Dec 2019 14:15:59 +0100
+        id 1if2Pf-0006yZ-KE; Wed, 11 Dec 2019 14:52:23 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] spi: rspi: Remove obsolete platform_device_id entries
-Date:   Wed, 11 Dec 2019 14:15:53 +0100
-Message-Id: <20191211131553.23960-1-geert+renesas@glider.be>
+Subject: [PATCH v2 0/4] ARM: shmobile: Enable ARM_GLOBAL_TIMER on Cortex-A9 MPCore
+Date:   Wed, 11 Dec 2019 14:52:18 +0100
+Message-Id: <20191211135222.26770-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Since commits 05104c266ae9a167 ("ARM: shmobile: r7s72100: genmai: Remove
-legacy board file") and a483dcbfa21f919c ("ARM: shmobile: lager: Remove
-legacy board support", RZ/A1 and R-Car Gen2 SoCs are only supported in
-generic DT-only ARM multi-platform builds.  The driver doesn't need to
-match platform devices by name anymore for these platforms, hence remove
-the corresponding platform_device_id entries.
+        Hi all,
 
-The platform_device_id entry for "rspi" is retained, as it is used by
-the SH7757 platform, which hasn't been converted to DT yet.
+SH-Mobile AG5 and R-Car H1 SoCs are based on the Cortex-A9 MPCore, which
+includes an ARM global timer.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Acked-by: Simon Horman <horms+renesas@verge.net.au>
----
-v2:
-  - Add Acked-by,
-  - Merge two patches,
-  - Explain "rspi".
----
- drivers/spi/spi-rspi.c | 2 --
- 1 file changed, 2 deletions(-)
+Enable use of the global timer on these SoCs for scheduling and delay
+loops, with the following impact:
+  - Scheduler accuracy is increased from 10 ms to a few ns,
+  - Calls to shmobile_init_delay() to preset loops-per-jiffies can be
+    removed.
+    Note that when using an old DTB lacking the global timer, the kernel
+    will still work, but the delay loop will need to be calibrated
+    during boot.
 
-diff --git a/drivers/spi/spi-rspi.c b/drivers/spi/spi-rspi.c
-index 7222c7689c3c4cea..74a12f4dee849125 100644
---- a/drivers/spi/spi-rspi.c
-+++ b/drivers/spi/spi-rspi.c
-@@ -1314,8 +1314,6 @@ static int rspi_probe(struct platform_device *pdev)
- 
- static const struct platform_device_id spi_driver_ids[] = {
- 	{ "rspi",	(kernel_ulong_t)&rspi_ops },
--	{ "rspi-rz",	(kernel_ulong_t)&rspi_rz_ops },
--	{ "qspi",	(kernel_ulong_t)&qspi_ops },
- 	{},
- };
- 
+Note that we still need shmobile_init_delay() to setup loops-per-jiffies
+for other SoCs lacking an architectured or global timer:
+  - emev2: Dual-core Cortex-A9 r1p3,
+  - r7s72100: single-core Cortex-A9 MPCore r3p0, global timer IRQ not
+    wired?
+  - r7s9210: single-core Cortex-A9 MPCore r4p1, global timer IRQ not
+    wired?
+  - r8a7740: single-core Cortex-A9 r2p4,
+  - r8a7778: single-core Cortex-A9 r2p2-00rel0.
+
+Changes compared to v1:
+  - Rebased.
+
+I have been using this on KZM-A9-GT (SH-Mobile AG5) and Marzen (R-Car
+H1) for the last 18 months or so.
+Hence I plan to queue the first 3 patches in renesas-devel for v5.6,
+and postpone the 4th to v5.7.
+
+Thanks!
+
+Geert Uytterhoeven (4):
+  ARM: dts: sh73a0: Rename twd clock to periph clock
+  ARM: dts: sh73a0: Add device node for ARM global timer
+  ARM: dts: r8a7779: Add device node for ARM global timer
+  ARM: shmobile: Enable ARM_GLOBAL_TIMER on Cortex-A9 MPCore SoCs
+
+ arch/arm/boot/dts/r8a7779.dtsi         |  8 ++++++++
+ arch/arm/boot/dts/sh73a0.dtsi          | 11 +++++++++--
+ arch/arm/mach-shmobile/setup-r8a7779.c |  1 -
+ arch/arm/mach-shmobile/setup-sh73a0.c  |  1 -
+ drivers/soc/renesas/Kconfig            |  2 ++
+ 5 files changed, 19 insertions(+), 4 deletions(-)
+
 -- 
 2.17.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
