@@ -2,285 +2,195 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C1F8711A78B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2019 10:39:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0F4511A79D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Dec 2019 10:42:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728517AbfLKJjo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Dec 2019 04:39:44 -0500
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:35236 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727318AbfLKJjo (ORCPT
+        id S1728512AbfLKJmG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Dec 2019 04:42:06 -0500
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:42035 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728030AbfLKJmG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Dec 2019 04:39:44 -0500
-Received: by mail-qt1-f194.google.com with SMTP id s8so5730540qte.2;
-        Wed, 11 Dec 2019 01:39:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=CjOlmYhRmkaSajOcDzUsQHVQEAzmRdkGoUqWj7Hj31Q=;
-        b=ZLLj9CbSg/GS5+gx8BKlj96gCnk0AuQ9C57BErPXBqXj15WCYYPHh7I1CfWv/xgf62
-         3BNP5tJ2FAihqpwHVtqGnBR3CdBrYdI/7gQVm+OWj8sN33GFptmpxj3Tm5otNKlRjkLC
-         xp1wXNKZBildqQOsKxlg/rHZI3vGtZZkWc1j04eVd+MU2NNojYWUBZ5KEg6yMS2lotZi
-         J31lOoYZb3lqjHrYw61b49FlNUQHwpPl95HwygGg+0PiJ8F3b6z9fOBareT3i6ylBXBC
-         svzN4YAYrhg3Cb3+RHnwUPaLdMPc6RBEWsnuDExl0hhRzxc5sDHIMgLt6BLdT/r0tx4/
-         by/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CjOlmYhRmkaSajOcDzUsQHVQEAzmRdkGoUqWj7Hj31Q=;
-        b=Y4VRlOfgrp7Go+q3L6xPLMHhfgKPbjCS4RYSCTpFKpEWEtRODdnjyCIDDw5VWXPRqr
-         ERF5Ys4kFrHXYyIDXE+Am7SS59ZDnsXo7GQp5mK/bHiq1naoYr3eqXm6s//yrn0r4+ST
-         Mg/lgsgjm+BEDIci9+QrgNC0t42VwFmT9ttqFR17s8x9+vajRn6EIEQsRPTTAc3hkYJy
-         s5C1WS9UW9V6xPWFZGOZBs4262BsjXBrwrC5M1c4lhBBxIYrRA3wJuLFp6ZTFJiTzj52
-         hW32IJ4rdAZaTawU0Mt3PpvAXMIG8//Uj1vVC3xEUVnlxW9Te7vzvZe7CBPMQrcn9Ms+
-         QKtg==
-X-Gm-Message-State: APjAAAVOUcl9SypQgK86DA/QJ/3sJGc32tEiO3Pn+smK5I+sRy+TscYe
-        +NdsHgAHBaobJBldpwKTL2oh+IR3YUbv2H+klxo=
-X-Google-Smtp-Source: APXvYqzctDU+DSt+DTuT6Z7HBvXZlDEvR8lC3YYDN3W5/5sDi7FAGVJpDh7gpxqSzgJu0VrZj70D6iIZ/qSYOpqN+xQ=
-X-Received: by 2002:aed:3fb7:: with SMTP id s52mr1850574qth.311.1576057183242;
- Wed, 11 Dec 2019 01:39:43 -0800 (PST)
+        Wed, 11 Dec 2019 04:42:06 -0500
+X-Originating-IP: 93.34.114.233
+Received: from uno.localdomain (93-34-114-233.ip49.fastwebnet.it [93.34.114.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 7679524000D;
+        Wed, 11 Dec 2019 09:42:02 +0000 (UTC)
+Date:   Wed, 11 Dec 2019 10:44:11 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] rcar-vin: Move hardware buffer tracking to own
+ struct
+Message-ID: <20191211094411.kub2m6qhxtjoxalc@uno.localdomain>
+References: <20191210020559.170594-1-niklas.soderlund+renesas@ragnatech.se>
+ <20191210020559.170594-2-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-References: <20191028163256.8004-1-robh@kernel.org> <20191028163256.8004-12-robh@kernel.org>
- <20191206153633.GA18142@e121166-lin.cambridge.arm.com> <CAFqH_53nX74vD6-T2ao0x540wq_NbN671H5i2fwbo6NaCgc4KQ@mail.gmail.com>
-In-Reply-To: <CAFqH_53nX74vD6-T2ao0x540wq_NbN671H5i2fwbo6NaCgc4KQ@mail.gmail.com>
-From:   Enric Balletbo Serra <eballetbo@gmail.com>
-Date:   Wed, 11 Dec 2019 10:39:31 +0100
-Message-ID: <CAFqH_51R3K5ncmwC7r4VUnXzkmoc9xqfbsTTWH_7+GoSiQLRQg@mail.gmail.com>
-Subject: Re: [PATCH v3 11/25] PCI: rockchip: Drop storing driver private
- outbound resource data
-To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-Cc:     Rob Herring <robh@kernel.org>,
-        Andrew Murray <andrew.murray@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Christoph Hellwig <hch@infradead.org>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Hou Zhiqiang <Zhiqiang.Hou@nxp.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Karthikeyan Mitran <m.karthikeyan@mobiveil.co.in>,
-        Ley Foon Tan <lftan@altera.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        linux-renesas-soc@vger.kernel.org,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Ray Jui <rjui@broadcom.com>, rfi@lists.rocketboards.org,
-        Ryder Lee <ryder.lee@mediatek.com>,
-        Scott Branden <sbranden@broadcom.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Simon Horman <horms@verge.net.au>,
-        Srinath Mannam <srinath.mannam@broadcom.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Toan Le <toan@os.amperecomputing.com>,
-        Tom Joseph <tjoseph@cadence.com>, Will Deacon <will@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="bqt4f5c3iitqmbqv"
+Content-Disposition: inline
+In-Reply-To: <20191210020559.170594-2-niklas.soderlund+renesas@ragnatech.se>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi,
 
-Missatge de Enric Balletbo Serra <eballetbo@gmail.com> del dia dt., 10
-de des. 2019 a les 18:33:
->
-> Hi Lorenzo,
->
-> Many thanks to look at this.
->
-> Missatge de Lorenzo Pieralisi <lorenzo.pieralisi@arm.com> del dia dv.,
-> 6 de des. 2019 a les 16:36:
-> >
-> > [+Eric]
-> >
-> > On Mon, Oct 28, 2019 at 11:32:42AM -0500, Rob Herring wrote:
-> > > The Rockchip host bridge driver doesn't need to store outboard resources
-> > > in its private struct as they are already stored in struct
-> > > pci_host_bridge.
-> > >
-> > > Cc: Shawn Lin <shawn.lin@rock-chips.com>
-> > > Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> > > Cc: Andrew Murray <andrew.murray@arm.com>
-> > > Cc: Bjorn Helgaas <bhelgaas@google.com>
-> > > Cc: Heiko Stuebner <heiko@sntech.de>
-> > > Cc: linux-rockchip@lists.infradead.org
-> > > Signed-off-by: Rob Herring <robh@kernel.org>
-> > > ---
-> > >  drivers/pci/controller/pcie-rockchip-host.c | 54 +++++++++------------
-> > >  drivers/pci/controller/pcie-rockchip.h      |  5 --
-> > >  2 files changed, 23 insertions(+), 36 deletions(-)
-> > >
-> > > diff --git a/drivers/pci/controller/pcie-rockchip-host.c b/drivers/pci/controller/pcie-rockchip-host.c
-> > > index 8d2e6f2e141e..f375e55ea02e 100644
-> > > --- a/drivers/pci/controller/pcie-rockchip-host.c
-> > > +++ b/drivers/pci/controller/pcie-rockchip-host.c
-> > > @@ -806,19 +806,28 @@ static int rockchip_pcie_prog_ib_atu(struct rockchip_pcie *rockchip,
-> > >  static int rockchip_pcie_cfg_atu(struct rockchip_pcie *rockchip)
-> > >  {
-> > >       struct device *dev = rockchip->dev;
-> > > +     struct pci_host_bridge *bridge = pci_host_bridge_from_priv(rockchip);
-> > > +     struct resource_entry *entry;
-> > > +     u64 pci_addr, size;
-> > >       int offset;
-> > >       int err;
-> > >       int reg_no;
-> > >
-> > >       rockchip_pcie_cfg_configuration_accesses(rockchip,
-> > >                                                AXI_WRAPPER_TYPE0_CFG);
-> > > +     entry = resource_list_first_type(&bridge->windows, IORESOURCE_MEM);
-> > > +     if (!entry)
-> > > +             return -ENODEV;
-> > > +
-> > > +     size = resource_size(entry->res);
-> > > +     pci_addr = entry->res->start - entry->offset;
-> > > +     rockchip->msg_bus_addr = pci_addr;
-> > >
-> > > -     for (reg_no = 0; reg_no < (rockchip->mem_size >> 20); reg_no++) {
-> > > +     for (reg_no = 0; reg_no < (size >> 20); reg_no++) {
-> > >               err = rockchip_pcie_prog_ob_atu(rockchip, reg_no + 1,
-> > >                                               AXI_WRAPPER_MEM_WRITE,
-> > >                                               20 - 1,
-> > > -                                             rockchip->mem_bus_addr +
-> > > -                                             (reg_no << 20),
-> > > +                                             pci_addr + (reg_no << 20),
-> > >                                               0);
-> > >               if (err) {
-> > >                       dev_err(dev, "program RC mem outbound ATU failed\n");
-> > > @@ -832,14 +841,20 @@ static int rockchip_pcie_cfg_atu(struct rockchip_pcie *rockchip)
-> > >               return err;
-> > >       }
-> > >
-> > > -     offset = rockchip->mem_size >> 20;
-> > > -     for (reg_no = 0; reg_no < (rockchip->io_size >> 20); reg_no++) {
-> > > +     entry = resource_list_first_type(&bridge->windows, IORESOURCE_IO);
-> > > +     if (!entry)
-> > > +             return -ENODEV;
-> > > +
-> > > +     size = resource_size(entry->res);
-> > > +     pci_addr = entry->res->start - entry->offset;
-> > > +
-> > > +     offset = size >> 20;
-> >
-> > Just trying to find what triggers:
-> >
-> > https://lore.kernel.org/linux-pci/CAFqH_52BiQJzNEzd_0pB3K+JmzVOVikYQo0xfiC0J-DwiXdtqw@mail.gmail.com/T/#u
-> >
-> > I think this offset calculation changed the behaviour:
-> >
-> > Before:
-> >
-> > > -     offset = rockchip->mem_size >> 20;
-> >
-> > Now:
-> >
-> > > +     offset = size >> 20;
-> >
-> > size must be the IORESOURCE_MEM resource size instead we are using the
-> > IORESOURCE_IO size so IIUC the ATU window setup may be compromised.
-> >
->
-> Are you suggesting that something like this [1] fixes the issue?
->
-> Indeed,I don't see the warning with this applied and wifi which is
-> connected via pcie is working. But I don't get why the offset should
-> be from the MEM resource instead of the IO resource.
->
-> [1] https://pastebin.com/FBj95gNR
+--bqt4f5c3iitqmbqv
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Niklas,
+
+On Tue, Dec 10, 2019 at 03:05:58AM +0100, Niklas S=C3=B6derlund wrote:
+> To support SEQ_TB/BT not all buffers given to the hardware will be
+> equal, the driver needs to keep track of different buffer types. Move
+> the tracking of buffers given to hardware into a struct so additional
+> tracking fields can be associated with each buffer.
 >
 
-I think I understood, so I send a fix [2] for this
+This change alone does not make sense by itself. I cannot judge if
+it's a good idea or not if not looking at 2/2. Why have you kept it
+separate ?
 
-[2] https://lkml.org/lkml/2019/12/11/199
+Thanks
+   j
 
-Thanks,
- Enric
-
-> Thanks,
->  Enric
+> Signed-off-by: Niklas S=C3=B6derlund <niklas.soderlund+renesas@ragnatech.=
+se>
+> ---
+>  drivers/media/platform/rcar-vin/rcar-dma.c | 27 +++++++++++-----------
+>  drivers/media/platform/rcar-vin/rcar-vin.h |  9 ++++----
+>  2 files changed, 19 insertions(+), 17 deletions(-)
 >
-> > Lorenzo
-> >
-> > > +     for (reg_no = 0; reg_no < (size >> 20); reg_no++) {
-> > >               err = rockchip_pcie_prog_ob_atu(rockchip,
-> > >                                               reg_no + 1 + offset,
-> > >                                               AXI_WRAPPER_IO_WRITE,
-> > >                                               20 - 1,
-> > > -                                             rockchip->io_bus_addr +
-> > > -                                             (reg_no << 20),
-> > > +                                             pci_addr + (reg_no << 20),
-> > >                                               0);
-> > >               if (err) {
-> > >                       dev_err(dev, "program RC io outbound ATU failed\n");
-> > > @@ -852,8 +867,7 @@ static int rockchip_pcie_cfg_atu(struct rockchip_pcie *rockchip)
-> > >                                 AXI_WRAPPER_NOR_MSG,
-> > >                                 20 - 1, 0, 0);
-> > >
-> > > -     rockchip->msg_bus_addr = rockchip->mem_bus_addr +
-> > > -                                     ((reg_no + offset) << 20);
-> > > +     rockchip->msg_bus_addr += ((reg_no + offset) << 20);
-> > >       return err;
-> > >  }
-> > >
-> > > @@ -951,7 +965,6 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
-> > >       struct pci_bus *bus, *child;
-> > >       struct pci_host_bridge *bridge;
-> > >       struct resource *bus_res;
-> > > -     struct resource_entry *win;
-> > >       int err;
-> > >
-> > >       if (!dev->of_node)
-> > > @@ -997,27 +1010,6 @@ static int rockchip_pcie_probe(struct platform_device *pdev)
-> > >
-> > >       rockchip->root_bus_nr = bus_res->start;
-> > >
-> > > -     /* Get the I/O and memory ranges from DT */
-> > > -     resource_list_for_each_entry(win, &bridge->windows) {
-> > > -             switch (resource_type(win->res)) {
-> > > -             case IORESOURCE_IO:
-> > > -                     io = win->res;
-> > > -                     io->name = "I/O";
-> > > -                     rockchip->io_size = resource_size(io);
-> > > -                     rockchip->io_bus_addr = io->start - win->offset;
-> > > -                     rockchip->io = io;
-> > > -                     break;
-> > > -             case IORESOURCE_MEM:
-> > > -                     mem = win->res;
-> > > -                     mem->name = "MEM";
-> > > -                     rockchip->mem_size = resource_size(mem);
-> > > -                     rockchip->mem_bus_addr = mem->start - win->offset;
-> > > -                     break;
-> > > -             default:
-> > > -                     continue;
-> > > -             }
-> > > -     }
-> > > -
-> > >       err = rockchip_pcie_cfg_atu(rockchip);
-> > >       if (err)
-> > >               goto err_remove_irq_domain;
-> > > diff --git a/drivers/pci/controller/pcie-rockchip.h b/drivers/pci/controller/pcie-rockchip.h
-> > > index 8e87a059ce73..bef42a803b56 100644
-> > > --- a/drivers/pci/controller/pcie-rockchip.h
-> > > +++ b/drivers/pci/controller/pcie-rockchip.h
-> > > @@ -304,13 +304,8 @@ struct rockchip_pcie {
-> > >       struct  irq_domain *irq_domain;
-> > >       int     offset;
-> > >       struct pci_bus *root_bus;
-> > > -     struct resource *io;
-> > > -     phys_addr_t io_bus_addr;
-> > > -     u32     io_size;
-> > >       void    __iomem *msg_region;
-> > > -     u32     mem_size;
-> > >       phys_addr_t msg_bus_addr;
-> > > -     phys_addr_t mem_bus_addr;
-> > >       bool is_rc;
-> > >       struct resource *mem_res;
-> > >  };
-> > > --
-> > > 2.20.1
-> > >
+> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/p=
+latform/rcar-vin/rcar-dma.c
+> index cf9029efeb0450cb..cd1778977b2ba56e 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> @@ -844,20 +844,20 @@ static void rvin_fill_hw_slot(struct rvin_dev *vin,=
+ int slot)
+>  	dma_addr_t phys_addr;
+>
+>  	/* A already populated slot shall never be overwritten. */
+> -	if (WARN_ON(vin->queue_buf[slot] !=3D NULL))
+> +	if (WARN_ON(vin->buf_hw[slot].buffer !=3D NULL))
+>  		return;
+>
+>  	vin_dbg(vin, "Filling HW slot: %d\n", slot);
+>
+>  	if (list_empty(&vin->buf_list)) {
+> -		vin->queue_buf[slot] =3D NULL;
+> +		vin->buf_hw[slot].buffer =3D NULL;
+>  		phys_addr =3D vin->scratch_phys;
+>  	} else {
+>  		/* Keep track of buffer we give to HW */
+>  		buf =3D list_entry(vin->buf_list.next, struct rvin_buffer, list);
+>  		vbuf =3D &buf->vb;
+>  		list_del_init(to_buf_list(vbuf));
+> -		vin->queue_buf[slot] =3D vbuf;
+> +		vin->buf_hw[slot].buffer =3D vbuf;
+>
+>  		/* Setup DMA */
+>  		phys_addr =3D vb2_dma_contig_plane_dma_addr(&vbuf->vb2_buf, 0);
+> @@ -953,13 +953,14 @@ static irqreturn_t rvin_irq(int irq, void *data)
+>  	}
+>
+>  	/* Capture frame */
+> -	if (vin->queue_buf[slot]) {
+> -		vin->queue_buf[slot]->field =3D rvin_get_active_field(vin, vnms);
+> -		vin->queue_buf[slot]->sequence =3D vin->sequence;
+> -		vin->queue_buf[slot]->vb2_buf.timestamp =3D ktime_get_ns();
+> -		vb2_buffer_done(&vin->queue_buf[slot]->vb2_buf,
+> +	if (vin->buf_hw[slot].buffer) {
+> +		vin->buf_hw[slot].buffer->field =3D
+> +			rvin_get_active_field(vin, vnms);
+> +		vin->buf_hw[slot].buffer->sequence =3D vin->sequence;
+> +		vin->buf_hw[slot].buffer->vb2_buf.timestamp =3D ktime_get_ns();
+> +		vb2_buffer_done(&vin->buf_hw[slot].buffer->vb2_buf,
+>  				VB2_BUF_STATE_DONE);
+> -		vin->queue_buf[slot] =3D NULL;
+> +		vin->buf_hw[slot].buffer =3D NULL;
+>  	} else {
+>  		/* Scratch buffer was used, dropping frame. */
+>  		vin_dbg(vin, "Dropping frame %u\n", vin->sequence);
+> @@ -983,10 +984,10 @@ static void return_all_buffers(struct rvin_dev *vin,
+>  	int i;
+>
+>  	for (i =3D 0; i < HW_BUFFER_NUM; i++) {
+> -		if (vin->queue_buf[i]) {
+> -			vb2_buffer_done(&vin->queue_buf[i]->vb2_buf,
+> +		if (vin->buf_hw[i].buffer) {
+> +			vb2_buffer_done(&vin->buf_hw[i].buffer->vb2_buf,
+>  					state);
+> -			vin->queue_buf[i] =3D NULL;
+> +			vin->buf_hw[i].buffer =3D NULL;
+>  		}
+>  	}
+>
+> @@ -1291,7 +1292,7 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
+>  	vin->state =3D STOPPED;
+>
+>  	for (i =3D 0; i < HW_BUFFER_NUM; i++)
+> -		vin->queue_buf[i] =3D NULL;
+> +		vin->buf_hw[i].buffer =3D NULL;
+>
+>  	/* buffer queue */
+>  	q->type =3D V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/p=
+latform/rcar-vin/rcar-vin.h
+> index a36b0824f81d171d..0aa904a4af5b0a97 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-vin.h
+> +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
+> @@ -164,9 +164,8 @@ struct rvin_info {
+>   * @scratch:		cpu address for scratch buffer
+>   * @scratch_phys:	physical address of the scratch buffer
+>   *
+> - * @qlock:		protects @queue_buf, @buf_list, @sequence
+> - *			@state
+> - * @queue_buf:		Keeps track of buffers given to HW slot
+> + * @qlock:		protects @buf_hw, @buf_list, @sequence and @state
+> + * @buf_hw:		Keeps track of buffers given to HW slot
+>   * @buf_list:		list of queued buffers
+>   * @sequence:		V4L2 buffers sequence number
+>   * @state:		keeps track of operation state
+> @@ -205,7 +204,9 @@ struct rvin_dev {
+>  	dma_addr_t scratch_phys;
+>
+>  	spinlock_t qlock;
+> -	struct vb2_v4l2_buffer *queue_buf[HW_BUFFER_NUM];
+> +	struct {
+> +		struct vb2_v4l2_buffer *buffer;
+> +	} buf_hw[HW_BUFFER_NUM];
+>  	struct list_head buf_list;
+>  	unsigned int sequence;
+>  	enum rvin_dma_state state;
+> --
+> 2.24.0
+>
+
+--bqt4f5c3iitqmbqv
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl3wumcACgkQcjQGjxah
+VjwT+g/9GlaY82o+OR57LiAwzbE5rq+CZ4akMkEONGaP5ueBwpNDRU8HPjGuhepb
+M+my6K+TJJO3/6FoENWITLm1aVJVx2DYj0M8VNYBYsRVZPOKvrfGR7zwn14hhmJs
+ZYegnT+Kv04kRMXIDccqCZwaNSkfWUYjEhyxnRZ1SAQVw0PVBXtaZRmiDipCLV98
+1TedEZUCwQUfOzOvbpiZ2Wgo2ARNXidTTRkgpu3oxGD0wmYEqbg5Z/Xt+ude/tJ/
+8aSlU289wXl2VSoxb5D+Y8jOwX/faif6UU/jfaxbdUi3DcWdOROBfVhFS/qPz0Fg
+AMM6L7ci4VDv5ealYzadp95Y6XJ//ulQQRB+Nh4874Qo2x2YjpGKGGXW/2mn4ehk
+ap3yuwzwHv40KZcg1gl7xUCt/eCj8wWmZ/PJXlYKisBiHdI38b9/QFktnRE6Q3UI
+BP/4eNCQxWtcM+ummfJUhEK5Azurc9cZbHx5NpMLHL/JtVPJXb2WXohT4m6RBZCV
+q/H0UGOhdVuGTs2xG4xa79SmZRQSoZaxhiVVi83J0RddnNXXaYy30liiWKYv+iHo
+Rt2pVGKuDbEF8sDGmzNhLGOA0Uxq4nfSYuyY4oRSKToKgHeG2zkHX69QxDsmtt/S
+YhRe7+JILPdhaXAhvxQ5wMmnXCpZctSfl4GyJhbVjAyXJoNg4po=
+=QsFe
+-----END PGP SIGNATURE-----
+
+--bqt4f5c3iitqmbqv--
