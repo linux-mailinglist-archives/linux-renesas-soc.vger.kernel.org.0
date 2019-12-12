@@ -2,130 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2271311D007
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2019 15:41:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0518D11D00D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2019 15:42:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729355AbfLLOlP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Dec 2019 09:41:15 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:42474 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729287AbfLLOlP (ORCPT
+        id S1729404AbfLLOmP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Dec 2019 09:42:15 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:43144 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729273AbfLLOmP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Dec 2019 09:41:15 -0500
-Received: by mail-ot1-f67.google.com with SMTP id 66so2193021otd.9;
-        Thu, 12 Dec 2019 06:41:14 -0800 (PST)
+        Thu, 12 Dec 2019 09:42:15 -0500
+Received: by mail-lf1-f68.google.com with SMTP id 9so1874216lfq.10
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Dec 2019 06:42:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tZEozXho8/b7kOqmVnapq/xyhPGY85u/Fazs9Eblm1E=;
+        b=cCFmmoTXOmDLfgP+nSgeOYumVAZUrCnARZzWT6kYYgCKF1bePY08qH25uoDIaIHIIP
+         xy8kMJ6JQ2UyEvDyewbvtPrrH9UtNKJVImB4NokJIoH/R67zMUh04sKFC2b9DZZNNYUs
+         aUGcMes7TUb5SFaiVdEGG5DyRqBgacd0FAD4lAf+ICRsdMe3e2j3QZ8mi0budLFypHnU
+         Q9CAtFfX69QmpkYitVwIFJ08foJUmu7rOTj1ckh5yeQ90ov1O2obpxX2rMKf54BvokNm
+         ude9UZXPiRBYKsQ2CDcY3DczzV6WI8NM6/9D9PHWpM76xo1IPmfR6iBERCj82PcqPI0L
+         ppSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=1MpAVnQXIv8ku6mOOgsViBA0ZgH1Jr6htBIpVf8hv44=;
-        b=TmfxLvpiE1YGEOvfsMj4j2KSVOGGvMe7y6y21tDR2a5R2kqs7cP27dib0KhgjIlbZa
-         8oAR3gFeXU1le1bcPyK3oWXBUdoxeh8D/i8gDDQxIibE460qAUivtlVigN90XrxHDH2Q
-         e5iwpDQAEJY9FY6XihbJLgMVP0jfkVPamLRPB8X82N7D6mGJ6Qm1QdfpVGa50pQ8ji/t
-         zi9mniyBKVwnP4PN1yG2VrRD5F1ccYbqKYJQS1vKMA7P/uIXamK8rpqpq8fJ/APnj204
-         Krx+X6XHj8VUNU5/DyWfoWmk6NusQiREyuvIo64GwkH5mkr6iOr/ZhvzvI3tUsjrjl+v
-         bC6Q==
-X-Gm-Message-State: APjAAAWA1tR13HxMItYcRQzOCDOmNn24QhBNWNXsf8Q7pX5ccdwOfQhk
-        4Y70Xyq4cH1gZTqIfd70Kwhoe7xN9jsyg1CGA5U=
-X-Google-Smtp-Source: APXvYqxjBHOhA2FAx/R9INxJKIh2DYhKaOmC+96fdWuPR9sXbpqz4T1747pPnd9kezYbXhCT9EEkcIi2C43a+mOB/ac=
-X-Received: by 2002:a9d:2073:: with SMTP id n106mr8392139ota.145.1576161674382;
- Thu, 12 Dec 2019 06:41:14 -0800 (PST)
+        bh=tZEozXho8/b7kOqmVnapq/xyhPGY85u/Fazs9Eblm1E=;
+        b=dUKH7BH3Sn4//5EqOh32wqtcTvr4lSLWfnob38AegkV9FtGGJvqP3/Fn4iFTy6l04L
+         kbHimVMnMj4wFnTuil3pWFN3lhRK7p75/JKVUrdb7kh3uNj54HrhF/P0yaDc7ffBKt7H
+         4pGtVjZjmAQ5oEm00luuYm8F0JE9+ZzyJpq4Zlzs7apNnkdxP5gx1gaL0/pFZ0VbM6yD
+         uKgnSGhTdHfc+C4HEdAEMyogDVWbrksBzrOA87EiWdT+tyEXTNHEsQqFJ9ve6FaLIs9v
+         qNYIlgxZJ6TkynyPD01fh8hggauuoSVDFxeQUg6lhZSK37850scnOeR7hybFr8uOq3N1
+         Qw2w==
+X-Gm-Message-State: APjAAAV/2+2rD/BCmIF7elQdCbXGCPXn/cv/ewfgjVgrp5cDX0d18kcZ
+        boQF2oe3P3lDoXKF/+SxUUGKkr2SrqOpg0WbkL2Hiw==
+X-Google-Smtp-Source: APXvYqzNd5E12+tK1syFHjNwCOV5eMNSPBpGptit7BvfAlgSkslbOpdSmdz3b8GlBGkJlIqKTDmvgy11rgnCB3iAN8w=
+X-Received: by 2002:ac2:4945:: with SMTP id o5mr5702467lfi.93.1576161732769;
+ Thu, 12 Dec 2019 06:42:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20191116005240.15722-1-robh@kernel.org> <20191116005240.15722-3-robh@kernel.org>
-In-Reply-To: <20191116005240.15722-3-robh@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 12 Dec 2019 15:41:03 +0100
-Message-ID: <CAMuHMdX20LvK2o1cZJ8q83Q08JQzH6L07gmqBm0V0xSc5GHk4A@mail.gmail.com>
-Subject: Re: [PATCH 3/3] dt-bindings: PCI: Convert generic host binding to DT schema
-To:     Rob Herring <robh@kernel.org>
-Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+References: <20191127084253.16356-1-geert+renesas@glider.be> <20191127084253.16356-7-geert+renesas@glider.be>
+In-Reply-To: <20191127084253.16356-7-geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 12 Dec 2019 15:42:01 +0100
+Message-ID: <CACRpkdb1XZAeSThxWmJtnm80T4aPufXV2UvJdVdgnw-TJe3trg@mail.gmail.com>
+Subject: Re: [PATCH v3 6/7] docs: gpio: Add GPIO Aggregator/Repeater documentation
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Andrew Murray <andrew.murray@arm.com>,
-        Zhou Wang <wangzhou1@hisilicon.com>,
-        Will Deacon <will@kernel.org>,
-        David Daney <david.daney@cavium.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+On Wed, Nov 27, 2019 at 9:43 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-On Sat, Nov 16, 2019 at 1:53 AM Rob Herring <robh@kernel.org> wrote:
-> Convert the generic PCI host binding to DT schema. The derivative Juno,
-> PLDA XpressRICH3-AXI, and Designware ECAM bindings all just vary in
-> their compatible strings. The simplest way to convert those to
-> schema is just add them into the common generic PCI host schema.
->
-> Cc: Bjorn Helgaas <bhelgaas@google.com>
-> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-> Cc: Andrew Murray <andrew.murray@arm.com>
-> Cc: Zhou Wang <wangzhou1@hisilicon.com>
-> Cc: Will Deacon <will@kernel.org>
-> Cc: David Daney <david.daney@cavium.com>
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> +The GPIO Aggregator allows access control for individual GPIOs, by aggregating
+> +them into a new gpio_chip, which can be assigned to a group or user using
+> +standard UNIX file ownership and permissions.  Furthermore, this simplifies and
+> +hardens exporting GPIOs to a virtual machine, as the VM can just grab the full
+> +GPIO controller, and no longer needs to care about which GPIOs to grab and
+> +which not, reducing the attack surface.
+> +
+> +Aggregated GPIO controllers are instantiated and destroyed by writing to
+> +write-only attribute files in sysfs.
 
-> index 515b2f9542e5..000000000000
-> --- a/Documentation/devicetree/bindings/pci/designware-pcie-ecam.txt
-> +++ /dev/null
+I suppose virtual machines will have a lengthy config file where
+they specify which GPIO lines to pick and use for their GPIO
+aggregator, and that will all be fine, the VM starts and the aggregator
+is there and we can start executing.
 
-> -Example:
-> -
-> -    pcie1: pcie@7f000000 {
-> -        compatible = "socionext,synquacer-pcie-ecam", "snps,dw-pcie-ecam";
-> -        device_type = "pci";
-> -        reg = <0x0 0x7f000000 0x0 0xf00000>;
-> -        bus-range = <0x0 0xe>;
-> -        #address-cells = <3>;
-> -        #size-cells = <2>;
-> -        ranges = <0x1000000 0x00 0x00010000 0x00 0x7ff00000 0x0 0x00010000>,
-> -                 <0x2000000 0x00 0x70000000 0x00 0x70000000 0x0 0x0f000000>,
-> -                 <0x3000000 0x3f 0x00000000 0x3f 0x00000000 0x1 0x00000000>;
-> -
-> -        #interrupt-cells = <0x1>;
-> -        interrupt-map-mask = <0x0 0x0 0x0 0x0>;
+I would perhaps point out a weakness as with all sysfs and with the current
+gpio sysfs: if a process creates an aggregator device, and then that
+process crashes, what happens when you try to restart the process and
+run e.g. your VM again?
 
-An all-zeroes interrupt-map-mask seems to be very common on embedded
-SoCs, where all devices are mapped to a single interrupt.
+Time for a hard reboot? Or should we add some design guidelines for
+these machines so that they can cleanly tear down aggregators
+previously created by the crashed VM?
 
-However, schemas/pci/pci-bus.yaml says:
-
-  interrupt-map-mask:
-    items:
-      - description: PCI high address cell
-        minimum: 0
-        maximum: 0xf800
-      - description: PCI mid address cell
-        const: 0
-      - description: PCI low address cell
-        const: 0
-      - description: PCI IRQ cell
-        minimum: 1
-        maximum: 7
-
-and thus complains about an all-zeroes mask, e.g.
-
-    arch/arm64/boot/dts/renesas/r8a7795-salvator-x.dt.yaml:
-pcie@fe000000: interrupt-map-mask:0:3: 0 is less than the minimum of 1
-
-> -        interrupt-map = <0x0 0x0 0x0 0x0 &gic 0x0 0x0 0x0 182 0x4>;
-> -        msi-map = <0x0 &its 0x0 0x10000>;
-> -        dma-coherent;
-> -    };
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Yours,
+Linus Walleij
