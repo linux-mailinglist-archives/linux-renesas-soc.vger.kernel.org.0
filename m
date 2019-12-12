@@ -2,120 +2,112 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D025E11C670
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2019 08:35:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DA1511C8DD
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2019 10:11:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728118AbfLLHdK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Dec 2019 02:33:10 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57830 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728072AbfLLHdK (ORCPT
+        id S1728198AbfLLJLt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Dec 2019 04:11:49 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:43939 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728147AbfLLJLt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Dec 2019 02:33:10 -0500
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5FBB524656;
-        Thu, 12 Dec 2019 07:33:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576135989;
-        bh=p12HIynD9FdwHF+0wBqafDSonAXyb1SgrBSwbjgba2k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WeeJAVaKEcQ79OCKF1uE2gMatc9ftJQESVzr7N51pSimXsoOUrl+5gATZmvX59JKi
-         e14oruK9gl4gVqy/j2zvltEVVeU/XBJbTzg5wOGRtmQMAUbSymS0KQNYmcFDydfEAm
-         TbL+eYw0/M27oW6kYE5GQ0TenwSb9MxC6751v7UE=
-Date:   Thu, 12 Dec 2019 08:33:06 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sasha Levin <sashal@kernel.org>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        koji.matsuoka.xm@renesas.com, takeshi.kihara.df@renesas.com,
-        harunobu.kurokawa.dn@renesas.com, khiem.nguyen.xt@renesas.com,
-        hien.dang.eb@renesas.com
-Subject: Re: [PATCH] media: vsp1: tidyup VI6_HGT_LBn_H() macro
-Message-ID: <20191212073306.GB1364286@kroah.com>
-References: <redmine.issue-245033.20191211005426@dm.renesas.com>
- <redmine.issue-245033.20191211005426.161918957b73008d@dm.renesas.com>
- <87k173bp76.wl-kuninori.morimoto.gx@renesas.com>
- <fb1648d4-3949-01c1-7d13-679b9b8540dd@ideasonboard.com>
- <20191211175811.GC4863@pendragon.ideasonboard.com>
- <b8891c8c-fefe-5728-f792-a56da08bd7aa@ideasonboard.com>
+        Thu, 12 Dec 2019 04:11:49 -0500
+Received: by mail-ot1-f67.google.com with SMTP id p8so1072885oth.10
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Dec 2019 01:11:49 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7wIM1lJRy9eAtuRPisDJiZIbJvk9fZX+UZSB0XLtzrY=;
+        b=LgTKZBOJ6cSY23w4q9h5f4kHUsHb9E/v2/2XXkBHiks3mhGDkSE8nUmLJf6NBgqG/v
+         wXRIa1pPWWQQCyRf/3oqH+rYefkFAaPHjC9EfNmTtlNxUVquiK5CQCD2Se7uspWmOJ1B
+         ECSD1bMCLOKyCGu9vy13G/ASZ7SLxwDdkb/RaHAn4f5I7GrABmLuEHs40gy6S8K9PVl0
+         8To4IQyFJpRDzi4Y9YdZKmk0hBbGqjRlQF7gviQogZ46opCvRv0ytYnY1cU+IFD+ktub
+         G5u4nbu2oRI9lc85xPC3x7jwY0Vq9U5FYkkjcH4NTNGa3v8cjdAVYtk6AnJI5+CfcXiQ
+         7ubg==
+X-Gm-Message-State: APjAAAWldHcWYWLkiqvNSv7o6oT3vnani4QYQwfiB7KEiSYxHDQhPBpU
+        sDJLTwcPh+4C35HkU83HsCvtYCFFz/xO1qFdWcY=
+X-Google-Smtp-Source: APXvYqzwFePvqkNzW8sdMGqYLAE1xQ/z7N0Q+kJIK5JiX86N5yOiaXL7el8kbtOuVhacdBDSWdTXW8js3zU5R5RlYGI=
+X-Received: by 2002:a9d:2073:: with SMTP id n106mr6976842ota.145.1576141908002;
+ Thu, 12 Dec 2019 01:11:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b8891c8c-fefe-5728-f792-a56da08bd7aa@ideasonboard.com>
+References: <20191211131311.23661-1-geert+renesas@glider.be> <20191211195217.GA10150@lxhi-065>
+In-Reply-To: <20191211195217.GA10150@lxhi-065>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 12 Dec 2019 10:11:36 +0100
+Message-ID: <CAMuHMdXOxcTMY5JFHZfHucNF++=Pyf3=H51MkeDmO2MTXn2yyw@mail.gmail.com>
+Subject: Re: [PATCH/RFC] arm64: dts: renesas: Rename r8a7796* to r8a77960*
+To:     Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Dec 11, 2019 at 09:58:11PM +0000, Kieran Bingham wrote:
-> Hi Laurent,
-> 
-> +Greg, +Sasha to opine on the merit of whether this should go to stable
-> trees (for my future learning and understanding more so than this
-> specific case)
-> 
-> On 11/12/2019 17:58, Laurent Pinchart wrote:
-> > Hello,
-> > 
-> > On Wed, Dec 11, 2019 at 12:59:57PM +0000, Kieran Bingham wrote:
-> >> Hi Morimoto-san,
-> >>
-> >> Thank you for the patch,
-> > 
-> > Likewise :-)
-> > 
-> >> On 11/12/2019 01:55, Kuninori Morimoto wrote:
-> >>>
-> >>> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-> >>>
-> >>> The address of VSP2_VI6_HGT_LBx_H are
-> >>> 	VSP2_VI6_HGT_LB0_H : 0x3428
-> >>> 	VSP2_VI6_HGT_LB1_H : 0x3430
-> >>> 	VSP2_VI6_HGT_LB2_H : 0x3438
-> >>> 	VSP2_VI6_HGT_LB3_H : 0x3440
-> >>>
-> >>> Thus, VI6_HGT_LBn_H() macro should start from 0x3420 instead of 0x3430.
-> >>> This patch fixup it.
-> 
-> s/fixup/fixes/
-> 
-> 
-> >> I think this deserves a fixes tag:
-> >>
-> >> Fixes: 26e0ca22c3b8 ("[media] v4l: Renesas R-Car VSP1 driver")
-> > 
-> > Given that this macro is not used, we could argue that it doesn't fix
-> > anything yet :-) I'd rather avoid having this backported to stable
-> > kernels as it's not useful to have it there, and thus not add a Fixes
-> 
-> I'm sorry - I'm not sure I can agree here, Do you know that no one will
-> use this macro when they back port the HGT functionality to an LTSI kernel?
-> 
-> We know the Renesas BSP uses LTSI kernels, and the very nature of the
-> fact that this typo has been spotted by the Renesas BSP team suggests
-> that they are indeed looking at/using this functionality ...
-> 
-> (Ok, so maybe they will thus apply the fix themselves, but that's not my
-> point, and if they 'have' to apply the fix - it should be in stable?)
-> 
-> It feels a bit presumptuous to state that we shouldn't fix this because
-> /we/ don't utilise it yet, when this issue is in mainline regardless ...
+Hi Eugeniu,
 
-Nothing should be in the kernel tree that is not already used by
-something in that specific kernel tree.  We don't care about out-of-tree
-code, and especially for stable kernel patches, it does not matter in
-the least.
+On Wed, Dec 11, 2019 at 8:52 PM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
+> On Wed, Dec 11, 2019 at 02:13:11PM +0100, Geert Uytterhoeven wrote:
+> > Disadvantages:
+> >   - The DTB files are renamed.
+>
+> This reminded me of a past contribution [*], where, based on feedback
+> from Laurent and Simon, the decision was to avoid DTS renaming. Does
+> this series mean that one day, given enough time and resources, we
+> might also eliminate the "r8a779[5-6]" and "(h3|m3|m3n)" redundancy in
+> the naming scheme of the ULCB DTS? (not that it bothers me much)
 
-If you have out-of-tree code, you are on your own here, sorry.
+Thanks for reminding me!
 
-So no, no backporting of stuff that no one actually uses in the codebase
-itself.
+At that time, the rename was considered too intrusive, compared to the
+slim benefit.
 
-thanks,
+However, if we're renaming the files anyway, and thus causing a
+(temporary) inconvenience for the user, I think this is a good moment
+to get rid of the "(h3|m3|m3n)" redundancy in the DTS naming scheme
+(unfortunately we cannot do that for the "renesas,(h3|m3|m3n)ulcb"
+ compatible values).
 
-greg k-h
+Hence for R-Car H3, I will move forward the rename of the DTS files, so
+all renames happen in the same kernel release time frame.
+
+Regarding the R-Car V3HSK and V3MSK boards, dropping the "v3m" resp.
+"v3h" from r8a77970-v3msk.dts resp. r8a77980-v3hsk.dts is IMHO
+different: the boards are not called "sk", and are far from identical,
+unlike "ulcb" and "salvator-x(s)".
+Renesas has lots of "sk", "rsk", and "evm" boards. Let's hope they don't
+plan any unrelated "ulcb" boards...
+
+> PS: [Thinking out loud] Need to get prepared for using two versions of
+> U-Boot scripts when switching between BSP and vanilla kernels on the
+> r8a77960 targets. This will definitely add a tiny bit of overhead, but
+> nevertheless it looks like an investment to me, the one which users
+> will not regret (on the contrary, will be happy about) in some years
+> from now.
+
+I'm fully aware of that inconvenience.
+
+> Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+
+Thank you!
+
+> [*] https://patchwork.kernel.org/patch/10555955/
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
