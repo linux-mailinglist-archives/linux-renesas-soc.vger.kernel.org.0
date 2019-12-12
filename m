@@ -2,52 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D21611CB0C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2019 11:37:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DBEC311CE25
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2019 14:21:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728696AbfLLKhu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Dec 2019 05:37:50 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:45639 "EHLO
+        id S1729387AbfLLNU6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Dec 2019 08:20:58 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:32974 "EHLO
         mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728643AbfLLKhu (ORCPT
+        with ESMTP id S1729342AbfLLNU6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Dec 2019 05:37:50 -0500
-Received: by mail-lj1-f195.google.com with SMTP id d20so1672491ljc.12
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Dec 2019 02:37:49 -0800 (PST)
+        Thu, 12 Dec 2019 08:20:58 -0500
+Received: by mail-lj1-f195.google.com with SMTP id 21so2282998ljr.0
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Dec 2019 05:20:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=5SqIcgl9aAE6TWcTOYOiDMyzk/mR4NkfrL+RLRJKD3A=;
-        b=zrhJ0jrk8v5e2O4535/tOC22kazrIMievOQeaiWJ+BlR4UVjsChlFbVD0HUP/xerlF
-         3wBn6gl7CtLZNMLO+hWHrUxx7TlUMy+HaBVNYdFSjUevwA+HgtpDaR/FfWiBn+H3/er1
-         Ir1JZ0uUzRwlVBp6+6TflpQV+NyONx/CUx6PfVtw8pha+1yrolweS7xYIjv4DlMP0k1P
-         XOhV11uS5VZMIYGGOzwg0tu3/fO6zs+rszwaXK1aYekYsMbWaPyrGtTq3LYaH/mvE5iQ
-         s9UeDa5n1umu6QM/E8cUVmJXwoUnqEmMp8bLHfDq9VdNK4nvCsZsWa5Hwgkt0RCw1ijh
-         DpHw==
+        bh=Hg7Wl/6CET3pvbTGNm/tGvdeGMQk6gSudBEEyfBygCo=;
+        b=SSsBUJhxA1aRWawSyAxOR8XEmSe8IeDhUogI22JjnRdTk3guoUUCNE18wU5spaIBSN
+         Tge40xKNTf2c46f/Ct3PtBV62vLDyTgN2F3kU/LEPoq1BJ2nnzBXF8JYtD2eEX1mqIJz
+         rW7wDkFNi5MxHljIDydZyIjHe6qK9dZp/ZzKZFTU8OzgxhvVNWUmlr/+DUAbJCPCYqdT
+         SZmfh20Q3fi5Bhn0MuHL9ePyN6uLVtDrP1daGTkTkZZvu5ew56B9/mLwobAy+2/ftSrB
+         0Q9aN+TRxhkjgCuoZ7lNHssuUGfAJkwH65uRfr9oM3Du3HhN0ra9yv9gV/v3pVzTcRo0
+         0k3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=5SqIcgl9aAE6TWcTOYOiDMyzk/mR4NkfrL+RLRJKD3A=;
-        b=kTOSwRyNWjL2jPm7HjNSuimpwQ1v49ATn852+ljLV3rAKjFldQA8JfTcaMeKNzu1k1
-         c8wTIGsNo48Q8OH6oX8oAmrtt5n04A2LxZqrnXwf7FbHFmdEL9zr2A+6MsbNeNgyMxRz
-         aF4lk8O/4vleIYuM2GCh1PXN9r5WO7SDX0a4WkNNJanT6h8qrTE1mhK+D9AzxUU4oXVG
-         OZ76Uy4CgpQ2TMG0v5UfEV3EvNqwWQJ400BR1OmaM5IJJEHW9tlKKhjJ35U2olmak7kh
-         L75e3zUxTHoIGlU9wI6ihq5c8wGcFsGXWDSykqKpKj6T5VEBfy+iBHh/5IyHOz8wMUWp
-         N5OQ==
-X-Gm-Message-State: APjAAAU+ZPNBGJo0bQbZyWYs355HMlPjHGCvR8+lIAK4ew4HJBIHySyq
-        fe8UgBu8b/ztpm8Hw3IMXOzq7jHW/qMh4TNOa4sC0A==
-X-Google-Smtp-Source: APXvYqxXDWfApEe5saT3On7j10fORvpRuprInc2tRlPoCQ/N7PszanwFYUgT0kGoFWH15AGjzElKuVlkyQcfwIG8L6U=
-X-Received: by 2002:a2e:844e:: with SMTP id u14mr5366826ljh.183.1576147068543;
- Thu, 12 Dec 2019 02:37:48 -0800 (PST)
+        bh=Hg7Wl/6CET3pvbTGNm/tGvdeGMQk6gSudBEEyfBygCo=;
+        b=pMOyE6cWdjO5uOoOov+x2hPYchEi1438IBf1cTzCc69geLHG9jbUx36Ij+JvqVGdhi
+         MKV0yEX3BjvxW15kZAQOvDK8KhnnoE8geKlRoNQtitgifLbZtSGH0f9G2Xuu9zB0Z+KJ
+         YGBN+OgqRHVf/r7xegSHzRfspo83Gqc1TA4RjSLsJhw3CrAlg4nYaWgABPCwbniGMLrB
+         +9Ut6vbkmjdrwiOh7f06jGzX1PMkWdw3EGR7saw9mmEgMqDCUowNS+dGQ3NHF5fmUj7p
+         iwNq1xBFAyjOQWPU7P+ZyKwSKLdK21daTEmGwgvzWWfGCuYhbJOUMk+3Kn2CkYj3h1q3
+         lzzg==
+X-Gm-Message-State: APjAAAWzwAu7/P69xxa3rJFgZ5UzjaeC8utBx4fsYk44/QdvkGzDafJz
+        afJMWyeaw6IldDpCwnBtNeeijUJawzSigVSZqyvkhQ==
+X-Google-Smtp-Source: APXvYqw5fhzsAgc+HL+XC84iHcSjemi0g8V+vxBZMQOSmUPecN5cY5o5jyiYAB8ZURwvkZwuG5+myIg9qUaLJdi8vHI=
+X-Received: by 2002:a2e:844e:: with SMTP id u14mr5871004ljh.183.1576156856527;
+ Thu, 12 Dec 2019 05:20:56 -0800 (PST)
 MIME-Version: 1.0
-References: <20191127084253.16356-1-geert+renesas@glider.be> <20191127084253.16356-2-geert+renesas@glider.be>
-In-Reply-To: <20191127084253.16356-2-geert+renesas@glider.be>
+References: <20191127084253.16356-1-geert+renesas@glider.be> <20191127084253.16356-3-geert+renesas@glider.be>
+In-Reply-To: <20191127084253.16356-3-geert+renesas@glider.be>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 12 Dec 2019 11:37:37 +0100
-Message-ID: <CACRpkdY18k7EXb_oMAYXM44jz4Oc+AtcNWZfStPBZ4K1TnZ6mw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/7] gpiolib: Add GPIOCHIP_NAME definition
+Date:   Thu, 12 Dec 2019 14:20:45 +0100
+Message-ID: <CACRpkdYyY0eGipdK6ixZxLtdJ5px=U2mOa79VZb00NEEAEL=6g@mail.gmail.com>
+Subject: Re: [PATCH v3 2/7] gpiolib: Add support for gpiochipN-based table lookup
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -75,20 +75,68 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Geert!
+
 On Wed, Nov 27, 2019 at 9:43 AM Geert Uytterhoeven
 <geert+renesas@glider.be> wrote:
 
-> The string literal "gpiochip" is used in several places.
-> Add a definition for it, and use it everywhere, to make sure everything
-> stays in sync.
+> Currently GPIO controllers can only be referred to by label in GPIO
+> lookup tables.
+>
+> Add support for looking them up by "gpiochipN" name, with "N" either the
+> corresponding GPIO device's ID number, or the GPIO controller's first
+> GPIO number.
 >
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v3:
->   - New.
 
-This is a good patch on its own merits so I have applied
-this with the ACKs. (Haven't looked at the rest yet...)
+What the commit message is missing is a rationale, why is this needed?
+
+> If this is rejected, the GPIO Aggregator documentation must be updated.
+>
+> The second variant is currently used by the legacy sysfs interface only,
+> so perhaps the chip->base check should be dropped?
+
+Anything improving the sysfs is actively discouraged by me.
+If it is just about staying compatible it is another thing.
+
+> +static int gpiochip_match_id(struct gpio_chip *chip, void *data)
+> +{
+> +       int id = (uintptr_t)data;
+> +
+> +       return id == chip->base || id == chip->gpiodev->id;
+> +}
+>  static struct gpio_chip *find_chip_by_name(const char *name)
+>  {
+> -       return gpiochip_find((void *)name, gpiochip_match_name);
+> +       struct gpio_chip *chip;
+> +       int id;
+> +
+> +       chip = gpiochip_find((void *)name, gpiochip_match_name);
+> +       if (chip)
+> +               return chip;
+> +
+> +       if (!str_has_prefix(name, GPIOCHIP_NAME))
+> +               return NULL;
+> +
+> +       if (kstrtoint(name + strlen(GPIOCHIP_NAME), 10, &id))
+> +               return NULL;
+> +
+> +       return gpiochip_find((void *)(uintptr_t)id, gpiochip_match_id);
+
+Isn't it easier to just  augment the existing match function to
+check like this:
+
+static int gpiochip_match_name(struct gpio_chip *chip, void *data)
+{
+        const char *name = data;
+
+        if (!strcmp(chip->label, name))
+               return 0;
+        return !strcmp(dev_name(&chip->gpiodev->dev), name);
+}
+
+We should I guess also add some kerneldoc to say we first
+match on the label and second on dev_name().
 
 Yours,
 Linus Walleij
