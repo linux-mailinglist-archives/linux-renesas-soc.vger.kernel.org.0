@@ -2,164 +2,332 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6728111CFCB
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2019 15:29:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A9DC011CFE1
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2019 15:34:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729740AbfLLO3M (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Dec 2019 09:29:12 -0500
-Received: from mail-eopbgr1410123.outbound.protection.outlook.com ([40.107.141.123]:38456
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729611AbfLLO3L (ORCPT
+        id S1729734AbfLLOeZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Dec 2019 09:34:25 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:42756 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729714AbfLLOeZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Dec 2019 09:29:11 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JeZNpqDSqmTaiA81eZw42cp0b322Yq57egrc+DZTzBx0EWgqG5yLP7BBHG4lNZvHWXvl05OFzi18c+LG1JmO9h0Y8g1yS9vaKJ3HK0aGvYkuGS1MVG29Wo01JvVCyYkdsZTieFssadiZbfUSAZjcGq2YTg6jaz6AItddTYNNfQgKwEi6aZMz8yE1k/PdmKREem4U7jf8tVauHdtdbSTg2zxS9uKZJY7le1RXXvzx3VoLHHv9QVmXkk8riOyrrh60zdTUIzK0JUz21ey4mfRrpD4j0UkBN6WLutlP6i+wxbAbO+iPd4QJ9b9Ue9ib1wbJrby8gO46BvMZFi5cm4PFLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JeZ1a9Im1WbyCPr12Zc4qBhCePGHp8K/LJ7yKzheCGQ=;
- b=as0o7DKWT4A253ldAEnhIoe+30HoHghCad0Q8uKSDV3yTV+zSYipanFZ9TASnW3b5C/OPyVbdCv0kgobL4AncCjxPsarXv6tEWwnCd9Ob1LpKoNILWl/N5oV/x2w+siFQDsGTFQUCiCvp9rm5fVv4E5La7V4nE8nQxu6Pq6S6skJFkmy2tgxsxrTLJdOhJLdeblTxVaD1t6uyNyaOyG5QpPLuprx98/KAOAOHJ8sRjxr5elRGmWXgbrQ368WT2dGiyFt/KgNVDNCl3f9r9h97re2P6NcpjZuFBmmavW56fqjsKUZs1b+cGEDSjjDXIeU/vUokIdDjhmSVHXfudNDQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
+        Thu, 12 Dec 2019 09:34:25 -0500
+Received: by mail-lj1-f193.google.com with SMTP id e28so2521198ljo.9
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Dec 2019 06:34:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JeZ1a9Im1WbyCPr12Zc4qBhCePGHp8K/LJ7yKzheCGQ=;
- b=Ms1msf5Bj/eXFdDKjJmU9nsbuTZLISHgzF1GEW/P3Rb0LR+bsPAEWI5WGPOGZhCxdEdAcM05d8inbe0gc+kY4fGC6A1oN0+1x88ovJj691HsJ4dJqYwha85BKl2gem1WdjmuXWMvIiyLVqaZtkNHoynzIbt5jVB6C3MYN0Gx08w=
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com (52.133.163.12) by
- TY1PR01MB1705.jpnprd01.prod.outlook.com (52.133.164.21) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2538.16; Thu, 12 Dec 2019 14:29:07 +0000
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::74db:232e:f59e:83f2]) by TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::74db:232e:f59e:83f2%3]) with mapi id 15.20.2516.018; Thu, 12 Dec 2019
- 14:29:07 +0000
-From:   Chris Brandt <Chris.Brandt@renesas.com>
-To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Mark Brown <broonie@kernel.org>,
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=M01hRpD11CkkOeauBIVCjuItQ11kCezb4GIbMatT12c=;
+        b=jwMxC2KjvVPAJJabNt2EixKGKNXDmT6INs3XC3sgyHNqZBtPmTN4Tm+tz0Ys8mMnlI
+         6iXQrpWyX159Jei4YMB2xTsoD/xSMAZVmG2upOB4pQq9PG0NPT5ZVkVMoeHIMv0ALiLq
+         ZqRfteFEjzauejojoUL4jnojtYaFCLrtZMLNlqiFNufQeb9yeU6XifAljnjLUYBpIRZ3
+         hCe6KvmaOnpA8ZxohByGH/M3WUG0NmNop6Ept8tGjmI9oYU7NethV3yAqH8g+ORjoocp
+         eKj+9MPSdmcu1QAjGxi/pYJmZ5pU1BKMgd/Xx5nJs25JpNgA5IejqQ41Bj0K/IkFut/G
+         XvtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=M01hRpD11CkkOeauBIVCjuItQ11kCezb4GIbMatT12c=;
+        b=AoDfGbRzahfapXhzDgJev7+bH2xDFFfU16yRr3yIkpJ7wRUSg6NwW4tQUP2RXEY+su
+         VlWaJ9DtwOOSkt6lyBlXFZtAV7xiMjt7k/s5O12LvczyNgKi97z46ZAZn7/1nmCYw7lO
+         eGDCLcQKggddItntYQunEN2Wzd9g2by9pwvnQXk6dE94lQEyUHNe2DqzTebuj7e0i22p
+         x3XeTo4GY9U96CuhKUSzlVbAn43PIEGcPeWWYYUPbg0IZSkgAj3cpCfDrhRC75cYXuou
+         w4kVCX2zd32aND29qK6AB0iHhLXx0wxbN7pz6r4Q+htURgb4LmQyfldC11cQzorqe52L
+         cIMA==
+X-Gm-Message-State: APjAAAUBUpgPVgUsgjwdAkYQCN1OgTzaJh5CSfvAjEEX5eMx6iV1fXb8
+        aVEFMl+ajXQZhP/2dvB624mKXIFW1tyIcH1X9XNT7g==
+X-Google-Smtp-Source: APXvYqwxi4IxwAztLPEIoaBKmWi+PA6mLW1szFcIPlhkAwR494Ll690WDLTixRbkmknZWP+z6eu4/b3mbO4S/MBcekg=
+X-Received: by 2002:a2e:9ec4:: with SMTP id h4mr6202874ljk.77.1576161261524;
+ Thu, 12 Dec 2019 06:34:21 -0800 (PST)
+MIME-Version: 1.0
+References: <20191127084253.16356-1-geert+renesas@glider.be> <20191127084253.16356-6-geert+renesas@glider.be>
+In-Reply-To: <20191127084253.16356-6-geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 12 Dec 2019 15:34:09 +0100
+Message-ID: <CACRpkdaW7nmpE99FAvBDBTmkTZOTQ5WdM=JbMzBTLk7cbLRXPw@mail.gmail.com>
+Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-CC:     "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        Mason Yang <masonccyang@mxic.com.tw>
-Subject: RE: [PATCH v2 0/6] spi: Add Renesas SPIBSC controller
-Thread-Topic: [PATCH v2 0/6] spi: Add Renesas SPIBSC controller
-Thread-Index: AQHVrDsFo/XrCnZmIE+HK5Vec6rH7qevIW6AgAK0x/CAA35sAIABOkow
-Date:   Thu, 12 Dec 2019 14:29:07 +0000
-Message-ID: <TY1PR01MB1562D343E1AB06DCA2973DAC8A550@TY1PR01MB1562.jpnprd01.prod.outlook.com>
-References: <20191206134202.18784-1-chris.brandt@renesas.com>
- <922cfa46-efb5-9e6d-67ea-3ac505b8211c@cogentembedded.com>
- <TY1PR01MB156215E8668C0317FA0826B18A580@TY1PR01MB1562.jpnprd01.prod.outlook.com>
- <e6a73df5-31c4-3472-f7bc-a0984f1f5380@cogentembedded.com>
-In-Reply-To: <e6a73df5-31c4-3472-f7bc-a0984f1f5380@cogentembedded.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcY2JyYW5kdDAxXGFwcGRhdGFccm9hbWluZ1wwOWQ4NDliNi0zMmQzLTRhNDAtODVlZS02Yjg0YmEyOWUzNWJcbXNnc1xtc2ctYmVkMTA4NWQtMWNlYi0xMWVhLWFhNTUtOTRlNmY3Njc5M2FlXGFtZS10ZXN0XGJlZDEwODVlLTFjZWItMTFlYS1hYTU1LTk0ZTZmNzY3OTNhZWJvZHkudHh0IiBzej0iMzYzNCIgdD0iMTMyMjA2MzQ1NDQzNjkwMjQ3IiBoPSJVMlJzTFducWJCbVBPVmhma3Q0WW5YZE1XYlE9IiBpZD0iIiBibD0iMCIgYm89IjEiLz48L21ldGE+
-x-dg-rorf: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Chris.Brandt@renesas.com; 
-x-originating-ip: [75.60.247.61]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: c199541c-7640-4802-3e48-08d77f0fa5a6
-x-ms-traffictypediagnostic: TY1PR01MB1705:
-x-microsoft-antispam-prvs: <TY1PR01MB1705C79BB4B99781BDCB1B998A550@TY1PR01MB1705.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 0249EFCB0B
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(136003)(396003)(346002)(39860400002)(366004)(376002)(199004)(189003)(52536014)(7416002)(9686003)(2906002)(4326008)(5660300002)(54906003)(71200400001)(81156014)(81166006)(8676002)(8936002)(26005)(33656002)(186003)(55016002)(86362001)(110136005)(316002)(66946007)(66446008)(66476007)(66556008)(64756008)(76116006)(478600001)(966005)(6506007)(7696005);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1705;H:TY1PR01MB1562.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: jln7POp5IvUxj3QxR0F/3Y+ZxhpJX/OFWYCiFVtLrfKw4nevzAxMhi2OqBITb3uXO1A9I8gL1mxdruIBtOP5TdPHFE4SQt0BUuI98mFXeipdYbzHhPDYUc3EYZ08MadDDQAWOuuhqdTK3Vi0ouw4lvFGt1NmYJYw2XBfTbylhXmJOL5cfsiLiw47fXwVBJeu1ZElOrbup3J9F2hgmv1so47DVRM+3M9UP01ppE/iqNCvTiEzM3OP+4H4zr5LuZ5yReF6wl0xdBkazRkWRoIaBewAjt6TgbYf310fbxhdAsa61ePLFKVjK0H4AcUl0AClOX1xGy2/c24d+WX8vEJB0Y0Rg/n8zD7n34+0jiguQoEa8MwpHFtyhGjeRctzWHl1uoQ7CxhyVxETPHHPUz/9ONPTcimR/5UyczVp1OKtsf2dcFyo9wttJX4mxey5LBCF
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c199541c-7640-4802-3e48-08d77f0fa5a6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Dec 2019 14:29:07.5437
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 42ZNXvaNlSPdW+qDnoeBE9J6KXQHacLLUnHjjihnzUntJS2eSXMv+JXTzs/ehiJu1aT253RCV3l5Lxx9TerCcmw8UFTaEfXgEmEe6LBPq7Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1705
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-T24gV2VkLCBEZWMgMTEsIDIwMTksIFNlcmdlaSBTaHR5bHlvdiB3cm90ZToNCj4gPiBTaW5jZSBR
-U1BJLCBIeXBlckZsYXNoIGFuZCBPY3RhRmxhc2ggYXJlIGFsbCAnc2VyaWFsJyBGbGFzaA0KPiA+
-IHRlY2hub2xvZ2llcywgSSB3b3VsZCBiZSBmaW5kIHdpdGggYSBkcml2ZXIgbmFtZSBvZiAiU0JT
-QyIgKCJTZXJpYWwNCj4gPiBCdXMgU3BhY2UNCj4gPiBDb250cm9sbGVyIikgd2hpY2ggYXQgbGVh
-c3QgbG9va3MgY2xvc2VyIHRvIHdoYXQgaXMgaW4gYWxsIHRoZQ0KPiA+IGhhcmR3YXJlIG1hbnVh
-bHMuDQo+IA0KPiAgICBIb3cgYWJvdXQgIlNlcmlhbCBGbGFzaCBDb250cm9sbGVyIiBpbnN0ZWFk
-Pw0KDQpJIHdvdWxkIGxpa2UgdGhhdCBiZXR0ZXIgdGhhbiAiUlBDIi4gQXQgbGVhc3QgaXQgZGVz
-Y3JpYmVzIHdoYXQgaXQgaXMuDQpSUEMgc2VlbXMgbGlrZSBhIHN0dXBpZCBuYW1lIHRvIG1lIChi
-dXQgbWF5YmUgdGhhdCdzIGp1c3QgYmVjYXVzZSBJIGtub3cNCmhvdyB0aGF0IG5hbWUgd2FzIGNo
-b3Nlbi4uLikNCmh0dHBzOi8vd3d3LmN5cHJlc3MuY29tL25ld3MvY3lwcmVzcy1zaW1wbGlmaWVz
-LWVtYmVkZGVkLXN5c3RlbS1kZXNpZ24tbmV3LWxvdy1waW4tY291bnQtaHlwZXJyYW0tbWVtb3J5
-DQogIlRoZSBIeXBlclJBTSBhbmQgSHlwZXJGbGFzaCBzb2x1dGlvbiByZWR1Y2VzIHBpbiBjb3Vu
-dCBieSBhdCBsZWFzdCAyOCBwaW5zLCAuLi4iDQoNCg0KQXMgYSBzaWRlIG5vdGUsIHRoZXJlIGlz
-IGFub3RoZXIgSFcgYmxvY2sgaW4gUmVuZXNhcyB0aGF0IGRvZXMgdGhlIHNhbWUgDQp0aGluZyBh
-cyB0aGUgU1BJLUJTQyB0aGF0IHRoZXkgdXNlIGluIHRoZSBNQ1UgZGV2aWNlcy4gVGhhdCBvbmUg
-dGhleSANCmp1c3QgbmFtZWQgIlFTUEkiLg0KDQo+ID4+PiBUaGlzIGRyaXZlciBoYXMgYmVlbiB0
-ZXN0ZWQgb24gYW4gUlovQTFIIFJTSyBhbmQgUlovQTJNIEVWQi4NCj4gPj4NCj4gPj4gICAgSW4g
-dGhlIFNQSSBtb2RlIG9ubHksIEkgYXNzdW1lPw0KPiA+DQo+ID4gWWVzLiBBdCB0aGUgbW9tZW50
-LCB0aGVyZSBhcmUgb25seSByZXF1ZXN0cyBmcm9tIHVzZXJzIGZvciBRU1BJIGZsYXNoDQo+ID4g
-YWNjZXNzIChSWi9BIGFuZCBSWi9HIHVzZXJzKS4NCj4gDQo+ICAgIEkga2VlcCBiZWluZyB0b2xk
-IGJ5IHRoZSBtYW5hZ2VtZW50IHRoYXQgd2UgbmVlZCBIeXBlckZsYXNoIHRvby4gOi0pIEluDQo+
-IG91ciBCU1AgZGV2ZWxvcG1lbnQsIG91ciBlbmdpbmVlcnMgd2VudCAic2FtZSBoYXJkd2FyZSwg
-MiBkcml2ZXJzIg0KPiB3YXkgKHdpdGggZGlmZmVyZW50ICJjb21wYXRpYmxlcyIgcGVyIGRyaXZl
-cikuLi4NCg0KTXkgcGxhbiB3YXMgc2FtZSBIVywgc2FtZSAiY29tcGF0aWJsZXMiLCBzYW1lIGRy
-aXZlci4uLmJ1dCB0aGUgZHJpdmVyIA0Kd291bGQgZWl0aGVyIHJlZ2lzdGVyIGEgU1BJIGNvbnRy
-b2xsZXIgb3IgYSBIeXBlcmZsYXNoIGNvbnRyb2xsZXIuDQoNCk5vdGUgdGhhdCB0aGUgTU1DL1NE
-SEkgaXMgdGhlIHNhbWUgSFcgYnV0IGNhbiBhY3QgbGlrZSAyIGRpZmZlcmVudCBwZXJpcGhlcmFs
-cy4NCldlIGFsc28gaGF2ZSBVU0IgdGhhdCBjYW4gYmUgZWl0aGVyIGhvc3Qgb3IgcGVyaXBoZXJh
-bC4NCg0KDQo+ID4+PiBUaGUgdGVzdGluZyBtb3N0bHkgY29uc2lzdGVkIG9mIGZvcm1hdHRpbmcg
-YW4gYXJlYSBhcyBKRkZTMiBhbmQNCj4gPj4+IGRvaW5nIGNvcHlpbmcgb2YgZmlsZXMgYW5kIHN1
-Y2guDQo+ID4+DQo+ID4+ICAgIERpZCB0aGUgc2FtZSAob3IgYXQgbGVhc3QgdHJpZWQgdG8gOi0p
-IGFuZCBJIG11c3QgYWRtaXQgdGhhdA0KPiA+PiB3cml0aW5nIGRvZXNuJ3Qgd29yayB3aXRoIGFu
-eSBvZiB0aGUgZnJvbnQgZW5kcy4uLiBJIHN0aWxsIG5lZWQgdG8gZ2V0DQo+IHRoaXMgZml4ZWQu
-DQo+IA0KPiAgICBUaGUgbGFzdCB3b3JkIGZyb20gb3VyIEJTUCBwZW9wbGUgd2FzIHRoYXQgSkZG
-UzIgZG9lc24ndCB3b3JrIHdpdGggdGhlDQo+IEh5cGVyRkxhc2ggZGVkaWNhdGVkIEJTUCBkcml2
-ZXIuLi4gOi0vDQoNCklzIHRoYXQgd2h5IHRoaXMgIlJQQyIgcGF0Y2ggc2VyaWVzIGlzIHRha2lu
-ZyBzbyBsb25nPw0KSXQncyBhIGZhaXJseSBzaW1wbGUgcGllY2Ugb2YgaGFyZHdhcmUuDQoNCldo
-ZW4gSSBmaXJzdCBzYXcgdGhlIHNlcmllcyBvbiB0aGUgbWFpbGluZyBsaXN0LCBteSBwbGFuIHdh
-cyB0byBqdXN0IHdhaXQNCmFuZCB0aGVuIGFkZCBSWi9BMSBhbmQgUlovQTIgc3VwcG9ydC4gQnV0
-Li4uLml0IGxvb2tzIGxpa2UgaXQgYWxsIGRpZWQuDQoNClNvLCBJIHRob3VnaHQgSSB3b3VsZCBh
-dCBsZWFzdCBwdXQgaW4gbXkgb3duIGRyaXZlciBmb3IgU1BJIGZsYXNoIG5vdywgDQphbmQgdGhl
-biBnbyBiYWNrIGFuZCBhZGQgSHlwZXJGbGFzaC9PY3RhRmxhc2ggb25jZSBJIGdldCB0aGUgY2hp
-cHMgDQpzd2FwcGVkIG91dCBvbiBvbmUgb2YgbXkgUlovQTIgYm9hcmRzLg0KDQoNCj4gPiBIb3dl
-dmVyLCB0aGUgZHJpdmVyIEkgcG9zdGVkIGlzIHByZXR0eSBzaW1wbGUgYW5kIHdvcmtzLiBEb2Vz
-IHRoZQ0KPiA+IEh5cGVyRmxhc2ggTVREDQo+IA0KPiAgICBUaGVyZSdzIG5vIEhGIGxpYnJhcnks
-IG9ubHkgZnJvbnQgZW5kIGRyaXZlci4NCj4gICAgVGhlIHJlYWwgbGlicmFyeSBjb3ZlcnMgYm90
-aCBTUEkgYW5kIEhGLiBUaGUgb25seSBkaWZmZXJlbmNlIGJldHdlZW4gdGhlDQo+IHR3byBpcyB0
-aGUgaC93IHNldHVwIChtaW5vciBkaWZmZXJlbmNlKS4NCg0KQnV0IGlzIHRoaXMgImxpYnJhcnki
-IHNvbWV0aGluZyBzcGVjaWZpYyB0byBSZW5lc2FzIGRldmljZXM/DQpUaGF0J3Mgd2hhdCBJJ20g
-dHJ5aW5nIHRvIHVuZGVyc3RhbmQuDQoNCk15IHVuZGVyc3RhbmRpbmcgaXMgdGhhdCBIeXBlckZs
-YXNoIHVzZXMgc3RhbmRhcmQgQ0ZJIGNvbW1hbmRzLCBzbyBhbGwgDQp3ZSBuZWVkIHRvIGRvIGlz
-IHJlZ2lzdGVyIGEgQ0ZJIGRldmljZSBpbiB0aGUgZHJpdmVyLCBqdXN0IGxpa2Ugd2UgDQpyZWdp
-c3RlciBhIHNlcmlhbCBmbGFzaCBkZXZpY2UuDQoNCihJIGd1ZXNzIEkgY291bGQgZ28gbG9vayBh
-dCB0aGUgc2FtcGxlIGNvZGUgZm9yIG91ciBSVE9TIHBhY2thZ2UgYW5kIGZpbmQgb3V0KQ0KDQoN
-Cj4gPiBsaWJyYXJ5IHRoYXQgeW91IGFyZSBwcm9wb3NpbmcgaGF2ZSBhIHZlcnkgZGlmZmVyZW50
-IEFQSSB0aGFuIGp1c3QNCj4gPiAnc2VuZCBieXRlcycgYW5kICdyZWNlaXZlIGJ5dGVzJz8NCj4g
-DQo+ICAgIFRoZXJlJ3MgInByZXBhcmUiIGFuZCAidHJhbnNmZXIiIEFQSXMgYW5kIGFsc28gImRp
-cmVjdCBtYXAgcmVhZCIgQVBJLg0KDQpJIHdvbmRlciB3aGF0IGlzIHRoZSB2YWx1ZSBvZiB0aGUg
-ImRpcmVjdCBtYXAgcmVhZCIgKG90aGVyIHRoYW4gWElQIGluIA0KUlovQSBzeXN0ZW1zKS4gSWYg
-eW91IHJlYWxseSB3YW50IHRvIGRpcmVjdGx5IGFjY2VzcyB0aGUgZmxhc2ggKG5vIA0KYnVmZmVy
-aW5nIHRob3VnaCB0aGUgTVREIGxheWVyKSwgeW91IG5lZWQgdG8gcmVnaXN0ZXIgYXMgYSBtdGQt
-cm9tIGRldmljZSwgDQphbmQgdGhlbiB5b3UgZG9uJ3QgcmVhbGx5IG5lZWQgYW4gQVBJIGF0IGFs
-bC4NCg0KDQpDaHJpcw0KDQo=
+Hi Geert!
+
+Thanks for this interesting patch!
+
+On Wed, Nov 27, 2019 at 9:43 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+
+> GPIO controllers are exported to userspace using /dev/gpiochip*
+> character devices.  Access control to these devices is provided by
+> standard UNIX file system permissions, on an all-or-nothing basis:
+> either a GPIO controller is accessible for a user, or it is not.
+> Currently no mechanism exists to control access to individual GPIOs.
+>
+> Hence add a GPIO driver to aggregate existing GPIOs, and expose them as
+> a new gpiochip.
+>
+> This supports the following use cases:
+>   1. Aggregating GPIOs using Sysfs
+>      This is useful for implementing access control, and assigning a set
+>      of GPIOs to a specific user or virtual machine.
+>
+>   2. GPIO Repeater in Device Tree
+>      This supports modelling e.g. GPIO inverters in DT.
+>
+>   3. Generic GPIO Driver
+>      This provides userspace access to a simple GPIO-operated device
+>      described in DT, cfr. e.g. spidev for SPI-operated devices.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Overall I like how this is developing!
+
+> +config GPIO_AGGREGATOR
+> +       tristate "GPIO Aggregator/Repeater"
+> +       help
+> +         Say yes here to enable the GPIO Aggregator and repeater, which
+> +         provides a way to aggregate and/or repeat existing GPIOs into a new
+> +         GPIO device.
+
+Should it say a "new virtual GPIO chip"?
+
+> +         This can serve the following purposes:
+> +           1. Assign a collection of GPIOs to a user, or export them to a
+> +              virtual machine,
+
+This is ambiguous. What is a "user"? A process calling from
+userspace? A device tree node?
+
+I would write "assign a collection of GPIO lines from any lines on
+existing physical GPIO chips to form a new virtual GPIO chip"
+
+That should be to the point, right?
+
+> +           2. Support GPIOs that are connected to a physical inverter,
+
+s/to/through/g
+
+> +           3. Provide a generic driver for a GPIO-operated device, to be
+> +               controlled from userspace using the GPIO chardev interface.
+
+I don't understand this, it needs to be elaborated. What is meant
+by a "GPIO-operated device" in this context? Example?
+
+I consistently use the term "GPIO line" as opposed to "GPIO"
+or "GPIO number" etc that are abigous, so please rephrase using
+"GPIO lines" rather than just "GPIOs" above.
+
+> +#include "gpiolib.h"
+
+Whenever this is included in a driver I want it to come with a comment
+explicitly stating exactly why and which internal symbols the driver
+needs to access. Ideally all drivers should just need <linux/gpio/driver.h>...
+
+> +static int aggr_add_gpio(struct gpio_aggregator *aggr, const char *label,
+> +                        int hwnum, unsigned int *n)
+
+u16 hwnum for the hardware number but if it is always -1/U16_MAX
+then why pass the parameter at all.
+
+Is "label" the right name of this parameter if that is going to actually
+be line_name then use that.
+
+> +{
+> +       struct gpiod_lookup_table *lookups;
+> +
+> +       lookups = krealloc(aggr->lookups, struct_size(lookups, table, *n + 2),
+> +                          GFP_KERNEL);
+> +       if (!lookups)
+> +               return -ENOMEM;
+> +
+> +       lookups->table[*n].chip_label = label;
+
+This is pending the discussion on whether to just use "key" for this
+name.
+
+> +       lookups->table[*n].chip_hwnum = hwnum;
+
+If this is always going to be U16_MAX (-1 in the current code)
+then it can just be assigned as that here instead of passed as
+parameter.
+
+> +static int aggr_parse(struct gpio_aggregator *aggr)
+> +{
+> +       char *name, *offsets, *first, *last, *next;
+> +       unsigned int a, b, i, n = 0;
+> +       char *args = aggr->args;
+> +       int error;
+> +
+> +       for (name = get_arg(&args), offsets = get_arg(&args); name;
+> +            offsets = get_arg(&args)) {
+> +               if (IS_ERR(name)) {
+> +                       pr_err("Cannot get GPIO specifier: %ld\n",
+> +                              PTR_ERR(name));
+> +                       return PTR_ERR(name);
+> +               }
+> +
+> +               if (!isrange(offsets)) {
+> +                       /* Named GPIO line */
+> +                       error = aggr_add_gpio(aggr, name, -1, &n);
+
+So the third argument woule be U16_MAX here. Or not pass
+a parameter at all.
+
+But honestly, when I look at this I don't understand why you
+have to avoid so hard to use offsets for the GPIO lines on
+your aggregator?
+
+Just put a u16 ngpios in your
+struct gpio_aggregator and count it up every time you
+add some new offsets here and you have
+offset numbers for all your GPIO lines on the aggregator
+and you can just drop the patch for lookup up lines by line
+names.
+
+Is there something wrong with my reasoning here?
+
+At the pointe later when the lines are counted from the
+allocated lookups using gpiod_count() that will just figure
+out this number anyways, so it is not like we don't know
+it at the end of the day.
+
+So it seems the patch to gpiolib is just to use machine
+descriptor tables as a substitute for a simple counter
+variable in this local struct to me.
+
+> +static void __exit gpio_aggregator_remove_all(void)
+> +{
+> +       mutex_lock(&gpio_aggregator_lock);
+> +       idr_for_each(&gpio_aggregator_idr, gpio_aggregator_idr_remove, NULL);
+> +       idr_destroy(&gpio_aggregator_idr);
+> +       mutex_unlock(&gpio_aggregator_lock);
+> +}
+> +
+> +
+> +       /*
+> +        *  Common GPIO Forwarder
+> +        */
+> +
+
+Nitpick: lots and weird spacing here.
+
+> +struct gpiochip_fwd {
+> +       struct gpio_chip chip;
+> +       struct gpio_desc **descs;
+> +       union {
+> +               struct mutex mlock;     /* protects tmp[] if can_sleep */
+> +               spinlock_t slock;       /* protects tmp[] if !can_sleep */
+> +       };
+
+That was a very elegant use of union!
+
+> +static int gpio_fwd_get_multiple(struct gpio_chip *chip, unsigned long *mask,
+> +                                unsigned long *bits)
+> +static void gpio_fwd_set_multiple(struct gpio_chip *chip, unsigned long *mask,
+> +                                 unsigned long *bits)
+
+I guess these can both be optimized to use get/set_multiple on
+the target chip if the offsets are consecutive?
+
+However that is going to be tricky so I'm not saying you should
+implement that. So for now, let's say just add a TODO: comment
+about it.
+
+> +static int gpio_fwd_init_valid_mask(struct gpio_chip *chip,
+> +                                   unsigned long *valid_mask,
+> +                                   unsigned int ngpios)
+> +{
+> +       struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
+> +       unsigned int i;
+> +
+> +       for (i = 0; i < ngpios; i++) {
+> +               if (!gpiochip_line_is_valid(fwd->descs[i]->gdev->chip,
+> +                                           gpio_chip_hwgpio(fwd->descs[i])))
+> +                       clear_bit(i, valid_mask);
+> +       }
+
+This is what uses "gpiolib.h" is it not?
+
+devm_gpiod_get_index() will not succeed if the line
+is not valid so I think this can be just dropped, since
+what you do before this is exactly devm_gpiod_get_index()
+on each line, then you call gpiochip_fwd_create()
+with the result.
+
+So I think you can just drop this entire function.
+This will not happen.
+
+If it does happen, add a comment above this loop
+explaining which circumstances would make lines on
+the forwarder invalid.
+
+> +       for (i = 0; i < ngpios; i++) {
+> +               dev_dbg(dev, "gpio %u => gpio-%d (%s)\n", i,
+> +                       desc_to_gpio(descs[i]), descs[i]->label ? : "?");
+> +
+> +               if (gpiod_cansleep(descs[i]))
+> +                       chip->can_sleep = true;
+> +               if (descs[i]->gdev->chip->set_config)
+> +                       chip->set_config = gpio_fwd_set_config;
+> +               if (descs[i]->gdev->chip->init_valid_mask)
+> +                       chip->init_valid_mask = gpio_fwd_init_valid_mask;
+> +       }
+
+I do not think you should need to inspect the init_valid_mask()
+as explained above.
+
+Add a comment above the loop that if any of the GPIO lines
+are sleeping then the entire forwarder will be sleeping
+and if any of the chips support .set_config() we will support
+setting configs.
+
+However the way that the .gpio_fwd_set_config() is coded
+it looks like you can just unconditionally assign it and
+only check the cansleep condition in this loop.
+
+> +}
+> +
+> +
+> +       /*
+> +        *  Common GPIO Aggregator/Repeater platform device
+> +        */
+> +
+
+Nitpick: weird and excess spacing again.
+
+> +       for (i = 0; i < n; i++) {
+> +               descs[i] = devm_gpiod_get_index(dev, NULL, i, GPIOD_ASIS);
+> +               if (IS_ERR(descs[i]))
+> +                       return PTR_ERR(descs[i]);
+> +       }
+
+If this succeeds none of the obtained gpio_desc:s can be
+invalid.
+
+Yours,
+Linus Walleij
