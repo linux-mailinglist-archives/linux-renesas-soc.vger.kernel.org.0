@@ -2,52 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A8C311CAEC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2019 11:33:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DF8B11CAF7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2019 11:34:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728567AbfLLKdr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Dec 2019 05:33:47 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:41231 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728561AbfLLKdn (ORCPT
+        id S1728605AbfLLKe2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Dec 2019 05:34:28 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:36340 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728695AbfLLKe0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Dec 2019 05:33:43 -0500
-Received: by mail-lf1-f67.google.com with SMTP id m30so1283760lfp.8
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Dec 2019 02:33:42 -0800 (PST)
+        Thu, 12 Dec 2019 05:34:26 -0500
+Received: by mail-lf1-f65.google.com with SMTP id n12so1308209lfe.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Dec 2019 02:34:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=qPF/yalYFBJGDvckzezeF6fnanapi0q/ha5oqUAAdfg=;
-        b=bxIPBTZs+yyuk1iz9+TSeqfLyQlsmsZfby1gnoJPTupkUIIcjhzcAZV9uufsKBGZWN
-         vR23FlTa/YkI85fPoHmQ4FgXSF9a7mK/nnWkW+c3Zpzt+nLzOEGOesVlVfVJPQgaGr93
-         FlPWdlWae9BWBbJ15aG9wHqztZLEl0OZXoJtDEar4hhVSb8uVspdReOtPfaMBf3qojY4
-         /HwPMp5fU9dpztsingagfq+N1kqlraRGZ4M2CJ34t8ohPrUd/rzGc0PZLnz01aZfCeeq
-         3r4OBKGePnEbVXQ/kbKUExFUz7YRNCsM6bo5mmnQC8DmaVZ3EtsZRxS9P037JZWIDzeD
-         x/fg==
+        bh=7ExYrHwIdHCQw2WEYskGLMt3e4iRrFiC/gjDbaG279k=;
+        b=v3r+vw4bQ6LcEOVMLroVVNcC+2Y/AzPkE2LJq2f1Lot631cAshif/11f31CHbINpBZ
+         fmYSCuW3Mz1prOo0bUtBy4htaY7FdZw8KE8xeeA/HrFGWHPc78FthcjLfD0qk2Qs/CS7
+         xkIn9QGDritjyD0ervG/Um3166uG0YKmRkjZ20pdgisOimHnx48OYbokM/CRMnZpn/7M
+         /0Xe+CxEXmAKAEIuiWVi+nam8Xc2D9V60tSyQ+M0GWZqTunhuvoWa7UY+C17G+jarcXv
+         Pi8/R8LvY9oJTetJPpFtkaAbWYxz+0lGaUdC68k3ZvRfCDiDhZ9gyadW0bJucGfP95tS
+         q0wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=qPF/yalYFBJGDvckzezeF6fnanapi0q/ha5oqUAAdfg=;
-        b=ssaOoolf3LxbEgVk4GTHckxju9Pgvb3fZ80EF10QnHr5ODO6f65o+wsLQT0IrU8h7b
-         +c8u9T8dREgbAmStkDlRB/QnX+KxNiBo6Kn7CUnEffJlxHO1d3BC3aEMfiEGImF4tChk
-         uwNk9lVhUhvAlbi+Xd6pRQMxSFDJ7+6x1IQXG1gTwhvQeaX3HItLAVJQXfekuGxVr1ar
-         KFPmQr+8Cwn66oofmPJgGAcHy4Thcp6Nb0MBxGOXfy2elcqwXL+9kYmW1YsXa130LJBZ
-         4XFwzXDc+9tud6gUlb0kkLJCJZUza6qR9dew34eOkhokl+fi67Smuzut4cJZhwoRPp1s
-         0TUQ==
-X-Gm-Message-State: APjAAAXsuo+p+Up9CmD5akVtXLcvl2HPUsaalEli2g+Mv9Cc0kKnb4dZ
-        uuavKkkoMTGxNRpaPpngx4nZ/cpXBt2AxSxPdFv5zQ==
-X-Google-Smtp-Source: APXvYqx0DF665CL99HUndMdW5PwUL0nbCGCmH0rw2D798Z4vnEevdnPuA75RWOwCG6MTgLnkPM3wqGCGL/aWEO6tMgE=
-X-Received: by 2002:ac2:5c4b:: with SMTP id s11mr5064376lfp.133.1576146821960;
- Thu, 12 Dec 2019 02:33:41 -0800 (PST)
+        bh=7ExYrHwIdHCQw2WEYskGLMt3e4iRrFiC/gjDbaG279k=;
+        b=ROrp5WsmLO5Hxsu7SNwU8jhUJIE+yqp39f+HX0CVSF4J8MNGXOd3No1wxO37/+hbI1
+         9HItkM1onP3CbZijCjHIZisJpvddZYF+nJMotRsU7J7hT3tDOcg8yDo4o0z4olAutk2X
+         5EH+Lvj7D8ucfFZUCIe742WQVYl4NjeK8vdr9tKlQHmhd6e3go1xw8rpmKwLBl75U/MZ
+         Vh89dy+GG/k1UZbT1lBZAap4aIhQfVn8Qf8VGXTAc6Gff6kV/xdtnkLkJwrX1EjMPjLD
+         gFSin3Z1EqOvKTPItDQDNt7lQe2bkxvEUiTN8JoNnRNGF2XYZVV6Jc7qmPDTfck5BsXe
+         BhqQ==
+X-Gm-Message-State: APjAAAXliOdfUkfDJ2jcKQlyhDMlezidQ9doOkZGnrM+i/Rc5VYxA7Ey
+        28InEeztsGmkXZ2PxjbXitzfkkaHi1gxl1aQ2ZWh3w==
+X-Google-Smtp-Source: APXvYqwFQ1SvwLMAfhJKA9VEc7eUCJlGz9Lb+HFPgfR4cI1vkIqNPg8K3VY8f6gAcFuMk4OpAzItb0UELxQqJmkPvio=
+X-Received: by 2002:a19:c0b:: with SMTP id 11mr5273188lfm.135.1576146863970;
+ Thu, 12 Dec 2019 02:34:23 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1574871463.git.nishadkamdar@gmail.com> <bcb86aa22d8d8499502bbd8c54a364be24886a86.1574871463.git.nishadkamdar@gmail.com>
-In-Reply-To: <bcb86aa22d8d8499502bbd8c54a364be24886a86.1574871463.git.nishadkamdar@gmail.com>
+References: <cover.1574871463.git.nishadkamdar@gmail.com> <14bb695da50f7af8499e7dfc32c2ab753d92a3e9.1574871463.git.nishadkamdar@gmail.com>
+In-Reply-To: <14bb695da50f7af8499e7dfc32c2ab753d92a3e9.1574871463.git.nishadkamdar@gmail.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 12 Dec 2019 11:33:30 +0100
-Message-ID: <CACRpkdYL+_bQU0PRfOFBY37O0K8W8WW0-tRM49FckA3Uh8S8WA@mail.gmail.com>
-Subject: Re: [PATCH 3/5] pinctrl: meson-axg: Use the correct style for SPDX
+Date:   Thu, 12 Dec 2019 11:34:12 +0100
+Message-ID: <CACRpkdZFH-5RuQ1yGape4j6ukVEY7u2s_TywLUNXnwx9jgHNwQ@mail.gmail.com>
+Subject: Re: [PATCH 5/5] pinctrl: stm32: Use the correct style for SPDX
  License Identifier
 To:     Nishad Kamdar <nishadkamdar@gmail.com>
 Cc:     =?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
@@ -76,11 +76,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Nov 27, 2019 at 5:44 PM Nishad Kamdar <nishadkamdar@gmail.com> wrote:
+On Wed, Nov 27, 2019 at 5:47 PM Nishad Kamdar <nishadkamdar@gmail.com> wrote:
 
 > This patch corrects the SPDX License Identifier style in
-> header file related Meson axg SoC pinctrl driver.
-> It assigns explicit block comment for the SPDX License Identifier.
+> header file related to STMicroelectronics pinctrl driver.
+> For C header files Documentation/process/license-rules.rst
+> mandates C-like comments (opposed to C source files where
+> C++ style should be used).
 >
 > Changes made by using a script provided by Joe Perches here:
 > https://lkml.org/lkml/2019/2/7/46.
