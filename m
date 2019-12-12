@@ -2,103 +2,130 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 136FA11CFFA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2019 15:36:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2271311D007
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2019 15:41:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729809AbfLLOgw (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Dec 2019 09:36:52 -0500
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:43121 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729795AbfLLOgg (ORCPT
+        id S1729355AbfLLOlP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Dec 2019 09:41:15 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:42474 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729287AbfLLOlP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Dec 2019 09:36:36 -0500
-Received: by mail-lj1-f195.google.com with SMTP id a13so2525683ljm.10
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Dec 2019 06:36:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mFBaysu79yDikUBKmCJOSK+/KcLNsfSxo1Kg6RMTYzo=;
-        b=CYTDu33S/uRKGhVT7parvwID0Z4EEkvon8ISEhgQg581I+1vygWkVRJfIX6VyR90IP
-         5s90on/IBWtzNCkfiPg7uk+yBQZZgeRl/SRSDr7c+w33usVVyP+MJiAG1YhQEWLjO/Lm
-         P/0CD0GARye2OYMRl25h1tC04+CXoKFn2YTnfaKWCVyq0RUQtJskTe7aNXDDUW4mR74/
-         t7GoesEcr1oPDRiIJXWl4xt+DmU6FKcdogFEPM7GJ0MbM1/bRU5TyZ/4OU2CRtiJtNg9
-         8b733kTi7YVBHa42ZnE/qE1MABlz/YuyRm0mRdXrwoA54K3MFcLxF9VgrBgIm71NLVT5
-         m2mg==
+        Thu, 12 Dec 2019 09:41:15 -0500
+Received: by mail-ot1-f67.google.com with SMTP id 66so2193021otd.9;
+        Thu, 12 Dec 2019 06:41:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mFBaysu79yDikUBKmCJOSK+/KcLNsfSxo1Kg6RMTYzo=;
-        b=XN5qP0uZmipXphsMLgVUPgz+uNMqA2L3Xq3bzJssPVWKR0T2jbchKwI/W6XX31khxZ
-         UA+OIgF1z7k/Us2KPxFOyJ0FxJaxlkbT8akB1Fy4NFo8bViVbJzY2zcTkLlIq04Tv/eZ
-         ZmgcA4kERsZaAp1lPmPgf0ysmZfeefd9GVBXw+VFXpCCZkoVTaHrSA8zibqFAWRCWQOI
-         x1HPwE+BGNNqCpOb5m80Ch5yECVlXwI13Bra53OSKDJQygC95zS9ZBQGEbx24xS1hMtN
-         wiqfdkZHZtfByZiR9nu0Xr2xtO3X0vqg6c+zNf+aiisCIawdjRpEJpDdY0M5PO+kGKAh
-         GXBQ==
-X-Gm-Message-State: APjAAAXTs8x1RQ1SiKT/kIQT7c3I4RTTiFEuUEp5dJ6KvMqvRPlbYqAt
-        N6Gn2BSMPVRiiijFo8s4s/N9FiWq4PljmgoE/Y8Agg==
-X-Google-Smtp-Source: APXvYqz/zPYVnRmIpLFYccngv9dixRG8YUx2SGeQvmu/20Gvhakgo9h/gmYehDYbcCI+QIDTfrgweSqbzBJTINCecCM=
-X-Received: by 2002:a2e:844e:: with SMTP id u14mr6119798ljh.183.1576161394471;
- Thu, 12 Dec 2019 06:36:34 -0800 (PST)
+        bh=1MpAVnQXIv8ku6mOOgsViBA0ZgH1Jr6htBIpVf8hv44=;
+        b=TmfxLvpiE1YGEOvfsMj4j2KSVOGGvMe7y6y21tDR2a5R2kqs7cP27dib0KhgjIlbZa
+         8oAR3gFeXU1le1bcPyK3oWXBUdoxeh8D/i8gDDQxIibE460qAUivtlVigN90XrxHDH2Q
+         e5iwpDQAEJY9FY6XihbJLgMVP0jfkVPamLRPB8X82N7D6mGJ6Qm1QdfpVGa50pQ8ji/t
+         zi9mniyBKVwnP4PN1yG2VrRD5F1ccYbqKYJQS1vKMA7P/uIXamK8rpqpq8fJ/APnj204
+         Krx+X6XHj8VUNU5/DyWfoWmk6NusQiREyuvIo64GwkH5mkr6iOr/ZhvzvI3tUsjrjl+v
+         bC6Q==
+X-Gm-Message-State: APjAAAWA1tR13HxMItYcRQzOCDOmNn24QhBNWNXsf8Q7pX5ccdwOfQhk
+        4Y70Xyq4cH1gZTqIfd70Kwhoe7xN9jsyg1CGA5U=
+X-Google-Smtp-Source: APXvYqxjBHOhA2FAx/R9INxJKIh2DYhKaOmC+96fdWuPR9sXbpqz4T1747pPnd9kezYbXhCT9EEkcIi2C43a+mOB/ac=
+X-Received: by 2002:a9d:2073:: with SMTP id n106mr8392139ota.145.1576161674382;
+ Thu, 12 Dec 2019 06:41:14 -0800 (PST)
 MIME-Version: 1.0
-References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-3-geert+renesas@glider.be> <CACRpkdYyY0eGipdK6ixZxLtdJ5px=U2mOa79VZb00NEEAEL=6g@mail.gmail.com>
- <CAMuHMdVL2w=DzOHTh-Tq6NZLTNUKxUneMi3wX71Z83mdsy3LTA@mail.gmail.com>
-In-Reply-To: <CAMuHMdVL2w=DzOHTh-Tq6NZLTNUKxUneMi3wX71Z83mdsy3LTA@mail.gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 12 Dec 2019 15:36:22 +0100
-Message-ID: <CACRpkdZ0geBk4oBkjb3w9kep-jWMUdpegngspN0yhKRaNY0ZKQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/7] gpiolib: Add support for gpiochipN-based table lookup
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+References: <20191116005240.15722-1-robh@kernel.org> <20191116005240.15722-3-robh@kernel.org>
+In-Reply-To: <20191116005240.15722-3-robh@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 12 Dec 2019 15:41:03 +0100
+Message-ID: <CAMuHMdX20LvK2o1cZJ8q83Q08JQzH6L07gmqBm0V0xSc5GHk4A@mail.gmail.com>
+Subject: Re: [PATCH 3/3] dt-bindings: PCI: Convert generic host binding to DT schema
+To:     Rob Herring <robh@kernel.org>
+Cc:     "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Andrew Murray <andrew.murray@arm.com>,
+        Zhou Wang <wangzhou1@hisilicon.com>,
+        Will Deacon <will@kernel.org>,
+        David Daney <david.daney@cavium.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Dec 12, 2019 at 2:33 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> On Thu, Dec 12, 2019 at 2:20 PM Linus Walleij <linus.walleij@linaro.org> wrote:
-> > On Wed, Nov 27, 2019 at 9:43 AM Geert Uytterhoeven
-> > <geert+renesas@glider.be> wrote:
-> > > Currently GPIO controllers can only be referred to by label in GPIO
-> > > lookup tables.
-> > >
-> > > Add support for looking them up by "gpiochipN" name, with "N" either the
-> > > corresponding GPIO device's ID number, or the GPIO controller's first
-> > > GPIO number.
-> > >
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >
-> > What the commit message is missing is a rationale, why is this needed?
+Hi Rob,
+
+On Sat, Nov 16, 2019 at 1:53 AM Rob Herring <robh@kernel.org> wrote:
+> Convert the generic PCI host binding to DT schema. The derivative Juno,
+> PLDA XpressRICH3-AXI, and Designware ECAM bindings all just vary in
+> their compatible strings. The simplest way to convert those to
+> schema is just add them into the common generic PCI host schema.
 >
-> Right. To be added: so they can be looked up in the GPIO lookup table
-> using either the chip's label, or the "gpiochipN" name.
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+> Cc: Andrew Murray <andrew.murray@arm.com>
+> Cc: Zhou Wang <wangzhou1@hisilicon.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: David Daney <david.daney@cavium.com>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-After reading the aggregator/forwarder driver I am not convinced
-that this is needed at all and I think this patch can be dropped,
-but check my review and see what you think!
+> index 515b2f9542e5..000000000000
+> --- a/Documentation/devicetree/bindings/pci/designware-pcie-ecam.txt
+> +++ /dev/null
 
-Thanks,
-Linus Walleij
+> -Example:
+> -
+> -    pcie1: pcie@7f000000 {
+> -        compatible = "socionext,synquacer-pcie-ecam", "snps,dw-pcie-ecam";
+> -        device_type = "pci";
+> -        reg = <0x0 0x7f000000 0x0 0xf00000>;
+> -        bus-range = <0x0 0xe>;
+> -        #address-cells = <3>;
+> -        #size-cells = <2>;
+> -        ranges = <0x1000000 0x00 0x00010000 0x00 0x7ff00000 0x0 0x00010000>,
+> -                 <0x2000000 0x00 0x70000000 0x00 0x70000000 0x0 0x0f000000>,
+> -                 <0x3000000 0x3f 0x00000000 0x3f 0x00000000 0x1 0x00000000>;
+> -
+> -        #interrupt-cells = <0x1>;
+> -        interrupt-map-mask = <0x0 0x0 0x0 0x0>;
+
+An all-zeroes interrupt-map-mask seems to be very common on embedded
+SoCs, where all devices are mapped to a single interrupt.
+
+However, schemas/pci/pci-bus.yaml says:
+
+  interrupt-map-mask:
+    items:
+      - description: PCI high address cell
+        minimum: 0
+        maximum: 0xf800
+      - description: PCI mid address cell
+        const: 0
+      - description: PCI low address cell
+        const: 0
+      - description: PCI IRQ cell
+        minimum: 1
+        maximum: 7
+
+and thus complains about an all-zeroes mask, e.g.
+
+    arch/arm64/boot/dts/renesas/r8a7795-salvator-x.dt.yaml:
+pcie@fe000000: interrupt-map-mask:0:3: 0 is less than the minimum of 1
+
+> -        interrupt-map = <0x0 0x0 0x0 0x0 &gic 0x0 0x0 0x0 182 0x4>;
+> -        msi-map = <0x0 &its 0x0 0x10000>;
+> -        dma-coherent;
+> -    };
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
