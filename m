@@ -2,112 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DA1511C8DD
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2019 10:11:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3497B11C9B7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Dec 2019 10:42:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728198AbfLLJLt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Dec 2019 04:11:49 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:43939 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728147AbfLLJLt (ORCPT
+        id S1728564AbfLLJmc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Dec 2019 04:42:32 -0500
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:57627 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728465AbfLLJmb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Dec 2019 04:11:49 -0500
-Received: by mail-ot1-f67.google.com with SMTP id p8so1072885oth.10
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Dec 2019 01:11:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7wIM1lJRy9eAtuRPisDJiZIbJvk9fZX+UZSB0XLtzrY=;
-        b=LgTKZBOJ6cSY23w4q9h5f4kHUsHb9E/v2/2XXkBHiks3mhGDkSE8nUmLJf6NBgqG/v
-         wXRIa1pPWWQQCyRf/3oqH+rYefkFAaPHjC9EfNmTtlNxUVquiK5CQCD2Se7uspWmOJ1B
-         ECSD1bMCLOKyCGu9vy13G/ASZ7SLxwDdkb/RaHAn4f5I7GrABmLuEHs40gy6S8K9PVl0
-         8To4IQyFJpRDzi4Y9YdZKmk0hBbGqjRlQF7gviQogZ46opCvRv0ytYnY1cU+IFD+ktub
-         G5u4nbu2oRI9lc85xPC3x7jwY0Vq9U5FYkkjcH4NTNGa3v8cjdAVYtk6AnJI5+CfcXiQ
-         7ubg==
-X-Gm-Message-State: APjAAAWldHcWYWLkiqvNSv7o6oT3vnani4QYQwfiB7KEiSYxHDQhPBpU
-        sDJLTwcPh+4C35HkU83HsCvtYCFFz/xO1qFdWcY=
-X-Google-Smtp-Source: APXvYqzwFePvqkNzW8sdMGqYLAE1xQ/z7N0Q+kJIK5JiX86N5yOiaXL7el8kbtOuVhacdBDSWdTXW8js3zU5R5RlYGI=
-X-Received: by 2002:a9d:2073:: with SMTP id n106mr6976842ota.145.1576141908002;
- Thu, 12 Dec 2019 01:11:48 -0800 (PST)
-MIME-Version: 1.0
-References: <20191211131311.23661-1-geert+renesas@glider.be> <20191211195217.GA10150@lxhi-065>
-In-Reply-To: <20191211195217.GA10150@lxhi-065>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 12 Dec 2019 10:11:36 +0100
-Message-ID: <CAMuHMdXOxcTMY5JFHZfHucNF++=Pyf3=H51MkeDmO2MTXn2yyw@mail.gmail.com>
-Subject: Re: [PATCH/RFC] arm64: dts: renesas: Rename r8a7796* to r8a77960*
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
+        Thu, 12 Dec 2019 04:42:31 -0500
+X-Originating-IP: 93.34.114.233
+Received: from uno.localdomain (93-34-114-233.ip49.fastwebnet.it [93.34.114.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 939E420006;
+        Thu, 12 Dec 2019 09:42:27 +0000 (UTC)
+Date:   Thu, 12 Dec 2019 10:44:36 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Chris Brandt <chris.brandt@renesas.com>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] pinctrl: rza1: reduce printed messages
+Message-ID: <20191212094436.r5zergjlduobjq7n@uno.localdomain>
+References: <20191211160638.31853-1-chris.brandt@renesas.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="4l7cagjh5kgyubuu"
+Content-Disposition: inline
+In-Reply-To: <20191211160638.31853-1-chris.brandt@renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Eugeniu,
 
-On Wed, Dec 11, 2019 at 8:52 PM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
-> On Wed, Dec 11, 2019 at 02:13:11PM +0100, Geert Uytterhoeven wrote:
-> > Disadvantages:
-> >   - The DTB files are renamed.
+--4l7cagjh5kgyubuu
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+Hi Chris,
+
+On Wed, Dec 11, 2019 at 11:06:38AM -0500, Chris Brandt wrote:
+> Since this message is printed for each port, it creates a lot of output
+> during boot and would serve better only during debugging.
 >
-> This reminded me of a past contribution [*], where, based on feedback
-> from Laurent and Simon, the decision was to avoid DTS renaming. Does
-> this series mean that one day, given enough time and resources, we
-> might also eliminate the "r8a779[5-6]" and "(h3|m3|m3n)" redundancy in
-> the naming scheme of the ULCB DTS? (not that it bothers me much)
+> Signed-off-by: Chris Brandt <chris.brandt@renesas.com>
 
-Thanks for reminding me!
+Seems fair
 
-At that time, the rename was considered too intrusive, compared to the
-slim benefit.
+> ---
+>  drivers/pinctrl/pinctrl-rza1.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/pinctrl/pinctrl-rza1.c b/drivers/pinctrl/pinctrl-rza1.c
+> index 017fc6b3e27e..86e5bf59bde5 100644
+> --- a/drivers/pinctrl/pinctrl-rza1.c
+> +++ b/drivers/pinctrl/pinctrl-rza1.c
+> @@ -1235,7 +1235,7 @@ static int rza1_parse_gpiochip(struct rza1_pinctrl *rza1_pctl,
+>
+>  	pinctrl_add_gpio_range(rza1_pctl->pctl, range);
+>
+> -	dev_info(rza1_pctl->dev, "Parsed gpiochip %s with %d pins\n",
+> +	dev_dbg(rza1_pctl->dev, "Parsed gpiochip %s with %d pins\n",
+>  		 chip->label, chip->ngpio);
 
-However, if we're renaming the files anyway, and thus causing a
-(temporary) inconvenience for the user, I think this is a good moment
-to get rid of the "(h3|m3|m3n)" redundancy in the DTS naming scheme
-(unfortunately we cannot do that for the "renesas,(h3|m3|m3n)ulcb"
- compatible values).
+Please align this line to the open ( ... Sorry to bother for such
+minor thing.
 
-Hence for R-Car H3, I will move forward the rename of the DTS files, so
-all renames happen in the same kernel release time frame.
+There are other dev_info which might show up frequently, I'm
+looking at line 1054 in example. I think it's fine as they show the
+actually enabled groups...
 
-Regarding the R-Car V3HSK and V3MSK boards, dropping the "v3m" resp.
-"v3h" from r8a77970-v3msk.dts resp. r8a77980-v3hsk.dts is IMHO
-different: the boards are not called "sk", and are far from identical,
-unlike "ulcb" and "salvator-x(s)".
-Renesas has lots of "sk", "rsk", and "evm" boards. Let's hope they don't
-plan any unrelated "ulcb" boards...
+Anway, minor alignement issue apart
+Acked-by: Jacopo Mondi <jacopo@jmondi.org>
 
-> PS: [Thinking out loud] Need to get prepared for using two versions of
-> U-Boot scripts when switching between BSP and vanilla kernels on the
-> r8a77960 targets. This will definitely add a tiny bit of overhead, but
-> nevertheless it looks like an investment to me, the one which users
-> will not regret (on the contrary, will be happy about) in some years
-> from now.
+Thanks
+   j
+>
+>  	return 0;
+> --
+> 2.23.0
+>
 
-I'm fully aware of that inconvenience.
+--4l7cagjh5kgyubuu
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+-----BEGIN PGP SIGNATURE-----
 
-Thank you!
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl3yDAMACgkQcjQGjxah
+VjxDpA//X1R1THIIeYa63NuMnCE/aCvRX4VGXYF4EkLek51yXJRwr/AuQd4IEiwL
+kubHdhGNR9iI4eAUJ4Hplgtl6LHpUKWvrysW5GnzucgtCyT4xV78Hnz8CEq2vPiA
+Z6BkD+/jHEI8MOeq3FwRAtUGKlugP90+HZgZ6kVsoR8EGxLaspd6c3qyvEsPNm3u
+vTJw4q7SJpj0/e9GP61lvfhmpln6I9CFc9TWcIo6qt3PceeqkgCZplCDVpy5lofb
+tC64/O55xshXQGEDGHs4Jc0t4gDt3KCDKxeCGjhf2Wl0/wSefpcegY/x8mV5xn1y
+8zZfeI8Swj2JteUbcBcbPJ0nJYnDCk2cq9FARuGIC0JrdSJeR8IcYULx21fQC7CC
+FI0lx5Mgdgw784qwX58A7oRdxuerp8QOxlftbdoO43upmMKNYX8WDTYLiD7luvO3
+ysPv+WumC8OD/ZxR8wnubDFLXL/az9dO5mmm8g21ZFievL4d8v8uWmZpTNyYzsmE
+OiETISgMNQgISuv4nIXAxkUeUVnkWTOGKpZChK8RT5LCvCbyI6U6blW2Opkb/tAr
+SIHGPkDyy4xAu6sZlQq7QZoF2ea7t0ht4A4oQy3kz8rLQqOCg4RQjeCYHqLzJ+w2
+KND7fY4rLdzRbOhcXzfgxff9aCACQgypSLatI5BvM4dG3WvJnoU=
+=NYrg
+-----END PGP SIGNATURE-----
 
-> [*] https://patchwork.kernel.org/patch/10555955/
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--4l7cagjh5kgyubuu--
