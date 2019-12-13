@@ -2,100 +2,212 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C7C811E7F1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 17:18:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D339F11E82F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 17:25:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728101AbfLMQSr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Dec 2019 11:18:47 -0500
-Received: from sauhun.de ([88.99.104.3]:47994 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728096AbfLMQSq (ORCPT
+        id S1728189AbfLMQZR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Dec 2019 11:25:17 -0500
+Received: from andre.telenet-ops.be ([195.130.132.53]:57216 "EHLO
+        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728265AbfLMQZQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Dec 2019 11:18:46 -0500
-Received: from localhost (p54B3318D.dip0.t-ipconnect.de [84.179.49.141])
-        by pokefinder.org (Postfix) with ESMTPSA id CB5522C04D3;
-        Fri, 13 Dec 2019 17:18:44 +0100 (CET)
-Date:   Fri, 13 Dec 2019 17:18:41 +0100
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Linux MMC List <linux-mmc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Fri, 13 Dec 2019 11:25:16 -0500
+Received: from ramsan ([84.195.182.253])
+        by andre.telenet-ops.be with bizsmtp
+        id dUR1210015USYZQ01UR1w4; Fri, 13 Dec 2019 17:25:12 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1ifnkS-0006mS-TP; Fri, 13 Dec 2019 17:25:00 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1ifnkS-0000Sl-QS; Fri, 13 Dec 2019 17:25:00 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
         Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Takeshi Saito <takeshi.saito.xv@renesas.com>
-Subject: Re: [RFC PATCH 1/2] mmc: renesas_sdhi: Add manual correction
-Message-ID: <20191213161841.GA1208@ninjato>
-References: <20191203203301.2202-1-wsa+renesas@sang-engineering.com>
- <20191203203301.2202-2-wsa+renesas@sang-engineering.com>
- <CAMuHMdUnC=PM0iM7NwoeVLb2v=r4g-uUU3h4dBn9-St75fLyAw@mail.gmail.com>
- <20191210222844.GD8683@kunai>
- <CAMuHMdV8+35xLVqAX1mpU1gBKhkw6nBRFwdJwBF0_UXJPh18+g@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="GvXjxJ+pjyke8COw"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdV8+35xLVqAX1mpU1gBKhkw6nBRFwdJwBF0_UXJPh18+g@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Biju Das <biju.das@bp.renesas.com>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Andrew Murray <andrew.murray@arm.com>,
+        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ARM: dts: rcar-gen2: Fix PCI high address in interrupt-map-mask
+Date:   Fri, 13 Dec 2019 17:24:59 +0100
+Message-Id: <20191213162459.1731-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+"make dtbs_check" emits warnings like:
 
---GvXjxJ+pjyke8COw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+    pci@ee090000: interrupt-map-mask:0:0: 65280 is greater than the maximum of 63488
+    pci@ee0b0000: interrupt-map-mask:0:0: 65280 is greater than the maximum of 63488
+    pci@ee0d0000: interrupt-map-mask:0:0: 65280 is greater than the maximum of 63488
 
-Hi Geert,
+According to dt-schemas/schemas/pci/pci-bus.yaml, the PCI high address
+cell value in the "interrupt-map-mask" property must lie in the range
+0..0xf800.
 
-> > > BTW, why is tap_set unsigned long instead of unsigned int?
-> >
-> > Because we use bitmap functions on it, and those have all unsigned long
-> > as arguments.
->=20
-> Do we? I only see bitops on host->taps?
+Fix this by correcting the values from 0xff00 to 0xf800 in all affected
+R-Car Gen2 and RZ/G1 DTS files.
 
-Point taken on this one...
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ arch/arm/boot/dts/r8a7743.dtsi | 4 ++--
+ arch/arm/boot/dts/r8a7744.dtsi | 4 ++--
+ arch/arm/boot/dts/r8a7745.dtsi | 4 ++--
+ arch/arm/boot/dts/r8a7790.dtsi | 6 +++---
+ arch/arm/boot/dts/r8a7791.dtsi | 4 ++--
+ arch/arm/boot/dts/r8a7794.dtsi | 4 ++--
+ 6 files changed, 13 insertions(+), 13 deletions(-)
 
->=20
-> > > And perhaps it should be moved from host to priv?
-> >
-> > That would be great, but other tap_* variables are still used in
-> > tmio_mmc_core.c. We maybe can refactor all tap handling into
-> > renesas_sdhi_core.c meanwhile, but this is a seperate issue.
->=20
-> tap_num is shared by the Renesas and TMIO code.
-> tap_set is Renesas-specific.
+diff --git a/arch/arm/boot/dts/r8a7743.dtsi b/arch/arm/boot/dts/r8a7743.dtsi
+index de981d629bdddec3..5f88d9f585988c0c 100644
+--- a/arch/arm/boot/dts/r8a7743.dtsi
++++ b/arch/arm/boot/dts/r8a7743.dtsi
+@@ -1461,7 +1461,7 @@
+ 			#size-cells = <2>;
+ 			#interrupt-cells = <1>;
+ 			ranges = <0x02000000 0 0xee080000 0 0xee080000 0 0x00010000>;
+-			interrupt-map-mask = <0xff00 0 0 0x7>;
++			interrupt-map-mask = <0xf800 0 0 0x7>;
+ 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
+ 					 0x0800 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
+ 					 0x1000 0 0 2 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
+@@ -1496,7 +1496,7 @@
+ 			#size-cells = <2>;
+ 			#interrupt-cells = <1>;
+ 			ranges = <0x02000000 0 0xee0c0000 0 0xee0c0000 0 0x00010000>;
+-			interrupt-map-mask = <0xff00 0 0 0x7>;
++			interrupt-map-mask = <0xf800 0 0 0x7>;
+ 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
+ 					 0x0800 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
+ 					 0x1000 0 0 2 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>;
+diff --git a/arch/arm/boot/dts/r8a7744.dtsi b/arch/arm/boot/dts/r8a7744.dtsi
+index fa74a262107bce6c..446dbb5409e67aeb 100644
+--- a/arch/arm/boot/dts/r8a7744.dtsi
++++ b/arch/arm/boot/dts/r8a7744.dtsi
+@@ -1461,7 +1461,7 @@
+ 			#size-cells = <2>;
+ 			#interrupt-cells = <1>;
+ 			ranges = <0x02000000 0 0xee080000 0 0xee080000 0 0x00010000>;
+-			interrupt-map-mask = <0xff00 0 0 0x7>;
++			interrupt-map-mask = <0xf800 0 0 0x7>;
+ 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
+ 					 0x0800 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
+ 					 0x1000 0 0 2 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
+@@ -1496,7 +1496,7 @@
+ 			#size-cells = <2>;
+ 			#interrupt-cells = <1>;
+ 			ranges = <0x02000000 0 0xee0c0000 0 0xee0c0000 0 0x00010000>;
+-			interrupt-map-mask = <0xff00 0 0 0x7>;
++			interrupt-map-mask = <0xf800 0 0 0x7>;
+ 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
+ 					 0x0800 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
+ 					 0x1000 0 0 2 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>;
+diff --git a/arch/arm/boot/dts/r8a7745.dtsi b/arch/arm/boot/dts/r8a7745.dtsi
+index c53f7ff20695f04a..04f1ca1828b15954 100644
+--- a/arch/arm/boot/dts/r8a7745.dtsi
++++ b/arch/arm/boot/dts/r8a7745.dtsi
+@@ -1337,7 +1337,7 @@
+ 			#size-cells = <2>;
+ 			#interrupt-cells = <1>;
+ 			ranges = <0x02000000 0 0xee080000 0 0xee080000 0 0x00010000>;
+-			interrupt-map-mask = <0xff00 0 0 0x7>;
++			interrupt-map-mask = <0xf800 0 0 0x7>;
+ 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
+ 					 0x0800 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
+ 					 0x1000 0 0 2 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
+@@ -1372,7 +1372,7 @@
+ 			#size-cells = <2>;
+ 			#interrupt-cells = <1>;
+ 			ranges = <0x02000000 0 0xee0c0000 0 0xee0c0000 0 0x00010000>;
+-			interrupt-map-mask = <0xff00 0 0 0x7>;
++			interrupt-map-mask = <0xf800 0 0 0x7>;
+ 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
+ 					 0x0800 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
+ 					 0x1000 0 0 2 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>;
+diff --git a/arch/arm/boot/dts/r8a7790.dtsi b/arch/arm/boot/dts/r8a7790.dtsi
+index 5a2747758f676a4b..cf7bf7d7caee1808 100644
+--- a/arch/arm/boot/dts/r8a7790.dtsi
++++ b/arch/arm/boot/dts/r8a7790.dtsi
+@@ -1388,7 +1388,7 @@
+ 			#size-cells = <2>;
+ 			#interrupt-cells = <1>;
+ 			ranges = <0x02000000 0 0xee080000 0 0xee080000 0 0x00010000>;
+-			interrupt-map-mask = <0xff00 0 0 0x7>;
++			interrupt-map-mask = <0xf800 0 0 0x7>;
+ 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
+ 					 0x0800 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
+ 					 0x1000 0 0 2 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
+@@ -1423,7 +1423,7 @@
+ 			#size-cells = <2>;
+ 			#interrupt-cells = <1>;
+ 			ranges = <0x02000000 0 0xee0a0000 0 0xee0a0000 0 0x00010000>;
+-			interrupt-map-mask = <0xff00 0 0 0x7>;
++			interrupt-map-mask = <0xf800 0 0 0x7>;
+ 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH
+ 					 0x0800 0 0 1 &gic GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH
+ 					 0x1000 0 0 2 &gic GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>;
+@@ -1446,7 +1446,7 @@
+ 			#size-cells = <2>;
+ 			#interrupt-cells = <1>;
+ 			ranges = <0x02000000 0 0xee0c0000 0 0xee0c0000 0 0x00010000>;
+-			interrupt-map-mask = <0xff00 0 0 0x7>;
++			interrupt-map-mask = <0xf800 0 0 0x7>;
+ 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
+ 					 0x0800 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
+ 					 0x1000 0 0 2 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>;
+diff --git a/arch/arm/boot/dts/r8a7791.dtsi b/arch/arm/boot/dts/r8a7791.dtsi
+index a8266e76d7e50739..e5fa01034666616b 100644
+--- a/arch/arm/boot/dts/r8a7791.dtsi
++++ b/arch/arm/boot/dts/r8a7791.dtsi
+@@ -1427,7 +1427,7 @@
+ 			#size-cells = <2>;
+ 			#interrupt-cells = <1>;
+ 			ranges = <0x02000000 0 0xee080000 0 0xee080000 0 0x00010000>;
+-			interrupt-map-mask = <0xff00 0 0 0x7>;
++			interrupt-map-mask = <0xf800 0 0 0x7>;
+ 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
+ 					 0x0800 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
+ 					 0x1000 0 0 2 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
+@@ -1462,7 +1462,7 @@
+ 			#size-cells = <2>;
+ 			#interrupt-cells = <1>;
+ 			ranges = <0x02000000 0 0xee0c0000 0 0xee0c0000 0 0x00010000>;
+-			interrupt-map-mask = <0xff00 0 0 0x7>;
++			interrupt-map-mask = <0xf800 0 0 0x7>;
+ 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
+ 					 0x0800 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
+ 					 0x1000 0 0 2 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>;
+diff --git a/arch/arm/boot/dts/r8a7794.dtsi b/arch/arm/boot/dts/r8a7794.dtsi
+index 8d797d34816e3625..945b1378dc40d53a 100644
+--- a/arch/arm/boot/dts/r8a7794.dtsi
++++ b/arch/arm/boot/dts/r8a7794.dtsi
+@@ -1176,7 +1176,7 @@
+ 			#size-cells = <2>;
+ 			#interrupt-cells = <1>;
+ 			ranges = <0x02000000 0 0xee080000 0 0xee080000 0 0x00010000>;
+-			interrupt-map-mask = <0xff00 0 0 0x7>;
++			interrupt-map-mask = <0xf800 0 0 0x7>;
+ 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
+ 					 0x0800 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
+ 					 0x1000 0 0 2 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
+@@ -1211,7 +1211,7 @@
+ 			#size-cells = <2>;
+ 			#interrupt-cells = <1>;
+ 			ranges = <0x02000000 0 0xee0c0000 0 0xee0c0000 0 0x00010000>;
+-			interrupt-map-mask = <0xff00 0 0 0x7>;
++			interrupt-map-mask = <0xf800 0 0 0x7>;
+ 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
+ 					 0x0800 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
+ 					 0x1000 0 0 2 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>;
+-- 
+2.17.1
 
-=2E.. here however, I think we should keep all tap_* related variables
-close together. The driver is messy enough as is. Investigation if all
-of that code could be moved to renesas_sdhi_core, though, seems very
-useful.
-
-Thanks for the comments!
-
-   Wolfram
-
-
---GvXjxJ+pjyke8COw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl3zud4ACgkQFA3kzBSg
-KbbVbw/+P7nyvi+BkOHUztBGJxNsQNmcbTahuYyAAuF3MJAeFc1SPEDdwNcxmLww
-owyJRFWrlCuEpG4RqugMpEOvPaW7C5ueNSp6ShKe6Mu0HrZAlXBiVDoWPKkhSKNr
-aM2MGQ9wEpl6PyqcQrYAaneXhNm1cf/WBPzsK9YJR4JHApjSl9Tpy1t0BuLMqVnV
-jLpwybRn/Hys+Mhv7FCzE/KXlHxAo88Qamme3maQ3MWLd/nsD4xgtULNu4p1D0aQ
-WvKD9sPDoyC2DWZZ1NmsDn7qMUzqROBxr0Gif5gxi1ETJCAYZwVODsUtf9N/vTdM
-CYuUmw0RmadFcfCvMyk0Qru7x2fKFRBsRdqsFevmpJ1ZvZTxsB4Sl65vUEPeySYM
-AG5GU5dJNnEumduHFMO28RfTyX2l412AIMj8Hu9LO71DWVEspSzPI9dTo0/XBd5J
-T6HPHUIl+rVReeg+yKBvr3twBO0dUr+BdL/HtkqCBjlWKcF7lnfTqVQbxesszrWa
-/1/l/L78ggMM/j4wSRstJvBAVGiK7PAgTaH1L2mxUMvhjRYCZVpF+hbvIwkoZ0kn
-0BPmxaIYM2g7yAT0V3APCNUB9bmmrZrQf+has5zFf9kIP0JIQG3CsvDJUo6c7Kpg
-qfKaYBZxzJouPxtKtoy9dK8ZKwpuoIu4YlSOtgfnAcJiYYqjiX4=
-=/t5q
------END PGP SIGNATURE-----
-
---GvXjxJ+pjyke8COw--
