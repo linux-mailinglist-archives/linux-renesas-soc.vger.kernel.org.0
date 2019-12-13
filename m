@@ -2,212 +2,231 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D339F11E82F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 17:25:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2114211E835
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 17:26:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728189AbfLMQZR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Dec 2019 11:25:17 -0500
-Received: from andre.telenet-ops.be ([195.130.132.53]:57216 "EHLO
-        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728265AbfLMQZQ (ORCPT
+        id S1728191AbfLMQ0J (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Dec 2019 11:26:09 -0500
+Received: from michel.telenet-ops.be ([195.130.137.88]:36978 "EHLO
+        michel.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727958AbfLMQ0J (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Dec 2019 11:25:16 -0500
+        Fri, 13 Dec 2019 11:26:09 -0500
 Received: from ramsan ([84.195.182.253])
-        by andre.telenet-ops.be with bizsmtp
-        id dUR1210015USYZQ01UR1w4; Fri, 13 Dec 2019 17:25:12 +0100
+        by michel.telenet-ops.be with bizsmtp
+        id dUS7210055USYZQ06US7zc; Fri, 13 Dec 2019 17:26:07 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1ifnkS-0006mS-TP; Fri, 13 Dec 2019 17:25:00 +0100
+        id 1ifnlX-0006me-2t; Fri, 13 Dec 2019 17:26:07 +0100
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1ifnkS-0000Sl-QS; Fri, 13 Dec 2019 17:25:00 +0100
+        id 1ifnlX-0000VD-0v; Fri, 13 Dec 2019 17:26:07 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Andrew Murray <andrew.murray@arm.com>,
-        linux-pci@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org,
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] ARM: dts: rcar-gen2: Fix PCI high address in interrupt-map-mask
-Date:   Fri, 13 Dec 2019 17:24:59 +0100
-Message-Id: <20191213162459.1731-1-geert+renesas@glider.be>
+Subject: [PATCH] ARM: dts: rcar-gen2: Add missing mmio-sram bus properties
+Date:   Fri, 13 Dec 2019 17:26:04 +0100
+Message-Id: <20191213162604.1890-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-"make dtbs_check" emits warnings like:
+"#address-cells", "#size-cells", and "ranges" are required properties
+for devices nodes compatible with "mmio-sram", leading to warnings when
+running "make dtbs_check":
 
-    pci@ee090000: interrupt-map-mask:0:0: 65280 is greater than the maximum of 63488
-    pci@ee0b0000: interrupt-map-mask:0:0: 65280 is greater than the maximum of 63488
-    pci@ee0d0000: interrupt-map-mask:0:0: 65280 is greater than the maximum of 63488
+    $ make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/sram/sram.yaml
+    arch/arm/boot/dts/r8a7791-koelsch.dt.yaml: sram@e63a0000: '#address-cells' is a required property
+    arch/arm/boot/dts/r8a7791-koelsch.dt.yaml: sram@e63a0000: '#size-cells' is a required property
+    arch/arm/boot/dts/r8a7791-koelsch.dt.yaml: sram@e63a0000: 'ranges' is a required property
+    ...
 
-According to dt-schemas/schemas/pci/pci-bus.yaml, the PCI high address
-cell value in the "interrupt-map-mask" property must lie in the range
-0..0xf800.
-
-Fix this by correcting the values from 0xff00 to 0xf800 in all affected
-R-Car Gen2 and RZ/G1 DTS files.
+Fix this by adding the missing properties to the mmio-sram device nodes
+in the DTS files for all affected R-Car Gen2 and RZ/G1 SoCs.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- arch/arm/boot/dts/r8a7743.dtsi | 4 ++--
- arch/arm/boot/dts/r8a7744.dtsi | 4 ++--
- arch/arm/boot/dts/r8a7745.dtsi | 4 ++--
- arch/arm/boot/dts/r8a7790.dtsi | 6 +++---
- arch/arm/boot/dts/r8a7791.dtsi | 4 ++--
- arch/arm/boot/dts/r8a7794.dtsi | 4 ++--
- 6 files changed, 13 insertions(+), 13 deletions(-)
+ arch/arm/boot/dts/r8a7743.dtsi  | 6 ++++++
+ arch/arm/boot/dts/r8a7744.dtsi  | 6 ++++++
+ arch/arm/boot/dts/r8a7745.dtsi  | 6 ++++++
+ arch/arm/boot/dts/r8a77470.dtsi | 6 ++++++
+ arch/arm/boot/dts/r8a7790.dtsi  | 3 +++
+ arch/arm/boot/dts/r8a7791.dtsi  | 3 +++
+ arch/arm/boot/dts/r8a7792.dtsi  | 3 +++
+ arch/arm/boot/dts/r8a7793.dtsi  | 3 +++
+ arch/arm/boot/dts/r8a7794.dtsi  | 3 +++
+ 9 files changed, 39 insertions(+)
 
 diff --git a/arch/arm/boot/dts/r8a7743.dtsi b/arch/arm/boot/dts/r8a7743.dtsi
-index de981d629bdddec3..5f88d9f585988c0c 100644
+index 5f88d9f585988c0c..dcf09d9a1d76bb02 100644
 --- a/arch/arm/boot/dts/r8a7743.dtsi
 +++ b/arch/arm/boot/dts/r8a7743.dtsi
-@@ -1461,7 +1461,7 @@
- 			#size-cells = <2>;
- 			#interrupt-cells = <1>;
- 			ranges = <0x02000000 0 0xee080000 0 0xee080000 0 0x00010000>;
--			interrupt-map-mask = <0xff00 0 0 0x7>;
-+			interrupt-map-mask = <0xf800 0 0 0x7>;
- 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
- 					 0x0800 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
- 					 0x1000 0 0 2 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
-@@ -1496,7 +1496,7 @@
- 			#size-cells = <2>;
- 			#interrupt-cells = <1>;
- 			ranges = <0x02000000 0 0xee0c0000 0 0xee0c0000 0 0x00010000>;
--			interrupt-map-mask = <0xff00 0 0 0x7>;
-+			interrupt-map-mask = <0xf800 0 0 0x7>;
- 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
- 					 0x0800 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
- 					 0x1000 0 0 2 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>;
+@@ -399,6 +399,9 @@
+ 		icram0:	sram@e63a0000 {
+ 			compatible = "mmio-sram";
+ 			reg = <0 0xe63a0000 0 0x12000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges = <0 0 0xe63a0000 0x12000>;
+ 		};
+ 
+ 		icram1:	sram@e63c0000 {
+@@ -417,6 +420,9 @@
+ 		icram2:	sram@e6300000 {
+ 			compatible = "mmio-sram";
+ 			reg = <0 0xe6300000 0 0x40000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges = <0 0 0xe6300000 0x40000>;
+ 		};
+ 
+ 		/* The memory map in the User's Manual maps the cores to
 diff --git a/arch/arm/boot/dts/r8a7744.dtsi b/arch/arm/boot/dts/r8a7744.dtsi
-index fa74a262107bce6c..446dbb5409e67aeb 100644
+index 446dbb5409e67aeb..357640e3693480f3 100644
 --- a/arch/arm/boot/dts/r8a7744.dtsi
 +++ b/arch/arm/boot/dts/r8a7744.dtsi
-@@ -1461,7 +1461,7 @@
- 			#size-cells = <2>;
- 			#interrupt-cells = <1>;
- 			ranges = <0x02000000 0 0xee080000 0 0xee080000 0 0x00010000>;
--			interrupt-map-mask = <0xff00 0 0 0x7>;
-+			interrupt-map-mask = <0xf800 0 0 0x7>;
- 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
- 					 0x0800 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
- 					 0x1000 0 0 2 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
-@@ -1496,7 +1496,7 @@
- 			#size-cells = <2>;
- 			#interrupt-cells = <1>;
- 			ranges = <0x02000000 0 0xee0c0000 0 0xee0c0000 0 0x00010000>;
--			interrupt-map-mask = <0xff00 0 0 0x7>;
-+			interrupt-map-mask = <0xf800 0 0 0x7>;
- 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
- 					 0x0800 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
- 					 0x1000 0 0 2 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>;
+@@ -399,6 +399,9 @@
+ 		icram0:	sram@e63a0000 {
+ 			compatible = "mmio-sram";
+ 			reg = <0 0xe63a0000 0 0x12000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges = <0 0 0xe63a0000 0x12000>;
+ 		};
+ 
+ 		icram1:	sram@e63c0000 {
+@@ -417,6 +420,9 @@
+ 		icram2:	sram@e6300000 {
+ 			compatible = "mmio-sram";
+ 			reg = <0 0xe6300000 0 0x40000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges = <0 0 0xe6300000 0x40000>;
+ 		};
+ 
+ 		/* The memory map in the User's Manual maps the cores to
 diff --git a/arch/arm/boot/dts/r8a7745.dtsi b/arch/arm/boot/dts/r8a7745.dtsi
-index c53f7ff20695f04a..04f1ca1828b15954 100644
+index 04f1ca1828b15954..edcc74ff90865540 100644
 --- a/arch/arm/boot/dts/r8a7745.dtsi
 +++ b/arch/arm/boot/dts/r8a7745.dtsi
-@@ -1337,7 +1337,7 @@
- 			#size-cells = <2>;
- 			#interrupt-cells = <1>;
- 			ranges = <0x02000000 0 0xee080000 0 0xee080000 0 0x00010000>;
--			interrupt-map-mask = <0xff00 0 0 0x7>;
-+			interrupt-map-mask = <0xf800 0 0 0x7>;
- 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
- 					 0x0800 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
- 					 0x1000 0 0 2 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
-@@ -1372,7 +1372,7 @@
- 			#size-cells = <2>;
- 			#interrupt-cells = <1>;
- 			ranges = <0x02000000 0 0xee0c0000 0 0xee0c0000 0 0x00010000>;
--			interrupt-map-mask = <0xff00 0 0 0x7>;
-+			interrupt-map-mask = <0xf800 0 0 0x7>;
- 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
- 					 0x0800 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
- 					 0x1000 0 0 2 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>;
+@@ -363,6 +363,9 @@
+ 		icram0:	sram@e63a0000 {
+ 			compatible = "mmio-sram";
+ 			reg = <0 0xe63a0000 0 0x12000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges = <0 0 0xe63a0000 0x12000>;
+ 		};
+ 
+ 		icram1:	sram@e63c0000 {
+@@ -381,6 +384,9 @@
+ 		icram2:	sram@e6300000 {
+ 			compatible = "mmio-sram";
+ 			reg = <0 0xe6300000 0 0x40000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges = <0 0 0xe6300000 0x40000>;
+ 		};
+ 		i2c0: i2c@e6508000 {
+ 			#address-cells = <1>;
+diff --git a/arch/arm/boot/dts/r8a77470.dtsi b/arch/arm/boot/dts/r8a77470.dtsi
+index 51806c7f486a3681..8b522ed4eb1ef815 100644
+--- a/arch/arm/boot/dts/r8a77470.dtsi
++++ b/arch/arm/boot/dts/r8a77470.dtsi
+@@ -242,6 +242,9 @@
+ 		icram0:	sram@e63a0000 {
+ 			compatible = "mmio-sram";
+ 			reg = <0 0xe63a0000 0 0x12000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges = <0 0 0xe63a0000 0x12000>;
+ 		};
+ 
+ 		icram1:	sram@e63c0000 {
+@@ -260,6 +263,9 @@
+ 		icram2:	sram@e6300000 {
+ 			compatible = "mmio-sram";
+ 			reg = <0 0xe6300000 0 0x20000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges = <0 0 0xe6300000 0x20000>;
+ 		};
+ 
+ 		i2c0: i2c@e6508000 {
 diff --git a/arch/arm/boot/dts/r8a7790.dtsi b/arch/arm/boot/dts/r8a7790.dtsi
-index 5a2747758f676a4b..cf7bf7d7caee1808 100644
+index cf7bf7d7caee1808..344519957916f473 100644
 --- a/arch/arm/boot/dts/r8a7790.dtsi
 +++ b/arch/arm/boot/dts/r8a7790.dtsi
-@@ -1388,7 +1388,7 @@
- 			#size-cells = <2>;
- 			#interrupt-cells = <1>;
- 			ranges = <0x02000000 0 0xee080000 0 0xee080000 0 0x00010000>;
--			interrupt-map-mask = <0xff00 0 0 0x7>;
-+			interrupt-map-mask = <0xf800 0 0 0x7>;
- 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
- 					 0x0800 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
- 					 0x1000 0 0 2 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
-@@ -1423,7 +1423,7 @@
- 			#size-cells = <2>;
- 			#interrupt-cells = <1>;
- 			ranges = <0x02000000 0 0xee0a0000 0 0xee0a0000 0 0x00010000>;
--			interrupt-map-mask = <0xff00 0 0 0x7>;
-+			interrupt-map-mask = <0xf800 0 0 0x7>;
- 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH
- 					 0x0800 0 0 1 &gic GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH
- 					 0x1000 0 0 2 &gic GIC_SPI 112 IRQ_TYPE_LEVEL_HIGH>;
-@@ -1446,7 +1446,7 @@
- 			#size-cells = <2>;
- 			#interrupt-cells = <1>;
- 			ranges = <0x02000000 0 0xee0c0000 0 0xee0c0000 0 0x00010000>;
--			interrupt-map-mask = <0xff00 0 0 0x7>;
-+			interrupt-map-mask = <0xf800 0 0 0x7>;
- 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
- 					 0x0800 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
- 					 0x1000 0 0 2 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>;
+@@ -487,6 +487,9 @@
+ 		icram0:	sram@e63a0000 {
+ 			compatible = "mmio-sram";
+ 			reg = <0 0xe63a0000 0 0x12000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges = <0 0 0xe63a0000 0x12000>;
+ 		};
+ 
+ 		icram1:	sram@e63c0000 {
 diff --git a/arch/arm/boot/dts/r8a7791.dtsi b/arch/arm/boot/dts/r8a7791.dtsi
-index a8266e76d7e50739..e5fa01034666616b 100644
+index e5fa01034666616b..119e67b665392a5a 100644
 --- a/arch/arm/boot/dts/r8a7791.dtsi
 +++ b/arch/arm/boot/dts/r8a7791.dtsi
-@@ -1427,7 +1427,7 @@
- 			#size-cells = <2>;
- 			#interrupt-cells = <1>;
- 			ranges = <0x02000000 0 0xee080000 0 0xee080000 0 0x00010000>;
--			interrupt-map-mask = <0xff00 0 0 0x7>;
-+			interrupt-map-mask = <0xf800 0 0 0x7>;
- 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
- 					 0x0800 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
- 					 0x1000 0 0 2 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
-@@ -1462,7 +1462,7 @@
- 			#size-cells = <2>;
- 			#interrupt-cells = <1>;
- 			ranges = <0x02000000 0 0xee0c0000 0 0xee0c0000 0 0x00010000>;
--			interrupt-map-mask = <0xff00 0 0 0x7>;
-+			interrupt-map-mask = <0xf800 0 0 0x7>;
- 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
- 					 0x0800 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
- 					 0x1000 0 0 2 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>;
+@@ -421,6 +421,9 @@
+ 		icram0:	sram@e63a0000 {
+ 			compatible = "mmio-sram";
+ 			reg = <0 0xe63a0000 0 0x12000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges = <0 0 0xe63a0000 0x12000>;
+ 		};
+ 
+ 		icram1:	sram@e63c0000 {
+diff --git a/arch/arm/boot/dts/r8a7792.dtsi b/arch/arm/boot/dts/r8a7792.dtsi
+index c4ea2d6760301706..5956854e60d8d585 100644
+--- a/arch/arm/boot/dts/r8a7792.dtsi
++++ b/arch/arm/boot/dts/r8a7792.dtsi
+@@ -345,6 +345,9 @@
+ 		icram0:	sram@e63a0000 {
+ 			compatible = "mmio-sram";
+ 			reg = <0 0xe63a0000 0 0x12000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges = <0 0 0xe63a0000 0x12000>;
+ 		};
+ 
+ 		icram1:	sram@e63c0000 {
+diff --git a/arch/arm/boot/dts/r8a7793.dtsi b/arch/arm/boot/dts/r8a7793.dtsi
+index bf05110fac4e23be..91c7c3cfe7476cbf 100644
+--- a/arch/arm/boot/dts/r8a7793.dtsi
++++ b/arch/arm/boot/dts/r8a7793.dtsi
+@@ -406,6 +406,9 @@
+ 		icram0:	sram@e63a0000 {
+ 			compatible = "mmio-sram";
+ 			reg = <0 0xe63a0000 0 0x12000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges = <0 0 0xe63a0000 0x12000>;
+ 		};
+ 
+ 		icram1:	sram@e63c0000 {
 diff --git a/arch/arm/boot/dts/r8a7794.dtsi b/arch/arm/boot/dts/r8a7794.dtsi
-index 8d797d34816e3625..945b1378dc40d53a 100644
+index 945b1378dc40d53a..7d4644fac3771798 100644
 --- a/arch/arm/boot/dts/r8a7794.dtsi
 +++ b/arch/arm/boot/dts/r8a7794.dtsi
-@@ -1176,7 +1176,7 @@
- 			#size-cells = <2>;
- 			#interrupt-cells = <1>;
- 			ranges = <0x02000000 0 0xee080000 0 0xee080000 0 0x00010000>;
--			interrupt-map-mask = <0xff00 0 0 0x7>;
-+			interrupt-map-mask = <0xf800 0 0 0x7>;
- 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
- 					 0x0800 0 0 1 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH
- 					 0x1000 0 0 2 &gic GIC_SPI 108 IRQ_TYPE_LEVEL_HIGH>;
-@@ -1211,7 +1211,7 @@
- 			#size-cells = <2>;
- 			#interrupt-cells = <1>;
- 			ranges = <0x02000000 0 0xee0c0000 0 0xee0c0000 0 0x00010000>;
--			interrupt-map-mask = <0xff00 0 0 0x7>;
-+			interrupt-map-mask = <0xf800 0 0 0x7>;
- 			interrupt-map = <0x0000 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
- 					 0x0800 0 0 1 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH
- 					 0x1000 0 0 2 &gic GIC_SPI 113 IRQ_TYPE_LEVEL_HIGH>;
+@@ -351,6 +351,9 @@
+ 		icram0:	sram@e63a0000 {
+ 			compatible = "mmio-sram";
+ 			reg = <0 0xe63a0000 0 0x12000>;
++			#address-cells = <1>;
++			#size-cells = <1>;
++			ranges = <0 0 0xe63a0000 0x12000>;
+ 		};
+ 
+ 		icram1:	sram@e63c0000 {
 -- 
 2.17.1
 
