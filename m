@@ -2,88 +2,170 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D09711EC94
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 22:06:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 358E911ECC7
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 22:21:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726772AbfLMVGo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Dec 2019 16:06:44 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45906 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726004AbfLMVGn (ORCPT
+        id S1726767AbfLMVVt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Dec 2019 16:21:49 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:58864 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726620AbfLMVVs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Dec 2019 16:06:43 -0500
-Received: from localhost (mobile-166-170-223-177.mycingular.net [166.170.223.177])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6D6D72467A;
-        Fri, 13 Dec 2019 21:06:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576271202;
-        bh=hWUTsi+517PaE+0S0Vj4/AHhcznAaHtL9dM69acMjt0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=cObaL2ydIExDh5FQfy04mYtNWg8OGAWhz8lGSbGtxeNyVZ2k16gCNohgzA/fV+IBS
-         9cFMAMDj4nGr6XQKqdmWTNDQRO5ykXoBKm9Ncektrv6hzd7/TEU83Mfl0rChSKJn7j
-         qY1XoccfsWjH7157hNnDcoweI7eFUjAByHwEYBgg=
-Date:   Fri, 13 Dec 2019 15:06:41 -0600
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Lad Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
+        Fri, 13 Dec 2019 16:21:48 -0500
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E7F5C9D6;
+        Fri, 13 Dec 2019 22:21:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1576272105;
+        bh=kfljz9UZHB2pVP+kCoUQ3y5Cztkhg15tClYsPXtUXcM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=AZxve53FRBzZW/1Udzi2ofhnsnKHsYZnxUVGBBj4psMMKbqvaefNFyqcEnR/xl5Ql
+         TZaM9TrZZYN+CwYi/GX9pbmVx5ietNZYFE+DhmlGZubnz0CVIzbgfkx9WR3e/58A4+
+         ODBSS7HciOOon5ziAVJLEwdrNaXq2OEiQaNxSHPs=
+Date:   Fri, 13 Dec 2019 23:21:35 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-pci@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Murray <andrew.murray@arm.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sean Paul <sean@poorly.run>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
         Simon Horman <horms@verge.net.au>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        linux-rockchip@lists.infradead.org,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [v2 0/6] Add support for PCIe controller to work in endpoint
- mode on R-Car SoCs
-Message-ID: <20191213184627.GA169673@google.com>
+        Magnus Damm <magnus.damm@gmail.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        ebiharaml@si-linux.co.jp
+Subject: Re: [PATCH v4 2/7] drm: rcar-du: lvds: Improve identification of
+ panels
+Message-ID: <20191213212135.GM4860@pendragon.ideasonboard.com>
+References: <1575649974-31472-1-git-send-email-fabrizio.castro@bp.renesas.com>
+ <1575649974-31472-3-git-send-email-fabrizio.castro@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20191213084748.11210-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1575649974-31472-3-git-send-email-fabrizio.castro@bp.renesas.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Dec 13, 2019 at 08:47:42AM +0000, Lad Prabhakar wrote:
+Hi Fabrizio,
 
-> Lad, Prabhakar (6):
->   pci: pcie-rcar: preparation for adding endpoint support
->   pci: endpoint: add support to handle features of outbound memory
->   of: address: add support to parse PCI outbound-ranges
->   dt-bindings: PCI: rcar: Add bindings for R-Car PCIe endpoint
->     controller
->   pci: rcar: add support for rcar pcie controller in endpoint mode
->   misc: pci_endpoint_test: add device-id for RZ/G2E pcie controller
+Thank you for the patch.
 
-The next time you post this, please update the subject lines to match
-existing conventions (capitalize "PCI", description is a complete
-sentence starting with a capitalized verb, etc").  Run "git log
---online" on the file you're changing and make yours look the same.
+On Fri, Dec 06, 2019 at 04:32:49PM +0000, Fabrizio Castro wrote:
+> Dual-LVDS panels are mistakenly identified as bridges, this
+> commit replaces the current logic with a call to
+> drm_of_find_panel_or_bridge to sort that out.
+> 
+> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> 
+> ---
+> v3->v4:
+> * New patch extracted from patch:
+>   "drm: rcar-du: lvds: Add dual-LVDS panels support"
+> ---
+>  drivers/gpu/drm/rcar-du/rcar_lvds.c | 45 +++++++++----------------------------
+>  1 file changed, 10 insertions(+), 35 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> index 8c6c172..3cb0a83 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
+> @@ -21,6 +21,7 @@
+>  #include <drm/drm_atomic.h>
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+> +#include <drm/drm_of.h>
+>  #include <drm/drm_panel.h>
+>  #include <drm/drm_probe_helper.h>
+>  
+> @@ -705,10 +706,7 @@ static int rcar_lvds_parse_dt_companion(struct rcar_lvds *lvds)
+>  static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
+>  {
+>  	struct device_node *local_output = NULL;
+> -	struct device_node *remote_input = NULL;
+>  	struct device_node *remote = NULL;
+> -	struct device_node *node;
+> -	bool is_bridge = false;
+>  	int ret = 0;
+>  
+>  	local_output = of_graph_get_endpoint_by_regs(lvds->dev->of_node, 1, 0);
+> @@ -736,45 +734,22 @@ static int rcar_lvds_parse_dt(struct rcar_lvds *lvds)
+>  		goto done;
+>  	}
 
-  s/pci: /PCI: /
-  s/pcie-rcar: /rcar: /
-  s/pcie/PCIe/
-  s/device-id/Device ID/
+I think you can remove the calls above this too.
+drm_of_find_panel_or_bridge() calls of_graph_get_remote_node(), which in
+turn calls of_graph_get_endpoint_by_regs(),
+of_graph_get_remote_port_parent() and checks the status of the remote
+with of_device_is_available().
+
+>  
+> -	remote_input = of_graph_get_remote_endpoint(local_output);
+> -
+> -	for_each_endpoint_of_node(remote, node) {
+> -		if (node != remote_input) {
+> -			/*
+> -			 * We've found one endpoint other than the input, this
+> -			 * must be a bridge.
+> -			 */
+> -			is_bridge = true;
+> -			of_node_put(node);
+> -			break;
+> -		}
+> -	}
+> -
+> -	if (is_bridge) {
+> -		lvds->next_bridge = of_drm_find_bridge(remote);
+> -		if (!lvds->next_bridge) {
+> -			ret = -EPROBE_DEFER;
+> -			goto done;
+> -		}
+> +	ret = drm_of_find_panel_or_bridge(lvds->dev->of_node, 1, 0,
+> +					  &lvds->panel, &lvds->next_bridge);
+> +	if (ret)
+> +		goto done;
+>  
+> -		if (lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK)
+> -			lvds->dual_link = lvds->next_bridge->timings
+> -					? lvds->next_bridge->timings->dual_link
+> -					: false;
+> -	} else {
+> -		lvds->panel = of_drm_find_panel(remote);
+> -		if (IS_ERR(lvds->panel)) {
+> -			ret = PTR_ERR(lvds->panel);
+> -			goto done;
+> -		}
+> -	}
+> +	if ((lvds->info->quirks & RCAR_LVDS_QUIRK_DUAL_LINK) &&
+> +	    lvds->next_bridge)
+> +		lvds->dual_link = lvds->next_bridge->timings
+> +				? lvds->next_bridge->timings->dual_link
+> +				: false;
+>  
+>  	if (lvds->dual_link)
+>  		ret = rcar_lvds_parse_dt_companion(lvds);
+>  
+>  done:
+>  	of_node_put(local_output);
+> -	of_node_put(remote_input);
+>  	of_node_put(remote);
+>  
+>  	/*
+
+-- 
+Regards,
+
+Laurent Pinchart
