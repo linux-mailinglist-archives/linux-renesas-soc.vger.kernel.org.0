@@ -2,319 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F88C11EA43
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 19:28:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC9BA11EA63
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 19:36:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728722AbfLMS2C (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Dec 2019 13:28:02 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:57922 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728800AbfLMS2C (ORCPT
+        id S1728755AbfLMSgG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Dec 2019 13:36:06 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:39715 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728660AbfLMSgG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Dec 2019 13:28:02 -0500
-Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 66E417529;
-        Fri, 13 Dec 2019 19:27:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1576261679;
-        bh=JHIF8Ay7cwpZwEjeC8uAb7SBJoe8gDQLcu6I7ECYSxI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=ONsd+4UOqcIHv8EZsAeoicYGVBNArOzlX4v/KhfSGN5olFkDQbWyRs4dmSOeXhNw/
-         Jo8BfD7TL1FpxHG7GDjqyjDvNSlK3vzmqJ74PDs2e1SXh9jwHaHGMqOhBCmkB6Jaed
-         WS2a/llQDk5vlOqKgDDXJ6jhkg3cV7BoMW+iQy5k=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH v2] drm: rcar-du: lvds: Get mode from state
-Date:   Fri, 13 Dec 2019 20:27:42 +0200
-Message-Id: <20191213182742.24348-1-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.24.1
+        Fri, 13 Dec 2019 13:36:06 -0500
+Received: by mail-lf1-f65.google.com with SMTP id y1so8617lfb.6
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Dec 2019 10:36:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=+yYxOT0va2VHzwIKoZ6C2B0Jvut+fqhudWR3wypOJFA=;
+        b=gXOWCxe5ihfQaMVe6vNWAQ0C45ZFllMGAVs+YMFtY5KzS4YCZkgJ4wYsK/Wp2lZ8oe
+         wP0bj6bZ7m95r/wcDgtvV/TRyN/fxX5rQtgthfwhjOy1vWCbaDydD/tke5Ksp94azd7K
+         CPQMyWG1VrtwbVmeqJ7b11LWVh8wU0aISMN3xUFl9KtwHNyML4fpdilR4GPwKBqLfyDl
+         JEzDQopgu5nLhzFh/ahB9o32iYmvTedFa+pBPB+WlC8D9u6GfFhVKIqil58xWiTyFzSm
+         pr+zfMORBeMCMoZxguRCNt3Z6U3Q61aqCHqQmQEaEqljtmXYhnlg4Muw/PdF+QUF6PaV
+         aX6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=+yYxOT0va2VHzwIKoZ6C2B0Jvut+fqhudWR3wypOJFA=;
+        b=VjZNA0+eomE9BQ0zgQ+oFg8JfPslmG557k+/QhjhoWBhow3ZHKltYbq6OgWOvjgkuH
+         edRQAo/dnYd7OaW/kx/d/XcJud+anwsQ7C083mzKkT5RWkdnyAd8FXYMQsVQLXnWa1NQ
+         GNj5c1/2BzrlaXM1gAQMCXUbqhdOG3qCr32QtjbzdRpJAgTSPsWpnFyWz8qzk8XuHOJi
+         WauOBuq3iYrtcHabUepB9EVbPqwbCmYG/3Mg5brar73b1p/lwfBcWRRQSRLRFgMgsCCQ
+         Hic2EbJA3RBA3t1dXfkZyDyJsbx6f7N2YjIiRvYrDEBCZhHjnkXQ5F1uD0kUniqHJ+XF
+         l67g==
+X-Gm-Message-State: APjAAAXCDPaF8Q5RrHwuIJ0F38n+AzpHx7CEyx3dAbSLFp70/DgGBI/m
+        esfmB8oivUrSapkMSVpKBq2awQ==
+X-Google-Smtp-Source: APXvYqyDjih2mzXZ55CgIu55UJmQthpr1+7SQHKDRtszvEjE6rL8yimdlW9KpwfQfkfbrr7hqkz4dw==
+X-Received: by 2002:a19:4901:: with SMTP id w1mr9751553lfa.168.1576262164329;
+        Fri, 13 Dec 2019 10:36:04 -0800 (PST)
+Received: from wasted.cogentembedded.com ([2a00:1fa0:42e:41d4:b11e:4c1d:868f:dabe])
+        by smtp.gmail.com with ESMTPSA id p136sm5111088lfa.8.2019.12.13.10.36.01
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 13 Dec 2019 10:36:02 -0800 (PST)
+Subject: Re: [PATCH v2 1/6] spi: Add SPIBSC driver
+To:     Chris Brandt <Chris.Brandt@renesas.com>,
+        Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        Mason Yang <masonccyang@mxic.com.tw>
+References: <20191206134202.18784-1-chris.brandt@renesas.com>
+ <20191206134202.18784-2-chris.brandt@renesas.com>
+ <37c13497-d20f-583f-72d7-1e3c8a241990@cogentembedded.com>
+ <TYXPR01MB1568ED4D40CEC399E64F6A2B8A550@TYXPR01MB1568.jpnprd01.prod.outlook.com>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Organization: Cogent Embedded
+Message-ID: <7386b38f-2f52-39cb-3887-e97b024ec563@cogentembedded.com>
+Date:   Fri, 13 Dec 2019 21:36:00 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <TYXPR01MB1568ED4D40CEC399E64F6A2B8A550@TYXPR01MB1568.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The R-Car LVDS encoder driver implements the bridge .mode_set()
-operation for the sole purpose of storing the mode in the LVDS private
-data, to be used later when enabling the encoder.
+Hello!
 
-Switch to the bridge .atomic_enable() and .atomic_disable() operations
-in order to access the global atomic state, and get the mode from the
-state instead. Remove both the unneeded .mode_set() operation and the
-display_mode and mode fields storing state data from the rcar_lvds
-private structure.
+On 12/12/2019 11:19 PM, Chris Brandt wrote:
 
-As a side effect we get the CRTC from the state, replace the CRTC
-pointer retrieved through the bridge's encoder that shouldn't be used by
-atomic drivers.
+>>    As you can see, the deleted file is back after unmount/re-mount...
+> 
+> Did you do a 'sync' before you unmounted?
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
-Changes since v1:
+   Now I have -- no change.
 
-- Call .atomic_enable() on the companion
-- Set companion->encoder in .attach()
+> With the RZ/A2M EVB:
+> 
+> Welcome to Buildroot
+> buildroot login: root
+> $ mount /dev/mtdblock3 -t jffs2 /mnt
+> $ ls -l /mnt
+> total 688
+> -rwsr-xr-x    1 root     root        703448 Oct 31 09:08 busybox
+> -rw-r--r--    1 root     root             6 Oct 31 09:07 hello.txt
+> $ rm hello.txt
+> $ sync
+> $ umount /mnt
+> $
+> $
+> $ mount /dev/mtdblock3 -t jffs2 /mnt
+> $ ls -l /mnt
+> total 687
+> -rwsr-xr-x    1 root     root        703448 Oct 31 09:08 busybox
+> 
+> 
+> Note that I also needed this patch in my tree.
+> https://patchwork.ozlabs.org/patch/1202314/
 
-The patch has been tested on the Draak board with the HDMI output in
-LVDS dual-link mode, and on the Salvator-XS board with the HDMI, VGA and
-LVDS outputs in single-link mode.
+   I should have mentioned that I was testing in Simon's renesas.git (thus 5.2-rc6),
+this patch is not applicably there. I'll now try Geert's renesas-devel.git (5.5-rc1)...
 
----
- drivers/gpu/drm/rcar-du/rcar_lvds.c | 158 +++++++++++++++-------------
- 1 file changed, 85 insertions(+), 73 deletions(-)
+> Chris
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-index 8c6c172bbf2e..c550bfd59e71 100644
---- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-@@ -65,9 +65,6 @@ struct rcar_lvds {
- 		struct clk *dotclkin[2];	/* External DU clocks */
- 	} clocks;
- 
--	struct drm_display_mode display_mode;
--	enum rcar_lvds_mode mode;
--
- 	struct drm_bridge *companion;
- 	bool dual_link;
- };
-@@ -402,10 +399,51 @@ EXPORT_SYMBOL_GPL(rcar_lvds_clk_disable);
-  * Bridge
-  */
- 
--static void rcar_lvds_enable(struct drm_bridge *bridge)
-+static enum rcar_lvds_mode rcar_lvds_get_lvds_mode(struct rcar_lvds *lvds,
-+					const struct drm_connector *connector)
-+{
-+	const struct drm_display_info *info;
-+	enum rcar_lvds_mode mode;
-+
-+	/*
-+	 * There is no API yet to retrieve LVDS mode from a bridge, only panels
-+	 * are supported.
-+	 */
-+	if (!lvds->panel)
-+		return RCAR_LVDS_MODE_JEIDA;
-+
-+	info = &connector->display_info;
-+	if (!info->num_bus_formats || !info->bus_formats) {
-+		dev_err(lvds->dev, "no LVDS bus format reported\n");
-+		return RCAR_LVDS_MODE_JEIDA;
-+	}
-+
-+	switch (info->bus_formats[0]) {
-+	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
-+	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
-+		mode = RCAR_LVDS_MODE_JEIDA;
-+		break;
-+	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
-+		mode = RCAR_LVDS_MODE_VESA;
-+		break;
-+	default:
-+		dev_err(lvds->dev, "unsupported LVDS bus format 0x%04x\n",
-+			info->bus_formats[0]);
-+		return RCAR_LVDS_MODE_JEIDA;
-+	}
-+
-+	if (info->bus_flags & DRM_BUS_FLAG_DATA_LSB_TO_MSB)
-+		mode |= RCAR_LVDS_MODE_MIRROR;
-+
-+	return mode;
-+}
-+
-+static void rcar_lvds_atomic_enable(struct drm_bridge *bridge,
-+				    struct drm_atomic_state *state)
- {
- 	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
--	const struct drm_display_mode *mode = &lvds->display_mode;
-+	struct drm_connector *connector;
-+	struct drm_crtc *crtc;
- 	u32 lvdhcr;
- 	u32 lvdcr0;
- 	int ret;
-@@ -414,9 +452,14 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
- 	if (ret < 0)
- 		return;
- 
-+	/* Retrieve the connector and CRTC through the atomic state. */
-+	connector = drm_atomic_get_new_connector_for_encoder(state,
-+							     bridge->encoder);
-+	crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
-+
- 	/* Enable the companion LVDS encoder in dual-link mode. */
- 	if (lvds->dual_link && lvds->companion)
--		lvds->companion->funcs->enable(lvds->companion);
-+		lvds->companion->funcs->atomic_enable(lvds->companion, state);
- 
- 	/*
- 	 * Hardcode the channels and control signals routing for now.
-@@ -452,18 +495,20 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
- 	 * PLL clock configuration on all instances but the companion in
- 	 * dual-link mode.
- 	 */
--	if (!lvds->dual_link || lvds->companion)
-+	if (!lvds->dual_link || lvds->companion) {
-+		const struct drm_crtc_state *crtc_state =
-+			drm_atomic_get_new_crtc_state(state, crtc);
-+		const struct drm_display_mode *mode =
-+			&crtc_state->adjusted_mode;
-+
- 		lvds->info->pll_setup(lvds, mode->clock * 1000);
-+	}
- 
- 	/* Set the LVDS mode and select the input. */
--	lvdcr0 = lvds->mode << LVDCR0_LVMD_SHIFT;
-+	lvdcr0 = rcar_lvds_get_lvds_mode(lvds, connector) << LVDCR0_LVMD_SHIFT;
- 
- 	if (lvds->bridge.encoder) {
--		/*
--		 * FIXME: We should really retrieve the CRTC through the state,
--		 * but how do we get a state pointer?
--		 */
--		if (drm_crtc_index(lvds->bridge.encoder->crtc) == 2)
-+		if (drm_crtc_index(crtc) == 2)
- 			lvdcr0 |= LVDCR0_DUSEL;
- 	}
- 
-@@ -520,7 +565,8 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
- 	}
- }
- 
--static void rcar_lvds_disable(struct drm_bridge *bridge)
-+static void rcar_lvds_atomic_disable(struct drm_bridge *bridge,
-+				     struct drm_atomic_state *state)
- {
- 	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
- 
-@@ -558,54 +604,6 @@ static bool rcar_lvds_mode_fixup(struct drm_bridge *bridge,
- 	return true;
- }
- 
--static void rcar_lvds_get_lvds_mode(struct rcar_lvds *lvds)
--{
--	struct drm_display_info *info = &lvds->connector.display_info;
--	enum rcar_lvds_mode mode;
--
--	/*
--	 * There is no API yet to retrieve LVDS mode from a bridge, only panels
--	 * are supported.
--	 */
--	if (!lvds->panel)
--		return;
--
--	if (!info->num_bus_formats || !info->bus_formats) {
--		dev_err(lvds->dev, "no LVDS bus format reported\n");
--		return;
--	}
--
--	switch (info->bus_formats[0]) {
--	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
--	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
--		mode = RCAR_LVDS_MODE_JEIDA;
--		break;
--	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
--		mode = RCAR_LVDS_MODE_VESA;
--		break;
--	default:
--		dev_err(lvds->dev, "unsupported LVDS bus format 0x%04x\n",
--			info->bus_formats[0]);
--		return;
--	}
--
--	if (info->bus_flags & DRM_BUS_FLAG_DATA_LSB_TO_MSB)
--		mode |= RCAR_LVDS_MODE_MIRROR;
--
--	lvds->mode = mode;
--}
--
--static void rcar_lvds_mode_set(struct drm_bridge *bridge,
--			       const struct drm_display_mode *mode,
--			       const struct drm_display_mode *adjusted_mode)
--{
--	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
--
--	lvds->display_mode = *adjusted_mode;
--
--	rcar_lvds_get_lvds_mode(lvds);
--}
--
- static int rcar_lvds_attach(struct drm_bridge *bridge)
- {
- 	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
-@@ -614,32 +612,47 @@ static int rcar_lvds_attach(struct drm_bridge *bridge)
- 	int ret;
- 
- 	/* If we have a next bridge just attach it. */
--	if (lvds->next_bridge)
--		return drm_bridge_attach(bridge->encoder, lvds->next_bridge,
--					 bridge);
-+	if (lvds->next_bridge) {
-+		ret = drm_bridge_attach(bridge->encoder, lvds->next_bridge,
-+					bridge);
-+		goto done;
-+	}
- 
- 	/* Otherwise if we have a panel, create a connector. */
--	if (!lvds->panel)
--		return 0;
-+	if (!lvds->panel) {
-+		ret = 0;
-+		goto done;
-+	}
- 
- 	ret = drm_connector_init(bridge->dev, connector, &rcar_lvds_conn_funcs,
- 				 DRM_MODE_CONNECTOR_LVDS);
- 	if (ret < 0)
--		return ret;
-+		goto done;
- 
- 	drm_connector_helper_add(connector, &rcar_lvds_conn_helper_funcs);
- 
- 	ret = drm_connector_attach_encoder(connector, encoder);
- 	if (ret < 0)
--		return ret;
-+		goto done;
-+
-+	ret = drm_panel_attach(lvds->panel, connector);
- 
--	return drm_panel_attach(lvds->panel, connector);
-+done:
-+	if (!ret) {
-+		if (lvds->companion)
-+			lvds->companion->encoder = encoder;
-+	}
-+
-+	return 0;
- }
- 
- static void rcar_lvds_detach(struct drm_bridge *bridge)
- {
- 	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
- 
-+	if (lvds->companion)
-+		lvds->companion->encoder = NULL;
-+
- 	if (lvds->panel)
- 		drm_panel_detach(lvds->panel);
- }
-@@ -647,10 +660,9 @@ static void rcar_lvds_detach(struct drm_bridge *bridge)
- static const struct drm_bridge_funcs rcar_lvds_bridge_ops = {
- 	.attach = rcar_lvds_attach,
- 	.detach = rcar_lvds_detach,
--	.enable = rcar_lvds_enable,
--	.disable = rcar_lvds_disable,
-+	.atomic_enable = rcar_lvds_atomic_enable,
-+	.atomic_disable = rcar_lvds_atomic_disable,
- 	.mode_fixup = rcar_lvds_mode_fixup,
--	.mode_set = rcar_lvds_mode_set,
- };
- 
- bool rcar_lvds_dual_link(struct drm_bridge *bridge)
--- 
-Regards,
-
-Laurent Pinchart
-
+MBR, Sergei
