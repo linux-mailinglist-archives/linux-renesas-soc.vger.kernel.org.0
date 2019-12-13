@@ -2,80 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DDB711E162
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 11:01:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2636811E1BA
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 11:12:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725948AbfLMKBk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Dec 2019 05:01:40 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:46402 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725793AbfLMKBk (ORCPT
+        id S1726368AbfLMKMK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Dec 2019 05:12:10 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:44894 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725928AbfLMKMK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Dec 2019 05:01:40 -0500
-Received: by mail-ot1-f68.google.com with SMTP id g18so5755151otj.13;
-        Fri, 13 Dec 2019 02:01:39 -0800 (PST)
+        Fri, 13 Dec 2019 05:12:10 -0500
+Received: by mail-lf1-f65.google.com with SMTP id v201so1512427lfa.11
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Dec 2019 02:12:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=m/LtYexBY2dXuMD99CyEqehHu+qZn+VwunxTbXsEsdM=;
+        b=EfY9U2dohuaFocXEdGwpV2jB5gwsb/ceEYegtN52xewKHbBp3HUqhPkb4isfJq179J
+         VzFHyb0kppgRTt3KQPhtPZDGvlf8OH1HIDaCvewdlkFC8+luy/SC2xXfffh7+VLLRwC+
+         mHPVxFAxO2ebwyTtO0MfyaKn3c1g4KQxoifLUyFBWs63q3N9RdJ0o2xOaGnjKxAF1reL
+         eOA05cw3KiYUH7N8J2UJwVHS1+MSYTxy5J1LlHX7ORWi40VpkBwz0uEpEMzfv8jrlxg7
+         W8+EMbApNOtHTEBm+FMdeI4AC8EZEuiKO5ZdEH/Y8QHWmQHV6/5EM9pvimlKMV12ym3w
+         LmqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=tF95qMF9ERW6gHpXhamcEeeL/6m7C6A3FVygCN+4SDI=;
-        b=CTaa/J9J4x/WE2Or90F5I1neXdqU8u0YTnLvCO4zqWjWQI9EGCSh28uo9SN5g4Ra0i
-         Lf9mca0bMFXJdk0KW2MpegbD6T/y2d/NF17TLS2mdadP1Juv+Dm0jrgLTe+ZljeJhv45
-         ORcjGVjs9FSv60wbWu94GgxvHyJpJMP6IBjr3jhSs+MW4+Bi2BGs830COJh5ncpbp8IS
-         C19G+QAb4z/zvuWhYvAVjNz2InmxlJxiQPvSu5WUHkbNSXOBVbx+SGMfg8G8R/PQOMPs
-         RAeWcbtGz9CK9OTRciA3gf3SNfmLShXDw8eZ/lRmO+WKtTiH36rc0YZ7ouPR9jE69GNZ
-         qtDA==
-X-Gm-Message-State: APjAAAVoxBhz3KZRFYUT01czlQtbPhtEGJouHyyCG3UoIWCSr2M6JTW0
-        Qc/sn+Qn9ryYUGoyh75n/lPWdLIoxrtM/84AKa8=
-X-Google-Smtp-Source: APXvYqzvSmx2I4nRiVrv54hjftKpN1VACtQuojp4ST7ypJsb2lH/wSFc8YGIvXq0c6SbfHWhtr62WCABJHgLouaYaEI=
-X-Received: by 2002:a9d:6c81:: with SMTP id c1mr13985832otr.39.1576231298989;
- Fri, 13 Dec 2019 02:01:38 -0800 (PST)
+        bh=m/LtYexBY2dXuMD99CyEqehHu+qZn+VwunxTbXsEsdM=;
+        b=gmZzZDSakdEu5lE0k19QGXIBbbgsQGEsECinkAVc/JZSu6Gzm50ixhmAOP2kr89pqB
+         6/p7QgPI4x+x2gbuUa/n5cgiIpPYA6f2lUl/U4itkoyOf9HLDnUsN78l5rEgdF9fa4EI
+         Agzom2PfCxvYoT4+rWEDVgOkbjM4FGf+23qkK0CZE/5B8FNbSvE++qWut5u4UfBrhC04
+         UDwKdn35vJP4gZid3pyF7Bb3KX8Y3/Vhkrs5JCHQr6QnliMRGj1YRuuu2dwHzl1HruNK
+         L7n6WoLErmAvXhkeUuNZYjVEf+0x5873RYn6bvY0lnTReZC0092HjYnNJCsXuRrdURnl
+         BR9w==
+X-Gm-Message-State: APjAAAUQ0um9+/tCR1ziNkuBmHbNyPC6/MxaOBeHJJO6OVsCSB1xT644
+        xx6Vg/HMWDSxOj0PLoY7+oERWMH7pasvDRMT+Q1S/A==
+X-Google-Smtp-Source: APXvYqylxfzNVPGqr9591RfVZ99OAOsLlKI2sKmjjlNFv7cMeHHTZsq313giYfhVet28Lcs1R6wVKgUeBdcUBTsUkqw=
+X-Received: by 2002:ac2:55a8:: with SMTP id y8mr8287131lfg.117.1576231928054;
+ Fri, 13 Dec 2019 02:12:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20191206134202.18784-1-chris.brandt@renesas.com>
- <20191206134202.18784-2-chris.brandt@renesas.com> <37c13497-d20f-583f-72d7-1e3c8a241990@cogentembedded.com>
- <TYXPR01MB1568ED4D40CEC399E64F6A2B8A550@TYXPR01MB1568.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYXPR01MB1568ED4D40CEC399E64F6A2B8A550@TYXPR01MB1568.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 13 Dec 2019 11:01:27 +0100
-Message-ID: <CAMuHMdWCgOsj_ZWF-+f-5XjZU9RSCm6Ww3gBmYQeSGz0B77_ig@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] spi: Add SPIBSC driver
-To:     Chris Brandt <Chris.Brandt@renesas.com>
-Cc:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Mark Brown <broonie@kernel.org>,
+References: <20191205133912.6048-1-geert+renesas@glider.be>
+In-Reply-To: <20191205133912.6048-1-geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 13 Dec 2019 11:11:56 +0100
+Message-ID: <CACRpkda=VSn1PS3J2iMnFZ=iGthCCtw7NX+S+8-76D30tntPRQ@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: gpio: rcar: Document r8a77961 support
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        Mason Yang <masonccyang@mxic.com.tw>
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Chris,
+On Thu, Dec 5, 2019 at 2:39 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-On Thu, Dec 12, 2019 at 9:19 PM Chris Brandt <Chris.Brandt@renesas.com> wrote:
-> On Thu, Dec 12, 2019, Sergei Shtylyov wrote:
-> >    As you can see, the deleted file is back after unmount/re-mount...
+> Document support for the GPIO controller in the Renesas R-Car M3-W+
+> (R8A77961) SoC.
 >
-> Did you do a 'sync' before you unmounted?
+> Update all references to R-Car M3-W from "r8a7796" to "r8a77960", to
+> avoid confusion between R-Car M3-W (R8A77960) and M3-W+.
+>
+> No driver update is needed.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Does it fail without? If yes, that must be a jffs2 bug.
+Patch applied.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Yours,
+Linus Walleij
