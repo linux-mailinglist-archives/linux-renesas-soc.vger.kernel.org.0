@@ -2,293 +2,360 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BE7F11EC84
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 22:06:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E32D11EC87
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 22:06:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726823AbfLMVGL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Dec 2019 16:06:11 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58746 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726382AbfLMVGL (ORCPT
+        id S1726004AbfLMVGW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Dec 2019 16:06:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45522 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726313AbfLMVGV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Dec 2019 16:06:11 -0500
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF596A4C;
-        Fri, 13 Dec 2019 22:06:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1576271167;
-        bh=71NSmDcIsAZtivhwhp0QyFErm8lG1OMlM5HXbEzzgmk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vsLjpQxPz1jZp0iZYXBGHt3zSkvkVVwwTtNYEoA9zMymyg00bLsaX7IWaXDS/xaFS
-         mkLLbVX2Mtlo7zFiWmpVAMdBOXM/qbdkMSMoTUNiyE/CBDZ8p2z7+rG7RjbGQPdZv2
-         j8mhyHArwjWVqFgdxwB0hUKuVtO3z1qkrgM2dgb8=
-Date:   Fri, 13 Dec 2019 23:05:58 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
+        Fri, 13 Dec 2019 16:06:21 -0500
+Received: from localhost (mobile-166-170-223-177.mycingular.net [166.170.223.177])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 233352467F;
+        Fri, 13 Dec 2019 21:06:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576271179;
+        bh=OP2MD7vVXuZ/HR6hPSa6omAMP75J4W5hL0C2oHOrUbs=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=tx+2GWSRS+H8b4lB7kgdEPsStI0GtH+zDkqAG67ypoIIrqqt1s663RnkMCFrLSqff
+         XJ31ChhjjricI9t0Z3pQjlMvfnk45c2HM93aIYDFnOUALEy6BYrnt3S/OJxBr+as0W
+         AEDghZjQNgcTIedqSsall4WFzRdLjOdmi2o27CEU=
+Date:   Fri, 13 Dec 2019 15:06:18 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Lad Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Sean Paul <sean@poorly.run>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Simon Horman <horms@verge.net.au>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-pci@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Murray <andrew.murray@arm.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        ebiharaml@si-linux.co.jp
-Subject: Re: [PATCH v4 1/7] drm: of: Add drm_of_lvds_get_dual_link_pixel_order
-Message-ID: <20191213210558.GJ4860@pendragon.ideasonboard.com>
-References: <1575649974-31472-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1575649974-31472-2-git-send-email-fabrizio.castro@bp.renesas.com>
+        Frank Rowand <frowand.list@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Simon Horman <horms@verge.net.au>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        linux-rockchip@lists.infradead.org,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [v2 2/6] pci: endpoint: add support to handle features of
+ outbound memory
+Message-ID: <20191213195727.GA170874@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1575649974-31472-2-git-send-email-fabrizio.castro@bp.renesas.com>
+In-Reply-To: <20191213084748.11210-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Fabrizio,
+On Fri, Dec 13, 2019 at 08:47:44AM +0000, Lad Prabhakar wrote:
+> From: "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> rcar pcie controller has support to map multiple memory regions
+> for mapping the outbound memory in local system, this feature
+> inspires to add support for handling such features in endpoint
+> framework. similar features exists on other controllers where
+> outbound regions can be specifically used for low/high priority
+> transactions, and regions can be flagged and used for allocation
+> of large/small memory allocations.
+> This patch adds support to handle such features, where the
+> properties described for outbound regions are used whenever a
+> request to memory is made.
 
-Thank you for the patch.
+For this and the other patches, please:
 
-On Fri, Dec 06, 2019 at 04:32:48PM +0000, Fabrizio Castro wrote:
-> An LVDS dual-link connection is made of two links, with even
-> pixels transitting on one link, and odd pixels on the other
-> link. The device tree can be used to fully describe dual-link
-> LVDS connections between encoders and bridges/panels.
-> The sink of an LVDS dual-link connection is made of two ports,
-> the corresponding OF graph port nodes can be marked
-> with either dual-lvds-even-pixels or dual-lvds-odd-pixels,
-> and that fully describes an LVDS dual-link connection,
-> including pixel order.
-> 
-> drm_of_lvds_get_dual_link_pixel_order is a new helper
-> added by this patch, given the source port nodes it
-> returns DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS if the source
-> port nodes belong to an LVDS dual-link connection, with even
-> pixels expected to be generated from the first port, and odd
-> pixels expected to be generated from the second port.
-> If the new helper returns DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS,
-> odd pixels are expected to be generated from the first port,
-> and even pixels from the other port.
-> 
-> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> 
-> ---
-> v3->v4:
-> * The patch had title "drm: Add bus timings helper" in v3
-> * The code has now been moved to drm_of, and has been fully
->   restructured, thanks to Laurent and Daniel for the comments
-> 
-> v2->v3:
-> * new patch
-> ---
->  drivers/gpu/drm/drm_of.c | 104 +++++++++++++++++++++++++++++++++++++++++++++++
->  include/drm/drm_of.h     |  20 +++++++++
->  2 files changed, 124 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-> index 0ca5880..c2e9ab7 100644
-> --- a/drivers/gpu/drm/drm_of.c
-> +++ b/drivers/gpu/drm/drm_of.c
-> @@ -274,3 +274,107 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
->  	return ret;
+  - start sentences with a capital letter
+  - leave a blank line between paragraphs
+  - wrap commit log text to use the whole 80 character line (I wrap to
+    75 characters to account for "git log" indenting by 4 spaces)
+  - check your signed-off-by: it shows your name as "Lad, Prabhakar",
+    while your email From: line shows "Lad Prabhakar".  Choose one :)
+
+> diff --git a/drivers/pci/endpoint/pci-epc-mem.c b/drivers/pci/endpoint/pci-epc-mem.c
+> index 2bf8bd1..4b610cd 100644
+> --- a/drivers/pci/endpoint/pci-epc-mem.c
+> +++ b/drivers/pci/endpoint/pci-epc-mem.c
+
+> -int __pci_epc_mem_init(struct pci_epc *epc, phys_addr_t phys_base, size_t size,
+> -		       size_t page_size)
+> +int __pci_epc_mem_init(struct pci_epc *epc, struct pci_epc_mem_window *windows,
+> +		       int num_windows, size_t page_size)
+>  {
+> -	int ret;
+> -	struct pci_epc_mem *mem;
+> -	unsigned long *bitmap;
+> +	struct pci_epc_mem *mem = NULL;
+> +	unsigned long *bitmap = NULL;
+>  	unsigned int page_shift;
+> -	int pages;
+>  	int bitmap_size;
+> +	int pages;
+> +	int ret;
+> +	int i;
+> +
+> +	epc->mem_windows = 0;
+> +
+> +	if (!windows)
+> +		return -EINVAL;
+> +
+> +	if (num_windows <= 0)
+> +		return -EINVAL;
+
+Why is num_windows signed?
+
+>  void pci_epc_mem_exit(struct pci_epc *epc)
+>  {
+> -	struct pci_epc_mem *mem = epc->mem;
+> +	struct pci_epc_mem *mem;
+> +	int i;
+> +
+> +	if (!epc->mem_windows)
+> +		return;
+
+If you fix the loop below, why do you even need to test this?
+
+> +	for (i = 0; i <= epc->mem_windows; i--) {
+
+Huh?  "<="?  "i--"?  Surely you mean
+
+	for (i = 0; i < epc->mem_windows; i++) {
+
+> +		mem = epc->mem[i];
+> +		kfree(mem->bitmap);
+> +		kfree(epc->mem[i]);
+> +	}
+> +	kfree(epc->mem);
+>  
+>  	epc->mem = NULL;
+> -	kfree(mem->bitmap);
+> -	kfree(mem);
+> +	epc->mem_windows = 0;
 >  }
->  EXPORT_SYMBOL_GPL(drm_of_find_panel_or_bridge);
-> +
-> +enum drm_of_lvds_pixels {
-> +	DRM_OF_LVDS_EVEN = BIT(0),
-> +	DRM_OF_LVDS_ODD = BIT(1),
-> +};
-> +
-> +static int drm_of_lvds_get_port_pixels_type(struct device_node *port_node)
+>  EXPORT_SYMBOL_GPL(pci_epc_mem_exit);
+>  
+> +static int pci_epc_find_best_fit_window(struct pci_epc *epc, size_t size,
+> +					u32 flags)
+
+Can this just return a struct pci_epc_mem *, so the caller doesn't
+have to lookup epc->mem[i] again?
+
 > +{
-> +	bool even_pixels =
-> +		of_property_read_bool(port_node, "dual-lvds-even-pixels");
-> +	bool odd_pixels =
-> +		of_property_read_bool(port_node, "dual-lvds-odd-pixels");
+> +	size_t window_least_size = 0;
+> +	int best_fit_window = -1;
+> +	struct pci_epc_mem *mem;
+> +	size_t actual_size;
+> +	size_t avail_size;
+> +	u32 win_flags;
+> +	int i;
 > +
-> +	return (even_pixels ? DRM_OF_LVDS_EVEN : 0) |
-> +	       (odd_pixels ? DRM_OF_LVDS_ODD : 0);
-> +}
+> +	for (i = 0; i < epc->mem_windows; i++) {
+> +		mem = epc->mem[i];
+> +		win_flags = mem->window.flags;
 > +
-> +static int drm_of_lvds_get_remote_pixels_type(
-> +			const struct device_node *port_node)
-> +{
-> +	struct device_node *endpoint = NULL;
-> +	int pixels_type = -EPIPE;
+> +		actual_size = ALIGN(size, mem->page_size);
+> +		avail_size = mem->window.size - mem->window.map_size;
 > +
-> +	for_each_child_of_node(port_node, endpoint) {
-> +		struct device_node *remote_port;
-> +		int current_pt;
+> +		if (win_flags == 0x0) {
+> +			if (best_fit_window == -1) {
+> +				if (actual_size <= avail_size) {
+> +					best_fit_window = i;
+> +					window_least_size = mem->window.size;
+> +				}
+> +			} else {
+> +				if (actual_size <= avail_size &&
+> +				    mem->window.size < window_least_size) {
+> +					best_fit_window = i;
+> +					window_least_size = mem->window.size;
+> +				}
+> +			}
+> +		} else {
+> +			if (mem->window.map_size &&
+> +			    (win_flags | PCI_EPC_WINDOW_FLAG_NON_MULTI_ALLOC))
+> +				continue;
 > +
-> +		if (!of_node_name_eq(endpoint, "endpoint"))
-> +			continue;
+> +			if (!(win_flags | flags))
+> +				continue;
 > +
-> +		remote_port = of_graph_get_remote_port(endpoint);
-> +		if (!remote_port)
-
-You need an of_node_put(endpoint) in the code paths that exit from the
-loop.
-
-> +			return -EPIPE;
-> +
-> +		current_pt = drm_of_lvds_get_port_pixels_type(remote_port);
-> +		of_node_put(remote_port);
-> +		if (!pixels_type)
-> +			pixels_type = current_pt;
-
-This will never happen as pixels_type is initialized to -EPIPE.
-Replacing the condition with if (pixels_type < 0) should fix it.
-
-> +		if (!current_pt || pixels_type != current_pt)
-> +			return -EINVAL;
-
-I would add a comment to explain this. If I understand the code
-correcty, something along the lines of
-
-		/*
-		 * Sanity check, ensure that all remote endpoints have the same
-		 * pixel type. We may lift this restriction later if we need to
-		 * support multiple sinks with different dual-link
-		 * configurations by passing the endpoints explicitly to
-		 * drm_of_lvds_get_dual_link_pixel_order().
-		 /
-
+> +			if (best_fit_window == -1) {
+> +				if (actual_size <= avail_size) {
+> +					best_fit_window = i;
+> +					window_least_size = mem->window.size;
+> +				}
+> +			} else {
+> +				if (actual_size <= avail_size &&
+> +				    mem->window.size < window_least_size) {
+> +					best_fit_window = i;
+> +					window_least_size = mem->window.size;
+> +				}
+> +			}
+> +		}
 > +	}
 > +
-> +	return pixels_type;
+> +	return best_fit_window;
 > +}
 > +
-> +/**
-> + * drm_of_lvds_get_dual_link_pixel_order - Get LVDS dual-link pixel order
-> + * @port1: First DT port node of the Dual-link LVDS source
-> + * @port2: Second DT port node of the Dual-link LVDS source
-> + *
-> + * An LVDS dual-link connection is made of two links, with even pixels
-> + * transitting on one link, and odd pixels on the other link. This function
-> + * returns, for two ports of an LVDS dual-link source, which port shall transmit
-> + * the even and odd pixels, based on the requirements of the connected sink.
-> + *
-> + * The pixel order is determined from the dual-lvds-even-pixels and
-> + * dual-lvds-odd-pixels properties in the sink's DT port nodes. If those
-> + * properties are not present, or if their usage is not valid, this function
-> + * returns -EINVAL.
-> + *
-> + * If either port is not connected, this function returns -EPIPE.
-> + *
-> + * @port1 and @port2 are typically DT sibling nodes, but may have different
-> + * parents when, for instance, two separate LVDS encoders carry the even and odd
-> + * pixels.
-> + *
-> + * Return:
-> + * * DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS - @port1 carries even pixels and @port2
-> + *   carries odd pixels
-> + * * DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS - @port1 carries odd pixels and @port1
-
-This should be DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS, and the second @port1
-should be @port2.
-
-> + *   carries even pixels
-> + * * -EINVAL - @port1 and @port2 are not connected to a dual-link LVDS sink, or
-> + *   the sink configuration is invalid
-> + * * -EPIPE - when @port1 or port2 are not connected
-
-s/port2/@port2/
-
-With those small issues addressed,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> + */
-> +int drm_of_lvds_get_dual_link_pixel_order(const struct device_node *port1,
-> +					  const struct device_node *port2)
-> +{
-> +	int remote_p1_pt, remote_p2_pt;
-> +
-> +	if (!port1 || !port2)
-> +		return -EINVAL;
-> +
-> +	remote_p1_pt = drm_of_lvds_get_remote_pixels_type(port1);
-> +	if (remote_p1_pt < 0)
-> +		return remote_p1_pt;
-> +
-> +	remote_p2_pt = drm_of_lvds_get_remote_pixels_type(port2);
-> +	if (remote_p2_pt < 0)
-> +		return remote_p2_pt;
-> +
-> +	/*
-> +	 * A valid dual-lVDS bus is found when one remote port is marked with
-> +	 * "dual-lvds-even-pixels", and the other remote port is marked with
-> +	 * "dual-lvds-odd-pixels", bail out if the markers are not right.
-> +	 */
-> +	if (remote_p1_pt + remote_p2_pt != DRM_OF_LVDS_EVEN + DRM_OF_LVDS_ODD)
-> +		return -EINVAL;
-> +
-> +	return remote_p1_pt == DRM_OF_LVDS_EVEN ?
-> +		DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS :
-> +		DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS;
-> +}
-> +EXPORT_SYMBOL_GPL(drm_of_lvds_get_dual_link_pixel_order);
-> diff --git a/include/drm/drm_of.h b/include/drm/drm_of.h
-> index ead34ab..8ec7ca6 100644
-> --- a/include/drm/drm_of.h
-> +++ b/include/drm/drm_of.h
-> @@ -16,6 +16,18 @@ struct drm_panel;
->  struct drm_bridge;
->  struct device_node;
->  
-> +/**
-> + * enum drm_lvds_dual_link_pixels - Pixel order of an LVDS dual-link connection
-> + * @DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS: Even pixels are expected to be generated
-> + *    from the first port, odd pixels from the second port
-> + * @DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS: Odd pixels are expected to be generated
-> + *    from the first port, even pixels from the second port
-> + */
-> +enum drm_lvds_dual_link_pixels {
-> +	DRM_LVDS_DUAL_LINK_EVEN_ODD_PIXELS = 0,
-> +	DRM_LVDS_DUAL_LINK_ODD_EVEN_PIXELS = 1,
-> +};
-> +
->  #ifdef CONFIG_OF
->  uint32_t drm_of_crtc_port_mask(struct drm_device *dev,
->  			    struct device_node *port);
-> @@ -35,6 +47,8 @@ int drm_of_find_panel_or_bridge(const struct device_node *np,
->  				int port, int endpoint,
->  				struct drm_panel **panel,
->  				struct drm_bridge **bridge);
-> +int drm_of_lvds_get_dual_link_pixel_order(const struct device_node *port1,
-> +					  const struct device_node *port2);
->  #else
->  static inline uint32_t drm_of_crtc_port_mask(struct drm_device *dev,
->  					  struct device_node *port)
-> @@ -77,6 +91,12 @@ static inline int drm_of_find_panel_or_bridge(const struct device_node *np,
+>  /**
+>   * pci_epc_mem_alloc_addr() - allocate memory address from EPC addr space
+>   * @epc: the EPC device on which memory has to be allocated
+>   * @phys_addr: populate the allocated physical address here
+> + * @window: populate the window here which will be used to map PCI address
+>   * @size: the size of the address space that has to be allocated
+> + * @flags: look for window as requested in flags
+>   *
+>   * Invoke to allocate memory address from the EPC address space. This
+>   * is usually done to map the remote RC address into the local system.
+>   */
+>  void __iomem *pci_epc_mem_alloc_addr(struct pci_epc *epc,
+> -				     phys_addr_t *phys_addr, size_t size)
+> +				     phys_addr_t *phys_addr,
+> +				     int *window, size_t size, uint32_t flags)
 >  {
->  	return -EINVAL;
->  }
+> +	int best_fit = PCI_EPC_DEFAULT_WINDOW;
+> +	void __iomem *virt_addr = NULL;
+> +	struct pci_epc_mem *mem;
+> +	unsigned int page_shift;
+>  	int pageno;
+> -	void __iomem *virt_addr;
+> -	struct pci_epc_mem *mem = epc->mem;
+> -	unsigned int page_shift = ilog2(mem->page_size);
+>  	int order;
+>  
+> +	if (epc->mem_windows <= 0)
+> +		return NULL;
 > +
-> +int drm_of_lvds_get_dual_link_pixel_order(const struct device_node *port1,
-> +					  const struct device_node *port2)
+> +	if (epc->mem_windows > 1) {
+
+Why bother testing epc->mem_windows here?  Just make sure
+pci_epc_find_best_fit_window() returns the correct thing for
+"mem_windows == 0" and "mem_windows == 1", and remove both the tests
+above.
+
+> +		best_fit = pci_epc_find_best_fit_window(epc, size, flags);
+> +		if (best_fit < 0)
+> +			return NULL;
+> +	}
+> +
+> +	mem = epc->mem[best_fit];
+>  	size = ALIGN(size, mem->page_size);
+> +	if (size > (mem->window.size - mem->window.map_size))
+> +		return NULL;
+> +	page_shift = ilog2(mem->page_size);
+>  	order = pci_epc_mem_get_order(mem, size);
+>  
+>  	pageno = bitmap_find_free_region(mem->bitmap, mem->pages, order);
+>  	if (pageno < 0)
+>  		return NULL;
+>  
+> -	*phys_addr = mem->phys_base + (pageno << page_shift);
+> +	*phys_addr = mem->window.phys_base + (pageno << page_shift);
+>  	virt_addr = ioremap(*phys_addr, size);
+> -	if (!virt_addr)
+> +	if (!virt_addr) {
+>  		bitmap_release_region(mem->bitmap, pageno, order);
+> +	} else {
+> +		mem->window.map_size += size;
+> +		*window = best_fit;
+> +	}
+>  
+>  	return virt_addr;
+>  }
+>  EXPORT_SYMBOL_GPL(pci_epc_mem_alloc_addr);
+>  
+> +static int pci_epc_get_matching_window(struct pci_epc *epc,
+> +				       phys_addr_t phys_addr)
+
+Return struct pci_epc_mem * again?
+
 > +{
+> +	struct pci_epc_mem *mem;
+> +	int i;
+> +
+> +	for (i = 0; i < epc->mem_windows; i++) {
+> +		mem = epc->mem[i];
+> +
+> +		if (mem->window.phys_base == phys_addr)
+> +			return i;
+> +	}
+> +
 > +	return -EINVAL;
 > +}
->  #endif
+> +
+>  /**
+>   * pci_epc_mem_free_addr() - free the allocated memory address
+>   * @epc: the EPC device on which memory was allocated
+> @@ -155,16 +281,26 @@ EXPORT_SYMBOL_GPL(pci_epc_mem_alloc_addr);
+>  void pci_epc_mem_free_addr(struct pci_epc *epc, phys_addr_t phys_addr,
+>  			   void __iomem *virt_addr, size_t size)
+>  {
+> +	struct pci_epc_mem *mem;
+> +	unsigned int page_shift;
+> +	int window = 0;
+>  	int pageno;
+> -	struct pci_epc_mem *mem = epc->mem;
+> -	unsigned int page_shift = ilog2(mem->page_size);
+>  	int order;
 >  
->  /*
+> +	if (epc->mem_windows > 1) {
 
--- 
-Regards,
+Same here (unnecessary test).
 
-Laurent Pinchart
+> +		window = pci_epc_get_matching_window(epc, phys_addr);
+> +		if (window < 0)
+> +			return;
+> +	}
+> +
+> +	mem = epc->mem[window];
+> +	page_shift = ilog2(mem->page_size);
+>  	iounmap(virt_addr);
+> -	pageno = (phys_addr - mem->phys_base) >> page_shift;
+> +	pageno = (phys_addr - mem->window.phys_base) >> page_shift;
+>  	size = ALIGN(size, mem->page_size);
+>  	order = pci_epc_mem_get_order(mem, size);
+>  	bitmap_release_region(mem->bitmap, pageno, order);
+> +	mem->window.map_size -= size;
+>  }
+>  EXPORT_SYMBOL_GPL(pci_epc_mem_free_addr);
+
+> @@ -85,7 +126,8 @@ struct pci_epc_mem {
+>   * @dev: PCI EPC device
+>   * @pci_epf: list of endpoint functions present in this EPC device
+>   * @ops: function pointers for performing endpoint operations
+> - * @mem: address space of the endpoint controller
+> + * @mem: array of address space of the endpoint controller
+> + * @mem_windows: number of windows supported by device
+>   * @max_functions: max number of functions that can be configured in this EPC
+>   * @group: configfs group representing the PCI EPC device
+>   * @lock: spinlock to protect pci_epc ops
+> @@ -94,7 +136,8 @@ struct pci_epc {
+>  	struct device			dev;
+>  	struct list_head		pci_epf;
+>  	const struct pci_epc_ops	*ops;
+> -	struct pci_epc_mem		*mem;
+> +	struct pci_epc_mem		**mem;
+> +	int				mem_windows;
+
+Can't this be unsigned int and then there's no need to check
+"mem_windows < 0"?
+
+>  	u8				max_functions;
+>  	struct config_group		*group;
+>  	/* spinlock to protect against concurrent access of EP controller */
