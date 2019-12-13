@@ -2,80 +2,145 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2636811E1BA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 11:12:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 217AA11E30B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 12:55:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726368AbfLMKMK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Dec 2019 05:12:10 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:44894 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725928AbfLMKMK (ORCPT
+        id S1726798AbfLMLzU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Dec 2019 06:55:20 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53074 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726750AbfLMLzU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Dec 2019 05:12:10 -0500
-Received: by mail-lf1-f65.google.com with SMTP id v201so1512427lfa.11
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 13 Dec 2019 02:12:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=m/LtYexBY2dXuMD99CyEqehHu+qZn+VwunxTbXsEsdM=;
-        b=EfY9U2dohuaFocXEdGwpV2jB5gwsb/ceEYegtN52xewKHbBp3HUqhPkb4isfJq179J
-         VzFHyb0kppgRTt3KQPhtPZDGvlf8OH1HIDaCvewdlkFC8+luy/SC2xXfffh7+VLLRwC+
-         mHPVxFAxO2ebwyTtO0MfyaKn3c1g4KQxoifLUyFBWs63q3N9RdJ0o2xOaGnjKxAF1reL
-         eOA05cw3KiYUH7N8J2UJwVHS1+MSYTxy5J1LlHX7ORWi40VpkBwz0uEpEMzfv8jrlxg7
-         W8+EMbApNOtHTEBm+FMdeI4AC8EZEuiKO5ZdEH/Y8QHWmQHV6/5EM9pvimlKMV12ym3w
-         LmqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=m/LtYexBY2dXuMD99CyEqehHu+qZn+VwunxTbXsEsdM=;
-        b=gmZzZDSakdEu5lE0k19QGXIBbbgsQGEsECinkAVc/JZSu6Gzm50ixhmAOP2kr89pqB
-         6/p7QgPI4x+x2gbuUa/n5cgiIpPYA6f2lUl/U4itkoyOf9HLDnUsN78l5rEgdF9fa4EI
-         Agzom2PfCxvYoT4+rWEDVgOkbjM4FGf+23qkK0CZE/5B8FNbSvE++qWut5u4UfBrhC04
-         UDwKdn35vJP4gZid3pyF7Bb3KX8Y3/Vhkrs5JCHQr6QnliMRGj1YRuuu2dwHzl1HruNK
-         L7n6WoLErmAvXhkeUuNZYjVEf+0x5873RYn6bvY0lnTReZC0092HjYnNJCsXuRrdURnl
-         BR9w==
-X-Gm-Message-State: APjAAAUQ0um9+/tCR1ziNkuBmHbNyPC6/MxaOBeHJJO6OVsCSB1xT644
-        xx6Vg/HMWDSxOj0PLoY7+oERWMH7pasvDRMT+Q1S/A==
-X-Google-Smtp-Source: APXvYqylxfzNVPGqr9591RfVZ99OAOsLlKI2sKmjjlNFv7cMeHHTZsq313giYfhVet28Lcs1R6wVKgUeBdcUBTsUkqw=
-X-Received: by 2002:ac2:55a8:: with SMTP id y8mr8287131lfg.117.1576231928054;
- Fri, 13 Dec 2019 02:12:08 -0800 (PST)
+        Fri, 13 Dec 2019 06:55:20 -0500
+Received: from [192.168.0.239] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8FA30A23;
+        Fri, 13 Dec 2019 12:55:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1576238118;
+        bh=b//CHFQop3hwx9VLQKcag9slpnqEUgmelQ40alaLRy0=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=VM81bLRHviSijxSoIZILUwmXJ2SdQnhG4WpWfV3ViRZ7hXz6q3Q+lcThgk9A9HXtg
+         ruBuRzB3dWrmw+usonQFBCwMy270HyGfymCxV7St+Pw/yAxCDkz8yMzTAkU8UcY3kH
+         HB0nXKuLw77+OeHNTt1taWzW0ZgN24EhLdAwaLXo=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH] media: vsp1: tidyup VI6_HGT_LBn_H() macro
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sasha Levin <sashal@kernel.org>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        koji.matsuoka.xm@renesas.com, takeshi.kihara.df@renesas.com,
+        harunobu.kurokawa.dn@renesas.com, khiem.nguyen.xt@renesas.com,
+        hien.dang.eb@renesas.com
+References: <redmine.issue-245033.20191211005426@dm.renesas.com>
+ <redmine.issue-245033.20191211005426.161918957b73008d@dm.renesas.com>
+ <87k173bp76.wl-kuninori.morimoto.gx@renesas.com>
+ <fb1648d4-3949-01c1-7d13-679b9b8540dd@ideasonboard.com>
+ <20191211175811.GC4863@pendragon.ideasonboard.com>
+ <b8891c8c-fefe-5728-f792-a56da08bd7aa@ideasonboard.com>
+ <20191212073306.GB1364286@kroah.com>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <6808431b-a5d0-0720-b276-ed8333fb26d5@ideasonboard.com>
+Date:   Fri, 13 Dec 2019 11:55:14 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191205133912.6048-1-geert+renesas@glider.be>
-In-Reply-To: <20191205133912.6048-1-geert+renesas@glider.be>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 13 Dec 2019 11:11:56 +0100
-Message-ID: <CACRpkda=VSn1PS3J2iMnFZ=iGthCCtw7NX+S+8-76D30tntPRQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: gpio: rcar: Document r8a77961 support
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191212073306.GB1364286@kroah.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Dec 5, 2019 at 2:39 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+Hi Greg, Laurent, Sasha,
 
-> Document support for the GPIO controller in the Renesas R-Car M3-W+
-> (R8A77961) SoC.
->
-> Update all references to R-Car M3-W from "r8a7796" to "r8a77960", to
-> avoid confusion between R-Car M3-W (R8A77960) and M3-W+.
->
-> No driver update is needed.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On 12/12/2019 07:33, Greg Kroah-Hartman wrote:
+> On Wed, Dec 11, 2019 at 09:58:11PM +0000, Kieran Bingham wrote:
+>> Hi Laurent,
+>>
+>> +Greg, +Sasha to opine on the merit of whether this should go to stable
+>> trees (for my future learning and understanding more so than this
+>> specific case)
+>>
+>> On 11/12/2019 17:58, Laurent Pinchart wrote:
+>>> Hello,
+>>>
+>>> On Wed, Dec 11, 2019 at 12:59:57PM +0000, Kieran Bingham wrote:
+>>>> Hi Morimoto-san,
+>>>>
+>>>> Thank you for the patch,
+>>>
+>>> Likewise :-)
+>>>
+>>>> On 11/12/2019 01:55, Kuninori Morimoto wrote:
+>>>>>
+>>>>> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+>>>>>
+>>>>> The address of VSP2_VI6_HGT_LBx_H are
+>>>>> 	VSP2_VI6_HGT_LB0_H : 0x3428
+>>>>> 	VSP2_VI6_HGT_LB1_H : 0x3430
+>>>>> 	VSP2_VI6_HGT_LB2_H : 0x3438
+>>>>> 	VSP2_VI6_HGT_LB3_H : 0x3440
+>>>>>
+>>>>> Thus, VI6_HGT_LBn_H() macro should start from 0x3420 instead of 0x3430.
+>>>>> This patch fixup it.
+>>
+>> s/fixup/fixes/
+>>
+>>
+>>>> I think this deserves a fixes tag:
+>>>>
+>>>> Fixes: 26e0ca22c3b8 ("[media] v4l: Renesas R-Car VSP1 driver")
+>>>
+>>> Given that this macro is not used, we could argue that it doesn't fix
+>>> anything yet :-) I'd rather avoid having this backported to stable
+>>> kernels as it's not useful to have it there, and thus not add a Fixes
+>>
+>> I'm sorry - I'm not sure I can agree here, Do you know that no one will
+>> use this macro when they back port the HGT functionality to an LTSI kernel?
+>>
+>> We know the Renesas BSP uses LTSI kernels, and the very nature of the
+>> fact that this typo has been spotted by the Renesas BSP team suggests
+>> that they are indeed looking at/using this functionality ...
+>>
+>> (Ok, so maybe they will thus apply the fix themselves, but that's not my
+>> point, and if they 'have' to apply the fix - it should be in stable?)
+>>
+>> It feels a bit presumptuous to state that we shouldn't fix this because
+>> /we/ don't utilise it yet, when this issue is in mainline regardless ...
+> 
+> Nothing should be in the kernel tree that is not already used by
+> something in that specific kernel tree.  We don't care about out-of-tree
+> code, and especially for stable kernel patches, it does not matter in
+> the least.
 
-Patch applied.
+So perhaps this patch should actually remove this macro rather than fix it?
 
-Yours,
-Linus Walleij
+> If you have out-of-tree code, you are on your own here, sorry.
+> 
+> So no, no backporting of stuff that no one actually uses in the codebase
+> itself.
+
+Ok understood, It was really the 'the macro exists in the kernel, but is
+wrong' part that got me.
+
+Along with the fact that we now have various automated machinery that
+would likely pick this patch up and backport it anyway?
+
+(Sasha, is that assumption accurate? Or would you/your system have
+identified that this macro is not used?)
+
+--
+Kieran
+
+
+> 
+> thanks,
+> 
+> greg k-h
+> 
+
