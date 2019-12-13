@@ -2,76 +2,63 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C26B811ECFA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 22:37:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DCECF11ED10
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 22:41:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725818AbfLMVh1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Dec 2019 16:37:27 -0500
-Received: from laurent.telenet-ops.be ([195.130.137.89]:59786 "EHLO
-        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725747AbfLMVh1 (ORCPT
+        id S1726551AbfLMVkc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Dec 2019 16:40:32 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46402 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726382AbfLMVkc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Dec 2019 16:37:27 -0500
-Received: from ramsan ([84.195.182.253])
-        by laurent.telenet-ops.be with bizsmtp
-        id dZdQ210065USYZQ01ZdQBX; Fri, 13 Dec 2019 22:37:26 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1ifscm-000169-4Z; Fri, 13 Dec 2019 22:37:24 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1ifscm-0004j2-27; Fri, 13 Dec 2019 22:37:24 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] Renesas fixes for v5.5
-Date:   Fri, 13 Dec 2019 22:37:19 +0100
-Message-Id: <20191213213719.18122-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Fri, 13 Dec 2019 16:40:32 -0500
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1576273231;
+        bh=w0FuY4GTcwE2jnuxLxWss4NsBJxugudtc0UK+fMT/hQ=;
+        h=Subject:From:Date:References:To:From;
+        b=qtpGrFrWmEYx+DfFRFq1u+ncZ5ZNOJcTouTCB8GBV2lVQsCMqRptzN9IL2hDu6obg
+         IZmMf/KIeXf3bZD6+ZuCX39wOEhQHV6BpvUNTO9vOkk4RSiEpQTAyr62Ab3S7ieBw9
+         5UfzkpmomkWFp1gjvh2ExhyDlsALZD+Gdy8cRkHM=
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <157627323152.19961.11380334663116958759.git-patchwork-summary@kernel.org>
+Date:   Fri, 13 Dec 2019 21:40:31 +0000
+References: <20191211100510.7182-1-geert+renesas@glider.be>,
+ <20191211131311.23661-1-geert+renesas@glider.be>,
+ <20191211100438.7094-1-geert+renesas@glider.be>,
+ <20191209101327.26571-1-geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi arm-soc folks,
+Hello:
 
-The following changes since commit e42617b825f8073569da76dc4510bfa019b1c35a:
+The following patches were marked "accepted", because they were applied to
+geert/renesas-devel (refs/heads/next):
 
-  Linux 5.5-rc1 (2019-12-08 14:57:55 -0800)
+Patch: soc: renesas: Remove ARCH_R8A7796
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=214881
 
-are available in the Git repository at:
+Patch: [PATCH/RFC] arm64: dts: renesas: Rename r8a7796* to r8a77960*
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=214985
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git tags/renesas-fixes-for-v5.5-tag1
+Patch: arm64: dts: renesas: Remove use of ARCH_R8A7796
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=214877
 
-for you to fetch changes up to fa2cdb1762d15f701b83efa60b04f0d04e71bf89:
+Patch: ARM: shmobile: defconfig: Restore debugfs support
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=213533
 
-  ARM: shmobile: defconfig: Restore debugfs support (2019-12-13 13:56:48 +0100)
+Total patches: 4
 
-----------------------------------------------------------------
-Renesas fixes for v5.5
-
-  - Restore debugfs support
-
-Thanks for pulling!
-
-----------------------------------------------------------------
-Geert Uytterhoeven (1):
-      ARM: shmobile: defconfig: Restore debugfs support
-
- arch/arm/configs/shmobile_defconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
