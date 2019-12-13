@@ -2,35 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6603011E889
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 17:42:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 458EC11E88B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 17:42:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728329AbfLMQlU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        id S1727974AbfLMQlU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
         Fri, 13 Dec 2019 11:41:20 -0500
-Received: from albert.telenet-ops.be ([195.130.137.90]:33446 "EHLO
-        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728274AbfLMQlT (ORCPT
+Received: from baptiste.telenet-ops.be ([195.130.132.51]:58952 "EHLO
+        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728355AbfLMQlU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Dec 2019 11:41:19 -0500
+        Fri, 13 Dec 2019 11:41:20 -0500
 Received: from ramsan ([84.195.182.253])
-        by albert.telenet-ops.be with bizsmtp
-        id dUhG2100e5USYZQ06UhGDN; Fri, 13 Dec 2019 17:41:16 +0100
+        by baptiste.telenet-ops.be with bizsmtp
+        id dUhG2100R5USYZQ01UhGqq; Fri, 13 Dec 2019 17:41:16 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1ifo0C-0006uX-I0; Fri, 13 Dec 2019 17:41:16 +0100
+        id 1ifo0C-0006uZ-J3; Fri, 13 Dec 2019 17:41:16 +0100
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1ifo0C-0000zC-Gk; Fri, 13 Dec 2019 17:41:16 +0100
+        id 1ifo0C-0000zF-Ho; Fri, 13 Dec 2019 17:41:16 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Magnus Damm <magnus.damm@gmail.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 3/7] ARM: dts: renesas: Group tuples in pci ranges and dma-ranges properties
-Date:   Fri, 13 Dec 2019 17:41:11 +0100
-Message-Id: <20191213164115.3697-5-geert+renesas@glider.be>
+Subject: [PATCH 4/7] arm64: dts: renesas: Group tuples in regulator-gpio states properties
+Date:   Fri, 13 Dec 2019 17:41:12 +0100
+Message-Id: <20191213164115.3697-6-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191213164115.3697-1-geert+renesas@glider.be>
 References: <20191213164115.3697-1-geert+renesas@glider.be>
@@ -40,127 +40,117 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 To improve human readability and enable automatic validation, the tuples
-in the "ranges" and "dma-ranges" properties of PCI devices nodes should
-be grouped.  Not doing so causes "make dtbs_check" to emit warnings
-like:
+in the "states" properties of device nodes compatible with
+"regulator-gpio" should be grouped, as reported by "make dtbs_check":
 
-    pcie@fe000000: dma-ranges: [[1107296256, 0, 1073741824, 0, 1073741824, 0, 2147483648, 1124073472, 2, 0, 2, 0, 1, 0]] is not valid under any of the given schemas (Possible causes of the failure):
-    pcie@fe000000: dma-ranges: [[1107296256, 0, 1073741824, 0, 1073741824, 0, 2147483648, 1124073472, 2, 0, 2, 0, 1, 0]] is not of type 'boolean'
-    pcie@fe000000: dma-ranges:0: [1107296256, 0, 1073741824, 0, 1073741824, 0, 2147483648, 1124073472, 2, 0, 2, 0, 1, 0] is too long
+    $ make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/regulator/gpio-regulator.yaml
+    arch/arm64/boot/dts/renesas/r8a7795-salvator-x.dt.yaml: regulator-vccq-sdhi0: states:0: Additional items are not allowed (1800000, 0 were unexpected)
+    arch/arm64/boot/dts/renesas/r8a7795-salvator-x.dt.yaml: regulator-vccq-sdhi0: states:0: [3300000, 1, 1800000, 0] is too long
+    arch/arm64/boot/dts/renesas/r8a7795-salvator-x.dt.yaml: regulator-vccq-sdhi3: states:0: Additional items are not allowed (1800000, 0 were unexpected)
+    arch/arm64/boot/dts/renesas/r8a7795-salvator-x.dt.yaml: regulator-vccq-sdhi3: states:0: [3300000, 1, 1800000, 0] is too long
+    ...
 
-Fix this by grouping the tuples of the "ranges" and "dma-ranges"
-properties using angle brackets.
+Fix this by grouping the tuples using angle brackets.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-I still see e.g.:
+ arch/arm64/boot/dts/renesas/hihope-common.dtsi   | 3 +--
+ arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts  | 3 +--
+ arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts   | 6 ++----
+ arch/arm64/boot/dts/renesas/salvator-common.dtsi | 6 ++----
+ arch/arm64/boot/dts/renesas/ulcb.dtsi            | 3 +--
+ 5 files changed, 7 insertions(+), 14 deletions(-)
 
-    arch/arm/boot/dts/r8a7791-koelsch.dt.yaml: soc: pci@ee090000:ranges: [[33554432, 0, 3993501696, 0, 3993501696, 0, 65536]] is not valid under any of the given schemas (Possible causes of the failure):
-        arch/arm/boot/dts/r8a7791-koelsch.dt.yaml: soc: pci@ee090000:ranges: True was expected
-        arch/arm/boot/dts/r8a7791-koelsch.dt.yaml: soc: pci@ee090000:ranges:0: [33554432, 0, 3993501696, 0, 3993501696, 0, 65536] is too long
----
- arch/arm/boot/dts/r8a7743.dtsi | 12 ++++++------
- arch/arm/boot/dts/r8a7744.dtsi | 12 ++++++------
- arch/arm/boot/dts/r8a7790.dtsi | 12 ++++++------
- arch/arm/boot/dts/r8a7791.dtsi | 12 ++++++------
- 4 files changed, 24 insertions(+), 24 deletions(-)
-
-diff --git a/arch/arm/boot/dts/r8a7743.dtsi b/arch/arm/boot/dts/r8a7743.dtsi
-index 36d45f5a6281bb89..1cd19a569bd0fb66 100644
---- a/arch/arm/boot/dts/r8a7743.dtsi
-+++ b/arch/arm/boot/dts/r8a7743.dtsi
-@@ -1617,13 +1617,13 @@
- 			#size-cells = <2>;
- 			bus-range = <0x00 0xff>;
- 			device_type = "pci";
--			ranges = <0x01000000 0 0x00000000 0 0xfe100000 0 0x00100000
--				  0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000
--				  0x02000000 0 0x30000000 0 0x30000000 0 0x08000000
--				  0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
-+			ranges = <0x01000000 0 0x00000000 0 0xfe100000 0 0x00100000>,
-+				 <0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000>,
-+				 <0x02000000 0 0x30000000 0 0x30000000 0 0x08000000>,
-+				 <0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
- 			/* Map all possible DDR as inbound ranges */
--			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000
--				      0x43000000 2 0x00000000 2 0x00000000 1 0x00000000>;
-+			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>,
-+				     <0x43000000 2 0x00000000 2 0x00000000 1 0x00000000>;
- 			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
-diff --git a/arch/arm/boot/dts/r8a7744.dtsi b/arch/arm/boot/dts/r8a7744.dtsi
-index 366201d0a71d1986..1c82dd0abd76c4c9 100644
---- a/arch/arm/boot/dts/r8a7744.dtsi
-+++ b/arch/arm/boot/dts/r8a7744.dtsi
-@@ -1603,13 +1603,13 @@
- 			#size-cells = <2>;
- 			bus-range = <0x00 0xff>;
- 			device_type = "pci";
--			ranges = <0x01000000 0 0x00000000 0 0xfe100000 0 0x00100000
--				  0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000
--				  0x02000000 0 0x30000000 0 0x30000000 0 0x08000000
--				  0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
-+			ranges = <0x01000000 0 0x00000000 0 0xfe100000 0 0x00100000>,
-+				 <0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000>,
-+				 <0x02000000 0 0x30000000 0 0x30000000 0 0x08000000>,
-+				 <0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
- 			/* Map all possible DDR as inbound ranges */
--			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000
--				      0x43000000 2 0x00000000 2 0x00000000 1 0x00000000>;
-+			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>,
-+				     <0x43000000 2 0x00000000 2 0x00000000 1 0x00000000>;
- 			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
-diff --git a/arch/arm/boot/dts/r8a7790.dtsi b/arch/arm/boot/dts/r8a7790.dtsi
-index ebe9dbf3f8884e99..334ba19769b998ac 100644
---- a/arch/arm/boot/dts/r8a7790.dtsi
-+++ b/arch/arm/boot/dts/r8a7790.dtsi
-@@ -1617,13 +1617,13 @@
- 			#size-cells = <2>;
- 			bus-range = <0x00 0xff>;
- 			device_type = "pci";
--			ranges = <0x01000000 0 0x00000000 0 0xfe100000 0 0x00100000
--				  0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000
--				  0x02000000 0 0x30000000 0 0x30000000 0 0x08000000
--				  0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
-+			ranges = <0x01000000 0 0x00000000 0 0xfe100000 0 0x00100000>,
-+				 <0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000>,
-+				 <0x02000000 0 0x30000000 0 0x30000000 0 0x08000000>,
-+				 <0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
- 			/* Map all possible DDR as inbound ranges */
--			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000
--				      0x43000000 1 0x80000000 1 0x80000000 0 0x80000000>;
-+			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>,
-+				     <0x43000000 1 0x80000000 1 0x80000000 0 0x80000000>;
- 			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
-diff --git a/arch/arm/boot/dts/r8a7791.dtsi b/arch/arm/boot/dts/r8a7791.dtsi
-index 2267607616e6413b..baedfab84cb09134 100644
---- a/arch/arm/boot/dts/r8a7791.dtsi
-+++ b/arch/arm/boot/dts/r8a7791.dtsi
-@@ -1602,13 +1602,13 @@
- 			#size-cells = <2>;
- 			bus-range = <0x00 0xff>;
- 			device_type = "pci";
--			ranges = <0x01000000 0 0x00000000 0 0xfe100000 0 0x00100000
--				  0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000
--				  0x02000000 0 0x30000000 0 0x30000000 0 0x08000000
--				  0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
-+			ranges = <0x01000000 0 0x00000000 0 0xfe100000 0 0x00100000>,
-+				 <0x02000000 0 0xfe200000 0 0xfe200000 0 0x00200000>,
-+				 <0x02000000 0 0x30000000 0 0x30000000 0 0x08000000>,
-+				 <0x42000000 0 0x38000000 0 0x38000000 0 0x08000000>;
- 			/* Map all possible DDR as inbound ranges */
--			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000
--				      0x43000000 2 0x00000000 2 0x00000000 1 0x00000000>;
-+			dma-ranges = <0x42000000 0 0x40000000 0 0x40000000 0 0x80000000>,
-+				     <0x43000000 2 0x00000000 2 0x00000000 1 0x00000000>;
- 			interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>;
+diff --git a/arch/arm64/boot/dts/renesas/hihope-common.dtsi b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
+index 2c942a7eaeeba293..bd056904e8bdba3d 100644
+--- a/arch/arm64/boot/dts/renesas/hihope-common.dtsi
++++ b/arch/arm64/boot/dts/renesas/hihope-common.dtsi
+@@ -109,8 +109,7 @@
+ 
+ 		gpios = <&gpio6 30 GPIO_ACTIVE_HIGH>;
+ 		gpios-states = <1>;
+-		states = <3300000 1
+-			  1800000 0>;
++		states = <3300000 1>, <1800000 0>;
+ 	};
+ 
+ 	wlan_en_reg: regulator-wlan_en {
+diff --git a/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts b/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
+index c99b1dec52ef65f8..26aee004a44e2d03 100644
+--- a/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
++++ b/arch/arm64/boot/dts/renesas/r8a774c0-cat874.dts
+@@ -110,8 +110,7 @@
+ 
+ 		gpios = <&gpio3 13 GPIO_ACTIVE_HIGH>;
+ 		gpios-states = <1>;
+-		states = <3300000 1
+-			  1800000 0>;
++		states = <3300000 1>, <1800000 0>;
+ 	};
+ 
+ 	wlan_en_reg: fixedregulator {
+diff --git a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
+index b38f9d442fc08f2c..f1cd5e61c0015a4a 100644
+--- a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
++++ b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
+@@ -182,8 +182,7 @@
+ 
+ 		gpios = <&gpio5 18 GPIO_ACTIVE_HIGH>;
+ 		gpios-states = <1>;
+-		states = <3300000 1
+-			  1800000 0>;
++		states = <3300000 1>, <1800000 0>;
+ 	};
+ 
+ 	vcc_sdhi1: regulator-vcc-sdhi1 {
+@@ -206,8 +205,7 @@
+ 
+ 		gpios = <&gpio3 15 GPIO_ACTIVE_HIGH>;
+ 		gpios-states = <1>;
+-		states = <3300000 1
+-			  1800000 0>;
++		states = <3300000 1>, <1800000 0>;
+ 	};
+ 
+ 	vga {
+diff --git a/arch/arm64/boot/dts/renesas/salvator-common.dtsi b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
+index 15ed5f769ae369e6..0abed3ceda74ea3a 100644
+--- a/arch/arm64/boot/dts/renesas/salvator-common.dtsi
++++ b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
+@@ -238,8 +238,7 @@
+ 
+ 		gpios = <&gpio5 1 GPIO_ACTIVE_HIGH>;
+ 		gpios-states = <1>;
+-		states = <3300000 1
+-			  1800000 0>;
++		states = <3300000 1>, <1800000 0>;
+ 	};
+ 
+ 	vcc_sdhi3: regulator-vcc-sdhi3 {
+@@ -262,8 +261,7 @@
+ 
+ 		gpios = <&gpio3 14 GPIO_ACTIVE_HIGH>;
+ 		gpios-states = <1>;
+-		states = <3300000 1
+-			  1800000 0>;
++		states = <3300000 1>, <1800000 0>;
+ 	};
+ 
+ 	vga {
+diff --git a/arch/arm64/boot/dts/renesas/ulcb.dtsi b/arch/arm64/boot/dts/renesas/ulcb.dtsi
+index 3ef89171538ffd03..ff88af8e39d3fa10 100644
+--- a/arch/arm64/boot/dts/renesas/ulcb.dtsi
++++ b/arch/arm64/boot/dts/renesas/ulcb.dtsi
+@@ -120,8 +120,7 @@
+ 
+ 		gpios = <&gpio5 1 GPIO_ACTIVE_HIGH>;
+ 		gpios-states = <1>;
+-		states = <3300000 1
+-			  1800000 0>;
++		states = <3300000 1>, <1800000 0>;
+ 	};
+ 
+ 	x12_clk: x12 {
 -- 
 2.17.1
 
