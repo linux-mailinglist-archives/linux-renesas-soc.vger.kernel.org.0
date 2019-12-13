@@ -2,271 +2,254 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 65E2E11DB85
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 02:09:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 627A711DFB0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 09:48:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731535AbfLMBJA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Dec 2019 20:09:00 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:33250 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727491AbfLMBJA (ORCPT
+        id S1725980AbfLMIsA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Dec 2019 03:48:00 -0500
+Received: from mail-pj1-f68.google.com ([209.85.216.68]:43086 "EHLO
+        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725810AbfLMIsA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Dec 2019 20:09:00 -0500
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 834FF440;
-        Fri, 13 Dec 2019 02:08:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1576199337;
-        bh=nZp950UcLwTjw8VHUZ8kaObjgOl0bIox6h+fu0E+LSQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ohb0gZwxjPgPYiL6Yx2K80a+trE8TXHcjYbXaOTMngB9spjle9SYktOLThpWYDq5Q
-         7pEg/V+APT0jm7yzeIWAgzupC2TikvTX+8MZarLIl0XOCuybUQTQdQqpQMBmYuX6FV
-         MbjguD637eIpoccRhn+g5RFI1W+b43PzIp0AK3GU=
-Date:   Fri, 13 Dec 2019 03:08:47 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Fri, 13 Dec 2019 03:48:00 -0500
+Received: by mail-pj1-f68.google.com with SMTP id g4so902200pjs.10;
+        Fri, 13 Dec 2019 00:48:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=faCBlmgTPQdYlEVpkeE4GNu+nPqEqsfQJpXTYDba5FY=;
+        b=razj/7vZ+JbucAknGmxck6+vSzm5wRHRzOWy+lxigo91chdg+RZNqKWqZLz5UnasAa
+         nM3svl9rWcegDadG0F32DfWvS3lwWb+b7IiieoollGSgm4Ru1LxV4Sz++ZwCxL199eqY
+         5AYzdVnOM8vPrMqe4NtHYIS/2wzqsHoTSMBr8yQJ+Z2kVgsE79bSBkXH5tkLkmSYASb5
+         VkSgCiGgWUBq6b73uhCHrvEW+2++cB/P+pC3wleeDo5AYqaLCuOr3eaxYjIa3Yzxwzjz
+         lfPNR64+8x3FaUI+krXPecsw7dSiNmwBpJl71Tcu9qxBDLq2WDxU4lqKHyDiDJVhnq8O
+         iEJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=faCBlmgTPQdYlEVpkeE4GNu+nPqEqsfQJpXTYDba5FY=;
+        b=SEk6GSLNkvivc4aut0gITiu0YmFl3VVXOwZwwBwox42JAdqL8dctM99e9fTbkasG91
+         ur7LF9SMdyvZf5T3UeqI2JxE0eEOkrVVtYqApAHcH6x/2UUK0xfsNrEkjsMZnu1Wrf0u
+         KAHG+S9qyHypQjpwcCH+GVMShjmshO+UnhnilVd2OVUk+FQi729eVgbqaoUoivXWclrB
+         YQw7t2HS91OzHiDhPPe96Y8MLEdt7etXKlBOU31QP5J4LZAGDAx9aTud++TMa2ZTVJTa
+         GJyJPVHjpviyVmpkiiHllAqQ2iaGyBb3bNUrUdbDR4HWBY+kPilEizsMBJjdpJTJCB1i
+         rAlQ==
+X-Gm-Message-State: APjAAAV2NoxVz3fqDRx0AWi2yYaL9MzJuRmk/yNduPDmgILhApWt+LJK
+        7syUXa2xCwtPsZT6A3e7eNg=
+X-Google-Smtp-Source: APXvYqxLS8SmpcnrtfIR9E7GHF2j8As78boRZwVuSxFdSNtc8n66W9/XnnKOusFfrKiYhQE90NkjzQ==
+X-Received: by 2002:a17:902:8bc4:: with SMTP id r4mr14931561plo.82.1576226879597;
+        Fri, 13 Dec 2019 00:47:59 -0800 (PST)
+Received: from prasmi.domain.name ([103.219.60.167])
+        by smtp.gmail.com with ESMTPSA id 68sm9985632pge.14.2019.12.13.00.47.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Dec 2019 00:47:58 -0800 (PST)
+From:   Lad Prabhakar <prabhakar.csengg@gmail.com>
+X-Google-Original-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     Bjorn Helgaas <bhelgaas@google.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-pci@vger.kernel.org
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Murray <andrew.murray@arm.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>
-Subject: Re: [PATCH] drm: rcar-du: lvds: Get mode from state
-Message-ID: <20191213010847.GI4892@pendragon.ideasonboard.com>
-References: <20191015232521.9455-1-laurent.pinchart+renesas@ideasonboard.com>
- <TY1PR01MB1770F50373A7E518388EEA4AC0430@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+        Frank Rowand <frowand.list@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Simon Horman <horms@verge.net.au>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        linux-rockchip@lists.infradead.org,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [v2 0/6] Add support for PCIe controller to work in endpoint mode on R-Car SoCs
+Date:   Fri, 13 Dec 2019 08:47:42 +0000
+Message-Id: <20191213084748.11210-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <TY1PR01MB1770F50373A7E518388EEA4AC0430@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Fabrizio,
+From: "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Mon, Dec 02, 2019 at 03:06:13PM +0000, Fabrizio Castro wrote:
-> > From: linux-renesas-soc-owner@vger.kernel.org <linux-renesas-soc-owner@vger.kernel.org> On Behalf Of Laurent Pinchart
-> > Sent: 16 October 2019 00:25
-> > Subject: [PATCH] drm: rcar-du: lvds: Get mode from state
-> > 
-> > The R-Car LVDS encoder driver implements the bridge .mode_set()
-> > operation for the sole purpose of storing the mode in the LVDS private
-> > data, to be used later when enabling the encoder.
-> > 
-> > Switch to the bridge .atomic_enable() and .atomic_disable() operations
-> > in order to access the global atomic state, and get the mode from the
-> > state instead. Remove both the unneeded .mode_set() operation and the
-> > display_mode and mode fields storing state data from the rcar_lvds
-> > private structure.
-> > 
-> > As a side effect we get the CRTC from the state, replace the CRTC
-> > pointer retrieved through the bridge's encoder that shouldn't be used by
-> > atomic drivers.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > ---
-> >  drivers/gpu/drm/rcar-du/rcar_lvds.c | 125 ++++++++++++++--------------
-> >  1 file changed, 61 insertions(+), 64 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > index 8c6c172bbf2e..8f355ea07cb5 100644
-> > --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> > @@ -65,9 +65,6 @@ struct rcar_lvds {
-> >  		struct clk *dotclkin[2];	/* External DU clocks */
-> >  	} clocks;
-> > 
-> > -	struct drm_display_mode display_mode;
-> > -	enum rcar_lvds_mode mode;
-> > -
-> >  	struct drm_bridge *companion;
-> >  	bool dual_link;
-> >  };
-> > @@ -402,10 +399,51 @@ EXPORT_SYMBOL_GPL(rcar_lvds_clk_disable);
-> >   * Bridge
-> >   */
-> > 
-> > -static void rcar_lvds_enable(struct drm_bridge *bridge)
-> > +static enum rcar_lvds_mode rcar_lvds_get_lvds_mode(struct rcar_lvds *lvds,
-> > +					const struct drm_connector *connector)
-> > +{
-> > +	const struct drm_display_info *info;
-> > +	enum rcar_lvds_mode mode;
-> > +
-> > +	/*
-> > +	 * There is no API yet to retrieve LVDS mode from a bridge, only panels
-> > +	 * are supported.
-> > +	 */
-> > +	if (!lvds->panel)
-> > +		return RCAR_LVDS_MODE_JEIDA;
-> > +
-> > +	info = &connector->display_info;
-> > +	if (!info->num_bus_formats || !info->bus_formats) {
-> > +		dev_err(lvds->dev, "no LVDS bus format reported\n");
-> > +		return RCAR_LVDS_MODE_JEIDA;
-> > +	}
-> > +
-> > +	switch (info->bus_formats[0]) {
-> > +	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
-> > +	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
-> > +		mode = RCAR_LVDS_MODE_JEIDA;
-> > +		break;
-> > +	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
-> > +		mode = RCAR_LVDS_MODE_VESA;
-> > +		break;
-> > +	default:
-> > +		dev_err(lvds->dev, "unsupported LVDS bus format 0x%04x\n",
-> > +			info->bus_formats[0]);
-> > +		return RCAR_LVDS_MODE_JEIDA;
-> > +	}
-> > +
-> > +	if (info->bus_flags & DRM_BUS_FLAG_DATA_LSB_TO_MSB)
-> > +		mode |= RCAR_LVDS_MODE_MIRROR;
-> > +
-> > +	return mode;
-> > +}
-> > +
-> > +static void rcar_lvds_atomic_enable(struct drm_bridge *bridge,
-> > +				    struct drm_atomic_state *state)
-> >  {
-> >  	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
-> > -	const struct drm_display_mode *mode = &lvds->display_mode;
-> > +	struct drm_connector *connector;
-> > +	struct drm_crtc *crtc;
-> >  	u32 lvdhcr;
-> >  	u32 lvdcr0;
-> >  	int ret;
-> > @@ -414,6 +452,11 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
-> >  	if (ret < 0)
-> >  		return;
-> > 
-> > +	/* Retrieve the connector and CRTC through the atomic state. */
-> > +	connector = drm_atomic_get_new_connector_for_encoder(state,
-> > +							     bridge->encoder);
-> > +	crtc = drm_atomic_get_new_connector_state(state, connector)->crtc;
-> > +
-> >  	/* Enable the companion LVDS encoder in dual-link mode. */
-> >  	if (lvds->dual_link && lvds->companion)
-> >  		lvds->companion->funcs->enable(lvds->companion);
-> 
-> This should call atomic_enable now, therefore I take this won't work as-is on
-> a system with a companion encoder. Do you mind testing this patch on a dual-LVDS
-> capable system?
+This patch series adds support for PCIe controller on rcar to work in endpoint mode,
+this also extends the epf framework to handle features of outbound regions.
 
-I'll do so tomorrow and send a new version.
+Note:
+The cadence/rockchip/designware endpoint drivers are build tested only.
 
-> > @@ -452,18 +495,20 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
-> >  	 * PLL clock configuration on all instances but the companion in
-> >  	 * dual-link mode.
-> >  	 */
-> > -	if (!lvds->dual_link || lvds->companion)
-> > +	if (!lvds->dual_link || lvds->companion) {
-> > +		const struct drm_crtc_state *crtc_state =
-> > +			drm_atomic_get_new_crtc_state(state, crtc);
-> > +		const struct drm_display_mode *mode =
-> > +			&crtc_state->adjusted_mode;
-> > +
-> >  		lvds->info->pll_setup(lvds, mode->clock * 1000);
-> > +	}
-> > 
-> >  	/* Set the LVDS mode and select the input. */
-> > -	lvdcr0 = lvds->mode << LVDCR0_LVMD_SHIFT;
-> > +	lvdcr0 = rcar_lvds_get_lvds_mode(lvds, connector) << LVDCR0_LVMD_SHIFT;
-> > 
-> >  	if (lvds->bridge.encoder) {
-> > -		/*
-> > -		 * FIXME: We should really retrieve the CRTC through the state,
-> > -		 * but how do we get a state pointer?
-> > -		 */
-> > -		if (drm_crtc_index(lvds->bridge.encoder->crtc) == 2)
-> > +		if (drm_crtc_index(crtc) == 2)
-> >  			lvdcr0 |= LVDCR0_DUSEL;
-> >  	}
-> > 
-> > @@ -520,7 +565,8 @@ static void rcar_lvds_enable(struct drm_bridge *bridge)
-> >  	}
-> >  }
-> > 
-> > -static void rcar_lvds_disable(struct drm_bridge *bridge)
-> > +static void rcar_lvds_atomic_disable(struct drm_bridge *bridge,
-> > +				     struct drm_atomic_state *state)
-> >  {
-> >  	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
-> > 
-> > @@ -558,54 +604,6 @@ static bool rcar_lvds_mode_fixup(struct drm_bridge *bridge,
-> >  	return true;
-> >  }
-> > 
-> > -static void rcar_lvds_get_lvds_mode(struct rcar_lvds *lvds)
-> > -{
-> > -	struct drm_display_info *info = &lvds->connector.display_info;
-> > -	enum rcar_lvds_mode mode;
-> > -
-> > -	/*
-> > -	 * There is no API yet to retrieve LVDS mode from a bridge, only panels
-> > -	 * are supported.
-> > -	 */
-> > -	if (!lvds->panel)
-> > -		return;
-> > -
-> > -	if (!info->num_bus_formats || !info->bus_formats) {
-> > -		dev_err(lvds->dev, "no LVDS bus format reported\n");
-> > -		return;
-> > -	}
-> > -
-> > -	switch (info->bus_formats[0]) {
-> > -	case MEDIA_BUS_FMT_RGB666_1X7X3_SPWG:
-> > -	case MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA:
-> > -		mode = RCAR_LVDS_MODE_JEIDA;
-> > -		break;
-> > -	case MEDIA_BUS_FMT_RGB888_1X7X4_SPWG:
-> > -		mode = RCAR_LVDS_MODE_VESA;
-> > -		break;
-> > -	default:
-> > -		dev_err(lvds->dev, "unsupported LVDS bus format 0x%04x\n",
-> > -			info->bus_formats[0]);
-> > -		return;
-> > -	}
-> > -
-> > -	if (info->bus_flags & DRM_BUS_FLAG_DATA_LSB_TO_MSB)
-> > -		mode |= RCAR_LVDS_MODE_MIRROR;
-> > -
-> > -	lvds->mode = mode;
-> > -}
-> > -
-> > -static void rcar_lvds_mode_set(struct drm_bridge *bridge,
-> > -			       const struct drm_display_mode *mode,
-> > -			       const struct drm_display_mode *adjusted_mode)
-> > -{
-> > -	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
-> > -
-> > -	lvds->display_mode = *adjusted_mode;
-> > -
-> > -	rcar_lvds_get_lvds_mode(lvds);
-> > -}
-> > -
-> >  static int rcar_lvds_attach(struct drm_bridge *bridge)
-> >  {
-> >  	struct rcar_lvds *lvds = bridge_to_rcar_lvds(bridge);
-> > @@ -647,10 +645,9 @@ static void rcar_lvds_detach(struct drm_bridge *bridge)
-> >  static const struct drm_bridge_funcs rcar_lvds_bridge_ops = {
-> >  	.attach = rcar_lvds_attach,
-> >  	.detach = rcar_lvds_detach,
-> > -	.enable = rcar_lvds_enable,
-> > -	.disable = rcar_lvds_disable,
-> > +	.atomic_enable = rcar_lvds_atomic_enable,
-> > +	.atomic_disable = rcar_lvds_atomic_disable,
-> >  	.mode_fixup = rcar_lvds_mode_fixup,
-> > -	.mode_set = rcar_lvds_mode_set,
-> >  };
-> > 
-> >  bool rcar_lvds_dual_link(struct drm_bridge *bridge)
+Changes for v2:
+1] Fixed review comments from Biju for dt-bindings to include an example
+   for a tested platform.
+2] Fixed review comments from Kishon to extend the features of outbound
+   regions in epf framework.
+3] Added support to parse outbound-ranges in OF.
+
+lspci output on host:
+====================
+
+01:00.0 Unassigned class [ff00]: Renesas Technology Corp. Device 002d
+        Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
+        Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+        Latency: 0
+        Interrupt: pin A routed to IRQ 152
+        Region 0: Memory at fe200200 (64-bit, non-prefetchable) [size=128]
+        Region 2: Memory at fe200000 (64-bit, non-prefetchable) [size=256]
+        Region 4: Memory at fe200100 (64-bit, non-prefetchable) [size=256]
+        Capabilities: [40] Power Management version 3
+                Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0+,D1-,D2-,D3hot+,D3cold+)
+                Status: D0 NoSoftRst- PME-Enable- DSel=0 DScale=0 PME-
+        Capabilities: [50] MSI: Enable- Count=1/1 Maskable+ 64bit+
+                Address: 00000004fa36f000  Data: 0001
+                Masking: fffffffe  Pending: 00000000
+        Capabilities: [70] Express (v2) Endpoint, MSI 00
+                DevCap: MaxPayload 128 bytes, PhantFunc 0, Latency L0s unlimited, L1 unlimited
+                        ExtTag+ AttnBtn- AttnInd- PwrInd- RBE+ FLReset- SlotPowerLimit 0.000W
+                DevCtl: Report errors: Correctable- Non-Fatal- Fatal- Unsupported-
+                        RlxdOrd- ExtTag+ PhantFunc- AuxPwr- NoSnoop+
+                        MaxPayload 128 bytes, MaxReadReq 128 bytes
+                DevSta: CorrErr+ UncorrErr+ FatalErr- UnsuppReq+ AuxPwr- TransPend-
+                LnkCap: Port #0, Speed 5GT/s, Width x1, ASPM L0s, Exit Latency L0s unlimited
+                        ClockPM- Surprise- LLActRep- BwNot- ASPMOptComp-
+                LnkCtl: ASPM Disabled; RCB 64 bytes Disabled- CommClk-
+                        ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
+                LnkSta: Speed 5GT/s, Width x1, TrErr- Train- SlotClk- DLActive- BWMgmt- ABWMgmt-
+                DevCap2: Completion Timeout: Not Supported, TimeoutDis+, LTR-, OBFF Not Supported
+                         AtomicOpsCap: 32bit- 64bit- 128bitCAS-
+                DevCtl2: Completion Timeout: 50us to 50ms, TimeoutDis-, LTR-, OBFF Disabled
+                         AtomicOpsCtl: ReqEn-
+                LnkCtl2: Target Link Speed: 5GT/s, EnterCompliance- SpeedDis-
+                         Transmit Margin: Normal Operating Range, EnterModifiedCompliance- ComplianceSOS-
+                         Compliance De-emphasis: -6dB
+                LnkSta2: Current De-emphasis Level: -6dB, EqualizationComplete-, EqualizationPhase1-
+                         EqualizationPhase2-, EqualizationPhase3-, LinkEqualizationRequest-
+        Capabilities: [100 v1] Virtual Channel
+                Caps:   LPEVC=0 RefClk=100ns PATEntryBits=1
+                Arb:    Fixed- WRR32- WRR64- WRR128-
+                Ctrl:   ArbSelect=Fixed
+                Status: InProgress-
+                VC0:    Caps:   PATOffset=00 MaxTimeSlots=1 RejSnoopTrans-
+                        Arb:    Fixed- WRR32- WRR64- WRR128- TWRR128- WRR256-
+                        Ctrl:   Enable+ ID=0 ArbSelect=Fixed TC/VC=ff
+                        Status: NegoPending- InProgress-
+        Kernel driver in use: pci-endpoint-test
+00: 12 19 2d 00 06 00 10 00 00 00 00 ff 00 00 00 00
+10: 04 02 20 fe 00 00 00 00 04 00 20 fe 00 00 00 00
+20: 04 01 20 fe 00 00 00 00 00 00 00 00 00 00 00 00
+30: 00 00 00 00 40 00 00 00 00 00 00 00 98 01 00 00
+
+BAR Test
+========
+root@g2e:~# pcitest -b 0
+BAR0:           OKAY
+root@g2e:~# pcitest -b 1
+BAR1:           NOT OKAY
+root@g2e:~# pcitest -b 2
+BAR2:           OKAY
+root@g2e:~# pcitest -b 3
+BAR3:           NOT OKAY
+root@g2e:~# pcitest -b 4
+BAR4:           OKAY
+root@g2e:~# pcitest -b 5
+BAR5:           NOT OKAY
+
+Note: BAR test for 1/3/5 fail because they are configured to be 64bits
+
+Interrupt Test
+==============
+root@g2e:~# pcitest -i 0
+SET IRQ TYPE TO LEGACY:         OKAY
+root@g2e:~# pcitest -l
+LEGACY IRQ:     OKAY
+
+Read Test
+=========
+root@g2e:~# pcitest -r -s 1
+READ (      1 bytes):           OKAY
+root@g2e:~# pcitest -r -s 1024
+READ (   1024 bytes):           OKAY
+root@g2e:~# pcitest -r -s 1025
+READ (   1025 bytes):           OKAY
+root@g2e:~# pcitest -r -s 1024000
+READ (1024000 bytes):           OKAY
+root@g2e:~# pcitest -r -s 1024001
+READ (1024001 bytes):           OKAY
+
+Write Test
+==========
+root@g2e:~# pcitest -w -s 1
+WRITE (      1 bytes):          OKAY
+root@g2e:~# pcitest -w -s 1024
+WRITE (   1024 bytes):          OKAY
+root@g2e:~# pcitest -w -s 1025
+WRITE (   1025 bytes):          OKAY
+root@g2e:~# pcitest -w -s 1024000
+WRITE (1024000 bytes):          OKAY
+root@g2e:~# pcitest -w -s 1024001
+WRITE (1024001 bytes):          OKAY
+
+Copy Test
+=========
+root@g2e:~# pcitest -c -s 1
+COPY (      1 bytes):           OKAY
+root@g2e:~# pcitest -c -s 1024
+COPY (   1024 bytes):           OKAY
+root@g2e:~# pcitest -c -s 1025
+COPY (   1025 bytes):           OKAY
+root@g2e:~# pcitest -c -s 1024000
+COPY (1024000 bytes):           OKAY
+root@g2e:~# pcitest -c -s 1024001
+COPY (1024001 bytes):           OKAY
+
+Lad, Prabhakar (6):
+  pci: pcie-rcar: preparation for adding endpoint support
+  pci: endpoint: add support to handle features of outbound memory
+  of: address: add support to parse PCI outbound-ranges
+  dt-bindings: PCI: rcar: Add bindings for R-Car PCIe endpoint
+    controller
+  pci: rcar: add support for rcar pcie controller in endpoint mode
+  misc: pci_endpoint_test: add device-id for RZ/G2E pcie controller
+
+ .../devicetree/bindings/pci/rcar-pci-ep.txt        |   37 +
+ arch/arm64/configs/defconfig                       |    2 +-
+ drivers/misc/pci_endpoint_test.c                   |    3 +
+ drivers/of/address.c                               |   44 +-
+ drivers/pci/controller/Kconfig                     |   11 +-
+ drivers/pci/controller/Makefile                    |    3 +-
+ drivers/pci/controller/dwc/pcie-designware-ep.c    |   30 +-
+ drivers/pci/controller/pcie-cadence-ep.c           |   11 +-
+ drivers/pci/controller/pcie-rcar-ep.c              |  494 ++++++++
+ drivers/pci/controller/pcie-rcar-host.c            | 1056 +++++++++++++++++
+ drivers/pci/controller/pcie-rcar.c                 | 1229 +-------------------
+ drivers/pci/controller/pcie-rcar.h                 |  129 ++
+ drivers/pci/controller/pcie-rockchip-ep.c          |   13 +-
+ drivers/pci/endpoint/functions/pci-epf-test.c      |   47 +-
+ drivers/pci/endpoint/pci-epc-core.c                |    7 +-
+ drivers/pci/endpoint/pci-epc-mem.c                 |  216 +++-
+ include/linux/of_address.h                         |   21 +
+ include/linux/pci-epc.h                            |   72 +-
+ 18 files changed, 2152 insertions(+), 1273 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/pci/rcar-pci-ep.txt
+ create mode 100644 drivers/pci/controller/pcie-rcar-ep.c
+ create mode 100644 drivers/pci/controller/pcie-rcar-host.c
+ create mode 100644 drivers/pci/controller/pcie-rcar.h
 
 -- 
-Regards,
+2.7.4
 
-Laurent Pinchart
