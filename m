@@ -2,33 +2,33 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F06F511E846
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 17:27:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 89CCC11E851
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 17:29:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728147AbfLMQ1P (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Dec 2019 11:27:15 -0500
-Received: from andre.telenet-ops.be ([195.130.132.53]:60148 "EHLO
-        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728113AbfLMQ1P (ORCPT
+        id S1727984AbfLMQ1j (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Dec 2019 11:27:39 -0500
+Received: from albert.telenet-ops.be ([195.130.137.90]:33352 "EHLO
+        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728120AbfLMQ1j (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Dec 2019 11:27:15 -0500
+        Fri, 13 Dec 2019 11:27:39 -0500
 Received: from ramsan ([84.195.182.253])
-        by andre.telenet-ops.be with bizsmtp
-        id dUTD2100d5USYZQ01UTDH5; Fri, 13 Dec 2019 17:27:13 +0100
+        by albert.telenet-ops.be with bizsmtp
+        id dUTd210095USYZQ06UTdLw; Fri, 13 Dec 2019 17:27:37 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1ifnmb-0006mm-Fm; Fri, 13 Dec 2019 17:27:13 +0100
+        id 1ifnmz-0006mq-5r; Fri, 13 Dec 2019 17:27:37 +0100
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1ifnmb-0000Xt-Da; Fri, 13 Dec 2019 17:27:13 +0100
+        id 1ifnmz-0000ZZ-4W; Fri, 13 Dec 2019 17:27:37 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Magnus Damm <magnus.damm@gmail.com>
 Cc:     linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] ARM: dts: r8a7778: Add missing clock-frequency for fixed clocks
-Date:   Fri, 13 Dec 2019 17:27:12 +0100
-Message-Id: <20191213162712.2056-1-geert+renesas@glider.be>
+Subject: [PATCH] ARM: dts: sh73a0: Add missing clock-frequency for fixed clocks
+Date:   Fri, 13 Dec 2019 17:27:36 +0100
+Message-Id: <20191213162736.2160-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -39,40 +39,46 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 with "fixed-clock", leading to warnings when running
 
     $ make dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/clock/fixed-clock.yaml
-    arch/arm/boot/dts/r8a7778-bockw.dt.yaml: audio_clk_a: 'clock-frequency' is a required property
-    arch/arm/boot/dts/r8a7778-bockw.dt.yaml: audio_clk_b: 'clock-frequency' is a required property
-    arch/arm/boot/dts/r8a7778-bockw.dt.yaml: audio_clk_c: 'clock-frequency' is a required property
+    arch/arm/boot/dts/sh73a0-kzm9g.dt.yaml: extcki: 'clock-frequency' is a required property
 
-Fix this by adding the missing "clock-frequency" properties to the audio
-clocks, to be overridden by board DTS files when populated.
+Fix this by adding the missing "clock-frequency" properties to the various
+clocks, to be overridden by the board DTS files when populated.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- arch/arm/boot/dts/r8a7778.dtsi | 3 +++
- 1 file changed, 3 insertions(+)
+ arch/arm/boot/dts/sh73a0.dtsi | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/arch/arm/boot/dts/r8a7778.dtsi b/arch/arm/boot/dts/r8a7778.dtsi
-index 10d996d2941fe6ea..5628b8a3598f43c1 100644
---- a/arch/arm/boot/dts/r8a7778.dtsi
-+++ b/arch/arm/boot/dts/r8a7778.dtsi
-@@ -498,14 +498,17 @@
- 		audio_clk_a: audio_clk_a {
+diff --git a/arch/arm/boot/dts/sh73a0.dtsi b/arch/arm/boot/dts/sh73a0.dtsi
+index 7efe33c4d041a524..7c67581f57422a26 100644
+--- a/arch/arm/boot/dts/sh73a0.dtsi
++++ b/arch/arm/boot/dts/sh73a0.dtsi
+@@ -624,19 +624,25 @@
+ 		extal2_clk: extal2 {
  			compatible = "fixed-clock";
  			#clock-cells = <0>;
++			/* This value must be overridden by the board. */
 +			clock-frequency = <0>;
  		};
- 		audio_clk_b: audio_clk_b {
+ 		extcki_clk: extcki {
  			compatible = "fixed-clock";
  			#clock-cells = <0>;
++			/* This value can be overridden by the board. */
 +			clock-frequency = <0>;
  		};
- 		audio_clk_c: audio_clk_c {
+ 		fsiack_clk: fsiack {
  			compatible = "fixed-clock";
  			#clock-cells = <0>;
-+			clock-frequency = <0>;
++			/* This value can be overridden by the board. */
+ 			clock-frequency = <0>;
+ 		};
+ 		fsibck_clk: fsibck {
+ 			compatible = "fixed-clock";
+ 			#clock-cells = <0>;
++			/* This value can be overridden by the board. */
+ 			clock-frequency = <0>;
  		};
  
- 		/* Fixed ratio clocks */
 -- 
 2.17.1
 
