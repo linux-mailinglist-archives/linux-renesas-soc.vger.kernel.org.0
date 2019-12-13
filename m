@@ -2,104 +2,127 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7091711DB40
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 01:49:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E33011DB6E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 02:02:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731224AbfLMAs0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Dec 2019 19:48:26 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58452 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731026AbfLMAs0 (ORCPT
+        id S1727492AbfLMBCL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Dec 2019 20:02:11 -0500
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:37301 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727119AbfLMBCL (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Dec 2019 19:48:26 -0500
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9A265440;
-        Fri, 13 Dec 2019 01:48:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1576198104;
-        bh=fzDDFuwCssKk2Lvp2zwH1/AsL1CDBTeNOlHZdV77jgY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gYQepg5lJbxpmxMaRo6gyvtBboTn6WuGhBG29W42OR/vsxfAhXdyS0Bnv8ywu1ER5
-         2qop6RsqkdzWK/Bpnn1FZ6EtXv3o+mNjBpZ2Lvnpsncfl2SOHEfmhlHyWz+nWJA2ma
-         l9prcEVWJCOund9jveN6q7IEGJgiBP3yHricQz0A=
-Date:   Fri, 13 Dec 2019 02:48:12 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Simon Horman <horms@verge.net.au>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        linux-renesas-soc@vger.kernel.org, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm: rcar-du: Add r8a77980 support
-Message-ID: <20191213004812.GA27328@pendragon.ideasonboard.com>
-References: <20190911192502.16609-1-kieran.bingham+renesas@ideasonboard.com>
- <70b94265-69f3-d18f-1b67-b5b814723b1b@cogentembedded.com>
- <20190913082129.lvusbp6pbcayqh5r@verge.net.au>
- <20190913090359.GC29992@pendragon.ideasonboard.com>
- <2eeacacc-f190-4ba8-32bc-b4103b41db46@ideasonboard.com>
+        Thu, 12 Dec 2019 20:02:11 -0500
+Received: by mail-lf1-f66.google.com with SMTP id b15so685241lfc.4
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Dec 2019 17:02:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=m2ipbqjcG+3wnAW6roK9EIDaSuEvIBu+cgILXapMkDs=;
+        b=0p7CmntPIXqnn42f4FiTPX+r6txSjZ3v0sEad/ERVNpn/mzwTO5Aj6A1armwwNhhVK
+         wHr/i8CXWZhEexAK1SK03dnEbZEcs79MXz1OrtIR9MHjGnGYokO8/9OSeCoduQ1J74A1
+         5M9M+nqevJ+T22iWdHdO1VCJGH4XkQ6gQB34wfR/WQbuh+wn+bPRbqZ2WdOMxB8C31u3
+         G31PIeMCIHVveJv7tQpERkwDm2XeuzXtAhArwqjZ2t9Hs0w9ApngSW/AZxCJHbIV+dGT
+         vXCKcBcZkC7ejzXpNo+n7SIN+s43YCEeNjlhTLi01WEqvGPX6hj/T4Bk8BF+o8lsn65b
+         Y8/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=m2ipbqjcG+3wnAW6roK9EIDaSuEvIBu+cgILXapMkDs=;
+        b=YFBz3qccmGb4exfS3RC/w5UbeZokQGg7X7nPxJoLhwIipa0h4dEHwNgE+0RYw7sKZa
+         sag/U0sO08x57VJIdebjO80eCpvoUCbJ9ak+5vBVlyPx25Ui15i+q3nRUvyhHcX8WyeY
+         Ebpc4f8VdN5X+Y4MN1rTllLCISTNRejwT3jpkS9zrnNsfZPdpOJMnu7BdjfmpqPObSRF
+         eQji1d1HMwJ5gVGocbdizHvvN2zvIGYUMACnv+fMtSyxDbD4sH94k32g+sQWpBwesaQA
+         FXcGV4E7QEV7/T/j6+AZ4g6IW9ciR7xFCGVbYoBds94G2ZWmGfXu7BMf9kRnd+sVfday
+         Ym+w==
+X-Gm-Message-State: APjAAAUAlEHAopytNmHXpCiULphH0x7HuBF/LXptbs9ThJNL30Awbj//
+        97Fb2lg4b3rKVYH+BIQIKNwid8acVJU=
+X-Google-Smtp-Source: APXvYqzIHIJdzpKLstVR9ornnNXVwRNsOe67G5LYRpwkSV/SmghTgVWC0GwojbZptncmT+WDKRODVQ==
+X-Received: by 2002:ac2:4c2b:: with SMTP id u11mr7464615lfq.46.1576198929188;
+        Thu, 12 Dec 2019 17:02:09 -0800 (PST)
+Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
+        by smtp.gmail.com with ESMTPSA id d24sm3745532lfb.94.2019.12.12.17.02.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Dec 2019 17:02:08 -0800 (PST)
+Date:   Fri, 13 Dec 2019 02:02:07 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH] yavta: Fix usage documentation for --field option
+Message-ID: <20191213010207.GD26038@bigcity.dyn.berto.se>
+References: <CAMuHMdWgkFiCbibrxUTOYPCFF+faJhacTEbF0LHA0gDpNA+_Jw@mail.gmail.com>
+ <20191212234535.GF4892@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <2eeacacc-f190-4ba8-32bc-b4103b41db46@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191212234535.GF4892@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
+Hi Laurent,
 
-On Mon, Dec 09, 2019 at 12:41:07PM +0000, Kieran Bingham wrote:
-> On 13/09/2019 10:03, Laurent Pinchart wrote:
-> > On Fri, Sep 13, 2019 at 10:21:29AM +0200, Simon Horman wrote:
-> >> On Thu, Sep 12, 2019 at 01:00:41PM +0300, Sergei Shtylyov wrote:
-> >>> On 11.09.2019 22:25, Kieran Bingham wrote:
-> >>>
-> >>>> Add direct support for the r8a77980 (V3H).
-> >>>>
-> >>>> The V3H shares a common, compatible configuration with the r8a77970
-> >>>> (V3M) so that device info structure is reused.
-> >>>
-> >>>    Do we really need to add yet another compatible in this case?
-> >>> I just added r8a77970 to the compatible prop in the r8a77980 DT. That's why
-> >>> a patch like this one didn't get posted by me.
-> >>
-> >> The reason for having per-SoC compat strings is that the IP blocks
-> >> are not versioned and while we can observe that there are similarities
-> >> between, f.e. the DU on the r8a77970 and r8a77980, we can't be certain that
-> >> differences may not emerge at some point. By having per-SoC compat strings
-> >> we have the flexibility for the driver to address any such differences as
-> >> the need arises.
-> >>
-> >> My recollection is that this scheme has been adopted for non-versioned
-> >> Renesas IP blocks since June 2015 and uses of this scheme well before that.
-> > 
-> > Sure, but we could use
-> > 
-> > 	compatible = "renesas,du-r8a77980", "renesas,du-r8a77970";
-> > 
-> > in DT without updating the driver. If the r8a77980 turns out to be
-> > different, we'll then update the driver without a need to modify DT. I'm
-> > fine either way, so
-> > 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> Thanks,
-> 
-> This patch has an RB tag from you, and Simon, but alas I don't believe
-> it has been picked up in your drm/du/next branch.
-> 
-> Is this patch acceptable? Or do I need to repost?
+Thanks for your feedback.
 
-Could you just confirm I should apply this patch, and not go for the
-alternative proposal above ?
+On 2019-12-13 01:45:35 +0200, Laurent Pinchart wrote:
+> Hi Niklas,
+> 
+> On Tue, Dec 10, 2019 at 09:18:37AM +0100, Geert Uytterhoeven wrote:
+> > On Mon, Dec 9, 2019 at 10:23 PM Niklas Söderlund wrote:
+> > > The --field option takes an argument selecting the field order. Update
+> > > the usage text to reflect this.
+> > >
+> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > > ---
+> > >  yavta.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/yavta.c b/yavta.c
+> > > index f83e143c051396c4..196345c323c662d3 100644
+> > > --- a/yavta.c
+> > > +++ b/yavta.c
+> > > @@ -2286,7 +2286,7 @@ static void usage(const char *argv0)
+> > >         printf("    --enum-formats              Enumerate formats\n");
+> > >         printf("    --enum-inputs               Enumerate inputs\n");
+> > >         printf("    --fd                        Use a numeric file descriptor insted of a device\n");
+> > > -       printf("    --field                     Interlaced format field order\n");
+> > > +       printf("    --field field               Set the format field order\n");
+> > 
+> > "Valid values for field are ..."?
+> 
+> Please let me know if you want to send a v2. yavta is a low-level tool
+> so I don't think this is critical, users are expected to know that the
+> value comes from the V4L2 API, but stating hit wouldn't hurt either.
 
-> >>>> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> >>
-> >> Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+I'm open to send a v2 based out your feedback.
+
+I was prompted to write this patch when writing a test for vin-tests for 
+TB/BT and I had to look in the yavta sources to find which strings yavta 
+used for the different field options and misinterpreting the help for 
+--field to only concern interlaced field formats.
+
+As you state yavta is a low-level tool so I'm fine with the patch as is 
+just to demonstrate that the --field argument takes a value and is not 
+exclusive to interlaced formats or extend it similar to '--format help'.
+
+> 
+> > >         printf("    --log-status                Log device status\n");
+> > >         printf("    --no-query                  Don't query capabilities on open\n");
+> > >         printf("    --offset                    User pointer buffer offset from page start\n");
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 
 -- 
 Regards,
-
-Laurent Pinchart
+Niklas Söderlund
