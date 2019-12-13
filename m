@@ -2,94 +2,100 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B117E11E5DA
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 15:48:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C7C811E7F1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Dec 2019 17:18:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727795AbfLMOsv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Dec 2019 09:48:51 -0500
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:43632 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727690AbfLMOsv (ORCPT
+        id S1728101AbfLMQSr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Dec 2019 11:18:47 -0500
+Received: from sauhun.de ([88.99.104.3]:47994 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728096AbfLMQSq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Dec 2019 09:48:51 -0500
-Received: by mail-oi1-f194.google.com with SMTP id x14so1095036oic.10;
-        Fri, 13 Dec 2019 06:48:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DBQ9/WA8dJ3yj6YsudcTec03HFt1nH6b3ZMKGQoshZA=;
-        b=Lho4W3VYXrMqPX8203M09YviMSW/usQi76JfLp+7or7fv/6I8htgLnkZos68vOkGR0
-         QpfDOT5xG1XFEXFybZQDyDQibLEqOBvbJPDWu7Uww0HnqZPwvTv/O4v+dEmifTbRebap
-         vuD855UKpQeBACovct6zBo8lFk81j/q2/MViLi/h1AlXUYAzln35rRYHjB0PVPtUR6af
-         twZ4UFcmmd1E1kZzT+qwXJjd3Vs7BP1Lbp+SYGCm/ggHNErdI04J6+luid2VRjbivx58
-         NKbg2yhF9umR89yBEQYFg98aC3kEkwkRPd4SsJ9UnxFV/KsOUSmaDIA7+cXKzbTTlyDX
-         89fA==
-X-Gm-Message-State: APjAAAWuGw839W9xqixnTjiWh5GC/C5yPIqSGxBVWNVeh/ovxIVK7ahY
-        3ib+yxpadgAnL+Uwnpa/sgEskNS/4V2oQGT1W3I=
-X-Google-Smtp-Source: APXvYqxMUciMS4Fl8EikJlRe3Ox04DBMI5w6FiyUlCP13ScCYG4vGuP13u/7YMjuXx6vrNDeeFn1L3GecFnfUuqqwjg=
-X-Received: by 2002:aca:4a41:: with SMTP id x62mr6794805oia.148.1576248530226;
- Fri, 13 Dec 2019 06:48:50 -0800 (PST)
+        Fri, 13 Dec 2019 11:18:46 -0500
+Received: from localhost (p54B3318D.dip0.t-ipconnect.de [84.179.49.141])
+        by pokefinder.org (Postfix) with ESMTPSA id CB5522C04D3;
+        Fri, 13 Dec 2019 17:18:44 +0100 (CET)
+Date:   Fri, 13 Dec 2019 17:18:41 +0100
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Linux MMC List <linux-mmc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Takeshi Saito <takeshi.saito.xv@renesas.com>
+Subject: Re: [RFC PATCH 1/2] mmc: renesas_sdhi: Add manual correction
+Message-ID: <20191213161841.GA1208@ninjato>
+References: <20191203203301.2202-1-wsa+renesas@sang-engineering.com>
+ <20191203203301.2202-2-wsa+renesas@sang-engineering.com>
+ <CAMuHMdUnC=PM0iM7NwoeVLb2v=r4g-uUU3h4dBn9-St75fLyAw@mail.gmail.com>
+ <20191210222844.GD8683@kunai>
+ <CAMuHMdV8+35xLVqAX1mpU1gBKhkw6nBRFwdJwBF0_UXJPh18+g@mail.gmail.com>
 MIME-Version: 1.0
-References: <20191206134202.18784-1-chris.brandt@renesas.com>
- <20191206134202.18784-2-chris.brandt@renesas.com> <37c13497-d20f-583f-72d7-1e3c8a241990@cogentembedded.com>
- <TYXPR01MB1568ED4D40CEC399E64F6A2B8A550@TYXPR01MB1568.jpnprd01.prod.outlook.com>
- <CAMuHMdWCgOsj_ZWF-+f-5XjZU9RSCm6Ww3gBmYQeSGz0B77_ig@mail.gmail.com> <TY1PR01MB15625260CB3CE48A3FBA11058A540@TY1PR01MB1562.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY1PR01MB15625260CB3CE48A3FBA11058A540@TY1PR01MB1562.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 13 Dec 2019 15:48:39 +0100
-Message-ID: <CAMuHMdUoFKm9Eox=xY1tnxeqG89X=EeRh0N+Aynjg6gBxBgm6A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] spi: Add SPIBSC driver
-To:     Chris Brandt <Chris.Brandt@renesas.com>
-Cc:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        Mason Yang <masonccyang@mxic.com.tw>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="GvXjxJ+pjyke8COw"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdV8+35xLVqAX1mpU1gBKhkw6nBRFwdJwBF0_UXJPh18+g@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Chris,
 
-On Fri, Dec 13, 2019 at 3:45 PM Chris Brandt <Chris.Brandt@renesas.com> wrote:
-> On Fri, Dec 13, 2019, Geert Uytterhoeven wrote:
-> > On Thu, Dec 12, 2019 at 9:19 PM Chris Brandt <Chris.Brandt@renesas.com>
-> > wrote:
-> > > On Thu, Dec 12, 2019, Sergei Shtylyov wrote:
-> > > >    As you can see, the deleted file is back after unmount/re-mount...
-> > >
-> > > Did you do a 'sync' before you unmounted?
+--GvXjxJ+pjyke8COw
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Geert,
+
+> > > BTW, why is tap_set unsigned long instead of unsigned int?
 > >
-> > Does it fail without? If yes, that must be a jffs2 bug.
->
-> It does not fail for me with or without the sync.
+> > Because we use bitmap functions on it, and those have all unsigned long
+> > as arguments.
+>=20
+> Do we? I only see bitops on host->taps?
 
-Good.
+Point taken on this one...
 
-> I just I was remembering that you need to call sync before you call reboot
-> or shutdown because those do not sync first. That's what I remember anyway.
+>=20
+> > > And perhaps it should be moved from host to priv?
+> >
+> > That would be great, but other tap_* variables are still used in
+> > tmio_mmc_core.c. We maybe can refactor all tap handling into
+> > renesas_sdhi_core.c meanwhile, but this is a seperate issue.
+>=20
+> tap_num is shared by the Renesas and TMIO code.
+> tap_set is Renesas-specific.
 
-Yeah, "embedded" reboot commands may reboot immediately, without shutting
-down the system cleanly.  Same for "reboot -f" on Debian.
+=2E.. here however, I think we should keep all tap_* related variables
+close together. The driver is messy enough as is. Investigation if all
+of that code could be moved to renesas_sdhi_core, though, seems very
+useful.
 
-Gr{oetje,eeting}s,
+Thanks for the comments!
 
-                        Geert
+   Wolfram
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--GvXjxJ+pjyke8COw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl3zud4ACgkQFA3kzBSg
+KbbVbw/+P7nyvi+BkOHUztBGJxNsQNmcbTahuYyAAuF3MJAeFc1SPEDdwNcxmLww
+owyJRFWrlCuEpG4RqugMpEOvPaW7C5ueNSp6ShKe6Mu0HrZAlXBiVDoWPKkhSKNr
+aM2MGQ9wEpl6PyqcQrYAaneXhNm1cf/WBPzsK9YJR4JHApjSl9Tpy1t0BuLMqVnV
+jLpwybRn/Hys+Mhv7FCzE/KXlHxAo88Qamme3maQ3MWLd/nsD4xgtULNu4p1D0aQ
+WvKD9sPDoyC2DWZZ1NmsDn7qMUzqROBxr0Gif5gxi1ETJCAYZwVODsUtf9N/vTdM
+CYuUmw0RmadFcfCvMyk0Qru7x2fKFRBsRdqsFevmpJ1ZvZTxsB4Sl65vUEPeySYM
+AG5GU5dJNnEumduHFMO28RfTyX2l412AIMj8Hu9LO71DWVEspSzPI9dTo0/XBd5J
+T6HPHUIl+rVReeg+yKBvr3twBO0dUr+BdL/HtkqCBjlWKcF7lnfTqVQbxesszrWa
+/1/l/L78ggMM/j4wSRstJvBAVGiK7PAgTaH1L2mxUMvhjRYCZVpF+hbvIwkoZ0kn
+0BPmxaIYM2g7yAT0V3APCNUB9bmmrZrQf+has5zFf9kIP0JIQG3CsvDJUo6c7Kpg
+qfKaYBZxzJouPxtKtoy9dK8ZKwpuoIu4YlSOtgfnAcJiYYqjiX4=
+=/t5q
+-----END PGP SIGNATURE-----
+
+--GvXjxJ+pjyke8COw--
