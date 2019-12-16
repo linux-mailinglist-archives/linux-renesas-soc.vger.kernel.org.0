@@ -2,31 +2,31 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F07B120275
+	by mail.lfdr.de (Postfix) with ESMTP id A52DF120278
 	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2019 11:29:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727470AbfLPK3k (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Dec 2019 05:29:40 -0500
+        id S1727334AbfLPK3l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Dec 2019 05:29:41 -0500
 Received: from perceval.ideasonboard.com ([213.167.242.64]:40692 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727070AbfLPK3j (ORCPT
+        with ESMTP id S1727070AbfLPK3l (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Dec 2019 05:29:39 -0500
+        Mon, 16 Dec 2019 05:29:41 -0500
 Received: from localhost.localdomain (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DCBBD130D;
-        Mon, 16 Dec 2019 11:29:34 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 350221337;
+        Mon, 16 Dec 2019 11:29:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1576492175;
-        bh=SDhpg95pNYwvTDG8mWp7nEbGSj6l4DgwHKU7WgYNMFc=;
+        bh=AwMIOcVPhFepZBzd6Cs+5I+A4VMcBFPGk6l5fjeiHvo=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=CRcP1LmSoPLRCJSII2TUCiM3IvETSrZ4An9JtZt3rD3xW15lgh9YZgBfknLY5SF7W
-         2K3WePNvTQSXNMb0qEMZlokP/25BYK4P5pCMpo/W5HpMfcTrehfPjpQRYPek+Xm4te
-         kI/e5NOQWDRmUZwVhiUUrYkRH5Qr5lXZRNeS9t10=
+        b=HE25dDegrSi4641MKH6obzYKWAVELQ59k83zSt40yYs3NNv6qRndFwy8CAs5l08ow
+         UaFESj2WoA0kQDERdPHnbE4lCQzCtFQMjrcxJI3ramKpWaA3GOOFsy7/3iUTNjYngk
+         S13OyTE39lW3MTLGT37HBcf2syP3aorW/pklIK+I=
 From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 To:     Jacopo Mondi <jacopo@jmondi.org>, linux-renesas-soc@vger.kernel.org
-Subject: [RFC PATCH v6 05/13] arm64: dts: renesas: eagle: Provide MAX9286 GMSL deserialiser
-Date:   Mon, 16 Dec 2019 10:29:22 +0000
-Message-Id: <20191216102930.5867-6-kieran.bingham+renesas@ideasonboard.com>
+Subject: [RFC PATCH v6 06/13] arm64: dts: renesas: eagle: Provide Eagle FAKRA dynamic overlay
+Date:   Mon, 16 Dec 2019 10:29:23 +0000
+Message-Id: <20191216102930.5867-7-kieran.bingham+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216102930.5867-1-kieran.bingham+renesas@ideasonboard.com>
 References: <20191211124459.20508-1-kieran.bingham+renesas@ideasonboard.com>
@@ -40,201 +40,160 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
-Provide the wiring for the MAX9286 populated on the Eagle-V3M board
-which has 4 FAKRA connectors.
+This overlay currently supports either the RDACM20, or RDACM21 cameras
+and can be included directly at the end of the Eagle-V3M dtb.
 
-No cameras are connected, and the I2C muxes are disabled by default.
-
-Connected cameras should be defined in a device-tree overlay or included
-after these definitions.
+Ideally this would be an externally provided (and loaded) device tree
+overlay (dto).
 
 Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
 ---
-v2
- - Rebase to mainline, and fix DTB merge issues.
-
-v3:
- - Fix up gmsl-serialiszer i2c bus unit address
+v2:
+ - Fix up SPDX header
 
 v6:
- - Use new i2c-mux subnode
-
- - Make use of the GPIO controller exposed by the max9286 to expose a
-   hog on the line we need to hold low for camera power.
-
-   Produces this:
-
-   gpiochip7 - 2 lines:
-	line   0:   "GPIO0OUT" "CSI0_CAMVDD_EN" output active-high [used]
-	line   1:   "GPIO1OUT"       unused  output  active-high
-
- - Remove the powerdown hog, and utilise an optional enable-gpio line
-   instead.
+ - Use new i2c-mux subnodes
+ - Remove incorrect enable-gpio line
 ---
- .../arm64/boot/dts/renesas/r8a77970-eagle.dts | 135 ++++++++++++++++++
- 1 file changed, 135 insertions(+)
+ arch/arm64/boot/dts/renesas/eagle-fakra.dtsi | 128 +++++++++++++++++++
+ 1 file changed, 128 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/eagle-fakra.dtsi
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-index 2be89ed879a5..86caf98e9eb0 100644
---- a/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a77970-eagle.dts
-@@ -6,6 +6,8 @@
-  * Copyright (C) 2017 Cogent Embedded, Inc.
-  */
- 
+diff --git a/arch/arm64/boot/dts/renesas/eagle-fakra.dtsi b/arch/arm64/boot/dts/renesas/eagle-fakra.dtsi
+new file mode 100644
+index 000000000000..95acc535e230
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/eagle-fakra.dtsi
+@@ -0,0 +1,128 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Device Tree Source (overlay) for the Eagle V3M FAKRA connectors
++ *
++ * Copyright (C) 2017 Ideas on Board <kieran.bingham@ideasonboard.com>
++ *
++ * This overlay allows you to define cameras connected to the FAKRA connectors
++ * on the Eagle-V3M (or compatible) board.
++ *
++ * Enable the cameras by specifying the camera compatible on the appropriate
++ * line. Comment out the defines to disconnect the camera from the DTB.
++ *
++ * The following cameras are currently supported:
++ *    "imi,rdacm20"
++ *    "imi,rdacm21"
++ */
++
 +#include <dt-bindings/gpio/gpio.h>
 +
- /dts-v1/;
- #include "r8a77970.dtsi"
- 
-@@ -189,6 +191,11 @@
- 		function = "i2c0";
- 	};
- 
-+	i2c3_pins: i2c3 {
-+		groups = "i2c3_a";
-+		function = "i2c3";
-+	};
++#define EAGLE_CAMERA0 "imi,rdacm20"
++#define EAGLE_CAMERA1 "imi,rdacm20"
++#define EAGLE_CAMERA2 "imi,rdacm20"
++#define EAGLE_CAMERA3 "imi,rdacm20"
 +
- 	scif0_pins: scif0 {
- 		groups = "scif0_data";
- 		function = "scif0";
-@@ -200,6 +207,134 @@
- 	status = "okay";
- };
- 
-+&csi40 {
++/* Define the endpoint links */
++#ifdef EAGLE_CAMERA0
++&max9286_in0 {
++	remote-endpoint = <&fakra_con0>;
++};
++#endif
++
++#ifdef EAGLE_CAMERA1
++&max9286_in1 {
++	remote-endpoint = <&fakra_con1>;
++};
++#endif
++
++#ifdef EAGLE_CAMERA2
++&max9286_in2 {
++	remote-endpoint = <&fakra_con2>;
++};
++#endif
++
++#ifdef EAGLE_CAMERA3
++&max9286_in3 {
++	remote-endpoint = <&fakra_con3>;
++};
++#endif
++
++/* Cameras are 'attached' to the GMSL I2C busses */
++&gmsl {
++
++#if defined(EAGLE_CAMERA0) || defined(EAGLE_CAMERA1) || \
++    defined(EAGLE_CAMERA2) || defined(EAGLE_CAMERA3)
 +	status = "okay";
 +
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
++#endif
 +
-+		port@0 {
-+			reg = <0>;
++	i2c-mux {
++#ifdef EAGLE_CAMERA0
++		i2c@0 {
++			status = "okay";
 +
-+			csi40_in: endpoint {
-+				clock-lanes = <0>;
-+				data-lanes = <1 2 3 4>;
-+				remote-endpoint = <&max9286_out0>;
++			camera@51 {
++				compatible = EAGLE_CAMERA0;
++				reg = <0x51 0x61>;
++
++				port {
++					fakra_con0: endpoint {
++						remote-endpoint = <&max9286_in0>;
++					};
++				};
 +			};
 +		};
++#endif
++
++#ifdef EAGLE_CAMERA1
++		i2c@1 {
++			status = "okay";
++
++			camera@52 {
++				compatible = EAGLE_CAMERA1;
++				reg = <0x52 0x62>;
++
++				port {
++					fakra_con1: endpoint {
++						remote-endpoint = <&max9286_in1>;
++					};
++				};
++			};
++		};
++#endif
++
++#ifdef EAGLE_CAMERA2
++		i2c@2 {
++			status = "okay";
++
++			camera@53 {
++				compatible = EAGLE_CAMERA2;
++				reg = <0x53 0x63>;
++
++				port {
++					fakra_con2: endpoint {
++						remote-endpoint = <&max9286_in2>;
++					};
++				};
++			};
++		};
++#endif
++
++#ifdef EAGLE_CAMERA3
++		i2c@3 {
++			status = "okay";
++
++			camera@54 {
++				compatible = EAGLE_CAMERA3;
++				reg = <0x54 0x64>;
++
++				port {
++					fakra_con3: endpoint {
++						remote-endpoint = <&max9286_in3>;
++					};
++				};
++			};
++		};
++#endif
 +	};
 +};
-+
-+&i2c3 {
-+	pinctrl-0 = <&i2c3_pins>;
-+	pinctrl-names = "default";
-+
-+	status = "okay";
-+	clock-frequency = <400000>;
-+
-+	gmsl: gmsl-deserializer@48 {
-+		gpio-controller;
-+		#gpio-cells = <2>;
-+
-+		compatible = "maxim,max9286";
-+		reg = <0x48>;
-+
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		/* eagle-pca9654-max9286-pwdn */
-+		enable-gpios = <&io_expander 0 GPIO_ACTIVE_HIGH>;
-+
-+		/*
-+		 * Workaround: Hog the CAMVDD line high as we can't establish a
-+		 * regulator-fixed on the gpio_chip exposed by &gmsl due to
-+		 * circular-dependency issues.
-+		 */
-+		camvdd_en {
-+			gpio-hog;
-+			gpios = <0 0>;
-+			output-low;
-+			line-name = "CSI0_CAMVDD_EN";
-+		};
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+				max9286_in0: endpoint {
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+				max9286_in1: endpoint {
-+				};
-+			};
-+
-+			port@2 {
-+				reg = <2>;
-+				max9286_in2: endpoint {
-+				};
-+			};
-+
-+			port@3 {
-+				reg = <3>;
-+				max9286_in3: endpoint {
-+				};
-+			};
-+
-+			port@4 {
-+				reg = <4>;
-+				max9286_out0: endpoint {
-+					clock-lanes = <0>;
-+					data-lanes = <1 2 3 4>;
-+					remote-endpoint = <&csi40_in>;
-+				};
-+			};
-+		};
-+
-+		i2c-mux {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			i2c@0 {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				reg = <0>;
-+
-+				status = "disabled";
-+			};
-+
-+			i2c@1 {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				reg = <1>;
-+
-+				status = "disabled";
-+			};
-+
-+			i2c@2 {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				reg = <2>;
-+
-+				status = "disabled";
-+			};
-+
-+			i2c@3 {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+				reg = <3>;
-+
-+				status = "disabled";
-+			};
-+		};
-+	};
-+};
-+
- &scif0 {
- 	pinctrl-0 = <&scif0_pins>;
- 	pinctrl-names = "default";
 -- 
 2.20.1
 
