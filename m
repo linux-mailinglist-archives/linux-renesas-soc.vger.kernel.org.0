@@ -2,31 +2,31 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A52DF120278
+	by mail.lfdr.de (Postfix) with ESMTP id BF26B12027A
 	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2019 11:29:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727334AbfLPK3l (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Dec 2019 05:29:41 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:40692 "EHLO
+        id S1727513AbfLPK3n (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Dec 2019 05:29:43 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:40704 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727070AbfLPK3l (ORCPT
+        with ESMTP id S1727476AbfLPK3n (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Dec 2019 05:29:41 -0500
+        Mon, 16 Dec 2019 05:29:43 -0500
 Received: from localhost.localdomain (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 350221337;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7D83EA34;
         Mon, 16 Dec 2019 11:29:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1576492175;
-        bh=AwMIOcVPhFepZBzd6Cs+5I+A4VMcBFPGk6l5fjeiHvo=;
+        bh=Ren/XIru5Y5hQ2L1tNYvyr2r6P0B7j38rkD7G9d9XSI=;
         h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=HE25dDegrSi4641MKH6obzYKWAVELQ59k83zSt40yYs3NNv6qRndFwy8CAs5l08ow
-         UaFESj2WoA0kQDERdPHnbE4lCQzCtFQMjrcxJI3ramKpWaA3GOOFsy7/3iUTNjYngk
-         S13OyTE39lW3MTLGT37HBcf2syP3aorW/pklIK+I=
+        b=I3/BgKvbXs+h4RRDSqEcguyKYhHPinn9cwWtKTwRbyyQ28644RYXXWV6xUug34pQA
+         5ez8if5RmfU9DWWHDDeno0T8KAQe5au+gBMi5oGprvR1QUKYLWQMZzexhtXzca9lw7
+         O921j7P9uP/82Wzx1czgTEYaX35paZklTLLk/Zmw=
 From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 To:     Jacopo Mondi <jacopo@jmondi.org>, linux-renesas-soc@vger.kernel.org
-Subject: [RFC PATCH v6 06/13] arm64: dts: renesas: eagle: Provide Eagle FAKRA dynamic overlay
-Date:   Mon, 16 Dec 2019 10:29:23 +0000
-Message-Id: <20191216102930.5867-7-kieran.bingham+renesas@ideasonboard.com>
+Subject: [RFC PATCH v6 07/13] arm64: dts: renesas: salvator-x: Add MAX9286 expansion board
+Date:   Mon, 16 Dec 2019 10:29:24 +0000
+Message-Id: <20191216102930.5867-8-kieran.bingham+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191216102930.5867-1-kieran.bingham+renesas@ideasonboard.com>
 References: <20191211124459.20508-1-kieran.bingham+renesas@ideasonboard.com>
@@ -38,160 +38,434 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-This overlay currently supports either the RDACM20, or RDACM21 cameras
-and can be included directly at the end of the Eagle-V3M dtb.
+Add a .dtsi fragment to describe the MAX9286-based expansion board for
+the Renesas Salvator-X board.
 
-Ideally this would be an externally provided (and loaded) device tree
-overlay (dto).
+The MAX9286 expansion board has eight RDACM20 cameras connected to it.
+They can be individually controlled by enabling or disabling the macro
+defines.
 
-Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
 ---
 v2:
- - Fix up SPDX header
+ - Use SPDX headers
+ - Remove link from ADV748x TXA (HDMI)
+ - Use 0x31-0x38, and 0x41-0x48 for the 8 cameras. 0x30 and 0x40 are the
+   base addresses for the OV10635 and MAX9271 (0x50 for the MCU)
+ - Provide RDACM20 MCU I2C address reservations. (0x51-0x58)
+
+v3:
+ - Fix gmsl-serializer@ i2c node addressing
 
 v6:
- - Use new i2c-mux subnodes
- - Remove incorrect enable-gpio line
+ - Make i2c-mux child node and update to be conformant to new bindings.
 ---
- arch/arm64/boot/dts/renesas/eagle-fakra.dtsi | 128 +++++++++++++++++++
- 1 file changed, 128 insertions(+)
- create mode 100644 arch/arm64/boot/dts/renesas/eagle-fakra.dtsi
+ .../boot/dts/renesas/salvator-x-max9286.dtsi  | 394 ++++++++++++++++++
+ 1 file changed, 394 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/renesas/salvator-x-max9286.dtsi
 
-diff --git a/arch/arm64/boot/dts/renesas/eagle-fakra.dtsi b/arch/arm64/boot/dts/renesas/eagle-fakra.dtsi
+diff --git a/arch/arm64/boot/dts/renesas/salvator-x-max9286.dtsi b/arch/arm64/boot/dts/renesas/salvator-x-max9286.dtsi
 new file mode 100644
-index 000000000000..95acc535e230
+index 000000000000..19697f5a3c85
 --- /dev/null
-+++ b/arch/arm64/boot/dts/renesas/eagle-fakra.dtsi
-@@ -0,0 +1,128 @@
++++ b/arch/arm64/boot/dts/renesas/salvator-x-max9286.dtsi
+@@ -0,0 +1,394 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +/*
-+ * Device Tree Source (overlay) for the Eagle V3M FAKRA connectors
++ * Device Tree Source for the Salvator-X MAX9286 expansion board
 + *
-+ * Copyright (C) 2017 Ideas on Board <kieran.bingham@ideasonboard.com>
-+ *
-+ * This overlay allows you to define cameras connected to the FAKRA connectors
-+ * on the Eagle-V3M (or compatible) board.
-+ *
-+ * Enable the cameras by specifying the camera compatible on the appropriate
-+ * line. Comment out the defines to disconnect the camera from the DTB.
-+ *
-+ * The following cameras are currently supported:
-+ *    "imi,rdacm20"
-+ *    "imi,rdacm21"
++ * Copyright (C) 2017 Ideas on Board <laurent.pinchart@ideasonboard.com>
 + */
 +
 +#include <dt-bindings/gpio/gpio.h>
 +
-+#define EAGLE_CAMERA0 "imi,rdacm20"
-+#define EAGLE_CAMERA1 "imi,rdacm20"
-+#define EAGLE_CAMERA2 "imi,rdacm20"
-+#define EAGLE_CAMERA3 "imi,rdacm20"
++/*
++ * MAX9286 A
++ */
++#define MAXIM_CAMERA0 "imi,rdacm20"
++#define MAXIM_CAMERA1 "imi,rdacm20"
++#define MAXIM_CAMERA2 "imi,rdacm20"
++#define MAXIM_CAMERA3 "imi,rdacm20"
 +
-+/* Define the endpoint links */
-+#ifdef EAGLE_CAMERA0
-+&max9286_in0 {
-+	remote-endpoint = <&fakra_con0>;
++/*
++ * MAX9286 B
++ */
++#define MAXIM_CAMERA4 "imi,rdacm20"
++#define MAXIM_CAMERA5 "imi,rdacm20"
++#define MAXIM_CAMERA6 "imi,rdacm20"
++#define MAXIM_CAMERA7 "imi,rdacm20"
++
++/ {
++/*
++ * Powered MCU IMI cameras need delay between power-on and R-Car access
++ * to avoid I2C bus conflicts since the R-Car I2C does not support I2C
++ * multi-master. The I2C bus conflict would result in R-Car I2C IP stall.
++ */
++#define IMI_MCU_V0_DELAY	8000000	/* delay for powered MCU firmware v0 */
++#define IMI_MCU_V1_DELAY	3000000	/* delay for powered MCU firmware v1 */
++#define IMI_MCU_NO_DELAY	0	/* delay for unpowered MCU  */
++#define IMI_MCU_DELAY		IMI_MCU_V0_DELAY
++
++	poc_12v: regulator-vcc-poc-12v {
++		compatible = "regulator-fixed";
++
++		regulator-name = "Camera PoC 12V";
++		regulator-min-microvolt = <12000000>;
++		regulator-max-microvolt = <12000000>;
++		startup-delay-us = <(250000 + IMI_MCU_DELAY)>;
++
++		gpio = <&gpio6 30 GPIO_ACTIVE_HIGH>;
++		enable-active-high;
++	};
 +};
-+#endif
 +
-+#ifdef EAGLE_CAMERA1
-+&max9286_in1 {
-+	remote-endpoint = <&fakra_con1>;
++&vin0 {
++	status = "okay";
 +};
-+#endif
 +
-+#ifdef EAGLE_CAMERA2
-+&max9286_in2 {
-+	remote-endpoint = <&fakra_con2>;
++&vin1 {
++	status = "okay";
 +};
-+#endif
 +
-+#ifdef EAGLE_CAMERA3
-+&max9286_in3 {
-+	remote-endpoint = <&fakra_con3>;
++&vin2 {
++	status = "okay";
 +};
-+#endif
 +
-+/* Cameras are 'attached' to the GMSL I2C busses */
-+&gmsl {
++&vin3 {
++	status = "okay";
++};
 +
-+#if defined(EAGLE_CAMERA0) || defined(EAGLE_CAMERA1) || \
-+    defined(EAGLE_CAMERA2) || defined(EAGLE_CAMERA3)
++&vin4 {
++	status = "okay";
++};
++
++&vin5 {
++	status = "okay";
++};
++
++&vin6 {
++	status = "okay";
++};
++
++&vin7 {
++	status = "okay";
++};
++
++/* Disconnect the csi40 endpoint from the ADV748x TXA (HDMI) */
++&adv7482_txa {
++	/delete-property/ remote-endpoint;
++	status = "disabled";
++};
++
++&csi40 {
 +	status = "okay";
 +
++	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		port@0 {
++			reg = <0>;
++
++			csi40_in: endpoint {
++				clock-lanes = <0>;
++				data-lanes = <1 2 3 4>;
++				remote-endpoint = <&max9286_out0>;
++			};
++		};
++	};
++};
++
++&csi41 {
++	status = "okay";
++
++	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
++		port@0 {
++			reg = <0>;
++
++			csi41_in: endpoint {
++				clock-lanes = <0>;
++				data-lanes = <1 2 3 4>;
++				remote-endpoint = <&max9286_out1>;
++			};
++		};
++	};
++};
++
++&i2c4 {
++	gmsl-deserializer@4c {
++		compatible = "maxim,max9286";
++		reg = <0x4c>;
++		poc-supply = <&poc_12v>;
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++				max9286_in0: endpoint {
++#ifdef MAXIM_CAMERA0
++					remote-endpoint = <&rdacm20_out0>;
 +#endif
++				};
++			};
 +
-+	i2c-mux {
-+#ifdef EAGLE_CAMERA0
-+		i2c@0 {
-+			status = "okay";
++			port@1 {
++				reg = <1>;
++				max9286_in1: endpoint {
++#ifdef MAXIM_CAMERA1
++					remote-endpoint = <&rdacm20_out1>;
++#endif
++				};
++			};
 +
-+			camera@51 {
-+				compatible = EAGLE_CAMERA0;
-+				reg = <0x51 0x61>;
++			port@2 {
++				reg = <2>;
++				max9286_in2: endpoint {
++#ifdef MAXIM_CAMERA2
++					remote-endpoint = <&rdacm20_out2>;
++#endif
++				};
++			};
 +
-+				port {
-+					fakra_con0: endpoint {
-+						remote-endpoint = <&max9286_in0>;
-+					};
++			port@3 {
++				reg = <3>;
++				max9286_in3: endpoint {
++#ifdef MAXIM_CAMERA3
++					remote-endpoint = <&rdacm20_out3>;
++#endif
++				};
++			};
++
++			port@4 {
++				reg = <4>;
++				max9286_out0: endpoint {
++					clock-lanes = <0>;
++					data-lanes = <1 2 3 4>;
++					remote-endpoint = <&csi40_in>;
 +				};
 +			};
 +		};
-+#endif
 +
-+#ifdef EAGLE_CAMERA1
-+		i2c@1 {
-+			status = "okay";
++		i2c-mux {
++			#address-cells = <1>;
++			#size-cells = <0>;
 +
-+			camera@52 {
-+				compatible = EAGLE_CAMERA1;
-+				reg = <0x52 0x62>;
++			i2c@0 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				reg = <0>;
 +
-+				port {
-+					fakra_con1: endpoint {
-+						remote-endpoint = <&max9286_in1>;
++#ifdef MAXIM_CAMERA0
++				camera@31 {
++					compatible = MAXIM_CAMERA0;
++					reg = <0x31 0x41 0x51>;
++
++					port {
++						rdacm20_out0: endpoint {
++							remote-endpoint = <&max9286_in0>;
++						};
 +					};
++
++				};
++#endif
++			};
++
++			i2c@1 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				reg = <1>;
++
++#ifdef MAXIM_CAMERA1
++				camera@32 {
++					compatible = MAXIM_CAMERA1;
++					reg = <0x32 0x42 0x52>;
++					port {
++						rdacm20_out1: endpoint {
++							remote-endpoint = <&max9286_in1>;
++						};
++					};
++				};
++#endif
++			};
++
++			i2c@2 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				reg = <2>;
++
++#ifdef MAXIM_CAMERA2
++				camera@33 {
++					compatible = MAXIM_CAMERA2;
++					reg = <0x33 0x43 0x53>;
++					port {
++						rdacm20_out2: endpoint {
++							remote-endpoint = <&max9286_in2>;
++						};
++					};
++				};
++#endif
++			};
++
++			i2c@3 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				reg = <3>;
++
++#ifdef MAXIM_CAMERA3
++				camera@34 {
++					compatible = MAXIM_CAMERA3;
++					reg = <0x34 0x44 0x54>;
++					port {
++						rdacm20_out3: endpoint {
++							remote-endpoint = <&max9286_in3>;
++						};
++					};
++				};
++#endif
++			};
++		};
++	};
++
++	gmsl-deserializer@6c {
++		compatible = "maxim,max9286";
++		reg = <0x6c>;
++		poc-supply = <&poc_12v>;
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			port@0 {
++				reg = <0>;
++				max9286_in4: endpoint {
++#ifdef MAXIM_CAMERA4
++					remote-endpoint = <&rdacm20_out4>;
++#endif
++				};
++			};
++
++			port@1 {
++				reg = <1>;
++				max9286_in5: endpoint {
++#ifdef MAXIM_CAMERA5
++					remote-endpoint = <&rdacm20_out5>;
++#endif
++				};
++			};
++
++			port@2 {
++				reg = <2>;
++				max9286_in6: endpoint {
++#ifdef MAXIM_CAMERA6
++					remote-endpoint = <&rdacm20_out6>;
++#endif
++				};
++			};
++
++			port@3 {
++				reg = <3>;
++				max9286_in7: endpoint {
++#ifdef MAXIM_CAMERA7
++					remote-endpoint = <&rdacm20_out7>;
++#endif
++				};
++			};
++
++			port@4 {
++				reg = <4>;
++				max9286_out1: endpoint {
++					clock-lanes = <0>;
++					data-lanes = <1 2 3 4>;
++					remote-endpoint = <&csi41_in>;
 +				};
 +			};
 +		};
-+#endif
 +
-+#ifdef EAGLE_CAMERA2
-+		i2c@2 {
-+			status = "okay";
++		i2c-mux {
++			#address-cells = <1>;
++			#size-cells = <0>;
 +
-+			camera@53 {
-+				compatible = EAGLE_CAMERA2;
-+				reg = <0x53 0x63>;
++			i2c@0 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				reg = <0>;
 +
-+				port {
-+					fakra_con2: endpoint {
-+						remote-endpoint = <&max9286_in2>;
++#ifdef MAXIM_CAMERA4
++				camera@35 {
++					compatible = MAXIM_CAMERA4;
++					reg = <0x35 0x45 0x55>;
++					port {
++						rdacm20_out4: endpoint {
++							remote-endpoint = <&max9286_in4>;
++						};
 +					};
 +				};
-+			};
-+		};
 +#endif
++			};
 +
-+#ifdef EAGLE_CAMERA3
-+		i2c@3 {
-+			status = "okay";
++			i2c@1 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				reg = <1>;
 +
-+			camera@54 {
-+				compatible = EAGLE_CAMERA3;
-+				reg = <0x54 0x64>;
-+
-+				port {
-+					fakra_con3: endpoint {
-+						remote-endpoint = <&max9286_in3>;
++#ifdef MAXIM_CAMERA5
++				camera@36 {
++					compatible = MAXIM_CAMERA5;
++					reg = <0x36 0x46 0x56>;
++					port {
++						rdacm20_out5: endpoint {
++							remote-endpoint = <&max9286_in5>;
++						};
 +					};
 +				};
++#endif
++			};
++
++			i2c@2 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				reg = <2>;
++
++#ifdef MAXIM_CAMERA6
++				camera@37 {
++					compatible = MAXIM_CAMERA6;
++					reg = <0x37 0x47 0x57>;
++					port {
++						rdacm20_out6: endpoint {
++							remote-endpoint = <&max9286_in6>;
++						};
++					};
++				};
++#endif
++			};
++
++			i2c@3 {
++				#address-cells = <1>;
++				#size-cells = <0>;
++				reg = <3>;
++
++#ifdef MAXIM_CAMERA7
++				camera@38 {
++					compatible = MAXIM_CAMERA7;
++					reg = <0x38 0x48 0x58>;
++					port {
++						rdacm20_out7: endpoint {
++							remote-endpoint = <&max9286_in7>;
++						};
++					};
++				};
++#endif
 +			};
 +		};
-+#endif
 +	};
 +};
 -- 
