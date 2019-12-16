@@ -2,121 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C51F11FF3D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2019 08:53:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F01E111FF71
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2019 09:10:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726731AbfLPHws (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Dec 2019 02:52:48 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:42281 "EHLO
+        id S1726777AbfLPIKc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Dec 2019 03:10:32 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:41691 "EHLO
         mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726054AbfLPHws (ORCPT
+        with ESMTP id S1726769AbfLPIKc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Dec 2019 02:52:48 -0500
-Received: by mail-ot1-f68.google.com with SMTP id 66so8005885otd.9;
-        Sun, 15 Dec 2019 23:52:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=teaKbuiwSImi7RfIBsT5A595WaRZ9qMw7uZTBvgzoPo=;
-        b=T9+hyjIOYswgHEv4Tk1y+UNP7CGTbnEox9pCdGBWORd9ZZ8iJyE++oJ17Ew7Pahdw8
-         eV4gf9dCyNCNDRSAH/6T+z2+0xICmVRXxTvFJK3lXXeCq+konXyjj9WGgZhxkc3ABdiF
-         JEM7Gm1bSUKBl2NJoGdxXv/p/bAUz4rzX+FTOUyLZb6hIqR2WQMjUJNm42ULZRiJZZoc
-         ga24v8E8mr7DcvLxPW8MMCvY2OXxWEnyGfPcU+z0xN5sXyUwN7CB3kpXsWqkjc+ot3QR
-         6s8GOULh2ygu7Y0nuPsI8e9UL1ThafpjTBl47lNjqSxsBLfirQSGATt1hukDBeom5QaS
-         NYZw==
+        Mon, 16 Dec 2019 03:10:32 -0500
+Received: by mail-ot1-f68.google.com with SMTP id r27so8060642otc.8;
+        Mon, 16 Dec 2019 00:10:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=teaKbuiwSImi7RfIBsT5A595WaRZ9qMw7uZTBvgzoPo=;
-        b=i8UQsnBUKManNbfKeGEx09gaawx5DdjPvw2tZ3nV+0D8LrmGh0MAeBdEFet7stC96C
-         iXOu5pPhZ2Pll4HELXt/QfodfpQmhIjdQyu5Sm007o6HKjqyzW5XLhQOmqFZnkbdU5yK
-         UxpNivJOCS8G7t9fg28FvvP9C+IP8UZFnDnBSSn5Xe89jf5xL4lStB3vIshOZBNoF18j
-         OPIAWyAHp4vJTPnrY8/wGuz2S68SchMffnbFnV1XuorzrGvSuRn2/SvNubOOguY/qwbc
-         EFT1qHVXWy7CUVIOMO+S3xKKYPAyn252efyuRKUdkrDNEZt3vfUN4LvRt5/ui0hm1TXM
-         OQ9w==
-X-Gm-Message-State: APjAAAW8fPY11K+qYAuCFimhpbIxw2WQMbjuzfUH81FrUCEPTGNsZYoo
-        UxDpXVoK8xYq0Kuk+5wmu6gLQqBQHf+b15oY58g=
-X-Google-Smtp-Source: APXvYqzJWsrCKHBWPt/+qDVqGaXSw/dwYOelFmuU1LMlbhh0onKHLZCdb9U0GQHZ+rXpK2GlmhJM1lVnV2qMLZqENUI=
-X-Received: by 2002:a9d:175:: with SMTP id 108mr30137165otu.325.1576482767410;
- Sun, 15 Dec 2019 23:52:47 -0800 (PST)
+        bh=4j5mB296K3OjWTSnZCBs+O5j2Ao0bxQ6pvOe40JZ42w=;
+        b=PjN0Fvkei6Za6b/T7Ww/fy24HHf2ase7GEaO+LZ9Nv4lENJpKpqefL0jE/45YRhCdE
+         JhnsiaRu50vg6wz8wINa78JF7uBCLDyTL5N2WNiZJ7Pr/942PwdveRG725N8WTSmiOU6
+         4/LzcqSiuJ+cnY9NMk3qmFSQqc7vBmLM0DbX+fObIbPdJO8YqLx5GZUMxCh10xYp7d16
+         Va/6KsVzvWkCLWte5BWTgfsIV2iofPrUmdYjd/Fx6axEFSfnv2h2f3wD9Vazg/dOzBW3
+         mozn6JJT3CdMvdj6NPaCdWdKEoykqTqfwwll/7SXif2b7S3YOZZ/Ga5FZSW/Sr0qlk5v
+         U6/A==
+X-Gm-Message-State: APjAAAXhYuPfRb8gOXfCboT+JcMGQeawYyKFgnSXlHFtuKLuNANL//DM
+        DUrcz2U4ZqgK8fQ/78GuVFpypp/05LvEZQK/7n4=
+X-Google-Smtp-Source: APXvYqyWZq4vxFZ0rUlordJFdD6oxjJaIIHj04emaSwV2tCBVu27DKwDtUKc+AphFf1h7JipnnYtHMfDu3xlZDC/BMg=
+X-Received: by 2002:a9d:dc1:: with SMTP id 59mr31271896ots.250.1576483831730;
+ Mon, 16 Dec 2019 00:10:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20191213084748.11210-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <20191213185011.GA170447@google.com>
-In-Reply-To: <20191213185011.GA170447@google.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Mon, 16 Dec 2019 07:52:20 +0000
-Message-ID: <CA+V-a8u7RO1L1ExPXwHuSpKrCA47iRPFySUn1royEGoOxy0=2A@mail.gmail.com>
-Subject: Re: [v2 1/6] pci: pcie-rcar: preparation for adding endpoint support
-To:     Bjorn Helgaas <helgaas@kernel.org>
+References: <87mubt3tux.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <87mubt3tux.wl-kuninori.morimoto.gx@renesas.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 16 Dec 2019 09:10:20 +0100
+Message-ID: <CAMuHMdWgPJ-m+sphVi5RDDqg=T3-v1h5aDkVCxmfjENx54DVTg@mail.gmail.com>
+Subject: Re: [PATCH] arm64: renesas: r8a77990-ebisu: remove
+ clkout-lr-synchronous from rcar_sound
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Murray <andrew.murray@arm.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
+        Patrice Chotard <patrice.chotard@st.com>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Simon Horman <horms@verge.net.au>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        linux-rockchip@lists.infradead.org,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Linux-DT <devicetree@vger.kernel.org>,
+        Linux-ARM <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Bjorn,
+Hi Morimoto-san,
 
-On Fri, Dec 13, 2019 at 9:06 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+On Mon, Dec 16, 2019 at 3:08 AM Kuninori Morimoto
+<kuninori.morimoto.gx@renesas.com> wrote:
+> From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 >
-> On Fri, Dec 13, 2019 at 08:47:43AM +0000, Lad Prabhakar wrote:
-> > From: "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > this patch prepares for adding endpoint support to rcar controller,
-> > there are no functional changes with this patch, a common file is
-> > created so that it can be shared with endpoint driver. Alongside
-> > this patch fixes checkpatch reported issues.
+> rcar_sound doesn't support clkout-lr-synchronous in upstream.
+> It was supported under out-of-tree rcar_sound.
+> upstream rcar_sound is supporting
+>         - clkout-lr-synchronous
+>         + clkout-lr-asynchronous
 >
-> Can you please split this into:
->
->   - a patch that moves code only, with no other changes except any
->     necessary Kconfig and Makefile changes
->   - another patch that fixes the checkpatch things
->
-> When the checkpatch fixes are buried in the code move, it's impossible
-> to review them.
->
-thank you for the review.sure I'll split up the patches and resend.
+> Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-Cheers,
---Prabhakar
+Thanks for your patch!
 
-> > Signed-off-by: Lad, Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  arch/arm64/configs/defconfig            |    2 +-
-> >  drivers/pci/controller/Kconfig          |    4 +-
-> >  drivers/pci/controller/Makefile         |    2 +-
-> >  drivers/pci/controller/pcie-rcar-host.c | 1056 ++++++++++++++++++++++++++
-> >  drivers/pci/controller/pcie-rcar.c      | 1229 ++-----------------------------
-> >  drivers/pci/controller/pcie-rcar.h      |  129 ++++
-> >  6 files changed, 1242 insertions(+), 1180 deletions(-)
-> >  create mode 100644 drivers/pci/controller/pcie-rcar-host.c
-> >  create mode 100644 drivers/pci/controller/pcie-rcar.h
+IIUIC, as no upstream code looks at this property, there is no need to
+apply this as a fix for v5.5, and it is safe to queue this for v5.6?
+
+Nevertheless, I think it is good to add
+Fixes: 56629fcba94c698d ("arm64: dts: renesas: ebisu: Enable Audio")
+No need to resend, I can add that while applying.
+
+Thank you!
+
+> --- a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
+> +++ b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
+> @@ -636,7 +636,6 @@
+>         /* audio_clkout0/1/2/3 */
+>         #clock-cells = <1>;
+>         clock-frequency = <12288000 11289600>;
+> -       clkout-lr-synchronous;
+>
+>         status = "okay";
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
