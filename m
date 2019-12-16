@@ -2,117 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B4651218F2
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2019 19:47:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E843A121AA2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2019 21:13:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727403AbfLPSrd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Dec 2019 13:47:33 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:33826 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727761AbfLPSrb (ORCPT
+        id S1727345AbfLPUMo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Dec 2019 15:12:44 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:48461 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726942AbfLPUMn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Dec 2019 13:47:31 -0500
-Received: by mail-lj1-f196.google.com with SMTP id m6so7962454ljc.1
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Dec 2019 10:47:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ZzVqpm7vISxN2XVUCXGY2m/2XgAiTT0hZi9cW/dInYQ=;
-        b=dZKk5AqvtPHFii8jZi+8J/lePw5/aQn7GaI4xJEsfiKeEXKxrjqY7SsMgUzuGBuAnJ
-         lhHmUXQNOUmAKADBgGGctmtIDE3s/1+6pcASqF2hFgTu8mD30bn9yMBCo9ZTLNOxljHx
-         QYDm+2L84AhvHNfnxjn+ViFTqrOeIfMOVPu7Prn88zScJX9hR2BR2hWtwKdwQrdLAV2Q
-         eMvufEfsfkYQJhyt6Ah6X7ItvTdP8KnIZaJQ0bHcOQ1ywCsoMJ4rdxsO8mFO1zOkOPES
-         nuI7/rn3Hlv7CyP/TU81LEOUpC8Pqo6udw7BvliaHjOa/FSQLmOs+87UyF19Vsk+bk65
-         Mi/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=ZzVqpm7vISxN2XVUCXGY2m/2XgAiTT0hZi9cW/dInYQ=;
-        b=gy1qyNIAS7eYKrEMHtF81XIxhG/R30QMPXCGxUxvR5W4lYNPIdeRsn7b8lmBnW0ylD
-         eUJzk1TZyN660puA5Fn4NsHFWYLkgbkwEhMX3x4SM/FMVEbUmO3+VvDwOKNpF84mEiYM
-         CYf6HUvWO5qyLK6N3maFdMlsnJzYjtz3SkwSjycXYwndjQFIN1sN4+h32zEoIJK5P07L
-         VL81uKBu9yu1O1yy0/PEn/ldV470Nv6c21PEpMwY2/U7GUP2IUKQDo+sMrNb4EMxRSiM
-         NJzwfuHM279egmpNu8Zg/uWobULPPE2lwCRse/+31Ur/r60lxRoB0gyuqfAjb7NXlwsu
-         mQ8g==
-X-Gm-Message-State: APjAAAUbT/U/aGSqI3suQNQ0sEzhW819/HiwIpaun7gkZJcjLbwlEryA
-        L44KZUBGukW0J902Q2dMNOJORw==
-X-Google-Smtp-Source: APXvYqwA7Ysm4UNtu9E+akNwfRxfaN3bIefRHQCWigpiGZVf0Q7o0UssOPcmwHdK6c+oVuOA9w9V3Q==
-X-Received: by 2002:a2e:3a12:: with SMTP id h18mr379963lja.81.1576522049068;
-        Mon, 16 Dec 2019 10:47:29 -0800 (PST)
-Received: from wasted.cogentembedded.com ([2a00:1fa0:48df:e424:ff05:dd96:8970:d4c9])
-        by smtp.gmail.com with ESMTPSA id g27sm9427223lfj.49.2019.12.16.10.47.27
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 16 Dec 2019 10:47:28 -0800 (PST)
-Subject: Re: [PATCH v2 1/6] spi: Add SPIBSC driver
-To:     Chris Brandt <Chris.Brandt@renesas.com>,
-        Mark Brown <broonie@kernel.org>,
+        Mon, 16 Dec 2019 15:12:43 -0500
+X-IronPort-AV: E=Sophos;i="5.69,322,1571670000"; 
+   d="scan'208";a="34573533"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 17 Dec 2019 05:12:42 +0900
+Received: from fabrizio-dev.ree.adwin.renesas.com (unknown [10.226.36.196])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 2789540CAF00;
+        Tue, 17 Dec 2019 05:12:36 +0900 (JST)
+From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+To:     Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        Mason Yang <masonccyang@mxic.com.tw>
-References: <20191206134202.18784-1-chris.brandt@renesas.com>
- <20191206134202.18784-2-chris.brandt@renesas.com>
- <37c13497-d20f-583f-72d7-1e3c8a241990@cogentembedded.com>
- <TYXPR01MB1568ED4D40CEC399E64F6A2B8A550@TYXPR01MB1568.jpnprd01.prod.outlook.com>
- <7386b38f-2f52-39cb-3887-e97b024ec563@cogentembedded.com>
- <2e3211c6-59e8-3057-66a2-29b89a353b8a@cogentembedded.com>
- <TY1PR01MB1562F30F0B58465A6988F29C8A540@TY1PR01MB1562.jpnprd01.prod.outlook.com>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Organization: Cogent Embedded
-Message-ID: <a9b051ac-da70-37bb-bb82-540f0f161b25@cogentembedded.com>
-Date:   Mon, 16 Dec 2019 21:47:26 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
-MIME-Version: 1.0
-In-Reply-To: <TY1PR01MB1562F30F0B58465A6988F29C8A540@TY1PR01MB1562.jpnprd01.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 7bit
+        Thierry Reding <thierry.reding@gmail.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Sean Paul <sean@poorly.run>,
+        Andrzej Hajda <a.hajda@samsung.com>
+Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Simon Horman <horms@verge.net.au>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        ebiharaml@si-linux.co.jp
+Subject: [PATCH v5 0/6] Add dual-LVDS panel support to EK874
+Date:   Mon, 16 Dec 2019 20:12:28 +0000
+Message-Id: <1576527154-18391-1-git-send-email-fabrizio.castro@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 12/13/2019 11:43 PM, Chris Brandt wrote:
+Dear All,
 
->>    The patch isn't applicable as well, and the behaviour is the same as in
->> 5.2.-rc6 based
->> kernel --deleted file is back after remounting, sync or not...
-> 
-> Do the basic R/W operations works?
-> 
-> Here is the first test I do on my platforms. After I passed this, everything
-> else seems to worked pretty good (writing large files).
-> 
-> $ flash_eraseall -j /dev/mtd4
-> $ mount -t jffs2 /dev/mtdblock4 /mnt
-> $ echo "hello" > /mnt/hello.txt
-> $ sync
+this series adds support for dual-LVDS panel IDK-2121WR
+from Advantech:
+https://buy.advantech.eu/Displays/Embedded-LCD-Kits-High-Brightness/model-IDK-2121WR-K2FHA2E.htm
 
-   This works but the created file doesn't survive a remount.
- 
-> If the Flash was recognized at boot, then we know that the ID command (0x9F)
-> at least worked. Meaning read commands were at least working (which is the
-> difficult one for this HW...writing is easier)
+V5 incorporates the comments from Laurent on v4, including rebasing
+the series on top of patch:
+https://patchwork.kernel.org/patch/11290969/
+As a result, patch "drm: rcar-du: lvds: Fix mode for companion encoder"
+has been dropped.
 
-   BTW, during boot I'm seeing with thsi driver:
+Thanks,
+Fab
 
-spi spi0.0: setup: ignoring unsupported mode bits 800                           
-spi-nor spi0.0: Failed to parse optional parameter table: ff81                  
+Fabrizio Castro (6):
+  drm: of: Add drm_of_lvds_get_dual_link_pixel_order
+  drm: rcar-du: lvds: Improve identification of panels
+  drm: rcar-du: lvds: Get dual link configuration from DT
+  drm: rcar-du: lvds: Allow for even and odd pixels swap
+  dt-bindings: display: Add idk-2121wr binding
+  arm64: dts: renesas: Add EK874 board with idk-2121wr display support
 
-   (The 2nd message is also seen with my drivers).
+ .../display/panel/advantech,idk-2121wr.yaml        | 128 +++++++++++++++
+ arch/arm64/boot/dts/renesas/Makefile               |   3 +-
+ .../boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts | 116 ++++++++++++++
+ drivers/gpu/drm/drm_of.c                           | 116 ++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_lvds.c                | 172 ++++++++++++---------
+ include/drm/drm_of.h                               |  20 +++
+ 6 files changed, 479 insertions(+), 76 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts
 
-> Chris
+-- 
+2.7.4
 
-MBR, Sergei
