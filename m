@@ -2,151 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B288121863
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2019 19:43:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B4651218F2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2019 19:47:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729107AbfLPSnJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Dec 2019 13:43:09 -0500
-Received: from mail-eopbgr1400128.outbound.protection.outlook.com ([40.107.140.128]:5988
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728775AbfLPSnJ (ORCPT
+        id S1727403AbfLPSrd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Dec 2019 13:47:33 -0500
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:33826 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727761AbfLPSrb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Dec 2019 13:43:09 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LxPoGbZnykm56aeaicgDV6oai9DEi1Qh2VjUygq9YVrTJQbSS5d0bYhrBcvL2YqM8VeV5lJiBZTL0DvTJLdRCysCqyAiasFTa7+/CUzJf9P1a2Bojspa5TRWPT3HhumSlrvo7yE+vkHqYtlpyX3ZqDAkSDeQ2zmZMUeByf4B9lUlJJtrq7Jim+Iwt5IpeOUF+1S9+PMZUi2W0bMxgH7wWDeon4CvuT0h0B/OwmamRv80qYhF4l5l21srCC5LaogsJ5SkWNvT7bqYID5Ck632U28k3SgHTWOZBY96BLxPPwwamHTRFjWpXm2vFq994ezCUSfTmDaznug7zV5y3vIxVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZDRfU7yEKpUGLgOzT4AasND8fG68gxUr7EUUIi2aTIo=;
- b=jTwl1COyRUB58U1S2ZaBPBH0oCpNWeE1dyD89xpK3KMYcX0WWd3xRfd3IMHGxCK1ECAiEA6I/hsC0bN5sv9R/uqE5+xoF0GSn8tOCem+T2IKuh/VpqQCEbpVhcfBu5BxTuPMvtzlWhcA0KuYy9R3Uz6zDsED+yuMUiMfr+8Kv2sehtqO/+SR28Wq/a2nvAH/E9pOkdAf3Q5m3B05JtkdSzr+lDAJopjVLeMqm7q2tGHwHYMNakakbUbB0HhP6N+czVDWcoz+2hy2QULBvkz++6upEYPYeaQXBUGafmpP+Oc59YLMKag+EewW+Hj+5w+IJl537VA5pHxApypMOearvQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+        Mon, 16 Dec 2019 13:47:31 -0500
+Received: by mail-lj1-f196.google.com with SMTP id m6so7962454ljc.1
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 16 Dec 2019 10:47:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZDRfU7yEKpUGLgOzT4AasND8fG68gxUr7EUUIi2aTIo=;
- b=NOxi59jeiigOw83DpwXewWwHZhz0I4k1Z/j78NebfYaGVsgsA8DveRIc2Quimsj1b0TREA/nXHhdzTu3zDE5ecLa2rC+5oONsbvZ8BEicT9i4kpO67DxCj5SBB13A27/49Ky9XZxSaO64f9hwcbvHbFw0lY6PJeiQh5d8uRjhv0=
-Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com (52.133.163.13) by
- TY1PR01MB1786.jpnprd01.prod.outlook.com (52.133.163.22) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2538.20; Mon, 16 Dec 2019 18:43:05 +0000
-Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com
- ([fe80::5166:5e51:90f5:3ee1]) by TY1PR01MB1770.jpnprd01.prod.outlook.com
- ([fe80::5166:5e51:90f5:3ee1%7]) with mapi id 15.20.2538.019; Mon, 16 Dec 2019
- 18:43:05 +0000
-From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ZzVqpm7vISxN2XVUCXGY2m/2XgAiTT0hZi9cW/dInYQ=;
+        b=dZKk5AqvtPHFii8jZi+8J/lePw5/aQn7GaI4xJEsfiKeEXKxrjqY7SsMgUzuGBuAnJ
+         lhHmUXQNOUmAKADBgGGctmtIDE3s/1+6pcASqF2hFgTu8mD30bn9yMBCo9ZTLNOxljHx
+         QYDm+2L84AhvHNfnxjn+ViFTqrOeIfMOVPu7Prn88zScJX9hR2BR2hWtwKdwQrdLAV2Q
+         eMvufEfsfkYQJhyt6Ah6X7ItvTdP8KnIZaJQ0bHcOQ1ywCsoMJ4rdxsO8mFO1zOkOPES
+         nuI7/rn3Hlv7CyP/TU81LEOUpC8Pqo6udw7BvliaHjOa/FSQLmOs+87UyF19Vsk+bk65
+         Mi/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=ZzVqpm7vISxN2XVUCXGY2m/2XgAiTT0hZi9cW/dInYQ=;
+        b=gy1qyNIAS7eYKrEMHtF81XIxhG/R30QMPXCGxUxvR5W4lYNPIdeRsn7b8lmBnW0ylD
+         eUJzk1TZyN660puA5Fn4NsHFWYLkgbkwEhMX3x4SM/FMVEbUmO3+VvDwOKNpF84mEiYM
+         CYf6HUvWO5qyLK6N3maFdMlsnJzYjtz3SkwSjycXYwndjQFIN1sN4+h32zEoIJK5P07L
+         VL81uKBu9yu1O1yy0/PEn/ldV470Nv6c21PEpMwY2/U7GUP2IUKQDo+sMrNb4EMxRSiM
+         NJzwfuHM279egmpNu8Zg/uWobULPPE2lwCRse/+31Ur/r60lxRoB0gyuqfAjb7NXlwsu
+         mQ8g==
+X-Gm-Message-State: APjAAAUbT/U/aGSqI3suQNQ0sEzhW819/HiwIpaun7gkZJcjLbwlEryA
+        L44KZUBGukW0J902Q2dMNOJORw==
+X-Google-Smtp-Source: APXvYqwA7Ysm4UNtu9E+akNwfRxfaN3bIefRHQCWigpiGZVf0Q7o0UssOPcmwHdK6c+oVuOA9w9V3Q==
+X-Received: by 2002:a2e:3a12:: with SMTP id h18mr379963lja.81.1576522049068;
+        Mon, 16 Dec 2019 10:47:29 -0800 (PST)
+Received: from wasted.cogentembedded.com ([2a00:1fa0:48df:e424:ff05:dd96:8970:d4c9])
+        by smtp.gmail.com with ESMTPSA id g27sm9427223lfj.49.2019.12.16.10.47.27
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 16 Dec 2019 10:47:28 -0800 (PST)
+Subject: Re: [PATCH v2 1/6] spi: Add SPIBSC driver
+To:     Chris Brandt <Chris.Brandt@renesas.com>,
+        Mark Brown <broonie@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Sean Paul <sean@poorly.run>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        "ebiharaml@si-linux.co.jp" <ebiharaml@si-linux.co.jp>
-Subject: RE: [PATCH v4 5/7] drm: rcar-du: lvds: Fix mode for companion encoder
-Thread-Topic: [PATCH v4 5/7] drm: rcar-du: lvds: Fix mode for companion
- encoder
-Thread-Index: AQHVrFLnUCKj2BNq0EOPdrx0L3Dgfae4o5YAgASEiMA=
-Date:   Mon, 16 Dec 2019 18:43:04 +0000
-Message-ID: <TY1PR01MB177062A4ED216B58266008D1C0510@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-References: <1575649974-31472-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1575649974-31472-6-git-send-email-fabrizio.castro@bp.renesas.com>
- <20191213214146.GP4860@pendragon.ideasonboard.com>
-In-Reply-To: <20191213214146.GP4860@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=fabrizio.castro@bp.renesas.com; 
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: a7f7935c-3ce3-4831-87a2-08d78257c997
-x-ms-traffictypediagnostic: TY1PR01MB1786:|TY1PR01MB1786:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TY1PR01MB17864616600B0AE85918F8A7C0510@TY1PR01MB1786.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 02530BD3AA
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(396003)(39860400002)(346002)(376002)(136003)(366004)(189003)(199004)(478600001)(7416002)(55016002)(9686003)(6916009)(2906002)(66476007)(5660300002)(44832011)(76116006)(71200400001)(86362001)(33656002)(8936002)(54906003)(66556008)(66446008)(64756008)(186003)(53546011)(316002)(7696005)(66946007)(26005)(52536014)(4326008)(81166006)(8676002)(81156014)(6506007);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1786;H:TY1PR01MB1770.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:0;
-received-spf: None (protection.outlook.com: bp.renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: r1dq84szu1Wum9chAHmM5fva9R6HD4jqpl3ZFfTE81I81mU39TkXU0DQJzFdXgbmL/2Q/E4Omy1OVOwJrTyZBGVcMdR9/8No8kfyd1tfbvH5fA8aYCkx7neMuXjExI32qMJkksl1ndNI3u+WbEcLSyoL7U84Ql3nyLW1n1NhVIOiqaQpuXpdxCglG79HUos0nZGVL031zuoPyZkIcRQ06wIV5ocYlrBGVMyJG9EbjRDvUHiGs2tTJwoimua/yoKEV7W/iJWrNC6Ue1ECsiVPPCrIqSxUgiDsxgG7QWoH7+sXXG8R/VrEjxm99GZT3/ZvQelonZUJOKRMkRiLYnujEjSQk2T0IeABENh4vcEPBSiiqSPijBrzgMtVQ6hxVJY5bbtTH5RR82TBzXR9psA2UWGZadKDUGuxXMt0L+KEceFvgtH9utqQ65hJDneL1pCa
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        Mason Yang <masonccyang@mxic.com.tw>
+References: <20191206134202.18784-1-chris.brandt@renesas.com>
+ <20191206134202.18784-2-chris.brandt@renesas.com>
+ <37c13497-d20f-583f-72d7-1e3c8a241990@cogentembedded.com>
+ <TYXPR01MB1568ED4D40CEC399E64F6A2B8A550@TYXPR01MB1568.jpnprd01.prod.outlook.com>
+ <7386b38f-2f52-39cb-3887-e97b024ec563@cogentembedded.com>
+ <2e3211c6-59e8-3057-66a2-29b89a353b8a@cogentembedded.com>
+ <TY1PR01MB1562F30F0B58465A6988F29C8A540@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Organization: Cogent Embedded
+Message-ID: <a9b051ac-da70-37bb-bb82-540f0f161b25@cogentembedded.com>
+Date:   Mon, 16 Dec 2019 21:47:26 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a7f7935c-3ce3-4831-87a2-08d78257c997
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Dec 2019 18:43:04.9992
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pDiiDaSnJ8WMKLPBuf+mhajkjvrnVK/7EZnmlty/Wci/Uzd24Y9NoyaLUZ5cwfY4V+uflAE4bY/qdfBjYlMu6J3Rk2Zi0J0vth5mrHSP/30=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1786
+In-Reply-To: <TY1PR01MB1562F30F0B58465A6988F29C8A540@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgTGF1cmVudCwNCg0KVGhhbmsgeW91IGZvciB5b3VyIGZlZWRiYWNrIQ0KDQo+IEZyb206IGRl
-dmljZXRyZWUtb3duZXJAdmdlci5rZXJuZWwub3JnIDxkZXZpY2V0cmVlLW93bmVyQHZnZXIua2Vy
-bmVsLm9yZz4gT24gQmVoYWxmIE9mIExhdXJlbnQgUGluY2hhcnQNCj4gU2VudDogMTMgRGVjZW1i
-ZXIgMjAxOSAyMTo0Mg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHY0IDUvN10gZHJtOiByY2FyLWR1
-OiBsdmRzOiBGaXggbW9kZSBmb3IgY29tcGFuaW9uIGVuY29kZXINCj4gDQo+IEhpIEZhYnJpemlv
-LA0KPiANCj4gVGhhbmsgeW91IGZvciB0aGUgcGF0Y2guDQo+IA0KPiBPbiBGcmksIERlYyAwNiwg
-MjAxOSBhdCAwNDozMjo1MlBNICswMDAwLCBGYWJyaXppbyBDYXN0cm8gd3JvdGU6DQo+ID4gUHJp
-bWFyeSBhbmQgY29tcGFuaW9uIGVuY29kZXJzIG5lZWQgdG8gc2V0IHRoZSBzYW1lIG1vZGUgZm9y
-DQo+ID4gdGhpbmdzIHRvIHdvcmsgcHJvcGVybHkuDQo+ID4NCj4gPiByY2FyX2x2ZHNfbW9kZV9z
-ZXQgZ2V0cyBjYWxsZWQgaW50byBmb3IgdGhlIHByaW1hcnkgZW5jb2RlciBvbmx5LA0KPiA+IHRo
-ZXJlZm9yZSBpbml0aWFsaXplIHRoZSBjb21wYW5pb24gZW5jb2RlciBtb2RlIHdoaWxlIHNvcnRp
-bmcNCj4gPiB0aGUgcHJpbWFyeSBlbmNvZGVyIG1vZGUgb3V0Lg0KPiA+DQo+ID4gRml4ZXM6IGZh
-NDQwZDg3MDM1OCAoImRybTogcmNhci1kdTogbHZkczogQWRkIHN1cHBvcnQgZm9yIGR1YWwtbGlu
-ayBtb2RlIikNCj4gPiBTaWduZWQtb2ZmLWJ5OiBGYWJyaXppbyBDYXN0cm8gPGZhYnJpemlvLmNh
-c3Ryb0BicC5yZW5lc2FzLmNvbT4NCj4gDQo+IFdvdWxkIHlvdSBtaW5kIHJlYmFzaW5nIHRoaXMg
-b24gdG9wIG9mICJkcm06IHJjYXItZHU6IGx2ZHM6IEdldCBtb2RlDQo+IGZyb20gc3RhdGUiID8N
-Cg0KSXQgbG9va3MgbGlrZSBkcm9wcGluZyB0aGlzIHBhdGNoIGFuZCByZWJhc2luZyBvbiB0b3Ag
-b2YgeW91ciB2MiBmb3INCiJkcm06IHJjYXItZHU6IGx2ZHM6IEdldCBtb2RlIGZyb20gc3RhdGUi
-IGRvZXMgdGhlIHRyaWNrIG5vdy4NCg0KV2lsbCBwdXQgYSBkZXBlbmRlbmN5IHRvIHlvdXIgcGF0
-Y2ggaW4gdjUuDQoNCkNoZWVycywNCkZhYg0KDQo+IA0KPiA+IC0tLQ0KPiA+IHYzLT52NDoNCj4g
-PiAqIE5ldyBwYXRjaCBleHRyYWN0ZWQgZnJvbSBwYXRjaDoNCj4gPiAgICJkcm06IHJjYXItZHU6
-IGx2ZHM6IEFkZCBkdWFsLUxWRFMgcGFuZWxzIHN1cHBvcnQiDQo+ID4gLS0tDQo+ID4gIGRyaXZl
-cnMvZ3B1L2RybS9yY2FyLWR1L3JjYXJfbHZkcy5jIHwgMTIgKysrKysrKysrKysrDQo+ID4gIDEg
-ZmlsZSBjaGFuZ2VkLCAxMiBpbnNlcnRpb25zKCspDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9sdmRzLmMgYi9kcml2ZXJzL2dwdS9kcm0vcmNhci1k
-dS9yY2FyX2x2ZHMuYw0KPiA+IGluZGV4IGNiMjE0N2MuLmVlZDU2MTEgMTAwNjQ0DQo+ID4gLS0t
-IGEvZHJpdmVycy9ncHUvZHJtL3JjYXItZHUvcmNhcl9sdmRzLmMNCj4gPiArKysgYi9kcml2ZXJz
-L2dwdS9kcm0vcmNhci1kdS9yY2FyX2x2ZHMuYw0KPiA+IEBAIC02MTQsNiArNjE0LDE4IEBAIHN0
-YXRpYyB2b2lkIHJjYXJfbHZkc19tb2RlX3NldChzdHJ1Y3QgZHJtX2JyaWRnZSAqYnJpZGdlLA0K
-PiA+ICAJbHZkcy0+ZGlzcGxheV9tb2RlID0gKmFkanVzdGVkX21vZGU7DQo+ID4NCj4gPiAgCXJj
-YXJfbHZkc19nZXRfbHZkc19tb2RlKGx2ZHMpOw0KPiA+ICsJaWYgKGx2ZHMtPmNvbXBhbmlvbikg
-ew0KPiA+ICsJCXN0cnVjdCByY2FyX2x2ZHMgKmNvbXBhbmlvbl9sdmRzID0gYnJpZGdlX3RvX3Jj
-YXJfbHZkcygNCj4gPiArCQkJCQkJCWx2ZHMtPmNvbXBhbmlvbik7DQo+ID4gKw0KPiA+ICsJCS8q
-DQo+ID4gKwkJICogRklYTUU6IFdlIHNob3VsZCBub3QgYmUgbWVzc2luZyB3aXRoIHRoZSBjb21w
-YW5pb24gZW5jb2Rlcg0KPiA+ICsJCSAqIHByaXZhdGUgZGF0YSBmcm9tIHRoZSBwcmltYXJ5IGVu
-Y29kZXIsIGJ1dCBzaW5jZQ0KPiA+ICsJCSAqIHJjYXJfbHZkc19tb2RlX3NldCBnZXRzIGNhbGxl
-ZCBpbnRvIGZvciB0aGUgcHJpbWFyeSBlbmNvZGVyDQo+ID4gKwkJICogb25seSwgd2UgZG9uJ3Qg
-aGF2ZSBtdWNoIG9mIGEgY2hvaWNlIGZvciBub3cuDQo+ID4gKwkJICovDQo+ID4gKwkJY29tcGFu
-aW9uX2x2ZHMtPm1vZGUgPSBsdmRzLT5tb2RlOw0KPiA+ICsJfQ0KPiA+ICB9DQo+ID4NCj4gPiAg
-c3RhdGljIGludCByY2FyX2x2ZHNfYXR0YWNoKHN0cnVjdCBkcm1fYnJpZGdlICpicmlkZ2UpDQo+
-IA0KPiAtLQ0KPiBSZWdhcmRzLA0KPiANCj4gTGF1cmVudCBQaW5jaGFydA0K
+On 12/13/2019 11:43 PM, Chris Brandt wrote:
+
+>>    The patch isn't applicable as well, and the behaviour is the same as in
+>> 5.2.-rc6 based
+>> kernel --deleted file is back after remounting, sync or not...
+> 
+> Do the basic R/W operations works?
+> 
+> Here is the first test I do on my platforms. After I passed this, everything
+> else seems to worked pretty good (writing large files).
+> 
+> $ flash_eraseall -j /dev/mtd4
+> $ mount -t jffs2 /dev/mtdblock4 /mnt
+> $ echo "hello" > /mnt/hello.txt
+> $ sync
+
+   This works but the created file doesn't survive a remount.
+ 
+> If the Flash was recognized at boot, then we know that the ID command (0x9F)
+> at least worked. Meaning read commands were at least working (which is the
+> difficult one for this HW...writing is easier)
+
+   BTW, during boot I'm seeing with thsi driver:
+
+spi spi0.0: setup: ignoring unsupported mode bits 800                           
+spi-nor spi0.0: Failed to parse optional parameter table: ff81                  
+
+   (The 2nd message is also seen with my drivers).
+
+> Chris
+
+MBR, Sergei
