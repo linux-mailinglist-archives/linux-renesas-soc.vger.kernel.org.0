@@ -2,66 +2,121 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C0CA11FCB7
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2019 03:08:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C51F11FF3D
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2019 08:53:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726426AbfLPCIs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 15 Dec 2019 21:08:48 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:15694 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726373AbfLPCIs (ORCPT
+        id S1726731AbfLPHws (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Dec 2019 02:52:48 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:42281 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726054AbfLPHws (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 15 Dec 2019 21:08:48 -0500
-Date:   16 Dec 2019 11:08:47 +0900
-X-IronPort-AV: E=Sophos;i="5.69,319,1571670000"; 
-   d="scan'208";a="34496748"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 16 Dec 2019 11:08:47 +0900
-Received: from morimoto-PC.renesas.com (unknown [10.166.18.140])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 7CBB6412386B;
-        Mon, 16 Dec 2019 11:08:47 +0900 (JST)
-Message-ID: <87lfrd3tu8.wl-kuninori.morimoto.gx@renesas.com>
-From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH] ARM: stihxxx-b2120.dtsi: fixup sound frame-inversion
-User-Agent: Wanderlust/2.15.9 Emacs/24.5 Mule/6.0
-To:     Rob Herring <robh+dt@kernel.org>,
+        Mon, 16 Dec 2019 02:52:48 -0500
+Received: by mail-ot1-f68.google.com with SMTP id 66so8005885otd.9;
+        Sun, 15 Dec 2019 23:52:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=teaKbuiwSImi7RfIBsT5A595WaRZ9qMw7uZTBvgzoPo=;
+        b=T9+hyjIOYswgHEv4Tk1y+UNP7CGTbnEox9pCdGBWORd9ZZ8iJyE++oJ17Ew7Pahdw8
+         eV4gf9dCyNCNDRSAH/6T+z2+0xICmVRXxTvFJK3lXXeCq+konXyjj9WGgZhxkc3ABdiF
+         JEM7Gm1bSUKBl2NJoGdxXv/p/bAUz4rzX+FTOUyLZb6hIqR2WQMjUJNm42ULZRiJZZoc
+         ga24v8E8mr7DcvLxPW8MMCvY2OXxWEnyGfPcU+z0xN5sXyUwN7CB3kpXsWqkjc+ot3QR
+         6s8GOULh2ygu7Y0nuPsI8e9UL1ThafpjTBl47lNjqSxsBLfirQSGATt1hukDBeom5QaS
+         NYZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=teaKbuiwSImi7RfIBsT5A595WaRZ9qMw7uZTBvgzoPo=;
+        b=i8UQsnBUKManNbfKeGEx09gaawx5DdjPvw2tZ3nV+0D8LrmGh0MAeBdEFet7stC96C
+         iXOu5pPhZ2Pll4HELXt/QfodfpQmhIjdQyu5Sm007o6HKjqyzW5XLhQOmqFZnkbdU5yK
+         UxpNivJOCS8G7t9fg28FvvP9C+IP8UZFnDnBSSn5Xe89jf5xL4lStB3vIshOZBNoF18j
+         OPIAWyAHp4vJTPnrY8/wGuz2S68SchMffnbFnV1XuorzrGvSuRn2/SvNubOOguY/qwbc
+         EFT1qHVXWy7CUVIOMO+S3xKKYPAyn252efyuRKUdkrDNEZt3vfUN4LvRt5/ui0hm1TXM
+         OQ9w==
+X-Gm-Message-State: APjAAAW8fPY11K+qYAuCFimhpbIxw2WQMbjuzfUH81FrUCEPTGNsZYoo
+        UxDpXVoK8xYq0Kuk+5wmu6gLQqBQHf+b15oY58g=
+X-Google-Smtp-Source: APXvYqzJWsrCKHBWPt/+qDVqGaXSw/dwYOelFmuU1LMlbhh0onKHLZCdb9U0GQHZ+rXpK2GlmhJM1lVnV2qMLZqENUI=
+X-Received: by 2002:a9d:175:: with SMTP id 108mr30137165otu.325.1576482767410;
+ Sun, 15 Dec 2019 23:52:47 -0800 (PST)
+MIME-Version: 1.0
+References: <20191213084748.11210-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <20191213185011.GA170447@google.com>
+In-Reply-To: <20191213185011.GA170447@google.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Mon, 16 Dec 2019 07:52:20 +0000
+Message-ID: <CA+V-a8u7RO1L1ExPXwHuSpKrCA47iRPFySUn1royEGoOxy0=2A@mail.gmail.com>
+Subject: Re: [v2 1/6] pci: pcie-rcar: preparation for adding endpoint support
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Patrice Chotard <patrice.chotard@st.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Murray <andrew.murray@arm.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        LAK <linux-arm-kernel@lists.infradead.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux-DT <devicetree@vger.kernel.org>,
-        Linux-ARM <linux-arm-kernel@lists.infradead.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Simon Horman <horms@verge.net.au>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        linux-rockchip@lists.infradead.org,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Bjorn,
 
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+On Fri, Dec 13, 2019 at 9:06 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+>
+> On Fri, Dec 13, 2019 at 08:47:43AM +0000, Lad Prabhakar wrote:
+> > From: "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > this patch prepares for adding endpoint support to rcar controller,
+> > there are no functional changes with this patch, a common file is
+> > created so that it can be shared with endpoint driver. Alongside
+> > this patch fixes checkpatch reported issues.
+>
+> Can you please split this into:
+>
+>   - a patch that moves code only, with no other changes except any
+>     necessary Kconfig and Makefile changes
+>   - another patch that fixes the checkpatch things
+>
+> When the checkpatch fixes are buried in the code move, it's impossible
+> to review them.
+>
+thank you for the review.sure I'll split up the patches and resend.
 
-frame-inversion is "flag" not "uint32".
-This patch fixup it.
+Cheers,
+--Prabhakar
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
----
- arch/arm/boot/dts/stihxxx-b2120.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/arm/boot/dts/stihxxx-b2120.dtsi b/arch/arm/boot/dts/stihxxx-b2120.dtsi
-index 60e1104..d051f08 100644
---- a/arch/arm/boot/dts/stihxxx-b2120.dtsi
-+++ b/arch/arm/boot/dts/stihxxx-b2120.dtsi
-@@ -46,7 +46,7 @@
- 			/* DAC */
- 			format = "i2s";
- 			mclk-fs = <256>;
--			frame-inversion = <1>;
-+			frame-inversion;
- 			cpu {
- 				sound-dai = <&sti_uni_player2>;
- 			};
--- 
-2.7.4
-
+> > Signed-off-by: Lad, Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  arch/arm64/configs/defconfig            |    2 +-
+> >  drivers/pci/controller/Kconfig          |    4 +-
+> >  drivers/pci/controller/Makefile         |    2 +-
+> >  drivers/pci/controller/pcie-rcar-host.c | 1056 ++++++++++++++++++++++++++
+> >  drivers/pci/controller/pcie-rcar.c      | 1229 ++-----------------------------
+> >  drivers/pci/controller/pcie-rcar.h      |  129 ++++
+> >  6 files changed, 1242 insertions(+), 1180 deletions(-)
+> >  create mode 100644 drivers/pci/controller/pcie-rcar-host.c
+> >  create mode 100644 drivers/pci/controller/pcie-rcar.h
