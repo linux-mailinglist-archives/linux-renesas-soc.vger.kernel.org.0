@@ -2,97 +2,98 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 43098120986
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2019 16:21:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C02C0121172
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Dec 2019 18:15:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728343AbfLPPVi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Dec 2019 10:21:38 -0500
-Received: from foss.arm.com ([217.140.110.172]:58714 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728221AbfLPPVi (ORCPT
+        id S1726445AbfLPROO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Dec 2019 12:14:14 -0500
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:54295 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725836AbfLPROO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Dec 2019 10:21:38 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7CBCF1FB;
-        Mon, 16 Dec 2019 07:21:37 -0800 (PST)
-Received: from localhost (unknown [10.37.6.21])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F08EE3F718;
-        Mon, 16 Dec 2019 07:21:36 -0800 (PST)
-Date:   Mon, 16 Dec 2019 15:21:35 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Chris Brandt <Chris.Brandt@renesas.com>
-Cc:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
-        Mason Yang <masonccyang@mxic.com.tw>
-Subject: Re: [PATCH v2 0/6] spi: Add Renesas SPIBSC controller
-Message-ID: <20191216152135.GG4161@sirena.org.uk>
-References: <20191206134202.18784-1-chris.brandt@renesas.com>
- <922cfa46-efb5-9e6d-67ea-3ac505b8211c@cogentembedded.com>
- <TY1PR01MB156215E8668C0317FA0826B18A580@TY1PR01MB1562.jpnprd01.prod.outlook.com>
- <e6a73df5-31c4-3472-f7bc-a0984f1f5380@cogentembedded.com>
- <TY1PR01MB1562D343E1AB06DCA2973DAC8A550@TY1PR01MB1562.jpnprd01.prod.outlook.com>
- <20191212152855.GD4310@sirena.org.uk>
- <TY1PR01MB15627D5522BE325B7BE74E328A550@TY1PR01MB1562.jpnprd01.prod.outlook.com>
- <20191212171307.GL4310@sirena.org.uk>
- <TY1PR01MB156256ED8A09D4CD02AC26AC8A550@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+        Mon, 16 Dec 2019 12:14:14 -0500
+X-Originating-IP: 2.224.242.101
+Received: from uno.lan (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 7BE054000E;
+        Mon, 16 Dec 2019 17:14:11 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart@ideasonboard.com, niklas.soderlund@ragnatech.se
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [RFC 00/11] GMSL: Initial RDACM21 support
+Date:   Mon, 16 Dec 2019 18:16:09 +0100
+Message-Id: <20191216171620.372683-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="yQbNiKLmgenwUfTN"
-Content-Disposition: inline
-In-Reply-To: <TY1PR01MB156256ED8A09D4CD02AC26AC8A550@TY1PR01MB1562.jpnprd01.prod.outlook.com>
-X-Cookie: Backed up the system lately?
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hello Renesas multimedia,
+   this series provides an initial support for RDACM21 camera modules,
+which like the RDACM20 includes a MAX9271 serializer together with an OV490 ISP
+chip and an OV10640 imager.
 
---yQbNiKLmgenwUfTN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The series is based on the latest development from Kieran (gmsl/dev tag on
+Kieran's kernel.org remote).
 
-On Thu, Dec 12, 2019 at 05:25:43PM +0000, Chris Brandt wrote:
-> On Thu, Dec 12, 2019, Mark Brown wrote:
+The series includes
+- 4 fixes to be applied on top of Kieran's branch. Almost all of them have been
+  reported by the dt schema validator.
+- 05/11 which converts the proposed RDACM20 bindings to yaml
+- 06/11 which breaks out MAX9271 handling from RDACM20 driver
+- 07->09 which modified the max9286 driver to support remote communications
+  with RDACM21 as well as RDACM20
+- 10/11 which is an initial attempt to verify communication with RDACM21 by
+  reading the ISP chip ID.
+  At this stage, I augmented the RDACM20 driver to support both RDACM20 and 21.
+  This defeats the purpose of 06/11 but I'm not sure which direction is better
+  here, hence the RFC and the request for feedback.
+  One driver per camera module, or a single driver with multiple compatibles?
+  Please note that, as per RDACM20, the initial support for video capture
+  operations will be limited to 1 resolution and one format, as the ISP+imager
+  are configured by reading an on-chip EEPROM.
+- Finally, enable RDACM21 in the Eagle DTS to test the example.
 
-> > I don't really know enough about the device and there was *huge* amounts
-> > of discussion which I'd have to try to page in so it'd be really good if
-> > there were some agreement among those of you working with this device as
-> > to what the best way forwards is.  I'm not sure any of the issues were
-> > at the framework level so that's probably more sensible anyway.
+I'm very much interested in feedbacks on how to advance development for the
+RDACM21 module.
 
-> I'm trying to figure out if the differences are 'technical' or
-> 'ideological' (ie, R-Car use cases vs RZ use cases).
-> Of course we can do anything we want in our vendor BSPs, but I'd like
-> to see a common upstream path.
+Thanks
+   j
 
-That'd certainly be good to achieve.  Hopefully we can get some
-agreement between everyone on what the best way forwards is.  I don't
-recall any substantial framework concerns with either driver so I think
-it's more a renesas question.
+Jacopo Mondi (11):
+  fixup! DNI: Debug
+  fixup! arm64: dts: renesas: salvator-x: Add MAX9286 expansion board
+  fixup! arm64: dts: renesas: eagle: Provide Eagle FAKRA dynamic overlay
+  fixup! arm64: dts: renesas: eagle: Provide MAX9286 GMSL deserialiser
+  fixup! dt-bindings: media: i2c: Add bindings for IMI RDACM20
+  media: i2c: Break out max9271 from rdacm20 driver
+  media: i2c: max9286: Move notifiers operations
+  media: i2c: max9286: Move link setup to completion
+  media: i2c: max9286: Expand reverse chanenl amplitude
+  WIP: media: i2c: rdacm20: Add RDACM21 support
+  arm64: boot: dts: Eagle: Enable RDACM21
 
---yQbNiKLmgenwUfTN
-Content-Type: application/pgp-signature; name="signature.asc"
+ .../bindings/media/i2c/imi,rdacm20.txt        |  66 ---
+ .../bindings/media/i2c/imi,rdacm20.yaml       | 116 +++++
+ arch/arm64/boot/dts/renesas/eagle-fakra.dtsi  |  12 +-
+ .../arm64/boot/dts/renesas/r8a77970-eagle.dts |   3 -
+ .../boot/dts/renesas/salvator-x-max9286.dtsi  |  16 +-
+ drivers/media/i2c/Makefile                    |   3 +-
+ drivers/media/i2c/max9271.c                   | 212 +++++++++
+ drivers/media/i2c/max9271.h                   |  84 ++++
+ drivers/media/i2c/max9286.c                   | 168 ++++---
+ drivers/media/i2c/rdacm20.c                   | 433 +++++++-----------
+ 10 files changed, 693 insertions(+), 420 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/imi,rdacm20.txt
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/imi,rdacm20.yaml
+ create mode 100644 drivers/media/i2c/max9271.c
+ create mode 100644 drivers/media/i2c/max9271.h
 
------BEGIN PGP SIGNATURE-----
+--
+2.24.0
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl33oP4ACgkQJNaLcl1U
-h9AaYgf9FWzuFWeQnyYn63oY+9wqMpwmFKKYapmBdLEDpM4FvBClhmmHDFp7/Z3M
-Gu5PZc0KJUDCrmBr2oulXL7cVjG1WlON/AkYHhU/OHElt1VJstBbUxGc1umu3Xap
-+m2wEFfP63AvTL+d2fhkGhCOcQ5qsYRf1oYfUWTw550yMdR5CNnaPe0a81GJKd9W
-RapZHUrSdZDd46Ab6e2y/wCb+JyA0thWLr3ctUN5zmGTYQSeXEMJcxTEHaRxjJSw
-M3K/Ta9DbWE4IoaH/9avPv8TClP9KieW1ts4flJRc2E7bJ/Xp6bV1aZTU63iKvwJ
-2XyTtPY0KF/rO+dilSJ9gwcLHaRksw==
-=YGOH
------END PGP SIGNATURE-----
-
---yQbNiKLmgenwUfTN--
