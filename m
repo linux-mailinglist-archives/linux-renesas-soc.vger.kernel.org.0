@@ -2,46 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B52A122DE0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2019 15:00:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 96727122E09
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2019 15:07:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728575AbfLQOAh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Dec 2019 09:00:37 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49156 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728573AbfLQOAh (ORCPT
+        id S1728827AbfLQOHi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Dec 2019 09:07:38 -0500
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:52886 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728575AbfLQOHi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Dec 2019 09:00:37 -0500
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1576591237;
-        bh=BaXRc8g+lRbu6Tkj1ltchwssaABtiQSzVvOpZ8zpMlg=;
-        h=Subject:From:Date:To:From;
-        b=nptsgh+hrt2iCXd8PQDPaaZQ7VGdfbC1jHXo36d6Uzy37bcoYKdcoBhf0FQHMsnPf
-         gofsDEUE5/oP4SW8HRq5XjNSbEbbQxgMy5LtX2OuZXKBkK/zBoMZUN6Ow1Z4PrYt7Q
-         2ACbqHeNhW37rNkDMRRsKJMSVCxoojG6ql5C/2zk=
+        Tue, 17 Dec 2019 09:07:38 -0500
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 491F73C057C;
+        Tue, 17 Dec 2019 15:07:36 +0100 (CET)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Gp3zpZsC3KgH; Tue, 17 Dec 2019 15:07:31 +0100 (CET)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 13E343C00BB;
+        Tue, 17 Dec 2019 15:07:31 +0100 (CET)
+Received: from vmlxhi-102.adit-jv.com (10.72.93.66) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Tue, 17 Dec
+ 2019 15:07:30 +0100
+Date:   Tue, 17 Dec 2019 15:07:27 +0100
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+CC:     Magnus Damm <magnus.damm@gmail.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        <linux-renesas-soc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <devicetree@vger.kernel.org>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [PATCH v2 3/6] arm64: dts: renesas: r8a77961: Add RAVB node
+Message-ID: <20191217140727.GA27250@vmlxhi-102.adit-jv.com>
+References: <20191216124740.16647-1-geert+renesas@glider.be>
+ <20191216124740.16647-4-geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork housekeeping for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <157659123704.27949.4927700149612923716.git-patchwork-housekeeping@kernel.org>
-Date:   Tue, 17 Dec 2019 14:00:37 +0000
-To:     linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20191216124740.16647-4-geert+renesas@glider.be>
+X-Originating-IP: [10.72.93.66]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Latest series: [v6] Add dual-LVDS panel support to EK874 (2019-12-17T13:45:55)
-  Superseding: [v5] Add dual-LVDS panel support to EK874 (2019-12-16T20:12:28):
-    [v5,1/6] drm: of: Add drm_of_lvds_get_dual_link_pixel_order
-    [v5,2/6] drm: rcar-du: lvds: Improve identification of panels
-    [v5,3/6] drm: rcar-du: lvds: Get dual link configuration from DT
-    [v5,4/6] drm: rcar-du: lvds: Allow for even and odd pixels swap
-    [v5,5/6] dt-bindings: display: Add idk-2121wr binding
-    [v5,6/6] arm64: dts: renesas: Add EK874 board with idk-2121wr display support
+Hi Geert,
 
+On Mon, Dec 16, 2019 at 01:47:37PM +0100, Geert Uytterhoeven wrote:
+> Add a device node for the Ethernet AVB (RAVB) interface on the Renesas
+> R-Car M3-W+ (r8a77961) SoC.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v2:
+>   - No changes.
+> 
+> Test procedure:
+>   1. "ifconfig eth0 <A>.<B>.<C>.<D>",
+>   2. "ping <gateway>".
+
+I also booted the M3-W+ Salvator-XS from NFS w/o problems. Thanks!
+
+Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+Best Regards,
+Eugeniu
