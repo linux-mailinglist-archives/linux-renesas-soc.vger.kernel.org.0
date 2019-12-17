@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 271791225D3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2019 08:51:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BAD9A1225DC
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2019 08:51:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726565AbfLQHuh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Dec 2019 02:50:37 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:22963 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726560AbfLQHuh (ORCPT
+        id S1725794AbfLQHvR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Dec 2019 02:51:17 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:22742 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725730AbfLQHvR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Dec 2019 02:50:37 -0500
-Date:   17 Dec 2019 16:50:36 +0900
+        Tue, 17 Dec 2019 02:51:17 -0500
+Date:   17 Dec 2019 16:51:16 +0900
 X-IronPort-AV: E=Sophos;i="5.69,324,1571670000"; 
-   d="scan'208";a="34632755"
+   d="scan'208";a="34415904"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 17 Dec 2019 16:50:36 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 17 Dec 2019 16:51:16 +0900
 Received: from morimoto-PC.renesas.com (unknown [10.166.18.140])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5F34141C702C;
-        Tue, 17 Dec 2019 16:50:36 +0900 (JST)
-Message-ID: <877e2vgzlf.wl-kuninori.morimoto.gx@renesas.com>
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 630EA41C7047;
+        Tue, 17 Dec 2019 16:51:16 +0900 (JST)
+Message-ID: <875zifgzkb.wl-kuninori.morimoto.gx@renesas.com>
 From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v2] SH: Convert iounmap() macros to inline functions
+Subject: [PATCH v2] SH: Convert ins[bwl]/outs[bwl] macros to inline functions
 User-Agent: Wanderlust/2.15.9 Emacs/24.5 Mule/6.0
 To:     Yoshinori Sato <ysato@users.sourceforge.jp>,
         Rich Felker <dalias@libc.org>
@@ -38,41 +38,71 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-Macro iounmap() do nothing, but that results in
+Macro ins[bwl]/outs[bwl] are just calling BUG(), but that results in
 unused variable warnings all over the place.
-This patch convert it to inline to avoid warning
+This patch convert macro to inline to avoid warning
 
 We will get this kind of warning without this patch
 
-	${LINUX}/drivers/thermal/broadcom/ns-thermal.c:78:21: \
-	  warning: unused variable 'ns_thermal' [-Wunused-variable]
-	struct ns_thermal *ns_thermal = platform_get_drvdata(pdev);
-	^~~~~~~~~~
+	${LINUX}/drivers/iio/adc/ad7606_par.c:21:23: \
+	  warning: unused variable 'st' [-Wunused-variable]
+	struct ad7606_state *st = iio_priv(indio_dev);
+	^~
 
-Fixes: 98c90e5ea34e9 ("sh: remove __iounmap")
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
 v1 -> v2
 
 	- add warning on git-log
 
- arch/sh/include/asm/io.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/sh/include/asm/io_noioport.h | 34 ++++++++++++++++++++++++++++------
+ 1 file changed, 28 insertions(+), 6 deletions(-)
 
-diff --git a/arch/sh/include/asm/io.h b/arch/sh/include/asm/io.h
-index 1495489..351a0a9 100644
---- a/arch/sh/include/asm/io.h
-+++ b/arch/sh/include/asm/io.h
-@@ -328,7 +328,7 @@ __ioremap_mode(phys_addr_t offset, unsigned long size, pgprot_t prot)
- #else
- #define __ioremap(offset, size, prot)		((void __iomem *)(offset))
- #define __ioremap_mode(offset, size, prot)	((void __iomem *)(offset))
--#define iounmap(addr)				do { } while (0)
-+static inline void iounmap(void __iomem *addr) {}
- #endif /* CONFIG_MMU */
+diff --git a/arch/sh/include/asm/io_noioport.h b/arch/sh/include/asm/io_noioport.h
+index 90d6109..d39a1a8 100644
+--- a/arch/sh/include/asm/io_noioport.h
++++ b/arch/sh/include/asm/io_noioport.h
+@@ -53,12 +53,34 @@ static inline void ioport_unmap(void __iomem *addr)
+ #define outw_p(x, addr)	outw((x), (addr))
+ #define outl_p(x, addr)	outl((x), (addr))
  
- static inline void __iomem *ioremap(phys_addr_t offset, unsigned long size)
+-#define insb(a, b, c)	BUG()
+-#define insw(a, b, c)	BUG()
+-#define insl(a, b, c)	BUG()
++static inline void insb (unsigned long port, void *dst, unsigned long count)
++{
++	BUG();
++}
++
++static inline void insw (unsigned long port, void *dst, unsigned long count)
++{
++	BUG();
++}
++
++static inline void insl (unsigned long port, void *dst, unsigned long count)
++{
++	BUG();
++}
+ 
+-#define outsb(a, b, c)	BUG()
+-#define outsw(a, b, c)	BUG()
+-#define outsl(a, b, c)	BUG()
++static inline void outsb (unsigned long port, const void *src, unsigned long count)
++{
++	BUG();
++}
++
++static inline void outsw (unsigned long port, const void *src, unsigned long count)
++{
++	BUG();
++}
++
++static inline void outsl (unsigned long port, const void *src, unsigned long count)
++{
++	BUG();
++}
+ 
+ #endif /* __ASM_SH_IO_NOIOPORT_H */
 -- 
 2.7.4
 
