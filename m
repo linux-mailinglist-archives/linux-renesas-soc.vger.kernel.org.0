@@ -2,180 +2,203 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 91327123909
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2019 23:06:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B31F8123934
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2019 23:16:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725870AbfLQWGU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Dec 2019 17:06:20 -0500
-Received: from mail-eopbgr1410104.outbound.protection.outlook.com ([40.107.141.104]:18758
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725805AbfLQWGU (ORCPT
+        id S1725892AbfLQWQb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Dec 2019 17:16:31 -0500
+Received: from sonic307-10.consmr.mail.ne1.yahoo.com ([66.163.190.33]:40056
+        "EHLO sonic307-10.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725805AbfLQWQa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Dec 2019 17:06:20 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nITcj0jzpXT6eanxsH5kf8iBODxdkEiy80xrpwrXPRjl2lxlKBYprb+Deo2LAcAVwA1hVK+irqdbCDVgj1MZ8rkGoAwOLezMT3dtJOIUu0KU0VN8naT8iXFKJEtL39iC2nTuDNAIbSyoO3lddg2SJ9Xe6yVI+Rs7Mo2WgugTxroI45M6RpHSYX9dgzxpNwZmAdMX3H5I1z1VlQzv3hiCWb23qxzM8vqDjqWkDqsgIcfyH4tflV7+1ndcHiSPoPzlPujZqkjhXYMyTOsw7GEO5iB3gBsSfCQYS+CmOg0zj7AlYtiX4lOowDZcVVNA9dUj67e1l9wIspwELZHtAxonww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V7Z1W9Fvu5LZUIkf2pShl94oLIl/WSjvZB3RGEqTt8M=;
- b=kkzdT445aRZI7s6ImmI5nlD+PCbaP5G/MKUENHQcq0ZdcqAHEBZcc4xJogVdc47qFVs1Tv8fO+yR7qka3o1oS+ud4J9UssNhBBP513q+zpydG8Y0TYfglnSLAUoXo82PS6xy6OWx+nZvShdIvmV2rCrVyMjl+culxACKAdCp4VxFIpvsNoYB0rJMkDQ84LT4k59zUFmFYXVjt0VQoLTlsbEIQDpzu82nLR8IVLnU18W8HlDl146Qm4ijxlrQy+J1YZBXr0xNcFl90ox5f4sG92SLuWQwHibxPqf54AjaSK/ex0FEkG5AaOkulkYU85AeuOC1vTyzve1nRAhtMrzYZw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V7Z1W9Fvu5LZUIkf2pShl94oLIl/WSjvZB3RGEqTt8M=;
- b=JhTLHF13RjJdNXHg6Ia5Ms9W7R3RxtMtx5B7S8VdCvLUQZd8JCMSXWLRKxoV6QjTY+xNI1DZ/4bbzzopf9RbbQxoMAyPCV1aXh1BggQ/GYpyx7KQbzcb1wqVkW9Y+r6P4ccBG3qvQHIL9vWUpN1CQh5iX2FW/FmpC0ac2/CX3Mw=
-Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com (52.133.163.13) by
- TY1PR01MB1531.jpnprd01.prod.outlook.com (52.133.163.138) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2559.14; Tue, 17 Dec 2019 22:06:15 +0000
-Received: from TY1PR01MB1770.jpnprd01.prod.outlook.com
- ([fe80::5166:5e51:90f5:3ee1]) by TY1PR01MB1770.jpnprd01.prod.outlook.com
- ([fe80::5166:5e51:90f5:3ee1%7]) with mapi id 15.20.2559.012; Tue, 17 Dec 2019
- 22:06:15 +0000
-From:   Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Neil Armstrong <narmstrong@baylibre.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        Biju Das <biju.das@bp.renesas.com>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Simon Horman <horms@verge.net.au>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Peter Rosin <peda@axentia.se>
-Subject: RE: [PATCH v4 06/13] drm/bridge: lvds-codec: Add "lvds-decoder"
- support
-Thread-Topic: [PATCH v4 06/13] drm/bridge: lvds-codec: Add "lvds-decoder"
- support
-Thread-Index: AQHVmjpQshhfnt50Ik69GSb05e3v8ae4fAYAgAXgh5CAABfsAIAAAEyggAAEpYCAABUQAIAAiR2Q
-Date:   Tue, 17 Dec 2019 22:06:14 +0000
-Message-ID: <TY1PR01MB177059B563B0F29E5A4E424BC0500@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-References: <1573660292-10629-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1573660292-10629-7-git-send-email-fabrizio.castro@bp.renesas.com>
- <20191213171038.GH4860@pendragon.ideasonboard.com>
- <TY1PR01MB1770DEDFA6050EA77AA218F8C0500@TY1PR01MB1770.jpnprd01.prod.outlook.com>
- <CAMuHMdUE0O9_8g02f2ABiV8SSMXNJB9S9e89p0OJKnTvx8MO9g@mail.gmail.com>
- <TY1PR01MB17705FC08F72875484DF2208C0500@TY1PR01MB1770.jpnprd01.prod.outlook.com>
- <CAMuHMdVqHekyeOaHwpFyG5buNZp-XmvGizqZ=Gbg40_=NL+s2A@mail.gmail.com>
- <20191217135414.GA4741@pendragon.ideasonboard.com>
-In-Reply-To: <20191217135414.GA4741@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=fabrizio.castro@bp.renesas.com; 
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: d2add08f-d9d0-4d39-9b99-08d7833d55d5
-x-ms-traffictypediagnostic: TY1PR01MB1531:|TY1PR01MB1531:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <TY1PR01MB1531EF8DE3188054E6BCB814C0500@TY1PR01MB1531.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 02543CD7CD
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(396003)(136003)(39850400004)(366004)(376002)(346002)(199004)(189003)(54906003)(186003)(4326008)(110136005)(26005)(7696005)(55016002)(44832011)(53546011)(9686003)(33656002)(86362001)(7416002)(5660300002)(316002)(6506007)(8936002)(66556008)(66476007)(66446008)(64756008)(76116006)(66946007)(478600001)(71200400001)(2906002)(8676002)(81156014)(52536014)(81166006);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1531;H:TY1PR01MB1770.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;MX:1;
-received-spf: None (protection.outlook.com: bp.renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: BPlCJu9uI4ppvjscfgLyyjxLOxEJNVUGvyjYZBC+sqmCi/H9hsxCae7REY5N3STt9lCEdKxo5bi0/ju94OUICW3/vDL7JPy5U+dA9+imND4P4kkd1+XCEZZkaBiK+tGze055fklIBMS//xtS747GElBnS0QGHAd8BNYuVdrpscijn0l16a3NxO927Fhu5Rcbwu37EQRJPblx2K7GjWHlWjWF8vTFbX8kAJm9/viiY9tUUuRS69mJUklhw6ShLmrFi8xWBysI/0jRh0Qm3Ae8g3DF05WbGrMf2tElcLtJ0d/4s7W6bhNTeuF2m01md0qB5KaczvEWYGPlu4kSTyHjAOL/iI3JaM+cF3Y8n5/mpGTBvdPWN64LhTgWr9oU/0gJOWd3rk4NFqETZU/jKZX9/tngJkhQ+IlqjWzVkQHl4w6DG584tctISoi7V6g3RMvu
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Tue, 17 Dec 2019 17:16:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1576620989; bh=BGLX1CLynx8QVQggMrMYgwbA4nVLitJWFEU19vNB8EM=; h=Date:From:To:Cc:In-Reply-To:References:Subject:From:Subject; b=aQP5HF65WE0T4HGS9OAYaJo/nV/3D5PqQsil1bM0xB0NzZ6Xj4FgbsztcqnLxBsA+k1rPtPgZQdDVKR6N9xckCFMVlI52GjRfKSmkxrSVKJQdn1rmHaJ9EumTD7aoelYACdJ2QN3eCEGvSY/c0tfQR8zWI7pPQgbCfex3S1qQ64Wa5XXR6ksc0vrx51or6/3QbfUKklG05OxAfVWOdW6QtILFHgA8JZGPyYcgORouEVdA+jVwDh80RS+fF9rZD3OZJ2bOxXEdKF/kZfnRaIgvOhwNJ5xB6En5L+VSGw7XaJEg7cTuL8H0MQxdxhcU+6TMn3fPcLOBJQDEZ3H7bMw3g==
+X-YMail-OSG: 4xVIBzcVM1mc2N6ACCvMDbw8i1NkS01R83iEOvDJejTe8Tic7eiHnFJ0imagDMF
+ uBen6s7WsyLvpVvQWuZG6mQRtDcWr2lU_VVpz7RCY4XU7fF0LsTgn2TcromzsjycxtRmhNDmStLj
+ VMK3jvNOEzHKssGHbQZG..JHg4PmowhU1y7qwJW64xAGwpUsR8gdq786P4YIWV3dnyU2i5Fh1nId
+ vJAxwTC_bbJE3L17IUgQ5839p1h.CYi2MOVpXfMIPcSiIwhBu.wy1ok9T.J9ogdCpfGlvTF9E7_2
+ 8j268ZEeTCKFdPy_P_ERBBCC4slOHuBQTn3HRHM0T_LMaO0S8tYzj_u8D4xNHVMc.1tDI_AqoEA0
+ 3V520dB.p7xVfX5KUj6w0Qed1iPqbCH.q0mxvuS7RnFfQJ0kzMemscvROd4DhpUrKh4iJrjvfzw0
+ xLUVPbU4tFzudnWZ05eMXC23Qg._PXcCuPwgYQgXwksgQpiEU586uKx_5In4MawRI3O6kUPgPl_Y
+ hFGPbAFoe4jHC1edUtCXw8FI1sO_fq6wa.zgbBAKTTgwHDxd9G4xjTO87ObQ80jfyr7Vdo4W.tfo
+ OKRswVDPyU8DUPW42znlNjtB5PVQUCbbtlU.MRbLuhma6AWcbWTlD5uE4ZPgKyU1bxja.T64kRab
+ 0x6NM_CNRbgkThro1k7AZOUXGsEiDCUnsvUM2myzkiiFOidKHPDrQaQpoGSEmLfMtxGDEd5Cjgbi
+ SWua7FZztyOafjLUq2441MjkKYAU.Bv4MznO97O5z80u3wjyiUKPNOmidtPY794h2oGUXJlqrjzn
+ 4vq3tH6JCKwW991Nh32961k_OaRUtDnxdfvoRg6RQMbedSWhhRPM1hbUMOMWBMCgKr9LrfwqcdNI
+ cPtMlprjbisoejljpJP9nzvFAUQ1sIRksctgUz5hjWClMiApW4dYYBqitRwiSR4r9nzxc9QGNXUB
+ M51fD5JTIleaM_KKorM9odl6lVHq6xIRb84h_oZZuxDdCqEPQmN5i77.0YSXPHAyu39jOKY.PCHA
+ _nl8TGRQtUNZhZoPgTNhbupL2mKePts8VNvulQwoU1WIYVLAiFcBf4jFxfAcfqgAROTuI6vgYthV
+ F28sXaKK4frLD2Zbni8Tpe420tcPoC7IRWYcUYq5niMn9T2v204bVvBcJu6O716q4eam0vH2oS6Z
+ BdLjADmV2LeDiX7NjfCdsVkBPwAk.5UMx5vSE_YoUW64RuhI8Bt57r1mRYXs2whVqUodobmFLONv
+ LQkD27PzzZVTtkEikiSmc10mZyuGO8vbRHlxjq6x1xbWsBR3JiewBoveVgMT0UFGqrGnyCoo-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.ne1.yahoo.com with HTTP; Tue, 17 Dec 2019 22:16:29 +0000
+Date:   Tue, 17 Dec 2019 22:16:28 +0000 (UTC)
+From:   Karl Nasrallah <knnspeed@aol.com>
+To:     kuninori.morimoto.gx@renesas.com, geert@linux-m68k.org
+Cc:     ysato@users.sourceforge.jp, dalias@libc.org,
+        linux-sh@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Message-ID: <1933127148.546436.1576620988364@mail.yahoo.com>
+In-Reply-To: <1850003495.209647.1576573784839@mail.yahoo.com>
+References: <87h81zh4ap.wl-kuninori.morimoto.gx@renesas.com> <CAMuHMdUHGXkmKrcZVNQo8nOcGo0h6xYgjZ+XmfGy6bJCPK9ZwQ@mail.gmail.com> <CAMuHMdUc4yyXsp4Y4Xx==3mUMrUn5DO8G-rLA_Mnv-790n6Ehg@mail.gmail.com> <871rt3gwri.wl-kuninori.morimoto.gx@renesas.com> <1850003495.209647.1576573784839@mail.yahoo.com>
+Subject: Re: can someone solve string_32.h issue for SH ?
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d2add08f-d9d0-4d39-9b99-08d7833d55d5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Dec 2019 22:06:14.9332
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0pCxH7faRhnB5cW4vHJ/P/u+uEL2nWC1M5p0JkJXVz0ggPJSS9lCGTXhuuJ9qNZB/6AvvOvLy75RcI1uIgMQc1ypJVRMHoFITnnTPrpJOcA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1531
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: WebService/1.1.14873 aolwebmail Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgZ3V5cywNCg0KPiBGcm9tOiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlk
-ZWFzb25ib2FyZC5jb20+DQo+IFNlbnQ6IDE3IERlY2VtYmVyIDIwMTkgMTM6NTQNCj4gU3ViamVj
-dDogUmU6IFtQQVRDSCB2NCAwNi8xM10gZHJtL2JyaWRnZTogbHZkcy1jb2RlYzogQWRkICJsdmRz
-LWRlY29kZXIiIHN1cHBvcnQNCj4gDQo+IEhlbGxvLA0KPiANCj4gT24gVHVlLCBEZWMgMTcsIDIw
-MTkgYXQgMDE6Mzg6NTFQTSArMDEwMCwgR2VlcnQgVXl0dGVyaG9ldmVuIHdyb3RlOg0KPiA+IE9u
-IFR1ZSwgRGVjIDE3LCAyMDE5IGF0IDE6MzEgUE0gRmFicml6aW8gQ2FzdHJvIHdyb3RlOg0KPiA+
-ID4gT24gMTcgRGVjZW1iZXIgMjAxOSAxMjoyMSwgR2VlcnQgVXl0dGVyaG9ldmVuIHdyb3RlOg0K
-PiA+ID4+IE9uIFR1ZSwgRGVjIDE3LCAyMDE5IGF0IDEyOjAzIFBNIEZhYnJpemlvIENhc3RybyB3
-cm90ZToNCj4gPiA+Pj4gT24gMTMgRGVjZW1iZXIgMjAxOSAxNzoxMSwgTGF1cmVudCBQaW5jaGFy
-dCB3cm90ZToNCj4gPiA+Pj4+IE9uIFdlZCwgTm92IDEzLCAyMDE5IGF0IDAzOjUxOjI1UE0gKzAw
-MDAsIEZhYnJpemlvIENhc3RybyB3cm90ZToNCj4gPiA+Pj4+PiBBZGQgc3VwcG9ydCBmb3IgdHJh
-bnNwYXJlbnQgTFZEUyBkZWNvZGVycyBieSBhZGRpbmcgYSBuZXcNCj4gPiA+Pj4+PiBjb21wYXRp
-YmxlIHN0cmluZyAoImx2ZHMtZGVjb2RlciIpIHRvIHRoZSBkcml2ZXIuDQo+ID4gPj4+Pj4gVGhp
-cyBwYXRjaCBhbHNvIGFkZHMgbWVtYmVyIGNvbm5lY3Rvcl90eXBlIHRvIHN0cnVjdCBsdmRzX2Nv
-ZGVjLA0KPiA+ID4+Pj4+IGFuZCB0aGF0J3MgYmVjYXVzZSBMVkRTIGRlY29kZXJzIGhhdmUgYSBk
-aWZmZXJlbnQgY29ubmVjdG9yIHR5cGUNCj4gPiA+Pj4+PiBmcm9tIExWRFMgZW5jb2RlcnMuIFdl
-IGZpbGwgdGhpcyBuZXcgbWVtYmVyIHVwIHdpdGggdGhlIGRhdGENCj4gPiA+Pj4+PiBtYXRjaGlu
-ZyB0aGUgY29tcGF0aWJsZSBzdHJpbmcuDQo+ID4gPj4+Pj4NCj4gPiA+Pj4+PiBTaWduZWQtb2Zm
-LWJ5OiBGYWJyaXppbyBDYXN0cm8gPGZhYnJpemlvLmNhc3Ryb0BicC5yZW5lc2FzLmNvbT4NCj4g
-PiA+Pj4+Pg0KPiA+ID4+Pj4+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9icmlkZ2UvbHZkcy1jb2Rl
-Yy5jDQo+ID4gPj4+Pj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9sdmRzLWNvZGVjLmMN
-Cj4gPiA+Pj4+Pg0KPiA+ID4+Pj4+IEBAIC02NSw2ICs2Nyw3IEBAIHN0YXRpYyBpbnQgbHZkc19j
-b2RlY19wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiA+ID4+Pj4+ICAgICBp
-ZiAoIWx2ZHNfY29kZWMpDQo+ID4gPj4+Pj4gICAgICAgICAgICAgcmV0dXJuIC1FTk9NRU07DQo+
-ID4gPj4+Pj4NCj4gPiA+Pj4+PiArICAgbHZkc19jb2RlYy0+Y29ubmVjdG9yX3R5cGUgPSAodTMy
-KW9mX2RldmljZV9nZXRfbWF0Y2hfZGF0YSgmcGRldi0+ZGV2KTsNCj4gPiA+Pj4+DQo+ID4gPj4+
-PiBJJ20gbm93IGdldHRpbmcgYSBjb21waWxhdGlvbiBmYWlsdXJlIGhlcmU6DQo+ID4gPj4+Pg0K
-PiA+ID4+Pj4gZHJpdmVycy9ncHUvZHJtL2JyaWRnZS9sdmRzLWNvZGVjLmM6IEluIGZ1bmN0aW9u
-IOKAmGx2ZHNfY29kZWNfcHJvYmXigJk6DQo+ID4gPj4+PiBkcml2ZXJzL2dwdS9kcm0vYnJpZGdl
-L2x2ZHMtY29kZWMuYzo2ODozMTogZXJyb3I6IGNhc3QgZnJvbSBwb2ludGVyIHRvIGludGVnZXIg
-b2YgZGlmZmVyZW50IHNpemUgWy1XZXJyb3I9cG9pbnRlci10by1pbnQtY2FzdF0NCj4gPiA+Pj4+
-ICAgbHZkc19jb2RlYy0+Y29ubmVjdG9yX3R5cGUgPSAodTMyKW9mX2RldmljZV9nZXRfbWF0Y2hf
-ZGF0YSgmcGRldi0+ZGV2KTsNCj4gPiA+Pj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICBeDQo+ID4gPj4+Pg0KPiA+ID4+Pj4gVGhlIGZpeCBzaG91bGQgYmUgc2ltcGxlOg0KPiA+ID4+
-Pj4NCj4gPiA+Pj4+ICAgICAgIGx2ZHNfY29kZWMtPmNvbm5lY3Rvcl90eXBlID0gKHVpbnRwdHJf
-dClvZl9kZXZpY2VfZ2V0X21hdGNoX2RhdGEoZGV2KTsNCj4gPiA+Pj4+DQo+ID4gPj4+PiBJJ20g
-Ym90aGVyZWQgYnkgdGhlIGZhY3QgdGhhdCBJJ3ZlIGNvbXBpbGVkIHRoaXMgYmVmb3JlIHdpdGhv
-dXQgYW55DQo+ID4gPj4+PiBpc3N1ZSwgc28gdGhpcyByZWFsbHkgcHV6emxlcyBtZS4gRG8geW91
-IGdldCB0aGUgc2FtZSB3YXJuaW5nID8NCj4gPiA+Pj4NCj4gPiA+Pj4gVGhlIHdhcm5pbmcgYXBw
-ZWFycyB3aGVuIGNvbXBpbGluZyBmb3IgYXJtNjQsIHVuZGVyc3RhbmRhYmx5IHNvLg0KPiA+ID4+
-PiBXZSBtdXN0IGhhdmUgY29tcGlsZWQgdGhpcyBmb3IgYXJtIG9ubHkgdGhlIGZpcnN0IHRpbWUg
-YXJvdW5kLg0KPiA+ID4+Pg0KPiA+ID4+PiBJIHRoaW5rIHRoZSByaWdodCB3YXkgdG8gc29sdmUg
-dGhpcyBpcyB0byBlaXRoZXIgY2FzdCB0byAodTMyKSh1aW50cHRyX3QpIG9yICh1MzIpKHVuc2ln
-bmVkIGxvbmcpLg0KPiA+ID4+DQo+ID4gPj4gSnVzdCBjYXN0aW5nIHRvIHVpbnRwdHJfdCBzaG91
-bGQgYmUgc3VmZmljaWVudC4NCj4gPiA+DQo+ID4gPiBJdCBzaG91bGQgYmUgc3VmZmljaWVudCBm
-b3IgdGhlIGNvbXBpbGVyLCBidXQgSSBoYXZlIHNlZW4gZXhhbXBsZXMgd2hlcmUgcGVvcGxlDQo+
-ID4gPiBwcmVmZXJyZWQgdG8gYmUgZXhwbGljaXQsIGxpa2UgaW46DQo+ID4gPiBkcml2ZXJzL21h
-aWxib3gvbXRrLWNtZHEtbWFpbGJveC5jDQo+ID4gPiBkcml2ZXJzL2xlZHMvbGVkcy1wbTgwNTgu
-Yw0KPiA+ID4NCj4gPiA+IFNpbmNlIHRoZSBrZXJuZWwgaXMgaW5jcmVhc2luZyBpdHMgdGlnaHRu
-ZXNzIHdpdGggcmVzcGVjdCB0byB3YXJuaW5ncywgSSBwZXJzb25hbGx5IHByZWZlcg0KPiA+ID4g
-KHUzMikodWludHB0cl90KSwgZXZlbiB0aG91Z2ggbm90IHN0cmljdGx5IG5lY2Vzc2FyeSwgYnV0
-IEkgYW0gZmluZSB3aXRoICh1aW50cHRyX3QpIGlmIHlvdQ0KPiA+ID4gZG9uJ3QgbGlrZSAodTMy
-KSh1aW50cHRyX3QpLg0KPiA+DQo+ID4gSXQgZGVwZW5kcy4gSSB0cnkgdG8gaGF2ZSBhcyBmZXcg
-Y2FzdHMgYXMgcG9zc2libGUgKCJjYXN0cyBhcmUgZXZpbCIpLg0KPiA+DQo+ID4gV2hpbGUgYWRk
-aW5nIHRoZSBleHRyYSAodTMyKSBjYXN0IG1ha2VzIGl0IGNsZWFyZXIgdGhhdCB0aGUgaW50ZW5k
-ZWQNCj4gPiByZXN1bHQgaXMgYSB1MzIgKGZvciBub3cpLCBpdCB3aWxsIGNhdXNlIHNpbGVudCB0
-cnVuY2F0aW9uIG9uIDY0LWJpdCBpZg0KPiA+IGNvbm5lY3Rvcl90eXBlIGlzIGV2ZXIgZW5sYXJn
-ZWQgdG8gdW5zaWduZWQgbG9uZywgYW5kIGxhcmdlciB2YWx1ZXMgYXJlDQo+ID4gdXNlZC4NCj4g
-Pg0KPiA+IEluIHRoaXMgcGFydGljdWxhciBjYXNlIHRoaXMgaXMgdW5saWtlbHksIHRob3VnaCwg
-YXMgdW5zaWduZWQgbG9uZyB3b3VsZA0KPiA+IHN0aWxsIGJlIDMyLWJpdCBvbiAzMi1iaXQgcGxh
-dGZvcm1zLCBzbyB0aGUgbGFyZ2VyIHZhbHVlcyBjYW5ub3QgYmUNCj4gPiB1c2VkLg0KPiANCj4g
-SSBhbHNvIHRyeSB0byBhZGQgYXMgZmV3IGNhc3RzIGFzIHBvc3NpYmxlLCBzbyAodWludHB0cl90
-KSB3b3VsZCBiZSBteQ0KPiBwcmVmZXJlbmNlLg0KPiANCj4gRmFicml6aW8sIGNvdWxkIHlvdSBz
-dWJtaXQgYSBuZXcgdmVyc2lvbiBvZiB0aGlzIHBhdGNoIHdpdGggdGhlIHByb2JsZW0NCj4gZml4
-ZWQgKGFuZCB3aXRoIHRoZSBjYXN0cyB5b3UgZGVjaWRlIHRvIHVzZSwgYnV0IHVzaW5nIHVpbnRw
-dHJfdCBpbnN0ZWFkDQo+IG9mIHVuc2lnbmVkIGxvbmcgaW4gYW55IGNhc2UpID8NCg0KV2lsbCBz
-ZW5kIGEgbmV3IHZlcnNpb24gdG9tb3Jyb3cgd2l0aCAodWludHB0cl90KQ0KDQpUaGFua3MsDQpG
-YWINCg0KPiANCj4gLS0NCj4gUmVnYXJkcywNCj4gDQo+IExhdXJlbnQgUGluY2hhcnQNCg==
+Hello!
+
+I have a strncpy for you.
+
+static inline char *strncpy(char *__dest, const char *__src, size_t __n)
+{
+=09char * retval =3D __dest;
+=09const char * __dest_end =3D __dest + __n - 1;
+
+=09// size_t is always unsigned
+=09if(__n =3D=3D 0)
+=09{
+=09=09return retval;
+=09}
+
+=09__asm__ __volatile__ (
+=09=09=09=09=09"strncpy_start:\n\t"
+=09=09=09=09=09=09=09"mov.b @%[src]+,r0\n\t"
+=09=09=09=09=09=09=09"cmp/eq #0,r0\n\t" // cmp/eq #imm8,r0 is its own instr=
+uction
+=09=09=09=09=09=09=09"bt.s strncpy_pad\n\t" // Done with the string
+=09=09=09=09=09=09=09"cmp/eq %[dest],%[dest_end]\n\t" // This takes care of=
+ the size parameter in only one instruction ;)
+=09=09=09=09=09=09=09"bt.s strncpy_end\n\t"
+=09=09=09=09=09=09=09"mov.b r0,@%[dest]\n\t"
+=09=09=09=09=09=09=09"bra strncpy_start\n\t"
+=09=09=09=09=09=09=09"add #1,%[dest]\n\t" // mov.b R0,@Rn+ is SH2A only, bu=
+t we can fill the delay slot with the offset
+=09=09=09=09=09"strncpy_pad:\n\t"
+=09=09=09=09=09=09=09"bt.s strncpy_end\n\t"
+=09=09=09=09=09=09=09"mov.b r0,@%[dest]\n\t"
+=09=09=09=09=09=09=09"add #1,%[dest]\n\t"
+=09=09=09=09=09=09=09"bra strncpy_pad\n\t"
+=09=09=09=09=09=09=09"cmp/eq %[dest],%[dest_end]\n\t"
+=09=09=09=09=09"strncpy_end:\n\t" // All done
+=09=09: [src] "+r" (__src), [dest] "+r" (__dest)
+=09=09: [dest_end] "r" (__dest_end)
+=09=09: "t"
+=09);
+
+=09return retval;
+}
+
+Tested with sh4-elf-gcc 9.2.0 on a real SH7750/SH7750R-compatible system. N=
+o warnings, behaves exactly as per linux (dot) die (dot) net/man/3/strncpy =
+and I optimized it with some tricks I devised from writing extremely optimi=
+zed x86. If there are any doubts as to the authenticity, note that I am the=
+ sole author of this project: github (dot) com/KNNSpeed/AVX-Memmove
+
+Hope this helps!
+-Karl
+
+(P.S. Consider this code public domain. If for whatever reason that doesn't=
+ fly, then I give the Linux kernel community explicit permission to use it =
+as they see fit.)
+
+-----Original Message-----
+From: Karl Nasrallah <knnspeed@aol.com>
+To: kuninori.morimoto.gx <kuninori.morimoto.gx@renesas.com>; geert <geert@l=
+inux-m68k.org>
+Cc: ysato <ysato@users.sourceforge.jp>; dalias <dalias@libc.org>; linux-sh =
+<linux-sh@vger.kernel.org>; linux-renesas-soc <linux-renesas-soc@vger.kerne=
+l.org>
+Sent: Tue, Dec 17, 2019 4:09 am
+Subject: Re: can someone solve string_32.h issue for SH ?
+
+
+Hello,
+
+Give me a day or so and I can do the following things:
+
+1) Write you all a brand new standards-conforming strncpy in SH4 asm like t=
+his that is easier to read
+2) Compile it with sh4-elf-GCC 9.2
+3) Test it on a real SH4 (SH7750/SH7750R-like)=20
+
+The warning, if it shows up in my test, would likely then be a GCC thing--I=
+ have an idea of what it's doing, but I'll be sure after that.
+Unfortunately it's 4AM here on the other side of the world right now...
+-Karl
+
+
+
+-----Original Message-----
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>; Rich Felker <dalias@libc.o=
+rg>; Linux-SH <linux-sh@vger.kernel.org>; Linux-Renesas <linux-renesas-soc@=
+vger.kernel.org>
+Sent: Tue, Dec 17, 2019 3:51 am
+Subject: Re: can someone solve string_32.h issue for SH ?
+
+
+
+Hi Geert
+Cc Yoshinori-san
+
+> > --- a/arch/sh/include/asm/string_32.h
+> > +++ b/arch/sh/include/asm/string_32.h
+> > @@ -40,15 +40,15 @@ static inline char *strncpy(char *__dest, const
+> > char *__src, size_t __n)
+> >=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 __asm__ __volatile__(
+> >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 "1:\n"
+> >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 "mov.b=C2=
+=A0 @%1+, %2\n\t"
+> > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 "mov.b=C2=A0 %2=
+, @%0\n\t"
+> > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 "mov.b=C2=A0 %2=
+, @%0+\n\t"
+> >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 "cmp/eq #0=
+, %2\n\t"
+> >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 "bt/s=C2=
+=A0=C2=A0 2f\n\t"
+> > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 " cmp/eq=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 %5,%1\n\t"
+> > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 " cmp/eq=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 %5,%0\n\t"
+> >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 "bf/s=C2=
+=A0=C2=A0 1b\n\t"
+> > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 " add=C2=A0=C2=
+=A0 #1, %0\n"
+> > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 " nop\n"
+> >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 "2:"
+> >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 : "=3Dr" (=
+__dest), "=3Dr" (__src), "=3D&z" (__dummy)
+> > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 : "0" (__dest),=
+ "1" (__src), "r" (__src+__n)
+> > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 : "0" (__dest),=
+ "1" (__src), "r" (__dest+__n)
+> >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 : "memory"=
+, "t");
+> >
+> >=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 return __xdest;
+> >
+> > Does this make sense?
+> > Can it be improved, by putting something useful in the delay slot?
+>=20
+> BTW, there seems to be a serious security issue with this strncpy()
+> implementation: while it never writes more than n bytes in the
+> destination buffer, it doesn't pad the destination buffer with zeroes if
+> the source string is shorter than the buffer size.=C2=A0 This will leak
+> data.
+
+Yeah...
+I can only do is "Reporting issue" to SH ML, unfortunately...
+
+Thank you for your help !!
+Best regards
+
+---
+Kuninori Morimoto
+
