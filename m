@@ -2,140 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D7162123A8E
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2019 00:11:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42215123A92
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2019 00:13:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726512AbfLQXLv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Dec 2019 18:11:51 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:56952 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725886AbfLQXLv (ORCPT
+        id S1726090AbfLQXNi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Dec 2019 18:13:38 -0500
+Received: from 216-12-86-13.cv.mvl.ntelos.net ([216.12.86.13]:51698 "EHLO
+        brightrain.aerifal.cx" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725886AbfLQXNh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Dec 2019 18:11:51 -0500
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0023A9BF;
-        Wed, 18 Dec 2019 00:11:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1576624309;
-        bh=3pXofW/87TuK7bgMn6IvC70DbbQkK6YEsubNMznQLGw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XlT2bU5R9uYScf5C60rZXMiFTNvL0veueEEQEsL2C0J5qPnlW4QMYPUD2rvrtbYdx
-         sVDWZmWGGlkNFCaXFNWAf5E4o5H+xV+hPpnJeD9hwKYq0gSOU3Coz+24SeH6ygGU0r
-         t0CECOV2oF67iTOZK8QBSWLK5+Imj6puIZ6ofsyw=
-Date:   Wed, 18 Dec 2019 01:11:38 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Simon Horman <horms@verge.net.au>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm: rcar-du: Add r8a77980 support
-Message-ID: <20191217231138.GF4874@pendragon.ideasonboard.com>
-References: <20190911192502.16609-1-kieran.bingham+renesas@ideasonboard.com>
- <70b94265-69f3-d18f-1b67-b5b814723b1b@cogentembedded.com>
- <20190913082129.lvusbp6pbcayqh5r@verge.net.au>
- <20190913090359.GC29992@pendragon.ideasonboard.com>
- <2eeacacc-f190-4ba8-32bc-b4103b41db46@ideasonboard.com>
- <20191213004812.GA27328@pendragon.ideasonboard.com>
- <19cb3d1c-6910-4bec-13bb-adb875ddd077@ideasonboard.com>
- <CAMuHMdWuGxy8WH9ts7iKPsRW0fUjQ3c7jdDOb9KpViwcvXC14A@mail.gmail.com>
+        Tue, 17 Dec 2019 18:13:37 -0500
+Received: from dalias by brightrain.aerifal.cx with local (Exim 3.15 #2)
+        id 1ihM1n-0007j4-00; Tue, 17 Dec 2019 23:13:19 +0000
+Date:   Tue, 17 Dec 2019 18:13:19 -0500
+From:   Rich Felker <dalias@libc.org>
+To:     Karl Nasrallah <knnspeed@aol.com>
+Cc:     kuninori.morimoto.gx@renesas.com, geert@linux-m68k.org,
+        ysato@users.sourceforge.jp, linux-sh@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: can someone solve string_32.h issue for SH ?
+Message-ID: <20191217231319.GJ1666@brightrain.aerifal.cx>
+References: <87h81zh4ap.wl-kuninori.morimoto.gx@renesas.com>
+ <CAMuHMdUHGXkmKrcZVNQo8nOcGo0h6xYgjZ+XmfGy6bJCPK9ZwQ@mail.gmail.com>
+ <CAMuHMdUc4yyXsp4Y4Xx==3mUMrUn5DO8G-rLA_Mnv-790n6Ehg@mail.gmail.com>
+ <871rt3gwri.wl-kuninori.morimoto.gx@renesas.com>
+ <1850003495.209647.1576573784839@mail.yahoo.com>
+ <1933127148.546436.1576620988364@mail.yahoo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdWuGxy8WH9ts7iKPsRW0fUjQ3c7jdDOb9KpViwcvXC14A@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1933127148.546436.1576620988364@mail.yahoo.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Dec 16, 2019 at 11:37:00AM +0100, Geert Uytterhoeven wrote:
-> On Mon, Dec 16, 2019 at 10:47 AM Kieran Bingham wrote:
-> > On 13/12/2019 00:48, Laurent Pinchart wrote:
-> >> On Mon, Dec 09, 2019 at 12:41:07PM +0000, Kieran Bingham wrote:
-> >>> On 13/09/2019 10:03, Laurent Pinchart wrote:
-> >>>> On Fri, Sep 13, 2019 at 10:21:29AM +0200, Simon Horman wrote:
-> >>>>> On Thu, Sep 12, 2019 at 01:00:41PM +0300, Sergei Shtylyov wrote:
-> >>>>>> On 11.09.2019 22:25, Kieran Bingham wrote:
-> >>>>>>
-> >>>>>>> Add direct support for the r8a77980 (V3H).
-> >>>>>>>
-> >>>>>>> The V3H shares a common, compatible configuration with the r8a77970
-> >>>>>>> (V3M) so that device info structure is reused.
-> >>>>>>
-> >>>>>>    Do we really need to add yet another compatible in this case?
-> >>>>>> I just added r8a77970 to the compatible prop in the r8a77980 DT. That's why
-> >>>>>> a patch like this one didn't get posted by me.
-> >>>>>
-> >>>>> The reason for having per-SoC compat strings is that the IP blocks
-> >>>>> are not versioned and while we can observe that there are similarities
-> >>>>> between, f.e. the DU on the r8a77970 and r8a77980, we can't be certain that
-> >>>>> differences may not emerge at some point. By having per-SoC compat strings
-> >>>>> we have the flexibility for the driver to address any such differences as
-> >>>>> the need arises.
-> >>>>>
-> >>>>> My recollection is that this scheme has been adopted for non-versioned
-> >>>>> Renesas IP blocks since June 2015 and uses of this scheme well before that.
-> >>>>
-> >>>> Sure, but we could use
-> >>>>
-> >>>>     compatible = "renesas,du-r8a77980", "renesas,du-r8a77970";
-> >
-> > We already do in arch/arm64/boot/dts/renesas/r8a77980.dtsi.
-> >
-> > However that is the *only* non r8a77980 reference in the file so it,
-> > itself looks *very* much out of place.
-> >
-> >
-> > Furthermore, the main purpose of this patch is that we clearly document
-> > the driver as supporting the r8a77980 in the bindings (No mention that
-> > you must use the ..970 binding), yet in actual fact - the driver could
-> > not currently support loading a device with the following compatible:
-> >
-> >         compatible = "renesas,du-r8a77980";
-> >
-> >
-> >>>> in DT without updating the driver. If the r8a77980 turns out to be
-> >>>> different, we'll then update the driver without a need to modify DT. I'm
-> >>>> fine either way, so
-> >>>>
-> >>>> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >>>
-> >>> Thanks,
-> >>>
-> >>> This patch has an RB tag from you, and Simon, but alas I don't believe
-> >>> it has been picked up in your drm/du/next branch.
-> >>>
-> >>> Is this patch acceptable? Or do I need to repost?
-> >>
-> >> Could you just confirm I should apply this patch, and not go for the
-> >> alternative proposal above ?
-> >
-> > I believe the alternative proposal above is what we have today isn't it?
-> >
-> >
-> > Yes, I do believe we should apply this patch.
+On Tue, Dec 17, 2019 at 10:16:28PM +0000, Karl Nasrallah wrote:
+> Hello!
 > 
-> +1.
+> I have a strncpy for you.
 > 
-> I'm waiting for the driver part to go upstream, so I can apply the DTS patch.
-> Note that this will lead to a messy situation in LTS, as the DTS patch will
-> likely be backported, so the driver part must be backported, too.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-and taken in my tree.
-
-> > I'm going to assume you haven't read the other arguments on this thread
-> > so I'll paste them here:
+> static inline char *strncpy(char *__dest, const char *__src, size_t __n)
+> {
+> 	char * retval = __dest;
+> 	const char * __dest_end = __dest + __n - 1;
 > 
-> Thanks for recollecting! ;-)
+> 	// size_t is always unsigned
+> 	if(__n == 0)
+> 	{
+> 		return retval;
+> 	}
+> 
+> 	__asm__ __volatile__ (
+> 					"strncpy_start:\n\t"
+> 							"mov.b @%[src]+,r0\n\t"
+> 							"cmp/eq #0,r0\n\t" // cmp/eq #imm8,r0 is its own instruction
+> 							"bt.s strncpy_pad\n\t" // Done with the string
+> 							"cmp/eq %[dest],%[dest_end]\n\t" // This takes care of the size parameter in only one instruction ;)
+> 							"bt.s strncpy_end\n\t"
+> 							"mov.b r0,@%[dest]\n\t"
+> 							"bra strncpy_start\n\t"
+> 							"add #1,%[dest]\n\t" // mov.b R0,@Rn+ is SH2A only, but we can fill the delay slot with the offset
+> 					"strncpy_pad:\n\t"
+> 							"bt.s strncpy_end\n\t"
+> 							"mov.b r0,@%[dest]\n\t"
+> 							"add #1,%[dest]\n\t"
+> 							"bra strncpy_pad\n\t"
+> 							"cmp/eq %[dest],%[dest_end]\n\t"
+> 					"strncpy_end:\n\t" // All done
+> 		: [src] "+r" (__src), [dest] "+r" (__dest)
+> 		: [dest_end] "r" (__dest_end)
+> 		: "t"
+> 	);
+> 
+> 	return retval;
+> }
+> 
+> Tested with sh4-elf-gcc 9.2.0 on a real SH7750/SH7750R-compatible
+> system. No warnings, behaves exactly as per linux (dot) die (dot)
+> net/man/3/strncpy and I optimized it with some tricks I devised from
+> writing extremely optimized x86. If there are any doubts as to the
+> authenticity, note that I am the sole author of this project: github
+> (dot) com/KNNSpeed/AVX-Memmove
 
--- 
-Regards,
+You're using r0 explicitly in the asm but I don't see where you're
+reserving it for your use. You need it either on the clobbers or bound
+to a dummy output with earlyclobber.
 
-Laurent Pinchart
+Rich
