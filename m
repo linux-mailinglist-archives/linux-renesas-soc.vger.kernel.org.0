@@ -2,34 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D8C671230FF
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2019 16:59:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C67A123141
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2019 17:14:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727896AbfLQP7h (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Dec 2019 10:59:37 -0500
-Received: from sauhun.de ([88.99.104.3]:54186 "EHLO pokefinder.org"
+        id S1728257AbfLQQOM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Dec 2019 11:14:12 -0500
+Received: from sauhun.de ([88.99.104.3]:54336 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726933AbfLQP7h (ORCPT
+        id S1726858AbfLQQOM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Dec 2019 10:59:37 -0500
+        Tue, 17 Dec 2019 11:14:12 -0500
 Received: from localhost (p54B330AA.dip0.t-ipconnect.de [84.179.48.170])
-        by pokefinder.org (Postfix) with ESMTPSA id 683062C2D6D;
-        Tue, 17 Dec 2019 16:59:35 +0100 (CET)
-Date:   Tue, 17 Dec 2019 16:59:35 +0100
+        by pokefinder.org (Postfix) with ESMTPSA id 694742C06A5;
+        Tue, 17 Dec 2019 17:14:10 +0100 (CET)
+Date:   Tue, 17 Dec 2019 17:14:10 +0100
 From:   Wolfram Sang <wsa@the-dreams.de>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+Cc:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
         Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>, linux-i2c@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: i2c: sh_mobile: Document r8a77961 support
-Message-ID: <20191217155934.GD14061@ninjato>
-References: <20191205134025.6256-1-geert+renesas@glider.be>
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-watchdog@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: watchdog: renesas-wdt: Document r8a77961
+ support
+Message-ID: <20191217161410.GE14061@ninjato>
+References: <20191205134751.6928-1-geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Xm/fll+QQv+hsKip"
+        protocol="application/pgp-signature"; boundary="mR8QP4gmHujQHb1c"
 Content-Disposition: inline
-In-Reply-To: <20191205134025.6256-1-geert+renesas@glider.be>
+In-Reply-To: <20191205134751.6928-1-geert+renesas@glider.be>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -37,40 +40,40 @@ List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 
---Xm/fll+QQv+hsKip
+--mR8QP4gmHujQHb1c
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 05, 2019 at 02:40:25PM +0100, Geert Uytterhoeven wrote:
-> Document support for the IIC controller in the Renesas R-Car M3-W+
+On Thu, Dec 05, 2019 at 02:47:51PM +0100, Geert Uytterhoeven wrote:
+> Document support for the Watchdog Timer in the Renesas R-Car M3-W+
 > (R8A77961) SoC.
 >=20
 > No driver update is needed.
 >=20
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Applied to for-next, thanks!
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
 
---Xm/fll+QQv+hsKip
+--mR8QP4gmHujQHb1c
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl34+2YACgkQFA3kzBSg
-KbZHzg//fgctwWGyfANapHr1Fh5xtKfLAfb/ThCEPorrRCfl+6N35YZhrLBExfs6
-+WJ3382DzJ8xQp5lvQgtOAvtzI5AgCpTuTTTY0LNUGyD5sHlOE+DDvSOICd/T5Up
-iPMUrJGXp0Zn5GxM9G0DynlXqg82xclYlW6FGSCnH6t0hgQ2gs+8o6ipOMb+vQGA
-U5qEkINF/IlrHkEJyX1+O4RAxNjg5r7HoUy5idkJdDeGvO5qqiwxxMurb7PFuM4S
-2rxT6uklsO6tUTYlsKGHzUYA9J/GckqeCnrROTLQD+6eV15OTLKm5JQihUpFPnte
-e6zBrCtgLgIa3vJcgRUoZnB2ePezf0dcBKffy6+V7GBkSiAO17YMB3UrgVLrOVnt
-iV06RXnPgl1XOcZU/ZvDAEu0LcPhR+Pni3/mHPExA82xgksbxu8l5H2HPX7DkuyW
-UK8sCOKB9T95KSGSkmG4w2NOD+m5lnvlagQXtbokdP0r8X7MUanDgJynnBktZnCR
-Z/4xtJS1eEn2htIbX5nkYgXv3oryLRl8Z/uSbBqw2/JX8ZuvSmpuA08lLARRDG7K
-YA38h+8PMe+1jhsf6lQmqMEJ/BJi6cqoFYfM4spQ50TUcj+/6K3yq0x2F1GwT7ZG
-5n9HjVUuDejK4ovdbvKm/Lb2zr19Ehr+75+qjq4SQ4c3qjsX0jc=
-=PVXq
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl34/tEACgkQFA3kzBSg
+KbZM9Q//UNnF9l2ZCPRcTVEtC6zTo9ZH6YXtWDH9JXXnqaP2/ohMAdQ7qpv3q5kQ
+HZazX2a+641bjiDiJ+lEft6Oit4LfcI811466in8Cs43f/F9pSQCb0JeRq42HVau
+uf7ZCW7jMe2d/dZVcCWzx+KUsKV4vSlFdhIySUJOXLPCaUq0mUcFWf6fNdlMuJWT
+jmvR030rsi51fc0H7ees3fAH5i/tDs4JuWiGrsFxDbqUPUE7DXSr87l9jl/AB+Jv
+EVIQnXOz0kbtf9EFi/QQuBfmFrt8onYmLICPGI2QSZskDI7ytShxKslhIHY6spzU
+O6O6kGIYNT3DaisrJEnqGk9nEzxpOWZ20y8u/Xq5vajkgMMLEILbmjecH+MM4eKj
+t3+urZwV44GwCOf4Mhz0RHPFi/nXyz/mCNPtviN+uaD0ihFMUzZ6gAXxeyGQ31r1
+ZWthkJICfWHueBkZnHbh5niYpc6GcBgQhKjqQHF+iSDBqxnJ9DLgD+NNn8vZiLKB
+CZHFSko6JVH3AEk/icVhIGG6sv1KR4asUv3/GlgS1lCWJDIgI/98tKF/oUntemj6
++8elvtColf0fC2GTRvGxsaCbvvKJvodfyugEib4SMSG0SDqRiUWZnIjY0lBciAsp
+Xhgk8dTxpYBIZdIC11wwE1Q3GOAYYZk60FeStmSXIBGteWjJlSg=
+=l4M/
 -----END PGP SIGNATURE-----
 
---Xm/fll+QQv+hsKip--
+--mR8QP4gmHujQHb1c--
