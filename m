@@ -2,398 +2,157 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D7AF123524
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2019 19:42:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F54B1235B7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2019 20:30:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726731AbfLQSmu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Dec 2019 13:42:50 -0500
-Received: from baptiste.telenet-ops.be ([195.130.132.51]:50828 "EHLO
-        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726623AbfLQSmu (ORCPT
+        id S1727402AbfLQTaI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Dec 2019 14:30:08 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:35779 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726742AbfLQTaH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Dec 2019 13:42:50 -0500
-Received: from ramsan ([84.195.182.253])
-        by baptiste.telenet-ops.be with bizsmtp
-        id f6ik2100g5USYZQ016ikjb; Tue, 17 Dec 2019 19:42:44 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1ihHnw-0003dn-HA; Tue, 17 Dec 2019 19:42:44 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1ihHnw-0000EO-Fi; Tue, 17 Dec 2019 19:42:44 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] pinctrl: sh-pfc: Split R-Car H3 support in two independent drivers
-Date:   Tue, 17 Dec 2019 19:42:42 +0100
-Message-Id: <20191217184242.827-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Tue, 17 Dec 2019 14:30:07 -0500
+Received: by mail-lj1-f195.google.com with SMTP id j6so12289058lja.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Dec 2019 11:30:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Dt7nMF9lAkMR+CxlS7AwqAXWN5PCEwzjfiKWmOUTLlg=;
+        b=Ns+AKACOV6e7e9TkvUXRNw8Wva+XCOU9aloQmpthLvLBSl6JESIcpisGlyuFN0JRWu
+         ln/8BwL5r0jFtBfhVcW1SMD0HcLJggp8GPwd1xnttoIJU1yy8eiI9wKfodItjtwbK26l
+         xPBrfg8nF7Wb7ZcZRrua07jxCmDqwfRfii5TIk1wWkgO6C+wpbiKkJ5gwZrEfJqmZogp
+         e6glKtXnUgksZLkpbY9PxGArUy1yhm5IIpW3aROW4+7ThByK7XNxBJ54ecvWD2dC19Sw
+         CjwcDG2mw3ejnYLKY/d2xlov04GLWFd2CzOMIzsiF0TA4nWAw69WcPBQR4s+tgd/rgHh
+         3GmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=Dt7nMF9lAkMR+CxlS7AwqAXWN5PCEwzjfiKWmOUTLlg=;
+        b=UsDuCMbHWOqecONcbKTrItUWjyThBMuTtjDniYYp/a+BSCGcnEnKheSRQUpcKdmW2z
+         8YJILAiDzyVcrw3QRP3k8zzX3hRLI43sO6qKqrZ8dWVfGlgyGCfxd/QjKnZ6lcaQB8ry
+         C9f+JIr0m1gbPMhSkmLv2BKYX7LBqGDnxOwpRXy3z+DDztPAVdap+NfJnhdWoWC+AR4+
+         i/JFU9MdZovS3GDea1SeC8ceC4SbCstkILW0X5v2pUhQgVhJ7xusLrnmz7iE/ITkLfiz
+         ovv4fE2gvkXGJ4U1LrFo40qpZhyzRUJtUuR9ENGLmEc66ItZ4bs8vE2VVJfblHyIlU2p
+         /MTw==
+X-Gm-Message-State: APjAAAUdNDws9SvWrezepCaZ1jtuExwZYAZsTsy+2Iv8lDwNKuD2uPPD
+        QeS85jpf86p+IQeQVUpE/MRsiKel49A=
+X-Google-Smtp-Source: APXvYqwtdqLcLDLULkyXRPxe+Tq0eGIziCjfHWNA2pKHIBv1+qMr2mEGCl6NlJu00JcDH7T8xu6aUw==
+X-Received: by 2002:a2e:9095:: with SMTP id l21mr4378074ljg.175.1576611004354;
+        Tue, 17 Dec 2019 11:30:04 -0800 (PST)
+Received: from wasted.cogentembedded.com ([2a00:1fa0:411:5312:624c:c19e:baea:21d3])
+        by smtp.gmail.com with ESMTPSA id q25sm13291384lji.7.2019.12.17.11.30.02
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 17 Dec 2019 11:30:03 -0800 (PST)
+Subject: Re: [PATCH v2 0/6] spi: Add Renesas SPIBSC controller
+To:     Chris Brandt <Chris.Brandt@renesas.com>,
+        Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        Mason Yang <masonccyang@mxic.com.tw>
+References: <20191206134202.18784-1-chris.brandt@renesas.com>
+ <922cfa46-efb5-9e6d-67ea-3ac505b8211c@cogentembedded.com>
+ <TY1PR01MB156215E8668C0317FA0826B18A580@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+ <e6a73df5-31c4-3472-f7bc-a0984f1f5380@cogentembedded.com>
+ <TY1PR01MB1562D343E1AB06DCA2973DAC8A550@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+ <590840ce-a250-2512-3d04-c2420d83f7da@cogentembedded.com>
+ <TY1PR01MB1562B9EB96818DCA507079808A510@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Organization: Cogent Embedded
+Message-ID: <bb630141-021c-5618-f266-b98b29956fa8@cogentembedded.com>
+Date:   Tue, 17 Dec 2019 22:30:02 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
+MIME-Version: 1.0
+In-Reply-To: <TY1PR01MB1562B9EB96818DCA507079808A510@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Despite using the same compatible values ("r8a7795"-based) because of
-historical reasons, R-Car H3 ES1.x (R8A77950) and R-Car H3 ES2.0+
-(R8A77951) are really different SoCs, with different part numbers, and
-with different Pin Function Controller blocks.
+Hello!
 
-Reflect this in the pinctrl configuration, by replacing the existing
-CONFIG_PINCTRL_PFC_R8A7795 symbol by two new config symbols:
-CONFIG_PINCTRL_PFC_R8A77950 and CONFIG_PINCTRL_PFC_R8A77951.  The latter
-are selected automatically, depending on the soon-to-be-introduced
-corresponding SoC-specific config options, and on the current common
-config option, to relax dependencies.
+On 12/17/2019 01:21 AM, Chris Brandt wrote:
 
-Rename the individual pin control driver source files from
-pfc-r8a7795-es1.c to pfc-r8a77950.c, and from pfc-r8a7795.c to
-pfc-r8a77951.c, and make them truly independent.
-As both SoCs share the same compatible value, special care must be taken
-to match them to the correct pin control driver, if support for it is
-included in the running kernel.
+>>> As a side note, there is another HW block in Renesas that does the same
+>>> thing as the SPI-BSC that they use in the MCU devices. That one they
+>>
+>>    MCU?
+> Yup.
+>   But...it has no significance to this discussion though :)
 
-This will allow making support for early R-Car H3 revisions optional,
-the largest share of which is taken by the pin control driver.
+   But what does the acronym mean?
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-Suggestions for simplifying sh_pfc_quirk_match(), or for alternative
-solutions are welcome!
+>>> When I first saw the series on the mailing list, my plan was to just wait
+>>> and then add RZ/A1 and RZ/A2 support. But....it looks like it all died.
+>>
+>>    No. :-) It was worked on during all these months... I just finally decided
+>> to stop, take a deep breath, and post what patches I had accumulated, without
+>> the whole driver suite working first... I'm sorry it took so long....
+> 
+> So at the moment, there is nothing yet for me to 'try' on the RZ/A series, correct?
 
-This complements, but has no dependencies on "[PATCH 0/5] arm64:
-renesas: Split/rename R-Car H3 support"
-https://lore.kernel.org/linux-renesas-soc/20191217183841.432-1-geert+renesas@glider.be/T/#t
+   Why, I can send you a working version of the SPI driver, and even HF one if you're
+interested.
+ 
+>>> My understanding is that HyperFlash uses standard CFI commands, so all
+>>
+>>    The CFI command set driver needed some changes too (e.g. using the status
+>> register to determine if a command is done).
+> 
+> So the existing MTD-SPI layer knows how to talk to SPI devices.
 
-For your convenience, all of this is available in the
-topic/r8a7795-rename-v1 branch of my renesas-drivers git repository at
-git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git.
----
- drivers/pinctrl/sh-pfc/Kconfig                | 10 ++-
- drivers/pinctrl/sh-pfc/Makefile               |  4 +-
- drivers/pinctrl/sh-pfc/core.c                 | 65 +++++++++++++++----
- .../{pfc-r8a7795-es1.c => pfc-r8a77950.c}     | 26 ++++----
- .../sh-pfc/{pfc-r8a7795.c => pfc-r8a77951.c}  | 39 ++++-------
- drivers/pinctrl/sh-pfc/sh_pfc.h               |  4 +-
- 6 files changed, 89 insertions(+), 59 deletions(-)
- rename drivers/pinctrl/sh-pfc/{pfc-r8a7795-es1.c => pfc-r8a77950.c} (99%)
- rename drivers/pinctrl/sh-pfc/{pfc-r8a7795.c => pfc-r8a77951.c} (99%)
+   SPI-NOR does it with a help of drivers/spi/spi-mem.c... As for the HyperFlash,
+it needs a HyperBus driver (that I have a working patch for)...
 
-diff --git a/drivers/pinctrl/sh-pfc/Kconfig b/drivers/pinctrl/sh-pfc/Kconfig
-index ecf3b045bf755008..cf0e0dc42b84c06f 100644
---- a/drivers/pinctrl/sh-pfc/Kconfig
-+++ b/drivers/pinctrl/sh-pfc/Kconfig
-@@ -26,7 +26,8 @@ config PINCTRL_SH_PFC
- 	select PINCTRL_PFC_R8A7792 if ARCH_R8A7792
- 	select PINCTRL_PFC_R8A7793 if ARCH_R8A7793
- 	select PINCTRL_PFC_R8A7794 if ARCH_R8A7794
--	select PINCTRL_PFC_R8A7795 if ARCH_R8A7795
-+	select PINCTRL_PFC_R8A77950 if ARCH_R8A77950 || ARCH_R8A7795
-+	select PINCTRL_PFC_R8A77951 if ARCH_R8A77951 || ARCH_R8A7795
- 	select PINCTRL_PFC_R8A77960 if ARCH_R8A77960
- 	select PINCTRL_PFC_R8A77961 if ARCH_R8A77961
- 	select PINCTRL_PFC_R8A77965 if ARCH_R8A77965
-@@ -115,8 +116,11 @@ config PINCTRL_PFC_R8A7793
- config PINCTRL_PFC_R8A7794
- 	bool "R-Car E2 pin control support" if COMPILE_TEST
- 
--config PINCTRL_PFC_R8A7795
--	bool "R-Car H3 pin control support" if COMPILE_TEST
-+config PINCTRL_PFC_R8A77950
-+	bool "R-Car H3 ES1.x pin control support" if COMPILE_TEST
-+
-+config PINCTRL_PFC_R8A77951
-+	bool "R-Car H3 ES2.0+ pin control support" if COMPILE_TEST
- 
- config PINCTRL_PFC_R8A77960
- 	bool "R-Car M3-W pin control support" if COMPILE_TEST
-diff --git a/drivers/pinctrl/sh-pfc/Makefile b/drivers/pinctrl/sh-pfc/Makefile
-index 3bc05666e1a6652e..9ebe321d24c488b0 100644
---- a/drivers/pinctrl/sh-pfc/Makefile
-+++ b/drivers/pinctrl/sh-pfc/Makefile
-@@ -18,8 +18,8 @@ obj-$(CONFIG_PINCTRL_PFC_R8A7791)	+= pfc-r8a7791.o
- obj-$(CONFIG_PINCTRL_PFC_R8A7792)	+= pfc-r8a7792.o
- obj-$(CONFIG_PINCTRL_PFC_R8A7793)	+= pfc-r8a7791.o
- obj-$(CONFIG_PINCTRL_PFC_R8A7794)	+= pfc-r8a7794.o
--obj-$(CONFIG_PINCTRL_PFC_R8A7795)	+= pfc-r8a7795.o
--obj-$(CONFIG_PINCTRL_PFC_R8A7795)	+= pfc-r8a7795-es1.o
-+obj-$(CONFIG_PINCTRL_PFC_R8A77950)	+= pfc-r8a77950.o
-+obj-$(CONFIG_PINCTRL_PFC_R8A77951)	+= pfc-r8a77951.o
- obj-$(CONFIG_PINCTRL_PFC_R8A77960)	+= pfc-r8a7796.o
- obj-$(CONFIG_PINCTRL_PFC_R8A77961)	+= pfc-r8a7796.o
- obj-$(CONFIG_PINCTRL_PFC_R8A77965)	+= pfc-r8a77965.o
-diff --git a/drivers/pinctrl/sh-pfc/core.c b/drivers/pinctrl/sh-pfc/core.c
-index 65e52688f0916cbf..1ae79690d2d74756 100644
---- a/drivers/pinctrl/sh-pfc/core.c
-+++ b/drivers/pinctrl/sh-pfc/core.c
-@@ -23,6 +23,7 @@
- #include <linux/platform_device.h>
- #include <linux/psci.h>
- #include <linux/slab.h>
-+#include <linux/sys_soc.h>
- 
- #include "core.h"
- 
-@@ -568,18 +569,18 @@ static const struct of_device_id sh_pfc_of_table[] = {
- 		.data = &r8a7794_pinmux_info,
- 	},
- #endif
--#ifdef CONFIG_PINCTRL_PFC_R8A7795
-+/* Both r8a7795 entries must be present to make sanity checks work */
-+#ifdef CONFIG_PINCTRL_PFC_R8A77950
- 	{
- 		.compatible = "renesas,pfc-r8a7795",
--		.data = &r8a7795_pinmux_info,
-+		.data = &r8a77950_pinmux_info,
- 	},
--#ifdef DEBUG
-+#endif
-+#ifdef CONFIG_PINCTRL_PFC_R8A77951
- 	{
--		/* For sanity checks only (nothing matches against this) */
--		.compatible = "renesas,pfc-r8a77950",	/* R-Car H3 ES1.0 */
--		.data = &r8a7795es1_pinmux_info,
-+		.compatible = "renesas,pfc-r8a7795",
-+		.data = &r8a77951_pinmux_info,
- 	},
--#endif /* DEBUG */
- #endif
- #ifdef CONFIG_PINCTRL_PFC_R8A77960
- 	{
-@@ -886,19 +887,57 @@ static void __init sh_pfc_check_driver(const struct platform_driver *pdrv)
- static inline void sh_pfc_check_driver(struct platform_driver *pdrv) {}
- #endif /* !DEBUG */
- 
--static int sh_pfc_probe(struct platform_device *pdev)
--{
- #ifdef CONFIG_OF
--	struct device_node *np = pdev->dev.of_node;
-+static const void *sh_pfc_quirk_match(void)
-+{
-+#if defined(CONFIG_PINCTRL_PFC_R8A77950) || \
-+    defined(CONFIG_PINCTRL_PFC_R8A77951)
-+	const struct soc_device_attribute *match;
-+	static const struct soc_device_attribute quirks[] = {
-+		{
-+			.soc_id = "r8a7795", .revision = "ES1.*",
-+#ifdef CONFIG_PINCTRL_PFC_R8A77950
-+			.data = &r8a77950_pinmux_info,
-+#else
-+			.data = (void *)-ENODEV,
-+#endif
-+		},
-+		{
-+			.soc_id = "r8a7795",
-+#ifdef CONFIG_PINCTRL_PFC_R8A77951
-+			.data = &r8a77951_pinmux_info,
-+#else
-+			.data = (void *)-ENODEV,
- #endif
-+		},
-+
-+		{ /* sentinel */ }
-+	};
-+
-+	match = soc_device_match(quirks);
-+	if (match)
-+		return match->data;
-+#endif /* CONFIG_PINCTRL_PFC_R8A77950 || CONFIG_PINCTRL_PFC_R8A77951 */
-+
-+	return NULL;
-+}
-+#endif /* CONFIG_OF */
-+
-+static int sh_pfc_probe(struct platform_device *pdev)
-+{
- 	const struct sh_pfc_soc_info *info;
- 	struct sh_pfc *pfc;
- 	int ret;
- 
- #ifdef CONFIG_OF
--	if (np)
--		info = of_device_get_match_data(&pdev->dev);
--	else
-+	if (pdev->dev.of_node) {
-+		info = sh_pfc_quirk_match();
-+		if (IS_ERR(info))
-+			return PTR_ERR(info);
-+
-+		if (!info)
-+			info = of_device_get_match_data(&pdev->dev);
-+	} else
- #endif
- 		info = (const void *)platform_get_device_id(pdev)->driver_data;
- 
-diff --git a/drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c b/drivers/pinctrl/sh-pfc/pfc-r8a77950.c
-similarity index 99%
-rename from drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c
-rename to drivers/pinctrl/sh-pfc/pfc-r8a77950.c
-index ad05da8f65161c3d..04812e62f3a476a8 100644
---- a/drivers/pinctrl/sh-pfc/pfc-r8a7795-es1.c
-+++ b/drivers/pinctrl/sh-pfc/pfc-r8a77950.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * R8A7795 ES1.x processor support - PFC hardware block.
-+ * R8A77950 processor support - PFC hardware block.
-  *
-  * Copyright (C) 2015-2017  Renesas Electronics Corporation
-  */
-@@ -5562,8 +5562,8 @@ static const struct pinmux_ioctrl_reg pinmux_ioctrl_regs[] = {
- 	{ /* sentinel */ },
- };
- 
--static int r8a7795es1_pin_to_pocctrl(struct sh_pfc *pfc, unsigned int pin,
--				     u32 *pocctrl)
-+static int r8a77950_pin_to_pocctrl(struct sh_pfc *pfc, unsigned int pin,
-+				   u32 *pocctrl)
- {
- 	int bit = -EINVAL;
- 
-@@ -5820,8 +5820,8 @@ static const struct pinmux_bias_reg pinmux_bias_regs[] = {
- 	{ /* sentinel */ },
- };
- 
--static unsigned int r8a7795es1_pinmux_get_bias(struct sh_pfc *pfc,
--					       unsigned int pin)
-+static unsigned int r8a77950_pinmux_get_bias(struct sh_pfc *pfc,
-+					     unsigned int pin)
- {
- 	const struct pinmux_bias_reg *reg;
- 	unsigned int bit;
-@@ -5838,8 +5838,8 @@ static unsigned int r8a7795es1_pinmux_get_bias(struct sh_pfc *pfc,
- 		return PIN_CONFIG_BIAS_PULL_DOWN;
- }
- 
--static void r8a7795es1_pinmux_set_bias(struct sh_pfc *pfc, unsigned int pin,
--				       unsigned int bias)
-+static void r8a77950_pinmux_set_bias(struct sh_pfc *pfc, unsigned int pin,
-+				     unsigned int bias)
- {
- 	const struct pinmux_bias_reg *reg;
- 	u32 enable, updown;
-@@ -5861,15 +5861,15 @@ static void r8a7795es1_pinmux_set_bias(struct sh_pfc *pfc, unsigned int pin,
- 	sh_pfc_write(pfc, reg->puen, enable);
- }
- 
--static const struct sh_pfc_soc_operations r8a7795es1_pinmux_ops = {
--	.pin_to_pocctrl = r8a7795es1_pin_to_pocctrl,
--	.get_bias = r8a7795es1_pinmux_get_bias,
--	.set_bias = r8a7795es1_pinmux_set_bias,
-+static const struct sh_pfc_soc_operations r8a77950_pinmux_ops = {
-+	.pin_to_pocctrl = r8a77950_pin_to_pocctrl,
-+	.get_bias = r8a77950_pinmux_get_bias,
-+	.set_bias = r8a77950_pinmux_set_bias,
- };
- 
--const struct sh_pfc_soc_info r8a7795es1_pinmux_info = {
-+const struct sh_pfc_soc_info r8a77950_pinmux_info = {
- 	.name = "r8a77950_pfc",
--	.ops = &r8a7795es1_pinmux_ops,
-+	.ops = &r8a77950_pinmux_ops,
- 	.unlock_reg = 0xe6060000, /* PMMR */
- 
- 	.function = { PINMUX_FUNCTION_BEGIN, PINMUX_FUNCTION_END },
-diff --git a/drivers/pinctrl/sh-pfc/pfc-r8a7795.c b/drivers/pinctrl/sh-pfc/pfc-r8a77951.c
-similarity index 99%
-rename from drivers/pinctrl/sh-pfc/pfc-r8a7795.c
-rename to drivers/pinctrl/sh-pfc/pfc-r8a77951.c
-index d3145aa135d0fdcd..256fab4b03d35621 100644
---- a/drivers/pinctrl/sh-pfc/pfc-r8a7795.c
-+++ b/drivers/pinctrl/sh-pfc/pfc-r8a77951.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /*
-- * R8A7795 ES2.0+ processor support - PFC hardware block.
-+ * R8A77951 processor support - PFC hardware block.
-  *
-  * Copyright (C) 2015-2019 Renesas Electronics Corporation
-  */
-@@ -5915,7 +5915,8 @@ static const struct pinmux_ioctrl_reg pinmux_ioctrl_regs[] = {
- 	{ /* sentinel */ },
- };
- 
--static int r8a7795_pin_to_pocctrl(struct sh_pfc *pfc, unsigned int pin, u32 *pocctrl)
-+static int r8a77951_pin_to_pocctrl(struct sh_pfc *pfc,
-+				   unsigned int pin, u32 *pocctrl)
- {
- 	int bit = -EINVAL;
- 
-@@ -6172,8 +6173,8 @@ static const struct pinmux_bias_reg pinmux_bias_regs[] = {
- 	{ /* sentinel */ },
- };
- 
--static unsigned int r8a7795_pinmux_get_bias(struct sh_pfc *pfc,
--					    unsigned int pin)
-+static unsigned int r8a77951_pinmux_get_bias(struct sh_pfc *pfc,
-+					     unsigned int pin)
- {
- 	const struct pinmux_bias_reg *reg;
- 	unsigned int bit;
-@@ -6190,8 +6191,8 @@ static unsigned int r8a7795_pinmux_get_bias(struct sh_pfc *pfc,
- 		return PIN_CONFIG_BIAS_PULL_DOWN;
- }
- 
--static void r8a7795_pinmux_set_bias(struct sh_pfc *pfc, unsigned int pin,
--				   unsigned int bias)
-+static void r8a77951_pinmux_set_bias(struct sh_pfc *pfc, unsigned int pin,
-+				     unsigned int bias)
- {
- 	const struct pinmux_bias_reg *reg;
- 	u32 enable, updown;
-@@ -6213,29 +6214,15 @@ static void r8a7795_pinmux_set_bias(struct sh_pfc *pfc, unsigned int pin,
- 	sh_pfc_write(pfc, reg->puen, enable);
- }
- 
--static const struct soc_device_attribute r8a7795es1[] = {
--	{ .soc_id = "r8a7795", .revision = "ES1.*" },
--	{ /* sentinel */ }
-+static const struct sh_pfc_soc_operations r8a77951_pinmux_ops = {
-+	.pin_to_pocctrl = r8a77951_pin_to_pocctrl,
-+	.get_bias = r8a77951_pinmux_get_bias,
-+	.set_bias = r8a77951_pinmux_set_bias,
- };
- 
--static int r8a7795_pinmux_init(struct sh_pfc *pfc)
--{
--	if (soc_device_match(r8a7795es1))
--		pfc->info = &r8a7795es1_pinmux_info;
--
--	return 0;
--}
--
--static const struct sh_pfc_soc_operations r8a7795_pinmux_ops = {
--	.init = r8a7795_pinmux_init,
--	.pin_to_pocctrl = r8a7795_pin_to_pocctrl,
--	.get_bias = r8a7795_pinmux_get_bias,
--	.set_bias = r8a7795_pinmux_set_bias,
--};
--
--const struct sh_pfc_soc_info r8a7795_pinmux_info = {
-+const struct sh_pfc_soc_info r8a77951_pinmux_info = {
- 	.name = "r8a77951_pfc",
--	.ops = &r8a7795_pinmux_ops,
-+	.ops = &r8a77951_pinmux_ops,
- 	.unlock_reg = 0xe6060000, /* PMMR */
- 
- 	.function = { PINMUX_FUNCTION_BEGIN, PINMUX_FUNCTION_END },
-diff --git a/drivers/pinctrl/sh-pfc/sh_pfc.h b/drivers/pinctrl/sh-pfc/sh_pfc.h
-index 640d2a4cb838804f..aa298332f00f1a8e 100644
---- a/drivers/pinctrl/sh-pfc/sh_pfc.h
-+++ b/drivers/pinctrl/sh-pfc/sh_pfc.h
-@@ -318,8 +318,8 @@ extern const struct sh_pfc_soc_info r8a7791_pinmux_info;
- extern const struct sh_pfc_soc_info r8a7792_pinmux_info;
- extern const struct sh_pfc_soc_info r8a7793_pinmux_info;
- extern const struct sh_pfc_soc_info r8a7794_pinmux_info;
--extern const struct sh_pfc_soc_info r8a7795_pinmux_info;
--extern const struct sh_pfc_soc_info r8a7795es1_pinmux_info;
-+extern const struct sh_pfc_soc_info r8a77950_pinmux_info;
-+extern const struct sh_pfc_soc_info r8a77951_pinmux_info;
- extern const struct sh_pfc_soc_info r8a77960_pinmux_info;
- extern const struct sh_pfc_soc_info r8a77961_pinmux_info;
- extern const struct sh_pfc_soc_info r8a77965_pinmux_info;
--- 
-2.17.1
+> And, you've fixed up the existing CFI layer to talk to HyperFlash evices.
 
+   Mostly Boris B. did it... :-)
+
+> But, you do not want these MTD layer to talk directly to a Renesas HW driver?
+
+   Yes, because the SPI-NOR and HyperBus have different driver APIs.
+
+> You want to put another software layer in between?
+
+   Yes.
+
+> I'm guessing that from this statement....
+
+>>>>> library that you are proposing have a very different API than just
+>>>>> 'send bytes' and 'receive bytes'?
+>>>>
+>>>>    There's "prepare" and "transfer" APIs and also "direct map read" API.
+>>
+>>   The 1st one prepares the values to be written in either SPI mode or direct
+>> read mode registers. Then you can call "transfer" or "direct mao read" which
+>> would write out the register values into either set...
+> 
+> ...that you want more control of the data stream being passed to the RPC-IF driver.
+> Correct??
+> 
+> It all keeps sounding complicated, unless I'm just not understanding the code
+> you are trying to implement.
+
+   Well, it reflects the fact that the "SPI mode" and "direct read" register sets
+are largely identical. The "preparation" stage sets up the register values, the 
+other stages use that data to set up the real register sets and then do the
+needed transfers...
+
+> Chris
+
+MBR, Sergei
