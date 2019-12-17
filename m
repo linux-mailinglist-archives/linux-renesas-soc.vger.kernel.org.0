@@ -2,92 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CC36D122AD7
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2019 13:01:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DF5B122B4A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2019 13:20:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726571AbfLQMB1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Dec 2019 07:01:27 -0500
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:51715 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726141AbfLQMB1 (ORCPT
+        id S1727472AbfLQMUA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Dec 2019 07:20:00 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:41292 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726933AbfLQMUA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Dec 2019 07:01:27 -0500
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id DB4273C057F;
-        Tue, 17 Dec 2019 13:01:24 +0100 (CET)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 0TeibO5qeoXj; Tue, 17 Dec 2019 13:01:19 +0100 (CET)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id D400A3C00BB;
-        Tue, 17 Dec 2019 13:01:19 +0100 (CET)
-Received: from vmlxhi-102.adit-jv.com (10.72.93.66) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Tue, 17 Dec
- 2019 13:01:19 +0100
-Date:   Tue, 17 Dec 2019 13:01:16 +0100
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-CC:     Magnus Damm <magnus.damm@gmail.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        <linux-renesas-soc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
+        Tue, 17 Dec 2019 07:20:00 -0500
+Received: by mail-ot1-f66.google.com with SMTP id r27so13524842otc.8;
+        Tue, 17 Dec 2019 04:19:59 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0U15JxqTWohe4GLhfwPMbmA9156s0i20ALyMdM/t43M=;
+        b=PZfd/VIm/ZEAeC1vT5QTgtadoAH3VARjb5G1wyCu899S00I3QqpUmuUew7wtxuMEzs
+         KGqcgQXwhCgTbt9Sqi/mUQkhfRLwjewTaL7Bsq7AfePOsznz6A8Hqm/l2sm7EVmEy/d4
+         WdyCzeevQHnt9kO1lGe8X2oZNzsE+UHK6LULMFlALKSmk+CxpzGhNjJPclTpBILG1j8I
+         KdUSBTwYQl+R4hOwMKXF2yMLN/96SW5G5T8Nyft3VaMwhfN12bE1PAgMM87ZBcRfMBFJ
+         4SHHYg8EBBSCxIhu75hBs/PaEOiCU62SuPIi98gzwEffIhyToX4+KKAd3YXCnZ+6/j3a
+         bpuQ==
+X-Gm-Message-State: APjAAAXxlggpS+MZ7RDHPkb2aX28/n3ET8H6BZG7kHqOJ/vawBHczPo6
+        E+tPuw+4Us2IKbPcEdV37SN+AiN8Hx+XH49Z68ZcWg==
+X-Google-Smtp-Source: APXvYqwkdCwHahSuzYZ+Y81qKjRN63MiahQdOtK75IEiAYkiWMv9UXYUX0fqo59WGI8tjtR25Z+A2O3DlS1vzMShzgI=
+X-Received: by 2002:a9d:2073:: with SMTP id n106mr37395735ota.145.1576585199481;
+ Tue, 17 Dec 2019 04:19:59 -0800 (PST)
+MIME-Version: 1.0
+References: <20191216124740.16647-1-geert+renesas@glider.be> <20191217120116.GA11814@vmlxhi-102.adit-jv.com>
+In-Reply-To: <20191217120116.GA11814@vmlxhi-102.adit-jv.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 17 Dec 2019 13:19:48 +0100
+Message-ID: <CAMuHMdXoKN0X+pukArrnfeSs9vaF20sW2zaf=v7UX2WD6w4G-w@mail.gmail.com>
+Subject: Re: [PATCH v2 0/6] arm64: dts: renesas: r8a77961: Add more device nodes
+To:     Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
         Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH v2 0/6] arm64: dts: renesas: r8a77961: Add more device
- nodes
-Message-ID: <20191217120116.GA11814@vmlxhi-102.adit-jv.com>
-References: <20191216124740.16647-1-geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20191216124740.16647-1-geert+renesas@glider.be>
-X-Originating-IP: [10.72.93.66]
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Eugeniu,
 
-On Mon, Dec 16, 2019 at 01:47:34PM +0100, Geert Uytterhoeven wrote:
-> 	Hi all,
-> 
-> This patch series broadens support for the R-Car M3-W+ (aka R-Car M3-W
-> ES3.0) Soc (R8A77961), by adding more device nodes to its DT source
-> file, up to what can be tested reasonably using remote access.
-> For your convenience, it is available in the topic/r8a77961-v2 branch of
-> my renesas-drivers git repository at
-> git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git.
+On Tue, Dec 17, 2019 at 1:01 PM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
+> On Mon, Dec 16, 2019 at 01:47:34PM +0100, Geert Uytterhoeven wrote:
+> > This patch series broadens support for the R-Car M3-W+ (aka R-Car M3-W
+> > ES3.0) Soc (R8A77961), by adding more device nodes to its DT source
+> > file, up to what can be tested reasonably using remote access.
+> > For your convenience, it is available in the topic/r8a77961-v2 branch of
+> > my renesas-drivers git repository at
+> > git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git.
+>
+> I only see below r8a77961.dtsi commit on topic/r8a77961-v2:
+> 8e4529f2ac8293 ("arm64: dts: renesas: Add Renesas R8A77961 SoC support")
 
-I only see below r8a77961.dtsi commit on topic/r8a77961-v2:
-8e4529f2ac8293 ("arm64: dts: renesas: Add Renesas R8A77961 SoC support")
+Oops.
 
-It looks like the patches are from one of below branches?
- - topic/r8a77961-extra-v2
- - topic/topic/r8a77961-extra-v1
+> It looks like the patches are from one of below branches?
+>  - topic/r8a77961-extra-v2
 
-> Changes compared to v1:
->   - Group SYS-DMAC interrupt specifiers.
-> 
-> This has been tested on a Salvator-XS development board.
-> More details can be found in the individual patches.
-> 
-> To be queued in renesas-devel for v5.6.
-> Thanks!
-> 
-> Geert Uytterhoeven (6):
->   arm64: dts: renesas: r8a77961: Add RWDT node
->   arm64: dts: renesas: r8a77961: Add GPIO nodes
->   arm64: dts: renesas: r8a77961: Add RAVB node
->   arm64: dts: renesas: r8a77961: Add SYS-DMAC nodes
->   arm64: dts: renesas: r8a77961: Add I2C nodes
->   arm64: dts: renesas: r8a77961: Add SDHI nodes
+Yes, that's the right branch.
+Sorry for the confusion.
 
-Thanks for your time and for the helpful minimal test-cases, which
-can be reused in future bring-ups.
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Best Regards,
-Eugeniu
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
