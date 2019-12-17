@@ -2,203 +2,231 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B31F8123934
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Dec 2019 23:16:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87AA0123A76
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2019 00:02:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725892AbfLQWQb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Dec 2019 17:16:31 -0500
-Received: from sonic307-10.consmr.mail.ne1.yahoo.com ([66.163.190.33]:40056
-        "EHLO sonic307-10.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725805AbfLQWQa (ORCPT
+        id S1726622AbfLQXC1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Dec 2019 18:02:27 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:56812 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725892AbfLQXC1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Dec 2019 17:16:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1576620989; bh=BGLX1CLynx8QVQggMrMYgwbA4nVLitJWFEU19vNB8EM=; h=Date:From:To:Cc:In-Reply-To:References:Subject:From:Subject; b=aQP5HF65WE0T4HGS9OAYaJo/nV/3D5PqQsil1bM0xB0NzZ6Xj4FgbsztcqnLxBsA+k1rPtPgZQdDVKR6N9xckCFMVlI52GjRfKSmkxrSVKJQdn1rmHaJ9EumTD7aoelYACdJ2QN3eCEGvSY/c0tfQR8zWI7pPQgbCfex3S1qQ64Wa5XXR6ksc0vrx51or6/3QbfUKklG05OxAfVWOdW6QtILFHgA8JZGPyYcgORouEVdA+jVwDh80RS+fF9rZD3OZJ2bOxXEdKF/kZfnRaIgvOhwNJ5xB6En5L+VSGw7XaJEg7cTuL8H0MQxdxhcU+6TMn3fPcLOBJQDEZ3H7bMw3g==
-X-YMail-OSG: 4xVIBzcVM1mc2N6ACCvMDbw8i1NkS01R83iEOvDJejTe8Tic7eiHnFJ0imagDMF
- uBen6s7WsyLvpVvQWuZG6mQRtDcWr2lU_VVpz7RCY4XU7fF0LsTgn2TcromzsjycxtRmhNDmStLj
- VMK3jvNOEzHKssGHbQZG..JHg4PmowhU1y7qwJW64xAGwpUsR8gdq786P4YIWV3dnyU2i5Fh1nId
- vJAxwTC_bbJE3L17IUgQ5839p1h.CYi2MOVpXfMIPcSiIwhBu.wy1ok9T.J9ogdCpfGlvTF9E7_2
- 8j268ZEeTCKFdPy_P_ERBBCC4slOHuBQTn3HRHM0T_LMaO0S8tYzj_u8D4xNHVMc.1tDI_AqoEA0
- 3V520dB.p7xVfX5KUj6w0Qed1iPqbCH.q0mxvuS7RnFfQJ0kzMemscvROd4DhpUrKh4iJrjvfzw0
- xLUVPbU4tFzudnWZ05eMXC23Qg._PXcCuPwgYQgXwksgQpiEU586uKx_5In4MawRI3O6kUPgPl_Y
- hFGPbAFoe4jHC1edUtCXw8FI1sO_fq6wa.zgbBAKTTgwHDxd9G4xjTO87ObQ80jfyr7Vdo4W.tfo
- OKRswVDPyU8DUPW42znlNjtB5PVQUCbbtlU.MRbLuhma6AWcbWTlD5uE4ZPgKyU1bxja.T64kRab
- 0x6NM_CNRbgkThro1k7AZOUXGsEiDCUnsvUM2myzkiiFOidKHPDrQaQpoGSEmLfMtxGDEd5Cjgbi
- SWua7FZztyOafjLUq2441MjkKYAU.Bv4MznO97O5z80u3wjyiUKPNOmidtPY794h2oGUXJlqrjzn
- 4vq3tH6JCKwW991Nh32961k_OaRUtDnxdfvoRg6RQMbedSWhhRPM1hbUMOMWBMCgKr9LrfwqcdNI
- cPtMlprjbisoejljpJP9nzvFAUQ1sIRksctgUz5hjWClMiApW4dYYBqitRwiSR4r9nzxc9QGNXUB
- M51fD5JTIleaM_KKorM9odl6lVHq6xIRb84h_oZZuxDdCqEPQmN5i77.0YSXPHAyu39jOKY.PCHA
- _nl8TGRQtUNZhZoPgTNhbupL2mKePts8VNvulQwoU1WIYVLAiFcBf4jFxfAcfqgAROTuI6vgYthV
- F28sXaKK4frLD2Zbni8Tpe420tcPoC7IRWYcUYq5niMn9T2v204bVvBcJu6O716q4eam0vH2oS6Z
- BdLjADmV2LeDiX7NjfCdsVkBPwAk.5UMx5vSE_YoUW64RuhI8Bt57r1mRYXs2whVqUodobmFLONv
- LQkD27PzzZVTtkEikiSmc10mZyuGO8vbRHlxjq6x1xbWsBR3JiewBoveVgMT0UFGqrGnyCoo-
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.ne1.yahoo.com with HTTP; Tue, 17 Dec 2019 22:16:29 +0000
-Date:   Tue, 17 Dec 2019 22:16:28 +0000 (UTC)
-From:   Karl Nasrallah <knnspeed@aol.com>
-To:     kuninori.morimoto.gx@renesas.com, geert@linux-m68k.org
-Cc:     ysato@users.sourceforge.jp, dalias@libc.org,
-        linux-sh@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Message-ID: <1933127148.546436.1576620988364@mail.yahoo.com>
-In-Reply-To: <1850003495.209647.1576573784839@mail.yahoo.com>
-References: <87h81zh4ap.wl-kuninori.morimoto.gx@renesas.com> <CAMuHMdUHGXkmKrcZVNQo8nOcGo0h6xYgjZ+XmfGy6bJCPK9ZwQ@mail.gmail.com> <CAMuHMdUc4yyXsp4Y4Xx==3mUMrUn5DO8G-rLA_Mnv-790n6Ehg@mail.gmail.com> <871rt3gwri.wl-kuninori.morimoto.gx@renesas.com> <1850003495.209647.1576573784839@mail.yahoo.com>
-Subject: Re: can someone solve string_32.h issue for SH ?
+        Tue, 17 Dec 2019 18:02:27 -0500
+Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A4F4D9BF;
+        Wed, 18 Dec 2019 00:02:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1576623744;
+        bh=/92PepNoACtouQ9MFLUqBYrYR2/CqnP/ARZj5pAB6iI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=RgopuneiSfRhC5XRApIJd16Zx8WQo8xpQU9G5cntetLhgxVt/eXbsiD1blbP8+1Fq
+         t+0PS4R08pSSeJAiG7/qiBR633XA/6M9uWVq90AiFFC/yZkBnnT5RzxdKlkjmK9750
+         cwMfceV7R+A6QV0NDZzK+LS0N/NqVSGrD+Ojf9oE=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Subject: [PATCH v7.1 5.7] drm: rcar-du: crtc: Control CMM operations
+Date:   Wed, 18 Dec 2019 01:02:01 +0200
+Message-Id: <20191217230201.2513-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20191113100556.15616-6-jacopo+renesas@jmondi.org>
+References: <20191113100556.15616-6-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: WebService/1.1.14873 aolwebmail Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello!
+From: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
-I have a strncpy for you.
+Implement CMM handling in the crtc begin and enable atomic callbacks,
+and enable CMM unit through the Display Extensional Functions
+register at group setup time.
 
-static inline char *strncpy(char *__dest, const char *__src, size_t __n)
-{
-=09char * retval =3D __dest;
-=09const char * __dest_end =3D __dest + __n - 1;
-
-=09// size_t is always unsigned
-=09if(__n =3D=3D 0)
-=09{
-=09=09return retval;
-=09}
-
-=09__asm__ __volatile__ (
-=09=09=09=09=09"strncpy_start:\n\t"
-=09=09=09=09=09=09=09"mov.b @%[src]+,r0\n\t"
-=09=09=09=09=09=09=09"cmp/eq #0,r0\n\t" // cmp/eq #imm8,r0 is its own instr=
-uction
-=09=09=09=09=09=09=09"bt.s strncpy_pad\n\t" // Done with the string
-=09=09=09=09=09=09=09"cmp/eq %[dest],%[dest_end]\n\t" // This takes care of=
- the size parameter in only one instruction ;)
-=09=09=09=09=09=09=09"bt.s strncpy_end\n\t"
-=09=09=09=09=09=09=09"mov.b r0,@%[dest]\n\t"
-=09=09=09=09=09=09=09"bra strncpy_start\n\t"
-=09=09=09=09=09=09=09"add #1,%[dest]\n\t" // mov.b R0,@Rn+ is SH2A only, bu=
-t we can fill the delay slot with the offset
-=09=09=09=09=09"strncpy_pad:\n\t"
-=09=09=09=09=09=09=09"bt.s strncpy_end\n\t"
-=09=09=09=09=09=09=09"mov.b r0,@%[dest]\n\t"
-=09=09=09=09=09=09=09"add #1,%[dest]\n\t"
-=09=09=09=09=09=09=09"bra strncpy_pad\n\t"
-=09=09=09=09=09=09=09"cmp/eq %[dest],%[dest_end]\n\t"
-=09=09=09=09=09"strncpy_end:\n\t" // All done
-=09=09: [src] "+r" (__src), [dest] "+r" (__dest)
-=09=09: [dest_end] "r" (__dest_end)
-=09=09: "t"
-=09);
-
-=09return retval;
-}
-
-Tested with sh4-elf-gcc 9.2.0 on a real SH7750/SH7750R-compatible system. N=
-o warnings, behaves exactly as per linux (dot) die (dot) net/man/3/strncpy =
-and I optimized it with some tricks I devised from writing extremely optimi=
-zed x86. If there are any doubts as to the authenticity, note that I am the=
- sole author of this project: github (dot) com/KNNSpeed/AVX-Memmove
-
-Hope this helps!
--Karl
-
-(P.S. Consider this code public domain. If for whatever reason that doesn't=
- fly, then I give the Linux kernel community explicit permission to use it =
-as they see fit.)
-
------Original Message-----
-From: Karl Nasrallah <knnspeed@aol.com>
-To: kuninori.morimoto.gx <kuninori.morimoto.gx@renesas.com>; geert <geert@l=
-inux-m68k.org>
-Cc: ysato <ysato@users.sourceforge.jp>; dalias <dalias@libc.org>; linux-sh =
-<linux-sh@vger.kernel.org>; linux-renesas-soc <linux-renesas-soc@vger.kerne=
-l.org>
-Sent: Tue, Dec 17, 2019 4:09 am
-Subject: Re: can someone solve string_32.h issue for SH ?
-
-
-Hello,
-
-Give me a day or so and I can do the following things:
-
-1) Write you all a brand new standards-conforming strncpy in SH4 asm like t=
-his that is easier to read
-2) Compile it with sh4-elf-GCC 9.2
-3) Test it on a real SH4 (SH7750/SH7750R-like)=20
-
-The warning, if it shows up in my test, would likely then be a GCC thing--I=
- have an idea of what it's doing, but I'll be sure after that.
-Unfortunately it's 4AM here on the other side of the world right now...
--Karl
-
-
-
------Original Message-----
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>; Rich Felker <dalias@libc.o=
-rg>; Linux-SH <linux-sh@vger.kernel.org>; Linux-Renesas <linux-renesas-soc@=
-vger.kernel.org>
-Sent: Tue, Dec 17, 2019 3:51 am
-Subject: Re: can someone solve string_32.h issue for SH ?
-
-
-
-Hi Geert
-Cc Yoshinori-san
-
-> > --- a/arch/sh/include/asm/string_32.h
-> > +++ b/arch/sh/include/asm/string_32.h
-> > @@ -40,15 +40,15 @@ static inline char *strncpy(char *__dest, const
-> > char *__src, size_t __n)
-> >=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 __asm__ __volatile__(
-> >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 "1:\n"
-> >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 "mov.b=C2=
-=A0 @%1+, %2\n\t"
-> > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 "mov.b=C2=A0 %2=
-, @%0\n\t"
-> > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 "mov.b=C2=A0 %2=
-, @%0+\n\t"
-> >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 "cmp/eq #0=
-, %2\n\t"
-> >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 "bt/s=C2=
-=A0=C2=A0 2f\n\t"
-> > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 " cmp/eq=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 %5,%1\n\t"
-> > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 " cmp/eq=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 %5,%0\n\t"
-> >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 "bf/s=C2=
-=A0=C2=A0 1b\n\t"
-> > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 " add=C2=A0=C2=
-=A0 #1, %0\n"
-> > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 " nop\n"
-> >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 "2:"
-> >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 : "=3Dr" (=
-__dest), "=3Dr" (__src), "=3D&z" (__dummy)
-> > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 : "0" (__dest),=
- "1" (__src), "r" (__src+__n)
-> > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 : "0" (__dest),=
- "1" (__src), "r" (__dest+__n)
-> >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 : "memory"=
-, "t");
-> >
-> >=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 return __xdest;
-> >
-> > Does this make sense?
-> > Can it be improved, by putting something useful in the delay slot?
->=20
-> BTW, there seems to be a serious security issue with this strncpy()
-> implementation: while it never writes more than n bytes in the
-> destination buffer, it doesn't pad the destination buffer with zeroes if
-> the source string is shorter than the buffer size.=C2=A0 This will leak
-> data.
-
-Yeah...
-I can only do is "Reporting issue" to SH ML, unfortunately...
-
-Thank you for your help !!
-Best regards
-
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+[Fix printk format modifier for size_t variable]
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
-Kuninori Morimoto
+Changes since v7:
+
+- Fix compilation warning on 32-bit platforms due to incorrect printk
+  modifier for a size_t variable (tested on both Gen2 and Gen3)
+
+v6 -> v7
+- Drop check for CMM in rcar_du_cmm_check as if the gamma_table property is
+  available, a CMM unit for this CRTC was registered
+- Add TODO note to investigate how the activation order of CMM and CRTC
+  impact on the first displayed fram
+---
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c  | 61 +++++++++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_group.c | 10 ++++
+ drivers/gpu/drm/rcar-du/rcar_du_regs.h  |  5 ++
+ 3 files changed, 76 insertions(+)
+
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+index 23f1d6cc1719..84477d27e145 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+@@ -21,6 +21,7 @@
+ #include <drm/drm_plane_helper.h>
+ #include <drm/drm_vblank.h>
+ 
++#include "rcar_cmm.h"
+ #include "rcar_du_crtc.h"
+ #include "rcar_du_drv.h"
+ #include "rcar_du_encoder.h"
+@@ -474,6 +475,45 @@ static void rcar_du_crtc_wait_page_flip(struct rcar_du_crtc *rcrtc)
+ 	rcar_du_crtc_finish_page_flip(rcrtc);
+ }
+ 
++/* -----------------------------------------------------------------------------
++ * Color Management Module (CMM)
++ */
++
++static int rcar_du_cmm_check(struct drm_crtc *crtc,
++			     struct drm_crtc_state *state)
++{
++	struct drm_property_blob *drm_lut = state->gamma_lut;
++	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
++	struct device *dev = rcrtc->dev->dev;
++
++	if (!drm_lut)
++		return 0;
++
++	/* We only accept fully populated LUT tables. */
++	if (drm_color_lut_size(drm_lut) != CM2_LUT_SIZE) {
++		dev_err(dev, "invalid gamma lut size: %zu bytes\n",
++			drm_lut->length);
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static void rcar_du_cmm_setup(struct drm_crtc *crtc)
++{
++	struct drm_property_blob *drm_lut = crtc->state->gamma_lut;
++	struct rcar_du_crtc *rcrtc = to_rcar_crtc(crtc);
++	struct rcar_cmm_config cmm_config = {};
++
++	if (!rcrtc->cmm)
++		return;
++
++	if (drm_lut)
++		cmm_config.lut.table = (struct drm_color_lut *)drm_lut->data;
++
++	rcar_cmm_setup(rcrtc->cmm, &cmm_config);
++}
++
+ /* -----------------------------------------------------------------------------
+  * Start/Stop and Suspend/Resume
+  */
+@@ -619,6 +659,9 @@ static void rcar_du_crtc_stop(struct rcar_du_crtc *rcrtc)
+ 	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
+ 		rcar_du_vsp_disable(rcrtc);
+ 
++	if (rcrtc->cmm)
++		rcar_cmm_disable(rcrtc->cmm);
++
+ 	/*
+ 	 * Select switch sync mode. This stops display operation and configures
+ 	 * the HSYNC and VSYNC signals as inputs.
+@@ -642,6 +685,11 @@ static int rcar_du_crtc_atomic_check(struct drm_crtc *crtc,
+ {
+ 	struct rcar_du_crtc_state *rstate = to_rcar_crtc_state(state);
+ 	struct drm_encoder *encoder;
++	int ret;
++
++	ret = rcar_du_cmm_check(crtc, state);
++	if (ret)
++		return ret;
+ 
+ 	/* Store the routes from the CRTC output to the DU outputs. */
+ 	rstate->outputs = 0;
+@@ -667,6 +715,8 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	struct rcar_du_crtc_state *rstate = to_rcar_crtc_state(crtc->state);
+ 	struct rcar_du_device *rcdu = rcrtc->dev;
+ 
++	if (rcrtc->cmm)
++		rcar_cmm_enable(rcrtc->cmm);
+ 	rcar_du_crtc_get(rcrtc);
+ 
+ 	/*
+@@ -686,6 +736,13 @@ static void rcar_du_crtc_atomic_enable(struct drm_crtc *crtc,
+ 	}
+ 
+ 	rcar_du_crtc_start(rcrtc);
++
++	/*
++	 * TODO: The chip manual indicates that CMM tables should be written
++	 * after the DU channel has been activated. Investigate the impact
++	 * of this restriction on the first displayed frame.
++	 */
++	rcar_du_cmm_setup(crtc);
+ }
+ 
+ static void rcar_du_crtc_atomic_disable(struct drm_crtc *crtc,
+@@ -739,6 +796,10 @@ static void rcar_du_crtc_atomic_begin(struct drm_crtc *crtc,
+ 	 */
+ 	rcar_du_crtc_get(rcrtc);
+ 
++	/* If the active state changed, we let .atomic_enable handle CMM. */
++	if (crtc->state->color_mgmt_changed && !crtc->state->active_changed)
++		rcar_du_cmm_setup(crtc);
++
+ 	if (rcar_du_has(rcrtc->dev, RCAR_DU_FEATURE_VSP1_SOURCE))
+ 		rcar_du_vsp_atomic_begin(rcrtc);
+ }
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+index 9eee47969e77..88a783ceb3e9 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+@@ -135,6 +135,7 @@ static void rcar_du_group_setup_didsr(struct rcar_du_group *rgrp)
+ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
+ {
+ 	struct rcar_du_device *rcdu = rgrp->dev;
++	u32 defr7 = DEFR7_CODE;
+ 
+ 	/* Enable extended features */
+ 	rcar_du_group_write(rgrp, DEFR, DEFR_CODE | DEFR_DEFE);
+@@ -147,6 +148,15 @@ static void rcar_du_group_setup(struct rcar_du_group *rgrp)
+ 
+ 	rcar_du_group_setup_pins(rgrp);
+ 
++	/*
++	 * TODO: Handle routing of the DU output to CMM dynamically, as we
++	 * should bypass CMM completely when no color management feature is
++	 * used.
++	 */
++	defr7 |= (rgrp->cmms_mask & BIT(1) ? DEFR7_CMME1 : 0) |
++		 (rgrp->cmms_mask & BIT(0) ? DEFR7_CMME0 : 0);
++	rcar_du_group_write(rgrp, DEFR7, defr7);
++
+ 	if (rcdu->info->gen >= 2) {
+ 		rcar_du_group_setup_defr8(rgrp);
+ 		rcar_du_group_setup_didsr(rgrp);
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_regs.h b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+index bc87f080b170..fb9964949368 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_regs.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+@@ -197,6 +197,11 @@
+ #define DEFR6_MLOS1		(1 << 2)
+ #define DEFR6_DEFAULT		(DEFR6_CODE | DEFR6_TCNE1)
+ 
++#define DEFR7			0x000ec
++#define DEFR7_CODE		(0x7779 << 16)
++#define DEFR7_CMME1		BIT(6)
++#define DEFR7_CMME0		BIT(4)
++
+ /* -----------------------------------------------------------------------------
+  * R8A7790-only Control Registers
+  */
+-- 
+Regards,
+
+Laurent Pinchart
 
