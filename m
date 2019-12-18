@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 65170124062
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2019 08:32:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A5D6124066
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Dec 2019 08:33:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726526AbfLRHcr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Dec 2019 02:32:47 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:47248 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726454AbfLRHcq (ORCPT
+        id S1726497AbfLRHdr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Dec 2019 02:33:47 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:8291 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725797AbfLRHdr (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Dec 2019 02:32:46 -0500
-Date:   18 Dec 2019 16:32:45 +0900
+        Wed, 18 Dec 2019 02:33:47 -0500
+Date:   18 Dec 2019 16:33:44 +0900
 X-IronPort-AV: E=Sophos;i="5.69,328,1571670000"; 
-   d="scan'208";a="34736284"
+   d="scan'208";a="34519380"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 18 Dec 2019 16:32:45 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 18 Dec 2019 16:33:44 +0900
 Received: from morimoto-PC.renesas.com (unknown [10.166.18.140])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id C5D22400D4EA;
-        Wed, 18 Dec 2019 16:32:45 +0900 (JST)
-Message-ID: <871rt2jdgi.wl-kuninori.morimoto.gx@renesas.com>
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id C787E400D4FB;
+        Wed, 18 Dec 2019 16:33:44 +0900 (JST)
+Message-ID: <87zhfqhyuf.wl-kuninori.morimoto.gx@renesas.com>
 From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH] sh: use generic strncpy()
+Subject: [PATCH] sh: fixup strncpy()
 User-Agent: Wanderlust/2.15.9 Emacs/24.5 Mule/6.0
 To:     Yoshinori Sato <ysato@users.sourceforge.jp>,
         Rich Felker <dalias@libc.org>,
@@ -62,13 +62,13 @@ Signed-off-by: Karl Nasrallah <knnspeed@aol.com>
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
 
-This is Karl's 1st pattern
+This is Karl's 2nd pattern
 
  arch/sh/include/asm/string_32.h | 54 ++++++++++++++++++++++++++---------------
  1 file changed, 35 insertions(+), 19 deletions(-)
 
 diff --git a/arch/sh/include/asm/string_32.h b/arch/sh/include/asm/string_32.h
-index 3558b1d..d35b92f 100644
+index 3558b1d..5a398dd 100644
 --- a/arch/sh/include/asm/string_32.h
 +++ b/arch/sh/include/asm/string_32.h
 @@ -31,27 +31,43 @@ static inline char *strcpy(char *__dest, const char *__src)
@@ -79,7 +79,6 @@ index 3558b1d..d35b92f 100644
 -	unsigned long __dummy;
 +	char * retval = __dest;
 +	const char * __dest_end = __dest + __n - 1;
-+	register unsigned int * r0_register __asm__ ("r0");
  
 +	/* size_t is always unsigned */
  	if (__n == 0)
@@ -108,26 +107,27 @@ index 3558b1d..d35b92f 100644
 +	 * - incrementing dest and comparing to dest_end handles the size parameter in only one instruction
 +	 * - mov.b R0,@Rn+ is SH2A only, but we can fill a delay slot with "add #1,%[dest]"
 +	 */
++
 +	__asm__ __volatile__ (
 +		"strncpy_start:\n\t"
-+		"mov.b @%[src]+,%[r0_reg]\n\t"
-+		"cmp/eq #0,%[r0_reg]\n\t"
++		"mov.b @%[src]+,r0\n\t"
++		"cmp/eq #0,r0\n\t"
 +		"bt.s strncpy_pad\n\t"
 +		"cmp/eq %[dest],%[dest_end]\n\t"
 +		"bt.s strncpy_end\n\t"
-+		"mov.b %[r0_reg],@%[dest]\n\t"
++		"mov.b r0,@%[dest]\n\t"
 +		"bra strncpy_start\n\t"
 +		"add #1,%[dest]\n\t"
 +		"strncpy_pad:\n\t"
 +		"bt.s strncpy_end\n\t"
-+		"mov.b %[r0_reg],@%[dest]\n\t"
++		"mov.b r0,@%[dest]\n\t"
 +		"add #1,%[dest]\n\t"
 +		"bra strncpy_pad\n\t"
 +		"cmp/eq %[dest],%[dest_end]\n\t"
 +		"strncpy_end:\n\t"
-+		: [src] "+r" (__src), [dest] "+r" (__dest), [r0_reg] "+&z" (r0_register)
++		: [src] "+r" (__src), [dest] "+r" (__dest)
 +		: [dest_end] "r" (__dest_end)
-+		: "t","memory"
++		: "r0","t","memory"
 +		);
 +
 +	return retval;
