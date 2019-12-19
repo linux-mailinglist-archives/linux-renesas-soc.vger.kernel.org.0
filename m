@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EF8D7125932
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Dec 2019 02:24:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF64A125933
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Dec 2019 02:24:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726671AbfLSBYL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Dec 2019 20:24:11 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:59169 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726518AbfLSBYL (ORCPT
+        id S1726599AbfLSBYt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Dec 2019 20:24:49 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:6863 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726518AbfLSBYs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Dec 2019 20:24:11 -0500
-Date:   19 Dec 2019 10:24:09 +0900
+        Wed, 18 Dec 2019 20:24:48 -0500
+Date:   19 Dec 2019 10:24:47 +0900
 X-IronPort-AV: E=Sophos;i="5.69,330,1571670000"; 
-   d="scan'208";a="34579750"
+   d="scan'208";a="34796994"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 19 Dec 2019 10:24:09 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 19 Dec 2019 10:24:47 +0900
 Received: from morimoto-PC.renesas.com (unknown [10.166.18.140])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id C8F3C4007F52;
-        Thu, 19 Dec 2019 10:24:09 +0900 (JST)
-Message-ID: <87tv5xyuo6.wl-kuninori.morimoto.gx@renesas.com>
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 89AA94007F52;
+        Thu, 19 Dec 2019 10:24:47 +0900 (JST)
+Message-ID: <87sglhyun4.wl-kuninori.morimoto.gx@renesas.com>
 From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH v2 2/3] sh: fixup strncpy() warning and add missing padding
+Subject: [PATCH 3/3] sh: use generic strncpy()
 User-Agent: Wanderlust/2.15.9 Emacs/24.5 Mule/6.0
 To:     Yoshinori Sato <ysato@users.sourceforge.jp>,
         Rich Felker <dalias@libc.org>,
@@ -39,7 +39,7 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Karl Nasrallah <knnspeed@aol.com>
+From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
 Current SH will get below warning at strncpy()
 
@@ -60,36 +60,36 @@ ${LINUX}/arch/sh/include/asm/string_32.h:51:42: warning: array subscript\
 And current implementation is missing padding which strncpy()
 should support.
 
-This patch solves these 2 issues.
+It needs big fixup to solve these issues,
+then, __asm__ code is difficult to maintenance.
 
-Signed-off-by: Karl Nasrallah <knnspeed@aol.com>
+To solve/avoid these issues, this patch uses generic strncpy()
+instead of architecture specific one.
+
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
 v1 -> v2
 
 	- tidyup git-log
-	- tidyup 80char
-	- tidyup Subject
 
- arch/sh/include/asm/string_32.h | 58 +++++++++++++++++++++++++++--------------
- 1 file changed, 39 insertions(+), 19 deletions(-)
+ arch/sh/include/asm/string_32.h | 26 --------------------------
+ 1 file changed, 26 deletions(-)
 
 diff --git a/arch/sh/include/asm/string_32.h b/arch/sh/include/asm/string_32.h
-index 3558b1d..3b4aec0 100644
+index 3558b1d..be3f9a0 100644
 --- a/arch/sh/include/asm/string_32.h
 +++ b/arch/sh/include/asm/string_32.h
-@@ -31,27 +31,47 @@ static inline char *strcpy(char *__dest, const char *__src)
- #define __HAVE_ARCH_STRNCPY
- static inline char *strncpy(char *__dest, const char *__src, size_t __n)
- {
+@@ -28,32 +28,6 @@ static inline char *strcpy(char *__dest, const char *__src)
+ 	return __xdest;
+ }
+ 
+-#define __HAVE_ARCH_STRNCPY
+-static inline char *strncpy(char *__dest, const char *__src, size_t __n)
+-{
 -	register char *__xdest = __dest;
 -	unsigned long __dummy;
-+	char * retval = __dest;
-+	const char * __dest_end = __dest + __n - 1;
-+	register unsigned int * r0_register __asm__ ("r0");
- 
-+	/* size_t is always unsigned */
- 	if (__n == 0)
+-
+-	if (__n == 0)
 -		return __xdest;
 -
 -	__asm__ __volatile__(
@@ -107,44 +107,11 @@ index 3558b1d..3b4aec0 100644
 -		: "memory", "t");
 -
 -	return __xdest;
-+		return retval;
-+
-+	/*
-+	 * Some notes:
-+	 * - cmp/eq #imm8,r0 is its own instruction
-+	 * - incrementing dest and comparing to dest_end handles the size
-+	 *   parameter in only one instruction
-+	 * - mov.b R0,@Rn+ is SH2A only, but we can fill a delay slot with
-+	 *   "add #1,%[dest]"
-+	 */
-+
-+	__asm__ __volatile__ (
-+		"strncpy_start:\n\t"
-+		"mov.b @%[src]+,%[r0_reg]\n\t"
-+		"cmp/eq #0,%[r0_reg]\n\t"
-+		"bt.s strncpy_pad\n\t"
-+		"cmp/eq %[dest],%[dest_end]\n\t"
-+		"bt.s strncpy_end\n\t"
-+		"mov.b %[r0_reg],@%[dest]\n\t"
-+		"bra strncpy_start\n\t"
-+		"add #1,%[dest]\n\t"
-+		"strncpy_pad:\n\t"
-+		"bt.s strncpy_end\n\t"
-+		"mov.b %[r0_reg],@%[dest]\n\t"
-+		"add #1,%[dest]\n\t"
-+		"bra strncpy_pad\n\t"
-+		"cmp/eq %[dest],%[dest_end]\n\t"
-+		"strncpy_end:\n\t"
-+		: [src] "+r" (__src), [dest] "+r" (__dest),
-+		  [r0_reg] "+&z" (r0_register)
-+		: [dest_end] "r" (__dest_end)
-+		: "t","memory"
-+		);
-+
-+	return retval;
- }
- 
+-}
+-
  #define __HAVE_ARCH_STRCMP
+ static inline int strcmp(const char *__cs, const char *__ct)
+ {
 -- 
 2.7.4
 
