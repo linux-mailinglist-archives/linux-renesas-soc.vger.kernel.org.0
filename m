@@ -2,59 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B791126779
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Dec 2019 17:57:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 568D1126C18
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 19 Dec 2019 20:01:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726869AbfLSQ5U (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Dec 2019 11:57:20 -0500
-Received: from mail-eopbgr1400100.outbound.protection.outlook.com ([40.107.140.100]:6126
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726760AbfLSQ5U (ORCPT
+        id S1727802AbfLSTBV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Dec 2019 14:01:21 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:43511 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727823AbfLSTBT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Dec 2019 11:57:20 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XRyCoMwUTleG0QxCJ3dyQzafaH4UabTPEGAYqXZL4AON07ERIhQoUXpROgqDupMwlEnOt6+Err/bIyT39vxQIp24k3/FHwkPy0kcuXlQ6LJT+uzGnHUXGCv9DDo6ypb+4FAgf68DSfyly/2ojYZ5G/DbqNYhS9UWGFUgnqEHW3kGsuMGuk2l3L9wO7V8PU+gc89cMah5MlNemYIhrufcLGnx498RCqkZAPa/nnSc/NxHQCMXjn6sRyuoilQZCsmP3MxruCggnLyjAshJ4GgUPjeh3WCeJc+pB2bjbSHgWhpJpft3ZfSnvJ9geahOYqihxaiCHodAq3YYyGfgA3CbSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KKxvHXokZAUChFO/qu0G997wNXugB24sXXwxlR+/AQs=;
- b=U2m31hDWEeAaUUFwCmDnsb8HZr5KDDPFBiklrcFN5tLGmenM+D68pQMytSREGPt1bXfyVnmvEdb8vUByrC2w/vlvISUUgYNoq34uHbI8Ch95lA6IyUNh1+3ry/HkovITIJv7vnMttojMJvRNULm06syS7yCkqvGuU/qXlGvKwVYBhJBrMUtD69cgjWikYZ9yfJSjb52hQCBhKonHMJCcTl+AbNPin1pRFnhHkQ3YTXf/8yE/OAMKhdDX3wIn0zEu49xn9LCMgjpgUZ7PXinpetr5dFHsljFaqaseh6+BdV+bRKCeFHfrOQUIJbC4eMK8iwawdak4RhBkiqrHs75uSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
+        Thu, 19 Dec 2019 14:01:19 -0500
+Received: by mail-lf1-f68.google.com with SMTP id 9so5092363lfq.10
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 19 Dec 2019 11:01:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KKxvHXokZAUChFO/qu0G997wNXugB24sXXwxlR+/AQs=;
- b=P0kYEyN5CM74j3cgPZVSp3RceCkmhTQ+/Uptf+DJkwL9PZOrZhHnXkDVTlr7ZhlYyoKFljlcTyJgK31VXm+YelDbeNaw0fEaA7gKRlkwCYzhSVbKzwxCfzMacYbZQAFXaaZq0S6fiGrFeqF7QjNOSLrU/yBZIJLuSAK8sEtk2k4=
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com (52.133.163.12) by
- TY1PR01MB1881.jpnprd01.prod.outlook.com (52.133.161.144) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2538.15; Thu, 19 Dec 2019 16:57:15 +0000
-Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::74db:232e:f59e:83f2]) by TY1PR01MB1562.jpnprd01.prod.outlook.com
- ([fe80::74db:232e:f59e:83f2%3]) with mapi id 15.20.2538.019; Thu, 19 Dec 2019
- 16:57:15 +0000
-From:   Chris Brandt <Chris.Brandt@renesas.com>
-To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=from:subject:to:cc:references:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=EnctfXeH6eSWsiC3SsB5Huqb0Ku44kDLoFN9p69SIAE=;
+        b=lEbPRqMg9JeGspNDXadsO0erORgltj+FUrBlrmYlwUjMc774JfhJ6eRumOi/hEBQc1
+         j/UkZlmTqlmFwyEQAz0i+0DGHuUvbLlC4AKLAlUIVPRGHmaqEzY7+6gI88wUx8LOezTp
+         6BQkhhD7gDpCJs7CNaKeplHsSflIs3AJgQMoNNyxeUH2ebKSk56q+NCyIZzeeWfZcHFv
+         HXQi+nxzjx1jRs9VMt4b6suCTgj9NDXnNpu11YNAKN1Kb+CZB9H1JhhcELAP7azOQw7P
+         1t4g9xWB8JNohzB+7BNQ21UOE2bci6K1O+MtXz5/dnZo8E0LfZv8LjVO9BimFwtNU4aD
+         h2OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:subject:to:cc:references:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=EnctfXeH6eSWsiC3SsB5Huqb0Ku44kDLoFN9p69SIAE=;
+        b=iJzqdz24XHzRDS/CBbzYTElsqlxTl8hQrISMceNjxNddx6391+nGzWlzsDrS8+MuX4
+         Z6jy1eElj8ogi6fvsacGDlM9WIde3KiClKJ2wSGR8N23QlJUaKgSq1yt6JFblv5VVHsi
+         hiJ0Zz8xONsnz6DBwIxXDiZkWgZs51nWZtHWqtEhJtzKaLI+nD7uTZL0W5lJsD1UIFLX
+         Xp0GEQ+JSlMNoNmLHKxS8ZnBrvmBdLc1jSV9WyMprrX6PhSGWd7K2N0QiCmIAQAiMpW0
+         K/R9y21+m7qoo9y83vNmGvogPgZP0Av0n5HzxR+ZVq+ke5+IBX+jPdGaclgCLKynItqS
+         3K0A==
+X-Gm-Message-State: APjAAAX5bRVEc9E+1a3rAL6u3ewVSLwia9uzVSY/gfFVZKYVQrxjv8Kp
+        ac/lojlA6KNZssBAxdXZDar51Q==
+X-Google-Smtp-Source: APXvYqznQi99px26YNP9vyR+IDtMFUiA2KIXWA7/G1NfQxBqe4E+4935xoJv7nCF7+iJcnj4xRyJ5A==
+X-Received: by 2002:ac2:50cc:: with SMTP id h12mr6326667lfm.29.1576782077671;
+        Thu, 19 Dec 2019 11:01:17 -0800 (PST)
+Received: from wasted.cogentembedded.com ([2a00:1fa0:899:8379:9861:263:6bbe:73b8])
+        by smtp.gmail.com with ESMTPSA id z5sm45547lji.40.2019.12.19.11.01.13
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 19 Dec 2019 11:01:16 -0800 (PST)
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Subject: Re: [PATCH v2 0/6] spi: Add Renesas SPIBSC controller
+To:     Chris Brandt <Chris.Brandt@renesas.com>,
         Mark Brown <broonie@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Michael Turquette <mturquette@baylibre.com>,
         Stephen Boyd <sboyd@kernel.org>
-CC:     "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+Cc:     "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
         "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
         "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
         Mason Yang <masonccyang@mxic.com.tw>
-Subject: RE: [PATCH v2 0/6] spi: Add Renesas SPIBSC controller
-Thread-Topic: [PATCH v2 0/6] spi: Add Renesas SPIBSC controller
-Thread-Index: AQHVrDsFo/XrCnZmIE+HK5Vec6rH7qevIW6AgAK0x/CAA35sAIABOkowgAa4UICAABhMQIABaMMAgALzYFA=
-Date:   Thu, 19 Dec 2019 16:57:15 +0000
-Message-ID: <TY1PR01MB1562E196AB1C582F186CC74B8A520@TY1PR01MB1562.jpnprd01.prod.outlook.com>
 References: <20191206134202.18784-1-chris.brandt@renesas.com>
  <922cfa46-efb5-9e6d-67ea-3ac505b8211c@cogentembedded.com>
  <TY1PR01MB156215E8668C0317FA0826B18A580@TY1PR01MB1562.jpnprd01.prod.outlook.com>
@@ -63,66 +70,70 @@ References: <20191206134202.18784-1-chris.brandt@renesas.com>
  <590840ce-a250-2512-3d04-c2420d83f7da@cogentembedded.com>
  <TY1PR01MB1562B9EB96818DCA507079808A510@TY1PR01MB1562.jpnprd01.prod.outlook.com>
  <bb630141-021c-5618-f266-b98b29956fa8@cogentembedded.com>
-In-Reply-To: <bb630141-021c-5618-f266-b98b29956fa8@cogentembedded.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcY2JyYW5kdDAxXGFwcGRhdGFccm9hbWluZ1wwOWQ4NDliNi0zMmQzLTRhNDAtODVlZS02Yjg0YmEyOWUzNWJcbXNnc1xtc2ctOWEzZWVlZWUtMjI4MC0xMWVhLWFhNTgtOTRlNmY3Njc5M2FlXGFtZS10ZXN0XDlhM2VlZWVmLTIyODAtMTFlYS1hYTU4LTk0ZTZmNzY3OTNhZWJvZHkudHh0IiBzej0iMTMyNCIgdD0iMTMyMjEyNDgyMzM3ODQzNjMzIiBoPSJrSCtCVnJZNXh5OWRDMlR6QXhNcDAyTVZYbzg9IiBpZD0iIiBibD0iMCIgYm89IjEiLz48L21ldGE+
-x-dg-rorf: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Chris.Brandt@renesas.com; 
-x-originating-ip: [75.60.247.61]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 2ebfe6e1-2d96-4389-8394-08d784a4801b
-x-ms-traffictypediagnostic: TY1PR01MB1881:
-x-microsoft-antispam-prvs: <TY1PR01MB1881A82BE09226AADA7662668A520@TY1PR01MB1881.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0256C18696
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(346002)(39850400004)(376002)(366004)(136003)(396003)(189003)(199004)(8936002)(316002)(54906003)(55016002)(7696005)(66946007)(33656002)(9686003)(4326008)(6506007)(478600001)(26005)(81156014)(81166006)(76116006)(66446008)(64756008)(66556008)(186003)(66476007)(5660300002)(8676002)(86362001)(52536014)(7416002)(2906002)(71200400001)(110136005);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1881;H:TY1PR01MB1562.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: N8thbqQSG/iIYNW2tjE3flxgzSoIneMWET/ZrV/OmCp4oqYAIqg9mA0BFCib0Tu+p2kbAatX8VEMweAjul4CxQYpKAUvgDMIEipLQ879VGivtTg46CXS6+kGsOLT4C1n1kyYD9+nyAME5qjDOe4CCEyR6CIT1tniei4w+MkHO22MBG8ZarrshGXU0YTlHwNeGA7CXMSb8WOx2/5suIgavQoWcXCpzAOdcLiGzLPiN+IHE6bk6I0dWSBbRo+jXfMo2kTXKCqOnrD+fvPhRiLJQiSD/QYnzTPLWo8KFMwxnZhNdlHdmC/W/+CCtT4cb3It1xEIrh8CaqaBZenZGt+E7gi8hNmpV1HugIMf7Wy4gQQAF4RFmiPzw/ppdKTXYCZVjCGfF/miCvuUvIs68+OwDGotJk4fApqopz5TLuLzelXUj7tAqMdvjRiH823dwxg3
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ <TY1PR01MB1562E196AB1C582F186CC74B8A520@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+Organization: Cogent Embedded
+Message-ID: <6f4c5d92-3ca4-2d1d-47c4-cbd52ad428b0@cogentembedded.com>
+Date:   Thu, 19 Dec 2019 22:01:12 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2ebfe6e1-2d96-4389-8394-08d784a4801b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Dec 2019 16:57:15.3605
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UcKI2xM0Fm8XlLhsgDad/eCzkvmWRY2pJK2Yuhwgzk+u3iYACbrldZ3RwwN4snWQfK4udYRXdt9R2jFf9NmVbpQlNp4RsxJLxfxYeEbGW58=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1881
+In-Reply-To: <TY1PR01MB1562E196AB1C582F186CC74B8A520@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-T24gVHVlLCBEZWMgMTcsIDIwMTksIFNlcmdlaSBTaHR5bHlvdiB3cm90ZToNCj4gICAgQnV0IHdo
-YXQgZG9lcyB0aGUgYWNyb255bSBtZWFuPw0KUVNQSSA9ICJRdWFkIFNQSSINCg0KDQo+ID4gU28g
-YXQgdGhlIG1vbWVudCwgdGhlcmUgaXMgbm90aGluZyB5ZXQgZm9yIG1lIHRvICd0cnknIG9uIHRo
-ZSBSWi9BIHNlcmllcywNCj4gY29ycmVjdD8NCj4gDQo+ICAgIFdoeSwgSSBjYW4gc2VuZCB5b3Ug
-YSB3b3JraW5nIHZlcnNpb24gb2YgdGhlIFNQSSBkcml2ZXIsIGFuZCBldmVuIEhGIG9uZQ0KPiBp
-ZiB5b3UncmUNCj4gaW50ZXJlc3RlZC4NCg0KVGhlIHBvaW50IG9mIHRoaXMgd2hvbGUgZGlzY3Vz
-c2lvbiBpcyB0byBkZXRlcm1pbmUgaWYgd2Ugc2hvdWxkIGhhdmUgMiBkcml2ZXJzDQpmb3IgdGhl
-IHNhbWUgUmVuZXNhcyBIVyBJUC4NCg0KVGhlcmUgd2FzIGEgUlBDLUlGIHBhdGNoIHNlcmllcyB0
-aGF0IG1hZGUgaXQgdG8gdjE3Li4uLmFuZCBpcyBub3cgZGVhZC4NCg0KWW91IHNlbnQgYSBuZXcg
-UkZDIHNlcmllcyBmb3IgYSBuZXcgbWV0aG9kLCBidXQgYWxsIGl0IGhhZCB3YXMgbG93IGxldmVs
-IEFQSXMsDQpubyBNVEQgZnJhbWV3b3JrLCBkbyBpdCBkaWRuJ3QgcmVhbGx5IGRvIGFueXRoaW5n
-Lg0KDQpJZiB0aGVyZSB3YXMgYSBjb21wbGV0ZSBwYXRjaCBzZXQgdGhhdCBJIGNvdWxkIHRyeSBv
-biB0aGUgUlovQSBTb0NzIGFuZCANCmdldCBhIHdvcmtpbmcgU1BJIE1URCBkZXZpY2UgdG8gc2hv
-dyB1cCwgdGhlbiBJIHdvdWxkIGRyb3AgbXkgZWZmb3J0cyBvZg0KZ2V0dGluZyBteSBkcml2ZXIg
-aW4gYW5kIGp1c3QgYWRkIFJaL0Egc3VwcG9ydCB0byB0aGUgUi1DYXIgZHJpdmVyLg0KDQpHZWVy
-dCBzdWdnZXN0ZWQgb3V0IGFuIGVhc3kgc29sdXRpb24gZm9yIHRoZSAiWElQIiB1c2UgY2FzZSBm
-b3IgUlovQSANCmRldmljZXMsIGFuZCB0aGF0IG1vc3RseSBoYXBwZW5zIG91dHNpZGUgdGhpcyBk
-cml2ZXIsIHNvIEknbSBub3Qgd29ycmllZCANCmFib3V0IHRoYXQgYW55bW9yZS4NCg0KSG9uZXN0
-bHksIEknbGwgYmUgb3V0IG9mIHRoZSBvZmZpY2UgdW50aWwgSmFudWFyeSwgc28gaXQncyBub3Qg
-bGlrZSBJJ20gDQpnb2luZyB0byBkbyBhbnl0aGluZyB3aXRoIGl0IHVudGlsIHRoZW4uIEJ1dCBp
-ZiB0aGVyZSBpcyBhIGNvbXBsZXRlIHNlcmllcw0KdG8gdHJ5IGJ5IHRoZW4sIEkgd2lsbCBzZWUg
-aG93IGl0IHBlcmZvcm1zIG9uIFJaL0EgYm9hcmRzLg0KDQpDaHJpcw0KDQo=
+Hello!
+
+On 12/19/2019 07:57 PM, Chris Brandt wrote:
+
+>>> So at the moment, there is nothing yet for me to 'try' on the RZ/A series,
+>> correct?
+>>
+>>    Why, I can send you a working version of the SPI driver, and even HF one
+>> if you're
+>> interested.
+> 
+> The point of this whole discussion is to determine if we should have 2 drivers
+> for the same Renesas HW IP.
+> 
+> There was a RPC-IF patch series that made it to v17....and is now dead.
+> 
+> You sent a new RFC series for a new method, but all it had was low level APIs,
+> no MTD framework, do it didn't really do anything.
+
+   Apparently you have missed the previous RFC iteration, the MFD/SPI drivers posted
+at end of May:
+
+https://patchwork.kernel.org/patch/10969211/
+https://patchwork.kernel.org/patch/10969213/
+https://patchwork.kernel.org/patch/10969217/
+
+   There's not yet merged MTD patch you'd need too:
+
+http://patchwork.ozlabs.org/patch/1199645/
+
+   The MFD driver was shot down by Lee Jones who has advised placing the common
+code into drivers/memory/ instead... I don't want to re-post the SPI driver as
+I haven't yet addressed all of Mark Brown's comments...
+
+> If there was a complete patch set that I could try on the RZ/A SoCs and 
+> get a working SPI MTD device to show up, then I would drop my efforts of
+> getting my driver in and just add RZ/A support to the R-Car driver.
+
+   Please try these patches, there's a big chance they'll work. 
+
+[...]
+> Honestly, I'll be out of the office until January, so it's not like I'm 
+> going to do anything with it until then. But if there is a complete series
+> to try by then, I will see how it performs on RZ/A boards.
+
+   Hopefully I will have addressed Mark's feedback by then and post the new SPI
+driver... Have happy holidays! (Ours happen on 1/1 and last till 1/8 this year.)
+
+> Chris
+
+MBR, Sergei
