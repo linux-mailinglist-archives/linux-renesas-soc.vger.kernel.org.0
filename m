@@ -2,94 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C3945127EED
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2019 16:02:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D6509127EF8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2019 16:04:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727362AbfLTPCD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 Dec 2019 10:02:03 -0500
-Received: from mail-yb1-f193.google.com ([209.85.219.193]:36542 "EHLO
-        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727233AbfLTPCD (ORCPT
+        id S1727381AbfLTPE4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 Dec 2019 10:04:56 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:40403 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727233AbfLTPE4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 Dec 2019 10:02:03 -0500
-Received: by mail-yb1-f193.google.com with SMTP id w126so1734475yba.3;
-        Fri, 20 Dec 2019 07:02:02 -0800 (PST)
+        Fri, 20 Dec 2019 10:04:56 -0500
+Received: by mail-ot1-f66.google.com with SMTP id w21so4445776otj.7;
+        Fri, 20 Dec 2019 07:04:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=9+yJIs61uTtVkL5Q2MF9OiCFB3ec6TR53AfD5tfm3Cg=;
-        b=fGYvK95pA0TXswY6Ep6OinKdHJEbgfJHf1a/o2uNtlH7e+K/0r5y+y2PIVlJNEDknX
-         dGfERj2YGl9bWREj+KjCKJ9Jn4Ob010kO+vF/uv/pSPLo4ZCFa/uZ8KJMxDQ0JhsxHS6
-         VmLgXugct+6z97kWX/t7VVFdq2PrhqWhlIT6CTZllrJH7Qxxmi4Cx4yxc7KuTHkniBd4
-         XoDwazIZ2QZMk0ZeB3nEJADYApwhVQaJyKrWxogAmV/QVno3Y8F/qVExVnyX9TLm0eTS
-         prvgdU84AawHAsRWOpsMgSxmfYajZGlNTmCk57W1W7gopKVZeq90sHsMeVul4rb65Jpi
-         B8iw==
-X-Gm-Message-State: APjAAAUKWSj63SKBhT4QRwsxayjX8Nuyly9OIh2BKHfNsOiyYUoXS5p2
-        9OQhJO6boRPkx3HqqrdvQ44oLgVePHdzM0GLiA4NnGlV
-X-Google-Smtp-Source: APXvYqxVy21uSMBnj7B1hu+1IUPq4Ooe3nX8ZjvBvYNAAHzz9bOo6wnWDTMrvPGcC8rFpCoT1G8tI7CV7bJSSBD4ODg=
-X-Received: by 2002:a9d:2073:: with SMTP id n106mr5635097ota.145.1576854120427;
- Fri, 20 Dec 2019 07:02:00 -0800 (PST)
+        bh=xIXSDPOOX2OHZ/9UyDaX8zGuRfcDybDX4Wqu+KsOODA=;
+        b=sFswHyToitcauv+VQ/ZbCt8ttho7mKiKXixup/Np6QFr+MRF5qWgkXbVeQDgJFimZ5
+         7sofXUgBT3MxQLpJwDT6ECirxx8ZcGMFGXMddqHxb3nv+p07i59UlV4LaXctIyiqK34D
+         dGerzxyYpcu7VmzLEyL141SefEzMOBcXgVDgOirzaiDpyMoxraZnLmI9cIFEscLwXzF8
+         i5AmKKd+BPCeGV6F/mNn7siQ1jW31u19CE8P+efJWqoegiPjhIhXCdOT6ormLGPdqPzM
+         w19bL461AOaPPRgpgqZg6r8zLrIs4AzaO8gBqGxk5OzQqDYemJ360AIuelAVsgD/gHnm
+         yYXw==
+X-Gm-Message-State: APjAAAXjkuQ1swddvaIE2xXysQKZPZ80bjii+mykTXrSErSv+/MCfId6
+        8vCut4Xoka97nC/jE8VpeGnGfk85WtUHJ5R6rGmVzg==
+X-Google-Smtp-Source: APXvYqyTAKnoo5F9im1mYMj/SXRfvhTRApAZxNoKMuSQVvjWyyC7PQ64avx40ELmisiT5cF2oDbrovaa69yULurZ9MM=
+X-Received: by 2002:a9d:2073:: with SMTP id n106mr5653440ota.145.1576854294903;
+ Fri, 20 Dec 2019 07:04:54 -0800 (PST)
 MIME-Version: 1.0
-References: <1570717560-7431-1-git-send-email-fabrizio.castro@bp.renesas.com>
- <1570717560-7431-3-git-send-email-fabrizio.castro@bp.renesas.com>
- <20191014181035.GA2613@bogus> <TY1PR01MB17703B32045654CB46C2FC8BC0530@TY1PR01MB1770.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY1PR01MB17703B32045654CB46C2FC8BC0530@TY1PR01MB1770.jpnprd01.prod.outlook.com>
+References: <1570104229-59144-1-git-send-email-biju.das@bp.renesas.com> <5af2669f-b977-1c36-95fb-ad006548b0d8@linaro.org>
+In-Reply-To: <5af2669f-b977-1c36-95fb-ad006548b0d8@linaro.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 20 Dec 2019 16:01:49 +0100
-Message-ID: <CAMuHMdXZ9pM5VUaJXMtcJ9dD1ZVkvmxQZ0zxT7SvT95Fd-QZ3Q@mail.gmail.com>
-Subject: Re: [PATCH net-next v2 2/3] dt-bindings: can: rcar_canfd: document
- r8a774b1 support
-To:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Cc:     Rob Herring <robh@kernel.org>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
+Date:   Fri, 20 Dec 2019 16:04:43 +0100
+Message-ID: <CAMuHMdVTTiMj+7bF0_TbX9k+QUKpsTto4aut=d0pkwz6_rOVfg@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: timer: renesas, cmt: Document r8a774b1
+ CMT support
+To:     Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc:     Biju Das <biju.das@bp.renesas.com>,
+        Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        "David S. Miller" <davem@davemloft.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "linux-can@vger.kernel.org" <linux-can@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
         Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Fabrizio,
+Hi Daniel,
 
-On Wed, Dec 18, 2019 at 4:16 PM Fabrizio Castro
-<fabrizio.castro@bp.renesas.com> wrote:
-> Do you think you can take this patch?
-
-Sure, queuing in renesas-dt-bindings-for-v5.6.
-
-> > From: linux-renesas-soc-owner@vger.kernel.org <linux-renesas-soc-owner@vger.kernel.org> On Behalf Of Rob Herring
-> > Sent: 14 October 2019 19:11
-> > Subject: Re: [PATCH net-next v2 2/3] dt-bindings: can: rcar_canfd: document r8a774b1 support
+On Wed, Dec 4, 2019 at 5:36 PM Daniel Lezcano <daniel.lezcano@linaro.org> wrote:
+> On 03/10/2019 14:03, Biju Das wrote:
+> > Document SoC specific bindings for RZ/G2N (r8a774b1) SoC.
 > >
-> > On Thu, 10 Oct 2019 15:25:59 +0100, Fabrizio Castro wrote:
-> > > Document the support for rcar_canfd on R8A774B1 SoC devices.
-> > >
-> > > Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > ---
-> > > v1->v2:
-> > > * Added the R8A774B1 to the clock paragraph according to Geert's comment
-> > >
-> > >  Documentation/devicetree/bindings/net/can/rcar_canfd.txt | 5 +++--
-> > >  1 file changed, 3 insertions(+), 2 deletions(-)
-> > >
+> > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+> > ---
+> > V1-->V2
+> >  * Rebased to tip/timers
+> > ---
+> >  Documentation/devicetree/bindings/timer/renesas,cmt.txt | 2 ++
+> >  1 file changed, 2 insertions(+)
 > >
-> > Acked-by: Rob Herring <robh@kernel.org>
+> > diff --git a/Documentation/devicetree/bindings/timer/renesas,cmt.txt b/Documentation/devicetree/bindings/timer/renesas,cmt.txt
+> > index a444cfc..a747fab 100644
+> > --- a/Documentation/devicetree/bindings/timer/renesas,cmt.txt
+> > +++ b/Documentation/devicetree/bindings/timer/renesas,cmt.txt
+> > @@ -29,6 +29,8 @@ Required Properties:
+> >      - "renesas,r8a77470-cmt1" for the 48-bit CMT1 device included in r8a77470.
+> >      - "renesas,r8a774a1-cmt0" for the 32-bit CMT0 device included in r8a774a1.
+> >      - "renesas,r8a774a1-cmt1" for the 48-bit CMT devices included in r8a774a1.
+> > +    - "renesas,r8a774b1-cmt0" for the 32-bit CMT0 device included in r8a774b1.
+> > +    - "renesas,r8a774b1-cmt1" for the 48-bit CMT devices included in r8a774b1.
+> >      - "renesas,r8a774c0-cmt0" for the 32-bit CMT0 device included in r8a774c0.
+> >      - "renesas,r8a774c0-cmt1" for the 48-bit CMT devices included in r8a774c0.
+> >      - "renesas,r8a7790-cmt0" for the 32-bit CMT0 device included in r8a7790.
+>
+> Applied, thanks!
+
+Thanks!
+Looks like it's been a while you pushed your local branches to git.linaro.org?
 
 Gr{oetje,eeting}s,
 
