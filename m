@@ -2,100 +2,72 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D6509127EF8
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2019 16:04:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2879E127FCF
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2019 16:50:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727381AbfLTPE4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 20 Dec 2019 10:04:56 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:40403 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727233AbfLTPE4 (ORCPT
+        id S1727270AbfLTPus (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 20 Dec 2019 10:50:48 -0500
+Received: from mail02.asahi-net.or.jp ([202.224.55.14]:52738 "EHLO
+        mail02.asahi-net.or.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727233AbfLTPus (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 20 Dec 2019 10:04:56 -0500
-Received: by mail-ot1-f66.google.com with SMTP id w21so4445776otj.7;
-        Fri, 20 Dec 2019 07:04:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xIXSDPOOX2OHZ/9UyDaX8zGuRfcDybDX4Wqu+KsOODA=;
-        b=sFswHyToitcauv+VQ/ZbCt8ttho7mKiKXixup/Np6QFr+MRF5qWgkXbVeQDgJFimZ5
-         7sofXUgBT3MxQLpJwDT6ECirxx8ZcGMFGXMddqHxb3nv+p07i59UlV4LaXctIyiqK34D
-         dGerzxyYpcu7VmzLEyL141SefEzMOBcXgVDgOirzaiDpyMoxraZnLmI9cIFEscLwXzF8
-         i5AmKKd+BPCeGV6F/mNn7siQ1jW31u19CE8P+efJWqoegiPjhIhXCdOT6ormLGPdqPzM
-         w19bL461AOaPPRgpgqZg6r8zLrIs4AzaO8gBqGxk5OzQqDYemJ360AIuelAVsgD/gHnm
-         yYXw==
-X-Gm-Message-State: APjAAAXjkuQ1swddvaIE2xXysQKZPZ80bjii+mykTXrSErSv+/MCfId6
-        8vCut4Xoka97nC/jE8VpeGnGfk85WtUHJ5R6rGmVzg==
-X-Google-Smtp-Source: APXvYqyTAKnoo5F9im1mYMj/SXRfvhTRApAZxNoKMuSQVvjWyyC7PQ64avx40ELmisiT5cF2oDbrovaa69yULurZ9MM=
-X-Received: by 2002:a9d:2073:: with SMTP id n106mr5653440ota.145.1576854294903;
- Fri, 20 Dec 2019 07:04:54 -0800 (PST)
-MIME-Version: 1.0
-References: <1570104229-59144-1-git-send-email-biju.das@bp.renesas.com> <5af2669f-b977-1c36-95fb-ad006548b0d8@linaro.org>
-In-Reply-To: <5af2669f-b977-1c36-95fb-ad006548b0d8@linaro.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 20 Dec 2019 16:04:43 +0100
-Message-ID: <CAMuHMdVTTiMj+7bF0_TbX9k+QUKpsTto4aut=d0pkwz6_rOVfg@mail.gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: timer: renesas, cmt: Document r8a774b1
- CMT support
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     Biju Das <biju.das@bp.renesas.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms@verge.net.au>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Fri, 20 Dec 2019 10:50:48 -0500
+X-Greylist: delayed 514 seconds by postgrey-1.27 at vger.kernel.org; Fri, 20 Dec 2019 10:50:47 EST
+Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp [61.195.96.97])
+        (Authenticated sender: PQ4Y-STU)
+        by mail02.asahi-net.or.jp (Postfix) with ESMTPA id 2E01D9EAA7;
+        Sat, 21 Dec 2019 00:42:10 +0900 (JST)
+Received: from localhost.ysato.name (ZM005235.ppp.dion.ne.jp [222.8.5.235])
+        by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 58C3524008E;
+        Sat, 21 Dec 2019 00:42:07 +0900 (JST)
+Date:   Sat, 21 Dec 2019 00:42:02 +0900
+Message-ID: <s59o8w3qa0l.wl-ysato@users.sourceforge.jp>
+From:   Yoshinori Sato <ysato@users.sourceforge.jp>
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc:     Rich Felker <dalias@libc.org>, Karl Nasrallah <knnspeed@aol.com>,
+        Linux-SH <linux-sh@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH v2 0/3] sh: fixup strncpy()
+In-Reply-To: <87woatyutt.wl-kuninori.morimoto.gx@renesas.com>
+References: <87woatyutt.wl-kuninori.morimoto.gx@renesas.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL/10.8 EasyPG/1.0.0 Emacs/26
+ (arm-unknown-linux-androideabi) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Daniel,
+On Thu, 19 Dec 2019 10:20:46 +0900,
+Kuninori Morimoto wrote:
+> 
+> 
+> Hi Sato-san, Rich
+> 
+> These are strncpy() fixup patches, but using different solutions.
+> Karl's patches are updating current strncpy(), but using 2 patterns.
+> Kuninori's patch is using generic strncpy().
+> 
+> We don't know which is the best, but we can follow
+> SH maintainer's selection.
+> 
+> Karl Nasrallah (2):
+>       sh: fixup strncpy() warning and add missing padding
+>       sh: fixup strncpy() warning and add missing padding
+> 
+> Kuninori Morimoto (4):
+>       sh: use generic strncpy()
+> 
+> Thank you for your help !!
+> Best regards
+> ---
+> Kuninori Morimoto
 
-On Wed, Dec 4, 2019 at 5:36 PM Daniel Lezcano <daniel.lezcano@linaro.org> wrote:
-> On 03/10/2019 14:03, Biju Das wrote:
-> > Document SoC specific bindings for RZ/G2N (r8a774b1) SoC.
-> >
-> > Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-> > ---
-> > V1-->V2
-> >  * Rebased to tip/timers
-> > ---
-> >  Documentation/devicetree/bindings/timer/renesas,cmt.txt | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/timer/renesas,cmt.txt b/Documentation/devicetree/bindings/timer/renesas,cmt.txt
-> > index a444cfc..a747fab 100644
-> > --- a/Documentation/devicetree/bindings/timer/renesas,cmt.txt
-> > +++ b/Documentation/devicetree/bindings/timer/renesas,cmt.txt
-> > @@ -29,6 +29,8 @@ Required Properties:
-> >      - "renesas,r8a77470-cmt1" for the 48-bit CMT1 device included in r8a77470.
-> >      - "renesas,r8a774a1-cmt0" for the 32-bit CMT0 device included in r8a774a1.
-> >      - "renesas,r8a774a1-cmt1" for the 48-bit CMT devices included in r8a774a1.
-> > +    - "renesas,r8a774b1-cmt0" for the 32-bit CMT0 device included in r8a774b1.
-> > +    - "renesas,r8a774b1-cmt1" for the 48-bit CMT devices included in r8a774b1.
-> >      - "renesas,r8a774c0-cmt0" for the 32-bit CMT0 device included in r8a774c0.
-> >      - "renesas,r8a774c0-cmt1" for the 48-bit CMT devices included in r8a774c0.
-> >      - "renesas,r8a7790-cmt0" for the 32-bit CMT0 device included in r8a7790.
->
-> Applied, thanks!
+I think the generic version is better, but I want to decide after comparing what code is generated.
+If it is not very inefficient, I would like to make it a generic version.
 
-Thanks!
-Looks like it's been a while you pushed your local branches to git.linaro.org?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--
+Yoshinori Sato
