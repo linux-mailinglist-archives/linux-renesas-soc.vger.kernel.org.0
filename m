@@ -2,149 +2,120 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B269D12718D
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2019 00:35:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A11D6127342
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 20 Dec 2019 03:00:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726930AbfLSXfa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 19 Dec 2019 18:35:30 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:39977 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726963AbfLSXf3 (ORCPT
+        id S1726986AbfLTCAZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 19 Dec 2019 21:00:25 -0500
+Received: from twhmllg4.macronix.com ([211.75.127.132]:20881 "EHLO
+        TWHMLLG4.macronix.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726964AbfLTCAZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 19 Dec 2019 18:35:29 -0500
-Received: by mail-ot1-f66.google.com with SMTP id w21so1567300otj.7;
-        Thu, 19 Dec 2019 15:35:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=RRqDAkLWobOuOYSCFG7J0bbEa5xYLcQverv9nWpPuIA=;
-        b=NloW0NIe8rSvYLdL5vThD/P9xy0DF/fAVISnCid+T7rbCfrIY39tgOTfB9z2AxAjEz
-         M3RWNRv7Auysp8jBnlZAKEYwzwU4/ELqCNppHMHt3LX/zjh6RVj0My48m5kaVBxjdkmV
-         +568c5/rs9md5QdL48C4CESZwkcTvC5z3fI3RB+0GX6fnT/16me2LL78LErMH9oigzbp
-         JvYg9xX0aJj8HyUDl/9EDdJwYtp5uyHEoGAAnn5otOjJ4A2nH7nlO2aigQLeJHHDylYw
-         MQAWIlj/H1Fgh5kzfS0sQjA6Rp+KSS48GGL9W0InVRFJ7dLtFZ21p1QxRaex+mLO750J
-         nDOQ==
-X-Gm-Message-State: APjAAAXULZl4fCB1m1tjWhrWu5qX/xrQpgSWCzXzGpO4xvDn6nr1pMaR
-        mAmAVWrFS69ulFu0clafvA==
-X-Google-Smtp-Source: APXvYqzP7ZyQmIJlVYu5boWchd07kvVVJcGu77F6fpUDlaRoVSLg9EHtJ3yKHNipgk1av59pNOCtIg==
-X-Received: by 2002:a9d:7b4e:: with SMTP id f14mr11756439oto.355.1576798528860;
-        Thu, 19 Dec 2019 15:35:28 -0800 (PST)
-Received: from localhost (ip-184-205-174-147.ftwttx.spcsdns.net. [184.205.174.147])
-        by smtp.gmail.com with ESMTPSA id m68sm2525707oig.50.2019.12.19.15.35.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Dec 2019 15:35:27 -0800 (PST)
-Date:   Thu, 19 Dec 2019 17:35:25 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Lad Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-pci@vger.kernel.org,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Murray <andrew.murray@arm.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Simon Horman <horms@verge.net.au>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        linux-rockchip@lists.infradead.org,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [v2 4/6] dt-bindings: PCI: rcar: Add bindings for R-Car PCIe
- endpoint controller
-Message-ID: <20191219233525.GA9478@bogus>
-References: <20191213084748.11210-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20191213084748.11210-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Thu, 19 Dec 2019 21:00:25 -0500
+X-Greylist: delayed 898 seconds by postgrey-1.27 at vger.kernel.org; Thu, 19 Dec 2019 21:00:25 EST
+Received: from TWHMLLG4.macronix.com (localhost [127.0.0.2] (may be forged))
+        by TWHMLLG4.macronix.com with ESMTP id xBK1jR3J058516
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 20 Dec 2019 09:45:27 +0800 (GMT-8)
+        (envelope-from masonccyang@mxic.com.tw)
+Received: from twhfm1p2.macronix.com (twhfm1p2.macronix.com [172.17.20.92])
+        by TWHMLLG4.macronix.com with ESMTP id xBK1jKui058465;
+        Fri, 20 Dec 2019 09:45:20 +0800 (GMT-8)
+        (envelope-from masonccyang@mxic.com.tw)
+Received: from MXML06C.mxic.com.tw (mxml06c.mxic.com.tw [172.17.14.55])
+        by Forcepoint Email with ESMTP id C202A1DF76EF89CEE2A3;
+        Fri, 20 Dec 2019 09:45:20 +0800 (CST)
+In-Reply-To: <6f4c5d92-3ca4-2d1d-47c4-cbd52ad428b0@cogentembedded.com>
+References: <20191206134202.18784-1-chris.brandt@renesas.com> <922cfa46-efb5-9e6d-67ea-3ac505b8211c@cogentembedded.com> <TY1PR01MB156215E8668C0317FA0826B18A580@TY1PR01MB1562.jpnprd01.prod.outlook.com> <e6a73df5-31c4-3472-f7bc-a0984f1f5380@cogentembedded.com> <TY1PR01MB1562D343E1AB06DCA2973DAC8A550@TY1PR01MB1562.jpnprd01.prod.outlook.com> <590840ce-a250-2512-3d04-c2420d83f7da@cogentembedded.com> <TY1PR01MB1562B9EB96818DCA507079808A510@TY1PR01MB1562.jpnprd01.prod.outlook.com> <bb630141-021c-5618-f266-b98b29956fa8@cogentembedded.com> <TY1PR01MB1562E196AB1C582F186CC74B8A520@TY1PR01MB1562.jpnprd01.prod.outlook.com> <6f4c5d92-3ca4-2d1d-47c4-cbd52ad428b0@cogentembedded.com>
+To:     "Sergei Shtylyov" <sergei.shtylyov@cogentembedded.com>
+Cc:     "Mark Brown" <broonie@kernel.org>,
+        "Chris Brandt" <Chris.Brandt@renesas.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "Geert Uytterhoeven" <geert+renesas@glider.be>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+        "Mark Rutland" <mark.rutland@arm.com>,
+        "Michael Turquette" <mturquette@baylibre.com>,
+        "Rob Herring" <robh+dt@kernel.org>,
+        "Stephen Boyd" <sboyd@kernel.org>
+Subject: Re: [PATCH v2 0/6] spi: Add Renesas SPIBSC controller
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191213084748.11210-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-KeepSent: 3F92D76C:33FFFBFC-482584D6:00093DAC;
+ type=4; name=$KeepSent
+X-Mailer: Lotus Notes Release 8.5.3FP4 SHF90 June 10, 2013
+Message-ID: <OF3F92D76C.33FFFBFC-ON482584D6.00093DAC-482584D6.0009A51D@mxic.com.tw>
+From:   masonccyang@mxic.com.tw
+Date:   Fri, 20 Dec 2019 09:45:21 +0800
+X-MIMETrack: Serialize by Router on MXML06C/TAIWAN/MXIC(Release 9.0.1FP10 HF265|July 25, 2018) at
+ 2019/12/20 AM 09:45:20,
+        Serialize complete at 2019/12/20 AM 09:45:20
+Content-Type: text/plain; charset="US-ASCII"
+X-MAIL: TWHMLLG4.macronix.com xBK1jKui058465
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Dec 13, 2019 at 08:47:46AM +0000, Lad Prabhakar wrote:
-> From: "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Hello,
+ 
+> On 12/19/2019 07:57 PM, Chris Brandt wrote:
 > 
-> This patch adds the bindings for the R-Car PCIe endpoint driver.
-> 
-> Signed-off-by: Lad, Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  .../devicetree/bindings/pci/rcar-pci-ep.txt        | 37 ++++++++++++++++++++++
->  1 file changed, 37 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/pci/rcar-pci-ep.txt
+> >>> So at the moment, there is nothing yet for me to 'try' on the RZ/A 
+series,
+> >> correct?
+> >>
+> >>    Why, I can send you a working version of the SPI driver, and even 
+HF one
+> >> if you're
+> >> interested.
+> > 
+> > The point of this whole discussion is to determine if we should have 2 
+drivers
+> > for the same Renesas HW IP.
+> > 
+> > There was a RPC-IF patch series that made it to v17....and is now 
+dead.
 
-Please make this a DT schema.
 
-> 
-> diff --git a/Documentation/devicetree/bindings/pci/rcar-pci-ep.txt b/Documentation/devicetree/bindings/pci/rcar-pci-ep.txt
-> new file mode 100644
-> index 0000000..7f0a97e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/pci/rcar-pci-ep.txt
-> @@ -0,0 +1,37 @@
-> +* Renesas R-Car PCIe Endpoint Controller DT description
-> +
-> +Required properties:
-> +	    "renesas,pcie-ep-r8a774c0" for the R8A774C0 SoC;
+It's under review by Geert Uytterhoeven
 
-Normal ordering is: renesas,r8a774c0-pcie-ep
+https://patchwork.kernel.org/project/linux-renesas-soc/list/?submitter=181859 
 
-> +	    "renesas,pcie-ep-rcar-gen3" for a generic R-Car Gen3 or
-> +				     RZ/G2 compatible device.
-> +
-> +	    When compatible with the generic version, nodes must list the
-> +	    SoC-specific version corresponding to the platform first
-> +	    followed by the generic version.
-> +
-> +- reg: base address and length of the PCIe controller registers.
-> +- outbound-ranges: outbound windows base address and length including the flags.
-> +- resets: Must contain phandles to PCIe-related reset lines exposed by IP block
 
-How many?
+https://patchwork.kernel.org/patch/11078131/ 
+https://patchwork.kernel.org/patch/11078133/ 
 
-> +- clocks: from common clock binding: clock specifiers for the PCIe controller
-> +	 clock.
-> +- clock-names: from common clock binding: should be "pcie".
-> +
-> +Optional Property:
-> +- max-functions: Maximum number of functions that can be configured (default 1).
-> +
-> +Example:
-> +
-> +SoC-specific DT Entry:
-> +
-> +	pcie_ep: pcie_ep@fe000000 {
 
-pcie-ep@ 
+thanks & best regards,
+Mason
 
-> +		compatible = "renesas,pcie-ep-r8a774c0", "renesas,pcie-rcar-gen2";
-> +		reg = <0 0xfe000000 0 0x80000>;
-> +		outbound-ranges = <0xa 0x0 0xfe100000 0 0x000100000
-> +				   0xa 0x0 0xfe200000 0 0x000200000
-> +				   0x6 0x0 0x30000000 0 0x008000000
-> +				   0x6 0x0 0x38000000 0 0x008000000>;
-> +		clocks = <&cpg CPG_MOD 319>;
-> +		clock-names = "pcie";
-> +		power-domains = <&sysc R8A774C0_PD_ALWAYS_ON>;
-> +		resets = <&cpg 319>;
-> +	};
-> -- 
-> 2.7.4
-> 
+CONFIDENTIALITY NOTE:
+
+This e-mail and any attachments may contain confidential information 
+and/or personal data, which is protected by applicable laws. Please be 
+reminded that duplication, disclosure, distribution, or use of this e-mail 
+(and/or its attachments) or any part thereof is prohibited. If you receive 
+this e-mail in error, please notify us immediately and delete this mail as 
+well as its attachment(s) from your system. In addition, please be 
+informed that collection, processing, and/or use of personal data is 
+prohibited unless expressly permitted by personal data protection laws. 
+Thank you for your attention and cooperation.
+
+Macronix International Co., Ltd.
+
+=====================================================================
+
+
+
+============================================================================
+
+CONFIDENTIALITY NOTE:
+
+This e-mail and any attachments may contain confidential information and/or personal data, which is protected by applicable laws. Please be reminded that duplication, disclosure, distribution, or use of this e-mail (and/or its attachments) or any part thereof is prohibited. If you receive this e-mail in error, please notify us immediately and delete this mail as well as its attachment(s) from your system. In addition, please be informed that collection, processing, and/or use of personal data is prohibited unless expressly permitted by personal data protection laws. Thank you for your attention and cooperation.
+
+Macronix International Co., Ltd.
+
+=====================================================================
+
