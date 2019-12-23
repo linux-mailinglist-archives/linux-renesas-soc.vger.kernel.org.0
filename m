@@ -2,112 +2,180 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D709128E88
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 22 Dec 2019 15:32:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FC8D129AB4
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 23 Dec 2019 21:07:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725932AbfLVOcG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 22 Dec 2019 09:32:06 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:37162 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725903AbfLVOcG (ORCPT
+        id S1726880AbfLWUHR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 23 Dec 2019 15:07:17 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:35366 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726829AbfLWUHR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 22 Dec 2019 09:32:06 -0500
-Received: by mail-wr1-f68.google.com with SMTP id w15so1336725wru.4;
-        Sun, 22 Dec 2019 06:32:04 -0800 (PST)
+        Mon, 23 Dec 2019 15:07:17 -0500
+Received: by mail-lj1-f195.google.com with SMTP id j1so11475130lja.2
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 23 Dec 2019 12:07:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=+JTaMAihMQcGoLYVzC8yfarHE4d+Vw11ecW2v7rlvYc=;
-        b=aW4GWiH4RRWzVi1YvxtgC6SKRcDtgfkHhl5d9qxCzfDOlqz8FrdxgU7iuLwEvejWbo
-         d6pXhPqoKCP7QfnYEWuP8ZA+EfkOBG8k3YtGszhBeLjdH+7KjgjkmFliIPuJ8eCUG7MS
-         D25Z7LykTLWJmCjBXbVpz5J3ZLFqwPqpn/yKRP7/xBwZ418M1YxeJ6zfJ/Lds2LNoB4A
-         avUZZnfmXv2zV72xUrTa6cAxTh9/9iiL+D6G9Mo766L8asxIhpfyUY/y//85WVTvSsed
-         Webge9BNSGswgWzXHIlONEKnXukBPf7lJBiTfOGCcjkUl8cnWqD1cOKfJr46qsixxqk0
-         fwaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:organization:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=+JTaMAihMQcGoLYVzC8yfarHE4d+Vw11ecW2v7rlvYc=;
-        b=BH0tErNqbN9dzAL4cNWl2KwQ0wSt8sxNXs/ttQa6Y5lBkrd7PkCBZjM68pTNZ+knDw
-         Ax6E7bl4YPSiP/jRHfcGrQ9nKksPFn/K9j7YzZCNSXdhJfR1Nj4kSsB9Mqi4ceJylQSX
-         Z7kt5wGOC1OoMxLWQN7W8a4aG3ZtErr1h17JywioDkqUp/6ptJzdzTGUDp0obgy33LcR
-         4MZLbzPoNb2UzyD1A0b2mzMv69pG6EdH9CHqjrlykTSGjQdg+QkNUNFWq8AuvM+f7Xr9
-         VqwokFDo0I6dOAkeGcFzwlbmPXPQ6XTqvjla6tQdAioVjDVZuEZixPMNNth1kqKZoSET
-         mlig==
-X-Gm-Message-State: APjAAAUTjPgKq0oLeORoCp3vAd9XuKkcqaQeBs20qVuFuVwV5mgl2/1V
-        xV9BgIiR7K9Mwj43bYYGv8FRi6He
-X-Google-Smtp-Source: APXvYqzGNZRDvouRP65RO3Fj4ECALDB/bjLNoA1qO8hB9P5QU33Y7/nHQ87nvJdmY0xXeojYWMpNSA==
-X-Received: by 2002:a5d:65c5:: with SMTP id e5mr25602381wrw.311.1577025123628;
-        Sun, 22 Dec 2019 06:32:03 -0800 (PST)
-Received: from [172.16.0.186] (188-175-35-175.client.rionet.cz. [188.175.35.175])
-        by smtp.gmail.com with ESMTPSA id i10sm17179060wru.16.2019.12.22.06.32.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Dec 2019 06:32:02 -0800 (PST)
-Subject: Re: [PATCH V3 2/3] PCI: rcar: Do not abort on too many inbound
- dma-ranges
-To:     Robin Murphy <robin.murphy@arm.com>,
-        Andrew Murray <andrew.murray@arm.com>
-Cc:     Simon Horman <horms@verge.net.au>, linux-pci@vger.kernel.org,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        bh=jlswyEc6xIGtbVUwHi52dwuY4ajQKEt5NuNVOiiskgw=;
+        b=uL3/M8VWDFlVkz/n3D6NfSRboQct3/dGTYUJkfrsxjqaSw+powfOuZNJS8Yisdolf3
+         W7IdrXrcukkSoUTcbrjnTjyzvK3o32XmMoRRaBsXYUZEKO77cMrZyWnhupiTXMTkBU9k
+         RonZlzpJd09zJbBr+QvizRpPOxIC5B3UTBFDz5NoI3PVi4CxnhnzcS5A9s8y3fBpCgqE
+         rHP/9xDBTHCHsiRYa+8tweT2HmhoBWCfTHwA2a1tDrV6gybMJDoeixrLXigLp1U5LKRT
+         RB3L2xh97Av0TbaI/9N3wkT2tJitiCzqLpiRuwEunA+jLbSKTOEozf2WVXdVB0cVrLAw
+         R2oA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=jlswyEc6xIGtbVUwHi52dwuY4ajQKEt5NuNVOiiskgw=;
+        b=fNk+BDNLrkNSulc9B1TbU+73DkfIwuj3/MzQW/wabAhHVFdpPiKHRKw2FW2LX442mv
+         xq28KiOxUbNOhjTc33vLfFv1OBWPBhQ4gdEqhtkaT0RB2btuSqwKszvf51IkgHYBv7Or
+         AQPEh1r9OZJX0mZE+pdbZnhIsEFNdpOWuCIpgzh8AB2yZ0lWoIw8PuQelZEQBM9a7BBV
+         jY/JqLCshnr60m6UGCG6RlbEpRwgvIiV4Bh5j2h2nIUekIEJMP/PvpTW9sqW5j8JYbl8
+         Ln+f/wLAiIRqYJ4N7RrS1+dobrK/Mc2b9FSei9bkXUVmxx4CStOBHZd3yWD/h64jG+vu
+         SJ9w==
+X-Gm-Message-State: APjAAAWsQH1K0g5sh+Lz+4JT9dLBKnMCjB9PIKLYuhWJ5/t1YovW7JCD
+        bjbfehZgXSuN2Hj0d/5t2vMsEA==
+X-Google-Smtp-Source: APXvYqx5g4M0uhRd+Jgki+03Npwwmd4lXlZjXrbkgxQkR/xuSqUXP1tnYgb7OvSuShD1VKlGh6Jykw==
+X-Received: by 2002:a2e:a486:: with SMTP id h6mr11540184lji.235.1577131635009;
+        Mon, 23 Dec 2019 12:07:15 -0800 (PST)
+Received: from wasted.cogentembedded.com ([2a00:1fa0:855:9d36:483b:5fb3:f1dd:f0d5])
+        by smtp.gmail.com with ESMTPSA id i19sm8915307lfj.17.2019.12.23.12.07.13
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 23 Dec 2019 12:07:14 -0800 (PST)
+Subject: Re: [PATCH v17 1/2] spi: Add Renesas R-Car Gen3 RPC-IF SPI controller
+ driver
+To:     Mason Yang <masonccyang@mxic.com.tw>, broonie@kernel.org,
+        robh+dt@kernel.org, mark.rutland@arm.com,
+        linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        linux-renesas-soc@vger.kernel.org
-References: <20190809175741.7066-1-marek.vasut@gmail.com>
- <20190809175741.7066-2-marek.vasut@gmail.com>
- <20190816132305.gyyml5r3xsimmoor@verge.net.au>
- <8f1871ed-4820-1985-0090-bb9e2d8803d8@gmail.com>
- <20191021101805.GM47056@e119886-lin.cambridge.arm.com>
- <fef9502f-d51c-b922-afb3-8891267ae6c3@gmail.com>
- <20191026203627.GA47056@e119886-lin.cambridge.arm.com>
- <9c46a2d2-00bd-3854-8060-fc7389751f3f@gmail.com>
- <20191107141906.GB43905@e119886-lin.cambridge.arm.com>
- <3424b83c-4693-0259-ac3d-ea10a3f98377@gmail.com>
- <82c69634-ffb5-0b20-2254-55e5cfbef035@arm.com>
-From:   Marek Vasut <marek.vasut@gmail.com>
-Message-ID: <ddb1295c-dbee-d965-0278-52d8b8937940@gmail.com>
-Date:   Sun, 22 Dec 2019 08:46:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        devicetree@vger.kernel.org
+Cc:     juliensu@mxic.com.tw, Simon Horman <horms@verge.net.au>,
+        lee.jones@linaro.org, marek.vasut@gmail.com,
+        miquel.raynal@bootlin.com
+References: <1565060061-11588-1-git-send-email-masonccyang@mxic.com.tw>
+ <1565060061-11588-2-git-send-email-masonccyang@mxic.com.tw>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Organization: Cogent Embedded
+Message-ID: <0e65db61-00e5-73cc-347a-023abfd138ba@cogentembedded.com>
+Date:   Mon, 23 Dec 2019 23:07:12 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-In-Reply-To: <82c69634-ffb5-0b20-2254-55e5cfbef035@arm.com>
+In-Reply-To: <1565060061-11588-2-git-send-email-masonccyang@mxic.com.tw>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Language: en-MW
 Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 11/18/19 7:42 PM, Robin Murphy wrote:
+Hello!
+
+On 08/06/2019 05:54 AM, Mason Yang wrote:
+
+> Add a driver for Renesas R-Car Gen3 RPC-IF SPI controller.
+> 
+> Signed-off-by: Mason Yang <masonccyang@mxic.com.tw>
+> Signed-off-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+
+   Mark Brown did have some comments to my variant of the RPC-IF SPI driver,
+which didn't get addressed in your SPI driver... Relaying his comments to you,
+I'd appreciate if you could reply to them...
+
+[...]
+> diff --git a/drivers/spi/spi-renesas-rpc.c b/drivers/spi/spi-renesas-rpc.c
+> new file mode 100644
+> index 0000000..52537b7
+> --- /dev/null
+> +++ b/drivers/spi/spi-renesas-rpc.c
+> @@ -0,0 +1,756 @@
+[...]
+> +static void rpc_spi_transfer_setup(struct rpc_spi *rpc,
+> +				   struct spi_message *msg)
+> +{
+> +	struct spi_transfer *t, xfer[4] = { };
+
+Don't mix initialized and non-initialized declarations in a single line
+(as per coding style).
+
+> +	u32 i, xfercnt, xferpos = 0;
+> +
+> +	rpc->totalxferlen = 0;
+> +	rpc->xfer_dir = SPI_MEM_NO_DATA;
+> +
+> +	list_for_each_entry(t, &msg->transfers, transfer_list) {
+> +		if (t->tx_buf) {
+> +			xfer[xferpos].tx_buf = t->tx_buf;
+> +			xfer[xferpos].tx_nbits = t->tx_nbits;
+
+xfer is hard coded to 4 elements but I'm not seeing any validation that
+we don't have more transfers than that in the message, and there's lots
+of assumptions later on about the number of transfers.
+
+[...]
+> +		if (list_is_last(&t->transfer_list, &msg->transfers)) {
+> +			if (xferpos > 1) {
+> +				if (t->rx_buf) {
+> +					rpc->xfer_dir = SPI_MEM_DATA_IN;
+> +					rpc->smcr = RPC_SMCR_SPIRE;
+> +				} else if (t->tx_buf) {
+> +					rpc->xfer_dir = SPI_MEM_DATA_OUT;
+> +					rpc->smcr = RPC_SMCR_SPIWE;
+> +				}
+> +			}
+
+Transfers can be bidirectional...  if the device can't support that it
+should set SPI_CONTROLLER_HALF_DUPLEX.
+
+[...]
+> +static inline int rpc_spi_xfer_message(struct rpc_spi *rpc,
+> +				       struct spi_transfer *data_xfer)
+
+This has exactly one caller and contains a single statement - why have a
+separate function?
+
+> +{
+> +	int ret;
+> +
+> +	ret = rpc_spi_set_freq(rpc, data_xfer->speed_hz);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = rpc_spi_io_xfer(rpc,
+> +			      rpc->xfer_dir == SPI_MEM_DATA_OUT ?
+> +			      data_xfer->tx_buf : NULL,
+> +			      rpc->xfer_dir == SPI_MEM_DATA_IN ?
+> +			      data_xfer->rx_buf : NULL);
+
+This is really hard to read.  Why are we abusing the ternery operator
+here, especially when there's other places where we already set things
+up based on the direction?
+
+[...]
+[...]
+> +static int rpc_spi_remove(struct platform_device *pdev)
+> +{
+> +	struct spi_controller *ctlr = platform_get_drvdata(pdev);
+> +
+> +	pm_runtime_disable(&pdev->dev);
+> +	spi_unregister_controller(ctlr);
+> +
+> +	return 0;
+> +}
+> +
+
+Shouldn't we unregister the controller before we disable the RPM?  The
+probe was the other way around and this means that we might still be
+processing messages while the hardware is disabled which doesn't seem
+good.
+
 [...]
 
->>> Despite the good intentions here, it doesn't seem like dma-ranges is
->>> designed for this purpose and as the hardware has limited ranges it will
->>> only be best-effort.
->> So what other options do we have ?
-> 
-> If you really want to sacrifice DMA efficiency for a perceived increase
-> in theoretical robustness by setting very conservative windows,
-
-That really means configuring the hardware correctly.
-
-> then
-> ultimately it's your choice, go ahead. It's just that you *need* to make
-> that choice in the bootloader, not in Linux. If Linux gets passed
-> dma-ranges that aren't actually reflected by the hardware, such that
-> this patch is needed, then it *will* go wrong eventually, and you'll
-> only get an "I told you so" from me.
-> 
-> The bootloader knows what platform it's running on, so it has no excuse
-> for emitting more ranges than there are available windows on that platform.
-
-So basically the conclusion is to limit the amount of DMA ranges added
-into the DT and be done with it ?
-
--- 
-Best regards,
-Marek Vasut
+MBR, Sergei
