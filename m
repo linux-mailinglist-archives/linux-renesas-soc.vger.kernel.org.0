@@ -2,157 +2,101 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F22F12AD12
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 26 Dec 2019 15:34:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D25412B00A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 27 Dec 2019 01:59:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726741AbfLZOeX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 26 Dec 2019 09:34:23 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:42039 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726074AbfLZOeX (ORCPT
+        id S1726874AbfL0A7J (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 26 Dec 2019 19:59:09 -0500
+Received: from heliosphere.sirena.org.uk ([172.104.155.198]:43302 "EHLO
+        heliosphere.sirena.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726277AbfL0A7J (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 26 Dec 2019 09:34:23 -0500
-Received: by mail-ot1-f66.google.com with SMTP id 66so32705432otd.9;
-        Thu, 26 Dec 2019 06:34:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uyXJLCypDRcPx/dQLKQopsy2jS5X1aGNtltPKaE3ejc=;
-        b=IxwbsJVqy0Z5ID3cLy1p5jcdQlaVkTaCqwl0pITVm8OXWn1A2Yvnc4wGCxAp4+F7TH
-         gAX2PLDXrbkI7WWVmaPFTnuaJiISoeONea5aU8UdzYWF08/Gn+FAV2zXdFVFvQSCcVSc
-         nH4IVfklb2ELkLAGwQDzI14ZlXM1Ysv7LJp8oSEHG5xZhVALnHg7h6+K6wpJhO6BJ2Zv
-         2uEx7hpQQOgiPCpcjmH+fbYviBIVBY5eDFldCBor3b8UA+lJc5fhvpa1fFjJ2HT6tKW0
-         2wZds+9IZVRfZeGG+2j9GDN45anjKMxnUapNC4++MiR//Ritoooyjzk4V8f8iVN7/BnH
-         ItWw==
-X-Gm-Message-State: APjAAAV2oK8O6N65tW5E+k6kDGrsIuIGJ6YkJlJw4aToormjHJoftZdC
-        4TBvm6eHrcvrDB8Q/CzsxOPw8Kzcckaa1Ncm3a8=
-X-Google-Smtp-Source: APXvYqxTP5IfHEE0iuORPur5LEyFjotvw370NR9yqNjJ0FeavjP1C1QtnlOT5FASczusf0CTCAIj0zKVGrqv85ldzAo=
-X-Received: by 2002:a05:6830:2141:: with SMTP id r1mr51044086otd.39.1577370862936;
- Thu, 26 Dec 2019 06:34:22 -0800 (PST)
-MIME-Version: 1.0
-References: <20191217184242.827-1-geert+renesas@glider.be> <TYAPR01MB4544936355182F4091F89EECD8280@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYAPR01MB4544936355182F4091F89EECD8280@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 26 Dec 2019 15:34:11 +0100
-Message-ID: <CAMuHMdVnoGpBvU5hH1dBHo6QXFS5voy6SmEDZKyu1JWqLfwhGQ@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: sh-pfc: Split R-Car H3 support in two
- independent drivers
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        "REE erosca@DE.ADIT-JV.COM" <erosca@de.adit-jv.com>,
+        Thu, 26 Dec 2019 19:59:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=b2rtFlDWT9u7yqTvQM+L2HoYozAhuvbhOAHBbpkqe5o=; b=rJE9LqGxvBqnQ69avZ18Yrp9H
+        Wbg67tXSt2jFUMHx2UKQw5x82OAOcvfSyTNeQaRAzgOWpLMpNwk8i2M1+SBp7ckOqJ2qjeQS9ecFr
+        ZpHY7u5nCsAWlwSiAkubqm7F6n6/WGrayjvT1KpeCEa9UB01CggOupVUMh368oE5RNfAo=;
+Received: from cpc102320-sgyl38-2-0-cust46.18-2.cable.virginm.net ([82.37.168.47] helo=fitzroy.sirena.org.uk)
+        by heliosphere.sirena.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <broonie@sirena.org.uk>)
+        id 1ikdxz-00048c-Ip; Fri, 27 Dec 2019 00:58:59 +0000
+Received: by fitzroy.sirena.org.uk (Postfix, from userid 1000)
+        id 98563D01896; Fri, 27 Dec 2019 00:58:58 +0000 (GMT)
+Date:   Fri, 27 Dec 2019 00:58:58 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Cc:     masonccyang@mxic.com.tw, Chris Brandt <Chris.Brandt@renesas.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>,
         "linux-renesas-soc@vger.kernel.org" 
         <linux-renesas-soc@vger.kernel.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>
+Subject: Re: [PATCH v2 0/6] spi: Add Renesas SPIBSC controller
+Message-ID: <20191227005858.GJ27497@sirena.org.uk>
+References: <TY1PR01MB156215E8668C0317FA0826B18A580@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+ <e6a73df5-31c4-3472-f7bc-a0984f1f5380@cogentembedded.com>
+ <TY1PR01MB1562D343E1AB06DCA2973DAC8A550@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+ <590840ce-a250-2512-3d04-c2420d83f7da@cogentembedded.com>
+ <TY1PR01MB1562B9EB96818DCA507079808A510@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+ <bb630141-021c-5618-f266-b98b29956fa8@cogentembedded.com>
+ <TY1PR01MB1562E196AB1C582F186CC74B8A520@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+ <6f4c5d92-3ca4-2d1d-47c4-cbd52ad428b0@cogentembedded.com>
+ <OF3F92D76C.33FFFBFC-ON482584D6.00093DAC-482584D6.0009A51D@mxic.com.tw>
+ <bac1f4db-302d-0dd7-3b66-341a74f67a6b@cogentembedded.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="ZG+WKzXzVby2T9Ro"
+Content-Disposition: inline
+In-Reply-To: <bac1f4db-302d-0dd7-3b66-341a74f67a6b@cogentembedded.com>
+X-Cookie: I have many CHARTS and DIAGRAMS..
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
 
-On Wed, Dec 25, 2019 at 10:46 AM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> > From: Geert Uytterhoeven, Sent: Wednesday, December 18, 2019 3:43 AM
-> >
-> > Despite using the same compatible values ("r8a7795"-based) because of
-> > historical reasons, R-Car H3 ES1.x (R8A77950) and R-Car H3 ES2.0+
-> > (R8A77951) are really different SoCs, with different part numbers, and
-> > with different Pin Function Controller blocks.
-> >
-> > Reflect this in the pinctrl configuration, by replacing the existing
-> > CONFIG_PINCTRL_PFC_R8A7795 symbol by two new config symbols:
-> > CONFIG_PINCTRL_PFC_R8A77950 and CONFIG_PINCTRL_PFC_R8A77951.  The latter
-> > are selected automatically, depending on the soon-to-be-introduced
-> > corresponding SoC-specific config options, and on the current common
-> > config option, to relax dependencies.
-> >
-> > Rename the individual pin control driver source files from
-> > pfc-r8a7795-es1.c to pfc-r8a77950.c, and from pfc-r8a7795.c to
-> > pfc-r8a77951.c, and make them truly independent.
-> > As both SoCs share the same compatible value, special care must be taken
-> > to match them to the correct pin control driver, if support for it is
-> > included in the running kernel.
-> >
-> > This will allow making support for early R-Car H3 revisions optional,
-> > the largest share of which is taken by the pin control driver.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> > Suggestions for simplifying sh_pfc_quirk_match(), or for alternative
-> > solutions are welcome!
->
-> I wondered if using weak attribute on both info variables could
-> simplify sh_pfc_quirk_match(), but such a code [1] doesn't seem better
-> than using #ifdef. Also, using weak attributes waste data size
-> if R8A77950=n and R8A77951=y for instance.
+--ZG+WKzXzVby2T9Ro
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks for the great suggestion!
+On Tue, Dec 24, 2019 at 07:58:21PM +0300, Sergei Shtylyov wrote:
 
-The trick is to add __weak to the existing extern declarations in sh_pfc.h,
-instead of adding weak empty structs.
-When the structs don't exist, their addresses just become zero.
+>    It doesn't matter much what's in the renesas-soc patchwork, the patch would
+> be merged thru the linux-spi repo, and in their patchwork the status of your v17
+> patches is "New, archived"...
 
-So I came up with the following (whitespace-damaged) patch, which I intend
-to fold into the original, if no one objects.
+To be fair patchwork isn't exactly used in the review process for
+SPI like it is with some other subsystems so other than automated
+updates when things get applied or superceeded the states don't
+mean a huge amount.  Like I said elsewhere in the thread I'd been
+expecting some review from other people working with this
+hardware since up until that point it had been pretty active.
 
-diff --git a/drivers/pinctrl/sh-pfc/core.c b/drivers/pinctrl/sh-pfc/core.c
-index 8da95bf22735fd7b..92f8d5f5b6930849 100644
---- a/drivers/pinctrl/sh-pfc/core.c
-+++ b/drivers/pinctrl/sh-pfc/core.c
-@@ -1120,19 +1120,11 @@ static const void *sh_pfc_quirk_match(void)
-        static const struct soc_device_attribute quirks[] = {
-                {
-                        .soc_id = "r8a7795", .revision = "ES1.*",
--#ifdef CONFIG_PINCTRL_PFC_R8A77950
-                        .data = &r8a77950_pinmux_info,
--#else
--                       .data = (void *)-ENODEV,
--#endif
-                },
-                {
-                        .soc_id = "r8a7795",
--#ifdef CONFIG_PINCTRL_PFC_R8A77951
-                        .data = &r8a77951_pinmux_info,
--#else
--                       .data = (void *)-ENODEV,
--#endif
-                },
+--ZG+WKzXzVby2T9Ro
+Content-Type: application/pgp-signature; name="signature.asc"
 
-                { /* sentinel */ }
-@@ -1140,7 +1132,7 @@ static const void *sh_pfc_quirk_match(void)
+-----BEGIN PGP SIGNATURE-----
 
-        match = soc_device_match(quirks);
-        if (match)
--               return match->data;
-+               return match->data ?: ERR_PTR(-ENODEV);
- #endif /* CONFIG_PINCTRL_PFC_R8A77950 || CONFIG_PINCTRL_PFC_R8A77951 */
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl4FV1EACgkQJNaLcl1U
+h9Dw/Qf9H6McVLuJOf7UR+8tvE28HHYofwkbY9W0uLfOPBnIsIVtKzOG2cAfPJay
+kXZ0Up1m1wHAMLGSw9Cb0NO8sweKh9ke+7V8lP9uXajisXtUbUVar3kgita+zRtB
+Qsv/8L4zPyskxKL97XySBb+28UPEcmm2evLJf+LUiL6msYQ2S9960UKZ8JYj90g3
+GDCZgbuZjGNpzy/fmQib5mG9JbpXHAzy0QSrT5X7h+hIepp/zDI+C1r+wyOzM7YE
+pNtZ9ndxtEaKGqkmW+slAJn3peHxOqvS6S1BTGANnCPfsruGKOb/XL4ItNcOpLzp
+7jHMO77S8ZX5o+nu46YjuqwYv+ziCA==
+=L9BN
+-----END PGP SIGNATURE-----
 
-        return NULL;
-diff --git a/drivers/pinctrl/sh-pfc/sh_pfc.h b/drivers/pinctrl/sh-pfc/sh_pfc.h
-index aa298332f00f1a8e..d57e633e99c0ce66 100644
---- a/drivers/pinctrl/sh-pfc/sh_pfc.h
-+++ b/drivers/pinctrl/sh-pfc/sh_pfc.h
-@@ -318,8 +318,8 @@ extern const struct sh_pfc_soc_info r8a7791_pinmux_info;
- extern const struct sh_pfc_soc_info r8a7792_pinmux_info;
- extern const struct sh_pfc_soc_info r8a7793_pinmux_info;
- extern const struct sh_pfc_soc_info r8a7794_pinmux_info;
--extern const struct sh_pfc_soc_info r8a77950_pinmux_info;
--extern const struct sh_pfc_soc_info r8a77951_pinmux_info;
-+extern const struct sh_pfc_soc_info r8a77950_pinmux_info __weak;
-+extern const struct sh_pfc_soc_info r8a77951_pinmux_info __weak;
- extern const struct sh_pfc_soc_info r8a77960_pinmux_info;
- extern const struct sh_pfc_soc_info r8a77961_pinmux_info;
- extern const struct sh_pfc_soc_info r8a77965_pinmux_info;
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--ZG+WKzXzVby2T9Ro--
