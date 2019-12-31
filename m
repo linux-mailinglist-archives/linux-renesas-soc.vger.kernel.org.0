@@ -2,58 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7FDA12D7B3
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Dec 2019 11:00:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C5BEC12D8FE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 31 Dec 2019 14:27:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726421AbfLaKAX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 31 Dec 2019 05:00:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39472 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726334AbfLaKAW (ORCPT
+        id S1726674AbfLaN1A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 31 Dec 2019 08:27:00 -0500
+Received: from michel.telenet-ops.be ([195.130.137.88]:56166 "EHLO
+        michel.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726229AbfLaN07 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 31 Dec 2019 05:00:22 -0500
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1577786422;
-        bh=BqBgMHDITFOTnsoH9DNvl3DjoMb9z1AQFiSWQWQNWwk=;
-        h=Subject:From:Date:References:To:From;
-        b=LAb6MJJfyOTYG+mbXvRtcHfRsaZSfts6coV2BYGrOO9fumnc7gsS5953Fw38WycCd
-         /R8stgFIak5OKRRWZ0yhpBkV8BtyVNK/kNEDrSrZi3xvtfp5dD8ndGzd5FpP/r9NVW
-         m8xRaZpt88K63Qaj3HC21glIuK/C0WgabS2ov35E=
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <157778642227.30877.16877800949193588043.git-patchwork-summary@kernel.org>
-Date:   Tue, 31 Dec 2019 10:00:22 +0000
-References: <20191213162736.2160-1-geert+renesas@glider.be>,
- <20191213162712.2056-1-geert+renesas@glider.be>,
- <20191213162604.1890-1-geert+renesas@glider.be>
+        Tue, 31 Dec 2019 08:26:59 -0500
+Received: from ramsan ([84.195.182.253])
+        by michel.telenet-ops.be with bizsmtp
+        id kdSw210025USYZQ06dSw36; Tue, 31 Dec 2019 14:26:56 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1imHXz-0005Vq-UT
+        for linux-renesas-soc@vger.kernel.org; Tue, 31 Dec 2019 14:26:55 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1imHXz-0006zR-Rm
+        for linux-renesas-soc@vger.kernel.org; Tue, 31 Dec 2019 14:26:55 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2019-12-31-v5.5-rc4
+Date:   Tue, 31 Dec 2019 14:26:55 +0100
+Message-Id: <20191231132655.26825-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+I have pushed renesas-drivers-2019-12-31-v5.5-rc4 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-The following patches were marked "accepted", because they were applied to
-geert/renesas-devel (refs/heads/next):
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-Patch: ARM: dts: sh73a0: Add missing clock-frequency for fixed clocks
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=216451
+Today's version is based on renesas-devel-2019-12-31-v5.5-rc4.
 
-Patch: ARM: dts: r8a7778: Add missing clock-frequency for fixed clocks
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=216447
+Best Wishes for 2020!
 
-Patch: ARM: dts: rcar-gen2: Add missing mmio-sram bus properties
-  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=216445
+Included branches with driver code:
+  - clk-renesas
+  - sh-pfc
+  - git://git.ragnatech.se/linux#for-renesas-drivers
 
-Total patches: 3
+Included fixes:
+  - [LOCAL] arm64: defconfig: Update renesas_defconfig
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
+  - git://git.infradead.org/users/vkoul/slave-dma.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://github.com/bzolnier/linux.git#fbdev-for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/kishon/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
