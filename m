@@ -2,104 +2,151 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 82E5612EFC3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2020 23:48:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7A7112F0D7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2020 23:56:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729688AbgABW2E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 Jan 2020 17:28:04 -0500
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:40369 "EHLO
-        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729822AbgABW2B (ORCPT
+        id S1728801AbgABW4I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Jan 2020 17:56:08 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39234 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728955AbgABW4I (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 Jan 2020 17:28:01 -0500
-Received: from [88.147.81.4] (port=38444 helo=[192.168.77.51])
-        by hostingweb31.netsons.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.92)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1in8wf-0050fV-H3; Thu, 02 Jan 2020 23:27:57 +0100
-Subject: Re: [RFC PATCH 3/5] i2c: core: add function to request an alias
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Kieran Bingham <kieran@ksquared.org.uk>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Vladimir Zapolskiy <vz@mleia.com>
-References: <20191231161400.1688-1-wsa+renesas@sang-engineering.com>
- <20191231161400.1688-4-wsa+renesas@sang-engineering.com>
- <20200101165515.GC6226@pendragon.ideasonboard.com>
- <e008939f-531d-f7dc-4c3c-937476213030@lucaceresoli.net>
- <20200102211327.GB1030@kunai>
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-Message-ID: <cc2a10ab-9f05-2c61-3a37-0e5e0184e379@lucaceresoli.net>
-Date:   Thu, 2 Jan 2020 23:27:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        Thu, 2 Jan 2020 17:56:08 -0500
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BA3EE2467C;
+        Thu,  2 Jan 2020 22:56:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1578005766;
+        bh=6Koeg/QpSh6SN7IsDtUD1Yw/jN4FQfOCYYp5OlkQg8k=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=BJyGrgJRAyAcMthsOmMVJk2/d9roLzBD5KeGqfyxfbX3KtZmnnxHXX0pyJ8akcsha
+         K/iFSGYit7euv46SOim83yGJFkSBYf8D90gScmaaJtUv+dQKRJYtoCVXIxkXtGp8sR
+         GDbQ6bO22fdQJ5Wf9rmFtnvZeSvKb4mLF6EU8dZs=
+Received: by mail-qt1-f173.google.com with SMTP id e5so35708757qtm.6;
+        Thu, 02 Jan 2020 14:56:06 -0800 (PST)
+X-Gm-Message-State: APjAAAVKxjipXn0TO2rT+3qC8pmu+bnvQkMyWNSBpDwg/Uc+lLB5jr5G
+        CWSio0aYWg3he0dfFCGJa9kYg0hXo9uTWv6Lrw==
+X-Google-Smtp-Source: APXvYqwAbFfNGIM/JC1KIxuEbN03VDUjC5JsTAOv7Mn+H2Fs2ofR3ekjqd4fT38uPCQz6qNQ3qPQ9Hc0j9LyLmDrH44=
+X-Received: by 2002:aed:2344:: with SMTP id i4mr63466799qtc.136.1578005765768;
+ Thu, 02 Jan 2020 14:56:05 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200102211327.GB1030@kunai>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+References: <20191213084748.11210-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20191213084748.11210-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAL_JsqLSYroDZGWksJJ=E+01X=3Tji4+GmK8s3i+d2BJphqiLQ@mail.gmail.com>
+ <CA+V-a8uKBuVUQvkoJ9pJYX97Qy3JazTyLCy-2T35gOX77AP8vg@mail.gmail.com>
+ <20191219233129.GA5484@bogus> <CA+V-a8vjwqkH5rYsy_rsHF93d91izsaEwmFXNpYqk3_=_Asd2g@mail.gmail.com>
+In-Reply-To: <CA+V-a8vjwqkH5rYsy_rsHF93d91izsaEwmFXNpYqk3_=_Asd2g@mail.gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Thu, 2 Jan 2020 15:55:53 -0700
+X-Gmail-Original-Message-ID: <CAL_JsqJPPuWaOZytWfFy+kwju0tMb2qRN5Ji-Leq2wZdbne_ig@mail.gmail.com>
+Message-ID: <CAL_JsqJPPuWaOZytWfFy+kwju0tMb2qRN5Ji-Leq2wZdbne_ig@mail.gmail.com>
+Subject: Re: [v2 3/6] of: address: add support to parse PCI outbound-ranges
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        PCI <linux-pci@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Murray <andrew.murray@arm.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Simon Horman <horms@verge.net.au>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+On Thu, Jan 2, 2020 at 1:44 AM Lad, Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+>
+> Hi Rob,
+>
+> On Thu, Dec 19, 2019 at 11:31 PM Rob Herring <robh@kernel.org> wrote:
+> >
+> > On Mon, Dec 16, 2019 at 08:49:23AM +0000, Lad, Prabhakar wrote:
+> > > Hi Rob,
+> > >
+> > > Thank you for the review.
+> > >
+> > > On Fri, Dec 13, 2019 at 8:37 PM Rob Herring <robh+dt@kernel.org> wrote:
+> > > >
+> > > > On Fri, Dec 13, 2019 at 2:48 AM Lad Prabhakar
+> > > > <prabhakar.csengg@gmail.com> wrote:
+> > > > >
+> > > > > From: "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > >
+> > > > > this patch adds support to parse PCI outbound-ranges, the
+> > > > > outbound-regions are similar to pci ranges except it doesn't
+> > > > > have pci address, below is the format for bar-ranges:
+> > > > >
+> > > > > outbound-ranges = <flags upper32_cpuaddr lower32_cpuaddr
+> > > > >                    upper32_size lower32_size>;
+> > > >
+> > > > You can't just make up a new ranges property. Especially one that
+> > > > doesn't follow how 'ranges' works. We already have 'dma-ranges' to
+> > > > translate device to memory addresses.
+> > > >
+> > > > Explain the problem or feature you need, not the solution you came up
+> > > > with. Why do you need this and other endpoint bindings haven't?
+> > > >
+> > > rcar SoC's supports multiple outbound region for mapping the PCI address
+> > > locally to the system. This lead to discussion where there exist controllers
+> > > which support regions for high/low priority transfer and similarly regions
+> > > for large/small memory allocations, as a result a new ranges property was
+> > > added, where we can specify the flags which would indicate how the outbound
+> > > region can be used during requests.
+> >
+> > What are the flags?
+>
+> below are the flags which were discussed in first version of the
+> series, but since the driver is
+> currently using just PCI_EPC_WINDOW_FLAG_NON_MULTI_ALLOC flag I'll be
+> dropping them in
+> next version (suggested by Kishon) and rest will be added as and when
+> required by the driver.
+>
+>  * @PCI_EPC_WINDOW_FLAG_MULTI_ALLOC: Indicates multiple chunks of memory can be
+>  *                                  allocated from same window
+>  * @PCI_EPC_WINDOW_FLAG_NON_MULTI_ALLOC: Indicates only single memory allocation
+>  *                                      is possible on the window
+>  * @PCI_EPC_WINDOW_FLAG_LARGE_ALLOC: Window is used for large memory allocation
+>  * @PCI_EPC_WINDOW_FLAG_SMALL_ALLOC: Window is used for small memory allocation
+>  * @PCI_EPC_WINDOW_FLAG_HIGH_PRI_ALLOC: Window is used for high priority data
+>  *                                     transfers
+>  * @PCI_EPC_WINDOW_FLAG_LOW_PRI_ALLOC: Window is used for low priority data
+>  *                                    transfers
 
-On 02/01/20 22:13, Wolfram Sang wrote:
-> Hi Luca,
-> 
->>> This looks quite inefficient, especially if the beginning of the range
->>> is populated with devices. Furthermore, I think there's a high risk of
->>> false negatives, as acquiring a free address and reprogramming the
->>> client to make use of it are separate operations.
->>
->> Right. Applying the alias could raise other errors, thus one would need
->> i2c_new_alias_device() to keep the alias locked until programming it has
->> either failed or has been successfully programmed.
-> 
-> Please see my reply to Laurent, I don't think it is racy. But please
-> elaborate if you think I am wrong.
+Looks like configuration or policy, not something that belongs in DT.
+Coupling driver features and DT changes is not good for ABI compatible
+changes either.
 
-Uhm, you are right here, it's not racy. Sorry, I had read the code
-quickly and didn't notice the i2c_new_dummy_device() call.
+I'm hesitant to accept any PCI endpoint binding additions because they
+don't seem to be completely thought out in terms of supporting
+different usecases.
 
-So this means if i2c_new_alias_device() succeeds but the caller later
-fails while applying the alias, then it has to call
-i2c_unregister_device() to free the alias. Correct?
-
->>> What happened to the idea of reporting busy address ranges in the
->>> firmware (DT, ACPI, ...) ?
->>
->> Indeed that's how I remember it as well, and I'm a bit suspicious about
->> sending out probe messages that might have side effects (even if the
->> false negative issue mentioned by Laurent were solved). You know, I've
->> been taught to "expect the worse" :) so I'd like to better understand
->> what are the strong reasons in favor of probing, as well as the
->> potential side effects.
-> 
-> As I said to Laurent, too, I think the risk that a bus is not fully
-> described is higher than a device which does not respond to a read_byte.
-> In both cases, we would wrongly use an address in use.
-
-OK, I'm still uncomfortable with sending unexpected transactions to the
-dark outer space, but this is more a feeling than based on facts, and
-you know more than me, so I guess I can live with that.
-
-> Also, all the best for you in 2020!
-
-Thanks. Best wishes to you too for the new year!
-
--- 
-Luca
+Rob
