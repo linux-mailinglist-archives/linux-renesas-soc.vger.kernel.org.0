@@ -2,130 +2,149 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6440512DF96
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  1 Jan 2020 17:55:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 441A312E3F8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2020 09:44:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727210AbgAAQz1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 1 Jan 2020 11:55:27 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:43056 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727201AbgAAQz1 (ORCPT
+        id S1727851AbgABIou (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Jan 2020 03:44:50 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:42070 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727756AbgABIot (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 1 Jan 2020 11:55:27 -0500
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C2A22516;
-        Wed,  1 Jan 2020 17:55:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1577897725;
-        bh=SDm9N50kP83IA091bMcNW7VseLm+e6iRMxSUK1tShlE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IMwlHPxGlc+Ri+EjU/6k0B84f48ejjbBSvYMx9cHTMKp1bBRaoy/pVQSMJv5i1ied
-         LrZFxdytKERNdHJR33N+2sxFYfkr5v3K20J5T4f92yXJgyWFi1AH3HMiJ0bMJYTRsV
-         vJtWb4KfF1H1ldeOOxDh32X0Cj1pXedDVeCVOEME=
-Date:   Wed, 1 Jan 2020 18:55:15 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        Kieran Bingham <kieran@ksquared.org.uk>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Vladimir Zapolskiy <vz@mleia.com>
-Subject: Re: [RFC PATCH 3/5] i2c: core: add function to request an alias
-Message-ID: <20200101165515.GC6226@pendragon.ideasonboard.com>
-References: <20191231161400.1688-1-wsa+renesas@sang-engineering.com>
- <20191231161400.1688-4-wsa+renesas@sang-engineering.com>
+        Thu, 2 Jan 2020 03:44:49 -0500
+Received: by mail-ot1-f67.google.com with SMTP id 66so56084251otd.9;
+        Thu, 02 Jan 2020 00:44:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RJXFVlyRwTqj9HkStatG/uviJjFGvZJlZBeqka9UDNY=;
+        b=gdiUCeOPqScjXzrbvIh+ShMJdMtOIFx3qiDxl8Rnx0tRID+ljoSEDWZXifZyy+UDoK
+         ZbP+uX2yH0Lua7XN3AMGacK2rVrdEAdaFX09Pn8/uzG3t01jvXUKjmInkQIVS+QHIezD
+         VXX6JM5ur/SC4XeH73Y6MZ2pf8t8dk3hLl6vy6PahZF9tKuqXwq53iy00PMcaIcImJvz
+         a0qOXjUw9jKbNkcQk34Ejg4DCSj/O8c7yFs5z0bZaMFOy6CrljgugPlFvg6n+X9/iQEw
+         F/xgEeo5JX2ZN4LVxKsTrzXDRQO8ty7llvBlWTz/fa7rkDg9PweY+jOm9fuFBl4kD2F5
+         0bPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RJXFVlyRwTqj9HkStatG/uviJjFGvZJlZBeqka9UDNY=;
+        b=RL2nRiSN6pm26gySagtnGSBdpJFox4fSSxM0bkFoFZhavUAvTp9lk1wV+v1BmsvU4y
+         789IjyZYuEBkldfyMvSe82ptq4Lcp0Wsg2j0oscyzeCrYS8hv4+hfVjdZnzMlIcBW03a
+         h5lCgvSY1Is6zfofSLM4K9HIq6mkmTUl8feVUM64lK0hdZUKfXqujfqRtc6UExvz14QJ
+         BfE6oQKFx+/piAnrLsyCrDo1atLPQioJzpHU1HFty4u66VHPjAHTVhU7JrblJDLITEV/
+         tqpyPEomO13AUAPaKlaAL5QNremkrs2coRdNVtfzkEOLGD5WUGDZASA8BwD2ZCs/r8Qy
+         B8CA==
+X-Gm-Message-State: APjAAAVOTxiJbxzCAeuNrYa9Mxeo9kOw8qLrwofBhvqOmJNZlIl3R6fR
+        q2Fe0897JKIDyKcwvobKAl+o5lNXp87uZ9B2bok=
+X-Google-Smtp-Source: APXvYqzOhzS82AptAf2MZPwDekJw6thW0D54iQ6Qt4TuLUMBcVXdHaCHrtJnYpVCXcsxnGiGCP9GyLgDg6gsrK4LUGE=
+X-Received: by 2002:a9d:5c02:: with SMTP id o2mr83617674otk.176.1577954688818;
+ Thu, 02 Jan 2020 00:44:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20191231161400.1688-4-wsa+renesas@sang-engineering.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20191213084748.11210-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20191213084748.11210-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CAL_JsqLSYroDZGWksJJ=E+01X=3Tji4+GmK8s3i+d2BJphqiLQ@mail.gmail.com>
+ <CA+V-a8uKBuVUQvkoJ9pJYX97Qy3JazTyLCy-2T35gOX77AP8vg@mail.gmail.com> <20191219233129.GA5484@bogus>
+In-Reply-To: <20191219233129.GA5484@bogus>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Thu, 2 Jan 2020 08:44:23 +0000
+Message-ID: <CA+V-a8vjwqkH5rYsy_rsHF93d91izsaEwmFXNpYqk3_=_Asd2g@mail.gmail.com>
+Subject: Re: [v2 3/6] of: address: add support to parse PCI outbound-ranges
+To:     Rob Herring <robh@kernel.org>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        PCI <linux-pci@vger.kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Murray <andrew.murray@arm.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
+        <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Simon Horman <horms@verge.net.au>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Hi Rob,
 
-Thank you for the patch.
+On Thu, Dec 19, 2019 at 11:31 PM Rob Herring <robh@kernel.org> wrote:
+>
+> On Mon, Dec 16, 2019 at 08:49:23AM +0000, Lad, Prabhakar wrote:
+> > Hi Rob,
+> >
+> > Thank you for the review.
+> >
+> > On Fri, Dec 13, 2019 at 8:37 PM Rob Herring <robh+dt@kernel.org> wrote:
+> > >
+> > > On Fri, Dec 13, 2019 at 2:48 AM Lad Prabhakar
+> > > <prabhakar.csengg@gmail.com> wrote:
+> > > >
+> > > > From: "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > >
+> > > > this patch adds support to parse PCI outbound-ranges, the
+> > > > outbound-regions are similar to pci ranges except it doesn't
+> > > > have pci address, below is the format for bar-ranges:
+> > > >
+> > > > outbound-ranges = <flags upper32_cpuaddr lower32_cpuaddr
+> > > >                    upper32_size lower32_size>;
+> > >
+> > > You can't just make up a new ranges property. Especially one that
+> > > doesn't follow how 'ranges' works. We already have 'dma-ranges' to
+> > > translate device to memory addresses.
+> > >
+> > > Explain the problem or feature you need, not the solution you came up
+> > > with. Why do you need this and other endpoint bindings haven't?
+> > >
+> > rcar SoC's supports multiple outbound region for mapping the PCI address
+> > locally to the system. This lead to discussion where there exist controllers
+> > which support regions for high/low priority transfer and similarly regions
+> > for large/small memory allocations, as a result a new ranges property was
+> > added, where we can specify the flags which would indicate how the outbound
+> > region can be used during requests.
+>
+> What are the flags?
 
-On Tue, Dec 31, 2019 at 05:13:58PM +0100, Wolfram Sang wrote:
-> Some devices are able to reprogram their I2C address at runtime. This
-> can prevent address collisions when one is able to activate and
-> reprogram these devices one by one. For that to work, they need to be
-> assigned an unused address. This new functions allows drivers to request
-> for such an address. It assumes all non-occupied addresses are free. It
-> will then send a message to such a free address to make sure there is
-> really nothing listening there.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
->  drivers/i2c/i2c-core-base.c | 22 ++++++++++++++++++++++
->  include/linux/i2c.h         |  2 ++
->  2 files changed, 24 insertions(+)
-> 
-> diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-> index 51bd953ddfb2..5a010e7e698f 100644
-> --- a/drivers/i2c/i2c-core-base.c
-> +++ b/drivers/i2c/i2c-core-base.c
-> @@ -2241,6 +2241,28 @@ static int i2c_detect(struct i2c_adapter *adapter, struct i2c_driver *driver)
->  	return err;
->  }
->  
+below are the flags which were discussed in first version of the
+series, but since the driver is
+currently using just PCI_EPC_WINDOW_FLAG_NON_MULTI_ALLOC flag I'll be
+dropping them in
+next version (suggested by Kishon) and rest will be added as and when
+required by the driver.
 
-Missing kerneldoc, but you already know about this.
+ * @PCI_EPC_WINDOW_FLAG_MULTI_ALLOC: Indicates multiple chunks of memory can be
+ *                                  allocated from same window
+ * @PCI_EPC_WINDOW_FLAG_NON_MULTI_ALLOC: Indicates only single memory allocation
+ *                                      is possible on the window
+ * @PCI_EPC_WINDOW_FLAG_LARGE_ALLOC: Window is used for large memory allocation
+ * @PCI_EPC_WINDOW_FLAG_SMALL_ALLOC: Window is used for small memory allocation
+ * @PCI_EPC_WINDOW_FLAG_HIGH_PRI_ALLOC: Window is used for high priority data
+ *                                     transfers
+ * @PCI_EPC_WINDOW_FLAG_LOW_PRI_ALLOC: Window is used for low priority data
+ *                                    transfers
 
-> +struct i2c_client *i2c_new_alias_device(struct i2c_adapter *adap)
-> +{
-> +	struct i2c_client *alias = ERR_PTR(-EBUSY);
-> +	int ret;
-> +	u16 addr;
-> +
-> +	i2c_lock_bus(adap, I2C_LOCK_SEGMENT);
-> +
-> +	for (addr = 0x08; addr < 0x78; addr++) {
-> +		ret = i2c_scan_for_client(adap, addr, i2c_unlocked_read_byte_probe);
-> +		if (ret == -ENODEV) {
-> +			alias = i2c_new_dummy_device(adap, addr);
-> +			dev_dbg(&adap->dev, "Found alias: 0x%x\n", addr);
-> +			break;
-> +		}
-> +	}
-
-This looks quite inefficient, especially if the beginning of the range
-is populated with devices. Furthermore, I think there's a high risk of
-false negatives, as acquiring a free address and reprogramming the
-client to make use of it are separate operations. Another call to
-i2c_new_alias_device() could occur in-between. There's also the issue
-that I2C hasn't been designed for scanning, so some devices may not
-appreciate this.
-
-What happened to the idea of reporting busy address ranges in the
-firmware (DT, ACPI, ...) ?
-
-> +
-> +	i2c_unlock_bus(adap, I2C_LOCK_SEGMENT);
-> +	return alias;
-> +}
-> +EXPORT_SYMBOL_GPL(i2c_new_alias_device);
-> +
->  int i2c_probe_func_quick_read(struct i2c_adapter *adap, unsigned short addr)
->  {
->  	return i2c_smbus_xfer(adap, addr, 0, I2C_SMBUS_READ, 0,
-> diff --git a/include/linux/i2c.h b/include/linux/i2c.h
-> index f834687989f7..583ca2aec022 100644
-> --- a/include/linux/i2c.h
-> +++ b/include/linux/i2c.h
-> @@ -441,6 +441,8 @@ i2c_new_device(struct i2c_adapter *adap, struct i2c_board_info const *info);
->  struct i2c_client *
->  i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *info);
->  
-> +struct i2c_client *i2c_new_alias_device(struct i2c_adapter *adap);
-> +
->  /* If you don't know the exact address of an I2C device, use this variant
->   * instead, which can probe for device presence in a list of possible
->   * addresses. The "probe" callback function is optional. If it is provided,
-
--- 
-Regards,
-
-Laurent Pinchart
+Cheers,
+--Prabhakar
