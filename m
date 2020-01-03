@@ -2,97 +2,170 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 26A2812F667
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jan 2020 10:51:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F75012FA69
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jan 2020 17:30:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725972AbgACJvV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 Jan 2020 04:51:21 -0500
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:42003 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727313AbgACJvV (ORCPT
+        id S1728023AbgACQ3t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 Jan 2020 11:29:49 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:45933 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727969AbgACQ3p (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 Jan 2020 04:51:21 -0500
-Received: by mail-qk1-f195.google.com with SMTP id z14so32074420qkg.9
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 03 Jan 2020 01:51:21 -0800 (PST)
+        Fri, 3 Jan 2020 11:29:45 -0500
+Received: by mail-ot1-f65.google.com with SMTP id 59so61796322otp.12;
+        Fri, 03 Jan 2020 08:29:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=m2l4ZP00y1MciphnLaoZDMF/+IkQks5KZaGyrGhDRiA=;
-        b=cG4ow4LHRj767jnNAQOpyl17Q+p40TAAcPfpSpHHXDGlrwj62Hpbce+n9FDrk+qkc/
-         hF5ZyqmmFsJTtYTiw79voWF6jUJzD3jMMLxaKlR24Yfx0wH19vRA84WzFpBPdLB301Wn
-         oDHYiFn+x4VsG0+cQjGtKP+AgiFhJEl2gny+42Vv2QuoSuDmtZTYXxHfkb2SYQSXio5l
-         4izdl3cbPeqe/fUEgmo7jINRJHhXeZzjP7rcRM1zIfCdONmAYkusOFVw3KH4tD5KGrsX
-         B2TTgSy+6TGCiaGzC+uIdpJ7YevNhC6HmCAOCMdMswOZwgLLOkvTEExLz90pSslcmLhv
-         3Jtg==
+         :cc;
+        bh=TP17Q6SBM8RfPS7JEf89IxBEEl+82WJKOot5C8K9N98=;
+        b=qqjelQ0+Kba+Pvu7W6JzOzsWlxmU4Ap+PUQ1JAnf1w4z9lOX0l2NhJIYieVbWYkq+i
+         tZnhI+JcVeUs9DSAbecaKFqKLjENQC/bJXsXocYpxG/SaqscK8CFG6Q3VMOkAPlGS+vG
+         NXTkv9j3ucpnFzf2QRu0uiA74wdEuNrJJ6QSBTmxAcPD9TmNe9mnDfArKRMUVuVuQ3Ou
+         fgGlmjc677XGKTIEGhvglgnnFTTlb2s+aE66EfKRY8Pqg2Hop+iVfDEArN2O7oDnkG69
+         whfs/9FCtOBgZogqFllOd00fE8JMvYZwHR0GoFtWLyKVfcYf2bfe+Iok4a+DPiocc2+J
+         udBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=m2l4ZP00y1MciphnLaoZDMF/+IkQks5KZaGyrGhDRiA=;
-        b=GD+jHeO8SqkVI+2hljKj7/kYBs83tvq141qAdnzXscoS1Bdw4Ini/P34glylxg/k0g
-         4QiMaDvyQKVZqq2qfiEBFsZEXqoOJ4NrhydmM81NE5oIUHbskNquiSYplt26Np2T8KgL
-         COow6vTvhVWL246Rx6pk/X+WcLdTqYM1C+MUx8UJFhxdfzNBPep4sziSI8YJ0MXTO/Y5
-         VygbGGEMxtM8jJRsYFJnNOwvwWZk/kFMFZePsw3uQyP+Frs6arNIqXGZ7SpfKHccZqmJ
-         a7Y9QH+H1aC7/09KW4zf6PhPMWwNyEqkiFoknKER6DdGbU34xHCITyTjXIoSzXs09psl
-         MaHQ==
-X-Gm-Message-State: APjAAAXMnIY/7BH5nRLKMfvfesa0gPavzheCliaY/WBHF/cj94mL/t1J
-        6ueixyBvclDvSfH7/0xt74HiPGXtciAJffxDX8ItYA==
-X-Google-Smtp-Source: APXvYqzAZelvEL1bp9L+Dip8BtcvxrfIeDBmaKGivW0X8lJb2LdaJs31IH9b2gpMP+zcFkudxHBKRdWDiyhDv4QqwCw=
-X-Received: by 2002:a37:6255:: with SMTP id w82mr71281142qkb.330.1578045080489;
- Fri, 03 Jan 2020 01:51:20 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=TP17Q6SBM8RfPS7JEf89IxBEEl+82WJKOot5C8K9N98=;
+        b=n67tly/MuUa+QJzx6r6wRj3UjMjFGYsqhcaOF4/Jv0FdZRlWx2msUs+TU1ov+iVI09
+         6WmvFUYa30E/27cV/iNJWbfSYJcwEEDu+kCjRfWGDi69zy1+mskFUuJy5g426Vgtw4op
+         BZCuPUkxsG5j4Jt5/fvK72ppgrO8Q42zW6H+M8457ip7vrEavXDylZq+qwBtLkBsZL5C
+         LIZLXDn8KwbYUyJXe7WYP8a8LlKxI8g6bGr72LyQoC6X5QFwbsMFCoXS8qkD32jLOPtZ
+         mC+B/DH89buEEpOlWnlzY1nv3STrw/8SFvQVznHNsh5yGiRbbvKzCYuDAVUZQ5zu2pq+
+         dwrw==
+X-Gm-Message-State: APjAAAUYnGrofmNCPsXeS//AZLximddfqiySLWnLERM7JuK2/oVVkFv7
+        Xcvs4oA51ZVoVKIS885+WI+ptCp+LrK43z1wXeM=
+X-Google-Smtp-Source: APXvYqyx0qfOGlCgf+mbqVx1RA3NJa/iWXu/notHG2jRzI1XyQlklOpJtiW2znnOyK1gz/QnIOAs/YVhOvNs6/K2WcU=
+X-Received: by 2002:a9d:5c02:: with SMTP id o2mr92142289otk.176.1578068984784;
+ Fri, 03 Jan 2020 08:29:44 -0800 (PST)
 MIME-Version: 1.0
-References: <20191230133852.5890-1-geert+renesas@glider.be>
-In-Reply-To: <20191230133852.5890-1-geert+renesas@glider.be>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Fri, 3 Jan 2020 10:51:09 +0100
-Message-ID: <CAMpxmJVN3f5vWZoUpgsM0kocmBYSO=T0OeoG--5rQi9=jk2t2g@mail.gmail.com>
-Subject: Re: [PATCH/RFC 0/2] gpio: of: Add DT overlay support for GPIO hogs
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Frank Rowand <frowand.list@gmail.com>,
+References: <20191213084748.11210-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20191213084748.11210-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20191213084748.11210-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 3 Jan 2020 16:29:18 +0000
+Message-ID: <CA+V-a8uZqwfbYNec7bPWf5RuZP-zVkAyAz8SMueJic5wU0zyBw@mail.gmail.com>
+Subject: Re: [v2 4/6] dt-bindings: PCI: rcar: Add bindings for R-Car PCIe
+ endpoint controller
+To:     Bjorn Helgaas <bhelgaas@google.com>,
         Rob Herring <robh+dt@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@ti.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        linux-gpio <linux-gpio@vger.kernel.org>,
-        linux-devicetree <devicetree@vger.kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Andrew Murray <andrew.murray@arm.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        LAK <linux-arm-kernel@lists.infradead.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Simon Horman <horms@verge.net.au>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-pci <linux-pci@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-pon., 30 gru 2019 o 14:38 Geert Uytterhoeven <geert+renesas@glider.be>
-napisa=C5=82(a):
->
->         Hi all,
->
-> As GPIO hogs are configured at GPIO controller initialization time,
-> adding/removing GPIO hogs in Device Tree overlays currently does not
-> work.  Hence this patch series adds support for that, by registering an
-> of_reconfig notifier, as is already done for platform, i2c, and SPI
-> devices.
->
-> Perhaps this would be better served through a pinctrl-gpio driver?
-> Pinctrl is already working fine with DT overlays, as the pinctrl-*
-> properties are part of the slave device node, and thus looked up at
-> slave device node attachment time, not at pin controller initialization
-> time.
->
-> In my particular use case (talking to SPI devices connected to a PMOD
-> connector on the RSK+RZA1 development board), the GPIO performs board
-> level muxing of a.o. the SPI MOSI/MISO/SCK signals.  Hence the hog
-> really needs to be active only while talking to the SPI device, so the
-> muxing could (in theory) be done upon demand.
-> But how to describe that in DT, and implement it (using Runtime PM?)?
->
+Hi Kishon/Rob,
 
-I may be missing the whole picture, but from your description this
-sounds like a job for the mux framework. Maybe we could make runtime
-PM aware of muxing for this type of use-cases?
+On Fri, Dec 13, 2019 at 8:48 AM Lad Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+>
+> From: "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>
+> This patch adds the bindings for the R-Car PCIe endpoint driver.
+>
+> Signed-off-by: Lad, Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  .../devicetree/bindings/pci/rcar-pci-ep.txt        | 37 ++++++++++++++++++++++
+>  1 file changed, 37 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/pci/rcar-pci-ep.txt
+>
+> diff --git a/Documentation/devicetree/bindings/pci/rcar-pci-ep.txt b/Documentation/devicetree/bindings/pci/rcar-pci-ep.txt
+> new file mode 100644
+> index 0000000..7f0a97e
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/pci/rcar-pci-ep.txt
+> @@ -0,0 +1,37 @@
+> +* Renesas R-Car PCIe Endpoint Controller DT description
+> +
+> +Required properties:
+> +           "renesas,pcie-ep-r8a774c0" for the R8A774C0 SoC;
+> +           "renesas,pcie-ep-rcar-gen3" for a generic R-Car Gen3 or
+> +                                    RZ/G2 compatible device.
+> +
+> +           When compatible with the generic version, nodes must list the
+> +           SoC-specific version corresponding to the platform first
+> +           followed by the generic version.
+> +
+> +- reg: base address and length of the PCIe controller registers.
+> +- outbound-ranges: outbound windows base address and length including the flags.
+> +- resets: Must contain phandles to PCIe-related reset lines exposed by IP block
+> +- clocks: from common clock binding: clock specifiers for the PCIe controller
+> +        clock.
+> +- clock-names: from common clock binding: should be "pcie".
+> +
+> +Optional Property:
+> +- max-functions: Maximum number of functions that can be configured (default 1).
+> +
+> +Example:
+> +
+> +SoC-specific DT Entry:
+> +
+> +       pcie_ep: pcie_ep@fe000000 {
+> +               compatible = "renesas,pcie-ep-r8a774c0", "renesas,pcie-rcar-gen2";
+> +               reg = <0 0xfe000000 0 0x80000>;
+> +               outbound-ranges = <0xa 0x0 0xfe100000 0 0x000100000
+> +                                  0xa 0x0 0xfe200000 0 0x000200000
+> +                                  0x6 0x0 0x30000000 0 0x008000000
+> +                                  0x6 0x0 0x38000000 0 0x008000000>;
+> +               clocks = <&cpg CPG_MOD 319>;
+> +               clock-names = "pcie";
+> +               power-domains = <&sysc R8A774C0_PD_ALWAYS_ON>;
+> +               resets = <&cpg 319>;
+> +       };
 
-Bart
+Now that I have dropped "outbound-ranges", do the below bindings look good ?
+
+- reg-names: Must include the following names
+ - "apb-base" - Controller base
+ - "memory0" - memory window 0 used by the host to map the pci address locally
+ - "memory1" - memory window 1 used by the host to map the pci address locally
+- "memory2" - memory window 2 used by the host to map the pci address locally
+- "memory3" - memory window 3 used by the host to map the pci address locally
+
+    pcie-ep: pcie_ep@fe000000 {
+        compatible = "renesas,pcie-r8a774c0", "renesas,pcie-rcar-gen2";
+        reg = <0 0xfe000000 0 0x80000>,
+            <0x0 0xfe100000 0 0x100000>,
+            <0x0 0xfe200000 0 0x200000>,
+            <0x0 0x30000000 0 0x8000000>,
+            <0x0 0x38000000 0 0x8000000>;
+        reg-names = "apb-base", "memory0", "memory1", "memory2", "memory3";
+        clocks = <&cpg CPG_MOD 319>;
+        clock-names = "pcie";
+        power-domains = <&sysc R8A774C0_PD_ALWAYS_ON>;
+        resets = <&cpg 319>;
+    };
+
+Cheers,
+--Prabhakar
