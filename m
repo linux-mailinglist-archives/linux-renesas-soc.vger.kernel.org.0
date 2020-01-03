@@ -2,151 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B7A7112F0D7
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  2 Jan 2020 23:56:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2267612F205
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jan 2020 01:11:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728801AbgABW4I (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 2 Jan 2020 17:56:08 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39234 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728955AbgABW4I (ORCPT
+        id S1726118AbgACALJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 2 Jan 2020 19:11:09 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:55112 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725872AbgACALJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 2 Jan 2020 17:56:08 -0500
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BA3EE2467C;
-        Thu,  2 Jan 2020 22:56:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578005766;
-        bh=6Koeg/QpSh6SN7IsDtUD1Yw/jN4FQfOCYYp5OlkQg8k=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=BJyGrgJRAyAcMthsOmMVJk2/d9roLzBD5KeGqfyxfbX3KtZmnnxHXX0pyJ8akcsha
-         K/iFSGYit7euv46SOim83yGJFkSBYf8D90gScmaaJtUv+dQKRJYtoCVXIxkXtGp8sR
-         GDbQ6bO22fdQJ5Wf9rmFtnvZeSvKb4mLF6EU8dZs=
-Received: by mail-qt1-f173.google.com with SMTP id e5so35708757qtm.6;
-        Thu, 02 Jan 2020 14:56:06 -0800 (PST)
-X-Gm-Message-State: APjAAAVKxjipXn0TO2rT+3qC8pmu+bnvQkMyWNSBpDwg/Uc+lLB5jr5G
-        CWSio0aYWg3he0dfFCGJa9kYg0hXo9uTWv6Lrw==
-X-Google-Smtp-Source: APXvYqwAbFfNGIM/JC1KIxuEbN03VDUjC5JsTAOv7Mn+H2Fs2ofR3ekjqd4fT38uPCQz6qNQ3qPQ9Hc0j9LyLmDrH44=
-X-Received: by 2002:aed:2344:: with SMTP id i4mr63466799qtc.136.1578005765768;
- Thu, 02 Jan 2020 14:56:05 -0800 (PST)
+        Thu, 2 Jan 2020 19:11:09 -0500
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 210AC516;
+        Fri,  3 Jan 2020 01:11:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1578010266;
+        bh=WzWxEa94iqGsV8/jwAsTxRyk8kDt6DYucmSsNmKCook=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Eg7o5RuNL3QIx0q4DD4G2qesMUjchevg6J7xY+1Oz/U168PkbQcE2eaKqK/scGhbf
+         NrmEq2m+k35yp1stFGCzoJCt2R8lerkNRITkZBERVscSZfi7dCFFJuJrPoMuQKU+HM
+         txJnYzTZVF7igW/8MiSX9zayhmM5n4O9L4bXcUCM=
+Date:   Fri, 3 Jan 2020 02:10:56 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Luca Ceresoli <luca@lucaceresoli.net>
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-i2c@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Kieran Bingham <kieran@ksquared.org.uk>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Vladimir Zapolskiy <vz@mleia.com>
+Subject: Re: [RFC PATCH 3/5] i2c: core: add function to request an alias
+Message-ID: <20200103001056.GJ4843@pendragon.ideasonboard.com>
+References: <20191231161400.1688-1-wsa+renesas@sang-engineering.com>
+ <20191231161400.1688-4-wsa+renesas@sang-engineering.com>
+ <20200101165515.GC6226@pendragon.ideasonboard.com>
+ <e008939f-531d-f7dc-4c3c-937476213030@lucaceresoli.net>
+ <20200102211327.GB1030@kunai>
+ <cc2a10ab-9f05-2c61-3a37-0e5e0184e379@lucaceresoli.net>
 MIME-Version: 1.0
-References: <20191213084748.11210-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20191213084748.11210-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAL_JsqLSYroDZGWksJJ=E+01X=3Tji4+GmK8s3i+d2BJphqiLQ@mail.gmail.com>
- <CA+V-a8uKBuVUQvkoJ9pJYX97Qy3JazTyLCy-2T35gOX77AP8vg@mail.gmail.com>
- <20191219233129.GA5484@bogus> <CA+V-a8vjwqkH5rYsy_rsHF93d91izsaEwmFXNpYqk3_=_Asd2g@mail.gmail.com>
-In-Reply-To: <CA+V-a8vjwqkH5rYsy_rsHF93d91izsaEwmFXNpYqk3_=_Asd2g@mail.gmail.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Thu, 2 Jan 2020 15:55:53 -0700
-X-Gmail-Original-Message-ID: <CAL_JsqJPPuWaOZytWfFy+kwju0tMb2qRN5Ji-Leq2wZdbne_ig@mail.gmail.com>
-Message-ID: <CAL_JsqJPPuWaOZytWfFy+kwju0tMb2qRN5Ji-Leq2wZdbne_ig@mail.gmail.com>
-Subject: Re: [v2 3/6] of: address: add support to parse PCI outbound-ranges
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        PCI <linux-pci@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Murray <andrew.murray@arm.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Simon Horman <horms@verge.net.au>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <cc2a10ab-9f05-2c61-3a37-0e5e0184e379@lucaceresoli.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jan 2, 2020 at 1:44 AM Lad, Prabhakar
-<prabhakar.csengg@gmail.com> wrote:
->
-> Hi Rob,
->
-> On Thu, Dec 19, 2019 at 11:31 PM Rob Herring <robh@kernel.org> wrote:
-> >
-> > On Mon, Dec 16, 2019 at 08:49:23AM +0000, Lad, Prabhakar wrote:
-> > > Hi Rob,
-> > >
-> > > Thank you for the review.
-> > >
-> > > On Fri, Dec 13, 2019 at 8:37 PM Rob Herring <robh+dt@kernel.org> wrote:
-> > > >
-> > > > On Fri, Dec 13, 2019 at 2:48 AM Lad Prabhakar
-> > > > <prabhakar.csengg@gmail.com> wrote:
-> > > > >
-> > > > > From: "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > >
-> > > > > this patch adds support to parse PCI outbound-ranges, the
-> > > > > outbound-regions are similar to pci ranges except it doesn't
-> > > > > have pci address, below is the format for bar-ranges:
-> > > > >
-> > > > > outbound-ranges = <flags upper32_cpuaddr lower32_cpuaddr
-> > > > >                    upper32_size lower32_size>;
-> > > >
-> > > > You can't just make up a new ranges property. Especially one that
-> > > > doesn't follow how 'ranges' works. We already have 'dma-ranges' to
-> > > > translate device to memory addresses.
-> > > >
-> > > > Explain the problem or feature you need, not the solution you came up
-> > > > with. Why do you need this and other endpoint bindings haven't?
-> > > >
-> > > rcar SoC's supports multiple outbound region for mapping the PCI address
-> > > locally to the system. This lead to discussion where there exist controllers
-> > > which support regions for high/low priority transfer and similarly regions
-> > > for large/small memory allocations, as a result a new ranges property was
-> > > added, where we can specify the flags which would indicate how the outbound
-> > > region can be used during requests.
-> >
-> > What are the flags?
->
-> below are the flags which were discussed in first version of the
-> series, but since the driver is
-> currently using just PCI_EPC_WINDOW_FLAG_NON_MULTI_ALLOC flag I'll be
-> dropping them in
-> next version (suggested by Kishon) and rest will be added as and when
-> required by the driver.
->
->  * @PCI_EPC_WINDOW_FLAG_MULTI_ALLOC: Indicates multiple chunks of memory can be
->  *                                  allocated from same window
->  * @PCI_EPC_WINDOW_FLAG_NON_MULTI_ALLOC: Indicates only single memory allocation
->  *                                      is possible on the window
->  * @PCI_EPC_WINDOW_FLAG_LARGE_ALLOC: Window is used for large memory allocation
->  * @PCI_EPC_WINDOW_FLAG_SMALL_ALLOC: Window is used for small memory allocation
->  * @PCI_EPC_WINDOW_FLAG_HIGH_PRI_ALLOC: Window is used for high priority data
->  *                                     transfers
->  * @PCI_EPC_WINDOW_FLAG_LOW_PRI_ALLOC: Window is used for low priority data
->  *                                    transfers
+On Thu, Jan 02, 2020 at 11:27:57PM +0100, Luca Ceresoli wrote:
+> Hi Wolfram,
+> 
+> On 02/01/20 22:13, Wolfram Sang wrote:
+> > Hi Luca,
+> > 
+> >>> This looks quite inefficient, especially if the beginning of the range
+> >>> is populated with devices. Furthermore, I think there's a high risk of
+> >>> false negatives, as acquiring a free address and reprogramming the
+> >>> client to make use of it are separate operations.
+> >>
+> >> Right. Applying the alias could raise other errors, thus one would need
+> >> i2c_new_alias_device() to keep the alias locked until programming it has
+> >> either failed or has been successfully programmed.
+> > 
+> > Please see my reply to Laurent, I don't think it is racy. But please
+> > elaborate if you think I am wrong.
+> 
+> Uhm, you are right here, it's not racy. Sorry, I had read the code
+> quickly and didn't notice the i2c_new_dummy_device() call.
+> 
+> So this means if i2c_new_alias_device() succeeds but the caller later
+> fails while applying the alias, then it has to call
+> i2c_unregister_device() to free the alias. Correct?
 
-Looks like configuration or policy, not something that belongs in DT.
-Coupling driver features and DT changes is not good for ABI compatible
-changes either.
+I was wrong as well, sorry about that.
 
-I'm hesitant to accept any PCI endpoint binding additions because they
-don't seem to be completely thought out in terms of supporting
-different usecases.
+> >>> What happened to the idea of reporting busy address ranges in the
+> >>> firmware (DT, ACPI, ...) ?
+> >>
+> >> Indeed that's how I remember it as well, and I'm a bit suspicious about
+> >> sending out probe messages that might have side effects (even if the
+> >> false negative issue mentioned by Laurent were solved). You know, I've
+> >> been taught to "expect the worse" :) so I'd like to better understand
+> >> what are the strong reasons in favor of probing, as well as the
+> >> potential side effects.
+> > 
+> > As I said to Laurent, too, I think the risk that a bus is not fully
+> > described is higher than a device which does not respond to a read_byte.
+> > In both cases, we would wrongly use an address in use.
 
-Rob
+I don't fully agree with this, I think we shouldn't impose a penalty on
+every user because some device trees don't fully describe the hardware.
+I think we should, at the very least, skip the probe and rely on DT if
+DT explicitly states that all used addresses are listed. We discussed a
+property to report addresses used by devices not described in DT, if
+that property is listed I would prefer trusting DT.
+
+> OK, I'm still uncomfortable with sending unexpected transactions to the
+> dark outer space, but this is more a feeling than based on facts, and
+> you know more than me, so I guess I can live with that.
+> 
+> > Also, all the best for you in 2020!
+> 
+> Thanks. Best wishes to you too for the new year!
+
+Likewise. Let's start with a simple wish of getting this issue resolved
+:-)
+
+
+-- 
+Regards,
+
+Laurent Pinchart
