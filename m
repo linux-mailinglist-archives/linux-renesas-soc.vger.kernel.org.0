@@ -2,101 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E70F12FDBC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  3 Jan 2020 21:20:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A8ED12FF81
+	for <lists+linux-renesas-soc@lfdr.de>; Sat,  4 Jan 2020 01:21:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728764AbgACUUQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 3 Jan 2020 15:20:16 -0500
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:43532 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728746AbgACUUJ (ORCPT
+        id S1727156AbgADAVo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 3 Jan 2020 19:21:44 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:43817 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727159AbgADAVk (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 3 Jan 2020 15:20:09 -0500
-Received: by mail-qk1-f193.google.com with SMTP id t129so34707195qke.10
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 03 Jan 2020 12:20:09 -0800 (PST)
+        Fri, 3 Jan 2020 19:21:40 -0500
+Received: by mail-lj1-f195.google.com with SMTP id a13so45391133ljm.10
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 03 Jan 2020 16:21:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=40ACnQIUnpge54Cj+EODMXbGQ2AM0yGbootCDBdgIh0=;
-        b=JHYDNcOHsw5Vg59sFwNh4MhnXNKJfQKDhV3JhQemZ8O0wjy4NOClQJHVO9/XZY1B2e
-         7N2r8FlVbF9YCIZf1O8PJKqvP+J732CrXrgkZLQFQD6r8xa5PmtrOPXurr4eE1D10/dY
-         mFNu91hy8xJJRta6mrMYIQyNs0OE0ozgPWJvUT4Jmr91vUmPG9p04hCqKp3daJ6nspkN
-         ZTnUyt7jeaXiRVZmI5OCw3hnhqJr3CafoKv3hfbaHkDpeu4215n4LA4JUWv5RDO6VsPp
-         wo4bmuxUPsJ+VBxSxq4NIVVGqRtUU4TTV0YA8c6/GhqTjpJxCcyOyITBnIawjrG3MRiM
-         hUyw==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=a25MTBnzC/TY/vt8zz8+qKKJTGhY6mCF1CmPfY1tykI=;
+        b=gRnVfA7FDAgs73jNy22XumTxemh0aYDjK9B1YAV7aDhmr0DazAVJiMp4WVw1bkv31/
+         bcATx1sRwYkcsu4O0LQVmlmjSHW5VtsN8kArTfZitHm7x//5M6K3YcSNLlNrU4k2nXBM
+         yt6DH6rszExsqnVul0yZCOGTl1phucIVvqvK/Gcklh4kjZC6VQ1xu9ZmRNx0Ik5oj39W
+         PUCHY1sxyw3q0Pr498xt9akwnDTU17FpPWdhZ0+b30zgWzvbnxDXRO1SyZ+eSC73LL7M
+         4bTSAi5L7Qao6/+sTppkChYPciZ16A05vGdttDOmIm7Rn2KAj85O40F9gtCbP1HMl69m
+         XGZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=40ACnQIUnpge54Cj+EODMXbGQ2AM0yGbootCDBdgIh0=;
-        b=tePvcwW8OYmJ4k3yB4+ZpoPCXZJfkvuxHl+gQqCAZ0Vp1jWrvVJWE/xgqspbz33YE4
-         caiZAqMkLWY72QXSoZ2SGDLpBEsq17y8oK+huWCUNUsAOvB+KwodRNoeI8tF6w8C8q7e
-         XacNAQY9yYmHpd13XHcywGIOisx0RvjoTcCJBKSAF5I8/4wLGu+r8MoqZ2qYTNSpzq/h
-         pcBaYo46ccIFPnYhlMoqRPszbczLVXD6jQ9RFyDFldHjGsaVtOYW17DzFVGrf+wyjZca
-         omqP/WxKguUfJ8fhXbFH2zg6WwQAV1MbsoIB7RUVoFFjPC/9t+GIYORKxILJgci4PcOl
-         1+Ng==
-X-Gm-Message-State: APjAAAUMIBSEn9V+UjKFS46jMryagrqGDIhFKxW/FntkRFsGwJ94KoAm
-        ffB9wX4bNzXAk4UizLJUxJSHRG+yaLtlQoA3vX4=
-X-Google-Smtp-Source: APXvYqzazOZ1eDGwLjA5b5joJwHBsXYUc3xk3mwbut9BpsYKwbpZffl6B/gnfGOg4rASQDOizOWq9gQ5QJjCh6l6GTs=
-X-Received: by 2002:a37:4141:: with SMTP id o62mr70745354qka.282.1578082808591;
- Fri, 03 Jan 2020 12:20:08 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=a25MTBnzC/TY/vt8zz8+qKKJTGhY6mCF1CmPfY1tykI=;
+        b=cEPo6EyOwKGM5NJTOqA4WbyRKRaN5+TX2U2Op2iY7KwCBSIilyYQDODoQn3wcUHYix
+         Y3RThMHJOMCFV3QxgeYazq+GTUODTNTl/yryx5aQOw4ayFBvlVwFCpcDSuKjmUumel64
+         Jbwn2ZphrAFhJyRY8aUWs7260hWAAuEUo220XQxiVmS/zCdG6QpyqTclpPcRvsCCWnTO
+         7cFhR+Z3UZYL9Uxo0YrP8FNiInVwUmYb6sZ3w7Ks0oRH5vvU2rfYuiIuq14vPmPWRsFV
+         YrrHtMh5jERbx+b7GHxKyVGUpOsXiwyJe7ksc54K64dX4jPBEICgyv3u0k2u0Jow35kG
+         VBgw==
+X-Gm-Message-State: APjAAAUlibrPOOLqEsRHnYjRXTupBxGpfabgmtTvdazjxFI6pWUCpEii
+        g7g7wgl/Ur8wuwblqyokP3jIjZaFvg2Ps6f7FiIjXg==
+X-Google-Smtp-Source: APXvYqxHT5NBcGXP7l31r/rUzGwxDXqF6xPcQ35bsC0BAshJRd7O7pJFod6OutyDNvKjGim9p9LsFYX1ulkLOKLmCGs=
+X-Received: by 2002:a2e:85cd:: with SMTP id h13mr51946653ljj.191.1578097298469;
+ Fri, 03 Jan 2020 16:21:38 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:ac8:4410:0:0:0:0:0 with HTTP; Fri, 3 Jan 2020 12:20:08 -0800 (PST)
-From:   "Rev.Dr Emmanuel Okoye CEO Ecobank-benin" 
-        <westernunion.benin982@gmail.com>
-Date:   Fri, 3 Jan 2020 21:20:08 +0100
-Message-ID: <CAP=nHBJWiJ9KpSSbF4jP9u5UiU5d_kGjSUyPYDmdB2x1uiJFMw@mail.gmail.com>
-Subject: I promise you must be happy today, God has uplifted you and your
- family ok
-To:     undisclosed-recipients:;
+References: <20191127084253.16356-1-geert+renesas@glider.be>
+ <20191127084253.16356-7-geert+renesas@glider.be> <CACRpkdb1XZAeSThxWmJtnm80T4aPufXV2UvJdVdgnw-TJe3trg@mail.gmail.com>
+ <CAMuHMdV+Ww5Y9G7+bS-SyHtm4dC89V37yuaYvrS3kYW=PRTkFA@mail.gmail.com>
+In-Reply-To: <CAMuHMdV+Ww5Y9G7+bS-SyHtm4dC89V37yuaYvrS3kYW=PRTkFA@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Sat, 4 Jan 2020 01:21:27 +0100
+Message-ID: <CACRpkdZwos9Dtt9E3OkxWf4rqMALNTge5NGduzGm-7MhQyLZuQ@mail.gmail.com>
+Subject: Re: [PATCH v3 6/7] docs: gpio: Add GPIO Aggregator/Repeater documentation
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dear Friend
+On Thu, Dec 12, 2019 at 3:48 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Thu, Dec 12, 2019 at 3:42 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+> > On Wed, Nov 27, 2019 at 9:43 AM Geert Uytterhoeven
+> > <geert+renesas@glider.be> wrote:
+> > > +The GPIO Aggregator allows access control for individual GPIOs, by aggregating
+> > > +them into a new gpio_chip, which can be assigned to a group or user using
+> > > +standard UNIX file ownership and permissions.  Furthermore, this simplifies and
+> > > +hardens exporting GPIOs to a virtual machine, as the VM can just grab the full
+> > > +GPIO controller, and no longer needs to care about which GPIOs to grab and
+> > > +which not, reducing the attack surface.
+> > > +
+> > > +Aggregated GPIO controllers are instantiated and destroyed by writing to
+> > > +write-only attribute files in sysfs.
+> >
+> > I suppose virtual machines will have a lengthy config file where
+> > they specify which GPIO lines to pick and use for their GPIO
+> > aggregator, and that will all be fine, the VM starts and the aggregator
+> > is there and we can start executing.
+> >
+> > I would perhaps point out a weakness as with all sysfs and with the current
+> > gpio sysfs: if a process creates an aggregator device, and then that
+> > process crashes, what happens when you try to restart the process and
+> > run e.g. your VM again?
+> >
+> > Time for a hard reboot? Or should we add some design guidelines for
+> > these machines so that they can cleanly tear down aggregators
+> > previously created by the crashed VM?
+>
+> No, the VM does not create the aggregator.
+>
+> The idea is for the user to create one or more aggregators, set up
+> permissions on /dev/gpiochipX, and launch the VM, passing the aggregated
+> /dev/gpiochipX as parameters.
+> If the VM crashes, just launch it again.
+>
+> Destroying the aggregators is a manual and independent process, after
+> the VM has exited.
 
-i hope all is well with you,if so, glory be to God almighty. I'm very
-happy to inform you, about my success in getting payment funds under
-the cooperation of a new partner from United States of
-America.Presently I am in uk for investment projects with my own share
-of the total sum. I didn't forget your past efforts. IMF finally
-approved your compensation payment funds this morning by prepaid (ATM)
-Debit card of US$12,500.000.00Million Dollars, Since you not received
-this payment yet, I was not certified
-but it is not your fault and not my fault, I hold nothing against
-you.than bank official whom has been detaining the transfer in the
-bank, trying to claim your funds by themselves.
+I'm thinking about someone making some industrial application for some
+control of a machinery say a robotic arm.
 
-Therefore, in appreciation of your effort I have raised an
-International prepaid (ATM) Debit card of US$12,500.000.00 in your
-favor as compensation to you.
+And do make sure this VM is only controlling these GPIOs related to
+this robotic arm, they create a GPIO aggregator. And we care about
+cases like that since we provide this security argument.
 
-Now, i want you to contact my Diplomatic Agent, His name is Mike Benz
-on His  e-mail Address (mikebenz550@aol.com
+Surely that machine will be rebooted.
 
-ask Him to send the Prepaid (ATM) Debit card to you. Bear in mind that
-the money is in Prepaid (ATM) Debit card, not cash, so you need to
-send to him,
-your full name
-address  where the prepaid (ATM) Debit card will be delivered to you,
-including your cell phone number. Finally, I left explicit
-instructions with him, on how to send the (ATM CARD) to you.
+Surely they don't have a printed paper with all the commands lying
+at the console, and asking whoever powers it back on to manually
+type it all in again. That feels a bit 1981.
 
-The Prepaid (ATM) Debit card, will be send to you through my
-Diplomatic Agent Mr. Mike Benz immediately you contact him. So contact
-my Diplomatic Agent Mr. Mike Benz immediately you receive this letter.
-Below is his contact information:
+So they will have a script for this I suppose. Possibly in some
+initscript so it is set up on boot. And this script echos stuff
+all over the place to set up the aggregator.
 
-NAME : MIKE BENZ
-EMAIL ADDRESS: mikebenz550@aol.com
-Text Him, (256) 284-4886
+Is this the use case you're thinking of?
 
-Request for Delivery of the Prepaid (ATM) Debit card  to you today.
-Note, please I have paid for the whole service fees for you, so the
-only money you will send to my Diplomatic Agent Mr. Mike Benz is
-$50.00 for your prepaid (ATM) Debit card DELIVERY FEE to your address
-ok.
-Let me know once you receive this Card at your address.
-Best regards,
-Rev.Dr, George Adadar
+I just like to have the whole picture here.
+
+Yours,
+Linus Walleij
