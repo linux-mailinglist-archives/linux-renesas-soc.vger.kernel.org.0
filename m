@@ -2,162 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 458D3131689
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jan 2020 18:12:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9423131C6A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jan 2020 00:34:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726561AbgAFRMX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 6 Jan 2020 12:12:23 -0500
-Received: from vern.gendns.com ([98.142.107.122]:54934 "EHLO vern.gendns.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726524AbgAFRMX (ORCPT
+        id S1727001AbgAFXe1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Jan 2020 18:34:27 -0500
+Received: from mail-yb1-f194.google.com ([209.85.219.194]:41972 "EHLO
+        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726599AbgAFXe1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 6 Jan 2020 12:12:23 -0500
-X-Greylist: delayed 1460 seconds by postgrey-1.27 at vger.kernel.org; Mon, 06 Jan 2020 12:12:22 EST
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Gd1okxm5mNyxuAUIvuHeiOrruEoAV61d7/a5N+284jc=; b=qLgX2AGskDf+/YeIbS8utXjQ6s
-        Gs3XXQkuzcfq9uwT4s5myPh/61JxR3YRaY6q0UqtfNvzc4MfVY87U1U4YbNMUG9jYOtxoXdSKVygR
-        Ezygo8MGVoEZ7jKVzh9Hu0rdSwDnhMzOdjUBtEOMuvscbUAKUjAH1ONjDIurZhwikGP+WMNTy86Do
-        /imjNqDQV/6/bK75hj3QkYxyqpWpsBjz82WGDAWrLLQuP989IHP9KUlHAb1wk4F0c0TbKkVyiVZCj
-        iev4LeOmVDe9l465Gvu625HAu21K+Fry3ZDTJtTYvkHH1EZTRF63U0U9Y43UKVlKhC31eN+W9a4Hb
-        EVh78ASg==;
-Received: from [2600:1700:4830:165f::fb2] (port=55314)
-        by vern.gendns.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.92)
-        (envelope-from <david@lechnology.com>)
-        id 1ioVvP-00063C-3R; Mon, 06 Jan 2020 12:12:19 -0500
-Subject: Re: [PATCH 3/3] drm: tiny: st7735r: Add support for Okaya RH128128T
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Sam Ravnborg <sam@ravnborg.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+        Mon, 6 Jan 2020 18:34:27 -0500
+Received: by mail-yb1-f194.google.com with SMTP id k5so3355030ybf.8;
+        Mon, 06 Jan 2020 15:34:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=i6ZQqWmrwDKkPcxO1fNBNQLxpWN7at6dkaHoHLXG/FE=;
+        b=geKfekg2AYkPFwoL+zkcFP37gYi4SN66aSFdlWKKNHEPXoD0/xLQQbz2QkFjewBfte
+         6WQxlawaDfZcNzBSfghgIYEs6r6QmPiACFlTLJxs0OrOAH3XgOXltQQ/HsyccKeAbufR
+         4AAzq4DEPdIvfmzxhdMQHAffyHHBmXNsBeeg9RlcAJRyooskO5KqvkKaDUqD9HGuCcNQ
+         kHOnLZ+Wwq5Ls8LHCFUXcOlLVIQfvuaB41L7foU5+rBWIiSVBiYCEySpgkfyXLVs6G4K
+         kWWe67zN1rYORIG8yEW0t/tzJsKUVXcYefFRGDUCjT2fxAZzMukLLopmifc2Z1KKAJOh
+         tpeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=i6ZQqWmrwDKkPcxO1fNBNQLxpWN7at6dkaHoHLXG/FE=;
+        b=I9Yq6Jwl1UN5HeeL1AlaUOgYaH7PxbGPmZfydSQqoGCfAnoSXwDIrWzo6WjKBnYrvV
+         k/rioB+CnoUkXomsvUaXR52fA6lnJgAziowotGNxcXI8fWd63FGHA5YpdElZxFcts6lV
+         1Z4lp0dAHkFWKmX2cZZUzO2QLuGGlaOnDQ3axrsogSm94W8aOqfFCUTcxnzOwbQqNz8m
+         DeYG0hu2lrtXAr+s+YnhFHiUWEudiYc+O+pzAgNXpmfsRoGhT+ktY8GvtGdVQ41KgPJ4
+         nUmU3JZ8kHccUuALz/eQ/Y3Xufn8B7akPnwmsLnsSoJvoN5ZbfJo61zrhHqYsA1tFSud
+         B18w==
+X-Gm-Message-State: APjAAAXSv7S4W0nn/YZKrAG7iTbloRqZPR4RfpFGee2Eg0GytEB3BoHm
+        8bPySU9IWBALxU8QWbC2gjA=
+X-Google-Smtp-Source: APXvYqwMHCl1lzCPjwlP+ar3Pt7LLTuKABAPFh+LqxXL5zpHjj5nPlxbMKHogGRZzQfhkXPQAOxDPw==
+X-Received: by 2002:a25:414a:: with SMTP id o71mr76395590yba.141.1578353666256;
+        Mon, 06 Jan 2020 15:34:26 -0800 (PST)
+Received: from [192.168.1.46] (c-73-88-245-53.hsd1.tn.comcast.net. [73.88.245.53])
+        by smtp.gmail.com with ESMTPSA id j11sm28215683ywg.37.2020.01.06.15.34.25
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 06 Jan 2020 15:34:25 -0800 (PST)
+Subject: Re: [PATCH/RFC 0/2] gpio: of: Add DT overlay support for GPIO hogs
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     Peter Ujfalusi <peter.ujfalusi@ti.com>,
         Chris Brandt <chris.brandt@renesas.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>
-References: <20200102141246.370-1-geert+renesas@glider.be>
- <20200102141246.370-4-geert+renesas@glider.be>
- <20200105091303.GB29102@ravnborg.org>
- <CAMuHMdUL3tCZzCDyJkmqYT5n+-t+Z-Ubo4=+NJpHpZU1w5C07g@mail.gmail.com>
-From:   David Lechner <david@lechnology.com>
-Message-ID: <893b059c-fd7d-3c21-384c-da33af595ffb@lechnology.com>
-Date:   Mon, 6 Jan 2020 11:12:17 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20191230133852.5890-1-geert+renesas@glider.be>
+From:   Frank Rowand <frowand.list@gmail.com>
+Message-ID: <db13664e-f01a-5492-942b-f021f1bbe4e2@gmail.com>
+Date:   Mon, 6 Jan 2020 17:34:24 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdUL3tCZzCDyJkmqYT5n+-t+Z-Ubo4=+NJpHpZU1w5C07g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20191230133852.5890-1-geert+renesas@glider.be>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - vern.gendns.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lechnology.com
-X-Get-Message-Sender-Via: vern.gendns.com: authenticated_id: davidmain+lechnology.com/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: vern.gendns.com: davidmain@lechnology.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 1/6/20 3:28 AM, Geert Uytterhoeven wrote:
-> Hi Sam,
+On 12/30/19 7:38 AM, Geert Uytterhoeven wrote:
+> 	Hi all,
 > 
-> On Sun, Jan 5, 2020 at 10:13 AM Sam Ravnborg <sam@ravnborg.org> wrote:
->> Good to see we add more functionality to the smallest driver in DRM.
->> The patch triggered a few comments - see below.
->> Some comments relates to the original driver - and not your changes.
+> As GPIO hogs are configured at GPIO controller initialization time,
+> adding/removing GPIO hogs in Device Tree overlays currently does not
+> work.  Hence this patch series adds support for that, by registering an
+> of_reconfig notifier, as is already done for platform, i2c, and SPI
+> devices.
+> 
+> Perhaps this would be better served through a pinctrl-gpio driver?
+> Pinctrl is already working fine with DT overlays, as the pinctrl-*
+> properties are part of the slave device node, and thus looked up at
+> slave device node attachment time, not at pin controller initialization
+> time.
+> 
+> In my particular use case (talking to SPI devices connected to a PMOD
+> connector on the RSK+RZA1 development board), the GPIO performs board
+> level muxing of a.o. the SPI MOSI/MISO/SCK signals.  Hence the hog
+> really needs to be active only while talking to the SPI device, so the
+> muxing could (in theory) be done upon demand.
+> But how to describe that in DT, and implement it (using Runtime PM?)?
+
+I'm trying to understand the use case.  I can easily imagine two cases:
+
+  (1) want to configure the GPIO to be able to use the SPI bus sometimes,
+      but configure the GPIO differently when not using the SPI bus
+
+  (2) want to describe a device on the SPI bus in an overlay, thus
+      also needing to describe the associate gpio hog node in the
+      same overlay
+
+For use case (2), the proposed patch seems to be a good solution.
+
+For use case (1), this is a case of trying to use devicetree as a
+way to control configuration instead of describing the hardware.
+In this case, Bartosz' reply may indicate the way forward.
+
+I'll assume use case (2) for patch comments.
+
 > 
 > Thanks for your comments!
 > 
->> On Thu, Jan 02, 2020 at 03:12:46PM +0100, Geert Uytterhoeven wrote:
->>> Add support for the Okaya RH128128T display to the st7735r driver.
->>>
->>> The RH128128T is a 128x128 1.44" TFT display driven by a Sitronix
->>> ST7715R TFT Controller/Driver.  The latter is very similar to the
->>> ST7735R, and can be handled by the existing st7735r driver.
->>
->> As a general comment - it would have eased review if this was split
->> in two patches.
->> One patch to introduce the infrastructure to deal with another set of
->> controller/display and one patch introducing the new combination.
+> Geert Uytterhoeven (2):
+>   gpio: of: Extract of_gpiochip_add_hog()
+>   gpio: of: Add DT overlay support for GPIO hogs
 > 
-> I had thought about that, but didn't pursue as the new combination is
-> just 7 added lines.  If you prefer a split, I can do that.
+>  drivers/gpio/gpiolib-of.c | 133 +++++++++++++++++++++++++++++++++-----
+>  drivers/gpio/gpiolib-of.h |   2 +
+>  drivers/gpio/gpiolib.c    |  14 +++-
+>  drivers/gpio/gpiolib.h    |   3 +
+>  4 files changed, 133 insertions(+), 19 deletions(-)
 > 
->>> --- a/drivers/gpu/drm/tiny/st7735r.c
->>> +++ b/drivers/gpu/drm/tiny/st7735r.c
->>> @@ -1,8 +1,9 @@
->>>   // SPDX-License-Identifier: GPL-2.0+
->>>   /*
->>> - * DRM driver for Sitronix ST7735R panels
->>> + * DRM driver for Sitronix ST7715R/ST7735R panels
->>
->> This comment could describe the situation a little better.
->> This is a sitronix st7735r controller with a jianda jd-t18003-t01
->> display.
->> Or a sitronix st7715r controller with a okaya rh128128t display.
-> 
-> Indeed. It is currently limited to two controller/display combos.
-> But I expect more combos to be added over time.
-> Hence does it make sense to describe all of that in the top comments?
-> 
->>> @@ -37,12 +39,28 @@
->>>   #define ST7735R_MY   BIT(7)
->>>   #define ST7735R_MX   BIT(6)
->>>   #define ST7735R_MV   BIT(5)
->>> +#define ST7735R_RGB  BIT(3)
->>> +
->>> +struct st7735r_cfg {
->>> +     const struct drm_display_mode mode;
->>> +     unsigned int left_offset;
->>> +     unsigned int top_offset;
->>> +     unsigned int write_only:1;
->>> +     unsigned int rgb:1;             /* RGB (vs. BGR) */
->>> +};
->>> +
->>> +struct st7735r_priv {
->>> +     struct mipi_dbi_dev dbidev;     /* Must be first for .release() */
->>> +     unsigned int rgb:1;
->>> +};
->>
->> The structs here uses "st7735r" as the generic prefix.
->> But the rest of this file uses "jd_t18003_t01" as the generic prefix.
->>
->> It would help readability if the same prefix is used for the common
->> stuff everywhere.
-> 
-> Agreed.
-> So I think it makes most sense to rename jd_t18003_t01_pipe_{enable,funcs}
-> to sh7735r_pipe_{enable,funcs}?
-> If needed, the display-specific parts (e.g. gamma parameters) could be
-> factored out in st7735r_cfg later, if neeeded.
-
-IIRC, the original intention here is that functions/structs with the
-jd_t18003_t01_ prefix are specific to the panel, not the controller.
-E.g. things like power settings and gamma curves.
-
-The idea is that it is much easier to write and understand the init sequence
-as a function rather than trying to make a generic function that can parse
-a any possible init sequence from a data structure.
-
-This new panel really has all of the same settings as the existing one?
-
-Having a separate pipe enable function for the new panel would also eliminate
-the need for the extra private rgb data.
 
