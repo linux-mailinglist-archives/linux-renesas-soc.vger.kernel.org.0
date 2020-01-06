@@ -2,269 +2,152 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 982AD1306E5
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  5 Jan 2020 10:13:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DE1E130E64
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  6 Jan 2020 09:07:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725881AbgAEJNP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 5 Jan 2020 04:13:15 -0500
-Received: from asavdk4.altibox.net ([109.247.116.15]:51654 "EHLO
-        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725535AbgAEJNP (ORCPT
+        id S1726422AbgAFIHG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 6 Jan 2020 03:07:06 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:38285 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726133AbgAFIHG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 5 Jan 2020 04:13:15 -0500
-Received: from ravnborg.org (unknown [158.248.194.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk4.altibox.net (Postfix) with ESMTPS id 720D880441;
-        Sun,  5 Jan 2020 10:13:04 +0100 (CET)
-Date:   Sun, 5 Jan 2020 10:13:03 +0100
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
-        David Lechner <david@lechnology.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
+        Mon, 6 Jan 2020 03:07:06 -0500
+Received: by mail-ot1-f67.google.com with SMTP id d7so66167981otf.5;
+        Mon, 06 Jan 2020 00:07:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DW1SIti7NHYB1AbqgFvyF14dNMwa3qPTzBW09JetqYs=;
+        b=fLBvsDRjAp27Ry4z3ybY4TWK2AC39HDKg34iIBO0JHpK4ZW8DIG1X0FLVIcoaFKQPl
+         FcnASseG3YV7gK9AzPCfrox2rjHnRyOSipoEyNKXwGcFFAr30aIEn5KWFdaHrUWaP8sg
+         n8YLlfwpGwRBi7DndS5zY0CSnLwdZeUvyur4u+IrJr/GjJFnn5e0SV8PwOgD5QxajggX
+         GpPTfAuE8jxPWVJ5ZdfdCOhDlZckyYGQmpZ4jNGMQGaOXu2yFjnpx6aV04qnhqKXsmJ+
+         ssGU5M8L6v9M9e3oOx/tIo3A+JENrzYd/59yzbk/ZCZ9GS10i08SoBX1FERJnR3L3Qs6
+         25mA==
+X-Gm-Message-State: APjAAAVOtT996oCGUCAki2uSbSzYITPnZYYhM2djUur4DzuhvbVL9rQn
+        M4Mz7A9vSrpKvjWYnukfm26QXsOikh8nIZxQS6s=
+X-Google-Smtp-Source: APXvYqxAKJhctUL3mn7UzaLw+sqHKf++PDfXB8dUrOnMMXR6h0t2N8/KpR/0X7vcb8CRnhjsdWQ+ZW4+Y5nwyAvTH3w=
+X-Received: by 2002:a9d:dc1:: with SMTP id 59mr15235457ots.250.1578298025342;
+ Mon, 06 Jan 2020 00:07:05 -0800 (PST)
+MIME-Version: 1.0
+References: <20191127084253.16356-1-geert+renesas@glider.be>
+ <20191127084253.16356-7-geert+renesas@glider.be> <CACRpkdb1XZAeSThxWmJtnm80T4aPufXV2UvJdVdgnw-TJe3trg@mail.gmail.com>
+ <CAMuHMdV+Ww5Y9G7+bS-SyHtm4dC89V37yuaYvrS3kYW=PRTkFA@mail.gmail.com> <CACRpkdZwos9Dtt9E3OkxWf4rqMALNTge5NGduzGm-7MhQyLZuQ@mail.gmail.com>
+In-Reply-To: <CACRpkdZwos9Dtt9E3OkxWf4rqMALNTge5NGduzGm-7MhQyLZuQ@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 6 Jan 2020 09:06:53 +0100
+Message-ID: <CAMuHMdWZ7Wh9rq7SGt7edgCXL1e5UwtSUfxLc0exHa-TEB=W5w@mail.gmail.com>
+Subject: Re: [PATCH v3 6/7] docs: gpio: Add GPIO Aggregator/Repeater documentation
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
-        Chris Brandt <chris.brandt@renesas.com>,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 3/3] drm: tiny: st7735r: Add support for Okaya RH128128T
-Message-ID: <20200105091303.GB29102@ravnborg.org>
-References: <20200102141246.370-1-geert+renesas@glider.be>
- <20200102141246.370-4-geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200102141246.370-4-geert+renesas@glider.be>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
-        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=WZHNqt2aAAAA:8
-        a=e5mUnYsNAAAA:8 a=bDZ8_mipTldAwkuLC-IA:9 a=CjuIK1q_8ugA:10
-        a=PrHl9onO2p7xFKlKy1af:22 a=Vxmtnl_E_bksehYqCbjh:22
-        a=pHzHmUro8NiASowvMSCR:22 a=6VlIyEUom7LUIeUMNQJH:22
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert.
+Hi Linus,
 
-Good to see we add more functionality to the smallest driver in DRM.
-The patch triggered a few comments - see below.
-Some comments relates to the original driver - and not your changes.
+On Sat, Jan 4, 2020 at 1:21 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+> On Thu, Dec 12, 2019 at 3:48 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Thu, Dec 12, 2019 at 3:42 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+> > > On Wed, Nov 27, 2019 at 9:43 AM Geert Uytterhoeven
+> > > <geert+renesas@glider.be> wrote:
+> > > > +The GPIO Aggregator allows access control for individual GPIOs, by aggregating
+> > > > +them into a new gpio_chip, which can be assigned to a group or user using
+> > > > +standard UNIX file ownership and permissions.  Furthermore, this simplifies and
+> > > > +hardens exporting GPIOs to a virtual machine, as the VM can just grab the full
+> > > > +GPIO controller, and no longer needs to care about which GPIOs to grab and
+> > > > +which not, reducing the attack surface.
+> > > > +
+> > > > +Aggregated GPIO controllers are instantiated and destroyed by writing to
+> > > > +write-only attribute files in sysfs.
+> > >
+> > > I suppose virtual machines will have a lengthy config file where
+> > > they specify which GPIO lines to pick and use for their GPIO
+> > > aggregator, and that will all be fine, the VM starts and the aggregator
+> > > is there and we can start executing.
+> > >
+> > > I would perhaps point out a weakness as with all sysfs and with the current
+> > > gpio sysfs: if a process creates an aggregator device, and then that
+> > > process crashes, what happens when you try to restart the process and
+> > > run e.g. your VM again?
+> > >
+> > > Time for a hard reboot? Or should we add some design guidelines for
+> > > these machines so that they can cleanly tear down aggregators
+> > > previously created by the crashed VM?
+> >
+> > No, the VM does not create the aggregator.
+> >
+> > The idea is for the user to create one or more aggregators, set up
+> > permissions on /dev/gpiochipX, and launch the VM, passing the aggregated
+> > /dev/gpiochipX as parameters.
+> > If the VM crashes, just launch it again.
+> >
+> > Destroying the aggregators is a manual and independent process, after
+> > the VM has exited.
+>
+> I'm thinking about someone making some industrial application for some
+> control of a machinery say a robotic arm.
+>
+> And do make sure this VM is only controlling these GPIOs related to
+> this robotic arm, they create a GPIO aggregator. And we care about
+> cases like that since we provide this security argument.
+>
+> Surely that machine will be rebooted.
+>
+> Surely they don't have a printed paper with all the commands lying
+> at the console, and asking whoever powers it back on to manually
+> type it all in again. That feels a bit 1981.
+>
+> So they will have a script for this I suppose. Possibly in some
+> initscript so it is set up on boot. And this script echos stuff
+> all over the place to set up the aggregator.
+>
+> Is this the use case you're thinking of?
 
-	Sam
+Exactly.
 
-On Thu, Jan 02, 2020 at 03:12:46PM +0100, Geert Uytterhoeven wrote:
-> Add support for the Okaya RH128128T display to the st7735r driver.
-> 
-> The RH128128T is a 128x128 1.44" TFT display driven by a Sitronix
-> ST7715R TFT Controller/Driver.  The latter is very similar to the
-> ST7735R, and can be handled by the existing st7735r driver.
+And they can configure that by echoing the GPIO specifiers to
+/sys/bus/platform/drivers/gpio-aggregator/new_device.
 
-As a general comment - it would have eased review if this was split
-in two patches.
-One patch to introduce the infrastructure to deal with another set of
-controller/display and one patch introducing the new combination.
+If their system has DT, another option is to describe the device in DT,
+and add its compatible value to gpio_aggregator_dt_ids[], cfr. the
+frobnicator example.
 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  drivers/gpu/drm/tiny/st7735r.c | 65 ++++++++++++++++++++++++++++------
->  1 file changed, 55 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tiny/st7735r.c b/drivers/gpu/drm/tiny/st7735r.c
-> index 3f4487c716848cf8..05d162e76d8481e5 100644
-> --- a/drivers/gpu/drm/tiny/st7735r.c
-> +++ b/drivers/gpu/drm/tiny/st7735r.c
-> @@ -1,8 +1,9 @@
->  // SPDX-License-Identifier: GPL-2.0+
->  /*
-> - * DRM driver for Sitronix ST7735R panels
-> + * DRM driver for Sitronix ST7715R/ST7735R panels
+> I just like to have the whole picture here.
 
-This comment could describe the situation a little better.
-This is a sitronix st7735r controller with a jianda jd-t18003-t01
-display.
-Or a sitronix st7715r controller with a okaya rh128128t display.
+Sure. If anything is still unclear, please let me know!
+Thanks!
 
+Gr{oetje,eeting}s,
 
->   *
->   * Copyright 2017 David Lechner <david@lechnology.com>
-> + * Copyright (C) 2019 Glider bvba
->   */
->  
->  #include <linux/backlight.h>
-> @@ -10,6 +11,7 @@
->  #include <linux/dma-buf.h>
->  #include <linux/gpio/consumer.h>
->  #include <linux/module.h>
-> +#include <linux/of_device.h>
->  #include <linux/property.h>
->  #include <linux/spi/spi.h>
->  #include <video/mipi_display.h>
-> @@ -37,12 +39,28 @@
->  #define ST7735R_MY	BIT(7)
->  #define ST7735R_MX	BIT(6)
->  #define ST7735R_MV	BIT(5)
-> +#define ST7735R_RGB	BIT(3)
-> +
-> +struct st7735r_cfg {
-> +	const struct drm_display_mode mode;
-> +	unsigned int left_offset;
-> +	unsigned int top_offset;
-> +	unsigned int write_only:1;
-> +	unsigned int rgb:1;		/* RGB (vs. BGR) */
-> +};
-> +
-> +struct st7735r_priv {
-> +	struct mipi_dbi_dev dbidev;	/* Must be first for .release() */
-> +	unsigned int rgb:1;
-> +};
+                        Geert
 
-The structs here uses "st7735r" as the generic prefix.
-But the rest of this file uses "jd_t18003_t01" as the generic prefix.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-It would help readability if the same prefix is used for the common
-stuff everywhere.
-
-struct st7735r_priv includes "rgb" which is copied from struct
-st7735r_cfg.
-Maybe just add a const pointer to struct st7735r_cfg,
-so when we later add more configuration items we do not need to have two
-copies. And then ofc drop st7735r_priv.rgb.
-
->  
->  static void jd_t18003_t01_pipe_enable(struct drm_simple_display_pipe *pipe,
->  				      struct drm_crtc_state *crtc_state,
->  				      struct drm_plane_state *plane_state)
->  {
->  	struct mipi_dbi_dev *dbidev = drm_to_mipi_dbi_dev(pipe->crtc.dev);
-> +	struct st7735r_priv *priv = container_of(dbidev, struct st7735r_priv,
-> +						 dbidev);
->  	struct mipi_dbi *dbi = &dbidev->dbi;
->  	int ret, idx;
->  	u8 addr_mode;
-> @@ -87,6 +105,10 @@ static void jd_t18003_t01_pipe_enable(struct drm_simple_display_pipe *pipe,
->  		addr_mode = ST7735R_MY | ST7735R_MV;
->  		break;
->  	}
-> +
-> +	if (priv->rgb)
-> +		addr_mode |= ST7735R_RGB;
-> +
->  	mipi_dbi_command(dbi, MIPI_DCS_SET_ADDRESS_MODE, addr_mode);
->  	mipi_dbi_command(dbi, MIPI_DCS_SET_PIXEL_FORMAT,
->  			 MIPI_DCS_PIXEL_FMT_16BIT);
-> @@ -116,8 +138,17 @@ static const struct drm_simple_display_pipe_funcs jd_t18003_t01_pipe_funcs = {
->  	.prepare_fb	= drm_gem_fb_simple_display_pipe_prepare_fb,
->  };
->  
-> -static const struct drm_display_mode jd_t18003_t01_mode = {
-> -	DRM_SIMPLE_MODE(128, 160, 28, 35),
-> +static const struct st7735r_cfg jd_t18003_t01_cfg = {
-> +	.mode		= { DRM_SIMPLE_MODE(128, 160, 28, 35) },
-> +	/* Cannot read from Adafruit 1.8" display via SPI */
-> +	.write_only	= true,
-> +};
-> +
-> +static const struct st7735r_cfg rh128128t_cfg = {
-> +	.mode		= { DRM_SIMPLE_MODE(128, 128, 25, 26) },
-> +	.left_offset	= 2,
-> +	.top_offset	= 3,
-> +	.rgb		= true,
->  };
->  
->  DEFINE_DRM_GEM_CMA_FOPS(st7735r_fops);
-> @@ -136,13 +167,14 @@ static struct drm_driver st7735r_driver = {
->  };
->  
->  static const struct of_device_id st7735r_of_match[] = {
-> -	{ .compatible = "jianda,jd-t18003-t01" },
-> +	{ .compatible = "jianda,jd-t18003-t01", .data = &jd_t18003_t01_cfg },
-> +	{ .compatible = "okaya,rh128128t", .data = &rh128128t_cfg },
->  	{ },
-{ /* sentinel },
-
-Also - which is not a new thing - this fails to check that we have the
-correct combination of two compatibles.
-From the binding:
-
-    Must be one of the following combinations:
-    - "jianda,jd-t18003-t01", "sitronix,st7735r"
-    - "okaya,rh128128t", "sitronix,st7715r"
-
->  };
->  MODULE_DEVICE_TABLE(of, st7735r_of_match);
->  
->  static const struct spi_device_id st7735r_id[] = {
-> -	{ "jd-t18003-t01", 0 },
-> +	{ "jd-t18003-t01", (uintptr_t)&jd_t18003_t01_cfg },
->  	{ },
-{ /* sentinel */ },
-
-Do we need an entry for "okaya,rh128128t" here?
-
-Note: I have not fully understood how MODULE_DEVICE_TABLE()
-works - so forgive me my ignorance.
-
->  };
->  MODULE_DEVICE_TABLE(spi, st7735r_id);
-> @@ -150,17 +182,26 @@ MODULE_DEVICE_TABLE(spi, st7735r_id);
->  static int st7735r_probe(struct spi_device *spi)
->  {
->  	struct device *dev = &spi->dev;
-> +	const struct st7735r_cfg *cfg;
->  	struct mipi_dbi_dev *dbidev;
-> +	struct st7735r_priv *priv;
->  	struct drm_device *drm;
->  	struct mipi_dbi *dbi;
->  	struct gpio_desc *dc;
->  	u32 rotation = 0;
->  	int ret;
->  
-> -	dbidev = kzalloc(sizeof(*dbidev), GFP_KERNEL);
-> -	if (!dbidev)
-> +	cfg = of_device_get_match_data(&spi->dev);
-> +	if (!cfg)
-> +		cfg = (void *)spi_get_device_id(spi)->driver_data;
-> +
-> +	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
->  		return -ENOMEM;
->  
-> +	dbidev = &priv->dbidev;
-> +	priv->rgb = cfg->rgb;
-> +
->  	dbi = &dbidev->dbi;
->  	drm = &dbidev->drm;
->  	ret = devm_drm_dev_init(dev, drm, &st7735r_driver);
-> @@ -193,10 +234,14 @@ static int st7735r_probe(struct spi_device *spi)
->  	if (ret)
->  		return ret;
->  
-> -	/* Cannot read from Adafruit 1.8" display via SPI */
-> -	dbi->read_commands = NULL;
-> +	if (cfg->write_only)
-> +		dbi->read_commands = NULL;
-> +
-> +	dbidev->left_offset = cfg->left_offset;
-> +	dbidev->top_offset = cfg->top_offset;
->  
-> -	ret = mipi_dbi_dev_init(dbidev, &jd_t18003_t01_pipe_funcs, &jd_t18003_t01_mode, rotation);
-> +	ret = mipi_dbi_dev_init(dbidev, &jd_t18003_t01_pipe_funcs, &cfg->mode,
-> +				rotation);
->  	if (ret)
->  		return ret;
->  
-> -- 
-> 2.17.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
