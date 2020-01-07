@@ -2,22 +2,44 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BAFA132385
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jan 2020 11:26:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 474C01323C0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jan 2020 11:36:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727772AbgAGK0E (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Jan 2020 05:26:04 -0500
-Received: from sauhun.de ([88.99.104.3]:49204 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727589AbgAGK0E (ORCPT
+        id S1727799AbgAGKgj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Jan 2020 05:36:39 -0500
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:37900 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727559AbgAGKgj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Jan 2020 05:26:04 -0500
-Received: from localhost (p5486CF8B.dip0.t-ipconnect.de [84.134.207.139])
-        by pokefinder.org (Postfix) with ESMTPSA id 9D7892C05BA;
-        Tue,  7 Jan 2020 11:26:01 +0100 (CET)
-Date:   Tue, 7 Jan 2020 11:25:57 +0100
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
+        Tue, 7 Jan 2020 05:36:39 -0500
+Received: by mail-qt1-f195.google.com with SMTP id n15so44926875qtp.5;
+        Tue, 07 Jan 2020 02:36:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QeSF/6JJEtY7qU4oYuTuPQ5X5Y2Ft7PgpKJsvHUjbvY=;
+        b=AvyzLP4XRqS/pfZie32tTqHu4MMHK6KfvXA4ZVHMf1OWgAwiYzh2oiozgP/AQVeppa
+         CHTImlcXGBbRwFonfgBxEXart8kX8JQoKT9RAfGsKLXk0MGPJRS8mLdr8Hw3aNCqc8P5
+         iCjvlcpFU7sqImCVVW/z8e2WAg9sCFoCj8xqgFY7WPWz3ekbNbuYibKkvxnOmJNCYOcr
+         woQ/gFhgA2sPr8eE1MrC9xtrEg9r7o0SuUqc9ayx36hTiFJHIeS7GceijFk0xTAD2LUX
+         QwZh+JAIjdIWAB9bHlZJa2lMWq/hDWGEAWiDOZutdXfr/ctlhvh2pPKDg6VyQhH0e7t2
+         UM2Q==
+X-Gm-Message-State: APjAAAVXSONFJ6vfnQD4UFva/oiFUxJwU95Wq4SJzHESJBbwmagdigmw
+        /dxQMj4BqOHL7aHiKWYJrdrebdooucc7yu9eYpIytG/I
+X-Google-Smtp-Source: APXvYqwC6fFX2xmVnSH0aCX5ekhjzhS2hXu7vSXUVbW2d2twnaRosSmB7f9ngkjda/0SXH3Se+jYLSi75YwFwWq/QWg=
+X-Received: by 2002:ac8:958:: with SMTP id z24mr79726402qth.40.1578393398188;
+ Tue, 07 Jan 2020 02:36:38 -0800 (PST)
+MIME-Version: 1.0
+References: <20191231161400.1688-1-wsa+renesas@sang-engineering.com>
+ <20191231161400.1688-2-wsa+renesas@sang-engineering.com> <bf17ebe6-550e-dcd2-c5c4-ff669519ef79@bingham.xyz>
+ <CAMuHMdXVxeF0bCV8tNMr_0D-HudXBMXycs=LXCxJX=wKzjQZgw@mail.gmail.com> <20200107102557.GA1135@ninjato>
+In-Reply-To: <20200107102557.GA1135@ninjato>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 7 Jan 2020 11:36:26 +0100
+Message-ID: <CAMuHMdWM0PoqLuAP2qjCjejNQ8FaArnkAT0gnd96xp3yJKLE-A@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/5] i2c: core: refactor scanning for a client
+To:     Wolfram Sang <wsa@the-dreams.de>
 Cc:     Kieran Bingham <kieran@ksquared.org.uk>,
         Wolfram Sang <wsa+renesas@sang-engineering.com>,
         Linux I2C <linux-i2c@vger.kernel.org>,
@@ -26,62 +48,41 @@ Cc:     Kieran Bingham <kieran@ksquared.org.uk>,
         Jacopo Mondi <jacopo@jmondi.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Vladimir Zapolskiy <vz@mleia.com>
-Subject: Re: [RFC PATCH 1/5] i2c: core: refactor scanning for a client
-Message-ID: <20200107102557.GA1135@ninjato>
-References: <20191231161400.1688-1-wsa+renesas@sang-engineering.com>
- <20191231161400.1688-2-wsa+renesas@sang-engineering.com>
- <bf17ebe6-550e-dcd2-c5c4-ff669519ef79@bingham.xyz>
- <CAMuHMdXVxeF0bCV8tNMr_0D-HudXBMXycs=LXCxJX=wKzjQZgw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ibTvN161/egqYuK8"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXVxeF0bCV8tNMr_0D-HudXBMXycs=LXCxJX=wKzjQZgw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Wolfram,
 
---ibTvN161/egqYuK8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, Jan 7, 2020 at 11:26 AM Wolfram Sang <wsa@the-dreams.de> wrote:
+> > Quoting GregKH:
+> > | We really do not want WARN_ON() anywhere, as that causes systems with
+> > | panic-on-warn to reboot.
+> >
+> > https://lore.kernel.org/lkml/20191121135743.GA552517@kroah.com/
+>
+> Huh? This renders WARN completely useless, or? If somebody wants panic
+> on warn, this person should get it?
 
+I also have my doubts...
 
-> Quoting GregKH:
-> | We really do not want WARN_ON() anywhere, as that causes systems with
-> | panic-on-warn to reboot.
->=20
-> https://lore.kernel.org/lkml/20191121135743.GA552517@kroah.com/
+> If we don't add a stack trace, we only know that *someone* registered an
+> invalid address. Finding out who can be annoying. Kieran spotted this
+> correctly.
 
-Huh? This renders WARN completely useless, or? If somebody wants panic
-on warn, this person should get it?
+What other information will you have in the backtrace, that you don't have
+available inside the function?
+Would printing the i2c_driver name be sufficient?
 
-If we don't add a stack trace, we only know that *someone* registered an
-invalid address. Finding out who can be annoying. Kieran spotted this
-correctly.
+Gr{oetje,eeting}s,
 
+                        Geert
 
---ibTvN161/egqYuK8
-Content-Type: application/pgp-signature; name="signature.asc"
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl4UXLEACgkQFA3kzBSg
-KbYedA//SigGzthoXC+gbuyMlbGnjDk13JXHEdxbB1snhT7SvURVBieMPB4n3amT
-IV9v5VB+Fxust2R6Zho0hJGIJ7XXYwfQJONWj8Ftqp71C53TpQrSJWVbLynbtJOy
-AP+6FbxspsygaJjrofhr/R8tO+0LLslGY7nUnvv0epB0VsdAX1Zlu11jnx/49H6Z
-TM89VhCLIxG1eMPhpgr+0BKji/7h7Sp8c4RTfFN0xfgdcpRccMwC2b1h8HORWbe2
-FgMqlChH8MfVyUDVpHYEpMrzj7oNSXsVsh1V5ZVsN2Bqxwk4NGQvQGmP6wWeE6E3
-EjSKSiaqde2zjfdg4x843EvyIb7obpI0unHB+VvUZOfD9CaN1LOd/eCgGSzw5Bq2
-Ya0lm5t0ik7Kpxg1wsvcjI+SbvVJZ/5gjOVuUiCQpezjirc+WxrWH/u4d6dO2Frm
-85BhbqcQPotnFTeCrT8Op3KEAPg3aSO0KtyMcTEZHJI6aZvtZ0T8V+Nd8TfpSGnn
-1fgLrJ844SHVHYzrV/KH6ZbPrZT6h5CXjo5jHNP9GwVM+uABa+3v8KeNvvxgD4Kg
-c1h9d7SNoNW53APTYNMfayOQY38+ZS0WstaTBxXj9mwEVtY3PF9FAIqty5vhSsEr
-/tTTmFSBk4jZ10DTBmB4Vg1pS1UvB6PjKKcwzOuz3Tcsk7y6+e4=
-=gfMH
------END PGP SIGNATURE-----
-
---ibTvN161/egqYuK8--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
