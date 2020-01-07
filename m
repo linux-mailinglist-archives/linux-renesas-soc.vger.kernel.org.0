@@ -2,119 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 02A4913210D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jan 2020 09:11:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E75A1321D7
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jan 2020 10:03:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727084AbgAGILT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Jan 2020 03:11:19 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:45912 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725987AbgAGILT (ORCPT
+        id S1727663AbgAGJDj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Jan 2020 04:03:39 -0500
+Received: from mail-io1-f43.google.com ([209.85.166.43]:36187 "EHLO
+        mail-io1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727658AbgAGJDj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Jan 2020 03:11:19 -0500
-Received: by mail-ot1-f66.google.com with SMTP id 59so75357634otp.12;
-        Tue, 07 Jan 2020 00:11:18 -0800 (PST)
+        Tue, 7 Jan 2020 04:03:39 -0500
+Received: by mail-io1-f43.google.com with SMTP id d15so8377220iog.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Jan 2020 01:03:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=gj7J+/hEyeRK4BnoKtzoxr09YQuNhvHYUJt19aqFDpk=;
+        b=rCQ72smI0DeWhto4Sdmg+g3DY80KqgNn96Sod2Bue/c4qK+Y2AWvn1/SKK0jdm3uMy
+         4OWncNlPthi60+f6sTGrp8rrYPvKwtxNVE9q20Fone5ubfhDjcoDdqDxDEQToIC91W19
+         1MVc8vTRmZbJ50sao+hrdDQ6lVbXLTX/7vT5BJWxxIBEeAFbgdIfsd/GZdCMEtBd/9XW
+         w/H6CWiDdCHqLtmpvq1SBiQSd6pm40ProtZ5QnDcHg1DjzsNfg/SH0EFcbZVvQ/7Uyww
+         dtkSLL0pOjU3mdP9zeAlTeJT3ui9xN4Vqsimo4y4KrTLY/1HDnct8cCDJuH61tYEXyMC
+         9K4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=CU/I+wYv+bXJX9c2nuNlCXwS1Rl4z06XpenSPVri4Bc=;
-        b=ZB6h/zkWeCKCIBYGKoer/IhU9va9q6p8NlI83feLgfyKj1dFwVlVQb3SetNbOoxC9T
-         EJxaeyLW1uA/O4BcYvdd14q7BWiu7/UVhoZWJM+h7NinD5RuV/O9Z9w3kwOpU1UVorsD
-         TUSyvT+hbuguIBypSIff3J5ydUodJduR6wySdnx53qIikbK4M8P99CdU+NCI/ZN0+3rv
-         m3BH6i0Xj6R8V58NmA5jw4B0um3ouJYweteP+5dTyeRmr5ugHDWeg2bNCgPfQe7FtW4u
-         k1y4/w4vyuTw2N/vfTQ3vYHv+39xykBiW4ifcje9EgeEVok957MqVV7SqkRKGGf0G4ST
-         1P1w==
-X-Gm-Message-State: APjAAAXaYAZ05sY6qTpAfbeF5AWXzs3d7mI9rU1w+JdSMnQRf122wG0V
-        3C8yt++WXbK21i4D8HOABOTSRFe5okGKVKHhahg=
-X-Google-Smtp-Source: APXvYqyC5pT/X+rRxviS8VZNVsGXhAyiX7ZAbRTGHKnakAkoHGVhnuTXjTsGiefkt7+yOFq6/flTLoNmET2ozo/a0/E=
-X-Received: by 2002:a05:6830:2141:: with SMTP id r1mr121170061otd.39.1578384678509;
- Tue, 07 Jan 2020 00:11:18 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=gj7J+/hEyeRK4BnoKtzoxr09YQuNhvHYUJt19aqFDpk=;
+        b=SOfzQe3DWz9bukgNmBs6/WebPNp0bsDZfDLTE/Gnm+FDi117FZBgmCWfcmxzHTL8Q8
+         lTRpehBq4M1rdgLPncC9vdRNtqQL9M/SD8tjwl+RK+gWxRCMNXVDFJ2YD7QfuhCO0qEh
+         XhE+mYJdfR1hjXZUDao5HKJSNm4XQX42SqUb/+tCQ+hLT4BQOYVLbGdZFTn3Z3mZ7Hxm
+         iK9vgvmW4mmzqxWNeHeK1RIwpHUj9FIAk+3i3u+4Z5FyrsMyYk7dcEq/hYQpmIySJEmH
+         1UdsfuvEpwxPgWW2F7wknnc9BnxTYDb5l36fPy38PMWomMVLkCAxTLfHIXy2jU09MRai
+         4z/A==
+X-Gm-Message-State: APjAAAWEe4DodRgTsvmg5569v1bM9NDjWDsBav3Cs5T5GHS6GFwzdHWI
+        E0V0YjXVe9RLyZ8Wb50vvuAA2HVd59LEeTxuHR3wlA==
+X-Google-Smtp-Source: APXvYqyUtDB0HoymsX65YpI76/mEkEWx0c+eKzafBa4vfpoPil7ziDgesHwZmWXrZmHNbTMZb+waD2Dwo254bAv1VmM=
+X-Received: by 2002:a6b:fb19:: with SMTP id h25mr72537201iog.40.1578387818317;
+ Tue, 07 Jan 2020 01:03:38 -0800 (PST)
 MIME-Version: 1.0
 References: <20191230133852.5890-1-geert+renesas@glider.be>
- <20191230133852.5890-3-geert+renesas@glider.be> <41e1c51e-bc17-779e-8c68-bf2e652871eb@gmail.com>
- <70d24070-4f6d-8fc8-1214-1bd800cb5246@gmail.com>
-In-Reply-To: <70d24070-4f6d-8fc8-1214-1bd800cb5246@gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 7 Jan 2020 09:11:07 +0100
-Message-ID: <CAMuHMdUQbRqyv1FK5JTbL-XL_YPZx8Sf9tQfU-eCozCNyDXYBA@mail.gmail.com>
-Subject: Re: [PATCH/RFC 2/2] gpio: of: Add DT overlay support for GPIO hogs
-To:     Frank Rowand <frowand.list@gmail.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+ <CAMpxmJVN3f5vWZoUpgsM0kocmBYSO=T0OeoG--5rQi9=jk2t2g@mail.gmail.com> <CAMuHMdVo7bvCKjn2-SD4j7EPwDPeTWn2Sh2e-Moj+RkqudZGuQ@mail.gmail.com>
+In-Reply-To: <CAMuHMdVo7bvCKjn2-SD4j7EPwDPeTWn2Sh2e-Moj+RkqudZGuQ@mail.gmail.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Tue, 7 Jan 2020 10:03:27 +0100
+Message-ID: <CAMRc=Mf6CpsMpqwXjzC7jF0rxchSop+q7GQ2xgooKVRuC52VPQ@mail.gmail.com>
+Subject: Re: [PATCH/RFC 0/2] gpio: of: Add DT overlay support for GPIO hogs
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Frank Rowand <frowand.list@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Peter Ujfalusi <peter.ujfalusi@ti.com>,
         Chris Brandt <chris.brandt@renesas.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+        linux-gpio <linux-gpio@vger.kernel.org>,
+        linux-devicetree <devicetree@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Frank,
-
-On Tue, Jan 7, 2020 at 8:10 AM Frank Rowand <frowand.list@gmail.com> wrote:
-> On 1/6/20 5:34 PM, Frank Rowand wrote:
-> > On 12/30/19 7:38 AM, Geert Uytterhoeven wrote:
-> >> As GPIO hogs are configured at GPIO controller initialization time,
-> >> adding/removing GPIO hogs in DT overlays does not work.
-> >>
-> >> Add support for GPIO hogs described in DT overlays by registering an OF
-> >> reconfiguration notifier, to handle the addition and removal of GPIO hog
-> >> subnodes to/from a GPIO controller device node.
-> >>
-> >> Note that when a GPIO hog device node is being removed, its "gpios"
-> >> properties is no longer available, so we have to keep track of which
-> >> node a hog belongs to, which is done by adding a pointer to the hog's
-> >> device node to struct gpio_desc.
-> >
-> > If I have read the patches and the existing overlay source correctly,
-> > then some observations:
-> >
-> > - A gpio hog node added in an overlay will be properly processed.
-> >
-> > - A gpio hog node already existing in the live devicetree, but with a
-> >   non-active status will be properly processed if the status of the
-> >   gpio hog node is changed to "ok" in the overlay.
-> >
-> > - If a gpio hog node already exists in the live devicetree with an
-> >   active status, then any updated or added properties in that gpio
-> >   hog node in the overlay will have no effect.
-> >
-> >   There is a scenario where the updated property would have an effect:
-> >   apply a second overlay that sets the status to inactive, then apply
-> >   a third overlay that sets the status back to active.  This is a
-> >   rather contrived example and I think it should be documented as
-> >   not supported and the result undefined.
+wt., 7 sty 2020 o 08:46 Geert Uytterhoeven <geert@linux-m68k.org> napisa=C5=
+=82(a):
 >
-> I went back and double checked the related code.  For gpio hog nodes
-> that are in a non-overlay, the status property is checked because
-> of_gpiochip_scan_gpios() uses for_each_available_child_of_node()
-> to search for gpio hog nodes, and for_each_available_child_of_node()
-> checks the status property.  But in the case of a gpio hog node
-> added by an overlay, of_gpio_notify() does not check the status
-> property in the gpio hog node.  The check for the status property
-> should be added to of_gpio_notify().
+> I'm happy with a (static) GPIO hog.
+>
+> BTW, what exactly do you mean with "mux framework"? Pinctrl/pinmux?
+>
 
-Right.  of_device_is_available() should be called to check this.
-Note that of_i2c_notify() and of_spi_notify() also lack such a check.
-of_platform_notify() calls of_platform_device_create_pdata(), which does
-have the check.
+No, I meant the multiplexer subsystem under drivers/mux. I thought we
+could call mux_control_select() from pm_runtime_get_*() or something
+similar. This is just an idea though, and I see Frank already did an
+in-depth analysis so never mind my comment.
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Bart
