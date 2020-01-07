@@ -2,215 +2,235 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 88D4C13222F
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jan 2020 10:23:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E3FCD13223A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jan 2020 10:26:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727630AbgAGJXO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Jan 2020 04:23:14 -0500
-Received: from esa3.mentor.iphmx.com ([68.232.137.180]:27723 "EHLO
-        esa3.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726327AbgAGJXO (ORCPT
+        id S1726565AbgAGJ0S (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Jan 2020 04:26:18 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:55478 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726327AbgAGJ0S (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Jan 2020 04:23:14 -0500
-IronPort-SDR: DTH7b/YHklWdtscrk0AXRcpodAl62dhBjd5ew3Nt9UD4m/et7ceA0/2JBnOg3T1e77uOri2CLb
- syd6zYuibimpQFHODEH6qeEttBauGfcQP5F817xlYk45ZUljge4iEvyXylDT6OCrSfk39oVvk4
- hhLmWmssy1GkTeffm+zZRLl6/K2CJhLq1QG9TL297K5w5sMTBZI2orxJzOZUpJHp1CoYO/YcRd
- Uq6ITq2LfippA2KqRng82ngUrNtLjUFkBVr9gqTww60FeLvyvG3Zh085qxxtYzAP5XcdXmWB/Z
- D9k=
-X-IronPort-AV: E=Sophos;i="5.69,405,1571731200"; 
-   d="scan'208";a="44610273"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa3.mentor.iphmx.com with ESMTP; 07 Jan 2020 01:23:13 -0800
-IronPort-SDR: tplytpQIcwlbIf6KWtUbVKFft0awdS/aTQTvzBBS5nfk2+yF+nNPt/gKw3Bp71JWpuXBjDgttE
- ou1DhX9GL7maq4Zt5tL3WB5lEug62wNjDQ0Hf5D9pPSCdaw1Y9rbyeUHtGVD2TjUdPc9PBiXKo
- UVxCnDd8dmEOwk2n/far46XKA96RK92eSVdaRRC80sjVtkIX25JWz5QUy8HK2/aVsudoVSRlCF
- kKLKCz+exnrzdiTz5LU5QWud31JtVK56w8RQptKsfehgn286N8ErL2Qu9zAFY69vhCdFJagpm0
- WSE=
-Subject: Re: [PATCH v3 4/7] dt-bindings: gpio: Add gpio-repeater bindings
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Rob Herring <robh@kernel.org>
-CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
-References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-5-geert+renesas@glider.be>
- <20191205210653.GA29969@bogus>
- <CAMuHMdXKPC7-XaezodwL1Dhvke6PUVSZEbvN-sm3Uh6T61qbhQ@mail.gmail.com>
- <CAL_JsqJLJPSYroX0mbBUpgWPV0oEvKEUNC-VZt4XFDF8tLuNFA@mail.gmail.com>
- <CAMuHMdXOJSZUDmn8aeTynN0TKCS5hJR+uMSinOmgbmA8YmsQjw@mail.gmail.com>
-From:   Harish Jenny K N <harish_kandiga@mentor.com>
-Message-ID: <bb5fb539-0d0d-6356-35c2-8ba47cb9fcbf@mentor.com>
-Date:   Tue, 7 Jan 2020 14:52:54 +0530
+        Tue, 7 Jan 2020 04:26:18 -0500
+Received: by mail-wm1-f67.google.com with SMTP id q9so18121791wmj.5
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Jan 2020 01:26:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bingham-xyz.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=v/rtF6ISjcdgqtOikIlxzqttA5C9gU1CMvRuZozFK/E=;
+        b=UhYIEJ/xN8VjnYaPAgMHddWY0y/+ptTikwDE89aG22GmtvGBCIdAO1ykcNo/gXrY9m
+         ohgg3ametVmSUdpZPqpNEypL0yPG4M08v265JRZeZ7CYLo8bVx1kfqwEHXQ6PKme5D7M
+         Ssh3NkHmP8gSSaAv/Bcy1KE1RIGh06mfRYlw5+CYjfIapmgO4NnWhsoRBtBbOBFAv3VP
+         FqwhhA6NIXSGEWW5ADn4uN6DONGm2GJxEUz6T83rMXwbrC8KY+sDPaSKqZBKzbKoVDq5
+         JGFScEeP8Ior8YDv4lUsqnsonx8oZYSZrluwkCxAra1NoefVZ9nMz8xkrt9Ar61ANlt4
+         2hvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=v/rtF6ISjcdgqtOikIlxzqttA5C9gU1CMvRuZozFK/E=;
+        b=Vb9Jvzy6eqH7TYKaKvULNcW4OIoRYxzu/479yUZv0Xpkj80Mx0a3EjKa7F2aUX0mgr
+         Hwtt+9eeETBMPmwx7dITCI1b2FoCCCzdSTjdPqNV+5NZLI41hAhnNtloO2btEIXGtUUO
+         iT6Oq/bqmJtYkg2SO+zmYwsDVi9OCU6VDIGnPjhGftOUX7+KN/9M77oUk64FragUADik
+         yyZ1QH0sD/RvYa8MGgM2Hy48mgsSBkxmSettqzjuD74F8mOo28jXw6FHnBeGDAacwPF0
+         OoUg3NpCjZMLwMVFL7UyJ88o1/b4SRMQCMGCe+QuEX8POL/DMeIjc5y8ZkGvS7gcKbco
+         weYQ==
+X-Gm-Message-State: APjAAAUxd07WbrLC9KhR77znmK269qLG67mP18ew1gJF0Zlnh94AlE04
+        48C4tVD/Fcp24RcBLcKlIgyY8A==
+X-Google-Smtp-Source: APXvYqwymYtKwJZ4Lhn0IV1mYpht8GFk4tDbE8osnAJ/vZs3Vr4S1yL3HlpFvNgQDtHM6AuXLjxiwQ==
+X-Received: by 2002:a7b:c946:: with SMTP id i6mr38484852wml.28.1578389174564;
+        Tue, 07 Jan 2020 01:26:14 -0800 (PST)
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net. [86.31.129.233])
+        by smtp.gmail.com with ESMTPSA id m7sm25806784wma.39.2020.01.07.01.26.13
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 07 Jan 2020 01:26:13 -0800 (PST)
+Subject: Re: [RFC PATCH 1/5] i2c: core: refactor scanning for a client
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-i2c@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Vladimir Zapolskiy <vz@mleia.com>
+References: <20191231161400.1688-1-wsa+renesas@sang-engineering.com>
+ <20191231161400.1688-2-wsa+renesas@sang-engineering.com>
+From:   Kieran Bingham <kieran@ksquared.org.uk>
+Openpgp: preference=signencrypt
+Autocrypt: addr=kieran@bingham.xyz; keydata=
+ mQINBFMtlTkBEADvhPl7usumM98GeJgEv0R+atr1fwfMtV2pkpqkTc7RrO+VKc++WDDXGqWG
+ wnNX0FzJ7/TEJoO5BZ+VyHqB1kMjxAckmCKQIrj2/UxkZ/R5lxKzvbve7XDvihnTgQrZv3bw
+ 52Tz81DMTFG+N0yeUOZWnq+mPoNCf9OnkKkPnyWVPdtYeLJmi2oE5ql7/ZEBU6m0BAzRKYny
+ k69pyQO1zzTb3U6GHGEUc+8CgGolqBQ63qp+MmaQYlA2ytOw8DMiBLJZipVUWS/WgvCvIWkH
+ lVoI4r8cBSgN4pgRJEKeVXVw+uY8xAbOU3r2y/MfyykzJn99oiaHeNer39EIVRdxKnazYw95
+ q/RE6dtbroSGcAfa7hIqfqya5nTGzONbxNPdUaWpj3vkej/o5aESXcRk98fH+XCKlS+a/tri
+ 7dfq3/Daoq0LR3wmHvEXN8p52NQlbMCnfEhE+haSLqLEgxTqCMpBt4cgwaW9CmKW8pR91oXF
+ kIDVY9e/VU9tw3IuoHVK5JXmZeaUe1wLmot2oiq2hmuRonQNGEYWqU6lnoDHTQArLfZPaT9Y
+ hQqf9C7faWF/VvEwXYYquWOX+waY8YPyH16hycmWoePM+oMpIG+04lpjEefSHDUvOciC0p1o
+ CfePg3iVEKB56V0j9nMAfTr/5oOvTP5EeHHvT6a5ZcGanJYmbQARAQABtCNLaWVyYW4gQmlu
+ Z2hhbSA8a2llcmFuQGJpbmdoYW0ueHl6PokCVQQTAQoAPwIbAwYLCQgHAwIGFQgCCQoLBBYC
+ AwECHgECF4AWIQSor+z47OVRZQR+u5Yjhj3Dgx2ysQUCXWTt6gUJDfm/sQAKCRAjhj3Dgx2y
+ sXNuEACOOFM9Kwq1U8a1hC57HCD37GAcwPXEe5+elO6ORGALzjjHmq9GJf3FbIuV9b0pzyGU
+ XsNiZKqxmFga9+FocN28REHzKp5eo9/5yFcDsZJYqgEwbqQ5Yw9ZONr6Gw+x+a4VeMVao9+w
+ BAwWK3nNqsfbW6Y+ewq1EIg0BajfHEaESGizyQ5DnOefTf+uGcmZ+XYASwUTkqXvwSVoRTS0
+ 4nXCOVG2LGhM9bc5zLXXsgPjH2xx8vLSqebXyIuam0d8X2/R6mFHkI9Oh0n5feEs0i80vMyB
+ eEYDeZGNnkrPkosWKYo6KeC/QmpAIqYytDuevhJMD/cK5ugWc9tfzpwkKb7mFm+7aUU7wUhl
+ 9OO/lhAAO5B8uVgv55ZxFS1wVrgi/0DnWZx7dDj+b0xubexMoRqdtNMBcw4ey9sQ2TMfLuLX
+ saq93eNA8tmKLRZrFKuGeSQBj0u/1KGKitDUxGEOjCkZZ5R7i0IhOmMXCCpSlRH6TYzHtkLC
+ qLMGnCSuHv0AUtXE37OlRPLf3cga8SqJJyLJ+2jwDCr1xT32cLiD19jYgfsnS0+gvl52gn9a
+ f4K76WtYlFf/RMGl4N1fLLcVLMt3QuYjPbVQVcMxXWS5cIQFpUSWo2d8Z7kWrHJ8jL4/ZxxZ
+ mPkwI2lLHEmvvlBO0tsnECtkApB/hc9/aQCa1gUWzLkCDQRTLZU5ARAAsqUr9WS+cuZ3aZP/
+ UV2vO6HZ6L8gHJQcMVV22uBRccuet4QEPQ9UgURac9lWjqUlCOmWU1HgISjM1oD3siakeqRB
+ THvRv3p7Za55DJOlYj+HhM7q4l2m7FlSKqlEABIuL02FvjtRMsobPhpTu1vjBGe0VMKafqkG
+ 0CbLKnFwkRxjVMZSqVMws1hlXEeTK27IJxzoxptfDHKj6w54J367tO0ofubxLA3RvebxZG7D
+ 1vWe8NTrNYItuMaXtq4tbbxGY3In2YE+8G9mAQsG1p+XSIm6UBO0lBZJ+NURy/aYmpma39Ji
+ 9hE1YZmcDhuRfBPXKSXJa8VavEAON8VbFAtqcXtS/8GbXLzSmUKf/fULHbiWWgspKoMhoWCD
+ ryOgABqoc8pu1+XL6uTsr2VksbgXun0IdadI1EVXzc9Hgtra7bZ7C8KzTOgp8u1MFHTyynlO
+ QnAosbxVcXSQ95KcEb3V1nMhmzJ5r85Nvlxs2ROqM+/e/Cf16DYPe4iaoHhxuPrAe0ul4/21
+ doJq4WVkknqIUpTZkVV/6rLfuFhjKszF5sUXIcOqOn3tYCz/eCxQsXXaq0DBw1IOsQpnq8yP
+ MXJ7mNV7ZcKd/4ocX3F6PLFMf2SBGoeive37xf3wdM1Nf4s342D778suPHJmf5+0BQLSv1R0
+ VhTpst0W0c7ge0ozFOcAEQEAAYkCHwQYAQIACQUCUy2VOQIbDAAKCRAjhj3Dgx2ysQmtEADF
+ KynuTGR5fIVFM0wkAvPBWkh9kMcQwK+PjDR1p7JqNXnlIraBOHlRfxXdu6uYabQ4pyAAPiHt
+ fCoCzIvsebXsArbdl7IGBc7gBw/pBXAo7Bt24JfbGCrKkpzu6y2iKT/G8oZP37TlkK6D86nm
+ YBY/UqbMbNe28CUeIhTyeVDx28gbDJc1rndOL2cz4BIlzg3Di47woMWnEuaCQ536KM61LnY7
+ p/pJ9RcvLrOIm2ESy5M5gHouH7iXNzn5snKFhfi1zbTT/UrtEuY1VjCtiTcCXzXbzy2oy/zw
+ ERaDwkRzhcVrFdsttMYDyaNY3GQfJSBq4Q9rADG2nn/87e3g7dmPecVYS5YFxocCk77Zg7xx
+ GxSDtXgJEVmdGTGYCrM+SrW8ywj03kfwnURqOnxbsbHaSUmJtVovA+ZzdpHV1e7S91AvxbXt
+ LrxWADsl+pzz9rJ25+Hh7f/HeflGaUDYbOycQVzcyKekKkuIlibpv+S0nPiitxlV91agRV0i
+ cpG0pX8PrmjQ0YV8pvfUFyrfHtHzTMA4ktMNzF5FhNkE1WNwXZHD+P6nmPEZiOi45tqI7Ro6
+ mX/IKTr6GLCzg0OVP6NSsgSJeR6Hd2GvSI2Vw1jfnZI4tCNU2BmODPBkGBRLhNR+L5eRqOMm
+ QglrIkyNWSZm4Hhw98VxYDwOwmYhoXmAFg==
+Message-ID: <bf17ebe6-550e-dcd2-c5c4-ff669519ef79@bingham.xyz>
+Date:   Tue, 7 Jan 2020 09:26:12 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdXOJSZUDmn8aeTynN0TKCS5hJR+uMSinOmgbmA8YmsQjw@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [137.202.0.90]
-X-ClientProxiedBy: svr-ies-mbx-06.mgc.mentorg.com (139.181.222.6) To
- svr-ies-mbx-01.mgc.mentorg.com (139.181.222.1)
+In-Reply-To: <20191231161400.1688-2-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Wolfram,
 
-On 06/01/20 1:42 PM, Geert Uytterhoeven wrote:
-> Hi Rob,
->
-> On Fri, Dec 6, 2019 at 4:04 PM Rob Herring <robh@kernel.org> wrote:
->> On Fri, Dec 6, 2019 at 3:17 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->>> On Thu, Dec 5, 2019 at 10:06 PM Rob Herring <robh@kernel.org> wrote:
->>>> On Wed, Nov 27, 2019 at 09:42:50AM +0100, Geert Uytterhoeven wrote:
->>>>> Add Device Tree bindings for a GPIO repeater, with optional translation
->>>>> of physical signal properties.  This is useful for describing explicitly
->>>>> the presence of e.g. an inverter on a GPIO line, and was inspired by the
->>>>> non-YAML gpio-inverter bindings by Harish Jenny K N
->>>>> <harish_kandiga@mentor.com>[1].
->>>>>
->>>>> Note that this is different from a GPIO Nexus Node[2], which cannot do
->>>>> physical signal property translation.
->>>> It can't? Why not? The point of the passthru mask is to not do
->>>> translation of flags, but without it you are always doing translation of
->>>> cells.
->>> Thanks for pushing me deeper into nexuses!
->>> You're right, you can map from one type to another.
->>> However, you cannot handle the "double inversion" of an ACTIVE_LOW
->>> signal with a physical inverter added:
->>>
->>>         nexus: led-nexus {
->>>                 #gpio-cells = <2>;
->>>                 gpio-map = <0 0 &gpio2 19 GPIO_ACTIVE_LOW>,     // inverted
->>>                            <1 0 &gpio2 20 GPIO_ACTIVE_HIGH>,    // noninverted
->>>                            <2 0 &gpio2 21 GPIO_ACTIVE_LOW>;     // inverted
->>>                 gpio-map-mask = <3 0>;
->>>                 // default gpio-map-pass-thru = <0 0>;
->>>         };
->>>
->>>         leds {
->>>                 compatible = "gpio-leds";
->>>                 led6-inverted {
->>>                         gpios = <&nexus 0 GPIO_ACTIVE_HIGH>;
->>>                 };
->>>                 led7-noninverted {
->>>                         gpios = <&nexus 1 GPIO_ACTIVE_HIGH>;
->>>                 };
->>>                 led8-double-inverted {  // FAILS: still inverted
->>>                         gpios = <&nexus 2 GPIO_ACTIVE_LOW>;
->>>                 };
->>>         };
->>>
->>> It "works" if the last entry in gpio-map is changed to GPIO_ACTIVE_HIGH.
->>> Still, the consumer would see the final translated polarity, and not the
->>> actual one it needs to program the consumer for.
->> I'm not really following. Why isn't a double inversion just the same
->> as no inversion?
-> Because the nexus can only mask and/or substitute bits.
-> It cannot do a XOR operation on the GPIO flags.
->
->>>>> While an inverter can be described implicitly by exchanging the
->>>>> GPIO_ACTIVE_HIGH and GPIO_ACTIVE_LOW flags, this has its limitations.
->>>>> Each GPIO line has only a single GPIO_ACTIVE_* flag, but applies to both
->>>>> th provider and consumer sides:
->>>>>   1. The GPIO provider (controller) looks at the flags to know the
->>>>>      polarity, so it can translate between logical (active/not active)
->>>>>      and physical (high/low) signal levels.
->>>>>   2. While the signal polarity is usually fixed on the GPIO consumer
->>>>>      side (e.g. an LED is tied to either the supply voltage or GND),
->>>>>      it may be configurable on some devices, and both sides need to
->>>>>      agree.  Hence the GPIO_ACTIVE_* flag as seen by the consumer must
->>>>>      match the actual polarity.
->>>>>      There exists a similar issue with interrupt flags, where both the
->>>>>      interrupt controller and the device generating the interrupt need
->>>>>      to agree, which breaks in the presence of a physical inverter not
->>>>>      described in DT (see e.g. [3]).
->>>> Adding an inverted flag as I've suggested would also solve this issue.
->>> As per your suggestion in "Re: [PATCH V4 2/2] gpio: inverter: document
->>> the inverter bindings"?
->>> https://lore.kernel.org/linux-devicetree/CAL_JsqLp___2O-naU+2PPQy0QmJX6+aN3hByz-OB9+qFvWgN9Q@mail.gmail.com/
->>>
->>> Oh, now I understand. I was misguided by Harish' interpretation
->>> https://lore.kernel.org/linux-devicetree/dde73334-a26d-b53f-6b97-4101c1cdc185@mentor.com/
->>> which assumed an "inverted" property, e.g.
->>>
->>>     inverted = /bits/ 8 <0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0>;
->>>
->>> But you actually meant a new GPIO_INVERTED flag, to be ORed into the 2nd
->>> cell of a GPIO specifier? I.e. add to include/dt-bindings/gpio/gpio.h"
->>>
->>>     /* Bit 6 expresses the presence of a physical inverter */
->>>     #define GPIO_INVERTED 64
->> Exactly.
-> OK, makes sense.
+On 31/12/2019 16:13, Wolfram Sang wrote:
+> There is a pattern to check for existence of a client which is copied in
+> i2c_detect_address() and i2c_new_scanned_device():
+> 
+> 1) check if address is valid
+> 2) check if address is already registered
+> 3) send a message and check the reponse
+
+s/reponse/response/
+   (My email client highlights spelling issues, sorry :-D)
 
 
-The reason I went for "inverted" property is because, we can specify this for gpios at provider side.
+> Because this pattern will be needed a third time soon, refactor it into
+> its own function.
 
-The usecase needed to define the polarity which did not have kernel space consumer driver.
+This looks reasonable to me, I see Laurent has a concern over the use of
+a WARN to present a backtrace, but I think in this instance it will be
+useful as it will facilitate identifying what code path provided the
+incorrect address.
 
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-I am not sure how do we achieve this using GPIO_INVERTED flag. We need some sort of node/gpio-hog to specify these
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+>  drivers/i2c/i2c-core-base.c | 57 ++++++++++++++++---------------------
+>  1 file changed, 25 insertions(+), 32 deletions(-)
+> 
+> diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
+> index a1eb28a3cc54..20a726dc78db 100644
+> --- a/drivers/i2c/i2c-core-base.c
+> +++ b/drivers/i2c/i2c-core-base.c
+> @@ -2108,29 +2108,39 @@ static int i2c_default_probe(struct i2c_adapter *adap, unsigned short addr)
+>  	return err >= 0;
+>  }
+>  
+> -static int i2c_detect_address(struct i2c_client *temp_client,
+> -			      struct i2c_driver *driver)
+> +static int i2c_scan_for_client(struct i2c_adapter *adap, unsigned short addr,
+> +			    int (*probe)(struct i2c_adapter *adap, unsigned short addr))
+>  {
+> -	struct i2c_board_info info;
+> -	struct i2c_adapter *adapter = temp_client->adapter;
+> -	int addr = temp_client->addr;
+>  	int err;
+>  
+>  	/* Make sure the address is valid */
+>  	err = i2c_check_7bit_addr_validity_strict(addr);
+> -	if (err) {
+> -		dev_warn(&adapter->dev, "Invalid probe address 0x%02x\n",
+> -			 addr);
+> +	if (WARN(err, "Invalid probe address 0x%02x\n", addr))
+>  		return err;
+> -	}
+>  
+>  	/* Skip if already in use (7 bit, no need to encode flags) */
+> -	if (i2c_check_addr_busy(adapter, addr))
+> -		return 0;
+> +	if (i2c_check_addr_busy(adap, addr))
+> +		return -EBUSY;
+>  
+>  	/* Make sure there is something at this address */
+> -	if (!i2c_default_probe(adapter, addr))
+> -		return 0;
+> +	if (!probe(adap, addr))
+> +		return -ENODEV;
+> +
+> +	return 0;
+> +}
+> +
+> +static int i2c_detect_address(struct i2c_client *temp_client,
+> +			      struct i2c_driver *driver)
+> +{
+> +	struct i2c_board_info info;
+> +	struct i2c_adapter *adapter = temp_client->adapter;
+> +	int addr = temp_client->addr;
+> +	int err;
+> +
+> +	/* Only report broken addresses, busy addresses are no error */
+> +	err = i2c_scan_for_client(adapter, addr, i2c_default_probe);
+> +	if (err < 0)
+> +		return err == -EINVAL ? -EINVAL : 0;
+>  
+>  	/* Finally call the custom detection function */
+>  	memset(&info, 0, sizeof(struct i2c_board_info));
+> @@ -2232,26 +2242,9 @@ i2c_new_scanned_device(struct i2c_adapter *adap,
+>  	if (!probe)
+>  		probe = i2c_default_probe;
+>  
+> -	for (i = 0; addr_list[i] != I2C_CLIENT_END; i++) {
+> -		/* Check address validity */
+> -		if (i2c_check_7bit_addr_validity_strict(addr_list[i]) < 0) {
+> -			dev_warn(&adap->dev, "Invalid 7-bit address 0x%02x\n",
+> -				 addr_list[i]);
+> -			continue;
+> -		}
+> -
+> -		/* Check address availability (7 bit, no need to encode flags) */
+> -		if (i2c_check_addr_busy(adap, addr_list[i])) {
+> -			dev_dbg(&adap->dev,
+> -				"Address 0x%02x already in use, not probing\n",
+> -				addr_list[i]);
+> -			continue;
+> -		}
+> -
+> -		/* Test address responsiveness */
+> -		if (probe(adap, addr_list[i]))
+> +	for (i = 0; addr_list[i] != I2C_CLIENT_END; i++)
+> +		if (i2c_scan_for_client(adap, addr_list[i], probe) == 0)
+>  			break;
+> -	}
+>  
+>  	if (addr_list[i] == I2C_CLIENT_END) {
+>  		dev_dbg(&adap->dev, "Probing failed, no device found\n");
+> 
 
-type of properties? Otherwise gpio-pin will be held by kernel or the module using the hog property and the user space application will not be able to access pin.
-
-
-or please let me know if I am missing something.
-
-
->
->>> We need to be very careful in defining to which side the GPIO_ACTIVE_*
->>> applies to (consumer?), and which side the GPIO_INVERTED flag (provider?).
->>> Still, this doesn't help if e.g. a FET is used instead of a push-pull
->>> inverter, as the former needs translation of other flags (which the
->>> nexus can do, the caveats above still applies, though).
->> Yes. Historically the cells values are meaningful to the provider and
->> opaque to the consumer. Standardized cell values changes that
->> somewhat. I think we want the active flag to be from the provider's
->> prospective because the provider always needs to know. The consumer
->> often doesn't need to know. That also means things work without the
->> GPIO_INVERTED flag if the consumer doesn't care which is what we have
->> today already and we can't go back in time.
->>
-
-Things will work without GPIO_INVERTED flag for consumers which can specify GPIO_ACTIVE_* flags.
-
-
-
->>> Same for adding IRQ_TYPE_INVERTED.
->> I suppose so, yes.
->>
->>> Related issue: how to handle physical inverters on SPI chip select lines,
->>> if the SPI slave can be configured for both polarities?
->> Good question. Perhaps in a different way because we have to handle
->> both h/w controlled and gpio chip selects.
->>
->> However, how would one configure the polarity in the device in the
->> first place? You have to assert the CS first to give a command to
->> reprogram it.
-> That's indeed true for a simple SPI slave.
-> But if it is a smarter device (e.g. a generic micro controller), it may use the
-> system's DTB to configure itself.
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
