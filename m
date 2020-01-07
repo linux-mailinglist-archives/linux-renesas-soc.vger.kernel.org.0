@@ -2,52 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 946511322AB
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jan 2020 10:40:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 74ECB1322BB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jan 2020 10:42:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727211AbgAGJkk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Jan 2020 04:40:40 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:42605 "EHLO
+        id S1726485AbgAGJmR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Jan 2020 04:42:17 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:39702 "EHLO
         mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727427AbgAGJkj (ORCPT
+        with ESMTP id S1727177AbgAGJmR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Jan 2020 04:40:39 -0500
-Received: by mail-wr1-f65.google.com with SMTP id q6so53024877wro.9
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Jan 2020 01:40:38 -0800 (PST)
+        Tue, 7 Jan 2020 04:42:17 -0500
+Received: by mail-wr1-f65.google.com with SMTP id y11so53114327wrt.6
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Jan 2020 01:42:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bingham-xyz.20150623.gappssmtp.com; s=20150623;
         h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=tM6ITMXFKwvSMK5d/Q2P3omIxnLnErtLVVmZWiZShJk=;
-        b=t/rjqJ4XQPg9AdpPRZAkiETuSlG5sjlWEsqXmAy7qliN2dXjK3GEsqRQEVkUBkycx0
-         iKsCMUA0sKLt62ACQjQJsuq2kB6FM1qyAre90/ExIMxGPlydARBLQcOClwwEotvhsEkE
-         z9umU1YQ9PN0Bn0b/2JG6znTr8D+EwI4nvtGczV/BWnH+/1cm+vdPFRh+8asFz1WhPK0
-         DCzAGulFRF9/pSzO2UnfisZghi5Y7uQ/vO63LOPRqVNjKNo5lVWnV58BrXlQNGBT5ndN
-         V7tRzYRc9zABzcVjZ+FNxx2KabOfFtMTltE6VP0skYBlV7jryocJnLkoav7agumMtxJh
-         C6Ng==
+        bh=vSAjKVl0ui0bRIZJfR4tWOo/0bR753xuMEY20h0km+Q=;
+        b=SRD6R1ZvqKlhjrRh6tEW7z5P4bDiGu/QP8qPHsAdBd+cLBICqaC4bTIQN3/AfnJzaa
+         +IXFGVK+L4WLr7zuGtZrbIZHYk7toSEUFe4YByELlMEtQ9/vqXE1+Abe3YiJxefuYtJp
+         M0XmPKoV8pU4EoYbukwXIsEJbYPe6dVh2o2Qat2K5GK4wS6oSztmV/ZnfV3k9D9NpGYd
+         5Y2zMNY+kWikP1g7jsGOwyXX8QKrBXAo0wG/yRJMxTp+vQhzI+ls7BMaSjuTlAF5aPV2
+         hvCefGAklZFvSaGFtbUQB9JxP7yBKa5BWTJcsEz5lZG094kw3YaxpG+iAVLp8YYWNuW+
+         atrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=tM6ITMXFKwvSMK5d/Q2P3omIxnLnErtLVVmZWiZShJk=;
-        b=uiiQo1IrFPY/gWCKl4jLy53H/gMJnltVTHJi9b3dBk4G3ohA75Tw8A86eD22jF/L8Q
-         QLspjvpJRyrtAlyy8/pHah8aJDnTxPoV/7UgVFm2rxi39eRkBeiFbQx3rgIOzB9Eisc5
-         G4RsiEQ8mzXIbV6MXTH/LjhZc1RcjJdfCqNWD+dTcO7s3c17RPsCFS7zCRcoXeXmZ6AA
-         iRjmoSDnYgbcTltovXS+yBU1fL+GEIXfJpC/hRRny5eWvGw/EJZNNLiUIiB0sKTAX+Re
-         tTtJJ3609lSRYJIGVlKDKZP8RxeOIziyNClYgA7KqyEaxLdE8NYU6iEjiRCS+hkU+Ify
-         Mo4Q==
-X-Gm-Message-State: APjAAAWQ1SotuIWxDfmBIH805NpghvQrc9ll3lqf5mEk+sRq27lhn83w
-        yDWIQjTOij68uKJFB6BB53Pm+w==
-X-Google-Smtp-Source: APXvYqyth0uv1pRL4lL7yTwso78bAXGU7uj1eMP1E1mHeSMqIn+GhG4NDXdkh83LYYs8iR8z26Yy7Q==
-X-Received: by 2002:adf:b648:: with SMTP id i8mr109960217wre.91.1578390037440;
-        Tue, 07 Jan 2020 01:40:37 -0800 (PST)
+        bh=vSAjKVl0ui0bRIZJfR4tWOo/0bR753xuMEY20h0km+Q=;
+        b=PWBUfTk5qb6cNELEar3q/afmPztXmwg881TKqViKN2JI8fPZhuwOZCADnXtxjdnsZ3
+         ILfssnbQus7Wz6oiw5ngQhckus/z1aDLyZ90VN4kAfv2nS903Q3Abh8Ct3ZbyURpBNSg
+         YTyhi9maxC6+qpAyS1l5D/3E3UrtHN/gQo4lgxxz4CgzC47+TTyYcTtMBZocLZWkiN8N
+         x7y7fH1TFIRAngAFqeo2fqlKiGTlU55SBFIMhoD0OHn151XfrEt7zQYTf6PpgmMQNDpp
+         aCPHoiGpt0IcMmjt46DZ68bNZNO9uhIBZJYVgHTKjzkwXqfkWGW9LFzYAhEyTV2vJD3+
+         QsfA==
+X-Gm-Message-State: APjAAAVLMKM8ZMWyTKiI4HrTWVbWAoXivdXqqu7NbQYzR9it+R3mcBak
+        HpTyCLIIm/xNLXV6nRiPdwv/CA==
+X-Google-Smtp-Source: APXvYqyLvh5kWmU1R21fi39UY2v9hjUQEIBtO791Hzvk/qV+O8bYX1pIRuFjlTlJBPNaHDB2C+13sQ==
+X-Received: by 2002:adf:dc8d:: with SMTP id r13mr37473014wrj.357.1578390134496;
+        Tue, 07 Jan 2020 01:42:14 -0800 (PST)
 Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net. [86.31.129.233])
-        by smtp.gmail.com with ESMTPSA id v62sm26239561wmg.3.2020.01.07.01.40.36
+        by smtp.gmail.com with ESMTPSA id h17sm79272088wrs.18.2020.01.07.01.42.13
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 07 Jan 2020 01:40:36 -0800 (PST)
-Subject: Re: [RFC PATCH 3/5] i2c: core: add function to request an alias
+        Tue, 07 Jan 2020 01:42:13 -0800 (PST)
+Subject: Re: [RFC PATCH 2/5] i2c: core: add new variant to check for a client
 To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
         linux-i2c@vger.kernel.org
 Cc:     linux-renesas-soc@vger.kernel.org,
@@ -56,7 +56,7 @@ Cc:     linux-renesas-soc@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Vladimir Zapolskiy <vz@mleia.com>
 References: <20191231161400.1688-1-wsa+renesas@sang-engineering.com>
- <20191231161400.1688-4-wsa+renesas@sang-engineering.com>
+ <20191231161400.1688-3-wsa+renesas@sang-engineering.com>
 From:   Kieran Bingham <kieran@ksquared.org.uk>
 Openpgp: preference=signencrypt
 Autocrypt: addr=kieran@bingham.xyz; keydata=
@@ -102,15 +102,15 @@ Autocrypt: addr=kieran@bingham.xyz; keydata=
  cpG0pX8PrmjQ0YV8pvfUFyrfHtHzTMA4ktMNzF5FhNkE1WNwXZHD+P6nmPEZiOi45tqI7Ro6
  mX/IKTr6GLCzg0OVP6NSsgSJeR6Hd2GvSI2Vw1jfnZI4tCNU2BmODPBkGBRLhNR+L5eRqOMm
  QglrIkyNWSZm4Hhw98VxYDwOwmYhoXmAFg==
-Message-ID: <6760a242-ff0f-c981-68d4-7b9665124e21@bingham.xyz>
-Date:   Tue, 7 Jan 2020 09:40:35 +0000
+Message-ID: <790fd412-f540-8a02-2c34-853cd110f47a@bingham.xyz>
+Date:   Tue, 7 Jan 2020 09:42:13 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191231161400.1688-4-wsa+renesas@sang-engineering.com>
+In-Reply-To: <20191231161400.1688-3-wsa+renesas@sang-engineering.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
@@ -119,97 +119,50 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 Hi Wolfram,
 
 On 31/12/2019 16:13, Wolfram Sang wrote:
-> Some devices are able to reprogram their I2C address at runtime. This
-> can prevent address collisions when one is able to activate and
-> reprogram these devices one by one. For that to work, they need to be
-> assigned an unused address. This new functions allows drivers to request
-> for such an address. It assumes all non-occupied addresses are free. It
-> will then send a message to such a free address to make sure there is
-> really nothing listening there.
+> For the new 'alias' feature, we need to scan for devices while holding
+> the lock. We focus on read_byte transactions for now to keep things
+> simple. Requesting an alias will be rare, so there is not much overhead.
 > 
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > ---
->  drivers/i2c/i2c-core-base.c | 22 ++++++++++++++++++++++
->  include/linux/i2c.h         |  2 ++
->  2 files changed, 24 insertions(+)
+>  drivers/i2c/i2c-core-base.c | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
 > 
 > diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-> index 51bd953ddfb2..5a010e7e698f 100644
+> index 20a726dc78db..51bd953ddfb2 100644
 > --- a/drivers/i2c/i2c-core-base.c
 > +++ b/drivers/i2c/i2c-core-base.c
-> @@ -2241,6 +2241,28 @@ static int i2c_detect(struct i2c_adapter *adapter, struct i2c_driver *driver)
->  	return err;
+> @@ -2108,6 +2108,23 @@ static int i2c_default_probe(struct i2c_adapter *adap, unsigned short addr)
+>  	return err >= 0;
 >  }
 >  
-> +struct i2c_client *i2c_new_alias_device(struct i2c_adapter *adap)
+> +static int i2c_unlocked_read_byte_probe(struct i2c_adapter *adap, unsigned short addr)
 > +{
-> +	struct i2c_client *alias = ERR_PTR(-EBUSY);
-> +	int ret;
-> +	u16 addr;
+> +	union i2c_smbus_data dummy;
+> +	int err;
 > +
-> +	i2c_lock_bus(adap, I2C_LOCK_SEGMENT);
-> +
-> +	for (addr = 0x08; addr < 0x78; addr++) {
-> +		ret = i2c_scan_for_client(adap, addr, i2c_unlocked_read_byte_probe);
+> +	if (i2c_check_functionality(adap, I2C_FUNC_SMBUS_READ_BYTE)) {
+> +		err = __i2c_smbus_xfer(adap, addr, 0, I2C_SMBUS_READ, 0,
+> +				     I2C_SMBUS_BYTE, &dummy);
+> +	} else {
+> +		dev_warn(&adap->dev, "No suitable probing method supported for address 0x%02X\n",
 
-Are all 'known' devices on a bus (all the ones declared in DT etc)
-marked as 'busy' or taken by the time this call is made? (edit, I don't
-think they are)
+Laurent has already pointed out the format issue here, and that this
+function might be squashed into 3/5 anyway,
 
-Perhaps this is a constructed corner case, but I'm just trying to follow
-it through:
+But otherwise it looks good to me, so if you keep it separate:
 
-I.e. if say the adv748x had in DT defined aliases at 0x08, 0x09,
-0x0A..., but not yet probed (thus no device is listening at these
-addresses) ... and then a max9286 came along and asked for 'any' spare
-address with this call, would it be given 0x08 first?
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-If so (which I think is what the case would be currently, until I'm
-pointed otherwise) do we need to mark all addresses on the bus as
-reserved against this some how?
-
-I'm not sure how that would occur, as it would be up to the adv748x in
-that instance to parse it's extended register list to identify the extra
-aliases it will create, *and* that would only happen if the device
-driver was enabled in the first place.
-
-So this seems a bit 'racy' in a different context; not the i2c_lock_bus,
-but rather the probe order of devices on the bus could affect the
-allocations.
-
-Perhaps that is unavoidable though...
-
---
-Kieran
-
-
-> +		if (ret == -ENODEV) {
-> +			alias = i2c_new_dummy_device(adap, addr);
-> +			dev_dbg(&adap->dev, "Found alias: 0x%x\n", addr);
-> +			break;
-> +		}
+> +			 addr);
+> +		err = -EOPNOTSUPP;
 > +	}
 > +
-> +	i2c_unlock_bus(adap, I2C_LOCK_SEGMENT);
-> +	return alias;
+> +	return err >= 0;
 > +}
-> +EXPORT_SYMBOL_GPL(i2c_new_alias_device);
 > +
->  int i2c_probe_func_quick_read(struct i2c_adapter *adap, unsigned short addr)
+>  static int i2c_scan_for_client(struct i2c_adapter *adap, unsigned short addr,
+>  			    int (*probe)(struct i2c_adapter *adap, unsigned short addr))
 >  {
->  	return i2c_smbus_xfer(adap, addr, 0, I2C_SMBUS_READ, 0,
-> diff --git a/include/linux/i2c.h b/include/linux/i2c.h
-> index f834687989f7..583ca2aec022 100644
-> --- a/include/linux/i2c.h
-> +++ b/include/linux/i2c.h
-> @@ -441,6 +441,8 @@ i2c_new_device(struct i2c_adapter *adap, struct i2c_board_info const *info);
->  struct i2c_client *
->  i2c_new_client_device(struct i2c_adapter *adap, struct i2c_board_info const *info);
->  
-> +struct i2c_client *i2c_new_alias_device(struct i2c_adapter *adap);
-> +
->  /* If you don't know the exact address of an I2C device, use this variant
->   * instead, which can probe for device presence in a list of possible
->   * addresses. The "probe" callback function is optional. If it is provided,
 > 
 
