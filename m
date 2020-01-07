@@ -2,47 +2,46 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E06F7132583
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jan 2020 13:00:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 290581326AA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  7 Jan 2020 13:47:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728001AbgAGMAV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Jan 2020 07:00:21 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:36657 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726690AbgAGMAV (ORCPT
+        id S1727559AbgAGMq7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 7 Jan 2020 07:46:59 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:36152 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726937AbgAGMq7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Jan 2020 07:00:21 -0500
-Received: by mail-ot1-f68.google.com with SMTP id 19so63633801otz.3;
-        Tue, 07 Jan 2020 04:00:20 -0800 (PST)
+        Tue, 7 Jan 2020 07:46:59 -0500
+Received: by mail-oi1-f196.google.com with SMTP id c16so17621329oic.3;
+        Tue, 07 Jan 2020 04:46:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=S1wiXwjq5bNvmzPILmmYBOTjMYtnHu6yYzhrvwBxyhQ=;
-        b=rs5Js3e5x++qfkb+qt75GDucwSqZkT4UFz8GSP/m+CBzV1olZCagVBHcy62xZxK9z4
-         IK6AUojLGL1fHluaB5AmwEizB11NZK2q0PcFZHHeXPHloN4yVmWbzemCCBrIgTkwNJf8
-         3S3L3QQFDqEpR6M1+GlKmdlJD2BYJdbIECorqDHwfC/lV+eCGyc6wq2aNdApYQYEL9t3
-         aiA3d7PJb1vgmCIA5BmQxCSJNM9M5qU9jZi0e0BL3b9BOuZ1+WYUvb+C8s4G2aFOBdEU
-         3E9hqC9MZeZOP4z9Q/fHYaeNYN7wpUJXh5jlGnjd3l5GaZ5Ndj0TDUyZKixA3TJppnqC
-         TZUQ==
-X-Gm-Message-State: APjAAAWclD+ivXkAKzdQyyDQBYJti5XtsJwRzVKVI5uPZw6fn9NiehiN
-        FItvQcBpcU7UuhluuwB/2zssle4Y8G+CRP3XY4s=
-X-Google-Smtp-Source: APXvYqzT7NKt5AuNhkaTac1R66p2sfv4kCORKqYWKCFnDXfFGTTAXq67T4+HRh5ZfjBhcY6kAGr9/0+4yeC44TRkpqE=
-X-Received: by 2002:a9d:dc1:: with SMTP id 59mr22257984ots.250.1578398420315;
- Tue, 07 Jan 2020 04:00:20 -0800 (PST)
+        bh=vf/wP9IVDV4Hl6f1lzWr98u8m3GuJl26OsoEjxDSC+g=;
+        b=L+yd60keN0Dp0YBA/Xbp2waebe7tjW5j+rG13qYzzdjZ6vC4HsW028Ld+YzNryygv4
+         tAEAgoH4N3CsxX/Z7kDGpdE9E7z1wczBFmJ0Ypq+rJaPLaELbv6IyBUm3dJtXOhyWd4q
+         +fw0+Yk93EO5EaprOpd+N+x6rdooKAjtsGr4clj21K4gSvEwb/mKRb4zaLfKykZneO1i
+         CU90u/Dwm5L3mrMwQKExQ+kzFXvGj3LzUiG0G3OLZVIDQXhFggoVvTwb3ZP6yJdFlFfi
+         Yw9W8LjGXJgKLzmAEgtK8CAYLUMEQKKFUoB6/zLQn5RRLbSWJClC/7TyQt0WONbi/3j+
+         DwIg==
+X-Gm-Message-State: APjAAAX73uZygXFSzo80jcFoPUWEGR+RQV0+2PHHKtYvzRqcpqGX8CnS
+        uu9LbMc06KL+cveEsT1AXO2HTjVNvVXjw00PGEA=
+X-Google-Smtp-Source: APXvYqxA0Ir0h8IUX7YSNxseIUU1PobEpQXNKjYgoTrMgiMQwt3o9H2jAlIFDg4si3GQJ6t0pjmhx39BhXHXf9WoKjk=
+X-Received: by 2002:aca:1a06:: with SMTP id a6mr6541881oia.148.1578401218279;
+ Tue, 07 Jan 2020 04:46:58 -0800 (PST)
 MIME-Version: 1.0
 References: <20200102141246.370-1-geert+renesas@glider.be> <20200102141246.370-4-geert+renesas@glider.be>
  <20200105091303.GB29102@ravnborg.org> <CAMuHMdUL3tCZzCDyJkmqYT5n+-t+Z-Ubo4=+NJpHpZU1w5C07g@mail.gmail.com>
- <20200106170808.GA21745@ravnborg.org>
-In-Reply-To: <20200106170808.GA21745@ravnborg.org>
+ <893b059c-fd7d-3c21-384c-da33af595ffb@lechnology.com>
+In-Reply-To: <893b059c-fd7d-3c21-384c-da33af595ffb@lechnology.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 7 Jan 2020 13:00:08 +0100
-Message-ID: <CAMuHMdXa4zRipzxpKi=YnP672guW5YOvUJ49t6bEX9xp7DyuUg@mail.gmail.com>
+Date:   Tue, 7 Jan 2020 13:46:47 +0100
+Message-ID: <CAMuHMdXxwSR6D_tzg9iqwwLYEJZg6DEonvvvC_TigtG0PAvn+w@mail.gmail.com>
 Subject: Re: [PATCH 3/3] drm: tiny: st7735r: Add support for Okaya RH128128T
-To:     Sam Ravnborg <sam@ravnborg.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+To:     David Lechner <david@lechnology.com>
+Cc:     Sam Ravnborg <sam@ravnborg.org>,
         =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>,
-        David Lechner <david@lechnology.com>,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -60,97 +59,93 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sam,
+Hi David,
 
-On Mon, Jan 6, 2020 at 6:08 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> > > On Thu, Jan 02, 2020 at 03:12:46PM +0100, Geert Uytterhoeven wrote:
-> > > > Add support for the Okaya RH128128T display to the st7735r driver.
-> > > >
-> > > > The RH128128T is a 128x128 1.44" TFT display driven by a Sitronix
-> > > > ST7715R TFT Controller/Driver.  The latter is very similar to the
-> > > > ST7735R, and can be handled by the existing st7735r driver.
-> > >
-> > > As a general comment - it would have eased review if this was split
-> > > in two patches.
-> > > One patch to introduce the infrastructure to deal with another set of
-> > > controller/display and one patch introducing the new combination.
-> >
-> > I had thought about that, but didn't pursue as the new combination is
-> > just 7 added lines.  If you prefer a split, I can do that.
->
-> The good thing with a split is that is shows how little is really
-> required to support a new controller/panel pair.
-> So it would be good if you did so.
+On Mon, Jan 6, 2020 at 6:12 PM David Lechner <david@lechnology.com> wrote:
+> On 1/6/20 3:28 AM, Geert Uytterhoeven wrote:
+> > On Sun, Jan 5, 2020 at 10:13 AM Sam Ravnborg <sam@ravnborg.org> wrote:
+> >> On Thu, Jan 02, 2020 at 03:12:46PM +0100, Geert Uytterhoeven wrote:
+> >>> Add support for the Okaya RH128128T display to the st7735r driver.
+> >>>
+> >>> The RH128128T is a 128x128 1.44" TFT display driven by a Sitronix
+> >>> ST7715R TFT Controller/Driver.  The latter is very similar to the
+> >>> ST7735R, and can be handled by the existing st7735r driver.
 
-OK.
+> >>> --- a/drivers/gpu/drm/tiny/st7735r.c
+> >>> +++ b/drivers/gpu/drm/tiny/st7735r.c
 
-> > > > --- a/drivers/gpu/drm/tiny/st7735r.c
-> > > > +++ b/drivers/gpu/drm/tiny/st7735r.c
-> > > > @@ -1,8 +1,9 @@
-> > > >  // SPDX-License-Identifier: GPL-2.0+
-> > > >  /*
-> > > > - * DRM driver for Sitronix ST7735R panels
-> > > > + * DRM driver for Sitronix ST7715R/ST7735R panels
-> > >
-> > > This comment could describe the situation a little better.
-> > > This is a sitronix st7735r controller with a jianda jd-t18003-t01
-> > > display.
-> > > Or a sitronix st7715r controller with a okaya rh128128t display.
-> >
-> > Indeed. It is currently limited to two controller/display combos.
-> > But I expect more combos to be added over time.
-> > Hence does it make sense to describe all of that in the top comments?
->
-> If we do describe it we should do so as kernel-doc and then wire up the
-> driver somwhere under Documentation/gpu/
-> But there is no good place to wire it up yet.
-
-Documentation/devicetree/bindings/display/sitronix,st7735r.yaml? ;-)
-
-> > > > @@ -37,12 +39,28 @@
-> > > >  #define ST7735R_MY   BIT(7)
-> > > >  #define ST7735R_MX   BIT(6)
-> > > >  #define ST7735R_MV   BIT(5)
-> > > > +#define ST7735R_RGB  BIT(3)
-> > > > +
-> > > > +struct st7735r_cfg {
-> > > > +     const struct drm_display_mode mode;
-> > > > +     unsigned int left_offset;
-> > > > +     unsigned int top_offset;
-> > > > +     unsigned int write_only:1;
-> > > > +     unsigned int rgb:1;             /* RGB (vs. BGR) */
-> > > > +};
-> > > > +
-> > > > +struct st7735r_priv {
-> > > > +     struct mipi_dbi_dev dbidev;     /* Must be first for .release() */
-> > > > +     unsigned int rgb:1;
-> > > > +};
-> > >
-> > > The structs here uses "st7735r" as the generic prefix.
-> > > But the rest of this file uses "jd_t18003_t01" as the generic prefix.
-> > >
-> > > It would help readability if the same prefix is used for the common
-> > > stuff everywhere.
+> >>> @@ -37,12 +39,28 @@
+> >>>   #define ST7735R_MY   BIT(7)
+> >>>   #define ST7735R_MX   BIT(6)
+> >>>   #define ST7735R_MV   BIT(5)
+> >>> +#define ST7735R_RGB  BIT(3)
+> >>> +
+> >>> +struct st7735r_cfg {
+> >>> +     const struct drm_display_mode mode;
+> >>> +     unsigned int left_offset;
+> >>> +     unsigned int top_offset;
+> >>> +     unsigned int write_only:1;
+> >>> +     unsigned int rgb:1;             /* RGB (vs. BGR) */
+> >>> +};
+> >>> +
+> >>> +struct st7735r_priv {
+> >>> +     struct mipi_dbi_dev dbidev;     /* Must be first for .release() */
+> >>> +     unsigned int rgb:1;
+> >>> +};
+> >>
+> >> The structs here uses "st7735r" as the generic prefix.
+> >> But the rest of this file uses "jd_t18003_t01" as the generic prefix.
+> >>
+> >> It would help readability if the same prefix is used for the common
+> >> stuff everywhere.
 > >
 > > Agreed.
 > > So I think it makes most sense to rename jd_t18003_t01_pipe_{enable,funcs}
 > > to sh7735r_pipe_{enable,funcs}?
-> s/sh/st/
+> > If needed, the display-specific parts (e.g. gamma parameters) could be
+> > factored out in st7735r_cfg later, if neeeded.
+>
+> IIRC, the original intention here is that functions/structs with the
+> jd_t18003_t01_ prefix are specific to the panel, not the controller.
 
-Oops, seen to much SuperH-derived hardware ;-)
+Makes sense.
 
-> Yeah, or maybe just sitronix_pipe_{enable,funcs} as we have support
-> for more than one Sitronix controller anyway.
+> E.g. things like power settings and gamma curves.
+>
+> The idea is that it is much easier to write and understand the init sequence
+> as a function rather than trying to make a generic function that can parse
+> a any possible init sequence from a data structure.
 
-Note that there are other drivers for Sitronix controllers, e.g.
-drivers/gpu/drm/tiny/st7586.c, which is a different beast.
-So st7735r_* sounds better to me ('15 and '35 are very similar).
+I believe the init sequence is the same.  The init parameters may not be.
+What happened to the separation of code and data? ;-)
+
+> This new panel really has all of the same settings as the existing one?
+
+I went through all the ST77[13]5R-specific register settings in the pipe
+enable function. All these registers exist on both ST7715R and ST7735R.
+Unfortunately the Okaya display documentation doesn't give any clues
+w.r.t. the expected values to program.
+However, my display seems to work fine.  Even the grayscale bands from
+fbtest test006 look good, so the gamma parameters must be correct ;-)
+
+> Having a separate pipe enable function for the new panel would also eliminate
+> the need for the extra private rgb data.
+
+At the expense of duplicating the whole function, for one single bit of
+difference...
+
+P.S. Note that I'm using this on an RSK+RZA1 board with 32 MiB of SDRAM.
+Enabling support for this display increases kernel size by 316 KiB.
+And apparently most real world users of the RZ/A1 SoC are not even using
+SDRAM, but doing XIP with the builtin 10 MiB of SRAM...
+
+Thanks!
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
