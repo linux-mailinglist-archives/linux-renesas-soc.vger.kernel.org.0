@@ -2,132 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F38D1337C2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jan 2020 00:57:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BCA54133DF3
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  8 Jan 2020 10:13:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726683AbgAGX5A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 7 Jan 2020 18:57:00 -0500
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:40064 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726462AbgAGX5A (ORCPT
+        id S1727512AbgAHJKe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Jan 2020 04:10:34 -0500
+Received: from baptiste.telenet-ops.be ([195.130.132.51]:59748 "EHLO
+        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727352AbgAHJKe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 7 Jan 2020 18:57:00 -0500
-Received: by mail-lf1-f66.google.com with SMTP id i23so1048529lfo.7
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 07 Jan 2020 15:56:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=qJTEOOiO4RTQGS3Ae845HTznxsWFmc3KEeBqoOfq6kI=;
-        b=g4WO63H6UVjDQWF13y7eMfpsPjmtqjiL8xBlQpj6AAxxHkrI66bIGrLwrAkr14cCvD
-         BvfGYNIW6l7t1LtHwWKeeqtaHHHY9FdNDGCImQHP1ygLbOGeVejZb/iiWiI3x71vJ8Ti
-         nDhkmvhuU8SbvYh7p7Uf5lX9mpnKydcY1w7yqf2MHMElex/l5FR0aFTw/6e1sRESc224
-         0YlVajjtGZsEvZoCPfc44bO00A33DTSpZIAPFzThYcrcs7g7JbDFwf4ek/ePtFfvAf5s
-         pZREKiUdO040hgTgCIqzHrUPfWcM+77XjhTPm7z5adjjpB/VWDHea0NE3WpeheRRqV9f
-         ffAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=qJTEOOiO4RTQGS3Ae845HTznxsWFmc3KEeBqoOfq6kI=;
-        b=C2ZBCb+iYYs0zEFY7NNrhWbhEtxkI8sFNHlehdUc2OnNk31EavycQZhkR/jMUUMZ6l
-         x587dWWmDK0QL3U59Wi2lCOuuZJnX0yIq0kUR2sE+qWog2de1qS8N3iiDlCTD5f+s9QY
-         67aNM+4CcXQwziy9uncR8IfVQuub9LJ0Z2dH/R+MyOf/5N9euSkGFlTExTWWLtoYbzOQ
-         jOwkcu4ipO/p+EuEB4bDT3AA+KR1HCmBmtkfxDoIPkYlFXtSB+O/mhacSSyFx8uyXvIx
-         Xbvups19MnXyjL8lKCR3YHuVQteqOY79WCEvzY/GraodHbcaIcQ9QlFuS8TvphbOY1RT
-         whug==
-X-Gm-Message-State: APjAAAXAPJ/X8H3UKeiB2t6Bb8z5Vng3rCigBmGM/M5wuq0GWu+luKK5
-        NiZc70t/kCmV3azYbC0fWbQefw==
-X-Google-Smtp-Source: APXvYqyTeDZKb3hwUSnj/fKrlW0FHLXZ21i1X9zqdycW8TRMmIIYcJX31kp7ohhEYx/e498rXOctXA==
-X-Received: by 2002:ac2:5a48:: with SMTP id r8mr1099445lfn.179.1578441415378;
-        Tue, 07 Jan 2020 15:56:55 -0800 (PST)
-Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
-        by smtp.gmail.com with ESMTPSA id s23sm415570lji.70.2020.01.07.15.56.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jan 2020 15:56:54 -0800 (PST)
-Date:   Wed, 8 Jan 2020 00:56:54 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH] ARM: dts: renesas: Group tuples in operating-points
- properties
-Message-ID: <20200107235654.GU533370@oden.dyn.berto.se>
-References: <20191231141642.31609-1-geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191231141642.31609-1-geert+renesas@glider.be>
+        Wed, 8 Jan 2020 04:10:34 -0500
+Received: from ramsan ([84.195.182.253])
+        by baptiste.telenet-ops.be with bizsmtp
+        id nlAY210055USYZQ01lAYoy; Wed, 08 Jan 2020 10:10:32 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1ip7MG-0003Ng-28; Wed, 08 Jan 2020 10:10:32 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1ip7MF-0001Vv-Ux; Wed, 08 Jan 2020 10:10:31 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL] clk: renesas: Updates for v5.6
+Date:   Wed,  8 Jan 2020 10:10:27 +0100
+Message-Id: <20200108091027.5773-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+	Hi Mike, Stephen,
 
-Thanks for your work.
+The following changes since commit e42617b825f8073569da76dc4510bfa019b1c35a:
 
-On 2019-12-31 15:16:42 +0100, Geert Uytterhoeven wrote:
-> To improve human readability and enable automatic validation, the tuples
-> in the "operating-points" properties of CPU nodes should be grouped.
-> 
-> Fix this by grouping the tuples of these properties using angle brackets
-> in the DTS files for all Renesas SoCs that don't already do so.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+  Linux 5.5-rc1 (2019-12-08 14:57:55 -0800)
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+are available in the Git repository at:
 
-> ---
->  arch/arm/boot/dts/r8a73a4-ape6evm.dts | 7 ++-----
->  arch/arm/boot/dts/sh73a0-kzm9g.dts    | 9 +++------
->  2 files changed, 5 insertions(+), 11 deletions(-)
-> 
-> diff --git a/arch/arm/boot/dts/r8a73a4-ape6evm.dts b/arch/arm/boot/dts/r8a73a4-ape6evm.dts
-> index 1fbf45082726af36..9eea57d069c227a7 100644
-> --- a/arch/arm/boot/dts/r8a73a4-ape6evm.dts
-> +++ b/arch/arm/boot/dts/r8a73a4-ape6evm.dts
-> @@ -238,11 +238,8 @@
->  
->  &cpu0 {
->  	cpu0-supply = <&vdd_dvfs>;
-> -	operating-points = <
-> -		/* kHz  uV */
-> -		1950000 1115000
-> -		1462500  995000
-> -	>;
-> +	operating-points = <1950000 1115000>,	/* kHz  uV */
-> +			   <1462500  995000>;
->  	voltage-tolerance = <1>; /* 1% */
->  };
->  
-> diff --git a/arch/arm/boot/dts/sh73a0-kzm9g.dts b/arch/arm/boot/dts/sh73a0-kzm9g.dts
-> index 5fa9d3d9cd36a146..1c9dfe9f10e552da 100644
-> --- a/arch/arm/boot/dts/sh73a0-kzm9g.dts
-> +++ b/arch/arm/boot/dts/sh73a0-kzm9g.dts
-> @@ -25,12 +25,9 @@
->  	cpus {
->  		cpu@0 {
->  			cpu0-supply = <&vdd_dvfs>;
-> -			operating-points = <
-> -				/* kHz  uV */
-> -				1196000 1315000
-> -				 598000 1175000
-> -				 398667 1065000
-> -			>;
-> +			operating-points = <1196000 1315000>,	/* kHz  uV */
-> +					   < 598000 1175000>,
-> +					   < 398667 1065000>;
->  			voltage-tolerance = <1>; /* 1% */
->  		};
->  	};
-> -- 
-> 2.17.1
-> 
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/clk-renesas-for-v5.6-tag1
 
--- 
-Regards,
-Niklas Söderlund
+for you to fetch changes up to 8040bf4091cdd13b6d0f9ab00e621ae6eb29174d:
+
+  clk: renesas: Prepare for split of R-Car H3 config symbol (2020-01-08 09:52:43 +0100)
+
+----------------------------------------------------------------
+clk: renesas: Updates for v5.6
+
+  - Add SPIBSC (SPI FLASH) clock on RZ/A2,
+  - Prepare for split of R-Car H3 ES1.x and ES2.0+ config symbols,
+  - Minor fixes and cleanups.
+
+Thanks for pulling!
+
+----------------------------------------------------------------
+Biju Das (1):
+      dt-bindings: clock: renesas: cpg-mssr: Fix r8a774b1 typo
+
+Chris Brandt (1):
+      clk: renesas: r7s9210: Add SPIBSC clock
+
+Geert Uytterhoeven (3):
+      clk: renesas: rcar-gen2: Change multipliers and dividers to u8
+      clk: renesas: Remove use of ARCH_R8A7796
+      clk: renesas: Prepare for split of R-Car H3 config symbol
+
+Sergei Shtylyov (1):
+      clk: renesas: rcar-gen3: Allow changing the RPC[D2] clocks
+
+ Documentation/devicetree/bindings/clock/renesas,cpg-mssr.txt | 2 +-
+ drivers/clk/renesas/Kconfig                                  | 4 ++--
+ drivers/clk/renesas/r7s9210-cpg-mssr.c                       | 1 +
+ drivers/clk/renesas/rcar-gen2-cpg.h                          | 8 ++++----
+ drivers/clk/renesas/rcar-gen3-cpg.c                          | 6 ++++--
+ 5 files changed, 12 insertions(+), 9 deletions(-)
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
