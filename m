@@ -2,121 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D555135A87
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2020 14:50:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C89DB13631A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2020 23:12:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731243AbgAINuH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 9 Jan 2020 08:50:07 -0500
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:56591 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728435AbgAINuH (ORCPT
+        id S1726380AbgAIWMW convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 9 Jan 2020 17:12:22 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:34011 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725951AbgAIWMW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 9 Jan 2020 08:50:07 -0500
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 628BD3C04C0;
-        Thu,  9 Jan 2020 14:50:04 +0100 (CET)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id SnVdHi-5nOMk; Thu,  9 Jan 2020 14:49:59 +0100 (CET)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 0D9103C00B7;
-        Thu,  9 Jan 2020 14:49:59 +0100 (CET)
-Received: from lxhi-065.adit-jv.com (10.72.93.66) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Thu, 9 Jan 2020
- 14:49:58 +0100
-Date:   Thu, 9 Jan 2020 14:49:56 +0100
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Eugeniu Rosca <roscaeugeniu@gmail.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v3 5/7] gpio: Add GPIO Aggregator/Repeater driver
-Message-ID: <20200109134843.GA2558@lxhi-065.adit-jv.com>
-References: <20191127084253.16356-1-geert+renesas@glider.be>
- <20191127084253.16356-6-geert+renesas@glider.be>
- <20191203105103.GA20470@x230>
- <CAMuHMdVLaGt5GTXzUbUHrBHn5q--t3JfxO6P_j0GnnhixV+UfA@mail.gmail.com>
+        Thu, 9 Jan 2020 17:12:22 -0500
+Received: by mail-oi1-f196.google.com with SMTP id l136so165881oig.1;
+        Thu, 09 Jan 2020 14:12:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=AUzrpm3sEv4FUbDtxyORZJwwFEEsXnw0vdkx3PoXBx8=;
+        b=ZrgxLuIx9Xcuar/ap2EP3dhR2TMCT9Gxh/LBClrvvxzj58+v6U/5ASww0KsdJkTH2X
+         GaVRs28U9Nfz7HxRDp0MKr5Kuz7/G/LuQN9gR1+VYiL4Vg9JVsF4k5GcC36SJNaqTvkR
+         rRe2W5I6UbroUQ1iizE0N60teiW2HIjT+xn0TfR6DE3zVKYkzcx9Qd5GNiXMbnSMOZKx
+         nSMTFgDEMI7KYJzj1w21etN9zomLM2u3ToD5/o++xufC9mIqeaeF6Gf6E5SdkbytkJZt
+         VVuAX7gb6tkKOCmFPGbpCG8/E0P5k5bdgiIHjQqjWMpFBWwL3AY+kaZ7gfWblBsHmX30
+         32ng==
+X-Gm-Message-State: APjAAAWix9CHymJnYFari0UhXeM6MMP/2a+ZzPAS9NgXAsdwUJjTZdwL
+        0qtcN9T/4TBn3dgdaX1/R7zOaJ7+lRJv9/6hvZ8fe4zV
+X-Google-Smtp-Source: APXvYqyX3gzA2iZLZF6a6Zoyk2WBsT2dvHOETCKarm/3/0LNleqC+csc3+SDvQAnjn9N3Mi7D44XlaDDRjRGOGiMZus=
+X-Received: by 2002:aca:48cd:: with SMTP id v196mr5203388oia.102.1578607941317;
+ Thu, 09 Jan 2020 14:12:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVLaGt5GTXzUbUHrBHn5q--t3JfxO6P_j0GnnhixV+UfA@mail.gmail.com>
-X-Originating-IP: [10.72.93.66]
+References: <20191227174055.4923-1-sashal@kernel.org> <20191227174055.4923-96-sashal@kernel.org>
+In-Reply-To: <20191227174055.4923-96-sashal@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 9 Jan 2020 23:12:10 +0100
+Message-ID: <CAMuHMdVgOPdo1YwcX7wG8tv5+B-ZDR62HS61p3LjqQh-se9h1Q@mail.gmail.com>
+Subject: Re: [PATCH AUTOSEL 5.4 096/187] ARM: shmobile: defconfig: Restore
+ debugfs support
+To:     Sasha Levin <sashal@kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        stable <stable@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Sasha,
 
-On Thu, Jan 09, 2020 at 02:35:10PM +0100, Geert Uytterhoeven wrote:
-> On Tue, Dec 3, 2019 at 11:51 AM Eugeniu Rosca <roscaeugeniu@gmail.com> wrote:
-> >
-> > FWIW/FTR, doing some blind creation and deletion of gpio aggregator
-> > chips [1] on R-Car H3ULCB overnight, kmemleak reported once [2]. Not
-> > sure this is something 100% reproducible.
-> >
-> > [1] while true; do \
-> >    echo e6055400.gpio 12,13 > /sys/bus/platform/drivers/gpio-aggregator/new_device; \
-> >    echo gpio-aggregator.0 > /sys/bus/platform/drivers/gpio-aggregator/delete_device; \
-> >    done
-> >
-> > [2] unreferenced object 0xffff0006d2c2e000 (size 128):
-> >   comm "kworker/3:1", pid 55, jiffies 4294676978 (age 38546.676s)
-> >   hex dump (first 32 bytes):
-> >     00 d9 d2 d3 06 00 ff ff 0c 00 e0 0f ff ff ff ff  ................
-> >     01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-> >   backtrace:
-> >     [<00000000a8e18c13>] slab_post_alloc_hook+0x8c/0x94
-> >     [<000000006f419a4f>] __kmalloc+0x170/0x218
-> >     [<0000000060d185ea>] kobj_map+0x78/0x1c0
-> >     [<00000000c96645f3>] cdev_add+0x68/0x94
-> >     [<00000000a7a5a8ac>] cdev_device_add+0x74/0x90
-> >     [<00000000497871d3>] gpiochip_setup_dev+0x84/0x1f0
-> >     [<00000000b993f95f>] gpiochip_add_data_with_key+0xbcc/0x11f0
-> >     [<00000000fd728c0e>] devm_gpiochip_add_data+0x60/0xa8
-> >     [<00000000442e34c1>] gpio_aggregator_probe+0x210/0x3c8
-> >     [<00000000076e13fb>] platform_drv_probe+0x70/0xe4
-> >     [<00000000de84b58b>] really_probe+0x2d8/0x434
-> >     [<00000000c95c9784>] driver_probe_device+0x15c/0x16c
-> >     [<00000000afb7dd4f>] __device_attach_driver+0xdc/0x120
-> >     [<00000000efa40cae>] bus_for_each_drv+0x12c/0x154
-> >     [<00000000c149acef>] __device_attach+0x148/0x1e0
-> >     [<00000000a74fd158>] device_initial_probe+0x24/0x30
-> 
-> This is the allocation of the GPIO character device, which is allocated
-> in response to the creation of the GPIO chip, from .probe().
-> As that is done using devm_gpiochip_add_data(), the chardev should be
-> deallocated automatically by devm_gpio_chip_release() when
-> platform_device_unregister() is called.
-> 
-> Weird...
+(replying with the same response to an email with broader audience)
 
-It might have been a false positive. Kmemleak is not w/o flaws.
-I will retest and report later. In any case, it does not look
-severe to me.
+On Fri, Dec 27, 2019 at 6:42 PM Sasha Levin <sashal@kernel.org> wrote:
+>
+> From: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> [ Upstream commit fa2cdb1762d15f701b83efa60b04f0d04e71bf89 ]
+>
+> Since commit 0e4a459f56c32d3e ("tracing: Remove unnecessary DEBUG_FS
+> dependency"), CONFIG_DEBUG_FS is no longer auto-enabled.  This breaks
+
+AFAIK, that commit is not present in v5.4, and hasn't been backported yet.
+So I don't think there is a need to backport this and all other fixes restoring
+debugfs support in post-v5.4 kernels.
+
+BTW, I noticed you plan to backport this "fix" not just to v5.4, but also
+to v4.19?
+
+> booting Debian 9, as systemd needs debugfs:
+>
+>     [FAILED] Failed to mount /sys/kernel/debug.
+>     See 'systemctl status sys-kernel-debug.mount' for details.
+>     [DEPEND] Dependency failed for Local File Systems.
+>     ...
+>     You are in emergGive root password for maintenance
+>     (or press Control-D to continue):
+>
+> Fix this by enabling CONFIG_DEBUG_FS explicitly.
+>
+> See also commit 18977008f44c66bd ("ARM: multi_v7_defconfig: Restore
+> debugfs support").
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Link: https://lore.kernel.org/r/20191209101327.26571-1-geert+renesas@glider.be
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  arch/arm/configs/shmobile_defconfig | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
+> index c6c70355141c..7e7b678ae153 100644
+> --- a/arch/arm/configs/shmobile_defconfig
+> +++ b/arch/arm/configs/shmobile_defconfig
+> @@ -215,4 +215,5 @@ CONFIG_DMA_CMA=y
+>  CONFIG_CMA_SIZE_MBYTES=64
+>  CONFIG_PRINTK_TIME=y
+>  # CONFIG_ENABLE_MUST_CHECK is not set
+> +CONFIG_DEBUG_FS=y
+>  CONFIG_DEBUG_KERNEL=y
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Best Regards,
-Eugeniu
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
