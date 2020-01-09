@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 796FA13506A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2020 01:28:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B4D7313506E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  9 Jan 2020 01:29:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727168AbgAIA2Y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 8 Jan 2020 19:28:24 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:32334 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726438AbgAIA2Y (ORCPT
+        id S1727619AbgAIA3A (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 8 Jan 2020 19:29:00 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:25335 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726438AbgAIA3A (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 8 Jan 2020 19:28:24 -0500
-Date:   09 Jan 2020 09:28:23 +0900
+        Wed, 8 Jan 2020 19:29:00 -0500
+Date:   09 Jan 2020 09:28:59 +0900
 X-IronPort-AV: E=Sophos;i="5.69,411,1571670000"; 
-   d="scan'208";a="36015061"
+   d="scan'208";a="36230870"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 09 Jan 2020 09:28:23 +0900
+  by relmlie5.idc.renesas.com with ESMTP; 09 Jan 2020 09:28:59 +0900
 Received: from morimoto-PC.renesas.com (unknown [10.166.18.140])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 010C14009BEF;
-        Thu,  9 Jan 2020 09:28:22 +0900 (JST)
-Message-ID: <87muaxscbd.wl-kuninori.morimoto.gx@renesas.com>
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 117054009BEC;
+        Thu,  9 Jan 2020 09:28:59 +0900 (JST)
+Message-ID: <87lfqhscac.wl-kuninori.morimoto.gx@renesas.com>
 From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH][repost] sh: Convert ins[bwl]/outs[bwl] macros to inline functions
+Subject: [PATCH][repost] sh: clkfwk: remove r8/r16/r32
 User-Agent: Wanderlust/2.15.9 Emacs/24.5 Mule/6.0
 To:     Yoshinori Sato <ysato@users.sourceforge.jp>,
         Rich Felker <dalias@libc.org>,
@@ -41,67 +41,75 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-Macro ins[bwl]/outs[bwl] are just calling BUG(), but that results in
-unused variable warnings all over the place.
-This patch convert macro to inline to avoid warning
+SH will get below warning
 
-We will get this kind of warning without this patch
+${LINUX}/drivers/sh/clk/cpg.c: In function 'r8':
+${LINUX}/drivers/sh/clk/cpg.c:41:17: warning: passing argument 1 of 'ioread8'
+ discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+  return ioread8(addr);
+                 ^~~~
+In file included from ${LINUX}/arch/sh/include/asm/io.h:21,
+                 from ${LINUX}/include/linux/io.h:13,
+                 from ${LINUX}/drivers/sh/clk/cpg.c:14:
+${LINUX}/include/asm-generic/iomap.h:29:29: note: expected 'void *' but
+argument is of type 'const void *'
+ extern unsigned int ioread8(void __iomem *);
+                             ^~~~~~~~~~~~~~
 
-	${LINUX}/drivers/iio/adc/ad7606_par.c:21:23: \
-	  warning: unused variable 'st' [-Wunused-variable]
-	struct ad7606_state *st = iio_priv(indio_dev);
-	^~
+We don't need "const" for r8/r16/r32.
+And we don't need r8/r16/r32 themselvs.
+This patch cleanup these.
 
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- arch/sh/include/asm/io_noioport.h | 34 ++++++++++++++++++++++++++++------
- 1 file changed, 28 insertions(+), 6 deletions(-)
+ drivers/sh/clk/cpg.c | 23 ++++-------------------
+ 1 file changed, 4 insertions(+), 19 deletions(-)
 
-diff --git a/arch/sh/include/asm/io_noioport.h b/arch/sh/include/asm/io_noioport.h
-index 90d6109..f7938fe 100644
---- a/arch/sh/include/asm/io_noioport.h
-+++ b/arch/sh/include/asm/io_noioport.h
-@@ -53,12 +53,34 @@ static inline void ioport_unmap(void __iomem *addr)
- #define outw_p(x, addr)	outw((x), (addr))
- #define outl_p(x, addr)	outl((x), (addr))
+diff --git a/drivers/sh/clk/cpg.c b/drivers/sh/clk/cpg.c
+index eeb028b9..a5cacfe 100644
+--- a/drivers/sh/clk/cpg.c
++++ b/drivers/sh/clk/cpg.c
+@@ -36,36 +36,21 @@ static void sh_clk_write(int value, struct clk *clk)
+ 		iowrite32(value, clk->mapped_reg);
+ }
  
--#define insb(a, b, c)	BUG()
--#define insw(a, b, c)	BUG()
--#define insl(a, b, c)	BUG()
-+static inline void insb(unsigned long port, void *dst, unsigned long count)
-+{
-+	BUG();
-+}
-+
-+static inline void insw(unsigned long port, void *dst, unsigned long count)
-+{
-+	BUG();
-+}
-+
-+static inline void insl(unsigned long port, void *dst, unsigned long count)
-+{
-+	BUG();
-+}
+-static unsigned int r8(const void __iomem *addr)
+-{
+-	return ioread8(addr);
+-}
+-
+-static unsigned int r16(const void __iomem *addr)
+-{
+-	return ioread16(addr);
+-}
+-
+-static unsigned int r32(const void __iomem *addr)
+-{
+-	return ioread32(addr);
+-}
+-
+ static int sh_clk_mstp_enable(struct clk *clk)
+ {
+ 	sh_clk_write(sh_clk_read(clk) & ~(1 << clk->enable_bit), clk);
+ 	if (clk->status_reg) {
+-		unsigned int (*read)(const void __iomem *addr);
++		unsigned int (*read)(void __iomem *addr);
+ 		int i;
+ 		void __iomem *mapped_status = (phys_addr_t)clk->status_reg -
+ 			(phys_addr_t)clk->enable_reg + clk->mapped_reg;
  
--#define outsb(a, b, c)	BUG()
--#define outsw(a, b, c)	BUG()
--#define outsl(a, b, c)	BUG()
-+static inline void outsb(unsigned long port, const void *src, unsigned long count)
-+{
-+	BUG();
-+}
-+
-+static inline void outsw(unsigned long port, const void *src, unsigned long count)
-+{
-+	BUG();
-+}
-+
-+static inline void outsl(unsigned long port, const void *src, unsigned long count)
-+{
-+	BUG();
-+}
+ 		if (clk->flags & CLK_ENABLE_REG_8BIT)
+-			read = r8;
++			read = ioread8;
+ 		else if (clk->flags & CLK_ENABLE_REG_16BIT)
+-			read = r16;
++			read = ioread16;
+ 		else
+-			read = r32;
++			read = ioread32;
  
- #endif /* __ASM_SH_IO_NOIOPORT_H */
+ 		for (i = 1000;
+ 		     (read(mapped_status) & (1 << clk->enable_bit)) && i;
 -- 
 2.7.4
 
