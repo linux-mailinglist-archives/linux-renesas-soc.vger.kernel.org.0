@@ -2,134 +2,87 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4890F1377ED
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 10 Jan 2020 21:29:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5F0113846F
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 12 Jan 2020 02:43:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726393AbgAJU3y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 10 Jan 2020 15:29:54 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:40916 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726540AbgAJU3y (ORCPT
+        id S1731891AbgALBn6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 11 Jan 2020 20:43:58 -0500
+Received: from mail3-bck.iservicesmail.com ([217.130.24.85]:40298 "EHLO
+        mail3-bck.iservicesmail.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731889AbgALBn5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 10 Jan 2020 15:29:54 -0500
-Received: by mail-lf1-f67.google.com with SMTP id i23so2426611lfo.7
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 10 Jan 2020 12:29:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=/VR1yCvH028Xk6zuB3TDzNdY/9rSkzTRJyCKNvGpUXs=;
-        b=FlN1J80whxkUVnmmO43Nb0P/p2NwWa3ESJ6kC3gJYn0AFJoxvjBvVktd8oQOGp/22h
-         +UMgNlGFZQQLLUZo2l6zgrMO18eIYQy7wEk50qFx/fNcDzPCRHhO8q6DnfpeDCO2Hv6G
-         9Czi0Q7nnTEAaxEBA8tz2yudwsLAJjE5tvoVyCrYbiihuyZqtIpKb6L5p/PqvopcUQGe
-         I9kql/6ICwTyR7rRR5mFZn4+TwA/8VpO1ANhxskTRkT4xZsybdbiadSpe584zm6WfgZt
-         mjfGBLMhGqyCcsm3g1kyOP1tDQJSAlQ4IjqHcEMoV4RdK2a/FzUJisgzRFDHUQVgyZwg
-         78gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=/VR1yCvH028Xk6zuB3TDzNdY/9rSkzTRJyCKNvGpUXs=;
-        b=WqhVmfDkiBtg5fGfnWaovm+m9QttCe2yMv4zmiaLYBE8V+Z9l9OyGZwaa66ZDNjFQj
-         idsaWJp6PKxb7GjXOilgHbI/g/ynGgRHr9PHJlfJurAh/scIKW2JIZD4mTrT0PehFqrc
-         yxSLtyJh/sw1bl4fXUJb0kCZr7R2vwuAaNIyuW7anqP3pY2bxKCAKzB2e3FAvAZ38/fi
-         dZMnRRd5baxRqxUmgsirzMvTpfIBz2/er6/VyM9lrmCRkNkO6RNVgYZP0vTZZUIJaTTO
-         BVpzgm7bXqOeNcF/nI4qwU3bxJPukybq5VC4vf0tPp9ii8hjf2Kxte9fNjjcVQeQ8/Y6
-         v5Og==
-X-Gm-Message-State: APjAAAUi2yAQ3NQZwI33SOgoUBZeOvp0PasSeNbysNq2Hyf8iJYjG8bE
-        JadMpNqBCPF68nIOk8hncDV+Dw==
-X-Google-Smtp-Source: APXvYqwzdgG99A6SzCa+U41cIOlTkNF6PSGtT0UT3hvrJ59FLUjAOwhUubaRWCqXaSGnp0ySAUGC4g==
-X-Received: by 2002:a19:a408:: with SMTP id q8mr3413226lfc.174.1578688192070;
-        Fri, 10 Jan 2020 12:29:52 -0800 (PST)
-Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
-        by smtp.gmail.com with ESMTPSA id d20sm1563692lfm.32.2020.01.10.12.29.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jan 2020 12:29:51 -0800 (PST)
-Date:   Fri, 10 Jan 2020 21:29:50 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-sh@vger.kernel.org
-Subject: Re: [PATCH 00/13] pinctrl: sh-pfc: checker: Various improvements
-Message-ID: <20200110202950.GA695049@oden.dyn.berto.se>
-References: <20200110131927.1029-1-geert+renesas@glider.be>
+        Sat, 11 Jan 2020 20:43:57 -0500
+X-Greylist: delayed 303 seconds by postgrey-1.27 at vger.kernel.org; Sat, 11 Jan 2020 20:43:56 EST
+IronPort-SDR: eMXnfPkoNrF30waoZX7PaaBYyinYe2R2/0Q9g1bYDNOT/Ex3oAAQFgHHfFeMJRzVcXGWQOTKlA
+ gwnjWjYqoBmA==
+IronPort-PHdr: =?us-ascii?q?9a23=3AXsolJRBtudTq5j75s4GdUyQJP3N1i/DPJgcQr6?=
+ =?us-ascii?q?AfoPdwSPX6psbcNUDSrc9gkEXOFd2Cra4d0KyM7f6rAjJIyK3CmUhKSIZLWR?=
+ =?us-ascii?q?4BhJdetC0bK+nBN3fGKuX3ZTcxBsVIWQwt1Xi6NU9IBJS2PAWK8TW94jEIBx?=
+ =?us-ascii?q?rwKxd+KPjrFY7OlcS30P2594HObwlSizexfL1/IA+ooQjQt8QajoVvJ6cswR?=
+ =?us-ascii?q?bVv3VEfPhby3l1LlyJhRb84cmw/J9n8ytOvv8q6tBNX6bncakmVLJUFDspPX?=
+ =?us-ascii?q?w7683trhnDUBCA5mAAXWUMkxpHGBbK4RfnVZrsqCT6t+592C6HPc3qSL0/RD?=
+ =?us-ascii?q?qv47t3RBLulSwLMTk1/nzLhcNqiaJaoAutqgJ4w47OeIGVM+B+cbnBfdwEXG?=
+ =?us-ascii?q?ZOQMBRWzVdD4Ogc4sAFfYOPeZGoIn4uVQOqwe+CRCyC+Pp0zNGgXj23ask3O?=
+ =?us-ascii?q?UhCA3JwgogFM8KvHnasNn5KKIeXOaox6fK0DrDdetb1zn95ojSbB4vouyCUr?=
+ =?us-ascii?q?1sfsTe0kQvCwHIgUmMpYD5Iz+ZyOIAuHWb4ep6UuKvjnYqpRtvrTiz2MgskJ?=
+ =?us-ascii?q?TCiYISylDC+iVy3YE4JcWmR05nf9GkCpVRtyacN4t5Wc4iQ3potz0mxbEcpZ?=
+ =?us-ascii?q?G7ey0KxI4nxx7ccvGKdZWD7BH7VOuJPzt0mXBodKiiixu87USs0PPwW8au3F?=
+ =?us-ascii?q?tEridIlMTHuGoX2BzJ8MeHT+Nw/kKm2TmSyQ/e8vpEIUUolarDLJ4h36Iwmo?=
+ =?us-ascii?q?ITsUvdGi/2n137jKqMeUUl/uio8froYrH6qpKTLYN0lAb+Pbk0lcyxBuQ4NB?=
+ =?us-ascii?q?YBU3KF9uSnzLHj/Ev5T6tWjvAujKXVrZLXKd4GqqO3HwNZyJgv5hmlAzqo0N?=
+ =?us-ascii?q?kUhXwHI0hEeBKDgYjpIVbOIPXgAPennVusjClkx+rIP73mBJXNIWPOkLf6fb?=
+ =?us-ascii?q?lm90FQ0hY8zdda555OCrEBI+r/WlXtu9zAEh85Lwu0zv7jCNV80IMeRG2ODr?=
+ =?us-ascii?q?aDMKzMt1+H+PkvLPOXZIMMozb9LOQq6uXwjX82h1AdZ7Ol3ZgJZ3CiGPRpPU?=
+ =?us-ascii?q?GZbWDrgtcbHmdZ9jY5GejrjkCSFCReYXupVrl5/TYwIJypAJ2FRY23hrGFmi?=
+ =?us-ascii?q?ChEc5sa3hCG2yLRE/la4ieE8gLbi3adtdsjjEeSr+nRI863xqutyf1zrNmKq?=
+ =?us-ascii?q?zf/ShO5rz5090g3+DPmAt6yjtyAIzJy2yRQntrmWUHbz8t1qs5qkt4jFeAh/?=
+ =?us-ascii?q?sry8dEHMBesqoaGjwxMoTRmrciU90=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2HVAQC5dxpelyMYgtlMGBoBAQEBAQE?=
+ =?us-ascii?q?BAQEDAQEBAREBAQECAgEBAQGBaAQBAQEBCwEBGwQBgSmBTVIgEpNQgU0fg0O?=
+ =?us-ascii?q?LY4EAgx4VhgcUDIFbDQEBAQEBNQIBAYRATgEXgQ8kNQgOAgMNAQEFAQEBAQE?=
+ =?us-ascii?q?FBAEBAhABAQEBAQYYBoVzgh0MHgEEAQEBAQMDAwEBDAGDXQcZDzlKTAEOAVO?=
+ =?us-ascii?q?DBIJLAQEznX0BjQQNDQKFHYI7BAqBCYEaI4E2AYwYGoFBP4EjIYIrCAGCAYJ?=
+ =?us-ascii?q?/ARIBbIJIglkEjUISIYEHiCmYF4JBBHaJTIwCgjcBD4gBhDEDEIJFD4EJiAO?=
+ =?us-ascii?q?EToF9ozdXdAGBHnEzGoImGoEgTxgNiBuOLUCBFhACT4xbgjIBAQ?=
+X-IPAS-Result: =?us-ascii?q?A2HVAQC5dxpelyMYgtlMGBoBAQEBAQEBAQEDAQEBAREBA?=
+ =?us-ascii?q?QECAgEBAQGBaAQBAQEBCwEBGwQBgSmBTVIgEpNQgU0fg0OLY4EAgx4VhgcUD?=
+ =?us-ascii?q?IFbDQEBAQEBNQIBAYRATgEXgQ8kNQgOAgMNAQEFAQEBAQEFBAEBAhABAQEBA?=
+ =?us-ascii?q?QYYBoVzgh0MHgEEAQEBAQMDAwEBDAGDXQcZDzlKTAEOAVODBIJLAQEznX0Bj?=
+ =?us-ascii?q?QQNDQKFHYI7BAqBCYEaI4E2AYwYGoFBP4EjIYIrCAGCAYJ/ARIBbIJIglkEj?=
+ =?us-ascii?q?UISIYEHiCmYF4JBBHaJTIwCgjcBD4gBhDEDEIJFD4EJiAOEToF9ozdXdAGBH?=
+ =?us-ascii?q?nEzGoImGoEgTxgNiBuOLUCBFhACT4xbgjIBAQ?=
+X-IronPort-AV: E=Sophos;i="5.69,423,1571695200"; 
+   d="scan'208";a="323105126"
+Received: from mailrel04.vodafone.es ([217.130.24.35])
+  by mail02.vodafone.es with ESMTP; 12 Jan 2020 02:38:52 +0100
+Received: (qmail 8417 invoked from network); 11 Jan 2020 23:46:31 -0000
+Received: from unknown (HELO 192.168.1.3) (quesosbelda@[217.217.179.17])
+          (envelope-sender <peterwong@hsbc.com.hk>)
+          by mailrel04.vodafone.es (qmail-ldap-1.03) with SMTP
+          for <linux-renesas-soc@vger.kernel.org>; 11 Jan 2020 23:46:31 -0000
+Date:   Sun, 12 Jan 2020 00:46:30 +0100 (CET)
+From:   Peter Wong <peterwong@hsbc.com.hk>
+Reply-To: Peter Wong <peterwonghsbchk@gmail.com>
+To:     linux-renesas-soc@vger.kernel.org
+Message-ID: <10027825.172063.1578786391682.JavaMail.cash@217.130.24.55>
+Subject: Investment opportunity
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200110131927.1029-1-geert+renesas@glider.be>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Greetings,
+Please read the attached investment proposal and reply for more details.
+Are you interested in loan?
+Sincerely: Peter Wong
 
-Neat series. I always worry when my eyes start to cross each other when 
-looking at the big tables I will make mistakes like this ;-)
 
-On 2020-01-10 14:19:14 +0100, Geert Uytterhoeven wrote:
-> 	Hi all,
-> 
-> This patch series contains various improvements for the builtin pin
-> control table runtime checks of the Renesas Pin Function Controller
-> driver.  These checks are enabled with CONFIG_DEBUG_PINCTRL=y, which can
-> be combined with CONFIG_COMPILE_TEST=y to increase coverage to all
-> Renesas ARM and SuperH SoCs..
-> 
-> Note that all issues detected by this have already been fixed in "[PATCH
-> 0/6] pinctrl: sh-pfc: More miscellenaous fixes"[1], and are now part of
-> linux-next.
-> 
-> I plan to queue this in sh-pfc-for-v5.7.
 
-With the fix you point out yourself in 13/13 for 
-CONFIG_PINCTRL_SH_FUNC_GPIO=n feel free to add
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+----------------------------------------------------
+This email was sent by the shareware version of Postman Professional.
 
-For the whole series.
-
-> 
-> Thanks for your comments!
-> 
-> [1] https://lore.kernel.org/linux-renesas-soc/20191218194812.12741-1-geert+renesas@glider.be/
-> 
-> Geert Uytterhoeven (13):
->   pinctrl: sh-pfc: checker: Move data before code
->   pinctrl: sh-pfc: checker: Add helpers for reporting
->   pinctrl: sh-pfc: checker: Add helper for safe name comparison
->   pinctrl: sh-pfc: checker: Add check for config register conflicts
->   pinctrl: sh-pfc: checker: Add check for enum ID conflicts
->   pinctrl: sh-pfc: checker: Improve pin checks
->   pinctrl: sh-pfc: checker: Improve pin function checks
->   pinctrl: sh-pfc: checker: Improve pin group checks
->   pinctrl: sh-pfc: checker: Add drive strength register checks
->   pinctrl: sh-pfc: checker: Add bias register checks
->   pinctrl: sh-pfc: checker: Add ioctrl register checks
->   pinctrl: sh-pfc: checker: Add data register checks
->   pinctrl: sh-pfc: checker: Add function GPIO checks
-> 
->  drivers/pinctrl/sh-pfc/core.c | 312 +++++++++++++++++++++++++++-------
->  1 file changed, 250 insertions(+), 62 deletions(-)
-> 
-> -- 
-> 2.17.1
-> 
-> Gr{oetje,eeting}s,
-> 
-> 						Geert
-> 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
-> 							    -- Linus Torvalds
-
--- 
-Regards,
-Niklas Söderlund
