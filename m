@@ -2,87 +2,173 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D5F0113846F
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 12 Jan 2020 02:43:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 700CB1387E4
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 12 Jan 2020 20:13:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731891AbgALBn6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 11 Jan 2020 20:43:58 -0500
-Received: from mail3-bck.iservicesmail.com ([217.130.24.85]:40298 "EHLO
-        mail3-bck.iservicesmail.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731889AbgALBn5 (ORCPT
+        id S1733180AbgALTNd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 12 Jan 2020 14:13:33 -0500
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:32827 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732957AbgALTNd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 11 Jan 2020 20:43:57 -0500
-X-Greylist: delayed 303 seconds by postgrey-1.27 at vger.kernel.org; Sat, 11 Jan 2020 20:43:56 EST
-IronPort-SDR: eMXnfPkoNrF30waoZX7PaaBYyinYe2R2/0Q9g1bYDNOT/Ex3oAAQFgHHfFeMJRzVcXGWQOTKlA
- gwnjWjYqoBmA==
-IronPort-PHdr: =?us-ascii?q?9a23=3AXsolJRBtudTq5j75s4GdUyQJP3N1i/DPJgcQr6?=
- =?us-ascii?q?AfoPdwSPX6psbcNUDSrc9gkEXOFd2Cra4d0KyM7f6rAjJIyK3CmUhKSIZLWR?=
- =?us-ascii?q?4BhJdetC0bK+nBN3fGKuX3ZTcxBsVIWQwt1Xi6NU9IBJS2PAWK8TW94jEIBx?=
- =?us-ascii?q?rwKxd+KPjrFY7OlcS30P2594HObwlSizexfL1/IA+ooQjQt8QajoVvJ6cswR?=
- =?us-ascii?q?bVv3VEfPhby3l1LlyJhRb84cmw/J9n8ytOvv8q6tBNX6bncakmVLJUFDspPX?=
- =?us-ascii?q?w7683trhnDUBCA5mAAXWUMkxpHGBbK4RfnVZrsqCT6t+592C6HPc3qSL0/RD?=
- =?us-ascii?q?qv47t3RBLulSwLMTk1/nzLhcNqiaJaoAutqgJ4w47OeIGVM+B+cbnBfdwEXG?=
- =?us-ascii?q?ZOQMBRWzVdD4Ogc4sAFfYOPeZGoIn4uVQOqwe+CRCyC+Pp0zNGgXj23ask3O?=
- =?us-ascii?q?UhCA3JwgogFM8KvHnasNn5KKIeXOaox6fK0DrDdetb1zn95ojSbB4vouyCUr?=
- =?us-ascii?q?1sfsTe0kQvCwHIgUmMpYD5Iz+ZyOIAuHWb4ep6UuKvjnYqpRtvrTiz2MgskJ?=
- =?us-ascii?q?TCiYISylDC+iVy3YE4JcWmR05nf9GkCpVRtyacN4t5Wc4iQ3potz0mxbEcpZ?=
- =?us-ascii?q?G7ey0KxI4nxx7ccvGKdZWD7BH7VOuJPzt0mXBodKiiixu87USs0PPwW8au3F?=
- =?us-ascii?q?tEridIlMTHuGoX2BzJ8MeHT+Nw/kKm2TmSyQ/e8vpEIUUolarDLJ4h36Iwmo?=
- =?us-ascii?q?ITsUvdGi/2n137jKqMeUUl/uio8froYrH6qpKTLYN0lAb+Pbk0lcyxBuQ4NB?=
- =?us-ascii?q?YBU3KF9uSnzLHj/Ev5T6tWjvAujKXVrZLXKd4GqqO3HwNZyJgv5hmlAzqo0N?=
- =?us-ascii?q?kUhXwHI0hEeBKDgYjpIVbOIPXgAPennVusjClkx+rIP73mBJXNIWPOkLf6fb?=
- =?us-ascii?q?lm90FQ0hY8zdda555OCrEBI+r/WlXtu9zAEh85Lwu0zv7jCNV80IMeRG2ODr?=
- =?us-ascii?q?aDMKzMt1+H+PkvLPOXZIMMozb9LOQq6uXwjX82h1AdZ7Ol3ZgJZ3CiGPRpPU?=
- =?us-ascii?q?GZbWDrgtcbHmdZ9jY5GejrjkCSFCReYXupVrl5/TYwIJypAJ2FRY23hrGFmi?=
- =?us-ascii?q?ChEc5sa3hCG2yLRE/la4ieE8gLbi3adtdsjjEeSr+nRI863xqutyf1zrNmKq?=
- =?us-ascii?q?zf/ShO5rz5090g3+DPmAt6yjtyAIzJy2yRQntrmWUHbz8t1qs5qkt4jFeAh/?=
- =?us-ascii?q?sry8dEHMBesqoaGjwxMoTRmrciU90=3D?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2HVAQC5dxpelyMYgtlMGBoBAQEBAQE?=
- =?us-ascii?q?BAQEDAQEBAREBAQECAgEBAQGBaAQBAQEBCwEBGwQBgSmBTVIgEpNQgU0fg0O?=
- =?us-ascii?q?LY4EAgx4VhgcUDIFbDQEBAQEBNQIBAYRATgEXgQ8kNQgOAgMNAQEFAQEBAQE?=
- =?us-ascii?q?FBAEBAhABAQEBAQYYBoVzgh0MHgEEAQEBAQMDAwEBDAGDXQcZDzlKTAEOAVO?=
- =?us-ascii?q?DBIJLAQEznX0BjQQNDQKFHYI7BAqBCYEaI4E2AYwYGoFBP4EjIYIrCAGCAYJ?=
- =?us-ascii?q?/ARIBbIJIglkEjUISIYEHiCmYF4JBBHaJTIwCgjcBD4gBhDEDEIJFD4EJiAO?=
- =?us-ascii?q?EToF9ozdXdAGBHnEzGoImGoEgTxgNiBuOLUCBFhACT4xbgjIBAQ?=
-X-IPAS-Result: =?us-ascii?q?A2HVAQC5dxpelyMYgtlMGBoBAQEBAQEBAQEDAQEBAREBA?=
- =?us-ascii?q?QECAgEBAQGBaAQBAQEBCwEBGwQBgSmBTVIgEpNQgU0fg0OLY4EAgx4VhgcUD?=
- =?us-ascii?q?IFbDQEBAQEBNQIBAYRATgEXgQ8kNQgOAgMNAQEFAQEBAQEFBAEBAhABAQEBA?=
- =?us-ascii?q?QYYBoVzgh0MHgEEAQEBAQMDAwEBDAGDXQcZDzlKTAEOAVODBIJLAQEznX0Bj?=
- =?us-ascii?q?QQNDQKFHYI7BAqBCYEaI4E2AYwYGoFBP4EjIYIrCAGCAYJ/ARIBbIJIglkEj?=
- =?us-ascii?q?UISIYEHiCmYF4JBBHaJTIwCgjcBD4gBhDEDEIJFD4EJiAOEToF9ozdXdAGBH?=
- =?us-ascii?q?nEzGoImGoEgTxgNiBuOLUCBFhACT4xbgjIBAQ?=
-X-IronPort-AV: E=Sophos;i="5.69,423,1571695200"; 
-   d="scan'208";a="323105126"
-Received: from mailrel04.vodafone.es ([217.130.24.35])
-  by mail02.vodafone.es with ESMTP; 12 Jan 2020 02:38:52 +0100
-Received: (qmail 8417 invoked from network); 11 Jan 2020 23:46:31 -0000
-Received: from unknown (HELO 192.168.1.3) (quesosbelda@[217.217.179.17])
-          (envelope-sender <peterwong@hsbc.com.hk>)
-          by mailrel04.vodafone.es (qmail-ldap-1.03) with SMTP
-          for <linux-renesas-soc@vger.kernel.org>; 11 Jan 2020 23:46:31 -0000
-Date:   Sun, 12 Jan 2020 00:46:30 +0100 (CET)
-From:   Peter Wong <peterwong@hsbc.com.hk>
-Reply-To: Peter Wong <peterwonghsbchk@gmail.com>
-To:     linux-renesas-soc@vger.kernel.org
-Message-ID: <10027825.172063.1578786391682.JavaMail.cash@217.130.24.55>
-Subject: Investment opportunity
+        Sun, 12 Jan 2020 14:13:33 -0500
+Received: by mail-wr1-f67.google.com with SMTP id b6so6523942wrq.0
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 12 Jan 2020 11:13:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=F93r4W5TT+UANdmf3uZsJ4rCPeQMdPoslDgiksoeuZM=;
+        b=DV2eAX2nCi+sT5spOQZVveW1lzDfsjoe/jHMteFsOvFy3L40Th+QWqMXwDKROd8MqS
+         Y4yQfM4D8zFJlQP9YXzKmrxutHmZo5hE7jx4rcKv5HpOk89Zw4Vc9I4uOUG3j6Dupj5/
+         Z1fi6okm8TMR3IU3ARfB1Xry9uY7O4LqaK/Brp3kqfhh7X8ZMJrpWW/4WwWVol/JS8uK
+         +vQU05myd2JJLdup6+ZI6eiWGv5MbYQS9Zw8gfe1Oj1qtaFJqfIdCad/JWtTGgRpAXTm
+         2ezsOmUXlB6/mBie3taIncQdpk+FjaoakKK7K0SazCEtwR64fCBiZyxD0EIkDowgDFvn
+         XqzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=F93r4W5TT+UANdmf3uZsJ4rCPeQMdPoslDgiksoeuZM=;
+        b=TBAG6+3Zcr4lPE6jF/tzrUDAYk+wK9Eq6wVdh4LgtH5yW5nWrVTYSY/9Re59dzCRNW
+         0HxUl4/4dLHCyg8Rdb7xqgSGwipDeGT56kdQ6EftywRxeVqvEfM0AxS4le8hqgudhleU
+         PgUKfHRPlaaeyDsS6PajX3c9EHZUwp2ipe+FrrlTFrKfJKKoiBZrf2xy/NkuYQ8eua6D
+         NJ+vGB48MUa9AS2EfXrGBtUsEOWPezAq38PYFlIxbiVR/H/Ak6L9Kk1Nru0Gbii2EXnU
+         dZAYR4Kb3RSvswqjnxBrafNVDn81XSBb6h4cnqCSB6e8+jPFhBohgVyeTq94By58QAyC
+         /LuA==
+X-Gm-Message-State: APjAAAW77G8egPZqbVPXDaBkb66eSTcMedqB2q62C8v+xGNxuqNXvxe4
+        mXLajU3HZ4bl4+bcqA0AxDc=
+X-Google-Smtp-Source: APXvYqwpHMDLdCF8cLDyA9fbFvj870WcW9R+1uWaUnO2bw2pZGKS/h90TZIF9GOy+rnZnUfg+yjQiA==
+X-Received: by 2002:a5d:45c4:: with SMTP id b4mr14409475wrs.303.1578856410865;
+        Sun, 12 Jan 2020 11:13:30 -0800 (PST)
+Received: from chi.lan (cst-prg-19-39.cust.vodafone.cz. [46.135.19.39])
+        by smtp.gmail.com with ESMTPSA id o7sm10974030wmh.11.2020.01.12.11.13.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Jan 2020 11:13:28 -0800 (PST)
+From:   marek.vasut@gmail.com
+To:     linux-arm-kernel@lists.infradead.org
+Cc:     Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [RFC][PATCH] ARM: dts: renesas: Add missing ethernet PHY reset GPIO on Gen2 reference boards
+Date:   Sun, 12 Jan 2020 20:13:15 +0100
+Message-Id: <20200112191315.118831-1-marek.vasut@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Greetings,
-Please read the attached investment proposal and reply for more details.
-Are you interested in loan?
-Sincerely: Peter Wong
+From: Marek Vasut <marek.vasut+renesas@gmail.com>
 
+The ethernet PHY reset GPIO was missing and the kernel was depending
+solely on the bootloader to bring the PHY out of reset. Fix this to
+get rid of the dependency on bootloader.
 
+Signed-off-by: Marek Vasut <marek.vasut+renesas@gmail.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org
+To: linux-arm-kernel@lists.infradead.org
+---
+NOTE: Thus far tested on R8A7791 Koelsch
+---
+ arch/arm/boot/dts/r8a7790-lager.dts   | 1 +
+ arch/arm/boot/dts/r8a7790-stout.dts   | 1 +
+ arch/arm/boot/dts/r8a7791-koelsch.dts | 1 +
+ arch/arm/boot/dts/r8a7791-porter.dts  | 1 +
+ arch/arm/boot/dts/r8a7793-gose.dts    | 1 +
+ arch/arm/boot/dts/r8a7794-alt.dts     | 1 +
+ arch/arm/boot/dts/r8a7794-silk.dts    | 1 +
+ 7 files changed, 7 insertions(+)
 
-
-----------------------------------------------------
-This email was sent by the shareware version of Postman Professional.
+diff --git a/arch/arm/boot/dts/r8a7790-lager.dts b/arch/arm/boot/dts/r8a7790-lager.dts
+index 097fd9317c6e..b88d4f4d5d9e 100644
+--- a/arch/arm/boot/dts/r8a7790-lager.dts
++++ b/arch/arm/boot/dts/r8a7790-lager.dts
+@@ -671,6 +671,7 @@ &ether {
+ 
+ 	phy1: ethernet-phy@1 {
+ 		reg = <1>;
++		reset-gpios = <&gpio5 31 GPIO_ACTIVE_LOW>;
+ 		interrupt-parent = <&irqc0>;
+ 		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+ 		micrel,led-mode = <1>;
+diff --git a/arch/arm/boot/dts/r8a7790-stout.dts b/arch/arm/boot/dts/r8a7790-stout.dts
+index a315ba749aa4..98dcfcbf0b70 100644
+--- a/arch/arm/boot/dts/r8a7790-stout.dts
++++ b/arch/arm/boot/dts/r8a7790-stout.dts
+@@ -200,6 +200,7 @@ &ether {
+ 
+ 	phy1: ethernet-phy@1 {
+ 		reg = <1>;
++		reset-gpios = <&gpio3 31 GPIO_ACTIVE_LOW>;
+ 		interrupt-parent = <&irqc0>;
+ 		interrupts = <1 IRQ_TYPE_LEVEL_LOW>;
+ 		micrel,led-mode = <1>;
+diff --git a/arch/arm/boot/dts/r8a7791-koelsch.dts b/arch/arm/boot/dts/r8a7791-koelsch.dts
+index 2b096d5e06fb..6619689a17d4 100644
+--- a/arch/arm/boot/dts/r8a7791-koelsch.dts
++++ b/arch/arm/boot/dts/r8a7791-koelsch.dts
+@@ -630,6 +630,7 @@ &ether {
+ 
+ 	phy1: ethernet-phy@1 {
+ 		reg = <1>;
++		reset-gpios = <&gpio5 22 GPIO_ACTIVE_LOW>;
+ 		interrupt-parent = <&irqc0>;
+ 		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+ 		micrel,led-mode = <1>;
+diff --git a/arch/arm/boot/dts/r8a7791-porter.dts b/arch/arm/boot/dts/r8a7791-porter.dts
+index f9ece7ab2010..2ba2e8e5f1c3 100644
+--- a/arch/arm/boot/dts/r8a7791-porter.dts
++++ b/arch/arm/boot/dts/r8a7791-porter.dts
+@@ -304,6 +304,7 @@ &ether {
+ 
+ 	phy1: ethernet-phy@1 {
+ 		reg = <1>;
++		reset-gpios = <&gpio5 22 GPIO_ACTIVE_LOW>;
+ 		interrupt-parent = <&irqc0>;
+ 		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+ 		micrel,led-mode = <1>;
+diff --git a/arch/arm/boot/dts/r8a7793-gose.dts b/arch/arm/boot/dts/r8a7793-gose.dts
+index 22ca7cd1e7d2..4da82f1e1e94 100644
+--- a/arch/arm/boot/dts/r8a7793-gose.dts
++++ b/arch/arm/boot/dts/r8a7793-gose.dts
+@@ -588,6 +588,7 @@ &ether {
+ 
+ 	phy1: ethernet-phy@1 {
+ 		reg = <1>;
++		reset-gpios = <&gpio5 22 GPIO_ACTIVE_LOW>;
+ 		interrupt-parent = <&irqc0>;
+ 		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+ 		micrel,led-mode = <1>;
+diff --git a/arch/arm/boot/dts/r8a7794-alt.dts b/arch/arm/boot/dts/r8a7794-alt.dts
+index f79fce74cd9c..7aa1e8ca808b 100644
+--- a/arch/arm/boot/dts/r8a7794-alt.dts
++++ b/arch/arm/boot/dts/r8a7794-alt.dts
+@@ -340,6 +340,7 @@ &ether {
+ 
+ 	phy1: ethernet-phy@1 {
+ 		reg = <1>;
++		reset-gpios = <&gpio1 24 GPIO_ACTIVE_LOW>;
+ 		interrupt-parent = <&irqc0>;
+ 		interrupts = <8 IRQ_TYPE_LEVEL_LOW>;
+ 		micrel,led-mode = <1>;
+diff --git a/arch/arm/boot/dts/r8a7794-silk.dts b/arch/arm/boot/dts/r8a7794-silk.dts
+index 2c16ad854300..3c0ed684f4a1 100644
+--- a/arch/arm/boot/dts/r8a7794-silk.dts
++++ b/arch/arm/boot/dts/r8a7794-silk.dts
+@@ -391,6 +391,7 @@ &ether {
+ 
+ 	phy1: ethernet-phy@1 {
+ 		reg = <1>;
++		reset-gpios = <&gpio1 24 GPIO_ACTIVE_LOW>;
+ 		interrupt-parent = <&irqc0>;
+ 		interrupts = <8 IRQ_TYPE_LEVEL_LOW>;
+ 		micrel,led-mode = <1>;
+-- 
+2.24.1
 
