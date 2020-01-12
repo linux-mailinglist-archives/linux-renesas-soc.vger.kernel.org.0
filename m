@@ -2,116 +2,46 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB0181388BE
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jan 2020 00:25:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E57C1388CB
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 13 Jan 2020 00:40:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387489AbgALXZ2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 12 Jan 2020 18:25:28 -0500
-Received: from bin-mail-out-06.binero.net ([195.74.38.229]:42039 "EHLO
-        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2387475AbgALXZ2 (ORCPT
+        id S2387422AbgALXke (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 12 Jan 2020 18:40:34 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58842 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727323AbgALXke (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 12 Jan 2020 18:25:28 -0500
-X-Halon-ID: cee40af9-3592-11ea-a00b-005056917a89
-Authorized-sender: niklas@soderlund.pp.se
-Received: from bismarck.berto.se (p54ac5d7b.dip0.t-ipconnect.de [84.172.93.123])
-        by bin-vsp-out-01.atm.binero.net (Halon) with ESMTPA
-        id cee40af9-3592-11ea-a00b-005056917a89;
-        Mon, 13 Jan 2020 00:25:26 +0100 (CET)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Helen Koike <helen.koike@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v3 5/5] staging/intel-ipu3: Make use of V4L2_CAP_IO_MC
-Date:   Mon, 13 Jan 2020 00:24:58 +0100
-Message-Id: <20200112232458.2844506-6-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200112232458.2844506-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20200112232458.2844506-1-niklas.soderlund+renesas@ragnatech.se>
+        Sun, 12 Jan 2020 18:40:34 -0500
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1578872433;
+        bh=KO5nwB9Dw3sggUDaB3/r9nKXISTFO3wtZUKsCZMtjEA=;
+        h=Subject:From:Date:To:From;
+        b=Shca9ysvtm9eAbqwSAp0eH0zWHTpa6+BIjFKual6eaPrWNfke58XXMa7fR+h9vbkH
+         eQvR+/dEV8zfMLpcOEIJug1JXB+PuM/8MKkyYgJdQOTCsUU95jugelLPD3CLcayuKk
+         dhDwRArG93ERaS1jiL5ilMFP0sPIT61nOrOm3GBU=
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Subject: Patchwork housekeeping for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <157887243349.29211.14435501735286170128.git-patchwork-housekeeping@kernel.org>
+Date:   Sun, 12 Jan 2020 23:40:33 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Set the V4L2_CAP_IO_MC capability flag and remove the driver specific
-enum input and output callbacks.
+Latest series: [v3] v4l2-dev/ioctl: Add V4L2_CAP_IO_MC (2020-01-12T23:24:53)
+  Superseding: [v2] v4l2-dev/ioctl: Add V4L2_CAP_IO_MC (2019-11-15T23:55:54):
+    [v2,1/6] v4l2-dev/ioctl: Add default handlers for VIDIOC_{G,S}_{INPUT,OUTPUT}
+    [v2,2/6] rcar-vin: Use default VIDIOC_{G,S}_{INPUT,OUTPUT} handler
+    [v2,3/6] staging/intel-ipu3: Use default VIDIOC_{G,S}_{INPUT,OUTPUT} handler
+    [v2,4/6] v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
+    [v2,5/6] rcar-vin: Make use of V4L2_CAP_IO_MC
+    [v2,6/6] staging/intel-ipu3: Make use of V4L2_CAP_IO_MC
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/staging/media/ipu3/ipu3-v4l2.c | 30 ++------------------------
- 1 file changed, 2 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
-index 2f6b5bee39898715..e2f48f4c61245309 100644
---- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-+++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-@@ -843,28 +843,6 @@ static int imgu_vidioc_g_meta_fmt(struct file *file, void *fh,
- 	return 0;
- }
- 
--static int imgu_vidioc_enum_input(struct file *file, void *fh,
--				  struct v4l2_input *input)
--{
--	if (input->index > 0)
--		return -EINVAL;
--	strscpy(input->name, "camera", sizeof(input->name));
--	input->type = V4L2_INPUT_TYPE_CAMERA;
--
--	return 0;
--}
--
--static int imgu_vidioc_enum_output(struct file *file, void *fh,
--				   struct v4l2_output *output)
--{
--	if (output->index > 0)
--		return -EINVAL;
--	strscpy(output->name, "camera", sizeof(output->name));
--	output->type = V4L2_INPUT_TYPE_CAMERA;
--
--	return 0;
--}
--
- /******************** function pointers ********************/
- 
- static struct v4l2_subdev_internal_ops imgu_subdev_internal_ops = {
-@@ -931,10 +909,6 @@ static const struct v4l2_ioctl_ops imgu_v4l2_ioctl_ops = {
- 	.vidioc_s_fmt_vid_out_mplane = imgu_vidioc_s_fmt,
- 	.vidioc_try_fmt_vid_out_mplane = imgu_vidioc_try_fmt,
- 
--	.vidioc_enum_output = imgu_vidioc_enum_output,
--
--	.vidioc_enum_input = imgu_vidioc_enum_input,
--
- 	/* buffer queue management */
- 	.vidioc_reqbufs = vb2_ioctl_reqbufs,
- 	.vidioc_create_bufs = vb2_ioctl_create_bufs,
-@@ -986,7 +960,7 @@ static void imgu_node_to_v4l2(u32 node, struct video_device *vdev,
- 
- 	switch (node) {
- 	case IMGU_NODE_IN:
--		cap = V4L2_CAP_VIDEO_OUTPUT_MPLANE;
-+		cap = V4L2_CAP_VIDEO_OUTPUT_MPLANE | V4L2_CAP_IO_MC;
- 		f->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
- 		vdev->ioctl_ops = &imgu_v4l2_ioctl_ops;
- 		break;
-@@ -1005,7 +979,7 @@ static void imgu_node_to_v4l2(u32 node, struct video_device *vdev,
- 		imgu_css_meta_fmt_set(&f->fmt.meta);
- 		break;
- 	default:
--		cap = V4L2_CAP_VIDEO_CAPTURE_MPLANE;
-+		cap = V4L2_CAP_VIDEO_CAPTURE_MPLANE | V4L2_CAP_IO_MC;
- 		f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
- 		vdev->ioctl_ops = &imgu_v4l2_ioctl_ops;
- 	}
 -- 
-2.24.1
-
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
