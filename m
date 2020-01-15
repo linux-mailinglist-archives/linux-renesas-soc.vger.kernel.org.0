@@ -2,127 +2,528 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 38CCC13C378
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2020 14:46:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A3CF13C806
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2020 16:38:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726085AbgAONqD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jan 2020 08:46:03 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:38130 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726071AbgAONqC (ORCPT
+        id S1726566AbgAOPig (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jan 2020 10:38:36 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:36605 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726248AbgAOPig (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jan 2020 08:46:02 -0500
-Received: by mail-lj1-f194.google.com with SMTP id w1so18644893ljh.5
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jan 2020 05:46:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=eHGlUjkvC7kMqrOBh/9e8bshdo/yfCGU18peWI5/6W8=;
-        b=DhE24ldNaSjlYUh6/Tr6dy8fonM6ZvYmanBVxbRl6ZOzDAD++3XTCF77Z9ebtm73Uk
-         phWNLk7inmoF9PEx+K/ZUZjSUv4ZuHDwawi1JFURi105dmiJzelVFaD1iSJD44HQ1reQ
-         SmU0NSieBqHR2xwrdLVYtZ77bfAwSve2UUU5I6vJAHsY2GOX4ygSGFXJIqu2NT0Dtx5E
-         0NkzRhXjlSU6OQzmUcy8g2f+QDKBD+8NmHrlz0YelcuTfpvMDmfvqU/54fUE4+nd2hiS
-         Gsq7MsvGu+VPEp877Y1VWQIoqJtBHehUOirQvkJXprsL/jwJFj6ajwt6kEojh1c3/qAC
-         vt4g==
+        Wed, 15 Jan 2020 10:38:36 -0500
+Received: by mail-oi1-f193.google.com with SMTP id c16so15778299oic.3
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jan 2020 07:38:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=eHGlUjkvC7kMqrOBh/9e8bshdo/yfCGU18peWI5/6W8=;
-        b=itP3OaRlzs6R0x9349d/DABlFfzFH6gWvE349oYyK/Kh0lBuyCKiKX8Sir4GWLUAvk
-         MDerhiXvRCQI1WKN1+3NWfY3/Ms37/RInRhDk3iMRt4rQbyWXHYMmTDzH8cpwYCstN75
-         i4x6B2e7fr8QSZW/rNBOoawmwaol+xFJdJG0K2xHNJpBJJ88/MOQBT1wOVEc07d6dPe7
-         rHZWT2YpklRLZhuD0J+hpavQNJMohG2fJSULKdW+pwXHJNYISyuTv+R7/aGFtHyO4Y0y
-         ELxgbJCG9vFXk73UOS6rMpHW0fdyw+oM54gUyP2glxZZY5oP6ZaO3M8pEzNPk8oS707z
-         x2iQ==
-X-Gm-Message-State: APjAAAXxvUerP8C/KBVRx5yHr7e/7ZDxSWvTzSfwWKYSB4ZI3kOXkf+0
-        8+LyHWwMhSdoqTzn0d/GdVRlGY+TyjI=
-X-Google-Smtp-Source: APXvYqyHwnEyO03kLXm2NiclUmJVSUghxTLPNWiIF13hX8TTySX5M0oHRoFxdUDOU+eIuyNboq5mCQ==
-X-Received: by 2002:a2e:9a01:: with SMTP id o1mr1826470lji.247.1579095960869;
-        Wed, 15 Jan 2020 05:46:00 -0800 (PST)
-Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
-        by smtp.gmail.com with ESMTPSA id 192sm8945471lfh.28.2020.01.15.05.45.59
+         :in-reply-to:user-agent;
+        bh=BJ0NYxx4q989BAE4YTr0c3eBStcbmse461fRCdYuon8=;
+        b=h7H1fB7MUM75L8p8RmiFY6zMOwNvPHcVpj3WRDCoS7leBQzEKhZJ5xct1g3rZ9tFaJ
+         T0NYO5kAsBsY+cNztoKAExLDpGf9+fmLeSU4Sb5f/SfsOCIKEwuKrHptMor6+ruxhkJp
+         ayPy3fJoqyZb0Eod2i14KIrI64DZfCzdtw0UQhuBlilICMr7xrav//zVyC2Qg2nVlBJ8
+         Y0y3S+nP78yCGsLP+QvErucmIMM8eLJ/RtFFXksJSapvljW2jL5LwUw474MumdNdgA1U
+         /zv/jc+u+yifg+EC61e4z4JxnIk9OxwT+wdioMqjvHGbu2ZyGIiQpXJ5gF8OCQC9HxyT
+         c9nw==
+X-Gm-Message-State: APjAAAVQPw4yniotcJBCcBMaGfrpBfM7TXIJ8rmaRWmMaEPXcairkHDd
+        wpBerEifXi388qdCr3enYH15dCc=
+X-Google-Smtp-Source: APXvYqywg9hzDIzspUcKZqRLWdxfb72JhM5aw3J4qNqAg2EZRT+RHIsaVp6Xp8LLmbQk2pDBTYRMFQ==
+X-Received: by 2002:aca:eb83:: with SMTP id j125mr245762oih.153.1579102714382;
+        Wed, 15 Jan 2020 07:38:34 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id j186sm5773278oih.55.2020.01.15.07.38.33
+        for <linux-renesas-soc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jan 2020 05:46:00 -0800 (PST)
-Date:   Wed, 15 Jan 2020 14:45:59 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        Wed, 15 Jan 2020 07:38:33 -0800 (PST)
+Received: from rob (uid 1000)
+        (envelope-from rob@rob-hp-laptop)
+        id 220379
+        by rob-hp-laptop (DragonFly Mail Agent v0.11);
+        Wed, 15 Jan 2020 09:38:33 -0600
+Date:   Wed, 15 Jan 2020 09:38:33 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     linux-pm@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/2] thermal: rcar_thermal: Remove temperature bound
-Message-ID: <20200115134559.GA945270@oden.dyn.berto.se>
-References: <20200114222945.3128250-1-niklas.soderlund+renesas@ragnatech.se>
- <20200114222945.3128250-2-niklas.soderlund+renesas@ragnatech.se>
- <a98baf8f-e2ef-d77d-ff3c-f5838e268dd7@linaro.org>
+Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH v2] dt-bindings: rcar-vin: Convert bindings to json-schema
+Message-ID: <20200115153832.GA19169@bogus>
+References: <20200110201146.2312391-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a98baf8f-e2ef-d77d-ff3c-f5838e268dd7@linaro.org>
+In-Reply-To: <20200110201146.2312391-1-niklas.soderlund+renesas@ragnatech.se>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Daniel,
+On Fri, Jan 10, 2020 at 09:11:46PM +0100, Niklas S�derlund wrote:
+> Convert Renesas R-Car VIN bindings documentation to json-schema.
+> 
+> As the examples in the bindings now can be tested add a new one which
+> describes how the both a parallel and a CSI-2 source can be connected on
+> Gen3 SoCs.
+> 
+> Signed-off-by: Niklas S�derlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+> ---
+>  .../devicetree/bindings/media/renesas,vin.txt | 217 ----------
+>  .../bindings/media/renesas,vin.yaml           | 397 ++++++++++++++++++
+>  MAINTAINERS                                   |   2 +-
+>  3 files changed, 398 insertions(+), 218 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/renesas,vin.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/renesas,vin.yaml
 
-Thanks for your feedback.
 
-On 2020-01-15 14:24:30 +0100, Daniel Lezcano wrote:
-> On 14/01/2020 23:29, Niklas Söderlund wrote:
-> > The hardware manual states that the operation of the sensor is not
-> > guaranteed outside the range of -40°C to 125°C, not that the readings
-> > are invalid. Remove the bound check and try to deliver temperature
-> > readings even if we are outside the guaranteed operation range.
-> 
-> And what if the sensor is returning crap in this out-of-range operation?
+> diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> new file mode 100644
+> index 0000000000000000..62a2d75ea72b6597
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+> @@ -0,0 +1,397 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +# Copyright (C) 2020 Renesas Electronics Corp.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/renesas,vin.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas R-Car Video Input (VIN)
+> +
+> +maintainers:
+> +  - Niklas S�derlund <niklas.soderlund@ragnatech.se>
+> +
+> +description:
+> +  The R-Car Video Input (VIN) device provides video input capabilities for the
+> +  Renesas R-Car family of devices.
+> +
+> +  Each VIN instance has a single parallel input that supports RGB and YUV video,
+> +  with both external synchronization and BT.656 synchronization for the latter.
+> +  Depending on the instance the VIN input is connected to external SoC pins, or
+> +  on Gen3 and RZ/G2 platforms to a CSI-2 receiver.
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +        - enum:
 
-I'm not sure what is worse, reporting an untrue (but still outside the 
-guaranteed operation range) extreme temperature or failing with -EIO.  
-The view of the hardware guys is that it's better to report what the 
-sensor indicates then to return -EIO.
+Should be indented 2 more spaces.
 
-> 
-> 
-> 
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > ---
-> >  drivers/thermal/rcar_thermal.c | 7 -------
-> >  1 file changed, 7 deletions(-)
-> > 
-> > diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
-> > index d0873de718da9218..2ae60b27a0183db1 100644
-> > --- a/drivers/thermal/rcar_thermal.c
-> > +++ b/drivers/thermal/rcar_thermal.c
-> > @@ -275,13 +275,6 @@ static int rcar_thermal_get_current_temp(struct rcar_thermal_priv *priv,
-> >  		tmp = MCELSIUS((priv->ctemp * 5) - 60);
-> >  	mutex_unlock(&priv->lock);
-> >  
-> > -	if ((tmp < MCELSIUS(-45)) || (tmp > MCELSIUS(125))) {
-> > -		struct device *dev = rcar_priv_to_dev(priv);
-> > -
-> > -		dev_err(dev, "it couldn't measure temperature correctly\n");
-> > -		return -EIO;
-> > -	}
-> > -
-> >  	*temp = tmp;
-> >  
-> >  	return 0;
-> > 
-> 
-> 
+> +          - renesas,vin-r8a7743  # RZ/G1M
+
+And then 2 more here.
+
+> +          - renesas,vin-r8a7744  # RZ/G1N
+> +          - renesas,vin-r8a7745  # RZ/G1E
+> +          - renesas,vin-r8a77470 # RZ/G1C
+> +          - renesas,vin-r8a7790  # R-Car H2
+> +          - renesas,vin-r8a7791  # R-Car M2-W
+> +          - renesas,vin-r8a7792  # R-Car V2H
+> +          - renesas,vin-r8a7793  # R-Car M2-N
+> +          - renesas,vin-r8a7794  # R-Car E2
+> +        - const: renesas,rcar-gen2-vin # Generic R-Car Gen2 or RZ/G1
+> +
+> +      - items:
+> +        - enum:
+> +          - renesas,vin-r8a774a1 # RZ/G2M
+> +          - renesas,vin-r8a774b1 # RZ/G2N
+> +          - renesas,vin-r8a774c0 # RZ/G2E
+> +          - renesas,vin-r8a7778  # R-Car M1
+> +          - renesas,vin-r8a7779  # R-Car H1
+> +          - renesas,vin-r8a7795  # R-Car H3
+> +          - renesas,vin-r8a7796  # R-Car M3-W
+> +          - renesas,vin-r8a77965 # R-Car M3-N
+> +          - renesas,vin-r8a77970 # R-Car V3M
+> +          - renesas,vin-r8a77980 # R-Car V3H
+> +          - renesas,vin-r8a77990 # R-Car E3
+> +          - renesas,vin-r8a77995 # R-Car D3
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  #The per-board settings for Gen2 and RZ/G1 platforms:
+> +  port:
+> +    type: object
+> +    description:
+> +      A node containing a parallel input with a singel endpoint definitions as
+
+s/singel/single/
+
+> +      documented in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt
+> +
+> +    properties:
+> +      reg:
+> +        const: 1
+
+Node name should be port@1 rather than port then.
+
+> +
+> +      endpoint:
+> +        type: object
+> +
+> +        properties:
+> +          hsync-active:
+> +            description:
+> +              If both HSYNC and VSYNC polarities are not specified, embedded
+> +              synchronization is selected.
+> +            default: 1
+> +
+> +          vsync-active:
+> +            description:
+> +              If both HSYNC and VSYNC polarities are not specified, embedded
+> +              synchronization is selected.
+> +            default: 1
+> +
+> +          field-active-even: true
+> +
+> +          bus-width: true
+> +
+> +          data-shift: true
+> +
+> +          data-enable-active:
+> +            description: Polarity of CLKENB signal
+> +            default: 1
+> +
+> +          pclk-sample: true
+> +
+> +          data-active: true
+> +
+> +          remote-endpoint: true
+> +
+> +        required:
+> +          - remote-endpoint
+> +
+> +        additionalProperties: false
+> +
+> +    additionalProperties: false
+> +
+> +  #The per-board settings for Gen3 and RZ/G2 platforms:
+> +  renesas,id:
+> +    description: VIN channel number
+> +    allOf:
+> +      - $ref: /schemas/types.yaml#/definitions/uint32
+> +      - enum: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]
+
+minimum: 0
+maximum: 15
+
+> +
+> +  ports:
+> +    type: object
+> +    description:
+> +      A node containing input nodes with endpoint definitions as documented in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt
+> +
+> +    properties:
+> +      port@0:
+> +        type: object
+> +        description:
+> +          Input port node, single endpoint describing a parallel input source.
+> +
+> +        properties:
+> +          reg:
+> +            const: 0
+> +
+> +          endpoint:
+> +            type: object
+> +
+> +            properties:
+> +              hsync-active:
+> +                description:
+> +                  Default is active high. If both HSYNC and VSYNC polarities are not
+> +                  specified, embedded synchronization is selected.
+> +                enum: [ 0, 1 ]
+
+We should assume the values on these common properties are defined 
+elsewhere unless it's a subset.
+
+> +
+> +              vsync-active:
+> +                description:
+> +                  Default is active high. If both HSYNC and VSYNC polarities are not
+> +                  specified, embedded synchronization is selected.
+> +                enum: [ 0, 1 ]
+> +
+> +              field-active-even:
+> +                description: Default is active high.
+> +                enum: [ 0, 1 ]
+> +
+> +              bus-width:
+> +                enum: [ 8, 10, 12, 16, 24, 32 ]
+> +
+> +              data-shift:
+> +                enum: [ 0, 8 ]
+> +
+> +              data-enable-active:
+> +                description: Polarity of CLKENB signal, default is active high.
+
+Use 'default' to describe the default.
+
+> +                enum: [ 0, 1 ]
+> +
+> +              pclk-sample:
+> +                enum: [ 0, 1 ]
+> +
+> +              data-active:
+> +                enum: [ 0, 1 ]
+> +
+> +              remote-endpoint: true
+> +
+> +            required:
+> +              - remote-endpoint
+> +
+> +            additionalProperties: false
+> +
+> +        additionalProperties: false
+> +
+> +      port@1:
+> +        type: object
+> +        description:
+> +          Input port node, multiple endpoints describing all the R-Car CSI-2
+> +          modules connected the VIN.
+> +
+> +        properties:
+> +          '#address-cells':
+> +            const: 1
+> +
+> +          '#size-cells':
+> +            const: 0
+> +
+> +          reg:
+> +            const: 1
+> +
+> +          endpoint@0:
+> +            type: object
+> +            description: Endpoint connected to CSI20.
+> +
+> +            properties:
+> +              reg:
+> +                const: 0
+> +
+> +              remote-endpoint: true
+> +
+> +            required:
+> +              - reg
+> +              - remote-endpoint
+> +
+> +            additionalProperties: false
+> +
+> +          endpoint@1:
+> +            type: object
+> +            description: Endpoint connected to CSI21.
+> +
+> +            properties:
+> +              reg:
+> +                const: 1
+> +
+> +              remote-endpoint: true
+> +
+> +            required:
+> +              - reg
+> +              - remote-endpoint
+> +
+> +            additionalProperties: false
+> +
+> +          endpoint@2:
+> +            type: object
+> +            description: Endpoint connected to CSI40.
+> +
+> +            properties:
+> +              reg:
+> +                const: 2
+> +
+> +              remote-endpoint: true
+> +
+> +            required:
+> +              - reg
+> +              - remote-endpoint
+> +
+> +            additionalProperties: false
+> +
+> +          endpoint@3:
+> +            type: object
+> +            description: Endpoint connected to CSI41.
+> +
+> +            properties:
+> +              reg:
+> +                const: 3
+> +
+> +              remote-endpoint: true
+> +
+> +            required:
+> +              - reg
+> +              - remote-endpoint
+
+None of these ports or endpoints are required?
+
+> +
+> +            additionalProperties: false
+> +
+> +        additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - power-domains
+> +  - resets
+> +
+> +if:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        anyOf:
+> +          - const: renesas,vin-r8a7778
+> +          - const: renesas,vin-r8a7779
+> +          - const: renesas,rcar-gen2-vin
+
+Use 'enum' instead of anyOf+const.
+
+> +then:
+> +  required:
+> +    - port
+> +else:
+> +  required:
+> +    - renesas,id
+> +    - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  # Device node example for Gen2 platform
+> +  - |
+> +    #include <dt-bindings/clock/r8a7790-cpg-mssr.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/power/r8a7790-sysc.h>
+> +
+> +    vin1: vin@e6ef1000 {
+> +            compatible = "renesas,vin-r8a7790",
+> +                         "renesas,rcar-gen2-vin";
+> +            reg = <0 0xe6ef1000 0 0x1000>;
+> +            interrupts = <GIC_SPI 189 IRQ_TYPE_LEVEL_HIGH>;
+> +            clocks = <&cpg CPG_MOD 810>;
+> +            power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
+> +            resets = <&cpg 810>;
+> +
+> +            port {
+> +                    vin1ep0: endpoint {
+> +                            remote-endpoint = <&adv7180>;
+> +                            bus-width = <8>;
+> +                    };
+> +            };
+> +    };
+> +
+> +  # Device node example for Gen3 platform with only CSI-2
+> +  - |
+> +    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/power/r8a7795-sysc.h>
+> +
+> +    vin0: video@e6ef0000 {
+> +            compatible = "renesas,vin-r8a7795";
+> +            reg = <0 0xe6ef0000 0 0x1000>;
+> +            interrupts = <GIC_SPI 188 IRQ_TYPE_LEVEL_HIGH>;
+> +            clocks = <&cpg CPG_MOD 811>;
+> +            power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+> +            resets = <&cpg 811>;
+> +            renesas,id = <0>;
+> +
+> +            ports {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +
+> +                    port@1 {
+> +                            #address-cells = <1>;
+> +                            #size-cells = <0>;
+> +
+> +                            reg = <1>;
+> +
+> +                            vin0csi20: endpoint@0 {
+> +                                    reg = <0>;
+> +                                    remote-endpoint= <&csi20vin0>;
+> +                            };
+> +                            vin0csi40: endpoint@2 {
+> +                                    reg = <2>;
+> +                                    remote-endpoint= <&csi40vin0>;
+> +                            };
+> +                    };
+> +            };
+> +    };
+> +
+> +  # Device node example for Gen3 platform with CSI-2 and parallel
+> +  - |
+> +    #include <dt-bindings/clock/r8a77970-cpg-mssr.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/power/r8a77970-sysc.h>
+> +
+> +    vin2: video@e6ef2000 {
+> +            compatible = "renesas,vin-r8a77970";
+> +            reg = <0 0xe6ef2000 0 0x1000>;
+> +            interrupts = <GIC_SPI 190 IRQ_TYPE_LEVEL_HIGH>;
+> +            clocks = <&cpg CPG_MOD 809>;
+> +            power-domains = <&sysc R8A77970_PD_ALWAYS_ON>;
+> +            resets = <&cpg 809>;
+> +            renesas,id = <2>;
+> +
+> +            ports {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +
+> +                    port@0 {
+> +                            reg = <0>;
+> +
+> +                            vin2_in: endpoint {
+> +                                    remote-endpoint = <&adv7612_out>;
+> +                                    hsync-active = <0>;
+> +                                    vsync-active = <0>;
+> +                            };
+> +                    };
+> +
+> +                    port@1 {
+> +                            #address-cells = <1>;
+> +                            #size-cells = <0>;
+> +
+> +                            reg = <1>;
+> +
+> +                            vin2csi40: endpoint@2 {
+> +                                    reg = <2>;
+> +                                    remote-endpoint = <&csi40vin2>;
+> +                            };
+> +                    };
+> +            };
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index e30ba33be8ad833e..d75ad6e3f4e86523 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -10315,7 +10315,7 @@ L:	linux-renesas-soc@vger.kernel.org
+>  T:	git git://linuxtv.org/media_tree.git
+>  S:	Supported
+>  F:	Documentation/devicetree/bindings/media/renesas,csi2.yaml
+> -F:	Documentation/devicetree/bindings/media/renesas,vin.txt
+> +F:	Documentation/devicetree/bindings/media/renesas,vin.yaml
+>  F:	drivers/media/platform/rcar-vin/
+>  
+>  MEDIA DRIVERS FOR RENESAS - VSP1
 > -- 
->  <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+> 2.24.1
 > 
-> Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-> <http://twitter.com/#!/linaroorg> Twitter |
-> <http://www.linaro.org/linaro-blog/> Blog
-> 
-
--- 
-Regards,
-Niklas Söderlund
