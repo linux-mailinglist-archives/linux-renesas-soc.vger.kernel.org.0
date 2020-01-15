@@ -2,131 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8474413CCB7
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2020 20:00:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D41213CD11
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2020 20:27:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728928AbgAOTAq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jan 2020 14:00:46 -0500
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:43473 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728992AbgAOTAp (ORCPT
+        id S1725999AbgAOT1h (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jan 2020 14:27:37 -0500
+Received: from vsp-unauthed02.binero.net ([195.74.38.227]:15963 "EHLO
+        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728895AbgAOT1h (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jan 2020 14:00:45 -0500
-Received: by mail-lf1-f66.google.com with SMTP id 9so13564024lfq.10
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jan 2020 11:00:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=kkSb5XFjVAdxecaVMhl5npWQb18A0fEroSSW8nmnqso=;
-        b=1Po/Nr5guIuj6JQYoyc/KkE2nefZ1byRnzhIL0cZAsK3RGvI3fJkEkY/bGk0cTkAd0
-         kDWjA6dRSCzLUtSg//R1d2EBfjBhdbpy5H1KiaHH1kh8p3Za2iyUn4CGU9Nju9vPFfC5
-         WeFvK9LySoUYs9HGaIQxIQGPcXYWRxFXbUUzo6hTSHUfZzdR/0/FGYs2H14kVKEa/5Zb
-         y3zne2qaISLAtJbrG4ZY4akS/967WJ/+TdjfJQau7TTugw1S2gsGvLSUGgwazUk24DgN
-         7qUWFg9CIRCNw3+tn5upPxxwCMTDxLKaptys5FaGYqqeg3VLsSVcLBPtpql+Es9depwN
-         wwAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=kkSb5XFjVAdxecaVMhl5npWQb18A0fEroSSW8nmnqso=;
-        b=G5Kqj1tstGyuMxEOpHoL3moz426AX+QOW8oObDpT5cuaXt5byoTv/ZMptyJClRtSl4
-         e98Dltjj0qR2+4kAikf2rlPoLminKsOhElQOOjRYrw0x7rJRwpVoqsD+f8T58lSdNltI
-         G1BekIhcO22TuTzcQuZiqg+LDAvTjPkMceaR82psTL1JHr5eQlvO7AA55/HbUtX0NGpc
-         TewTO0qq6bCzM9m5Hm/s3OqRKqz/FP2e065WIOqi14s88DnQ/+wTWT3E6IY8y3vYjljA
-         Z1fzt0Io7nTv0ruuJTqUlkJWTw0/xhB7wqVkcbK0rH3k9c6a1rDAR/Fh5rX2kijVlPKd
-         fKFA==
-X-Gm-Message-State: APjAAAVgyDWPIEzO7zJ7iNwCv/20BuqMyRzwOzEy7FfnnQxxJh6lHU4B
-        0TT62C5ISuENVFV7QbQGkcN0Kw==
-X-Google-Smtp-Source: APXvYqwbotwNaG3js+/LSjbpf1LJM+qnAsB5qH1RGXygA8dGWsziSSyAsUNJzuGJL5tdkzmeUhMdXw==
-X-Received: by 2002:ac2:50da:: with SMTP id h26mr235067lfm.80.1579114843968;
-        Wed, 15 Jan 2020 11:00:43 -0800 (PST)
-Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
-        by smtp.gmail.com with ESMTPSA id y29sm9522204ljd.88.2020.01.15.11.00.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jan 2020 11:00:43 -0800 (PST)
-Date:   Wed, 15 Jan 2020 20:00:42 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        Wed, 15 Jan 2020 14:27:37 -0500
+X-Halon-ID: 128a8464-37cd-11ea-a00b-005056917a89
+Authorized-sender: niklas@soderlund.pp.se
+Received: from bismarck.berto.se (p54ac5d7b.dip0.t-ipconnect.de [84.172.93.123])
+        by bin-vsp-out-01.atm.binero.net (Halon) with ESMTPA
+        id 128a8464-37cd-11ea-a00b-005056917a89;
+        Wed, 15 Jan 2020 20:27:34 +0100 (CET)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-To:     Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc:     linux-pm@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/2] thermal: rcar_thermal: Remove temperature bound
-Message-ID: <20200115190042.GB979534@oden.dyn.berto.se>
-References: <20200114222945.3128250-1-niklas.soderlund+renesas@ragnatech.se>
- <20200114222945.3128250-2-niklas.soderlund+renesas@ragnatech.se>
- <a98baf8f-e2ef-d77d-ff3c-f5838e268dd7@linaro.org>
- <20200115134559.GA945270@oden.dyn.berto.se>
- <d7c7bb44-897d-a3a3-c203-d87ffb7de9be@linaro.org>
- <20200115183940.GA979534@oden.dyn.berto.se>
- <710eeff0-e8f4-5f03-836a-6a2e87e415e8@linaro.org>
+To:     Lars-Peter Clausen <lars@metafoo.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] adv7180: Add init_cfg pad operation
+Date:   Wed, 15 Jan 2020 20:27:19 +0100
+Message-Id: <20200115192719.3276138-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <710eeff0-e8f4-5f03-836a-6a2e87e415e8@linaro.org>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2020-01-15 19:52:25 +0100, Daniel Lezcano wrote:
-> On 15/01/2020 19:39, Niklas Söderlund wrote:
-> > Hi Daniel,
-> > 
-> > On 2020-01-15 19:15:11 +0100, Daniel Lezcano wrote:
-> >> On 15/01/2020 14:45, Niklas Söderlund wrote:
-> >>> Hi Daniel,
-> >>>
-> >>> Thanks for your feedback.
-> >>>
-> >>> On 2020-01-15 14:24:30 +0100, Daniel Lezcano wrote:
-> >>>> On 14/01/2020 23:29, Niklas Söderlund wrote:
-> >>>>> The hardware manual states that the operation of the sensor is not
-> >>>>> guaranteed outside the range of -40°C to 125°C, not that the readings
-> >>>>> are invalid. Remove the bound check and try to deliver temperature
-> >>>>> readings even if we are outside the guaranteed operation range.
-> >>>>
-> >>>> And what if the sensor is returning crap in this out-of-range operation?
-> >>>
-> >>> I'm not sure what is worse, reporting an untrue (but still outside the 
-> >>> guaranteed operation range) extreme temperature or failing with -EIO.  
-> >>> The view of the hardware guys is that it's better to report what the 
-> >>> sensor indicates then to return -EIO.
-> >>
-> >> I don't get the point.
-> >>
-> >> What happens if we read the sensor while it is above or below the limits?
-> > 
-> > The manual describes the read outs as being +/- 2°C from the true 
-> > temperature for the guaranteed operating range. Outside this range the 
-> > difference between the true temperature and the read out temperature 
-> > might be larger than 2°C.
-> 
-> Ok, I see the point now. I guess in any case the SoC won't be working
-> very well outside of these operating range also.
-> 
-> It would be interesting to add in the core code a warning when reaching
-> the sensor's operating range. Please replace the code deletion in your
-> patches by a comment keeping the range values for reference if we add a
-> sensor boundaries property later.
+Add a init_cfg pad operation so that configurations allocated with
+v4l2_subdev_alloc_pad_config() are initialized.
 
-Thanks, will do and post a v2.
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/media/i2c/adv7180.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-> 
-> Thanks
->   -- Daniel
-> 
-> -- 
->  <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
-> 
-> Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
-> <http://twitter.com/#!/linaroorg> Twitter |
-> <http://www.linaro.org/linaro-blog/> Blog
-> 
-
+diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
+index 6528e2343fc89f43..00159daa6fcd6516 100644
+--- a/drivers/media/i2c/adv7180.c
++++ b/drivers/media/i2c/adv7180.c
+@@ -749,6 +749,17 @@ static int adv7180_set_pad_format(struct v4l2_subdev *sd,
+ 	return ret;
+ }
+ 
++static int adv7180_init_cfg(struct v4l2_subdev *sd,
++			    struct v4l2_subdev_pad_config *cfg)
++{
++	struct v4l2_subdev_format fmt = {
++		.which = cfg ? V4L2_SUBDEV_FORMAT_TRY
++			: V4L2_SUBDEV_FORMAT_ACTIVE,
++	};
++
++	return adv7180_set_pad_format(sd, cfg, &fmt);
++}
++
+ static int adv7180_g_mbus_config(struct v4l2_subdev *sd,
+ 				 struct v4l2_mbus_config *cfg)
+ {
+@@ -854,6 +865,7 @@ static const struct v4l2_subdev_core_ops adv7180_core_ops = {
+ };
+ 
+ static const struct v4l2_subdev_pad_ops adv7180_pad_ops = {
++	.init_cfg = adv7180_init_cfg,
+ 	.enum_mbus_code = adv7180_enum_mbus_code,
+ 	.set_fmt = adv7180_set_pad_format,
+ 	.get_fmt = adv7180_get_pad_format,
 -- 
-Regards,
-Niklas Söderlund
+2.24.1
+
