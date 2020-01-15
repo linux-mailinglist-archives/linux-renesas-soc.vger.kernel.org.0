@@ -2,528 +2,192 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A3CF13C806
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2020 16:38:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D56E413C828
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2020 16:42:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726566AbgAOPig (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jan 2020 10:38:36 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:36605 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726248AbgAOPig (ORCPT
+        id S1728939AbgAOPmQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jan 2020 10:42:16 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:41924 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726132AbgAOPmP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jan 2020 10:38:36 -0500
-Received: by mail-oi1-f193.google.com with SMTP id c16so15778299oic.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jan 2020 07:38:35 -0800 (PST)
+        Wed, 15 Jan 2020 10:42:15 -0500
+Received: by mail-lf1-f68.google.com with SMTP id m30so13034377lfp.8
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jan 2020 07:42:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=N8b+H5+4AZUL8IrGlHZ9KVMloMXldascwYgfWlKN9rE=;
+        b=FdYmDlvQrDy1LEQoaENUdqQc5r3i7VCErTzZ5eHAyDXArk/GW99jkbp7T/Mxjk+CG5
+         SBO4KnwzdCUIyGt6JV6AdRoxJFp1eVMUJMitA7oIj0LPDMFAhG6SktRL6shLejMecolJ
+         RNf+yvdk+EcEmv89u84BAdIxqY6qt/udZVFDgOdC4nHiuekLe/06CWxUyaKL+AFPoM8w
+         GqHLhnocT6dX9ydIprR4NVtLzNqnbWO7GY1L+fzMKUl0LPNlQ1Ga+enLfzmcwAk7YC4j
+         GfKHXJAQBo9oZP4QqL1b03SoNylfIePIRZZLMJQmcOsmbTR8HAOcM5imRIIFSdmEOZAW
+         3trA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=BJ0NYxx4q989BAE4YTr0c3eBStcbmse461fRCdYuon8=;
-        b=h7H1fB7MUM75L8p8RmiFY6zMOwNvPHcVpj3WRDCoS7leBQzEKhZJ5xct1g3rZ9tFaJ
-         T0NYO5kAsBsY+cNztoKAExLDpGf9+fmLeSU4Sb5f/SfsOCIKEwuKrHptMor6+ruxhkJp
-         ayPy3fJoqyZb0Eod2i14KIrI64DZfCzdtw0UQhuBlilICMr7xrav//zVyC2Qg2nVlBJ8
-         Y0y3S+nP78yCGsLP+QvErucmIMM8eLJ/RtFFXksJSapvljW2jL5LwUw474MumdNdgA1U
-         /zv/jc+u+yifg+EC61e4z4JxnIk9OxwT+wdioMqjvHGbu2ZyGIiQpXJ5gF8OCQC9HxyT
-         c9nw==
-X-Gm-Message-State: APjAAAVQPw4yniotcJBCcBMaGfrpBfM7TXIJ8rmaRWmMaEPXcairkHDd
-        wpBerEifXi388qdCr3enYH15dCc=
-X-Google-Smtp-Source: APXvYqywg9hzDIzspUcKZqRLWdxfb72JhM5aw3J4qNqAg2EZRT+RHIsaVp6Xp8LLmbQk2pDBTYRMFQ==
-X-Received: by 2002:aca:eb83:: with SMTP id j125mr245762oih.153.1579102714382;
-        Wed, 15 Jan 2020 07:38:34 -0800 (PST)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id j186sm5773278oih.55.2020.01.15.07.38.33
-        for <linux-renesas-soc@vger.kernel.org>
+         :in-reply-to;
+        bh=N8b+H5+4AZUL8IrGlHZ9KVMloMXldascwYgfWlKN9rE=;
+        b=C0kShumTZcjqB6RS9ZqK5QhKEmFmkg2aAy19R/0MWTzS2N01RbZxtFVipULgSK44Ua
+         iZHtGY6uVvvdHENblbMqAr9G8TobyXjhcLChgR0w2Ib+O1nY1jNdOIDZzACX3hrI4z1O
+         alpZBEMi49uZS2RrbzmFn6Cg/a4WpZWs94HvSIuXTojK9jXY612b2tRvIybdOzn5VsIG
+         Rb7UNe9SSBn2H+jr4WLW4yyx6nWE8fi3lGrMSZApU6N6gwEUPxmlCYbe9a9bsK2Q3Jfi
+         LsdYbc98UpiwvPDopRoRrUNRyOp2jDygQhj1qozFd49LZEbohanCWC8yDdcSOcKQSuna
+         LlCw==
+X-Gm-Message-State: APjAAAXEqOnxo0WykyHd719WHvgsoNEsRdXH2juTqSEzWxJF5ZvYn3zH
+        4Sid4xUszLv1yDYjE5LeURvjOA==
+X-Google-Smtp-Source: APXvYqzYfC/bkCYczOz0Rbf8DDPIo53usGVtIxNysW7JZRLyBZmcO/JlAzaVVBNPrSuP94EewnXcPA==
+X-Received: by 2002:ac2:5503:: with SMTP id j3mr5100238lfk.104.1579102932939;
+        Wed, 15 Jan 2020 07:42:12 -0800 (PST)
+Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
+        by smtp.gmail.com with ESMTPSA id g85sm9118361lfd.66.2020.01.15.07.42.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jan 2020 07:38:33 -0800 (PST)
-Received: from rob (uid 1000)
-        (envelope-from rob@rob-hp-laptop)
-        id 220379
-        by rob-hp-laptop (DragonFly Mail Agent v0.11);
-        Wed, 15 Jan 2020 09:38:33 -0600
-Date:   Wed, 15 Jan 2020 09:38:33 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>
-Subject: Re: [PATCH v2] dt-bindings: rcar-vin: Convert bindings to json-schema
-Message-ID: <20200115153832.GA19169@bogus>
-References: <20200110201146.2312391-1-niklas.soderlund+renesas@ragnatech.se>
+        Wed, 15 Jan 2020 07:42:12 -0800 (PST)
+Date:   Wed, 15 Jan 2020 16:42:12 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        linux-mtd@lists.infradead.org, linux-pm@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH resend] mtd: maps: physmap: Add minimal Runtime PM support
+Message-ID: <20200115154212.GA977577@oden.dyn.berto.se>
+References: <20200115131323.6883-1-geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200110201146.2312391-1-niklas.soderlund+renesas@ragnatech.se>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200115131323.6883-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jan 10, 2020 at 09:11:46PM +0100, Niklas Söderlund wrote:
-> Convert Renesas R-Car VIN bindings documentation to json-schema.
+Hi Geert,
+
+Thanks for your work.
+
+On 2020-01-15 14:13:23 +0100, Geert Uytterhoeven wrote:
+> Add minimal runtime PM support (enable on probe, disable on remove), to
+> ensure proper operation with a parent device that uses runtime PM.
 > 
-> As the examples in the bindings now can be tested add a new one which
-> describes how the both a parallel and a CSI-2 source can be connected on
-> Gen3 SoCs.
+> This is needed on systems where the FLASH is connected to a bus
+> controller that is contained in a PM domain and/or has a gateable
+> functional clock.  In such cases, before accessing any device connected
+> to the external bus, the PM domain must be powered up, and/or the
+> functional clock must be enabled, which is typically handled through
+> runtime PM by the bus controller driver.
 > 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+> An example of this is the Renesas APE6-EVM development board, which has
+> an Ethernet controller and a CFI FLASH connected to the Bus State
+> Controller (BSC) of an R-Mobile APE6 SoC.
+> As long as the Ethernet driver, which had Runtime PM support since
+> commit 3a611e26e958b037 ("net/smsc911x: Add minimal runtime PM
+> support"), keeps the BSC powered, accessing the FLASH works.
+> When the ethernet node in r8a73a4-ape6evm.dts is disabled, the BSC is
+> never powered up, and the kernel crashes when trying to access the
+> FLASH:
+> 
+>     Unhandled fault: imprecise external abort (0x1406) at 0x00000000
+>     pgd = (ptrval)
+>     [00000000] *pgd=7fef2835
+>     Internal error: : 1406 [#1] SMP ARM
+>     CPU: 0 PID: 122 Comm: hd Tainted: G        W         5.5.0-rc1-ape6evm-00814-g38ca966db25b9dbd-dirty #136
+>     Hardware name: Generic R8A73A4 (Flattened Device Tree)
+>     PC is at chip_ready+0x12c/0x380
+>     LR is at chip_ready+0x10c/0x380
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
 > ---
->  .../devicetree/bindings/media/renesas,vin.txt | 217 ----------
->  .../bindings/media/renesas,vin.yaml           | 397 ++++++++++++++++++
->  MAINTAINERS                                   |   2 +-
->  3 files changed, 398 insertions(+), 218 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/renesas,vin.txt
->  create mode 100644 Documentation/devicetree/bindings/media/renesas,vin.yaml
-
-
-> diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> new file mode 100644
-> index 0000000000000000..62a2d75ea72b6597
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> @@ -0,0 +1,397 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +# Copyright (C) 2020 Renesas Electronics Corp.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/renesas,vin.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas R-Car Video Input (VIN)
-> +
-> +maintainers:
-> +  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
-> +
-> +description:
-> +  The R-Car Video Input (VIN) device provides video input capabilities for the
-> +  Renesas R-Car family of devices.
-> +
-> +  Each VIN instance has a single parallel input that supports RGB and YUV video,
-> +  with both external synchronization and BT.656 synchronization for the latter.
-> +  Depending on the instance the VIN input is connected to external SoC pins, or
-> +  on Gen3 and RZ/G2 platforms to a CSI-2 receiver.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +        - enum:
-
-Should be indented 2 more spaces.
-
-> +          - renesas,vin-r8a7743  # RZ/G1M
-
-And then 2 more here.
-
-> +          - renesas,vin-r8a7744  # RZ/G1N
-> +          - renesas,vin-r8a7745  # RZ/G1E
-> +          - renesas,vin-r8a77470 # RZ/G1C
-> +          - renesas,vin-r8a7790  # R-Car H2
-> +          - renesas,vin-r8a7791  # R-Car M2-W
-> +          - renesas,vin-r8a7792  # R-Car V2H
-> +          - renesas,vin-r8a7793  # R-Car M2-N
-> +          - renesas,vin-r8a7794  # R-Car E2
-> +        - const: renesas,rcar-gen2-vin # Generic R-Car Gen2 or RZ/G1
-> +
-> +      - items:
-> +        - enum:
-> +          - renesas,vin-r8a774a1 # RZ/G2M
-> +          - renesas,vin-r8a774b1 # RZ/G2N
-> +          - renesas,vin-r8a774c0 # RZ/G2E
-> +          - renesas,vin-r8a7778  # R-Car M1
-> +          - renesas,vin-r8a7779  # R-Car H1
-> +          - renesas,vin-r8a7795  # R-Car H3
-> +          - renesas,vin-r8a7796  # R-Car M3-W
-> +          - renesas,vin-r8a77965 # R-Car M3-N
-> +          - renesas,vin-r8a77970 # R-Car V3M
-> +          - renesas,vin-r8a77980 # R-Car V3H
-> +          - renesas,vin-r8a77990 # R-Car E3
-> +          - renesas,vin-r8a77995 # R-Car D3
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  #The per-board settings for Gen2 and RZ/G1 platforms:
-> +  port:
-> +    type: object
-> +    description:
-> +      A node containing a parallel input with a singel endpoint definitions as
-
-s/singel/single/
-
-> +      documented in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt
-> +
-> +    properties:
-> +      reg:
-> +        const: 1
-
-Node name should be port@1 rather than port then.
-
-> +
-> +      endpoint:
-> +        type: object
-> +
-> +        properties:
-> +          hsync-active:
-> +            description:
-> +              If both HSYNC and VSYNC polarities are not specified, embedded
-> +              synchronization is selected.
-> +            default: 1
-> +
-> +          vsync-active:
-> +            description:
-> +              If both HSYNC and VSYNC polarities are not specified, embedded
-> +              synchronization is selected.
-> +            default: 1
-> +
-> +          field-active-even: true
-> +
-> +          bus-width: true
-> +
-> +          data-shift: true
-> +
-> +          data-enable-active:
-> +            description: Polarity of CLKENB signal
-> +            default: 1
-> +
-> +          pclk-sample: true
-> +
-> +          data-active: true
-> +
-> +          remote-endpoint: true
-> +
-> +        required:
-> +          - remote-endpoint
-> +
-> +        additionalProperties: false
-> +
-> +    additionalProperties: false
-> +
-> +  #The per-board settings for Gen3 and RZ/G2 platforms:
-> +  renesas,id:
-> +    description: VIN channel number
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +      - enum: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]
-
-minimum: 0
-maximum: 15
-
-> +
-> +  ports:
-> +    type: object
-> +    description:
-> +      A node containing input nodes with endpoint definitions as documented in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt
-> +
-> +    properties:
-> +      port@0:
-> +        type: object
-> +        description:
-> +          Input port node, single endpoint describing a parallel input source.
-> +
-> +        properties:
-> +          reg:
-> +            const: 0
-> +
-> +          endpoint:
-> +            type: object
-> +
-> +            properties:
-> +              hsync-active:
-> +                description:
-> +                  Default is active high. If both HSYNC and VSYNC polarities are not
-> +                  specified, embedded synchronization is selected.
-> +                enum: [ 0, 1 ]
-
-We should assume the values on these common properties are defined 
-elsewhere unless it's a subset.
-
-> +
-> +              vsync-active:
-> +                description:
-> +                  Default is active high. If both HSYNC and VSYNC polarities are not
-> +                  specified, embedded synchronization is selected.
-> +                enum: [ 0, 1 ]
-> +
-> +              field-active-even:
-> +                description: Default is active high.
-> +                enum: [ 0, 1 ]
-> +
-> +              bus-width:
-> +                enum: [ 8, 10, 12, 16, 24, 32 ]
-> +
-> +              data-shift:
-> +                enum: [ 0, 8 ]
-> +
-> +              data-enable-active:
-> +                description: Polarity of CLKENB signal, default is active high.
-
-Use 'default' to describe the default.
-
-> +                enum: [ 0, 1 ]
-> +
-> +              pclk-sample:
-> +                enum: [ 0, 1 ]
-> +
-> +              data-active:
-> +                enum: [ 0, 1 ]
-> +
-> +              remote-endpoint: true
-> +
-> +            required:
-> +              - remote-endpoint
-> +
-> +            additionalProperties: false
-> +
-> +        additionalProperties: false
-> +
-> +      port@1:
-> +        type: object
-> +        description:
-> +          Input port node, multiple endpoints describing all the R-Car CSI-2
-> +          modules connected the VIN.
-> +
-> +        properties:
-> +          '#address-cells':
-> +            const: 1
-> +
-> +          '#size-cells':
-> +            const: 0
-> +
-> +          reg:
-> +            const: 1
-> +
-> +          endpoint@0:
-> +            type: object
-> +            description: Endpoint connected to CSI20.
-> +
-> +            properties:
-> +              reg:
-> +                const: 0
-> +
-> +              remote-endpoint: true
-> +
-> +            required:
-> +              - reg
-> +              - remote-endpoint
-> +
-> +            additionalProperties: false
-> +
-> +          endpoint@1:
-> +            type: object
-> +            description: Endpoint connected to CSI21.
-> +
-> +            properties:
-> +              reg:
-> +                const: 1
-> +
-> +              remote-endpoint: true
-> +
-> +            required:
-> +              - reg
-> +              - remote-endpoint
-> +
-> +            additionalProperties: false
-> +
-> +          endpoint@2:
-> +            type: object
-> +            description: Endpoint connected to CSI40.
-> +
-> +            properties:
-> +              reg:
-> +                const: 2
-> +
-> +              remote-endpoint: true
-> +
-> +            required:
-> +              - reg
-> +              - remote-endpoint
-> +
-> +            additionalProperties: false
-> +
-> +          endpoint@3:
-> +            type: object
-> +            description: Endpoint connected to CSI41.
-> +
-> +            properties:
-> +              reg:
-> +                const: 3
-> +
-> +              remote-endpoint: true
-> +
-> +            required:
-> +              - reg
-> +              - remote-endpoint
-
-None of these ports or endpoints are required?
-
-> +
-> +            additionalProperties: false
-> +
-> +        additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - power-domains
-> +  - resets
-> +
-> +if:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        anyOf:
-> +          - const: renesas,vin-r8a7778
-> +          - const: renesas,vin-r8a7779
-> +          - const: renesas,rcar-gen2-vin
-
-Use 'enum' instead of anyOf+const.
-
-> +then:
-> +  required:
-> +    - port
-> +else:
-> +  required:
-> +    - renesas,id
-> +    - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  # Device node example for Gen2 platform
-> +  - |
-> +    #include <dt-bindings/clock/r8a7790-cpg-mssr.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/r8a7790-sysc.h>
-> +
-> +    vin1: vin@e6ef1000 {
-> +            compatible = "renesas,vin-r8a7790",
-> +                         "renesas,rcar-gen2-vin";
-> +            reg = <0 0xe6ef1000 0 0x1000>;
-> +            interrupts = <GIC_SPI 189 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&cpg CPG_MOD 810>;
-> +            power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
-> +            resets = <&cpg 810>;
-> +
-> +            port {
-> +                    vin1ep0: endpoint {
-> +                            remote-endpoint = <&adv7180>;
-> +                            bus-width = <8>;
-> +                    };
-> +            };
-> +    };
-> +
-> +  # Device node example for Gen3 platform with only CSI-2
-> +  - |
-> +    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/r8a7795-sysc.h>
-> +
-> +    vin0: video@e6ef0000 {
-> +            compatible = "renesas,vin-r8a7795";
-> +            reg = <0 0xe6ef0000 0 0x1000>;
-> +            interrupts = <GIC_SPI 188 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&cpg CPG_MOD 811>;
-> +            power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-> +            resets = <&cpg 811>;
-> +            renesas,id = <0>;
-> +
-> +            ports {
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
-> +
-> +                    port@1 {
-> +                            #address-cells = <1>;
-> +                            #size-cells = <0>;
-> +
-> +                            reg = <1>;
-> +
-> +                            vin0csi20: endpoint@0 {
-> +                                    reg = <0>;
-> +                                    remote-endpoint= <&csi20vin0>;
-> +                            };
-> +                            vin0csi40: endpoint@2 {
-> +                                    reg = <2>;
-> +                                    remote-endpoint= <&csi40vin0>;
-> +                            };
-> +                    };
-> +            };
-> +    };
-> +
-> +  # Device node example for Gen3 platform with CSI-2 and parallel
-> +  - |
-> +    #include <dt-bindings/clock/r8a77970-cpg-mssr.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/r8a77970-sysc.h>
-> +
-> +    vin2: video@e6ef2000 {
-> +            compatible = "renesas,vin-r8a77970";
-> +            reg = <0 0xe6ef2000 0 0x1000>;
-> +            interrupts = <GIC_SPI 190 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&cpg CPG_MOD 809>;
-> +            power-domains = <&sysc R8A77970_PD_ALWAYS_ON>;
-> +            resets = <&cpg 809>;
-> +            renesas,id = <2>;
-> +
-> +            ports {
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
-> +
-> +                    port@0 {
-> +                            reg = <0>;
-> +
-> +                            vin2_in: endpoint {
-> +                                    remote-endpoint = <&adv7612_out>;
-> +                                    hsync-active = <0>;
-> +                                    vsync-active = <0>;
-> +                            };
-> +                    };
-> +
-> +                    port@1 {
-> +                            #address-cells = <1>;
-> +                            #size-cells = <0>;
-> +
-> +                            reg = <1>;
-> +
-> +                            vin2csi40: endpoint@2 {
-> +                                    reg = <2>;
-> +                                    remote-endpoint = <&csi40vin2>;
-> +                            };
-> +                    };
-> +            };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e30ba33be8ad833e..d75ad6e3f4e86523 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10315,7 +10315,7 @@ L:	linux-renesas-soc@vger.kernel.org
->  T:	git git://linuxtv.org/media_tree.git
->  S:	Supported
->  F:	Documentation/devicetree/bindings/media/renesas,csi2.yaml
-> -F:	Documentation/devicetree/bindings/media/renesas,vin.txt
-> +F:	Documentation/devicetree/bindings/media/renesas,vin.yaml
->  F:	drivers/media/platform/rcar-vin/
->  
->  MEDIA DRIVERS FOR RENESAS - VSP1
-> -- 
-> 2.24.1
+> Probably the device should be powered down after probing, and powered
+> up/down on-demand in the various {get,put}_chip() functions.  However,
+> that is an optimization which touches more intimidate details of the
+> internal MTD API, and can be done later.
+> ---
+>  drivers/mtd/maps/physmap-core.c | 20 +++++++++++++++-----
+>  1 file changed, 15 insertions(+), 5 deletions(-)
 > 
+> diff --git a/drivers/mtd/maps/physmap-core.c b/drivers/mtd/maps/physmap-core.c
+> index a9f7964e2edb6668..8f7f966fa9a7ee8a 100644
+> --- a/drivers/mtd/maps/physmap-core.c
+> +++ b/drivers/mtd/maps/physmap-core.c
+> @@ -38,6 +38,7 @@
+>  #include <linux/mtd/cfi_endian.h>
+>  #include <linux/io.h>
+>  #include <linux/of_device.h>
+> +#include <linux/pm_runtime.h>
+>  #include <linux/gpio/consumer.h>
+>  
+>  #include "physmap-gemini.h"
+> @@ -64,16 +65,16 @@ static int physmap_flash_remove(struct platform_device *dev)
+>  {
+>  	struct physmap_flash_info *info;
+>  	struct physmap_flash_data *physmap_data;
+> -	int i, err;
+> +	int i, err = 0;
+>  
+>  	info = platform_get_drvdata(dev);
+>  	if (!info)
+> -		return 0;
+> +		goto out;
+>  
+>  	if (info->cmtd) {
+>  		err = mtd_device_unregister(info->cmtd);
+>  		if (err)
+> -			return err;
+> +			goto out;
+>  
+>  		if (info->cmtd != info->mtds[0])
+>  			mtd_concat_destroy(info->cmtd);
+> @@ -88,7 +89,10 @@ static int physmap_flash_remove(struct platform_device *dev)
+>  	if (physmap_data && physmap_data->exit)
+>  		physmap_data->exit(dev);
+>  
+> -	return 0;
+> +out:
+> +	pm_runtime_put(&dev->dev);
+> +	pm_runtime_disable(&dev->dev);
+> +	return err;
+>  }
+>  
+>  static void physmap_set_vpp(struct map_info *map, int state)
+> @@ -484,13 +488,19 @@ static int physmap_flash_probe(struct platform_device *dev)
+>  		return -EINVAL;
+>  	}
+>  
+> +	pm_runtime_enable(&dev->dev);
+> +	pm_runtime_get_sync(&dev->dev);
+> +
+>  	if (dev->dev.of_node)
+>  		err = physmap_flash_of_init(dev);
+>  	else
+>  		err = physmap_flash_pdata_init(dev);
+>  
+> -	if (err)
+> +	if (err) {
+> +		pm_runtime_put(&dev->dev);
+> +		pm_runtime_disable(&dev->dev);
+>  		return err;
+> +	}
+>  
+>  	for (i = 0; i < info->nmaps; i++) {
+>  		struct resource *res;
+> -- 
+> 2.17.1
+> 
+
+-- 
+Regards,
+Niklas Söderlund
