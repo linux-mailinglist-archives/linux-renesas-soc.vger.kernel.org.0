@@ -2,192 +2,161 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D56E413C828
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2020 16:42:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 086E013CBD0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2020 19:15:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728939AbgAOPmQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jan 2020 10:42:16 -0500
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:41924 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726132AbgAOPmP (ORCPT
+        id S1729011AbgAOSPR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jan 2020 13:15:17 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:50411 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729160AbgAOSPR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jan 2020 10:42:15 -0500
-Received: by mail-lf1-f68.google.com with SMTP id m30so13034377lfp.8
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jan 2020 07:42:13 -0800 (PST)
+        Wed, 15 Jan 2020 13:15:17 -0500
+Received: by mail-wm1-f65.google.com with SMTP id a5so994741wmb.0
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 15 Jan 2020 10:15:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=N8b+H5+4AZUL8IrGlHZ9KVMloMXldascwYgfWlKN9rE=;
-        b=FdYmDlvQrDy1LEQoaENUdqQc5r3i7VCErTzZ5eHAyDXArk/GW99jkbp7T/Mxjk+CG5
-         SBO4KnwzdCUIyGt6JV6AdRoxJFp1eVMUJMitA7oIj0LPDMFAhG6SktRL6shLejMecolJ
-         RNf+yvdk+EcEmv89u84BAdIxqY6qt/udZVFDgOdC4nHiuekLe/06CWxUyaKL+AFPoM8w
-         GqHLhnocT6dX9ydIprR4NVtLzNqnbWO7GY1L+fzMKUl0LPNlQ1Ga+enLfzmcwAk7YC4j
-         GfKHXJAQBo9oZP4QqL1b03SoNylfIePIRZZLMJQmcOsmbTR8HAOcM5imRIIFSdmEOZAW
-         3trA==
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=b2B5BhIWJUNglySQSF7bA4Lq3BNPaAsNZhkISEe2rC4=;
+        b=YckEAMWb/EKKc/MvAzEsw+tLvP7BjA6VDcoGKqlzmki9ARILAz524Ax0Zihv7tRMVb
+         iIWYwDrveCOHQvcKjNYBIfbMjbdgWM4/64J667Bi36PMZwIZm7Z+S24j/DnZIXcn2B4/
+         dLLqv6A/u3q6nPrejYy2ecin81Grm1so2aWwAoPqwMafkmMxV/HYAXYaRe9DJolWIGfv
+         4rvYHtaalFsisj3XEnxrFdOjFxPAlHUJQikbCbSz35svRTVEsI29FekQXn5k1LxhD+QU
+         YEo0Wcd3qTFDkcq8H0WbuixIeLZ2aMgSTIixnAlWVmIJ2YsplCbnLpg7ls2pcPwRR/TJ
+         ORcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=N8b+H5+4AZUL8IrGlHZ9KVMloMXldascwYgfWlKN9rE=;
-        b=C0kShumTZcjqB6RS9ZqK5QhKEmFmkg2aAy19R/0MWTzS2N01RbZxtFVipULgSK44Ua
-         iZHtGY6uVvvdHENblbMqAr9G8TobyXjhcLChgR0w2Ib+O1nY1jNdOIDZzACX3hrI4z1O
-         alpZBEMi49uZS2RrbzmFn6Cg/a4WpZWs94HvSIuXTojK9jXY612b2tRvIybdOzn5VsIG
-         Rb7UNe9SSBn2H+jr4WLW4yyx6nWE8fi3lGrMSZApU6N6gwEUPxmlCYbe9a9bsK2Q3Jfi
-         LsdYbc98UpiwvPDopRoRrUNRyOp2jDygQhj1qozFd49LZEbohanCWC8yDdcSOcKQSuna
-         LlCw==
-X-Gm-Message-State: APjAAAXEqOnxo0WykyHd719WHvgsoNEsRdXH2juTqSEzWxJF5ZvYn3zH
-        4Sid4xUszLv1yDYjE5LeURvjOA==
-X-Google-Smtp-Source: APXvYqzYfC/bkCYczOz0Rbf8DDPIo53usGVtIxNysW7JZRLyBZmcO/JlAzaVVBNPrSuP94EewnXcPA==
-X-Received: by 2002:ac2:5503:: with SMTP id j3mr5100238lfk.104.1579102932939;
-        Wed, 15 Jan 2020 07:42:12 -0800 (PST)
-Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
-        by smtp.gmail.com with ESMTPSA id g85sm9118361lfd.66.2020.01.15.07.42.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jan 2020 07:42:12 -0800 (PST)
-Date:   Wed, 15 Jan 2020 16:42:12 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        "Rafael J . Wysocki" <rjw@rjwysocki.net>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        linux-mtd@lists.infradead.org, linux-pm@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH resend] mtd: maps: physmap: Add minimal Runtime PM support
-Message-ID: <20200115154212.GA977577@oden.dyn.berto.se>
-References: <20200115131323.6883-1-geert+renesas@glider.be>
+        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=b2B5BhIWJUNglySQSF7bA4Lq3BNPaAsNZhkISEe2rC4=;
+        b=dTdGOuFdiqqSWQMVHWXGKnSI7BWUp6d1ttiEmzaV9vFXMd++pgj63dZ4LTGTIx/3dW
+         Wg56Sl7j+6lLNtTkilQqVjiu/105tKGDSJmgyUsT8Af0YMHo0zbtg0rsADgCq4bkCf+W
+         KTZuUMSynF8fTE/shfC7zpIG8HrZxnLqaaYlbwbGNUT1XGWJtvQY8seuIf8R9DmEilSV
+         IhktOXyt+Rjj9uzzyMkL5gcrZo0uTigQiq5uXyORC55ibhKuFACXJTlQt+WLTFQ3iDx9
+         symjDdkaUaSqbEP0COPejUGvL+KMM7h4eYWSyIv6SIryCLxA8mmRmBVpRIybD7zQFvLI
+         pNWQ==
+X-Gm-Message-State: APjAAAWlqwx2oYGwDaUUmqqdjYTXy+rWr+79qDrdkxGg4pKz/MGtNbOw
+        lxceX4j9R0NGadLehq5ZEaQh4wPcYWDwNQ==
+X-Google-Smtp-Source: APXvYqyfKmLjzxHL43calnWLfV2VuFQqTIsZmiJ5XT4HL02V1/9fMzxTMy+has4gQBoO6RE0HnQ7ig==
+X-Received: by 2002:a1c:9a84:: with SMTP id c126mr1276044wme.111.1579112114576;
+        Wed, 15 Jan 2020 10:15:14 -0800 (PST)
+Received: from ?IPv6:2a01:e34:ed2f:f020:ac8b:fcee:b80:ebae? ([2a01:e34:ed2f:f020:ac8b:fcee:b80:ebae])
+        by smtp.googlemail.com with ESMTPSA id z3sm25562708wrs.94.2020.01.15.10.15.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Jan 2020 10:15:14 -0800 (PST)
+Subject: Re: [PATCH 1/2] thermal: rcar_thermal: Remove temperature bound
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     linux-pm@vger.kernel.org,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-renesas-soc@vger.kernel.org
+References: <20200114222945.3128250-1-niklas.soderlund+renesas@ragnatech.se>
+ <20200114222945.3128250-2-niklas.soderlund+renesas@ragnatech.se>
+ <a98baf8f-e2ef-d77d-ff3c-f5838e268dd7@linaro.org>
+ <20200115134559.GA945270@oden.dyn.berto.se>
+From:   Daniel Lezcano <daniel.lezcano@linaro.org>
+Autocrypt: addr=daniel.lezcano@linaro.org; prefer-encrypt=mutual; keydata=
+ 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
+Message-ID: <d7c7bb44-897d-a3a3-c203-d87ffb7de9be@linaro.org>
+Date:   Wed, 15 Jan 2020 19:15:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <20200115134559.GA945270@oden.dyn.berto.se>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200115131323.6883-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On 15/01/2020 14:45, Niklas Söderlund wrote:
+> Hi Daniel,
+> 
+> Thanks for your feedback.
+> 
+> On 2020-01-15 14:24:30 +0100, Daniel Lezcano wrote:
+>> On 14/01/2020 23:29, Niklas Söderlund wrote:
+>>> The hardware manual states that the operation of the sensor is not
+>>> guaranteed outside the range of -40°C to 125°C, not that the readings
+>>> are invalid. Remove the bound check and try to deliver temperature
+>>> readings even if we are outside the guaranteed operation range.
+>>
+>> And what if the sensor is returning crap in this out-of-range operation?
+> 
+> I'm not sure what is worse, reporting an untrue (but still outside the 
+> guaranteed operation range) extreme temperature or failing with -EIO.  
+> The view of the hardware guys is that it's better to report what the 
+> sensor indicates then to return -EIO.
 
-Thanks for your work.
+I don't get the point.
 
-On 2020-01-15 14:13:23 +0100, Geert Uytterhoeven wrote:
-> Add minimal runtime PM support (enable on probe, disable on remove), to
-> ensure proper operation with a parent device that uses runtime PM.
-> 
-> This is needed on systems where the FLASH is connected to a bus
-> controller that is contained in a PM domain and/or has a gateable
-> functional clock.  In such cases, before accessing any device connected
-> to the external bus, the PM domain must be powered up, and/or the
-> functional clock must be enabled, which is typically handled through
-> runtime PM by the bus controller driver.
-> 
-> An example of this is the Renesas APE6-EVM development board, which has
-> an Ethernet controller and a CFI FLASH connected to the Bus State
-> Controller (BSC) of an R-Mobile APE6 SoC.
-> As long as the Ethernet driver, which had Runtime PM support since
-> commit 3a611e26e958b037 ("net/smsc911x: Add minimal runtime PM
-> support"), keeps the BSC powered, accessing the FLASH works.
-> When the ethernet node in r8a73a4-ape6evm.dts is disabled, the BSC is
-> never powered up, and the kernel crashes when trying to access the
-> FLASH:
-> 
->     Unhandled fault: imprecise external abort (0x1406) at 0x00000000
->     pgd = (ptrval)
->     [00000000] *pgd=7fef2835
->     Internal error: : 1406 [#1] SMP ARM
->     CPU: 0 PID: 122 Comm: hd Tainted: G        W         5.5.0-rc1-ape6evm-00814-g38ca966db25b9dbd-dirty #136
->     Hardware name: Generic R8A73A4 (Flattened Device Tree)
->     PC is at chip_ready+0x12c/0x380
->     LR is at chip_ready+0x10c/0x380
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+What happens if we read the sensor while it is above or below the limits?
 
-Reviewed-by: Niklas S�derlund <niklas.soderlund+renesas@ragnatech.se>
 
-> ---
-> Probably the device should be powered down after probing, and powered
-> up/down on-demand in the various {get,put}_chip() functions.  However,
-> that is an optimization which touches more intimidate details of the
-> internal MTD API, and can be done later.
-> ---
->  drivers/mtd/maps/physmap-core.c | 20 +++++++++++++++-----
->  1 file changed, 15 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/mtd/maps/physmap-core.c b/drivers/mtd/maps/physmap-core.c
-> index a9f7964e2edb6668..8f7f966fa9a7ee8a 100644
-> --- a/drivers/mtd/maps/physmap-core.c
-> +++ b/drivers/mtd/maps/physmap-core.c
-> @@ -38,6 +38,7 @@
->  #include <linux/mtd/cfi_endian.h>
->  #include <linux/io.h>
->  #include <linux/of_device.h>
-> +#include <linux/pm_runtime.h>
->  #include <linux/gpio/consumer.h>
->  
->  #include "physmap-gemini.h"
-> @@ -64,16 +65,16 @@ static int physmap_flash_remove(struct platform_device *dev)
->  {
->  	struct physmap_flash_info *info;
->  	struct physmap_flash_data *physmap_data;
-> -	int i, err;
-> +	int i, err = 0;
->  
->  	info = platform_get_drvdata(dev);
->  	if (!info)
-> -		return 0;
-> +		goto out;
->  
->  	if (info->cmtd) {
->  		err = mtd_device_unregister(info->cmtd);
->  		if (err)
-> -			return err;
-> +			goto out;
->  
->  		if (info->cmtd != info->mtds[0])
->  			mtd_concat_destroy(info->cmtd);
-> @@ -88,7 +89,10 @@ static int physmap_flash_remove(struct platform_device *dev)
->  	if (physmap_data && physmap_data->exit)
->  		physmap_data->exit(dev);
->  
-> -	return 0;
-> +out:
-> +	pm_runtime_put(&dev->dev);
-> +	pm_runtime_disable(&dev->dev);
-> +	return err;
->  }
->  
->  static void physmap_set_vpp(struct map_info *map, int state)
-> @@ -484,13 +488,19 @@ static int physmap_flash_probe(struct platform_device *dev)
->  		return -EINVAL;
->  	}
->  
-> +	pm_runtime_enable(&dev->dev);
-> +	pm_runtime_get_sync(&dev->dev);
-> +
->  	if (dev->dev.of_node)
->  		err = physmap_flash_of_init(dev);
->  	else
->  		err = physmap_flash_pdata_init(dev);
->  
-> -	if (err)
-> +	if (err) {
-> +		pm_runtime_put(&dev->dev);
-> +		pm_runtime_disable(&dev->dev);
->  		return err;
-> +	}
->  
->  	for (i = 0; i < info->nmaps; i++) {
->  		struct resource *res;
-> -- 
-> 2.17.1
-> 
+[ ... ]
+
+
 
 -- 
-Regards,
-Niklas S�derlund
+ <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
+
