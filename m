@@ -2,68 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3271813B554
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 14 Jan 2020 23:31:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 105CF13B65B
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2020 01:08:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727072AbgANWa6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 14 Jan 2020 17:30:58 -0500
-Received: from vsp-unauthed02.binero.net ([195.74.38.227]:65204 "EHLO
-        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727331AbgANWa6 (ORCPT
+        id S1728862AbgAOAIT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 14 Jan 2020 19:08:19 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:43687 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726495AbgAOAIS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 14 Jan 2020 17:30:58 -0500
-X-Halon-ID: 8811a98b-371d-11ea-b6d8-005056917f90
-Authorized-sender: niklas@soderlund.pp.se
-Received: from bismarck.berto.se (p54ac5d7b.dip0.t-ipconnect.de [84.172.93.123])
-        by bin-vsp-out-02.atm.binero.net (Halon) with ESMTPA
-        id 8811a98b-371d-11ea-b6d8-005056917f90;
-        Tue, 14 Jan 2020 23:30:56 +0100 (CET)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        Tue, 14 Jan 2020 19:08:18 -0500
+Received: by mail-oi1-f194.google.com with SMTP id p125so13693252oif.10
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 14 Jan 2020 16:08:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=PEMFQk9O8jxAvzI8sFAtYfnpYGHToC52icRpafkpCkM=;
+        b=ew+oBQ3gG8PORP9gBIyCDvknBsfp8NbF6tIMuM0oIG/wMIsBvSwGEsKrTYYMLIN8vW
+         vLYVRf77FpbcbVwu4igEboxcSianz0Qhm6LH+Q0bSa2pLO56hUxhJt/9VAiBVmlJQp69
+         f0a7+CFyySCU2o+Oq7L3fB0DvlijErwdUqrBMcaAGklWeheMGXwLeusrkdcLJMo+XcaD
+         xS+w9aBnEda+ooce0/gBfHWSr74AyZeduhDZYhL317qOwZwSzX7QxFG7gyBmXS712Cqi
+         scuPfbcsgultVTAhP1V5RQZL0zG6GsqvE2mejTePaqReyrFkMh+IT2RsKZjZDWzA13F9
+         //Iw==
+X-Gm-Message-State: APjAAAXEMOa5VYNU0aFXFcl8XAwdC6SJZfDpj66+84VmwGKa6P2CZ6kA
+        UnlbxJXrFh7BpUGDMAlYD6u8eNg=
+X-Google-Smtp-Source: APXvYqyWMt0Sg6YaAE9i7MlpE/BY1kHrv903GEtBtEwWV1Mm8KMp2yQTgsF8a5dxunyGjnQignDirA==
+X-Received: by 2002:aca:190b:: with SMTP id l11mr19650998oii.65.1579046897375;
+        Tue, 14 Jan 2020 16:08:17 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id i6sm5093707oie.12.2020.01.14.16.08.16
+        for <linux-renesas-soc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Jan 2020 16:08:16 -0800 (PST)
+Received: from rob (uid 1000)
+        (envelope-from rob@rob-hp-laptop)
+        id 2209ae
+        by rob-hp-laptop (DragonFly Mail Agent v0.11);
+        Tue, 14 Jan 2020 18:08:16 -0600
+Date:   Tue, 14 Jan 2020 18:08:16 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-To:     linux-pm@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 2/2] thermal: rcar_gen3_thermal: Remove temperature bound
-Date:   Tue, 14 Jan 2020 23:29:45 +0100
-Message-Id: <20200114222945.3128250-3-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200114222945.3128250-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20200114222945.3128250-1-niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH v2] dt-bindings: rcar-csi2: Convert bindings to
+ json-schema
+Message-ID: <20200115000816.GA10876@bogus>
+References: <20200108215209.1825544-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200108215209.1825544-1-niklas.soderlund+renesas@ragnatech.se>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The hardware manual states that the operation of the sensor is not
-guaranteed with temperatures above 125°C, not that the readings are
-invalid. Remove the bound check and try to deliver temperature readings
-even if we are outside the guaranteed operation range.
+On Wed,  8 Jan 2020 22:52:09 +0100, =?UTF-8?q?Niklas=20S=C3=B6derlund?= wrote:
+> Convert Renesas R-Car MIPI CSI-2 receiver bindings documentation to
+> json-schema.
+> 
+> Signed-off-by: Niklas S�derlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  .../bindings/media/renesas,csi2.txt           | 107 ----------
+>  .../bindings/media/renesas,csi2.yaml          | 198 ++++++++++++++++++
+>  MAINTAINERS                                   |   2 +-
+>  3 files changed, 199 insertions(+), 108 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/renesas,csi2.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/renesas,csi2.yaml
+> 
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/thermal/rcar_gen3_thermal.c | 4 ----
- 1 file changed, 4 deletions(-)
+Applied, thanks.
 
-diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
-index 1460cf9d9f1c397b..0f69ff676838a999 100644
---- a/drivers/thermal/rcar_gen3_thermal.c
-+++ b/drivers/thermal/rcar_gen3_thermal.c
-@@ -182,10 +182,6 @@ static int rcar_gen3_thermal_get_temp(void *devdata, int *temp)
- 				tsc->coef.a2);
- 	mcelsius = FIXPT_TO_MCELSIUS(val);
- 
--	/* Make sure we are inside specifications */
--	if ((mcelsius < MCELSIUS(-40)) || (mcelsius > MCELSIUS(125)))
--		return -EIO;
--
- 	/* Round value to device granularity setting */
- 	*temp = rcar_gen3_thermal_round(mcelsius);
- 
--- 
-2.24.1
-
+Rob
