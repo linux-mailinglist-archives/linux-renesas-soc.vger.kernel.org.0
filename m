@@ -2,69 +2,43 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 00E5C13C1FB
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2020 13:54:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA36013C22A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 15 Jan 2020 14:01:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729092AbgAOMyV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 15 Jan 2020 07:54:21 -0500
-Received: from baptiste.telenet-ops.be ([195.130.132.51]:45646 "EHLO
-        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726187AbgAOMyV (ORCPT
+        id S1726483AbgAONAe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 15 Jan 2020 08:00:34 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46724 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726187AbgAONAe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 15 Jan 2020 07:54:21 -0500
-Received: from ramsan ([84.195.182.253])
-        by baptiste.telenet-ops.be with bizsmtp
-        id qcuJ2100D5USYZQ01cuJMg; Wed, 15 Jan 2020 13:54:19 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iriBe-00045p-Lh; Wed, 15 Jan 2020 13:54:18 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iriBe-0001Ne-JN; Wed, 15 Jan 2020 13:54:18 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Zhang Rui <rui.zhang@intel.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Amit Kucheria <amit.kucheria@verdurent.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>, linux-pm@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] thermal: rcar_thermal: Use usleep_range() instead of udelay()
-Date:   Wed, 15 Jan 2020 13:54:17 +0100
-Message-Id: <20200115125417.5263-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Wed, 15 Jan 2020 08:00:34 -0500
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579093234;
+        bh=lRDPp64a4j3EnlsVYD7sb/P+F6GYTcmT6TE8oECuW3Y=;
+        h=Subject:From:Date:To:From;
+        b=jVIG9w0V4RDUaB3BZmIK4Ed/8YWZ4N6ZLCRfCJJMiKACjtmqPDSOiHoqTE9d2e2sW
+         cM6vzt7KYmxSLTylriqAiBK5azwyrI84cyFR8fR4CIWwXX9cSODgAH/GDbHenAf8pz
+         y0Ya3z2IL0WTagKcDvFRYToSYwBg0iwlChx1ZiWQ=
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Subject: Patchwork housekeeping for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <157909323410.26351.7965266782807663549.git-patchwork-housekeeping@kernel.org>
+Date:   Wed, 15 Jan 2020 13:00:34 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-rcar_thermal_update_temp() takes a mutex, so it is always called in a
-context that can sleep.  Hence replace the 300 µs busy loop by a call to
-usleep_range(), to allow other threads to run.
+Latest series: [v2] drm: Add support for Okaya RH128128T (2020-01-15T12:45:46)
+  Superseding: [v1] drm: Add support for Okaya RH128128T (2020-01-02T14:12:44):
+    [1/3] dt-bindings: display: sitronix,st7735r: Add Okaya rh128128t
+    [2/3] drm/mipi_dbi: Add support for display offsets
+    [3/3] drm: tiny: st7735r: Add support for Okaya RH128128T
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- drivers/thermal/rcar_thermal.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
-index d0873de718da9218..a8dd96d2d24c4ce5 100644
---- a/drivers/thermal/rcar_thermal.c
-+++ b/drivers/thermal/rcar_thermal.c
-@@ -219,7 +219,7 @@ static int rcar_thermal_update_temp(struct rcar_thermal_priv *priv)
- 		 * to get stable temperature.
- 		 * see "Usage Notes" on datasheet
- 		 */
--		udelay(300);
-+		usleep_range(300, 400);
- 
- 		new = rcar_thermal_read(priv, THSSR) & CTEMP;
- 		if (new == old) {
 -- 
-2.17.1
-
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
