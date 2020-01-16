@@ -2,42 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DCEAA13F1AE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2020 19:31:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6F9213F7F5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2020 20:17:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391050AbgAPS3z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Jan 2020 13:29:55 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33706 "EHLO mail.kernel.org"
+        id S1733175AbgAPQ4K (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Jan 2020 11:56:10 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42212 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392144AbgAPRZn (ORCPT
+        id S1733171AbgAPQ4K (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:25:43 -0500
+        Thu, 16 Jan 2020 11:56:10 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B09CE246DD;
-        Thu, 16 Jan 2020 17:25:41 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3A63224686;
+        Thu, 16 Jan 2020 16:56:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579195542;
-        bh=mAr6Zddc1rPASOuktELYGo8wqMA4ihXUJE/R/dMfsc4=;
+        s=default; t=1579193769;
+        bh=RIPQ/q5w8QJUc7C++E2s9w8BI6DlcJ5VsmgrPh46V6o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=X0ke1dv+RQ2mf0FMLwxBZWa6oYHOlAI7dHXQVvYV2JlUmGjyIU1RqnARHYLrAsJn1
-         gTJ+hxARbKBDBlgqfEvuwNi8Y7hG4bmiJX0PbXuXBL5S6rJ3+OuRSzWJQlrzAwxGjk
-         57tWPVKyp4C8NHF1xcquMqScYZXJIr1qQnjZhNSM=
+        b=EHIpG+AmDsudX1Hz9Pt/lmSD2oy4xRhM+QkiOE5wLBmUIzhE/OOg6XUeXIcbF1TiO
+         6Te3ZIViGyxPhh4YP7F/gzUPPfWPoeRKe3uruS1dAuVkhfBFwZsuUOZ6a5CDNyAPLZ
+         eRgMJAnvRc9hFjKjlwEuyXHpZFpMx1Ga7LjOoIkU=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kangjie Lu <kjlu@umn.edu>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        "David S . Miller" <davem@davemloft.net>,
-        Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 135/371] net: sh_eth: fix a missing check of of_get_phy_mode
-Date:   Thu, 16 Jan 2020 12:20:07 -0500
-Message-Id: <20200116172403.18149-78-sashal@kernel.org>
+Cc:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Sasha Levin <sashal@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 053/671] drm: rcar-du: Fix the return value in case of error in 'rcar_du_crtc_set_crc_source()'
+Date:   Thu, 16 Jan 2020 11:44:44 -0500
+Message-Id: <20200116165502.8838-53-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200116172403.18149-1-sashal@kernel.org>
-References: <20200116172403.18149-1-sashal@kernel.org>
+In-Reply-To: <20200116165502.8838-1-sashal@kernel.org>
+References: <20200116165502.8838-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -47,47 +45,37 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Kangjie Lu <kjlu@umn.edu>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-[ Upstream commit 035a14e71f27eefa50087963b94cbdb3580d08bf ]
+[ Upstream commit 4d486f18d91b1876040bf87e9ad78981a08b15a6 ]
 
-of_get_phy_mode may fail and return a negative error code;
-the fix checks the return value of of_get_phy_mode and
-returns NULL of it fails.
+We return 0 unconditionally in 'rcar_du_crtc_set_crc_source()'.
+However, 'ret' is set to some error codes if some function calls fail.
 
-Fixes: b356e978e92f ("sh_eth: add device tree support")
-Signed-off-by: Kangjie Lu <kjlu@umn.edu>
-Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: David S. Miller <davem@davemloft.net>
+Return 'ret' instead to propagate the error code.
+
+Fixes: 47a52d024e89 ("media: drm: rcar-du: Add support for CRC computation")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/net/ethernet/renesas/sh_eth.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
-index 9b1906a65e11..25f3b2ad26e9 100644
---- a/drivers/net/ethernet/renesas/sh_eth.c
-+++ b/drivers/net/ethernet/renesas/sh_eth.c
-@@ -3046,12 +3046,16 @@ static struct sh_eth_plat_data *sh_eth_parse_dt(struct device *dev)
- 	struct device_node *np = dev->of_node;
- 	struct sh_eth_plat_data *pdata;
- 	const char *mac_addr;
-+	int ret;
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+index 15dc9caa128b..212e5e11e4b7 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+@@ -837,7 +837,7 @@ static int rcar_du_crtc_set_crc_source(struct drm_crtc *crtc,
+ 	drm_modeset_drop_locks(&ctx);
+ 	drm_modeset_acquire_fini(&ctx);
  
- 	pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
- 	if (!pdata)
- 		return NULL;
+-	return 0;
++	return ret;
+ }
  
--	pdata->phy_interface = of_get_phy_mode(np);
-+	ret = of_get_phy_mode(np);
-+	if (ret < 0)
-+		return NULL;
-+	pdata->phy_interface = ret;
- 
- 	mac_addr = of_get_mac_address(np);
- 	if (mac_addr)
+ static const struct drm_crtc_funcs crtc_funcs_gen2 = {
 -- 
 2.20.1
 
