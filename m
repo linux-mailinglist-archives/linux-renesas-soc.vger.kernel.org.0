@@ -2,42 +2,42 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DF0BE13E2B2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2020 17:57:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DBD113E3D5
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2020 18:04:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733082AbgAPQ5q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Jan 2020 11:57:46 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45236 "EHLO mail.kernel.org"
+        id S2388465AbgAPRCp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Jan 2020 12:02:45 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56026 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387540AbgAPQ5p (ORCPT
+        id S2388462AbgAPRCp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Jan 2020 11:57:45 -0500
+        Thu, 16 Jan 2020 12:02:45 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AC72022525;
-        Thu, 16 Jan 2020 16:57:43 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B8A912467C;
+        Thu, 16 Jan 2020 17:02:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579193865;
-        bh=Kfq7vR1aY0nNg82frCd7ANsw/ZvrzG9h0pRt5rTHc9o=;
+        s=default; t=1579194164;
+        bh=S8X1xJcjW3hguFRJhdG5X+h1/mJOR68raBbkBr9FXsg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IICYjNyzZD1dRsRCNhd1DMpfglOOX0DJexhAufyaeDik+jBpb5bOdZBTilsi0o9vE
-         L3q8KY3zYGkOpdrMjWDRxdUvyN7DRHCRd+GJfMVh2TqcDQfN98z7QMDvKjYhkUf0fs
-         umZkqccuUkzYJ4csxZOfOZtWB844KHaepd5QAimc=
+        b=icb+tahqhjSU/a2/rFRjxe/T4/9Ul0SvqRkFTEFwDxGNoXlb1Bmb/YRW21h1s2RcO
+         mNK4E3SX/BKHJdNUvVlHy2TMyRMa3DqGnq0PHGOVfAXO2miLgbAgUwQId3EsLYK3Ph
+         +vf1s/oY/ANiiqH+5I2/R/4QcJYcpbTA9GSoCOj0=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     YueHaibing <yuehaibing@huawei.com>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Sasha Levin <sashal@kernel.org>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 111/671] drm/shmob: Fix return value check in shmob_drm_probe
-Date:   Thu, 16 Jan 2020 11:45:42 -0500
-Message-Id: <20200116165502.8838-111-sashal@kernel.org>
+Cc:     Kangjie Lu <kjlu@umn.edu>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        "David S . Miller" <davem@davemloft.net>,
+        Sasha Levin <sashal@kernel.org>, netdev@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 245/671] net: sh_eth: fix a missing check of of_get_phy_mode
+Date:   Thu, 16 Jan 2020 11:52:34 -0500
+Message-Id: <20200116165940.10720-128-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200116165502.8838-1-sashal@kernel.org>
-References: <20200116165502.8838-1-sashal@kernel.org>
+In-Reply-To: <20200116165940.10720-1-sashal@kernel.org>
+References: <20200116165940.10720-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -47,40 +47,47 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: YueHaibing <yuehaibing@huawei.com>
+From: Kangjie Lu <kjlu@umn.edu>
 
-[ Upstream commit 06c3bbd3c12737a50c2e981821b5585e1786e73d ]
+[ Upstream commit 035a14e71f27eefa50087963b94cbdb3580d08bf ]
 
-In case of error, the function devm_ioremap_resource() returns ERR_PTR()
-and never returns NULL. The NULL test in the return value check should
-be replaced with IS_ERR().
+of_get_phy_mode may fail and return a negative error code;
+the fix checks the return value of of_get_phy_mode and
+returns NULL of it fails.
 
-Fixes: 8f1597c8f1a5 ("drm: shmobile: Perform initialization/cleanup at probe/remove time")
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Fixes: b356e978e92f ("sh_eth: add device tree support")
+Signed-off-by: Kangjie Lu <kjlu@umn.edu>
+Reviewed-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: David S. Miller <davem@davemloft.net>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/shmobile/shmob_drm_drv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/net/ethernet/renesas/sh_eth.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-index 592572554eb0..58d8a98c749b 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-@@ -233,8 +233,8 @@ static int shmob_drm_probe(struct platform_device *pdev)
+diff --git a/drivers/net/ethernet/renesas/sh_eth.c b/drivers/net/ethernet/renesas/sh_eth.c
+index 5e3e6e262ba3..f20290c72412 100644
+--- a/drivers/net/ethernet/renesas/sh_eth.c
++++ b/drivers/net/ethernet/renesas/sh_eth.c
+@@ -3129,12 +3129,16 @@ static struct sh_eth_plat_data *sh_eth_parse_dt(struct device *dev)
+ 	struct device_node *np = dev->of_node;
+ 	struct sh_eth_plat_data *pdata;
+ 	const char *mac_addr;
++	int ret;
  
- 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	sdev->mmio = devm_ioremap_resource(&pdev->dev, res);
--	if (sdev->mmio == NULL)
--		return -ENOMEM;
-+	if (IS_ERR(sdev->mmio))
-+		return PTR_ERR(sdev->mmio);
+ 	pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
+ 	if (!pdata)
+ 		return NULL;
  
- 	ret = shmob_drm_setup_clocks(sdev, pdata->clk_source);
- 	if (ret < 0)
+-	pdata->phy_interface = of_get_phy_mode(np);
++	ret = of_get_phy_mode(np);
++	if (ret < 0)
++		return NULL;
++	pdata->phy_interface = ret;
+ 
+ 	mac_addr = of_get_mac_address(np);
+ 	if (mac_addr)
 -- 
 2.20.1
 
