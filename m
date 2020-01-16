@@ -2,42 +2,46 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CACF13E4B8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2020 18:10:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 218E413E700
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2020 18:23:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389865AbgAPRKM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Jan 2020 12:10:12 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47694 "EHLO mail.kernel.org"
+        id S2390733AbgAPRNX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Jan 2020 12:13:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58178 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389249AbgAPRKL (ORCPT
+        id S2390729AbgAPRNW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:10:11 -0500
+        Thu, 16 Jan 2020 12:13:22 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0EEC52081E;
-        Thu, 16 Jan 2020 17:10:09 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 549B3246AA;
+        Thu, 16 Jan 2020 17:13:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579194611;
-        bh=PJJRRjvM01qG8A3jR/oqv9cop8TjjfoNmIAu3nk6O+w=;
+        s=default; t=1579194801;
+        bh=ayTV0SyUH0e2bABLL/2P8fDxp82lebQiM6N7Y8tD5Uw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=xe6Z4lUOjJ2u76kK3VCiCR5eUpQq+xuZ7mLUEoHKaU5afGPrVdNoKr6FwzUxlV5SN
-         38w6RBamJW4gps98uLRlXuD19C9haT3VW1IItoHlB8zEqPl7NOE5Af2eT/5kJpXVsE
-         MOMDdco1sIDEXpGQhZnZmybVAuOm2xfVqVXAm1wE=
+        b=bngEY89dxoMr+tvTWdHEw0wrmfHx4zVUc0R6g0fgSpLaGNbdOIDsGuEmIBRX3qcvW
+         f92MfDRxSzpe+9XzIpEJYXP1x8rSBZwQaa7zpQUo/UVm8gcX3EQNyEzZjkOZEGJmNJ
+         /BTNu54RIf/wC7w8h8LuXzkzmEu9RUvdZrOQynbA=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Yoshihiro Kaneko <ykaneko0929@gmail.com>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sasha Levin <sashal@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 476/671] arm64: dts: renesas: r8a77995: Fix register range of display node
-Date:   Thu, 16 Jan 2020 12:01:54 -0500
-Message-Id: <20200116170509.12787-213-sashal@kernel.org>
+Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 612/671] media: rcar-vin: Fix incorrect return statement in rvin_try_format()
+Date:   Thu, 16 Jan 2020 12:04:10 -0500
+Message-Id: <20200116170509.12787-349-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116170509.12787-1-sashal@kernel.org>
 References: <20200116170509.12787-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -46,36 +50,46 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Yoshihiro Kaneko <ykaneko0929@gmail.com>
+From: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-[ Upstream commit 56d651e890f3befd616b6962a862f5ffa1a514fa ]
+[ Upstream commit a0862a40364e2f87109317e31c51c9d7bc89e33f ]
 
-Since the R8A77995 SoC uses DU{0,1}, the range from the base address to
-the 0x4000 address is used.
-This patch fixed it.
+While refactoring code the return statement became corrupted, fix it by
+returning the correct return code.
 
-Fixes: 18f1a773e3f9e6d1 ("arm64: dts: renesas: r8a77995: add DU support")
-Signed-off-by: Yoshihiro Kaneko <ykaneko0929@gmail.com>
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reported-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Fixes: 897e371389e77514 ("media: rcar-vin: simplify how formats are set and reset"
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/arm64/boot/dts/renesas/r8a77995.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/rcar-vin/rcar-v4l2.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-index fe77bc43c447..fb3ecb2c385d 100644
---- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-@@ -938,7 +938,7 @@
+diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+index 5a54779cfc27..1236e6e8228c 100644
+--- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
++++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+@@ -196,6 +196,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
+ 	ret = v4l2_subdev_call(sd, pad, set_fmt, pad_cfg, &format);
+ 	if (ret < 0 && ret != -ENOIOCTLCMD)
+ 		goto done;
++	ret = 0;
  
- 		du: display@feb00000 {
- 			compatible = "renesas,du-r8a77995";
--			reg = <0 0xfeb00000 0 0x80000>;
-+			reg = <0 0xfeb00000 0 0x40000>;
- 			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&cpg CPG_MOD 724>,
+ 	v4l2_fill_pix_format(pix, &format.format);
+ 
+@@ -230,7 +231,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
+ done:
+ 	v4l2_subdev_free_pad_config(pad_cfg);
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ static int rvin_querycap(struct file *file, void *priv,
 -- 
 2.20.1
 
