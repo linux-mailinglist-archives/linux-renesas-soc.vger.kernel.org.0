@@ -2,39 +2,40 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 419D713E1DE
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2020 17:54:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5392A13E28A
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2020 17:56:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729398AbgAPQvz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Jan 2020 11:51:55 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34808 "EHLO mail.kernel.org"
+        id S1733291AbgAPQ4w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Jan 2020 11:56:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43462 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727015AbgAPQvy (ORCPT
+        id S1729093AbgAPQ4w (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Jan 2020 11:51:54 -0500
+        Thu, 16 Jan 2020 11:56:52 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 22E7F205F4;
-        Thu, 16 Jan 2020 16:51:50 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 88ADA21D56;
+        Thu, 16 Jan 2020 16:56:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579193514;
-        bh=uHDst8UX4z8oIJF3ujRDjA/O0+RqS6TJFAo6QrE7GAs=;
+        s=default; t=1579193811;
+        bh=is0VhQVqYE0DCdIwWOioa+NP7VecCQJeK4r3yg8YdHw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=j6fvMwRvX+C2hszQCJF2JCJqvjYldymZm4lmGTD9R0pHBl4zryLG2CufFcQmEC0gO
-         uyKIOTflAsffdMfaFOxFEnRFrVesdOC8OHKgpi4nVlxjb1xYuz3h/3Er67co044ett
-         RvyxGkVoooNEdSTRu19SarepFw+GYNm+hC/WM14M=
+        b=vL2sohggzjEfwKMsBuFUcZaANTuiIYtuiKNaomC1inHzV3ulpGAyx8rEAIrOG2Qjx
+         vnSabm5h+sL5ffuod+E8py3oAVzGlqTldEOys1K6lwin4I6u0BoSAhWu+4vxAz+lk+
+         ULjBjBgwCfPDErrGUhhK4tl/4kBku1LJHZP2Txwo=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms+renesas@verge.net.au>,
         Sasha Levin <sashal@kernel.org>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 094/205] soc: renesas: Add missing check for non-zero product register address
-Date:   Thu, 16 Jan 2020 11:41:09 -0500
-Message-Id: <20200116164300.6705-94-sashal@kernel.org>
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 073/671] pinctrl: sh-pfc: r8a7794: Remove bogus IPSR9 field
+Date:   Thu, 16 Jan 2020 11:45:04 -0500
+Message-Id: <20200116165502.8838-73-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200116164300.6705-1-sashal@kernel.org>
-References: <20200116164300.6705-1-sashal@kernel.org>
+In-Reply-To: <20200116165502.8838-1-sashal@kernel.org>
+References: <20200116165502.8838-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -46,39 +47,32 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 From: Geert Uytterhoeven <geert+renesas@glider.be>
 
-[ Upstream commit 4194b583c104922c6141d6610bfbce26847959df ]
+[ Upstream commit 6a6c195d98a1a5e70faa87f594d7564af1dd1bed ]
 
-If the DTB for a device with an RZ/A2 SoC lacks a device node for the
-BSID register, the ID validation code falls back to using a register at
-address 0x0, which leads to undefined behavior (e.g. reading back a
-random value).
+The Peripheral Function Select Register 9 contains 12 fields, but the
+variable field descriptor contains a 13th bogus field of 3 bits.
 
-This could be fixed by letting fam_rza2.reg point to the actual BSID
-register.  However, the hardcoded fallbacks were meant for backwards
-compatibility with old DTBs only, not for new SoCs.  Hence fix this by
-validating renesas_family.reg before using it.
-
-Fixes: 175f435f44b724e3 ("soc: renesas: identify RZ/A2")
+Fixes: 43c4436e2f1890a7 ("pinctrl: sh-pfc: add R8A7794 PFC support")
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Link: https://lore.kernel.org/r/20191016143306.28995-1-geert+renesas@glider.be
+Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/soc/renesas/renesas-soc.c | 2 +-
+ drivers/pinctrl/sh-pfc/pfc-r8a7794.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/soc/renesas/renesas-soc.c b/drivers/soc/renesas/renesas-soc.c
-index 3299cf5365f3..6651755e9f20 100644
---- a/drivers/soc/renesas/renesas-soc.c
-+++ b/drivers/soc/renesas/renesas-soc.c
-@@ -326,7 +326,7 @@ static int __init renesas_soc_init(void)
- 	if (np) {
- 		chipid = of_iomap(np, 0);
- 		of_node_put(np);
--	} else if (soc->id) {
-+	} else if (soc->id && family->reg) {
- 		chipid = ioremap(family->reg, 4);
- 	}
- 	if (chipid) {
+diff --git a/drivers/pinctrl/sh-pfc/pfc-r8a7794.c b/drivers/pinctrl/sh-pfc/pfc-r8a7794.c
+index 164002437594..24b9bb1ee1fe 100644
+--- a/drivers/pinctrl/sh-pfc/pfc-r8a7794.c
++++ b/drivers/pinctrl/sh-pfc/pfc-r8a7794.c
+@@ -5215,7 +5215,7 @@ static const struct pinmux_cfg_reg pinmux_config_regs[] = {
+ 		FN_AVB_MDC, FN_SSI_SDATA6_B, 0, 0, }
+ 	},
+ 	{ PINMUX_CFG_REG_VAR("IPSR9", 0xE6060044, 32,
+-			     1, 3, 3, 3, 3, 2, 2, 3, 3, 3, 3, 3, 3) {
++			     1, 3, 3, 3, 3, 2, 2, 3, 3, 3, 3, 3) {
+ 		/* IP9_31 [1] */
+ 		0, 0,
+ 		/* IP9_30_28 [3] */
 -- 
 2.20.1
 
