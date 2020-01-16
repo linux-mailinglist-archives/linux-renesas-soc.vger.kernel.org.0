@@ -2,38 +2,37 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 18AFA13F7F8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2020 20:17:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C7FF13F80F
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2020 20:17:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733182AbgAPQ4M (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Jan 2020 11:56:12 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42268 "EHLO mail.kernel.org"
+        id S1729248AbgAPTOu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Jan 2020 14:14:50 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42538 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1733178AbgAPQ4L (ORCPT
+        id S1733207AbgAPQ4S (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Jan 2020 11:56:11 -0500
+        Thu, 16 Jan 2020 11:56:18 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AB42321D56;
-        Thu, 16 Jan 2020 16:56:09 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 402FD24687;
+        Thu, 16 Jan 2020 16:56:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579193770;
-        bh=XZhnUCCwvm9lbZcTFOr66Eusy3wYa75mhvzEZFBPqcc=;
+        s=default; t=1579193777;
+        bh=pRkhybkngEnr4gOAuE3FOmVM9pUynr3Wp6eubVhRKl0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=k4VYHuhU8jStjlhpcTaRts2XHdpbP8C9zg88cgo7nV4ULZcJ9sX9Dd8z0D/KHuYdB
-         ZOfRcUserg6SKQV4lx3/61Pk/9cbWU+nwEGaj2CxHXuExmE6gJRwlXpysFlw2gSvFL
-         PQRQAkT3cKcqWZM2ensAp2tc3M5HBS0VfqjrKOuA=
+        b=owHF4+pZgP2xm8he0tnCNYc8vYSXD9fi3zT5/06oLHat48aomyUhv+b48bXnayEvu
+         Axs4P59TsIw53E5EGutBV8bToWh3zRsW9YMMyo/LTZcSyNU0Tyy3/rKo0qZFzmF+ym
+         LEfMcT9NNRxUNqSMT6B0O/qBZSBdRceqIuwbgM3Q=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms+renesas@verge.net.au>,
         Sasha Levin <sashal@kernel.org>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 054/671] drm: rcar-du: Fix vblank initialization
-Date:   Thu, 16 Jan 2020 11:44:45 -0500
-Message-Id: <20200116165502.8838-54-sashal@kernel.org>
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 058/671] arm64: dts: renesas: r8a7795-es1: Add missing power domains to IPMMU nodes
+Date:   Thu, 16 Jan 2020 11:44:49 -0500
+Message-Id: <20200116165502.8838-58-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116165502.8838-1-sashal@kernel.org>
 References: <20200116165502.8838-1-sashal@kernel.org>
@@ -46,34 +45,41 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+From: Geert Uytterhoeven <geert+renesas@glider.be>
 
-[ Upstream commit 3d61fe5f59dd3e6f96fc0772156d257cb04dc656 ]
+[ Upstream commit 41e30b515a003a90e336b7a456c7c82d8c3aa6a7 ]
 
-The drm_vblank_init() takes the total number of CRTCs as an argument,
-but the rcar-du driver passes a bitmask of the CRTC indices. Fix it.
+While commit 3b7e7848f0e88b36 ("arm64: dts: renesas: r8a7795: Add IPMMU
+device nodes") for R-Car H3 ES2.0 did include power-domains properties,
+they were forgotten in the counterpart for older R-Car H3 ES1.x SoCs.
 
-Fixes: 4bf8e1962f91 ("drm: Renesas R-Car Display Unit DRM driver")
-Reported-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Fixes: e4b9a493df45075b ("arm64: dts: renesas: r8a7795-es1: Add IPMMU device nodes")
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_kms.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/boot/dts/renesas/r8a7795-es1.dtsi | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-index 0386b454e221..6a9578159c2b 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
-@@ -544,7 +544,7 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
- 	 * Initialize vertical blanking interrupts handling. Start with vblank
- 	 * disabled for all CRTCs.
- 	 */
--	ret = drm_vblank_init(dev, (1 << rcdu->num_crtcs) - 1);
-+	ret = drm_vblank_init(dev, rcdu->num_crtcs);
- 	if (ret < 0)
- 		return ret;
+diff --git a/arch/arm64/boot/dts/renesas/r8a7795-es1.dtsi b/arch/arm64/boot/dts/renesas/r8a7795-es1.dtsi
+index 7b2fbaec9aef..3dc61b7e1d08 100644
+--- a/arch/arm64/boot/dts/renesas/r8a7795-es1.dtsi
++++ b/arch/arm64/boot/dts/renesas/r8a7795-es1.dtsi
+@@ -28,6 +28,7 @@
+ 		compatible = "renesas,ipmmu-r8a7795";
+ 		reg = <0 0xec680000 0 0x1000>;
+ 		renesas,ipmmu-main = <&ipmmu_mm 5>;
++		power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+ 		#iommu-cells = <1>;
+ 	};
+ 
+@@ -35,6 +36,7 @@
+ 		compatible = "renesas,ipmmu-r8a7795";
+ 		reg = <0 0xe7730000 0 0x1000>;
+ 		renesas,ipmmu-main = <&ipmmu_mm 8>;
++		power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
+ 		#iommu-cells = <1>;
+ 	};
  
 -- 
 2.20.1
