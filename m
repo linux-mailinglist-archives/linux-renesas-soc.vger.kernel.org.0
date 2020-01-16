@@ -2,37 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F07ED13E672
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2020 18:20:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C6E3A13E635
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2020 18:19:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389683AbgAPRU1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Jan 2020 12:20:27 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44692 "EHLO mail.kernel.org"
+        id S1731354AbgAPRTJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Jan 2020 12:19:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46228 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391363AbgAPRSF (ORCPT
+        id S2391486AbgAPRSc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Jan 2020 12:18:05 -0500
+        Thu, 16 Jan 2020 12:18:32 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 565B1246B2;
-        Thu, 16 Jan 2020 17:18:04 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D1BD6246C7;
+        Thu, 16 Jan 2020 17:18:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579195085;
-        bh=rTDm/veJoLoQMJHrPCBBDxWNnrNUsb4DdzTNHkeOL3g=;
+        s=default; t=1579195111;
+        bh=Kfq7vR1aY0nNg82frCd7ANsw/ZvrzG9h0pRt5rTHc9o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rVRClOPcQHMt8Dyg1DiWX6kGuwy9GGk6FQJjOUjN25Qo/W6yovcaV01+NNTE/9LCR
-         n7ejbXyu073z5C3BAqdauc9yXSF5wvMhYZG7CiguBG9Yl6GpSLI2zdZjRK67phkXuA
-         ptqwuIhyU0IObiehjCZNhg5UpA2XOUgoLcniCgrY=
+        b=qA2PTpix5lgzuWTuacZEyoq2rcEWD7gBnEzD0DC8eVyz+J3dY306UCw5iZKtVawdV
+         tAtwh1lZ28vHxbWv6Y6VJDqieICxluZIP14YLW25exC1q3nWxvdUPwCtWirWyAaay3
+         6UBOUZOyIUujJbV2Q69eeHOfe8cI/Vjh/6oVvXV8=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc:     YueHaibing <yuehaibing@huawei.com>,
         Simon Horman <horms+renesas@verge.net.au>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
         Sasha Levin <sashal@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 033/371] pinctrl: sh-pfc: sh7734: Remove bogus IPSR10 value
-Date:   Thu, 16 Jan 2020 12:11:41 -0500
-Message-Id: <20200116171719.16965-33-sashal@kernel.org>
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 053/371] drm/shmob: Fix return value check in shmob_drm_probe
+Date:   Thu, 16 Jan 2020 12:12:01 -0500
+Message-Id: <20200116171719.16965-53-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116171719.16965-1-sashal@kernel.org>
 References: <20200116171719.16965-1-sashal@kernel.org>
@@ -45,40 +47,40 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Geert Uytterhoeven <geert+renesas@glider.be>
+From: YueHaibing <yuehaibing@huawei.com>
 
-[ Upstream commit 4d374bacd7c9665179f9752a52d5d602c45d8190 ]
+[ Upstream commit 06c3bbd3c12737a50c2e981821b5585e1786e73d ]
 
-The IP10[5:3] field in Peripheral Function Select Register 10 has a
-width of 3 bits, i.e. it allows programming one out of 8 different
-configurations.
-However, 9 values are provided instead of 8, overflowing into the
-subsequent field in the register, and thus breaking the configuration of
-the latter.
+In case of error, the function devm_ioremap_resource() returns ERR_PTR()
+and never returns NULL. The NULL test in the return value check should
+be replaced with IS_ERR().
 
-Fix this by dropping a bogus zero value.
-
-Fixes: ac1ebc2190f575fc ("sh-pfc: Add sh7734 pinmux support")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Fixes: 8f1597c8f1a5 ("drm: shmobile: Perform initialization/cleanup at probe/remove time")
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/pinctrl/sh-pfc/pfc-sh7734.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/shmobile/shmob_drm_drv.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/pinctrl/sh-pfc/pfc-sh7734.c b/drivers/pinctrl/sh-pfc/pfc-sh7734.c
-index 05ccb27f7781..c691e5e9d9de 100644
---- a/drivers/pinctrl/sh-pfc/pfc-sh7734.c
-+++ b/drivers/pinctrl/sh-pfc/pfc-sh7734.c
-@@ -2231,7 +2231,7 @@ static const struct pinmux_cfg_reg pinmux_config_regs[] = {
- 		FN_LCD_CL1_B, 0, 0,
- 	    /* IP10_5_3 [3] */
- 		FN_SSI_WS23, FN_VI1_5_B, FN_TX1_D, FN_HSCK0_C, FN_FALE_B,
--		FN_LCD_DON_B, 0, 0, 0,
-+		FN_LCD_DON_B, 0, 0,
- 	    /* IP10_2_0 [3] */
- 		FN_SSI_SCK23, FN_VI1_4_B, FN_RX1_D, FN_FCLE_B,
- 		FN_LCD_DATA15_B, 0, 0, 0 }
+diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+index 592572554eb0..58d8a98c749b 100644
+--- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
++++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+@@ -233,8 +233,8 @@ static int shmob_drm_probe(struct platform_device *pdev)
+ 
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	sdev->mmio = devm_ioremap_resource(&pdev->dev, res);
+-	if (sdev->mmio == NULL)
+-		return -ENOMEM;
++	if (IS_ERR(sdev->mmio))
++		return PTR_ERR(sdev->mmio);
+ 
+ 	ret = shmob_drm_setup_clocks(sdev, pdata->clk_source);
+ 	if (ret < 0)
 -- 
 2.20.1
 
