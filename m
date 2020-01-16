@@ -2,42 +2,46 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CF8A13E06C
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2020 17:43:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 20E2D13E08C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2020 17:45:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729061AbgAPQng (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Jan 2020 11:43:36 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51132 "EHLO mail.kernel.org"
+        id S1729242AbgAPQoH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Jan 2020 11:44:07 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51980 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726785AbgAPQng (ORCPT
+        id S1726440AbgAPQoH (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Jan 2020 11:43:36 -0500
+        Thu, 16 Jan 2020 11:44:07 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 79377208C3;
-        Thu, 16 Jan 2020 16:43:30 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0B4322073A;
+        Thu, 16 Jan 2020 16:44:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579193015;
-        bh=sa5E/tzsppxLkY47m1pt/tdrVso35PLdcOSPFrUAZ48=;
+        s=default; t=1579193046;
+        bh=BfYrXoJof+90lXNIE++/o3e/UmI7fGwi+0BJ+ex+hlk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GmSObJds9TckzT2QuHw15X0ZUO0zfwvIo2OkixqyPuC2yXSHLUKPfuLlYFkXKuQ8R
-         2cwdiJUcR7EvDtJnlcJQL7ttuGUP1hUu9dy3B5HR1gVZXW+4zBsUcsP9il13eWZxwN
-         rTtOYsCl4BbFXzRfs3k6EaDu91rEj/6dpIA0GiYc=
+        b=JZTVbXn3+GK5AaKz1su9QiNSR5HIQNNsJRnuD/wHC2UrV+6hrrtdbS/CnkmPYNpd9
+         zZIeicb1ZKdk8102QKwyAQGQcfOKu41HQ3vDwMcdcPW6wPwMhSrAQvjKCV4slbXRFo
+         77ATivVKSyqNzpOMZP2MPYqUmbPnkk0UNJDHK0o0=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Simon Horman <horms+renesas@verge.net.au>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Sasha Levin <sashal@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 007/205] arm64: dts: renesas: r8a77970: Fix PWM3
-Date:   Thu, 16 Jan 2020 11:39:42 -0500
-Message-Id: <20200116164300.6705-7-sashal@kernel.org>
+Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 013/205] media: rcar-vin: Fix incorrect return statement in rvin_try_format()
+Date:   Thu, 16 Jan 2020 11:39:48 -0500
+Message-Id: <20200116164300.6705-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116164300.6705-1-sashal@kernel.org>
 References: <20200116164300.6705-1-sashal@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
@@ -46,38 +50,46 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+From: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-[ Upstream commit 28a1b34c00dad4be91108369ca25ef8dc8bf850d ]
+[ Upstream commit a0862a40364e2f87109317e31c51c9d7bc89e33f ]
 
-The pwm3 was incorrectly added with a compatible reference to the
-renesas,pwm-r8a7790 (H2) due to a single characther ommision.
+While refactoring code the return statement became corrupted, fix it by
+returning the correct return code.
 
-Fix the compatible string.
-
-Fixes: de625477c632 ("arm64: dts: renesas: r8a779{7|8}0: add PWM support")
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
-Link: https://lore.kernel.org/r/20190912103143.985-1-kieran.bingham+renesas@ideasonboard.com
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reported-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Fixes: 897e371389e77514 ("media: rcar-vin: simplify how formats are set and reset"
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/arm64/boot/dts/renesas/r8a77970.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/rcar-vin/rcar-v4l2.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77970.dtsi b/arch/arm64/boot/dts/renesas/r8a77970.dtsi
-index 0cd3b376635d..4952981bb6ba 100644
---- a/arch/arm64/boot/dts/renesas/r8a77970.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77970.dtsi
-@@ -652,7 +652,7 @@
- 		};
+diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+index cbc1c07f0a96..ec2796413e26 100644
+--- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
++++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+@@ -208,6 +208,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
+ 	ret = v4l2_subdev_call(sd, pad, set_fmt, pad_cfg, &format);
+ 	if (ret < 0 && ret != -ENOIOCTLCMD)
+ 		goto done;
++	ret = 0;
  
- 		pwm3: pwm@e6e33000 {
--			compatible = "renesas,pwm-r8a7790", "renesas,pwm-rcar";
-+			compatible = "renesas,pwm-r8a77970", "renesas,pwm-rcar";
- 			reg = <0 0xe6e33000 0 8>;
- 			#pwm-cells = <2>;
- 			clocks = <&cpg CPG_MOD 523>;
+ 	v4l2_fill_pix_format(pix, &format.format);
+ 
+@@ -242,7 +243,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
+ done:
+ 	v4l2_subdev_free_pad_config(pad_cfg);
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ static int rvin_querycap(struct file *file, void *priv,
 -- 
 2.20.1
 
