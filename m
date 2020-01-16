@@ -2,38 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C267113E2E3
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2020 17:59:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF0BE13E2B2
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2020 17:57:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730131AbgAPQ66 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Jan 2020 11:58:58 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44862 "EHLO mail.kernel.org"
+        id S1733082AbgAPQ5q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Jan 2020 11:57:46 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45236 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732782AbgAPQ5e (ORCPT
+        id S2387540AbgAPQ5p (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Jan 2020 11:57:34 -0500
+        Thu, 16 Jan 2020 11:57:45 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9444A24673;
-        Thu, 16 Jan 2020 16:57:32 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id AC72022525;
+        Thu, 16 Jan 2020 16:57:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579193854;
-        bh=hEy+SEyJHy2Z+9dl0yeA1B7o61iCzX8WEsxkcrLp2wY=;
+        s=default; t=1579193865;
+        bh=Kfq7vR1aY0nNg82frCd7ANsw/ZvrzG9h0pRt5rTHc9o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=oQ6e8xAgvu2uG3Q587sR8Wo96cfzcRdu2ZXlRjBX2/qql52MU8mSqKPfoyxkiSh+X
-         wI2zz9ovOez1hSLAPXUQp4yYk1qwm7B2DPl4q0G0DzoC36puipwbEvXk/fERX9PzhA
-         qGTeWuE+NUDNu4vHJ87dJlKja7hkR5cjWQuKnFaU=
+        b=IICYjNyzZD1dRsRCNhd1DMpfglOOX0DJexhAufyaeDik+jBpb5bOdZBTilsi0o9vE
+         L3q8KY3zYGkOpdrMjWDRxdUvyN7DRHCRd+GJfMVh2TqcDQfN98z7QMDvKjYhkUf0fs
+         umZkqccuUkzYJ4csxZOfOZtWB844KHaepd5QAimc=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Biju Das <biju.das@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc:     YueHaibing <yuehaibing@huawei.com>,
         Simon Horman <horms+renesas@verge.net.au>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
         Sasha Levin <sashal@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 104/671] ARM: dts: r8a7743: Fix sorting of rwdt node
-Date:   Thu, 16 Jan 2020 11:45:35 -0500
-Message-Id: <20200116165502.8838-104-sashal@kernel.org>
+        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 111/671] drm/shmob: Fix return value check in shmob_drm_probe
+Date:   Thu, 16 Jan 2020 11:45:42 -0500
+Message-Id: <20200116165502.8838-111-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116165502.8838-1-sashal@kernel.org>
 References: <20200116165502.8838-1-sashal@kernel.org>
@@ -46,61 +47,40 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Biju Das <biju.das@bp.renesas.com>
+From: YueHaibing <yuehaibing@huawei.com>
 
-[ Upstream commit 383f6024981d32425fa453bf2e66b546fdbc1314 ]
+[ Upstream commit 06c3bbd3c12737a50c2e981821b5585e1786e73d ]
 
-Watchdog node is incorrectly placed on r8a7743 SoC dtsi. This patch fixes
-the sorting order.
+In case of error, the function devm_ioremap_resource() returns ERR_PTR()
+and never returns NULL. The NULL test in the return value check should
+be replaced with IS_ERR().
 
-Fixes: b5beb5d4c81c358f50a8310108 ("ARM: dts: r8a7743: Add watchdog support to SoC dtsi")
-
-Signed-off-by: Biju Das <biju.das@bp.renesas.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+Fixes: 8f1597c8f1a5 ("drm: shmobile: Perform initialization/cleanup at probe/remove time")
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/arm/boot/dts/r8a7743.dtsi | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/shmobile/shmob_drm_drv.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/arch/arm/boot/dts/r8a7743.dtsi b/arch/arm/boot/dts/r8a7743.dtsi
-index 5015e2273d82..fcc6d926991b 100644
---- a/arch/arm/boot/dts/r8a7743.dtsi
-+++ b/arch/arm/boot/dts/r8a7743.dtsi
-@@ -154,6 +154,16 @@
- 		#size-cells = <2>;
- 		ranges;
+diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+index 592572554eb0..58d8a98c749b 100644
+--- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
++++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
+@@ -233,8 +233,8 @@ static int shmob_drm_probe(struct platform_device *pdev)
  
-+		rwdt: watchdog@e6020000 {
-+			compatible = "renesas,r8a7743-wdt",
-+				     "renesas,rcar-gen2-wdt";
-+			reg = <0 0xe6020000 0 0x0c>;
-+			clocks = <&cpg CPG_MOD 402>;
-+			power-domains = <&sysc R8A7743_PD_ALWAYS_ON>;
-+			resets = <&cpg 402>;
-+			status = "disabled";
-+		};
-+
- 		gpio0: gpio@e6050000 {
- 			compatible = "renesas,gpio-r8a7743",
- 				     "renesas,rcar-gen2-gpio";
-@@ -310,16 +320,6 @@
- 			reg = <0 0xe6160000 0 0x100>;
- 		};
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	sdev->mmio = devm_ioremap_resource(&pdev->dev, res);
+-	if (sdev->mmio == NULL)
+-		return -ENOMEM;
++	if (IS_ERR(sdev->mmio))
++		return PTR_ERR(sdev->mmio);
  
--		rwdt: watchdog@e6020000 {
--			compatible = "renesas,r8a7743-wdt",
--				     "renesas,rcar-gen2-wdt";
--			reg = <0 0xe6020000 0 0x0c>;
--			clocks = <&cpg CPG_MOD 402>;
--			power-domains = <&sysc R8A7743_PD_ALWAYS_ON>;
--			resets = <&cpg 402>;
--			status = "disabled";
--		};
--
- 		sysc: system-controller@e6180000 {
- 			compatible = "renesas,r8a7743-sysc";
- 			reg = <0 0xe6180000 0 0x200>;
+ 	ret = shmob_drm_setup_clocks(sdev, pdata->clk_source);
+ 	if (ret < 0)
 -- 
 2.20.1
 
