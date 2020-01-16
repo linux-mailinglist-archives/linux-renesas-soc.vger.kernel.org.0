@@ -2,37 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5392A13E28A
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2020 17:56:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AB4213E2E8
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 16 Jan 2020 17:59:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733291AbgAPQ4w (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 16 Jan 2020 11:56:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43462 "EHLO mail.kernel.org"
+        id S2387513AbgAPQ5d (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 16 Jan 2020 11:57:33 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44802 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729093AbgAPQ4w (ORCPT
+        id S2387510AbgAPQ5c (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 16 Jan 2020 11:56:52 -0500
+        Thu, 16 Jan 2020 11:57:32 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 88ADA21D56;
-        Thu, 16 Jan 2020 16:56:50 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EA12D24656;
+        Thu, 16 Jan 2020 16:57:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579193811;
-        bh=is0VhQVqYE0DCdIwWOioa+NP7VecCQJeK4r3yg8YdHw=;
+        s=default; t=1579193852;
+        bh=yYct/yvcXDrlEgA0LcQIaaTkGaXswQCQAppwQZKXnE0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=vL2sohggzjEfwKMsBuFUcZaANTuiIYtuiKNaomC1inHzV3ulpGAyx8rEAIrOG2Qjx
-         vnSabm5h+sL5ffuod+E8py3oAVzGlqTldEOys1K6lwin4I6u0BoSAhWu+4vxAz+lk+
-         ULjBjBgwCfPDErrGUhhK4tl/4kBku1LJHZP2Txwo=
+        b=IfvXmm5gDbIqmNdpdcCtjEDZpFfioCTqpj/iR2eutdW8u50lJggOl18t9O+zRjxGN
+         2bA+kOfjMDZ4ec/5w6BIXaEtNioYrCSiSwxsxdVkvdBkZi9PI0aZI1+vxyNw+HwkaV
+         GUYnfuMXBKiGiyboTaPNmtl4Mi5g/gEaLrgaoC8A=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc:     Biju Das <biju.das@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
         Simon Horman <horms+renesas@verge.net.au>,
         Sasha Levin <sashal@kernel.org>,
-        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 073/671] pinctrl: sh-pfc: r8a7794: Remove bogus IPSR9 field
-Date:   Thu, 16 Jan 2020 11:45:04 -0500
-Message-Id: <20200116165502.8838-73-sashal@kernel.org>
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 103/671] ARM: dts: r8a7743: Remove generic compatible string from iic3
+Date:   Thu, 16 Jan 2020 11:45:34 -0500
+Message-Id: <20200116165502.8838-103-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200116165502.8838-1-sashal@kernel.org>
 References: <20200116165502.8838-1-sashal@kernel.org>
@@ -45,34 +46,37 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Geert Uytterhoeven <geert+renesas@glider.be>
+From: Biju Das <biju.das@bp.renesas.com>
 
-[ Upstream commit 6a6c195d98a1a5e70faa87f594d7564af1dd1bed ]
+[ Upstream commit 072b817589b17660ef19c31d89f7b981dbed3fd2 ]
 
-The Peripheral Function Select Register 9 contains 12 fields, but the
-variable field descriptor contains a 13th bogus field of 3 bits.
+The iic3 block on RZ/G1M does not support automatic transmission, unlike
+other R-Car SoC's. So dropping the compatibility with the generic version.
 
-Fixes: 43c4436e2f1890a7 ("pinctrl: sh-pfc: add R8A7794 PFC support")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+Fixes: f523405f2a22cc0c307 ("ARM: dts: r8a7743: Add IIC cores to dtsi")
+Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/pinctrl/sh-pfc/pfc-r8a7794.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm/boot/dts/r8a7743.dtsi | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/pinctrl/sh-pfc/pfc-r8a7794.c b/drivers/pinctrl/sh-pfc/pfc-r8a7794.c
-index 164002437594..24b9bb1ee1fe 100644
---- a/drivers/pinctrl/sh-pfc/pfc-r8a7794.c
-+++ b/drivers/pinctrl/sh-pfc/pfc-r8a7794.c
-@@ -5215,7 +5215,7 @@ static const struct pinmux_cfg_reg pinmux_config_regs[] = {
- 		FN_AVB_MDC, FN_SSI_SDATA6_B, 0, 0, }
- 	},
- 	{ PINMUX_CFG_REG_VAR("IPSR9", 0xE6060044, 32,
--			     1, 3, 3, 3, 3, 2, 2, 3, 3, 3, 3, 3, 3) {
-+			     1, 3, 3, 3, 3, 2, 2, 3, 3, 3, 3, 3) {
- 		/* IP9_31 [1] */
- 		0, 0,
- 		/* IP9_30_28 [3] */
+diff --git a/arch/arm/boot/dts/r8a7743.dtsi b/arch/arm/boot/dts/r8a7743.dtsi
+index 24715f74ae08..5015e2273d82 100644
+--- a/arch/arm/boot/dts/r8a7743.dtsi
++++ b/arch/arm/boot/dts/r8a7743.dtsi
+@@ -565,9 +565,7 @@
+ 			/* doesn't need pinmux */
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
+-			compatible = "renesas,iic-r8a7743",
+-				     "renesas,rcar-gen2-iic",
+-				     "renesas,rmobile-iic";
++			compatible = "renesas,iic-r8a7743";
+ 			reg = <0 0xe60b0000 0 0x425>;
+ 			interrupts = <GIC_SPI 173 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&cpg CPG_MOD 926>;
 -- 
 2.20.1
 
