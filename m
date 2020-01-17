@@ -2,119 +2,197 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FA1714059B
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jan 2020 09:47:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 533961405D0
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jan 2020 10:08:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729501AbgAQIrg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Jan 2020 03:47:36 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:41380 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729121AbgAQIrf (ORCPT
+        id S1726897AbgAQJIP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Jan 2020 04:08:15 -0500
+Received: from mga02.intel.com ([134.134.136.20]:35459 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726908AbgAQJIP (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Jan 2020 03:47:35 -0500
-Received: by mail-ot1-f68.google.com with SMTP id r27so21900856otc.8;
-        Fri, 17 Jan 2020 00:47:35 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pz6+/xs8T4dEEblCt+UUKFDi8/LXzdFKEsZrzO5UHGk=;
-        b=r6/+skgijbZCUz4LRc7ea9ZAOslUAfkeAdLGC92NNlGGxNk9Kt6oS/9BS5x6F0Lcaq
-         bmPc5GiaoR4t5M/ZMBMWjID73WQgrtI3I+OQUGjPWJrawJ+gbZiEIbCr7aK4DYLxp2CR
-         JNnNmoxobr6RfLGSSlruAOOEMllmmmU63gwZARHwSnSglHa2zw2l+94gRpHELDALk8qm
-         Ei/OWprX6mNTl+hQevKPFOXH4iy4muLatj9P4U5unkFxHcb/hdZmO4fFxShrxthqePKG
-         Vyubc41WmC5Nx1kA7UTgRvVDRxKbqXNf92zS6Mm90WpiPblGiHucHkOuf7aueW/p4H1Q
-         O/wQ==
-X-Gm-Message-State: APjAAAUdxaDOrroi8M+FDpCajkb9Q7WHiVBlrLKXMnC2YcgFJTTm6Wcj
-        mSAsoUmNF4qPKR8e9yWA4a7WuyeUUQzPIIVDyro=
-X-Google-Smtp-Source: APXvYqwPm6MtbyAOSCi9UiBhMZ4PpzpzXrNfcsnaLGfKDZqdHNnurHqn4SJJX9I9yrPnM/Q7dnOgZvD5f79Eq6Wg3as=
-X-Received: by 2002:a05:6830:2141:: with SMTP id r1mr5358243otd.39.1579250854871;
- Fri, 17 Jan 2020 00:47:34 -0800 (PST)
+        Fri, 17 Jan 2020 04:08:15 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 17 Jan 2020 01:08:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,329,1574150400"; 
+   d="scan'208";a="218849116"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 17 Jan 2020 01:08:14 -0800
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1isNbx-0007Jn-NJ; Fri, 17 Jan 2020 17:08:13 +0800
+Date:   Fri, 17 Jan 2020 17:07:22 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-devel:master] BUILD INCOMPLETE
+ 0dff3f3064be4c92c2d52f9be4210936a324c779
+Message-ID: <5e21794a.zr95PlgCftVfjG51%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <1576590361-28244-1-git-send-email-fabrizio.castro@bp.renesas.com> <20191217231326.GG4874@pendragon.ideasonboard.com>
-In-Reply-To: <20191217231326.GG4874@pendragon.ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 17 Jan 2020 09:47:22 +0100
-Message-ID: <CAMuHMdWaZBfsHi9E57B8Mr6QSCATVxpdRtg=9_H-urBaK_iRJw@mail.gmail.com>
-Subject: Re: [PATCH v6 0/6] Add dual-LVDS panel support to EK874
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Sean Paul <sean@poorly.run>,
-        Andrzej Hajda <a.hajda@samsung.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Simon Horman <horms@verge.net.au>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        ebiharaml@si-linux.co.jp
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  master
+branch HEAD: 0dff3f3064be4c92c2d52f9be4210936a324c779  Merge branch 'renesas-next', tag 'v5.5-rc6' into renesas-devel
 
-(woops, forgot to press sent)
-
-On Wed, Dec 18, 2019 at 12:13 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
-> On Tue, Dec 17, 2019 at 01:45:55PM +0000, Fabrizio Castro wrote:
-> > this series adds support for dual-LVDS panel IDK-2121WR
-> > from Advantech:
-> > https://buy.advantech.eu/Displays/Embedded-LCD-Kits-High-Brightness/model-IDK-2121WR-K2FHA2E.htm
-> >
-> > V6 reworks patch "drm: rcar-du: lvds: Allow for even and odd pixels swap",
-> > and rebases the series on top of patch:
-> > https://patchwork.kernel.org/patch/11295991/
->
-> I've taken patch 1/6 to 4/6 in my tree. I expect Geert to take 6/6. For
-> 5/6, I'll give Rob a chance to review the patch. Sam, could you handle
-> it afterwards ?
-
-Queuing 6/6 in renesas-devel for v5.6.
-
-> > Fabrizio Castro (6):
-> >   drm: of: Add drm_of_lvds_get_dual_link_pixel_order
-> >   drm: rcar-du: lvds: Improve identification of panels
-> >   drm: rcar-du: lvds: Get dual link configuration from DT
-> >   drm: rcar-du: lvds: Allow for even and odd pixels swap
-> >   dt-bindings: display: Add idk-2121wr binding
-> >   arm64: dts: renesas: Add EK874 board with idk-2121wr display support
-> >
-> >  .../display/panel/advantech,idk-2121wr.yaml        | 128 +++++++++++++++
-> >  arch/arm64/boot/dts/renesas/Makefile               |   3 +-
-> >  .../boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts | 116 +++++++++++++
-> >  drivers/gpu/drm/drm_of.c                           | 116 +++++++++++++
-> >  drivers/gpu/drm/rcar-du/rcar_lvds.c                | 180 ++++++++++++---------
-> >  include/drm/drm_of.h                               |  20 +++
-> >  6 files changed, 483 insertions(+), 80 deletions(-)
-> >  create mode 100644 Documentation/devicetree/bindings/display/panel/advantech,idk-2121wr.yaml
-> >  create mode 100644 arch/arm64/boot/dts/renesas/r8a774c0-ek874-idk-2121wr.dts
-
-Gr{oetje,eeting}s,
-
-                        Geert
+TIMEOUT after 2895m
 
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Sorry we cannot finish the testset for your branch within a reasonable time.
+It's our fault -- either some build server is down or some build worker is busy
+doing bisects for _other_ trees. The branch will get more complete coverage and
+possible error reports when our build infrastructure is restored or catches up.
+There will be no more build success notification for this branch head, but you
+can expect reasonably good test coverage after waiting for 1 day.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+configs timed out: 12
+
+i386                             alldefconfig
+i386                              allnoconfig
+i386                             allyesconfig
+i386                                defconfig
+ia64                             alldefconfig
+ia64                             allmodconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+ia64                                defconfig
+mips                         64r6el_defconfig
+mips                      fuloong2e_defconfig
+mips                      malta_kvm_defconfig
+
+configs tested: 121
+configs skipped: 0
+
+c6x                              allyesconfig
+c6x                        evmc6678_defconfig
+nios2                         10m50_defconfig
+nios2                         3c120_defconfig
+openrisc                    or1ksim_defconfig
+openrisc                 simple_smp_defconfig
+xtensa                       common_defconfig
+xtensa                          iss_defconfig
+parisc                            allnoconfig
+parisc                            allyesonfig
+parisc                         b180_defconfig
+parisc                        c3000_defconfig
+parisc                              defconfig
+arc                              allyesconfig
+arc                                 defconfig
+microblaze                      mmu_defconfig
+microblaze                    nommu_defconfig
+powerpc                           allnoconfig
+powerpc                             defconfig
+powerpc                       ppc64_defconfig
+powerpc                          rhel-kconfig
+x86_64                              fedora-25
+x86_64                                  kexec
+x86_64                                    lkp
+x86_64                                   rhel
+x86_64                               rhel-7.6
+m68k                          multi_defconfig
+m68k                       m5475evb_defconfig
+h8300                    h8300h-sim_defconfig
+h8300                     edosk2674_defconfig
+m68k                           sun3_defconfig
+h8300                       h8s-sim_defconfig
+m68k                             allmodconfig
+arm                              allmodconfig
+arm                               allnoconfig
+arm                              allyesconfig
+arm                         at91_dt_defconfig
+arm                           efm32_defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+arm                        multi_v7_defconfig
+arm                        shmobile_defconfig
+arm                           sunxi_defconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+arm64                            allyesconfig
+arm64                               defconfig
+um                                  defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+sh                               allmodconfig
+sh                          rsk7269_defconfig
+sh                  sh7785lcr_32bit_defconfig
+sh                                allnoconfig
+sh                            titan_defconfig
+alpha                               defconfig
+csky                                defconfig
+nds32                             allnoconfig
+nds32                               defconfig
+arc                  randconfig-a001-20200116
+arm                  randconfig-a001-20200116
+arm64                randconfig-a001-20200116
+ia64                 randconfig-a001-20200116
+powerpc              randconfig-a001-20200116
+sparc                randconfig-a001-20200116
+riscv                randconfig-a001-20200117
+parisc               randconfig-a001-20200117
+m68k                 randconfig-a001-20200117
+alpha                randconfig-a001-20200117
+nds32                randconfig-a001-20200117
+x86_64               randconfig-b001-20200116
+x86_64               randconfig-b002-20200116
+x86_64               randconfig-b003-20200116
+i386                 randconfig-b001-20200116
+i386                 randconfig-b002-20200116
+i386                 randconfig-b003-20200116
+x86_64               randconfig-g001-20200116
+x86_64               randconfig-g002-20200116
+x86_64               randconfig-g003-20200116
+i386                 randconfig-g001-20200116
+i386                 randconfig-g002-20200116
+i386                 randconfig-g003-20200116
+c6x                  randconfig-a001-20200116
+h8300                randconfig-a001-20200116
+microblaze           randconfig-a001-20200116
+nios2                randconfig-a001-20200116
+sparc64              randconfig-a001-20200116
+sparc                            allyesconfig
+sparc                               defconfig
+sparc64                          allmodconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                             defconfig
+s390                              allnoconfig
+s390                             alldefconfig
+s390                          debug_defconfig
+s390                             allmodconfig
+s390                                defconfig
+s390                       zfcpdump_defconfig
+s390                             allyesconfig
+riscv                            allmodconfig
+riscv                             allnoconfig
+riscv                            allyesconfig
+riscv                               defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+s390                 randconfig-a001-20200117
+csky                 randconfig-a001-20200117
+sh                   randconfig-a001-20200117
+xtensa               randconfig-a001-20200117
+openrisc             randconfig-a001-20200117
+x86_64               randconfig-d001-20200116
+x86_64               randconfig-d002-20200116
+x86_64               randconfig-d003-20200116
+i386                 randconfig-d001-20200116
+i386                 randconfig-d002-20200116
+i386                 randconfig-d003-20200116
+mips                             allmodconfig
+mips                           32r2_defconfig
+mips                             allyesconfig
+mips                              allnoconfig
+
+---
+0-DAY kernel test infrastructure                 Open Source Technology Center
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
