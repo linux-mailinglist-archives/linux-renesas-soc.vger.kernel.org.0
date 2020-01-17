@@ -2,260 +2,162 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1806314121F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jan 2020 21:08:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C489D1412A5
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jan 2020 22:12:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727573AbgAQUIx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Jan 2020 15:08:53 -0500
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:53086 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727519AbgAQUIw (ORCPT
+        id S1728596AbgAQVMZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Jan 2020 16:12:25 -0500
+Received: from asavdk4.altibox.net ([109.247.116.15]:43254 "EHLO
+        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726925AbgAQVMZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Jan 2020 15:08:52 -0500
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00HK8jAF113059;
-        Fri, 17 Jan 2020 14:08:45 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1579291725;
-        bh=mbY87qveryPPYQ1EQ2+4SCwD3anHdznVGfKwmBfB3qU=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=MiUR3HmUa3MijBs1Fep5EiIV+Us20ffc6Q27yybmrdBJvSwAAhhNz0ZY4neX4aUOW
-         jVYy+eBfNXLxFh1+g9WD64HsxQNyC7owP5QuVnwTIbHHpOEJ0pUIshEfxnieCsiUu5
-         fT8poCuKpCNlzPY4L4DTPYO2pvfd6ufjuvk7HYSk=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00HK8jxc093876
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 17 Jan 2020 14:08:45 -0600
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 17
- Jan 2020 14:08:44 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Fri, 17 Jan 2020 14:08:44 -0600
-Received: from [192.168.2.10] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00HK8giI051925;
-        Fri, 17 Jan 2020 14:08:43 -0600
-Subject: Re: [PATCH v2] dmaengine: Create symlinks between DMA channels and
- slaves
+        Fri, 17 Jan 2020 16:12:25 -0500
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk4.altibox.net (Postfix) with ESMTPS id E0FCA803CD;
+        Fri, 17 Jan 2020 22:12:18 +0100 (CET)
+Date:   Fri, 17 Jan 2020 22:12:17 +0100
+From:   Sam Ravnborg <sam@ravnborg.org>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>
-CC:     <dmaengine@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20200117153056.31363-1-geert+renesas@glider.be>
-From:   Peter Ujfalusi <peter.ujfalusi@ti.com>
-Message-ID: <d2b669e7-a5d4-20ec-5b54-103b71df7407@ti.com>
-Date:   Fri, 17 Jan 2020 22:10:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
+Cc:     Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+        David Lechner <david@lechnology.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/5] drm/mipi_dbi: Add support for display offsets
+Message-ID: <20200117211217.GA28658@ravnborg.org>
+References: <20200115124548.3951-1-geert+renesas@glider.be>
+ <20200115124548.3951-4-geert+renesas@glider.be>
 MIME-Version: 1.0
-In-Reply-To: <20200117153056.31363-1-geert+renesas@glider.be>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200115124548.3951-4-geert+renesas@glider.be>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=VcLZwmh9 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+        a=3or2sDVh_ekwW7J8m1sA:9 a=WLNlSafAV1l-oZNU:21 a=aATE8E100ZN-Va1G:21
+        a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22 a=pHzHmUro8NiASowvMSCR:22
+        a=xoEH_sTeL_Rfw54TyV31:22
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Noralf.
 
-On 1/17/20 5:30 PM, Geert Uytterhoeven wrote:
-> Currently it is not easy to find out which DMA channels are in use, and
-> which slave devices are using which channels.
+If you could find time to review this patch it would be great.
+I am reluctant to apply it until you have acked/reviewed it.
+
+Thanks in advance,
+
+	Sam
+
+On Wed, Jan 15, 2020 at 01:45:46PM +0100, Geert Uytterhoeven wrote:
+> If the resolution of the TFT display is smaller than the maximum
+> resolution supported by the display controller, the display may be
+> connected to the driver output arrays with a horizontal and/or vertical
+> offset, leading to a shifted image.
 > 
-> Fix this by creating two symlinks between the DMA channel and the actual
-> slave device when a channel is requested:
->   1. A "slave" symlink from DMA channel to slave device,
-
-Have you considered similar link name as on the slave device:
-slave:<name>
-
-That way it would be easier to grasp which channel is used for what
-purpose by only looking under /sys/class/dma/ and no need to check the
-slave device.
-
->   2. A "dma:<name>" symlink slave device to DMA channel.
-> When the channel is released, the symlinks are removed again.
-> The latter requires keeping track of the slave device and the channel
-> name in the dma_chan structure.
-> 
-> Note that this is limited to channel request functions for requesting an
-> exclusive slave channel that take a device pointer (dma_request_chan()
-> and dma_request_slave_channel*()).
+> Add support for specifying these offsets.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 > ---
 > v2:
->   - Add DMA_SLAVE_NAME macro,
->   - Also handle channels from FIXME,
->   - Add backlinks from slave device to DMA channel,
-> 
-> On r8a7791/koelsch, the following new symlinks are created:
-> 
->     /sys/devices/platform/soc/
->     ├── e6700000.dma-controller/dma/dma0chan0/slave -> ../../../e6e20000.spi
->     ├── e6700000.dma-controller/dma/dma0chan1/slave -> ../../../e6e20000.spi
->     ├── e6700000.dma-controller/dma/dma0chan2/slave -> ../../../ee100000.sd
->     ├── e6700000.dma-controller/dma/dma0chan3/slave -> ../../../ee100000.sd
->     ├── e6700000.dma-controller/dma/dma0chan4/slave -> ../../../ee160000.sd
->     ├── e6700000.dma-controller/dma/dma0chan5/slave -> ../../../ee160000.sd
->     ├── e6700000.dma-controller/dma/dma0chan6/slave -> ../../../e6e68000.serial
->     ├── e6700000.dma-controller/dma/dma0chan7/slave -> ../../../e6e68000.serial
->     ├── e6720000.dma-controller/dma/dma1chan0/slave -> ../../../e6b10000.spi
->     ├── e6720000.dma-controller/dma/dma1chan1/slave -> ../../../e6b10000.spi
->     ├── e6720000.dma-controller/dma/dma1chan2/slave -> ../../../ee140000.sd
->     ├── e6720000.dma-controller/dma/dma1chan3/slave -> ../../../ee140000.sd
->     ├── e6b10000.spi/dma:rx -> ../e6720000.dma-controller/dma/dma1chan1
->     ├── e6b10000.spi/dma:tx -> ../e6720000.dma-controller/dma/dma1chan0
->     ├── e6e20000.spi/dma:rx -> ../e6700000.dma-controller/dma/dma0chan1
->     ├── e6e20000.spi/dma:tx -> ../e6700000.dma-controller/dma/dma0chan0
->     ├── e6e68000.serial/dma:rx -> ../e6700000.dma-controller/dma/dma0chan7
->     ├── e6e68000.serial/dma:tx -> ../e6700000.dma-controller/dma/dma0chan6
->     ├── ee100000.sd/dma:rx -> ../e6700000.dma-controller/dma/dma0chan3
->     ├── ee100000.sd/dma:tx -> ../e6700000.dma-controller/dma/dma0chan2
->     ├── ee140000.sd/dma:rx -> ../e6720000.dma-controller/dma/dma1chan3
->     ├── ee140000.sd/dma:tx -> ../e6720000.dma-controller/dma/dma1chan2
->     ├── ee160000.sd/dma:rx -> ../e6700000.dma-controller/dma/dma0chan5
->     └── ee160000.sd/dma:tx -> ../e6700000.dma-controller/dma/dma0chan4
-> 
-> On r8a77951/salvator-xs:
-> 
->     /sys/devices/platform/soc/
->     ├── e6460000.dma-controller/dma/dma4chan0/slave -> ../../../e659c000.usb
->     ├── e6460000.dma-controller/dma/dma4chan1/slave -> ../../../e659c000.usb
->     ├── e6470000.dma-controller/dma/dma5chan0/slave -> ../../../e659c000.usb
->     ├── e6470000.dma-controller/dma/dma5chan1/slave -> ../../../e659c000.usb
->     ├── e6510000.i2c/dma:tx -> ../e7300000.dma-controller/dma/dma7chan0
->     ├── e6550000.serial/dma:rx -> ../e7310000.dma-controller/dma/dma8chan1
->     ├── e6550000.serial/dma:tx -> ../e7310000.dma-controller/dma/dma8chan0
->     ├── e6590000.usb/dma:ch0 -> ../e65a0000.dma-controller/dma/dma2chan0
->     ├── e6590000.usb/dma:ch1 -> ../e65a0000.dma-controller/dma/dma2chan1
->     ├── e6590000.usb/dma:ch2 -> ../e65b0000.dma-controller/dma/dma3chan0
->     ├── e6590000.usb/dma:ch3 -> ../e65b0000.dma-controller/dma/dma3chan1
->     ├── e659c000.usb/dma:ch0 -> ../e6460000.dma-controller/dma/dma4chan0
->     ├── e659c000.usb/dma:ch1 -> ../e6460000.dma-controller/dma/dma4chan1
->     ├── e659c000.usb/dma:ch2 -> ../e6470000.dma-controller/dma/dma5chan0
->     ├── e659c000.usb/dma:ch3 -> ../e6470000.dma-controller/dma/dma5chan1
->     ├── e65a0000.dma-controller/dma/dma2chan0/slave -> ../../../e6590000.usb
->     ├── e65a0000.dma-controller/dma/dma2chan1/slave -> ../../../e6590000.usb
->     ├── e65b0000.dma-controller/dma/dma3chan0/slave -> ../../../e6590000.usb
->     ├── e65b0000.dma-controller/dma/dma3chan1/slave -> ../../../e6590000.usb
->     ├── e7300000.dma-controller/dma/dma7chan0/slave -> ../../../e6510000.i2c
->     ├── e7310000.dma-controller/dma/dma8chan0/slave -> ../../../e6550000.serial
->     └── e7310000.dma-controller/dma/dma8chan1/slave -> ../../../e6550000.serial
+>   - Add Reviewed-by.
 > ---
->  drivers/dma/dmaengine.c   | 37 +++++++++++++++++++++++++++++++------
->  include/linux/dmaengine.h |  4 ++++
->  2 files changed, 35 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/drm_mipi_dbi.c | 30 ++++++++++++++++++++----------
+>  include/drm/drm_mipi_dbi.h     | 12 ++++++++++++
+>  2 files changed, 32 insertions(+), 10 deletions(-)
 > 
-> diff --git a/drivers/dma/dmaengine.c b/drivers/dma/dmaengine.c
-> index 56a8420c388679d3..617c84cf6800962b 100644
-> --- a/drivers/dma/dmaengine.c
-> +++ b/drivers/dma/dmaengine.c
-> @@ -60,6 +60,8 @@ static long dmaengine_ref_count;
+> diff --git a/drivers/gpu/drm/drm_mipi_dbi.c b/drivers/gpu/drm/drm_mipi_dbi.c
+> index 16bff1be4b8ac622..27fe81a53c88e338 100644
+> --- a/drivers/gpu/drm/drm_mipi_dbi.c
+> +++ b/drivers/gpu/drm/drm_mipi_dbi.c
+> @@ -238,6 +238,23 @@ int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
+>  }
+>  EXPORT_SYMBOL(mipi_dbi_buf_copy);
 >  
->  /* --- sysfs implementation --- */
->  
-> +#define DMA_SLAVE_NAME	"slave"
+> +static void mipi_dbi_set_window_address(struct mipi_dbi_dev *dbidev,
+> +					unsigned int xs, unsigned int xe,
+> +					unsigned int ys, unsigned int ye)
+> +{
+> +	struct mipi_dbi *dbi = &dbidev->dbi;
 > +
->  /**
->   * dev_to_dma_chan - convert a device pointer to its sysfs container object
->   * @dev - device node
-> @@ -730,11 +732,11 @@ struct dma_chan *dma_request_chan(struct device *dev, const char *name)
->  	if (has_acpi_companion(dev) && !chan)
->  		chan = acpi_dma_request_slave_chan_by_name(dev, name);
->  
-> -	if (chan) {
-> -		/* Valid channel found or requester needs to be deferred */
-> -		if (!IS_ERR(chan) || PTR_ERR(chan) == -EPROBE_DEFER)
-> -			return chan;
-> -	}
-> +	if (PTR_ERR(chan) == -EPROBE_DEFER)
-> +		return chan;
+> +	xs += dbidev->left_offset;
+> +	xe += dbidev->left_offset;
+> +	ys += dbidev->top_offset;
+> +	ye += dbidev->top_offset;
 > +
-> +	if (!IS_ERR_OR_NULL(chan))
-> +		goto found;
->  
->  	/* Try to find the channel via the DMA filter map(s) */
->  	mutex_lock(&dma_list_mutex);
-> @@ -754,7 +756,23 @@ struct dma_chan *dma_request_chan(struct device *dev, const char *name)
+> +	mipi_dbi_command(dbi, MIPI_DCS_SET_COLUMN_ADDRESS, (xs >> 8) & 0xff,
+> +			 xs & 0xff, (xe >> 8) & 0xff, xe & 0xff);
+> +	mipi_dbi_command(dbi, MIPI_DCS_SET_PAGE_ADDRESS, (ys >> 8) & 0xff,
+> +			 ys & 0xff, (ye >> 8) & 0xff, ye & 0xff);
+> +}
+> +
+>  static void mipi_dbi_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
+>  {
+>  	struct drm_gem_object *gem = drm_gem_fb_get_obj(fb, 0);
+> @@ -271,12 +288,8 @@ static void mipi_dbi_fb_dirty(struct drm_framebuffer *fb, struct drm_rect *rect)
+>  		tr = cma_obj->vaddr;
 >  	}
->  	mutex_unlock(&dma_list_mutex);
 >  
-> -	return chan ? chan : ERR_PTR(-EPROBE_DEFER);
-> +	if (!IS_ERR_OR_NULL(chan))
-> +		goto found;
+> -	mipi_dbi_command(dbi, MIPI_DCS_SET_COLUMN_ADDRESS,
+> -			 (rect->x1 >> 8) & 0xff, rect->x1 & 0xff,
+> -			 ((rect->x2 - 1) >> 8) & 0xff, (rect->x2 - 1) & 0xff);
+> -	mipi_dbi_command(dbi, MIPI_DCS_SET_PAGE_ADDRESS,
+> -			 (rect->y1 >> 8) & 0xff, rect->y1 & 0xff,
+> -			 ((rect->y2 - 1) >> 8) & 0xff, (rect->y2 - 1) & 0xff);
+> +	mipi_dbi_set_window_address(dbidev, rect->x1, rect->x2 - 1, rect->y1,
+> +				    rect->y2 - 1);
+>  
+>  	ret = mipi_dbi_command_buf(dbi, MIPI_DCS_WRITE_MEMORY_START, tr,
+>  				   width * height * 2);
+> @@ -366,10 +379,7 @@ static void mipi_dbi_blank(struct mipi_dbi_dev *dbidev)
+>  
+>  	memset(dbidev->tx_buf, 0, len);
+>  
+> -	mipi_dbi_command(dbi, MIPI_DCS_SET_COLUMN_ADDRESS, 0, 0,
+> -			 ((width - 1) >> 8) & 0xFF, (width - 1) & 0xFF);
+> -	mipi_dbi_command(dbi, MIPI_DCS_SET_PAGE_ADDRESS, 0, 0,
+> -			 ((height - 1) >> 8) & 0xFF, (height - 1) & 0xFF);
+> +	mipi_dbi_set_window_address(dbidev, 0, width - 1, 0, height - 1);
+>  	mipi_dbi_command_buf(dbi, MIPI_DCS_WRITE_MEMORY_START,
+>  			     (u8 *)dbidev->tx_buf, len);
+>  
+> diff --git a/include/drm/drm_mipi_dbi.h b/include/drm/drm_mipi_dbi.h
+> index 67c66f5ee591e80f..33f325f5af2b921f 100644
+> --- a/include/drm/drm_mipi_dbi.h
+> +++ b/include/drm/drm_mipi_dbi.h
+> @@ -109,6 +109,18 @@ struct mipi_dbi_dev {
+>  	 */
+>  	unsigned int rotation;
+>  
+> +	/**
+> +	 * @left_offset: Horizontal offset of the display relative to the
+> +	 *               controller's driver array
+> +	 */
+> +	unsigned int left_offset;
 > +
-> +	return ERR_PTR(-EPROBE_DEFER);
+> +	/**
+> +	 * @top_offset: Vertical offset of the display relative to the
+> +	 *              controller's driver array
+> +	 */
+> +	unsigned int top_offset;
 > +
-> +found:
-> +	chan->slave = dev;
-> +	chan->name = kasprintf(GFP_KERNEL, "dma:%s", name);
-> +	if (!chan->name)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	if (sysfs_create_link(&chan->dev->device.kobj, &dev->kobj,
-> +			      DMA_SLAVE_NAME))
-> +		dev_err(dev, "Cannot create DMA %s symlink\n", DMA_SLAVE_NAME);
-> +	if (sysfs_create_link(&dev->kobj, &chan->dev->device.kobj, chan->name))
-> +		dev_err(dev, "Cannot create DMA %s symlink\n", chan->name);
-> +	return chan;
->  }
->  EXPORT_SYMBOL_GPL(dma_request_chan);
->  
-> @@ -812,6 +830,13 @@ void dma_release_channel(struct dma_chan *chan)
->  	/* drop PRIVATE cap enabled by __dma_request_channel() */
->  	if (--chan->device->privatecnt == 0)
->  		dma_cap_clear(DMA_PRIVATE, chan->device->cap_mask);
-> +	if (chan->slave) {
-> +		sysfs_remove_link(&chan->slave->kobj, chan->name);
-> +		kfree(chan->name);
-> +		chan->name = NULL;
-> +		chan->slave = NULL;
-> +	}
-> +	sysfs_remove_link(&chan->dev->device.kobj, DMA_SLAVE_NAME);
->  	mutex_unlock(&dma_list_mutex);
->  }
->  EXPORT_SYMBOL_GPL(dma_release_channel);
-> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
-> index 2cd1d6d7ef0fcce5..2804da93e27e114b 100644
-> --- a/include/linux/dmaengine.h
-> +++ b/include/linux/dmaengine.h
-> @@ -238,10 +238,12 @@ struct dma_router {
->  /**
->   * struct dma_chan - devices supply DMA channels, clients use them
->   * @device: ptr to the dma device who supplies this channel, always !%NULL
-> + * @slave: ptr to the device using this channel
->   * @cookie: last cookie value returned to client
->   * @completed_cookie: last completed cookie for this channel
->   * @chan_id: channel ID for sysfs
->   * @dev: class device for sysfs
-> + * @name: backlink name for sysfs
->   * @device_node: used to add this to the device chan list
->   * @local: per-cpu pointer to a struct dma_chan_percpu
->   * @client_count: how many clients are using this channel
-> @@ -252,12 +254,14 @@ struct dma_router {
->   */
->  struct dma_chan {
->  	struct dma_device *device;
-> +	struct device *slave;
->  	dma_cookie_t cookie;
->  	dma_cookie_t completed_cookie;
->  
->  	/* sysfs */
->  	int chan_id;
->  	struct dma_chan_dev *dev;
-> +	const char *name;
->  
->  	struct list_head device_node;
->  	struct dma_chan_percpu __percpu *local;
-> 
-
-- Peter
-
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+>  	/**
+>  	 * @backlight: backlight device (optional)
+>  	 */
+> -- 
+> 2.17.1
