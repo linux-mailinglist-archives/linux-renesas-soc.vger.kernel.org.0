@@ -2,208 +2,260 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8684E140EEC
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jan 2020 17:26:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1806314121F
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 17 Jan 2020 21:08:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726684AbgAQQ0o (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 17 Jan 2020 11:26:44 -0500
-Received: from iolanthe.rowland.org ([192.131.102.54]:58690 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726603AbgAQQ0o (ORCPT
+        id S1727573AbgAQUIx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 17 Jan 2020 15:08:53 -0500
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:53086 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727519AbgAQUIw (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 17 Jan 2020 11:26:44 -0500
-Received: (qmail 4053 invoked by uid 2102); 17 Jan 2020 11:26:43 -0500
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 17 Jan 2020 11:26:43 -0500
-Date:   Fri, 17 Jan 2020 11:26:43 -0500 (EST)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-cc:     gregkh@linuxfoundation.org, <linux@prisktech.co.nz>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <linux-usb@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH 2/2] usb: host: ehci-platform: add a quirk to avoid stuck
-In-Reply-To: <1579258447-28135-3-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-Message-ID: <Pine.LNX.4.44L0.2001171103070.1571-100000@iolanthe.rowland.org>
+        Fri, 17 Jan 2020 15:08:52 -0500
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00HK8jAF113059;
+        Fri, 17 Jan 2020 14:08:45 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1579291725;
+        bh=mbY87qveryPPYQ1EQ2+4SCwD3anHdznVGfKwmBfB3qU=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=MiUR3HmUa3MijBs1Fep5EiIV+Us20ffc6Q27yybmrdBJvSwAAhhNz0ZY4neX4aUOW
+         jVYy+eBfNXLxFh1+g9WD64HsxQNyC7owP5QuVnwTIbHHpOEJ0pUIshEfxnieCsiUu5
+         fT8poCuKpCNlzPY4L4DTPYO2pvfd6ufjuvk7HYSk=
+Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00HK8jxc093876
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 17 Jan 2020 14:08:45 -0600
+Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 17
+ Jan 2020 14:08:44 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Fri, 17 Jan 2020 14:08:44 -0600
+Received: from [192.168.2.10] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00HK8giI051925;
+        Fri, 17 Jan 2020 14:08:43 -0600
+Subject: Re: [PATCH v2] dmaengine: Create symlinks between DMA channels and
+ slaves
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>
+CC:     <dmaengine@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20200117153056.31363-1-geert+renesas@glider.be>
+From:   Peter Ujfalusi <peter.ujfalusi@ti.com>
+Message-ID: <d2b669e7-a5d4-20ec-5b54-103b71df7407@ti.com>
+Date:   Fri, 17 Jan 2020 22:10:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+In-Reply-To: <20200117153056.31363-1-geert+renesas@glider.be>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 17 Jan 2020, Yoshihiro Shimoda wrote:
+Hi Geert,
 
-> Since EHCI/OHCI controllers on R-Car Gen3 SoCs are possible to
-> be getting stuck very rarely after a full/low usb device was
-> disconnected. To detect/recover from such a situation, the controllers
-> require a special way which poll the EHCI PORTSC register and changes
-> the OHCI functional state.
+On 1/17/20 5:30 PM, Geert Uytterhoeven wrote:
+> Currently it is not easy to find out which DMA channels are in use, and
+> which slave devices are using which channels.
 > 
-> So, this patch adds a polling timer into the ehci-platform driver,
-> and if the ehci driver detects the issue by the EHCI PORTSC register,
-> the ehci driver removes a companion device (= the OHCI controller)
-> to change the OHCI functional state to USB Reset once. And then,
-> the ehci driver adds the companion device again.
+> Fix this by creating two symlinks between the DMA channel and the actual
+> slave device when a channel is requested:
+>   1. A "slave" symlink from DMA channel to slave device,
+
+Have you considered similar link name as on the slave device:
+slave:<name>
+
+That way it would be easier to grasp which channel is used for what
+purpose by only looking under /sys/class/dma/ and no need to check the
+slave device.
+
+>   2. A "dma:<name>" symlink slave device to DMA channel.
+> When the channel is released, the symlinks are removed again.
+> The latter requires keeping track of the slave device and the channel
+> name in the dma_chan structure.
 > 
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-
-The programming in this patch could be improved in several ways.
-
+> Note that this is limited to channel request functions for requesting an
+> exclusive slave channel that take a device pointer (dma_request_chan()
+> and dma_request_slave_channel*()).
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
->  drivers/usb/host/ehci-platform.c | 104 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 104 insertions(+)
+> v2:
+>   - Add DMA_SLAVE_NAME macro,
+>   - Also handle channels from FIXME,
+>   - Add backlinks from slave device to DMA channel,
 > 
-> diff --git a/drivers/usb/host/ehci-platform.c b/drivers/usb/host/ehci-platform.c
-> index 769749c..fc6bb06 100644
-> --- a/drivers/usb/host/ehci-platform.c
-> +++ b/drivers/usb/host/ehci-platform.c
-> @@ -29,6 +29,7 @@
->  #include <linux/of.h>
->  #include <linux/platform_device.h>
->  #include <linux/reset.h>
-> +#include <linux/timer.h>
->  #include <linux/usb.h>
->  #include <linux/usb/hcd.h>
->  #include <linux/usb/ehci_pdriver.h>
-> @@ -44,6 +45,9 @@ struct ehci_platform_priv {
->  	struct clk *clks[EHCI_MAX_CLKS];
->  	struct reset_control *rsts;
->  	bool reset_on_resume;
-> +	bool quirk_poll;
-> +	struct timer_list poll_timer;
-> +	struct work_struct poll_work;
->  };
+> On r8a7791/koelsch, the following new symlinks are created:
+> 
+>     /sys/devices/platform/soc/
+>     ├── e6700000.dma-controller/dma/dma0chan0/slave -> ../../../e6e20000.spi
+>     ├── e6700000.dma-controller/dma/dma0chan1/slave -> ../../../e6e20000.spi
+>     ├── e6700000.dma-controller/dma/dma0chan2/slave -> ../../../ee100000.sd
+>     ├── e6700000.dma-controller/dma/dma0chan3/slave -> ../../../ee100000.sd
+>     ├── e6700000.dma-controller/dma/dma0chan4/slave -> ../../../ee160000.sd
+>     ├── e6700000.dma-controller/dma/dma0chan5/slave -> ../../../ee160000.sd
+>     ├── e6700000.dma-controller/dma/dma0chan6/slave -> ../../../e6e68000.serial
+>     ├── e6700000.dma-controller/dma/dma0chan7/slave -> ../../../e6e68000.serial
+>     ├── e6720000.dma-controller/dma/dma1chan0/slave -> ../../../e6b10000.spi
+>     ├── e6720000.dma-controller/dma/dma1chan1/slave -> ../../../e6b10000.spi
+>     ├── e6720000.dma-controller/dma/dma1chan2/slave -> ../../../ee140000.sd
+>     ├── e6720000.dma-controller/dma/dma1chan3/slave -> ../../../ee140000.sd
+>     ├── e6b10000.spi/dma:rx -> ../e6720000.dma-controller/dma/dma1chan1
+>     ├── e6b10000.spi/dma:tx -> ../e6720000.dma-controller/dma/dma1chan0
+>     ├── e6e20000.spi/dma:rx -> ../e6700000.dma-controller/dma/dma0chan1
+>     ├── e6e20000.spi/dma:tx -> ../e6700000.dma-controller/dma/dma0chan0
+>     ├── e6e68000.serial/dma:rx -> ../e6700000.dma-controller/dma/dma0chan7
+>     ├── e6e68000.serial/dma:tx -> ../e6700000.dma-controller/dma/dma0chan6
+>     ├── ee100000.sd/dma:rx -> ../e6700000.dma-controller/dma/dma0chan3
+>     ├── ee100000.sd/dma:tx -> ../e6700000.dma-controller/dma/dma0chan2
+>     ├── ee140000.sd/dma:rx -> ../e6720000.dma-controller/dma/dma1chan3
+>     ├── ee140000.sd/dma:tx -> ../e6720000.dma-controller/dma/dma1chan2
+>     ├── ee160000.sd/dma:rx -> ../e6700000.dma-controller/dma/dma0chan5
+>     └── ee160000.sd/dma:tx -> ../e6700000.dma-controller/dma/dma0chan4
+> 
+> On r8a77951/salvator-xs:
+> 
+>     /sys/devices/platform/soc/
+>     ├── e6460000.dma-controller/dma/dma4chan0/slave -> ../../../e659c000.usb
+>     ├── e6460000.dma-controller/dma/dma4chan1/slave -> ../../../e659c000.usb
+>     ├── e6470000.dma-controller/dma/dma5chan0/slave -> ../../../e659c000.usb
+>     ├── e6470000.dma-controller/dma/dma5chan1/slave -> ../../../e659c000.usb
+>     ├── e6510000.i2c/dma:tx -> ../e7300000.dma-controller/dma/dma7chan0
+>     ├── e6550000.serial/dma:rx -> ../e7310000.dma-controller/dma/dma8chan1
+>     ├── e6550000.serial/dma:tx -> ../e7310000.dma-controller/dma/dma8chan0
+>     ├── e6590000.usb/dma:ch0 -> ../e65a0000.dma-controller/dma/dma2chan0
+>     ├── e6590000.usb/dma:ch1 -> ../e65a0000.dma-controller/dma/dma2chan1
+>     ├── e6590000.usb/dma:ch2 -> ../e65b0000.dma-controller/dma/dma3chan0
+>     ├── e6590000.usb/dma:ch3 -> ../e65b0000.dma-controller/dma/dma3chan1
+>     ├── e659c000.usb/dma:ch0 -> ../e6460000.dma-controller/dma/dma4chan0
+>     ├── e659c000.usb/dma:ch1 -> ../e6460000.dma-controller/dma/dma4chan1
+>     ├── e659c000.usb/dma:ch2 -> ../e6470000.dma-controller/dma/dma5chan0
+>     ├── e659c000.usb/dma:ch3 -> ../e6470000.dma-controller/dma/dma5chan1
+>     ├── e65a0000.dma-controller/dma/dma2chan0/slave -> ../../../e6590000.usb
+>     ├── e65a0000.dma-controller/dma/dma2chan1/slave -> ../../../e6590000.usb
+>     ├── e65b0000.dma-controller/dma/dma3chan0/slave -> ../../../e6590000.usb
+>     ├── e65b0000.dma-controller/dma/dma3chan1/slave -> ../../../e6590000.usb
+>     ├── e7300000.dma-controller/dma/dma7chan0/slave -> ../../../e6510000.i2c
+>     ├── e7310000.dma-controller/dma/dma8chan0/slave -> ../../../e6550000.serial
+>     └── e7310000.dma-controller/dma/dma8chan1/slave -> ../../../e6550000.serial
+> ---
+>  drivers/dma/dmaengine.c   | 37 +++++++++++++++++++++++++++++++------
+>  include/linux/dmaengine.h |  4 ++++
+>  2 files changed, 35 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/dma/dmaengine.c b/drivers/dma/dmaengine.c
+> index 56a8420c388679d3..617c84cf6800962b 100644
+> --- a/drivers/dma/dmaengine.c
+> +++ b/drivers/dma/dmaengine.c
+> @@ -60,6 +60,8 @@ static long dmaengine_ref_count;
 >  
->  static const char hcd_name[] = "ehci-platform";
-> @@ -118,6 +122,88 @@ static struct usb_ehci_pdata ehci_platform_defaults = {
->  	.power_off =		ehci_platform_power_off,
->  };
+>  /* --- sysfs implementation --- */
 >  
-> +static bool ehci_platform_quirk_poll_check_condition(struct ehci_hcd *ehci)
-
-There should be a kerneldoc section above this line, explaining what 
-the function does and why it is needed.  Otherwise people reading this 
-code for the first time will have no idea what is going on.
-
-You don't really need the "ehci_platform_" at the start of the function 
-name, because this is a static function.
-
-Also, "quirk_poll_check_condition" suggests that this is the _only_ 
-condition that a quirk might need to poll for.  What if another similar 
-quirk arises in the future?  The function name should indicate 
-something about what condition is being checked.
-
-> +{
-> +	u32 port_status = ehci_readl(ehci, &ehci->regs->port_status[0]);
+> +#define DMA_SLAVE_NAME	"slave"
 > +
-> +	if (!(port_status & PORT_OWNER) &&	/* PO == 0b */
-> +	    port_status & PORT_POWER &&		/* PP == 1b */
-> +	    !(port_status & PORT_CONNECT) &&	/* CCS == 0b */
-> +	    port_status & GENMASK(11, 10))	/* LS != 00b */
-
-The comments are unnecessary.  Anyone reading the code will realize 
-that !(port_status & PORT_OWNER) means that the PO value is 0b, and so 
-on.
-
-Also, I think the code would be a little clearer if all the tests were 
-inside parentheses, not just the negated tests.
-
-The GENMASK stuff is very obscure.  You could define a PORT_LS_MASK
-macro in include/linux/usb/ehci_defs.h to be (3<<10), and make the
-test:
-
-	(port_status & PORT_LS_MASK)
-
-> +		return true;
+>  /**
+>   * dev_to_dma_chan - convert a device pointer to its sysfs container object
+>   * @dev - device node
+> @@ -730,11 +732,11 @@ struct dma_chan *dma_request_chan(struct device *dev, const char *name)
+>  	if (has_acpi_companion(dev) && !chan)
+>  		chan = acpi_dma_request_slave_chan_by_name(dev, name);
+>  
+> -	if (chan) {
+> -		/* Valid channel found or requester needs to be deferred */
+> -		if (!IS_ERR(chan) || PTR_ERR(chan) == -EPROBE_DEFER)
+> -			return chan;
+> -	}
+> +	if (PTR_ERR(chan) == -EPROBE_DEFER)
+> +		return chan;
 > +
-> +	return false;
-> +}
+> +	if (!IS_ERR_OR_NULL(chan))
+> +		goto found;
+>  
+>  	/* Try to find the channel via the DMA filter map(s) */
+>  	mutex_lock(&dma_list_mutex);
+> @@ -754,7 +756,23 @@ struct dma_chan *dma_request_chan(struct device *dev, const char *name)
+>  	}
+>  	mutex_unlock(&dma_list_mutex);
+>  
+> -	return chan ? chan : ERR_PTR(-EPROBE_DEFER);
+> +	if (!IS_ERR_OR_NULL(chan))
+> +		goto found;
 > +
-> +static void ehci_platform_quirk_poll_rebind_companion(struct ehci_hcd *ehci)
-> +{
-> +	struct device *companion_dev;
-> +	struct usb_hcd *hcd = ehci_to_hcd(ehci);
+> +	return ERR_PTR(-EPROBE_DEFER);
 > +
-> +	companion_dev = usb_of_get_companion_dev(hcd->self.controller);
-> +	if (!companion_dev)
-> +		return;
+> +found:
+> +	chan->slave = dev;
+> +	chan->name = kasprintf(GFP_KERNEL, "dma:%s", name);
+> +	if (!chan->name)
+> +		return ERR_PTR(-ENOMEM);
 > +
-> +	device_release_driver(companion_dev);
-> +	if (device_attach(companion_dev) < 0)
-> +		ehci_err(ehci, "%s: failed\n", __func__);
-> +
-> +	put_device(companion_dev);
-> +}
-> +
-> +static void ehci_platform_quirk_poll_start_timer(struct ehci_platform_priv *p)
-> +{
-> +	mod_timer(&p->poll_timer, jiffies + msecs_to_jiffies(1000));
-> +}
-
-Does this really need to be in a separate function?  Why not include it
-inline wherever it is used?
-
-Also, instead of msecs_to_jiffies(1000) you can just write HZ.
-
-> +
-> +static void ehci_platform_quirk_poll_work(struct work_struct *work)
-> +{
-> +	struct ehci_platform_priv *priv =
-> +		container_of(work, struct ehci_platform_priv, poll_work);
-> +	struct ehci_hcd *ehci = container_of((void *)priv, struct ehci_hcd,
-> +					     priv);
-> +	int i;
-> +
-> +	usleep_range(4000, 8000);
-
-You have just waited 1000 ms for the timer.  Why will sleeping an
-additional 4 - 8 ms make any difference?
-
-> +
-> +	for (i = 0; i < 2; i++) {
-> +		udelay(10);
-> +		if (!ehci_platform_quirk_poll_check_condition(ehci))
-> +			goto out;
+> +	if (sysfs_create_link(&chan->dev->device.kobj, &dev->kobj,
+> +			      DMA_SLAVE_NAME))
+> +		dev_err(dev, "Cannot create DMA %s symlink\n", DMA_SLAVE_NAME);
+> +	if (sysfs_create_link(&dev->kobj, &chan->dev->device.kobj, chan->name))
+> +		dev_err(dev, "Cannot create DMA %s symlink\n", chan->name);
+> +	return chan;
+>  }
+>  EXPORT_SYMBOL_GPL(dma_request_chan);
+>  
+> @@ -812,6 +830,13 @@ void dma_release_channel(struct dma_chan *chan)
+>  	/* drop PRIVATE cap enabled by __dma_request_channel() */
+>  	if (--chan->device->privatecnt == 0)
+>  		dma_cap_clear(DMA_PRIVATE, chan->device->cap_mask);
+> +	if (chan->slave) {
+> +		sysfs_remove_link(&chan->slave->kobj, chan->name);
+> +		kfree(chan->name);
+> +		chan->name = NULL;
+> +		chan->slave = NULL;
 > +	}
+> +	sysfs_remove_link(&chan->dev->device.kobj, DMA_SLAVE_NAME);
+>  	mutex_unlock(&dma_list_mutex);
+>  }
+>  EXPORT_SYMBOL_GPL(dma_release_channel);
+> diff --git a/include/linux/dmaengine.h b/include/linux/dmaengine.h
+> index 2cd1d6d7ef0fcce5..2804da93e27e114b 100644
+> --- a/include/linux/dmaengine.h
+> +++ b/include/linux/dmaengine.h
+> @@ -238,10 +238,12 @@ struct dma_router {
+>  /**
+>   * struct dma_chan - devices supply DMA channels, clients use them
+>   * @device: ptr to the dma device who supplies this channel, always !%NULL
+> + * @slave: ptr to the device using this channel
+>   * @cookie: last cookie value returned to client
+>   * @completed_cookie: last completed cookie for this channel
+>   * @chan_id: channel ID for sysfs
+>   * @dev: class device for sysfs
+> + * @name: backlink name for sysfs
+>   * @device_node: used to add this to the device chan list
+>   * @local: per-cpu pointer to a struct dma_chan_percpu
+>   * @client_count: how many clients are using this channel
+> @@ -252,12 +254,14 @@ struct dma_router {
+>   */
+>  struct dma_chan {
+>  	struct dma_device *device;
+> +	struct device *slave;
+>  	dma_cookie_t cookie;
+>  	dma_cookie_t completed_cookie;
+>  
+>  	/* sysfs */
+>  	int chan_id;
+>  	struct dma_chan_dev *dev;
+> +	const char *name;
+>  
+>  	struct list_head device_node;
+>  	struct dma_chan_percpu __percpu *local;
+> 
 
-This will be clearer if you expand the loop and add a comment:
+- Peter
 
-	/* Make sure the condition persists for at least 10 us */
-	if (!ehci_platform_quirk_poll_check_condition(ehci))
-		return;
-	udelay(10);
-	if (!ehci_platform_quirk_poll_check_condition(ehci))
-		return;
-
-> +
-> +	ehci_dbg(ehci, "%s: detected getting stuck. rebind now!\n", __func__);
-> +	ehci_platform_quirk_poll_rebind_companion(ehci);
-> +
-> +out:
-> +	ehci_platform_quirk_poll_start_timer(priv);
-
-You don't need to restart the timer here ...
-
-> +}
-> +
-> +static void ehci_platform_quirk_poll_timer(struct timer_list *t)
-> +{
-> +	struct ehci_platform_priv *priv = from_timer(priv, t, poll_timer);
-> +	struct ehci_hcd *ehci = container_of((void *)priv, struct ehci_hcd,
-> +					     priv);
-> +
-> +	if (ehci_platform_quirk_poll_check_condition(ehci))
-> +		schedule_work(&priv->poll_work);
-> +	else
-
-... if you simply remove this "else" line.
-
-> +		ehci_platform_quirk_poll_start_timer(priv);
-
-Also, it would be a lot cleaner if you run all the check_condition
-stuff inside the timer routine here, and use the work routine only for
-rebind_companion.
-
-Alan Stern
-
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
