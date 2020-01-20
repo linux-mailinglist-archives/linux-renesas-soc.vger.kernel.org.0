@@ -2,27 +2,27 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 79BD3142168
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jan 2020 02:22:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F1EA014216A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jan 2020 02:22:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728934AbgATBWO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 19 Jan 2020 20:22:14 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:19571 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728909AbgATBWO (ORCPT
+        id S1728934AbgATBWT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 19 Jan 2020 20:22:19 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:55998 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728909AbgATBWT (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 19 Jan 2020 20:22:14 -0500
-Date:   20 Jan 2020 10:22:13 +0900
+        Sun, 19 Jan 2020 20:22:19 -0500
+Date:   20 Jan 2020 10:22:17 +0900
 X-IronPort-AV: E=Sophos;i="5.70,340,1574089200"; 
-   d="scan'208";a="37085464"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 20 Jan 2020 10:22:13 +0900
+   d="scan'208";a="36867828"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 20 Jan 2020 10:22:17 +0900
 Received: from morimoto-PC.renesas.com (unknown [10.166.18.140])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 0C24C4108B82;
-        Mon, 20 Jan 2020 10:22:13 +0900 (JST)
-Message-ID: <87muaiyla3.wl-kuninori.morimoto.gx@renesas.com>
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 6E6AB4012C09;
+        Mon, 20 Jan 2020 10:22:17 +0900 (JST)
+Message-ID: <87lfq2yl9y.wl-kuninori.morimoto.gx@renesas.com>
 From:   Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Subject: [PATCH resend 1/3] sh: Add missing DECLARE_EXPORT() for __ashiftrt_r4_xx
+Subject: [PATCH resend 2/3] sh: Convert iounmap() macros to inline functions
 User-Agent: Wanderlust/2.15.9 Emacs/24.5 Mule/6.0
 To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     Linux-SH <linux-sh@vger.kernel.org>,
@@ -38,74 +38,39 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+
 From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-__ashiftrt_r4_xx might be used from kernel module.
-We need DECLARE_EXPORT() for them, otherwise we will get compile error.
-This patch adds missing DECLARE_EXPORT()
+Macro iounmap() do nothing, but that results in
+unused variable warnings all over the place.
+This patch convert it to inline to avoid warning
 
-ERROR: "__ashiftrt_r4_25" [drivers/iio/pressure/bmp280.ko] undefined!
-ERROR: "__ashiftrt_r4_26" [drivers/iio/dac/ad5764.ko] undefined!
-ERROR: "__ashiftrt_r4_26" [drivers/iio/accel/mma7660.ko] undefined!
-ERROR: "__ashiftrt_r4_25" [drivers/iio/accel/dmard06.ko] undefined!
-ERROR: "__ashiftrt_r4_26" [drivers/iio/accel/bma220_spi.ko] undefined!
-ERROR: "__ashiftrt_r4_25" [drivers/crypto/hisilicon/sec/hisi_sec.ko] undefined!
-ERROR: "__ashiftrt_r4_26" [drivers/rtc/rtc-x1205.ko] undefined!
-ERROR: "__ashiftrt_r4_25" [drivers/rtc/rtc-pcf85063.ko] undefined!
-ERROR: "__ashiftrt_r4_25" [drivers/rtc/rtc-pcf2123.ko] undefined!
-ERROR: "__ashiftrt_r4_25" [drivers/input/tablet/gtco.ko] undefined!
-ERROR: "__ashiftrt_r4_26" [drivers/input/mouse/psmouse.ko] undefined!
-ERROR: "__ashiftrt_r4_28" [drivers/input/mouse/psmouse.ko] undefined!
-ERROR: "__ashiftrt_r4_28" [drivers/net/wireless/realtek/rtl8xxxu/rtl8xxxu.ko] undefined!
-ERROR: "__ashiftrt_r4_28" [fs/udf/udf.ko] undefined!
+We will get this warning without this patch
 
+	${LINUX}/drivers/thermal/broadcom/ns-thermal.c:78:21: \
+	  warning: unused variable 'ns_thermal' [-Wunused-variable]
+	struct ns_thermal *ns_thermal = platform_get_drvdata(pdev);
+	^~~~~~~~~~
+
+Fixes: 98c90e5ea34e9 ("sh: remove __iounmap")
 Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 ---
- arch/sh/kernel/sh_ksyms_32.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ arch/sh/include/asm/io.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/sh/kernel/sh_ksyms_32.c b/arch/sh/kernel/sh_ksyms_32.c
-index 2827744..5858936 100644
---- a/arch/sh/kernel/sh_ksyms_32.c
-+++ b/arch/sh/kernel/sh_ksyms_32.c
-@@ -38,6 +38,13 @@ DECLARE_EXPORT(__ashlsi3);
- DECLARE_EXPORT(__lshrsi3_r0);
- DECLARE_EXPORT(__ashrsi3_r0);
- DECLARE_EXPORT(__ashlsi3_r0);
-+
-+DECLARE_EXPORT(__ashiftrt_r4_0);
-+DECLARE_EXPORT(__ashiftrt_r4_1);
-+DECLARE_EXPORT(__ashiftrt_r4_2);
-+DECLARE_EXPORT(__ashiftrt_r4_3);
-+DECLARE_EXPORT(__ashiftrt_r4_4);
-+DECLARE_EXPORT(__ashiftrt_r4_5);
- DECLARE_EXPORT(__ashiftrt_r4_6);
- DECLARE_EXPORT(__ashiftrt_r4_7);
- DECLARE_EXPORT(__ashiftrt_r4_8);
-@@ -48,13 +55,23 @@ DECLARE_EXPORT(__ashiftrt_r4_12);
- DECLARE_EXPORT(__ashiftrt_r4_13);
- DECLARE_EXPORT(__ashiftrt_r4_14);
- DECLARE_EXPORT(__ashiftrt_r4_15);
-+DECLARE_EXPORT(__ashiftrt_r4_16);
-+DECLARE_EXPORT(__ashiftrt_r4_17);
-+DECLARE_EXPORT(__ashiftrt_r4_18);
-+DECLARE_EXPORT(__ashiftrt_r4_19);
- DECLARE_EXPORT(__ashiftrt_r4_20);
- DECLARE_EXPORT(__ashiftrt_r4_21);
- DECLARE_EXPORT(__ashiftrt_r4_22);
- DECLARE_EXPORT(__ashiftrt_r4_23);
- DECLARE_EXPORT(__ashiftrt_r4_24);
-+DECLARE_EXPORT(__ashiftrt_r4_25);
-+DECLARE_EXPORT(__ashiftrt_r4_26);
- DECLARE_EXPORT(__ashiftrt_r4_27);
-+DECLARE_EXPORT(__ashiftrt_r4_28);
-+DECLARE_EXPORT(__ashiftrt_r4_29);
- DECLARE_EXPORT(__ashiftrt_r4_30);
-+DECLARE_EXPORT(__ashiftrt_r4_31);
-+DECLARE_EXPORT(__ashiftrt_r4_32);
- DECLARE_EXPORT(__movstr);
- DECLARE_EXPORT(__movstrSI8);
- DECLARE_EXPORT(__movstrSI12);
+diff --git a/arch/sh/include/asm/io.h b/arch/sh/include/asm/io.h
+index 1495489..351a0a9 100644
+--- a/arch/sh/include/asm/io.h
++++ b/arch/sh/include/asm/io.h
+@@ -328,7 +328,7 @@ __ioremap_mode(phys_addr_t offset, unsigned long size, pgprot_t prot)
+ #else
+ #define __ioremap(offset, size, prot)		((void __iomem *)(offset))
+ #define __ioremap_mode(offset, size, prot)	((void __iomem *)(offset))
+-#define iounmap(addr)				do { } while (0)
++static inline void iounmap(void __iomem *addr) {}
+ #endif /* CONFIG_MMU */
+ 
+ static inline void __iomem *ioremap(phys_addr_t offset, unsigned long size)
 -- 
 2.7.4
 
