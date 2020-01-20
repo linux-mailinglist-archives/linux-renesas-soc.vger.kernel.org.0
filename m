@@ -2,149 +2,161 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DB0FB142756
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jan 2020 10:34:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C43E142800
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jan 2020 11:16:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726607AbgATJeG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Jan 2020 04:34:06 -0500
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:41769 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726075AbgATJeF (ORCPT
+        id S1726421AbgATKQJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Jan 2020 05:16:09 -0500
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:38530 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726130AbgATKQJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Jan 2020 04:34:05 -0500
-Received: by mail-oi1-f194.google.com with SMTP id i1so27950956oie.8;
-        Mon, 20 Jan 2020 01:34:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4UGZULGX+YbThMmtUsP+6rz+ppDz5uP2ldQfl/P5Icg=;
-        b=r9BsWJI3/T3ZajffuGYjSoUFTwBkinpE6cXRPJHgDYA9/V+s95oNwuxSMPkQ/4cWRj
-         ZaO1SmpOmS3irAImPnfWNoPnAvu+Rowsz/IfJmN/ZmJ2BhOYckAckM4YIRTPmFDO0uGp
-         EU5jhrVSxHGkBAGYOnbK1WxS3RANycKdJex8Ezu+w7bGXf8G0OmXRp8KiQBpQ/KtgPlT
-         uXP6z8GZhTZOFtZQ698I5XmxKeYh3vQkn2ExZYvB8By/iq6oVezMqNWAXL51HDdCD/QX
-         AMxtTqoUDTIVRBXkFyOKnbPk7rN8QXKlqjSHJZ2ByGxrg+Xn91wVGS5WoYc+2bnY3QwS
-         u0SQ==
-X-Gm-Message-State: APjAAAXpFc9fimVSH61Kcc6KZFG+NkCsZ4PaHNdcQH3O6dAAoU8e46Qr
-        Xv5RMuH+KdUh5QESUmpq0WKAqYtag6xEkDlPQ7k=
-X-Google-Smtp-Source: APXvYqzKSRFvw6ji0gpORenZnjRNgTgsQRPZg2pYUM0CIPBoLJXTQJmTGSvG1PbarmgxudUhQ+JfoPFk+YrYJBaAPTE=
-X-Received: by 2002:aca:1a06:: with SMTP id a6mr11682717oia.148.1579512844618;
- Mon, 20 Jan 2020 01:34:04 -0800 (PST)
-MIME-Version: 1.0
-References: <20191127084253.16356-1-geert+renesas@glider.be> <20200118014632.GA14644@lxhi-065.adit-jv.com>
-In-Reply-To: <20200118014632.GA14644@lxhi-065.adit-jv.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 20 Jan 2020 10:33:53 +0100
-Message-ID: <CAMuHMdUUc17n0TxOrtQNby+ZiHDpz-aEh-ncnkz50vcwQe6z6w@mail.gmail.com>
-Subject: Re: [PATCH v3 0/7] gpio: Add GPIO Aggregator/Repeater
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+        Mon, 20 Jan 2020 05:16:09 -0500
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00KAFuIr042476;
+        Mon, 20 Jan 2020 04:15:56 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1579515356;
+        bh=KyVH3zWSUl96d+3Kz0z4lRV0WTTLoc+PmB9suhnpFow=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=qKnpHeZgN9POcSaW/sgFbaPIeo4qWTas1IGF1xF7QzpagKVbebC/8GWA+maeCHoP6
+         hPqbriPqABeoroU/c2NUHgPoaSiaw/ONgCZC4PHVZu1C/p8LiRexu971bWe4o0aDAZ
+         yx1SRhf2+tTseU1AKMRV3TP9UuuD41xrpHV9rfT4=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00KAFumX047513
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 20 Jan 2020 04:15:56 -0600
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Mon, 20
+ Jan 2020 04:15:55 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Mon, 20 Jan 2020 04:15:55 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00KAFrRn010845;
+        Mon, 20 Jan 2020 04:15:53 -0600
+Subject: Re: [PATCH v2] dmaengine: Create symlinks between DMA channels and
+ slaves
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        <dmaengine@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20200117153056.31363-1-geert+renesas@glider.be>
+ <d2b669e7-a5d4-20ec-5b54-103b71df7407@ti.com>
+ <CAMuHMdVzQCWvH-LJ9ME5dRyafudZBHQLaJQzkSCPnughv_q2aA@mail.gmail.com>
+From:   Peter Ujfalusi <peter.ujfalusi@ti.com>
+Message-ID: <1cdc4f71-f365-8c9e-4634-408c59e6a3f9@ti.com>
+Date:   Mon, 20 Jan 2020 12:16:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <CAMuHMdVzQCWvH-LJ9ME5dRyafudZBHQLaJQzkSCPnughv_q2aA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Eugeniu,
 
-On Sat, Jan 18, 2020 at 2:46 AM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
-> On Wed, Nov 27, 2019 at 09:42:46AM +0100, Geert Uytterhoeven wrote:
-> >   - Create aggregators:
-> >
-> >     $ echo e6052000.gpio 19,20 \
-> >         > /sys/bus/platform/drivers/gpio-aggregator/new_device
 
-> The only unexpected thing is seeing below messages (where gpiochip99 and
-> gpiochip22 are inexisting gpiochip names, mistakenly provided on command
-> line prior to passing the correct name):
->
-> root@rcar-gen3:~# echo gpiochip6 12-13 > /sys/bus/platform/drivers/gpio-aggregator/new_device
-> [  915.572905] gpio-aggregator gpio-aggregator.0: cannot find GPIO chip gpiochip99, deferring
-> [  915.584224] gpio-aggregator gpio-aggregator.2: cannot find GPIO chip gpiochip99, deferring
-> [  915.865281] gpio-aggregator gpio-aggregator.29: cannot find GPIO chip gpiochip22, deferring
->
-> Obviously, in the above case, due to a typo in the names, the gpio
-> chips will never be found, no matter how long gpio-aggregator defers
+On 20/01/2020 11.01, Geert Uytterhoeven wrote:
+> Hi Peter,
+> 
+> On Fri, Jan 17, 2020 at 9:08 PM Peter Ujfalusi <peter.ujfalusi@ti.com> wrote:
+>> On 1/17/20 5:30 PM, Geert Uytterhoeven wrote:
+>>> Currently it is not easy to find out which DMA channels are in use, and
+>>> which slave devices are using which channels.
+>>>
+>>> Fix this by creating two symlinks between the DMA channel and the actual
+>>> slave device when a channel is requested:
+>>>   1. A "slave" symlink from DMA channel to slave device,
+>>
+>> Have you considered similar link name as on the slave device:
+>> slave:<name>
+>>
+>> That way it would be easier to grasp which channel is used for what
+>> purpose by only looking under /sys/class/dma/ and no need to check the
+>> slave device.
+> 
+> Would this really provide more information?
+> The device name is already provided in the target of the symlink:
+> 
+> root@koelsch:~# readlink
+> /sys/devices/platform/soc/e6720000.dma-controller/dma/dma1chan2/slave
+> ../../../ee140000.sd
 
-Indeed, that is expected behavior: you have created platform devices
-referring to resources that are not available.
+e6720000.dma-controller/dma/dma1chan2/slave -> ../../../ee140000.sd
+e6720000.dma-controller/dma/dma1chan3/slave -> ../../../ee140000.sd
 
-> their probing. Unfortunately, the driver will continuously emit those
-> messages, upon each successfully created/aggregated gpiochip. I built
+It is hard to tell which one is the tx and RX channel without looking
+under the ee140000.sd:
 
-That is expected behavior, too: every time the driver core manages to
-bind a device to a driver, it will retry all previously deferred probes,
-in the hope they can be satisfied by the just bound device.
+ee140000.sd/dma:rx -> ../e6720000.dma-controller/dma/dma1chan3
+ee140000.sd/dma:tx -> ../e6720000.dma-controller/dma/dma1chan2
 
-Note that you can destroy these bogus devices, using e.g.
+Another option would be to not have symlinks, but a debugfs file where
+this information can be extracted and would only compiled if debugfs is
+enabled.
 
-    # echo gpio-aggregator.0 > \
-    /sys/bus/platform/drivers/gpio-aggregator/delete_device
+>>>   2. A "dma:<name>" symlink slave device to DMA channel.
+>>> When the channel is released, the symlinks are removed again.
+>>> The latter requires keeping track of the slave device and the channel
+>>> name in the dma_chan structure.
+>>>
+>>> Note that this is limited to channel request functions for requesting an
+>>> exclusive slave channel that take a device pointer (dma_request_chan()
+>>> and dma_request_slave_channel*()).
+>>>
+>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>> ---
+>>> v2:
+>>>   - Add DMA_SLAVE_NAME macro,
+>>>   - Also handle channels from FIXME,
+>>>   - Add backlinks from slave device to DMA channel,
+>>>
+>>> On r8a7791/koelsch, the following new symlinks are created:
+>>>
+>>>     /sys/devices/platform/soc/
+>>>     ├── e6700000.dma-controller/dma/dma0chan0/slave -> ../../../e6e20000.spi
+>>>     ├── e6700000.dma-controller/dma/dma0chan1/slave -> ../../../e6e20000.spi
+>>>     ├── e6700000.dma-controller/dma/dma0chan2/slave -> ../../../ee100000.sd
+>>>     ├── e6700000.dma-controller/dma/dma0chan3/slave -> ../../../ee100000.sd
+>>>     ├── e6700000.dma-controller/dma/dma0chan4/slave -> ../../../ee160000.sd
+>>>     ├── e6700000.dma-controller/dma/dma0chan5/slave -> ../../../ee160000.sd
+>>>     ├── e6700000.dma-controller/dma/dma0chan6/slave -> ../../../e6e68000.serial
+>>>     ├── e6700000.dma-controller/dma/dma0chan7/slave -> ../../../e6e68000.serial
+>>>     ├── e6720000.dma-controller/dma/dma1chan0/slave -> ../../../e6b10000.spi
+>>>     ├── e6720000.dma-controller/dma/dma1chan1/slave -> ../../../e6b10000.spi
+>>>     ├── e6720000.dma-controller/dma/dma1chan2/slave -> ../../../ee140000.sd
+>>>     ├── e6720000.dma-controller/dma/dma1chan3/slave -> ../../../ee140000.sd
+>>>     ├── e6b10000.spi/dma:rx -> ../e6720000.dma-controller/dma/dma1chan1
+>>>     ├── e6b10000.spi/dma:tx -> ../e6720000.dma-controller/dma/dma1chan0
+>>>     ├── e6e20000.spi/dma:rx -> ../e6700000.dma-controller/dma/dma0chan1
+>>>     ├── e6e20000.spi/dma:tx -> ../e6700000.dma-controller/dma/dma0chan0
+>>>     ├── e6e68000.serial/dma:rx -> ../e6700000.dma-controller/dma/dma0chan7
+>>>     ├── e6e68000.serial/dma:tx -> ../e6700000.dma-controller/dma/dma0chan6
+>>>     ├── ee100000.sd/dma:rx -> ../e6700000.dma-controller/dma/dma0chan3
+>>>     ├── ee100000.sd/dma:tx -> ../e6700000.dma-controller/dma/dma0chan2
+>>>     ├── ee140000.sd/dma:rx -> ../e6720000.dma-controller/dma/dma1chan3
+>>>     ├── ee140000.sd/dma:tx -> ../e6720000.dma-controller/dma/dma1chan2
+>>>     ├── ee160000.sd/dma:rx -> ../e6700000.dma-controller/dma/dma0chan5
+>>>     └── ee160000.sd/dma:tx -> ../e6700000.dma-controller/dma/dma0chan4
+> 
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
 
-> gpio-aggregator as a loadable module, if that's relevant.
+- Péter
 
-Modular or non-modular shouldn't matter w.r.t. this behavior.
-Although unloading the module should get rid of the cruft.
-
-> Another comment is that, while the series _does_ allow specifying
-> gpio lines in the DTS (this would require a common compatible string
-> in gpio_aggregator_dt_ids[] and in the DTS node) and while those lines
-> are indeed exposed to userspace, based on my testing, these same gpio
-> lines are marked as "used/reserved" by the kernel. This means that
-> operating on those gpio pins from userspace will not be possible.
-> For instance, gpioget/gpioset return "Device or resource busy":
->
-> gpioget: error reading GPIO values: Device or resource busy
-> gpioset: error setting the GPIO line values: Device or resource busy
->
-> I guess Harish will be unhappy about that, as his expectation was that
-> upon merging gpio-aggregator with gpio-inverter, he will be able to
-> describe GPIO polarity and names in DTS without "hogging" the pins.
-> Perhaps this can be supplemented via an add-on patch later on?
-
-When aggregating GPIO lines, the original GPIO lines are indeed marked
-used/reserved, so you cannot use them from userspace.
-However, you are expected to use them through the newly created virtual
-gpiochip representing the aggregated GPIO lines.
-
-You can try this using the "door" example in
-Documentation/admin-guide/gpio/gpio-aggregator.rst, after replacing
-gpio2 {19,20} by gpio6 {12,13} to suit your H3ULCB.
-
-> For the whole series (leaving the above findings to your discretion):
->
-> Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-> Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
