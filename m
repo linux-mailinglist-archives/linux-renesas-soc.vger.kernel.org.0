@@ -2,223 +2,131 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 69C16142F1C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jan 2020 17:01:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C14C81431E6
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jan 2020 20:02:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726876AbgATQBC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Jan 2020 11:01:02 -0500
-Received: from vern.gendns.com ([98.142.107.122]:42808 "EHLO vern.gendns.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726626AbgATQBB (ORCPT
+        id S1726901AbgATTC5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Jan 2020 14:02:57 -0500
+Received: from asavdk3.altibox.net ([109.247.116.14]:41884 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726112AbgATTC4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Jan 2020 11:01:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=oetEg5fj/8NVUMsSSQOrxfgNlGM/ZZ/jjm0sZwoCSO4=; b=DQeNOKDjz9g1nGoGOuDajUmD3+
-        gMdqW1mQqsYHpytC4feb++yYn3XPWDQOPhX/3gxTwp5Q2iLqiyWAsh/vc5Bc4ORx80wVg71E+QB0L
-        yeZ9/YLAkahXl5poGpuT2uHekfU0KXec2cPJibm5lzX4IjfZyymJbkrpwhoI8kSWMUYy7nwtj23iy
-        iTsPdyg8A4qH3XvK2wkOiaCOn3mCqBHr1BA7unu+NQjuJaGgegtgpn4r0AqkGMgMO5wyGG9EQNy9m
-        NZTh0FAic/prdQteKCb3voaRDHyLkZfb7FLAmZLai4LQVZbEDJHQvNrxSNnbdFS9dRHTTT7uyhFDP
-        sXvIvaUA==;
-Received: from 108-198-5-147.lightspeed.okcbok.sbcglobal.net ([108.198.5.147]:49460 helo=[192.168.0.134])
-        by vern.gendns.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.92)
-        (envelope-from <david@lechnology.com>)
-        id 1itZTv-0006Fx-E5; Mon, 20 Jan 2020 11:00:51 -0500
-Subject: Re: [PATCH v2 1/5] dt-bindings: display: sitronix,st7735r: Convert to
- DT schema
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+        Mon, 20 Jan 2020 14:02:56 -0500
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id 3032120023;
+        Mon, 20 Jan 2020 20:02:50 +0100 (CET)
+Date:   Mon, 20 Jan 2020 20:02:49 +0100
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     David Lechner <david@lechnology.com>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Maxime Ripard <mripard@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     Sam Ravnborg <sam@ravnborg.org>,
+        Mark Rutland <mark.rutland@arm.com>,
         Chris Brandt <chris.brandt@renesas.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH] dt-bindings: restrict properties for sitronix,st7735r
+Message-ID: <20200120190249.GA9619@ravnborg.org>
 References: <20200115124548.3951-1-geert+renesas@glider.be>
  <20200115124548.3951-2-geert+renesas@glider.be>
-From:   David Lechner <david@lechnology.com>
-Message-ID: <ba21d2c8-ccc6-2704-fa1f-d28239700547@lechnology.com>
-Date:   Mon, 20 Jan 2020 10:00:49 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ <ba21d2c8-ccc6-2704-fa1f-d28239700547@lechnology.com>
 MIME-Version: 1.0
-In-Reply-To: <20200115124548.3951-2-geert+renesas@glider.be>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - vern.gendns.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lechnology.com
-X-Get-Message-Sender-Via: vern.gendns.com: authenticated_id: davidmain+lechnology.com/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: vern.gendns.com: davidmain@lechnology.com
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ba21d2c8-ccc6-2704-fa1f-d28239700547@lechnology.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
+        a=WZHNqt2aAAAA:8 a=VwQbUJbxAAAA:8 a=e5mUnYsNAAAA:8 a=UoRE_DPNZI_mX2jt1NQA:9
+        a=7Zwj6sZBwVKJAoWSPKxL6X1jA+E=:19 a=CjuIK1q_8ugA:10
+        a=E9Po1WZjFZOl8hwRPBS3:22 a=PrHl9onO2p7xFKlKy1af:22
+        a=AjGcO6oz07-iQ99wixmX:22 a=Vxmtnl_E_bksehYqCbjh:22
+        a=pHzHmUro8NiASowvMSCR:22 a=n87TN5wuljxrRezIQYnT:22
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 1/15/20 6:45 AM, Geert Uytterhoeven wrote:
-> Convert the DT binding documentation for Sitronix ST7735R displays to DT
-> schema.
-> 
-> Add a reference to the Adafruit 1.8" LCD while at it.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v2:
->    - New.
-> ---
->   .../bindings/display/sitronix,st7735r.txt     | 35 ----------
->   .../bindings/display/sitronix,st7735r.yaml    | 65 +++++++++++++++++++
->   MAINTAINERS                                   |  2 +-
->   3 files changed, 66 insertions(+), 36 deletions(-)
->   delete mode 100644 Documentation/devicetree/bindings/display/sitronix,st7735r.txt
->   create mode 100644 Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/sitronix,st7735r.txt b/Documentation/devicetree/bindings/display/sitronix,st7735r.txt
-> deleted file mode 100644
-> index cd5c7186890a2be7..0000000000000000
-> --- a/Documentation/devicetree/bindings/display/sitronix,st7735r.txt
-> +++ /dev/null
-> @@ -1,35 +0,0 @@
-> -Sitronix ST7735R display panels
-> -
-> -This binding is for display panels using a Sitronix ST7735R controller in SPI
-> -mode.
-> -
-> -Required properties:
-> -- compatible:	"jianda,jd-t18003-t01", "sitronix,st7735r"
-> -- dc-gpios:	Display data/command selection (D/CX)
-> -- reset-gpios:	Reset signal (RSTX)
-> -
-> -The node for this driver must be a child node of a SPI controller, hence
-> -all mandatory properties described in ../spi/spi-bus.txt must be specified.
-> -
-> -Optional properties:
-> -- rotation:	panel rotation in degrees counter clockwise (0,90,180,270)
-> -- backlight:	phandle of the backlight device attached to the panel
-> -
-> -Example:
-> -
-> -	backlight: backlight {
-> -		compatible = "gpio-backlight";
-> -		gpios = <&gpio 44 GPIO_ACTIVE_HIGH>;
-> -	};
-> -
-> -	...
-> -
-> -	display@0{
-> -		compatible = "jianda,jd-t18003-t01", "sitronix,st7735r";
-> -		reg = <0>;
-> -		spi-max-frequency = <32000000>;
-> -		dc-gpios = <&gpio 43 GPIO_ACTIVE_HIGH>;
-> -		reset-gpios = <&gpio 80 GPIO_ACTIVE_HIGH>;
-> -		rotation = <270>;
-> -		backlight = &backlight;
-> -	};
-> diff --git a/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
-> new file mode 100644
-> index 0000000000000000..21bccc91f74255e1
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
-> @@ -0,0 +1,65 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/sitronix,st7735r.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Sitronix ST7735R Display Panels Device Tree Bindings
-> +
-> +maintainers:
-> +  - David Lechner <david@lechnology.com>
-> +
-> +description:
-> +  This binding is for display panels using a Sitronix ST7735R controller in
-> +  SPI mode.
-> +
-> +allOf:
-> +  - $ref: panel/panel-common.yaml#
+Hi David.
 
-not all of these properties are applicable.
-
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - description:
-> +          Adafruit 1.8" 160x128 Color TFT LCD (Product ID 358 or 618)
-> +        items:
-> +          - enum:
-> +              - jianda,jd-t18003-t01
-> +          - const: sitronix,st7735r
-> +
-> +  spi-max-frequency:
-> +    maximum: 32000000
-> +
-> +  dc-gpios:
-> +    maxItems: 1
-> +    description: Display data/command selection (D/CX)
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - dc-gpios
-> +  - reset-gpios
-
-Missing optional rotation and backlight properties.
-
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    backlight: backlight {
-> +            compatible = "gpio-backlight";
-> +            gpios = <&gpio 44 GPIO_ACTIVE_HIGH>;
-> +    };
-> +
-> +    spi {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            display@0{
-> +                    compatible = "jianda,jd-t18003-t01", "sitronix,st7735r";
-> +                    reg = <0>;
-> +                    spi-max-frequency = <32000000>;
-> +                    dc-gpios = <&gpio 43 GPIO_ACTIVE_HIGH>;
-> +                    reset-gpios = <&gpio 80 GPIO_ACTIVE_HIGH>;
-> +                    rotation = <270>;
-> +            };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ea8262509bdd21ac..3007f83bd504194a 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -5382,7 +5382,7 @@ M:	David Lechner <david@lechnology.com>
->   T:	git git://anongit.freedesktop.org/drm/drm-misc
->   S:	Maintained
->   F:	drivers/gpu/drm/tiny/st7735r.c
-> -F:	Documentation/devicetree/bindings/display/sitronix,st7735r.txt
-> +F:	Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
->   
->   DRM DRIVER FOR SONY ACX424AKP PANELS
->   M:	Linus Walleij <linus.walleij@linaro.org>
+> > +allOf:
+> > +  - $ref: panel/panel-common.yaml#
 > 
+> not all of these properties are applicable.
+> 
+
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - dc-gpios
+> > +  - reset-gpios
+> 
+> Missing optional rotation and backlight properties.
+
+Thanks for catching this. I have written a little .yaml files
+since I applied this - and learned a little more of the syntax.
+
+See attached patch for my attempt to fix this.
+Please review.
+
+	Sam
+
+From 6b54fb0a071c0732cd4bd5b88f456b5a85bcf4f2 Mon Sep 17 00:00:00 2001
+From: Sam Ravnborg <sam@ravnborg.org>
+Date: Mon, 20 Jan 2020 19:55:04 +0100
+Subject: [PATCH] dt-bindings: restrict properties for sitronix,st7735r
+
+David Lechner noticed (paraphrased):
+- not all properties from panel-common are applicable.
+- missing optional rotation and backlight properties
+
+Fix this by listing all allowed properties, and do not allow other properties.
+
+Fixes: abdd9e3705c8 ("dt-bindings: display: sitronix,st7735r: Convert to DT schema")
+Reported-by: David Lechner <david@lechnology.com>
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: David Lechner <david@lechnology.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
+---
+ .../devicetree/bindings/display/sitronix,st7735r.yaml      | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
+index 8892d79e6e10..0cebaaefda03 100644
+--- a/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
++++ b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
+@@ -39,12 +39,19 @@ properties:
+     maxItems: 1
+     description: Display data/command selection (D/CX)
+ 
++  backlight: true
++  reg: true
++  reset-gpios: true
++  rotation: true
++
+ required:
+   - compatible
+   - reg
+   - dc-gpios
+   - reset-gpios
+ 
++additionalProperties: false
++
+ examples:
+   - |
+     #include <dt-bindings/gpio/gpio.h>
+-- 
+2.20.1
 
