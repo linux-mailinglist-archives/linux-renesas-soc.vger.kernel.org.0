@@ -2,65 +2,223 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5012A142E87
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jan 2020 16:12:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 69C16142F1C
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jan 2020 17:01:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729263AbgATPMG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Jan 2020 10:12:06 -0500
-Received: from netrider.rowland.org ([192.131.102.5]:44831 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726901AbgATPMG (ORCPT
+        id S1726876AbgATQBC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Jan 2020 11:01:02 -0500
+Received: from vern.gendns.com ([98.142.107.122]:42808 "EHLO vern.gendns.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726626AbgATQBB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Jan 2020 10:12:06 -0500
-Received: (qmail 17758 invoked by uid 500); 20 Jan 2020 10:12:05 -0500
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 20 Jan 2020 10:12:05 -0500
-Date:   Mon, 20 Jan 2020 10:12:05 -0500 (EST)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@netrider.rowland.org
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-cc:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux@prisktech.co.nz" <linux@prisktech.co.nz>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 2/2] usb: host: ehci-platform: add a quirk to avoid stuck
-In-Reply-To: <TYAPR01MB45443178BFBB9C16CF3BC32AD8320@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-Message-ID: <Pine.LNX.4.44L0.2001201009480.16814-100000@netrider.rowland.org>
+        Mon, 20 Jan 2020 11:01:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=oetEg5fj/8NVUMsSSQOrxfgNlGM/ZZ/jjm0sZwoCSO4=; b=DQeNOKDjz9g1nGoGOuDajUmD3+
+        gMdqW1mQqsYHpytC4feb++yYn3XPWDQOPhX/3gxTwp5Q2iLqiyWAsh/vc5Bc4ORx80wVg71E+QB0L
+        yeZ9/YLAkahXl5poGpuT2uHekfU0KXec2cPJibm5lzX4IjfZyymJbkrpwhoI8kSWMUYy7nwtj23iy
+        iTsPdyg8A4qH3XvK2wkOiaCOn3mCqBHr1BA7unu+NQjuJaGgegtgpn4r0AqkGMgMO5wyGG9EQNy9m
+        NZTh0FAic/prdQteKCb3voaRDHyLkZfb7FLAmZLai4LQVZbEDJHQvNrxSNnbdFS9dRHTTT7uyhFDP
+        sXvIvaUA==;
+Received: from 108-198-5-147.lightspeed.okcbok.sbcglobal.net ([108.198.5.147]:49460 helo=[192.168.0.134])
+        by vern.gendns.com with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+        (Exim 4.92)
+        (envelope-from <david@lechnology.com>)
+        id 1itZTv-0006Fx-E5; Mon, 20 Jan 2020 11:00:51 -0500
+Subject: Re: [PATCH v2 1/5] dt-bindings: display: sitronix,st7735r: Convert to
+ DT schema
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Cc:     Sam Ravnborg <sam@ravnborg.org>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200115124548.3951-1-geert+renesas@glider.be>
+ <20200115124548.3951-2-geert+renesas@glider.be>
+From:   David Lechner <david@lechnology.com>
+Message-ID: <ba21d2c8-ccc6-2704-fa1f-d28239700547@lechnology.com>
+Date:   Mon, 20 Jan 2020 10:00:49 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+In-Reply-To: <20200115124548.3951-2-geert+renesas@glider.be>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - vern.gendns.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lechnology.com
+X-Get-Message-Sender-Via: vern.gendns.com: authenticated_id: davidmain+lechnology.com/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: vern.gendns.com: davidmain@lechnology.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 20 Jan 2020, Yoshihiro Shimoda wrote:
-
-> > > +static void ehci_platform_quirk_poll_work(struct work_struct *work)
-> > > +{
-> > > +	struct ehci_platform_priv *priv =
-> > > +		container_of(work, struct ehci_platform_priv, poll_work);
-> > > +	struct ehci_hcd *ehci = container_of((void *)priv, struct ehci_hcd,
-> > > +					     priv);
-> > > +	int i;
-> > > +
-> > > +	usleep_range(4000, 8000);
-> > 
-> > You have just waited 1000 ms for the timer.  Why will sleeping an
-> > additional 4 - 8 ms make any difference?
+On 1/15/20 6:45 AM, Geert Uytterhoeven wrote:
+> Convert the DT binding documentation for Sitronix ST7735R displays to DT
+> schema.
 > 
-> This sleeping can avoid a misdetection between this work function and
-> reconnection. If user reconnects the usb within 4 ms, the PORTSC
-> condition is possible to be the same as the issue's condition.
-> I think I should have described this information into the code.
+> Add a reference to the Adafruit 1.8" LCD while at it.
 > 
-> However, if I used schedule_delayed_work() instead, we can remove
-> the usleep_range().
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v2:
+>    - New.
+> ---
+>   .../bindings/display/sitronix,st7735r.txt     | 35 ----------
+>   .../bindings/display/sitronix,st7735r.yaml    | 65 +++++++++++++++++++
+>   MAINTAINERS                                   |  2 +-
+>   3 files changed, 66 insertions(+), 36 deletions(-)
+>   delete mode 100644 Documentation/devicetree/bindings/display/sitronix,st7735r.txt
+>   create mode 100644 Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/sitronix,st7735r.txt b/Documentation/devicetree/bindings/display/sitronix,st7735r.txt
+> deleted file mode 100644
+> index cd5c7186890a2be7..0000000000000000
+> --- a/Documentation/devicetree/bindings/display/sitronix,st7735r.txt
+> +++ /dev/null
+> @@ -1,35 +0,0 @@
+> -Sitronix ST7735R display panels
+> -
+> -This binding is for display panels using a Sitronix ST7735R controller in SPI
+> -mode.
+> -
+> -Required properties:
+> -- compatible:	"jianda,jd-t18003-t01", "sitronix,st7735r"
+> -- dc-gpios:	Display data/command selection (D/CX)
+> -- reset-gpios:	Reset signal (RSTX)
+> -
+> -The node for this driver must be a child node of a SPI controller, hence
+> -all mandatory properties described in ../spi/spi-bus.txt must be specified.
+> -
+> -Optional properties:
+> -- rotation:	panel rotation in degrees counter clockwise (0,90,180,270)
+> -- backlight:	phandle of the backlight device attached to the panel
+> -
+> -Example:
+> -
+> -	backlight: backlight {
+> -		compatible = "gpio-backlight";
+> -		gpios = <&gpio 44 GPIO_ACTIVE_HIGH>;
+> -	};
+> -
+> -	...
+> -
+> -	display@0{
+> -		compatible = "jianda,jd-t18003-t01", "sitronix,st7735r";
+> -		reg = <0>;
+> -		spi-max-frequency = <32000000>;
+> -		dc-gpios = <&gpio 43 GPIO_ACTIVE_HIGH>;
+> -		reset-gpios = <&gpio 80 GPIO_ACTIVE_HIGH>;
+> -		rotation = <270>;
+> -		backlight = &backlight;
+> -	};
+> diff --git a/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
+> new file mode 100644
+> index 0000000000000000..21bccc91f74255e1
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
+> @@ -0,0 +1,65 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/sitronix,st7735r.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Sitronix ST7735R Display Panels Device Tree Bindings
+> +
+> +maintainers:
+> +  - David Lechner <david@lechnology.com>
+> +
+> +description:
+> +  This binding is for display panels using a Sitronix ST7735R controller in
+> +  SPI mode.
+> +
+> +allOf:
+> +  - $ref: panel/panel-common.yaml#
 
-Why not just make the timer delay be 1004 or 1008 ms instead of adding
-this extra delay here?
+not all of these properties are applicable.
 
-Alan Stern
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - description:
+> +          Adafruit 1.8" 160x128 Color TFT LCD (Product ID 358 or 618)
+> +        items:
+> +          - enum:
+> +              - jianda,jd-t18003-t01
+> +          - const: sitronix,st7735r
+> +
+> +  spi-max-frequency:
+> +    maximum: 32000000
+> +
+> +  dc-gpios:
+> +    maxItems: 1
+> +    description: Display data/command selection (D/CX)
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - dc-gpios
+> +  - reset-gpios
+
+Missing optional rotation and backlight properties.
+
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    backlight: backlight {
+> +            compatible = "gpio-backlight";
+> +            gpios = <&gpio 44 GPIO_ACTIVE_HIGH>;
+> +    };
+> +
+> +    spi {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            display@0{
+> +                    compatible = "jianda,jd-t18003-t01", "sitronix,st7735r";
+> +                    reg = <0>;
+> +                    spi-max-frequency = <32000000>;
+> +                    dc-gpios = <&gpio 43 GPIO_ACTIVE_HIGH>;
+> +                    reset-gpios = <&gpio 80 GPIO_ACTIVE_HIGH>;
+> +                    rotation = <270>;
+> +            };
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ea8262509bdd21ac..3007f83bd504194a 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -5382,7 +5382,7 @@ M:	David Lechner <david@lechnology.com>
+>   T:	git git://anongit.freedesktop.org/drm/drm-misc
+>   S:	Maintained
+>   F:	drivers/gpu/drm/tiny/st7735r.c
+> -F:	Documentation/devicetree/bindings/display/sitronix,st7735r.txt
+> +F:	Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
+>   
+>   DRM DRIVER FOR SONY ACX424AKP PANELS
+>   M:	Linus Walleij <linus.walleij@linaro.org>
+> 
 
