@@ -2,131 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C14C81431E6
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jan 2020 20:02:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B648143269
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 20 Jan 2020 20:32:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726901AbgATTC5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 20 Jan 2020 14:02:57 -0500
-Received: from asavdk3.altibox.net ([109.247.116.14]:41884 "EHLO
-        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726112AbgATTC4 (ORCPT
+        id S1726752AbgATTcu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 20 Jan 2020 14:32:50 -0500
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:43057 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727045AbgATTcn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 20 Jan 2020 14:02:56 -0500
-Received: from ravnborg.org (unknown [158.248.194.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk3.altibox.net (Postfix) with ESMTPS id 3032120023;
-        Mon, 20 Jan 2020 20:02:50 +0100 (CET)
-Date:   Mon, 20 Jan 2020 20:02:49 +0100
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     David Lechner <david@lechnology.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH] dt-bindings: restrict properties for sitronix,st7735r
-Message-ID: <20200120190249.GA9619@ravnborg.org>
-References: <20200115124548.3951-1-geert+renesas@glider.be>
- <20200115124548.3951-2-geert+renesas@glider.be>
- <ba21d2c8-ccc6-2704-fa1f-d28239700547@lechnology.com>
+        Mon, 20 Jan 2020 14:32:43 -0500
+Received: by mail-ed1-f67.google.com with SMTP id dc19so569397edb.10
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 20 Jan 2020 11:32:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=z7I/Kq2V0EnXiuoACdRbnwoAql3KZ080nwyXVjlruyU=;
+        b=I1roYPqxBJzWtUK/EbeI6Kt4sZi+JdSJm6qJbGHrPRZYvHUSh5jIrCeNC6L/G/f0o1
+         SOUBr7y32ZptFoyqXLV46mqkCVXIPksz6dHNenBfKH5ZmZaxgtbXfnD4DPiQngFU9XCO
+         yyR3xavKr41v/xLWwuSw91WJb2uX+wjZFxyyrAuDZ+hvXvCheAMdiLqD+HrlaysRfXCL
+         GNNQRcxyOsqzXo4wRH2J/upuPpeDO5ZRhzNY4HfuYgHfElCshp5fZYHSWkrBX0jAzQvX
+         wM9NfRj8QHz6JxUFOI+rZ3wcUi7Ikp+pHr28kaxr4n7py/KC1H5pYclpR4JTvoTIZ7Jv
+         h8rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=z7I/Kq2V0EnXiuoACdRbnwoAql3KZ080nwyXVjlruyU=;
+        b=E8tjvLvokQWHnQOUT/WnL4wLDp/dCI5kWNRAdeio1ragxQL0Vq6yHuHEmWXYUN0Ehn
+         O8LAxW9YIalR4gCFD9psaqPl0vPAlehUCspicrE8tuR7brjCjd3GfmPcJc2hx1qZu29d
+         MHWwHwyKftvuoYygnBkKW6nk6QClE1KuZT2Sx7rJlH6P/xRDdVHA+u8aPX86+coQ6QHM
+         oxEVYVfF9HiWps+T12aiGDeDNVVNgdzkgnJ682y3R2xG19PLdq4oBli6i5bvLTGG43az
+         1T8jGUkpNBi1dK5aMj2HsBUaCnwjU0Y2WEPQ4oBIkvwZ3mMEu1tRe2Yycl+gPouE8MeW
+         sY5Q==
+X-Gm-Message-State: APjAAAVdJkugVKi/k8+2c0uykABjqiVv5Se8iiXylgL8tIf8KVM5A5Nv
+        e5UPA9gkfBlDOKdBWgF54wVBolmPcr+sMIDVMjEWBy6xv/o=
+X-Google-Smtp-Source: APXvYqwKjCT5QnfvXWtJkO29cRmoOGR1uhIhw9Ol6eYz9VuYzVaqX/o8Ejt2WLDxZ+bl2CebXLO8AWZ4Emn93SBTQws=
+X-Received: by 2002:a17:906:1fcd:: with SMTP id e13mr898516ejt.333.1579548761316;
+ Mon, 20 Jan 2020 11:32:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ba21d2c8-ccc6-2704-fa1f-d28239700547@lechnology.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
-        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
-        a=WZHNqt2aAAAA:8 a=VwQbUJbxAAAA:8 a=e5mUnYsNAAAA:8 a=UoRE_DPNZI_mX2jt1NQA:9
-        a=7Zwj6sZBwVKJAoWSPKxL6X1jA+E=:19 a=CjuIK1q_8ugA:10
-        a=E9Po1WZjFZOl8hwRPBS3:22 a=PrHl9onO2p7xFKlKy1af:22
-        a=AjGcO6oz07-iQ99wixmX:22 a=Vxmtnl_E_bksehYqCbjh:22
-        a=pHzHmUro8NiASowvMSCR:22 a=n87TN5wuljxrRezIQYnT:22
+Received: by 2002:a05:6402:22dc:0:0:0:0 with HTTP; Mon, 20 Jan 2020 11:32:40
+ -0800 (PST)
+Reply-To: mcclainejohn.13@gmail.com
+From:   "Prof, William Roberts" <eco.bank1204@gmail.com>
+Date:   Mon, 20 Jan 2020 20:32:40 +0100
+Message-ID: <CAOE+jABpcHQWZWhtskhDFbtTqfBe7h065WE2kC1G+jQD+tQiTA@mail.gmail.com>
+Subject: Contact Diplomatic Agent, Mr. Mcclaine John to receive your ATM CARD
+ valued the sum of $12.8Million United States Dollars
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi David.
+Attn: Dear Beneficiary,
 
-> > +allOf:
-> > +  - $ref: panel/panel-common.yaml#
-> 
-> not all of these properties are applicable.
-> 
+I wish to inform you that the diplomatic agent conveying your ATM CARD
+valued the sum of $12.8Million United States Dollars has misplaced
+your address and he is currently stranded at (George Bush
+International Airport) Houston Texas USA now
+We required you to reconfirm the following information's below to him
+so that he can deliver your Payment CARD to you today or tomorrow
+morning as information provided with open communications via email and
+telephone for security reasons.
+HERE IS THE DETAILS  HE NEED FROM YOU URGENT
+YOUR FULL NAME:========
+ADDRESS:========
+MOBILE NO:========
+NAME OF YOUR NEAREST AIRPORT:========
+A COPY OF YOUR IDENTIFICATION :========
 
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - dc-gpios
-> > +  - reset-gpios
-> 
-> Missing optional rotation and backlight properties.
+Note; do contact the diplomatic agent immediately through the
+information's listed below
+Contact Person: Diplomatic Agent, Mr. Mcclaine John
+EMAIL: mcclainejohn.13@gmail.com
+Tel:(223) 777-7518
 
-Thanks for catching this. I have written a little .yaml files
-since I applied this - and learned a little more of the syntax.
+Contact the diplomatic agent immediately
+because he is waiting to hear from you today with the needed information's.
 
-See attached patch for my attempt to fix this.
-Please review.
+NOTE: The Diplomatic agent does not know that the content of the
+consignment box is $12.800,000,00 Million United States Dollars and on
+no circumstances should you let him know the content. The consignment
+was moved from here as family treasures, so never allow him to open
+the box. Please I have paid delivery fees for you but the only money
+you must send to Mcclaine John is your ATM CARD delivery fee $25.00
+only. text Him as you contact Him Immediately
 
-	Sam
-
-From 6b54fb0a071c0732cd4bd5b88f456b5a85bcf4f2 Mon Sep 17 00:00:00 2001
-From: Sam Ravnborg <sam@ravnborg.org>
-Date: Mon, 20 Jan 2020 19:55:04 +0100
-Subject: [PATCH] dt-bindings: restrict properties for sitronix,st7735r
-
-David Lechner noticed (paraphrased):
-- not all properties from panel-common are applicable.
-- missing optional rotation and backlight properties
-
-Fix this by listing all allowed properties, and do not allow other properties.
-
-Fixes: abdd9e3705c8 ("dt-bindings: display: sitronix,st7735r: Convert to DT schema")
-Reported-by: David Lechner <david@lechnology.com>
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: David Lechner <david@lechnology.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: dri-devel@lists.freedesktop.org
----
- .../devicetree/bindings/display/sitronix,st7735r.yaml      | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
-index 8892d79e6e10..0cebaaefda03 100644
---- a/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
-+++ b/Documentation/devicetree/bindings/display/sitronix,st7735r.yaml
-@@ -39,12 +39,19 @@ properties:
-     maxItems: 1
-     description: Display data/command selection (D/CX)
- 
-+  backlight: true
-+  reg: true
-+  reset-gpios: true
-+  rotation: true
-+
- required:
-   - compatible
-   - reg
-   - dc-gpios
-   - reset-gpios
- 
-+additionalProperties: false
-+
- examples:
-   - |
-     #include <dt-bindings/gpio/gpio.h>
--- 
-2.20.1
-
+Thanks,
+with Regards.
+Prof, William Roberts
+Director DHL COURIER SERVICES-Benin
