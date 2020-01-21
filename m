@@ -2,51 +2,51 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BB6A144637
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jan 2020 22:05:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7262C14463F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jan 2020 22:09:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729052AbgAUVFn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Jan 2020 16:05:43 -0500
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:41932 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728899AbgAUVFm (ORCPT
+        id S1728799AbgAUVJs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Jan 2020 16:09:48 -0500
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:37474 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727829AbgAUVJs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Jan 2020 16:05:42 -0500
-Received: by mail-wr1-f65.google.com with SMTP id c9so4928043wrw.8;
-        Tue, 21 Jan 2020 13:05:38 -0800 (PST)
+        Tue, 21 Jan 2020 16:09:48 -0500
+Received: by mail-wr1-f68.google.com with SMTP id w15so4981741wru.4;
+        Tue, 21 Jan 2020 13:09:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:subject:to:cc:message-id:date:user-agent:mime-version
          :content-language:content-transfer-encoding;
-        bh=fLJ5ZQgTlsKG5vGdwN0EigFoKbOob/9gwm906d2IrXc=;
-        b=sOgWoNfNBON8FuaB7b1Oo9EYw+zNkpDWG2zMm4JFuwjeNOTFw+5sss3XanXNhfoMd+
-         IHCDd+iuUvLSAO+ws9CC/OnJeZQ/p2wpSpRCVydgFWMup/W9aaSSu7vyquCgqcn5Wgh7
-         Kn4G65VS7CKweXqGXuLi/9AhwUTydtooahMP+l7H0ervJ5Ub8FetLSzOdJuthXdy2KSX
-         I5W8UnFpUGaZQ+8wsKb4OMQKZJZvVJRIelTa9XTa8HXROa/ZSLRAP+u8QzFTWsFSVOyR
-         37b82N8d+gB+UvaZgc99hvL+szDMHr7lOPRTa/MS+BLrAXGwL+qjclUJ0dCRr/unYGQ+
-         T56w==
+        bh=USC5WNDE/HAboW02J0L9+U4XCEXb7DagbFu0m+UZCqY=;
+        b=qIWjEZ/PY0mWS/WID2OXjq6XaThaCmq3qD8xY04LzWj0/+2wgnzLHyg5PRTEswz3jo
+         filg8S5mLxmFio4nznI765fVDS1dGbu2tcCyhOvy69WaW0KeCxqCn+82dFprCqJGaxQl
+         cpoiVK2MNgTGlzEHI/rRwtO0/qrXXjnifyqGQhfe6UmHXFncLEIWeQ7lWRDyXowEl0Pp
+         2t82vnjDxuaY23p1iP+O10FvIQjj4qtHrz7wlnBExpcug5egvLHxhgnIzxXBL3Vtx+dc
+         4XtKvkcXyppPm1a/WL0WS814w6nJOSazZ8ruXVdwe/B/+IKPUl/lGWdGZ2qd9IcR3hec
+         Xtww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
          :mime-version:content-language:content-transfer-encoding;
-        bh=fLJ5ZQgTlsKG5vGdwN0EigFoKbOob/9gwm906d2IrXc=;
-        b=hyenPWUjgMmyFF+TG3SGq5MrP5VCb6J3zrqTFlIMXMtaO5yI/iAmBcEfjPWvfw+wnT
-         R+YcWArlci2TFrABMKAYI+jPE6y+RlEF3Wf/SFoz7k7whiSHzD2uIZgIsY+EoUc+xM/x
-         VsyItShiDf83VVusbFK62LmU3TbL6u8QpLoRmt7WMEmWhKsYlRTRMSZ4IJ4D5NYY1tSj
-         oDzcDklPcjbaJRSW2cjX2q/pIf/yyYtcVp5XnxWM6VbnQ7yaeKkND+hu1nU3HzAgcbMD
-         oiKQrE17lUnYBHlrFmlOPHaqQyCDoofthnXXaVSex5NFL+1oyNODdsqSrB72ckeZlWBv
-         VWNw==
-X-Gm-Message-State: APjAAAVz7ebnXFhMMOhv1O/cOoihIaxwmLaIZfRTnM3nq+uDG6Iylqll
-        UJXPt67azTur25gGUpuEXL6GQr24
-X-Google-Smtp-Source: APXvYqwb/r1qB/GY/FnfuBqYtz/j0N0cBu0b4yYDFkLnQvrAat8Y+56bge4YpW//FjOqjNhbdMuuWg==
-X-Received: by 2002:a5d:5273:: with SMTP id l19mr7435844wrc.175.1579640737379;
-        Tue, 21 Jan 2020 13:05:37 -0800 (PST)
+        bh=USC5WNDE/HAboW02J0L9+U4XCEXb7DagbFu0m+UZCqY=;
+        b=NrsP43xSctg71vloOvGZU6DVz/dz2VY+PKkB6OEshbL1+bB6EM+d14YSsVCaUx5eQi
+         RX/SAiSn45hCzTVZ6BSt2kxNEykd8sdm+UUTa07JCBJfLbzF3W/VJVpCJUvZbrKRxE4A
+         iES3LteGBX7vIUTuLtc4UPyiriYHw0XW7JGxEby1frezDAU9REZODGmOi86dY4+/BnLV
+         a3oMg68mHhrKJqcxQ4oEjiAFKXRC70+0NdRGkLFMpPZBt1kTON0WIL/+BONIv0ff2Zly
+         69NHmAa+kndxIfmQ0W6DGjluAuasI4olqIWS9gxeyPXdYtvT3SHmVTciyhB3NkLM0OVH
+         WCWA==
+X-Gm-Message-State: APjAAAVz7XFFzyIv5VK7D+MIxc9L4ISI8f6t4McR1VhshAZyS1QhAdZx
+        zbfgvyW1e4l7RMEDomXV1lKjcGNV
+X-Google-Smtp-Source: APXvYqzy1aNdd6Z6+LVkRLndzQGjv5U2HpRGo1umY/F/247Z4YunAPOd3XmtUP/HILVHd1edjG724A==
+X-Received: by 2002:a05:6000:1187:: with SMTP id g7mr7109966wrx.109.1579640983148;
+        Tue, 21 Jan 2020 13:09:43 -0800 (PST)
 Received: from [192.168.178.85] (pD9F901D9.dip0.t-ipconnect.de. [217.249.1.217])
-        by smtp.googlemail.com with ESMTPSA id r5sm53177292wrt.43.2020.01.21.13.05.36
+        by smtp.googlemail.com with ESMTPSA id c9sm19876wme.41.2020.01.21.13.09.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jan 2020 13:05:36 -0800 (PST)
+        Tue, 21 Jan 2020 13:09:42 -0800 (PST)
 From:   Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [PATCH net-next] net: convert suitable drivers to use
+Subject: [PATCH v2 net-next] net: convert suitable drivers to use
  phy_do_ioctl_running
 To:     Andrew Lunn <andrew@lunn.ch>,
         Florian Fainelli <f.fainelli@gmail.com>,
@@ -69,9 +69,10 @@ Cc:     "linux-arm-kernel@lists.infradead.org"
         bcm-kernel-feedback-list@broadcom.com,
         "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
         linux-renesas-soc@vger.kernel.org,
-        Linux USB Mailing List <linux-usb@vger.kernel.org>
-Message-ID: <771a3ebc-0656-b91c-4973-b0f03e4945f7@gmail.com>
-Date:   Tue, 21 Jan 2020 22:01:27 +0100
+        Linux USB Mailing List <linux-usb@vger.kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
+Message-ID: <2db5d899-a550-456d-a725-f7cf009f53a3@gmail.com>
+Date:   Tue, 21 Jan 2020 22:09:33 +0100
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.1
 MIME-Version: 1.0
@@ -86,6 +87,8 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 Convert suitable drivers to use new helper phy_do_ioctl_running.
 
 Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+---
+v2: I forgot the netdev mailing list
 ---
  drivers/net/ethernet/allwinner/sun4i-emac.c    | 15 +--------------
  drivers/net/ethernet/amd/au1000_eth.c          | 13 +------------
