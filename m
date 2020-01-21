@@ -2,60 +2,67 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B0A814473E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jan 2020 23:25:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E46D1447DB
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 21 Jan 2020 23:44:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728811AbgAUWZC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 21 Jan 2020 17:25:02 -0500
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:58050 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728760AbgAUWZC (ORCPT
+        id S1726442AbgAUWoa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 21 Jan 2020 17:44:30 -0500
+Received: from pb-smtp2.pobox.com ([64.147.108.71]:57514 "EHLO
+        pb-smtp2.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725876AbgAUWoa (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 21 Jan 2020 17:25:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=7urlhm3YYIAvJLoxdAE4aRzk6SajZZfeX8I+FK3EC7Q=; b=mk/ar71y/mBHSuWO8hz/GY+s9
-        7y56He1cSaia9cqtkjwHyhOAWbLW7+jMcWHp4RRzAyvN5So+0B2XwGCc3VDesWVZiFzzOTLFkkz2I
-        BP1NZ36o0tisNdknMCmFWsV7N3n1dRNgusJtifLi5Y9rzayiws72pe9PZ6y+dAJqtDHDcq05AFFGO
-        Df5cP39BWuBzYY6b/hQhHZr4MNTpn0uihmwOHhDpJalwMp3DlTdOoc3S9VItL7xRgCuXzkjCC5ol7
-        uK7wAVftssofLxVhi60xjvfC2ZxqgexwR70rJPvFUGVfsqO9NhE+HkMxkoRGlOixSNrYPmB4tVVjo
-        XXAf5O5dw==;
-Received: from shell.armlinux.org.uk ([2002:4e20:1eda:1:5054:ff:fe00:4ec]:37368)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1iu1wu-0007Zc-0k; Tue, 21 Jan 2020 22:24:40 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1iu1wo-0004Bz-06; Tue, 21 Jan 2020 22:24:34 +0000
-Date:   Tue, 21 Jan 2020 22:24:33 +0000
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+        Tue, 21 Jan 2020 17:44:30 -0500
+Received: from pb-smtp2.pobox.com (unknown [127.0.0.1])
+        by pb-smtp2.pobox.com (Postfix) with ESMTP id BBA4937E8D;
+        Tue, 21 Jan 2020 17:44:26 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
+        :cc:subject:in-reply-to:message-id:references:mime-version
+        :content-type; s=sasl; bh=aq1VBE/UD+9VB63lhu7difHG3eE=; b=qsllSx
+        fLvkog/hk6gxiCdI9aW+JJmlhlQFwUI1SyZ4X2HzydJC09JI5jIONXKMDFT7xzkj
+        ZemmyctTCMjsbRyG5hRd8yxd+g7wmQfdYq0TIjRHiIpRf9y72U64i3FKISPRbvjA
+        tw1AhaNgbvDYceGUETkz9/9KYvxDwnNjUCk5M=
+Received: from pb-smtp2.nyi.icgroup.com (unknown [127.0.0.1])
+        by pb-smtp2.pobox.com (Postfix) with ESMTP id B193437E8C;
+        Tue, 21 Jan 2020 17:44:26 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=CwsINXE8D01tLy+uDDWKhTzi8DKe6xDPEdmSF3GOpIM=; b=Gq+SbxPtNXjerScdaPs66O+1n1kjA/f2EKlpIj33/p8axBYdNQogPv7hEWzKi3oc73V/xQEwVj3WTW2/D0FGB2VPJ+bxhG25LTJfGF6KUDtyUWlD/cZZoM/pGaL25QhkWV/alhiD2M3JxOODTA+DN673GFOkA/uP10N4bwBCCZg=
+Received: from yoda.home (unknown [24.203.50.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by pb-smtp2.pobox.com (Postfix) with ESMTPSA id 29F8137E8B;
+        Tue, 21 Jan 2020 17:44:26 -0500 (EST)
+        (envelope-from nico@fluxnic.net)
+Received: from xanadu.home (xanadu.home [192.168.2.2])
+        by yoda.home (Postfix) with ESMTPSA id 447D52DA09D5;
+        Tue, 21 Jan 2020 17:44:25 -0500 (EST)
+Date:   Tue, 21 Jan 2020 17:44:25 -0500 (EST)
+From:   Nicolas Pitre <nico@fluxnic.net>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Nicolas Pitre <nico@fluxnic.net>, Arnd Bergmann <arnd@arndb.de>,
+cc:     Russell King <linux@armlinux.org.uk>,
+        Arnd Bergmann <arnd@arndb.de>,
         Eric Miao <eric.miao@nvidia.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        =?ISO-8859-15?Q?Uwe_Kleine-K=F6nig?= 
         <u.kleine-koenig@pengutronix.de>,
         Chris Brandt <chris.brandt@renesas.com>,
         linux-arm-kernel@lists.infradead.org,
         linux-renesas-soc@vger.kernel.org
 Subject: Re: [PATCH] ARM: boot: Obtain start of physical memory from DTB
-Message-ID: <20200121222433.GK25745@shell.armlinux.org.uk>
-References: <20200121192741.20597-1-geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 In-Reply-To: <20200121192741.20597-1-geert+renesas@glider.be>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Message-ID: <nycvar.YSQ.7.76.2001211437240.1655@knanqh.ubzr>
+References: <20200121192741.20597-1-geert+renesas@glider.be>
+User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+X-Pobox-Relay-ID: 9397F24C-3C9F-11EA-AADF-D1361DBA3BAF-78420484!pb-smtp2.pobox.com
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Jan 21, 2020 at 08:27:41PM +0100, Geert Uytterhoeven wrote:
+On Tue, 21 Jan 2020, Geert Uytterhoeven wrote:
+
 > Currently, the start address of physical memory is obtained by masking
 > the program counter with a fixed mask of 0xf8000000.  This mask value
 > was chosen as a balance between the requirements of different platforms.
@@ -90,146 +97,71 @@ On Tue, Jan 21, 2020 at 08:27:41PM +0100, Geert Uytterhoeven wrote:
 > requires moving/copying that copy.  Given the complexity w.r.t. the
 > "restart" label, and the lack of a need for me to support this, I didn't
 > implement that part.
-> ---
->  arch/arm/boot/compressed/Makefile            |  6 ++-
->  arch/arm/boot/compressed/fdt_get_mem_start.c | 52 ++++++++++++++++++++
->  arch/arm/boot/compressed/head.S              | 16 +++++-
->  3 files changed, 72 insertions(+), 2 deletions(-)
->  create mode 100644 arch/arm/boot/compressed/fdt_get_mem_start.c
-> 
-> diff --git a/arch/arm/boot/compressed/Makefile b/arch/arm/boot/compressed/Makefile
-> index da599c3a11934332..bbfecd648a1a3b57 100644
-> --- a/arch/arm/boot/compressed/Makefile
-> +++ b/arch/arm/boot/compressed/Makefile
-> @@ -86,12 +86,15 @@ libfdt_objs	:= $(addsuffix .o, $(basename $(libfdt)))
->  $(addprefix $(obj)/,$(libfdt) $(libfdt_hdrs)): $(obj)/%: $(srctree)/scripts/dtc/libfdt/%
->  	$(call cmd,shipped)
->  
-> -$(addprefix $(obj)/,$(libfdt_objs) atags_to_fdt.o): \
-> +$(addprefix $(obj)/,$(libfdt_objs) atags_to_fdt.o fdt_get_mem_start.o): \
->  	$(addprefix $(obj)/,$(libfdt_hdrs))
->  
->  ifeq ($(CONFIG_ARM_ATAG_DTB_COMPAT),y)
->  OBJS	+= $(libfdt_objs) atags_to_fdt.o
->  endif
-> +ifeq ($(CONFIG_USE_OF),y)
-> +OBJS	+= $(libfdt_objs) fdt_get_mem_start.o
-> +endif
->  
->  targets       := vmlinux vmlinux.lds piggy_data piggy.o \
->  		 lib1funcs.o ashldi3.o bswapsdi2.o \
-> @@ -116,6 +119,7 @@ CFLAGS_fdt.o := $(nossp-flags-y)
->  CFLAGS_fdt_ro.o := $(nossp-flags-y)
->  CFLAGS_fdt_rw.o := $(nossp-flags-y)
->  CFLAGS_fdt_wip.o := $(nossp-flags-y)
-> +CFLAGS_fdt_get_mem_start.o := $(nossp-flags-y)
->  
->  ccflags-y := -fpic $(call cc-option,-mno-single-pic-base,) -fno-builtin -I$(obj)
->  asflags-y := -DZIMAGE
-> diff --git a/arch/arm/boot/compressed/fdt_get_mem_start.c b/arch/arm/boot/compressed/fdt_get_mem_start.c
-> new file mode 100644
-> index 0000000000000000..2c5ac47f656317ee
-> --- /dev/null
-> +++ b/arch/arm/boot/compressed/fdt_get_mem_start.c
-> @@ -0,0 +1,52 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +#include <libfdt.h>
-> +
-> +static const void *getprop(const void *fdt, const char *node_path,
-> +			   const char *property)
-> +{
-> +	int offset = fdt_path_offset(fdt, node_path);
-> +
-> +	if (offset == -FDT_ERR_NOTFOUND)
-> +		return NULL;
-> +
-> +	return fdt_getprop(fdt, offset, property, NULL);
-> +}
-> +
-> +static uint32_t get_addr_size(const void *fdt)
-> +{
-> +	const __be32 *addr_len = getprop(fdt, "/", "#address-cells");
-> +
-> +	if (!addr_len) {
-> +		/* default */
-> +		return 1;
-> +	}
-> +
-> +	return fdt32_to_cpu(*addr_len);
-> +}
-> +
-> +/*
-> + * Get the start of physical memory
-> + */
-> +
-> +unsigned long fdt_get_mem_start(const void *fdt)
-> +{
-> +	const __be32 *memory;
-> +	uint32_t addr_size;
-> +
-> +	if (!fdt)
-> +		return -1;
-> +
-> +	if (*(__be32 *)fdt != cpu_to_fdt32(FDT_MAGIC))
-> +		return -1;
-> +
-> +	/* Find the first memory node */
-> +	memory = getprop(fdt, "/memory", "reg");
-> +	if (!memory)
-> +		return -1;
-> +
-> +	/* There may be multiple cells on LPAE platforms */
-> +	addr_size = get_addr_size(fdt);
-> +
-> +	return fdt32_to_cpu(memory[addr_size - 1]);
-> +}
-> diff --git a/arch/arm/boot/compressed/head.S b/arch/arm/boot/compressed/head.S
-> index 927f5dc413d7dff2..cb4e6a84b156c204 100644
-> --- a/arch/arm/boot/compressed/head.S
-> +++ b/arch/arm/boot/compressed/head.S
-> @@ -235,8 +235,20 @@ not_angel:
->  		.text
->  
->  #ifdef CONFIG_AUTO_ZRELADDR
-> +#ifdef CONFIG_USE_OF
->  		/*
-> -		 * Find the start of physical memory.  As we are executing
-> +		 * Find the start of physical memory.
-> +		 * Try the passed DTB first, if available.
-> +		 */
-> +		mov	r0, r8
+
+Well, not exactly. You don't have to move anything. But more on that 
+later.
+
+One important detail: you didn't set up the stack pointer. That means 
+you're relying on whatever value left in sp by the bootloader. If you're 
+lucky that might be fine, but it isn't a good idea to leave things to 
+luck.
+
+Before calling the C code, you should probably do:
+
+	adr	r0, LC0
+	ldr	r1, [r0]
+	ldr	sp, [r0, #28]
+	sub	r0, r0, r1
+	add	sp, sp, r0
+
+But if there is an appended dtb then you'll overwrite it. So you need 
+to look for one and account for its size.
+Something like this:
+
+	adr	r0, LC0
+	ldr	r1, [r0]		@ get absolute LC0
+	ldr	sp, [r0, #28]		@ get stack location
+	sub	r1, r0, r1		@ compute relocation offset
+	add	sp, sp, r1		@ apply relocation
+
+#ifdef CONFIG_ARM_APPENDED_DTB
+	/*
+	 * Look for an appended DTB. If found, use it and
+	 * move stack away from it.
+	 */
+	ldr	r6, [r0, #12]		@ get &_end
+	add	r6, r6, r1		@ relocate it
+	ldmia	r6, {r0, r5}		@ get DTB signature and size
+#ifndef __ARMEB__
+	ldr	r1, =0xedfe0dd0         @ sig is 0xd00dfeed big endian
+	/* convert DTB size to little endian */
+	eor     r2, r5, r5, ror #16
+	bic     r2, r2, #0x00ff0000
+	mov     r5, r5, ror #8
+	eor     r5, r5, r2, lsr #8
+#else
+	ldr	r1, =0xd00dfeed
+#endif
+	cmp	r0, r1			@ do we have a DTB there?
+	moveq	r8, r0			@ use it if so
+	addeq	sp, sp, r5		@ and move stack above it
+#endif
+
+	bl	fdt_get_mem_start
+	...
+
+This is a little involved but there is no way around that for a safe 
+stack. Benefit is that you get appended DTB support with a single 
+additional instruction.
+
+Also one minor nit:
+
 > +		bl	fdt_get_mem_start
-
-NAK.  You don't have a stack setup here.  The fact this works for you
-is merely due to "sp" happening to be pointing somewhere sane, but
-there is no such requirement.  Therefore, this is fragile.
-
 > +		mov	r4, r0
 > +		cmn	r0, #1
-> +		bne	1f
-> +#endif
-> +
-> +		/*
-> +		 * Fall back to the traditional method.  As we are executing
->  		 * without the MMU on, we are in the physical address space.
->  		 * We just need to get rid of any offset by aligning the
->  		 * address.
-> @@ -254,6 +266,8 @@ not_angel:
->  		 */
->  		mov	r4, pc
->  		and	r4, r4, #0xf8000000
-> +
-> +1:
->  		/* Determine final kernel image address. */
->  		add	r4, r4, #TEXT_OFFSET
->  #else
-> -- 
-> 2.17.1
-> 
-> 
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
-According to speedtest.net: 11.9Mbps down 500kbps up
+Please just use "cmp r0 #-1" here. The assembler will convert it for 
+you.
+
+
+Nicolas
