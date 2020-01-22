@@ -2,123 +2,211 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 02F70144C7D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2020 08:32:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8389144D06
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2020 09:13:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725924AbgAVHcg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Jan 2020 02:32:36 -0500
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:54353 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725883AbgAVHcg (ORCPT
+        id S1725911AbgAVINe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Jan 2020 03:13:34 -0500
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:40544 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725900AbgAVINd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Jan 2020 02:32:36 -0500
-Received: by mail-wm1-f66.google.com with SMTP id b19so5682292wmj.4;
-        Tue, 21 Jan 2020 23:32:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fm/bzorqFXGRjSleITF9pD+r1ENd6CB0azL8igPUALM=;
-        b=VDzeQxeEhDd8ZKku1Vsa6Rm+0dEX0MsSrnfFkdfeGLwJy/mHgwEerx7eS8/YGXEbxr
-         fyEL+uolSK2w7xtim5NpnRib0fMpIpzzD4fTzsPKUkHpTmHE2AJMShtmpCJAYDJkeJfi
-         V9M2aHfVdu8ai4eNZ8fDRxLyX+uaMPI3rK/B5Dv5n6RV0aIWB2x6tFbIRGtF93S+yJD7
-         P4Km/plRniTRmu24NArSI3NaiO9WS4KR483rANpvgUlGIQ/eFZh9G5TaKcRj/x4m86MZ
-         yWIy330NA0EvuDPtSQ2KQbJIFWWKPn32Q6b3HiCm6rvGSriyBRD4L3WquLLdMYnW+ei2
-         hV3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=fm/bzorqFXGRjSleITF9pD+r1ENd6CB0azL8igPUALM=;
-        b=glXZx9tBqWzQV8e5dxs0Q3m6plOiWkbBHYmubFfqtXgy/Ie5c9IhG+Lt/tJKdmBjgj
-         HyCcABnvB+ZJoEgRRkie7ai+PJD2OmgBr/62lw00Qq9FZ9W6C0937NyfUft6eFIZZtEo
-         WKNFPxHa1SBvaDPO+zMuoOQN/XecCFN1Tvn+OeO98w+VMs+RUKV3WLKaPwVf7BTg9rze
-         jWea9lx+1/dbBCYuikRkKSilKsEgodzjxGSekTz6grrMksUS3KGln0wyoIJFIeIRibvE
-         zi6dkFDljcweW+iANLMhP3N8fPWzSi5wwahWCjmQB6+Zs/uPD+yvqpbqYi16ewYVnHq7
-         f+LQ==
-X-Gm-Message-State: APjAAAUDMHIXp1qHxqA55Bda7lXyiwy6IA/BDaPeANMWovS36puYbIw+
-        45b1vg1BG7VqNql9+N20EdEjpAWT
-X-Google-Smtp-Source: APXvYqxsj7I9WlzOG+WOoPFUiCwN4qWOvJotIYRZmaWyfy5/ihC4mSOyzoLZoK6R3hu9TVPC7u6gzA==
-X-Received: by 2002:a7b:cf0d:: with SMTP id l13mr1458811wmg.13.1579678354144;
-        Tue, 21 Jan 2020 23:32:34 -0800 (PST)
-Received: from ?IPv6:2003:ea:8f36:6800:9425:8dfb:676f:4467? (p200300EA8F36680094258DFB676F4467.dip0.t-ipconnect.de. [2003:ea:8f36:6800:9425:8dfb:676f:4467])
-        by smtp.googlemail.com with ESMTPSA id a132sm2495983wme.3.2020.01.21.23.32.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Jan 2020 23:32:33 -0800 (PST)
-Subject: Re: [PATCH v2 net-next] net: convert suitable drivers to use
- phy_do_ioctl_running
-To:     Florian Fainelli <f.fainelli@gmail.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        David Miller <davem@davemloft.net>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>, Doug Berger <opendmb@gmail.com>,
-        Pantelis Antoniou <pantelis.antoniou@gmail.com>,
-        Yisen Zhuang <yisen.zhuang@huawei.com>,
-        Salil Mehta <salil.mehta@huawei.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Sylvain Lemieux <slemieux.tyco@gmail.com>,
-        Timur Tabi <timur@kernel.org>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Steve Glendinning <steve.glendinning@shawell.net>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Woojung Huh <woojung.huh@microchip.com>,
-        Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>
-Cc:     "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        bcm-kernel-feedback-list@broadcom.com,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        linux-renesas-soc@vger.kernel.org,
-        Linux USB Mailing List <linux-usb@vger.kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-References: <2db5d899-a550-456d-a725-f7cf009f53a3@gmail.com>
- <9d2dbcc0-7e22-601a-35f6-135f2a9e6f99@gmail.com>
-From:   Heiner Kallweit <hkallweit1@gmail.com>
-Message-ID: <ec2a401d-e504-da38-8bc7-1826f5de7941@gmail.com>
-Date:   Wed, 22 Jan 2020 08:28:06 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        Wed, 22 Jan 2020 03:13:33 -0500
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00M8Cxqb099296;
+        Wed, 22 Jan 2020 02:12:59 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1579680779;
+        bh=DhZNPVYtbrpKrZkAkg13qDd9TroZfhPQ/2aqImA4XLQ=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=YyTGJm0CliogdcFd9gnifEAk8QmkOT+QCVGoH27ocDzrZPB7avzwnza5mzPX+UheB
+         WfIed/40LSUiLyMMRn74ExRwIwhhSSv1UJr7souRbL0Yr2UkTH1rE9itP9it9eg9Og
+         aM+RXxLq2QWw9UixnNzaKOvthN/78MMYypz3cRkI=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00M8CwGh095984
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 22 Jan 2020 02:12:58 -0600
+Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 22
+ Jan 2020 02:12:58 -0600
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Wed, 22 Jan 2020 02:12:58 -0600
+Received: from [10.24.69.159] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00M8Co0Y069651;
+        Wed, 22 Jan 2020 02:12:51 -0600
+Subject: Re: [v3 4/6] dt-bindings: PCI: rcar: Add bindings for R-Car PCIe
+ endpoint controller
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-pci <linux-pci@vger.kernel.org>
+CC:     Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Murray <andrew.murray@arm.com>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
+        LAK <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Simon Horman <horms@verge.net.au>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Tom Joseph <tjoseph@cadence.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20200108162211.22358-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200108162211.22358-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <CA+V-a8s1Jx8uZiSr0uiryS492EbFRoFg9QTwkosZsuyfRYp-3g@mail.gmail.com>
+From:   Kishon Vijay Abraham I <kishon@ti.com>
+Message-ID: <9c65eb7a-539b-1fa3-f988-40c32aa8dfe3@ti.com>
+Date:   Wed, 22 Jan 2020 13:45:53 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-In-Reply-To: <9d2dbcc0-7e22-601a-35f6-135f2a9e6f99@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CA+V-a8s1Jx8uZiSr0uiryS492EbFRoFg9QTwkosZsuyfRYp-3g@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 22.01.2020 05:04, Florian Fainelli wrote:
-> 
-> 
-> On 1/21/2020 1:09 PM, Heiner Kallweit wrote:
->> Convert suitable drivers to use new helper phy_do_ioctl_running.
->>
->> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
-> The vast majority of drivers that you are converting use the following
-> convention:
-> 
-> - !netif_running -> return -EINVAL
-> - !dev->phydev -> return -ENODEV
-> 
-> so it may make sense to change the helper to accommodate the majority
-> here, not that I believe this is going to make much practical
-> difference, but if there were test cases that were specifically looking
-> for such an error code, they could be failing after this changeset.
-> 
-Right, I also stumbled across the different error codes, mainly as you
-say -EINVAL. However there is no "wrong value", if netdev isn't running,
-then typically the PHY is not attached, and from a netdev point of view
-it's not there. So ENODEV seems to be best suited.
-In kernel code the changed return code doesn't make a difference,
-but yes, in theory there could be userspace programs checking for
--EINVAL. However such userspace programs should check for ENODEV too
-anyway to cover the second check that already returns -ENODEV.
+Hi Prabhakar,
 
-> For bgmac.c, bcmgenet.c and cpmac.c:
+On 21/01/20 11:27 PM, Lad, Prabhakar wrote:
+> Hi Rob/Kishon,
 > 
-> Acked-by: Florian Fainelli <f.fainelli@gmail.com>
+> On Wed, Jan 8, 2020 at 4:22 PM Lad Prabhakar <prabhakar.csengg@gmail.com> wrote:
+>>
+>> This patch adds the bindings for the R-Car PCIe endpoint driver.
+>>
+>> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>> ---
+>>  .../devicetree/bindings/pci/rcar-pci-ep.yaml  | 76 +++++++++++++++++++
+>>  1 file changed, 76 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml b/Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml
+>> new file mode 100644
+>> index 000000000000..99c2a1174463
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml
+>> @@ -0,0 +1,76 @@
+>> +# SPDX-License-Identifier: GPL-2.0
+>> +# Copyright (C) 2020 Renesas Electronics Europe GmbH - https://www.renesas.com/eu/en/
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/pci/rcar-pcie-ep.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Renesas R-Car PCIe Endpoint
+>> +
+>> +maintainers:
+>> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>> +
+>> +properties:
+>> +  compatible:
+>> +    items:
+>> +      - const: renesas,r8a774c0-pcie-ep
+>> +      - const: renesas,rcar-gen3-pcie-ep
+>> +
+>> +  reg:
+>> +    maxItems: 5
+>> +
+>> +  reg-names:
+>> +    items:
+>> +      - const: apb-base
+>> +      - const: memory0
+>> +      - const: memory1
+>> +      - const: memory2
+>> +      - const: memory3
+
+As I had mentioned in the other patch, I'd prefer if we can create
+standard binding for representing the memory regions. IMHO we should
+create subnode for memory regions Each sub-node itself may or may not
+have more than one memory region.
+
+In your platform, since there can be only one allocation in a memory
+region, there should be 4 sub-nodes for each of the memory region and
+each node should have page_size (or some equivalent property) property
+to indicate page_size (= region_size).
+
+For a platform that doesn't have the restriction, there can be a single
+sub-node containing all the memory region.
+
+Let's wait for Rob's comment though.
+
+Thanks
+Kishon
+>> +
+>> +  power-domains:
+>> +    maxItems: 1
+>> +
+>> +  resets:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    maxItems: 1
+>> +
+>> +  clock-names:
+>> +    items:
+>> +      - const: pcie
+>> +
+>> +  max-functions:
+>> +    minimum: 1
+>> +    maximum: 6
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - reg-names
+>> +  - resets
+>> +  - power-domains
+>> +  - clocks
+>> +  - clock-names
+>> +  - max-functions
+>> +
+> apart from dt_binding_check error are we OK with dt bindings ?
 > 
-> Whether you decide to spin another version or not.
+> Cheers,
+> --Prabhakar
 > 
-Heiner
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/clock/r8a774c0-cpg-mssr.h>
+>> +    #include <dt-bindings/power/r8a774c0-sysc.h>
+>> +
+>> +     pcie0_ep: pcie-ep@fe000000 {
+>> +            compatible = "renesas,r8a774c0-pcie-ep",
+>> +                         "renesas,rcar-gen3-pcie-ep";
+>> +            reg = <0 0xfe000000 0 0x80000>,
+>> +                  <0x0 0xfe100000 0 0x100000>,
+>> +                  <0x0 0xfe200000 0 0x200000>,
+>> +                  <0x0 0x30000000 0 0x8000000>,
+>> +                  <0x0 0x38000000 0 0x8000000>;
+>> +            reg-names = "apb-base", "memory0", "memory1", "memory2", "memory3";
+>> +            resets = <&cpg 319>;
+>> +            power-domains = <&sysc R8A774C0_PD_ALWAYS_ON>;
+>> +            clocks = <&cpg CPG_MOD 319>;
+>> +            clock-names = "pcie";
+>> +            max-functions = /bits/ 8 <1>;
+>> +    };
+>> --
+>> 2.20.1
+>>
