@@ -2,211 +2,172 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C8389144D06
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2020 09:13:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 579B21450B2
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2020 10:50:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725911AbgAVINe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Jan 2020 03:13:34 -0500
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:40544 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725900AbgAVINd (ORCPT
+        id S1733152AbgAVJkJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Jan 2020 04:40:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58680 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387405AbgAVJkI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Jan 2020 03:13:33 -0500
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00M8Cxqb099296;
-        Wed, 22 Jan 2020 02:12:59 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1579680779;
-        bh=DhZNPVYtbrpKrZkAkg13qDd9TroZfhPQ/2aqImA4XLQ=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=YyTGJm0CliogdcFd9gnifEAk8QmkOT+QCVGoH27ocDzrZPB7avzwnza5mzPX+UheB
-         WfIed/40LSUiLyMMRn74ExRwIwhhSSv1UJr7souRbL0Yr2UkTH1rE9itP9it9eg9Og
-         aM+RXxLq2QWw9UixnNzaKOvthN/78MMYypz3cRkI=
-Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00M8CwGh095984
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 22 Jan 2020 02:12:58 -0600
-Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 22
- Jan 2020 02:12:58 -0600
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Wed, 22 Jan 2020 02:12:58 -0600
-Received: from [10.24.69.159] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00M8Co0Y069651;
-        Wed, 22 Jan 2020 02:12:51 -0600
-Subject: Re: [v3 4/6] dt-bindings: PCI: rcar: Add bindings for R-Car PCIe
- endpoint controller
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-pci <linux-pci@vger.kernel.org>
-CC:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Murray <andrew.murray@arm.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
+        Wed, 22 Jan 2020 04:40:08 -0500
+Received: from localhost (unknown [122.178.236.243])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1B55C24684;
+        Wed, 22 Jan 2020 09:40:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579686007;
+        bh=k2bF29vbO4gdaC0R6XuDL1eqr9ESgfDtamKRRnvdJSU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HVrFrHiw4x2TulvgoJcp0AK51hGJ3DGtBt28CAp3cmmMAYFgRKuS5J3YwayzbRy05
+         nzPk9BYdzU60kzXXVG84/dfEF6+bPNg7PsZQK/oUqsbmyWmI1+Pf9izkflwW7eFpBh
+         oYw9Le46eQc2a6BLizw4/WCsfD88dRi6bcRlQxD8=
+Date:   Wed, 22 Jan 2020 15:10:02 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Peter Ujfalusi <peter.ujfalusi@ti.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        dmaengine@vger.kernel.org,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Simon Horman <horms@verge.net.au>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20200108162211.22358-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200108162211.22358-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CA+V-a8s1Jx8uZiSr0uiryS492EbFRoFg9QTwkosZsuyfRYp-3g@mail.gmail.com>
-From:   Kishon Vijay Abraham I <kishon@ti.com>
-Message-ID: <9c65eb7a-539b-1fa3-f988-40c32aa8dfe3@ti.com>
-Date:   Wed, 22 Jan 2020 13:45:53 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] dmaengine: Create symlinks between DMA channels and
+ slaves
+Message-ID: <20200122094002.GS2841@vkoul-mobl>
+References: <20200117153056.31363-1-geert+renesas@glider.be>
+ <d2b669e7-a5d4-20ec-5b54-103b71df7407@ti.com>
+ <CAMuHMdVzQCWvH-LJ9ME5dRyafudZBHQLaJQzkSCPnughv_q2aA@mail.gmail.com>
+ <1cdc4f71-f365-8c9e-4634-408c59e6a3f9@ti.com>
+ <CAMuHMdU=-Eo29=DQmq96OegdYAvW7Vw9PpgNWSTfjDWVF5jd-A@mail.gmail.com>
+ <f7bbb132-1278-7030-7f40-b89733bcbd83@ti.com>
+ <CAMuHMdXDiwTomiKp8Kaw0NvMNpg78-M88F0mNTWBOz5MLE4LtQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CA+V-a8s1Jx8uZiSr0uiryS492EbFRoFg9QTwkosZsuyfRYp-3g@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXDiwTomiKp8Kaw0NvMNpg78-M88F0mNTWBOz5MLE4LtQ@mail.gmail.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hey Geert,
 
-On 21/01/20 11:27 PM, Lad, Prabhakar wrote:
-> Hi Rob/Kishon,
+On 21-01-20, 21:22, Geert Uytterhoeven wrote:
+> On Mon, Jan 20, 2020 at 1:06 PM Peter Ujfalusi <peter.ujfalusi@ti.com> wrote:
+> > On 20/01/2020 12.51, Geert Uytterhoeven wrote:
+> > > On Mon, Jan 20, 2020 at 11:16 AM Peter Ujfalusi <peter.ujfalusi@ti.com> wrote:
+> > >> On 20/01/2020 11.01, Geert Uytterhoeven wrote:
+> > >>> On Fri, Jan 17, 2020 at 9:08 PM Peter Ujfalusi <peter.ujfalusi@ti.com> wrote:
+> > >>>> On 1/17/20 5:30 PM, Geert Uytterhoeven wrote:
+> > >>>>> Currently it is not easy to find out which DMA channels are in use, and
+> > >>>>> which slave devices are using which channels.
+> > >>>>>
+> > >>>>> Fix this by creating two symlinks between the DMA channel and the actual
+> > >>>>> slave device when a channel is requested:
+> > >>>>>   1. A "slave" symlink from DMA channel to slave device,
+> > >>>>
+> > >>>> Have you considered similar link name as on the slave device:
+> > >>>> slave:<name>
+> > >>>>
+> > >>>> That way it would be easier to grasp which channel is used for what
+> > >>>> purpose by only looking under /sys/class/dma/ and no need to check the
+> > >>>> slave device.
+> > >>>
+> > >>> Would this really provide more information?
+> > >>> The device name is already provided in the target of the symlink:
+> > >>>
+> > >>> root@koelsch:~# readlink
+> > >>> /sys/devices/platform/soc/e6720000.dma-controller/dma/dma1chan2/slave
+> > >>> ../../../ee140000.sd
+> > >>
+> > >> e6720000.dma-controller/dma/dma1chan2/slave -> ../../../ee140000.sd
+> > >> e6720000.dma-controller/dma/dma1chan3/slave -> ../../../ee140000.sd
+> > >>
+> > >> It is hard to tell which one is the tx and RX channel without looking
+> > >> under the ee140000.sd:
+> > >>
+> > >> ee140000.sd/dma:rx -> ../e6720000.dma-controller/dma/dma1chan3
+> > >> ee140000.sd/dma:tx -> ../e6720000.dma-controller/dma/dma1chan2
+> > >
+> > > Oh, you meant the name of the channel, not the name of the device.
+> > > My mistake.
+> > >
+> > > As this name is a property of the slave device, not of the DMA channel,
+> > > I don't think it belongs under dma*chan*.
+> >
+> > Right, but it gives me only half the information I need to be a link useful.
+> > I know that device X is using two channels but I need to check the
+> > device X's directory to know which channel is used for what purpose.
+
+I gave the patch a spin on my board, I like some things and I dont like
+few things :)
+
+Having name of slaves is a good thing, but i had to resort to search of
+channels, the controller I have has 18 channels and only 4 were in use,
+so took a bit of time to find things.
+
+Start with /sys/class/dma/ to find the controller node
+then from controller node find the channels with slave
+and then get to the clients!
+
+So i would say it is better than what we have today, but we could do
+better :)
+
+> >
+> > >> Another option would be to not have symlinks, but a debugfs file where
+> > >> this information can be extracted and would only compiled if debugfs is
+> > >> enabled.
+> > >
+> > > Like /proc/interrupts?
+> >
+> > More like /sys/kernel/debug/gpio
+> >
+> > > That brings the complexity of traversing all channels etc.
+> >
+> > Sure, but only when the file is read.
+> > You can add
+> > #ifdef CONFIG_DEBUG_FS
+> > #endif
+> >
+> > around the slave_device and name in struct dma_chan {}
+> >
+> > and when user reads the file you print out something like this:
+> > cat /sys/kernel/debug/dmaengine
+> >
+> > e6700000.dma-controller:
+> > dma0chan0               e6e20000.spi:tx
+> > dma0chan1               e6e20000.spi:rx
+> > dma0chan2               ee100000.sd:tx
+> > dma0chan3               ee100000.sd:rx
+> > ...
+> > dma0chan14              non slave
+> > ...
+> >
+> > e6720000.dma-controller:
+> > dma1chan0               e6b10000.spi:tx
+> > dma1chan1               e6b10000.spi:rx
+> > ...
+
+I like the idea of adding this in debugfs and giving more info, I would
+actually love to add bytes_transferred and few more info (descriptors
+submitted etc) to it...
+
+> > This way we will have all the information in one place, easy to look up
+> > and you don't need to manage symlinks dynamically, just check all
+> > channels if they have slave_device/name when they are in_use (in_use w/o
+> > slave_device is 'non slave')
+> >
+> > Some drivers are requesting and releasing the DMA channel per transfer
+> > or when they are opened/closed or other variations.
+> >
+> > > What do other people think?
 > 
-> On Wed, Jan 8, 2020 at 4:22 PM Lad Prabhakar <prabhakar.csengg@gmail.com> wrote:
->>
->> This patch adds the bindings for the R-Car PCIe endpoint driver.
->>
->> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->> ---
->>  .../devicetree/bindings/pci/rcar-pci-ep.yaml  | 76 +++++++++++++++++++
->>  1 file changed, 76 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml b/Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml
->> new file mode 100644
->> index 000000000000..99c2a1174463
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml
->> @@ -0,0 +1,76 @@
->> +# SPDX-License-Identifier: GPL-2.0
->> +# Copyright (C) 2020 Renesas Electronics Europe GmbH - https://www.renesas.com/eu/en/
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/pci/rcar-pcie-ep.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Renesas R-Car PCIe Endpoint
->> +
->> +maintainers:
->> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->> +
->> +properties:
->> +  compatible:
->> +    items:
->> +      - const: renesas,r8a774c0-pcie-ep
->> +      - const: renesas,rcar-gen3-pcie-ep
->> +
->> +  reg:
->> +    maxItems: 5
->> +
->> +  reg-names:
->> +    items:
->> +      - const: apb-base
->> +      - const: memory0
->> +      - const: memory1
->> +      - const: memory2
->> +      - const: memory3
+> Vinod: do you have some guidance for your minions? ;-)
 
-As I had mentioned in the other patch, I'd prefer if we can create
-standard binding for representing the memory regions. IMHO we should
-create subnode for memory regions Each sub-node itself may or may not
-have more than one memory region.
 
-In your platform, since there can be only one allocation in a memory
-region, there should be 4 sub-nodes for each of the memory region and
-each node should have page_size (or some equivalent property) property
-to indicate page_size (= region_size).
+That said, I am not against merging this patch while we add more
+(debugfs)... So do my minions agree or they have better ideas :-)
 
-For a platform that doesn't have the restriction, there can be a single
-sub-node containing all the memory region.
-
-Let's wait for Rob's comment though.
-
-Thanks
-Kishon
->> +
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +  resets:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    maxItems: 1
->> +
->> +  clock-names:
->> +    items:
->> +      - const: pcie
->> +
->> +  max-functions:
->> +    minimum: 1
->> +    maximum: 6
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - reg-names
->> +  - resets
->> +  - power-domains
->> +  - clocks
->> +  - clock-names
->> +  - max-functions
->> +
-> apart from dt_binding_check error are we OK with dt bindings ?
-> 
-> Cheers,
-> --Prabhakar
-> 
->> +examples:
->> +  - |
->> +    #include <dt-bindings/clock/r8a774c0-cpg-mssr.h>
->> +    #include <dt-bindings/power/r8a774c0-sysc.h>
->> +
->> +     pcie0_ep: pcie-ep@fe000000 {
->> +            compatible = "renesas,r8a774c0-pcie-ep",
->> +                         "renesas,rcar-gen3-pcie-ep";
->> +            reg = <0 0xfe000000 0 0x80000>,
->> +                  <0x0 0xfe100000 0 0x100000>,
->> +                  <0x0 0xfe200000 0 0x200000>,
->> +                  <0x0 0x30000000 0 0x8000000>,
->> +                  <0x0 0x38000000 0 0x8000000>;
->> +            reg-names = "apb-base", "memory0", "memory1", "memory2", "memory3";
->> +            resets = <&cpg 319>;
->> +            power-domains = <&sysc R8A774C0_PD_ALWAYS_ON>;
->> +            clocks = <&cpg CPG_MOD 319>;
->> +            clock-names = "pcie";
->> +            max-functions = /bits/ 8 <1>;
->> +    };
->> --
->> 2.20.1
->>
+-- 
+~Vinod
