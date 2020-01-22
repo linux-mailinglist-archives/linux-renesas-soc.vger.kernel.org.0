@@ -2,172 +2,190 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 579B21450B2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2020 10:50:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC48C145368
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 22 Jan 2020 12:05:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733152AbgAVJkJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 22 Jan 2020 04:40:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58680 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387405AbgAVJkI (ORCPT
+        id S1726232AbgAVLFf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 22 Jan 2020 06:05:35 -0500
+Received: from mail-eopbgr1400119.outbound.protection.outlook.com ([40.107.140.119]:43473
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725911AbgAVLFe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 22 Jan 2020 04:40:08 -0500
-Received: from localhost (unknown [122.178.236.243])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1B55C24684;
-        Wed, 22 Jan 2020 09:40:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579686007;
-        bh=k2bF29vbO4gdaC0R6XuDL1eqr9ESgfDtamKRRnvdJSU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HVrFrHiw4x2TulvgoJcp0AK51hGJ3DGtBt28CAp3cmmMAYFgRKuS5J3YwayzbRy05
-         nzPk9BYdzU60kzXXVG84/dfEF6+bPNg7PsZQK/oUqsbmyWmI1+Pf9izkflwW7eFpBh
-         oYw9Le46eQc2a6BLizw4/WCsfD88dRi6bcRlQxD8=
-Date:   Wed, 22 Jan 2020 15:10:02 +0530
-From:   Vinod Koul <vkoul@kernel.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Peter Ujfalusi <peter.ujfalusi@ti.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        dmaengine@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] dmaengine: Create symlinks between DMA channels and
- slaves
-Message-ID: <20200122094002.GS2841@vkoul-mobl>
-References: <20200117153056.31363-1-geert+renesas@glider.be>
- <d2b669e7-a5d4-20ec-5b54-103b71df7407@ti.com>
- <CAMuHMdVzQCWvH-LJ9ME5dRyafudZBHQLaJQzkSCPnughv_q2aA@mail.gmail.com>
- <1cdc4f71-f365-8c9e-4634-408c59e6a3f9@ti.com>
- <CAMuHMdU=-Eo29=DQmq96OegdYAvW7Vw9PpgNWSTfjDWVF5jd-A@mail.gmail.com>
- <f7bbb132-1278-7030-7f40-b89733bcbd83@ti.com>
- <CAMuHMdXDiwTomiKp8Kaw0NvMNpg78-M88F0mNTWBOz5MLE4LtQ@mail.gmail.com>
+        Wed, 22 Jan 2020 06:05:34 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jKKCyvoh0/pM5JnvkbOUUvwz/O4JkmzaXhStNZ2e1fCLfVXYVRrDDqHs4PMGifFjHnsVDEQB7Egvuu0V5whjqin8aEHzNy0uY+aV4PFHTPEhrwozLq11LrfG94c9P9Kgm7O1FtA9DSGgyEkBbitZYi770i41OsjjeYB/qZJfVTxEoSyVelYWgQ1rPosBCy8dUhsDoErMyW0TtLllifFcPavPqbe/E35Hr1rnZms4eAApBxAN77YEKyGadVBKrBAx0NHuAWmeWx6Y1/iby7hH8o5DN4Jsov9JmamZh/KW91aVww5iEH6QsGFkvNQixfWXTV2y+4tyguiNo9K9ZYuWWg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/5CdcRb+3IFLUbw92sfYq1AIuexGlQOfCIS8R+oBf+A=;
+ b=GLTXxtY/qJ1WanHBjPa03uAsAQ7kFYQlBHU2dPmG8x/BBLul80zRTB0FHwfH4cHuaku0uovZhMIL4kx3CAO5tsapZmW1rHNCT9vaj7tYS0mDSYIlqC5+JC2SMEY036igsCXqUewf8Wm4scnFb+JQBw7ZKGo6bSPEoRkoIC4DeNCYWC+qe3gza8T6HKG0lL+jyX4tlyCwoBXMky9mWkYDm98tVasqtSYG+H1ikEXJsvDnBrYfPHOtPFYqHDi8XGYxL8NDVUKL6OPnFaGIA0YuJu9vYDY/BQiZdF6NXFXNBGubFKKWcJr75CKIfIUHj3pLN1P/xuAZMGXytK8eDucYWQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/5CdcRb+3IFLUbw92sfYq1AIuexGlQOfCIS8R+oBf+A=;
+ b=tJbPChRVQOB5T9OpYZgtG374Lu2WdEakGO9Hn+IeopHb7Mal2A8eCp317RinT4/NXvDXOhu7jb51md8glkokhgldbmfVGEE2ASfgX/ix1gvHBEffORSzdM3pZ+8440ez0pZbEUEXAINVsDMrtS2wLt0GtLlw7d/KspGOmuZKp4w=
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
+ TYAPR01MB4512.jpnprd01.prod.outlook.com (20.179.175.151) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2644.20; Wed, 22 Jan 2020 11:05:29 +0000
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::318b:31aa:4212:bd49]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::318b:31aa:4212:bd49%7]) with mapi id 15.20.2644.027; Wed, 22 Jan 2020
+ 11:05:29 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Alan Stern <stern@rowland.harvard.edu>
+CC:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux@prisktech.co.nz" <linux@prisktech.co.nz>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH 2/2] usb: host: ehci-platform: add a quirk to avoid stuck
+Thread-Topic: [PATCH 2/2] usb: host: ehci-platform: add a quirk to avoid stuck
+Thread-Index: AQHVzSRz1q4eI+Sg7UOxqpRra7mKKqfvC4WAgAQwcHCAAHG1gIAAqcfggADn94CAAUqI4A==
+Date:   Wed, 22 Jan 2020 11:05:29 +0000
+Message-ID: <TYAPR01MB4544998EECD346105AE75494D80C0@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+References: <TYAPR01MB4544F9647CD645BEB2DC99D8D80D0@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+ <Pine.LNX.4.44L0.2001211003430.1511-100000@iolanthe.rowland.org>
+In-Reply-To: <Pine.LNX.4.44L0.2001211003430.1511-100000@iolanthe.rowland.org>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [150.249.235.54]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 04d6697b-ee88-428d-163d-08d79f2afe17
+x-ms-traffictypediagnostic: TYAPR01MB4512:
+x-microsoft-antispam-prvs: <TYAPR01MB4512C9601435A617C4D3646BD80C0@TYAPR01MB4512.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-forefront-prvs: 029097202E
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(39860400002)(366004)(376002)(346002)(136003)(396003)(189003)(199004)(81166006)(8936002)(8676002)(81156014)(54906003)(76116006)(316002)(6916009)(52536014)(64756008)(186003)(66476007)(6506007)(66556008)(26005)(66446008)(2906002)(478600001)(7696005)(66946007)(55016002)(5660300002)(71200400001)(86362001)(4326008)(33656002)(9686003);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB4512;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 837P3qh+l3mwKvKa8B15bNUy4uDUA2b31RDxulg/e73+cSdF77t6HHax0lWNhcEjlYGM3jYyR+Cp7UFqZX6ctzaGEwgl7KhHeU9TRhFVxqtXBtPbGDje3c1G8aBvE5iZzuAPK63Y2mwn2Sj5DPcXjKCfIfR2sfIazWcZ2eCXxHp05QDQbYPsuX9W02UVW7QUWfugNFbxhcYVkagIJJm6Bwd6AxuYYUAosN5+MSItSjuksTvqGef1Rq7MPD3rYVlgjLx6D1PqcDBMo7YG8LAeUCmJPQ6EEPifV7fArHpGZaGGhAAfF6zrEimJSLCjPapc8HRN4Obw55dJqHsysy3xX1bYxNLszCh+JJECJXo65Avvb1CRrOyP2I4HVGQ8o44JsDr2SmjtGr6pKoFfdiJ3N9KGvyR2wg8KjX+aFvHsaMHtjCzz5sUKSIUnquX8uPtc
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdXDiwTomiKp8Kaw0NvMNpg78-M88F0mNTWBOz5MLE4LtQ@mail.gmail.com>
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 04d6697b-ee88-428d-163d-08d79f2afe17
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jan 2020 11:05:29.4674
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DPCkEPQvEw8isxvqNS019LyqD7FjF0SX27D1szcFrrYytKfHc1afja+/oi/MeR1yDgMbEDhoLE7s7R1yCxsoOG2+6ZGTwMnQnYVjrGqHDvRiTWfas25mbH4uM08G/nl2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4512
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hey Geert,
+Hi Alan,
 
-On 21-01-20, 21:22, Geert Uytterhoeven wrote:
-> On Mon, Jan 20, 2020 at 1:06 PM Peter Ujfalusi <peter.ujfalusi@ti.com> wrote:
-> > On 20/01/2020 12.51, Geert Uytterhoeven wrote:
-> > > On Mon, Jan 20, 2020 at 11:16 AM Peter Ujfalusi <peter.ujfalusi@ti.com> wrote:
-> > >> On 20/01/2020 11.01, Geert Uytterhoeven wrote:
-> > >>> On Fri, Jan 17, 2020 at 9:08 PM Peter Ujfalusi <peter.ujfalusi@ti.com> wrote:
-> > >>>> On 1/17/20 5:30 PM, Geert Uytterhoeven wrote:
-> > >>>>> Currently it is not easy to find out which DMA channels are in use, and
-> > >>>>> which slave devices are using which channels.
-> > >>>>>
-> > >>>>> Fix this by creating two symlinks between the DMA channel and the actual
-> > >>>>> slave device when a channel is requested:
-> > >>>>>   1. A "slave" symlink from DMA channel to slave device,
-> > >>>>
-> > >>>> Have you considered similar link name as on the slave device:
-> > >>>> slave:<name>
-> > >>>>
-> > >>>> That way it would be easier to grasp which channel is used for what
-> > >>>> purpose by only looking under /sys/class/dma/ and no need to check the
-> > >>>> slave device.
-> > >>>
-> > >>> Would this really provide more information?
-> > >>> The device name is already provided in the target of the symlink:
-> > >>>
-> > >>> root@koelsch:~# readlink
-> > >>> /sys/devices/platform/soc/e6720000.dma-controller/dma/dma1chan2/slave
-> > >>> ../../../ee140000.sd
-> > >>
-> > >> e6720000.dma-controller/dma/dma1chan2/slave -> ../../../ee140000.sd
-> > >> e6720000.dma-controller/dma/dma1chan3/slave -> ../../../ee140000.sd
-> > >>
-> > >> It is hard to tell which one is the tx and RX channel without looking
-> > >> under the ee140000.sd:
-> > >>
-> > >> ee140000.sd/dma:rx -> ../e6720000.dma-controller/dma/dma1chan3
-> > >> ee140000.sd/dma:tx -> ../e6720000.dma-controller/dma/dma1chan2
+> From: Alan Stern, Sent: Wednesday, January 22, 2020 12:10 AM
+<snip>
+> On Tue, 21 Jan 2020, Yoshihiro Shimoda wrote:
+>=20
+> > Hi Alan,
+> >
+> > > From: Alan Stern, Sent: Tuesday, January 21, 2020 12:12 AM
 > > >
-> > > Oh, you meant the name of the channel, not the name of the device.
-> > > My mistake.
+> > > On Mon, 20 Jan 2020, Yoshihiro Shimoda wrote:
 > > >
-> > > As this name is a property of the slave device, not of the DMA channel,
-> > > I don't think it belongs under dma*chan*.
-> >
-> > Right, but it gives me only half the information I need to be a link useful.
-> > I know that device X is using two channels but I need to check the
-> > device X's directory to know which channel is used for what purpose.
-
-I gave the patch a spin on my board, I like some things and I dont like
-few things :)
-
-Having name of slaves is a good thing, but i had to resort to search of
-channels, the controller I have has 18 channels and only 4 were in use,
-so took a bit of time to find things.
-
-Start with /sys/class/dma/ to find the controller node
-then from controller node find the channels with slave
-and then get to the clients!
-
-So i would say it is better than what we have today, but we could do
-better :)
-
-> >
-> > >> Another option would be to not have symlinks, but a debugfs file where
-> > >> this information can be extracted and would only compiled if debugfs is
-> > >> enabled.
+> > > > > > +static void ehci_platform_quirk_poll_work(struct work_struct *=
+work)
+> > > > > > +{
+> > > > > > +	struct ehci_platform_priv *priv =3D
+> > > > > > +		container_of(work, struct ehci_platform_priv, poll_work);
+> > > > > > +	struct ehci_hcd *ehci =3D container_of((void *)priv, struct e=
+hci_hcd,
+> > > > > > +					     priv);
+> > > > > > +	int i;
+> > > > > > +
+> > > > > > +	usleep_range(4000, 8000);
+> > > > >
+> > > > > You have just waited 1000 ms for the timer.  Why will sleeping an
+> > > > > additional 4 - 8 ms make any difference?
+> > > >
+> > > > This sleeping can avoid a misdetection between this work function a=
+nd
+> > > > reconnection. If user reconnects the usb within 4 ms, the PORTSC
+> > > > condition is possible to be the same as the issue's condition.
+> > > > I think I should have described this information into the code.
+> > > >
+> > > > However, if I used schedule_delayed_work() instead, we can remove
+> > > > the usleep_range().
 > > >
-> > > Like /proc/interrupts?
+> > > Why not just make the timer delay be 1004 or 1008 ms instead of addin=
+g
+> > > this extra delay here?
 > >
-> > More like /sys/kernel/debug/gpio
+> > My concern is a race condition when the issue doesn't happen. If
+> > the workaround code has an extra delay, we can detect misdetection like=
+ below.
+> > This is related to the EHCI/OHCI controllers on R-Car Gen3 SoCs though,
+> > updating the CCS status is possible to be delayed. To be clear of the r=
+eason,
+> > I should have described this CCS status behavior too.
 > >
-> > > That brings the complexity of traversing all channels etc.
-> >
-> > Sure, but only when the file is read.
-> > You can add
-> > #ifdef CONFIG_DEBUG_FS
-> > #endif
-> >
-> > around the slave_device and name in struct dma_chan {}
-> >
-> > and when user reads the file you print out something like this:
-> > cat /sys/kernel/debug/dmaengine
-> >
-> > e6700000.dma-controller:
-> > dma0chan0               e6e20000.spi:tx
-> > dma0chan1               e6e20000.spi:rx
-> > dma0chan2               ee100000.sd:tx
-> > dma0chan3               ee100000.sd:rx
-> > ...
-> > dma0chan14              non slave
-> > ...
-> >
-> > e6720000.dma-controller:
-> > dma1chan0               e6b10000.spi:tx
-> > dma1chan1               e6b10000.spi:rx
-> > ...
+> > Timer routine		workqueue		EHCI PORTSC	USB connection
+> > 								disconnect
+> > 						CCS=3D0		connect (within 4 ms)
+> > condition =3D true (misdetection)			CCS=3D0
+> > 			usleep_range(4000,8000)	CCS=3D1
+> > 			condition =3D false
+>=20
+> Okay, now I understand.  I misread the code in the original patch.
+> But now it looks like the code does roughly this:
+>=20
+> Timer routine:	if (ehci_platform_quirk_poll_check_condition(ehci))
+> 			schedule_work();
+>=20
+> Work routine:	usleep_range(4000, 8000);
+> 		udelay(10);
+> 		if (!ehci_platform_quirk_poll_check_condition(ehci))
+> 			return;
+> 		udelay(10);
+> 		if (!ehci_platform_quirk_poll_check_condition(ehci))
+> 			return;
+> 		ehci_platform_quirk_poll_rebind_companion(ehci);
+>=20
+> So there are three calls to quirk_poll_check_condition, with 4 - 8 ms
+> between the first and second, and 10 us between the second and third.
+> Do you really need to have this combination of a long delay followed by
+> a short delay?  Wouldn't two check_condition calls with only one delay
+> be good enough?
 
-I like the idea of adding this in debugfs and giving more info, I would
-actually love to add bytes_transferred and few more info (descriptors
-submitted etc) to it...
+I had implemented this code by using hardware team's suggestion without
+any doubt. So, I asked hardware team about this combination of delays.
+The hardware team said this combination can reduce misdetection ratio
+from noise and so on. They also said we can wait single 5 ms instead
+this combination (but this cannot reduce misdetection ratio).
 
-> > This way we will have all the information in one place, easy to look up
-> > and you don't need to manage symlinks dynamically, just check all
-> > channels if they have slave_device/name when they are in_use (in_use w/o
-> > slave_device is 'non slave')
-> >
-> > Some drivers are requesting and releasing the DMA channel per transfer
-> > or when they are opened/closed or other variations.
-> >
-> > > What do other people think?
-> 
-> Vinod: do you have some guidance for your minions? ;-)
+So, now I'm thinking that the following process (single wait) is
+enough and it can improve readability. But, what do you think?
 
+Timer routine:	if (ehci_platform_quirk_poll_check_condition(ehci))
+ 			schedule_delayed_work(5 ms);
 
-That said, I am not against merging this patch while we add more
-(debugfs)... So do my minions agree or they have better ideas :-)
+Delayed work routine:
+		if (!ehci_platform_quirk_poll_check_condition(ehci))
+ 			return;
+ 		ehci_platform_quirk_poll_rebind_companion(ehci);
 
--- 
-~Vinod
+Best regards,
+Yoshihiro Shimoda
+
+> Alan Stern
+
