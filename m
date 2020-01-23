@@ -2,82 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 145AF14709E
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2020 19:19:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 746CB147264
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2020 21:09:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729030AbgAWSTK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Jan 2020 13:19:10 -0500
-Received: from asavdk3.altibox.net ([109.247.116.14]:46934 "EHLO
-        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728831AbgAWSTK (ORCPT
+        id S1727215AbgAWUJG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Jan 2020 15:09:06 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:44577 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727141AbgAWUJG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Jan 2020 13:19:10 -0500
-Received: from ravnborg.org (unknown [158.248.194.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk3.altibox.net (Postfix) with ESMTPS id CFE8220051;
-        Thu, 23 Jan 2020 19:19:05 +0100 (CET)
-Date:   Thu, 23 Jan 2020 19:19:04 +0100
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Mark Rutland <mark.rutland@arm.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, David Lechner <david@lechnology.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        David Airlie <airlied@linux.ie>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Thu, 23 Jan 2020 15:09:06 -0500
+Received: by mail-oi1-f194.google.com with SMTP id d62so4114517oia.11;
+        Thu, 23 Jan 2020 12:09:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vVKGzcjzgYKfbH5GrgrPtRduy6O94J9VHLSrUFzfF0o=;
+        b=Lux9AFY2jlUsplSHb94BI+HoqGW7dWouvo2aFvkTCcGd9fvHhEWSO3CC7HEGtYVDQ2
+         a53pS8GIJajr2KKILndYts6MuXD17MaiQ0Qt8wMfWh43W69iOogbfeDWsaav+OD52kWS
+         OYHqwbltn0yYwygbO+UlULsvUiKPCT8ZYlx2JxWfEFLHT6dMPA6y3G79pItmz1XQ5fj8
+         da75ZfM0VEoZ3/DJyrO93+9uV3Ilg9HKEUrK9jhAd0aYRJdSmUrDWOCJr0cZ+BQucC3V
+         aEWt7UJ/4+h6XHAP8fXxqhHQDMWNzYU+961+mTUk2LBBzQ5eBpOTA/CggQKSSYSaPYZo
+         4hGg==
+X-Gm-Message-State: APjAAAUTK5BjU9TMwTpOFaR3OLDdxtmkXA1JpofXT+OyC96xhCzXLLkN
+        8u+crsYyxcENBu51rAdHBT4Y0ahnQH4uj96/w34=
+X-Google-Smtp-Source: APXvYqza9kKl70hhT8tgf/+Mkh35IoAIwHVHXs0FQsmG0LhbXki0VWdjBWY8SEXw+Tz1hJ5wmPBUzSOk6KjxSTgNats=
+X-Received: by 2002:aca:48cd:: with SMTP id v196mr12160145oia.102.1579810145435;
+ Thu, 23 Jan 2020 12:09:05 -0800 (PST)
+MIME-Version: 1.0
+References: <20200116101447.20374-1-gilad@benyossef.com> <CAMuHMdUhR83SZyWX9Du9d3Sp4A48x_msKaOHGsa88EQKStEDQg@mail.gmail.com>
+ <CAOtvUMfDnoFu8V7sYvhgsstX6fuUk3foq+9FJ6SbUKEFnq-zMw@mail.gmail.com>
+ <CAMuHMdUZbbNX-vsa4TmU7DNKAz2Qo3SR1pHXDOsO4Rh5G8ygZw@mail.gmail.com> <CAOtvUMdCm8LTfVOgrkGAa5ig6dodyd7QwcEvHz-TnvkMfnhDZA@mail.gmail.com>
+In-Reply-To: <CAOtvUMdCm8LTfVOgrkGAa5ig6dodyd7QwcEvHz-TnvkMfnhDZA@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 23 Jan 2020 21:08:52 +0100
+Message-ID: <CAMuHMdVPQsb=NrQ=N+S1TrD_CuJ=hnaYS+OLE9SnyWy43dC3GQ@mail.gmail.com>
+Subject: Re: [PATCH 00/11] crypto: ccree - fixes and cleanups
+To:     Gilad Ben-Yossef <gilad@benyossef.com>
+Cc:     Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Ofir Drang <ofir.drang@arm.com>, Hadar Gat <hadar.gat@arm.com>,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH] dt-bindings: restrict properties for sitronix,st7735r
-Message-ID: <20200123181904.GC17233@ravnborg.org>
-References: <20200115124548.3951-1-geert+renesas@glider.be>
- <20200115124548.3951-2-geert+renesas@glider.be>
- <ba21d2c8-ccc6-2704-fa1f-d28239700547@lechnology.com>
- <20200120190249.GA9619@ravnborg.org>
- <CAMuHMdV4QtKTBvM+8U=BgDV7zzQfO50Z_pnwpNWLhh6Gioe+=A@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdV4QtKTBvM+8U=BgDV7zzQfO50Z_pnwpNWLhh6Gioe+=A@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=eMA9ckh1 c=1 sm=1 tr=0
-        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8
-        a=WZHNqt2aAAAA:8 a=J6VubnrAGtYNr-PBG9AA:9 a=CjuIK1q_8ugA:10
-        a=E9Po1WZjFZOl8hwRPBS3:22 a=PrHl9onO2p7xFKlKy1af:22
+        Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert & Rob.
+Hi Gilad,
 
-On Thu, Jan 23, 2020 at 08:43:39AM +0100, Geert Uytterhoeven wrote:
-> Hi Sam,
-> 
-> On Mon, Jan 20, 2020 at 8:02 PM Sam Ravnborg <sam@ravnborg.org> wrote:
-> > From 6b54fb0a071c0732cd4bd5b88f456b5a85bcf4f2 Mon Sep 17 00:00:00 2001
-> > From: Sam Ravnborg <sam@ravnborg.org>
-> > Date: Mon, 20 Jan 2020 19:55:04 +0100
-> > Subject: [PATCH] dt-bindings: restrict properties for sitronix,st7735r
+On Thu, Jan 23, 2020 at 7:19 PM Gilad Ben-Yossef <gilad@benyossef.com> wrote:
+> On Thu, Jan 23, 2020 at 5:46 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > On Thu, Jan 23, 2020 at 12:44 PM Gilad Ben-Yossef <gilad@benyossef.com> wrote:
+> > > On Wed, Jan 22, 2020 at 6:51 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> > > > On Thu, Jan 16, 2020 at 11:25 AM Gilad Ben-Yossef <gilad@benyossef.com> wrote:
+> > > > > A bunch of fixes and code cleanups for the ccree driver
+> > > >
+> > > > Thank you!
+> > > >
+> > > > I wanted to give this a try, but it looks like CCREE is no longer working
+> > > > on R-Car H3, both with/without this series.
+> > > >
+> > > > E.g. with renesas-devel[*] and renesas_defconfig +
+> > > > CONFIG_CRYPTO_MANAGER_DISABLE_TESTS=n, I get the following crash:
+> > >
+> > > Thank you for the bug report Geert!
+> > >
+> > > My R-Car board is on loan at the moment to another project. I didn't
+> > > see this on our internal test board.
+> > > I will track down my R-Car board and reproduce this - hopefully
+> > > beginning of next week and will get back to you.
 > >
-> > David Lechner noticed (paraphrased):
-> > - not all properties from panel-common are applicable.
-> > - missing optional rotation and backlight properties
+> > In the mean time, I've bisected this failure to commit cdfee5623290bc89
+> > ("driver core: initialize a default DMA mask for platform device").
+> > However, this looks like a red herring, and seems to be only an exposer
+> > of an underlying problem.
+>
+> Thank you for continue digging into this.
+>
+> > What's happening is that cc_map_aead_request() receives a request with
+> > cryptlen = 0.  Due to DRV_CRYPTO_DIRECTION_ENCRYPT, the length to map is
+> > increased by 8.  This seems to works fine if there is sufficient space
+> > in the request's scatterlist.  However, if the scatterlist has only a
+> > single entry of size zero, cc_map_sg() tries to map a zero-length DMA
+> > buffer, and the BUG)() is triggered.
 > >
-> > Fix this by listing all allowed properties, and do not allow other properties.
-> >
-> > Fixes: abdd9e3705c8 ("dt-bindings: display: sitronix,st7735r: Convert to DT schema")
-> > Reported-by: David Lechner <david@lechnology.com>
-> > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> 
-> I'm far from a DT yaml expert, but LGTM, so:
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>
+> OK, this does rings a bell - can you verify please if
+> CONFIG_CRYPTO_MANAGER_EXTRA_TESTS is enabled and if it does can you
+> see if it happens if it is turned off?
 
-Thanks, now pushed to drm-misc-next.
+No, I didn't have that option enabled.
 
-	Sam
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
