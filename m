@@ -2,103 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D176914692D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2020 14:34:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E1B63146B09
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 23 Jan 2020 15:19:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726240AbgAWNee (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Jan 2020 08:34:34 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:37479 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726232AbgAWNed (ORCPT
+        id S1728665AbgAWOTc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Jan 2020 09:19:32 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53526 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726780AbgAWOTc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Jan 2020 08:34:33 -0500
-Received: by mail-ot1-f65.google.com with SMTP id k14so2731419otn.4;
-        Thu, 23 Jan 2020 05:34:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IvD3EADISUa2eGwJBUtZ/I7ursXXYtYy2ckThE1zKGo=;
-        b=VX1Y653HPvaUtl9icAZlNnxpcaPy1uFnkk+nbh+PhNUZcg+oSgbXWxjMRSZ+hYQyWt
-         8tlHRqMndaBdEaZoe7aQZT2K3IZvR4kX90gWx7Rd2yTOaOQOQsJwAEyGVQxR/0WIE1k/
-         ciq1QjU6TCLSae0ugt98+9paDYReLJPttcb0Ev3d0IQPL/xA5xghDGtWcVDWVaLX6/sC
-         7pe1Q0yDGNmtoclSYnfx+Khgq+dPfNafuqiq/q+btdDiVb5ik1iyKR1DYozKOf9Gt6CS
-         AXF03XRqLFgwoW6QalNC14m2242Z3kYngvpotY4+yPzFZzHIovlRAWljPPyGufwNWCz6
-         aZZQ==
-X-Gm-Message-State: APjAAAVqizSnZGnytsaaYTDYvZBSMlF1pvwPLUWomhL0xXq6y6OS5uxs
-        KACd412GtJkYjBq15tTGip0ho/Y60PagsGfpxYE=
-X-Google-Smtp-Source: APXvYqyGiks2W7Ua9FASZMvIZ5v/PjZEyFbCIs2EYcuVZm9Y5Obz4ECDPZp8yMab/tnbp9NB+xQHXvRV8A8o3gj09BY=
-X-Received: by 2002:a9d:dc1:: with SMTP id 59mr11319459ots.250.1579786472925;
- Thu, 23 Jan 2020 05:34:32 -0800 (PST)
+        Thu, 23 Jan 2020 09:19:32 -0500
+Received: from localhost (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5E94720718;
+        Thu, 23 Jan 2020 14:19:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1579789171;
+        bh=7Ehhr3RcKJp5rNbXCW0vgv3MFQ61Ixyk+/w7br8QJmQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ck30PxMR219a4zqfvKd4pZH/W0pXpeM6HsUMaSYrapQJaqTeQ74QBD6nwm7Cx6YTj
+         vffmkdId3V46x6gVqqZsYjuA8Gg84SIiF/EpOErte7d8xjV0Qce8UKgD7FSYUKaXj7
+         Lkcta7GlBVGkGWU6j1FiBYhe4TisWB9piXZMdSz0=
+Date:   Thu, 23 Jan 2020 09:19:30 -0500
+From:   Sasha Levin <sashal@kernel.org>
+To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Biju Das <biju.das@bp.renesas.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Simon Horman <horms+renesas@verge.net.au>,
+        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH AUTOSEL 4.19 104/671] ARM: dts: r8a7743: Fix sorting of
+ rwdt node
+Message-ID: <20200123141930.GD1706@sasha-vm>
+References: <20200116165502.8838-1-sashal@kernel.org>
+ <20200116165502.8838-104-sashal@kernel.org>
+ <3a84e4dc-1d2a-3809-ffac-33d75eb73351@cogentembedded.com>
 MIME-Version: 1.0
-References: <1579781234-2084-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-In-Reply-To: <1579781234-2084-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 23 Jan 2020 14:34:21 +0100
-Message-ID: <CAMuHMdXqVFOO=D6AgzBmfW3SPYfGa-sBdZ4a+4nJZD5tFNDcWA@mail.gmail.com>
-Subject: Re: [PATCH v2] usb: host: ehci-platform: add a quirk to avoid stuck
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc:     Greg KH <gregkh@linuxfoundation.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Tony Prisk <linux@prisktech.co.nz>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        USB list <linux-usb@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <3a84e4dc-1d2a-3809-ffac-33d75eb73351@cogentembedded.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Shimoda-san,
-
-On Thu, Jan 23, 2020 at 1:08 PM Yoshihiro Shimoda
-<yoshihiro.shimoda.uh@renesas.com> wrote:
-> Since EHCI/OHCI controllers on R-Car Gen3 SoCs are possible to
-> be getting stuck very rarely after a full/low usb device was
-> disconnected. To detect/recover from such a situation, the controllers
-> require a special way which poll the EHCI PORTSC register and changes
-> the OHCI functional state.
+On Fri, Jan 17, 2020 at 12:32:21PM +0300, Sergei Shtylyov wrote:
+>Hello!
 >
-> So, this patch adds a polling timer into the ehci-platform driver,
-> and if the ehci driver detects the issue by the EHCI PORTSC register,
-> the ehci driver removes a companion device (= the OHCI controller)
-> to change the OHCI functional state to USB Reset once. And then,
-> the ehci driver adds the companion device again.
+>On 16.01.2020 19:45, Sasha Levin wrote:
 >
-> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+>>From: Biju Das <biju.das@bp.renesas.com>
+>>
+>>[ Upstream commit 383f6024981d32425fa453bf2e66b546fdbc1314 ]
+>>
+>>Watchdog node is incorrectly placed on r8a7743 SoC dtsi. This patch fixes
+>>the sorting order.
+>>
+>>Fixes: b5beb5d4c81c358f50a8310108 ("ARM: dts: r8a7743: Add watchdog support to SoC dtsi")
+>>
+>>Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+>>Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+>>Signed-off-by: Sasha Levin <sashal@kernel.org>
+>>---
+>>  arch/arm/boot/dts/r8a7743.dtsi | 20 ++++++++++----------
+>>  1 file changed, 10 insertions(+), 10 deletions(-)
+>
+>   I doubt that the DT node reordering is worth merging into the 
+>-stable kernels...
 
-Thanks for your patch!
-
-> --- a/drivers/usb/host/ehci-platform.c
-> +++ b/drivers/usb/host/ehci-platform.c
-
-> +static const struct soc_device_attribute quirk_poll_match[] = {
-> +       { .soc_id = "r8a7795" },
-> +       { .soc_id = "r8a77951" },
-
-As .soc_id is derived from the main compatible value, it is "r8a7795" for both
-R-Car H3 ES1.x (R8A77950) and ES2.0+ (R8A77951).
-
-> +       { .soc_id = "r8a7796" },
-> +       { .soc_id = "r8a77961" },
-> +       { .soc_id = "r8a77965" },
-> +       { .soc_id = "r8a77990" },
-> +       { .soc_id = "r8a77995" },
-
-Instead of matching on .soc_id, you can also match on .family = "R-Car Gen3"
-(until we discover a future family member that is not affected?).
-
-I guess this affects RZ/G2, too? .family = "RZ/G2".
-
-Gr{oetje,eeting}s,
-
-                        Geert
+You're right, I'll drop it. Thanks!
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Thanks,
+Sasha
