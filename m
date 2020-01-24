@@ -2,166 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C47E148637
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2020 14:33:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 240DD1489AE
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2020 15:37:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388539AbgAXNdg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Jan 2020 08:33:36 -0500
-Received: from laurent.telenet-ops.be ([195.130.137.89]:35924 "EHLO
-        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388500AbgAXNdf (ORCPT
+        id S2387724AbgAXOgZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Jan 2020 09:36:25 -0500
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:56339 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387834AbgAXOgY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Jan 2020 08:33:35 -0500
-Received: from ramsan ([84.195.182.253])
-        by laurent.telenet-ops.be with bizsmtp
-        id uDZX210025USYZQ01DZX3g; Fri, 24 Jan 2020 14:33:33 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iuz5X-0007fb-2B; Fri, 24 Jan 2020 14:33:31 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1iuz5X-0004DK-0M; Fri, 24 Jan 2020 14:33:31 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     Gilad Ben-Yossef <gilad@benyossef.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] arm64: dts: renesas: rcar-gen3: Add CCREE nodes
-Date:   Fri, 24 Jan 2020 14:33:30 +0100
-Message-Id: <20200124133330.16121-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Fri, 24 Jan 2020 09:36:24 -0500
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 4003E3C00C5;
+        Fri, 24 Jan 2020 15:36:22 +0100 (CET)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id ukhDIUqbeiym; Fri, 24 Jan 2020 15:36:16 +0100 (CET)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id F284C3C009E;
+        Fri, 24 Jan 2020 15:36:15 +0100 (CET)
+Received: from vmlxhi-118.adit-jv.com (10.72.93.77) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Fri, 24 Jan
+ 2020 15:36:15 +0100
+From:   Hardik Gajjar <hgajjar@de.adit-jv.com>
+To:     <gregkh@linuxfoundation.org>, <stern@rowland.harvard.edu>,
+        <thinhn@synopsys.com>, <Kento.A.Kobayashi@sony.com>,
+        <atmgnd@outlook.com>
+CC:     <andrew_gabbasov@mentor.com>, <erosca@de.adit-jv.com>,
+        <linux-renesas-soc@vger.kernel.org>
+Subject: [PATCH] USB: hub: Fix the broken detection of USB3 device in SMSC hub
+Date:   Fri, 24 Jan 2020 15:36:13 +0100
+Message-ID: <1579876573-13741-1-git-send-email-hgajjar@de.adit-jv.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.72.93.77]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add device nodes for the CryptoCell instances on the various Renesas
-R-Car Gen3 SoCs that do not have support for them yet in their device
-trees (M3-W, M3-W+, M3-N, E3, D3).
+This patch disables the auto-suspend feature for SMSC USB hub.
+Renesas-RCAR3-H3-KF board was not able to detect the USB3.0 devices.
+The XHCI driver was going to sleep and not wake up again on connection
+of the USB3.0 device. According to Renesas, This is because of some
+hardware issue.
 
-The R-Car H3 device tree already supports this device.
+Renesas-RCAR3-H3-KF has USB5534B 4-port SuperSpeed/Hi-Speed, low-power,
+configurable hub controller.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Hardik Gajjar <hgajjar@de.adit-jv.com>
 ---
-Tested on:
-  - Salvator-X with R-Car M3-W ES1.0,
-  - Salvator-XS with R-Car M3-W+ ES3.0,
-  - Salvator-XS with R-Car M3-N ES1.0,
-  - Ebisu-4D with R-Car E3 ES1.0,
-  - Draak with R-Car D3 ES1.0.
+ drivers/usb/core/hub.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-$ grep selftest /proc/crypto | sort | uniq -c
-    116 selftest     : passed
----
- arch/arm64/boot/dts/renesas/r8a77960.dtsi | 9 +++++++++
- arch/arm64/boot/dts/renesas/r8a77961.dtsi | 9 +++++++++
- arch/arm64/boot/dts/renesas/r8a77965.dtsi | 9 +++++++++
- arch/arm64/boot/dts/renesas/r8a77990.dtsi | 9 +++++++++
- arch/arm64/boot/dts/renesas/r8a77995.dtsi | 9 +++++++++
- 5 files changed, 45 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/renesas/r8a77960.dtsi b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
-index 988b83fe62d485eb..ea03b91bdf9d9cbc 100644
---- a/arch/arm64/boot/dts/renesas/r8a77960.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
-@@ -862,6 +862,15 @@
- 			status = "disabled";
- 		};
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 939dd73a..ffc7abf 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -36,7 +36,9 @@
+ #include "otg_whitelist.h"
  
-+		arm_cc630p: crypto@e6601000 {
-+			compatible = "arm,cryptocell-630p-ree";
-+			interrupts = <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>;
-+			reg = <0x0 0xe6601000 0 0x1000>;
-+			clocks = <&cpg CPG_MOD 229>;
-+			resets = <&cpg 229>;
-+			power-domains = <&sysc R8A7796_PD_ALWAYS_ON>;
-+		};
-+
- 		dmac0: dma-controller@e6700000 {
- 			compatible = "renesas,dmac-r8a7796",
- 				     "renesas,rcar-dmac";
-diff --git a/arch/arm64/boot/dts/renesas/r8a77961.dtsi b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-index be3824bda632233e..b6915319a61c8bf0 100644
---- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-@@ -629,6 +629,15 @@
- 			/* placeholder */
- 		};
+ #define USB_VENDOR_GENESYS_LOGIC		0x05e3
++#define USB_VENDOR_SMSC    			0x0424
+ #define HUB_QUIRK_CHECK_PORT_AUTOSUSPEND	0x01
++#define HUB_QUIRK_DISABLE_AUTOSUSPEND		0x02
  
-+		arm_cc630p: crypto@e6601000 {
-+			compatible = "arm,cryptocell-630p-ree";
-+			interrupts = <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>;
-+			reg = <0x0 0xe6601000 0 0x1000>;
-+			clocks = <&cpg CPG_MOD 229>;
-+			resets = <&cpg 229>;
-+			power-domains = <&sysc R8A77961_PD_ALWAYS_ON>;
-+		};
-+
- 		dmac0: dma-controller@e6700000 {
- 			compatible = "renesas,dmac-r8a77961",
- 				     "renesas,rcar-dmac";
-diff --git a/arch/arm64/boot/dts/renesas/r8a77965.dtsi b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-index 7d2b283b7f556b1d..1a20ebe9ea5be5da 100644
---- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-@@ -717,6 +717,15 @@
- 			status = "disabled";
- 		};
+ #define USB_VENDOR_UNWIRED			0x2996
+ #define USB_VENDOR_DELPHI			0x2C48
+@@ -1822,6 +1824,9 @@ static int hub_probe(struct usb_interface *intf, const struct usb_device_id *id)
+ 	if (id->driver_info & HUB_QUIRK_NO_LOGICAL_DISCONNECT)
+ 		hub->quirk_no_logical_disconnect = 1;
  
-+		arm_cc630p: crypto@e6601000 {
-+			compatible = "arm,cryptocell-630p-ree";
-+			interrupts = <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>;
-+			reg = <0x0 0xe6601000 0 0x1000>;
-+			clocks = <&cpg CPG_MOD 229>;
-+			resets = <&cpg 229>;
-+			power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-+		};
++	if (id->driver_info & HUB_QUIRK_DISABLE_AUTOSUSPEND)
++		pm_runtime_set_autosuspend_delay(&hdev->dev, -1);
 +
- 		dmac0: dma-controller@e6700000 {
- 			compatible = "renesas,dmac-r8a77965",
- 				     "renesas,rcar-dmac";
-diff --git a/arch/arm64/boot/dts/renesas/r8a77990.dtsi b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-index 80e8ef3007c5b646..c05ee98043b2c7a5 100644
---- a/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-@@ -667,6 +667,15 @@
- 			dma-channels = <2>;
- 		};
+ 	if (hub_configure(hub, &desc->endpoint[0].desc) >= 0)
+ 		return 0;
  
-+		arm_cc630p: crypto@e6601000 {
-+			compatible = "arm,cryptocell-630p-ree";
-+			interrupts = <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>;
-+			reg = <0x0 0xe6601000 0 0x1000>;
-+			clocks = <&cpg CPG_MOD 229>;
-+			resets = <&cpg 229>;
-+			power-domains = <&sysc R8A77990_PD_ALWAYS_ON>;
-+		};
-+
- 		dmac0: dma-controller@e6700000 {
- 			compatible = "renesas,dmac-r8a77990",
- 				     "renesas,rcar-dmac";
-diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-index 2b5c39bd86856579..7d3102dccac96e42 100644
---- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
-@@ -389,6 +389,15 @@
- 			dma-channels = <2>;
- 		};
+@@ -5313,6 +5318,10 @@ static void hub_event(struct work_struct *work)
+ }
  
-+		arm_cc630p: crypto@e6601000 {
-+			compatible = "arm,cryptocell-630p-ree";
-+			interrupts = <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>;
-+			reg = <0x0 0xe6601000 0 0x1000>;
-+			clocks = <&cpg CPG_MOD 229>;
-+			resets = <&cpg 229>;
-+			power-domains = <&sysc R8A77995_PD_ALWAYS_ON>;
-+		};
-+
- 		canfd: can@e66c0000 {
- 			compatible = "renesas,r8a77995-canfd",
- 				     "renesas,rcar-gen3-canfd";
+ static const struct usb_device_id hub_id_table[] = {
++    { .match_flags = USB_DEVICE_ID_MATCH_VENDOR | USB_DEVICE_ID_MATCH_INT_CLASS,
++      .idVendor = USB_VENDOR_SMSC,
++      .bInterfaceClass = USB_CLASS_HUB,
++      .driver_info = HUB_QUIRK_DISABLE_AUTOSUSPEND},
+     { .match_flags = USB_DEVICE_ID_MATCH_VENDOR
+ 			| USB_DEVICE_ID_MATCH_INT_CLASS,
+       .idVendor = USB_VENDOR_GENESYS_LOGIC,
 -- 
-2.17.1
+2.7.4
 
