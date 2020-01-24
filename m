@@ -2,153 +2,162 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B847148BF1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2020 17:24:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FF4C149095
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2020 22:58:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388134AbgAXQY4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Jan 2020 11:24:56 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:39612 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388002AbgAXQY4 (ORCPT
+        id S1726725AbgAXV57 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Jan 2020 16:57:59 -0500
+Received: from mail-yb1-f196.google.com ([209.85.219.196]:35644 "EHLO
+        mail-yb1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725821AbgAXV57 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Jan 2020 11:24:56 -0500
-Received: by mail-lj1-f194.google.com with SMTP id o11so3145257ljc.6
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 24 Jan 2020 08:24:54 -0800 (PST)
+        Fri, 24 Jan 2020 16:57:59 -0500
+Received: by mail-yb1-f196.google.com with SMTP id q190so1717441ybq.2;
+        Fri, 24 Jan 2020 13:57:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=2ZKQV9EUYn6O4Dwbxq9ZK3GxrnLNGiu/KoVo8Ur0eNc=;
-        b=1mGfJTx6KGaWGxumVkRlwu8JFX/T7ZxAi/ZPOibqWqzJC0d3Q6qE/tOOl1kSg0+arG
-         D+PfJu2DBY2lwp7fRrB9iFZ8Kr5f8m1MnAXwgNUfBLiHhOplxnUQLiRv/XHQI6S+EYuH
-         rpbt9IJH9DSh8+FVausrel1GvuhSQ6rZXs5HYp/wKDRdwASexD4MFTHeJ/MlErj+G0Dl
-         KFa4TU/4uMQL8oFQEGVlSczqhIBQiIhhNyMfoLHbPL6rVEBHh/jdu4mapAPNAS/p5I6M
-         VQgNDC1USFdKJQfbBnSsLWvtMEcip/ygylNCs8Vloj9hboY9ZfPNvoEYtqHp2P4ZcRCK
-         D51A==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=FAgORkqjjQWplSt9zJQeczIU9aNbThp1xcMsMJfyq+Y=;
+        b=VpCxTbGcQ0V0/R3sS4OeSE6EGkbPL0lOUOIzs42gE48xq633Q1/8Tnf4c35lP/BQGK
+         pasXqcFCk7obZOD8f5MLzdSZ6GrKGkXJjSfNSxxi0DPwtXyIUXKDpz0nbq3xxL+/h7TV
+         59KHVYvQGAhY1u44szVqcpvsr/k43DABswn5ipfFXiWtRjnjBNneIosq3POD0l59rSWA
+         gDWMNI7byCHb5kGgvuvJgCXXkTXYpIWqP+JfHQ8StWJZzyLCRyqN8VBdXi3ow57w9m57
+         Q/Ne5VUTkno/kRIM7qeEgx0Wklq2KnsHUoypgkY249y+spvoMcOauYJPwn2HZHdHN2GN
+         Felg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=2ZKQV9EUYn6O4Dwbxq9ZK3GxrnLNGiu/KoVo8Ur0eNc=;
-        b=r+fxqvhgDkOH5iTr0YbHregXUVejNmCnG0Ge/wKVBgGMPFN0eIK/R5r1Tx1bJHFj9r
-         +9DK7qlGKGaJw2uWl66R0CrecAaZgkXxMUqtxLQyGgA3DvJOk4+Ldyn/NBha8CWZMS8M
-         8chNT6bsfudqgUzTaZ99no75r2A82B7XJZeTkl3rW2GlktHQAqPC0RI2AQnK7NFJdZIa
-         3CNim9veoLR8I2J1S6uaDoOaY12U0cRLMhSKi4JRHgKhal6D2UcCF9ZKSaLRHRMDVFFr
-         t4GbyWfBejD+M/Kdi74DnUYceN/I/cecFBF8s8O7c/X4xB/HJn+XAe8mHOnJeUFhFggU
-         dtkQ==
-X-Gm-Message-State: APjAAAUMC1cDCrPxf8K6Fltktc1Au9B5T5dyfSttPTN1JafCR1C8QfGr
-        05OPAutnMSw6dYQkhajl3Csxlg==
-X-Google-Smtp-Source: APXvYqwD3R6qmy6UAfp7uxu+afZInN2SHuLh7/0SKxfwyTm+CAMduCTdKlx73HrpU5r6GS5WWyvYzQ==
-X-Received: by 2002:a2e:3a13:: with SMTP id h19mr2778997lja.16.1579883094015;
-        Fri, 24 Jan 2020 08:24:54 -0800 (PST)
-Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
-        by smtp.gmail.com with ESMTPSA id q14sm2974605lfc.60.2020.01.24.08.24.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jan 2020 08:24:53 -0800 (PST)
-Date:   Fri, 24 Jan 2020 17:24:52 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Gilad Ben-Yossef <gilad@benyossef.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S . Miller" <davem@davemloft.net>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
-        Felipe Balbi <balbi@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Bin Liu <b-liu@ti.com>, linux-crypto@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] Fix debugfs register access while suspended
-Message-ID: <20200124162452.GC286344@oden.dyn.berto.se>
-References: <20200124132957.15769-1-geert+renesas@glider.be>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=FAgORkqjjQWplSt9zJQeczIU9aNbThp1xcMsMJfyq+Y=;
+        b=N8kJm/t5PofOGQaU/wfM/ah2+4lhnjNBts5mNdgZs0P05eXffprOWAf3mImKTTcoZo
+         tXroWh8yUduOD/ycm9XMWE3iQ1oVtU3coYEJdBDz++dVGzp9ercZWrNeo2xkRZLpHKXd
+         C8ZYzwhkH+uZ2X/wBmexKh6epWv2AgIQn8+MGzhk2hIo8cM8UjoH7MNXOsMQ8dL9tbij
+         SzTw5JacvPMaEyno4p2O0kCoozS6KjevXjltXo9cDzBWahLcHCNcjT8l+uAg8DZhcnCD
+         GMyxvAzwcDTSkI0nf4ACPELmasSe7uEseCukO1i+LT+yTgWUx5wQVdxUilh+xXyWFVSe
+         JwAQ==
+X-Gm-Message-State: APjAAAUMixYV5xDQRTcTCmlI9KYLng70am1kq5IbC6C9eNdxHPI/E+zI
+        4IX5EqxRwMClZKHam2C9pLQ=
+X-Google-Smtp-Source: APXvYqzVbEeZtHr5DuKQ0VnGjzr5Ff6DvzTWn142G41ZVqDxUi8S4qU+GYb2P4b40NsfZ0LeXkx0kw==
+X-Received: by 2002:a25:e696:: with SMTP id d144mr4150569ybh.316.1579903077801;
+        Fri, 24 Jan 2020 13:57:57 -0800 (PST)
+Received: from [192.168.1.46] (c-73-88-245-53.hsd1.tn.comcast.net. [73.88.245.53])
+        by smtp.gmail.com with ESMTPSA id a12sm2935604ywa.95.2020.01.24.13.57.56
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 24 Jan 2020 13:57:57 -0800 (PST)
+Subject: Re: [PATCH/RFC 2/2] gpio: of: Add DT overlay support for GPIO hogs
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Peter Ujfalusi <peter.ujfalusi@ti.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20191230133852.5890-1-geert+renesas@glider.be>
+ <20191230133852.5890-3-geert+renesas@glider.be>
+ <41e1c51e-bc17-779e-8c68-bf2e652871eb@gmail.com>
+ <70d24070-4f6d-8fc8-1214-1bd800cb5246@gmail.com>
+ <CAMuHMdUQbRqyv1FK5JTbL-XL_YPZx8Sf9tQfU-eCozCNyDXYBA@mail.gmail.com>
+From:   Frank Rowand <frowand.list@gmail.com>
+Message-ID: <a58d8d75-00b3-dcbf-8cdf-0b774bbf5be0@gmail.com>
+Date:   Fri, 24 Jan 2020 15:57:56 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200124132957.15769-1-geert+renesas@glider.be>
+In-Reply-To: <CAMuHMdUQbRqyv1FK5JTbL-XL_YPZx8Sf9tQfU-eCozCNyDXYBA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On 1/7/20 2:11 AM, Geert Uytterhoeven wrote:
+> Hi Frank,
+> 
+> On Tue, Jan 7, 2020 at 8:10 AM Frank Rowand <frowand.list@gmail.com> wrote:
+>> On 1/6/20 5:34 PM, Frank Rowand wrote:
+>>> On 12/30/19 7:38 AM, Geert Uytterhoeven wrote:
+>>>> As GPIO hogs are configured at GPIO controller initialization time,
+>>>> adding/removing GPIO hogs in DT overlays does not work.
+>>>>
+>>>> Add support for GPIO hogs described in DT overlays by registering an OF
+>>>> reconfiguration notifier, to handle the addition and removal of GPIO hog
+>>>> subnodes to/from a GPIO controller device node.
+>>>>
+>>>> Note that when a GPIO hog device node is being removed, its "gpios"
+>>>> properties is no longer available, so we have to keep track of which
+>>>> node a hog belongs to, which is done by adding a pointer to the hog's
+>>>> device node to struct gpio_desc.
+>>>
+>>> If I have read the patches and the existing overlay source correctly,
+>>> then some observations:
+>>>
+>>> - A gpio hog node added in an overlay will be properly processed.
+>>>
+>>> - A gpio hog node already existing in the live devicetree, but with a
+>>>   non-active status will be properly processed if the status of the
+>>>   gpio hog node is changed to "ok" in the overlay.
 
-Thanks for your series.
+Verified by testing.
 
-On 2020-01-24 14:29:55 +0100, Geert Uytterhoeven wrote:
-> 	Hi all,
-> 
-> While comparing register values read from debugfs files under
-> /sys/kernel/debug/ccree/, I noticed some oddities.
-> Apparently there is no guarantee these registers are read from the
-> device while it is resumed.  This may lead to bogus values, or crashes
-> and lock-ups.
-> 
-> This patch series:
->   1. Allows debugfs_create_regset32() to be used for devices whose
->      registers must be accessed when resumed,
->   2. Fixes the CCREE driver to make use of this.
-> 
-> I have identified several other drivers that may be affected (i.e.
-> using debugfs_create_regset32() and pm_runtime_*()):
->   - drivers/gpu/drm/msm/disp/dpu1
->   - drivers/usb/dwc3
->   - drivers/usb/host/ehci-omap.c
->   - drivers/usb/host/ehci-tegra.c
->   - drivers/usb/host/ohci-platform.c
->   - drivers/usb/host/xhci.c
->   - drivers/usb/host/xhci-dbgcap.c
->   - drivers/usb/host/xhci-histb.c
->   - drivers/usb/host/xhci-hub.c
->   - drivers/usb/host/xhci-mtk.c
->   - drivers/usb/host/xhci-pci.c
->   - drivers/usb/host/xhci-plat.c
->   - drivers/usb/host/xhci-tegra.c
->   - drivers/usb/mtu3
->   - drivers/usb/musb
-> 
-> Some of these call pm_runtime_forbid(), but given the comment "users
-> should enable runtime pm using power/control in sysfs", this can be
-> overridden from userspace, so these are unsafe, too?
-> 
-> Thanks for your comments!
 
-Looks good to me,
+>>> - If a gpio hog node already exists in the live devicetree with an
+>>>   active status, then any updated or added properties in that gpio
+>>>   hog node in the overlay will have no effect.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
+Should be documented.
 
+
+>>>   There is a scenario where the updated property would have an effect:
+>>>   apply a second overlay that sets the status to inactive, then apply
+>>>   a third overlay that sets the status back to active.  This is a
+>>>   rather contrived example and I think it should be documented as
+>>>   not supported and the result undefined.
+
+I was wrong in this case.
+
+of_reconfig_get_state_change() does not simply report whether a node
+is added or removed, which confused me because it returns
+OF_RECONFIG_CHANGE_ADD and OF_RECONFIG_CHANGE_REMOVE (as well as
+no change), which I was incorrectly translating to node added or
+node removed.   OF_RECONFIG_CHANGE_ADD and OF_RECONFIG_CHANGE_REMOVE
+properly report a node becoming available or available due to changes
+in the "status" property, as well as accounting for a node being
+added or removed.
+
+So the case that I was worried about is handled correctly.
+
+
+>> I went back and double checked the related code.  For gpio hog nodes
+>> that are in a non-overlay, the status property is checked because
+>> of_gpiochip_scan_gpios() uses for_each_available_child_of_node()
+>> to search for gpio hog nodes, and for_each_available_child_of_node()
+>> checks the status property.  But in the case of a gpio hog node
+>> added by an overlay, of_gpio_notify() does not check the status
+>> property in the gpio hog node.  The check for the status property
+>> should be added to of_gpio_notify().
 > 
-> Geert Uytterhoeven (2):
->   debugfs: regset32: Add Runtime PM support
->   crypto: ccree - fix debugfs register access while suspended
-> 
->  drivers/crypto/ccree/cc_debugfs.c | 2 ++
->  fs/debugfs/file.c                 | 8 ++++++++
->  include/linux/debugfs.h           | 1 +
->  3 files changed, 11 insertions(+)
-> 
-> -- 
-> 2.17.1
+> Right.  of_device_is_available() should be called to check this.
+> Note that of_i2c_notify() and of_spi_notify() also lack such a check.
+> of_platform_notify() calls of_platform_device_create_pdata(), which does
+> have the check.
+
+And thus I was wrong about this also, so of_gpio_notify() does not need to
+check the status property, since of_reconfig_get_state_change() already
+implicitly incorporates this check.
+
 > 
 > Gr{oetje,eeting}s,
 > 
-> 						Geert
+>                         Geert
 > 
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-> 
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
-> 							    -- Linus Torvalds
 
--- 
-Regards,
-Niklas Söderlund
