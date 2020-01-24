@@ -2,146 +2,119 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B3095147695
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2020 02:20:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B07B4147776
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2020 05:12:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730336AbgAXBUp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 23 Jan 2020 20:20:45 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60196 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730366AbgAXBRS (ORCPT
+        id S1729827AbgAXEMg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 23 Jan 2020 23:12:36 -0500
+Received: from mail-eopbgr1410125.outbound.protection.outlook.com ([40.107.141.125]:6931
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729641AbgAXEMf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 23 Jan 2020 20:17:18 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 75AAD2071E;
-        Fri, 24 Jan 2020 01:17:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579828637;
-        bh=14siYZSO9Gnx/JKTpNTZO/Ck4Uyg4bLyMf/9qF8vPhM=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Vpjd/i3c7gjGEnd5+FRHwZjfxBE2QmsPzN4UIC7WwEgyX+iEeLLbHgH2bbd1yZHKx
-         K+4z1ePujPmNJjL08TBheC/VPvXCMtYHPehf9F+C1Bw203vkYwXxZWxjYdSwMfVopN
-         RT5mKIBlWnbrjE2Zm9pAvEjj2Atji3hQEFFX1ngs=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Sasha Levin <sashal@kernel.org>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 07/33] drm: rcar_lvds: Fix color mismatches on R-Car H2 ES2.0 and later
-Date:   Thu, 23 Jan 2020 20:16:42 -0500
-Message-Id: <20200124011708.18232-7-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200124011708.18232-1-sashal@kernel.org>
-References: <20200124011708.18232-1-sashal@kernel.org>
+        Thu, 23 Jan 2020 23:12:35 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=j1Rhf6rDqxTo3CRY0e3G+Uy/Jql8fMt2ZtWiMUIsaRvJr8kLPHyRIgCPLZ5AzAQXNJpEnlYxX7uSsIxVak2L7gX3Yv9Uih81YXOTUrcARQxOgHKoAKBFjhPd1tu9kBCT0KPZNBK7XMqMaz9JpaknagJ5p5oOdFzrF83Y7PtUQu3ek0jLHv7jW4yfSoBo8IVh4J9gi+WRKCqkdzts9U/HEgf1HaYuUfSs5YMJj7SR+qSlojP0odGhxBVlEGLvL1JVULS1x9f/wBfZ8cnJMMnu/MP5ddfCakqqkIM97xz2T7boaTIx03V05xO9ZReV9jBdRAxlaWxb4IiqZ0R3NSjQyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3qclDkUi//48yzdK81mQY4Z9xEogzn/P6lW6B0dkR4c=;
+ b=ZiH2Cw2gFGUsDda8Ga5AD/apaRqLvR08KQA01dStgn8Yu1egiIZkhZgTPudgDnJEMAwqnfgoFvdBQPkLo14mbndKJ7pW/yeyXLDQUvEqPDFlYSaB5D9nN8PNQ0FDZPgUXshKY121jpfhJiFHceoZLNuK8mHYZ86KyFp97BO04b4PM4Bc+y9vB9PIsXLvE7QGc+eP/H6qmIniaAZoE1Fs/XrOnLG5eclANMq7KbNt5VxGCvzFXGW9Vji5q+kOdBLyXyiPtuwrkfsAZg5LVbsd14aPQEyIUssSVc/qrWBAtSiA9XWowwvpDg8MT8e+xl4zJB3A34AOMn901M5pSj+0RA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3qclDkUi//48yzdK81mQY4Z9xEogzn/P6lW6B0dkR4c=;
+ b=o9kKJTeWjfleQw0R7a3HBfqRVyKhnphLAbdoSq3WBeAczPjFBhNSpQBKttOKO0RuVBPkTFolq56sTTF0cgEuIsbnsTRPxeb6HGJ43w1LuuRWRhaxI7bk1dO92jzdQxHg6QYtl+dl8WdSne9p0ZTA67mXXJHaFOXKVFWyGG8nWIU=
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
+ TYAPR01MB4846.jpnprd01.prod.outlook.com (20.179.186.23) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2665.21; Fri, 24 Jan 2020 04:12:32 +0000
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::318b:31aa:4212:bd49]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::318b:31aa:4212:bd49%7]) with mapi id 15.20.2665.017; Fri, 24 Jan 2020
+ 04:12:32 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Greg KH <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Tony Prisk <linux@prisktech.co.nz>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        USB list <linux-usb@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH v2] usb: host: ehci-platform: add a quirk to avoid stuck
+Thread-Topic: [PATCH v2] usb: host: ehci-platform: add a quirk to avoid stuck
+Thread-Index: AQHV0eWnau2SnovLYkCRv0gNW3Qw46f4P9eAgAD0h0A=
+Date:   Fri, 24 Jan 2020 04:12:31 +0000
+Message-ID: <TYAPR01MB45443172A8C024BAA509F682D80E0@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+References: <1579781234-2084-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+ <CAMuHMdXqVFOO=D6AgzBmfW3SPYfGa-sBdZ4a+4nJZD5tFNDcWA@mail.gmail.com>
+In-Reply-To: <CAMuHMdXqVFOO=D6AgzBmfW3SPYfGa-sBdZ4a+4nJZD5tFNDcWA@mail.gmail.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [150.249.235.54]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: b97f02e2-9296-43dc-36f8-08d7a083a250
+x-ms-traffictypediagnostic: TYAPR01MB4846:
+x-microsoft-antispam-prvs: <TYAPR01MB4846626E4E7205BB2E5F6FADD80E0@TYAPR01MB4846.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-forefront-prvs: 02929ECF07
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(396003)(346002)(376002)(39860400002)(136003)(366004)(199004)(189003)(2906002)(5660300002)(7696005)(66556008)(66446008)(64756008)(66476007)(6916009)(76116006)(52536014)(66946007)(71200400001)(54906003)(26005)(186003)(316002)(478600001)(55016002)(6506007)(9686003)(33656002)(4326008)(86362001)(8936002)(8676002)(81166006)(81156014);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB4846;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: G1Miro+bFtcbPLfRz+mZ/S+4qVad228bo8UzBTzSY+pg/TGar1qENofBiLQGQS/G+YW8DTHWYsitbBkFRhvIkUUEr/2mPn4Ozo6luVErVC4pChMgWMeE+61MVkczplvhu6G/HJN+AsGlqbIvqlhqbrY30gvJCOPq+tMQg9olX4qFsAz2y40wpdHZvIzpO0aq5nFxARZSYPKjVCAbz/WPlrR2YTeP05w7uerJ2xUxXhe1RIRiieJXTb9m2+3bIrw2HNAO8WNZ5GO4vLtht+10/4AQ/oeNzoqYoTMzouJsV4f5nc2ThthdUoQ9AxkxaqPmRwm94awkUgV4AkPw/LqrMNXAM4HDEW825ME7kDk3L2iVwY6Z7A7o/NUj4TFTSCkGNqfsPU5BRB3vwJXVCunvIdaEtgazGZJkL4VFIzHQPn0Asy/GDDA15pKH8Vnsf+D4
+x-ms-exchange-antispam-messagedata: xz6pfhmrOOxnxNKdNxGdpozfv0eYiQIaZ1ICgZnCz/3Y1ZKa4fqa6sp7XeqUhQnHFghj1E9WbYc9g5f1vuO4PyEWjV90rXs5bdAH9unAixpNQyi0bWl8GA71T0cllUqUKkJC9kOpZzwMWc6TwkYASA==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b97f02e2-9296-43dc-36f8-08d7a083a250
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jan 2020 04:12:31.9361
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wztDv+66BduVnB/Dml7l4tYFkNtLBCel0w6fze4AFueFwjpngw7J+KpHd+FfF0ygFam55UFqCadQz1cvnkhKmn/11n5EXBP1qcN2RblELTOB6lJQuF3Ij+MfWQIkoQBu
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4846
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-
-[ Upstream commit 3986457110a054466bf02f9c4a85aa2bba96177b ]
-
-Commit 5cca30ebe089be23 ("drm/rcar-du: Add LVDS_LANES quirk") states
-that LVDS lanes 1 and 3 are inverted on R-Car H2 ES1 only, and that the
-problem has been fixed in newer revisions.
-
-However, the code didn't take into account the actual hardware revision,
-thus applying the quirk also on newer hardware revisions, causing green
-color reversals.
-
-Fix this by applying the quirk when running on R-Car H2 ES1.x only.
-
-Reported-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Fixes: 5cca30ebe089be23 ("drm/rcar-du: Add LVDS_LANES quirk")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/rcar-du/rcar_lvds.c | 28 +++++++++++++++++++++-------
- 1 file changed, 21 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-index 3fc7e6899cab5..50c11a7f0467f 100644
---- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-@@ -16,6 +16,7 @@
- #include <linux/of_graph.h>
- #include <linux/platform_device.h>
- #include <linux/slab.h>
-+#include <linux/sys_soc.h>
- 
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
-@@ -842,8 +843,23 @@ static int rcar_lvds_get_clocks(struct rcar_lvds *lvds)
- 	return 0;
- }
- 
-+static const struct rcar_lvds_device_info rcar_lvds_r8a7790es1_info = {
-+	.gen = 2,
-+	.quirks = RCAR_LVDS_QUIRK_LANES,
-+	.pll_setup = rcar_lvds_pll_setup_gen2,
-+};
-+
-+static const struct soc_device_attribute lvds_quirk_matches[] = {
-+	{
-+		.soc_id = "r8a7790", .revision = "ES1.*",
-+		.data = &rcar_lvds_r8a7790es1_info,
-+	},
-+	{ /* sentinel */ }
-+};
-+
- static int rcar_lvds_probe(struct platform_device *pdev)
- {
-+	const struct soc_device_attribute *attr;
- 	struct rcar_lvds *lvds;
- 	struct resource *mem;
- 	int ret;
-@@ -857,6 +873,10 @@ static int rcar_lvds_probe(struct platform_device *pdev)
- 	lvds->dev = &pdev->dev;
- 	lvds->info = of_device_get_match_data(&pdev->dev);
- 
-+	attr = soc_device_match(lvds_quirk_matches);
-+	if (attr)
-+		lvds->info = attr->data;
-+
- 	ret = rcar_lvds_parse_dt(lvds);
- 	if (ret < 0)
- 		return ret;
-@@ -893,12 +913,6 @@ static const struct rcar_lvds_device_info rcar_lvds_gen2_info = {
- 	.pll_setup = rcar_lvds_pll_setup_gen2,
- };
- 
--static const struct rcar_lvds_device_info rcar_lvds_r8a7790_info = {
--	.gen = 2,
--	.quirks = RCAR_LVDS_QUIRK_LANES,
--	.pll_setup = rcar_lvds_pll_setup_gen2,
--};
--
- static const struct rcar_lvds_device_info rcar_lvds_gen3_info = {
- 	.gen = 3,
- 	.quirks = RCAR_LVDS_QUIRK_PWD,
-@@ -930,7 +944,7 @@ static const struct of_device_id rcar_lvds_of_table[] = {
- 	{ .compatible = "renesas,r8a7744-lvds", .data = &rcar_lvds_gen2_info },
- 	{ .compatible = "renesas,r8a774a1-lvds", .data = &rcar_lvds_gen3_info },
- 	{ .compatible = "renesas,r8a774c0-lvds", .data = &rcar_lvds_r8a77990_info },
--	{ .compatible = "renesas,r8a7790-lvds", .data = &rcar_lvds_r8a7790_info },
-+	{ .compatible = "renesas,r8a7790-lvds", .data = &rcar_lvds_gen2_info },
- 	{ .compatible = "renesas,r8a7791-lvds", .data = &rcar_lvds_gen2_info },
- 	{ .compatible = "renesas,r8a7793-lvds", .data = &rcar_lvds_gen2_info },
- 	{ .compatible = "renesas,r8a7795-lvds", .data = &rcar_lvds_gen3_info },
--- 
-2.20.1
-
+SGkgR2VlcnQtc2FuLA0KDQpUaGFuayB5b3UgZm9yIHlvdXIgcmV2aWV3IQ0KDQo+IEZyb206IEdl
+ZXJ0IFV5dHRlcmhvZXZlbiwgU2VudDogVGh1cnNkYXksIEphbnVhcnkgMjMsIDIwMjAgMTA6MzQg
+UE0NCjxzbmlwPg0KPiA+IC0tLSBhL2RyaXZlcnMvdXNiL2hvc3QvZWhjaS1wbGF0Zm9ybS5jDQo+
+ID4gKysrIGIvZHJpdmVycy91c2IvaG9zdC9laGNpLXBsYXRmb3JtLmMNCj4gDQo+ID4gK3N0YXRp
+YyBjb25zdCBzdHJ1Y3Qgc29jX2RldmljZV9hdHRyaWJ1dGUgcXVpcmtfcG9sbF9tYXRjaFtdID0g
+ew0KPiA+ICsgICAgICAgeyAuc29jX2lkID0gInI4YTc3OTUiIH0sDQo+ID4gKyAgICAgICB7IC5z
+b2NfaWQgPSAicjhhNzc5NTEiIH0sDQo+IA0KPiBBcyAuc29jX2lkIGlzIGRlcml2ZWQgZnJvbSB0
+aGUgbWFpbiBjb21wYXRpYmxlIHZhbHVlLCBpdCBpcyAicjhhNzc5NSIgZm9yIGJvdGgNCj4gUi1D
+YXIgSDMgRVMxLnggKFI4QTc3OTUwKSBhbmQgRVMyLjArIChSOEE3Nzk1MSkuDQoNCk9oLCBJIGdv
+dCBpdC4NCg0KPiA+ICsgICAgICAgeyAuc29jX2lkID0gInI4YTc3OTYiIH0sDQo+ID4gKyAgICAg
+ICB7IC5zb2NfaWQgPSAicjhhNzc5NjEiIH0sDQo+ID4gKyAgICAgICB7IC5zb2NfaWQgPSAicjhh
+Nzc5NjUiIH0sDQo+ID4gKyAgICAgICB7IC5zb2NfaWQgPSAicjhhNzc5OTAiIH0sDQo+ID4gKyAg
+ICAgICB7IC5zb2NfaWQgPSAicjhhNzc5OTUiIH0sDQo+IA0KPiBJbnN0ZWFkIG9mIG1hdGNoaW5n
+IG9uIC5zb2NfaWQsIHlvdSBjYW4gYWxzbyBtYXRjaCBvbiAuZmFtaWx5ID0gIlItQ2FyIEdlbjMi
+DQo+ICh1bnRpbCB3ZSBkaXNjb3ZlciBhIGZ1dHVyZSBmYW1pbHkgbWVtYmVyIHRoYXQgaXMgbm90
+IGFmZmVjdGVkPykuDQoNClRoYW5rIHlvdSBmb3IgdGhpcyBzdWdnZXN0aW9uLiBJJ2xsIHVzZSBz
+dWNoIGEgLmZhbWlseSAodW50aWwgdGhlbikuDQoNCj4gSSBndWVzcyB0aGlzIGFmZmVjdHMgUlov
+RzIsIHRvbz8gLmZhbWlseSA9ICJSWi9HMiIuDQoNCkkgdGhpbmsgc28uIFNvLCBJJ2xsIGFkZCAi
+UlovRzIiIG9uIHYzIHBhdGNoLg0KDQpCZXN0IHJlZ2FyZHMsDQpZb3NoaWhpcm8gU2hpbW9kYQ0K
+DQo+IEdye29ldGplLGVldGluZ31zLA0KPiANCj4gICAgICAgICAgICAgICAgICAgICAgICAgR2Vl
+cnQNCj4gDQo+IC0tDQo+IEdlZXJ0IFV5dHRlcmhvZXZlbiAtLSBUaGVyZSdzIGxvdHMgb2YgTGlu
+dXggYmV5b25kIGlhMzIgLS0gZ2VlcnRAbGludXgtbTY4ay5vcmcNCj4gDQo+IEluIHBlcnNvbmFs
+IGNvbnZlcnNhdGlvbnMgd2l0aCB0ZWNobmljYWwgcGVvcGxlLCBJIGNhbGwgbXlzZWxmIGEgaGFj
+a2VyLiBCdXQNCj4gd2hlbiBJJ20gdGFsa2luZyB0byBqb3VybmFsaXN0cyBJIGp1c3Qgc2F5ICJw
+cm9ncmFtbWVyIiBvciBzb21ldGhpbmcgbGlrZSB0aGF0Lg0KPiAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIC0tIExpbnVzIFRvcnZhbGRzDQo=
