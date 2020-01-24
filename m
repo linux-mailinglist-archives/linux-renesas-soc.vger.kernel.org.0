@@ -2,31 +2,28 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BDF3148AE6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2020 16:07:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54794148B24
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2020 16:18:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388315AbgAXPHQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Jan 2020 10:07:16 -0500
-Received: from iolanthe.rowland.org ([192.131.102.54]:48894 "HELO
+        id S2389354AbgAXPSZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Jan 2020 10:18:25 -0500
+Received: from iolanthe.rowland.org ([192.131.102.54]:48942 "HELO
         iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S2388032AbgAXPHQ (ORCPT
+        with SMTP id S2387611AbgAXPSY (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Jan 2020 10:07:16 -0500
-Received: (qmail 1708 invoked by uid 2102); 24 Jan 2020 10:07:15 -0500
+        Fri, 24 Jan 2020 10:18:24 -0500
+Received: (qmail 1782 invoked by uid 2102); 24 Jan 2020 10:18:23 -0500
 Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 24 Jan 2020 10:07:15 -0500
-Date:   Fri, 24 Jan 2020 10:07:15 -0500 (EST)
+  by localhost with SMTP; 24 Jan 2020 10:18:23 -0500
+Date:   Fri, 24 Jan 2020 10:18:23 -0500 (EST)
 From:   Alan Stern <stern@rowland.harvard.edu>
 X-X-Sender: stern@iolanthe.rowland.org
-To:     Hardik Gajjar <hgajjar@de.adit-jv.com>
-cc:     gregkh@linuxfoundation.org, <thinhn@synopsys.com>,
-        <Kento.A.Kobayashi@sony.com>, <atmgnd@outlook.com>,
-        <andrew_gabbasov@mentor.com>, <erosca@de.adit-jv.com>,
-        <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] USB: hub: Fix the broken detection of USB3 device in
- SMSC hub
-In-Reply-To: <1579876573-13741-1-git-send-email-hgajjar@de.adit-jv.com>
-Message-ID: <Pine.LNX.4.44L0.2001241002090.1610-100000@iolanthe.rowland.org>
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+cc:     gregkh@linuxfoundation.org, <linux@prisktech.co.nz>,
+        <linux-usb@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v3] usb: host: ehci-platform: add a quirk to avoid stuck
+In-Reply-To: <1579840923-10709-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Message-ID: <Pine.LNX.4.44L0.2001241012160.1610-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -34,66 +31,43 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, 24 Jan 2020, Hardik Gajjar wrote:
+On Fri, 24 Jan 2020, Yoshihiro Shimoda wrote:
 
-> This patch disables the auto-suspend feature for SMSC USB hub.
-> Renesas-RCAR3-H3-KF board was not able to detect the USB3.0 devices.
-> The XHCI driver was going to sleep and not wake up again on connection
-> of the USB3.0 device. According to Renesas, This is because of some
-> hardware issue.
+> Since EHCI/OHCI controllers on R-Car Gen3 SoCs are possible to
+> be getting stuck very rarely after a full/low usb device was
+> disconnected. To detect/recover from such a situation, the controllers
+> require a special way which poll the EHCI PORTSC register and changes
+> the OHCI functional state.
 > 
-> Renesas-RCAR3-H3-KF has USB5534B 4-port SuperSpeed/Hi-Speed, low-power,
-> configurable hub controller.
+> So, this patch adds a polling timer into the ehci-platform driver,
+> and if the ehci driver detects the issue by the EHCI PORTSC register,
+> the ehci driver removes a companion device (= the OHCI controller)
+> to change the OHCI functional state to USB Reset once. And then,
+> the ehci driver adds the companion device again.
 > 
-> Signed-off-by: Hardik Gajjar <hgajjar@de.adit-jv.com>
-> ---
->  drivers/usb/core/hub.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> index 939dd73a..ffc7abf 100644
-> --- a/drivers/usb/core/hub.c
-> +++ b/drivers/usb/core/hub.c
-> @@ -36,7 +36,9 @@
->  #include "otg_whitelist.h"
->  
->  #define USB_VENDOR_GENESYS_LOGIC		0x05e3
-> +#define USB_VENDOR_SMSC    			0x0424
->  #define HUB_QUIRK_CHECK_PORT_AUTOSUSPEND	0x01
-> +#define HUB_QUIRK_DISABLE_AUTOSUSPEND		0x02
->  
->  #define USB_VENDOR_UNWIRED			0x2996
->  #define USB_VENDOR_DELPHI			0x2C48
-> @@ -1822,6 +1824,9 @@ static int hub_probe(struct usb_interface *intf, const struct usb_device_id *id)
->  	if (id->driver_info & HUB_QUIRK_NO_LOGICAL_DISCONNECT)
->  		hub->quirk_no_logical_disconnect = 1;
->  
-> +	if (id->driver_info & HUB_QUIRK_DISABLE_AUTOSUSPEND)
-> +		pm_runtime_set_autosuspend_delay(&hdev->dev, -1);
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-This is not a good way to prevent autosuspend, because the user can 
-override it.  If you really want to prevent the hub from 
-autosuspending, you should call usb_autoresume_device() or 
-usb_autopm_get_interface().  Either way, it is then necessary to issue 
-a corresponding call to usb_autosuspend_device() or 
-usb_autopm_put_interface_no_suspend() later on.
+All good, except for one thing at the end...
+
+> diff --git a/include/linux/usb/ehci_def.h b/include/linux/usb/ehci_def.h
+> index a15ce99..0ebfa74 100644
+> --- a/include/linux/usb/ehci_def.h
+> +++ b/include/linux/usb/ehci_def.h
+> @@ -150,6 +150,7 @@ struct ehci_regs {
+>  #define PORT_LED_MASK	(3<<14)
+>  #define PORT_OWNER	(1<<13)		/* true: companion hc owns this port */
+>  #define PORT_POWER	(1<<12)		/* true: has power (see PPC) */
+> +#define PORT_LS_MASK	(3<<10)		/* USB 1.1 device */
+
+The comment should say: /* Link status (SE0, K, or J) */ 
+
+>  #define PORT_USB11(x) (((x)&(3<<10)) == (1<<10))	/* USB 1.1 device */
+>  /* 11:10 for detecting lowspeed devices (reset vs release ownership) */
+
+You can remove this comment now.  Since there is an actual macro for
+bits 11:10, we don't need a separate comment saying what they are.
 
 Alan Stern
 
-> +
->  	if (hub_configure(hub, &desc->endpoint[0].desc) >= 0)
->  		return 0;
->  
-> @@ -5313,6 +5318,10 @@ static void hub_event(struct work_struct *work)
->  }
->  
->  static const struct usb_device_id hub_id_table[] = {
-> +    { .match_flags = USB_DEVICE_ID_MATCH_VENDOR | USB_DEVICE_ID_MATCH_INT_CLASS,
-> +      .idVendor = USB_VENDOR_SMSC,
-> +      .bInterfaceClass = USB_CLASS_HUB,
-> +      .driver_info = HUB_QUIRK_DISABLE_AUTOSUSPEND},
->      { .match_flags = USB_DEVICE_ID_MATCH_VENDOR
->  			| USB_DEVICE_ID_MATCH_INT_CLASS,
->        .idVendor = USB_VENDOR_GENESYS_LOGIC,
-> 
+>  /* 9 reserved */
 
