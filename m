@@ -2,117 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 70499147901
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2020 08:30:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4580F148622
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2020 14:30:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726275AbgAXHat (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Jan 2020 02:30:49 -0500
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:53954 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725817AbgAXHat (ORCPT
+        id S2388129AbgAXNaT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Jan 2020 08:30:19 -0500
+Received: from andre.telenet-ops.be ([195.130.132.53]:42546 "EHLO
+        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388216AbgAXNaS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Jan 2020 02:30:49 -0500
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00O7UgH4116840;
-        Fri, 24 Jan 2020 01:30:42 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1579851042;
-        bh=fwxS2W+1ZFB+/kTUBBZJRc5qB3L808Q64mTzFJjeHn8=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=XJGwy4YIdXgSZk88O/d8FgdrO9f8V34sMnIWgUjqUYAl0K8aJBreAXyTR3TSBXm+S
-         gJ88SFhdSEj+aFTqP1QRtyL6zJZO21RqQ4lK/CgsVVzKU6UbxJE4gUtQWGkXKiOY5d
-         tkKMuPCkzdsMqZNJJFNsJKCnIr9/AOWXFg5IqHv8=
-Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00O7UgZv124740;
-        Fri, 24 Jan 2020 01:30:42 -0600
-Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 24
- Jan 2020 01:30:41 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Fri, 24 Jan 2020 01:30:41 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00O7Ud4h086929;
-        Fri, 24 Jan 2020 01:30:39 -0600
-Subject: Re: [PATCH v2] dmaengine: Create symlinks between DMA channels and
- slaves
-To:     Vinod Koul <vkoul@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-CC:     Dan Williams <dan.j.williams@intel.com>,
-        <dmaengine@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20200117153056.31363-1-geert+renesas@glider.be>
- <d2b669e7-a5d4-20ec-5b54-103b71df7407@ti.com>
- <CAMuHMdVzQCWvH-LJ9ME5dRyafudZBHQLaJQzkSCPnughv_q2aA@mail.gmail.com>
- <1cdc4f71-f365-8c9e-4634-408c59e6a3f9@ti.com>
- <CAMuHMdU=-Eo29=DQmq96OegdYAvW7Vw9PpgNWSTfjDWVF5jd-A@mail.gmail.com>
- <f7bbb132-1278-7030-7f40-b89733bcbd83@ti.com>
- <CAMuHMdXDiwTomiKp8Kaw0NvMNpg78-M88F0mNTWBOz5MLE4LtQ@mail.gmail.com>
- <20200122094002.GS2841@vkoul-mobl> <20200124061359.GF2841@vkoul-mobl>
-From:   Peter Ujfalusi <peter.ujfalusi@ti.com>
-Message-ID: <876eb72f-db74-86b5-5f2c-7fc9a5252421@ti.com>
-Date:   Fri, 24 Jan 2020 09:31:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <20200124061359.GF2841@vkoul-mobl>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+        Fri, 24 Jan 2020 08:30:18 -0500
+Received: from ramsan ([84.195.182.253])
+        by andre.telenet-ops.be with bizsmtp
+        id uDW42100T5USYZQ01DW4BW; Fri, 24 Jan 2020 14:30:17 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1iuz2C-0007bG-Cp; Fri, 24 Jan 2020 14:30:04 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1iuz2C-00047A-AH; Fri, 24 Jan 2020 14:30:04 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Gilad Ben-Yossef <gilad@benyossef.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        "Rafael J . Wysocki" <rafael@kernel.org>
+Cc:     Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+        Felipe Balbi <balbi@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Bin Liu <b-liu@ti.com>, linux-crypto@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 0/2] Fix debugfs register access while suspended
+Date:   Fri, 24 Jan 2020 14:29:55 +0100
+Message-Id: <20200124132957.15769-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Vinod, Geert,
+	Hi all,
 
-On 24/01/2020 8.13, Vinod Koul wrote:
-> On 22-01-20, 15:10, Vinod Koul wrote:
-> 
->> I like the idea of adding this in debugfs and giving more info, I would
->> actually love to add bytes_transferred and few more info (descriptors
->> submitted etc) to it...
->>
->>>> This way we will have all the information in one place, easy to look up
->>>> and you don't need to manage symlinks dynamically, just check all
->>>> channels if they have slave_device/name when they are in_use (in_use w/o
->>>> slave_device is 'non slave')
->>>>
->>>> Some drivers are requesting and releasing the DMA channel per transfer
->>>> or when they are opened/closed or other variations.
->>>>
->>>>> What do other people think?
->>>
->>> Vinod: do you have some guidance for your minions? ;-)
->>
->>
->> That said, I am not against merging this patch while we add more
->> (debugfs)... So do my minions agree or they have better ideas :-)
-> 
-> So no new ideas, I am going to apply this and queue for 5.6, something
-> is better than nothing.
+While comparing register values read from debugfs files under
+/sys/kernel/debug/ccree/, I noticed some oddities.
+Apparently there is no guarantee these registers are read from the
+device while it is resumed.  This may lead to bogus values, or crashes
+and lock-ups.
 
-My only issue with the symlink is that it is created/removed on some
-setups quite frequently as they request/release channel per transfer or
-open/close.
-It might be a small hit in performance, but it is going to be for them.
+This patch series:
+  1. Allows debugfs_create_regset32() to be used for devices whose
+     registers must be accessed when resumed,
+  2. Fixes the CCREE driver to make use of this.
 
-> And I am looking forward for debugfs to give better picture, volunteers?
+I have identified several other drivers that may be affected (i.e.
+using debugfs_create_regset32() and pm_runtime_*()):
+  - drivers/gpu/drm/msm/disp/dpu1
+  - drivers/usb/dwc3
+  - drivers/usb/host/ehci-omap.c
+  - drivers/usb/host/ehci-tegra.c
+  - drivers/usb/host/ohci-platform.c
+  - drivers/usb/host/xhci.c
+  - drivers/usb/host/xhci-dbgcap.c
+  - drivers/usb/host/xhci-histb.c
+  - drivers/usb/host/xhci-hub.c
+  - drivers/usb/host/xhci-mtk.c
+  - drivers/usb/host/xhci-pci.c
+  - drivers/usb/host/xhci-plat.c
+  - drivers/usb/host/xhci-tegra.c
+  - drivers/usb/mtu3
+  - drivers/usb/musb
 
-Well, I still feel that the debugfs can give better view in one place
-and in production it can be disabled to save few bytes per channel and
-code is not complied in.
+Some of these call pm_runtime_forbid(), but given the comment "users
+should enable runtime pm using power/control in sysfs", this can be
+overridden from userspace, so these are unsafe, too?
 
-If we have the debugfs we can remove some of the sysfs devices files
-probably.
+Thanks for your comments!
 
-gpiolib have a nice implementation for us to lift and adapt.
+Geert Uytterhoeven (2):
+  debugfs: regset32: Add Runtime PM support
+  crypto: ccree - fix debugfs register access while suspended
 
-- Péter
+ drivers/crypto/ccree/cc_debugfs.c | 2 ++
+ fs/debugfs/file.c                 | 8 ++++++++
+ include/linux/debugfs.h           | 1 +
+ 3 files changed, 11 insertions(+)
 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+-- 
+2.17.1
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
