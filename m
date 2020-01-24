@@ -2,41 +2,82 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F28A01477CE
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2020 06:00:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 70659147878
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2020 07:14:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725787AbgAXFAi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Jan 2020 00:00:38 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58002 "EHLO mail.kernel.org"
+        id S1729904AbgAXGOE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 24 Jan 2020 01:14:04 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60870 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725298AbgAXFAi (ORCPT
+        id S1725817AbgAXGOE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Jan 2020 00:00:38 -0500
-Content-Type: text/plain; charset="utf-8"
+        Fri, 24 Jan 2020 01:14:04 -0500
+Received: from localhost (unknown [106.200.244.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 554BE20718;
+        Fri, 24 Jan 2020 06:14:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1579842038;
-        bh=38A4UFf2BmaWU/aLqIQJcrjEIASIG2JG9zJve3PgL5U=;
-        h=Subject:From:Date:To:From;
-        b=UIW6zqUeGgiEu6227KbhrNi23b71FQX9aVG3aa2fNMDjL66YDYCUKL4wknXVu0Bb2
-         w4K+CVXi7tHWxd7decuiW/tbwhTlTdLnSsQK4IE4fD/oEldaRKA6P9Tr1NxHrjaC9e
-         zT3dtFzBgAfH2LmcMJDUTyhxYif+ik7YPc2kGwTA=
+        s=default; t=1579846443;
+        bh=hPxhx/xkr883zKOO/zMMfJPW/taB/rLS1YKC4mlh6lk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=T9WGunnW/1R9rfdy6tqpXM3FIhxOtgH53RKUV4kOIwE7qw21RWr4WNvLEmi6T+Lu0
+         hns2Zb6wxzSlK1jGqgXWZKDYuDC3W/VRRVQWrId8EaMw1SwM/u/h4gNrbk3FarxVYJ
+         RdVMCrC9YLXeog6o6MqvIr7oah0xGyVQyLc35NnE=
+Date:   Fri, 24 Jan 2020 11:43:59 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Peter Ujfalusi <peter.ujfalusi@ti.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        dmaengine@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] dmaengine: Create symlinks between DMA channels and
+ slaves
+Message-ID: <20200124061359.GF2841@vkoul-mobl>
+References: <20200117153056.31363-1-geert+renesas@glider.be>
+ <d2b669e7-a5d4-20ec-5b54-103b71df7407@ti.com>
+ <CAMuHMdVzQCWvH-LJ9ME5dRyafudZBHQLaJQzkSCPnughv_q2aA@mail.gmail.com>
+ <1cdc4f71-f365-8c9e-4634-408c59e6a3f9@ti.com>
+ <CAMuHMdU=-Eo29=DQmq96OegdYAvW7Vw9PpgNWSTfjDWVF5jd-A@mail.gmail.com>
+ <f7bbb132-1278-7030-7f40-b89733bcbd83@ti.com>
+ <CAMuHMdXDiwTomiKp8Kaw0NvMNpg78-M88F0mNTWBOz5MLE4LtQ@mail.gmail.com>
+ <20200122094002.GS2841@vkoul-mobl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork housekeeping for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <157984203799.30206.8262558101783042938.git-patchwork-housekeeping@kernel.org>
-Date:   Fri, 24 Jan 2020 05:00:37 +0000
-To:     linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200122094002.GS2841@vkoul-mobl>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Latest series: [v3] usb: host: ehci-platform: add a quirk to avoid stuck (2020-01-24T04:42:03)
-  Superseding: [v2] usb: host: ehci-platform: add a quirk to avoid stuck (2020-01-23T12:07:14):
-    [v2] usb: host: ehci-platform: add a quirk to avoid stuck
+On 22-01-20, 15:10, Vinod Koul wrote:
 
+> I like the idea of adding this in debugfs and giving more info, I would
+> actually love to add bytes_transferred and few more info (descriptors
+> submitted etc) to it...
+> 
+> > > This way we will have all the information in one place, easy to look up
+> > > and you don't need to manage symlinks dynamically, just check all
+> > > channels if they have slave_device/name when they are in_use (in_use w/o
+> > > slave_device is 'non slave')
+> > >
+> > > Some drivers are requesting and releasing the DMA channel per transfer
+> > > or when they are opened/closed or other variations.
+> > >
+> > > > What do other people think?
+> > 
+> > Vinod: do you have some guidance for your minions? ;-)
+> 
+> 
+> That said, I am not against merging this patch while we add more
+> (debugfs)... So do my minions agree or they have better ideas :-)
+
+So no new ideas, I am going to apply this and queue for 5.6, something
+is better than nothing.
+
+And I am looking forward for debugfs to give better picture, volunteers?
 
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+~Vinod
