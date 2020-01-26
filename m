@@ -2,169 +2,153 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5782D1490A6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 24 Jan 2020 23:02:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AFBD4149AD0
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Jan 2020 14:33:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729016AbgAXWCc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 24 Jan 2020 17:02:32 -0500
-Received: from mail-yw1-f65.google.com ([209.85.161.65]:46582 "EHLO
-        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728731AbgAXWCb (ORCPT
+        id S1727321AbgAZNdK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 26 Jan 2020 08:33:10 -0500
+Received: from mail-vk1-f195.google.com ([209.85.221.195]:44340 "EHLO
+        mail-vk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727215AbgAZNdJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 24 Jan 2020 17:02:31 -0500
-Received: by mail-yw1-f65.google.com with SMTP id u139so1589332ywf.13;
-        Fri, 24 Jan 2020 14:02:30 -0800 (PST)
+        Sun, 26 Jan 2020 08:33:09 -0500
+Received: by mail-vk1-f195.google.com with SMTP id y184so1847608vkc.11
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 26 Jan 2020 05:33:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=zFiHwuMtp9FCMHuqkYpXxiBeZnK3ss0THxxh5gVFKqY=;
-        b=rsX4D5HgnOHy3N9WmIKUTj3WjFlmyBbVt/RTx9u1k1JRhJYhFmoNTG++e+B4gxQGAz
-         RZ8YmNDH9IoclhAtofAJjiWnmS+ICguvPY87IRsmnSyviGXPxOeYkkauiUE2drFDmBSJ
-         VIqlF0RIN473B7p3st30q5A0QxFcAZfz5bmeTdgv/c79/iI6dEDcEXLbCRKk6JxhOp2B
-         9j/7dyR4DVR8QndawAP+FydwJxmC0vyA+QtVE3NH1aTyriY57J3bsNBcbLHzk7VDhwrj
-         N4UpdxM+CgIaczQoKNojfqdgJuYCSCh8uDS1yCmu72MWRu4jLF/eAyIFiW9ieDiP3hNj
-         ytSA==
+        d=benyossef-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=emKfjakMK0JQ5BS5YCFkbZaOfKcUBqnq7Vw1qMXzarA=;
+        b=ai+SUiF/UB+ocFDZG4bWX3gairRXyO3KEZs3g3zkaG+2pYyYWK3fd9bt+E7Rar+SD4
+         EIwg+XvovGF4K2Odgt+HUesXodKNd95varMryoGJqOHTWZQOv6S1c9horPbB6zQHQUFj
+         z9zcOiYdUC0xWDGg/8FTElf80uvRJry+UUYvrQXpXo/t3fWys/BSnSQ76GW5zuNCsO1l
+         pZM6EFHBmDXPG3u5Ed5vydQglmNUzoQYPbUyeuzEM07UGxpDHAax8tnbup1DAOHP7Yde
+         /cxPg5ADJdZmZUlDdaVtddv2qRPpZENEBJutlRleqIojB4JNHjUkH8vvrlvOeC3MPHmZ
+         7vyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=zFiHwuMtp9FCMHuqkYpXxiBeZnK3ss0THxxh5gVFKqY=;
-        b=HO6ZemkIEp977/1grOw+USzZ/BNQiU9ficaPr9j2PqiTTPI6v0jK4Bvjh5maDPcOB2
-         /rEBjbh2TTqBEEJYU4AStSW0HXyv1gSpXbWVua1WNQezD6VoL/aLgHoRZVz2tJTfSnTE
-         uCb8nj1qfhcn0J6TTbScbta3SDMguFgI1VQQo9o9sLHxeb+wevAl7kSOUzKbIQ28Vx1u
-         u8QTX1iKvMlk/4/nSokzFIxSo7ektf1ltRiodXMW8pkeUgHbojR8jAdadBCucwE2xhBj
-         NaC2NrKLv27IALWXpaQik6mK3Pu1VKML4yF9qBNfF/gtKE0lleYpn09bMXjkK6dlVhHs
-         O1oA==
-X-Gm-Message-State: APjAAAUDLqxtLajIkiF4uzVKc65jS0JCmvhkPo3qCNE9OiHy5MBMLA9c
-        7KzhErmLIuILigQKbtz+sV0=
-X-Google-Smtp-Source: APXvYqwvOnS7O6xR9GtG4Hi0afUgGYvBlhIiQeC1bhuUvEpkOxoqoL7N0p46A2BRuqh2iZOQXqT+gA==
-X-Received: by 2002:a81:8350:: with SMTP id t77mr3625861ywf.442.1579903350395;
-        Fri, 24 Jan 2020 14:02:30 -0800 (PST)
-Received: from [192.168.1.46] (c-73-88-245-53.hsd1.tn.comcast.net. [73.88.245.53])
-        by smtp.gmail.com with ESMTPSA id e186sm2761729ywb.73.2020.01.24.14.02.29
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 24 Jan 2020 14:02:30 -0800 (PST)
-Subject: Re: [PATCH/RFC 2/2] gpio: of: Add DT overlay support for GPIO hogs
-From:   Frank Rowand <frowand.list@gmail.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@ti.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20191230133852.5890-1-geert+renesas@glider.be>
- <20191230133852.5890-3-geert+renesas@glider.be>
- <41e1c51e-bc17-779e-8c68-bf2e652871eb@gmail.com>
- <70d24070-4f6d-8fc8-1214-1bd800cb5246@gmail.com>
- <CAMuHMdUQbRqyv1FK5JTbL-XL_YPZx8Sf9tQfU-eCozCNyDXYBA@mail.gmail.com>
- <a58d8d75-00b3-dcbf-8cdf-0b774bbf5be0@gmail.com>
-Message-ID: <a281b966-7ffd-74d1-911d-f106026c8c8d@gmail.com>
-Date:   Fri, 24 Jan 2020 16:02:29 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=emKfjakMK0JQ5BS5YCFkbZaOfKcUBqnq7Vw1qMXzarA=;
+        b=pt2pntRxV5puEhUeDb83sCBE7HyQV7A8W/DS3/Nducde9s4QOt/HFzTC0MixRSTtlL
+         6tNeDKyJlg9n/m1tfPD53bPJcYtwe5Wao1dxpS/e2kr1R5NLbvaS5RQlsL4UJjHZoD29
+         OeMV8dJNjK0Z1uSe1NnZCxhBsP5075Afc8AR4HOA7ikoHNECuKUCEHZjAez0cNkcQ50c
+         X/CsF63owcbzIYmi+l9q9f/nRsotUpQRG8djKXe8tsZLTwLyCZ0zrHlvivbOHT8E856F
+         5h/1dFAuemEN+SI51NM67YeapYxZd4uIr0hN7GEZWZWp4mZP5oDFwfxDPL9iNMKFi6kY
+         RYzg==
+X-Gm-Message-State: APjAAAUYgc4ErwOfTk3/6HSFfA0DhijZ2bvBWcZZhL1CPqC7EenI/FHE
+        dz1CQqPyyEzzTW7ntHAjuGCAizFgG/ADvMLiAEKs1A==
+X-Google-Smtp-Source: APXvYqwbEI5BxpWOjvqHw3OF1B1QFbz8m5/83C3fLpV6wDo9RxMYmlGUd3KSZPynqahIUdu2vYZLu7TpEP7jm7Xn4b4=
+X-Received: by 2002:ac5:cd8c:: with SMTP id i12mr5971417vka.100.1580045588469;
+ Sun, 26 Jan 2020 05:33:08 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <a58d8d75-00b3-dcbf-8cdf-0b774bbf5be0@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200124132957.15769-1-geert+renesas@glider.be> <20200124132957.15769-3-geert+renesas@glider.be>
+In-Reply-To: <20200124132957.15769-3-geert+renesas@glider.be>
+From:   Gilad Ben-Yossef <gilad@benyossef.com>
+Date:   Sun, 26 Jan 2020 15:32:50 +0200
+Message-ID: <CAOtvUMdA2aD9DJBmSpOJOFRw=1_9OcaG4Y915q5L7dgo7n7HTA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] crypto: ccree - fix debugfs register access while suspended
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S . Miller" <davem@davemloft.net>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+        Felipe Balbi <balbi@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Bin Liu <b-liu@ti.com>,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        "open list:THERMAL" <linux-pm@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-usb@vger.kernel.org,
+        Linux kernel mailing list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 1/24/20 3:57 PM, Frank Rowand wrote:
-> On 1/7/20 2:11 AM, Geert Uytterhoeven wrote:
->> Hi Frank,
->>
->> On Tue, Jan 7, 2020 at 8:10 AM Frank Rowand <frowand.list@gmail.com> wrote:
->>> On 1/6/20 5:34 PM, Frank Rowand wrote:
->>>> On 12/30/19 7:38 AM, Geert Uytterhoeven wrote:
->>>>> As GPIO hogs are configured at GPIO controller initialization time,
->>>>> adding/removing GPIO hogs in DT overlays does not work.
->>>>>
->>>>> Add support for GPIO hogs described in DT overlays by registering an OF
->>>>> reconfiguration notifier, to handle the addition and removal of GPIO hog
->>>>> subnodes to/from a GPIO controller device node.
->>>>>
->>>>> Note that when a GPIO hog device node is being removed, its "gpios"
->>>>> properties is no longer available, so we have to keep track of which
->>>>> node a hog belongs to, which is done by adding a pointer to the hog's
->>>>> device node to struct gpio_desc.
->>>>
->>>> If I have read the patches and the existing overlay source correctly,
->>>> then some observations:
->>>>
->>>> - A gpio hog node added in an overlay will be properly processed.
->>>>
->>>> - A gpio hog node already existing in the live devicetree, but with a
->>>>   non-active status will be properly processed if the status of the
->>>>   gpio hog node is changed to "ok" in the overlay.
-> 
-> Verified by testing.
-> 
-> 
->>>> - If a gpio hog node already exists in the live devicetree with an
->>>>   active status, then any updated or added properties in that gpio
->>>>   hog node in the overlay will have no effect.
-> 
-> Should be documented.
-> 
-> 
->>>>   There is a scenario where the updated property would have an effect:
->>>>   apply a second overlay that sets the status to inactive, then apply
->>>>   a third overlay that sets the status back to active.  This is a
->>>>   rather contrived example and I think it should be documented as
->>>>   not supported and the result undefined.
-> 
-> I was wrong in this case.
-> 
-> of_reconfig_get_state_change() does not simply report whether a node
-> is added or removed, which confused me because it returns
-> OF_RECONFIG_CHANGE_ADD and OF_RECONFIG_CHANGE_REMOVE (as well as
-> no change), which I was incorrectly translating to node added or
-> node removed.   OF_RECONFIG_CHANGE_ADD and OF_RECONFIG_CHANGE_REMOVE
-> properly report a node becoming available or available due to changes
-                                            ^^^^^^^^^^^^
-                                            or unavailable
+On Fri, Jan 24, 2020 at 3:30 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+>
+> Reading the debugfs files under /sys/kernel/debug/ccree/ can be done by
+> the user at any time.  On R-Car SoCs, the CCREE device is power-managed
+> using a moduile clock, and if this clock is not running, bogus register
+> values may be read.
+>
+> Fix this by filling in the debugfs_regset32.dev field, so debugfs will
+> make sure the device is resumed while its registers are being read.
+>
+> This fixes the bogus values (0x00000260) in the register dumps on R-Car
+> H3 ES1.0:
+>
+>     -e6601000.crypto/regs:HOST_IRR =3D 0x00000260
+>     -e6601000.crypto/regs:HOST_POWER_DOWN_EN =3D 0x00000260
+>     +e6601000.crypto/regs:HOST_IRR =3D 0x00000038
+>     +e6601000.crypto/regs:HOST_POWER_DOWN_EN =3D 0x00000038
+>      e6601000.crypto/regs:AXIM_MON_ERR =3D 0x00000000
+>      e6601000.crypto/regs:DSCRPTR_QUEUE_CONTENT =3D 0x000002aa
+>     -e6601000.crypto/regs:HOST_IMR =3D 0x00000260
+>     +e6601000.crypto/regs:HOST_IMR =3D 0x017ffeff
+>      e6601000.crypto/regs:AXIM_CFG =3D 0x001f0007
+>      e6601000.crypto/regs:AXIM_CACHE_PARAMS =3D 0x00000000
+>     -e6601000.crypto/regs:GPR_HOST =3D 0x00000260
+>     +e6601000.crypto/regs:GPR_HOST =3D 0x017ffeff
+>      e6601000.crypto/regs:AXIM_MON_COMP =3D 0x00000000
+>     -e6601000.crypto/version:SIGNATURE =3D 0x00000260
+>     -e6601000.crypto/version:VERSION =3D 0x00000260
+>     +e6601000.crypto/version:SIGNATURE =3D 0xdcc63000
+>     +e6601000.crypto/version:VERSION =3D 0xaf400001
+>
+> Note that this behavior is system-dependent, and the issue does not show
+> up on all R-Car Gen3 SoCs and boards.  Even when the device is
+> suspended, the module clock may be left enabled, if configured by the
+> firmware for Secure Mode, or when controlled by the Real-Time Core.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/crypto/ccree/cc_debugfs.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/crypto/ccree/cc_debugfs.c b/drivers/crypto/ccree/cc_=
+debugfs.c
+> index 5669997386988055..35f3a2137502bd96 100644
+> --- a/drivers/crypto/ccree/cc_debugfs.c
+> +++ b/drivers/crypto/ccree/cc_debugfs.c
+> @@ -81,6 +81,7 @@ int cc_debugfs_init(struct cc_drvdata *drvdata)
+>         regset->regs =3D debug_regs;
+>         regset->nregs =3D ARRAY_SIZE(debug_regs);
+>         regset->base =3D drvdata->cc_base;
+> +       regset->dev =3D dev;
+>
+>         ctx->dir =3D debugfs_create_dir(drvdata->plat_dev->name, cc_debug=
+fs_dir);
+>
+> @@ -102,6 +103,7 @@ int cc_debugfs_init(struct cc_drvdata *drvdata)
+>                 verset->nregs =3D ARRAY_SIZE(pid_cid_regs);
+>         }
+>         verset->base =3D drvdata->cc_base;
+> +       verset->dev =3D dev;
+>
+>         debugfs_create_regset32("version", 0400, ctx->dir, verset);
+>
+> --
+> 2.17.1
+>
 
-> in the "status" property, as well as accounting for a node being
-> added or removed.
-> 
-> So the case that I was worried about is handled correctly.
-> 
-> 
->>> I went back and double checked the related code.  For gpio hog nodes
->>> that are in a non-overlay, the status property is checked because
->>> of_gpiochip_scan_gpios() uses for_each_available_child_of_node()
->>> to search for gpio hog nodes, and for_each_available_child_of_node()
->>> checks the status property.  But in the case of a gpio hog node
->>> added by an overlay, of_gpio_notify() does not check the status
->>> property in the gpio hog node.  The check for the status property
->>> should be added to of_gpio_notify().
->>
->> Right.  of_device_is_available() should be called to check this.
->> Note that of_i2c_notify() and of_spi_notify() also lack such a check.
->> of_platform_notify() calls of_platform_device_create_pdata(), which does
->> have the check.
-> 
-> And thus I was wrong about this also, so of_gpio_notify() does not need to
-> check the status property, since of_reconfig_get_state_change() already
-> implicitly incorporates this check.
-> 
->>
->> Gr{oetje,eeting}s,
->>
->>                         Geert
->>
-> 
-> 
 
+Acked-by: Gilad Ben-Yossef <gilad@benyossef.com>
+
+Thanks,
+Gilad
+--=20
+Gilad Ben-Yossef
+Chief Coffee Drinker
+
+values of =CE=B2 will give rise to dom!
