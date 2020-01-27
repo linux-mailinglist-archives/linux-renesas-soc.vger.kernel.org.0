@@ -2,127 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 012ED149AD8
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 26 Jan 2020 14:38:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D2CCD149E92
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2020 06:08:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726772AbgAZNiR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 26 Jan 2020 08:38:17 -0500
-Received: from mail-vs1-f67.google.com ([209.85.217.67]:35877 "EHLO
-        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726323AbgAZNiR (ORCPT
+        id S1725840AbgA0FIf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Jan 2020 00:08:35 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57590 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725308AbgA0FIe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 26 Jan 2020 08:38:17 -0500
-Received: by mail-vs1-f67.google.com with SMTP id e188so3842866vse.3
-        for <linux-renesas-soc@vger.kernel.org>; Sun, 26 Jan 2020 05:38:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=benyossef-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6eLMDTU2DdPGk8XS1y0kzPwySf3dVWxuBK+qfT4vpSQ=;
-        b=ZfbIppOEH4vp7GQxcacxvAI6ZWnd5bWP/Y1usgF7+j7P3djAoJVN3DFHhU6b0Cy7x9
-         tkYech8F7MjSaGpfn0QtHmNSXXWQCZFDZhVwEaG2e4866Wb2WJT7sY0v0JW1AMMtYcRf
-         KiyYsJ8Vpm550nzQvV0TUE59Y5NmfG1VeD9qTxpCCKWOGEJMyt6+kuFqu6pRsI80zBZT
-         62jaQCatKaOIVkoi56/eoNkGf9wEEaXqjBpI/21z+h2uDYGh27c8BqXmmBttmk81WzGh
-         qtn82rqeiA1fWlUbi/vmcCTdLIdmdXUU9t0erzkAFUagiqte4werw9jxgRAOdQNngazj
-         7aUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6eLMDTU2DdPGk8XS1y0kzPwySf3dVWxuBK+qfT4vpSQ=;
-        b=h68OX7K7Q+ky+3rGiW8jDLxJa2NqirqrJUHShF9tmTpI/5EMu8G1YtgKtxtRO2l8vH
-         fMYim0EkVVfBmAZ8/Qz9TROKg6rHF3pvNlJU8mkBGtPjDkyQ9p7T6RQhiciXzfcSJq04
-         W8llcuV9mpVQsdxeFaAkOV2SdpP2M4pcDARkU8H+17kXtBI9Iy52qqz+DWoVbmxADrVF
-         yDZHlPP9AXj9pU7oOEIwKHlKVdtoLWPU/OhceERoJ5uqVE7kkIX9Jx0+DmskVw2B3dOV
-         e+mlVgrjsaw5xqzxGAIHAp/yjYz/lwMUQlHzVxphWktvJxbLvA2jFqA/RPWR6Llyk9x/
-         +gUg==
-X-Gm-Message-State: APjAAAUvQL/DMT9jxzo6RcrVMWqV30vafQe855Jfhw5Zz38bGCIg/bCs
-        p13oChHpThqYQS4kynspD6eoE8QWkZOJTpfAD3Lr/w==
-X-Google-Smtp-Source: APXvYqxCLVwdM6QGTW5YuhwV9kE24mCL6yHpg7HZWYSJclmgOh0uuc01QoCyluUbrVBnU4Q1bUfbupQ6hjJfS8bkKbQ=
-X-Received: by 2002:a67:fb14:: with SMTP id d20mr7020032vsr.136.1580045896049;
- Sun, 26 Jan 2020 05:38:16 -0800 (PST)
-MIME-Version: 1.0
-References: <20200116101447.20374-1-gilad@benyossef.com> <CAMuHMdUhR83SZyWX9Du9d3Sp4A48x_msKaOHGsa88EQKStEDQg@mail.gmail.com>
- <CAOtvUMfDnoFu8V7sYvhgsstX6fuUk3foq+9FJ6SbUKEFnq-zMw@mail.gmail.com>
- <CAMuHMdUZbbNX-vsa4TmU7DNKAz2Qo3SR1pHXDOsO4Rh5G8ygZw@mail.gmail.com>
- <CAOtvUMdCm8LTfVOgrkGAa5ig6dodyd7QwcEvHz-TnvkMfnhDZA@mail.gmail.com> <CAMuHMdVPQsb=NrQ=N+S1TrD_CuJ=hnaYS+OLE9SnyWy43dC3GQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdVPQsb=NrQ=N+S1TrD_CuJ=hnaYS+OLE9SnyWy43dC3GQ@mail.gmail.com>
-From:   Gilad Ben-Yossef <gilad@benyossef.com>
-Date:   Sun, 26 Jan 2020 15:37:58 +0200
-Message-ID: <CAOtvUMeiaFzL1E49Vy5+MY96_g=91eW3AnkDG1+1ZRoTekJYew@mail.gmail.com>
-Subject: Re: [PATCH 00/11] crypto: ccree - fixes and cleanups
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Ofir Drang <ofir.drang@arm.com>, Hadar Gat <hadar.gat@arm.com>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mon, 27 Jan 2020 00:08:34 -0500
+Received: from localhost (unknown [122.181.201.159])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9E87720716;
+        Mon, 27 Jan 2020 05:08:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1580101714;
+        bh=sh4gpOdiYLotpOkB88cXx9+mmjB24ViBFWqv5LExZ4k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Wx8aPOpTS+Kb2Sy5Wmlm+U+6x5esBaImXY6fF8DDRxJiOuDQ2Gthx9hRn5n1quRzx
+         hnI7vjTugmK/dGJ8BV7fRkGx9TGps7+BxXI0/Ho2D7B7MUdXVpDw1QOr8OUUxTnVgM
+         FGMR+Aml/vS6dPUaDOXay9A0w9g3UwsPu1iErjGY=
+Date:   Mon, 27 Jan 2020 10:38:28 +0530
+From:   Vinod Koul <vkoul@kernel.org>
+To:     Peter Ujfalusi <peter.ujfalusi@ti.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        dmaengine@vger.kernel.org,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="UTF-8"
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] dmaengine: Create symlinks between DMA channels and
+ slaves
+Message-ID: <20200127050828.GH2841@vkoul-mobl>
+References: <20200117153056.31363-1-geert+renesas@glider.be>
+ <d2b669e7-a5d4-20ec-5b54-103b71df7407@ti.com>
+ <CAMuHMdVzQCWvH-LJ9ME5dRyafudZBHQLaJQzkSCPnughv_q2aA@mail.gmail.com>
+ <1cdc4f71-f365-8c9e-4634-408c59e6a3f9@ti.com>
+ <CAMuHMdU=-Eo29=DQmq96OegdYAvW7Vw9PpgNWSTfjDWVF5jd-A@mail.gmail.com>
+ <f7bbb132-1278-7030-7f40-b89733bcbd83@ti.com>
+ <CAMuHMdXDiwTomiKp8Kaw0NvMNpg78-M88F0mNTWBOz5MLE4LtQ@mail.gmail.com>
+ <20200122094002.GS2841@vkoul-mobl>
+ <20200124061359.GF2841@vkoul-mobl>
+ <876eb72f-db74-86b5-5f2c-7fc9a5252421@ti.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <876eb72f-db74-86b5-5f2c-7fc9a5252421@ti.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jan 23, 2020 at 10:09 PM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Gilad,
->
-> On Thu, Jan 23, 2020 at 7:19 PM Gilad Ben-Yossef <gilad@benyossef.com> wrote:
-> > On Thu, Jan 23, 2020 at 5:46 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > On Thu, Jan 23, 2020 at 12:44 PM Gilad Ben-Yossef <gilad@benyossef.com> wrote:
-> > > > On Wed, Jan 22, 2020 at 6:51 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > > > On Thu, Jan 16, 2020 at 11:25 AM Gilad Ben-Yossef <gilad@benyossef.com> wrote:
-> > > > > > A bunch of fixes and code cleanups for the ccree driver
-> > > > >
-> > > > > Thank you!
-> > > > >
-> > > > > I wanted to give this a try, but it looks like CCREE is no longer working
-> > > > > on R-Car H3, both with/without this series.
-> > > > >
-> > > > > E.g. with renesas-devel[*] and renesas_defconfig +
-> > > > > CONFIG_CRYPTO_MANAGER_DISABLE_TESTS=n, I get the following crash:
-> > > >
-> > > > Thank you for the bug report Geert!
-> > > >
-> > > > My R-Car board is on loan at the moment to another project. I didn't
-> > > > see this on our internal test board.
-> > > > I will track down my R-Car board and reproduce this - hopefully
-> > > > beginning of next week and will get back to you.
-> > >
-> > > In the mean time, I've bisected this failure to commit cdfee5623290bc89
-> > > ("driver core: initialize a default DMA mask for platform device").
-> > > However, this looks like a red herring, and seems to be only an exposer
-> > > of an underlying problem.
-> >
-> > Thank you for continue digging into this.
-> >
-> > > What's happening is that cc_map_aead_request() receives a request with
-> > > cryptlen = 0.  Due to DRV_CRYPTO_DIRECTION_ENCRYPT, the length to map is
-> > > increased by 8.  This seems to works fine if there is sufficient space
-> > > in the request's scatterlist.  However, if the scatterlist has only a
-> > > single entry of size zero, cc_map_sg() tries to map a zero-length DMA
-> > > buffer, and the BUG)() is triggered.
-> > >
-> >
-> > OK, this does rings a bell - can you verify please if
-> > CONFIG_CRYPTO_MANAGER_EXTRA_TESTS is enabled and if it does can you
-> > see if it happens if it is turned off?
->
-> No, I didn't have that option enabled.
+On 24-01-20, 09:31, Peter Ujfalusi wrote:
+> Vinod, Geert,
+> 
+> On 24/01/2020 8.13, Vinod Koul wrote:
+> > On 22-01-20, 15:10, Vinod Koul wrote:
+> > 
+> >> I like the idea of adding this in debugfs and giving more info, I would
+> >> actually love to add bytes_transferred and few more info (descriptors
+> >> submitted etc) to it...
+> >>
+> >>>> This way we will have all the information in one place, easy to look up
+> >>>> and you don't need to manage symlinks dynamically, just check all
+> >>>> channels if they have slave_device/name when they are in_use (in_use w/o
+> >>>> slave_device is 'non slave')
+> >>>>
+> >>>> Some drivers are requesting and releasing the DMA channel per transfer
+> >>>> or when they are opened/closed or other variations.
+> >>>>
+> >>>>> What do other people think?
+> >>>
+> >>> Vinod: do you have some guidance for your minions? ;-)
+> >>
+> >>
+> >> That said, I am not against merging this patch while we add more
+> >> (debugfs)... So do my minions agree or they have better ideas :-)
+> > 
+> > So no new ideas, I am going to apply this and queue for 5.6, something
+> > is better than nothing.
+> 
+> My only issue with the symlink is that it is created/removed on some
+> setups quite frequently as they request/release channel per transfer or
+> open/close.
+> It might be a small hit in performance, but it is going to be for them.
+> 
+> > And I am looking forward for debugfs to give better picture, volunteers?
+> 
+> Well, I still feel that the debugfs can give better view in one place
+> and in production it can be disabled to save few bytes per channel and
+> code is not complied in.
+> 
+> If we have the debugfs we can remove some of the sysfs devices files
+> probably.
 
-OK, I still did not get reunited with my R-Cat board, but I think I
-have a direction.
+Sure I dont mind if we move to something better :) We went from zero to
+something and can do better!
 
-I'm about to send an RFC patch which while  probably does not address
-the root cause
-will stop the crash if the issue is what I think it is and so will let
-me know what you are
-seeing is what I think you are seeing.
+Thanks
 
-I'd be delighted if you can give it a spin...
-
-Thanks,
-Gilad
+-- 
+~Vinod
