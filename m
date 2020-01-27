@@ -2,130 +2,277 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8201F149F74
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2020 09:08:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F1571149FF0
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2020 09:37:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726191AbgA0IIa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Jan 2020 03:08:30 -0500
-Received: from mail-eopbgr1410139.outbound.protection.outlook.com ([40.107.141.139]:12608
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725955AbgA0IIa (ORCPT
+        id S1727296AbgA0Iho (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Jan 2020 03:37:44 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:15488 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725955AbgA0Iho (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Jan 2020 03:08:30 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FUgiYealrjoQKQ76k9o0OskhpCEqLs41CbJ31odhJOEbVXQzYi73feL1Pv3JCAfPJ+E5JE/6sYTTOnDpO/TWEuTkA5g8sDzVId2P32tS1ow2V7GAoFMuTJfKIWP40BPRC/Ejmi8IWSS4WflCOID/ngGBKJLlQFvm1aaVsStNBYJZr8xzEpM6WHdviEADwgWdrku30+IN1YfuZaeKV7LFwB+kN/THE0Z5gxxsIVDkpp/Ag056jN/tlisDqkIOF+nCWCwsMXndHzTUjLnS8EbjkTSMEIgd21g1ViwDEuTAkpBFWjNdDEKEFo1RkAeVOSGA/khEtZm4i36tGCOPTdtHtA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b89yY32PeV8u98RcvIUAlPd6beyEtRXLMrOg88Sb3zI=;
- b=GsNHdlsX11gZLGRGWWHPr7z2beLIYEdjc7O5/J3EF0Tlq2bQ9W+/K6E2JvT6meYHvWKw818F7v0VR319kJnjbxev4KLHSAXGZaMwPvy5hlVc/m7PRseOOZCpggLGGfzY23RlrWfHxW+d611fgL+LGe5v3QTOd3kIteJMEEsf0/R6DcKFU4lvuxZcaNvc1rw6FR+FltSeDGyhHW6zc1g4nxQYvTFHHeNWzUZeZqt1Ysutrrcsqad3wwxs669OiicHRCDSDrEipDAj1+TDKTNO+ndxNlv3Nyg84hKf755sIC4A3r/VXfelrTqFwAEivinoSzxHF0ZO2agQ0n3gW8NndA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b89yY32PeV8u98RcvIUAlPd6beyEtRXLMrOg88Sb3zI=;
- b=O5BnBR9jUWeMHtEfFkwh5cz3NlZkXIWqFUbaMN7nare4xcqet9Povs+/upeXchVAttK/Zs6eNS9MxZgcNxTWe/xW8t+QoZAMLOemiAKaAViU32ohijMASP2xQAnwWONhAUA4wKffZRd0KiWy1JKiYoi7ePd7jvWYBVDhtSNcQ1Y=
-Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
- TYAPR01MB3376.jpnprd01.prod.outlook.com (20.178.140.81) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2665.23; Mon, 27 Jan 2020 08:08:26 +0000
-Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
- ([fe80::318b:31aa:4212:bd49]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
- ([fe80::318b:31aa:4212:bd49%7]) with mapi id 15.20.2665.017; Mon, 27 Jan 2020
- 08:08:26 +0000
+        Mon, 27 Jan 2020 03:37:44 -0500
+X-IronPort-AV: E=Sophos;i="5.70,369,1574089200"; 
+   d="scan'208";a="37497247"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 27 Jan 2020 17:37:42 +0900
+Received: from localhost.localdomain (unknown [10.166.17.210])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 688B341C6658;
+        Mon, 27 Jan 2020 17:37:42 +0900 (JST)
 From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Alan Stern <stern@rowland.harvard.edu>
-CC:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux@prisktech.co.nz" <linux@prisktech.co.nz>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH v3] usb: host: ehci-platform: add a quirk to avoid stuck
-Thread-Topic: [PATCH v3] usb: host: ehci-platform: add a quirk to avoid stuck
-Thread-Index: AQHV0nCgCmGZDW0wmUeBWqdopQnn66f57ieAgAQ+OPA=
-Date:   Mon, 27 Jan 2020 08:08:26 +0000
-Message-ID: <TYAPR01MB4544DA234E38453AE84B4F24D80B0@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-References: <1579840923-10709-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
- <Pine.LNX.4.44L0.2001241012160.1610-100000@iolanthe.rowland.org>
-In-Reply-To: <Pine.LNX.4.44L0.2001241012160.1610-100000@iolanthe.rowland.org>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
-x-originating-ip: [150.249.235.54]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 9307d66b-a0e4-46c5-4868-08d7a3001667
-x-ms-traffictypediagnostic: TYAPR01MB3376:
-x-microsoft-antispam-prvs: <TYAPR01MB337657930D1AEA74B97BA76FD80B0@TYAPR01MB3376.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2399;
-x-forefront-prvs: 02951C14DC
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(366004)(39860400002)(136003)(396003)(376002)(346002)(189003)(199004)(81166006)(8676002)(7696005)(81156014)(6506007)(186003)(8936002)(26005)(316002)(33656002)(2906002)(4326008)(66946007)(76116006)(52536014)(86362001)(66476007)(66556008)(64756008)(66446008)(71200400001)(55016002)(54906003)(5660300002)(6916009)(9686003)(478600001);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB3376;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 4FVEDJ6ilMEcFe5onEBKnkXNKD1MF0QbvjLe8/BUzzx99n4LtPXD9WoBB6bHNC7FHmHcYaxsgaEbZHOAp5/H6U62ciKOiezhIKBbiuOK0oqN+WHVX/XoEUYJatJ9Ivqjk7xCOCTmozgyP+g2diiy/QZh8At5wS7Q9PF6aNLFTMmiMEyn5JBUrpVGbCTLbAfE3e5C07wE72eRbgapD5VfLaop8ghbhtfihfanDSJbuU7WaG2rlp/bws8RfL3LzmlRHmGiZt+qB++rE49ES7NFvIXJpGsvW3B9RGVusEK4CE532FUqJYSDCwmQx22c8eSJpPh8IaVq8MQlqLpFgpX3d49gtx74N3XA/OjXZ00kGuuvV75l8scecHBVtMmAE2gPAmXjnGDocoWFua8Rcm4O6QNJJUwNml/8KiYCq6NV97N4jL45OLIGQbQ+AM+mBPnt
-x-ms-exchange-antispam-messagedata: 492c4r2z06hv16NVpqf+qtEvck+N3b8ArkfdsFKeTomxB+UZHqUoGMUImNtH8YyLyOsh1tjrl+FfIdwl0M4KZ+4xjyUWMp1EuG1xD0jh9d01oKboDt20ZyVQ1jURoVRaj1Vli/DDCPuwATdZ6vPD2A==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9307d66b-a0e4-46c5-4868-08d7a3001667
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Jan 2020 08:08:26.6030
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: NJQzxZcVzURS/5wn+3NV1P7ADjvODI2ClEoOoDDVD8nLxoqsMdjhqbDYYu5lvP60pZlx/Nng8l3ztmsdBqHtgQhgKICTWtDgomb5WrvaCPtoXPFUi5UpivbkZXJA/lVB
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB3376
+To:     gregkh@linuxfoundation.org, stern@rowland.harvard.edu,
+        linux@prisktech.co.nz
+Cc:     linux-usb@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: [PATCH v4] usb: host: ehci-platform: add a quirk to avoid stuck
+Date:   Mon, 27 Jan 2020 17:37:42 +0900
+Message-Id: <1580114262-25029-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Alan,
+Since EHCI/OHCI controllers on R-Car Gen3 SoCs are possible to
+be getting stuck very rarely after a full/low usb device was
+disconnected. To detect/recover from such a situation, the controllers
+require a special way which poll the EHCI PORTSC register and changes
+the OHCI functional state.
 
-Thank you for your review!
+So, this patch adds a polling timer into the ehci-platform driver,
+and if the ehci driver detects the issue by the EHCI PORTSC register,
+the ehci driver removes a companion device (= the OHCI controller)
+to change the OHCI functional state to USB Reset once. And then,
+the ehci driver adds the companion device again.
 
-> From: Alan Stern, Sent: Saturday, January 25, 2020 12:18 AM
-<snip>
-> > diff --git a/include/linux/usb/ehci_def.h b/include/linux/usb/ehci_def.=
-h
-> > index a15ce99..0ebfa74 100644
-> > --- a/include/linux/usb/ehci_def.h
-> > +++ b/include/linux/usb/ehci_def.h
-> > @@ -150,6 +150,7 @@ struct ehci_regs {
-> >  #define PORT_LED_MASK	(3<<14)
-> >  #define PORT_OWNER	(1<<13)		/* true: companion hc owns this port */
-> >  #define PORT_POWER	(1<<12)		/* true: has power (see PPC) */
-> > +#define PORT_LS_MASK	(3<<10)		/* USB 1.1 device */
->=20
-> The comment should say: /* Link status (SE0, K, or J) */
+Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+---
+ Changes from v3:
+ - Fix the comment of PORT_LS_MASK.
+ - Remove a comment about the bit 11:10 of PORTSC register.
+ https://patchwork.kernel.org/patch/11349733/
 
-Oops. I'll fix it.
+ Changes from v2:
+ - Use .family instead of .soc_id members on quirk_poll_match.
+ https://patchwork.kernel.org/patch/11347521/
 
-> >  #define PORT_USB11(x) (((x)&(3<<10)) =3D=3D (1<<10))	/* USB 1.1 device=
- */
-> >  /* 11:10 for detecting lowspeed devices (reset vs release ownership) *=
-/
->=20
-> You can remove this comment now.  Since there is an actual macro for
-> bits 11:10, we don't need a separate comment saying what they are.
+ Changes from v1:
+ - Remove adding a new property into the generic-ehci.yaml.
+ - Add kerneldoc sections.
+ - Remove prefix "ehci_platform_" from function names.
+ - Rename quirk_poll_check_condition() with quirk_poll_check_port_status().
+ - Fix some coding style.
+ - Remove "start_timer" function and use HZ on mod_timer().
+ - Use delayed_work instead of usleep_range().
+ https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=229861
 
-I got it. I'll remove the "/* 11:10 for ..." comment on v4 patch.
+ drivers/usb/host/ehci-platform.c | 127 +++++++++++++++++++++++++++++++++++++++
+ include/linux/usb/ehci_def.h     |   2 +-
+ 2 files changed, 128 insertions(+), 1 deletion(-)
 
-Best regards,
-Yoshihiro Shimoda
-
-
-> Alan Stern
->=20
-> >  /* 9 reserved */
+diff --git a/drivers/usb/host/ehci-platform.c b/drivers/usb/host/ehci-platform.c
+index 769749c..e4fc3f6 100644
+--- a/drivers/usb/host/ehci-platform.c
++++ b/drivers/usb/host/ehci-platform.c
+@@ -29,6 +29,8 @@
+ #include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/reset.h>
++#include <linux/sys_soc.h>
++#include <linux/timer.h>
+ #include <linux/usb.h>
+ #include <linux/usb/hcd.h>
+ #include <linux/usb/ehci_pdriver.h>
+@@ -44,6 +46,9 @@ struct ehci_platform_priv {
+ 	struct clk *clks[EHCI_MAX_CLKS];
+ 	struct reset_control *rsts;
+ 	bool reset_on_resume;
++	bool quirk_poll;
++	struct timer_list poll_timer;
++	struct delayed_work poll_work;
+ };
+ 
+ static const char hcd_name[] = "ehci-platform";
+@@ -118,6 +123,111 @@ static struct usb_ehci_pdata ehci_platform_defaults = {
+ 	.power_off =		ehci_platform_power_off,
+ };
+ 
++/**
++ * quirk_poll_check_port_status - Poll port_status if the device sticks
++ * @ehci: the ehci hcd pointer
++ *
++ * Since EHCI/OHCI controllers on R-Car Gen3 SoCs are possible to be getting
++ * stuck very rarely after a full/low usb device was disconnected. To
++ * detect such a situation, the controllers require a special way which poll
++ * the EHCI PORTSC register.
++ *
++ * Return: true if the controller's port_status indicated getting stuck
++ */
++static bool quirk_poll_check_port_status(struct ehci_hcd *ehci)
++{
++	u32 port_status = ehci_readl(ehci, &ehci->regs->port_status[0]);
++
++	if (!(port_status & PORT_OWNER) &&
++	     (port_status & PORT_POWER) &&
++	    !(port_status & PORT_CONNECT) &&
++	     (port_status & PORT_LS_MASK))
++		return true;
++
++	return false;
++}
++
++/**
++ * quirk_poll_rebind_companion - rebind comanion device to recover
++ * @ehci: the ehci hcd pointer
++ *
++ * Since EHCI/OHCI controllers on R-Car Gen3 SoCs are possible to be getting
++ * stuck very rarely after a full/low usb device was disconnected. To
++ * recover from such a situation, the controllers require changing the OHCI
++ * functional state.
++ */
++static void quirk_poll_rebind_companion(struct ehci_hcd *ehci)
++{
++	struct device *companion_dev;
++	struct usb_hcd *hcd = ehci_to_hcd(ehci);
++
++	companion_dev = usb_of_get_companion_dev(hcd->self.controller);
++	if (!companion_dev)
++		return;
++
++	device_release_driver(companion_dev);
++	if (device_attach(companion_dev) < 0)
++		ehci_err(ehci, "%s: failed\n", __func__);
++
++	put_device(companion_dev);
++}
++
++static void quirk_poll_work(struct work_struct *work)
++{
++	struct ehci_platform_priv *priv =
++		container_of(to_delayed_work(work), struct ehci_platform_priv,
++			     poll_work);
++	struct ehci_hcd *ehci = container_of((void *)priv, struct ehci_hcd,
++					     priv);
++
++	/* check the status twice to reduce misdetection rate */
++	if (!quirk_poll_check_port_status(ehci))
++		return;
++	udelay(10);
++	if (!quirk_poll_check_port_status(ehci))
++		return;
++
++	ehci_dbg(ehci, "%s: detected getting stuck. rebind now!\n", __func__);
++	quirk_poll_rebind_companion(ehci);
++}
++
++static void quirk_poll_timer(struct timer_list *t)
++{
++	struct ehci_platform_priv *priv = from_timer(priv, t, poll_timer);
++	struct ehci_hcd *ehci = container_of((void *)priv, struct ehci_hcd,
++					     priv);
++
++	if (quirk_poll_check_port_status(ehci)) {
++		/*
++		 * Now scheduling the work for testing the port more. Note that
++		 * updating the status is possible to be delayed when
++		 * reconnection. So, this uses delayed work with 5 ms delay
++		 * to avoid misdetection.
++		 */
++		schedule_delayed_work(&priv->poll_work, msecs_to_jiffies(5));
++	}
++
++	mod_timer(&priv->poll_timer, jiffies + HZ);
++}
++
++static void quirk_poll_init(struct ehci_platform_priv *priv)
++{
++	INIT_DELAYED_WORK(&priv->poll_work, quirk_poll_work);
++	timer_setup(&priv->poll_timer, quirk_poll_timer, 0);
++	mod_timer(&priv->poll_timer, jiffies + HZ);
++}
++
++static void quirk_poll_end(struct ehci_platform_priv *priv)
++{
++	del_timer_sync(&priv->poll_timer);
++	cancel_delayed_work(&priv->poll_work);
++}
++
++static const struct soc_device_attribute quirk_poll_match[] = {
++	{ .family = "R-Car Gen3" },
++	{ /* sentinel*/ }
++};
++
+ static int ehci_platform_probe(struct platform_device *dev)
+ {
+ 	struct usb_hcd *hcd;
+@@ -176,6 +286,9 @@ static int ehci_platform_probe(struct platform_device *dev)
+ 					  "has-transaction-translator"))
+ 			hcd->has_tt = 1;
+ 
++		if (soc_device_match(quirk_poll_match))
++			priv->quirk_poll = true;
++
+ 		for (clk = 0; clk < EHCI_MAX_CLKS; clk++) {
+ 			priv->clks[clk] = of_clk_get(dev->dev.of_node, clk);
+ 			if (IS_ERR(priv->clks[clk])) {
+@@ -247,6 +360,9 @@ static int ehci_platform_probe(struct platform_device *dev)
+ 	device_enable_async_suspend(hcd->self.controller);
+ 	platform_set_drvdata(dev, hcd);
+ 
++	if (priv->quirk_poll)
++		quirk_poll_init(priv);
++
+ 	return err;
+ 
+ err_power:
+@@ -273,6 +389,9 @@ static int ehci_platform_remove(struct platform_device *dev)
+ 	struct ehci_platform_priv *priv = hcd_to_ehci_priv(hcd);
+ 	int clk;
+ 
++	if (priv->quirk_poll)
++		quirk_poll_end(priv);
++
+ 	usb_remove_hcd(hcd);
+ 
+ 	if (pdata->power_off)
+@@ -297,9 +416,13 @@ static int ehci_platform_suspend(struct device *dev)
+ 	struct usb_hcd *hcd = dev_get_drvdata(dev);
+ 	struct usb_ehci_pdata *pdata = dev_get_platdata(dev);
+ 	struct platform_device *pdev = to_platform_device(dev);
++	struct ehci_platform_priv *priv = hcd_to_ehci_priv(hcd);
+ 	bool do_wakeup = device_may_wakeup(dev);
+ 	int ret;
+ 
++	if (priv->quirk_poll)
++		quirk_poll_end(priv);
++
+ 	ret = ehci_suspend(hcd, do_wakeup);
+ 	if (ret)
+ 		return ret;
+@@ -331,6 +454,10 @@ static int ehci_platform_resume(struct device *dev)
+ 	}
+ 
+ 	ehci_resume(hcd, priv->reset_on_resume);
++
++	if (priv->quirk_poll)
++		quirk_poll_init(priv);
++
+ 	return 0;
+ }
+ #endif /* CONFIG_PM_SLEEP */
+diff --git a/include/linux/usb/ehci_def.h b/include/linux/usb/ehci_def.h
+index a15ce99..78e0063 100644
+--- a/include/linux/usb/ehci_def.h
++++ b/include/linux/usb/ehci_def.h
+@@ -151,7 +151,7 @@ struct ehci_regs {
+ #define PORT_OWNER	(1<<13)		/* true: companion hc owns this port */
+ #define PORT_POWER	(1<<12)		/* true: has power (see PPC) */
+ #define PORT_USB11(x) (((x)&(3<<10)) == (1<<10))	/* USB 1.1 device */
+-/* 11:10 for detecting lowspeed devices (reset vs release ownership) */
++#define PORT_LS_MASK	(3<<10)		/* Link status (SE0, K or J */
+ /* 9 reserved */
+ #define PORT_LPM	(1<<9)		/* LPM transaction */
+ #define PORT_RESET	(1<<8)		/* reset port */
+-- 
+2.7.4
 
