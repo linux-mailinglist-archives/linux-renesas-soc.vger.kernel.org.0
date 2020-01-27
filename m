@@ -2,269 +2,279 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B15F214A63E
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2020 15:36:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5089C14A6AA
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 27 Jan 2020 15:59:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728760AbgA0Ogp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 27 Jan 2020 09:36:45 -0500
-Received: from pb-smtp20.pobox.com ([173.228.157.52]:64598 "EHLO
-        pb-smtp20.pobox.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725828AbgA0Ogo (ORCPT
+        id S1729152AbgA0O7F (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 27 Jan 2020 09:59:05 -0500
+Received: from iolanthe.rowland.org ([192.131.102.54]:38034 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1729112AbgA0O7F (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 27 Jan 2020 09:36:44 -0500
-Received: from pb-smtp20.pobox.com (unknown [127.0.0.1])
-        by pb-smtp20.pobox.com (Postfix) with ESMTP id 9DF11A477F;
-        Mon, 27 Jan 2020 09:36:42 -0500 (EST)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=pobox.com; h=date:from:to
-        :cc:subject:in-reply-to:message-id:references:mime-version
-        :content-type; s=sasl; bh=AYpbzYOryjWOSTiLMEzmBx3t06E=; b=yO+WQu
-        Gtbp6h2OsKL8RCtn+UzFeh8Ua/aoTfDuVEOvk6JwcjnnxIwJEJYPSV8sCBt3uemY
-        mYBLdNEpXlJRpCxsZXU4pmM4ReUhEgRPn47omiovEVLsB5SiIHt7jb1z3Zy+uBOC
-        Q8x3jKr2iCFiLW5aWBrKRxMwWfEkQLrpEmZqg=
-Received: from pb-smtp20.sea.icgroup.com (unknown [127.0.0.1])
-        by pb-smtp20.pobox.com (Postfix) with ESMTP id 94E2BA477E;
-        Mon, 27 Jan 2020 09:36:42 -0500 (EST)
-        (envelope-from nico@fluxnic.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=fluxnic.net;
- h=date:from:to:cc:subject:in-reply-to:message-id:references:mime-version:content-type; s=2016-12.pbsmtp; bh=+5Bg1HIoEiN6+7vs9Iwmp0P4ZwSmL+JeZjJXmZbzWi8=; b=ummpGUenVgal5INAmGglZJZjo+7KIlQq+c6QjF0H2iMlbLLLtFuVEyPdfLhdbwGgDLwXeY4tjWeUtk8aKjDplQnNegnkAOUlmmyTeYKY9Q+zVmIzy6o1T5wHLo2eUAwtE2Y3DqDC+MHKzlXrWew9PoTNYtLKOMDdXKKQnqGodsg=
-Received: from yoda.home (unknown [24.203.50.76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by pb-smtp20.pobox.com (Postfix) with ESMTPSA id 7F53FA477C;
-        Mon, 27 Jan 2020 09:36:39 -0500 (EST)
-        (envelope-from nico@fluxnic.net)
-Received: from xanadu.home (xanadu.home [192.168.2.2])
-        by yoda.home (Postfix) with ESMTPSA id C2FD72DA00E6;
-        Mon, 27 Jan 2020 09:36:37 -0500 (EST)
-Date:   Mon, 27 Jan 2020 09:36:37 -0500 (EST)
-From:   Nicolas Pitre <nico@fluxnic.net>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-cc:     Russell King <linux@armlinux.org.uk>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Eric Miao <eric.miao@nvidia.com>,
-        =?ISO-8859-15?Q?Uwe_Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] ARM: boot: Obtain start of physical memory from DTB
-In-Reply-To: <20200127140716.15673-1-geert+renesas@glider.be>
-Message-ID: <nycvar.YSQ.7.76.2001270934440.1655@knanqh.ubzr>
-References: <20200127140716.15673-1-geert+renesas@glider.be>
-User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
+        Mon, 27 Jan 2020 09:59:05 -0500
+Received: (qmail 2164 invoked by uid 2102); 27 Jan 2020 09:59:03 -0500
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 27 Jan 2020 09:59:03 -0500
+Date:   Mon, 27 Jan 2020 09:59:03 -0500 (EST)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+cc:     gregkh@linuxfoundation.org, <linux@prisktech.co.nz>,
+        <linux-usb@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH v4] usb: host: ehci-platform: add a quirk to avoid stuck
+In-Reply-To: <1580114262-25029-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+Message-ID: <Pine.LNX.4.44L0.2001270957110.1493-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Pobox-Relay-ID: 6DC9A2DC-4112-11EA-9A8E-B0405B776F7B-78420484!pb-smtp20.pobox.com
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, 27 Jan 2020, Geert Uytterhoeven wrote:
+On Mon, 27 Jan 2020, Yoshihiro Shimoda wrote:
 
-> Currently, the start address of physical memory is obtained by masking
-> the program counter with a fixed mask of 0xf8000000.  This mask value
-> was chosen as a balance between the requirements of different platforms.
-> However, this does require that the start address of physical memory is
-> a multiple of 128 MiB, precluding booting Linux on platforms where this
-> requirement is not fulfilled.
+> Since EHCI/OHCI controllers on R-Car Gen3 SoCs are possible to
+> be getting stuck very rarely after a full/low usb device was
+> disconnected. To detect/recover from such a situation, the controllers
+> require a special way which poll the EHCI PORTSC register and changes
+> the OHCI functional state.
 > 
-> Fix this limitation by obtaining the start address from the DTB instead,
-> if available (either explicitly passed, or appended to the kernel).
-> Fall back to the traditional method when needed.
+> So, this patch adds a polling timer into the ehci-platform driver,
+> and if the ehci driver detects the issue by the EHCI PORTSC register,
+> the ehci driver removes a companion device (= the OHCI controller)
+> to change the OHCI functional state to USB Reset once. And then,
+> the ehci driver adds the companion device again.
 > 
-> This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
-> on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
-> i.e. not at a multiple of 128 MiB.
-> 
-> Suggested-by: Nicolas Pitre <nico@fluxnic.net>
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
-
-
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
 > ---
-> Against arm/for-next.
+>  Changes from v3:
+>  - Fix the comment of PORT_LS_MASK.
+>  - Remove a comment about the bit 11:10 of PORTSC register.
+>  https://patchwork.kernel.org/patch/11349733/
 > 
-> Tested with the following configurations:
->   - zImage + DTB (r8a7791/koelsch),
->   - uImage + DTB (r8a73a4/ape6evm, r7s72100/rskrza1, r7s9210/rza2mevb),
->   - zImage with appended DTB (r8a7740/armadillo, sh73a0/kzm9g).
+>  Changes from v2:
+>  - Use .family instead of .soc_id members on quirk_poll_match.
+>  https://patchwork.kernel.org/patch/11347521/
 > 
-> v2:
->   - Use "cmp r0, #-1", instead of "cmn r0, #1",
->   - Add missing stack setup,
->   - Support appended DTBs.
+>  Changes from v1:
+>  - Remove adding a new property into the generic-ehci.yaml.
+>  - Add kerneldoc sections.
+>  - Remove prefix "ehci_platform_" from function names.
+>  - Rename quirk_poll_check_condition() with quirk_poll_check_port_status().
+>  - Fix some coding style.
+>  - Remove "start_timer" function and use HZ on mod_timer().
+>  - Use delayed_work instead of usleep_range().
+>  https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=229861
 > 
-> v1: https://lore.kernel.org/linux-arm-kernel/20200121192741.20597-1-geert+renesas@glider.be/
-> ---
->  arch/arm/boot/compressed/Makefile            |  6 ++-
->  arch/arm/boot/compressed/fdt_get_mem_start.c | 52 ++++++++++++++++++++
->  arch/arm/boot/compressed/head.S              | 52 +++++++++++++++++++-
->  3 files changed, 108 insertions(+), 2 deletions(-)
->  create mode 100644 arch/arm/boot/compressed/fdt_get_mem_start.c
+>  drivers/usb/host/ehci-platform.c | 127 +++++++++++++++++++++++++++++++++++++++
+>  include/linux/usb/ehci_def.h     |   2 +-
+>  2 files changed, 128 insertions(+), 1 deletion(-)
 > 
-> diff --git a/arch/arm/boot/compressed/Makefile b/arch/arm/boot/compressed/Makefile
-> index da599c3a11934332..bbfecd648a1a3b57 100644
-> --- a/arch/arm/boot/compressed/Makefile
-> +++ b/arch/arm/boot/compressed/Makefile
-> @@ -86,12 +86,15 @@ libfdt_objs	:= $(addsuffix .o, $(basename $(libfdt)))
->  $(addprefix $(obj)/,$(libfdt) $(libfdt_hdrs)): $(obj)/%: $(srctree)/scripts/dtc/libfdt/%
->  	$(call cmd,shipped)
+> diff --git a/drivers/usb/host/ehci-platform.c b/drivers/usb/host/ehci-platform.c
+> index 769749c..e4fc3f6 100644
+> --- a/drivers/usb/host/ehci-platform.c
+> +++ b/drivers/usb/host/ehci-platform.c
+> @@ -29,6 +29,8 @@
+>  #include <linux/of.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/reset.h>
+> +#include <linux/sys_soc.h>
+> +#include <linux/timer.h>
+>  #include <linux/usb.h>
+>  #include <linux/usb/hcd.h>
+>  #include <linux/usb/ehci_pdriver.h>
+> @@ -44,6 +46,9 @@ struct ehci_platform_priv {
+>  	struct clk *clks[EHCI_MAX_CLKS];
+>  	struct reset_control *rsts;
+>  	bool reset_on_resume;
+> +	bool quirk_poll;
+> +	struct timer_list poll_timer;
+> +	struct delayed_work poll_work;
+>  };
 >  
-> -$(addprefix $(obj)/,$(libfdt_objs) atags_to_fdt.o): \
-> +$(addprefix $(obj)/,$(libfdt_objs) atags_to_fdt.o fdt_get_mem_start.o): \
->  	$(addprefix $(obj)/,$(libfdt_hdrs))
+>  static const char hcd_name[] = "ehci-platform";
+> @@ -118,6 +123,111 @@ static struct usb_ehci_pdata ehci_platform_defaults = {
+>  	.power_off =		ehci_platform_power_off,
+>  };
 >  
->  ifeq ($(CONFIG_ARM_ATAG_DTB_COMPAT),y)
->  OBJS	+= $(libfdt_objs) atags_to_fdt.o
->  endif
-> +ifeq ($(CONFIG_USE_OF),y)
-> +OBJS	+= $(libfdt_objs) fdt_get_mem_start.o
-> +endif
->  
->  targets       := vmlinux vmlinux.lds piggy_data piggy.o \
->  		 lib1funcs.o ashldi3.o bswapsdi2.o \
-> @@ -116,6 +119,7 @@ CFLAGS_fdt.o := $(nossp-flags-y)
->  CFLAGS_fdt_ro.o := $(nossp-flags-y)
->  CFLAGS_fdt_rw.o := $(nossp-flags-y)
->  CFLAGS_fdt_wip.o := $(nossp-flags-y)
-> +CFLAGS_fdt_get_mem_start.o := $(nossp-flags-y)
->  
->  ccflags-y := -fpic $(call cc-option,-mno-single-pic-base,) -fno-builtin -I$(obj)
->  asflags-y := -DZIMAGE
-> diff --git a/arch/arm/boot/compressed/fdt_get_mem_start.c b/arch/arm/boot/compressed/fdt_get_mem_start.c
-> new file mode 100644
-> index 0000000000000000..2c5ac47f656317ee
-> --- /dev/null
-> +++ b/arch/arm/boot/compressed/fdt_get_mem_start.c
-> @@ -0,0 +1,52 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +#include <libfdt.h>
-> +
-> +static const void *getprop(const void *fdt, const char *node_path,
-> +			   const char *property)
+> +/**
+> + * quirk_poll_check_port_status - Poll port_status if the device sticks
+> + * @ehci: the ehci hcd pointer
+> + *
+> + * Since EHCI/OHCI controllers on R-Car Gen3 SoCs are possible to be getting
+> + * stuck very rarely after a full/low usb device was disconnected. To
+> + * detect such a situation, the controllers require a special way which poll
+> + * the EHCI PORTSC register.
+> + *
+> + * Return: true if the controller's port_status indicated getting stuck
+> + */
+> +static bool quirk_poll_check_port_status(struct ehci_hcd *ehci)
 > +{
-> +	int offset = fdt_path_offset(fdt, node_path);
+> +	u32 port_status = ehci_readl(ehci, &ehci->regs->port_status[0]);
 > +
-> +	if (offset == -FDT_ERR_NOTFOUND)
-> +		return NULL;
+> +	if (!(port_status & PORT_OWNER) &&
+> +	     (port_status & PORT_POWER) &&
+> +	    !(port_status & PORT_CONNECT) &&
+> +	     (port_status & PORT_LS_MASK))
+> +		return true;
 > +
-> +	return fdt_getprop(fdt, offset, property, NULL);
+> +	return false;
 > +}
 > +
-> +static uint32_t get_addr_size(const void *fdt)
+> +/**
+> + * quirk_poll_rebind_companion - rebind comanion device to recover
+> + * @ehci: the ehci hcd pointer
+> + *
+> + * Since EHCI/OHCI controllers on R-Car Gen3 SoCs are possible to be getting
+> + * stuck very rarely after a full/low usb device was disconnected. To
+> + * recover from such a situation, the controllers require changing the OHCI
+> + * functional state.
+> + */
+> +static void quirk_poll_rebind_companion(struct ehci_hcd *ehci)
 > +{
-> +	const __be32 *addr_len = getprop(fdt, "/", "#address-cells");
+> +	struct device *companion_dev;
+> +	struct usb_hcd *hcd = ehci_to_hcd(ehci);
 > +
-> +	if (!addr_len) {
-> +		/* default */
-> +		return 1;
+> +	companion_dev = usb_of_get_companion_dev(hcd->self.controller);
+> +	if (!companion_dev)
+> +		return;
+> +
+> +	device_release_driver(companion_dev);
+> +	if (device_attach(companion_dev) < 0)
+> +		ehci_err(ehci, "%s: failed\n", __func__);
+> +
+> +	put_device(companion_dev);
+> +}
+> +
+> +static void quirk_poll_work(struct work_struct *work)
+> +{
+> +	struct ehci_platform_priv *priv =
+> +		container_of(to_delayed_work(work), struct ehci_platform_priv,
+> +			     poll_work);
+> +	struct ehci_hcd *ehci = container_of((void *)priv, struct ehci_hcd,
+> +					     priv);
+> +
+> +	/* check the status twice to reduce misdetection rate */
+> +	if (!quirk_poll_check_port_status(ehci))
+> +		return;
+> +	udelay(10);
+> +	if (!quirk_poll_check_port_status(ehci))
+> +		return;
+> +
+> +	ehci_dbg(ehci, "%s: detected getting stuck. rebind now!\n", __func__);
+> +	quirk_poll_rebind_companion(ehci);
+> +}
+> +
+> +static void quirk_poll_timer(struct timer_list *t)
+> +{
+> +	struct ehci_platform_priv *priv = from_timer(priv, t, poll_timer);
+> +	struct ehci_hcd *ehci = container_of((void *)priv, struct ehci_hcd,
+> +					     priv);
+> +
+> +	if (quirk_poll_check_port_status(ehci)) {
+> +		/*
+> +		 * Now scheduling the work for testing the port more. Note that
+> +		 * updating the status is possible to be delayed when
+> +		 * reconnection. So, this uses delayed work with 5 ms delay
+> +		 * to avoid misdetection.
+> +		 */
+> +		schedule_delayed_work(&priv->poll_work, msecs_to_jiffies(5));
 > +	}
 > +
-> +	return fdt32_to_cpu(*addr_len);
+> +	mod_timer(&priv->poll_timer, jiffies + HZ);
 > +}
 > +
-> +/*
-> + * Get the start of physical memory
-> + */
-> +
-> +unsigned long fdt_get_mem_start(const void *fdt)
+> +static void quirk_poll_init(struct ehci_platform_priv *priv)
 > +{
-> +	const __be32 *memory;
-> +	uint32_t addr_size;
-> +
-> +	if (!fdt)
-> +		return -1;
-> +
-> +	if (*(__be32 *)fdt != cpu_to_fdt32(FDT_MAGIC))
-> +		return -1;
-> +
-> +	/* Find the first memory node */
-> +	memory = getprop(fdt, "/memory", "reg");
-> +	if (!memory)
-> +		return -1;
-> +
-> +	/* There may be multiple cells on LPAE platforms */
-> +	addr_size = get_addr_size(fdt);
-> +
-> +	return fdt32_to_cpu(memory[addr_size - 1]);
+> +	INIT_DELAYED_WORK(&priv->poll_work, quirk_poll_work);
+> +	timer_setup(&priv->poll_timer, quirk_poll_timer, 0);
+> +	mod_timer(&priv->poll_timer, jiffies + HZ);
 > +}
-> diff --git a/arch/arm/boot/compressed/head.S b/arch/arm/boot/compressed/head.S
-> index 927f5dc413d7dff2..aa2d7de2ddc86fa8 100644
-> --- a/arch/arm/boot/compressed/head.S
-> +++ b/arch/arm/boot/compressed/head.S
-> @@ -235,8 +235,56 @@ not_angel:
->  		.text
+> +
+> +static void quirk_poll_end(struct ehci_platform_priv *priv)
+> +{
+> +	del_timer_sync(&priv->poll_timer);
+> +	cancel_delayed_work(&priv->poll_work);
+> +}
+> +
+> +static const struct soc_device_attribute quirk_poll_match[] = {
+> +	{ .family = "R-Car Gen3" },
+> +	{ /* sentinel*/ }
+> +};
+> +
+>  static int ehci_platform_probe(struct platform_device *dev)
+>  {
+>  	struct usb_hcd *hcd;
+> @@ -176,6 +286,9 @@ static int ehci_platform_probe(struct platform_device *dev)
+>  					  "has-transaction-translator"))
+>  			hcd->has_tt = 1;
 >  
->  #ifdef CONFIG_AUTO_ZRELADDR
-> +#ifdef CONFIG_USE_OF
->  		/*
-> -		 * Find the start of physical memory.  As we are executing
-> +		 * Find the start of physical memory.
-> +		 * Try the DTB first, if available.
-> +		 */
-> +		adr	r0, LC0
-> +		ldr	r1, [r0]	@ get absolute LC0
-> +		ldr	sp, [r0, #28]	@ get stack location
-> +		sub	r1, r0, r1	@ compute relocation offset
-> +		add	sp, sp, r1	@ apply relocation
+> +		if (soc_device_match(quirk_poll_match))
+> +			priv->quirk_poll = true;
 > +
-> +#ifdef CONFIG_ARM_APPENDED_DTB
-> +		/*
-> +		 * Look for an appended DTB. If found, use it and
-> +		 * move stack away from it.
-> +		 */
-> +		ldr	r6, [r0, #12]	@ get &_edata
-> +		add	r6, r6, r1	@ relocate it
-> +		ldmia	r6, {r0, r5}	@ get DTB signature and size
-> +#ifndef __ARMEB__
-> +		ldr	r1, =0xedfe0dd0	@ sig is 0xd00dfeed big endian
-> +		/* convert DTB size to little endian */
-> +		eor	r2, r5, r5, ror #16
-> +		bic	r2, r2, #0x00ff0000
-> +		mov	r5, r5, ror #8
-> +		eor	r5, r5, r2, lsr #8
-> +#else
-> +		ldr	r1, =0xd00dfeed
-> +#endif
-> +		cmp	r0, r1		@ do we have a DTB there?
-> +		bne	1f
+>  		for (clk = 0; clk < EHCI_MAX_CLKS; clk++) {
+>  			priv->clks[clk] = of_clk_get(dev->dev.of_node, clk);
+>  			if (IS_ERR(priv->clks[clk])) {
+> @@ -247,6 +360,9 @@ static int ehci_platform_probe(struct platform_device *dev)
+>  	device_enable_async_suspend(hcd->self.controller);
+>  	platform_set_drvdata(dev, hcd);
+>  
+> +	if (priv->quirk_poll)
+> +		quirk_poll_init(priv);
 > +
-> +		mov	r8, r6		@ use it if so
-> +		/* preserve 64-bit alignment */
-> +		add	r5, r5, #7
-> +		bic	r5, r5, #7
-> +		add	sp, sp, r5	@ and move stack above it
+>  	return err;
+>  
+>  err_power:
+> @@ -273,6 +389,9 @@ static int ehci_platform_remove(struct platform_device *dev)
+>  	struct ehci_platform_priv *priv = hcd_to_ehci_priv(hcd);
+>  	int clk;
+>  
+> +	if (priv->quirk_poll)
+> +		quirk_poll_end(priv);
 > +
-> +1:
-> +#endif /* CONFIG_ARM_APPENDED_DTB */
+>  	usb_remove_hcd(hcd);
+>  
+>  	if (pdata->power_off)
+> @@ -297,9 +416,13 @@ static int ehci_platform_suspend(struct device *dev)
+>  	struct usb_hcd *hcd = dev_get_drvdata(dev);
+>  	struct usb_ehci_pdata *pdata = dev_get_platdata(dev);
+>  	struct platform_device *pdev = to_platform_device(dev);
+> +	struct ehci_platform_priv *priv = hcd_to_ehci_priv(hcd);
+>  	bool do_wakeup = device_may_wakeup(dev);
+>  	int ret;
+>  
+> +	if (priv->quirk_poll)
+> +		quirk_poll_end(priv);
 > +
-> +		mov	r0, r8
-> +		bl	fdt_get_mem_start
-> +		mov	r4, r0
-> +		cmp	r0, #-1
-> +		bne	1f
-> +#endif /* CONFIG_USE_OF */
+>  	ret = ehci_suspend(hcd, do_wakeup);
+>  	if (ret)
+>  		return ret;
+> @@ -331,6 +454,10 @@ static int ehci_platform_resume(struct device *dev)
+>  	}
+>  
+>  	ehci_resume(hcd, priv->reset_on_resume);
 > +
-> +		/*
-> +		 * Fall back to the traditional method.  As we are executing
->  		 * without the MMU on, we are in the physical address space.
->  		 * We just need to get rid of any offset by aligning the
->  		 * address.
-> @@ -254,6 +302,8 @@ not_angel:
->  		 */
->  		mov	r4, pc
->  		and	r4, r4, #0xf8000000
+> +	if (priv->quirk_poll)
+> +		quirk_poll_init(priv);
 > +
-> +1:
->  		/* Determine final kernel image address. */
->  		add	r4, r4, #TEXT_OFFSET
->  #else
-> -- 
-> 2.17.1
+>  	return 0;
+>  }
+>  #endif /* CONFIG_PM_SLEEP */
+> diff --git a/include/linux/usb/ehci_def.h b/include/linux/usb/ehci_def.h
+> index a15ce99..78e0063 100644
+> --- a/include/linux/usb/ehci_def.h
+> +++ b/include/linux/usb/ehci_def.h
+> @@ -151,7 +151,7 @@ struct ehci_regs {
+>  #define PORT_OWNER	(1<<13)		/* true: companion hc owns this port */
+>  #define PORT_POWER	(1<<12)		/* true: has power (see PPC) */
+>  #define PORT_USB11(x) (((x)&(3<<10)) == (1<<10))	/* USB 1.1 device */
+> -/* 11:10 for detecting lowspeed devices (reset vs release ownership) */
+> +#define PORT_LS_MASK	(3<<10)		/* Link status (SE0, K or J */
+>  /* 9 reserved */
+>  #define PORT_LPM	(1<<9)		/* LPM transaction */
+>  #define PORT_RESET	(1<<8)		/* reset port */
 > 
-> 
+
