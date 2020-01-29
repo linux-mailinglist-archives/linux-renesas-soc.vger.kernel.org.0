@@ -2,88 +2,66 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DF7114D09F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2020 19:41:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B52FB14D1F7
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 29 Jan 2020 21:37:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727524AbgA2SlE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 29 Jan 2020 13:41:04 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:42889 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727523AbgA2SlE (ORCPT
+        id S1726672AbgA2Uh0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 29 Jan 2020 15:37:26 -0500
+Received: from sauhun.de ([88.99.104.3]:41348 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726317AbgA2Uh0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 29 Jan 2020 13:41:04 -0500
-X-IronPort-AV: E=Sophos;i="5.70,378,1574089200"; 
-   d="scan'208";a="37715617"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 30 Jan 2020 03:41:03 +0900
-Received: from marian-VirtualBox.ree.adwin.renesas.com (unknown [10.226.36.164])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 8836E4007F2E;
-        Thu, 30 Jan 2020 03:41:02 +0900 (JST)
-From:   Marian-Cristian Rotariu 
-        <marian-cristian.rotariu.rb@bp.renesas.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Chris Paterson <chris.paterson2@renesas.com>,
-        prabhakar.mahadev-lad.rj@bp.renesas.com,
-        Marian-Cristian Rotariu 
-        <marian-cristian.rotariu.rb@bp.renesas.com>
-Subject: [PATCH 2/2] ARM: dts: iwg22d-sodimm: disable lcd for extension board
-Date:   Wed, 29 Jan 2020 18:40:53 +0000
-Message-Id: <1580323253-3281-3-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1580323253-3281-1-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
-References: <1580323253-3281-1-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
+        Wed, 29 Jan 2020 15:37:26 -0500
+Received: from localhost (p5486CF2C.dip0.t-ipconnect.de [84.134.207.44])
+        by pokefinder.org (Postfix) with ESMTPSA id 4E8292C06AB;
+        Wed, 29 Jan 2020 21:37:23 +0100 (CET)
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-mmc@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [RFC PATCH 0/6] mmc: tmio: move TAP handling to SDHI driver
+Date:   Wed, 29 Jan 2020 21:37:03 +0100
+Message-Id: <20200129203709.30493-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The two variants of the iW-G22D should be mutually exclusive, therefore
-this patch disables the RGB LCD display when the HDMI extension board is
-used.
+TAP and SCC handling is Renesas specific, so it should be moved to the
+SDHI driver. After previous refactoring, this is possible now. And
+feasible, too, to simplify further HS400 corrections. IMHO it also makes
+the driver less complicated.
 
-Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
----
- arch/arm/boot/dts/r8a7745-iwg22d-sodimm-dbhd-ca.dts | 13 +++++++++++++
- arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts         |  2 +-
- 2 files changed, 14 insertions(+), 1 deletion(-)
+See the patches why this series is still RFC.
 
-diff --git a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm-dbhd-ca.dts b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm-dbhd-ca.dts
-index 2aeebfc..cb76469 100644
---- a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm-dbhd-ca.dts
-+++ b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm-dbhd-ca.dts
-@@ -108,6 +108,19 @@
- 	};
- };
- 
-+&lcd_panel {
-+	status = "disabled";
-+
-+	/* null reference to get rid of the dtc warning */
-+	ports {
-+		port@0 {
-+			endpoint {
-+				remote-endpoint = <0>;
-+			};
-+		};
-+	};
-+};
-+
- &pfc {
- 	can1_pins: can1 {
- 		groups = "can1_data_b";
-diff --git a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
-index 878113a..444adc6 100644
---- a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
-+++ b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
-@@ -98,7 +98,7 @@
- 		pinctrl-names = "default";
- 	};
- 
--	lcd {
-+	lcd_panel: lcd {
- 		compatible = "edt,etm043080dh6gp", "simple-panel";
- 		power-supply = <&vccq_panel>;
- 
+This is based on top of the series:
+[RFC PATCH v2 0/5] mmc: renesas_sdhi: add manual correction
+
+A branch can be found here:
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/sdhi/new_manual_calib
+
+It has been tested with a Renesas Salvator-XS boards, one with a R-Car
+M3-N and one with H3-ES2.0. Tuning to HS400 still works.
+
+
+Wolfram Sang (6):
+  mmc: tmio: refactor tuning execution into SDHI driver
+  mmc: renesas_sdhi: complain loudly if driver needs update
+  mmc: tmio: give callback a generic name
+  mmc: tmio: enforce retune after runtime suspend
+  mmc: tmio: factor out TAP usage
+  mmc: tmio: remove superfluous callback wrappers
+
+ drivers/mmc/host/renesas_sdhi.h      |  5 ++
+ drivers/mmc/host/renesas_sdhi_core.c | 90 +++++++++++++++++-----------
+ drivers/mmc/host/tmio_mmc.h          | 11 +---
+ drivers/mmc/host/tmio_mmc_core.c     | 77 +++---------------------
+ 4 files changed, 71 insertions(+), 112 deletions(-)
+
 -- 
-2.7.4
+2.20.1
 
