@@ -2,91 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A79E114D93D
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2020 11:47:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 837F814DA9E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2020 13:33:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726959AbgA3KrU convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Jan 2020 05:47:20 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:44305 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726873AbgA3KrU (ORCPT
+        id S1726902AbgA3MdC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Jan 2020 07:33:02 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:35510 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726873AbgA3MdC (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Jan 2020 05:47:20 -0500
-Received: by mail-oi1-f193.google.com with SMTP id d62so2990447oia.11;
-        Thu, 30 Jan 2020 02:47:18 -0800 (PST)
+        Thu, 30 Jan 2020 07:33:02 -0500
+Received: by mail-ot1-f66.google.com with SMTP id r16so2967386otd.2;
+        Thu, 30 Jan 2020 04:33:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=bPds3H999b4sbHrI2xdAWDEqcLze26VG68J4dxk2Yzk=;
-        b=hMJEGbqCGoXqKSMm7XRaHGmbjlgrwgA35iGbJ6tjlpXkjSz9HM5pUHHn8ZIiiHeeLe
-         2Lnhbyqpw+Kb4JkIdM0qHToDd85qVJ74mIho77RoWzEXha+ZabgI7sQ+ZQZGD9ueR0dc
-         o9k+GGWM5kOd9qDV/fH92l9MF0QHEmejEGBcJCcszmMeZh80CQTVDt9jtjgbS8QYY3or
-         RkfExkDASbxI10MM3qf4Z+Q+HK7c/BuegdFSB87HbsNB4nP1XQXxtexFG1AZ5CEZiYFH
-         cIPlB6BSsVlvTHd8O5zJ5GS0wHqQDSTsFim6TYB318kTYV8LiE3Zm8JDFjYd9iWH4gF2
-         ZtIQ==
-X-Gm-Message-State: APjAAAW2hfsMAlsVDdNYmMVVWbSgEEe4z3wQ0PKacILSF//G5ty5OCMB
-        NtfdQXhJaCY7uehkiwAXKNzW55U/KWzJYh6KNEY=
-X-Google-Smtp-Source: APXvYqxIIIUZohrSHPenmUgXJVSQveonFR4aBuAgIfsx5KeWWKf4XoO8s9HK9UDm6Zq9rBqeQiGzkmicCj+rhBlMZPs=
-X-Received: by 2002:aca:48cd:: with SMTP id v196mr2530305oia.102.1580381238139;
- Thu, 30 Jan 2020 02:47:18 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=SF4A8MXH4i+NehAjiTIe/wipSti1DDnySBzIoKhtngY=;
+        b=eSq6OFsX4FUlr2UyT62wcGR/P57xE6a1RWZKmFOUveUDcc2MF6HDoUuqNOKoI/hX/Q
+         5mG9gOuUPYXSq10Qquk70XLbbshE489kwzMlFyZ/fEMlG1cIKE/CzjcSdydLnhPi93pY
+         oUiTEq0UNwlUVxyKVDVRblmdhGAbQT9xy25izoBxIHzbm7hJYMOJqM4Ost6sGI3KcV1G
+         gqRgmUqoqjbDSgGI83nRBNWfLmi5uX1BpcJiQ2PgVmRuTAvi1Z/KTVwzYLhEphYxUJOT
+         cLxQusUClWa9kQ1e5q+NZnJLeiH2oO8cubqo3dFJKVzHmCwvo5wPP6cUAVeldR5XuTgr
+         Rfrg==
+X-Gm-Message-State: APjAAAVpvdwBCH8pCGTItPOSbZJJAPxLOQZpQw64tf297s9Ibff0pkIj
+        TIpPhBLdXTu5Th82Y6AOkaWnFsLRXCSkwzbjVkc=
+X-Google-Smtp-Source: APXvYqymSbwIVGK+M1CJKuu8V4/Pmg47Q6gWht5FbqvzeN05ArmzMI8NjyeixcBdRSkS9xgrJChKC5UFlRm4eXp+0T0=
+X-Received: by 2002:a9d:7984:: with SMTP id h4mr3438190otm.297.1580387581450;
+ Thu, 30 Jan 2020 04:33:01 -0800 (PST)
 MIME-Version: 1.0
-References: <CGME20200129174723eucas1p1fe4f76325f463fc9e3645ce18740d2eb@eucas1p1.samsung.com>
- <20200117153056.31363-1-geert+renesas@glider.be> <fde812a2-aea6-c16e-5ed7-ab5195b1259f@samsung.com>
- <CAMuHMdXds2HuBAnLXmLVaCWKX77iZGvNSnD35-ysY9AnG9TKMw@mail.gmail.com> <ab83c4e0-87d2-c60e-afa7-4549ffb15397@samsung.com>
-In-Reply-To: <ab83c4e0-87d2-c60e-afa7-4549ffb15397@samsung.com>
+References: <20200129161955.30562-1-erosca@de.adit-jv.com>
+In-Reply-To: <20200129161955.30562-1-erosca@de.adit-jv.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 30 Jan 2020 11:47:06 +0100
-Message-ID: <CAMuHMdV3iCgcOxNnjEaAW-E=OzyWfnFJppS5pPoGD6O6h6kcfg@mail.gmail.com>
-Subject: Re: [PATCH v2] dmaengine: Create symlinks between DMA channels and slaves
-To:     Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Vinod Koul <vkoul@kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        dmaengine@vger.kernel.org,
+Date:   Thu, 30 Jan 2020 13:32:50 +0100
+Message-ID: <CAMuHMdWV0kkKq6sKOHsdz+FFGNHphzq_q7rvmYAL=U4fH2H3wQ@mail.gmail.com>
+Subject: Re: [PATCH] serial: sh-sci: Support custom speed setting
+To:     Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc:     "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        "George G . Davis" <george_davis@mentor.com>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        Jiada Wang <jiada_wang@mentor.com>,
+        Yuichi Kusakabe <yuichi.kusakabe@denso-ten.com>,
+        Yasushi Asano <yasano@jp.adit-jv.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        Fukui Yohhei <yohhei.fukui@denso-ten.com>,
+        Torii Kenichi <torii.ken1@jp.fujitsu.com>,
+        Magnus Damm <magnus.damm@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marek,
+Hi Eugeniu,
 
-On Thu, Jan 30, 2020 at 11:33 AM Marek Szyprowski
-<m.szyprowski@samsung.com> wrote:
-> On 30.01.2020 09:30, Geert Uytterhoeven wrote:
-> > On Wed, Jan 29, 2020 at 6:47 PM Marek Szyprowski
-> > <m.szyprowski@samsung.com> wrote:
-> >> On 17.01.2020 16:30, Geert Uytterhoeven wrote:
-> >>> Currently it is not easy to find out which DMA channels are in use, and
-> >>> which slave devices are using which channels.
-> >>>
-> >>> Fix this by creating two symlinks between the DMA channel and the actual
-> >>> slave device when a channel is requested:
-> >>>     1. A "slave" symlink from DMA channel to slave device,
-> >>>     2. A "dma:<name>" symlink slave device to DMA channel.
-> >>> When the channel is released, the symlinks are removed again.
-> >>> The latter requires keeping track of the slave device and the channel
-> >>> name in the dma_chan structure.
-> >>>
-> >>> Note that this is limited to channel request functions for requesting an
-> >>> exclusive slave channel that take a device pointer (dma_request_chan()
-> >>> and dma_request_slave_channel*()).
-> >>>
-> >>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> >>> Tested-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
-> >> This patch breaks booting on almost all Exynos based boards:
-> >>
-> >> https://lore.kernel.org/linux-samsung-soc/20200129161113.GE3928@sirena.org.uk/T/#u
-> > Sorry for the breakage.
+On Wed, Jan 29, 2020 at 5:20 PM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
+> From: Torii Kenichi <torii.ken1@jp.fujitsu.com>
 >
-> No problem, that's why we have linux-next.
+> This patch is necessary to use BT module and XM module with DENSO TEN
+> development board.
+>
+> This patch supports ASYNC_SPD_CUST flag by ioctl(TIOCSSERIAL), enables
+> custom speed setting with setserial(1).
+>
+> The custom speed is calculated from uartclk and custom_divisor.
+> If custom_divisor is zero, custom speed setting is invalid.
+>
+> Signed-off-by: Torii Kenichi <torii.ken1@jp.fujitsu.com>
+> [erosca: rebase against v5.5]
+> Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
 
-Not really: by that time it had been upstream for 2 days :-(
+Thanks for your patch!
+
+While this seems to work fine[*], I have a few comments/questions:
+  1. This feature seems to be deprecated:
+
+         sh-sci e6e68000.serial: setserial sets custom speed on
+ttySC1. This is deprecated.
+
+  2. As the wanted speed is specified as a divider, the resulting speed
+     may be off, cfr. the example for 57600 below.
+     Note that the SCIF device has multiple clock inputs, and can do
+     57600 perfectly if the right crystal has been fitted.
+
+ 3. What to do with "[PATCH/RFC] serial: sh-sci: Update uartclk based
+     on selected clock" (https://patchwork.kernel.org/patch/11103703/)?
+     Combined with this, things become pretty complicated and
+     unpredictable, as uartclk now always reflect the frequency of the
+     last used base clock, which was the optimal one for the previously
+     used speed....
+
+I think it would be easier if we just had an API to specify a raw speed.
+Perhaps that already exists?
+
+BTW, what's the speed you need for your BT/XM modules?
+
+[*] stty speed 38400 < /dev/ttySC1 followed by
+    setserial /dev/ttySC1 spd_cust divisor 1128 gives 57624 bps on Koelsch.
 
 Gr{oetje,eeting}s,
 
