@@ -2,70 +2,126 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 655D714DF58
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2020 17:43:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F122C14DF9E
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2020 18:07:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727267AbgA3QnP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Jan 2020 11:43:15 -0500
-Received: from mail-yb1-f193.google.com ([209.85.219.193]:34822 "EHLO
-        mail-yb1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727263AbgA3QnO (ORCPT
+        id S1727191AbgA3RHD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Jan 2020 12:07:03 -0500
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:32916 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727158AbgA3RHD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Jan 2020 11:43:14 -0500
-Received: by mail-yb1-f193.google.com with SMTP id q190so1676007ybq.2
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 30 Jan 2020 08:43:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dAkoTJZXXC8pAie0MxZm+ns3OGuUhEoZUpXun7fS/so=;
-        b=dtbCGYT0MciH9KjQUXOaMT+fL/nydck89BQMu27zg4gJSTrGPVCs95wVvzzLf1UG/B
-         qk3t3k6OoM2clcb5ir9ftv2s3FR4nk9Y6fKs1OwUSgla8H60aeVczEOWcujPUX4Jy1E8
-         SNuVaiY2MeeT5SkC5OTh+0ywWY0A9cMFMe0WxSHhTXV29i+tWexYB976nGHzYxzdkLor
-         DeyAzN+PEOXSBbsWQF9sPCbs7F+0OUdTzhwYMmQYZAOLA2dRkrUsHssiIyJPRw73wLW3
-         bd4jlaF39MTiNxdObDEIIAzx/j/Mo0DN9piWpXFjZkoHCLTZVp397qx5qbnr8+d3lRct
-         IoFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dAkoTJZXXC8pAie0MxZm+ns3OGuUhEoZUpXun7fS/so=;
-        b=DhReng3MM+s9cub++4VeOuCF9Qs85lRoAQa8hE2kBOczPG9IOWBEKt/uY6XttxgDyw
-         lnaX6sHbv8O3EIVQqhWWPu0S9NAH+JcBvkNMfKLV8zuMkxeqzDwpx5r5lZfch56VSzJS
-         36S8zEczyYRPB6ElfjeLFHSKkUUo9V+rTlKpLZEfWxQQ22tHfFsYIU+Wla16Z2JFbJUi
-         7oEtZKudvTznrDAy1oS/eQUiXjPde9a610Qr4iP9BuZ8UWk4wxe6HP3Crzi/eTPBW8hF
-         DWeuLitf19P5XXTqXRHhnjH9LuuoL1K5e6j6wuSgSoNKFAAVmjiWmcRpI6hbNZE4jVUY
-         COjw==
-X-Gm-Message-State: APjAAAWXEKiDumWG9YJ9kde2hP3zrJZlwjIpeVB4vNKe1kgLWdwp4cJP
-        dVp9Dtf42N5qDVzpz4W+ip2avdhile2M/F7oOF5ZUV8F
-X-Google-Smtp-Source: APXvYqz7cFNhADLChzqRrZwg9cGy/NYutjxxN098GFg13g0Zji9npPS6Idi0XmbWJnvU81vfR4Z/2+GdXfpFdj/Gv2U=
-X-Received: by 2002:a05:6902:6c4:: with SMTP id m4mr5008083ybt.274.1580402593410;
- Thu, 30 Jan 2020 08:43:13 -0800 (PST)
+        Thu, 30 Jan 2020 12:07:03 -0500
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id A461D3C057C;
+        Thu, 30 Jan 2020 18:07:00 +0100 (CET)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id wmaWBuuFRJ4P; Thu, 30 Jan 2020 18:06:54 +0100 (CET)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id CF2B33C0579;
+        Thu, 30 Jan 2020 18:06:54 +0100 (CET)
+Received: from vmlxhi-118.adit-jv.com (10.72.93.77) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Thu, 30 Jan
+ 2020 18:06:54 +0100
+From:   Hardik Gajjar <hgajjar@de.adit-jv.com>
+To:     <gregkh@linuxfoundation.org>, <stern@rowland.harvard.edu>,
+        <thinhn@synopsys.com>, <Kento.A.Kobayashi@sony.com>,
+        <atmgnd@outlook.com>, <linux-usb@vger.kernel.org>
+CC:     <andrew_gabbasov@mentor.com>, <erosca@de.adit-jv.com>,
+        <linux-renesas-soc@vger.kernel.org>, <hgajjar@de.adit-jv.com>
+Subject: [PATCH v2] USB: hub: Fix the broken detection of USB3 device in SMSC hub
+Date:   Thu, 30 Jan 2020 18:06:34 +0100
+Message-ID: <1580403994-21076-1-git-send-email-hgajjar@de.adit-jv.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20191030184844.84219-1-edumazet@google.com> <CAMuHMdVK=dUxhJh1pjLe4bGn3V=FHJ_90oga0USRBw-wSqd8Pw@mail.gmail.com>
- <20200130162740.GA6429@lst.de>
-In-Reply-To: <20200130162740.GA6429@lst.de>
-From:   Eric Dumazet <edumazet@google.com>
-Date:   Thu, 30 Jan 2020 08:43:02 -0800
-Message-ID: <CANn89iJW24mUW9TGt8D9jHRdvd31Czf8S7XEU1_kJBThZiTwSg@mail.gmail.com>
-Subject: Re: [PATCH] dma-debug: increase HASH_SIZE
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Eric Dumazet <eric.dumazet@gmail.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [10.72.93.77]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Jan 30, 2020 at 8:27 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Tue, Dec 10, 2019 at 03:55:08PM +0100, Geert Uytterhoeven wrote:
+Renesas R-Car H3ULCB + Kingfisher Infotainment Board is either not able
+to detect the USB3.0 mass storage devices or is detecting those as
+USB2.0 high speed devices.
 
->
-> Can someone just send a patch to switch this to a dynamic allocation?
+The explanation given by Renesas is that, due to a HW issue, the XHCI
+driver does not wake up after going to sleep on connecting a USB3.0
+device.
 
-Yes I can do that, thanks for the reminder.
+In order to mitigate that, disable the auto-suspend feature
+specifically for SMSC hubs from hub_probe() function, as a quirk.
+
+Renesas Kingfisher Infotainment Board has two USB3.0 ports (CN2) which
+are connected via USB5534B 4-port SuperSpeed/Hi-Speed, low-power,
+configurable hub controller.
+
+[1] SanDisk USB 3.0 device detected as USB-2.0 before the patch
+ [   74.036390] usb 5-1.1: new high-speed USB device number 4 using xhci-hcd
+ [   74.061598] usb 5-1.1: New USB device found, idVendor=0781, idProduct=5581, bcdDevice= 1.00
+ [   74.069976] usb 5-1.1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+ [   74.077303] usb 5-1.1: Product: Ultra
+ [   74.080980] usb 5-1.1: Manufacturer: SanDisk
+ [   74.085263] usb 5-1.1: SerialNumber: 4C530001110208116550
+
+[2] SanDisk USB 3.0 device detected as USB-3.0 after the patch
+ [   34.565078] usb 6-1.1: new SuperSpeed Gen 1 USB device number 3 using xhci-hcd
+ [   34.588719] usb 6-1.1: New USB device found, idVendor=0781, idProduct=5581, bcdDevice= 1.00
+ [   34.597098] usb 6-1.1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+ [   34.604430] usb 6-1.1: Product: Ultra
+ [   34.608110] usb 6-1.1: Manufacturer: SanDisk
+ [   34.612397] usb 6-1.1: SerialNumber: 4C530001110208116550
+
+Signed-off-by: Hardik Gajjar <hgajjar@de.adit-jv.com>
+---
+Changes in v2:
+ - [Alan Stern] Switched from pm_runtime_set_autosuspend_delay()
+   to usb_autopm_get_interface()
+ - Improved commit description
+ - Rebased against v5.5
+ - https://lore.kernel.org/linux-renesas-soc/1579876573-13741-1-git-send-email-hgajjar@de.adit-jv.com/
+
+ drivers/usb/core/hub.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 3405b14..4152f44 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -38,7 +38,9 @@
+ #include "otg_whitelist.h"
+ 
+ #define USB_VENDOR_GENESYS_LOGIC		0x05e3
++#define USB_VENDOR_SMSC				0x0424
+ #define HUB_QUIRK_CHECK_PORT_AUTOSUSPEND	0x01
++#define HUB_QUIRK_DISABLE_AUTOSUSPEND		0x02
+ 
+ #define USB_TP_TRANSMISSION_DELAY	40	/* ns */
+ #define USB_TP_TRANSMISSION_DELAY_MAX	65535	/* ns */
+@@ -1863,6 +1865,9 @@ static int hub_probe(struct usb_interface *intf, const struct usb_device_id *id)
+ 	if (id->driver_info & HUB_QUIRK_CHECK_PORT_AUTOSUSPEND)
+ 		hub->quirk_check_port_auto_suspend = 1;
+ 
++	if (id->driver_info & HUB_QUIRK_DISABLE_AUTOSUSPEND)
++		usb_autopm_get_interface(intf);
++
+ 	if (hub_configure(hub, &desc->endpoint[0].desc) >= 0)
+ 		return 0;
+ 
+@@ -5599,6 +5604,10 @@ static void hub_event(struct work_struct *work)
+ }
+ 
+ static const struct usb_device_id hub_id_table[] = {
++    { .match_flags = USB_DEVICE_ID_MATCH_VENDOR | USB_DEVICE_ID_MATCH_INT_CLASS,
++      .idVendor = USB_VENDOR_SMSC,
++      .bInterfaceClass = USB_CLASS_HUB,
++      .driver_info = HUB_QUIRK_DISABLE_AUTOSUSPEND},
+     { .match_flags = USB_DEVICE_ID_MATCH_VENDOR
+ 			| USB_DEVICE_ID_MATCH_INT_CLASS,
+       .idVendor = USB_VENDOR_GENESYS_LOGIC,
+-- 
+2.7.4
+
