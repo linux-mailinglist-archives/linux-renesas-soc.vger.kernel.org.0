@@ -2,105 +2,201 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76DA714D899
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2020 11:05:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 781A014D8D7
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 30 Jan 2020 11:22:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727036AbgA3KFs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 30 Jan 2020 05:05:48 -0500
-Received: from mail-eopbgr1410102.outbound.protection.outlook.com ([40.107.141.102]:8301
-        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727027AbgA3KFr (ORCPT
+        id S1727024AbgA3KWI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 30 Jan 2020 05:22:08 -0500
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:47828 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726893AbgA3KWI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 30 Jan 2020 05:05:47 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ld13QiA5NUZFQqbkQBiFxFll5ZJobvpENpnd3Nly7QbOGzjNehmSgnkOXdvCVktfukeSmLRzgj0ns8tNEPKS97F1DVwKcsEpfPySc4VPy53WLrNW6CYhiUlk4dCy6Br5Rp83v5ZdTWaW7bhsDBuZVyQ8TapZ86jn7FmdJ24uU/q8is7BHeT9BxpP9XifbVXybtmClykJ8i86oJl3ufLzfB+0GDcWYvR0aut1OV1CW2L/EMrOB4K7FBCUXLWpiqcc2qyZeeKLVF07hRXL24ICXhO8eayt9MCUzJy8Sh4QJw6txn9UyeS85SIUkxrL1eiGE6cJN89HeZecVaO4ALm1cQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jn5+leikvrKcmZ821Z2WOAKc341nmVW7g4CC2ySB4+0=;
- b=LRpm9B9XKpOwQz+ZLs9U4w8scYYPIbIlf/jNIU++0idVYL4CqfI1k28tbysMtrY4S4jGMI/aOYV8oZtjqosYOFk8vEvUww1gPZo6rw9Q4y/Zbr+BYuVstBbMUKjwfGHtj1i1/eQM2ynuQP3VO/Bwx4VGE3D7V48+HbP3BcfCpTK+0ZFXYyRiQzkw06TkbG9tLBk1Dt0VmbK5+9MWyf5O0evEg+2H/0YwHW8wIQNbvm2YfLBiCG2QHO+i48q68X9zBUAma/qqljfUzH6bPJUig4JtnyYj9+VL438o3B9930cDhGiXeqPzzejVrEIlpjtfNwNjm0i5GYhxO7jKvxdWIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jn5+leikvrKcmZ821Z2WOAKc341nmVW7g4CC2ySB4+0=;
- b=Tphpj0jr+yR5TtFEYP6rsMYcwKKSYSHF9NKG7q66E6RS9SR+qq48PJqnYfIhkD/jiX21GIsyJHcUigtKML1niMndu36Ez7OpsYjtkC517NQthIVwlTrVhFvwcSVafe5H7Xj/pGM6Rg1kOAaCvTriwitFOnWm/Ucr6AXEBKns8O8=
-Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
- TYAPR01MB3390.jpnprd01.prod.outlook.com (20.178.140.86) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2665.21; Thu, 30 Jan 2020 10:05:40 +0000
-Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
- ([fe80::318b:31aa:4212:bd49]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
- ([fe80::318b:31aa:4212:bd49%7]) with mapi id 15.20.2665.027; Thu, 30 Jan 2020
- 10:05:40 +0000
-From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>
-CC:     "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [RFC PATCH v2 5/5] mmc: renesas_sdhi: cleanup SCC defines
-Thread-Topic: [RFC PATCH v2 5/5] mmc: renesas_sdhi: cleanup SCC defines
-Thread-Index: AQHVtM7Vgp4j2fYRWUOgwYV0P7TevKgDP9uA
-Date:   Thu, 30 Jan 2020 10:05:40 +0000
-Message-ID: <TYAPR01MB4544745FB7765882F4EF5A2ED8040@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-References: <20191217114034.13290-1-wsa+renesas@sang-engineering.com>
- <20191217114034.13290-6-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20191217114034.13290-6-wsa+renesas@sang-engineering.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
-x-originating-ip: [124.210.22.195]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 16fc55a0-2f91-4489-d9a5-08d7a56bf5fb
-x-ms-traffictypediagnostic: TYAPR01MB3390:
-x-microsoft-antispam-prvs: <TYAPR01MB33901B6A6D5C8B97CD269E95D8040@TYAPR01MB3390.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4303;
-x-forefront-prvs: 02981BE340
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(39860400002)(396003)(136003)(366004)(346002)(376002)(199004)(189003)(4326008)(71200400001)(478600001)(86362001)(2906002)(186003)(55016002)(558084003)(81166006)(9686003)(8676002)(8936002)(81156014)(52536014)(76116006)(316002)(55236004)(26005)(5660300002)(7696005)(6506007)(66946007)(66446008)(110136005)(66476007)(66556008)(64756008)(33656002);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB3390;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: +53lfFxWSjvYnvp16lBHR6pV48DsOtzFKoMnxxOlnEiG9pWocPZVsO7TynKB74fzH+P0tnj4KY5K5TgClJMlMK/HN9H1Jtd+LlOEXaxM2Xclvv2lqokaNRh9OnMv3kh4HNrWEPmLPBtKyVeUgylE86VCmB8lB1IKX90WZg5+G/j0//JBxbUllIPDNTDZsHluLIOoXZyVAt0adfIUkYbay+A87Cqk+hwClFdJaqBBs/ohWR+uaWl+TwkuZw598kTt1xb8ffBmj52JJd3Dda/SDsVPumNX+IcFmaB7bW75wO0Wb6WICOodQwzLARqlx0FYIF1MAnTNW2KxXY6puZnzNfyhXwNKgNmt5lNrxvQ5AFzKj5ij0tyPhkRYyTe30AlwywtaoeH9NalgTg4JSJJDZqpwwYIyhXwvMxYHnaxI/8dbhF0aVymrKs+iObsy/Zm9
-x-ms-exchange-antispam-messagedata: D89bsdY+jNRQV7td0GDP79yfU8VWe6+xnGrp/46+Ws68HiBPKBywjc4K3tjBxgUeWEHzLohNXJV3xnsT35wvaBSPX5yO2Jtg4sllNLppzHHkTiIfQwERkvHmCDCDrR3/W/W2xMY+hWPRSrDNG+yOoA==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        Thu, 30 Jan 2020 05:22:08 -0500
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 00UALqEk116713;
+        Thu, 30 Jan 2020 04:21:52 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1580379712;
+        bh=kfF8u1Xp5NL1vqZWDVbstWL95hLxrd0Jlnj/4YhudLA=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=iQQD7TMZ8qDhhjjRaizXsbs/ppQPdYbHwKbYXVC7qrgW4EHYKChs/OuEoA4YOMyFO
+         fBNeNxpfW+LJX5EVAIij8jbyqmo+NwO5uMSVI+HgqRswAWGFwNWzYI0wNPZLoe+Zv3
+         9UEJC9WCJs0bcjEitxDIMrq29Woj01TNPJC6ChxE=
+Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 00UALqZw070734
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 30 Jan 2020 04:21:52 -0600
+Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Thu, 30
+ Jan 2020 04:21:51 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE101.ent.ti.com
+ (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Thu, 30 Jan 2020 04:21:51 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 00UALn2A106430;
+        Thu, 30 Jan 2020 04:21:50 -0600
+Subject: Re: [PATCH v2] dmaengine: Create symlinks between DMA channels and
+ slaves
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Vinod Koul <vkoul@kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        <dmaengine@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20200117153056.31363-1-geert+renesas@glider.be>
+ <e219bc58-0d30-582f-4872-559097f212d2@ti.com>
+ <CAMuHMdWim4kq=JCrprybMOA+ipaxNTm4+zgjrmoFxffM+nSnPw@mail.gmail.com>
+From:   Peter Ujfalusi <peter.ujfalusi@ti.com>
+Message-ID: <bdba1ecd-b47a-f790-7385-cfad364423df@ti.com>
+Date:   Thu, 30 Jan 2020 12:22:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 16fc55a0-2f91-4489-d9a5-08d7a56bf5fb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jan 2020 10:05:40.1472
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: BMfSMyJsk6o1J20QgT9rr9krAibt7S/C7DR1WyDzaAmySvOnuLmlM2h2kOioVAms1bIqaBo5qtZ5LKS36Dy7Xa45qNn/JcBM+sfq6/VfNyogrEXJnqXwWb+hkpNIU91f
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB3390
+In-Reply-To: <CAMuHMdWim4kq=JCrprybMOA+ipaxNTm4+zgjrmoFxffM+nSnPw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram-san,
+Hi Geert,
 
-> From: Wolfram Sang, Sent: Tuesday, December 17, 2019 8:41 PM
->=20
-> Use increasing BIT numbers consistently and remove some superfluous
-> comments.
->=20
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+On 30/01/2020 11.51, Geert Uytterhoeven wrote:
+> Hi Peter,
+> 
+> On Thu, Jan 30, 2020 at 10:42 AM Peter Ujfalusi <peter.ujfalusi@ti.com> wrote:
+>> On 17/01/2020 17.30, Geert Uytterhoeven wrote:
+>>> Currently it is not easy to find out which DMA channels are in use, and
+>>> which slave devices are using which channels.
+>>>
+>>> Fix this by creating two symlinks between the DMA channel and the actual
+>>> slave device when a channel is requested:
+>>>   1. A "slave" symlink from DMA channel to slave device,
+>>>   2. A "dma:<name>" symlink slave device to DMA channel.
+>>> When the channel is released, the symlinks are removed again.
+>>> The latter requires keeping track of the slave device and the channel
+>>> name in the dma_chan structure.
+>>>
+>>> Note that this is limited to channel request functions for requesting an
+>>> exclusive slave channel that take a device pointer (dma_request_chan()
+>>> and dma_request_slave_channel*()).
+>>>
+>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+>>> --- a/drivers/dma/dmaengine.c
+>>> +++ b/drivers/dma/dmaengine.c
+>>> @@ -60,6 +60,8 @@ static long dmaengine_ref_count;
+>>>
+>>>  /* --- sysfs implementation --- */
+>>>
+>>> +#define DMA_SLAVE_NAME       "slave"
+>>> +
+>>>  /**
+>>>   * dev_to_dma_chan - convert a device pointer to its sysfs container object
+>>>   * @dev - device node
+>>> @@ -730,11 +732,11 @@ struct dma_chan *dma_request_chan(struct device *dev, const char *name)
+>>>       if (has_acpi_companion(dev) && !chan)
+>>>               chan = acpi_dma_request_slave_chan_by_name(dev, name);
+>>>
+>>> -     if (chan) {
+>>> -             /* Valid channel found or requester needs to be deferred */
+>>> -             if (!IS_ERR(chan) || PTR_ERR(chan) == -EPROBE_DEFER)
+>>> -                     return chan;
+>>> -     }
+>>> +     if (PTR_ERR(chan) == -EPROBE_DEFER)
+>>> +             return chan;
+>>> +
+>>> +     if (!IS_ERR_OR_NULL(chan))
+>>> +             goto found;
+>>>
+>>>       /* Try to find the channel via the DMA filter map(s) */
+>>>       mutex_lock(&dma_list_mutex);
+>>> @@ -754,7 +756,23 @@ struct dma_chan *dma_request_chan(struct device *dev, const char *name)
+>>>       }
+>>>       mutex_unlock(&dma_list_mutex);
+>>>
+>>> -     return chan ? chan : ERR_PTR(-EPROBE_DEFER);
+>>> +     if (!IS_ERR_OR_NULL(chan))
+>>> +             goto found;
+>>> +
+>>> +     return ERR_PTR(-EPROBE_DEFER);
+>>> +
+>>> +found:
+>>> +     chan->slave = dev;
+>>> +     chan->name = kasprintf(GFP_KERNEL, "dma:%s", name);
+>>> +     if (!chan->name)
+>>> +             return ERR_PTR(-ENOMEM);
+>>
+>> You will lock the channel... It is requested, but it is not released in
+>> case of failure.
+> 
+> True. Perhaps this error should just be ignored, cfr. below.
+> However, if this operation fails, chances are high the system will die very soon
+> anyway.
 
-Thank you for the patch!
+Yeah, I'll fix it up in a series I'm preparing.
 
-Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> 
+>>> +
+>>> +     if (sysfs_create_link(&chan->dev->device.kobj, &dev->kobj,
+>>> +                           DMA_SLAVE_NAME))
+>>> +             dev_err(dev, "Cannot create DMA %s symlink\n", DMA_SLAVE_NAME);
+>>> +     if (sysfs_create_link(&dev->kobj, &chan->dev->device.kobj, chan->name))
+>>> +             dev_err(dev, "Cannot create DMA %s symlink\n", chan->name);
+>>
+>> It is not a problem if these fail?
+> 
+> IMHO, a failure to create these links is not fatal for the operation of
+> the device, and thus can be ignored.  Just like for debugfs.
 
-Best regards,
-Yoshihiro Shimoda
+OK, then these should not be dev_err, but dev_warn.
+I'll include this is also in a fixup patch.
 
+> 
+>>> +     return chan;
+>>>  }
+>>>  EXPORT_SYMBOL_GPL(dma_request_chan);
+>>>
+>>> @@ -812,6 +830,13 @@ void dma_release_channel(struct dma_chan *chan)
+>>>       /* drop PRIVATE cap enabled by __dma_request_channel() */
+>>>       if (--chan->device->privatecnt == 0)
+>>>               dma_cap_clear(DMA_PRIVATE, chan->device->cap_mask);
+>>> +     if (chan->slave) {
+>>> +             sysfs_remove_link(&chan->slave->kobj, chan->name);
+>>> +             kfree(chan->name);
+>>> +             chan->name = NULL;
+>>> +             chan->slave = NULL;
+>>> +     }
+>>> +     sysfs_remove_link(&chan->dev->device.kobj, DMA_SLAVE_NAME);
+>>
+>> If a non slave channel is released, then you remove the link you have
+>> never created?
+>>
+>> What happens if the link creation fails and here you attempt to remove
+>> the failed ones?
+> 
+> sysfs_remove_link() should handle removing non-existent links, and just
+> return -ENOENT.
+
+True, just followed the call chain and tested as well, but the
+DMA_SLAVE_NAME symlink should be also removed within the
+if (chan->slave) {} block as it is never created for non slave channels.
+
+Also including inn my fixup patch.
+
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+
+- Péter
+
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
