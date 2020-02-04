@@ -2,123 +2,104 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DCE261517BA
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Feb 2020 10:23:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 148941517CE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Feb 2020 10:27:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726196AbgBDJXA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 4 Feb 2020 04:23:00 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:13935 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726554AbgBDJW7 (ORCPT
+        id S1726596AbgBDJ1v (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 4 Feb 2020 04:27:51 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:39145 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726506AbgBDJ1v (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 4 Feb 2020 04:22:59 -0500
-X-IronPort-AV: E=Sophos;i="5.70,398,1574089200"; 
-   d="scan'208";a="38188325"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 04 Feb 2020 18:22:58 +0900
-Received: from marian-VirtualBox.ree.adwin.renesas.com (unknown [10.226.36.164])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 547424006DEE;
-        Tue,  4 Feb 2020 18:22:57 +0900 (JST)
-From:   Marian-Cristian Rotariu 
-        <marian-cristian.rotariu.rb@bp.renesas.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Chris Paterson <chris.paterson2@renesas.com>,
-        prabhakar.mahadev-lad.rj@bp.renesas.com,
-        Marian-Cristian Rotariu 
-        <marian-cristian.rotariu.rb@bp.renesas.com>
-Subject: [PATCH] ARM: dts: iwg22d-sodimm: Enable touchscreen
-Date:   Tue,  4 Feb 2020 09:22:54 +0000
-Message-Id: <1580808174-11289-1-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Tue, 4 Feb 2020 04:27:51 -0500
+Received: by mail-oi1-f193.google.com with SMTP id z2so17756230oih.6;
+        Tue, 04 Feb 2020 01:27:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8T5fw9gOqicQppobj9BJvC4APp3/qzGMetKFD287xWQ=;
+        b=ccGwVEiQB10vkjNV6CKlE0U/+xHZBsuDMuO5D6RbAWMiNK0W48AxTIUsEPfEx0ZK8r
+         WnG6TX2XQhg9MLjMKKHXC5aR2Lh8geX7wMWrLQh2qvzwRKk2jWCq1OdLzYH1XbeG9DWm
+         voZd9B+MWOhAr0ySHeY3m6oht2z5XJExdemzjCpqDCPyfyJmRXq2ZK1RoD4MgoBtJYDM
+         WzDPZzMKa5SPsIAgGWXt4Xd28ZE7iozyFNM9UD4nckOgKe/P9v8F62p27bwqiBhVnUHM
+         vmGVcymMP8yvT3+vyx7i7D2zlR1v0mfJP/juIa9ISZD4VXZRTpvTtSsl8m0Z2FLhW1dL
+         dZZw==
+X-Gm-Message-State: APjAAAVD8WbiSUMvrWRrW2Ld5lz8t++KaHIB4L9qPw4138tQbz/LK1Gj
+        D2TKqJB+ZazcgkMT1SJ2HnpcT8PkIdsE8dE7j0c=
+X-Google-Smtp-Source: APXvYqzmkfJGFae+HBndS734aj6PhSlmVR2Jqfp8fQKldQAUeizqJ3a92Ns/NfbKC1toqf1ZEP0claVaB5qgY5YjcSk=
+X-Received: by 2002:aca:48cd:: with SMTP id v196mr2958150oia.102.1580808470541;
+ Tue, 04 Feb 2020 01:27:50 -0800 (PST)
+MIME-Version: 1.0
+References: <20200203101806.2441-1-peter.ujfalusi@ti.com> <CAHp75Vf__isc59YBS9=O+9ApSV62XuZ2nBAWKKD_K7i72P-yFg@mail.gmail.com>
+ <e47927aa-8d40-aa71-aef4-5f9c4cbbc03a@ti.com> <CAHp75Vd1A+8N_RPq3oeoXS19XeFtv7YK69H5XfzLMxWyCHbzBQ@mail.gmail.com>
+ <701ab186-c240-3c37-2c0b-8ac195f8073f@ti.com> <CAMuHMdUYRvjR5qe5RVzggN+BaHw8ObEtnm8Kdn25XUiv2sJpPg@mail.gmail.com>
+ <38f686ae-66fa-0e3a-ec2e-a09fc4054ac4@physik.fu-berlin.de>
+ <CAMuHMdXahPt4q7Dd-mQ9RNr7JiCt8PhXeT5U2D+n-ngJmEQMgw@mail.gmail.com>
+ <b09ad222-f5b8-af5a-6c2b-2dd6b30f1c73@ti.com> <CAMuHMdUYcSPoK8NOSdMzU_Jtg84aPMNKeGnacnF7=aidV4eqvw@mail.gmail.com>
+ <64cffbfe-a639-c09d-8aa2-fdda8fad2cf7@landley.net>
+In-Reply-To: <64cffbfe-a639-c09d-8aa2-fdda8fad2cf7@landley.net>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 4 Feb 2020 10:27:38 +0100
+Message-ID: <CAMuHMdVeCaRu=D9stdEuWKpnVm1YBibwuVrxogVx+2RBvOb1tA@mail.gmail.com>
+Subject: Re: [PATCH 0/3] dmaengine: Stear users towards dma_request_slave_chan()
+To:     Rob Landley <rob@landley.net>
+Cc:     Peter Ujfalusi <peter.ujfalusi@ti.com>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        dmaengine <dmaengine@vger.kernel.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Linux-sh list <linux-sh@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-In one of the iWave-G22D development board variants, called Generic SODIMM
-Development Platform, we have an LCD with touchscreen. The resistive touch
-controller, STMPE811 is on the development board and is connected through
-the i2c5 of the RZ-G1E.
+Hi Rob,
 
-Additionally, this controller should generate an interrupt to the CPU and
-it is connected through GPIO4,4 to the GIC.
+On Tue, Feb 4, 2020 at 10:12 AM Rob Landley <rob@landley.net> wrote:
+> On 2/4/20 2:01 AM, Geert Uytterhoeven wrote:
+> > On Tue, Feb 4, 2020 at 7:52 AM Peter Ujfalusi <peter.ujfalusi@ti.com> wrote:
+> >> On 03/02/2020 22.34, Geert Uytterhoeven wrote:
+> >>> On Mon, Feb 3, 2020 at 9:21 PM John Paul Adrian Glaubitz
+> >>> <glaubitz@physik.fu-berlin.de> wrote:
+> >>>> On 2/3/20 2:32 PM, Geert Uytterhoeven wrote:
+> >>>>> Both rspi and sh-msiof have users on legacy SH (i.e. without DT):
+> >>>>
+> >>>> FWIW, there is a patch set by Yoshinori Sato to add device tree support
+> >>>> for classical SuperH hardware. It was never merged, unfortunately :(.
+> >>>
+> >>> True.
+> >>>
+> >>>>> Anyone who cares for DMA on SuperH?
+> >>>>
+> >>>> What is DMA used for on SuperH? Wouldn't dropping it cut support for
+> >>>> essential hardware features?
+> >>>
+> >>> It may make a few things slower.
+>
+> The j-core stuff has DMA but we haven't hooked it up to dmaengine yet. (It's on
+> the todo list but pretty far down.)
 
-Touch was tested with one of our iW-RainboW-G22D-SODIMM RZ/G1E development
-platforms.
+And would use DT.  Hence the issue is not applicable to j-core.
 
-More details on the iWave website:
-https://www.iwavesystems.com/rz-g1e-sodimm-development-kit.html
+> The turtle boards need it USB, ethernet, and sdcard, but Rich Felker hasn't
+> finished the j32 port yet (we just got him the updated docs last month) and the
+> existing implementation is nommu so the things that are using it are reaching
+> around behind the OS's back...
 
-Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts | 46 +++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+Is j32 the (rebranded) j4?
 
-diff --git a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
-index ce6603b..1051d82 100644
---- a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
-+++ b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
-@@ -128,6 +128,47 @@
- 	status = "okay";
- 	clock-frequency = <400000>;
- 
-+	stmpe811@44 {
-+		compatible = "st,stmpe811";
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+		reg = <0x44>;
-+		interrupt-parent = <&gpio4>;
-+		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
-+		irq-gpio = <&gpio4 4 IRQ_TYPE_LEVEL_LOW>;
-+		pinctrl-0 = <&touch>;
-+		pinctrl-names = "default";
-+		id = <0>;
-+		blocks = <0x5>;
-+		irq-trigger = <0x1>;
-+
-+		stmpe_touchscreen {
-+			compatible = "st,stmpe-ts";
-+			reg = <0>;
-+			/* 3.25 MHz ADC clock speed */
-+			st,adc-freq = <3>;
-+			/* 8 sample average control */
-+			st,ave-ctrl = <2>;
-+			/* 7 length fractional part in z */
-+			st,fraction-z = <7>;
-+			/*
-+			 * 50 mA typical 80 mA max touchscreen drivers
-+			 * current limit value
-+			 */
-+			st,i-drive = <0>;
-+			/* 12-bit ADC */
-+			st,mod-12b = <1>;
-+			/* internal ADC reference */
-+			st,ref-sel = <0>;
-+			/* ADC converstion time: 80 clocks */
-+			st,sample-time = <4>;
-+			/* 1 ms panel driver settling time */
-+			st,settling = <3>;
-+			/* 5 ms touch detect interrupt delay */
-+			st,touch-det-delay = <4>;
-+		};
-+	};
-+
- 	sgtl5000: codec@a {
- 		compatible = "fsl,sgtl5000";
- 		#sound-dai-cells = <0>;
-@@ -181,6 +222,11 @@
- 		function = "ssi";
- 	};
- 
-+	touch: stmpe811 {
-+		groups = "intc_irq0";
-+		function = "intc";
-+	};
-+
- 	usb0_pins: usb0 {
- 		groups = "usb0";
- 		function = "usb0";
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.7.4
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
