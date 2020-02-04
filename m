@@ -2,63 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CEB66151E1A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Feb 2020 17:19:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7A23151F9B
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Feb 2020 18:39:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727334AbgBDQTU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 4 Feb 2020 11:19:20 -0500
-Received: from mga14.intel.com ([192.55.52.115]:22675 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727308AbgBDQTU (ORCPT
+        id S1727415AbgBDRjq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 4 Feb 2020 12:39:46 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:37875 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727382AbgBDRjp (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 4 Feb 2020 11:19:20 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Feb 2020 08:19:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,402,1574150400"; 
-   d="scan'208";a="429859862"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga005.fm.intel.com with ESMTP; 04 Feb 2020 08:19:18 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 327F017C; Tue,  4 Feb 2020 18:19:16 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        dri-devel@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1] drm: shmobile: Platform data shan't include kernel.h
-Date:   Tue,  4 Feb 2020 18:19:16 +0200
-Message-Id: <20200204161916.28744-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.24.1
+        Tue, 4 Feb 2020 12:39:45 -0500
+Received: by mail-ot1-f66.google.com with SMTP id d3so17921110otp.4
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 04 Feb 2020 09:39:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MfTrfXuWJZvmTinqgH9BhTb81pXVw324bWiLHoptFMQ=;
+        b=hXXHFdJwa3nh7sHSpNINgUoVYU+1fSPa36YgpH5Io8lzxHdjQb+Q9xwn2q5vLF4dE3
+         npY3gaa8iS5QA2ee1VXEXxqp02iejpr3bblUm840FGrtXPJtmvYsiHjxtOFikgslSFOC
+         y/kGsWLCgRJQSkuSkEWvVU37+QunLR1Yq7538maHAerp+9rL4RUuAfeXwqE8+ZEkIEeb
+         uct8SRENel8R4jdu7Guz2UdGsnpm/xNChCudTFca0tsV/Riu/l5E/UFzggHqvXRw7Hhv
+         0N1mVI1IPgLJZrko8jsBPBv6gJzmGwwZiLZkTA6N2rQ0FwDopp5+w+C7wRRLM1DV/B58
+         9JMQ==
+X-Gm-Message-State: APjAAAUPix9MKj9eev9s3UDv0dFEBOXansP4qe0NiW4j/Nf/5SUrT1Fd
+        MIZGKzXLPYs1+Il9zNyaYf9EfdSwmVSE/mChRXM=
+X-Google-Smtp-Source: APXvYqx9f9SWF/55QKPhce0GISuI6/YtUC2HQmARzMxBnJbY401BCGr8IO8WU8RPHjBLF8lwNuxC9qnjvMaHP0VxhZE=
+X-Received: by 2002:a9d:7984:: with SMTP id h4mr23636696otm.297.1580837985305;
+ Tue, 04 Feb 2020 09:39:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200204161916.28744-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20200204161916.28744-1-andriy.shevchenko@linux.intel.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 4 Feb 2020 18:39:34 +0100
+Message-ID: <CAMuHMdW8kgnw4k9-jpronxDMmeZ7NJkc4Anwmc5G247QyX80GQ@mail.gmail.com>
+Subject: Re: [PATCH v1] drm: shmobile: Platform data shan't include kernel.h
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Replace with appropriate types.h.
+Hi Andy,
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- include/linux/platform_data/shmob_drm.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Feb 4, 2020 at 5:20 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+> Replace with appropriate types.h.
 
-diff --git a/include/linux/platform_data/shmob_drm.h b/include/linux/platform_data/shmob_drm.h
-index fe815d7d9f58..08605fdb2226 100644
---- a/include/linux/platform_data/shmob_drm.h
-+++ b/include/linux/platform_data/shmob_drm.h
-@@ -10,7 +10,7 @@
- #ifndef __SHMOB_DRM_H__
- #define __SHMOB_DRM_H__
- 
--#include <linux/kernel.h>
-+#include <linux/types.h>
- 
- #include <drm/drm_mode.h>
- 
--- 
-2.24.1
+Thanks for your patch!
 
+I have only one very short question: why?
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
