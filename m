@@ -2,132 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C93A15177A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Feb 2020 10:12:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DCE261517BA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Feb 2020 10:23:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726362AbgBDJMX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 4 Feb 2020 04:12:23 -0500
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:43218 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726763AbgBDJMX (ORCPT
+        id S1726196AbgBDJXA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 4 Feb 2020 04:23:00 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:13935 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726554AbgBDJW7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 4 Feb 2020 04:12:23 -0500
-Received: by mail-pf1-f196.google.com with SMTP id s1so9109384pfh.10
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 04 Feb 2020 01:12:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=landley-net.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=OEno8L+dLk53KEqvLYXsrFVru+rwMQDT1MCsCBWWmic=;
-        b=PGeL2yv80M/Xyz3TqQfy30bcMf6fkJSWDpFtX5zg7SPUH32tZaavlnLQLUeJvm61jL
-         7jc1TvZBXJLdQqek38XGa/IQ7IISMsQ6Z+WP22qtzWArm4IfXAQjwdE2Ga+ecWTR7ANa
-         YERU2WTGz9nVMujVG57yYbPj32BYQtRfE68nkB3pq2NXz1q3L+5qIKStEyr+Dhc9FAaX
-         xi6xSd1RLMPZ0pXPtcy8nYd5D924/AO2HMEt0/LdLK7SnHAYIkl+EEjc7yT/DPAWgn6p
-         gkp4llgs/xk3IzTuqHUQ5FfkQ923tWRHTjwVPNc0B2adGWZK2sgorrP3b4qNJ5nL8m+0
-         MJrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=OEno8L+dLk53KEqvLYXsrFVru+rwMQDT1MCsCBWWmic=;
-        b=CW1hQF18JWdGeoKpCZ5/h5/nwFXJwSIOOCxnLW4MA3lotfxaZCePWJOG1TR+W/cxoD
-         SlNy/kuWfmYtMG/V2MFedoRlJAfnyHc5OWd3rm4+dkSkLikvjiI7HR5eixtmNC+ELwxG
-         ClXCSQnhgil30KaQpxEjGo5ety/X8PXHFisrmECXHzMNkdwUb2qWdm10U7Jab0vLdFu5
-         jujSJkYRHiLgcoqhi758mmGDzLGq4Y3G4+X36fJAHRuT441ksyPTDPjua1Ph692h/axF
-         807MXaYqqQzrVEghiLxLf9V5zlDj2op7uQ4hKU6qjPlpN6SXA086q5vGrYYCU6GWsC80
-         qmog==
-X-Gm-Message-State: APjAAAWzpYIr+wbxyHfxtVmx9oPleYMvre3iw55xQJzrsHSN0Xtq2fUB
-        CbZqWZeKJ6taQJGxZDBXTwRDp0BPu3s=
-X-Google-Smtp-Source: APXvYqxShwB5mksr4VLPF6EQdoB3Thrj1dJI1OjTYyqPg21c1H8oXz+rhju/pYJoSihlvb9nLNYwrA==
-X-Received: by 2002:a62:e414:: with SMTP id r20mr29513047pfh.154.1580807542320;
-        Tue, 04 Feb 2020 01:12:22 -0800 (PST)
-Received: from [192.168.11.4] (softbank126112255110.biz.bbtec.net. [126.112.255.110])
-        by smtp.googlemail.com with ESMTPSA id b130sm23059315pga.4.2020.02.04.01.12.18
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 04 Feb 2020 01:12:21 -0800 (PST)
-Subject: Re: [PATCH 0/3] dmaengine: Stear users towards
- dma_request_slave_chan()
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Peter Ujfalusi <peter.ujfalusi@ti.com>
-Cc:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <20200203101806.2441-1-peter.ujfalusi@ti.com>
- <CAHp75Vf__isc59YBS9=O+9ApSV62XuZ2nBAWKKD_K7i72P-yFg@mail.gmail.com>
- <e47927aa-8d40-aa71-aef4-5f9c4cbbc03a@ti.com>
- <CAHp75Vd1A+8N_RPq3oeoXS19XeFtv7YK69H5XfzLMxWyCHbzBQ@mail.gmail.com>
- <701ab186-c240-3c37-2c0b-8ac195f8073f@ti.com>
- <CAMuHMdUYRvjR5qe5RVzggN+BaHw8ObEtnm8Kdn25XUiv2sJpPg@mail.gmail.com>
- <38f686ae-66fa-0e3a-ec2e-a09fc4054ac4@physik.fu-berlin.de>
- <CAMuHMdXahPt4q7Dd-mQ9RNr7JiCt8PhXeT5U2D+n-ngJmEQMgw@mail.gmail.com>
- <b09ad222-f5b8-af5a-6c2b-2dd6b30f1c73@ti.com>
- <CAMuHMdUYcSPoK8NOSdMzU_Jtg84aPMNKeGnacnF7=aidV4eqvw@mail.gmail.com>
-From:   Rob Landley <rob@landley.net>
-Message-ID: <64cffbfe-a639-c09d-8aa2-fdda8fad2cf7@landley.net>
-Date:   Tue, 4 Feb 2020 03:16:58 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <CAMuHMdUYcSPoK8NOSdMzU_Jtg84aPMNKeGnacnF7=aidV4eqvw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Tue, 4 Feb 2020 04:22:59 -0500
+X-IronPort-AV: E=Sophos;i="5.70,398,1574089200"; 
+   d="scan'208";a="38188325"
+Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
+  by relmlie6.idc.renesas.com with ESMTP; 04 Feb 2020 18:22:58 +0900
+Received: from marian-VirtualBox.ree.adwin.renesas.com (unknown [10.226.36.164])
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 547424006DEE;
+        Tue,  4 Feb 2020 18:22:57 +0900 (JST)
+From:   Marian-Cristian Rotariu 
+        <marian-cristian.rotariu.rb@bp.renesas.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Chris Paterson <chris.paterson2@renesas.com>,
+        prabhakar.mahadev-lad.rj@bp.renesas.com,
+        Marian-Cristian Rotariu 
+        <marian-cristian.rotariu.rb@bp.renesas.com>
+Subject: [PATCH] ARM: dts: iwg22d-sodimm: Enable touchscreen
+Date:   Tue,  4 Feb 2020 09:22:54 +0000
+Message-Id: <1580808174-11289-1-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2/4/20 2:01 AM, Geert Uytterhoeven wrote:
-> Hi Peter,
-> 
-> On Tue, Feb 4, 2020 at 7:52 AM Peter Ujfalusi <peter.ujfalusi@ti.com> wrote:
->> On 03/02/2020 22.34, Geert Uytterhoeven wrote:
->>> On Mon, Feb 3, 2020 at 9:21 PM John Paul Adrian Glaubitz
->>> <glaubitz@physik.fu-berlin.de> wrote:
->>>> On 2/3/20 2:32 PM, Geert Uytterhoeven wrote:
->>>>> Both rspi and sh-msiof have users on legacy SH (i.e. without DT):
->>>>
->>>> FWIW, there is a patch set by Yoshinori Sato to add device tree support
->>>> for classical SuperH hardware. It was never merged, unfortunately :(.
->>>
->>> True.
->>>
->>>>> Anyone who cares for DMA on SuperH?
->>>>
->>>> What is DMA used for on SuperH? Wouldn't dropping it cut support for
->>>> essential hardware features?
->>>
->>> It may make a few things slower.
+In one of the iWave-G22D development board variants, called Generic SODIMM
+Development Platform, we have an LCD with touchscreen. The resistive touch
+controller, STMPE811 is on the development board and is connected through
+the i2c5 of the RZ-G1E.
 
-The j-core stuff has DMA but we haven't hooked it up to dmaengine yet. (It's on
-the todo list but pretty far down.)
+Additionally, this controller should generate an interrupt to the CPU and
+it is connected through GPIO4,4 to the GIC.
 
-I fought with dmaengine in a 7760 board in 2018, and got it to run its tests but
-the ship deadline arrived before I got the ethernet working with it.
+Touch was tested with one of our iW-RainboW-G22D-SODIMM RZ/G1E development
+platforms.
 
-I found the documentation fairly impenetrable, is there a good primer on what's
-_current_ for new implementations? (I had similar questions for gpio. It's easy
-to google for "here's how you did it in 2010"...)
+More details on the iWave website:
+https://www.iwavesystems.com/rz-g1e-sodimm-development-kit.html
 
->> I would not drop DMA support but I would suggest to add dma_slave_map
->> for non DT boot so the _compat() can be dropped.
-> 
-> Which is similar in spirit to gpiod_lookup and clk_register_clkdev(),
-> right?
-> 
->> Imho on lower spec SoC (and I believe SuperH is) the DMA makes big
->> difference offloading data movement from the CPU.
-> 
-> Assumed it is actually used...
+Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts | 46 +++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
-The turtle boards need it USB, ethernet, and sdcard, but Rich Felker hasn't
-finished the j32 port yet (we just got him the updated docs last month) and the
-existing implementation is nommu so the things that are using it are reaching
-around behind the OS's back...
+diff --git a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
+index ce6603b..1051d82 100644
+--- a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
++++ b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
+@@ -128,6 +128,47 @@
+ 	status = "okay";
+ 	clock-frequency = <400000>;
+ 
++	stmpe811@44 {
++		compatible = "st,stmpe811";
++		#address-cells = <1>;
++		#size-cells = <0>;
++		reg = <0x44>;
++		interrupt-parent = <&gpio4>;
++		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
++		irq-gpio = <&gpio4 4 IRQ_TYPE_LEVEL_LOW>;
++		pinctrl-0 = <&touch>;
++		pinctrl-names = "default";
++		id = <0>;
++		blocks = <0x5>;
++		irq-trigger = <0x1>;
++
++		stmpe_touchscreen {
++			compatible = "st,stmpe-ts";
++			reg = <0>;
++			/* 3.25 MHz ADC clock speed */
++			st,adc-freq = <3>;
++			/* 8 sample average control */
++			st,ave-ctrl = <2>;
++			/* 7 length fractional part in z */
++			st,fraction-z = <7>;
++			/*
++			 * 50 mA typical 80 mA max touchscreen drivers
++			 * current limit value
++			 */
++			st,i-drive = <0>;
++			/* 12-bit ADC */
++			st,mod-12b = <1>;
++			/* internal ADC reference */
++			st,ref-sel = <0>;
++			/* ADC converstion time: 80 clocks */
++			st,sample-time = <4>;
++			/* 1 ms panel driver settling time */
++			st,settling = <3>;
++			/* 5 ms touch detect interrupt delay */
++			st,touch-det-delay = <4>;
++		};
++	};
++
+ 	sgtl5000: codec@a {
+ 		compatible = "fsl,sgtl5000";
+ 		#sound-dai-cells = <0>;
+@@ -181,6 +222,11 @@
+ 		function = "ssi";
+ 	};
+ 
++	touch: stmpe811 {
++		groups = "intc_irq0";
++		function = "intc";
++	};
++
+ 	usb0_pins: usb0 {
+ 		groups = "usb0";
+ 		function = "usb0";
+-- 
+2.7.4
 
-Rob
