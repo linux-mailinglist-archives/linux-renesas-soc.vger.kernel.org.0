@@ -2,247 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A56521511C1
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  3 Feb 2020 22:26:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 863AB1514AA
+	for <lists+linux-renesas-soc@lfdr.de>; Tue,  4 Feb 2020 04:35:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726331AbgBCV0c (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 3 Feb 2020 16:26:32 -0500
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:40845 "EHLO
-        outpost1.zedat.fu-berlin.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725372AbgBCV0b (ORCPT
+        id S1726930AbgBDDfs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 3 Feb 2020 22:35:48 -0500
+Received: from mail-eopbgr1400094.outbound.protection.outlook.com ([40.107.140.94]:51296
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726694AbgBDDfs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 3 Feb 2020 16:26:31 -0500
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.85)
-          with esmtps (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id <1iyjEh-004A3s-RK>; Mon, 03 Feb 2020 22:26:27 +0100
-Received: from p508832b6.dip0.t-ipconnect.de ([80.136.50.182] helo=[192.168.46.51])
-          by inpost2.zedat.fu-berlin.de (Exim 4.85)
-          with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id <1iyjEh-001uWS-EQ>; Mon, 03 Feb 2020 22:26:27 +0100
-Subject: Re: [PATCH 0/3] dmaengine: Stear users towards
- dma_request_slave_chan()
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Peter Ujfalusi <peter.ujfalusi@ti.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        dmaengine <dmaengine@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <20200203101806.2441-1-peter.ujfalusi@ti.com>
- <CAHp75Vf__isc59YBS9=O+9ApSV62XuZ2nBAWKKD_K7i72P-yFg@mail.gmail.com>
- <e47927aa-8d40-aa71-aef4-5f9c4cbbc03a@ti.com>
- <CAHp75Vd1A+8N_RPq3oeoXS19XeFtv7YK69H5XfzLMxWyCHbzBQ@mail.gmail.com>
- <701ab186-c240-3c37-2c0b-8ac195f8073f@ti.com>
- <CAMuHMdUYRvjR5qe5RVzggN+BaHw8ObEtnm8Kdn25XUiv2sJpPg@mail.gmail.com>
- <38f686ae-66fa-0e3a-ec2e-a09fc4054ac4@physik.fu-berlin.de>
- <CAMuHMdXahPt4q7Dd-mQ9RNr7JiCt8PhXeT5U2D+n-ngJmEQMgw@mail.gmail.com>
-From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Autocrypt: addr=glaubitz@physik.fu-berlin.de; keydata=
- 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
- scOkTAZQGVpD/8AaLH4v1w==
-Message-ID: <00734e40-da0b-9d7f-20bc-ce1f9658dcd3@physik.fu-berlin.de>
-Date:   Mon, 3 Feb 2020 22:26:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <CAMuHMdXahPt4q7Dd-mQ9RNr7JiCt8PhXeT5U2D+n-ngJmEQMgw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+        Mon, 3 Feb 2020 22:35:48 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SskPPtxVgw4ZK48gfQQEdhWtlDPJJ5xxo7ijd/mo7qjwvZszaALusiYU0NZF+y/tJeFEUJ/4iu4rE2Fv5OXT0kmlfuDG7Nw0ZK4Onc9eZWO4HHugCQzhUPffER0e5BO9X3BTu4rH2X3eRQ4PoeM8MtbN21zEpyVG0hOJS7jTi4xYlwdjgzrVPhS6J2EfdSm4bm2BfXxtyx+updzbzZMnLZYY5ououN+bSR5Yt69e/nNhzRQmlEBvs8VxJpEf+G/KnpXl/QEd6pHSAX81Q18bVFk2HP0W6A99JVj2B1jfnsfaqyce/SpmrT5BsTS9gNXQKb08cxU8Sa/QRhu8WvKQmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PYFcUMEvjckWUCQlFs86ZdNyFWIiKsDKvnWgAWM+2PA=;
+ b=ASOsDVLAwBY/8+kyijXDBtSPrnM46GQR5K1QdjhqqPLPPlpommSWWuQ8w0j/ExkTRrWm68z059SXeKjBJvzY1Kkute/GxntjVBRp3Rt41eaPh7CLUAWx6FGFzt6JcwOaPvhkNKWlX6ndw3w3u1smQtOOApKnHAMwo0ypCeP+424VCXea2RV2zvQpEQHQGaKM2GbmrnftTRD5GaMSapK20OCyDvC42mcAoj3eBCB01DQTfARe2lBuh+7808GvEwcP+LgvDv25XFJDyfdjxDYP2f8KstHxQYKfCHsAOlxSqdEtpCP4bxsLMm9aa1rEbZ8M2U/aZe9yBudc3GuouTXPsw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PYFcUMEvjckWUCQlFs86ZdNyFWIiKsDKvnWgAWM+2PA=;
+ b=q98wW0awbpbc7zNIveIeRFKrbq1UnSWw75uMX51Xdo3faNeD+ku8aNB8g8JezTheT7h+OD0u/10H9CU1Mbna+eR9FBLt+hVmDjeto8T3+f9brkZTLN2hznBZBobe9zVstfJ3QBFltsnkleU7qtLsBycLkxkRm0b8BW0I1Aaf9pY=
+Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com (52.133.163.12) by
+ TY1PR01MB1755.jpnprd01.prod.outlook.com (52.133.161.138) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2686.27; Tue, 4 Feb 2020 03:35:44 +0000
+Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com
+ ([fe80::8870:97e4:a63c:67ea]) by TY1PR01MB1562.jpnprd01.prod.outlook.com
+ ([fe80::8870:97e4:a63c:67ea%7]) with mapi id 15.20.2686.030; Tue, 4 Feb 2020
+ 03:35:44 +0000
+From:   Chris Brandt <Chris.Brandt@renesas.com>
+To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH RFT 0/5] sh_eth: get rid of the dedicated regiseter
+ mapping for RZ/A1 (R7S72100)
+Thread-Topic: [PATCH RFT 0/5] sh_eth: get rid of the dedicated regiseter
+ mapping for RZ/A1 (R7S72100)
+Thread-Index: AQHV2sjuY/y4+IGNNU209XmT/+6jSqgKYm5A
+Date:   Tue, 4 Feb 2020 03:35:44 +0000
+Message-ID: <TY1PR01MB156273A40DA6599896C8B34F8A030@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+References: <c643125b-5280-cd62-afc1-63b8a06501c1@cogentembedded.com>
+In-Reply-To: <c643125b-5280-cd62-afc1-63b8a06501c1@cogentembedded.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: 80.136.50.182
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcY2JyYW5kdDAxXGFwcGRhdGFccm9hbWluZ1wwOWQ4NDliNi0zMmQzLTRhNDAtODVlZS02Yjg0YmEyOWUzNWJcbXNnc1xtc2ctNmE2N2U5NmQtNDZmZi0xMWVhLWFhNWItOTRlNmY3Njc5M2FlXGFtZS10ZXN0XDZhNjdlOTZmLTQ2ZmYtMTFlYS1hYTViLTk0ZTZmNzY3OTNhZWJvZHkudHh0IiBzej0iMzM2IiB0PSIxMzIyNTI2MDk0MTQ3MzkxODUiIGg9IkhMSEVwVytaSm53MGVKYlpoWTVGSzRtKzNRQT0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-rorf: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Chris.Brandt@renesas.com; 
+x-originating-ip: [75.60.247.61]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 5ddbe3b0-5166-43c6-6816-08d7a92350f0
+x-ms-traffictypediagnostic: TY1PR01MB1755:
+x-microsoft-antispam-prvs: <TY1PR01MB1755009F1B1EFEBF70E502A88A030@TY1PR01MB1755.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-forefront-prvs: 03030B9493
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(346002)(376002)(396003)(366004)(136003)(39860400002)(199004)(189003)(478600001)(7696005)(8936002)(8676002)(33656002)(2906002)(81156014)(81166006)(66476007)(186003)(9686003)(71200400001)(5660300002)(26005)(6506007)(52536014)(66556008)(316002)(110136005)(64756008)(558084003)(55016002)(66446008)(86362001)(76116006)(66946007)(26583001);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1755;H:TY1PR01MB1562.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: AU2iiIl58E5WsXTedTFDCBWPr39hpMGi1Fdd1Wc7TkkdAhLi6mPfmHGEZH9S5IEplJEgy6RUqqYY3MMimQhVsxYrvTtJDO/NRtRU4hizdrd99VfH0wnljui8Qo//zyUe1mb3MPHj6JyA/jSPUJUiOTsz6WFro+CUGXxaFzmtmNJ5aH2lThlbYnaSD9YYwXFYvOC4941w8hQSrXo8XxDfRH3EVzUmlgEeEHJh4P/WdNMq6Bp3NPsMnGs5989zYisSrQul18gO5eIu3vhEtLiEWTGyBGvFqQiOgayznnV7a0ZopXVAjLqKTnhiDH9aczjzYVbXQBzPb6g6OvIrIjq7VtNoKeoZBQCPsEf5j457CIZxnjDVt4viy41UJoj0FCfkxIBcj5XUfeaydJC01JD47CgdstbV/M2AIIajQ1nkbcpVWzVU+XxBIjZ8X2wgnPP+QrvMUBNw6T4bp/b7/Miqh1KK71HzErHkbcg8Z/2+PSW6Y32g4F4uzA4J4wbp1Jd/
+x-ms-exchange-antispam-messagedata: h1WJHtMpvDcOkMRHAvHRaKI+ld827GJEVZr/7tVCqJ/Iym5l3BgjF2t3U+SKqd7AP42JzUPg2P06uNE/IyRZ1RfXapMzP9CBzuljRffWyeRaYbqpY/eL0iKqePPadl0O1rWaCy2cS6ebIOakRZ6eOw==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ddbe3b0-5166-43c6-6816-08d7a92350f0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Feb 2020 03:35:44.2257
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: XGZlhOQNXlbDC2FzXmWk86CxxTSmRJVkt+HsLlrFhxNch4lnILvuLeuSsRMCtgX6cXoONGT/HtECPqkVrF44DFmbsCbyh1pRvYWB3fZDFco=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1755
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert!
-
-On 2/3/20 9:34 PM, Geert Uytterhoeven wrote:
-> On Mon, Feb 3, 2020 at 9:21 PM John Paul Adrian Glaubitz
-> <glaubitz@physik.fu-berlin.de> wrote:
->> On 2/3/20 2:32 PM, Geert Uytterhoeven wrote:
->>> Both rspi and sh-msiof have users on legacy SH (i.e. without DT):
->>
->> FWIW, there is a patch set by Yoshinori Sato to add device tree support
->> for classical SuperH hardware. It was never merged, unfortunately :(.
-> 
-> True.
-
-Would it be possible to keep DMA support if device tree support was
-added for SuperH? I think Rich eventually wanted to merge the patches,
-there were just some minor issues with them.
-
-It would be great if we could still get them merged. I would be happy
-to help with the testing.
-
->>> Anyone who cares for DMA on SuperH?
->>
->> What is DMA used for on SuperH? Wouldn't dropping it cut support for
->> essential hardware features?
-> 
-> It may make a few things slower.
-> 
-> Does any of your SuperH boards use DMA?
-> Anything interesting in /proc or /sys w.r.t. DMA?
-
-I have:
-
-root@tirpitz:/sys> find . -iname "*dma*"
-./bus/dma
-./bus/dma/devices/dma0
-./bus/dma/devices/dma1
-./bus/dma/devices/dma2
-./bus/dma/devices/dma3
-./bus/dma/devices/dma4
-./bus/dma/devices/dma5
-./bus/dma/devices/dma6
-./bus/dma/devices/dma7
-./bus/dma/devices/dma8
-./bus/dma/devices/dma9
-./bus/dma/devices/dma10
-./bus/dma/devices/dma11
-./bus/platform/devices/sh_dmac
-./bus/platform/devices/sh-dma-engine.0
-./bus/platform/devices/sh-dma-engine.1
-./devices/pci0000:00/0000:00:00.0/consistent_dma_mask_bits
-./devices/pci0000:00/0000:00:00.0/dma_mask_bits
-./devices/pci0000:00/0000:00:01.0/ata1/host0/scsi_host/host0/unchecked_isa_dma
-./devices/pci0000:00/0000:00:01.0/ata1/link1/dev1.0/ata_device/dev1.0/dma_mode
-./devices/pci0000:00/0000:00:01.0/ata2/host1/scsi_host/host1/unchecked_isa_dma
-./devices/pci0000:00/0000:00:01.0/ata2/link2/dev2.0/ata_device/dev2.0/dma_mode
-./devices/pci0000:00/0000:00:01.0/consistent_dma_mask_bits
-./devices/pci0000:00/0000:00:01.0/dma_mask_bits
-./devices/system/dma
-./devices/system/dma/dma0
-./devices/system/dma/dma1
-./devices/system/dma/dma2
-./devices/system/dma/dma3
-./devices/system/dma/dma4
-./devices/system/dma/dma5
-./devices/system/dma/dma6
-root@tirpitz:~> find /proc -iname "*dma*"
-/proc/dma
-/proc/irq/52/DMAC Address Error1
-/proc/irq/33/DMAC Address Error0
-/proc/sys/fs/nfs/idmap_cache_timeout
-find: ‘/proc/5703’: No such file or directory
-find: ‘/proc/5704’: No such file or directory
-find: ‘/proc/5705’: No such file or directory
-root@tirpitz:~> cat /proc/dma
-root@tirpitz:~> find /sys -iname "*dma*"      
-/sys/bus/dma
-/sys/bus/dma/devices/dma0
-/sys/bus/dma/devices/dma1
-/sys/bus/dma/devices/dma2
-/sys/bus/dma/devices/dma3
-/sys/bus/dma/devices/dma4
-/sys/bus/dma/devices/dma5
-/sys/bus/dma/devices/dma6
-/sys/bus/dma/devices/dma7
-/sys/bus/dma/devices/dma8
-/sys/bus/dma/devices/dma9
-/sys/bus/dma/devices/dma10
-/sys/bus/dma/devices/dma11
-/sys/bus/platform/devices/sh_dmac
-/sys/bus/platform/devices/sh-dma-engine.0
-/sys/bus/platform/devices/sh-dma-engine.1
-/sys/devices/pci0000:00/0000:00:00.0/consistent_dma_mask_bits
-/sys/devices/pci0000:00/0000:00:00.0/dma_mask_bits
-/sys/devices/pci0000:00/0000:00:01.0/ata1/host0/scsi_host/host0/unchecked_isa_dma
-/sys/devices/pci0000:00/0000:00:01.0/ata1/link1/dev1.0/ata_device/dev1.0/dma_mode
-/sys/devices/pci0000:00/0000:00:01.0/ata2/host1/scsi_host/host1/unchecked_isa_dma
-/sys/devices/pci0000:00/0000:00:01.0/ata2/link2/dev2.0/ata_device/dev2.0/dma_mode
-/sys/devices/pci0000:00/0000:00:01.0/consistent_dma_mask_bits
-/sys/devices/pci0000:00/0000:00:01.0/dma_mask_bits
-/sys/devices/system/dma
-/sys/devices/system/dma/dma0
-/sys/devices/system/dma/dma1
-/sys/devices/system/dma/dma2
-/sys/devices/system/dma/dma3
-/sys/devices/system/dma/dma4
-/sys/devices/system/dma/dma5
-/sys/devices/system/dma/dma6
-/sys/devices/system/dma/dma7
-/sys/devices/system/dma/dma8
-/sys/devices/system/dma/dma9
-/sys/devices/system/dma/dma10
-/sys/devices/system/dma/dma11
-/sys/devices/virtual/misc/cpu_dma_latency
-/sys/devices/platform/sh_dmac
-/sys/devices/platform/sh_dmac/dma0
-/sys/devices/platform/sh_dmac/dma1
-/sys/devices/platform/sh_dmac/dma2
-/sys/devices/platform/sh_dmac/dma3
-/sys/devices/platform/sh_dmac/dma4
-/sys/devices/platform/sh_dmac/dma5
-/sys/devices/platform/sh_dmac/dma6
-/sys/devices/platform/sh_dmac/dma7
-/sys/devices/platform/sh_dmac/dma8
-/sys/devices/platform/sh_dmac/dma9
-/sys/devices/platform/sh_dmac/dma10
-/sys/devices/platform/sh_dmac/dma11
-/sys/devices/platform/r8a66597_hcd/usb1/1-1/1-1:1.0/host2/scsi_host/host2/unchecked_isa_dma
-/sys/devices/platform/sh-dma-engine.0
-/sys/devices/platform/sh-dma-engine.1
-/sys/class/misc/cpu_dma_latency
-/sys/module/nfs/parameters/nfs4_disable_idmapping
-/sys/module/nfs/parameters/nfs_idmap_cache_timeout
-/sys/module/libata/parameters/dma
-/sys/module/libata/parameters/atapi_dmadir
-root@tirpitz:~>
-
-On my SH-7785LCR.
-
-Adrian
-
--- 
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer - glaubitz@debian.org
-`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+T24gTW9uLCBGZWIgMywgMjAyMCwgU2VyZ2VpIFNodHlseW92IHdyb3RlOg0KPiBJJ2QgYXBwcmVj
+aWF0ZQ0KPiBpZiBDaHJpcyBCcmFuZHQgY291bGQgc2FuaXR5LXRlc3QgdGhpcyBwYXRjaCBzZXQg
+YXMgaGUgc2VlbSB0bw0KPiBzdGlsbCBoYXZlIHRoZSBSWi9BMSBoYXJkd2FyZS4uLg0KDQpPSywg
+SSB3aWxsIGdpdmUgaXQgYSB0cnkgdGhpcyB3ZWVrLg0KDQpDaHJpcw0KDQo=
