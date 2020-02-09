@@ -2,108 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 75558156755
-	for <lists+linux-renesas-soc@lfdr.de>; Sat,  8 Feb 2020 20:17:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 090E61569C1
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  9 Feb 2020 10:12:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727499AbgBHTRM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 8 Feb 2020 14:17:12 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:38957 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727471AbgBHTRL (ORCPT
+        id S1726220AbgBIJMO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 9 Feb 2020 04:12:14 -0500
+Received: from mail-vs1-f66.google.com ([209.85.217.66]:43265 "EHLO
+        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726081AbgBIJMO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 8 Feb 2020 14:17:11 -0500
-Received: by mail-oi1-f193.google.com with SMTP id z2so5418730oih.6;
-        Sat, 08 Feb 2020 11:17:11 -0800 (PST)
+        Sun, 9 Feb 2020 04:12:14 -0500
+Received: by mail-vs1-f66.google.com with SMTP id 7so2238124vsr.10
+        for <linux-renesas-soc@vger.kernel.org>; Sun, 09 Feb 2020 01:12:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=benyossef-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=NSeIAIUmAhkC5M6sFAkxYgTxB387Xcn3PJ9kLvph2pg=;
-        b=l6KsokbtjWXGyT5bwmgRrkdXtF+FWNl3A5J8QcFXXd4/no5zZWZOI5jJxOgx2irUmh
-         o/cLraaYWQfJPTUXU3Q/9/4TrdRVb0vp8bjNFTdq4IS7B2f1Gx0nYvicwqkqBx8OsMty
-         WcrwYl9UZWi7fNZAMumyBdFzlW4H73Q8cyfgHmB4G4HccUlxO21sd8DJ+WoB6zYVupIE
-         fbN2tMd0JaShcmqsPQ0rhVCjNBWZP01g+pzT8I0oQBqK02AeQHn+d7agP7PbiybtgU31
-         +zALunsJLs3ZOeLb/YmwfzuL0waui1q10Dq2EY5JoiLWgKmykWBdP1cn9MIsQVyq7Br7
-         qWZg==
+        bh=FaRo0DyGZ3JEibnWQUuqaMdipbBAOildr4YngTtGzS4=;
+        b=za6voBik9xca17vJt6IsXS/BJA6UkpR54wHiykt8Wa3L3RuwWMjeyWnE4wK+Sgk0a6
+         SWR/57/jufqmiPnd2sY05aZvDyFo/FlJGdF8jGkxdimq7knamxOqOGM2+FcaD6JAvlGO
+         Bl/zZnoCJ2J3yyZBYvHUVY15kgsU9eABQW0B267mCQD+QihfC+/FQ31fvuQfk6TuhimA
+         07rF4zU7KigBu98Url7eE/REbC3mSwnmVq0TEJc8Y9quuhnmEXRR5EOzVaYJuhXBbfmi
+         rpHEzhdA/DDZQ5QNnjCYE2gseqrOaddsy3JFLk6fAckP7pdPsaCFuspQCPUTZCOUBdKt
+         1JQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=NSeIAIUmAhkC5M6sFAkxYgTxB387Xcn3PJ9kLvph2pg=;
-        b=i57NXX5LyATIsbcNWAPaOhIn4Lf1Fy7W0oSbcKuk+lxJa9CZjzw/epvPKUwpLLaoKm
-         a/lW3c0URumbiJQIkCX0f82uShie9KrEYk+yGtRYCKHLs0d9HW6doAO9iC9kHaKQfwyY
-         QLch55TeaxQ4OGBor5V/vCOSxJ2qLGUZZzlV6h+RxcOID34cr07XqYG7PZODIsqe9OEF
-         23Eyx/3fwusBf5uZ6HRsgO+3unr+VFnDvIxH8ViEUKspOZQP+XTo/UXP1r6hxOeWXa9o
-         ikbSXMlEY2sPO4tHZY2Tkws3GXnsxaBpayi/qYPr2PUQNHYFnMtsyfwNCUJsmdgQ1yoo
-         yc4A==
-X-Gm-Message-State: APjAAAVa9XWHOGm9ZB9o3Rxg3hKCg9+ZrHLRGWEAr7oP2L0Ky6R0EwvV
-        UzkTi3TOHbKm6YyQAioKCT28rySbdwxu1PLsYsM=
-X-Google-Smtp-Source: APXvYqzD3XmPXLz86r03TtR9E5AFzlwq6F2JlxS+aoZ3btUNJri7WcjtT31Kr7YAEJQ22zusmaQnQtJqbsRFDTnL7AE=
-X-Received: by 2002:aca:5a04:: with SMTP id o4mr6111624oib.71.1581189431309;
- Sat, 08 Feb 2020 11:17:11 -0800 (PST)
+        bh=FaRo0DyGZ3JEibnWQUuqaMdipbBAOildr4YngTtGzS4=;
+        b=If/4yHjJYTFrno8vcCS3ffoOoD6V0Im2NbDy4oOp6GpvJgnoOHV3aC8QqxtT4neh/i
+         Rf1ZdUasq6jrcJpyivx2WnjOpvPOf/4XHsiBurFWgmrg3M+iZ1idLIxCuZd1Gq0oaOQg
+         0Et60gfHr1ByAeKtoxufKFFYtSdnJ0G0tmKWYluPLnGZCTFCFmHX98NODKRg0mXfcGXz
+         TUGuh90ToQsyOlEYVv95Gom+9hyFEfacB2t38+Fro3keHd86Tub+3fgTh84dGhnn8mTD
+         25or1fEYye84rpPzkOsVI0Hw+NAzDVWhDf7k6pi9E+R7k8AaQk5OnubwpP1rkLVRu33k
+         B0TQ==
+X-Gm-Message-State: APjAAAWMc6rBDnxGuRIDjk6Pni4w/KmFyo4+oolA8IWvhyl+T0Fj8dvy
+        RJN5JCA9cG9BNoRhTWw1ZsXboN8gBFofSyI6dol/3w==
+X-Google-Smtp-Source: APXvYqwQexAgKAy3Dlat76o1Ft/+eitvGa8VRzFGeqWMYrG+oxpDX33F2OG0XGAzXbA1+OrWD1M4P+PylDNemJcaWd0=
+X-Received: by 2002:a67:6746:: with SMTP id b67mr3658804vsc.193.1581239532982;
+ Sun, 09 Feb 2020 01:12:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20200208183641.6674-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200208183641.6674-3-prabhakar.mahadev-lad.rj@bp.renesas.com> <374e26ca-cd3d-fd12-edad-5f24622b9d3d@cogentembedded.com>
-In-Reply-To: <374e26ca-cd3d-fd12-edad-5f24622b9d3d@cogentembedded.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Sat, 8 Feb 2020 19:16:44 +0000
-Message-ID: <CA+V-a8skgpMqCRhVERiiEECyb30s8eGvaC+oY=F21oXZ7DJ-Vg@mail.gmail.com>
-Subject: Re: [PATCH v4 2/6] PCI: rcar: Fix calculating mask for PCIEPAMR register
-To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Andrew Murray <andrew.murray@arm.com>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20200202161914.9551-1-gilad@benyossef.com> <CAMuHMdVgxBx2x7=nTK0HtvufMNBGLruUD6Y1a0pSnX+CDsvCDA@mail.gmail.com>
+In-Reply-To: <CAMuHMdVgxBx2x7=nTK0HtvufMNBGLruUD6Y1a0pSnX+CDsvCDA@mail.gmail.com>
+From:   Gilad Ben-Yossef <gilad@benyossef.com>
+Date:   Sun, 9 Feb 2020 11:11:58 +0200
+Message-ID: <CAOtvUMdE-5DiLAKBM1bPXme+EmGrmjK+AYzN0Zz2LsF4WBQ9Xg@mail.gmail.com>
+Subject: Re: [PATCH] crypto: ccree - dec auth tag size from cryptlen map
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Ofir Drang <ofir.drang@arm.com>,
+        stable <stable@vger.kernel.org>,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Sergei,
-
-Thank you for the review.
-
-On Sat, Feb 8, 2020 at 7:07 PM Sergei Shtylyov
-<sergei.shtylyov@cogentembedded.com> wrote:
+On Thu, Feb 6, 2020 at 4:45 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> Hello!
+> Hi Gilad,
 >
-> On 02/08/2020 09:36 PM, Lad Prabhakar wrote:
->
-> > The mask value was calculated incorrectly for PCIEPAMR register if the
-> > size was less the 128bytes, this patch fixes the above by adding a check
->
->    Less than, perhaps?
->
-Oops shall fix that.
-
-Cheers,
---Prabhakar Lad
-
-> > on size.
+> On Sun, Feb 2, 2020 at 5:19 PM Gilad Ben-Yossef <gilad@benyossef.com> wrote:
+> > Remove the auth tag size from cryptlen before mapping the destination
+> > in out-of-place AEAD decryption thus resolving a crash with
+> > extended testmgr tests.
 > >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> [...]
+> > Signed-off-by: Gilad Ben-Yossef <gilad@benyossef.com>
+> > Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > Cc: stable@vger.kernel.org # v4.19+
 >
-> MBR, Sergei
+> Thanks, this fixes the crash seen on R-Car H3 ES2.0 with renesas_defconfig,
+> CONFIG_CRYPTO_MANAGER_DISABLE_TESTS=n, and CONFIG_CRYPTO_MANAGER_EXTRA_TESTS=y
+>
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Thanks again for your help.
+
+>
+> Remaining issues reported during boot:
+>   1. alg: skcipher: blocksize for xts-aes-ccree (1) doesn't match
+> generic impl (16)
+
+Yes, this is actually a known issue with the generic XTS implementation.
+See: https://lore.kernel.org/linux-crypto/VI1PR0402MB34858E4EF0ACA7CDB446FF5798CE0@VI1PR0402MB3485.eurprd04.prod.outlook.com/
+
+
+>   2. alg: aead: rfc4543-gcm-aes-ccree decryption unexpectedly
+> succeeded on test vector "random: alen=16 plen=39 authsize=16 klen=20
+> novrfy=1"; expected_error=-EBADMSG or -22, cfg="random: may_sleep
+> use_digest src_divs=[4.47%@+3553, 30.80%@+4065, 12.0%@+11,
+> 6.22%@+2999, 46.51%@alignmask+3468]"
+
+Yes, I am working on this one right now.
+
+Many thanks,
+Gilad
