@@ -2,69 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D120157D41
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Feb 2020 15:17:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 54CD0157EC1
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Feb 2020 16:28:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727704AbgBJORf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Feb 2020 09:17:35 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:34903 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727434AbgBJORf (ORCPT
+        id S1727569AbgBJP2T (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Feb 2020 10:28:19 -0500
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:36108 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727563AbgBJP2T (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Feb 2020 09:17:35 -0500
-Received: by mail-ot1-f65.google.com with SMTP id r16so6479446otd.2
-        for <linux-renesas-soc@vger.kernel.org>; Mon, 10 Feb 2020 06:17:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=R1jTtyT7pSfz15415nWDBJyp604FPKP3qITJOCahGWY=;
-        b=stiJB2iqedW/QhqTXg/qDu7MVAxlFHbrFuQg92aqllMAHOKBzu9InM1TNCs6oV8j7M
-         QnvARjY//qQBM7IfLnrjNspsaSx1dAHkYai1J/tA5Cp/OZueh3D7T8tHz3aQY5kgsOgF
-         N+IWq4kcvXFg0H0AGitqFRnBu5sFoPJSFHfbmfiUKL/7BBRlw9yfIE18KOWuckUG7qcM
-         ubGPVooojYBDo3wObRz6JTztCqmpXwaFp1bVtunBqjskA6NCUMFODLedhzpr6ATcSEVa
-         agZqRY+nWaIz2Xgs57FS0B0mmCfSt5N31bfy4juBIrMp+iacV4HwJAq3X8DiYDy9Db3e
-         Gg1Q==
-X-Gm-Message-State: APjAAAUFEodKwj7OfucoX2ZP/UMGbXpAmtA8BsM6osBs9Nq1qI4RI7E9
-        1sKKecYsqz/yacp0KlVFjvghA5DGz5vxCGluK8w=
-X-Google-Smtp-Source: APXvYqzt2BV/pGSD95zbu1iPpF4WPdMTLGpJeirfPCzEXtGB1CXt1kV9C633+isUTzK3aQGH8DPxiGer4LwZs9rceTM=
-X-Received: by 2002:a9d:8f8:: with SMTP id 111mr1157341otf.107.1581344253354;
- Mon, 10 Feb 2020 06:17:33 -0800 (PST)
+        Mon, 10 Feb 2020 10:28:19 -0500
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 316563C057F;
+        Mon, 10 Feb 2020 16:28:17 +0100 (CET)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id QODWTCOKUW-F; Mon, 10 Feb 2020 16:28:12 +0100 (CET)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 08CC03C0012;
+        Mon, 10 Feb 2020 16:28:12 +0100 (CET)
+Received: from lxhi-065.adit-jv.com (10.72.93.66) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Mon, 10 Feb
+ 2020 16:28:11 +0100
+Date:   Mon, 10 Feb 2020 16:28:08 +0100
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alan Stern <stern@rowland.harvard.edu>
+CC:     Hardik Gajjar <hgajjar@de.adit-jv.com>, <thinhn@synopsys.com>,
+        <Kento.A.Kobayashi@sony.com>, <atmgnd@outlook.com>,
+        <linux-usb@vger.kernel.org>, <andrew_gabbasov@mentor.com>,
+        <linux-renesas-soc@vger.kernel.org>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [PATCH v4] USB: hub: Fix the broken detection of USB3 device in
+ SMSC hub
+Message-ID: <20200210152808.GA7327@lxhi-065.adit-jv.com>
+References: <1580989763-32291-1-git-send-email-hgajjar@de.adit-jv.com>
 MIME-Version: 1.0
-References: <20200203072901.31548-1-dirk.behme@de.bosch.com>
-In-Reply-To: <20200203072901.31548-1-dirk.behme@de.bosch.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 10 Feb 2020 15:17:12 +0100
-Message-ID: <CAMuHMdVNasuQW=TcnaSZ6wcnB73+dhD4w1e4iBYB2WtCtp-ndw@mail.gmail.com>
-Subject: Re: [PATCH 1/3] clk: renesas: r8a7795: Add RPC clocks
-To:     Dirk Behme <dirk.behme@de.bosch.com>
-Cc:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <1580989763-32291-1-git-send-email-hgajjar@de.adit-jv.com>
+X-Originating-IP: [10.72.93.66]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Feb 3, 2020 at 8:29 AM Dirk Behme <dirk.behme@de.bosch.com> wrote:
-> Describe the RPCSRC internal clock and the RPC[D2] clocks derived from it,
-> as well as the RPC-IF module clock, in the R-Car H3 (R8A7795) CPG/MSSR
-> driver.
->
-> Inspired by commit 94e3935b5756 ("clk: renesas: r8a77980: Add RPC clocks").
->
-> Signed-off-by: Dirk Behme <dirk.behme@de.bosch.com>
+Hi Alan, hi Greg,
 
-Thanks, all 3 queued in clk-renesas-for-v5.7.
+On Thu, Feb 06, 2020 at 12:49:23PM +0100, Hardik Gajjar wrote:
+> Renesas R-Car H3ULCB + Kingfisher Infotainment Board is either not able
+> to detect the USB3.0 mass storage devices or is detecting those as
+> USB2.0 high speed devices.
+> 
+> The explanation given by Renesas is that, due to a HW issue, the XHCI
+> driver does not wake up after going to sleep on connecting a USB3.0
+> device.
+> 
+> In order to mitigate that, disable the auto-suspend feature
+> specifically for SMSC hubs from hub_probe() function, as a quirk.
+> 
+> Renesas Kingfisher Infotainment Board has two USB3.0 ports (CN2) which
+> are connected via USB5534B 4-port SuperSpeed/Hi-Speed, low-power,
+> configurable hub controller.
+> 
+> [1] SanDisk USB 3.0 device detected as USB-2.0 before the patch
+>  [   74.036390] usb 5-1.1: new high-speed USB device number 4 using xhci-hcd
+>  [   74.061598] usb 5-1.1: New USB device found, idVendor=0781, idProduct=5581, bcdDevice= 1.00
+>  [   74.069976] usb 5-1.1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+>  [   74.077303] usb 5-1.1: Product: Ultra
+>  [   74.080980] usb 5-1.1: Manufacturer: SanDisk
+>  [   74.085263] usb 5-1.1: SerialNumber: 4C530001110208116550
+> 
+> [2] SanDisk USB 3.0 device detected as USB-3.0 after the patch
+>  [   34.565078] usb 6-1.1: new SuperSpeed Gen 1 USB device number 3 using xhci-hcd
+>  [   34.588719] usb 6-1.1: New USB device found, idVendor=0781, idProduct=5581, bcdDevice= 1.00
+>  [   34.597098] usb 6-1.1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+>  [   34.604430] usb 6-1.1: Product: Ultra
+>  [   34.608110] usb 6-1.1: Manufacturer: SanDisk
+>  [   34.612397] usb 6-1.1: SerialNumber: 4C530001110208116550
+> 
+> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+> Signed-off-by: Hardik Gajjar <hgajjar@de.adit-jv.com>
+> Acked-by: Alan Stern <stern@rowland.harvard.edu>
+> Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
 
-Gr{oetje,eeting}s,
-
-                        Geert
+Is there anything else we can do to see the patch accepted?
+Do you think it is also relevant for the stable tree?
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Best Regards
+Eugeniu Rosca
