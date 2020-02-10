@@ -2,114 +2,102 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 01369158331
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Feb 2020 20:02:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E56EB15847B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 10 Feb 2020 21:57:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727079AbgBJTBe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 10 Feb 2020 14:01:34 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37346 "EHLO mail.kernel.org"
+        id S1727330AbgBJU5h (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 10 Feb 2020 15:57:37 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45344 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727043AbgBJTBd (ORCPT
+        id S1727003AbgBJU5h (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 10 Feb 2020 14:01:33 -0500
+        Mon, 10 Feb 2020 15:57:37 -0500
 Received: from localhost (unknown [104.132.1.111])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0F1862080C;
-        Mon, 10 Feb 2020 19:01:33 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5876F20715;
+        Mon, 10 Feb 2020 20:57:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581361293;
-        bh=hfd+qk1h5SK9bd1Ir48S/em+hSG8dzRp5pZAPDAAMIQ=;
+        s=default; t=1581368256;
+        bh=8EBwQnnayyWkzJqyeB1opWjOW6s4LsL74lZDs1gbMSk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ojh684A1y1NmPWSzbUM54xdXc/WNHGWox35GRur1T+b0ouLumY3A6m2a+iltPQVRc
-         17gRdhIrC70KqY/Ei19dRx0+aQYcQOxdZxZtZQGPB3xh/cu8yjruisN0jayque3gNW
-         fyo4qu5bEQs+tucceMMTA4cST9nXBWFWnXaT0H0I=
-Date:   Mon, 10 Feb 2020 11:01:32 -0800
+        b=Q+K0NWEc4WuLeQcS12L0g8smg3uR2/TjI/YFp1Goe4vKDAJgrAzjLT/h3XcCvlZnH
+         mbcYT3lfOd/3IEsiQEAh6LfffzHPnpV1q7PKrsbILzrceiMjbxZP3jKZ7sdufCi6T2
+         mJVPiefKlgOQfMtx7phL4DPLoUxUwZy6OvoIL7Mw=
+Date:   Mon, 10 Feb 2020 12:57:35 -0800
 From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Gilad Ben-Yossef <gilad@benyossef.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S . Miller" <davem@davemloft.net>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
-        Felipe Balbi <balbi@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mathias Nyman <mathias.nyman@intel.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Bin Liu <b-liu@ti.com>, linux-crypto@vger.kernel.org,
-        linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] debugfs: regset32: Add Runtime PM support
-Message-ID: <20200210190132.GB1058087@kroah.com>
-References: <20200124132957.15769-1-geert+renesas@glider.be>
- <20200124132957.15769-2-geert+renesas@glider.be>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Eugeniu Rosca <erosca@de.adit-jv.com>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Ulrich Hecht <uli+renesas@fpond.eu>,
+        "George G . Davis" <george_davis@mentor.com>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        Jiada Wang <jiada_wang@mentor.com>,
+        Yuichi Kusakabe <yuichi.kusakabe@denso-ten.com>,
+        Yasushi Asano <yasano@jp.adit-jv.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        Fukui Yohhei <yohhei.fukui@denso-ten.com>,
+        Torii Kenichi <torii.ken1@jp.fujitsu.com>,
+        Magnus Damm <magnus.damm@gmail.com>
+Subject: Re: [PATCH] serial: sh-sci: Support custom speed setting
+Message-ID: <20200210205735.GB1347752@kroah.com>
+References: <20200129161955.30562-1-erosca@de.adit-jv.com>
+ <CAMuHMdWV0kkKq6sKOHsdz+FFGNHphzq_q7rvmYAL=U4fH2H3wQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200124132957.15769-2-geert+renesas@glider.be>
+In-Reply-To: <CAMuHMdWV0kkKq6sKOHsdz+FFGNHphzq_q7rvmYAL=U4fH2H3wQ@mail.gmail.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri, Jan 24, 2020 at 02:29:56PM +0100, Geert Uytterhoeven wrote:
-> Hardware registers of devices under control of power management cannot
-> be accessed at all times.  If such a device is suspended, register
-> accesses may lead to undefined behavior, like reading bogus values, or
-> causing exceptions or system locks.
+On Thu, Jan 30, 2020 at 01:32:50PM +0100, Geert Uytterhoeven wrote:
+> Hi Eugeniu,
 > 
-> Extend struct debugfs_regset32 with an optional field to let device
-> drivers specify the device the registers in the set belong to.  This
-> allows debugfs_show_regset32() to make sure the device is resumed while
-> its registers are being read.
+> On Wed, Jan 29, 2020 at 5:20 PM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
+> > From: Torii Kenichi <torii.ken1@jp.fujitsu.com>
+> >
+> > This patch is necessary to use BT module and XM module with DENSO TEN
+> > development board.
+> >
+> > This patch supports ASYNC_SPD_CUST flag by ioctl(TIOCSSERIAL), enables
+> > custom speed setting with setserial(1).
+> >
+> > The custom speed is calculated from uartclk and custom_divisor.
+> > If custom_divisor is zero, custom speed setting is invalid.
+> >
+> > Signed-off-by: Torii Kenichi <torii.ken1@jp.fujitsu.com>
+> > [erosca: rebase against v5.5]
+> > Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  fs/debugfs/file.c       | 8 ++++++++
->  include/linux/debugfs.h | 1 +
->  2 files changed, 9 insertions(+)
+> Thanks for your patch!
 > 
-> diff --git a/fs/debugfs/file.c b/fs/debugfs/file.c
-> index dede25247b81f72a..5e52d68421c678f2 100644
-> --- a/fs/debugfs/file.c
-> +++ b/fs/debugfs/file.c
-> @@ -18,6 +18,7 @@
->  #include <linux/slab.h>
->  #include <linux/atomic.h>
->  #include <linux/device.h>
-> +#include <linux/pm_runtime.h>
->  #include <linux/poll.h>
->  #include <linux/security.h>
->  
-> @@ -1057,7 +1058,14 @@ static int debugfs_show_regset32(struct seq_file *s, void *data)
->  {
->  	struct debugfs_regset32 *regset = s->private;
->  
-> +	if (regset->dev)
-> +		pm_runtime_get_sync(regset->dev);
-> +
->  	debugfs_print_regs32(s, regset->regs, regset->nregs, regset->base, "");
-> +
-> +	if (regset->dev)
-> +		pm_runtime_put(regset->dev);
-> +
->  	return 0;
->  }
->  
-> diff --git a/include/linux/debugfs.h b/include/linux/debugfs.h
-> index bf9b6cafa4c26a68..5d0783ae09f365ac 100644
-> --- a/include/linux/debugfs.h
-> +++ b/include/linux/debugfs.h
-> @@ -35,6 +35,7 @@ struct debugfs_regset32 {
->  	const struct debugfs_reg32 *regs;
->  	int nregs;
->  	void __iomem *base;
-> +	struct device *dev;	/* Optional device for Runtime PM */
->  };
->  
->  extern struct dentry *arch_debugfs_dir;
+> While this seems to work fine[*], I have a few comments/questions:
+>   1. This feature seems to be deprecated:
+> 
+>          sh-sci e6e68000.serial: setserial sets custom speed on
+> ttySC1. This is deprecated.
+> 
+>   2. As the wanted speed is specified as a divider, the resulting speed
+>      may be off, cfr. the example for 57600 below.
+>      Note that the SCIF device has multiple clock inputs, and can do
+>      57600 perfectly if the right crystal has been fitted.
+> 
+>  3. What to do with "[PATCH/RFC] serial: sh-sci: Update uartclk based
+>      on selected clock" (https://patchwork.kernel.org/patch/11103703/)?
+>      Combined with this, things become pretty complicated and
+>      unpredictable, as uartclk now always reflect the frequency of the
+>      last used base clock, which was the optimal one for the previously
+>      used speed....
+> 
+> I think it would be easier if we just had an API to specify a raw speed.
+> Perhaps that already exists?
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Yes, see:
+	http://www.panix.com/~grante/arbitrary-baud.c
+
