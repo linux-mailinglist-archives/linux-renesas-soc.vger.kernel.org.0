@@ -2,126 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F0069158E82
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Feb 2020 13:30:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6708C159645
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Feb 2020 18:37:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728801AbgBKMaK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Feb 2020 07:30:10 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51908 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728467AbgBKMaK (ORCPT
+        id S1729725AbgBKRgy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Feb 2020 12:36:54 -0500
+Received: from baptiste.telenet-ops.be ([195.130.132.51]:58226 "EHLO
+        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729696AbgBKRgx (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Feb 2020 07:30:10 -0500
-Received: from localhost (unknown [209.37.97.194])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8CD5820714;
-        Tue, 11 Feb 2020 12:30:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581424209;
-        bh=UOl+tQ/zZd+KwI4FO4cTDXiLUcocDiU1LoF+UqO99S4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TyAGYzmBk647Xic8+Af5jY50tMRYt9H5bHtn6wsE10WXBTvj6piI1yGy8Z6MCj+ZS
-         ansTqCI6m6WsvLaA3okd2k0EYZxvvCWq6Iq7nJE8mUUSf4uxk4FoLXexYzdDYJU1te
-         3efECLAoHJQaFnkycH7+U+jvYJPstPYkJ8I0fcYI=
-Date:   Tue, 11 Feb 2020 04:30:09 -0800
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Eugeniu Rosca <erosca@de.adit-jv.com>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        "George G . Davis" <george_davis@mentor.com>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        Jiada Wang <jiada_wang@mentor.com>,
-        Yuichi Kusakabe <yuichi.kusakabe@denso-ten.com>,
-        Yasushi Asano <yasano@jp.adit-jv.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        Fukui Yohhei <yohhei.fukui@denso-ten.com>,
-        Torii Kenichi <torii.ken1@jp.fujitsu.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        linux-man@vger.kernel.org
-Subject: Re: [PATCH] serial: sh-sci: Support custom speed setting
-Message-ID: <20200211123009.GB1858119@kroah.com>
-References: <20200129161955.30562-1-erosca@de.adit-jv.com>
- <CAMuHMdWV0kkKq6sKOHsdz+FFGNHphzq_q7rvmYAL=U4fH2H3wQ@mail.gmail.com>
- <20200210205735.GB1347752@kroah.com>
- <CAMuHMdUa0fUHZF03QCLsgvS8LSN_rGUQ1gPtotQ3uNGEHkCm6g@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUa0fUHZF03QCLsgvS8LSN_rGUQ1gPtotQ3uNGEHkCm6g@mail.gmail.com>
+        Tue, 11 Feb 2020 12:36:53 -0500
+Received: from ramsan ([84.195.182.253])
+        by baptiste.telenet-ops.be with bizsmtp
+        id 1Vcq2200e5USYZQ01VcqAR; Tue, 11 Feb 2020 18:36:50 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1j1ZSs-0002EY-Na
+        for linux-renesas-soc@vger.kernel.org; Tue, 11 Feb 2020 18:36:50 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1j1ZSs-0002yJ-Ln
+        for linux-renesas-soc@vger.kernel.org; Tue, 11 Feb 2020 18:36:50 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2020-02-11-v5.6-rc1
+Date:   Tue, 11 Feb 2020 18:36:50 +0100
+Message-Id: <20200211173650.11381-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Feb 11, 2020 at 09:15:02AM +0100, Geert Uytterhoeven wrote:
-> Hi Greg,
-> 
-> CC man
-> 
-> On Mon, Feb 10, 2020 at 9:57 PM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> > On Thu, Jan 30, 2020 at 01:32:50PM +0100, Geert Uytterhoeven wrote:
-> > > On Wed, Jan 29, 2020 at 5:20 PM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
-> > > > From: Torii Kenichi <torii.ken1@jp.fujitsu.com>
-> > > >
-> > > > This patch is necessary to use BT module and XM module with DENSO TEN
-> > > > development board.
-> > > >
-> > > > This patch supports ASYNC_SPD_CUST flag by ioctl(TIOCSSERIAL), enables
-> > > > custom speed setting with setserial(1).
-> > > >
-> > > > The custom speed is calculated from uartclk and custom_divisor.
-> > > > If custom_divisor is zero, custom speed setting is invalid.
-> > > >
-> > > > Signed-off-by: Torii Kenichi <torii.ken1@jp.fujitsu.com>
-> > > > [erosca: rebase against v5.5]
-> > > > Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-> > >
-> > > Thanks for your patch!
-> > >
-> > > While this seems to work fine[*], I have a few comments/questions:
-> > >   1. This feature seems to be deprecated:
-> > >
-> > >          sh-sci e6e68000.serial: setserial sets custom speed on
-> > > ttySC1. This is deprecated.
-> > >
-> > >   2. As the wanted speed is specified as a divider, the resulting speed
-> > >      may be off, cfr. the example for 57600 below.
-> > >      Note that the SCIF device has multiple clock inputs, and can do
-> > >      57600 perfectly if the right crystal has been fitted.
-> > >
-> > >  3. What to do with "[PATCH/RFC] serial: sh-sci: Update uartclk based
-> > >      on selected clock" (https://patchwork.kernel.org/patch/11103703/)?
-> > >      Combined with this, things become pretty complicated and
-> > >      unpredictable, as uartclk now always reflect the frequency of the
-> > >      last used base clock, which was the optimal one for the previously
-> > >      used speed....
-> > >
-> > > I think it would be easier if we just had an API to specify a raw speed.
-> > > Perhaps that already exists?
-> >
-> > Yes, see:
-> >         http://www.panix.com/~grante/arbitrary-baud.c
-> 
-> Thanks a lot!!
-> This must be one of the most guarded secrets of serial port programming ;-)
+I have pushed renesas-drivers-2020-02-11-v5.6-rc1 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-It really is, I have to look it up each time it comes up :(
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-> Implemented since 2006, commit edc6afc5496875a6 ("[PATCH] tty: switch to
-> ktermios and new framework"), not documented in today's man-pages.
+Today's version is based on renesas-devel-2020-02-10-v5.6-rc1.
 
-yeah, serial port control really needs to be documented better, there's
-all sorts of nice ways of controlling them that people don't seem to
-know about.  I used to have a link to a bunch of online examples, but
-can't seem to find that anymore either.  Ugh, another thing for the long
-TODO file...
+Included branches with driver code:
+  - clk-renesas
+  - sh-pfc
+  - git://git.ragnatech.se/linux#for-renesas-drivers
 
-greg k-h
+Included fixes:
+  - [LOCAL] arm64: defconfig: Update renesas_defconfig
+
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
+  - git://git.infradead.org/users/vkoul/slave-dma.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://github.com/bzolnier/linux.git#fbdev-for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/kishon/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
