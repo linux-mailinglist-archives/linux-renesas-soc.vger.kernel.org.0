@@ -2,129 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F09BB158B20
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Feb 2020 09:15:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00CC9158B98
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Feb 2020 10:07:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727857AbgBKIPO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Feb 2020 03:15:14 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:38902 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727688AbgBKIPO (ORCPT
+        id S1726973AbgBKJHR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Feb 2020 04:07:17 -0500
+Received: from sauhun.de ([88.99.104.3]:50172 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725787AbgBKJHR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Feb 2020 03:15:14 -0500
-Received: by mail-ot1-f65.google.com with SMTP id z9so9232613oth.5;
-        Tue, 11 Feb 2020 00:15:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KmW0O3LnLsxSEx5mSsn3yBdnjLfYpE0MC8ooH4ZjjKw=;
-        b=L8Et7rpBPKlE8yhxdqUNJNgm41Kz2j5U49UXgA4ooWFrH0e4reqfa4mIxQOl8Wyy/j
-         NJhfC6TxM7aUO8gCQCoQNNdg9wrgYIa4IAfxFHdGm0DXcVWQfDK9d64IOeqjZCScVsBL
-         HDsrvR2IxCA0kalACn4x9ISGvSFyGv+COG/fS8WJhm2J81bze5Be43asCGKnWw4bcj51
-         XiNez53G/ArftMEDlxXvX5uCmiybWAs9FhG742e2ztZTXUJpMb0YOCruhVpnEUJeT0RW
-         CSS9Ob+kCr45BB82kWx7bXQBRpysHGJs1mXd2gLPE4+uLwGUQI0ncpFTCrjtszJERH6x
-         rnNg==
-X-Gm-Message-State: APjAAAXEdEmktm41ecgO2QsXiimDFLFnt+crmfYridHhKDzRGfiJIOKK
-        muyFlrED9q5X7/aB6y2liDmYszLSOz9F7JhYgDQ=
-X-Google-Smtp-Source: APXvYqwEcmEoNoNDBhoPpH3rDf95d6TYZ5IMsE/ydiUKbXXZLt6L0DPS+W4L0t7jNT1AbdX/CoQwZFbMvimTLVDaeII=
-X-Received: by 2002:a9d:7984:: with SMTP id h4mr4357532otm.297.1581408913600;
- Tue, 11 Feb 2020 00:15:13 -0800 (PST)
+        Tue, 11 Feb 2020 04:07:17 -0500
+Received: from localhost (p54B337A4.dip0.t-ipconnect.de [84.179.55.164])
+        by pokefinder.org (Postfix) with ESMTPSA id 7EB372C0740;
+        Tue, 11 Feb 2020 10:07:15 +0100 (CET)
+Date:   Tue, 11 Feb 2020 10:07:12 +0100
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Subject: Re: [RFC PATCH 1/6] mmc: tmio: refactor tuning execution into SDHI
+ driver
+Message-ID: <20200211090712.GA2024@ninjato>
+References: <20200129203709.30493-1-wsa+renesas@sang-engineering.com>
+ <20200129203709.30493-2-wsa+renesas@sang-engineering.com>
+ <20200210224416.GA2443363@oden.dyn.berto.se>
 MIME-Version: 1.0
-References: <20200129161955.30562-1-erosca@de.adit-jv.com> <CAMuHMdWV0kkKq6sKOHsdz+FFGNHphzq_q7rvmYAL=U4fH2H3wQ@mail.gmail.com>
- <20200210205735.GB1347752@kroah.com>
-In-Reply-To: <20200210205735.GB1347752@kroah.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 11 Feb 2020 09:15:02 +0100
-Message-ID: <CAMuHMdUa0fUHZF03QCLsgvS8LSN_rGUQ1gPtotQ3uNGEHkCm6g@mail.gmail.com>
-Subject: Re: [PATCH] serial: sh-sci: Support custom speed setting
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Eugeniu Rosca <erosca@de.adit-jv.com>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Ulrich Hecht <uli+renesas@fpond.eu>,
-        "George G . Davis" <george_davis@mentor.com>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        Jiada Wang <jiada_wang@mentor.com>,
-        Yuichi Kusakabe <yuichi.kusakabe@denso-ten.com>,
-        Yasushi Asano <yasano@jp.adit-jv.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jiri Slaby <jslaby@suse.com>,
-        Fukui Yohhei <yohhei.fukui@denso-ten.com>,
-        Torii Kenichi <torii.ken1@jp.fujitsu.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
-        linux-man@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="nFreZHaLTZJo0R7j"
+Content-Disposition: inline
+In-Reply-To: <20200210224416.GA2443363@oden.dyn.berto.se>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Greg,
 
-CC man
+--nFreZHaLTZJo0R7j
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 10, 2020 at 9:57 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
-> On Thu, Jan 30, 2020 at 01:32:50PM +0100, Geert Uytterhoeven wrote:
-> > On Wed, Jan 29, 2020 at 5:20 PM Eugeniu Rosca <erosca@de.adit-jv.com> wrote:
-> > > From: Torii Kenichi <torii.ken1@jp.fujitsu.com>
-> > >
-> > > This patch is necessary to use BT module and XM module with DENSO TEN
-> > > development board.
-> > >
-> > > This patch supports ASYNC_SPD_CUST flag by ioctl(TIOCSSERIAL), enables
-> > > custom speed setting with setserial(1).
-> > >
-> > > The custom speed is calculated from uartclk and custom_divisor.
-> > > If custom_divisor is zero, custom speed setting is invalid.
-> > >
-> > > Signed-off-by: Torii Kenichi <torii.ken1@jp.fujitsu.com>
-> > > [erosca: rebase against v5.5]
-> > > Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-> >
-> > Thanks for your patch!
-> >
-> > While this seems to work fine[*], I have a few comments/questions:
-> >   1. This feature seems to be deprecated:
-> >
-> >          sh-sci e6e68000.serial: setserial sets custom speed on
-> > ttySC1. This is deprecated.
-> >
-> >   2. As the wanted speed is specified as a divider, the resulting speed
-> >      may be off, cfr. the example for 57600 below.
-> >      Note that the SCIF device has multiple clock inputs, and can do
-> >      57600 perfectly if the right crystal has been fitted.
-> >
-> >  3. What to do with "[PATCH/RFC] serial: sh-sci: Update uartclk based
-> >      on selected clock" (https://patchwork.kernel.org/patch/11103703/)?
-> >      Combined with this, things become pretty complicated and
-> >      unpredictable, as uartclk now always reflect the frequency of the
-> >      last used base clock, which was the optimal one for the previously
-> >      used speed....
-> >
-> > I think it would be easier if we just had an API to specify a raw speed.
-> > Perhaps that already exists?
->
-> Yes, see:
->         http://www.panix.com/~grante/arbitrary-baud.c
+Hi Niklas,
 
-Thanks a lot!!
-This must be one of the most guarded secrets of serial port programming ;-)
+thanks for the review!
 
-Implemented since 2006, commit edc6afc5496875a6 ("[PATCH] tty: switch to
-ktermios and new framework"), not documented in today's man-pages.
+> > +		ret =3D mmc_send_tuning(host->mmc, opcode, NULL);
+> > +		if (ret =3D=3D 0)
+>=20
+> The variable ret is only used here after the refactor so you could=20
+> possibly drop it and just check mmc_send_tuning() =3D=3D 0. With or witho=
+ut=20
 
-Gr{oetje,eeting}s,
+Yeah, makes sense. I will fix it.
 
-                        Geert
+Regards,
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+   Wolfram
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+--nFreZHaLTZJo0R7j
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl5CbrwACgkQFA3kzBSg
+Kbbs4hAAo+HtRm2tZ9TOHfs9z9z0OqAx24bpW5kdZ4KaOKt+3Bag6rjVh8k2JzGo
+cm5MiAcRIY67yCDLiNjDpcJLJ15L8slVneXdh1MPQegAgYv3dstHC+srprZkSUsE
+RFAZFwtfKyXPM+FojvK16w4xpcgLStW04+Q1QT4QPj1dzSKX9BGvar/VmRMPNCpP
+r1Y19BV1QFDsLq+1zKv+xyJtNQNHVglPkb1kbfIfqqrZ/2tMB9AsLKEMyMctTnTe
+YZS6+P0lycIoZkMamcUmZCLAFpjaMg0JJUf45FBF46+YZyV6leuKCy+jEqCrdHTB
+0wHN3uk0XzaQohZuCTB9Bqt+3KC+SMhgAc6p9VZFg3Ji1+t4x1oiW/LZLpmpBsfO
+isgvk/1NY8DEDjM9F4wFbexFyZNkF2cmdleljuqlbFdaHsmSP2QRTee0ZWKBCYvK
+XmSCts6FZWbDePh3bE7oFqxz6zWQ+g0sR94Hq0IwxNn0rqjhDFxjKZYKZydil66D
+KOyzh7aH51zaKHUasI35vWnZerfDYEy7FaGizE9C7dEQrUXTE02P4HfMpeX5edHv
+FS8qFsp8ogQLFWsgycizspMyQLU156mLcXDhwhegFRp96NJJqFTiPx3LtNU4NJj8
+rT0Bbh/TkflpdXdxcLfnPdOgAapXDwinAwkeijFO+r4FPQnDpX8=
+=MD5d
+-----END PGP SIGNATURE-----
+
+--nFreZHaLTZJo0R7j--
