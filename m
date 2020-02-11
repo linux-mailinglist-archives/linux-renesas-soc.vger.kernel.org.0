@@ -2,29 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C10A159891
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Feb 2020 19:27:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BD8915981F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Feb 2020 19:20:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731271AbgBKS05 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Feb 2020 13:26:57 -0500
-Received: from leibniz.telenet-ops.be ([195.130.137.77]:36200 "EHLO
-        leibniz.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731302AbgBKS05 (ORCPT
+        id S1731222AbgBKST6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Feb 2020 13:19:58 -0500
+Received: from albert.telenet-ops.be ([195.130.137.90]:60420 "EHLO
+        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728720AbgBKSTe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Feb 2020 13:26:57 -0500
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by leibniz.telenet-ops.be (Postfix) with ESMTPS id 48H9z71HzyzMtgrg
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Feb 2020 19:19:31 +0100 (CET)
+        Tue, 11 Feb 2020 13:19:34 -0500
 Received: from ramsan ([84.195.182.253])
-        by baptiste.telenet-ops.be with bizsmtp
-        id 1WKV2200K5USYZQ01WKV6t; Tue, 11 Feb 2020 19:19:30 +0100
+        by albert.telenet-ops.be with bizsmtp
+        id 1WKV2200H5USYZQ06WKVNM; Tue, 11 Feb 2020 19:19:30 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1j1a89-0002nk-ES; Tue, 11 Feb 2020 19:19:29 +0100
+        id 1j1a89-0002nq-Fw; Tue, 11 Feb 2020 19:19:29 +0100
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1j1a89-0003yG-Ck; Tue, 11 Feb 2020 19:19:29 +0100
+        id 1j1a89-0003yJ-E2; Tue, 11 Feb 2020 19:19:29 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Gilad Ben-Yossef <gilad@benyossef.com>,
         Herbert Xu <herbert@gondor.apana.org.au>,
@@ -34,9 +31,9 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-crypto@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 04/34] crypto: ccree - remove unneeded casts
-Date:   Tue, 11 Feb 2020 19:18:58 +0100
-Message-Id: <20200211181928.15178-5-geert+renesas@glider.be>
+Subject: [PATCH v2 05/34] crypto: ccree - swap SHA384 and SHA512 larval hashes at build time
+Date:   Tue, 11 Feb 2020 19:18:59 +0100
+Message-Id: <20200211181928.15178-6-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200211181928.15178-1-geert+renesas@glider.be>
 References: <20200211181928.15178-1-geert+renesas@glider.be>
@@ -45,195 +42,129 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Unneeded casts prevent the compiler from performing valuable checks.
-This is especially true for function pointers.
+Due to the way the hardware works, every double word in the SHA384 and
+SHA512 larval hashes must be swapped.  Currently this is done at run
+time, during driver initialization.
 
-Remove these casts, to prevent silently introducing bugs when a
-variable's type might be changed in the future.
-
-No change in generated code.
+However, this swapping can easily be done at build time.  Treating each
+double word as two words has the benefit of changing the larval hashes'
+types from u64[] to u32[], like for all other hashes, and allows
+dropping the casts and size doublings when calling cc_set_sram_desc().
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v2:
   - New.
 
- drivers/crypto/ccree/cc_aead.c       |  7 +++----
- drivers/crypto/ccree/cc_buffer_mgr.c |  7 +++----
- drivers/crypto/ccree/cc_cipher.c     | 10 +++++-----
- drivers/crypto/ccree/cc_hash.c       | 24 ++++++++++++------------
- 4 files changed, 23 insertions(+), 25 deletions(-)
+ drivers/crypto/ccree/cc_driver.c |  1 -
+ drivers/crypto/ccree/cc_hash.c   | 49 +++++++++++---------------------
+ drivers/crypto/ccree/cc_hash.h   |  2 --
+ 3 files changed, 17 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/crypto/ccree/cc_aead.c b/drivers/crypto/ccree/cc_aead.c
-index 0d95bda4de702a4a..7a62fb023d8d3769 100644
---- a/drivers/crypto/ccree/cc_aead.c
-+++ b/drivers/crypto/ccree/cc_aead.c
-@@ -448,8 +448,7 @@ static int cc_get_plain_hmac_key(struct crypto_aead *tfm, const u8 *authkey,
- 		if (!key)
- 			return -ENOMEM;
+diff --git a/drivers/crypto/ccree/cc_driver.c b/drivers/crypto/ccree/cc_driver.c
+index 532bc95a83736f94..fc34d152f42090fc 100644
+--- a/drivers/crypto/ccree/cc_driver.c
++++ b/drivers/crypto/ccree/cc_driver.c
+@@ -653,7 +653,6 @@ static struct platform_driver ccree_driver = {
  
--		key_dma_addr = dma_map_single(dev, (void *)key, keylen,
--					      DMA_TO_DEVICE);
-+		key_dma_addr = dma_map_single(dev, key, keylen, DMA_TO_DEVICE);
- 		if (dma_mapping_error(dev, key_dma_addr)) {
- 			dev_err(dev, "Mapping key va=0x%p len=%u for DMA failed\n",
- 				key, keylen);
-@@ -1921,8 +1920,8 @@ static int cc_proc_aead(struct aead_request *req,
- 	}
+ static int __init ccree_init(void)
+ {
+-	cc_hash_global_init();
+ 	cc_debugfs_global_init();
  
- 	/* Setup request structure */
--	cc_req.user_cb = (void *)cc_aead_complete;
--	cc_req.user_arg = (void *)req;
-+	cc_req.user_cb = cc_aead_complete;
-+	cc_req.user_arg = req;
- 
- 	/* Setup request context */
- 	areq_ctx->gen_ctx.op_type = direct;
-diff --git a/drivers/crypto/ccree/cc_buffer_mgr.c b/drivers/crypto/ccree/cc_buffer_mgr.c
-index 954f14bddf1d7852..1e335abd744024d8 100644
---- a/drivers/crypto/ccree/cc_buffer_mgr.c
-+++ b/drivers/crypto/ccree/cc_buffer_mgr.c
-@@ -118,7 +118,7 @@ void cc_copy_sg_portion(struct device *dev, u8 *dest, struct scatterlist *sg,
- 	u32 nents;
- 
- 	nents = sg_nents_for_len(sg, end);
--	sg_copy_buffer(sg, nents, (void *)dest, (end - to_skip + 1), to_skip,
-+	sg_copy_buffer(sg, nents, dest, (end - to_skip + 1), to_skip,
- 		       (direct == CC_SG_TO_BUF));
- }
- 
-@@ -415,10 +415,9 @@ int cc_map_cipher_request(struct cc_drvdata *drvdata, void *ctx,
- 
- 	/* Map IV buffer */
- 	if (ivsize) {
--		dump_byte_array("iv", (u8 *)info, ivsize);
-+		dump_byte_array("iv", info, ivsize);
- 		req_ctx->gen_ctx.iv_dma_addr =
--			dma_map_single(dev, (void *)info,
--				       ivsize, DMA_BIDIRECTIONAL);
-+			dma_map_single(dev, info, ivsize, DMA_BIDIRECTIONAL);
- 		if (dma_mapping_error(dev, req_ctx->gen_ctx.iv_dma_addr)) {
- 			dev_err(dev, "Mapping iv %u B at va=%pK for DMA failed\n",
- 				ivsize, info);
-diff --git a/drivers/crypto/ccree/cc_cipher.c b/drivers/crypto/ccree/cc_cipher.c
-index fc1646ccfe29bcaa..91d2edee47b8c843 100644
---- a/drivers/crypto/ccree/cc_cipher.c
-+++ b/drivers/crypto/ccree/cc_cipher.c
-@@ -184,7 +184,7 @@ static int cc_cipher_init(struct crypto_tfm *tfm)
- 		ctx_p->user.key);
- 
- 	/* Map key buffer */
--	ctx_p->user.key_dma_addr = dma_map_single(dev, (void *)ctx_p->user.key,
-+	ctx_p->user.key_dma_addr = dma_map_single(dev, ctx_p->user.key,
- 						  max_key_buf_size,
- 						  DMA_TO_DEVICE);
- 	if (dma_mapping_error(dev, ctx_p->user.key_dma_addr)) {
-@@ -284,7 +284,7 @@ static int cc_cipher_sethkey(struct crypto_skcipher *sktfm, const u8 *key,
- 
- 	dev_dbg(dev, "Setting HW key in context @%p for %s. keylen=%u\n",
- 		ctx_p, crypto_tfm_alg_name(tfm), keylen);
--	dump_byte_array("key", (u8 *)key, keylen);
-+	dump_byte_array("key", key, keylen);
- 
- 	/* STAT_PHASE_0: Init and sanity checks */
- 
-@@ -387,7 +387,7 @@ static int cc_cipher_setkey(struct crypto_skcipher *sktfm, const u8 *key,
- 
- 	dev_dbg(dev, "Setting key in context @%p for %s. keylen=%u\n",
- 		ctx_p, crypto_tfm_alg_name(tfm), keylen);
--	dump_byte_array("key", (u8 *)key, keylen);
-+	dump_byte_array("key", key, keylen);
- 
- 	/* STAT_PHASE_0: Init and sanity checks */
- 
-@@ -893,8 +893,8 @@ static int cc_cipher_process(struct skcipher_request *req,
- 	}
- 
- 	/* Setup request structure */
--	cc_req.user_cb = (void *)cc_cipher_complete;
--	cc_req.user_arg = (void *)req;
-+	cc_req.user_cb = cc_cipher_complete;
-+	cc_req.user_arg = req;
- 
- 	/* Setup CPP operation details */
- 	if (ctx_p->key_type == CC_POLICY_PROTECTED_KEY) {
+ 	return platform_driver_register(&ccree_driver);
 diff --git a/drivers/crypto/ccree/cc_hash.c b/drivers/crypto/ccree/cc_hash.c
-index 912e5ce5079d11ae..36ce015716c317df 100644
+index 36ce015716c317df..c3146f550268e7ab 100644
 --- a/drivers/crypto/ccree/cc_hash.c
 +++ b/drivers/crypto/ccree/cc_hash.c
-@@ -752,7 +752,7 @@ static int cc_hash_setkey(struct crypto_ahash *ahash, const u8 *key,
- 			return -ENOMEM;
- 
- 		ctx->key_params.key_dma_addr =
--			dma_map_single(dev, (void *)ctx->key_params.key, keylen,
-+			dma_map_single(dev, ctx->key_params.key, keylen,
- 				       DMA_TO_DEVICE);
- 		if (dma_mapping_error(dev, ctx->key_params.key_dma_addr)) {
- 			dev_err(dev, "Mapping key va=0x%p len=%u for DMA failed\n",
-@@ -1067,8 +1067,8 @@ static int cc_alloc_ctx(struct cc_hash_ctx *ctx)
- 	ctx->key_params.keylen = 0;
- 
- 	ctx->digest_buff_dma_addr =
--		dma_map_single(dev, (void *)ctx->digest_buff,
--			       sizeof(ctx->digest_buff), DMA_BIDIRECTIONAL);
-+		dma_map_single(dev, ctx->digest_buff, sizeof(ctx->digest_buff),
-+			       DMA_BIDIRECTIONAL);
- 	if (dma_mapping_error(dev, ctx->digest_buff_dma_addr)) {
- 		dev_err(dev, "Mapping digest len %zu B at va=%pK for DMA failed\n",
- 			sizeof(ctx->digest_buff), ctx->digest_buff);
-@@ -1079,7 +1079,7 @@ static int cc_alloc_ctx(struct cc_hash_ctx *ctx)
- 		&ctx->digest_buff_dma_addr);
- 
- 	ctx->opad_tmp_keys_dma_addr =
--		dma_map_single(dev, (void *)ctx->opad_tmp_keys_buff,
-+		dma_map_single(dev, ctx->opad_tmp_keys_buff,
- 			       sizeof(ctx->opad_tmp_keys_buff),
- 			       DMA_BIDIRECTIONAL);
- 	if (dma_mapping_error(dev, ctx->opad_tmp_keys_dma_addr)) {
-@@ -1196,8 +1196,8 @@ static int cc_mac_update(struct ahash_request *req)
- 	idx++;
- 
- 	/* Setup request structure */
--	cc_req.user_cb = (void *)cc_update_complete;
--	cc_req.user_arg = (void *)req;
-+	cc_req.user_cb = cc_update_complete;
-+	cc_req.user_arg = req;
- 
- 	rc = cc_send_request(ctx->drvdata, &cc_req, desc, idx, &req->base);
- 	if (rc != -EINPROGRESS && rc != -EBUSY) {
-@@ -1254,8 +1254,8 @@ static int cc_mac_final(struct ahash_request *req)
+@@ -39,12 +39,19 @@ static const u32 cc_sha256_init[] = {
+ 	SHA256_H3, SHA256_H2, SHA256_H1, SHA256_H0 };
+ static const u32 cc_digest_len_sha512_init[] = {
+ 	0x00000080, 0x00000000, 0x00000000, 0x00000000 };
+-static u64 cc_sha384_init[] = {
+-	SHA384_H7, SHA384_H6, SHA384_H5, SHA384_H4,
+-	SHA384_H3, SHA384_H2, SHA384_H1, SHA384_H0 };
+-static u64 cc_sha512_init[] = {
+-	SHA512_H7, SHA512_H6, SHA512_H5, SHA512_H4,
+-	SHA512_H3, SHA512_H2, SHA512_H1, SHA512_H0 };
++
++/*
++ * Due to the way the HW works, every double word in the SHA384 and SHA512
++ * larval hashes must be stored in hi/lo order
++ */
++#define hilo(x)	upper_32_bits(x), lower_32_bits(x)
++static const u32 cc_sha384_init[] = {
++	hilo(SHA384_H7), hilo(SHA384_H6), hilo(SHA384_H5), hilo(SHA384_H4),
++	hilo(SHA384_H3), hilo(SHA384_H2), hilo(SHA384_H1), hilo(SHA384_H0) };
++static const u32 cc_sha512_init[] = {
++	hilo(SHA512_H7), hilo(SHA512_H6), hilo(SHA512_H5), hilo(SHA512_H4),
++	hilo(SHA512_H3), hilo(SHA512_H2), hilo(SHA512_H1), hilo(SHA512_H0) };
++
+ static const u32 cc_sm3_init[] = {
+ 	SM3_IVH, SM3_IVG, SM3_IVF, SM3_IVE,
+ 	SM3_IVD, SM3_IVC, SM3_IVB, SM3_IVA };
+@@ -1942,8 +1949,8 @@ int cc_init_hash_sram(struct cc_drvdata *drvdata)
  	}
  
- 	/* Setup request structure */
--	cc_req.user_cb = (void *)cc_hash_complete;
--	cc_req.user_arg = (void *)req;
-+	cc_req.user_cb = cc_hash_complete;
-+	cc_req.user_arg = req;
+ 	if (large_sha_supported) {
+-		cc_set_sram_desc((u32 *)cc_sha384_init, sram_buff_ofs,
+-				 (ARRAY_SIZE(cc_sha384_init) * 2), larval_seq,
++		cc_set_sram_desc(cc_sha384_init, sram_buff_ofs,
++				 ARRAY_SIZE(cc_sha384_init), larval_seq,
+ 				 &larval_seq_len);
+ 		rc = send_request_init(drvdata, larval_seq, larval_seq_len);
+ 		if (rc)
+@@ -1951,8 +1958,8 @@ int cc_init_hash_sram(struct cc_drvdata *drvdata)
+ 		sram_buff_ofs += sizeof(cc_sha384_init);
+ 		larval_seq_len = 0;
  
- 	if (state->xcbc_count && rem_cnt == 0) {
- 		/* Load key for ECB decryption */
-@@ -1369,8 +1369,8 @@ static int cc_mac_finup(struct ahash_request *req)
- 	}
+-		cc_set_sram_desc((u32 *)cc_sha512_init, sram_buff_ofs,
+-				 (ARRAY_SIZE(cc_sha512_init) * 2), larval_seq,
++		cc_set_sram_desc(cc_sha512_init, sram_buff_ofs,
++				 ARRAY_SIZE(cc_sha512_init), larval_seq,
+ 				 &larval_seq_len);
+ 		rc = send_request_init(drvdata, larval_seq, larval_seq_len);
+ 		if (rc)
+@@ -1963,28 +1970,6 @@ int cc_init_hash_sram(struct cc_drvdata *drvdata)
+ 	return rc;
+ }
  
- 	/* Setup request structure */
--	cc_req.user_cb = (void *)cc_hash_complete;
--	cc_req.user_arg = (void *)req;
-+	cc_req.user_cb = cc_hash_complete;
-+	cc_req.user_arg = req;
+-static void __init cc_swap_dwords(u32 *buf, unsigned long size)
+-{
+-	int i;
+-	u32 tmp;
+-
+-	for (i = 0; i < size; i += 2) {
+-		tmp = buf[i];
+-		buf[i] = buf[i + 1];
+-		buf[i + 1] = tmp;
+-	}
+-}
+-
+-/*
+- * Due to the way the HW works we need to swap every
+- * double word in the SHA384 and SHA512 larval hashes
+- */
+-void __init cc_hash_global_init(void)
+-{
+-	cc_swap_dwords((u32 *)&cc_sha384_init, (ARRAY_SIZE(cc_sha384_init) * 2));
+-	cc_swap_dwords((u32 *)&cc_sha512_init, (ARRAY_SIZE(cc_sha512_init) * 2));
+-}
+-
+ int cc_hash_alloc(struct cc_drvdata *drvdata)
+ {
+ 	struct cc_hash_handle *hash_handle;
+diff --git a/drivers/crypto/ccree/cc_hash.h b/drivers/crypto/ccree/cc_hash.h
+index 0d6dc61484d79bc8..3dbd0abefea0546c 100644
+--- a/drivers/crypto/ccree/cc_hash.h
++++ b/drivers/crypto/ccree/cc_hash.h
+@@ -104,6 +104,4 @@ cc_digest_len_addr(void *drvdata, u32 mode);
+  */
+ cc_sram_addr_t cc_larval_digest_addr(void *drvdata, u32 mode);
  
- 	if (ctx->hw_mode == DRV_CIPHER_XCBC_MAC) {
- 		key_len = CC_AES_128_BIT_KEY_SIZE;
-@@ -1448,8 +1448,8 @@ static int cc_mac_digest(struct ahash_request *req)
- 	}
- 
- 	/* Setup request structure */
--	cc_req.user_cb = (void *)cc_digest_complete;
--	cc_req.user_arg = (void *)req;
-+	cc_req.user_cb = cc_digest_complete;
-+	cc_req.user_arg = req;
- 
- 	if (ctx->hw_mode == DRV_CIPHER_XCBC_MAC) {
- 		key_len = CC_AES_128_BIT_KEY_SIZE;
+-void cc_hash_global_init(void);
+-
+ #endif /*__CC_HASH_H__*/
 -- 
 2.17.1
 
