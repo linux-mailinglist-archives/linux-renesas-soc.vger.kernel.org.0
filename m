@@ -2,29 +2,26 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AFFAF15988E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Feb 2020 19:26:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E71F15982A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 11 Feb 2020 19:20:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731262AbgBKS04 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 11 Feb 2020 13:26:56 -0500
-Received: from leibniz.telenet-ops.be ([195.130.137.77]:36192 "EHLO
-        leibniz.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731300AbgBKS0z (ORCPT
+        id S1731136AbgBKSTe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 11 Feb 2020 13:19:34 -0500
+Received: from andre.telenet-ops.be ([195.130.132.53]:34404 "EHLO
+        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730135AbgBKSTd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 11 Feb 2020 13:26:55 -0500
-Received: from albert.telenet-ops.be (albert.telenet-ops.be [IPv6:2a02:1800:110:4::f00:1a])
-        by leibniz.telenet-ops.be (Postfix) with ESMTPS id 48H9z71F6jzMtgrf
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 11 Feb 2020 19:19:31 +0100 (CET)
+        Tue, 11 Feb 2020 13:19:33 -0500
 Received: from ramsan ([84.195.182.253])
-        by albert.telenet-ops.be with bizsmtp
-        id 1WKV2200E5USYZQ06WKWPt; Tue, 11 Feb 2020 19:19:31 +0100
+        by andre.telenet-ops.be with bizsmtp
+        id 1WKV2200W5USYZQ01WKWUG; Tue, 11 Feb 2020 19:19:31 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1j1a8A-0002p6-Aw; Tue, 11 Feb 2020 19:19:30 +0100
+        id 1j1a8A-0002p9-CW; Tue, 11 Feb 2020 19:19:30 +0100
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1j1a8A-0003zN-9Z; Tue, 11 Feb 2020 19:19:30 +0100
+        id 1j1a8A-0003zQ-Ab; Tue, 11 Feb 2020 19:19:30 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Gilad Ben-Yossef <gilad@benyossef.com>,
         Herbert Xu <herbert@gondor.apana.org.au>,
@@ -34,9 +31,9 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-crypto@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 27/34] crypto: ccree - improve kerneldoc in cc_request_mgr.[ch]
-Date:   Tue, 11 Feb 2020 19:19:21 +0100
-Message-Id: <20200211181928.15178-28-geert+renesas@glider.be>
+Subject: [PATCH v2 28/34] crypto: ccree - improve kerneldoc in cc_sram_mgr.[ch]
+Date:   Tue, 11 Feb 2020 19:19:22 +0100
+Message-Id: <20200211181928.15178-29-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200211181928.15178-1-geert+renesas@glider.be>
 References: <20200211181928.15178-1-geert+renesas@glider.be>
@@ -48,123 +45,109 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 Miscellaneous improvements:
   - Start comment blocks with "/**" to enable kerneldoc,
   - Mark parameters using "@" instead of "\param",
-  - Fix copied is_dout parameter of cc_send_request(),
+  - Fix typos in parameter names,
   - Add missing function names to kerneldoc headers,
-  - Add missing parameter descriptions.
+  - Add missing parameter and return value descriptions.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
 v2:
   - New.
 
- drivers/crypto/ccree/cc_request_mgr.c | 41 ++++++++++++++-------------
- drivers/crypto/ccree/cc_request_mgr.h | 19 ++++++-------
- 2 files changed, 31 insertions(+), 29 deletions(-)
+ drivers/crypto/ccree/cc_sram_mgr.c | 16 +++++++++++-----
+ drivers/crypto/ccree/cc_sram_mgr.h | 22 +++++++++++++---------
+ 2 files changed, 24 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/crypto/ccree/cc_request_mgr.c b/drivers/crypto/ccree/cc_request_mgr.c
-index b2a18122f320b7b2..2b8a9f5a5bd3edee 100644
---- a/drivers/crypto/ccree/cc_request_mgr.c
-+++ b/drivers/crypto/ccree/cc_request_mgr.c
-@@ -206,12 +206,13 @@ static void enqueue_seq(struct cc_drvdata *drvdata, struct cc_hw_desc seq[],
- 	}
- }
- 
--/*!
-- * Completion will take place if and only if user requested completion
-- * by cc_send_sync_request().
-+/**
-+ * request_mgr_complete() - Completion will take place if and only if user
-+ * requested completion by cc_send_sync_request().
+diff --git a/drivers/crypto/ccree/cc_sram_mgr.c b/drivers/crypto/ccree/cc_sram_mgr.c
+index 38f36cbc05b3cf6f..37a95856361fc52c 100644
+--- a/drivers/crypto/ccree/cc_sram_mgr.c
++++ b/drivers/crypto/ccree/cc_sram_mgr.c
+@@ -10,6 +10,9 @@
+  *      Returns zero for success, negative value otherwise.
   *
-- * \param dev
-- * \param dx_compl_h The completion event to signal
-+ * @dev: Device pointer
-+ * @dx_compl_h: The completion event to signal
-+ * @dummy: unused error code
+  * @drvdata: Associated device driver context
++ *
++ * Return:
++ * 0 for success, negative error code for failure.
   */
- static void request_mgr_complete(struct device *dev, void *dx_compl_h,
- 				 int dummy)
-@@ -264,15 +265,15 @@ static int cc_queues_status(struct cc_drvdata *drvdata,
- 	return -ENOSPC;
- }
- 
--/*!
-- * Enqueue caller request to crypto hardware.
-+/**
-+ * cc_do_send_request() - Enqueue caller request to crypto hardware.
-  * Need to be called with HW lock held and PM running
-  *
-- * \param drvdata
-- * \param cc_req The request to enqueue
-- * \param desc The crypto sequence
-- * \param len The crypto sequence length
-- * \param add_comp If "true": add an artificial dout DMA to mark completion
-+ * @drvdata: Associated device driver context
-+ * @cc_req: The request to enqueue
-+ * @desc: The crypto sequence
-+ * @len: The crypto sequence length
-+ * @add_comp: If "true": add an artificial dout DMA to mark completion
-  *
-  */
- static void cc_do_send_request(struct cc_drvdata *drvdata,
-@@ -486,16 +487,18 @@ int cc_send_sync_request(struct cc_drvdata *drvdata,
+ int cc_sram_mgr_init(struct cc_drvdata *drvdata)
+ {
+@@ -29,11 +32,14 @@ int cc_sram_mgr_init(struct cc_drvdata *drvdata)
  	return 0;
  }
  
 -/*!
-- * Enqueue caller request to crypto hardware during init process.
-- * assume this function is not called in middle of a flow,
+- * Allocated buffer from SRAM pool.
 +/**
-+ * send_request_init() - Enqueue caller request to crypto hardware during init
-+ * process.
-+ * Assume this function is not called in the middle of a flow,
-  * since we set QUEUE_LAST_IND flag in the last descriptor.
++ * cc_sram_alloc() - Allocate buffer from SRAM pool.
++ *
++ * @drvdata: Associated device driver context
++ * @size: The requested numer of bytes to allocate
   *
 - * \param drvdata
-- * \param desc The crypto sequence
-- * \param len The crypto sequence length
-+ * @drvdata: Associated device driver context
-+ * @desc: The crypto sequence
-+ * @len: The crypto sequence length
-  *
-- * \return int Returns "0" upon success
+- * \param size The requested bytes to allocate
 + * Return:
-+ * Returns "0" upon success
++ * Address offset in SRAM or NULL_SRAM_ADDR for failure.
   */
- int send_request_init(struct cc_drvdata *drvdata, struct cc_hw_desc *desc,
- 		      unsigned int len)
-diff --git a/drivers/crypto/ccree/cc_request_mgr.h b/drivers/crypto/ccree/cc_request_mgr.h
-index ff7746aaaf355acd..ae25ca843dceabc9 100644
---- a/drivers/crypto/ccree/cc_request_mgr.h
-+++ b/drivers/crypto/ccree/cc_request_mgr.h
-@@ -12,18 +12,17 @@
+ u32 cc_sram_alloc(struct cc_drvdata *drvdata, u32 size)
+ {
+@@ -64,7 +70,7 @@ u32 cc_sram_alloc(struct cc_drvdata *drvdata, u32 size)
+  *
+  * @src:	  A pointer to array of words to set as consts.
+  * @dst:	  The target SRAM buffer to set into
+- * @nelements:	  The number of words in "src" array
++ * @nelement:	  The number of words in "src" array
+  * @seq:	  A pointer to the given IN/OUT descriptor sequence
+  * @seq_len:	  A pointer to the given IN/OUT sequence length
+  */
+diff --git a/drivers/crypto/ccree/cc_sram_mgr.h b/drivers/crypto/ccree/cc_sram_mgr.h
+index 04a857259d4148eb..1c965ef83002a631 100644
+--- a/drivers/crypto/ccree/cc_sram_mgr.h
++++ b/drivers/crypto/ccree/cc_sram_mgr.h
+@@ -12,22 +12,26 @@ struct cc_drvdata;
  
- int cc_req_mgr_init(struct cc_drvdata *drvdata);
+ #define NULL_SRAM_ADDR ((u32)-1)
  
 -/*!
-- * Enqueue caller request to crypto hardware.
+- * Initializes SRAM pool.
 +/**
-+ * cc_send_request() - Enqueue caller request to crypto hardware.
++ * cc_sram_mgr_init() - Initializes SRAM pool.
+  * The first X bytes of SRAM are reserved for ROM usage, hence, pool
+  * starts right after X bytes.
   *
 - * \param drvdata
-- * \param cc_req The request to enqueue
-- * \param desc The crypto sequence
-- * \param len The crypto sequence length
-- * \param is_dout If "true": completion is handled by the caller
-- *	  If "false": this function adds a dummy descriptor completion
-- *	  and waits upon completion signal.
 + * @drvdata: Associated device driver context
-+ * @cc_req: The request to enqueue
-+ * @desc: The crypto sequence
-+ * @len: The crypto sequence length
-+ * @req: Asynchronous crypto request
   *
-- * \return int Returns -EINPROGRESS or error
+- * \return int Zero for success, negative value otherwise.
 + * Return:
-+ * Returns -EINPROGRESS or error
++ * Zero for success, negative value otherwise.
   */
- int cc_send_request(struct cc_drvdata *drvdata, struct cc_crypto_req *cc_req,
- 		    struct cc_hw_desc *desc, unsigned int len,
+ int cc_sram_mgr_init(struct cc_drvdata *drvdata);
+ 
+-/*!
+- * Allocate buffer from SRAM pool.
++/**
++ * cc_sram_alloc() - Allocate buffer from SRAM pool.
++ *
++ * @drvdata: Associated device driver context
++ * @size: The requested bytes to allocate
+  *
+- * \param drvdata
+- * \param size The requested bytes to allocate
++ * Return:
++ * Address offset in SRAM or NULL_SRAM_ADDR for failure.
+  */
+ u32 cc_sram_alloc(struct cc_drvdata *drvdata, u32 size);
+ 
+@@ -38,7 +42,7 @@ u32 cc_sram_alloc(struct cc_drvdata *drvdata, u32 size);
+  *
+  * @src:	  A pointer to array of words to set as consts.
+  * @dst:	  The target SRAM buffer to set into
+- * @nelements:	  The number of words in "src" array
++ * @nelement:	  The number of words in "src" array
+  * @seq:	  A pointer to the given IN/OUT descriptor sequence
+  * @seq_len:	  A pointer to the given IN/OUT sequence length
+  */
 -- 
 2.17.1
 
