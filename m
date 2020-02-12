@@ -2,71 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D75E15A450
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Feb 2020 10:12:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E3F215A5B5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Feb 2020 11:09:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728681AbgBLJLv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Feb 2020 04:11:51 -0500
-Received: from albert.telenet-ops.be ([195.130.137.90]:48378 "EHLO
-        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728150AbgBLJLv (ORCPT
+        id S1729084AbgBLKIm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Feb 2020 05:08:42 -0500
+Received: from baptiste.telenet-ops.be ([195.130.132.51]:49802 "EHLO
+        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729037AbgBLKIl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Feb 2020 04:11:51 -0500
+        Wed, 12 Feb 2020 05:08:41 -0500
 Received: from ramsan ([84.195.182.253])
-        by albert.telenet-ops.be with bizsmtp
-        id 1lBo220155USYZQ06lBoQM; Wed, 12 Feb 2020 10:11:48 +0100
+        by baptiste.telenet-ops.be with bizsmtp
+        id 1m8Y2200H5USYZQ01m8YUq; Wed, 12 Feb 2020 11:08:39 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1j1o3g-0000Zh-Ka; Wed, 12 Feb 2020 10:11:48 +0100
+        id 1j1owa-0001EO-IO; Wed, 12 Feb 2020 11:08:32 +0100
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1j1nuD-0002tr-Bm; Wed, 12 Feb 2020 10:02:01 +0100
+        id 1j1owa-0000LV-FB; Wed, 12 Feb 2020 11:08:32 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org,
+To:     Russell King <linux@armlinux.org.uk>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Lubomir Rintel <lkundrak@v3.sk>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Michal Simek <michal.simek@xilinx.com>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] pinctrl: sh-pfc: gpio: Return early in gpio_pin_to_irq()
-Date:   Wed, 12 Feb 2020 10:02:00 +0100
-Message-Id: <20200212090200.11106-1-geert+renesas@glider.be>
+Subject: [PATCH 0/7] ARM: Replace <linux/clk-provider.h> by <linux/of_clk.h>
+Date:   Wed, 12 Feb 2020 11:08:23 +0100
+Message-Id: <20200212100830.446-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-As of commit 4adeabd042422cee ("pinctrl: sh-pfc: Remove hardcoded IRQ
-numbers"), only a single operation needs to be performed after finding
-the wanted pin.  Hence decrease the needed attention span of the casual
-reader by replacing the goto by a direct return.
+	Hi all,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-To be queued in sh-pfc-for-v5.7.
----
- drivers/pinctrl/sh-pfc/gpio.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+The OF clock helpers were moved to <linux/of_clk.h> a while ago.
+Hence code that is not a clock provider, but just needs to call
+of_clk_init(), can (and should) include <linux/of_clk.h> instead of
+<linux/clk-provider.h>.
 
-diff --git a/drivers/pinctrl/sh-pfc/gpio.c b/drivers/pinctrl/sh-pfc/gpio.c
-index 8213e118aa408573..9c6e931ae766edf7 100644
---- a/drivers/pinctrl/sh-pfc/gpio.c
-+++ b/drivers/pinctrl/sh-pfc/gpio.c
-@@ -205,14 +205,11 @@ static int gpio_pin_to_irq(struct gpio_chip *gc, unsigned offset)
- 
- 		for (k = 0; gpios[k] >= 0; k++) {
- 			if (gpios[k] == offset)
--				goto found;
-+				return pfc->irqs[i];
- 		}
- 	}
- 
- 	return 0;
--
--found:
--	return pfc->irqs[i];
- }
- 
- static int gpio_pin_setup(struct sh_pfc_chip *chip)
+All these patches are independent of each others, and thus can be
+applied by the corresponding subsystem maintainers.
+
+Thanks!
+
+Geert Uytterhoeven (7):
+  ARM/time: Replace <linux/clk-provider.h> by <linux/of_clk.h>
+  ARM: mediatek: Replace <linux/clk-provider.h> by <linux/of_clk.h>
+  ARM: mmp: Replace <linux/clk-provider.h> by <linux/of_clk.h>
+  ARM: rockchip: Replace <linux/clk-provider.h> by <linux/of_clk.h>
+  ARM: shmobile: Replace <linux/clk-provider.h> by <linux/of_clk.h>
+  ARM: sunxi: Replace <linux/clk-provider.h> by <linux/of_clk.h>
+  ARM: zynq: Replace <linux/clk-provider.h> by <linux/of_clk.h>
+
+ arch/arm/kernel/time.c                   | 2 +-
+ arch/arm/mach-mediatek/mediatek.c        | 2 +-
+ arch/arm/mach-mmp/mmp-dt.c               | 2 +-
+ arch/arm/mach-mmp/mmp2-dt.c              | 2 +-
+ arch/arm/mach-rockchip/rockchip.c        | 2 +-
+ arch/arm/mach-shmobile/setup-rcar-gen2.c | 2 +-
+ arch/arm/mach-sunxi/sunxi.c              | 2 +-
+ arch/arm/mach-zynq/common.c              | 2 +-
+ 8 files changed, 8 insertions(+), 8 deletions(-)
+
 -- 
 2.17.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
