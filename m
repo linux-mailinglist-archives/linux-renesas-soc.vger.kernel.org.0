@@ -2,34 +2,34 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0308615AE50
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Feb 2020 18:10:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0742715AE57
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Feb 2020 18:10:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727923AbgBLRJ0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Feb 2020 12:09:26 -0500
-Received: from mail.kernel.org ([198.145.29.99]:57976 "EHLO mail.kernel.org"
+        id S1728793AbgBLRJo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Feb 2020 12:09:44 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58202 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727548AbgBLRJ0 (ORCPT
+        id S1727548AbgBLRJo (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Feb 2020 12:09:26 -0500
+        Wed, 12 Feb 2020 12:09:44 -0500
 Received: from kernel.org (unknown [104.132.0.74])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 72ACD206D7;
-        Wed, 12 Feb 2020 17:09:25 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C1D2B20658;
+        Wed, 12 Feb 2020 17:09:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581527365;
-        bh=WxQ7PbbXyIoC7+GJrQ+uRoXEdtshYOhNhga+Q5j5StU=;
+        s=default; t=1581527383;
+        bh=cpW5hQOQpVJNwP+6xV9ON+eO+BNIAnV7EBPjZ8w1IgM=;
         h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=XpRX7ne2mZkalX9khWt5mbVKEE+pTXnEivDwPc1ytzZaF8Ikxuz/DzSybwhXFMZ7z
-         vAugyREUU5xdwNYxGsMH2zCGj/BqqHmyrKKxCgkWRv/f/YEDTPG6xb1HzXWTeq0w3w
-         cxb0L7ikrzIL7lKvc3yacFK9POK3dyz4MqgbnpcQ=
+        b=FqHk1hODDFQgCzZvgauqTMOq/a/UGvtW6Y/RW7mkDXdeMXH+P+EG/e/CqfXs00RcH
+         zV3LDMoFA7fNfoUWmVj/QjGi2oi6od52EuBJBz8lRo33J6dLNaLCuLnwy7vgZDcDKG
+         V/Ft4kMc7O3dKcTsLR6nrYsxykBSGqGV0YC4hp1s=
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20200212100830.446-5-geert+renesas@glider.be>
-References: <20200212100830.446-1-geert+renesas@glider.be> <20200212100830.446-5-geert+renesas@glider.be>
-Subject: Re: [PATCH 4/7] ARM: rockchip: Replace <linux/clk-provider.h> by <linux/of_clk.h>
+In-Reply-To: <20200212100830.446-6-geert+renesas@glider.be>
+References: <20200212100830.446-1-geert+renesas@glider.be> <20200212100830.446-6-geert+renesas@glider.be>
+Subject: Re: [PATCH 5/7] ARM: shmobile: Replace <linux/clk-provider.h> by <linux/of_clk.h>
 From:   Stephen Boyd <sboyd@kernel.org>
 Cc:     linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org,
@@ -46,16 +46,16 @@ To:     Chen-Yu Tsai <wens@csie.org>,
         Maxime Ripard <mripard@kernel.org>,
         Michal Simek <michal.simek@xilinx.com>,
         Russell King <linux@armlinux.org.uk>
-Date:   Wed, 12 Feb 2020 09:09:24 -0800
-Message-ID: <158152736474.121156.2573812734157351119@swboyd.mtv.corp.google.com>
+Date:   Wed, 12 Feb 2020 09:09:43 -0800
+Message-ID: <158152738307.121156.11685196530624094812@swboyd.mtv.corp.google.com>
 User-Agent: alot/0.9
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Geert Uytterhoeven (2020-02-12 02:08:27)
-> The Rockchip platform code is not a clock provider, and just needs to
+Quoting Geert Uytterhoeven (2020-02-12 02:08:28)
+> The R-Car Gen2 platform code is not a clock provider, and just needs to
 > call of_clk_init().
 >=20
 > Hence it can include <linux/of_clk.h> instead of <linux/clk-provider.h>.
