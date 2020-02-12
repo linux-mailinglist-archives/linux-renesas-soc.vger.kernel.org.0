@@ -2,225 +2,155 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EC4F015AEE1
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Feb 2020 18:39:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 291C515AF81
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Feb 2020 19:14:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727264AbgBLRjh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Feb 2020 12:39:37 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38458 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727054AbgBLRjh (ORCPT
+        id S1727429AbgBLSOE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Feb 2020 13:14:04 -0500
+Received: from vsp-unauthed02.binero.net ([195.74.38.227]:51741 "EHLO
+        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728840AbgBLSOE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Feb 2020 12:39:37 -0500
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 57F86808;
-        Wed, 12 Feb 2020 18:39:34 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1581529174;
-        bh=mV/Hq5UPR5HJxSqo9b8lkBwCo40QV/vqDHzUvk4yo+c=;
-        h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
-        b=in0EXCyG93DAp7l4dw+yyTPknWbiMoithizNYiHlXFAg4Xdbgl6/Xp3bV7zyZ2oY2
-         2CfS88sitjtik1Z7xgVee8FnnLFrzCiH45B3Zp21dd3StRWqkmylZk7D1Y0BQikH/+
-         XXMxOw77LrFcQIgQOtjA1azX5NQxnk99YOQ7ZUlM=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH 1/2] max9286: Split out async registration
-To:     linux-renesas-soc@vger.kernel.org,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20200212173727.19476-1-kieran.bingham+renesas@ideasonboard.com>
- <20200212173727.19476-2-kieran.bingham+renesas@ideasonboard.com>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <32060103-3ffe-1b1e-7f14-68b6e0cbd2d6@ideasonboard.com>
-Date:   Wed, 12 Feb 2020 17:39:31 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+        Wed, 12 Feb 2020 13:14:04 -0500
+X-Halon-ID: 6c8bfab5-4dc3-11ea-aa6d-005056917f90
+Authorized-sender: niklas@soderlund.pp.se
+Received: from bismarck.berto.se (p4fca2392.dip0.t-ipconnect.de [79.202.35.146])
+        by bin-vsp-out-02.atm.binero.net (Halon) with ESMTPA
+        id 6c8bfab5-4dc3-11ea-aa6d-005056917f90;
+        Wed, 12 Feb 2020 19:13:58 +0100 (CET)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     "Daniel W . S . Almeida" <dwlsalmeida@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        netdev@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] Documentation: nfsroot.rst: Fix references to nfsroot.rst
+Date:   Wed, 12 Feb 2020 19:13:32 +0100
+Message-Id: <20200212181332.520545-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-In-Reply-To: <20200212173727.19476-2-kieran.bingham+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Me,
+When converting and moving nfsroot.txt to nfsroot.rst the references to
+the old text file was not updated to match the change, fix this.
 
-On 12/02/2020 17:37, Kieran Bingham wrote:
-> Move all the V4L2 Subdev Async registration so that it can only happen once
-> we know we will not need to -EPROBE_DEFER...
-> 
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> ---
->  drivers/media/i2c/max9286.c | 88 +++++++++++++++++++++++--------------
->  1 file changed, 55 insertions(+), 33 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index 1b4ff3533795..03c5fa232b6d 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -503,6 +503,49 @@ static const struct v4l2_async_notifier_operations max9286_notify_ops = {
->  	.unbind = max9286_notify_unbind,
->  };
->  
-> +static int max9286_v4l2_async_register(struct max9286_priv *priv)
-> +{
-> +	struct device *dev = &priv->client->dev;
-> +	struct max9286_source *source = NULL;
-> +	int ret;
-> +
-> +	v4l2_async_notifier_init(&priv->notifier);
-> +
-> +	for_each_source(priv, source) {
-> +		unsigned int i = to_index(priv, source);
-> +
-> +		dev_err(dev, "Registering v4l2-async for source %d\n", i);
+Fixes: f9a9349846f92b2d ("Documentation: nfsroot.txt: convert to ReST")
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 8 ++++----
+ Documentation/filesystems/cifs/cifsroot.txt     | 2 +-
+ fs/nfs/Kconfig                                  | 2 +-
+ net/ipv4/Kconfig                                | 6 +++---
+ net/ipv4/ipconfig.c                             | 2 +-
+ 5 files changed, 10 insertions(+), 10 deletions(-)
 
-Debug line, can be removed.
-
-> +
-> +		source->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
-> +		source->asd.match.fwnode = source->fwnode;
-> +
-> +		ret = v4l2_async_notifier_add_subdev(&priv->notifier,
-> +						     &source->asd);
-> +		if (ret) {
-> +			dev_err(dev, "Failed to add subdev for source %d", i);
-> +			v4l2_async_notifier_cleanup(&priv->notifier);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	priv->notifier.ops = &max9286_notify_ops;
-> +
-> +	ret = v4l2_async_subdev_notifier_register(&priv->sd, &priv->notifier);
-> +	if (ret) {
-> +		dev_err(dev, "Failed to register subdev_notifier");
-> +		v4l2_async_notifier_cleanup(&priv->notifier);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void max9286_v4l2_async_unregister(struct max9286_priv *priv)
-> +{
-> +	v4l2_async_notifier_unregister(&priv->notifier);
-> +	v4l2_async_notifier_cleanup(&priv->notifier);
-> +}
-> +
->  static int max9286_s_stream(struct v4l2_subdev *sd, int enable)
->  {
->  	struct max9286_priv *priv = sd_to_max9286(sd);
-> @@ -870,6 +913,13 @@ static int max9286_init(struct device *dev)
->  		goto err_regulator;
->  	}
->  
-> +	/* Register v4l2 async notifiers */
-> +	ret = max9286_v4l2_async_register(priv);
-> +	if (ret) {
-> +		dev_err(dev, "Unable to register V4L2 async notifiers\n");
-> +		goto err_regulator;
-> +	}
-> +
->  	v4l2_i2c_subdev_init(&priv->sd, client, &max9286_subdev_ops);
->  	priv->sd.internal_ops = &max9286_subdev_internal_ops;
->  	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> @@ -884,7 +934,7 @@ static int max9286_init(struct device *dev)
->  	priv->sd.ctrl_handler = &priv->ctrls;
->  	ret = priv->ctrls.error;
->  	if (ret)
-> -		goto err_regulator;
-> +		goto err_async;
->  
->  	priv->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
->  
-> @@ -927,6 +977,8 @@ static int max9286_init(struct device *dev)
->  	max9286_i2c_mux_close(priv);
->  err_put_node:
->  	fwnode_handle_put(ep);
-> +err_async:
-> +	max9286_v4l2_async_unregister(priv);
->  err_regulator:
->  	regulator_disable(priv->regulator);
->  	priv->poc_enabled = false;
-> @@ -938,14 +990,6 @@ static void max9286_cleanup_dt(struct max9286_priv *priv)
->  {
->  	struct max9286_source *source;
->  
-> -	/*
-> -	 * Not strictly part of the DT, but the notifier is registered during
-> -	 * max9286_parse_dt(), and the notifier holds references to the fwnodes
-> -	 * thus the cleanup is here to mirror the registration.
-> -	 */
-> -	v4l2_async_notifier_unregister(&priv->notifier);
-> -	v4l2_async_notifier_cleanup(&priv->notifier);
-> -
->  	for_each_source(priv, source) {
->  		fwnode_handle_put(source->fwnode);
->  		source->fwnode = NULL;
-> @@ -958,7 +1002,6 @@ static int max9286_parse_dt(struct max9286_priv *priv)
->  	struct device_node *i2c_mux;
->  	struct device_node *node = NULL;
->  	unsigned int i2c_mux_mask = 0;
-> -	int ret;
->  
->  	of_node_get(dev->of_node);
->  	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
-> @@ -986,8 +1029,6 @@ static int max9286_parse_dt(struct max9286_priv *priv)
->  	of_node_put(node);
->  	of_node_put(i2c_mux);
->  
-> -	v4l2_async_notifier_init(&priv->notifier);
-> -
->  	/* Parse the endpoints */
->  	for_each_endpoint_of_node(dev->of_node, node) {
->  		struct max9286_source *source;
-> @@ -1056,34 +1097,14 @@ static int max9286_parse_dt(struct max9286_priv *priv)
->  			continue;
->  		}
->  
-> -		source->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
-> -		source->asd.match.fwnode = source->fwnode;
-> -
-> -		ret = v4l2_async_notifier_add_subdev(&priv->notifier,
-> -						     &source->asd);
-> -		if (ret) {
-> -			v4l2_async_notifier_cleanup(&priv->notifier);
-> -			of_node_put(node);
-> -			return ret;
-> -		}
-> -
->  		priv->source_mask |= BIT(ep.port);
->  		priv->nsources++;
->  	}
->  	of_node_put(node);
->  
-> -	/* Do not register the subdev notifier if there are no devices. */
-> -	if (!priv->nsources)
-> -		return 0;
-> -
->  	priv->route_mask = priv->source_mask;
-> -	priv->notifier.ops = &max9286_notify_ops;
-> -
-> -	ret = v4l2_async_subdev_notifier_register(&priv->sd, &priv->notifier);
-> -	if (ret)
-> -		v4l2_async_notifier_cleanup(&priv->notifier);
->  
-> -	return ret;
-> +	return 0;
->  }
->  
->  static int max9286_probe(struct i2c_client *client)
-> @@ -1182,6 +1203,7 @@ static int max9286_remove(struct i2c_client *client)
->  
->  	fwnode_handle_put(priv->sd.fwnode);
->  	v4l2_async_unregister_subdev(&priv->sd);
-> +	max9286_v4l2_async_unregister(priv);
->  
->  	if (priv->poc_enabled)
->  		regulator_disable(priv->regulator);
-> 
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index dbc22d68462751d2..afabc0bc4231b407 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1879,7 +1879,7 @@
+ 			No delay
+ 
+ 	ip=		[IP_PNP]
+-			See Documentation/filesystems/nfs/nfsroot.txt.
++			See Documentation/admin-guide/nfs/nfsroot.rst.
+ 
+ 	ipcmni_extend	[KNL] Extend the maximum number of unique System V
+ 			IPC identifiers from 32,768 to 16,777,216.
+@@ -2849,13 +2849,13 @@
+ 			Default value is 0.
+ 
+ 	nfsaddrs=	[NFS] Deprecated.  Use ip= instead.
+-			See Documentation/filesystems/nfs/nfsroot.txt.
++			See Documentation/admin-guide/nfs/nfsroot.rst.
+ 
+ 	nfsroot=	[NFS] nfs root filesystem for disk-less boxes.
+-			See Documentation/filesystems/nfs/nfsroot.txt.
++			See Documentation/admin-guide/nfs/nfsroot.rst.
+ 
+ 	nfsrootdebug	[NFS] enable nfsroot debugging messages.
+-			See Documentation/filesystems/nfs/nfsroot.txt.
++			See Documentation/admin-guide/nfs/nfsroot.rst.
+ 
+ 	nfs.callback_nr_threads=
+ 			[NFSv4] set the total number of threads that the
+diff --git a/Documentation/filesystems/cifs/cifsroot.txt b/Documentation/filesystems/cifs/cifsroot.txt
+index 0fa1a2c36a4053ea..947b7ec6ce9e0f9d 100644
+--- a/Documentation/filesystems/cifs/cifsroot.txt
++++ b/Documentation/filesystems/cifs/cifsroot.txt
+@@ -13,7 +13,7 @@ network by utilizing SMB or CIFS protocol.
+ 
+ In order to mount, the network stack will also need to be set up by
+ using 'ip=' config option. For more details, see
+-Documentation/filesystems/nfs/nfsroot.txt.
++Documentation/admin-guide/nfs/nfsroot.rst.
+ 
+ A CIFS root mount currently requires the use of SMB1+UNIX Extensions
+ which is only supported by the Samba server. SMB1 is the older
+diff --git a/fs/nfs/Kconfig b/fs/nfs/Kconfig
+index 40b6c5ac46c0cc17..88e1763e02f35668 100644
+--- a/fs/nfs/Kconfig
++++ b/fs/nfs/Kconfig
+@@ -164,7 +164,7 @@ config ROOT_NFS
+ 	  If you want your system to mount its root file system via NFS,
+ 	  choose Y here.  This is common practice for managing systems
+ 	  without local permanent storage.  For details, read
+-	  <file:Documentation/filesystems/nfs/nfsroot.txt>.
++	  <file:Documentation/admin-guide/nfs/nfsroot.rst>.
+ 
+ 	  Most people say N here.
+ 
+diff --git a/net/ipv4/Kconfig b/net/ipv4/Kconfig
+index f96bd489b362ab7a..fb1dc8d02f6d4490 100644
+--- a/net/ipv4/Kconfig
++++ b/net/ipv4/Kconfig
+@@ -129,7 +129,7 @@ config IP_PNP_DHCP
+ 
+ 	  If unsure, say Y. Note that if you want to use DHCP, a DHCP server
+ 	  must be operating on your network.  Read
+-	  <file:Documentation/filesystems/nfs/nfsroot.txt> for details.
++	  <file:Documentation/admin-guide/nfs/nfsroot.rst> for details.
+ 
+ config IP_PNP_BOOTP
+ 	bool "IP: BOOTP support"
+@@ -144,7 +144,7 @@ config IP_PNP_BOOTP
+ 	  does BOOTP itself, providing all necessary information on the kernel
+ 	  command line, you can say N here. If unsure, say Y. Note that if you
+ 	  want to use BOOTP, a BOOTP server must be operating on your network.
+-	  Read <file:Documentation/filesystems/nfs/nfsroot.txt> for details.
++	  Read <file:Documentation/admin-guide/nfs/nfsroot.rst> for details.
+ 
+ config IP_PNP_RARP
+ 	bool "IP: RARP support"
+@@ -157,7 +157,7 @@ config IP_PNP_RARP
+ 	  older protocol which is being obsoleted by BOOTP and DHCP), say Y
+ 	  here. Note that if you want to use RARP, a RARP server must be
+ 	  operating on your network. Read
+-	  <file:Documentation/filesystems/nfs/nfsroot.txt> for details.
++	  <file:Documentation/admin-guide/nfs/nfsroot.rst> for details.
+ 
+ config NET_IPIP
+ 	tristate "IP: tunneling"
+diff --git a/net/ipv4/ipconfig.c b/net/ipv4/ipconfig.c
+index 4438f6b123352cbb..561f15b5a944ecae 100644
+--- a/net/ipv4/ipconfig.c
++++ b/net/ipv4/ipconfig.c
+@@ -1621,7 +1621,7 @@ late_initcall(ip_auto_config);
+ 
+ /*
+  *  Decode any IP configuration options in the "ip=" or "nfsaddrs=" kernel
+- *  command line parameter.  See Documentation/filesystems/nfs/nfsroot.txt.
++ *  command line parameter.  See Documentation/admin-guide/nfs/nfsroot.rst.
+  */
+ static int __init ic_proto_name(char *name)
+ {
+-- 
+2.25.0
 
