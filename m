@@ -2,110 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 90A0815AAB2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Feb 2020 15:04:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B14C15AB84
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 12 Feb 2020 15:59:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728264AbgBLOEg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 12 Feb 2020 09:04:36 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55732 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727781AbgBLOEg (ORCPT
+        id S1727231AbgBLO7p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 12 Feb 2020 09:59:45 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:35056 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728139AbgBLO7p (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 12 Feb 2020 09:04:36 -0500
-Received: from localhost (173-25-83-245.client.mchsi.com [173.25.83.245])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7839A20724;
-        Wed, 12 Feb 2020 14:04:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581516275;
-        bh=o9BHn+9tET4BD0g8kAYLMhwyFEa94It7nBIG65XyVow=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=ybhA5sw1XC0h+W6Zeya0JSyVEIzLi+xMgWYE+Dwss2uAZuddrdzio//rz6eimr3jf
-         5fLzed0lzlgiW1e3gJzM4JGdbsZRLPLhAOBWjt9aGVTFpyj7hLZk6qW6Tax2jy+LJS
-         zVOS8XI3s1D5+v5kCab07CmDWyahtMIe3CLy9eEY=
-Date:   Wed, 12 Feb 2020 08:04:34 -0600
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Lad Prabhakar <prabhakar.csengg@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Andrew Murray <andrew.murray@arm.com>,
-        linux-pci@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v4 2/6] PCI: rcar: Fix calculating mask for PCIEPAMR
- register
-Message-ID: <20200212140434.GA129189@google.com>
+        Wed, 12 Feb 2020 09:59:45 -0500
+Received: by mail-lf1-f67.google.com with SMTP id z18so1839346lfe.2
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 12 Feb 2020 06:59:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=IuHG2t7m6yf7uclIpWwT4vlCJ72ejFiqCDoerkzgElg=;
+        b=Ugzkd7ahdUR7l+pHF4e4FUE6T5t9Z+SA+glmQvvKQugojKfjVJ/OZS/idlpjQcwIVI
+         nHOc3GHBWMOznM0lu850Au6cFCIdNZF9APwihamx/AYk+Q1hNjOqu+cX0fAj1kA3UGly
+         i+/NQA6lpfjnzjIIbkyxsjc1u6G3IvDk23/X0m4/vRREAdVOBs2VMK6BZoyB44Vcx4fS
+         BqPHuKnP80Jg9DylDWgYPiD+BEbJIEOCfdgJpPUJASP1GdVibx2VsBD8UQAhfY3LQpb+
+         hmK1JhiJzreXk7ufIh5nvF9GNntxa684D02F5UO1WFniwTE0lxaGZmCJ8oImVu80a70W
+         ui0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=IuHG2t7m6yf7uclIpWwT4vlCJ72ejFiqCDoerkzgElg=;
+        b=LBNm2CBaKMF2iC/A1UQM++lPLfz/iSGWPP6DRd7B1Q6e6p8QAHo2zVGmPWy2urv5h7
+         KQoUekQqMua84zMMRttxzXZvDzmZIJzJRwOxaTto457OZowSElThmC2hyP0vXdsFBprz
+         yaf5xL3Gns+UjAyAvc6/T4sJJKcfSWZx9zgMUjRJVz3xNBgCXA8rNdqaxoowDe1B/SwZ
+         2zTpjknuNn4BQ7LVUoSoxhe9c47aNrXrTNDZ1UbCP7cc999WxlnYzEALeOMo/HZrzc2A
+         pDthshIHUYuTMm28B5XMkidSTg5TVvUVT9sA9DmY0xYIQ2iRWMbRGUM7RNqg6VszCF5A
+         6V4A==
+X-Gm-Message-State: APjAAAWziIPqpByZrN5WZ0pHejE7miIaeqlMobf3rO4KMeFU1IBzDLlF
+        QC6W53jJaML538e2JckW3FccQw==
+X-Google-Smtp-Source: APXvYqway+Y1QUjA+1fPrqgdxjOw9a27iqer38HWOER8WW4dXi4bniSvyvxLCtpqhXYuJ/mpK05cGg==
+X-Received: by 2002:ac2:5e71:: with SMTP id a17mr6735043lfr.181.1581519582530;
+        Wed, 12 Feb 2020 06:59:42 -0800 (PST)
+Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
+        by smtp.gmail.com with ESMTPSA id t21sm428588ljh.14.2020.02.12.06.59.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Feb 2020 06:59:41 -0800 (PST)
+Date:   Wed, 12 Feb 2020 15:59:40 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH] pinctrl: sh-pfc: gpio: Return early in gpio_pin_to_irq()
+Message-ID: <20200212145940.GA3013231@oden.dyn.berto.se>
+References: <20200212090200.11106-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20200208183641.6674-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200212090200.11106-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Sat, Feb 08, 2020 at 06:36:37PM +0000, Lad Prabhakar wrote:
-> The mask value was calculated incorrectly for PCIEPAMR register if the
-> size was less the 128bytes, this patch fixes the above by adding a check
-> on size.
+Hi Geert,
 
-s/less the/less than/
-s/128bytes,/128 bytes./
-s/this patch fixes the above/Fix this issue/
+Thanks for your patch.
 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 2020-02-12 10:02:00 +0100, Geert Uytterhoeven wrote:
+> As of commit 4adeabd042422cee ("pinctrl: sh-pfc: Remove hardcoded IRQ
+> numbers"), only a single operation needs to be performed after finding
+> the wanted pin.  Hence decrease the needed attention span of the casual
+> reader by replacing the goto by a direct return.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
 > ---
->  drivers/pci/controller/pcie-rcar.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+> To be queued in sh-pfc-for-v5.7.
+> ---
+>  drivers/pinctrl/sh-pfc/gpio.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
 > 
-> diff --git a/drivers/pci/controller/pcie-rcar.c b/drivers/pci/controller/pcie-rcar.c
-> index d5568db..c76a92a 100644
-> --- a/drivers/pci/controller/pcie-rcar.c
-> +++ b/drivers/pci/controller/pcie-rcar.c
-> @@ -71,7 +71,7 @@ void rcar_pcie_set_outbound(int win, void __iomem *base,
->  	/* Setup PCIe address space mappings for each resource */
->  	resource_size_t res_start;
->  	resource_size_t size;
-> -	u32 mask;
-> +	u32 mask = 0x0;
+> diff --git a/drivers/pinctrl/sh-pfc/gpio.c b/drivers/pinctrl/sh-pfc/gpio.c
+> index 8213e118aa408573..9c6e931ae766edf7 100644
+> --- a/drivers/pinctrl/sh-pfc/gpio.c
+> +++ b/drivers/pinctrl/sh-pfc/gpio.c
+> @@ -205,14 +205,11 @@ static int gpio_pin_to_irq(struct gpio_chip *gc, unsigned offset)
 >  
->  	rcar_pci_write_reg(base, 0x00000000, PCIEPTCTLR(win));
+>  		for (k = 0; gpios[k] >= 0; k++) {
+>  			if (gpios[k] == offset)
+> -				goto found;
+> +				return pfc->irqs[i];
+>  		}
+>  	}
 >  
-> @@ -80,7 +80,8 @@ void rcar_pcie_set_outbound(int win, void __iomem *base,
->  	 * keeps things pretty simple.
->  	 */
->  	size = resource_size(res);
-> -	mask = (roundup_pow_of_two(size) / SZ_128) - 1;
-> +	if (size > 128)
-> +		mask = (roundup_pow_of_two(size) / SZ_128) - 1;
-
-I would put the "mask = 0x0" right here so it's all in one place,
-i.e.,
-
-  if (size > 128)
-    mask = (roundup_pow_of_two(size) / SZ_128) - 1;
-  else
-    mask = 0x0;
-
->  	rcar_pci_write_reg(base, mask << 7, PCIEPAMR(win));
+>  	return 0;
+> -
+> -found:
+> -	return pfc->irqs[i];
+>  }
 >  
->  	if (!host) {
+>  static int gpio_pin_setup(struct sh_pfc_chip *chip)
 > -- 
-> 2.7.4
+> 2.17.1
 > 
+
+-- 
+Regards,
+Niklas Söderlund
