@@ -2,268 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DE16015C88B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Feb 2020 17:44:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3356D15C894
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 13 Feb 2020 17:50:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727695AbgBMQoG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 13 Feb 2020 11:44:06 -0500
-Received: from mga17.intel.com ([192.55.52.151]:43821 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727683AbgBMQoG (ORCPT
+        id S1727754AbgBMQuf (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 13 Feb 2020 11:50:35 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:38398 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727752AbgBMQuf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 13 Feb 2020 11:44:06 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Feb 2020 08:44:05 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,437,1574150400"; 
-   d="scan'208";a="434481208"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 13 Feb 2020 08:44:04 -0800
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1j2Hau-000Dtl-22; Fri, 14 Feb 2020 00:44:04 +0800
-Date:   Fri, 14 Feb 2020 00:43:08 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:master] BUILD SUCCESS
- 11b4ee1560ac692d3561cb9826a7341c1db2e869
-Message-ID: <5e457c9c.9jgoUKb/00hpfx0y%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Thu, 13 Feb 2020 11:50:35 -0500
+Received: by mail-lf1-f65.google.com with SMTP id r14so4745717lfm.5
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 13 Feb 2020 08:50:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=26IuXblNUPUMTuLYVittiS6yYr2/ijrythYez9MUgNo=;
+        b=W+N1DTMBKrfmnXYTYJYFqlI8HmI7RIV5z9oR5f4ocrUX/eMdhWJCR7o/Isu91WDtrR
+         y0Ue3lXE9/ugpqTtEVG5CqIoFr9hYUQlY6wDjEaU10t96agZRAhKe9JPZjUggaKrONu4
+         p+STLE3y6MojG6drkSCNncjlVBmI02onHG70BHUDW1jVUaXzesdVw94yI/c1FdgpDHBm
+         EiyvmhpYj9ucClQS29Zd80w5bIZIbRPYH7SXu0Mo9GYkmRsQ5Z5co0t3BDrQ04ZfLxmN
+         bvNC9Hy8VPJINe9aCRtzo9Uj3docEO0Hfj8+e1pDdSokjRSd6xvFZfcoZE2ZpHu0TyAf
+         JCYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=26IuXblNUPUMTuLYVittiS6yYr2/ijrythYez9MUgNo=;
+        b=VHDouoGz4UgPFKSRLHSvYO9c11oAa5ovYE5f9ywAzvifosvxzUIrmto9KPVgRAjHFn
+         XRC7PDLJSGjbQ9KKP6KIYiEz1ZS1csW8vXsE5qIFCctiAOy9xjAe8i6nrR90XwBhPDis
+         avtZOBgfoIGHVAxnWf/q/72o/ocpNh5tvfQ4CEZyh0i7LtZ6d1lVxV2naC1Ol2zXU9//
+         mGqzbdF8UwncFrmTJ8o6OaC+Mbjhu82sPCbARGPpWzv8B2IiKGFeA5MUIRD5aiSF+fXr
+         2rsPM9ngH4cUPSYyKWnKrHO9vS0lXOjKji07AEfz9bcEt5UvW0E/2OwEVlSmwc9eZ6L4
+         UIeg==
+X-Gm-Message-State: APjAAAVfxlCsAheVWxRMZxhAW78kysY4ASscpn+AM2+EF5zUUqAaoTP1
+        E9B8fDP4qAhWXce1Y3zx/fxDUQ==
+X-Google-Smtp-Source: APXvYqwOq6Bnde+Xr5/BS4w11mEMnbLDmGxAnaF9W1wbDck+NAhmykMeZEvS4Y8pZcnja40Kqqsf4Q==
+X-Received: by 2002:a19:5e1d:: with SMTP id s29mr8101967lfb.21.1581612633139;
+        Thu, 13 Feb 2020 08:50:33 -0800 (PST)
+Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
+        by smtp.gmail.com with ESMTPSA id r9sm1944288lfc.72.2020.02.13.08.50.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Feb 2020 08:50:32 -0800 (PST)
+Date:   Thu, 13 Feb 2020 17:50:31 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] mmc: renesas_sdhi: simplify execute_tuning
+Message-ID: <20200213165031.GI3013231@oden.dyn.berto.se>
+References: <20200213163715.8212-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200213163715.8212-1-wsa+renesas@sang-engineering.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  master
-branch HEAD: 11b4ee1560ac692d3561cb9826a7341c1db2e869  [LOCAL] arm64: defconfig: Update renesas_defconfig
+Hi Wolfram,
 
-elapsed time: 2901m
+Thanks for your work.
 
-configs tested: 212
-configs skipped: 0
+On 2020-02-13 17:37:15 +0100, Wolfram Sang wrote:
+> After refactoring, 'ret' variable is superfluous. Remove it.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-arm                              allmodconfig
-arm                               allnoconfig
-arm                              allyesconfig
-arm                         at91_dt_defconfig
-arm                           efm32_defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                        multi_v7_defconfig
-arm                        shmobile_defconfig
-arm                           sunxi_defconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-arm64                            allyesconfig
-arm64                               defconfig
-sparc                            allyesconfig
-um                                  defconfig
-nds32                             allnoconfig
-microblaze                      mmu_defconfig
-mips                              allnoconfig
-ia64                             allyesconfig
-xtensa                          iss_defconfig
-i386                             alldefconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                                defconfig
-ia64                             alldefconfig
-ia64                             allmodconfig
-ia64                              allnoconfig
-ia64                                defconfig
-c6x                              allyesconfig
-c6x                        evmc6678_defconfig
-nios2                         10m50_defconfig
-nios2                         3c120_defconfig
-openrisc                    or1ksim_defconfig
-openrisc                 simple_smp_defconfig
-xtensa                       common_defconfig
-nds32                               defconfig
-csky                                defconfig
-alpha                               defconfig
-h8300                     edosk2674_defconfig
-h8300                    h8300h-sim_defconfig
-h8300                       h8s-sim_defconfig
-m68k                             allmodconfig
-m68k                       m5475evb_defconfig
-m68k                          multi_defconfig
-m68k                           sun3_defconfig
-arc                                 defconfig
-arc                              allyesconfig
-powerpc                             defconfig
-powerpc                       ppc64_defconfig
-powerpc                          rhel-kconfig
-microblaze                    nommu_defconfig
-powerpc                           allnoconfig
-mips                           32r2_defconfig
-mips                         64r6el_defconfig
-mips                             allmodconfig
-mips                             allyesconfig
-mips                      fuloong2e_defconfig
-mips                      malta_kvm_defconfig
-parisc                            allnoconfig
-parisc                           allyesconfig
-parisc                         b180_defconfig
-parisc                        c3000_defconfig
-parisc                              defconfig
-x86_64               randconfig-a001-20200213
-x86_64               randconfig-a002-20200213
-x86_64               randconfig-a003-20200213
-i386                 randconfig-a001-20200213
-i386                 randconfig-a002-20200213
-i386                 randconfig-a003-20200213
-i386                 randconfig-a003-20200212
-x86_64               randconfig-a003-20200212
-i386                 randconfig-a001-20200212
-x86_64               randconfig-a002-20200212
-i386                 randconfig-a002-20200212
-x86_64               randconfig-a001-20200212
-parisc               randconfig-a001-20200212
-riscv                randconfig-a001-20200212
-m68k                 randconfig-a001-20200212
-mips                 randconfig-a001-20200212
-nds32                randconfig-a001-20200212
-alpha                randconfig-a001-20200212
-alpha                randconfig-a001-20200213
-m68k                 randconfig-a001-20200213
-mips                 randconfig-a001-20200213
-nds32                randconfig-a001-20200213
-parisc               randconfig-a001-20200213
-riscv                randconfig-a001-20200213
-c6x                  randconfig-a001-20200213
-h8300                randconfig-a001-20200213
-microblaze           randconfig-a001-20200213
-nios2                randconfig-a001-20200213
-sparc64              randconfig-a001-20200213
-openrisc             randconfig-a001-20200212
-sh                   randconfig-a001-20200212
-csky                 randconfig-a001-20200212
-s390                 randconfig-a001-20200212
-xtensa               randconfig-a001-20200212
-csky                 randconfig-a001-20200213
-openrisc             randconfig-a001-20200213
-s390                 randconfig-a001-20200213
-sh                   randconfig-a001-20200213
-xtensa               randconfig-a001-20200213
-x86_64               randconfig-b002-20200211
-i386                 randconfig-b002-20200211
-x86_64               randconfig-b001-20200211
-i386                 randconfig-b001-20200211
-i386                 randconfig-b003-20200211
-x86_64               randconfig-b003-20200211
-x86_64               randconfig-c001-20200213
-x86_64               randconfig-c002-20200213
-x86_64               randconfig-c003-20200213
-i386                 randconfig-c001-20200213
-i386                 randconfig-c002-20200213
-i386                 randconfig-c003-20200213
-i386                 randconfig-c002-20200212
-x86_64               randconfig-c003-20200212
-i386                 randconfig-c001-20200212
-x86_64               randconfig-c002-20200212
-i386                 randconfig-c003-20200212
-x86_64               randconfig-c001-20200212
-x86_64               randconfig-d001-20200213
-x86_64               randconfig-d002-20200213
-x86_64               randconfig-d003-20200213
-i386                 randconfig-d001-20200213
-i386                 randconfig-d002-20200213
-i386                 randconfig-d003-20200213
-x86_64               randconfig-e001-20200213
-x86_64               randconfig-e002-20200213
-x86_64               randconfig-e003-20200213
-i386                 randconfig-e001-20200213
-i386                 randconfig-e002-20200213
-i386                 randconfig-e003-20200213
-i386                 randconfig-e001-20200212
-i386                 randconfig-e003-20200212
-x86_64               randconfig-e001-20200212
-x86_64               randconfig-e002-20200212
-i386                 randconfig-e002-20200212
-x86_64               randconfig-e003-20200212
-x86_64               randconfig-f001-20200213
-x86_64               randconfig-f002-20200213
-x86_64               randconfig-f003-20200213
-i386                 randconfig-f001-20200213
-i386                 randconfig-f002-20200213
-i386                 randconfig-f003-20200213
-x86_64               randconfig-g001-20200212
-x86_64               randconfig-g002-20200212
-x86_64               randconfig-g003-20200212
-i386                 randconfig-g001-20200212
-i386                 randconfig-g002-20200212
-i386                 randconfig-g003-20200212
-x86_64               randconfig-g001-20200213
-x86_64               randconfig-g002-20200213
-x86_64               randconfig-g003-20200213
-i386                 randconfig-g001-20200213
-i386                 randconfig-g002-20200213
-i386                 randconfig-g003-20200213
-x86_64               randconfig-h001-20200212
-x86_64               randconfig-h002-20200212
-x86_64               randconfig-h003-20200212
-i386                 randconfig-h001-20200212
-i386                 randconfig-h002-20200212
-i386                 randconfig-h003-20200212
-x86_64               randconfig-h001-20200213
-x86_64               randconfig-h002-20200213
-x86_64               randconfig-h003-20200213
-i386                 randconfig-h001-20200213
-i386                 randconfig-h002-20200213
-i386                 randconfig-h003-20200213
-arc                  randconfig-a001-20200213
-arm                  randconfig-a001-20200213
-arm64                randconfig-a001-20200213
-ia64                 randconfig-a001-20200213
-powerpc              randconfig-a001-20200213
-sparc                randconfig-a001-20200213
-arc                  randconfig-a001-20200212
-arm                  randconfig-a001-20200212
-arm64                randconfig-a001-20200212
-ia64                 randconfig-a001-20200212
-powerpc              randconfig-a001-20200212
-sparc                randconfig-a001-20200212
-riscv                            allmodconfig
-riscv                             allnoconfig
-riscv                            allyesconfig
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-s390                             alldefconfig
-s390                             allmodconfig
-s390                              allnoconfig
-s390                             allyesconfig
-s390                          debug_defconfig
-s390                                defconfig
-s390                       zfcpdump_defconfig
-sh                               allmodconfig
-sh                                allnoconfig
-sh                          rsk7269_defconfig
-sh                  sh7785lcr_32bit_defconfig
-sh                            titan_defconfig
-sparc                               defconfig
-sparc64                          allmodconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                             defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                                   rhel
-x86_64                               rhel-7.6
-x86_64                         rhel-7.2-clear
-x86_64                                    lkp
-x86_64                              fedora-25
-x86_64                                  kexec
+> ---
+> 
+> Tested on a Salvator-XS (R-Car M3-N). Tuning to HS400 works,
+> checksumming a large file works with no performance regression.
+> 
+>  drivers/mmc/host/renesas_sdhi_core.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
+> index 0f07cc1aee34..df826661366f 100644
+> --- a/drivers/mmc/host/renesas_sdhi_core.c
+> +++ b/drivers/mmc/host/renesas_sdhi_core.c
+> @@ -497,7 +497,7 @@ static int renesas_sdhi_select_tuning(struct tmio_mmc_host *host)
+>  static int renesas_sdhi_execute_tuning(struct tmio_mmc_host *host, u32 opcode)
+>  {
+>  	struct renesas_sdhi *priv = host_to_priv(host);
+> -	int i, ret;
+> +	int i;
+>  
+>  	priv->tap_num = renesas_sdhi_init_tuning(host);
+>  	if (!priv->tap_num)
+> @@ -517,8 +517,7 @@ static int renesas_sdhi_execute_tuning(struct tmio_mmc_host *host, u32 opcode)
+>  		/* Set sampling clock position */
+>  		sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_TAPSET, i % priv->tap_num);
+>  
+> -		ret = mmc_send_tuning(host->mmc, opcode, NULL);
+> -		if (ret == 0)
+> +		if (mmc_send_tuning(host->mmc, opcode, NULL) == 0)
+>  			set_bit(i, priv->taps);
+>  	}
+>  
+> -- 
+> 2.20.1
+> 
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+-- 
+Regards,
+Niklas Söderlund
