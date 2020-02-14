@@ -2,69 +2,303 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 007CF15D441
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2020 10:01:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E37115D454
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2020 10:07:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726769AbgBNJB0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 14 Feb 2020 04:01:26 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:33798 "EHLO
+        id S1728775AbgBNJHg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 14 Feb 2020 04:07:36 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:33832 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728522AbgBNJB0 (ORCPT
+        with ESMTP id S1728691AbgBNJHf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 14 Feb 2020 04:01:26 -0500
-Received: from localhost.localdomain (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A64D9559;
-        Fri, 14 Feb 2020 10:01:24 +0100 (CET)
+        Fri, 14 Feb 2020 04:07:35 -0500
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3B60D504;
+        Fri, 14 Feb 2020 10:07:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1581670884;
-        bh=USU49e8WY2Zpm0fZiT138xiDwrbWV6LZckXAD/anuyU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=MslnslqGE6SuhYSPhqpOc7y5J8i/MqCkPZRKC0IlWLmTRH2mgdeYCGMWMONAcDS8a
-         Pf6tCG1kBrT3qWqQsp+ulMWrpwYCHU2c5bdpAKwFY4UQdoL80PyktUSAEUuGbCtyNU
-         rDhhDHksL3XDRuqGv0UY2dw/0Zsjrg0kriSObtXg=
+        s=mail; t=1581671252;
+        bh=Q7Ea295MvzmDvogt6VcbWKos3P24+TDQWgPfotahodA=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=oU0VnmTIXlw6IO7Ubpu3S2cbo57c40dr1N1mmhmKWX+iYZSreuDlMtjYCCRTq9BU/
+         i6GuRLYj91RqM2An6ABeCssHGC2UOhsq/UPIieO5Tw+Sx10EaVJRwo69/jY6MWcYa2
+         RkokxQP4CY2fm/xP+BQTId/3anapBTy7bczXRmeY=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [RFC 05/11] fixup! dt-bindings: media: i2c: Add bindings for IMI
+ RDACM20
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     niklas.soderlund@ragnatech.se, linux-renesas-soc@vger.kernel.org
+References: <20191216171620.372683-1-jacopo+renesas@jmondi.org>
+ <20191216171620.372683-6-jacopo+renesas@jmondi.org>
+ <20191216224204.GJ4856@pendragon.ideasonboard.com>
 From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     linux-renesas-soc@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH] media: i2c: Add RDACM20 driver (squash!)
-Date:   Fri, 14 Feb 2020 09:01:20 +0000
-Message-Id: <20200214090120.31507-2-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214090120.31507-1-kieran.bingham+renesas@ideasonboard.com>
-References: <20200214090120.31507-1-kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <dc03fd9f-a5e0-a317-6452-3cb57c470854@ideasonboard.com>
+Date:   Fri, 14 Feb 2020 09:07:28 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
+In-Reply-To: <20191216224204.GJ4856@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Rebasing the GMSL work to the latest media/master branch requires fixing up the
-RDACM20 to support the updated i2c apis.
+Hi Jacopo,
 
- - Use new i2c_new_dummy_device API
 
----
- drivers/media/i2c/rdacm20.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+On 16/12/2019 22:42, Laurent Pinchart wrote:
+> Hi Jacopo,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Dec 16, 2019 at 06:16:14PM +0100, Jacopo Mondi wrote:
+>> ---
+>>  .../bindings/media/i2c/imi,rdacm20.txt        |  66 ----------
+>>  .../bindings/media/i2c/imi,rdacm20.yaml       | 113 ++++++++++++++++++
+>>  2 files changed, 113 insertions(+), 66 deletions(-)
+>>  delete mode 100644 Documentation/devicetree/bindings/media/i2c/imi,rdacm20.txt
+>>  create mode 100644 Documentation/devicetree/bindings/media/i2c/imi,rdacm20.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/i2c/imi,rdacm20.txt b/Documentation/devicetree/bindings/media/i2c/imi,rdacm20.txt
+>> deleted file mode 100644
+>> index 4731aafed63f..000000000000
+>> --- a/Documentation/devicetree/bindings/media/i2c/imi,rdacm20.txt
+>> +++ /dev/null
+>> @@ -1,66 +0,0 @@
+>> -IMI D&D RDACM20 Automotive Camera Platform
+>> -------------------------------------------
+>> -
+>> -The IMI D&D RDACM20 is a GMSL-compatible camera designed for automotive
+>> -applications. It encloses a Maxim Integrated MAX9271 GMSL serializer, an
+>> -Omnivision OV10635 camera sensor and an embedded MCU, and connects to a remote
+>> -GMSL endpoint through a coaxial cable.
+>> -
+>> -                                                     IMI RDACM20
+>> - ---------------                               --------------------------------
+>> -|      GMSL     |   <---  Video Stream        |       <- Video--------\        |
+>> -|               |< ====== GMSL Link ======== >|MAX9271<- I2C bus-> <-->OV10635 |
+>> -| de-serializer |   <---  I2C messages --->   |                   \<-->MCU     |
+>> - ---------------                               --------------------------------
+>> -
+>> -The RDACM20 transmits video data generated by the embedded camera sensor on the
+>> -GMSL serial channel to a remote GMSL de-serializer, as well as it receives and
+>> -transmits I2C messages encapsulated in the GMSL bidirectional control channel.
+>> -
+>> -All I2C traffic received on the GMSL link not directed to the serializer is
+>> -propagated on the local I2C bus to the embedded camera sensor and MCU. All
+>> -I2C traffic generated on the local I2C bus not directed to the serializer is
+>> -propagated to the remote de-serializer encapsulated in the GMSL control channel.
+>> -
+>> -The RDACM20 DT node should be a direct child of the GMSL Deserializer's I2C bus
+>> -corresponding to the GMSL link that the camera is attached to.
+>> -
+>> -Required Properties:
+>> -
+>> -- compatible: Shall be "imi,rdacm20".
+>> -- reg: I2C device addresses, the first to be assigned to the serializer
+>> -  the second to be assigned to the camera sensor. An optional third address can
+>> -  be provided to specify the MCU address if present.
+>> -
+>> -Connection to the remote GMSL endpoint are modelled using the OF graph bindings
+>> -in accordance with the video interface bindings defined in
+>> -Documentation/devicetree/bindings/media/video-interfaces.txt.
+>> -
+>> -The device node contains a single "port" child node with a single "endpoint"
+>> -sub-device.
+>> -
+>> -Required endpoint properties:
+>> -
+>> -- remote-endpoint: phandle to the remote GMSL endpoint sub-node in the remote
+>> -  node port.
+>> -
+>> -Example:
+>> --------
+>> -
+>> -	i2c@0 {
+>> -		#address-cells = <1>;
+>> -		#size-cells = <0>;
+>> -		reg = <0>;
+>> -
+>> -		camera@51 {
+>> -			compatible = "imi,rdacm20";
+>> -			reg = <0x31 0x41 0x51>;
+>> -
+>> -			port {
+>> -				rdacm20_out0: endpoint {
+>> -					remote-endpoint = <&max9286_in0>;
+>> -				};
+>> -			};
+>> -
+>> -		};
+>> -	};
+>> diff --git a/Documentation/devicetree/bindings/media/i2c/imi,rdacm20.yaml b/Documentation/devicetree/bindings/media/i2c/imi,rdacm20.yaml
+>> new file mode 100644
+>> index 000000000000..76740e285f44
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/media/i2c/imi,rdacm20.yaml
+>> @@ -0,0 +1,113 @@
+>> +# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
+>> +# Copyright (C) 2019 Renesas Electronics Corp.
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/media/i2c/imi,rdacm20.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title:  IMI D&D RDACM20 Automotive Camera Platform
+>> +
+>> +maintainers:
+>> +  - Jacopo Mondi <jacopo+renesas@jmondi.org>
+>> +  - Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>> +  - Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+>> +
+>> +description: -|
+>> +  The IMI D&D RDACM20 is a GMSL-compatible camera designed for automotive
+>> +  applications. It encloses a Maxim Integrated MAX9271 GMSL serializer, an
+>> +  Omnivision OV10635 camera sensor and an embedded MCU, and connects to a remote
+>> +  GMSL endpoint through a coaxial cable.
+>> +
+>> +                                                   IMI RDACM20
+>> +  +---------------+                        +--------------------------------+
+>> +  |      GMSL     |   <- Video Stream      |       <- Video--------\        |
+>> +  |               |< === GMSL Link ====== >|MAX9271<- I2C bus-> <-->OV10635 |
+>> +  | de-serializer |   <- I2C messages ->   |                   \<-->MCU     |
+>> +  +---------------+                        +--------------------------------+
+>> +
+>> +  The RDACM20 transmits video data generated by the embedded camera sensor on
+>> +  the GMSL serial channel to a remote GMSL de-serializer, as well as it receives
+>> +  and transmits I2C messages encapsulated in the GMSL bidirectional control
+>> +  channel.
+>> +
+>> +  All I2C traffic received on the GMSL link not directed to the serializer is
+>> +  propagated on the local I2C bus to the embedded camera sensor and MCU. All I2C
+>> +  traffic generated on the local I2C bus not directed to the serializer is
+>> +  propagated to the remote de-serializer encapsulated in the GMSL control
+>> +  channel.
+>> +
+>> +  The RDACM20 DT node should be a direct child of the GMSL Deserializer's I2C
+>> +  bus corresponding to the GMSL link that the camera is attached to.
+>> +
+>> +properties:
+>> +  '#address-cells':
+>> +    const: 1
+>> +
+>> +  '#size-cells':
+>> +    const: 0
+> 
+> Are those two properties needed ?
+> 
 
-diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-index 97026ee91898..0cd467378922 100644
---- a/drivers/media/i2c/rdacm20.c
-+++ b/drivers/media/i2c/rdacm20.c
-@@ -286,9 +286,10 @@ static int rdacm20_probe(struct i2c_client *client)
- 	dev->serializer->client = client;
- 
- 	/* Create the dummy I2C client for the sensor. */
--	dev->sensor = i2c_new_dummy(client->adapter, OV10635_I2C_ADDRESS);
--	if (!dev->sensor) {
--		ret = -ENXIO;
-+	dev->sensor = i2c_new_dummy_device(client->adapter,
-+					   OV10635_I2C_ADDRESS);
-+	if (IS_ERR(dev->sensor)) {
-+		ret = PTR_ERR(dev->sensor);
- 		goto error;
- 	}
- 
--- 
-2.20.1
+Hi Jacopo,
+
+This question is left unanswered, and the properties are still in the
+code base...
+
+Can/should we drop these two properties?
+
+
+I can see that the i2c-node will specify the properties, but I don't
+think the rdacm20 node will..
+
+i.e.:
+
+>> +    i2c@e66d8000 {
+>> +      #address-cells = <1>;
+>> +      #size-cells = <0>;
+
+	They are utilised here (in the i2c node)...
+
+>> +
+>> +      reg = <0 0xe66d8000 0 0x40>;
+>> +
+>> +      camera@31 {
+>> +        compatible = "imi,rdacm20";
+>> +        reg = <0x31>, <0x41>, <0x51>;
+
+but not here in the camera node....
+
+>> +
+>> +        port {
+>> +          rdacm20_out0: endpoint {
+>> +            remote-endpoint = <&max9286_in0>;
+>> +          };
+>> +        };
+>> +      };
+>> +    };
+
+
+--
+Kieran
+
+
+>> +
+>> +  compatible:
+>> +    const: imi,rdacm20
+>> +
+>> +  reg:
+>> +    description: -|
+>> +      I2C device addresses, the first to be assigned to the serializer the
+>> +      second to be assigned to the camera sensor. An optional third address can
+>> +      be provided to specify the MCU address if present.
+>> +    minItems: 2
+>> +    maxItems: 3
+>> +
+>> +  port:
+>> +    type: object
+>> +    additionalProperties: false
+>> +    description: -|
+>> +      Connection to the remote GMSL endpoint are modelled using the OF graph
+>> +      bindings in accordance with the video interface bindings defined in
+>> +      Documentation/devicetree/bindings/media/video-interfaces.txt.
+>> +
+>> +      The device node contains a single "port" child node with a single
+>> +      "endpoint" sub-device.
+>> +
+>> +    properties:
+>> +      endpoint:
+>> +        type: object
+>> +        additionalProperties: false
+>> +
+>> +        properties:
+>> +          remote-endpoint:
+>> +            description: -|
+>> +              phandle to the remote GMSL endpoint sub-node in the remote node
+>> +              port.
+>> +            maxItems: 1
+>> +
+>> +        required:
+>> +          - remote-endpoint
+>> +
+>> +    required:
+>> +      - endpoint
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - port
+>> +
+>> +examples:
+>> +  - |
+>> +    i2c@e66d8000 {
+>> +      #address-cells = <1>;
+>> +      #size-cells = <0>;
+>> +
+>> +      reg = <0 0xe66d8000 0 0x40>;
+>> +
+>> +      camera@31 {
+>> +        compatible = "imi,rdacm20";
+>> +        reg = <0x31>, <0x41>, <0x51>;
+>> +
+>> +        port {
+>> +          rdacm20_out0: endpoint {
+>> +            remote-endpoint = <&max9286_in0>;
+>> +          };
+>> +        };
+>> +      };
+>> +    };
+> 
 
