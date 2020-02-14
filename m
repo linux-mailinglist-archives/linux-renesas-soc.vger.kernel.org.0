@@ -2,40 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 92B3815DCB1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2020 16:56:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D219115E18A
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2020 17:19:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731461AbgBNPyQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 14 Feb 2020 10:54:16 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34126 "EHLO mail.kernel.org"
+        id S2404719AbgBNQTL (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 14 Feb 2020 11:19:11 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52170 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731456AbgBNPyP (ORCPT
+        id S2392769AbgBNQTK (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 14 Feb 2020 10:54:15 -0500
+        Fri, 14 Feb 2020 11:19:10 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9A4E024686;
-        Fri, 14 Feb 2020 15:54:14 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9609724712;
+        Fri, 14 Feb 2020 16:19:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581695655;
-        bh=O223LQV9enNAUAJH8Cah5pckGd311AgxJ5giEGsj2OE=;
+        s=default; t=1581697149;
+        bh=mOOtcuYefSa15nfqQ9Wq3br9lXDGL6dSNLWXObe5bYM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=xDJhl8tTcKLMGsLwPvR8+1CTEGnnR0P9wAwYLYHQk96v8LnsWL03UHFOWx8NsoQWw
-         0aS55xgIsLAQb3L1GhRBCFQ/U6WMICSW4d/Y1Wnuw/g9ii31rLDPW1x7CFljpVb9x/
-         lQ4NFReW21Q1AA1813+yINa7SPcm/kRPXOBXr2kg=
+        b=AO8OCh2RZWCrutY9nfZgt8FKxy6ICqIabyE6cXiQ7ElVScbJCn1cFlG0/2RiMgvv+
+         wWxvHL2W1PUfJYSrtP5GvLofTaZDChKlWb3pwWGwuMk7KhtdwL0HRvbUY8ZEriLm0E
+         6Kv9oyODJbAlXKmQHnUt6MKik4sNu2J3pWQ4lrhI=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Sasha Levin <sashal@kernel.org>,
         linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.5 247/542] arm64: dts: renesas: r8a77990: ebisu: Remove clkout-lr-synchronous from sound
-Date:   Fri, 14 Feb 2020 10:43:59 -0500
-Message-Id: <20200214154854.6746-247-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 088/186] ARM: dts: r8a7779: Add device node for ARM global timer
+Date:   Fri, 14 Feb 2020 11:15:37 -0500
+Message-Id: <20200214161715.18113-88-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214154854.6746-1-sashal@kernel.org>
-References: <20200214154854.6746-1-sashal@kernel.org>
+In-Reply-To: <20200214161715.18113-1-sashal@kernel.org>
+References: <20200214161715.18113-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -45,37 +44,42 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+From: Geert Uytterhoeven <geert+renesas@glider.be>
 
-[ Upstream commit bf2b74ce9b33a2edd6ba1930ce60a71830790910 ]
+[ Upstream commit 8443ffd1bbd5be74e9b12db234746d12e8ea93e2 ]
 
-rcar_sound doesn't support clkout-lr-synchronous in upstream.
-It was supported under out-of-tree rcar_sound.
-upstream rcar_sound is supporting
-	- clkout-lr-synchronous
-	+ clkout-lr-asynchronous
+Add a device node for the global timer, which is part of the Cortex-A9
+MPCore.
 
-Signed-off-by: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Link: https://lore.kernel.org/r/87mubt3tux.wl-kuninori.morimoto.gx@renesas.com
-Fixes: 56629fcba94c698d ("arm64: dts: renesas: ebisu: Enable Audio")
+The global timer can serve as an accurate (4 ns) clock source for
+scheduling and delay loops.
+
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Link: https://lore.kernel.org/r/20191211135222.26770-4-geert+renesas@glider.be
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts | 1 -
- 1 file changed, 1 deletion(-)
+ arch/arm/boot/dts/r8a7779.dtsi | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
-index b38f9d442fc08..e6d700f8c1948 100644
---- a/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
-+++ b/arch/arm64/boot/dts/renesas/r8a77990-ebisu.dts
-@@ -636,7 +636,6 @@
- 	/* audio_clkout0/1/2/3 */
- 	#clock-cells = <1>;
- 	clock-frequency = <12288000 11289600>;
--	clkout-lr-synchronous;
+diff --git a/arch/arm/boot/dts/r8a7779.dtsi b/arch/arm/boot/dts/r8a7779.dtsi
+index 8ee0b2ca5d39a..2face089d65b9 100644
+--- a/arch/arm/boot/dts/r8a7779.dtsi
++++ b/arch/arm/boot/dts/r8a7779.dtsi
+@@ -67,6 +67,14 @@
+ 		      <0xf0000100 0x100>;
+ 	};
  
- 	status = "okay";
- 
++	timer@f0000200 {
++		compatible = "arm,cortex-a9-global-timer";
++		reg = <0xf0000200 0x100>;
++		interrupts = <GIC_PPI 11
++			(GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_EDGE_RISING)>;
++		clocks = <&cpg_clocks R8A7779_CLK_ZS>;
++	};
++
+ 	timer@f0000600 {
+ 		compatible = "arm,cortex-a9-twd-timer";
+ 		reg = <0xf0000600 0x20>;
 -- 
 2.20.1
 
