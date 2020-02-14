@@ -2,66 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 37D2D15D824
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2020 14:14:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B87215D85C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2020 14:25:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729241AbgBNNOe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 14 Feb 2020 08:14:34 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:35143 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729229AbgBNNOe (ORCPT
+        id S1728036AbgBNNZj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 14 Feb 2020 08:25:39 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:50757 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726191AbgBNNZj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 14 Feb 2020 08:14:34 -0500
+        Fri, 14 Feb 2020 08:25:39 -0500
 Received: from [IPv6:2001:983:e9a7:1:bd23:d5c7:5f0e:7bef]
  ([IPv6:2001:983:e9a7:1:bd23:d5c7:5f0e:7bef])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id 2anejNrGSP9a92anfjHHiw; Fri, 14 Feb 2020 14:14:31 +0100
+        id 2ayMjNx1eP9a92ayNjHNGv; Fri, 14 Feb 2020 14:25:36 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1581686071; bh=5XThGlcqYyzK4JIoeTsEQ1TE0GKtlDJG+dPM1rc/7Gs=;
+        t=1581686736; bh=UEFJl4m6gTpkzqBMRQJgbFdPtThr9LoV94u3/KSTqvE=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=ESUY1voKYhCc9cHKMoN4QMIFGuwObEk6yuZC4e4Vh+6Oqt7Qp1JF4L/Js/XOFMvzS
-         S5kPd16vNoZXhZ+aqvVhZn1cONIWiNO9xsv6+yVYOnne/SN195hTbH9ZvNadCPjz0X
-         cPsT8h9uTMlol/tAI5B5OI+5ekXWUPuUiFKlalCBsX94FwyxY+0yEzCq8Q6kMSYOGK
-         9bj6kkgDWLWGU5YFsqDfzIBFaaKHyQrUH3yv2d5XflBXalD9842WKnEH+YrkRB1ErE
-         vnjokdiVMNbAvl3zMVS//dB2OJrQU53PtZHBMryqTTAzrERYLEB7x8nE/a24zke1WA
-         QYvthwmkueg6A==
+        b=OrDatkVHdVq0IGN55UdfLMoZ/EtIwJ+vFR5njTW659dco5tw7tAAjxhZds50FXm8x
+         ZrxRLWm58G7oCZY8cf9WaNHMNRB13AYfCLuxhil0YI4022MSmpYhwqLLaeTWwe3g45
+         Q4LzXXAncdu8aXHKqCpGVKVskcEtTpJne9wDH6qBhM5xcvtZE8j+Cdw2TKD0rRpeML
+         p3w8OWrZsHHKzyymQ4EV1BeKI96X+qHBaIGtKYz4RQ24Xur5WV5SZof/3WyIW9+xkv
+         ooFqEz7AR/9uPSa2+U4kAVb857jyL7OM7cYjI/WrsX3h069X0xS3s/XbzlWNMDV1mb
+         J6eEoD/2yNSxg==
 Subject: Re: [PATCH v3 1/5] v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+To:     Helen Koike <helen.koike@collabora.com>,
         =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Helen Koike <helen.koike@collabora.com>,
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
 References: <20200112232458.2844506-1-niklas.soderlund+renesas@ragnatech.se>
  <20200112232458.2844506-2-niklas.soderlund+renesas@ragnatech.se>
- <20200113120902.GF5440@paasikivi.fi.intel.com>
+ <22436950-b487-10c7-f80d-bff8b57f5a1e@collabora.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <0b98cb70-ab99-df60-7c52-9a97432e473d@xs4all.nl>
-Date:   Fri, 14 Feb 2020 14:14:30 +0100
+Message-ID: <3319e71c-d12d-88bf-cf70-d8a8beccd776@xs4all.nl>
+Date:   Fri, 14 Feb 2020 14:25:34 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.4.2
 MIME-Version: 1.0
-In-Reply-To: <20200113120902.GF5440@paasikivi.fi.intel.com>
+In-Reply-To: <22436950-b487-10c7-f80d-bff8b57f5a1e@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfFHVMILxLglcNf9lcR19cG43AA+ougMyiH2fT39G9Lbh2ABEoVDx70Z+5kt69aX9FkOLqdRwipzo46FyktlgQDctIiYq2DIramzm825c4WuhLxcLwCby
- /YcgYoyXOA4/qOm2kR326kNOEnsi04PfIBNrsKcUrkjzKuwqkLw8AG77oEekvnZTDGQHu+u9rrmZNiJp1DOMZ4/BPLE52xFf1rBkkvSrhH3ows3SNDdWubCw
- 0wW5mIS+8qPzdzzQbc2Si2hPaCZ8bSEDfaVhAjgniCg0eAzFiXolZ5+O6AxOGbcj2b0ZqbSzw0gr7q9AH1OdPVVXTp9VPhN3xX2834s8uJmJb9AV426FekYb
- vxPhg2dE24Juo3Y//rl1lRnmWmiaSkvEMqE4R2Mj/dl32MIMWmE23QeodAXxKIYpqBrf/y3bbnb/FtpV+kpIt2n3epXbMZQjNqVJbc1UydRf0z5Ea/KMpvGV
- U77xrLvmhSs7DeqrxcFq3vJ2XyjjRkNpJdpZcg==
+X-CMAE-Envelope: MS4wfLIhoWgYDE4HqFReGV5tvfpIFLcJR8+fyJRvzjCK6kBNyDvwsOPJHmQVXm6jUTdjZA9f3m3VBQVQUB6fjlcxbU/Y0Y80RnM38G7GplUSvxInkPzp58t5
+ mnnehvWfPPQ/oRl2pDg/NLRUwAFEDswQh57BmeW67IbbLwjuoJXdXFqwbnBXj1XqG0Q4wwPUORe4fRlnuaRwErFyLNE8VEHPUD8rjmeY1ITXlR/pd0fZGX44
+ ZSC3tUY4s1LQybzxPSE/GoNkObLIYVJSM1NKeFmYPhGhcLT9DMJCB6JOMy9UeJNVt/ItsS0OkkyIdYNYkwGvX9DvZ0u3mm7JFLH4TQ/4FT3Xl/a3ysqTVPlp
+ /pelm5sGBofGBhYaXyAskxXMuyB3dLt4F81Fy5sWuBTLmcHvQnZZgFAcbn5XpPADdqoZgHg82qeva9A2VJutpziNWmn7WPrtjFFd/43FohVSmdS4r0Ln3RH5
+ MpYSlbXmE47dnx2K+Wo3TD/nTlryQ4lW0WA7VQ==
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 1/13/20 1:09 PM, Sakari Ailus wrote:
-> Hejssan!
+On 1/22/20 10:50 PM, Helen Koike wrote:
+> Hi Niklas,
 > 
-> Tack för lappan!
-> 
-> On Mon, Jan 13, 2020 at 12:24:54AM +0100, Niklas Söderlund wrote:
+> On 1/12/20 9:24 PM, Niklas Söderlund wrote:
 >> Add a video device capability flag to indicate that its inputs and/or
 >> outputs are controlled by the Media Controller instead of the V4L2 API.
 >> When this flag is set, ioctl for enum inputs and outputs are
@@ -105,32 +104,6 @@ On 1/13/20 1:09 PM, Sakari Ailus wrote:
 >> +      - There is only one input and/or output seen from userspace. Which I/O
 >> +        entity is routed to the input/output is controlled by the Media
 >> +        Controller. See :ref:`media_controller`.
-> 
-> I feel we should think of the MC flag in a bit wider context of device
-> profiles. They've been suggested but I don't think anyone has implemented
-> any code to support them.
-
-There is implicit code: i.e. v4l2-dev.c does ever more checking of which ioctls
-should be disabled based on the device capabilities, and v4l2-compliance is also
-checking that. But nothing of that is really written down.
-
-> Valid formats, for instance, also are determined by the format
-> configuration on the MC pipeline in this case.
-
-How about this:
-
-      - There is only one input and/or output seen from userspace. The whole
-        video topology configuration, including which I/O entity is routed to
-        the input/output, is configured by userspace via the Media Controller.
-        See :ref:`media_controller`.
-
-That makes it more explicit that 1) it is userspace that configures this, and
-2) that there is a lot more that is configured besides the routing.
-
-> 
-> I wonder if the MC input type (as below) would address this bit, without
-> going to the device profiles yet?
-> 
 >>      * - ``V4L2_CAP_DEVICE_CAPS``
 >>        - 0x80000000
 >>        - The driver fills the ``device_caps`` field. This capability can
@@ -167,6 +140,49 @@ That makes it more explicit that 1) it is userspace that configures this, and
 >> -			SET_VALID_IOCTL(ops, VIDIOC_S_INPUT, vidioc_s_input);
 >> +			set_bit(_IOC_NR(VIDIOC_G_INPUT), valid_ioctls);
 >> +			set_bit(_IOC_NR(VIDIOC_S_INPUT), valid_ioctls);
+> 
+> Maybe I'm reading this wrong, but from what I understand, in case where
+> (!is_io_mc && !ops->vidioc_enum_input) is true, shouldn't {G,S}_INPUT be invalid?
+> Same for output.
+
+Yup, that's right.
+
+Niklas, why not just do:
+
+			if (is_io_mc) {
+				set_bit(_IOC_NR(VIDIOC_ENUMINPUT), valid_ioctls);
+				set_bit(_IOC_NR(VIDIOC_G_INPUT), valid_ioctls);
+				set_bit(_IOC_NR(VIDIOC_S_INPUT), valid_ioctls);
+			} else {
+				SET_VALID_IOCTL(ops, VIDIOC_ENUMINPUT, vidioc_enum_input);
+				SET_VALID_IOCTL(ops, VIDIOC_G_INPUT, vidioc_g_input);
+				SET_VALID_IOCTL(ops, VIDIOC_S_INPUT, vidioc_s_input);
+			}
+
+and ditto for output.
+
+> 
+> Also, if this is a MC device, the default with your patch is to enumerate one input and one output right?
+> I'm just wondering if vimc should be updated too, as it doesn't implement these ioctls.
+> (or other drivers who doesn't implement them).
+
+Yes, vimc should certainly be updated.
+
+> 
+> Maybe I understood this wrong (very likely), but does it make sense to enumerate
+> output in a Capture node? Or to enumerate input in an Output node?
+
+No, that doesn't make sense. But why do you ask? That doesn't happen here, or am I
+missing something?
+
+Regards,
+
+	Hans
+
+> 
+> Regards,
+> Helen
+> 
 >>  			SET_VALID_IOCTL(ops, VIDIOC_ENUMAUDIO, vidioc_enumaudio);
 >>  			SET_VALID_IOCTL(ops, VIDIOC_G_AUDIO, vidioc_g_audio);
 >>  			SET_VALID_IOCTL(ops, VIDIOC_S_AUDIO, vidioc_s_audio);
@@ -260,29 +276,6 @@ That makes it more explicit that 1) it is userspace that configures this, and
 >> +
 >> +	strscpy(i->name, vfd->name, sizeof(i->name));
 >> +	i->type = V4L2_INPUT_TYPE_CAMERA;
-> 
-> Doesn't this deserve its own input type? Say, V4L2_INPUT_TYPE_MC, for
-> instance?
-
-I think that will break the ABI. It's always been TYPE_CAMERA.
-
-> Most MC-enabled drivers are related to cameras but you can attach e.g. a TV
-> tuner to at least some of them. The API is really not about cameras as such
-> either.
-
-It's really an historical accident. I think I proposed at some time to add an
-alias:
-
-#define V4L2_INPUT_TYPE_VIDEO V4L2_INPUT_TYPE_CAMERA
-
-Since 'Camera' really is used as a 'Video' input which may come from various
-sources (sensors, video receivers, etc.).
-
-Regards,
-
-	Hans
-
-> 
 >> +
 >> +	return 0;
 >> +}
@@ -365,5 +358,5 @@ Regards,
 >>  #define V4L2_CAP_DEVICE_CAPS            0x80000000  /* sets device capabilities field */
 >>  
 >>  /*
-> 
+>>
 
