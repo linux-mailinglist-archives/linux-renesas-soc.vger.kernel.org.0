@@ -2,39 +2,39 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DCA215E2A0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2020 17:24:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CD2815E81B
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 14 Feb 2020 17:58:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405914AbgBNQYe (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 14 Feb 2020 11:24:34 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33148 "EHLO mail.kernel.org"
+        id S2390363AbgBNQ5y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 14 Feb 2020 11:57:54 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48912 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405899AbgBNQYd (ORCPT
+        id S2404496AbgBNQRe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 14 Feb 2020 11:24:33 -0500
+        Fri, 14 Feb 2020 11:17:34 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2F92124790;
-        Fri, 14 Feb 2020 16:24:31 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 90D73246EA;
+        Fri, 14 Feb 2020 16:17:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1581697471;
+        s=default; t=1581697053;
         bh=ZXhnpMrj5CaWrpKLVqIdetget1X44xH0z5FU1tXfW64=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YWO/uyBLPoFpdcu64SVS1bNhotMuLTYROHDG63krmxVg2XbUyBEISVpN2Yv8ml2Xg
-         p3TUD36kRrS9/85f60qE2K0MXcpsaHs0rq4CB9nmQ5aGl0evne/jS7kfqqrU/bNVkv
-         mDCpXu0eR5quFFrOaDa9Gf1wtqp7cgmsiuJHHZSk=
+        b=xKM/19JYgfNzj9EAFus2gHlsp+LlpFbRIk+77Wk0ZlqXFf5WUsedZw+mBVl7PdKEP
+         kvlBlvqmVW+0paVsbyNnraNnTqbzwxUlLfWp31BeBKRSkEfEuzfGcaepwhHfOePCvv
+         EVSCwjatc9JO41FfQ27W8suOSjEW5jSOrzsmyc3k=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Sasha Levin <sashal@kernel.org>,
         linux-renesas-soc@vger.kernel.org, linux-gpio@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 005/100] pinctrl: sh-pfc: sh7264: Fix CAN function GPIOs
-Date:   Fri, 14 Feb 2020 11:22:49 -0500
-Message-Id: <20200214162425.21071-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 013/186] pinctrl: sh-pfc: sh7264: Fix CAN function GPIOs
+Date:   Fri, 14 Feb 2020 11:14:22 -0500
+Message-Id: <20200214161715.18113-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200214162425.21071-1-sashal@kernel.org>
-References: <20200214162425.21071-1-sashal@kernel.org>
+In-Reply-To: <20200214161715.18113-1-sashal@kernel.org>
+References: <20200214161715.18113-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
