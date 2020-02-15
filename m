@@ -2,59 +2,59 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 17EC4160063
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Feb 2020 21:09:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E2F0160066
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 15 Feb 2020 21:11:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726383AbgBOUJi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 15 Feb 2020 15:09:38 -0500
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:44626 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726273AbgBOUJi (ORCPT
+        id S1726273AbgBOUK6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 15 Feb 2020 15:10:58 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:37817 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726340AbgBOUK6 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 15 Feb 2020 15:09:38 -0500
-Received: by mail-lj1-f194.google.com with SMTP id q8so14392397ljj.11
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Feb 2020 12:09:37 -0800 (PST)
+        Sat, 15 Feb 2020 15:10:58 -0500
+Received: by mail-lf1-f67.google.com with SMTP id b15so9109628lfc.4
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 15 Feb 2020 12:10:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
         h=subject:from:to:references:organization:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=qpX9ISWHkFz309IXO/pHmDobf1VYnv7TZgYLqKmvfb8=;
-        b=U2q2vERZSDysh5V7hiSxxCh5uVVST41IFhM+4rZTGyvEJxM9Fw4/IgEOMa50LuV5Tv
-         AujzE687myiUrd5t6LR0w3Gj6r4VkrRP/v5BgHg+0BsEb7ecWuzYNKeoPpfP0Hl2G230
-         AYUjjAGeGYVt7DWQvjf2WRRTnx2k88Po2cpBexrTFh9wTkorusD2sLUU996r6Fnekgl2
-         d4MW5YOUX/aw31Dze+dYRXTsSiGfW9gp7/0mFFWSJ3ONB1EqKu9r1hmWlT5dKnXy6sfj
-         U3n5eYdGcN5c1v0jJ/edoMduHQ+JwOUX/Xk4bboMG9HPGrCRkFm274tvhhvsVicxJRGs
-         nzcw==
+        bh=5JzMAcehIW0t8vOej7xQ3xrVv74ciyUM2eWJe6uWF9E=;
+        b=zH6T2ujxqo/0Zi0j0Dyr2EvPKt24cwn1mbuAh+RT0neLM2Vexcg7Rmje84LdAh7qfg
+         yXcnN3hklG4pfaVA3xU8PeazrqMwbDVEpaqhxJQH4huoYQXyCngti2b1fvwzQq5xNmbN
+         /ZfUlFPC0z/7wGeBiiDGjzNQ8XAfCiFf6T9EaQ99Kkb9NdSWJ2KEsopwMsZukDLv7+zO
+         OW84t7vzyEp4SMhyUV3ZDy9H+/UTfshpVFldGHwHeVrKACwExhcnWn93mc1+tlE+k1zB
+         vnxeKHDtTT4Eo6m1L6j5/JCjrEcWCYNqeZ6xdHftW5zKp8nZNGx1luidVtwXmG9E55TV
+         tREg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:from:to:references:organization
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=qpX9ISWHkFz309IXO/pHmDobf1VYnv7TZgYLqKmvfb8=;
-        b=hZp5PGxoIP3BK1k8io5OsLfTHHlJqPb+8HdrrtjFql0EgzFeLQj/o1mijziSl8nt3p
-         LniAoPLQErUUrmk7TTuqIIzlv4yWHJAZqrin74idHhXVuj/bLYQ/MzTB6dC27zm3WKwy
-         4sVirdhqGw5/9VROlZY4QKw1B2H3u2VHICPFirTBlTfLvdifwqJ4RPPRyWFklbAk3Y3u
-         VWX9lciaXIu3P1/PhwgSg2zxljRmJeAGILStDxyYJSky7fFpIr7+xehJUQFYUAhGvaTA
-         AfMJWFm4Kbf8Dt3GxmlocRRgHaH86ua8r5D5oAW/GIx4m6UilV6CF0dM9UXh11Z4XIFF
-         tYtw==
-X-Gm-Message-State: APjAAAV6EPzb97bJK6PgvmYg/Ipa3aB00EOhS27DUD5m27Tt92LzlaZX
-        e+ktjYV+oHncay3tacqyMOYn1A==
-X-Google-Smtp-Source: APXvYqzHwkrRU13DQqLL2wXx9dr+nlAHSaCZK6QIA6osFHRgzGGN2qPs7FkyWBAIYGVHhqCgOe5JUQ==
-X-Received: by 2002:a2e:b4f6:: with SMTP id s22mr5250018ljm.218.1581797376582;
-        Sat, 15 Feb 2020 12:09:36 -0800 (PST)
+        bh=5JzMAcehIW0t8vOej7xQ3xrVv74ciyUM2eWJe6uWF9E=;
+        b=TUMPrN6ckB2DjTZb7XGfmKRiW2InI3T+lps2Mx9dPa/HOwQrG3izgYO5TvE96LD5vA
+         cionygAteG4ZezWBZ50ys3sEU3dxma2nvlDbgNGxznv7ZWjbOTjCV8Ka8EVY/5YngPlI
+         24umryKGFS9lS/XcphiPurmle0kzqP7Fmoi+7Tc6ahOjtGJYNtZgsibYGuvLyrmLoxV4
+         E8waZWvmVXoxWicSuR+OzJOjo2BBUcXOhn+XUvhLsy/Z3NubXD9ud6smJv/Ybw11mntm
+         DyqlQkJHZX55yjkuYCEE59Ns/qx90y1My5EjaaoJCowzFeOP2SJtcKN+FXTjAo2D+DQl
+         cHuQ==
+X-Gm-Message-State: APjAAAUQUBO/ONc/F+blLGTD6t3HxlLbvgRddBeXDoTvl+Ti4NUfybN9
+        1TCatIDOHgfLY2p+uBwWDP2o0A==
+X-Google-Smtp-Source: APXvYqycDEfqCi1zZ721tz1gV3OlWsRLUixG71UjcIXTbfXrlqxA9ZtGSeYVCvAReEUAbjEsennV6Q==
+X-Received: by 2002:a19:3f16:: with SMTP id m22mr4607800lfa.116.1581797454736;
+        Sat, 15 Feb 2020 12:10:54 -0800 (PST)
 Received: from wasted.cogentembedded.com ([2a00:1fa0:49d:f851:9745:99c9:a1aa:2f9c])
-        by smtp.gmail.com with ESMTPSA id v13sm4835581lfq.69.2020.02.15.12.09.35
+        by smtp.gmail.com with ESMTPSA id x18sm4772988lfe.37.2020.02.15.12.10.53
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 15 Feb 2020 12:09:36 -0800 (PST)
-Subject: [PATCH net-next v2 2/5] sh_eth: check sh_eth_cpu_data::cexcr when
+        Sat, 15 Feb 2020 12:10:54 -0800 (PST)
+Subject: [PATCH net-next v2 3/5] sh_eth: check sh_eth_cpu_data::no_xdfar when
  dumping registers
 From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
 To:     "David S. Miller" <davem@davemloft.net>,
         linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
 References: <effa9dea-638b-aa29-2ec3-942974de12a0@cogentembedded.com>
 Organization: Cogent Embedded
-Message-ID: <6614e21b-228b-9ad0-0f41-f3b14153b7e6@cogentembedded.com>
-Date:   Sat, 15 Feb 2020 23:09:35 +0300
+Message-ID: <d267d4f2-58b1-e55f-bbbf-cf82535aee0b@cogentembedded.com>
+Date:   Sat, 15 Feb 2020 23:10:53 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
  Thunderbird/52.2.1
 MIME-Version: 1.0
@@ -67,10 +67,10 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-When adding the sh_eth_cpu_data::cexcr flag I forgot to add the flag
-check to  __sh_eth_get_regs(), causing the non-existing RX packet counter
-registers to be considered for dumping on  the R7S72100 SoC (the register
-offset sanity check has the final say here)...
+When adding the sh_eth_cpu_data::no_xdfar flag I forgot to add the flag
+check to  __sh_eth_get_regs(), causing the non-existing RDFAR/TDFAR to be
+considered for dumping on the R-Car gen1/2 SoCs (the register offset check
+has the final say here)...
 
 Fixes: 4c1d45850d5 ("sh_eth: add sh_eth_cpu_data::cexcr flag")
 Signed-off-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
@@ -87,16 +87,19 @@ Index: net-next/drivers/net/ethernet/renesas/sh_eth.c
 ===================================================================
 --- net-next.orig/drivers/net/ethernet/renesas/sh_eth.c
 +++ net-next/drivers/net/ethernet/renesas/sh_eth.c
-@@ -2194,8 +2194,10 @@ static size_t __sh_eth_get_regs(struct n
- 	add_reg(FRECR);
- 	add_reg(TSFRCR);
- 	add_reg(TLFRCR);
--	add_reg(CERCR);
--	add_reg(CEECR);
-+	if (cd->cexcr) {
-+		add_reg(CERCR);
-+		add_reg(CEECR);
-+	}
- 	add_reg(MAFCR);
- 	if (cd->rtrate)
- 		add_reg(RTRATE);
+@@ -2140,11 +2140,13 @@ static size_t __sh_eth_get_regs(struct n
+ 	add_reg(EESR);
+ 	add_reg(EESIPR);
+ 	add_reg(TDLAR);
+-	add_reg(TDFAR);
++	if (!cd->no_xdfar)
++		add_reg(TDFAR);
+ 	add_reg(TDFXR);
+ 	add_reg(TDFFR);
+ 	add_reg(RDLAR);
+-	add_reg(RDFAR);
++	if (!cd->no_xdfar)
++		add_reg(RDFAR);
+ 	add_reg(RDFXR);
+ 	add_reg(RDFFR);
+ 	add_reg(TRSCER);
