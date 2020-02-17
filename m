@@ -2,69 +2,52 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E9D9160416
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 16 Feb 2020 14:04:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02B6B160925
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 17 Feb 2020 04:45:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728130AbgBPNEg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 16 Feb 2020 08:04:36 -0500
-Received: from bin-mail-out-06.binero.net ([195.74.38.229]:54233 "EHLO
-        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728103AbgBPNEg (ORCPT
+        id S1726498AbgBQDo7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 16 Feb 2020 22:44:59 -0500
+Received: from shards.monkeyblade.net ([23.128.96.9]:48450 "EHLO
+        shards.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726485AbgBQDo7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 16 Feb 2020 08:04:36 -0500
-X-Halon-ID: d9ace9aa-50bc-11ea-aa6d-005056917f90
-Authorized-sender: niklas@soderlund.pp.se
-Received: from bismarck.berto.se (p4fca2392.dip0.t-ipconnect.de [79.202.35.146])
-        by bin-vsp-out-02.atm.binero.net (Halon) with ESMTPA
-        id d9ace9aa-50bc-11ea-aa6d-005056917f90;
-        Sun, 16 Feb 2020 14:04:31 +0100 (CET)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] MAINTAINERS: Add entry for Renesas R-Car thermal drivers
-Date:   Sun, 16 Feb 2020 14:02:52 +0100
-Message-Id: <20200216130252.125100-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.25.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        Sun, 16 Feb 2020 22:44:59 -0500
+Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 923E8157D1C8C;
+        Sun, 16 Feb 2020 19:44:58 -0800 (PST)
+Date:   Sun, 16 Feb 2020 19:44:58 -0800 (PST)
+Message-Id: <20200216.194458.176458314325918369.davem@davemloft.net>
+To:     sergei.shtylyov@cogentembedded.com
+Cc:     linux-renesas-soc@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next v2 0/5] sh_eth: get rid of the dedicated
+ regiseter mapping for RZ/A1 (R7S72100)
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <effa9dea-638b-aa29-2ec3-942974de12a0@cogentembedded.com>
+References: <effa9dea-638b-aa29-2ec3-942974de12a0@cogentembedded.com>
+X-Mailer: Mew version 6.8 on Emacs 26.1
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Sun, 16 Feb 2020 19:44:58 -0800 (PST)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add an entry to make myself a maintainer of the Renesas R-Car thermal
-drivers.
+From: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Date: Sat, 15 Feb 2020 23:06:27 +0300
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+> Here's a set of 5 patches against DaveM's 'net-next.git' repo.
+> 
+> I changed my mind about the RZ/A1 SoC needing its own register
+> map -- now that we don't depend on the register map array in order
+> to determine whether a given register exists any more, we can add
+> a new flag to determine if the GECMR exists (this register is
+> present only on true GEther chips, not RZ/A1). We also need to
+> add the sh_eth_cpu_data::* flag checks where they were missing
+> so far: in the ethtool API for the register dump.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 38fe2f3f7b6f290e..713e4fd8efb4f60d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14206,6 +14206,15 @@ F:	Documentation/devicetree/bindings/i2c/renesas,iic.txt
- F:	drivers/i2c/busses/i2c-rcar.c
- F:	drivers/i2c/busses/i2c-sh_mobile.c
- 
-+RENESAS R-CAR THERMAL DRIVERS
-+M:	Niklas Söderlund <niklas.soderlund@ragnatech.se>
-+L:	linux-renesas-soc@vger.kernel.org
-+S:	Supported
-+F:	Documentation/devicetree/bindings/thermal/rcar-gen3-thermal.txt
-+F:	Documentation/devicetree/bindings/thermal/rcar-thermal.txt
-+F:	drivers/thermal/rcar_gen3_thermal.c
-+F:	drivers/thermal/rcar_thermal.c
-+
- RENESAS RIIC DRIVER
- M:	Chris Brandt <chris.brandt@renesas.com>
- S:	Supported
--- 
-2.25.0
-
+Series applied, thanks Sergei.
