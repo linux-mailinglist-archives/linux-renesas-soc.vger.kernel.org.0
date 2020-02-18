@@ -2,113 +2,209 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8900616271D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2020 14:30:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 222F9162940
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2020 16:19:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726521AbgBRNaY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Feb 2020 08:30:24 -0500
-Received: from xavier.telenet-ops.be ([195.130.132.52]:53412 "EHLO
-        xavier.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726475AbgBRNaY (ORCPT
+        id S1727099AbgBRPSm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Feb 2020 10:18:42 -0500
+Received: from laurent.telenet-ops.be ([195.130.137.89]:39532 "EHLO
+        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727298AbgBRPSe (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Feb 2020 08:30:24 -0500
+        Tue, 18 Feb 2020 10:18:34 -0500
 Received: from ramsan ([84.195.182.253])
-        by xavier.telenet-ops.be with bizsmtp
-        id 4DWN2200X5USYZQ01DWN2C; Tue, 18 Feb 2020 14:30:23 +0100
+        by laurent.telenet-ops.be with bizsmtp
+        id 4FJD2200y5USYZQ01FJEv4; Tue, 18 Feb 2020 16:18:34 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1j42xC-0005cj-Op; Tue, 18 Feb 2020 14:30:22 +0100
+        id 1j44dZ-0006yA-Pa; Tue, 18 Feb 2020 16:18:13 +0100
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1j42xC-0005oh-Mz; Tue, 18 Feb 2020 14:30:22 +0100
+        id 1j44dZ-00022u-MX; Tue, 18 Feb 2020 16:18:13 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH v2 4/4] arm64: dts: renesas: rzg2: Add reset control properties for display
-Date:   Tue, 18 Feb 2020 14:30:19 +0100
-Message-Id: <20200218133019.22299-5-geert+renesas@glider.be>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc:     Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        qemu-devel@nongnu.org, Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v5 0/5] gpio: Add GPIO Aggregator
+Date:   Tue, 18 Feb 2020 16:18:07 +0100
+Message-Id: <20200218151812.7816-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200218133019.22299-1-geert+renesas@glider.be>
-References: <20200218133019.22299-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add reset control properties to the device nodes for the Display Units
-on all supported RZ/G2 SoCs.  Note that on these SoCs, there is only a
-single reset for each pair of DU channels.
+	Hi all,
 
-Join the clocks lines while at it, to increase uniformity.
+GPIO controllers are exported to userspace using /dev/gpiochip*
+character devices.  Access control to these devices is provided by
+standard UNIX file system permissions, on an all-or-nothing basis:
+either a GPIO controller is accessible for a user, or it is not.
+Currently no mechanism exists to control access to individual GPIOs.
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-v2:
-  - New.
----
- arch/arm64/boot/dts/renesas/r8a774a1.dtsi | 5 +++--
- arch/arm64/boot/dts/renesas/r8a774b1.dtsi | 5 +++--
- arch/arm64/boot/dts/renesas/r8a774c0.dtsi | 5 +++--
- 3 files changed, 9 insertions(+), 6 deletions(-)
+Hence this adds a GPIO driver to aggregate existing GPIOs, and expose
+them as a new gpiochip.  This is useful for implementing access control,
+and assigning a set of GPIOs to a specific user.  Furthermore, this
+simplifies and hardens exporting GPIOs to a virtual machine, as the VM
+can just grab the full GPIO controller, and no longer needs to care
+about which GPIOs to grab and which not, reducing the attack surface.
 
-diff --git a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-index 507e78ebaab52330..79023433a740b7ca 100644
---- a/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774a1.dtsi
-@@ -2634,10 +2634,11 @@
- 			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 269 IRQ_TYPE_LEVEL_HIGH>;
--			clocks = <&cpg CPG_MOD 724>,
--				 <&cpg CPG_MOD 723>,
-+			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>,
- 				 <&cpg CPG_MOD 722>;
- 			clock-names = "du.0", "du.1", "du.2";
-+			resets = <&cpg 724>, <&cpg 722>;
-+			reset-names = "du.0", "du.2";
- 			status = "disabled";
- 
- 			renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-index 93dd10b5d6d05712..3137f735974be165 100644
---- a/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774b1.dtsi
-@@ -2480,10 +2480,11 @@
- 			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 270 IRQ_TYPE_LEVEL_HIGH>;
--			clocks = <&cpg CPG_MOD 724>,
--				 <&cpg CPG_MOD 723>,
-+			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>,
- 				 <&cpg CPG_MOD 721>;
- 			clock-names = "du.0", "du.1", "du.3";
-+			resets = <&cpg 724>, <&cpg 722>;
-+			reset-names = "du.0", "du.3";
- 			status = "disabled";
- 
- 			renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd0 1>;
-diff --git a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
-index d4eee8fef35da74e..22785cbddff5d08c 100644
---- a/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a774c0.dtsi
-@@ -1810,9 +1810,10 @@
- 			reg = <0 0xfeb00000 0 0x40000>;
- 			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
- 				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
--			clocks = <&cpg CPG_MOD 724>,
--				 <&cpg CPG_MOD 723>;
-+			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>;
- 			clock-names = "du.0", "du.1";
-+			resets = <&cpg 724>;
-+			reset-names = "du.0";
- 			renesas,vsps = <&vspd0 0>, <&vspd1 0>;
- 
- 			status = "disabled";
+Recently, other use cases have been discovered[1]:
+  - Describing simple GPIO-operated devices in DT, and using the GPIO
+    Aggregator as a generic GPIO driver for userspace, which is useful
+    for industrial control.
+
+Changes compared to v4[2]:
+  - Add Reviewed-by, Tested-by,
+  - Fix inconsistent indentation in documentation.
+
+Changes compared to v3[3] (more details in the individual patches):
+  - Drop controversial GPIO repeater,
+  - Drop support for legacy sysfs interface based name matching,
+  - Drop applied "gpiolib: Add GPIOCHIP_NAME definition",
+  - Documentation improvements,
+  - Lots of small cleanups.
+
+Changes compared to v2[4] (more details in the individual patches):
+  - Integrate GPIO Repeater functionality,
+  - Absorb GPIO forwarder library, as the Aggregator and Repeater are
+    now a single driver,
+  - Use the aggregator parameters to create a GPIO lookup table instead
+    of an array of GPIO descriptors,
+  - Add documentation,
+  - New patches:
+      - "gpiolib: Add GPIOCHIP_NAME definition",
+      - "gpiolib: Add support for gpiochipN-based table lookup",
+      - "gpiolib: Add support for GPIO line table lookup",
+      - "dt-bindings: gpio: Add gpio-repeater bindings",
+      - "docs: gpio: Add GPIO Aggregator/Repeater documentation",
+      - "MAINTAINERS: Add GPIO Aggregator/Repeater section".
+  - Dropped patches:
+      - "gpio: Export gpiod_{request,free}() to modular GPIO code",
+      - "gpio: Export gpiochip_get_desc() to modular GPIO code",
+      - "gpio: Export gpio_name_to_desc() to modular GPIO code",
+      - "gpio: Add GPIO Forwarder Helper".
+
+Changes compared to v1[5]:
+  - Drop "virtual", rename to gpio-aggregator,
+  - Create and use new GPIO Forwarder Helper, to allow sharing code with
+    the GPIO inverter,
+  - Lift limit on the maximum number of GPIOs,
+  - Improve parsing of GPIO specifiers,
+  - Fix modular build.
+
+Aggregating GPIOs and exposing them as a new gpiochip was suggested in
+response to my proof-of-concept for GPIO virtualization with QEMU[6][7].
+
+For the first use case, aggregated GPIO controllers are instantiated and
+destroyed by writing to atribute files in sysfs.
+Sample session on the Renesas Koelsch development board:
+
+  - Unbind LEDs from leds-gpio driver:
+
+        echo leds > /sys/bus/platform/drivers/leds-gpio/unbind
+
+  - Create aggregators:
+
+    $ echo e6052000.gpio 19,20 \
+        > /sys/bus/platform/drivers/gpio-aggregator/new_device
+
+    gpio-aggregator gpio-aggregator.0: gpio 0 => gpio-953 (gpio-aggregator.0)
+    gpio-aggregator gpio-aggregator.0: gpio 1 => gpio-954 (gpio-aggregator.0)
+    gpiochip_find_base: found new base at 778
+    gpio gpiochip8: (gpio-aggregator.0): added GPIO chardev (254:8)
+    gpiochip_setup_dev: registered GPIOs 778 to 779 on device: gpiochip8 (gpio-aggregator.0)
+
+    $ echo e6052000.gpio 21 e6050000.gpio 20-22 \
+        > /sys/bus/platform/drivers/gpio-aggregator/new_device
+
+    gpio-aggregator gpio-aggregator.1: gpio 0 => gpio-955 (gpio-aggregator.1)
+    gpio-aggregator gpio-aggregator.1: gpio 1 => gpio-1012 (gpio-aggregator.1)
+    gpio-aggregator gpio-aggregator.1: gpio 2 => gpio-1013 (gpio-aggregator.1)
+    gpio-aggregator gpio-aggregator.1: gpio 3 => gpio-1014 (gpio-aggregator.1)
+    gpiochip_find_base: found new base at 774
+    gpio gpiochip9: (gpio-aggregator.1): added GPIO chardev (254:9)
+    gpiochip_setup_dev: registered GPIOs 774 to 777 on device: gpiochip9 (gpio-aggregator.1)
+
+  - Adjust permissions on /dev/gpiochip[89] (optional)
+
+  - Control LEDs:
+
+    $ gpioset gpiochip8 0=0 1=1 # LED6 OFF, LED7 ON
+    $ gpioset gpiochip8 0=1 1=0 # LED6 ON, LED7 OFF
+    $ gpioset gpiochip9 0=0     # LED8 OFF
+    $ gpioset gpiochip9 0=1     # LED8 ON
+
+  - Destroy aggregators:
+
+    $ echo gpio-aggregator.0 \
+            > /sys/bus/platform/drivers/gpio-aggregator/delete_device
+    $ echo gpio-aggregator.1 \
+            > /sys/bus/platform/drivers/gpio-aggregator/delete_device
+
+Thanks!
+
+References:
+  [1] "[PATCH V4 2/2] gpio: inverter: document the inverter bindings"
+      (https://lore.kernel.org/r/1561699236-18620-3-git-send-email-harish_kandiga@mentor.com/)
+  [2] "[PATCH v4 0/5] gpio: Add GPIO Aggregator"
+      (https://lore.kernel.org/r/20200115181523.23556-1-geert+renesas@glider.be)
+  [3] "[PATCH v3 0/7] gpio: Add GPIO Aggregator/Repeater"
+      (https://lore.kernel.org/r/20191127084253.16356-1-geert+renesas@glider.be/)
+  [4] "[PATCH/RFC v2 0/5] gpio: Add GPIO Aggregator Driver"
+      (https://lore.kernel.org/r/20190911143858.13024-1-geert+renesas@glider.be/)
+  [5] "[PATCH RFC] gpio: Add Virtual Aggregator GPIO Driver"
+      (https://lore.kernel.org/r/20190705160536.12047-1-geert+renesas@glider.be/)
+  [6] "[PATCH QEMU POC] Add a GPIO backend"
+      (https://lore.kernel.org/r/20181003152521.23144-1-geert+renesas@glider.be/)
+  [7] "Getting To Blinky: Virt Edition / Making device pass-through
+       work on embedded ARM"
+      (https://fosdem.org/2019/schedule/event/vai_getting_to_blinky/)
+
+Geert Uytterhoeven (5):
+  gpiolib: Add support for gpiochipN-based table lookup
+  gpiolib: Add support for GPIO line table lookup
+  gpio: Add GPIO Aggregator
+  docs: gpio: Add GPIO Aggregator documentation
+  MAINTAINERS: Add GPIO Aggregator section
+
+ .../admin-guide/gpio/gpio-aggregator.rst      | 102 ++++
+ Documentation/admin-guide/gpio/index.rst      |   1 +
+ MAINTAINERS                                   |   7 +
+ drivers/gpio/Kconfig                          |  12 +
+ drivers/gpio/Makefile                         |   1 +
+ drivers/gpio/gpio-aggregator.c                | 574 ++++++++++++++++++
+ drivers/gpio/gpiolib.c                        |  33 +-
+ include/linux/gpio/machine.h                  |  15 +-
+ 8 files changed, 732 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/admin-guide/gpio/gpio-aggregator.rst
+ create mode 100644 drivers/gpio/gpio-aggregator.c
+
 -- 
 2.17.1
 
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
