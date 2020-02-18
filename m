@@ -2,103 +2,83 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B0E0163201
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2020 21:06:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F60916348C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2020 22:13:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728249AbgBRUEU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Feb 2020 15:04:20 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:34946 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726510AbgBRUET (ORCPT
+        id S1726691AbgBRVNv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Feb 2020 16:13:51 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:39649 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726339AbgBRVNv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Feb 2020 15:04:19 -0500
-Received: by mail-lf1-f67.google.com with SMTP id n20so364635lfa.2
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Feb 2020 12:04:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=aM66lfDSRT/f+esnTacNlEppcR7A6Zjl8EzJ4jCam+Y=;
-        b=igB4o4p/5wY0P+/p0TzcpHFKeM1gb2a07UUtsSOJhK93YTPIimExJAS/tjKFSuvNgz
-         Kd2wufXFIJUnMMQkPy0SXw7qUGeG9EAOL5FB+yCPR4bV9++0scARfYmvg9NPVta7Ml2b
-         ixiSybefbIZUb1eZ1TMmz3fBG/U+KuS2fZcHKj1z2VEXZSgcJVCNDJmxBOIzVUxqiFQo
-         11YT7CxQfExlgghggaVJNZmVozrC4Q83NpRQhgAiLEk7leeuyKna+yFwL0/LdtxghhC5
-         9L+ZsuBpE4zd69+cO5b7CsohZf4ZvEMTRlmkFwTCkRrbdHfZmCpANSdTyHL3+tGvfNw3
-         vzqA==
+        Tue, 18 Feb 2020 16:13:51 -0500
+Received: by mail-oi1-f196.google.com with SMTP id z2so21610187oih.6;
+        Tue, 18 Feb 2020 13:13:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=aM66lfDSRT/f+esnTacNlEppcR7A6Zjl8EzJ4jCam+Y=;
-        b=SBeNVxYqVn3yLdq3bDWd+/VAZ8kZnNND6FlQb5xWWgGcgAg/w1Rqup6p36Vz1dWEwe
-         haWVnnKZ8udzFhUL6NSKlX1ussR8Qq3ftJqgOvMurKT6Hy1b8Q4eaGsT9eluR5hqK+7q
-         s4kVSfqG6p2G4izuWxGEtzWAQAhYvewFWXlr12RKEnj6LrzB6eNMkRZhVFByUjfSaogZ
-         7OIk8AjX4l4S8LmrwUgH7RvuTMHWE8nZmxzIivsqG+b/LQg5d/0WUQxqCm/MZy9YHI36
-         YDu+6xor8bIWgagMdZhHxvLSN4p6Vn4Jf5xUzH8XfAtenS8EXPPlSP6FLLHmthpEoiPF
-         fhmA==
-X-Gm-Message-State: APjAAAWGvZVSEPBvsqeVZ91ht7UrG8LXZEtcGbrKQx1unPTV8fNlVLzm
-        cvt/crMHgRV2m1vpf/IoBsmIBw==
-X-Google-Smtp-Source: APXvYqzWDBpXYwxXn4wt57AM6nDwd9YXfpIra9+UhFJMU2G4Pbg1imyPZz6R8cDyJZvn/SK+ZVGttg==
-X-Received: by 2002:ac2:4a89:: with SMTP id l9mr11126490lfp.121.1582056257344;
-        Tue, 18 Feb 2020 12:04:17 -0800 (PST)
-Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
-        by smtp.gmail.com with ESMTPSA id y23sm3075680ljk.6.2020.02.18.12.04.14
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Wsp21LIcG4NslijziS7uyMDJScAYzOtQaO+9/p80IQ4=;
+        b=Gn4kmXJu9n+uXGhlbfM9KPlbi5ycH4xKUSLbngI4euPIE/5WlodKz25tj2XHe1BQO8
+         xNzavCIzz50qIB4nBht9+qyPoznu+UM5iZJpOPhWXkcCefa11U9uAvyp9KX4x7RHosXu
+         ShT7FMEoKFxuF6MvwgiDECAgw0JFNbMTsZLKuTFWydWxE2kxBscJDniJI1iEWC7KZNbz
+         FvwBxrIX/2PTtvmP1PgWhGZaBZ0OXkhhn7NxL+Us5Ynp9mw5uBTRK98RjrHd9HiKj7NN
+         /+5SDiP3j1Y6qdoO9BWRQqw7Ss4OaWpcXRfVBSTBiUWAQHExlu6cGNtvL4SUmm8mWgOz
+         QBKA==
+X-Gm-Message-State: APjAAAWWY1wTEeRHNyBSUA2BVamo+lEiKfdwaABl5FjrZE7d5F4kIiIr
+        RJ330liDWIbi5LpjPN7Ciw==
+X-Google-Smtp-Source: APXvYqzV9oocyBJZGvkp1bADAbLS2xQl21KF+EyRyietsBdKoEM/3HRmoC9kQcpKj2d8Pz3raOUtlA==
+X-Received: by 2002:aca:3542:: with SMTP id c63mr2575156oia.135.1582060430256;
+        Tue, 18 Feb 2020 13:13:50 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id m185sm13530oia.26.2020.02.18.13.13.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Feb 2020 12:04:14 -0800 (PST)
-Date:   Tue, 18 Feb 2020 21:04:13 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] ARM: dts: r8a7745: Convert to new DU DT bindings
-Message-ID: <20200218200413.GB1016123@oden.dyn.berto.se>
-References: <20200218132217.21454-1-geert+renesas@glider.be>
+        Tue, 18 Feb 2020 13:13:49 -0800 (PST)
+Received: (nullmailer pid 15304 invoked by uid 1000);
+        Tue, 18 Feb 2020 21:13:48 -0000
+Date:   Tue, 18 Feb 2020 15:13:48 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Lad Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Heiko Stuebner <heiko@sntech.de>, devicetree@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        Andrew Murray <andrew.murray@arm.com>,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 4/6] dt-bindings: PCI: rcar: Add bindings for R-Car
+ PCIe  endpoint controller
+Message-ID: <20200218211348.GA15246@bogus>
+References: <20200208183641.6674-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200208183641.6674-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200218132217.21454-1-geert+renesas@glider.be>
+In-Reply-To: <20200208183641.6674-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
-
-Thanks for your work.
-
-On 2020-02-18 14:22:17 +0100, Geert Uytterhoeven wrote:
-> The DU DT bindings have been updated to drop the reg-names property.
-> Update the r8a7745 device tree accordingly.
+On Sat,  8 Feb 2020 18:36:39 +0000, Lad Prabhakar wrote:
+> This patch adds the bindings for the R-Car PCIe endpoint driver.
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > ---
->  arch/arm/boot/dts/r8a7745.dtsi | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/arch/arm/boot/dts/r8a7745.dtsi b/arch/arm/boot/dts/r8a7745.dtsi
-> index 3f88a7e34af2c28b..3b413658eb8d8fac 100644
-> --- a/arch/arm/boot/dts/r8a7745.dtsi
-> +++ b/arch/arm/boot/dts/r8a7745.dtsi
-> @@ -1506,7 +1506,6 @@
->  		du: display@feb00000 {
->  			compatible = "renesas,du-r8a7745";
->  			reg = <0 0xfeb00000 0 0x40000>;
-> -			reg-names = "du";
->  			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
->  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>;
-> -- 
-> 2.17.1
+>  .../devicetree/bindings/pci/rcar-pci-ep.yaml       | 76 ++++++++++++++++++++++
+>  1 file changed, 76 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/pci/rcar-pci-ep.yaml
 > 
 
--- 
-Regards,
-Niklas Söderlund
+Reviewed-by: Rob Herring <robh@kernel.org>
