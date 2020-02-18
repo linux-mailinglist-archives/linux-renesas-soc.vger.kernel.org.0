@@ -2,45 +2,76 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C5101625A5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2020 12:40:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 979C51625AE
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2020 12:44:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726086AbgBRLkh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Feb 2020 06:40:37 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44430 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726073AbgBRLkh (ORCPT
+        id S1726411AbgBRLod (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Feb 2020 06:44:33 -0500
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:32904 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726043AbgBRLod (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Feb 2020 06:40:37 -0500
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582026036;
-        bh=jhbBZ85i9n7k41Mf1SDcMRLUu6zTansHEChmQT0LmYI=;
-        h=Subject:From:Date:To:From;
-        b=ZC+UO6nZQeUinaZ0hrMQHqsfzCALRuVN2R/5gPO1kHxmLct9buWSc5GxWxIDfzRGn
-         jDBjsxsfsZOi0paEdthiXhULs4ELnRfZYRg4YY3EdWM8oyZ9O3iX/P06r5cSzEP5kt
-         04Mwu7whL4XObf7q04EjzHv3/2pUNI1AGK73m9sk=
+        Tue, 18 Feb 2020 06:44:33 -0500
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id C02573C057C;
+        Tue, 18 Feb 2020 12:44:30 +0100 (CET)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id fH-QhLVjk6Dg; Tue, 18 Feb 2020 12:44:25 +0100 (CET)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 847193C00C5;
+        Tue, 18 Feb 2020 12:44:25 +0100 (CET)
+Received: from vmlxhi-121.adit-jv.com (10.72.93.65) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Tue, 18 Feb
+ 2020 12:44:24 +0100
+From:   Michael Rodin <mrodin@de.adit-jv.com>
+To:     <niklas.soderlund@ragnatech.se>, <mchehab@kernel.org>,
+        <p.zabel@pengutronix.de>, <linux-media@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     Michael Rodin <mrodin@de.adit-jv.com>, <efriedrich@de.adit-jv.com>,
+        <erosca@de.adit-jv.com>, <sudipi@jp.adit-jv.com>,
+        <akiyama@nds-osk.co.jp>
+Subject: [PATCH] [RFC] media: rcar-vin: don't wait for stop state on clock lane during start of CSI2
+Date:   Tue, 18 Feb 2020 12:44:11 +0100
+Message-ID: <1582026251-21047-1-git-send-email-mrodin@de.adit-jv.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Patchwork housekeeping for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <158202603666.26468.17292952619806467290.git-patchwork-housekeeping@kernel.org>
-Date:   Tue, 18 Feb 2020 11:40:36 +0000
-To:     linux-renesas-soc@vger.kernel.org
+Content-Type: text/plain
+X-Originating-IP: [10.72.93.65]
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Latest series: [v1] pinctrl: sh-pfc: Remove use of ARCH_R8A7796 (2020-02-18T11:25:57)
-  Superseding: [v1] pinctrl: sh-pfc: Remove use of ARCH_R8A7796 (2019-12-11T10:03:08):
-    pinctrl: sh-pfc: Remove use of ARCH_R8A7796
+The chapter 7.1 "D-PHY Physical Layer Option" of the CSI2 specification
+states that non-continuous clock behavior is optional, i.e. the Clock Lane
+can remain in high-speed mode between the transmission of data packets.
+Therefore waiting for the stop state (LP-11) on the Clock Lane is wrong and
+will cause timeouts when a CSI2 transmitter with continuous clock behavior
+is attached to R-Car CSI2 receiver. So wait only for the stop state on the
+Data Lanes.
 
-Latest series: [v1] clk: renesas: Remove use of ARCH_R8A7796 (2020-02-18T11:25:25)
-  Superseding: [v1] clk: renesas: Remove use of ARCH_R8A7796 (2019-12-11T10:02:20):
-    clk: renesas: Remove use of ARCH_R8A7796
+Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
+---
+ drivers/media/platform/rcar-vin/rcar-csi2.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-
+diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+index faa9fb2..6d1992a 100644
+--- a/drivers/media/platform/rcar-vin/rcar-csi2.c
++++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+@@ -416,8 +416,7 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
+ 	for (timeout = 0; timeout <= 20; timeout++) {
+ 		const u32 lane_mask = (1 << priv->lanes) - 1;
+ 
+-		if ((rcsi2_read(priv, PHCLM_REG) & PHCLM_STOPSTATECKL)  &&
+-		    (rcsi2_read(priv, PHDLM_REG) & lane_mask) == lane_mask)
++		if ((rcsi2_read(priv, PHDLM_REG) & lane_mask) == lane_mask)
+ 			return 0;
+ 
+ 		usleep_range(1000, 2000);
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+2.7.4
+
