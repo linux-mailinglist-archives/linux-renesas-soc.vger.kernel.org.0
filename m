@@ -2,115 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9AF79162F6C
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2020 20:09:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B0E0163201
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2020 21:06:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726446AbgBRTJZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Feb 2020 14:09:25 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:33125 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726283AbgBRTJY (ORCPT
+        id S1728249AbgBRUEU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Feb 2020 15:04:20 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:34946 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726510AbgBRUET (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Feb 2020 14:09:24 -0500
-Received: by mail-oi1-f196.google.com with SMTP id q81so21273981oig.0;
-        Tue, 18 Feb 2020 11:09:24 -0800 (PST)
+        Tue, 18 Feb 2020 15:04:19 -0500
+Received: by mail-lf1-f67.google.com with SMTP id n20so364635lfa.2
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Feb 2020 12:04:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=aM66lfDSRT/f+esnTacNlEppcR7A6Zjl8EzJ4jCam+Y=;
+        b=igB4o4p/5wY0P+/p0TzcpHFKeM1gb2a07UUtsSOJhK93YTPIimExJAS/tjKFSuvNgz
+         Kd2wufXFIJUnMMQkPy0SXw7qUGeG9EAOL5FB+yCPR4bV9++0scARfYmvg9NPVta7Ml2b
+         ixiSybefbIZUb1eZ1TMmz3fBG/U+KuS2fZcHKj1z2VEXZSgcJVCNDJmxBOIzVUxqiFQo
+         11YT7CxQfExlgghggaVJNZmVozrC4Q83NpRQhgAiLEk7leeuyKna+yFwL0/LdtxghhC5
+         9L+ZsuBpE4zd69+cO5b7CsohZf4ZvEMTRlmkFwTCkRrbdHfZmCpANSdTyHL3+tGvfNw3
+         vzqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4zbrnNvTNHgXxwjMJnfhT5sGHXVeYA3py+fC4nnQX1g=;
-        b=hxHpfGZ1eg9pnSfPg5YL2okaL4jIsS3ewInVnRJIojrOl5G/z0s1qZnXQGBlQykB0f
-         hSlxBgqWb6BCYu8bIp24/4I7qlQDPuGIv4AI3vUioZ4UzFg8hxphPf0RRLzr+cldvXl3
-         7C8RA+QYFKhThMLd+tcMT8v+n/yY//kQik1u4j95VqkNDyWyFsfU3abb2imPh0UvuMRy
-         JAZWUXCnV6nEgfNcW+hu2OWemlrp55oaqJSU+18nZ18z8euYMqrz5sAdol8ixHfddVpH
-         mlgv/p2nYrTIhUd4U29RfZ7i9N/eqnMUsC2KR+zyUnzpgKnXfQXQ4qa6nu1qDTLsG3i4
-         IzWQ==
-X-Gm-Message-State: APjAAAUCcdYj7HXVOR0jJtNGE+s7v2r1hNaO/oyoyr0yqCNQEBSmwIdM
-        3efZyMZ+BPjiTA5E+uxUwe6QBHivcrjFlUSxGH4=
-X-Google-Smtp-Source: APXvYqwnKTCIB9GTLLpEL5W7g+LauaFKN7iZKQPh2++RZaJoaT+SssBYOvEoCXI/Jb080pGI7GySD9qCX6q6Z+PF39M=
-X-Received: by 2002:aca:48cd:: with SMTP id v196mr2308514oia.102.1582052963942;
- Tue, 18 Feb 2020 11:09:23 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=aM66lfDSRT/f+esnTacNlEppcR7A6Zjl8EzJ4jCam+Y=;
+        b=SBeNVxYqVn3yLdq3bDWd+/VAZ8kZnNND6FlQb5xWWgGcgAg/w1Rqup6p36Vz1dWEwe
+         haWVnnKZ8udzFhUL6NSKlX1ussR8Qq3ftJqgOvMurKT6Hy1b8Q4eaGsT9eluR5hqK+7q
+         s4kVSfqG6p2G4izuWxGEtzWAQAhYvewFWXlr12RKEnj6LrzB6eNMkRZhVFByUjfSaogZ
+         7OIk8AjX4l4S8LmrwUgH7RvuTMHWE8nZmxzIivsqG+b/LQg5d/0WUQxqCm/MZy9YHI36
+         YDu+6xor8bIWgagMdZhHxvLSN4p6Vn4Jf5xUzH8XfAtenS8EXPPlSP6FLLHmthpEoiPF
+         fhmA==
+X-Gm-Message-State: APjAAAWGvZVSEPBvsqeVZ91ht7UrG8LXZEtcGbrKQx1unPTV8fNlVLzm
+        cvt/crMHgRV2m1vpf/IoBsmIBw==
+X-Google-Smtp-Source: APXvYqzWDBpXYwxXn4wt57AM6nDwd9YXfpIra9+UhFJMU2G4Pbg1imyPZz6R8cDyJZvn/SK+ZVGttg==
+X-Received: by 2002:ac2:4a89:: with SMTP id l9mr11126490lfp.121.1582056257344;
+        Tue, 18 Feb 2020 12:04:17 -0800 (PST)
+Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
+        by smtp.gmail.com with ESMTPSA id y23sm3075680ljk.6.2020.02.18.12.04.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Feb 2020 12:04:14 -0800 (PST)
+Date:   Tue, 18 Feb 2020 21:04:13 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] ARM: dts: r8a7745: Convert to new DU DT bindings
+Message-ID: <20200218200413.GB1016123@oden.dyn.berto.se>
+References: <20200218132217.21454-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-References: <20200218151812.7816-1-geert+renesas@glider.be>
- <20200218151812.7816-5-geert+renesas@glider.be> <e2530fff-a17c-ae90-ba92-360b828582da@infradead.org>
-In-Reply-To: <e2530fff-a17c-ae90-ba92-360b828582da@infradead.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 18 Feb 2020 20:09:12 +0100
-Message-ID: <CAMuHMdU9=vgO6ohoYTQMGjoFzhRy=4hYGjVyRsTK2uoNsU08XQ@mail.gmail.com>
-Subject: Re: [PATCH v5 4/5] docs: gpio: Add GPIO Aggregator documentation
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200218132217.21454-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Randy,
+Hi Geert,
 
-On Tue, Feb 18, 2020 at 7:30 PM Randy Dunlap <rdunlap@infradead.org> wrote:
-> On 2/18/20 7:18 AM, Geert Uytterhoeven wrote:
-> > Document the GPIO Aggregator, and the two typical use-cases.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Thanks for your work.
 
-> > --- /dev/null
-> > +++ b/Documentation/admin-guide/gpio/gpio-aggregator.rst
-> > @@ -0,0 +1,102 @@
-> > +.. SPDX-License-Identifier: GPL-2.0-only
-> > +
-> > +GPIO Aggregator
-> > +===============
-> > +
-> > +The GPIO Aggregator allows to aggregate GPIOs, and expose them as a new
->
-> "allows" really wants an object following the verb [although the kernel sources
-> and docs have many cases of it not having an object].  Something like
->
->                        allows {you, one, someone, users, a user} to aggregate
+On 2020-02-18 14:22:17 +0100, Geert Uytterhoeven wrote:
+> The DU DT bindings have been updated to drop the reg-names property.
+> Update the r8a7745 device tree accordingly.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Thanks for the hint!
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-> > +             Example: Instantiate a new GPIO aggregator by aggregating GPIO
-> > +             19 of "e6052000.gpio" and GPIOs 20-21 of "gpiochip2" into a new
-> > +             gpio_chip:
-> > +
-> > +             .. code-block:: bash
-> > +
-> > +                 echo 'e6052000.gpio 19 gpiochip2 20-21' > new_device
-> > +
->
-> Does the above command tell the user that the new device is named
-> "gpio-aggregator.0", as used below?
-
-Yes, it will be printed through the kernel log, cfr. the sample session in
-the cover letter.
-
-Gr{oetje,eeting}s,
-
-                        Geert
+> ---
+>  arch/arm/boot/dts/r8a7745.dtsi | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/arch/arm/boot/dts/r8a7745.dtsi b/arch/arm/boot/dts/r8a7745.dtsi
+> index 3f88a7e34af2c28b..3b413658eb8d8fac 100644
+> --- a/arch/arm/boot/dts/r8a7745.dtsi
+> +++ b/arch/arm/boot/dts/r8a7745.dtsi
+> @@ -1506,7 +1506,6 @@
+>  		du: display@feb00000 {
+>  			compatible = "renesas,du-r8a7745";
+>  			reg = <0 0xfeb00000 0 0x40000>;
+> -			reg-names = "du";
+>  			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
+>  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
+>  			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>;
+> -- 
+> 2.17.1
+> 
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Regards,
+Niklas Söderlund
