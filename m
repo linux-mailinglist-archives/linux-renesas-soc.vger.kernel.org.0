@@ -2,65 +2,45 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6421516257B
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2020 12:26:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C5101625A5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2020 12:40:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726363AbgBRL0D (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Feb 2020 06:26:03 -0500
-Received: from laurent.telenet-ops.be ([195.130.137.89]:58614 "EHLO
-        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726338AbgBRL0D (ORCPT
+        id S1726086AbgBRLkh (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Feb 2020 06:40:37 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44430 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726073AbgBRLkh (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Feb 2020 06:26:03 -0500
-Received: from ramsan ([84.195.182.253])
-        by laurent.telenet-ops.be with bizsmtp
-        id 4BS22200J5USYZQ01BS282; Tue, 18 Feb 2020 12:26:02 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1j410r-00043f-It; Tue, 18 Feb 2020 12:26:01 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1j410r-0001YW-GX; Tue, 18 Feb 2020 12:26:01 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     linux-gpio@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] pinctrl: sh-pfc: Remove use of ARCH_R8A7796
-Date:   Tue, 18 Feb 2020 12:25:57 +0100
-Message-Id: <20200218112557.5924-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Tue, 18 Feb 2020 06:40:37 -0500
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1582026036;
+        bh=jhbBZ85i9n7k41Mf1SDcMRLUu6zTansHEChmQT0LmYI=;
+        h=Subject:From:Date:To:From;
+        b=ZC+UO6nZQeUinaZ0hrMQHqsfzCALRuVN2R/5gPO1kHxmLct9buWSc5GxWxIDfzRGn
+         jDBjsxsfsZOi0paEdthiXhULs4ELnRfZYRg4YY3EdWM8oyZ9O3iX/P06r5cSzEP5kt
+         04Mwu7whL4XObf7q04EjzHv3/2pUNI1AGK73m9sk=
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork housekeeping for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <158202603666.26468.17292952619806467290.git-patchwork-housekeeping@kernel.org>
+Date:   Tue, 18 Feb 2020 11:40:36 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-CONFIG_ARCH_R8A7795 was split in CONFIG_ARCH_R8A77950 and
-CONFIG_ARCH_R8A77951 in commit b925adfceb529389 ("soc: renesas: Add
-ARCH_R8A7795[01] for existing R-Car H3"), so its users can be removed.
+Latest series: [v1] pinctrl: sh-pfc: Remove use of ARCH_R8A7796 (2020-02-18T11:25:57)
+  Superseding: [v1] pinctrl: sh-pfc: Remove use of ARCH_R8A7796 (2019-12-11T10:03:08):
+    pinctrl: sh-pfc: Remove use of ARCH_R8A7796
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
-To be queued in sh-pfc for v5.7.
----
- drivers/pinctrl/sh-pfc/Kconfig | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Latest series: [v1] clk: renesas: Remove use of ARCH_R8A7796 (2020-02-18T11:25:25)
+  Superseding: [v1] clk: renesas: Remove use of ARCH_R8A7796 (2019-12-11T10:02:20):
+    clk: renesas: Remove use of ARCH_R8A7796
 
-diff --git a/drivers/pinctrl/sh-pfc/Kconfig b/drivers/pinctrl/sh-pfc/Kconfig
-index cf0e0dc42b84c06f..9552851b96f12e08 100644
---- a/drivers/pinctrl/sh-pfc/Kconfig
-+++ b/drivers/pinctrl/sh-pfc/Kconfig
-@@ -26,8 +26,8 @@ config PINCTRL_SH_PFC
- 	select PINCTRL_PFC_R8A7792 if ARCH_R8A7792
- 	select PINCTRL_PFC_R8A7793 if ARCH_R8A7793
- 	select PINCTRL_PFC_R8A7794 if ARCH_R8A7794
--	select PINCTRL_PFC_R8A77950 if ARCH_R8A77950 || ARCH_R8A7795
--	select PINCTRL_PFC_R8A77951 if ARCH_R8A77951 || ARCH_R8A7795
-+	select PINCTRL_PFC_R8A77950 if ARCH_R8A77950
-+	select PINCTRL_PFC_R8A77951 if ARCH_R8A77951
- 	select PINCTRL_PFC_R8A77960 if ARCH_R8A77960
- 	select PINCTRL_PFC_R8A77961 if ARCH_R8A77961
- 	select PINCTRL_PFC_R8A77965 if ARCH_R8A77965
+
 -- 
-2.17.1
-
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
