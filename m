@@ -2,67 +2,61 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D5A5E162685
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2020 13:55:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C5BF3162709
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2020 14:22:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726116AbgBRMzz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Feb 2020 07:55:55 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:43142 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726043AbgBRMzz (ORCPT
+        id S1726399AbgBRNWV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Feb 2020 08:22:21 -0500
+Received: from andre.telenet-ops.be ([195.130.132.53]:50796 "EHLO
+        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726340AbgBRNWV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Feb 2020 07:55:55 -0500
-Received: by mail-ot1-f67.google.com with SMTP id p8so19333769oth.10;
-        Tue, 18 Feb 2020 04:55:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7m9U+ZDjRKStbdCgNtr/9vPYhAsJaG0K6XoFskR7rjM=;
-        b=HTDGFE7MDfusUpPauKOQmkI1cfqc2acVjOEqzeJcSsUgafIhuXNoISnv8S9gpFjYwN
-         AiKcG7lNLXDLyrWiSmJ2NaKCAlGq6+1hSjaL+QM5MurapUXNJNnEymufUvjFgB/ewipq
-         e783BAHhvsAgNnOMYRxPMzXx3qqn9PwlEDxSvitCVQDLPaXzc5Wm35544r2hnTw1kVva
-         pw2iW8Jg/1lBNCDhaIV8AeDOx//O9KvAwq0sTHOGa98ia2ESeHSiHm2Ga9xOYgvfORX4
-         aLXHffUmbetufzMnJW0UNM/qyitd00GlLaP1OjxFQyx9DOr0RCMeZVBEhAqYUr/b1La8
-         HVpA==
-X-Gm-Message-State: APjAAAWnGS7GxlwOx4+hFO549pNKoQjLzb6eC9p7OTLZChg9eio2x95N
-        vmSCVXxXsEySO5COXO7bvNay5/uhcfpomwDHyU4+583b
-X-Google-Smtp-Source: APXvYqxXI6z4p7G3Ac9Z9fz2+tsg4pGdYtK2i4VQFf85pL9mYaENBRLND7dGkiaDzNrpblFjz7pXPc1c+Y5gVxoun4A=
-X-Received: by 2002:a9d:5c0c:: with SMTP id o12mr855945otk.145.1582030554347;
- Tue, 18 Feb 2020 04:55:54 -0800 (PST)
-MIME-Version: 1.0
-References: <20200218112557.5924-1-geert+renesas@glider.be>
-In-Reply-To: <20200218112557.5924-1-geert+renesas@glider.be>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 18 Feb 2020 13:55:43 +0100
-Message-ID: <CAMuHMdUDZ8ErGRYwCOiarKfvTKV4=p72j3FYAQ05Ab_Pt0CQiA@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: sh-pfc: Remove use of ARCH_R8A7796
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Tue, 18 Feb 2020 08:22:21 -0500
+Received: from ramsan ([84.195.182.253])
+        by andre.telenet-ops.be with bizsmtp
+        id 4DNJ2200R5USYZQ01DNJ5e; Tue, 18 Feb 2020 14:22:18 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1j42pO-0005V7-Ey; Tue, 18 Feb 2020 14:22:18 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1j42pO-0005am-CT; Tue, 18 Feb 2020 14:22:18 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Magnus Damm <magnus.damm@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ARM: dts: r8a7745: Convert to new DU DT bindings
+Date:   Tue, 18 Feb 2020 14:22:17 +0100
+Message-Id: <20200218132217.21454-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Feb 18, 2020 at 12:26 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
-> CONFIG_ARCH_R8A7795 was split in CONFIG_ARCH_R8A77950 and
-> CONFIG_ARCH_R8A77951 in commit b925adfceb529389 ("soc: renesas: Add
-> ARCH_R8A7795[01] for existing R-Car H3"), so its users can be removed.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+The DU DT bindings have been updated to drop the reg-names property.
+Update the r8a7745 device tree accordingly.
 
-ARCH_R8A7795 in the one-line summary, of course (thank you patchwork-bot ;-)
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ arch/arm/boot/dts/r8a7745.dtsi | 1 -
+ 1 file changed, 1 deletion(-)
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/arch/arm/boot/dts/r8a7745.dtsi b/arch/arm/boot/dts/r8a7745.dtsi
+index 3f88a7e34af2c28b..3b413658eb8d8fac 100644
+--- a/arch/arm/boot/dts/r8a7745.dtsi
++++ b/arch/arm/boot/dts/r8a7745.dtsi
+@@ -1506,7 +1506,6 @@
+ 		du: display@feb00000 {
+ 			compatible = "renesas,du-r8a7745";
+ 			reg = <0 0xfeb00000 0 0x40000>;
+-			reg-names = "du";
+ 			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
+ 				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>;
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.17.1
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
