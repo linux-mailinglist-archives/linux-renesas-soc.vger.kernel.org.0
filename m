@@ -2,76 +2,69 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 979C51625AE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2020 12:44:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 973C7162683
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 18 Feb 2020 13:55:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726411AbgBRLod (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 18 Feb 2020 06:44:33 -0500
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:32904 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726043AbgBRLod (ORCPT
+        id S1726546AbgBRMzW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 18 Feb 2020 07:55:22 -0500
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:36069 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726528AbgBRMzW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 18 Feb 2020 06:44:33 -0500
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id C02573C057C;
-        Tue, 18 Feb 2020 12:44:30 +0100 (CET)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id fH-QhLVjk6Dg; Tue, 18 Feb 2020 12:44:25 +0100 (CET)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 847193C00C5;
-        Tue, 18 Feb 2020 12:44:25 +0100 (CET)
-Received: from vmlxhi-121.adit-jv.com (10.72.93.65) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Tue, 18 Feb
- 2020 12:44:24 +0100
-From:   Michael Rodin <mrodin@de.adit-jv.com>
-To:     <niklas.soderlund@ragnatech.se>, <mchehab@kernel.org>,
-        <p.zabel@pengutronix.de>, <linux-media@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     Michael Rodin <mrodin@de.adit-jv.com>, <efriedrich@de.adit-jv.com>,
-        <erosca@de.adit-jv.com>, <sudipi@jp.adit-jv.com>,
-        <akiyama@nds-osk.co.jp>
-Subject: [PATCH] [RFC] media: rcar-vin: don't wait for stop state on clock lane during start of CSI2
-Date:   Tue, 18 Feb 2020 12:44:11 +0100
-Message-ID: <1582026251-21047-1-git-send-email-mrodin@de.adit-jv.com>
-X-Mailer: git-send-email 2.7.4
+        Tue, 18 Feb 2020 07:55:22 -0500
+Received: by mail-oi1-f195.google.com with SMTP id c16so19987155oic.3
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 18 Feb 2020 04:55:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:cc;
+        bh=wT538E2yeXhdAbLdX+E97i1bBFY4CFx+RpRhZlQ+JW0=;
+        b=X2lbowJRTGv6iCXMRtl4QapJXHnr2fL+GM70J41AXIDSrUZxc+7nR8HxVuHD9odjgF
+         BJhlrS36culc9rIFwwsr2jhR7QESrBVif2NRKvcn5/1OMHTOfTpma055kwUOZmH3GK6f
+         seKcfIBBfiOAGVR37XPMIXgAZtliUShtRhmAochbXULVMzyIuhq97WgZjTA/mun0b1gl
+         REcO6vKmoFZ1JO/m7DVKF5yzLbmQuh9ksolnTTsLSs+voTChGYRTU9W5Hd4XUQUGhPvW
+         niKNxHx9Zv+o2LxHsKdQ1vEupuL2OkreM1H1mfZF+4OgDQENtROOf0/juwPQ1PMR1J5G
+         2YWw==
+X-Gm-Message-State: APjAAAXeMfPHJhD6AbZqgmc15D5s1gj1QtSEoP/Aw/wAYBnQnwNNAsls
+        08GZMX8VdUWjjsG3gzb81WiZ7F/rJtxt/8ZGJi4=
+X-Received: by 2002:aca:c4d2:: with SMTP id u201mt1397003oif.54.1582030521511;
+ Tue, 18 Feb 2020 04:55:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.72.93.65]
+References: <20200218112525.5834-1-geert+renesas@glider.be>
+In-Reply-To: <20200218112525.5834-1-geert+renesas@glider.be>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 18 Feb 2020 13:55:00 +0100
+Message-ID: <CAMuHMdVAOknhwO2J-vkRSO47uJJn873J-4mPvAMq+vQgE_nk9Q@mail.gmail.com>
+Subject: Re: [PATCH] clk: renesas: Remove use of ARCH_R8A7796
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-The chapter 7.1 "D-PHY Physical Layer Option" of the CSI2 specification
-states that non-continuous clock behavior is optional, i.e. the Clock Lane
-can remain in high-speed mode between the transmission of data packets.
-Therefore waiting for the stop state (LP-11) on the Clock Lane is wrong and
-will cause timeouts when a CSI2 transmitter with continuous clock behavior
-is attached to R-Car CSI2 receiver. So wait only for the stop state on the
-Data Lanes.
+On Tue, Feb 18, 2020 at 12:25 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> CONFIG_ARCH_R8A7795 was split in CONFIG_ARCH_R8A77950 and
+> CONFIG_ARCH_R8A77951 in commit b925adfceb529389 ("soc: renesas: Add
+> ARCH_R8A7795[01] for existing R-Car H3"), so its users can be removed.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
----
- drivers/media/platform/rcar-vin/rcar-csi2.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ ARCH_R8A7795 in the one-line summary, of course (thank you patchwork-bot ;-)
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-index faa9fb2..6d1992a 100644
---- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-@@ -416,8 +416,7 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
- 	for (timeout = 0; timeout <= 20; timeout++) {
- 		const u32 lane_mask = (1 << priv->lanes) - 1;
- 
--		if ((rcsi2_read(priv, PHCLM_REG) & PHCLM_STOPSTATECKL)  &&
--		    (rcsi2_read(priv, PHDLM_REG) & lane_mask) == lane_mask)
-+		if ((rcsi2_read(priv, PHDLM_REG) & lane_mask) == lane_mask)
- 			return 0;
- 
- 		usleep_range(1000, 2000);
--- 
-2.7.4
+Gr{oetje,eeting}s,
 
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
