@@ -2,123 +2,278 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EEBF164BCE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2020 18:22:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B4D74164C7D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2020 18:50:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726663AbgBSRWS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Feb 2020 12:22:18 -0500
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:39019 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726582AbgBSRWS (ORCPT
+        id S1726514AbgBSRup (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Feb 2020 12:50:45 -0500
+Received: from mga09.intel.com ([134.134.136.24]:20495 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726539AbgBSRup (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Feb 2020 12:22:18 -0500
-X-Originating-IP: 93.34.114.233
-Received: from uno.localdomain (93-34-114-233.ip49.fastwebnet.it [93.34.114.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id C7D0DFF80A;
-        Wed, 19 Feb 2020 17:22:12 +0000 (UTC)
-Date:   Wed, 19 Feb 2020 18:24:56 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Michael Rodin <mrodin@de.adit-jv.com>
-Cc:     niklas.soderlund@ragnatech.se, mchehab@kernel.org,
-        p.zabel@pengutronix.de, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        efriedrich@de.adit-jv.com, erosca@de.adit-jv.com,
-        sudipi@jp.adit-jv.com, akiyama@nds-osk.co.jp
-Subject: Re: [PATCH] [RFC] media: rcar-vin: don't wait for stop state on
- clock lane during start of CSI2
-Message-ID: <20200219172456.hyo2aksvubxpoqrn@uno.localdomain>
-References: <1582026251-21047-1-git-send-email-mrodin@de.adit-jv.com>
+        Wed, 19 Feb 2020 12:50:45 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Feb 2020 09:50:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,461,1574150400"; 
+   d="scan'208";a="382869933"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 19 Feb 2020 09:50:43 -0800
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1j4TUg-00052X-P5; Thu, 20 Feb 2020 01:50:42 +0800
+Date:   Thu, 20 Feb 2020 01:50:07 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-devel:renesas-drivers-for-v5.7] BUILD SUCCESS
+ 107539fb7fe22915fa5bd78db691d21f95fdc3b3
+Message-ID: <5e4d754f.YIqQQGVjFCIGw+FH%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="jvjmcxubogualhde"
-Content-Disposition: inline
-In-Reply-To: <1582026251-21047-1-git-send-email-mrodin@de.adit-jv.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-drivers-for-v5.7
+branch HEAD: 107539fb7fe22915fa5bd78db691d21f95fdc3b3  soc: renesas: rcar-sysc: Use the correct style for SPDX License Identifier
 
---jvjmcxubogualhde
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+elapsed time: 2888m
 
-Hello,
+configs tested: 222
+configs skipped: 0
 
-On Tue, Feb 18, 2020 at 12:44:11PM +0100, Michael Rodin wrote:
-> The chapter 7.1 "D-PHY Physical Layer Option" of the CSI2 specification
-> states that non-continuous clock behavior is optional, i.e. the Clock Lane
-> can remain in high-speed mode between the transmission of data packets.
-> Therefore waiting for the stop state (LP-11) on the Clock Lane is wrong and
-> will cause timeouts when a CSI2 transmitter with continuous clock behavior
-> is attached to R-Car CSI2 receiver. So wait only for the stop state on the
-> Data Lanes.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Am I wrong or the desired behaviour should depend on the presence of
-the clock-noncontinuous property in the CSI-2 input endpoint ?
-If clock-noncontinuous is set, then wait for the clock lane to
-enter stop state too, if not just wait for the data lanes to stop.
+arm                              allmodconfig
+arm                               allnoconfig
+arm                              allyesconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+arm64                            allyesconfig
+arm                         at91_dt_defconfig
+arm                           efm32_defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+arm                        multi_v7_defconfig
+arm                        shmobile_defconfig
+arm                           sunxi_defconfig
+arm64                               defconfig
+sparc                            allyesconfig
+nios2                         10m50_defconfig
+xtensa                          iss_defconfig
+parisc                            allnoconfig
+ia64                              allnoconfig
+mips                             allyesconfig
+microblaze                    nommu_defconfig
+sh                            titan_defconfig
+sh                               allmodconfig
+i386                              allnoconfig
+h8300                    h8300h-sim_defconfig
+riscv                          rv32_defconfig
+riscv                               defconfig
+xtensa                       common_defconfig
+sh                                allnoconfig
+powerpc                       ppc64_defconfig
+s390                                defconfig
+s390                             allmodconfig
+nds32                               defconfig
+c6x                        evmc6678_defconfig
+parisc                generic-64bit_defconfig
+s390                          debug_defconfig
+sh                  sh7785lcr_32bit_defconfig
+alpha                               defconfig
+powerpc                           allnoconfig
+s390                              allnoconfig
+mips                              allnoconfig
+mips                             allmodconfig
+mips                      malta_kvm_defconfig
+riscv                             allnoconfig
+i386                             alldefconfig
+i386                             allyesconfig
+i386                                defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+ia64                             alldefconfig
+nios2                         3c120_defconfig
+c6x                              allyesconfig
+openrisc                    or1ksim_defconfig
+openrisc                 simple_smp_defconfig
+csky                                defconfig
+nds32                             allnoconfig
+h8300                     edosk2674_defconfig
+h8300                       h8s-sim_defconfig
+m68k                             allmodconfig
+m68k                       m5475evb_defconfig
+m68k                          multi_defconfig
+m68k                           sun3_defconfig
+arc                              allyesconfig
+arc                                 defconfig
+microblaze                      mmu_defconfig
+powerpc                             defconfig
+powerpc                          rhel-kconfig
+mips                           32r2_defconfig
+mips                         64r6el_defconfig
+mips                      fuloong2e_defconfig
+parisc                           allyesconfig
+parisc                generic-32bit_defconfig
+x86_64               randconfig-a001-20200218
+x86_64               randconfig-a002-20200218
+x86_64               randconfig-a003-20200218
+i386                 randconfig-a001-20200218
+i386                 randconfig-a002-20200218
+i386                 randconfig-a003-20200218
+x86_64               randconfig-a001-20200219
+x86_64               randconfig-a002-20200219
+x86_64               randconfig-a003-20200219
+i386                 randconfig-a001-20200219
+i386                 randconfig-a002-20200219
+i386                 randconfig-a003-20200219
+alpha                randconfig-a001-20200218
+m68k                 randconfig-a001-20200218
+mips                 randconfig-a001-20200218
+nds32                randconfig-a001-20200218
+parisc               randconfig-a001-20200218
+riscv                randconfig-a001-20200218
+alpha                randconfig-a001-20200219
+m68k                 randconfig-a001-20200219
+nds32                randconfig-a001-20200219
+parisc               randconfig-a001-20200219
+riscv                randconfig-a001-20200219
+c6x                  randconfig-a001-20200219
+h8300                randconfig-a001-20200219
+microblaze           randconfig-a001-20200219
+nios2                randconfig-a001-20200219
+sparc64              randconfig-a001-20200219
+csky                 randconfig-a001-20200219
+openrisc             randconfig-a001-20200219
+s390                 randconfig-a001-20200219
+xtensa               randconfig-a001-20200219
+x86_64               randconfig-b001-20200218
+x86_64               randconfig-b002-20200218
+x86_64               randconfig-b003-20200218
+i386                 randconfig-b001-20200218
+i386                 randconfig-b002-20200218
+i386                 randconfig-b003-20200218
+x86_64               randconfig-b001-20200219
+x86_64               randconfig-b002-20200219
+x86_64               randconfig-b003-20200219
+i386                 randconfig-b001-20200219
+i386                 randconfig-b002-20200219
+i386                 randconfig-b003-20200219
+x86_64               randconfig-c001-20200219
+x86_64               randconfig-c002-20200219
+x86_64               randconfig-c003-20200219
+i386                 randconfig-c001-20200219
+i386                 randconfig-c002-20200219
+i386                 randconfig-c003-20200219
+x86_64               randconfig-c001-20200218
+x86_64               randconfig-c002-20200218
+x86_64               randconfig-c003-20200218
+i386                 randconfig-c001-20200218
+i386                 randconfig-c002-20200218
+i386                 randconfig-c003-20200218
+x86_64               randconfig-d001-20200219
+x86_64               randconfig-d002-20200219
+x86_64               randconfig-d003-20200219
+i386                 randconfig-d001-20200219
+i386                 randconfig-d002-20200219
+i386                 randconfig-d003-20200219
+x86_64               randconfig-d001-20200218
+x86_64               randconfig-d002-20200218
+x86_64               randconfig-d003-20200218
+i386                 randconfig-d001-20200218
+i386                 randconfig-d002-20200218
+i386                 randconfig-d003-20200218
+x86_64               randconfig-e001-20200219
+x86_64               randconfig-e002-20200219
+x86_64               randconfig-e003-20200219
+i386                 randconfig-e001-20200219
+i386                 randconfig-e002-20200219
+i386                 randconfig-e003-20200219
+x86_64               randconfig-e001-20200218
+x86_64               randconfig-e002-20200218
+x86_64               randconfig-e003-20200218
+i386                 randconfig-e001-20200218
+i386                 randconfig-e002-20200218
+i386                 randconfig-e003-20200218
+x86_64               randconfig-f001-20200218
+x86_64               randconfig-f002-20200218
+x86_64               randconfig-f003-20200218
+i386                 randconfig-f001-20200218
+i386                 randconfig-f002-20200218
+i386                 randconfig-f003-20200218
+x86_64               randconfig-f001-20200219
+x86_64               randconfig-f002-20200219
+x86_64               randconfig-f003-20200219
+i386                 randconfig-f001-20200219
+i386                 randconfig-f002-20200219
+i386                 randconfig-f003-20200219
+x86_64               randconfig-g001-20200218
+x86_64               randconfig-g002-20200218
+x86_64               randconfig-g003-20200218
+i386                 randconfig-g001-20200218
+i386                 randconfig-g002-20200218
+i386                 randconfig-g003-20200218
+x86_64               randconfig-g001-20200219
+x86_64               randconfig-g002-20200219
+x86_64               randconfig-g003-20200219
+i386                 randconfig-g001-20200219
+i386                 randconfig-g002-20200219
+i386                 randconfig-g003-20200219
+x86_64               randconfig-h001-20200218
+x86_64               randconfig-h002-20200218
+x86_64               randconfig-h003-20200218
+i386                 randconfig-h001-20200218
+i386                 randconfig-h002-20200218
+i386                 randconfig-h003-20200218
+x86_64               randconfig-h001-20200219
+x86_64               randconfig-h002-20200219
+x86_64               randconfig-h003-20200219
+i386                 randconfig-h001-20200219
+i386                 randconfig-h002-20200219
+i386                 randconfig-h003-20200219
+arc                  randconfig-a001-20200219
+arm                  randconfig-a001-20200219
+arm64                randconfig-a001-20200219
+ia64                 randconfig-a001-20200219
+powerpc              randconfig-a001-20200219
+sparc                randconfig-a001-20200219
+arc                  randconfig-a001-20200218
+arm                  randconfig-a001-20200218
+arm64                randconfig-a001-20200218
+ia64                 randconfig-a001-20200218
+powerpc              randconfig-a001-20200218
+sparc                randconfig-a001-20200218
+riscv                            allmodconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+s390                             alldefconfig
+s390                             allyesconfig
+s390                       zfcpdump_defconfig
+sh                          rsk7269_defconfig
+sparc                               defconfig
+sparc64                          allmodconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                             defconfig
+um                                  defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                              fedora-25
+x86_64                                  kexec
+x86_64                                    lkp
+x86_64                                   rhel
+x86_64                         rhel-7.2-clear
+x86_64                               rhel-7.6
 
-If this is correct, it will also require a change to the bindings and
-that's the tricky part. So far the CSI-2 receiver behaved as the
-clock-noncontinuous property was set (wait for both data and clock
-lanes) and older dtb should continue to work under this assumption. If
-you want to support devices with continuous clock then you have to require
-the clock-noncontinuous property to be explicitly set to false, and
-assume it's true if not specified. BUT clock-noncontinuous is a
-boolean property, whose value depends on it's presence only. So I fear
-we need to add a 'clock-continuous' flag to video-interfaces.txt,
-parse it in the CSI-2 receiver driver, and then ignore the clock lane
-stop state if and only if said property is specified.
-
-Does this make sense ?
-
-Thanks
-   j
-
->
-> Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
-> ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index faa9fb2..6d1992a 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -416,8 +416,7 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
->  	for (timeout = 0; timeout <= 20; timeout++) {
->  		const u32 lane_mask = (1 << priv->lanes) - 1;
->
-> -		if ((rcsi2_read(priv, PHCLM_REG) & PHCLM_STOPSTATECKL)  &&
-> -		    (rcsi2_read(priv, PHDLM_REG) & lane_mask) == lane_mask)
-> +		if ((rcsi2_read(priv, PHDLM_REG) & lane_mask) == lane_mask)
->  			return 0;
->
->  		usleep_range(1000, 2000);
-> --
-> 2.7.4
->
-
---jvjmcxubogualhde
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl5Nb2gACgkQcjQGjxah
-VjxTwA/+M8267lFucyowW2LpnMiSjwueQTHQySaNv+2/1++rFkymfQFdYVRwmi1s
-aEEeArjKkyZg8GQYnbXIPD2GDJygStJ69nqFKhmxsTuNSufHUaHG5ejrVz0IkI8e
-pd+eqMOGPp29eHUESTLiIfNDiGM80Xhn+zs6w5Gf1bzybwOpWzMqaVBUiE2DC3Kd
-f4ETr/luVYtCbmzXdgh1TAQ4lPkz93pS3EBp2AS4wNXpA+G+JSok4qnj7B3noVBi
-RBeraL/Ca718dlnq5tZCd+eycIlERQTgSir+ZzDATmrzwN+q5WOCqlrmwaUMh9VF
-FAWQyRLfGWOT9bo+lcnQ2RjpVbF7OvmkesiY0DsR8+btENIhpjuMuuAvI3TSQEBX
-rC9hYyaPicd4V4hjeVfOGduadjIq8qJ/iOIzWmOemA4XhIv3KAySbOqNuA6ejVRM
-3JntotjuknCM3HyWEfwdIFnlV2r2keZ0gqhcwG9Sg4a2sXTAQnSiIz781uETE/AH
-gPS1xJsJ+pDvM3g7/WEYI/tad7roEWkHBROkudu0JUOcYzzYnIi6zaISsAWQeyGA
-x5/bYSKOyiVYWV/s2ckbAhiAK37YZXGFOKs1ByLgvKt13xmtSy9UmLkJBq3kCvXv
-fsE0WfNjkaFVFLM3H2w0wyzMfcmB+fK853U0lbyjtl4N1NbLBaU=
-=mPQD
------END PGP SIGNATURE-----
-
---jvjmcxubogualhde--
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
