@@ -2,113 +2,278 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CB9A164AEC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2020 17:48:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 94207164B3F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2020 17:57:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726700AbgBSQs6 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Feb 2020 11:48:58 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:37842 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726681AbgBSQs6 (ORCPT
+        id S1726610AbgBSQ5z (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Feb 2020 11:57:55 -0500
+Received: from mga14.intel.com ([192.55.52.115]:57272 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726598AbgBSQ5z (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Feb 2020 11:48:58 -0500
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8C4B7563;
-        Wed, 19 Feb 2020 17:48:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1582130936;
-        bh=/NCJBqhwDAR6YDS6oa/BRPHnFnk3elvzrzCS9GPuf0I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Fl1Gj/28pj7LawlvHF2l7kEbfqGW+IufCXIXE0i1vlVRxyxM9y9V/Q6j8FnAEMYSs
-         ohkTZmu1oW4AQsY0BxxSIcSda6uRUu1MbRLj+RLqzI583c9IsH2JCxapJVqsqr62lN
-         Wsd4MqboKPQD4xhovfIno8ENp6dlnwr3/19QgqLw=
-Date:   Wed, 19 Feb 2020 18:48:38 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v5] dt-bindings: display: renesas: du: Document optional
- reset properties
-Message-ID: <20200219164838.GC5070@pendragon.ideasonboard.com>
-References: <20200214082623.4893-1-geert+renesas@glider.be>
- <20200219160410.GX5070@pendragon.ideasonboard.com>
- <CAMuHMdVEW1pjg=mf55dzi0uJ6f-qQCGXzzvTikffX+JAeJQEsQ@mail.gmail.com>
+        Wed, 19 Feb 2020 11:57:55 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Feb 2020 08:57:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,461,1574150400"; 
+   d="scan'208";a="408495763"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 19 Feb 2020 08:57:53 -0800
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1j4SfY-0000E4-Li; Thu, 20 Feb 2020 00:57:52 +0800
+Date:   Thu, 20 Feb 2020 00:57:04 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:sh-pfc] BUILD SUCCESS
+ fe8bf8c07817a57a75ff2dbebe02da660ec0a7fe
+Message-ID: <5e4d68e0.W3edHI84Rn+F6qVq%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdVEW1pjg=mf55dzi0uJ6f-qQCGXzzvTikffX+JAeJQEsQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  sh-pfc
+branch HEAD: fe8bf8c07817a57a75ff2dbebe02da660ec0a7fe  pinctrl: sh-pfc: gpio: Return early in gpio_pin_to_irq()
 
-On Wed, Feb 19, 2020 at 05:36:57PM +0100, Geert Uytterhoeven wrote:
-> On Wed, Feb 19, 2020 at 5:04 PM Laurent Pinchart wrote:
-> > On Fri, Feb 14, 2020 at 09:26:23AM +0100, Geert Uytterhoeven wrote:
-> > > Document the optional properties for describing module resets, to
-> > > support resetting display channels on R-Car Gen2 and Gen3.
-> > >
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Acked-by: Rob Herring <robh@kernel.org>
-> 
-> > > --- a/Documentation/devicetree/bindings/display/renesas,du.txt
-> > > +++ b/Documentation/devicetree/bindings/display/renesas,du.txt
-> > > @@ -50,6 +50,14 @@ Required Properties:
-> > >      VSP instance that serves the DU channel, and the channel index identifies
-> > >      the LIF instance in that VSP.
-> > >
-> > > +Optional properties:
-> > > +  - resets: A list of phandle + reset-specifier pairs, one for each entry in
-> > > +    the reset-names property.
-> > > +  - reset-names: Names of the resets. This property is model-dependent.
-> > > +    - All but R8A7779 use one reset for a group of one or more successive
-> > > +      channels. The resets must be named "du.x" with "x" being the numerical
-> > > +      index of the lowest channel in the group.
-> >
-> > I've now reviewed the patches that add those properties to our .dtsi
-> > files, and I wonder how we should handle the two SoCs that have DU0, DU1
-> > and DU3, but not DU2. The reset resource is tied to a group of two
-> > channels, so we would use du.0 and du.2 respectively, but that conflicts
-> > with the above text.
-> >
-> > I'm trying to think about the implementation on the driver side, where
-> > group resources are associated with a group object, whose index is
-> > computed by dividing the channel number by 2. We could have a special
-> > case in group initialization that uses du.3 instead of du.2 for the
-> > second group.
-> >
-> > What do you think ? Probably overkill, and we should go for du.3 ?
-> 
-> The "division by 2" rule is valid for R-Car Gen3, but not for R-Car
-> Gen2, where there is only a single reset for all channels.
-> 
-> Originally we had "du.0-1" and "du.2-3" (hmm, somehow I missed adding
-> this to the changelog for the bindings,  but it is present in the
-> changelog for the DTS files), but after switching to "du.0" and "du.2",
-> I always envisioned implementing this by finding a "du.x" reset by
-> looping from the current channel index to 0.  That algorithm works for all
-> supported SoCs (irrespective of naming the second reset on R-Car H3-N
-> and M3-N "du.2" or "du.3" ;-)
-> 
-> As per your comment about single resets, we could drop reset-names on
-> R-Car Gen2, but doing so would mean another special case in the driver.
+elapsed time: 2890m
 
-Probably not worth it indeed. We can handle all this in the driver,
-let's keep it as-is.
+configs tested: 222
+configs skipped: 0
 
--- 
-Regards,
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Laurent Pinchart
+arm                              allmodconfig
+arm                               allnoconfig
+arm                              allyesconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+arm64                            allyesconfig
+arm                         at91_dt_defconfig
+arm                           efm32_defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+arm                        multi_v7_defconfig
+arm                        shmobile_defconfig
+arm                           sunxi_defconfig
+arm64                               defconfig
+sparc                            allyesconfig
+nios2                         10m50_defconfig
+xtensa                          iss_defconfig
+s390                       zfcpdump_defconfig
+h8300                       h8s-sim_defconfig
+sparc64                           allnoconfig
+parisc                            allnoconfig
+riscv                            allyesconfig
+ia64                              allnoconfig
+m68k                           sun3_defconfig
+sh                            titan_defconfig
+c6x                        evmc6678_defconfig
+sh                               allmodconfig
+mips                      malta_kvm_defconfig
+openrisc                    or1ksim_defconfig
+ia64                                defconfig
+um                                  defconfig
+ia64                             allmodconfig
+nds32                               defconfig
+ia64                             alldefconfig
+powerpc                             defconfig
+riscv                          rv32_defconfig
+riscv                               defconfig
+xtensa                       common_defconfig
+sh                                allnoconfig
+powerpc                       ppc64_defconfig
+s390                                defconfig
+csky                                defconfig
+sparc64                             defconfig
+s390                             allmodconfig
+s390                          debug_defconfig
+sh                  sh7785lcr_32bit_defconfig
+um                           x86_64_defconfig
+alpha                               defconfig
+powerpc                           allnoconfig
+s390                              allnoconfig
+mips                              allnoconfig
+i386                              allnoconfig
+mips                             allmodconfig
+riscv                             allnoconfig
+h8300                    h8300h-sim_defconfig
+i386                             alldefconfig
+i386                             allyesconfig
+i386                                defconfig
+ia64                             allyesconfig
+c6x                              allyesconfig
+nios2                         3c120_defconfig
+openrisc                 simple_smp_defconfig
+nds32                             allnoconfig
+h8300                     edosk2674_defconfig
+m68k                             allmodconfig
+m68k                       m5475evb_defconfig
+m68k                          multi_defconfig
+arc                              allyesconfig
+arc                                 defconfig
+microblaze                      mmu_defconfig
+microblaze                    nommu_defconfig
+powerpc                          rhel-kconfig
+mips                             allyesconfig
+mips                         64r6el_defconfig
+mips                           32r2_defconfig
+mips                      fuloong2e_defconfig
+parisc                           allyesconfig
+parisc                generic-32bit_defconfig
+parisc                generic-64bit_defconfig
+x86_64               randconfig-a001-20200218
+x86_64               randconfig-a002-20200218
+x86_64               randconfig-a003-20200218
+i386                 randconfig-a001-20200218
+i386                 randconfig-a002-20200218
+i386                 randconfig-a003-20200218
+x86_64               randconfig-a001-20200219
+x86_64               randconfig-a002-20200219
+x86_64               randconfig-a003-20200219
+i386                 randconfig-a001-20200219
+i386                 randconfig-a002-20200219
+i386                 randconfig-a003-20200219
+alpha                randconfig-a001-20200219
+m68k                 randconfig-a001-20200219
+nds32                randconfig-a001-20200219
+parisc               randconfig-a001-20200219
+riscv                randconfig-a001-20200219
+alpha                randconfig-a001-20200218
+m68k                 randconfig-a001-20200218
+mips                 randconfig-a001-20200218
+nds32                randconfig-a001-20200218
+parisc               randconfig-a001-20200218
+riscv                randconfig-a001-20200218
+c6x                  randconfig-a001-20200219
+h8300                randconfig-a001-20200219
+microblaze           randconfig-a001-20200219
+nios2                randconfig-a001-20200219
+sparc64              randconfig-a001-20200219
+csky                 randconfig-a001-20200219
+openrisc             randconfig-a001-20200219
+s390                 randconfig-a001-20200219
+xtensa               randconfig-a001-20200219
+x86_64               randconfig-b001-20200219
+x86_64               randconfig-b002-20200219
+x86_64               randconfig-b003-20200219
+i386                 randconfig-b001-20200219
+i386                 randconfig-b002-20200219
+i386                 randconfig-b003-20200219
+x86_64               randconfig-b001-20200218
+x86_64               randconfig-b002-20200218
+x86_64               randconfig-b003-20200218
+i386                 randconfig-b001-20200218
+i386                 randconfig-b002-20200218
+i386                 randconfig-b003-20200218
+x86_64               randconfig-c001-20200219
+x86_64               randconfig-c002-20200219
+x86_64               randconfig-c003-20200219
+i386                 randconfig-c001-20200219
+i386                 randconfig-c002-20200219
+i386                 randconfig-c003-20200219
+x86_64               randconfig-c001-20200218
+x86_64               randconfig-c002-20200218
+x86_64               randconfig-c003-20200218
+i386                 randconfig-c001-20200218
+i386                 randconfig-c002-20200218
+i386                 randconfig-c003-20200218
+x86_64               randconfig-d001-20200219
+x86_64               randconfig-d002-20200219
+x86_64               randconfig-d003-20200219
+i386                 randconfig-d001-20200219
+i386                 randconfig-d002-20200219
+i386                 randconfig-d003-20200219
+x86_64               randconfig-d001-20200218
+x86_64               randconfig-d002-20200218
+x86_64               randconfig-d003-20200218
+i386                 randconfig-d001-20200218
+i386                 randconfig-d002-20200218
+i386                 randconfig-d003-20200218
+x86_64               randconfig-e001-20200219
+x86_64               randconfig-e002-20200219
+x86_64               randconfig-e003-20200219
+i386                 randconfig-e001-20200219
+i386                 randconfig-e002-20200219
+i386                 randconfig-e003-20200219
+x86_64               randconfig-e001-20200218
+x86_64               randconfig-e002-20200218
+x86_64               randconfig-e003-20200218
+i386                 randconfig-e001-20200218
+i386                 randconfig-e002-20200218
+i386                 randconfig-e003-20200218
+x86_64               randconfig-f001-20200218
+x86_64               randconfig-f002-20200218
+x86_64               randconfig-f003-20200218
+i386                 randconfig-f001-20200218
+i386                 randconfig-f002-20200218
+i386                 randconfig-f003-20200218
+x86_64               randconfig-f001-20200219
+x86_64               randconfig-f002-20200219
+x86_64               randconfig-f003-20200219
+i386                 randconfig-f001-20200219
+i386                 randconfig-f002-20200219
+i386                 randconfig-f003-20200219
+x86_64               randconfig-g001-20200218
+x86_64               randconfig-g002-20200218
+x86_64               randconfig-g003-20200218
+i386                 randconfig-g001-20200218
+i386                 randconfig-g002-20200218
+i386                 randconfig-g003-20200218
+x86_64               randconfig-g001-20200219
+x86_64               randconfig-g002-20200219
+x86_64               randconfig-g003-20200219
+i386                 randconfig-g001-20200219
+i386                 randconfig-g002-20200219
+i386                 randconfig-g003-20200219
+x86_64               randconfig-h001-20200218
+x86_64               randconfig-h002-20200218
+x86_64               randconfig-h003-20200218
+i386                 randconfig-h001-20200218
+i386                 randconfig-h002-20200218
+i386                 randconfig-h003-20200218
+x86_64               randconfig-h001-20200219
+x86_64               randconfig-h002-20200219
+x86_64               randconfig-h003-20200219
+i386                 randconfig-h001-20200219
+i386                 randconfig-h002-20200219
+i386                 randconfig-h003-20200219
+arc                  randconfig-a001-20200219
+arm                  randconfig-a001-20200219
+arm64                randconfig-a001-20200219
+ia64                 randconfig-a001-20200219
+powerpc              randconfig-a001-20200219
+sparc                randconfig-a001-20200219
+arc                  randconfig-a001-20200218
+arm                  randconfig-a001-20200218
+arm64                randconfig-a001-20200218
+ia64                 randconfig-a001-20200218
+powerpc              randconfig-a001-20200218
+sparc                randconfig-a001-20200218
+riscv                            allmodconfig
+riscv                    nommu_virt_defconfig
+s390                             alldefconfig
+s390                             allyesconfig
+sh                          rsk7269_defconfig
+sparc                               defconfig
+sparc64                          allmodconfig
+sparc64                          allyesconfig
+um                             i386_defconfig
+x86_64                              fedora-25
+x86_64                                  kexec
+x86_64                                    lkp
+x86_64                                   rhel
+x86_64                         rhel-7.2-clear
+x86_64                               rhel-7.6
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
