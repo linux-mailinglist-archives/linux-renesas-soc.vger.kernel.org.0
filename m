@@ -2,37 +2,36 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D2DB1642EC
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2020 12:05:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23BE01642DC
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2020 12:03:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726668AbgBSLFu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Feb 2020 06:05:50 -0500
-Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.161]:25583 "EHLO
-        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726469AbgBSLFu (ORCPT
+        id S1726708AbgBSLDJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Feb 2020 06:03:09 -0500
+Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.53]:28420 "EHLO
+        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726671AbgBSLDJ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Feb 2020 06:05:50 -0500
-X-Greylist: delayed 335 seconds by postgrey-1.27 at vger.kernel.org; Wed, 19 Feb 2020 06:05:49 EST
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1582110348;
+        Wed, 19 Feb 2020 06:03:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1582110188;
         s=strato-dkim-0002; d=fpond.eu;
         h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:
         X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=B88DXd+9oJVeNvSGQP63Mq3oBBVtmlPzdypGUzk65UA=;
-        b=si2ZgHDWe/egZ1mcEVEt5ArF02cc/5YNE+/91At1CUBN8VHfOLpyTk2Zv5FRleutEy
-        aeKf54SLzYm86mDp1u9zZ9EhiFC1YLMYxrL9QVi1SvmaKZKmMBBWWHmqfvVYMviCOSK9
-        oC4BNyQXmr1cQMWb3v+67NkjyucoVifz240rsvEITvPsQuw316j8c/G1R/rDOdplIc/B
-        9xKdXZUZeaeoK5f/Jvzz12EKOXv5UdC2dhMApIrNofLtXkG4eH5WF89jhiGiR3FeUa6r
-        Wku5UMrY1ZzNJPyYkOtdxPc6ZYiEcXM2r4h0EtEE7zRxb9RJXt7DIlPJSV1kOF++aKOz
-        U9jA==
+        bh=IWvmnV5BLvLTudQgVxr7AEJRhxyXYx62Xcs/V0mTJVI=;
+        b=AfJkYVv4qUGkQO943qpamJraV5WTBbx/mHDBfIEg85NlPD127De8NaBE+K+U1ZSAPe
+        UmctUEpTVEGSXYjsNm0yrsov117Ye7cBTJRy1DLG32hePpJ9MXjST0jnhmU8SapmqqwW
+        YbTC8vEd990d7yFCI1sTP8g5y37G9zND7AdKVtyplWVxRCCVUwKpfhuwfQHYBLdLkCT1
+        bjiNk+jpPBZMy1P28pGevfgq9JS/2mSu4a/7olgDcNUAZqiUS2xDNQ5GZ+MM6z8t4rjs
+        NxtHr4Lks6U5rCwRbGamzC+qALCcc99sVe+WBYjzwBmNyVpM97zGi1EfsQ3Yz+GaKA5F
+        jsZA==
 X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fCv/x64iFM="
 X-RZG-CLASS-ID: mo00
 Received: from oxapp06-03.back.ox.d0m.de
         by smtp-ox.front (RZmta 46.1.12 AUTH)
-        with ESMTPSA id L09b9cw1JAxm62l
+        with ESMTPSA id L09b9cw1JB0662z
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
         (Client did not present a certificate);
-        Wed, 19 Feb 2020 11:59:48 +0100 (CET)
-Date:   Wed, 19 Feb 2020 11:59:48 +0100 (CET)
+        Wed, 19 Feb 2020 12:00:06 +0100 (CET)
+Date:   Wed, 19 Feb 2020 12:00:06 +0100 (CET)
 From:   Ulrich Hecht <uli@fpond.eu>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Magnus Damm <magnus.damm@gmail.com>
@@ -40,12 +39,12 @@ Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Message-ID: <1596455847.273189.1582109988206@webmail.strato.com>
-In-Reply-To: <20200218133019.22299-2-geert+renesas@glider.be>
+Message-ID: <465772718.273222.1582110006831@webmail.strato.com>
+In-Reply-To: <20200218133019.22299-4-geert+renesas@glider.be>
 References: <20200218133019.22299-1-geert+renesas@glider.be>
- <20200218133019.22299-2-geert+renesas@glider.be>
-Subject: Re: [PATCH v2 1/4] ARM: dts: rcar-gen2: Add reset control
- properties for display
+ <20200218133019.22299-4-geert+renesas@glider.be>
+Subject: Re: [PATCH v2 3/4] arm64: dts: renesas: rcar-gen3: Add reset
+ control properties for display
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
@@ -63,41 +62,115 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 > 
 > 
 > Add reset control properties to the device nodes for the Display Units
-> on all supported R-Car Gen2 SoCs.  Note that on these SoCs, there is
-> only a single reset for all DU channels.
+> on all supported R-Car Gen3 SoCs.  Note that on these SoCs, there is
+> only a single reset for each pair of DU channels.
+> 
+> The display nodes on R-Car V3M and V3H already had "resets" properties,
+> but lacked the corresponding "reset-names" properties.
 > 
 > Join the clocks lines while at it, to increase uniformity.
 > 
 > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > ---
 > v2:
->   - New.
+>   - Use "du.0" resp. "du.2" instead of "du.0-1" resp. "du.2-3",
+>   - Drop LVDS reset, as LVDS is now a separate node,
+>   - Add other R-Car Gen3 SoCs.
 > ---
->  arch/arm/boot/dts/r8a7790.dtsi | 2 ++
->  arch/arm/boot/dts/r8a7791.dtsi | 5 +++--
->  arch/arm/boot/dts/r8a7792.dtsi | 5 +++--
->  arch/arm/boot/dts/r8a7793.dtsi | 5 +++--
->  arch/arm/boot/dts/r8a7794.dtsi | 2 ++
->  5 files changed, 13 insertions(+), 6 deletions(-)
+>  arch/arm64/boot/dts/renesas/r8a77951.dtsi | 8 ++++----
+>  arch/arm64/boot/dts/renesas/r8a77960.dtsi | 5 +++--
+>  arch/arm64/boot/dts/renesas/r8a77965.dtsi | 5 +++--
+>  arch/arm64/boot/dts/renesas/r8a77970.dtsi | 1 +
+>  arch/arm64/boot/dts/renesas/r8a77980.dtsi | 1 +
+>  arch/arm64/boot/dts/renesas/r8a77990.dtsi | 3 +--
+>  arch/arm64/boot/dts/renesas/r8a77995.dtsi | 3 +--
+>  7 files changed, 14 insertions(+), 12 deletions(-)
 > 
-> diff --git a/arch/arm/boot/dts/r8a7790.dtsi b/arch/arm/boot/dts/r8a7790.dtsi
-> index 334ba19769b998ac..e5ef9fd4284ae436 100644
-> --- a/arch/arm/boot/dts/r8a7790.dtsi
-> +++ b/arch/arm/boot/dts/r8a7790.dtsi
-> @@ -1719,6 +1719,8 @@
->  			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>,
+> diff --git a/arch/arm64/boot/dts/renesas/r8a77951.dtsi b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
+> index 27cbe697490c7c78..52229546454c400a 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a77951.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a77951.dtsi
+> @@ -3177,11 +3177,11 @@
+>  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>,
+>  				     <GIC_SPI 269 IRQ_TYPE_LEVEL_HIGH>,
+>  				     <GIC_SPI 270 IRQ_TYPE_LEVEL_HIGH>;
+> -			clocks = <&cpg CPG_MOD 724>,
+> -				 <&cpg CPG_MOD 723>,
+> -				 <&cpg CPG_MOD 722>,
+> -				 <&cpg CPG_MOD 721>;
+> +			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>,
+> +				 <&cpg CPG_MOD 722>, <&cpg CPG_MOD 721>;
+>  			clock-names = "du.0", "du.1", "du.2", "du.3";
+> +			resets = <&cpg 724>, <&cpg 722>;
+> +			reset-names = "du.0", "du.2";
+>  
+>  			renesas,cmms = <&cmm0>, <&cmm1>, <&cmm2>, <&cmm3>;
+>  			renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>,
+> diff --git a/arch/arm64/boot/dts/renesas/r8a77960.dtsi b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
+> index ea03b91bdf9d9cbc..31282367d3acd8cf 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a77960.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a77960.dtsi
+> @@ -2827,10 +2827,11 @@
+>  			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
+>  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>,
+>  				     <GIC_SPI 269 IRQ_TYPE_LEVEL_HIGH>;
+> -			clocks = <&cpg CPG_MOD 724>,
+> -				 <&cpg CPG_MOD 723>,
+> +			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>,
 >  				 <&cpg CPG_MOD 722>;
 >  			clock-names = "du.0", "du.1", "du.2";
-> +			resets = <&cpg 724>;
-> +			reset-names = "du.0";
->  			status = "disabled";
+> +			resets = <&cpg 724>, <&cpg 722>;
+> +			reset-names = "du.0", "du.2";
 >  
->  			ports {
-> diff --git a/arch/arm/boot/dts/r8a7791.dtsi b/arch/arm/boot/dts/r8a7791.dtsi
-> index baedfab84cb09134..e38a5f01490d70a1 100644
-> --- a/arch/arm/boot/dts/r8a7791.dtsi
-> +++ b/arch/arm/boot/dts/r8a7791.dtsi
-> @@ -1682,9 +1682,10 @@
+>  			renesas,cmms = <&cmm0>, <&cmm1>, <&cmm2>;
+>  			renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd2 0>;
+> diff --git a/arch/arm64/boot/dts/renesas/r8a77965.dtsi b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+> index 1a20ebe9ea5be5da..f7468822e81e41d6 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
+> @@ -2503,10 +2503,11 @@
+>  			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
+>  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>,
+>  				     <GIC_SPI 270 IRQ_TYPE_LEVEL_HIGH>;
+> -			clocks = <&cpg CPG_MOD 724>,
+> -				 <&cpg CPG_MOD 723>,
+> +			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>,
+>  				 <&cpg CPG_MOD 721>;
+>  			clock-names = "du.0", "du.1", "du.3";
+> +			resets = <&cpg 724>, <&cpg 722>;
+> +			reset-names = "du.0", "du.3";
+>  
+>  			renesas,cmms = <&cmm0>, <&cmm1>, <&cmm3>;
+>  			renesas,vsps = <&vspd0 0>, <&vspd1 0>, <&vspd0 1>;
+> diff --git a/arch/arm64/boot/dts/renesas/r8a77970.dtsi b/arch/arm64/boot/dts/renesas/r8a77970.dtsi
+> index dbf1c677dbc6e51f..a009c0ebc8b4f8d0 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a77970.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a77970.dtsi
+> @@ -1121,6 +1121,7 @@
+>  			clock-names = "du.0";
+>  			power-domains = <&sysc R8A77970_PD_ALWAYS_ON>;
+>  			resets = <&cpg 724>;
+> +			reset-names = "du.0";
+>  			renesas,vsps = <&vspd0 0>;
+>  
+>  			status = "disabled";
+> diff --git a/arch/arm64/boot/dts/renesas/r8a77980.dtsi b/arch/arm64/boot/dts/renesas/r8a77980.dtsi
+> index 9444347e61eb881d..e01b0508a18fa91a 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a77980.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a77980.dtsi
+> @@ -1491,6 +1491,7 @@
+>  			clock-names = "du.0";
+>  			power-domains = <&sysc R8A77980_PD_ALWAYS_ON>;
+>  			resets = <&cpg 724>;
+> +			reset-names = "du.0";
+>  			renesas,vsps = <&vspd0 0>;
+>  
+>  			status = "disabled";
+> diff --git a/arch/arm64/boot/dts/renesas/r8a77990.dtsi b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+> index c05ee98043b2c7a5..0ad20b78e6eb62fd 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
+> @@ -1793,8 +1793,7 @@
 >  			reg = <0 0xfeb00000 0 0x40000>;
 >  			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
 >  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
@@ -105,16 +178,13 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 > -				 <&cpg CPG_MOD 723>;
 > +			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>;
 >  			clock-names = "du.0", "du.1";
-> +			resets = <&cpg 724>;
-> +			reset-names = "du.0";
->  			status = "disabled";
->  
->  			ports {
-> diff --git a/arch/arm/boot/dts/r8a7792.dtsi b/arch/arm/boot/dts/r8a7792.dtsi
-> index 39af16caa2aef501..4627eefa502b7677 100644
-> --- a/arch/arm/boot/dts/r8a7792.dtsi
-> +++ b/arch/arm/boot/dts/r8a7792.dtsi
-> @@ -852,9 +852,10 @@
+>  			resets = <&cpg 724>;
+>  			reset-names = "du.0";
+> diff --git a/arch/arm64/boot/dts/renesas/r8a77995.dtsi b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+> index 7d3102dccac96e42..e8d2290fe79d761a 100644
+> --- a/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+> +++ b/arch/arm64/boot/dts/renesas/r8a77995.dtsi
+> @@ -1026,8 +1026,7 @@
 >  			reg = <0 0xfeb00000 0 0x40000>;
 >  			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
 >  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
@@ -122,41 +192,8 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 > -				 <&cpg CPG_MOD 723>;
 > +			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>;
 >  			clock-names = "du.0", "du.1";
-> +			resets = <&cpg 724>;
-> +			reset-names = "du.0";
->  			status = "disabled";
->  
->  			ports {
-> diff --git a/arch/arm/boot/dts/r8a7793.dtsi b/arch/arm/boot/dts/r8a7793.dtsi
-> index eef035c4d98341b6..dadbda16161b7457 100644
-> --- a/arch/arm/boot/dts/r8a7793.dtsi
-> +++ b/arch/arm/boot/dts/r8a7793.dtsi
-> @@ -1341,9 +1341,10 @@
->  			reg = <0 0xfeb00000 0 0x40000>;
->  			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
->  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
-> -			clocks = <&cpg CPG_MOD 724>,
-> -				 <&cpg CPG_MOD 723>;
-> +			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>;
->  			clock-names = "du.0", "du.1";
-> +			resets = <&cpg 724>;
-> +			reset-names = "du.0";
->  			status = "disabled";
->  
->  			ports {
-> diff --git a/arch/arm/boot/dts/r8a7794.dtsi b/arch/arm/boot/dts/r8a7794.dtsi
-> index 05ef79c6ed7f6b61..2c9e7a1ebfec1863 100644
-> --- a/arch/arm/boot/dts/r8a7794.dtsi
-> +++ b/arch/arm/boot/dts/r8a7794.dtsi
-> @@ -1356,6 +1356,8 @@
->  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>;
->  			clock-names = "du.0", "du.1";
-> +			resets = <&cpg 724>;
-> +			reset-names = "du.0";
->  			status = "disabled";
->  
->  			ports {
+>  			resets = <&cpg 724>;
+>  			reset-names = "du.0";
 > -- 
 > 2.17.1
 >
