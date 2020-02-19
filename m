@@ -2,75 +2,85 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E46A21642FE
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2020 12:07:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB155164305
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2020 12:10:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726691AbgBSLH2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Feb 2020 06:07:28 -0500
-Received: from mo4-p02-ob.smtp.rzone.de ([85.215.255.80]:22258 "EHLO
-        mo4-p02-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726530AbgBSLH2 (ORCPT
+        id S1726514AbgBSLKb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Feb 2020 06:10:31 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:38407 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726497AbgBSLKb (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Feb 2020 06:07:28 -0500
-X-Greylist: delayed 447 seconds by postgrey-1.27 at vger.kernel.org; Wed, 19 Feb 2020 06:07:27 EST
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1582110446;
-        s=strato-dkim-0002; d=fpond.eu;
-        h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:
-        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-        bh=6T71QD2Vo8dmsgSNbE8j1x5equ3md8IsMMhzsthbYfQ=;
-        b=cunYgKJiT2VVUiYOdXY3q91Ni5A4dfrY/tMiDwcTXL8W3Pm5th3cnlXdegh8GQsquq
-        UdJlWn/ix05HXhleBY3/p8k41GaOjr4IHCaIiFmC0m9WjJF9FevvyAG7fdvTG37mnWBu
-        Bcar0w4Mlm4YYfEYejH69ICmeiBndNGPKfL6ovEIBrTnE/zgBluuyxlKPmwBoivF1BOv
-        fiELHFrg+CVxMLZdHZ7tBjHbrzcV321zYYMPoX+iySSqIYHcX12pEtTVx+lnbLiapXxC
-        8pIcLX4A5Uhn8ZGAIDHVFCvGRjxhyPYGzXcPMN86LwccDVeURcJt3tk6ScKZjZiSLvh/
-        lP/Q==
-X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fCv/x64iFM="
-X-RZG-CLASS-ID: mo00
-Received: from oxapp06-03.back.ox.d0m.de
-        by smtp-ox.front (RZmta 46.1.12 AUTH)
-        with ESMTPSA id L09b9cw1JB1L63F
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
-        (Client did not present a certificate);
-        Wed, 19 Feb 2020 12:01:21 +0100 (CET)
-Date:   Wed, 19 Feb 2020 12:01:21 +0100 (CET)
-From:   Ulrich Hecht <uli@fpond.eu>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Message-ID: <1867901409.273361.1582110081464@webmail.strato.com>
-In-Reply-To: <20200218133019.22299-5-geert+renesas@glider.be>
-References: <20200218133019.22299-1-geert+renesas@glider.be>
- <20200218133019.22299-5-geert+renesas@glider.be>
-Subject: Re: [PATCH v2 4/4] arm64: dts: renesas: rzg2: Add reset control
- properties for display
+        Wed, 19 Feb 2020 06:10:31 -0500
+Received: by mail-ot1-f65.google.com with SMTP id z9so22728494oth.5
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Feb 2020 03:10:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/NX5ceDqIV7WVNc3pBnsDW/m3e7ZJ2oxuTCXQrMyW8s=;
+        b=ra4dYAVk6pWxQhElpSJR0wJZdSrnUMnz3jLVMyU9fThy5Sx7lHnrtdTyYrQFAsnqn7
+         u7YSyjv2u4mc0cjVR/KBok1eJVOO+0NUWPCpAumsqUZjlD0dOM9dQznVBDvH/fcAMLCY
+         Z2SCIlY2fEtJQAFkIjcpqrGeHOa78VYVrJpGBvb+4lv9fCEyHf3AI5wKDqRYdtPPLjev
+         Qp1qE3ILTJf2SKF0yJmkva9ceCOcClMB5yehRCPGXfVhsCMYLCLqGzbjaWG09wafszqS
+         MMM8pmey4cc4iiTW6bQd1SfYsuDx2ybt/AtvEUOfEtH8fz7v5KPWfMTSR0iXHPxeCJQ3
+         Dm3Q==
+X-Gm-Message-State: APjAAAWWMvdTIMBwS9hfOcvsJZnJVxpgFJmogqH0pzKoWm5UgpLa6q+2
+        Q3jMEGy0azLbsm3F2Ph4QYj3phRro3WbvOd8luQ=
+X-Google-Smtp-Source: APXvYqxql6BAhwRUVZRPJrS4LrG01VTwbHIl62kTaJTecfK6ByLjkHKBo+ODe9FhQtwenBzg75scXAlzuss3vvgpcKo=
+X-Received: by 2002:a9d:dc1:: with SMTP id 59mr19334928ots.250.1582110630329;
+ Wed, 19 Feb 2020 03:10:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-Importance: Normal
-X-Mailer: Open-Xchange Mailer v7.10.1-Rev26
-X-Originating-Client: open-xchange-appsuite
+References: <20200219102122.1607365-1-daniel.vetter@ffwll.ch>
+ <20200219102122.1607365-38-daniel.vetter@ffwll.ch> <CAMuHMdXit+F2nK8JSXyzP26epeDA3pxOYyzVMFtKWqaGCNqBxA@mail.gmail.com>
+ <CAKMK7uFrzjAOxBK0GBPtHt=VGRjvC3GJcOTvP087gyO1nAEVPQ@mail.gmail.com>
+In-Reply-To: <CAKMK7uFrzjAOxBK0GBPtHt=VGRjvC3GJcOTvP087gyO1nAEVPQ@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Wed, 19 Feb 2020 12:10:18 +0100
+Message-ID: <CAMuHMdUBKJTcPg8GB_c52p8jXWqdn8JX3tiPxsQkRRW2EA3+yA@mail.gmail.com>
+Subject: Re: [PATCH 37/52] drm/rcar-du: Drop explicit drm_mode_config_cleanup call
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Daniel,
 
-> On February 18, 2020 at 2:30 PM Geert Uytterhoeven <geert+renesas@glider.be> wrote:
-> 
-> 
-> Add reset control properties to the device nodes for the Display Units
-> on all supported RZ/G2 SoCs.  Note that on these SoCs, there is only a
-> single reset for each pair of DU channels.
-> 
-> Join the clocks lines while at it, to increase uniformity.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Wed, Feb 19, 2020 at 11:57 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> On Wed, Feb 19, 2020 at 11:30 AM Geert Uytterhoeven
+> <geert@linux-m68k.org> wrote:
+> > On Wed, Feb 19, 2020 at 11:22 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > > It's right above the drm_dev_put().
+> > >
+> > > Aside: Another driver with a bit much devm_kzalloc, which should
+> > > probably use drmm_kzalloc instead ...
+> >
+> > What's drmm_kzalloc()?
+> > The only references I can find are in this patch series.
+>
+> Yup, it's all new. Read cover letter for reading instructions for the
+> entire patch series. I'm afraid the driver patches wont make much
+> sense without the context. None actually :-/
 
-FTR: I can't review this one, I don't have the datasheet.
+IC, as the cover letter was sent only to dri-devel and intel-gfx, many
+recipients of the patches won't have received it...
+https://lore.kernel.org/dri-devel/20200219102122.1607365-1-daniel.vetter@ffwll.ch/
 
-CU
-Uli
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
