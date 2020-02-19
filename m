@@ -2,52 +2,56 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C0E9716488A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2020 16:27:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C1A0816488F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2020 16:28:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726826AbgBSP1t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Feb 2020 10:27:49 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:37204 "EHLO
+        id S1726801AbgBSP23 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Feb 2020 10:28:29 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:37230 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726682AbgBSP1s (ORCPT
+        with ESMTP id S1726682AbgBSP23 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Feb 2020 10:27:48 -0500
+        Wed, 19 Feb 2020 10:28:29 -0500
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5BB3F52B;
-        Wed, 19 Feb 2020 16:27:46 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7190452B;
+        Wed, 19 Feb 2020 16:28:27 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1582126066;
-        bh=nv1NrvpNy6nEJPtg/CHWW92co0OHZ2IR8a76W8PMUkE=;
+        s=mail; t=1582126107;
+        bh=S3hwt9TMlVU5HobaEOMv2lev0QevEyU32s/7zeGqV60=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NUqweB/wkAgu2wV5BKn04+Xs5M/xsHpq63us+bUlwiSzACuJsAT8lxz79HRrWXx+r
-         mpo98H+4+NQic5UW9qXF6OIFNzD0h07D5c7JVDlerjn5iSnrh5Z6XIocalBoEn5EOB
-         xfZyz9RisZesAJ7Ufv8rH+5q322LMaunbF47Ns2k=
-Date:   Wed, 19 Feb 2020 17:27:28 +0200
+        b=SwuUYcaWCm3YnE//Co/L6TqBj4PgYw+ftIDyWbzrq0jRZi90EJNqALCUFa6rRyl4j
+         ei2wh/Ch+LjBo00a+jgwl8k+pdFrEPzyhJoYCUS9SacAWr1DqGLDoEg5G38ksZb1L8
+         q/pYiUl23hrjNle51MAmeMmv555nbLHAX/kKvqpA=
+Date:   Wed, 19 Feb 2020 17:28:08 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
         linux-renesas-soc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 1/4] ARM: dts: rcar-gen2: Add reset control properties
- for display
-Message-ID: <20200219152728.GR5070@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 2/4] ARM: dts: rzg1: Add reset control properties for
+ display
+Message-ID: <20200219152808.GS5070@pendragon.ideasonboard.com>
 References: <20200218133019.22299-1-geert+renesas@glider.be>
- <20200218133019.22299-2-geert+renesas@glider.be>
+ <20200218133019.22299-3-geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200218133019.22299-2-geert+renesas@glider.be>
+In-Reply-To: <20200218133019.22299-3-geert+renesas@glider.be>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Feb 18, 2020 at 02:30:16PM +0100, Geert Uytterhoeven wrote:
-> Add reset control properties to the device nodes for the Display Units
-> on all supported R-Car Gen2 SoCs.  Note that on these SoCs, there is
-> only a single reset for all DU channels.
+Hi Geert,
+
+Thank you for the patch.
+
+On Tue, Feb 18, 2020 at 02:30:17PM +0100, Geert Uytterhoeven wrote:
+> Add reset control properties to the devices node for the Display Units
+> on all supported RZ/G1 SoCs.  Note that on these SoCs, there is only a
+> single reset for all DU channels.
 > 
 > Join the clocks lines while at it, to increase uniformity.
 > 
@@ -56,35 +60,37 @@ On Tue, Feb 18, 2020 at 02:30:16PM +0100, Geert Uytterhoeven wrote:
 > v2:
 >   - New.
 > ---
->  arch/arm/boot/dts/r8a7790.dtsi | 2 ++
->  arch/arm/boot/dts/r8a7791.dtsi | 5 +++--
->  arch/arm/boot/dts/r8a7792.dtsi | 5 +++--
->  arch/arm/boot/dts/r8a7793.dtsi | 5 +++--
->  arch/arm/boot/dts/r8a7794.dtsi | 2 ++
->  5 files changed, 13 insertions(+), 6 deletions(-)
+>  arch/arm/boot/dts/r8a7743.dtsi  | 5 +++--
+>  arch/arm/boot/dts/r8a7744.dtsi  | 5 +++--
+>  arch/arm/boot/dts/r8a7745.dtsi  | 2 ++
+>  arch/arm/boot/dts/r8a77470.dtsi | 5 +++--
+>  4 files changed, 11 insertions(+), 6 deletions(-)
 > 
-> diff --git a/arch/arm/boot/dts/r8a7790.dtsi b/arch/arm/boot/dts/r8a7790.dtsi
-> index 334ba19769b998ac..e5ef9fd4284ae436 100644
-> --- a/arch/arm/boot/dts/r8a7790.dtsi
-> +++ b/arch/arm/boot/dts/r8a7790.dtsi
-> @@ -1719,6 +1719,8 @@
->  			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>,
->  				 <&cpg CPG_MOD 722>;
->  			clock-names = "du.0", "du.1", "du.2";
+> diff --git a/arch/arm/boot/dts/r8a7743.dtsi b/arch/arm/boot/dts/r8a7743.dtsi
+> index 1cd19a569bd0fb66..e8b340bb99bc3031 100644
+> --- a/arch/arm/boot/dts/r8a7743.dtsi
+> +++ b/arch/arm/boot/dts/r8a7743.dtsi
+> @@ -1669,9 +1669,10 @@
+>  			reg = <0 0xfeb00000 0 0x40000>;
+>  			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
+>  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
+> -			clocks = <&cpg CPG_MOD 724>,
+> -				 <&cpg CPG_MOD 723>;
+> +			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>;
+>  			clock-names = "du.0", "du.1";
 > +			resets = <&cpg 724>;
 > +			reset-names = "du.0";
 
-If there's a single reset for all channels, should it be just named "du"
-? Or maybe skip the name completely ?
+Same comment as for 1/4.
 
 >  			status = "disabled";
 >  
 >  			ports {
-> diff --git a/arch/arm/boot/dts/r8a7791.dtsi b/arch/arm/boot/dts/r8a7791.dtsi
-> index baedfab84cb09134..e38a5f01490d70a1 100644
-> --- a/arch/arm/boot/dts/r8a7791.dtsi
-> +++ b/arch/arm/boot/dts/r8a7791.dtsi
-> @@ -1682,9 +1682,10 @@
+> diff --git a/arch/arm/boot/dts/r8a7744.dtsi b/arch/arm/boot/dts/r8a7744.dtsi
+> index 1c82dd0abd76c4c9..def840b8b2d3c0c4 100644
+> --- a/arch/arm/boot/dts/r8a7744.dtsi
+> +++ b/arch/arm/boot/dts/r8a7744.dtsi
+> @@ -1655,9 +1655,10 @@
 >  			reg = <0 0xfeb00000 0 0x40000>;
 >  			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
 >  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
@@ -97,47 +103,30 @@ If there's a single reset for all channels, should it be just named "du"
 >  			status = "disabled";
 >  
 >  			ports {
-> diff --git a/arch/arm/boot/dts/r8a7792.dtsi b/arch/arm/boot/dts/r8a7792.dtsi
-> index 39af16caa2aef501..4627eefa502b7677 100644
-> --- a/arch/arm/boot/dts/r8a7792.dtsi
-> +++ b/arch/arm/boot/dts/r8a7792.dtsi
-> @@ -852,9 +852,10 @@
->  			reg = <0 0xfeb00000 0 0x40000>;
->  			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
->  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
-> -			clocks = <&cpg CPG_MOD 724>,
-> -				 <&cpg CPG_MOD 723>;
-> +			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>;
->  			clock-names = "du.0", "du.1";
-> +			resets = <&cpg 724>;
-> +			reset-names = "du.0";
->  			status = "disabled";
->  
->  			ports {
-> diff --git a/arch/arm/boot/dts/r8a7793.dtsi b/arch/arm/boot/dts/r8a7793.dtsi
-> index eef035c4d98341b6..dadbda16161b7457 100644
-> --- a/arch/arm/boot/dts/r8a7793.dtsi
-> +++ b/arch/arm/boot/dts/r8a7793.dtsi
-> @@ -1341,9 +1341,10 @@
->  			reg = <0 0xfeb00000 0 0x40000>;
->  			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
->  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
-> -			clocks = <&cpg CPG_MOD 724>,
-> -				 <&cpg CPG_MOD 723>;
-> +			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>;
->  			clock-names = "du.0", "du.1";
-> +			resets = <&cpg 724>;
-> +			reset-names = "du.0";
->  			status = "disabled";
->  
->  			ports {
-> diff --git a/arch/arm/boot/dts/r8a7794.dtsi b/arch/arm/boot/dts/r8a7794.dtsi
-> index 05ef79c6ed7f6b61..2c9e7a1ebfec1863 100644
-> --- a/arch/arm/boot/dts/r8a7794.dtsi
-> +++ b/arch/arm/boot/dts/r8a7794.dtsi
-> @@ -1356,6 +1356,8 @@
+> diff --git a/arch/arm/boot/dts/r8a7745.dtsi b/arch/arm/boot/dts/r8a7745.dtsi
+> index 3b413658eb8d8fac..7ab58d8bb74010d6 100644
+> --- a/arch/arm/boot/dts/r8a7745.dtsi
+> +++ b/arch/arm/boot/dts/r8a7745.dtsi
+> @@ -1510,6 +1510,8 @@
 >  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
 >  			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>;
+>  			clock-names = "du.0", "du.1";
+> +			resets = <&cpg 724>;
+> +			reset-names = "du.0";
+>  			status = "disabled";
+>  
+>  			ports {
+> diff --git a/arch/arm/boot/dts/r8a77470.dtsi b/arch/arm/boot/dts/r8a77470.dtsi
+> index 6efcef1670e15a95..f5515319227609a4 100644
+> --- a/arch/arm/boot/dts/r8a77470.dtsi
+> +++ b/arch/arm/boot/dts/r8a77470.dtsi
+> @@ -942,9 +942,10 @@
+>  			reg = <0 0xfeb00000 0 0x40000>;
+>  			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
+>  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
+> -			clocks = <&cpg CPG_MOD 724>,
+> -				 <&cpg CPG_MOD 723>;
+> +			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>;
 >  			clock-names = "du.0", "du.1";
 > +			resets = <&cpg 724>;
 > +			reset-names = "du.0";
