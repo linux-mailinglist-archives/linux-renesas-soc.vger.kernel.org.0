@@ -2,113 +2,179 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E10351648E2
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2020 16:41:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BB931648E6
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2020 16:41:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726523AbgBSPld (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Feb 2020 10:41:33 -0500
-Received: from mail-vk1-f194.google.com ([209.85.221.194]:36763 "EHLO
-        mail-vk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726634AbgBSPlc (ORCPT
+        id S1726786AbgBSPlt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Feb 2020 10:41:49 -0500
+Received: from laurent.telenet-ops.be ([195.130.137.89]:52716 "EHLO
+        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726604AbgBSPlt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Feb 2020 10:41:32 -0500
-Received: by mail-vk1-f194.google.com with SMTP id i4so253168vkc.3
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Feb 2020 07:41:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=benyossef-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=tixAwjd/iBwOVvMUkoHkR35VFV1hk5+5PSWICrltUF8=;
-        b=YArzoa4V4eRVzc1Z1MN2Kw7tDP/CvjLP8MNH126A4u5zj1zngZ7yJpnYNCMdHJitj8
-         8JoDlysPvl4X7Y3ynFY28N0BAv5L4w13DJ5B4+o1DX/BG2tNiZe9AZ3pnrCLqFFNZ9qn
-         VMs9ls11IVerkQxds7l9lQt+kJdaT/uA7TFUJRWl22Fh8s0SV8HQJxRTHSSn9blKdywO
-         b22WHA1gpxS5Dpx9/vzNM4c+FcuDlhwtokYD8VnWsnLMhVIaR6cjQd4aq9HEAnv2Sgtx
-         dfXFpEumeKfRauXzd0Jos/Lt4leJBnvEd+W9Afy5cYSy5BF0Gtcw4IrVWz/MnVWOwAQ9
-         8nAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=tixAwjd/iBwOVvMUkoHkR35VFV1hk5+5PSWICrltUF8=;
-        b=EF+u3BZsyUJz1MpvMX4Jbwv46mrcaxnC2eRcT2vIQgrZdYUT2uYdhyJsXvF+2+sSiN
-         2wSEVFNC/BzJWh2YNJ6I0JmB2p0+X0iJPnaz1q8G3/CtWhmHXWORgWozooU30ZuET+F7
-         HDyMYLMrjuHJmCCZNWW+tJKRmqW/p13QwZfYSxR7xH5Js0PhppXShtJ1w8tpLakskcEU
-         XH9e4CAjnN1vuBwjXv7389vULfynVCtf3gj+/wP1mK471Gz0i6jeC2qsPEfi5fmy1bCc
-         8DxvBdqnWzc+uW+Nm+xShT7aNkeZpzTJaSNGZUREwDus22K8Vij6F2Nf8rGrwyRrsfdX
-         /mEA==
-X-Gm-Message-State: APjAAAUTOf3ihtvCofKo6qR2md8lmdeqNOYLiij2gG0U+gNcSmzgIgC/
-        rbUDDUWteU2+cfIm9sh2ezBDiztaW9lvJWUleapcAQ==
-X-Google-Smtp-Source: APXvYqzKlFoh9X6IKBRf1LTr85mehnhWd4RLw3FnVWN7juIyAtZ7owUC5Oz4/2JkLI6KsDJRPzt/fcHpBd6p0wZQ8CM=
-X-Received: by 2002:ac5:c15a:: with SMTP id e26mr11344039vkk.62.1582126890725;
- Wed, 19 Feb 2020 07:41:30 -0800 (PST)
-MIME-Version: 1.0
-References: <20200211181928.15178-1-geert+renesas@glider.be>
- <CAOtvUMfs84VXAecVNShoEg-CU6APjyiVTUBkogpFq_c3fbaX+Q@mail.gmail.com> <CAMuHMdXfB9R-1Lwm6Jva6+NPrBJnV7bgHdygbxoqyzikqgqqgQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdXfB9R-1Lwm6Jva6+NPrBJnV7bgHdygbxoqyzikqgqqgQ@mail.gmail.com>
-From:   Gilad Ben-Yossef <gilad@benyossef.com>
-Date:   Wed, 19 Feb 2020 17:41:19 +0200
-Message-ID: <CAOtvUMcbtFpLAy8hincY8x+aQGk8Dw0o2PmOYN1mR-Hd9uWvhw@mail.gmail.com>
-Subject: Re: [PATCH v2 00/34] crypto: ccree - miscellaneous fixes and improvements
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S . Miller" <davem@davemloft.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Wed, 19 Feb 2020 10:41:49 -0500
+Received: from ramsan ([84.195.182.253])
+        by laurent.telenet-ops.be with bizsmtp
+        id 4fhn2200J5USYZQ01fhn68; Wed, 19 Feb 2020 16:41:48 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1j4RTv-0004PG-Qu; Wed, 19 Feb 2020 16:41:47 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1j4RTv-0002vr-PH; Wed, 19 Feb 2020 16:41:47 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Cc:     devicetree@vger.kernel.org, linux-ide@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: ata: rcar-sata: Convert to json-schema
+Date:   Wed, 19 Feb 2020 16:41:46 +0100
+Message-Id: <20200219154146.11230-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Feb 13, 2020 at 9:47 AM Geert Uytterhoeven <geert@linux-m68k.org> w=
-rote:
->
-> Hi Gilad,
->
-> On Thu, Feb 13, 2020 at 7:46 AM Gilad Ben-Yossef <gilad@benyossef.com> wr=
-ote:
-> > On Tuesday, February 11, 2020, Geert Uytterhoeven <geert+renesas@glider=
-.be> wrote:
-> >> This series contains several fixes, cleanups, and other improvements f=
-or
-> >> the ARM TrustZone CryptoCell driver.
-> >
-> >  Thank you so much for doing this Geert.
-> >
-> > The whole series looks wonderful. It does not only makes the driver bet=
-ter, it has made me a better programmer - I'm not ashamed to say I've learn=
-ed some new things about the kernel API  from this series...
-> >
-> > I am currently out of the office until mid next week and away from my t=
-esting lab.
-> >
-> > I'd like to delay formal ACK until I return and run a regression test s=
-uite using some of the newer revisions of the hardware which the driver als=
-o support, just in case, although I don't forsee any issues. I hope that is=
- ok.
->
-> Should be OK, we're only at rc1.
-> I'm looking forward to the test results on newer hardware revision/
+Convert the Renesas R-Car Serial-ATA Device Tree binding documentation
+to json-schema.
 
+While at it:
+  - Remove the deprecated "renesas,rcar-sata" compatible value,
+  - Add "iommus", "power-domains", and "resets" properties,
+  - Update the example.
 
-The smoke test on the most recent HW looks OK, I've submitted the
-changes to a longer  regression test suite on multiple HW and it is
-running.
-I hope to have a final result and an ACK by tomorrow.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Not having to care about the deprecated value simplifies the
+jscon-schema.
+---
+ .../bindings/ata/renesas,rcar-sata.yaml       | 71 +++++++++++++++++++
+ .../devicetree/bindings/ata/sata_rcar.txt     | 36 ----------
+ 2 files changed, 71 insertions(+), 36 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
+ delete mode 100644 Documentation/devicetree/bindings/ata/sata_rcar.txt
 
-Thanks,
-Gilad
+diff --git a/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml b/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
+new file mode 100644
+index 0000000000000000..7b69831060d8b9c5
+--- /dev/null
++++ b/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
+@@ -0,0 +1,71 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/ata/renesas,rcar-sata.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: Renesas R-Car Serial-ATA Interface
++
++maintainers:
++  - Geert Uytterhoeven <geert+renesas@glider.be>
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - renesas,sata-r8a7779      # R-Car H1
++      - items:
++          - enum:
++              - renesas,sata-r8a7790-es1  # R-Car H2 ES1
++              - renesas,sata-r8a7790      # R-Car H2 other than ES1
++              - renesas,sata-r8a7791      # R-Car M2-W
++              - renesas,sata-r8a7793      # R-Car M2-N
++          - const: renesas,rcar-gen2-sata # generic R-Car Gen2
++      - items:
++          - enum:
++              - renesas,sata-r8a774b1     # RZ/G2N
++              - renesas,sata-r8a7795      # R-Car H3
++              - renesas,sata-r8a77965     # R-Car M3-N
++          - const: renesas,rcar-gen3-sata # generic R-Car Gen3 or RZ/G2
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  iommus:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/r8a7791-cpg-mssr.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/r8a7791-sysc.h>
++
++    sata@ee300000 {
++            compatible = "renesas,sata-r8a7791", "renesas,rcar-gen2-sata";
++            reg = <0xee300000 0x200000>;
++            interrupts = <GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>;
++            clocks = <&cpg CPG_MOD 815>;
++            power-domains = <&sysc R8A7791_PD_ALWAYS_ON>;
++            resets = <&cpg 815>;
++    };
+diff --git a/Documentation/devicetree/bindings/ata/sata_rcar.txt b/Documentation/devicetree/bindings/ata/sata_rcar.txt
+deleted file mode 100644
+index a2fbdc91570d0f7c..0000000000000000
+--- a/Documentation/devicetree/bindings/ata/sata_rcar.txt
++++ /dev/null
+@@ -1,36 +0,0 @@
+-* Renesas R-Car SATA
+-
+-Required properties:
+-- compatible		: should contain one or more of the following:
+-			  - "renesas,sata-r8a774b1" for RZ/G2N
+-			  - "renesas,sata-r8a7779" for R-Car H1
+-			  - "renesas,sata-r8a7790-es1" for R-Car H2 ES1
+-			  - "renesas,sata-r8a7790" for R-Car H2 other than ES1
+-			  - "renesas,sata-r8a7791" for R-Car M2-W
+-			  - "renesas,sata-r8a7793" for R-Car M2-N
+-			  - "renesas,sata-r8a7795" for R-Car H3
+-			  - "renesas,sata-r8a77965" for R-Car M3-N
+-			  - "renesas,rcar-gen2-sata" for a generic R-Car Gen2
+-			     compatible device
+-			  - "renesas,rcar-gen3-sata" for a generic R-Car Gen3 or
+-			     RZ/G2 compatible device
+-			  - "renesas,rcar-sata" is deprecated
+-
+-			  When compatible with the generic version nodes
+-			  must list the SoC-specific version corresponding
+-			  to the platform first followed by the generic
+-			  version.
+-
+-- reg			: address and length of the SATA registers;
+-- interrupts		: must consist of one interrupt specifier.
+-- clocks		: must contain a reference to the functional clock.
+-
+-Example:
+-
+-sata0: sata@ee300000 {
+-	compatible = "renesas,sata-r8a7791", "renesas,rcar-gen2-sata";
+-	reg = <0 0xee300000 0 0x2000>;
+-	interrupt-parent = <&gic>;
+-	interrupts = <0 105 IRQ_TYPE_LEVEL_HIGH>;
+-	clocks = <&mstp8_clks R8A7791_CLK_SATA0>;
+-};
+-- 
+2.17.1
 
-
-
---=20
-Gilad Ben-Yossef
-Chief Coffee Drinker
-
-values of =CE=B2 will give rise to dom!
