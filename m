@@ -2,97 +2,151 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 568A11642BD
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2020 11:57:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 648661642C5
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 19 Feb 2020 12:00:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726469AbgBSK5K (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 19 Feb 2020 05:57:10 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:46280 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726270AbgBSK5J (ORCPT
+        id S1726270AbgBSLAD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 19 Feb 2020 06:00:03 -0500
+Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.53]:26180 "EHLO
+        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726487AbgBSLAD (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 19 Feb 2020 05:57:09 -0500
-Received: by mail-ot1-f68.google.com with SMTP id g64so22662091otb.13
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 19 Feb 2020 02:57:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=153qW4tHZt+epjLHed7T9YfWSeCdMzNbOBOdt8RnzTI=;
-        b=A3eN7btHHXZsWafpBPsTGy0oWdLfB8zrgTyl9qInVYy3cJ+2YOEdd+m3bNKmuoYgjG
-         3xtKF33K6HfO5U0yrvgtbCGZ1H2Ek7Zs300VTO0Fh4N6ll/FM2Kwij8TpZaq9hUdVsm2
-         eXXNnh3faEqNwU1aoLTg/VP/K5ARjaJwsOtPs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=153qW4tHZt+epjLHed7T9YfWSeCdMzNbOBOdt8RnzTI=;
-        b=QEOyCMfoDaifgr+KD/BrlrgBlH1wdSA84k5TkIUyCg0JfMUMJMPHkecqRMDzU5uQIp
-         Sa+PRrNk18JLkt0XH9T5nCvWZCdw3TnmNlzQxN8NDYkY0kED2w2o1i78TzUC3gl4lFSV
-         kDyvEPAG7x7j+Ibm8UdTj3IRGVnYsKvZeP7uleS/ZFBaBqs2to+Ao4nhHITv2D62mFeX
-         0O/avwTWEPNquEc/AO/VIOzd0cIrP5zMBrSZIBMi8AqOCKFfi0b4GUfz3wCt2seGuehU
-         P4ykptln/cDB+HkLB+2eF84RwlAMkSAFWG6qdIX1N8yNaEVULgp+El+FxHftPffJxR3N
-         6Zhw==
-X-Gm-Message-State: APjAAAVEnknFm3fDBaMt3vbMd5bd3pI/5z018vExw7Vd+YfDbq4+u9uv
-        QCJKzc5ixPFv/uC7POLuxEozTgLC8HesCGp3ySHPtg==
-X-Google-Smtp-Source: APXvYqzhVU/8YU7fOP8XG5w8Fsr1rDNQhQv0DSiGwmuM988lcIbV6mBUUwNcnuKjaYUaalX++tNemL2nkIpPSqU+Rgo=
-X-Received: by 2002:a05:6830:2015:: with SMTP id e21mr18501032otp.106.1582109827400;
- Wed, 19 Feb 2020 02:57:07 -0800 (PST)
-MIME-Version: 1.0
-References: <20200219102122.1607365-1-daniel.vetter@ffwll.ch>
- <20200219102122.1607365-38-daniel.vetter@ffwll.ch> <CAMuHMdXit+F2nK8JSXyzP26epeDA3pxOYyzVMFtKWqaGCNqBxA@mail.gmail.com>
-In-Reply-To: <CAMuHMdXit+F2nK8JSXyzP26epeDA3pxOYyzVMFtKWqaGCNqBxA@mail.gmail.com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Wed, 19 Feb 2020 11:56:56 +0100
-Message-ID: <CAKMK7uFrzjAOxBK0GBPtHt=VGRjvC3GJcOTvP087gyO1nAEVPQ@mail.gmail.com>
-Subject: Re: [PATCH 37/52] drm/rcar-du: Drop explicit drm_mode_config_cleanup call
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Wed, 19 Feb 2020 06:00:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1582110001;
+        s=strato-dkim-0002; d=fpond.eu;
+        h=Subject:References:In-Reply-To:Message-ID:Cc:To:From:Date:
+        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+        bh=NXQ359r+Zy77IEMtTaq9L6p6gFKyjsfj8+FSgxRJBwY=;
+        b=PznTDaGuqvPdPZAN0KmSQNCDUXPnAejKPdlEno41jmxGK7vfAO9AGL73GLS630M8f0
+        t/sV+sTFA10hHxRrw+4lh/cb3kUmNxgfh4fpuzTtN1VE3N96te0QSU/panMLbTcOI0oE
+        Koipn4tpyjNXwwAGZi2n7Dmk58mKaOHhd3EozeiFGxzYU9YlqidJOLtEhpBH6TW2k0Bi
+        iWpfO4FamlX1sdG3qtMDcf7zE4mPf1OCi09a09eCKT5g+70zVRMOgYALyRNmd9ALAdsJ
+        EcUPMayLpyy8IK8CQsEQY70202xP3w9NfTR101ha6/c7qKXgEEWHCkQbvTk7LkJ2pKSi
+        eBwQ==
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73amq+g13rqGzvv3qxio1R8fCv/x64iFM="
+X-RZG-CLASS-ID: mo00
+Received: from oxapp06-03.back.ox.d0m.de
+        by smtp-ox.front (RZmta 46.1.12 AUTH)
+        with ESMTPSA id L09b9cw1JAxw62s
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+        (Client did not present a certificate);
+        Wed, 19 Feb 2020 11:59:58 +0100 (CET)
+Date:   Wed, 19 Feb 2020 11:59:57 +0100 (CET)
+From:   Ulrich Hecht <uli@fpond.eu>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-renesas-soc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Message-ID: <622077862.273207.1582109998000@webmail.strato.com>
+In-Reply-To: <20200218133019.22299-3-geert+renesas@glider.be>
+References: <20200218133019.22299-1-geert+renesas@glider.be>
+ <20200218133019.22299-3-geert+renesas@glider.be>
+Subject: Re: [PATCH v2 2/4] ARM: dts: rzg1: Add reset control properties for
+ display
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+Importance: Normal
+X-Mailer: Open-Xchange Mailer v7.10.1-Rev26
+X-Originating-Client: open-xchange-appsuite
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Feb 19, 2020 at 11:30 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Daniel,
->
-> On Wed, Feb 19, 2020 at 11:22 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > It's right above the drm_dev_put().
-> >
-> > Aside: Another driver with a bit much devm_kzalloc, which should
-> > probably use drmm_kzalloc instead ...
->
-> What's drmm_kzalloc()?
-> The only references I can find are in this patch series.
 
-Yup, it's all new. Read cover letter for reading instructions for the
-entire patch series. I'm afraid the driver patches wont make much
-sense without the context. None actually :-/
--Daniel
-
+> On February 18, 2020 at 2:30 PM Geert Uytterhoeven <geert+renesas@glider.be> wrote:
+> 
+> 
+> Add reset control properties to the devices node for the Display Units
+> on all supported RZ/G1 SoCs.  Note that on these SoCs, there is only a
+> single reset for all DU channels.
+> 
+> Join the clocks lines while at it, to increase uniformity.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v2:
+>   - New.
+> ---
+>  arch/arm/boot/dts/r8a7743.dtsi  | 5 +++--
+>  arch/arm/boot/dts/r8a7744.dtsi  | 5 +++--
+>  arch/arm/boot/dts/r8a7745.dtsi  | 2 ++
+>  arch/arm/boot/dts/r8a77470.dtsi | 5 +++--
+>  4 files changed, 11 insertions(+), 6 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/r8a7743.dtsi b/arch/arm/boot/dts/r8a7743.dtsi
+> index 1cd19a569bd0fb66..e8b340bb99bc3031 100644
+> --- a/arch/arm/boot/dts/r8a7743.dtsi
+> +++ b/arch/arm/boot/dts/r8a7743.dtsi
+> @@ -1669,9 +1669,10 @@
+>  			reg = <0 0xfeb00000 0 0x40000>;
+>  			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
+>  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
+> -			clocks = <&cpg CPG_MOD 724>,
+> -				 <&cpg CPG_MOD 723>;
+> +			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>;
+>  			clock-names = "du.0", "du.1";
+> +			resets = <&cpg 724>;
+> +			reset-names = "du.0";
+>  			status = "disabled";
+>  
+>  			ports {
+> diff --git a/arch/arm/boot/dts/r8a7744.dtsi b/arch/arm/boot/dts/r8a7744.dtsi
+> index 1c82dd0abd76c4c9..def840b8b2d3c0c4 100644
+> --- a/arch/arm/boot/dts/r8a7744.dtsi
+> +++ b/arch/arm/boot/dts/r8a7744.dtsi
+> @@ -1655,9 +1655,10 @@
+>  			reg = <0 0xfeb00000 0 0x40000>;
+>  			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
+>  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
+> -			clocks = <&cpg CPG_MOD 724>,
+> -				 <&cpg CPG_MOD 723>;
+> +			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>;
+>  			clock-names = "du.0", "du.1";
+> +			resets = <&cpg 724>;
+> +			reset-names = "du.0";
+>  			status = "disabled";
+>  
+>  			ports {
+> diff --git a/arch/arm/boot/dts/r8a7745.dtsi b/arch/arm/boot/dts/r8a7745.dtsi
+> index 3b413658eb8d8fac..7ab58d8bb74010d6 100644
+> --- a/arch/arm/boot/dts/r8a7745.dtsi
+> +++ b/arch/arm/boot/dts/r8a7745.dtsi
+> @@ -1510,6 +1510,8 @@
+>  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
+>  			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>;
+>  			clock-names = "du.0", "du.1";
+> +			resets = <&cpg 724>;
+> +			reset-names = "du.0";
+>  			status = "disabled";
+>  
+>  			ports {
+> diff --git a/arch/arm/boot/dts/r8a77470.dtsi b/arch/arm/boot/dts/r8a77470.dtsi
+> index 6efcef1670e15a95..f5515319227609a4 100644
+> --- a/arch/arm/boot/dts/r8a77470.dtsi
+> +++ b/arch/arm/boot/dts/r8a77470.dtsi
+> @@ -942,9 +942,10 @@
+>  			reg = <0 0xfeb00000 0 0x40000>;
+>  			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
+>  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
+> -			clocks = <&cpg CPG_MOD 724>,
+> -				 <&cpg CPG_MOD 723>;
+> +			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>;
+>  			clock-names = "du.0", "du.1";
+> +			resets = <&cpg 724>;
+> +			reset-names = "du.0";
+>  			status = "disabled";
+>  
+>  			ports {
+> -- 
+> 2.17.1
 >
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
 
+Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+CU
+Uli
