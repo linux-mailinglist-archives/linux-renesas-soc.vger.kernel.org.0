@@ -2,76 +2,73 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 784D5167F7E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2020 15:02:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A3E9168000
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2020 15:20:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728431AbgBUOCd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Feb 2020 09:02:33 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:51176 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728086AbgBUOCd (ORCPT
+        id S1728312AbgBUOUd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Feb 2020 09:20:33 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41990 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727315AbgBUOUd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Feb 2020 09:02:33 -0500
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 43FE8563;
-        Fri, 21 Feb 2020 15:02:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1582293751;
-        bh=LHOEgWcV5LXy9IWvVA95XvSPs95X1mQqo+NnQYHmIjM=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=lrWZ4ZYc3iuR7wI/Y5T2XoJfiEGBOQZpxExjyD/N4fVYttHW4JtbrwEHAMk3Xhfan
-         H9Z9fXyr4pGGT5q0lC2xn/p0YT+MG6esEEEJwp9eoYX/bcMuD91ueh0iF1pomOxP+S
-         ftqpSERsMdrLPIir6BZ2EKi0mN+EQRSTEwhVRwuI=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH] ARM: dts: r8a7745: Convert to new DU DT bindings
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org
-References: <20200218132217.21454-1-geert+renesas@glider.be>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <69127007-c4ae-185b-21b5-e32da0af32d9@ideasonboard.com>
-Date:   Fri, 21 Feb 2020 14:02:27 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+        Fri, 21 Feb 2020 09:20:33 -0500
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1582294833;
+        bh=RZQMhGh5meTj/7Ql8IH60F/4QNiFWNzr/tq1C5045ck=;
+        h=Subject:From:Date:References:To:From;
+        b=P3Us9nSqeocjdEHL0ttLE+BNrSKxPkbKSMZDP8Xqeqtcll+nie5CYxZaoj2AOlZid
+         p+p2ycQoBrydo6nzixSGtf5e7DrGkNbSJBMzEC4WSSzHhEtZJhelol5iAjyxqFh/jh
+         I4iXyPdMXWAKWBzo7vlP5r4u9mGmgMRxME3eaQvY=
 MIME-Version: 1.0
-In-Reply-To: <20200218132217.21454-1-geert+renesas@glider.be>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork summary for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <158229483332.12219.5639020605006542672.git-patchwork-summary@kernel.org>
+Date:   Fri, 21 Feb 2020 14:20:33 +0000
+References: <20200217101741.3758-1-geert+renesas@glider.be>,
+ <20200218112414.5591-1-geert+renesas@glider.be>,
+ <20200218112449.5723-1-geert+renesas@glider.be>,
+ <20200219153929.11073-1-geert+renesas@glider.be>,
+ <20200218132217.21454-1-geert+renesas@glider.be>,
+ <20200217103251.5205-1-geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hello:
 
-On 18/02/2020 13:22, Geert Uytterhoeven wrote:
-> The DU DT bindings have been updated to drop the reg-names property.
-> Update the r8a7745 device tree accordingly.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+The following patches were marked "accepted", because they were applied to
+geert/renesas-devel (refs/heads/next):
 
-Looks fine.
+Patch: arm64: defconfig: Replace ARCH_R8A7796 by ARCH_R8A77960
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=242521
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Patch: arm64: dts: renesas: Remove use of ARCH_R8A7795
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=243169
 
-> ---
->  arch/arm/boot/dts/r8a7745.dtsi | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/arch/arm/boot/dts/r8a7745.dtsi b/arch/arm/boot/dts/r8a7745.dtsi
-> index 3f88a7e34af2c28b..3b413658eb8d8fac 100644
-> --- a/arch/arm/boot/dts/r8a7745.dtsi
-> +++ b/arch/arm/boot/dts/r8a7745.dtsi
-> @@ -1506,7 +1506,6 @@
->  		du: display@feb00000 {
->  			compatible = "renesas,du-r8a7745";
->  			reg = <0 0xfeb00000 0 0x40000>;
-> -			reg-names = "du";
->  			interrupts = <GIC_SPI 256 IRQ_TYPE_LEVEL_HIGH>,
->  				     <GIC_SPI 268 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&cpg CPG_MOD 724>, <&cpg CPG_MOD 723>;
-> 
+Patch: soc: renesas: Remove ARCH_R8A7795
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=243173
 
+Patch: ARM: dts: r8a7779: Remove deprecated "renesas,rcar-sata" compatible value
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=244103
+
+Patch: ARM: dts: r8a7745: Convert to new DU DT bindings
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=243237
+
+Patch: arm64: defconfig: Enable additional support for Renesas platforms
+  Submitter: Geert Uytterhoeven <geert+renesas@glider.be>
+  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=242529
+
+Total patches: 6
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
