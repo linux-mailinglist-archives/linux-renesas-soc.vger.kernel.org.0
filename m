@@ -2,275 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 586631666A2
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 20 Feb 2020 19:51:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46048166C3E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2020 02:21:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728618AbgBTSvZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 20 Feb 2020 13:51:25 -0500
-Received: from mail-yw1-f68.google.com ([209.85.161.68]:43404 "EHLO
-        mail-yw1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728111AbgBTSvY (ORCPT
+        id S1729516AbgBUBV4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 20 Feb 2020 20:21:56 -0500
+Received: from mail-eopbgr1410133.outbound.protection.outlook.com ([40.107.141.133]:14224
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729476AbgBUBV4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 20 Feb 2020 13:51:24 -0500
-Received: by mail-yw1-f68.google.com with SMTP id f204so2337820ywc.10;
-        Thu, 20 Feb 2020 10:51:23 -0800 (PST)
+        Thu, 20 Feb 2020 20:21:56 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=h5hBVG7azj9EJCIuvzof2zMgoksELummaMFQWcQb49lnX+W3kBTBaiggwWmHy2gZM/XRfOblF1QCXNllclCMd5eeI4blC2YZqX+Nc91vbz14nQyEJG2V90kY7KGp0qk3og/QAjbAbNKo73vCU5f+/SHe//gB3UEBjCrZrixT5i2/m+C7Lsi1G4lyXmw25poUrJXf9nVQJ9BsOPK1BrXycwChB5VJxcvSXD/1htelzezMOWmnEZMektIPWpm3dpBbbLzIhYTCweP4iEBRHcDUNHQcbxtYkMfnza+kn/Noh6OH3gNR5+H3gcdsoFV1cZ2I2BPKVDnW5MC97wNjLAsNvw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5161AfVXEkcFkWF4JI9+8jEUNa29i1G0GB4GcaRt694=;
+ b=MPD2eSuHhPqTt2oPBBSXtJx51Bm05yPvDSpj8CJYWl/6sw4roD+VU5Cy4jM5IGn4vGWkFdMEp48TulGXFlpwsdmLZMWet+2RKdoTD5RWLSRUCb//yakqPjdDe4vzsh0BS3RYV1PtT2kZvVuaEzZ03pc/IdgYkr6oxZk9vdEhUHHUNcC4IokGBAco9RS0E2Fn65uOsemQmqmzUNxds3qV/yjzUBn7g0pN1fHi7XgZv5OmaCYydD83ME2wsdiUfsgk5RQ0NkAIzwDQo0uVGLLKLBnokv06XSrHgAMhigJDBjRQAZyswRL+JdHAf7nLiA2QwyOTg/Ji4o4Mm9/l0rJgjQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=QyEIW5Fj/40dQEKm2fYt2i3VhFvcZxvOSMEG0h0NhNI=;
-        b=PX10VKnpcoFUXWnJgQSXnAle6E6vLe10/OXfCysq6j5ZAEoO63QbyJRWA5EY4pINi2
-         +0455lyG/C725/D4oec/PtrQVOab5P/DFeQq64eoeuvSNV+lBI+g4odPFMJh+4HSKrG6
-         cqZIPgaRiwx1hsXLScKSz0vO6/BcZ1phjxAFaCIHdIo+ww/7ZB2c1vhuoQKlsdWYGl28
-         XoCyP+CS+Ca8fxn26dMx/xTJcnDx2XyDn4qzSNW2y42e9LB5ONpn0gCw1EdIsHq7S8N5
-         6cDg3WOD4saXwg8gUaDF0bf2Wt7Q1Rl4h6aX6aFRu84H7pX2AH0by1xCKOBwCm4BvnR2
-         sdGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=QyEIW5Fj/40dQEKm2fYt2i3VhFvcZxvOSMEG0h0NhNI=;
-        b=CnlB02JAPpn2Xx513N++iq3Q6fnjidywcgFbgRFgl/rzmiSGOghPswo5mDxr3LbEg+
-         lxZ8QyEJdDL7xoytoG8pc43e76NazdxjcHN7R7u9qYFjzrtaJJewDoiusxf9eKfaBHpK
-         5Bjp+Db47BFNdLPc8j2FzjN4HhxscLNa4n3VjZBGUqpb8Fp3GtakHX1L9Vlahe0rQHg7
-         9L6FBifNL3zThV56XoXKyhowQxXUNGy11hEZ+uVylT4egq3cH8nHRKL1gEOp7oK68b8F
-         OTM8rSLDJ/mQud8ByTjpwXDPIjLB3mrxp44FJ7oanuoVqm6On/4ykOgNNOsYHcCW4MZm
-         rN4g==
-X-Gm-Message-State: APjAAAU67g3jw21dzXNEEaAIz+Azpf9vpUh+wkWMx7DYDTjiJsyV/9tC
-        y8oqiw9mqE4hCYXrazztR8g=
-X-Google-Smtp-Source: APXvYqw15QsyY7O/HWTE/8TUcz5JFtB+7xCuwyeCWSq3RGCUB5Hcaz36CrLy8lBCsWOsb2wP5YNQrQ==
-X-Received: by 2002:a0d:dd0e:: with SMTP id g14mr26284974ywe.13.1582224683318;
-        Thu, 20 Feb 2020 10:51:23 -0800 (PST)
-Received: from [192.168.1.46] (c-73-88-245-53.hsd1.tn.comcast.net. [73.88.245.53])
-        by smtp.gmail.com with ESMTPSA id r12sm237748ywg.26.2020.02.20.10.51.22
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 20 Feb 2020 10:51:23 -0800 (PST)
-Subject: Re: [PATCH v2 2/2] gpio: of: Add DT overlay support for GPIO hogs
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     Peter Ujfalusi <peter.ujfalusi@ti.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Frank Rowand <frowand.list@gmail.com>
-References: <20200220130149.26283-1-geert+renesas@glider.be>
- <20200220130149.26283-3-geert+renesas@glider.be>
-From:   Frank Rowand <frowand.list@gmail.com>
-Message-ID: <cad0d0a1-9838-55d3-a13e-29d8d5ae7f12@gmail.com>
-Date:   Thu, 20 Feb 2020 12:51:22 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5161AfVXEkcFkWF4JI9+8jEUNa29i1G0GB4GcaRt694=;
+ b=LJGyhNnuS9kVhujFdbxxyyLb4may31rbNEV2cSCVkAetwyUYJwZKoVznucDQH2t3xnO1q3wPBd8MGk4OWzRREbqFdE6PKGrLEO5IEwDG5CdMm7p+bul3XmVPlLdGH9XkIscYpdR0WsPnVhcrBcvJa3u7+s8Dy1thJ+GfxLPrtkQ=
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
+ TYAPR01MB1981.jpnprd01.prod.outlook.com (52.133.179.21) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2729.26; Fri, 21 Feb 2020 01:21:52 +0000
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::318b:31aa:4212:bd49]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::318b:31aa:4212:bd49%7]) with mapi id 15.20.2729.033; Fri, 21 Feb 2020
+ 01:21:52 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+CC:     Gilad Ben-Yossef <gilad@benyossef.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Magnus Damm <magnus.damm@gmail.com>
+Subject: RE: [PATCH] arm64: dts: renesas: rcar-gen3: Add CCREE nodes
+Thread-Topic: [PATCH] arm64: dts: renesas: rcar-gen3: Add CCREE nodes
+Thread-Index: AQHV0rrj9t2+g7Tn902BcYcYnn287KglBN7g
+Date:   Fri, 21 Feb 2020 01:21:51 +0000
+Message-ID: <TYAPR01MB4544754F7A8BE110F24CC6BBD8120@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+References: <20200124133330.16121-1-geert+renesas@glider.be>
+In-Reply-To: <20200124133330.16121-1-geert+renesas@glider.be>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [124.210.22.195]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: d22f49b5-186e-42d4-0e5a-08d7b66c6e88
+x-ms-traffictypediagnostic: TYAPR01MB1981:
+x-microsoft-antispam-prvs: <TYAPR01MB198165332852E4A16F6981E4D8120@TYAPR01MB1981.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-forefront-prvs: 0320B28BE1
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(366004)(136003)(396003)(376002)(346002)(39860400002)(199004)(189003)(6506007)(5660300002)(8676002)(478600001)(4326008)(86362001)(64756008)(8936002)(66556008)(66476007)(66446008)(76116006)(26005)(2906002)(66946007)(81156014)(52536014)(186003)(54906003)(33656002)(55016002)(316002)(7696005)(55236004)(81166006)(9686003)(71200400001)(4744005);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB1981;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Ufxr1aSu7k06cgPtdoKS9GVh86hRkYi+Gi/scvqR8PH3lwxtqTv306KauOKDm5VvKg4MzqzinvnYQxwDvBGcYDJn8/QqEAtDa+Yp953ORPNjz3Z0h5noQoFYt7/pns+feA0R19wige/xOcqXWzoD7Y+j37sz/7ipfxa/OxK2RqKJjn72YVMw7ZUITsiPKCXcKYQMIntu/i1kumjQkNigoCjkd3JM0j0MqASgdMaFM5vq00WMUi95x7lRULLCtTwXonY6nRLnM9egPqlzO+eJS9RiYzF04KTIyp0hS29+wD3bP5JBYETc4mACzZN5/MXPZp5UCwZUkINreP9mJLeFgPPjz8t+fP12PQjjiAi1pIkmG9JpCi+jhwBAC39xMEbo1+oL+F4JgD2EDmQjk90FmYbtll9ihQM4k1EKPr7wsvdb1yyyfbc/EuRU/N5C/jaB
+x-ms-exchange-antispam-messagedata: NshrRwzjckjvXFC1Ic/JpUjw5nkTrdFiMH+eZSGfRd+iTOu35Sccvlj+pYtPnQPOuk2Gq8cgyUU2HUxFj8AKvkq0gFxd+pSTP0wpultrbi7yMPL3OQZh/2bHZ7iNMmU32y5sim+RWPYqQQDD7f0Ilw==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <20200220130149.26283-3-geert+renesas@glider.be>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d22f49b5-186e-42d4-0e5a-08d7b66c6e88
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Feb 2020 01:21:52.0469
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 6t4rYArW0iPRIzevA3zvc7bfFKO+DyDyDi2pUjX30pkdNCKSf0IXzQnrlpHUXY05KvVDwTr0Sj8w2n0MUWsD2iDdQeLf0COJHtd4+TT5ZEvBpUsViy5uDgEfbaG1RmrB
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB1981
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2/20/20 7:01 AM, Geert Uytterhoeven wrote:
-> As GPIO hogs are configured at GPIO controller initialization time,
-> adding/removing GPIO hogs in DT overlays does not work.
-> 
-> Add support for GPIO hogs described in DT overlays by registering an OF
-> reconfiguration notifier, to handle the addition and removal of GPIO hog
-> subnodes to/from a GPIO controller device node.
-> 
-> Note that when a GPIO hog device node is being removed, its "gpios"
-> properties is no longer available, so we have to keep track of which
-> node a hog belongs to, which is done by adding a pointer to the hog's
-> device node to struct gpio_desc.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v2:
->   - Drop RFC state,
->   - Document that modifying existing gpio-hog nodes is not supported.
-> ---
->  drivers/gpio/gpiolib-of.c | 90 +++++++++++++++++++++++++++++++++++++++
->  drivers/gpio/gpiolib-of.h |  2 +
->  drivers/gpio/gpiolib.c    | 14 ++++--
->  drivers/gpio/gpiolib.h    |  3 ++
->  4 files changed, 106 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpio/gpiolib-of.c b/drivers/gpio/gpiolib-of.c
-> index 2b47f93886075294..ccc449df3792ae97 100644
-> --- a/drivers/gpio/gpiolib-of.c
-> +++ b/drivers/gpio/gpiolib-of.c
-> @@ -628,6 +628,10 @@ static int of_gpiochip_add_hog(struct gpio_chip *chip, struct device_node *hog)
->  		ret = gpiod_hog(desc, name, lflags, dflags);
->  		if (ret < 0)
->  			return ret;
-> +
-> +#ifdef CONFIG_OF_DYNAMIC
-> +		desc->hog = hog;
-> +#endif
->  	}
->  
->  	return 0;
-> @@ -655,11 +659,97 @@ static int of_gpiochip_scan_gpios(struct gpio_chip *chip)
->  			of_node_put(np);
->  			return ret;
->  		}
-> +
-> +		of_node_set_flag(np, OF_POPULATED);
->  	}
->  
->  	return 0;
->  }
->  
-> +#ifdef CONFIG_OF_DYNAMIC
-> +/**
-> + * of_gpiochip_remove_hog - Remove all hogs in a hog device node
-> + * @chip:	gpio chip to act on
-> + * @hog:	device node describing the hogs
-> + */
-> +static void of_gpiochip_remove_hog(struct gpio_chip *chip,
-> +				   struct device_node *hog)
-> +{
-> +	struct gpio_desc *descs = chip->gpiodev->descs;
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < chip->ngpio; i++) {
-> +		if (test_bit(FLAG_IS_HOGGED, &descs[i].flags) &&
-> +		    descs[i].hog == hog)
-> +			gpiochip_free_own_desc(&descs[i]);
-> +	}
-> +}
-> +
-> +static int of_gpiochip_match_node(struct gpio_chip *chip, void *data)
-> +{
-> +	return chip->gpiodev->dev.of_node == data;
-> +}
-> +
-> +static struct gpio_chip *of_find_gpiochip_by_node(struct device_node *np)
-> +{
-> +	return gpiochip_find(np, of_gpiochip_match_node);
-> +}
-> +
-> +static int of_gpio_notify(struct notifier_block *nb, unsigned long action,
-> +			  void *arg)
-> +{
-> +	struct of_reconfig_data *rd = arg;
-> +	struct gpio_chip *chip;
-> +	int ret;
-> +
-> +	/*
-> +	 * This only supports adding and removing complete gpio-hog nodes.
-> +	 * Modifying an existing gpio-hog node is not supported (except for
-> +	 * changing its "status" property, which is treated the same as
-> +	 * addition/removal).
-> +	 */
-> +	switch (of_reconfig_get_state_change(action, arg)) {
-> +	case OF_RECONFIG_CHANGE_ADD:
-> +		if (!of_property_read_bool(rd->dn, "gpio-hog"))
-> +			return NOTIFY_OK;	/* not for us */
-> +
-> +		if (of_node_test_and_set_flag(rd->dn, OF_POPULATED))
-> +			return NOTIFY_OK;
-> +
-> +		chip = of_find_gpiochip_by_node(rd->dn->parent);
-> +		if (chip == NULL)
-> +			return NOTIFY_OK;	/* not for us */
-> +
-> +		ret = of_gpiochip_add_hog(chip, rd->dn);
-> +		if (ret < 0) {
-> +			pr_err("%s: failed to add hogs for %pOF\n", __func__,
-> +			       rd->dn);
-> +			of_node_clear_flag(rd->dn, OF_POPULATED);
-> +			return notifier_from_errno(ret);
-> +		}
-> +		break;
-> +
-> +	case OF_RECONFIG_CHANGE_REMOVE:
-> +		if (!of_node_check_flag(rd->dn, OF_POPULATED))
-> +			return NOTIFY_OK;	/* already depopulated */
-> +
-> +		chip = of_find_gpiochip_by_node(rd->dn->parent);
-> +		if (chip == NULL)
-> +			return NOTIFY_OK;	/* not for us */
-> +
-> +		of_gpiochip_remove_hog(chip, rd->dn);
-> +		of_node_clear_flag(rd->dn, OF_POPULATED);
-> +		break;
-> +	}
-> +
-> +	return NOTIFY_OK;
-> +}
-> +
-> +struct notifier_block gpio_of_notifier = {
-> +	.notifier_call = of_gpio_notify,
-> +};
-> +#endif /* CONFIG_OF_DYNAMIC */
-> +
->  /**
->   * of_gpio_simple_xlate - translate gpiospec to the GPIO number and flags
->   * @gc:		pointer to the gpio_chip structure
-> diff --git a/drivers/gpio/gpiolib-of.h b/drivers/gpio/gpiolib-of.h
-> index 9768831b1fe2f25b..ed26664f153782fc 100644
-> --- a/drivers/gpio/gpiolib-of.h
-> +++ b/drivers/gpio/gpiolib-of.h
-> @@ -35,4 +35,6 @@ static inline bool of_gpio_need_valid_mask(const struct gpio_chip *gc)
->  }
->  #endif /* CONFIG_OF_GPIO */
->  
-> +extern struct notifier_block gpio_of_notifier;
-> +
->  #endif /* GPIOLIB_OF_H */
-> diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-> index 56de871060ea211e..6f312220fe80acaf 100644
-> --- a/drivers/gpio/gpiolib.c
-> +++ b/drivers/gpio/gpiolib.c
-> @@ -2925,6 +2925,9 @@ static bool gpiod_free_commit(struct gpio_desc *desc)
->  		clear_bit(FLAG_PULL_DOWN, &desc->flags);
->  		clear_bit(FLAG_BIAS_DISABLE, &desc->flags);
->  		clear_bit(FLAG_IS_HOGGED, &desc->flags);
-> +#ifdef CONFIG_OF_DYNAMIC
-> +		desc->hog = NULL;
-> +#endif
->  		ret = true;
->  	}
->  
-> @@ -5126,10 +5129,15 @@ static int __init gpiolib_dev_init(void)
->  	if (ret < 0) {
->  		pr_err("gpiolib: failed to allocate char dev region\n");
->  		bus_unregister(&gpio_bus_type);
-> -	} else {
-> -		gpiolib_initialized = true;
-> -		gpiochip_setup_devs();
-> +		return ret;
->  	}
-> +
-> +	gpiolib_initialized = true;
-> +	gpiochip_setup_devs();
-> +
-> +	if (IS_ENABLED(CONFIG_OF_DYNAMIC))
-> +		WARN_ON(of_reconfig_notifier_register(&gpio_of_notifier));
-> +
->  	return ret;
->  }
->  core_initcall(gpiolib_dev_init);
-> diff --git a/drivers/gpio/gpiolib.h b/drivers/gpio/gpiolib.h
-> index 3e0aab2945d82974..18c75e83fd7679ec 100644
-> --- a/drivers/gpio/gpiolib.h
-> +++ b/drivers/gpio/gpiolib.h
-> @@ -119,6 +119,9 @@ struct gpio_desc {
->  	const char		*label;
->  	/* Name of the GPIO */
->  	const char		*name;
-> +#ifdef CONFIG_OF_DYNAMIC
-> +	struct device_node	*hog;
-> +#endif
->  };
->  
->  int gpiod_request(struct gpio_desc *desc, const char *label);
-> 
+Hi Geert-san,
 
-Reviewed-by: Frank Rowand <frank.rowand@sony.com>
+> From: Geert Uytterhoeven, Sent: Friday, January 24, 2020 10:34 PM
+>=20
+> Add device nodes for the CryptoCell instances on the various Renesas
+> R-Car Gen3 SoCs that do not have support for them yet in their device
+> trees (M3-W, M3-W+, M3-N, E3, D3).
+>=20
+> The R-Car H3 device tree already supports this device.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Thank you for the patch!
+
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+
+Best regards,
+Yoshihiro Shimoda
+
