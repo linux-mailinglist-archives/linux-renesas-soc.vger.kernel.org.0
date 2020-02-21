@@ -2,132 +2,117 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D45A1686F1
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2020 19:48:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 013991688A8
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2020 22:04:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729355AbgBUSsG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Feb 2020 13:48:06 -0500
-Received: from relmlor2.renesas.com ([210.160.252.172]:27049 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726150AbgBUSsG (ORCPT
+        id S1726731AbgBUVES (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Feb 2020 16:04:18 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:51268 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726683AbgBUVES (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Feb 2020 13:48:06 -0500
-X-IronPort-AV: E=Sophos;i="5.70,469,1574089200"; 
-   d="scan'208";a="39730618"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 22 Feb 2020 03:48:05 +0900
-Received: from marian-VirtualBox.ree.adwin.renesas.com (unknown [10.226.36.164])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5DE9540DAD14;
-        Sat, 22 Feb 2020 03:48:04 +0900 (JST)
-From:   Marian-Cristian Rotariu 
-        <marian-cristian.rotariu.rb@bp.renesas.com>
-To:     linux-renesas-soc@vger.kernel.org
-Cc:     Chris Paterson <chris.paterson2@renesas.com>
-Subject: [PATCH] usb: typec: hd3ss3220: fix return code
-Date:   Fri, 21 Feb 2020 18:48:03 +0000
-Message-Id: <1582310883-25893-1-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Fri, 21 Feb 2020 16:04:18 -0500
+Received: by mail-wm1-f68.google.com with SMTP id t23so3173050wmi.1
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Feb 2020 13:04:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ZMfA9aWw1LYmrFFdoc2a+Paav2KuYGb9y2DZvr6Ld/Y=;
+        b=g3UdLycTZRD8eeM5HSVKb7Alhdfbqm49HlpEfjUk6LOpVS1Ffp4p2RIj0PubzXi5P9
+         6Wa+z1O7LOV5f3HFlmXwR+XbEeyZL1Vvig0eb37FFNGX4zIivB+wIeswU18TurO5bJso
+         TQE+68ROrlv9WG/cfwVlkqTNEaKuqfoGINntU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ZMfA9aWw1LYmrFFdoc2a+Paav2KuYGb9y2DZvr6Ld/Y=;
+        b=rU5dqXnU8Z5YixAOiUJC0FugS+FdLDvF49DVNb2EIwTWO/hgMtNy6o+pk3/YxOHmxc
+         OtFsPiiCrYTGBr5NKhJqaOInhVbbXTyiYonpJdrYB9LfvZuUfxNCn7fIagfnIxR7UAFz
+         9VpmseukFGibLCDD2i56N6gqtfwdqcEeTC28eYtA6f3tSR9YCaMY8NfSp5vaR5AqCTT7
+         BuDs2QXYYD2GPmwf7qtese4ZpgYL9yfML6K4LYBjnjzTwvid8EOBKpsUtXGxLVRGdJVf
+         kgVkOaSoW7sY/pPj0Cx73ZKS1sHdYj5jRGX3F/msHTjB0nuyRlBBfeSYLHoRy6pNtgpb
+         0VAQ==
+X-Gm-Message-State: APjAAAVB0flbC9iBBNkZDRxZoX8wJNpwz7Yuzzy4T597wFvpb6wWM1/P
+        IZOdemb/Lcdyb3Kdqw3PM718og==
+X-Google-Smtp-Source: APXvYqzmUOd6nPukL54uGIe88r3O8OEPKDecAxQQve/5H3z4OSQr84J5cLIUUx7ml4UnPRNvKdgTuw==
+X-Received: by 2002:a1c:e388:: with SMTP id a130mr5608079wmh.176.1582319056102;
+        Fri, 21 Feb 2020 13:04:16 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id z6sm5483930wrw.36.2020.02.21.13.04.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Feb 2020 13:04:15 -0800 (PST)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 36/51] drm/rcar-du: Drop explicit drm_mode_config_cleanup call
+Date:   Fri, 21 Feb 2020 22:03:04 +0100
+Message-Id: <20200221210319.2245170-37-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200221210319.2245170-1-daniel.vetter@ffwll.ch>
+References: <20200221210319.2245170-1-daniel.vetter@ffwll.ch>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch fixes the return code for the attached_state, as the low level
-call did not adequately propagate errors to its callers.
+It's right above the drm_dev_put().
 
-Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+This is made possible by a preceeding patch which added a drmm_
+cleanup action to drm_mode_config_init(), hence all we need to do to
+ensure that drm_mode_config_cleanup() is run on final drm_device
+cleanup is check the new error code for _init().
+
+Aside: Another driver with a bit much devm_kzalloc, which should
+probably use drmm_kzalloc instead ...
+
+v2: Explain why this cleanup is possible (Laurent).
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: linux-renesas-soc@vger.kernel.org
 ---
- drivers/usb/typec/hd3ss3220.c | 33 +++++++++++++++++++++++----------
- 1 file changed, 23 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c | 1 -
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c | 4 +++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss3220.c
-index 323dfa8..97ea52d 100644
---- a/drivers/usb/typec/hd3ss3220.c
-+++ b/drivers/usb/typec/hd3ss3220.c
-@@ -46,10 +46,10 @@ static int hd3ss3220_set_source_pref(struct hd3ss3220 *hd3ss3220, int src_pref)
- 				  src_pref);
- }
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+index 654e2dd08146..3e67cf70f040 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+@@ -530,7 +530,6 @@ static int rcar_du_remove(struct platform_device *pdev)
+ 	drm_dev_unregister(ddev);
  
--static enum usb_role hd3ss3220_get_attached_state(struct hd3ss3220 *hd3ss3220)
-+static int hd3ss3220_get_attached_state(struct hd3ss3220 *hd3ss3220,
-+		enum usb_role *attached_state)
- {
- 	unsigned int reg_val;
--	enum usb_role attached_state;
+ 	drm_kms_helper_poll_fini(ddev);
+-	drm_mode_config_cleanup(ddev);
+ 
+ 	drm_dev_put(ddev);
+ 
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+index fcfd916227d1..dcdc1580b511 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+@@ -712,7 +712,9 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
+ 	unsigned int i;
  	int ret;
  
- 	ret = regmap_read(hd3ss3220->regmap, HD3SS3220_REG_CN_STAT_CTRL,
-@@ -59,17 +59,17 @@ static enum usb_role hd3ss3220_get_attached_state(struct hd3ss3220 *hd3ss3220)
- 
- 	switch (reg_val & HD3SS3220_REG_CN_STAT_CTRL_ATTACHED_STATE_MASK) {
- 	case HD3SS3220_REG_CN_STAT_CTRL_AS_DFP:
--		attached_state = USB_ROLE_HOST;
-+		*attached_state = USB_ROLE_HOST;
- 		break;
- 	case HD3SS3220_REG_CN_STAT_CTRL_AS_UFP:
--		attached_state = USB_ROLE_DEVICE;
-+		*attached_state = USB_ROLE_DEVICE;
- 		break;
- 	default:
--		attached_state = USB_ROLE_NONE;
-+		*attached_state = USB_ROLE_NONE;
- 		break;
- 	}
- 
--	return attached_state;
-+	return 0;
- }
- 
- static int hd3ss3220_dr_set(struct typec_port *port, enum typec_data_role role)
-@@ -99,9 +99,14 @@ static const struct typec_operations hd3ss3220_ops = {
- 	.dr_set = hd3ss3220_dr_set
- };
- 
--static void hd3ss3220_set_role(struct hd3ss3220 *hd3ss3220)
-+static int hd3ss3220_set_role(struct hd3ss3220 *hd3ss3220)
- {
--	enum usb_role role_state = hd3ss3220_get_attached_state(hd3ss3220);
-+	enum usb_role role_state;
-+	int ret;
-+
-+	ret = hd3ss3220_get_attached_state(hd3ss3220, &role_state);
-+	if (ret < 0)
+-	drm_mode_config_init(dev);
++	ret = drm_mode_config_init(dev);
++	if (ret)
 +		return ret;
  
- 	usb_role_switch_set_role(hd3ss3220->role_sw, role_state);
- 	if (role_state == USB_ROLE_NONE)
-@@ -118,13 +123,18 @@ static void hd3ss3220_set_role(struct hd3ss3220 *hd3ss3220)
- 	default:
- 		break;
- 	}
-+
-+	return 0;
- }
- 
- static irqreturn_t hd3ss3220_irq(struct hd3ss3220 *hd3ss3220)
- {
- 	int err;
- 
--	hd3ss3220_set_role(hd3ss3220);
-+	err = hd3ss3220_set_role(hd3ss3220);
-+	if (err < 0)
-+		return IRQ_NONE;
-+
- 	err = regmap_update_bits_base(hd3ss3220->regmap,
- 				      HD3SS3220_REG_CN_STAT_CTRL,
- 				      HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS,
-@@ -196,7 +206,10 @@ static int hd3ss3220_probe(struct i2c_client *client,
- 		goto err_put_role;
- 	}
- 
--	hd3ss3220_set_role(hd3ss3220);
-+	ret = hd3ss3220_set_role(hd3ss3220);
-+	if (ret < 0)
-+		goto err_unreg_port;
-+
- 	ret = regmap_read(hd3ss3220->regmap, HD3SS3220_REG_CN_STAT_CTRL, &data);
- 	if (ret < 0)
- 		goto err_unreg_port;
+ 	dev->mode_config.min_width = 0;
+ 	dev->mode_config.min_height = 0;
 -- 
-2.7.4
+2.24.1
 
