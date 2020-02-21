@@ -2,94 +2,140 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A474A1682D7
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2020 17:10:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8583B168393
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2020 17:34:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727699AbgBUQKj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Feb 2020 11:10:39 -0500
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:43301 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727095AbgBUQKi (ORCPT
+        id S1726132AbgBUQeO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Feb 2020 11:34:14 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:46488 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725957AbgBUQeO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Feb 2020 11:10:38 -0500
-Received: by mail-lf1-f66.google.com with SMTP id s23so1872292lfs.10
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Feb 2020 08:10:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1fzmdPVewt4poXC+/NMgaFWzacayCygYoOgCnUFqrFA=;
-        b=fVdWb+3x5OJjWjTS8JQOQcRTidOkvjo2ir5U7PGAMVw5WxJMB39mldwFJOaGJBpPUy
-         TygGJ4Dh2eYuVpqhNmTy3A+mpVuIa2KKYLFA3KwEZW7wHuF9sM0lfQDUBvctfKY5m1/w
-         pO0dTq0SLvot91o2JkazTn4LiuQ4fl4I5uYWo0e5ArrD3w5jCckR3bFlT9HGTa+m8PiK
-         8VAPpY7zeJn+UMraJSLg7HWnf8dY0AdiTCeorPVYG50crBQzgoxJZ4GIyr4FyKjRhKom
-         FwWdL94yUF4/ORBxgq/aGEs+gPSJnwmTca7vaVtED+YyMLd2N70TOhnvv4WIVVP46psz
-         EG0g==
+        Fri, 21 Feb 2020 11:34:14 -0500
+Received: by mail-oi1-f194.google.com with SMTP id a22so2122755oid.13;
+        Fri, 21 Feb 2020 08:34:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=1fzmdPVewt4poXC+/NMgaFWzacayCygYoOgCnUFqrFA=;
-        b=YBWk62ivponYo613V49R7LnXv7ltq1stbghVcMWQEwM6J4kK1n63sJsh+ebttgsvhU
-         Elopuo4b+wzoNwmZ1GUjMNYoQpB++g3XGwHiesPdM0RwtaQ4Timw4p7th4+FbHRzghaW
-         0//Mn0aC8xE9tQzU+ayTnhF8+MuVXIf9KQKFuqd54bm9wCZxyibUFwMEjka0QR6Cfvkv
-         bc2UDBEw0LBJew6dNlPLp5hZ9ib7Lh59vgKCiOCDf1gymAhrVmbf11ZwgiJ8uHbuGsII
-         RLCta5OeeZ4PqqGLX6GYjzC5dR8Zze54vQ9ejxiklmqKoqvjOEUb5qziTrIjXnytPdeQ
-         yfEQ==
-X-Gm-Message-State: APjAAAW3C1NOD68RTdPwQoSk37vaWjNmjKqbjN3ou9rT6v9qq+0km5eE
-        naAQHgTAhS8wieT1fAD8gWNTW9Y/iEnRjfhnXwSLjw==
-X-Google-Smtp-Source: APXvYqzfFpHz+WEEPdfY1KvmrQ7fJ+JA1hBH/qsYBoXtX0Ad1P1ZdxZA5yWVXCM5V2QXzRc1KsrSTBXhNXruk6AbO4k=
-X-Received: by 2002:a19:5e1d:: with SMTP id s29mr20384167lfb.21.1582301436869;
- Fri, 21 Feb 2020 08:10:36 -0800 (PST)
+        bh=Q0P9tu6IOsuIOQ9cj+JFMIkV9AXW3CYPDjGH2uYPm8M=;
+        b=TQan+uI+buGQSXnVw9oHBVYIl68M0Y0nZhJSw3qYaBAcnViQ2WE+xmpF7EGWl0C5MG
+         AFAYukVTvmPds0Yt1uZHImTdyhsE57op0/EoFBu7UANTInihLVOHjJ2LuuxNDyz+Jxt5
+         7h/VB8CivGoN5BgC06wfIYUC2h3LJvDv/OxXHq4rZlUlfTTmDYkv9NBQzpq7VUdloguW
+         8eoYJEWhtm6ny7lvbKekL9xfjF4BUUP+z6C8cw/H0tD/alyL93c0X4K1e5/SHII8ppNO
+         iqn+eSP95Mm7EtABezqcGciJ5oFvwGqNYbrDzjkyPXDc7kyk+w1Xlz4yDWNfx67VQt1P
+         BXJg==
+X-Gm-Message-State: APjAAAUrHi/8Nfwh6StJyLqXLHMdvEPp2NO2ws7uODFnGje9uJdNbnzN
+        3/JwM+hRTMVwoUN/M3rvgWXyaM5ZKqkYy8A6KLg=
+X-Google-Smtp-Source: APXvYqzPNoAH+zVsto1+IiOMGfW8xsdQo0YD/gttJz8Iqi71pUo1KidDfXV90s/3JMzKKHdE/I36dl+GbJbfTmLaY4E=
+X-Received: by 2002:aca:c4d2:: with SMTP id u201mr2773907oif.54.1582302853428;
+ Fri, 21 Feb 2020 08:34:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20200220130149.26283-1-geert+renesas@glider.be> <20200220130149.26283-3-geert+renesas@glider.be>
-In-Reply-To: <20200220130149.26283-3-geert+renesas@glider.be>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 21 Feb 2020 17:10:25 +0100
-Message-ID: <CACRpkdbFRv2ab-fa3htiLBTmW4kCuB6Rmxb0Afj=eP4hH0W7BA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] gpio: of: Add DT overlay support for GPIO hogs
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Frank Rowand <frowand.list@gmail.com>,
+References: <20200218151812.7816-1-geert+renesas@glider.be>
+ <20200218151812.7816-5-geert+renesas@glider.be> <e2530fff-a17c-ae90-ba92-360b828582da@infradead.org>
+In-Reply-To: <e2530fff-a17c-ae90-ba92-360b828582da@infradead.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 21 Feb 2020 17:34:02 +0100
+Message-ID: <CAMuHMdUFV0nbfrpxY60av2x+UUN62wDiVLbcEG83133aqfFcUQ@mail.gmail.com>
+Subject: Re: [PATCH v5 4/5] docs: gpio: Add GPIO Aggregator documentation
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Peter Ujfalusi <peter.ujfalusi@ti.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
         "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Feb 20, 2020 at 2:01 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+Hi Randy,
 
-> As GPIO hogs are configured at GPIO controller initialization time,
-> adding/removing GPIO hogs in DT overlays does not work.
->
-> Add support for GPIO hogs described in DT overlays by registering an OF
-> reconfiguration notifier, to handle the addition and removal of GPIO hog
-> subnodes to/from a GPIO controller device node.
->
-> Note that when a GPIO hog device node is being removed, its "gpios"
-> properties is no longer available, so we have to keep track of which
-> node a hog belongs to, which is done by adding a pointer to the hog's
-> device node to struct gpio_desc.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v2:
->   - Drop RFC state,
->   - Document that modifying existing gpio-hog nodes is not supported.
+On Tue, Feb 18, 2020 at 7:30 PM Randy Dunlap <rdunlap@infradead.org> wrote:
+> On 2/18/20 7:18 AM, Geert Uytterhoeven wrote:
+> > Document the GPIO Aggregator, and the two typical use-cases.
+> >
+> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Clean and well separated code, patch applied
-with Frank's review tag!
+> > --- /dev/null
+> > +++ b/Documentation/admin-guide/gpio/gpio-aggregator.rst
+> > @@ -0,0 +1,102 @@
+> > +.. SPDX-License-Identifier: GPL-2.0-only
+> > +
+> > +GPIO Aggregator
+> > +===============
+> > +
+> > +The GPIO Aggregator allows to aggregate GPIOs, and expose them as a new
+>
+> "allows" really wants an object following the verb [although the kernel sources
+> and docs have many cases of it not having an object].  Something like
+>
+>                        allows {you, one, someone, users, a user} to aggregate
 
-Yours,
-Linus Walleij
+Changing to:
+
+    provides a mechanism to aggregate GPIOs
+
+> > +gpio_chip.  This supports the following use cases.
+> > +
+> > +
+> > +Aggregating GPIOs using Sysfs
+> > +-----------------------------
+> > +
+> > +GPIO controllers are exported to userspace using /dev/gpiochip* character
+> > +devices.  Access control to these devices is provided by standard UNIX file
+> > +system permissions, on an all-or-nothing basis: either a GPIO controller is
+> > +accessible for a user, or it is not.
+> > +
+> > +The GPIO Aggregator allows access control for individual GPIOs, by aggregating
+
+Changing to:
+
+    provides access control for a set of one or more GPIOs
+
+> > +them into a new gpio_chip, which can be assigned to a group or user using
+> > +standard UNIX file ownership and permissions.  Furthermore, this simplifies and
+> > +hardens exporting GPIOs to a virtual machine, as the VM can just grab the full
+> > +GPIO controller, and no longer needs to care about which GPIOs to grab and
+> > +which not, reducing the attack surface.
+
+> > +Generic GPIO Driver
+> > +-------------------
+> > +
+> > +The GPIO Aggregator can also be used as a generic driver for a simple
+> > +GPIO-operated device described in DT, without a dedicated in-kernel driver.
+> > +This is useful in industrial control, and is not unlike e.g. spidev, which
+> > +allows to communicate with an SPI device from userspace.
+>
+>    allows {choose an object} to communicate
+
+Changing to:
+
+    allows the user to communicate
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
