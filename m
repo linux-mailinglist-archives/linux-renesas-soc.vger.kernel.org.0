@@ -2,198 +2,173 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ACAA1167D1F
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2020 13:10:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CDDC3167D23
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2020 13:11:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727053AbgBUMK1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Feb 2020 07:10:27 -0500
-Received: from baptiste.telenet-ops.be ([195.130.132.51]:42348 "EHLO
-        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726410AbgBUMK1 (ORCPT
+        id S1727095AbgBUMLv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Feb 2020 07:11:51 -0500
+Received: from xavier.telenet-ops.be ([195.130.132.52]:41998 "EHLO
+        xavier.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726410AbgBUMLv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Feb 2020 07:10:27 -0500
+        Fri, 21 Feb 2020 07:11:51 -0500
 Received: from ramsan ([84.195.182.253])
-        by baptiste.telenet-ops.be with bizsmtp
-        id 5QAQ220025USYZQ01QAQoC; Fri, 21 Feb 2020 13:10:24 +0100
+        by xavier.telenet-ops.be with bizsmtp
+        id 5QBo2200M5USYZQ01QBo1q; Fri, 21 Feb 2020 13:11:48 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1j578R-0001z9-Uh; Fri, 21 Feb 2020 13:10:23 +0100
+        id 1j579o-0001zN-F8; Fri, 21 Feb 2020 13:11:48 +0100
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1j578R-00084F-Rt; Fri, 21 Feb 2020 13:10:23 +0100
+        id 1j579o-00087C-Da; Fri, 21 Feb 2020 13:11:48 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Rob Herring <robh+dt@kernel.org>,
+To:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
         Magnus Damm <magnus.damm@gmail.com>
 Cc:     devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dt-bindings: power: rcar-sysc: Convert to json-schema
-Date:   Fri, 21 Feb 2020 13:10:22 +0100
-Message-Id: <20200221121022.30970-1-geert+renesas@glider.be>
+Subject: [PATCH] dt-bindings: reset: rcar-rst: Convert to json-schema
+Date:   Fri, 21 Feb 2020 13:11:46 +0100
+Message-Id: <20200221121146.31153-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Convert the Renesas R-Car System Controller Device Tree binding
+Convert the Renesas R-Car Reset Controller Device Tree binding
 documentation to json-schema.
 
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- .../bindings/power/renesas,rcar-sysc.txt      | 62 ----------------
- .../bindings/power/renesas,rcar-sysc.yaml     | 73 +++++++++++++++++++
- 2 files changed, 73 insertions(+), 62 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/power/renesas,rcar-sysc.txt
- create mode 100644 Documentation/devicetree/bindings/power/renesas,rcar-sysc.yaml
+ .../devicetree/bindings/reset/renesas,rst.txt | 48 ---------------
+ .../bindings/reset/renesas,rst.yaml           | 61 +++++++++++++++++++
+ 2 files changed, 61 insertions(+), 48 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/reset/renesas,rst.txt
+ create mode 100644 Documentation/devicetree/bindings/reset/renesas,rst.yaml
 
-diff --git a/Documentation/devicetree/bindings/power/renesas,rcar-sysc.txt b/Documentation/devicetree/bindings/power/renesas,rcar-sysc.txt
+diff --git a/Documentation/devicetree/bindings/reset/renesas,rst.txt b/Documentation/devicetree/bindings/reset/renesas,rst.txt
 deleted file mode 100644
-index acb41fade926e2de..0000000000000000
---- a/Documentation/devicetree/bindings/power/renesas,rcar-sysc.txt
+index de7f06ccd003da9f..0000000000000000
+--- a/Documentation/devicetree/bindings/reset/renesas,rst.txt
 +++ /dev/null
-@@ -1,62 +0,0 @@
--DT bindings for the Renesas R-Car (RZ/G) System Controller
+@@ -1,48 +0,0 @@
+-DT bindings for the Renesas R-Car and RZ/G Reset Controllers
 -
--== System Controller Node ==
+-The R-Car and RZ/G Reset Controllers provide reset control, and implement the
+-following functions:
+-  - Latching of the levels on mode pins when PRESET# is negated,
+-  - Mode monitoring register,
+-  - Reset control of peripheral devices (on R-Car Gen1),
+-  - Watchdog timer (on R-Car Gen1),
+-  - Register-based reset control and boot address registers for the various CPU
+-    cores (on R-Car Gen2 and Gen3, and on RZ/G).
 -
--The R-Car (RZ/G) System Controller provides power management for the CPU cores
--and various coprocessors.
 -
 -Required properties:
--  - compatible: Must contain exactly one of the following:
--      - "renesas,r8a7743-sysc" (RZ/G1M)
--      - "renesas,r8a7744-sysc" (RZ/G1N)
--      - "renesas,r8a7745-sysc" (RZ/G1E)
--      - "renesas,r8a77470-sysc" (RZ/G1C)
--      - "renesas,r8a774a1-sysc" (RZ/G2M)
--      - "renesas,r8a774b1-sysc" (RZ/G2N)
--      - "renesas,r8a774c0-sysc" (RZ/G2E)
--      - "renesas,r8a7779-sysc" (R-Car H1)
--      - "renesas,r8a7790-sysc" (R-Car H2)
--      - "renesas,r8a7791-sysc" (R-Car M2-W)
--      - "renesas,r8a7792-sysc" (R-Car V2H)
--      - "renesas,r8a7793-sysc" (R-Car M2-N)
--      - "renesas,r8a7794-sysc" (R-Car E2)
--      - "renesas,r8a7795-sysc" (R-Car H3)
--      - "renesas,r8a7796-sysc" (R-Car M3-W)
--      - "renesas,r8a77961-sysc" (R-Car M3-W+)
--      - "renesas,r8a77965-sysc" (R-Car M3-N)
--      - "renesas,r8a77970-sysc" (R-Car V3M)
--      - "renesas,r8a77980-sysc" (R-Car V3H)
--      - "renesas,r8a77990-sysc" (R-Car E3)
--      - "renesas,r8a77995-sysc" (R-Car D3)
+-  - compatible: Should be
+-		  - "renesas,<soctype>-reset-wdt" for R-Car Gen1,
+-		  - "renesas,<soctype>-rst" for R-Car Gen2 and Gen3, and RZ/G
+-		Examples with soctypes are:
+-		  - "renesas,r8a7743-rst" (RZ/G1M)
+-		  - "renesas,r8a7744-rst" (RZ/G1N)
+-		  - "renesas,r8a7745-rst" (RZ/G1E)
+-		  - "renesas,r8a77470-rst" (RZ/G1C)
+-		  - "renesas,r8a774a1-rst" (RZ/G2M)
+-		  - "renesas,r8a774b1-rst" (RZ/G2N)
+-		  - "renesas,r8a774c0-rst" (RZ/G2E)
+-		  - "renesas,r8a7778-reset-wdt" (R-Car M1A)
+-		  - "renesas,r8a7779-reset-wdt" (R-Car H1)
+-		  - "renesas,r8a7790-rst" (R-Car H2)
+-		  - "renesas,r8a7791-rst" (R-Car M2-W)
+-		  - "renesas,r8a7792-rst" (R-Car V2H
+-		  - "renesas,r8a7793-rst" (R-Car M2-N)
+-		  - "renesas,r8a7794-rst" (R-Car E2)
+-		  - "renesas,r8a7795-rst" (R-Car H3)
+-		  - "renesas,r8a7796-rst" (R-Car M3-W)
+-		  - "renesas,r8a77961-rst" (R-Car M3-W+)
+-		  - "renesas,r8a77965-rst" (R-Car M3-N)
+-		  - "renesas,r8a77970-rst" (R-Car V3M)
+-		  - "renesas,r8a77980-rst" (R-Car V3H)
+-		  - "renesas,r8a77990-rst" (R-Car E3)
+-		  - "renesas,r8a77995-rst" (R-Car D3)
 -  - reg: Address start and address range for the device.
--  - #power-domain-cells: Must be 1.
 -
 -
 -Example:
 -
--	sysc: system-controller@e6180000 {
--		compatible = "renesas,r8a7791-sysc";
--		reg = <0 0xe6180000 0 0x0200>;
--		#power-domain-cells = <1>;
+-	rst: reset-controller@e6160000 {
+-		compatible = "renesas,r8a7795-rst";
+-		reg = <0 0xe6160000 0 0x0200>;
 -	};
--
--
--== PM Domain Consumers ==
--
--Devices residing in a power area must refer to that power area, as documented
--by the generic PM domain bindings in
--Documentation/devicetree/bindings/power/power_domain.txt.
--
--Required properties:
--  - power-domains: A phandle and symbolic PM domain specifier, as defined in
--		   <dt-bindings/power/r8a77*-sysc.h>.
--
--
--Example:
--
--	L2_CA15: cache-controller@0 {
--		compatible = "cache";
--		power-domains = <&sysc R8A7791_PD_CA15_SCU>;
--		cache-unified;
--		cache-level = <2>;
--	};
-diff --git a/Documentation/devicetree/bindings/power/renesas,rcar-sysc.yaml b/Documentation/devicetree/bindings/power/renesas,rcar-sysc.yaml
+diff --git a/Documentation/devicetree/bindings/reset/renesas,rst.yaml b/Documentation/devicetree/bindings/reset/renesas,rst.yaml
 new file mode 100644
-index 0000000000000000..8daa23e1c49a3f81
+index 0000000000000000..5819eebfca064dff
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/power/renesas,rcar-sysc.yaml
-@@ -0,0 +1,73 @@
++++ b/Documentation/devicetree/bindings/reset/renesas,rst.yaml
+@@ -0,0 +1,61 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: "http://devicetree.org/schemas/power/renesas,rcar-sysc.yaml#"
++$id: "http://devicetree.org/schemas/reset/renesas,rst.yaml#"
 +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
 +
-+title: DT bindings for the Renesas R-Car and RZ/G System Controller
++title: DT bindings for the Renesas R-Car and RZ/G Reset Controller
 +
 +maintainers:
 +  - Geert Uytterhoeven <geert+renesas@glider.be>
 +  - Magnus Damm <magnus.damm@gmail.com>
 +
-+description:
-+  The R-Car (RZ/G) System Controller provides power management for the CPU
-+  cores and various coprocessors.
++description: |
++  The R-Car and RZ/G Reset Controllers provide reset control, and implement the
++  following functions:
++    - Latching of the levels on mode pins when PRESET# is negated,
++    - Mode monitoring register,
++    - Reset control of peripheral devices (on R-Car Gen1),
++    - Watchdog timer (on R-Car Gen1),
++    - Register-based reset control and boot address registers for the various
++      CPU cores (on R-Car Gen2 and Gen3, and on RZ/G).
 +
 +properties:
 +  compatible:
 +    enum:
-+      - renesas,r8a7743-sysc  # RZ/G1M
-+      - renesas,r8a7744-sysc  # RZ/G1N
-+      - renesas,r8a7745-sysc  # RZ/G1E
-+      - renesas,r8a77470-sysc # RZ/G1C
-+      - renesas,r8a774a1-sysc # RZ/G2M
-+      - renesas,r8a774b1-sysc # RZ/G2N
-+      - renesas,r8a774c0-sysc # RZ/G2E
-+      - renesas,r8a7779-sysc  # R-Car H1
-+      - renesas,r8a7790-sysc  # R-Car H2
-+      - renesas,r8a7791-sysc  # R-Car M2-W
-+      - renesas,r8a7792-sysc  # R-Car V2H
-+      - renesas,r8a7793-sysc  # R-Car M2-N
-+      - renesas,r8a7794-sysc  # R-Car E2
-+      - renesas,r8a7795-sysc  # R-Car H3
-+      - renesas,r8a77961-sysc # R-Car M3-W+
-+      - renesas,r8a77965-sysc # R-Car M3-N
-+      - renesas,r8a7796-sysc  # R-Car M3-W
-+      - renesas,r8a77970-sysc # R-Car V3M
-+      - renesas,r8a77980-sysc # R-Car V3H
-+      - renesas,r8a77990-sysc # R-Car E3
-+      - renesas,r8a77995-sysc # R-Car D3
++      - renesas,r8a7743-rst       # RZ/G1M
++      - renesas,r8a7744-rst       # RZ/G1N
++      - renesas,r8a7745-rst       # RZ/G1E
++      - renesas,r8a77470-rst      # RZ/G1C
++      - renesas,r8a774a1-rst      # RZ/G2M
++      - renesas,r8a774b1-rst      # RZ/G2N
++      - renesas,r8a774c0-rst      # RZ/G2E
++      - renesas,r8a7778-reset-wdt # R-Car M1A
++      - renesas,r8a7779-reset-wdt # R-Car H1
++      - renesas,r8a7790-rst       # R-Car H2
++      - renesas,r8a7791-rst       # R-Car M2-W
++      - renesas,r8a7792-rst       # R-Car V2H
++      - renesas,r8a7793-rst       # R-Car M2-N
++      - renesas,r8a7794-rst       # R-Car E2
++      - renesas,r8a7795-rst       # R-Car H3
++      - renesas,r8a7796-rst       # R-Car M3-W
++      - renesas,r8a77961-rst      # R-Car M3-W+
++      - renesas,r8a77965-rst      # R-Car M3-N
++      - renesas,r8a77970-rst      # R-Car V3M
++      - renesas,r8a77980-rst      # R-Car V3H
++      - renesas,r8a77990-rst      # R-Car E3
++      - renesas,r8a77995-rst      # R-Car D3
 +
 +  reg:
 +    maxItems: 1
 +
-+  '#power-domain-cells':
-+    const: 1
-+
 +required:
 +  - compatible
 +  - reg
-+  - '#power-domain-cells'
-+
-+additionalProperties: false
 +
 +examples:
 +  - |
-+    // System Controller node
-+    sysc: system-controller@e6180000 {
-+            compatible = "renesas,r8a7791-sysc";
-+            reg = <0xe6180000 0x0200>;
-+            #power-domain-cells = <1>;
-+    };
-+
-+  - |
-+    // Power Domain consumers
-+    #include <dt-bindings/power/r8a7791-sysc.h>
-+
-+    cache-controller-0 {
-+            compatible = "cache";
-+            power-domains = <&sysc R8A7791_PD_CA15_SCU>;
-+            cache-unified;
-+            cache-level = <2>;
++    rst: reset-controller@e6160000 {
++            compatible = "renesas,r8a7795-rst";
++            reg = <0xe6160000 0x0200>;
 +    };
 -- 
 2.17.1
