@@ -2,125 +2,132 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A01941684C0
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2020 18:21:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D45A1686F1
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2020 19:48:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727291AbgBURVA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Feb 2020 12:21:00 -0500
-Received: from mail-yb1-f195.google.com ([209.85.219.195]:38904 "EHLO
-        mail-yb1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726198AbgBURU7 (ORCPT
+        id S1729355AbgBUSsG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Feb 2020 13:48:06 -0500
+Received: from relmlor2.renesas.com ([210.160.252.172]:27049 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726150AbgBUSsG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Feb 2020 12:20:59 -0500
-Received: by mail-yb1-f195.google.com with SMTP id v12so1453069ybi.5;
-        Fri, 21 Feb 2020 09:20:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=IWVlgYAJf77FUNFo3/GoZgBj7JaoEHC4YwQbTnJvbbc=;
-        b=O2/SIg7l0/i5PbP4X5bVieM9HRmU9hfDvouoosrMYOossZA4EyT5dE/t+LsWCQnUeW
-         8mZbom/4oUeT1QMZPE0a8M5re6u9/XxzZHyMJewYMwKs+nWJbv/G44pfNCzD7LfCYTZV
-         6APUhf3rXva0+NHi+1/eYjTGU20lXmjPgtz78XrJFxXMQgryVwsnrBSKoVLu2kDWBroJ
-         QuIkrlvMzqCc1ZCJmgjfPUHIOxBY7ILAZ6dbeCEdudlQ4BJ5J5gdsCVBbx0WtGtUx7Lq
-         gtyfLuRUIUcr8H626+8YYIea6ctJOItRgmfhfvnHUVcDICue1KP5iN33iwQQtxa965OT
-         gUHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=IWVlgYAJf77FUNFo3/GoZgBj7JaoEHC4YwQbTnJvbbc=;
-        b=NpNT50LZT+kb0uFcgmKIuxBy1UaBnqoFta3A6PVfbTdAmTunj4TP863ntFaeUMO4G8
-         GU9DOOa7BHE9b0cTRSPxboiLRQAadfzAt6+O+QToIPdvv3PAUUtA4AMGrLtSoBa7feTZ
-         Z6Wvw91C5M1CGwRf7rbs+pb6lUqXcROpkDvmPhCzEygXJBuHaRWnglv9oO8bI0Pe+203
-         7Jaz+CXCChUg3+0OaznsaNNDPvgtHE41IAfiuTbzCUL0MEZsSQpIvPagcivgr6zfVdx4
-         NhJsCNrtqxAgKqF3tnTknPoDnl2cN0926zjxX7e05igxTbwSWS14LV5dwv5nw8uE4jZA
-         IitQ==
-X-Gm-Message-State: APjAAAWUstZrmnJ2rE9evyQpQv7IfevYdZOqReUkqKoB4abEt+ZG0rDx
-        myLjN1zuUBky6pUlbkLBJIs=
-X-Google-Smtp-Source: APXvYqyxmw+5hIn9x8XNU+OdTvUPMMG4/1DpfpgIXHun2JCbsH+bBhK1YGyWv6rE/4E1+7rg1kiVSg==
-X-Received: by 2002:a25:b9c8:: with SMTP id y8mr31348517ybj.369.1582305658699;
-        Fri, 21 Feb 2020 09:20:58 -0800 (PST)
-Received: from [192.168.1.46] (c-73-88-245-53.hsd1.tn.comcast.net. [73.88.245.53])
-        by smtp.gmail.com with ESMTPSA id s68sm1539521ywg.69.2020.02.21.09.20.57
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 21 Feb 2020 09:20:58 -0800 (PST)
-Subject: Re: [PATCH v2 1/2] gpio: of: Extract of_gpiochip_add_hog()
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Peter Ujfalusi <peter.ujfalusi@ti.com>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20200220130149.26283-1-geert+renesas@glider.be>
- <20200220130149.26283-2-geert+renesas@glider.be>
- <CACRpkdbgsR1n1qj3HmQWcEjeDdN85N1Mw8kLOUAeDjESW36MDg@mail.gmail.com>
- <d2b87102-fdf3-f22f-8477-5b2105d9583b@gmail.com>
-From:   Frank Rowand <frowand.list@gmail.com>
-Message-ID: <3d56743a-ffb2-4f26-dfb0-b8430f0a4583@gmail.com>
-Date:   Fri, 21 Feb 2020 11:20:57 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <d2b87102-fdf3-f22f-8477-5b2105d9583b@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Fri, 21 Feb 2020 13:48:06 -0500
+X-IronPort-AV: E=Sophos;i="5.70,469,1574089200"; 
+   d="scan'208";a="39730618"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 22 Feb 2020 03:48:05 +0900
+Received: from marian-VirtualBox.ree.adwin.renesas.com (unknown [10.226.36.164])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5DE9540DAD14;
+        Sat, 22 Feb 2020 03:48:04 +0900 (JST)
+From:   Marian-Cristian Rotariu 
+        <marian-cristian.rotariu.rb@bp.renesas.com>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     Chris Paterson <chris.paterson2@renesas.com>
+Subject: [PATCH] usb: typec: hd3ss3220: fix return code
+Date:   Fri, 21 Feb 2020 18:48:03 +0000
+Message-Id: <1582310883-25893-1-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 2/21/20 11:18 AM, Frank Rowand wrote:
-> Hi Linus, Rob,
-> 
-> On 2/21/20 10:08 AM, Linus Walleij wrote:
->> On Thu, Feb 20, 2020 at 2:01 PM Geert Uytterhoeven
->> <geert+renesas@glider.be> wrote:
->>
->>> Extract the code to add all GPIO hogs of a gpio-hog node into its own
->>> function, so it can be reused.
->>>
->>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->>> ---
->>> v2:
->>>   - No changes.
->>
->> Patch applied with Frank's Review tag.
-> 
-> I created a devicetree unittest to show the problem that Geert's patches
-> fix.
+This patch fixes the return code for the attached_state, as the low level
+call did not adequately propagate errors to its callers.
 
-I left out the link to my patch series:
+Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+---
+ drivers/usb/typec/hd3ss3220.c | 33 +++++++++++++++++++++++----------
+ 1 file changed, 23 insertions(+), 10 deletions(-)
 
-   https://lore.kernel.org/linux-devicetree/1582224021-12827-1-git-send-email-frowand.list@gmail.com/
-
-   [PATCH v2 0/2] of: unittest: add overlay gpio test to catch gpio hog problem
-
--Frank
-
-> 
-> I would prefer to have my unittest patch series applied somewhere,
-> immediately followed by Geert's patch series.  This way, after
-> applying my series, a test fail is reported, then after Geert's
-> series is applied, the test fail becomes a test pass.
-> 
-> Can you coordinate with Rob to accept both series either via
-> your tree or Rob's tree?
-> 
-> -Frank
-> 
->>
->> Yours,
->> Linus Walleij
->>
-> 
+diff --git a/drivers/usb/typec/hd3ss3220.c b/drivers/usb/typec/hd3ss3220.c
+index 323dfa8..97ea52d 100644
+--- a/drivers/usb/typec/hd3ss3220.c
++++ b/drivers/usb/typec/hd3ss3220.c
+@@ -46,10 +46,10 @@ static int hd3ss3220_set_source_pref(struct hd3ss3220 *hd3ss3220, int src_pref)
+ 				  src_pref);
+ }
+ 
+-static enum usb_role hd3ss3220_get_attached_state(struct hd3ss3220 *hd3ss3220)
++static int hd3ss3220_get_attached_state(struct hd3ss3220 *hd3ss3220,
++		enum usb_role *attached_state)
+ {
+ 	unsigned int reg_val;
+-	enum usb_role attached_state;
+ 	int ret;
+ 
+ 	ret = regmap_read(hd3ss3220->regmap, HD3SS3220_REG_CN_STAT_CTRL,
+@@ -59,17 +59,17 @@ static enum usb_role hd3ss3220_get_attached_state(struct hd3ss3220 *hd3ss3220)
+ 
+ 	switch (reg_val & HD3SS3220_REG_CN_STAT_CTRL_ATTACHED_STATE_MASK) {
+ 	case HD3SS3220_REG_CN_STAT_CTRL_AS_DFP:
+-		attached_state = USB_ROLE_HOST;
++		*attached_state = USB_ROLE_HOST;
+ 		break;
+ 	case HD3SS3220_REG_CN_STAT_CTRL_AS_UFP:
+-		attached_state = USB_ROLE_DEVICE;
++		*attached_state = USB_ROLE_DEVICE;
+ 		break;
+ 	default:
+-		attached_state = USB_ROLE_NONE;
++		*attached_state = USB_ROLE_NONE;
+ 		break;
+ 	}
+ 
+-	return attached_state;
++	return 0;
+ }
+ 
+ static int hd3ss3220_dr_set(struct typec_port *port, enum typec_data_role role)
+@@ -99,9 +99,14 @@ static const struct typec_operations hd3ss3220_ops = {
+ 	.dr_set = hd3ss3220_dr_set
+ };
+ 
+-static void hd3ss3220_set_role(struct hd3ss3220 *hd3ss3220)
++static int hd3ss3220_set_role(struct hd3ss3220 *hd3ss3220)
+ {
+-	enum usb_role role_state = hd3ss3220_get_attached_state(hd3ss3220);
++	enum usb_role role_state;
++	int ret;
++
++	ret = hd3ss3220_get_attached_state(hd3ss3220, &role_state);
++	if (ret < 0)
++		return ret;
+ 
+ 	usb_role_switch_set_role(hd3ss3220->role_sw, role_state);
+ 	if (role_state == USB_ROLE_NONE)
+@@ -118,13 +123,18 @@ static void hd3ss3220_set_role(struct hd3ss3220 *hd3ss3220)
+ 	default:
+ 		break;
+ 	}
++
++	return 0;
+ }
+ 
+ static irqreturn_t hd3ss3220_irq(struct hd3ss3220 *hd3ss3220)
+ {
+ 	int err;
+ 
+-	hd3ss3220_set_role(hd3ss3220);
++	err = hd3ss3220_set_role(hd3ss3220);
++	if (err < 0)
++		return IRQ_NONE;
++
+ 	err = regmap_update_bits_base(hd3ss3220->regmap,
+ 				      HD3SS3220_REG_CN_STAT_CTRL,
+ 				      HD3SS3220_REG_CN_STAT_CTRL_INT_STATUS,
+@@ -196,7 +206,10 @@ static int hd3ss3220_probe(struct i2c_client *client,
+ 		goto err_put_role;
+ 	}
+ 
+-	hd3ss3220_set_role(hd3ss3220);
++	ret = hd3ss3220_set_role(hd3ss3220);
++	if (ret < 0)
++		goto err_unreg_port;
++
+ 	ret = regmap_read(hd3ss3220->regmap, HD3SS3220_REG_CN_STAT_CTRL, &data);
+ 	if (ret < 0)
+ 		goto err_unreg_port;
+-- 
+2.7.4
 
