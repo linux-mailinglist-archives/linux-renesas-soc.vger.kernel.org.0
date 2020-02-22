@@ -2,338 +2,241 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 99783168F22
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Feb 2020 14:32:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CCB08168F6D
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Feb 2020 15:58:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726883AbgBVNcx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 22 Feb 2020 08:32:53 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:34317 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726839AbgBVNcx (ORCPT
+        id S1727584AbgBVO6p (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 22 Feb 2020 09:58:45 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:43146 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727576AbgBVO6o (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 22 Feb 2020 08:32:53 -0500
-Received: by mail-ot1-f68.google.com with SMTP id j16so4699961otl.1;
-        Sat, 22 Feb 2020 05:32:52 -0800 (PST)
+        Sat, 22 Feb 2020 09:58:44 -0500
+Received: by mail-lf1-f68.google.com with SMTP id s23so3625018lfs.10
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 22 Feb 2020 06:58:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gpWIKWrE1rhe4Lmz27h6MYo1+CytzQ97HcPkl1bbBQg=;
-        b=b9oTOFIxxDINmliDvlwBF6mMJOD/6ljgktIYmN/KPkU7WtR4lOb9AFe6EH5HyziLre
-         qKMguwRhhKSxg9xCX62l5SYyN/edvqB0MmhNoBvLFZFKPZYvpP9KzCmtk1pc5kmAW3ss
-         LACpBh69lUIpEbrevh7RvETKuCunjrjciw/twSHcUMb+XVwSh3vzEToIu2f/vcdgVEeG
-         8sc+ue1p08tUUCxhTVOWxF0lGXuX5ed9Zz0loKtpjP413pUVlCh8cf1XMQPJMElrcPRZ
-         S6ifvsp3+nyApFoLx1ZYPHkb894aWGh1yrU1JdiK+CUqIDcQ1OQqUr23/ixILIHAB4bp
-         GUGw==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=22sCVmgYfxumFwE6ka2/N0j/kYteb6WIfPOgGgCHluQ=;
+        b=BDD2LYnN6Kn7VtWK03Zk1oP11ZNrZvkryw52Sol5noa1IrV3/gh9497+KWHFfukInp
+         H9WG1/NNs4ryW9H7PQM6yMOQtMK7hTG9q1owLo5W8w/cnZPfJl1wZAYzosuUWNOo5iGm
+         0m5/iRTikpgVP9Wk90nCMaKuCA7ejFQKk7LzzA8aBCKgwjZVn2uAEF4x0zgvjNmVKdui
+         a4MXn6Arhd7g6tZnYVk//DXI6nqa4RZ1moUPXlBUtkbyZnagNnpkfVYRhh+IUwH1if0z
+         yNKX7/vkZb8il11O1fsoOFuTpezeFhuAO6wE+QDqIowFcIWlp7yxt8bwViu9gPjjA6Hx
+         DoXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gpWIKWrE1rhe4Lmz27h6MYo1+CytzQ97HcPkl1bbBQg=;
-        b=FkTFnlEo8/ryfLNq6+wn3E2WICmIYdFeGm1iZpygpQo0xAp2Ar93LFbhxZ8pOes2zv
-         Xs4Us6u2eTWx4jcKGstgVi5Mj5YdWHpgomtbRzLlvUzIQEdPjvVwEcNCHCGCdE4NsKkx
-         TBAoZ+/GcsXCQRRpUf419hiJsQ/Yr+iohbLZQkOgppe3l+7DgmkgwFFWGyh7onrYEFRN
-         dkTPo/Y7jv4cUb3bEzHhzT0I3YLnXtY7uqZYjUY6gc+8Weh0w7jrQj5yGYlhBqRhYSCB
-         Dez/DlMIM24yn+/+J+tmuKylzIjQRkIsL72Y5qWEUaucVYZn2PtuWLGCGfTGm1Ho4VhY
-         uRRQ==
-X-Gm-Message-State: APjAAAUP5hwPP0IungF4nJ2UMjuqgCIEle4XtfbUOsh8Y0iQXpBjaPmJ
-        oQzbT2ah7AuYm7poo3xT4CHQW3/xQ2KBM8cxLVg=
-X-Google-Smtp-Source: APXvYqw4qJFXttjqY+CoS4blxgYb5kARD1LmNjzuInRM7DG6a1EU1Yjhik9ACboL1sc10ti/7w5rzQCjjX2r5eXSlsw=
-X-Received: by 2002:a05:6830:154a:: with SMTP id l10mr33157061otp.44.1582378372460;
- Sat, 22 Feb 2020 05:32:52 -0800 (PST)
-MIME-Version: 1.0
-References: <20200208183641.6674-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200208183641.6674-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <ea5fa2ec-3c0c-0343-0b14-9bbfa93feaa3@ti.com>
-In-Reply-To: <ea5fa2ec-3c0c-0343-0b14-9bbfa93feaa3@ti.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Sat, 22 Feb 2020 13:32:25 +0000
-Message-ID: <CA+V-a8u6qOc6LvzenN9XuJi=B_LmYsEJcnrUcwJ1WdJkh1sh7g@mail.gmail.com>
-Subject: Re: [PATCH v4 3/6] PCI: endpoint: Add support to handle multiple base
- for mapping outbound memory
-To:     Kishon Vijay Abraham I <kishon@ti.com>
-Cc:     Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=22sCVmgYfxumFwE6ka2/N0j/kYteb6WIfPOgGgCHluQ=;
+        b=Ww5McApEZNtjH1n82spnJnvGBVhEX/+uuhaXTZXZsELc87V8HYPjrHZ9lr3VpZc1kB
+         1CjYj2NLIAPn5VmHzvZ3BqNuJkZS1YD1rLiI1CJvZMLkgL1KT0CLjl1fAuKrKD8u8dM8
+         3GYiPhiOZsekZIBgpEMAJFHt2OgGnmtBXMI6J5KW8wNkG2YtQ9nu+jD50WlK2a6ntYC3
+         DJXQBmWrWf5WuvJznw1TgjbOd8JUlqnYshMQ+jiWHe1+GkNoaRkSFmAo9X+DHbjXHskE
+         lbSK3RpZsavhnb/h+If7UfwGuFSkJIar4xuRz4b7gN5Aw/Rv+a7qxgzT5a2pe3BcyYyg
+         V9Bg==
+X-Gm-Message-State: APjAAAWfIptE3Sz7hk+Yt+ysD3LFFFvnVrsE0a7cfdwMePQHx9czTCYk
+        dmOYbO0pH74Xpoq9x4UYdGF+BAgvfGg=
+X-Google-Smtp-Source: APXvYqyxUEKoWyaLCyvyvLLdqteGGq57VnEDUZkNRmpZsdyK61bq5cZQ0OoyHPca46c+T5GtRCEcXg==
+X-Received: by 2002:a19:f608:: with SMTP id x8mr22591799lfe.115.1582383522603;
+        Sat, 22 Feb 2020 06:58:42 -0800 (PST)
+Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
+        by smtp.gmail.com with ESMTPSA id m83sm3306652lfa.5.2020.02.22.06.58.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Feb 2020 06:58:41 -0800 (PST)
+Date:   Sat, 22 Feb 2020 15:58:41 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Andrew Murray <andrew.murray@arm.com>,
-        linux-pci <linux-pci@vger.kernel.org>,
-        LAK <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+        Magnus Damm <magnus.damm@gmail.com>,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: power: rcar-sysc: Convert to json-schema
+Message-ID: <20200222145841.GD1444588@oden.dyn.berto.se>
+References: <20200221121022.30970-1-geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200221121022.30970-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kishon,
+Hi Geert,
 
-Thank you for the review.
+Thanks for your work.
 
-On Fri, Feb 21, 2020 at 11:36 AM Kishon Vijay Abraham I <kishon@ti.com> wrote:
->
-> Hi Prabhakar,
->
-> On 09/02/20 12:06 am, Lad Prabhakar wrote:
-> > R-Car PCIe controller has support to map multiple memory regions for
-> > mapping the outbound memory in local system also the controller limits
-> > single allocation for each region (that is, once a chunk is used from the
-> > region it cannot be used to allocate a new one). This features inspires to
-> > add support for handling multiple memory bases in endpoint framework.
-> >
-> > With this patch pci_epc_mem_init() now accepts multiple regions, also
-> > page_size for each memory region is passed during initialization so as
-> > to handle single allocation for each region by setting the page_size to
-> > window_size.
->
-> This patch looks much better now except for one comment below..
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/pci/controller/cadence/pcie-cadence-ep.c |   7 +-
-> >  drivers/pci/controller/dwc/pcie-designware-ep.c  |  29 ++--
-> >  drivers/pci/controller/pcie-rockchip-ep.c        |   7 +-
-> >  drivers/pci/endpoint/pci-epc-mem.c               | 166 ++++++++++++++++-------
-> >  include/linux/pci-epc.h                          |  39 ++++--
-> >  5 files changed, 168 insertions(+), 80 deletions(-)
-> >
-> .
-> .
-> <snip>
-> .
-> .
-> > diff --git a/drivers/pci/endpoint/pci-epc-mem.c b/drivers/pci/endpoint/pci-epc-mem.c
-> > index d2b174c..b3eedee 100644
-> > --- a/drivers/pci/endpoint/pci-epc-mem.c
-> > +++ b/drivers/pci/endpoint/pci-epc-mem.c
-> > @@ -38,57 +38,76 @@ static int pci_epc_mem_get_order(struct pci_epc_mem *mem, size_t size)
-> >  /**
-> >   * __pci_epc_mem_init() - initialize the pci_epc_mem structure
-> >   * @epc: the EPC device that invoked pci_epc_mem_init
-> > - * @phys_base: the physical address of the base
-> > - * @size: the size of the address space
-> > - * @page_size: size of each page
-> > + * @windows: pointer to windows supported by the device
-> > + * @num_windows: number of windows device supports
-> >   *
-> >   * Invoke to initialize the pci_epc_mem structure used by the
-> >   * endpoint functions to allocate mapped PCI address.
-> >   */
-> > -int __pci_epc_mem_init(struct pci_epc *epc, phys_addr_t phys_base, size_t size,
-> > -                    size_t page_size)
-> > +int __pci_epc_mem_init(struct pci_epc *epc, struct pci_epc_mem_window *windows,
-> > +                    int num_windows)
-> >  {
-> > -     int ret;
-> > -     struct pci_epc_mem *mem;
-> > -     unsigned long *bitmap;
-> > +     struct pci_epc_mem *mem = NULL;
-> > +     unsigned long *bitmap = NULL;
-> >       unsigned int page_shift;
-> > -     int pages;
-> > +     size_t page_size;
-> >       int bitmap_size;
-> > -
-> > -     if (page_size < PAGE_SIZE)
-> > -             page_size = PAGE_SIZE;
-> > -
-> > -     page_shift = ilog2(page_size);
-> > -     pages = size >> page_shift;
-> > -     bitmap_size = BITS_TO_LONGS(pages) * sizeof(long);
-> > -
-> > -     mem = kzalloc(sizeof(*mem), GFP_KERNEL);
-> > -     if (!mem) {
-> > -             ret = -ENOMEM;
-> > -             goto err;
-> > -     }
-> > -
-> > -     bitmap = kzalloc(bitmap_size, GFP_KERNEL);
-> > -     if (!bitmap) {
-> > -             ret = -ENOMEM;
-> > -             goto err_mem;
-> > +     int pages;
-> > +     int ret;
-> > +     int i;
-> > +
-> > +     epc->mem_windows = 0;
-> > +
-> > +     if (!windows)
-> > +             return -EINVAL;
-> > +
-> > +     if (num_windows <= 0)
-> > +             return -EINVAL;
-> > +
-> > +     epc->mem = kcalloc(num_windows, sizeof(*mem), GFP_KERNEL);
-> > +     if (!epc->mem)
-> > +             return -EINVAL;
-> > +
-> > +     for (i = 0; i < num_windows; i++) {
-> > +             page_size = windows[i].page_size;
-> > +             if (page_size < PAGE_SIZE)
-> > +                     page_size = PAGE_SIZE;
-> > +             page_shift = ilog2(page_size);
-> > +             pages = windows[i].size >> page_shift;
-> > +             bitmap_size = BITS_TO_LONGS(pages) * sizeof(long);
-> > +
-> > +             mem = kzalloc(sizeof(*mem), GFP_KERNEL);
-> > +             if (!mem) {
-> > +                     ret = -ENOMEM;
-> > +                     goto err_mem;
-> > +             }
-> > +
-> > +             bitmap = kzalloc(bitmap_size, GFP_KERNEL);
-> > +             if (!bitmap) {
-> > +                     ret = -ENOMEM;
-> > +                     goto err_mem;
-> > +             }
-> > +
-> > +             mem->bitmap = bitmap;
-> > +             mem->window.phys_base = windows[i].phys_base;
-> > +             mem->page_size = page_size;
-> > +             mem->pages = pages;
-> > +             mem->window.size = windows[i].size;
-> > +             epc->mem[i] = mem;
-> >       }
-> > -
-> > -     mem->bitmap = bitmap;
-> > -     mem->phys_base = phys_base;
-> > -     mem->page_size = page_size;
-> > -     mem->pages = pages;
-> > -     mem->size = size;
-> > -
-> > -     epc->mem = mem;
-> > +     epc->mem_windows = num_windows;
-> >
-> >       return 0;
-> >
-> >  err_mem:
-> > -     kfree(mem);
-> > +     for (; i >= 0; i--) {
-> > +             mem = epc->mem[i];
-> > +             kfree(mem->bitmap);
-> > +             kfree(mem);
-> > +     }
-> > +     kfree(epc->mem);
-> >
-> > -err:
-> > -return ret;
-> > +     return ret;
-> >  }
-> >  EXPORT_SYMBOL_GPL(__pci_epc_mem_init);
-> >
-> > @@ -101,11 +120,21 @@ EXPORT_SYMBOL_GPL(__pci_epc_mem_init);
-> >   */
-> >  void pci_epc_mem_exit(struct pci_epc *epc)
-> >  {
-> > -     struct pci_epc_mem *mem = epc->mem;
-> > +     struct pci_epc_mem *mem;
-> > +     int i;
-> > +
-> > +     if (!epc->mem_windows)
-> > +             return;
-> > +
-> > +     for (i = 0; i <= epc->mem_windows; i++) {
-> > +             mem = epc->mem[i];
-> > +             kfree(mem->bitmap);
-> > +             kfree(mem);
-> > +     }
-> > +     kfree(epc->mem);
-> >
-> >       epc->mem = NULL;
-> > -     kfree(mem->bitmap);
-> > -     kfree(mem);
-> > +     epc->mem_windows = 0;
-> >  }
-> >  EXPORT_SYMBOL_GPL(pci_epc_mem_exit);
-> >
-> > @@ -121,20 +150,30 @@ EXPORT_SYMBOL_GPL(pci_epc_mem_exit);
-> >  void __iomem *pci_epc_mem_alloc_addr(struct pci_epc *epc,
-> >                                    phys_addr_t *phys_addr, size_t size)
-> >  {
-> > -     int pageno;
-> > -     void __iomem *virt_addr;
-> > -     struct pci_epc_mem *mem = epc->mem;
-> > -     unsigned int page_shift = ilog2(mem->page_size);
-> > +     void __iomem *virt_addr = NULL;
-> > +     struct pci_epc_mem *mem;
-> > +     unsigned int page_shift;
-> > +     int pageno = -EINVAL;
-> >       int order;
-> > +     int i;
-> >
-> > -     size = ALIGN(size, mem->page_size);
-> > -     order = pci_epc_mem_get_order(mem, size);
-> > +     for (i = 0; i < epc->mem_windows; i++) {
-> > +             mem = epc->mem[i];
-> > +             size = ALIGN(size, mem->page_size);
-> > +             order = pci_epc_mem_get_order(mem, size);
-> > +
-> > +             pageno = bitmap_find_free_region(mem->bitmap, mem->pages,
-> > +                                              order);
-> > +             if (pageno >= 0)
-> > +                     break;
-> > +     }
-> >
-> > -     pageno = bitmap_find_free_region(mem->bitmap, mem->pages, order);
-> >       if (pageno < 0)
-> >               return NULL;
-> >
-> > -     *phys_addr = mem->phys_base + ((phys_addr_t)pageno << page_shift);
-> > +     page_shift = ilog2(mem->page_size);
-> > +     *phys_addr = mem->window.phys_base +
-> > +                  ((phys_addr_t)pageno << page_shift);
-> >       virt_addr = ioremap(*phys_addr, size);
-> >       if (!virt_addr)
-> >               bitmap_release_region(mem->bitmap, pageno, order);
-> > @@ -143,6 +182,22 @@ void __iomem *pci_epc_mem_alloc_addr(struct pci_epc *epc,
-> >  }
-> >  EXPORT_SYMBOL_GPL(pci_epc_mem_alloc_addr);
-> >
-> > +struct pci_epc_mem *pci_epc_get_matching_window(struct pci_epc *epc,
-> > +                                             phys_addr_t phys_addr)
-> > +{
-> > +     struct pci_epc_mem *mem;
-> > +     int i;
-> > +
-> > +     for (i = 0; i < epc->mem_windows; i++) {
-> > +             mem = epc->mem[i];
-> > +
-> > +             if (mem->window.phys_base == phys_addr)
-> > +                     return mem;
->
-> This will work only if the phys_addr is same as start of windows base.
-> This need not be true for all the platforms and will fail for all the
-> allocations except the first allocation.
->
-Agreed, this worked for me because different windows were used for allocation.
-If you are OK with below changes Ill post a V5 soon.
+On 2020-02-21 13:10:22 +0100, Geert Uytterhoeven wrote:
+> Convert the Renesas R-Car System Controller Device Tree binding
+> documentation to json-schema.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-for (i = 0; i < epc->mem_windows; i++) {
-    mem = epc->mem[i];
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-    if (phys_addr >= mem->window.phys_base &&
-        phys_addr < (mem->window.phys_base + mem->window.size))
-        return mem;
-....
-...
-}
+> ---
+>  .../bindings/power/renesas,rcar-sysc.txt      | 62 ----------------
+>  .../bindings/power/renesas,rcar-sysc.yaml     | 73 +++++++++++++++++++
+>  2 files changed, 73 insertions(+), 62 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/power/renesas,rcar-sysc.txt
+>  create mode 100644 Documentation/devicetree/bindings/power/renesas,rcar-sysc.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/power/renesas,rcar-sysc.txt b/Documentation/devicetree/bindings/power/renesas,rcar-sysc.txt
+> deleted file mode 100644
+> index acb41fade926e2de..0000000000000000
+> --- a/Documentation/devicetree/bindings/power/renesas,rcar-sysc.txt
+> +++ /dev/null
+> @@ -1,62 +0,0 @@
+> -DT bindings for the Renesas R-Car (RZ/G) System Controller
+> -
+> -== System Controller Node ==
+> -
+> -The R-Car (RZ/G) System Controller provides power management for the CPU cores
+> -and various coprocessors.
+> -
+> -Required properties:
+> -  - compatible: Must contain exactly one of the following:
+> -      - "renesas,r8a7743-sysc" (RZ/G1M)
+> -      - "renesas,r8a7744-sysc" (RZ/G1N)
+> -      - "renesas,r8a7745-sysc" (RZ/G1E)
+> -      - "renesas,r8a77470-sysc" (RZ/G1C)
+> -      - "renesas,r8a774a1-sysc" (RZ/G2M)
+> -      - "renesas,r8a774b1-sysc" (RZ/G2N)
+> -      - "renesas,r8a774c0-sysc" (RZ/G2E)
+> -      - "renesas,r8a7779-sysc" (R-Car H1)
+> -      - "renesas,r8a7790-sysc" (R-Car H2)
+> -      - "renesas,r8a7791-sysc" (R-Car M2-W)
+> -      - "renesas,r8a7792-sysc" (R-Car V2H)
+> -      - "renesas,r8a7793-sysc" (R-Car M2-N)
+> -      - "renesas,r8a7794-sysc" (R-Car E2)
+> -      - "renesas,r8a7795-sysc" (R-Car H3)
+> -      - "renesas,r8a7796-sysc" (R-Car M3-W)
+> -      - "renesas,r8a77961-sysc" (R-Car M3-W+)
+> -      - "renesas,r8a77965-sysc" (R-Car M3-N)
+> -      - "renesas,r8a77970-sysc" (R-Car V3M)
+> -      - "renesas,r8a77980-sysc" (R-Car V3H)
+> -      - "renesas,r8a77990-sysc" (R-Car E3)
+> -      - "renesas,r8a77995-sysc" (R-Car D3)
+> -  - reg: Address start and address range for the device.
+> -  - #power-domain-cells: Must be 1.
+> -
+> -
+> -Example:
+> -
+> -	sysc: system-controller@e6180000 {
+> -		compatible = "renesas,r8a7791-sysc";
+> -		reg = <0 0xe6180000 0 0x0200>;
+> -		#power-domain-cells = <1>;
+> -	};
+> -
+> -
+> -== PM Domain Consumers ==
+> -
+> -Devices residing in a power area must refer to that power area, as documented
+> -by the generic PM domain bindings in
+> -Documentation/devicetree/bindings/power/power_domain.txt.
+> -
+> -Required properties:
+> -  - power-domains: A phandle and symbolic PM domain specifier, as defined in
+> -		   <dt-bindings/power/r8a77*-sysc.h>.
+> -
+> -
+> -Example:
+> -
+> -	L2_CA15: cache-controller@0 {
+> -		compatible = "cache";
+> -		power-domains = <&sysc R8A7791_PD_CA15_SCU>;
+> -		cache-unified;
+> -		cache-level = <2>;
+> -	};
+> diff --git a/Documentation/devicetree/bindings/power/renesas,rcar-sysc.yaml b/Documentation/devicetree/bindings/power/renesas,rcar-sysc.yaml
+> new file mode 100644
+> index 0000000000000000..8daa23e1c49a3f81
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/power/renesas,rcar-sysc.yaml
+> @@ -0,0 +1,73 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/power/renesas,rcar-sysc.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: DT bindings for the Renesas R-Car and RZ/G System Controller
+> +
+> +maintainers:
+> +  - Geert Uytterhoeven <geert+renesas@glider.be>
+> +  - Magnus Damm <magnus.damm@gmail.com>
+> +
+> +description:
+> +  The R-Car (RZ/G) System Controller provides power management for the CPU
+> +  cores and various coprocessors.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - renesas,r8a7743-sysc  # RZ/G1M
+> +      - renesas,r8a7744-sysc  # RZ/G1N
+> +      - renesas,r8a7745-sysc  # RZ/G1E
+> +      - renesas,r8a77470-sysc # RZ/G1C
+> +      - renesas,r8a774a1-sysc # RZ/G2M
+> +      - renesas,r8a774b1-sysc # RZ/G2N
+> +      - renesas,r8a774c0-sysc # RZ/G2E
+> +      - renesas,r8a7779-sysc  # R-Car H1
+> +      - renesas,r8a7790-sysc  # R-Car H2
+> +      - renesas,r8a7791-sysc  # R-Car M2-W
+> +      - renesas,r8a7792-sysc  # R-Car V2H
+> +      - renesas,r8a7793-sysc  # R-Car M2-N
+> +      - renesas,r8a7794-sysc  # R-Car E2
+> +      - renesas,r8a7795-sysc  # R-Car H3
+> +      - renesas,r8a77961-sysc # R-Car M3-W+
+> +      - renesas,r8a77965-sysc # R-Car M3-N
+> +      - renesas,r8a7796-sysc  # R-Car M3-W
+> +      - renesas,r8a77970-sysc # R-Car V3M
+> +      - renesas,r8a77980-sysc # R-Car V3H
+> +      - renesas,r8a77990-sysc # R-Car E3
+> +      - renesas,r8a77995-sysc # R-Car D3
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  '#power-domain-cells':
+> +    const: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - '#power-domain-cells'
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    // System Controller node
+> +    sysc: system-controller@e6180000 {
+> +            compatible = "renesas,r8a7791-sysc";
+> +            reg = <0xe6180000 0x0200>;
+> +            #power-domain-cells = <1>;
+> +    };
+> +
+> +  - |
+> +    // Power Domain consumers
+> +    #include <dt-bindings/power/r8a7791-sysc.h>
+> +
+> +    cache-controller-0 {
+> +            compatible = "cache";
+> +            power-domains = <&sysc R8A7791_PD_CA15_SCU>;
+> +            cache-unified;
+> +            cache-level = <2>;
+> +    };
+> -- 
+> 2.17.1
+> 
 
-Cheers,
---Prabhakar Lad
-
-> Thanks
-> Kishon
+-- 
+Regards,
+Niklas Söderlund
