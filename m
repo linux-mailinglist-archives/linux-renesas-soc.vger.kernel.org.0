@@ -2,127 +2,128 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 500501688AD
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 21 Feb 2020 22:04:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 85A3E168BBF
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Feb 2020 02:42:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726787AbgBUVEY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 21 Feb 2020 16:04:24 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:52451 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726683AbgBUVEX (ORCPT
+        id S1727723AbgBVBmU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 21 Feb 2020 20:42:20 -0500
+Received: from helcar.hmeau.com ([216.24.177.18]:52220 "EHLO fornost.hmeau.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726842AbgBVBmU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 21 Feb 2020 16:04:23 -0500
-Received: by mail-wm1-f68.google.com with SMTP id p9so3170010wmc.2
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 21 Feb 2020 13:04:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=tQeVYfsUFKgsSmw1aQPclRTOralMynD4h6posp0ymq0=;
-        b=THRswSvqhN6fuSW/RSrVM9RPAjhndUlmnGE89EsKP80IKDfhjFyO1hMmTUdUt9rz4u
-         QdLfA7QbMHQooJBBp/3/vCHT+vMb+ZPUPqORQMWgdwJ0EgX48DKGCN+3PxM5Bsu7uchQ
-         g5pdj5d3MXo+4eZJbhEfzk2rvFeQcXlzzLttg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=tQeVYfsUFKgsSmw1aQPclRTOralMynD4h6posp0ymq0=;
-        b=aWSqqWq3AQfbb2xhKXt35wt3cDcv7Maj70pOpP6tIeDWHQ0wqryk2OH8XH1EMvE6CT
-         dAOZxjjzzEVl7iQjdo0R9RVapIebpG9XcZeRbT7yRCUs6y3wtWJt50ne6k08/3R4iNL9
-         G0QjHGyt3hk+aflNiRRhTQruQwXcNHjb8btYoa0tw502Rpg+CvHKW45TSzdu+THTeXxb
-         XryH8c/6CL2t4invX8y5y2KfoXbhQDa4vZIUYvVyBoYsoVF26HyPFfib8MumbH+/XFr6
-         uyqynecsQ0hqhPlqnbTgskRbn2mfKITYQFtD7R+7ePhbzXUs6yphPwAhVgf1Th9zQqtq
-         Ucjw==
-X-Gm-Message-State: APjAAAWEbYgMgFdxlXpTxrOSbI0pfOuGh5aZTB4J1AXqTNtwaEx42XrD
-        xLPgCD29kjc2WrQ5C293T1/O5g==
-X-Google-Smtp-Source: APXvYqxKNfNo2ZTASEwgaTgXiTDV9loh8FfFaeHxuGt6Q57q6i8b1517mqplnCB5bL7BwexqCIjXWw==
-X-Received: by 2002:a1c:8151:: with SMTP id c78mr5326076wmd.29.1582319060158;
-        Fri, 21 Feb 2020 13:04:20 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id z6sm5483930wrw.36.2020.02.21.13.04.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Feb 2020 13:04:19 -0800 (PST)
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-To:     DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH 39/51] drm/shmob: Drop explicit drm_mode_config_cleanup call
-Date:   Fri, 21 Feb 2020 22:03:07 +0100
-Message-Id: <20200221210319.2245170-40-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200221210319.2245170-1-daniel.vetter@ffwll.ch>
-References: <20200221210319.2245170-1-daniel.vetter@ffwll.ch>
+        Fri, 21 Feb 2020 20:42:20 -0500
+Received: from gwarestrin.me.apana.org.au ([192.168.0.7] helo=gwarestrin.arnor.me.apana.org.au)
+        by fornost.hmeau.com with smtp (Exim 4.89 #2 (Debian))
+        id 1j5Jnu-0002wa-Bq; Sat, 22 Feb 2020 12:42:03 +1100
+Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation); Sat, 22 Feb 2020 12:42:02 +1100
+Date:   Sat, 22 Feb 2020 12:42:02 +1100
+From:   Herbert Xu <herbert@gondor.apana.org.au>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Gilad Ben-Yossef <gilad@benyossef.com>,
+        "David S . Miller" <davem@davemloft.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        linux-crypto@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 00/34] crypto: ccree - miscellaneous fixes and
+ improvements
+Message-ID: <20200222014202.GD19028@gondor.apana.org.au>
+References: <20200211181928.15178-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200211181928.15178-1-geert+renesas@glider.be>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-It's right above the drm_dev_put().
+On Tue, Feb 11, 2020 at 07:18:54PM +0100, Geert Uytterhoeven wrote:
+> 	Hi all,
+> 
+> This series contains several fixes, cleanups, and other improvements for
+> the ARM TrustZone CryptoCell driver.
+> 
+> The first 3 patches have been sent before:
+>   - [PATCH 0/2] Fix debugfs register access while suspended[1],
+>   - [PATCH] [RFC] crypto: ccree - fix retry handling in
+>     cc_send_sync_request()[2.
+> 
+> This is based on v5.6-rc1, with the following fixes from Gilad applied:
+>   - [PATCH 0/4] crypto: ccree - fixes[3],
+>   - [PATCH] crypto: ccree - dec auth tag size from cryptlen map[4].
+> 
+> This has been tested on R-Car H3 ES2.0.
+> To ease testing, I have pushed this series and its dependencies to the
+> topic/ccree-misc-v2  branch of my renesas-drivers repository at
+> git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git.
+> 
+> Thanks for your comments!
+> 
+> [1] https://lore.kernel.org/r/20200124132957.15769-1-geert+renesas@glider.be/
+> [2] https://lore.kernel.org/r/20200128190913.23086-1-geert+renesas@glider.be/
+> [3] https://lore.kernel.org/r/20200129143757.680-1-gilad@benyossef.com/
+> [4] https://lore.kernel.org/r/20200202161914.9551-1-gilad@benyossef.com/
+> 
+> Geert Uytterhoeven (34):
+>   debugfs: regset32: Add Runtime PM support
+>   crypto: ccree - fix debugfs register access while suspended
+>   crypto: ccree - fix retry handling in cc_send_sync_request()
+>   crypto: ccree - remove unneeded casts
+>   crypto: ccree - swap SHA384 and SHA512 larval hashes at build time
+>   crypto: ccree - drop duplicated error message on SRAM exhaustion
+>   crypto: ccree - remove empty cc_sram_mgr_fini()
+>   crypto: ccree - clean up clock handling
+>   crypto: ccree - make mlli_params.mlli_virt_addr void *
+>   crypto: ccree - use existing helpers to split 64-bit addresses
+>   crypto: ccree - defer larval_digest_addr init until needed
+>   crypto: ccree - remove bogus paragraph about freeing SRAM
+>   crypto: ccree - use u32 for SRAM addresses
+>   crypto: ccree - simplify Runtime PM handling
+>   crypto: ccree - use of_device_get_match_data()
+>   crypto: ccree - remove cc_pm_is_dev_suspended() wrapper
+>   crypto: ccree - make cc_pm_{suspend,resume}() static
+>   crypto: ccree - remove struct cc_sram_ctx
+>   crypto: ccree - remove struct cc_debugfs_ctx
+>   crypto: ccree - remove struct buff_mgr_handle
+>   crypto: ccree - remove struct cc_cipher_handle
+>   crypto: ccree - extract cc_init_copy_sram()
+>   crypto: ccree - remove bogus kerneldoc markers
+>   crypto: ccree - improve kerneldoc in cc_hw_queue_defs.h
+>   crypto: ccree - improve kerneldoc in cc_buffer_mgr.c
+>   crypto: ccree - improve kerneldoc in cc_hash.[ch]
+>   crypto: ccree - improve kerneldoc in cc_request_mgr.[ch]
+>   crypto: ccree - improve kerneldoc in cc_sram_mgr.[ch]
+>   crypto: ccree - spelling s/Crytpcell/Cryptocell/
+>   crypto: ccree - grammar s/not room/no room/
+>   crypto: ccree - use existing dev helper in init_cc_resources()
+>   crypto: ccree - use devm_k[mz]alloc() for AEAD data
+>   crypto: ccree - use devm_k[mz]alloc() for cipher data
+>   crypto: ccree - use devm_kzalloc() for hash data
+> 
+>  drivers/crypto/ccree/cc_aead.c          |  61 +++---
+>  drivers/crypto/ccree/cc_buffer_mgr.c    |  66 +++---
+>  drivers/crypto/ccree/cc_buffer_mgr.h    |   4 +-
+>  drivers/crypto/ccree/cc_cipher.c        |  61 ++----
+>  drivers/crypto/ccree/cc_debugfs.c       |  29 +--
+>  drivers/crypto/ccree/cc_driver.c        | 127 +++++-------
+>  drivers/crypto/ccree/cc_driver.h        |  13 +-
+>  drivers/crypto/ccree/cc_hash.c          | 225 +++++++++------------
+>  drivers/crypto/ccree/cc_hash.h          |  31 ++-
+>  drivers/crypto/ccree/cc_hw_queue_defs.h | 255 ++++++++++++------------
+>  drivers/crypto/ccree/cc_pm.c            |  60 +-----
+>  drivers/crypto/ccree/cc_pm.h            |  21 --
+>  drivers/crypto/ccree/cc_request_mgr.c   |  47 +++--
+>  drivers/crypto/ccree/cc_request_mgr.h   |  19 +-
+>  drivers/crypto/ccree/cc_sram_mgr.c      |  78 +++-----
+>  drivers/crypto/ccree/cc_sram_mgr.h      |  45 ++---
+>  fs/debugfs/file.c                       |   8 +
+>  include/linux/debugfs.h                 |   1 +
+>  18 files changed, 456 insertions(+), 695 deletions(-)
 
-This is made possible by a preceeding patch which added a drmm_
-cleanup action to drm_mode_config_init(), hence all we need to do to
-ensure that drm_mode_config_cleanup() is run on final drm_device
-cleanup is check the new error code for _init().
-
-Aside: Another driver with a bit much devm_kzalloc, which should
-probably use drmm_kzalloc instead ...
-
-v2: Explain why this cleanup is possible (Laurent).
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: linux-renesas-soc@vger.kernel.org
----
- drivers/gpu/drm/shmobile/shmob_drm_drv.c | 2 --
- drivers/gpu/drm/shmobile/shmob_drm_kms.c | 6 +++++-
- 2 files changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-index b8c0930959c7..ae9d6b8d3ca8 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-@@ -192,7 +192,6 @@ static int shmob_drm_remove(struct platform_device *pdev)
- 
- 	drm_dev_unregister(ddev);
- 	drm_kms_helper_poll_fini(ddev);
--	drm_mode_config_cleanup(ddev);
- 	drm_irq_uninstall(ddev);
- 	drm_dev_put(ddev);
- 
-@@ -288,7 +287,6 @@ static int shmob_drm_probe(struct platform_device *pdev)
- 	drm_irq_uninstall(ddev);
- err_modeset_cleanup:
- 	drm_kms_helper_poll_fini(ddev);
--	drm_mode_config_cleanup(ddev);
- err_free_drm_dev:
- 	drm_dev_put(ddev);
- 
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_kms.c b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
-index c51197b6fd85..e6e34bb75ba0 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_kms.c
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_kms.c
-@@ -126,7 +126,11 @@ static const struct drm_mode_config_funcs shmob_drm_mode_config_funcs = {
- 
- int shmob_drm_modeset_init(struct shmob_drm_device *sdev)
- {
--	drm_mode_config_init(sdev->ddev);
-+	int ret;
-+
-+	ret = drm_mode_config_init(sdev->ddev);
-+	if (ret)
-+		return ret;
- 
- 	shmob_drm_crtc_create(sdev);
- 	shmob_drm_encoder_create(sdev);
+All applied.  Thanks.
 -- 
-2.24.1
-
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
