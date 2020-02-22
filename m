@@ -2,110 +2,148 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0795F168FA8
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Feb 2020 16:04:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F6461691C9
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Feb 2020 21:42:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727620AbgBVPEA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 22 Feb 2020 10:04:00 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:41018 "EHLO
+        id S1726767AbgBVUmc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 22 Feb 2020 15:42:32 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:38308 "EHLO
         mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727552AbgBVPEA (ORCPT
+        with ESMTP id S1726856AbgBVUmc (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 22 Feb 2020 10:04:00 -0500
-Received: by mail-lf1-f67.google.com with SMTP id y17so536790lfe.8
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 22 Feb 2020 07:03:57 -0800 (PST)
+        Sat, 22 Feb 2020 15:42:32 -0500
+Received: by mail-lf1-f67.google.com with SMTP id r14so4011841lfm.5
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 22 Feb 2020 12:42:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Xifd8WijE8GTahP3bmRGY4Sh30aYMNX7/F7d8gaMK0M=;
-        b=kvhJmk6XLbSxYn8Qjx1BuLosQ1khAzVj8FF5GAPFk6XZqKJ8Qss4pEneppvA9kr8XL
-         pgiSNkEtfDwsUE0qcDMkOS0tz3HarxiRexYMFIOgJI2hI7ywPC5rq7Rs9y4+mOrwQhpW
-         9epQWVUoz6Xssan3vvFeqfSWNV50tIK+9QIHvjrXoiZf8ZWSnmD4muv4WZnv9ZmtCoQf
-         sYFRLK+HfTiuZZpdcSXteB02Pcm4LFV/4TgY8KGJsxIHgloidZpzfPCGH7u2+4JWssDs
-         gNu2LGtTf6e3u7/qSbEAeSAOjRdxskSfBCX1/+eWAWs31GwfUtQ9EgKvt4rASQ+qj1Mg
-         /yvQ==
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=8/dqp+6ZkvRRmpmaUZJPJGMl+JnMMGYivypZ+qu1IdQ=;
+        b=KfFZENIHa1kD6D/djqtV3blmirkAzxujGlBUFJP08Yxr+SBEzFzJLYLcEkkSqydT8X
+         WcrEABFsSj/iama8pmWwrD0OkIPADuTDhFwjkBQNCgz/X0EWGkD1A4XiSLivvtseRDn3
+         TYiTvAMUlNv9hyetNnMvhIBTGGb1OuWpsVfnhJ58Ho9wGJ0wB9TYgJ5UCENxnu42+3oN
+         6xdXDF7aUEKvAcq1gbBTewL0jcm8+bY6gCsU9i2lqP/47SV9kF6bH2y1LxAWkiCHpe0t
+         kV/STK4XxyKUpd3IzE0SYkQyeH3TH8R8H0taoZJWSQCs2wPxYJJrzMW7vncAb+rmRqgS
+         m6ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Xifd8WijE8GTahP3bmRGY4Sh30aYMNX7/F7d8gaMK0M=;
-        b=e+FhjEneH8DkRoaSoBmb/zhlAguNNca3FgvyKI2Swt2GMr2fbV1gRU9/lht8Tmgamk
-         xv0TDz0FMIXHoRx2x8mdthx0UgV5V3Sx3DK7mfaq+P+ipRR3hY2CPxfZ/R4+ZIo4mi3M
-         lOtOPos78pQaBkGlDxopdcimyXF5RMvLxvHlDASRXrpD1oKOYisPkNK+RlqljigSqQCy
-         3XBk53vXqKWpldGyu2fiHX7ytD0Xc7Q/b+i4RkK99g/FxtbhjW+zdxfAxdUKMbj0CLiO
-         xx3bKz3gKpBKOQTWoi/rDBLfR+TtGurDeLOlxkny490zJRHukWxnpyFT16h/GWHY+4XM
-         QIJQ==
-X-Gm-Message-State: APjAAAWsRnw7niRJXXQYfQp2pIYFaE9EoNX2765TbMr43qewTlmp27KA
-        hH94esdI1kxtR+ZXORfJtfrIcw==
-X-Google-Smtp-Source: APXvYqxL0tbEYrhWH41q9mPIM4qs0NfEKPE2NiFblTDT21q2Rpd/pk/K3bhgcG+848q06IQNrgpF1Q==
-X-Received: by 2002:ac2:46dc:: with SMTP id p28mr22696651lfo.23.1582383836868;
-        Sat, 22 Feb 2020 07:03:56 -0800 (PST)
-Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
-        by smtp.gmail.com with ESMTPSA id z1sm3230464lfh.35.2020.02.22.07.03.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Feb 2020 07:03:56 -0800 (PST)
-Date:   Sat, 22 Feb 2020 16:03:55 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH] ARM: dts: r8a7779: Remove deprecated "renesas,rcar-sata"
- compatible value
-Message-ID: <20200222150355.GE1444588@oden.dyn.berto.se>
-References: <20200219153929.11073-1-geert+renesas@glider.be>
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=8/dqp+6ZkvRRmpmaUZJPJGMl+JnMMGYivypZ+qu1IdQ=;
+        b=a3Uy2PDMzfhnyJM6Czmxp5iPvqvW3ew2tLAcBmXMiXa4W0HJK+Sk2r+UiDa6xNJCY/
+         KCgeK5IXGBnuhhFr0LuakyjtAABTw+TwvtD1gYQJ/LeFiVh5KkCLzDDtCmk9Sswya1JD
+         LwwFPXem93jLHChGPyHGyzjSXlKZmr2km/WAELNTxl//P/ht8NHPGue4VECQwX6/z2sx
+         TPme/zO5Okmkj4hAVqghlRtp62E+LDPyg7rOTS4t45IcUcvV311daXPq2f252FKQJRz+
+         6hogbEFvuI+r9GRygGVDstArE2lGzCyuCWtuIE3CVg2PK6twGxA4Xw9zrQ/Y55mSRVHm
+         N94g==
+X-Gm-Message-State: APjAAAXFPtnZGtY2TYSA/17O7KbKKhkXZUtRnGZ3adEoViDOB8u6mAmi
+        SDuioSocQdGwZeq8SQGhfd5+/zp100Q=
+X-Google-Smtp-Source: APXvYqx/B38YxteGwSNzJbkis53V2cy++o3q6ZdclQVcDwud+2NQuhy0RoD9Gg/qpGXsI9f1WGPORw==
+X-Received: by 2002:a19:6b0e:: with SMTP id d14mr4043585lfa.46.1582404149341;
+        Sat, 22 Feb 2020 12:42:29 -0800 (PST)
+Received: from wasted.cogentembedded.com ([2a00:1fa0:4621:26b8:f6bb:b31c:6567:7228])
+        by smtp.gmail.com with ESMTPSA id v16sm3543019lfp.92.2020.02.22.12.42.27
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 22 Feb 2020 12:42:28 -0800 (PST)
+Subject: Re: [PATCH RFC 2/2] memory: add Renesas RPC-IF driver
+To:     "Behme Dirk (CM/ESO2)" <dirk.behme@de.bosch.com>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mason Yang <masonccyang@mxic.com.tw>,
+        linux-spi@vger.kernel.org, Chris Brandt <chris.brandt@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+References: <cb7022c9-0059-4eb2-7910-aab42124fa1c@cogentembedded.com>
+ <4db876ed-1ccc-e3be-311d-30cd52f40259@cogentembedded.com>
+ <5760bcdb-e44b-6f18-7262-9526684e5780@de.bosch.com>
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Organization: Cogent Embedded
+Message-ID: <5603f393-554d-e2a8-c2d8-6bafc20f4169@cogentembedded.com>
+Date:   Sat, 22 Feb 2020 23:42:26 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200219153929.11073-1-geert+renesas@glider.be>
+In-Reply-To: <5760bcdb-e44b-6f18-7262-9526684e5780@de.bosch.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On 02/10/2020 01:21 PM, Behme Dirk (CM/ESO2) wrote:
 
-Thanks for your work.
-
-On 2020-02-19 16:39:29 +0100, Geert Uytterhoeven wrote:
-> The "renesas,rcar-sata" compatible value was deprecated by
-> "renesas,sata-r8a7779" many years ago, in commit e67adb4e669db834
-> ("sata_rcar: Add R-Car Gen2 SATA PHY support").  Drop it.
+>> Add the memory driver for Renesas RPC-IF which registers either SPI or
+>> HyperFLash device depending on the contents of the device tree subnode.
+>> It also provides the absract "back end" device APIs that can be used by
+>> the "front end" SPI/MTD drivers to talk to the real hardware.
+>>
+>> Based on the original patch by Mason Yang <masonccyang@mxic.com.tw>.
+>>
+>> Signed-off-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> 
+> FYI, please find below [1] the changes I did locally on this driver. It seems to read & write successfully on my custom M3 (R8A7796) device, now.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+   Not for me...
+   BTW, your patch had whitespace ruined, I had to apply it by hand, you'd better
+attach the patches, not paste. :-/
 
+> Best regards
+> 
+> Dirk
+> 
+> [1]
+> 
+> From d72b805cc461ab1e9747c973e9be84e7abb8f828 Mon Sep 17 00:00:00 2001
+> From: Dirk Behme <dirk.behme@de.bosch.com>
+> Date: Tue, 4 Feb 2020 08:39:31 +0100
+> Subject: [PATCH] memory: renesas-rpc-if: Correct the STRTIM and some other
+>  clean up
+> 
+> This is required to make the driver work correctly in my M3 environment.
+> 
+> Signed-off-by: Dirk Behme <dirk.behme@de.bosch.com>
 > ---
-> To be queued in renesas-fixes for v5.6, as not having to care about the
-> deprecated value will simplify the json-schema conversion.
-> ---
->  arch/arm/boot/dts/r8a7779.dtsi | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/memory/renesas-rpc-if.c | 42 ++++++++++++++++++++-------------
+>  1 file changed, 25 insertions(+), 17 deletions(-)
 > 
-> diff --git a/arch/arm/boot/dts/r8a7779.dtsi b/arch/arm/boot/dts/r8a7779.dtsi
-> index beb9885e6ffca7a5..c0999e27e9b145e3 100644
-> --- a/arch/arm/boot/dts/r8a7779.dtsi
-> +++ b/arch/arm/boot/dts/r8a7779.dtsi
-> @@ -377,7 +377,7 @@
->  	};
->  
->  	sata: sata@fc600000 {
-> -		compatible = "renesas,sata-r8a7779", "renesas,rcar-sata";
-> +		compatible = "renesas,sata-r8a7779";
->  		reg = <0xfc600000 0x200000>;
->  		interrupts = <GIC_SPI 100 IRQ_TYPE_LEVEL_HIGH>;
->  		clocks = <&mstp1_clks R8A7779_CLK_SATA>;
-> -- 
-> 2.17.1
+> diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
+> index 04be92b64bfa..f4356b066384 100644
+> --- a/drivers/memory/renesas-rpc-if.c
+> +++ b/drivers/memory/renesas-rpc-if.c
+[...]
+> @@ -513,19 +525,15 @@ ssize_t rpcif_dirmap_read(struct rpcif *rpc, u64 offs, size_t len, void *buf)
+>      pm_runtime_get_sync(rpc->dev);
 > 
+>      regmap_update_bits(rpc->regmap, RPCIF_CMNCR, RPCIF_CMNCR_MD, 0);
+> -    regmap_write(rpc->regmap, RPCIF_DRCR,
+> -             RPCIF_DRCR_RBURST(32) | RPCIF_DRCR_RBE);
+> -    regmap_write(rpc->regmap, RPCIF_DRCMR, rpc->command);
+> -    regmap_write(rpc->regmap, RPCIF_DREAR,
+> -             RPCIF_DREAR_EAV(offs >> 25) | RPCIF_DREAR_EAC(1));
+> -    regmap_write(rpc->regmap, RPCIF_DROPR, rpc->option);
+> -    regmap_write(rpc->regmap, RPCIF_DRENR,
+> -             rpc->enable & ~RPCIF_SMENR_SPIDE(0xF));
+> -    regmap_write(rpc->regmap, RPCIF_DRDMCR, rpc->dummy);
+> -    regmap_write(rpc->regmap, RPCIF_DRDRENR, rpc->ddr);
 
--- 
-Regards,
-Niklas Söderlund
+   The driver somehow works only with this left in place (with 2 bytes eaten
+as before), otherwise all the flash reads all 0xff (via dirmap).
+
+> +    ret = wait_msg_xfer_end(rpc);
+> +    if (ret) {
+> +        len = 0;
+> +        goto err_out;
+> +    }
+> 
+>      memcpy_fromio(buf, rpc->dirmap + from, len);
+> 
+> +err_out:
+>      pm_runtime_put(rpc->dev);
+> 
+>      return len;
+
+MBR, Sergei
