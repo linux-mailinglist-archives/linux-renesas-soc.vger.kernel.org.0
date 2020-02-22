@@ -2,35 +2,35 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B37E4168D0C
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Feb 2020 08:08:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0857168D0E
+	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Feb 2020 08:08:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726832AbgBVHIU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 22 Feb 2020 02:08:20 -0500
-Received: from mga03.intel.com ([134.134.136.65]:65437 "EHLO mga03.intel.com"
+        id S1726928AbgBVHIZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 22 Feb 2020 02:08:25 -0500
+Received: from mga09.intel.com ([134.134.136.24]:31114 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726689AbgBVHIU (ORCPT
+        id S1726726AbgBVHIZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 22 Feb 2020 02:08:20 -0500
+        Sat, 22 Feb 2020 02:08:25 -0500
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Feb 2020 23:08:19 -0800
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Feb 2020 23:08:24 -0800
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.70,471,1574150400"; 
-   d="scan'208";a="259846750"
+   d="scan'208";a="225441890"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 21 Feb 2020 23:08:18 -0800
+  by orsmga007.jf.intel.com with ESMTP; 21 Feb 2020 23:08:23 -0800
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
         (envelope-from <lkp@intel.com>)
-        id 1j5Otd-0004wY-JT; Sat, 22 Feb 2020 15:08:17 +0800
-Date:   Sat, 22 Feb 2020 15:08:09 +0800
+        id 1j5Oti-0005Lw-U1; Sat, 22 Feb 2020 15:08:22 +0800
+Date:   Sat, 22 Feb 2020 15:08:12 +0800
 From:   kbuild test robot <lkp@intel.com>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
 Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-arm64-dt-for-v5.7] BUILD SUCCESS
- 721b76195b31467e56851fbab3855e700f281270
-Message-ID: <5e50d359.vEgiTZQ7bYmtTgNZ%lkp@intel.com>
+Subject: [renesas-devel:renesas-arm64-defconfig-for-v5.7] BUILD SUCCESS
+ bf9e333ec0d54f7428d9192ad403c3cb523584c7
+Message-ID: <5e50d35c.S0w/e5yx5ioBt1By%lkp@intel.com>
 User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -40,13 +40,13 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm64-dt-for-v5.7
-branch HEAD: 721b76195b31467e56851fbab3855e700f281270  arm64: dts: renesas: rzg2: Add reset control properties for display
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm64-defconfig-for-v5.7
+branch HEAD: bf9e333ec0d54f7428d9192ad403c3cb523584c7  arm64: defconfig: Enable additional support for Renesas platforms
 
 elapsed time: 933m
 
 configs tested: 200
-configs skipped: 144
+configs skipped: 151
 
 The following configs have been built successfully.
 More configs may be tested in the coming days.
@@ -66,12 +66,12 @@ arm                        shmobile_defconfig
 arm                           sunxi_defconfig
 arm64                               defconfig
 sh                               allmodconfig
-riscv                          rv32_defconfig
 arc                                 defconfig
 c6x                              allyesconfig
 parisc                generic-32bit_defconfig
 m68k                          multi_defconfig
 openrisc                    or1ksim_defconfig
+riscv                          rv32_defconfig
 i386                             alldefconfig
 i386                              allnoconfig
 i386                             allyesconfig
@@ -208,12 +208,12 @@ x86_64               randconfig-g003-20200221
 i386                 randconfig-g001-20200221
 i386                 randconfig-g002-20200221
 i386                 randconfig-g003-20200221
-x86_64               randconfig-h001-20200221
-x86_64               randconfig-h002-20200221
-x86_64               randconfig-h003-20200221
-i386                 randconfig-h001-20200221
-i386                 randconfig-h002-20200221
-i386                 randconfig-h003-20200221
+x86_64               randconfig-h001-20200222
+x86_64               randconfig-h002-20200222
+x86_64               randconfig-h003-20200222
+i386                 randconfig-h001-20200222
+i386                 randconfig-h002-20200222
+i386                 randconfig-h003-20200222
 arc                  randconfig-a001-20200221
 arm                  randconfig-a001-20200221
 arm64                randconfig-a001-20200221
