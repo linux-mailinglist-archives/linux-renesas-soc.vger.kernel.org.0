@@ -2,148 +2,216 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F6461691C9
-	for <lists+linux-renesas-soc@lfdr.de>; Sat, 22 Feb 2020 21:42:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C825169317
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Feb 2020 03:19:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726767AbgBVUmc (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 22 Feb 2020 15:42:32 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:38308 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726856AbgBVUmc (ORCPT
+        id S1727074AbgBWCTs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 22 Feb 2020 21:19:48 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:43006 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726884AbgBWCTs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 22 Feb 2020 15:42:32 -0500
-Received: by mail-lf1-f67.google.com with SMTP id r14so4011841lfm.5
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 22 Feb 2020 12:42:30 -0800 (PST)
+        Sat, 22 Feb 2020 21:19:48 -0500
+Received: by mail-lj1-f193.google.com with SMTP id d10so6208193ljl.9
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 22 Feb 2020 18:19:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=8/dqp+6ZkvRRmpmaUZJPJGMl+JnMMGYivypZ+qu1IdQ=;
-        b=KfFZENIHa1kD6D/djqtV3blmirkAzxujGlBUFJP08Yxr+SBEzFzJLYLcEkkSqydT8X
-         WcrEABFsSj/iama8pmWwrD0OkIPADuTDhFwjkBQNCgz/X0EWGkD1A4XiSLivvtseRDn3
-         TYiTvAMUlNv9hyetNnMvhIBTGGb1OuWpsVfnhJ58Ho9wGJ0wB9TYgJ5UCENxnu42+3oN
-         6xdXDF7aUEKvAcq1gbBTewL0jcm8+bY6gCsU9i2lqP/47SV9kF6bH2y1LxAWkiCHpe0t
-         kV/STK4XxyKUpd3IzE0SYkQyeH3TH8R8H0taoZJWSQCs2wPxYJJrzMW7vncAb+rmRqgS
-         m6ow==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=Irx2r1P/k3fOiC744Xive5cTd/jpQZMndI6U1NS5XfM=;
+        b=BGD571Vtqqt5ZcmgjFbUzmU77zsRsFzS2Yj/cxOY/dnMeCR1os4hIG60yCxZdpNPgW
+         XeCqwd6AJeQcOGoDWt5KxiS9ijLDg/JdhQBn9Ml4W3Hjc+UuPpSvkOFGd7fYRfG9YKqF
+         P9xS3ieuV6CLOxHiuosQGUV22ZqNlifem7wwrQO9cFlNU5G9rNO9DUI5PVzvdTBkILcY
+         uWrAlDvCaPza35NEAmPXnCHWpy0r0FNTJeUqTwDLNDFnziRVyiHnfJIlM8AzmQSQ9RPS
+         /v87gyzi+Hsp8WJo+YYXZRkO0Brh1PxEX1vty7w5lThAoz9og3kaUP4JYrGTBkk/MBG1
+         8juw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:organization
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=8/dqp+6ZkvRRmpmaUZJPJGMl+JnMMGYivypZ+qu1IdQ=;
-        b=a3Uy2PDMzfhnyJM6Czmxp5iPvqvW3ew2tLAcBmXMiXa4W0HJK+Sk2r+UiDa6xNJCY/
-         KCgeK5IXGBnuhhFr0LuakyjtAABTw+TwvtD1gYQJ/LeFiVh5KkCLzDDtCmk9Sswya1JD
-         LwwFPXem93jLHChGPyHGyzjSXlKZmr2km/WAELNTxl//P/ht8NHPGue4VECQwX6/z2sx
-         TPme/zO5Okmkj4hAVqghlRtp62E+LDPyg7rOTS4t45IcUcvV311daXPq2f252FKQJRz+
-         6hogbEFvuI+r9GRygGVDstArE2lGzCyuCWtuIE3CVg2PK6twGxA4Xw9zrQ/Y55mSRVHm
-         N94g==
-X-Gm-Message-State: APjAAAXFPtnZGtY2TYSA/17O7KbKKhkXZUtRnGZ3adEoViDOB8u6mAmi
-        SDuioSocQdGwZeq8SQGhfd5+/zp100Q=
-X-Google-Smtp-Source: APXvYqx/B38YxteGwSNzJbkis53V2cy++o3q6ZdclQVcDwud+2NQuhy0RoD9Gg/qpGXsI9f1WGPORw==
-X-Received: by 2002:a19:6b0e:: with SMTP id d14mr4043585lfa.46.1582404149341;
-        Sat, 22 Feb 2020 12:42:29 -0800 (PST)
-Received: from wasted.cogentembedded.com ([2a00:1fa0:4621:26b8:f6bb:b31c:6567:7228])
-        by smtp.gmail.com with ESMTPSA id v16sm3543019lfp.92.2020.02.22.12.42.27
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 22 Feb 2020 12:42:28 -0800 (PST)
-Subject: Re: [PATCH RFC 2/2] memory: add Renesas RPC-IF driver
-To:     "Behme Dirk (CM/ESO2)" <dirk.behme@de.bosch.com>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mason Yang <masonccyang@mxic.com.tw>,
-        linux-spi@vger.kernel.org, Chris Brandt <chris.brandt@renesas.com>,
-        linux-renesas-soc@vger.kernel.org
-References: <cb7022c9-0059-4eb2-7910-aab42124fa1c@cogentembedded.com>
- <4db876ed-1ccc-e3be-311d-30cd52f40259@cogentembedded.com>
- <5760bcdb-e44b-6f18-7262-9526684e5780@de.bosch.com>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Organization: Cogent Embedded
-Message-ID: <5603f393-554d-e2a8-c2d8-6bafc20f4169@cogentembedded.com>
-Date:   Sat, 22 Feb 2020 23:42:26 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.1
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=Irx2r1P/k3fOiC744Xive5cTd/jpQZMndI6U1NS5XfM=;
+        b=rrnc3c9AWHZN/VB1tx/Hm3l9p+4Djua3e8Ngq2rnEoK7wNL51OnQg3aVh1Q7+JPwk6
+         Nd0Ga6jlh9kCm0snq5QsnVUV3D6gy+JYcLIDdFpDNvxIpskXyWG3i4wlHPe9pOdNu4Ep
+         m0sVd+wTW4yeAsS8HUW8YAsOykiZ/NU0BnjYOJevM3Uc+05VyKWU6gu04vsrMVFuPLNd
+         8SHnMGxVFnPEIsL8JJFOAq2OfcpaRF0QOoO2WJuOELmAwZlRpZ39729qF76AjVYvP6FV
+         AMhXDmQ0YgGKZ/FWNjjWUq5mftCjJLtXOERD1pEQdEnZH9ey4arvd3z921WGuVR0NO79
+         IBgw==
+X-Gm-Message-State: APjAAAWSBXGm8VpstL1oSGz82BSKNvyzJ1EeMsBfNZBiHi/BE20hNVWk
+        GzXlaKzzFsllP6kwVHGoxZwEFQ==
+X-Google-Smtp-Source: APXvYqxwHWl5Xl3pYUtxomwtsfwHf3xINRXEZFd5VGUDEdWF8rFnERTpSRYDnABxx5ajTDZ+r35jVg==
+X-Received: by 2002:a2e:b8d0:: with SMTP id s16mr24410146ljp.32.1582424385729;
+        Sat, 22 Feb 2020 18:19:45 -0800 (PST)
+Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
+        by smtp.gmail.com with ESMTPSA id w9sm3950312ljh.106.2020.02.22.18.19.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Feb 2020 18:19:45 -0800 (PST)
+Date:   Sun, 23 Feb 2020 03:19:44 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: reset: rcar-rst: Convert to json-schema
+Message-ID: <20200223021944.GG1444588@oden.dyn.berto.se>
+References: <20200221121146.31153-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-In-Reply-To: <5760bcdb-e44b-6f18-7262-9526684e5780@de.bosch.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200221121146.31153-1-geert+renesas@glider.be>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 02/10/2020 01:21 PM, Behme Dirk (CM/ESO2) wrote:
+Hi Geert,
 
->> Add the memory driver for Renesas RPC-IF which registers either SPI or
->> HyperFLash device depending on the contents of the device tree subnode.
->> It also provides the absract "back end" device APIs that can be used by
->> the "front end" SPI/MTD drivers to talk to the real hardware.
->>
->> Based on the original patch by Mason Yang <masonccyang@mxic.com.tw>.
->>
->> Signed-off-by: Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-> 
-> 
-> FYI, please find below [1] the changes I did locally on this driver. It seems to read & write successfully on my custom M3 (R8A7796) device, now.
+Thanks for your work.
 
-   Not for me...
-   BTW, your patch had whitespace ruined, I had to apply it by hand, you'd better
-attach the patches, not paste. :-/
+On 2020-02-21 13:11:46 +0100, Geert Uytterhoeven wrote:
+> Convert the Renesas R-Car Reset Controller Device Tree binding
+> documentation to json-schema.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> Best regards
-> 
-> Dirk
-> 
-> [1]
-> 
-> From d72b805cc461ab1e9747c973e9be84e7abb8f828 Mon Sep 17 00:00:00 2001
-> From: Dirk Behme <dirk.behme@de.bosch.com>
-> Date: Tue, 4 Feb 2020 08:39:31 +0100
-> Subject: [PATCH] memory: renesas-rpc-if: Correct the STRTIM and some other
->  clean up
-> 
-> This is required to make the driver work correctly in my M3 environment.
-> 
-> Signed-off-by: Dirk Behme <dirk.behme@de.bosch.com>
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
 > ---
->  drivers/memory/renesas-rpc-if.c | 42 ++++++++++++++++++++-------------
->  1 file changed, 25 insertions(+), 17 deletions(-)
+>  .../devicetree/bindings/reset/renesas,rst.txt | 48 ---------------
+>  .../bindings/reset/renesas,rst.yaml           | 61 +++++++++++++++++++
+>  2 files changed, 61 insertions(+), 48 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/reset/renesas,rst.txt
+>  create mode 100644 Documentation/devicetree/bindings/reset/renesas,rst.yaml
 > 
-> diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
-> index 04be92b64bfa..f4356b066384 100644
-> --- a/drivers/memory/renesas-rpc-if.c
-> +++ b/drivers/memory/renesas-rpc-if.c
-[...]
-> @@ -513,19 +525,15 @@ ssize_t rpcif_dirmap_read(struct rpcif *rpc, u64 offs, size_t len, void *buf)
->      pm_runtime_get_sync(rpc->dev);
+> diff --git a/Documentation/devicetree/bindings/reset/renesas,rst.txt b/Documentation/devicetree/bindings/reset/renesas,rst.txt
+> deleted file mode 100644
+> index de7f06ccd003da9f..0000000000000000
+> --- a/Documentation/devicetree/bindings/reset/renesas,rst.txt
+> +++ /dev/null
+> @@ -1,48 +0,0 @@
+> -DT bindings for the Renesas R-Car and RZ/G Reset Controllers
+> -
+> -The R-Car and RZ/G Reset Controllers provide reset control, and implement the
+> -following functions:
+> -  - Latching of the levels on mode pins when PRESET# is negated,
+> -  - Mode monitoring register,
+> -  - Reset control of peripheral devices (on R-Car Gen1),
+> -  - Watchdog timer (on R-Car Gen1),
+> -  - Register-based reset control and boot address registers for the various CPU
+> -    cores (on R-Car Gen2 and Gen3, and on RZ/G).
+> -
+> -
+> -Required properties:
+> -  - compatible: Should be
+> -		  - "renesas,<soctype>-reset-wdt" for R-Car Gen1,
+> -		  - "renesas,<soctype>-rst" for R-Car Gen2 and Gen3, and RZ/G
+> -		Examples with soctypes are:
+> -		  - "renesas,r8a7743-rst" (RZ/G1M)
+> -		  - "renesas,r8a7744-rst" (RZ/G1N)
+> -		  - "renesas,r8a7745-rst" (RZ/G1E)
+> -		  - "renesas,r8a77470-rst" (RZ/G1C)
+> -		  - "renesas,r8a774a1-rst" (RZ/G2M)
+> -		  - "renesas,r8a774b1-rst" (RZ/G2N)
+> -		  - "renesas,r8a774c0-rst" (RZ/G2E)
+> -		  - "renesas,r8a7778-reset-wdt" (R-Car M1A)
+> -		  - "renesas,r8a7779-reset-wdt" (R-Car H1)
+> -		  - "renesas,r8a7790-rst" (R-Car H2)
+> -		  - "renesas,r8a7791-rst" (R-Car M2-W)
+> -		  - "renesas,r8a7792-rst" (R-Car V2H
+> -		  - "renesas,r8a7793-rst" (R-Car M2-N)
+> -		  - "renesas,r8a7794-rst" (R-Car E2)
+> -		  - "renesas,r8a7795-rst" (R-Car H3)
+> -		  - "renesas,r8a7796-rst" (R-Car M3-W)
+> -		  - "renesas,r8a77961-rst" (R-Car M3-W+)
+> -		  - "renesas,r8a77965-rst" (R-Car M3-N)
+> -		  - "renesas,r8a77970-rst" (R-Car V3M)
+> -		  - "renesas,r8a77980-rst" (R-Car V3H)
+> -		  - "renesas,r8a77990-rst" (R-Car E3)
+> -		  - "renesas,r8a77995-rst" (R-Car D3)
+> -  - reg: Address start and address range for the device.
+> -
+> -
+> -Example:
+> -
+> -	rst: reset-controller@e6160000 {
+> -		compatible = "renesas,r8a7795-rst";
+> -		reg = <0 0xe6160000 0 0x0200>;
+> -	};
+> diff --git a/Documentation/devicetree/bindings/reset/renesas,rst.yaml b/Documentation/devicetree/bindings/reset/renesas,rst.yaml
+> new file mode 100644
+> index 0000000000000000..5819eebfca064dff
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/reset/renesas,rst.yaml
+> @@ -0,0 +1,61 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/reset/renesas,rst.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: DT bindings for the Renesas R-Car and RZ/G Reset Controller
+> +
+> +maintainers:
+> +  - Geert Uytterhoeven <geert+renesas@glider.be>
+> +  - Magnus Damm <magnus.damm@gmail.com>
+> +
+> +description: |
+> +  The R-Car and RZ/G Reset Controllers provide reset control, and implement the
+> +  following functions:
+> +    - Latching of the levels on mode pins when PRESET# is negated,
+> +    - Mode monitoring register,
+> +    - Reset control of peripheral devices (on R-Car Gen1),
+> +    - Watchdog timer (on R-Car Gen1),
+> +    - Register-based reset control and boot address registers for the various
+> +      CPU cores (on R-Car Gen2 and Gen3, and on RZ/G).
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - renesas,r8a7743-rst       # RZ/G1M
+> +      - renesas,r8a7744-rst       # RZ/G1N
+> +      - renesas,r8a7745-rst       # RZ/G1E
+> +      - renesas,r8a77470-rst      # RZ/G1C
+> +      - renesas,r8a774a1-rst      # RZ/G2M
+> +      - renesas,r8a774b1-rst      # RZ/G2N
+> +      - renesas,r8a774c0-rst      # RZ/G2E
+> +      - renesas,r8a7778-reset-wdt # R-Car M1A
+> +      - renesas,r8a7779-reset-wdt # R-Car H1
+> +      - renesas,r8a7790-rst       # R-Car H2
+> +      - renesas,r8a7791-rst       # R-Car M2-W
+> +      - renesas,r8a7792-rst       # R-Car V2H
+> +      - renesas,r8a7793-rst       # R-Car M2-N
+> +      - renesas,r8a7794-rst       # R-Car E2
+> +      - renesas,r8a7795-rst       # R-Car H3
+> +      - renesas,r8a7796-rst       # R-Car M3-W
+> +      - renesas,r8a77961-rst      # R-Car M3-W+
+> +      - renesas,r8a77965-rst      # R-Car M3-N
+> +      - renesas,r8a77970-rst      # R-Car V3M
+> +      - renesas,r8a77980-rst      # R-Car V3H
+> +      - renesas,r8a77990-rst      # R-Car E3
+> +      - renesas,r8a77995-rst      # R-Car D3
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +examples:
+> +  - |
+> +    rst: reset-controller@e6160000 {
+> +            compatible = "renesas,r8a7795-rst";
+> +            reg = <0xe6160000 0x0200>;
+> +    };
+> -- 
+> 2.17.1
 > 
->      regmap_update_bits(rpc->regmap, RPCIF_CMNCR, RPCIF_CMNCR_MD, 0);
-> -    regmap_write(rpc->regmap, RPCIF_DRCR,
-> -             RPCIF_DRCR_RBURST(32) | RPCIF_DRCR_RBE);
-> -    regmap_write(rpc->regmap, RPCIF_DRCMR, rpc->command);
-> -    regmap_write(rpc->regmap, RPCIF_DREAR,
-> -             RPCIF_DREAR_EAV(offs >> 25) | RPCIF_DREAR_EAC(1));
-> -    regmap_write(rpc->regmap, RPCIF_DROPR, rpc->option);
-> -    regmap_write(rpc->regmap, RPCIF_DRENR,
-> -             rpc->enable & ~RPCIF_SMENR_SPIDE(0xF));
-> -    regmap_write(rpc->regmap, RPCIF_DRDMCR, rpc->dummy);
-> -    regmap_write(rpc->regmap, RPCIF_DRDRENR, rpc->ddr);
 
-   The driver somehow works only with this left in place (with 2 bytes eaten
-as before), otherwise all the flash reads all 0xff (via dirmap).
-
-> +    ret = wait_msg_xfer_end(rpc);
-> +    if (ret) {
-> +        len = 0;
-> +        goto err_out;
-> +    }
-> 
->      memcpy_fromio(buf, rpc->dirmap + from, len);
-> 
-> +err_out:
->      pm_runtime_put(rpc->dev);
-> 
->      return len;
-
-MBR, Sergei
+-- 
+Regards,
+Niklas Söderlund
