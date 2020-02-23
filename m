@@ -2,216 +2,154 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C825169317
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 23 Feb 2020 03:19:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E9CDE169A9B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Feb 2020 00:11:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727074AbgBWCTs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 22 Feb 2020 21:19:48 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:43006 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726884AbgBWCTs (ORCPT
+        id S1727133AbgBWXLR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 23 Feb 2020 18:11:17 -0500
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:50009 "EHLO
+        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727064AbgBWXLR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 22 Feb 2020 21:19:48 -0500
-Received: by mail-lj1-f193.google.com with SMTP id d10so6208193ljl.9
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 22 Feb 2020 18:19:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Irx2r1P/k3fOiC744Xive5cTd/jpQZMndI6U1NS5XfM=;
-        b=BGD571Vtqqt5ZcmgjFbUzmU77zsRsFzS2Yj/cxOY/dnMeCR1os4hIG60yCxZdpNPgW
-         XeCqwd6AJeQcOGoDWt5KxiS9ijLDg/JdhQBn9Ml4W3Hjc+UuPpSvkOFGd7fYRfG9YKqF
-         P9xS3ieuV6CLOxHiuosQGUV22ZqNlifem7wwrQO9cFlNU5G9rNO9DUI5PVzvdTBkILcY
-         uWrAlDvCaPza35NEAmPXnCHWpy0r0FNTJeUqTwDLNDFnziRVyiHnfJIlM8AzmQSQ9RPS
-         /v87gyzi+Hsp8WJo+YYXZRkO0Brh1PxEX1vty7w5lThAoz9og3kaUP4JYrGTBkk/MBG1
-         8juw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Irx2r1P/k3fOiC744Xive5cTd/jpQZMndI6U1NS5XfM=;
-        b=rrnc3c9AWHZN/VB1tx/Hm3l9p+4Djua3e8Ngq2rnEoK7wNL51OnQg3aVh1Q7+JPwk6
-         Nd0Ga6jlh9kCm0snq5QsnVUV3D6gy+JYcLIDdFpDNvxIpskXyWG3i4wlHPe9pOdNu4Ep
-         m0sVd+wTW4yeAsS8HUW8YAsOykiZ/NU0BnjYOJevM3Uc+05VyKWU6gu04vsrMVFuPLNd
-         8SHnMGxVFnPEIsL8JJFOAq2OfcpaRF0QOoO2WJuOELmAwZlRpZ39729qF76AjVYvP6FV
-         AMhXDmQ0YgGKZ/FWNjjWUq5mftCjJLtXOERD1pEQdEnZH9ey4arvd3z921WGuVR0NO79
-         IBgw==
-X-Gm-Message-State: APjAAAWSBXGm8VpstL1oSGz82BSKNvyzJ1EeMsBfNZBiHi/BE20hNVWk
-        GzXlaKzzFsllP6kwVHGoxZwEFQ==
-X-Google-Smtp-Source: APXvYqxwHWl5Xl3pYUtxomwtsfwHf3xINRXEZFd5VGUDEdWF8rFnERTpSRYDnABxx5ajTDZ+r35jVg==
-X-Received: by 2002:a2e:b8d0:: with SMTP id s16mr24410146ljp.32.1582424385729;
-        Sat, 22 Feb 2020 18:19:45 -0800 (PST)
-Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
-        by smtp.gmail.com with ESMTPSA id w9sm3950312ljh.106.2020.02.22.18.19.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Feb 2020 18:19:45 -0800 (PST)
-Date:   Sun, 23 Feb 2020 03:19:44 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: reset: rcar-rst: Convert to json-schema
-Message-ID: <20200223021944.GG1444588@oden.dyn.berto.se>
-References: <20200221121146.31153-1-geert+renesas@glider.be>
+        Sun, 23 Feb 2020 18:11:17 -0500
+Received: from [78.134.20.33] (port=59608 helo=[192.168.77.67])
+        by hostingweb31.netsons.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+        (Exim 4.92)
+        (envelope-from <luca@lucaceresoli.net>)
+        id 1j60P0-00FBU2-SK; Mon, 24 Feb 2020 00:11:10 +0100
+Subject: Re: [RFC PATCH 3/7] i2c: allow DT nodes without 'compatible'
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-i3c@lists.infradead.org,
+        Kieran Bingham <kieran@ksquared.org.uk>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>
+References: <20200220172403.26062-1-wsa+renesas@sang-engineering.com>
+ <20200220172403.26062-4-wsa+renesas@sang-engineering.com>
+ <CAMuHMdWaPfc050dZiRr+gAFzsdjSo9Vo70ztWgrMGPJxLUqupw@mail.gmail.com>
+From:   Luca Ceresoli <luca@lucaceresoli.net>
+Message-ID: <e43eaaf1-a294-902f-9a52-ebf8b29acab1@lucaceresoli.net>
+Date:   Mon, 24 Feb 2020 00:11:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200221121146.31153-1-geert+renesas@glider.be>
+In-Reply-To: <CAMuHMdWaPfc050dZiRr+gAFzsdjSo9Vo70ztWgrMGPJxLUqupw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lucaceresoli.net
+X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
+X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi,
 
-Thanks for your work.
-
-On 2020-02-21 13:11:46 +0100, Geert Uytterhoeven wrote:
-> Convert the Renesas R-Car Reset Controller Device Tree binding
-> documentation to json-schema.
+On 21/02/20 10:45, Geert Uytterhoeven wrote:
+> Hi Wolfram,
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> On Thu, Feb 20, 2020 at 6:26 PM Wolfram Sang
+> <wsa+renesas@sang-engineering.com> wrote:
+>> Sometimes, we have unknown devices in a system and still want to block
+>> their address. For that, we allow DT nodes with only a 'reg' property.
+>> These devices will be bound to the "dummy" driver but with the name
+>> "reserved". That way, we can distinguish them and even hand them over to
+>> the "dummy" driver later when they are really requested using
+>> i2c_new_ancillary_device().
+>>
+>> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Cc:ing Alexandre who raised the need for a described-but-disabled I2C node.
 
-> ---
->  .../devicetree/bindings/reset/renesas,rst.txt | 48 ---------------
->  .../bindings/reset/renesas,rst.yaml           | 61 +++++++++++++++++++
->  2 files changed, 61 insertions(+), 48 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/reset/renesas,rst.txt
->  create mode 100644 Documentation/devicetree/bindings/reset/renesas,rst.yaml
+> Thanks for your patch!
 > 
-> diff --git a/Documentation/devicetree/bindings/reset/renesas,rst.txt b/Documentation/devicetree/bindings/reset/renesas,rst.txt
-> deleted file mode 100644
-> index de7f06ccd003da9f..0000000000000000
-> --- a/Documentation/devicetree/bindings/reset/renesas,rst.txt
-> +++ /dev/null
-> @@ -1,48 +0,0 @@
-> -DT bindings for the Renesas R-Car and RZ/G Reset Controllers
-> -
-> -The R-Car and RZ/G Reset Controllers provide reset control, and implement the
-> -following functions:
-> -  - Latching of the levels on mode pins when PRESET# is negated,
-> -  - Mode monitoring register,
-> -  - Reset control of peripheral devices (on R-Car Gen1),
-> -  - Watchdog timer (on R-Car Gen1),
-> -  - Register-based reset control and boot address registers for the various CPU
-> -    cores (on R-Car Gen2 and Gen3, and on RZ/G).
-> -
-> -
-> -Required properties:
-> -  - compatible: Should be
-> -		  - "renesas,<soctype>-reset-wdt" for R-Car Gen1,
-> -		  - "renesas,<soctype>-rst" for R-Car Gen2 and Gen3, and RZ/G
-> -		Examples with soctypes are:
-> -		  - "renesas,r8a7743-rst" (RZ/G1M)
-> -		  - "renesas,r8a7744-rst" (RZ/G1N)
-> -		  - "renesas,r8a7745-rst" (RZ/G1E)
-> -		  - "renesas,r8a77470-rst" (RZ/G1C)
-> -		  - "renesas,r8a774a1-rst" (RZ/G2M)
-> -		  - "renesas,r8a774b1-rst" (RZ/G2N)
-> -		  - "renesas,r8a774c0-rst" (RZ/G2E)
-> -		  - "renesas,r8a7778-reset-wdt" (R-Car M1A)
-> -		  - "renesas,r8a7779-reset-wdt" (R-Car H1)
-> -		  - "renesas,r8a7790-rst" (R-Car H2)
-> -		  - "renesas,r8a7791-rst" (R-Car M2-W)
-> -		  - "renesas,r8a7792-rst" (R-Car V2H
-> -		  - "renesas,r8a7793-rst" (R-Car M2-N)
-> -		  - "renesas,r8a7794-rst" (R-Car E2)
-> -		  - "renesas,r8a7795-rst" (R-Car H3)
-> -		  - "renesas,r8a7796-rst" (R-Car M3-W)
-> -		  - "renesas,r8a77961-rst" (R-Car M3-W+)
-> -		  - "renesas,r8a77965-rst" (R-Car M3-N)
-> -		  - "renesas,r8a77970-rst" (R-Car V3M)
-> -		  - "renesas,r8a77980-rst" (R-Car V3H)
-> -		  - "renesas,r8a77990-rst" (R-Car E3)
-> -		  - "renesas,r8a77995-rst" (R-Car D3)
-> -  - reg: Address start and address range for the device.
-> -
-> -
-> -Example:
-> -
-> -	rst: reset-controller@e6160000 {
-> -		compatible = "renesas,r8a7795-rst";
-> -		reg = <0 0xe6160000 0 0x0200>;
-> -	};
-> diff --git a/Documentation/devicetree/bindings/reset/renesas,rst.yaml b/Documentation/devicetree/bindings/reset/renesas,rst.yaml
-> new file mode 100644
-> index 0000000000000000..5819eebfca064dff
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/reset/renesas,rst.yaml
-> @@ -0,0 +1,61 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: "http://devicetree.org/schemas/reset/renesas,rst.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> +
-> +title: DT bindings for the Renesas R-Car and RZ/G Reset Controller
-> +
-> +maintainers:
-> +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> +  - Magnus Damm <magnus.damm@gmail.com>
-> +
-> +description: |
-> +  The R-Car and RZ/G Reset Controllers provide reset control, and implement the
-> +  following functions:
-> +    - Latching of the levels on mode pins when PRESET# is negated,
-> +    - Mode monitoring register,
-> +    - Reset control of peripheral devices (on R-Car Gen1),
-> +    - Watchdog timer (on R-Car Gen1),
-> +    - Register-based reset control and boot address registers for the various
-> +      CPU cores (on R-Car Gen2 and Gen3, and on RZ/G).
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - renesas,r8a7743-rst       # RZ/G1M
-> +      - renesas,r8a7744-rst       # RZ/G1N
-> +      - renesas,r8a7745-rst       # RZ/G1E
-> +      - renesas,r8a77470-rst      # RZ/G1C
-> +      - renesas,r8a774a1-rst      # RZ/G2M
-> +      - renesas,r8a774b1-rst      # RZ/G2N
-> +      - renesas,r8a774c0-rst      # RZ/G2E
-> +      - renesas,r8a7778-reset-wdt # R-Car M1A
-> +      - renesas,r8a7779-reset-wdt # R-Car H1
-> +      - renesas,r8a7790-rst       # R-Car H2
-> +      - renesas,r8a7791-rst       # R-Car M2-W
-> +      - renesas,r8a7792-rst       # R-Car V2H
-> +      - renesas,r8a7793-rst       # R-Car M2-N
-> +      - renesas,r8a7794-rst       # R-Car E2
-> +      - renesas,r8a7795-rst       # R-Car H3
-> +      - renesas,r8a7796-rst       # R-Car M3-W
-> +      - renesas,r8a77961-rst      # R-Car M3-W+
-> +      - renesas,r8a77965-rst      # R-Car M3-N
-> +      - renesas,r8a77970-rst      # R-Car V3M
-> +      - renesas,r8a77980-rst      # R-Car V3H
-> +      - renesas,r8a77990-rst      # R-Car E3
-> +      - renesas,r8a77995-rst      # R-Car D3
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +examples:
-> +  - |
-> +    rst: reset-controller@e6160000 {
-> +            compatible = "renesas,r8a7795-rst";
-> +            reg = <0xe6160000 0x0200>;
-> +    };
-> -- 
-> 2.17.1
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> but one question below.
 > 
+>> --- a/Documentation/devicetree/bindings/i2c/i2c-ocores.txt
+>> +++ b/Documentation/devicetree/bindings/i2c/i2c-ocores.txt
+>> @@ -50,7 +50,6 @@ Examples:
+>>                 reg-io-width = <1>;     /* 8 bit read/write */
+>>
+>>                 dummy@60 {
+>> -                       compatible = "dummy";
+>>                         reg = <0x60>;
+>>                 };
+>>         };
+> 
+> There's a second instance to remove 18 lines below.
+> 
+>> --- a/drivers/i2c/i2c-core-of.c
+>> +++ b/drivers/i2c/i2c-core-of.c
+>> @@ -27,17 +27,15 @@ int of_i2c_get_board_info(struct device *dev, struct device_node *node,
+>>
+>>         memset(info, 0, sizeof(*info));
+>>
+>> -       if (of_modalias_node(node, info->type, sizeof(info->type)) < 0) {
+>> -               dev_err(dev, "of_i2c: modalias failure on %pOF\n", node);
+>> -               return -EINVAL;
+>> -       }
+>> -
+>>         ret = of_property_read_u32(node, "reg", &addr);
+>>         if (ret) {
+>>                 dev_err(dev, "of_i2c: invalid reg on %pOF\n", node);
+>>                 return ret;
+>>         }
+>>
+>> +       if (of_modalias_node(node, info->type, sizeof(info->type)) < 0)
+>> +               strlcpy(info->type, I2C_RESERVED_DRV_NAME, sizeof(I2C_RESERVED_DRV_NAME));
+> 
+> Could this cause a regression, e.g. if people already have such dummy
+> nodes in their DTS, and use sysfs new_device from userspace to
+> instantiate the device later?
+
+Such a DTS would be illegal because "compatible" has been a required
+property so far. Thus one could leave such people out in the cold
+because they went on an unsupported path. Not super nice anyway.
+
+However I'd like to view the issue from the DT point of view. DT
+describes the hardware, and it is possible (and even desirable) that the
+firmware provides the DTB independently from the OS, and the kernel
+consumes it. It this scenario, firmware could and should describe all
+I2C slaves with proper "compatible" property, and there is no way to
+remove it, in a clean way at least.
+
+But the kernel currently ignores nodes that have no matching driver,
+right? So in this case the kernel knows that that address is used, but
+ignores this information and considers the address as available.
+Seen in this perspective, we should have a "compatible" for all nodes:
+it is just describing the hardware and could be out of the kernel
+control. But instead of discarding all nodes without a matching driver,
+the i2c-core-of code should mark them as "reserved".
+
+Does it sound correct?
+
+Clearly this does not fit the case reported by Alexandre: a device
+having a driver which is known to be badly buggy, so we don't want to
+instantiate it. But again, this should not affect DT as it is not
+describing the HW, but only an implementation detail. Probably disabling
+or blacklisting the driver would be a better option there?
+
+My apologies to Wolfram, I appreciate a lot the effort you are doing,
+but before reviewing this patch I have never realized what I tried to
+explain above.
 
 -- 
-Regards,
-Niklas Söderlund
+Luca
