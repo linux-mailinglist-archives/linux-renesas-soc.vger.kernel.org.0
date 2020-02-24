@@ -2,48 +2,182 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 75DDC16A764
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Feb 2020 14:40:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A0A316A7A2
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Feb 2020 14:51:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727339AbgBXNkn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Feb 2020 08:40:43 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50780 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726308AbgBXNkm (ORCPT
+        id S1727648AbgBXNvg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Feb 2020 08:51:36 -0500
+Received: from andre.telenet-ops.be ([195.130.132.53]:56670 "EHLO
+        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727090AbgBXNvf (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Feb 2020 08:40:42 -0500
-Content-Type: text/plain; charset="utf-8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1582551642;
-        bh=UObqwwtxpbYOxaF1H/5IrQtzF7we+k43J9qBTX9DBp4=;
-        h=Subject:From:Date:References:To:From;
-        b=N8djRb5DWa1V+A1+L6y67tJCMe9t/9waTvkRV1g9m2OxvMZ1tVzpNT8U+ELoimlHw
-         bpfoNUyJ8zxzA6v+8CVaOOyvRGwXGvGi62xamCfOrOuJdhIwFifaq+JOPz/+JY38Fn
-         Cy3w1RRa1sYZAHZOGh8064BXZs1LmGsB2d320OFM=
+        Mon, 24 Feb 2020 08:51:35 -0500
+Received: from ramsan ([84.195.182.253])
+        by andre.telenet-ops.be with bizsmtp
+        id 6drX2200A5USYZQ01drXQ6; Mon, 24 Feb 2020 14:51:31 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1j6E8x-00052L-7F; Mon, 24 Feb 2020 14:51:31 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1j6E8x-0008Il-56; Mon, 24 Feb 2020 14:51:31 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>
+Cc:     devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v2] dt-bindings: reset: rcar-rst: Convert to json-schema
+Date:   Mon, 24 Feb 2020 14:51:29 +0100
+Message-Id: <20200224135129.31870-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Subject: Patchwork summary for: linux-renesas-soc
-From:   patchwork-bot+linux-renesas-soc@kernel.org
-Message-Id: <158255164234.6406.15924660499899129729.git-patchwork-summary@kernel.org>
-Date:   Mon, 24 Feb 2020 13:40:42 +0000
-References: <1580989763-32291-1-git-send-email-hgajjar@de.adit-jv.com>
-To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hello:
+Convert the Renesas R-Car Reset Controller Device Tree binding
+documentation to json-schema.
 
-The following patches were marked "accepted", because they were applied to
-geert/renesas-devel (refs/heads/master):
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+v2:
+  - Add Reviewed-by,
+  - Drop "DT bindings for the" from title.
+---
+ .../devicetree/bindings/reset/renesas,rst.txt | 48 ---------------
+ .../bindings/reset/renesas,rst.yaml           | 61 +++++++++++++++++++
+ 2 files changed, 61 insertions(+), 48 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/reset/renesas,rst.txt
+ create mode 100644 Documentation/devicetree/bindings/reset/renesas,rst.yaml
 
-Patch: [v4] USB: hub: Fix the broken detection of USB3 device in SMSC hub
-  Submitter: Hardik Gajjar <hgajjar@de.adit-jv.com>
-  Patchwork: https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=237743
-
-Total patches: 1
-
+diff --git a/Documentation/devicetree/bindings/reset/renesas,rst.txt b/Documentation/devicetree/bindings/reset/renesas,rst.txt
+deleted file mode 100644
+index de7f06ccd003da9f..0000000000000000
+--- a/Documentation/devicetree/bindings/reset/renesas,rst.txt
++++ /dev/null
+@@ -1,48 +0,0 @@
+-DT bindings for the Renesas R-Car and RZ/G Reset Controllers
+-
+-The R-Car and RZ/G Reset Controllers provide reset control, and implement the
+-following functions:
+-  - Latching of the levels on mode pins when PRESET# is negated,
+-  - Mode monitoring register,
+-  - Reset control of peripheral devices (on R-Car Gen1),
+-  - Watchdog timer (on R-Car Gen1),
+-  - Register-based reset control and boot address registers for the various CPU
+-    cores (on R-Car Gen2 and Gen3, and on RZ/G).
+-
+-
+-Required properties:
+-  - compatible: Should be
+-		  - "renesas,<soctype>-reset-wdt" for R-Car Gen1,
+-		  - "renesas,<soctype>-rst" for R-Car Gen2 and Gen3, and RZ/G
+-		Examples with soctypes are:
+-		  - "renesas,r8a7743-rst" (RZ/G1M)
+-		  - "renesas,r8a7744-rst" (RZ/G1N)
+-		  - "renesas,r8a7745-rst" (RZ/G1E)
+-		  - "renesas,r8a77470-rst" (RZ/G1C)
+-		  - "renesas,r8a774a1-rst" (RZ/G2M)
+-		  - "renesas,r8a774b1-rst" (RZ/G2N)
+-		  - "renesas,r8a774c0-rst" (RZ/G2E)
+-		  - "renesas,r8a7778-reset-wdt" (R-Car M1A)
+-		  - "renesas,r8a7779-reset-wdt" (R-Car H1)
+-		  - "renesas,r8a7790-rst" (R-Car H2)
+-		  - "renesas,r8a7791-rst" (R-Car M2-W)
+-		  - "renesas,r8a7792-rst" (R-Car V2H
+-		  - "renesas,r8a7793-rst" (R-Car M2-N)
+-		  - "renesas,r8a7794-rst" (R-Car E2)
+-		  - "renesas,r8a7795-rst" (R-Car H3)
+-		  - "renesas,r8a7796-rst" (R-Car M3-W)
+-		  - "renesas,r8a77961-rst" (R-Car M3-W+)
+-		  - "renesas,r8a77965-rst" (R-Car M3-N)
+-		  - "renesas,r8a77970-rst" (R-Car V3M)
+-		  - "renesas,r8a77980-rst" (R-Car V3H)
+-		  - "renesas,r8a77990-rst" (R-Car E3)
+-		  - "renesas,r8a77995-rst" (R-Car D3)
+-  - reg: Address start and address range for the device.
+-
+-
+-Example:
+-
+-	rst: reset-controller@e6160000 {
+-		compatible = "renesas,r8a7795-rst";
+-		reg = <0 0xe6160000 0 0x0200>;
+-	};
+diff --git a/Documentation/devicetree/bindings/reset/renesas,rst.yaml b/Documentation/devicetree/bindings/reset/renesas,rst.yaml
+new file mode 100644
+index 0000000000000000..f329d3e0ce8825dc
+--- /dev/null
++++ b/Documentation/devicetree/bindings/reset/renesas,rst.yaml
+@@ -0,0 +1,61 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/reset/renesas,rst.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: Renesas R-Car and RZ/G Reset Controller
++
++maintainers:
++  - Geert Uytterhoeven <geert+renesas@glider.be>
++  - Magnus Damm <magnus.damm@gmail.com>
++
++description: |
++  The R-Car and RZ/G Reset Controllers provide reset control, and implement the
++  following functions:
++    - Latching of the levels on mode pins when PRESET# is negated,
++    - Mode monitoring register,
++    - Reset control of peripheral devices (on R-Car Gen1),
++    - Watchdog timer (on R-Car Gen1),
++    - Register-based reset control and boot address registers for the various
++      CPU cores (on R-Car Gen2 and Gen3, and on RZ/G).
++
++properties:
++  compatible:
++    enum:
++      - renesas,r8a7743-rst       # RZ/G1M
++      - renesas,r8a7744-rst       # RZ/G1N
++      - renesas,r8a7745-rst       # RZ/G1E
++      - renesas,r8a77470-rst      # RZ/G1C
++      - renesas,r8a774a1-rst      # RZ/G2M
++      - renesas,r8a774b1-rst      # RZ/G2N
++      - renesas,r8a774c0-rst      # RZ/G2E
++      - renesas,r8a7778-reset-wdt # R-Car M1A
++      - renesas,r8a7779-reset-wdt # R-Car H1
++      - renesas,r8a7790-rst       # R-Car H2
++      - renesas,r8a7791-rst       # R-Car M2-W
++      - renesas,r8a7792-rst       # R-Car V2H
++      - renesas,r8a7793-rst       # R-Car M2-N
++      - renesas,r8a7794-rst       # R-Car E2
++      - renesas,r8a7795-rst       # R-Car H3
++      - renesas,r8a7796-rst       # R-Car M3-W
++      - renesas,r8a77961-rst      # R-Car M3-W+
++      - renesas,r8a77965-rst      # R-Car M3-N
++      - renesas,r8a77970-rst      # R-Car V3M
++      - renesas,r8a77980-rst      # R-Car V3H
++      - renesas,r8a77990-rst      # R-Car E3
++      - renesas,r8a77995-rst      # R-Car D3
++
++  reg:
++    maxItems: 1
++
++required:
++  - compatible
++  - reg
++
++examples:
++  - |
++    rst: reset-controller@e6160000 {
++            compatible = "renesas,r8a7795-rst";
++            reg = <0xe6160000 0x0200>;
++    };
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.wiki.kernel.org/userdoc/pwbot
+2.17.1
+
