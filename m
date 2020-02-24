@@ -2,373 +2,110 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EB0CB16AA09
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Feb 2020 16:26:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD53D16AD5F
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 24 Feb 2020 18:28:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727674AbgBXP0s (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 24 Feb 2020 10:26:48 -0500
-Received: from laurent.telenet-ops.be ([195.130.137.89]:60178 "EHLO
-        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727701AbgBXP0s (ORCPT
+        id S1727867AbgBXR2t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 24 Feb 2020 12:28:49 -0500
+Received: from mail-eopbgr1410133.outbound.protection.outlook.com ([40.107.141.133]:2673
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727644AbgBXR2t (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 24 Feb 2020 10:26:48 -0500
-Received: from ramsan ([84.195.182.253])
-        by laurent.telenet-ops.be with bizsmtp
-        id 6fSh2200v5USYZQ01fShpF; Mon, 24 Feb 2020 16:26:42 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1j6Fd3-0006KY-R5; Mon, 24 Feb 2020 16:26:41 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1j6Fd3-0000MI-Ob; Mon, 24 Feb 2020 16:26:41 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>
-Cc:     devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dt-bindings: clock: renesas: cpg-mssr: Convert to json-schema
-Date:   Mon, 24 Feb 2020 16:26:40 +0100
-Message-Id: <20200224152640.1318-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Mon, 24 Feb 2020 12:28:49 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QY7DxX0iJqZ+tsukUf3WyrbGnQ+tnBt3FLk2UY4KCQsR5GitR8DJOub+HCsUIJpJWSoL1MS2j8xMUXaw3vMPUUPxjR/2N91gfNiqHZTPoiPaDvEnzdubj464AW9ESU1clOT8JBlY4kEh0n2ZHkeNBU5q1D3St8g7PGkNuor5TEbp/r4QDYaIo+zWVYpq2SXItoLl+pF5cL4mLURMrv6Rnmot0h0JMP6sgTt9p/yv0oIbz+b/uMWC9OppjquApK/AC1UR/L3unKi0GM2VNODf8zcypDi0vAZOGQkQa69hFNc5nO1V8Z5QD5DUlpFEvr8Poi5K+yG1g1ybtjAjljUFpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AFlFCTTda4chxHpUkvyeAlQH+voauOQTNgW+C8lL0VM=;
+ b=oIkqj8JbTG+OmjEzlnH/vPl/b2BVxu7DTuC0VwcT6frRVOSZKe4sAEz1kJ+Sk6V7aZJHnR7hjDPSGzTLw3clyVO/TpMoauG0ibuJmGNSK3oVOn7mEQM7i5yEt9zZuwAT1rUYopG2PLQUXpdKDhd6GMnC5lBzReVNLvwVUBq0HKr5bfIwXfzOpqO8NYWgorZ9pw9URuyvUTrhrWI/nQ/7iMJWMsIZlccMwtxcp1p19WqM5j+MObC021psn/6oK/Ycbn91jfi0ExOwj4s7xnmvEwPjX6w6sP7u/xHHjUIzWxNeHMKZye6f5r+ieuNsampA0VD+vyzFI5E/jRGJMwFzmw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AFlFCTTda4chxHpUkvyeAlQH+voauOQTNgW+C8lL0VM=;
+ b=ULPqMWuXSNFx7ipohxo8gC6lHmD6elyYxskUk71n42Wkd1rUL9i8HVOoHdgHRh6EErI58ja+fnR9Gz5/MA6S37zEXK1t0CwHAfu0WA28Snkpk7zkTYwi4qkrvkL1DnQW8+sZ813YBmw/ngI49I9twXWn/ubaT5yEhbd3ubBcxXw=
+Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com (52.133.163.12) by
+ TY1PR01MB1612.jpnprd01.prod.outlook.com (52.133.160.149) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2750.21; Mon, 24 Feb 2020 17:28:44 +0000
+Received: from TY1PR01MB1562.jpnprd01.prod.outlook.com
+ ([fe80::8870:97e4:a63c:67ea]) by TY1PR01MB1562.jpnprd01.prod.outlook.com
+ ([fe80::8870:97e4:a63c:67ea%7]) with mapi id 15.20.2750.021; Mon, 24 Feb 2020
+ 17:28:44 +0000
+From:   Chris Brandt <Chris.Brandt@renesas.com>
+To:     "REE dirk.behme@de.bosch.com" <dirk.behme@de.bosch.com>,
+        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+CC:     "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mason Yang <masonccyang@mxic.com.tw>,
+        "linux-spi@vger.kernel.org" <linux-spi@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>
+Subject: RE: [PATCH RFC 2/2] memory: add Renesas RPC-IF driver
+Thread-Topic: [PATCH RFC 2/2] memory: add Renesas RPC-IF driver
+Thread-Index: AQHVr5Gax3utlknyaU2JKDcLrJZnRqgUmJAAgBOJewCAAipPgIAAwo8w
+Date:   Mon, 24 Feb 2020 17:28:44 +0000
+Message-ID: <TY1PR01MB15620153764A0D4035080B638AEC0@TY1PR01MB1562.jpnprd01.prod.outlook.com>
+References: <cb7022c9-0059-4eb2-7910-aab42124fa1c@cogentembedded.com>
+ <4db876ed-1ccc-e3be-311d-30cd52f40259@cogentembedded.com>
+ <5760bcdb-e44b-6f18-7262-9526684e5780@de.bosch.com>
+ <5603f393-554d-e2a8-c2d8-6bafc20f4169@cogentembedded.com>
+ <cba1e2ec-4896-23ef-ef7b-0f80d4310127@de.bosch.com>
+In-Reply-To: <cba1e2ec-4896-23ef-ef7b-0f80d4310127@de.bosch.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcY2JyYW5kdDAxXGFwcGRhdGFccm9hbWluZ1wwOWQ4NDliNi0zMmQzLTRhNDAtODVlZS02Yjg0YmEyOWUzNWJcbXNnc1xtc2ctMTllNjBiYmUtNTcyYi0xMWVhLWFhNWQtOTRlNmY3Njc5M2FlXGFtZS10ZXN0XDE5ZTYwYmJmLTU3MmItMTFlYS1hYTVkLTk0ZTZmNzY3OTNhZWJvZHkudHh0IiBzej0iNjQ1IiB0PSIxMzIyNzAzODkyMjg3MjYyNDkiIGg9ImQ1TTk1L3RaVFVoS216a2lqbGFkRkxEUDZIYz0iIGlkPSIiIGJsPSIwIiBibz0iMSIvPjwvbWV0YT4=
+x-dg-rorf: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Chris.Brandt@renesas.com; 
+x-originating-ip: [24.206.39.126]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 9d978d6b-821c-4919-e4a4-08d7b94effbb
+x-ms-traffictypediagnostic: TY1PR01MB1612:|TY1PR01MB1612:
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-microsoft-antispam-prvs: <TY1PR01MB16128BA4CAFDA845C48F84A38AEC0@TY1PR01MB1612.jpnprd01.prod.outlook.com>
+x-ms-exchange-transport-forked: True
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-forefront-prvs: 032334F434
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(346002)(136003)(39860400002)(376002)(396003)(366004)(189003)(199004)(33656002)(4326008)(71200400001)(8936002)(478600001)(81166006)(2906002)(26005)(52536014)(81156014)(8676002)(4744005)(6506007)(9686003)(55016002)(316002)(64756008)(7696005)(186003)(66946007)(5660300002)(76116006)(86362001)(110136005)(66476007)(66556008)(66446008)(54906003);DIR:OUT;SFP:1102;SCL:1;SRVR:TY1PR01MB1612;H:TY1PR01MB1562.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Yq3Bv3KLR/vQuXiUOJCDl46Vg8h35RZg0iAwqslVmlPoFMdDbWLnMAIjiSEL5MwyNXjIA7BZyvo34EOBeMYg2cmGfTBHREhxwymrP67l7GO7xdTLN6xWAo/vuHZNTKbp4IgYfrWnUOtNMnjItyXyo/QZO9DXi85lWFHKxvCi3vXfFj9HnA/7EHSbq4BqEi0VAnt8CUD1ENvZux7Gh/AZfZO/v7JzzOIsvqtEkaxe4zITvlSCfzqUbdhyO2ZCIw7GqGXmoN5k6bk6WjbLHBrxNzaVhy/j6FZWq1/al5acPT6tw8tcXGrXH7E7apfy+9UV2HhvMqXgvnAytf3UcIvKJkPIwslp4qd91KeqrjP4xKSZgZQO2FKO7gGHWEgkx1IrfScQKOlnOJds0UnakxK2IhVGTn8rkMlivSz6Ut0iInv0qpqgH8+LMbapn/w0+/Rp
+x-ms-exchange-antispam-messagedata: G0MEB7gEM9YB2PuO3JuBfeJtNIDCgDjg1WbVKKDib0Kuo7Nuwf9dT3OttQ6OKiiKVED1v2O2A8GUHn+55AURDE3oBnpAV9/AboL98kVmfIt3A7cObO6GktCjbqiKT3YJivElWZHMrozZC1AQgDfkHQ==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9d978d6b-821c-4919-e4a4-08d7b94effbb
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Feb 2020 17:28:44.4216
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: x1/B7uR99zlAfGMHgZaisWmB/5u6jbiiUi+nZTKpDUKtsjpf3RExw/H82rLClptOAhv/6Oyv9lh4AsTJJFuaMN36vRYqDrhHnlv0txD1ZrY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY1PR01MB1612
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Convert the Renesas Clock Pulse Generator / Module Standby and Software
-Reset Device Tree binding documentation to json-schema.
-
-Note that #reset-cells was incorrecty marked a required property for
-RZ/A2 before.
-
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- .../bindings/clock/renesas,cpg-mssr.txt       | 101 ---------
- .../bindings/clock/renesas,cpg-mssr.yaml      | 204 ++++++++++++++++++
- 2 files changed, 204 insertions(+), 101 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/clock/renesas,cpg-mssr.txt
- create mode 100644 Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
-
-diff --git a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.txt b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.txt
-deleted file mode 100644
-index 5846dee455b6318d..0000000000000000
---- a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.txt
-+++ /dev/null
-@@ -1,100 +0,0 @@
--* Renesas Clock Pulse Generator / Module Standby and Software Reset
--
--On Renesas ARM SoCs (SH/R-Mobile, R-Car, RZ), the CPG (Clock Pulse Generator)
--and MSSR (Module Standby and Software Reset) blocks are intimately connected,
--and share the same register block.
--
--They provide the following functionalities:
--  - The CPG block generates various core clocks,
--  - The MSSR block provides two functions:
--      1. Module Standby, providing a Clock Domain to control the clock supply
--	 to individual SoC devices,
--      2. Reset Control, to perform a software reset of individual SoC devices.
--
--Required Properties:
--  - compatible: Must be one of:
--      - "renesas,r7s9210-cpg-mssr" for the r7s9210 SoC (RZ/A2)
--      - "renesas,r8a7743-cpg-mssr" for the r8a7743 SoC (RZ/G1M)
--      - "renesas,r8a7744-cpg-mssr" for the r8a7744 SoC (RZ/G1N)
--      - "renesas,r8a7745-cpg-mssr" for the r8a7745 SoC (RZ/G1E)
--      - "renesas,r8a77470-cpg-mssr" for the r8a77470 SoC (RZ/G1C)
--      - "renesas,r8a774a1-cpg-mssr" for the r8a774a1 SoC (RZ/G2M)
--      - "renesas,r8a774b1-cpg-mssr" for the r8a774b1 SoC (RZ/G2N)
--      - "renesas,r8a774c0-cpg-mssr" for the r8a774c0 SoC (RZ/G2E)
--      - "renesas,r8a7790-cpg-mssr" for the r8a7790 SoC (R-Car H2)
--      - "renesas,r8a7791-cpg-mssr" for the r8a7791 SoC (R-Car M2-W)
--      - "renesas,r8a7792-cpg-mssr" for the r8a7792 SoC (R-Car V2H)
--      - "renesas,r8a7793-cpg-mssr" for the r8a7793 SoC (R-Car M2-N)
--      - "renesas,r8a7794-cpg-mssr" for the r8a7794 SoC (R-Car E2)
--      - "renesas,r8a7795-cpg-mssr" for the r8a7795 SoC (R-Car H3)
--      - "renesas,r8a7796-cpg-mssr" for the r8a77960 SoC (R-Car M3-W)
--      - "renesas,r8a77961-cpg-mssr" for the r8a77961 SoC (R-Car M3-W+)
--      - "renesas,r8a77965-cpg-mssr" for the r8a77965 SoC (R-Car M3-N)
--      - "renesas,r8a77970-cpg-mssr" for the r8a77970 SoC (R-Car V3M)
--      - "renesas,r8a77980-cpg-mssr" for the r8a77980 SoC (R-Car V3H)
--      - "renesas,r8a77990-cpg-mssr" for the r8a77990 SoC (R-Car E3)
--      - "renesas,r8a77995-cpg-mssr" for the r8a77995 SoC (R-Car D3)
--
--  - reg: Base address and length of the memory resource used by the CPG/MSSR
--    block
--
--  - clocks: References to external parent clocks, one entry for each entry in
--    clock-names
--  - clock-names: List of external parent clock names. Valid names are:
--      - "extal" (r7s9210, r8a7743, r8a7744, r8a7745, r8a77470, r8a774a1,
--		 r8a774b1, r8a774c0, r8a7790, r8a7791, r8a7792, r8a7793,
--		 r8a7794, r8a7795, r8a77960, r8a77961, r8a77965, r8a77970,
--		 r8a77980, r8a77990, r8a77995)
--      - "extalr" (r8a774a1, r8a774b1, r8a7795, r8a77960, r8a77961, r8a77965,
--		  r8a77970, r8a77980)
--      - "usb_extal" (r8a7743, r8a7744, r8a7745, r8a77470, r8a7790, r8a7791,
--		     r8a7793, r8a7794)
--
--  - #clock-cells: Must be 2
--      - For CPG core clocks, the two clock specifier cells must be "CPG_CORE"
--	and a core clock reference, as defined in
--	<dt-bindings/clock/*-cpg-mssr.h>.
--      - For module clocks, the two clock specifier cells must be "CPG_MOD" and
--	a module number, as defined in the datasheet.
--
--  - #power-domain-cells: Must be 0
--      - SoC devices that are part of the CPG/MSSR Clock Domain and can be
--	power-managed through Module Standby should refer to the CPG device
--	node in their "power-domains" property, as documented by the generic PM
--	Domain bindings in
--	Documentation/devicetree/bindings/power/power-domain.yaml.
--
--  - #reset-cells: Must be 1
--      - The single reset specifier cell must be the module number, as defined
--	in the datasheet.
--
--
--Examples
----------
--
--  - CPG device node:
--
--	cpg: clock-controller@e6150000 {
--		compatible = "renesas,r8a7795-cpg-mssr";
--		reg = <0 0xe6150000 0 0x1000>;
--		clocks = <&extal_clk>, <&extalr_clk>;
--		clock-names = "extal", "extalr";
--		#clock-cells = <2>;
--		#power-domain-cells = <0>;
--		#reset-cells = <1>;
--	};
--
--
--  - CPG/MSSR Clock Domain member device node:
--
--	scif2: serial@e6e88000 {
--		compatible = "renesas,scif-r8a7795", "renesas,scif";
--		reg = <0 0xe6e88000 0 64>;
--		interrupts = <GIC_SPI 164 IRQ_TYPE_LEVEL_HIGH>;
--		clocks = <&cpg CPG_MOD 310>;
--		clock-names = "fck";
--		dmas = <&dmac1 0x13>, <&dmac1 0x12>;
--		dma-names = "tx", "rx";
--		power-domains = <&cpg>;
--		resets = <&cpg 310>;
--	};
-diff --git a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
-new file mode 100644
-index 0000000000000000..dfbd1933f1bc56de
---- /dev/null
-+++ b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
-@@ -0,0 +1,204 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: "http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#"
-+$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-+
-+title: Renesas Clock Pulse Generator / Module Standby and Software Reset
-+
-+maintainers:
-+  - Geert Uytterhoeven <geert+renesas@glider.be>
-+
-+description: |
-+  On Renesas ARM SoCs (SH/R-Mobile, R-Car, RZ), the CPG (Clock Pulse Generator)
-+  and MSSR (Module Standby and Software Reset) blocks are intimately connected,
-+  and share the same register block.
-+
-+  They provide the following functionalities:
-+    - The CPG block generates various core clocks,
-+    - The MSSR block provides two functions:
-+        1. Module Standby, providing a Clock Domain to control the clock supply
-+           to individual SoC devices,
-+        2. Reset Control, to perform a software reset of individual SoC devices.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - renesas,r7s9210-cpg-mssr  # RZ/A2
-+      - renesas,r8a7743-cpg-mssr  # RZ/G1M
-+      - renesas,r8a7744-cpg-mssr  # RZ/G1N
-+      - renesas,r8a7745-cpg-mssr  # RZ/G1E
-+      - renesas,r8a77470-cpg-mssr # RZ/G1C
-+      - renesas,r8a774a1-cpg-mssr # RZ/G2M
-+      - renesas,r8a774b1-cpg-mssr # RZ/G2N
-+      - renesas,r8a774c0-cpg-mssr # RZ/G2E
-+      - renesas,r8a7790-cpg-mssr  # R-Car H2
-+      - renesas,r8a7791-cpg-mssr  # R-Car M2-W
-+      - renesas,r8a7792-cpg-mssr  # R-Car V2H
-+      - renesas,r8a7793-cpg-mssr  # R-Car M2-N
-+      - renesas,r8a7794-cpg-mssr  # R-Car E2
-+      - renesas,r8a7795-cpg-mssr  # R-Car H3
-+      - renesas,r8a7796-cpg-mssr  # R-Car M3-W
-+      - renesas,r8a77961-cpg-mssr # R-Car M3-W+
-+      - renesas,r8a77965-cpg-mssr # R-Car M3-N
-+      - renesas,r8a77970-cpg-mssr # R-Car V3M
-+      - renesas,r8a77980-cpg-mssr # R-Car V3H
-+      - renesas,r8a77990-cpg-mssr # R-Car E3
-+      - renesas,r8a77995-cpg-mssr # R-Car D3
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    minItems: 1
-+    maxItems: 2
-+
-+  clock-names:
-+    minItems: 1
-+    maxItems: 2
-+
-+  '#clock-cells':
-+    description: |
-+      - For CPG core clocks, the two clock specifier cells must be "CPG_CORE"
-+        and a core clock reference, as defined in
-+        <dt-bindings/clock/*-cpg-mssr.h>
-+      - For module clocks, the two clock specifier cells must be "CPG_MOD" and
-+        a module number, as defined in the datasheet.
-+    const: 2
-+
-+  '#power-domain-cells':
-+    description:
-+      SoC devices that are part of the CPG/MSSR Clock Domain and can be
-+      power-managed through Module Standby should refer to the CPG device node
-+      in their "power-domains" property, as documented by the generic PM Domain
-+      bindings in Documentation/devicetree/bindings/power/power-domain.yaml.
-+    const: 0
-+
-+  '#reset-cells':
-+    description:
-+      The single reset specifier cell must be the module number, as defined in
-+      the datasheet.
-+    const: 1
-+
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          items:
-+            enum:
-+              - renesas,r7s9210-cpg-mssr
-+              - renesas,r8a774c0-cpg-mssr
-+              - renesas,r8a7792-cpg-mssr
-+              - renesas,r8a77990-cpg-mssr
-+              - renesas,r8a77995-cpg-mssr
-+
-+    then:
-+      properties:
-+        clock:
-+          maxItems: 1
-+        clock-names:
-+          maxItems: 1
-+          items:
-+            - const: extal
-+
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - renesas,r8a7743-cpg-mssr
-+              - renesas,r8a7744-cpg-mssr
-+              - renesas,r8a7745-cpg-mssr
-+              - renesas,r8a77470-cpg-mssr
-+              - renesas,r8a7790-cpg-mssr
-+              - renesas,r8a7791-cpg-mssr
-+              - renesas,r8a7793-cpg-mssr
-+              - renesas,r8a7794-cpg-mssr
-+
-+    then:
-+      properties:
-+        clock:
-+          minItems: 2
-+        clock-names:
-+          minItems: 2
-+          items:
-+            - const: extal
-+            - const: usb_extal
-+
-+  - if:
-+      properties:
-+        compatible:
-+          items:
-+            enum:
-+              - renesas,r8a774a1-cpg-mssr
-+              - renesas,r8a774b1-cpg-mssr
-+              - renesas,r8a7795-cpg-mssr
-+              - renesas,r8a7796-cpg-mssr
-+              - renesas,r8a77961-cpg-mssr
-+              - renesas,r8a77965-cpg-mssr
-+              - renesas,r8a77970-cpg-mssr
-+              - renesas,r8a77980-cpg-mssr
-+
-+    then:
-+      properties:
-+        clock:
-+          minItems: 2
-+        clock-names:
-+          minItems: 2
-+          items:
-+            - const: extal
-+            - const: extalr
-+
-+  - if:
-+      not:
-+        properties:
-+          compatible:
-+            items:
-+              enum:
-+                - renesas,r7s9210-cpg-mssr
-+    then:
-+      required:
-+        - '#reset-cells'
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - '#clock-cells'
-+  - '#power-domain-cells'
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    // CPG device node:
-+
-+    cpg: clock-controller@e6150000 {
-+            compatible = "renesas,r8a7795-cpg-mssr";
-+            reg = <0xe6150000 0x1000>;
-+            clocks = <&extal_clk>, <&extalr_clk>;
-+            clock-names = "extal", "extalr";
-+            #clock-cells = <2>;
-+            #power-domain-cells = <0>;
-+            #reset-cells = <1>;
-+    };
-+
-+  - |
-+    // CPG/MSSR Clock Domain member device node:
-+    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+    scif2: serial@e6e88000 {
-+            compatible = "renesas,scif-r8a7795", "renesas,rcar-gen3-scif",
-+                         "renesas,scif";
-+            reg = <0xe6e88000 64>;
-+            interrupts = <GIC_SPI 164 IRQ_TYPE_LEVEL_HIGH>;
-+            clocks = <&cpg CPG_MOD 310>, <&cpg CPG_CORE R8A7795_CLK_S3D1>,
-+                     <&scif_clk>;
-+            clock-names = "fck";
-+            dmas = <&dmac1 0x13>, <&dmac1 0x12>, <&dmac2 0x13>, <&dmac2 0x12>;
-+            dma-names = "tx", "rx", "tx", "rx";
-+            power-domains = <&cpg>;
-+            resets = <&cpg 310>;
-+    };
--- 
-2.17.1
-
+T24gTW9uLCBGZWIgMjQsIDIwMjAgMSwgQmVobWUgRGlyayAoQ00vRVNPMikgd3JvdGU6DQo+ID4g
+ICAgIEJUVywgeW91ciBwYXRjaCBoYWQgd2hpdGVzcGFjZSBydWluZWQsIEkgaGFkIHRvIGFwcGx5
+IGl0IGJ5IGhhbmQsIHlvdSdkDQo+IGJldHRlcg0KPiA+IGF0dGFjaCB0aGUgcGF0Y2hlcywgbm90
+IHBhc3RlLiA6LS8NCj4gDQo+IA0KPiBPay4gVGhlcmUgYXJlIG90aGVyIG1haWxpbmcgbGlzdHMg
+Y29tcGxhaW5pbmcgYWJvdXQgYXR0YWNobWVudHMgOykNCj4gDQo+IEV2ZW4gYmV0dGVyLCBtYXli
+ZSB3ZSBzaG91bGQgcHV0IHdoYXQgd2UgaGF2ZSBzbyBmYXIgcHVibGljbHkgYW55d2hlcmUsDQo+
+IGUuZy4gZ2l0aHViLg0KDQpUaGF0IHdvdWxkIGJlIGdvb2QgZm9yIG1lIGFzIHdlbGwgc2luY2Ug
+SSdtIGFsc28gdHJ5aW5nIHRvIG1ha2Ugc3VyZSB0aGUNClNQSSBtb2RlIHdvcmtzIHdpdGggdGhl
+IFJaL0EgZGV2aWNlcywgYW5kIEkndmUgYWxyZWFkeSBwb2ludGVkIG91dCBzb21lDQpjaGFuZ2Vz
+IHRoYXQgYXJlIG5lZWRlZCBpbiB0aGUgY29kZSBmb3IgdGhhdC4NCg0KQ2hyaXMNCg==
