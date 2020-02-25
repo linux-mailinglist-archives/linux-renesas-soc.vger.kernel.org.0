@@ -2,118 +2,106 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A89A816C03E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2020 13:07:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7A0616C16C
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2020 13:52:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729568AbgBYMH4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Feb 2020 07:07:56 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:53853 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726019AbgBYMH4 (ORCPT
+        id S1729179AbgBYMw1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Feb 2020 07:52:27 -0500
+Received: from laurent.telenet-ops.be ([195.130.137.89]:35428 "EHLO
+        laurent.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729066AbgBYMw0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Feb 2020 07:07:56 -0500
-Received: from [IPv6:2001:420:44c1:2577:a473:ad6c:dd91:35d2]
- ([IPv6:2001:420:44c1:2577:a473:ad6c:dd91:35d2])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 6Z09jyZr8jmHT6Z0DjWpSw; Tue, 25 Feb 2020 13:07:54 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1582632474; bh=Fa07Iai1OLOLmQy78F43ui0l1I5N4AHYY389xHDaTSM=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=dvXOPrJ9Ey0AHGn780q9L6mQ81ik5arScNdE3Se8f5hGPqEtt1lQ0wsgxd4w9tQEW
-         bXsw2s6UprHLv1kFDEM6ZuawzS1e2MP7dd3QnxqVIFnBwZ68APOZhNMB5zZJPkdJcJ
-         F3r4h7ZndI8wdPxSHlj9DphUj7205uJ0fPSv0gp3wTO9E9QTAWqxI4GdIOzr3mdkDJ
-         JUpTPMVtSl/wlRIWRGf4RxnkfdgNsw0hp0gsuzi5G+EPxUW6lK1u0UdNJ9kLiiy7sq
-         e15Am4u42wWHYobw87p9weK7rWnIMsUwp71Sh3Cr5ZQbalG3MNSBO67qMOXcotgVER
-         GN5gKX5CIc4NA==
-Subject: Re: [PATCH v2] media: rcar_drif: Use dma_request_chan() instead
- dma_request_slave_channel()
-To:     Peter Ujfalusi <peter.ujfalusi@ti.com>, mchehab@kernel.org,
-        rashanmu@gmail.com, geert@linux-m68k.org
-Cc:     vkoul@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-References: <20200120124754.26826-1-peter.ujfalusi@ti.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <d1c3aec0-7b8f-5f78-e055-8dd87bee801b@xs4all.nl>
-Date:   Tue, 25 Feb 2020 13:07:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <20200120124754.26826-1-peter.ujfalusi@ti.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfBKVkvtGsRTpWLDaGXfFoP6yXSIJ9CbES675rm/bNy/DkEwvj1oiTe7rAN6OTM6k2/rAcMnTmypGOHQyo1ewd5L12wwyG8V4F0nouxEf6gvOmRuTuYCJ
- DDU7dJpXF/VFB9CWTDTsGwtGMg+OJfQA7cyCda/ztDzZOpkRSK8z2mL+vgQjDokMzQzE9axN/lgfOLqv2yorKhvpR/TBhDh4zaMn5GFyTa++/RiUwoEoMoIa
- UYClDA4wIL5H+djKNajLqp+BPkh9eRQiBj3IfkIfuQr1qEs3lHW9D2U5yCHDhwH4Olaa4DQlFoFUJ8/H9l7gcNZVCXj72yi3GhZ4BiTo4mLX4Nj3u4rY1uBG
- j880l0pXXm9wIanSMXnMfe6sisCE9kgzC90r/AUCohTwIcMrJ1tkRjT6u4PPK/kmFH+40lySNWGftt3oWbwv1qOSVUuyBIbl5KTz/8vL529kg5Rsyt521H/Q
- tSBeJRBFCXmvZCF2LsIpmN/hgJ+C3oxImhLj7BZJaWTskSaCoqyUhj/THJA=
+        Tue, 25 Feb 2020 07:52:26 -0500
+Received: from ramsan ([84.195.182.253])
+        by laurent.telenet-ops.be with bizsmtp
+        id 70sQ220035USYZQ010sQRR; Tue, 25 Feb 2020 13:52:24 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1j6ZhI-000616-32
+        for linux-renesas-soc@vger.kernel.org; Tue, 25 Feb 2020 13:52:24 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1j6ZhH-00071s-Rz
+        for linux-renesas-soc@vger.kernel.org; Tue, 25 Feb 2020 13:52:23 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2020-02-25-v5.6-rc3
+Date:   Tue, 25 Feb 2020 13:52:23 +0100
+Message-Id: <20200225125223.26978-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Peter,
+I have pushed renesas-drivers-2020-02-25-v5.6-rc3 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-On 1/20/20 1:47 PM, Peter Ujfalusi wrote:
-> dma_request_slave_channel() is a wrapper on top of dma_request_chan()
-> eating up the error code.
-> 
-> By using dma_request_chan() directly the driver can support deferred
-> probing against DMA.
-> 
-> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-Unfortunately the v1 version of this patch got merged, so can you make a
-new patch against the current media_tree master to bring it up to date
-with this v3?
+Today's version is based on renesas-devel-2020-02-24-v5.6-rc3.
 
-My apologies for this.
+Included branches with driver code:
+  - clk-renesas
+  - sh-pfc
+  - git://git.ragnatech.se/linux#for-renesas-drivers
 
-Regards,
+Included fixes:
+  - [LOCAL] arm64: defconfig: Update renesas_defconfig
 
-	Hans
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
+  - git://git.infradead.org/users/vkoul/slave-dma.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://github.com/bzolnier/linux.git#fbdev-for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/kishon/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
 
-> ---
-> Hi,
-> 
-> Changes since v2:
-> - Use %pe to print error name using the ch->dmach pointer
-> - Set ch->dmach to NULL in case of error
-> 
-> Changes since v1:
-> - Do not print error in case of EPROBE_DEFER
-> - Added Reviewed-by from Geert
-> 
-> Regards,
-> Peter
-> 
->  drivers/media/platform/rcar_drif.c | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rcar_drif.c b/drivers/media/platform/rcar_drif.c
-> index 0f267a237b42..3d2451ac347d 100644
-> --- a/drivers/media/platform/rcar_drif.c
-> +++ b/drivers/media/platform/rcar_drif.c
-> @@ -275,10 +275,14 @@ static int rcar_drif_alloc_dmachannels(struct rcar_drif_sdr *sdr)
->  	for_each_rcar_drif_channel(i, &sdr->cur_ch_mask) {
->  		struct rcar_drif *ch = sdr->ch[i];
->  
-> -		ch->dmach = dma_request_slave_channel(&ch->pdev->dev, "rx");
-> -		if (!ch->dmach) {
-> -			rdrif_err(sdr, "ch%u: dma channel req failed\n", i);
-> -			ret = -ENODEV;
-> +		ch->dmach = dma_request_chan(&ch->pdev->dev, "rx");
-> +		if (IS_ERR(ch->dmach)) {
-> +			ret = PTR_ERR(ch->dmach);
-> +			if (ret != -EPROBE_DEFER)
-> +				rdrif_err(sdr,
-> +					  "ch%u: dma channel req failed: %pe\n",
-> +					  i, ch->dmach);
-> +			ch->dmach = NULL;
->  			goto dmach_error;
->  		}
->  
-> 
+Gr{oetje,eeting}s,
 
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
