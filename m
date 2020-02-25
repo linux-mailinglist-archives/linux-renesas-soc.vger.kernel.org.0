@@ -2,273 +2,188 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB80616F042
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2020 21:41:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A9FAA16F049
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2020 21:41:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729117AbgBYUlC (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Feb 2020 15:41:02 -0500
-Received: from mga04.intel.com ([192.55.52.120]:23225 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726764AbgBYUlB (ORCPT
+        id S1729182AbgBYUlu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Feb 2020 15:41:50 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:44296 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729140AbgBYUlu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Feb 2020 15:41:01 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Feb 2020 12:41:00 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,485,1574150400"; 
-   d="scan'208";a="271456356"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 25 Feb 2020 12:40:59 -0800
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1j6h0k-0005d2-RI; Wed, 26 Feb 2020 04:40:58 +0800
-Date:   Wed, 26 Feb 2020 04:40:36 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:master] BUILD SUCCESS
- 953ba160f7d31ad7369614614e0e012e7ddc8dd1
-Message-ID: <5e558644.ots8UdvNUR+ffjiw%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 25 Feb 2020 15:41:50 -0500
+Received: by mail-lj1-f195.google.com with SMTP id q8so365152ljj.11
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Feb 2020 12:41:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=from:subject:to:cc:references:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=f1wxzQHgzbozsllzgNDGZLVCDjLuH9+6YSKgsfnh4N0=;
+        b=J0Lq4tpycMq9o8u1bSrvUCSf0FdOD2Nyvd3Uo9ooIZeu3cp8b0a+4H56oOncPBS1R7
+         GOw5V3B9Wt5Tn3PA/+5Y5Nw2El7pOACROliHYypQ2usaadr00To1fDV+i9SaaBPq8KF9
+         JnLOYV2nhi7LSFyFMQGJZASywoO+ZoZa0qUB4jDWDyVWKuz8s5syYf4/3ASmAzLLMLGl
+         2XBkjNhxfl4ATAYxSjNFijwCURknw0D0Eq3rjhgqAPpORoXGk/M6dd+Pfb+I2kA7bUV9
+         z6Ho8xi5Wm3Q5qSVPjiqkTE+HPGGKN5NYjpnnQEsD5o969WyJ/RkywxbNHjHFmN694ta
+         nyRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:subject:to:cc:references:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=f1wxzQHgzbozsllzgNDGZLVCDjLuH9+6YSKgsfnh4N0=;
+        b=T3lI4glKiFNt8GInlgTUXJNH4Y2dTwLQzkvXWwruUk9ri21u4QzPtTL5lim3XTRWxo
+         EZTq5EvKCFZpiuI9LJ7UBD/QrApnYG94vMOnTxmZtF+iWGlHvrSxx2Psd0Do8SBx0Egq
+         1wAuBKvbwAu4AIwy37S+N6vpeH5v1R2EAiMM6qCabuwxqWUndOP9Dio25jrYstGkTzpO
+         ULr+HBsUB9j3Htf9EUx4g33ma2q7xbcMd8DDD/44JVRHwTj9lmFPMx/JDOrTojeBmywa
+         c7sVCLmyntRQcRWd/fLG7HeJl2zqjSbORbgdtIVQl3/W41nnN9e1KPfyYKybMp6qbZSd
+         kVzw==
+X-Gm-Message-State: APjAAAWw0Ny/64tGzgOGbpFJkPsvrugz4Y8OT/r3uVHWKPb7w5qbnt1z
+        9VudljD1iXCiizpwuXBVGJCVS8ColZA=
+X-Google-Smtp-Source: ADFU+vsMS3caqJMbwRsF+MEpr24wt3YBnbgXGcWdeW2WuNzdWjviBCz6CpLXlq5tWMkXPS/oSyZFgw==
+X-Received: by 2002:a2e:5854:: with SMTP id x20mr453488ljd.287.1582663307339;
+        Tue, 25 Feb 2020 12:41:47 -0800 (PST)
+Received: from wasted.cogentembedded.com ([2a00:1fa0:2ac:dee3:544c:cd2b:7405:7aec])
+        by smtp.gmail.com with ESMTPSA id f14sm4247328lfh.40.2020.02.25.12.41.45
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 25 Feb 2020 12:41:46 -0800 (PST)
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Subject: Re: [PATCH RFC 2/2] memory: add Renesas RPC-IF driver
+To:     "Behme Dirk (CM/ESO2)" <dirk.behme@de.bosch.com>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mason Yang <masonccyang@mxic.com.tw>,
+        linux-spi@vger.kernel.org, Chris Brandt <chris.brandt@renesas.com>,
+        linux-renesas-soc@vger.kernel.org
+References: <cb7022c9-0059-4eb2-7910-aab42124fa1c@cogentembedded.com>
+ <4db876ed-1ccc-e3be-311d-30cd52f40259@cogentembedded.com>
+ <5760bcdb-e44b-6f18-7262-9526684e5780@de.bosch.com>
+ <5603f393-554d-e2a8-c2d8-6bafc20f4169@cogentembedded.com>
+ <cba1e2ec-4896-23ef-ef7b-0f80d4310127@de.bosch.com>
+ <ec545462-54ed-9e23-049e-1807d24ec084@cogentembedded.com>
+ <3a182ac7-8d41-cdc7-2b87-7c503f68a426@de.bosch.com>
+Organization: Cogent Embedded
+Message-ID: <f21a9444-9541-6558-f5f5-ca0b733768ff@cogentembedded.com>
+Date:   Tue, 25 Feb 2020 23:41:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <3a182ac7-8d41-cdc7-2b87-7c503f68a426@de.bosch.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
 Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  master
-branch HEAD: 953ba160f7d31ad7369614614e0e012e7ddc8dd1  Merge branch 'renesas-next', tag 'v5.6-rc3' into renesas-devel
+On 02/25/2020 12:33 PM, Behme Dirk (CM/ESO2) wrote:
 
-elapsed time: 1768m
+>>>>>   From d72b805cc461ab1e9747c973e9be84e7abb8f828 Mon Sep 17 00:00:00 2001
+>>>>> From: Dirk Behme <dirk.behme@de.bosch.com>
+>>>>> Date: Tue, 4 Feb 2020 08:39:31 +0100
+>>>>> Subject: [PATCH] memory: renesas-rpc-if: Correct the STRTIM and some other
+>>>>>    clean up
+>>>>>
+>>>>> This is required to make the driver work correctly in my M3 environment.
+>>>>>
+>>>>> Signed-off-by: Dirk Behme <dirk.behme@de.bosch.com>
+>>>>> ---
+>>>>>    drivers/memory/renesas-rpc-if.c | 42 ++++++++++++++++++++-------------
+>>>>>    1 file changed, 25 insertions(+), 17 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
+>>>>> index 04be92b64bfa..f4356b066384 100644
+>>>>> --- a/drivers/memory/renesas-rpc-if.c
+>>>>> +++ b/drivers/memory/renesas-rpc-if.c
+>>>> [...]
+>>>>> @@ -513,19 +525,15 @@ ssize_t rpcif_dirmap_read(struct rpcif *rpc, u64 offs, size_t len, void *buf)
+>>>>>        pm_runtime_get_sync(rpc->dev);
+>>>>>
+>>>>>        regmap_update_bits(rpc->regmap, RPCIF_CMNCR, RPCIF_CMNCR_MD, 0);
+>>>>> -    regmap_write(rpc->regmap, RPCIF_DRCR,
+>>>>> -             RPCIF_DRCR_RBURST(32) | RPCIF_DRCR_RBE);
+>>>>> -    regmap_write(rpc->regmap, RPCIF_DRCMR, rpc->command);
+>>>>> -    regmap_write(rpc->regmap, RPCIF_DREAR,
+>>>>> -             RPCIF_DREAR_EAV(offs >> 25) | RPCIF_DREAR_EAC(1));
+>>>>> -    regmap_write(rpc->regmap, RPCIF_DROPR, rpc->option);
+>>>>> -    regmap_write(rpc->regmap, RPCIF_DRENR,
+>>>>> -             rpc->enable & ~RPCIF_SMENR_SPIDE(0xF));
+>>>>> -    regmap_write(rpc->regmap, RPCIF_DRDMCR, rpc->dummy);
+>>>>> -    regmap_write(rpc->regmap, RPCIF_DRDRENR, rpc->ddr);
+>>>>
+>>>>      The driver somehow works only with this left in place (with 2 bytes eaten
+>>>> as before), otherwise all the flash reads all 0xff (via dirmap).
+>>>
+>>>
+>>> Do you boot from hyperflash?
+>>
+>>     No, I have arewto say 'cpld write 30 1' in U-Boot before a boot a kernel.
 
-configs tested: 217
-configs skipped: 0
+   s/arewto/to/. :-)
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+>> Normally, the V3x Starter Kit boards are wired for the QSPI flash chips.
+>>
+>>> The system I'm using for testing boots from hyperflash. So most probably all registers
+>>> I don't touch in the driver are put into a reasonable state by the boot code, already.
+>>> If you don't boot from hyperflash, that at least would explain our different behavior.
+>>
+>>     Yes. Mind dumping the registers and sending to me?
+> 
+> Using the attached debug patch (0001-memory-renesas-rpc-if-DEBUG-Dump-register-
+> content.patch) on a r8a7796 system booting from Hyperflash with above register
+dropping reverted (i.e. including touching these registers) I get
+> 
+> Before:
+> RPCIF_DRCR:    0x00000000
+> RPCIF_DRCMR:   0x00a00000
+> RPCIF_DREAR:   0x00000000
+> RPCIF_DROPR:   0x00000000
+> RPCIF_DRENR:   0xa222d400
+> RPCIF_DRDMCR:  0x0000000e
+> RPCIF_DRDRENR: 0x00005101
+> 
+> After:
+> RPCIF_DRCR:    0x001f0100
+> RPCIF_DRCMR:   0x00a00000
+> RPCIF_DREAR:   0x00010001
+> RPCIF_DROPR:   0x00000000
+> RPCIF_DRENR:   0xa202d400
+> RPCIF_DRDMCR:  0x0000000e
+> RPCIF_DRDRENR: 0x00005101
+> 
+> Comparing that, just 3 registers are different between my working version ("Before") and the version which shows the 2-byte offset ("After"): RPCIF_DRCR, RPCIF_DREAR and RPCIF_DRENR. With try & error, at least in my setup, I was able to reduce this to just RPCIF_DRCR. Dropping the burst mode I was able to 'fix' the two byte offset issue.
 
-arm64                            allyesconfig
-arm                              allmodconfig
-arm                               allnoconfig
-arm                              allyesconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-arm                         at91_dt_defconfig
-arm                           efm32_defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                        multi_v7_defconfig
-arm                        shmobile_defconfig
-arm                           sunxi_defconfig
-arm64                               defconfig
-sparc                            allyesconfig
-sh                  sh7785lcr_32bit_defconfig
-h8300                     edosk2674_defconfig
-i386                             alldefconfig
-parisc                generic-32bit_defconfig
-powerpc                             defconfig
-riscv                               defconfig
-sh                          rsk7269_defconfig
-sparc64                          allyesconfig
-arc                              allyesconfig
-riscv                    nommu_virt_defconfig
-powerpc                       ppc64_defconfig
-ia64                             allyesconfig
-um                             i386_defconfig
-i386                             allyesconfig
-s390                          debug_defconfig
-m68k                       m5475evb_defconfig
-parisc                generic-64bit_defconfig
-parisc                            allnoconfig
-microblaze                    nommu_defconfig
-s390                       zfcpdump_defconfig
-csky                                defconfig
-h8300                       h8s-sim_defconfig
-s390                             alldefconfig
-mips                              allnoconfig
-sh                               allmodconfig
-arc                                 defconfig
-ia64                                defconfig
-nds32                             allnoconfig
-sparc64                          allmodconfig
-riscv                             allnoconfig
-i386                                defconfig
-i386                              allnoconfig
-ia64                             alldefconfig
-ia64                             allmodconfig
-ia64                              allnoconfig
-c6x                              allyesconfig
-c6x                        evmc6678_defconfig
-nios2                         10m50_defconfig
-nios2                         3c120_defconfig
-openrisc                    or1ksim_defconfig
-openrisc                 simple_smp_defconfig
-xtensa                       common_defconfig
-xtensa                          iss_defconfig
-alpha                               defconfig
-nds32                               defconfig
-h8300                    h8300h-sim_defconfig
-m68k                             allmodconfig
-m68k                          multi_defconfig
-m68k                           sun3_defconfig
-microblaze                      mmu_defconfig
-powerpc                           allnoconfig
-powerpc                          rhel-kconfig
-mips                           32r2_defconfig
-mips                         64r6el_defconfig
-mips                             allmodconfig
-mips                             allyesconfig
-mips                      fuloong2e_defconfig
-mips                      malta_kvm_defconfig
-parisc                           allyesconfig
-x86_64               randconfig-a001-20200225
-x86_64               randconfig-a002-20200225
-x86_64               randconfig-a003-20200225
-i386                 randconfig-a001-20200225
-i386                 randconfig-a002-20200225
-i386                 randconfig-a003-20200225
-x86_64               randconfig-a001-20200224
-x86_64               randconfig-a002-20200224
-x86_64               randconfig-a003-20200224
-i386                 randconfig-a002-20200224
-i386                 randconfig-a001-20200224
-i386                 randconfig-a003-20200224
-alpha                randconfig-a001-20200225
-m68k                 randconfig-a001-20200225
-mips                 randconfig-a001-20200225
-nds32                randconfig-a001-20200225
-parisc               randconfig-a001-20200225
-riscv                randconfig-a001-20200225
-alpha                randconfig-a001-20200226
-m68k                 randconfig-a001-20200226
-mips                 randconfig-a001-20200226
-nds32                randconfig-a001-20200226
-parisc               randconfig-a001-20200226
-riscv                randconfig-a001-20200226
-c6x                  randconfig-a001-20200225
-h8300                randconfig-a001-20200225
-microblaze           randconfig-a001-20200225
-nios2                randconfig-a001-20200225
-sparc64              randconfig-a001-20200225
-openrisc             randconfig-a001-20200224
-sh                   randconfig-a001-20200224
-s390                 randconfig-a001-20200224
-xtensa               randconfig-a001-20200224
-csky                 randconfig-a001-20200224
-csky                 randconfig-a001-20200225
-openrisc             randconfig-a001-20200225
-s390                 randconfig-a001-20200225
-sh                   randconfig-a001-20200225
-xtensa               randconfig-a001-20200225
-csky                 randconfig-a001-20200226
-openrisc             randconfig-a001-20200226
-s390                 randconfig-a001-20200226
-sh                   randconfig-a001-20200226
-xtensa               randconfig-a001-20200226
-x86_64               randconfig-b001-20200225
-x86_64               randconfig-b002-20200225
-x86_64               randconfig-b003-20200225
-i386                 randconfig-b001-20200225
-i386                 randconfig-b002-20200225
-i386                 randconfig-b003-20200225
-x86_64               randconfig-b001-20200224
-x86_64               randconfig-b002-20200224
-x86_64               randconfig-b003-20200224
-i386                 randconfig-b001-20200224
-i386                 randconfig-b002-20200224
-i386                 randconfig-b003-20200224
-x86_64               randconfig-b001-20200226
-x86_64               randconfig-b002-20200226
-x86_64               randconfig-b003-20200226
-i386                 randconfig-b001-20200226
-i386                 randconfig-b002-20200226
-i386                 randconfig-b003-20200226
-x86_64               randconfig-c001-20200225
-x86_64               randconfig-c002-20200225
-x86_64               randconfig-c003-20200225
-i386                 randconfig-c001-20200225
-i386                 randconfig-c002-20200225
-i386                 randconfig-c003-20200225
-x86_64               randconfig-d001-20200225
-x86_64               randconfig-d002-20200225
-x86_64               randconfig-d003-20200225
-i386                 randconfig-d001-20200225
-i386                 randconfig-d002-20200225
-i386                 randconfig-d003-20200225
-x86_64               randconfig-e001-20200225
-x86_64               randconfig-e002-20200225
-x86_64               randconfig-e003-20200225
-i386                 randconfig-e001-20200225
-i386                 randconfig-e002-20200225
-i386                 randconfig-e003-20200225
-x86_64               randconfig-e002-20200224
-i386                 randconfig-e001-20200224
-x86_64               randconfig-e003-20200224
-x86_64               randconfig-f001-20200225
-x86_64               randconfig-f002-20200225
-x86_64               randconfig-f003-20200225
-i386                 randconfig-f001-20200225
-i386                 randconfig-f002-20200225
-i386                 randconfig-f003-20200225
-x86_64               randconfig-f001-20200224
-x86_64               randconfig-f002-20200224
-x86_64               randconfig-f003-20200224
-i386                 randconfig-f001-20200224
-i386                 randconfig-f002-20200224
-i386                 randconfig-f003-20200224
-x86_64               randconfig-g001-20200225
-x86_64               randconfig-g002-20200225
-x86_64               randconfig-g003-20200225
-i386                 randconfig-g001-20200225
-i386                 randconfig-g002-20200225
-i386                 randconfig-g003-20200225
-x86_64               randconfig-h001-20200225
-x86_64               randconfig-h002-20200225
-x86_64               randconfig-h003-20200225
-i386                 randconfig-h001-20200225
-i386                 randconfig-h002-20200225
-i386                 randconfig-h003-20200225
-arc                  randconfig-a001-20200225
-arm                  randconfig-a001-20200225
-arm64                randconfig-a001-20200225
-ia64                 randconfig-a001-20200225
-powerpc              randconfig-a001-20200225
-sparc                randconfig-a001-20200225
-arc                  randconfig-a001-20200224
-arm                  randconfig-a001-20200224
-arm64                randconfig-a001-20200224
-ia64                 randconfig-a001-20200224
-powerpc              randconfig-a001-20200224
-sparc                randconfig-a001-20200224
-arm                  randconfig-a001-20200226
-arm64                randconfig-a001-20200226
-ia64                 randconfig-a001-20200226
-powerpc              randconfig-a001-20200226
-riscv                            allmodconfig
-riscv                            allyesconfig
-riscv                          rv32_defconfig
-s390                             allmodconfig
-s390                              allnoconfig
-s390                             allyesconfig
-s390                                defconfig
-sh                                allnoconfig
-sh                            titan_defconfig
-sparc                               defconfig
-sparc64                           allnoconfig
-sparc64                             defconfig
-um                                  defconfig
-um                           x86_64_defconfig
-x86_64                              fedora-25
-x86_64                                  kexec
-x86_64                                    lkp
-x86_64                                   rhel
-x86_64                         rhel-7.2-clear
-x86_64                               rhel-7.6
+   ACK! Thanks a lot for finding it! :-)
+   That's what I get on the first dirmap read:
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Before:
+RPCIF_CMNCR:   0x81fff301
+RPCIF_DRCR:    0x00000000
+RPCIF_DRCMR:   0x00030000
+RPCIF_DREAR:   0x00000000
+RPCIF_DROPR:   0x00000000
+RPCIF_DRENR:   0x00004700
+RPCIF_DRDMCR:  0x00000000
+RPCIF_DRDRENR: 0x00000000
+
+After:                                                                          
+RPCIF_CMNCR:   0x01fff301                                                       
+RPCIF_DRCR:    0x001f0100                                                       
+RPCIF_DRCMR:   0x00800000                                                       
+RPCIF_DREAR:   0x00000001                                                       
+RPCIF_DROPR:   0x00000000                                                       
+RPCIF_DRENR:   0xa202d400                                                       
+RPCIF_DRDMCR:  0x0000000e                                                       
+RPCIF_DRDRENR: 0x00005101                                                       
+
+> Do you like to give the attached 0001-memory-renesas-rpc-if-Don-t-use-burst-mode-on-read.patch a try in your setup?
+
+   Works like charm! :-)
+   Unfortunately, the SPI dirmap and/or writes are still broken.
+
+> Best regards
+> 
+> Dirk
+
+MBR, Sergei
