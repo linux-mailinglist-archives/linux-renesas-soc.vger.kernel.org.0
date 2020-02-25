@@ -2,103 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A916E16C1BE
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2020 14:09:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AA1416C451
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2020 15:48:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729781AbgBYNJo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Feb 2020 08:09:44 -0500
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:50832 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729179AbgBYNJo (ORCPT
+        id S1729870AbgBYOr7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Feb 2020 09:47:59 -0500
+Received: from michel.telenet-ops.be ([195.130.137.88]:46108 "EHLO
+        michel.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729189AbgBYOr7 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Feb 2020 08:09:44 -0500
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id EE9543C0579;
-        Tue, 25 Feb 2020 14:09:40 +0100 (CET)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id oALL3uPy91rv; Tue, 25 Feb 2020 14:09:32 +0100 (CET)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id C24EA3C005E;
-        Tue, 25 Feb 2020 14:09:32 +0100 (CET)
-Received: from lxhi-065.adit-jv.com (10.72.93.66) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Tue, 25 Feb
- 2020 14:09:32 +0100
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     <linux-usb@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     Alan Stern <stern@rowland.harvard.edu>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        "Lee, Chiasheng" <chiasheng.lee@intel.com>,
-        Mathieu Malaterre <malat@debian.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Hardik Gajjar <hgajjar@de.adit-jv.com>,
-        <scan-admin@coverity.com>
-Subject: [PATCH] usb: hub: Fix unhandled return value of usb_autopm_get_interface()
-Date:   Tue, 25 Feb 2020 14:08:46 +0100
-Message-ID: <20200225130846.20236-1-erosca@de.adit-jv.com>
-X-Mailer: git-send-email 2.25.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.72.93.66]
+        Tue, 25 Feb 2020 09:47:59 -0500
+Received: from ramsan ([84.195.182.253])
+        by michel.telenet-ops.be with bizsmtp
+        id 72nr2200M5USYZQ062nsVf; Tue, 25 Feb 2020 15:47:57 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1j6bV1-0007yI-Rg; Tue, 25 Feb 2020 15:47:51 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1j6bV1-0005AV-Oq; Tue, 25 Feb 2020 15:47:51 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Eric Miao <eric.miao@nvidia.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     Chris Brandt <chris.brandt@renesas.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] ARM: boot: Fix ATAGs with appended DTB
+Date:   Tue, 25 Feb 2020 15:47:49 +0100
+Message-Id: <20200225144749.19815-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Address below Coverity complaint (Feb 25, 2020, 8:06 AM CET):
+At early boot, register r8 may contain an ATAGs or DTB pointer.
+When an appended DTB is found, its address is stored in r8, for
+extraction of the RAM base address later.
 
-*** CID 1458999:  Error handling issues  (CHECKED_RETURN)
-/drivers/usb/core/hub.c: 1869 in hub_probe()
-1863
-1864            if (id->driver_info & HUB_QUIRK_CHECK_PORT_AUTOSUSPEND)
-1865                    hub->quirk_check_port_auto_suspend = 1;
-1866
-1867            if (id->driver_info & HUB_QUIRK_DISABLE_AUTOSUSPEND) {
-1868                    hub->quirk_disable_autosuspend = 1;
- >>>     CID 1458999:  Error handling issues  (CHECKED_RETURN)
- >>>     Calling "usb_autopm_get_interface" without checking return value (as is done elsewhere 97 out of 111 times).
-1869                    usb_autopm_get_interface(intf);
-1870            }
-1871
-1872            if (hub_configure(hub, &desc->endpoint[0].desc) >= 0)
-1873                    return 0;
-1874
+However, if r8 contained an ATAGs pointer before, that pointer will be
+lost, and the provided ATAGs is no longer folded into the provided DTB.
 
-Fixes: 1208f9e1d758c9 ("USB: hub: Fix the broken detection of USB3 device in SMSC hub")
-Cc: Hardik Gajjar <hgajjar@de.adit-jv.com>
-Cc: Alan Stern <stern@rowland.harvard.edu>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Reported-by: scan-admin@coverity.com
-Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+Fix this by leaving r8 untouched.
+
+Fixes: 137e522593918be2 ("ARM: 8960/1: boot: Obtain start of physical memory from DTB")
+Reported-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- drivers/usb/core/hub.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+Not tested with ATAGs, only with [uz]Image + DTB, and zImage with
+appended DTB.
+---
+ arch/arm/boot/compressed/head.S | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 1d212f82c69b..ff04ca28970d 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -1865,8 +1865,12 @@ static int hub_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 		hub->quirk_check_port_auto_suspend = 1;
+diff --git a/arch/arm/boot/compressed/head.S b/arch/arm/boot/compressed/head.S
+index 339d4b4cfbbeed15..a351ed2bc195ed8d 100644
+--- a/arch/arm/boot/compressed/head.S
++++ b/arch/arm/boot/compressed/head.S
+@@ -267,16 +267,18 @@ not_angel:
+ 		cmp	r0, r1		@ do we have a DTB there?
+ 		bne	1f
  
- 	if (id->driver_info & HUB_QUIRK_DISABLE_AUTOSUSPEND) {
--		hub->quirk_disable_autosuspend = 1;
--		usb_autopm_get_interface(intf);
-+		int r = usb_autopm_get_interface(intf);
-+
-+		if (!r)
-+			hub->quirk_disable_autosuspend = 1;
-+		else
-+			dev_dbg(&intf->dev, "disable autosuspend err=%d\n", r);
- 	}
+-		mov	r8, r6		@ use it if so
+ 		/* preserve 64-bit alignment */
+ 		add	r5, r5, #7
+ 		bic	r5, r5, #7
+-		add	sp, sp, r5	@ and move stack above it
++		add	sp, sp, r5	@ if so, move stack above DTB
++		mov	r0, r6		@ and extract memory start from DTB
++		b	2f
  
- 	if (hub_configure(hub, &desc->endpoint[0].desc) >= 0)
+ 1:
+ #endif /* CONFIG_ARM_APPENDED_DTB */
+ 
+ 		mov	r0, r8
++2:
+ 		bl	fdt_get_mem_start
+ 		mov	r4, r0
+ 		cmp	r0, #-1
 -- 
-2.25.0
+2.17.1
 
