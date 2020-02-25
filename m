@@ -2,221 +2,282 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6AA1316EB4A
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2020 17:23:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D1B216EC01
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2020 18:02:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730345AbgBYQXF (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Feb 2020 11:23:05 -0500
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:44855 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728762AbgBYQXF (ORCPT
+        id S1730530AbgBYRCQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Feb 2020 12:02:16 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60944 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728367AbgBYRCQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Feb 2020 11:23:05 -0500
-Received: by mail-lf1-f65.google.com with SMTP id 7so10189316lfz.11
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Feb 2020 08:23:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=5Dk67v+npqu0EQERfbIuN+7my2CbgWhjf5DbNvAyZJ0=;
-        b=PQPl17Loc0S6TpTVmab3H2e6w0TiVNEnHmIkGPYF+kKwGu10CsKsu8PPDzZkj1qpPB
-         WgkOj1YrAr4JCItxUhh6iIq3PlfkOmzOQHKn4ZQx7scePHR2/8z+6QOrbUCdhJtKmTSJ
-         x82mQHhjQyupbzRiC7i1z6YUvdjrggn8SRCKpu9weHqEzTyJu18KJ8wqmAgHPmICXjdZ
-         AwNUh6tljWrSquO9C4BXzhsmcyiDxUWxqpq+q9/3+FzpQpOGjlEScI5c5oR15LmF64Yh
-         QAn5Nde9PUiGRt0VtxD1tqMRd+oNf3Zz/L26OImabzA5dfr92Tx9gtvJhVFuRZhjMnzn
-         1s1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=5Dk67v+npqu0EQERfbIuN+7my2CbgWhjf5DbNvAyZJ0=;
-        b=jpf1TIO88S3rk3pN53RS4QN1rUWXIMUIsEC+TrG5enUIq3OXkJS7wSvScPCIuM9BXT
-         8GbLuAYeMRn8r5kUw+JdGQhDhX+PYv3evKXe0wRAy6wUCrxaNaIMGt4AhROixWya67jb
-         ykg3H/OTcez1XGYS/0/R7Wtiu0pIshy8Ufq4juzSvsoz7azeAYBNGHthtaoFG/1jI/qB
-         nrtFKV1MWgvc9Wy1IJtt5UwoMlX1aFygyGkNa60DywoHS307JpaEhHEA0Jt8xT3EYU7W
-         0foUrI6fsUSIxUMuytwhgh7K0dWV80ysqw8GyRrD3yU/ZVZUbxUeOg5luM7JSQMbhRsw
-         MB6w==
-X-Gm-Message-State: APjAAAUN0v9AKRg0KVHjlH0dSm8xf5rroKzid1ChanAYQAItn0nsUujj
-        j50Dg0lGaNGiA17QLDZcUgNy1g==
-X-Google-Smtp-Source: APXvYqwPW6h1QKilPwRuqWez6A/erb4CBWnOzO1OLK96UKtW/skgBTn+ro2I0LdsmGFEs+G3Ox+z1Q==
-X-Received: by 2002:a05:6512:1109:: with SMTP id l9mr1441299lfg.62.1582647781108;
-        Tue, 25 Feb 2020 08:23:01 -0800 (PST)
-Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
-        by smtp.gmail.com with ESMTPSA id z3sm8134562ljh.83.2020.02.25.08.23.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2020 08:23:00 -0800 (PST)
-Date:   Tue, 25 Feb 2020 17:22:59 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Jens Axboe <axboe@kernel.dk>, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        devicetree@vger.kernel.org, linux-ide@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: ata: rcar-sata: Convert to json-schema
-Message-ID: <20200225162259.GC3165317@oden.dyn.berto.se>
-References: <20200219154146.11230-1-geert+renesas@glider.be>
+        Tue, 25 Feb 2020 12:02:16 -0500
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 887CA2082F;
+        Tue, 25 Feb 2020 17:02:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1582650135;
+        bh=75rI8LJmFs7QbzNmjVJ9AEsY1DNPaa6kw0Pwevj0c3c=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=umgLCf9r6yrDoDODUJSd1dm7BAwlz5HvQLa7XNyIAGiaJ4lnw82tO0uWDeoNz+GKV
+         EIXQQa2atMtWePB4tLViFbeQ0+ppLxNOCJuvSXAMIIJf1OH1rhvRPzEBqkQO87uPAL
+         MDuWcFYhKMhU8qw/AgiMv4BpY80NsB/UoHBl159k=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200219154146.11230-1-geert+renesas@glider.be>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200224152640.1318-1-geert+renesas@glider.be>
+References: <20200224152640.1318-1-geert+renesas@glider.be>
+Subject: Re: [PATCH] dt-bindings: clock: renesas: cpg-mssr: Convert to json-schema
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 25 Feb 2020 09:02:14 -0800
+Message-ID: <158265013473.177367.4512247165308399202@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
-
-Thanks for your work.
-
-On 2020-02-19 16:41:46 +0100, Geert Uytterhoeven wrote:
-> Convert the Renesas R-Car Serial-ATA Device Tree binding documentation
-> to json-schema.
-> 
-> While at it:
->   - Remove the deprecated "renesas,rcar-sata" compatible value,
->   - Add "iommus", "power-domains", and "resets" properties,
->   - Update the example.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> ---
-> Not having to care about the deprecated value simplifies the
-> jscon-schema.
-> ---
->  .../bindings/ata/renesas,rcar-sata.yaml       | 71 +++++++++++++++++++
->  .../devicetree/bindings/ata/sata_rcar.txt     | 36 ----------
->  2 files changed, 71 insertions(+), 36 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
->  delete mode 100644 Documentation/devicetree/bindings/ata/sata_rcar.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml b/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
+Quoting Geert Uytterhoeven (2020-02-24 07:26:40)
+> diff --git a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yam=
+l b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
 > new file mode 100644
-> index 0000000000000000..7b69831060d8b9c5
+> index 0000000000000000..dfbd1933f1bc56de
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/ata/renesas,rcar-sata.yaml
-> @@ -0,0 +1,71 @@
+> +++ b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
+> @@ -0,0 +1,204 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: "http://devicetree.org/schemas/ata/renesas,rcar-sata.yaml#"
+> +$id: "http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#"
 > +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
 > +
-> +title: Renesas R-Car Serial-ATA Interface
+> +title: Renesas Clock Pulse Generator / Module Standby and Software Reset
 > +
 > +maintainers:
 > +  - Geert Uytterhoeven <geert+renesas@glider.be>
 > +
+> +description: |
+> +  On Renesas ARM SoCs (SH/R-Mobile, R-Car, RZ), the CPG (Clock Pulse Gen=
+erator)
+> +  and MSSR (Module Standby and Software Reset) blocks are intimately con=
+nected,
+> +  and share the same register block.
+> +
+> +  They provide the following functionalities:
+> +    - The CPG block generates various core clocks,
+> +    - The MSSR block provides two functions:
+> +        1. Module Standby, providing a Clock Domain to control the clock=
+ supply
+> +           to individual SoC devices,
+> +        2. Reset Control, to perform a software reset of individual SoC =
+devices.
+> +
 > +properties:
 > +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - renesas,sata-r8a7779      # R-Car H1
-> +      - items:
-> +          - enum:
-> +              - renesas,sata-r8a7790-es1  # R-Car H2 ES1
-> +              - renesas,sata-r8a7790      # R-Car H2 other than ES1
-> +              - renesas,sata-r8a7791      # R-Car M2-W
-> +              - renesas,sata-r8a7793      # R-Car M2-N
-> +          - const: renesas,rcar-gen2-sata # generic R-Car Gen2
-> +      - items:
-> +          - enum:
-> +              - renesas,sata-r8a774b1     # RZ/G2N
-> +              - renesas,sata-r8a7795      # R-Car H3
-> +              - renesas,sata-r8a77965     # R-Car M3-N
-> +          - const: renesas,rcar-gen3-sata # generic R-Car Gen3 or RZ/G2
+> +    enum:
+> +      - renesas,r7s9210-cpg-mssr  # RZ/A2
+> +      - renesas,r8a7743-cpg-mssr  # RZ/G1M
+> +      - renesas,r8a7744-cpg-mssr  # RZ/G1N
+> +      - renesas,r8a7745-cpg-mssr  # RZ/G1E
+> +      - renesas,r8a77470-cpg-mssr # RZ/G1C
+> +      - renesas,r8a774a1-cpg-mssr # RZ/G2M
+> +      - renesas,r8a774b1-cpg-mssr # RZ/G2N
+> +      - renesas,r8a774c0-cpg-mssr # RZ/G2E
+> +      - renesas,r8a7790-cpg-mssr  # R-Car H2
+> +      - renesas,r8a7791-cpg-mssr  # R-Car M2-W
+> +      - renesas,r8a7792-cpg-mssr  # R-Car V2H
+> +      - renesas,r8a7793-cpg-mssr  # R-Car M2-N
+> +      - renesas,r8a7794-cpg-mssr  # R-Car E2
+> +      - renesas,r8a7795-cpg-mssr  # R-Car H3
+> +      - renesas,r8a7796-cpg-mssr  # R-Car M3-W
+> +      - renesas,r8a77961-cpg-mssr # R-Car M3-W+
+> +      - renesas,r8a77965-cpg-mssr # R-Car M3-N
+> +      - renesas,r8a77970-cpg-mssr # R-Car V3M
+> +      - renesas,r8a77980-cpg-mssr # R-Car V3H
+> +      - renesas,r8a77990-cpg-mssr # R-Car E3
+> +      - renesas,r8a77995-cpg-mssr # R-Car D3
 > +
 > +  reg:
 > +    maxItems: 1
 > +
-> +  interrupts:
-> +    maxItems: 1
-> +
 > +  clocks:
-> +    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 2
 > +
-> +  iommus:
-> +    maxItems: 1
+> +  clock-names:
+> +    minItems: 1
+> +    maxItems: 2
+
+Do we need this here and also below? Why can't it just be below with the
+more specific constraints?
+
 > +
-> +  power-domains:
-> +    maxItems: 1
+> +  '#clock-cells':
+> +    description: |
+> +      - For CPG core clocks, the two clock specifier cells must be "CPG_=
+CORE"
+> +        and a core clock reference, as defined in
+> +        <dt-bindings/clock/*-cpg-mssr.h>
+> +      - For module clocks, the two clock specifier cells must be "CPG_MO=
+D" and
+> +        a module number, as defined in the datasheet.
+> +    const: 2
 > +
-> +  resets:
-> +    maxItems: 1
+> +  '#power-domain-cells':
+> +    description:
+> +      SoC devices that are part of the CPG/MSSR Clock Domain and can be
+> +      power-managed through Module Standby should refer to the CPG devic=
+e node
+> +      in their "power-domains" property, as documented by the generic PM=
+ Domain
+> +      bindings in Documentation/devicetree/bindings/power/power-domain.y=
+aml.
+> +    const: 0
+> +
+> +  '#reset-cells':
+> +    description:
+> +      The single reset specifier cell must be the module number, as defi=
+ned in
+> +      the datasheet.
+> +    const: 1
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          items:
+> +            enum:
+> +              - renesas,r7s9210-cpg-mssr
+> +              - renesas,r8a774c0-cpg-mssr
+> +              - renesas,r8a7792-cpg-mssr
+> +              - renesas,r8a77990-cpg-mssr
+> +              - renesas,r8a77995-cpg-mssr
+> +
+> +    then:
+> +      properties:
+> +        clock:
+> +          maxItems: 1
+> +        clock-names:
+> +          maxItems: 1
+> +          items:
+> +            - const: extal
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,r8a7743-cpg-mssr
+> +              - renesas,r8a7744-cpg-mssr
+> +              - renesas,r8a7745-cpg-mssr
+> +              - renesas,r8a77470-cpg-mssr
+> +              - renesas,r8a7790-cpg-mssr
+> +              - renesas,r8a7791-cpg-mssr
+> +              - renesas,r8a7793-cpg-mssr
+> +              - renesas,r8a7794-cpg-mssr
+> +
+> +    then:
+> +      properties:
+> +        clock:
+> +          minItems: 2
+> +        clock-names:
+> +          minItems: 2
+> +          items:
+> +            - const: extal
+> +            - const: usb_extal
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          items:
+> +            enum:
+> +              - renesas,r8a774a1-cpg-mssr
+> +              - renesas,r8a774b1-cpg-mssr
+> +              - renesas,r8a7795-cpg-mssr
+> +              - renesas,r8a7796-cpg-mssr
+> +              - renesas,r8a77961-cpg-mssr
+> +              - renesas,r8a77965-cpg-mssr
+> +              - renesas,r8a77970-cpg-mssr
+> +              - renesas,r8a77980-cpg-mssr
+> +
+> +    then:
+> +      properties:
+> +        clock:
+> +          minItems: 2
+> +        clock-names:
+> +          minItems: 2
+> +          items:
+> +            - const: extal
+> +            - const: extalr
+> +
+> +  - if:
+> +      not:
+> +        properties:
+> +          compatible:
+> +            items:
+> +              enum:
+> +                - renesas,r7s9210-cpg-mssr
+> +    then:
+> +      required:
+> +        - '#reset-cells'
+
+It may make sense to split this binding up into multiple bindings so
+that we don't have deeply nested if/else/then.
+
 > +
 > +required:
 > +  - compatible
 > +  - reg
-> +  - interrupts
 > +  - clocks
+> +  - clock-names
+> +  - '#clock-cells'
+> +  - '#power-domain-cells'
 > +
 > +additionalProperties: false
 > +
 > +examples:
 > +  - |
-> +    #include <dt-bindings/clock/r8a7791-cpg-mssr.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/r8a7791-sysc.h>
+> +    // CPG device node:
 > +
-> +    sata@ee300000 {
-> +            compatible = "renesas,sata-r8a7791", "renesas,rcar-gen2-sata";
-> +            reg = <0xee300000 0x200000>;
-> +            interrupts = <GIC_SPI 105 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&cpg CPG_MOD 815>;
-> +            power-domains = <&sysc R8A7791_PD_ALWAYS_ON>;
-> +            resets = <&cpg 815>;
+> +    cpg: clock-controller@e6150000 {
+> +            compatible =3D "renesas,r8a7795-cpg-mssr";
+> +            reg =3D <0xe6150000 0x1000>;
+> +            clocks =3D <&extal_clk>, <&extalr_clk>;
+> +            clock-names =3D "extal", "extalr";
+> +            #clock-cells =3D <2>;
+> +            #power-domain-cells =3D <0>;
+> +            #reset-cells =3D <1>;
 > +    };
-> diff --git a/Documentation/devicetree/bindings/ata/sata_rcar.txt b/Documentation/devicetree/bindings/ata/sata_rcar.txt
-> deleted file mode 100644
-> index a2fbdc91570d0f7c..0000000000000000
-> --- a/Documentation/devicetree/bindings/ata/sata_rcar.txt
-> +++ /dev/null
-> @@ -1,36 +0,0 @@
-> -* Renesas R-Car SATA
-> -
-> -Required properties:
-> -- compatible		: should contain one or more of the following:
-> -			  - "renesas,sata-r8a774b1" for RZ/G2N
-> -			  - "renesas,sata-r8a7779" for R-Car H1
-> -			  - "renesas,sata-r8a7790-es1" for R-Car H2 ES1
-> -			  - "renesas,sata-r8a7790" for R-Car H2 other than ES1
-> -			  - "renesas,sata-r8a7791" for R-Car M2-W
-> -			  - "renesas,sata-r8a7793" for R-Car M2-N
-> -			  - "renesas,sata-r8a7795" for R-Car H3
-> -			  - "renesas,sata-r8a77965" for R-Car M3-N
-> -			  - "renesas,rcar-gen2-sata" for a generic R-Car Gen2
-> -			     compatible device
-> -			  - "renesas,rcar-gen3-sata" for a generic R-Car Gen3 or
-> -			     RZ/G2 compatible device
-> -			  - "renesas,rcar-sata" is deprecated
-> -
-> -			  When compatible with the generic version nodes
-> -			  must list the SoC-specific version corresponding
-> -			  to the platform first followed by the generic
-> -			  version.
-> -
-> -- reg			: address and length of the SATA registers;
-> -- interrupts		: must consist of one interrupt specifier.
-> -- clocks		: must contain a reference to the functional clock.
-> -
-> -Example:
-> -
-> -sata0: sata@ee300000 {
-> -	compatible = "renesas,sata-r8a7791", "renesas,rcar-gen2-sata";
-> -	reg = <0 0xee300000 0 0x2000>;
-> -	interrupt-parent = <&gic>;
-> -	interrupts = <0 105 IRQ_TYPE_LEVEL_HIGH>;
-> -	clocks = <&mstp8_clks R8A7791_CLK_SATA0>;
-> -};
-> -- 
-> 2.17.1
-> 
+> +
+> +  - |
+> +    // CPG/MSSR Clock Domain member device node:
+> +    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    scif2: serial@e6e88000 {
+> +            compatible =3D "renesas,scif-r8a7795", "renesas,rcar-gen3-sc=
+if",
+> +                         "renesas,scif";
+> +            reg =3D <0xe6e88000 64>;
+> +            interrupts =3D <GIC_SPI 164 IRQ_TYPE_LEVEL_HIGH>;
+> +            clocks =3D <&cpg CPG_MOD 310>, <&cpg CPG_CORE R8A7795_CLK_S3=
+D1>,
+> +                     <&scif_clk>;
+> +            clock-names =3D "fck";
+> +            dmas =3D <&dmac1 0x13>, <&dmac1 0x12>, <&dmac2 0x13>, <&dmac=
+2 0x12>;
+> +            dma-names =3D "tx", "rx", "tx", "rx";
+> +            power-domains =3D <&cpg>;
+> +            resets =3D <&cpg 310>;
+> +    };
 
--- 
-Regards,
-Niklas Söderlund
+I'm not sure we need this in the example.
