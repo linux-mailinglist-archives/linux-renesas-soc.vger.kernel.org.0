@@ -2,273 +2,319 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC6D716BD53
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2020 10:33:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 97C4116BF86
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2020 12:23:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729296AbgBYJdR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Feb 2020 04:33:17 -0500
-Received: from de-out1.bosch-org.com ([139.15.230.186]:49508 "EHLO
-        de-out1.bosch-org.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727114AbgBYJdR (ORCPT
+        id S1729317AbgBYLX5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Feb 2020 06:23:57 -0500
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:40285 "EHLO
+        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728981AbgBYLX4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Feb 2020 04:33:17 -0500
-X-Greylist: delayed 100007 seconds by postgrey-1.27 at vger.kernel.org; Tue, 25 Feb 2020 04:33:13 EST
-Received: from fe0vm1649.rbesz01.com (unknown [139.15.230.188])
-        by fe0vms0186.rbdmz01.com (Postfix) with ESMTPS id 48RYdM2T2Hz1XLFrl;
-        Tue, 25 Feb 2020 10:33:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=de.bosch.com;
-        s=key3-intmail; t=1582623191;
-        bh=WQzLc8ik3inJZMK5lCJ26mkvaboYo4pT75ge25HpFt4=; l=10;
-        h=Subject:From:From:Reply-To:Sender;
-        b=U1ERJ/S2r91Id0F5sgo60BDJXyoxBx6MgP93B4JlySLPvqOn8QfGFDe3QjKbJJ/54
-         Vctb/Q5pJMCgaWGoxBdD1M1/m0iyH1k3ZaQViyLLOg3NyW6+3uZ7wY1ircIa+vRFXv
-         s5aEsGGqJuanrGXtV/2+b8rPE+cOX6N1mz5QFUg8=
-Received: from fe0vm1740.rbesz01.com (unknown [10.58.172.176])
-        by fe0vm1649.rbesz01.com (Postfix) with ESMTPS id 48RYdM2CG1z1xD;
-        Tue, 25 Feb 2020 10:33:11 +0100 (CET)
-X-AuditID: 0a3aad14-a97ff700000047f7-00-5e54e9d61bdb
-Received: from si0vm1949.rbesz01.com ( [10.58.173.29])
-        (using TLS with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by fe0vm1740.rbesz01.com (SMG Outbound) with SMTP id 04.0F.18423.7D9E45E5; Tue, 25 Feb 2020 10:33:11 +0100 (CET)
-Received: from FE-HUB2000.de.bosch.com (fe-hub2000.de.bosch.com [10.4.103.109])
-        by si0vm1949.rbesz01.com (Postfix) with ESMTPS id 48RYdL6W4Fz6CjZNt;
-        Tue, 25 Feb 2020 10:33:10 +0100 (CET)
-Received: from [10.34.222.178] (10.34.222.178) by FE-HUB2000.de.bosch.com
- (10.4.103.109) with Microsoft SMTP Server id 15.1.1847.3; Tue, 25 Feb 2020
- 10:33:10 +0100
-Subject: Re: [PATCH RFC 2/2] memory: add Renesas RPC-IF driver
-To:     Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mason Yang <masonccyang@mxic.com.tw>,
-        <linux-spi@vger.kernel.org>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        <linux-renesas-soc@vger.kernel.org>
-References: <cb7022c9-0059-4eb2-7910-aab42124fa1c@cogentembedded.com>
- <4db876ed-1ccc-e3be-311d-30cd52f40259@cogentembedded.com>
- <5760bcdb-e44b-6f18-7262-9526684e5780@de.bosch.com>
- <5603f393-554d-e2a8-c2d8-6bafc20f4169@cogentembedded.com>
- <cba1e2ec-4896-23ef-ef7b-0f80d4310127@de.bosch.com>
- <ec545462-54ed-9e23-049e-1807d24ec084@cogentembedded.com>
-From:   "Behme Dirk (CM/ESO2)" <dirk.behme@de.bosch.com>
-Message-ID: <3a182ac7-8d41-cdc7-2b87-7c503f68a426@de.bosch.com>
-Date:   Tue, 25 Feb 2020 10:33:10 +0100
+        Tue, 25 Feb 2020 06:23:56 -0500
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20200225112355euoutp0110f3b1279def82d44fa8d4fb24e29ab3~2oXM-Y9xv3009830098euoutp018
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Feb 2020 11:23:55 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20200225112355euoutp0110f3b1279def82d44fa8d4fb24e29ab3~2oXM-Y9xv3009830098euoutp018
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1582629835;
+        bh=atqhp8WeChHbAQActEzaRe4WrCnFCL+vUzQP77yeMYU=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=RR0FiCE8TLMw3ugeGqrPikJ63/luCXtlaQS9w1iDcptG4U6Q6WRlRhcngIyKZ/7Ex
+         0IAGmd3ovPdPxyibQTH/f70mcQNnYh+1wAaNCAlnW4gnkGgiAfutemXWoQuNm9RmXh
+         UDW0GLbffl/+fq16KChXqaLeT9HEyY7wUIpBMoR4=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20200225112355eucas1p23601e4b3736ff4bb2232ea6a4e809012~2oXMt_yu00861208612eucas1p2G;
+        Tue, 25 Feb 2020 11:23:55 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges3new.samsung.com (EUCPMTA) with SMTP id DE.77.60698.BC3055E5; Tue, 25
+        Feb 2020 11:23:55 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20200225112354eucas1p1300749b32c6809b6a22194c1a952a68c~2oXMW4bWm0510405104eucas1p1t;
+        Tue, 25 Feb 2020 11:23:54 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20200225112354eusmtrp2e10492927528cb96b3f6e4eb2f2905aa~2oXMWO6UO2085720857eusmtrp2q;
+        Tue, 25 Feb 2020 11:23:54 +0000 (GMT)
+X-AuditID: cbfec7f5-a29ff7000001ed1a-d3-5e5503cbf3ea
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id 23.41.08375.AC3055E5; Tue, 25
+        Feb 2020 11:23:54 +0000 (GMT)
+Received: from [106.120.51.15] (unknown [106.120.51.15]) by
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20200225112354eusmtip25ff54412f93e606865b23eb0d917868a~2oXLzOd0g0143701437eusmtip2a;
+        Tue, 25 Feb 2020 11:23:54 +0000 (GMT)
+Subject: Re: [PATCH v2] ARM: boot: Obtain start of physical memory from DTB
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Russell King <linux@armlinux.org.uk>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Eric Miao <eric.miao@nvidia.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     Chris Brandt <chris.brandt@renesas.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+Message-ID: <d1b12473-5199-1cf6-25d1-a6ce79450e8e@samsung.com>
+Date:   Tue, 25 Feb 2020 12:23:53 +0100
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <ec545462-54ed-9e23-049e-1807d24ec084@cogentembedded.com>
-Content-Type: multipart/mixed;
-        boundary="------------A266F512431D32413D4D0BF3"
+In-Reply-To: <20200127140716.15673-1-geert+renesas@glider.be>
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-X-Originating-IP: [10.34.222.178]
-X-Brightmail-Tracker: H4sIAAAAAAAAA21TfUwTdxjmd73Sa8e560HltSKERrLEOCzqtkYX3D9zTZZFM82WMMGVcaUd
-        0GJbnLAv2AJiRT6GgBQsG6uToI2EzYE6Hal1sYwBUzYYH4KEDSiIHwRlImN3XLFNtn/ePL/n
-        fZ/n/bgcIaAnCDmhN1gYk0GTrgiW4JJtznXP907uTVKWFSBVXdUxXFXn7hSqbl6sDVadn5zB
-        VHn3/xCpjvw0hVRDt67jqo7GftErhHqkYglTdzucweqSRaX6YUcZrp5tjtwtTJC8nMKk6w8y
-        pk3x70p0BdZiLLPhjUMPB4rxXOTZaUViAqitMHmuJdiKJARNVWHw26MSEf+4gqD47je+x2kE
-        3950CDhJKBUP0/kFQg6HUSoYyqvHuSIBtYTg3oVCxCv+xOBc07CIqwqmXoQphw1xmKR2wI2G
-        XIzDOBUDVV1Ty1hGJUJfdSHG10jBUz3GuhKEmNoJLQMxHC2gdsPtvxpEPA6H/rE6jN8hGs4P
-        HReVIqktQG0LkNgCJDxWQXVdF+JxFLTcqRXwOBM67k0LeRwNx4/e9mnfh/HefB8+AP0FV7H/
-        1nwCRZcLhV+iZxqRTMsoD2bEvbRVGWtKZsw5yrjY94wZzYj/ymGtaMGldSGMQC70AoEpZCQa
-        2ZtEr0o2pmTrNGbdflNWOmNWyMlPp48k0qFPaXNWcobebNYbDS60nu042nSmG8lxg9HAKMLI
-        19GbSTSZosnOYUxG3sKF1hK4IpxMJXbto6lUjYVJY5hMxrSS3U4QCiAHJ9jmUhOTyhzS6tMt
-        K2nFOhIFBQXRqwMzgSNghNiFthAhbO+iUdaCNGdqMsz6VJ98DS+nV1i/tB29Q0w7HfUC4s5y
-        dJ88xcaCW0NsPMxFenkneTh5NoP1pTgHXZbh6WTyCNJOs8vKAhJ+dy/qQwRShJKJ3F4h7C/m
-        nwnIXO6kUh/pF212sBrqAgn2z0zgHfYgWLg8iMDeOoegz1sqgB7nrwKwdZ3EwfNzMw7uS5VC
-        6J9vEsK1szMs8hSJ4MZFmwjmBttEUP5DOQH2+W4xjD6YEUPN1w/EUHuqNASuVC6EQFPNExLm
-        R75/FrxL5RS42gqlMDhbJoW5S600uCt6aZj80R0GJ1pPA8x81boWPD31EZD/S0mkl703xt77
-        zJM93L0tGsv/3NvH+peT5yKX0ij7Dotoe63zat7m3z/oxXQnNiZEz/2zuLhqg9rafm04ZmFf
-        1I7OdkNao7hyPOtj5+ED9mNbsJQP3x5fQ6n/nrVWrk54HCm3tCTj15/7oqYUbd//uaUHv5vz
-        1key+qNj8/clVn3N+j3batI3PtIujby6Keqx1ikYSMuumDDOxMbnKnCzThO3QWAya/4FVm96
-        CPsEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0hTcRTH+e1e7+6k6XUaHswKRgVW6syg20MrsLihSRRmBD5W3lRyKpuz
+        LEjRsBpJ20SW06moUFlpmo/UNFviI8ucopgPIhSZ0TR8pZaW82r53+d8z/f3+54Dh8REzTYu
+        ZHRsAiuPlcaICVu8umWh070DCwqVqMdweknbwqfzdRk4XVLTgNGGHC2iK0b6bOiq8Qkebcxq
+        QHSe2UzQg5pMdEzA9PSZMObXohYxY213CEbz0Z15WZzMZKRNEMyDJQkz90GDM9MV284ILtoe
+        iWBjohNZuadvuG2UbtYlXn3gercxnUhB6j0qJCCB2g+5dSpkZRH1GMFC4wUVsl3hGQSvR7p5
+        XDGNoPxzK7b+Iit7Yq3xCEFR3iTiCguCpsxivtXlSPmDtn9u1eVEpfGgft60GoJRidDRMIxb
+        maC8QGVREVYWUr5Q2DvAszJO7YT+UqONlTdTIZDz5B3OeRygPXt0hUlSQPlA/ZiE+3I71Fhy
+        MY6dYWA0n8dNOsCHTPUtjv1geMqwpjvCt9ZKPseu8Kc2f3VOoNIQfO18zueK+wh6Uh8iznUY
+        hjoXCWswRrlBWZ0nJx+HwioDZpWBsoN+iwM3gx1oq3VrshDupos49y7Qt5b+i33b1Y2pkVi/
+        YTH9hm30G7bR/88tQHgJcmaVClkkq/COZa95KKQyhTI20uNynKwCrdxWx3Lr7CvU+PuSEVEk
+        Em8SQsO5UJGNNFGRJDMiIDGxk9AfnQ0VCSOkSTdYeVyYXBnDKoxoC4mLnYXeheMhIipSmsBe
+        Zdl4Vr7e5ZEClxRE/DzfMpZHVSQzJ38c2nuizFtjX/C9vD3e/LQos7wvqFnem2tKnpy6EvhF
+        LX/26cVw7b6Zo47KGgNpDo5evndQlFrZFTSjtDulCzBgJdODQz5+s6ausGDzsH1pSli3pq1t
+        /r1ua/X0G60l9bapKdAt3HVxKUC2w1kvlNyMO92SJcYVUVKv3ZhcIf0L7opCl1cDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrOIsWRmVeSWpSXmKPExsVy+t/xe7qnmEPjDHbM1LD4O+kYu8X86b0s
+        Fqu272W2mDt7EqPFpsfXWC22vnzHZHFo6l5Gi3kvXrBZ3J44mdGB0+PytYvMHr9/TWL0eHai
+        nc1j4lldj81L6j16m9+xefT/NfD4dmYii8fnTXIBnFF6NkX5pSWpChn5xSW2StGGFkZ6hpYW
+        ekYmlnqGxuaxVkamSvp2NimpOZllqUX6dgl6GdO/ShVMMK+4dKiNrYFxgnYXIyeHhICJxNSZ
+        75i6GLk4hASWMkr03zjEDJGQkTg5rYEVwhaW+HOtiw2i6DWjxJ9Zc9hAEsIC3hKTbnwD6xYR
+        aGaS+N9yjgkkwSxQJrHk/wkwW0jARmL7773sIDabgKFE19susGZeATuJRVdvgdWwCKhK3Fh3
+        CGybqECsxI2ZHUwQNYISJ2c+Yeli5ODgFLCV2P3MAGK8mcS8zQ+ZIWx5ie1v50DZ4hK3nsxn
+        msAoNAtJ9ywkLbOQtMxC0rKAkWUVo0hqaXFuem6xoV5xYm5xaV66XnJ+7iZGYKRuO/Zz8w7G
+        SxuDDzEKcDAq8fBK7A2OE2JNLCuuzD3EKMHBrCTC680YFCfEm5JYWZValB9fVJqTWnyI0RTo
+        t4nMUqLJ+cAkklcSb2hqaG5haWhubG5sZqEkztshcDBGSCA9sSQ1OzW1ILUIpo+Jg1OqgdGl
+        abLd06JrSd2Vbue9AgvX3nlx+8BVlWUse+0+ts07Y5C4jqt+z+aYmZ+ydLblOWx8kO300FMg
+        tFt1F9MWDVMO+d4XZ7OK3B2sey5x3v+w/ttRAZ0H+3cVGLhtjFWf9eietHbHuvWMq3muWNl6
+        nkzkmHx+scpJ/rSIh2+fb1Q8s+JBbqRzhokSS3FGoqEWc1FxIgCzddqq6gIAAA==
+X-CMS-MailID: 20200225112354eucas1p1300749b32c6809b6a22194c1a952a68c
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20200225112354eucas1p1300749b32c6809b6a22194c1a952a68c
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200225112354eucas1p1300749b32c6809b6a22194c1a952a68c
+References: <20200127140716.15673-1-geert+renesas@glider.be>
+        <CGME20200225112354eucas1p1300749b32c6809b6a22194c1a952a68c@eucas1p1.samsung.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
---------------A266F512431D32413D4D0BF3
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Hi Geert,
 
-On 24.02.2020 19:59, Sergei Shtylyov wrote:
->>>>   From d72b805cc461ab1e9747c973e9be84e7abb8f828 Mon Sep 17 00:00:00 2001
->>>> From: Dirk Behme <dirk.behme@de.bosch.com>
->>>> Date: Tue, 4 Feb 2020 08:39:31 +0100
->>>> Subject: [PATCH] memory: renesas-rpc-if: Correct the STRTIM and some other
->>>>    clean up
->>>>
->>>> This is required to make the driver work correctly in my M3 environment.
->>>>
->>>> Signed-off-by: Dirk Behme <dirk.behme@de.bosch.com>
->>>> ---
->>>>    drivers/memory/renesas-rpc-if.c | 42 ++++++++++++++++++++-------------
->>>>    1 file changed, 25 insertions(+), 17 deletions(-)
->>>>
->>>> diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
->>>> index 04be92b64bfa..f4356b066384 100644
->>>> --- a/drivers/memory/renesas-rpc-if.c
->>>> +++ b/drivers/memory/renesas-rpc-if.c
->>> [...]
->>>> @@ -513,19 +525,15 @@ ssize_t rpcif_dirmap_read(struct rpcif *rpc, u64 offs, size_t len, void *buf)
->>>>        pm_runtime_get_sync(rpc->dev);
->>>>
->>>>        regmap_update_bits(rpc->regmap, RPCIF_CMNCR, RPCIF_CMNCR_MD, 0);
->>>> -    regmap_write(rpc->regmap, RPCIF_DRCR,
->>>> -             RPCIF_DRCR_RBURST(32) | RPCIF_DRCR_RBE);
->>>> -    regmap_write(rpc->regmap, RPCIF_DRCMR, rpc->command);
->>>> -    regmap_write(rpc->regmap, RPCIF_DREAR,
->>>> -             RPCIF_DREAR_EAV(offs >> 25) | RPCIF_DREAR_EAC(1));
->>>> -    regmap_write(rpc->regmap, RPCIF_DROPR, rpc->option);
->>>> -    regmap_write(rpc->regmap, RPCIF_DRENR,
->>>> -             rpc->enable & ~RPCIF_SMENR_SPIDE(0xF));
->>>> -    regmap_write(rpc->regmap, RPCIF_DRDMCR, rpc->dummy);
->>>> -    regmap_write(rpc->regmap, RPCIF_DRDRENR, rpc->ddr);
->>>
->>>      The driver somehow works only with this left in place (with 2 bytes eaten
->>> as before), otherwise all the flash reads all 0xff (via dirmap).
->>
->>
->> Do you boot from hyperflash?
-> 
->     No, I have arewto say 'cpld write 30 1' in U-Boot before a boot a kernel.
-> Normally, the V3x Starter Kit boards are wired for the QSPI flash chips.
-> 
->> The system I'm using for testing boots from hyperflash. So most probably all registers
->> I don't touch in the driver are put into a reasonable state by the boot code, already.
->> If you don't boot from hyperflash, that at least would explain our different behavior.
-> 
->     Yes. Mind dumping the registers and sending to me?
+On 27.01.2020 15:07, Geert Uytterhoeven wrote:
+> Currently, the start address of physical memory is obtained by masking
+> the program counter with a fixed mask of 0xf8000000.  This mask value
+> was chosen as a balance between the requirements of different platforms.
+> However, this does require that the start address of physical memory is
+> a multiple of 128 MiB, precluding booting Linux on platforms where this
+> requirement is not fulfilled.
+>
+> Fix this limitation by obtaining the start address from the DTB instead,
+> if available (either explicitly passed, or appended to the kernel).
+> Fall back to the traditional method when needed.
+>
+> This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
+> on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
+> i.e. not at a multiple of 128 MiB.
+>
+> Suggested-by: Nicolas Pitre <nico@fluxnic.net>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
+> ---
+> Against arm/for-next.
 
+This patch landed recently in linux-next. It breaks legacy booting from 
+the zImage + appended DT + cmdline/memory info provided via ATAGs. I 
+will debug it further once I find some spare time. What I noticed so 
+far, the cmdline/memory info is not read from the ATAGs, only the values 
+provided via appended DT are used.
 
-Using the attached debug patch 
-(0001-memory-renesas-rpc-if-DEBUG-Dump-register-content.patch) on a 
-r8a7796 system booting from Hyperflash with above register dropping 
-reverted (i.e. including touching these registers) I get
-
-Before:
-RPCIF_DRCR:    0x00000000
-RPCIF_DRCMR:   0x00a00000
-RPCIF_DREAR:   0x00000000
-RPCIF_DROPR:   0x00000000
-RPCIF_DRENR:   0xa222d400
-RPCIF_DRDMCR:  0x0000000e
-RPCIF_DRDRENR: 0x00005101
-
-After:
-RPCIF_DRCR:    0x001f0100
-RPCIF_DRCMR:   0x00a00000
-RPCIF_DREAR:   0x00010001
-RPCIF_DROPR:   0x00000000
-RPCIF_DRENR:   0xa202d400
-RPCIF_DRDMCR:  0x0000000e
-RPCIF_DRDRENR: 0x00005101
-
-Comparing that, just 3 registers are different between my working 
-version ("Before") and the version which shows the 2-byte offset 
-("After"): RPCIF_DRCR, RPCIF_DREAR and RPCIF_DRENR. With try & error, at 
-least in my setup, I was able to reduce this to just RPCIF_DRCR. 
-Dropping the burst mode I was able to 'fix' the two byte offset issue.
-
-Do you like to give the attached 
-0001-memory-renesas-rpc-if-Don-t-use-burst-mode-on-read.patch a try in 
-your setup?
+> Tested with the following configurations:
+>    - zImage + DTB (r8a7791/koelsch),
+>    - uImage + DTB (r8a73a4/ape6evm, r7s72100/rskrza1, r7s9210/rza2mevb),
+>    - zImage with appended DTB (r8a7740/armadillo, sh73a0/kzm9g).
+>
+> v2:
+>    - Use "cmp r0, #-1", instead of "cmn r0, #1",
+>    - Add missing stack setup,
+>    - Support appended DTBs.
+>
+> v1: https://lore.kernel.org/linux-arm-kernel/20200121192741.20597-1-geert+renesas@glider.be/
+> ---
+>   arch/arm/boot/compressed/Makefile            |  6 ++-
+>   arch/arm/boot/compressed/fdt_get_mem_start.c | 52 ++++++++++++++++++++
+>   arch/arm/boot/compressed/head.S              | 52 +++++++++++++++++++-
+>   3 files changed, 108 insertions(+), 2 deletions(-)
+>   create mode 100644 arch/arm/boot/compressed/fdt_get_mem_start.c
+>
+> diff --git a/arch/arm/boot/compressed/Makefile b/arch/arm/boot/compressed/Makefile
+> index da599c3a11934332..bbfecd648a1a3b57 100644
+> --- a/arch/arm/boot/compressed/Makefile
+> +++ b/arch/arm/boot/compressed/Makefile
+> @@ -86,12 +86,15 @@ libfdt_objs	:= $(addsuffix .o, $(basename $(libfdt)))
+>   $(addprefix $(obj)/,$(libfdt) $(libfdt_hdrs)): $(obj)/%: $(srctree)/scripts/dtc/libfdt/%
+>   	$(call cmd,shipped)
+>   
+> -$(addprefix $(obj)/,$(libfdt_objs) atags_to_fdt.o): \
+> +$(addprefix $(obj)/,$(libfdt_objs) atags_to_fdt.o fdt_get_mem_start.o): \
+>   	$(addprefix $(obj)/,$(libfdt_hdrs))
+>   
+>   ifeq ($(CONFIG_ARM_ATAG_DTB_COMPAT),y)
+>   OBJS	+= $(libfdt_objs) atags_to_fdt.o
+>   endif
+> +ifeq ($(CONFIG_USE_OF),y)
+> +OBJS	+= $(libfdt_objs) fdt_get_mem_start.o
+> +endif
+>   
+>   targets       := vmlinux vmlinux.lds piggy_data piggy.o \
+>   		 lib1funcs.o ashldi3.o bswapsdi2.o \
+> @@ -116,6 +119,7 @@ CFLAGS_fdt.o := $(nossp-flags-y)
+>   CFLAGS_fdt_ro.o := $(nossp-flags-y)
+>   CFLAGS_fdt_rw.o := $(nossp-flags-y)
+>   CFLAGS_fdt_wip.o := $(nossp-flags-y)
+> +CFLAGS_fdt_get_mem_start.o := $(nossp-flags-y)
+>   
+>   ccflags-y := -fpic $(call cc-option,-mno-single-pic-base,) -fno-builtin -I$(obj)
+>   asflags-y := -DZIMAGE
+> diff --git a/arch/arm/boot/compressed/fdt_get_mem_start.c b/arch/arm/boot/compressed/fdt_get_mem_start.c
+> new file mode 100644
+> index 0000000000000000..2c5ac47f656317ee
+> --- /dev/null
+> +++ b/arch/arm/boot/compressed/fdt_get_mem_start.c
+> @@ -0,0 +1,52 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +
+> +#include <libfdt.h>
+> +
+> +static const void *getprop(const void *fdt, const char *node_path,
+> +			   const char *property)
+> +{
+> +	int offset = fdt_path_offset(fdt, node_path);
+> +
+> +	if (offset == -FDT_ERR_NOTFOUND)
+> +		return NULL;
+> +
+> +	return fdt_getprop(fdt, offset, property, NULL);
+> +}
+> +
+> +static uint32_t get_addr_size(const void *fdt)
+> +{
+> +	const __be32 *addr_len = getprop(fdt, "/", "#address-cells");
+> +
+> +	if (!addr_len) {
+> +		/* default */
+> +		return 1;
+> +	}
+> +
+> +	return fdt32_to_cpu(*addr_len);
+> +}
+> +
+> +/*
+> + * Get the start of physical memory
+> + */
+> +
+> +unsigned long fdt_get_mem_start(const void *fdt)
+> +{
+> +	const __be32 *memory;
+> +	uint32_t addr_size;
+> +
+> +	if (!fdt)
+> +		return -1;
+> +
+> +	if (*(__be32 *)fdt != cpu_to_fdt32(FDT_MAGIC))
+> +		return -1;
+> +
+> +	/* Find the first memory node */
+> +	memory = getprop(fdt, "/memory", "reg");
+> +	if (!memory)
+> +		return -1;
+> +
+> +	/* There may be multiple cells on LPAE platforms */
+> +	addr_size = get_addr_size(fdt);
+> +
+> +	return fdt32_to_cpu(memory[addr_size - 1]);
+> +}
+> diff --git a/arch/arm/boot/compressed/head.S b/arch/arm/boot/compressed/head.S
+> index 927f5dc413d7dff2..aa2d7de2ddc86fa8 100644
+> --- a/arch/arm/boot/compressed/head.S
+> +++ b/arch/arm/boot/compressed/head.S
+> @@ -235,8 +235,56 @@ not_angel:
+>   		.text
+>   
+>   #ifdef CONFIG_AUTO_ZRELADDR
+> +#ifdef CONFIG_USE_OF
+>   		/*
+> -		 * Find the start of physical memory.  As we are executing
+> +		 * Find the start of physical memory.
+> +		 * Try the DTB first, if available.
+> +		 */
+> +		adr	r0, LC0
+> +		ldr	r1, [r0]	@ get absolute LC0
+> +		ldr	sp, [r0, #28]	@ get stack location
+> +		sub	r1, r0, r1	@ compute relocation offset
+> +		add	sp, sp, r1	@ apply relocation
+> +
+> +#ifdef CONFIG_ARM_APPENDED_DTB
+> +		/*
+> +		 * Look for an appended DTB. If found, use it and
+> +		 * move stack away from it.
+> +		 */
+> +		ldr	r6, [r0, #12]	@ get &_edata
+> +		add	r6, r6, r1	@ relocate it
+> +		ldmia	r6, {r0, r5}	@ get DTB signature and size
+> +#ifndef __ARMEB__
+> +		ldr	r1, =0xedfe0dd0	@ sig is 0xd00dfeed big endian
+> +		/* convert DTB size to little endian */
+> +		eor	r2, r5, r5, ror #16
+> +		bic	r2, r2, #0x00ff0000
+> +		mov	r5, r5, ror #8
+> +		eor	r5, r5, r2, lsr #8
+> +#else
+> +		ldr	r1, =0xd00dfeed
+> +#endif
+> +		cmp	r0, r1		@ do we have a DTB there?
+> +		bne	1f
+> +
+> +		mov	r8, r6		@ use it if so
+> +		/* preserve 64-bit alignment */
+> +		add	r5, r5, #7
+> +		bic	r5, r5, #7
+> +		add	sp, sp, r5	@ and move stack above it
+> +
+> +1:
+> +#endif /* CONFIG_ARM_APPENDED_DTB */
+> +
+> +		mov	r0, r8
+> +		bl	fdt_get_mem_start
+> +		mov	r4, r0
+> +		cmp	r0, #-1
+> +		bne	1f
+> +#endif /* CONFIG_USE_OF */
+> +
+> +		/*
+> +		 * Fall back to the traditional method.  As we are executing
+>   		 * without the MMU on, we are in the physical address space.
+>   		 * We just need to get rid of any offset by aligning the
+>   		 * address.
+> @@ -254,6 +302,8 @@ not_angel:
+>   		 */
+>   		mov	r4, pc
+>   		and	r4, r4, #0xf8000000
+> +
+> +1:
+>   		/* Determine final kernel image address. */
+>   		add	r4, r4, #TEXT_OFFSET
+>   #else
 
 Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
-Dirk
-
-
---------------A266F512431D32413D4D0BF3
-Content-Type: text/plain; charset="UTF-8";
-	name="0001-memory-renesas-rpc-if-DEBUG-Dump-register-content.patch"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
-	filename="0001-memory-renesas-rpc-if-DEBUG-Dump-register-content.patch"
-
-RnJvbSA4OTQyYzc3MWY4ZWE4OTU3YTE0ZmM2ZjZlNDQ0MzY3NWM0YjZiMjYwIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBEaXJrIEJlaG1lIDxkaXJrLmJlaG1lQGRlLmJvc2No
-LmNvbT4KRGF0ZTogVHVlLCAyNSBGZWIgMjAyMCAwNzo1NzoxMiArMDEwMApTdWJqZWN0OiBb
-UEFUQ0hdIG1lbW9yeTogcmVuZXNhcy1ycGMtaWY6IERFQlVHOiBEdW1wIHJlZ2lzdGVyIGNv
-bnRlbnQKCkR1bXAgcmVnaXN0ZXIgY29udGVudCBiZWZvcmUgYW5kIGFmdGVyIGJlaW5nIG1v
-ZGlmaWVkIGJ5IHRoZSBkcml2ZXIuCgpTaWduZWQtb2ZmLWJ5OiBEaXJrIEJlaG1lIDxkaXJr
-LmJlaG1lQGRlLmJvc2NoLmNvbT4KLS0tCiBkcml2ZXJzL21lbW9yeS9yZW5lc2FzLXJwYy1p
-Zi5jIHwgMjEgKysrKysrKysrKysrKysrKysrKysrCiAxIGZpbGUgY2hhbmdlZCwgMjEgaW5z
-ZXJ0aW9ucygrKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVtb3J5L3JlbmVzYXMtcnBjLWlm
-LmMgYi9kcml2ZXJzL21lbW9yeS9yZW5lc2FzLXJwYy1pZi5jCmluZGV4IDQ4NTNlN2Y3ODk4
-NS4uNDQ4NmRlMGI1MTdiIDEwMDY0NAotLS0gYS9kcml2ZXJzL21lbW9yeS9yZW5lc2FzLXJw
-Yy1pZi5jCisrKyBiL2RyaXZlcnMvbWVtb3J5L3JlbmVzYXMtcnBjLWlmLmMKQEAgLTUxNywx
-MiArNTE3LDIzIEBAIHNzaXplX3QgcnBjaWZfZGlybWFwX3JlYWQoc3RydWN0IHJwY2lmICpy
-cGMsIHU2NCBvZmZzLCBzaXplX3QgbGVuLCB2b2lkICpidWYpCiB7CiAJbG9mZl90IGZyb20g
-PSBvZmZzICYgKFJQQ0lGX0RJUk1BUF9TSVpFIC0gMSk7CiAJc2l6ZV90IHNpemUgPSBSUENJ
-Rl9ESVJNQVBfU0laRSAtIGZyb207CisJdTMyIGRhdGE7CiAKIAlpZiAobGVuID4gc2l6ZSkK
-IAkJbGVuID0gc2l6ZTsKIAogCXBtX3J1bnRpbWVfZ2V0X3N5bmMocnBjLT5kZXYpOwogCisJ
-cHJfZXJyKCJCZWZvcmU6XG4iKTsKKwlyZWdtYXBfcmVhZChycGMtPnJlZ21hcCwgUlBDSUZf
-Q01OQ1IsICZkYXRhKTsgICBwcl9lcnIoIlJQQ0lGX0NNTkNSOiAgIDB4JTA4eFxuIiwgZGF0
-YSk7CisJcmVnbWFwX3JlYWQocnBjLT5yZWdtYXAsIFJQQ0lGX0RSQ1IsICZkYXRhKTsgICAg
-cHJfZXJyKCJSUENJRl9EUkNSOiAgICAweCUwOHhcbiIsIGRhdGEpOworCXJlZ21hcF9yZWFk
-KHJwYy0+cmVnbWFwLCBSUENJRl9EUkNNUiwgJmRhdGEpOyAgIHByX2VycigiUlBDSUZfRFJD
-TVI6ICAgMHglMDh4XG4iLCBkYXRhKTsKKwlyZWdtYXBfcmVhZChycGMtPnJlZ21hcCwgUlBD
-SUZfRFJFQVIsICZkYXRhKTsgICBwcl9lcnIoIlJQQ0lGX0RSRUFSOiAgIDB4JTA4eFxuIiwg
-ZGF0YSk7CisJcmVnbWFwX3JlYWQocnBjLT5yZWdtYXAsIFJQQ0lGX0RST1BSLCAmZGF0YSk7
-ICAgcHJfZXJyKCJSUENJRl9EUk9QUjogICAweCUwOHhcbiIsIGRhdGEpOworCXJlZ21hcF9y
-ZWFkKHJwYy0+cmVnbWFwLCBSUENJRl9EUkVOUiwgJmRhdGEpOyAgIHByX2VycigiUlBDSUZf
-RFJFTlI6ICAgMHglMDh4XG4iLCBkYXRhKTsKKwlyZWdtYXBfcmVhZChycGMtPnJlZ21hcCwg
-UlBDSUZfRFJETUNSLCAmZGF0YSk7ICBwcl9lcnIoIlJQQ0lGX0RSRE1DUjogIDB4JTA4eFxu
-IiwgZGF0YSk7CisJcmVnbWFwX3JlYWQocnBjLT5yZWdtYXAsIFJQQ0lGX0RSRFJFTlIsICZk
-YXRhKTsgcHJfZXJyKCJSUENJRl9EUkRSRU5SOiAweCUwOHhcbiIsIGRhdGEpOworCiAJcmVn
-bWFwX3VwZGF0ZV9iaXRzKHJwYy0+cmVnbWFwLCBSUENJRl9DTU5DUiwgUlBDSUZfQ01OQ1Jf
-TUQsIDApOwogCXJlZ21hcF93cml0ZShycGMtPnJlZ21hcCwgUlBDSUZfRFJDUiwKIAkJICAg
-ICBSUENJRl9EUkNSX1JCVVJTVCgzMikgfCBSUENJRl9EUkNSX1JCRSk7CkBAIC01MzUsNiAr
-NTQ2LDE2IEBAIHNzaXplX3QgcnBjaWZfZGlybWFwX3JlYWQoc3RydWN0IHJwY2lmICpycGMs
-IHU2NCBvZmZzLCBzaXplX3QgbGVuLCB2b2lkICpidWYpCiAJcmVnbWFwX3dyaXRlKHJwYy0+
-cmVnbWFwLCBSUENJRl9EUkRNQ1IsIHJwYy0+ZHVtbXkpOwogCXJlZ21hcF93cml0ZShycGMt
-PnJlZ21hcCwgUlBDSUZfRFJEUkVOUiwgcnBjLT5kZHIpOwogCisJcHJfZXJyKCJBZnRlcjpc
-biIpOworCXJlZ21hcF9yZWFkKHJwYy0+cmVnbWFwLCBSUENJRl9DTU5DUiwgJmRhdGEpOyAg
-IHByX2VycigiUlBDSUZfQ01OQ1I6ICAgMHglMDh4XG4iLCBkYXRhKTsKKwlyZWdtYXBfcmVh
-ZChycGMtPnJlZ21hcCwgUlBDSUZfRFJDUiwgJmRhdGEpOyAgICBwcl9lcnIoIlJQQ0lGX0RS
-Q1I6ICAgIDB4JTA4eFxuIiwgZGF0YSk7CisJcmVnbWFwX3JlYWQocnBjLT5yZWdtYXAsIFJQ
-Q0lGX0RSQ01SLCAmZGF0YSk7ICAgcHJfZXJyKCJSUENJRl9EUkNNUjogICAweCUwOHhcbiIs
-IGRhdGEpOworCXJlZ21hcF9yZWFkKHJwYy0+cmVnbWFwLCBSUENJRl9EUkVBUiwgJmRhdGEp
-OyAgIHByX2VycigiUlBDSUZfRFJFQVI6ICAgMHglMDh4XG4iLCBkYXRhKTsKKwlyZWdtYXBf
-cmVhZChycGMtPnJlZ21hcCwgUlBDSUZfRFJPUFIsICZkYXRhKTsgICBwcl9lcnIoIlJQQ0lG
-X0RST1BSOiAgIDB4JTA4eFxuIiwgZGF0YSk7CisJcmVnbWFwX3JlYWQocnBjLT5yZWdtYXAs
-IFJQQ0lGX0RSRU5SLCAmZGF0YSk7ICAgcHJfZXJyKCJSUENJRl9EUkVOUjogICAweCUwOHhc
-biIsIGRhdGEpOworCXJlZ21hcF9yZWFkKHJwYy0+cmVnbWFwLCBSUENJRl9EUkRNQ1IsICZk
-YXRhKTsgIHByX2VycigiUlBDSUZfRFJETUNSOiAgMHglMDh4XG4iLCBkYXRhKTsKKwlyZWdt
-YXBfcmVhZChycGMtPnJlZ21hcCwgUlBDSUZfRFJEUkVOUiwgJmRhdGEpOyBwcl9lcnIoIlJQ
-Q0lGX0RSRFJFTlI6IDB4JTA4eFxuIiwgZGF0YSk7CisKIAltZW1jcHlfZnJvbWlvKGJ1Ziwg
-cnBjLT5kaXJtYXAgKyBmcm9tLCBsZW4pOwogCiAJcG1fcnVudGltZV9wdXQocnBjLT5kZXYp
-OwotLSAKMi4yMC4wCgo=
---------------A266F512431D32413D4D0BF3
-Content-Type: text/plain; charset="UTF-8";
-	name="0001-memory-renesas-rpc-if-Don-t-use-burst-mode-on-read.patch"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
-	filename*0="0001-memory-renesas-rpc-if-Don-t-use-burst-mode-on-read.patc";
-	filename*1="h"
-
-RnJvbSAxODlkMzBhOGU5NjcwZjFhNWExZTlkM2IyNTdmMTRiN2RmN2JjMTcyIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBEaXJrIEJlaG1lIDxkaXJrLmJlaG1lQGRlLmJvc2No
-LmNvbT4KRGF0ZTogVHVlLCAyNSBGZWIgMjAyMCAwODo0MTowNiArMDEwMApTdWJqZWN0OiBb
-UEFUQ0hdIG1lbW9yeTogcmVuZXNhcy1ycGMtaWY6IERvbid0IHVzZSBidXJzdCBtb2RlIG9u
-IHJlYWQKClRlc3Rpbmcgc2hvd3MgdGhhdCBlbmFibGluZyB0aGUgYnVyc3QgbW9kZSByZXN1
-bHRzIGluIGEgIjItYnl0ZSBvZmZzZXQiCmluIHJlYWQgZGF0YS4gRHJvcHBpbmcgdGhlIGJ1
-cnN0IG1vZGUgc2VlbXMgdG8gZml4IHRoaXMuCgpTaWduZWQtb2ZmLWJ5OiBEaXJrIEJlaG1l
-IDxkaXJrLmJlaG1lQGRlLmJvc2NoLmNvbT4KLS0tCiBkcml2ZXJzL21lbW9yeS9yZW5lc2Fz
-LXJwYy1pZi5jIHwgMyArLS0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMiBk
-ZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL21lbW9yeS9yZW5lc2FzLXJwYy1p
-Zi5jIGIvZHJpdmVycy9tZW1vcnkvcmVuZXNhcy1ycGMtaWYuYwppbmRleCA0ODUzZTdmNzg5
-ODUuLjJkNzdlY2E3YWFhNSAxMDA2NDQKLS0tIGEvZHJpdmVycy9tZW1vcnkvcmVuZXNhcy1y
-cGMtaWYuYworKysgYi9kcml2ZXJzL21lbW9yeS9yZW5lc2FzLXJwYy1pZi5jCkBAIC01MjQs
-OCArNTI0LDcgQEAgc3NpemVfdCBycGNpZl9kaXJtYXBfcmVhZChzdHJ1Y3QgcnBjaWYgKnJw
-YywgdTY0IG9mZnMsIHNpemVfdCBsZW4sIHZvaWQgKmJ1ZikKIAlwbV9ydW50aW1lX2dldF9z
-eW5jKHJwYy0+ZGV2KTsKIAogCXJlZ21hcF91cGRhdGVfYml0cyhycGMtPnJlZ21hcCwgUlBD
-SUZfQ01OQ1IsIFJQQ0lGX0NNTkNSX01ELCAwKTsKLQlyZWdtYXBfd3JpdGUocnBjLT5yZWdt
-YXAsIFJQQ0lGX0RSQ1IsCi0JCSAgICAgUlBDSUZfRFJDUl9SQlVSU1QoMzIpIHwgUlBDSUZf
-RFJDUl9SQkUpOworCXJlZ21hcF93cml0ZShycGMtPnJlZ21hcCwgUlBDSUZfRFJDUiwgMCk7
-CiAJcmVnbWFwX3dyaXRlKHJwYy0+cmVnbWFwLCBSUENJRl9EUkNNUiwgcnBjLT5jb21tYW5k
-KTsKIAlyZWdtYXBfd3JpdGUocnBjLT5yZWdtYXAsIFJQQ0lGX0RSRUFSLAogCQkgICAgIFJQ
-Q0lGX0RSRUFSX0VBVihvZmZzID4+IDI1KSB8IFJQQ0lGX0RSRUFSX0VBQygxKSk7Ci0tIAoy
-LjIwLjAKCg==
---------------A266F512431D32413D4D0BF3--
