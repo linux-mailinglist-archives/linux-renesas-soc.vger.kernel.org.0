@@ -2,107 +2,118 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC4AF16BFC0
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2020 12:40:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A89A816C03E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 25 Feb 2020 13:07:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729890AbgBYLk3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 25 Feb 2020 06:40:29 -0500
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:46894 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729178AbgBYLk3 (ORCPT
+        id S1729568AbgBYMH4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 25 Feb 2020 07:07:56 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:53853 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726019AbgBYMH4 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 25 Feb 2020 06:40:29 -0500
-Received: by mail-ot1-f67.google.com with SMTP id g64so11734438otb.13
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 25 Feb 2020 03:40:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FtSL6blyPAZze6ZCRbjWDN2YMeEHTgiACm2C0IipfCg=;
-        b=WabCpm5qEJdSB6QQkaazgTQt+bYtJ0Yz3t/Kao8Ck9AEJLPc5ZpDVuLqlU3YKdA8s3
-         b5QcViK4znGLD25UVhOSyLyc0Y43GWvmkEPzooerG/QS6U67XngbVzgVxEqcsbZFv2gI
-         6ZGEWtia0K1QbiE9/H90j/pVgPLaJUzHMxrXwR2yGQOYgB2Q2U+hXgFLCfUlGU1akXlI
-         aQGTV4u4h9+MPZOVBRTXtCpJaHXXkZzs0IXb854GiWn3IsmsTDpllMwXc/HM0XacfuJn
-         veQay8ITM8Lngk1lvzyYLkbBBomuIu3TqdnFPnAC8F4o7y5UdVC7p4BHuFZRwPxwhjUW
-         biWA==
-X-Gm-Message-State: APjAAAVJlEPWY9eURGlDSW3VaKia1T+9YFB/zq0AnN5pIoDLPgzLZpiv
-        npDjmJVMOUdEbSUqApjZOPIngeAEilR9iXtVSoI=
-X-Google-Smtp-Source: APXvYqyouWOxx7o+qGH6491cT0Mqwp/wv4rPE9H5nXnqyr95TiZnfee0zlwsraP4qZaWJtjNPpueTtXCFgXu01sucFg=
-X-Received: by 2002:a05:6830:10e:: with SMTP id i14mr1608612otp.39.1582630828617;
- Tue, 25 Feb 2020 03:40:28 -0800 (PST)
+        Tue, 25 Feb 2020 07:07:56 -0500
+Received: from [IPv6:2001:420:44c1:2577:a473:ad6c:dd91:35d2]
+ ([IPv6:2001:420:44c1:2577:a473:ad6c:dd91:35d2])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 6Z09jyZr8jmHT6Z0DjWpSw; Tue, 25 Feb 2020 13:07:54 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1582632474; bh=Fa07Iai1OLOLmQy78F43ui0l1I5N4AHYY389xHDaTSM=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=dvXOPrJ9Ey0AHGn780q9L6mQ81ik5arScNdE3Se8f5hGPqEtt1lQ0wsgxd4w9tQEW
+         bXsw2s6UprHLv1kFDEM6ZuawzS1e2MP7dd3QnxqVIFnBwZ68APOZhNMB5zZJPkdJcJ
+         F3r4h7ZndI8wdPxSHlj9DphUj7205uJ0fPSv0gp3wTO9E9QTAWqxI4GdIOzr3mdkDJ
+         JUpTPMVtSl/wlRIWRGf4RxnkfdgNsw0hp0gsuzi5G+EPxUW6lK1u0UdNJ9kLiiy7sq
+         e15Am4u42wWHYobw87p9weK7rWnIMsUwp71Sh3Cr5ZQbalG3MNSBO67qMOXcotgVER
+         GN5gKX5CIc4NA==
+Subject: Re: [PATCH v2] media: rcar_drif: Use dma_request_chan() instead
+ dma_request_slave_channel()
+To:     Peter Ujfalusi <peter.ujfalusi@ti.com>, mchehab@kernel.org,
+        rashanmu@gmail.com, geert@linux-m68k.org
+Cc:     vkoul@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20200120124754.26826-1-peter.ujfalusi@ti.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <d1c3aec0-7b8f-5f78-e055-8dd87bee801b@xs4all.nl>
+Date:   Tue, 25 Feb 2020 13:07:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <CGME20200225112354eucas1p1300749b32c6809b6a22194c1a952a68c@eucas1p1.samsung.com>
- <20200127140716.15673-1-geert+renesas@glider.be> <d1b12473-5199-1cf6-25d1-a6ce79450e8e@samsung.com>
-In-Reply-To: <d1b12473-5199-1cf6-25d1-a6ce79450e8e@samsung.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 25 Feb 2020 12:40:17 +0100
-Message-ID: <CAMuHMdUGu4eStpYp5W0SKJd8yrLLDTgF4__Jq_n+Z7SWtPM+Cg@mail.gmail.com>
-Subject: Re: [PATCH v2] ARM: boot: Obtain start of physical memory from DTB
-To:     Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Russell King <linux@armlinux.org.uk>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Eric Miao <eric.miao@nvidia.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Chris Brandt <chris.brandt@renesas.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200120124754.26826-1-peter.ujfalusi@ti.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfBKVkvtGsRTpWLDaGXfFoP6yXSIJ9CbES675rm/bNy/DkEwvj1oiTe7rAN6OTM6k2/rAcMnTmypGOHQyo1ewd5L12wwyG8V4F0nouxEf6gvOmRuTuYCJ
+ DDU7dJpXF/VFB9CWTDTsGwtGMg+OJfQA7cyCda/ztDzZOpkRSK8z2mL+vgQjDokMzQzE9axN/lgfOLqv2yorKhvpR/TBhDh4zaMn5GFyTa++/RiUwoEoMoIa
+ UYClDA4wIL5H+djKNajLqp+BPkh9eRQiBj3IfkIfuQr1qEs3lHW9D2U5yCHDhwH4Olaa4DQlFoFUJ8/H9l7gcNZVCXj72yi3GhZ4BiTo4mLX4Nj3u4rY1uBG
+ j880l0pXXm9wIanSMXnMfe6sisCE9kgzC90r/AUCohTwIcMrJ1tkRjT6u4PPK/kmFH+40lySNWGftt3oWbwv1qOSVUuyBIbl5KTz/8vL529kg5Rsyt521H/Q
+ tSBeJRBFCXmvZCF2LsIpmN/hgJ+C3oxImhLj7BZJaWTskSaCoqyUhj/THJA=
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Marek,
+Hi Peter,
 
-On Tue, Feb 25, 2020 at 12:24 PM Marek Szyprowski
-<m.szyprowski@samsung.com> wrote:
-> On 27.01.2020 15:07, Geert Uytterhoeven wrote:
-> > Currently, the start address of physical memory is obtained by masking
-> > the program counter with a fixed mask of 0xf8000000.  This mask value
-> > was chosen as a balance between the requirements of different platforms.
-> > However, this does require that the start address of physical memory is
-> > a multiple of 128 MiB, precluding booting Linux on platforms where this
-> > requirement is not fulfilled.
-> >
-> > Fix this limitation by obtaining the start address from the DTB instead,
-> > if available (either explicitly passed, or appended to the kernel).
-> > Fall back to the traditional method when needed.
-> >
-> > This allows to boot Linux on r7s9210/rza2mevb using the 64 MiB of SDRAM
-> > on the RZA2MEVB sub board, which is located at 0x0C000000 (CS3 space),
-> > i.e. not at a multiple of 128 MiB.
-> >
-> > Suggested-by: Nicolas Pitre <nico@fluxnic.net>
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > Reviewed-by: Nicolas Pitre <nico@fluxnic.net>
-> > ---
-> > Against arm/for-next.
->
-> This patch landed recently in linux-next. It breaks legacy booting from
-> the zImage + appended DT + cmdline/memory info provided via ATAGs. I
-> will debug it further once I find some spare time. What I noticed so
-> far, the cmdline/memory info is not read from the ATAGs, only the values
-> provided via appended DT are used.
+On 1/20/20 1:47 PM, Peter Ujfalusi wrote:
+> dma_request_slave_channel() is a wrapper on top of dma_request_chan()
+> eating up the error code.
+> 
+> By using dma_request_chan() directly the driver can support deferred
+> probing against DMA.
+> 
+> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Oops, something happening like this was one of my biggest worries when
-posting this patch... Sorry for the breakage.
+Unfortunately the v1 version of this patch got merged, so can you make a
+new patch against the current media_tree master to bring it up to date
+with this v3?
 
-IIUIC, the kernel still boots, but just doesn't use the info passed by ATAGs?
+My apologies for this.
 
-I'll have a closer look later today.
-In the mean time, I've sent some debug code I used when developing
-this patch, which may be useful, hopefully.
+Regards,
 
-Gr{oetje,eeting}s,
+	Hans
 
-                        Geert
+> ---
+> Hi,
+> 
+> Changes since v2:
+> - Use %pe to print error name using the ch->dmach pointer
+> - Set ch->dmach to NULL in case of error
+> 
+> Changes since v1:
+> - Do not print error in case of EPROBE_DEFER
+> - Added Reviewed-by from Geert
+> 
+> Regards,
+> Peter
+> 
+>  drivers/media/platform/rcar_drif.c | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rcar_drif.c b/drivers/media/platform/rcar_drif.c
+> index 0f267a237b42..3d2451ac347d 100644
+> --- a/drivers/media/platform/rcar_drif.c
+> +++ b/drivers/media/platform/rcar_drif.c
+> @@ -275,10 +275,14 @@ static int rcar_drif_alloc_dmachannels(struct rcar_drif_sdr *sdr)
+>  	for_each_rcar_drif_channel(i, &sdr->cur_ch_mask) {
+>  		struct rcar_drif *ch = sdr->ch[i];
+>  
+> -		ch->dmach = dma_request_slave_channel(&ch->pdev->dev, "rx");
+> -		if (!ch->dmach) {
+> -			rdrif_err(sdr, "ch%u: dma channel req failed\n", i);
+> -			ret = -ENODEV;
+> +		ch->dmach = dma_request_chan(&ch->pdev->dev, "rx");
+> +		if (IS_ERR(ch->dmach)) {
+> +			ret = PTR_ERR(ch->dmach);
+> +			if (ret != -EPROBE_DEFER)
+> +				rdrif_err(sdr,
+> +					  "ch%u: dma channel req failed: %pe\n",
+> +					  i, ch->dmach);
+> +			ch->dmach = NULL;
+>  			goto dmach_error;
+>  		}
+>  
+> 
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
