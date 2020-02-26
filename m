@@ -2,265 +2,74 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD97C16FE5C
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2020 12:56:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 38609170202
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2020 16:10:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726733AbgBZLzU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Feb 2020 06:55:20 -0500
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:39325 "EHLO
+        id S1727992AbgBZPKu (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Feb 2020 10:10:50 -0500
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:44972 "EHLO
         mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726765AbgBZLzU (ORCPT
+        with ESMTP id S1728014AbgBZPKu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Feb 2020 06:55:20 -0500
-Received: by mail-lj1-f193.google.com with SMTP id o15so2766761ljg.6
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Feb 2020 03:55:18 -0800 (PST)
+        Wed, 26 Feb 2020 10:10:50 -0500
+Received: by mail-lj1-f193.google.com with SMTP id q8so3460040ljj.11
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 26 Feb 2020 07:10:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=fdeavgxgnxhsv/ZkcYCw8cApzXf34OmqZ4N7IntoRPU=;
-        b=zxgyvUeS0Xg94Ioy0XZqYGbUyyyj9B5L7d7THRh+Do+o1Akm/8RhR+ZeO3vHcA+ZiO
-         VVJ0hWrtrW8DH7xFfA+gBDzvNWvLbc4OCOTnP8zxV3lDr7ZtrMKgnF/UhD0gX7UniYbj
-         ynXWHzevC7bg0lhjTKrxXZWXvh9iHHrrGqEmnR1GtgvcyLyjnK/nKIrt6ZDsZ450zKG2
-         AHcTG09cCfCDjDhOzjBjInvZ5GYc+32UNPdCMt5InJYBwtPHDmxpblo9aOkyyOZ0QkzE
-         qC3dpd2zsY1hXIzleuXTh46lZ0ScTlE2vYMxzbHJP+ApZNMwYBmVkzSDO6WPdREdAuvP
-         jpwQ==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ywGQ4ap8hZ15UaHkfn7n7MWKYQk9eNuFHiTciR36DjI=;
+        b=nirchHRV4fFyu1LmTe+rSa7LF4PjDFcQPCEV2Mb82lIqYC24fYT8R96zXVIa+YmuSz
+         7zk+Bm81Ko05N/1dbBucngPrxQMVc8oka+1lIaDlMg3MZDsJdtAWRyJt2pFG9yLj7NoK
+         mX6IVxUujBmOhH+veDdBaiamCQzLnL22tjClqSYPnevhJrDOxb1nRZzzFZPg+58fCYHz
+         MJl02rTkFd0qCQZF2IgqnZFE6NnojNA0reBtfgm9ToudHYAi75ju3qAYA7BEJQC9WJYO
+         e6ipsPQDE5PUm10oh1gYb7V6he9LRaLZhSmbDwLS3vPxwFvFkcWdKl6UXPWNJbQGhXxq
+         /MOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=fdeavgxgnxhsv/ZkcYCw8cApzXf34OmqZ4N7IntoRPU=;
-        b=DQjsHWuvDmc+h5brMOkcz70CCpVqbo7HzbmuYRlFxXv6wLc1i7/JogOybaU3BgmEOB
-         1wdURLqxhsHaFRp6auQQ98u6hImViP9AV4UDe7stE6s/a8taDWm7kVXBHoQ3JHhj/I32
-         vG5v4AfbkytqJvAQRngEi7SAFfpM1LE/d0AKz8KYssasxhw3G0gRkVlP41xPaYNjZoaM
-         zo+hRNDNc2txfbQVdm5ZYUwuPlpEG9snjUVyEB8rAFKNe2RWc1xe5NBuy6g5AWMj0dMj
-         xKqMmBafNJZ7owrIvPjJfBTWexakte3AuGscnIc5r1Suz1AdDxQAb7/gCcSsoIOR4mcl
-         5mCw==
-X-Gm-Message-State: APjAAAXd/2hX2HEnZ44hThghB1TT4sx8PpyY//eAm6cgoxvV/jqyfq66
-        OoNV5cNkoVrFPp+W837ml5Bcxg==
-X-Google-Smtp-Source: ADFU+vvChiyxf++IVTaw/rQSmqMNkeBEqPMgGM2bc0FbdOsCmGpXjt5uMhEprCpDiI6PRQa8jjuJcA==
-X-Received: by 2002:a2e:86c4:: with SMTP id n4mr2823346ljj.97.1582718117454;
-        Wed, 26 Feb 2020 03:55:17 -0800 (PST)
-Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
-        by smtp.gmail.com with ESMTPSA id q8sm1064411lfn.90.2020.02.26.03.55.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Feb 2020 03:55:16 -0800 (PST)
-Date:   Wed, 26 Feb 2020 12:55:16 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: [PATCH] thermal: rcar_gen3_thermal: Generate interrupt when
- temperature changes
-Message-ID: <20200226115516.GF3165317@oden.dyn.berto.se>
-References: <20200212224917.737314-1-niklas.soderlund+renesas@ragnatech.se>
- <46d8fe77-57f1-83e3-33ae-5080c6de2424@kernel.org>
- <20200226112433.GD3165317@oden.dyn.berto.se>
- <317d0a0d-8046-237b-9c22-7729e6053ab0@ideasonboard.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ywGQ4ap8hZ15UaHkfn7n7MWKYQk9eNuFHiTciR36DjI=;
+        b=lINn4XNyg9gw2JTIyJBJv4sFuSp3koK7Mjo/jsk8lHy9wWVxaIFIN+CJGJIxjcTUxN
+         HNBKkaiFoLvFH5DdyHEm1vAvyXN5RdOd1cetgAzGZx1zldHk3tp19Xzg1xGqABCFZCNm
+         dZJma55drivhjzOKwMrkz5uQaF99NjmLg5r76hOSz37RL65y7yFbbb27S46bkWwT2Pp7
+         O81ztYvDCLMl2TikkDbChgF0AVgJeP/hd/x7uZXKMOtA4KEj446qbfaXBRl9q8Uxh1ct
+         03VJxEfz5IwgA+vRi/jMC08wtcIFdcNlLYoPJskPiXgSdssGe6UQkZi9XoXeAPH/MoYt
+         hpng==
+X-Gm-Message-State: APjAAAW55qHa8iKt7YenvI+lF2DinAEmJIPHhN9p0tgRWvM7FzBuWVD/
+        m4lw3S99TA/JJ129h246VuQREinadB9z+iBCkM62DQxrGHw=
+X-Google-Smtp-Source: APXvYqznZ8kj7GOah27MLill09M7SOEW1d+KW4g55YWPxyVlegHJ9NdRHCHMWArmO6Dux3q5zquFPbEsvN/g+rrwh/Q=
+X-Received: by 2002:a2e:2a84:: with SMTP id q126mr3191242ljq.258.1582729848529;
+ Wed, 26 Feb 2020 07:10:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <317d0a0d-8046-237b-9c22-7729e6053ab0@ideasonboard.com>
+References: <20200226104529.17745-1-geert+renesas@glider.be>
+In-Reply-To: <20200226104529.17745-1-geert+renesas@glider.be>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 26 Feb 2020 16:10:37 +0100
+Message-ID: <CACRpkdYmbWXK0+HLbH1aXwTSrv__RsKC0tnVZwWzORF5Xqq_=Q@mail.gmail.com>
+Subject: Re: [GIT PULL] pinctrl: sh-pfc: Updates for v5.7
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Kieran,
+On Wed, Feb 26, 2020 at 11:45 AM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
 
-Thanks for your feedback.
+> The following changes since commit bb6d3fb354c5ee8d6bde2d576eb7220ea09862b9:
+>
+>   Linux 5.6-rc1 (2020-02-09 16:08:48 -0800)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/sh-pfc-for-v5.7-tag1
 
-On 2020-02-26 11:35:45 +0000, Kieran Bingham wrote:
-> Hi Niklas,
-> 
-> On 26/02/2020 11:24, Niklas Söderlund wrote:
-> > Hi Kieran,
-> > 
-> > Thanks for your feedback.
-> > 
-> > On 2020-02-26 09:05:22 +0000, Kieran Bingham wrote:
-> >> Hi Niklas,
-> >>
-> >> On 12/02/2020 22:49, Niklas Söderlund wrote:
-> >>> The desired behavior of the driver is to generate an interrupt and call
-> >>
-> >> s/behavior/behaviour/ but that's me being English, so you can ignore
-> >> that ... (at your peril ... :-D )
-> >>
-> > 
-> > I have a hard time as it is trying to spell the "other" version of the 
-> > language I been exposed to since early years, throwing more 'u' at it 
-> > will only add to my confusion ;-)
-> > 
-> >>> thermal_zone_device_update() as soon as the temperature have changed
-> >>> more then one degree.
-> >>>
-> >>> When the set_trips operation was implemented it was believed that the
-> >>> trip window set by the framework would move around the current
-> >>> temperature and the hysteresis value described in devicetree. The
-> >>
-> >> Should the hysteresis value described in devicetree be a part of the
-> >> +-MCELCIUS(1) calculations? or is it determined that a one degree window
-> >> each side is sufficient to contain such hysteresis of the readings?
-> > 
-> > The hardware testers wanted a fixed 1 degree window.
-> 
-> But my question is what is the value described in devicetree.
-> Should it be involved in the calculation somewhere?
+Pulled into my "devel" branch and pushed to for-next.
 
-Not for the window used to trigger and IRQ, the hysteresis is used with 
-the trip points. This change does not effect that part. This change adds 
-an interrupt if the temperature suddenly spikes more then 1 degree in 
-addition to the polling mode implemented in thermal core (described as 
-polling-delay-passive, polling-delay) which reads the temperature 
-periodically for the trip points.
+Thanks!
 
-> 
-> I.e. if the devicetree specifies that the hysteresis of the hardware is
-> (guessing) say "0.2 degree", does that mean that the 'window' must be at
-> least that value.
-> 
-> And picking on that purely as an example as I don't know the value or
-> meaning of the one in DT, but therefore - if there was hardware that
-> then had a 2 degree hysteresis, this fixed-1-degree window would have to
-> be:
-> 
->  +	low = temperature - min(MCELSIUS(1), MCELSIUS(hysteresis_val);
->  +	high = temperature + min(MCELSIUS(1), MCELSIUS(hysteresis_val));
-> 
-> 
-> Or perhaps I'm just mis-understanding the reference of the hysteresis
-> value anyway.
-> 
-> 
-> I see there is still a 'trips' section in the thermal documentation example.
-> 
-> Should that be removed? or is it handled by core?
-
-It's handled by core. The trip points define different operations that 
-could happen if the temperature go above/bellow it. For the example in 
-the documentation it says if the temperature go above 90 with a 
-hysteresis of 2 we reached the critical stage and the SoC will be 
-powered off (I think the action can be specified in user space).
-
-> 
-> 
-> 
-> 
-> >>> behavior of the framework is however to set a window based on the trip
-> >>> points described in devicetree.
-> >>>
-> >>> Remove the set_trips operation which was not used correctly and update
-> >>> the temperatures that triggers interrupts directly from the interrupt
-> >>> handler.
-> >>>
-> >>> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> >>
-> >> Sounds good to me.
-> >>
-> >> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > 
-> > Thanks! Unfortunately the patch is already merged so it will be hard to 
-> > add your tag.
-> 
-> No problem, I saw it on linux-renesas-soc and was curious ;-)
-> --
-> Kieran
-> 
-> 
-> > 
-> >>
-> >>> ---
-> >>>  drivers/thermal/rcar_gen3_thermal.c | 24 ++++++++++++------------
-> >>>  1 file changed, 12 insertions(+), 12 deletions(-)
-> >>>
-> >>> diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
-> >>> index 72877bdc072daaed..55d1736f532cdb33 100644
-> >>> --- a/drivers/thermal/rcar_gen3_thermal.c
-> >>> +++ b/drivers/thermal/rcar_gen3_thermal.c
-> >>> @@ -81,8 +81,6 @@ struct rcar_gen3_thermal_tsc {
-> >>>  	void __iomem *base;
-> >>>  	struct thermal_zone_device *zone;
-> >>>  	struct equation_coefs coef;
-> >>> -	int low;
-> >>> -	int high;
-> >>>  	int tj_t;
-> >>>  	int id; /* thermal channel id */
-> >>>  };
-> >>> @@ -204,12 +202,14 @@ static int rcar_gen3_thermal_mcelsius_to_temp(struct rcar_gen3_thermal_tsc *tsc,
-> >>>  	return INT_FIXPT(val);
-> >>>  }
-> >>>  
-> >>> -static int rcar_gen3_thermal_set_trips(void *devdata, int low, int high)
-> >>> +static int rcar_gen3_thermal_update_range(struct rcar_gen3_thermal_tsc *tsc)
-> >>>  {
-> >>> -	struct rcar_gen3_thermal_tsc *tsc = devdata;
-> >>> +	int temperature, low, high;
-> >>>  
-> >>> -	low = clamp_val(low, -40000, 120000);
-> >>> -	high = clamp_val(high, -40000, 120000);
-> >>> +	rcar_gen3_thermal_get_temp(tsc, &temperature);
-> >>> +
-> >>> +	low = temperature - MCELSIUS(1);
-> >>> +	high = temperature + MCELSIUS(1);
-> >>>  
-> >>>  	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQTEMP1,
-> >>>  				rcar_gen3_thermal_mcelsius_to_temp(tsc, low));
-> >>> @@ -217,15 +217,11 @@ static int rcar_gen3_thermal_set_trips(void *devdata, int low, int high)
-> >>>  	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQTEMP2,
-> >>>  				rcar_gen3_thermal_mcelsius_to_temp(tsc, high));
-> >>>  
-> >>> -	tsc->low = low;
-> >>> -	tsc->high = high;
-> >>> -
-> >>>  	return 0;
-> >>>  }
-> >>>  
-> >>>  static const struct thermal_zone_of_device_ops rcar_gen3_tz_of_ops = {
-> >>>  	.get_temp	= rcar_gen3_thermal_get_temp,
-> >>> -	.set_trips	= rcar_gen3_thermal_set_trips,
-> >>>  };
-> >>>  
-> >>>  static void rcar_thermal_irq_set(struct rcar_gen3_thermal_priv *priv, bool on)
-> >>> @@ -246,9 +242,11 @@ static irqreturn_t rcar_gen3_thermal_irq(int irq, void *data)
-> >>>  	for (i = 0; i < priv->num_tscs; i++) {
-> >>>  		status = rcar_gen3_thermal_read(priv->tscs[i], REG_GEN3_IRQSTR);
-> >>>  		rcar_gen3_thermal_write(priv->tscs[i], REG_GEN3_IRQSTR, 0);
-> >>> -		if (status)
-> >>> +		if (status) {
-> >>> +			rcar_gen3_thermal_update_range(priv->tscs[i]);
-> >>>  			thermal_zone_device_update(priv->tscs[i]->zone,
-> >>>  						   THERMAL_EVENT_UNSPECIFIED);
-> >>> +		}
-> >>>  	}
-> >>>  
-> >>>  	return IRQ_HANDLED;
-> >>> @@ -454,6 +452,8 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
-> >>>  		if (ret < 0)
-> >>>  			goto error_unregister;
-> >>>  
-> >>> +		rcar_gen3_thermal_update_range(tsc);
-> >>> +
-> >>>  		dev_info(dev, "TSC%d: Loaded %d trip points\n", i, ret);
-> >>>  	}
-> >>>  
-> >>> @@ -492,7 +492,7 @@ static int __maybe_unused rcar_gen3_thermal_resume(struct device *dev)
-> >>>  		struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
-> >>>  
-> >>>  		priv->thermal_init(tsc);
-> >>> -		rcar_gen3_thermal_set_trips(tsc, tsc->low, tsc->high);
-> >>> +		rcar_gen3_thermal_update_range(tsc);
-> >>>  	}
-> >>>  
-> >>>  	rcar_thermal_irq_set(priv, true);
-> >>>
-> >>
-> > 
-> 
-
--- 
-Regards,
-Niklas Söderlund
+Linus Walleij
