@@ -2,155 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F137E16FA31
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2020 10:05:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51F0C16FA9D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2020 10:22:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726541AbgBZJF3 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Feb 2020 04:05:29 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34780 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726494AbgBZJF3 (ORCPT
+        id S1726541AbgBZJW1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Feb 2020 04:22:27 -0500
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:38834 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726494AbgBZJW1 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Feb 2020 04:05:29 -0500
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 570C543F;
-        Wed, 26 Feb 2020 10:05:26 +0100 (CET)
-Subject: Re: [PATCH] thermal: rcar_gen3_thermal: Generate interrupt when
- temperature changes
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>, linux-pm@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-References: <20200212224917.737314-1-niklas.soderlund+renesas@ragnatech.se>
-From:   Kieran Bingham <kbingham@kernel.org>
-Message-ID: <46d8fe77-57f1-83e3-33ae-5080c6de2424@kernel.org>
-Date:   Wed, 26 Feb 2020 09:05:22 +0000
+        Wed, 26 Feb 2020 04:22:27 -0500
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 01Q9ML88015721;
+        Wed, 26 Feb 2020 03:22:21 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1582708941;
+        bh=MuGgeJ3sRoEpmi6I3shwOJzt0XHI9Efz+v7suVqx2tE=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=H4WbBTqcW+QRgXYbOD3ZDFTcyvlx9VZxv3UVm7FQNaZTCGseC6X7GDBt5e+xdx17o
+         qxB3IjV1ydurkHH7qQt2afobqYF+AUu/EjkyCMnzYKCkZabyqHziQUnkxdehTsRy9d
+         7cx7ludKigC8apjpfNUeR+n68OJpSQP1meOz+HK8=
+Received: from DLEE102.ent.ti.com (dlee102.ent.ti.com [157.170.170.32])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01Q9MLBj063929;
+        Wed, 26 Feb 2020 03:22:21 -0600
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Wed, 26
+ Feb 2020 03:22:19 -0600
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
+ Frontend Transport; Wed, 26 Feb 2020 03:22:19 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id 01Q9MEYR119350;
+        Wed, 26 Feb 2020 03:22:15 -0600
+Subject: Re: [PATCH v2] media: rcar_drif: Use dma_request_chan() instead
+ dma_request_slave_channel()
+To:     Hans Verkuil <hverkuil@xs4all.nl>, <mchehab@kernel.org>,
+        <rashanmu@gmail.com>, <geert@linux-m68k.org>
+CC:     <vkoul@kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>
+References: <20200120124754.26826-1-peter.ujfalusi@ti.com>
+ <d1c3aec0-7b8f-5f78-e055-8dd87bee801b@xs4all.nl>
+From:   Peter Ujfalusi <peter.ujfalusi@ti.com>
+Message-ID: <047fb0e6-9d43-1d9b-0e3a-2da58613c640@ti.com>
+Date:   Wed, 26 Feb 2020 11:22:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200212224917.737314-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+In-Reply-To: <d1c3aec0-7b8f-5f78-e055-8dd87bee801b@xs4all.nl>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+Hi Hans,
 
-On 12/02/2020 22:49, Niklas Söderlund wrote:
-> The desired behavior of the driver is to generate an interrupt and call
-
-s/behavior/behaviour/ but that's me being English, so you can ignore
-that ... (at your peril ... :-D )
-
-> thermal_zone_device_update() as soon as the temperature have changed
-> more then one degree.
+On 2/25/20 2:07 PM, Hans Verkuil wrote:
+> Hi Peter,
 > 
-> When the set_trips operation was implemented it was believed that the
-> trip window set by the framework would move around the current
-> temperature and the hysteresis value described in devicetree. The
-
-Should the hysteresis value described in devicetree be a part of the
-+-MCELCIUS(1) calculations? or is it determined that a one degree window
-each side is sufficient to contain such hysteresis of the readings?
-
-> behavior of the framework is however to set a window based on the trip
-> points described in devicetree.
+> On 1/20/20 1:47 PM, Peter Ujfalusi wrote:
+>> dma_request_slave_channel() is a wrapper on top of dma_request_chan()
+>> eating up the error code.
+>>
+>> By using dma_request_chan() directly the driver can support deferred
+>> probing against DMA.
+>>
+>> Signed-off-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
+>> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > 
-> Remove the set_trips operation which was not used correctly and update
-> the temperatures that triggers interrupts directly from the interrupt
-> handler.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Unfortunately the v1 version of this patch got merged, so can you make a
+> new patch against the current media_tree master to bring it up to date
+> with this v3?
 
-Sounds good to me.
+Sure, I'll send an update patch in couple of minutes.
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> My apologies for this.
 
-> ---
->  drivers/thermal/rcar_gen3_thermal.c | 24 ++++++++++++------------
->  1 file changed, 12 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/thermal/rcar_gen3_thermal.c b/drivers/thermal/rcar_gen3_thermal.c
-> index 72877bdc072daaed..55d1736f532cdb33 100644
-> --- a/drivers/thermal/rcar_gen3_thermal.c
-> +++ b/drivers/thermal/rcar_gen3_thermal.c
-> @@ -81,8 +81,6 @@ struct rcar_gen3_thermal_tsc {
->  	void __iomem *base;
->  	struct thermal_zone_device *zone;
->  	struct equation_coefs coef;
-> -	int low;
-> -	int high;
->  	int tj_t;
->  	int id; /* thermal channel id */
->  };
-> @@ -204,12 +202,14 @@ static int rcar_gen3_thermal_mcelsius_to_temp(struct rcar_gen3_thermal_tsc *tsc,
->  	return INT_FIXPT(val);
->  }
->  
-> -static int rcar_gen3_thermal_set_trips(void *devdata, int low, int high)
-> +static int rcar_gen3_thermal_update_range(struct rcar_gen3_thermal_tsc *tsc)
->  {
-> -	struct rcar_gen3_thermal_tsc *tsc = devdata;
-> +	int temperature, low, high;
->  
-> -	low = clamp_val(low, -40000, 120000);
-> -	high = clamp_val(high, -40000, 120000);
-> +	rcar_gen3_thermal_get_temp(tsc, &temperature);
-> +
-> +	low = temperature - MCELSIUS(1);
-> +	high = temperature + MCELSIUS(1);
->  
->  	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQTEMP1,
->  				rcar_gen3_thermal_mcelsius_to_temp(tsc, low));
-> @@ -217,15 +217,11 @@ static int rcar_gen3_thermal_set_trips(void *devdata, int low, int high)
->  	rcar_gen3_thermal_write(tsc, REG_GEN3_IRQTEMP2,
->  				rcar_gen3_thermal_mcelsius_to_temp(tsc, high));
->  
-> -	tsc->low = low;
-> -	tsc->high = high;
-> -
->  	return 0;
->  }
->  
->  static const struct thermal_zone_of_device_ops rcar_gen3_tz_of_ops = {
->  	.get_temp	= rcar_gen3_thermal_get_temp,
-> -	.set_trips	= rcar_gen3_thermal_set_trips,
->  };
->  
->  static void rcar_thermal_irq_set(struct rcar_gen3_thermal_priv *priv, bool on)
-> @@ -246,9 +242,11 @@ static irqreturn_t rcar_gen3_thermal_irq(int irq, void *data)
->  	for (i = 0; i < priv->num_tscs; i++) {
->  		status = rcar_gen3_thermal_read(priv->tscs[i], REG_GEN3_IRQSTR);
->  		rcar_gen3_thermal_write(priv->tscs[i], REG_GEN3_IRQSTR, 0);
-> -		if (status)
-> +		if (status) {
-> +			rcar_gen3_thermal_update_range(priv->tscs[i]);
->  			thermal_zone_device_update(priv->tscs[i]->zone,
->  						   THERMAL_EVENT_UNSPECIFIED);
-> +		}
->  	}
->  
->  	return IRQ_HANDLED;
-> @@ -454,6 +452,8 @@ static int rcar_gen3_thermal_probe(struct platform_device *pdev)
->  		if (ret < 0)
->  			goto error_unregister;
->  
-> +		rcar_gen3_thermal_update_range(tsc);
-> +
->  		dev_info(dev, "TSC%d: Loaded %d trip points\n", i, ret);
->  	}
->  
-> @@ -492,7 +492,7 @@ static int __maybe_unused rcar_gen3_thermal_resume(struct device *dev)
->  		struct rcar_gen3_thermal_tsc *tsc = priv->tscs[i];
->  
->  		priv->thermal_init(tsc);
-> -		rcar_gen3_thermal_set_trips(tsc, tsc->low, tsc->high);
-> +		rcar_gen3_thermal_update_range(tsc);
->  	}
->  
->  	rcar_thermal_irq_set(priv, true);
-> 
+No issue
 
+Regards,
+- Péter
+
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
