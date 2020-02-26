@@ -2,75 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E86D170747
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2020 19:10:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CB8017098F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2020 21:28:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726928AbgBZSKW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Feb 2020 13:10:22 -0500
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:34780 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726880AbgBZSKW (ORCPT
+        id S1727425AbgBZU2g (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Feb 2020 15:28:36 -0500
+Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.25]:36634 "EHLO
+        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727289AbgBZU2g (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Feb 2020 13:10:22 -0500
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 3E1F33C009D;
-        Wed, 26 Feb 2020 19:10:20 +0100 (CET)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id ox3u6X-MG0Pr; Wed, 26 Feb 2020 19:10:15 +0100 (CET)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 1A7E03C005E;
-        Wed, 26 Feb 2020 19:10:15 +0100 (CET)
-Received: from lxhi-065.adit-jv.com (10.72.93.66) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.468.0; Wed, 26 Feb
- 2020 19:10:14 +0100
-Date:   Wed, 26 Feb 2020 19:10:11 +0100
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Alan Stern <stern@rowland.harvard.edu>
-CC:     <linux-usb@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        "Lee, Chiasheng" <chiasheng.lee@intel.com>,
-        Mathieu Malaterre <malat@debian.org>,
-        Kai-Heng Feng <kai.heng.feng@canonical.com>,
-        Hardik Gajjar <hgajjar@de.adit-jv.com>,
-        <scan-admin@coverity.com>, Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH] usb: hub: Fix unhandled return value of
- usb_autopm_get_interface()
-Message-ID: <20200226181011.GA2868@lxhi-065.adit-jv.com>
-References: <20200225202223.GA9154@lxhi-065.adit-jv.com>
- <Pine.LNX.4.44L0.2002251553030.1485-100000@iolanthe.rowland.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <Pine.LNX.4.44L0.2002251553030.1485-100000@iolanthe.rowland.org>
-X-Originating-IP: [10.72.93.66]
+        Wed, 26 Feb 2020 15:28:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1582748914;
+        s=strato-dkim-0002; d=fpond.eu;
+        h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
+        Subject:Sender;
+        bh=7goxirsbldqzP9pgJwAfyQkP+SmoYCugLKXiLAUA660=;
+        b=jq28TpaWrblPlu6H8oZPuiLV22PsbQ6y6N+tg+J0XmW2z8JNqHFe3rWhZe3KePqasW
+        3U8qjPlWvmAMM0XptQgO0Pq3nqnL3PYRoXjYKH3oAwlBSu3ZBBtO2oJHNjr1/yhHyzTR
+        Ro9evNduFQx5766Onqz1cge6OfKHpWrrNUyf27z2QdwkzouW5wVbiXgieQvB81aADtWF
+        sWkI6zXQ8rhuWu0iw4P5ODTuA1MCVAoyqrhnDy5LZulEGxaHAfI9drKm6oRxTEsl731R
+        ZzEOjkUShZHfITktQdkzYvu6zF023gQWT+qboMMmxb+Yi8jkz/D8XhrcX924GxnoH73R
+        ge/w==
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73dmm4I5W0/AvA67Ot4fvR8GNcd21/dZ4="
+X-RZG-CLASS-ID: mo00
+Received: from groucho.site
+        by smtp.strato.de (RZmta 46.1.12 DYNA|AUTH)
+        with ESMTPSA id L09b9cw1QKSMWNy
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+        (Client did not present a certificate);
+        Wed, 26 Feb 2020 21:28:22 +0100 (CET)
+From:   Ulrich Hecht <uli+renesas@fpond.eu>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     wsa@the-dreams.de, geert@linux-m68k.org,
+        fabrizio.castro@bp.renesas.com,
+        ramesh.shanmugasundaram@bp.renesas.com, magnus.damm@gmail.com,
+        Ulrich Hecht <uli+renesas@fpond.eu>
+Subject: [PATCH 00/11] clk: renesas: cpg-mssr: add ignore-unused option
+Date:   Wed, 26 Feb 2020 21:28:06 +0100
+Message-Id: <1582748897-17374-1-git-send-email-uli+renesas@fpond.eu>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Alan,
+Hi!
 
-On Tue, Feb 25, 2020 at 03:54:20PM -0500, Alan Stern wrote:
-> On Tue, 25 Feb 2020, Eugeniu Rosca wrote:
-> > There are three commits fixed by the proposed changes in usb core:
-> >  - v5.6-rc3 commit 1208f9e1d758c9 ("USB: hub: Fix the broken detection of USB3 device in SMSC hub")
-> >  - v3.9-rc1 commit 971fcd492cebf5 ("usb: add runtime pm support for usb port device")
-> >  - v2.6.33-rc1 commit 253e05724f9230 ("USB: add a "remove hardware" sysfs attribute")
-> > 
-> > I assume a single fix will create some pain when applying it to the
-> > stable branches. Do you have any preference/inputs about that?
-> 
-> If you prefer to split this up into multiple patches, that's fine with 
-> me.
+This series adds the option for declaring clocks as "ignore-unused", i.e. 
+clocks that will not be turned on if not used, but also not turned off if
+unused. It also enables this option for the RWDT clocks in (almost) all
+SoCs.
 
-Please, check https://lore.kernel.org/lkml/20200226175036.14946-1-erosca@de.adit-jv.com/
+The point of this is to allow a WDT that has been enabled by the bootloader
+to survive these events:
+
+- deferred probing of the WDT device, which can lead the clock driver
+  to disable the WDT clock until the WDT is re-probed, giving it a
+  blind spot
+- probe failure in the WDT driver
+
+There are a number of SoCs that have the RWDT clock already declared as
+critical (i.e. turn it on even if it is off _and_ unused). I don't know if
+that is because there was no option for ignore-unused before, or if the
+behavior of turning the clock on even if neither the bootloader nor anything
+in the kernel has asked for it is actually desired. If it's the former,
+these SoCs also have to be converted to the new mechanism.
+
+CU
+Uli
+
+
+Ulrich Hecht (11):
+  clk: renesas: cpg-mssr: add support for ignore-unused clocks
+  clk: renesas: r8a7796: mark RWDT clock as ignore-unused
+  clk: renesas: r8a7795: mark RWDT clock as ignore-unused
+  clk: renesas: r8a77970: mark RWDT clock as ignore-unused
+  clk: renesas: r8a77980: mark RWDT clock as ignore-unused
+  clk: renesas: r8a77995: mark RWDT clock as ignore-unused
+  clk: renesas: r8a774a1: mark RWDT clock as ignore-unused
+  clk: renesas: r8a774b1: mark RWDT clock as ignore-unused
+  clk: renesas: r8a774c0: mark RWDT clock as ignore-unused
+  clk: renesas: r8a77965: mark RWDT clock as ignore-unused
+  clk: renesas: r8a77990: mark RWDT clock as ignore-unused
+
+ drivers/clk/renesas/r8a774a1-cpg-mssr.c | 5 +++++
+ drivers/clk/renesas/r8a774b1-cpg-mssr.c | 5 +++++
+ drivers/clk/renesas/r8a774c0-cpg-mssr.c | 5 +++++
+ drivers/clk/renesas/r8a7795-cpg-mssr.c  | 6 +++++-
+ drivers/clk/renesas/r8a7796-cpg-mssr.c  | 6 +++++-
+ drivers/clk/renesas/r8a77965-cpg-mssr.c | 5 +++++
+ drivers/clk/renesas/r8a77970-cpg-mssr.c | 6 +++++-
+ drivers/clk/renesas/r8a77980-cpg-mssr.c | 6 +++++-
+ drivers/clk/renesas/r8a77990-cpg-mssr.c | 5 +++++
+ drivers/clk/renesas/r8a77995-cpg-mssr.c | 6 +++++-
+ drivers/clk/renesas/renesas-cpg-mssr.c  | 7 +++++++
+ drivers/clk/renesas/renesas-cpg-mssr.h  | 7 +++++++
+ 12 files changed, 64 insertions(+), 5 deletions(-)
 
 -- 
-Best Regards
-Eugeniu Rosca
+2.7.4
+
