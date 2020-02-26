@@ -2,103 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CB8017098F
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2020 21:28:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 973E1170994
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 26 Feb 2020 21:28:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727425AbgBZU2g (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 26 Feb 2020 15:28:36 -0500
-Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.25]:36634 "EHLO
-        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727289AbgBZU2g (ORCPT
+        id S1727381AbgBZU2i (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 26 Feb 2020 15:28:38 -0500
+Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.53]:19658 "EHLO
+        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727405AbgBZU2h (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 26 Feb 2020 15:28:36 -0500
+        Wed, 26 Feb 2020 15:28:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1582748914;
         s=strato-dkim-0002; d=fpond.eu;
-        h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
-        Subject:Sender;
-        bh=7goxirsbldqzP9pgJwAfyQkP+SmoYCugLKXiLAUA660=;
-        b=jq28TpaWrblPlu6H8oZPuiLV22PsbQ6y6N+tg+J0XmW2z8JNqHFe3rWhZe3KePqasW
-        3U8qjPlWvmAMM0XptQgO0Pq3nqnL3PYRoXjYKH3oAwlBSu3ZBBtO2oJHNjr1/yhHyzTR
-        Ro9evNduFQx5766Onqz1cge6OfKHpWrrNUyf27z2QdwkzouW5wVbiXgieQvB81aADtWF
-        sWkI6zXQ8rhuWu0iw4P5ODTuA1MCVAoyqrhnDy5LZulEGxaHAfI9drKm6oRxTEsl731R
-        ZzEOjkUShZHfITktQdkzYvu6zF023gQWT+qboMMmxb+Yi8jkz/D8XhrcX924GxnoH73R
-        ge/w==
+        h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+        bh=Ar14T0cI+vMa2Hcz/ITihl5NSuBdbM4UoBxcIxBPN6k=;
+        b=ebkPo9KKQukDuc0FNJ+5azY15YPQCLZacaSG3eNML2kInZGv7syR32k2uFmNQfa9bq
+        G4iU3oIk9twCwmm2gHvuZ5ejyxiN0ibYp5/7QGy0eK1Mj2BJb5q/YmIOIOstj1M9o1IC
+        GPdO3j2U5Stg5t2JXWyOt/6mLhqp9Efu1xdCJE19Bniq3wCYK92dGtjiGIhJoE240AQY
+        FAj9p5oTzeFxERWqKBcpqbikq4VWQOHTNmZ9+hTIqZwEz2vQ94820KLDJ5zpRpxEui09
+        NCE6b6Wfy2Zm3AxWgKPpKbKIDWTK+2YAe62vR8lh/2guDGszl16No1JUl2+PLneHckJe
+        fsmA==
 X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73dmm4I5W0/AvA67Ot4fvR8GNcd21/dZ4="
 X-RZG-CLASS-ID: mo00
 Received: from groucho.site
         by smtp.strato.de (RZmta 46.1.12 DYNA|AUTH)
-        with ESMTPSA id L09b9cw1QKSMWNy
+        with ESMTPSA id L09b9cw1QKSNWNz
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
         (Client did not present a certificate);
-        Wed, 26 Feb 2020 21:28:22 +0100 (CET)
+        Wed, 26 Feb 2020 21:28:23 +0100 (CET)
 From:   Ulrich Hecht <uli+renesas@fpond.eu>
 To:     linux-renesas-soc@vger.kernel.org
 Cc:     wsa@the-dreams.de, geert@linux-m68k.org,
         fabrizio.castro@bp.renesas.com,
         ramesh.shanmugasundaram@bp.renesas.com, magnus.damm@gmail.com,
         Ulrich Hecht <uli+renesas@fpond.eu>
-Subject: [PATCH 00/11] clk: renesas: cpg-mssr: add ignore-unused option
-Date:   Wed, 26 Feb 2020 21:28:06 +0100
-Message-Id: <1582748897-17374-1-git-send-email-uli+renesas@fpond.eu>
+Subject: [PATCH 01/11] clk: renesas: cpg-mssr: add support for ignore-unused clocks
+Date:   Wed, 26 Feb 2020 21:28:07 +0100
+Message-Id: <1582748897-17374-2-git-send-email-uli+renesas@fpond.eu>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1582748897-17374-1-git-send-email-uli+renesas@fpond.eu>
+References: <1582748897-17374-1-git-send-email-uli+renesas@fpond.eu>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi!
+This adds facilities to mark clocks as "ignore used", i.e. never to be
+turned off. The primary application is the RWDT clock, which needs to
+remain on throughout the boot process if enabled by the bootloader.
 
-This series adds the option for declaring clocks as "ignore-unused", i.e. 
-clocks that will not be turned on if not used, but also not turned off if
-unused. It also enables this option for the RWDT clocks in (almost) all
-SoCs.
+Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
+---
+ drivers/clk/renesas/renesas-cpg-mssr.c | 7 +++++++
+ drivers/clk/renesas/renesas-cpg-mssr.h | 7 +++++++
+ 2 files changed, 14 insertions(+)
 
-The point of this is to allow a WDT that has been enabled by the bootloader
-to survive these events:
-
-- deferred probing of the WDT device, which can lead the clock driver
-  to disable the WDT clock until the WDT is re-probed, giving it a
-  blind spot
-- probe failure in the WDT driver
-
-There are a number of SoCs that have the RWDT clock already declared as
-critical (i.e. turn it on even if it is off _and_ unused). I don't know if
-that is because there was no option for ignore-unused before, or if the
-behavior of turning the clock on even if neither the bootloader nor anything
-in the kernel has asked for it is actually desired. If it's the former,
-these SoCs also have to be converted to the new mechanism.
-
-CU
-Uli
-
-
-Ulrich Hecht (11):
-  clk: renesas: cpg-mssr: add support for ignore-unused clocks
-  clk: renesas: r8a7796: mark RWDT clock as ignore-unused
-  clk: renesas: r8a7795: mark RWDT clock as ignore-unused
-  clk: renesas: r8a77970: mark RWDT clock as ignore-unused
-  clk: renesas: r8a77980: mark RWDT clock as ignore-unused
-  clk: renesas: r8a77995: mark RWDT clock as ignore-unused
-  clk: renesas: r8a774a1: mark RWDT clock as ignore-unused
-  clk: renesas: r8a774b1: mark RWDT clock as ignore-unused
-  clk: renesas: r8a774c0: mark RWDT clock as ignore-unused
-  clk: renesas: r8a77965: mark RWDT clock as ignore-unused
-  clk: renesas: r8a77990: mark RWDT clock as ignore-unused
-
- drivers/clk/renesas/r8a774a1-cpg-mssr.c | 5 +++++
- drivers/clk/renesas/r8a774b1-cpg-mssr.c | 5 +++++
- drivers/clk/renesas/r8a774c0-cpg-mssr.c | 5 +++++
- drivers/clk/renesas/r8a7795-cpg-mssr.c  | 6 +++++-
- drivers/clk/renesas/r8a7796-cpg-mssr.c  | 6 +++++-
- drivers/clk/renesas/r8a77965-cpg-mssr.c | 5 +++++
- drivers/clk/renesas/r8a77970-cpg-mssr.c | 6 +++++-
- drivers/clk/renesas/r8a77980-cpg-mssr.c | 6 +++++-
- drivers/clk/renesas/r8a77990-cpg-mssr.c | 5 +++++
- drivers/clk/renesas/r8a77995-cpg-mssr.c | 6 +++++-
- drivers/clk/renesas/renesas-cpg-mssr.c  | 7 +++++++
- drivers/clk/renesas/renesas-cpg-mssr.h  | 7 +++++++
- 12 files changed, 64 insertions(+), 5 deletions(-)
-
+diff --git a/drivers/clk/renesas/renesas-cpg-mssr.c b/drivers/clk/renesas/renesas-cpg-mssr.c
+index a2663fb..31115c7 100644
+--- a/drivers/clk/renesas/renesas-cpg-mssr.c
++++ b/drivers/clk/renesas/renesas-cpg-mssr.c
+@@ -423,6 +423,13 @@ static void __init cpg_mssr_register_mod_clk(const struct mssr_mod_clk *mod,
+ 			init.flags |= CLK_IS_CRITICAL;
+ 			break;
+ 		}
++	for (i = 0; i < info->num_used_mod_clks; i++)
++		if (id == info->used_mod_clks[i]) {
++			dev_dbg(dev, "MSTP %s setting CLK_IGNORE_UNUSED\n",
++				mod->name);
++			init.flags |= CLK_IGNORE_UNUSED;
++			break;
++		}
+ 
+ 	parent_name = __clk_get_name(parent);
+ 	init.parent_names = &parent_name;
+diff --git a/drivers/clk/renesas/renesas-cpg-mssr.h b/drivers/clk/renesas/renesas-cpg-mssr.h
+index 3b852ba..c76335c 100644
+--- a/drivers/clk/renesas/renesas-cpg-mssr.h
++++ b/drivers/clk/renesas/renesas-cpg-mssr.h
+@@ -105,6 +105,9 @@ struct device_node;
+      * @crit_mod_clks: Array with Module Clock IDs of critical clocks that
+      *                 should not be disabled without a knowledgeable driver
+      * @num_crit_mod_clks: Number of entries in crit_mod_clks[]
++     * @used_mod_clks: Array with Module Clock IDs of clocks that should not
++     *                 be disabled even if they seem to be unused
++     * @num_used_mod_clks: Number of entries in used_mod_clks[]
+      *
+      * @core_pm_clks: Array with IDs of Core Clocks that are suitable for Power
+      *                Management, in addition to Module Clocks
+@@ -141,6 +144,10 @@ struct cpg_mssr_info {
+ 	const unsigned int *crit_mod_clks;
+ 	unsigned int num_crit_mod_clks;
+ 
++	/* Module Clocks that should not be disabled even if unused */
++	const unsigned int *used_mod_clks;
++	unsigned int num_used_mod_clks;
++
+ 	/* Core Clocks suitable for PM, in addition to the Module Clocks */
+ 	const unsigned int *core_pm_clks;
+ 	unsigned int num_core_pm_clks;
 -- 
 2.7.4
 
