@@ -2,156 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 97FC9171CFF
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Feb 2020 15:17:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57D68171EB3
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Feb 2020 15:30:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389073AbgB0OQy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Feb 2020 09:16:54 -0500
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:33409 "EHLO
-        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2389591AbgB0OQx (ORCPT
+        id S2388107AbgB0O3e (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Feb 2020 09:29:34 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:36542 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731106AbgB0O3e (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Feb 2020 09:16:53 -0500
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id EBE6E2212F;
-        Thu, 27 Feb 2020 09:16:51 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Thu, 27 Feb 2020 09:16:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm2; bh=dDo2mPnc4MVPpOSIZ2b31LEePnf
-        tr129OiRuGtuO86o=; b=qzjyy7JhkK5+QTjj/6NdO3WWEHsrGskBARpt0N91oTN
-        Ld+TolnNyj7ZQFeMZKmbOb0wlmq9v8Kl777GWBWlKJpzmwhub8d2X0kkSIjqsE8+
-        KinIrzFMT5+WfTyZQXSc7vU7EufZ0D5iaEszhBbfTRsrJQJtzAfIS52a3Y55hFzJ
-        euP49i9LbYXCjsGUkvrVuqD7l36sym0NtfhNod5iRuLQO072mS9i6PdyxwDIv7XN
-        cr/kZkmiwa0FGt0pJnZNYw3MP+M9u5HlzY3AlSdnZ/Qs9ssbac1N3BZek71EYEZr
-        fpmezbB48FJfEp2EiYzgvrqNxW6CDcK41eSvd7p1Zgg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=dDo2mP
-        nc4MVPpOSIZ2b31LEePnftr129OiRuGtuO86o=; b=mucMiCY2ig2kS7eKuh5m46
-        SG9NlKDggt9sPp6jG1WZf3mF9BlKaT9EODy0hptaSTPfhwNzVLa0rwbS5KNdsnXL
-        TQ6vygPJ5reZLqA3GrtOiTGxqpq0shlt2WssiId+0514dGFVYGQ6seJZfLzYIJag
-        sOPI2GCt9OZKo+AahyxKwtVNpDutH6nfZ4YNmfK75g7YVv7/IPK7r7romkDt48sA
-        g5jVzauXPpTsUmdT8dKzRdDJCVbwdn+bz1q7CJUxfx0Sc7W7YSPgPBbBeuI2Ag3Z
-        in+UeW6j7OWrgt8j7el/jm7WH461o7sjqRh4/cGtWDiEHCDfj8ZN+lCmWayw3RvQ
-        ==
-X-ME-Sender: <xms:U89XXshUjvDZ76Ze3U4hE1Zxz7fXbfWYnAr6dNo_A5l5FS0VsdFYaw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrleeigdeigecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucfkphepledtrd
-    ekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhl
-    fhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:U89XXjzLy7tvrbbRPviyT3q-BM7RHliOXzH-XMElwu8Yg_sui1Ryvw>
-    <xmx:U89XXmQpAOLUtCmOp_DnRY4ZlZtKTSHcjQeADTAf_KYyIWCvlCdjFA>
-    <xmx:U89XXhwNNUF9r_ZZ7WtOAsyiNah0ktiex6pZxPIQLEg4KieUvPUa7w>
-    <xmx:U89XXhoKDW6mJyXiYWPAxyIvdj-zwpsQ1kYN9S39SUcuWA5iw5d-TQ>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 2823A3060F09;
-        Thu, 27 Feb 2020 09:16:51 -0500 (EST)
-Date:   Thu, 27 Feb 2020 15:16:49 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] spi: dt-bindings: spi-controller: Fix #address-cells for
- slave mode
-Message-ID: <20200227141649.ji6js7vhlrltpn6z@gilmour.lan>
-References: <20200227130323.15327-1-geert+renesas@glider.be>
- <20200227130937.qvrjyxcwim7rfum7@gilmour.lan>
- <CAMuHMdUVW_51dqMK=ziz_JVT3LuXX7vOF3-Ei-aHiiBuSepGpg@mail.gmail.com>
- <20200227135109.l2oal55nwhm5un2c@gilmour.lan>
- <CAMuHMdWYF9RrLdkuK_PxfVqocUMHVKPpjnyc4FR+N69A_htdyQ@mail.gmail.com>
+        Thu, 27 Feb 2020 09:29:34 -0500
+Received: by mail-ot1-f67.google.com with SMTP id j20so3095840otq.3
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Feb 2020 06:29:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JCe2qKYwous/dcomBSOOP1MBejhPAUJJqlWqSZ+WcRs=;
+        b=J0DIAeu8FCDdFNmo50CrR+PInKKVWzcTOqNAjXG6fAgJ0K7ujcG8N7r9eeO+meIYkK
+         zVfKBEveJ/l2z01Kdh1gQbHOYntNkzDTWp87uiijcb8LZo7NLA/JKWzaSKHMgfHHu2RP
+         5wpIdU9ZsUWg4YmC72bTGDiT5smkRFDEIN7MYzBgQpOT6RdV965Shq2U/RU/fEnTZqlE
+         1O5mjgrCsRkilQaSRTbBBRGs4nF+WkBFxxmNufiZ+jnUESlbGOcptlxsJt/eLhldHLmC
+         cYb8DQIAE1VtIu5uZTbWB/n8pftQD8MnX38d1/sbZ0j2o9uf6NQ4PdUTV5rEIGHB5fQH
+         n9Bw==
+X-Gm-Message-State: APjAAAU4vg7H8W8HC6+jLKK0yM3y425Jz+mGmaLgwzUad8yTRETM3tlx
+        hBvwsW7ua/Bu4XiAyTkPxRmNboJwIed+w57W3do=
+X-Google-Smtp-Source: APXvYqzejmffVTy/AdvH5rJg9kFSD0M8MR2sO9jC5iWfUZh0NoCuJCWeZGM01U+bEv1nhia8r0OcNbPdv9G7i4B6aa8=
+X-Received: by 2002:a05:6830:100e:: with SMTP id a14mr3599892otp.297.1582813772592;
+ Thu, 27 Feb 2020 06:29:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="4ikzzwflzmxk3qkj"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWYF9RrLdkuK_PxfVqocUMHVKPpjnyc4FR+N69A_htdyQ@mail.gmail.com>
+References: <1582748897-17374-1-git-send-email-uli+renesas@fpond.eu>
+In-Reply-To: <1582748897-17374-1-git-send-email-uli+renesas@fpond.eu>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 27 Feb 2020 15:29:21 +0100
+Message-ID: <CAMuHMdXwdAzgp86JzJOHyop+CA0KgwvJQdCi6-R5WP+So-1uUw@mail.gmail.com>
+Subject: Re: [PATCH 00/11] clk: renesas: cpg-mssr: add ignore-unused option
+To:     Ulrich Hecht <uli+renesas@fpond.eu>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.com>,
+        Magnus Damm <magnus.damm@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+Hi Uli,
 
---4ikzzwflzmxk3qkj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Wed, Feb 26, 2020 at 9:28 PM Ulrich Hecht <uli+renesas@fpond.eu> wrote:
+> This series adds the option for declaring clocks as "ignore-unused", i.e.
+> clocks that will not be turned on if not used, but also not turned off if
+> unused. It also enables this option for the RWDT clocks in (almost) all
+> SoCs.
 
-On Thu, Feb 27, 2020 at 03:05:56PM +0100, Geert Uytterhoeven wrote:
-> Hi Maxime,
+Thanks for your series!
+
+> The point of this is to allow a WDT that has been enabled by the bootloader
+> to survive these events:
 >
-> On Thu, Feb 27, 2020 at 2:51 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > On Thu, Feb 27, 2020 at 02:19:08PM +0100, Geert Uytterhoeven wrote:
-> > > On Thu, Feb 27, 2020 at 2:09 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > On Thu, Feb 27, 2020 at 02:03:23PM +0100, Geert Uytterhoeven wrote:
-> > > > > Currently, the DT bindings for an SPI controller specify that
-> > > > > "#address-cells" must be fixed to one.  However, that applies to an SPI
-> > > > > controller in master mode only.  When running in SPI slave mode,
-> > > > > "#address-cells" should be zero.
-> > > > >
-> > > > > Fix this making the value of "#address-cells" dependent on the presence
-> > > > > of "spi-slave".
-> > > > >
-> > > > > Fixes: 0a1b929356830257 ("spi: Add YAML schemas for the generic SPI options")
-> > > > > Reported-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > > > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > >
-> > > > > --- a/Documentation/devicetree/bindings/spi/spi-controller.yaml
-> > > > > +++ b/Documentation/devicetree/bindings/spi/spi-controller.yaml
-> > >
-> > > > > @@ -52,6 +53,18 @@ properties:
-> > > > >      description:
-> > > > >        The SPI controller acts as a slave, instead of a master.
-> > > > >
-> > > > > +if:
-> > > > > +  required:
-> > > > > +    [ spi-slave ]
-> > > >
-> > > > Nit: Usually, that notation is when you would do it on the same line,
-> > > > if you want to go to a new line, it would make more sense to use -
-> > >
-> > > Sorry, being a poor yaml-by-example programmer, I don't understand what
-> > > you mean.  Which part do you refer to by "that notation"?
-> >
-> > I meant that usually the [] notation is used over a single line.
-> >
-> > If you want to have a list over multiple lines, usually you would have
-> >
-> > required:
-> >   - spi-slave
+> - deferred probing of the WDT device, which can lead the clock driver
+>   to disable the WDT clock until the WDT is re-probed, giving it a
+>   blind spot
+> - probe failure in the WDT driver
 >
-> IC. So I can also write:
->
->     if:
->       required: [ spi-slave ]
->     else:
->       ...
->
-> which is even shorter ;-)
->
-> Both seem to work fine.
+> There are a number of SoCs that have the RWDT clock already declared as
+> critical (i.e. turn it on even if it is off _and_ unused). I don't know if
+> that is because there was no option for ignore-unused before, or if the
+> behavior of turning the clock on even if neither the bootloader nor anything
+> in the kernel has asked for it is actually desired. If it's the former,
+> these SoCs also have to be converted to the new mechanism.
 
-The rest of the file uses the multi-line syntax, so I wouldn't do it
-for consistency, but yeah, they are equivalent.
+That was done on all of R-Car Gen2 and RZ/G1, as the SMP bringup code
+needs to check the watchdog registers, which can happen at any time, cfr.
+commit 58adf1ba0d227754 ("ARM: shmobile: Add watchdog support").
 
-Maxime
+Presumable that was fixed on R-Car Gen3 and RZ/G2, so the watchdog registers
+don't have to be checked, and the watchdog doesn't have to run all the
+time (holding wood, rabbit legs, and whatever ;-)
 
---4ikzzwflzmxk3qkj
-Content-Type: application/pgp-signature; name="signature.asc"
+> Ulrich Hecht (11):
+>   clk: renesas: cpg-mssr: add support for ignore-unused clocks
+>   clk: renesas: r8a7796: mark RWDT clock as ignore-unused
+>   clk: renesas: r8a7795: mark RWDT clock as ignore-unused
+>   clk: renesas: r8a77970: mark RWDT clock as ignore-unused
+>   clk: renesas: r8a77980: mark RWDT clock as ignore-unused
+>   clk: renesas: r8a77995: mark RWDT clock as ignore-unused
+>   clk: renesas: r8a774a1: mark RWDT clock as ignore-unused
+>   clk: renesas: r8a774b1: mark RWDT clock as ignore-unused
+>   clk: renesas: r8a774c0: mark RWDT clock as ignore-unused
+>   clk: renesas: r8a77965: mark RWDT clock as ignore-unused
+>   clk: renesas: r8a77990: mark RWDT clock as ignore-unused
 
------BEGIN PGP SIGNATURE-----
+I think the SoC-specific parts can be merged safely into two patches,
+one for R-Car Gen3, and one for RZ/G2?
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXlfPUQAKCRDj7w1vZxhR
-xY1qAP9+J6ACEBSld2cNlgZ1np5JgE8toqkBz6bP/lxYW++O/gD+PkQQrYz3Ck0E
-pEtc4jLlxTZ04DThtUQDRRkGaY5KMgA=
-=hUDK
------END PGP SIGNATURE-----
+Gr{oetje,eeting}s,
 
---4ikzzwflzmxk3qkj--
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
