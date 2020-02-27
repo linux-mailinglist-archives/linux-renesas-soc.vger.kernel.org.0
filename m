@@ -2,127 +2,235 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A3DF01727BC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Feb 2020 19:38:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC4D0172975
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 27 Feb 2020 21:32:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729402AbgB0SdW (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 27 Feb 2020 13:33:22 -0500
-Received: from mail-io1-f66.google.com ([209.85.166.66]:33888 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729306AbgB0SdW (ORCPT
+        id S1729498AbgB0UcN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 27 Feb 2020 15:32:13 -0500
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:39473 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726793AbgB0UcM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 27 Feb 2020 13:33:22 -0500
-Received: by mail-io1-f66.google.com with SMTP id z190so581836iof.1
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Feb 2020 10:33:22 -0800 (PST)
+        Thu, 27 Feb 2020 15:32:12 -0500
+Received: by mail-lf1-f65.google.com with SMTP id n30so404276lfh.6
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 27 Feb 2020 12:32:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lixom-net.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=E7WO/NUxGv82Kf1dVrT+16+HfZ68MhNea8HytDwhqyw=;
-        b=dDlTY+HgwgsvQ5xJ8+Hk1X+IRSOVAMCit/kiKPiZmFv2sjbZZqgHkNQR/RafnMCRZY
-         hwdlikXVytW/mOAzi/NlUvfQpKaIriHabsmG/zfSsACtuxMuAPVHZYFo2wN/HW+SYNsQ
-         9OslPFaPXicUrUv+kQQGObGg7bXRXoMuaKmD5jiuAzXD7xqnp+XjAE5I1yXeUMaF+WAf
-         QXF0zuZMsdxBDgteXJHgLBFj6MD5AaKn+QIEHppS9A9BkWkrOeQsILX1HzZ9AYXkYHJX
-         YRJ0RWxZdIW/QslG3vFML8SuUSTcYpAS8+YgE+6/wrlyjqYp9myE9D/RFX4hhzdK619u
-         pKbA==
+        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
+        h=from:subject:to:cc:references:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=9ISG63/75ZnqFjCBjboMyogPm7Ic4pLFsII9ijv4S5c=;
+        b=y2Jzgj5wXfLKcV0mzl8aS8r5DHCPwq9BmPz15LFBZjZ8XjkhlCaac+qc62Pfzxw9Hm
+         VTPa/RgF10v6XrHXE7hDnx3Ru0j8l3Jrbnqua8a1f6t8QInpvqNMJjGVkU4Ka//t7i54
+         fDZFXhrURno8K6qqD2Klj2lbzdz3TFPKZay8b3ivDQn/bkFQ3Np+f97T+Y1QyCfzw5+R
+         fpCWL8AIf9zt5++8Cf9GVbKvOAKmK86IE2xK9cflXhcwUHapVRUvzLlKRChRClEhyOc9
+         PpUFEN2s0yw0hghIUJ7uc1OCspVFp/7ri01v41yjNyuDxrSSCI1jJV8Sd+FYAi008+Nf
+         I48A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=E7WO/NUxGv82Kf1dVrT+16+HfZ68MhNea8HytDwhqyw=;
-        b=UMhfL0Ge99QdYIa9FSlBoOgSn04hxuVNnL/LMSnE3c/u7/MmoA3EICL7kdnIp3Dgmd
-         aw0VPUUfPm8Nn6RIZyiqtcHIni1kyv1xYXddqzRZtte7W/FmVcrkcCWA2PeOSFG1WP9V
-         +DqO1lo6twJaLCJtx2gxd7AzwP6t4FhnQim2RFcOKNRARnorkMYdKrJkiqEjzjmRHfHj
-         RIyatEHLOjOLRLtD0CTBvaZbHsz2G8E7okntWz3bqmgQtQ91q3wsRyUtlfP7fA5HQig3
-         h2OcZWFla/Y22IY+IQpNTIjgpePqI9aQrZ501qGLkXadKqwS0r3iUMpAxhClT2Sbx82A
-         /ItA==
-X-Gm-Message-State: APjAAAXvDDyrDd4Z00F3GUX2rjf+no9bjPzbZFE4bfp/ZSUrrQ++i0Md
-        8KAjE02nj8v614BfvjNOfdFYhjU83d/nS45Lii7BQg==
-X-Google-Smtp-Source: APXvYqz0JZSMiGAn9FLjoYzJKMf64V4rXpI5AxwNpHCGrUsfgeFrJ/5Bi1clENFNl5NoGK6MW/yqNoXQYEb7zczBpL8=
-X-Received: by 2002:a5e:d614:: with SMTP id w20mr496610iom.278.1582828401861;
- Thu, 27 Feb 2020 10:33:21 -0800 (PST)
+        h=x-gm-message-state:from:subject:to:cc:references:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=9ISG63/75ZnqFjCBjboMyogPm7Ic4pLFsII9ijv4S5c=;
+        b=Cl83fiFhRe0UXAhwDCyYXmAVri1KHka60OjfFWA67yUp8i5rx1edLMTly26skGZrb4
+         /FOIo14Dsmsjrx1bu0OgnvxSF/DRvmsOYf2mPyTeFW/fFkj5qAv2qMr1DPCapKL+gr+I
+         Tq5m8oXG9CmeWVyFScrZb0Lm1qJNmB+uK5/vvn0JI6CMtjhRLI87gn3eTMQUCx3GmA23
+         sAR2tRiCj7HXcL/OC8mQR6v0Bx4zaEQzhPdOw3PMvXMUm5OnQBtr8sBB0G1XJNtCe8le
+         rWJ1iTY0ANpl4yWiiLdi0yDhahI7BdMEot7ApAugS97AFt752jXD4DZ+3jBDpbqDE6H+
+         xgCg==
+X-Gm-Message-State: ANhLgQ1TBTBElHRruaDf4wsfo5SLIAqnbHqnkYbzJR/DJKQaSY+EFlYN
+        3CmeL89/n5lUl81Xuw+u1JLLsg==
+X-Google-Smtp-Source: ADFU+vv3qE+rnPwQ2pWW4DGqSfg7kiHpjIaGxXI8Vzew8ZjMQ2/4y2mDx/Bw+c5R1UDuJR7Y1uhtFQ==
+X-Received: by 2002:ac2:5492:: with SMTP id t18mr648914lfk.184.1582835530138;
+        Thu, 27 Feb 2020 12:32:10 -0800 (PST)
+Received: from wasted.cogentembedded.com ([2a00:1fa0:8d0:2529:4e81:e74e:4b97:1620])
+        by smtp.gmail.com with ESMTPSA id s10sm4303057ljp.35.2020.02.27.12.32.08
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 27 Feb 2020 12:32:09 -0800 (PST)
+From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
+Subject: Re: [PATCH RFC 2/2] memory: add Renesas RPC-IF driver
+To:     "Behme Dirk (CM/ESO2)" <dirk.behme@de.bosch.com>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mason Yang <masonccyang@mxic.com.tw>,
+        linux-spi@vger.kernel.org, Chris Brandt <chris.brandt@renesas.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+References: <cb7022c9-0059-4eb2-7910-aab42124fa1c@cogentembedded.com>
+ <4db876ed-1ccc-e3be-311d-30cd52f40259@cogentembedded.com>
+ <5760bcdb-e44b-6f18-7262-9526684e5780@de.bosch.com>
+ <5603f393-554d-e2a8-c2d8-6bafc20f4169@cogentembedded.com>
+ <cba1e2ec-4896-23ef-ef7b-0f80d4310127@de.bosch.com>
+ <ec545462-54ed-9e23-049e-1807d24ec084@cogentembedded.com>
+ <3a182ac7-8d41-cdc7-2b87-7c503f68a426@de.bosch.com>
+ <f21a9444-9541-6558-f5f5-ca0b733768ff@cogentembedded.com>
+ <b7d64c11-473c-e703-0e5e-55b909861175@de.bosch.com>
+Organization: Cogent Embedded
+Message-ID: <cc60b321-9040-0962-e955-7212689d9a4a@cogentembedded.com>
+Date:   Thu, 27 Feb 2020 23:32:07 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.1
 MIME-Version: 1.0
-References: <20200226110221.19288-1-geert+renesas@glider.be>
- <20200227181018.5nixs7o7lght3mug@localhost> <CAMuHMdXa1Kjmp+9_dWGGF1Dz-6op+-6iSdF56PHSZFgWOAXEgQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdXa1Kjmp+9_dWGGF1Dz-6op+-6iSdF56PHSZFgWOAXEgQ@mail.gmail.com>
-From:   Olof Johansson <olof@lixom.net>
-Date:   Thu, 27 Feb 2020 10:33:10 -0800
-Message-ID: <CAOesGMjVm1TMjhBtFG9-acw=c7COhkcoErdmkJjz0ZG0QraH3Q@mail.gmail.com>
-Subject: Re: [GIT PULL 0/5] Renesas SoC updates for v5.7
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Konstantin Ryabitsev <mricon@kernel.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        arm-soc <arm@kernel.org>, arm-soc <soc@kernel.org>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        users@linux.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <b7d64c11-473c-e703-0e5e-55b909861175@de.bosch.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Feb 27, 2020 at 10:19 AM Geert Uytterhoeven
-<geert@linux-m68k.org> wrote:
->
-> Hi Olof,
->
-> On Thu, Feb 27, 2020 at 7:10 PM Olof Johansson <olof@lixom.net> wrote:
-> > On Wed, Feb 26, 2020 at 12:02:16PM +0100, Geert Uytterhoeven wrote:
-> > > This is my first pull request for the inclusion of Renesas SoC updates
-> > > for v5.7.
-> > >
-> > > It consists of 5 parts:
-> >
-> > Only 2 of these were sent to arm@kernel.org / soc@kernel.org: 2/5 and 5/5.
-> > Mind checking your scripts to make sure you send them to us so they end
-> > up in our patchwork? (And please resend the ones who weren't).
->
-> Strange, I used a single git send-email command for the whole series.
->
-> I do see them all of them at
-> https://patchwork.kernel.org/project/linux-soc/list/,
-> https://patchwork.kernel.org/project/linux-soc/list/?series=247609 ?
-> Lore also has them:
-> https://lore.kernel.org/linux-renesas-soc/20200227181018.5nixs7o7lght3mug@localhost/T/#m2ec32842569b4b4dc25d4ecda668e509edaba98b
->
-> Perhaps they got lost on the path to your inbox? Recently I had a similar
-> problem with some patches, which appeared at the list and patchwork, but
-> never in my (Gmail) inbox.
+Hello!
 
-This is how the email I got looked like:
+On 02/26/2020 12:54 PM, Behme Dirk (CM/ESO2) wrote:
 
-From: Geert Uytterhoeven <geert+renesas@glider.be>
-To: "Linuxkernel+Patchwork-Soc via Email Integration"
-<patchwork-soc@linux.kernel.org>
-Cc: Magnus Damm <magnus.damm@gmail.com>,
-linux-arm-kernel@lists.infradead.org,
-linux-renesas-soc@vger.kernel.org, Geert Uytterhoeven
-<geert+renesas@glider.be>
-Subject: [GIT PULL 1/5] Renesas ARM DT updates for v5.7
-Date: Wed, 26 Feb 2020 12:02:17 +0100
-Message-Id: <20200226110221.19288-2-geert+renesas@glider.be>
-In-Reply-To: <20200226110221.19288-1-geert+renesas@glider.be>
-References: <20200226110221.19288-1-geert+renesas@glider.be>
-Precedence: Bulk
-List-Unsubscribe: <https://linux.kernel.org/g/patchwork-soc/unsub>
-Sender: patchwork-soc@linux.kernel.org
-List-Id: <patchwork-soc.linux.kernel.org>
-Mailing-List: list patchwork-soc@linux.kernel.org; contact
-patchwork-soc+owner@linux.kernel.org
-Delivered-To: mailing list <patchwork-soc@linux.kernel.org>
-Reply-To: patchwork-soc+owner@linux.kernel.org
+>>>>>>>    From d72b805cc461ab1e9747c973e9be84e7abb8f828 Mon Sep 17 00:00:00 2001
+>>>>>>> From: Dirk Behme <dirk.behme@de.bosch.com>
+>>>>>>> Date: Tue, 4 Feb 2020 08:39:31 +0100
+>>>>>>> Subject: [PATCH] memory: renesas-rpc-if: Correct the STRTIM and some other
+>>>>>>>     clean up
+>>>>>>>
+>>>>>>> This is required to make the driver work correctly in my M3 environment.
+>>>>>>>
+>>>>>>> Signed-off-by: Dirk Behme <dirk.behme@de.bosch.com>
+>>>>>>> ---
+>>>>>>>     drivers/memory/renesas-rpc-if.c | 42 ++++++++++++++++++++-------------
+>>>>>>>     1 file changed, 25 insertions(+), 17 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/memory/renesas-rpc-if.c b/drivers/memory/renesas-rpc-if.c
+>>>>>>> index 04be92b64bfa..f4356b066384 100644
+>>>>>>> --- a/drivers/memory/renesas-rpc-if.c
+>>>>>>> +++ b/drivers/memory/renesas-rpc-if.c
+>>>>>> [...]
+>>>>>>> @@ -513,19 +525,15 @@ ssize_t rpcif_dirmap_read(struct rpcif *rpc, u64 offs, size_t len, void *buf)
+>>>>>>>         pm_runtime_get_sync(rpc->dev);
+>>>>>>>
+>>>>>>>         regmap_update_bits(rpc->regmap, RPCIF_CMNCR, RPCIF_CMNCR_MD, 0);
+>>>>>>> -    regmap_write(rpc->regmap, RPCIF_DRCR,
+>>>>>>> -             RPCIF_DRCR_RBURST(32) | RPCIF_DRCR_RBE);
+>>>>>>> -    regmap_write(rpc->regmap, RPCIF_DRCMR, rpc->command);
+>>>>>>> -    regmap_write(rpc->regmap, RPCIF_DREAR,
+>>>>>>> -             RPCIF_DREAR_EAV(offs >> 25) | RPCIF_DREAR_EAC(1));
+>>>>>>> -    regmap_write(rpc->regmap, RPCIF_DROPR, rpc->option);
+>>>>>>> -    regmap_write(rpc->regmap, RPCIF_DRENR,
+>>>>>>> -             rpc->enable & ~RPCIF_SMENR_SPIDE(0xF));
+>>>>>>> -    regmap_write(rpc->regmap, RPCIF_DRDMCR, rpc->dummy);
+>>>>>>> -    regmap_write(rpc->regmap, RPCIF_DRDRENR, rpc->ddr);
+>>>>>>
+>>>>>>       The driver somehow works only with this left in place (with 2 bytes eaten
+>>>>>> as before), otherwise all the flash reads all 0xff (via dirmap).
+>>>>>
+>>>>>
+>>>>> Do you boot from hyperflash?
+>>>>
+>>>>      No, I have arewto say 'cpld write 30 1' in U-Boot before a boot a kernel.
+>>
+>>     s/arewto/to/. :-)
+>>
+>>>> Normally, the V3x Starter Kit boards are wired for the QSPI flash chips.
+>>>>
+>>>>> The system I'm using for testing boots from hyperflash. So most probably all registers
+>>>>> I don't touch in the driver are put into a reasonable state by the boot code, already.
+>>>>> If you don't boot from hyperflash, that at least would explain our different behavior.
+>>>>
+>>>>      Yes. Mind dumping the registers and sending to me?
+>>>
+>>> Using the attached debug patch (0001-memory-renesas-rpc-if-DEBUG-Dump-register-
+>>> content.patch) on a r8a7796 system booting from Hyperflash with above register
+>> dropping reverted (i.e. including touching these registers) I get
+>>>
+>>> Before:
+>>> RPCIF_DRCR:    0x00000000
+>>> RPCIF_DRCMR:   0x00a00000
+>>> RPCIF_DREAR:   0x00000000
+>>> RPCIF_DROPR:   0x00000000
+>>> RPCIF_DRENR:   0xa222d400
+>>> RPCIF_DRDMCR:  0x0000000e
+>>> RPCIF_DRDRENR: 0x00005101
+>>>
+>>> After:
+>>> RPCIF_DRCR:    0x001f0100
+>>> RPCIF_DRCMR:   0x00a00000
+>>> RPCIF_DREAR:   0x00010001
+>>> RPCIF_DROPR:   0x00000000
+>>> RPCIF_DRENR:   0xa202d400
+>>> RPCIF_DRDMCR:  0x0000000e
+>>> RPCIF_DRDRENR: 0x00005101
+>>>
+>>> Comparing that, just 3 registers are different between my working version ("Before") and the version which shows the 2-byte offset ("After"): RPCIF_DRCR, RPCIF_DREAR and RPCIF_DRENR. With try & error, at least in my setup, I was able to reduce this to just RPCIF_DRCR. Dropping the burst mode I was able to 'fix' the two byte offset issue.
+>>
+>>     ACK! Thanks a lot for finding it! :-)
+>>     That's what I get on the first dirmap read:
+>>
+>> Before:
+>> RPCIF_CMNCR:   0x81fff301
+>> RPCIF_DRCR:    0x00000000
+>> RPCIF_DRCMR:   0x00030000
+>> RPCIF_DREAR:   0x00000000
+>> RPCIF_DROPR:   0x00000000
+>> RPCIF_DRENR:   0x00004700
+>> RPCIF_DRDMCR:  0x00000000
+>> RPCIF_DRDRENR: 0x00000000
+>>
+>> After:
+>> RPCIF_CMNCR:   0x01fff301
+>> RPCIF_DRCR:    0x001f0100
+>> RPCIF_DRCMR:   0x00800000
+>> RPCIF_DREAR:   0x00000001
+>> RPCIF_DROPR:   0x00000000
+>> RPCIF_DRENR:   0xa202d400
+>> RPCIF_DRDMCR:  0x0000000e
+>> RPCIF_DRDRENR: 0x00005101
+>>
+>>> Do you like to give the attached 0001-memory-renesas-rpc-if-Don-t-use-burst-mode-on-read.patch a try in your setup?
+>>
+>>     Works like charm! :-)
+> 
+> 
+> Good news, thanks! :)
+> 
+> 
+>>     Unfortunately, the SPI dirmap and/or writes are still broken.
+> 
+> 
+> I'm unsure about which function we are talking for "SPI dirmap"?
 
+   The same, rpcif_dirmap_read(). I'm now thinking it works correctly, it's just
+the writes that are borked.
 
-It no longer had the {arm,soc}@kernel.org recipients on it, instead
-the internal-only mailing list that connects soc@kernel.org with
-patchwork. Very odd. Reply-to rewrites are undesirable too.
+> Regarding writes, in rpcif_io_xfer() in RPCIF_DATA_IN we have an additional place where burst mode is enabled:
 
-Konstantin, anything on your side that can shed light on this? My mail
-filters locally expects to see soc@kernel.org and arm@kernel.org
-recipients still intact in the to-line, and it's really odd that 2 of
-the 5 emails looked as expected.
+   This works around the hardware bug where the SPI NOR RDID command's data bytes get
+spoiled, leading to unrecognized flash chip. Well, there's a comment before this *if*. 
 
+> if (!(smenr & RPCIF_SMENR_ADE(0xf)) && rpc->dirmap) {
+> ...
+> regmap_write(rpc->regmap, RPCIF_DRCR,
+>     RPCIF_DRCR_RBURST(32) | RPCIF_DRCR_RBE);
+> ...
+> 
+> Maybe it's worth a try to replace this by just 0, as well:
+> 
+> regmap_write(rpc->regmap, RPCIF_DRCR, 0);
 
--Olof
+   I've just tried that, here's the result:
+
+spi-nor spi0.0: unrecognized JEDEC id bytes: 01 01 01 01 01 01                  
+
+(and the flash doesn't get registered).
+
+> But of course, this is guessing, as I'm not sure if this
+> 
+> if (!(smenr & RPCIF_SMENR_ADE(0xf)) && rpc->dirmap) {
+> 
+> path is taken, at all?
+
+   It's taken but only with SPI NOR.
+
+> Or even better, if you could adapt the "before / after" debug patch to the path which are still not working for you and share it and the results, we could compare it with my setup, too :)
+
+  I'll try doing that tomorrow...
+
+> Dirk
+
+MBR, Sergei
