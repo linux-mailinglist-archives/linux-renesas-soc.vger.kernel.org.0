@@ -2,114 +2,80 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 86B3D173BE6
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Feb 2020 16:43:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AA39173BFD
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Feb 2020 16:43:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727407AbgB1PmZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 Feb 2020 10:42:25 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:35638 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727176AbgB1PmT (ORCPT
+        id S1727350AbgB1Pno (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 Feb 2020 10:43:44 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:37110 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726974AbgB1Pno (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 Feb 2020 10:42:19 -0500
-Received: by mail-wm1-f67.google.com with SMTP id m3so3704022wmi.0;
-        Fri, 28 Feb 2020 07:42:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=hRkPExrL63331yWhoKi03csinXjXhPNQwWmMbM7w46o=;
-        b=IO4EyAPn+xS3k3kXsj2p6D3mp+B71UwPYcFn/VwB6gUPmQz5tn+Ona5+GFFE9jVd7S
-         xKejK+x/6KNw5awfV/txpxw3kSW3XBtsgsS/2A31Dc12V+TF1/YuCf0Umw6OEFqKjxI8
-         NR/aDm3Zqpq6apW7gQogXtlpog1JiGHt/oGFGaakGNyX3Ermu87el+W5j2YCn/3tzmd/
-         /QiFMyPPStLovPhlf6nx+IKdZ80eRSvoQzdoBJnwwN4s9vOwJH6AwBnzKBraPvYSFyWk
-         cm1W4YjVDDzs1yaTQ3EFkx2Cp5nViqGmTOLfn8PbXZWyRAXSyxEu0Ch7MWJx0Zh6lKqu
-         szvw==
+        Fri, 28 Feb 2020 10:43:44 -0500
+Received: by mail-ot1-f65.google.com with SMTP id b3so2972434otp.4;
+        Fri, 28 Feb 2020 07:43:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=hRkPExrL63331yWhoKi03csinXjXhPNQwWmMbM7w46o=;
-        b=BowzVQerq5WGe2aRZzH1EJgjJsZawIVoqkLDXU1JcjaqkcHzgfjmI9GbtPxx2UkQ1s
-         nzGpuqsD0hTP2cxBlC3UuP3lZHwUbXl4sXnrAa0AwOrF6ryoCIbO/9GADyQBEIWddYhx
-         BtpqFDwpW/GNtxdbE+ba9aZNXiAOJMwSDkR61B4nkPVdcwlPGMd7HkbU0MzS+gODKXxF
-         eLEL+kg+taiN1Rxge6xfWCh5uq6dgDOcdHvjp2yma2/NybG1zV5Nva7MIhz64eknB1tG
-         EsVIUiGcALE0N/mB+NeK3Yf2GU4oq1jAw45JzpQstmjDD3wrYnzkx68B5y2CkbLS584u
-         mH0g==
-X-Gm-Message-State: APjAAAWHol5uiXrhJMMcBOyrcME5QZKDgwLYN082hqVMRNwaFPlE+wo3
-        DTPQ+liPI+Iw/y5t687qtDI=
-X-Google-Smtp-Source: APXvYqz/GzpMKjVbgeuIuiw7IadIFtmQ7Zb1hX5sTOTpT/zhw3XLGEkcEEHXB56OCUnevlwbKvibng==
-X-Received: by 2002:a05:600c:218d:: with SMTP id e13mr5545446wme.102.1582904538161;
-        Fri, 28 Feb 2020 07:42:18 -0800 (PST)
-Received: from prasmi.home ([2a00:23c8:2510:d000:3855:fd13:6b76:a11b])
-        by smtp.gmail.com with ESMTPSA id k16sm13355349wrd.17.2020.02.28.07.42.16
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=NzRocj0ncokvHG18Rq/CmxEUE1Zj03t15w4ZGiHk6WI=;
+        b=UTMv93WPAfeK+5aEH28DhG0oz+dbvehE+0SLYHiyLdF9GhnfoaA1fi3pTXQkYcUTEY
+         ZBh7O315aAPBMzYgvCn+YrD6w4TF6vgS5QkRQJOekCh1S2u2GXvrQvf5Y3NZX0FneSAp
+         Is+iTjvWV20upnOUdEWH7EdZ3unM7HKHZSWIMG7cNqljDpB0874ugdOYqNWsfB6PfUN6
+         zwa6GP0dNYAp1jGnqzfp56WEdhymR9eDfop0aCI0rmJW6yQVnbcAW3mJkN/Bq/zZ/pPV
+         tSi2fIeY6OwN8jK4xBkOWdavHklLkCKXatkuk8bUnk9kfXNKo7EFspBpoyRzb5Y7TGwB
+         DNZA==
+X-Gm-Message-State: APjAAAVXujhRRf7/WJGkn2DHpgk3g44otjiT2YMyXfdtsOVbkB3YGgW1
+        priIJNtfjTibrqvDk0ciWQ==
+X-Google-Smtp-Source: APXvYqwAvfS4y3PeT6erebn9BS5cNwBYC4dNvyGCySQ0gBTJqJTBvkVDLPQ7c1l+dui+RdfYxvqeig==
+X-Received: by 2002:a05:6830:1184:: with SMTP id u4mr3627386otq.221.1582904623350;
+        Fri, 28 Feb 2020 07:43:43 -0800 (PST)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id a26sm1576281oid.17.2020.02.28.07.43.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Feb 2020 07:42:17 -0800 (PST)
-From:   Lad Prabhakar <prabhakar.csengg@gmail.com>
-X-Google-Original-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>
-Cc:     Andrew Murray <andrew.murray@arm.com>, linux-pci@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v5 7/7] misc: pci_endpoint_test: Add Device ID for RZ/G2E PCIe controller
-Date:   Fri, 28 Feb 2020 15:41:22 +0000
-Message-Id: <20200228154122.14164-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200228154122.14164-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20200228154122.14164-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Fri, 28 Feb 2020 07:43:42 -0800 (PST)
+Received: (nullmailer pid 18141 invoked by uid 1000);
+        Fri, 28 Feb 2020 15:43:42 -0000
+Date:   Fri, 28 Feb 2020 09:43:42 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH v2] dt-bindings: power: rcar-sysc: Convert to json-schema
+Message-ID: <20200228154342.GA18088@bogus>
+References: <20200224135234.32049-1-geert+renesas@glider.be>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200224135234.32049-1-geert+renesas@glider.be>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Add RZ/G2E in pci_device_id table so that pci-epf-test can be used for
-testing PCIe EP in RZ/G2E.
+On Mon, 24 Feb 2020 14:52:34 +0100, Geert Uytterhoeven wrote:
+> Convert the Renesas R-Car System Controller Device Tree binding
+> documentation to json-schema.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+> v2:
+>   - Add Reviewed-by,
+>   - Drop "DT bindings for the" from title.
+> ---
+>  .../bindings/power/renesas,rcar-sysc.txt      | 62 ----------------
+>  .../bindings/power/renesas,rcar-sysc.yaml     | 73 +++++++++++++++++++
+>  2 files changed, 73 insertions(+), 62 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/power/renesas,rcar-sysc.txt
+>  create mode 100644 Documentation/devicetree/bindings/power/renesas,rcar-sysc.yaml
+> 
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
----
- drivers/misc/pci_endpoint_test.c | 3 +++
- 1 file changed, 3 insertions(+)
+Applied, thanks.
 
-diff --git a/drivers/misc/pci_endpoint_test.c b/drivers/misc/pci_endpoint_test.c
-index a5e3170..3c84e9a 100644
---- a/drivers/misc/pci_endpoint_test.c
-+++ b/drivers/misc/pci_endpoint_test.c
-@@ -66,6 +66,8 @@
- 
- #define PCI_DEVICE_ID_TI_AM654			0xb00c
- 
-+#define PCI_DEVICE_ID_RENESAS_RZG2E		0x002d
-+
- #define is_am654_pci_dev(pdev)		\
- 		((pdev)->device == PCI_DEVICE_ID_TI_AM654)
- 
-@@ -797,6 +799,7 @@ static const struct pci_device_id pci_endpoint_test_tbl[] = {
- 	{ PCI_DEVICE(PCI_VENDOR_ID_TI, PCI_DEVICE_ID_TI_AM654),
- 	  .driver_data = (kernel_ulong_t)&am654_data
- 	},
-+	{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS, PCI_DEVICE_ID_RENESAS_RZG2E) },
- 	{ }
- };
- MODULE_DEVICE_TABLE(pci, pci_endpoint_test_tbl);
--- 
-2.7.4
-
+Rob
