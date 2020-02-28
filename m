@@ -2,62 +2,62 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F033E173D8A
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Feb 2020 17:50:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF21E173DD4
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 28 Feb 2020 18:02:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726816AbgB1QuV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 28 Feb 2020 11:50:21 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:53927 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726961AbgB1QuV (ORCPT
+        id S1725886AbgB1RCQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 28 Feb 2020 12:02:16 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:37781 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725876AbgB1RCQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 28 Feb 2020 11:50:21 -0500
-Received: by mail-wm1-f67.google.com with SMTP id f15so3877701wml.3;
-        Fri, 28 Feb 2020 08:50:18 -0800 (PST)
+        Fri, 28 Feb 2020 12:02:16 -0500
+Received: by mail-wm1-f68.google.com with SMTP id a141so3992499wme.2;
+        Fri, 28 Feb 2020 09:02:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=mJfep6qc886uMsHNXGk5tdCaaGsgVZaFquG8wUujrTU=;
-        b=M7o1rhsKRaoCUa6UfX/eBXACh55wtTqyZLZ9mEwBsBGISJXKo7Udn31O/aMXoHBFrJ
-         +nWtGdpR2UCD5BT4cgxPGWkmSjTKIWbi0dzxYgdJJCIOUJYXGpBUuOW/a/JD1ghd9ZJ4
-         fTzKvURpInk/axfmapQpQjKuLYHEaCItxdjXxaFv+9YApQN1gREbAJ9fdta904aeB6kd
-         o9iyowDOrMPkZhalz2OZ2nnTpY0bvYk5vSZHHJW/CNz6U+2EAJ18XyczIwyxbUj0s9jq
-         c/kz8K/i7KwSDeAAx2qoJVUYpgQD3OfQhJb8Bssf3Dv01ISOt/IaDa0X9y1z+osv4o+e
-         lflA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YLiECJgyhguRX/IYrN5eINjBjUqtt9KK7ww1Qi9YDtY=;
+        b=b8BsHJ2LJgJY1WGYJHBogfnTDtsu+0aEahsFyTNox1D9246LN6g7BvnnfJXJoJaIxs
+         ojFct0Njohqj/snlt/wMHZvmhyY1TPnFlf2S9eGHnWai+G4fJC6zvQrKZ3dVN66zUPDr
+         ufUn3p4Is/NtxJs2w4DSJf8vXbjEVO8PefT935o5rG6UfFls4/bl6gOyjoUN72dnGJtR
+         okj6/piDhVTTlAEP+a3mf2a55gS7w+rGyRZZ3hfitkbfMM7AH4pU+t+xfVrQtkXO621O
+         mXNuqdBvV3KI6zR2SEGlPGM9Zv5hpbbxXFC6tD2wvJPljejVugrOg1NJiZl7IY+qS0cr
+         E7Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=mJfep6qc886uMsHNXGk5tdCaaGsgVZaFquG8wUujrTU=;
-        b=FmDBj4KRVi/vYjkfyiXJcV1w+VteDkqnKmm3HaqLAylC3PSKOevxhmHU+SD+5j9VUC
-         d8m7VBQw7mMtPI4qNDL30MlAzXj01+SrzQCSZhxH7GGqtmML6ye9KTXmI6o56JIrd48n
-         EWOhEWKDfoluZNg2ec6G4SsR4IZDzw1x/yVmm/p8OrifU+axWFd1J/5Jnr3idF4BlJpD
-         iSnTi6fobvCdGlqcs/ou2iAl6wK3s8axpNkty4huIhsKtA/QVuFbcAC2GVfb6pTkLB8h
-         NgA+RwQocRJtQCEGCzss8LoxUAWazLzojrpS1fhCAc03HTfVjSt/qIf1kJgl5UKmy2Hj
-         zSVw==
-X-Gm-Message-State: APjAAAUYqZD5CZA7SLEYAQ8X2r8/QbA3gQvi+h+f/HElos9S1+t5pHBa
-        +Hx2D+QpbXGSnRQJHWp0Ilw=
-X-Google-Smtp-Source: APXvYqysdmqkNy66Xr05Ml5WtI6Ku5rfT+oBrLozxXln9ZSQ9aRy2MFfskf2BZexP7XjsL6GUsAT3Q==
-X-Received: by 2002:a7b:c5cd:: with SMTP id n13mr5565466wmk.172.1582908618166;
-        Fri, 28 Feb 2020 08:50:18 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YLiECJgyhguRX/IYrN5eINjBjUqtt9KK7ww1Qi9YDtY=;
+        b=m41vn9hns7sMJwaZejMOiPbT07qzgWpmZScTN1iRKXgUnIuz/NuqUumaye4n5n8rHL
+         Qs92EFScT8GHNgwDuNxtUBgpNplCgEj1Vxp5ZQZUIB6XaSIsO9u/YZQB4PGTJglovOXj
+         D6lnRTgD9ZWKnW0kgyieb9pyDeC12X9GPMxtQ0Wcc7RcaoCvcHKOCzp1bmtaKMWFEIYA
+         zigeqtYu8qgp+tCa24U1J2drod0UjUE1lcstJSgBSicOW5/jVB+smpyau1fVZsJKOe5c
+         OxJ+EKoeyAfUlHvhc+pu1qPjMTdR/gGZS2jpcPr/+nXMSCAXAQHZdk6QbTlhomLLjMiC
+         m+KA==
+X-Gm-Message-State: APjAAAWv/2wQo0JnN/yDv2wNxK/ESFwoYdU8Sz/NK32qLICahen/Xcdb
+        AbrnajQugxRoGPYGQLb7F4U=
+X-Google-Smtp-Source: APXvYqxp4IX5vvh8ILpZYbiv5KH01y9nScXcItz9tyaqFFcB/6VhWwqOYkco6NCmdMJlv5LKZNCJFA==
+X-Received: by 2002:a1c:f60e:: with SMTP id w14mr5648797wmc.188.1582909333378;
+        Fri, 28 Feb 2020 09:02:13 -0800 (PST)
 Received: from prasmi.home ([2a00:23c8:2510:d000:3855:fd13:6b76:a11b])
-        by smtp.gmail.com with ESMTPSA id h2sm13263408wrt.45.2020.02.28.08.50.17
+        by smtp.gmail.com with ESMTPSA id q9sm5673058wrn.8.2020.02.28.09.02.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Feb 2020 08:50:17 -0800 (PST)
+        Fri, 28 Feb 2020 09:02:12 -0800 (PST)
 From:   Lad Prabhakar <prabhakar.csengg@gmail.com>
 X-Google-Original-From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Niklas <niklas.soderlund@ragnatech.se>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>
+Cc:     linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        devicetree@vger.kernel.org,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH 2/2] media: rcar-vin: Add support for SRGGB8_1X8
-Date:   Fri, 28 Feb 2020 16:50:11 +0000
-Message-Id: <20200228165011.17898-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH] arm64: dts: renesas: r8a774c0-cat874: Add support for AISTARVISION MIPI Adapter V2.1
+Date:   Fri, 28 Feb 2020 17:02:10 +0000
+Message-Id: <20200228170210.18252-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200228165011.17898-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20200228165011.17898-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -65,115 +65,235 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Most of the RZ/G2x boards can support capturing frames in SRGGB8_1X8
-format, add support for this with a runtime check that the running
-hardware supports it.
+This patch adds support AISTARVISION MIPI Adapter V2.1 board connected
+to G2E board. Common file aistarvision-mipi-adapter-2.1.dtsi is created
+which have the camera endpoint nodes with disabled status and in
+r8a774c0-ek874-mipi-2.1.dts file VIN/CSI nodes are enabled. By default
+imx219 endpoint is tied with CSI2.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 ---
- drivers/media/platform/rcar-vin/rcar-core.c |  1 +
- drivers/media/platform/rcar-vin/rcar-csi2.c |  1 +
- drivers/media/platform/rcar-vin/rcar-dma.c  | 14 ++++++++++++--
- drivers/media/platform/rcar-vin/rcar-v4l2.c |  4 ++++
- 4 files changed, 18 insertions(+), 2 deletions(-)
+Geert/Rob since the imx219 driver is yet to make into mainline
+but has been merged into media-subsystem I would like to take
+this patch via media-tree.
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-index 7440c8965d27..76daf2fe5bcd 100644
---- a/drivers/media/platform/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/rcar-vin/rcar-core.c
-@@ -469,6 +469,7 @@ static int rvin_parallel_subdevice_attach(struct rvin_dev *vin,
- 		case MEDIA_BUS_FMT_UYVY8_2X8:
- 		case MEDIA_BUS_FMT_UYVY10_2X10:
- 		case MEDIA_BUS_FMT_RGB888_1X24:
-+		case MEDIA_BUS_FMT_SRGGB8_1X8:
- 			vin->mbus_code = code.code;
- 			vin_dbg(vin, "Found media bus format for %s: %d\n",
- 				subdev->name, vin->mbus_code);
-diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-index 5b04e4768eb1..97e4886f63f0 100644
---- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-@@ -320,6 +320,7 @@ static const struct rcar_csi2_format rcar_csi2_formats[] = {
- 	{ .code = MEDIA_BUS_FMT_YUYV8_1X16,	.datatype = 0x1e, .bpp = 16 },
- 	{ .code = MEDIA_BUS_FMT_UYVY8_2X8,	.datatype = 0x1e, .bpp = 16 },
- 	{ .code = MEDIA_BUS_FMT_YUYV10_2X10,	.datatype = 0x1e, .bpp = 20 },
-+	{ .code = MEDIA_BUS_FMT_SRGGB8_1X8,     .datatype = 0x2a, .bpp = 8 },
- };
- 
- static const struct rcar_csi2_format *rcsi2_code_to_fmt(unsigned int code)
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index 1a30cd036371..63709b4bbf7a 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -85,6 +85,7 @@
- #define VNMC_INF_YUV8_BT601	(1 << 16)
- #define VNMC_INF_YUV10_BT656	(2 << 16)
- #define VNMC_INF_YUV10_BT601	(3 << 16)
-+#define VNMC_INF_RAW8		(4 << 16)
- #define VNMC_INF_YUV16		(5 << 16)
- #define VNMC_INF_RGB888		(6 << 16)
- #define VNMC_VUP		(1 << 10)
-@@ -587,13 +588,15 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
- 	rvin_write(vin, vin->crop.top, VNSLPRC_REG);
- 	rvin_write(vin, vin->crop.top + vin->crop.height - 1, VNELPRC_REG);
- 
--
- 	/* TODO: Add support for the UDS scaler. */
- 	if (vin->info->model != RCAR_GEN3)
- 		rvin_crop_scale_comp_gen2(vin);
- 
- 	fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
--	stride = vin->format.bytesperline / fmt->bpp;
-+	if (vin->format.pixelformat == V4L2_PIX_FMT_SRGGB8)
-+		stride = ALIGN(vin->format.bytesperline / 2, 0x10);
-+	else
-+		stride = vin->format.bytesperline / fmt->bpp;
- 	rvin_write(vin, stride, VNIS_REG);
- }
- 
-@@ -676,6 +679,9 @@ static int rvin_setup(struct rvin_dev *vin)
- 
- 		input_is_yuv = true;
- 		break;
-+	case MEDIA_BUS_FMT_SRGGB8_1X8:
-+		vnmc |= VNMC_INF_RAW8;
-+		break;
- 	default:
- 		break;
- 	}
-@@ -737,6 +743,9 @@ static int rvin_setup(struct rvin_dev *vin)
- 	case V4L2_PIX_FMT_ABGR32:
- 		dmr = VNDMR_A8BIT(vin->alpha) | VNDMR_EXRGB | VNDMR_DTMD_ARGB;
- 		break;
-+	case V4L2_PIX_FMT_SRGGB8:
-+		dmr = 0;
-+		break;
- 	default:
- 		vin_err(vin, "Invalid pixelformat (0x%x)\n",
- 			vin->format.pixelformat);
-@@ -1110,6 +1119,7 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
- 	case MEDIA_BUS_FMT_UYVY8_2X8:
- 	case MEDIA_BUS_FMT_UYVY10_2X10:
- 	case MEDIA_BUS_FMT_RGB888_1X24:
-+	case MEDIA_BUS_FMT_SRGGB8_1X8:
- 		vin->mbus_code = fmt.format.code;
- 		break;
- 	default:
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index b12b3f88836a..d56cf85ba065 100644
---- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -66,6 +66,10 @@ static const struct rvin_video_format rvin_formats[] = {
- 		.fourcc			= V4L2_PIX_FMT_ABGR32,
- 		.bpp			= 4,
- 	},
-+	{
-+		.fourcc			= V4L2_PIX_FMT_SRGGB8,
-+		.bpp			= 1,
-+	},
- };
- 
- const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
+ arch/arm64/boot/dts/renesas/Makefile          |  3 +-
+ .../aistarvision-mipi-adapter-2.1.dtsi        | 98 +++++++++++++++++++
+ .../dts/renesas/r8a774c0-ek874-mipi-2.1.dts   | 86 ++++++++++++++++
+ 3 files changed, 186 insertions(+), 1 deletion(-)
+ create mode 100644 arch/arm64/boot/dts/renesas/aistarvision-mipi-adapter-2.1.dtsi
+ create mode 100644 arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts
+
+diff --git a/arch/arm64/boot/dts/renesas/Makefile b/arch/arm64/boot/dts/renesas/Makefile
+index 2153842321ce..9f5c53d62f5e 100644
+--- a/arch/arm64/boot/dts/renesas/Makefile
++++ b/arch/arm64/boot/dts/renesas/Makefile
+@@ -4,7 +4,8 @@ dtb-$(CONFIG_ARCH_R8A774A1) += r8a774a1-hihope-rzg2m-ex.dtb
+ dtb-$(CONFIG_ARCH_R8A774B1) += r8a774b1-hihope-rzg2n.dtb
+ dtb-$(CONFIG_ARCH_R8A774B1) += r8a774b1-hihope-rzg2n-ex.dtb
+ dtb-$(CONFIG_ARCH_R8A774C0) += r8a774c0-cat874.dtb r8a774c0-ek874.dtb \
+-			       r8a774c0-ek874-idk-2121wr.dtb
++			       r8a774c0-ek874-idk-2121wr.dtb \
++			       r8a774c0-ek874-mipi-2.1.dtb
+ dtb-$(CONFIG_ARCH_R8A7795) += r8a77950-salvator-x.dtb
+ dtb-$(CONFIG_ARCH_R8A7795) += r8a77950-ulcb.dtb r8a77950-ulcb-kf.dtb
+ dtb-$(CONFIG_ARCH_R8A7795) += r8a77951-salvator-x.dtb r8a77951-salvator-xs.dtb
+diff --git a/arch/arm64/boot/dts/renesas/aistarvision-mipi-adapter-2.1.dtsi b/arch/arm64/boot/dts/renesas/aistarvision-mipi-adapter-2.1.dtsi
+new file mode 100644
+index 000000000000..e098a13e6345
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/aistarvision-mipi-adapter-2.1.dtsi
+@@ -0,0 +1,98 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Device Tree Source for the AISTARVISION MIPI Adapter V2.1
++ *
++ * Copyright (C) 2020 Renesas Electronics Corp.
++ */
++
++/ {
++	ov5645_vdddo_1v8: 1p8v {
++		compatible = "regulator-fixed";
++		regulator-name = "camera_vdddo";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-always-on;
++	};
++
++	ov5645_vdda_2v8: 2p8v {
++		compatible = "regulator-fixed";
++		regulator-name = "camera_vdda";
++		regulator-min-microvolt = <2800000>;
++		regulator-max-microvolt = <2800000>;
++		regulator-always-on;
++	};
++
++	ov5645_vddd_1v5: 1p5v {
++		compatible = "regulator-fixed";
++		regulator-name = "camera_vddd";
++		regulator-min-microvolt = <1500000>;
++		regulator-max-microvolt = <1500000>;
++		regulator-always-on;
++	};
++
++	imx219_vana_2v8: 2p8v {
++		compatible = "regulator-fixed";
++		regulator-name = "camera_vana";
++		regulator-min-microvolt = <2800000>;
++		regulator-max-microvolt = <2800000>;
++		regulator-always-on;
++	};
++
++	imx219_vdig_1v8: 1p8v {
++		compatible = "regulator-fixed";
++		regulator-name = "camera_vdig";
++		regulator-min-microvolt = <1500000>;
++		regulator-max-microvolt = <1500000>;
++		regulator-always-on;
++	};
++
++	imx219_vddl_1v2: 1p2v {
++		compatible = "regulator-fixed";
++		regulator-name = "camera_vddl";
++		regulator-min-microvolt = <1200000>;
++		regulator-max-microvolt = <1200000>;
++		regulator-always-on;
++	};
++
++	imx219_clk: imx219_clk {
++		compatible = "fixed-clock";
++		#clock-cells = <0>;
++		clock-frequency = <24000000>;
++	};
++};
++
++&MIPI_PARENT_I2C {
++	ov5645: ov5645@3c {
++		compatible = "ovti,ov5645";
++		reg = <0x3c>;
++		status = "disabled";
++
++		clock-names = "xclk";
++
++		vdddo-supply = <&ov5645_vdddo_1v8>;
++		vdda-supply = <&ov5645_vdda_2v8>;
++		vddd-supply = <&ov5645_vddd_1v5>;
++
++		port@0 {
++			ov5645_ep: endpoint {
++			};
++		};
++	};
++
++	rpi_v2_camera: imx219@10 {
++		compatible = "sony,imx219";
++		reg = <0x10>;
++		status = "disabled";
++
++		VANA-supply = <&imx219_vana_2v8>;
++		VDIG-supply = <&imx219_vdig_1v8>;
++		VDDL-supply = <&imx219_vddl_1v2>;
++		clocks = <&imx219_clk>;
++
++		port@0 {
++			reg = <0>;
++			imx219_ep0: endpoint {
++			};
++		};
++	};
++};
+diff --git a/arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts b/arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts
+new file mode 100644
+index 000000000000..435b7f62d88d
+--- /dev/null
++++ b/arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts
+@@ -0,0 +1,86 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Device Tree Source for the Silicon Linux RZ/G2E 96board platform (CAT874)
++ * connected with aistarvision-mipi-v2-adapter board
++ *
++ * Copyright (C) 2020 Renesas Electronics Corp.
++ */
++
++/dts-v1/;
++#include "r8a774c0-ek874.dts"
++#define MIPI_PARENT_I2C i2c3
++#include "aistarvision-mipi-adapter-2.1.dtsi"
++
++/ {
++	model = "Silicon Linux RZ/G2E evaluation kit EK874 (CAT874 + CAT875) with aistarvision-mipi-v2-adapter board";
++	compatible = "si-linux,cat875", "si-linux,cat874", "renesas,r8a774c0";
++};
++
++&i2c3 {
++	status = "okay";
++};
++
++&vin4 {
++	status = "okay";
++};
++
++&vin5 {
++	status = "okay";
++};
++
++&csi40 {
++	status = "okay";
++
++	ports {
++		port@0 {
++			reg = <0>;
++
++			csi40_in: endpoint {
++				clock-lanes = <0>;
++				data-lanes = <1 2>;
++				remote-endpoint = <&imx219_ep0>;
++			};
++		};
++	};
++};
++
++&ov5645 {
++	/* uncomment status and remote-endpoint properties to tie ov5645
++	 * to CSI2 also make sure remote-endpoint for imx219 camera is
++	 * commented and remote endpoint in csi40_in is ov5645_ep
++	 */
++	/* status = "okay"; */
++
++	#address-cells = <1>;
++	#size-cells = <0>;
++	enable-gpios = <&gpio5 5 GPIO_ACTIVE_HIGH>;
++	reset-gpios = <&gpio5 3 GPIO_ACTIVE_LOW>;
++
++	clocks = <&cpg CPG_MOD 716>;
++	clock-frequency = <24000000>;
++
++	port@0 {
++		ov5645_ep: endpoint {
++			clock-lanes = <0>;
++			data-lanes = <1 2>;
++			/* remote-endpoint = <&csi40_in>; */
++		};
++	};
++};
++
++&rpi_v2_camera {
++	status = "okay";
++
++	#address-cells = <1>;
++	#size-cells = <0>;
++
++	port@0 {
++		reg = <0>;
++		imx219_ep0: endpoint {
++			clock-lanes = <0>;
++			data-lanes = <1 2>;
++			remote-endpoint = <&csi40_in>;
++			link-frequencies = /bits/ 64 <456000000>;
++		};
++	};
++};
 -- 
 2.20.1
 
