@@ -2,194 +2,158 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D1B57175A78
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Mar 2020 13:28:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AA8D175BE5
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Mar 2020 14:40:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727691AbgCBM20 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Mar 2020 07:28:26 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:39418 "EHLO
+        id S1727734AbgCBNkM (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Mar 2020 08:40:12 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:44495 "EHLO
         mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727361AbgCBM20 (ORCPT
+        with ESMTP id S1727627AbgCBNkM (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Mar 2020 07:28:26 -0500
-Received: by mail-ot1-f65.google.com with SMTP id x97so9474162ota.6;
-        Mon, 02 Mar 2020 04:28:25 -0800 (PST)
+        Mon, 2 Mar 2020 08:40:12 -0500
+Received: by mail-ot1-f65.google.com with SMTP id v22so5155473otq.11
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Mar 2020 05:40:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=wZYZAbcqMvd207t9hfFOk6y3G0CkgQqD0dKaK71lZb4=;
-        b=b8tJf91m5c3kzr113GHXr/pAavv5rJ5P40NxWsZnX/o0QmxGZqOzl9I7tbZj+7oJw4
-         wGdoAOORM3cRDswZw1+u5JGK3B6PgZLHWw3MAXqYVfrt5N+ge47B6wbTAj26yREcB1aA
-         ZY9ol0cmH29JWpvKk95ZAnEg1PRj8s+a8VTDSLhL1hRGiyzyOLaUV/KzhR3dHj6lNNM7
-         S4Vs6cg7E4evriSyUgVQSIcZG3uuBAl7wg6xN2jICGKF/iPF1+mGABJSfctaAI36XMLe
-         Exhfb4qImwgNaUNV9ukXo3vYma02JhDULxsRjjRMqsb/G4YxEfjO2EsWb+RdzkhxGdcf
-         nrbw==
-X-Gm-Message-State: APjAAAXrj65GOHJWbTRZgBabLF3EcLHz+i7EBi+f0Dy/E5bIwLePf0Kt
-        JN368l897hYx56lmCZjD7XiFa6DFVOLPXr3X3Ec=
-X-Google-Smtp-Source: APXvYqzN+m0jue0ZTokoqurX7tBCYT/bfoG/F9HvM0fLl2C7tpJvdjqoMETuKvoCS8cUYtBFAfQ6dPbGSXXYJ4em2mQ=
-X-Received: by 2002:a05:6830:1d4:: with SMTP id r20mr12476739ota.107.1583152104944;
- Mon, 02 Mar 2020 04:28:24 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=yhx+kuGysS0PSx+bjM/5y5GIqcKEHTx7Ep2AaXO6H5k=;
+        b=I7MA93puqJP2S3VLsgKB7emgtG9YarTiMXLocSkEf3ErEXbgavl8AYgoKB2BP4/y2I
+         +HPahr2vkGmnmykSgK4TDZdUnGXdgk0pZw2FycZmbVtw+0xMTcjU2SxWLbzByPImEdNB
+         ztI8+L6toLlqw05S5ojZ8GTlTTVHrmUxCZaCCZCxevbD8TIUokJLFolxeKO3jvnXjcq6
+         FdqlS0xUnHfqfO2QR5V/wozBVrwo1ccDdNlM2rnNycx8oS1W5H1yHZ4P1Nd8ovvv7XW5
+         gixD3YNTSR6Liqgrj6qw/XVT/GUHtuskkPVLxE/MyrY6wu3VQvHnGjt3jWTVpXLGPXIf
+         2U9w==
+X-Gm-Message-State: ANhLgQ0ouiX/eb+1wtSrMx6ePx6bAlfKQUJJEYBxpt+9Z4kYi2JRXZAa
+        fgFyKb9Q102NSPb+auWQPBQQyW7zmWGBfBJLOyTjeIZZ
+X-Google-Smtp-Source: ADFU+vtL/oJcc5r++kl6H0DTY4DDjsV0QfI6Cux4314Wwq9gyyFcJOTAUoAPh59eL6q1hj/9f8pRWGrGp0Bd2agkRrY=
+X-Received: by 2002:a05:6830:1e9c:: with SMTP id n28mr133840otr.107.1583156410394;
+ Mon, 02 Mar 2020 05:40:10 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1578924232.git.alexander.riesen@cetitec.com> <20200113141556.GI3606@pflmari>
-In-Reply-To: <20200113141556.GI3606@pflmari>
+References: <1580323253-3281-1-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
+ <1580323253-3281-2-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
+In-Reply-To: <1580323253-3281-2-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 2 Mar 2020 13:28:13 +0100
-Message-ID: <CAMuHMdV9urx-6N4tiaPdkssa6Wu-9HSB4VY-rvCu+8JpfZcBfA@mail.gmail.com>
-Subject: Re: [PATCH 8/8] arm64: dts: renesas: salvator: add a connection from
- adv748x codec (HDMI input) to the R-Car SoC
-To:     Alex Riesen <alexander.riesen@cetitec.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        driverdevel <devel@driverdev.osuosl.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Date:   Mon, 2 Mar 2020 14:39:58 +0100
+Message-ID: <CAMuHMdVDLrE8yu_vhhT=4u58XYPn=OAmf6XwO=qT2n=sxkLHXw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] ARM: dts: iwg22d-sodimm: enable LCD panel
+To:     Marian-Cristian Rotariu 
+        <marian-cristian.rotariu.rb@bp.renesas.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <chris.paterson2@renesas.com>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Alex,
+Hi Marian-Cristian,
+
+On Wed, Jan 29, 2020 at 7:58 PM Marian-Cristian Rotariu
+<marian-cristian.rotariu.rb@bp.renesas.com> wrote:
+> On the Generic SODIMM Development Platform there is an RGB LCD panel
+> directly connected to the DU output. It uses the TPU0 as backlight, one
+> GPIO pull-up configuration for power enable, R[2:7], G[2:7], B[2:7],
+> VSYNC, HSYNC, DU0_DISP and, DU0_CLK as inputs.
+>
+> There is no encoder between the DU and the panel, therefore the default
+> connector driver is used.
+>
+> Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Thanks for your patch!
 
-On Mon, Jan 13, 2020 at 3:24 PM Alex Riesen
-<alexander.riesen@cetitec.com> wrote:
-> Not sure if all variants of the Salvator board have the HDMI decoder
-> chip (the ADV7482) connected to the SSI4 on R-Car SoC, as it is on
-> Salvator-X ES1, so the the ADV7482 endpoint and connection definitions
-> are placed in the board file.
-
-Both Salvator-X and Salvator-XS have SSI4 wired to the ADV7482.
-
-> I do assume though that all Salvator variants have the CLK_C clock line
-> hard-wired to the ADV7482 HDMI decoder, and remove it from the list of
-> clocks provided by the R-Car sound system.
-
-Yes, both Salvator-X and Salvator-XS have it wired that way.  But please
-see below.
-
-> The I2C wiring is also likely to persist across the variants (similar
-> to ak4613, connected to the same interface), so that is in the common
-> file.
->
-> Signed-off-by: Alexander Riesen <alexander.riesen@cetitec.com>
-
-Below are my comments w.r.t. the board-specific wiring.
-I'll defer to the multimedia people for commenting on the audio parts.
-
-BTW, what is the status of the other patches in this series?
-
-> --- a/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-> @@ -322,6 +322,10 @@
->         clock-frequency = <22579200>;
->  };
->
-> +&audio_clk_c {
-> +       clock-frequency = <12288000>;
-> +};
-
-Does the ADV7482 always generate a 12.288 MHz clock signal?
-Or is this programmable?
-
+> --- a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
+> +++ b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
+> @@ -79,6 +79,52 @@
+>                 states = <3300000 1
+>                           1800000 0>;
+>         };
 > +
->  &avb {
->         pinctrl-0 = <&avb_pins>;
->         pinctrl-names = "default";
-> @@ -471,12 +475,14 @@
->
->                 #address-cells = <1>;
->                 #size-cells = <0>;
-> +               #sound-dai-cells = <0>;
->
->                 interrupt-parent = <&gpio6>;
->                 interrupt-names = "intrq1", "intrq2";
->                 interrupts = <30 IRQ_TYPE_LEVEL_LOW>,
->                              <31 IRQ_TYPE_LEVEL_LOW>;
-> -
-> +               clocks = <&rcar_sound 3>, <&audio_clk_c>;
-> +               clock-names = "clk-hdmi-video", "clk-hdmi-i2s-mclk";
-
-The above declares the Audio CLK C to be a clock input of the ADV7482, while
-it is an output.
-Furthermore, the DT bindings do not document that clocks can be specified.
-
->                 port@7 {
->                         reg = <7>;
->
-> @@ -512,6 +518,14 @@
->                                 remote-endpoint = <&csi20_in>;
->                         };
->                 };
+> +       vccq_panel: regulator-vccq-panel {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "Panel VccQ";
+> +               regulator-min-microvolt = <3300000>;
+> +               regulator-max-microvolt = <3300000>;
+> +               gpio = <&gpio1 13 GPIO_ACTIVE_LOW>;
+> +               enable-active-high;
+> +       };
 > +
-> +               port@c {
-> +                       reg = <12>;
+> +       backlight {
+> +               compatible = "pwm-backlight";
+> +               pwms = <&tpu 3 5000000 GPIO_ACTIVE_LOW>;
+> +               brightness-levels = <0 4 8 16 32 64 128 255>;
+> +               default-brightness-level = <7>;
+> +               pinctrl-0 = <&backlight_pins>;
+> +               pinctrl-names = "default";
+> +       };
 > +
-> +                       adv7482_i2s: endpoint {
-> +                               /* remote-endpoint defined in the board file */
+> +       lcd {
+> +               compatible = "edt,etm043080dh6gp", "simple-panel";
+
+According to the latest panel-simple.yaml, the "simple-panel" should be
+dropped...
+
+> +               power-supply = <&vccq_panel>;
+> +
+> +               ports {
+> +                       port@0 {
+> +                               lcd_in: endpoint {
+> +                                       remote-endpoint = <&du_out_rgb0>;
+> +                               };
 > +                       };
 > +               };
+
+... and there should only be a single "port".
+
+> +       };
+> +};
+> +
+> +&du {
+> +       pinctrl-0 = <&du0_pins>;
+> +       pinctrl-names = "default";
+> +
+> +       status = "okay";
+> +
+> +       ports {
+> +               port@0 {
+> +                       endpoint {
+> +                               remote-endpoint = <&lcd_in>;
+> +                       };
+> +               };
+> +       };
+>  };
+>
+>  &avb {
+> @@ -150,11 +196,21 @@
+>                 function = "avb";
 >         };
 >
->         csa_vdd: adc@7c {
-> @@ -686,7 +700,8 @@
+> +       backlight_pins: backlight {
+> +               renesas,groups = "tpu_to3";
+
+According to my schematics, DISP_BL_GPIO is connected to TPUTO3_C(GP0_21),
+so this should be "tpu_to3_c".
+
+> +               renesas,function = "tpu";
+> +       };
+> +
+>         can0_pins: can0 {
+>                 groups = "can0_data";
+>                 function = "can0";
 >         };
 >
->         sound_pins: sound {
-> -               groups = "ssi01239_ctrl", "ssi0_data", "ssi1_data_a";
-> +               groups = "ssi01239_ctrl", "ssi0_data", "ssi1_data_a",
-> +                        "ssi4_data";
-
-Missing "ss4_ctrl", for the SCK4 and WS4 pins.
-
->                 function = "ssi";
->         };
->
-> @@ -735,8 +750,8 @@
->         pinctrl-0 = <&sound_pins &sound_clk_pins>;
->         pinctrl-names = "default";
->
-> -       /* Single DAI */
-> -       #sound-dai-cells = <0>;
-> +       /* multi DAI */
-> +       #sound-dai-cells = <1>;
->
->         /* audio_clkout0/1/2/3 */
->         #clock-cells = <1>;
-> @@ -760,8 +775,18 @@
->                  <&cpg CPG_MOD 1020>, <&cpg CPG_MOD 1021>,
->                  <&cpg CPG_MOD 1019>, <&cpg CPG_MOD 1018>,
->                  <&audio_clk_a>, <&cs2000>,
-> -                <&audio_clk_c>,
-
-Why remove it? This is the list of clock inputs, not outputs.
-
->                  <&cpg CPG_CORE CPG_AUDIO_CLK_I>;
-> +       clock-names = "ssi-all",
-> +                     "ssi.9", "ssi.8", "ssi.7", "ssi.6",
-> +                     "ssi.5", "ssi.4", "ssi.3", "ssi.2",
-> +                     "ssi.1", "ssi.0",
-> +                     "src.9", "src.8", "src.7", "src.6",
-> +                     "src.5", "src.4", "src.3", "src.2",
-> +                     "src.1", "src.0",
-> +                     "mix.1", "mix.0",
-> +                     "ctu.1", "ctu.0",
-> +                     "dvc.0", "dvc.1",
-> +                     "clk_a", "clk_b", "clk_i";
->
->         ports {
->                 #address-cells = <1>;
-> --
-> 2.24.1.508.g91d2dafee0
+> +       du0_pins: du0 {
+> +               renesas,groups = "du0_rgb666", "du0_sync", "du0_disp", "du0_clk0_out";
+> +               renesas,function = "du0";
+> +       };
+> +
+>         hscif1_pins: hscif1 {
+>                 groups = "hscif1_data", "hscif1_ctrl";
+>                 function = "hscif1";
 
 Gr{oetje,eeting}s,
 
