@@ -2,247 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EBC1E1764DB
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Mar 2020 21:26:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 24849176702
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Mar 2020 23:27:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725911AbgCBU0M (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Mar 2020 15:26:12 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:38617 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725781AbgCBU0M (ORCPT
+        id S1726752AbgCBW11 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Mar 2020 17:27:27 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:40954 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725781AbgCBW11 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Mar 2020 15:26:12 -0500
-Received: by mail-ot1-f65.google.com with SMTP id i14so640950otp.5;
-        Mon, 02 Mar 2020 12:26:11 -0800 (PST)
+        Mon, 2 Mar 2020 17:27:27 -0500
+Received: by mail-wr1-f66.google.com with SMTP id r17so1857056wrj.7
+        for <linux-renesas-soc@vger.kernel.org>; Mon, 02 Mar 2020 14:27:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=XLB1vU/39S2Lof2grAgxld8x9sPN0Iai5xJTjmM/yrw=;
+        b=gz2zyeDw92tjfvUQHg5JxOClnircKGZKS3A9dwWWiMBjTghPQZf/wl4m/L1QzmU5mo
+         IN9BV9+TQ7k0fbiuL8hL9OiXEoARjddtB8AdMW/RMB+xyWhrwoPVxA+xSF58C7zrujQ/
+         7LmRpR2e8MlSDe8p5siniyZCxpiTmRgPXG7dI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=5XBtgrtLiy94riHECcrFgVdKA2SyAZZ5XYgSL/pdgvM=;
-        b=sRj4ADFhuC1i07T60y6nPKHB9fz2lJI/Lmv2r14xM0/Q16lcAZkYgfdXW/O9G4HEHW
-         DhzpZVGRTI6pw5Wd1h4N6iQS11Owkhl7+1FtWRVy7RgG2e0dcj5czv+DIO2aXV7ux7ze
-         6vn8hrf4+jfbrg9MEJ0pvu5uZScgtr7I6e2cURkpLHAh8G93bW06yguDSxJZkqBArmqZ
-         L+7w0uvXLZFt1mVHdHKXDs+YW8jr/GBLFPWcoqJra61BTw4d3NEIFp6HaN33ZRk3aeBm
-         Xeu81y/JX1PEZDhhC/1+3CuXCwIdFyUCEVw5zGEdRqVlageXWfPOqLTHNRlXYXizpRlg
-         +zbg==
-X-Gm-Message-State: ANhLgQ3/UrnjBZgKCzgmUfAhPsaw39VXZjf930M9mxBUSPK9NxMX6Sok
-        +itpXNlg2kqoZnteKzLOMw==
-X-Google-Smtp-Source: ADFU+vsXDzZVDlw6FcVhTkZxRni0C3yrmMHNPiLxu+STNcPBcOGjF4Xm7pEmlBDqttBkz1l3czXchg==
-X-Received: by 2002:a05:6830:108d:: with SMTP id y13mr723232oto.241.1583180770877;
-        Mon, 02 Mar 2020 12:26:10 -0800 (PST)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id l8sm6928111otn.31.2020.03.02.12.26.09
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=XLB1vU/39S2Lof2grAgxld8x9sPN0Iai5xJTjmM/yrw=;
+        b=Wo5ZKLp6dBNenkyTwCha87AjSK9BbtrHHq+PxmlZ9EW1eQ5SEBCNdkppxPrqip+dTe
+         xyQQc8QMS1uS/7lvJHT+n+7quXhCzKIu2VV6nSqpr7TAtUK2pzgqkM3UQkS/bdDw5f8w
+         9GxquklM8pU7VHOz+aybgXcQlLvS/Ho5qrTV43YcKWBemlXB4U8g8i9AxG4s5xucylEg
+         WkllGu1OM1XwHiugJadoydOoCh+L8IxH8ojF2or59vHSr6zorAz/eE3vQCPx9K/oQIwi
+         yJhZYydBMc7N+4E9ovAkZd4h9JF3iLHYc3LZl60R7ymZH6e46cmWt7D2vYKc5Y3Okund
+         Xl6A==
+X-Gm-Message-State: ANhLgQ24hkBZrRVRe6NXi1vN0IP1ccUTQ17aWF6zK0h7KQj2rhRZctO1
+        UTmE2yjwZQeitIALoOpX2GcAqg==
+X-Google-Smtp-Source: ADFU+vuUjfxngpkQcrLGTPuwROZuakjZovqai1az90//TPKjP7VfXSrOJ+yfCrY4hzJo+cYgTqsvOw==
+X-Received: by 2002:a5d:5609:: with SMTP id l9mr1555758wrv.48.1583188045300;
+        Mon, 02 Mar 2020 14:27:25 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id o18sm26114589wrv.60.2020.03.02.14.27.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Mar 2020 12:26:10 -0800 (PST)
-Received: (nullmailer pid 4438 invoked by uid 1000);
-        Mon, 02 Mar 2020 20:26:09 -0000
-Date:   Mon, 2 Mar 2020 14:26:09 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Stephen Boyd <sboyd@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Michael Turquette <mturquette@baylibre.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH] dt-bindings: clock: renesas: cpg-mssr: Convert to
- json-schema
-Message-ID: <20200302202609.GA24264@bogus>
-References: <20200224152640.1318-1-geert+renesas@glider.be>
- <158265013473.177367.4512247165308399202@swboyd.mtv.corp.google.com>
- <CAMuHMdUDjWKYaQ_MN+AvYg8vimZKMcck3SdHUSg8tPCCAEieJQ@mail.gmail.com>
+        Mon, 02 Mar 2020 14:27:24 -0800 (PST)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 36/51] drm/rcar-du: Drop explicit drm_mode_config_cleanup call
+Date:   Mon,  2 Mar 2020 23:26:16 +0100
+Message-Id: <20200302222631.3861340-37-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200302222631.3861340-1-daniel.vetter@ffwll.ch>
+References: <20200302222631.3861340-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUDjWKYaQ_MN+AvYg8vimZKMcck3SdHUSg8tPCCAEieJQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Feb 27, 2020 at 12:12:36PM +0100, Geert Uytterhoeven wrote:
-> Hi Stephen,
-> 
-> Thanks for your comments!
-> 
-> On Tue, Feb 25, 2020 at 6:02 PM Stephen Boyd <sboyd@kernel.org> wrote:
-> > Quoting Geert Uytterhoeven (2020-02-24 07:26:40)
-> > > diff --git a/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
-> > > new file mode 100644
-> > > index 0000000000000000..dfbd1933f1bc56de
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
-> > > @@ -0,0 +1,204 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: "http://devicetree.org/schemas/clock/renesas,cpg-mssr.yaml#"
-> > > +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
-> > > +
-> > > +title: Renesas Clock Pulse Generator / Module Standby and Software Reset
-> > > +
-> > > +maintainers:
-> > > +  - Geert Uytterhoeven <geert+renesas@glider.be>
-> > > +
-> > > +description: |
-> > > +  On Renesas ARM SoCs (SH/R-Mobile, R-Car, RZ), the CPG (Clock Pulse Generator)
-> > > +  and MSSR (Module Standby and Software Reset) blocks are intimately connected,
-> > > +  and share the same register block.
-> > > +
-> > > +  They provide the following functionalities:
-> > > +    - The CPG block generates various core clocks,
-> > > +    - The MSSR block provides two functions:
-> > > +        1. Module Standby, providing a Clock Domain to control the clock supply
-> > > +           to individual SoC devices,
-> > > +        2. Reset Control, to perform a software reset of individual SoC devices.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    enum:
-> > > +      - renesas,r7s9210-cpg-mssr  # RZ/A2
-> > > +      - renesas,r8a7743-cpg-mssr  # RZ/G1M
-> > > +      - renesas,r8a7744-cpg-mssr  # RZ/G1N
-> > > +      - renesas,r8a7745-cpg-mssr  # RZ/G1E
-> > > +      - renesas,r8a77470-cpg-mssr # RZ/G1C
-> > > +      - renesas,r8a774a1-cpg-mssr # RZ/G2M
-> > > +      - renesas,r8a774b1-cpg-mssr # RZ/G2N
-> > > +      - renesas,r8a774c0-cpg-mssr # RZ/G2E
-> > > +      - renesas,r8a7790-cpg-mssr  # R-Car H2
-> > > +      - renesas,r8a7791-cpg-mssr  # R-Car M2-W
-> > > +      - renesas,r8a7792-cpg-mssr  # R-Car V2H
-> > > +      - renesas,r8a7793-cpg-mssr  # R-Car M2-N
-> > > +      - renesas,r8a7794-cpg-mssr  # R-Car E2
-> > > +      - renesas,r8a7795-cpg-mssr  # R-Car H3
-> > > +      - renesas,r8a7796-cpg-mssr  # R-Car M3-W
-> > > +      - renesas,r8a77961-cpg-mssr # R-Car M3-W+
-> > > +      - renesas,r8a77965-cpg-mssr # R-Car M3-N
-> > > +      - renesas,r8a77970-cpg-mssr # R-Car V3M
-> > > +      - renesas,r8a77980-cpg-mssr # R-Car V3H
-> > > +      - renesas,r8a77990-cpg-mssr # R-Car E3
-> > > +      - renesas,r8a77995-cpg-mssr # R-Car D3
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    minItems: 1
-> > > +    maxItems: 2
-> > > +
-> > > +  clock-names:
-> > > +    minItems: 1
-> > > +    maxItems: 2
-> >
-> > Do we need this here and also below? Why can't it just be below with the
-> > more specific constraints?
-> 
-> With the above removed:
-> 
->     Documentation/devicetree/bindings/clock/renesas,cpg-mssr.example.dt.yaml:
-> clock-controller@e6150000: 'clock-names', 'clocks' do not match any of
-> the regexes: 'pinctrl-[0-9]+'
-> 
-> while the "if" below overriding minItems did trigger, as removing entries from
-> clocks/clock-names in the example causes more errors.
-> 
-> So it seems all properties must be listed in the main, unconditional,
-> properties section at the top.
-> 
-> > > +allOf:
-> > > +  - if:
-> > > +      properties:
-> > > +        compatible:
-> > > +          items:
-> > > +            enum:
-> > > +              - renesas,r7s9210-cpg-mssr
-> > > +              - renesas,r8a774c0-cpg-mssr
-> > > +              - renesas,r8a7792-cpg-mssr
-> > > +              - renesas,r8a77990-cpg-mssr
-> > > +              - renesas,r8a77995-cpg-mssr
-> > > +
-> > > +    then:
-> > > +      properties:
-> > > +        clock:
-> > > +          maxItems: 1
-> > > +        clock-names:
-> > > +          maxItems: 1
-> > > +          items:
-> > > +            - const: extal
-> > > +
-> > > +  - if:
-> > > +      properties:
-> > > +        compatible:
-> > > +          contains:
-> > > +            enum:
-> > > +              - renesas,r8a7743-cpg-mssr
-> > > +              - renesas,r8a7744-cpg-mssr
-> > > +              - renesas,r8a7745-cpg-mssr
-> > > +              - renesas,r8a77470-cpg-mssr
-> > > +              - renesas,r8a7790-cpg-mssr
-> > > +              - renesas,r8a7791-cpg-mssr
-> > > +              - renesas,r8a7793-cpg-mssr
-> > > +              - renesas,r8a7794-cpg-mssr
-> > > +
-> > > +    then:
-> > > +      properties:
-> > > +        clock:
-> > > +          minItems: 2
-> > > +        clock-names:
-> > > +          minItems: 2
-> > > +          items:
-> > > +            - const: extal
-> > > +            - const: usb_extal
-> > > +
-> > > +  - if:
-> > > +      properties:
-> > > +        compatible:
-> > > +          items:
-> > > +            enum:
-> > > +              - renesas,r8a774a1-cpg-mssr
-> > > +              - renesas,r8a774b1-cpg-mssr
-> > > +              - renesas,r8a7795-cpg-mssr
-> > > +              - renesas,r8a7796-cpg-mssr
-> > > +              - renesas,r8a77961-cpg-mssr
-> > > +              - renesas,r8a77965-cpg-mssr
-> > > +              - renesas,r8a77970-cpg-mssr
-> > > +              - renesas,r8a77980-cpg-mssr
-> > > +
-> > > +    then:
-> > > +      properties:
-> > > +        clock:
-> > > +          minItems: 2
-> > > +        clock-names:
-> > > +          minItems: 2
-> > > +          items:
-> > > +            - const: extal
-> > > +            - const: extalr
-> > > +
-> > > +  - if:
-> > > +      not:
-> > > +        properties:
-> > > +          compatible:
-> > > +            items:
-> > > +              enum:
-> > > +                - renesas,r7s9210-cpg-mssr
-> > > +    then:
-> > > +      required:
-> > > +        - '#reset-cells'
-> >
-> > It may make sense to split this binding up into multiple bindings so
-> > that we don't have deeply nested if/else/then.
-> 
-> Note that the above is not a nested if, but the yaml-equivalent of a switch()
-> statement.
-> 
-> If this is to be split, how to split it?
-> Each if contains SoCs from multiple families, and each family of SoCs is
-> split across multiple ifs.
+It's right above the drm_dev_put().
 
-Looks like 3 files based on the first 3 if's above.
+This is made possible by a preceeding patch which added a drmm_
+cleanup action to drm_mode_config_init(), hence all we need to do to
+ensure that drm_mode_config_cleanup() is run on final drm_device
+cleanup is check the new error code for _init().
 
-Personally, I'd be fine with just a single schema without all the if's. 
-It wouldn't be as strict as to what's allowed for each compatible, but 
-good enough IMO.
+Aside: Another driver with a bit much devm_kzalloc, which should
+probably use drmm_kzalloc instead ...
 
-Rob
+v2: Explain why this cleanup is possible (Laurent).
+
+v3: Use drmm_mode_config_init() for more clarity (Sam, Thomas)
+
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com> (v2)
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: linux-renesas-soc@vger.kernel.org
+---
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c | 1 -
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c | 4 +++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+index 654e2dd08146..3e67cf70f040 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+@@ -530,7 +530,6 @@ static int rcar_du_remove(struct platform_device *pdev)
+ 	drm_dev_unregister(ddev);
+ 
+ 	drm_kms_helper_poll_fini(ddev);
+-	drm_mode_config_cleanup(ddev);
+ 
+ 	drm_dev_put(ddev);
+ 
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+index fcfd916227d1..482329102f19 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+@@ -712,7 +712,9 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu)
+ 	unsigned int i;
+ 	int ret;
+ 
+-	drm_mode_config_init(dev);
++	ret = drmm_mode_config_init(dev);
++	if (ret)
++		return ret;
+ 
+ 	dev->mode_config.min_width = 0;
+ 	dev->mode_config.min_height = 0;
+-- 
+2.24.1
+
