@@ -2,226 +2,311 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FFB2175E42
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Mar 2020 16:32:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77662175EED
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Mar 2020 16:58:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727101AbgCBPcp (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Mar 2020 10:32:45 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:43870 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726751AbgCBPcp (ORCPT
+        id S1727084AbgCBP56 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Mar 2020 10:57:58 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:46177 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727085AbgCBP56 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Mar 2020 10:32:45 -0500
-Received: by mail-ot1-f66.google.com with SMTP id j5so9205057otn.10;
-        Mon, 02 Mar 2020 07:32:44 -0800 (PST)
+        Mon, 2 Mar 2020 10:57:58 -0500
+Received: by mail-ot1-f65.google.com with SMTP id g96so10156336otb.13;
+        Mon, 02 Mar 2020 07:57:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=ZZC2Pupfl/eFbEiQmQK8DrdbI5TFes5OKB8zq+O8R1I=;
-        b=BPCImpaVZVUxdzN5KKku2FS9cxnyrj2VqNM3qtKB+QZ+0w9mHciBcdIIq9B8Vs/PQE
-         FIKNtt+NuYy4FCTC5IjNNaAFtQOPszr4h0ypcY1VSUshP2mp4EV6gk6EHkaMFRBn71i7
-         ODVRkeg9V3uFlgVMh9HiEJJ2u/UXX+aBL1tDAMLQBgclcn8uyTl+RqgsA3t8IRIQdV/K
-         eDATaKp3BhNmetgxJUUJIxxAqzSwqwHzBnxNlibDnB1rxTOWIzkTCvoXnPsTRoo+FQcp
-         FVw5wAQuXjgRm8/IyfM8Dv7KJTSCHFJdX7XY9+NG+rKBtAMd6wJ96EjHeqxTNqIG8E/P
-         wOeg==
-X-Gm-Message-State: APjAAAUBl9fdkQGci9LxDqxfeJjDKANX0hxiS0brY6T+q68oG9G18gxW
-        REcgnlNh1xFj3yfI0IcT+OJkHWgvmO9MCt/cDmE=
-X-Google-Smtp-Source: APXvYqwgjIFCSqSj4qBpYRjDRfnQGcUTZSl3tHFJqbuFk9d/EBsOPPhJjGzJbigayYo0pnbjUOze3Cw83b79RAdw6Sc=
-X-Received: by 2002:a9d:dc1:: with SMTP id 59mr13477946ots.250.1583163163733;
- Mon, 02 Mar 2020 07:32:43 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=nito/nrZsWtOKekEZGAYljgXMNzrk2/5S3aE/Pp6hpw=;
+        b=TQLDPo0hedRA5ly3wzJN2d18s/slzog7hkmx7qYItkl/maRDpnuKo4J0W3wo+or3FW
+         evEeS6hQ9Q123MkMH/YRvnKefV1Y7CkQPtJ8X987sU9OSqXOiiciSM+fzkY8qMI4h3gd
+         hkAUt2yLG0zBY40MQhjKup6vcc2lpNYEyqJjFncXGzMD/020tEGEAVE14BQ3DOXL+3Fh
+         ivjYXgxCeeb31BkG9I0nLeh8IPJ2IuuABltmj2GGSNt8eRr3R9CgVphM2A3p7xBn2j+C
+         1UD5iyU9DrRSElnh1Lgkb4n6Cu39j0jPHmEAbyYcamSkohju8T9yjmsbOxq5dpFw3DW0
+         b4UA==
+X-Gm-Message-State: APjAAAXjn+kAZeIbZmOuwKJfZevDQKf9wgDQm554a3J5y7BAfE4DC5PF
+        E05vLcKvnyB5QmGK2bAPppGtQrC+jTK86++fpcQ=
+X-Google-Smtp-Source: APXvYqxZfeCMUCmPDo150isft8U19jV/qbujmuP/cdQANvFKK6654BGfmN/KgnrbsmahhA2IQQrudvzS3H3CA0ko0Eg=
+X-Received: by 2002:a05:6830:100e:: with SMTP id a14mr13887882otp.297.1583164677024;
+ Mon, 02 Mar 2020 07:57:57 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1578924232.git.alexander.riesen@cetitec.com>
- <20200113141556.GI3606@pflmari> <CAMuHMdV9urx-6N4tiaPdkssa6Wu-9HSB4VY-rvCu+8JpfZcBfA@mail.gmail.com>
- <20200302134011.GA3717@pflmari> <CAMuHMdWobAE+y90DRi+zQadObWPxLyQiGNTe4t77O-2S1Vp5yA@mail.gmail.com>
- <20200302150706.GB3717@pflmari>
-In-Reply-To: <20200302150706.GB3717@pflmari>
+References: <20200228170210.18252-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200228170210.18252-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 2 Mar 2020 16:32:32 +0100
-Message-ID: <CAMuHMdW21rYXoOSE8azHNqYjng_j41rsL=Fo2bZc=1ULi9+pLw@mail.gmail.com>
-Subject: Re: [PATCH 8/8] arm64: dts: renesas: salvator: add a connection from
- adv748x codec (HDMI input) to the R-Car SoC
-To:     Alex Riesen <alexander.riesen@cetitec.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Date:   Mon, 2 Mar 2020 16:57:35 +0100
+Message-ID: <CAMuHMdUn9njDRWZPcSD87YuejmhNvDK3pUqL5kXNX6KA-8Y72g@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: renesas: r8a774c0-cat874: Add support for
+ AISTARVISION MIPI Adapter V2.1
+To:     Lad Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Magnus Damm <magnus.damm@gmail.com>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        driverdevel <devel@driverdev.osuosl.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Alex,
+Hi Lad,
 
-On Mon, Mar 2, 2020 at 4:07 PM Alex Riesen <alexander.riesen@cetitec.com> wrote:
-> Geert Uytterhoeven, Mon, Mar 02, 2020 14:47:46 +0100:
-> > On Mon, Mar 2, 2020 at 2:40 PM Alex Riesen <alexander.riesen@cetitec.com> wrote:
-> > > > > --- a/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-> > > > > +++ b/arch/arm64/boot/dts/renesas/salvator-common.dtsi
-> > > > > @@ -322,6 +322,10 @@
-> > > > >         clock-frequency = <22579200>;
-> > > > >  };
-> > > > >
-> > > > > +&audio_clk_c {
-> > > > > +       clock-frequency = <12288000>;
-> > > > > +};
-> > > >
-> > > > Does the ADV7482 always generate a 12.288 MHz clock signal?
-> > > > Or is this programmable?
-> > >
-> > > Oops. It looks like it is and the value is derived from the sampling rate
-> > > (48kHz) and the master clock multiplier. Both hard-coded in the board file.
-> >
-> > Where are these hardcoded in the board file?
+CC linux-media
+
+On Fri, Feb 28, 2020 at 6:02 PM Lad Prabhakar
+<prabhakar.csengg@gmail.com> wrote:
+> This patch adds support AISTARVISION MIPI Adapter V2.1 board connected
+> to G2E board. Common file aistarvision-mipi-adapter-2.1.dtsi is created
+> which have the camera endpoint nodes with disabled status and in
+> r8a774c0-ek874-mipi-2.1.dts file VIN/CSI nodes are enabled. By default
+> imx219 endpoint is tied with CSI2.
 >
-> In the endpoint definition, arch/arm64/boot/dts/renesas/r8a7795-es1-salvator-x.dts
->
-> So the frequency can be set at the run-time, perhaps even derived from
-> endpoint connected to the output. In this case, rsnd_endpoint3,
-> which has the "mclk-fs" setting. Not sure if the sampling rate
-> can be set to something else for the HDMI, though.
->
-> > Even if they are, technically this is a clock output of the ADV7482.
->
-> ... which I hope to correct as soon as I steal the hardware from whoever stole
-> it from me...
->
-> > > > > video-receiver@70 {
-> > > > >     compatible = "adi,adv7482";
-> > > > > ...
-> > > > > +   clocks = <&rcar_sound 3>, <&audio_clk_c>;
-> > > > > +   clock-names = "clk-hdmi-video", "clk-hdmi-i2s-mclk";
-> > > >
-> > > > The above declares the Audio CLK C to be a clock input of the ADV7482, while
-> > > > it is an output.
-> > >
-> > > I would gladly give it right direction if I *really* understood what I was
-> > > doing...
-> >
-> > :-)
-> >
-> > > > Furthermore, the DT bindings do not document that clocks can be specified.
-> > >
-> > > Should the DT bindings document that the clock cannot be specified than?
-> >
-> > It currently does say so, as it doesn't list "clocks" in its properties section.
->
-> The bindings documentation file, which we're talking about here and which does
-> not list the specifiable input clocks in its properties, is it the
->
->     Documentation/devicetree/bindings/media/i2c/adv748x.txt
->
-> ?
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Yes.
+Thanks for your patch!
 
->
-> And this absence of documentation also means that whatever clocks (both input
-> in "clocks=" and output in "#clock-cells") listed in a specific .dts are just
-> an integration detail?
+> Geert/Rob since the imx219 driver is yet to make into mainline
+> but has been merged into media-subsystem I would like to take
+> this patch via media-tree.
 
-No, the absence probably means that any clock-related properties in a .dts
-file will just be ignored.
+Usually DTS patches are merged through renesas-devel and arm-soc, not
+through a driver's subsystems tree.  This is done to avoid merge
+conflicts.  I prefer not to deviate from that, unless there is a very
+good reason to do so.
 
-Looking at the driver source, it indeed has no support related to clocks at all.
+Is there any dependency on the code in the media tree that I'm missing?
+Once DT bindings have been accepted in a subsystem maintainer's tree,
+you can start using them in DTS files.
 
-> Does this below makes more sense, than?
->
->     video-receiver@70 {
->         compatible = "adi,adv7482";
->         clocks = <&rcar_sound 3>;
->         clock-names = "clk-hdmi-video";
->         adv748x_mclk: mclk {
->             compatible = "fixed-clock";
->             #clock-cells =  <0>;
->             /* frequency hard-coded for illustration */
->             clock-frequency = <12288000>;
->             clock-output-names = "clk-hdmi-i2s-mclk";
->         };
->     };
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/aistarvision-mipi-adapter-2.1.dtsi
+> @@ -0,0 +1,98 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Device Tree Source for the AISTARVISION MIPI Adapter V2.1
+> + *
+> + * Copyright (C) 2020 Renesas Electronics Corp.
+> + */
+> +
+> +/ {
+> +       ov5645_vdddo_1v8: 1p8v {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "camera_vdddo";
+> +               regulator-min-microvolt = <1800000>;
+> +               regulator-max-microvolt = <1800000>;
+> +               regulator-always-on;
+> +       };
+> +
+> +       ov5645_vdda_2v8: 2p8v {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "camera_vdda";
+> +               regulator-min-microvolt = <2800000>;
+> +               regulator-max-microvolt = <2800000>;
+> +               regulator-always-on;
+> +       };
+> +
+> +       ov5645_vddd_1v5: 1p5v {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "camera_vddd";
+> +               regulator-min-microvolt = <1500000>;
+> +               regulator-max-microvolt = <1500000>;
+> +               regulator-always-on;
+> +       };
+> +
+> +       imx219_vana_2v8: 2p8v {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "camera_vana";
+> +               regulator-min-microvolt = <2800000>;
+> +               regulator-max-microvolt = <2800000>;
+> +               regulator-always-on;
+> +       };
+> +
+> +       imx219_vdig_1v8: 1p8v {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "camera_vdig";
+> +               regulator-min-microvolt = <1500000>;
+> +               regulator-max-microvolt = <1500000>;
+> +               regulator-always-on;
+> +       };
+> +
+> +       imx219_vddl_1v2: 1p2v {
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "camera_vddl";
+> +               regulator-min-microvolt = <1200000>;
+> +               regulator-max-microvolt = <1200000>;
+> +               regulator-always-on;
+> +       };
+> +
+> +       imx219_clk: imx219_clk {
+> +               compatible = "fixed-clock";
+> +               #clock-cells = <0>;
+> +               clock-frequency = <24000000>;
+> +       };
+> +};
+> +
+> +&MIPI_PARENT_I2C {
+> +       ov5645: ov5645@3c {
+> +               compatible = "ovti,ov5645";
+> +               reg = <0x3c>;
+> +               status = "disabled";
 
-The #clock-cells should be in the main video-receiver node.
-Probably there is more than one clock output, so #clock-cells may be 1?
-There is no need for a fixed-clock compatible, nor for clock-frequency
-and clock-output-names.
+Is there any real need to disable this node here?
+Do you envision anyone including this .dtsi file, and not enabling this
+node?
 
-But most important: this should be documented in the adv748x DT bindings,
-and implemented in the adv748x driver.
+> +
+> +               clock-names = "xclk";
+> +
+> +               vdddo-supply = <&ov5645_vdddo_1v8>;
+> +               vdda-supply = <&ov5645_vdda_2v8>;
+> +               vddd-supply = <&ov5645_vddd_1v5>;
+> +
+> +               port@0 {
 
-> Now I'm a bit hazy on how to declare that the MCLK output of the
-> video-receiver@70 is connected to the Audio Clock C of the SoC...
-> Probably remove use of "audio_clk_c" completely?
+DT bindings say "port", without unit-address.
 
-Yes, the current audio_clk_c definition in the DTS assumes a fixed
-crystal.
+> +                       ov5645_ep: endpoint {
+> +                       };
+> +               };
+> +       };
+> +
+> +       rpi_v2_camera: imx219@10 {
+> +               compatible = "sony,imx219";
+> +               reg = <0x10>;
+> +               status = "disabled";
 
-> > > > > @@ -686,7 +700,8 @@
-> > > > >         };
-> > > > >
-> > > > >         sound_pins: sound {
-> > > > > -               groups = "ssi01239_ctrl", "ssi0_data", "ssi1_data_a";
-> > > > > +               groups = "ssi01239_ctrl", "ssi0_data", "ssi1_data_a",
-> > > > > +                        "ssi4_data";
-> > > >
-> > > > Missing "ss4_ctrl", for the SCK4 and WS4 pins.
-> > >
-> > > I'll add them.
-> > > As the device seems to function even without thoes, does this mean the
-> > > pins in the group are used "on demand" by whatever needs them?
-> >
-> > Probably the SCK4/WS4 functions are the reset-state defaults.
->
-> That ... might require some trial and testing: when I add them to the group,
-> the reset defaults will be overridden by the platform initialization, which is
-> not necessarily the reset default. Will see.
+Likewise.
 
-Or by the boot loader.  Anyway, you need to specify these in the DTS.
+> +
+> +               VANA-supply = <&imx219_vana_2v8>;
+> +               VDIG-supply = <&imx219_vdig_1v8>;
+> +               VDDL-supply = <&imx219_vddl_1v2>;
+> +               clocks = <&imx219_clk>;
+> +
+> +               port@0 {
 
-> > > Does a "clocks = ..." statement always mean input clocks?
-> >
-> > Yes it does.
-> > If a device has clock outputs and is thus a clock provider, it should
-> > have a #clock-cells property, and this should be documented in the bindings.
-> >
-> > A clock consumer will refer to clocks of a provider using the "clocks"
-> > property, specifying a clock specifier (phandle and zero or more indices)
-> > for each clock referenced.
->
-> Something like this?
->
->     &rcar_sound {
->         clocks = ...,
->                  <&adv748x_mclk>,
->                  <&cpg CPG_CORE CPG_AUDIO_CLK_I>;
->         clock-names = ...,
->                       "clk_c",
->                       "clk_i";
->     };
+DT bindings say "port", without unit-address...
 
-More or less.
+> +                       reg = <0>;
 
-Might become
+... and thus no "reg" property.
 
-    find_a_better_label_choice: video-receiver@70 {
-            ...
-    };
+> +                       imx219_ep0: endpoint {
+> +                       };
+> +               };
+> +       };
+> +};
+> diff --git a/arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts b/arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts
+> new file mode 100644
+> index 000000000000..435b7f62d88d
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/r8a774c0-ek874-mipi-2.1.dts
+> @@ -0,0 +1,86 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Device Tree Source for the Silicon Linux RZ/G2E 96board platform (CAT874)
+> + * connected with aistarvision-mipi-v2-adapter board
+> + *
+> + * Copyright (C) 2020 Renesas Electronics Corp.
+> + */
+> +
+> +/dts-v1/;
+> +#include "r8a774c0-ek874.dts"
+> +#define MIPI_PARENT_I2C i2c3
+> +#include "aistarvision-mipi-adapter-2.1.dtsi"
+> +
+> +/ {
+> +       model = "Silicon Linux RZ/G2E evaluation kit EK874 (CAT874 + CAT875) with aistarvision-mipi-v2-adapter board";
+> +       compatible = "si-linux,cat875", "si-linux,cat874", "renesas,r8a774c0";
+> +};
+> +
+> +&i2c3 {
+> +       status = "okay";
+> +};
+> +
+> +&vin4 {
+> +       status = "okay";
+> +};
+> +
+> +&vin5 {
+> +       status = "okay";
+> +};
+> +
+> +&csi40 {
+> +       status = "okay";
+> +
+> +       ports {
+> +               port@0 {
+> +                       reg = <0>;
+> +
+> +                       csi40_in: endpoint {
+> +                               clock-lanes = <0>;
+> +                               data-lanes = <1 2>;
+> +                               remote-endpoint = <&imx219_ep0>;
+> +                       };
+> +               };
+> +       };
+> +};
+> +
+> +&ov5645 {
+> +       /* uncomment status and remote-endpoint properties to tie ov5645
+> +        * to CSI2 also make sure remote-endpoint for imx219 camera is
+> +        * commented and remote endpoint in csi40_in is ov5645_ep
+> +        */
+> +       /* status = "okay"; */
+> +
+> +       #address-cells = <1>;
+> +       #size-cells = <0>;
 
-    &rcar_sound {
-            clock = ...,
-                    <&find_a_better_label_choice 0>,
-                    ...
-    };
+#{address,size}-cells not needed.
 
-as there may be multiple clock outputs on the ADV7482.
+> +       enable-gpios = <&gpio5 5 GPIO_ACTIVE_HIGH>;
+> +       reset-gpios = <&gpio5 3 GPIO_ACTIVE_LOW>;
+> +
+> +       clocks = <&cpg CPG_MOD 716>;
+> +       clock-frequency = <24000000>;
+
+I know this is dictated by the DT bindings for the ov5645 camera, but
+specifying a clock rate is usually done through assigned-clock-rates,
+cfr.  Documentation/devicetree/bindings/clock/clock-bindings.txt.
+
+> +
+> +       port@0 {
+
+port {
+
+> +               ov5645_ep: endpoint {
+> +                       clock-lanes = <0>;
+> +                       data-lanes = <1 2>;
+> +                       /* remote-endpoint = <&csi40_in>; */
+> +               };
+> +       };
+> +};
+> +
+> +&rpi_v2_camera {
+> +       status = "okay";
+> +
+> +       #address-cells = <1>;
+> +       #size-cells = <0>;
+> +
+> +       port@0 {
+> +               reg = <0>;
+
+port {
+
+> +               imx219_ep0: endpoint {
+> +                       clock-lanes = <0>;
+> +                       data-lanes = <1 2>;
+> +                       remote-endpoint = <&csi40_in>;
+> +                       link-frequencies = /bits/ 64 <456000000>;
+> +               };
+> +       };
+> +};
 
 Gr{oetje,eeting}s,
 
