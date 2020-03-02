@@ -2,121 +2,114 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 152E3175F4C
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Mar 2020 17:13:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B978176476
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  2 Mar 2020 20:58:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726988AbgCBQNm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 2 Mar 2020 11:13:42 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:46788 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726621AbgCBQNm (ORCPT
+        id S1727071AbgCBT6C (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 2 Mar 2020 14:58:02 -0500
+Received: from mail-yw1-f65.google.com ([209.85.161.65]:35134 "EHLO
+        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725446AbgCBT5i (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 2 Mar 2020 11:13:42 -0500
-Received: by mail-oi1-f196.google.com with SMTP id a22so10778402oid.13;
-        Mon, 02 Mar 2020 08:13:41 -0800 (PST)
+        Mon, 2 Mar 2020 14:57:38 -0500
+Received: by mail-yw1-f65.google.com with SMTP id a132so1051007ywb.2;
+        Mon, 02 Mar 2020 11:57:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=GKP1xnf+jUUC+vOfFhdMTbNrJBQ854KSrSLYHrZ06Bk=;
+        b=Awop9XOq1i7oNr44YoGmA/aw95RSF8KIPQDXWo+1HSAkfVPLyZ/RyncObWJcPd4laq
+         NzxXrvF8SPPpMcfZV8Luei62eAqaZpvxHJQk18hal4Omfa3ZTpgPybX2vqKC7X5hsQV/
+         sL71FkPxxFdS1utqODguNaCYJjniAdx39fLE73d0ZVIHjqbXQ96iIO+whXm/XoWqoHOC
+         wkX09IwZ7qhUr0xP4hdn/Oxz87kY9U45HEcdRQCutvEzzdnPeiVieD1uaMiCwXSkRBPh
+         6aWgVRynhzIfrnW6fjyB+eHMv8yyCQ/wniKw7sNUSMagdPkHHZXnTkAs/rUavxHIt9VF
+         layQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=wQyyrYKhl2IEkNe34AsK9CIVdMgcXzMGqPt74D0oPoI=;
-        b=BjEToWRvD2dK2QDQVsWeFuMDh3mPeXGyaEStYhNNDoU7gOv3RzlMbJYPeGiyrE00/s
-         y8FmXCBrXKefvbqJ8K+oIWOa/0psE51bmwxXFjRoVVf6EebxD0QGk8haluXHLRfs2L9t
-         4zPLBhHb6LbMMTFc1qL2BeuejtCFy0URVHXFw/5vkYyve668cCYnM4XH9wg/lr2uAGF2
-         NG/IYw8fc04kJw3Y3TkH04ZYTW6ppljAQnCXcnbu9lCBWV4aTMXzGcQsICoHdw7ZHAfv
-         b80TuOZprpBeqHfnSCjThoTm9+uwX5Gx5T/uG617JkZ0m+2dAeq/rvsJPRHgW8WqAqFU
-         N/RA==
-X-Gm-Message-State: ANhLgQ2ok++G6w+89LLA+15RbeWs9JsHMbUiqN1OUxaZ6sF6mVcSUIsD
-        elzcXlcJ/+OBZaidwECwc2fSyFhV4SLCEow26JU=
-X-Google-Smtp-Source: ADFU+vtgX5P8l3pp8Byli/gDvMCPgCR1jBlOu2Z5pKiwIOplHm/8t6TqxYo4MB2Jy/30YCeHN5RgbSXCAHjgMhFgi3s=
-X-Received: by 2002:aca:ac4c:: with SMTP id v73mr185003oie.102.1583165621604;
- Mon, 02 Mar 2020 08:13:41 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1578924232.git.alexander.riesen@cetitec.com>
- <20200113141556.GI3606@pflmari> <CAMuHMdV9urx-6N4tiaPdkssa6Wu-9HSB4VY-rvCu+8JpfZcBfA@mail.gmail.com>
- <20200302134011.GA3717@pflmari> <CAMuHMdWobAE+y90DRi+zQadObWPxLyQiGNTe4t77O-2S1Vp5yA@mail.gmail.com>
- <20200302150706.GB3717@pflmari> <CAMuHMdW21rYXoOSE8azHNqYjng_j41rsL=Fo2bZc=1ULi9+pLw@mail.gmail.com>
- <20200302160906.GC3717@pflmari>
-In-Reply-To: <20200302160906.GC3717@pflmari>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 2 Mar 2020 17:13:30 +0100
-Message-ID: <CAMuHMdVNGsVHyvAgC5dAHx=8Ax18EHx2tS6Hm5Bkg4ms=mW6Zw@mail.gmail.com>
-Subject: Re: [PATCH 8/8] arm64: dts: renesas: salvator: add a connection from
- adv748x codec (HDMI input) to the R-Car SoC
-To:     Alex Riesen <alexander.riesen@cetitec.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=GKP1xnf+jUUC+vOfFhdMTbNrJBQ854KSrSLYHrZ06Bk=;
+        b=MoR9ZDhWQVolFXAU9UNvzVF/E8XLDUvffN79Uk7twDwhYGPFMFxU5t1S4FK73WCQQJ
+         tPEM3Q897cWR1SKSUNvXiRIGzBE4dNRpSrGF6VUI9nwVXwfGt+GoQKh5/X6WsX0jbdBn
+         GTSxqmz0qx5ysa05UxTUxJQ7OKXxnaU8N0wUpyokVgz8ur73IJ36KGh6a/pkkOwG+raP
+         bq6Vn5h6P4Jw59Joxx4Zb7ToUde1WUrarldX+37BL3S0eXPr/HWi3cZ5UgO1Aac0VAO5
+         8gu2N4a1/dz8re/WFB0SPKMhOPMAt6HZcPBeemKyhV29lVhhYC8zDUWckEAARr+dohEj
+         mYeg==
+X-Gm-Message-State: ANhLgQ16xMz92iT4pc6OANiqFwCfmeIYSDFmvx3W5+ZCC5LpvGDAIkH5
+        psvsZaNjCP9JySTCFN9vor0=
+X-Google-Smtp-Source: ADFU+vvSk0t778qUzgJHbIXKFXgek6hyiUQEZELhI0jIaTTa8lYIW9yq45tXspn4bqz2gB7DHU9ozg==
+X-Received: by 2002:a0d:fc82:: with SMTP id m124mr1013400ywf.174.1583179055311;
+        Mon, 02 Mar 2020 11:57:35 -0800 (PST)
+Received: from [192.168.1.46] (c-73-88-245-53.hsd1.tn.comcast.net. [73.88.245.53])
+        by smtp.gmail.com with ESMTPSA id h203sm8224852ywb.98.2020.03.02.11.57.34
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 02 Mar 2020 11:57:35 -0800 (PST)
+Subject: Re: [PATCH v2 1/2] gpio: of: Extract of_gpiochip_add_hog()
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
         Rob Herring <robh+dt@kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
         Mark Rutland <mark.rutland@arm.com>,
-        driverdevel <devel@driverdev.osuosl.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Peter Ujfalusi <peter.ujfalusi@ti.com>,
+        Chris Brandt <chris.brandt@renesas.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
         <devicetree@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20200220130149.26283-1-geert+renesas@glider.be>
+ <20200220130149.26283-2-geert+renesas@glider.be>
+ <CACRpkdbgsR1n1qj3HmQWcEjeDdN85N1Mw8kLOUAeDjESW36MDg@mail.gmail.com>
+ <d2b87102-fdf3-f22f-8477-5b2105d9583b@gmail.com>
+ <CACRpkdZwaKA-Gq4wjkPZ_VFiOgNgvLPnYmx4A3AFE-0eNNjQpQ@mail.gmail.com>
+From:   Frank Rowand <frowand.list@gmail.com>
+Message-ID: <ecde265b-f451-7514-2265-cf4d3024690b@gmail.com>
+Date:   Mon, 2 Mar 2020 13:57:34 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <CACRpkdZwaKA-Gq4wjkPZ_VFiOgNgvLPnYmx4A3AFE-0eNNjQpQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Alex,
+On 2/28/20 4:43 PM, Linus Walleij wrote:
+> On Fri, Feb 21, 2020 at 6:18 PM Frank Rowand <frowand.list@gmail.com> wrote:
+>> On 2/21/20 10:08 AM, Linus Walleij wrote:
+> 
+>>> Patch applied with Frank's Review tag.
+>>
+>> I created a devicetree unittest to show the problem that Geert's patches
+>> fix.
+>>
+>> I would prefer to have my unittest patch series applied somewhere,
+>> immediately followed by Geert's patch series.  This way, after
+>> applying my series, a test fail is reported, then after Geert's
+>> series is applied, the test fail becomes a test pass.
+>>
+>> Can you coordinate with Rob to accept both series either via
+>> your tree or Rob's tree?
+> 
+> I see Rob already applied the test.
+> 
+> I do not personally bother much about which order problems
+> get solved but I guess if Rob can back out the patch I can apply
+> it to my tree instead, before these patches. for some time,
+> before I start pulling stuff on top.
+> 
+> Yours,
+> Linus Walleij
+> 
 
-On Mon, Mar 2, 2020 at 5:09 PM Alex Riesen <alexander.riesen@cetitec.com> wrote:
-> Geert Uytterhoeven, Mon, Mar 02, 2020 16:32:32 +0100:
-> > > And this absence of documentation also means that whatever clocks (both input
-> > > in "clocks=" and output in "#clock-cells") listed in a specific .dts are just
-> > > an integration detail?
-> >
-> > No, the absence probably means that any clock-related properties in a .dts
-> > file will just be ignored.
-> >
-> > Looking at the driver source, it indeed has no support related to clocks at all.
->
-> ...
->
-> > > Does this below makes more sense, than?
-> > >
-> > >     video-receiver@70 {
-> > >         compatible = "adi,adv7482";
-> > >         clocks = <&rcar_sound 3>;
-> > >         clock-names = "clk-hdmi-video";
-> > >         adv748x_mclk: mclk {
-> > >             compatible = "fixed-clock";
-> > >             #clock-cells =  <0>;
-> > >             /* frequency hard-coded for illustration */
-> > >             clock-frequency = <12288000>;
-> > >             clock-output-names = "clk-hdmi-i2s-mclk";
-> > >         };
-> > >     };
-> >
-> > The #clock-cells should be in the main video-receiver node.
-> > Probably there is more than one clock output, so #clock-cells may be 1?
->
-> AFAICS, the device can provide only this one clock line (audio master clock
-> for I2S output)... I shall re-check, just in case.
->
-> > There is no need for a fixed-clock compatible, nor for clock-frequency
-> > and clock-output-names.
-> >
-> > But most important: this should be documented in the adv748x DT bindings,
-> > and implemented in the adv748x driver.
->
-> So if the driver is to export that clock for the kernel (like in this case),
-> it must implement its support?
+At this point, if it is a lot of trouble or confusion, I would not
+bother undoing the commits that have been done.  I'll leave it up
+to you and Rob to coordinate if you do decide to undo.
 
-Exactly.  Unless that pin is hardcoded to output a fixed clock, in which case
-you can just override the existing audio_clk_c rate.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-Frank
