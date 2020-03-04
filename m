@@ -2,99 +2,163 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D59F8179A44
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Mar 2020 21:40:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 53DCA179A5D
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Mar 2020 21:47:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728482AbgCDUkl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Mar 2020 15:40:41 -0500
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:36311 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726440AbgCDUkl (ORCPT
+        id S1729175AbgCDUrS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Mar 2020 15:47:18 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:38213 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728926AbgCDUrS (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Mar 2020 15:40:41 -0500
-Received: by mail-qt1-f195.google.com with SMTP id t13so2468944qto.3;
-        Wed, 04 Mar 2020 12:40:40 -0800 (PST)
+        Wed, 4 Mar 2020 15:47:18 -0500
+Received: by mail-lj1-f195.google.com with SMTP id w1so3569488ljh.5
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 04 Mar 2020 12:47:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=xnoGvoXhhUyFFcGXnJkM1A4TM1bJ6CuJ9H64XlhnlOw=;
+        b=1LquHOcq5PsAyYYx83eHq1FpCaxYL1QI5FlA68WKx+OVumex24OC0twL/ml3AN22xk
+         0ciIoM9TNXZbvIG5JZtnLDaSX+MP/ss5yfAp0QYfGJ4Ro7Hvg1q7zk6I+wHa3ZQN3Tvq
+         hpsFCGE2FI7R1D1x+DL8fc6bM1IflcDfh9NhCfoaF7jBqzhQlzsparXZTggRZkI1Nwve
+         JOp2YeKRUiA94s9mSgGXfK+YsSmPnycl3NRrckOsY/6L9b6iJaEbVCnJAkcQJWpvcGuR
+         KKlPYDeyi7jMwBaInhoFwPME5oWBS58QpCqiVtpO4EnsxJow8EA//sS27pc0ymCycg4Q
+         nIMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=kMvb3FkHGy6+3PCd0iRkhP59AmRHfZvsaM4V6wsp0VQ=;
-        b=PzoObFoUEkJu99rFUbzKr5EBKJfe+QkFu5d6qGwbv4QP/Y9FDeUg8hydo/LvFKi3wp
-         DfYxH3xYDddGVuz1TRUGwObqIjJ/6Kyn3eLGtJjXel+n10O0VL/iIPUkL4NoSc86ShJX
-         oTGlDenzEiluPneam+kq7CwG3HKqce6ZghNSZJUFRErP2zuSMGBCAr6T1vx58V725m3h
-         V8wwTqymF3vMg+0kdDayxaLofqjlxhfAs490xlVURVEn6yXlHuOXE3womY7ynF97eK6f
-         Tg6JBO7pSjHQRGY5UkG0sEEIiflJV4ELXgxBhEaffSaibraRD8T/XJAJB1OMJIANQj4x
-         KDTw==
-X-Gm-Message-State: ANhLgQ0W8pTQpHM06rL2mp9/ag7tbaF6RL0EEHW2/WjAxX4TKMJ815k9
-        L5eWG1fnBeXpyswZwzgiLkQ=
-X-Google-Smtp-Source: ADFU+vv/02CvfBCd0uCY7PmzoOMaiUvA+1v27ESLdQ7l4yc5et4cC1jpvow21omkNqgrShpqtJrwIg==
-X-Received: by 2002:ac8:47cf:: with SMTP id d15mr4163094qtr.17.1583354439493;
-        Wed, 04 Mar 2020 12:40:39 -0800 (PST)
-Received: from dennisz-mbp ([2620:10d:c091:500::2:8091])
-        by smtp.gmail.com with ESMTPSA id v82sm14655116qka.51.2020.03.04.12.40.27
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=xnoGvoXhhUyFFcGXnJkM1A4TM1bJ6CuJ9H64XlhnlOw=;
+        b=jSLUYAx0n0Y9hTejNlWnGxmdsF6b6GG9Pc1sQS5O9bJISf0TQpuFJn32pjJMPzWHGJ
+         HBDd6oIHB+HHO5QCpXU+nVgVdYa0bjytH8MvG/vvqobL87sOSPjVPO/oxC3Go46NyQYJ
+         4eXxL8S9te50dZzSzDSMKLypXD8Hs7RVggBL21C5c5uYXnWgvuqmtl5NKq/R1JMiOOsP
+         54Gg5L0ab6qmC3J1AdMdyKmvUvOOcYf+IbsTIajOf99xH2E7m6I/vNtm/MPDJJcHz9LF
+         MJcPu3M+cUZRchUTv1jmJFA2LOAtUa5PajJ35apWZzvh/N9M/eW8qXp/BvRh0LGwaKMm
+         9q8w==
+X-Gm-Message-State: ANhLgQ2NpcLyRbkYH3DRCdHomrkKpH7k4tdEm88DVNTTrp4/tDPrCQvj
+        +x4VJHKnN+qKGTlDuyeqHKGi2nX7aZA=
+X-Google-Smtp-Source: ADFU+vvtYhrrY6pxQNgxw1MamsBY5xDsAr9yVhDE+RLJxIWVJi2I5cmLL8RckGW0gbd7ccsxcyDo+A==
+X-Received: by 2002:a2e:80cc:: with SMTP id r12mr2860946ljg.154.1583354836747;
+        Wed, 04 Mar 2020 12:47:16 -0800 (PST)
+Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
+        by smtp.gmail.com with ESMTPSA id t4sm6101628ljk.14.2020.03.04.12.47.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2020 12:40:28 -0800 (PST)
-Date:   Wed, 4 Mar 2020 15:40:26 -0500
-From:   Dennis Zhou <dennis@kernel.org>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, Dennis Zhou <dennis@kernel.org>
-Subject: Re: [PATCH 2/2] include/bitmap.h: add new functions to documentation
-Message-ID: <20200304204026.GA55400@dennisz-mbp>
-References: <20200304140920.6109-1-wsa+renesas@sang-engineering.com>
- <20200304140920.6109-3-wsa+renesas@sang-engineering.com>
+        Wed, 04 Mar 2020 12:47:15 -0800 (PST)
+Date:   Wed, 4 Mar 2020 21:47:15 +0100
+From:   Niklas <niklas.soderlund@ragnatech.se>
+To:     Lad Prabhakar <prabhakar.csengg@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 1/2] media: rcar-csi2: Fix registering camera endpoint to
+ VIN
+Message-ID: <20200304204715.GC1791497@oden.dyn.berto.se>
+References: <20200228165011.17898-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200228165011.17898-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20200304140920.6109-3-wsa+renesas@sang-engineering.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200228165011.17898-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
+Hi Lad,
 
-On Wed, Mar 04, 2020 at 03:09:20PM +0100, Wolfram Sang wrote:
-> I found these functions only by chance although I was looking exactly
-> for something like them. So, add them to the list of functions to make
-> them more visible.
+Thanks for your work.
+
+On 2020-02-28 16:50:10 +0000, Lad Prabhakar wrote:
+> CSI2 registers camera/sensor as v4l2 async sub device with fwnode is
+> remote endpoint and the camera/sensor register itself as v4l2 sub device
+> with fwnode is remote device as a result the match.fwnode should be
+> fwnode_graph_get_remote_port_parent and not
+> fwnode_graph_get_remote_endpoint.
 > 
-> Fixes: e837dfde15a4 ("bitmap: genericize percpu bitmap region iterators")
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Cc: Dennis Zhou <dennis@kernel.org>
+> This patch makes use of v4l2 helper function
+> v4l2_async_notifier_add_fwnode_remote_subdev() which uses
+> fwnode_graph_get_remote_port_parent as match.fwnode fixing the issue
+> of registering camera endpoint to the driver.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+I'm afraid this is not the right solution. The rcar-csi2 driver uses the 
+v4l2-async framework to do endpoint matching instead of node matching.  
+This is needed as it needs to work with the adv748x driver which 
+register it self in v4l2-async using endpoints instead of nodes. The 
+reason for this is that from a single DT node it creates multiple 
+subdevices, one for each endpoint IIRC.
+
+Without this patch the two CSI-2 receivers on R-Car M3-n registers the 
+two following 'paths' in v4l2 to be able to find the two subdevice CSI-2 
+transmitters created by the ADV748x.
+
+rcar-csi2 fea80000.csi2: '/soc/i2c@e66d8000/video-receiver@70/port@b/endpoint'
+rcar-csi2 feaa0000.csi2: '/soc/i2c@e66d8000/video-receiver@70/port@a/endpoint'
+
+With this patch applied it registers the following which can't be found 
+as they are not present in the v4l2-async list of subdevices (as they 
+are registerd as above).
+
+rcar-csi2 fea80000.csi2: '/soc/i2c@e66d8000/video-receiver@70'
+rcar-csi2 feaa0000.csi2: '/soc/i2c@e66d8000/video-receiver@70'
+rcar-csi2: probe of feaa0000.csi2 failed with error -17
+
+This patch may unlock your use-case as it's a known problem that 
+endpoint and node matching do not mix. But it will break the already 
+upstream use-case and for that reason, I'm really sorry about this.
+
+Nacked-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+The real solution to this problem IMHO is to make all of v4l2-async 
+operate using endpoint matching or possibly some kind of fallback to 
+node matching if no endpoint can be found. Never the less some work is 
+required in the v4l2-async core to sort out node and endpoint matching 
+coexistence.
+
 > ---
->  include/linux/bitmap.h | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  drivers/media/platform/rcar-vin/rcar-csi2.c | 14 ++++++--------
+>  1 file changed, 6 insertions(+), 8 deletions(-)
 > 
-> diff --git a/include/linux/bitmap.h b/include/linux/bitmap.h
-> index 804600f7dc35..71ba0ffaa22a 100644
-> --- a/include/linux/bitmap.h
-> +++ b/include/linux/bitmap.h
-> @@ -51,6 +51,12 @@
->   *  bitmap_clear(dst, pos, nbits)               Clear specified bit area
->   *  bitmap_find_next_zero_area(buf, len, pos, n, mask)  Find bit free area
->   *  bitmap_find_next_zero_area_off(buf, len, pos, n, mask, mask_off)  as above
-> + *  bitmap_next_clear_region(map, &start, &end, nbits)  Find next cleared region
-> + *  bitmap_next_set_region(map, &start, &end, nbits)  Find next set region
-> + *  bitmap_for_each_clear_region(map, rs, re, start, end)
-> + *  						Iterate over all cleared regions
-> + *  bitmap_for_each_set_region(map, rs, re, start, end)
-> + *  						Iterate over all set regions
->   *  bitmap_shift_right(dst, src, n, nbits)      *dst = *src >> n
->   *  bitmap_shift_left(dst, src, n, nbits)       *dst = *src << n
->   *  bitmap_cut(dst, src, first, n, nbits)       Cut n bits from first, copy rest
+> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> index faa9fb23a2e9..5b04e4768eb1 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> @@ -833,20 +833,18 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv)
+>  		return ret;
+>  	}
+>  
+> -	priv->asd.match.fwnode =
+> -		fwnode_graph_get_remote_endpoint(of_fwnode_handle(ep));
+> -	priv->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+> -
+> -	of_node_put(ep);
+> -
+>  	v4l2_async_notifier_init(&priv->notifier);
+>  
+> -	ret = v4l2_async_notifier_add_subdev(&priv->notifier, &priv->asd);
+> +	ret = v4l2_async_notifier_add_fwnode_remote_subdev(&priv->notifier,
+> +							   of_fwnode_handle(ep),
+> +							   &priv->asd);
+>  	if (ret) {
+> -		fwnode_handle_put(priv->asd.match.fwnode);
+> +		of_node_put(ep);
+>  		return ret;
+>  	}
+>  
+> +	of_node_put(ep);
+> +
+>  	priv->notifier.ops = &rcar_csi2_notify_ops;
+>  
+>  	dev_dbg(priv->dev, "Found '%pOF'\n",
 > -- 
 > 2.20.1
 > 
 
-Ah thanks. That was a miss not adding the documentation. I can pick
-these up unless Andrew would rather run them through his tree. I have a
-few other miscellaneous documentation cleanups for percpu I need to run
-anyway.
-
-Acked-by: Dennis Zhou <dennis@kernel.org>
-
-Thanks,
-Dennis
+-- 
+Regards,
+Niklas Söderlund
