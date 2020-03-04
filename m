@@ -2,104 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 823B11790A5
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Mar 2020 13:50:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33A411790C0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Mar 2020 14:01:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388040AbgCDMuy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Mar 2020 07:50:54 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:33463 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387776AbgCDMux (ORCPT
+        id S2387805AbgCDNBq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Mar 2020 08:01:46 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:40547 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729175AbgCDNBq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Mar 2020 07:50:53 -0500
-Received: by mail-oi1-f193.google.com with SMTP id q81so1975981oig.0;
-        Wed, 04 Mar 2020 04:50:53 -0800 (PST)
+        Wed, 4 Mar 2020 08:01:46 -0500
+Received: by mail-ot1-f67.google.com with SMTP id x19so1886147otp.7;
+        Wed, 04 Mar 2020 05:01:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=p7FRqJyhTEmACxJGCDQAplfiTQ67K8Njaui3NWndKCk=;
-        b=AXhO9OlY0lVdID/ecpqIIVtrBJfdkmicPE/BTRJuf0v7qQX2m0V4pXMlTNiRDL+NNK
-         LXHAv2aOfA9rum/wy9l7C/XhiMkIvnmruFIJTOfx9lJijPjU9TtVIr3VN+Bru3lunpDR
-         zTvbV7lV41JoMu1KDDoAjqjmjBWCoq35yfjuOeEgTsL+E2+pKZqRlSSxY89nNOrOJFGP
-         foS4i8ggUDa2Uyh205kKeWGgt/peVO/UAOxE2PsVT6zS9PG3t40TnO+JDkEmD99I9FGb
-         A3Ujst9m8loyNR7LN73Pueniwn+3Z55BdvlX9Rw2SXVJkSzPmELW3j46VA05BmSG8s84
-         0SGA==
-X-Gm-Message-State: ANhLgQ1qi75F/o3QoB9MrkZUF/qHg/i4OtnBiNIsBnsvMGTA9CpPJ+Do
-        oHOPU2vXnMj0GImMu9XI/fJ41YWEdhCUJtQEoy+Zv+kX
-X-Google-Smtp-Source: ADFU+vtS15MEGVq3XbpQbW8c0fcWWTHigWSJb+9KT3nHpA8xJ67V9+ALPr8+cGI2pKL0qKyotbflbp2ioN9nMIjOtNo=
-X-Received: by 2002:aca:ed04:: with SMTP id l4mr1648104oih.54.1583326253059;
- Wed, 04 Mar 2020 04:50:53 -0800 (PST)
+        bh=opM8Fy++1GyzDxf+EPvf/wCqRO4m4i5PhEYBUHthtOc=;
+        b=qMIHC9SBj3BlqcAS5KgiznPD16M9p5WxOiNy4VeLO13vJCIVFXBr6m/GrwrLi+q949
+         KhojqiXeDxYsjVvjqOAsWjP8YDLoHqC5k/47EkoQSLx6iqPFN/3/03Mjs5GZ/c4+orxr
+         IIchzrz7EkOmzHGk2LwMvtIlE0Sa6r1FDLHCbEJDCfYgUMpSz+8WSJE3Bf1d+qqWV6tj
+         y/b3Jmt9+9lAdlqRRP75O37FM3FUpKhvibPtpgm/wSxBWQGG6tw7fGN78Tg7tZ7vJmQS
+         M99dL19cdvMyIJnTPHl2qYfUKiGk+TrFNQl7giRo16PHimoHh2eP8zOdqX7hUe6A59TG
+         ilEg==
+X-Gm-Message-State: ANhLgQ34Jqu5/WzG0d1pUedwvH4EbLckvMLq+tjqUlP0f0MxmSzj+V3/
+        Qlw1/mCLU2CxB74M/us+ZDIirwAFH940pnA+GDQ=
+X-Google-Smtp-Source: ADFU+vsU78gBsz9h37aXui1CkbXyoggabSJPcX+7H2jLG4oKFbmh2MhIgJsb02nVhmQvV8gDrE04gu8SZZFHKiU3/u8=
+X-Received: by 2002:a9d:dc1:: with SMTP id 59mr2229894ots.250.1583326905599;
+ Wed, 04 Mar 2020 05:01:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20200303094522.23180-1-geert+renesas@glider.be>
- <20200303094522.23180-2-geert+renesas@glider.be> <CAL_JsqL+9Tcqm_bsorRwqvWZyJXAZmJhXb=EmJ+nZ44kCFp6Kg@mail.gmail.com>
-In-Reply-To: <CAL_JsqL+9Tcqm_bsorRwqvWZyJXAZmJhXb=EmJ+nZ44kCFp6Kg@mail.gmail.com>
+References: <1580808174-11289-1-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
+ <CAMuHMdVmsDVJRWp2uzVs0BKp-CjAcc6PS-1wBPT8J+UZr1O7CA@mail.gmail.com> <OSAPR01MB502876C5213B528A95A5B912AEE50@OSAPR01MB5028.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSAPR01MB502876C5213B528A95A5B912AEE50@OSAPR01MB5028.jpnprd01.prod.outlook.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 4 Mar 2020 13:50:41 +0100
-Message-ID: <CAMuHMdUBTVZGNtdc0dhUz5d+P2_Fr89MvBCz8=9oQK1EOi7s2w@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] spi: dt-bindings: spi-controller: Fix
- #address-cells for slave mode
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Mark Brown <broonie@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-spi <linux-spi@vger.kernel.org>,
+Date:   Wed, 4 Mar 2020 14:01:34 +0100
+Message-ID: <CAMuHMdWarWksbXsAaGpG7wunGdNb7DA=EL2NPE4gNrS+P7zufg@mail.gmail.com>
+Subject: Re: [PATCH] ARM: dts: iwg22d-sodimm: Enable touchscreen
+To:     Marian-Cristian Rotariu 
+        <marian-cristian.rotariu.rb@bp.renesas.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        "linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
         "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>
+        <devicetree@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Rob,
+Hi Marian,
 
-On Tue, Mar 3, 2020 at 10:05 PM Rob Herring <robh+dt@kernel.org> wrote:
-> On Tue, Mar 3, 2020 at 3:45 AM Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
-> > Currently, the DT bindings for an SPI controller specify that
-> > "#address-cells" must be fixed to one.  However, that applies to an SPI
-> > controller in master mode only.  When running in SPI slave mode,
-> > "#address-cells" should be zero.
+On Wed, Mar 4, 2020 at 1:38 PM Marian-Cristian Rotariu
+<marian-cristian.rotariu.rb@bp.renesas.com> wrote:
+> > > --- a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
+> > > +++ b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
+> > > @@ -128,6 +128,47 @@
+> > >         status = "okay";
+> > >         clock-frequency = <400000>;
+> > >
+> > > +       stmpe811@44 {
+> > > +               compatible = "st,stmpe811";
 > >
-> > Fix this making the value of "#address-cells" dependent on the presence
-> > of "spi-slave".
-> >
-> > Fixes: 0a1b929356830257 ("spi: Add YAML schemas for the generic SPI options")
-> > Reported-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> > v2:
-> >   - Use "enum: [0, 1]" instead of min/max limit,
-> >   - use "- spi-slave" instead of "[ spi-slave ]".
-> >
-> > As of dtc commit 403cc79f06a135ae ("checks: Update SPI bus check for
-> > 'spi-slave'") and Linux commit c2e7075ca8303631 ("scripts/dtc: Update to
-> > upstream version v1.4.7-57-gf267e674d145"), dtc knows about SPI slave.
-> >
-> > However, when using "#address-cells = <0>" with W=1:
-> >
-> >     Warning (avoid_unnecessary_addr_size): /soc/spi@e6e10000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+> > According to the DT bindings, this must be "st,stmpe-ts", but the example
+> > also uses "st,stmpe811"?
 >
-> What was the point in having #address-cells in the first place for
-> slaves?
+> The device is a MFD and the bindings doc is here:
+> Documentation/devicetree/bindings/mfd/stmpe.txt
 
-I don't know, commit a8830cb19cfea04e ("spi: Document DT bindings for
-SPI controllers in slave mode") doesn't require any #address-cells for
-slave mode.
+Thanks, I hadn't considered that file when looking for "st,stmpe811",
+due to the regex used in the document.
 
-Perhaps because node_addr_cells() in dtc defaults to 2?
-Or because of_bus_n_addr_cells() walks up the parent chain and thus
-defaults to the first found parent value?
+> You need to add its specific function as a child node of the mfd dt node. In our
+> case it is a touchscreen:
+> Documentation/devicetree/bindings/input/touchscreen/stmpe.txt
 
-> Seems like we should make it mutually exclusive with 'spi-slave'.
+OK.
 
-Sounds like a good idea. How to express that in yaml?
+> > > +               reg = <0x44>;
+> > > +               interrupt-parent = <&gpio4>;
+> > > +               interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
+> >
+> > This should be "<4 IRQ_TYPE_LEVEL_LOW>", to refer to GP4_4.
+>
+> Indeed, I will fix it in v2.
+>
+> >
+> > > +               irq-gpio = <&gpio4 4 IRQ_TYPE_LEVEL_LOW>;
+> >
+> > "irq-gpio" is not documented in the DT bindings.
+>
+> See "Documentation/devicetree/bindings/mfd/stmpe.txt"
 
-Thanks!
+I believe you cannot use the same GPIO as an interrupt and as a GPIO at
+the same time.  Don't you get a -EBUSY somewhere?
+Perhaps it worked due to the typo above?
+
+As both interrupts and irq-gpio are documented to be optional
+properties, probably they are mutually exclusive, and you can drop
+irq-gpio?
 
 Gr{oetje,eeting}s,
 
