@@ -2,108 +2,41 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C0AD1793CF
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Mar 2020 16:44:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 476D8179436
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Mar 2020 17:00:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727656AbgCDPoO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Mar 2020 10:44:14 -0500
-Received: from relmlor1.renesas.com ([210.160.252.171]:42611 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726561AbgCDPoO (ORCPT
+        id S1727709AbgCDQAj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Mar 2020 11:00:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50016 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726561AbgCDQAi (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Mar 2020 10:44:14 -0500
-X-IronPort-AV: E=Sophos;i="5.70,514,1574089200"; 
-   d="scan'208";a="40971363"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 05 Mar 2020 00:44:12 +0900
-Received: from marian-VirtualBox.ree.adwin.renesas.com (unknown [10.226.36.164])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id CFEAD400A6CD;
-        Thu,  5 Mar 2020 00:44:10 +0900 (JST)
-From:   Marian-Cristian Rotariu 
-        <marian-cristian.rotariu.rb@bp.renesas.com>
-To:     geert@linux-m68k.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Chris Paterson <chris.paterson2@renesas.com>,
-        prabhakar.mahadev-lad.rj@bp.renesas.com, dmitry.torokhov@gmail.com,
-        linux-input@vger.kernel.org, robh+dt@kernel.org,
-        devicetree@vger.kernel.org
-Subject: [PATCH v2] ARM: dts: iwg22d-sodimm: Enable touchscreen
-Date:   Wed,  4 Mar 2020 15:44:10 +0000
-Message-Id: <1583336650-25848-1-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
+        Wed, 4 Mar 2020 11:00:38 -0500
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1583337638;
+        bh=ldhwBdiJCf09VelMcCKiKLy47lhRfru38junmddRuNE=;
+        h=Subject:From:Date:To:From;
+        b=y+KdnnM3FUE7m1IQcewwkF94Kr9lN4HuNlUp21MfdSf7LKQQaVJ4D9WJ6MWnAQ8S2
+         ZuO/ewSAheR4KcrDgJHBo5cUfYGPNXEyzHC1wqr3DZ4a8xGB5FQgzXcQ86ATx5n0Pn
+         YICbulgsJoTiXqe74SoQoTgLtpMiNe+j2bPtCTw8=
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Patchwork housekeeping for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <158333763848.15324.11955992774023234427.git-patchwork-housekeeping@kernel.org>
+Date:   Wed, 04 Mar 2020 16:00:38 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-In one of the iWave-G22D development board variants, called Generic SODIMM
-Development Platform, we have an LCD with touchscreen. The resistive touch
-controller, STMPE811 is on the development board and is connected through
-the i2c5 of the RZ-G1E.
+Latest series: [v2] ARM: dts: iwg22d-sodimm: Enable touchscreen (2020-03-04T15:44:10)
+  Superseding: [v1] ARM: dts: iwg22d-sodimm: Enable touchscreen (2020-02-04T09:22:54):
+    ARM: dts: iwg22d-sodimm: Enable touchscreen
 
-Additionally, this controller should generate an interrupt to the CPU and
-it is connected through GPIO4,4 to the GIC.
 
-Touch was tested with one of our iW-RainboW-G22D-SODIMM RZ/G1E development
-platforms.
-
-More details on the iWave website:
-https://www.iwavesystems.com/rz-g1e-sodimm-development-kit.html
-
-Changes from v1:
- -remove redundant GPIO code
- -remove obsolete and unused properties
- -sync property values with the comments & the bindings
-
-Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
----
- arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts | 33 +++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
-
-diff --git a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
-index 872f8a6..ab38b39 100644
---- a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
-+++ b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
-@@ -172,6 +172,39 @@
- 	status = "okay";
- 	clock-frequency = <400000>;
- 
-+	stmpe811@44 {
-+		compatible = "st,stmpe811";
-+		reg = <0x44>;
-+		interrupt-parent = <&gpio4>;
-+		interrupts = <4 IRQ_TYPE_LEVEL_LOW>;
-+
-+		/* 3.25 MHz ADC clock speed */
-+		st,adc-freq = <1>;
-+		/* ADC converstion time: 80 clocks */
-+		st,sample-time = <4>;
-+		/* 12-bit ADC */
-+		st,mod-12b = <1>;
-+		/* internal ADC reference */
-+		st,ref-sel = <0>;
-+
-+		stmpe_touchscreen {
-+			compatible = "st,stmpe-ts";
-+			/* 8 sample average control */
-+			st,ave-ctrl = <3>;
-+			/* 7 length fractional part in z */
-+			st,fraction-z = <7>;
-+			/*
-+			 * 50 mA typical 80 mA max touchscreen drivers
-+			 * current limit value
-+			 */
-+			st,i-drive = <1>;
-+			/* 1 ms panel driver settling time */
-+			st,settling = <3>;
-+			/* 5 ms touch detect interrupt delay */
-+			st,touch-det-delay = <5>;
-+		};
-+	};
-+
- 	sgtl5000: codec@a {
- 		compatible = "fsl,sgtl5000";
- 		#sound-dai-cells = <0>;
 -- 
-2.7.4
-
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
