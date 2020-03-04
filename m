@@ -2,112 +2,108 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D164A17930B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Mar 2020 16:13:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C0AD1793CF
+	for <lists+linux-renesas-soc@lfdr.de>; Wed,  4 Mar 2020 16:44:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726748AbgCDPNK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 4 Mar 2020 10:13:10 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56202 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728278AbgCDPNJ (ORCPT
+        id S1727656AbgCDPoO (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 4 Mar 2020 10:44:14 -0500
+Received: from relmlor1.renesas.com ([210.160.252.171]:42611 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726561AbgCDPoO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 4 Mar 2020 10:13:09 -0500
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 698DB21775;
-        Wed,  4 Mar 2020 15:13:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1583334788;
-        bh=6nHkKIgF1vsNZMlc30HiQy8/oHhvCgNZjVYENzB1bhs=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=SPLQE7kLkIYLoHDSVo9HJW6lzcb6Xpbkvj6Zlza0tl/i2imebXMGmhs4ZjKsILPy4
-         92hwY3MoXIkBms8WGPQFxq8otGURHcqiHBgDaK3pAK8bXyhVeWA3NOgvUbeMxuCUsB
-         0YzE4pxX9vnEvkCDdbMAJi82JM4bfxGdStDaBBLo=
-Received: by mail-qt1-f176.google.com with SMTP id t13so1594998qto.3;
-        Wed, 04 Mar 2020 07:13:08 -0800 (PST)
-X-Gm-Message-State: ANhLgQ1opzT3Dbnr+o/0Cm1VEpyr4jS0dGMGYJyD04bHylwzYBalDVn6
-        vJHhnCO/+9TELx0qelnMgYf4E3RxolnK7aA47A==
-X-Google-Smtp-Source: ADFU+vsrisSxpdfCxVHVTsRHNqfoOTZdjiFvfSdN1ZN87TkLYBvb8wR+oVW+bts6vXbefL5Ibwlc+/rZ10p1FfkB2ME=
-X-Received: by 2002:aed:2344:: with SMTP id i4mr2875858qtc.136.1583334787520;
- Wed, 04 Mar 2020 07:13:07 -0800 (PST)
-MIME-Version: 1.0
-References: <20200303094522.23180-1-geert+renesas@glider.be>
- <20200303094522.23180-2-geert+renesas@glider.be> <CAL_JsqL+9Tcqm_bsorRwqvWZyJXAZmJhXb=EmJ+nZ44kCFp6Kg@mail.gmail.com>
- <CAMuHMdUBTVZGNtdc0dhUz5d+P2_Fr89MvBCz8=9oQK1EOi7s2w@mail.gmail.com>
-In-Reply-To: <CAMuHMdUBTVZGNtdc0dhUz5d+P2_Fr89MvBCz8=9oQK1EOi7s2w@mail.gmail.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Wed, 4 Mar 2020 09:12:55 -0600
-X-Gmail-Original-Message-ID: <CAL_JsqLw4yvkmU+imifQX4XSwd21ofaDVm=0LawH9oK-_ym8ng@mail.gmail.com>
-Message-ID: <CAL_JsqLw4yvkmU+imifQX4XSwd21ofaDVm=0LawH9oK-_ym8ng@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] spi: dt-bindings: spi-controller: Fix
- #address-cells for slave mode
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Mark Brown <broonie@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-spi <linux-spi@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:MEDIA DRIVERS FOR RENESAS - FCP" 
-        <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Wed, 4 Mar 2020 10:44:14 -0500
+X-IronPort-AV: E=Sophos;i="5.70,514,1574089200"; 
+   d="scan'208";a="40971363"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 05 Mar 2020 00:44:12 +0900
+Received: from marian-VirtualBox.ree.adwin.renesas.com (unknown [10.226.36.164])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id CFEAD400A6CD;
+        Thu,  5 Mar 2020 00:44:10 +0900 (JST)
+From:   Marian-Cristian Rotariu 
+        <marian-cristian.rotariu.rb@bp.renesas.com>
+To:     geert@linux-m68k.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <chris.paterson2@renesas.com>,
+        prabhakar.mahadev-lad.rj@bp.renesas.com, dmitry.torokhov@gmail.com,
+        linux-input@vger.kernel.org, robh+dt@kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH v2] ARM: dts: iwg22d-sodimm: Enable touchscreen
+Date:   Wed,  4 Mar 2020 15:44:10 +0000
+Message-Id: <1583336650-25848-1-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Wed, Mar 4, 2020 at 6:50 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Rob,
->
-> On Tue, Mar 3, 2020 at 10:05 PM Rob Herring <robh+dt@kernel.org> wrote:
-> > On Tue, Mar 3, 2020 at 3:45 AM Geert Uytterhoeven
-> > <geert+renesas@glider.be> wrote:
-> > > Currently, the DT bindings for an SPI controller specify that
-> > > "#address-cells" must be fixed to one.  However, that applies to an SPI
-> > > controller in master mode only.  When running in SPI slave mode,
-> > > "#address-cells" should be zero.
-> > >
-> > > Fix this making the value of "#address-cells" dependent on the presence
-> > > of "spi-slave".
-> > >
-> > > Fixes: 0a1b929356830257 ("spi: Add YAML schemas for the generic SPI options")
-> > > Reported-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > > ---
-> > > v2:
-> > >   - Use "enum: [0, 1]" instead of min/max limit,
-> > >   - use "- spi-slave" instead of "[ spi-slave ]".
-> > >
-> > > As of dtc commit 403cc79f06a135ae ("checks: Update SPI bus check for
-> > > 'spi-slave'") and Linux commit c2e7075ca8303631 ("scripts/dtc: Update to
-> > > upstream version v1.4.7-57-gf267e674d145"), dtc knows about SPI slave.
-> > >
-> > > However, when using "#address-cells = <0>" with W=1:
-> > >
-> > >     Warning (avoid_unnecessary_addr_size): /soc/spi@e6e10000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-> >
-> > What was the point in having #address-cells in the first place for
-> > slaves?
->
-> I don't know, commit a8830cb19cfea04e ("spi: Document DT bindings for
-> SPI controllers in slave mode") doesn't require any #address-cells for
-> slave mode.
->
-> Perhaps because node_addr_cells() in dtc defaults to 2?
-> Or because of_bus_n_addr_cells() walks up the parent chain and thus
-> defaults to the first found parent value?
->
-> > Seems like we should make it mutually exclusive with 'spi-slave'.
->
-> Sounds like a good idea. How to express that in yaml?
+In one of the iWave-G22D development board variants, called Generic SODIMM
+Development Platform, we have an LCD with touchscreen. The resistive touch
+controller, STMPE811 is on the development board and is connected through
+the i2c5 of the RZ-G1E.
 
-oneOf:
-  - required:
-      - "#address-cells"
-  - required:
-      - spi-slave
+Additionally, this controller should generate an interrupt to the CPU and
+it is connected through GPIO4,4 to the GIC.
 
-Rob
+Touch was tested with one of our iW-RainboW-G22D-SODIMM RZ/G1E development
+platforms.
+
+More details on the iWave website:
+https://www.iwavesystems.com/rz-g1e-sodimm-development-kit.html
+
+Changes from v1:
+ -remove redundant GPIO code
+ -remove obsolete and unused properties
+ -sync property values with the comments & the bindings
+
+Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
+---
+ arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts | 33 +++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
+
+diff --git a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
+index 872f8a6..ab38b39 100644
+--- a/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
++++ b/arch/arm/boot/dts/r8a7745-iwg22d-sodimm.dts
+@@ -172,6 +172,39 @@
+ 	status = "okay";
+ 	clock-frequency = <400000>;
+ 
++	stmpe811@44 {
++		compatible = "st,stmpe811";
++		reg = <0x44>;
++		interrupt-parent = <&gpio4>;
++		interrupts = <4 IRQ_TYPE_LEVEL_LOW>;
++
++		/* 3.25 MHz ADC clock speed */
++		st,adc-freq = <1>;
++		/* ADC converstion time: 80 clocks */
++		st,sample-time = <4>;
++		/* 12-bit ADC */
++		st,mod-12b = <1>;
++		/* internal ADC reference */
++		st,ref-sel = <0>;
++
++		stmpe_touchscreen {
++			compatible = "st,stmpe-ts";
++			/* 8 sample average control */
++			st,ave-ctrl = <3>;
++			/* 7 length fractional part in z */
++			st,fraction-z = <7>;
++			/*
++			 * 50 mA typical 80 mA max touchscreen drivers
++			 * current limit value
++			 */
++			st,i-drive = <1>;
++			/* 1 ms panel driver settling time */
++			st,settling = <3>;
++			/* 5 ms touch detect interrupt delay */
++			st,touch-det-delay = <5>;
++		};
++	};
++
+ 	sgtl5000: codec@a {
+ 		compatible = "fsl,sgtl5000";
+ 		#sound-dai-cells = <0>;
+-- 
+2.7.4
+
