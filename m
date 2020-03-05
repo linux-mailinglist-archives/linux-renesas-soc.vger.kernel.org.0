@@ -2,209 +2,88 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B7DD179F78
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Mar 2020 06:46:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E4FF317A130
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Mar 2020 09:25:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725913AbgCEFqD (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Mar 2020 00:46:03 -0500
-Received: from mga17.intel.com ([192.55.52.151]:26431 "EHLO mga17.intel.com"
+        id S1726145AbgCEIYV (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Mar 2020 03:24:21 -0500
+Received: from sauhun.de ([88.99.104.3]:45142 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725880AbgCEFqD (ORCPT
+        id S1725816AbgCEIYV (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Mar 2020 00:46:03 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Mar 2020 21:46:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,516,1574150400"; 
-   d="scan'208";a="263858122"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 04 Mar 2020 21:46:01 -0800
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1j9jKa-000HNN-TL; Thu, 05 Mar 2020 13:46:00 +0800
-Date:   Thu, 05 Mar 2020 13:45:05 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:master] BUILD SUCCESS
- a60d764b48d9bdd252631fa5f0b528fde8a9f4a6
-Message-ID: <5e6091e1.bmqCnFLQ9HrzbWSQ%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Thu, 5 Mar 2020 03:24:21 -0500
+Received: from localhost (p54B330C6.dip0.t-ipconnect.de [84.179.48.198])
+        by pokefinder.org (Postfix) with ESMTPSA id A7A422C1F28;
+        Thu,  5 Mar 2020 09:24:18 +0100 (CET)
+Date:   Thu, 5 Mar 2020 09:24:15 +0100
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Dennis Zhou <dennis@kernel.org>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] include/bitmap.h: add new functions to documentation
+Message-ID: <20200305082415.GA1079@ninjato>
+References: <20200304140920.6109-1-wsa+renesas@sang-engineering.com>
+ <20200304140920.6109-3-wsa+renesas@sang-engineering.com>
+ <20200304204026.GA55400@dennisz-mbp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="45Z9DzgjV8m4Oswq"
+Content-Disposition: inline
+In-Reply-To: <20200304204026.GA55400@dennisz-mbp>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  master
-branch HEAD: a60d764b48d9bdd252631fa5f0b528fde8a9f4a6  Merge tag 'v5.6-rc4' into renesas-devel
 
-elapsed time: 3935m
+--45Z9DzgjV8m4Oswq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-configs tested: 153
-configs skipped: 4
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> > I found these functions only by chance although I was looking exactly
+> > for something like them. So, add them to the list of functions to make
+> > them more visible.
+> >=20
+> > Fixes: e837dfde15a4 ("bitmap: genericize percpu bitmap region iterators=
+")
+> > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> > Cc: Dennis Zhou <dennis@kernel.org>
+>=20
+> Ah thanks. That was a miss not adding the documentation. I can pick
+> these up unless Andrew would rather run them through his tree. I have a
+> few other miscellaneous documentation cleanups for percpu I need to run
+> anyway.
 
-arm64                            allyesconfig
-arm                              allyesconfig
-arm64                             allnoconfig
-arm                               allnoconfig
-arm                         at91_dt_defconfig
-arm                           efm32_defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                        multi_v7_defconfig
-arm                        shmobile_defconfig
-arm                           sunxi_defconfig
-arm64                               defconfig
-sparc                            allyesconfig
-sparc64                          allyesconfig
-riscv                             allnoconfig
-sh                                allnoconfig
-riscv                            allmodconfig
-openrisc                    or1ksim_defconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                                defconfig
-i386                             alldefconfig
-ia64                             alldefconfig
-ia64                             allmodconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-ia64                                defconfig
-arm                              allmodconfig
-arm64                            allmodconfig
-c6x                              allyesconfig
-openrisc                 simple_smp_defconfig
-nios2                         3c120_defconfig
-nios2                         10m50_defconfig
-c6x                        evmc6678_defconfig
-xtensa                          iss_defconfig
-xtensa                       common_defconfig
-h8300                       h8s-sim_defconfig
-h8300                     edosk2674_defconfig
-m68k                       m5475evb_defconfig
-h8300                    h8300h-sim_defconfig
-m68k                           sun3_defconfig
-m68k                             allmodconfig
-m68k                          multi_defconfig
-arc                              allyesconfig
-arc                                 defconfig
-microblaze                      mmu_defconfig
-microblaze                    nommu_defconfig
-powerpc                           allnoconfig
-powerpc                             defconfig
-powerpc                       ppc64_defconfig
-powerpc                          rhel-kconfig
-mips                           32r2_defconfig
-mips                         64r6el_defconfig
-mips                             allmodconfig
-mips                              allnoconfig
-mips                             allyesconfig
-mips                      malta_kvm_defconfig
-parisc                            allnoconfig
-parisc                           allyesconfig
-parisc                generic-32bit_defconfig
-parisc                generic-64bit_defconfig
-i386                 randconfig-a003-20200302
-x86_64               randconfig-a001-20200302
-i386                 randconfig-a001-20200302
-i386                 randconfig-a002-20200302
-x86_64               randconfig-a003-20200302
-x86_64               randconfig-a002-20200302
-riscv                randconfig-a001-20200302
-alpha                randconfig-a001-20200302
-m68k                 randconfig-a001-20200302
-mips                 randconfig-a001-20200302
-nds32                randconfig-a001-20200302
-parisc               randconfig-a001-20200302
-c6x                  randconfig-a001-20200302
-microblaze           randconfig-a001-20200302
-sparc64              randconfig-a001-20200302
-nios2                randconfig-a001-20200302
-h8300                randconfig-a001-20200302
-csky                 randconfig-a001-20200302
-s390                 randconfig-a001-20200302
-sh                   randconfig-a001-20200302
-openrisc             randconfig-a001-20200302
-xtensa               randconfig-a001-20200302
-x86_64               randconfig-b001-20200302
-x86_64               randconfig-b002-20200302
-i386                 randconfig-b001-20200302
-i386                 randconfig-b003-20200302
-i386                 randconfig-b002-20200302
-x86_64               randconfig-b003-20200302
-x86_64               randconfig-c002-20200302
-x86_64               randconfig-c003-20200302
-i386                 randconfig-c001-20200302
-x86_64               randconfig-c001-20200302
-i386                 randconfig-c002-20200302
-i386                 randconfig-c003-20200302
-x86_64               randconfig-d001-20200302
-i386                 randconfig-d001-20200302
-i386                 randconfig-e001-20200302
-i386                 randconfig-e003-20200302
-x86_64               randconfig-e002-20200302
-x86_64               randconfig-e001-20200302
-i386                 randconfig-e002-20200302
-x86_64               randconfig-e003-20200302
-i386                 randconfig-f003-20200302
-x86_64               randconfig-f001-20200302
-i386                 randconfig-f001-20200302
-i386                 randconfig-f002-20200302
-x86_64               randconfig-f002-20200302
-x86_64               randconfig-f003-20200302
-i386                 randconfig-g003-20200302
-i386                 randconfig-g001-20200302
-x86_64               randconfig-g003-20200302
-x86_64               randconfig-g001-20200302
-x86_64               randconfig-g002-20200302
-i386                 randconfig-g002-20200302
-x86_64               randconfig-h001-20200302
-x86_64               randconfig-h003-20200302
-i386                 randconfig-h001-20200302
-i386                 randconfig-h003-20200302
-arc                  randconfig-a001-20200302
-sparc                randconfig-a001-20200302
-ia64                 randconfig-a001-20200302
-arm                  randconfig-a001-20200302
-arm64                randconfig-a001-20200302
-powerpc              randconfig-a001-20200302
-riscv                            allyesconfig
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-s390                             alldefconfig
-s390                             allmodconfig
-s390                              allnoconfig
-s390                             allyesconfig
-s390                          debug_defconfig
-s390                                defconfig
-s390                       zfcpdump_defconfig
-sh                  sh7785lcr_32bit_defconfig
-sh                            titan_defconfig
-sh                               allmodconfig
-sh                          rsk7269_defconfig
-sparc                               defconfig
-sparc64                          allmodconfig
-sparc64                           allnoconfig
-sparc64                             defconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-um                                  defconfig
-x86_64                              fedora-25
-x86_64                                  kexec
-x86_64                                    lkp
-x86_64                                   rhel
-x86_64                         rhel-7.2-clear
-x86_64                               rhel-7.6
+That sounds like a good fit to me. Will you take both of the patches?
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Thanks,
+
+   Wolfram
+
+
+--45Z9DzgjV8m4Oswq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl5gtysACgkQFA3kzBSg
+KbaSyQ//a6OXSGwK/vLNNCOnhGY6pviH+BI2Kt82p5SuaSru/5vIskDNeMCMALkn
+KX+e9JA87IyNXX8nGSznpbWOpS5Mr8Olmomhl6cYoEODwW06AEPvzsqxIKn/I1DO
+0Hvcj1bUbt/wCUuP1GdQAGBJvNYDdDUwwsNVixJCRdM6pxfmTPAWzybogTVy6g1I
+HIQkUqpZS3WQ2euffU0z4fJ/hThAGnLK5T3J9irqZnGDp054f+DS64ytrmMCeboD
+7aITrunzud7KaMYCSV3bf957MZiU7wqZJZZZbhsVnFdyTLRF9hE5bRVQdAb3SXYN
+lhHMhGTkUvZdgRLWPWMaRhGpEj7GWRvhIlql4+s+OK4GDUPHW/5X7EqwZEC2ZQ5r
+hX+hHi+cokiOTrHA6YvGWAnrC+6W0IlEVNJQ6phKC30x+wvNStnZLoa5htO+kNzT
+wvbHOgpaK/sGD2+cmTQMDgZ99v7Zok6pkBMs/Qu4e/HrnLALLIfH7DCkkBkI0w2i
+6cOARozzG7k1NPEGKjEj1N1Re+O3HfIqcHf33N3nbU2hcCmeiv4GL7AxA/g1Z3Nn
+mCVW6YL9PktQkc/zzAuD55h5BKBwuQtVBPwXAdSyhXwBaQwd1abbKDdiS42BmOA6
+C2PxnxZBr3q3tB8mhZjzM+y9DDpig4t1yuMo6RdFkcmE6UeJhIY=
+=vIoE
+-----END PGP SIGNATURE-----
+
+--45Z9DzgjV8m4Oswq--
