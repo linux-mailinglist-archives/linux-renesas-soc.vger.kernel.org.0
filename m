@@ -2,85 +2,57 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E59C517B0B8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Mar 2020 22:33:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CEC217B0F9
+	for <lists+linux-renesas-soc@lfdr.de>; Thu,  5 Mar 2020 22:54:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726049AbgCEVdb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 5 Mar 2020 16:33:31 -0500
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:40789 "EHLO
-        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725991AbgCEVdb (ORCPT
+        id S1726178AbgCEVyg (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 5 Mar 2020 16:54:36 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45998 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726143AbgCEVyg (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 5 Mar 2020 16:33:31 -0500
-Received: by mail-qk1-f195.google.com with SMTP id m2so333954qka.7;
-        Thu, 05 Mar 2020 13:33:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=1hqcOTK1dJgrJ1iFfuQIBp15f05oDajZgVRCIxl8Yg8=;
-        b=GEmwi5CDQU3MHJdmzPep2GKKvpnZFemhz1UkqVBBcUhyksSiZzGc1vmCEtFeiH2mCZ
-         Xbw4nfcQTQBId+JXSuvcMRczWyYKbMZLbylRBnBURWtETfoFlTr0PYGN5T210DuvXP/4
-         vedNJEecGMHvUOW+hzytnQbpcg6j/BpFtazBbVn1iRs7ZzRzK5BctNwlJ9HT3otAwlUA
-         l0F0b5px7Y+3lIzVBhApigPAMSSMMaYqnfn2tGSaafKeNjnQ8E9PTkDGxC2LeAJhehoB
-         +oEkzpRfBrDlp5aHp/82611z8uGLW10kUTg3EzsRYafhbB9kvSch/JhT4TgeOeUuhX4f
-         wJxA==
-X-Gm-Message-State: ANhLgQ11V4rsC+UIu/YnxxRUTziq+4g3neiHkUDugKQxkrLFyWD67MvT
-        Q5bRLm4RGCf5pvd+cu5Mh6b7eSMmLMIZ+A==
-X-Google-Smtp-Source: ADFU+vsyXjn1vZXA8f6HdMoYTygQMmO8graEQEtQbxVme3Ctqcasz4Ib4j/OXMG/TgEudCyljFw6AQ==
-X-Received: by 2002:a37:f518:: with SMTP id l24mr21381qkk.441.1583444010072;
-        Thu, 05 Mar 2020 13:33:30 -0800 (PST)
-Received: from dennisz-mbp.dhcp.thefacebook.com ([2620:10d:c091:500::b9df])
-        by smtp.gmail.com with ESMTPSA id r40sm756817qtc.39.2020.03.05.13.33.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2020 13:33:29 -0800 (PST)
-Date:   Thu, 5 Mar 2020 16:33:27 -0500
-From:   Dennis Zhou <dennis@kernel.org>
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     Dennis Zhou <dennis@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] include/bitmap.h: add new functions to documentation
-Message-ID: <20200305213327.GA79880@dennisz-mbp.dhcp.thefacebook.com>
-References: <20200304140920.6109-1-wsa+renesas@sang-engineering.com>
- <20200304140920.6109-3-wsa+renesas@sang-engineering.com>
- <20200304204026.GA55400@dennisz-mbp>
- <20200305082415.GA1079@ninjato>
+        Thu, 5 Mar 2020 16:54:36 -0500
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F256B20848;
+        Thu,  5 Mar 2020 21:54:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1583445276;
+        bh=JbojQ6Iimsw9BhuI4/ixe0CObt3ZFYXUINHCOEVPI0Q=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=yIYtfkSdiXFSHpuXO3W7zO3r66pg0W7g6qZSgRPijLi/GS+DdqSfOZi+sqtNu4fdS
+         hJgQnBrCqLMsUfAy7j1QLyvKANq6/P4WkzGJg4eTz2XZsDJNMgWe6TMWsrBv1Wdk0q
+         QdjocS1dWcsFlMiHNECyTTq/nz1Br56KbMq+duhc=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200305082415.GA1079@ninjato>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200303094848.23670-1-geert+renesas@glider.be>
+References: <20200303094848.23670-1-geert+renesas@glider.be>
+Subject: Re: [PATCH v2] dt-bindings: clock: renesas: cpg-mssr: Convert to json-schema
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Rob Herring <robh+dt@kernel.org>
+Date:   Thu, 05 Mar 2020 13:54:35 -0800
+Message-ID: <158344527518.25912.34270653410245340@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Mar 05, 2020 at 09:24:15AM +0100, Wolfram Sang wrote:
-> 
-> > > I found these functions only by chance although I was looking exactly
-> > > for something like them. So, add them to the list of functions to make
-> > > them more visible.
-> > > 
-> > > Fixes: e837dfde15a4 ("bitmap: genericize percpu bitmap region iterators")
-> > > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> > > Cc: Dennis Zhou <dennis@kernel.org>
-> > 
-> > Ah thanks. That was a miss not adding the documentation. I can pick
-> > these up unless Andrew would rather run them through his tree. I have a
-> > few other miscellaneous documentation cleanups for percpu I need to run
-> > anyway.
-> 
-> That sounds like a good fit to me. Will you take both of the patches?
-> 
-> Thanks,
-> 
->    Wolfram
-> 
+Quoting Geert Uytterhoeven (2020-03-03 01:48:48)
+> Convert the Renesas Clock Pulse Generator / Module Standby and Software
+> Reset Device Tree binding documentation to json-schema.
+>=20
+> Note that #reset-cells was incorrecty marked a required property for
+> RZ/A2 before.
+>=20
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
 
-I've picked up both in percpu for-5.7.
-
-Thanks,
-Dennis
+Reviewed-by: Stephen Boyd <sboyd@kernel.org>
