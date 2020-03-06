@@ -2,70 +2,78 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2390C17B835
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Mar 2020 09:17:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC72617B89D
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Mar 2020 09:50:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725901AbgCFIRY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Mar 2020 03:17:24 -0500
-Received: from sauhun.de ([88.99.104.3]:55604 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725869AbgCFIRY (ORCPT
+        id S1726124AbgCFIun (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Mar 2020 03:50:43 -0500
+Received: from xavier.telenet-ops.be ([195.130.132.52]:50836 "EHLO
+        xavier.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726108AbgCFIun (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Mar 2020 03:17:24 -0500
-Received: from localhost (p54B33158.dip0.t-ipconnect.de [84.179.49.88])
-        by pokefinder.org (Postfix) with ESMTPSA id 9261E2C1F2C;
-        Fri,  6 Mar 2020 09:17:21 +0100 (CET)
-Date:   Fri, 6 Mar 2020 09:17:21 +0100
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Dennis Zhou <dennis@kernel.org>
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] include/bitmap.h: updates to docs
-Message-ID: <20200306081721.GB1117@ninjato>
-References: <20200304140920.6109-1-wsa+renesas@sang-engineering.com>
- <20200305212950.GA79796@dennisz-mbp.dhcp.thefacebook.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="s2ZSL+KKDSLx8OML"
-Content-Disposition: inline
-In-Reply-To: <20200305212950.GA79796@dennisz-mbp.dhcp.thefacebook.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Fri, 6 Mar 2020 03:50:43 -0500
+Received: from ramsan ([84.195.182.253])
+        by xavier.telenet-ops.be with bizsmtp
+        id Awqg2200B5USYZQ01wqgPz; Fri, 06 Mar 2020 09:50:40 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jA8gq-0002XH-8g; Fri, 06 Mar 2020 09:50:40 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jA8gq-00027a-3z; Fri, 06 Mar 2020 09:50:40 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v3 0/2] spi: dt-bindings: spi-controller: Slave mode fixes
+Date:   Fri,  6 Mar 2020 09:50:36 +0100
+Message-Id: <20200306085038.8111-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+	Hi Mark, Rob, Maxime,
 
---s2ZSL+KKDSLx8OML
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This patch series contains two fixes for the SPI controller DT bindings
+regarding SPI controllers configured for slave mode.
 
+Changes compared to v2[1]:
+  - Make #address-cells mutually-exclusive with spi-slave,
 
-> I've applied this to percpu for-5.7.
+Changes compared to v1[2]:
+  - Use "enum: [0, 1]" instead of min/max limit,
+  - use "- spi-slave" instead of "[ spi-slave ]".
+  - New fix for spi-[rt]x-bus-width.
 
-Great, thank you!
+Thanks!
 
+[1] https://lore.kernel.org/linux-devicetree/20200303094522.23180-1-geert+renesas@glider.be/
+[2] https://lore.kernel.org/linux-devicetree/20200227130323.15327-1-geert+renesas@glider.be/
 
---s2ZSL+KKDSLx8OML
-Content-Type: application/pgp-signature; name="signature.asc"
+Geert Uytterhoeven (2):
+  spi: dt-bindings: spi-controller: Fix #address-cells for slave mode
+  spi: dt-bindings: spi-controller: Fix spi-[rt]x-bus-width for slave
+    mode
 
------BEGIN PGP SIGNATURE-----
+ .../devicetree/bindings/spi/spi-controller.yaml        | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl5iBxEACgkQFA3kzBSg
-KbYMUA//QUJMQqe5qyTC66ZUl/CpVFUB4WVd2ZlV48s0UZcGCduSgYNfrjA17NO5
-rDQg5HXb0+sIeNWZECaDQ1hMQG12gt4h0QFKKugB4wqTc4yp1xn3O4BdIO/OlKNL
-V6JnoiHhDZv8RO4Yf++nL57fwwrJAk7Gtp9PZjoSoWY4ar3VOJ0yeK1Er6b9H7i6
-pkCfKxFnO/mGkoEV7+o3TQVYeP4ADqlFToFhOnGnaF+SpLEWMB9J83s9fuHvlKTE
-gWiDYlDS1Br7FNVmFGtvfKieWvcfMOXUwWFO67Aw+6df/1Gi7NC4zluJQ9dGtYFS
-lTbgFI33fXdrePqVrG2QT5m0Yp8762uH67vYFvAcqkIw55qeXxzcTdTNIwuSlglR
-HFpxvTYDc09fWeru4C2wB8gdLx3R4QG6yvUoG5/7+QlSSMBOx1sgEan7Jco/fHoN
-LvuRQYJQk7tCGjxXNpMvjXJZlAi7z8qb18UFUVvg+FY4dcW1UGUmRf7ozhOO6Y9z
-LZtOpoJgiPj+KmegiwisLhzsc5lRLKIlWUe4iE+8HbAb69pDGqqm4RtaBDBn9Sdx
-6pNVPvvRIR1WK/p7dR3rYCSlaH1Jrd3GM7kZQea289yT8iBzAHJtmol/vuleIFJB
-mn53+nlQ8ny6T7+WnmPjMDkZzqDxZBryt3AkAtGJgymQge2P/1A=
-=eh2X
------END PGP SIGNATURE-----
+-- 
+2.17.1
 
---s2ZSL+KKDSLx8OML--
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
