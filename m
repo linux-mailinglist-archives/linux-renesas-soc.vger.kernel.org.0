@@ -2,141 +2,79 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7151D17BCA2
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Mar 2020 13:22:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C321117BD7E
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Mar 2020 14:03:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726090AbgCFMV7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Mar 2020 07:21:59 -0500
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:41282 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726054AbgCFMV7 (ORCPT
+        id S1726240AbgCFNDv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Mar 2020 08:03:51 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:45735 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726054AbgCFNDv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Mar 2020 07:21:59 -0500
-Received: by mail-oi1-f194.google.com with SMTP id i1so2315667oie.8;
-        Fri, 06 Mar 2020 04:21:59 -0800 (PST)
+        Fri, 6 Mar 2020 08:03:51 -0500
+Received: by mail-ot1-f66.google.com with SMTP id f21so2275760otp.12
+        for <linux-renesas-soc@vger.kernel.org>; Fri, 06 Mar 2020 05:03:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=PP2DishXN/uUrup+d3jTIYgHqkNWvTyxlqHhWL+y70E=;
-        b=RDxB7p25eiNzypjtjZxkzkeU+eYUxLeMzoYdOUWOX/uN4uf2Cza+rIJB1sr3a9fPRT
-         v4AnX4lE+N4pGVxAh51x/lVJ4hEFz8V1FPDyEPFj+OPTEkxBp8gfsoMy0+OgaYpof32g
-         b5UO2ZPYTN3p4Xd2mWhTV5+ptWWwvhqetwzhNkddY/KfmBe/2vQ8DUq8WfldCa4I9p8H
-         bk496dgjimpmVmXo4njzEIzdX9J6/zOmYYgFoWhWwCF+SvadZpAyHBKg8AaJsB7Zgyet
-         KHrlVUQe4iNMRr8zil3/yN5zKO9OtpzsT2N0zucBWgrdPROisGFFwZdN0PUFnepLNZ/o
-         LgfQ==
-X-Gm-Message-State: ANhLgQ2tlP5U1dXKnvORXmg+YWxcNzUCruxj16WgO5oCa89Jz+xa3KXK
-        mxrUoN2uHVcrv8TdOkF+GU3RQldDI+emGxaZ94U=
-X-Google-Smtp-Source: ADFU+vuqW1+bL1GfUIbD/UX0Xdr2QQ2a9Bx5BiX710LT61dVJJ+qMrBgjw1mx9XCfZC1zD0nvLC0ycFbm9N71NQanyw=
-X-Received: by 2002:aca:1a06:: with SMTP id a6mr2251724oia.148.1583497318647;
- Fri, 06 Mar 2020 04:21:58 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=aEVVe6+3afQR9p/gn1w7f9TwJ7DFs/1rjcn7GyOCqzs=;
+        b=Q22/QXdjdlfGhbeNQCRZrhSB0ynWhTwfnaS/XTUZ9Xj5dN+TXuVq6lzj9lfAqlLt2o
+         oBl0h8PG9a3SWQeEweqy3JACd0QQADRP7xR7ndrB/CcUZyEy7QBYdD4VJ7PUBr9qfhPb
+         c9S0U24nTT/SNphOMzi2LKVNyb0GA/Br8HieC14V/J6d8G2ArprZUSVJqOWxO/2l5E4G
+         UxoAAKQYS66uxq7iZEcjMdJZWq1KVhNBiEYLFmeCf06BnwNaqDmx466ebwt08MphYoax
+         w2/K83qqN3AtiALlsHTi6t4D+dJxWcnsIYNy+PZYQubIv7fhZKCGNJYq2vHEGhcDrkhw
+         tbkQ==
+X-Gm-Message-State: ANhLgQ3KvQRL+zUR6qnjf4KeHTiq/Kfg/1qXfRzD91NBNgXlMsLh4cGI
+        xZZnum5NyibJb5QSDgdt/fk6y2P0i9OcaLdVXAw=
+X-Google-Smtp-Source: ADFU+vuvBcTJRHPXduE4YdOdFpuk+AGgFWQNlfIn+2xdOgYZq5yYxIXunK7DRisRsRSCaP33WcDcKLIo3PbNfJKKzGg=
+X-Received: by 2002:a9d:1708:: with SMTP id i8mr106779ota.250.1583499830222;
+ Fri, 06 Mar 2020 05:03:50 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1578924232.git.alexander.riesen@cetitec.com>
- <20200113141556.GI3606@pflmari> <CAMuHMdV9urx-6N4tiaPdkssa6Wu-9HSB4VY-rvCu+8JpfZcBfA@mail.gmail.com>
- <20200302134011.GA3717@pflmari> <CAMuHMdWobAE+y90DRi+zQadObWPxLyQiGNTe4t77O-2S1Vp5yA@mail.gmail.com>
- <20200302150706.GB3717@pflmari> <CAMuHMdW21rYXoOSE8azHNqYjng_j41rsL=Fo2bZc=1ULi9+pLw@mail.gmail.com>
- <20200302160906.GC3717@pflmari> <CAMuHMdVNGsVHyvAgC5dAHx=8Ax18EHx2tS6Hm5Bkg4ms=mW6Zw@mail.gmail.com>
- <20200305143628.GB25741@pflmari>
-In-Reply-To: <20200305143628.GB25741@pflmari>
+References: <1583239490-8837-1-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
+In-Reply-To: <1583239490-8837-1-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 6 Mar 2020 13:21:47 +0100
-Message-ID: <CAMuHMdW+=qXgGhCowVkGQ7v4=ji8UQ7Db-e91XP7ZBpJcSp34A@mail.gmail.com>
-Subject: Re: [PATCH 8/8] arm64: dts: renesas: salvator: add a connection from
- adv748x codec (HDMI input) to the R-Car SoC
-To:     Alex Riesen <alexander.riesen@cetitec.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Driver Development <devel@driverdev.osuosl.org>,
-        Linux Media <linux-media@vger.kernel.org>,
-        Linux Kernel <linux-kernel@vger.kernel.org>,
-        Device Tree <devicetree@vger.kernel.org>,
-        Renesas SoC <linux-renesas-soc@vger.kernel.org>
+Date:   Fri, 6 Mar 2020 14:03:39 +0100
+Message-ID: <CAMuHMdWyKoFPwEP03qxXzDPziiw4=N7cDd=SkcqONEUtTbV1HA@mail.gmail.com>
+Subject: Re: [PATCH v2] ARM: dts: iwg22d-sodimm: enable LCD panel
+To:     Marian-Cristian Rotariu 
+        <marian-cristian.rotariu.rb@bp.renesas.com>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <chris.paterson2@renesas.com>,
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Alex,
+Hi Marian,
 
-On Thu, Mar 5, 2020 at 3:36 PM Alex Riesen <alexander.riesen@cetitec.com> wrote:
-> Geert Uytterhoeven, Mon, Mar 02, 2020 17:13:30 +0100:
-> > On Mon, Mar 2, 2020 at 5:09 PM Alex Riesen <alexander.riesen@cetitec.com> wrote:
-> > > Geert Uytterhoeven, Mon, Mar 02, 2020 16:32:32 +0100:
-> > > >
-> > > > The #clock-cells should be in the main video-receiver node.
-> > > > Probably there is more than one clock output, so #clock-cells may be 1?
-> > >
-> > > AFAICS, the device can provide only this one clock line (audio master clock
-> > > for I2S output)... I shall re-check, just in case.
+On Tue, Mar 3, 2020 at 2:06 PM Marian-Cristian Rotariu
+<marian-cristian.rotariu.rb@bp.renesas.com> wrote:
+> On the Generic SODIMM Development Platform there is an RGB LCD panel
+> directly connected to the DU output. It uses the TPU0 as backlight, one
+> GPIO pull-up configuration for power enable, R[2:7], G[2:7], B[2:7],
+> VSYNC, HSYNC, DU0_DISP and, DU0_CLK as inputs.
 >
-> And you're right, of course: the audio output formatting module of the ADV748x
-> devices provides a set of clock lines related to the I2S pins: the already
-> discussed master clock, left-right channel clock and the serial clock (bit
-> clock?).
+> There is no encoder between the DU and the panel, therefore the default
+> connector driver is used.
 >
-> > > > There is no need for a fixed-clock compatible, nor for clock-frequency
-> > > > and clock-output-names.
-> > > >
-> > > > But most important: this should be documented in the adv748x DT bindings,
-> > > > and implemented in the adv748x driver.
-> > >
-> > > So if the driver is to export that clock for the kernel (like in this case),
-> > > it must implement its support?
-> >
-> > Exactly.  Unless that pin is hardcoded to output a fixed clock, in which case
-> > you can just override the existing audio_clk_c rate.
+> The two variants of the iW-G22D should be mutually exclusive, therefore
+> this patch also disables the RGB LCD display when the HDMI extension board
+> is used.
 >
-> Just to try it out (I'll set #clock-cells to 1), I registered a fixed rate
-> clock in the driver, added a clock provider:
->
-> adv748x_probe:
->
->     clk = clk_register_fixed_rate(state->dev,
->                                   "clk-hdmi-i2s-mclk",
->                                   NULL     /* parent_name */,
->                                   0        /* flags */,
->                                   12288000 /* rate */);
->     of_clk_add_provider(state->dev->of_node, of_clk_src_simple_get, clk);
->
-> And removed the audio_clk_c frequency setting. I also replaced the audio_clk_c
-> in the list of input clocks of the R-Car-side sound card with the phandle of
-> the adv7482 main node:
->
-> salvator-common.dtsi:
->
->     &i2c4 {
->         status = "okay";
->
->         adv7482_hdmi_decoder: video-receiver@70 {
->             #clock-cells = <0>; // to be replaced with <1>
->         };
->     };
->
->     &rcar_sound {
->         clocks = ..., <&adv7482_hdmi_decoder>, ...;
->     };
->
-> As everything continues to work as before, I assume that at least the clock
-> dependencies were resolved.
->
-> Is there a way to verify that the added input clock is actually used?
-> IOW, if its frequency is actually has been programmed into the ssi4 (R-Car
-> receiving hardware) registers, and not just a left-over from previuos attempts
-> or plain default setting?
+> Changes for v2:
+> - fix the backlight of the panel
+> - remove "simple-panel" compatible as it is not needed
+> - use only one port for the endpoint connection of the panel
 
-Have a look at /sys/kernel/debug/clk/clk_summary
+Thanks for the update!
 
-> As the ADV748x devices seem to provide also the clocks for video outputs, will
-> it make any sense to place the clock definition into the port node?
-> Or should all provided clocks be indexed in the main device node?
+> Signed-off-by: Marian-Cristian Rotariu <marian-cristian.rotariu.rb@bp.renesas.com>
 
-Sorry, I don't know.
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+i.e. will queue in renesas-devel for v5.7.
 
 Gr{oetje,eeting}s,
 
