@@ -2,46 +2,50 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C321117BD7E
-	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Mar 2020 14:03:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7582817BD92
+	for <lists+linux-renesas-soc@lfdr.de>; Fri,  6 Mar 2020 14:04:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726240AbgCFNDv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 6 Mar 2020 08:03:51 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:45735 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726054AbgCFNDv (ORCPT
+        id S1726240AbgCFNER (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 6 Mar 2020 08:04:17 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:36004 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726162AbgCFNER (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 6 Mar 2020 08:03:51 -0500
-Received: by mail-ot1-f66.google.com with SMTP id f21so2275760otp.12
-        for <linux-renesas-soc@vger.kernel.org>; Fri, 06 Mar 2020 05:03:50 -0800 (PST)
+        Fri, 6 Mar 2020 08:04:17 -0500
+Received: by mail-ot1-f68.google.com with SMTP id j14so2333618otq.3;
+        Fri, 06 Mar 2020 05:04:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=aEVVe6+3afQR9p/gn1w7f9TwJ7DFs/1rjcn7GyOCqzs=;
-        b=Q22/QXdjdlfGhbeNQCRZrhSB0ynWhTwfnaS/XTUZ9Xj5dN+TXuVq6lzj9lfAqlLt2o
-         oBl0h8PG9a3SWQeEweqy3JACd0QQADRP7xR7ndrB/CcUZyEy7QBYdD4VJ7PUBr9qfhPb
-         c9S0U24nTT/SNphOMzi2LKVNyb0GA/Br8HieC14V/J6d8G2ArprZUSVJqOWxO/2l5E4G
-         UxoAAKQYS66uxq7iZEcjMdJZWq1KVhNBiEYLFmeCf06BnwNaqDmx466ebwt08MphYoax
-         w2/K83qqN3AtiALlsHTi6t4D+dJxWcnsIYNy+PZYQubIv7fhZKCGNJYq2vHEGhcDrkhw
-         tbkQ==
-X-Gm-Message-State: ANhLgQ3KvQRL+zUR6qnjf4KeHTiq/Kfg/1qXfRzD91NBNgXlMsLh4cGI
-        xZZnum5NyibJb5QSDgdt/fk6y2P0i9OcaLdVXAw=
-X-Google-Smtp-Source: ADFU+vuvBcTJRHPXduE4YdOdFpuk+AGgFWQNlfIn+2xdOgYZq5yYxIXunK7DRisRsRSCaP33WcDcKLIo3PbNfJKKzGg=
-X-Received: by 2002:a9d:1708:: with SMTP id i8mr106779ota.250.1583499830222;
- Fri, 06 Mar 2020 05:03:50 -0800 (PST)
+        bh=JzaIUkVFuv9lgRBDj65Rp9bla52M7lQaJkCFR0Rkn9g=;
+        b=oLZiMIfgnTWzWxig66om1AOGXmnlMmbTCaQeUNOJ56qYaXbgQPulhNpaHW0/A+SFsr
+         6rATLI95kd0U06nZsp7ZolWSiL8ViBdrGzmqU97Za6lVc27NXM0DbzfoKSQd5G3Q5IJG
+         i/m+TFW5XyomvnyAXPqs+bViVFUhrOZJ8/q50YxZzYOvDXi2FftruPAWYGauFMhmDleW
+         urkYKXN9C6oQ9yED/EjS0Hq0/WgzwrAIo4g6uV3jdgQRMmqIE+LcA/g7bKjUpvrQOTl1
+         hp0anOFOHOg0eZRBFNTueHs9P8GRPrQhaIzTCCl1IuLl35bCtPsAH3RU69O8wXpHUlPj
+         76UQ==
+X-Gm-Message-State: ANhLgQ2i1ZI8eBkRuvmPvvvtgxit9SHD8UN3gLitTL4oLPOy3t4NhdFg
+        /p2V5QnG1aitQNYK7SMIO0YsVSz8FuO4jKJlWHI=
+X-Google-Smtp-Source: ADFU+vtqli4FexOlC4pW3IiMfTl6lS7NnILzq0dOAQMcB1RM09RIUnawy1+ah+fUgYEeWIKgFWSXGlCFXhq90n5aPDo=
+X-Received: by 2002:a05:6830:1e9c:: with SMTP id n28mr2275502otr.107.1583499856380;
+ Fri, 06 Mar 2020 05:04:16 -0800 (PST)
 MIME-Version: 1.0
-References: <1583239490-8837-1-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
-In-Reply-To: <1583239490-8837-1-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
+References: <1583336650-25848-1-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
+In-Reply-To: <1583336650-25848-1-git-send-email-marian-cristian.rotariu.rb@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 6 Mar 2020 14:03:39 +0100
-Message-ID: <CAMuHMdWyKoFPwEP03qxXzDPziiw4=N7cDd=SkcqONEUtTbV1HA@mail.gmail.com>
-Subject: Re: [PATCH v2] ARM: dts: iwg22d-sodimm: enable LCD panel
+Date:   Fri, 6 Mar 2020 14:04:05 +0100
+Message-ID: <CAMuHMdUWQVhzk17FNsOpeMFgUNBdg-XYujDfSbnrwOu5gVxFcw@mail.gmail.com>
+Subject: Re: [PATCH v2] ARM: dts: iwg22d-sodimm: Enable touchscreen
 To:     Marian-Cristian Rotariu 
         <marian-cristian.rotariu.rb@bp.renesas.com>
 Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Chris Paterson <chris.paterson2@renesas.com>,
-        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>
+        "Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
@@ -50,24 +54,26 @@ X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
 Hi Marian,
 
-On Tue, Mar 3, 2020 at 2:06 PM Marian-Cristian Rotariu
+On Wed, Mar 4, 2020 at 4:44 PM Marian-Cristian Rotariu
 <marian-cristian.rotariu.rb@bp.renesas.com> wrote:
-> On the Generic SODIMM Development Platform there is an RGB LCD panel
-> directly connected to the DU output. It uses the TPU0 as backlight, one
-> GPIO pull-up configuration for power enable, R[2:7], G[2:7], B[2:7],
-> VSYNC, HSYNC, DU0_DISP and, DU0_CLK as inputs.
+> In one of the iWave-G22D development board variants, called Generic SODIMM
+> Development Platform, we have an LCD with touchscreen. The resistive touch
+> controller, STMPE811 is on the development board and is connected through
+> the i2c5 of the RZ-G1E.
 >
-> There is no encoder between the DU and the panel, therefore the default
-> connector driver is used.
+> Additionally, this controller should generate an interrupt to the CPU and
+> it is connected through GPIO4,4 to the GIC.
 >
-> The two variants of the iW-G22D should be mutually exclusive, therefore
-> this patch also disables the RGB LCD display when the HDMI extension board
-> is used.
+> Touch was tested with one of our iW-RainboW-G22D-SODIMM RZ/G1E development
+> platforms.
 >
-> Changes for v2:
-> - fix the backlight of the panel
-> - remove "simple-panel" compatible as it is not needed
-> - use only one port for the endpoint connection of the panel
+> More details on the iWave website:
+> https://www.iwavesystems.com/rz-g1e-sodimm-development-kit.html
+>
+> Changes from v1:
+>  -remove redundant GPIO code
+>  -remove obsolete and unused properties
+>  -sync property values with the comments & the bindings
 
 Thanks for the update!
 
@@ -76,11 +82,12 @@ Thanks for the update!
 Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 i.e. will queue in renesas-devel for v5.7.
 
+
 Gr{oetje,eeting}s,
 
                         Geert
 
--- 
+--
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
