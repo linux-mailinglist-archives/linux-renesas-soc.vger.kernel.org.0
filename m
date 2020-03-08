@@ -2,53 +2,38 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DAC117D57F
-	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Mar 2020 19:23:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C52E17D5BA
+	for <lists+linux-renesas-soc@lfdr.de>; Sun,  8 Mar 2020 19:58:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726332AbgCHSXo (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 8 Mar 2020 14:23:44 -0400
-Received: from www752.sakura.ne.jp ([59.106.19.202]:60190 "EHLO
-        www752.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726279AbgCHSXo (ORCPT
+        id S1726332AbgCHS6N (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 8 Mar 2020 14:58:13 -0400
+Received: from ns1.bdren.net.bd ([163.47.37.11]:43236 "EHLO dn1.bdren.net.bd"
+        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726318AbgCHS6N (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 8 Mar 2020 14:23:44 -0400
-X-Greylist: delayed 8129 seconds by postgrey-1.27 at vger.kernel.org; Sun, 08 Mar 2020 14:23:43 EDT
-Received: from fsav107.sakura.ne.jp (fsav107.sakura.ne.jp [27.133.134.234])
-        by www752.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 028G1VKM063467;
-        Mon, 9 Mar 2020 01:01:31 +0900 (JST)
-        (envelope-from postmaster@hokusetubad.sakura.ne.jp)
-Received: from www752.sakura.ne.jp (59.106.19.202)
- by fsav107.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav107.sakura.ne.jp);
- Mon, 09 Mar 2020 01:01:31 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav107.sakura.ne.jp)
-Received: from www752.sakura.ne.jp (localhost [127.0.0.1])
-        by www752.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 028G1TgF063454;
-        Mon, 9 Mar 2020 01:01:30 +0900 (JST)
-        (envelope-from postmaster@hokusetubad.sakura.ne.jp)
-Received: (from hokusetubad@localhost)
-        by www752.sakura.ne.jp (8.15.2/8.15.2/Submit) id 028G1T3k063453;
-        Mon, 9 Mar 2020 01:01:29 +0900 (JST)
-        (envelope-from postmaster@hokusetubad.sakura.ne.jp)
-Message-Id: <202003081601.028G1T3k063453@www752.sakura.ne.jp>
-X-Authentication-Warning: www752.sakura.ne.jp: hokusetubad set sender to postmaster@hokusetubad.sakura.ne.jp using -f
-Subject: BUSINESS PROPOSAL
-From:   postmaster@hokusetubad.sakura.ne.jp
-Reply-To: abulkareem461@gmail.com
-To:     Michael.Hennerich@analog.com
+        Sun, 8 Mar 2020 14:58:13 -0400
+X-Greylist: delayed 4920 seconds by postgrey-1.27 at vger.kernel.org; Sun, 08 Mar 2020 14:58:06 EDT
+Received: from User ([156.96.45.188])
+        (authenticated bits=0)
+        by dn1.bdren.net.bd (8.14.4/8.14.4) with ESMTP id 028HWv59022119;
+        Sun, 8 Mar 2020 23:33:00 +0600
+Message-Id: <202003081733.028HWv59022119@dn1.bdren.net.bd>
+Reply-To: <francoispiniault@gmail.com>
+From:   "Francois Pinault" <francioispinaul@gmail.com>
+Subject: Re:
+Date:   Sun, 8 Mar 2020 13:33:22 -0400
 MIME-Version: 1.0
-Date:   Mon, 09 Mar 2020 01:01:29 +0900
-Content-Type: text/plain; charset="ISO-2022-JP"
+Content-Type: text/plain;
+        charset="Windows-1251"
 Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Dearest Friend
-
-I am Mr Abdul Kareem working with Emirate NBD Bank Dubai,United Arab Emirate as Finance Manager.
-I have a very profitable Business that concerns you and will benefit both of us after completion.
-Kindly get back to me for more details.
-Awaiting your response.
-Regards
-Abdul Kareem
+A donation was made in your favour by Francois Pinault, reply for more details.
