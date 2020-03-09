@@ -2,94 +2,139 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CE8017E573
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Mar 2020 18:12:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A70217E57A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Mar 2020 18:15:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727198AbgCIRME (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Mar 2020 13:12:04 -0400
-Received: from baptiste.telenet-ops.be ([195.130.132.51]:49422 "EHLO
+        id S1727272AbgCIRPm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Mar 2020 13:15:42 -0400
+Received: from baptiste.telenet-ops.be ([195.130.132.51]:55510 "EHLO
         baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727101AbgCIRME (ORCPT
+        with ESMTP id S1727263AbgCIRPl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Mar 2020 13:12:04 -0400
+        Mon, 9 Mar 2020 13:15:41 -0400
 Received: from ramsan ([84.195.182.253])
         by baptiste.telenet-ops.be with bizsmtp
-        id CHC1220045USYZQ01HC10z; Mon, 09 Mar 2020 18:12:01 +0100
+        id CHFf2200N5USYZQ01HFfcT; Mon, 09 Mar 2020 18:15:39 +0100
 Received: from rox.of.borg ([192.168.97.57])
         by ramsan with esmtp (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1jBLwf-0007LE-4G; Mon, 09 Mar 2020 18:12:01 +0100
+        id 1jBM0B-0007Pa-HO; Mon, 09 Mar 2020 18:15:39 +0100
 Received: from geert by rox.of.borg with local (Exim 4.90_1)
         (envelope-from <geert@linux-m68k.org>)
-        id 1jBLwf-0005X5-2i; Mon, 09 Mar 2020 18:12:01 +0100
+        id 1jBM0B-0005ca-FS; Mon, 09 Mar 2020 18:15:39 +0100
 From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
-        linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Takeshi Kihara <takeshi.kihara.df@renesas.com>,
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Chris Brandt <Chris.Brandt@renesas.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-sh@vger.kernel.org,
         Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] arm64: dts: renesas: r8a77990: Add CPUIdle support for CA53 cores
-Date:   Mon,  9 Mar 2020 18:12:00 +0100
-Message-Id: <20200309171200.21226-1-geert+renesas@glider.be>
+Subject: [PATCH] spi: rspi: Add support for active-high chip selects
+Date:   Mon,  9 Mar 2020 18:15:37 +0100
+Message-Id: <20200309171537.21551-1-geert+renesas@glider.be>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-From: Takeshi Kihara <takeshi.kihara.df@renesas.com>
+All RSPI variants support setting the polarity of the SSL signal.
+Advertize support for active-high chip selects, and configure polarity
+according to the state of the flag.
 
-Enable cpuidle (core shutdown) support for the CA53 cores on R-Car E3.
-
-Signed-off-by: Takeshi Kihara <takeshi.kihara.df@renesas.com>
 Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
-To be queued in renesas-devel for v5.7.
+Tested on r8a7791/koelsch using spidev_test and a logic analyzer.
+---
+ drivers/spi/spi-rspi.c | 36 ++++++++++++++++++++++++++++++++----
+ 1 file changed, 32 insertions(+), 4 deletions(-)
 
- arch/arm64/boot/dts/renesas/r8a77990.dtsi | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/renesas/r8a77990.dtsi b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-index 0ad20b78e6eb62fd..1543f18e834f4bea 100644
---- a/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-+++ b/arch/arm64/boot/dts/renesas/r8a77990.dtsi
-@@ -88,6 +88,7 @@
- 			power-domains = <&sysc R8A77990_PD_CA53_CPU0>;
- 			next-level-cache = <&L2_CA53>;
- 			enable-method = "psci";
-+			cpu-idle-states = <&CPU_SLEEP_0>;
- 			dynamic-power-coefficient = <277>;
- 			clocks =<&cpg CPG_CORE R8A77990_CLK_Z2>;
- 			operating-points-v2 = <&cluster1_opp>;
-@@ -100,6 +101,7 @@
- 			power-domains = <&sysc R8A77990_PD_CA53_CPU1>;
- 			next-level-cache = <&L2_CA53>;
- 			enable-method = "psci";
-+			cpu-idle-states = <&CPU_SLEEP_0>;
- 			clocks =<&cpg CPG_CORE R8A77990_CLK_Z2>;
- 			operating-points-v2 = <&cluster1_opp>;
- 		};
-@@ -110,6 +112,19 @@
- 			cache-unified;
- 			cache-level = <2>;
- 		};
-+
-+		idle-states {
-+			entry-method = "psci";
-+
-+			CPU_SLEEP_0: cpu-sleep-0 {
-+				compatible = "arm,idle-state";
-+				arm,psci-suspend-param = <0x0010000>;
-+				local-timer-stop;
-+				entry-latency-us = <700>;
-+				exit-latency-us = <700>;
-+				min-residency-us = <5000>;
-+			};
-+		};
- 	};
+diff --git a/drivers/spi/spi-rspi.c b/drivers/spi/spi-rspi.c
+index aef05f2ac749c21d..06192c9ea8132911 100644
+--- a/drivers/spi/spi-rspi.c
++++ b/drivers/spi/spi-rspi.c
+@@ -24,6 +24,7 @@
+ #include <linux/sh_dma.h>
+ #include <linux/spi/spi.h>
+ #include <linux/spi/rspi.h>
++#include <linux/spinlock.h>
  
- 	extal_clk: extal {
+ #define RSPI_SPCR		0x00	/* Control Register */
+ #define RSPI_SSLP		0x01	/* Slave Select Polarity Register */
+@@ -79,8 +80,7 @@
+ #define SPCR_BSWAP		0x01	/* Byte Swap of read-data for DMAC */
+ 
+ /* SSLP - Slave Select Polarity Register */
+-#define SSLP_SSL1P		0x02	/* SSL1 Signal Polarity Setting */
+-#define SSLP_SSL0P		0x01	/* SSL0 Signal Polarity Setting */
++#define SSLP_SSLP(i)		BIT(i)	/* SSLi Signal Polarity Setting */
+ 
+ /* SPPCR - Pin Control Register */
+ #define SPPCR_MOIFE		0x20	/* MOSI Idle Value Fixing Enable */
+@@ -181,7 +181,9 @@ struct rspi_data {
+ 	void __iomem *addr;
+ 	u32 max_speed_hz;
+ 	struct spi_controller *ctlr;
++	struct platform_device *pdev;
+ 	wait_queue_head_t wait;
++	spinlock_t lock;		/* Protects RMW-access to RSPI_SSLP */
+ 	struct clk *clk;
+ 	u16 spcmd;
+ 	u8 spsr;
+@@ -919,6 +921,29 @@ static int qspi_setup_sequencer(struct rspi_data *rspi,
+ 	return 0;
+ }
+ 
++static int rspi_setup(struct spi_device *spi)
++{
++	struct rspi_data *rspi = spi_controller_get_devdata(spi->controller);
++	u8 sslp;
++
++	if (spi->cs_gpiod)
++		return 0;
++
++	pm_runtime_get_sync(&rspi->pdev->dev);
++	spin_lock_irq(&rspi->lock);
++
++	sslp = rspi_read8(rspi, RSPI_SSLP);
++	if (spi->mode & SPI_CS_HIGH)
++		sslp |= SSLP_SSLP(spi->chip_select);
++	else
++		sslp &= ~SSLP_SSLP(spi->chip_select);
++	rspi_write8(rspi, sslp, RSPI_SSLP);
++
++	spin_unlock_irq(&rspi->lock);
++	pm_runtime_put(&rspi->pdev->dev);
++	return 0;
++}
++
+ static int rspi_prepare_message(struct spi_controller *ctlr,
+ 				struct spi_message *msg)
+ {
+@@ -1248,17 +1273,20 @@ static int rspi_probe(struct platform_device *pdev)
+ 		goto error1;
+ 	}
+ 
++	rspi->pdev = pdev;
+ 	pm_runtime_enable(&pdev->dev);
+ 
+ 	init_waitqueue_head(&rspi->wait);
++	spin_lock_init(&rspi->lock);
+ 
+ 	ctlr->bus_num = pdev->id;
++	ctlr->setup = rspi_setup;
+ 	ctlr->auto_runtime_pm = true;
+ 	ctlr->transfer_one = ops->transfer_one;
+ 	ctlr->prepare_message = rspi_prepare_message;
+ 	ctlr->unprepare_message = rspi_unprepare_message;
+-	ctlr->mode_bits = SPI_CPHA | SPI_CPOL | SPI_LSB_FIRST | SPI_LOOP |
+-			  ops->extra_mode_bits;
++	ctlr->mode_bits = SPI_CPHA | SPI_CPOL | SPI_CS_HIGH | SPI_LSB_FIRST |
++			  SPI_LOOP | ops->extra_mode_bits;
+ 	ctlr->flags = ops->flags;
+ 	ctlr->dev.of_node = pdev->dev.of_node;
+ 	ctlr->use_gpio_descriptors = true;
 -- 
 2.17.1
 
