@@ -2,83 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 08C9E17DC46
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Mar 2020 10:21:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0946117DC48
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Mar 2020 10:21:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725962AbgCIJVi convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Mar 2020 05:21:38 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:36723 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725796AbgCIJVi (ORCPT
+        id S1726071AbgCIJVn (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Mar 2020 05:21:43 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:39420 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725796AbgCIJVn (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Mar 2020 05:21:38 -0400
-Received: by mail-oi1-f195.google.com with SMTP id t24so9472333oij.3;
-        Mon, 09 Mar 2020 02:21:38 -0700 (PDT)
+        Mon, 9 Mar 2020 05:21:43 -0400
+Received: by mail-ot1-f66.google.com with SMTP id a9so2637779otl.6;
+        Mon, 09 Mar 2020 02:21:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=cW5QRu/WQLX7HG/+uT7JbwnBxTD9IJb8uwxzlsc003A=;
-        b=BANk64tp4JYSPTJpon2r3Pr2USpsXoXwYHs+9jbEsLJRyWyia6KUG+b4bUy7fR4HJD
-         ruDuUi7hAHz1p55cutg/SejjhSAcbuwWeGAo2DyJJTPkNBVwqBvrYldxMr8LVTG/pIGT
-         5Gmt0OQpz6uqwbSXpPn1g3+WlXumI+kbvKyFv2q9cpA7Z4xeAHLGLtQ9MdZdLEU8nA50
-         GsL4m7de7zhczX80GQsikUj7Oe6jLrWefsWcuhZLUW0CtlBNiDZ5qYnxUoiMiojSK03j
-         GUPp5MChy3IHXR++BEUOfCMGZ83xmq6Nlcf+ExhecO6sHqqRB42OksNRcKqs8TVHQXt5
-         EUHA==
-X-Gm-Message-State: ANhLgQ3vFTCW448xz13sVU9MF4EeyX+E4C4ZgmNzTPOQVGu6gBsgpE4k
-        FvdGkj43RomTmR0ve4TGL2v/Wg+CqrMDDhv4WLU=
-X-Google-Smtp-Source: ADFU+vtbOXPyRFXaIDFk8cCnkW2knsMp8Sqc7CbW2cu0aR3vXAMSmqmgZ8onL4mKFmGV/6odqwEBcjQBfTTlYHMNcO0=
-X-Received: by 2002:aca:5ed4:: with SMTP id s203mr6496923oib.102.1583745697858;
- Mon, 09 Mar 2020 02:21:37 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=0chbd4nwR5irzruqlvYBPN4eYq66a85QmEWWjg+J+Uc=;
+        b=ftFFfTmlYSK+tVcqUNZjYko0G2v9U+ke+zdonK/orm2gDzNYhv+udaO+j4nWtck6BD
+         gWaEstT1hw12aUX8adrBxxYlAumYmPGUHDQd7X8uqjE1+W+PGuGqmbEXPwDKV/MlAOZO
+         +fvlDT4hLwAcOGWasL+wu6A1Ys6yoVEXFoigwYs2pZ1/B3MoCfZnV0rLzoHxAqqIglqg
+         OWTbOak2vtBj2xoeURlE3aMaM/ukjZulPjkGu6KcvKvtdm7kWwnX38s4KUXCpOf+Q5wP
+         c2unonQRak+9yOBinuc9qZ0FZDGkhrdzZixhUOwRt86ST1J1+rPEvq82awjm5BCisgR8
+         Gfsw==
+X-Gm-Message-State: ANhLgQ17339ilcHlXivhvNEicRFTeZWw7I9/gTOSWQgGkAay1pf3Nqcf
+        k3V5yHX3cBorQ7LpPCP3Zxzk8p2VGllDh9Uf4UHOcg==
+X-Google-Smtp-Source: ADFU+vuhP8K63glnB2X4iEc7HTPTFJXZEPkIIW22Q78fMzb/B95Goj5cxitaZ8igflDkbBXOM7yVb7ajPKCM3OcTgZw=
+X-Received: by 2002:a9d:4d02:: with SMTP id n2mr2907132otf.107.1583745702518;
+ Mon, 09 Mar 2020 02:21:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200306110025.24747-1-geert+renesas@glider.be> <20200308163543.GD2975348@oden.dyn.berto.se>
-In-Reply-To: <20200308163543.GD2975348@oden.dyn.berto.se>
+References: <1583304137-28482-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
+In-Reply-To: <1583304137-28482-1-git-send-email-yoshihiro.shimoda.uh@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 9 Mar 2020 10:21:25 +0100
-Message-ID: <CAMuHMdWprMpoyQuDFCs+R4NJR87FVnufQNqxmJGTiJXK_v5C6Q@mail.gmail.com>
-Subject: Re: [PATCH] arm64: dts: renesas: r8a77961: Add thermal nodes
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Date:   Mon, 9 Mar 2020 10:21:31 +0100
+Message-ID: <CAMuHMdVQ=evfYLP09q7UMZB1gry-y=g+sP0FDgSmk-iwuRf3kQ@mail.gmail.com>
+Subject: Re: [PATCH v4 0/4] clk: renesas: rcar-usb2-clock-sel: Fix clks/resets handling
+To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+Hi Shimda-san,
 
-On Sun, Mar 8, 2020 at 5:35 PM Niklas Söderlund
-<niklas.soderlund@ragnatech.se> wrote:
-> On 2020-03-06 12:00:25 +0100, Geert Uytterhoeven wrote:
-> > Add a device node for the Thermal Sensor/Chip Internal Voltage Monitor
-> > in the R-Car M3-W+ (R8A77961) SoC, and describe the thermal zones.
-> >
-> > According to the R-Car Gen3 Hardware Manual Errata for Revision 2.00 of
-> > Jan 31, 2020, the thermal parameters for R-Car M3-W+ are the same as for
-> > R-Car M3-W.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-> > --- a/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-> > +++ b/arch/arm64/boot/dts/renesas/r8a77961.dtsi
-
-> > @@ -785,6 +799,7 @@
-> >                       status = "disabled";
-> >               };
-> >
-> > +
+On Wed, Mar 4, 2020 at 7:42 AM Yoshihiro Shimoda
+<yoshihiro.shimoda.uh@renesas.com> wrote:
+> This patch series is based on the latest renesas-drivers.git /
+> renesas-drivers-2020-02-25-v5.6-rc3 branch.
+> The hardware also needs multiple clocks/resets management like
+> renesas_usbhs driver [1], so this patch series fixes it.
 >
-> This don't looks like it's needed :-) With this fixed,
+> [1]
+> 3df0e24 usb: renesas_usbhs: Add multiple clocks management
+> f181dbb usb: renesas_usbhs: Add reset_control
 >
-> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Changes from v3:
+>  - Add reset-names property in patch 2/4.
+>  - Use devm_clk_bulk_get() instead of multiple devm_clk_get() in patch 3/4.
+>  - Add Geert's Reviewed-by into the patch 4/4.
+>  https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=196577
+>
+> Changes from v2:
+>  - Add Rob's Reviewed-by into the patch [12]/4.
+>  - Fix typo in patch 2/4.
+>  https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=194309
+>
+> Changes from v1:
+>  - Add Reviewed-by into this series' patch 1/4.
+>  - (new) Add resets and power-domains properties into the patch 2/4.
+>  - Use clk_bulk_* APIs (except clk_bulk_get() because this driver has
+>    4 clocks and used only 2 clocks).
+>  - Add "select RESET_CONTROLLER" into Kconfig
+>  - Use devm_reset_control_array_get() instead of optional API.
+>  https://patchwork.kernel.org/project/linux-renesas-soc/list/?series=192869
+>
+> Yoshihiro Shimoda (4):
+>   dt-bindings: clock: renesas: rcar-usb2-clock-sel: Fix clock[-name]s
+>     properties
+>   dt-bindings: clock: renesas: rcar-usb2-clock-sel: Add power-domains
+>     and resets properties
+>   clk: renesas: rcar-usb2-clock-sel: Add multiple clocks management
+>   clk: renesas: rcar-usb2-clock-sel: Add reset_control
+>
+>  .../bindings/clock/renesas,rcar-usb2-clock-sel.txt | 17 +++++++--
+>  drivers/clk/renesas/Kconfig                        |  1 +
+>  drivers/clk/renesas/rcar-usb2-clock-sel.c          | 40 ++++++++++++++++++++--
+>  3 files changed, 53 insertions(+), 5 deletions(-)
 
-Thanks, queued in renesas-devel for v5.7, with the above fixed.
+Thanks, queued in clk-renesas-for-v5.7.
 
 Gr{oetje,eeting}s,
 
