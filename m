@@ -2,139 +2,198 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A70217E57A
-	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Mar 2020 18:15:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2794417E705
+	for <lists+linux-renesas-soc@lfdr.de>; Mon,  9 Mar 2020 19:24:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727272AbgCIRPm (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Mar 2020 13:15:42 -0400
-Received: from baptiste.telenet-ops.be ([195.130.132.51]:55510 "EHLO
-        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727263AbgCIRPl (ORCPT
+        id S1727380AbgCISXt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 9 Mar 2020 14:23:49 -0400
+Received: from mga14.intel.com ([192.55.52.115]:15455 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727334AbgCISXt (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Mar 2020 13:15:41 -0400
-Received: from ramsan ([84.195.182.253])
-        by baptiste.telenet-ops.be with bizsmtp
-        id CHFf2200N5USYZQ01HFfcT; Mon, 09 Mar 2020 18:15:39 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jBM0B-0007Pa-HO; Mon, 09 Mar 2020 18:15:39 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jBM0B-0005ca-FS; Mon, 09 Mar 2020 18:15:39 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Chris Brandt <Chris.Brandt@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-sh@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] spi: rspi: Add support for active-high chip selects
-Date:   Mon,  9 Mar 2020 18:15:37 +0100
-Message-Id: <20200309171537.21551-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Mon, 9 Mar 2020 14:23:49 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Mar 2020 11:23:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,518,1574150400"; 
+   d="scan'208";a="321514316"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by orsmga001.jf.intel.com with ESMTP; 09 Mar 2020 11:23:47 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1jBN46-0008eh-At; Tue, 10 Mar 2020 02:23:46 +0800
+Date:   Tue, 10 Mar 2020 02:23:35 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:clk-renesas-for-v5.7] BUILD SUCCESS
+ 1ab4f43927a452ef24cd47ef686f3e1cbac9ab61
+Message-ID: <5e6689a7.h1cbaBuPVa4YpQqz%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-All RSPI variants support setting the polarity of the SSL signal.
-Advertize support for active-high chip selects, and configure polarity
-according to the state of the flag.
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  clk-renesas-for-v5.7
+branch HEAD: 1ab4f43927a452ef24cd47ef686f3e1cbac9ab61  clk: renesas: rcar-usb2-clock-sel: Add reset_control
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+elapsed time: 545m
+
+configs tested: 142
+configs skipped: 0
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+arm                              allyesconfig
+arm64                            allmodconfig
+arm                              allmodconfig
+arm                               allnoconfig
+arm                         at91_dt_defconfig
+arm                           efm32_defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+arm                        multi_v7_defconfig
+arm                        shmobile_defconfig
+arm                           sunxi_defconfig
+arm64                               defconfig
+sparc                            allyesconfig
+sh                            titan_defconfig
+mips                             allyesconfig
+riscv                             allnoconfig
+um                           x86_64_defconfig
+s390                                defconfig
+i386                             alldefconfig
+i386                              allnoconfig
+i386                             allyesconfig
+i386                                defconfig
+ia64                             alldefconfig
+ia64                             allmodconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+ia64                                defconfig
+nios2                         3c120_defconfig
+nios2                         10m50_defconfig
+c6x                        evmc6678_defconfig
+xtensa                          iss_defconfig
+c6x                              allyesconfig
+xtensa                       common_defconfig
+openrisc                 simple_smp_defconfig
+openrisc                    or1ksim_defconfig
+alpha                               defconfig
+csky                                defconfig
+nds32                             allnoconfig
+nds32                               defconfig
+h8300                     edosk2674_defconfig
+h8300                    h8300h-sim_defconfig
+h8300                       h8s-sim_defconfig
+m68k                             allmodconfig
+m68k                       m5475evb_defconfig
+m68k                          multi_defconfig
+m68k                           sun3_defconfig
+arc                                 defconfig
+arc                              allyesconfig
+powerpc                          rhel-kconfig
+microblaze                      mmu_defconfig
+microblaze                    nommu_defconfig
+powerpc                           allnoconfig
+mips                           32r2_defconfig
+mips                         64r6el_defconfig
+mips                             allmodconfig
+mips                              allnoconfig
+mips                      fuloong2e_defconfig
+mips                      malta_kvm_defconfig
+parisc                            allnoconfig
+parisc                           allyesconfig
+parisc                generic-32bit_defconfig
+parisc                generic-64bit_defconfig
+alpha                randconfig-a001-20200309
+m68k                 randconfig-a001-20200309
+mips                 randconfig-a001-20200309
+nds32                randconfig-a001-20200309
+parisc               randconfig-a001-20200309
+riscv                randconfig-a001-20200309
+c6x                  randconfig-a001-20200309
+h8300                randconfig-a001-20200309
+microblaze           randconfig-a001-20200309
+nios2                randconfig-a001-20200309
+sparc64              randconfig-a001-20200309
+csky                 randconfig-a001-20200309
+openrisc             randconfig-a001-20200309
+s390                 randconfig-a001-20200309
+sh                   randconfig-a001-20200309
+xtensa               randconfig-a001-20200309
+x86_64               randconfig-b001-20200309
+x86_64               randconfig-b002-20200309
+x86_64               randconfig-b003-20200309
+i386                 randconfig-b001-20200309
+i386                 randconfig-b002-20200309
+i386                 randconfig-b003-20200309
+i386                 randconfig-c002-20200309
+i386                 randconfig-c003-20200309
+x86_64               randconfig-c001-20200309
+x86_64               randconfig-c002-20200309
+x86_64               randconfig-c003-20200309
+i386                 randconfig-c001-20200309
+i386                 randconfig-d001-20200309
+x86_64               randconfig-d003-20200309
+x86_64               randconfig-d001-20200309
+i386                 randconfig-d003-20200309
+x86_64               randconfig-d002-20200309
+i386                 randconfig-d002-20200309
+i386                 randconfig-f003-20200309
+x86_64               randconfig-f001-20200309
+i386                 randconfig-f002-20200309
+i386                 randconfig-f001-20200309
+x86_64               randconfig-f002-20200309
+x86_64               randconfig-f003-20200309
+x86_64               randconfig-g003-20200309
+i386                 randconfig-g001-20200309
+i386                 randconfig-g003-20200309
+x86_64               randconfig-g001-20200309
+x86_64               randconfig-g002-20200309
+i386                 randconfig-g002-20200309
+x86_64               randconfig-h001-20200309
+x86_64               randconfig-h002-20200309
+x86_64               randconfig-h003-20200309
+i386                 randconfig-h001-20200309
+i386                 randconfig-h002-20200309
+i386                 randconfig-h003-20200309
+riscv                            allmodconfig
+riscv                            allyesconfig
+riscv                               defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+s390                             alldefconfig
+s390                             allmodconfig
+s390                              allnoconfig
+s390                             allyesconfig
+s390                          debug_defconfig
+s390                       zfcpdump_defconfig
+sh                               allmodconfig
+sh                                allnoconfig
+sh                          rsk7269_defconfig
+sh                  sh7785lcr_32bit_defconfig
+sparc                               defconfig
+sparc64                             defconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                          allmodconfig
+um                             i386_defconfig
+um                                  defconfig
+x86_64                              fedora-25
+x86_64                                  kexec
+x86_64                                    lkp
+x86_64                                   rhel
+x86_64                         rhel-7.2-clear
+x86_64                               rhel-7.6
+
 ---
-Tested on r8a7791/koelsch using spidev_test and a logic analyzer.
----
- drivers/spi/spi-rspi.c | 36 ++++++++++++++++++++++++++++++++----
- 1 file changed, 32 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/spi/spi-rspi.c b/drivers/spi/spi-rspi.c
-index aef05f2ac749c21d..06192c9ea8132911 100644
---- a/drivers/spi/spi-rspi.c
-+++ b/drivers/spi/spi-rspi.c
-@@ -24,6 +24,7 @@
- #include <linux/sh_dma.h>
- #include <linux/spi/spi.h>
- #include <linux/spi/rspi.h>
-+#include <linux/spinlock.h>
- 
- #define RSPI_SPCR		0x00	/* Control Register */
- #define RSPI_SSLP		0x01	/* Slave Select Polarity Register */
-@@ -79,8 +80,7 @@
- #define SPCR_BSWAP		0x01	/* Byte Swap of read-data for DMAC */
- 
- /* SSLP - Slave Select Polarity Register */
--#define SSLP_SSL1P		0x02	/* SSL1 Signal Polarity Setting */
--#define SSLP_SSL0P		0x01	/* SSL0 Signal Polarity Setting */
-+#define SSLP_SSLP(i)		BIT(i)	/* SSLi Signal Polarity Setting */
- 
- /* SPPCR - Pin Control Register */
- #define SPPCR_MOIFE		0x20	/* MOSI Idle Value Fixing Enable */
-@@ -181,7 +181,9 @@ struct rspi_data {
- 	void __iomem *addr;
- 	u32 max_speed_hz;
- 	struct spi_controller *ctlr;
-+	struct platform_device *pdev;
- 	wait_queue_head_t wait;
-+	spinlock_t lock;		/* Protects RMW-access to RSPI_SSLP */
- 	struct clk *clk;
- 	u16 spcmd;
- 	u8 spsr;
-@@ -919,6 +921,29 @@ static int qspi_setup_sequencer(struct rspi_data *rspi,
- 	return 0;
- }
- 
-+static int rspi_setup(struct spi_device *spi)
-+{
-+	struct rspi_data *rspi = spi_controller_get_devdata(spi->controller);
-+	u8 sslp;
-+
-+	if (spi->cs_gpiod)
-+		return 0;
-+
-+	pm_runtime_get_sync(&rspi->pdev->dev);
-+	spin_lock_irq(&rspi->lock);
-+
-+	sslp = rspi_read8(rspi, RSPI_SSLP);
-+	if (spi->mode & SPI_CS_HIGH)
-+		sslp |= SSLP_SSLP(spi->chip_select);
-+	else
-+		sslp &= ~SSLP_SSLP(spi->chip_select);
-+	rspi_write8(rspi, sslp, RSPI_SSLP);
-+
-+	spin_unlock_irq(&rspi->lock);
-+	pm_runtime_put(&rspi->pdev->dev);
-+	return 0;
-+}
-+
- static int rspi_prepare_message(struct spi_controller *ctlr,
- 				struct spi_message *msg)
- {
-@@ -1248,17 +1273,20 @@ static int rspi_probe(struct platform_device *pdev)
- 		goto error1;
- 	}
- 
-+	rspi->pdev = pdev;
- 	pm_runtime_enable(&pdev->dev);
- 
- 	init_waitqueue_head(&rspi->wait);
-+	spin_lock_init(&rspi->lock);
- 
- 	ctlr->bus_num = pdev->id;
-+	ctlr->setup = rspi_setup;
- 	ctlr->auto_runtime_pm = true;
- 	ctlr->transfer_one = ops->transfer_one;
- 	ctlr->prepare_message = rspi_prepare_message;
- 	ctlr->unprepare_message = rspi_unprepare_message;
--	ctlr->mode_bits = SPI_CPHA | SPI_CPOL | SPI_LSB_FIRST | SPI_LOOP |
--			  ops->extra_mode_bits;
-+	ctlr->mode_bits = SPI_CPHA | SPI_CPOL | SPI_CS_HIGH | SPI_LSB_FIRST |
-+			  SPI_LOOP | ops->extra_mode_bits;
- 	ctlr->flags = ops->flags;
- 	ctlr->dev.of_node = pdev->dev.of_node;
- 	ctlr->use_gpio_descriptors = true;
--- 
-2.17.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
