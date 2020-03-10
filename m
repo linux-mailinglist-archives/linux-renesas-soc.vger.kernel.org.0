@@ -2,103 +2,107 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F95117FFF2
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2020 15:16:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F29918001A
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2020 15:28:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726380AbgCJOQr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Mar 2020 10:16:47 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:34176 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726353AbgCJOQq (ORCPT
+        id S1726591AbgCJO21 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Mar 2020 10:28:27 -0400
+Received: from baptiste.telenet-ops.be ([195.130.132.51]:44538 "EHLO
+        baptiste.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726423AbgCJO21 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Mar 2020 10:16:46 -0400
-Received: by mail-ot1-f66.google.com with SMTP id j16so13286011otl.1;
-        Tue, 10 Mar 2020 07:16:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=p/R9hkm0Zw7z7yv8pl2WS6JNAIj1jxXZxWTXciFoU7c=;
-        b=UsfFOY0jNkUHnio8nrI47GaJmA0lRNVHw2ueoWyUI8B3w+81gbfzH0l4lM2Yye8TW8
-         8gxxhSeVB4r2Xbi1tJrBdHnQ2R4uv9OM+4GRhKQX08a7+eJOq6ieVW0v/4n9VZB7JUhJ
-         JU6k2eH2tFUV/NyEQk8zXoPVKF1DGwxl55vyhjOk5x4f3uEa2etVcBAPhj2NV2esH8KO
-         0IACDIthaPkrdWy5hjmCdHjPvOwqGX8TEzHnLWdSS3iSaAJ/HKlrUC+cuEmUUBSQqKlQ
-         yE14/IJg2oa1O4F3KNV9ILBqo056xbTGsmiS8gihlOVcGYbGEl8mhnnXJ5StFadt9Wy0
-         0z3A==
-X-Gm-Message-State: ANhLgQ2iD0j6QX2Y0qMRoMpV7q/c0c5AiONc7zviWOsv0Zi7PaPkgidu
-        u8LeXRGEcqTNGPU/4cAi3M0ctZ9ms+SSWbfc8O4=
-X-Google-Smtp-Source: ADFU+vvZTqfdR5CugMRRTAerKcghOgx+guP2EJeK1CA6udD0T6lcZulG/Kqqj5o+tL7B7i7MpR6gacmzSsc9JzHRJjo=
-X-Received: by 2002:a9d:5c0c:: with SMTP id o12mr17093578otk.145.1583849805778;
- Tue, 10 Mar 2020 07:16:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200220233454.31514-1-f.fainelli@gmail.com> <20200223.205911.1667092059432885700.davem@davemloft.net>
-In-Reply-To: <20200223.205911.1667092059432885700.davem@davemloft.net>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 10 Mar 2020 15:16:34 +0100
-Message-ID: <CAMuHMdWuP1_3vqOpf7KEimLLTKiWpWku9fUAdP3CCR6WbHyQdg@mail.gmail.com>
-Subject: Re: [PATCH net] net: phy: Avoid multiple suspends
-To:     David Miller <davem@davemloft.net>,
-        Florian Fainelli <f.fainelli@gmail.com>
-Cc:     netdev <netdev@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>, B38611@freescale.com,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Tue, 10 Mar 2020 10:28:27 -0400
+Received: from ramsan ([84.195.182.253])
+        by baptiste.telenet-ops.be with bizsmtp
+        id CeUR2200X5USYZQ01eURvy; Tue, 10 Mar 2020 15:28:25 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jBfrt-0006oT-IM
+        for linux-renesas-soc@vger.kernel.org; Tue, 10 Mar 2020 15:28:25 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jBfrt-0005ks-Ft
+        for linux-renesas-soc@vger.kernel.org; Tue, 10 Mar 2020 15:28:25 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     linux-renesas-soc@vger.kernel.org
+Subject: renesas-drivers-2020-03-10-v5.6-rc5
+Date:   Tue, 10 Mar 2020 15:28:25 +0100
+Message-Id: <20200310142825.22080-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Florian, David,
+I have pushed renesas-drivers-2020-03-10-v5.6-rc5 to
+https://git.kernel.org/cgit/linux/kernel/git/geert/renesas-drivers.git
 
-On Mon, Feb 24, 2020 at 5:59 AM David Miller <davem@davemloft.net> wrote:
-> From: Florian Fainelli <f.fainelli@gmail.com>
-> Date: Thu, 20 Feb 2020 15:34:53 -0800
->
-> > It is currently possible for a PHY device to be suspended as part of a
-> > network device driver's suspend call while it is still being attached to
-> > that net_device, either via phy_suspend() or implicitly via phy_stop().
-> >
-> > Later on, when the MDIO bus controller get suspended, we would attempt
-> > to suspend again the PHY because it is still attached to a network
-> > device.
-> >
-> > This is both a waste of time and creates an opportunity for improper
-> > clock/power management bugs to creep in.
-> >
-> > Fixes: 803dd9c77ac3 ("net: phy: avoid suspending twice a PHY")
-> > Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
->
-> Applied, and queued up for -stable, thanks Florian.
+This tree is meant to ease development of platform support and drivers
+for Renesas ARM SoCs. It is created by merging (a) the for-next branches
+of various subsystem trees and (b) branches with driver code submitted
+or planned for submission to maintainers into the master branch of my
+renesas-devel.git tree.
 
-This patch causes a regression on r8a73a4/ape6evm and sh73a0/kzm9g.
-After resume from s2ram, Ethernet no longer works:
+Today's version is based on renesas-devel-2020-03-10-v5.6-rc5.
 
-        PM: suspend exit
-        nfs: server aaa.bbb.ccc.ddd not responding, still trying
-        ...
+Included branches with driver code:
+  - clk-renesas
+  - sh-pfc
+  - git://git.ragnatech.se/linux#for-renesas-drivers
 
-Reverting commit 503ba7c6961034ff ("net: phy: Avoid multiple suspends")
-fixes the issue.
+Included fixes:
+  - ARM: shmobile: defconfig: Update shmobile_defconfig
+  - [LOCAL] arm64: defconfig: Update renesas_defconfig
 
-On both boards, an SMSC LAN9220 is connected to a power-managed local
-bus.
-
-I added some debug code to check when the clock driving the local bus
-is stopped and started, but I see no difference before/after.  Hence I
-suspect the Ethernet chip is no longer reinitialized after resume.
+Included subsystem trees:
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git#linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git#clk-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git#mtd/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git#tty-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git#i2c/for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git#usb-next
+  - git://git.freedesktop.org/git/drm/drm.git#drm-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/joro/iommu.git#next
+  - git://linuxtv.org/media_tree.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/thierry.reding/linux-pwm.git#for-next
+  - git://git.linaro.org/people/daniel.lezcano/linux.git#timers/drivers/next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git#testing/next
+  - git://git.infradead.org/users/vkoul/slave-dma.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git#staging-next
+  - git://git.armlinux.org.uk/~rmk/linux-arm.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/rzhang/linux.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git#irq/core
+  - git://github.com/bzolnier/linux.git#fbdev-for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/sre/linux-power-supply.git#for-next
+  - git://www.linux-watchdog.org/linux-watchdog-next.git#master
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm/arm-soc.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git#for-next/core
+  - git://anongit.freedesktop.org/drm/drm-misc#for-linux-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/kishon/linux-phy.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/evalenti/linux-soc-thermal.git#next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git#for-mfd-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git#for-next
+  - git://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git#master
 
 Gr{oetje,eeting}s,
 
-                        Geert
-
+						Geert
 
 --
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
 when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+							    -- Linus Torvalds
