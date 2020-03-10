@@ -2,82 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D18C2180994
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2020 21:55:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ADB80180AAF
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2020 22:43:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726380AbgCJUzH (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Mar 2020 16:55:07 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:36091 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726271AbgCJUzH (ORCPT
+        id S1727551AbgCJVnB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Mar 2020 17:43:01 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:43366 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726307AbgCJVnB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Mar 2020 16:55:07 -0400
-Received: by mail-oi1-f194.google.com with SMTP id k18so2342604oib.3;
-        Tue, 10 Mar 2020 13:55:06 -0700 (PDT)
+        Tue, 10 Mar 2020 17:43:01 -0400
+Received: by mail-ot1-f65.google.com with SMTP id a6so6835261otb.10;
+        Tue, 10 Mar 2020 14:43:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=TOiQ5UbbyIXOicEJpNk2SFlKtQ0SHScLOW4Mpkh2aW8=;
-        b=a443IYaGQGVa5FECWs+NulWArNxZKRTtgtku/xCpkoXF0azVNGq3oiyHMXpPlvK5kh
-         Qp/CD1pdLo9CIqxTf0qgA8lmLM4eQ9TAgH8zsLoOECyZWI9dq+4zZElgDmeCJlOuDU76
-         H5FaHob/3M50louevjRNvFkCaPr0ZsGJVcUi7rc4D0LGRv4N70Zde59JuQ00kxV7wHmq
-         o/iVb5S0fofP+pyKmOPH0mI4u6W40ds2hG1pfKvcd7/lMwqNxhk7qSH03qdYtM317rGE
-         iG/qC1xxApp8OT1zGcCQNx5lxo6M8ahTGqrW1s76bChu0prU/z/Z35ZT7ZeuGEIjOT7p
-         FHfQ==
-X-Gm-Message-State: ANhLgQ2IvIekvz9ppwRUyRc6ooCiR/nRQD85b18SKxJ0Gaqme5phVBCK
-        4AZcU99OxdH3C5lGoWyFsQ==
-X-Google-Smtp-Source: ADFU+vui7mX/+yiQ3UwIwy1g8dC2BgC3jxA20Sr5Vdkmy1XrlDPk957Nbud3N5UrA2cbMDrUnleuqw==
-X-Received: by 2002:aca:b9d6:: with SMTP id j205mr2630536oif.179.1583873705912;
-        Tue, 10 Mar 2020 13:55:05 -0700 (PDT)
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=eW7ELASoG0OtB4K4kA9IffK9e9FfpEljMwdF56ZNsBk=;
+        b=tO8O5zhXJbmoZC6uRx5s19hdIJa+1iRecyFxKk7xZMAyp/EP7eSf3hleGemuc0vXjM
+         0h954VsG4gKP1CEL/6yGcU2JsNwmVoLOohLVihT/Cta8fvdsLYyrKzlgiksvcwZshFKa
+         wWVOCYpt5ZCXwIbOKp3XcPzTkOnFFGQ+p0WvFoAgWieOPnT30Xv45Kqck5aOZeSYY5wT
+         sFknNB/X4l7YwAqX1F+3lComIwhf9lGH6RdKNkWye6czwgoAsbJTQ2yGOCfDgi6IdQbE
+         5qRT/RtKNmwePm5NJUOML3dhwtQ60HSV8knbOoyUiBXjq9x3votm8Jzzm4u+aRf1cowf
+         pzBw==
+X-Gm-Message-State: ANhLgQ2Z5NIdkEQE4phfiKnFAV4b9Xi0UMdVgrhtBO0hZnif5rgUU6VX
+        pva4rTYhmYQfzDgfZiOVYRIwTa8=
+X-Google-Smtp-Source: ADFU+vvwZI4JYSOwNE4eXQ6CWBvYrUySTEekRgHvm0zdXlyuecA4eZ99Vd7iwCtwQbRRdnA94c8SHw==
+X-Received: by 2002:a9d:4007:: with SMTP id m7mr18762385ote.268.1583876580662;
+        Tue, 10 Mar 2020 14:43:00 -0700 (PDT)
 Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id h92sm4970984otb.2.2020.03.10.13.55.05
+        by smtp.gmail.com with ESMTPSA id j5sm16353458otl.71.2020.03.10.14.42.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2020 13:55:05 -0700 (PDT)
-Received: (nullmailer pid 27349 invoked by uid 1000);
-        Tue, 10 Mar 2020 20:55:04 -0000
-Date:   Tue, 10 Mar 2020 15:55:04 -0500
+        Tue, 10 Mar 2020 14:43:00 -0700 (PDT)
+Received: (nullmailer pid 20627 invoked by uid 1000);
+        Tue, 10 Mar 2020 21:42:59 -0000
+Date:   Tue, 10 Mar 2020 16:42:59 -0500
 From:   Rob Herring <robh@kernel.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH v2] dt-bindings: clock: renesas: cpg-mssr: Convert to
- json-schema
-Message-ID: <20200310205504.GA27288@bogus>
-References: <20200303094848.23670-1-geert+renesas@glider.be>
+To:     Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Subject: Re: [PATCH v3] dt-bindings: rcar-vin: Convert bindings to json-schema
+Message-ID: <20200310214259.GA20527@bogus>
+References: <20200305005537.385602-1-niklas.soderlund@ragnatech.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20200303094848.23670-1-geert+renesas@glider.be>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200305005537.385602-1-niklas.soderlund@ragnatech.se>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue,  3 Mar 2020 10:48:48 +0100, Geert Uytterhoeven wrote:
-> Convert the Renesas Clock Pulse Generator / Module Standby and Software
-> Reset Device Tree binding documentation to json-schema.
+On Thu,  5 Mar 2020 01:55:37 +0100, =?UTF-8?q?Niklas=20S=C3=B6derlund?= wrote:
+> From: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 > 
-> Note that #reset-cells was incorrecty marked a required property for
-> RZ/A2 before.
+> Convert Renesas R-Car VIN bindings documentation to json-schema.
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> As the examples in the bindings now can be tested add a new one which
+> describes how the both a parallel and a CSI-2 source can be connected on
+> Gen3 SoCs.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 > ---
-> To be queued in clk-renesas-for-v5.7.
-> 
-> v2:
->   - Remove complex if-construct implementing per-SoC clocks/clock-names
->     constraints; list all possible clock-names upfront instead,
->   - Drop Clock Domain member example.
-> ---
->  .../bindings/clock/renesas,cpg-mssr.txt       | 100 ---------------
->  .../bindings/clock/renesas,cpg-mssr.yaml      | 119 ++++++++++++++++++
->  2 files changed, 119 insertions(+), 100 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/clock/renesas,cpg-mssr.txt
->  create mode 100644 Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
+>  .../devicetree/bindings/media/renesas,vin.txt | 217 ----------
+>  .../bindings/media/renesas,vin.yaml           | 402 ++++++++++++++++++
+>  MAINTAINERS                                   |   2 +-
+>  3 files changed, 403 insertions(+), 218 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/renesas,vin.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/renesas,vin.yaml
 > 
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Applied, thanks.
+
+Rob
