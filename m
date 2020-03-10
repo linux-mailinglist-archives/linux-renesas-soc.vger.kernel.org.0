@@ -2,139 +2,191 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C204517EE57
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2020 03:04:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 814BA17F191
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2020 09:17:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726402AbgCJCEB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 9 Mar 2020 22:04:01 -0400
-Received: from mail-eopbgr1400105.outbound.protection.outlook.com ([40.107.140.105]:61616
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726134AbgCJCEB (ORCPT
+        id S1726295AbgCJIRd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Mar 2020 04:17:33 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:34005 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726220AbgCJIRd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 9 Mar 2020 22:04:01 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PT3PmI4EhiSXYiCMKZ/q5UmdCMjjFmmOytFIejK01DhyJIcSA0UCVHZQYKQOa5grZRFkXPyTIDoS+7IOax4Bp55ZLpVc0cPzjUEUVTKfpehkqQPN6553pyqp4wWzeonXCzgHvqmfi4VIbfh4SCq/8riFkoM19FxQ+UllFx4Syj5hCMVzdXlP7t02AS6i+5eCLiay80JtpfNwdI7Bys51aafWMEpznFGPmCYgvbwSroVdu1T7+6+SGvv6TH41xtF/hhTFJXr6b/XT1aKH5KUwAM6JKcyXcnRjhTodrTCLWBvXGhdY9cRoUTRmAFvYL/ebp0VoSqHhilvj4bWvTWMRVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VsysLVFpXzRzQwTmpFENVkCUd4ymD/BYmShxBv7OfAY=;
- b=iSg+hJ7krkAuqG5SPUPkvOdoWG6TgX9osRKfrPXD2s7ji+H5UUONOTQBhVjBPyaJC/+9GYXj0lqxNUEyahTeLIjKbmfsJmV58F049ypwPO3hZkN39TJ6mbfy5pITw7zOg5uIqmksgi1CVlTra0Ur6qH41AWqhfSWSXdnNcisAlSeodKg424HXfHyRnwM5vNhuEWZ/JCt9q6y5YXBnQlfryD4TP6j7aPBiCbtaFoxUKJ+ldumli4cJ5xJt4Lp10N0BhoWqWSny51wxnSJquQhZ5R1R5Vqx2TiE9mOqWLG49zGeEcUdIoz+5A+bed8XmWKQI3TSLVJ+eiysdSCK7wG7w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VsysLVFpXzRzQwTmpFENVkCUd4ymD/BYmShxBv7OfAY=;
- b=CON5LtlCFmB3f8zsSvlof9hF0FRXZC6tC7Zj1A0qQAzzXUNAmajELMA6w61UoHcnGYT6UP0niIS1FaU1HJY4ZOxwlyHstqi++P5cW5QoM3ASUaFiwK70q68WNw7UM7ZGLQcPqjXVzh7IhcSumZ3IX7D2aIMcHb3CjeEqN8E/Us8=
-Received: from TYAPR01MB4799.jpnprd01.prod.outlook.com (20.179.175.143) by
- TYAPR01MB5088.jpnprd01.prod.outlook.com (20.179.174.83) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.17; Tue, 10 Mar 2020 02:03:56 +0000
-Received: from TYAPR01MB4799.jpnprd01.prod.outlook.com
- ([fe80::6531:c3bc:8602:8596]) by TYAPR01MB4799.jpnprd01.prod.outlook.com
- ([fe80::6531:c3bc:8602:8596%7]) with mapi id 15.20.2793.013; Tue, 10 Mar 2020
- 02:03:56 +0000
-From:   YUYA HAMAMACHI <yuya.hamamachi.sx@renesas.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-CC:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Subject: RE: [PATCH 2/2] arm64: dts: renesas: Add support for M3ULCB with
- R-Car M3-W+
-Thread-Topic: [PATCH 2/2] arm64: dts: renesas: Add support for M3ULCB with
- R-Car M3-W+
-Thread-Index: AQHV9d7n7E/WftGCYEuaKrMhpVvB/KhAHFmAgADw2pA=
-Date:   Tue, 10 Mar 2020 02:03:56 +0000
-Message-ID: <TYAPR01MB47990F7228EA48455159F2F0BCFF0@TYAPR01MB4799.jpnprd01.prod.outlook.com>
-References: <20200309064425.25437-1-yuya.hamamachi.sx@renesas.com>
- <20200309064425.25437-3-yuya.hamamachi.sx@renesas.com>
- <CAMuHMdVxAzHA1s0v7X=ne1ExAa54ef_iwVTcP=GgJgi98FOrpQ@mail.gmail.com>
-In-Reply-To: <CAMuHMdVxAzHA1s0v7X=ne1ExAa54ef_iwVTcP=GgJgi98FOrpQ@mail.gmail.com>
-Accept-Language: ja-JP, en-US
-Content-Language: ja-JP
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=yuya.hamamachi.sx@renesas.com; 
-x-originating-ip: [150.249.235.54]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 3128cb08-7968-48f6-3e44-08d7c4974a56
-x-ms-traffictypediagnostic: TYAPR01MB5088:
-x-microsoft-antispam-prvs: <TYAPR01MB5088F24168507A6C965B85EFBCFF0@TYAPR01MB5088.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-forefront-prvs: 033857D0BD
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(136003)(39860400002)(396003)(346002)(376002)(366004)(199004)(189003)(186003)(4326008)(86362001)(76116006)(110136005)(71200400001)(66446008)(66476007)(55016002)(66556008)(478600001)(66946007)(64756008)(9686003)(8676002)(8936002)(316002)(26005)(7696005)(33656002)(6506007)(5660300002)(966005)(52536014)(81156014)(81166006)(53546011)(2906002)(32563001);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB5088;H:TYAPR01MB4799.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: OrwQ92S2ZYuFDd6124GCMSU8/G9avdJSoNr7uANGLS4U+xqkBMBL6QJg2aexwDY/Vu+VvQlZvRHEBzIlBqgaDhEMgwYuMlfoBvCKeoHtnUTI/fdji/ieOz7jzMlUPdhweKP/U8EIebpFPCQ7S8IhwclO3luJvehQOoirdqhINJQ9RrVrsqL+KDvk+4WKoCYAMc3DBzLnYt4vCDupdQ5UePRK51vhUELZq0kce17Q54SHs5/HR7FLXmdQHtFaS297rtEsZyo3IYHXOz0SYgPxLUeVnUzU4ZPj+VM+W/x2AMJqZlNtIX3vTSDwX9WelGHvPWK6I+R9JmjozIIcUOMcsu/AMLRPUyu95SJJq5MgqupFQDala1wlCsq93hH1WS0imFnM7Juz+A74YteDf7+1/uvf+ohEhqiiDkazsntqxvWq/6OatpbPLZ2UMGotd5FWJpT6eiV6O521gDx47tHtAqfhw2NbzPLuVuuEDbSiLB5gUI4s8lfcMh1Aq9UKScMMf+kDZyJ4pXCXbYRqzjM/WnK/7WPvVOLlb5IZsEHtyLzHSTnKaZQ5o9DzWRD0u7AB
-x-ms-exchange-antispam-messagedata: bDoZsTku1wA1A86IbjyafTX52ZWXLoQ2LrB/Ck0xk/eSyvvCi71hUnKF9cqdZQI800CRd6kj7xb4OsYVB9nPrWmJYREldafysSYKmiFVjC4GfnZnHgCpwQiBYw3iCXrIv4G7I1uHxle1k/MMhM0LWQ==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        Tue, 10 Mar 2020 04:17:33 -0400
+Received: from mail.cetitecgmbh.com ([87.190.42.90]) by
+ mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MOzGc-1izPwe31lE-00POOZ; Tue, 10 Mar 2020 09:17:16 +0100
+Received: from pflvmailgateway.corp.cetitec.com (unknown [127.0.0.1])
+        by mail.cetitecgmbh.com (Postfix) with ESMTP id 939BA65011A;
+        Tue, 10 Mar 2020 08:17:15 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at cetitec.com
+Received: from mail.cetitecgmbh.com ([127.0.0.1])
+        by pflvmailgateway.corp.cetitec.com (pflvmailgateway.corp.cetitec.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id lLqXdIoCtkhf; Tue, 10 Mar 2020 09:17:15 +0100 (CET)
+Received: from pfwsexchange.corp.cetitec.com (unknown [10.10.1.99])
+        by mail.cetitecgmbh.com (Postfix) with ESMTPS id 1370764F896;
+        Tue, 10 Mar 2020 09:17:15 +0100 (CET)
+Received: from pflmari.corp.cetitec.com (10.10.2.141) by
+ PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Tue, 10 Mar 2020 09:17:14 +0100
+Received: by pflmari.corp.cetitec.com (Postfix, from userid 1000)
+        id A2B24804F8; Tue, 10 Mar 2020 09:17:14 +0100 (CET)
+Date:   Tue, 10 Mar 2020 09:17:14 +0100
+From:   Alex Riesen <alexander.riesen@cetitec.com>
+To:     Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Driver Development <devel@driverdev.osuosl.org>,
+        Linux Media <linux-media@vger.kernel.org>,
+        Linux Kernel <linux-kernel@vger.kernel.org>,
+        Device Tree <devicetree@vger.kernel.org>,
+        Renesas SoC <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 8/8] arm64: dts: renesas: salvator: add a connection from
+ adv748x codec (HDMI input) to the R-Car SoC
+Message-ID: <20200310081714.GA11274@pflmari>
+Mail-Followup-To: Alex Riesen <alexander.riesen@cetitec.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Driver Development <devel@driverdev.osuosl.org>,
+        Linux Media <linux-media@vger.kernel.org>,
+        Linux Kernel <linux-kernel@vger.kernel.org>,
+        Device Tree <devicetree@vger.kernel.org>,
+        Renesas SoC <linux-renesas-soc@vger.kernel.org>
+References: <CAMuHMdW21rYXoOSE8azHNqYjng_j41rsL=Fo2bZc=1ULi9+pLw@mail.gmail.com>
+ <20200302160906.GC3717@pflmari>
+ <CAMuHMdVNGsVHyvAgC5dAHx=8Ax18EHx2tS6Hm5Bkg4ms=mW6Zw@mail.gmail.com>
+ <20200305143628.GB25741@pflmari>
+ <20200306131632.GA4878@pendragon.ideasonboard.com>
+ <20200306134154.GD27714@pflmari>
+ <20200306134546.GE4878@pendragon.ideasonboard.com>
+ <87r1y2wbze.wl-kuninori.morimoto.gx@renesas.com>
+ <20200309110931.GB3593@pflmari>
+ <87a74pvwz8.wl-kuninori.morimoto.gx@renesas.com>
 MIME-Version: 1.0
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3128cb08-7968-48f6-3e44-08d7c4974a56
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Mar 2020 02:03:56.0597
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: YLv5k8dtn1dTd+6tyZ5E3s4fvG1f7Che3XVhnooEo9tM+PQkQ6nze9NCcHiE8NyETkzC0FOvViXl2GcZo5q5sKLs92fsCY7GLjbtkM3RUmk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5088
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <87a74pvwz8.wl-kuninori.morimoto.gx@renesas.com>
+X-Originating-IP: [10.10.2.141]
+X-ClientProxiedBy: PFWSEXCHANGE.corp.cetitec.com (10.10.1.99) To
+ PFWSEXCHANGE.corp.cetitec.com (10.10.1.99)
+X-EsetResult: clean, is OK
+X-EsetId: 37303A290D7F536A627467
+X-Provags-ID: V03:K1:PBV/4ZazPpOCL0NFPbx0O17cwJVnIG2mTRgrAjYG6B7PqSR8mIR
+ uguUMPT9X4a/ukhegY+14bHlpiGWSDqAkth8myPnz06cizfzXp7UMSui1BnjUFXZwXKUqob
+ S9s2A99jm7Y1ihE76E9i78Qrh3mXHncz3jHoiubOOd5e7fVT6nWs0I2hJLblBiiYVqLL00U
+ y0HceA3ppvM1M/68+OdZA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:yLiw7twFsQA=:TG7f/zMyGEPXat198P6bMY
+ wxVAfnroL5HDFHBhhOpafgEYU9ZBGbf6NTNTsvPJ8PXZNk0v7hpKfkIWnGnQ9uweudU70tOpz
+ pvMLpAQpXNcSpmUumv7uVs3sZ2Hq7jiKLh3UEp4J7ZKf31lKcco6USIduIkoJAZSDreqVs0QB
+ yhIJe7qYoFT8xXqH1Xbn6TphpEWybu38mhA0/Pv+sMmbfD0EHzAzhJqtC8R+3KldUCGFlCZNn
+ y3WRcXZTSWz9xAQUYp0m1tBqRAbAFVJy5tj3MrhZy+aoWlaJRl2W3PxRFy6R8x8WGGx9+ppVK
+ 2vykpfYsRRYonDXh3HL0X0i9zEMhyQj/mvriKe2v5wmYtZkjLuS3McgF8svHxwXkbegELhCZt
+ xrs3Q7sAdPpHHU8F6sBmYgutttaSCwHUR6XJztfF0flG7PTVtU+K9s95sNIBSrqEOWTTLsF6q
+ fXKYVjEpxQamfvlEO4WAgNiGGN9bljqHGjaOQvzOyby9vsdVcEnr3A0KBqRy/yOrCW+8Ebv5K
+ ePadnx5TjHU+N4u01SHySP10uESuI46W8AWz9HcJ8OP8Z8ZmaFER241WtXeVdLppA0YIYja6F
+ whGPg9n4M1WZ7mxSvtGmU2O2ymqotlcsq9ozX1+Zr2m3r9P44vQnxmlK2gBTFGwl+tKbckESJ
+ 3vr075KTsAhMm4wxp9kCi75Xqnc8k/nAT7bsAhdIzcJldySQ6dmeQEHpS3Vb+sG+qhlCll0KP
+ IGepHzmE6DL3Wmmhyl2us+iLu84wDTaK6LjhbViX4mPpfTU1PrbT95pq2TnL496xBTjjHRFfT
+ k0wQbNGhofB3Ns8NYTcwAFsnVcyuA2RUnFPDPaMASf0S/YGqakF8RbnH4IGAE3S0U8qUe0h
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGVsbG8sDQpUaGFuayB5b3UgZm9yIHlvdXIgcmVwbHkuDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNz
-YWdlLS0tLS0NCj4gRnJvbTogR2VlcnQgVXl0dGVyaG9ldmVuIDxnZWVydEBsaW51eC1tNjhrLm9y
-Zz4NCj4gU2VudDogTW9uZGF5LCBNYXJjaCA5LCAyMDIwIDg6MTYgUE0NCj4gVG86IFlVWUEgSEFN
-QU1BQ0hJIDx5dXlhLmhhbWFtYWNoaS5zeEByZW5lc2FzLmNvbT4NCj4gQ2M6IExpbnV4LVJlbmVz
-YXMgPGxpbnV4LXJlbmVzYXMtc29jQHZnZXIua2VybmVsLm9yZz4NCj4gU3ViamVjdDogUmU6IFtQ
-QVRDSCAyLzJdIGFybTY0OiBkdHM6IHJlbmVzYXM6IEFkZCBzdXBwb3J0IGZvciBNM1VMQ0Igd2l0
-aA0KPiBSLUNhciBNMy1XKw0KPiANCj4gSGkgSGFtYW1hY2hpLXNhbiwNCj4gDQo+IE9uIE1vbiwg
-TWFyIDksIDIwMjAgYXQgNzo0OSBBTSBZdXlhIEhhbWFtYWNoaQ0KPiA8eXV5YS5oYW1hbWFjaGku
-c3hAcmVuZXNhcy5jb20+IHdyb3RlOg0KPiA+IEFkZCBpbml0aWFsIHN1cHBvcnQgZm9yIHRoZSBS
-ZW5lc2FzIE0zVUxDQiBib2FyZCBlcXVpcHBlZCB3aXRoIGFuDQo+ID4gUi1DYXINCj4gPiBNMy1X
-KyBTaVAgd2l0aCA4ICgyIHggNCkgR2lCIG9mIFJBTS4NCj4gPiBUbyBhdm9pZCBidWlsZCBlcnJv
-ciBvbiAndWxjYi5kdHNpJywgc3NpMiBpcyBhZGRlZCBpbnRvICdyOGE3Nzk2MS5kdHNpJy4NCj4g
-Pg0KPiA+IEJhc2VkIG9uIGNvbW1pdCA5Mjk4MDc1OWMxNjk5YTNjMTBiZWIwMGY0MTEyNzAxOTdh
-Yzg5NTQ0DQo+ID4gKCJhcm02NDogZHRzOiByZW5lc2FzOiBBZGQgc3VwcG9ydCBmb3IgU2FsdmF0
-b3ItWFMgd2l0aCBSLUNhciBNMy1XKyIpLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogWXV5YSBI
-YW1hbWFjaGkgPHl1eWEuaGFtYW1hY2hpLnN4QHJlbmVzYXMuY29tPg0KPiANCj4gVGhhbmtzIGZv
-ciB5b3VyIHBhdGNoIQ0KPiANCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysrIGIvYXJjaC9hcm02
-NC9ib290L2R0cy9yZW5lc2FzL3I4YTc3OTYxLXVsY2IuZHRzDQo+ID4gQEAgLTAsMCArMSwzMSBA
-QA0KPiA+ICsvLyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMA0KPiA+ICsvKg0KPiA+
-ICsgKiBEZXZpY2UgVHJlZSBTb3VyY2UgZm9yIHRoZSBNM1VMQ0IgKFItQ2FyIFN0YXJ0ZXIgS2l0
-IFBybykgYm9hcmQNCj4gPiArd2l0aCBSLUNhciBNMy1XKw0KPiANCj4gVGhlIGFib3ZlIGxvbmcg
-bGluZSBuZWVkcyB0byBiZSBzcGxpdC4NCj4gDQo+ID4gKyAqDQo+ID4gKyAqIENvcHlyaWdodCAo
-QykgMjAyMCBSZW5lc2FzIEVsZWN0cm9uaWNzIENvcnAuDQo+ID4gKyAqLw0KPiA+ICsNCj4gPiAr
-L2R0cy12MS87DQo+ID4gKyNpbmNsdWRlICJyOGE3Nzk2MS5kdHNpIg0KPiA+ICsjaW5jbHVkZSAi
-dWxjYi5kdHNpIg0KPiA+ICsNCj4gPiArLyB7DQo+ID4gKyAgICAgICBtb2RlbCA9ICJSZW5lc2Fz
-IE0zVUxDQiBib2FyZCBiYXNlZCBvbiByOGE3Nzk2MSI7DQo+ID4gKyAgICAgICBjb21wYXRpYmxl
-ID0gInJlbmVzYXMsbTN1bGNiIiwgInJlbmVzYXMscjhhNzc5NjEiOw0KPiA+ICsNCj4gPiArICAg
-ICAgIG1lbW9yeUA0ODAwMDAwMCB7DQo+ID4gKyAgICAgICAgICAgICAgIGRldmljZV90eXBlID0g
-Im1lbW9yeSI7DQo+ID4gKyAgICAgICAgICAgICAgIC8qIGZpcnN0IDEyOE1CIGlzIHJlc2VydmVk
-IGZvciBzZWN1cmUgYXJlYS4gKi8NCj4gPiArICAgICAgICAgICAgICAgcmVnID0gPDB4MCAweDQ4
-MDAwMDAwIDB4MCAweDc4MDAwMDAwPjsNCj4gPiArICAgICAgIH07DQo+ID4gKw0KPiA+ICsgICAg
-ICAgbWVtb3J5QDQwMDAwMDAwMCB7DQo+IA0KPiBBcyBTZXJnZWkgcG9pbnRlZCBvdXQsIHRoZSB1
-bml0LWFkZHJlc3MgaXMgd3JvbmcuDQo+IEludGVyZXN0aW5nbHksIHI4YTc3OTYxLXNhbHZhdG9y
-LXhzLmR0cyBoYXMgdGhlIHNhbWUgaXNzdWUuDQo+IFdpbGwgc2VuZCBhIHBhdGNoLg0KDQpJIGNv
-bmZpcm1lZCB0aGF0IHBhdGNoIGluIHRoZSBCU1AgaGFzIHNhbWUgaXNzdWUgdG9vLg0KIyBNYXli
-ZSB0aGlzIHBhdGNoOg0KIyAgIGh0dHBzOi8vZ2l0aHViLmNvbS9yZW5lc2FzLXJjYXIvbGludXgt
-YnNwL2NvbW1pdC8zMGFhMmY3OWU0YWZkOTBlMTA1NjRiOGVmODE2OTY4ZTYxZDkzYzEyDQpTbywg
-SSB0aGluayB0aGF0IHI4YTc3OTYxLXNhbHZhdG9yLXhzLmR0cyBhbmQgdGhpcyBwYXRjaCBoYXZl
-IHNhbWUgaXNzdWUuDQoNCj4gPiArICAgICAgICAgICAgICAgZGV2aWNlX3R5cGUgPSAibWVtb3J5
-IjsNCj4gPiArICAgICAgICAgICAgICAgcmVnID0gPDB4NCAweDgwMDAwMDAwIDB4MCAweDgwMDAw
-MDAwPjsNCj4gPiArICAgICAgIH07DQo+ID4gKw0KPiA+ICsgICAgICAgbWVtb3J5QDYwMDAwMDAw
-MCB7DQo+ID4gKyAgICAgICAgICAgICAgIGRldmljZV90eXBlID0gIm1lbW9yeSI7DQo+ID4gKyAg
-ICAgICAgICAgICAgIHJlZyA9IDwweDYgMHgwMDAwMDAwMCAweDEgMHgwMDAwMDAwMD47DQo+ID4g
-KyAgICAgICB9Ow0KPiA+ICt9Ow0KPiANCj4gUmV2aWV3ZWQtYnk6IEdlZXJ0IFV5dHRlcmhvZXZl
-biA8Z2VlcnQrcmVuZXNhc0BnbGlkZXIuYmU+IGkuZS4gd2lsbCBxdWV1ZQ0KPiBpbiByZW5lc2Fz
-LWRldmVsIGZvciB2NS43LCB3aXRoIHRoZSBhYm92ZSBmaXhlZC4NCg0KVGhhbmsgeW91IGZvciB5
-b3VyIFJldmlld2VkLWJ5ICENCg0KVGhhbmsgeW91IGZvciB5b3VyIGhlbHAuDQpCZXN0IHJlZ2Fy
-ZHMsDQpZdXlhIEhhbWFtYWNoaQ0KDQo=
+Hello Morimoto-san,
+
+Kuninori Morimoto, Tue, Mar 10, 2020 02:07:23 +0100:
+> > Should the adv748x driver also implement anything to configure the frequency
+> > of MCLK clock? I mean something like .set_sysclk and .set_fmt callbacks of
+> > snd_soc_dai_ops?
+> > 
+> > Or is the driver implementation, which depends on mclk-fs to be 256, the audio
+> > stream format to be 8x S24_LE, and requires strictly 48kHz sampling rate on
+> > the HDMI input, a totally acceptable first attempt at writing a DAI driver?
+> > 
+> > I'm a bit bothered by that, as the hardware is also capable of decoding
+> > stereo, sampling rate 32-192kHz, a variety of PCM and compressed/encrypted
+> > formats, 128-768fs MCLK multipliers, and a row of I2S options.
+> > 
+> > I just find it confusing to place the configuration interfaces.
+> > For instance, the patches use the media ioctl for audio output selection to
+> > select I2S protocol. While works, it does not feel right (shouldn't it be in
+> > the device tree?)
+> > 
+> > Maybe you can point me at a driver doing something similar? I'm studying media
+> > drivers now, but not many of them use ASoC interfaces for devices providing a
+> > clock. Or maybe I should better look at sound/soc/...?
+> 
+> Setting Sound Clock for all cases/patterns are very complex and difficult actually.
+> (ADV7482 configuration) x (ADG divider / selector) x etc, etc...
+> 
+> Thus, Current R-Car sound is assuming that audio_clk_a/b/c/i are providing
+> route clock (= no configuration, fixed clock), and ADG divides it,
+> and provide best clock to each SSIx.
+> Current Salvator/ULCB already have 44.1/48kHz route clock (= CS2000 and Audio_CLK_A),
+> and we can reuse it for all SSIx. Thus, ADV7482 clock is not necessary, I guess ?
+> Or providing specific clock for some case is enough
+> (ADG will automatically select it if necessary).
+
+In this particular case, the ADV7482 *must* provide the clock, I believe: it
+extracts the audio stream from the HDMI connection (in addition to everything
+else) and serves the stream on I2S. Its MCLK line is physically connected to
+the CLK_C line (which is an input) of the R-Car SoC. The I2S audio
+transmission does not work if the ADV7482 clock is not programmed (or
+programmed incorrectly).
+Yes, I tried (I also tried programming it incorrectly, just because I didn't
+know what I was doing).
+
+> If ADV7482 needs more detail clock settings combination,
+> then, there is no method to adjust to it.
+> We need to consider such system somehow.
+
+Not encouraging...
+
+Maybe I should leave the clock fixed, with the frequency configuration in the
+device tree, e.g. as adv7482 port node property "clock-frequency".
+Which feels rather pathetic, but at least serves my purpose (48k, 8x24).
+
+But let me describe the situation as I see it first.
+
+As far as I understand, the SSI4 (Salvator-X board) should be programmed by
+the snd-soc-rcar driver in the "slave receiver" mode for this use case, which
+is HDMI input ADV7482 (I2S master, TDM) -> SSI4 (I2S slave)):
+
+[   63.305990] asoc_simple_card_parse_clk: asoc-audio-graph-card sound: rsnd-dai.1 : sysclk = 66666664, direction 0
+[   63.306028] asoc_simple_card_parse_clk: asoc-audio-graph-card sound: adv748x-i2s : sysclk = 12288000, direction 1
+
+I am a bit bothered by the fact that sysclk of rsnd-dai.1 does not match that
+sysclk of adv7482-i2s, but I think it's just DT node configuration.
+
+[   63.306033] asoc_simple_card_set_dailink_name: asoc-audio-graph-card sound: name : rsnd-dai.1-adv748x-i2s
+...
+[   63.332641] asoc-audio-graph-card sound: adv748x.4-0070 <-> rsnd-dai.1 mapping ok
+...
+[   63.341317] dapm_connect_dai_link_widgets:  rsnd-dai.1-adv748x-i2s: connected DAI link adv748x.4-0070:Capture -> ec500000.sound:DAI1 Capture
+...
+[  128.961389] rsnd_write: rcar_sound ec500000.sound: w ssi[4] - SSICR ( 124) : 9ceb0100
+
+Decoding this last line (9ceb0100) gives SSICR.TRMD (bit1) =0, SSICR.SCKD
+(bit15) =0, SSICR.SWSD (bit14) =0. The combination is documented as "slave
+receiver". Which, I assume, makes SSI4 use the external clock. Given the
+received stream looks ok, something also must have set the dividers correctly.
+
+From the above, I conclude, whatever the complexity of the audio system clock
+configuration, it seems to be implemented for the case.
+
+I only miss a more or less clear way to configure the I2S master (ADV7482, that is).
+
+Regards,
+Alex
