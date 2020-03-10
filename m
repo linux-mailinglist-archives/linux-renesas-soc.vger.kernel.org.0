@@ -2,61 +2,65 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FD6F17F5B4
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2020 12:07:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A1E717F6A0
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2020 12:47:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726508AbgCJLGx (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Mar 2020 07:06:53 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:25631 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726325AbgCJLGw (ORCPT
+        id S1726269AbgCJLr0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Mar 2020 07:47:26 -0400
+Received: from bin-mail-out-06.binero.net ([195.74.38.229]:22427 "EHLO
+        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726265AbgCJLr0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Mar 2020 07:06:52 -0400
-X-IronPort-AV: E=Sophos;i="5.70,536,1574089200"; 
-   d="scan'208";a="41493406"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 10 Mar 2020 20:06:51 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 18F06420C2EB;
-        Tue, 10 Mar 2020 20:06:49 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Niklas <niklas.soderlund@ragnatech.se>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v2 3/3] media: rcar-vin: rcar-csi2: Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format
-Date:   Tue, 10 Mar 2020 11:06:04 +0000
-Message-Id: <1583838364-12932-4-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1583838364-12932-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <1583838364-12932-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Tue, 10 Mar 2020 07:47:26 -0400
+X-Halon-ID: e5b57f30-62c4-11ea-9f85-005056917a89
+Authorized-sender: niklas@soderlund.pp.se
+Received: from bismarck.berto.se (p4fca2392.dip0.t-ipconnect.de [79.202.35.146])
+        by bin-vsp-out-01.atm.binero.net (Halon) with ESMTPA
+        id e5b57f30-62c4-11ea-9f85-005056917a89;
+        Tue, 10 Mar 2020 12:47:24 +0100 (CET)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     linux-pm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] thermal: rcar_thermal: Handle probe error gracefully
+Date:   Tue, 10 Mar 2020 12:47:09 +0100
+Message-Id: <20200310114709.1483860-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-This patch adds support for MEDIA_BUS_FMT_SRGGB8_1X8 format for CSI2
-input.
+If the common register memory resource is not available the driver needs
+to fail gracefully to disable PM. Instead of returning the error
+directly store it in ret and use the already existing error path.
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- drivers/media/platform/rcar-vin/rcar-csi2.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/thermal/rcar_thermal.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-index 39e1639..b030ef6 100644
---- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-@@ -320,6 +320,7 @@ static const struct rcar_csi2_format rcar_csi2_formats[] = {
- 	{ .code = MEDIA_BUS_FMT_YUYV8_1X16,	.datatype = 0x1e, .bpp = 16 },
- 	{ .code = MEDIA_BUS_FMT_UYVY8_2X8,	.datatype = 0x1e, .bpp = 16 },
- 	{ .code = MEDIA_BUS_FMT_YUYV10_2X10,	.datatype = 0x1e, .bpp = 20 },
-+	{ .code = MEDIA_BUS_FMT_SRGGB8_1X8,     .datatype = 0x2a, .bpp = 8 },
- };
+diff --git a/drivers/thermal/rcar_thermal.c b/drivers/thermal/rcar_thermal.c
+index 8f1aafa2044e5ba7..4a48d1d2a31c9250 100644
+--- a/drivers/thermal/rcar_thermal.c
++++ b/drivers/thermal/rcar_thermal.c
+@@ -521,8 +521,10 @@ static int rcar_thermal_probe(struct platform_device *pdev)
+ 			res = platform_get_resource(pdev, IORESOURCE_MEM,
+ 						    mres++);
+ 			common->base = devm_ioremap_resource(dev, res);
+-			if (IS_ERR(common->base))
+-				return PTR_ERR(common->base);
++			if (IS_ERR(common->base)) {
++				ret = PTR_ERR(common->base);
++				goto error_unregister;
++			}
  
- static const struct rcar_csi2_format *rcsi2_code_to_fmt(unsigned int code)
+ 			idle = 0; /* polling delay is not needed */
+ 		}
 -- 
-2.7.4
+2.25.1
 
