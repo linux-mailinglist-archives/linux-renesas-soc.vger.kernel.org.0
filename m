@@ -2,284 +2,103 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 978F917FFC6
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2020 15:06:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F95117FFF2
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 10 Mar 2020 15:16:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726539AbgCJOGa (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Mar 2020 10:06:30 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:41030 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726436AbgCJOG3 (ORCPT
+        id S1726380AbgCJOQr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Mar 2020 10:16:47 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:34176 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726353AbgCJOQq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Mar 2020 10:06:29 -0400
-Received: by mail-lj1-f194.google.com with SMTP id o10so7536713ljc.8
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 10 Mar 2020 07:06:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=AdYg6WPnW9nkA89dG9goaT7uA2jUoyPdqfmcB/nhqQs=;
-        b=lLFhSEWR+HU7ja9NF1SEaIRPUkuSq/q1KpKKxGDNWKy55S/lnFDty2Y3vaDEA6bUMP
-         FyXDWceMhkDPrQSTkWja+orj9SvX0zfeE/567tCDjxicaVxAdDGKNRzcVgKn3NvVlCG3
-         X/L9WBy5rgzTpkf1Knb1y5HyapKdcaTJKkkBSzNSUX3xwvJLG2mNoiDb8uHU3hLSF0cL
-         7IIk2Epu5dHnBS1eEGsb8klWcF2FY7CXzMBcbnvPZz0j8WdpjSmj0dJmU/GKfr3sR+R8
-         WuF4qX1nAb274Uix7x0W8w2Fsnr5ZitIACdph3zZ0SP3gtpN/DjYgtgMON1uAQyn7Jln
-         hM5g==
+        Tue, 10 Mar 2020 10:16:46 -0400
+Received: by mail-ot1-f66.google.com with SMTP id j16so13286011otl.1;
+        Tue, 10 Mar 2020 07:16:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=AdYg6WPnW9nkA89dG9goaT7uA2jUoyPdqfmcB/nhqQs=;
-        b=aZdxKgaBbsHUWhQ5BCWJ6DHlaFUUTDbo2q67ISrQllpoLflqMWKDQUX7KuK8YTUvB6
-         3366zEywP7pRibKCQ+uqiFn0XEs41SantfCKnBv9R95/W9x436hqLsgMOZ4CBWLuDX92
-         nSvo2el2KDHxReUDoz9Tj89QIZVEdhSyTpJ3JFLua4ZlPHdC8iXwICOMGwhzXRpM5bKT
-         gPXtT+8L4ldYSLC87H3xDi8BGO0P+MxianAefn2N79glhUWsoYxwcZpJkI6B16qkwy2m
-         FVqRPlJClR/drB+rjpnrHWpcI/mq/kDn7vEiCZqT/uhU9uxCJOs4NRb0TClMutgmRUbO
-         6Rug==
-X-Gm-Message-State: ANhLgQ15ppoPKMAnCcbGvIwKpX/40zUNgYkCUucKI/9IWxws2YnE4w1u
-        XkbEckotSfhbpMsSRm0kGPpGuQ==
-X-Google-Smtp-Source: ADFU+vvn0FGMBKT7TgxoHvOiEt5+FcYaiJQSifYAr/xnXwoMX2oHjrURwCPMNdIqkGYybfS2enhxoA==
-X-Received: by 2002:a05:651c:1056:: with SMTP id x22mr9778959ljm.91.1583849186402;
-        Tue, 10 Mar 2020 07:06:26 -0700 (PDT)
-Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
-        by smtp.gmail.com with ESMTPSA id q15sm477148lfb.26.2020.03.10.07.06.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2020 07:06:25 -0700 (PDT)
-Date:   Tue, 10 Mar 2020 15:06:25 +0100
-From:   Niklas <niklas.soderlund@ragnatech.se>
-To:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH v2 2/3] media: rcar-vin: Add support for
- MEDIA_BUS_FMT_SRGGB8_1X8 format
-Message-ID: <20200310140625.GA88560@oden.dyn.berto.se>
-References: <1583838364-12932-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1583838364-12932-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200310124605.GO2975348@oden.dyn.berto.se>
- <OSBPR01MB35905FFB621C2F4222692832AAFF0@OSBPR01MB3590.jpnprd01.prod.outlook.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=p/R9hkm0Zw7z7yv8pl2WS6JNAIj1jxXZxWTXciFoU7c=;
+        b=UsfFOY0jNkUHnio8nrI47GaJmA0lRNVHw2ueoWyUI8B3w+81gbfzH0l4lM2Yye8TW8
+         8gxxhSeVB4r2Xbi1tJrBdHnQ2R4uv9OM+4GRhKQX08a7+eJOq6ieVW0v/4n9VZB7JUhJ
+         JU6k2eH2tFUV/NyEQk8zXoPVKF1DGwxl55vyhjOk5x4f3uEa2etVcBAPhj2NV2esH8KO
+         0IACDIthaPkrdWy5hjmCdHjPvOwqGX8TEzHnLWdSS3iSaAJ/HKlrUC+cuEmUUBSQqKlQ
+         yE14/IJg2oa1O4F3KNV9ILBqo056xbTGsmiS8gihlOVcGYbGEl8mhnnXJ5StFadt9Wy0
+         0z3A==
+X-Gm-Message-State: ANhLgQ2iD0j6QX2Y0qMRoMpV7q/c0c5AiONc7zviWOsv0Zi7PaPkgidu
+        u8LeXRGEcqTNGPU/4cAi3M0ctZ9ms+SSWbfc8O4=
+X-Google-Smtp-Source: ADFU+vvZTqfdR5CugMRRTAerKcghOgx+guP2EJeK1CA6udD0T6lcZulG/Kqqj5o+tL7B7i7MpR6gacmzSsc9JzHRJjo=
+X-Received: by 2002:a9d:5c0c:: with SMTP id o12mr17093578otk.145.1583849805778;
+ Tue, 10 Mar 2020 07:16:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <OSBPR01MB35905FFB621C2F4222692832AAFF0@OSBPR01MB3590.jpnprd01.prod.outlook.com>
+References: <20200220233454.31514-1-f.fainelli@gmail.com> <20200223.205911.1667092059432885700.davem@davemloft.net>
+In-Reply-To: <20200223.205911.1667092059432885700.davem@davemloft.net>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 10 Mar 2020 15:16:34 +0100
+Message-ID: <CAMuHMdWuP1_3vqOpf7KEimLLTKiWpWku9fUAdP3CCR6WbHyQdg@mail.gmail.com>
+Subject: Re: [PATCH net] net: phy: Avoid multiple suspends
+To:     David Miller <davem@davemloft.net>,
+        Florian Fainelli <f.fainelli@gmail.com>
+Cc:     netdev <netdev@vger.kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>, B38611@freescale.com,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Lad,
+Hi Florian, David,
 
-On 2020-03-10 13:42:20 +0000, Prabhakar Mahadev Lad wrote:
-> Hi Niklas,
-> 
-> Thank for the review.
-> 
-> > -----Original Message-----
-> > From: Niklas <niklas.soderlund@ragnatech.se>
-> > Sent: 10 March 2020 12:46
-> > To: Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>; linux-
-> > media@vger.kernel.org; linux-renesas-soc@vger.kernel.org; linux-
-> > kernel@vger.kernel.org; Lad Prabhakar <prabhakar.csengg@gmail.com>
-> > Subject: Re: [PATCH v2 2/3] media: rcar-vin: Add support for
-> > MEDIA_BUS_FMT_SRGGB8_1X8 format
+On Mon, Feb 24, 2020 at 5:59 AM David Miller <davem@davemloft.net> wrote:
+> From: Florian Fainelli <f.fainelli@gmail.com>
+> Date: Thu, 20 Feb 2020 15:34:53 -0800
+>
+> > It is currently possible for a PHY device to be suspended as part of a
+> > network device driver's suspend call while it is still being attached to
+> > that net_device, either via phy_suspend() or implicitly via phy_stop().
 > >
-> > Hi Lad,
+> > Later on, when the MDIO bus controller get suspended, we would attempt
+> > to suspend again the PHY because it is still attached to a network
+> > device.
 > >
-> > Thanks for your work.
+> > This is both a waste of time and creates an opportunity for improper
+> > clock/power management bugs to creep in.
 > >
-> > On 2020-03-10 11:06:03 +0000, Lad Prabhakar wrote:
-> > > Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format in rcar-vin by
-> > setting
-> > > format type to RAW8 in VNMC register and appropriately setting the
-> > > bpp, bytesperline to enable V4L2_PIX_FMT_SRGGB8.
-> > >
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-
-> > lad.rj@bp.renesas.com>
-> > > ---
-> > >  drivers/media/platform/rcar-vin/rcar-core.c |  1 +
-> > > drivers/media/platform/rcar-vin/rcar-dma.c  |  9 ++++++++-
-> > > drivers/media/platform/rcar-vin/rcar-v4l2.c | 13 ++++++++++++-
-> > >  3 files changed, 21 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/rcar-vin/rcar-core.c
-> > > b/drivers/media/platform/rcar-vin/rcar-core.c
-> > > index 7440c89..76daf2f 100644
-> > > --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> > > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> > > @@ -469,6 +469,7 @@ static int rvin_parallel_subdevice_attach(struct
-> > rvin_dev *vin,
-> > >  case MEDIA_BUS_FMT_UYVY8_2X8:
-> > >  case MEDIA_BUS_FMT_UYVY10_2X10:
-> > >  case MEDIA_BUS_FMT_RGB888_1X24:
-> > > +case MEDIA_BUS_FMT_SRGGB8_1X8:
-> > >  vin->mbus_code = code.code;
-> > >  vin_dbg(vin, "Found media bus format for %s: %d\n",
-> > >  subdev->name, vin->mbus_code);
-> > > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c
-> > > b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > > index 1a30cd0..1c1fafa 100644
-> > > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> > > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > > @@ -85,6 +85,7 @@
-> > >  #define VNMC_INF_YUV8_BT601(1 << 16)
-> > >  #define VNMC_INF_YUV10_BT656(2 << 16)
-> > >  #define VNMC_INF_YUV10_BT601(3 << 16)
-> > > +#define VNMC_INF_RAW8(4 << 16)
-> > >  #define VNMC_INF_YUV16(5 << 16)
-> > >  #define VNMC_INF_RGB888(6 << 16)
-> > >  #define VNMC_VUP(1 << 10)
-> > > @@ -587,7 +588,6 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
-> > >  rvin_write(vin, vin->crop.top, VNSLPRC_REG);
-> > >  rvin_write(vin, vin->crop.top + vin->crop.height - 1, VNELPRC_REG);
-> > >
-> > > -
-> > >  /* TODO: Add support for the UDS scaler. */
-> > >  if (vin->info->model != RCAR_GEN3)
-> > >  rvin_crop_scale_comp_gen2(vin);
-> > > @@ -676,6 +676,9 @@ static int rvin_setup(struct rvin_dev *vin)
-> > >
-> > >  input_is_yuv = true;
-> > >  break;
-> > > +case MEDIA_BUS_FMT_SRGGB8_1X8:
-> > > +vnmc |= VNMC_INF_RAW8;
-> > > +break;
-> > >  default:
-> > >  break;
-> > >  }
-> > > @@ -737,6 +740,9 @@ static int rvin_setup(struct rvin_dev *vin)
-> > >  case V4L2_PIX_FMT_ABGR32:
-> > >  dmr = VNDMR_A8BIT(vin->alpha) | VNDMR_EXRGB |
-> > VNDMR_DTMD_ARGB;
-> > >  break;
-> > > +case V4L2_PIX_FMT_SRGGB8:
-> > > +dmr = 0;
-> > > +break;
-> > >  default:
-> > >  vin_err(vin, "Invalid pixelformat (0x%x)\n",
-> > >  vin->format.pixelformat);
-> > > @@ -1110,6 +1116,7 @@ static int rvin_mc_validate_format(struct
-> > rvin_dev *vin, struct v4l2_subdev *sd,
-> > >  case MEDIA_BUS_FMT_UYVY8_2X8:
-> > >  case MEDIA_BUS_FMT_UYVY10_2X10:
-> > >  case MEDIA_BUS_FMT_RGB888_1X24:
-> > > +case MEDIA_BUS_FMT_SRGGB8_1X8:
-> > >  vin->mbus_code = fmt.format.code;
-> > >  break;
-> > >  default:
-> > > diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > > b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > > index 5151a3c..4698099 100644
-> > > --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > > +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > > @@ -66,6 +66,10 @@ static const struct rvin_video_format rvin_formats[]
-> > = {
-> > >  .fourcc= V4L2_PIX_FMT_ABGR32,
-> > >  .bpp= 4,
-> > >  },
-> > > +{
-> > > +.fourcc= V4L2_PIX_FMT_SRGGB8,
-> > > +.bpp= 2,
-> >
-> > This does not look right, is not bytes-per-pixel 1 for a SRGGB8?
-> >
-> I guessed the bpp's were picked from VnIS table as I result I did the same.
-> 
-> > > +},
-> > >  };
-> > >
-> > >  const struct rvin_video_format *rvin_format_from_pixel(struct
-> > > rvin_dev *vin, @@ -102,6 +106,7 @@ static u32
-> > > rvin_format_bytesperline(struct rvin_dev *vin,  {
-> > >  const struct rvin_video_format *fmt;
-> > >  u32 align;
-> > > +u8 div;
-> > >
-> > >  fmt = rvin_format_from_pixel(vin, pix->pixelformat);
-> > >
-> > > @@ -112,16 +117,22 @@ static u32 rvin_format_bytesperline(struct
-> > rvin_dev *vin,
-> > >  case V4L2_PIX_FMT_NV12:
-> > >  case V4L2_PIX_FMT_NV16:
-> > >  align = 0x20;
-> > > +div = 1;
-> > > +break;
-> > > +case V4L2_PIX_FMT_SRGGB8:
-> > > +align = 0x10;
-> > > +div = 2;
-> >
-> > Yes this does not look right at all, I think you should set bpp to 1 and drop the
-> > div handling here.
-> >
-> If I set bpp as 1 and drop the div VNIS_REG will be wrongly configured in
-> rvin_crop_scale_comp() and the image captured will be wrong.
-> 
-> For example for 640x480:
-> 
-> With the current patch bpp = 2:
-> bytesperline = 640
+> > Fixes: 803dd9c77ac3 ("net: phy: avoid suspending twice a PHY")
+> > Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+>
+> Applied, and queued up for -stable, thanks Florian.
 
-This is wrong, if we have a line of 640 pixels and 2 bytes per pixel 
-then bytesperline must be at least 1280 bytes right?
+This patch causes a regression on r8a73a4/ape6evm and sh73a0/kzm9g.
+After resume from s2ram, Ethernet no longer works:
 
-> image size = 307200
-> stride = 320
+        PM: suspend exit
+        nfs: server aaa.bbb.ccc.ddd not responding, still trying
+        ...
 
-But this is incorrect, the VNIS_REG shall be at least the number of 
-pixels in a line (EPPrC - SPPrC -> 640 - 0 = 640). Then we need to align 
-it to the pixel unit (16, 32, 64, 128) depending on the output pixel 
-format.
+Reverting commit 503ba7c6961034ff ("net: phy: Avoid multiple suspends")
+fixes the issue.
 
-This usually result in a stride that is larger then the line length.  
-Thus you need a test application that knows the difference between width 
-* bpp and bytesperline. I use qv4l2 without opengl support when I do quick 
-tests and it does not support this hence I get a incorrect visual view 
-of the stream when testing.
+On both boards, an SMSC LAN9220 is connected to a power-managed local
+bus.
 
-How does the image capture fail with bpp = 1?
+I added some debug code to check when the clock driving the local bus
+is stopped and started, but I see no difference before/after.  Hence I
+suspect the Ethernet chip is no longer reinitialized after resume.
 
-> 
-> And with bpp = 1 and div removed
-> bytesperline = 640
-> image size = 307200
-> stride = 640
+Gr{oetje,eeting}s,
+
+                        Geert
 
 
-> 
-> Cheers,
-> --Prabhakar
-> 
-> > >  break;
-> > >  default:
-> > >  align = 0x10;
-> > > +div = 1;
-> > >  break;
-> > >  }
-> > >
-> > >  if (V4L2_FIELD_IS_SEQUENTIAL(pix->field))
-> > >  align = 0x80;
-> > >
-> > > -return ALIGN(pix->width, align) * fmt->bpp;
-> > > +return ALIGN(pix->width / div, align) * fmt->bpp;
-> > >  }
-> > >
-> > >  static u32 rvin_format_sizeimage(struct v4l2_pix_format *pix)
-> > > --
-> > > 2.7.4
-> > >
-> >
-> > --
-> > Regards,
-> > Niklas Söderlund
-> 
-> 
-> Renesas Electronics Europe GmbH, Geschaeftsfuehrer/President: Carsten Jauch, Sitz der Gesellschaft/Registered office: Duesseldorf, Arcadiastrasse 10, 40472 Duesseldorf, Germany, Handelsregister/Commercial Register: Duesseldorf, HRB 3708 USt-IDNr./Tax identification no.: DE 119353406 WEEE-Reg.-Nr./WEEE reg. no.: DE 14978647
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
--- 
-Regards,
-Niklas Söderlund
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
