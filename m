@@ -2,106 +2,280 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B141181C6D
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2020 16:35:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EF06181DF0
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2020 17:33:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730022AbgCKPfQ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Mar 2020 11:35:16 -0400
-Received: from mail-vs1-f66.google.com ([209.85.217.66]:34472 "EHLO
-        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730020AbgCKPfQ (ORCPT
+        id S1730294AbgCKQdB (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Mar 2020 12:33:01 -0400
+Received: from bin-mail-out-05.binero.net ([195.74.38.228]:22636 "EHLO
+        bin-mail-out-05.binero.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730193AbgCKQdB (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Mar 2020 11:35:16 -0400
-Received: by mail-vs1-f66.google.com with SMTP id t10so1617737vsp.1
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Mar 2020 08:35:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7P2TnAozvRUUITxwbv7loMPCIx00QfzH+LiOq7Ku7zk=;
-        b=iWFCV2zcx2BPsAXZhH5ZIIiRUa49aY8/7cj4wiB7qgUyvhk7A7L9gPKV6aSNc6mBtR
-         0AHIBCu6L0stt9RwHa7Wci2rgVw8LTnVGCPvn9bE9us9Z3CtYX9+rColeIZk5MUfePh0
-         Q7qbV0DyqOU7q5eM8LONLriR2d/g/p36nRWCQCp6sCT5HD67oRpYK57KlhKA4koRtXIj
-         SW8rar6XExNsU6aN6uXQrBYxcc2sqAb8Ili8DeHQEk0yyE0fkd5b2KLQppxzLad/vzQf
-         ekalCWvsHrD6l92hsZ8ZwzAiE+pU0c9UwvuLavNqhGptrF6NSjFhWrwag8vTsKxfPOu6
-         U3gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7P2TnAozvRUUITxwbv7loMPCIx00QfzH+LiOq7Ku7zk=;
-        b=njtyvCOSSOtvKq6UNk+vYHGXDCePIYjUnKP7Ti4gzTg84muFsuGCOdkYpZ1N+W/+1N
-         oXpgKS2Ho6GVVF5AvAHB5N3kjrDzSxIP6GNPATDsRIARMZV43wYCATilx2najurv8d3X
-         pBId8MhA1S3B8Taot+OSithAnxvsilCjBIpkjNcFLhcfKuNKg4cYTvf4tnVm5V6NHgBP
-         VDg1/C9cmn3UM2NbZfbXrNz3m3UFTTYwTjGW2pzVDM+dYs1gYxHyeAfuIx1qyRF4nmsS
-         qLMRATzB4OEtBkj6ZFj02CXBUR4wyOvZ1wbeGzzTBqq4O+d/akexZUHS28B7RarleZ2J
-         uF/A==
-X-Gm-Message-State: ANhLgQ0GqBlF9jHdodel160qOuQRPyiTpfYWptKtcwp0j0L7k9ckp9Do
-        A+wO2/18nzKoqTlZ/+HGzVqYuCfqRpvv3U2+VQeU7g==
-X-Google-Smtp-Source: ADFU+vvYx4lizAB/KxZ/Kx/MUG/Y0X6ILzdCx6DVipqraTwb0PouxhDDT3cdnuGQgyfq71WpTC05cxRhZec+Qgc+bbE=
-X-Received: by 2002:a67:646:: with SMTP id 67mr2310247vsg.34.1583940913839;
- Wed, 11 Mar 2020 08:35:13 -0700 (PDT)
+        Wed, 11 Mar 2020 12:33:01 -0400
+X-Halon-ID: eaf4c149-63b5-11ea-aa6d-005056917f90
+Authorized-sender: niklas@soderlund.pp.se
+Received: from bismarck.berto.se (p4fca2392.dip0.t-ipconnect.de [79.202.35.146])
+        by bin-vsp-out-02.atm.binero.net (Halon) with ESMTPA
+        id eaf4c149-63b5-11ea-aa6d-005056917f90;
+        Wed, 11 Mar 2020 17:32:49 +0100 (CET)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Rob Herring <robh+dt@kernel.org>, linux-pm@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH] dt-bindings: thermal: rcar-thermal: Convert bindings to json-schema
+Date:   Wed, 11 Mar 2020 17:32:21 +0100
+Message-Id: <20200311163221.1761949-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200213163715.8212-1-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20200213163715.8212-1-wsa+renesas@sang-engineering.com>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Wed, 11 Mar 2020 16:34:37 +0100
-Message-ID: <CAPDyKFoFSaNnuMThV9RfUn3-3wzESPQfvZZMOhmC9SH-u5Zy4w@mail.gmail.com>
-Subject: Re: [PATCH] mmc: renesas_sdhi: simplify execute_tuning
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc:     "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, 13 Feb 2020 at 17:37, Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
->
-> After refactoring, 'ret' variable is superfluous. Remove it.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Convert Renesas R-Car Thermal bindings documentation to json-schema.
 
-Applied for next, thanks!
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ .../bindings/thermal/rcar-thermal.txt         |  78 ----------
+ .../bindings/thermal/rcar-thermal.yaml        | 139 ++++++++++++++++++
+ 2 files changed, 139 insertions(+), 78 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/thermal/rcar-thermal.txt
+ create mode 100644 Documentation/devicetree/bindings/thermal/rcar-thermal.yaml
 
-Kind regards
-Uffe
+diff --git a/Documentation/devicetree/bindings/thermal/rcar-thermal.txt b/Documentation/devicetree/bindings/thermal/rcar-thermal.txt
+deleted file mode 100644
+index 196112d23b1edef2..0000000000000000
+--- a/Documentation/devicetree/bindings/thermal/rcar-thermal.txt
++++ /dev/null
+@@ -1,78 +0,0 @@
+-* Renesas R-Car Thermal
+-
+-Required properties:
+-- compatible		: "renesas,thermal-<soctype>",
+-			   "renesas,rcar-gen2-thermal" (with thermal-zone) or
+-			   "renesas,rcar-thermal" (without thermal-zone) as
+-                           fallback except R-Car V3M/E3/D3 and RZ/G2E.
+-			  Examples with soctypes are:
+-			    - "renesas,thermal-r8a73a4" (R-Mobile APE6)
+-			    - "renesas,thermal-r8a7743" (RZ/G1M)
+-			    - "renesas,thermal-r8a7744" (RZ/G1N)
+-			    - "renesas,thermal-r8a774c0" (RZ/G2E)
+-			    - "renesas,thermal-r8a7779" (R-Car H1)
+-			    - "renesas,thermal-r8a7790" (R-Car H2)
+-			    - "renesas,thermal-r8a7791" (R-Car M2-W)
+-			    - "renesas,thermal-r8a7792" (R-Car V2H)
+-			    - "renesas,thermal-r8a7793" (R-Car M2-N)
+-			    - "renesas,thermal-r8a77970" (R-Car V3M)
+-			    - "renesas,thermal-r8a77990" (R-Car E3)
+-			    - "renesas,thermal-r8a77995" (R-Car D3)
+-- reg			: Address range of the thermal registers.
+-			  The 1st reg will be recognized as common register
+-			  if it has "interrupts".
+-
+-Option properties:
+-
+-- interrupts		: If present should contain 3 interrupts for
+-                          R-Car V3M/E3/D3 and RZ/G2E or 1 interrupt otherwise.
+-
+-Example (non interrupt support):
+-
+-thermal@ffc48000 {
+-	compatible = "renesas,thermal-r8a7779", "renesas,rcar-thermal";
+-	reg = <0xffc48000 0x38>;
+-};
+-
+-Example (interrupt support):
+-
+-thermal@e61f0000 {
+-	compatible = "renesas,thermal-r8a73a4", "renesas,rcar-thermal";
+-	reg = <0xe61f0000 0x14
+-		0xe61f0100 0x38
+-		0xe61f0200 0x38
+-		0xe61f0300 0x38>;
+-	interrupts = <0 69 IRQ_TYPE_LEVEL_HIGH>;
+-};
+-
+-Example (with thermal-zone):
+-
+-thermal-zones {
+-	cpu_thermal: cpu-thermal {
+-		polling-delay-passive	= <1000>;
+-		polling-delay		= <5000>;
+-
+-		thermal-sensors = <&thermal>;
+-
+-		trips {
+-			cpu-crit {
+-				temperature	= <115000>;
+-				hysteresis	= <0>;
+-				type		= "critical";
+-			};
+-		};
+-		cooling-maps {
+-		};
+-	};
+-};
+-
+-thermal: thermal@e61f0000 {
+-	compatible =	"renesas,thermal-r8a7790",
+-			"renesas,rcar-gen2-thermal",
+-			"renesas,rcar-thermal";
+-	reg = <0 0xe61f0000 0 0x14>, <0 0xe61f0100 0 0x38>;
+-	interrupts = <0 69 IRQ_TYPE_LEVEL_HIGH>;
+-	clocks = <&mstp5_clks R8A7790_CLK_THERMAL>;
+-	power-domains = <&cpg_clocks>;
+-	#thermal-sensor-cells = <0>;
+-};
+diff --git a/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml b/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml
+new file mode 100644
+index 0000000000000000..d2f4f1b063ac07b0
+--- /dev/null
++++ b/Documentation/devicetree/bindings/thermal/rcar-thermal.yaml
+@@ -0,0 +1,139 @@
++# SPDX-License-Identifier: GPL-2.0-only
++# Copyright (C) 2020 Renesas Electronics Corp.
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/thermal/rcar-thermal.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Renesas R-Car Thermal
++
++maintainers:
++  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
++
++properties:
++  compatible:
++    oneOf:
++      - items:
++          - enum:
++              - renesas,thermal-r8a73a4 # R-Mobile APE6
++              - renesas,thermal-r8a7779 # R-Car H1
++          - const: renesas,rcar-thermal # Generic without thermal-zone
++      - items:
++          - enum:
++              - renesas,thermal-r8a7743 # RZ/G1M
++              - renesas,thermal-r8a7744 # RZ/G1N
++          - const: renesas,rcar-gen2-thermal # Generic thermal-zone
++      - items:
++          - enum:
++              - renesas,thermal-r8a7790 # R-Car H2
++              - renesas,thermal-r8a7791 # R-Car M2-W
++              - renesas,thermal-r8a7792 # R-Car V2H
++              - renesas,thermal-r8a7793 # R-Car M2-N
++          - const: renesas,rcar-gen2-thermal # Generic thermal-zone
++          - const: renesas,rcar-thermal # Generic without thermal-zone
++      - items:
++          - enum:
++              - renesas,thermal-r8a774c0 # RZ/G2E
++              - renesas,thermal-r8a77970 # R-Car V3M
++              - renesas,thermal-r8a77990 # R-Car E3
++              - renesas,thermal-r8a77995 # R-Car D3
++  reg:
++    description:
++      Address ranges of the thermal registers. If more then one range is given
++      the first one must be the common registers followed by each sensor
++      according the the datasheet.
++    minItems: 1
++    maxItems: 4
++
++  interrupts:
++    minItems: 1
++    maxItems: 3
++
++  clocks:
++    maxItems: 1
++
++  power-domains:
++    maxItems: 1
++
++  resets:
++    maxItems: 1
++
++if:
++  properties:
++    compatible:
++      contains:
++        enum:
++          - renesas,thermal-r8a73a4 # R-Mobile APE6
++          - renesas,thermal-r8a7779 # R-Car H1
++then:
++  required:
++    - compatible
++    - reg
++else:
++  required:
++    - compatible
++    - reg
++    - interrupts
++    - clocks
++    - power-domains
++    - resets
++
++examples:
++  # Example (non interrupt support)
++  - |
++    thermal@ffc48000 {
++            compatible = "renesas,thermal-r8a7779", "renesas,rcar-thermal";
++            reg = <0xffc48000 0x38>;
++    };
++
++  # Example (interrupt support)
++  - |
++    #include <dt-bindings/clock/r8a73a4-clock.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    thermal@e61f0000 {
++            compatible = "renesas,thermal-r8a73a4", "renesas,rcar-thermal";
++            reg = <0 0xe61f0000 0 0x14>, <0 0xe61f0100 0 0x38>,
++                  <0 0xe61f0200 0 0x38>, <0 0xe61f0300 0 0x38>;
++            interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
++            clocks = <&mstp5_clks R8A73A4_CLK_THERMAL>;
++            power-domains = <&pd_c5>;
++    };
++
++  # Example (with thermal-zone)
++  - |
++    #include <dt-bindings/clock/r8a7790-cpg-mssr.h>
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/r8a7790-sysc.h>
++
++    thermal: thermal@e61f0000 {
++      compatible = "renesas,thermal-r8a7790",
++                   "renesas,rcar-gen2-thermal",
++                   "renesas,rcar-thermal";
++            reg = <0 0xe61f0000 0 0x10>, <0 0xe61f0100 0 0x38>;
++            interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
++            clocks = <&cpg CPG_MOD 522>;
++            power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
++            resets = <&cpg 522>;
++            #thermal-sensor-cells = <0>;
++    };
++
++    thermal-zones {
++            cpu_thermal: cpu-thermal {
++                    polling-delay-passive = <1000>;
++                    polling-delay = <5000>;
++
++                    thermal-sensors = <&thermal>;
++
++                    trips {
++                            cpu-crit {
++                                    temperature = <115000>;
++                                    hysteresis = <0>;
++                                    type = "critical";
++                            };
++                    };
++                    cooling-maps {
++                    };
++            };
++    };
+-- 
+2.25.1
 
-
-> ---
->
-> Tested on a Salvator-XS (R-Car M3-N). Tuning to HS400 works,
-> checksumming a large file works with no performance regression.
->
->  drivers/mmc/host/renesas_sdhi_core.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/mmc/host/renesas_sdhi_core.c b/drivers/mmc/host/renesas_sdhi_core.c
-> index 0f07cc1aee34..df826661366f 100644
-> --- a/drivers/mmc/host/renesas_sdhi_core.c
-> +++ b/drivers/mmc/host/renesas_sdhi_core.c
-> @@ -497,7 +497,7 @@ static int renesas_sdhi_select_tuning(struct tmio_mmc_host *host)
->  static int renesas_sdhi_execute_tuning(struct tmio_mmc_host *host, u32 opcode)
->  {
->         struct renesas_sdhi *priv = host_to_priv(host);
-> -       int i, ret;
-> +       int i;
->
->         priv->tap_num = renesas_sdhi_init_tuning(host);
->         if (!priv->tap_num)
-> @@ -517,8 +517,7 @@ static int renesas_sdhi_execute_tuning(struct tmio_mmc_host *host, u32 opcode)
->                 /* Set sampling clock position */
->                 sd_scc_write32(host, priv, SH_MOBILE_SDHI_SCC_TAPSET, i % priv->tap_num);
->
-> -               ret = mmc_send_tuning(host->mmc, opcode, NULL);
-> -               if (ret == 0)
-> +               if (mmc_send_tuning(host->mmc, opcode, NULL) == 0)
->                         set_bit(i, priv->taps);
->         }
->
-> --
-> 2.20.1
->
