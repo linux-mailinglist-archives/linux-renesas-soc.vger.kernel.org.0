@@ -2,70 +2,92 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F0F8B181859
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2020 13:43:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B2B89181C6A
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2020 16:35:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729310AbgCKMnv convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Mar 2020 08:43:51 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:37708 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729286AbgCKMnv (ORCPT
+        id S1730007AbgCKPfN (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Mar 2020 11:35:13 -0400
+Received: from mail-ua1-f68.google.com ([209.85.222.68]:36924 "EHLO
+        mail-ua1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730018AbgCKPfN (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Mar 2020 08:43:51 -0400
-Received: by mail-ot1-f67.google.com with SMTP id b3so1766620otp.4;
-        Wed, 11 Mar 2020 05:43:50 -0700 (PDT)
+        Wed, 11 Mar 2020 11:35:13 -0400
+Received: by mail-ua1-f68.google.com with SMTP id h32so887021uah.4
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 11 Mar 2020 08:35:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9Kghikgfqn6bJuPDxQtyH2+R9nJzm0Up17r6QXJ4bTk=;
+        b=JU4M54sQHyVdtZvI7PmhunKH2bA2dLX6fcFm5QWkoYEfa18AxHt2H47ITkIzrJQOAp
+         QOR/sL2uRHU+qDpyEZ+Qa/nnPrvh20NPWGaqUY5QFK3COlYFxztu92rc6nNLZfu6mo2G
+         JOyKopFMkKtTw0Vx6pSmLco+X2KPmlaenkLZhhBzwY6yIYOQLVF4nfHqiu7GsgKtwMYL
+         6YvePqCLX9VF00q+kLGdOFVvwXdokDT2lYM/+QrYPuGpmDJTkhbc/56aEn02mod2jvRC
+         lwQ/630LvuGzw7isEzojOVg9xoDuiK5hJDzLEB/vmtGb5wo3H9ELK+kop/Ov6yZ9Lhna
+         2+lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=s+PxktQvp/cKLLI06CG/tjO/tti/oJs9yCRvWmABx9g=;
-        b=ezQpV+XYc4m0MfRVscbdp4CXtbqrd1IZedJsp21poU7O7yHkJZk8BECIDd+WdZz4Gz
-         sx0LnFvv6emCfX4DlhQfCC7byVblAYCUSvjYv1n6a6g9X1r3YTD/OR/gs2pAe9pM8rjf
-         P9ZWeM7xFxIlqvctjXs6nkrKhIPQyuBwz8D8t8DA07NIV2+hyF4LxgGGX+7k3JxRgby3
-         NXtQwm5QtG+IJlB4RiWRekgIoFxTeiVLA80NhYqAttOxFQE9tetAkpcc6JGrDYJP5Hq2
-         hww1JQkokK0a1lreKWveU13x/7rPp0oSatK8MCW6OXJJj0CAQ9wtvmBQxg9QLGQmMHR1
-         MUfw==
-X-Gm-Message-State: ANhLgQ1pdbjjdP0rS1XPcSZECs4yt+k8nQMuZ5KFisoEHXxEBhBAp+PX
-        9LuCptC76aeTzciOCkYJsXf+jmiU3sC7rsWwvnk=
-X-Google-Smtp-Source: ADFU+vuqJfhqwRNB8Z5/QRBuP2mh71GRTOEd87T+7eEsVeg4AmP8mnevNxxKzOSqZCw/8TXflTgfSXhYuELg1cdWNRI=
-X-Received: by 2002:a9d:5c0c:: with SMTP id o12mr2203478otk.145.1583930630168;
- Wed, 11 Mar 2020 05:43:50 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=9Kghikgfqn6bJuPDxQtyH2+R9nJzm0Up17r6QXJ4bTk=;
+        b=VIleXnwRik7FFsW8fo+5ZS+nYGdPOMg4Itpjph+WG7v9LHQUp080xv5NzpGdZfL+Tr
+         H1SN+ppDSKVulbolGjJFKofKTeZClCkxUdH5YfGN21lDijSQ2uN/SkHmhdZIvAElQhwH
+         aXLSWvkQWQ5pzdYr/kWGVke2RS0cZzHyeLS4mTQB5sU743IumwJ6XiDBjegtV6Cg1hOy
+         ybdJVfyamp5ARz8WYoE44ZeHMLsHZ47No139D8Pm0bT/1vY487z8XOd9Sd44O6nzL9TK
+         9gt+XDh529aFsdVjWKQj18JcDQoe38DqH4/IdvKsTyyPNtcZVFKpVnH2j9Le4BdlegdF
+         nQnQ==
+X-Gm-Message-State: ANhLgQ31zCVo2AUN+5zyTYzplXkXWCXgdsFiQ5kaiJLoKviU9AS6ZIXW
+        DMgDlddtf7XQTsMle4P88SirjT/Uj7CDjl7qKFBwQkIO
+X-Google-Smtp-Source: ADFU+vtTbcphEQGum/n9c6up7FXly2NfnVcBzg4XyXxcw20FJvQU+djxbXWDsPchjs8h5CBXKbeRZiFqWI/9Pd8s1sI=
+X-Received: by 2002:a9f:3046:: with SMTP id i6mr2042779uab.15.1583940910358;
+ Wed, 11 Mar 2020 08:35:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200310170029.1648996-1-niklas.soderlund+renesas@ragnatech.se> <20200310170029.1648996-4-niklas.soderlund+renesas@ragnatech.se>
-In-Reply-To: <20200310170029.1648996-4-niklas.soderlund+renesas@ragnatech.se>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 11 Mar 2020 13:43:39 +0100
-Message-ID: <CAMuHMdX+89romoUcHYJMbE0mvJvBQJd4TfnRpcdW60YbG1mRBQ@mail.gmail.com>
-Subject: Re: [PATCH 3/3] thermal: rcar_thermal: Remove lock in rcar_thermal_get_current_temp()
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Linux PM list <linux-pm@vger.kernel.org>,
+References: <20200302093534.9055-1-geert+renesas@glider.be>
+In-Reply-To: <20200302093534.9055-1-geert+renesas@glider.be>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Wed, 11 Mar 2020 16:34:34 +0100
+Message-ID: <CAPDyKFpK2sTo9EDN+3yZgcEkCWTc=J-Z-+-B-QAExNwMPibF0w@mail.gmail.com>
+Subject: Re: [PATCH] mmc: renesas_sdhi: Use BITS_PER_LONG helper
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Mar 10, 2020 at 6:02 PM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> With the ctemp value returned instead of cached in the private data
-> structure their is no need to take the lock when translating ctemp into
-> a temperature.
+On Mon, 2 Mar 2020 at 10:35, Geert Uytterhoeven <geert+renesas@glider.be> wrote:
 >
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Use the existing BITS_PER_LONG helper definition instead of calculating
+> this value.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Applied for next, thanks!
 
-Gr{oetje,eeting}s,
+Kind regards
+Uffe
 
-                        Geert
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> ---
+>  drivers/mmc/host/renesas_sdhi.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/mmc/host/renesas_sdhi.h b/drivers/mmc/host/renesas_sdhi.h
+> index 7a1a741547f25de5..2a4c83a5f32ef8e2 100644
+> --- a/drivers/mmc/host/renesas_sdhi.h
+> +++ b/drivers/mmc/host/renesas_sdhi.h
+> @@ -60,7 +60,7 @@ struct renesas_sdhi {
+>         bool doing_tune;
+>
+>         /* Tuning values: 1 for success, 0 for failure */
+> -       DECLARE_BITMAP(taps, BITS_PER_BYTE * sizeof(long));
+> +       DECLARE_BITMAP(taps, BITS_PER_LONG);
+>         unsigned int tap_num;
+>         unsigned long tap_set;
+>  };
+> --
+> 2.17.1
+>
