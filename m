@@ -2,260 +2,204 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B6EC1823C4
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2020 22:22:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75DED182575
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2020 23:59:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726684AbgCKVWj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Mar 2020 17:22:39 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:39244 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726579AbgCKVWj (ORCPT
+        id S2387483AbgCKW7Q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Mar 2020 18:59:16 -0400
+Received: from mga02.intel.com ([134.134.136.20]:4020 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387481AbgCKW7Q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Mar 2020 17:22:39 -0400
-Received: by mail-wm1-f67.google.com with SMTP id f7so3834931wml.4;
-        Wed, 11 Mar 2020 14:22:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=zEBGqNmWMkfjp7ivVWJDStnNO+UDHuPLvuDXhLZVQUs=;
-        b=UMF8S/HobM25YsLhi/9YE5JMe1VZlxnGiXBgNrvzJoAxzniYqtDbtNWNn+B1Y+Ztpz
-         MfsSDuCIyK1RDV4vWnFfwz0cQqFdT/fJejeIzSidn7FMlEQyhbOWniV5ZlW5SHjgdllb
-         SzTQYiIONoIqMgwJ0aPHgZJuG9d3z50uWdIPaVPuakXQdpVnRFfM5G8/5jzF9KaQ04bt
-         Y2UYwg1GuYHxisoyyxbcIG9KKxogzm6C66URrEUTVcWxr6krxXadHbYu4Jchh0mwFbWq
-         q4yIE7P9VgIXRX26DAEVTYDUAxhIO/S5OXECQud15b6g0lwntgNUlkjXzlr/0oFOSzIp
-         Mfhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=zEBGqNmWMkfjp7ivVWJDStnNO+UDHuPLvuDXhLZVQUs=;
-        b=gzh5dDIxELl0XrCIZQIAXZk72h4tvHKOpa+rnaA6HmIOnPRbTRbKu9VFFSNJ1SqbCM
-         ObNQ27pKvqoFVwUOCWCR99EPEimU9Mcc2/Bts1xnGWx5WUyxyXPd1WX1Mmg/BniM021K
-         r/tI1HDvHIgsmfK8foJAepQuv5CjDzyjqbxa/LEeizf+536Dol/bc50onJx1I4XHhW9x
-         hxKGLXzfh7VBh4tnrrhEfdlbIsmgJr4cb4E+wzADHyJsU5JAMOcm9YTlAU4cnuumD0Vh
-         stiW4TACYdITXfHGSPmbGvxnlnAGsoqYGDGO4hf6B7jA3PYEXTMsg/WFcBkssEDpxXEK
-         csHA==
-X-Gm-Message-State: ANhLgQ0Hug7DbhddtICcROwK1Qc8amo9cbG5vNay2ywBzzjBgZwFwqJo
-        saP7J9hfIA4gf98EcpeOl/w+9OYr
-X-Google-Smtp-Source: ADFU+vtTPgkZUZ+xcybs1bUaKk0QR5IVaGjMmnyNIP8AFwmwlOexaMQ/KMxo3oADFhzLkBH4YzKK7g==
-X-Received: by 2002:a7b:cb97:: with SMTP id m23mr648895wmi.140.1583961755916;
-        Wed, 11 Mar 2020 14:22:35 -0700 (PDT)
-Received: from ?IPv6:2003:ea:8f29:6000:cddc:500b:7233:8488? (p200300EA8F296000CDDC500B72338488.dip0.t-ipconnect.de. [2003:ea:8f29:6000:cddc:500b:7233:8488])
-        by smtp.googlemail.com with ESMTPSA id n11sm295851wrt.74.2020.03.11.14.22.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Mar 2020 14:22:35 -0700 (PDT)
-Subject: Re: [PATCH net] net: phy: Avoid multiple suspends
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Florian Fainelli <f.fainelli@gmail.com>
-Cc:     David Miller <davem@davemloft.net>,
-        netdev <netdev@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Russell King <linux@armlinux.org.uk>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-References: <20200220233454.31514-1-f.fainelli@gmail.com>
- <20200223.205911.1667092059432885700.davem@davemloft.net>
- <CAMuHMdWuP1_3vqOpf7KEimLLTKiWpWku9fUAdP3CCR6WbHyQdg@mail.gmail.com>
- <c2a4edcb-dbf9-bc60-4399-3eaec9a20fe7@gmail.com>
- <CAMuHMdUMM0Q6W7A0mVgSf7XmF8yROZb3uzHPU1ETbMAfvTtfow@mail.gmail.com>
-From:   Heiner Kallweit <hkallweit1@gmail.com>
-Message-ID: <ca2abe1a-a9ed-23c9-ceaa-b0042be49be9@gmail.com>
-Date:   Wed, 11 Mar 2020 22:22:27 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Wed, 11 Mar 2020 18:59:16 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Mar 2020 15:59:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,542,1574150400"; 
+   d="scan'208";a="234851853"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 11 Mar 2020 15:59:11 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1jCAJj-0009Rj-9R; Thu, 12 Mar 2020 06:59:11 +0800
+Date:   Thu, 12 Mar 2020 06:58:33 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:clk-renesas-for-v5.7] BUILD SUCCESS
+ eeb40fda056ce2f914fff000525ca5a7b2ddec50
+Message-ID: <5e696d19.BEUvYxbGH3M/2hIK%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdUMM0Q6W7A0mVgSf7XmF8yROZb3uzHPU1ETbMAfvTtfow@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On 11.03.2020 10:17, Geert Uytterhoeven wrote:
-> On Tue, Mar 10, 2020 at 5:47 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
->>
->> On 3/10/20 7:16 AM, Geert Uytterhoeven wrote:
->>> Hi Florian, David,
->>>
->>> On Mon, Feb 24, 2020 at 5:59 AM David Miller <davem@davemloft.net> wrote:
->>>> From: Florian Fainelli <f.fainelli@gmail.com>
->>>> Date: Thu, 20 Feb 2020 15:34:53 -0800
->>>>
->>>>> It is currently possible for a PHY device to be suspended as part of a
->>>>> network device driver's suspend call while it is still being attached to
->>>>> that net_device, either via phy_suspend() or implicitly via phy_stop().
->>>>>
->>>>> Later on, when the MDIO bus controller get suspended, we would attempt
->>>>> to suspend again the PHY because it is still attached to a network
->>>>> device.
->>>>>
->>>>> This is both a waste of time and creates an opportunity for improper
->>>>> clock/power management bugs to creep in.
->>>>>
->>>>> Fixes: 803dd9c77ac3 ("net: phy: avoid suspending twice a PHY")
->>>>> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
->>>>
->>>> Applied, and queued up for -stable, thanks Florian.
->>>
->>> This patch causes a regression on r8a73a4/ape6evm and sh73a0/kzm9g.
->>> After resume from s2ram, Ethernet no longer works:
->>>
->>>         PM: suspend exit
->>>         nfs: server aaa.bbb.ccc.ddd not responding, still trying
->>>         ...
->>>
->>> Reverting commit 503ba7c6961034ff ("net: phy: Avoid multiple suspends")
->>> fixes the issue.
->>>
->>> On both boards, an SMSC LAN9220 is connected to a power-managed local
->>> bus.
->>>
->>> I added some debug code to check when the clock driving the local bus
->>> is stopped and started, but I see no difference before/after.  Hence I
->>> suspect the Ethernet chip is no longer reinitialized after resume.
->>
->> Can you provide a complete log?
-> 
-> With some debug info:
-> 
->     SDHI0 Vcc: disabling
->     PM: suspend entry (deep)
->     Filesystems sync: 0.002 seconds
->     Freezing user space processes ... (elapsed 0.001 seconds) done.
->     OOM killer disabled.
->     Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
->     PM: ==== a3sp/ee120000.sd: stop
->     PM: ==== a3sp/ee100000.sd: stop
->     smsc911x 8000000.ethernet: smsc911x_suspend:2577
->     smsc911x 8000000.ethernet: smsc911x_suspend:2579 running
->     smsc911x 8000000.ethernet: smsc911x_suspend:2584
->     PM: ==== a3sp/ee200000.mmc: stop
->     PM: ==== c4/fec10000.bus: stop
->     PM: ==== a3sp/e6c40000.serial: stop
->     PM: ==== c5/e61f0000.thermal: stop
->     PM: ==== c4/e61c0200.interrupt-controller: stop
->     PM: == a3sp: power off
->     rmobile_pd_power_down: a3sp
->     Disabling non-boot CPUs ...
->     PM: ==== c4/e61c0200.interrupt-controller: start
->     PM: ==== c5/e61f0000.thermal: start
->     PM: ==== a3sp/e6c40000.serial: start
->     PM: ==== c4/fec10000.bus: start
->     PM: ==== a3sp/ee200000.mmc: start
->     smsc911x 8000000.ethernet: smsc911x_resume:2606
->     smsc911x 8000000.ethernet: smsc911x_resume:2625 running
->     PM: ==== a3sp/ee100000.sd: start
->     OOM killer enabled.
->     Restarting tasks ... done.
->     PM: ==== a3sp/ee120000.sd: start
->     PM: suspend exit
->     nfs: server aaa.bbb.ccc.ddd not responding, still trying
->     ...
-> 
-> But no difference between the good and the bad case, except for the nfs
-> failures.
-> 
->> Do you use the Generic PHY driver or a
->> specialized one?
-> 
-> CONFIG_FIXED_PHY=y
-> CONFIG_SMSC_PHY=y
-> 
-> Just the smsc,lan9115 node, cfr. arch/arm/boot/dts/r8a73a4-ape6evm.dts
-> 
->> Do you have a way to dump the registers at the time of
->> failure and see if BMCR.PDOWN is still set somehow?
-> 
-> Added a hook into "nfs: server not responding", which prints:
-> 
->     MII_BMCR = 0x1900
-> 
-> i.e. BMCR_PDOWN = 0x0800 is still set.
-> 
->> Does the following help:
->>
->> diff --git a/drivers/net/ethernet/smsc/smsc911x.c
->> b/drivers/net/ethernet/smsc/smsc911x.c
->> index 49a6a9167af4..df17190c76c0 100644
->> --- a/drivers/net/ethernet/smsc/smsc911x.c
->> +++ b/drivers/net/ethernet/smsc/smsc911x.c
->> @@ -2618,6 +2618,7 @@ static int smsc911x_resume(struct device *dev)
->>         if (netif_running(ndev)) {
->>                 netif_device_attach(ndev);
->>                 netif_start_queue(ndev);
->> +               phy_resume(dev->phydev);
->>         }
->>
-> 
-> Yes i does, after s/dev->/ndev->/.
-> Thanks!
-> 
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  clk-renesas-for-v5.7
+branch HEAD: eeb40fda056ce2f914fff000525ca5a7b2ddec50  dt-bindings: clock: renesas: cpg-mssr: Convert to json-schema
 
-This seems to be a workaround. And the same issue we may have with
-other drivers too. Could you please alternatively test the following?
-It tackles the issue that mdio_bus_phy_may_suspend() is used in
-suspend AND resume, and both calls may return different values.
+elapsed time: 889m
 
-With this patch we call mdio_bus_phy_may_suspend() only when
-suspending, and let the phy_device store whether it was suspended
-by MDIO bus PM.
+configs tested: 148
+configs skipped: 0
 
-diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
-index 32a5ceddc..6d6c6a178 100644
---- a/drivers/net/phy/phy_device.c
-+++ b/drivers/net/phy/phy_device.c
-@@ -286,6 +286,8 @@ static int mdio_bus_phy_suspend(struct device *dev)
- 	if (!mdio_bus_phy_may_suspend(phydev))
- 		return 0;
- 
-+	phydev->suspended_by_mdio_bus = 1;
-+
- 	return phy_suspend(phydev);
- }
- 
-@@ -294,9 +296,11 @@ static int mdio_bus_phy_resume(struct device *dev)
- 	struct phy_device *phydev = to_phy_device(dev);
- 	int ret;
- 
--	if (!mdio_bus_phy_may_suspend(phydev))
-+	if (!phydev->suspended_by_mdio_bus)
- 		goto no_resume;
- 
-+	phydev->suspended_by_mdio_bus = 0;
-+
- 	ret = phy_resume(phydev);
- 	if (ret < 0)
- 		return ret;
-diff --git a/include/linux/phy.h b/include/linux/phy.h
-index 8b299476b..118de9f5b 100644
---- a/include/linux/phy.h
-+++ b/include/linux/phy.h
-@@ -357,6 +357,7 @@ struct macsec_ops;
-  * is_gigabit_capable: Set to true if PHY supports 1000Mbps
-  * has_fixups: Set to true if this phy has fixups/quirks.
-  * suspended: Set to true if this phy has been suspended successfully.
-+ * suspended_by_mdio_bus: Set to true if this phy was suspended by MDIO bus.
-  * sysfs_links: Internal boolean tracking sysfs symbolic links setup/removal.
-  * loopback_enabled: Set true if this phy has been loopbacked successfully.
-  * state: state of the PHY for management purposes
-@@ -396,6 +397,7 @@ struct phy_device {
- 	unsigned is_gigabit_capable:1;
- 	unsigned has_fixups:1;
- 	unsigned suspended:1;
-+	unsigned suspended_by_mdio_bus:1;
- 	unsigned sysfs_links:1;
- 	unsigned loopback_enabled:1;
- 
--- 
-2.25.1
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+arm                              allmodconfig
+arm                               allnoconfig
+arm                              allyesconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+arm64                            allyesconfig
+arm                           efm32_defconfig
+arm                         at91_dt_defconfig
+arm                        shmobile_defconfig
+arm64                               defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+arm                           sunxi_defconfig
+arm                        multi_v7_defconfig
+sparc                            allyesconfig
+ia64                                defconfig
+mips                      malta_kvm_defconfig
+sh                               allmodconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+h8300                       h8s-sim_defconfig
+sh                  sh7785lcr_32bit_defconfig
+i386                              allnoconfig
+i386                             alldefconfig
+i386                             allyesconfig
+i386                                defconfig
+ia64                             allmodconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+ia64                             alldefconfig
+xtensa                          iss_defconfig
+nios2                         3c120_defconfig
+nios2                         10m50_defconfig
+c6x                        evmc6678_defconfig
+c6x                              allyesconfig
+xtensa                       common_defconfig
+openrisc                 simple_smp_defconfig
+openrisc                    or1ksim_defconfig
+nds32                               defconfig
+nds32                             allnoconfig
+csky                                defconfig
+alpha                               defconfig
+h8300                     edosk2674_defconfig
+m68k                       m5475evb_defconfig
+m68k                             allmodconfig
+h8300                    h8300h-sim_defconfig
+m68k                           sun3_defconfig
+m68k                          multi_defconfig
+arc                              allyesconfig
+arc                                 defconfig
+microblaze                      mmu_defconfig
+microblaze                    nommu_defconfig
+powerpc                           allnoconfig
+powerpc                             defconfig
+powerpc                       ppc64_defconfig
+powerpc                          rhel-kconfig
+mips                      fuloong2e_defconfig
+mips                         64r6el_defconfig
+parisc                            allnoconfig
+parisc                           allyesconfig
+parisc                generic-32bit_defconfig
+parisc                generic-64bit_defconfig
+x86_64               randconfig-a001-20200311
+x86_64               randconfig-a002-20200311
+x86_64               randconfig-a003-20200311
+i386                 randconfig-a001-20200311
+i386                 randconfig-a002-20200311
+i386                 randconfig-a003-20200311
+riscv                randconfig-a001-20200311
+mips                 randconfig-a001-20200311
+alpha                randconfig-a001-20200311
+m68k                 randconfig-a001-20200311
+nds32                randconfig-a001-20200311
+parisc               randconfig-a001-20200311
+c6x                  randconfig-a001-20200312
+h8300                randconfig-a001-20200312
+microblaze           randconfig-a001-20200312
+nios2                randconfig-a001-20200312
+sparc64              randconfig-a001-20200312
+xtensa               randconfig-a001-20200311
+openrisc             randconfig-a001-20200311
+csky                 randconfig-a001-20200311
+sh                   randconfig-a001-20200311
+s390                 randconfig-a001-20200311
+i386                 randconfig-c003-20200311
+x86_64               randconfig-c001-20200311
+x86_64               randconfig-c002-20200311
+x86_64               randconfig-c003-20200311
+i386                 randconfig-c001-20200311
+i386                 randconfig-c002-20200311
+x86_64               randconfig-d001-20200311
+i386                 randconfig-d001-20200311
+i386                 randconfig-d002-20200311
+x86_64               randconfig-d002-20200311
+x86_64               randconfig-d003-20200311
+i386                 randconfig-d003-20200311
+x86_64               randconfig-e001-20200311
+x86_64               randconfig-e002-20200311
+x86_64               randconfig-e003-20200311
+i386                 randconfig-e001-20200311
+i386                 randconfig-e002-20200311
+i386                 randconfig-e003-20200311
+x86_64               randconfig-f001-20200311
+x86_64               randconfig-f002-20200311
+x86_64               randconfig-f003-20200311
+i386                 randconfig-f001-20200311
+i386                 randconfig-f002-20200311
+i386                 randconfig-f003-20200311
+x86_64               randconfig-g001-20200311
+x86_64               randconfig-g002-20200311
+x86_64               randconfig-g003-20200311
+i386                 randconfig-g001-20200311
+i386                 randconfig-g002-20200311
+i386                 randconfig-g003-20200311
+x86_64               randconfig-h001-20200311
+x86_64               randconfig-h002-20200311
+x86_64               randconfig-h003-20200311
+i386                 randconfig-h001-20200311
+i386                 randconfig-h002-20200311
+i386                 randconfig-h003-20200311
+riscv                            allmodconfig
+riscv                             allnoconfig
+riscv                            allyesconfig
+riscv                               defconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+s390                             alldefconfig
+s390                             allmodconfig
+s390                              allnoconfig
+s390                             allyesconfig
+s390                          debug_defconfig
+s390                                defconfig
+s390                       zfcpdump_defconfig
+sh                          rsk7269_defconfig
+sh                            titan_defconfig
+sh                                allnoconfig
+sparc                               defconfig
+sparc64                          allmodconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                             defconfig
+um                                  defconfig
+x86_64                                   rhel
+x86_64                               rhel-7.6
+x86_64                         rhel-7.2-clear
+x86_64                                    lkp
+x86_64                              fedora-25
+x86_64                                  kexec
 
-
-
-
-
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
