@@ -2,208 +2,304 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 38252180C3A
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2020 00:19:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 29AF0180D44
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2020 02:10:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726899AbgCJXTb (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 10 Mar 2020 19:19:31 -0400
-Received: from mga14.intel.com ([192.55.52.115]:64245 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726402AbgCJXTb (ORCPT
+        id S1728069AbgCKBKd (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 10 Mar 2020 21:10:33 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:58860 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727880AbgCKBKd (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 10 Mar 2020 19:19:31 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Mar 2020 16:19:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,538,1574150400"; 
-   d="scan'208";a="443356664"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 10 Mar 2020 16:19:29 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jBo9o-0009w3-Sc; Wed, 11 Mar 2020 07:19:28 +0800
-Date:   Wed, 11 Mar 2020 07:18:46 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:next] BUILD SUCCESS
- 4653e74b77f45766b5548f0089ef713714ac1efe
-Message-ID: <5e682056.AF+xamuHk+W0w1ME%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Tue, 10 Mar 2020 21:10:33 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5E80A5F;
+        Wed, 11 Mar 2020 02:10:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1583889030;
+        bh=Fn15wQbCrNePwplbzrvQz6oOxDNoqaEkGfDsHGwfgNA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Vwms2mIZu4yVxGEg7Iw4PTwYCJghJtVhMMtmDNTkKTsmS8rlQJeMyBTZYl677kZIQ
+         JPFlgCbVmOBahqp9s012OShE051aHgkHXgVmhOX+A+9fn6Y4gJU7Hlc6YnmxPu2XbP
+         ShiG3PwmuPfQF5r4TTCR+CSky9oJ1Onnw677Osls=
+Date:   Wed, 11 Mar 2020 03:10:27 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH v4 1/3] v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
+Message-ID: <20200311011027.GC4871@pendragon.ideasonboard.com>
+References: <20200306163935.805333-1-niklas.soderlund@ragnatech.se>
+ <20200306163935.805333-2-niklas.soderlund@ragnatech.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200306163935.805333-2-niklas.soderlund@ragnatech.se>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  next
-branch HEAD: 4653e74b77f45766b5548f0089ef713714ac1efe  Merge branches 'renesas-arm64-dt-for-v5.7' and 'renesas-dt-bindings-for-v5.7' into renesas-next
+Hi Niklas,
 
-elapsed time: 674m
+Thank you for the patch.
 
-configs tested: 152
-configs skipped: 0
+On Fri, Mar 06, 2020 at 05:39:33PM +0100, Niklas Söderlund wrote:
+> From: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> 
+> Add a video device capability flag to indicate that its inputs and/or
+> outputs are controlled by the Media Controller instead of the V4L2 API.
+> When this flag is set, ioctl for enum inputs and outputs are
+> automatically enabled and programmed to call a helper function.
+> 
+> Suggested-by: Hans Verkuil <hverkuil@xs4all.nl>
+> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+> * Changes since v3
+> - Update documentation for V4L2_CAP_IO_MC
+> - Only enable VIDIOC_{G,S}_{INPUT,OUTPUT} if V4L2_CAP_IO_MC is set
+>   (instead of unconditionally)
+> - Merge v4l2_ioctl_enum_input_mc() into v4l_enuminput()
+> - Merge v4l2_ioctl_enum_output_mc() into v4l_enumoutput()
+> 
+> * Changes since v2
+> - Merged the two patches touching V4L2 core stuff to a single patch.
+> - Updated documentation for V4L2_CAP_IO_MC
+> - Added is_io_mc bool in determine_valid_ioctls()
+> - Folded or moved code closer to where it's used
+> - Remove unneeded memset()
+> - Use strscpy() instead of strlcpy()
+> ---
+>  .../media/uapi/v4l/vidioc-querycap.rst        |  6 ++
+>  .../media/videodev2.h.rst.exceptions          |  1 +
+>  drivers/media/v4l2-core/v4l2-dev.c            | 25 ++++++--
+>  drivers/media/v4l2-core/v4l2-ioctl.c          | 57 +++++++++++++++++--
+>  include/uapi/linux/videodev2.h                |  2 +
+>  5 files changed, 81 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/media/uapi/v4l/vidioc-querycap.rst b/Documentation/media/uapi/v4l/vidioc-querycap.rst
+> index 5f9930195d624c73..497a6aa2cbebad71 100644
+> --- a/Documentation/media/uapi/v4l/vidioc-querycap.rst
+> +++ b/Documentation/media/uapi/v4l/vidioc-querycap.rst
+> @@ -264,6 +264,12 @@ specification the ioctl returns an ``EINVAL`` error code.
+>      * - ``V4L2_CAP_TOUCH``
+>        - 0x10000000
+>        - This is a touch device.
+> +    * - ``V4L2_CAP_IO_MC``
+> +      - 0x20000000
+> +      - There is only one input and/or output seen from userspace. The whole
+> +        video topology configuration, including which I/O entity is routed to
+> +        the input/output, is configured by userspace via the Media Controller.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+I would have disabled those ioctls instead, as they're completely
+useless. Now that there's a V4L2_CAP_IO_MC flag, who will call those ?
 
-arm                              allmodconfig
-arm                               allnoconfig
-arm                              allyesconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-arm64                            allyesconfig
-arm                           efm32_defconfig
-arm                         at91_dt_defconfig
-arm                        shmobile_defconfig
-arm64                               defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                           sunxi_defconfig
-arm                        multi_v7_defconfig
-sparc                            allyesconfig
-xtensa                       common_defconfig
-alpha                               defconfig
-nds32                               defconfig
-parisc                generic-64bit_defconfig
-sh                  sh7785lcr_32bit_defconfig
-riscv                             allnoconfig
-sparc64                             defconfig
-arc                                 defconfig
-sparc64                           allnoconfig
-um                           x86_64_defconfig
-sparc64                          allmodconfig
-i386                             alldefconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                                defconfig
-ia64                             alldefconfig
-ia64                             allmodconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-ia64                                defconfig
-c6x                              allyesconfig
-c6x                        evmc6678_defconfig
-nios2                         10m50_defconfig
-nios2                         3c120_defconfig
-openrisc                    or1ksim_defconfig
-openrisc                 simple_smp_defconfig
-xtensa                          iss_defconfig
-csky                                defconfig
-nds32                             allnoconfig
-h8300                     edosk2674_defconfig
-h8300                    h8300h-sim_defconfig
-h8300                       h8s-sim_defconfig
-m68k                             allmodconfig
-m68k                       m5475evb_defconfig
-m68k                          multi_defconfig
-m68k                           sun3_defconfig
-arc                              allyesconfig
-microblaze                      mmu_defconfig
-microblaze                    nommu_defconfig
-powerpc                           allnoconfig
-powerpc                             defconfig
-powerpc                       ppc64_defconfig
-powerpc                          rhel-kconfig
-mips                           32r2_defconfig
-mips                         64r6el_defconfig
-mips                             allmodconfig
-mips                              allnoconfig
-mips                             allyesconfig
-mips                      fuloong2e_defconfig
-mips                      malta_kvm_defconfig
-parisc                            allnoconfig
-parisc                           allyesconfig
-parisc                generic-32bit_defconfig
-alpha                randconfig-a001-20200311
-m68k                 randconfig-a001-20200311
-mips                 randconfig-a001-20200311
-nds32                randconfig-a001-20200311
-parisc               randconfig-a001-20200311
-riscv                randconfig-a001-20200311
-alpha                randconfig-a001-20200309
-m68k                 randconfig-a001-20200309
-mips                 randconfig-a001-20200309
-nds32                randconfig-a001-20200309
-parisc               randconfig-a001-20200309
-riscv                randconfig-a001-20200309
-csky                 randconfig-a001-20200311
-openrisc             randconfig-a001-20200311
-s390                 randconfig-a001-20200311
-sh                   randconfig-a001-20200311
-xtensa               randconfig-a001-20200311
-csky                 randconfig-a001-20200310
-openrisc             randconfig-a001-20200310
-s390                 randconfig-a001-20200310
-sh                   randconfig-a001-20200310
-xtensa               randconfig-a001-20200310
-x86_64               randconfig-b001-20200309
-x86_64               randconfig-b002-20200309
-x86_64               randconfig-b003-20200309
-i386                 randconfig-b001-20200309
-i386                 randconfig-b002-20200309
-i386                 randconfig-b003-20200309
-x86_64               randconfig-c001-20200310
-x86_64               randconfig-c002-20200310
-x86_64               randconfig-c003-20200310
-i386                 randconfig-c001-20200310
-i386                 randconfig-c002-20200310
-i386                 randconfig-c003-20200310
-x86_64               randconfig-d001-20200310
-x86_64               randconfig-d002-20200310
-x86_64               randconfig-d003-20200310
-i386                 randconfig-d001-20200310
-i386                 randconfig-d002-20200310
-i386                 randconfig-d003-20200310
-x86_64               randconfig-e001-20200310
-x86_64               randconfig-e002-20200310
-x86_64               randconfig-e003-20200310
-i386                 randconfig-e001-20200310
-i386                 randconfig-e002-20200310
-i386                 randconfig-e003-20200310
-x86_64               randconfig-f001-20200311
-x86_64               randconfig-f002-20200311
-x86_64               randconfig-f003-20200311
-i386                 randconfig-f001-20200311
-i386                 randconfig-f002-20200311
-i386                 randconfig-f003-20200311
-x86_64               randconfig-g001-20200309
-x86_64               randconfig-g002-20200309
-x86_64               randconfig-g003-20200309
-i386                 randconfig-g001-20200309
-i386                 randconfig-g002-20200309
-i386                 randconfig-g003-20200309
-riscv                            allmodconfig
-riscv                            allyesconfig
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-s390                             alldefconfig
-s390                             allmodconfig
-s390                              allnoconfig
-s390                             allyesconfig
-s390                          debug_defconfig
-s390                                defconfig
-s390                       zfcpdump_defconfig
-sh                               allmodconfig
-sh                                allnoconfig
-sh                          rsk7269_defconfig
-sh                            titan_defconfig
-sparc                               defconfig
-sparc64                          allyesconfig
-um                                  defconfig
-um                             i386_defconfig
-x86_64                              fedora-25
-x86_64                                  kexec
-x86_64                                    lkp
-x86_64                                   rhel
-x86_64                         rhel-7.2-clear
-x86_64                               rhel-7.6
+I however don't care enough to block this, so
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +        See :ref:`media_controller`.
+>      * - ``V4L2_CAP_DEVICE_CAPS``
+>        - 0x80000000
+>        - The driver fills the ``device_caps`` field. This capability can
+> diff --git a/Documentation/media/videodev2.h.rst.exceptions b/Documentation/media/videodev2.h.rst.exceptions
+> index cb6ccf91776e6b56..a625fb90e3a989a7 100644
+> --- a/Documentation/media/videodev2.h.rst.exceptions
+> +++ b/Documentation/media/videodev2.h.rst.exceptions
+> @@ -176,6 +176,7 @@ replace define V4L2_CAP_STREAMING device-capabilities
+>  replace define V4L2_CAP_META_OUTPUT device-capabilities
+>  replace define V4L2_CAP_DEVICE_CAPS device-capabilities
+>  replace define V4L2_CAP_TOUCH device-capabilities
+> +replace define V4L2_CAP_IO_MC device-capabilities
+>  
+>  # V4L2 pix flags
+>  replace define V4L2_PIX_FMT_PRIV_MAGIC :c:type:`v4l2_pix_format`
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index 97b6a3af13614639..a593ea0598b551b4 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -552,6 +552,7 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>  		       (vdev->device_caps & meta_caps);
+>  	bool is_rx = vdev->vfl_dir != VFL_DIR_TX;
+>  	bool is_tx = vdev->vfl_dir != VFL_DIR_RX;
+> +	bool is_io_mc = vdev->device_caps & V4L2_CAP_IO_MC;
+>  
+>  	bitmap_zero(valid_ioctls, BASE_VIDIOC_PRIVATE);
+>  
+> @@ -725,9 +726,15 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>  		SET_VALID_IOCTL(ops, VIDIOC_G_STD, vidioc_g_std);
+>  		if (is_rx) {
+>  			SET_VALID_IOCTL(ops, VIDIOC_QUERYSTD, vidioc_querystd);
+> -			SET_VALID_IOCTL(ops, VIDIOC_ENUMINPUT, vidioc_enum_input);
+> -			SET_VALID_IOCTL(ops, VIDIOC_G_INPUT, vidioc_g_input);
+> -			SET_VALID_IOCTL(ops, VIDIOC_S_INPUT, vidioc_s_input);
+> +			if (is_io_mc) {
+> +				set_bit(_IOC_NR(VIDIOC_ENUMINPUT), valid_ioctls);
+> +				set_bit(_IOC_NR(VIDIOC_G_INPUT), valid_ioctls);
+> +				set_bit(_IOC_NR(VIDIOC_S_INPUT), valid_ioctls);
+> +			} else {
+> +				SET_VALID_IOCTL(ops, VIDIOC_ENUMINPUT, vidioc_enum_input);
+> +				SET_VALID_IOCTL(ops, VIDIOC_G_INPUT, vidioc_g_input);
+> +				SET_VALID_IOCTL(ops, VIDIOC_S_INPUT, vidioc_s_input);
+> +			}
+>  			SET_VALID_IOCTL(ops, VIDIOC_ENUMAUDIO, vidioc_enumaudio);
+>  			SET_VALID_IOCTL(ops, VIDIOC_G_AUDIO, vidioc_g_audio);
+>  			SET_VALID_IOCTL(ops, VIDIOC_S_AUDIO, vidioc_s_audio);
+> @@ -735,9 +742,15 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>  			SET_VALID_IOCTL(ops, VIDIOC_S_EDID, vidioc_s_edid);
+>  		}
+>  		if (is_tx) {
+> -			SET_VALID_IOCTL(ops, VIDIOC_ENUMOUTPUT, vidioc_enum_output);
+> -			SET_VALID_IOCTL(ops, VIDIOC_G_OUTPUT, vidioc_g_output);
+> -			SET_VALID_IOCTL(ops, VIDIOC_S_OUTPUT, vidioc_s_output);
+> +			if (is_io_mc) {
+> +				set_bit(_IOC_NR(VIDIOC_ENUMOUTPUT), valid_ioctls);
+> +				set_bit(_IOC_NR(VIDIOC_G_OUTPUT), valid_ioctls);
+> +				set_bit(_IOC_NR(VIDIOC_S_OUTPUT), valid_ioctls);
+> +			} else {
+> +				SET_VALID_IOCTL(ops, VIDIOC_ENUMOUTPUT, vidioc_enum_output);
+> +				SET_VALID_IOCTL(ops, VIDIOC_G_OUTPUT, vidioc_g_output);
+> +				SET_VALID_IOCTL(ops, VIDIOC_S_OUTPUT, vidioc_s_output);
+> +			}
+>  			SET_VALID_IOCTL(ops, VIDIOC_ENUMAUDOUT, vidioc_enumaudout);
+>  			SET_VALID_IOCTL(ops, VIDIOC_G_AUDOUT, vidioc_g_audout);
+>  			SET_VALID_IOCTL(ops, VIDIOC_S_AUDOUT, vidioc_s_audout);
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index fbcc7a20eedf553a..58e9e728f0a7aa4b 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1085,6 +1085,32 @@ static int v4l_querycap(const struct v4l2_ioctl_ops *ops,
+>  	return ret;
+>  }
+>  
+> +static int v4l_g_input(const struct v4l2_ioctl_ops *ops,
+> +		       struct file *file, void *fh, void *arg)
+> +{
+> +	struct video_device *vfd = video_devdata(file);
+> +
+> +	if (vfd->device_caps & V4L2_CAP_IO_MC) {
+> +		*(unsigned int *)arg = 0;
+> +		return 0;
+> +	}
+> +
+> +	return ops->vidioc_g_input(file, fh, arg);
+> +}
+> +
+> +static int v4l_g_output(const struct v4l2_ioctl_ops *ops,
+> +		       struct file *file, void *fh, void *arg)
+> +{
+> +	struct video_device *vfd = video_devdata(file);
+> +
+> +	if (vfd->device_caps & V4L2_CAP_IO_MC) {
+> +		*(unsigned int *)arg = 0;
+> +		return 0;
+> +	}
+> +
+> +	return ops->vidioc_g_output(file, fh, arg);
+> +}
+> +
+>  static int v4l_s_input(const struct v4l2_ioctl_ops *ops,
+>  				struct file *file, void *fh, void *arg)
+>  {
+> @@ -1094,12 +1120,21 @@ static int v4l_s_input(const struct v4l2_ioctl_ops *ops,
+>  	ret = v4l_enable_media_source(vfd);
+>  	if (ret)
+>  		return ret;
+> +
+> +	if (vfd->device_caps & V4L2_CAP_IO_MC)
+> +		return  *(unsigned int *)arg ? -EINVAL : 0;
+> +
+>  	return ops->vidioc_s_input(file, fh, *(unsigned int *)arg);
+>  }
+>  
+>  static int v4l_s_output(const struct v4l2_ioctl_ops *ops,
+>  				struct file *file, void *fh, void *arg)
+>  {
+> +	struct video_device *vfd = video_devdata(file);
+> +
+> +	if (vfd->device_caps & V4L2_CAP_IO_MC)
+> +		return  *(unsigned int *)arg ? -EINVAL : 0;
+> +
+>  	return ops->vidioc_s_output(file, fh, *(unsigned int *)arg);
+>  }
+>  
+> @@ -1143,6 +1178,14 @@ static int v4l_enuminput(const struct v4l2_ioctl_ops *ops,
+>  	if (is_valid_ioctl(vfd, VIDIOC_S_STD))
+>  		p->capabilities |= V4L2_IN_CAP_STD;
+>  
+> +	if (vfd->device_caps & V4L2_CAP_IO_MC) {
+> +		if (p->index)
+> +			return -EINVAL;
+> +		strscpy(p->name, vfd->name, sizeof(p->name));
+> +		p->type = V4L2_INPUT_TYPE_CAMERA;
+> +		return 0;
+> +	}
+> +
+>  	return ops->vidioc_enum_input(file, fh, p);
+>  }
+>  
+> @@ -1161,6 +1204,14 @@ static int v4l_enumoutput(const struct v4l2_ioctl_ops *ops,
+>  	if (is_valid_ioctl(vfd, VIDIOC_S_STD))
+>  		p->capabilities |= V4L2_OUT_CAP_STD;
+>  
+> +	if (vfd->device_caps & V4L2_CAP_IO_MC) {
+> +		if (p->index)
+> +			return -EINVAL;
+> +		strscpy(p->name, vfd->name, sizeof(p->name));
+> +		p->type = V4L2_OUTPUT_TYPE_ANALOG;
+> +		return 0;
+> +	}
+> +
+>  	return ops->vidioc_enum_output(file, fh, p);
+>  }
+>  
+> @@ -2678,10 +2729,8 @@ DEFINE_V4L_STUB_FUNC(expbuf)
+>  DEFINE_V4L_STUB_FUNC(g_std)
+>  DEFINE_V4L_STUB_FUNC(g_audio)
+>  DEFINE_V4L_STUB_FUNC(s_audio)
+> -DEFINE_V4L_STUB_FUNC(g_input)
+>  DEFINE_V4L_STUB_FUNC(g_edid)
+>  DEFINE_V4L_STUB_FUNC(s_edid)
+> -DEFINE_V4L_STUB_FUNC(g_output)
+>  DEFINE_V4L_STUB_FUNC(g_audout)
+>  DEFINE_V4L_STUB_FUNC(s_audout)
+>  DEFINE_V4L_STUB_FUNC(g_jpegcomp)
+> @@ -2730,11 +2779,11 @@ static const struct v4l2_ioctl_info v4l2_ioctls[] = {
+>  	IOCTL_INFO(VIDIOC_S_AUDIO, v4l_stub_s_audio, v4l_print_audio, INFO_FL_PRIO),
+>  	IOCTL_INFO(VIDIOC_QUERYCTRL, v4l_queryctrl, v4l_print_queryctrl, INFO_FL_CTRL | INFO_FL_CLEAR(v4l2_queryctrl, id)),
+>  	IOCTL_INFO(VIDIOC_QUERYMENU, v4l_querymenu, v4l_print_querymenu, INFO_FL_CTRL | INFO_FL_CLEAR(v4l2_querymenu, index)),
+> -	IOCTL_INFO(VIDIOC_G_INPUT, v4l_stub_g_input, v4l_print_u32, 0),
+> +	IOCTL_INFO(VIDIOC_G_INPUT, v4l_g_input, v4l_print_u32, 0),
+>  	IOCTL_INFO(VIDIOC_S_INPUT, v4l_s_input, v4l_print_u32, INFO_FL_PRIO),
+>  	IOCTL_INFO(VIDIOC_G_EDID, v4l_stub_g_edid, v4l_print_edid, INFO_FL_ALWAYS_COPY),
+>  	IOCTL_INFO(VIDIOC_S_EDID, v4l_stub_s_edid, v4l_print_edid, INFO_FL_PRIO | INFO_FL_ALWAYS_COPY),
+> -	IOCTL_INFO(VIDIOC_G_OUTPUT, v4l_stub_g_output, v4l_print_u32, 0),
+> +	IOCTL_INFO(VIDIOC_G_OUTPUT, v4l_g_output, v4l_print_u32, 0),
+>  	IOCTL_INFO(VIDIOC_S_OUTPUT, v4l_s_output, v4l_print_u32, INFO_FL_PRIO),
+>  	IOCTL_INFO(VIDIOC_ENUMOUTPUT, v4l_enumoutput, v4l_print_enumoutput, INFO_FL_CLEAR(v4l2_output, index)),
+>  	IOCTL_INFO(VIDIOC_G_AUDOUT, v4l_stub_g_audout, v4l_print_audioout, 0),
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 5f9357dcb0602126..c793263a37052856 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -487,6 +487,8 @@ struct v4l2_capability {
+>  
+>  #define V4L2_CAP_TOUCH                  0x10000000  /* Is a touch device */
+>  
+> +#define V4L2_CAP_IO_MC			0x20000000  /* Is input/output controlled by the media controller */
+> +
+>  #define V4L2_CAP_DEVICE_CAPS            0x80000000  /* sets device capabilities field */
+>  
+>  /*
+
+-- 
+Regards,
+
+Laurent Pinchart
