@@ -2,49 +2,54 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 63CB9181486
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2020 10:18:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 05D54181581
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 11 Mar 2020 11:08:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728512AbgCKJR1 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 11 Mar 2020 05:17:27 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:38286 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728726AbgCKJRW (ORCPT
+        id S1726097AbgCKKIZ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 11 Mar 2020 06:08:25 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:44989 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726000AbgCKKIZ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 11 Mar 2020 05:17:22 -0400
-Received: by mail-ot1-f66.google.com with SMTP id i14so1184850otp.5;
-        Wed, 11 Mar 2020 02:17:20 -0700 (PDT)
+        Wed, 11 Mar 2020 06:08:25 -0400
+Received: by mail-oi1-f193.google.com with SMTP id d62so1272582oia.11;
+        Wed, 11 Mar 2020 03:08:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Rvu2wq6L7cDE7hL6tvDHxFsplTLAIH45fU5iEHgqS2M=;
-        b=lWyQGedIWMaOGzC3Brn452zcK7eTgOikP24wnD8heLs4RtcesajvqFYLdmMTP8h+Lp
-         ighuIVGcuHU/Q4e/9ngAtIUMhTVTJL6pLGy//AKwDfp+e48Huf7DkKdYGG6Dua7F4nOE
-         YO+6zSpH0geuvk78++C0JXlYXGPGESE5z6K1Re7f3roFh8QkVqvV2ExZwBovz/pULtIq
-         yre1SUUqxw7spzDvuCopgmhqXmVJGUHdv5YhZBwfqJk61wGe/UcRkNe8g/suPooggEzY
-         Fj31GglWbsRGHJ7IkIXMDmUGdtkYFgZCY3aYq7DOCo5X2zDwEbCPSwF6K3/Io6vjWjWi
-         ZRhQ==
-X-Gm-Message-State: ANhLgQ3kxuJ6IqbUHBE8VjPeF3oLqTMTqAVfea3/+a3M7rxbf+JsW/QJ
-        frUSRWMoiRKH8YFPAFVUS7fHUq0IZPPMmfWrmQo=
-X-Google-Smtp-Source: ADFU+vurMX1TBb2LbwR48anEMdh/Z0UhZIiQ6sBsCWyzWJOmgi1sbQq+hHLjY+kkZy2egeaHRHSwDAbZI1I2oMtjzk4=
-X-Received: by 2002:a9d:1708:: with SMTP id i8mr1589448ota.250.1583918240450;
- Wed, 11 Mar 2020 02:17:20 -0700 (PDT)
+        bh=/N+yzapZ4CfcV7bsbXkQFj5z2ofXrJQJFHA0Ipv5B8o=;
+        b=m1zJ/z7lnPk0ywDxPqrpzjGF/MBw4d0iiz+Ia4DByxMBLf69oJ3/6NVHcKXbg/h517
+         +vyLrgnw3UVedEgzgtXmBEyjH1pJo+ojoNb6OBZcP2vx5ea7uoH7cQq6QDhVPW3t99vm
+         IeF6eHiRD0s8BwebH3vyvg8+oH7L98RdkFRVpAFAzrW6xnKdFjhJtTZeDWecrEjLaJ8U
+         KE0aKU9ODhNUfNxvlMHpiedjMVYcMkB5A/F5q+IFa1FcKqqyK6EH/rkdfXeS01KhTEQI
+         wuFvWka161EinaP8IZlKyazo6Sy5pTR3N0MpbLVhc1hM6IpJqVODA3jwQ1QCp9eSO8jT
+         fdXQ==
+X-Gm-Message-State: ANhLgQ3oE0QoM3BgwtxA51mEycyg23O8NCMZDJy3ijRhzE1/UFOoS4ZC
+        rxXtuFNY9nfJnSmMdR5URQSYeXxMy6uF90K3UM4=
+X-Google-Smtp-Source: ADFU+vuJF5N7hcpWcUqis0h4qQPQ9BT3gGHT7sA30i5r95zDWMPwoXmGgIl1ccKJXdZJyPzfyRcoKuUqYhmzJwx2CTA=
+X-Received: by 2002:aca:1a06:: with SMTP id a6mr1304567oia.148.1583921304665;
+ Wed, 11 Mar 2020 03:08:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200220233454.31514-1-f.fainelli@gmail.com> <20200223.205911.1667092059432885700.davem@davemloft.net>
- <CAMuHMdWuP1_3vqOpf7KEimLLTKiWpWku9fUAdP3CCR6WbHyQdg@mail.gmail.com> <c2a4edcb-dbf9-bc60-4399-3eaec9a20fe7@gmail.com>
-In-Reply-To: <c2a4edcb-dbf9-bc60-4399-3eaec9a20fe7@gmail.com>
+References: <1583872919-7757-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1583872919-7757-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1583872919-7757-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 11 Mar 2020 10:17:09 +0100
-Message-ID: <CAMuHMdUMM0Q6W7A0mVgSf7XmF8yROZb3uzHPU1ETbMAfvTtfow@mail.gmail.com>
-Subject: Re: [PATCH net] net: phy: Avoid multiple suspends
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     David Miller <davem@davemloft.net>,
-        netdev <netdev@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
+Date:   Wed, 11 Mar 2020 11:08:13 +0100
+Message-ID: <CAMuHMdVqwLEavjnPgZaevFqjTytAPMmT042yRrcDw9YpkjE3bg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] arm64: dts: renesas: Add HiHope RZ/G2M board with
+ idk-1110wr display
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -53,130 +58,114 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Mar 10, 2020 at 5:47 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
+Hi Lad,
+
+On Tue, Mar 10, 2020 at 9:42 PM Lad Prabhakar
+<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
+> From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
 >
-> On 3/10/20 7:16 AM, Geert Uytterhoeven wrote:
-> > Hi Florian, David,
-> >
-> > On Mon, Feb 24, 2020 at 5:59 AM David Miller <davem@davemloft.net> wrote:
-> >> From: Florian Fainelli <f.fainelli@gmail.com>
-> >> Date: Thu, 20 Feb 2020 15:34:53 -0800
-> >>
-> >>> It is currently possible for a PHY device to be suspended as part of a
-> >>> network device driver's suspend call while it is still being attached to
-> >>> that net_device, either via phy_suspend() or implicitly via phy_stop().
-> >>>
-> >>> Later on, when the MDIO bus controller get suspended, we would attempt
-> >>> to suspend again the PHY because it is still attached to a network
-> >>> device.
-> >>>
-> >>> This is both a waste of time and creates an opportunity for improper
-> >>> clock/power management bugs to creep in.
-> >>>
-> >>> Fixes: 803dd9c77ac3 ("net: phy: avoid suspending twice a PHY")
-> >>> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
-> >>
-> >> Applied, and queued up for -stable, thanks Florian.
-> >
-> > This patch causes a regression on r8a73a4/ape6evm and sh73a0/kzm9g.
-> > After resume from s2ram, Ethernet no longer works:
-> >
-> >         PM: suspend exit
-> >         nfs: server aaa.bbb.ccc.ddd not responding, still trying
-> >         ...
-> >
-> > Reverting commit 503ba7c6961034ff ("net: phy: Avoid multiple suspends")
-> > fixes the issue.
-> >
-> > On both boards, an SMSC LAN9220 is connected to a power-managed local
-> > bus.
-> >
-> > I added some debug code to check when the clock driving the local bus
-> > is stopped and started, but I see no difference before/after.  Hence I
-> > suspect the Ethernet chip is no longer reinitialized after resume.
+> The HiHope RZ/G2M is advertised as compatible with panel idk-1110wr
+> from Advantech, however the panel isn't sold alongside the board.
+> A new dts, adding everything that's required to get the panel to
+> work the HiHope RZ/G2M, is the most convenient way to support the
+> HiHope RZ/G2M when it's connected to the idk-1110wr.
 >
-> Can you provide a complete log?
+> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
+> Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-With some debug info:
+Thanks for picking up this patch!
 
-    SDHI0 Vcc: disabling
-    PM: suspend entry (deep)
-    Filesystems sync: 0.002 seconds
-    Freezing user space processes ... (elapsed 0.001 seconds) done.
-    OOM killer disabled.
-    Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
-    PM: ==== a3sp/ee120000.sd: stop
-    PM: ==== a3sp/ee100000.sd: stop
-    smsc911x 8000000.ethernet: smsc911x_suspend:2577
-    smsc911x 8000000.ethernet: smsc911x_suspend:2579 running
-    smsc911x 8000000.ethernet: smsc911x_suspend:2584
-    PM: ==== a3sp/ee200000.mmc: stop
-    PM: ==== c4/fec10000.bus: stop
-    PM: ==== a3sp/e6c40000.serial: stop
-    PM: ==== c5/e61f0000.thermal: stop
-    PM: ==== c4/e61c0200.interrupt-controller: stop
-    PM: == a3sp: power off
-    rmobile_pd_power_down: a3sp
-    Disabling non-boot CPUs ...
-    PM: ==== c4/e61c0200.interrupt-controller: start
-    PM: ==== c5/e61f0000.thermal: start
-    PM: ==== a3sp/e6c40000.serial: start
-    PM: ==== c4/fec10000.bus: start
-    PM: ==== a3sp/ee200000.mmc: start
-    smsc911x 8000000.ethernet: smsc911x_resume:2606
-    smsc911x 8000000.ethernet: smsc911x_resume:2625 running
-    PM: ==== a3sp/ee100000.sd: start
-    OOM killer enabled.
-    Restarting tasks ... done.
-    PM: ==== a3sp/ee120000.sd: start
-    PM: suspend exit
-    nfs: server aaa.bbb.ccc.ddd not responding, still trying
-    ...
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/r8a774a1-hihope-rzg2m-ex-idk-1110wr.dts
+> @@ -0,0 +1,86 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Device Tree Source for the HiHope RZ/G2M sub board connected to an
+> + * Advantech IDK-1110WR 10.1" LVDS panel
+> + *
+> + * Copyright (C) 2020 Renesas Electronics Corp.
+> + */
+> +
+> +#include "r8a774a1-hihope-rzg2m-ex.dts"
+> +
+> +/ {
+> +       backlight {
+> +               compatible = "pwm-backlight";
+> +               pwms = <&pwm0 0 50000>;
+> +
+> +               brightness-levels = <0 2 8 16 32 64 128 255>;
+> +               default-brightness-level = <6>;
+> +       };
+> +
+> +       panel-lvds {
+> +               compatible = "advantech,idk-1110wr", "panel-lvds";
+> +
+> +               width-mm = <223>;
+> +               height-mm = <125>;
+> +
+> +               data-mapping = "jeida-24";
+> +
+> +               panel-timing {
+> +                       /* 1024x600 @60Hz */
+> +                       clock-frequency = <51200000>;
+> +                       hactive = <1024>;
+> +                       vactive = <600>;
+> +                       hsync-len = <240>;
+> +                       hfront-porch = <40>;
+> +                       hback-porch = <40>;
+> +                       vfront-porch = <15>;
+> +                       vback-porch = <10>;
+> +                       vsync-len = <10>;
+> +               };
+> +
+> +               port {
+> +                       panel_in: endpoint {
+> +                               remote-endpoint = <&lvds0_out>;
+> +                       };
+> +               };
+> +       };
 
-But no difference between the good and the bad case, except for the nfs
-failures.
+I believe the plan was to include the existing
+rzg2-advantech-idk-1110wr-panel.dtsi instead, to provide the
+panel-lvds node...
 
-> Do you use the Generic PHY driver or a
-> specialized one?
+> +};
+> +
+> +&gpio1 {
+> +       /*
+> +        * When GP1_20 is LOW LVDS0 is connected to the LVDS connector
+> +        * When GP1_20 is HIGH LVDS0 is connected to the LT8918L
+> +        */
+> +       lvds-connector-en-gpio {
+> +               gpio-hog;
+> +               gpios = <20 GPIO_ACTIVE_HIGH>;
+> +               output-low;
+> +               line-name = "lvds-connector-en-gpio";
+> +       };
+> +};
+> +
+> +&lvds0 {
+> +       status = "okay";
+> +
+> +       ports {
+> +               port@1 {
+> +                       lvds0_out: endpoint {
+> +                               remote-endpoint = <&panel_in>;
+> +                       };
+> +               };
+> +       };
+> +};
 
-CONFIG_FIXED_PHY=y
-CONFIG_SMSC_PHY=y
+... and the lvds_connector endpoint configuration.
 
-Just the smsc,lan9115 node, cfr. arch/arm/boot/dts/r8a73a4-ape6evm.dts
-
-> Do you have a way to dump the registers at the time of
-> failure and see if BMCR.PDOWN is still set somehow?
-
-Added a hook into "nfs: server not responding", which prints:
-
-    MII_BMCR = 0x1900
-
-i.e. BMCR_PDOWN = 0x0800 is still set.
-
-> Does the following help:
->
-> diff --git a/drivers/net/ethernet/smsc/smsc911x.c
-> b/drivers/net/ethernet/smsc/smsc911x.c
-> index 49a6a9167af4..df17190c76c0 100644
-> --- a/drivers/net/ethernet/smsc/smsc911x.c
-> +++ b/drivers/net/ethernet/smsc/smsc911x.c
-> @@ -2618,6 +2618,7 @@ static int smsc911x_resume(struct device *dev)
->         if (netif_running(ndev)) {
->                 netif_device_attach(ndev);
->                 netif_start_queue(ndev);
-> +               phy_resume(dev->phydev);
->         }
->
-
-Yes i does, after s/dev->/ndev->/.
-Thanks!
-
+The rest looks good to me.
 
 Gr{oetje,eeting}s,
 
                         Geert
 
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
