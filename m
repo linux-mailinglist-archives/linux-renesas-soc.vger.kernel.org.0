@@ -2,113 +2,96 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EF4C18343B
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2020 16:14:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0399E1837BE
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2020 18:38:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727757AbgCLPOv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Mar 2020 11:14:51 -0400
-Received: from mga02.intel.com ([134.134.136.20]:4466 "EHLO mga02.intel.com"
+        id S1726328AbgCLRiy (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Mar 2020 13:38:54 -0400
+Received: from foss.arm.com ([217.140.110.172]:38848 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727455AbgCLPOv (ORCPT
+        id S1726194AbgCLRiy (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Mar 2020 11:14:51 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Mar 2020 08:14:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,545,1574150400"; 
-   d="scan'208";a="266376041"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga004.fm.intel.com with ESMTP; 12 Mar 2020 08:14:48 -0700
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1jCPXu-00916h-38; Thu, 12 Mar 2020 17:14:50 +0200
-Date:   Thu, 12 Mar 2020 17:14:50 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     linux-i2c@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [RFC PATCH] i2c: acpi: put device when verifying client fails
-Message-ID: <20200312151450.GZ1922688@smile.fi.intel.com>
-References: <20200312133244.9564-1-wsa@the-dreams.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200312133244.9564-1-wsa@the-dreams.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+        Thu, 12 Mar 2020 13:38:54 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 35C7830E;
+        Thu, 12 Mar 2020 10:38:53 -0700 (PDT)
+Received: from localhost (unknown [10.37.6.21])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AE9EB3F6CF;
+        Thu, 12 Mar 2020 10:38:52 -0700 (PDT)
+Date:   Thu, 12 Mar 2020 17:38:51 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-spi@vger.kernel.org,
+        Mark Brown <broonie@kernel.org>
+Subject: Applied "spi: acpi: remove superfluous parameter check" to the spi tree
+In-Reply-To:  <20200312134507.10000-1-wsa@the-dreams.de>
+Message-Id:  <applied-20200312134507.10000-1-wsa@the-dreams.de>
+X-Patchwork-Hint: ignore
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Mar 12, 2020 at 02:32:44PM +0100, Wolfram Sang wrote:
-> From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> 
-> i2c_verify_client() can fail, so we need to put the device when that
-> happens.
+The patch
 
-I hope it's not a CoVID-19 makes me mistakenly commented in the first place. :-)
+   spi: acpi: remove superfluous parameter check
 
-So, theoretically below is possible, but practically it's doubtful.
+has been applied to the spi tree at
 
-The I2CSerialBusV2() ACPI resource can be present solely in I²C slave device
-nodes according to the specification. However, we might have two possible cases
-a) screwed up ACPI table;
-b) I²C master which in turn is I²C slave.
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git 
 
-While a) has been so far unseen, b) case sounds like plasible for I²C muxes IIUC.
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.  
 
-So, I agree with the patch, and sorry for the first reaction.
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
-> Fixes: 525e6fabeae2 ("i2c / ACPI: add support for ACPI reconfigure notifications")
-> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
-> 
-> RFC because I don't know if it can be that the returned dev is not an
-> i2c_client. Yet, since it can happen theoretically, I think we should
-> have the checks.
-> 
->  drivers/i2c/i2c-core-acpi.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/i2c/i2c-core-acpi.c b/drivers/i2c/i2c-core-acpi.c
-> index 8f3dbc97a057..8b0ff780919b 100644
-> --- a/drivers/i2c/i2c-core-acpi.c
-> +++ b/drivers/i2c/i2c-core-acpi.c
-> @@ -394,9 +394,17 @@ EXPORT_SYMBOL_GPL(i2c_acpi_find_adapter_by_handle);
->  static struct i2c_client *i2c_acpi_find_client_by_adev(struct acpi_device *adev)
->  {
->  	struct device *dev;
-> +	struct i2c_client *client;
->  
->  	dev = bus_find_device_by_acpi_dev(&i2c_bus_type, adev);
-> -	return dev ? i2c_verify_client(dev) : NULL;
-> +	if (!dev)
-> +		return NULL;
-> +
-> +	client = i2c_verify_client(dev);
-> +	if (!client)
-> +		put_device(dev);
-> +
-> +	return client;
->  }
->  
->  static int i2c_acpi_notify(struct notifier_block *nb, unsigned long value,
-> -- 
-> 2.20.1
-> 
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
+From 5b16668e638c61a9cd4dffaa41d8b3b6f53f6b3a Mon Sep 17 00:00:00 2001
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Date: Thu, 12 Mar 2020 14:45:07 +0100
+Subject: [PATCH] spi: acpi: remove superfluous parameter check
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+to_spi_device() already checks 'dev'. No need to do it before calling
+it.
+
+Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Niklas SÃ¶derlund <niklas.soderlund+renesas@ragnatech.se>
+Link: https://lore.kernel.org/r/20200312134507.10000-1-wsa@the-dreams.de
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ drivers/spi/spi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
+index f6f6b2a0c81c..0996d238f61e 100644
+--- a/drivers/spi/spi.c
++++ b/drivers/spi/spi.c
+@@ -4028,7 +4028,7 @@ static struct spi_device *acpi_spi_find_device_by_adev(struct acpi_device *adev)
+ 	struct device *dev;
+ 
+ 	dev = bus_find_device_by_acpi_dev(&spi_bus_type, adev);
+-	return dev ? to_spi_device(dev) : NULL;
++	return to_spi_device(dev);
+ }
+ 
+ static int acpi_spi_notify(struct notifier_block *nb, unsigned long value,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.20.1
 
