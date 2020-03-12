@@ -2,76 +2,68 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8373C183039
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2020 13:29:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 19C31183033
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2020 13:29:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727148AbgCLM3e (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Mar 2020 08:29:34 -0400
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:42116 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726841AbgCLM3c (ORCPT
+        id S1726254AbgCLM3X (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Mar 2020 08:29:23 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:39417 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726044AbgCLM3X (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Mar 2020 08:29:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=nxFl0iKEBDtlZbQdrVFB6a58QmjwPzTAZEdnbDgjFUU=; b=YyLjdmhWW+7vfxBie12EscsnL
-        8JjGJugkNHBNCEil9JjmQUGyzkbz6N6pIhtLeCh5nMOmMOK0llSPOWAj8s4YdpY0FdVxRecBrIsT9
-        elxcj7BpBWGmT98fzlXuzG9kVUQuSQvD03kHzzJv6bPLkUgAM9c5EI2tz7lHSKIqDEycW/mgvw0xh
-        NV52IA00FJ1TopcdxV+kZ+zhJ+qyl98s+V76OxKNVEkkRqmqyyj7THOn/UGBFecbadDYdRPddEo+C
-        MH1NejCVyb/udf0OG0HZGx+fRZsWoPx606X4/LDGjkwtHSSFwaH8Pn0HV8lmUXUmpWjUoSkUR0vYd
-        gAj1u5teA==;
-Received: from shell.armlinux.org.uk ([2002:4e20:1eda:1:5054:ff:fe00:4ec]:59534)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1jCMxU-00019n-GQ; Thu, 12 Mar 2020 12:29:04 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1jCMxN-0006K0-SE; Thu, 12 Mar 2020 12:28:57 +0000
-Date:   Thu, 12 Mar 2020 12:28:57 +0000
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+        Thu, 12 Mar 2020 08:29:23 -0400
+Received: by mail-ot1-f65.google.com with SMTP id a9so5960560otl.6;
+        Thu, 12 Mar 2020 05:29:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zjFcVOAemnoKsr2cIZIjqhkKv+6KDzTh2mCpNYwVHFw=;
+        b=mSKPMazigamgms/JZDxDRl9wOnOf8Kk/jZ3N+hK8E2zgzKinTzLzGJaUz4UdqqYWhp
+         Vpdr2G9qNXK4oiM15kuqP5kXDN8ve7hhg1GvULquditB0spNtP+rD6d6pYp7uhPF6wbj
+         IYPN9dAaPP1ROyyp4u6WxbB3DbHVhcvO9JoeYVRvNUb6vVxaaroimX+G+6quc/0m1ryT
+         8OUsbA7FjsAeBJ/QYcTgIlve62W62wc0tp3LMfCq+4ASpxWrwqP69vgMYhLdnNr0ZEmm
+         q485NQ16YxbIeIhXHW40vJVQ4397wAb2+i5mhRbyAGtesWkMIdjmmhaMfY0/drHkJct6
+         VB+A==
+X-Gm-Message-State: ANhLgQ3rPAd83SXfBLdX6PNX/oUNMqo9YAYWJloG97ynAcNGazz4fRyn
+        dZE7gy8Ht2kkqp6h7RGbcENV7Xbwh4/n2zcxPGdhzCUb
+X-Google-Smtp-Source: ADFU+vucH2ks+fpvX4BNhVKQ3S6LjZbVYW6W1MizjhNyTjKcraAwX6o5NYlfrTlM4Dx4g8mOMmj4P3VTBGu0rNdkPKs=
+X-Received: by 2002:a4a:e211:: with SMTP id b17mr3815296oot.79.1584016162158;
+ Thu, 12 Mar 2020 05:29:22 -0700 (PDT)
+MIME-Version: 1.0
+References: <CGME20200225144815eucas1p1229ceb0d017b46cbbe2409639a7c1f83@eucas1p1.samsung.com>
+ <20200225144749.19815-1-geert+renesas@glider.be> <e249c123-8d00-4aa3-34b8-f82d52428966@samsung.com>
+ <20200226174905.GE25745@shell.armlinux.org.uk> <CAMuHMdW1ojYyWXZpzgiy8PrZnR2PQ9n3SEDrQ7hFFUg0j-jegg@mail.gmail.com>
+ <20200226175723.GF25745@shell.armlinux.org.uk> <CAMuHMdV9VyS3kBnhFT-5ry_O-aRafq-8Yor0xxxnjGqNQiSgZw@mail.gmail.com>
+ <f30208dc-e74a-cae7-95e6-d99220d9735c@samsung.com>
+In-Reply-To: <f30208dc-e74a-cae7-95e6-d99220d9735c@samsung.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 12 Mar 2020 13:29:11 +0100
+Message-ID: <CAMuHMdV=A-ObmHCsSQgbGCm=QxZ==3vSpFg3OMp-o0Aq=N3w6Q@mail.gmail.com>
+Subject: Re: [PATCH] ARM: boot: Fix ATAGs with appended DTB
 To:     Marek Szyprowski <m.szyprowski@samsung.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+Cc:     Russell King - ARM Linux admin <linux@armlinux.org.uk>,
         Geert Uytterhoeven <geert+renesas@glider.be>,
         Nicolas Pitre <nico@fluxnic.net>,
         Arnd Bergmann <arnd@arndb.de>,
         Eric Miao <eric.miao@nvidia.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>,
         Chris Brandt <chris.brandt@renesas.com>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] ARM: boot: Fix ATAGs with appended DTB
-Message-ID: <20200312122857.GY25745@shell.armlinux.org.uk>
-References: <CGME20200225144815eucas1p1229ceb0d017b46cbbe2409639a7c1f83@eucas1p1.samsung.com>
- <20200225144749.19815-1-geert+renesas@glider.be>
- <e249c123-8d00-4aa3-34b8-f82d52428966@samsung.com>
- <20200226174905.GE25745@shell.armlinux.org.uk>
- <CAMuHMdW1ojYyWXZpzgiy8PrZnR2PQ9n3SEDrQ7hFFUg0j-jegg@mail.gmail.com>
- <20200226175723.GF25745@shell.armlinux.org.uk>
- <CAMuHMdV9VyS3kBnhFT-5ry_O-aRafq-8Yor0xxxnjGqNQiSgZw@mail.gmail.com>
- <f30208dc-e74a-cae7-95e6-d99220d9735c@samsung.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f30208dc-e74a-cae7-95e6-d99220d9735c@samsung.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Thu, Mar 12, 2020 at 01:23:09PM +0100, Marek Szyprowski wrote:
-> Hi,
-> 
+Hi Marek,
+
+On Thu, Mar 12, 2020 at 1:23 PM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
 > On 26.02.2020 21:48, Geert Uytterhoeven wrote:
-> > Hi Russell,
-> >
 > > On Wed, Feb 26, 2020 at 6:57 PM Russell King - ARM Linux admin
 > > <linux@armlinux.org.uk> wrote:
 > >> On Wed, Feb 26, 2020 at 06:56:06PM +0100, Geert Uytterhoeven wrote:
@@ -97,17 +89,22 @@ On Thu, Mar 12, 2020 at 01:23:09PM +0100, Marek Szyprowski wrote:
 > >>> Thanks!
 > >> Please submit a replacement for 8960/1, thanks.
 > > Done.
-> 
+>
 > Gentle ping. This fix is still not present in linux-next for over 2 weeks...
 
-The 32-bit ARM tree is now a low priority ad-hoc effort; as a result,
-I now only merge patches around once or twice each cycle. I've merged
-the replacement earlier this morning.
+According to
+https://www.arm.linux.org.uk/developer/patches/viewpatch.php?id=8963
+the fixed version was applied less than one hour ago.
 
-So, it will take longer than two weeks for patches to make it into my
-tree, as has been the case ever since I lost funding for maintaining
-32-bit ARM support, and, therefore, I now have other priorities.
+It's now part of arm/for-next.
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 10.2Mbps down 587kbps up
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
