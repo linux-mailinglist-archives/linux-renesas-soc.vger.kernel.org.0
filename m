@@ -2,232 +2,84 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BC6AA1838CC
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2020 19:35:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 415BA18394C
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2020 20:16:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726788AbgCLSfJ (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Mar 2020 14:35:09 -0400
-Received: from mga04.intel.com ([192.55.52.120]:20125 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726726AbgCLSfI (ORCPT
+        id S1726814AbgCLTQz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Mar 2020 15:16:55 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:38521 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726469AbgCLTQz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Mar 2020 14:35:08 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Mar 2020 11:35:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,545,1574150400"; 
-   d="scan'208";a="289804554"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 12 Mar 2020 11:35:07 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jCSfi-0003SO-MJ; Fri, 13 Mar 2020 02:35:06 +0800
-Date:   Fri, 13 Mar 2020 02:34:56 +0800
-From:   kbuild test robot <lkp@intel.com>
+        Thu, 12 Mar 2020 15:16:55 -0400
+Received: by mail-ot1-f68.google.com with SMTP id t28so4875435ott.5;
+        Thu, 12 Mar 2020 12:16:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=vVrdJ+qhKEIpJd556IN01Cf39121xsXF8l1otnFI8JQ=;
+        b=mmx2DfrtaNl1pfF3GUOiljsaFOm1XLuTkpt6XMvSTem+tJ+4SOp+G8xXthi5J5+Pcn
+         9UyBP/z3n0dYwV9yu2qKu62ladMLkRBAT1D6e20VLbVXELiL4Ro9YeVHym0eebGV4Kjy
+         oHnlzvYcjpAvbsCt8vPmpRNXROxTSd7me32rmDs2w7jhRbyExmUvQsVIkvp/2wkdT10D
+         PGl2bZYf+5bzif0Ci7iOAJYg4SaaCLj87NwVPn1DNMndkJqffhdigbuR5CcxSj3Wr7Rr
+         GsSK0uO3BLRBemVR3DIeDy6QJ07ufgXKnSjgvb6R7UHthL8DV9t5r3RLqXtp6Wr9RD82
+         m1sQ==
+X-Gm-Message-State: ANhLgQ1H6/k3fH+jBR3NmceCyGVKs7t4F6/NXudwCUz+9Z7svZ1DLytc
+        l9e4QwCrlA0x5Uko05gBvw==
+X-Google-Smtp-Source: ADFU+vvH6bRUxHrHHHS6+ktlFtWiyq46Nvumz8hQ5kL7ReKHjgRHELRbJnuG/uj1KI1hhAfO8JvCAQ==
+X-Received: by 2002:a05:6830:1e09:: with SMTP id s9mr7303753otr.149.1584040614178;
+        Thu, 12 Mar 2020 12:16:54 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id d9sm11580372otl.50.2020.03.12.12.16.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Mar 2020 12:16:53 -0700 (PDT)
+Received: (nullmailer pid 14872 invoked by uid 1000);
+        Thu, 12 Mar 2020 19:16:52 -0000
+Date:   Thu, 12 Mar 2020 14:16:52 -0500
+From:   Rob Herring <robh@kernel.org>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:next] BUILD SUCCESS
- bf4540d5148c39f1339cc9c870b4075864a8c76c
-Message-ID: <5e6a80d0./L1YEBDyDKemoQuq%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+Cc:     Mark Brown <broonie@kernel.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [PATCH v3 1/2] spi: dt-bindings: spi-controller: Fix
+ #address-cells for slave mode
+Message-ID: <20200312191652.GA14819@bogus>
+References: <20200306085038.8111-1-geert+renesas@glider.be>
+ <20200306085038.8111-2-geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20200306085038.8111-2-geert+renesas@glider.be>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  next
-branch HEAD: bf4540d5148c39f1339cc9c870b4075864a8c76c  Merge branch 'renesas-arm64-dt-for-v5.7' into renesas-next
+On Fri,  6 Mar 2020 09:50:37 +0100, Geert Uytterhoeven wrote:
+> Currently, the DT bindings for an SPI controller specify that
+> "#address-cells" must be fixed to one.  However, that applies to an SPI
+> controller in master mode only.  When running in SPI slave mode,
+> "#address-cells" should not be specified.
+> 
+> Fix this making "#address-cells" mutually-exclusive with "spi-slave".
+> 
+> Fixes: 0a1b929356830257 ("spi: Add YAML schemas for the generic SPI options")
+> Reported-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+> v3:
+>   - Make #address-cells mutually-exclusive with spi-slave,
+> 
+> v2:
+>   - Use "enum: [0, 1]" instead of min/max limit,
+>   - use "- spi-slave" instead of "[ spi-slave ]".
+> ---
+>  Documentation/devicetree/bindings/spi/spi-controller.yaml | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
 
-elapsed time: 482m
-
-configs tested: 176
-configs skipped: 0
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-arm                              allmodconfig
-arm                               allnoconfig
-arm                              allyesconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-arm64                            allyesconfig
-arm                         at91_dt_defconfig
-arm                           efm32_defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                        multi_v7_defconfig
-arm                        shmobile_defconfig
-arm                           sunxi_defconfig
-arm64                               defconfig
-sparc                            allyesconfig
-i386                              allnoconfig
-mips                      fuloong2e_defconfig
-c6x                              allyesconfig
-mips                      malta_kvm_defconfig
-s390                          debug_defconfig
-s390                       zfcpdump_defconfig
-riscv                          rv32_defconfig
-i386                             alldefconfig
-i386                             allyesconfig
-i386                                defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-ia64                             alldefconfig
-c6x                        evmc6678_defconfig
-nios2                         10m50_defconfig
-nios2                         3c120_defconfig
-openrisc                    or1ksim_defconfig
-openrisc                 simple_smp_defconfig
-xtensa                       common_defconfig
-xtensa                          iss_defconfig
-alpha                               defconfig
-csky                                defconfig
-nds32                             allnoconfig
-nds32                               defconfig
-h8300                     edosk2674_defconfig
-h8300                    h8300h-sim_defconfig
-h8300                       h8s-sim_defconfig
-m68k                             allmodconfig
-m68k                       m5475evb_defconfig
-m68k                          multi_defconfig
-m68k                           sun3_defconfig
-arc                              allyesconfig
-arc                                 defconfig
-microblaze                      mmu_defconfig
-microblaze                    nommu_defconfig
-powerpc                           allnoconfig
-powerpc                             defconfig
-powerpc                       ppc64_defconfig
-powerpc                          rhel-kconfig
-mips                           32r2_defconfig
-mips                         64r6el_defconfig
-mips                             allmodconfig
-mips                              allnoconfig
-mips                             allyesconfig
-parisc                            allnoconfig
-parisc                           allyesconfig
-parisc                generic-32bit_defconfig
-parisc                generic-64bit_defconfig
-i386                 randconfig-a003-20200311
-i386                 randconfig-a001-20200311
-x86_64               randconfig-a001-20200311
-i386                 randconfig-a002-20200311
-x86_64               randconfig-a003-20200311
-x86_64               randconfig-a002-20200311
-alpha                randconfig-a001-20200312
-m68k                 randconfig-a001-20200312
-mips                 randconfig-a001-20200312
-nds32                randconfig-a001-20200312
-parisc               randconfig-a001-20200312
-riscv                randconfig-a001-20200312
-c6x                  randconfig-a001-20200312
-h8300                randconfig-a001-20200312
-microblaze           randconfig-a001-20200312
-nios2                randconfig-a001-20200312
-sparc64              randconfig-a001-20200312
-csky                 randconfig-a001-20200312
-openrisc             randconfig-a001-20200312
-s390                 randconfig-a001-20200312
-sh                   randconfig-a001-20200312
-xtensa               randconfig-a001-20200312
-x86_64               randconfig-b001-20200311
-x86_64               randconfig-b002-20200311
-x86_64               randconfig-b003-20200311
-i386                 randconfig-b001-20200311
-i386                 randconfig-b002-20200311
-i386                 randconfig-b003-20200311
-x86_64               randconfig-c001-20200311
-x86_64               randconfig-c002-20200311
-x86_64               randconfig-c003-20200311
-i386                 randconfig-c001-20200311
-i386                 randconfig-c002-20200311
-i386                 randconfig-c003-20200311
-x86_64               randconfig-d001-20200312
-x86_64               randconfig-d002-20200312
-x86_64               randconfig-d003-20200312
-i386                 randconfig-d001-20200312
-i386                 randconfig-d002-20200312
-i386                 randconfig-d003-20200312
-x86_64               randconfig-d001-20200311
-x86_64               randconfig-d002-20200311
-x86_64               randconfig-d003-20200311
-i386                 randconfig-d001-20200311
-i386                 randconfig-d002-20200311
-i386                 randconfig-d003-20200311
-x86_64               randconfig-e001-20200312
-x86_64               randconfig-e002-20200312
-x86_64               randconfig-e003-20200312
-i386                 randconfig-e001-20200312
-i386                 randconfig-e002-20200312
-i386                 randconfig-e003-20200312
-x86_64               randconfig-f001-20200312
-x86_64               randconfig-f002-20200312
-x86_64               randconfig-f003-20200312
-i386                 randconfig-f001-20200312
-i386                 randconfig-f002-20200312
-i386                 randconfig-f003-20200312
-x86_64               randconfig-g001-20200312
-x86_64               randconfig-g002-20200312
-x86_64               randconfig-g003-20200312
-i386                 randconfig-g001-20200312
-i386                 randconfig-g002-20200312
-i386                 randconfig-g003-20200312
-x86_64               randconfig-h001-20200312
-x86_64               randconfig-h002-20200312
-x86_64               randconfig-h003-20200312
-i386                 randconfig-h001-20200312
-i386                 randconfig-h002-20200312
-i386                 randconfig-h003-20200312
-arc                  randconfig-a001-20200311
-ia64                 randconfig-a001-20200311
-arm                  randconfig-a001-20200311
-arm64                randconfig-a001-20200311
-sparc                randconfig-a001-20200311
-powerpc              randconfig-a001-20200311
-arc                  randconfig-a001-20200312
-ia64                 randconfig-a001-20200312
-arm                  randconfig-a001-20200312
-arm64                randconfig-a001-20200312
-sparc                randconfig-a001-20200312
-powerpc              randconfig-a001-20200312
-riscv                             allnoconfig
-riscv                            allyesconfig
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-riscv                            allmodconfig
-s390                             alldefconfig
-s390                             allmodconfig
-s390                              allnoconfig
-s390                             allyesconfig
-s390                                defconfig
-sh                          rsk7269_defconfig
-sh                               allmodconfig
-sh                            titan_defconfig
-sh                  sh7785lcr_32bit_defconfig
-sh                                allnoconfig
-sparc                               defconfig
-sparc64                          allmodconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                             defconfig
-um                                  defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              fedora-25
-x86_64                                  kexec
-x86_64                                    lkp
-x86_64                                   rhel
-x86_64                         rhel-7.2-clear
-x86_64                               rhel-7.6
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Reviewed-by: Rob Herring <robh@kernel.org>
