@@ -2,236 +2,174 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F131182793
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2020 05:01:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F85A18282D
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2020 06:17:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726302AbgCLEBr (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Mar 2020 00:01:47 -0400
-Received: from mga04.intel.com ([192.55.52.120]:15610 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726377AbgCLEBr (ORCPT
+        id S2387677AbgCLFR0 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Mar 2020 01:17:26 -0400
+Received: from esa13.fujitsucc.c3s2.iphmx.com ([68.232.156.96]:31846 "EHLO
+        esa13.fujitsucc.c3s2.iphmx.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725978AbgCLFR0 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Mar 2020 00:01:47 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Mar 2020 21:01:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,543,1574150400"; 
-   d="scan'208";a="261368049"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 11 Mar 2020 21:01:44 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jCF2V-0004ls-Us; Thu, 12 Mar 2020 12:01:43 +0800
-Date:   Thu, 12 Mar 2020 12:01:07 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-devel:renesas-arm-dt-for-v5.7] BUILD SUCCESS
- 99ae78f1fc3a73c88fe726c676ae963ce722bf20
-Message-ID: <5e69b403.6NgE/owj3t2geoc9%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Thu, 12 Mar 2020 01:17:26 -0400
+X-Greylist: delayed 430 seconds by postgrey-1.27 at vger.kernel.org; Thu, 12 Mar 2020 01:17:23 EDT
+IronPort-SDR: Nxbn0XBEFsL2/Ls1Yba+N3rUTPCepqlVUQ7563MkwityXcYfm4lMOo/OVguwFtcPMduNTdquNv
+ Ux4JkBMmrEb+KPkYbLps66Cha7pTUH1rze1gHI9OmEc7Zcr0FNp7WbEo/t2EE6chHWbiy6+TkJ
+ +2NVsjMmXjllWcPTqX8WkjvqvXki7Fur/ucmZj6iW6Rk2B6SfNvfGRxTGXPRrG3dQ6Wq3rebyX
+ UoZjCxWJ/ae72LXqMnPRSBA7MDoz5c1ps1I+MbpFSsrEg4djD/uTki2XdFgIJAhnVfE5AV6tfj
+ SfY=
+X-IronPort-AV: E=McAfee;i="6000,8403,9557"; a="11005805"
+X-IronPort-AV: E=Sophos;i="5.70,543,1574089200"; 
+   d="scan'208";a="11005805"
+Received: from mail-os2jpn01lp2051.outbound.protection.outlook.com (HELO JPN01-OS2-obe.outbound.protection.outlook.com) ([104.47.92.51])
+  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2020 14:10:06 +0900
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SQo3W3O7nTlEJtncjZp87WY+tdNrWL1IdnZT0puYi1ZQvgs2/Q33pT3xVJGm/qgYqwwjyafpv/XdR2TZtTAgTZpjYmW6TKaZ3WroUG9kkPIbfUtlZ+7UsCkR5gMIfaUjzUq/xRvdpTMwrIk3BuHZ6ByKBYBUBPVB17tBhVr+hFLQE1W8UK5deyvOowjPAMYIe9egfqN9+QPt6T+3uZl+sqdh5+aeIbW4EJ5eCvRwdnyqEFN0eYdhOI5aNrTo4naUr7065pvPKF7dKG54F1kdsS2o2Xpmri+4WTJvF5Adxz2Gley8AfAKi2PASeFAeq8woCboOdUVcKxvfjSHQ2Lwog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OQ/TB+2uyYBdznMjZR7uaTF+XF/nRvCaKau0aSxIlwk=;
+ b=JtGfluzzyft32LysHoabYnCKjhz7mTeTFem6FZglcoMZhnkVrfSNT0MhwEjKYEmxv6rJVctswFQE3+ByFT+3EduOYQem7aD7Kj3Cp1IbzLIrm098/UCBRThGHeta9rbsqGfuJ0zioD0/G4yxFmpVCeV1+gqk9BuaNqv47gq/vM57ss7a/t2LLLtSAX6apl4l2OWK31YK9TAp0X9lNOb0DLo1/a/xwgemD//o2VXF/+qqu1uSDTG/n7bDc3VTCUZ9WaT/ELsrU9mqKARBIcMKdEp7uN20VCbtJqol9YPmhZG56+hMsd3IB0sudzOEa89OlZf5Yj0GRFLSdjC03AuUhw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
+ dkim=pass header.d=fujitsu.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fujitsu.onmicrosoft.com; s=selector2-fujitsu-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OQ/TB+2uyYBdznMjZR7uaTF+XF/nRvCaKau0aSxIlwk=;
+ b=dFRqJWqiHx0SCF2VUqyLpXBhYlf2xqZccforeKEv7myWQyaAmdh6QA3h0iibpHEhPga0bDjIADMpZrn1Yr1pLoHEj5Qj9XbZ0mhPTNoDmMuorLp+tF4/31mKt9OumtswKlqFLxGxn0FpcLzcBtPt7xrDqfeH8tP46rOevrjEIJA=
+Received: from OSBPR01MB2949.jpnprd01.prod.outlook.com (52.134.254.22) by
+ OSBPR01MB3271.jpnprd01.prod.outlook.com (52.134.255.73) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2793.14; Thu, 12 Mar 2020 05:10:05 +0000
+Received: from OSBPR01MB2949.jpnprd01.prod.outlook.com
+ ([fe80::c55c:c17c:b998:649]) by OSBPR01MB2949.jpnprd01.prod.outlook.com
+ ([fe80::c55c:c17c:b998:649%5]) with mapi id 15.20.2793.018; Thu, 12 Mar 2020
+ 05:10:05 +0000
+From:   "torii.ken1@fujitsu.com" <torii.ken1@fujitsu.com>
+To:     "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+CC:     "geert@linux-m68k.org" <geert@linux-m68k.org>,
+        "erosca@de.adit-jv.com" <erosca@de.adit-jv.com>,
+        "linux-serial@vger.kernel.org" <linux-serial@vger.kernel.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "wsa+renesas@sang-engineering.com" <wsa+renesas@sang-engineering.com>,
+        "yoshihiro.shimoda.uh@renesas.com" <yoshihiro.shimoda.uh@renesas.com>,
+        "uli+renesas@fpond.eu" <uli+renesas@fpond.eu>,
+        "george_davis@mentor.com" <george_davis@mentor.com>,
+        "andrew_gabbasov@mentor.com" <andrew_gabbasov@mentor.com>,
+        "jiada_wang@mentor.com" <jiada_wang@mentor.com>,
+        "yuichi.kusakabe@denso-ten.com" <yuichi.kusakabe@denso-ten.com>,
+        "yasano@jp.adit-jv.com" <yasano@jp.adit-jv.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "jslaby@suse.com" <jslaby@suse.com>,
+        "yohhei.fukui@denso-ten.com" <yohhei.fukui@denso-ten.com>,
+        "torii.ken1@fujitsu.com" <torii.ken1@fujitsu.com>,
+        "ashiduka@fujitsu.com" <ashiduka@fujitsu.com>,
+        "magnus.damm@gmail.com" <magnus.damm@gmail.com>
+Subject: Re: [PATCH] serial: sh-sci: Support custom speed setting
+Thread-Topic: [PATCH] serial: sh-sci: Support custom speed setting
+Thread-Index: AQHV1sAgPlnOtMWuIkKRz6OcOs9dRKgDJUQAgBHWrICAL6+KAA==
+Date:   Thu, 12 Mar 2020 05:10:05 +0000
+Message-ID: <OSBPR01MB29496E76BE5FD0C5BC56D0F0C1FD0@OSBPR01MB2949.jpnprd01.prod.outlook.com>
+References: <20200129161955.30562-1-erosca@de.adit-jv.com>
+        <CAMuHMdWV0kkKq6sKOHsdz+FFGNHphzq_q7rvmYAL=U4fH2H3wQ@mail.gmail.com>
+        <20200210205735.GB1347752@kroah.com>
+In-Reply-To: <20200210205735.GB1347752@kroah.com>
+Accept-Language: ja-JP, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=torii.ken1@fujitsu.com; 
+x-originating-ip: [180.43.167.188]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5bf52c28-f992-4160-c63f-08d7c643a07d
+x-ms-traffictypediagnostic: OSBPR01MB3271:|OSBPR01MB3271:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <OSBPR01MB32711575D8E2CCC7DD16DE87C1FD0@OSBPR01MB3271.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 0340850FCD
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(346002)(39860400002)(366004)(376002)(136003)(396003)(199004)(66946007)(33656002)(66446008)(66556008)(85182001)(64756008)(66476007)(52536014)(26005)(76116006)(186003)(8936002)(91956017)(5660300002)(7416002)(2906002)(6506007)(7696005)(55016002)(53546011)(6916009)(316002)(478600001)(966005)(4326008)(81156014)(71200400001)(9686003)(81166006)(8676002)(86362001)(54906003)(777600001);DIR:OUT;SFP:1101;SCL:1;SRVR:OSBPR01MB3271;H:OSBPR01MB2949.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: I/RpCA+obSv1uLLOPZjGDvHRFKsrTsqsEQlEI8bfl3fePIY13LO1BsdzDS+NyjYyjMyQkUHxFXRa+0NctjIN6XGZdWWhiqoT+YLG8pexhIWQNHM7zBNChSWENAkwjYKZNP+kvQT4d7KwWkNvjPBeVqUGJY5Y4O+Mpy6sEnMrc3Pa/+7vAcAJPxrWXm98bykOfKjCYa6f2KTQrf1vwMkllaaZgc0lSon4Mi5qLXInPSpu/VINOnZRDslm81phn6S7hxVWBm7OGtU2xfoaESJhgzjaDZ1O7U1SH/9aEFSaKD9T1UCXY+Jx87ROket2R+hwXcbf8BxuRCYl8nR484cLvM2nFv2Tjh/YeQTDAddTyEQ4n4lSM4ShLCQMSFAw1yVr2LfZ8ztd+ve/rYdc4o/tsOsYdMpQO8bPLi+YBW9bVgQCFm8htTXahi3h6T1tB/l1f1FAFhj4xB4ucciOKErkMaXa+zs2mcUwgTRiIzj+IhkqClN3hF/miXCZmLZrNwUYfLUeuzi5Pp687rFlov6rXHtuwwoHFUnOKZtQiMSpBHya/UpDa/Uw+UA5RKTL+Vb+
+x-ms-exchange-antispam-messagedata: osxHAQ22LEVkhRoe8Z1mTAmf9BjE5vXs98pRV3RZh742oGx7INh0T0Fi0fpCCTghNLUXHrRizUOOMC8RKJPgFvCU/ukMCi4A794+LspFu8F4DNoSM04PXM0GCeRzZZi9JF9gw/v9OhvZeVovmE8PDQ==
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-ID: <E5048FDE2074214D9B8CA4893A0664D9@jpnprd01.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: fujitsu.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5bf52c28-f992-4160-c63f-08d7c643a07d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Mar 2020 05:10:05.0242
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: CsE9UA3xm3W+PELlZmBUvexsMjDxb2XO0Bur/JmWjYkWizn/wgEbaMnrhAbuGP6zMPmHEl/aZdCDHTJgOKILID1VETToVmSCc0OXXf2kqww=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB3271
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git  renesas-arm-dt-for-v5.7
-branch HEAD: 99ae78f1fc3a73c88fe726c676ae963ce722bf20  ARM: dts: iwg22d-sodimm: Enable touchscreen
+Dear Greg,
 
-elapsed time: 483m
+On Tue, 11 Feb 2020 05:57:35 +0900,
+Greg Kroah-Hartman wrote:
+>=20
+> On Thu, Jan 30, 2020 at 01:32:50PM +0100, Geert Uytterhoeven wrote:
+> > Hi Eugeniu,
+> >=20
+> > On Wed, Jan 29, 2020 at 5:20 PM Eugeniu Rosca <erosca@de.adit-jv.com> w=
+rote:
+> > > From: Torii Kenichi <torii.ken1@jp.fujitsu.com>
+> > >
+> > > This patch is necessary to use BT module and XM module with DENSO TEN
+> > > development board.
+> > >
+> > > This patch supports ASYNC_SPD_CUST flag by ioctl(TIOCSSERIAL), enable=
+s
+> > > custom speed setting with setserial(1).
+> > >
+> > > The custom speed is calculated from uartclk and custom_divisor.
+> > > If custom_divisor is zero, custom speed setting is invalid.
+> > >
+> > > Signed-off-by: Torii Kenichi <torii.ken1@jp.fujitsu.com>
+> > > [erosca: rebase against v5.5]
+> > > Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+> >=20
+> > Thanks for your patch!
+> >=20
+> > While this seems to work fine[*], I have a few comments/questions:
+> >   1. This feature seems to be deprecated:
+> >=20
+> >          sh-sci e6e68000.serial: setserial sets custom speed on
+> > ttySC1. This is deprecated.
+> >=20
+> >   2. As the wanted speed is specified as a divider, the resulting speed
+> >      may be off, cfr. the example for 57600 below.
+> >      Note that the SCIF device has multiple clock inputs, and can do
+> >      57600 perfectly if the right crystal has been fitted.
+> >=20
+> >  3. What to do with "[PATCH/RFC] serial: sh-sci: Update uartclk based
+> >      on selected clock" (https://patchwork.kernel.org/patch/11103703/)?
+> >      Combined with this, things become pretty complicated and
+> >      unpredictable, as uartclk now always reflect the frequency of the
+> >      last used base clock, which was the optimal one for the previously
+> >      used speed....
+> >=20
+> > I think it would be easier if we just had an API to specify a raw speed=
+.
+> > Perhaps that already exists?
+>=20
+> Yes, see:
+> 	http://www.panix.com/~grante/arbitrary-baud.c
 
-configs tested: 180
-configs skipped: 145
+I saw the code above, I thought I wouldn't write such code normally.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+>#include <linux/termios.h>
+>
+>int ioctl(int d, int request, ...);
 
-arm                              allmodconfig
-arm                               allnoconfig
-arm                              allyesconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-arm64                            allyesconfig
-arm                         at91_dt_defconfig
-arm                           efm32_defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                        multi_v7_defconfig
-arm                        shmobile_defconfig
-arm                           sunxi_defconfig
-arm64                               defconfig
-microblaze                    nommu_defconfig
-sparc64                          allyesconfig
-ia64                             allmodconfig
-m68k                       m5475evb_defconfig
-nios2                         10m50_defconfig
-sh                  sh7785lcr_32bit_defconfig
-sh                            titan_defconfig
-riscv                          rv32_defconfig
-s390                          debug_defconfig
-i386                             alldefconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                                defconfig
-ia64                             alldefconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-ia64                                defconfig
-c6x                              allyesconfig
-c6x                        evmc6678_defconfig
-nios2                         3c120_defconfig
-openrisc                    or1ksim_defconfig
-openrisc                 simple_smp_defconfig
-xtensa                       common_defconfig
-xtensa                          iss_defconfig
-alpha                               defconfig
-csky                                defconfig
-nds32                             allnoconfig
-nds32                               defconfig
-h8300                     edosk2674_defconfig
-h8300                    h8300h-sim_defconfig
-h8300                       h8s-sim_defconfig
-m68k                             allmodconfig
-m68k                          multi_defconfig
-m68k                           sun3_defconfig
-arc                              allyesconfig
-arc                                 defconfig
-microblaze                      mmu_defconfig
-powerpc                           allnoconfig
-powerpc                             defconfig
-powerpc                       ppc64_defconfig
-powerpc                          rhel-kconfig
-mips                           32r2_defconfig
-mips                         64r6el_defconfig
-mips                             allmodconfig
-mips                              allnoconfig
-mips                             allyesconfig
-mips                      fuloong2e_defconfig
-mips                      malta_kvm_defconfig
-parisc                            allnoconfig
-parisc                           allyesconfig
-parisc                generic-32bit_defconfig
-parisc                generic-64bit_defconfig
-x86_64               randconfig-a001-20200311
-x86_64               randconfig-a002-20200311
-x86_64               randconfig-a003-20200311
-i386                 randconfig-a001-20200311
-i386                 randconfig-a002-20200311
-i386                 randconfig-a003-20200311
-alpha                randconfig-a001-20200311
-m68k                 randconfig-a001-20200311
-mips                 randconfig-a001-20200311
-nds32                randconfig-a001-20200311
-parisc               randconfig-a001-20200311
-riscv                randconfig-a001-20200311
-alpha                randconfig-a001-20200312
-m68k                 randconfig-a001-20200312
-mips                 randconfig-a001-20200312
-nds32                randconfig-a001-20200312
-parisc               randconfig-a001-20200312
-c6x                  randconfig-a001-20200312
-h8300                randconfig-a001-20200312
-microblaze           randconfig-a001-20200312
-nios2                randconfig-a001-20200312
-sparc64              randconfig-a001-20200312
-c6x                  randconfig-a001-20200311
-h8300                randconfig-a001-20200311
-microblaze           randconfig-a001-20200311
-nios2                randconfig-a001-20200311
-sparc64              randconfig-a001-20200311
-csky                 randconfig-a001-20200311
-openrisc             randconfig-a001-20200311
-s390                 randconfig-a001-20200311
-sh                   randconfig-a001-20200311
-xtensa               randconfig-a001-20200311
-x86_64               randconfig-b001-20200311
-x86_64               randconfig-b002-20200311
-x86_64               randconfig-b003-20200311
-i386                 randconfig-b001-20200311
-i386                 randconfig-b002-20200311
-i386                 randconfig-b003-20200311
-x86_64               randconfig-c001-20200311
-x86_64               randconfig-c002-20200311
-x86_64               randconfig-c003-20200311
-i386                 randconfig-c001-20200311
-i386                 randconfig-c002-20200311
-i386                 randconfig-c003-20200311
-x86_64               randconfig-d001-20200311
-x86_64               randconfig-d002-20200311
-x86_64               randconfig-d003-20200311
-i386                 randconfig-d001-20200311
-i386                 randconfig-d002-20200311
-i386                 randconfig-d003-20200311
-x86_64               randconfig-e001-20200311
-x86_64               randconfig-e002-20200311
-x86_64               randconfig-e003-20200311
-i386                 randconfig-e001-20200311
-i386                 randconfig-e002-20200311
-i386                 randconfig-e003-20200311
-x86_64               randconfig-e001-20200312
-x86_64               randconfig-e002-20200312
-x86_64               randconfig-e003-20200312
-i386                 randconfig-e001-20200312
-i386                 randconfig-e002-20200312
-i386                 randconfig-e003-20200312
-x86_64               randconfig-f001-20200311
-x86_64               randconfig-f002-20200311
-x86_64               randconfig-f003-20200311
-i386                 randconfig-f001-20200311
-i386                 randconfig-f002-20200311
-i386                 randconfig-f003-20200311
-x86_64               randconfig-g001-20200311
-x86_64               randconfig-g002-20200311
-x86_64               randconfig-g003-20200311
-i386                 randconfig-g001-20200311
-i386                 randconfig-g002-20200311
-i386                 randconfig-g003-20200311
-x86_64               randconfig-h001-20200311
-x86_64               randconfig-h002-20200311
-x86_64               randconfig-h003-20200311
-i386                 randconfig-h001-20200311
-i386                 randconfig-h002-20200311
-i386                 randconfig-h003-20200311
-arc                  randconfig-a001-20200311
-arm                  randconfig-a001-20200311
-arm64                randconfig-a001-20200311
-ia64                 randconfig-a001-20200311
-powerpc              randconfig-a001-20200311
-sparc                randconfig-a001-20200311
-riscv                            allmodconfig
-riscv                             allnoconfig
-riscv                            allyesconfig
-riscv                               defconfig
-riscv                    nommu_virt_defconfig
-s390                             alldefconfig
-s390                             allmodconfig
-s390                              allnoconfig
-s390                             allyesconfig
-s390                                defconfig
-s390                       zfcpdump_defconfig
-sh                               allmodconfig
-sh                                allnoconfig
-sh                          rsk7269_defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-sparc64                          allmodconfig
-sparc64                           allnoconfig
-sparc64                             defconfig
-um                                  defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                              fedora-25
-x86_64                                  kexec
-x86_64                                    lkp
-x86_64                                   rhel
-x86_64                         rhel-7.2-clear
-x86_64                               rhel-7.6
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Do application programmers have to accept this bad code?=
