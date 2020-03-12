@@ -2,97 +2,109 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FB971832D8
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2020 15:23:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C679F1832FA
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2020 15:28:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727467AbgCLOXX (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Mar 2020 10:23:23 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:41699 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727668AbgCLOXX (ORCPT
+        id S1727534AbgCLO2q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Mar 2020 10:28:46 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:42278 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727518AbgCLO2q (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Mar 2020 10:23:23 -0400
-Received: by mail-lj1-f195.google.com with SMTP id o10so6632700ljc.8
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Mar 2020 07:23:20 -0700 (PDT)
+        Thu, 12 Mar 2020 10:28:46 -0400
+Received: by mail-lj1-f193.google.com with SMTP id q19so6638274ljp.9
+        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Mar 2020 07:28:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5Dt+A0XYoM4z0Muyh4Z1oK3OQIHOd+TenS7WS4Spt8M=;
-        b=kPO+ikxEgegYspLtVJSTdDZGCrznn2iZHcCDSpipCfIKchWvbMXImnOGvH1GmkJfoD
-         KcE6fvz9RgDqdCcl4OhN7O0CjnJ+M6liGFX7kS02szV8Mo1+CU8jkrhYkKZ+cX6rh0Qw
-         H/nnJeTMB5ClokfZT4zcoYejI5wYd4XBiBYB1T5WDgosR4K8w/H85ETqh8BS+y3N6LvM
-         5Y95Pb1xYZfEjIrgLVRhecU/tTp74SEk3Ps55TNUzCeR9gXSB6amj6Kc+BpjDlZq6zaG
-         WIiIfQNErmoQIOMBgKTJD8wyx6zy8TH+bDi310hmLvyph1kUIo4otwnn+KNf7P9k3532
-         g2vA==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=wkUnkIL0e/rtPLFDdVkLiF07+cIlvDNfDcO1JSkyZI4=;
+        b=WlUjE7eepBgGbA4RoEeoesjQgHfWlYXpCSFWO57dJ5D5WTglPRmgkTtessjbP7tjVu
+         YzJo4NS1WtRUcvO/ZGPv0sXNpEXGyfYNJOUA3OsKcWZA4s75vSBOPvLGx4tmuLUa8R3T
+         kAiquNcyy15hGvGi1IxIXXFokro4xVA6lrRW6QzI543Au22Ye57AeEYwdl0dbtV14plW
+         3ibxOhDEcbSezDd4D/LQQdCjIYOSeDy7DcN7EbjwSVb/7NUq/sJ52g+aAULLrmAfcP4z
+         smrGuivoeBRLW1mDqa4V0NA5uuKbeL5ScOIS2YqmYtvI5oCV8npdXZzPPmbe/JHKC3H6
+         GE0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5Dt+A0XYoM4z0Muyh4Z1oK3OQIHOd+TenS7WS4Spt8M=;
-        b=cuGj0PmfR6/AijSeqyn5pTFgZx0Z5RljX4gDEVGLq/WM5esSULcb9/FDoN10D6InLD
-         RlZEVVQODftRLdrsyosgBMWoB9ERk4KIE8b6J10G5NmWa48LsEdsLmIayxAT7xOuACGA
-         EcSOXf/wMVtCrMrGALK6DA4XgvbwJCkfSoar/9zRJ1qNsqV/1MlZDH7eZ5F667xOxfJj
-         Lp36jjRsuw51ywK1G111UvIxz/PcWv8mX0fE8MLLIysQjIJnCI13Dm/7iEKa7T74siQG
-         b7O7ykCvcsbsg5KV5/qpVPPXEc6S7HMAGWQ9u719fLYz5mQLMoiT4unxwyWnuxFWTHHS
-         hvAg==
-X-Gm-Message-State: ANhLgQ2p0TnZ/9HuC9wcyuWBcnFRZKl8d+TGP+EM5oMlu2NSUt8RS3vA
-        plJayRAcm3MdAvs/pfY5EgxNB1rxhztez4tzd12blA==
-X-Google-Smtp-Source: ADFU+vv7LNhuqWt6huv0FXgE1q4FBl/D6hN2gAx1rsopSHV4jlVMS8grUwQme6vafr3oWKM7JsBOgEJp0guAr/W7u10=
-X-Received: by 2002:a05:651c:2049:: with SMTP id t9mr5600275ljo.39.1584022999468;
- Thu, 12 Mar 2020 07:23:19 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=wkUnkIL0e/rtPLFDdVkLiF07+cIlvDNfDcO1JSkyZI4=;
+        b=Cjnxlxt1jx9lobymNpEwyP8qwVUkX9UqmfAXcd1+EmNfbtFJSNf1omLwbDySjrem8b
+         YtD1Tz21id0awoUt6Ukz4pX4Oi1F3lt3hIppY9Vf2i4BmM9F0Mrptmn5FELyZs9Vdw6V
+         7bmBw3pu3+HdFcim2xScqlfzTa2cXYgwFN1HUebY9xwgnMvaz60X10LPi5SObAHg9VQp
+         +xO2HG3B5hoogvGMtcRNvKd8X9OiIzG/wy+lKMCT3SRaxELnacWCZmBibpBXPhnEaDX1
+         TDPbfpgO9WB5xHwpud1dBAKdhKHUTSN+bpI08pVMcEln+onf9q/6jQPwRJkWqrPxSnuo
+         F9Cg==
+X-Gm-Message-State: ANhLgQ3gPc0q/lYBCj7c6jLzVfPMqDiLDXC6jfSk3kh5y/ykBM/ZYkBH
+        dciR0KnU732gXShm8HOoWXWR6w==
+X-Google-Smtp-Source: ADFU+vtRZ9aSvDfEDAe4PWAVfE2EXngpJ4HRI4zpaR769zc92kWMK2r5W3q4475q4O5Ki8zlATdXyQ==
+X-Received: by 2002:a2e:2e13:: with SMTP id u19mr4473390lju.3.1584023322663;
+        Thu, 12 Mar 2020 07:28:42 -0700 (PDT)
+Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
+        by smtp.gmail.com with ESMTPSA id x13sm14807277lfq.97.2020.03.12.07.28.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Mar 2020 07:28:41 -0700 (PDT)
+Date:   Thu, 12 Mar 2020 15:28:41 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Wolfram Sang <wsa@the-dreams.de>
+Cc:     linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Mark Brown <broonie@kernel.org>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: Re: [PATCH] spi: acpi: remove superfluous parameter check
+Message-ID: <20200312142841.GC791432@oden.dyn.berto.se>
+References: <20200312134507.10000-1-wsa@the-dreams.de>
 MIME-Version: 1.0
-References: <20200218151812.7816-1-geert+renesas@glider.be> <20200218151812.7816-2-geert+renesas@glider.be>
-In-Reply-To: <20200218151812.7816-2-geert+renesas@glider.be>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 12 Mar 2020 15:23:08 +0100
-Message-ID: <CACRpkdZGKB9opaOFT8Yz-tfE9vcCVeF9EvvBi7jWWuAAh3C_FA@mail.gmail.com>
-Subject: Re: [PATCH v5 1/5] gpiolib: Add support for gpiochipN-based table lookup
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200312134507.10000-1-wsa@the-dreams.de>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Feb 18, 2020 at 4:18 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+Hi Wolfram,
 
-> Currently GPIO controllers can only be referred to by label in GPIO
-> lookup tables.
->
-> Add support for looking them up by "gpiochipN" name, with "N" the
-> corresponding GPIO device's ID number.
->
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Reviewed-by: Ulrich Hecht <uli+renesas@fpond.eu>
-> Reviewed-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-> Tested-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+Thanks for your work.
 
-Just like with patch 2/5 I have the same problem here that
-the commit message doesn't state the technical reason why
-we need to change this and support the device name in these
-tables and not just labels.
+On 2020-03-12 14:45:07 +0100, Wolfram Sang wrote:
+> From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> 
+> to_spi_device() already checks 'dev'. No need to do it before calling
+> it.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-(Possibly again I will realize it...)
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-Yours,
-Linus Walleij
+> ---
+> 
+> Found while fiddling with bus_find_device_by_acpi_dev() in the I2C
+> subsystem.
+> 
+>  drivers/spi/spi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
+> index 755221bc3745..75978b6c5834 100644
+> --- a/drivers/spi/spi.c
+> +++ b/drivers/spi/spi.c
+> @@ -4034,7 +4034,7 @@ static struct spi_device *acpi_spi_find_device_by_adev(struct acpi_device *adev)
+>  	struct device *dev;
+>  
+>  	dev = bus_find_device_by_acpi_dev(&spi_bus_type, adev);
+> -	return dev ? to_spi_device(dev) : NULL;
+> +	return to_spi_device(dev);
+>  }
+>  
+>  static int acpi_spi_notify(struct notifier_block *nb, unsigned long value,
+> -- 
+> 2.20.1
+> 
+
+-- 
+Regards,
+Niklas Söderlund
