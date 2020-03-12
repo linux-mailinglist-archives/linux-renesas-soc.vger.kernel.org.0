@@ -2,240 +2,113 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 16C1F1833E5
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2020 15:57:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EF4C18343B
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2020 16:14:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727459AbgCLO5k (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Mar 2020 10:57:40 -0400
-Received: from mail-ua1-f66.google.com ([209.85.222.66]:39031 "EHLO
-        mail-ua1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727196AbgCLO5k (ORCPT
+        id S1727757AbgCLPOv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Mar 2020 11:14:51 -0400
+Received: from mga02.intel.com ([134.134.136.20]:4466 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727455AbgCLPOv (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Mar 2020 10:57:40 -0400
-Received: by mail-ua1-f66.google.com with SMTP id o16so2217410uap.6
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Mar 2020 07:57:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bxw33SxWFZjkWPj88ZuXOvwLRBj2S+g2ZJwa2FkjrJE=;
-        b=m2lcmjUGkYWP7vkV0Vjot/cSZwZUNCcrXd/WLLuloMRr0AWoQY+jqcc/1wuUSM7DDw
-         PqWzpdtoqX/gAP4yv2cKjurTp3cckazG7srtdvXHK8g76Tki8cdQXX8xelU3OB3zySg9
-         0KsHSFbk9uRX8+aRa4wmtwMYAvXbuXLOv70swGxt1sVRBXSVStkyGrRkeW0hlNtS8bAC
-         H/DBHSdfGZmPGLqt093ppxRWjhZFdTFTZEnGt5kqd8UjsiZIQAZuxC20LSQMDmhmwdCA
-         N6uxbr+q2W5htsfi5uFGNaAIdqYa9P6ZEEPBx1gbDz0x5QKr21FtszKn/uXbNtDP0Kgm
-         zboA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bxw33SxWFZjkWPj88ZuXOvwLRBj2S+g2ZJwa2FkjrJE=;
-        b=MJGnT89vK8ekkj/AbXkKoaA9mKtFiJqjmThS1LlNruRQ8nqinVICbmFTogDlVpxYJ4
-         OzXWvX4nuAVFNlY6Pb1E9jw3rOEhHMamDzuM6ZJKbpI2MGYuoOv6U9OiO8sIpZOxBgXh
-         V5/rOYnQpAdcnjblitxQTQTotk1ZWqP9X0dZ3D7Jdhno96vUQXNLIGZ95DH5Go5iN5EJ
-         8asWHKed9LIvez63s1JWdEFIiPCUIaJe0xrQplFHYmEelIUuY741wqiLc0VjFHQeCrpj
-         slk2afp0iC4naNKH5eFeeaJIOsXn1Vpy59Igfg1jQsuG4VWcDGr3LzcudtvZ4m+FCcYA
-         eItg==
-X-Gm-Message-State: ANhLgQ3Ebu8i879HC7deklS+s8dRKOi8a+CUcHWsON6eK4bsj7zBQjCT
-        2wOpZz6jtjzChkQQlC2JoE5s98GLc8+6S43zGqHJAg==
-X-Google-Smtp-Source: ADFU+vt8Y3FRACC456zlqNPr2bqDTb34pZ4BOiYmKDy6ILZJ5KXw0GLwuYQXTML4HDWtsFJfrbuTd6Mahqifpd8BpCo=
-X-Received: by 2002:ab0:2a55:: with SMTP id p21mr3753572uar.54.1584025057464;
- Thu, 12 Mar 2020 07:57:37 -0700 (PDT)
+        Thu, 12 Mar 2020 11:14:51 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Mar 2020 08:14:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,545,1574150400"; 
+   d="scan'208";a="266376041"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga004.fm.intel.com with ESMTP; 12 Mar 2020 08:14:48 -0700
+Received: from andy by smile with local (Exim 4.93)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1jCPXu-00916h-38; Thu, 12 Mar 2020 17:14:50 +0200
+Date:   Thu, 12 Mar 2020 17:14:50 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Wolfram Sang <wsa@the-dreams.de>
+Cc:     linux-i2c@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [RFC PATCH] i2c: acpi: put device when verifying client fails
+Message-ID: <20200312151450.GZ1922688@smile.fi.intel.com>
+References: <20200312133244.9564-1-wsa@the-dreams.de>
 MIME-Version: 1.0
-References: <20200218151812.7816-1-geert+renesas@glider.be> <20200218151812.7816-4-geert+renesas@glider.be>
-In-Reply-To: <20200218151812.7816-4-geert+renesas@glider.be>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 12 Mar 2020 15:57:26 +0100
-Message-ID: <CACRpkdacAaw4PJp3Oa569JJTHTB4HjP-hPqZLmdFcuxvdvwBHg@mail.gmail.com>
-Subject: Re: [PATCH v5 3/5] gpio: Add GPIO Aggregator
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200312133244.9564-1-wsa@the-dreams.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+On Thu, Mar 12, 2020 at 02:32:44PM +0100, Wolfram Sang wrote:
+> From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> 
+> i2c_verify_client() can fail, so we need to put the device when that
+> happens.
 
-thanks for your patience and again sorry for procrastination on my part :(
+I hope it's not a CoVID-19 makes me mistakenly commented in the first place. :-)
 
-Overall I start to like this driver a lot. It has come a long way.
+So, theoretically below is possible, but practically it's doubtful.
 
-Some comments below are nitpicky, bear with me if they seem stupid.
+The I2CSerialBusV2() ACPI resource can be present solely in I²C slave device
+nodes according to the specification. However, we might have two possible cases
+a) screwed up ACPI table;
+b) I²C master which in turn is I²C slave.
 
-On Tue, Feb 18, 2020 at 4:18 PM Geert Uytterhoeven
-<geert+renesas@glider.be> wrote:
+While a) has been so far unseen, b) case sounds like plasible for I²C muxes IIUC.
 
-> +#define DRV_NAME       "gpio-aggregator"
-> +#define pr_fmt(fmt)    DRV_NAME ": " fmt
+So, I agree with the patch, and sorry for the first reaction.
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-I would just use dev_[info|err] for all messages to get rid of this.
-
-> +#include <linux/bitmap.h>
-> +#include <linux/bitops.h>
-> +#include <linux/ctype.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/gpio/driver.h>
-> +#include <linux/gpio/machine.h>
-> +#include <linux/idr.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/overflow.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/spinlock.h>
-> +#include <linux/string.h>
+> Fixes: 525e6fabeae2 ("i2c / ACPI: add support for ACPI reconfigure notifications")
+> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
+> 
+> RFC because I don't know if it can be that the returned dev is not an
+> i2c_client. Yet, since it can happen theoretically, I think we should
+> have the checks.
+> 
+>  drivers/i2c/i2c-core-acpi.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/i2c/i2c-core-acpi.c b/drivers/i2c/i2c-core-acpi.c
+> index 8f3dbc97a057..8b0ff780919b 100644
+> --- a/drivers/i2c/i2c-core-acpi.c
+> +++ b/drivers/i2c/i2c-core-acpi.c
+> @@ -394,9 +394,17 @@ EXPORT_SYMBOL_GPL(i2c_acpi_find_adapter_by_handle);
+>  static struct i2c_client *i2c_acpi_find_client_by_adev(struct acpi_device *adev)
+>  {
+>  	struct device *dev;
+> +	struct i2c_client *client;
+>  
+>  	dev = bus_find_device_by_acpi_dev(&i2c_bus_type, adev);
+> -	return dev ? i2c_verify_client(dev) : NULL;
+> +	if (!dev)
+> +		return NULL;
 > +
-> +#include "gpiolib.h"
-
-When this file is includes I prefer if there is a comment next to
-this include saying why we have to touch internals and which
-ones.
-
-> +struct gpio_aggregator {
-> +       struct gpiod_lookup_table *lookups;
-> +       struct platform_device *pdev;
-
-What about just storing struct device *dev?
-
-Then callbacks can just
-
-dev_err(aggregator->dev, "myerror\n");
-
-> +static char *get_arg(char **args)
-> +{
-> +       char *start = *args, *end;
+> +	client = i2c_verify_client(dev);
+> +	if (!client)
+> +		put_device(dev);
 > +
-> +       start = skip_spaces(start);
-> +       if (!*start)
-> +               return NULL;
-> +
-> +       if (*start == '"') {
-> +               /* Quoted arg */
-> +               end = strchr(++start, '"');
-> +               if (!end)
-> +                       return ERR_PTR(-EINVAL);
-> +       } else {
-> +               /* Unquoted arg */
-> +               for (end = start; *end && !isspace(*end); end++) ;
-> +       }
-> +
-> +       if (*end)
-> +               *end++ = '\0';
-> +
-> +       *args = end;
-> +       return start;
-> +}
+> +	return client;
+>  }
+>  
+>  static int i2c_acpi_notify(struct notifier_block *nb, unsigned long value,
+> -- 
+> 2.20.1
+> 
 
-Isn't this function reimplementing strsep()?
-while ((s = strsep(&p, " \""))) {
-or something.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-I'm not the best with strings, just asking so I know you tried it
-already.
 
-> +static int aggr_parse(struct gpio_aggregator *aggr)
-> +{
-> +       unsigned int first_index, last_index, i, n = 0;
-> +       char *name, *offsets, *first, *last, *next;
-> +       char *args = aggr->args;
-> +       int error;
-> +
-> +       for (name = get_arg(&args), offsets = get_arg(&args); name;
-> +            offsets = get_arg(&args)) {
-> +               if (IS_ERR(name)) {
-> +                       pr_err("Cannot get GPIO specifier: %pe\n", name);
-
-If gpio_aggregrator contained struct device *dev this would be
-dev_err(aggr->dev, "...\n");
-
-> +static void gpio_aggregator_free(struct gpio_aggregator *aggr)
-> +{
-> +       platform_device_unregister(aggr->pdev);
-
-Aha maybe store both the pdev and the dev in the struct then?
-
-Or print using &aggr->pdev.dev.
-
-> +       /*
-> +        * If any of the GPIO lines are sleeping, then the entire forwarder
-> +        * will be sleeping.
-> +        * If any of the chips support .set_config(), then the forwarder will
-> +        * support setting configs.
-> +        */
-> +       for (i = 0; i < ngpios; i++) {
-> +               dev_dbg(dev, "gpio %u => gpio-%d (%s)\n", i,
-> +                       desc_to_gpio(descs[i]), descs[i]->label ? : "?");
-
-If this desc->label business is why you need to include
-"gpiolib.h" then I'd prefer if you just add a
-
-const char *gpiod_get_producer_name(struct gpio_desc *desc);
-
-to gpiolib (add in <linux/gpio/consumer.h> so that gpiolib can
-try to give you something reasonable to print for the label here.
-I ran into that problem before (wanting to print something like this)
-and usually just printed the offset.
-
-But if it is a serious debug issue, let's fix a helper for this.
-
-gpiod_get_producer_name() could return the thing in
-desc->label if that is set or else something along
-"chipname-offset" or "unknown", I'm not very picky
-with that.
-
-> error = aggr_add_gpio(aggr, name, U16_MAX, &n);
-
-Is the reason why you use e.g. "gpiochip0" as name here that this
-is a simple ABI for userspace?
-
-Such like obtained from /sys/bus/gpio/devices/<chipname>?
-
-I would actually prefer to just add a sysfs attribute
-such as "name" and set it to the value of gpiochip->label.
-
-These labels are compulsory and supposed to be unique.
-
-Then whatever creates an aggregator can just use
-cat /sys/bus/gpio/devices/gpiochipN/name to send in
-through the sysfs interface to this kernel driver.
-
-This will protect you in the following way:
-
-When a system is booted and populated the N in
-gpiochipN is not stable and this aggregator will be used
-by scripts that assume it is. We already had this dilemma
-with things like network interfaces like eth0/1.
-
-This can be because of things like probe order which
-can be random, or because someone compiled a
-kernel with a new driver for a gpiochip that wasn't
-detected before. This recently happened to Raspberry Pi,
-that added gpio driver for "firmware GPIOs" (IIRC).
-
-The label on the chip is going to be more stable
-I think, so it is better to use that.
-
-This should also rid the need to include "gpiolib.h"
-which makes me nervous.
-
-Yours,
-Linus Walleij
