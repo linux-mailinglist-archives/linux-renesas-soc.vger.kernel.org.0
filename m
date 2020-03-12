@@ -2,89 +2,89 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B4DA183950
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2020 20:17:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE086183991
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2020 20:35:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726706AbgCLTRk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Mar 2020 15:17:40 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:34792 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726553AbgCLTRk (ORCPT
+        id S1727077AbgCLTfR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Mar 2020 15:35:17 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:44122 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727074AbgCLTfR (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Mar 2020 15:17:40 -0400
-Received: by mail-ot1-f68.google.com with SMTP id j16so7509586otl.1;
-        Thu, 12 Mar 2020 12:17:38 -0700 (PDT)
+        Thu, 12 Mar 2020 15:35:17 -0400
+Received: by mail-ot1-f66.google.com with SMTP id a49so4795514otc.11;
+        Thu, 12 Mar 2020 12:35:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=hd21tx8Q98roPfOH6LhR20KwY0U6rAJTkIh4maqUe/M=;
-        b=tF4+UlySQK9fk1be5Dxp7a8cvo6liyZ54AMwJ/9kakHt4uc17/WnBv5jllZ/aHVUOu
-         6UojVapQ+fWswSoVqOy2DB3YAmfulyv+vNv/KVA0UGueWKqlDks2yEjI24FLYy2CS0/i
-         pvsQPDtaBYy7wNgVoLdhqFxj5L5LOC93wfRRimbEQgYuqdpjfsi+Uu9JWz2xk9W1gVKK
-         GlR88hPdHLHtQ+dGAZ+VNkTXccElkHRG7Dl/fTVcJdMnXlSmVPPVPIGRORN7Tfp/jKq8
-         IVvAl1FW3BND7H/b0k/7XmVT7Lxq3GRoO+g27s/phVFoo5UKC3Cqrik3AcvXTkyBWrGm
-         pQfA==
-X-Gm-Message-State: ANhLgQ3uWLYpkpBnNX7I4mbIw1lEZo46kqP+v85iW3QvLp1+wrqSIz6X
-        3/wRlcFz7Rn73SunABTN1Q==
-X-Google-Smtp-Source: ADFU+vspFHk47a5o9XBHxgyTVqmKFkvmz7PWngFVdlZqCUssDvxYhcc4V8uIJqJwJ6RGpki4SQQyQA==
-X-Received: by 2002:a9d:734f:: with SMTP id l15mr1007301otk.55.1584040658124;
-        Thu, 12 Mar 2020 12:17:38 -0700 (PDT)
+        bh=HrZkIJxg/+ZV9GAin+mBxAngwb0tKSCnxdSff2SGThI=;
+        b=O+pEB4Tlv1ehIK+rz4t29BMiJNGd0o37uHlQZV7wDOgbef/sIFRjFrpfGfWGvZctjp
+         InkUapmKjILZq2lkfXOQ6MmeaKgWVqB4yaQNtUiwY6bzghgj8OHWkOAspmvA42xpqERD
+         waHPJLc0yKuNxhmp0F1YaYWfVkVp4gXxcpMZ9ux1V/vrpcLYoXtyLyWD69avq4SckRMQ
+         D0EAvmMJrrFhORGw3ukOWozqzylYykx208+RqFjddujUKqeZDGaTW5avJpc4RjM6Lkjw
+         4IEle/rvdLOkhGan8d1JJ0WMDFcAZTh/nwRC6Rg2c4h8W6xsnxrm8NTgkMLIvkjNcSMD
+         nU8A==
+X-Gm-Message-State: ANhLgQ2gfdaTlZ0cITyFfd9Eh8KvLyCmzM7zcK5Tp9twfNr6Q5c3koy4
+        kamdj72w+w1tfLRjXm3Y8A==
+X-Google-Smtp-Source: ADFU+vv8P5S1puel9E9Jre8DhSr0txhJK7zkaaEx0ds1ts5UnTayYb1dSgN23/vsD+k8FZ+gQEhVbw==
+X-Received: by 2002:a9d:7d8d:: with SMTP id j13mr7049343otn.166.1584041716645;
+        Thu, 12 Mar 2020 12:35:16 -0700 (PDT)
 Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id l4sm6149840oti.65.2020.03.12.12.17.37
+        by smtp.gmail.com with ESMTPSA id k101sm9613875otk.6.2020.03.12.12.35.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2020 12:17:37 -0700 (PDT)
-Received: (nullmailer pid 15919 invoked by uid 1000);
-        Thu, 12 Mar 2020 19:17:36 -0000
-Date:   Thu, 12 Mar 2020 14:17:36 -0500
+        Thu, 12 Mar 2020 12:35:15 -0700 (PDT)
+Received: (nullmailer pid 8220 invoked by uid 1000);
+        Thu, 12 Mar 2020 19:35:14 -0000
+Date:   Thu, 12 Mar 2020 14:35:14 -0500
 From:   Rob Herring <robh@kernel.org>
 To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Mark Brown <broonie@kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH v3 2/2] spi: dt-bindings: spi-controller: Fix
- spi-[rt]x-bus-width for slave mode
-Message-ID: <20200312191736.GA15869@bogus>
-References: <20200306085038.8111-1-geert+renesas@glider.be>
- <20200306085038.8111-3-geert+renesas@glider.be>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Johan Hovold <johan@kernel.org>,
+        "David S . Miller" <davem@davemloft.net>,
+        Sean Wang <sean.wang@mediatek.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        devicetree@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] dt-bindings: serial: Convert generic and slave
+ bindings to json-schema
+Message-ID: <20200312193514.GA19903@bogus>
+References: <20200306090046.8890-1-geert+renesas@glider.be>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200306085038.8111-3-geert+renesas@glider.be>
+In-Reply-To: <20200306090046.8890-1-geert+renesas@glider.be>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Fri,  6 Mar 2020 09:50:38 +0100, Geert Uytterhoeven wrote:
-> The descriptions for the spi-rx-bus-width and spi-tx-bus-width
-> properties refer to "MISO" and "MOSI", which are not explained in the
-> document.  While these abbreviations are fairly common when talking
-> about SPI, and thus may not need an explanation, they are not entirely
-> correct in this context, as the SPI controller may be used in slave mode
-> instead of master mode.
+On Fri, Mar 06, 2020 at 10:00:44AM +0100, Geert Uytterhoeven wrote:
+> 	Hi Rob, Greg,
 > 
-> Fix this by replacing them by "read transfers" resp. "write transfers",
-> like is done for the spi-rx-delay-us and spi-tx-delay-us properties.
+> This patch series converts the generic serial interface and slave-device
+> Device Tree bindings to json-schema.
 > 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
-> v3:
->   - No changes,
+> Changes compared to v1[1]:
+>   - Update references to serial.txt and slave-device.txt,
+>   - Fix nodename pattern,
+>   - Add missing maxItems to *-gpios,
+>   - Express that uart-has-rtscts and [cr]ts-gpios are
+>     mutually-exclusive,
+>   - Drop examples,
+>   - Allow any child node names,
+>   - Typo s/connnected/connected/.
 > 
-> v2:
->   - New.
+> This is a dependency for converting more serial DT bindings that will
+> refer to properties defined in serial.yaml.
 > 
-> This issue was present in the .txt version of the bindings, too, so
-> technically it needs
-> Fixes: a8830cb19cfea04e ("spi: Document DT bindings for SPI controllers in slave mode")
-> but of course it won't apply to that version.
-> ---
->  Documentation/devicetree/bindings/spi/spi-controller.yaml | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
+> This patch is based on next-20200306, which has a recent change to
+> nextqualcomm-bluetooth.txt.
 
-Acked-by: Rob Herring <robh@kernel.org>
+Basing it on next is not too useful. I'm inclined to apply and just drop 
+what conflicts for me. We can fixup the reference after rc1.
+
+Rob
