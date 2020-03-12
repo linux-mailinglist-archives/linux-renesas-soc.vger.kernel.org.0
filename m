@@ -2,52 +2,48 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B15CF182B30
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2020 09:27:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 691CD182B37
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2020 09:30:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726194AbgCLI1L (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Mar 2020 04:27:11 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:40035 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726099AbgCLI1L (ORCPT
+        id S1726436AbgCLIaR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Mar 2020 04:30:17 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:45809 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726194AbgCLIaQ (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Mar 2020 04:27:11 -0400
-Received: by mail-oi1-f196.google.com with SMTP id y71so4644991oia.7;
-        Thu, 12 Mar 2020 01:27:10 -0700 (PDT)
+        Thu, 12 Mar 2020 04:30:16 -0400
+Received: by mail-ot1-f65.google.com with SMTP id f21so5211597otp.12;
+        Thu, 12 Mar 2020 01:30:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=HJXezJytBs2ImOuxNva4jz3WuW0zVGp2L5DblLHIFrU=;
-        b=af4Pf+ALACxYkfCz9le8xJtBgx2SU3o+mvzr+JY5yxll3IpSEwsLhxUHBe5K0VKDqg
-         Nv5srt8JO72LFyS+lVz0Do/ObXpAw9uARdVanHjWCvmAGOlYOFiE1iB8UFdhlD57o/hL
-         /CgupV6iU7DEPqjSZTZrtzOmkBOoKSPNiVDkol1oSswwg5vQQJrQpQS7TfiCqq3sFMIM
-         nZff38OEQqp17FQcbR/J0pdr31Tzp+xYL6yzhmzPDHcFbTNKwT/MLKfWSy22pzHPDYE6
-         7ihZ/6xTRUPFpPWf+kzyBsw4BAEia8QlGd97qsYXrqHzBIs7HHW0fx3Ue36czo1VLduf
-         R37w==
-X-Gm-Message-State: ANhLgQ3RniUmoiFMysQFLi6t+Z9uttGcmiPrs1OPy/pbDCxkj9lCIA72
-        wKylcDJneCEWcLO2CY6Ohc8Mcg8tgCWF7csJybI2YA==
-X-Google-Smtp-Source: ADFU+vvzhDC+t1gyY8tkY/3v9GX+ksbIGEkuBSS6l+YcV0tcpcF1N242O89tHB0irUICin1WxBvD7LN6t2vUuQEYFvU=
-X-Received: by 2002:aca:1a06:: with SMTP id a6mr1683846oia.148.1584001630171;
- Thu, 12 Mar 2020 01:27:10 -0700 (PDT)
+        bh=VKG8yNfRKLFF13WE7drzafjAJK7p5JW49JiEc3PE2PE=;
+        b=JyUKMh1yEWrAtPjZ0Qdu9YcB1t3PeHPImykOrsbSZEGXUSglCY7C7vxry8UC8awcqx
+         8Pp6f6SvMPI+N+8yQM4UZl/sdFZsVEdk3Gzkhim5oLeJa37xYR1onC5r1UgpTmdQkv3B
+         iQha9T4twEaKqTk69fHgPaMagKFIBYnubSuFy4EMI5klNW74vIfBj31isEENLZPgooeV
+         LlgzKPZLH1l3nIyeke09PZ/ufCfW2Gt//qBHyiv6aH+usqwTYiyXWRy/8Zy53xGd+OQW
+         EreQg6c9YUnR3VwbNGb1KihHrgTxDJli8RA1AXvqnOAEjWwFmdA17h/nvpa3AFIdIVcU
+         cpQw==
+X-Gm-Message-State: ANhLgQ0ZHQ7H3WX7umVZ460AuunYoF25an6EdfRtmss2GJL/xfq8wwfs
+        vAgBRUIAtiGZFCV8IB3XCyCnVe5Pd6vgL7c8+zs=
+X-Google-Smtp-Source: ADFU+vsP0HKdXKOf5hUEjBxHEb6q7+o7ka6DErZh1aQdfavQ60ZLfs7xrBkLLXjDkW8pDmS5vdd8h0MkxlKsgPn5Vog=
+X-Received: by 2002:a9d:4d02:: with SMTP id n2mr5139172otf.107.1584001815982;
+ Thu, 12 Mar 2020 01:30:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200220233454.31514-1-f.fainelli@gmail.com> <20200223.205911.1667092059432885700.davem@davemloft.net>
- <CAMuHMdWuP1_3vqOpf7KEimLLTKiWpWku9fUAdP3CCR6WbHyQdg@mail.gmail.com>
- <c2a4edcb-dbf9-bc60-4399-3eaec9a20fe7@gmail.com> <CAMuHMdUMM0Q6W7A0mVgSf7XmF8yROZb3uzHPU1ETbMAfvTtfow@mail.gmail.com>
- <ca2abe1a-a9ed-23c9-ceaa-b0042be49be9@gmail.com>
-In-Reply-To: <ca2abe1a-a9ed-23c9-ceaa-b0042be49be9@gmail.com>
+References: <20200303094848.23670-1-geert+renesas@glider.be>
+ <20200310205504.GA27288@bogus> <CAMuHMdXMSQtmJjmTnph5cKBLStCidzBij8giwvJszNxy1_yt9g@mail.gmail.com>
+In-Reply-To: <CAMuHMdXMSQtmJjmTnph5cKBLStCidzBij8giwvJszNxy1_yt9g@mail.gmail.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 12 Mar 2020 09:26:59 +0100
-Message-ID: <CAMuHMdWwFFYHB_MkfiFZPg4nMG1jiDJ+9f4s3FXQOPCpzUErGQ@mail.gmail.com>
-Subject: Re: [PATCH net] net: phy: Avoid multiple suspends
-To:     Heiner Kallweit <hkallweit1@gmail.com>
-Cc:     Florian Fainelli <f.fainelli@gmail.com>,
-        David Miller <davem@davemloft.net>,
-        netdev <netdev@vger.kernel.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Russell King <linux@armlinux.org.uk>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+Date:   Thu, 12 Mar 2020 09:30:04 +0100
+Message-ID: <CAMuHMdU0W5h_gUsnCm2CY4Wteb2EwXYzCx9XGfAOrMq1rfN7Jw@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: clock: renesas: cpg-mssr: Convert to json-schema
+To:     Rob Herring <robh@kernel.org>
+Cc:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
         Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
@@ -55,138 +51,35 @@ Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Heiner,
-
-On Wed, Mar 11, 2020 at 10:22 PM Heiner Kallweit <hkallweit1@gmail.com> wrote:
-> On 11.03.2020 10:17, Geert Uytterhoeven wrote:
-> > On Tue, Mar 10, 2020 at 5:47 PM Florian Fainelli <f.fainelli@gmail.com> wrote:
-> >> On 3/10/20 7:16 AM, Geert Uytterhoeven wrote:
-> >>> On Mon, Feb 24, 2020 at 5:59 AM David Miller <davem@davemloft.net> wrote:
-> >>>> From: Florian Fainelli <f.fainelli@gmail.com>
-> >>>> Date: Thu, 20 Feb 2020 15:34:53 -0800
-> >>>>
-> >>>>> It is currently possible for a PHY device to be suspended as part of a
-> >>>>> network device driver's suspend call while it is still being attached to
-> >>>>> that net_device, either via phy_suspend() or implicitly via phy_stop().
-> >>>>>
-> >>>>> Later on, when the MDIO bus controller get suspended, we would attempt
-> >>>>> to suspend again the PHY because it is still attached to a network
-> >>>>> device.
-> >>>>>
-> >>>>> This is both a waste of time and creates an opportunity for improper
-> >>>>> clock/power management bugs to creep in.
-> >>>>>
-> >>>>> Fixes: 803dd9c77ac3 ("net: phy: avoid suspending twice a PHY")
-> >>>>> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
-> >>>>
-> >>>> Applied, and queued up for -stable, thanks Florian.
-> >>>
-> >>> This patch causes a regression on r8a73a4/ape6evm and sh73a0/kzm9g.
-> >>> After resume from s2ram, Ethernet no longer works:
-> >>>
-> >>>         PM: suspend exit
-> >>>         nfs: server aaa.bbb.ccc.ddd not responding, still trying
-> >>>         ...
-> >>>
-> >>> Reverting commit 503ba7c6961034ff ("net: phy: Avoid multiple suspends")
-> >>> fixes the issue.
-> >>>
-> >>> On both boards, an SMSC LAN9220 is connected to a power-managed local
-> >>> bus.
-> >>>
-> >>> I added some debug code to check when the clock driving the local bus
-> >>> is stopped and started, but I see no difference before/after.  Hence I
-> >>> suspect the Ethernet chip is no longer reinitialized after resume.
-> >>
-> >> Can you provide a complete log?
+On Wed, Mar 11, 2020 at 9:08 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
+> On Tue, Mar 10, 2020 at 9:55 PM Rob Herring <robh@kernel.org> wrote:
+> > On Tue,  3 Mar 2020 10:48:48 +0100, Geert Uytterhoeven wrote:
+> > > Convert the Renesas Clock Pulse Generator / Module Standby and Software
+> > > Reset Device Tree binding documentation to json-schema.
+> > >
+> > > Note that #reset-cells was incorrecty marked a required property for
+> > > RZ/A2 before.
+> > >
+> > > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > ---
+> > > To be queued in clk-renesas-for-v5.7.
+> > >
+> > > v2:
+> > >   - Remove complex if-construct implementing per-SoC clocks/clock-names
+> > >     constraints; list all possible clock-names upfront instead,
+> > >   - Drop Clock Domain member example.
+> > > ---
+> > >  .../bindings/clock/renesas,cpg-mssr.txt       | 100 ---------------
+> > >  .../bindings/clock/renesas,cpg-mssr.yaml      | 119 ++++++++++++++++++
+> > >  2 files changed, 119 insertions(+), 100 deletions(-)
+> > >  delete mode 100644 Documentation/devicetree/bindings/clock/renesas,cpg-mssr.txt
+> > >  create mode 100644 Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
 > >
-> > With some debug info:
-> >
-> >     SDHI0 Vcc: disabling
-> >     PM: suspend entry (deep)
-> >     Filesystems sync: 0.002 seconds
-> >     Freezing user space processes ... (elapsed 0.001 seconds) done.
-> >     OOM killer disabled.
-> >     Freezing remaining freezable tasks ... (elapsed 0.001 seconds) done.
-> >     PM: ==== a3sp/ee120000.sd: stop
-> >     PM: ==== a3sp/ee100000.sd: stop
-> >     smsc911x 8000000.ethernet: smsc911x_suspend:2577
-> >     smsc911x 8000000.ethernet: smsc911x_suspend:2579 running
-> >     smsc911x 8000000.ethernet: smsc911x_suspend:2584
-> >     PM: ==== a3sp/ee200000.mmc: stop
-> >     PM: ==== c4/fec10000.bus: stop
-> >     PM: ==== a3sp/e6c40000.serial: stop
-> >     PM: ==== c5/e61f0000.thermal: stop
-> >     PM: ==== c4/e61c0200.interrupt-controller: stop
-> >     PM: == a3sp: power off
-> >     rmobile_pd_power_down: a3sp
-> >     Disabling non-boot CPUs ...
-> >     PM: ==== c4/e61c0200.interrupt-controller: start
-> >     PM: ==== c5/e61f0000.thermal: start
-> >     PM: ==== a3sp/e6c40000.serial: start
-> >     PM: ==== c4/fec10000.bus: start
-> >     PM: ==== a3sp/ee200000.mmc: start
-> >     smsc911x 8000000.ethernet: smsc911x_resume:2606
-> >     smsc911x 8000000.ethernet: smsc911x_resume:2625 running
-> >     PM: ==== a3sp/ee100000.sd: start
-> >     OOM killer enabled.
-> >     Restarting tasks ... done.
-> >     PM: ==== a3sp/ee120000.sd: start
-> >     PM: suspend exit
-> >     nfs: server aaa.bbb.ccc.ddd not responding, still trying
-> >     ...
-> >
-> > But no difference between the good and the bad case, except for the nfs
-> > failures.
-> >
-> >> Do you use the Generic PHY driver or a
-> >> specialized one?
-> >
-> > CONFIG_FIXED_PHY=y
-> > CONFIG_SMSC_PHY=y
-> >
-> > Just the smsc,lan9115 node, cfr. arch/arm/boot/dts/r8a73a4-ape6evm.dts
-> >
-> >> Do you have a way to dump the registers at the time of
-> >> failure and see if BMCR.PDOWN is still set somehow?
-> >
-> > Added a hook into "nfs: server not responding", which prints:
-> >
-> >     MII_BMCR = 0x1900
-> >
-> > i.e. BMCR_PDOWN = 0x0800 is still set.
-> >
-> >> Does the following help:
-> >>
-> >> diff --git a/drivers/net/ethernet/smsc/smsc911x.c
-> >> b/drivers/net/ethernet/smsc/smsc911x.c
-> >> index 49a6a9167af4..df17190c76c0 100644
-> >> --- a/drivers/net/ethernet/smsc/smsc911x.c
-> >> +++ b/drivers/net/ethernet/smsc/smsc911x.c
-> >> @@ -2618,6 +2618,7 @@ static int smsc911x_resume(struct device *dev)
-> >>         if (netif_running(ndev)) {
-> >>                 netif_device_attach(ndev);
-> >>                 netif_start_queue(ndev);
-> >> +               phy_resume(dev->phydev);
-> >>         }
-> >>
-> >
-> > Yes i does, after s/dev->/ndev->/.
-> > Thanks!
+> > Reviewed-by: Rob Herring <robh@kernel.org>
 >
-> This seems to be a workaround. And the same issue we may have with
+> Thanks, queued in renesas-devel for v5.7.
 
-I agree.
-
-> other drivers too. Could you please alternatively test the following?
-> It tackles the issue that mdio_bus_phy_may_suspend() is used in
-> suspend AND resume, and both calls may return different values.
->
-> With this patch we call mdio_bus_phy_may_suspend() only when
-> suspending, and let the phy_device store whether it was suspended
-> by MDIO bus PM.
-
-Thanks, your patch fixes the issue, too.
+Oops, clk-renesas-for-v5.7, of course.
 
 Gr{oetje,eeting}s,
 
