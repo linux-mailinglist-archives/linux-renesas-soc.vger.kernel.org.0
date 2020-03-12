@@ -2,109 +2,105 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C679F1832FA
-	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2020 15:28:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C191183398
+	for <lists+linux-renesas-soc@lfdr.de>; Thu, 12 Mar 2020 15:47:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727534AbgCLO2q (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Thu, 12 Mar 2020 10:28:46 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:42278 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727518AbgCLO2q (ORCPT
+        id S1727467AbgCLOrs (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Thu, 12 Mar 2020 10:47:48 -0400
+Received: from mga07.intel.com ([134.134.136.100]:38245 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727463AbgCLOrs (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Thu, 12 Mar 2020 10:28:46 -0400
-Received: by mail-lj1-f193.google.com with SMTP id q19so6638274ljp.9
-        for <linux-renesas-soc@vger.kernel.org>; Thu, 12 Mar 2020 07:28:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=wkUnkIL0e/rtPLFDdVkLiF07+cIlvDNfDcO1JSkyZI4=;
-        b=WlUjE7eepBgGbA4RoEeoesjQgHfWlYXpCSFWO57dJ5D5WTglPRmgkTtessjbP7tjVu
-         YzJo4NS1WtRUcvO/ZGPv0sXNpEXGyfYNJOUA3OsKcWZA4s75vSBOPvLGx4tmuLUa8R3T
-         kAiquNcyy15hGvGi1IxIXXFokro4xVA6lrRW6QzI543Au22Ye57AeEYwdl0dbtV14plW
-         3ibxOhDEcbSezDd4D/LQQdCjIYOSeDy7DcN7EbjwSVb/7NUq/sJ52g+aAULLrmAfcP4z
-         smrGuivoeBRLW1mDqa4V0NA5uuKbeL5ScOIS2YqmYtvI5oCV8npdXZzPPmbe/JHKC3H6
-         GE0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=wkUnkIL0e/rtPLFDdVkLiF07+cIlvDNfDcO1JSkyZI4=;
-        b=Cjnxlxt1jx9lobymNpEwyP8qwVUkX9UqmfAXcd1+EmNfbtFJSNf1omLwbDySjrem8b
-         YtD1Tz21id0awoUt6Ukz4pX4Oi1F3lt3hIppY9Vf2i4BmM9F0Mrptmn5FELyZs9Vdw6V
-         7bmBw3pu3+HdFcim2xScqlfzTa2cXYgwFN1HUebY9xwgnMvaz60X10LPi5SObAHg9VQp
-         +xO2HG3B5hoogvGMtcRNvKd8X9OiIzG/wy+lKMCT3SRaxELnacWCZmBibpBXPhnEaDX1
-         TDPbfpgO9WB5xHwpud1dBAKdhKHUTSN+bpI08pVMcEln+onf9q/6jQPwRJkWqrPxSnuo
-         F9Cg==
-X-Gm-Message-State: ANhLgQ3gPc0q/lYBCj7c6jLzVfPMqDiLDXC6jfSk3kh5y/ykBM/ZYkBH
-        dciR0KnU732gXShm8HOoWXWR6w==
-X-Google-Smtp-Source: ADFU+vtRZ9aSvDfEDAe4PWAVfE2EXngpJ4HRI4zpaR769zc92kWMK2r5W3q4475q4O5Ki8zlATdXyQ==
-X-Received: by 2002:a2e:2e13:: with SMTP id u19mr4473390lju.3.1584023322663;
-        Thu, 12 Mar 2020 07:28:42 -0700 (PDT)
-Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
-        by smtp.gmail.com with ESMTPSA id x13sm14807277lfq.97.2020.03.12.07.28.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2020 07:28:41 -0700 (PDT)
-Date:   Thu, 12 Mar 2020 15:28:41 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
+        Thu, 12 Mar 2020 10:47:48 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Mar 2020 07:47:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,545,1574150400"; 
+   d="scan'208";a="236651471"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga008.fm.intel.com with ESMTP; 12 Mar 2020 07:47:36 -0700
+Received: from andy by smile with local (Exim 4.93)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1jCP7b-0090pO-2a; Thu, 12 Mar 2020 16:47:39 +0200
+Date:   Thu, 12 Mar 2020 16:47:39 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH] spi: acpi: remove superfluous parameter check
-Message-ID: <20200312142841.GC791432@oden.dyn.berto.se>
-References: <20200312134507.10000-1-wsa@the-dreams.de>
+Cc:     linux-i2c@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: Re: [RFC PATCH] i2c: acpi: put device when verifying client fails
+Message-ID: <20200312144739.GW1922688@smile.fi.intel.com>
+References: <20200312133244.9564-1-wsa@the-dreams.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200312134507.10000-1-wsa@the-dreams.de>
+In-Reply-To: <20200312133244.9564-1-wsa@the-dreams.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Wolfram,
-
-Thanks for your work.
-
-On 2020-03-12 14:45:07 +0100, Wolfram Sang wrote:
+On Thu, Mar 12, 2020 at 02:32:44PM +0100, Wolfram Sang wrote:
 > From: Wolfram Sang <wsa+renesas@sang-engineering.com>
 > 
-> to_spi_device() already checks 'dev'. No need to do it before calling
-> it.
+> i2c_verify_client() can fail, so we need to put the device when that
+> happens.
+
+NAK, this will do double put and messing up with reference counters.
+Besides the fact, that device may disappear after looking up which leads us to
+even more problems.
+
+See how i2c_acpi_find_client_by_adev() is used in callers.
+
 > 
+> Fixes: 525e6fabeae2 ("i2c / ACPI: add support for ACPI reconfigure notifications")
+> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
 > Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
 > ---
 > 
-> Found while fiddling with bus_find_device_by_acpi_dev() in the I2C
-> subsystem.
+> RFC because I don't know if it can be that the returned dev is not an
+> i2c_client. Yet, since it can happen theoretically, I think we should
+> have the checks.
 > 
->  drivers/spi/spi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/i2c/i2c-core-acpi.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/spi/spi.c b/drivers/spi/spi.c
-> index 755221bc3745..75978b6c5834 100644
-> --- a/drivers/spi/spi.c
-> +++ b/drivers/spi/spi.c
-> @@ -4034,7 +4034,7 @@ static struct spi_device *acpi_spi_find_device_by_adev(struct acpi_device *adev)
+> diff --git a/drivers/i2c/i2c-core-acpi.c b/drivers/i2c/i2c-core-acpi.c
+> index 8f3dbc97a057..8b0ff780919b 100644
+> --- a/drivers/i2c/i2c-core-acpi.c
+> +++ b/drivers/i2c/i2c-core-acpi.c
+> @@ -394,9 +394,17 @@ EXPORT_SYMBOL_GPL(i2c_acpi_find_adapter_by_handle);
+>  static struct i2c_client *i2c_acpi_find_client_by_adev(struct acpi_device *adev)
+>  {
 >  	struct device *dev;
+> +	struct i2c_client *client;
 >  
->  	dev = bus_find_device_by_acpi_dev(&spi_bus_type, adev);
-> -	return dev ? to_spi_device(dev) : NULL;
-> +	return to_spi_device(dev);
+>  	dev = bus_find_device_by_acpi_dev(&i2c_bus_type, adev);
+> -	return dev ? i2c_verify_client(dev) : NULL;
+> +	if (!dev)
+> +		return NULL;
+> +
+> +	client = i2c_verify_client(dev);
+> +	if (!client)
+> +		put_device(dev);
+> +
+> +	return client;
 >  }
 >  
->  static int acpi_spi_notify(struct notifier_block *nb, unsigned long value,
+>  static int i2c_acpi_notify(struct notifier_block *nb, unsigned long value,
 > -- 
 > 2.20.1
 > 
 
 -- 
-Regards,
-Niklas Söderlund
+With Best Regards,
+Andy Shevchenko
+
+
