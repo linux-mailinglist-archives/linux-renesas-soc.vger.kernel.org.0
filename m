@@ -2,80 +2,95 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 828591848F9
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2020 15:16:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C0506184986
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2020 15:37:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726838AbgCMOQS (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Mar 2020 10:16:18 -0400
-Received: from sauhun.de ([88.99.104.3]:52264 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726526AbgCMOQS (ORCPT
+        id S1726557AbgCMOhv (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Mar 2020 10:37:51 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:55365 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726216AbgCMOhu (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Mar 2020 10:16:18 -0400
-Received: from localhost (p54B3314F.dip0.t-ipconnect.de [84.179.49.79])
-        by pokefinder.org (Postfix) with ESMTPSA id F24D52C1ED4;
-        Fri, 13 Mar 2020 15:16:15 +0100 (CET)
-Date:   Fri, 13 Mar 2020 15:16:13 +0100
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-acpi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jarkko Nikula <jarkko.nikula@linux.intel.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [RFC PATCH] i2c: acpi: put device when verifying client fails
-Message-ID: <20200313141612.GA1852@ninjato>
-References: <20200312133244.9564-1-wsa@the-dreams.de>
+        Fri, 13 Mar 2020 10:37:50 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.lan (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id DB65FFF806;
+        Fri, 13 Mar 2020 14:37:45 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+        dave.stevenson@raspberrypi.com
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        kieran.bingham@ideasonboard.com, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH 0/4] v4l2-subdev: Introduce get_mbus_format pad op
+Date:   Fri, 13 Mar 2020 15:40:31 +0100
+Message-Id: <20200313144035.401430-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="Nq2Wo0NMKNjxTN9z"
-Content-Disposition: inline
-In-Reply-To: <20200312133244.9564-1-wsa@the-dreams.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
+This series introduces a pad oriented operation, much similar to the existing
+s/g_mbus_config subdv video operation, to allow dyanmic negotiation of media
+bus parameter.
 
---Nq2Wo0NMKNjxTN9z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The existing s/g_mbus_format are on their way to deprecation, due to the fact
+they operate at device level being a video op instead of pad level as this new
+implementation does.
 
-On Thu, Mar 12, 2020 at 02:32:44PM +0100, Wolfram Sang wrote:
-> From: Wolfram Sang <wsa+renesas@sang-engineering.com>
->=20
-> i2c_verify_client() can fail, so we need to put the device when that
-> happens.
->=20
-> Fixes: 525e6fabeae2 ("i2c / ACPI: add support for ACPI reconfigure notifi=
-cations")
-> Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+The use case I'm addressing is described here, in the RFC sent one year ago
+on top of Sakari's v4l-multiplexed work, where I tried to extend the frame
+descriptor to transport media bus information.
 
-Applied to for-current, thanks!
+Quoting:
+https://patchwork.kernel.org/cover/10855919/
+"The use case this series cover is the following one:
+the Gen-3 R-Car boards include an ADV748x HDMI/CVBS to CSI-2 converter
+connected to its CSI-2 receivers. The ADV748x chip has recently gained support
+for routing both HDMI and analogue video streams through its 4 lanes TXA
+transmitter, specifically to support the Ebisu board that has a single CSI-2
+receiver, compared to all other Gen-3 board where the ADV748x TXes are connected
+to different CSI-2 receivers, and where analogue video is streamed out from the
+ADV748x single lane TXB transmitter.
+To properly support transmission of analogue video through TXA, the number of
+data lanes shall be dynamically reduced to 1, in order to comply with the MIPI
+CSI-2 minimum clock frequency requirements"
 
+During the discussion of the RFC, Dave reported another use case for media
+bus parameter negotiation on his platform:
+https://patchwork.kernel.org/patch/10855923/#22569149
 
---Nq2Wo0NMKNjxTN9z
-Content-Type: application/pgp-signature; name="signature.asc"
+Another possible use case is for parallel bus multiplexing, where multiple image
+sensor share the parallel bus lines and they get activated alternatively through
+an enable signal. While this might not be most clever design, it's often seen
+in the wild, and this operation allow receivers to re-configure their bus
+parameter in between streaming session.
 
------BEGIN PGP SIGNATURE-----
+For now I have left untouched definitions and users of the existing
+s/g_mbus_config ops, waiting for feedback on this first implementation.
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl5rlakACgkQFA3kzBSg
-KbZbaxAArEAsA1yKwsk92jQHfsNR+Xq/KPoHgCn2ebTVnEMuqsT4HdyysiJut86o
-NE6IxWaxYXrkrunYpsKNfWBDiONDKMhCkBIYrvemUtN6vvdQfdTOcIZmgzq9o1EP
-DexXySXd05+kq2DLDl3A887MA4upkSAA7AGa7ZVKnb5xVEpZue5ANAWObbuqkU6U
-Pz71g3wLD+XO5msbHkn8+6C1bUwTUcq/yZHqDYFu1tcrwpVYldoZ68OR9IMgD+JP
-/vGq1iFBV91QeoSRvXqJcOgMOhai1Z/u8u9XPs33v66MlzbYjiH+r7ZCabO1ZVt0
-lD4Q5lvkvxUE+cE1yEQLrVzNihUIy4XD2K8LvBxeDx6r0WdCKsCM8f82AnXSQ6FW
-sZpmx+2ISEfpptgCOSFzXc9whps7zOiHlCIpKq2T4yGiH//HQu+oNA02QcS/opKd
-eMxkY9TLqTVVhnVsmyvyo5IZsAU0Qg2ns10UE8+JvFgcFss6i3UUwP3p+w/WAXNO
-ZyqsPzrkWytmIQ+wTFpqDp2nXMqaNWr66RjlTFUkIzUYht6d6gWaPItr+BAhAIbc
-LpbKe5RziAUX22QnYLcuYcXKIPwg8orNmhwlJ2uOhQCpYkTGM8ls3hAtc1JUNnFx
-OC511G9TUqAiVuRLhQQPqw3JUxivQJfaECrL9vZZoFWRd6jhFhI=
-=7Mho
------END PGP SIGNATURE-----
+Thanks
+   j
 
---Nq2Wo0NMKNjxTN9z--
+Jacopo Mondi (4):
+  media: i2c: adv748x: Adjust TXA data lanes number
+  media: v4l2-subdv: Introduce get_mbus_config pad op
+  media: i2c: adv748x: Implement get_mbus_config
+  media: rcar-vin: csi2: Negotiate data lanes number
+
+ drivers/media/i2c/adv748x/adv748x-core.c    | 31 +++++++---
+ drivers/media/i2c/adv748x/adv748x-csi2.c    | 15 +++++
+ drivers/media/i2c/adv748x/adv748x.h         |  1 +
+ drivers/media/platform/rcar-vin/rcar-csi2.c | 49 ++++++++++++++-
+ include/media/v4l2-subdev.h                 | 67 +++++++++++++++++++++
+ 5 files changed, 153 insertions(+), 10 deletions(-)
+
+--
+2.25.1
+
