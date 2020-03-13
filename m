@@ -2,210 +2,445 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 52BE4184227
-	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2020 09:02:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C1C1D18424C
+	for <lists+linux-renesas-soc@lfdr.de>; Fri, 13 Mar 2020 09:16:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726423AbgCMICP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Fri, 13 Mar 2020 04:02:15 -0400
-Received: from mail-eopbgr1400115.outbound.protection.outlook.com ([40.107.140.115]:7371
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726310AbgCMICP (ORCPT
+        id S1726414AbgCMIQU (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Fri, 13 Mar 2020 04:16:20 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:60833 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726371AbgCMIQU (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Fri, 13 Mar 2020 04:02:15 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GDgIAkwYgZN3k2yo8r2LO5wDn/jEK0gVvOintNc+hLiSw5GkFaoT80GDvRyJlWGyWNPowfitKig2MiiWIzFT5QiBcPkME7OuCMbgpnxLW5Puhqi9yJ4Xpvdrt/GFSxSW38/5zvwRxzRgI+5wVQJ+3HCp4dAsmTj9ypIBSh99/BvfrppZY8EE/nZ5IcUShhk5MWWQTkzTlgbOBtT2c4VTHFafQMdsKzCyZWH3THHBiRLE4kWq9tarAmGV2qPcbHIXaHTCTCai4EYsiZsa56AN9eTIBst5plBJmE5lxI+2eEeHlSxpZrzXuoKVq1cCfD9uZbCbyhqSFwoEEBcXTxK20Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SGC+YQ1cGl513boYqKKNwTKXD3SHCT91/ImlBTTYeOU=;
- b=Th4+FLI1WRiCAmOT0TMWN29Vl+HwKbvzGIbG+N8mNQkJwvc7XRCrMp/gyV6/NazUauG79wmfNqYRg2zG1UfY5bjH5rvdiPwyS7qpmIywOCb3D2Fd3xniMECFNuzAzvlquYCvGsQiEvbRTwGE+3BM1wFPA/UX9WTIIpjrtF6yqJqJ0q66oNeNs6CNvAYNBOE7RpYb//y4mByyppuNcSTY1ZdjfrJJPJHUin7DVNwndkyK57rIWqcJiXwUXpzrmHemQ+l4ALuO/tI5uT/+KwFQ5xUWPR6l9i0DYo2p2SR01GfuQ638iFWcqwlF2qLTSeIUjf/xOMaztQUXnSyH+IkYAA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SGC+YQ1cGl513boYqKKNwTKXD3SHCT91/ImlBTTYeOU=;
- b=bWVIs5/8H3LQKgmkiQCwdaYLBfCwov/uWvh3oI+RCuP72mcpKAVoxmVsdKz4ufBQ57/MhAg3rnpONy+H8OSdQFe2G12GvQDD0qtQJ+XEaYYVrPv8S8z4EXBc4NMrgZEjIRN43YgFDwIXwr7QiOvltrOXsM/lJmcRKXdhQ3O+eRo=
-Received: from OSBPR01MB3590.jpnprd01.prod.outlook.com (20.178.97.80) by
- OSBPR01MB3030.jpnprd01.prod.outlook.com (52.134.252.140) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2793.17; Fri, 13 Mar 2020 08:02:08 +0000
-Received: from OSBPR01MB3590.jpnprd01.prod.outlook.com
- ([fe80::6df0:eb47:a259:b94b]) by OSBPR01MB3590.jpnprd01.prod.outlook.com
- ([fe80::6df0:eb47:a259:b94b%7]) with mapi id 15.20.2793.018; Fri, 13 Mar 2020
- 08:02:08 +0000
-From:   Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Fri, 13 Mar 2020 04:16:20 -0400
+Received: from [192.168.2.10] ([46.9.234.233])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id CfUKj1GG5hVf8CfUNjO8bW; Fri, 13 Mar 2020 09:16:17 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1584087377; bh=nP79N0yOwSx8yKGwqAW504OdT/Y72TUWVCiVmG3B1A4=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=QWyeXvAy9Guf59EIPaFULSKa6qK31U3k2LLk7Jock2ge5n5DcKjiyCTebt+wY8iz1
+         BOCkCRQPC1aitJ0UL/eF6RWWKCG2725+S9vqRv31s2TGXnBC8Tqq5HgU1U7Der+LeX
+         qd3qz19cif3ZAIg7IbVli7020SRQxbBZoLqOp9yFEIdbZfQNYsZt1Ngt6SvzkfScTn
+         IzamoCLGQMk8EPt6pkUrU9BGRhGd0v+Xml4j0pe/lO+1EdC/+jzu8oyeanidqaG56R
+         vDWS8xf6qIHxSPjn2qRqa47Qer494bH6E4VBXxOj3QrJuRIzEbPyIkew5hsWK1mgoz
+         bDw/pKJVyAwpQ==
+Subject: Re: [PATCH 2/8] media: adv748x: add audio mute control and output
+ selection ioctls
+To:     Alex Riesen <alexander.riesen@cetitec.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: RE: [PATCH v2 2/3] media: i2c: ov5645: Switch to assigned-clock-rates
-Thread-Topic: [PATCH v2 2/3] media: i2c: ov5645: Switch to
- assigned-clock-rates
-Thread-Index: AQHV+LMHriTg1O9fLki5YHCWHclgDahFfJwAgAABE5CAABWjgIAAldMw
-Date:   Fri, 13 Mar 2020 08:02:08 +0000
-Message-ID: <OSBPR01MB35902AAC382503C40DEF929BAAFA0@OSBPR01MB3590.jpnprd01.prod.outlook.com>
-References: <1584047552-20166-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1584047552-20166-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <CAMuHMdUgMHjU_ZANzJbxQji6K7Pdc-jD4C7JatQc-OtN=jJt_w@mail.gmail.com>
- <OSBPR01MB3590906C6121D1DFFF4ABF0DAAFD0@OSBPR01MB3590.jpnprd01.prod.outlook.com>
- <20200312230253.GB30932@pendragon.ideasonboard.com>
-In-Reply-To: <20200312230253.GB30932@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=prabhakar.mahadev-lad.rj@bp.renesas.com; 
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: a83edc62-e307-419b-2e97-08d7c724d410
-x-ms-traffictypediagnostic: OSBPR01MB3030:
-x-microsoft-antispam-prvs: <OSBPR01MB303015D3EC32A7729D085277AAFA0@OSBPR01MB3030.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 034119E4F6
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(39860400002)(136003)(396003)(376002)(366004)(346002)(199004)(186003)(54906003)(81156014)(81166006)(52536014)(8676002)(86362001)(6506007)(8936002)(4326008)(316002)(76116006)(9686003)(53546011)(26005)(478600001)(33656002)(5660300002)(7696005)(64756008)(2906002)(66946007)(66556008)(55016002)(66476007)(66446008)(71200400001)(7416002)(6916009);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB3030;H:OSBPR01MB3590.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;
-received-spf: None (protection.outlook.com: bp.renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ncvwFHQ5TQSRUaroFJON4z6cKvqNTenY7XTuorh6WA3p8W7GzQ9ZkJHewufZ3wjcJzqDKfhkLP36C7oz7YymU+Ihh49JgwtQaUJl5XLfqtEeSlpMzgOnH6clGeNCW2PMnttY0Ll19W6skOtNRfZO5BMg3QxY4cAgqlben6bFMfoHMyXcSdvh1sPI/2xoFFv3Fsu6NbDzMaiQRRV5dVPVN67Wrl0IFjTYaw9/rvMrb9kWhCe0p+t/EXvJ38BmgnWGv9PZf6Dkql5l7MU0NpedPmMg+e40bKsqVZCmu8tTR5ZC7yJfjelPJImlxx+Oho+BRU3Vij7HNv30SE/PSoCzZW9CcIt2sDRG4mUTtVE/yIPkMd7ERIX9xK5Arj35PL+SmEO/bK58CQqPVl8+2eF+0eccn6RtBVxYxm7mh6dn1HGmG/5v4TGzRfgdnWD/b6tC
-x-ms-exchange-antispam-messagedata: qboE3iUMMH77kFz6r/WJhjlGlE2t2WKFbwtumd7qn+OSgzCkbuBIhrFYCrQ97z/zdZgLke6kfIyEvuqmm76lIMmrmnP0bxRmngLuIqBNw2lN/P6KnHI6bLYs6PugZlE+cbsznYuH70l9dPLRkIkD0w==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        devel@driverdev.osuosl.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <cover.1578924232.git.alexander.riesen@cetitec.com>
+ <20200113141521.GC3606@pflmari>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <ff34078d-895d-08c8-c64f-768e75388038@xs4all.nl>
+Date:   Fri, 13 Mar 2020 09:16:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a83edc62-e307-419b-2e97-08d7c724d410
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Mar 2020 08:02:08.5385
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: nxvYeIKEhjNZ+4FKeHQldQpO8syyHEQiBhIHVdWHWVMttoJXXRkMZZs26w/6Jvg6+TaR4U0psbQbLvMrI22Pf6nNJ4U18QVM2G7Y6TMvmhaI5m9SH9ffgTUZzLLpbRaL
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB3030
+In-Reply-To: <20200113141521.GC3606@pflmari>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfKfeYNFFGRobPFSOTEI7B9w8TK8aojO5c062aoWeZ3/mtuWJfxdHCSCOUpa16sOCyNspr5wgKwX5TT40iEWHjUh+S5npKQCL8BLzkTwNpIyskWxt7HgN
+ hxFnIp1iMExxpo95KQnf1bWvjbsLiCVONyJ3XK+4j3GlqPn4IujImFC+Wb7FqDBzFtAy+9CdSbjMDN4kLWphnYL9QwjzLEw+RNXZLWCGPF4nUag6TV1jDsJN
+ TkakaYHL6wsXTi95DfE1puENWphP4SR12XK7wM9OOfjJ+i6WiQ4LDrckS1zzpY+yTLWXYx1OQne/p/q+CG8d6LH+fgWhQKFTIvMJ0lCH6rlSmNHTwS4kSmms
+ HNUoDJSF46NxoHf6ZMsthh5eXpPJYVexb/SgxgYEM0pPvBVFR+KcdCiKwimsvozXxFmEwFErjro38ULkqxAWgA6OA+WBv+ZIf5dbSNRMSK+2Y0Vf2kHRPdiO
+ UN4MqYGa2MX1p6TQqCatFZl5XLmGq6CrHQZhhfK0rBQdPg4yupf7Od+AsD6wATpQhXAxqm7RLDTiV90pK9dravuzk55J85hIrbyfeXN7ueSLS7l62HRgtxzB
+ 620=
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-SGkgTGF1cmVudCwNCg0KVGhhbmsgeW91IGZvciB0aGUgcmV2aWV3Lg0KDQo+IC0tLS0tT3JpZ2lu
-YWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hh
-cnRAaWRlYXNvbmJvYXJkLmNvbT4NCj4gU2VudDogMTIgTWFyY2ggMjAyMCAyMzowMw0KPiBUbzog
-UHJhYmhha2FyIE1haGFkZXYgTGFkIDxwcmFiaGFrYXIubWFoYWRldi1sYWQucmpAYnAucmVuZXNh
-cy5jb20+DQo+IENjOiBHZWVydCBVeXR0ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4LW02OGsub3JnPjsg
-TWF1cm8gQ2FydmFsaG8gQ2hlaGFiDQo+IDxtY2hlaGFiQGtlcm5lbC5vcmc+OyBTaGF3biBHdW8g
-PHNoYXduZ3VvQGtlcm5lbC5vcmc+OyBTYXNjaGENCj4gSGF1ZXIgPHMuaGF1ZXJAcGVuZ3V0cm9u
-aXguZGU+OyBQZW5ndXRyb25peCBLZXJuZWwgVGVhbQ0KPiA8a2VybmVsQHBlbmd1dHJvbml4LmRl
-PjsgUm9iIEhlcnJpbmcgPHJvYmgrZHRAa2VybmVsLm9yZz47IE1hcmsNCj4gUnV0bGFuZCA8bWFy
-ay5ydXRsYW5kQGFybS5jb20+OyBTYWthcmkgQWlsdXMNCj4gPHNha2FyaS5haWx1c0BsaW51eC5p
-bnRlbC5jb20+OyBOWFAgTGludXggVGVhbSA8bGludXgtaW14QG54cC5jb20+Ow0KPiBNYWdudXMg
-RGFtbSA8bWFnbnVzLmRhbW1AZ21haWwuY29tPjsgRXplcXVpZWwgR2FyY2lhDQo+IDxlemVxdWll
-bEBjb2xsYWJvcmEuY29tPjsgb3BlbiBsaXN0Ok9QRU4gRklSTVdBUkUgQU5EIEZMQVRURU5FRA0K
-PiBERVZJQ0UgVFJFRSBCSU5ESU5HUyA8ZGV2aWNldHJlZUB2Z2VyLmtlcm5lbC5vcmc+OyBMaW51
-eCBLZXJuZWwgTWFpbGluZw0KPiBMaXN0IDxsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnPjsg
-TGludXgtUmVuZXNhcyA8bGludXgtcmVuZXNhcy0NCj4gc29jQHZnZXIua2VybmVsLm9yZz47IEZh
-YmlvIEVzdGV2YW0gPGZlc3RldmFtQGdtYWlsLmNvbT47IExpbnV4IEFSTQ0KPiA8bGludXgtYXJt
-LWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnPjsgTGludXggTWVkaWEgTWFpbGluZyBMaXN0IDxs
-aW51eC0NCj4gbWVkaWFAdmdlci5rZXJuZWwub3JnPg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIHYy
-IDIvM10gbWVkaWE6IGkyYzogb3Y1NjQ1OiBTd2l0Y2ggdG8gYXNzaWduZWQtY2xvY2stDQo+IHJh
-dGVzDQo+DQo+IEhpIFByYWJoYWthciwNCj4NCj4gT24gVGh1LCBNYXIgMTIsIDIwMjAgYXQgMDk6
-NTI6MzhQTSArMDAwMCwgUHJhYmhha2FyIE1haGFkZXYgTGFkIHdyb3RlOg0KPiA+IE9uIDEyIE1h
-cmNoIDIwMjAgMjE6NDIsIEdlZXJ0IFV5dHRlcmhvZXZlbiB3cm90ZToNCj4gPiA+IE9uIFRodSwg
-TWFyIDEyLCAyMDIwIGF0IDEwOjEzIFBNIExhZCBQcmFiaGFrYXIgd3JvdGU6DQo+ID4gPiA+IFRo
-aXMgcGF0Y2ggc3dpdGNoZXMgdG8gYXNzaWduZWQtY2xvY2stcmF0ZXMgZm9yIHNwZWNpZnlpbmcg
-dGhlIGNsb2NrIHJhdGUuDQo+ID4gPiA+IFRoZSBjbGstY29uZi5jIGludGVybmFsbHkgaGFuZGxl
-cyBzZXR0aW5nIHRoZSBjbG9jayByYXRlIHdoZW4NCj4gPiA+ID4gYXNzaWduZWQtY2xvY2stcmF0
-ZXMgaXMgcGFzc2VkLg0KPiA+ID4gPg0KPiA+ID4gPiBUaGUgZHJpdmVyIG5vdyBzZXRzIHRoZSBj
-bG9jayBmcmVxdWVuY3kgb25seSBpZiB0aGUgZGVwcmVjYXRlZA0KPiA+ID4gPiBwcm9wZXJ0eSBj
-bG9jay1mcmVxdWVuY3kgaXMgZGVmaW5lZCBpbnN0ZWFkIGFzc2lnbmVkLWNsb2NrLXJhdGVzLA0K
-PiA+ID4gPiB0aGlzIGlzIHRvIGF2b2lkIGJyZWFrYWdlIHdpdGggZXhpc3RpbmcgRFQgYmluYXJp
-ZXMuDQo+ID4gPiA+DQo+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IExhZCBQcmFiaGFrYXINCj4gPiA+
-ID4gPHByYWJoYWthci5tYWhhZGV2LWxhZC5yakBicC5yZW5lc2FzLmNvbT4NCj4gPiA+DQo+ID4g
-PiBUaGFua3MgZm9yIHlvdXIgcGF0Y2ghDQo+ID4gPg0KPiA+ID4gPiAtLS0gYS9kcml2ZXJzL21l
-ZGlhL2kyYy9vdjU2NDUuYw0KPiA+ID4gPiArKysgYi9kcml2ZXJzL21lZGlhL2kyYy9vdjU2NDUu
-Yw0KPiA+ID4gPiBAQCAtMTA1NSw2ICsxMDU1LDcgQEAgc3RhdGljIGludCBvdjU2NDVfcHJvYmUo
-c3RydWN0IGkyY19jbGllbnQNCj4gKmNsaWVudCkNCj4gPiA+ID4gICAgICAgICBzdHJ1Y3QgZGV2
-aWNlX25vZGUgKmVuZHBvaW50Ow0KPiA+ID4gPiAgICAgICAgIHN0cnVjdCBvdjU2NDUgKm92NTY0
-NTsNCj4gPiA+ID4gICAgICAgICB1OCBjaGlwX2lkX2hpZ2gsIGNoaXBfaWRfbG93Ow0KPiA+ID4g
-PiArICAgICAgIGJvb2wgc2V0X2NsayA9IGZhbHNlOw0KPiA+ID4gPiAgICAgICAgIHVuc2lnbmVk
-IGludCBpOw0KPiA+ID4gPiAgICAgICAgIHUzMiB4Y2xrX2ZyZXE7DQo+ID4gPiA+ICAgICAgICAg
-aW50IHJldDsNCj4gPiA+ID4gQEAgLTEwOTQsMTAgKzEwOTUsMTcgQEAgc3RhdGljIGludCBvdjU2
-NDVfcHJvYmUoc3RydWN0IGkyY19jbGllbnQNCj4gPiA+ICpjbGllbnQpDQo+ID4gPiA+ICAgICAg
-ICAgICAgICAgICByZXR1cm4gUFRSX0VSUihvdjU2NDUtPnhjbGspOw0KPiA+ID4gPiAgICAgICAg
-IH0NCj4gPiA+ID4NCj4gPiA+ID4gLSAgICAgICByZXQgPSBvZl9wcm9wZXJ0eV9yZWFkX3UzMihk
-ZXYtPm9mX25vZGUsICJjbG9jay1mcmVxdWVuY3kiLA0KPiA+ID4gJnhjbGtfZnJlcSk7DQo+ID4g
-PiA+ICsgICAgICAgcmV0ID0gb2ZfcHJvcGVydHlfcmVhZF91MzIoZGV2LT5vZl9ub2RlLCAiYXNz
-aWduZWQtY2xvY2stDQo+IHJhdGVzIiwNCj4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAmeGNsa19mcmVxKTsNCj4gPiA+ID4gICAgICAgICBpZiAocmV0KSB7DQo+ID4g
-Pg0KPiA+ID4gSSB0aGluayB5b3UgY2FuIGp1c3QgbGVhdmUgb3V0IHRoZSBhYm92ZSBjaGVjay4u
-Lg0KPiA+ID4NCj4gPiA+ID4gLSAgICAgICAgICAgICAgIGRldl9lcnIoZGV2LCAiY291bGQgbm90
-IGdldCB4Y2xrIGZyZXF1ZW5jeVxuIik7DQo+ID4gPiA+IC0gICAgICAgICAgICAgICByZXR1cm4g
-cmV0Ow0KPiA+ID4gPiArICAgICAgICAgICAgICAgLyogY2hlY2sgaWYgZGVwcmVjYXRlZCBwcm9w
-ZXJ0eSBjbG9jay1mcmVxdWVuY3kgaXMgZGVmaW5lZCAqLw0KPiA+ID4gPiArICAgICAgICAgICAg
-ICAgcmV0ID0gb2ZfcHJvcGVydHlfcmVhZF91MzIoZGV2LT5vZl9ub2RlLCAiY2xvY2stDQo+IGZy
-ZXF1ZW5jeSIsDQo+ID4gPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAmeGNsa19mcmVxKTsNCj4gPiA+ID4gKyAgICAgICAgICAgICAgIGlmIChyZXQpIHsNCj4g
-PiA+DQo+ID4gPiAuLi4gYW5kIGlnbm9yZSB0aGUgYWJzZW5jZSBvZiB0aGUgZGVwcmVjYXRlZCBw
-cm9wZXJ0eS4NCj4gPiA+DQo+ID4gPiA+ICsgICAgICAgICAgICAgICAgICAgICAgIGRldl9lcnIo
-ZGV2LCAiY291bGQgbm90IGdldCB4Y2xrIGZyZXF1ZW5jeVxuIik7DQo+ID4gPiA+ICsgICAgICAg
-ICAgICAgICAgICAgICAgIHJldHVybiByZXQ7DQo+ID4gPiA+ICsgICAgICAgICAgICAgICB9DQo+
-ID4gPiA+ICsgICAgICAgICAgICAgICBzZXRfY2xrID0gdHJ1ZTsNCj4gPiA+DQo+ID4gPiBJLmUu
-IGp1c3QNCj4gPiA+DQo+ID4gPiAgICAgICAgIC8qIGNoZWNrIGlmIGRlcHJlY2F0ZWQgcHJvcGVy
-dHkgY2xvY2stZnJlcXVlbmN5IGlzIGRlZmluZWQgKi8NCj4gPiA+ICAgICAgICAgeGNsa19mcmVx
-ID0gMDsNCj4gPiA+ICAgICAgICAgb2ZfcHJvcGVydHlfcmVhZF91MzIoZGV2LT5vZl9ub2RlLCAi
-Y2xvY2stZnJlcXVlbmN5IiwNCj4gJnhjbGtfZnJlcSk7DQo+ID4gPiAgICAgICAgIGlmICh4Y2xr
-X2ZyZXEpIHsNCj4gPiA+ICAgICAgICAgICAgICAgICByZXQgPSBjbGtfc2V0X3JhdGUob3Y1NjQ1
-LT54Y2xrLCB4Y2xrX2ZyZXEpOw0KPiA+ID4gICAgICAgICAgICAgICAgIGlmIChyZXQpIHsNCj4g
-PiA+ICAgICAgICAgICAgICAgICAgICAgICAgIGRldl9lcnIoZGV2LCAiY291bGQgbm90IHNldCB4
-Y2xrIGZyZXF1ZW5jeVxuIik7DQo+ID4gPiAgICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4g
-cmV0Ow0KPiA+ID4gICAgICAgICAgICAgICAgIH0NCj4gPiA+ICAgICAgICAgfSBlbHNlIHsNCj4g
-PiA+ICAgICAgICAgICAgICAgICB4Y2xrX2ZyZXEgPSBjbGtfZ2V0X3JhdGUob3Y1NjQ1LT54Y2xr
-LCB4Y2xrX2ZyZXEpOw0KPiA+ID4gICAgICAgICB9DQo+ID4gPg0KPiA+IEkgZGlkIHRoaW5rIGFi
-b3V0IGl0IGluaXRpYWxseSwgYnV0IHJlYWxpemVkIHRoZSBjbGtfZ2V0X3JhdGUgbWF5IHZhcnkN
-Cj4gPiBwbGF0Zm9ybSB0byBwbGF0Zm9ybSBmb3IgZXhhbXBsZSBpbiBHMkUgY2xrX2dldF9yYXRl
-KCkgcmV0dXJucyBhDQo+ID4gZnJlcXVlbmN5IG9mIDI0MjQyNDI0IHdpdGggYXNzaWduZWQtY2xv
-Y2stcmF0ZXMgc2V0IHRvICAyNDAwMDAwMCBhbmQNCj4gPiBwcm9iZSB3b3VsZCBmYWlsIGR1ZSB0
-byBhIGNoZWNrIGZvciBleHRlcm5hbCBjbG9jayBtdXN0IGJlIDI0TUh6LCB3aXRoIDElDQo+IHRv
-bGVyYW5jZS4NCj4NCj4gVGhlbiB5b3UgbmVlZCB0byBoYW5kbGUgdGhlIHRvbGVyYW5jZSBpbiB0
-aGlzIGRyaXZlciA6LSkNCj4NClN1cmUgSSB3aWxsIGluY3JlYXNlIHRoZSB0b2xlcmFuY2UgaGVy
-ZS4NCg0KQ2hlZXJzLA0KLS1QcmFiaGFrYXINCg0KPiA+ID4gPiAgICAgICAgIH0NCj4gPiA+ID4N
-Cj4gPiA+ID4gICAgICAgICAvKiBleHRlcm5hbCBjbG9jayBtdXN0IGJlIDI0TUh6LCBhbGxvdyAx
-JSB0b2xlcmFuY2UgKi8gQEANCj4gPiA+ID4gLTExMDcsMTAgKzExMTUsMTIgQEAgc3RhdGljIGlu
-dCBvdjU2NDVfcHJvYmUoc3RydWN0IGkyY19jbGllbnQgKmNsaWVudCkNCj4gPiA+ID4gICAgICAg
-ICAgICAgICAgIHJldHVybiAtRUlOVkFMOw0KPiA+ID4gPiAgICAgICAgIH0NCj4gPiA+ID4NCj4g
-PiA+ID4gLSAgICAgICByZXQgPSBjbGtfc2V0X3JhdGUob3Y1NjQ1LT54Y2xrLCB4Y2xrX2ZyZXEp
-Ow0KPiA+ID4gPiAtICAgICAgIGlmIChyZXQpIHsNCj4gPiA+ID4gLSAgICAgICAgICAgICAgIGRl
-dl9lcnIoZGV2LCAiY291bGQgbm90IHNldCB4Y2xrIGZyZXF1ZW5jeVxuIik7DQo+ID4gPiA+IC0g
-ICAgICAgICAgICAgICByZXR1cm4gcmV0Ow0KPiA+ID4gPiArICAgICAgIGlmIChzZXRfY2xrKSB7
-DQo+ID4gPiA+ICsgICAgICAgICAgICAgICByZXQgPSBjbGtfc2V0X3JhdGUob3Y1NjQ1LT54Y2xr
-LCB4Y2xrX2ZyZXEpOw0KPiA+ID4gPiArICAgICAgICAgICAgICAgaWYgKHJldCkgew0KPiA+ID4g
-PiArICAgICAgICAgICAgICAgICAgICAgICBkZXZfZXJyKGRldiwgImNvdWxkIG5vdCBzZXQgeGNs
-ayBmcmVxdWVuY3lcbiIpOw0KPiA+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4g
-cmV0Ow0KPiA+ID4gPiArICAgICAgICAgICAgICAgfQ0KPiA+ID4gPg0KPiA+ID4gPiAgICAgICAg
-IH0NCj4gPiA+ID4NCj4gPiA+ID4gICAgICAgICBmb3IgKGkgPSAwOyBpIDwgT1Y1NjQ1X05VTV9T
-VVBQTElFUzsgaSsrKQ0KPg0KPiAtLQ0KPiBSZWdhcmRzLA0KPg0KPiBMYXVyZW50IFBpbmNoYXJ0
-DQoNCg0KUmVuZXNhcyBFbGVjdHJvbmljcyBFdXJvcGUgR21iSCwgR2VzY2hhZWZ0c2Z1ZWhyZXIv
-UHJlc2lkZW50OiBDYXJzdGVuIEphdWNoLCBTaXR6IGRlciBHZXNlbGxzY2hhZnQvUmVnaXN0ZXJl
-ZCBvZmZpY2U6IER1ZXNzZWxkb3JmLCBBcmNhZGlhc3RyYXNzZSAxMCwgNDA0NzIgRHVlc3NlbGRv
-cmYsIEdlcm1hbnksIEhhbmRlbHNyZWdpc3Rlci9Db21tZXJjaWFsIFJlZ2lzdGVyOiBEdWVzc2Vs
-ZG9yZiwgSFJCIDM3MDggVVN0LUlETnIuL1RheCBpZGVudGlmaWNhdGlvbiBuby46IERFIDExOTM1
-MzQwNiBXRUVFLVJlZy4tTnIuL1dFRUUgcmVnLiBuby46IERFIDE0OTc4NjQ3DQo=
+Hi Alex,
+
+I apologize for the (very) slow reply, but better late than never.
+
+On 1/13/20 3:15 PM, Alex Riesen wrote:
+> This change implements audio-related V4L2 ioctls for the HDMI subdevice.
+
+This is really where things go wrong. These V4L2 audio ioctls are meant for
+old PCI TV tuner devices where the audio was implemented as audio jack outputs
+that are typically looped back to audio inputs on a (PCI) soundcard. And when
+these ioctls were designed ALSA didn't even exist.
+
+None of that applies here.
+
+Generally an hdmi driver will configure the i2s audio automatically, which is
+typically connected to the SoC and controlled by the ALSA driver of the SoC,
+but there may well be missing features (audio never got a lot of attention in
+hdmi receivers). So what I would like to know is: what features are missing?
+
+Anything missing can likely be resolved by adding HDMI audio specific V4L2 controls,
+which would be the right approach for this.
+
+So I would expect to see a proposal for V4L2_CID_DV_RX_AUDIO_ controls to be
+added here:
+
+https://linuxtv.org/downloads/v4l-dvb-apis-new/uapi/v4l/ext-ctrls-dv.html
+
+Regards,
+
+	Hans
+
+> 
+> The master audio clock is configured for 256fs, as supported by the only
+> device available at the moment. For the same reason, the TDM slot is
+> formatted using left justification of its bits.
+> 
+> Signed-off-by: Alexander Riesen <alexander.riesen@cetitec.com>
+> ---
+>  drivers/media/i2c/adv748x/adv748x-core.c |   6 +
+>  drivers/media/i2c/adv748x/adv748x-hdmi.c | 182 +++++++++++++++++++++++
+>  drivers/media/i2c/adv748x/adv748x.h      |  42 ++++++
+>  3 files changed, 230 insertions(+)
+> 
+> diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
+> index bc49aa93793c..b6067ffb1e0d 100644
+> --- a/drivers/media/i2c/adv748x/adv748x-core.c
+> +++ b/drivers/media/i2c/adv748x/adv748x-core.c
+> @@ -150,6 +150,12 @@ static int adv748x_write_check(struct adv748x_state *state, u8 page, u8 reg,
+>  	return *error;
+>  }
+>  
+> +int adv748x_update_bits(struct adv748x_state *state, u8 page, u8 reg, u8 mask,
+> +			u8 value)
+> +{
+> +	return regmap_update_bits(state->regmap[page], reg, mask, value);
+> +}
+> +
+>  /* adv748x_write_block(): Write raw data with a maximum of I2C_SMBUS_BLOCK_MAX
+>   * size to one or more registers.
+>   *
+> diff --git a/drivers/media/i2c/adv748x/adv748x-hdmi.c b/drivers/media/i2c/adv748x/adv748x-hdmi.c
+> index c557f8fdf11a..9bc9237c9116 100644
+> --- a/drivers/media/i2c/adv748x/adv748x-hdmi.c
+> +++ b/drivers/media/i2c/adv748x/adv748x-hdmi.c
+> @@ -5,6 +5,7 @@
+>   * Copyright (C) 2017 Renesas Electronics Corp.
+>   */
+>  
+> +#include <linux/version.h>
+>  #include <linux/module.h>
+>  #include <linux/mutex.h>
+>  
+> @@ -603,11 +604,186 @@ static const struct v4l2_subdev_pad_ops adv748x_pad_ops_hdmi = {
+>  	.enum_dv_timings = adv748x_hdmi_enum_dv_timings,
+>  };
+>  
+> +static int adv748x_hdmi_audio_mute(struct adv748x_hdmi *hdmi, int enable)
+> +{
+> +	struct adv748x_state *state = adv748x_hdmi_to_state(hdmi);
+> +
+> +	return hdmi_update(state, ADV748X_HDMI_MUTE_CTRL,
+> +			   ADV748X_HDMI_MUTE_CTRL_MUTE_AUDIO,
+> +			   enable ? 0xff : 0);
+> +}
+> +
+> +
+> +#define HDMI_AOUT_NONE 0
+> +#define HDMI_AOUT_I2S 1
+> +#define HDMI_AOUT_I2S_TDM 2
+> +
+> +static int adv748x_hdmi_enumaudout(struct adv748x_hdmi *hdmi,
+> +				   struct v4l2_audioout *a)
+> +{
+> +	switch (a->index) {
+> +	case HDMI_AOUT_NONE:
+> +		strlcpy(a->name, "None", sizeof(a->name));
+> +		break;
+> +	case HDMI_AOUT_I2S:
+> +		strlcpy(a->name, "I2S/stereo", sizeof(a->name));
+> +		break;
+> +	case HDMI_AOUT_I2S_TDM:
+> +		strlcpy(a->name, "I2S-TDM/multichannel", sizeof(a->name));
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static int adv748x_hdmi_g_audout(struct adv748x_hdmi *hdmi,
+> +				 struct v4l2_audioout *a)
+> +{
+> +	a->index = hdmi->audio_out;
+> +	return adv748x_hdmi_enumaudout(hdmi, a);
+> +}
+> +
+> +static int set_audio_pads_state(struct adv748x_state *state, int on)
+> +{
+> +	return io_update(state, ADV748X_IO_PAD_CONTROLS,
+> +			 ADV748X_IO_PAD_CONTROLS_TRI_AUD |
+> +			 ADV748X_IO_PAD_CONTROLS_PDN_AUD,
+> +			 on ? 0 : 0xff);
+> +}
+> +
+> +static int set_dpll_mclk_fs(struct adv748x_state *state, int fs)
+> +{
+> +	if (fs % 128 || fs > 768)
+> +		return -EINVAL;
+> +	return dpll_update(state, ADV748X_DPLL_MCLK_FS,
+> +			   ADV748X_DPLL_MCLK_FS_N_MASK, (fs / 128) - 1);
+> +}
+> +
+> +static int set_i2s_format(struct adv748x_state *state, uint outmode,
+> +			  uint bitwidth)
+> +{
+> +	return hdmi_update(state, ADV748X_HDMI_I2S,
+> +			   ADV748X_HDMI_I2SBITWIDTH_MASK |
+> +			   ADV748X_HDMI_I2SOUTMODE_MASK,
+> +			   (outmode << ADV748X_HDMI_I2SOUTMODE_SHIFT) |
+> +			   bitwidth);
+> +}
+> +
+> +static int set_i2s_tdm_mode(struct adv748x_state *state, int is_tdm)
+> +{
+> +	int ret;
+> +
+> +	ret = hdmi_update(state, ADV748X_HDMI_AUDIO_MUTE_SPEED,
+> +			  ADV748X_MAN_AUDIO_DL_BYPASS |
+> +			  ADV748X_AUDIO_DELAY_LINE_BYPASS,
+> +			  is_tdm ? 0xff : 0);
+> +	if (ret < 0)
+> +		goto fail;
+> +	ret = hdmi_update(state, ADV748X_HDMI_REG_6D,
+> +			  ADV748X_I2S_TDM_MODE_ENABLE,
+> +			  is_tdm ? 0xff : 0);
+> +	if (ret < 0)
+> +		goto fail;
+> +	ret = set_i2s_format(state, ADV748X_I2SOUTMODE_LEFT_J, 24);
+> +fail:
+> +	return ret;
+> +}
+> +
+> +static int set_audio_out(struct adv748x_state *state, int aout)
+> +{
+> +	int ret;
+> +
+> +	switch (aout) {
+> +	case HDMI_AOUT_NONE:
+> +		ret = set_audio_pads_state(state, 0);
+> +		break;
+> +	case HDMI_AOUT_I2S:
+> +		ret = set_dpll_mclk_fs(state, 256);
+> +		if (ret < 0)
+> +			goto fail;
+> +		ret = set_i2s_tdm_mode(state, 1);
+> +		if (ret < 0)
+> +			goto fail;
+> +		ret = set_audio_pads_state(state, 1);
+> +		if (ret < 0)
+> +			goto fail;
+> +		break;
+> +	case HDMI_AOUT_I2S_TDM:
+> +		ret = set_dpll_mclk_fs(state, 256);
+> +		if (ret < 0)
+> +			goto fail;
+> +		ret = set_i2s_tdm_mode(state, 1);
+> +		if (ret < 0)
+> +			goto fail;
+> +		ret = set_audio_pads_state(state, 1);
+> +		if (ret < 0)
+> +			goto fail;
+> +		break;
+> +	default:
+> +		ret = -EINVAL;
+> +		goto fail;
+> +	}
+> +	return 0;
+> +fail:
+> +	return ret;
+> +}
+> +
+> +static int adv748x_hdmi_s_audout(struct adv748x_hdmi *hdmi,
+> +				 const struct v4l2_audioout *a)
+> +{
+> +	struct adv748x_state *state = adv748x_hdmi_to_state(hdmi);
+> +	int ret = set_audio_out(state, a->index);
+> +
+> +	if (ret == 0)
+> +		hdmi->audio_out = a->index;
+> +	return ret;
+> +}
+> +
+> +static long adv748x_hdmi_querycap(struct adv748x_hdmi *hdmi,
+> +				  struct v4l2_capability *cap)
+> +{
+> +	struct adv748x_state *state = adv748x_hdmi_to_state(hdmi);
+> +
+> +	cap->version = LINUX_VERSION_CODE;
+> +	strlcpy(cap->driver, state->dev->driver->name, sizeof(cap->driver));
+> +	strlcpy(cap->card, "hdmi", sizeof(cap->card));
+> +	snprintf(cap->bus_info, sizeof(cap->bus_info), "i2c:%d-%04x",
+> +		 i2c_adapter_id(state->client->adapter),
+> +		 state->client->addr);
+> +	cap->device_caps = V4L2_CAP_AUDIO | V4L2_CAP_VIDEO_CAPTURE;
+> +	cap->capabilities = V4L2_CAP_DEVICE_CAPS;
+> +	return 0;
+> +}
+> +
+> +static long adv748x_hdmi_ioctl(struct v4l2_subdev *sd,
+> +			       unsigned int cmd, void *arg)
+> +{
+> +	struct adv748x_hdmi *hdmi = adv748x_sd_to_hdmi(sd);
+> +
+> +	switch (cmd) {
+> +	case VIDIOC_ENUMAUDOUT:
+> +		return adv748x_hdmi_enumaudout(hdmi, arg);
+> +	case VIDIOC_S_AUDOUT:
+> +		return adv748x_hdmi_s_audout(hdmi, arg);
+> +	case VIDIOC_G_AUDOUT:
+> +		return adv748x_hdmi_g_audout(hdmi, arg);
+> +	case VIDIOC_QUERYCAP:
+> +		return adv748x_hdmi_querycap(hdmi, arg);
+> +	}
+> +	return -ENOTTY;
+> +}
+> +
+> +static const struct v4l2_subdev_core_ops adv748x_core_ops_hdmi = {
+> +	.ioctl = adv748x_hdmi_ioctl,
+> +};
+> +
+>  /* -----------------------------------------------------------------------------
+>   * v4l2_subdev_ops
+>   */
+>  
+>  static const struct v4l2_subdev_ops adv748x_ops_hdmi = {
+> +	.core = &adv748x_core_ops_hdmi,
+>  	.video = &adv748x_video_ops_hdmi,
+>  	.pad = &adv748x_pad_ops_hdmi,
+>  };
+> @@ -633,6 +809,8 @@ static int adv748x_hdmi_s_ctrl(struct v4l2_ctrl *ctrl)
+>  	int ret;
+>  	u8 pattern;
+>  
+> +	if (ctrl->id == V4L2_CID_AUDIO_MUTE)
+> +		return adv748x_hdmi_audio_mute(hdmi, ctrl->val);
+>  	/* Enable video adjustment first */
+>  	ret = cp_clrset(state, ADV748X_CP_VID_ADJ,
+>  			ADV748X_CP_VID_ADJ_ENABLE,
+> @@ -697,6 +875,8 @@ static int adv748x_hdmi_init_controls(struct adv748x_hdmi *hdmi)
+>  	v4l2_ctrl_new_std(&hdmi->ctrl_hdl, &adv748x_hdmi_ctrl_ops,
+>  			  V4L2_CID_HUE, ADV748X_CP_HUE_MIN,
+>  			  ADV748X_CP_HUE_MAX, 1, ADV748X_CP_HUE_DEF);
+> +	v4l2_ctrl_new_std(&hdmi->ctrl_hdl, &adv748x_hdmi_ctrl_ops,
+> +			  V4L2_CID_AUDIO_MUTE, 0, 1, 1, 1);
+>  
+>  	/*
+>  	 * Todo: V4L2_CID_DV_RX_POWER_PRESENT should also be supported when
+> @@ -755,6 +935,8 @@ int adv748x_hdmi_init(struct adv748x_hdmi *hdmi)
+>  
+>  void adv748x_hdmi_cleanup(struct adv748x_hdmi *hdmi)
+>  {
+> +	adv748x_hdmi_audio_mute(hdmi, 1);
+> +	set_audio_out(adv748x_hdmi_to_state(hdmi), HDMI_AOUT_NONE);
+>  	v4l2_device_unregister_subdev(&hdmi->sd);
+>  	media_entity_cleanup(&hdmi->sd.entity);
+>  	v4l2_ctrl_handler_free(&hdmi->ctrl_hdl);
+> diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv748x/adv748x.h
+> index db6346a06351..fdda6982e437 100644
+> --- a/drivers/media/i2c/adv748x/adv748x.h
+> +++ b/drivers/media/i2c/adv748x/adv748x.h
+> @@ -128,6 +128,7 @@ struct adv748x_hdmi {
+>  		u32 present;
+>  		unsigned int blocks;
+>  	} edid;
+> +	int audio_out;
+>  };
+>  
+>  #define adv748x_ctrl_to_hdmi(ctrl) \
+> @@ -224,6 +225,11 @@ struct adv748x_state {
+>  
+>  #define ADV748X_IO_VID_STD		0x05
+>  
+> +#define ADV748X_IO_PAD_CONTROLS		0x0e
+> +#define ADV748X_IO_PAD_CONTROLS_TRI_AUD	BIT(5)
+> +#define ADV748X_IO_PAD_CONTROLS_PDN_AUD	BIT(1)
+> +#define ADV748X_IO_PAD_CONTROLS1	0x1d
+> +
+>  #define ADV748X_IO_10			0x10	/* io_reg_10 */
+>  #define ADV748X_IO_10_CSI4_EN		BIT(7)
+>  #define ADV748X_IO_10_CSI1_EN		BIT(6)
+> @@ -246,7 +252,21 @@ struct adv748x_state {
+>  #define ADV748X_IO_REG_FF		0xff
+>  #define ADV748X_IO_REG_FF_MAIN_RESET	0xff
+>  
+> +/* DPLL Map */
+> +#define ADV748X_DPLL_MCLK_FS		0xb5
+> +#define ADV748X_DPLL_MCLK_FS_N_MASK	GENMASK(2, 0)
+> +
+>  /* HDMI RX Map */
+> +#define ADV748X_HDMI_I2S		0x03	/* I2S mode and width */
+> +#define ADV748X_HDMI_I2SBITWIDTH_MASK	GENMASK(4, 0)
+> +#define ADV748X_HDMI_I2SOUTMODE_SHIFT	5
+> +#define ADV748X_HDMI_I2SOUTMODE_MASK	\
+> +	GENMASK(6, ADV748X_HDMI_I2SOUTMODE_SHIFT)
+> +#define ADV748X_I2SOUTMODE_I2S 0
+> +#define ADV748X_I2SOUTMODE_RIGHT_J 1
+> +#define ADV748X_I2SOUTMODE_LEFT_J 2
+> +#define ADV748X_I2SOUTMODE_SPDIF 3
+> +
+>  #define ADV748X_HDMI_LW1		0x07	/* line width_1 */
+>  #define ADV748X_HDMI_LW1_VERT_FILTER	BIT(7)
+>  #define ADV748X_HDMI_LW1_DE_REGEN	BIT(5)
+> @@ -258,6 +278,16 @@ struct adv748x_state {
+>  #define ADV748X_HDMI_F1H1		0x0b	/* field1 height_1 */
+>  #define ADV748X_HDMI_F1H1_INTERLACED	BIT(5)
+>  
+> +#define ADV748X_HDMI_MUTE_CTRL		0x1a
+> +#define ADV748X_HDMI_MUTE_CTRL_MUTE_AUDIO BIT(4)
+> +#define ADV748X_HDMI_MUTE_CTRL_WAIT_UNMUTE_MASK	GENMASK(3, 1)
+> +#define ADV748X_HDMI_MUTE_CTRL_NOT_AUTO_UNMUTE	BIT(0)
+> +
+> +#define ADV748X_HDMI_AUDIO_MUTE_SPEED	0x0f
+> +#define ADV748X_HDMI_AUDIO_MUTE_SPEED_MASK	GENMASK(4, 0)
+> +#define ADV748X_MAN_AUDIO_DL_BYPASS BIT(7)
+> +#define ADV748X_AUDIO_DELAY_LINE_BYPASS BIT(6)
+> +
+>  #define ADV748X_HDMI_HFRONT_PORCH	0x20	/* hsync_front_porch_1 */
+>  #define ADV748X_HDMI_HFRONT_PORCH_MASK	0x1fff
+>  
+> @@ -279,6 +309,9 @@ struct adv748x_state {
+>  #define ADV748X_HDMI_TMDS_1		0x51	/* hdmi_reg_51 */
+>  #define ADV748X_HDMI_TMDS_2		0x52	/* hdmi_reg_52 */
+>  
+> +#define ADV748X_HDMI_REG_6D		0x6d	/* hdmi_reg_6d */
+> +#define ADV748X_I2S_TDM_MODE_ENABLE BIT(7)
+> +
+>  /* HDMI RX Repeater Map */
+>  #define ADV748X_REPEATER_EDID_SZ	0x70	/* primary_edid_size */
+>  #define ADV748X_REPEATER_EDID_SZ_SHIFT	4
+> @@ -393,14 +426,23 @@ int adv748x_write(struct adv748x_state *state, u8 page, u8 reg, u8 value);
+>  int adv748x_write_block(struct adv748x_state *state, int client_page,
+>  			unsigned int init_reg, const void *val,
+>  			size_t val_len);
+> +int adv748x_update_bits(struct adv748x_state *state, u8 page, u8 reg,
+> +			u8 mask, u8 value);
+>  
+>  #define io_read(s, r) adv748x_read(s, ADV748X_PAGE_IO, r)
+>  #define io_write(s, r, v) adv748x_write(s, ADV748X_PAGE_IO, r, v)
+>  #define io_clrset(s, r, m, v) io_write(s, r, (io_read(s, r) & ~m) | v)
+> +#define io_update(s, r, m, v) adv748x_update_bits(s, ADV748X_PAGE_IO, r, m, v)
+>  
+>  #define hdmi_read(s, r) adv748x_read(s, ADV748X_PAGE_HDMI, r)
+>  #define hdmi_read16(s, r, m) (((hdmi_read(s, r) << 8) | hdmi_read(s, r+1)) & m)
+>  #define hdmi_write(s, r, v) adv748x_write(s, ADV748X_PAGE_HDMI, r, v)
+> +#define hdmi_update(s, r, m, v) \
+> +	adv748x_update_bits(s, ADV748X_PAGE_HDMI, r, m, v)
+> +
+> +#define dpll_read(s, r) adv748x_read(s, ADV748X_PAGE_DPLL, r)
+> +#define dpll_update(s, r, m, v) \
+> +	adv748x_update_bits(s, ADV748X_PAGE_DPLL, r, m, v)
+>  
+>  #define repeater_read(s, r) adv748x_read(s, ADV748X_PAGE_REPEATER, r)
+>  #define repeater_write(s, r, v) adv748x_write(s, ADV748X_PAGE_REPEATER, r, v)
+> 
+
