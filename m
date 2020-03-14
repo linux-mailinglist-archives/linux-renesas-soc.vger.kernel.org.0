@@ -2,156 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 51E071858FB
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Mar 2020 03:27:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EA691858A5
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Mar 2020 03:16:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727514AbgCOC06 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 14 Mar 2020 22:26:58 -0400
-Received: from asavdk4.altibox.net ([109.247.116.15]:46590 "EHLO
-        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726949AbgCOC05 (ORCPT
+        id S1726917AbgCOCQ5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 14 Mar 2020 22:16:57 -0400
+Received: from leibniz.telenet-ops.be ([195.130.137.77]:37726 "EHLO
+        leibniz.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727053AbgCOCQ5 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 14 Mar 2020 22:26:57 -0400
-Received: from ravnborg.org (unknown [158.248.194.18])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk4.altibox.net (Postfix) with ESMTPS id 8E42D804EB;
-        Sat, 14 Mar 2020 08:38:14 +0100 (CET)
-Date:   Sat, 14 Mar 2020 08:38:12 +0100
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v4 1/2] dt-bindings: display: Add idk-1110wr binding
-Message-ID: <20200314073812.GC5783@ravnborg.org>
-References: <1583957020-16359-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1583957020-16359-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1583957020-16359-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=XpTUx2N9 c=1 sm=1 tr=0
-        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
-        a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=yC-0_ovQAAAA:8
-        a=NcFk6D9gAAAA:8 a=VwQbUJbxAAAA:8 a=P1BnusSwAAAA:8 a=gEfo2CItAAAA:8
-        a=pGLkceISAAAA:8 a=rdn2N8ET07tcJGP0fp8A:9 a=CjuIK1q_8ugA:10
-        a=woH39XMaDYAA:10 a=-FEs8UIgK8oA:10 a=CojVow1nldcA:10 a=NWVoK91CQyQA:10
-        a=QsnFDINu91a9xkgZirup:22 a=dT0RXAwTRpxWjiziVLXF:22
-        a=AjGcO6oz07-iQ99wixmX:22 a=D0XLA9XvdZm18NrgonBM:22
-        a=sptkURWiP4Gy88Gu7hUp:22
+        Sat, 14 Mar 2020 22:16:57 -0400
+Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
+        by leibniz.telenet-ops.be (Postfix) with ESMTPS id 48fdB61t0DzMrV7Y
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 14 Mar 2020 10:51:26 +0100 (CET)
+Received: from ramsan ([84.195.182.253])
+        by baptiste.telenet-ops.be with bizsmtp
+        id E9rR2200F5USYZQ019rRem; Sat, 14 Mar 2020 10:51:25 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan with esmtp (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jD3S1-0004Wf-Ci; Sat, 14 Mar 2020 10:51:25 +0100
+Received: from geert by rox.of.borg with local (Exim 4.90_1)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1jD3S1-0008P5-Ag; Sat, 14 Mar 2020 10:51:25 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>
+Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [GIT PULL] clk: renesas: Updates for v5.7 (take two)
+Date:   Sat, 14 Mar 2020 10:51:20 +0100
+Message-Id: <20200314095120.32262-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar
+	Hi Mike, Stephen,
 
-On Wed, Mar 11, 2020 at 08:03:39PM +0000, Lad Prabhakar wrote:
-> From: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> 
-> Add binding for the idk-1110wr LVDS panel from Advantech.
-> 
-> Some panel-specific documentation can be found here:
-> https://buy.advantech.eu/Displays/Embedded-LCD-Kits-LCD-Kit-Modules/model-IDK-1110WR-55WSA1E.htm
-> 
-> Signed-off-by: Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+The following changes since commit 068e7f85234c0b56f55cc0259ad9c05f2c64b8fb:
 
-Applied, and pushed to drm-misc-next.
+  clk: renesas: Remove use of ARCH_R8A7795 (2020-02-21 14:01:54 +0100)
 
-	Sam
+are available in the Git repository at:
 
-> ---
->  .../display/panel/advantech,idk-1110wr.yaml        | 69 ++++++++++++++++++++++
->  1 file changed, 69 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/advantech,idk-1110wr.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/panel/advantech,idk-1110wr.yaml b/Documentation/devicetree/bindings/display/panel/advantech,idk-1110wr.yaml
-> new file mode 100644
-> index 0000000..93878c2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/panel/advantech,idk-1110wr.yaml
-> @@ -0,0 +1,69 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/panel/advantech,idk-1110wr.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Advantech IDK-1110WR 10.1" WSVGA LVDS Display Panel
-> +
-> +maintainers:
-> +  - Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> +  - Thierry Reding <thierry.reding@gmail.com>
-> +
-> +allOf:
-> +  - $ref: lvds.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - const: advantech,idk-1110wr
-> +      - {} # panel-lvds, but not listed here to avoid false select
-> +
-> +  data-mapping:
-> +    const: jeida-24
-> +
-> +  width-mm:
-> +    const: 223
-> +
-> +  height-mm:
-> +    const: 125
-> +
-> +  panel-timing: true
-> +  port: true
-> +
-> +additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +
-> +examples:
-> +  - |+
-> +    panel {
-> +      compatible = "advantech,idk-1110wr", "panel-lvds";
-> +
-> +      width-mm = <223>;
-> +      height-mm = <125>;
-> +
-> +      data-mapping = "jeida-24";
-> +
-> +      panel-timing {
-> +        /* 1024x600 @60Hz */
-> +        clock-frequency = <51200000>;
-> +        hactive = <1024>;
-> +        vactive = <600>;
-> +        hsync-len = <240>;
-> +        hfront-porch = <40>;
-> +        hback-porch = <40>;
-> +        vsync-len = <10>;
-> +        vfront-porch = <15>;
-> +        vback-porch = <10>;
-> +      };
-> +
-> +      port {
-> +        panel_in: endpoint {
-> +          remote-endpoint = <&lvds_encoder>;
-> +        };
-> +      };
-> +    };
-> +
-> +...
-> -- 
-> 2.7.4
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/clk-renesas-for-v5.7-tag2
+
+for you to fetch changes up to eeb40fda056ce2f914fff000525ca5a7b2ddec50:
+
+  dt-bindings: clock: renesas: cpg-mssr: Convert to json-schema (2020-03-11 09:02:26 +0100)
+
+----------------------------------------------------------------
+clk: renesas: Updates for v5.7 (take two)
+
+  - Improved clock/reset handling for the R-Car USB2 Clock Selector,
+  - Conversion to json-schema of the Renesas CPG/MSSR DT bindings.
+
+Thanks for pulling!
+----------------------------------------------------------------
+Geert Uytterhoeven (1):
+      dt-bindings: clock: renesas: cpg-mssr: Convert to json-schema
+
+Yoshihiro Shimoda (4):
+      dt-bindings: clock: renesas: rcar-usb2-clock-sel: Fix clock[-name]s properties
+      dt-bindings: clock: renesas: rcar-usb2-clock-sel: Add power-domains and resets properties
+      clk: renesas: rcar-usb2-clock-sel: Add multiple clocks management
+      clk: renesas: rcar-usb2-clock-sel: Add reset_control
+
+ .../devicetree/bindings/clock/renesas,cpg-mssr.txt | 100 -----------------
+ .../bindings/clock/renesas,cpg-mssr.yaml           | 119 +++++++++++++++++++++
+ .../bindings/clock/renesas,rcar-usb2-clock-sel.txt |  17 ++-
+ drivers/clk/renesas/Kconfig                        |   1 +
+ drivers/clk/renesas/rcar-usb2-clock-sel.c          |  40 ++++++-
+ 5 files changed, 172 insertions(+), 105 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/clock/renesas,cpg-mssr.txt
+ create mode 100644 Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
+
+Gr{oetje,eeting}s,
+
+						Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+							    -- Linus Torvalds
