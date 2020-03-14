@@ -2,90 +2,70 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EA691858A5
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Mar 2020 03:16:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C90E185926
+	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Mar 2020 03:35:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726917AbgCOCQ5 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sat, 14 Mar 2020 22:16:57 -0400
-Received: from leibniz.telenet-ops.be ([195.130.137.77]:37726 "EHLO
-        leibniz.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727053AbgCOCQ5 (ORCPT
+        id S1726840AbgCOCfz (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sat, 14 Mar 2020 22:35:55 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:42231 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726898AbgCOCfz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sat, 14 Mar 2020 22:16:57 -0400
-Received: from baptiste.telenet-ops.be (baptiste.telenet-ops.be [IPv6:2a02:1800:120:4::f00:13])
-        by leibniz.telenet-ops.be (Postfix) with ESMTPS id 48fdB61t0DzMrV7Y
-        for <linux-renesas-soc@vger.kernel.org>; Sat, 14 Mar 2020 10:51:26 +0100 (CET)
-Received: from ramsan ([84.195.182.253])
-        by baptiste.telenet-ops.be with bizsmtp
-        id E9rR2200F5USYZQ019rRem; Sat, 14 Mar 2020 10:51:25 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jD3S1-0004Wf-Ci; Sat, 14 Mar 2020 10:51:25 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jD3S1-0008P5-Ag; Sat, 14 Mar 2020 10:51:25 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [GIT PULL] clk: renesas: Updates for v5.7 (take two)
-Date:   Sat, 14 Mar 2020 10:51:20 +0100
-Message-Id: <20200314095120.32262-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Sat, 14 Mar 2020 22:35:55 -0400
+Received: by mail-qt1-f195.google.com with SMTP id g16so11181123qtp.9
+        for <linux-renesas-soc@vger.kernel.org>; Sat, 14 Mar 2020 19:35:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=rySLrb6e8pdxDloLytBEUWmIP8HvBNLPxIuJLcg1j9c=;
+        b=h9YhYCfhuvcoOK9JuTSnuiXg2cILoy3ExIWXtsaJYq8huKBTSezqcgybwNUJnF31OD
+         8M4XkdAA+wF3Kc0hz30O/kK9eMooTs7yoqdIBJNfvWQnNRWRGMPcYzXrJl2zdeF1j7va
+         J8XdxMT0KmL8llAYJuvJtfAv+moo5flCUCJCh/tlglJ+fFmIUPVbZ1fac7bCjKhbkCn+
+         rZJerUAJLBThHl7kvNkOSCFj/J2Gim7L2OHs8nEEBbbGF0yG+oMEoxI1m7Q6XmwEaoXK
+         TKHu+SSgJteucaBn++J1ylejcFocesa/O0LZlk7VxDKA6TPZDYhdjLA4ADjt7vhRjRdb
+         KZMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=rySLrb6e8pdxDloLytBEUWmIP8HvBNLPxIuJLcg1j9c=;
+        b=lLOcCRYhYxFkaI/MWzXLUnW12vz0W1GjjL0ewpyinE5XSZ9aXzvCKEs7Otg0L+MU0i
+         yYR0V3ps09F4yATJDsCciTdBxCMWssRL9pEQTRjeJmvOgyyBt/fsA4UDYpKFQrUOFlcS
+         LwOmWLs6FFyv93rkH0REUrVIfvDxIo241QA66jciXLO7/dScyJJYL0DdSqSfVl6luHW2
+         PCdHHgq3gCn/rmT3MCSRQtFJXL+FqcjYy48lvCGu2+5wT9ZqsMPlhMjCGe8rKbc4cT2w
+         VIvO7v2ny0I3XQtyaOU3aVtBdzTsBgmOZZDKwQFV6b8fOa6UDme1GwRScEx5WA48IKWW
+         j0+w==
+X-Gm-Message-State: ANhLgQ3xOjYMzdc4NAjnblSaKwUKcogTnN/lhoz6FWvamGCsNQ9t9EQk
+        2HyXKHri2ERs7bR5DtPE6uGGLvXgyA0ByLHeXuOeu3pZ
+X-Google-Smtp-Source: ADFU+vsJ8OZ/Dhr0DwwgkL8CDPySYZHLYuNtMBF50V178xoCgQ3+Wbsy6eqrOFGI1hDMkk7GA6AGM8FMlDHfqPtuVxs=
+X-Received: by 2002:a02:3f4c:: with SMTP id c12mr12249418jaf.115.1584206617074;
+ Sat, 14 Mar 2020 10:23:37 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a02:63c1:0:0:0:0:0 with HTTP; Sat, 14 Mar 2020 10:23:36
+ -0700 (PDT)
+From:   Omar Ousman <omarousman25@gmail.com>
+Date:   Sat, 14 Mar 2020 18:23:36 +0100
+X-Google-Sender-Auth: e3Esaw6NMf2t59gU8aF8hbfxq5E
+Message-ID: <CAOdk3H=BWVFSbBHnPp89pkv5eyhE_YLWx_uztwjom2+untGdDQ@mail.gmail.com>
+Subject: You received my last mail,,,,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-	Hi Mike, Stephen,
+I am Mr.Omar Ousman, a regional managing director (CORIS BANK
+INTERNATIONAL) Ouagadougou Burkina Faso, in my department we have
+US$9,500.0000 million united state dollars, to transfer into your
+account as a dormant fund.If you are interested to use this fund to
+help the orphans around the world contact and send me your personal
+information for more details to my email omarousman25@gmail.com
 
-The following changes since commit 068e7f85234c0b56f55cc0259ad9c05f2c64b8fb:
+Your full names..........
+Your country of origin..........
+Your occupation..........
+Your Age..........
+Your Mobile Number..........
 
-  clk: renesas: Remove use of ARCH_R8A7795 (2020-02-21 14:01:54 +0100)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git tags/clk-renesas-for-v5.7-tag2
-
-for you to fetch changes up to eeb40fda056ce2f914fff000525ca5a7b2ddec50:
-
-  dt-bindings: clock: renesas: cpg-mssr: Convert to json-schema (2020-03-11 09:02:26 +0100)
-
-----------------------------------------------------------------
-clk: renesas: Updates for v5.7 (take two)
-
-  - Improved clock/reset handling for the R-Car USB2 Clock Selector,
-  - Conversion to json-schema of the Renesas CPG/MSSR DT bindings.
-
-Thanks for pulling!
-----------------------------------------------------------------
-Geert Uytterhoeven (1):
-      dt-bindings: clock: renesas: cpg-mssr: Convert to json-schema
-
-Yoshihiro Shimoda (4):
-      dt-bindings: clock: renesas: rcar-usb2-clock-sel: Fix clock[-name]s properties
-      dt-bindings: clock: renesas: rcar-usb2-clock-sel: Add power-domains and resets properties
-      clk: renesas: rcar-usb2-clock-sel: Add multiple clocks management
-      clk: renesas: rcar-usb2-clock-sel: Add reset_control
-
- .../devicetree/bindings/clock/renesas,cpg-mssr.txt | 100 -----------------
- .../bindings/clock/renesas,cpg-mssr.yaml           | 119 +++++++++++++++++++++
- .../bindings/clock/renesas,rcar-usb2-clock-sel.txt |  17 ++-
- drivers/clk/renesas/Kconfig                        |   1 +
- drivers/clk/renesas/rcar-usb2-clock-sel.c          |  40 ++++++-
- 5 files changed, 172 insertions(+), 105 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/clock/renesas,cpg-mssr.txt
- create mode 100644 Documentation/devicetree/bindings/clock/renesas,cpg-mssr.yaml
-
-Gr{oetje,eeting}s,
-
-						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-							    -- Linus Torvalds
+Best Regards,
