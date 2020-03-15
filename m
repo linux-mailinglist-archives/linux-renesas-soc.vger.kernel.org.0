@@ -2,165 +2,167 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B721185C7E
-	for <lists+linux-renesas-soc@lfdr.de>; Sun, 15 Mar 2020 13:57:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A884918605B
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2020 00:12:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728534AbgCOM54 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Sun, 15 Mar 2020 08:57:56 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:47258 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728521AbgCOM54 (ORCPT
+        id S1728535AbgCOXM2 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Sun, 15 Mar 2020 19:12:28 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:40439 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728512AbgCOXM2 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Sun, 15 Mar 2020 08:57:56 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 60B0B2D6;
-        Sun, 15 Mar 2020 13:57:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1584277074;
-        bh=E2pgR3NfJCMiqQdqlWm+CZBOWjacnfLUtHs9QxoDukM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bPQ9s8QpqmDcThQ2+8ALydiMBkt5HBz2jYJPafy8PEZus24M69Lr2NwdgzpwBnyle
-         uJb6aBbHb/vkaxNP9++fPgn8cTQGVzNpZ9DaT+J2UOZa9SEJ+2JyMf1CHsM/MeSIWg
-         T6XI2Ny4US+uh8NLgpsgLt1RXGp02i8jy1uAx1bo=
-Date:   Sun, 15 Mar 2020 14:57:50 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Cc:     Niklas <niklas.soderlund@ragnatech.se>,
+        Sun, 15 Mar 2020 19:12:28 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 9C86C20003;
+        Sun, 15 Mar 2020 23:12:22 +0000 (UTC)
+Date:   Mon, 16 Mar 2020 00:15:17 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Hyun Kwon <hyun.kwon@xilinx.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 2/2] media: rcar-csi2: Let the driver handle fwnode
- matching using match_custom callback
-Message-ID: <20200315125750.GD4732@pendragon.ideasonboard.com>
-References: <20200315102724.26850-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200315102724.26850-3-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200315102956.GA4732@pendragon.ideasonboard.com>
- <CA+V-a8sYT+okN_WKY-FEcgD7Znyvh3JeMyuZgBxwPLiseiP_1A@mail.gmail.com>
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        "sakari.ailus@iki.fi" <sakari.ailus@iki.fi>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH v7 2/2] media: i2c: Add MAX9286 driver
+Message-ID: <20200315231517.d3e2fcvcwkmxds5g@uno.localdomain>
+References: <20200214103136.12526-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200214103136.12526-3-kieran.bingham+renesas@ideasonboard.com>
+ <68a0cc3d-083b-8907-5b66-5f576f4be464@ideasonboard.com>
+ <20200228181303.GA21745@smtp.xilinx.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CA+V-a8sYT+okN_WKY-FEcgD7Znyvh3JeMyuZgBxwPLiseiP_1A@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200228181303.GA21745@smtp.xilinx.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Prabhakar,
+Hello Hyun, Kieran,
+   it's great you are looking into this!
 
-On Sun, Mar 15, 2020 at 12:10:14PM +0000, Lad, Prabhakar wrote:
-> On Sun, Mar 15, 2020 at 10:30 AM Laurent Pinchart wrote:
-> > On Sun, Mar 15, 2020 at 10:27:24AM +0000, Lad Prabhakar wrote:
-> > > The rcar-csi2 driver uses the v4l2-async framework to do endpoint matching
-> > > instead of node matching. This is needed as it needs to work with the
-> > > adv748x driver which register it self in v4l2-async using endpoints
-> > > instead of nodes. The reason for this is that from a single DT node it
-> > > creates multiple subdevices, one for each endpoint.
-> > >
-> > > But when using subdevs which register itself in v4l2-async using nodes,
-> > > the rcar-csi2 driver failed to find the matching endpoint because the
-> > > match.fwnode was pointing to remote endpoint instead of remote parent
-> > > port.
-> > >
-> > > This commit adds support in rcar-csi2 driver to handle both the cases
-> > > where subdev registers in v4l2-async using endpoints/nodes, by using
-> > > match_type as V4L2_ASYNC_MATCH_CUSTOM and implementing the match()
-> > > callback to compare the fwnode of either remote/parent.
-> >
-> > This is not the way to go. The v4l2-async framework needs to be fixed
-> > instead, so that fwnode match will do the right thing automatically
-> > regardless of whether the node is a device node or and endpoint node.
+On Fri, Feb 28, 2020 at 10:13:04AM -0800, Hyun Kwon wrote:
+> Hi Kieran,
 >
-> OK, so moving forward should the v4l2-async do strictly endpoint
-> matching only or both nodes/endpoints. fwnode in all the bridge
-> drivers be replaced to remote endpoints ?
+> Thanks for sharing a patch.
+>
+[snip]
 
-Long term I think everything should use endpoint matching, but to get
-there we shouldn't transition all drivers in one go. I've submitted a
-patch to v4l2-async that I believe will fix your problem and allow for a
-smooth transition. Could you give it a try ?
+> > > +
+> > > +	/*
+> > > +	 * Set the I2C bus speed.
+> > > +	 *
+> > > +	 * Enable I2C Local Acknowledge during the probe sequences of the camera
+> > > +	 * only. This should be disabled after the mux is initialised.
+> > > +	 */
+> > > +	max9286_configure_i2c(priv, true);
+> > > +
+> > > +	/*
+> > > +	 * Reverse channel setup.
+> > > +	 *
+> > > +	 * - Enable custom reverse channel configuration (through register 0x3f)
+> > > +	 *   and set the first pulse length to 35 clock cycles.
+> > > +	 * - Increase the reverse channel amplitude to 170mV to accommodate the
+> > > +	 *   high threshold enabled by the serializer driver.
+> > > +	 */
+> > > +	max9286_write(priv, 0x3f, MAX9286_EN_REV_CFG | MAX9286_REV_FLEN(35));
+> > > +	max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) | MAX9286_REV_AMP(70) |
+> > > +		      MAX9286_REV_AMP_X);
+> > > +	usleep_range(2000, 2500);
+> > > +
+> > > +	/*
+> > > +	 * Enable GMSL links, mask unused ones and autodetect link
+> > > +	 * used as CSI clock source.
+> > > +	 */
+> > > +	max9286_write(priv, 0x00, MAX9286_MSTLINKSEL_AUTO | priv->route_mask);
+> > > +	max9286_write(priv, 0x0b, link_order[priv->route_mask]);
+> > > +	max9286_write(priv, 0x69, (0xf & ~priv->route_mask));
+> > > +
+> > > +	/*
+> > > +	 * Video format setup:
+> > > +	 * Disable CSI output, VC is set according to Link number.
+> > > +	 */
+> > > +	max9286_write(priv, 0x15, MAX9286_VCTYPE | MAX9286_0X15_RESV);
+> > > +
+> > > +	/* Enable CSI-2 Lane D0-D3 only, DBL mode, YUV422 8-bit. */
+> > > +	max9286_write(priv, 0x12, MAX9286_CSIDBL | MAX9286_DBL |
+> > > +		      MAX9286_CSILANECNT(priv->csi2_data_lanes) |
+> > > +		      MAX9286_DATATYPE_YUV422_8BIT);
+> > > +
+> > > +	/* Automatic: FRAMESYNC taken from the slowest Link. */
+> > > +	max9286_write(priv, 0x01, MAX9286_FSYNCMODE_INT_HIZ |
+> > > +		      MAX9286_FSYNCMETH_AUTO);
+> > > +
+> > > +	/* Enable HS/VS encoding, use D14/15 for HS/VS, invert VS. */
+> > > +	max9286_write(priv, 0x0c, MAX9286_HVEN | MAX9286_INVVS |
+> > > +		      MAX9286_HVSRC_D14);
+>
 
-> Looking at the adv7604 its registered as node to v4l2-async which can
-> have upto 3 endpoints, adv748x is the single driver which registers
-> itself as endpoint to v4l2-async, and rest of the other subdevices
-> have single endpoint and are registered as node to v4l2-async. How
-> would you suggest to handle these cases.
-> 
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > ---
-> > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 46 +++++++++++++++++++--
-> > >  1 file changed, 43 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > > index faa9fb23a2e9..1bbf05e9f025 100644
-> > > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > > @@ -808,6 +808,46 @@ static int rcsi2_parse_v4l2(struct rcar_csi2 *priv,
-> > >       return 0;
-> > >  }
-> > >
-> > > +static bool rcsi2_asd_match(struct v4l2_subdev *sd,
-> > > +                         struct v4l2_async_subdev *asd)
-> > > +{
-> > > +     struct rcar_csi2 *priv = (struct rcar_csi2 *)asd->match.custom.priv;
-> > > +     struct fwnode_handle *remote_endpoint;
-> > > +     struct fwnode_handle *subdev_endpoint;
-> > > +     struct device_node *np;
-> > > +     bool matched = false;
-> > > +
-> > > +     np = of_graph_get_endpoint_by_regs(priv->dev->of_node, 0, 0);
-> > > +     if (!np) {
-> > > +             dev_err(priv->dev, "Not connected to subdevice\n");
-> > > +             return matched;
-> > > +     }
-> > > +
-> > > +     remote_endpoint =
-> > > +             fwnode_graph_get_remote_endpoint(of_fwnode_handle(np));
-> > > +     if (!remote_endpoint) {
-> > > +             dev_err(priv->dev, "Failed to get remote endpoint\n");
-> > > +             of_node_put(np);
-> > > +             return matched;
-> > > +     }
-> > > +     of_node_put(np);
-> > > +
-> > > +     if (sd->fwnode != dev_fwnode(sd->dev)) {
-> > > +             if (remote_endpoint == sd->fwnode)
-> > > +                     matched = true;
-> > > +     } else {
-> > > +             subdev_endpoint =
-> > > +                   fwnode_graph_get_next_endpoint(dev_fwnode(sd->dev), NULL);
-> > > +             if (remote_endpoint == subdev_endpoint)
-> > > +                     matched = true;
-> > > +             fwnode_handle_put(subdev_endpoint);
-> > > +     }
-> > > +
-> > > +     fwnode_handle_put(remote_endpoint);
-> > > +
-> > > +     return matched;
-> > > +}
-> > > +
-> > >  static int rcsi2_parse_dt(struct rcar_csi2 *priv)
-> > >  {
-> > >       struct device_node *ep;
-> > > @@ -833,9 +873,9 @@ static int rcsi2_parse_dt(struct rcar_csi2 *priv)
-> > >               return ret;
-> > >       }
-> > >
-> > > -     priv->asd.match.fwnode =
-> > > -             fwnode_graph_get_remote_endpoint(of_fwnode_handle(ep));
-> > > -     priv->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
-> > > +     priv->asd.match.custom.match = &rcsi2_asd_match;
-> > > +     priv->asd.match.custom.priv = priv;
-> > > +     priv->asd.match_type = V4L2_ASYNC_MATCH_CUSTOM;
-> > >
-> > >       of_node_put(ep);
-> > >
+I agree we need to make some of these configurable, we need that too
+to handle both rdacm20 and 21.
 
--- 
-Regards,
+> Some of these configs in fact need some handshake between serializer and
+> de-serializer. For example, I had to invert vsync in serializer [3] to make
+> it work with this patch.
 
-Laurent Pinchart
+Quickly skamming through the datasheet I'm surprised there is no way
+to control the vsync input polarity and you have to go through the
+crossbar :) Oh well, I think this could be well controlled through a
+device property of the serializer, what do you think?
+
+We have standard properties to control vsync and hsync polarities, but
+they're usually used for output signals, and I would reserve them for
+that future usage.. maybe a custom property to control the input vsync
+and hsync polarities would do...
+
+>
+> In addition to that, I need a couple of additional programmings on max9286
+> (registers 0x0 to 0x63/0x64- disable overlap window and 0xf4 to 0x1c which
+> oddly change reserved bits) to get frames. The datasheet doesn't explain
+> enough for me to understand. I'm talking to Maxim to get more details and
+> see if those can be handled by serilizer driver.
+
+I would be really interested in knowing what's the overlap window control
+about... it's very little detailed in the manual, I agree :) 0xf4 is
+not even documented in my version. I assume it's something related to
+fsync sync locking (Fig. 46) as I failed to achieve it without that
+setting. How did it fail for you ?
+
+On how to control overlap window a integer would do ? Setting it to 0
+disables it, so we could use a boolean property for convenience..
+
+Not knowing what it does I would be careful.. I think we should
+actualy require a mandatory property, so all current dts select their
+behaviour explicitly. If we later find out what it does we could
+define a default behaviour by defining a boolean property. New dts
+simpler and old dts still happy. What do you think ?
+
+>
+> In a longer term, it'd be nice if such alignment between serializer and
+> de-serializer is handled in more scalable way.
+>
+
+Indeed :)
+
+Thanks
+  j
+
+> Thanks,
+> -hyun
+>
+> [1] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/3bd2dded834492f4ee89e370c22877b97c2e106e
+> [2] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/fb0ad7fd699d90d6bbc78fc55dd98639389cfc5b
+> [3] https://github.com/xlnx-hyunkwon/linux-xlnx/commit/fe0b33b174b2850bf0bb25b3a367319127ae12ee
+>
