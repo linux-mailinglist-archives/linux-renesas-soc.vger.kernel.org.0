@@ -2,65 +2,209 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5338E187220
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2020 19:19:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2816187329
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2020 20:15:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732220AbgCPSTK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Mar 2020 14:19:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54040 "EHLO mail.kernel.org"
+        id S1732298AbgCPTPY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Mar 2020 15:15:24 -0400
+Received: from mga12.intel.com ([192.55.52.136]:6094 "EHLO mga12.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732187AbgCPSTK (ORCPT
+        id S1732392AbgCPTPW (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Mar 2020 14:19:10 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C8F6D20409;
-        Mon, 16 Mar 2020 18:19:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1584382749;
-        bh=bzs4I2nYnb+U0jlSoaN4JyuBCY7yS9sH5JZ5m2A+6hY=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=KIA5zd8+1nERtBqo3ytb3keLIvlgxZXSk9PY7HI2/iJybHF7PL0OAXIK+ibjm6tNv
-         fNpoASHY6OkAlmZVuazf3BQ6SYviUMOYhMf+M+RR9acDaG4n1hLZTRVOD3xfBs56dP
-         lMfQqM0da09bdAtO6RKY5sRQQjFaYadhlzZJ3L/4=
-Content-Type: text/plain; charset="utf-8"
+        Mon, 16 Mar 2020 15:15:22 -0400
+IronPort-SDR: h1p9f+pmkKYoSJm/jZvg/k7pMRhEWqpHPiEY2t+Xv2H9PU/tpZWXYVPVPRB5mqQPhkQ6L6Hcsg
+ UiIYW07cGSpA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2020 12:15:21 -0700
+IronPort-SDR: GlUdmaJ1jaUA00AEOUdb8YBkfIC+I4I+ZV1WDGSykq4kl+mTX/xhqQSATy3mu7Qd6YqXPVCrlX
+ nV1fO6FwnyFw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,561,1574150400"; 
+   d="scan'208";a="443463334"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 16 Mar 2020 12:15:20 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1jDvCp-0003SG-TN; Tue, 17 Mar 2020 03:15:19 +0800
+Date:   Tue, 17 Mar 2020 03:14:52 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     linux-renesas-soc@vger.kernel.org
+Subject: [renesas-drivers:topic/renesas-overlays] BUILD SUCCESS
+ 39787ef896ec29c5cfec5fb24c1d9d816758562b
+Message-ID: <5e6fd02c.BOvvIhVQBuyOpYYW%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20200314095120.32262-1-geert+renesas@glider.be>
-References: <20200314095120.32262-1-geert+renesas@glider.be>
-Subject: Re: [GIT PULL] clk: renesas: Updates for v5.7 (take two)
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     linux-clk@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Michael Turquette <mturquette@baylibre.com>
-Date:   Mon, 16 Mar 2020 11:19:08 -0700
-Message-ID: <158438274899.88485.6424320699409632373@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Quoting Geert Uytterhoeven (2020-03-14 02:51:20)
->         Hi Mike, Stephen,
->=20
-> The following changes since commit 068e7f85234c0b56f55cc0259ad9c05f2c64b8=
-fb:
->=20
->   clk: renesas: Remove use of ARCH_R8A7795 (2020-02-21 14:01:54 +0100)
->=20
-> are available in the Git repository at:
->=20
->   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git=
- tags/clk-renesas-for-v5.7-tag2
->=20
-> for you to fetch changes up to eeb40fda056ce2f914fff000525ca5a7b2ddec50:
->=20
->   dt-bindings: clock: renesas: cpg-mssr: Convert to json-schema (2020-03-=
-11 09:02:26 +0100)
->=20
-> ----------------------------------------------------------------
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  topic/renesas-overlays
+branch HEAD: 39787ef896ec29c5cfec5fb24c1d9d816758562b  ARM: dts: koelsch: Add overlay for 3-channel TPU on EXIO A
 
-Thanks. Pulled into clk-next
+elapsed time: 542m
+
+configs tested: 149
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+arm                              allmodconfig
+arm                               allnoconfig
+arm                              allyesconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+arm64                            allyesconfig
+arm                         at91_dt_defconfig
+arm                           efm32_defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+arm                        multi_v7_defconfig
+arm                        shmobile_defconfig
+arm                           sunxi_defconfig
+arm64                               defconfig
+sparc                            allyesconfig
+riscv                               defconfig
+mips                      malta_kvm_defconfig
+m68k                       m5475evb_defconfig
+sh                  sh7785lcr_32bit_defconfig
+m68k                           sun3_defconfig
+parisc                           allyesconfig
+sh                            titan_defconfig
+powerpc                       ppc64_defconfig
+sparc                               defconfig
+powerpc                           allnoconfig
+i386                              allnoconfig
+i386                             alldefconfig
+i386                             allyesconfig
+i386                                defconfig
+ia64                             alldefconfig
+ia64                             allmodconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+ia64                                defconfig
+c6x                              allyesconfig
+c6x                        evmc6678_defconfig
+nios2                         10m50_defconfig
+nios2                         3c120_defconfig
+openrisc                    or1ksim_defconfig
+openrisc                 simple_smp_defconfig
+xtensa                       common_defconfig
+xtensa                          iss_defconfig
+alpha                               defconfig
+csky                                defconfig
+nds32                             allnoconfig
+nds32                               defconfig
+h8300                     edosk2674_defconfig
+h8300                    h8300h-sim_defconfig
+h8300                       h8s-sim_defconfig
+m68k                             allmodconfig
+m68k                          multi_defconfig
+arc                              allyesconfig
+arc                                 defconfig
+microblaze                      mmu_defconfig
+microblaze                    nommu_defconfig
+powerpc                             defconfig
+powerpc                          rhel-kconfig
+mips                           32r2_defconfig
+mips                         64r6el_defconfig
+mips                             allmodconfig
+mips                              allnoconfig
+mips                             allyesconfig
+mips                      fuloong2e_defconfig
+parisc                            allnoconfig
+parisc                generic-32bit_defconfig
+parisc                generic-64bit_defconfig
+x86_64               randconfig-a001-20200316
+x86_64               randconfig-a002-20200316
+x86_64               randconfig-a003-20200316
+i386                 randconfig-a001-20200316
+i386                 randconfig-a002-20200316
+i386                 randconfig-a003-20200316
+alpha                randconfig-a001-20200316
+m68k                 randconfig-a001-20200316
+mips                 randconfig-a001-20200316
+nds32                randconfig-a001-20200316
+parisc               randconfig-a001-20200316
+riscv                randconfig-a001-20200316
+c6x                  randconfig-a001-20200316
+h8300                randconfig-a001-20200316
+microblaze           randconfig-a001-20200316
+nios2                randconfig-a001-20200316
+sparc64              randconfig-a001-20200316
+csky                 randconfig-a001-20200316
+openrisc             randconfig-a001-20200316
+s390                 randconfig-a001-20200316
+sh                   randconfig-a001-20200316
+xtensa               randconfig-a001-20200316
+x86_64               randconfig-d001-20200316
+x86_64               randconfig-d002-20200316
+x86_64               randconfig-d003-20200316
+i386                 randconfig-d001-20200316
+i386                 randconfig-d002-20200316
+i386                 randconfig-d003-20200316
+x86_64               randconfig-e001-20200316
+x86_64               randconfig-e002-20200316
+x86_64               randconfig-e003-20200316
+i386                 randconfig-e001-20200316
+i386                 randconfig-e002-20200316
+i386                 randconfig-e003-20200316
+x86_64               randconfig-f001-20200316
+x86_64               randconfig-f002-20200316
+x86_64               randconfig-f003-20200316
+i386                 randconfig-f001-20200316
+i386                 randconfig-f002-20200316
+i386                 randconfig-f003-20200316
+x86_64               randconfig-g001-20200316
+x86_64               randconfig-g002-20200316
+x86_64               randconfig-g003-20200316
+i386                 randconfig-g001-20200316
+i386                 randconfig-g002-20200316
+i386                 randconfig-g003-20200316
+x86_64               randconfig-h001-20200316
+x86_64               randconfig-h002-20200316
+x86_64               randconfig-h003-20200316
+i386                 randconfig-h001-20200316
+i386                 randconfig-h002-20200316
+i386                 randconfig-h003-20200316
+arc                  randconfig-a001-20200316
+arm                  randconfig-a001-20200316
+arm64                randconfig-a001-20200316
+ia64                 randconfig-a001-20200316
+powerpc              randconfig-a001-20200316
+sparc                randconfig-a001-20200316
+riscv                            allmodconfig
+riscv                             allnoconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                          rv32_defconfig
+s390                             alldefconfig
+s390                             allmodconfig
+s390                              allnoconfig
+s390                             allyesconfig
+s390                          debug_defconfig
+s390                                defconfig
+s390                       zfcpdump_defconfig
+sh                               allmodconfig
+sh                                allnoconfig
+sh                          rsk7269_defconfig
+sparc64                          allmodconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                             defconfig
+x86_64                              fedora-25
+x86_64                                  kexec
+x86_64                                    lkp
+x86_64                                   rhel
+x86_64                         rhel-7.2-clear
+x86_64                               rhel-7.6
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
