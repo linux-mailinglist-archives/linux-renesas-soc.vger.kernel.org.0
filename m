@@ -2,209 +2,93 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2816187329
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2020 20:15:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F5EB1873F9
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2020 21:25:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732298AbgCPTPY (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Mar 2020 15:15:24 -0400
-Received: from mga12.intel.com ([192.55.52.136]:6094 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732392AbgCPTPW (ORCPT
+        id S1732550AbgCPUZP (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Mar 2020 16:25:15 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:58331 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732505AbgCPUZO (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Mar 2020 15:15:22 -0400
-IronPort-SDR: h1p9f+pmkKYoSJm/jZvg/k7pMRhEWqpHPiEY2t+Xv2H9PU/tpZWXYVPVPRB5mqQPhkQ6L6Hcsg
- UiIYW07cGSpA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2020 12:15:21 -0700
-IronPort-SDR: GlUdmaJ1jaUA00AEOUdb8YBkfIC+I4I+ZV1WDGSykq4kl+mTX/xhqQSATy3mu7Qd6YqXPVCrlX
- nV1fO6FwnyFw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,561,1574150400"; 
-   d="scan'208";a="443463334"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 16 Mar 2020 12:15:20 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jDvCp-0003SG-TN; Tue, 17 Mar 2020 03:15:19 +0800
-Date:   Tue, 17 Mar 2020 03:14:52 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     linux-renesas-soc@vger.kernel.org
-Subject: [renesas-drivers:topic/renesas-overlays] BUILD SUCCESS
- 39787ef896ec29c5cfec5fb24c1d9d816758562b
-Message-ID: <5e6fd02c.BOvvIhVQBuyOpYYW%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        Mon, 16 Mar 2020 16:25:14 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id F307FFF802;
+        Mon, 16 Mar 2020 20:25:10 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     kieran.bingham+renesas@ideasonboard.com,
+        niklas.soderlund@ragnatech.se, laurent.pinchart@ideasonboard.com
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, hyunk@xilinx.com,
+        manivannan.sadhasivam@linaro.org,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH 0/5] media: i2c: max9286: Add configuration properties
+Date:   Mon, 16 Mar 2020 21:27:52 +0100
+Message-Id: <20200316202757.529740-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git  topic/renesas-overlays
-branch HEAD: 39787ef896ec29c5cfec5fb24c1d9d816758562b  ARM: dts: koelsch: Add overlay for 3-channel TPU on EXIO A
+Hello,
+   this small series applies on top of Kieran's
+[PATCH v7 0/2] MAX9286 GMSL support
+and instruments the driver and expands its dt bindings to support
+configuring a few deserializer parameters to enable support for different
+remote serializers.
 
-elapsed time: 542m
+In particular for our use case RDACM20 and RDACM21 camera modules require
+different configurations of the deserializer reverse channel amplitude and
+disabling of the device overlap window.
 
-configs tested: 149
-configs skipped: 3
+Hyun has reported he needs to disable the deserializer overlap window to
+have this driver work with max96705 serializer.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+The series expands the device bindings to require two additional properties
+to control overlap window and channel amplitude, and instruments the driver
+to parse those properties and use them to configure it parameter.
 
-arm                              allmodconfig
-arm                               allnoconfig
-arm                              allyesconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-arm64                            allyesconfig
-arm                         at91_dt_defconfig
-arm                           efm32_defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                        multi_v7_defconfig
-arm                        shmobile_defconfig
-arm                           sunxi_defconfig
-arm64                               defconfig
-sparc                            allyesconfig
-riscv                               defconfig
-mips                      malta_kvm_defconfig
-m68k                       m5475evb_defconfig
-sh                  sh7785lcr_32bit_defconfig
-m68k                           sun3_defconfig
-parisc                           allyesconfig
-sh                            titan_defconfig
-powerpc                       ppc64_defconfig
-sparc                               defconfig
-powerpc                           allnoconfig
-i386                              allnoconfig
-i386                             alldefconfig
-i386                             allyesconfig
-i386                                defconfig
-ia64                             alldefconfig
-ia64                             allmodconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-ia64                                defconfig
-c6x                              allyesconfig
-c6x                        evmc6678_defconfig
-nios2                         10m50_defconfig
-nios2                         3c120_defconfig
-openrisc                    or1ksim_defconfig
-openrisc                 simple_smp_defconfig
-xtensa                       common_defconfig
-xtensa                          iss_defconfig
-alpha                               defconfig
-csky                                defconfig
-nds32                             allnoconfig
-nds32                               defconfig
-h8300                     edosk2674_defconfig
-h8300                    h8300h-sim_defconfig
-h8300                       h8s-sim_defconfig
-m68k                             allmodconfig
-m68k                          multi_defconfig
-arc                              allyesconfig
-arc                                 defconfig
-microblaze                      mmu_defconfig
-microblaze                    nommu_defconfig
-powerpc                             defconfig
-powerpc                          rhel-kconfig
-mips                           32r2_defconfig
-mips                         64r6el_defconfig
-mips                             allmodconfig
-mips                              allnoconfig
-mips                             allyesconfig
-mips                      fuloong2e_defconfig
-parisc                            allnoconfig
-parisc                generic-32bit_defconfig
-parisc                generic-64bit_defconfig
-x86_64               randconfig-a001-20200316
-x86_64               randconfig-a002-20200316
-x86_64               randconfig-a003-20200316
-i386                 randconfig-a001-20200316
-i386                 randconfig-a002-20200316
-i386                 randconfig-a003-20200316
-alpha                randconfig-a001-20200316
-m68k                 randconfig-a001-20200316
-mips                 randconfig-a001-20200316
-nds32                randconfig-a001-20200316
-parisc               randconfig-a001-20200316
-riscv                randconfig-a001-20200316
-c6x                  randconfig-a001-20200316
-h8300                randconfig-a001-20200316
-microblaze           randconfig-a001-20200316
-nios2                randconfig-a001-20200316
-sparc64              randconfig-a001-20200316
-csky                 randconfig-a001-20200316
-openrisc             randconfig-a001-20200316
-s390                 randconfig-a001-20200316
-sh                   randconfig-a001-20200316
-xtensa               randconfig-a001-20200316
-x86_64               randconfig-d001-20200316
-x86_64               randconfig-d002-20200316
-x86_64               randconfig-d003-20200316
-i386                 randconfig-d001-20200316
-i386                 randconfig-d002-20200316
-i386                 randconfig-d003-20200316
-x86_64               randconfig-e001-20200316
-x86_64               randconfig-e002-20200316
-x86_64               randconfig-e003-20200316
-i386                 randconfig-e001-20200316
-i386                 randconfig-e002-20200316
-i386                 randconfig-e003-20200316
-x86_64               randconfig-f001-20200316
-x86_64               randconfig-f002-20200316
-x86_64               randconfig-f003-20200316
-i386                 randconfig-f001-20200316
-i386                 randconfig-f002-20200316
-i386                 randconfig-f003-20200316
-x86_64               randconfig-g001-20200316
-x86_64               randconfig-g002-20200316
-x86_64               randconfig-g003-20200316
-i386                 randconfig-g001-20200316
-i386                 randconfig-g002-20200316
-i386                 randconfig-g003-20200316
-x86_64               randconfig-h001-20200316
-x86_64               randconfig-h002-20200316
-x86_64               randconfig-h003-20200316
-i386                 randconfig-h001-20200316
-i386                 randconfig-h002-20200316
-i386                 randconfig-h003-20200316
-arc                  randconfig-a001-20200316
-arm                  randconfig-a001-20200316
-arm64                randconfig-a001-20200316
-ia64                 randconfig-a001-20200316
-powerpc              randconfig-a001-20200316
-sparc                randconfig-a001-20200316
-riscv                            allmodconfig
-riscv                             allnoconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                          rv32_defconfig
-s390                             alldefconfig
-s390                             allmodconfig
-s390                              allnoconfig
-s390                             allyesconfig
-s390                          debug_defconfig
-s390                                defconfig
-s390                       zfcpdump_defconfig
-sh                               allmodconfig
-sh                                allnoconfig
-sh                          rsk7269_defconfig
-sparc64                          allmodconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                             defconfig
-x86_64                              fedora-25
-x86_64                                  kexec
-x86_64                                    lkp
-x86_64                                   rhel
-x86_64                         rhel-7.2-clear
-x86_64                               rhel-7.6
+What 'overlap window' controls is not totally clear at the moment and it's
+poorly documented. In all our cases it could stay disabled, but as long as
+its precise meaning it's not clarified, a required property ensures that
+all current DTB are fully specified, so that in future we select a default
+value, old users continue to work as intended/
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+The reverse channel amplitude describes the initially programmed signal
+amplitude of the low bandwidth control channel. The amplitude is made
+configurable to accommodate different serializers that might need an initial
+different amplitude configuration to establish reliable communications.
+
+On top of the series, a small fixup to be brought in next max9286 version.
+
+Tested on R-Car R8A77970 Eagle with RDACM21.
+I would have liked to test the same on Salvator-X with RDACM20. Kieran could
+we sync and test it?
+
+RDACM21 and RDACM20 drivers available at
+git://jmondi.org/linux #gmsl/jmondi/platform/rdacm21
+with integration in Eagle and Salvator-x from Kieran's platform branch, with
+additional properties added by this series.
+
+
+Jacopo Mondi (5):
+  media: i2c: max9286: Put of node on error
+  dt-bindings: media: max9286: Add overlap window
+  media: i2c: max9286: Parse overlap window value
+  dt-bindings: media: max9286: Add reverse channel amplitude
+  media: i2c: max9286: Parse channel amplitude
+
+ .../bindings/media/i2c/maxim,max9286.yaml     | 32 +++++++++
+ MAINTAINERS                                   |  1 +
+ drivers/media/i2c/max9286.c                   | 66 +++++++++++++++++--
+ include/dt-bindings/media/maxim-gmsl.h        |  9 +++
+ 4 files changed, 103 insertions(+), 5 deletions(-)
+ create mode 100644 include/dt-bindings/media/maxim-gmsl.h
+
+--
+2.25.1
+
