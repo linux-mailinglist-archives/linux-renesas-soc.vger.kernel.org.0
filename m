@@ -2,131 +2,91 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B776F1868EA
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2020 11:25:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BC86518691A
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2020 11:31:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730576AbgCPKZt (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Mar 2020 06:25:49 -0400
-Received: from albert.telenet-ops.be ([195.130.137.90]:38494 "EHLO
-        albert.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730574AbgCPKZt (ORCPT
+        id S1730592AbgCPKbE (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Mar 2020 06:31:04 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:34952 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730565AbgCPKbE (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Mar 2020 06:25:49 -0400
-Received: from ramsan ([84.195.182.253])
-        by albert.telenet-ops.be with bizsmtp
-        id EyRk2200M5USYZQ06yRkjL; Mon, 16 Mar 2020 11:25:47 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jDmwK-00069m-8J; Mon, 16 Mar 2020 11:25:44 +0100
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jDmwK-0007Wk-7S; Mon, 16 Mar 2020 11:25:44 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Magnus Damm <magnus.damm@gmail.com>
-Cc:     linux-renesas-soc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 2/2] ARM: dts: r8a7791: Add PWM device nodes
-Date:   Mon, 16 Mar 2020 11:25:40 +0100
-Message-Id: <20200316102540.28887-3-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200316102540.28887-1-geert+renesas@glider.be>
-References: <20200316102540.28887-1-geert+renesas@glider.be>
+        Mon, 16 Mar 2020 06:31:04 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 49C22A3B;
+        Mon, 16 Mar 2020 11:31:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1584354662;
+        bh=TKrls43C5f1/bWmKF3TeVnSLC0R214JGxpZXZHFtiNs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SU5AT+764RDUnnP6lkjjCtKTX2fCDjQllsT2uNzha4m6f+iCtMI5odDOIebPhx4Xt
+         EW7cAmntrTBW8y06SpOTtyusiGSNfkdOapBYZNAJP1F21qOWtD06z81Q8DaC8EZOC1
+         c7Cz1UJg9Y+80PhNL/0l8kHXqnKmW6H36YS4Ee2Y=
+Date:   Mon, 16 Mar 2020 12:30:56 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert+renesas@glider.be>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: pwm: renesas-tpu: Document more R-Car Gen2
+ support
+Message-ID: <20200316103056.GU4732@pendragon.ideasonboard.com>
+References: <20200316101453.27745-1-geert+renesas@glider.be>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200316101453.27745-1-geert+renesas@glider.be>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Enable support for the 7 PWM channels provided by PWM Timers on R-Car
-M2-W, by adding device nodes describing the PWM Timers.
+Hi Geert,
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- arch/arm/boot/dts/r8a7791.dtsi | 70 ++++++++++++++++++++++++++++++++++
- 1 file changed, 70 insertions(+)
+Thank you for the patch.
 
-diff --git a/arch/arm/boot/dts/r8a7791.dtsi b/arch/arm/boot/dts/r8a7791.dtsi
-index a508098af205ee3e..b4dc177e45a6d915 100644
---- a/arch/arm/boot/dts/r8a7791.dtsi
-+++ b/arch/arm/boot/dts/r8a7791.dtsi
-@@ -1079,6 +1079,76 @@
- 			status = "disabled";
- 		};
- 
-+		pwm0: pwm@e6e30000 {
-+			compatible = "renesas,pwm-r8a7791", "renesas,pwm-rcar";
-+			reg = <0 0xe6e30000 0 0x8>;
-+			clocks = <&cpg CPG_MOD 523>;
-+			power-domains = <&sysc R8A7791_PD_ALWAYS_ON>;
-+			resets = <&cpg 523>;
-+			#pwm-cells = <2>;
-+			status = "disabled";
-+		};
-+
-+		pwm1: pwm@e6e31000 {
-+			compatible = "renesas,pwm-r8a7791", "renesas,pwm-rcar";
-+			reg = <0 0xe6e31000 0 0x8>;
-+			clocks = <&cpg CPG_MOD 523>;
-+			power-domains = <&sysc R8A7791_PD_ALWAYS_ON>;
-+			resets = <&cpg 523>;
-+			#pwm-cells = <2>;
-+			status = "disabled";
-+		};
-+
-+		pwm2: pwm@e6e32000 {
-+			compatible = "renesas,pwm-r8a7791", "renesas,pwm-rcar";
-+			reg = <0 0xe6e32000 0 0x8>;
-+			clocks = <&cpg CPG_MOD 523>;
-+			power-domains = <&sysc R8A7791_PD_ALWAYS_ON>;
-+			resets = <&cpg 523>;
-+			#pwm-cells = <2>;
-+			status = "disabled";
-+		};
-+
-+		pwm3: pwm@e6e33000 {
-+			compatible = "renesas,pwm-r8a7791", "renesas,pwm-rcar";
-+			reg = <0 0xe6e33000 0 0x8>;
-+			clocks = <&cpg CPG_MOD 523>;
-+			power-domains = <&sysc R8A7791_PD_ALWAYS_ON>;
-+			resets = <&cpg 523>;
-+			#pwm-cells = <2>;
-+			status = "disabled";
-+		};
-+
-+		pwm4: pwm@e6e34000 {
-+			compatible = "renesas,pwm-r8a7791", "renesas,pwm-rcar";
-+			reg = <0 0xe6e34000 0 0x8>;
-+			clocks = <&cpg CPG_MOD 523>;
-+			power-domains = <&sysc R8A7791_PD_ALWAYS_ON>;
-+			resets = <&cpg 523>;
-+			#pwm-cells = <2>;
-+			status = "disabled";
-+		};
-+
-+		pwm5: pwm@e6e35000 {
-+			compatible = "renesas,pwm-r8a7791", "renesas,pwm-rcar";
-+			reg = <0 0xe6e35000 0 0x8>;
-+			clocks = <&cpg CPG_MOD 523>;
-+			power-domains = <&sysc R8A7791_PD_ALWAYS_ON>;
-+			resets = <&cpg 523>;
-+			#pwm-cells = <2>;
-+			status = "disabled";
-+		};
-+
-+		pwm6: pwm@e6e36000 {
-+			compatible = "renesas,pwm-r8a7791", "renesas,pwm-rcar";
-+			reg = <0 0xe6e36000 0 0x8>;
-+			clocks = <&cpg CPG_MOD 523>;
-+			power-domains = <&sysc R8A7791_PD_ALWAYS_ON>;
-+			resets = <&cpg 523>;
-+			#pwm-cells = <2>;
-+			status = "disabled";
-+		};
-+
- 		adc: adc@e6e54000 {
- 			compatible = "renesas,r8a7791-gyroadc",
- 				     "renesas,rcar-gyroadc";
+On Mon, Mar 16, 2020 at 11:14:53AM +0100, Geert Uytterhoeven wrote:
+> All R-Car Gen2 SoCs have a Renesas Timer Pulse Unit.
+> Document support for the missing variants.
+> 
+> No driver change is needed due to the fallback compatible string.
+
+I think this sentence doesn't belong to the bindings patch.
+
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+> Tested on R-Car M2-W.
+
+What do you mean by tested, how do you test bindings on hardware ? :-)
+
+> ---
+>  Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml b/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml
+> index 4969a954993cb693..4bf62a3d5bba8e3a 100644
+> --- a/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml
+> +++ b/Documentation/devicetree/bindings/pwm/renesas,tpu-pwm.yaml
+> @@ -19,6 +19,10 @@ properties:
+>            - renesas,tpu-r8a7744   # RZ/G1N
+>            - renesas,tpu-r8a7745   # RZ/G1E
+>            - renesas,tpu-r8a7790   # R-Car H2
+> +          - renesas,tpu-r8a7791   # R-Car M2-W
+> +          - renesas,tpu-r8a7792   # R-Car V2H
+> +          - renesas,tpu-r8a7793   # R-Car M2-N
+> +          - renesas,tpu-r8a7794   # R-Car E2
+>            - renesas,tpu-r8a7795   # R-Car H3
+>            - renesas,tpu-r8a7796   # R-Car M3-W
+>            - renesas,tpu-r8a77965  # R-Car M3-N
+
 -- 
-2.17.1
+Regards,
 
+Laurent Pinchart
