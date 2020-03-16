@@ -2,71 +2,97 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 73AC3187001
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2020 17:27:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3E13187017
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2020 17:35:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732016AbgCPQ1y (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Mar 2020 12:27:54 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:59817 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731884AbgCPQ1y (ORCPT
+        id S1731924AbgCPQfA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Mar 2020 12:35:00 -0400
+Received: from mo4-p00-ob.smtp.rzone.de ([85.215.255.20]:16498 "EHLO
+        mo4-p00-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732065AbgCPQfA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Mar 2020 12:27:54 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1jDsaj-0008Kh-J1; Mon, 16 Mar 2020 17:27:49 +0100
-Received: from ukl by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1jDsai-0002UY-Cq; Mon, 16 Mar 2020 17:27:48 +0100
-Date:   Mon, 16 Mar 2020 17:27:48 +0100
-From:   Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        linux-pwm@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 3/3] pwm: renesas-tpu: Drop confusing registered message
-Message-ID: <20200316162748.cdafk2ghuw7zcqgd@pengutronix.de>
-References: <20200316103216.29383-1-geert+renesas@glider.be>
- <20200316103216.29383-4-geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200316103216.29383-4-geert+renesas@glider.be>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-renesas-soc@vger.kernel.org
+        Mon, 16 Mar 2020 12:35:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1584376495;
+        s=strato-dkim-0002; d=fpond.eu;
+        h=Message-Id:Date:Subject:Cc:To:From:X-RZG-CLASS-ID:X-RZG-AUTH:From:
+        Subject:Sender;
+        bh=RRm6EYInxqm4NGcc6o+pz84OE/U0IUOVNTA5o8FP6w8=;
+        b=TRy6N7rBiije6Hlc8t2U7piWWxaZJ72B1mpQcOmSjeq6ctjuaaPvtpd+C6DgU+JwKR
+        Pe/2WQbDKU3uFZ9eq02NyHs9Dv4cVxfa9X/JpxvFHFZ1YuVDS4TY2cqfkNdvtZ68uwXn
+        XM/JnqmY+ivuAWEB5Bwz/khFqcDoJP2fb61GjYCBD8t+jRT8aQSwhlNkuxdODappvoST
+        oju8+A7sG1/HhIuBfgcHrDvExpx116x1dk+RRQ6K1ATA1nHVduNbMeePvWlmWCTcBlK0
+        kfsIQXAouNrZNgkVh8jVg/0YHNa9We73HmIGbhkAsnt365Gp3yycLj6e3sdr921BhXe8
+        lSTw==
+X-RZG-AUTH: ":OWANVUa4dPFUgKR/3dpvnYP0Np73dmm4I5W0/AvA67Ot4fvR82RYdxOjioM="
+X-RZG-CLASS-ID: mo00
+Received: from groucho.site
+        by smtp.strato.de (RZmta 46.2.0 DYNA|AUTH)
+        with ESMTPSA id d00eabw2GGYiDtH
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+        (Client did not present a certificate);
+        Mon, 16 Mar 2020 17:34:44 +0100 (CET)
+From:   Ulrich Hecht <uli+renesas@fpond.eu>
+To:     linux-renesas-soc@vger.kernel.org
+Cc:     wsa@the-dreams.de, geert@linux-m68k.org,
+        fabrizio.castro@bp.renesas.com,
+        ramesh.shanmugasundaram@bp.renesas.com, magnus.damm@gmail.com,
+        Ulrich Hecht <uli+renesas@fpond.eu>
+Subject: [PATCH v2 0/3] clk: renesas: cpg-mssr: add ignore-unused option
+Date:   Mon, 16 Mar 2020 17:34:36 +0100
+Message-Id: <1584376479-25258-1-git-send-email-uli+renesas@fpond.eu>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Mon, Mar 16, 2020 at 11:32:16AM +0100, Geert Uytterhoeven wrote:
-> During device probe, the message
-> 
->     TPU PWM -1 registered
-> 
-> is printed.
-> 
-> While the "-1" looks suspicious, it is perfectly normal for a device
-> instantiated from DT.
-> 
-> Remove the message, as there are no non-DT users left, and other drivers
-> don't print such messages neither.
-> 
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Hi!
 
-Acked-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+This revision renames the data structure holding the ignore-unused clocks to
+something hopefully less confusing, squashes the changes for R-Car Gen3 and
+RZ/G2 into one patch each and removes redundant debug output. Functionally,
+nothing has changed. Thanks to Wolfram and Geert for the review!
 
-Thanks
-Uwe
+This series adds the option for declaring clocks as "ignore-unused", i.e. 
+clocks that will not be turned on if not used, but also not turned off if
+unused. It also enables this option for the RWDT clocks in (almost) all
+SoCs.
+
+The point of this is to allow a WDT that has been enabled by the bootloader
+to survive these events:
+
+- deferred probing of the WDT device, which can lead the clock driver
+  to disable the WDT clock until the WDT is re-probed, giving it a
+  blind spot
+- probe failure in the WDT driver
+
+There are a number of Gen2 and RZ/G1 SoCs that have the RWDT clock declared
+as critical in order to allow SMP bringup code to work. These have been
+left as they are.
+
+CU
+Uli
+
+
+Ulrich Hecht (3):
+  clk: renesas: cpg-mssr: add support for ignore-unused clocks
+  clk: renesas: rcar-gen3: mark RWDT clocks as ignore-unused
+  clk: renesas: rzg2: mark RWDT clock as ignore-unused
+
+ drivers/clk/renesas/r8a774a1-cpg-mssr.c | 5 +++++
+ drivers/clk/renesas/r8a774b1-cpg-mssr.c | 5 +++++
+ drivers/clk/renesas/r8a774c0-cpg-mssr.c | 5 +++++
+ drivers/clk/renesas/r8a7795-cpg-mssr.c  | 6 +++++-
+ drivers/clk/renesas/r8a7796-cpg-mssr.c  | 6 +++++-
+ drivers/clk/renesas/r8a77965-cpg-mssr.c | 5 +++++
+ drivers/clk/renesas/r8a77970-cpg-mssr.c | 6 +++++-
+ drivers/clk/renesas/r8a77980-cpg-mssr.c | 6 +++++-
+ drivers/clk/renesas/r8a77990-cpg-mssr.c | 5 +++++
+ drivers/clk/renesas/r8a77995-cpg-mssr.c | 6 +++++-
+ drivers/clk/renesas/renesas-cpg-mssr.c  | 5 +++++
+ drivers/clk/renesas/renesas-cpg-mssr.h  | 9 +++++++++
+ 12 files changed, 64 insertions(+), 5 deletions(-)
 
 -- 
-Pengutronix e.K.                           | Uwe Kleine-König            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+2.7.4
+
