@@ -2,80 +2,51 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C8BF618703D
-	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2020 17:39:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 62D73187040
+	for <lists+linux-renesas-soc@lfdr.de>; Mon, 16 Mar 2020 17:40:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732221AbgCPQjR (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Mon, 16 Mar 2020 12:39:17 -0400
-Received: from sauhun.de ([88.99.104.3]:54480 "EHLO pokefinder.org"
+        id S1732147AbgCPQkj (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Mon, 16 Mar 2020 12:40:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44924 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732183AbgCPQjO (ORCPT
+        id S1732065AbgCPQkj (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Mon, 16 Mar 2020 12:39:14 -0400
-Received: from localhost (p54B334BA.dip0.t-ipconnect.de [84.179.52.186])
-        by pokefinder.org (Postfix) with ESMTPSA id 7F4EC2C1F53;
-        Mon, 16 Mar 2020 17:39:12 +0100 (CET)
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] drm: encoder_slave: use new I2C API
-Date:   Mon, 16 Mar 2020 17:39:07 +0100
-Message-Id: <20200316163907.13709-3-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200316163907.13709-1-wsa+renesas@sang-engineering.com>
-References: <20200316163907.13709-1-wsa+renesas@sang-engineering.com>
+        Mon, 16 Mar 2020 12:40:39 -0400
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1584376839;
+        bh=Akjozseg+0Fuy06l3UvBy/0mxB2izTW/lmyL1z8HEo4=;
+        h=Subject:From:Date:To:From;
+        b=2u4VadSAZuskGp98anYpcnLC30K+uuEKSd0nHQUZhjpHyww3j8SbEpPp8KooR5jof
+         cjny+RH6r7YiPGYnfX+MWnT/osPvQy9DHxsz3tX3+TXOShmfQ7ubFzNMa4/SfzBOhT
+         85Fy8uUJf3T9a9UixqJ9680jDkzo1r+ENFPjKSQ0=
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Patchwork housekeeping for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <158437683905.19590.7630994804016867774.git-patchwork-housekeeping@kernel.org>
+Date:   Mon, 16 Mar 2020 16:40:39 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-i2c_new_client() is deprecated, use the replacement
-i2c_new_client_device(). Also, we have a helper to check if a driver is
-bound. Use it to simplify the code. Note that this changes the errno for
-a failed device creation from ENOMEM to ENODEV. No callers currently
-interpret this errno, though, so we use this condensed error check.
+Latest series: [v2] clk: renesas: cpg-mssr: add ignore-unused option (2020-03-16T16:34:37)
+  Superseding: [v1] clk: renesas: cpg-mssr: add ignore-unused option (2020-02-26T20:28:06):
+    [01/11] clk: renesas: cpg-mssr: add support for ignore-unused clocks
+    [02/11] clk: renesas: r8a7796: mark RWDT clock as ignore-unused
+    [03/11] clk: renesas: r8a7795: mark RWDT clock as ignore-unused
+    [04/11] clk: renesas: r8a77970: mark RWDT clock as ignore-unused
+    [05/11] clk: renesas: r8a77980: mark RWDT clock as ignore-unused
+    [06/11] clk: renesas: r8a77995: mark RWDT clock as ignore-unused
+    [07/11] clk: renesas: r8a774a1: mark RWDT clock as ignore-unused
+    [08/11] clk: renesas: r8a774b1: mark RWDT clock as ignore-unused
+    [09/11] clk: renesas: r8a774c0: mark RWDT clock as ignore-unused
+    [10/11] clk: renesas: r8a77965: mark RWDT clock as ignore-unused
+    [11/11] clk: renesas: r8a77990: mark RWDT clock as ignore-unused
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/gpu/drm/drm_encoder_slave.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_encoder_slave.c b/drivers/gpu/drm/drm_encoder_slave.c
-index d50a7884e69e..e464429d32df 100644
---- a/drivers/gpu/drm/drm_encoder_slave.c
-+++ b/drivers/gpu/drm/drm_encoder_slave.c
-@@ -61,13 +61,8 @@ int drm_i2c_encoder_init(struct drm_device *dev,
- 
- 	request_module("%s%s", I2C_MODULE_PREFIX, info->type);
- 
--	client = i2c_new_device(adap, info);
--	if (!client) {
--		err = -ENOMEM;
--		goto fail;
--	}
--
--	if (!client->dev.driver) {
-+	client = i2c_new_client_device(adap, info);
-+	if (!i2c_client_has_driver(client)) {
- 		err = -ENODEV;
- 		goto fail_unregister;
- 	}
-@@ -96,7 +91,6 @@ int drm_i2c_encoder_init(struct drm_device *dev,
- 	module_put(module);
- fail_unregister:
- 	i2c_unregister_device(client);
--fail:
- 	return err;
- }
- EXPORT_SYMBOL(drm_i2c_encoder_init);
 -- 
-2.20.1
-
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
