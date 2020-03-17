@@ -2,200 +2,180 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 23551187E71
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2020 11:36:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FE45187E7E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2020 11:38:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725868AbgCQKgT (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Mar 2020 06:36:19 -0400
-Received: from mail-eopbgr1400125.outbound.protection.outlook.com ([40.107.140.125]:34336
-        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725730AbgCQKgT (ORCPT
+        id S1726207AbgCQKiA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Mar 2020 06:38:00 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:33403 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725730AbgCQKiA (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Mar 2020 06:36:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oKn25MNWblYsWTtaRQ+dfyynHX3mtbSczcFN1oguAbU/QdVcOMGS3qfo7npjoZwegO3obXy8T2Cm/R9MMjg+NdDkpI3AwqkUsu0X9lHzXceufHBaW7zWJh7m+rm28RxAT+RxAC8cstdTgGFpAagVCRPL7JnBptbwIMLuGEvnM7fyLG75XWCpwRNWGexL6+ZlYpis/O+aCH/+4/imyx4H8jwtlpF++M6fehez9Y5RlHoUNiYCh16GPitoO5m6rR0qOcedeHlBoX7mnl0InAGamzvSQwp54D4s5wDFoM4YzX70jHzeDZi4O3yHIrj1m9NhM+s3sFxlG9lsg0PvS/ExMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uur5A43zlIis658Vag6mGc9U4SZ3N8hynWthYglxrpY=;
- b=J573pYRhjXxz6cr4EQ9MFkrY/piSHNlJ9LAfu9PMI3m6Jlp82f5kYPjFu13aoP+1ybEe9VBVnDBhci8WMNE+78a2OkEBHPdAclO9EkkIOszKI4swloGvfjDc6MH2OswIyC4VPoEVLMzXDleC4KaFFf5fm2v2KTVtN5hp5dp0dXmjijg1Qe86rkHJu430j0E2HeGpgNHKXRkZOgkkxXV7GLu9pdAteEbwVLKCoMUZdobI2xYmP81D2+10GYkYWEs03w9z7bi69h2PMFiYZOOeLnBALbY3uDSO3g0Kwcgi0N+POSo+9AColNCoBinzdlGlzLh+xWqpgl8zJmBNWPW2Pg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+        Tue, 17 Mar 2020 06:38:00 -0400
+Received: by mail-lf1-f66.google.com with SMTP id c20so16748000lfb.0
+        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Mar 2020 03:37:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uur5A43zlIis658Vag6mGc9U4SZ3N8hynWthYglxrpY=;
- b=Y9Xi4xFyf92TIwC7gimedqS6mr9PN7kjnTouYODAUTWPWp/6zJ8Gzaw8sI8JgI1bXxbVFXeDKHrWVIOvHUxqbuIonzfepb0ClSFxy684KkeDYdKlGrTpWojXeMSxYZ9qvhEQI3BfhJco79MLEGbVTii3wVKIt66FjFwmepbYWGA=
-Received: from OSBPR01MB3590.jpnprd01.prod.outlook.com (20.178.97.80) by
- OSBPR01MB2662.jpnprd01.prod.outlook.com (52.134.255.145) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2814.21; Tue, 17 Mar 2020 10:36:13 +0000
-Received: from OSBPR01MB3590.jpnprd01.prod.outlook.com
- ([fe80::490:aa83:2d09:3a0b]) by OSBPR01MB3590.jpnprd01.prod.outlook.com
- ([fe80::490:aa83:2d09:3a0b%5]) with mapi id 15.20.2814.021; Tue, 17 Mar 2020
- 10:36:12 +0000
-From:   Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Lad Prabhakar <prabhakar.csengg@gmail.com>
-CC:     Andrew Murray <andrew.murray@arm.com>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-rockchip@lists.infradead.org" 
-        <linux-rockchip@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>
-Subject: RE: [PATCH v5 7/7] misc: pci_endpoint_test: Add Device ID for RZ/G2E
- PCIe controller
-Thread-Topic: [PATCH v5 7/7] misc: pci_endpoint_test: Add Device ID for RZ/G2E
- PCIe controller
-Thread-Index: AQHV7k2qHnZcas9owkCCufgdtXIhrqhMsfcAgAAA1TA=
-Date:   Tue, 17 Mar 2020 10:36:12 +0000
-Message-ID: <OSBPR01MB3590DA5CDC8DF1B618B0AA34AAF60@OSBPR01MB3590.jpnprd01.prod.outlook.com>
-References: <20200228154122.14164-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200228154122.14164-8-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <TYAPR01MB45441E4766FD57506A5B9F98D8F60@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYAPR01MB45441E4766FD57506A5B9F98D8F60@TYAPR01MB4544.jpnprd01.prod.outlook.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=prabhakar.mahadev-lad.rj@bp.renesas.com; 
-x-originating-ip: [193.141.220.21]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 417486e6-7007-4090-8ec5-08d7ca5f03b0
-x-ms-traffictypediagnostic: OSBPR01MB2662:|OSBPR01MB2662:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <OSBPR01MB266246D624F7611F628DC645AAF60@OSBPR01MB2662.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2399;
-x-forefront-prvs: 0345CFD558
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(39860400002)(366004)(396003)(376002)(346002)(136003)(199004)(316002)(26005)(110136005)(52536014)(5660300002)(66946007)(86362001)(64756008)(81166006)(66446008)(66476007)(81156014)(66556008)(186003)(2906002)(7416002)(76116006)(33656002)(53546011)(6506007)(8936002)(478600001)(7696005)(9686003)(54906003)(4326008)(55016002)(71200400001)(8676002);DIR:OUT;SFP:1102;SCL:1;SRVR:OSBPR01MB2662;H:OSBPR01MB3590.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:0;
-received-spf: None (protection.outlook.com: bp.renesas.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: XR8rIn7GMNL4pne/aHHfzP1Lw7O3F/XMP8dw1XbaLQ1JVzYqpybJvpzdKcz4+CeLgYtwTGrXd7gNWUYiC5JBHJvXRqHK+lI8VoPUpjM6oI94OpqbnYJQLmvm/dHyriIU+WNMtjeiU5ouagtfgYTuoFJv0W/Lrb2tMQLkbHBJjTtMQj9KIJy+hQtDzEEJ2bV12pnJJ1ZVtVUvZTZWH7t8goM+mYZvjov1fOrxKmueQQiqnYqFzTkJ1V9W4ALVMLy+U868Au6ui7sVMx5BF0jGDD2BijCqBC61SyObj6TplqKAU+aN+GwYUOk5cFG58Q/R/zldXFARgt/ExwZSBOWf8J6T/qLH369qdPUsY7DvGCiSRS/2SJsEkDvSsW87zKeTKPlc7TMBs9JwpvhI9UFH5IwKSn9hRUx3PaQvf5R/RSTULbnlmMAlLrvACI5iXLsU
-x-ms-exchange-antispam-messagedata: 1EsQNu/6793dt86AJ2FVXrO0TEgUs6Sxw+q7mY7dZ4v05flbrg8CnlAraN5XKPelGzHxQSVJXL+zCy8l1he5SxG8Q3IvA8VegsfPvOWmo2R5m6/wNjP/00xp7DZeG3tMN33E5PvZ8Ji5K/VKB8H1Ww==
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=7mUtSodRzVFrNOdwotyLpGRUL0sXdt0yPPIiSrVrsLs=;
+        b=PPMraiP7BrnvbgEUdY7vtJGlY/uq1xXN0yspKo+AerSKh+3S/VAgqVbKJPIs3l0k7U
+         ut6qoQMdEwd7W3g0K8vz6PZfWVjKyFLUpSo+bOxY9DSGFmBoMTXOYKfP+G8N0BxszBLV
+         9HOPnE3mLGCz2eO7SrH+k89yt2n3fCLD9mpcts/8gq5t7kZytl/xqlIjZR3MWh5/gYln
+         Hs+1EX00oS9H9TViCN6KUHqH+UV7vLXXAcNnEYlRp1tTH7tt00Zn+hT/IP6uIWfV8FQO
+         FF9vMbelEhdvFltQ+P363Wqfo/crm/zEjIGfsHAxCWhjBfprUGL7wE6fC+NnNkdCDGds
+         4F6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=7mUtSodRzVFrNOdwotyLpGRUL0sXdt0yPPIiSrVrsLs=;
+        b=exjg74hJaiW+16zDck3HpurmiixrOlAurYV8PGG1tgzgj9Jgr6MBCOf1wZIblQWSrG
+         b/OWQelR8nXT3wQeCknIKqtmKe99locz0/hY6bR85jz9dvMC31H5A3OmAeApg/3fm6OB
+         5WqXlfueG78rMgS3F6YARo350/wkr8EHP5EXpR1K4TsfOweyzquRVZBo5/bC+OEhcfbx
+         yImSfSniUrz7mCSRdsL155ElKvd4VF2NWVobGSyxKWX1ctB5nE/kj1hZnWUxfUoLXPWF
+         VbSPZ9o9Q15rw6nAdX4oq8sL2+t7rDSNnq+RdmAOWXg8umL09I1mYnmW1IfiG/8rQD29
+         waMQ==
+X-Gm-Message-State: ANhLgQ3WYECSGaXFNkS+irjj7fw+lRPaNtn75sPTi/MeyAs7fttuh1zi
+        +nv3D/EGOe6sCsHUifZte0z2tg==
+X-Google-Smtp-Source: ADFU+vtVlYRQTZ5F59LQqxdeWy9nM1l8g9ypwAvky2egMozG6VNQd4T99otV//QeFt6Y/pXumoW8qQ==
+X-Received: by 2002:ac2:59c6:: with SMTP id x6mr730389lfn.177.1584441477770;
+        Tue, 17 Mar 2020 03:37:57 -0700 (PDT)
+Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
+        by smtp.gmail.com with ESMTPSA id y11sm1989763ljn.83.2020.03.17.03.37.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2020 03:37:56 -0700 (PDT)
+Date:   Tue, 17 Mar 2020 11:37:56 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Suresh Udipi <sudipi@jp.adit-jv.com>
+Cc:     akiyama@nds-osk.co.jp, efriedrich@de.adit-jv.com,
+        erosca@de.adit-jv.com, hverkuil-cisco@xs4all.nl,
+        jacopo+renesas@jmondi.org, laurent.pinchart@ideasonboard.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, mrodin@de.adit-jv.com,
+        securitycheck@denso.co.jp
+Subject: Re: [PATCH v2] [RFC] rcar-vin: rcar-csi2: Correct the selection of
+ hsfreqrange
+Message-ID: <20200317103756.GC2496015@oden.dyn.berto.se>
+References: <20200316130247.GA2258968@oden.dyn.berto.se>
+ <1584428905-21560-1-git-send-email-sudipi@jp.adit-jv.com>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 417486e6-7007-4090-8ec5-08d7ca5f03b0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2020 10:36:12.6242
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: zijk8rJbZRMsYr+paqqg4EsOB3s7zvIAuikfWRJ7OmmPhQ3z4hIuaXRpdZGtb19h6ojUpwrgddCa2K5H358O+5XZ+jlwm9mx2Bt4g9U+uOIPRp+rq3R0vx/UiljEPtIK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB2662
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1584428905-21560-1-git-send-email-sudipi@jp.adit-jv.com>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Yoshihiro,
+Hi Suresh,
 
-Thank you for the review.
+Thanks for your work.
 
-> -----Original Message-----
-> From: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-> Sent: 17 March 2020 10:32
-> To: Lad Prabhakar <prabhakar.csengg@gmail.com>
-> Cc: Andrew Murray <andrew.murray@arm.com>; linux-pci@vger.kernel.org;
-> linux-arm-kernel@lists.infradead.org; linux-renesas-soc@vger.kernel.org;
-> linux-rockchip@lists.infradead.org; linux-kernel@vger.kernel.org;
-> devicetree@vger.kernel.org; Prabhakar Mahadev Lad <prabhakar.mahadev-
-> lad.rj@bp.renesas.com>; Bjorn Helgaas <bhelgaas@google.com>; Rob
-> Herring <robh+dt@kernel.org>; Mark Rutland <mark.rutland@arm.com>;
-> Catalin Marinas <catalin.marinas@arm.com>; Will Deacon <will@kernel.org>;
-> Kishon Vijay Abraham I <kishon@ti.com>; Lorenzo Pieralisi
-> <lorenzo.pieralisi@arm.com>; Arnd Bergmann <arnd@arndb.de>; Greg
-> Kroah-Hartman <gregkh@linuxfoundation.org>; Jingoo Han
-> <jingoohan1@gmail.com>; Gustavo Pimentel
-> <gustavo.pimentel@synopsys.com>; Marek Vasut
-> <marek.vasut+renesas@gmail.com>; Shawn Lin <shawn.lin@rock-
-> chips.com>; Heiko Stuebner <heiko@sntech.de>
-> Subject: RE: [PATCH v5 7/7] misc: pci_endpoint_test: Add Device ID for
-> RZ/G2E PCIe controller
->
-> Hi Prabhakar-san,
->
-> Thank you for the patch!
->
-> > From: Lad Prabhakar, Sent: Saturday, February 29, 2020 12:41 AM
-> >
-> > Add RZ/G2E in pci_device_id table so that pci-epf-test can be used for
-> > testing PCIe EP in RZ/G2E.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-
-> lad.rj@bp.renesas.com>
-> > ---
-> >  drivers/misc/pci_endpoint_test.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/drivers/misc/pci_endpoint_test.c
-> > b/drivers/misc/pci_endpoint_test.c
-> > index a5e3170..3c84e9a 100644
-> > --- a/drivers/misc/pci_endpoint_test.c
-> > +++ b/drivers/misc/pci_endpoint_test.c
-> > @@ -66,6 +66,8 @@
-> >
-> >  #define PCI_DEVICE_ID_TI_AM6540xb00c
-> >
-> > +#define PCI_DEVICE_ID_RENESAS_RZG2E0x002d
->
-> This define should be in include/linux/pci_ids.h, and adding the define
-> should be separated.
-> Also, I think "R8A774C0" is better than "RZG2E".
->
-Agreed will add it under PCI_VENDOR_ID_RENESAS.
+On 2020-03-17 16:08:25 +0900, Suresh Udipi wrote:
+> hsfreqrange should be chosen based on the calculated mbps which
+> is closer to the default bit rate  and within the range as per
+> table[1]. But current calculation always selects first value which
+> is greater than or equal to the calculated mbps which may lead
+> to chosing a wrong range in some cases.
+> 
+> For example for 360 mbps for H3/M3N
+> Existing logic selects
+> Calculated value 360Mbps : Default 400Mbps Range [368.125 -433.125 mbps]
+> 
+> This hsfreqrange is out of range.
+> 
+> The logic is changed to get the default value which is closest to the
+> calculated value [1]
+> 
+> Calculated value 360Mbps : Default 350Mbps  Range [320.625 -380.625 mpbs]
+> 
+> [1] specs r19uh0105ej0200-r-car-3rd-generation.pdf [Table 25.9]
+> 
+> There is one exectpion value 227Mbps, which may cause out of
+> range.
 
-Cheers,
---Prabhakar
+Then something else is needed I think :-)
 
-> Best regards,
-> Yoshihiro Shimoda
->
-> >  #define is_am654_pci_dev(pdev)\
-> >  ((pdev)->device =3D=3D PCI_DEVICE_ID_TI_AM654)
-> >
-> > @@ -797,6 +799,7 @@ static const struct pci_device_id
-> pci_endpoint_test_tbl[] =3D {
-> >  { PCI_DEVICE(PCI_VENDOR_ID_TI, PCI_DEVICE_ID_TI_AM654),
-> >    .driver_data =3D (kernel_ulong_t)&am654_data
-> >  },
-> > +{ PCI_DEVICE(PCI_VENDOR_ID_RENESAS,
-> PCI_DEVICE_ID_RENESAS_RZG2E) },
-> >  { }
-> >  };
-> >  MODULE_DEVICE_TABLE(pci, pci_endpoint_test_tbl);
-> > --
-> > 2.7.4
+I liked v1 of this RFC more, where you added a u16 min and max to struct 
+rcsi2_mbps_reg. I think that is the right solution.
 
+What I tried to express in my review of v1 was
 
+- You should remove the mbps member from struct rcsi2_mbps_reg.
+- Update the walk of the array in rcsi2_set_phypll() so that it finds 
+  the first entry where the calculated target value is between min and 
+  max and use the reg setting for that entry.
 
-Renesas Electronics Europe GmbH, Geschaeftsfuehrer/President: Carsten Jauch=
-, Sitz der Gesellschaft/Registered office: Duesseldorf, Arcadiastrasse 10, =
-40472 Duesseldorf, Germany, Handelsregister/Commercial Register: Duesseldor=
-f, HRB 3708 USt-IDNr./Tax identification no.: DE 119353406 WEEE-Reg.-Nr./WE=
-EE reg. no.: DE 14978647
+Would that solution make sens too you? Sorry if I expressed myself a but 
+muddy in v1 about this.
+
+> 
+> Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
+> 
+> Signed-off-by: Suresh Udipi <sudipi@jp.adit-jv.com>
+> Signed-off-by: Kazuyoshi Akiyama <akiyama@nds-osk.co.jp>
+> ---
+> Changes in v2:
+>   - Added the boundary check for the maximum bit rate.
+>   
+>   - Simplified the logic by remmoving range check 
+>     as only the closest default value covers most 
+>     of the use cases.
+> 
+>   - Aligning the commit message based on the above change
+> 
+>  drivers/media/platform/rcar-vin/rcar-csi2.c | 18 +++++++++++++-----
+>  1 file changed, 13 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> index faa9fb2..6573625 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> @@ -199,6 +199,7 @@ static const struct rcsi2_mbps_reg phtw_mbps_v3m_e3[] = {
+>  /* PHY Frequency Control */
+>  #define PHYPLL_REG			0x68
+>  #define PHYPLL_HSFREQRANGE(n)		((n) << 16)
+> +#define PHYPLL_HSFREQRANGE_MAX		1500
+>  
+>  static const struct rcsi2_mbps_reg hsfreqrange_h3_v3h_m3n[] = {
+>  	{ .mbps =   80, .reg = 0x00 },
+> @@ -431,16 +432,23 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
+>  static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
+>  {
+>  	const struct rcsi2_mbps_reg *hsfreq;
+> +	const struct rcsi2_mbps_reg *hsfreq_prev = NULL;
+>  
+> -	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++)
+> -		if (hsfreq->mbps >= mbps)
+> -			break;
+> -
+> -	if (!hsfreq->mbps) {
+> +	if (mbps > PHYPLL_HSFREQRANGE_MAX) {
+>  		dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
+>  		return -ERANGE;
+>  	}
+>  
+> +	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++) {
+> +		if (hsfreq->mbps >= mbps)
+> +			break;
+> +		hsfreq_prev = hsfreq;
+> +	}
+> +
+> +	if (hsfreq_prev &&
+> +	    ((mbps - hsfreq_prev->mbps) <= (hsfreq->mbps - mbps)))
+> +		hsfreq = hsfreq_prev;
+> +
+>  	rcsi2_write(priv, PHYPLL_REG, PHYPLL_HSFREQRANGE(hsfreq->reg));
+>  
+>  	return 0;
+> -- 
+> 2.7.4
+> 
+
+-- 
+Regards,
+Niklas Söderlund
