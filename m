@@ -2,180 +2,302 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FE45187E7E
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2020 11:38:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73D48187EB5
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2020 11:50:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726207AbgCQKiA (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Mar 2020 06:38:00 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:33403 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725730AbgCQKiA (ORCPT
+        id S1726643AbgCQKua (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Mar 2020 06:50:30 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:36545 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726628AbgCQKu3 (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Mar 2020 06:38:00 -0400
-Received: by mail-lf1-f66.google.com with SMTP id c20so16748000lfb.0
-        for <linux-renesas-soc@vger.kernel.org>; Tue, 17 Mar 2020 03:37:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=7mUtSodRzVFrNOdwotyLpGRUL0sXdt0yPPIiSrVrsLs=;
-        b=PPMraiP7BrnvbgEUdY7vtJGlY/uq1xXN0yspKo+AerSKh+3S/VAgqVbKJPIs3l0k7U
-         ut6qoQMdEwd7W3g0K8vz6PZfWVjKyFLUpSo+bOxY9DSGFmBoMTXOYKfP+G8N0BxszBLV
-         9HOPnE3mLGCz2eO7SrH+k89yt2n3fCLD9mpcts/8gq5t7kZytl/xqlIjZR3MWh5/gYln
-         Hs+1EX00oS9H9TViCN6KUHqH+UV7vLXXAcNnEYlRp1tTH7tt00Zn+hT/IP6uIWfV8FQO
-         FF9vMbelEhdvFltQ+P363Wqfo/crm/zEjIGfsHAxCWhjBfprUGL7wE6fC+NnNkdCDGds
-         4F6g==
+        Tue, 17 Mar 2020 06:50:29 -0400
+Received: by mail-ot1-f67.google.com with SMTP id 39so5697812otu.3;
+        Tue, 17 Mar 2020 03:50:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=7mUtSodRzVFrNOdwotyLpGRUL0sXdt0yPPIiSrVrsLs=;
-        b=exjg74hJaiW+16zDck3HpurmiixrOlAurYV8PGG1tgzgj9Jgr6MBCOf1wZIblQWSrG
-         b/OWQelR8nXT3wQeCknIKqtmKe99locz0/hY6bR85jz9dvMC31H5A3OmAeApg/3fm6OB
-         5WqXlfueG78rMgS3F6YARo350/wkr8EHP5EXpR1K4TsfOweyzquRVZBo5/bC+OEhcfbx
-         yImSfSniUrz7mCSRdsL155ElKvd4VF2NWVobGSyxKWX1ctB5nE/kj1hZnWUxfUoLXPWF
-         VbSPZ9o9Q15rw6nAdX4oq8sL2+t7rDSNnq+RdmAOWXg8umL09I1mYnmW1IfiG/8rQD29
-         waMQ==
-X-Gm-Message-State: ANhLgQ3WYECSGaXFNkS+irjj7fw+lRPaNtn75sPTi/MeyAs7fttuh1zi
-        +nv3D/EGOe6sCsHUifZte0z2tg==
-X-Google-Smtp-Source: ADFU+vtVlYRQTZ5F59LQqxdeWy9nM1l8g9ypwAvky2egMozG6VNQd4T99otV//QeFt6Y/pXumoW8qQ==
-X-Received: by 2002:ac2:59c6:: with SMTP id x6mr730389lfn.177.1584441477770;
-        Tue, 17 Mar 2020 03:37:57 -0700 (PDT)
-Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
-        by smtp.gmail.com with ESMTPSA id y11sm1989763ljn.83.2020.03.17.03.37.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2020 03:37:56 -0700 (PDT)
-Date:   Tue, 17 Mar 2020 11:37:56 +0100
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Suresh Udipi <sudipi@jp.adit-jv.com>
-Cc:     akiyama@nds-osk.co.jp, efriedrich@de.adit-jv.com,
-        erosca@de.adit-jv.com, hverkuil-cisco@xs4all.nl,
-        jacopo+renesas@jmondi.org, laurent.pinchart@ideasonboard.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, mrodin@de.adit-jv.com,
-        securitycheck@denso.co.jp
-Subject: Re: [PATCH v2] [RFC] rcar-vin: rcar-csi2: Correct the selection of
- hsfreqrange
-Message-ID: <20200317103756.GC2496015@oden.dyn.berto.se>
-References: <20200316130247.GA2258968@oden.dyn.berto.se>
- <1584428905-21560-1-git-send-email-sudipi@jp.adit-jv.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4RHKUQaqLP0RIgfBpLL5qOEOQG1NeX+nzzByYvELZmw=;
+        b=Ct4BrrRyd6FKIOM3sz16sP3XI/ZZW/XrB3uULRBkW3ShVZ/q/GRajsj/4mgPgQcbes
+         MENTKs65az5Zia3U8GT5kstaTs+KVO4fFy92WnWvMtbNvdCiPboxTzxBkzQxoC+wc+zC
+         6rjgW9ID1aXfSSVwtmTROwdrLO5IEJPDZr0DOhdeupo5hm/yFlhmv+SZNdIesECHa8YW
+         svHIVt/wFr55DUTiSczig1POI9D4Erlv34UByMrihTyuYBchZmnm5u/Hl7sASOmjhh5M
+         vGuS8PStWcbtyzKHK7ormqfRWyOSznkkVlaSE/1kGhdGQtBsDl5g/kC96MO4U+m7r7CX
+         lTvA==
+X-Gm-Message-State: ANhLgQ180CmeEysxlatCKk1Ozfr6XL2sqizT1sHJvBflEMWZ7DqHuO44
+        OBAGeE3GNYTelst7Pm1eDCmnzhLhPotmeGTBv9c=
+X-Google-Smtp-Source: ADFU+vvCnj5TM9jDoklN6SW2pOqgA8Yhy1UV90pkEYu70e2sIcYjz1ttaGrq9DI81fCb/fZk6X299+gFRk0K7Dbjlgs=
+X-Received: by 2002:a9d:4d02:: with SMTP id n2mr2946810otf.107.1584442226939;
+ Tue, 17 Mar 2020 03:50:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1584428905-21560-1-git-send-email-sudipi@jp.adit-jv.com>
+References: <20200218151812.7816-1-geert+renesas@glider.be>
+ <20200218151812.7816-4-geert+renesas@glider.be> <CACRpkdacAaw4PJp3Oa569JJTHTB4HjP-hPqZLmdFcuxvdvwBHg@mail.gmail.com>
+In-Reply-To: <CACRpkdacAaw4PJp3Oa569JJTHTB4HjP-hPqZLmdFcuxvdvwBHg@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 17 Mar 2020 11:50:15 +0100
+Message-ID: <CAMuHMdVnoZ8uki9Ur-E-pDe60U_d=hNs8GTkMoTU3kACwFeY=g@mail.gmail.com>
+Subject: Re: [PATCH v5 3/5] gpio: Add GPIO Aggregator
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Suresh,
+Hi Linus,
 
-Thanks for your work.
+On Thu, Mar 12, 2020 at 3:57 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+> thanks for your patience and again sorry for procrastination on my part :(
+>
+> Overall I start to like this driver a lot. It has come a long way.
+>
+> Some comments below are nitpicky, bear with me if they seem stupid.
 
-On 2020-03-17 16:08:25 +0900, Suresh Udipi wrote:
-> hsfreqrange should be chosen based on the calculated mbps which
-> is closer to the default bit rate  and within the range as per
-> table[1]. But current calculation always selects first value which
-> is greater than or equal to the calculated mbps which may lead
-> to chosing a wrong range in some cases.
-> 
-> For example for 360 mbps for H3/M3N
-> Existing logic selects
-> Calculated value 360Mbps : Default 400Mbps Range [368.125 -433.125 mbps]
-> 
-> This hsfreqrange is out of range.
-> 
-> The logic is changed to get the default value which is closest to the
-> calculated value [1]
-> 
-> Calculated value 360Mbps : Default 350Mbps  Range [320.625 -380.625 mpbs]
-> 
-> [1] specs r19uh0105ej0200-r-car-3rd-generation.pdf [Table 25.9]
-> 
-> There is one exectpion value 227Mbps, which may cause out of
-> range.
+Thanks a lot for your comments!
 
-Then something else is needed I think :-)
+> On Tue, Feb 18, 2020 at 4:18 PM Geert Uytterhoeven
+> <geert+renesas@glider.be> wrote:
+> > +#define DRV_NAME       "gpio-aggregator"
+> > +#define pr_fmt(fmt)    DRV_NAME ": " fmt
+>
+> I would just use dev_[info|err] for all messages to get rid of this.
 
-I liked v1 of this RFC more, where you added a u16 min and max to struct 
-rcsi2_mbps_reg. I think that is the right solution.
+See below.
 
-What I tried to express in my review of v1 was
+> > +#include <linux/bitmap.h>
+> > +#include <linux/bitops.h>
+> > +#include <linux/ctype.h>
+> > +#include <linux/gpio/consumer.h>
+> > +#include <linux/gpio/driver.h>
+> > +#include <linux/gpio/machine.h>
+> > +#include <linux/idr.h>
+> > +#include <linux/kernel.h>
+> > +#include <linux/module.h>
+> > +#include <linux/mutex.h>
+> > +#include <linux/overflow.h>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/spinlock.h>
+> > +#include <linux/string.h>
+> > +
+> > +#include "gpiolib.h"
+>
+> When this file is includes I prefer if there is a comment next to
+> this include saying why we have to touch internals and which
+> ones.
 
-- You should remove the mbps member from struct rcsi2_mbps_reg.
-- Update the walk of the array in rcsi2_set_phypll() so that it finds 
-  the first entry where the calculated target value is between min and 
-  max and use the reg setting for that entry.
+I have just discovered gpiod_to_chip(), which removes the need for two
+of the three users ;-)
 
-Would that solution make sens too you? Sorry if I expressed myself a but 
-muddy in v1 about this.
+> > +struct gpio_aggregator {
+> > +       struct gpiod_lookup_table *lookups;
+> > +       struct platform_device *pdev;
+>
+> What about just storing struct device *dev?
+>
+> Then callbacks can just
+>
+> dev_err(aggregator->dev, "myerror\n");
 
-> 
-> Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
-> 
-> Signed-off-by: Suresh Udipi <sudipi@jp.adit-jv.com>
-> Signed-off-by: Kazuyoshi Akiyama <akiyama@nds-osk.co.jp>
-> ---
-> Changes in v2:
->   - Added the boundary check for the maximum bit rate.
->   
->   - Simplified the logic by remmoving range check 
->     as only the closest default value covers most 
->     of the use cases.
-> 
->   - Aligning the commit message based on the above change
-> 
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 18 +++++++++++++-----
->  1 file changed, 13 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index faa9fb2..6573625 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -199,6 +199,7 @@ static const struct rcsi2_mbps_reg phtw_mbps_v3m_e3[] = {
->  /* PHY Frequency Control */
->  #define PHYPLL_REG			0x68
->  #define PHYPLL_HSFREQRANGE(n)		((n) << 16)
-> +#define PHYPLL_HSFREQRANGE_MAX		1500
->  
->  static const struct rcsi2_mbps_reg hsfreqrange_h3_v3h_m3n[] = {
->  	{ .mbps =   80, .reg = 0x00 },
-> @@ -431,16 +432,23 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
->  static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
->  {
->  	const struct rcsi2_mbps_reg *hsfreq;
-> +	const struct rcsi2_mbps_reg *hsfreq_prev = NULL;
->  
-> -	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++)
-> -		if (hsfreq->mbps >= mbps)
-> -			break;
-> -
-> -	if (!hsfreq->mbps) {
-> +	if (mbps > PHYPLL_HSFREQRANGE_MAX) {
->  		dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
->  		return -ERANGE;
->  	}
->  
-> +	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++) {
-> +		if (hsfreq->mbps >= mbps)
-> +			break;
-> +		hsfreq_prev = hsfreq;
-> +	}
-> +
-> +	if (hsfreq_prev &&
-> +	    ((mbps - hsfreq_prev->mbps) <= (hsfreq->mbps - mbps)))
-> +		hsfreq = hsfreq_prev;
-> +
->  	rcsi2_write(priv, PHYPLL_REG, PHYPLL_HSFREQRANGE(hsfreq->reg));
->  
->  	return 0;
-> -- 
-> 2.7.4
-> 
+&aggr->pdev.dev or aggr->dev does't make much of a difference.
 
--- 
-Regards,
-Niklas Söderlund
+> > +static char *get_arg(char **args)
+> > +{
+> > +       char *start = *args, *end;
+> > +
+> > +       start = skip_spaces(start);
+> > +       if (!*start)
+> > +               return NULL;
+> > +
+> > +       if (*start == '"') {
+> > +               /* Quoted arg */
+> > +               end = strchr(++start, '"');
+> > +               if (!end)
+> > +                       return ERR_PTR(-EINVAL);
+> > +       } else {
+> > +               /* Unquoted arg */
+> > +               for (end = start; *end && !isspace(*end); end++) ;
+> > +       }
+> > +
+> > +       if (*end)
+> > +               *end++ = '\0';
+> > +
+> > +       *args = end;
+> > +       return start;
+> > +}
+>
+> Isn't this function reimplementing strsep()?
+> while ((s = strsep(&p, " \""))) {
+> or something.
+>
+> I'm not the best with strings, just asking so I know you tried it
+> already.
+
+strsep(&p, " \"") would terminate the token if a space or double quote is
+seen.  I.e. it wouldn't handle spaces in quoted arguments.
+There's also argv_split(), but that doesn't handle quoted args, and
+duplicates all arguments.
+
+Line names assigned by "gpio-lines-names" may contain spaces, so support
+for quoted args is mandatory.
+
+> > +static int aggr_parse(struct gpio_aggregator *aggr)
+> > +{
+> > +       unsigned int first_index, last_index, i, n = 0;
+> > +       char *name, *offsets, *first, *last, *next;
+> > +       char *args = aggr->args;
+> > +       int error;
+> > +
+> > +       for (name = get_arg(&args), offsets = get_arg(&args); name;
+> > +            offsets = get_arg(&args)) {
+> > +               if (IS_ERR(name)) {
+> > +                       pr_err("Cannot get GPIO specifier: %pe\n", name);
+>
+> If gpio_aggregrator contained struct device *dev this would be
+> dev_err(aggr->dev, "...\n");
+
+aggr_parse() is called before the platform device is created, and before
+aggr->pdev is populated.  So there is no device to print yet.
+
+> > +static void gpio_aggregator_free(struct gpio_aggregator *aggr)
+> > +{
+> > +       platform_device_unregister(aggr->pdev);
+>
+> Aha maybe store both the pdev and the dev in the struct then?
+>
+> Or print using &aggr->pdev.dev.
+
+Same for aggr->pdev.dev (or aggr->dev).
+
+> > +       /*
+> > +        * If any of the GPIO lines are sleeping, then the entire forwarder
+> > +        * will be sleeping.
+> > +        * If any of the chips support .set_config(), then the forwarder will
+> > +        * support setting configs.
+> > +        */
+> > +       for (i = 0; i < ngpios; i++) {
+> > +               dev_dbg(dev, "gpio %u => gpio-%d (%s)\n", i,
+> > +                       desc_to_gpio(descs[i]), descs[i]->label ? : "?");
+>
+> If this desc->label business is why you need to include
+> "gpiolib.h" then I'd prefer if you just add a
+
+It was the third reason to include that file...
+
+> const char *gpiod_get_producer_name(struct gpio_desc *desc);
+>
+> to gpiolib (add in <linux/gpio/consumer.h> so that gpiolib can
+> try to give you something reasonable to print for the label here.
+> I ran into that problem before (wanting to print something like this)
+> and usually just printed the offset.
+>
+> But if it is a serious debug issue, let's fix a helper for this.
+>
+> gpiod_get_producer_name() could return the thing in
+> desc->label if that is set or else something along
+> "chipname-offset" or "unknown", I'm not very picky
+> with that.
+
+I will just remove the printing of the label, as it is no longer useful.
+Since I started using gpiod_lookup, the descriptor has already been
+requested at this point, which means its label will usually be
+"gpio-aggregator.N", i.e. it doesn't provide any help.
+The only exception is for a GPIO line which has an associated line name
+through "gpio-line-names" in DT.  But just seeing the global GPIO number
+should be good enough for debugging.
+
+BTW, one day you may want to have your our printk() format specifier for
+GPIOs?  Oh, no "%pg" and "%pG" are already taken; "%pp" is still
+available.
+
+> > error = aggr_add_gpio(aggr, name, U16_MAX, &n);
+>
+> Is the reason why you use e.g. "gpiochip0" as name here that this
+> is a simple ABI for userspace?
+
+"name" is not the "gpiochipN" name here, but the line name, cfr. the
+U16_MAX value for chip index, and the comment just above:
+
++                       /* Named GPIO line */
+
+That one is supposed to be stable, right?
+Note that this is the most use-centric way to refer to a GPIO.
+
+In the other caller:
+
++                               error = aggr_add_gpio(aggr, name, i, &n);
+
+"name" is a reference to the gpiochip, i.e. either its label, or the
+"gpiochipN" name.
+
+> Such like obtained from /sys/bus/gpio/devices/<chipname>?
+>
+> I would actually prefer to just add a sysfs attribute
+> such as "name" and set it to the value of gpiochip->label.
+
+Makes sense, but that would be a separate, unrelated patch, right?
+
+> These labels are compulsory and supposed to be unique.
+>
+> Then whatever creates an aggregator can just use
+> cat /sys/bus/gpio/devices/gpiochipN/name to send in
+> through the sysfs interface to this kernel driver.
+>
+> This will protect you in the following way:
+>
+> When a system is booted and populated the N in
+> gpiochipN is not stable and this aggregator will be used
+> by scripts that assume it is. We already had this dilemma
+> with things like network interfaces like eth0/1.
+>
+> This can be because of things like probe order which
+> can be random, or because someone compiled a
+> kernel with a new driver for a gpiochip that wasn't
+> detected before. This recently happened to Raspberry Pi,
+> that added gpio driver for "firmware GPIOs" (IIRC).
+>
+> The label on the chip is going to be more stable
+> I think, so it is better to use that.
+
+OK, so support for "gpiochipN" matching can be dropped, obsoleting
+"[PATCH v5 1/5] gpiolib: Add support for gpiochipN-based table lookup".
+
+Note that I added support for that in response to Bartosz' first try
+https://lore.kernel.org/linux-gpio/CAMpxmJUF1s1zyXVtoUGfbV7Yk+heua4rNjY=DrX=jr-v8UfNxA@mail.gmail.com/
+
+> This should also rid the need to include "gpiolib.h"
+> which makes me nervous.
+
+Consider it done!
+Thanks!
+
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
