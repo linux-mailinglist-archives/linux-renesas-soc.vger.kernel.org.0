@@ -2,302 +2,283 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 73D48187EB5
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2020 11:50:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F6A818818F
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2020 12:20:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726643AbgCQKua (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Mar 2020 06:50:30 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:36545 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726628AbgCQKu3 (ORCPT
+        id S1728339AbgCQLE4 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Mar 2020 07:04:56 -0400
+Received: from mail-eopbgr1400113.outbound.protection.outlook.com ([40.107.140.113]:3920
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726760AbgCQLEz (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Mar 2020 06:50:29 -0400
-Received: by mail-ot1-f67.google.com with SMTP id 39so5697812otu.3;
-        Tue, 17 Mar 2020 03:50:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4RHKUQaqLP0RIgfBpLL5qOEOQG1NeX+nzzByYvELZmw=;
-        b=Ct4BrrRyd6FKIOM3sz16sP3XI/ZZW/XrB3uULRBkW3ShVZ/q/GRajsj/4mgPgQcbes
-         MENTKs65az5Zia3U8GT5kstaTs+KVO4fFy92WnWvMtbNvdCiPboxTzxBkzQxoC+wc+zC
-         6rjgW9ID1aXfSSVwtmTROwdrLO5IEJPDZr0DOhdeupo5hm/yFlhmv+SZNdIesECHa8YW
-         svHIVt/wFr55DUTiSczig1POI9D4Erlv34UByMrihTyuYBchZmnm5u/Hl7sASOmjhh5M
-         vGuS8PStWcbtyzKHK7ormqfRWyOSznkkVlaSE/1kGhdGQtBsDl5g/kC96MO4U+m7r7CX
-         lTvA==
-X-Gm-Message-State: ANhLgQ180CmeEysxlatCKk1Ozfr6XL2sqizT1sHJvBflEMWZ7DqHuO44
-        OBAGeE3GNYTelst7Pm1eDCmnzhLhPotmeGTBv9c=
-X-Google-Smtp-Source: ADFU+vvCnj5TM9jDoklN6SW2pOqgA8Yhy1UV90pkEYu70e2sIcYjz1ttaGrq9DI81fCb/fZk6X299+gFRk0K7Dbjlgs=
-X-Received: by 2002:a9d:4d02:: with SMTP id n2mr2946810otf.107.1584442226939;
- Tue, 17 Mar 2020 03:50:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200218151812.7816-1-geert+renesas@glider.be>
- <20200218151812.7816-4-geert+renesas@glider.be> <CACRpkdacAaw4PJp3Oa569JJTHTB4HjP-hPqZLmdFcuxvdvwBHg@mail.gmail.com>
-In-Reply-To: <CACRpkdacAaw4PJp3Oa569JJTHTB4HjP-hPqZLmdFcuxvdvwBHg@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 17 Mar 2020 11:50:15 +0100
-Message-ID: <CAMuHMdVnoZ8uki9Ur-E-pDe60U_d=hNs8GTkMoTU3kACwFeY=g@mail.gmail.com>
-Subject: Re: [PATCH v5 3/5] gpio: Add GPIO Aggregator
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Harish Jenny K N <harish_kandiga@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Alexander Graf <graf@amazon.com>,
-        Peter Maydell <peter.maydell@linaro.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Phil Reid <preid@electromag.com.au>,
-        Marc Zyngier <marc.zyngier@arm.com>,
-        Christoffer Dall <christoffer.dall@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
+        Tue, 17 Mar 2020 07:04:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=f8wpCC8z+NH8eAIxMw+ByNTHy3O6iP0nWaDX511Um7uYKgEoOQYLxK4EK22O3UMnl7tmYf1E/5YRaMNY67t27Pb7eigDcAI9dfQPRl502vsB0FE/JPxy0dNcGF5EmgUKbAcN2RI65bgkyI7RZe+qpdAmq0K7Utb/CIzX0XUbBSnevMCTJL0Ta7gUXCVK7Nxd6iBX7NV9jc2a1fBDV4gIuUsEntyQNOClwl8JyYWTozOholF4bnwgmUeeky/ZR8C7NugnUXwKeMRmkQa4VVTrB3vwSJgrA8LY+x083PyBifohC8X+nQfxtimJ0vMHf931nhfNvIVyj0+yAcOf0TADgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1KZ5I9i9RFAr5cTFpdxQRY/Nifkj/dyHFtodqrT1KEI=;
+ b=kkgQ8NAi6SKjhgtx+MHe87zSlorPpCmod0JTqTQRmtHo1TsqR+idt7dYHKdemRfAqEK4IvRoKkRFEB84cMWMNUFr1DA1Xi0btvUv3uJw3B97RPc2KUVBPqWjcAbaAqSfAX0/f+EIhD0HunbmTaYc7FE9RXN8RfQItHfxnCheHwR1wGL4M9QpxEaDH6H9a54MoU4wKp2lbc8Zw9Pr8IqJxB9BPlO9ZY1Q6Mimw6v1cx4E73STUNNIRhUI/kHKXXlRJu0nyl/jDV5mGpEFNdAHvqyw3F70e2DRXBVvlMUanbVpghKGor4kn6rh7g55FTj1SvC0jgRbGGctTqAR/MTEVw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1KZ5I9i9RFAr5cTFpdxQRY/Nifkj/dyHFtodqrT1KEI=;
+ b=F+PNJyzs21sabwrTlIeosq6p5h8FBuEkQ0qs3PZxsYcUTCSUvJgnrPuvnuDI8qgvrzY6UC7nVU5w9QJAKu6vAeBOjjlY3Ioz0qBBq7Jb6mVnuMHAW5AVz1sc+Wfza4+nwr30WzmEHdvUtnOAHMkEIA1Ji2R7JBX/qg495CfUo8o=
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
+ TYAPR01MB3616.jpnprd01.prod.outlook.com (20.178.138.145) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2814.16; Tue, 17 Mar 2020 11:04:48 +0000
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::ed7f:1268:55a9:fc06]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::ed7f:1268:55a9:fc06%4]) with mapi id 15.20.2814.021; Tue, 17 Mar 2020
+ 11:04:48 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Lad Prabhakar <prabhakar.csengg@gmail.com>
+CC:     Andrew Murray <andrew.murray@arm.com>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-renesas-soc@vger.kernel.org" 
+        <linux-renesas-soc@vger.kernel.org>,
+        "linux-rockchip@lists.infradead.org" 
+        <linux-rockchip@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
         Rob Herring <robh+dt@kernel.org>,
         Mark Rutland <mark.rutland@arm.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
+        Marek Vasut <marek.vasut+renesas@gmail.com>,
+        Shawn Lin <shawn.lin@rock-chips.com>,
+        Heiko Stuebner <heiko@sntech.de>
+Subject: RE: [PATCH v5 4/7] PCI: endpoint: Add support to handle multiple base
+ for mapping outbound memory
+Thread-Topic: [PATCH v5 4/7] PCI: endpoint: Add support to handle multiple
+ base for mapping outbound memory
+Thread-Index: AQHV7k2kfqtu6T0o2UCPs98u98LxN6hMgYXQgAAogACAAAq1EA==
+Date:   Tue, 17 Mar 2020 11:04:47 +0000
+Message-ID: <TYAPR01MB4544DD58C495D0ED223B1A7BD8F60@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+References: <20200228154122.14164-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200228154122.14164-5-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <TYAPR01MB4544599A72C88666B4F972B7D8F60@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+ <OSBPR01MB359001B994CFC0CB45170AB0AAF60@OSBPR01MB3590.jpnprd01.prod.outlook.com>
+In-Reply-To: <OSBPR01MB359001B994CFC0CB45170AB0AAF60@OSBPR01MB3590.jpnprd01.prod.outlook.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [124.210.22.195]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 40cdaf7d-7c99-4e70-a0cd-08d7ca6301fc
+x-ms-traffictypediagnostic: TYAPR01MB3616:|TYAPR01MB3616:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <TYAPR01MB3616EB1081916F4653C5FDE5D8F60@TYAPR01MB3616.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0345CFD558
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(396003)(39860400002)(346002)(376002)(366004)(136003)(199004)(2906002)(55016002)(45080400002)(9686003)(52536014)(33656002)(5660300002)(7696005)(81156014)(86362001)(55236004)(66476007)(8936002)(66556008)(66446008)(64756008)(6506007)(8676002)(81166006)(76116006)(316002)(54906003)(66946007)(110136005)(71200400001)(186003)(26005)(7416002)(4326008)(478600001);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB3616;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: vKg9heLUPw7IXxdJx74cdvN6lyVIzVnwAnRCr6SCjjQ4j1QXpTyGlqd2mDD6J/19k49QJszxe+nJKFGjCBjjLymA6cDMry02UNVReepIJZWJ5aGai8iJFpDIXhtAJNllyjSjUfxp+6tTlp55asN8wph9P5V+gadCkDEZjN1iy4T3C5SXsA6mOfrTnx1ydU6kKIk6yAQYhIuOOATYyzU1Q4b1SFNaAddPQGSkPckHURdoSyflOh6ubZY3+bA3wJBi/Ylgz/s8S76/TG2cWCR8K+AAhczsA1rFgwwbZB5IZKyjFZwQ3gRPkwxCS1e8URMZ6QGGv+b2LJgoVtH8cO3c/tU4zmroMakN1CDEuwYpoJTslSQ4M9MZ6JLbrwOT+HPHL2PgBAWvKHPqKpmUCq3QhAkPDjydRuctahPB6OqHKG+OarZcKhGuE3ouK7RzLVOM
+x-ms-exchange-antispam-messagedata: Ic3nNC5rtt0av+fTfzcEHAeO+iosDu6qHdqUwW1246qUKBIyVhKm6uWerY49VGGEiR+TXtgPBEWaarXYE3VYc620Oge7xiROQEIOhOqVaR3CJpbKpdJNkw52DRbrIvpBAMQZrHNc3bYfENlkNt6i1g==
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 40cdaf7d-7c99-4e70-a0cd-08d7ca6301fc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2020 11:04:47.7342
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 31GP9C05q0AwyLTkFmi5cw5uvHcx7oYOXaCLBuja4IGUxwxMbBSmCH7emkSm+HLcLBh8H52ron+RvvD5gvQ7MZygP1strqoQvsJ1CPG+i6e5G8ZN+ZwIM3ENAhiU88DA
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB3616
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Linus,
+Hi Prabhakar-san,
 
-On Thu, Mar 12, 2020 at 3:57 PM Linus Walleij <linus.walleij@linaro.org> wrote:
-> thanks for your patience and again sorry for procrastination on my part :(
->
-> Overall I start to like this driver a lot. It has come a long way.
->
-> Some comments below are nitpicky, bear with me if they seem stupid.
+Just in my opinion though, automatically adding new line of email client
+should be disabled or setting larger characters.
+# In my side, I change the setting as 132 characters on Outlook :)
 
-Thanks a lot for your comments!
+> From: Prabhakar Mahadev Lad, Sent: Tuesday, March 17, 2020 7:04 PM
+<snip>
+> > > -int __pci_epc_mem_init(struct pci_epc *epc, phys_addr_t phys_base,
+> > size_t size,
+> > > -		       size_t page_size)
+> > > +int __pci_epc_mem_init(struct pci_epc *epc, struct
+> > pci_epc_mem_window *windows,
+> > > +		       int num_windows)
+> > >  {
+> > > -	int ret;
+> > > -	struct pci_epc_mem *mem;
+> > > -	unsigned long *bitmap;
+> > > +	struct pci_epc_mem *mem =3D NULL;
+> > > +	unsigned long *bitmap =3D NULL;
+> > >  	unsigned int page_shift;
+> > > -	int pages;
+> > > +	size_t page_size;
+> > >  	int bitmap_size;
+> > > -
+> > > -	if (page_size < PAGE_SIZE)
+> > > -		page_size =3D PAGE_SIZE;
+> > > -
+> > > -	page_shift =3D ilog2(page_size);
+> > > -	pages =3D size >> page_shift;
+> > > -	bitmap_size =3D BITS_TO_LONGS(pages) * sizeof(long);
+> > > -
+> > > -	mem =3D kzalloc(sizeof(*mem), GFP_KERNEL);
+> > > -	if (!mem) {
+> > > -		ret =3D -ENOMEM;
+> > > -		goto err;
+> > > -	}
+> > > -
+> > > -	bitmap =3D kzalloc(bitmap_size, GFP_KERNEL);
+> > > -	if (!bitmap) {
+> > > -		ret =3D -ENOMEM;
+> > > -		goto err_mem;
+> > > +	int pages;
+> > > +	int ret;
+> > > +	int i;
+> > > +
+> > > +	epc->mem_windows =3D 0;
+> > > +
+> > > +	if (!windows)
+> > > +		return -EINVAL;
+> > > +
+> > > +	if (num_windows <=3D 0)
+> > > +		return -EINVAL;
+> > > +
+> > > +	epc->mem =3D kcalloc(num_windows, sizeof(*mem), GFP_KERNEL);
+> > > +	if (!epc->mem)
+> > > +		return -EINVAL;
+> > > +
+> > > +	for (i =3D 0; i < num_windows; i++) {
+> > > +		page_size =3D windows[i].page_size;
+> > > +		if (page_size < PAGE_SIZE)
+> > > +			page_size =3D PAGE_SIZE;
+> > > +		page_shift =3D ilog2(page_size);
+> > > +		pages =3D windows[i].size >> page_shift;
+> > > +		bitmap_size =3D BITS_TO_LONGS(pages) * sizeof(long);
+> > > +
+> > > +		mem =3D kzalloc(sizeof(*mem), GFP_KERNEL);
+> > > +		if (!mem) {
+> > > +			ret =3D -ENOMEM;
+> > > +			goto err_mem;
+> > > +		}
+> > > +
+> > > +		bitmap =3D kzalloc(bitmap_size, GFP_KERNEL);
+> > > +		if (!bitmap) {
+> > > +			ret =3D -ENOMEM;
+> > > +			goto err_mem;
+> > > +		}
+> > > +
+> > > +		mem->bitmap =3D bitmap;
+> > > +		mem->window.phys_base =3D windows[i].phys_base;
+> >
+> > I could not understand why the window member is needed.
+> > I think original members (just phys_base and size) are enough.
+> > Also, this function doesn't store the page_size to mem->window.page_siz=
+e.
 
-> On Tue, Feb 18, 2020 at 4:18 PM Geert Uytterhoeven
-> <geert+renesas@glider.be> wrote:
-> > +#define DRV_NAME       "gpio-aggregator"
-> > +#define pr_fmt(fmt)    DRV_NAME ": " fmt
->
-> I would just use dev_[info|err] for all messages to get rid of this.
+I'm sorry, but I meant the window member is in the left side (mem->window.p=
+hys_base).
+In other words, this patch changes the struct pci_epc_mem like below, but
+I'm thinking this change is not needed because struct pci_epc will have
+multiple windows as "array of address space of the endpoint controller".
+---
+struct pci_epc_mem {
+-	phys_addr_t	phys_base;
+-	size_t		size;
++	struct pci_epc_mem_window window;
+---
 
-See below.
+> Because,  for example on RZ/Gx platforms, following are the windows on en=
+dpoint device
+> where the root's address can be mapped, but where as on other platforms a=
+tm there
+> exists just single window to map. Also on RZ/Gx platforms if a window is =
+allocated say of
+> size 1K, rest of the window cannot be used for other allocations.
+>=20
+> 1: 0xfe000000 0 0x80000
+> 2: 0xfe100000 0 0x100000
+> 3: 0xfe200000 0 0x200000
+> 4: 0x30000000 0 0x8000000
+> 5: 0x38000000 0 0x8000000
+>=20
+> Struct pci_epc_mem_window, represents the above windows.
 
-> > +#include <linux/bitmap.h>
-> > +#include <linux/bitops.h>
-> > +#include <linux/ctype.h>
-> > +#include <linux/gpio/consumer.h>
-> > +#include <linux/gpio/driver.h>
-> > +#include <linux/gpio/machine.h>
-> > +#include <linux/idr.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/module.h>
-> > +#include <linux/mutex.h>
-> > +#include <linux/overflow.h>
-> > +#include <linux/platform_device.h>
-> > +#include <linux/spinlock.h>
-> > +#include <linux/string.h>
-> > +
-> > +#include "gpiolib.h"
->
-> When this file is includes I prefer if there is a comment next to
-> this include saying why we have to touch internals and which
-> ones.
+Yes, I understood it.
 
-I have just discovered gpiod_to_chip(), which removes the need for two
-of the three users ;-)
+> window.page_size is set by endpoint controller drivers as done in this pa=
+tch.
 
-> > +struct gpio_aggregator {
-> > +       struct gpiod_lookup_table *lookups;
-> > +       struct platform_device *pdev;
->
-> What about just storing struct device *dev?
->
-> Then callbacks can just
->
-> dev_err(aggregator->dev, "myerror\n");
+I meant the left side. No one change the mem->window.page_size so that
+the value seems to be 0. Of course, for now, this is no problem because
+no one uses this value though.
 
-&aggr->pdev.dev or aggr->dev does't make much of a difference.
+<snip>
+> > >  /**
+> > >   * struct pci_epc_mem - address space of the endpoint controller
+> > > - * @phys_base: physical base address of the PCI address space
+> > > - * @size: the size of the PCI address space
+> > > + * @window: address window of the endpoint controller
+> > >   * @bitmap: bitmap to manage the PCI address space
+> > > - * @pages: number of bits representing the address region
+> > >   * @page_size: size of each page
+> > > + * @pages: number of bits representing the address region
+> > >   */
+> > >  struct pci_epc_mem {
+> > > -	phys_addr_t	phys_base;
+> > > -	size_t		size;
+> > > +	struct pci_epc_mem_window window;
+> > >  	unsigned long	*bitmap;
+> > >  	size_t		page_size;
+> > >  	int		pages;
+> > > @@ -85,7 +97,8 @@ struct pci_epc_mem {
+> > >   * @dev: PCI EPC device
+> > >   * @pci_epf: list of endpoint functions present in this EPC device
+> > >   * @ops: function pointers for performing endpoint operations
+> > > - * @mem: address space of the endpoint controller
+> >
+> > If my idea is acceptable, this should be "default address space ...".
+> >
+> Could you please elaborate more on how you would like the structures to b=
+e organized.
 
-> > +static char *get_arg(char **args)
-> > +{
-> > +       char *start = *args, *end;
-> > +
-> > +       start = skip_spaces(start);
-> > +       if (!*start)
-> > +               return NULL;
-> > +
-> > +       if (*start == '"') {
-> > +               /* Quoted arg */
-> > +               end = strchr(++start, '"');
-> > +               if (!end)
-> > +                       return ERR_PTR(-EINVAL);
-> > +       } else {
-> > +               /* Unquoted arg */
-> > +               for (end = start; *end && !isspace(*end); end++) ;
-> > +       }
-> > +
-> > +       if (*end)
-> > +               *end++ = '\0';
-> > +
-> > +       *args = end;
-> > +       return start;
-> > +}
->
-> Isn't this function reimplementing strsep()?
-> while ((s = strsep(&p, " \""))) {
-> or something.
->
-> I'm not the best with strings, just asking so I know you tried it
-> already.
+ * @mem: default address space of the endpoint controller.
 
-strsep(&p, " \"") would terminate the token if a space or double quote is
-seen.  I.e. it wouldn't handle spaces in quoted arguments.
-There's also argv_split(), but that doesn't handle quoted args, and
-duplicates all arguments.
+And, if I assumed the "array of address space of the endpoint controller"
+is renamed as struct pci_epc_mem **windows and when __pci_epc_mem_init() is=
+ succeeded,
+the function should set the mem value right before return as the first wind=
+ow like below.
 
-Line names assigned by "gpio-lines-names" may contain spaces, so support
-for quoted args is mandatory.
++	epc->mem =3D epc->windows[0];
++	epc->num_windows =3D num_windows;
 
-> > +static int aggr_parse(struct gpio_aggregator *aggr)
-> > +{
-> > +       unsigned int first_index, last_index, i, n = 0;
-> > +       char *name, *offsets, *first, *last, *next;
-> > +       char *args = aggr->args;
-> > +       int error;
-> > +
-> > +       for (name = get_arg(&args), offsets = get_arg(&args); name;
-> > +            offsets = get_arg(&args)) {
-> > +               if (IS_ERR(name)) {
-> > +                       pr_err("Cannot get GPIO specifier: %pe\n", name);
->
-> If gpio_aggregrator contained struct device *dev this would be
-> dev_err(aggr->dev, "...\n");
+	return 0;
 
-aggr_parse() is called before the platform device is created, and before
-aggr->pdev is populated.  So there is no device to print yet.
+Best regards,
+Yoshihiro Shimoda
 
-> > +static void gpio_aggregator_free(struct gpio_aggregator *aggr)
-> > +{
-> > +       platform_device_unregister(aggr->pdev);
->
-> Aha maybe store both the pdev and the dev in the struct then?
->
-> Or print using &aggr->pdev.dev.
-
-Same for aggr->pdev.dev (or aggr->dev).
-
-> > +       /*
-> > +        * If any of the GPIO lines are sleeping, then the entire forwarder
-> > +        * will be sleeping.
-> > +        * If any of the chips support .set_config(), then the forwarder will
-> > +        * support setting configs.
-> > +        */
-> > +       for (i = 0; i < ngpios; i++) {
-> > +               dev_dbg(dev, "gpio %u => gpio-%d (%s)\n", i,
-> > +                       desc_to_gpio(descs[i]), descs[i]->label ? : "?");
->
-> If this desc->label business is why you need to include
-> "gpiolib.h" then I'd prefer if you just add a
-
-It was the third reason to include that file...
-
-> const char *gpiod_get_producer_name(struct gpio_desc *desc);
->
-> to gpiolib (add in <linux/gpio/consumer.h> so that gpiolib can
-> try to give you something reasonable to print for the label here.
-> I ran into that problem before (wanting to print something like this)
-> and usually just printed the offset.
->
-> But if it is a serious debug issue, let's fix a helper for this.
->
-> gpiod_get_producer_name() could return the thing in
-> desc->label if that is set or else something along
-> "chipname-offset" or "unknown", I'm not very picky
-> with that.
-
-I will just remove the printing of the label, as it is no longer useful.
-Since I started using gpiod_lookup, the descriptor has already been
-requested at this point, which means its label will usually be
-"gpio-aggregator.N", i.e. it doesn't provide any help.
-The only exception is for a GPIO line which has an associated line name
-through "gpio-line-names" in DT.  But just seeing the global GPIO number
-should be good enough for debugging.
-
-BTW, one day you may want to have your our printk() format specifier for
-GPIOs?  Oh, no "%pg" and "%pG" are already taken; "%pp" is still
-available.
-
-> > error = aggr_add_gpio(aggr, name, U16_MAX, &n);
->
-> Is the reason why you use e.g. "gpiochip0" as name here that this
-> is a simple ABI for userspace?
-
-"name" is not the "gpiochipN" name here, but the line name, cfr. the
-U16_MAX value for chip index, and the comment just above:
-
-+                       /* Named GPIO line */
-
-That one is supposed to be stable, right?
-Note that this is the most use-centric way to refer to a GPIO.
-
-In the other caller:
-
-+                               error = aggr_add_gpio(aggr, name, i, &n);
-
-"name" is a reference to the gpiochip, i.e. either its label, or the
-"gpiochipN" name.
-
-> Such like obtained from /sys/bus/gpio/devices/<chipname>?
->
-> I would actually prefer to just add a sysfs attribute
-> such as "name" and set it to the value of gpiochip->label.
-
-Makes sense, but that would be a separate, unrelated patch, right?
-
-> These labels are compulsory and supposed to be unique.
->
-> Then whatever creates an aggregator can just use
-> cat /sys/bus/gpio/devices/gpiochipN/name to send in
-> through the sysfs interface to this kernel driver.
->
-> This will protect you in the following way:
->
-> When a system is booted and populated the N in
-> gpiochipN is not stable and this aggregator will be used
-> by scripts that assume it is. We already had this dilemma
-> with things like network interfaces like eth0/1.
->
-> This can be because of things like probe order which
-> can be random, or because someone compiled a
-> kernel with a new driver for a gpiochip that wasn't
-> detected before. This recently happened to Raspberry Pi,
-> that added gpio driver for "firmware GPIOs" (IIRC).
->
-> The label on the chip is going to be more stable
-> I think, so it is better to use that.
-
-OK, so support for "gpiochipN" matching can be dropped, obsoleting
-"[PATCH v5 1/5] gpiolib: Add support for gpiochipN-based table lookup".
-
-Note that I added support for that in response to Bartosz' first try
-https://lore.kernel.org/linux-gpio/CAMpxmJUF1s1zyXVtoUGfbV7Yk+heua4rNjY=DrX=jr-v8UfNxA@mail.gmail.com/
-
-> This should also rid the need to include "gpiolib.h"
-> which makes me nervous.
-
-Consider it done!
-Thanks!
-
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
