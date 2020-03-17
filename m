@@ -2,101 +2,123 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C976818822D
-	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2020 12:27:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0526C18823E
+	for <lists+linux-renesas-soc@lfdr.de>; Tue, 17 Mar 2020 12:32:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725957AbgCQL1t (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Tue, 17 Mar 2020 07:27:49 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:59956 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725794AbgCQL1s (ORCPT
+        id S1726428AbgCQLcq (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Tue, 17 Mar 2020 07:32:46 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:42291 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725794AbgCQLcq (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Tue, 17 Mar 2020 07:27:48 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 6DCB22951C2
-Subject: Re: [PATCH] vimc: Report a colorspace
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20200316221606.2648820-1-niklas.soderlund+renesas@ragnatech.se>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <779b6314-31a6-76df-6dd3-1a24f577a5d3@collabora.com>
-Date:   Tue, 17 Mar 2020 08:27:42 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.2
+        Tue, 17 Mar 2020 07:32:46 -0400
+Received: by mail-ot1-f66.google.com with SMTP id a2so362818otq.9;
+        Tue, 17 Mar 2020 04:32:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yETyFwQ9Htl1KGbLhFFP34JxwM+8all8kt5P2BYv2cs=;
+        b=fFmWaGRP50iLWykmVJMdnEKnpISzEjo9Sn0f1FwWkcW/b+/a2QQhFmVdPlvbFS3WaH
+         yGlVd6Qj9wfuOK4rAOCEqjh345Vk63nTpOHsyckuJO4luM5x8giHWlbjhe45f3pY62xy
+         hE5+fUPtfuuRv3TNobMIeVOCgAVVMmDf6oDKmbj6vZtdC7iF+sv7+aluMJgBjD9+q9zy
+         E2ij2P3iO73fiIUpJk8y9ENCsA+MR8qOFAbZ3L40pIW57E+irTeiA0QwDHjPYiwyxtbS
+         Ha10zX+5EJ7qoJZBnEqlR2enM9jM7VbUkflNLtZKooC95MJeh27URlNMY10VnvJbVKRS
+         thmA==
+X-Gm-Message-State: ANhLgQ0xU5/AaCkxHNeIDFuPw7wxuPKBc6+R4U3TlZha5Rn1fTePRvk1
+        mXCElEIonS1sEGkrUdElq6jKMgOkmfG9QyTH3VE=
+X-Google-Smtp-Source: ADFU+vvQTAgcQxsOpqflnHCgzX47yo6RoUnPbT1ipGmHWNBjNYcXjsyzilFOOHau23AhLSA/+Thi1PZ5zI/u0X1X+7w=
+X-Received: by 2002:a9d:1708:: with SMTP id i8mr3337224ota.250.1584444762958;
+ Tue, 17 Mar 2020 04:32:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200316221606.2648820-1-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200218151812.7816-1-geert+renesas@glider.be> <20200218151812.7816-4-geert+renesas@glider.be>
+In-Reply-To: <20200218151812.7816-4-geert+renesas@glider.be>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 17 Mar 2020 12:32:31 +0100
+Message-ID: <CAMuHMdWXJKdD7j6QiRb4fL+fFsyDKpc7aGK-nER=CZd7bxGyPg@mail.gmail.com>
+Subject: Re: [PATCH v5 3/5] gpio: Add GPIO Aggregator
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Harish Jenny K N <harish_kandiga@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Alexander Graf <graf@amazon.com>,
+        Peter Maydell <peter.maydell@linaro.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Phil Reid <preid@electromag.com.au>,
+        Marc Zyngier <marc.zyngier@arm.com>,
+        Christoffer Dall <christoffer.dall@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Niklas,
+On Tue, Feb 18, 2020 at 4:18 PM Geert Uytterhoeven
+<geert+renesas@glider.be> wrote:
+> GPIO controllers are exported to userspace using /dev/gpiochip*
+> character devices.  Access control to these devices is provided by
+> standard UNIX file system permissions, on an all-or-nothing basis:
+> either a GPIO controller is accessible for a user, or it is not.
+> Currently no mechanism exists to control access to individual GPIOs.
+>
+> Hence add a GPIO driver to aggregate existing GPIOs, and expose them as
+> a new gpiochip.
+>
+> This supports the following use cases:
+>   - Aggregating GPIOs using Sysfs
+>     This is useful for implementing access control, and assigning a set
+>     of GPIOs to a specific user or virtual machine.
+>   - Generic GPIO Driver
+>     This is useful for industrial control, where it can provide
+>     userspace access to a simple GPIO-operated device described in DT,
+>     cfr. e.g. spidev for SPI-operated devices.
+>
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Thank you for the patch.
+> --- /dev/null
+> +++ b/drivers/gpio/gpio-aggregator.c
 
-I would just change the title of the commit to start with the tags:
-
-media: vimc: cap:
-
-On 3/16/20 7:16 PM, Niklas Söderlund wrote:
-> The colorspace reported by a video nodes should not be
-> V4L2_COLORSPACE_DEFAULT. Instead a default colorspace should be picked
-> by the driver if V4L2_COLORSPACE_DEFAULT is given by userspace to
-> {G,S,TRY}_FMT.
-> 
-> The colorspace V4L2_COLORSPACE_SRGB is arbitrary chosen as the vimc
-> default format to report as it's used for most webcams.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-Acked-by: Helen Koike <helen.koike@collabora.com>
-
-Do the subdevices also need this change?
-They also use V4L2_COLORSPACE_DEFAULT in their default format.
-
-Regards,
-Helen
-
-> ---
->  drivers/media/platform/vimc/vimc-capture.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> ---
-> Hi,
-> 
-> This was found while adding V4L2_CAP_IO_MC support to vimc and adding 
-> tests to v4l2-compliance. The issue will hence only show up in 
-> v4l2-compliance if V4L2_CAP_IO_MC series is enabled for vimc.
-> 
-> Best regards,
-> Niklas Söderlund
-> 
-> diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
-> index 23e740c1c5c00802..747ea9cc1bd7cb12 100644
-> --- a/drivers/media/platform/vimc/vimc-capture.c
-> +++ b/drivers/media/platform/vimc/vimc-capture.c
-> @@ -37,7 +37,7 @@ static const struct v4l2_pix_format fmt_default = {
->  	.height = 480,
->  	.pixelformat = V4L2_PIX_FMT_RGB24,
->  	.field = V4L2_FIELD_NONE,
-> -	.colorspace = V4L2_COLORSPACE_DEFAULT,
-> +	.colorspace = V4L2_COLORSPACE_SRGB,
->  };
->  
->  struct vimc_cap_buffer {
-> @@ -107,6 +107,9 @@ static int vimc_cap_try_fmt_vid_cap(struct file *file, void *priv,
->  
->  	vimc_colorimetry_clamp(format);
->  
-> +	if (format->colorspace == V4L2_COLORSPACE_DEFAULT)
-> +		format->colorspace = fmt_default.colorspace;
+> +static int gpio_fwd_set_config(struct gpio_chip *chip, unsigned int offset,
+> +                              unsigned long config)
+> +{
+> +       struct gpiochip_fwd *fwd = gpiochip_get_data(chip);
 > +
->  	return 0;
->  }
->  
-> 
+> +       chip = fwd->descs[offset]->gdev->chip;
+> +       if (chip->set_config)
+
+-       chip = fwd->descs[offset]->gdev->chip;
+-       if (chip->set_config)
++       chip = gpiod_to_chip(fwd->descs[offset]);
++       if (chip && chip->set_config)
+
+> +               return chip->set_config(chip, offset, config);
+
+This is not correct: offset should be translated, too, i.e.
+
+    offset = gpio_chip_hwgpio(fwd->descs[offset]);
+
+Which adds a new dependency on "gpiolib.h"...
+
+Is there a better alternative, than providing a public gpiod_set_config()
+helper?
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
