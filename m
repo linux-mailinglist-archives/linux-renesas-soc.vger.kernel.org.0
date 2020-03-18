@@ -2,104 +2,90 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D4B818A239
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 19:19:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 40B9618A331
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 20:33:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726638AbgCRSS7 (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Mar 2020 14:18:59 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:46289 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726631AbgCRSS7 (ORCPT
+        id S1726663AbgCRTdI (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Mar 2020 15:33:08 -0400
+Received: from sauhun.de ([88.99.104.3]:50466 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726619AbgCRTdI (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Mar 2020 14:18:59 -0400
-Received: by mail-ot1-f67.google.com with SMTP id 111so26493687oth.13;
-        Wed, 18 Mar 2020 11:18:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Tiyv0aKR6j2TLesbwyHNfIWZmAkPT6pi+C5JlyYu++0=;
-        b=PZEx1pweHbCnbJQo11kRsfEOajWdXG0zpR8tGzk2tYzhl8+jzizYJv0Hu4JUYKjVA6
-         32EKJ5J2ES2oyTjANDKmD4g+XROVcm0f9UwqkBX3PoQoWUD4/9bQ0EF83qo00JLQBAru
-         gmjp/anrYY+WS8t3rdY6p2OHr5VO68nsOdJ3ohIjH5NnMUuM1ZxUnQh5/mNfDRwiFz/q
-         YnQ7gIB6ozY6lynkPsNBUczvYDdWO1yS0p9s3yMXBNMycRKtjROHyMMzRApKijlnZzi5
-         pda87I3ay06bHiGBmZ74jIURhtxVEhLdop9R/QwTBLEIpLsE49WNsXBxWHfanp3O21fF
-         GhXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Tiyv0aKR6j2TLesbwyHNfIWZmAkPT6pi+C5JlyYu++0=;
-        b=DrZU0rSWYD29Xuw1kmu57HpmB41E5V+fSlUujDCW76e8z/6hDgcUSY0/CKg6Y6/Pee
-         d8WWuPE/jb72v8Q+RgcPIR0OxWb0W4OIcfPu2vwFITTtTr81Rv7BonUrsZ/5++MKpQ39
-         FdKG+2m5fSUZ/IA3091OnqOB6D1R9kZ+0rUDaE+xQV1klh8fdecpL1Db/DH6ouW1IjtV
-         pAImKkIgAocBXD0dgh/DVpW9j/TEqgieLJI4EPT3P7FiAoSiHpvcxKRKhZJA+ClHeyw+
-         kdksuZBi3uY0mUlcpIEgsXiiDm2v2PxaTM+rjxIGJdrqg9yI5QinzJ/uxf05gb9tVjHJ
-         Nfwg==
-X-Gm-Message-State: ANhLgQ2PESNavQekszKODyvboyzBUCUrUJNLlf8G9KnFFg9adtbCEZWX
-        wXJotZAnJvnNmxjFHuSKbcz5d159tbBUUeSYf7s=
-X-Google-Smtp-Source: ADFU+vuI3X2ynLTGzpukv5D35hyKQIKy/YVmt9q7FP9hzqmpSOzhC/D3EjCvWq5I3FI5lL9PYhpcoJlxNi5kzPl0QUM=
-X-Received: by 2002:a9d:64ca:: with SMTP id n10mr5100904otl.325.1584555538509;
- Wed, 18 Mar 2020 11:18:58 -0700 (PDT)
+        Wed, 18 Mar 2020 15:33:08 -0400
+Received: from localhost (p54B333FA.dip0.t-ipconnect.de [84.179.51.250])
+        by pokefinder.org (Postfix) with ESMTPSA id B636F2C097D;
+        Wed, 18 Mar 2020 20:33:05 +0100 (CET)
+Date:   Wed, 18 Mar 2020 20:33:02 +0100
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Ulrich Hecht <uli+renesas@fpond.eu>
+Cc:     linux-renesas-soc@vger.kernel.org, geert@linux-m68k.org,
+        fabrizio.castro@bp.renesas.com,
+        ramesh.shanmugasundaram@bp.renesas.com, magnus.damm@gmail.com
+Subject: Re: [PATCH v2 0/3] clk: renesas: cpg-mssr: add ignore-unused option
+Message-ID: <20200318193302.GA13309@ninjato>
+References: <1584376479-25258-1-git-send-email-uli+renesas@fpond.eu>
 MIME-Version: 1.0
-References: <20200318002507.30336-1-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20200318002507.30336-1-laurent.pinchart+renesas@ideasonboard.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 18 Mar 2020 18:18:32 +0000
-Message-ID: <CA+V-a8ugTMi2UZsb1aLeo532T55uLNFT00NyvniDSx0Ly8kCdQ@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] media: v4l2-async: Accept endpoints and devices
- for fwnode matching
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="UlVJffcvxoiEqYs2"
+Content-Disposition: inline
+In-Reply-To: <1584376479-25258-1-git-send-email-uli+renesas@fpond.eu>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Laurent,
 
-On Wed, Mar 18, 2020 at 12:25 AM Laurent Pinchart
-<laurent.pinchart+renesas@ideasonboard.com> wrote:
->
-> Hello,
->
-> This patch series is the second version of fwnode endpoint matching
-> support in v4l2-async. The first version was a single patch and can be
-> found at [1].
->
-> Compared to v1, two additional changes have been made, which I have kept
-> as separate patches for now as they're under discussion. On top of the
-> base patch (1/4), patches 2/4 and 3/4 log a message when an heterogenous
-> match is detected. This should help speeding up the transition. Patch
-> 4/4 moves away from checking the node name to determine if a fwnode is
-> an endpoint, as requesting by Sakari.
->
-> [1] https://lore.kernel.org/linux-media/20200318001726.GQ2527@pendragon.ideasonboard.com/T/#mfd71ee449a34f4f453941d5ec9a11f02cfb9e494
->
-> Laurent Pinchart (4):
->   media: v4l2-async: Accept endpoints and devices for fwnode matching
->   media: v4l2-async: Pass notifier pointer to match functions
->   media: v4l2-async: Log message in case of heterogenous fwnode match
->   media: v4l2-async: Don't check fwnode name to detect endpoint
->
->  drivers/media/v4l2-core/v4l2-async.c | 81 +++++++++++++++++++++++++---
->  1 file changed, 73 insertions(+), 8 deletions(-)
->
-Thank you for the patches,
+--UlVJffcvxoiEqYs2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Cheers,
---Prabhakar
+> The point of this is to allow a WDT that has been enabled by the bootload=
+er
+> to survive these events:
+>=20
+> - deferred probing of the WDT device, which can lead the clock driver
+>   to disable the WDT clock until the WDT is re-probed, giving it a
+>   blind spot
+> - probe failure in the WDT driver
 
-> --
-> Regards,
->
-> Laurent Pinchart
->
+So, I was trying to test this with the watchdog driver and my patch[1].
+To make the watchdog_register_device() call fail, I cleared the ident
+struct:
+
+	priv->wdev.info =3D NULL; //&rwdt_ident;
+
+Sadly, the watchdog does not fire after the driver bailed out of probe.
+clk_summary rightfully says that the clock is neither prepared nor
+enabled.
+
+Did I miss something? I will try some more tomorrow.
+
+Uli, how did you test the ignore_unused feature?
+
+[1] https://patchwork.kernel.org/patch/11101573/
+   "[PATCH v2] watchdog: renesas_wdt: support handover from bootloader"
+
+--UlVJffcvxoiEqYs2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl5yd2oACgkQFA3kzBSg
+KbZo/g/9GGbgRGL2gf47GQdmiSGb6bI5SU0EQoSNv7asIxRiEx/VKlpts1v1Fk2E
+dTE9q/uMUpayvIe2NAgcgFrhkVFfCpnExIM47WsgznMyMLqAtq6xFKIhUmOnTpyr
+xPJze7aVBUm3ykf+MCmfSodyq7Pisc6uGYdDJGwvcO6+AcvuzP90WyJxdpvHF5GM
+7gi4v4kakydGvJ1vvry8au7+Q6lumd2vfILw3A8hKHNNfOcUpewpxytChn8qinpj
+T/N+SQk1TpFMTAx6k6YTOXyBz3sb9ZHAfH13dEHdsPG2ZX1f24CFE9TMmAJMSOBZ
+mQyFrIHZi1HPQgXTww+1UblAo4sS8tVqfxXQ9gvr/FS06oCE6tu3M+q3+Mjf7JIS
+i/mbqacX5IQm+GlVJVotJrcXA0DzHyLrnELup3MZ52mGysVnY4EIv4L+A8jrTwx1
+50jf/p6e/zRpJAALgHfI4aafGVHbIypbmCJkiWHGfWySwq3okJrBpK/VI2fxCv3S
+vP059hi6bRPN0AjwYS/TRkVcjZZyPKNO1c3GhSRjJTR/7WePkeVwAAlivZyYmoiA
+Ux/cL5yQPMkdnLOMb84KGsFxbBbjeA6H73Z1FZqNc3puwlSR+jIh2jPnvoGuM0rX
+fPG2NA9b8v4M7BPrEfpKiRgTcwu/ECMZf3NmOTom0cgJlD1+I5s=
+=LWN9
+-----END PGP SIGNATURE-----
+
+--UlVJffcvxoiEqYs2--
