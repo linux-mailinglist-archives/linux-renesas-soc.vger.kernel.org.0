@@ -2,95 +2,47 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F9B5189E7B
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 16:01:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1FF9B189F7F
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 16:20:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727069AbgCRPBK (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Mar 2020 11:01:10 -0400
-Received: from sauhun.de ([88.99.104.3]:48518 "EHLO pokefinder.org"
+        id S1726774AbgCRPUl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Mar 2020 11:20:41 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41748 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727050AbgCRPBJ (ORCPT
+        id S1726619AbgCRPUl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Mar 2020 11:01:09 -0400
-Received: from localhost (p54B333FA.dip0.t-ipconnect.de [84.179.51.250])
-        by pokefinder.org (Postfix) with ESMTPSA id 79B7A2C2E85;
-        Wed, 18 Mar 2020 16:01:07 +0100 (CET)
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org, linux-i3c@lists.infradead.org,
-        Kieran Bingham <kieran@ksquared.org.uk>,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        linux-kernel@vger.kernel.org,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [RFC PATCH v2 6/6] i2c: core: hand over reserved devices when requesting ancillary addresses
-Date:   Wed, 18 Mar 2020 16:00:59 +0100
-Message-Id: <20200318150059.21714-7-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200318150059.21714-1-wsa+renesas@sang-engineering.com>
-References: <20200318150059.21714-1-wsa+renesas@sang-engineering.com>
+        Wed, 18 Mar 2020 11:20:41 -0400
+Content-Type: text/plain; charset="utf-8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1584544840;
+        bh=2Lz0uWBPVBaqPOyfNZsg1D6t4ZRyY/OwwRZk9YhjaxQ=;
+        h=Subject:From:Date:To:From;
+        b=km3VQ9G4Seef7YCQZwCq09klJwDXAQ8ZhPHAqp0qer+10V/btB2KFc2q416lv7+Al
+         TlFYarNaTSoOs2e9zd72bTndUvRTsmyBvCvisTWJMoFcaUSrqKVbFY/p+r3wfqBSKg
+         6CM7M/ar9S29ips6adkk0gkVzRo3I0QmZhc802m0=
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Patchwork housekeeping for: linux-renesas-soc
+From:   patchwork-bot+linux-renesas-soc@kernel.org
+Message-Id: <158454484072.21761.6652650242433252195.git-patchwork-housekeeping@kernel.org>
+Date:   Wed, 18 Mar 2020 15:20:40 +0000
+To:     linux-renesas-soc@vger.kernel.org
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-With i2c_new_ancillary_address, we can check if the intended driver is
-requesting a reserved address. Update the function to do these checks.
-If the check passes, the "reserved" device will become a regular "dummy"
-device.
+Latest series: [v2] i2c: of: reserve unknown and ancillary addresses (2020-03-18T15:00:56)
+  Superseding: [v1] i2c: of: reserve unknown and ancillary addresses (2020-02-20T17:23:56):
+    [RFC,1/7] i2c: add sanity check for parameter of i2c_verify_client()
+    [RFC,2/7] i2c: use DEFINE for the dummy driver name
+    [RFC,3/7] i2c: allow DT nodes without 'compatible'
+    [RFC,4/7] i2c: of: remove superfluous parameter from exported function
+    [RFC,5/7] i2c: of: error message unification
+    [RFC,6/7] i2c: of: mark a whole array of regs as reserved
+    [RFC,7/7] i2c: core: hand over reserved devices when requesting ancillary addresses
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
- drivers/i2c/i2c-core-base.c | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/i2c/i2c-core-base.c b/drivers/i2c/i2c-core-base.c
-index 84464e439df5..81fb320de28d 100644
---- a/drivers/i2c/i2c-core-base.c
-+++ b/drivers/i2c/i2c-core-base.c
-@@ -974,7 +974,9 @@ struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
- 						const char *name,
- 						u16 default_addr)
- {
--	struct device_node *np = client->dev.of_node;
-+	struct device_node *reserved_np, *np = client->dev.of_node;
-+	struct device *reserved_dev, *adapter_dev = &client->adapter->dev;
-+	struct i2c_client *reserved_client = NULL;
- 	u32 addr = default_addr;
- 	int i;
- 
-@@ -984,7 +986,25 @@ struct i2c_client *i2c_new_ancillary_device(struct i2c_client *client,
- 			of_property_read_u32_index(np, "reg", i, &addr);
- 	}
- 
--	dev_dbg(&client->adapter->dev, "Address for %s : 0x%x\n", name, addr);
-+	dev_info(adapter_dev, "Address for %s : 0x%x\n", name, addr);
-+
-+	/* No need to scan muxes, siblings must sit on the same adapter */
-+	reserved_dev = device_find_child(adapter_dev, &addr, __i2c_check_addr_busy);
-+	if (reserved_dev) {
-+		reserved_np = reserved_dev->of_node;
-+		reserved_client = i2c_verify_client(reserved_dev);
-+		put_device(reserved_dev);
-+	}
-+
-+	if (reserved_client) {
-+		if (reserved_np != np ||
-+		    strcmp(reserved_client->name, I2C_RESERVED_DRV_NAME) != 0)
-+			return ERR_PTR(-EBUSY);
-+
-+		strlcpy(reserved_client->name, I2C_DUMMY_DRV_NAME, sizeof(client->name));
-+		return reserved_client;
-+	}
-+
- 	return i2c_new_dummy_device(client->adapter, addr);
- }
- EXPORT_SYMBOL_GPL(i2c_new_ancillary_device);
 -- 
-2.20.1
-
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/pwbot
