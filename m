@@ -2,195 +2,141 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 917D9189780
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 10:00:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1ACAE1897BA
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 10:16:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727177AbgCRJAi (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Mar 2020 05:00:38 -0400
-Received: from ma-dnext03.denso.co.jp ([133.192.181.78]:44480 "EHLO
-        ma-dnext03.denso.co.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726523AbgCRJAi (ORCPT
+        id S1727442AbgCRJQG (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Mar 2020 05:16:06 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:41706 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727144AbgCRJQG (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Mar 2020 05:00:38 -0400
-Received: from grdma01h.denso.co.jp (unknown [133.192.24.24])
-        by ma-dnext03.denso.co.jp (Postfix) with ESMTP id 3117A5D024C;
-        Wed, 18 Mar 2020 18:00:36 +0900 (JST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=adit-jv.com;
-        s=jpadit-jvmail2011; t=1584522036;
-        bh=MJNLb+QUlzHddJJCWYqXFByLkk81A4pksiBWvdYtaZM=;
-        h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-         Content-Type:Content-Transfer-Encoding:In-Reply-To;
-        b=8TueuV3cLIbWFLV7WdQnl/jc8S05NMxWUWR4FaAmWLAglFfr6sTsgFKQ3L4XLcFOL
-         wUfDIc+YAdRXTAAUmpWzbs6VmLrn6/c3qezoor1sSc0HcYrtnMCwRGo+iXnkkzJqAF
-         uqMsi1Q73gisa4aUm+AZWg5pM+Ls3Y3SbTrK72dPG9A2Q+FRiT4RI/324+cy3NFFHK
-         w+wJ0Oq2fZoCeg8RST4F1IB/y4MacAftLXCZyt4U8piydnOk42qEzTlirWt9rZ5QUa
-         3shjvKZ8YtdQNvec3Q49CocZ7vF/TmutteOKiliMYBeOvsFD8IfHgtND309NBv2K4y
-         TaWY1vUfWsgow==
-Received: by grdma01h.denso.co.jp (Postfix, from userid 0)
-        id 2E0F8C04E05; Wed, 18 Mar 2020 18:00:36 +0900 (JST)
-Received: from smtp0.denso.co.jp [133.192.24.87] 
-         by grdma01h. with ESMTP id UAA15964;
-         Wed, 18 Mar 2020 18:00:36 +0900
-Received: from ky0exch01.adit-jv.com ([10.71.113.8])
-        by smtp00.denso.co.jp (MOS 4.4.7-GA)
-        with ESMTP id FNI36647;
-        Wed, 18 Mar 2020 18:00:34 +0900
-Received: from jp-u0004 (10.71.112.120) by ky0exch01.adit-jv.com (10.71.113.8)
- with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 18 Mar 2020 18:00:34
- +0900
-Date:   Wed, 18 Mar 2020 18:00:29 +0900
-From:   Suresh Udipi <sudipi@jp.adit-jv.com>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-CC:     Suresh Udipi <sudipi@jp.adit-jv.com>, <akiyama@nds-osk.co.jp>,
-        <efriedrich@de.adit-jv.com>, <erosca@de.adit-jv.com>,
-        <hverkuil-cisco@xs4all.nl>, <jacopo+renesas@jmondi.org>,
-        <laurent.pinchart@ideasonboard.com>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>, <mrodin@de.adit-jv.com>,
-        <securitycheck@denso.co.jp>
-Subject: Re: [PATCH v2] [RFC] rcar-vin: rcar-csi2: Correct the selection of
- hsfreqrange
-Message-ID: <20200318090029.GA22842@jp-u0004>
-References: <20200316130247.GA2258968@oden.dyn.berto.se>
- <1584428905-21560-1-git-send-email-sudipi@jp.adit-jv.com>
- <20200317103756.GC2496015@oden.dyn.berto.se>
+        Wed, 18 Mar 2020 05:16:06 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E228F9;
+        Wed, 18 Mar 2020 10:16:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1584522964;
+        bh=3o2/e8gyLj/2x2Z4LY2FFr8Posxc/v6Q8FfiiZysezo=;
+        h=Subject:To:Cc:References:From:Reply-To:Date:In-Reply-To:From;
+        b=HLk2tHuEjfqAw20uYRP3dLD9zawAaYyWLJnoihDHI+pllw1H/ml4q8KWUnqRJTjgC
+         LEH2kZaBYIHhn7aW76gEhXXDt5V5EW1kTeJiTwluPZvZOlVGjht9szCeE6Zr5qTDem
+         1C+jx3Om3Lq5MQdwvuUFi1uZHO1qOJsJ9yaSsu0w=
+Subject: Re: [PATCH v2 3/4] media: v4l2-async: Log message in case of
+ heterogenous fwnode match
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Lad Prabhakar <prabhakar.csengg@gmail.com>,
+        linux-renesas-soc@vger.kernel.org
+References: <20200318002507.30336-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200318002507.30336-4-laurent.pinchart+renesas@ideasonboard.com>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Organization: Ideas on Board
+Message-ID: <a7d96e73-c86c-951e-d586-a1cee1a7fa59@ideasonboard.com>
+Date:   Wed, 18 Mar 2020 09:16:01 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200317103756.GC2496015@oden.dyn.berto.se>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.71.112.120]
+In-Reply-To: <20200318002507.30336-4-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-On Tue, Mar 17, 2020 at 11:37:56AM +0100, Niklas Söderlund wrote:
-> Hi Suresh,
-> 
-> Thanks for your work.
-> 
-> On 2020-03-17 16:08:25 +0900, Suresh Udipi wrote:
-> > hsfreqrange should be chosen based on the calculated mbps which
-> > is closer to the default bit rate  and within the range as per
-> > table[1]. But current calculation always selects first value which
-> > is greater than or equal to the calculated mbps which may lead
-> > to chosing a wrong range in some cases.
-> > 
-> > For example for 360 mbps for H3/M3N
-> > Existing logic selects
-> > Calculated value 360Mbps : Default 400Mbps Range [368.125 -433.125 mbps]
-> > 
-> > This hsfreqrange is out of range.
-> > 
-> > The logic is changed to get the default value which is closest to the
-> > calculated value [1]
-> > 
-> > Calculated value 360Mbps : Default 350Mbps  Range [320.625 -380.625 mpbs]
-> > 
-> > [1] specs r19uh0105ej0200-r-car-3rd-generation.pdf [Table 25.9]
-> > 
-> > There is one exectpion value 227Mbps, which may cause out of
-> > range.
-> 
-> Then something else is needed I think :-)
-> 
-> I liked v1 of this RFC more, where you added a u16 min and max to struct 
-> rcsi2_mbps_reg. I think that is the right solution.
-> 
-> What I tried to express in my review of v1 was
-> 
-> - You should remove the mbps member from struct rcsi2_mbps_reg.
-> - Update the walk of the array in rcsi2_set_phypll() so that it finds 
->   the first entry where the calculated target value is between min and 
->   max and use the reg setting for that entry.
-> 
-> Would that solution make sens too you? Sorry if I expressed myself a but 
-> muddy in v1 about this.
- 
-Thank you for your feedback. Checking the range make more sense.
+Hi Laurent,
 
-We can further optimize it, by checking only the Max range value.
+On 18/03/2020 00:25, Laurent Pinchart wrote:
+> When a notifier supplies a device fwnode and a subdev supplies an
+> endpoint fwnode, incorrect matches may occur if multiple subdevs
+> correspond to the same device fwnode. This can't be handled
+> transparently in the framework, and requires the notifier to switch to
+> endpoint fwnodes. Log a message to notify of this problem. A second
+> message is added to help accelerating the transition to endpoint
+> matching.
 
-- Remove mbps and min member from struct rcsi2_mbps_reg.
-- Update the walk of the array in rcsi2_set_phypll() so that it finds
-  the first entry where the calculated bit rate is less than the max.
+Only minor comments and discussion below:
 
-Lower bit rates less than 80Mbps 
-like 48Mbps(Raspberry pi camera 640x480 connected to Kingfisher)
-can also be supported by selecting the lowest default bit rate 80Mbps
-as done before this fix.
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-Please let me know your opinion on the same.
-Meanwhile iam working on creating the patch, test it and update the same.
-> > 
-> > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
-> > 
-> > Signed-off-by: Suresh Udipi <sudipi@jp.adit-jv.com>
-> > Signed-off-by: Kazuyoshi Akiyama <akiyama@nds-osk.co.jp>
-> > ---
-> > Changes in v2:
-> >   - Added the boundary check for the maximum bit rate.
-> >   
-> >   - Simplified the logic by remmoving range check 
-> >     as only the closest default value covers most 
-> >     of the use cases.
-> > 
-> >   - Aligning the commit message based on the above change
-> > 
-> >  drivers/media/platform/rcar-vin/rcar-csi2.c | 18 +++++++++++++-----
-> >  1 file changed, 13 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > index faa9fb2..6573625 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > @@ -199,6 +199,7 @@ static const struct rcsi2_mbps_reg phtw_mbps_v3m_e3[] = {
-> >  /* PHY Frequency Control */
-> >  #define PHYPLL_REG			0x68
-> >  #define PHYPLL_HSFREQRANGE(n)		((n) << 16)
-> > +#define PHYPLL_HSFREQRANGE_MAX		1500
-> >  
-> >  static const struct rcsi2_mbps_reg hsfreqrange_h3_v3h_m3n[] = {
-> >  	{ .mbps =   80, .reg = 0x00 },
-> > @@ -431,16 +432,23 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
-> >  static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
-> >  {
-> >  	const struct rcsi2_mbps_reg *hsfreq;
-> > +	const struct rcsi2_mbps_reg *hsfreq_prev = NULL;
-> >  
-> > -	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++)
-> > -		if (hsfreq->mbps >= mbps)
-> > -			break;
-> > -
-> > -	if (!hsfreq->mbps) {
-> > +	if (mbps > PHYPLL_HSFREQRANGE_MAX) {
-> >  		dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
-> >  		return -ERANGE;
-> >  	}
-> >  
-> > +	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++) {
-> > +		if (hsfreq->mbps >= mbps)
-> > +			break;
-> > +		hsfreq_prev = hsfreq;
-> > +	}
-> > +
-> > +	if (hsfreq_prev &&
-> > +	    ((mbps - hsfreq_prev->mbps) <= (hsfreq->mbps - mbps)))
-> > +		hsfreq = hsfreq_prev;
-> > +
-> >  	rcsi2_write(priv, PHYPLL_REG, PHYPLL_HSFREQRANGE(hsfreq->reg));
-> >  
-> >  	return 0;
-> > -- 
-> > 2.7.4
-> > 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-async.c | 24 +++++++++++++++++++++++-
+>  1 file changed, 23 insertions(+), 1 deletion(-)
 > 
-> -- 
-> Regards,
-> Niklas Söderlund
+> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> index 224b39a7aeb1..9f393a7be455 100644
+> --- a/drivers/media/v4l2-core/v4l2-async.c
+> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> @@ -77,6 +77,7 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
+>  	struct fwnode_handle *dev_fwnode;
+>  	bool asd_fwnode_is_ep;
+>  	bool sd_fwnode_is_ep;
+> +	struct device *dev;
+>  	const char *name;
+>  
+>  	/*
+> @@ -113,7 +114,28 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
+>  
+>  	fwnode_handle_put(dev_fwnode);
+>  
+> -	return dev_fwnode == other_fwnode;
+> +	if (dev_fwnode != other_fwnode)
+> +		return false;
+> +
+> +	/*
+> +	 * We have an heterogenous match. Retrieve the struct device of the
 
--- 
-Best Regards,
-Suresh Udipi.
+s/an/a/
+
+s/heterogenous/heterogeneous/ (and that's not an en-gb/en-us thing)
+Also in $SUBJECT
+
+> +	 * side that matched on a device fwnode to print its driver name.
+> +	 */
+> +	if (sd_fwnode_is_ep)
+> +		dev = notifier->v4l2_dev ? notifier->v4l2_dev->dev
+> +		    : notifier->sd->dev;
+
+Eugh ... I guess if this gets needed elsewhere, notifiers need a helper
+to get the appropriate dev out... but if this is the only place, then so
+be it.
+
+
+> +	else
+> +		dev = sd->dev;
+> +
+> +	if (dev && dev->driver) {
+> +		if (sd_fwnode_is_ep)
+> +			dev_info(dev, "Driver %s uses device fwnode, incorrect match may occur\n",
+> +				 dev->driver->name);
+> +		dev_info(dev, "Consider updating driver %s to match on endpoints\n",
+> +			 dev->driver->name);
+
+I think I interpret that in the case that existing drivers match on
+dev->dev (i.e. no endpoints involved) then this will not print, as we
+would already have matched and returned earlier in the function.
+
+I don't think that's a problem, but it means people will not be
+'encouraged' to move to endpoint matching until they encounter a device
+which uses endpoints.
+
+Perhaps that's ok ... but I was almost thinking of being more 'pushy'
+and guiding device matches to move to endpoints too ;-)
+
+
+> +	}
+> +
+> +	return true;
+>  }
+>  
+>  static bool match_custom(struct v4l2_async_notifier *notifier,
+> 
+
