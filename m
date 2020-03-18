@@ -2,97 +2,217 @@ Return-Path: <linux-renesas-soc-owner@vger.kernel.org>
 X-Original-To: lists+linux-renesas-soc@lfdr.de
 Delivered-To: lists+linux-renesas-soc@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CBF1189916
-	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 11:17:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76F81189926
+	for <lists+linux-renesas-soc@lfdr.de>; Wed, 18 Mar 2020 11:19:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727415AbgCRKRk (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
-        Wed, 18 Mar 2020 06:17:40 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:42110 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727041AbgCRKRk (ORCPT
+        id S1727703AbgCRKTl (ORCPT <rfc822;lists+linux-renesas-soc@lfdr.de>);
+        Wed, 18 Mar 2020 06:19:41 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:37147 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727698AbgCRKTl (ORCPT
         <rfc822;linux-renesas-soc@vger.kernel.org>);
-        Wed, 18 Mar 2020 06:17:40 -0400
-Received: by mail-lj1-f194.google.com with SMTP id q19so26260028ljp.9
-        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Mar 2020 03:17:39 -0700 (PDT)
+        Wed, 18 Mar 2020 06:19:41 -0400
+Received: by mail-lj1-f195.google.com with SMTP id r24so26387974ljd.4
+        for <linux-renesas-soc@vger.kernel.org>; Wed, 18 Mar 2020 03:19:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=w5hiQnyqmC7leWwUw3RoPwGqx4UC8Rj/FFauPygzaXQ=;
-        b=Fh3xT1B709mKCCJL9a3pesq6Xdag4bEpJnR9x+hkjgnHq//gBDxAXLS5SSMaQ8hjUU
-         0J9IMPkyxPq1vj8H5PnIGXFeRpW2vX95TpupuYS15JlJFP+RiAqTequOxPepfA+QiFjz
-         kmRH5ygxcU0AFPBRG1pWfKRlGBU30kINeBxJ9sI/HaFTdj6m4x7i2my7R44CDlgHsp0o
-         HC+rn3ZieMR+KBh/fmR7SQb9VvaFiraNQR0gbiQ1P3C3nK6tI7pmnTz60cTAqUsY7egr
-         G359UuF0ts0MIF/KeCJ9yy7b2xdd1ZOyooGtnyjdD0ckdZyHpUGyYFYxzVZY2A9mbRoI
-         +UnQ==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=gzym+ypZqpjWmWKa4VJKBMKo9LIO59BdQoueTVn41OM=;
+        b=zOTIH/VOJopsLS0rZHxSVfiTGkCoEaq9QcfoXQf9O9MFBO+oNrnrouGTC2y6Pv4zll
+         RNva8BANBr2Y5cEndoEbedTZQEQmM25pJbjU7o/gLWKCVD5AdD+e0vNteSlI3aBq2/gN
+         U6QoRwbpoJ3H8KhzKfKBimcoprdAhvhgWfFfSJwwAzDzDSnruLL9JeocTicsbraAJ9Aj
+         QC4rLBrsMX63siPSOunTGHKZPVg89mPn/1DW2BCtUvOQhFtYSzR9/dOCdGDDtitd3r0S
+         wFwgzhcInX3rXZWgjf6Up6rSjvxQ8XlMKVMCPk/1boTeRDRGHDkVIaaZeN0/5F0TbcmM
+         F+Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=w5hiQnyqmC7leWwUw3RoPwGqx4UC8Rj/FFauPygzaXQ=;
-        b=X03cWJrVv99PjzxASlulMoGhrSe7opWJdzdLWRyDfrDHlDR4bNguo4QvP8u/lTD7PE
-         v2u4K1oXWwmF7ByrEO6SoK2xKfZnfor9F/K19sTHuUVv27/7b8fIr161dYUbJbtrH2t5
-         +/bOg0S87bsrARL5KUEbO4iPNPKLyjupWYuLkAzrBxrF0m4GCChQ15w+UH7PpKowXN57
-         LKSg4fcXuxU0FGBqF6srXC9EYa/EZV2Bh5D5DdLXnu7XAtp56rmKJvQBLxGh3SwLg0aM
-         VTZ15yUiD+HzThJie0BB9IhbtmN6p6U8XQzr0pOYj24+pfw7Mf2JIJjci8IYJOQyl29E
-         qV2A==
-X-Gm-Message-State: ANhLgQ20XSsAG+F70SFy+vJODQ5Mrjdzeudi/3uoeD+50LC8lGjzPRLa
-        BzttBbmxCWJGPITOmJlzC5Mxc0I9dvd2CuxHjMzu3A==
-X-Google-Smtp-Source: ADFU+vsAZAFVrrxbwAPsYObjIYPmAnYSYpXYcJ+WTXDFJ6VMXmjlOB31gdOrNSTLhe37nDOz1/XKwhWrVCPQ4ZitFEw=
-X-Received: by 2002:a2e:858c:: with SMTP id b12mr2034864lji.160.1584526658415;
- Wed, 18 Mar 2020 03:17:38 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=gzym+ypZqpjWmWKa4VJKBMKo9LIO59BdQoueTVn41OM=;
+        b=X8sBPyKr1rZtWZzjYltHHOIR9MgFd5ymzUqCzvkbeEo0vOEiXhMBbgEcmmj96cSBve
+         Uij5DRuMYDdtn8w0Z7W7VeTHw+DCUnPg2XJqJOB/279cVD3n/G7UT0QZztZWo9QP1GL5
+         CrB8/K+x58XfeBQMqGgrrbxk95g/Dhg3wH09kIeSoirxWHxbntq7eMXHWEqXrp0yzJaJ
+         +K7eUKTC9AopWD9sNRizsuehfTWYdNqeWs/xv70sQ16+1hEEtchlO8sqc+gUzQ3MwtFW
+         seeOuEmFZc9/8PvWwGDV4c2dRQLz8CB2grP9OpRMLlmIEmGmNdHnlE5Bi7IWNuTTp1+R
+         JrHA==
+X-Gm-Message-State: ANhLgQ2b+ykj6EXqgBW2Jp+Ltdw2emzGKo9npeRRrJBpd95224kYcjO/
+        SizW9o2z5QU93uL3gR1+Qch9tg==
+X-Google-Smtp-Source: ADFU+vvzt0BbIXxDJbV9xAGI8ELBnSE73Mm5oRWePbKFm4alzRuwENpzZQgxE+sl7zMNsxenhANutw==
+X-Received: by 2002:a2e:9b93:: with SMTP id z19mr1922902lji.64.1584526777495;
+        Wed, 18 Mar 2020 03:19:37 -0700 (PDT)
+Received: from localhost (h-200-138.A463.priv.bahnhof.se. [176.10.200.138])
+        by smtp.gmail.com with ESMTPSA id t6sm3537154ljc.50.2020.03.18.03.19.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Mar 2020 03:19:36 -0700 (PDT)
+Date:   Wed, 18 Mar 2020 11:19:36 +0100
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Suresh Udipi <sudipi@jp.adit-jv.com>
+Cc:     akiyama@nds-osk.co.jp, efriedrich@de.adit-jv.com,
+        erosca@de.adit-jv.com, hverkuil-cisco@xs4all.nl,
+        jacopo+renesas@jmondi.org, laurent.pinchart@ideasonboard.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, mrodin@de.adit-jv.com,
+        securitycheck@denso.co.jp
+Subject: Re: [PATCH v2] [RFC] rcar-vin: rcar-csi2: Correct the selection of
+ hsfreqrange
+Message-ID: <20200318101936.GA2667161@oden.dyn.berto.se>
+References: <20200316130247.GA2258968@oden.dyn.berto.se>
+ <1584428905-21560-1-git-send-email-sudipi@jp.adit-jv.com>
+ <20200317103756.GC2496015@oden.dyn.berto.se>
+ <20200318090029.GA22842@jp-u0004>
 MIME-Version: 1.0
-References: <158452367157.23699.16109085564905174396.sendpatchset@octo> <CAMuHMdXZNGMGE6h=dj_fFwDCumcowZt-vifyXBNb4gqOQWj+Ug@mail.gmail.com>
-In-Reply-To: <CAMuHMdXZNGMGE6h=dj_fFwDCumcowZt-vifyXBNb4gqOQWj+Ug@mail.gmail.com>
-From:   Magnus Damm <magnus.damm@gmail.com>
-Date:   Wed, 18 Mar 2020 19:17:26 +0900
-Message-ID: <CANqRtoSoeZD_aFSfUnM09SEEv3myDXSq2E6vKCqeK4tZWj13Xg@mail.gmail.com>
-Subject: Re: [PATCH/RFC] arm64: dts: renesas: salvator-common: gpio-leds prototype
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200318090029.GA22842@jp-u0004>
 Sender: linux-renesas-soc-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-renesas-soc.vger.kernel.org>
 X-Mailing-List: linux-renesas-soc@vger.kernel.org
 
-Hi Geert,
+Hi Suresh,
 
-On Wed, Mar 18, 2020 at 6:55 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Magnus,
->
-> On Wed, Mar 18, 2020 at 10:35 AM Magnus Damm <magnus.damm@gmail.com> wrote:
-> > From: Magnus Damm <damm+renesas@opensource.se>
-> >
-> > This patch adds support for a couple of LEDs on Salvator-X and XS boards.
->
-> Thanks for your patch!
+Thanks for your feedback.
 
-Thanks. Not exactly rocket science!
+On 2020-03-18 18:00:29 +0900, Suresh Udipi wrote:
+> On Tue, Mar 17, 2020 at 11:37:56AM +0100, Niklas Söderlund wrote:
+> > Hi Suresh,
+> > 
+> > Thanks for your work.
+> > 
+> > On 2020-03-17 16:08:25 +0900, Suresh Udipi wrote:
+> > > hsfreqrange should be chosen based on the calculated mbps which
+> > > is closer to the default bit rate  and within the range as per
+> > > table[1]. But current calculation always selects first value which
+> > > is greater than or equal to the calculated mbps which may lead
+> > > to chosing a wrong range in some cases.
+> > > 
+> > > For example for 360 mbps for H3/M3N
+> > > Existing logic selects
+> > > Calculated value 360Mbps : Default 400Mbps Range [368.125 -433.125 mbps]
+> > > 
+> > > This hsfreqrange is out of range.
+> > > 
+> > > The logic is changed to get the default value which is closest to the
+> > > calculated value [1]
+> > > 
+> > > Calculated value 360Mbps : Default 350Mbps  Range [320.625 -380.625 mpbs]
+> > > 
+> > > [1] specs r19uh0105ej0200-r-car-3rd-generation.pdf [Table 25.9]
+> > > 
+> > > There is one exectpion value 227Mbps, which may cause out of
+> > > range.
+> > 
+> > Then something else is needed I think :-)
+> > 
+> > I liked v1 of this RFC more, where you added a u16 min and max to struct 
+> > rcsi2_mbps_reg. I think that is the right solution.
+> > 
+> > What I tried to express in my review of v1 was
+> > 
+> > - You should remove the mbps member from struct rcsi2_mbps_reg.
+> > - Update the walk of the array in rcsi2_set_phypll() so that it finds 
+> >   the first entry where the calculated target value is between min and 
+> >   max and use the reg setting for that entry.
+> > 
+> > Would that solution make sens too you? Sorry if I expressed myself a but 
+> > muddy in v1 about this.
+>  
+> Thank you for your feedback. Checking the range make more sense.
+> 
+> We can further optimize it, by checking only the Max range value.
+> 
+> - Remove mbps and min member from struct rcsi2_mbps_reg.
+> - Update the walk of the array in rcsi2_set_phypll() so that it finds
+>   the first entry where the calculated bit rate is less than the max.
+> 
+> Lower bit rates less than 80Mbps 
+> like 48Mbps(Raspberry pi camera 640x480 connected to Kingfisher)
+> can also be supported by selecting the lowest default bit rate 80Mbps
+> as done before this fix.
 
-> > I've verified that LED4, LED5 and LED6 work by exporting GPIOs for GP6_11,
-> > GP6_12 and GP6_13 on the board on port 9011. This patch has not yet been
-> > tested though. Also to make matters slightly more complicated, even if LEDs
-> > might work with this patch as-is, the code in this patch is most likely not
-> > suitable for upstream consumption. This since SW20, SW21 and SW22 are also
-> > using the same GPIOs as the LEDs.
->
-> Indeed. I think we should add kernel support for sharing GPIOs this way,
-> before we can describe the LEDs in DT.  Else we'll introduce a regression,
-> depending on which driver is bound first.
+I think this approach sounds nice.
 
-Totally agree.
+> 
+> Please let me know your opinion on the same.
+> Meanwhile iam working on creating the patch, test it and update the same.
 
-> > Signed-off-by: Magnus Damm <damm+renesas@opensource.se>
->
-> As this matches with an old local patch of mine:
-> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> However, I'm not gonna apply it, without a fix for the sharing issue.
+Looking forward to it!
 
-Sure, makes sense!
+> > > 
+> > > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
+> > > 
+> > > Signed-off-by: Suresh Udipi <sudipi@jp.adit-jv.com>
+> > > Signed-off-by: Kazuyoshi Akiyama <akiyama@nds-osk.co.jp>
+> > > ---
+> > > Changes in v2:
+> > >   - Added the boundary check for the maximum bit rate.
+> > >   
+> > >   - Simplified the logic by remmoving range check 
+> > >     as only the closest default value covers most 
+> > >     of the use cases.
+> > > 
+> > >   - Aligning the commit message based on the above change
+> > > 
+> > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 18 +++++++++++++-----
+> > >  1 file changed, 13 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > index faa9fb2..6573625 100644
+> > > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > > @@ -199,6 +199,7 @@ static const struct rcsi2_mbps_reg phtw_mbps_v3m_e3[] = {
+> > >  /* PHY Frequency Control */
+> > >  #define PHYPLL_REG			0x68
+> > >  #define PHYPLL_HSFREQRANGE(n)		((n) << 16)
+> > > +#define PHYPLL_HSFREQRANGE_MAX		1500
+> > >  
+> > >  static const struct rcsi2_mbps_reg hsfreqrange_h3_v3h_m3n[] = {
+> > >  	{ .mbps =   80, .reg = 0x00 },
+> > > @@ -431,16 +432,23 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
+> > >  static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
+> > >  {
+> > >  	const struct rcsi2_mbps_reg *hsfreq;
+> > > +	const struct rcsi2_mbps_reg *hsfreq_prev = NULL;
+> > >  
+> > > -	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++)
+> > > -		if (hsfreq->mbps >= mbps)
+> > > -			break;
+> > > -
+> > > -	if (!hsfreq->mbps) {
+> > > +	if (mbps > PHYPLL_HSFREQRANGE_MAX) {
+> > >  		dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
+> > >  		return -ERANGE;
+> > >  	}
+> > >  
+> > > +	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++) {
+> > > +		if (hsfreq->mbps >= mbps)
+> > > +			break;
+> > > +		hsfreq_prev = hsfreq;
+> > > +	}
+> > > +
+> > > +	if (hsfreq_prev &&
+> > > +	    ((mbps - hsfreq_prev->mbps) <= (hsfreq->mbps - mbps)))
+> > > +		hsfreq = hsfreq_prev;
+> > > +
+> > >  	rcsi2_write(priv, PHYPLL_REG, PHYPLL_HSFREQRANGE(hsfreq->reg));
+> > >  
+> > >  	return 0;
+> > > -- 
+> > > 2.7.4
+> > > 
+> > 
+> > -- 
+> > Regards,
+> > Niklas Söderlund
+> 
+> -- 
+> Best Regards,
+> Suresh Udipi.
 
-Thanks,
-
-/ magnus
+-- 
+Regards,
+Niklas Söderlund
